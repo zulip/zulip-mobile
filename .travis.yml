@@ -7,14 +7,6 @@ env:
     - ANDROID_HOME=${TRAVIS_BUILD_DIR}/android-sdk
     - PATH=${ANDROID_HOME}/:${ANDROID_HOME}/tools/:${ANDROID_HOME}/platform-tools/:${PATH}
 
-
-cache:
-  yarn: true
-  directories:
-    - node_modules
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
 android:
   components:
     # all the android components used in the zulip-mobile and it's dependencies
