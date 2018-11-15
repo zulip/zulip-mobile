@@ -18,6 +18,10 @@ const componentStyles = StyleSheet.create({
   },
   descriptionText: {
     opacity: 0.8,
+    marginTop: 16,
+  },
+  streamIcon: {
+    marginRight: 8,
   },
 });
 
@@ -37,7 +41,8 @@ export default class StreamCard extends PureComponent<Props> {
       <View style={styles.padding}>
         <View style={componentStyles.streamRow}>
           <StreamIcon
-            size={20}
+            style={componentStyles.streamIcon}
+            size={22}
             color={subscription.color || NULL_SUBSCRIPTION.color}
             isMuted={subscription ? !subscription.in_home_view : false}
             isPrivate={stream && stream.invite_only}
@@ -49,7 +54,9 @@ export default class StreamCard extends PureComponent<Props> {
             ellipsizeMode="tail"
           />
         </View>
-        <RawLabel style={componentStyles.descriptionText} text={description} />
+        {description.length > 0 && (
+          <RawLabel style={componentStyles.descriptionText} text={description} />
+        )}
       </View>
     );
   }
