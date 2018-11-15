@@ -43,6 +43,7 @@ class TitleStream extends PureComponent<Props> {
       <View style={this.styles.outer}>
         <View style={this.styles.streamRow}>
           <StreamIcon
+            style={styles.halfMarginRight}
             isMuted={!stream.in_home_view}
             isPrivate={stream.invite_only}
             color={color}
