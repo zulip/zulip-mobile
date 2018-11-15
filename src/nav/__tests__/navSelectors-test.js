@@ -1,11 +1,9 @@
 import deepFreeze from 'deep-freeze';
 
-import { streamNarrow } from '../../utils/narrow';
 import {
   getCurrentRoute,
   getCurrentRouteParams,
   getChatScreenParams,
-  getTopMostNarrow,
   getCanGoBack,
   getSameRoutesCount,
 } from '../navSelectors';
@@ -70,44 +68,6 @@ describe('getChatScreenParams', () => {
     const actualResult = getChatScreenParams(state);
 
     expect(actualResult).toBeDefined();
-  });
-});
-
-describe('getTopMostNarrow', () => {
-  test('return undefined if no chat screen are in stack', () => {
-    const state = deepFreeze({
-      nav: {
-        index: 0,
-        routes: [{ routeName: 'main' }],
-      },
-    });
-    expect(getTopMostNarrow(state)).toBe(undefined);
-  });
-
-  test('return narrow of first chat screen from top', () => {
-    const narrow = streamNarrow('all');
-    const state = deepFreeze({
-      nav: {
-        index: 1,
-        routes: [{ routeName: 'main' }, { routeName: 'chat', params: { narrow } }],
-      },
-    });
-    expect(getTopMostNarrow(state)).toEqual(narrow);
-  });
-
-  test('iterate over stack to get first chat screen', () => {
-    const narrow = streamNarrow('all');
-    const state = deepFreeze({
-      nav: {
-        index: 2,
-        routes: [
-          { routeName: 'main' },
-          { routeName: 'chat', params: { narrow } },
-          { routeName: 'account' },
-        ],
-      },
-    });
-    expect(getTopMostNarrow(state)).toEqual(narrow);
   });
 });
 

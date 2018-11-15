@@ -5,7 +5,7 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import type { Context, LocalizableText } from '../types';
 import Input from './Input';
 import { BRAND_COLOR } from '../styles';
-import Icon from '../common/Icons';
+import Icon from './Icons';
 
 const componentStyles = StyleSheet.create({
   clearButtonIcon: {

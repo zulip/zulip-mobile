@@ -67,7 +67,6 @@
                 <category android:name="com.zulipmobile" />
             </intent-filter>
         </receiver>
-        <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="835904834568\0"/>
+        <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="@string/gcm_id"/>
     </application>
-
 </manifest>

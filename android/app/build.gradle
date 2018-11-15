@@ -72,8 +72,18 @@ import com.android.build.OutputFile
  * ]
  */
 
+project.ext.react = [
+    entryFile: "index.js",
+    // FIXME Workaround for facebook/react-native#21782 .
+    // Remove after upgrading RN to v0.57.5 or later.
+    jsBundleDirRelease: "$buildDir/intermediates/merged_assets/release/mergeReleaseAssets/out",
+]
+
 apply from: "../../node_modules/react-native/react.gradle"
-apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+if (hasProperty('signed')) {
+    // Conditionally enable Sentry, because it requires an auth key.
+    apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+}
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -91,9 +101,6 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
     defaultConfig {
         applicationId "com.zulipmobile"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -106,7 +113,11 @@ android {
     }
     signingConfigs {
         release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+            if (project.hasProperty('signed')) {
+                if (!project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                    throw new GradleException(
+                            "Missing signing config, but signing requested (-Psigned).  Did you want an unsigned build?")
+                }
                 storeFile file(MYAPP_RELEASE_STORE_FILE)
                 storePassword MYAPP_RELEASE_STORE_PASSWORD
                 keyAlias MYAPP_RELEASE_KEY_ALIAS
@@ -132,7 +143,9 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
+            if (project.hasProperty('signed')) {
+                signingConfig signingConfigs.release
+            }
             manifestPlaceholders = [
                     excludeSystemAlertWindowPermission: "true"
             ]

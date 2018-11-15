@@ -10,7 +10,7 @@ import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/n
 import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
-import { doNarrow } from '../actions';
+import { doNarrow } from '../message/messagesActions';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
   const userIds = data.pm_users.split(',');

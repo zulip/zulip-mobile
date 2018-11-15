@@ -1,11 +1,11 @@
 /* @flow */
-import type { EventReaction, RealmEmojiState } from '../../types';
+import type { Reaction, RealmEmojiState } from '../../types';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import template from './template';
 import messageReactionAsHtml from './messageReactionAsHtml';
 
 export default (
-  reactions: EventReaction[],
+  reactions: Reaction[],
   messageId: number,
   ownEmail: string,
   realmEmoji: RealmEmojiState,

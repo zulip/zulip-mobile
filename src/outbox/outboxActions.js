@@ -49,27 +49,29 @@ export const messageSendComplete = (localMessageId: number): MessageSendComplete
 
 export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
-  if (state.outbox.length > 0 && !state.session.outboxSending) {
-    dispatch(toggleOutboxSending(true));
-    const auth = getAuth(state);
-    state.outbox.forEach(async item => {
-      try {
-        await sendMessage(
-          auth,
-          item.type,
-          isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
-          item.subject,
-          item.markdownContent,
-          item.timestamp,
-          state.session.eventQueueId,
-        );
-        dispatch(messageSendComplete(item.timestamp));
-      } catch (e) {
-        logErrorRemotely(e, 'error caught while sending');
-      }
-    });
-    dispatch(toggleOutboxSending(false));
+  if (state.outbox.length === 0 || state.session.outboxSending) {
+    return;
   }
+  dispatch(toggleOutboxSending(true));
+  const auth = getAuth(state);
+  const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
+  outboxToSend.forEach(async item => {
+    try {
+      await sendMessage(
+        auth,
+        item.type,
+        isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
+        item.subject,
+        item.markdownContent,
+        item.timestamp,
+        state.session.eventQueueId,
+      );
+      dispatch(messageSendComplete(item.timestamp));
+    } catch (e) {
+      logErrorRemotely(e, 'error caught while sending');
+    }
+  });
+  dispatch(toggleOutboxSending(false));
 };
 
 const mapEmailsToUsers = (users, narrow, selfDetail) =>
@@ -125,6 +127,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   dispatch(
     messageSendStart({
       narrow,
+      isSent: false,
       ...extractTypeToAndSubjectFromNarrow(narrow, state.users, userDetail),
       markdownContent: content,
       content: getContentPreview(content, state),
@@ -134,6 +137,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
       sender_email: userDetail.email,
       avatar_url: userDetail.avatar_url,
       isOutbox: true,
+      reactions: [],
     }),
   );
   dispatch(trySendMessages());

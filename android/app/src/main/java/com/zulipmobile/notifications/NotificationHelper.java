@@ -123,6 +123,26 @@ public class NotificationHelper {
         conversations.put(key, messages);
     }
 
+    public static void removeMessageFromMap(PushNotificationsProp prop, LinkedHashMap<String, List<MessageInfo>> conversations) {
+        // We don't have the information to compute what key we ought to find this message under,
+        // so just walk the whole thing.  If the user has >100 notifications, this linear scan
+        // won't be their worst problem anyway...
+        //
+        // TODO redesign this whole data structure, for many reasons.
+        final int zulipMessageId = prop.getZulipMessageId();
+        for (String key : conversations.keySet()) {
+            List<MessageInfo> messages = conversations.get(key);
+            for (int i = 0; i < messages.size(); i++) {
+                if (messages.get(i).getMessageId() == zulipMessageId) {
+                    messages.remove(i);
+                    if (messages.isEmpty()) {
+                        conversations.remove(key);
+                    }
+                    return;
+                }
+            }
+        }
+    }
 
     public static void clearConversations(LinkedHashMap<String, List<MessageInfo>> conversations) {
         conversations.clear();

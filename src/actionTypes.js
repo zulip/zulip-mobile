@@ -74,6 +74,7 @@ import type {
   MessagesState,
   Outbox,
   Narrow,
+  Reaction,
   User,
   UserGroup,
   InitialData,
@@ -345,15 +346,10 @@ export type EventUpdateMessageAction = ServerEvent & {
   user_id: number,
 };
 
-export type EventReactionCommon = ServerEvent & {
-  emoji_name: string,
-  message_id: number,
-  user: {
-    email: string,
-    full_name: string,
-    user_id: number,
-  },
-};
+export type EventReactionCommon = ServerEvent &
+  Reaction & {
+    message_id: number,
+  };
 
 export type EventReactionAddAction = ServerEvent &
   EventReactionCommon & {

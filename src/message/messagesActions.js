@@ -7,7 +7,7 @@ import { FETCH_STATE_RESET } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
-import { navigateToChat } from '../actions';
+import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../constants';
 import { getMessages } from '../directSelectors';
 
@@ -22,7 +22,6 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   }
 
   dispatch({ type: FETCH_STATE_RESET });
-  dispatch(navigateToChat(narrow));
 
   const allNarrows = getAllNarrows(state);
   const messages = getMessages(state);
@@ -39,6 +38,8 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   } else if (anchor !== FIRST_UNREAD_ANCHOR) {
     dispatch(fetchMessagesAroundAnchor(narrow, anchor));
   }
+
+  dispatch(navigateToChat(narrow));
 };
 
 export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {

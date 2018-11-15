@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
 import type { ChildrenArray } from '../types';
-import { Touchable } from './';
+import Touchable from './Touchable';
 import { colorHashFromName } from '../utils/color';
 
 export const initialsFromName = (name: string) =>

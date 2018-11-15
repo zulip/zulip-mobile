@@ -13,14 +13,38 @@ export type DevUser = {
 };
 
 /**
- * An emoji reaction to a message, in minimal form.
+ * Type of an emoji reaction to a message.
  *
- * See also EventReaction, which carries additional properties computed from
- * these.
+ * These correspond to the values allowed for Reaction.reaction_type in the
+ * server's models.  The values are:
+ *  * unicode_emoji: An emoji found in Unicode, corresponding to a sequence
+ *    of Unicode codepoints.  The list of these depends on the Zulip
+ *    server's version.
+ *  * realm_emoji: A custom emoji uploaded by some user on a given realm.
+ *  * zulip_extra_emoji: An emoji distributed with Zulip, like :zulip:.
+ *
+ * See `Reaction` which uses this.
  */
-export type SlimEventReaction = {
+export type ReactionType = 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji';
+
+/** An emoji reaction to a message. */
+export type Reaction = {
+  user: {
+    email: string,
+    full_name: string,
+    user_id: number,
+  },
   emoji_name: string,
-  user: any,
+  reaction_type: ReactionType,
+
+  /**
+   * A string that uniquely identifies a particular emoji.
+   *
+   * The format varies with `reaction_type`, and can be subtle.
+   * See the comment on Reaction.emoji_code here:
+   *   https://github.com/zulip/zulip/blob/master/zerver/models.py
+   */
+  emoji_code: string,
 };
 
 export type MessageEdit = {
@@ -104,7 +128,7 @@ export type Message = {
   id: number,
   is_me_message: boolean,
   last_edit_timestamp?: number,
-  reactions: SlimEventReaction[],
+  reactions: Reaction[],
   recipient_id: number,
   sender_email: string,
   sender_full_name: string,

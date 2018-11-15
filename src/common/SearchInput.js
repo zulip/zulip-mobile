@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
-import { InputWithClearButton } from '../common';
+import InputWithClearButton from './InputWithClearButton';
 
 const styles = StyleSheet.create({
   wrapper: {

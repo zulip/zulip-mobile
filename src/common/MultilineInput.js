@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { TextInput } from 'react-native';
 
 import type { LocalizableText, Style } from '../types';
-import { Input } from '../common';
+import Input from './Input';
 
 type Props = {
   value?: string,

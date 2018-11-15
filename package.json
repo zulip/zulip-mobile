@@ -13,7 +13,8 @@
     "android": "react-native run-android",
     "android-release": "react-native run-android --variant=release",
 
-    "build:android": "cd android && ./gradlew assembleRelease",
+    "build:android": "cd android && ./gradlew assembleRelease -Psigned",
+    "build:android-unsigned": "cd android && ./gradlew assembleRelease",
     "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "build:ios-release": "detox build --configuration ios.sim.release",
 
@@ -92,7 +93,7 @@
     "metro-react-native-babel-preset": "0.45.2",
     "coveralls": "^3.0.1",
     "deep-freeze": "^0.0.1",
-    "detox": "^7.3.7",
+    "detox": "^9.0.6",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-airbnb-base": "^12.1.0",
@@ -114,8 +115,8 @@
     "prettier-eslint": "^8.8.1",
     "prettier-eslint-cli": "^4.7.1",
     "react-native-cli": "^2.0.1",
-    "reactotron-react-native": "^2.0.0-beta.3",
-    "reactotron-redux": "^2.0.0-beta.3",
+    "reactotron-react-native": "^2.1.0",
+    "reactotron-redux": "^2.1.0",
     "redux-mock-store": "^1.5.1"
   },
   "resolutions": {

@@ -1,7 +1,7 @@
 /* @flow */
 import type { Message, Narrow, Outbox, RenderedSectionDescriptor } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
-import { isSameRecipient } from '../utils/message';
+import { isSameRecipient } from '../utils/recipient';
 import { isSameDay } from '../utils/date';
 
 export default (

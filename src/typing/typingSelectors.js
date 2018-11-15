@@ -6,7 +6,7 @@ import { getTyping, getUsers } from '../directSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserById } from '../users/userHelpers';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
-import { normalizeRecipients } from '../utils/message';
+import { normalizeRecipients } from '../utils/recipient';
 import { NULL_ARRAY } from '../nullObjects';
 
 export const getCurrentTypingUsers = (narrow: Narrow) =>

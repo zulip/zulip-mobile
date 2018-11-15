@@ -20,7 +20,6 @@ import {
   getCaughtUpForActiveNarrow,
   getFetchingForActiveNarrow,
   getPushToken,
-  getTopMostNarrow,
 } from '../selectors';
 import config from '../config';
 import {
@@ -35,15 +34,11 @@ import timing from '../utils/timing';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { refreshNotificationToken } from '../utils/notifications';
-import {
-  addToOutbox,
-  initNotifications,
-  initStreams,
-  realmInit,
-  sendFocusPing,
-  startEventPolling,
-  trySendMessages,
-} from '../actions';
+import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
+import { initNotifications, realmInit } from '../realm/realmActions';
+import { initStreams } from '../streams/streamsActions';
+import { sendFocusPing } from '../users/usersActions';
+import { startEventPolling } from '../events/eventActions';
 
 export const messageFetchStart = (
   narrow: Narrow,
@@ -148,29 +143,14 @@ export const initialFetchComplete = (): InitialFetchCompleteAction => ({
 export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
-  const halfCount = Math.trunc(config.messagesPerRequest / 2);
 
   timing.start('Essential server data');
-  // only fetch messages if chat screen is at the top of stack
-  // get narrow of top most chat screen in the stack
-  const narrow = getTopMostNarrow(getState());
-  if (narrow) {
-    dispatch(messageFetchStart(narrow, halfCount, halfCount));
-  }
-  const [initData, messages] = await Promise.all([
-    await tryUntilSuccessful(() =>
-      registerForEvents(auth, config.trackServerEvents, config.serverDataOnStartup),
-    ),
-    narrow
-      && (await tryUntilSuccessful(() => getMessages(auth, narrow, 0, halfCount, halfCount, true))),
-  ]);
-
+  const initData = await tryUntilSuccessful(() =>
+    registerForEvents(auth, config.trackServerEvents, config.serverDataOnStartup),
+  );
   timing.end('Essential server data');
 
   dispatch(realmInit(initData));
-  if (narrow && messages) {
-    dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount));
-  }
   dispatch(initialFetchComplete());
 
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
@@ -201,9 +181,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
   dispatch(fetchEssentialInitialData());
   dispatch(fetchRestOfInitialData());
 
-  if (config.enableNotifications) {
-    dispatch(initNotifications());
-  }
+  dispatch(initNotifications());
   dispatch(sendFocusPing());
   setInterval(() => sendFocusPing(), 60 * 1000);
 };

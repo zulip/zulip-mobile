@@ -36,6 +36,7 @@ import static com.zulipmobile.notifications.NotificationHelper.clearConversation
 import static com.zulipmobile.notifications.NotificationHelper.extractNames;
 import static com.zulipmobile.notifications.NotificationHelper.extractTotalMessagesCount;
 import static com.zulipmobile.notifications.NotificationHelper.addConversationToMap;
+import static com.zulipmobile.notifications.NotificationHelper.removeMessageFromMap;
 import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
 public class GCMPushNotifications extends PushNotification {
@@ -83,15 +84,35 @@ public class GCMPushNotifications extends PushNotification {
         return (PushNotificationsProp) mNotificationProps;
     }
 
+    private NotificationManager getNotificationManager() {
+        return (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+    private void updateNotification() {
+        if (conversations.isEmpty()) {
+            getNotificationManager().cancelAll();
+            return;
+        }
+        final PendingIntent intent = getCTAPendingIntent();
+        final Notification notification = getNotificationBuilder(intent).build();
+        final int notificationId = createNotificationId(notification);
+        getNotificationManager().notify(notificationId, notification);
+    }
+
     @Override
     public void onReceived() throws InvalidNotificationException {
         final String eventType = getProps().getEvent();
-        if (!eventType.equals("message")) {
+        if (eventType.equals("message")) {
+            addConversationToMap(getProps(), conversations);
+            updateNotification();
+        } else if (eventType.equals("remove")) {
+            removeMessageFromMap(getProps(), conversations);
+            if (conversations.isEmpty()) {
+                getNotificationManager().cancelAll();
+            }
+        } else {
             Log.w(TAG, "Ignoring GCM message of unknown event type: " + eventType);
-            return;
         }
-        addConversationToMap(getProps(), conversations);
-        super.onReceived();
     }
 
     @Override

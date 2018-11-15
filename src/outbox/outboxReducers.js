@@ -1,5 +1,10 @@
 /* @flow */
-import type { OutboxState, MessageSendStartAction, OutboxAction } from '../types';
+import type {
+  OutboxState,
+  MessageSendStartAction,
+  MessageSendCompleteAction,
+  OutboxAction,
+} from '../types';
 import {
   MESSAGE_SEND_START,
   EVENT_NEW_MESSAGE,
@@ -21,7 +26,10 @@ const messageSendStart = (state: OutboxState, action: MessageSendStartAction): O
   return [...state, { ...action.outbox }];
 };
 
-const messageSendComplete = (
+const messageSendComplete = (state: OutboxState, action: MessageSendCompleteAction): OutboxState =>
+  state.map(item => (item.id !== action.local_message_id ? item : { ...item, isSent: true }));
+
+const deleteOutboxMessage = (
   state: OutboxState,
   action: { local_message_id: number },
 ): OutboxState => filterArray(state, item => item && item.timestamp !== +action.local_message_id);
@@ -32,9 +40,11 @@ export default (state: OutboxState = initialState, action: OutboxAction): Outbox
       return messageSendStart(state, action);
 
     case MESSAGE_SEND_COMPLETE:
+      return messageSendComplete(state, action);
+
     case DELETE_OUTBOX_MESSAGE:
     case EVENT_NEW_MESSAGE:
-      return messageSendComplete(state, action);
+      return deleteOutboxMessage(state, action);
 
     case ACCOUNT_SWITCH:
     case LOGOUT:

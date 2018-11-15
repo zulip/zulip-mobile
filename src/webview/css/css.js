@@ -252,6 +252,7 @@ hr {
   text-align: center;
 }
 .message_inline_image img,
+.message_inline_ref img,
 .twitter-image img {
   width: 100%;
   height: 30vh;

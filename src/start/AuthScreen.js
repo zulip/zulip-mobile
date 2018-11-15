@@ -98,7 +98,7 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   handleSso = () => {
-    this.beginOAuth('accounts/login/sso');
+    this.beginOAuth('accounts/login/sso/');
   };
 
   render() {

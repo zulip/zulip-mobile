@@ -9,6 +9,7 @@ import type {
   Auth,
   Topic,
   Message,
+  Reaction,
   RealmEmojiState,
   RealmFilter,
   Narrow,
@@ -61,19 +62,6 @@ export type InputSelectionType = {
 };
 
 export type Account = Auth;
-
-/**
- * An emoji reaction to a message.
- *
- * See also SlimEventReaction, which contains the minimal subset of these
- * properties needed to compute the rest.
- */
-export type EventReaction = {
-  emoji_code: string,
-  emoji_name: string,
-  reaction_type: string,
-  user: any,
-};
 
 /** An aggregate of all the reactions with one emoji to one message. */
 export type AggregatedReaction = {
@@ -386,6 +374,7 @@ export type TypingState = {
  */
 export type Outbox = {
   isOutbox: true,
+  isSent: boolean,
 
   markdownContent: string,
   narrow: Narrow,
@@ -395,6 +384,7 @@ export type Outbox = {
   content: string,
   display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
   id: number,
+  reactions: Reaction[],
   sender_email: string,
   sender_full_name: string,
   subject: string,
