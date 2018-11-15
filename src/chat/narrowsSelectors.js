@@ -75,19 +75,19 @@ export const getShownMessagesForNarrow = (
       messagesForNarrow.filter(item => !shouldBeMuted(item, narrow, subscriptions, mute)),
   );
 
-export const getFirstMessageId = (narrow: Narrow) =>
+export const getFirstMessageId = (narrow: Narrow): Selector<?number> =>
   createSelector(
     getFetchedMessagesForNarrow(narrow),
     messages => (messages.length > 0 ? messages[0].id : undefined),
   );
 
-export const getLastMessageId = (narrow: Narrow) =>
+export const getLastMessageId = (narrow: Narrow): Selector<?number> =>
   createSelector(
     getFetchedMessagesForNarrow(narrow),
     messages => (messages.length > 0 ? messages[messages.length - 1].id : undefined),
   );
 
-export const getLastTopicForNarrow = (narrow: Narrow) =>
+export const getLastTopicForNarrow = (narrow: Narrow): Selector<string> =>
   createSelector(getMessagesForNarrow(narrow), messages => {
     for (let i = messages.length - 1; i >= 0; i--) {
       if (messages[i].subject) {
