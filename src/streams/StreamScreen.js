@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import type { Dispatch, GlobalState, Stream, Subscription } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { delay } from '../utils/async';
-import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
+import { OptionRow, Screen, ZulipButton } from '../common';
 import { getIsAdmin, getStreamForId, getSubscriptionForId } from '../selectors';
 import StreamCard from './StreamCard';
 import { IconEdit, IconPlusSquare } from '../common/Icons';
@@ -72,7 +72,6 @@ class StreamScreen extends PureComponent<Props> {
           defaultValue={subscription.push_notifications}
           onValueChange={this.toggleStreamPushNotification}
         />
-        <OptionDivider />
         <View style={styles.padding}>
           {isAdmin && (
             <ZulipButton
