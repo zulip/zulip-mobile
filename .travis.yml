@@ -35,6 +35,11 @@ install:
   - npm i yarn -g
   - yarn
 
+  # See the mention of `inotify` in docs/.  If we attempt assembleRelease,
+  # then without this line the JS bundle step fails with a baffling ENOSPC
+  # error, even though there's tons of free space on the filesystem.
+  - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
 script:
   - npm run test:full
   - tools/verify-webview-js
