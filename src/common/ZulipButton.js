@@ -47,8 +47,15 @@ const styles = StyleSheet.create({
   secondaryIcon: {
     color: BRAND_COLOR,
   },
-  disabled: {
-    opacity: 0.25,
+  disabledPrimaryFrame: {
+    backgroundColor: 'rgba(127, 127, 127, 0.4)',
+  },
+  disabledSecondaryFrame: {
+    borderWidth: 1.5,
+    borderColor: 'rgba(127, 127, 127, 0.4)',
+  },
+  disabledText: {
+    color: 'rgba(127, 127, 127, 0.8)',
   },
 });
 
@@ -88,11 +95,19 @@ export default class ZulipButton extends PureComponent<Props> {
     const { style, text, disabled, secondary, progress, onPress, Icon } = this.props;
     const frameStyle = [
       styles.frame,
-      secondary ? styles.secondaryFrame : styles.primaryFrame,
-      disabled && styles.disabled,
+      disabled
+        ? secondary
+          ? styles.disabledSecondaryFrame
+          : styles.disabledPrimaryFrame
+        : secondary
+          ? styles.secondaryFrame
+          : styles.primaryFrame,
       style,
     ];
-    const textStyle = [styles.text, secondary ? styles.secondaryText : styles.primaryText];
+    const textStyle = [
+      styles.text,
+      disabled ? styles.disabledText : secondary ? styles.secondaryText : styles.primaryText,
+    ];
     const iconStyle = [styles.icon, secondary ? styles.secondaryIcon : styles.primaryIcon];
 
     if (progress) {
