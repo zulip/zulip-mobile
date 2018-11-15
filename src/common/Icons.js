@@ -51,3 +51,5 @@ export const IconImage: IconType = props => <Feather name="image" {...props} />;
 export const IconCamera: IconType = props => <Feather name="camera" {...props} />;
 export const IconTerminal: IconType = props => <Feather name="terminal" {...props} />;
 export const IconMoreHorizontal: IconType = props => <Feather name="more-horizontal" {...props} />;
+export const IconEdit: IconType = props => <Feather name="edit" {...props} />;
+export const IconPlusSquare: IconType = props => <Feather name="plus-square" {...props} />;

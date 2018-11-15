@@ -8,6 +8,7 @@ import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
 import { getIsAdmin, getStreamForId, getSubscriptionForId } from '../selectors';
 import StreamCard from './StreamCard';
+import { IconEdit, IconPlusSquare } from '../common/Icons';
 import {
   doToggleMuteStream,
   doTogglePinStream,
@@ -76,13 +77,17 @@ class StreamScreen extends PureComponent<Props> {
           {isAdmin && (
             <ZulipButton
               style={styles.marginTop}
+              Icon={IconEdit}
               text="Edit"
+              secondary
               onPress={() => delay(this.handleEdit)}
             />
           )}
           <ZulipButton
             style={styles.marginTop}
+            Icon={IconPlusSquare}
             text="Add subscribers"
+            secondary
             onPress={() => delay(this.handleEditSubscribers)}
           />
         </View>
