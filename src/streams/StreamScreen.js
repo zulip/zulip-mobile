@@ -8,7 +8,7 @@ import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton } from '../common';
 import { getIsAdmin, getStreamForId, getSubscriptionForId } from '../selectors';
 import StreamCard from './StreamCard';
-import { IconEdit, IconPlusSquare } from '../common/Icons';
+import { IconPin, IconMute, IconNotifications, IconEdit, IconPlusSquare } from '../common/Icons';
 import {
   doToggleMuteStream,
   doTogglePinStream,
@@ -58,16 +58,19 @@ class StreamScreen extends PureComponent<Props> {
       <Screen title="Stream">
         <StreamCard stream={stream} subscription={subscription} />
         <OptionRow
+          Icon={IconPin}
           label="Pinned"
           defaultValue={subscription.pin_to_top}
           onValueChange={this.handleTogglePinStream}
         />
         <OptionRow
+          Icon={IconMute}
           label="Muted"
           defaultValue={subscription.in_home_view === false}
           onValueChange={this.handleToggleMuteStream}
         />
         <OptionRow
+          Icon={IconNotifications}
           label="Notifications"
           defaultValue={subscription.push_notifications}
           onValueChange={this.toggleStreamPushNotification}
