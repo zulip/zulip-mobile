@@ -7,6 +7,9 @@ import styles from '../styles';
 import { IconPrivate } from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
+  label: {
+    marginBottom: 8,
+  },
   optionRow: {
     paddingLeft: 8,
     paddingRight: 8,
@@ -60,7 +63,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
 
     return (
       <View>
-        <Label text="Name" />
+        <Label style={componentStyles.label} text="Name" />
         <Input
           style={styles.marginBottom}
           placeholder="Name"
@@ -68,7 +71,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           defaultValue={initialValues.name}
           onChangeText={this.handleNameChange}
         />
-        <Label text="Description" />
+        <Label style={componentStyles.label} text="Description" />
         <Input
           style={styles.marginBottom}
           placeholder="Description"
