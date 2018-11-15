@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Input, Label, OptionRow, ZulipButton } from '../common';
 import styles from '../styles';
+import { IconPrivate } from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
   optionRow: {
@@ -76,6 +77,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
         />
         <OptionRow
           style={componentStyles.optionRow}
+          Icon={IconPrivate}
           label="Private"
           defaultValue={initialValues.invite_only}
           onValueChange={this.handleIsPrivateChange}

@@ -5,6 +5,7 @@ import type { Text } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 /*
  * This corresponds to the documented interface:
@@ -31,6 +32,7 @@ export const IconWarning: IconType = props => <Feather name="alert-triangle" {..
 export const IconSend: IconType = props => <MaterialIcon name="send" {...props} />;
 export const IconMute: IconType = props => <MaterialIcon name="volume-off" {...props} />;
 export const IconStream: IconType = props => <Feather name="hash" {...props} />;
+export const IconPin: IconType = props => <SimpleLineIcons name="pin" {...props} />;
 export const IconPrivate: IconType = props => <Feather name="lock" {...props} />;
 export const IconPrivateChat: IconType = props => <Feather name="mail" {...props} />;
 export const IconDownArrow: IconType = props => <Feather name="chevron-down" {...props} />;
