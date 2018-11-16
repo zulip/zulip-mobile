@@ -4,7 +4,7 @@ export const REHYDRATE = 'persist/REHYDRATE';
 export const APP_ONLINE = 'APP_ONLINE';
 export const APP_ORIENTATION = 'APP_ORIENTATION';
 export const APP_STATE = 'APP_STATE';
-export const APP_REFRESH = 'APP_REFRESH';
+export const DEAD_QUEUE = 'DEAD_QUEUE';
 
 export const REALM_ADD = 'REALM_ADD';
 export const ACCOUNT_ADD_SUCCEEDED = 'ACCOUNT_ADD_SUCCEEDED';

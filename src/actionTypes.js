@@ -5,7 +5,7 @@ import {
   REHYDRATE,
   APP_ONLINE,
   APP_STATE,
-  APP_REFRESH,
+  DEAD_QUEUE,
   INIT_SAFE_AREA_INSETS,
   APP_ORIENTATION,
   START_EDIT_MESSAGE,
@@ -122,8 +122,8 @@ export type AppStateAction = {|
   isActive: boolean,
 |};
 
-export type AppRefreshAction = {|
-  type: typeof APP_REFRESH,
+export type DeadQueueAction = {|
+  type: typeof DEAD_QUEUE,
 |};
 
 export type InitSafeAreaInsetsAction = {
@@ -493,7 +493,7 @@ export type InitRealmFilterAction = {
 };
 
 export type RealmAction =
-  | AppRefreshAction
+  | DeadQueueAction
   | RealmInitAction
   | DeleteTokenPushAction
   | SaveTokenPushAction
@@ -592,14 +592,14 @@ export type AccountAction =
   | LogoutAction;
 
 export type CaughtUpAction =
-  | AppRefreshAction
+  | DeadQueueAction
   | LogoutAction
   | LoginSuccessAction
   | AccountSwitchAction
   | MessageFetchCompleteAction;
 
 export type LoadingAction =
-  | AppRefreshAction
+  | DeadQueueAction
   | AccountSwitchAction
   | InitialFetchStartAction
   | InitialFetchCompleteAction
@@ -615,7 +615,7 @@ export type MessageAction =
   | EventUpdateMessageAction;
 
 export type MuteAction =
-  | AppRefreshAction
+  | DeadQueueAction
   | AccountSwitchAction
   | RealmInitAction
   | EventMutedTopicsAction;
@@ -636,7 +636,7 @@ export type SessionAction =
   | RehydrateAction
   | AppStateAction
   | AppOnlineAction
-  | AppRefreshAction
+  | DeadQueueAction
   | InitSafeAreaInsetsAction
   | AppOrientationAction
   | StartEditMessageAction

@@ -12,7 +12,7 @@ import type {
   EventUpdateMessageAction,
 } from '../types';
 import {
-  APP_REFRESH,
+  DEAD_QUEUE,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -141,7 +141,7 @@ const eventUpdateMessage = (
 
 export default (state: MessagesState = initialState, action: MessageAction): MessagesState => {
   switch (action.type) {
-    case APP_REFRESH:
+    case DEAD_QUEUE:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:

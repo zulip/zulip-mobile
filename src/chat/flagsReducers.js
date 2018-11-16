@@ -9,7 +9,7 @@ import type {
   MarkMessagesReadAction,
 } from '../types';
 import {
-  APP_REFRESH,
+  DEAD_QUEUE,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
@@ -117,7 +117,7 @@ const markMessagesRead = (state: FlagsState, action: MarkMessagesReadAction): Fl
 
 export default (state: FlagsState = initialState, action: FlagsAction): FlagsState => {
   switch (action.type) {
-    case APP_REFRESH:
+    case DEAD_QUEUE:
     case ACCOUNT_SWITCH:
       return initialState;
 

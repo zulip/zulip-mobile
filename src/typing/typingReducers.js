@@ -10,7 +10,7 @@ import {
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   CLEAR_TYPING,
-  APP_REFRESH,
+  DEAD_QUEUE,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -94,7 +94,7 @@ export default (state: TypingState = initialState, action: TypingAction): Typing
     case CLEAR_TYPING:
       return clearTyping(state, action);
 
-    case APP_REFRESH:
+    case DEAD_QUEUE:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:

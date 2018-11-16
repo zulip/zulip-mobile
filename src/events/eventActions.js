@@ -3,7 +3,7 @@ import { batchActions } from 'redux-batched-actions';
 
 import type { EventAction, Dispatch, GetState, GlobalState } from '../types';
 import { pollForEvents } from '../api';
-import { appRefresh } from '../session/sessionActions';
+import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
 import { getAuth } from '../selectors';
@@ -68,7 +68,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       if (e.message === 'API') {
         if (e.data && e.data.code === 'BAD_EVENT_QUEUE_ID') {
           // The event queue is too old or has been garbage collected.
-          dispatch(appRefresh());
+          dispatch(deadQueue());
           break;
         }
       }

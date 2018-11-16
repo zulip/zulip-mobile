@@ -6,7 +6,7 @@ import type {
   MessageFetchCompleteAction,
 } from '../types';
 import {
-  APP_REFRESH,
+  DEAD_QUEUE,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -52,7 +52,7 @@ const messageFetchComplete = (
 
 export default (state: FetchingState = initialState, action: Action): FetchingState => {
   switch (action.type) {
-    case APP_REFRESH:
+    case DEAD_QUEUE:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case FETCH_STATE_RESET:

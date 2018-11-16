@@ -6,7 +6,7 @@ import type {
   AccountSwitchAction,
   AppStateAction,
   AppOnlineAction,
-  AppRefreshAction,
+  DeadQueueAction,
   InitialFetchCompleteAction,
   InitSafeAreaInsetsAction,
   AppOrientationAction,
@@ -19,7 +19,7 @@ import type {
 } from '../types';
 import {
   REHYDRATE,
-  APP_REFRESH,
+  DEAD_QUEUE,
   LOGIN_SUCCESS,
   APP_ONLINE,
   ACCOUNT_SWITCH,
@@ -58,7 +58,7 @@ const initialState: SessionState = {
 
 const loginSuccess = (
   state: SessionState,
-  action: AppRefreshAction | LoginSuccessAction | AccountSwitchAction,
+  action: DeadQueueAction | LoginSuccessAction | AccountSwitchAction,
 ): SessionState => ({
   ...state,
   needsInitialFetch: true,
@@ -142,7 +142,7 @@ const debugFlagToggle = (state: SessionState, action: DebugFlagToggleAction): Se
 
 export default (state: SessionState = initialState, action: SessionAction): SessionState => {
   switch (action.type) {
-    case APP_REFRESH:
+    case DEAD_QUEUE:
     case ACCOUNT_SWITCH:
     case LOGIN_SUCCESS:
       return loginSuccess(state, action);

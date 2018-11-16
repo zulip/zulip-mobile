@@ -8,7 +8,7 @@ import type {
   InitSubscriptionsAction,
 } from '../types';
 import {
-  APP_REFRESH,
+  DEAD_QUEUE,
   ACCOUNT_SWITCH,
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
@@ -55,7 +55,7 @@ const initSubscriptions = (state: LoadingState, action: InitSubscriptionsAction)
 
 export default (state: LoadingState = initialState, action: LoadingAction): LoadingState => {
   switch (action.type) {
-    case APP_REFRESH:
+    case DEAD_QUEUE:
     case ACCOUNT_SWITCH:
       return initialState;
 
