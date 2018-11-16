@@ -7,6 +7,7 @@ import type {
   AppStateAction,
   AppOnlineAction,
   DeadQueueAction,
+  DoNarrowAction,
   InitialFetchCompleteAction,
   InitSafeAreaInsetsAction,
   AppOrientationAction,
@@ -20,6 +21,7 @@ import type {
 import {
   REHYDRATE,
   DEAD_QUEUE,
+  DO_NARROW,
   LOGIN_SUCCESS,
   APP_ONLINE,
   ACCOUNT_SWITCH,
@@ -41,6 +43,7 @@ const initialState: SessionState = {
   isOnline: true,
   isActive: true,
   isHydrated: false,
+  lastNarrow: null,
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
@@ -80,6 +83,11 @@ const rehydrate = (state: SessionState, action: RehydrateAction): SessionState =
 const realmInit = (state: SessionState, action: RealmInitAction): SessionState => ({
   ...state,
   eventQueueId: action.data.queue_id,
+});
+
+const doNarrow = (state: SessionState, action: DoNarrowAction): SessionState => ({
+  ...state,
+  lastNarrow: action.narrow,
 });
 
 const appOnline = (state: SessionState, action: AppOnlineAction): SessionState => ({
@@ -152,6 +160,9 @@ export default (state: SessionState = initialState, action: SessionAction): Sess
 
     case REALM_INIT:
       return realmInit(state, action);
+
+    case DO_NARROW:
+      return doNarrow(state, action);
 
     case APP_ONLINE:
       return appOnline(state, action);
