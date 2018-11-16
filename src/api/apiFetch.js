@@ -62,7 +62,7 @@ export const apiCall = async (
       return resFunc(json);
     }
     // eslint-disable-next-line no-console
-    console.warn({ route, params, httpStatus: response.status, json });
+    console.log({ route, params, httpStatus: response.status, json });
     throw makeApiError(response.status, json);
   } finally {
     networkActivityStop(isSilent);
