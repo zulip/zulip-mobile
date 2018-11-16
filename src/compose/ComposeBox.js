@@ -233,7 +233,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const subject = topic !== editMessage.topic ? topic : undefined;
     if (content || subject) {
       updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
-        showErrorAlert(error.message, 'Failed to edit message');
+        showErrorAlert(error.data && error.data.msg, 'Failed to edit message');
       });
     }
     dispatch(cancelEditMessage());
