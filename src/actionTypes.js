@@ -28,7 +28,7 @@ import {
   INIT_REALM_FILTER,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
-  FETCH_STATE_RESET,
+  DO_NARROW,
   PRESENCE_RESPONSE,
   MESSAGE_SEND_START,
   MESSAGE_SEND_COMPLETE,
@@ -527,8 +527,9 @@ export type DraftUpdateAction = {
 
 export type DraftsAction = DraftUpdateAction | LogoutAction;
 
-export type FetchStateResetAction = {
-  type: typeof FETCH_STATE_RESET,
+export type DoNarrowAction = {
+  type: typeof DO_NARROW,
+  narrow: Narrow,
 };
 
 export type PresenceResponseAction = {

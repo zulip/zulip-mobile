@@ -4,7 +4,7 @@ import config from '../config';
 import { getAuth, getUsers, isNarrowValid, getIsHydrated } from '../selectors';
 import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
 import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
-import { FETCH_STATE_RESET } from '../actionConstants';
+import { DO_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
@@ -30,7 +30,7 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
     return;
   }
 
-  dispatch({ type: FETCH_STATE_RESET });
+  dispatch({ type: DO_NARROW, narrow });
 
   if (anchor === FIRST_UNREAD_ANCHOR) {
     if (needFetchAtFirstUnread(state, narrow)) {

@@ -4,20 +4,20 @@ import deepFreeze from 'deep-freeze';
 import fetchingReducers from '../fetchingReducers';
 import { HOME_NARROW_STR, streamNarrow } from '../../utils/narrow';
 import {
-  FETCH_STATE_RESET,
+  DO_NARROW,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
 } from '../../actionConstants';
 
 describe('fetchingReducers', () => {
-  describe('FETCH_STATE_RESET', () => {
+  describe('DO_NARROW', () => {
     test('resets state', () => {
       const initialState = deepFreeze({
         '[]': { older: true, newer: true },
       });
 
       const action = deepFreeze({
-        type: FETCH_STATE_RESET,
+        type: DO_NARROW,
         narrow: streamNarrow('some stream'),
       });
 

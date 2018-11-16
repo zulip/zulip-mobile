@@ -10,7 +10,7 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  FETCH_STATE_RESET,
+  DO_NARROW,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
@@ -55,7 +55,7 @@ export default (state: FetchingState = initialState, action: Action): FetchingSt
     case DEAD_QUEUE:
     case LOGOUT:
     case LOGIN_SUCCESS:
-    case FETCH_STATE_RESET:
+    case DO_NARROW:
     case ACCOUNT_SWITCH:
       return initialState;
 
