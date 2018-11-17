@@ -89,18 +89,24 @@ next person with a setup like yours.
 
 ## Troubleshooting
 
-### Bundling Failure: Unable to resolve module...
+### Bundling failure: Unable to resolve module ...
 
-When trying to bundle the application via Metro after pulling new code, you may
-see an error like this:
+When running the app, you might see in the output of the Metro bundler
+-- aka "the JS server", or `react-native start` -- an error like this
+(reformatted for readability):
 
 ```
-error: bundling failed: Error: Unable to resolve module `lodash.union` from `.../zulip-mobile/src/chat/chatReducers.js`: Module `lodash.union` does not exist in the Haste module map
+error: bundling failed: Error: Unable to resolve module `lodash.union`
+  from `.../zulip-mobile/src/chat/chatReducers.js`:
+  Module `lodash.union` does not exist in the Haste module map
 ```
 
-New dependencies may have been added to package.json. In the case for the
-message above, `lodash.union` was added. You can install any new packages by
-running `yarn`.
+This can happen when new dependencies have been added to
+`package.json`.  In the example above, `lodash.union` was added.
+
+To fix the problem, run `yarn`, which will update your installed
+packages in `node_modules/` to match the current `package.json`.  You
+might need to restart Metro / `react-native start` after doing so.
 
 
 ### Build failure: `aapt` / "error while loading shared libraries"
