@@ -5,7 +5,8 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { Auth, Account, Dispatch, GlobalState } from '../types';
-import { getAuth, getAccounts } from '../selectors';
+import { getAuth } from '../account/accountsSelectors';
+import { getAccounts } from '../directSelectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 import { navigateToAddNewAccount, switchAccount, removeAccount } from '../actions';
