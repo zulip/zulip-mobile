@@ -15,7 +15,7 @@ import type {
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import ZulipStatusBar from './ZulipStatusBar';
-import { getSession } from '../selectors';
+import { getSession } from '../directSelectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
