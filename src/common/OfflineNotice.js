@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { GlobalState } from '../types';
-import { getSession } from '../selectors';
+import { getSession } from '../directSelectors';
 import Label from './Label';
 
 import AnimatedComponent from '../animation/AnimatedComponent';
