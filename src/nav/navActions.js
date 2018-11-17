@@ -9,7 +9,7 @@ import type {
   Narrow,
   ApiServerSettings,
 } from '../types';
-import { getSameRoutesCount } from '../selectors';
+import { getSameRoutesCount } from './navSelectors';
 
 export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigateAction =>
   // $FlowFixMe
