@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 
 import type { GlobalState, Presence } from '../types';
 import { nullFunction } from '../nullObjects';
-import { getCurrentRealm } from '../selectors';
+import { getCurrentRealm } from '../account/accountsSelectors';
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
 import { getFullUrl } from '../utils/url';
