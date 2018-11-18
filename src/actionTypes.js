@@ -516,7 +516,7 @@ export type FlagsAction =
 export type SettingsChangeAction = {
   type: typeof SETTINGS_CHANGE,
   key: string,
-  value: any,
+  value: boolean | string,
 };
 
 export type DraftUpdateAction = {
