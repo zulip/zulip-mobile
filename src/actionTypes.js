@@ -60,6 +60,7 @@ import {
   EVENT_SUBSCRIPTION_PEER_ADD,
   EVENT_SUBSCRIPTION_PEER_REMOVE,
   CLEAR_TYPING,
+  INIT_ALERT_WORDS,
   INIT_STREAMS,
   INIT_TOPICS,
   INIT_SUBSCRIPTIONS,
@@ -87,6 +88,7 @@ import type {
   RealmEmojiState,
   CaughtUpState,
   MuteState,
+  AlertWordsState,
 } from './types';
 
 /**
@@ -239,7 +241,11 @@ export type ServerEvent = {
   id: number,
 };
 
-export type EventAlertWordsAction = any;
+export type EventAlertWordsAction = {
+  type: typeof INIT_ALERT_WORDS,
+  alertWords: AlertWordsState,
+};
+
 export type EventRealmFiltersAction = any;
 export type EventUpdateGlobalNotificationsSettingsAction = ServerEvent & {
   type: typeof EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
