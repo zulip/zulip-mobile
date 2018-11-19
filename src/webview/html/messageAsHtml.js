@@ -38,7 +38,11 @@ const messageSubheader = ({
 </div>
 `;
 
-/** Data to be used in rendering all messages. */
+/**
+ * Data to be used in rendering all messages.
+ *
+ * See also MessageRenderData.
+ */
 export type RenderContext = {
   alertWords: AlertWordsState,
   flags: FlagsState,
@@ -47,22 +51,21 @@ export type RenderContext = {
   twentyFourHourTime: boolean,
 };
 
-type BriefMessageProps = {
+/**
+ * Data to be used in rendering a specific message.
+ *
+ * See also RenderContext.
+ */
+type MessageRenderData = {
   content: string,
   id: number,
   isOutbox: boolean,
   reactions: Reaction[],
   timeEdited: ?number,
-};
-
-type FullMessageProps = BriefMessageProps & {
   fromName: string,
   fromEmail: string,
   timestamp: number,
   avatarUrl: string,
-};
-
-type Props = FullMessageProps & {
   isBrief: boolean,
 };
 
@@ -90,7 +93,7 @@ $!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 
 const briefMessageAsHtml = (
   context: RenderContext,
-  { content, id, isOutbox, reactions, timeEdited }: BriefMessageProps,
+  { content, id, isOutbox, reactions, timeEdited }: MessageRenderData,
 ) => template`
 $!${messageDiv(id, 'message-brief', context.flags)}
   <div class="content">
@@ -117,7 +120,7 @@ const fullMessageAsHtml = (
     timeEdited,
     isOutbox,
     reactions,
-  }: FullMessageProps,
+  }: MessageRenderData,
 ) => template`
 $!${messageDiv(id, 'message-full', context.flags)}
   <div class="avatar">
@@ -136,7 +139,7 @@ $!${messageDiv(id, 'message-full', context.flags)}
 </div>
 `;
 
-export default (renderContext: RenderContext, props: Props) =>
-  props.isBrief
-    ? briefMessageAsHtml(renderContext, props)
-    : fullMessageAsHtml(renderContext, props);
+export default (renderContext: RenderContext, message: MessageRenderData) =>
+  message.isBrief
+    ? briefMessageAsHtml(renderContext, message)
+    : fullMessageAsHtml(renderContext, message);
