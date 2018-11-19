@@ -5,23 +5,19 @@ import React, { PureComponent } from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
-  AlertWordsState,
   Auth,
   Context,
   Debug,
   Dispatch,
   Fetching,
-  FlagsState,
   GlobalState,
   Message,
   MuteState,
   Narrow,
-  Reaction,
-  RealmEmojiState,
   RenderedSectionDescriptor,
-  Subscription,
   User,
 } from '../types';
+import type { RenderContext } from '../webview/html/messageAsHtml';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import MessageListWeb from '../webview/MessageListWeb';
 import {
@@ -34,6 +30,7 @@ import {
   getIsFetching,
   getAnchorForActiveNarrow,
   getFetchingForActiveNarrow,
+  getOwnEmail,
   getSubscriptions,
   getShowMessagePlaceholders,
   getShownMessagesForNarrow,
@@ -53,22 +50,17 @@ export type OuterProps = {
 
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
 export type Props = {
-  // From caller and/or `connect`.
-  alertWords: AlertWordsState,
+  // From caller and/or `connect`:
+  ...$Exact<RenderContext>,
   anchor: number,
   auth: Auth,
   debug: Debug,
   dispatch: Dispatch,
   fetching: Fetching,
-  flags: FlagsState,
   isFetching: boolean,
   messages: Message[],
-  narrow: Narrow,
-  realmEmoji: RealmEmojiState,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
-  subscriptions: Subscription[],
-  twentyFourHourTime: boolean,
   typingUsers: User[],
 
   mute: MuteState, // TODO where do we actually pass this?
@@ -129,7 +121,7 @@ class MessageList extends PureComponent<Props> {
     const {
       narrow,
       alertWords,
-      auth,
+      ownEmail,
       flags,
       realmEmoji,
       subscriptions,
@@ -140,7 +132,7 @@ class MessageList extends PureComponent<Props> {
       narrow,
       alertWords,
       flags,
-      ownEmail: auth.email,
+      ownEmail,
       realmEmoji,
       subscriptions,
       twentyFourHourTime,
@@ -164,6 +156,7 @@ export default connect((state: GlobalState, props: OuterProps) => ({
   flags: getFlags(state),
   isFetching: props.isFetching || getIsFetching(props.narrow)(state),
   messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
+  ownEmail: getOwnEmail(state),
   realmEmoji: getAllRealmEmojiById(state),
   twentyFourHourTime: getRealm(state).twentyFourHourTime,
   renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
