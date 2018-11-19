@@ -16,6 +16,7 @@ import type {
   Message,
   MuteState,
   Narrow,
+  Reaction,
   RealmEmojiState,
   RenderedSectionDescriptor,
   Subscription,
@@ -125,7 +126,21 @@ class MessageList extends PureComponent<Props> {
   };
 
   render() {
-    return <MessageListWeb {...this.props} onLongPress={this.handleLongPress} />;
+    const { alertWords, auth, flags, realmEmoji, twentyFourHourTime, ...restProps } = this.props;
+    const renderContext = {
+      alertWords,
+      flags,
+      ownEmail: auth.email,
+      realmEmoji,
+      twentyFourHourTime,
+    };
+    return (
+      <MessageListWeb
+        {...this.props}
+        renderContext={renderContext}
+        onLongPress={this.handleLongPress}
+      />
+    );
   }
 }
 

@@ -63,6 +63,9 @@ describe('getInputMessages', () => {
       renderedMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
+      renderContext: {
+        flags: { starred: {}, has_alert_word: {} },
+      },
       alertWords: {},
       auth: { realm: '' },
       messages: [],
@@ -89,6 +92,7 @@ describe('getInputMessages', () => {
       typingUsers: [],
     };
     const nextProps = {
+      renderContext: {},
       auth: {},
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
@@ -112,6 +116,9 @@ describe('getInputMessages', () => {
       flags: { starred: {}, has_alert_word: {} },
     };
     const nextProps = {
+      renderContext: {
+        flags: { starred: {}, has_alert_word: {} },
+      },
       alertWords: {},
       auth: { realm: '' },
       fetching: { older: false, newer: true },

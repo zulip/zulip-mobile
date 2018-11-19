@@ -1,21 +1,16 @@
 /* @flow */
 import type { Props } from '../../message/MessageList';
+import type { RenderContext } from './messageAsHtml';
 
 import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
 import { getGravatarFromEmail } from '../../utils/avatar';
 
-export default ({
-  alertWords,
-  auth,
-  subscriptions,
-  realmEmoji,
-  flags,
-  renderedMessages,
-  narrow,
-  twentyFourHourTime,
-}: Props): string =>
+export default (
+  renderContext: RenderContext,
+  { auth, subscriptions, renderedMessages, narrow }: Props,
+): string =>
   renderedMessages
     .reduce((list, section, index) => {
       list.push(
@@ -33,22 +28,17 @@ export default ({
         } else {
           const { message } = item;
           list.push(
-            messageAsHtml({
+            messageAsHtml(renderContext, {
               id: message.id,
               isBrief: item.isBrief,
               fromName: message.sender_full_name,
               fromEmail: message.sender_email,
               content: message.match_content || message.content,
-              flags,
               timestamp: message.timestamp,
               avatarUrl: message.avatar_url || getGravatarFromEmail(message.sender_email),
               timeEdited: message.last_edit_timestamp,
               isOutbox: message.isOutbox,
               reactions: message.reactions,
-              ownEmail: auth.email,
-              realmEmoji,
-              twentyFourHourTime,
-              alertWords,
             }),
           );
         }

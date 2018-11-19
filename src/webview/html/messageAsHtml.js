@@ -38,15 +38,20 @@ const messageSubheader = ({
 </div>
 `;
 
-type BriefMessageProps = {
+/** Data to be used in rendering all messages. */
+export type RenderContext = {
   alertWords: AlertWordsState,
-  content: string,
   flags: FlagsState,
+  ownEmail: string,
+  realmEmoji: RealmEmojiState,
+  twentyFourHourTime: boolean,
+};
+
+type BriefMessageProps = {
+  content: string,
   id: number,
   isOutbox: boolean,
-  ownEmail: string,
   reactions: Reaction[],
-  realmEmoji: RealmEmojiState,
   timeEdited: ?number,
 };
 
@@ -55,104 +60,83 @@ type FullMessageProps = BriefMessageProps & {
   fromEmail: string,
   timestamp: number,
   avatarUrl: string,
-  twentyFourHourTime: boolean,
 };
 
 type Props = FullMessageProps & {
   isBrief: boolean,
 };
 
-const messageBody = ({
-  alertWords,
-  content,
-  flags,
-  id,
-  isOutbox,
-  ownEmail,
-  reactions,
-  realmEmoji,
-  timeEdited,
-}: {
-  alertWords: AlertWordsState,
-  content: string,
-  flags: FlagsState,
-  id: number,
-  isOutbox: boolean,
-  ownEmail: string,
-  reactions: Reaction[],
-  realmEmoji: RealmEmojiState,
-  timeEdited: ?number,
-}) => template`
+const messageBody = (
+  { alertWords, flags, ownEmail, realmEmoji }: RenderContext,
+  {
+    content,
+    id,
+    isOutbox,
+    reactions,
+    timeEdited,
+  }: {
+    content: string,
+    id: number,
+    isOutbox: boolean,
+    reactions: Reaction[],
+    timeEdited: ?number,
+  },
+) => template`
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
 $!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
 
-const briefMessageAsHtml = ({
-  alertWords,
-  content,
-  flags,
-  id,
-  isOutbox,
-  ownEmail,
-  reactions,
-  realmEmoji,
-  timeEdited,
-}: BriefMessageProps) => template`
-$!${messageDiv(id, 'message-brief', flags)}
+const briefMessageAsHtml = (
+  context: RenderContext,
+  { content, id, isOutbox, reactions, timeEdited }: BriefMessageProps,
+) => template`
+$!${messageDiv(id, 'message-brief', context.flags)}
   <div class="content">
-    $!${messageBody({
-      alertWords,
+    $!${messageBody(context, {
       content,
-      flags,
       id,
       isOutbox,
-      ownEmail,
       reactions,
-      realmEmoji,
       timeEdited,
     })}
   </div>
 </div>
 `;
 
-const fullMessageAsHtml = ({
-  alertWords,
-  id,
-  content,
-  flags,
-  fromName,
-  fromEmail,
-  timestamp,
-  avatarUrl,
-  twentyFourHourTime,
-  timeEdited,
-  isOutbox,
-  reactions,
-  ownEmail,
-  realmEmoji,
-}: FullMessageProps) => template`
-$!${messageDiv(id, 'message-full', flags)}
+const fullMessageAsHtml = (
+  context: RenderContext,
+  {
+    id,
+    content,
+    fromName,
+    fromEmail,
+    timestamp,
+    avatarUrl,
+    timeEdited,
+    isOutbox,
+    reactions,
+  }: FullMessageProps,
+) => template`
+$!${messageDiv(id, 'message-full', context.flags)}
   <div class="avatar">
     <img src="${avatarUrl}" alt="${fromName}" class="avatar-img" data-email="${fromEmail}">
   </div>
   <div class="content">
-    $!${messageSubheader({ fromName, timestamp, twentyFourHourTime })}
-    $!${messageBody({
-      alertWords,
+    $!${messageSubheader({ fromName, timestamp, twentyFourHourTime: context.twentyFourHourTime })}
+    $!${messageBody(context, {
       content,
-      flags,
       id,
       isOutbox,
-      ownEmail,
       reactions,
-      realmEmoji,
       timeEdited,
     })}
   </div>
 </div>
 `;
 
-export default (props: Props) =>
-  props.isBrief ? briefMessageAsHtml(props) : fullMessageAsHtml(props);
+export default (renderContext: RenderContext, props: Props) =>
+  props.isBrief
+    ? briefMessageAsHtml(renderContext, props)
+    : fullMessageAsHtml(renderContext, props);

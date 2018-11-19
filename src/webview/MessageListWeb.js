@@ -3,14 +3,17 @@ import React, { Component } from 'react';
 import { WebView } from 'react-native';
 
 import type { Context } from '../types';
-import type { Props } from '../message/MessageList';
+import type { Props as MessageListProps } from '../message/MessageList';
 import type { WebviewInputMessage } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
 import getHtml from './html/html';
+import type { RenderContext } from './html/messageAsHtml';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import { getInputMessages } from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
 import { base64Utf8Encode } from '../utils/encoding';
+
+export type Props = MessageListProps & { renderContext: RenderContext };
 
 export default class MessageListWeb extends Component<Props> {
   context: Context;
@@ -76,8 +79,8 @@ export default class MessageListWeb extends Component<Props> {
 
   render() {
     const { styles, theme } = this.context;
-    const { anchor, auth, showMessagePlaceholders, debug } = this.props;
-    const html = getHtml(renderMessagesAsHtml(this.props), theme, {
+    const { renderContext, anchor, auth, showMessagePlaceholders, debug } = this.props;
+    const html = getHtml(renderMessagesAsHtml(renderContext, this.props), theme, {
       anchor,
       auth,
       highlightUnreadMessages: debug.highlightUnreadMessages,

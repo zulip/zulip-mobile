@@ -2,7 +2,7 @@
 import isEqual from 'lodash.isequal';
 
 import type { Auth } from '../types';
-import type { Props } from '../message/MessageList';
+import type { Props } from './MessageListWeb';
 import type { UpdateStrategy } from '../message/messageUpdates';
 import htmlBody from './html/htmlBody';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
@@ -40,7 +40,10 @@ export type WebviewInputMessage =
   | MessageInputReady;
 
 const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent => {
-  const content = htmlBody(renderMessagesAsHtml(nextProps), nextProps.showMessagePlaceholders);
+  const content = htmlBody(
+    renderMessagesAsHtml(nextProps.renderContext, nextProps),
+    nextProps.showMessagePlaceholders,
+  );
   const transitionProps = getMessageTransitionProps(prevProps, nextProps);
   const updateStrategy = getMessageUpdateStrategy(transitionProps);
 
