@@ -25,17 +25,16 @@ function escape_user_regex(value) {
     return value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
 }
 
-/**
- * Wrap alert words in message content with span having css class `alert-word`.
- */
 // prettier-ignore
-export default ({ alertWords, content, id, flags }: Params): string => {
-  let message = { content };
+const process_message = function (words: string[],
+                                  message: {alerted: boolean, content: string}) {
+    // Parsing for alert words is expensive, so we rely on the host
+    // to tell us there any alert words to even look for.
+    if (!message.alerted) {
+        return;
+    }
 
-  if (!flags.has_alert_word[id]) {
-    return message.content;
-  }
-  alertWords.forEach((word: string) => {
+    words.forEach(function (word) {
         var clean = escape_user_regex(word);
         var before_punctuation = '\\s|^|>|[\\(\\".,\';\\[]';
         var after_punctuation = '\\s|$|<|[\\)\\"\\?!:.,\';\\]!]';
@@ -60,6 +59,16 @@ export default ({ alertWords, content, id, flags }: Params): string => {
             }
             return before + "<span class='alert-word'>" + word + "</span>" + after;
         });
-  });
+    });
+};
+
+/**
+ * Wrap alert words in message content with span having css class `alert-word`.
+ */
+export default ({ alertWords, content, id, flags }: Params): string => {
+  // This is kind of funny style, but lets us borrow the webapp's code near
+  // verbatim, inside `process_message`.
+  let message = { content, alerted: flags.has_alert_word[id] };
+  process_message(alertWords, message);
   return message.content;
 };
