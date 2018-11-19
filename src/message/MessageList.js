@@ -93,29 +93,36 @@ class MessageList extends PureComponent<Props> {
   };
 
   handleLongPress = (messageId: number, target: string) => {
-    const { messages, showActionSheetWithOptions } = this.props;
-    const message = messages.find(x => x.id === messageId);
-
+    const message = this.props.messages.find(x => x.id === messageId);
     if (!message) {
       return;
     }
 
     const getString = value => this.context.intl.formatMessage({ id: value });
+    const { auth, subscriptions, narrow, flags, mute } = this.props;
     const options = constructActionButtons(target)({
-      ...this.props,
       message,
       getString,
+      auth,
+      narrow,
+      flags,
+      subscriptions,
+      mute,
     });
 
+    const { dispatch, onReplySelect } = this.props;
     const callback = buttonIndex => {
       executeActionSheetAction(target === 'header', options[buttonIndex], {
-        ...this.props,
         message,
         getString,
+        auth,
+        subscriptions,
+        dispatch,
+        onReplySelect,
       });
     };
 
-    showActionSheetWithOptions(
+    this.props.showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex: options.length - 1,
