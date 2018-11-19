@@ -79,8 +79,16 @@ export default class MessageListWeb extends Component<Props> {
 
   render() {
     const { styles, theme } = this.context;
-    const { renderContext, anchor, auth, showMessagePlaceholders, debug } = this.props;
-    const html = getHtml(renderMessagesAsHtml(renderContext, this.props), theme, {
+    const {
+      renderContext,
+      renderedMessages,
+      anchor,
+      auth,
+      showMessagePlaceholders,
+      debug,
+    } = this.props;
+    const messagesHtml = renderMessagesAsHtml(renderContext, renderedMessages, this.props);
+    const html = getHtml(messagesHtml, theme, {
       anchor,
       auth,
       highlightUnreadMessages: debug.highlightUnreadMessages,

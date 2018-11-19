@@ -1,4 +1,5 @@
 /* @flow */
+import type { RenderedSectionDescriptor } from '../../types';
 import type { Props } from '../../message/MessageList';
 import type { RenderContext } from './messageAsHtml';
 
@@ -9,7 +10,8 @@ import { getGravatarFromEmail } from '../../utils/avatar';
 
 export default (
   renderContext: RenderContext,
-  { auth, subscriptions, renderedMessages, narrow }: Props,
+  renderedMessages: RenderedSectionDescriptor[],
+  { auth, subscriptions, narrow }: Props,
 ): string =>
   renderedMessages
     .reduce((list, section, index) => {
