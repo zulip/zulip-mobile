@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { WebView } from 'react-native';
 
 import type { Context } from '../types';
-import type { Props as MessageListProps } from '../message/MessageList';
+import type { ChildProps as MessageListProps } from '../message/MessageList';
 import type { WebviewInputMessage } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
 import getHtml from './html/html';

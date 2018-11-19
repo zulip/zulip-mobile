@@ -10,6 +10,7 @@ import type {
   Debug,
   Dispatch,
   Fetching,
+  FlagsState,
   GlobalState,
   Message,
   MuteState,
@@ -48,20 +49,26 @@ export type OuterProps = {
   typingUsers?: User[],
 };
 
-// TODO get a type for `connectActionSheet` so this gets fully type-checked.
-export type Props = {
-  // From caller and/or `connect`:
-  ...$Exact<RenderContext>,
+export type ChildProps = {
   anchor: number,
   auth: Auth,
   debug: Debug,
   dispatch: Dispatch,
   fetching: Fetching,
-  isFetching: boolean,
+  flags: FlagsState, // also in RenderContext
   messages: Message[],
+  narrow: Narrow, // also in RenderContext
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
   typingUsers: User[],
+};
+
+// TODO get a type for `connectActionSheet` so this gets fully type-checked.
+type Props = {
+  // From caller and/or `connect`:
+  ...$Exact<ChildProps>,
+  ...$Exact<RenderContext>,
+  isFetching: boolean,
 
   mute: MuteState, // TODO where do we actually pass this?
 
@@ -119,6 +126,7 @@ class MessageList extends PureComponent<Props> {
 
   render() {
     const {
+      // renderContext
       narrow,
       alertWords,
       ownEmail,
@@ -126,7 +134,17 @@ class MessageList extends PureComponent<Props> {
       realmEmoji,
       subscriptions,
       twentyFourHourTime,
-      ...restProps
+
+      // childProps
+      anchor,
+      auth,
+      debug,
+      dispatch,
+      fetching,
+      messages,
+      renderedMessages,
+      showMessagePlaceholders,
+      typingUsers,
     } = this.props;
     const renderContext = {
       narrow,
@@ -137,11 +155,24 @@ class MessageList extends PureComponent<Props> {
       subscriptions,
       twentyFourHourTime,
     };
+    const childProps = {
+      anchor,
+      auth,
+      debug,
+      dispatch,
+      fetching,
+      flags,
+      messages,
+      narrow,
+      renderedMessages,
+      showMessagePlaceholders,
+      typingUsers,
+    };
     return (
       <MessageListWeb
-        {...this.props}
         renderContext={renderContext}
         onLongPress={this.handleLongPress}
+        {...childProps}
       />
     );
   }
