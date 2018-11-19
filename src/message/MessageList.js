@@ -126,12 +126,23 @@ class MessageList extends PureComponent<Props> {
   };
 
   render() {
-    const { alertWords, auth, flags, realmEmoji, twentyFourHourTime, ...restProps } = this.props;
+    const {
+      narrow,
+      alertWords,
+      auth,
+      flags,
+      realmEmoji,
+      subscriptions,
+      twentyFourHourTime,
+      ...restProps
+    } = this.props;
     const renderContext = {
+      narrow,
       alertWords,
       flags,
       ownEmail: auth.email,
       realmEmoji,
+      subscriptions,
       twentyFourHourTime,
     };
     return (

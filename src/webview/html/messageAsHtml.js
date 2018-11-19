@@ -1,6 +1,13 @@
 /* @flow */
 import template from './template';
-import type { AlertWordsState, FlagsState, Reaction, RealmEmojiState } from '../../types';
+import type {
+  AlertWordsState,
+  FlagsState,
+  Narrow,
+  Reaction,
+  RealmEmojiState,
+  Subscription,
+} from '../../types';
 import { shortTime } from '../../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
@@ -49,6 +56,8 @@ export type RenderContext = {
   ownEmail: string,
   realmEmoji: RealmEmojiState,
   twentyFourHourTime: boolean,
+  subscriptions: Subscription[],
+  narrow: Narrow,
 };
 
 /**

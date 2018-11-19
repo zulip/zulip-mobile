@@ -1,6 +1,7 @@
 /* @flow */
 import template from './template';
-import type { Auth, Message, Narrow, Outbox, Subscription } from '../../types';
+import type { Message, Outbox } from '../../types';
+import type { RenderContext } from './messageAsHtml';
 import {
   isStreamNarrow,
   isTopicNarrow,
@@ -13,17 +14,10 @@ import {
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 
-export default ({
-  item,
-  subscriptions,
-  auth,
-  narrow,
-}: {
-  auth: Auth,
+export default (
+  { ownEmail, subscriptions, narrow }: RenderContext,
   item: Message | Outbox | {||},
-  subscriptions: Subscription[],
-  narrow: Narrow,
-}) => {
+) => {
   if (!item.type) {
     return '';
   }
@@ -44,7 +38,10 @@ export default ({
   }
 
   if (item.type === 'stream') {
-    const stream = subscriptions.find(x => x.name === item.display_recipient);
+    // Somehow, if `item.display_recipient` appears in the `find` callback,
+    // Flow worries that `item` will turn out to be a {||} after all.
+    const { display_recipient } = item;
+    const stream = subscriptions.find(x => x.name === display_recipient);
 
     const backgroundColor = stream ? stream.color : '#ccc';
     const textColor = foregroundColorFromBackground(backgroundColor);
@@ -74,9 +71,9 @@ export default ({
     && !isTopicNarrow(narrow)
   ) {
     const recipients =
-      item.display_recipient.length === 1 && item.display_recipient[0].email === auth.email
+      item.display_recipient.length === 1 && item.display_recipient[0].email === ownEmail
         ? item.display_recipient
-        : item.display_recipient.filter(r => r.email !== auth.email);
+        : item.display_recipient.filter(r => r.email !== ownEmail);
 
     const narrowObj =
       recipients.length === 1
