@@ -9,9 +9,7 @@ describe('processAlertWords', () => {
     const flags = {
       has_alert_word: {},
     };
-    expect(processAlertWords({ alertWords, content: 'some emoji text', id: 2, flags })).toEqual(
-      'some emoji text',
-    );
+    expect(processAlertWords('some emoji text', 2, alertWords, flags)).toEqual('some emoji text');
   });
 
   test('if msg id is present in has_alert_word flags, process message content', () => {
@@ -20,14 +18,9 @@ describe('processAlertWords', () => {
         2: true,
       },
     };
-    expect(
-      processAlertWords({
-        alertWords,
-        content: '<p>another alertone message</p>',
-        id: 2,
-        flags,
-      }),
-    ).toEqual("<p>another <span class='alert-word'>alertone</span> message</p>");
+    expect(processAlertWords('<p>another alertone message</p>', 2, alertWords, flags)).toEqual(
+      "<p>another <span class='alert-word'>alertone</span> message</p>",
+    );
   });
 
   test('if msg contains multiple alert words, wrap all', () => {
@@ -37,12 +30,12 @@ describe('processAlertWords', () => {
       },
     };
     expect(
-      processAlertWords({
+      processAlertWords(
+        '<p>another alertthreemessage alertone and then alerttwo</p>',
+        2,
         alertWords,
-        content: '<p>another alertthreemessage alertone and then alerttwo</p>',
-        id: 2,
         flags,
-      }),
+      ),
     ).toEqual(
       "<p>another alertthreemessage <span class='alert-word'>alertone</span> and then <span class='alert-word'>alerttwo</span></p>",
     );
@@ -54,53 +47,36 @@ describe('processAlertWords', () => {
         2: true,
       },
     };
-    expect(
-      processAlertWords({
-        alertWords,
-        content: '<p>gotta al*rt.*s all</p>',
-        id: 2,
-        flags,
-      }),
-    ).toEqual("<p>gotta <span class='alert-word'>al*rt.*s</span> all</p>");
+    expect(processAlertWords('<p>gotta al*rt.*s all</p>', 2, alertWords, flags)).toEqual(
+      "<p>gotta <span class='alert-word'>al*rt.*s</span> all</p>",
+    );
 
     expect(
-      processAlertWords({
-        alertWords,
-        content: '<p>http://www.google.com/alertone/me</p>',
-        id: 2,
-        flags,
-      }),
+      processAlertWords('<p>http://www.google.com/alertone/me</p>', 2, alertWords, flags),
     ).toEqual('<p>http://www.google.com/alertone/me</p>');
 
-    expect(
-      processAlertWords({
-        alertWords,
-        content: '<p>still alertone? me</p>',
-        id: 2,
-        flags,
-      }),
-    ).toEqual("<p>still <span class='alert-word'>alertone</span>? me</p>");
+    expect(processAlertWords('<p>still alertone? me</p>', 2, alertWords, flags)).toEqual(
+      "<p>still <span class='alert-word'>alertone</span>? me</p>",
+    );
 
     expect(
-      processAlertWords({
+      processAlertWords(
+        '<p>now with link <a href="http://www.alerttwo.us/foo/bar" target="_blank" title="http://www.alerttwo.us/foo/bar">www.alerttwo.us/foo/bar</a></p>',
+        2,
         alertWords,
-        content:
-          '<p>now with link <a href="http://www.alerttwo.us/foo/bar" target="_blank" title="http://www.alerttwo.us/foo/bar">www.alerttwo.us/foo/bar</a></p>',
-        id: 2,
         flags,
-      }),
+      ),
     ).toEqual(
       '<p>now with link <a href="http://www.alerttwo.us/foo/bar" target="_blank" title="http://www.alerttwo.us/foo/bar">www.<span class=\'alert-word\'>alerttwo</span>.us/foo/bar</a></p>',
     );
 
     expect(
-      processAlertWords({
+      processAlertWords(
+        '<p>I <img alt=":heart:" class="emoji" src="/static/generated/emoji/images/emoji/unicode/2764.png" title="heart"> emoji!</p>',
+        2,
         alertWords,
-        content:
-          '<p>I <img alt=":heart:" class="emoji" src="/static/generated/emoji/images/emoji/unicode/2764.png" title="heart"> emoji!</p>',
-        id: 2,
         flags,
-      }),
+      ),
     ).toEqual(
       '<p>I <img alt=":heart:" class="emoji" src="/static/generated/emoji/images/emoji/unicode/2764.png" title="heart"> <span class=\'alert-word\'>emoji</span>!</p>',
     );

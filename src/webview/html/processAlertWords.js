@@ -1,12 +1,5 @@
 /* @flow */
-import type { AlertWordsState, FlagsState } from '../../types';
-
-type Params = {
-  alertWords: AlertWordsState,
-  content: string,
-  flags: FlagsState,
-  id: number,
-};
+import type { FlagsState } from '../../types';
 
 /* eslint-disable */
 
@@ -65,7 +58,7 @@ const process_message = function (words: string[],
 /**
  * Wrap alert words in message content with span having css class `alert-word`.
  */
-export default ({ alertWords, content, id, flags }: Params): string => {
+export default (content: string, id: number, alertWords: string[], flags: FlagsState): string => {
   // This is kind of funny style, but lets us borrow the webapp's code near
   // verbatim, inside `process_message`.
   let message = { content, alerted: flags.has_alert_word[id] };

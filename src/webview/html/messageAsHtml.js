@@ -83,7 +83,7 @@ const messageBody = ({
   realmEmoji: RealmEmojiState,
   timeEdited: ?number,
 }) => template`
-$!${processAlertWords({ id, content, alertWords, flags })}
+$!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
 $!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
