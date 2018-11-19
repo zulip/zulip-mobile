@@ -2,13 +2,14 @@
 import type { FlagsState } from '../../types';
 
 /* eslint-disable */
-
-/**
+/*
+ * The bulk of this code is taken verbatim from the webapp:
+ *   https://github.com/zulip/zulip/blob/54d3d8e8b/static/js/alert_words.js
+ * in order to avoid multiple implementations of this rather tricky logic.
+ * To permit that, we disable ESLint and Prettier.
  *
- * This code is taken from webapp
- * https://github.com/zulip/zulip/blob/54d3d8e8b3cd0ee120bbf6b3b6c09721e5fdc42b/static/js/alert_words.js
- * Keep it as it is, do not format or apply this project eslint rules.
- * As by applying this rules some bugs might get introduced.
+ * For an updated comparison, try a command like:
+ *   git diff --no-index ../zulip/static/js/alert_words.js src/webview/html/processAlertWords.js
  */
 
 // escape_user_regex taken from jquery-ui/autocomplete.js,
@@ -18,6 +19,7 @@ function escape_user_regex(value) {
     return value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
 }
 
+/* Helper borrowed near-verbatim from webapp; see comment above. */
 // prettier-ignore
 const process_message = function (words: string[],
                                   message: {alerted: boolean, content: string}) {
@@ -55,9 +57,7 @@ const process_message = function (words: string[],
     });
 };
 
-/**
- * Wrap alert words in message content with span having css class `alert-word`.
- */
+/** Mark any alert words in `content` with an appropriate span. */
 export default (content: string, id: number, alertWords: string[], flags: FlagsState): string => {
   // This is kind of funny style, but lets us borrow the webapp's code near
   // verbatim, inside `process_message`.
