@@ -72,10 +72,12 @@ const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping =>
 });
 
 const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): boolean => {
-  const allFlagKeys = Array.from(
+  const allFlagNames = Array.from(
     new Set([...Object.keys(prevFlags || {}), ...Object.keys(nextFlags || {})]),
   );
-  return allFlagKeys.filter(key => key !== 'read').every(key => prevFlags[key] === nextFlags[key]);
+  return allFlagNames
+    .filter(name => name !== 'read')
+    .every(name => prevFlags[name] === nextFlags[name]);
 };
 
 export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
