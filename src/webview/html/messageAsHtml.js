@@ -13,19 +13,6 @@ import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
 import processAlertWords from './processAlertWords';
 
-export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
-  Object.keys(flags).filter(key => flags[key][id]);
-
-const messageDiv = (id: number, msgClass: string, flags: FlagsState): string =>
-  template`<div
-     class="message ${msgClass}"
-     id="msg-${id}"
-     data-msg-id="${id}"
-     $!${flagsStateToStringList(flags, id)
-       .map(flag => template`data-${flag}="true" `)
-       .join('')}
-    >`;
-
 /**
  * Data to be used in rendering all messages.
  *
@@ -59,6 +46,9 @@ type MessageRenderData = {
   isBrief: boolean,
 };
 
+export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
+  Object.keys(flags).filter(key => flags[key][id]);
+
 const messageBody = (
   { alertWords, flags, ownEmail, realmEmoji }: RenderContext,
   { content, id, isOutbox, reactions, timeEdited }: MessageRenderData,
@@ -70,11 +60,21 @@ $!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
 
 export default (context: RenderContext, message: MessageRenderData) => {
+  const { id, isBrief } = message;
+  const flagStrings = flagsStateToStringList(context.flags, id);
+  const divOpenHtml = template`
+    <div
+     class="message ${isBrief ? 'message-brief' : 'message-full'}"
+     id="msg-${id}"
+     data-msg-id="${id}"
+     $!${flagStrings.map(flag => template`data-${flag}="true" `).join('')}
+    >`;
+
   const bodyHtml = messageBody(context, message);
 
   if (message.isBrief) {
     return template`
-$!${messageDiv(message.id, 'message-brief', context.flags)}
+$!${divOpenHtml}
   <div class="content">
     $!${bodyHtml}
   </div>
@@ -95,7 +95,7 @@ $!${messageDiv(message.id, 'message-brief', context.flags)}
 `;
 
   return template`
-$!${messageDiv(message.id, 'message-full', context.flags)}
+$!${divOpenHtml}
   <div class="avatar">
     <img src="${avatarUrl}" alt="${fromName}" class="avatar-img" data-email="${fromEmail}">
   </div>
