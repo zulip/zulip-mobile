@@ -14,6 +14,7 @@ import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.remobile.toast.RCTToastPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import io.sentry.RNSentryPackage;
 import java.util.Arrays;
@@ -40,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNCWebViewPackage(),
                     new RNTextInputResetPackage(),
                     new ImagePickerPackage(),
+                    new RNGestureHandlerPackage(),
                     new OrientationPackage(),
                     new RNSentryPackage(MainApplication.this),
                     new PhotoViewPackage(),
