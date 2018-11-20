@@ -16,6 +16,7 @@ import type {
   MuteState,
   Narrow,
   RenderedSectionDescriptor,
+  Subscription,
   User,
 } from '../types';
 import type { RenderContext } from '../webview/html/messageAsHtml';
@@ -38,7 +39,8 @@ import {
   getRealm,
 } from '../selectors';
 
-export type ChildProps = {
+// TODO get a type for `connectActionSheet` so this gets fully type-checked.
+export type Props = {
   anchor: number,
   auth: Auth,
   debug: Debug,
@@ -46,18 +48,13 @@ export type ChildProps = {
   fetching: Fetching,
   flags: FlagsState, // also in RenderContext
   messages: Message[],
+  mute: MuteState,
   narrow: Narrow, // also in RenderContext
   renderContext: RenderContext,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
+  subscriptions: Subscription[], // also in RenderContext
   typingUsers: User[],
-};
-
-// TODO get a type for `connectActionSheet` so this gets fully type-checked.
-type Props = {
-  // From caller and/or `connect`:
-  ...$Exact<ChildProps>,
-  mute: MuteState,
 
   // From `connectActionSheet`.
   showActionSheetWithOptions: (Object, (number) => void) => void,
@@ -78,8 +75,7 @@ class MessageList extends PureComponent<Props> {
     }
 
     const getString = value => this.context.intl.formatMessage({ id: value });
-    const { auth, dispatch, narrow, flags, mute } = this.props;
-    const { subscriptions } = this.props.renderContext;
+    const { auth, dispatch, narrow, flags, mute, subscriptions } = this.props;
     showActionSheet(target === 'header', dispatch, this.props.showActionSheetWithOptions, {
       message,
       getString,
@@ -92,35 +88,7 @@ class MessageList extends PureComponent<Props> {
   };
 
   render() {
-    const {
-      // childProps
-      anchor,
-      auth,
-      debug,
-      dispatch,
-      fetching,
-      messages,
-      narrow,
-      renderContext,
-      renderedMessages,
-      showMessagePlaceholders,
-      typingUsers,
-    } = this.props;
-    const childProps = {
-      anchor,
-      auth,
-      debug,
-      dispatch,
-      fetching,
-      flags: renderContext.flags,
-      messages,
-      narrow,
-      renderContext,
-      renderedMessages,
-      showMessagePlaceholders,
-      typingUsers,
-    };
-    return <MessageListWeb onLongPress={this.handleLongPress} {...childProps} />;
+    return <MessageListWeb onLongPress={this.handleLongPress} {...this.props} />;
   }
 }
 
@@ -152,7 +120,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
     flags: getFlags(state), // also a prop, see below
     ownEmail: getOwnEmail(state),
     realmEmoji: getAllRealmEmojiById(state),
-    subscriptions: getSubscriptions(state),
+    subscriptions: getSubscriptions(state), // also a prop, see below
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
   };
 
@@ -168,6 +136,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
     showMessagePlaceholders:
       props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
+    subscriptions: getSubscriptions(state),
     typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
   };
 })(connectActionSheet(MessageList));
