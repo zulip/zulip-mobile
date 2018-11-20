@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { createStackNavigator } from 'react-navigation';
+import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
@@ -35,7 +35,7 @@ import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 import UserStatusScreen from '../user-status/UserStatusScreen';
 
-export default createStackNavigator(
+const MainNavigator = createStackNavigator(
   {
     account: { screen: AccountPickScreen },
     'account-details': { screen: AccountDetailsScreen },
@@ -79,3 +79,5 @@ export default createStackNavigator(
     },
   },
 );
+
+export default createAppContainer(MainNavigator);

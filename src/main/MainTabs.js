@@ -18,7 +18,7 @@ export default createMaterialTopTabNavigator(
   {
     home: {
       screen: HomeTab,
-      navigationOptions: {
+      defaultNavigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
           <IconInbox size={24} color={props.tintColor} />
@@ -27,7 +27,7 @@ export default createMaterialTopTabNavigator(
     },
     streams: {
       screen: StreamTabs,
-      navigationOptions: {
+      defaultNavigationOptions: {
         tabBarLabel: 'Streams',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
           <IconStream size={24} color={props.tintColor} />
@@ -36,7 +36,7 @@ export default createMaterialTopTabNavigator(
     },
     conversations: {
       screen: PmConversationsCard,
-      navigationOptions: {
+      defaultNavigationOptions: {
         tabBarLabel: 'Conversations',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
           <IconUnreadConversations color={props.tintColor} />
@@ -45,7 +45,7 @@ export default createMaterialTopTabNavigator(
     },
     settings: {
       screen: SettingsCard,
-      navigationOptions: {
+      defaultNavigationOptions: {
         tabBarLabel: 'Settings',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
           <IconSettings size={24} color={props.tintColor} />

@@ -20,7 +20,7 @@ export default createMaterialTopTabNavigator(
   {
     subscribed: {
       screen: SubscriptionsCard,
-      navigationOptions: {
+      defaultNavigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (
           <Text style={[styles.tab, { color: props.tintColor }]}>
             <FormattedMessage id="Subscribed" defaultMessage="Subscribed" />
@@ -30,7 +30,7 @@ export default createMaterialTopTabNavigator(
     },
     allStreams: {
       screen: StreamListCard,
-      navigationOptions: {
+      defaultNavigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (
           <Text style={[styles.tab, { color: props.tintColor }]}>
             <FormattedMessage id="All streams" defaultMessage="All streams" />
