@@ -1,7 +1,16 @@
 /* @flow */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import type { Auth, Debug, Dispatch, FlagsState, Message, Narrow } from '../types';
+import type {
+  Auth,
+  Debug,
+  Dispatch,
+  FlagsState,
+  Message,
+  MuteState,
+  Narrow,
+  Subscription,
+} from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -14,6 +23,7 @@ import {
   navigateToLightbox,
   messageLinkPress,
 } from '../actions';
+import { showActionSheet } from '../message/messageActionSheet';
 
 type MessageListEventReady = {
   type: 'ready',
@@ -113,8 +123,10 @@ type Props = {
   debug: Debug,
   flags: FlagsState,
   messages: Message[],
+  mute: MuteState,
   narrow: Narrow,
-  onLongPress: (messageId: number, target: string) => void,
+  subscriptions: Subscription[],
+  showActionSheetWithOptions: (Object, (number) => void) => void,
 };
 
 const fetchMore = (props: Props, event: MessageListEventScroll) => {
@@ -150,7 +162,28 @@ const handleImage = (props: Props, src: string, messageId: number) => {
   }
 };
 
-export const handleMessageListEvent = (props: Props, event: MessageListEvent) => {
+const handleLongPress = (
+  props: Props,
+  getString: string => string,
+  isHeader: boolean,
+  messageId: number,
+) => {
+  const message = props.messages.find(x => x.id === messageId);
+  if (!message) {
+    return;
+  }
+  showActionSheet(isHeader, props.dispatch, props.showActionSheetWithOptions, {
+    message,
+    getString,
+    ...props,
+  });
+};
+
+export const handleMessageListEvent = (
+  props: Props,
+  getString: string => string,
+  event: MessageListEvent,
+) => {
   switch (event.type) {
     case 'ready':
       // handled by caller
@@ -174,7 +207,7 @@ export const handleMessageListEvent = (props: Props, event: MessageListEvent) =>
       break;
 
     case 'longPress':
-      props.onLongPress(event.messageId, event.target);
+      handleLongPress(props, getString, event.target === 'header', event.messageId);
       break;
 
     case 'url':

@@ -6,7 +6,6 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
   Auth,
-  Context,
   Debug,
   Dispatch,
   Fetching,
@@ -20,7 +19,6 @@ import type {
   User,
 } from '../types';
 import type { RenderContext } from '../webview/html/messageAsHtml';
-import { showActionSheet } from './messageActionSheet';
 import MessageListWeb from '../webview/MessageListWeb';
 import {
   getAuth,
@@ -61,34 +59,10 @@ export type Props = {
 };
 
 class MessageList extends PureComponent<Props> {
-  context: Context;
   props: Props;
 
-  static contextTypes = {
-    intl: () => null,
-  };
-
-  handleLongPress = (messageId: number, target: string) => {
-    const message = this.props.messages.find(x => x.id === messageId);
-    if (!message) {
-      return;
-    }
-
-    const getString = value => this.context.intl.formatMessage({ id: value });
-    const { auth, dispatch, narrow, flags, mute, subscriptions } = this.props;
-    showActionSheet(target === 'header', dispatch, this.props.showActionSheetWithOptions, {
-      message,
-      getString,
-      auth,
-      narrow,
-      flags,
-      subscriptions,
-      mute,
-    });
-  };
-
   render() {
-    return <MessageListWeb onLongPress={this.handleLongPress} {...this.props} />;
+    return <MessageListWeb {...this.props} />;
   }
 }
 

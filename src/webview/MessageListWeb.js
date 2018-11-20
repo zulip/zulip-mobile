@@ -12,9 +12,7 @@ import { getInputMessages } from './webViewHandleUpdates';
 import { handleMessageListEvent } from './webViewEventHandlers';
 import { base64Utf8Encode } from '../utils/encoding';
 
-export type Props = MessageListProps & {
-  onLongPress: (messageId: number, target: string) => void,
-};
+export type Props = MessageListProps;
 
 export default class MessageListWeb extends Component<Props> {
   context: Context;
@@ -24,6 +22,7 @@ export default class MessageListWeb extends Component<Props> {
   unsentMessages: WebviewInputMessage[] = [];
 
   static contextTypes = {
+    intl: () => null,
     styles: () => null,
     theme: () => null,
   };
@@ -61,7 +60,8 @@ export default class MessageListWeb extends Component<Props> {
       this.sendMessagesIsReady = true;
       this.sendMessages(this.unsentMessages);
     } else {
-      handleMessageListEvent(this.props, eventData);
+      const getString = value => this.context.intl.formatMessage({ id: value });
+      handleMessageListEvent(this.props, getString, eventData);
     }
   };
 
