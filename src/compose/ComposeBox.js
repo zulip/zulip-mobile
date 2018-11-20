@@ -61,7 +61,6 @@ type Props = {
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
   dispatch: Dispatch,
-  messageInputRef: (component: any) => void,
 };
 
 type State = {
@@ -271,7 +270,6 @@ class ComposeBox extends PureComponent<Props, State> {
       users,
       editMessage,
       safeAreaInsets,
-      messageInputRef,
       isAdmin,
       isAnnouncementOnly,
       isSubscribed,
@@ -331,7 +329,6 @@ class ComposeBox extends PureComponent<Props, State> {
               textInputRef={component => {
                 if (component) {
                   this.messageInput = component;
-                  messageInputRef(component);
                 }
               }}
               onBlur={this.handleMessageBlur}
