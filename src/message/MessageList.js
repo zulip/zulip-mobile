@@ -73,11 +73,6 @@ type Props = {
 
   // From `connectActionSheet`.
   showActionSheetWithOptions: (Object, (number) => void) => void,
-
-  // These are sometimes passed by the caller, or are never present here but
-  // are for some other code which abuses this type.
-  // TODO sort out each one's story.
-  onSend: () => void,
 };
 
 class MessageList extends PureComponent<Props> {
