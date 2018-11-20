@@ -30,6 +30,7 @@ import {
   getFlags,
   getAnchorForActiveNarrow,
   getFetchingForActiveNarrow,
+  getMute,
   getOwnEmail,
   getSubscriptions,
   getShowMessagePlaceholders,
@@ -67,9 +68,8 @@ type Props = {
   // From caller and/or `connect`:
   ...$Exact<ChildProps>,
   ...$Exact<RenderContext>,
+  mute: MuteState,
   onReplySelect?: () => void,
-
-  mute: MuteState, // TODO where do we actually pass this?
 
   // From `connectActionSheet`.
   showActionSheetWithOptions: (Object, (number) => void) => void,
@@ -184,6 +184,7 @@ export default connect((state: GlobalState, props: OuterProps) => ({
   fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
   flags: getFlags(state),
   messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
+  mute: getMute(state),
   ownEmail: getOwnEmail(state),
   realmEmoji: getAllRealmEmojiById(state),
   twentyFourHourTime: getRealm(state).twentyFourHourTime,
