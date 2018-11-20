@@ -220,7 +220,7 @@ export const constructMessageActionButtons = ({
 export const constructActionButtons = (target: string) =>
   target === 'header' ? constructHeaderActionButtons : constructMessageActionButtons;
 
-export const executeActionSheetAction = (
+const executeActionSheetAction = (
   isHeader: boolean,
   title: string,
   { getString, ...props }: ActionParams,
@@ -238,8 +238,28 @@ export const executeActionSheetAction = (
   }
 };
 
-export type ShowActionSheetTypes = {
-  options: Array<any>,
-  cancelButtonIndex: number,
-  callback: number => void,
+/** Invoke the given callback to show an appropriate action sheet. */
+export const showActionSheet = (
+  isHeader: boolean,
+  dispatch: Dispatch,
+  showActionSheetWithOptions: (
+    { options: string[], cancelButtonIndex: number },
+    (number) => void,
+  ) => void,
+  params: ConstructSheetParams,
+): void => {
+  const options = constructActionButtons(isHeader ? 'header' : 'message')(params);
+  const callback = buttonIndex => {
+    executeActionSheetAction(isHeader, options[buttonIndex], {
+      dispatch,
+      ...params,
+    });
+  };
+  showActionSheetWithOptions(
+    {
+      options,
+      cancelButtonIndex: options.length - 1,
+    },
+    callback,
+  );
 };

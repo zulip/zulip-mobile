@@ -19,7 +19,7 @@ import type {
   User,
 } from '../types';
 import type { RenderContext } from '../webview/html/messageAsHtml';
-import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
+import { showActionSheet } from './messageActionSheet';
 import MessageListWeb from '../webview/MessageListWeb';
 import {
   getAuth,
@@ -78,9 +78,9 @@ class MessageList extends PureComponent<Props> {
     }
 
     const getString = value => this.context.intl.formatMessage({ id: value });
-    const { auth, narrow, flags, mute } = this.props;
+    const { auth, dispatch, narrow, flags, mute } = this.props;
     const { subscriptions } = this.props.renderContext;
-    const options = constructActionButtons(target)({
+    showActionSheet(target === 'header', dispatch, this.props.showActionSheetWithOptions, {
       message,
       getString,
       auth,
@@ -89,25 +89,6 @@ class MessageList extends PureComponent<Props> {
       subscriptions,
       mute,
     });
-
-    const { dispatch } = this.props;
-    const callback = buttonIndex => {
-      executeActionSheetAction(target === 'header', options[buttonIndex], {
-        message,
-        getString,
-        auth,
-        subscriptions,
-        dispatch,
-      });
-    };
-
-    this.props.showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex: options.length - 1,
-      },
-      callback,
-    );
   };
 
   render() {
