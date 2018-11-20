@@ -7,7 +7,6 @@ import type { ChildProps as MessageListProps } from '../message/MessageList';
 import type { WebviewInputMessage } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
 import getHtml from './html/html';
-import type { RenderContext } from './html/messageAsHtml';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import { getInputMessages } from './webViewHandleUpdates';
 import { handleMessageListEvent } from './webViewEventHandlers';
@@ -15,7 +14,6 @@ import { base64Utf8Encode } from '../utils/encoding';
 
 export type Props = MessageListProps & {
   onLongPress: (messageId: number, target: string) => void,
-  renderContext: RenderContext,
 };
 
 export default class MessageListWeb extends Component<Props> {

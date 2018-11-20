@@ -47,6 +47,7 @@ export type ChildProps = {
   flags: FlagsState, // also in RenderContext
   messages: Message[],
   narrow: Narrow, // also in RenderContext
+  renderContext: RenderContext,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
   typingUsers: User[],
@@ -56,7 +57,6 @@ export type ChildProps = {
 type Props = {
   // From caller and/or `connect`:
   ...$Exact<ChildProps>,
-  ...$Exact<RenderContext>,
   mute: MuteState,
 
   // From `connectActionSheet`.
@@ -78,7 +78,8 @@ class MessageList extends PureComponent<Props> {
     }
 
     const getString = value => this.context.intl.formatMessage({ id: value });
-    const { auth, subscriptions, narrow, flags, mute } = this.props;
+    const { auth, narrow, flags, mute } = this.props;
+    const { subscriptions } = this.props.renderContext;
     const options = constructActionButtons(target)({
       message,
       getString,
@@ -111,15 +112,6 @@ class MessageList extends PureComponent<Props> {
 
   render() {
     const {
-      // renderContext
-      narrow,
-      alertWords,
-      ownEmail,
-      flags,
-      realmEmoji,
-      subscriptions,
-      twentyFourHourTime,
-
       // childProps
       anchor,
       auth,
@@ -127,39 +119,27 @@ class MessageList extends PureComponent<Props> {
       dispatch,
       fetching,
       messages,
+      narrow,
+      renderContext,
       renderedMessages,
       showMessagePlaceholders,
       typingUsers,
     } = this.props;
-    const renderContext = {
-      narrow,
-      alertWords,
-      flags,
-      ownEmail,
-      realmEmoji,
-      subscriptions,
-      twentyFourHourTime,
-    };
     const childProps = {
       anchor,
       auth,
       debug,
       dispatch,
       fetching,
-      flags,
+      flags: renderContext.flags,
       messages,
       narrow,
+      renderContext,
       renderedMessages,
       showMessagePlaceholders,
       typingUsers,
     };
-    return (
-      <MessageListWeb
-        renderContext={renderContext}
-        onLongPress={this.handleLongPress}
-        {...childProps}
-      />
-    );
+    return <MessageListWeb onLongPress={this.handleLongPress} {...childProps} />;
   }
 }
 
@@ -179,21 +159,34 @@ type OuterProps = {
   typingUsers?: User[],
 };
 
-export default connect((state: GlobalState, props: OuterProps) => ({
-  alertWords: state.alertWords,
-  anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
-  auth: getAuth(state),
-  debug: getDebug(state),
-  fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
-  flags: getFlags(state),
-  messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
-  mute: getMute(state),
-  ownEmail: getOwnEmail(state),
-  realmEmoji: getAllRealmEmojiById(state),
-  twentyFourHourTime: getRealm(state).twentyFourHourTime,
-  renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
-  showMessagePlaceholders:
-    props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
-  subscriptions: getSubscriptions(state),
-  typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
-}))(connectActionSheet(MessageList));
+export default connect((state: GlobalState, props: OuterProps) => {
+  // TODO Ideally this ought to be a caching selector that doesn't change
+  // when the inputs don't.  Doesn't matter in a practical way here, because
+  // all our `render` does is make a `MessageListWeb`, and it has a
+  // `shouldComponentUpdate` that doesn't look at this prop... but it'd be
+  // better to set an example of the right general pattern.
+  const renderContext: RenderContext = {
+    narrow: props.narrow,
+    alertWords: state.alertWords,
+    flags: getFlags(state), // also a prop, see below
+    ownEmail: getOwnEmail(state),
+    realmEmoji: getAllRealmEmojiById(state),
+    subscriptions: getSubscriptions(state),
+    twentyFourHourTime: getRealm(state).twentyFourHourTime,
+  };
+
+  return {
+    renderContext,
+    anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
+    auth: getAuth(state),
+    debug: getDebug(state),
+    fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
+    flags: getFlags(state),
+    messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
+    mute: getMute(state),
+    renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
+    showMessagePlaceholders:
+      props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
+    typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
+  };
+})(connectActionSheet(MessageList));
