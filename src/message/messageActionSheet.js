@@ -27,17 +27,13 @@ type ActionParams = {
   message: Message,
   subscriptions: Subscription[],
   dispatch: Dispatch,
-  onReplySelect: void | (() => void),
   getString: (value: string) => string,
 };
 
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 
-const reply = ({ message, dispatch, auth, onReplySelect }: ActionParams) => {
+const reply = ({ message, dispatch, auth }: ActionParams) => {
   dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
-  if (onReplySelect) {
-    onReplySelect();
-  } // focus message input
 };
 
 const copyToClipboard = async ({ getString, auth, message }: ActionParams) => {

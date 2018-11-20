@@ -25,16 +25,6 @@ export default class Chat extends PureComponent<Props> {
 
   scrollOffset: number = 0;
 
-  handleReplySelect = () => {
-    if (this.messageInputRef) {
-      try {
-        this.messageInputRef.focus();
-      } catch (e) {
-        // do not crash if component is mounted
-      }
-    }
-  };
-
   render() {
     const { styles } = this.context;
     const { narrow } = this.props;
@@ -44,7 +34,7 @@ export default class Chat extends PureComponent<Props> {
         <View style={styles.flexed}>
           <UnreadNotice narrow={narrow} />
           <NoMessages narrow={narrow} />
-          <MessageList narrow={narrow} onReplySelect={this.handleReplySelect} />
+          <MessageList narrow={narrow} />
           <ComposeBox
             narrow={narrow}
             messageInputRef={(component: any) => {

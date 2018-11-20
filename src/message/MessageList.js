@@ -58,7 +58,6 @@ type Props = {
   ...$Exact<ChildProps>,
   ...$Exact<RenderContext>,
   mute: MuteState,
-  onReplySelect?: () => void,
 
   // From `connectActionSheet`.
   showActionSheetWithOptions: (Object, (number) => void) => void,
@@ -90,7 +89,7 @@ class MessageList extends PureComponent<Props> {
       mute,
     });
 
-    const { dispatch, onReplySelect } = this.props;
+    const { dispatch } = this.props;
     const callback = buttonIndex => {
       executeActionSheetAction(target === 'header', options[buttonIndex], {
         message,
@@ -98,7 +97,6 @@ class MessageList extends PureComponent<Props> {
         auth,
         subscriptions,
         dispatch,
-        onReplySelect,
       });
     };
 
@@ -167,7 +165,6 @@ class MessageList extends PureComponent<Props> {
 
 type OuterProps = {
   narrow: Narrow,
-  onReplySelect?: () => void,
 
   /* Remaining props are derived from `narrow` by default. */
 
