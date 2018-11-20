@@ -1,7 +1,6 @@
 /* @flow */
 import { connect } from 'react-redux';
 
-import React, { PureComponent } from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
@@ -58,14 +57,6 @@ export type Props = {
   showActionSheetWithOptions: (Object, (number) => void) => void,
 };
 
-class MessageList extends PureComponent<Props> {
-  props: Props;
-
-  render() {
-    return <MessageListWeb {...this.props} />;
-  }
-}
-
 type OuterProps = {
   narrow: Narrow,
 
@@ -113,4 +104,4 @@ export default connect((state: GlobalState, props: OuterProps) => {
     subscriptions: getSubscriptions(state),
     typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
   };
-})(connectActionSheet(MessageList));
+})(connectActionSheet(MessageListWeb));
