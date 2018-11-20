@@ -9,7 +9,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import type { Auth, GlobalState, Message } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW, SEARCH_NARROW } from '../utils/narrow';
-import MessageList from '../message/MessageList';
+import MessageList from '../webview/MessageListWeb';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 import { NULL_ARRAY, NULL_FETCHING } from '../nullObjects';
