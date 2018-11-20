@@ -1,16 +1,8 @@
 /* @flow */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import type {
-  Auth,
-  Debug,
-  Dispatch,
-  FlagsState,
-  Message,
-  MuteState,
-  Narrow,
-  Subscription,
-} from '../types';
+import type { Auth, Debug, Dispatch, Message, MuteState, Narrow } from '../types';
+import type { BackgroundData } from './MessageList';
 import { isUrlAnImage } from '../utils/url';
 import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -117,17 +109,16 @@ export type MessageListEvent =
   | MessageListEventDebug
   | MessageListEventError;
 
-type Props = {
+type Props = $ReadOnly<{
+  backgroundData: BackgroundData,
   dispatch: Dispatch,
   auth: Auth,
   debug: Debug,
-  flags: FlagsState,
   messages: Message[],
   mute: MuteState,
   narrow: Narrow,
-  subscriptions: Subscription[],
   showActionSheetWithOptions: (Object, (number) => void) => void,
-};
+}>;
 
 const fetchMore = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
@@ -146,7 +137,7 @@ const markRead = (props: Props, event: MessageListEventScroll) => {
   }
   const unreadMessageIds = filterUnreadMessagesInRange(
     props.messages,
-    props.flags,
+    props.backgroundData.flags,
     event.startMessageId,
     event.endMessageId,
   );

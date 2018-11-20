@@ -83,7 +83,7 @@ const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): 
 export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
   if (
     !isEqual(prevProps.renderedMessages, nextProps.renderedMessages)
-    || !equalFlagsExcludingRead(prevProps.flags, nextProps.flags)
+    || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
   ) {
     return [updateContent(prevProps, nextProps)];
   }

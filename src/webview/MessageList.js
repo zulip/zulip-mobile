@@ -57,14 +57,14 @@ import { base64Utf8Encode } from '../utils/encoding';
  * This data is all independent of the specific narrow or specific messages
  * we're displaying; data about those goes elsewhere.
  */
-export type BackgroundData = {
+export type BackgroundData = $ReadOnly<{
   alertWords: AlertWordsState,
   flags: FlagsState,
   ownEmail: string,
   realmEmoji: RealmEmojiState,
   twentyFourHourTime: boolean,
   subscriptions: Subscription[],
-};
+}>;
 
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
 export type Props = {
@@ -75,13 +75,11 @@ export type Props = {
   debug: Debug,
   dispatch: Dispatch,
   fetching: Fetching,
-  flags: FlagsState, // also in backgroundData
   messages: Message[],
   mute: MuteState,
   narrow: Narrow,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
-  subscriptions: Subscription[], // also in backgroundData
   typingUsers: User[],
 
   // From `connectActionSheet`.
@@ -210,10 +208,10 @@ export default connect((state: GlobalState, props: OuterProps) => {
   // it'd be better to set an example of the right general pattern.
   const backgroundData: BackgroundData = {
     alertWords: state.alertWords,
-    flags: getFlags(state), // also a prop, see below
+    flags: getFlags(state),
     ownEmail: getOwnEmail(state),
     realmEmoji: getAllRealmEmojiById(state),
-    subscriptions: getSubscriptions(state), // also a prop, see below
+    subscriptions: getSubscriptions(state),
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
   };
 
@@ -223,13 +221,11 @@ export default connect((state: GlobalState, props: OuterProps) => {
     auth: getAuth(state),
     debug: getDebug(state),
     fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
-    flags: getFlags(state),
     messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
     mute: getMute(state),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
     showMessagePlaceholders:
       props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
-    subscriptions: getSubscriptions(state),
     typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
   };
 })(connectActionSheet(MessageList));

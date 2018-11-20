@@ -3,8 +3,12 @@ import { flagsStateToStringList } from '../html/messageAsHtml';
 
 describe('getInputMessages', () => {
   test('missing prev and next props returns no messages', () => {
-    const prevProps = {};
-    const nextProps = {};
+    const prevProps = {
+      backgroundData: {},
+    };
+    const nextProps = {
+      backgroundData: {},
+    };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -12,8 +16,14 @@ describe('getInputMessages', () => {
   });
 
   test('if fetching message differs send a message for fetching', () => {
-    const prevProps = { fetching: { older: false, newer: false } };
-    const nextProps = { fetching: { older: false, newer: true } };
+    const prevProps = {
+      backgroundData: {},
+      fetching: { older: false, newer: false },
+    };
+    const nextProps = {
+      backgroundData: {},
+      fetching: { older: false, newer: true },
+    };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -27,8 +37,14 @@ describe('getInputMessages', () => {
   });
 
   test('if fetching key is the same no message is sent', () => {
-    const prevProps = { fetching: { older: false, newer: false } };
-    const nextProps = { fetching: { older: false, newer: false } };
+    const prevProps = {
+      backgroundData: {},
+      fetching: { older: false, newer: false },
+    };
+    const nextProps = {
+      backgroundData: {},
+      fetching: { older: false, newer: false },
+    };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -36,8 +52,16 @@ describe('getInputMessages', () => {
   });
 
   test('if typing users differ send a "typing" message', () => {
-    const prevProps = { auth: {}, typingUsers: [] };
-    const nextProps = { auth: {}, typingUsers: [{ id: 10 }] };
+    const prevProps = {
+      backgroundData: {},
+      auth: {},
+      typingUsers: [],
+    };
+    const nextProps = {
+      backgroundData: {},
+      auth: {},
+      typingUsers: [{ id: 10 }],
+    };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -46,8 +70,14 @@ describe('getInputMessages', () => {
   });
 
   test('when rendered messages are the same return empty result', () => {
-    const prevProps = { renderedMessages: [] };
-    const nextProps = { renderedMessages: [] };
+    const prevProps = {
+      backgroundData: {},
+      renderedMessages: [],
+    };
+    const nextProps = {
+      backgroundData: {},
+      renderedMessages: [],
+    };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -56,10 +86,12 @@ describe('getInputMessages', () => {
 
   test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
     const prevProps = {
+      backgroundData: {
+        flags: { starred: {}, has_alert_word: {} },
+      },
       alertWords: {},
       auth: { realm: '' },
       messages: [],
-      flags: { starred: {}, has_alert_word: {} },
       renderedMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
@@ -69,7 +101,6 @@ describe('getInputMessages', () => {
       alertWords: {},
       auth: { realm: '' },
       messages: [],
-      flags: { starred: {}, has_alert_word: {} },
       renderedMessages: [
         {
           key: 0,
@@ -87,6 +118,7 @@ describe('getInputMessages', () => {
 
   test('WUUT there are several diffs return several messages', () => {
     const prevProps = {
+      backgroundData: {},
       auth: {},
       fetching: { older: false, newer: false },
       typingUsers: [],
@@ -107,13 +139,15 @@ describe('getInputMessages', () => {
 
   test('when there are several diffs but messages differ too return only a single "content" message', () => {
     const prevProps = {
+      backgroundData: {
+        flags: { starred: {}, has_alert_word: {} },
+      },
       alertWords: {},
       auth: { realm: '' },
       fetching: { older: false, newer: false },
       typingUsers: [],
       messages: [],
       renderedMessages: [{ key: 0, data: [], message: {} }],
-      flags: { starred: {}, has_alert_word: {} },
     };
     const nextProps = {
       backgroundData: {
@@ -124,7 +158,6 @@ describe('getInputMessages', () => {
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
       messages: [],
-      flags: { starred: {}, has_alert_word: {} },
       renderedMessages: [
         {
           key: 0,

@@ -1,14 +1,7 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
-import type {
-  Auth,
-  Dispatch,
-  FlagsState,
-  Message,
-  MuteTuple,
-  Narrow,
-  Subscription,
-} from '../types';
+import type { Auth, Dispatch, Message, MuteTuple, Narrow, Subscription } from '../types';
+import type { BackgroundData } from '../webview/MessageList';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 import {
@@ -163,18 +156,17 @@ const actionHeaderSheetButtons: HeaderButtonType[] = [
 ];
 
 type ConstructSheetParams = {
+  backgroundData: BackgroundData,
   message: Message,
   auth: Auth,
   narrow: Narrow,
-  flags: FlagsState,
-  subscriptions: Subscription[],
   mute: MuteTuple[],
   getString: (value: string) => string,
 };
 
 export const constructHeaderActionButtons = ({
+  backgroundData: { subscriptions },
   message,
-  subscriptions,
   mute,
   getString,
 }: ConstructSheetParams) => {
@@ -197,10 +189,10 @@ export const constructHeaderActionButtons = ({
 };
 
 export const constructMessageActionButtons = ({
+  backgroundData: { flags },
   message,
   auth,
   narrow,
-  flags,
   getString,
 }: ConstructSheetParams) => {
   const buttons = actionSheetButtons
@@ -252,6 +244,7 @@ export const showActionSheet = (
   const callback = buttonIndex => {
     executeActionSheetAction(isHeader, options[buttonIndex], {
       dispatch,
+      subscriptions: params.backgroundData.subscriptions,
       ...params,
     });
   };
