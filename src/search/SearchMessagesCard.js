@@ -90,7 +90,6 @@ class SearchMessagesCard extends PureComponent<Props, State> {
             narrow={HOME_NARROW}
             renderedMessages={renderedMessages}
             fetching={NULL_FETCHING}
-            isFetching={isFetching}
             showMessagePlaceholders={false}
             typingUsers={NULL_ARRAY}
             {...this.props}

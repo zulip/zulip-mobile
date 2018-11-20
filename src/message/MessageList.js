@@ -28,7 +28,6 @@ import {
   getDebug,
   getRenderedMessages,
   getFlags,
-  getIsFetching,
   getAnchorForActiveNarrow,
   getFetchingForActiveNarrow,
   getOwnEmail,
@@ -41,7 +40,6 @@ import {
 export type OuterProps = {
   anchor?: number,
   fetching?: Fetching,
-  isFetching?: boolean,
   messages?: Message[],
   narrow: Narrow,
   renderedMessages?: RenderedSectionDescriptor[],
@@ -68,7 +66,6 @@ type Props = {
   // From caller and/or `connect`:
   ...$Exact<ChildProps>,
   ...$Exact<RenderContext>,
-  isFetching: boolean,
 
   mute: MuteState, // TODO where do we actually pass this?
 
@@ -191,7 +188,6 @@ export default connect((state: GlobalState, props: OuterProps) => ({
   debug: getDebug(state),
   fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
   flags: getFlags(state),
-  isFetching: props.isFetching || getIsFetching(props.narrow)(state),
   messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
   ownEmail: getOwnEmail(state),
   realmEmoji: getAllRealmEmojiById(state),
