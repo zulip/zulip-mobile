@@ -26,25 +26,6 @@ const messageDiv = (id: number, msgClass: string, flags: FlagsState): string =>
        .join('')}
     >`;
 
-const messageSubheader = ({
-  fromName,
-  timestamp,
-  twentyFourHourTime,
-}: {
-  fromName: string,
-  timestamp: number,
-  twentyFourHourTime: boolean,
-}) => template`
-<div class="subheader">
-  <div class="username">
-    ${fromName}
-  </div>
-  <div class="timestamp">
-    ${shortTime(new Date(timestamp * 1000), twentyFourHourTime)}
-  </div>
-</div>
-`;
-
 /**
  * Data to be used in rendering all messages.
  *
@@ -80,19 +61,7 @@ type MessageRenderData = {
 
 const messageBody = (
   { alertWords, flags, ownEmail, realmEmoji }: RenderContext,
-  {
-    content,
-    id,
-    isOutbox,
-    reactions,
-    timeEdited,
-  }: {
-    content: string,
-    id: number,
-    isOutbox: boolean,
-    reactions: Reaction[],
-    timeEdited: ?number,
-  },
+  { content, id, isOutbox, reactions, timeEdited }: MessageRenderData,
 ) => template`
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
@@ -100,55 +69,40 @@ $!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
 $!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
 
-const briefMessageAsHtml = (
-  context: RenderContext,
-  { content, id, isOutbox, reactions, timeEdited }: MessageRenderData,
-) => template`
-$!${messageDiv(id, 'message-brief', context.flags)}
+export default (context: RenderContext, message: MessageRenderData) => {
+  const bodyHtml = messageBody(context, message);
+
+  if (message.isBrief) {
+    return template`
+$!${messageDiv(message.id, 'message-brief', context.flags)}
   <div class="content">
-    $!${messageBody(context, {
-      content,
-      id,
-      isOutbox,
-      reactions,
-      timeEdited,
-    })}
+    $!${bodyHtml}
+  </div>
+</div>
+`;
+  }
+
+  const { fromName, fromEmail, timestamp, avatarUrl } = message;
+  const subheaderHtml = template`
+<div class="subheader">
+  <div class="username">
+    ${fromName}
+  </div>
+  <div class="timestamp">
+    ${shortTime(new Date(timestamp * 1000), context.twentyFourHourTime)}
   </div>
 </div>
 `;
 
-const fullMessageAsHtml = (
-  context: RenderContext,
-  {
-    id,
-    content,
-    fromName,
-    fromEmail,
-    timestamp,
-    avatarUrl,
-    timeEdited,
-    isOutbox,
-    reactions,
-  }: MessageRenderData,
-) => template`
-$!${messageDiv(id, 'message-full', context.flags)}
+  return template`
+$!${messageDiv(message.id, 'message-full', context.flags)}
   <div class="avatar">
     <img src="${avatarUrl}" alt="${fromName}" class="avatar-img" data-email="${fromEmail}">
   </div>
   <div class="content">
-    $!${messageSubheader({ fromName, timestamp, twentyFourHourTime: context.twentyFourHourTime })}
-    $!${messageBody(context, {
-      content,
-      id,
-      isOutbox,
-      reactions,
-      timeEdited,
-    })}
+    $!${subheaderHtml}
+    $!${bodyHtml}
   </div>
 </div>
 `;
-
-export default (renderContext: RenderContext, message: MessageRenderData) =>
-  message.isBrief
-    ? briefMessageAsHtml(renderContext, message)
-    : fullMessageAsHtml(renderContext, message);
+};
