@@ -38,17 +38,6 @@ import {
   getRealm,
 } from '../selectors';
 
-export type OuterProps = {
-  anchor?: number,
-  fetching?: Fetching,
-  messages?: Message[],
-  narrow: Narrow,
-  onReplySelect?: () => void,
-  renderedMessages?: RenderedSectionDescriptor[],
-  showMessagePlaceholders?: boolean,
-  typingUsers?: User[],
-};
-
 export type ChildProps = {
   anchor: number,
   auth: Auth,
@@ -175,6 +164,23 @@ class MessageList extends PureComponent<Props> {
     );
   }
 }
+
+type OuterProps = {
+  narrow: Narrow,
+  onReplySelect?: () => void,
+
+  /* Remaining props are derived from `narrow` by default. */
+
+  messages?: Message[],
+  renderedMessages?: RenderedSectionDescriptor[],
+  anchor?: number,
+
+  /* Passing these three from the parent is kind of a hack; search uses it
+     to hard-code some behavior. */
+  fetching?: Fetching,
+  showMessagePlaceholders?: boolean,
+  typingUsers?: User[],
+};
 
 export default connect((state: GlobalState, props: OuterProps) => ({
   alertWords: state.alertWords,
