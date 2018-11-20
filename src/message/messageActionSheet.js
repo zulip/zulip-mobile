@@ -27,7 +27,7 @@ type ActionParams = {
   message: Message,
   subscriptions: Subscription[],
   dispatch: Dispatch,
-  onReplySelect?: () => void,
+  onReplySelect: void | (() => void),
   getString: (value: string) => string,
 };
 

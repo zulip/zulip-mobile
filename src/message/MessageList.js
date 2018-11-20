@@ -42,6 +42,7 @@ export type OuterProps = {
   fetching?: Fetching,
   messages?: Message[],
   narrow: Narrow,
+  onReplySelect?: () => void,
   renderedMessages?: RenderedSectionDescriptor[],
   showMessagePlaceholders?: boolean,
   typingUsers?: User[],
@@ -66,6 +67,7 @@ type Props = {
   // From caller and/or `connect`:
   ...$Exact<ChildProps>,
   ...$Exact<RenderContext>,
+  onReplySelect?: () => void,
 
   mute: MuteState, // TODO where do we actually pass this?
 
@@ -75,7 +77,6 @@ type Props = {
   // These are sometimes passed by the caller, or are never present here but
   // are for some other code which abuses this type.
   // TODO sort out each one's story.
-  onReplySelect: () => void,
   onSend: () => void,
 };
 
