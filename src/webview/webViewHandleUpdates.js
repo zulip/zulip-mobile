@@ -1,7 +1,7 @@
 /* @flow */
 import isEqual from 'lodash.isequal';
 
-import type { Auth } from '../types';
+import type { Auth, FlagsState } from '../types';
 import type { Props } from './MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
 import htmlBody from './html/htmlBody';
@@ -71,16 +71,17 @@ const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping =>
       : '',
 });
 
-export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
+const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): boolean => {
   const allFlagKeys = Array.from(
-    new Set([...Object.keys(prevProps.flags || {}), ...Object.keys(nextProps.flags || {})]),
+    new Set([...Object.keys(prevFlags || {}), ...Object.keys(nextFlags || {})]),
   );
+  return allFlagKeys.filter(key => key !== 'read').every(key => prevFlags[key] === nextFlags[key]);
+};
 
+export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
   if (
     !isEqual(prevProps.renderedMessages, nextProps.renderedMessages)
-    || allFlagKeys
-      .filter(key => key !== 'read')
-      .some(key => prevProps.flags[key] !== nextProps.flags[key])
+    || !equalFlagsExcludingRead(prevProps.flags, nextProps.flags)
   ) {
     return [updateContent(prevProps, nextProps)];
   }
