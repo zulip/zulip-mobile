@@ -20,30 +20,20 @@ import {
   toggleMessageStarred,
 } from '../api';
 import { showToast } from '../utils/info';
-import {
-  doNarrow,
-  navigateBack,
-  startEditMessage,
-  deleteOutboxMessage,
-  navigateToEmojiPicker,
-} from '../actions';
+import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
 type ActionParams = {
   auth: Auth,
   message: Message,
   subscriptions: Subscription[],
   dispatch: Dispatch,
-  currentRoute?: string,
   onReplySelect?: () => void,
   getString: (value: string) => string,
 };
 
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 
-const reply = ({ message, dispatch, auth, currentRoute, onReplySelect }: ActionParams) => {
-  if (currentRoute === 'search') {
-    dispatch(navigateBack());
-  }
+const reply = ({ message, dispatch, auth, onReplySelect }: ActionParams) => {
   dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
   if (onReplySelect) {
     onReplySelect();
