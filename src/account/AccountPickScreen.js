@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { Auth, Account, Dispatch, GlobalState } from '../types';
-import { getAuth, getAccounts } from '../selectors';
+import { getActiveAccount, getAccounts } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 import { navigateToAddNewAccount, switchAccount, removeAccount } from '../actions';
@@ -66,6 +66,6 @@ class AccountPickScreen extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
   accounts: getAccounts(state),
 }))(AccountPickScreen);

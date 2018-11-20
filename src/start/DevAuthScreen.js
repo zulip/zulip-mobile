@@ -7,7 +7,7 @@ import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 import type { Auth, Context, DevUser, Dispatch, GlobalState } from '../types';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import { devListUsers, devFetchApiKey } from '../api';
-import { getAuth } from '../selectors';
+import { getActiveAccount } from '../selectors';
 import { loginSuccess } from '../actions';
 
 const componentStyles = StyleSheet.create({
@@ -129,5 +129,5 @@ class DevAuthScreen extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
 }))(DevAuthScreen);

@@ -13,7 +13,7 @@ import MessageList from '../webview/MessageList';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 import { NULL_ARRAY, NULL_FETCHING } from '../nullObjects';
-import { getAuth } from '../selectors';
+import { getActiveAccount } from '../selectors';
 import { LAST_MESSAGE_ANCHOR } from '../constants';
 
 const styles = StyleSheet.create({
@@ -98,5 +98,5 @@ class SearchMessagesCard extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
 }))(SearchMessagesCard);

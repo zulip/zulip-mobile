@@ -34,7 +34,7 @@ import NotSubscribed from '../message/NotSubscribed';
 import AnnouncementOnly from '../message/AnnouncementOnly';
 
 import {
-  getAuth,
+  getActiveAccount,
   getIsAdmin,
   getSession,
   canSendToActiveNarrow,
@@ -354,7 +354,7 @@ class ComposeBox extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState, props) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
   users: getActiveUsers(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
   isAdmin: getIsAdmin(state),

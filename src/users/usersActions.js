@@ -4,7 +4,7 @@ import differenceInSeconds from 'date-fns/difference_in_seconds';
 import type { Dispatch, GetState, Narrow } from '../types';
 import { focusPing, typing } from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
-import { getAuth } from '../selectors';
+import { getActiveAccount } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
 let lastFocusPing = new Date();
@@ -14,7 +14,7 @@ export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = 
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const auth = getAuth(getState());
+  const auth = getActiveAccount(getState());
   if (auth.realm === '' || auth.apiKey === '') {
     return; // not logged in
   }
@@ -42,7 +42,7 @@ export const sendTypingEvent = (narrow: Narrow) => async (
   }
 
   if (differenceInSeconds(new Date(), lastTypingStart) > 15) {
-    const auth = getAuth(getState());
+    const auth = getActiveAccount(getState());
     typing(auth, narrow[0].operand, 'start');
     lastTypingStart = new Date();
   }

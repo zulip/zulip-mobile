@@ -16,5 +16,3 @@ export const getCurrentRealm = createSelector(
   getActiveAccount,
   activeAccount => activeAccount.realm,
 );
-
-export const getAuth = getActiveAccount;

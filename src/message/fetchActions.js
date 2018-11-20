@@ -13,7 +13,7 @@ import type {
 } from '../types';
 import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
 import {
-  getAuth,
+  getActiveAccount,
   getSession,
   getFirstMessageId,
   getLastMessageId,
@@ -75,7 +75,7 @@ export const fetchMessages = (
 ): FetchMessagesAction => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
   const messages = await getMessages(
-    getAuth(getState()),
+    getActiveAccount(getState()),
     narrow,
     anchor,
     numBefore,
@@ -142,7 +142,7 @@ export const initialFetchComplete = (): InitialFetchCompleteAction => ({
 
 export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
-  const auth = getAuth(getState());
+  const auth = getActiveAccount(getState());
 
   timing.start('Essential server data');
   const initData = await tryUntilSuccessful(() =>
@@ -157,7 +157,7 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
 };
 
 export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
-  const auth = getAuth(getState());
+  const auth = getActiveAccount(getState());
   const pushToken = getPushToken(getState());
 
   timing.start('Rest of server data');
@@ -190,7 +190,7 @@ export const uploadImage = (narrow: Narrow, uri: string, name: string) => async 
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const auth = getAuth(getState());
+  const auth = getActiveAccount(getState());
   const serverUri = await uploadFile(auth, uri, name);
   const messageToSend = `[${name}](${serverUri})`;
 

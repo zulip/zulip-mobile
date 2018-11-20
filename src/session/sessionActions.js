@@ -22,7 +22,7 @@ import {
   START_EDIT_MESSAGE,
 } from '../actionConstants';
 import { getMessageContentById } from '../api';
-import { getAuth, getIsOnline, getIsActive } from '../selectors';
+import { getActiveAccount, getIsOnline, getIsActive } from '../selectors';
 
 export const appOnline = (isOnline: boolean) => (
   dispatch: Dispatch,
@@ -73,7 +73,7 @@ export const startEditMessage = (messageId: number, topic: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const message = await getMessageContentById(getAuth(getState()), messageId);
+  const message = await getMessageContentById(getActiveAccount(getState()), messageId);
   dispatch({
     type: START_EDIT_MESSAGE,
     messageId,

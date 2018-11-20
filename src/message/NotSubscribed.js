@@ -7,7 +7,7 @@ import { View } from 'react-native';
 import type { Auth, Context, Stream } from '../types';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
-import { getAuth, getStreamInNarrow } from '../selectors';
+import { getActiveAccount, getStreamInNarrow } from '../selectors';
 
 type Props = {
   auth: Auth,
@@ -47,6 +47,6 @@ class NotSubscribed extends PureComponent<Props> {
 }
 
 export default connect((state, props) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
   stream: getStreamInNarrow(props.narrow)(state),
 }))(NotSubscribed);

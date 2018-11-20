@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native';
 import type { Auth, Dispatch, GlobalState } from '../types';
 import { ZulipButton } from '../common';
 import { unregisterPush } from '../api';
-import { getAuth, getPushToken } from '../selectors';
+import { getActiveAccount, getPushToken } from '../selectors';
 import { logErrorRemotely } from '../utils/logging';
 import { deleteTokenPush, logout } from '../actions';
 
@@ -53,6 +53,6 @@ class LogoutButton extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
   pushToken: getPushToken(state),
 }))(LogoutButton);

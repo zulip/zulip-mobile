@@ -10,7 +10,7 @@ import { subscriptionAdd, subscriptionRemove } from '../api';
 import { delay } from '../utils/async';
 import { streamNarrow } from '../utils/narrow';
 import StreamList from '../streams/StreamList';
-import { getAuth, getCanCreateStreams, getStreams, getSubscriptions } from '../selectors';
+import { getActiveAccount, getCanCreateStreams, getStreams, getSubscriptions } from '../selectors';
 import { doNarrow, navigateToCreateStream } from '../actions';
 
 const styles = StyleSheet.create({
@@ -93,7 +93,7 @@ class StreamListCard extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
   canCreateStreams: getCanCreateStreams(state),
   streams: getStreams(state),
   subscriptions: getSubscriptions(state),

@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 
 import type { Auth, Dispatch, GlobalState } from '../types';
 import { ZulipButton } from '../common';
-import { getAuth, getAccounts, getPushToken } from '../selectors';
+import { getActiveAccount, getAccounts, getPushToken } from '../selectors';
 import { unregisterPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { deleteTokenPush, navigateToAccountPicker } from '../actions';
@@ -53,7 +53,7 @@ class SwitchAccountButton extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
   accounts: getAccounts(state),
   pushToken: getPushToken(state),
 }))(SwitchAccountButton);

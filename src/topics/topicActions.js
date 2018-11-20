@@ -3,7 +3,7 @@ import type { GetState, Dispatch, Narrow, Topic, InitTopicsAction } from '../typ
 import { getTopics } from '../api';
 import { INIT_TOPICS } from '../actionConstants';
 import { isStreamNarrow } from '../utils/narrow';
-import { getAuth, getStreams } from '../selectors';
+import { getActiveAccount, getStreams } from '../selectors';
 
 export const initTopics = (topics: Topic[], streamId: number): InitTopicsAction => ({
   type: INIT_TOPICS,
@@ -12,7 +12,7 @@ export const initTopics = (topics: Topic[], streamId: number): InitTopicsAction 
 });
 
 export const fetchTopics = (streamId: number) => async (dispatch: Dispatch, getState: GetState) => {
-  const auth = getAuth(getState());
+  const auth = getActiveAccount(getState());
   const topics = await getTopics(auth, streamId);
   dispatch(initTopics(topics, streamId));
 };

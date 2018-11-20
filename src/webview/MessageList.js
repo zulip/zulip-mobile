@@ -23,7 +23,7 @@ import type {
   User,
 } from '../types';
 import {
-  getAuth,
+  getActiveAccount,
   getAllRealmEmojiById,
   getCurrentTypingUsers,
   getDebug,
@@ -207,7 +207,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
   // it'd be better to set an example of the right general pattern.
   const backgroundData: BackgroundData = {
     alertWords: state.alertWords,
-    auth: getAuth(state),
+    auth: getActiveAccount(state),
     debug: getDebug(state),
     flags: getFlags(state),
     mute: getMute(state),

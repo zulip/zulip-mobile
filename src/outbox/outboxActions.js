@@ -21,7 +21,7 @@ import {
   DELETE_OUTBOX_MESSAGE,
   MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
-import { getAuth } from '../selectors';
+import { getActiveAccount } from '../selectors';
 import { sendMessage } from '../api';
 import { getSelfUserDetail } from '../users/userSelectors';
 import { getUserByEmail, getUsersAndWildcards } from '../users/userHelpers';
@@ -53,7 +53,7 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
     return;
   }
   dispatch(toggleOutboxSending(true));
-  const auth = getAuth(state);
+  const auth = getActiveAccount(state);
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
   outboxToSend.forEach(async item => {
     try {
@@ -107,7 +107,7 @@ const getContentPreview = (content: string, state: GlobalState): string => {
       content,
       getUsersAndWildcards(state.users),
       state.streams,
-      getAuth(state),
+      getActiveAccount(state),
       state.realm.filters,
       state.realm.emoji,
     );

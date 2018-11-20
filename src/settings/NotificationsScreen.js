@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 
 import type { Auth, Dispatch, GlobalState } from '../types';
-import { getAuth, getSettings } from '../selectors';
+import { getActiveAccount, getSettings } from '../selectors';
 import { OptionRow, Screen } from '../common';
 import { toggleMobilePushSettings } from '../api';
 import { settingsChange } from '../actions';
@@ -76,7 +76,7 @@ class NotificationsScreen extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
   offlineNotification: getSettings(state).offlineNotification,
   onlineNotification: getSettings(state).onlineNotification,
   streamNotification: getSettings(state).streamNotification,

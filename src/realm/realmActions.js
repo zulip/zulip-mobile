@@ -12,7 +12,7 @@ import type {
   InitRealmFilterAction,
 } from '../types';
 import { initializeNotifications } from '../utils/notifications';
-import { getAuth } from '../selectors';
+import { getActiveAccount } from '../selectors';
 import { getRealmEmojis, getRealmFilters } from '../api';
 
 import {
@@ -44,7 +44,7 @@ export const saveTokenPush = (
 });
 
 export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {
-  initializeNotifications(getAuth(getState()), (token, msg, result) =>
+  initializeNotifications(getActiveAccount(getState()), (token, msg, result) =>
     dispatch(saveTokenPush(token, result, msg)),
   );
 };

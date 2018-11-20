@@ -6,7 +6,7 @@ import type { Auth, Dispatch, GlobalState, Stream, User } from '../types';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
 import { subscriptionAdd } from '../api';
-import { getAuth, getStreamFromId } from '../selectors';
+import { getActiveAccount, getStreamFromId } from '../selectors';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = {
@@ -46,6 +46,6 @@ class InviteUsersScreen extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState, props: Object) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
   stream: getStreamFromId(props.navigation.state.params.streamId)(state),
 }))(InviteUsersScreen);

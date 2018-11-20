@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native';
 import type { Auth, GlobalState, Narrow, Stream } from '../types';
 import { ZulipButton } from '../common';
 import { markAllAsRead, markStreamAsRead, markTopicAsRead } from '../api';
-import { getAuth, getStreams } from '../selectors';
+import { getActiveAccount, getStreams } from '../selectors';
 import { isHomeNarrow, isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
@@ -87,6 +87,6 @@ class MarkUnreadButton extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
   streams: getStreams(state),
 }))(MarkUnreadButton);

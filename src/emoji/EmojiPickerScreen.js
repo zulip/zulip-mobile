@@ -11,7 +11,7 @@ import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import getFilteredEmojiList from './getFilteredEmojiList';
 import type { GlobalState, RealmEmojiState, Auth, Dispatch } from '../types';
-import { getAuth, getActiveRealmEmojiById } from '../selectors';
+import { getActiveAccount, getActiveRealmEmojiById } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 
 type Props = {
@@ -81,5 +81,5 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
 
 export default connect((state: GlobalState) => ({
   realmEmoji: getActiveRealmEmojiById(state),
-  auth: getAuth(state),
+  auth: getActiveAccount(state),
 }))(EmojiPickerScreen);

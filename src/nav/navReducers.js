@@ -18,7 +18,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from '../actionConstants';
-import { getAuth } from '../account/accountsSelectors';
+import { getActiveAccount } from '../account/accountsSelectors';
 
 const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
 
@@ -27,7 +27,7 @@ const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationS
     return getStateForRoute('welcome') || state;
   }
   const rehydratedState = action.payload;
-  if (!getAuth(rehydratedState).apiKey) {
+  if (!getActiveAccount(rehydratedState).apiKey) {
     const { accounts } = rehydratedState;
     // getStateForRoute can return null, but it is unclear under what
     // conditions. Empirically, it doesn't return null on the initial start of

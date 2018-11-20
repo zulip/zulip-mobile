@@ -6,7 +6,7 @@ import { pollForEvents } from '../api';
 import { appRefresh } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
-import { getAuth } from '../selectors';
+import { getActiveAccount } from '../selectors';
 import actionCreator from '../actionCreator';
 import progressiveTimeout from '../utils/progressiveTimeout';
 
@@ -46,7 +46,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
   /* eslint-disable no-await-in-loop */
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const auth = getAuth(getState());
+    const auth = getActiveAccount(getState());
     try {
       const response = await pollForEvents(auth, queueId, lastEventId);
 

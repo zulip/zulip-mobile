@@ -33,7 +33,7 @@ import {
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
 } from '../actionConstants';
-import { getAuth } from '../selectors';
+import { getActiveAccount } from '../selectors';
 
 const initialState: SessionState = {
   eventQueueId: -1,
@@ -71,7 +71,7 @@ const loginSuccess = (state: SessionState, action: LoginSuccessAction): SessionS
 
 const rehydrate = (state: SessionState, action: RehydrateAction): SessionState => {
   const { payload } = action;
-  const haveApiKey = !!(payload && payload.accounts && getAuth(payload).apiKey);
+  const haveApiKey = !!(payload && payload.accounts && getActiveAccount(payload).apiKey);
   return {
     ...state,
     isHydrated: true,
