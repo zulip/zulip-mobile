@@ -12,7 +12,8 @@ import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
 const styles = StyleSheet.create({
   unreadContainer: {
-    padding: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     backgroundColor: '#96A3F9',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -22,10 +23,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  unreadNumber: {
+    fontSize: 14,
+    color: 'white',
+    paddingRight: 4,
+  },
   unreadText: {
     fontSize: 14,
     color: 'white',
-    padding: 2,
   },
 });
 
@@ -48,7 +53,7 @@ class UnreadNotice extends PureComponent<Props> {
       <AnimatedScaleComponent visible={unreadCount > 0}>
         <View style={styles.unreadContainer}>
           <View style={styles.unreadTextWrapper}>
-            <RawLabel style={styles.unreadText} text={unreadCount.toString()} />
+            <RawLabel style={styles.unreadNumber} text={unreadCount.toString()} />
             <Label
               style={styles.unreadText}
               text={unreadCount === 1 ? 'unread message' : 'unread messages'}
