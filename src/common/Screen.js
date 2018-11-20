@@ -115,7 +115,7 @@ class Screen extends PureComponent<Props> {
           <ScrollView
             contentContainerStyle={
               /* $FlowFixMe wants ViewStyleProp */
-              [centerContent && componentStyles.content, style]
+              [styles.flexed, centerContent && componentStyles.content, style]
             }
             style={componentStyles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
