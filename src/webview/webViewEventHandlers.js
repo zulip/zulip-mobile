@@ -75,7 +75,7 @@ type MessageListEventUrl = {
 };
 
 type MessageListEventLongPress = {
-  type: 'url',
+  type: 'longPress',
   target: 'message' | 'header',
   messageId: number,
 };
@@ -117,7 +117,7 @@ type Props = {
   onLongPress: (messageId: number, target: string) => void,
 };
 
-export const handleScroll = (props: Props, event: MessageListEventScroll) => {
+const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY, startMessageId, endMessageId } = event;
   const { dispatch, narrow } = props;
 
@@ -141,30 +141,15 @@ export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   }
 };
 
-export const handleAvatar = (props: Props, event: MessageListEventAvatar) => {
-  props.dispatch(navigateToAccountDetails(event.fromEmail));
-};
-
-export const handleNarrow = ({ dispatch }: Props, event: MessageListEventNarrow) => {
-  dispatch(doNarrow(parseNarrowString(event.narrow)));
-};
-
-export const handleImage = (props: Props, event: MessageListEventImage) => {
+const handleImage = (props: Props, event: MessageListEventImage) => {
   const { src, messageId } = event;
-
   const message = props.messages.find(x => x.id === messageId);
-
   if (message) {
     props.dispatch(navigateToLightbox(src, message));
   }
 };
 
-export const handleLongPress = (props: Props, event: MessageListEventLongPress) => {
-  const { messageId, target } = event;
-  props.onLongPress(messageId, target);
-};
-
-export const handleUrl = (props: Props, event: MessageListEventUrl) => {
+const handleUrl = (props: Props, event: MessageListEventUrl) => {
   const { dispatch } = props;
 
   if (isUrlAnImage(event.href)) {
@@ -176,20 +161,57 @@ export const handleUrl = (props: Props, event: MessageListEventUrl) => {
   dispatch(messageLinkPress(event.href));
 };
 
-export const handleReaction = (props: Props, event: MessageListEventReaction) => {
-  const { code, messageId, name, reactionType, voted } = event;
+export const handleMessageListEvent = (props: Props, event: MessageListEvent) => {
+  switch (event.type) {
+    case 'ready':
+      // handled by caller
+      break;
 
-  if (voted) {
-    emojiReactionRemove(props.auth, messageId, reactionType, code, name);
-  } else {
-    emojiReactionAdd(props.auth, messageId, reactionType, code, name);
+    case 'scroll':
+      handleScroll(props, event);
+      break;
+
+    case 'avatar':
+      props.dispatch(navigateToAccountDetails(event.fromEmail));
+      break;
+
+    case 'narrow':
+      props.dispatch(doNarrow(parseNarrowString(event.narrow)));
+      break;
+
+    case 'image':
+      handleImage(props, event);
+      break;
+
+    case 'longPress':
+      props.onLongPress(event.messageId, event.target);
+      break;
+
+    case 'url':
+      handleUrl(props, event);
+      break;
+
+    case 'reaction':
+      {
+        const { code, messageId, name, reactionType, voted } = event;
+        if (voted) {
+          emojiReactionRemove(props.auth, messageId, reactionType, code, name);
+        } else {
+          emojiReactionAdd(props.auth, messageId, reactionType, code, name);
+        }
+      }
+      break;
+
+    case 'debug':
+      console.debug(props, event); // eslint-disable-line
+      break;
+
+    case 'error':
+      logErrorRemotely(new Error(JSON.stringify(event.details)), 'WebView Exception');
+      break;
+
+    default:
+      logErrorRemotely(new Error(event.type), 'WebView event of unknown type');
+      break;
   }
-};
-
-export const handleDebug = (props: Props, event: MessageListEventDebug) => {
-  console.debug(props, event); // eslint-disable-line
-};
-
-export const handleError = (props: Props, event: MessageListEventError) => {
-  logErrorRemotely(new Error(JSON.stringify(event.details)), 'WebView Exception');
 };

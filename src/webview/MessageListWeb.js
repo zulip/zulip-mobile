@@ -10,10 +10,13 @@ import getHtml from './html/html';
 import type { RenderContext } from './html/messageAsHtml';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import { getInputMessages } from './webViewHandleUpdates';
-import * as webViewEventHandlers from './webViewEventHandlers';
+import { handleMessageListEvent } from './webViewEventHandlers';
 import { base64Utf8Encode } from '../utils/encoding';
 
-export type Props = MessageListProps & { renderContext: RenderContext };
+export type Props = MessageListProps & {
+  onLongPress: (messageId: number, target: string) => void,
+  renderContext: RenderContext,
+};
 
 export default class MessageListWeb extends Component<Props> {
   context: Context;
@@ -60,8 +63,7 @@ export default class MessageListWeb extends Component<Props> {
       this.sendMessagesIsReady = true;
       this.sendMessages(this.unsentMessages);
     } else {
-      const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
-      webViewEventHandlers[handler](this.props, eventData);
+      handleMessageListEvent(this.props, eventData);
     }
   };
 
