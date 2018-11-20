@@ -75,7 +75,6 @@ type Props = {
   // These are sometimes passed by the caller, or are never present here but
   // are for some other code which abuses this type.
   // TODO sort out each one's story.
-  onLongPress: (messageId: number, target: string) => void,
   onReplySelect: () => void,
   onSend: () => void,
 };
