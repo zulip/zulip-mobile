@@ -50,7 +50,7 @@ const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent 
   return {
     type: 'content',
     anchor: nextProps.anchor,
-    auth: nextProps.auth,
+    auth: nextProps.backgroundData.auth,
     content,
     updateStrategy,
   };
@@ -67,7 +67,7 @@ const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping =>
   type: 'typing',
   content:
     nextProps.typingUsers.length > 0
-      ? messageTypingAsHtml(nextProps.auth.realm, nextProps.typingUsers)
+      ? messageTypingAsHtml(nextProps.backgroundData.auth.realm, nextProps.typingUsers)
       : '',
 });
 

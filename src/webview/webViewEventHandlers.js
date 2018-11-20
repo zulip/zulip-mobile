@@ -1,7 +1,7 @@
 /* @flow */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import type { Auth, Debug, Dispatch, Message, MuteState, Narrow } from '../types';
+import type { Dispatch, Message, Narrow } from '../types';
 import type { BackgroundData } from './MessageList';
 import { isUrlAnImage } from '../utils/url';
 import { logErrorRemotely } from '../utils/logging';
@@ -112,10 +112,7 @@ export type MessageListEvent =
 type Props = $ReadOnly<{
   backgroundData: BackgroundData,
   dispatch: Dispatch,
-  auth: Auth,
-  debug: Debug,
   messages: Message[],
-  mute: MuteState,
   narrow: Narrow,
   showActionSheetWithOptions: (Object, (number) => void) => void,
 }>;
@@ -132,17 +129,18 @@ const fetchMore = (props: Props, event: MessageListEventScroll) => {
 };
 
 const markRead = (props: Props, event: MessageListEventScroll) => {
-  if (props.debug.doNotMarkMessagesAsRead) {
+  const { debug, flags, auth } = props.backgroundData;
+  if (debug.doNotMarkMessagesAsRead) {
     return;
   }
   const unreadMessageIds = filterUnreadMessagesInRange(
     props.messages,
-    props.backgroundData.flags,
+    flags,
     event.startMessageId,
     event.endMessageId,
   );
   if (unreadMessageIds.length > 0) {
-    queueMarkAsRead(props.auth, unreadMessageIds);
+    queueMarkAsRead(auth, unreadMessageIds);
   }
 };
 
@@ -212,10 +210,11 @@ export const handleMessageListEvent = (
     case 'reaction':
       {
         const { code, messageId, name, reactionType, voted } = event;
+        const { auth } = props.backgroundData;
         if (voted) {
-          emojiReactionRemove(props.auth, messageId, reactionType, code, name);
+          emojiReactionRemove(auth, messageId, reactionType, code, name);
         } else {
-          emojiReactionAdd(props.auth, messageId, reactionType, code, name);
+          emojiReactionAdd(auth, messageId, reactionType, code, name);
         }
       }
       break;

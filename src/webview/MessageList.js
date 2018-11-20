@@ -59,7 +59,10 @@ import { base64Utf8Encode } from '../utils/encoding';
  */
 export type BackgroundData = $ReadOnly<{
   alertWords: AlertWordsState,
+  auth: Auth,
+  debug: Debug,
   flags: FlagsState,
+  mute: MuteState,
   ownEmail: string,
   realmEmoji: RealmEmojiState,
   twentyFourHourTime: boolean,
@@ -71,12 +74,9 @@ export type Props = {
   backgroundData: BackgroundData,
 
   anchor: number,
-  auth: Auth,
-  debug: Debug,
   dispatch: Dispatch,
   fetching: Fetching,
   messages: Message[],
-  mute: MuteState,
   narrow: Narrow,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
@@ -155,12 +155,11 @@ class MessageList extends Component<Props> {
       backgroundData,
       renderedMessages,
       anchor,
-      auth,
       narrow,
       showMessagePlaceholders,
-      debug,
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
+    const { auth, debug } = backgroundData;
     const html = getHtml(messagesHtml, theme, {
       anchor,
       auth,
@@ -208,7 +207,10 @@ export default connect((state: GlobalState, props: OuterProps) => {
   // it'd be better to set an example of the right general pattern.
   const backgroundData: BackgroundData = {
     alertWords: state.alertWords,
+    auth: getAuth(state),
+    debug: getDebug(state),
     flags: getFlags(state),
+    mute: getMute(state),
     ownEmail: getOwnEmail(state),
     realmEmoji: getAllRealmEmojiById(state),
     subscriptions: getSubscriptions(state),
@@ -218,11 +220,8 @@ export default connect((state: GlobalState, props: OuterProps) => {
   return {
     backgroundData,
     anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
-    auth: getAuth(state),
-    debug: getDebug(state),
     fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
     messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
-    mute: getMute(state),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
     showMessagePlaceholders:
       props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),

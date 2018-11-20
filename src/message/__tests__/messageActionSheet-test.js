@@ -29,11 +29,10 @@ describe('constructActionButtons', () => {
     });
 
     const buttons = constructActionButtons('message')({
-      backgroundData: { flags, subscriptions },
+      backgroundData: { auth, flags, mute, subscriptions },
       message,
-      auth,
+
       narrow,
-      mute,
       getString,
     });
 
@@ -46,11 +45,9 @@ describe('constructActionButtons', () => {
     });
 
     const buttons = constructActionButtons('message')({
-      backgroundData: { flags, subscriptions },
+      backgroundData: { auth, flags, mute, subscriptions },
       message,
-      auth,
       narrow,
-      mute,
       getString,
     });
 
@@ -75,9 +72,8 @@ describe('constructHeaderActionButtons', () => {
     const mute = deepFreeze([['electron issues', 'issue #556']]);
 
     const buttons = constructHeaderActionButtons({
-      backgroundData: { subscriptions },
+      backgroundData: { mute, subscriptions },
       message,
-      mute,
       getString,
     });
 
@@ -99,9 +95,8 @@ describe('constructHeaderActionButtons', () => {
     const mute = deepFreeze([]);
 
     const buttons = constructHeaderActionButtons({
-      backgroundData: { subscriptions },
+      backgroundData: { mute, subscriptions },
       message,
-      mute,
       getString,
     });
 
@@ -124,9 +119,8 @@ describe('constructHeaderActionButtons', () => {
     const mute = deepFreeze([]);
 
     const buttons = constructHeaderActionButtons({
-      backgroundData: { subscriptions },
+      backgroundData: { mute, subscriptions },
       message,
-      mute,
       getString,
     });
 
@@ -146,9 +140,8 @@ describe('constructHeaderActionButtons', () => {
     const mute = deepFreeze([]);
 
     const buttons = constructHeaderActionButtons({
-      backgroundData: { subscriptions },
+      backgroundData: { mute, subscriptions },
       message,
-      mute,
       getString,
     });
 

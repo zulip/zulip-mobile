@@ -53,13 +53,11 @@ describe('getInputMessages', () => {
 
   test('if typing users differ send a "typing" message', () => {
     const prevProps = {
-      backgroundData: {},
-      auth: {},
+      backgroundData: { auth: {} },
       typingUsers: [],
     };
     const nextProps = {
-      backgroundData: {},
-      auth: {},
+      backgroundData: { auth: {} },
       typingUsers: [{ id: 10 }],
     };
 
@@ -71,11 +69,11 @@ describe('getInputMessages', () => {
 
   test('when rendered messages are the same return empty result', () => {
     const prevProps = {
-      backgroundData: {},
+      backgroundData: { auth: {} },
       renderedMessages: [],
     };
     const nextProps = {
-      backgroundData: {},
+      backgroundData: { auth: {} },
       renderedMessages: [],
     };
 
@@ -87,19 +85,19 @@ describe('getInputMessages', () => {
   test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
     const prevProps = {
       backgroundData: {
+        alertWords: {},
+        auth: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
-      alertWords: {},
-      auth: { realm: '' },
       messages: [],
       renderedMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
       backgroundData: {
+        alertWords: {},
+        auth: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
-      alertWords: {},
-      auth: { realm: '' },
       messages: [],
       renderedMessages: [
         {
@@ -118,14 +116,12 @@ describe('getInputMessages', () => {
 
   test('WUUT there are several diffs return several messages', () => {
     const prevProps = {
-      backgroundData: {},
-      auth: {},
+      backgroundData: { auth: {} },
       fetching: { older: false, newer: false },
       typingUsers: [],
     };
     const nextProps = {
-      backgroundData: {},
-      auth: {},
+      backgroundData: { auth: {} },
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
     };
@@ -140,10 +136,10 @@ describe('getInputMessages', () => {
   test('when there are several diffs but messages differ too return only a single "content" message', () => {
     const prevProps = {
       backgroundData: {
+        alertWords: {},
+        auth: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
-      alertWords: {},
-      auth: { realm: '' },
       fetching: { older: false, newer: false },
       typingUsers: [],
       messages: [],
@@ -151,10 +147,10 @@ describe('getInputMessages', () => {
     };
     const nextProps = {
       backgroundData: {
+        alertWords: {},
+        auth: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
-      alertWords: {},
-      auth: { realm: '' },
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
       messages: [],
