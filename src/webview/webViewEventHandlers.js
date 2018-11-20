@@ -117,48 +117,37 @@ type Props = {
   onLongPress: (messageId: number, target: string) => void,
 };
 
-const handleScroll = (props: Props, event: MessageListEventScroll) => {
-  const { innerHeight, offsetHeight, scrollY, startMessageId, endMessageId } = event;
+const fetchMore = (props: Props, event: MessageListEventScroll) => {
+  const { innerHeight, offsetHeight, scrollY } = event;
   const { dispatch, narrow } = props;
-
   if (scrollY < config.messageListThreshold) {
     dispatch(fetchOlder(narrow));
   }
-
   if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
     dispatch(fetchNewer(narrow));
   }
+};
 
+const markRead = (props: Props, event: MessageListEventScroll) => {
+  if (props.debug.doNotMarkMessagesAsRead) {
+    return;
+  }
   const unreadMessageIds = filterUnreadMessagesInRange(
     props.messages,
     props.flags,
-    startMessageId,
-    endMessageId,
+    event.startMessageId,
+    event.endMessageId,
   );
-
-  if (unreadMessageIds.length > 0 && !props.debug.doNotMarkMessagesAsRead) {
+  if (unreadMessageIds.length > 0) {
     queueMarkAsRead(props.auth, unreadMessageIds);
   }
 };
 
-const handleImage = (props: Props, event: MessageListEventImage) => {
-  const { src, messageId } = event;
+const handleImage = (props: Props, src: string, messageId: number) => {
   const message = props.messages.find(x => x.id === messageId);
   if (message) {
     props.dispatch(navigateToLightbox(src, message));
   }
-};
-
-const handleUrl = (props: Props, event: MessageListEventUrl) => {
-  const { dispatch } = props;
-
-  if (isUrlAnImage(event.href)) {
-    const imageEvent = { type: 'image', src: event.href, messageId: event.messageId };
-    handleImage(props, imageEvent);
-    return;
-  }
-
-  dispatch(messageLinkPress(event.href));
 };
 
 export const handleMessageListEvent = (props: Props, event: MessageListEvent) => {
@@ -168,7 +157,8 @@ export const handleMessageListEvent = (props: Props, event: MessageListEvent) =>
       break;
 
     case 'scroll':
-      handleScroll(props, event);
+      fetchMore(props, event);
+      markRead(props, event);
       break;
 
     case 'avatar':
@@ -180,7 +170,7 @@ export const handleMessageListEvent = (props: Props, event: MessageListEvent) =>
       break;
 
     case 'image':
-      handleImage(props, event);
+      handleImage(props, event.src, event.messageId);
       break;
 
     case 'longPress':
@@ -188,7 +178,11 @@ export const handleMessageListEvent = (props: Props, event: MessageListEvent) =>
       break;
 
     case 'url':
-      handleUrl(props, event);
+      if (isUrlAnImage(event.href)) {
+        handleImage(props, event.href, event.messageId);
+      } else {
+        props.dispatch(messageLinkPress(event.href));
+      }
       break;
 
     case 'reaction':
