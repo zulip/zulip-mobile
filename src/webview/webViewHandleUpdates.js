@@ -41,7 +41,7 @@ export type WebviewInputMessage =
 
 const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent => {
   const content = htmlBody(
-    renderMessagesAsHtml(nextProps.renderContext, nextProps.renderedMessages),
+    renderMessagesAsHtml(nextProps.backgroundData, nextProps.narrow, nextProps.renderedMessages),
     nextProps.showMessagePlaceholders,
   );
   const transitionProps = getMessageTransitionProps(prevProps, nextProps);

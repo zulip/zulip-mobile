@@ -63,7 +63,7 @@ describe('getInputMessages', () => {
       renderedMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
-      renderContext: {
+      backgroundData: {
         flags: { starred: {}, has_alert_word: {} },
       },
       alertWords: {},
@@ -92,7 +92,7 @@ describe('getInputMessages', () => {
       typingUsers: [],
     };
     const nextProps = {
-      renderContext: {},
+      backgroundData: {},
       auth: {},
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
@@ -116,7 +116,7 @@ describe('getInputMessages', () => {
       flags: { starred: {}, has_alert_word: {} },
     };
     const nextProps = {
-      renderContext: {
+      backgroundData: {
         flags: { starred: {}, has_alert_word: {} },
       },
       alertWords: {},

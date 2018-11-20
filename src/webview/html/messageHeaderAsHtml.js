@@ -1,7 +1,7 @@
 /* @flow */
 import template from './template';
-import type { Message, Outbox } from '../../types';
-import type { RenderContext } from './messageAsHtml';
+import type { Message, Narrow, Outbox } from '../../types';
+import type { BackgroundData } from '../MessageList';
 import {
   isStreamNarrow,
   isTopicNarrow,
@@ -15,7 +15,8 @@ import {
 import { foregroundColorFromBackground } from '../../utils/color';
 
 export default (
-  { ownEmail, subscriptions, narrow }: RenderContext,
+  { ownEmail, subscriptions }: BackgroundData,
+  narrow: Narrow,
   item: Message | Outbox | {||},
 ) => {
   if (!item.type) {

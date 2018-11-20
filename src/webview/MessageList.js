@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
+  AlertWordsState,
   Auth,
   Context,
   Debug,
@@ -16,6 +17,7 @@ import type {
   Message,
   MuteState,
   Narrow,
+  RealmEmojiState,
   RenderedSectionDescriptor,
   Subscription,
   User,
@@ -39,7 +41,6 @@ import {
 
 import type { WebviewInputMessage } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
-import type { RenderContext } from './html/messageAsHtml';
 import getHtml from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import { getInputMessages } from './webViewHandleUpdates';
@@ -50,21 +51,37 @@ import { base64Utf8Encode } from '../utils/encoding';
 // props not being used here.
 /* eslint-disable react/no-unused-prop-types */
 
+/**
+ * Data about the user, the realm, and all known messages.
+ *
+ * This data is all independent of the specific narrow or specific messages
+ * we're displaying; data about those goes elsewhere.
+ */
+export type BackgroundData = {
+  alertWords: AlertWordsState,
+  flags: FlagsState,
+  ownEmail: string,
+  realmEmoji: RealmEmojiState,
+  twentyFourHourTime: boolean,
+  subscriptions: Subscription[],
+};
+
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
 export type Props = {
+  backgroundData: BackgroundData,
+
   anchor: number,
   auth: Auth,
   debug: Debug,
   dispatch: Dispatch,
   fetching: Fetching,
-  flags: FlagsState, // also in RenderContext
+  flags: FlagsState, // also in backgroundData
   messages: Message[],
   mute: MuteState,
-  narrow: Narrow, // also in RenderContext
-  renderContext: RenderContext,
+  narrow: Narrow,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
-  subscriptions: Subscription[], // also in RenderContext
+  subscriptions: Subscription[], // also in backgroundData
   typingUsers: User[],
 
   // From `connectActionSheet`.
@@ -137,14 +154,15 @@ class MessageList extends Component<Props> {
   render() {
     const { styles, theme } = this.context;
     const {
-      renderContext,
+      backgroundData,
       renderedMessages,
       anchor,
       auth,
+      narrow,
       showMessagePlaceholders,
       debug,
     } = this.props;
-    const messagesHtml = renderMessagesAsHtml(renderContext, renderedMessages);
+    const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
     const html = getHtml(messagesHtml, theme, {
       anchor,
       auth,
@@ -190,8 +208,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
   // when the inputs don't.  Doesn't matter in a practical way here, because
   // we have a `shouldComponentUpdate` that doesn't look at this prop... but
   // it'd be better to set an example of the right general pattern.
-  const renderContext: RenderContext = {
-    narrow: props.narrow,
+  const backgroundData: BackgroundData = {
     alertWords: state.alertWords,
     flags: getFlags(state), // also a prop, see below
     ownEmail: getOwnEmail(state),
@@ -201,7 +218,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
   };
 
   return {
-    renderContext,
+    backgroundData,
     anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
     auth: getAuth(state),
     debug: getDebug(state),

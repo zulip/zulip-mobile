@@ -1,38 +1,13 @@
 /* @flow */
 import template from './template';
-import type {
-  AlertWordsState,
-  FlagsState,
-  Narrow,
-  Reaction,
-  RealmEmojiState,
-  Subscription,
-} from '../../types';
+import type { FlagsState, Reaction } from '../../types';
+import type { BackgroundData } from '../MessageList';
 import { shortTime } from '../../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
 import processAlertWords from './processAlertWords';
 
-/**
- * Data to be used in rendering all messages.
- *
- * See also MessageRenderData.
- */
-export type RenderContext = {
-  alertWords: AlertWordsState,
-  flags: FlagsState,
-  ownEmail: string,
-  realmEmoji: RealmEmojiState,
-  twentyFourHourTime: boolean,
-  subscriptions: Subscription[],
-  narrow: Narrow,
-};
-
-/**
- * Data to be used in rendering a specific message.
- *
- * See also RenderContext.
- */
+/** Data to be used in rendering a specific message. */
 type MessageRenderData = {
   content: string,
   id: number,
@@ -50,7 +25,7 @@ export const flagsStateToStringList = (flags: FlagsState, id: number): string[] 
   Object.keys(flags).filter(key => flags[key][id]);
 
 const messageBody = (
-  { alertWords, flags, ownEmail, realmEmoji }: RenderContext,
+  { alertWords, flags, ownEmail, realmEmoji }: BackgroundData,
   { content, id, isOutbox, reactions, timeEdited }: MessageRenderData,
 ) => template`
 $!${processAlertWords(content, id, alertWords, flags)}
@@ -59,7 +34,7 @@ $!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
 $!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
 
-export default (context: RenderContext, message: MessageRenderData) => {
+export default (context: BackgroundData, message: MessageRenderData) => {
   const { id, isBrief } = message;
   const flagStrings = flagsStateToStringList(context.flags, id);
   const divOpenHtml = template`

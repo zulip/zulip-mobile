@@ -1,6 +1,6 @@
 /* @flow */
-import type { RenderedSectionDescriptor } from '../../types';
-import type { RenderContext } from './messageAsHtml';
+import type { Narrow, RenderedSectionDescriptor } from '../../types';
+import type { BackgroundData } from '../MessageList';
 
 import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
@@ -8,12 +8,13 @@ import timeRowAsHtml from './timeRowAsHtml';
 import { getGravatarFromEmail } from '../../utils/avatar';
 
 export default (
-  renderContext: RenderContext,
+  backgroundData: BackgroundData,
+  narrow: Narrow,
   renderedMessages: RenderedSectionDescriptor[],
 ): string =>
   renderedMessages
     .reduce((list, section, index) => {
-      list.push(messageHeaderAsHtml(renderContext, section.message));
+      list.push(messageHeaderAsHtml(backgroundData, narrow, section.message));
 
       section.data.forEach((item, idx) => {
         if (item.type === 'time') {
@@ -21,7 +22,7 @@ export default (
         } else {
           const { message } = item;
           list.push(
-            messageAsHtml(renderContext, {
+            messageAsHtml(backgroundData, {
               id: message.id,
               isBrief: item.isBrief,
               fromName: message.sender_full_name,
