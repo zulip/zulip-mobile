@@ -121,14 +121,14 @@ Relatedly, the `this.context` API we use is a legacy API.  Recent React
 versions offer a [new context API](https://reactjs.org/docs/context.html)
 that works much more like Redux and `connect`, above.
 
-### The exception: `MessageListWeb`
+### The exception: `MessageList`
 
 We have one React component that we wrote (beyond `connect` calls) that
-deviates from the above design: `MessageListWeb`.  This is the only
+deviates from the above design: `MessageList`.  This is the only
 component that extends plain `Component` rather than `PureComponent`, and
 the only component that implements `shouldComponentUpdate`.
 
-In fact, `MessageListWeb` does adhere to the Pure Component Principle -- its
+In fact, `MessageList` does adhere to the Pure Component Principle -- its
 `render` method is a pure function of `this.props` and `this.context`.  So
 it could use `PureComponent`, but it doesn't -- instead we have a
 `shouldComponentUpdate` that always returns `false`, so even when `props`

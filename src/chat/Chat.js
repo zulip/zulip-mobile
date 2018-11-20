@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import type { Context, Narrow } from '../types';
 import { KeyboardAvoider } from '../common';
-import MessageList from '../webview/MessageListWeb';
+import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';

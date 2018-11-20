@@ -71,7 +71,7 @@ export type Props = {
   showActionSheetWithOptions: (Object, (number) => void) => void,
 };
 
-class MessageListWeb extends Component<Props> {
+class MessageList extends Component<Props> {
   context: Context;
   props: Props;
   webview: ?Object;
@@ -215,4 +215,4 @@ export default connect((state: GlobalState, props: OuterProps) => {
     subscriptions: getSubscriptions(state),
     typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
   };
-})(connectActionSheet(MessageListWeb));
+})(connectActionSheet(MessageList));
