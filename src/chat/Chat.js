@@ -24,7 +24,6 @@ export default class Chat extends PureComponent<Props> {
   };
 
   scrollOffset: number = 0;
-  listComponent: any;
 
   handleReplySelect = () => {
     if (this.messageInputRef) {
@@ -45,13 +44,7 @@ export default class Chat extends PureComponent<Props> {
         <View style={styles.flexed}>
           <UnreadNotice narrow={narrow} />
           <NoMessages narrow={narrow} />
-          <MessageList
-            narrow={narrow}
-            onReplySelect={this.handleReplySelect}
-            listRef={component => {
-              this.listComponent = component || this.listComponent;
-            }}
-          />
+          <MessageList narrow={narrow} onReplySelect={this.handleReplySelect} />
           <ComposeBox
             narrow={narrow}
             messageInputRef={(component: any) => {
