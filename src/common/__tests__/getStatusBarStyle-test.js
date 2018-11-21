@@ -7,18 +7,14 @@ const themeDefault = 'default';
 
 describe('getStatusBarStyle', () => {
   test('return bar style according to given color, regardless of theme', () => {
-    expect(getStatusBarStyle('#fff', 'black', themeDefault)).toEqual('dark-content');
-    expect(getStatusBarStyle('#fff', 'black', themeNight)).toEqual('dark-content');
-    expect(getStatusBarStyle('#000', 'white', themeDefault)).toEqual('light-content');
-    expect(getStatusBarStyle('#000', 'white', themeNight)).toEqual('light-content');
+    expect(getStatusBarStyle('#fff', themeDefault)).toEqual('dark-content');
+    expect(getStatusBarStyle('#fff', themeNight)).toEqual('dark-content');
+    expect(getStatusBarStyle('#000', themeDefault)).toEqual('light-content');
+    expect(getStatusBarStyle('#000', themeNight)).toEqual('light-content');
   });
 
   test('return bar style according to theme in default-color case', () => {
-    expect(getStatusBarStyle(DEFAULT_TITLE_BACKGROUND_COLOR, 'black', themeDefault)).toEqual(
-      'dark-content',
-    );
-    expect(getStatusBarStyle(DEFAULT_TITLE_BACKGROUND_COLOR, 'black', themeNight)).toEqual(
-      'light-content',
-    );
+    expect(getStatusBarStyle(DEFAULT_TITLE_BACKGROUND_COLOR, themeDefault)).toEqual('dark-content');
+    expect(getStatusBarStyle(DEFAULT_TITLE_BACKGROUND_COLOR, themeNight)).toEqual('light-content');
   });
 });
