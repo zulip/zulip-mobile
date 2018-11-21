@@ -20,10 +20,12 @@ export const getStatusBarStyle = (
   backgroundColor: string,
   textColor: string,
   theme: ThemeType,
-): BarStyle =>
-  textColor === 'white' || (backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR && theme === 'night')
-    ? 'light-content'
-    : 'dark-content';
+): BarStyle => {
+  if (backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR) {
+    return theme === 'night' ? 'light-content' : 'dark-content';
+  }
+  return textColor === 'white' ? 'light-content' : 'dark-content';
+};
 
 export const getStatusBarColor = (backgroundColor: string, theme: ThemeType): string =>
   backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
