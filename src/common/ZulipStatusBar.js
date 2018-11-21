@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
-import type { Dimensions, StatusBarStyle, ThemeType } from '../types';
+import type { Dimensions, ThemeType } from '../types';
 import {
   DEFAULT_TITLE_BACKGROUND_COLOR,
   getTitleBackgroundColor,
@@ -13,12 +13,14 @@ import {
 } from '../title/titleSelectors';
 import { getSession, getSettings } from '../selectors';
 
+type BarStyle = $PropertyType<$PropertyType<StatusBar, 'props'>, 'barStyle'>;
+
 /** Assumes `textColor` is literally 'white', 'black', or BRAND_COLOR. */
 export const getStatusBarStyle = (
   backgroundColor: string,
   textColor: string,
   theme: ThemeType,
-): StatusBarStyle =>
+): BarStyle =>
   textColor === 'white' || (backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR && theme === 'night')
     ? 'light-content'
     : 'dark-content';
@@ -31,7 +33,7 @@ export const getStatusBarColor = (backgroundColor: string, theme: ThemeType): st
     : backgroundColor;
 
 type Props = {
-  barStyle?: StatusBarStyle,
+  barStyle?: BarStyle,
   hidden: boolean,
   theme: ThemeType,
   backgroundColor: string,

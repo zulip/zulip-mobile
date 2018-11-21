@@ -349,8 +349,6 @@ export type Context = {
   theme: ThemeType,
 };
 
-export type StatusBarStyle = 'light-content' | 'dark-content';
-
 export type SettingsState = {
   locale: string,
   theme: ThemeType,
