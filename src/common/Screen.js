@@ -43,10 +43,10 @@ type Props = {|
   keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
   padding: boolean,
   search: boolean,
+  searchBarOnChange: (text: string) => void,
   title: LocalizableText,
   scrollEnabled?: boolean,
   style?: Style,
-  searchBarOnChange?: (text: string) => void,
 |};
 
 /**
@@ -82,6 +82,7 @@ class Screen extends PureComponent<Props> {
     padding: false,
     scrollEnabled: true,
     search: false,
+    searchBarOnChange: (text: string) => {},
     title: '',
   };
 
