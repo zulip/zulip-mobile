@@ -106,42 +106,85 @@ export const SEARCH_NARROW = (query: string): Narrow => [
 export const isSearchNarrow = (narrow: Narrow): boolean =>
   Array.isArray(narrow) && narrow.length === 1 && narrow[0].operator === 'search';
 
+type NarrowCases<T> = {
+  home: () => T,
+  pm: (email: string) => T,
+  groupPm: (emails: string[]) => T,
+  starred: () => T,
+  mentioned: () => T,
+  allPrivate: () => T,
+  stream: (name: string) => T,
+  topic: (streamName: string, topic: string) => T,
+  search: (query: string) => T,
+};
+
+/* prettier-ignore */
+export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
+  const err = (): empty => {
+    throw new Error(`bad narrow: ${JSON.stringify(narrow)}`);
+  };
+
+  switch (narrow.length) {
+    case 0: return cases.home();
+    case 1:
+      switch (narrow[0].operator) {
+        case 'pm-with':
+          if (narrow[0].operand.indexOf(',') < 0) {
+            return cases.pm(narrow[0].operand);
+          } else { /* eslint-disable-line */
+            const emails = narrow[0].operand.split(',');
+            return cases.groupPm(emails);
+          }
+        case 'is':
+          switch (narrow[0].operand) {
+            case 'starred': return cases.starred();
+            case 'mentioned': return cases.mentioned();
+            case 'private': return cases.allPrivate();
+            default: return err();
+          }
+        case 'stream': return cases.stream(narrow[0].operand);
+        case 'search': return cases.search(narrow[0].operand);
+        default: return err();
+      }
+    case 2: return cases.topic(narrow[0].operand, narrow[1].operand);
+    default: return err();
+  }
+}
+
+/** (For search narrows, just returns false.) */
 export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: string): boolean => {
-  if (isHomeNarrow(narrow)) {
-    return true;
-  }
-
-  if (isStreamNarrow(narrow) && message.display_recipient === narrow[0].operand) {
-    return true;
-  }
-
-  if (
-    isTopicNarrow(narrow)
-    && message.display_recipient === narrow[0].operand
-    && message.subject === narrow[1].operand
-  ) {
-    return true;
-  }
-
-  if (isPrivateOrGroupNarrow(narrow)) {
+  const matchRecipients = (emails: string[]) => {
     const normalizedRecipients = normalizeRecipients(message.display_recipient);
-    const normalizedNarrow = [...narrow[0].operand.split(','), ownEmail].sort().join(',');
-
+    const normalizedNarrow = [...emails, ownEmail].sort().join(',');
     return normalizedRecipients === ownEmail || normalizedRecipients === normalizedNarrow;
-  }
+  };
 
-  if (isSpecialNarrow(narrow) && narrow[0].operand === message.type) {
-    return true;
-  }
-
-  return false;
+  return caseNarrow(narrow, {
+    home: () => true,
+    stream: name => name === message.display_recipient,
+    topic: (streamName, topic) =>
+      streamName === message.display_recipient && topic === message.subject,
+    pm: email => matchRecipients([email]),
+    groupPm: matchRecipients,
+    starred: () => message.type === 'starred',
+    mentioned: () => message.type === 'mentioned',
+    allPrivate: () => message.type === 'private',
+    search: () => false,
+  });
 };
 
 export const canSendToNarrow = (narrow: Narrow): boolean =>
-  isPrivateNarrow(narrow)
-  || isGroupNarrow(narrow)
-  || isStreamNarrow(narrow)
-  || isTopicNarrow(narrow);
+  caseNarrow(narrow, {
+    pm: () => true,
+    groupPm: () => true,
+    stream: () => true,
+    topic: () => true,
+    home: () => false,
+    starred: () => false,
+    mentioned: () => false,
+    allPrivate: () => false,
+    search: () => false,
+  });
 
 export const getNarrowFromMessage = (message: Message, email: string) => {
   if (Array.isArray(message.display_recipient)) {
