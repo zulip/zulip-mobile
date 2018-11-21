@@ -3,14 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import {
-  isHomeNarrow,
-  isPrivateNarrow,
-  isGroupNarrow,
-  isSpecialNarrow,
-  isStreamNarrow,
-  isTopicNarrow,
-} from '../utils/narrow';
+import { caseNarrow } from '../utils/narrow';
 import { getSession } from '../selectors';
 
 import type { Message, GlobalState, Narrow } from '../types';
@@ -20,15 +13,6 @@ import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStream';
 import TitlePlain from './TitlePlain';
-
-const titles = [
-  { isFunc: isHomeNarrow, component: TitleHome },
-  { isFunc: isSpecialNarrow, component: TitleSpecial },
-  { isFunc: isStreamNarrow, component: TitleStream },
-  { isFunc: isTopicNarrow, component: TitleStream },
-  { isFunc: isPrivateNarrow, component: TitlePrivate },
-  { isFunc: isGroupNarrow, component: TitleGroup },
-];
 
 type Props = {
   narrow: Narrow,
@@ -40,19 +24,22 @@ class Title extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { narrow, editMessage, color } = this.props;
-
+    const { narrow, color, editMessage } = this.props;
+    const props = { color };
     if (editMessage != null) {
-      return <TitlePlain text="Edit message" color={color} />;
+      return <TitlePlain text="Edit message" {...props} />;
     }
-
-    const titleType = narrow && titles.find(x => x.isFunc(narrow));
-
-    if (!titleType) {
-      return null;
-    }
-
-    return <titleType.component color={color} narrow={narrow} />;
+    return caseNarrow(narrow, {
+      home: () => <TitleHome narrow={narrow} {...props} />,
+      starred: () => <TitleSpecial narrow={narrow} {...props} />,
+      mentioned: () => <TitleSpecial narrow={narrow} {...props} />,
+      allPrivate: () => <TitleSpecial narrow={narrow} {...props} />,
+      stream: () => <TitleStream narrow={narrow} {...props} />,
+      topic: () => <TitleStream narrow={narrow} {...props} />,
+      pm: () => <TitlePrivate narrow={narrow} {...props} />,
+      groupPm: () => <TitleGroup narrow={narrow} {...props} />,
+      search: () => null,
+    });
   }
 }
 
