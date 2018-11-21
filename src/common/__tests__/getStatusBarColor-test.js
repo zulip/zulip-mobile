@@ -8,10 +8,10 @@ import {
   privateNarrow,
   MENTIONED_NARROW,
   groupNarrow,
-} from '../narrow';
-import getStatusBarColor from '../getStatusBarColor';
+} from '../../utils/narrow';
 import { getTitleBackgroundColor } from '../../selectors';
-import { defaultNav, otherNav } from '../testHelpers';
+import { defaultNav, otherNav } from '../../utils/testHelpers';
+import { getStatusBarColor } from '../ZulipStatusBar';
 
 const themeNight = 'night';
 const themeDefault = 'default';

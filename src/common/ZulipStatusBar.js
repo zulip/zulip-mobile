@@ -7,8 +7,18 @@ import Color from 'color';
 
 import type { Dimensions, StatusBarStyle, ThemeType } from '../types';
 import { getSession, getSettings, getTitleBackgroundColor, getTitleTextColor } from '../selectors';
-import getStatusBarStyle from '../utils/getStatusBarStyle';
-import getStatusBarColor from '../utils/getStatusBarColor';
+
+export const getStatusBarStyle = (
+  backgroundColor: string,
+  textColor: string,
+  theme: ThemeType,
+): StatusBarStyle =>
+  textColor === 'white' || (backgroundColor === 'transparent' && theme === 'night')
+    ? 'light-content'
+    : 'dark-content';
+
+export const getStatusBarColor = (backgroundColor: string, theme: ThemeType): string =>
+  backgroundColor === 'transparent' ? (theme === 'night' ? '#212D3B' : 'white') : backgroundColor;
 
 type Props = {
   barStyle?: StatusBarStyle,

@@ -1,10 +1,10 @@
 /* @flow */
 import deepFreeze from 'deep-freeze';
 
-import { HOME_NARROW, streamNarrow, privateNarrow } from '../narrow';
-import getStatusBarStyle from '../getStatusBarStyle';
+import { HOME_NARROW, streamNarrow, privateNarrow } from '../../utils/narrow';
 import { getTitleBackgroundColor } from '../../selectors';
 import { navStateWithNarrow } from '../../utils/testHelpers';
+import { getStatusBarStyle } from '../ZulipStatusBar';
 
 const themeDefault = 'default';
 
