@@ -1,5 +1,6 @@
 /* @flow */
-import type { Auth, Stream } from '../apiTypes';
+import type { Account, Stream } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
-export default async (auth: Auth): Promise<Stream[]> => apiGet(auth, 'streams', res => res.streams);
+export default async (auth: Account): Promise<Stream[]> =>
+  apiGet(auth, 'streams', res => res.streams);

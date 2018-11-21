@@ -1,6 +1,6 @@
 /* @flow */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Account } from '../apiTypes';
 import { apiDelete } from '../apiFetch';
 
-export default async (auth: Auth, id: number): Promise<ApiResponse> =>
+export default async (auth: Account, id: number): Promise<ApiResponse> =>
   apiDelete(auth, `user_groups/${id}`);

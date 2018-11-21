@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Auth, Dispatch, GlobalState } from '../types';
+import type { Account, Dispatch, GlobalState } from '../types';
 import { getActiveAccount, getSettings } from '../selectors';
 import { OptionRow, Screen } from '../common';
 import { toggleMobilePushSettings } from '../api';
 import { settingsChange } from '../actions';
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   dispatch: Dispatch,
   offlineNotification: boolean,
   onlineNotification: boolean,

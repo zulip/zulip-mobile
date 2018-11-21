@@ -2,7 +2,7 @@
 import { CameraRoll, Platform, PermissionsAndroid } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
-import type { Auth } from '../api/apiTypes';
+import type { Account } from '../api/apiTypes';
 import { getAuthHeader, getFullUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 
@@ -33,7 +33,7 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
   // result === GRANTED
 };
 
-export default async (src: string, auth: Auth): Promise<mixed> => {
+export default async (src: string, auth: Account): Promise<mixed> => {
   const absoluteUrl = getFullUrl(src, auth.realm);
 
   if (Platform.OS === 'ios') {

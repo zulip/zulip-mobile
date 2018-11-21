@@ -1,13 +1,13 @@
 /* @flow */
 import template from './template';
-import type { Auth, ThemeType } from '../../types';
+import type { Account, ThemeType } from '../../types';
 import css from '../css/css';
 import htmlBody from './htmlBody';
 import script from '../js/script';
 
 type InitOptionsType = {
   anchor: number,
-  auth: Auth,
+  auth: Account,
   highlightUnreadMessages: boolean,
   showMessagePlaceholders: boolean,
 };

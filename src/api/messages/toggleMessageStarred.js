@@ -1,7 +1,7 @@
 /* @flow */
-import type { Auth } from '../apiTypes';
+import type { Account } from '../apiTypes';
 import messagesFlags from './messagesFlags';
 
-export default (auth: Auth, messageIds: number[], starMessage: boolean): any => {
+export default (auth: Account, messageIds: number[], starMessage: boolean): any => {
   messagesFlags(auth, messageIds, starMessage ? 'add' : 'remove', 'starred');
 };

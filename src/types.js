@@ -6,7 +6,7 @@ import type { InputSelector } from 'reselect';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type {
-  Auth,
+  Account,
   Topic,
   Message,
   Reaction,
@@ -60,8 +60,6 @@ export type InputSelectionType = {
   start: number,
   end: number,
 };
-
-export type Account = Auth;
 
 /** An aggregate of all the reactions with one emoji to one message. */
 export type AggregatedReaction = {

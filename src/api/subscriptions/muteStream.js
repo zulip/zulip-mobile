@@ -1,8 +1,8 @@
 /* @flow */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Account } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
-export default async (auth: Auth, streamId: number): Promise<ApiResponse> =>
+export default async (auth: Account, streamId: number): Promise<ApiResponse> =>
   apiPost(auth, 'users/me/subscriptions/properties', res => res, {
     subscription_data: JSON.stringify([
       {

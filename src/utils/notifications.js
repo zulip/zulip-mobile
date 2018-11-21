@@ -5,7 +5,7 @@ import NotificationsIOS, {
   PendingNotifications,
 } from 'react-native-notifications';
 
-import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
+import type { Account, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
 import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import config from '../config';
 import { registerPush } from '../api';
@@ -54,7 +54,7 @@ export const removeNotificationListener = (notificationHandler: (notification: O
 };
 
 export const initializeNotifications = (
-  auth: Auth,
+  auth: Account,
   saveTokenPush: (pushToken: string, msg: string, result: string) => void,
 ) => {
   if (Platform.OS === 'ios') {

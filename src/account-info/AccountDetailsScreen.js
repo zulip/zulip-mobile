@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Auth, Dispatch, GlobalState, Orientation, User, PresenceState } from '../types';
+import type { Account, Dispatch, GlobalState, Orientation, User, PresenceState } from '../types';
 import {
   getActiveAccount,
   getSession,
@@ -14,7 +14,7 @@ import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   user: User,
   orientation: Orientation,
   dispatch: Dispatch,

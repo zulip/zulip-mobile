@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Auth, Context, Stream } from '../types';
+import type { Account, Context, Stream } from '../types';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
 import { getActiveAccount, getStreamInNarrow } from '../selectors';
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   stream: Stream,
 };
 

@@ -1,9 +1,9 @@
 /* @flow */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Account } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
 export default (
-  auth: Auth,
+  auth: Account,
   messageId: number,
   reactionType: string,
   emojiCode: string,

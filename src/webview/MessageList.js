@@ -7,7 +7,7 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
   AlertWordsState,
-  Auth,
+  Account,
   Context,
   Debug,
   Dispatch,
@@ -59,7 +59,7 @@ import { base64Utf8Encode } from '../utils/encoding';
  */
 export type BackgroundData = $ReadOnly<{
   alertWords: AlertWordsState,
-  auth: Auth,
+  auth: Account,
   debug: Debug,
   flags: FlagsState,
   mute: MuteState,

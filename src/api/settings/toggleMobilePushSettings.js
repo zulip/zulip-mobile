@@ -1,5 +1,5 @@
 /* @flow */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Account } from '../apiTypes';
 import { apiPatch } from '../apiFetch';
 
 const getRequestBody = (opp, value) => {
@@ -19,7 +19,7 @@ export default async ({
   opp,
   value,
 }: {
-  auth: Auth,
+  auth: Account,
   opp: string,
   value: boolean,
 }): Promise<ApiResponse> =>

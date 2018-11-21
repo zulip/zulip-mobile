@@ -2,7 +2,7 @@
 import base64 from 'base-64';
 import urlRegex from 'url-regex';
 
-import type { Auth, Narrow, User } from '../types';
+import type { Account, Narrow, User } from '../types';
 import { HOME_NARROW, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { getUserById } from '../users/userHelpers';
 import { transformToEncodedURI } from './string';
@@ -124,7 +124,7 @@ export const getMessageIdFromLink = (url: string, realm: string): number => {
   return isMessageLink(url, realm) ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
 };
 
-const getResourceWithAuth = (uri: string, auth: Auth) => ({
+const getResourceWithAuth = (uri: string, auth: Account) => ({
   uri: getFullUrl(uri, auth.realm),
   headers: {
     Authorization: getAuthHeader(auth.email, auth.apiKey),
@@ -135,7 +135,7 @@ const getResourceNoAuth = (uri: string) => ({
   uri,
 });
 
-export const getResource = (uri: string, auth: Auth): Object =>
+export const getResource = (uri: string, auth: Account): Object =>
   isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
 export const hasProtocol = (url: string = '') => url.search(/\b(http|https):\/\//) !== -1;

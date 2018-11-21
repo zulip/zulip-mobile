@@ -1,7 +1,7 @@
 /* @flow */
 import isEqual from 'lodash.isequal';
 
-import type { Auth, FlagsState } from '../types';
+import type { Account, FlagsState } from '../types';
 import type { Props } from './MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
 import htmlBody from './html/htmlBody';
@@ -12,7 +12,7 @@ import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/
 export type MessageInputContent = {
   type: 'content',
   anchor: number,
-  auth: Auth,
+  auth: Account,
   content: string,
   updateStrategy: UpdateStrategy,
 };

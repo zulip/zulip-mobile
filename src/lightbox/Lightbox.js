@@ -6,7 +6,7 @@ import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Auth, Dispatch, GlobalState, Message } from '../types';
+import type { Account, Dispatch, GlobalState, Message } from '../types';
 import { getActiveAccount } from '../selectors';
 import { getResource } from '../utils/url';
 import AnimatedLightboxHeader from './AnimatedLightboxHeader';
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   dispatch: Dispatch,
   src: string,
   message: Message,

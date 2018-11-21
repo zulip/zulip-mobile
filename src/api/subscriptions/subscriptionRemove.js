@@ -1,8 +1,12 @@
 /* @flow */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Account } from '../apiTypes';
 import { apiDelete } from '../apiFetch';
 
-export default (auth: Auth, subscriptions: string[], principals?: string[]): Promise<ApiResponse> =>
+export default (
+  auth: Account,
+  subscriptions: string[],
+  principals?: string[],
+): Promise<ApiResponse> =>
   apiDelete(auth, 'users/me/subscriptions', res => res, {
     subscriptions: JSON.stringify(subscriptions),
     principals: JSON.stringify(principals),

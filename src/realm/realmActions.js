@@ -1,6 +1,6 @@
 /* @flow */
 import type {
-  Auth,
+  Account,
   GetState,
   Dispatch,
   RealmFilter,
@@ -54,7 +54,7 @@ export const initRealmEmojis = (emojis: Object): InitRealmEmojiAction => ({
   emojis,
 });
 
-export const fetchRealmEmojis = (auth: Auth) => async (dispatch: Dispatch) =>
+export const fetchRealmEmojis = (auth: Account) => async (dispatch: Dispatch) =>
   dispatch(initRealmEmojis(await getRealmEmojis(auth)));
 
 export const initRealmFilters = (filters: RealmFilter[]): InitRealmFilterAction => ({
@@ -62,5 +62,5 @@ export const initRealmFilters = (filters: RealmFilter[]): InitRealmFilterAction 
   filters,
 });
 
-export const fetchRealmFilters = (auth: Auth) => async (dispatch: Dispatch) =>
+export const fetchRealmFilters = (auth: Account) => async (dispatch: Dispatch) =>
   dispatch(initRealmFilters(await getRealmFilters(auth)));

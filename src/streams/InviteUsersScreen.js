@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import type { Auth, Dispatch, GlobalState, Stream, User } from '../types';
+import type { Account, Dispatch, GlobalState, Stream, User } from '../types';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
 import { subscriptionAdd } from '../api';
@@ -11,7 +11,7 @@ import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = {
   dispatch: Dispatch,
-  auth: Auth,
+  auth: Account,
   stream: Stream,
 };
 

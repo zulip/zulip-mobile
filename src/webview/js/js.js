@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth } from '../../types';
+import type { Account } from '../../types';
 import type {
   WebviewInputMessage,
   MessageInputContent,
@@ -486,7 +486,7 @@ const handleMessageContent = (msg: MessageInputContent) => {
 };
 
 /** We call this when the webview's content first loads. */
-const handleInitialLoad = /* eslint-disable-line */ (anchor: number, auth: Auth) => {
+const handleInitialLoad = /* eslint-disable-line */ (anchor: number, auth: Account) => {
   scrollToAnchor(anchor);
   appendAuthToImages(auth);
   sendScrollMessageIfListShort();

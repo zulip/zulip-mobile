@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth } from '../apiTypes';
+import type { Account } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
-export default (auth: Auth): any => apiGet(auth, 'users/me/user_groups');
+export default (auth: Account): any => apiGet(auth, 'users/me/user_groups');

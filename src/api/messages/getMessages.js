@@ -1,9 +1,9 @@
 /* @flow */
-import type { Auth, Message, Narrow } from '../apiTypes';
+import type { Account, Message, Narrow } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 export default async (
-  auth: Auth,
+  auth: Account,
   narrow: Narrow,
   anchor: number,
   numBefore: number,

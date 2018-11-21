@@ -1,5 +1,5 @@
 /* @flow */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Account } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
 type SubscriptionObj = {
@@ -7,7 +7,7 @@ type SubscriptionObj = {
 };
 
 export default (
-  auth: Auth,
+  auth: Account,
   subscriptions: SubscriptionObj[],
   principals?: string[],
 ): Promise<ApiResponse> =>

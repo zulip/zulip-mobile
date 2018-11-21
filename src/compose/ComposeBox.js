@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import TextInputReset from 'react-native-text-input-reset';
 
 import type {
-  Auth,
+  Account,
   Context,
   Narrow,
   EditMessage,
@@ -49,7 +49,7 @@ import {
 import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   canSend: boolean,
   narrow: Narrow,
   users: User[],

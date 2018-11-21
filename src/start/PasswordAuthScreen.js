@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Auth, Context, Dispatch, GlobalState } from '../types';
+import type { Account, Context, Dispatch, GlobalState } from '../types';
 import { fetchApiKey } from '../api';
 import { ErrorMsg, Input, PasswordInput, Screen, WebLink, ZulipButton } from '../common';
 import { getActiveAccount } from '../selectors';
@@ -18,7 +18,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   dispatch: Dispatch,
   navigation: Object,
 };

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, GlobalState, Narrow, Stream } from '../types';
+import type { Account, GlobalState, Narrow, Stream } from '../types';
 import { ZulipButton } from '../common';
 import { markAllAsRead, markStreamAsRead, markTopicAsRead } from '../api';
 import { getActiveAccount, getStreams } from '../selectors';
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   narrow: Narrow,
   streams: Stream[],
 };

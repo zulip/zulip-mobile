@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth } from '../types';
+import type { Account } from '../types';
 import downloadImage from './downloadImage';
 import share from './share';
 import shareImage from './shareImage';
@@ -8,22 +8,22 @@ import { getFullUrl } from '../utils/url';
 
 type DownloadImageType = {
   src: string,
-  auth: Auth,
+  auth: Account,
 };
 
 type ShareLinkType = {
   src: string,
-  auth: Auth,
+  auth: Account,
 };
 
 type ExecuteActionSheetActionType = {
   title: string,
   src: string,
-  auth: Auth,
+  auth: Account,
 };
 
 type ButtonProps = {
-  auth: Auth,
+  auth: Account,
   src: string,
 };
 

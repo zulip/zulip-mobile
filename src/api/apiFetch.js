@@ -1,6 +1,6 @@
 /* @flow */
 import type { UrlParams } from '../utils/url';
-import type { Auth, ResponseExtractionFunc } from './apiTypes';
+import type { Account, ResponseExtractionFunc } from './apiTypes';
 import { getAuthHeader, encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
@@ -9,7 +9,7 @@ const apiVersion = 'api/v1';
 
 const defaultResFunc: ResponseExtractionFunc = res => res;
 
-export const getFetchParams = (auth: Auth, params: Object = {}) => {
+export const getFetchParams = (auth: Account, params: Object = {}) => {
   const contentType =
     params.body instanceof FormData
       ? 'multipart/form-data'
@@ -25,7 +25,7 @@ export const getFetchParams = (auth: Auth, params: Object = {}) => {
   };
 };
 
-export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}) => {
+export const fetchWithAuth = async (auth: Account, url: string, params: Object = {}) => {
   if (!isValidUrl(url)) {
     throw new Error(`Invalid url ${url}`);
   }
@@ -33,7 +33,7 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}
   return fetch(url, getFetchParams(auth, params));
 };
 
-export const apiFetch = async (auth: Auth, route: string, params: Object = {}) =>
+export const apiFetch = async (auth: Account, route: string, params: Object = {}) =>
   fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
 const makeApiError = (httpStatus: number, data: ?Object) => {
@@ -46,7 +46,7 @@ const makeApiError = (httpStatus: number, data: ?Object) => {
 };
 
 export const apiCall = async (
-  auth: Auth,
+  auth: Account,
   route: string,
   params: Object = {},
   resFunc: ResponseExtractionFunc = defaultResFunc,
@@ -68,7 +68,7 @@ export const apiCall = async (
 };
 
 export const apiGet = async (
-  auth: Auth,
+  auth: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
@@ -85,7 +85,7 @@ export const apiGet = async (
   );
 
 export const apiPost = async (
-  auth: Auth,
+  auth: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
@@ -101,7 +101,7 @@ export const apiPost = async (
   );
 
 export const apiFile = async (
-  auth: Auth,
+  auth: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   body: FormData,
@@ -117,7 +117,7 @@ export const apiFile = async (
   );
 
 export const apiPut = async (
-  auth: Auth,
+  auth: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
@@ -133,7 +133,7 @@ export const apiPut = async (
   );
 
 export const apiDelete = async (
-  auth: Auth,
+  auth: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
@@ -149,7 +149,7 @@ export const apiDelete = async (
   );
 
 export const apiPatch = async (
-  auth: Auth,
+  auth: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
@@ -165,7 +165,7 @@ export const apiPatch = async (
   );
 
 export const apiHead = async (
-  auth: Auth,
+  auth: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},

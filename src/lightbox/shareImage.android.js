@@ -1,8 +1,8 @@
 /* @flow */
 import download from './downloadImage';
-import type { Auth } from '../types';
+import type { Account } from '../types';
 import ShareImageAndroid from '../nativeModules/ShareImageAndroid';
 
-export default async (url: string, auth: Auth) => {
+export default async (url: string, auth: Account) => {
   await download(url, auth).then(res => ShareImageAndroid.shareImage(res.path()));
 };

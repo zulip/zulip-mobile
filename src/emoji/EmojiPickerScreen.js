@@ -10,13 +10,13 @@ import { codePointMap } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import getFilteredEmojiList from './getFilteredEmojiList';
-import type { GlobalState, RealmEmojiState, Auth, Dispatch } from '../types';
+import type { GlobalState, RealmEmojiState, Account, Dispatch } from '../types';
 import { getActiveAccount, getActiveRealmEmojiById } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 
 type Props = {
   realmEmoji: RealmEmojiState,
-  auth: Auth,
+  auth: Account,
   dispatch: Dispatch,
   navigation: NavigationScreenProp<*> & {
     state: {

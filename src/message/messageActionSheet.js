@@ -1,6 +1,6 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
-import type { Auth, Dispatch, Message, Narrow, Subscription } from '../types';
+import type { Account, Dispatch, Message, Narrow, Subscription } from '../types';
 import type { BackgroundData } from '../webview/MessageList';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
@@ -16,7 +16,7 @@ import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
 type ActionParams = {
-  auth: Auth,
+  auth: Account,
   message: Message,
   subscriptions: Subscription[],
   dispatch: Dispatch,
@@ -91,7 +91,7 @@ const addReaction = ({ message, dispatch }: ActionParams) => {
 
 type FilterParams = {
   message: Message,
-  auth: Auth,
+  auth: Account,
   narrow: Narrow,
 };
 

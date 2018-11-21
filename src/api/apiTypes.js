@@ -1,7 +1,7 @@
 /* @flow */
 import type { PresenceState } from '../types';
 
-export type Auth = {
+export type Account = {
   realm: string,
   apiKey: string,
   email: string,

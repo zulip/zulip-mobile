@@ -2,11 +2,11 @@
 import React, { PureComponent } from 'react';
 import { View, FlatList } from 'react-native';
 
-import type { Auth, Account } from '../types';
+import type { Account } from '../types';
 import AccountItem from './AccountItem';
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   accounts: Account[],
   onAccountSelect: number => void,
   onAccountRemove: number => any,

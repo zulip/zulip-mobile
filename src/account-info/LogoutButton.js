@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Dispatch, GlobalState } from '../types';
+import type { Account, Dispatch, GlobalState } from '../types';
 import { ZulipButton } from '../common';
 import { unregisterPush } from '../api';
 import { getActiveAccount, getPushToken } from '../selectors';
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   pushToken: string,
   dispatch: Dispatch,
 };

@@ -1,9 +1,9 @@
 /* @flow */
-import type { Auth } from './apiTypes';
+import type { Account } from './apiTypes';
 import { apiFile } from './apiFetch';
 import { getFileExtension, getMimeTypeFromFileExtension } from '../utils/url';
 
-export default (auth: Auth, uri: string, name: string) => {
+export default (auth: Account, uri: string, name: string) => {
   const formData = new FormData();
   const extension = getFileExtension(name);
   const type = getMimeTypeFromFileExtension(extension);

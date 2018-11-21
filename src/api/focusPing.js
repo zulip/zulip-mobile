@@ -1,9 +1,9 @@
 /* @flow */
-import type { ApiResponseWithPresence, Auth } from './apiTypes';
+import type { ApiResponseWithPresence, Account } from './apiTypes';
 import { apiPost } from './apiFetch';
 
 export default (
-  auth: Auth,
+  auth: Account,
   hasFocus: boolean = true,
   newUserInput: boolean = false,
 ): Promise<ApiResponseWithPresence> =>

@@ -1,6 +1,6 @@
 /* @flow */
-import type { Auth } from '../apiTypes';
+import type { Account } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
-export default async (auth: Auth): Promise<string[]> =>
+export default async (auth: Account): Promise<string[]> =>
   apiGet(auth, 'users/me/alert_words', res => res.alert_words);

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Dimensions } from 'react-native';
 
-import type { Auth, Dispatch, Context, Presence, User } from '../types';
+import type { Account, Dispatch, Context, Presence, User } from '../types';
 import { Avatar, ComponentList, RawLabel, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
@@ -13,7 +13,7 @@ import { nowInTimeZone } from '../utils/date';
 import { doNarrow } from '../actions';
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   dispatch: Dispatch,
   user: User,
   presence: Presence,

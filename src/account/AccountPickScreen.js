@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Account, Dispatch, GlobalState } from '../types';
+import type { Account, Dispatch, GlobalState } from '../types';
 import { getActiveAccount, getAccounts } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Auth,
+  auth: Account,
   accounts: Account[],
   dispatch: Dispatch,
 };

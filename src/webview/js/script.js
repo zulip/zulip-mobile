@@ -1,11 +1,11 @@
 /* @flow */
-import type { Auth } from '../../types';
+import type { Account } from '../../types';
 import smoothScroll from './smoothScroll.min';
 import matchesPolyfill from './matchesPolyfill';
 import js from './generatedEs3';
 import config from '../../config';
 
-export default (anchor: number, auth: Auth): string => `
+export default (anchor: number, auth: Account): string => `
 <script>
 window.__forceSmoothScrollPolyfill__ = true;
 ${smoothScroll}

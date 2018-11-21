@@ -1,8 +1,8 @@
 /* @flow */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Account } from '../apiTypes';
 import { apiPatch } from '../apiFetch';
 
-export default (auth: Auth, id: number, property: string, value: string): Promise<ApiResponse> =>
+export default (auth: Account, id: number, property: string, value: string): Promise<ApiResponse> =>
   apiPatch(auth, `streams/${id}`, res => res, {
     [property]: value,
   });

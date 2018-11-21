@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth, ApiResponseSuccess, DevUser } from './apiTypes';
+import type { Account, ApiResponseSuccess, DevUser } from './apiTypes';
 import { apiGet } from './apiFetch';
 
 type ApiResponseDevListUsers = ApiResponseSuccess & {
@@ -7,4 +7,4 @@ type ApiResponseDevListUsers = ApiResponseSuccess & {
   direct_users: DevUser[],
 };
 
-export default (auth: Auth): Promise<ApiResponseDevListUsers> => apiGet(auth, 'dev_list_users');
+export default (auth: Account): Promise<ApiResponseDevListUsers> => apiGet(auth, 'dev_list_users');
