@@ -29,7 +29,6 @@ export const getStatusBarColor = (backgroundColor: string, theme: ThemeType): st
     : backgroundColor;
 
 type Props = {
-  barStyle?: BarStyle,
   hidden: boolean,
   theme: ThemeType,
   backgroundColor: string,
@@ -53,9 +52,9 @@ class ZulipStatusBar extends PureComponent<Props> {
   };
 
   render() {
-    const { theme, backgroundColor, hidden, barStyle, safeAreaInsets, orientation } = this.props;
+    const { theme, backgroundColor, hidden, safeAreaInsets, orientation } = this.props;
     const style = { height: hidden ? 0 : safeAreaInsets.top, backgroundColor };
-    const statusBarStyle = !barStyle ? getStatusBarStyle(backgroundColor, theme) : barStyle;
+    const statusBarStyle = getStatusBarStyle(backgroundColor, theme);
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
       orientation === 'PORTRAIT' && (
