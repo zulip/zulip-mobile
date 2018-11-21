@@ -12,21 +12,17 @@ import { getSession, getSettings } from '../selectors';
 
 type BarStyle = $PropertyType<$PropertyType<StatusBar, 'props'>, 'barStyle'>;
 
-export const getStatusBarStyle = (backgroundColor: string, theme: ThemeType): BarStyle => {
-  if (backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR) {
-    return theme === 'night' ? 'light-content' : 'dark-content';
-  }
-  return foregroundColorFromBackground(backgroundColor) === 'white'
-    ? 'light-content'
-    : 'dark-content';
-};
-
 export const getStatusBarColor = (backgroundColor: string, theme: ThemeType): string =>
   backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
     ? theme === 'night'
       ? '#212D3B'
       : 'white'
     : backgroundColor;
+
+export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
+  foregroundColorFromBackground(statusBarColor) === 'white' /* force newline */
+    ? 'light-content'
+    : 'dark-content';
 
 type Props = {
   hidden: boolean,
@@ -54,7 +50,6 @@ class ZulipStatusBar extends PureComponent<Props> {
   render() {
     const { theme, backgroundColor, hidden, safeAreaInsets, orientation } = this.props;
     const style = { height: hidden ? 0 : safeAreaInsets.top, backgroundColor };
-    const statusBarStyle = getStatusBarStyle(backgroundColor, theme);
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
       orientation === 'PORTRAIT' && (
@@ -64,7 +59,7 @@ class ZulipStatusBar extends PureComponent<Props> {
             showHideTransition="slide"
             hidden={hidden && Platform.OS !== 'android'}
             backgroundColor={Color(statusBarColor).darken(0.1)}
-            barStyle={statusBarStyle}
+            barStyle={getStatusBarStyle(statusBarColor)}
           />
         </View>
       )
