@@ -13,6 +13,7 @@ import {
 } from '../title/titleSelectors';
 import { getSession, getSettings } from '../selectors';
 
+/** Assumes `textColor` is literally 'white', 'black', or BRAND_COLOR. */
 export const getStatusBarStyle = (
   backgroundColor: string,
   textColor: string,

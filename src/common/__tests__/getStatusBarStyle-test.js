@@ -2,18 +2,23 @@
 import { DEFAULT_TITLE_BACKGROUND_COLOR } from '../../title/titleSelectors';
 import { getStatusBarStyle } from '../ZulipStatusBar';
 
+const themeNight = 'night';
 const themeDefault = 'default';
-const darkTextColor = 'black';
-const DARK_CONTENT_STYLE = 'dark-content';
 
 describe('getStatusBarStyle', () => {
-  test('return bar style according to color given', () => {
-    expect(getStatusBarStyle('#fff', darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
+  test('return bar style according to given color, regardless of theme', () => {
+    expect(getStatusBarStyle('#fff', 'black', themeDefault)).toEqual('dark-content');
+    expect(getStatusBarStyle('#fff', 'black', themeNight)).toEqual('dark-content');
+    expect(getStatusBarStyle('#000', 'white', themeDefault)).toEqual('light-content');
+    expect(getStatusBarStyle('#000', 'white', themeNight)).toEqual('light-content');
   });
 
-  test('return bar style according to theme for default case', () => {
-    expect(getStatusBarStyle(DEFAULT_TITLE_BACKGROUND_COLOR, darkTextColor, themeDefault)).toEqual(
-      DARK_CONTENT_STYLE,
+  test('return bar style according to theme in default-color case', () => {
+    expect(getStatusBarStyle(DEFAULT_TITLE_BACKGROUND_COLOR, 'black', themeDefault)).toEqual(
+      'dark-content',
+    );
+    expect(getStatusBarStyle(DEFAULT_TITLE_BACKGROUND_COLOR, 'black', themeNight)).toEqual(
+      'light-content',
     );
   });
 });
