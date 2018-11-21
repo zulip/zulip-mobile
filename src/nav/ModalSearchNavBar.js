@@ -9,7 +9,6 @@ import NavButton from './NavButton';
 import { navigateBack } from '../actions';
 
 type Props = {|
-  canGoBack: boolean,
   dispatch: Dispatch,
   autoFocus: boolean,
   searchBarOnChange: (text: string) => void,
@@ -24,17 +23,15 @@ class ModalSearchNavBar extends PureComponent<Props> {
 
   render() {
     const { styles: contextStyles } = this.context;
-    const { dispatch, autoFocus, canGoBack, searchBarOnChange } = this.props;
+    const { dispatch, autoFocus, searchBarOnChange } = this.props;
     return (
       <View style={contextStyles.navBar}>
-        {canGoBack && (
-          <NavButton
-            name="arrow-left"
-            onPress={() => {
-              dispatch(navigateBack());
-            }}
-          />
-        )}
+        <NavButton
+          name="arrow-left"
+          onPress={() => {
+            dispatch(navigateBack());
+          }}
+        />
         <SearchInput autoFocus={autoFocus} onChangeText={searchBarOnChange} />
       </View>
     );

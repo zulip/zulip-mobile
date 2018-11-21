@@ -110,11 +110,7 @@ class Screen extends PureComponent<Props> {
         {/* $FlowFixMe-56 Cannot create ZulipStatusBar element because ST is not a React component. */}
         <ZulipStatusBar />
         {search ? (
-          <ModalSearchNavBar
-            canGoBack={canGoBack}
-            autoFocus={autoFocus}
-            searchBarOnChange={searchBarOnChange}
-          />
+          <ModalSearchNavBar autoFocus={autoFocus} searchBarOnChange={searchBarOnChange} />
         ) : (
           <ModalNavBar canGoBack={canGoBack} title={title} />
         )}
