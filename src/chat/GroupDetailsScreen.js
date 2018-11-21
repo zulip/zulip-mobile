@@ -21,17 +21,12 @@ class GroupDetailsScreen extends PureComponent<Props> {
     styles: () => null,
   };
 
-  props: Props;
-
   handlePress = ({ email }) => {
-    const { dispatch } = this.props;
-    dispatch(navigateToAccountDetails(email));
+    this.props.dispatch(navigateToAccountDetails(email));
   };
 
   render() {
-    const { navigation } = this.props;
-    const { recipients } = navigation.state.params;
-
+    const { recipients } = this.props.navigation.state.params;
     return (
       <Screen title="Recipients" scrollEnabled={false}>
         <FlatList
