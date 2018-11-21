@@ -3,11 +3,9 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Dispatch, Context, GlobalState } from '../types';
-import { getCanGoBack } from '../selectors';
+import type { Dispatch, Context } from '../types';
 import SearchInput from '../common/SearchInput';
 import NavButton from './NavButton';
-import { connectPreserveOnBackOption } from '../utils/redux';
 import { navigateBack } from '../actions';
 
 type Props = {|
@@ -43,11 +41,4 @@ class ModalSearchNavBar extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  (state: GlobalState) => ({
-    canGoBack: getCanGoBack(state),
-  }),
-  null,
-  null,
-  connectPreserveOnBackOption,
-)(ModalSearchNavBar);
+export default connect()(ModalSearchNavBar);
