@@ -36,7 +36,7 @@ class Title extends PureComponent<Props> {
       allPrivate: () => <TitleSpecial narrow={narrow} {...props} />,
       stream: () => <TitleStream narrow={narrow} {...props} />,
       topic: () => <TitleStream narrow={narrow} {...props} />,
-      pm: () => <TitlePrivate narrow={narrow} {...props} />,
+      pm: email => <TitlePrivate email={email} {...props} />,
       groupPm: () => <TitleGroup narrow={narrow} {...props} />,
       search: () => null,
     });

@@ -23,7 +23,7 @@ import {
   isStreamOrTopicNarrow,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
-import { NULL_ARRAY, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
+import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const outboxMessagesForCurrentNarrow = (narrow: Narrow): Selector<Outbox[]> =>
   createSelector(getCaughtUpForActiveNarrow(narrow), getOutbox, (caughtUp, outboxMessages) => {
@@ -96,12 +96,6 @@ export const getLastTopicForNarrow = (narrow: Narrow): Selector<string> =>
     }
     return '';
   });
-
-export const getUserInPmNarrow = (narrow: Narrow) =>
-  createSelector(
-    getAllUsers,
-    allUsers => allUsers.find(x => x.email === narrow[0].operand) || NULL_USER,
-  );
 
 export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
   createSelector(

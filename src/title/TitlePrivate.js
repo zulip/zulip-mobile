@@ -7,7 +7,8 @@ import { Text, View } from 'react-native';
 import type { Context, Presence, User } from '../types';
 import { Avatar, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
-import { getPresence, getUserInPmNarrow } from '../selectors';
+import { getPresence } from '../directSelectors';
+import { getAllUsersByEmail } from '../users/userSelectors';
 
 type Props = {
   user: User,
@@ -49,6 +50,6 @@ class TitlePrivate extends PureComponent<Props> {
 }
 
 export default connect((state, props) => ({
-  user: getUserInPmNarrow(props.narrow)(state),
-  presence: getPresence(state)[props.narrow[0].operand],
+  user: getAllUsersByEmail(state)[props.email],
+  presence: getPresence(state)[props.email],
 }))(TitlePrivate);
