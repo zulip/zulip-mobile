@@ -1,7 +1,11 @@
 /* @flow */
 import deepFreeze from 'deep-freeze';
 
-import { getTitleBackgroundColor, getTitleTextColor } from '../titleSelectors';
+import {
+  DEFAULT_TITLE_BACKGROUND_COLOR,
+  getTitleBackgroundColor,
+  getTitleTextColor,
+} from '../titleSelectors';
 import { groupNarrow, streamNarrow, privateNarrow } from '../../utils/narrow';
 import { BRAND_COLOR } from '../../styles';
 import { defaultNav, otherNav } from '../../utils/testHelpers';
@@ -9,13 +13,13 @@ import { defaultNav, otherNav } from '../../utils/testHelpers';
 const subscriptions = [{ name: 'all', color: '#fff' }, { name: 'announce', color: '#000' }];
 
 describe('getTitleBackgroundColor', () => {
-  test('return transparent color for screens other than chat, i.e narrow is undefined', () => {
+  test('return default for screens other than chat, i.e narrow is undefined', () => {
     const state = deepFreeze({
       nav: otherNav,
       subscriptions,
     });
 
-    expect(getTitleBackgroundColor(undefined)(state)).toEqual('transparent');
+    expect(getTitleBackgroundColor(undefined)(state)).toEqual(DEFAULT_TITLE_BACKGROUND_COLOR);
   });
 
   test('return stream color for stream and topic narrow', () => {
@@ -36,15 +40,17 @@ describe('getTitleBackgroundColor', () => {
     expect(getTitleBackgroundColor(streamNarrow('feedback'))(state)).toEqual('gray');
   });
 
-  test('return transparent for non topic/stream narrow', () => {
+  test('return default for non topic/stream narrow', () => {
     const state = deepFreeze({
       nav: defaultNav,
       subscriptions,
     });
 
-    expect(getTitleBackgroundColor(privateNarrow('abc@zulip.com'))(state)).toEqual('transparent');
+    expect(getTitleBackgroundColor(privateNarrow('abc@zulip.com'))(state)).toEqual(
+      DEFAULT_TITLE_BACKGROUND_COLOR,
+    );
     expect(getTitleBackgroundColor(groupNarrow(['abc@zulip.com', 'def@zulip.com']))(state)).toEqual(
-      'transparent',
+      DEFAULT_TITLE_BACKGROUND_COLOR,
     );
   });
 });

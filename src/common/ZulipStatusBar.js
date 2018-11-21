@@ -6,19 +6,28 @@ import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
 import type { Dimensions, StatusBarStyle, ThemeType } from '../types';
-import { getSession, getSettings, getTitleBackgroundColor, getTitleTextColor } from '../selectors';
+import {
+  DEFAULT_TITLE_BACKGROUND_COLOR,
+  getTitleBackgroundColor,
+  getTitleTextColor,
+} from '../title/titleSelectors';
+import { getSession, getSettings } from '../selectors';
 
 export const getStatusBarStyle = (
   backgroundColor: string,
   textColor: string,
   theme: ThemeType,
 ): StatusBarStyle =>
-  textColor === 'white' || (backgroundColor === 'transparent' && theme === 'night')
+  textColor === 'white' || (backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR && theme === 'night')
     ? 'light-content'
     : 'dark-content';
 
 export const getStatusBarColor = (backgroundColor: string, theme: ThemeType): string =>
-  backgroundColor === 'transparent' ? (theme === 'night' ? '#212D3B' : 'white') : backgroundColor;
+  backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
+    ? theme === 'night'
+      ? '#212D3B'
+      : 'white'
+    : backgroundColor;
 
 type Props = {
   barStyle?: StatusBarStyle,

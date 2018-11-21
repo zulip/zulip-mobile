@@ -8,6 +8,8 @@ import { foregroundColorFromBackground } from '../utils/color';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
+export const DEFAULT_TITLE_BACKGROUND_COLOR = 'transparent';
+
 /**
  * Background color to use for the app bar in narrow `narrow`.
  *
@@ -23,7 +25,7 @@ export const getTitleBackgroundColor = (narrow?: Narrow) =>
             subscriptions.find(sub => Array.isArray(narrow) && narrow[0].operand === sub.name)
             || NULL_SUBSCRIPTION
           ).color
-        : 'transparent',
+        : DEFAULT_TITLE_BACKGROUND_COLOR,
   );
 
 /**
