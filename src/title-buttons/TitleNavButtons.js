@@ -1,12 +1,9 @@
 /* @flow */
-import { connect } from 'react-redux';
-
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
 import { ViewPlaceholder } from '../common';
-import { getTitleTextColor } from '../selectors';
 import { getInfoButtonFromNarrow, getExtraButtonFromNarrow } from './titleButtonFromNarrow';
 
 const styles = StyleSheet.create({
@@ -20,7 +17,7 @@ type Props = {
   narrow: Narrow,
 };
 
-class TitleNavButtons extends PureComponent<Props> {
+export default class TitleNavButtons extends PureComponent<Props> {
   props: Props;
 
   render() {
@@ -40,7 +37,3 @@ class TitleNavButtons extends PureComponent<Props> {
     );
   }
 }
-
-export default connect((state, props) => ({
-  color: getTitleTextColor(props.narrow)(state),
-}))(TitleNavButtons);

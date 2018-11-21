@@ -44,7 +44,7 @@ class MainNavBar extends PureComponent<Props> {
           />
         )}
         <Title color={textColor} narrow={narrow} />
-        <TitleNavButtons narrow={narrow} />
+        <TitleNavButtons color={textColor} narrow={narrow} />
       </View>
     );
   }
