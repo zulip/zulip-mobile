@@ -8,9 +8,9 @@ import { getFullUrl } from '../utils/url';
 export const getAllRealmEmojiById: Selector<RealmEmojiState> = createSelector(
   getActiveAccount,
   getRawRealmEmoji,
-  (auth, emojis) =>
+  (account, emojis) =>
     Object.keys(emojis).reduce((result, id) => {
-      result[id] = { ...emojis[id], source_url: getFullUrl(emojis[id].source_url, auth.realm) };
+      result[id] = { ...emojis[id], source_url: getFullUrl(emojis[id].source_url, account.realm) };
       return result;
     }, {}),
 );

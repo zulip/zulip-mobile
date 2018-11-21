@@ -124,10 +124,10 @@ export const getMessageIdFromLink = (url: string, realm: string): number => {
   return isMessageLink(url, realm) ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
 };
 
-const getResourceWithAuth = (uri: string, auth: Account) => ({
-  uri: getFullUrl(uri, auth.realm),
+const getResourceWithAuth = (uri: string, account: Account) => ({
+  uri: getFullUrl(uri, account.realm),
   headers: {
-    Authorization: getAuthHeader(auth.email, auth.apiKey),
+    Authorization: getAuthHeader(account.email, account.apiKey),
   },
 });
 
@@ -135,8 +135,8 @@ const getResourceNoAuth = (uri: string) => ({
   uri,
 });
 
-export const getResource = (uri: string, auth: Account): Object =>
-  isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
+export const getResource = (uri: string, account: Account): Object =>
+  isUrlOnRealm(uri, account.realm) ? getResourceWithAuth(uri, account) : getResourceNoAuth(uri);
 
 export const hasProtocol = (url: string = '') => url.search(/\b(http|https):\/\//) !== -1;
 

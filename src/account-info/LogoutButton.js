@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Account,
+  account: Account,
   pushToken: string,
   dispatch: Dispatch,
 };
@@ -28,10 +28,10 @@ class LogoutButton extends PureComponent<Props> {
   props: Props;
 
   shutdownPUSH = async () => {
-    const { auth, dispatch, pushToken } = this.props;
+    const { account, dispatch, pushToken } = this.props;
     if (pushToken !== '') {
       try {
-        await unregisterPush(auth, pushToken);
+        await unregisterPush(account, pushToken);
       } catch (e) {
         logErrorRemotely(e, 'failed to unregister Push token');
       }
@@ -53,6 +53,6 @@ class LogoutButton extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
   pushToken: getPushToken(state),
 }))(LogoutButton);

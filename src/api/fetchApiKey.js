@@ -7,5 +7,5 @@ type ApiResponseFetchApiKey = ApiResponseSuccess & {
   api_key: string,
 };
 
-export default (auth: Account, email: string, password: string): Promise<ApiResponseFetchApiKey> =>
-  apiPost(auth, 'fetch_api_key', res => res, { username: email, password });
+export default (account: Account, email: string, password: string): Promise<ApiResponseFetchApiKey> =>
+  apiPost(account, 'fetch_api_key', res => res, { username: email, password });

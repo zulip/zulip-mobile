@@ -18,7 +18,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Account,
+  account: Account,
   dispatch: Dispatch,
   navigation: Object,
 };
@@ -35,7 +35,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   props: Props;
   state: State = {
     progress: false,
-    email: this.props.auth.email || '',
+    email: this.props.account.email || '',
     password: '',
     error: '',
   };
@@ -45,16 +45,16 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   };
 
   tryPasswordLogin = async () => {
-    const { dispatch, auth, navigation } = this.props;
+    const { dispatch, account, navigation } = this.props;
     const { requireEmailFormat } = navigation.state.params;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
 
     try {
-      const fetchedKey = await fetchApiKey(auth, email, password);
+      const fetchedKey = await fetchApiKey(account, email, password);
       this.setState({ progress: false });
-      dispatch(loginSuccess(auth.realm, fetchedKey.email, fetchedKey.api_key));
+      dispatch(loginSuccess(account.realm, fetchedKey.email, fetchedKey.api_key));
     } catch (err) {
       this.setState({
         progress: false,
@@ -127,5 +127,5 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
 }))(PasswordAuthScreen);

@@ -4,7 +4,7 @@ import { constructActionButtons, constructHeaderActionButtons } from '../message
 import extractString from '../../i18n/extractString';
 
 describe('constructActionButtons', () => {
-  const auth = deepFreeze({
+  const account = deepFreeze({
     realm: '',
     email: 'Zoe@zulip.com',
   });
@@ -29,7 +29,7 @@ describe('constructActionButtons', () => {
     });
 
     const buttons = constructActionButtons('message')({
-      backgroundData: { auth, flags, mute, subscriptions },
+      backgroundData: { account, flags, mute, subscriptions },
       message,
 
       narrow,
@@ -45,7 +45,7 @@ describe('constructActionButtons', () => {
     });
 
     const buttons = constructActionButtons('message')({
-      backgroundData: { auth, flags, mute, subscriptions },
+      backgroundData: { account, flags, mute, subscriptions },
       message,
       narrow,
       getString,

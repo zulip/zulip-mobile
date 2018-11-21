@@ -6,7 +6,7 @@ import type { Account } from '../types';
 import AccountItem from './AccountItem';
 
 type Props = {
-  auth: Account,
+  activeAccount: Account,
   accounts: Account[],
   onAccountSelect: number => void,
   onAccountRemove: number => any,
@@ -16,7 +16,7 @@ export default class AccountList extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { accounts, onAccountSelect, onAccountRemove, auth } = this.props;
+    const { accounts, onAccountSelect, onAccountRemove, activeAccount } = this.props;
 
     return (
       <View>
@@ -26,7 +26,9 @@ export default class AccountList extends PureComponent<Props> {
           renderItem={({ item, index }) => (
             <AccountItem
               index={index}
-              showDoneIcon={index === 0 && auth.apiKey !== '' && auth.apiKey === item.apiKey}
+              showDoneIcon={
+                index === 0 && activeAccount.apiKey !== '' && activeAccount.apiKey === item.apiKey
+              }
               {...item}
               onSelect={onAccountSelect}
               onRemove={onAccountRemove}

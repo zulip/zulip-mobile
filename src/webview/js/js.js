@@ -428,17 +428,17 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
-const appendAuthToImages = auth => {
+const appendAuthToImages = account => {
   const imageTags = document.getElementsByTagName('img');
   arrayFrom(imageTags).forEach(img => {
-    if (!img.src.startsWith(auth.realm)) {
+    if (!img.src.startsWith(account.realm)) {
       return;
     }
 
     // This unusual form of authentication is only accepted by the server
     // for a small number of routes.  Rather than append the API key to all
     // kinds of URLs on the server, do so only for those routes.
-    const srcPath = img.src.substring(auth.realm.length);
+    const srcPath = img.src.substring(account.realm.length);
     if (
       !(
         srcPath.startsWith('/user_uploads/')
@@ -450,7 +450,7 @@ const appendAuthToImages = auth => {
     }
 
     const delimiter = img.src.includes('?') ? '&' : '?';
-    img.src += `${delimiter}api_key=${auth.apiKey}`;
+    img.src += `${delimiter}api_key=${account.apiKey}`;
   });
 };
 
@@ -472,7 +472,7 @@ const handleMessageContent = (msg: MessageInputContent) => {
 
   documentBody.innerHTML = msg.content;
 
-  appendAuthToImages(msg.auth);
+  appendAuthToImages(msg.account);
 
   if (target.type === 'bottom') {
     scrollToBottom();
@@ -486,9 +486,9 @@ const handleMessageContent = (msg: MessageInputContent) => {
 };
 
 /** We call this when the webview's content first loads. */
-const handleInitialLoad = /* eslint-disable-line */ (anchor: number, auth: Account) => {
+const handleInitialLoad = /* eslint-disable-line */ (anchor: number, account: Account) => {
   scrollToAnchor(anchor);
-  appendAuthToImages(auth);
+  appendAuthToImages(account);
   sendScrollMessageIfListShort();
   scrollEventsDisabled = false;
 };

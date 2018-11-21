@@ -15,14 +15,14 @@ const getRequestBody = (opp, value) => {
 };
 
 export default async ({
-  auth,
+  account,
   opp,
   value,
 }: {
-  auth: Account,
+  account: Account,
   opp: string,
   value: boolean,
 }): Promise<ApiResponse> =>
-  apiPatch(auth, 'settings/notifications', res => res, {
+  apiPatch(account, 'settings/notifications', res => res, {
     ...getRequestBody(opp, value),
   });

@@ -10,7 +10,7 @@ import { ZulipButton, Label } from '../common';
 import { getActiveAccount, getStreamInNarrow } from '../selectors';
 
 type Props = {
-  auth: Account,
+  account: Account,
   stream: Stream,
 };
 
@@ -23,8 +23,8 @@ class NotSubscribed extends PureComponent<Props> {
   };
 
   subscribeToStream = () => {
-    const { auth, stream } = this.props;
-    subscriptionAdd(auth, [{ name: stream.name }]);
+    const { account, stream } = this.props;
+    subscriptionAdd(account, [{ name: stream.name }]);
   };
 
   render() {
@@ -47,6 +47,6 @@ class NotSubscribed extends PureComponent<Props> {
 }
 
 export default connect((state, props) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
   stream: getStreamInNarrow(props.narrow)(state),
 }))(NotSubscribed);

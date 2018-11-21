@@ -2,9 +2,9 @@
 import type { Account } from './apiTypes';
 import { apiGet } from './apiFetch';
 
-export default (auth: Account, queueId: number, lastEventId: number) =>
+export default (account: Account, queueId: number, lastEventId: number) =>
   apiGet(
-    auth,
+    account,
     'events',
     res => res,
     {

@@ -54,12 +54,12 @@ export const removeNotificationListener = (notificationHandler: (notification: O
 };
 
 export const initializeNotifications = (
-  auth: Account,
+  account: Account,
   saveTokenPush: (pushToken: string, msg: string, result: string) => void,
 ) => {
   if (Platform.OS === 'ios') {
     NotificationsIOS.addEventListener('remoteNotificationsRegistered', async deviceToken => {
-      const result = await registerPush(auth, deviceToken);
+      const result = await registerPush(account, deviceToken);
       saveTokenPush(deviceToken, result.msg, result.result);
     });
     NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
@@ -69,7 +69,7 @@ export const initializeNotifications = (
   } else {
     NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
       try {
-        const result = await registerPush(auth, deviceToken);
+        const result = await registerPush(account, deviceToken);
         saveTokenPush(deviceToken, result.msg, result.result);
       } catch (e) {
         logErrorRemotely(e, 'Failed to register GCM');

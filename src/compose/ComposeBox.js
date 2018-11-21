@@ -49,7 +49,7 @@ import {
 import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 
 type Props = {
-  auth: Account,
+  account: Account,
   canSend: boolean,
   narrow: Narrow,
   users: User[],
@@ -226,12 +226,12 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleEdit = () => {
-    const { auth, editMessage, dispatch } = this.props;
+    const { account, editMessage, dispatch } = this.props;
     const { message, topic } = this.state;
     const content = editMessage.content !== message ? message : undefined;
     const subject = topic !== editMessage.topic ? topic : undefined;
     if (content || subject) {
-      updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
+      updateMessage(account, { content, subject }, editMessage.id).catch(error => {
         showErrorAlert(error.message, 'Failed to edit message');
       });
     }
@@ -264,7 +264,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const { styles } = this.context;
     const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
     const {
-      auth,
+      account,
       canSend,
       narrow,
       users,
@@ -281,7 +281,7 @@ class ComposeBox extends PureComponent<Props, State> {
       return <AnnouncementOnly />;
     }
 
-    const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
+    const placeholder = getComposeInputPlaceholder(narrow, account.email, users);
     const style = {
       marginBottom: safeAreaInsets.bottom,
       ...(canSend ? {} : { opacity: 0, position: 'absolute' }),
@@ -354,7 +354,7 @@ class ComposeBox extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState, props) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
   users: getActiveUsers(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
   isAdmin: getIsAdmin(state),

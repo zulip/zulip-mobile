@@ -129,7 +129,7 @@ const fetchMore = (props: Props, event: MessageListEventScroll) => {
 };
 
 const markRead = (props: Props, event: MessageListEventScroll) => {
-  const { debug, flags, auth } = props.backgroundData;
+  const { debug, flags, account } = props.backgroundData;
   if (debug.doNotMarkMessagesAsRead) {
     return;
   }
@@ -140,7 +140,7 @@ const markRead = (props: Props, event: MessageListEventScroll) => {
     event.endMessageId,
   );
   if (unreadMessageIds.length > 0) {
-    queueMarkAsRead(auth, unreadMessageIds);
+    queueMarkAsRead(account, unreadMessageIds);
   }
 };
 
@@ -210,11 +210,11 @@ export const handleMessageListEvent = (
     case 'reaction':
       {
         const { code, messageId, name, reactionType, voted } = event;
-        const { auth } = props.backgroundData;
+        const { account } = props.backgroundData;
         if (voted) {
-          emojiReactionRemove(auth, messageId, reactionType, code, name);
+          emojiReactionRemove(account, messageId, reactionType, code, name);
         } else {
-          emojiReactionAdd(auth, messageId, reactionType, code, name);
+          emojiReactionAdd(account, messageId, reactionType, code, name);
         }
       }
       break;

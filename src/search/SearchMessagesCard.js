@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Account,
+  account: Account,
   query: string,
 };
 
@@ -40,12 +40,12 @@ class SearchMessagesCard extends PureComponent<Props, State> {
   };
 
   handleQueryChange = async (query: string) => {
-    const { auth } = this.props;
+    const { account } = this.props;
 
     throttle(async () => {
       this.setState({ isFetching: true });
       const messages = await getMessages(
-        auth,
+        account,
         SEARCH_NARROW(query),
         LAST_MESSAGE_ANCHOR,
         20,
@@ -98,5 +98,5 @@ class SearchMessagesCard extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
 }))(SearchMessagesCard);

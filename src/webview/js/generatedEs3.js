@@ -307,21 +307,21 @@ var scrollToPreserve = function scrollToPreserve(msgId, prevBoundTop) {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
-var appendAuthToImages = function appendAuthToImages(auth) {
+var appendAuthToImages = function appendAuthToImages(account) {
   var imageTags = document.getElementsByTagName('img');
   arrayFrom(imageTags).forEach(function (img) {
-    if (!img.src.startsWith(auth.realm)) {
+    if (!img.src.startsWith(account.realm)) {
       return;
     }
 
-    var srcPath = img.src.substring(auth.realm.length);
+    var srcPath = img.src.substring(account.realm.length);
 
     if (!(srcPath.startsWith('/user_uploads/') || srcPath.startsWith('/thumbnail?') || srcPath.startsWith('/avatar/'))) {
       return;
     }
 
     var delimiter = img.src.includes('?') ? '&' : '?';
-    img.src += delimiter + "api_key=" + auth.apiKey;
+    img.src += delimiter + "api_key=" + account.apiKey;
   });
 };
 
@@ -346,7 +346,7 @@ var handleMessageContent = function handleMessageContent(msg) {
   }
 
   documentBody.innerHTML = msg.content;
-  appendAuthToImages(msg.auth);
+  appendAuthToImages(msg.account);
 
   if (target.type === 'bottom') {
     scrollToBottom();
@@ -359,9 +359,9 @@ var handleMessageContent = function handleMessageContent(msg) {
   sendScrollMessageIfListShort();
 };
 
-var handleInitialLoad = function handleInitialLoad(anchor, auth) {
+var handleInitialLoad = function handleInitialLoad(anchor, account) {
   scrollToAnchor(anchor);
-  appendAuthToImages(auth);
+  appendAuthToImages(account);
   sendScrollMessageIfListShort();
   scrollEventsDisabled = false;
 };

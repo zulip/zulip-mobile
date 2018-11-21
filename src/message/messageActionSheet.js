@@ -16,7 +16,7 @@ import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
 type ActionParams = {
-  auth: Account,
+  account: Account,
   message: Message,
   subscriptions: Subscription[],
   dispatch: Dispatch,
@@ -25,14 +25,14 @@ type ActionParams = {
 
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 
-const reply = ({ message, dispatch, auth }: ActionParams) => {
-  dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
+const reply = ({ message, dispatch, account }: ActionParams) => {
+  dispatch(doNarrow(getNarrowFromMessage(message, account.email), message.id));
 };
 
-const copyToClipboard = async ({ getString, auth, message }: ActionParams) => {
+const copyToClipboard = async ({ getString, account, message }: ActionParams) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
-    : await getMessageContentById(auth, message.id);
+    : await getMessageContentById(account, message.id);
   Clipboard.setString(rawMessage);
   showToast(getString('Message copied'));
 };
@@ -41,42 +41,42 @@ const editMessage = async ({ message, dispatch }: ActionParams) => {
   dispatch(startEditMessage(message.id, message.subject));
 };
 
-const doDeleteMessage = async ({ auth, message, dispatch }: ActionParams) => {
+const doDeleteMessage = async ({ account, message, dispatch }: ActionParams) => {
   if (isAnOutboxMessage(message)) {
     dispatch(deleteOutboxMessage(message.timestamp));
   } else {
-    deleteMessage(auth, message.id);
+    deleteMessage(account, message.id);
   }
 };
 
-const doUnmuteTopic = ({ auth, message }: ActionParams) => {
-  unmuteTopic(auth, message.display_recipient, message.subject);
+const doUnmuteTopic = ({ account, message }: ActionParams) => {
+  unmuteTopic(account, message.display_recipient, message.subject);
 };
 
-const doMuteTopic = ({ auth, message }: ActionParams) => {
-  muteTopic(auth, message.display_recipient, message.subject);
+const doMuteTopic = ({ account, message }: ActionParams) => {
+  muteTopic(account, message.display_recipient, message.subject);
 };
 
-const doUnmuteStream = ({ auth, message, subscriptions }: ActionParams) => {
+const doUnmuteStream = ({ account, message, subscriptions }: ActionParams) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
-    toggleMuteStream(auth, sub.stream_id, false);
+    toggleMuteStream(account, sub.stream_id, false);
   }
 };
 
-const doMuteStream = ({ auth, message, subscriptions }: ActionParams) => {
+const doMuteStream = ({ account, message, subscriptions }: ActionParams) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
-    toggleMuteStream(auth, sub.stream_id, true);
+    toggleMuteStream(account, sub.stream_id, true);
   }
 };
 
-const starMessage = ({ auth, message }: ActionParams) => {
-  toggleMessageStarred(auth, [message.id], true);
+const starMessage = ({ account, message }: ActionParams) => {
+  toggleMessageStarred(account, [message.id], true);
 };
 
-const unstarMessage = ({ auth, message }: ActionParams) => {
-  toggleMessageStarred(auth, [message.id], false);
+const unstarMessage = ({ account, message }: ActionParams) => {
+  toggleMessageStarred(account, [message.id], false);
 };
 
 const shareMessage = ({ message }: ActionParams) => {
@@ -91,17 +91,17 @@ const addReaction = ({ message, dispatch }: ActionParams) => {
 
 type FilterParams = {
   message: Message,
-  auth: Account,
+  account: Account,
   narrow: Narrow,
 };
 
 const isSentMessage = ({ message }: FilterParams): boolean => !isAnOutboxMessage(message);
 
-const isSentBySelfAndNarrowed = ({ message, auth, narrow }: FilterParams): boolean =>
-  auth.email === message.sender_email && !isHomeNarrow(narrow) && !isSpecialNarrow(narrow);
+const isSentBySelfAndNarrowed = ({ message, account, narrow }: FilterParams): boolean =>
+  account.email === message.sender_email && !isHomeNarrow(narrow) && !isSpecialNarrow(narrow);
 
-const isSentBySelf = ({ message, auth }: FilterParams): boolean =>
-  auth.email === message.sender_email;
+const isSentBySelf = ({ message, account }: FilterParams): boolean =>
+  account.email === message.sender_email;
 
 const isNotDeleted = ({ message }: FilterParams): boolean => message.content !== '<p>(deleted)</p>';
 
@@ -186,13 +186,13 @@ export const constructHeaderActionButtons = ({
 };
 
 export const constructMessageActionButtons = ({
-  backgroundData: { auth, flags },
+  backgroundData: { account, flags },
   message,
   narrow,
   getString,
 }: ConstructSheetParams) => {
   const buttons = actionSheetButtons
-    .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
+    .filter(x => !x.onlyIf || x.onlyIf({ message, account, narrow }))
     .map(x => getString(x.title));
   if (!isAnOutboxMessage(message)) {
     if (message.id in flags.starred) {
@@ -241,7 +241,7 @@ export const showActionSheet = (
     executeActionSheetAction(isHeader, options[buttonIndex], {
       dispatch,
       subscriptions: params.backgroundData.subscriptions,
-      auth: params.backgroundData.auth,
+      account: params.backgroundData.account,
       ...params,
     });
   };

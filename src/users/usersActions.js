@@ -14,8 +14,8 @@ export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = 
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const auth = getActiveAccount(getState());
-  if (auth.realm === '' || auth.apiKey === '') {
+  const account = getActiveAccount(getState());
+  if (account.realm === '' || account.apiKey === '') {
     return; // not logged in
   }
 
@@ -25,7 +25,7 @@ export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = 
 
   lastFocusPing = new Date();
 
-  const response = await focusPing(auth, hasFocus, newUserInput);
+  const response = await focusPing(account, hasFocus, newUserInput);
   dispatch({
     type: PRESENCE_RESPONSE,
     presence: response.presences,
@@ -42,8 +42,8 @@ export const sendTypingEvent = (narrow: Narrow) => async (
   }
 
   if (differenceInSeconds(new Date(), lastTypingStart) > 15) {
-    const auth = getActiveAccount(getState());
-    typing(auth, narrow[0].operand, 'start');
+    const account = getActiveAccount(getState());
+    typing(account, narrow[0].operand, 'start');
     lastTypingStart = new Date();
   }
 };

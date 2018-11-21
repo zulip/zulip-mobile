@@ -33,12 +33,12 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
   // result === GRANTED
 };
 
-export default async (src: string, auth: Account): Promise<mixed> => {
-  const absoluteUrl = getFullUrl(src, auth.realm);
+export default async (src: string, account: Account): Promise<mixed> => {
+  const absoluteUrl = getFullUrl(src, account.realm);
 
   if (Platform.OS === 'ios') {
     const delimiter = absoluteUrl.includes('?') ? '&' : '?';
-    const urlWithApiKey = `${absoluteUrl}${delimiter}api_key=${auth.apiKey}`;
+    const urlWithApiKey = `${absoluteUrl}${delimiter}api_key=${account.apiKey}`;
     return CameraRoll.saveToCameraRoll(urlWithApiKey);
   }
 
@@ -55,6 +55,6 @@ export default async (src: string, auth: Account): Promise<mixed> => {
   }).fetch('GET', absoluteUrl, {
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
     'User-Agent': userAgent,
-    Authorization: getAuthHeader(auth.email, auth.apiKey),
+    Authorization: getAuthHeader(account.email, account.apiKey),
   });
 };

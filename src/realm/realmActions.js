@@ -54,13 +54,13 @@ export const initRealmEmojis = (emojis: Object): InitRealmEmojiAction => ({
   emojis,
 });
 
-export const fetchRealmEmojis = (auth: Account) => async (dispatch: Dispatch) =>
-  dispatch(initRealmEmojis(await getRealmEmojis(auth)));
+export const fetchRealmEmojis = (account: Account) => async (dispatch: Dispatch) =>
+  dispatch(initRealmEmojis(await getRealmEmojis(account)));
 
 export const initRealmFilters = (filters: RealmFilter[]): InitRealmFilterAction => ({
   type: INIT_REALM_FILTER,
   filters,
 });
 
-export const fetchRealmFilters = (auth: Account) => async (dispatch: Dispatch) =>
-  dispatch(initRealmFilters(await getRealmFilters(auth)));
+export const fetchRealmFilters = (account: Account) => async (dispatch: Dispatch) =>
+  dispatch(initRealmFilters(await getRealmFilters(account)));

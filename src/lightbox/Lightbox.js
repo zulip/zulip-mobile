@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Account,
+  account: Account,
   dispatch: Dispatch,
   src: string,
   message: Message,
@@ -62,7 +62,7 @@ class Lightbox extends PureComponent<Props, State> {
   handleOptionsPress = () => {
     const options = constructActionSheetButtons();
     const cancelButtonIndex = options.length - 1;
-    const { showActionSheetWithOptions, src, auth } = this.props;
+    const { showActionSheetWithOptions, src, account } = this.props;
     showActionSheetWithOptions(
       {
         options,
@@ -72,7 +72,7 @@ class Lightbox extends PureComponent<Props, State> {
         executeActionSheetAction({
           title: options[buttonIndex],
           src,
-          auth,
+          account,
         });
       },
     );
@@ -90,10 +90,10 @@ class Lightbox extends PureComponent<Props, State> {
   });
 
   render() {
-    const { src, message, auth } = this.props;
+    const { src, message, account } = this.props;
     const footerMessage =
       message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
-    const resource = getResource(src, auth);
+    const resource = getResource(src, account);
     const { width, height } = Dimensions.get('window');
 
     return (
@@ -106,7 +106,7 @@ class Lightbox extends PureComponent<Props, State> {
           timestamp={message.timestamp}
           avatarUrl={message.avatar_url || getGravatarFromEmail(message.sender_email)}
           senderName={message.sender_full_name}
-          realm={auth.realm}
+          realm={account.realm}
           {...this.getAnimationProps()}
         />
         <PhotoView
@@ -130,6 +130,6 @@ class Lightbox extends PureComponent<Props, State> {
 
 export default connectActionSheet(
   connect((state: GlobalState) => ({
-    auth: getActiveAccount(state),
+    account: getActiveAccount(state),
   }))(Lightbox),
 );

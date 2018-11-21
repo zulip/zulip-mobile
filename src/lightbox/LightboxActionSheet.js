@@ -8,22 +8,22 @@ import { getFullUrl } from '../utils/url';
 
 type DownloadImageType = {
   src: string,
-  auth: Account,
+  account: Account,
 };
 
 type ShareLinkType = {
   src: string,
-  auth: Account,
+  account: Account,
 };
 
 type ExecuteActionSheetActionType = {
   title: string,
   src: string,
-  auth: Account,
+  account: Account,
 };
 
 type ButtonProps = {
-  auth: Account,
+  account: Account,
   src: string,
 };
 
@@ -32,21 +32,21 @@ type ButtonType = {
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
 };
 
-const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
+const tryToDownloadImage = async ({ src, account }: DownloadImageType) => {
   try {
-    await downloadImage(src, auth);
+    await downloadImage(src, account);
     showToast('Download complete');
   } catch (error) {
     showToast(error.message);
   }
 };
 
-const shareLink = ({ src, auth }: ShareLinkType) => {
-  share(getFullUrl(src, auth.realm));
+const shareLink = ({ src, account }: ShareLinkType) => {
+  share(getFullUrl(src, account.realm));
 };
 
-const shareImageDirectly = ({ src, auth }: DownloadImageType) => {
-  shareImage(src, auth);
+const shareImageDirectly = ({ src, account }: DownloadImageType) => {
+  shareImage(src, account);
 };
 
 const actionSheetButtons: ButtonType[] = [

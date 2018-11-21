@@ -304,12 +304,12 @@ describe('getNarrowFromMessage', () => {
     const message = {
       display_recipient: [{ email: 'bob@example.com' }],
     };
-    const auth = {
+    const account = {
       email: 'hamlet@zulip.com',
     };
     const expectedNarrow = privateNarrow('bob@example.com');
 
-    const actualNarrow = getNarrowFromMessage(message, auth.email);
+    const actualNarrow = getNarrowFromMessage(message, account.email);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -318,12 +318,12 @@ describe('getNarrowFromMessage', () => {
     const message = {
       display_recipient: [{ email: 'bob@example.com' }, { email: 'john@example.com' }],
     };
-    const auth = {
+    const account = {
       email: 'hamlet@zulip.com',
     };
     const expectedNarrow = groupNarrow(['bob@example.com', 'john@example.com']);
 
-    const actualNarrow = getNarrowFromMessage(message, auth.email);
+    const actualNarrow = getNarrowFromMessage(message, account.email);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });

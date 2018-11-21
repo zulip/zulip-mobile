@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Account,
+  account: Account,
   narrow: Narrow,
   streams: Stream[],
 };
@@ -29,23 +29,23 @@ class MarkUnreadButton extends PureComponent<Props> {
   props: Props;
 
   handleMarkAllAsRead = () => {
-    const { auth } = this.props;
-    markAllAsRead(auth);
+    const { account } = this.props;
+    markAllAsRead(account);
   };
 
   handleMarkStreamAsRead = () => {
-    const { auth, narrow, streams } = this.props;
+    const { account, narrow, streams } = this.props;
     const stream = streams.find(s => s.name === narrow[0].operand);
     if (stream) {
-      markStreamAsRead(auth, stream.stream_id);
+      markStreamAsRead(account, stream.stream_id);
     }
   };
 
   handleMarkTopicAsRead = () => {
-    const { auth, narrow, streams } = this.props;
+    const { account, narrow, streams } = this.props;
     const stream = streams.find(s => s.name === narrow[0].operand);
     if (stream) {
-      markTopicAsRead(auth, stream.stream_id, narrow[1].operand);
+      markTopicAsRead(account, stream.stream_id, narrow[1].operand);
     }
   };
 
@@ -87,6 +87,6 @@ class MarkUnreadButton extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
   streams: getStreams(state),
 }))(MarkUnreadButton);

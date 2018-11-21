@@ -53,11 +53,11 @@ describe('getInputMessages', () => {
 
   test('if typing users differ send a "typing" message', () => {
     const prevProps = {
-      backgroundData: { auth: {} },
+      backgroundData: { account: {} },
       typingUsers: [],
     };
     const nextProps = {
-      backgroundData: { auth: {} },
+      backgroundData: { account: {} },
       typingUsers: [{ id: 10 }],
     };
 
@@ -69,11 +69,11 @@ describe('getInputMessages', () => {
 
   test('when rendered messages are the same return empty result', () => {
     const prevProps = {
-      backgroundData: { auth: {} },
+      backgroundData: { account: {} },
       renderedMessages: [],
     };
     const nextProps = {
-      backgroundData: { auth: {} },
+      backgroundData: { account: {} },
       renderedMessages: [],
     };
 
@@ -86,7 +86,7 @@ describe('getInputMessages', () => {
     const prevProps = {
       backgroundData: {
         alertWords: {},
-        auth: { realm: '' },
+        account: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
       messages: [],
@@ -95,7 +95,7 @@ describe('getInputMessages', () => {
     const nextProps = {
       backgroundData: {
         alertWords: {},
-        auth: { realm: '' },
+        account: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
       messages: [],
@@ -116,12 +116,12 @@ describe('getInputMessages', () => {
 
   test('WUUT there are several diffs return several messages', () => {
     const prevProps = {
-      backgroundData: { auth: {} },
+      backgroundData: { account: {} },
       fetching: { older: false, newer: false },
       typingUsers: [],
     };
     const nextProps = {
-      backgroundData: { auth: {} },
+      backgroundData: { account: {} },
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
     };
@@ -137,7 +137,7 @@ describe('getInputMessages', () => {
     const prevProps = {
       backgroundData: {
         alertWords: {},
-        auth: { realm: '' },
+        account: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
       fetching: { older: false, newer: false },
@@ -148,7 +148,7 @@ describe('getInputMessages', () => {
     const nextProps = {
       backgroundData: {
         alertWords: {},
-        auth: { realm: '' },
+        account: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
       fetching: { older: false, newer: true },

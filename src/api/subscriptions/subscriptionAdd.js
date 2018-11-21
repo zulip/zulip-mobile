@@ -7,11 +7,11 @@ type SubscriptionObj = {
 };
 
 export default (
-  auth: Account,
+  account: Account,
   subscriptions: SubscriptionObj[],
   principals?: string[],
 ): Promise<ApiResponse> =>
-  apiPost(auth, 'users/me/subscriptions', res => res, {
+  apiPost(account, 'users/me/subscriptions', res => res, {
     subscriptions: JSON.stringify(subscriptions),
     principals: JSON.stringify(principals),
   });

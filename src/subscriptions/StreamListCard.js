@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   dispatch: Dispatch,
-  auth: Account,
+  account: Account,
   canCreateStreams: boolean,
   streams: [],
   subscriptions: [],
@@ -43,12 +43,12 @@ class StreamListCard extends PureComponent<Props, State> {
   handleFilterChange = (filter: string) => this.setState({ filter });
 
   handleSwitchChange = (streamName: string, switchValue: boolean) => {
-    const { auth } = this.props;
+    const { account } = this.props;
 
     if (switchValue) {
-      subscriptionAdd(auth, [{ name: streamName }]);
+      subscriptionAdd(account, [{ name: streamName }]);
     } else {
-      subscriptionRemove(auth, [streamName]);
+      subscriptionRemove(account, [streamName]);
     }
   };
 
@@ -93,7 +93,7 @@ class StreamListCard extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
   canCreateStreams: getCanCreateStreams(state),
   streams: getStreams(state),
   subscriptions: getSubscriptions(state),

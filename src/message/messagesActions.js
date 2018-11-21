@@ -50,15 +50,15 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
 
 export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
-  const auth = getActiveAccount(state);
+  const account = getActiveAccount(state);
 
-  if (isUrlInAppLink(href, auth.realm)) {
+  if (isUrlInAppLink(href, account.realm)) {
     const users = getUsers(state);
-    const anchor = getMessageIdFromLink(href, auth.realm);
-    const narrow = getNarrowFromLink(href, auth.realm, users);
+    const anchor = getMessageIdFromLink(href, account.realm);
+    const narrow = getNarrowFromLink(href, account.realm, users);
 
     dispatch(doNarrow(narrow, anchor));
   } else {
-    openLink(getFullUrl(href, auth.realm));
+    openLink(getFullUrl(href, account.realm));
   }
 };

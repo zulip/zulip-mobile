@@ -16,7 +16,7 @@ import { navigateBack } from '../nav/navActions';
 
 type Props = {
   realmEmoji: RealmEmojiState,
-  auth: Account,
+  account: Account,
   dispatch: Dispatch,
   navigation: NavigationScreenProp<*> & {
     state: {
@@ -46,9 +46,9 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
   };
 
   addReaction = (item: string) => {
-    const { auth, dispatch, navigation } = this.props;
+    const { account, dispatch, navigation } = this.props;
     const { messageId } = navigation.state.params;
-    emojiReactionAdd(auth, messageId, 'unicode_emoji', codePointMap[item], item);
+    emojiReactionAdd(account, messageId, 'unicode_emoji', codePointMap[item], item);
     dispatch(navigateBack());
   };
 
@@ -81,5 +81,5 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
 
 export default connect((state: GlobalState) => ({
   realmEmoji: getActiveRealmEmojiById(state),
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
 }))(EmojiPickerScreen);

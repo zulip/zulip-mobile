@@ -9,7 +9,7 @@ const apiVersion = 'api/v1';
 
 const defaultResFunc: ResponseExtractionFunc = res => res;
 
-export const getFetchParams = (auth: Account, params: Object = {}) => {
+export const getFetchParams = (account: Account, params: Object = {}) => {
   const contentType =
     params.body instanceof FormData
       ? 'multipart/form-data'
@@ -19,22 +19,22 @@ export const getFetchParams = (auth: Account, params: Object = {}) => {
     headers: {
       'Content-Type': contentType,
       'User-Agent': userAgent,
-      ...(auth.apiKey ? { Authorization: getAuthHeader(auth.email, auth.apiKey) } : {}),
+      ...(account.apiKey ? { Authorization: getAuthHeader(account.email, account.apiKey) } : {}),
     },
     ...params,
   };
 };
 
-export const fetchWithAuth = async (auth: Account, url: string, params: Object = {}) => {
+export const fetchWithAuth = async (account: Account, url: string, params: Object = {}) => {
   if (!isValidUrl(url)) {
     throw new Error(`Invalid url ${url}`);
   }
 
-  return fetch(url, getFetchParams(auth, params));
+  return fetch(url, getFetchParams(account, params));
 };
 
-export const apiFetch = async (auth: Account, route: string, params: Object = {}) =>
-  fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
+export const apiFetch = async (account: Account, route: string, params: Object = {}) =>
+  fetchWithAuth(account, `${account.realm}/${apiVersion}/${route}`, params);
 
 const makeApiError = (httpStatus: number, data: ?Object) => {
   const error = new Error('API');
@@ -46,7 +46,7 @@ const makeApiError = (httpStatus: number, data: ?Object) => {
 };
 
 export const apiCall = async (
-  auth: Account,
+  account: Account,
   route: string,
   params: Object = {},
   resFunc: ResponseExtractionFunc = defaultResFunc,
@@ -54,7 +54,7 @@ export const apiCall = async (
 ) => {
   try {
     networkActivityStart(isSilent);
-    const response = await apiFetch(auth, route, params);
+    const response = await apiFetch(account, route, params);
     const json = await response.json().catch(() => undefined);
     if (response.ok && json !== undefined) {
       return resFunc(json);
@@ -68,14 +68,14 @@ export const apiCall = async (
 };
 
 export const apiGet = async (
-  auth: Account,
+  account: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
   isSilent: boolean = false,
 ) =>
   apiCall(
-    auth,
+    account,
     `${route}?${encodeParamsForUrl(params)}`,
     {
       method: 'get',
@@ -85,13 +85,13 @@ export const apiGet = async (
   );
 
 export const apiPost = async (
-  auth: Account,
+  account: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
 ) =>
   apiCall(
-    auth,
+    account,
     route,
     {
       method: 'post',
@@ -101,13 +101,13 @@ export const apiPost = async (
   );
 
 export const apiFile = async (
-  auth: Account,
+  account: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   body: FormData,
 ) =>
   apiCall(
-    auth,
+    account,
     route,
     {
       method: 'post',
@@ -117,13 +117,13 @@ export const apiFile = async (
   );
 
 export const apiPut = async (
-  auth: Account,
+  account: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
 ) =>
   apiCall(
-    auth,
+    account,
     route,
     {
       method: 'put',
@@ -133,13 +133,13 @@ export const apiPut = async (
   );
 
 export const apiDelete = async (
-  auth: Account,
+  account: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
 ) =>
   apiCall(
-    auth,
+    account,
     route,
     {
       method: 'delete',
@@ -149,13 +149,13 @@ export const apiDelete = async (
   );
 
 export const apiPatch = async (
-  auth: Account,
+  account: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
 ) =>
   apiCall(
-    auth,
+    account,
     route,
     {
       method: 'patch',
@@ -165,13 +165,13 @@ export const apiPatch = async (
   );
 
 export const apiHead = async (
-  auth: Account,
+  account: Account,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
 ) =>
   apiCall(
-    auth,
+    account,
     `${route}?${encodeParamsForUrl(params)}`,
     {
       method: 'head',

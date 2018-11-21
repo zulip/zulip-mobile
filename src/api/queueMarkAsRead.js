@@ -5,11 +5,11 @@ import messagesFlags from './messages/messagesFlags';
 let unsentMessageIds = [];
 let lastSentTime = 0;
 
-export default (auth: Account, messageIds: number[]): any => {
+export default (account: Account, messageIds: number[]): any => {
   unsentMessageIds.push(...messageIds);
 
   if (Date.now() - lastSentTime > 2000) {
-    messagesFlags(auth, unsentMessageIds, 'add', 'read');
+    messagesFlags(account, unsentMessageIds, 'add', 'read');
     unsentMessageIds = [];
     lastSentTime = Date.now();
   }

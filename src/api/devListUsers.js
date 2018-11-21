@@ -7,4 +7,4 @@ type ApiResponseDevListUsers = ApiResponseSuccess & {
   direct_users: DevUser[],
 };
 
-export default (auth: Account): Promise<ApiResponseDevListUsers> => apiGet(auth, 'dev_list_users');
+export default (account: Account): Promise<ApiResponseDevListUsers> => apiGet(account, 'dev_list_users');

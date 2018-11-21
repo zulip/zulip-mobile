@@ -10,7 +10,7 @@ import { toggleMobilePushSettings } from '../api';
 import { settingsChange } from '../actions';
 
 type Props = {
-  auth: Account,
+  account: Account,
   dispatch: Dispatch,
   offlineNotification: boolean,
   onlineNotification: boolean,
@@ -21,9 +21,9 @@ class NotificationsScreen extends PureComponent<Props> {
   props: Props;
 
   handleOfflineNotificationChange = () => {
-    const { auth, dispatch, offlineNotification } = this.props;
+    const { account, dispatch, offlineNotification } = this.props;
     toggleMobilePushSettings({
-      auth,
+      account,
       opp: 'offline_notification_change',
       value: !offlineNotification,
     });
@@ -31,9 +31,9 @@ class NotificationsScreen extends PureComponent<Props> {
   };
 
   handleOnlineNotificationChange = () => {
-    const { auth, dispatch, onlineNotification } = this.props;
+    const { account, dispatch, onlineNotification } = this.props;
     toggleMobilePushSettings({
-      auth,
+      account,
       opp: 'online_notification_change',
       value: !onlineNotification,
     });
@@ -41,9 +41,9 @@ class NotificationsScreen extends PureComponent<Props> {
   };
 
   handleStreamNotificationChange = () => {
-    const { auth, dispatch, streamNotification } = this.props;
+    const { account, dispatch, streamNotification } = this.props;
     toggleMobilePushSettings({
-      auth,
+      account,
       opp: 'stream_notification_change',
       value: !streamNotification,
     });
@@ -76,7 +76,7 @@ class NotificationsScreen extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
   offlineNotification: getSettings(state).offlineNotification,
   onlineNotification: getSettings(state).onlineNotification,
   streamNotification: getSettings(state).streamNotification,

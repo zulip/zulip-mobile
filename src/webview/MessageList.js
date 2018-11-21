@@ -59,7 +59,7 @@ import { base64Utf8Encode } from '../utils/encoding';
  */
 export type BackgroundData = $ReadOnly<{
   alertWords: AlertWordsState,
-  auth: Account,
+  account: Account,
   debug: Debug,
   flags: FlagsState,
   mute: MuteState,
@@ -159,10 +159,10 @@ class MessageList extends Component<Props> {
       showMessagePlaceholders,
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
-    const { auth, debug } = backgroundData;
+    const { account, debug } = backgroundData;
     const html = getHtml(messagesHtml, theme, {
       anchor,
-      auth,
+      account,
       highlightUnreadMessages: debug.highlightUnreadMessages,
       showMessagePlaceholders,
     });
@@ -170,7 +170,7 @@ class MessageList extends Component<Props> {
     return (
       <WebView
         source={{
-          baseUrl: auth.realm,
+          baseUrl: account.realm,
           html,
         }}
         style={styles.webview}
@@ -207,7 +207,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
   // it'd be better to set an example of the right general pattern.
   const backgroundData: BackgroundData = {
     alertWords: state.alertWords,
-    auth: getActiveAccount(state),
+    account: getActiveAccount(state),
     debug: getDebug(state),
     flags: getFlags(state),
     mute: getMute(state),

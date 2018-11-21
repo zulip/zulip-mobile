@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Account,
+  activeAccount: Account,
   accounts: Account[],
   dispatch: Dispatch,
 };
@@ -40,7 +40,7 @@ class AccountPickScreen extends PureComponent<Props> {
   handleAccountRemove = (index: number) => this.props.dispatch(removeAccount(index));
 
   render() {
-    const { accounts, dispatch, auth } = this.props;
+    const { accounts, dispatch, activeAccount } = this.props;
 
     return (
       <Screen title="Pick account" centerContent padding>
@@ -50,7 +50,7 @@ class AccountPickScreen extends PureComponent<Props> {
             accounts={accounts}
             onAccountSelect={this.handleAccountSelect}
             onAccountRemove={this.handleAccountRemove}
-            auth={auth}
+            activeAccount={activeAccount}
           />
           <ZulipButton
             text="Add new account"
@@ -66,6 +66,6 @@ class AccountPickScreen extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getActiveAccount(state),
+  activeAccount: getActiveAccount(state),
   accounts: getAccounts(state),
 }))(AccountPickScreen);

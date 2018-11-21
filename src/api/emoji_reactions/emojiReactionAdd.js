@@ -3,13 +3,13 @@ import type { ApiResponse, Account } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
 export default (
-  auth: Account,
+  account: Account,
   messageId: number,
   reactionType: string,
   emojiCode: string,
   emojiName: string,
 ): Promise<ApiResponse> =>
-  apiPost(auth, `messages/${messageId}/reactions`, res => res, {
+  apiPost(account, `messages/${messageId}/reactions`, res => res, {
     reaction_type: reactionType,
     emoji_code: emojiCode,
     emoji_name: emojiName,

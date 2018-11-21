@@ -26,7 +26,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Account,
+  account: Account,
   dispatch: Dispatch,
 };
 
@@ -52,12 +52,12 @@ class DevAuthScreen extends PureComponent<Props, State> {
   };
 
   componentDidMount = () => {
-    const { auth } = this.props;
+    const { account } = this.props;
     this.setState({ progress: true, error: undefined });
 
     (async () => {
       try {
-        const response = await devListUsers(auth);
+        const response = await devListUsers(account);
         this.setState({
           directAdmins: response.direct_admins,
           directUsers: response.direct_users,
@@ -72,13 +72,13 @@ class DevAuthScreen extends PureComponent<Props, State> {
   };
 
   tryDevLogin = async (email: string) => {
-    const { auth } = this.props;
+    const { account } = this.props;
 
     this.setState({ progress: true, error: undefined });
 
     try {
-      const apiKey = await devFetchApiKey(auth, email);
-      this.props.dispatch(loginSuccess(auth.realm, email, apiKey));
+      const apiKey = await devFetchApiKey(account, email);
+      this.props.dispatch(loginSuccess(account.realm, email, apiKey));
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });
@@ -129,5 +129,5 @@ class DevAuthScreen extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
 }))(DevAuthScreen);

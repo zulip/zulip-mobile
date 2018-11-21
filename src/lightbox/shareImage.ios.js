@@ -5,9 +5,9 @@ import type { Account } from '../types';
 import downloadImage from './downloadImage';
 import { showToast } from '../utils/info';
 
-export default async (url: string, auth: Account) => {
+export default async (url: string, account: Account) => {
   try {
-    const uri = await downloadImage(url, auth);
+    const uri = await downloadImage(url, account);
     try {
       await Share.share({ url: uri, message: url });
     } catch (error) {

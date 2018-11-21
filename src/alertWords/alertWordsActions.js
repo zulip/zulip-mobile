@@ -10,6 +10,6 @@ export const initAlertWords = (alertWords: string[]) => ({
 });
 
 export const fetchAlertWords = () => async (dispatch: Dispatch, getState: GetState) => {
-  const auth = getActiveAccount(getState());
-  dispatch(initAlertWords(await getAlertWords(auth)));
+  const account = getActiveAccount(getState());
+  dispatch(initAlertWords(await getAlertWords(account)));
 };

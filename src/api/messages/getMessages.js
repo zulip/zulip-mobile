@@ -3,14 +3,14 @@ import type { Account, Message, Narrow } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 export default async (
-  auth: Account,
+  account: Account,
   narrow: Narrow,
   anchor: number,
   numBefore: number,
   numAfter: number,
   useFirstUnread: boolean = false,
 ): Promise<Message[]> =>
-  apiGet(auth, 'messages', res => res.messages, {
+  apiGet(account, 'messages', res => res.messages, {
     narrow: JSON.stringify(narrow),
     anchor,
     num_before: numBefore,

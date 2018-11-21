@@ -14,7 +14,7 @@ import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 
 type Props = {
-  auth: Account,
+  account: Account,
   user: User,
   orientation: Orientation,
   dispatch: Dispatch,
@@ -25,7 +25,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { auth, dispatch, orientation, user, presence } = this.props;
+    const { account, dispatch, orientation, user, presence } = this.props;
     const title = {
       text: '{_}',
       values: {
@@ -37,7 +37,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
     return (
       <Screen title={title}>
         <AccountDetails
-          auth={auth}
+          account={account}
           dispatch={dispatch}
           user={user}
           presence={presence[user.email]}
@@ -49,7 +49,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState, props: Object) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
   user: getAccountDetailsUserFromEmail(props.navigation.state.params.email)(state),
   orientation: getSession(state).orientation,
   presence: getPresence(state),

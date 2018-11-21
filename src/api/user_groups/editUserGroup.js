@@ -2,5 +2,5 @@
 import type { ApiResponse, Account } from '../apiTypes';
 import { apiPatch } from '../apiFetch';
 
-export default async (auth: Account, id: number): Promise<ApiResponse> =>
-  apiPatch(auth, `user_groups/${id}`);
+export default async (account: Account, id: number): Promise<ApiResponse> =>
+  apiPatch(account, `user_groups/${id}`);

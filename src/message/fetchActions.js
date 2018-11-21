@@ -142,11 +142,11 @@ export const initialFetchComplete = (): InitialFetchCompleteAction => ({
 
 export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
-  const auth = getActiveAccount(getState());
+  const account = getActiveAccount(getState());
 
   timing.start('Essential server data');
   const initData = await tryUntilSuccessful(() =>
-    registerForEvents(auth, config.trackServerEvents, config.serverDataOnStartup),
+    registerForEvents(account, config.trackServerEvents, config.serverDataOnStartup),
   );
   timing.end('Essential server data');
 
@@ -157,21 +157,21 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
 };
 
 export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
-  const auth = getActiveAccount(getState());
+  const account = getActiveAccount(getState());
   const pushToken = getPushToken(getState());
 
   timing.start('Rest of server data');
   const [messages, streams] = await Promise.all([
     await tryUntilSuccessful(() =>
-      getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
+      getMessages(account, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
     ),
-    await tryUntilSuccessful(() => getStreams(auth)),
+    await tryUntilSuccessful(() => getStreams(account)),
   ]);
   timing.end('Rest of server data');
 
   dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
   dispatch(initStreams(streams));
-  if (auth.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
+  if (account.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
     refreshNotificationToken();
   }
   dispatch(trySendMessages());
@@ -190,8 +190,8 @@ export const uploadImage = (narrow: Narrow, uri: string, name: string) => async 
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const auth = getActiveAccount(getState());
-  const serverUri = await uploadFile(auth, uri, name);
+  const account = getActiveAccount(getState());
+  const serverUri = await uploadFile(account, uri, name);
   const messageToSend = `[${name}](${serverUri})`;
 
   dispatch(addToOutbox(narrow, messageToSend));

@@ -2,4 +2,4 @@
 import type { Account } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
-export default (auth: Account): any => apiGet(auth, 'users/me/user_groups');
+export default (account: Account): any => apiGet(account, 'users/me/user_groups');

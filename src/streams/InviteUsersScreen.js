@@ -11,7 +11,7 @@ import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = {
   dispatch: Dispatch,
-  auth: Account,
+  account: Account,
   stream: Stream,
 };
 
@@ -28,10 +28,10 @@ class InviteUsersScreen extends PureComponent<Props, State> {
   handleFilterChange = (filter: string) => this.setState({ filter });
 
   handleInviteUsers = (selected: User[]) => {
-    const { auth, dispatch, stream } = this.props;
+    const { account, dispatch, stream } = this.props;
 
     const recipients = selected.map(user => user.email);
-    subscriptionAdd(auth, [{ name: stream.name }], recipients);
+    subscriptionAdd(account, [{ name: stream.name }], recipients);
     dispatch(navigateBack());
   };
 
@@ -46,6 +46,6 @@ class InviteUsersScreen extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState, props: Object) => ({
-  auth: getActiveAccount(state),
+  account: getActiveAccount(state),
   stream: getStreamFromId(props.navigation.state.params.streamId)(state),
 }))(InviteUsersScreen);

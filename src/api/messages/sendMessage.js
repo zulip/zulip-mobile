@@ -4,7 +4,7 @@ import type { ApiResponse, Account } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
 export default async (
-  auth: Account,
+  account: Account,
   type: 'private' | 'stream',
   to: string,
   subject: string,
@@ -12,7 +12,7 @@ export default async (
   localId: number,
   eventQueueId: number,
 ): Promise<ApiResponse> =>
-  apiPost(auth, 'messages', res => res, {
+  apiPost(account, 'messages', res => res, {
     type,
     to,
     subject,

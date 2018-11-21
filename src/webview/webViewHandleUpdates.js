@@ -12,7 +12,7 @@ import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/
 export type MessageInputContent = {
   type: 'content',
   anchor: number,
-  auth: Account,
+  account: Account,
   content: string,
   updateStrategy: UpdateStrategy,
 };
@@ -50,7 +50,7 @@ const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent 
   return {
     type: 'content',
     anchor: nextProps.anchor,
-    auth: nextProps.backgroundData.auth,
+    account: nextProps.backgroundData.account,
     content,
     updateStrategy,
   };
@@ -67,7 +67,7 @@ const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping =>
   type: 'typing',
   content:
     nextProps.typingUsers.length > 0
-      ? messageTypingAsHtml(nextProps.backgroundData.auth.realm, nextProps.typingUsers)
+      ? messageTypingAsHtml(nextProps.backgroundData.account.realm, nextProps.typingUsers)
       : '',
 });
 

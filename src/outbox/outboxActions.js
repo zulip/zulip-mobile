@@ -53,12 +53,12 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
     return;
   }
   dispatch(toggleOutboxSending(true));
-  const auth = getActiveAccount(state);
+  const account = getActiveAccount(state);
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
   outboxToSend.forEach(async item => {
     try {
       await sendMessage(
-        auth,
+        account,
         item.type,
         isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
         item.subject,

@@ -2,6 +2,6 @@
 import type { Account } from '../apiTypes';
 import messagesFlags from './messagesFlags';
 
-export default (auth: Account, messageIds: number[], starMessage: boolean): any => {
-  messagesFlags(auth, messageIds, starMessage ? 'add' : 'remove', 'starred');
+export default (account: Account, messageIds: number[], starMessage: boolean): any => {
+  messagesFlags(account, messageIds, starMessage ? 'add' : 'remove', 'starred');
 };
