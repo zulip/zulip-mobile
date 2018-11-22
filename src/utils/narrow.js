@@ -115,6 +115,29 @@ export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
   }
 }
 
+export function caseNarrowPartial<T>(narrow: Narrow, cases: $Shape<NarrowCases<T>>): T {
+  const err = (type: string) => (): empty => {
+    throw new Error(`unexpected ${type} narrow: ${JSON.stringify(narrow)}`);
+  };
+  return caseNarrow(
+    narrow,
+    Object.assign(
+      ({
+        home: err('home'),
+        pm: err('PM'),
+        groupPm: err('group PM'),
+        starred: err('starred'),
+        mentioned: err('mentions'),
+        allPrivate: err('all-private'),
+        stream: err('stream'),
+        topic: err('topic'),
+        search: err('search'),
+      }: NarrowCases<T>),
+      cases,
+    ),
+  );
+}
+
 export function caseNarrowDefault<T>(
   narrow: Narrow,
   cases: $Shape<NarrowCases<T>>,
@@ -147,6 +170,15 @@ export const isPrivateNarrow = (narrow?: Narrow): boolean =>
 
 export const isGroupNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { groupPm: () => true }, () => false);
+
+/**
+ * The recipients' emails if a group PM narrow; else error.
+ *
+ * Any use of this probably means something higher up should be refactored
+ * to use caseNarrow.
+ */
+export const emailsOfGroupNarrow = (narrow: Narrow): string[] =>
+  caseNarrowPartial(narrow, { groupPm: emails => emails });
 
 export const isPrivateOrGroupNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { pm: () => true, groupPm: () => true }, () => false);

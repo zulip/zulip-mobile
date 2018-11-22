@@ -21,6 +21,7 @@ import {
   isPrivateNarrow,
   canSendToNarrow,
   isStreamOrTopicNarrow,
+  emailsOfGroupNarrow,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
@@ -98,12 +99,8 @@ export const getLastTopicForNarrow = (narrow: Narrow): Selector<string> =>
   });
 
 export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
-  createSelector(
-    getAllUsers,
-    allUsers =>
-      !narrow || narrow.length === 0
-        ? []
-        : narrow[0].operand.split(',').map(r => allUsers.find(x => x.email === r) || []),
+  createSelector(getAllUsers, allUsers =>
+    emailsOfGroupNarrow(narrow).map(r => allUsers.find(x => x.email === r) || []),
   );
 
 export const getStreamInNarrow = (narrow: Narrow) =>
