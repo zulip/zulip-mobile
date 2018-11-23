@@ -38,14 +38,3 @@ export const getTopMostNarrow: Selector<void | Narrow> = createSelector(getNav, 
 });
 
 export const getCanGoBack = (state: GlobalState) => state.nav.index > 0;
-
-export const getSameRoutesCount: Selector<number> = createSelector(getNav, nav => {
-  let i = nav.routes.length - 1;
-  while (i >= 0) {
-    if (nav.routes[i].routeName !== nav.routes[nav.routes.length - 1].routeName) {
-      break;
-    }
-    i--;
-  }
-  return nav.routes.length - i - 1;
-});
