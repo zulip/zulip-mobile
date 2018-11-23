@@ -5,7 +5,6 @@ import {
   getCurrentRouteParams,
   getChatScreenParams,
   getCanGoBack,
-  getSameRoutesCount,
 } from '../navSelectors';
 
 describe('getCurrentRouteName', () => {
@@ -88,49 +87,5 @@ describe('getCanGoBack', () => {
       },
     });
     expect(getCanGoBack(state)).toBe(false);
-  });
-});
-
-describe('getSameRoutesCount', () => {
-  test('if no routes the count of same routes is 0', () => {
-    const state = deepFreeze({
-      nav: {
-        routes: [],
-      },
-    });
-
-    const count = getSameRoutesCount(state);
-
-    expect(count).toEqual(0);
-  });
-
-  test('if last route differs from  routes the count of same routes is 0', () => {
-    const state = deepFreeze({
-      nav: {
-        routes: [{ routeName: 'main' }, { routeName: 'chat' }],
-      },
-    });
-
-    const count = getSameRoutesCount(state);
-
-    expect(count).toEqual(1);
-  });
-
-  test('if several of the routes are the same ignore the params and return their count', () => {
-    const state = deepFreeze({
-      nav: {
-        routes: [
-          { routeName: 'login' },
-          { routeName: 'main' },
-          { routeName: 'chat', params: { key: 'value' } },
-          { routeName: 'chat', params: { key: 'another value' } },
-          { routeName: 'chat', params: { anotherKey: 'some value' } },
-        ],
-      },
-    });
-
-    const count = getSameRoutesCount(state);
-
-    expect(count).toEqual(3);
   });
 });

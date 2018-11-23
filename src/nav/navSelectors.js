@@ -30,17 +30,6 @@ export const getChatScreenParams = createSelector(
 
 export const getCanGoBack = (state: GlobalState) => state.nav.index > 0;
 
-export const getSameRoutesCount = createSelector(getNav, nav => {
-  let i = nav.routes.length - 1;
-  while (i >= 0) {
-    if (nav.routes[i].routeName !== nav.routes[nav.routes.length - 1].routeName) {
-      break;
-    }
-    i--;
-  }
-  return nav.routes.length - i - 1;
-});
-
 export const getStateForRoute = (route: string, params?: Object) => {
   const action = AppNavigator.router.getActionForPathAndParams(route, params);
   return action != null ? AppNavigator.router.getStateForAction(action) : null;
