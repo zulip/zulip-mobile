@@ -40,8 +40,8 @@ type Props = {
   children: ChildrenArray<*>,
   safeAreaInsets: Dimensions,
   keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
-  padding?: boolean,
-  search?: boolean,
+  padding: boolean,
+  search: boolean,
   title?: LocalizableText,
   scrollEnabled?: boolean,
   style?: Style,
@@ -78,7 +78,9 @@ class Screen extends PureComponent<Props> {
     autoFocus: false,
     centerContent: false,
     keyboardShouldPersistTaps: 'handled',
+    padding: false,
     scrollEnabled: true,
+    search: false,
   };
 
   render() {

@@ -30,8 +30,8 @@ type Props = {
   fullName: string,
   avatarUrl: ?string,
   presence?: Presence,
-  isSelected?: boolean,
-  showEmail?: boolean,
+  isSelected: boolean,
+  showEmail: boolean,
   unreadCount?: number,
   onPress: ({ email: string, fullName: string }) => void,
 };
@@ -42,6 +42,11 @@ export default class UserItem extends PureComponent<Props> {
 
   static contextTypes = {
     styles: () => null,
+  };
+
+  static defaultProps = {
+    isSelected: false,
+    showEmail: false,
   };
 
   handlePress = () => {
