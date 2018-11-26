@@ -1,26 +1,29 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
+import type { RealmBot, Selector, User, UserIdMap } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 import { getOwnEmail } from '../account/accountsSelectors';
 import { getUserByEmail } from './userHelpers';
 
-export const getSelfUserDetail = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
-  getUserByEmail(users, ownEmail),
+export const getSelfUserDetail: Selector<User> = createSelector(
+  getUsers,
+  getOwnEmail,
+  (users, ownEmail) => getUserByEmail(users, ownEmail),
 );
 
-export const getSortedUsers = createSelector(getUsers, users =>
+export const getSortedUsers: Selector<User[]> = createSelector(getUsers, users =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
 );
 
-export const getActiveUsers = createSelector(
+export const getActiveUsers: Selector<(User | RealmBot)[]> = createSelector(
   getUsers,
   getCrossRealmBots,
   (users = [], crossRealmBots = []) => [...users, ...crossRealmBots],
 );
 
-export const getAllUsers = createSelector(
+export const getAllUsers: Selector<(User | RealmBot)[]> = createSelector(
   getUsers,
   getNonActiveUsers,
   getCrossRealmBots,
@@ -38,15 +41,17 @@ export const getAllUsersByEmail = createSelector(getAllUsers, allUsers =>
   }, {}),
 );
 
-export const getUsersById = createSelector(getUsers, (users = []) =>
+export const getUsersById: Selector<UserIdMap> = createSelector(getUsers, (users = []) =>
   users.reduce((usersById, user) => {
     usersById[user.user_id] = user;
     return usersById;
   }, {}),
 );
 
-export const getUsersSansMe = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
-  users.filter(user => user.email !== ownEmail),
+export const getUsersSansMe: Selector<User[]> = createSelector(
+  getUsers,
+  getOwnEmail,
+  (users, ownEmail) => users.filter(user => user.email !== ownEmail),
 );
 
 export const getAccountDetailsUserFromEmail = (email: string) =>
