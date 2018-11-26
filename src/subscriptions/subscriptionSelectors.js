@@ -6,21 +6,23 @@ import { NULL_SUBSCRIPTION } from '../nullObjects';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
 import { getSubscriptions, getStreams } from '../directSelectors';
 
-export const getStreamsById = createSelector(getStreams, streams =>
+export const getStreamsById: Selector<{ [number]: Stream }> = createSelector(getStreams, streams =>
   streams.reduce((streamsById, stream) => {
     streamsById[stream.stream_id] = stream;
     return streamsById;
   }, ({}: { [number]: Stream })),
 );
 
-export const getSubscriptionsById = createSelector(getSubscriptions, subscriptions =>
-  subscriptions.reduce((subsById, subscription) => {
-    subsById[subscription.stream_id] = subscription;
-    return subsById;
-  }, ({}: { [number]: Subscription })),
+export const getSubscriptionsById: Selector<{ [number]: Subscription }> = createSelector(
+  getSubscriptions,
+  subscriptions =>
+    subscriptions.reduce((subsById, subscription) => {
+      subsById[subscription.stream_id] = subscription;
+      return subsById;
+    }, ({}: { [number]: Subscription })),
 );
 
-export const getIsActiveStreamSubscribed = (narrow: Narrow) =>
+export const getIsActiveStreamSubscribed = (narrow: Narrow): Selector<boolean> =>
   createSelector(getSubscriptions, subscriptions => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return true;
@@ -29,7 +31,7 @@ export const getIsActiveStreamSubscribed = (narrow: Narrow) =>
     return subscriptions.find(sub => narrow[0].operand === sub.name) !== undefined;
   });
 
-export const getSubscribedStreams = createSelector(
+export const getSubscribedStreams: Selector<Stream[]> = createSelector(
   getStreams,
   getSubscriptions,
   (allStreams, allSubscriptions) =>
@@ -48,13 +50,13 @@ export const getStreamFromId = (streamId: string): Selector<Stream> =>
     return stream;
   });
 
-export const getSubscriptionFromId = (streamId: string) =>
+export const getSubscriptionFromId = (streamId: string): Selector<Subscription> =>
   createSelector(
     [getSubscriptions],
     subscriptions => subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION,
   );
 
-export const getIsActiveStreamAnnouncementOnly = (narrow: Narrow) =>
+export const getIsActiveStreamAnnouncementOnly = (narrow: Narrow): Selector<boolean> =>
   createSelector(getStreams, streams => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return false;
