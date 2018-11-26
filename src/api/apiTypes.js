@@ -222,7 +222,7 @@ export type User = {
   full_name: string,
   is_admin: boolean,
   is_bot: boolean,
-  profile_data?: Object,
+  profile_data?: empty, // TODO describe actual type
   timezone: string,
   user_id: number,
 };
