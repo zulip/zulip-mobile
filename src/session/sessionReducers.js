@@ -56,15 +56,10 @@ const initialState: SessionState = {
   },
 };
 
-const appRefresh = (
+const loginSuccess = (
   state: SessionState,
-  action: AppRefreshAction | AccountSwitchAction,
+  action: AppRefreshAction | LoginSuccessAction | AccountSwitchAction,
 ): SessionState => ({
-  ...state,
-  needsInitialFetch: true,
-});
-
-const loginSuccess = (state: SessionState, action: LoginSuccessAction): SessionState => ({
   ...state,
   needsInitialFetch: true,
 });
@@ -149,8 +144,6 @@ export default (state: SessionState = initialState, action: SessionAction): Sess
   switch (action.type) {
     case APP_REFRESH:
     case ACCOUNT_SWITCH:
-      return appRefresh(state, action);
-
     case LOGIN_SUCCESS:
       return loginSuccess(state, action);
 
