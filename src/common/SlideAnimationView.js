@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Animated } from 'react-native';
 
-import type { AnimatedValue, ChildrenArray, Style } from '../types';
+import type { ChildrenArray, Style } from '../types';
 
 type Props = {
   style: Style,
@@ -16,7 +16,7 @@ type Props = {
 };
 
 type State = {
-  animationIndex: AnimatedValue,
+  animationIndex: any, // { AnimatedValue } from 'react-native'
 };
 
 export default class SlideAnimationView extends PureComponent<Props, State> {

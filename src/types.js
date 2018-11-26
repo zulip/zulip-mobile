@@ -22,8 +22,6 @@ import type { AppStyles } from './styles/theme';
 export type { ChildrenArray } from 'react';
 export type React$Node = Node; // eslint-disable-line flowtype/type-id-match
 
-export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
-
 export type * from './actionTypes';
 export type * from './api/apiTypes';
 
