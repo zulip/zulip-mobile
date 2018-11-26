@@ -10,9 +10,12 @@ export const getActiveAccount: Selector<Account> = createSelector(
   accounts => (accounts && accounts.length > 0 ? accounts[0] : NULL_ACCOUNT),
 );
 
-export const getOwnEmail = createSelector(getActiveAccount, activeAccount => activeAccount.email);
+export const getOwnEmail: Selector<string> = createSelector(
+  getActiveAccount,
+  activeAccount => activeAccount.email,
+);
 
-export const getCurrentRealm = createSelector(
+export const getCurrentRealm: Selector<string> = createSelector(
   getActiveAccount,
   activeAccount => activeAccount.realm,
 );
