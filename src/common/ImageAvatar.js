@@ -27,6 +27,7 @@ export default class ImageAvatar extends PureComponent<Props> {
   props: Props;
 
   static defaultProps = {
+    shape: 'rounded',
     onPress: nullFunction,
   };
 

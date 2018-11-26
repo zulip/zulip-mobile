@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 type Props = {
   name: string,
   size: number,
-  shape?: string,
+  shape: string,
   children?: ChildrenArray<*>,
   onPress?: () => void,
 };
@@ -39,6 +39,10 @@ type Props = {
  */
 export default class TextAvatar extends PureComponent<Props> {
   props: Props;
+
+  static defaultProps = {
+    shape: 'rounded',
+  };
 
   render() {
     const { children, name, size, shape, onPress } = this.props;
