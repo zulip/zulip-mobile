@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Message, Narrow, Outbox, Selector } from '../types';
+import type { Message, Narrow, Outbox, RealmBot, Selector, Stream, User } from '../types';
 import {
   getAllNarrows,
   getSubscriptions,
@@ -98,14 +98,14 @@ export const getLastTopicForNarrow = (narrow: Narrow): Selector<string> =>
     return '';
   });
 
-export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
+export const getRecipientsInGroupNarrow = (narrow: Narrow): Selector<Array<User | RealmBot>> =>
   createSelector(getAllUsersByEmail, allUsersByEmail =>
     emailsOfGroupNarrow(narrow)
       .map(email => allUsersByEmail[email])
       .filter(user => user),
   );
 
-export const getStreamInNarrow = (narrow: Narrow) =>
+export const getStreamInNarrow = (narrow: Narrow): Selector<Stream> =>
   createSelector(getSubscriptions, getStreams, (subscriptions, streams) => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return NULL_SUBSCRIPTION;
@@ -127,19 +127,19 @@ export const getStreamInNarrow = (narrow: Narrow) =>
     return NULL_SUBSCRIPTION;
   });
 
-export const getIfNoMessages = (narrow: Narrow) =>
+export const getIfNoMessages = (narrow: Narrow): Selector<boolean> =>
   createSelector(getShownMessagesForNarrow(narrow), messages => messages && messages.length === 0);
 
-export const getShowMessagePlaceholders = (narrow: Narrow) =>
+export const getShowMessagePlaceholders = (narrow: Narrow): Selector<boolean> =>
   createSelector(
     getIfNoMessages(narrow),
     getIsFetching(narrow),
     (noMessages, isFetching) => isFetching && noMessages,
   );
 
-export const canSendToActiveNarrow = (narrow: Narrow) => canSendToNarrow(narrow);
+export const canSendToActiveNarrow = (narrow: Narrow): boolean => canSendToNarrow(narrow);
 
-export const isNarrowValid = (narrow: Narrow) =>
+export const isNarrowValid = (narrow: Narrow): Selector<boolean> =>
   createSelector(getStreams, getAllUsers, (streams, allUsers) => {
     if (isStreamOrTopicNarrow(narrow)) {
       return streams.find(s => s.name === narrow[0].operand) !== undefined;
