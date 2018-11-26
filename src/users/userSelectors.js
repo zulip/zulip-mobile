@@ -34,11 +34,13 @@ export const getAllUsers: Selector<(User | RealmBot)[]> = createSelector(
   ],
 );
 
-export const getAllUsersByEmail = createSelector(getAllUsers, allUsers =>
-  allUsers.reduce((usersByEmail, user) => {
-    usersByEmail[user.email] = user;
-    return usersByEmail;
-  }, {}),
+export const getAllUsersByEmail: Selector<{ [string]: User }> = createSelector(
+  getAllUsers,
+  allUsers =>
+    allUsers.reduce((usersByEmail, user) => {
+      usersByEmail[user.email] = user;
+      return usersByEmail;
+    }, {}),
 );
 
 export const getUsersById: Selector<UserIdMap> = createSelector(getUsers, (users = []) =>
@@ -54,7 +56,8 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
   (users, ownEmail) => users.filter(user => user.email !== ownEmail),
 );
 
-export const getAccountDetailsUserFromEmail = (email: string) =>
+// $FlowFixMe
+export const getAccountDetailsUserFromEmail = (email: string): Selector<User | RealmBot> =>
   createSelector(getAllUsers, allUsers => {
     if (!email) {
       return NULL_USER;
