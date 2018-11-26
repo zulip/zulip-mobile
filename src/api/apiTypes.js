@@ -261,8 +261,6 @@ export type ApiResponseError = {
   result: 'error',
 };
 
-export type ResponseExtractionFunc = (response: Object) => any;
-
 export type ApiResponseWithPresence = ApiResponse & {
   server_timestamp: number,
   presences: PresenceState,

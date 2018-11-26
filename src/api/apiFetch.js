@@ -1,11 +1,13 @@
 /* @flow */
 import type { UrlParams } from '../utils/url';
-import type { Auth, ResponseExtractionFunc } from './apiTypes';
+import type { Auth } from './apiTypes';
 import { getAuthHeader, encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
 
 const apiVersion = 'api/v1';
+
+type ResponseExtractionFunc = (response: Object) => any;
 
 const defaultResFunc: ResponseExtractionFunc = res => res;
 
