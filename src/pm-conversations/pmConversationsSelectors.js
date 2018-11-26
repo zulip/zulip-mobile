@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Message, PmConversationData } from '../types';
+import type { Message, PmConversationData, Selector } from '../types';
 import { getPrivateMessages } from '../message/messageSelectors';
 import { getOwnEmail } from '../account/accountsSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
 import { normalizeRecipientsSansMe, getRecipientsIds } from '../utils/recipient';
 
-export const getRecentConversations = createSelector(
+export const getRecentConversations: Selector<PmConversationData[]> = createSelector(
   getOwnEmail,
   getPrivateMessages,
   getUnreadByPms,
@@ -53,6 +53,7 @@ export const getRecentConversations = createSelector(
   },
 );
 
-export const getUnreadConversations = createSelector(getRecentConversations, conversations =>
-  conversations.filter(c => c.unread > 0),
+export const getUnreadConversations: Selector<PmConversationData[]> = createSelector(
+  getRecentConversations,
+  conversations => conversations.filter(c => c.unread > 0),
 );
