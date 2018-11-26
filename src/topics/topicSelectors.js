@@ -1,14 +1,22 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { MuteState, Narrow, StreamsState, StreamUnreadItem, TopicsState } from '../types';
+import type {
+  MuteState,
+  Narrow,
+  Selector,
+  StreamsState,
+  StreamUnreadItem,
+  Topic,
+  TopicsState,
+} from '../types';
 import { getMute, getStreams, getTopics, getUnreadStreams } from '../directSelectors';
 import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 
-export const getTopicsForNarrow = (narrow: Narrow) =>
+export const getTopicsForNarrow = (narrow: Narrow): Selector<string[]> =>
   createSelector(getTopics, getStreams, (topics: TopicsState, streams: StreamsState) => {
     if (!isStreamNarrow(narrow)) {
       return NULL_ARRAY;
@@ -22,7 +30,7 @@ export const getTopicsForNarrow = (narrow: Narrow) =>
     return topics[stream.stream_id].map(x => x.name);
   });
 
-export const getTopicsForStream = (streamId: number) =>
+export const getTopicsForStream = (streamId: number): Selector<?(Topic[])> =>
   createSelector(
     getTopics,
     getMute,
@@ -52,13 +60,13 @@ export const getTopicsForStream = (streamId: number) =>
     },
   );
 
-export const getLastMessageTopic = (narrow: Narrow) =>
+export const getLastMessageTopic = (narrow: Narrow): Selector<string> =>
   createSelector(
     getShownMessagesForNarrow(narrow),
     messages => (messages.length === 0 ? '' : messages[messages.length - 1].subject),
   );
 
-export const getNarrowToSendTo = (narrow: Narrow) =>
+export const getNarrowToSendTo = (narrow: Narrow): Selector<Narrow> =>
   createSelector(
     getLastMessageTopic(narrow),
     lastTopic => (isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, lastTopic) : narrow),
