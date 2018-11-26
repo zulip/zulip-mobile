@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { addNavigationHelpers } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
-import type { Dispatch, GlobalState } from '../types';
+import type { Dispatch, GlobalState, PlainDispatch } from '../types';
 import { getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
 
@@ -18,7 +18,8 @@ class AppWithNavigation extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { dispatch, nav } = this.props;
+    const { nav } = this.props;
+    const dispatch = (this.props.dispatch: PlainDispatch);
     const addListener = createReduxBoundAddListener('root');
 
     return (
@@ -26,6 +27,7 @@ class AppWithNavigation extends PureComponent<Props> {
       <AppNavigator
         navigation={addNavigationHelpers({
           state: nav,
+          // $FlowFixMe flow-typed says react-navigation expects `dispatch` to return boolean
           dispatch,
           addListener,
         })}

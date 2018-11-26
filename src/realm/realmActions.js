@@ -44,9 +44,9 @@ export const saveTokenPush = (
 });
 
 export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {
-  initializeNotifications(getAuth(getState()), (token, msg, result) =>
-    dispatch(saveTokenPush(token, result, msg)),
-  );
+  initializeNotifications(getAuth(getState()), (token, msg, result) => {
+    dispatch(saveTokenPush(token, result, msg));
+  });
 };
 
 export const initRealmEmojis = (emojis: Object): InitRealmEmojiAction => ({

@@ -1,10 +1,10 @@
 /* @flow */
 import type { Node } from 'react';
-import type { Dispatch as ReduxDispatch } from 'redux';
 import type { IntlShape } from 'react-intl';
 import type { InputSelector } from 'reselect';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
+import type { Action, NavigateAction } from './actionTypes';
 import type {
   Auth,
   Topic,
@@ -27,10 +27,6 @@ export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
 
 export type * from './actionTypes';
 export type * from './api/apiTypes';
-
-export type ThunkDispatch<T> = ((Dispatch, GetState) => T) => T;
-
-export type Dispatch = ReduxDispatch<*> & ThunkDispatch<*>;
 
 /*
  * TODO as the name suggests, this should be broken down more specifically.
@@ -494,6 +490,13 @@ export type Selector<TResult> = InputSelector<GlobalState, void, TResult>;
 export type MatchResult = Array<string> & { index: number, input: string };
 
 export type GetState = () => GlobalState;
+
+export type PlainDispatch = <A: Action | NavigateAction>(action: A) => A;
+
+export interface Dispatch {
+  <A: Action | NavigateAction>(action: A): A;
+  <T>((Dispatch, GetState) => T): T;
+}
 
 export type LocalizableText = any; // string | { text: string, values: Object };
 
