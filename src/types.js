@@ -23,7 +23,6 @@ export type { ChildrenArray } from 'react';
 export type React$Node = Node; // eslint-disable-line flowtype/type-id-match
 
 export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
-export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
 
 export type * from './actionTypes';
 export type * from './api/apiTypes';
@@ -530,12 +529,6 @@ export type TimingItemType = {
   endMs: number,
 };
 
-export type ActionSheetButtonType = any; /* {
-  title: string,
-  onPress: (props: ButtonProps) => void | boolean | Promise<any>,
-  onlyIf?: (props: AuthMessageAndNarrow) => boolean,
-} */
-
 export type UnreadTopic = {
   isMuted: boolean,
   key: string,
@@ -606,17 +599,6 @@ export type NeverSubscribedStream = {
   is_old_stream: boolean,
   name: string,
   stream_id: number,
-};
-
-export type UnreadStreamData = {
-  key: string,
-  streamName: string,
-  isMuted: boolean,
-  isPrivate: boolean,
-  isPinned: boolean,
-  color: string,
-  unread: number,
-  data: Object[],
 };
 
 /**
