@@ -1,7 +1,5 @@
 /* @flow */
 
-import type { ObjectWithId, ObjectsMappedById } from '../types';
-
 export const caseInsensitiveCompareFunc = (a: string, b: string): number =>
   a.toLowerCase().localeCompare(b.toLowerCase());
 
@@ -20,6 +18,15 @@ export const deeperMerge = (obj1: Object, obj2: Object): Object =>
 
 export const initialsFromName = (name: string): string =>
   (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');
+
+type ObjectWithId = {
+  id: number,
+  [key: string]: any,
+};
+
+type ObjectsMappedById = {
+  [key: number]: ObjectWithId,
+};
 
 export const groupItemsById = (items: ObjectWithId[]): ObjectsMappedById =>
   items.reduce((itemsById, item) => {

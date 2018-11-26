@@ -42,15 +42,6 @@ export type Dimensions = {
   top: number,
 };
 
-export type ObjectWithId = {
-  id: number,
-  [key: string]: any,
-};
-
-export type ObjectsMappedById = {
-  [key: number]: ObjectWithId,
-};
-
 export type InputSelectionType = {
   start: number,
   end: number,
