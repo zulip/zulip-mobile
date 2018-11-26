@@ -4,6 +4,7 @@ import {
   getFirstMessageId,
   getLastMessageId,
   getLastTopicForNarrow,
+  getRecipientsInGroupNarrow,
   getMessagesForNarrow,
   getStreamInNarrow,
   isNarrowValid,
@@ -260,6 +261,27 @@ describe('getLastTopicForNarrow', () => {
     const actualLastTopic = getLastTopicForNarrow(narrow)(state);
 
     expect(actualLastTopic).toEqual('Some subject');
+  });
+});
+
+describe('getRecipientsInGroupNarrow', () => {
+  test('returns recipients in group narrow skipping non-existing users', () => {
+    const state = deepFreeze({
+      narrows: {},
+      users: [
+        {
+          email: 'john@example.com',
+        },
+      ],
+      realm: {
+        nonActiveUsers: [],
+      },
+    });
+    const narrow = groupNarrow(['john@example.com', 'nonexisting@example.com']);
+
+    const actualRecipients = getRecipientsInGroupNarrow(narrow)(state);
+
+    expect(actualRecipients).toEqual([{ email: 'john@example.com' }]);
   });
 });
 

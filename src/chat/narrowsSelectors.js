@@ -100,7 +100,9 @@ export const getLastTopicForNarrow = (narrow: Narrow): Selector<string> =>
 
 export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
   createSelector(getAllUsers, allUsers =>
-    emailsOfGroupNarrow(narrow).map(r => allUsers.find(x => x.email === r) || []),
+    emailsOfGroupNarrow(narrow)
+      .map(r => allUsers.find(x => x.email === r))
+      .filter(user => user),
   );
 
 export const getStreamInNarrow = (narrow: Narrow) =>
