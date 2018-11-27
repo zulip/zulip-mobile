@@ -18,7 +18,7 @@ export const codeToEmojiMap = Object.keys(codePointMap).reduce((obj, name) => {
 
 export const getFilteredEmojiList = (
   query: string,
-  realmEmoji: { [string]: RealmEmojiType },
+  activeRealmEmojiByName: { [string]: RealmEmojiType },
 ): string[] =>
   // TODO: this doesn't actually handle realm emoji.  See our issue #2846.
   Array.from(

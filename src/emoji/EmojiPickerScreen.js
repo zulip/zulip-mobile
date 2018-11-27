@@ -11,11 +11,11 @@ import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojiList } from './data';
 import type { GlobalState, RealmEmojiState, Auth, Dispatch } from '../types';
-import { getAuth, getActiveRealmEmojiById } from '../selectors';
+import { getAuth, getActiveRealmEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 
 type Props = {
-  realmEmoji: RealmEmojiState,
+  activeRealmEmojiByName: RealmEmojiState,
   auth: Auth,
   dispatch: Dispatch,
   navigation: NavigationScreenProp<*> & {
@@ -53,10 +53,10 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
   };
 
   render() {
-    const { realmEmoji } = this.props;
+    const { activeRealmEmojiByName } = this.props;
     const { filter } = this.state;
 
-    const emojis = getFilteredEmojiList(filter, realmEmoji);
+    const emojis = getFilteredEmojiList(filter, activeRealmEmojiByName);
 
     return (
       <Screen search scrollEnabled={false} searchBarOnChange={this.handleInputChange}>
@@ -73,6 +73,6 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  realmEmoji: getActiveRealmEmojiById(state),
+  activeRealmEmojiByName: getActiveRealmEmojiByName(state),
   auth: getAuth(state),
 }))(EmojiPickerScreen);
