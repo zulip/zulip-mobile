@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import emojiMap from './emojiMap';
 import type { RealmEmojiType } from '../types';
 

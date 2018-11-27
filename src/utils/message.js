@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { FlagsState, Narrow, Message, MuteState, Outbox, Subscription } from '../types';
 import { HOME_NARROW, isTopicNarrow } from './narrow';
 

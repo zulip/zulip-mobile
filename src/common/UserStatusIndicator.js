@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 /* eslint-disable react-native/no-unused-styles */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { MuteState, MuteAction, RealmInitAction, EventMutedTopicsAction } from '../types';
 import { REALM_INIT, ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';

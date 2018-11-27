@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { NativeModules, Platform } from 'react-native';
 import SafariView from 'react-native-safari-view';
 

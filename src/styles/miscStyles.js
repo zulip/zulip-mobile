@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { Platform } from 'react-native';
 
 import type { Style } from '../types';

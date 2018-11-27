@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 export * from './account/accountsSelectors';
 export * from './pm-conversations/pmConversationsSelectors';
 export * from './caughtup/caughtUpSelectors';

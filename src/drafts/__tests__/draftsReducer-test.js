@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
 import { NULL_OBJECT } from '../../nullObjects';

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { Share } from 'react-native';
 
 import type { Auth } from '../types';

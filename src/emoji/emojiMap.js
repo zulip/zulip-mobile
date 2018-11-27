@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 /* eslint-disable */
 import 'string.fromcodepoint';
 

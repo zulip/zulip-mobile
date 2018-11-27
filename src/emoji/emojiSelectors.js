@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { createSelector } from 'reselect';
 import type { Selector, RealmEmojiState, RealmEmojiType } from '../types';
 import { getRawRealmEmoji } from '../directSelectors';

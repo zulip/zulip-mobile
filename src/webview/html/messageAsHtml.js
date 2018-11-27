@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import template from './template';
 import type { FlagsState, Reaction } from '../../types';
 import type { BackgroundData } from '../MessageList';

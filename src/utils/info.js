@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { Alert } from 'react-native';
 import Toast from '@remobile/react-native-toast';
 

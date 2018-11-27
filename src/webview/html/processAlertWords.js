@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { FlagsState } from '../../types';
 
 /* eslint-disable */

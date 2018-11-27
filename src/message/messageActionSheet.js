@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { Clipboard, Share } from 'react-native';
 import type { Auth, Dispatch, Message, Narrow, Subscription } from '../types';
 import type { BackgroundData } from '../webview/MessageList';

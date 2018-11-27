@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { CaughtUpState, CaughtUpAction, MessageFetchCompleteAction } from '../types';
 import {
   APP_REFRESH,

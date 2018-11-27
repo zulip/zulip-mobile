@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { UsersState, UsersAction, RealmInitAction, EventUserAddAction } from '../types';
 import {
   LOGOUT,

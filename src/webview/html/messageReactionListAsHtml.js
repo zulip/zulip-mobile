@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Reaction, RealmEmojiState } from '../../types';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import template from './template';

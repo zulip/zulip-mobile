@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Auth, User } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 

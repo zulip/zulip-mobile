@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { GetState, Dispatch, Narrow, Topic, InitTopicsAction } from '../types';
 import { getTopics } from '../api';
 import { INIT_TOPICS } from '../actionConstants';

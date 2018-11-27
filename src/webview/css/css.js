@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 /* eslint-disable */
 import type { ThemeType } from '../../types';
 import { BORDER_COLOR, BRAND_COLOR } from '../../styles';

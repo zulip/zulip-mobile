@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import template from './template';
 import type { Message, Outbox } from '../../types';
 import { humanDate } from '../../utils/date';

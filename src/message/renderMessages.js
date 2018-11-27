@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Message, Narrow, Outbox, RenderedSectionDescriptor } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/recipient';

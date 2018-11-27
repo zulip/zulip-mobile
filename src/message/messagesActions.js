@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Narrow, Dispatch, GetState } from '../types';
 import config from '../config';
 import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';

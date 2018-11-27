@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { ClearTypingAction } from '../types';
 
 export const clearTyping = (outdatedNotifications: string[]): ClearTypingAction => ({

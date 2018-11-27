@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import {
   REALM_ADD,
   LOGIN_SUCCESS,

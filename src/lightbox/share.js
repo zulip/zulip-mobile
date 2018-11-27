@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { Share } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';

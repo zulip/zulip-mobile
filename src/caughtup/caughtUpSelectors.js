@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { createSelector } from 'reselect';
 
 import type { CaughtUpState, GlobalState, Narrow } from '../types';

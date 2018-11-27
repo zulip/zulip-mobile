@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 export { default as queueMarkAsRead } from './queueMarkAsRead';
 export { default as checkCompatibility } from './checkCompatibility';
 export { default as devFetchApiKey } from './devFetchApiKey';

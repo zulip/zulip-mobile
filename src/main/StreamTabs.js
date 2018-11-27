@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { TabNavigator, TabBarTop } from 'react-navigation';

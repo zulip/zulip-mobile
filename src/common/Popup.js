@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { ChildrenArray } from 'react';
 import { View, StyleSheet } from 'react-native';

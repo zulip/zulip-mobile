@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Reaction, AggregatedReaction } from '../types';
 
 export default (reactions: Reaction[], ownEmail: string): AggregatedReaction[] =>

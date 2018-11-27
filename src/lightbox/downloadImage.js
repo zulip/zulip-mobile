@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { CameraRoll, Platform, PermissionsAndroid } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 

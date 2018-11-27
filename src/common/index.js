@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 export { default as Arc } from './Arc';
 export { default as Avatar } from './Avatar';
 export { default as Centerer } from './Centerer';

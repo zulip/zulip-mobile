@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { UtilityStyles } from './utilityStyles';
 import type { ComposeBoxStyles } from './composeBoxStyles';
 import type { NavStyles } from './navStyles';

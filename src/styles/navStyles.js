@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Style } from '../types';
 import { BRAND_COLOR, NAVBAR_SIZE } from './';
 

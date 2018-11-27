@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 export * from './account/accountActions';
 export * from './events/eventActions';
 export * from './nav/navActions';

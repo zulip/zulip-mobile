@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import isEqual from 'lodash.isequal';
 
 import type {

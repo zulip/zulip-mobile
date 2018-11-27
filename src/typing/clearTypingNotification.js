@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Dispatch, GetState } from '../types';
 
 import { sleep } from '../utils/async';

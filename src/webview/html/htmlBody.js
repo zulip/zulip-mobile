@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import template from './template';
 import messageLoadingList from './messageLoadingListAsHtml';
 import htmlScrollToBottom from './htmlScrollToBottom';

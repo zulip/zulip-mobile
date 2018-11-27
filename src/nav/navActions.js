@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { NavigationActions } from 'react-navigation';
 
 import type {

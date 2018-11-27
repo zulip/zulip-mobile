@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Narrow, DraftUpdateAction } from '../types';
 import { DRAFT_UPDATE } from '../actionConstants';
 

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import createActionBuffer from 'redux-action-buffer';

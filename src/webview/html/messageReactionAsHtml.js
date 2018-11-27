@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { AggregatedReaction, RealmEmojiState, RealmEmojiType } from '../../types';
 import emojiMap from '../../emoji/emojiMap';
 import template from './template';

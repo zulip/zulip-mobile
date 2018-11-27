@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React from 'react';
 import { Platform } from 'react-native';
 import { TabNavigator, TabBarBottom } from 'react-navigation';

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';

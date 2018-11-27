@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import omit from 'lodash.omit';
 
 import type {

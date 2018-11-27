@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import Color from 'color';
 import type { ColorValue } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 

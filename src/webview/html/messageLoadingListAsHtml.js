@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import template from './template';
 import messageLoadingAsHtml from './messageLoadingAsHtml';
 
