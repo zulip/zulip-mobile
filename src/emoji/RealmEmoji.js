@@ -1,11 +1,9 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet, Image } from 'react-native';
 
-import type { GlobalState, RealmEmojiType } from '../types';
-import { getActiveRealmEmojiByName } from '../selectors';
+import type { RealmEmojiType } from '../types';
 
 const styles = StyleSheet.create({
   image: {
@@ -14,25 +12,15 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  activeRealmEmojiByName: { [string]: RealmEmojiType },
-  name: string,
-};
+type Props = {|
+  emoji: RealmEmojiType,
+|};
 
-class RealmEmoji extends PureComponent<Props> {
+export default class RealmEmoji extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { name, activeRealmEmojiByName } = this.props;
-
-    if (!activeRealmEmojiByName[name]) {
-      return null;
-    }
-
-    return <Image style={styles.image} source={{ uri: activeRealmEmojiByName[name].source_url }} />;
+    const { emoji } = this.props;
+    return <Image style={styles.image} source={{ uri: emoji.source_url }} />;
   }
 }
-
-export default connect((state: GlobalState) => ({
-  activeRealmEmojiByName: getActiveRealmEmojiByName(state),
-}))(RealmEmoji);
