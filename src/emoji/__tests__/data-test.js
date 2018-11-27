@@ -29,18 +29,12 @@ describe('getFilteredEmojiNames', () => {
     ]);
   });
 
-  // skip: #2846
-  test.skip('search in realm emojis as well', () => {
-    const list = getFilteredEmojiNames('don', {
-      done: { source_url: '/user_avatars/2/emoji/done.png' },
-    });
-    expect(list).toEqual(['done']);
+  test('search in realm emojis as well', () => {
+    expect(getFilteredEmojiNames('qwerty', { qwerty: {} })).toEqual(['qwerty']);
   });
 
   test('remove duplicates', () => {
-    const list = getFilteredEmojiNames('dog', {
-      dog: { source_url: '/user_avatars/2/emoji/dog.png' },
-    });
-    expect(list).toEqual(['dog', 'dogi']);
+    expect(getFilteredEmojiNames('dog', {})).toEqual(['dog', 'dogi']);
+    expect(getFilteredEmojiNames('dog', { dog: {} })).toEqual(['dog', 'dogi']);
   });
 });

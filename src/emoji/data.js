@@ -19,12 +19,7 @@ export const codeToEmojiMap = Object.keys(codePointMap).reduce((obj, name) => {
 export const getFilteredEmojiNames = (
   query: string,
   activeRealmEmojiByName: { [string]: RealmEmojiType },
-): string[] =>
-  // TODO: this doesn't actually handle realm emoji.  See our issue #2846.
-  Array.from(
-    new Set([
-      ...Object.keys(nameToEmojiMap)
-        .filter(x => x.indexOf(query) === 0)
-        .sort(),
-    ]),
-  );
+): string[] => {
+  const names = [...Object.keys(nameToEmojiMap), ...Object.keys(activeRealmEmojiByName)];
+  return Array.from(new Set([...names.filter(x => x.indexOf(query) === 0).sort()]));
+};
