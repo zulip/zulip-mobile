@@ -43,12 +43,4 @@ describe('getFilteredEmojiNames', () => {
     });
     expect(list).toEqual(['dog', 'dogi']);
   });
-
-  // skip: #2846
-  test.skip('return realm emojis which includes filter ', () => {
-    const list = getFilteredEmojiNames('all', {
-      small: { source_url: '/user_avatars/2/emoji/small.png' },
-    });
-    expect(list).toEqual(['small']);
-  });
 });
