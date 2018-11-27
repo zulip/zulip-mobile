@@ -25,13 +25,13 @@ export const flagsStateToStringList = (flags: FlagsState, id: number): string[] 
   Object.keys(flags).filter(key => flags[key][id]);
 
 const messageBody = (
-  { alertWords, flags, ownEmail, realmEmoji }: BackgroundData,
+  { alertWords, flags, ownEmail, allRealmEmojiById }: BackgroundData,
   { content, id, isOutbox, reactions, timeEdited }: MessageRenderData,
 ) => template`
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
-$!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
+$!${messageReactionListAsHtml(reactions, id, ownEmail, allRealmEmojiById)}
 `;
 
 export default (context: BackgroundData, message: MessageRenderData) => {

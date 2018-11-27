@@ -17,7 +17,7 @@ import type {
   Message,
   MuteState,
   Narrow,
-  RealmEmojiState,
+  RealmEmojiType,
   RenderedSectionDescriptor,
   Subscription,
   User,
@@ -64,7 +64,7 @@ export type BackgroundData = $ReadOnly<{
   flags: FlagsState,
   mute: MuteState,
   ownEmail: string,
-  realmEmoji: RealmEmojiState,
+  allRealmEmojiById: { [id: string]: RealmEmojiType },
   twentyFourHourTime: boolean,
   subscriptions: Subscription[],
 }>;
@@ -212,7 +212,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
     flags: getFlags(state),
     mute: getMute(state),
     ownEmail: getOwnEmail(state),
-    realmEmoji: getAllRealmEmojiById(state),
+    allRealmEmojiById: getAllRealmEmojiById(state),
     subscriptions: getSubscriptions(state),
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
   };
