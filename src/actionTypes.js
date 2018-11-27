@@ -106,25 +106,25 @@ import type {
  *     In any case it will only contain the keys we configure to be persisted.
  * @prop error
  */
-export type RehydrateAction = {
+export type RehydrateAction = {|
   type: typeof REHYDRATE,
   payload: GlobalState | { accounts: null } | {||} | void,
   error: ?Object,
-};
+|};
 
-export type AppOnlineAction = {
+export type AppOnlineAction = {|
   type: typeof APP_ONLINE,
   isOnline: boolean,
-};
+|};
 
-export type AppStateAction = {
+export type AppStateAction = {|
   type: typeof APP_STATE,
   isActive: boolean,
-};
+|};
 
-export type AppRefreshAction = {
+export type AppRefreshAction = {|
   type: typeof APP_REFRESH,
-};
+|};
 
 export type InitSafeAreaInsetsAction = {
   type: typeof INIT_SAFE_AREA_INSETS,

@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   auth: Auth,
   accounts: Account[],
   dispatch: Dispatch,
-};
+|};
 
 class AccountPickScreen extends PureComponent<Props> {
   props: Props;

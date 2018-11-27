@@ -84,7 +84,7 @@ export type NarrowsState = {
  * messages belonging to a given narrow.
  */
 export type MessagesState = {
-  [id: number]: Message,
+  [id: number]: $Exact<Message>,
 };
 
 export type UserIdMap = {
@@ -301,20 +301,20 @@ export type RealmBot = {
  * @prop emoji
  * @prop isAdmin
  */
-export type RealmState = {
+export type RealmState = {|
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
   crossRealmBots: RealmBot[],
   nonActiveUsers: User[],
-  pushToken: {
+  pushToken: {|
     token: string,
     msg: string,
     result: string,
-  },
+  |},
   filters: RealmFilter[],
   emoji: RealmEmojiState,
   isAdmin: boolean,
-};
+|};
 
 export type TopicExtended = Topic & {
   isMuted: boolean,
@@ -333,14 +333,14 @@ export type Context = {
   theme: ThemeType,
 };
 
-export type SettingsState = {
+export type SettingsState = {|
   locale: string,
   theme: ThemeType,
   offlineNotification: boolean,
   onlineNotification: boolean,
   experimentalFeaturesEnabled: boolean,
   streamNotification: boolean,
-};
+|};
 
 export type TypingState = {
   [normalizedRecipients: string]: {
@@ -354,7 +354,7 @@ export type TypingState = {
  *
  * See also `Message`.
  */
-export type Outbox = {
+export type Outbox = {|
   isOutbox: true,
   isSent: boolean,
 
@@ -379,7 +379,7 @@ export type Outbox = {
   // values of type `Message | Outbox`.
   last_edit_timestamp?: void,
   match_content?: void,
-};
+|};
 
 export type StreamUnreadItem = {
   stream_id: number,
@@ -442,7 +442,7 @@ export type UnreadState = {
  *
  * Each property is a subtree maintained by its own reducer function.
  */
-export type GlobalState = {
+export type GlobalState = {|
   accounts: AccountsState,
   alertWords: AlertWordsState,
   caughtUp: CaughtUpState,
@@ -467,7 +467,7 @@ export type GlobalState = {
   unread: UnreadState,
   userGroups: UserGroupsState,
   users: UsersState,
-};
+|};
 
 /** A selector returning TResult. */
 // Seems like this should be OutputSelector... but for whatever reason,
@@ -488,25 +488,25 @@ export interface Dispatch {
 
 export type LocalizableText = any; // string | { text: string, values: Object };
 
-export type RenderedTimeDescriptor = {
+export type RenderedTimeDescriptor = {|
   type: 'time',
   key: number | string,
   timestamp: number,
   firstMessage: Message | Outbox,
-};
+|};
 
-export type RenderedMessageDescriptor = {
+export type RenderedMessageDescriptor = {|
   type: 'message',
   key: number | string,
   message: Message | Outbox,
   isBrief: boolean,
-};
+|};
 
-export type RenderedSectionDescriptor = {
+export type RenderedSectionDescriptor = {|
   key: string | number,
   message: Message | Outbox | {||},
   data: $ReadOnlyArray<RenderedMessageDescriptor | RenderedTimeDescriptor>,
-};
+|};
 
 export type DraftState = {
   [narrow: string]: string,

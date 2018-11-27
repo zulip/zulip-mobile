@@ -87,20 +87,20 @@ export const getUnreadTotal = createSelector(
     unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal + mentionsTotal,
 );
 
-type UnreadTopic = {
+type UnreadTopic = {|
   key: string,
   topic: string,
   unread: number,
   lastUnreadMsgId: number,
-};
+|};
 
-type UnreadStream = {
+type UnreadStream = {|
   key: string,
   streamName: string,
   color: string,
   unread: number,
   data: Array<UnreadTopic>,
-};
+|};
 
 export const getUnreadStreamsAndTopics = createSelector(
   getSubscriptionsById,

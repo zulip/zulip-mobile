@@ -34,7 +34,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   autoFocus: boolean,
   centerContent: boolean,
   children: ChildrenArray<*>,
@@ -46,7 +46,7 @@ type Props = {
   scrollEnabled?: boolean,
   style?: Style,
   searchBarOnChange?: (text: string) => void,
-};
+|};
 
 /**
  * A component representing a distinct screen of the app
