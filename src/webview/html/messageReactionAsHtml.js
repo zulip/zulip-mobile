@@ -16,8 +16,8 @@ export default (
         data-name="${reaction.name}"
         data-code="${reaction.code}"
         data-type="${reaction.type}">$!${
-    allRealmEmojiById[reaction.name]
-      ? getRealmEmojiHtml(allRealmEmojiById[reaction.name])
+    allRealmEmojiById[reaction.code]
+      ? getRealmEmojiHtml(allRealmEmojiById[reaction.code])
       : nameToEmojiMap[reaction.name]
   }&nbsp;${reaction.count}
 </span>`;
