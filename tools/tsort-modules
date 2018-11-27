@@ -12,7 +12,8 @@ import_pairs()
     "$bindir"/flow get-imports --json "$rootdir"/src/**/*.js \
         | jq '.[] | .requirements[] | [.import, .path]
               | map(ltrimstr("'"$rootdir"'/")) | join(" ") ' \
-             -r
+             -r \
+#        | sort -u
 }
 
 sorted_files()
@@ -35,6 +36,18 @@ todo()
     with_flow | number_lines | grep -v '@flow strict '
 }
 
+depends()
+{
+    local f="$1";
+    import_pairs | perl -lane 'print $F[0] if (m( '"$f"'$))'
+}
+
+rdepends()
+{
+    local f="$1";
+    import_pairs | perl -lane 'print $F[1] if (m(^'"$f"' ))'
+}
+
 number_lines()
 {
     nl -ba -nln -w3 -s' '
@@ -45,4 +58,6 @@ case "$1" in
     ''|list) sorted_ourfiles;;
     flow) with_flow | number_lines;;
     todo) todo;;
+    depends) depends "$2";;
+    rdepends) rdepends "$2";;
 esac
