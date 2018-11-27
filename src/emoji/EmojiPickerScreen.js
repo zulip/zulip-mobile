@@ -46,9 +46,13 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
   };
 
   addReaction = (emojiName: string) => {
-    const { auth, dispatch, navigation } = this.props;
+    const { auth, dispatch, navigation, activeRealmEmojiByName } = this.props;
     const { messageId } = navigation.state.params;
-    emojiReactionAdd(auth, messageId, 'unicode_emoji', codePointMap[emojiName], emojiName);
+    const realmEmoji = activeRealmEmojiByName[emojiName];
+    const { reactionType, emojiCode } = realmEmoji
+      ? { reactionType: 'realm_emoji', emojiCode: realmEmoji.id.toString() }
+      : { reactionType: 'unicode_emoji', emojiCode: codePointMap[emojiName] };
+    emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName);
     dispatch(navigateBack());
   };
 
