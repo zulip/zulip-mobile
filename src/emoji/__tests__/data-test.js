@@ -4,19 +4,24 @@ import { getFilteredEmojiNames, nameToEmojiMap } from '../data';
 // because of the emoji.  (Even if they're tucked away in comments, it still
 // gets it wrong.)
 
-/* eslint-disable dot-notation, spellcheck/spell-checker */
+/* eslint-disable no-multi-spaces, spellcheck/spell-checker */
 describe('nameToEmojiMap', () => {
+  const check = (name, string1, string2) => {
+    expect(string1).toEqual(string2);
+    expect(nameToEmojiMap[name]).toEqual(string1);
+  };
+
   test('works for some single-codepoint emoji', () => {
-    expect(nameToEmojiMap['thumbs_up']).toEqual('👍').toEqual('');
-    expect(nameToEmojiMap['pride']).toEqual('🌈');
-    expect(nameToEmojiMap['rainbow']).toEqual('🌈');
+    check('thumbs_up', '👍', '\u{1f44d}');
+    check('pride',     '🌈', '\u{1f308}');
+    check('rainbow',   '🌈', '\u{1f308}');
   });
 
   // Skipped because of (part of?) #3129.
   test.skip('works for some multi-codepoint emoji', () => {
-    expect(nameToEmojiMap['0']).toEqual('0⃣');
-    expect(nameToEmojiMap['asterisk']).toEqual('*⃣');
-    expect(nameToEmojiMap['hash']).toEqual('#⃣');
+    check('0',        '0⃣', '0\u{20e3}');
+    check('asterisk', '*⃣', '*\u{20e3}');
+    check('hash',     '#⃣', '#\u{20e3}');
   });
 });
 
