@@ -9,7 +9,7 @@ import { emojiReactionAdd } from '../api';
 import { codePointMap } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
-import getFilteredEmojiList from './getFilteredEmojiList';
+import { getFilteredEmojiList } from './data';
 import type { GlobalState, RealmEmojiState, Auth, Dispatch } from '../types';
 import { getAuth, getActiveRealmEmojiById } from '../selectors';
 import { navigateBack } from '../nav/navActions';

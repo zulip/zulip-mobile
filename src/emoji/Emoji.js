@@ -1,7 +1,7 @@
-/* @flow strict */
+/* @flow strict-local */
 import { createIconSet } from 'react-native-vector-icons';
-import emojiMap from './emojiMap';
+import { nameToEmojiMap } from './data';
 
-const Icon = createIconSet(emojiMap, 'AppleColorEmoji');
+const Icon = createIconSet(nameToEmojiMap, 'AppleColorEmoji');
 
 export default Icon;

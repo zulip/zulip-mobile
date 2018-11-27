@@ -6,7 +6,7 @@ import { FlatList } from 'react-native';
 
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
-import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
+import { getFilteredEmojiList } from '../emoji/data';
 import type { GlobalState, RealmEmojiState } from '../types';
 import { getActiveRealmEmojiById } from '../selectors';
 

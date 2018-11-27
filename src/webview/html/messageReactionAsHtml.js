@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { AggregatedReaction, RealmEmojiState, RealmEmojiType } from '../../types';
-import emojiMap from '../../emoji/emojiMap';
+import { nameToEmojiMap } from '../../emoji/data';
 import template from './template';
 
 const getRealmEmojiHtml = (realmEmoji: RealmEmojiType): string =>
@@ -18,6 +18,6 @@ export default (
         data-type="${reaction.type}">$!${
     realmEmoji[reaction.name]
       ? getRealmEmojiHtml(realmEmoji[reaction.name])
-      : emojiMap[reaction.name]
+      : nameToEmojiMap[reaction.name]
   }&nbsp;${reaction.count}
 </span>`;

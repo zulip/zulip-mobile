@@ -1,4 +1,4 @@
-import getFilteredEmojiList from '../getFilteredEmojiList';
+import { getFilteredEmojiList } from '../data';
 
 describe('getFilteredEmojiList', () => {
   test('empty query returns all emojis', () => {
