@@ -253,12 +253,13 @@ export type EventUpdateGlobalNotificationsSettingsAction = ServerEvent & {
   setting: boolean,
 };
 
-export type EventSubscriptionAddAction = ServerEvent & {
+export type EventSubscriptionAddAction = {|
+  ...$Exact<ServerEvent>,
   type: typeof EVENT_SUBSCRIPTION_ADD,
   op: 'add',
   subscriptions: Subscription[],
   user: User,
-};
+|};
 
 export type EventSubscriptionRemoveAction = ServerEvent & {
   type: typeof EVENT_SUBSCRIPTION_REMOVE,
