@@ -6,7 +6,7 @@ import { FlatList } from 'react-native';
 
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
-import { getFilteredEmojiList } from '../emoji/data';
+import { getFilteredEmojiNames } from '../emoji/data';
 import type { GlobalState, RealmEmojiState } from '../types';
 import { getActiveRealmEmojiByName } from '../selectors';
 
@@ -27,9 +27,9 @@ class EmojiAutocomplete extends PureComponent<Props> {
 
   render() {
     const { filter, activeRealmEmojiByName } = this.props;
-    const emojis = getFilteredEmojiList(filter, activeRealmEmojiByName);
+    const emojiNames = getFilteredEmojiNames(filter, activeRealmEmojiByName);
 
-    if (emojis.length === 0) {
+    if (emojiNames.length === 0) {
       return null;
     }
 
@@ -38,9 +38,9 @@ class EmojiAutocomplete extends PureComponent<Props> {
         <FlatList
           keyboardShouldPersistTaps="always"
           initialNumToRender={12}
-          data={emojis.slice(0, MAX_CHOICES)}
+          data={emojiNames.slice(0, MAX_CHOICES)}
           keyExtractor={item => item}
-          renderItem={({ item }) => <EmojiRow name={item} onPress={this.onAutocomplete} />}
+          renderItem={({ item: name }) => <EmojiRow name={name} onPress={this.onAutocomplete} />}
         />
       </Popup>
     );

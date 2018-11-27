@@ -16,7 +16,7 @@ export const codeToEmojiMap = Object.keys(codePointMap).reduce((obj, name) => {
   return obj;
 }, ({}: { [string]: string }));
 
-export const getFilteredEmojiList = (
+export const getFilteredEmojiNames = (
   query: string,
   activeRealmEmojiByName: { [string]: RealmEmojiType },
 ): string[] =>

@@ -9,7 +9,7 @@ import { emojiReactionAdd } from '../api';
 import { codePointMap } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
-import { getFilteredEmojiList } from './data';
+import { getFilteredEmojiNames } from './data';
 import type { GlobalState, RealmEmojiState, Auth, Dispatch } from '../types';
 import { getAuth, getActiveRealmEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
@@ -45,10 +45,10 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     });
   };
 
-  addReaction = (item: string) => {
+  addReaction = (emojiName: string) => {
     const { auth, dispatch, navigation } = this.props;
     const { messageId } = navigation.state.params;
-    emojiReactionAdd(auth, messageId, 'unicode_emoji', codePointMap[item], item);
+    emojiReactionAdd(auth, messageId, 'unicode_emoji', codePointMap[emojiName], emojiName);
     dispatch(navigateBack());
   };
 
@@ -56,16 +56,16 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     const { activeRealmEmojiByName } = this.props;
     const { filter } = this.state;
 
-    const emojis = getFilteredEmojiList(filter, activeRealmEmojiByName);
+    const emojiNames = getFilteredEmojiNames(filter, activeRealmEmojiByName);
 
     return (
       <Screen search scrollEnabled={false} searchBarOnChange={this.handleInputChange}>
         <FlatList
           keyboardShouldPersistTaps="always"
           initialNumToRender={20}
-          data={emojis}
+          data={emojiNames}
           keyExtractor={item => item}
-          renderItem={({ item }) => <EmojiRow name={item} onPress={this.addReaction} />}
+          renderItem={({ item: name }) => <EmojiRow name={name} onPress={this.addReaction} />}
         />
       </Screen>
     );
