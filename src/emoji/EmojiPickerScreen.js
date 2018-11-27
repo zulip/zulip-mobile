@@ -6,7 +6,7 @@ import { FlatList } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import { emojiReactionAdd } from '../api';
-import { codePointMap } from './codePointMap';
+import { unicodeCodeByName } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojiNames } from './data';
@@ -51,7 +51,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     const realmEmoji = activeRealmEmojiByName[emojiName];
     const { reactionType, emojiCode } = realmEmoji
       ? { reactionType: 'realm_emoji', emojiCode: realmEmoji.id.toString() }
-      : { reactionType: 'unicode_emoji', emojiCode: codePointMap[emojiName] };
+      : { reactionType: 'unicode_emoji', emojiCode: unicodeCodeByName[emojiName] };
     emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName);
     dispatch(navigateBack());
   };

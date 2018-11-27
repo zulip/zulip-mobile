@@ -8,7 +8,19 @@ export const override: { [code: string]: string } = {
   '2714': '2705',
 };
 
-export const codePointMap: { [name: string]: string } = {
+/**
+ * Maps Zulip "emoji name" to Zulip "emoji code" for all known Unicode emoji.
+ *
+ * Many codes have multiple names.  For example: as of late 2018, there were
+ * approximately 1600 names for 1000 codes, with about 400 codes having >=2
+ * names, about 100 having >=3, up to as many as 6 names for the two
+ * record-holders ('2620' and '1f5dd').
+ *
+ * For the format of these emoji codes, see the comment on
+ * Reaction.emoji_code here:
+ *   https://github.com/zulip/zulip/blob/master/zerver/models.py
+ */
+export const unicodeCodeByName: { [name: string]: string } = {
   '+1': '1f44d',
   '-1': '1f44e',
   '0': '0030-20e3',
