@@ -1,4 +1,4 @@
-/* @flow strict-local */
+/* @flow strict */
 
 let Reactotron; // eslint-disable-line import/no-mutable-exports
 

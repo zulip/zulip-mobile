@@ -1,4 +1,4 @@
-/* @flow strict-local */
+/* @flow strict */
 import { createIconSet } from 'react-native-vector-icons';
 import emojiMap from './emojiMap';
 

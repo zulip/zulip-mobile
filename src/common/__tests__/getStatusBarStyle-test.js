@@ -1,4 +1,4 @@
-/* @flow strict-local */
+/* @flow strict */
 import { getStatusBarStyle } from '../ZulipStatusBar';
 
 describe('getStatusBarStyle', () => {

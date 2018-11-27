@@ -1,4 +1,4 @@
-/* @flow strict-local */
+/* @flow strict */
 import md5 from 'blueimp-md5';
 
 export const getMediumAvatar = (avatarUrl: string): string => {
