@@ -30,17 +30,8 @@ type Props = {
   subscriptions: [],
 };
 
-type State = {
-  filter: string,
-};
-
-class StreamListCard extends PureComponent<Props, State> {
+class StreamListCard extends PureComponent<Props> {
   props: Props;
-  state: State = {
-    filter: '',
-  };
-
-  handleFilterChange = (filter: string) => this.setState({ filter });
 
   handleSwitchChange = (streamName: string, switchValue: boolean) => {
     const { auth } = this.props;
@@ -52,10 +43,6 @@ class StreamListCard extends PureComponent<Props, State> {
     }
   };
 
-  clearInput = () => {
-    this.setState({ filter: '' });
-  };
-
   handleNarrow = (streamName: string) => {
     const { dispatch } = this.props;
     dispatch(doNarrow(streamNarrow(streamName)));
@@ -63,8 +50,7 @@ class StreamListCard extends PureComponent<Props, State> {
 
   render() {
     const { dispatch, canCreateStreams, streams, subscriptions } = this.props;
-    const filteredStreams = streams.filter(x => x.name.includes(this.state.filter));
-    const subsAndStreams = filteredStreams.map(x => ({
+    const subsAndStreams = streams.map(x => ({
       ...x,
       subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
     }));
@@ -85,7 +71,6 @@ class StreamListCard extends PureComponent<Props, State> {
           showDescriptions
           onSwitch={this.handleSwitchChange}
           onPress={this.handleNarrow}
-          clearInput={this.clearInput}
         />
       </View>
     );
