@@ -17,8 +17,7 @@ describe('nameToEmojiMap', () => {
     check('rainbow',   '🌈', '\u{1f308}');
   });
 
-  // Skipped because of (part of?) #3129.
-  test.skip('works for some multi-codepoint emoji', () => {
+  test('works for some multi-codepoint emoji', () => {
     check('0',        '0⃣', '0\u{20e3}');
     check('asterisk', '*⃣', '*\u{20e3}');
     check('hash',     '#⃣', '#\u{20e3}');

@@ -6,15 +6,21 @@ import { unicodeCodeByName, override } from './codePointMap';
 
 const unicodeEmojiNames = Object.keys(unicodeCodeByName);
 
+const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
+  code
+    .split('-')
+    .map(hex => String.fromCodePoint(parseInt(hex, 16)))
+    .join('');
+
 export const nameToEmojiMap = unicodeEmojiNames.reduce((obj, name) => {
-  obj[name] = String.fromCodePoint(parseInt(unicodeCodeByName[name], 16));
+  obj[name] = parseUnicodeEmojiCode(unicodeCodeByName[name]);
   return obj;
 }, ({}: { [string]: string }));
 
 export const codeToEmojiMap = unicodeEmojiNames.reduce((obj, name) => {
   const code = unicodeCodeByName[name];
   const displayCode = override[code] || code;
-  obj[code] = String.fromCodePoint(parseInt(displayCode, 16));
+  obj[code] = parseUnicodeEmojiCode(displayCode);
   return obj;
 }, ({}: { [string]: string }));
 
