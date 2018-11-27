@@ -4,7 +4,6 @@ import type {
   Dispatch,
   GetState,
   Message,
-  FetchMessagesAction,
   MessageFetchStartAction,
   MessageFetchCompleteAction,
   MarkMessagesReadAction,
@@ -72,7 +71,7 @@ export const fetchMessages = (
   numBefore: number,
   numAfter: number,
   useFirstUnread: boolean = false,
-): FetchMessagesAction => async (dispatch: Dispatch, getState: GetState) => {
+) => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
   const messages = await getMessages(
     getAuth(getState()),
@@ -85,7 +84,7 @@ export const fetchMessages = (
   dispatch(messageFetchComplete(messages, narrow, anchor, numBefore, numAfter));
 };
 
-export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number): FetchMessagesAction =>
+export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number) =>
   fetchMessages(
     narrow,
     anchor,
@@ -94,7 +93,7 @@ export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number): Fetch
     false,
   );
 
-export const fetchMessagesAtFirstUnread = (narrow: Narrow): FetchMessagesAction =>
+export const fetchMessagesAtFirstUnread = (narrow: Narrow) =>
   fetchMessages(narrow, 0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, true);
 
 export const markMessagesRead = (messageIds: number[]): MarkMessagesReadAction => ({
@@ -102,10 +101,7 @@ export const markMessagesRead = (messageIds: number[]): MarkMessagesReadAction =
   messageIds,
 });
 
-export const fetchOlder = (narrow: Narrow): FetchMessagesAction => (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const firstMessageId = getFirstMessageId(narrow)(state);
   const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
@@ -117,10 +113,7 @@ export const fetchOlder = (narrow: Narrow): FetchMessagesAction => (
   }
 };
 
-export const fetchNewer = (narrow: Narrow): FetchMessagesAction => (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const lastMessageId = getLastMessageId(narrow)(state);
   const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);

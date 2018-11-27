@@ -213,8 +213,6 @@ export type MessageFetchCompleteAction = {
   numAfter: number,
 };
 
-export type FetchMessagesAction = any;
-
 export type MarkMessagesReadAction = {
   type: typeof MARK_MESSAGES_READ,
   messageIds: number[],
