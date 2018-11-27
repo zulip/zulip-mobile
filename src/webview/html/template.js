@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 import escape from 'lodash.escape';
 
 /**
@@ -13,11 +13,12 @@ import escape from 'lodash.escape';
  * To include a literal '$!' before a value, write '$\!':
  *   template`Hello $\!${&<world}` -> 'Hello $!&amp;&lt;world'
  */
-export default (strings: any, ...values: Array<string>) => {
-  // 'strings: any' because github.com/facebook/flow/issues/2616
+export default (strings: string[], ...values: Array<string>) => {
+  // $FlowFixMe github.com/facebook/flow/issues/2616
+  const raw: string[] = strings.raw; // eslint-disable-line prefer-destructuring
   const result = [];
   values.forEach((value, i) => {
-    if (strings.raw[i].endsWith('$!')) {
+    if (raw[i].endsWith('$!')) {
       result.push(strings[i].substring(0, strings[i].length - 2));
       result.push(value);
     } else {
