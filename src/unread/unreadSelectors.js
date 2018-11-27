@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import type { Narrow } from '../types';
-import { caseInsensitiveCompareObjFunc } from '../utils/misc';
+import { caseInsensitiveCompareFunc } from '../utils/misc';
 import {
   getMute,
   getReadFlags,
@@ -141,7 +141,7 @@ export const getUnreadStreamsAndTopics = createSelector(
     }, {});
 
     const sortedStreams = Object.values(unreadMap)
-      .sort(caseInsensitiveCompareObjFunc('streamName'))
+      .sort((a: any, b: any) => caseInsensitiveCompareFunc(a.streamName, b.streamName))
       .sort((a: any, b: any): number => +b.isPinned - +a.isPinned);
 
     // $FlowFixMe

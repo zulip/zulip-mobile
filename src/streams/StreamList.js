@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { SectionList, StyleSheet } from 'react-native';
 
 import type { Subscription } from '../types';
-import { caseInsensitiveCompareObjFunc } from '../utils/misc';
+import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
 import { SectionSeparatorBetween, SearchEmptyState } from '../common';
 
@@ -50,7 +50,9 @@ export default class StreamList extends PureComponent<Props> {
       return <SearchEmptyState text="No streams found" />;
     }
 
-    const sortedStreams: Subscription[] = streams.sort(caseInsensitiveCompareObjFunc('name'));
+    const sortedStreams: Subscription[] = streams.sort((a, b) =>
+      caseInsensitiveCompareFunc(a.name, b.name),
+    );
     const sections = [
       {
         key: 'Pinned',

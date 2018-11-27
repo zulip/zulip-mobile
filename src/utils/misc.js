@@ -1,37 +1,31 @@
-/* @flow */
+/* @flow strict */
 
 export const caseInsensitiveCompareFunc = (a: string, b: string): number =>
   a.toLowerCase().localeCompare(b.toLowerCase());
 
-export const caseInsensitiveCompareObjFunc = (key: string) => (a: any, b: any): number =>
-  a[key].toLowerCase().localeCompare(b[key].toLowerCase());
-
 export const numberWithSeparators = (value: number | string): string =>
   value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-export const deeperMerge = (obj1: Object, obj2: Object): Object =>
-  Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).reduce((newObj, key) => {
+export function deeperMerge<K, V>(obj1: { [K]: V }, obj2: { [K]: V }): { [K]: V } {
+  return Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).reduce((newObj, key) => {
     newObj[key] =
-      typeof obj1[key] === 'object' ? { ...obj1[key], ...obj2[key] } : obj2[key] || obj1[key];
+      obj1[key] === undefined
+        ? obj2[key]
+        : obj2[key] === undefined
+          ? obj1[key]
+          : { ...obj1[key], ...obj2[key] };
     return newObj;
-  }, {});
+  }, ({}: { [K]: V }));
+}
 
 export const initialsFromName = (name: string): string =>
   (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');
 
-type ObjectWithId = {
-  id: number,
-  [key: string]: any,
-};
-
-type ObjectsMappedById = {
-  [key: number]: ObjectWithId,
-};
-
-export const groupItemsById = (items: ObjectWithId[]): ObjectsMappedById =>
-  items.reduce((itemsById, item) => {
+export function groupItemsById<T: { id: number }>(items: T[]): { [id: number]: T } {
+  return items.reduce((itemsById, item) => {
     itemsById[item.id] = item;
     return itemsById;
   }, {});
+}
 
 export const isValidEmailFormat = (email: string = ''): boolean => /\S+@\S+\.\S+/.test(email);
