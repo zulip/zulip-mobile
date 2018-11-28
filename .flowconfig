@@ -21,7 +21,6 @@
 
 ; Custom ignores
 .*/ios/Pods/*
-.*/Libraries/react-native/ReactNative.js
 .*/node_modules/mitt/src/.*
 .*/node_modules/match-at/lib/.*
 .*/node_modules/react-static-container/.*
