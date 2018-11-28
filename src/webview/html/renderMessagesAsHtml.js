@@ -5,7 +5,6 @@ import type { BackgroundData } from '../MessageList';
 import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
-import { getGravatarFromEmail } from '../../utils/avatar';
 
 export default (
   backgroundData: BackgroundData,
@@ -21,20 +20,7 @@ export default (
           list.push(timeRowAsHtml(item.timestamp, item.firstMessage));
         } else {
           const { message } = item;
-          list.push(
-            messageAsHtml(backgroundData, {
-              id: message.id,
-              isBrief: item.isBrief,
-              fromName: message.sender_full_name,
-              fromEmail: message.sender_email,
-              content: message.match_content || message.content,
-              timestamp: message.timestamp,
-              avatarUrl: message.avatar_url || getGravatarFromEmail(message.sender_email),
-              timeEdited: message.last_edit_timestamp,
-              isOutbox: message.isOutbox,
-              reactions: message.reactions,
-            }),
-          );
+          list.push(messageAsHtml(backgroundData, message, item.isBrief));
         }
       });
 

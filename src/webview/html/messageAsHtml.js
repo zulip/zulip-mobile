@@ -1,8 +1,16 @@
 /* @flow strict-local */
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import template from './template';
-import type { AggregatedReaction, FlagsState, Reaction, RealmEmojiType } from '../../types';
+import type {
+  AggregatedReaction,
+  FlagsState,
+  Message,
+  Outbox,
+  Reaction,
+  RealmEmojiType,
+} from '../../types';
 import type { BackgroundData } from '../MessageList';
+import { getGravatarFromEmail } from '../../utils/avatar';
 import { shortTime } from '../../utils/date';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';
@@ -47,35 +55,25 @@ const messageReactionListAsHtml = (
   return template`<div class="reaction-list">$!${htmlList.join('')}</div>`;
 };
 
-/** Data to be used in rendering a specific message. */
-type MessageRenderData = {
-  content: string,
-  id: number,
-  isOutbox: boolean,
-  reactions: Reaction[],
-  timeEdited: number | void,
-  fromName: string,
-  fromEmail: string,
-  timestamp: number,
-  avatarUrl: string,
-  isBrief: boolean,
-};
-
 const messageBody = (
   { alertWords, flags, ownEmail, allRealmEmojiById }: BackgroundData,
-  { content, id, isOutbox, reactions, timeEdited }: MessageRenderData,
-) => template`
+  message: Message | Outbox,
+) => {
+  const { id, isOutbox, last_edit_timestamp, reactions } = message;
+  const content = message.match_content || message.content;
+  return template`
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
-$!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
+$!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
 $!${messageReactionListAsHtml(reactions, ownEmail, allRealmEmojiById)}
 `;
+};
 
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
   Object.keys(flags).filter(key => flags[key][id]);
 
-export default (context: BackgroundData, message: MessageRenderData) => {
-  const { id, isBrief } = message;
+export default (context: BackgroundData, message: Message | Outbox, isBrief: boolean) => {
+  const { id } = message;
   const flagStrings = flagsStateToStringList(context.flags, id);
   const divOpenHtml = template`
     <div
@@ -87,7 +85,7 @@ export default (context: BackgroundData, message: MessageRenderData) => {
 
   const bodyHtml = messageBody(context, message);
 
-  if (message.isBrief) {
+  if (isBrief) {
     return template`
 $!${divOpenHtml}
   <div class="content">
@@ -97,11 +95,12 @@ $!${divOpenHtml}
 `;
   }
 
-  const { fromName, fromEmail, timestamp, avatarUrl } = message;
+  const { sender_full_name, sender_email, timestamp } = message;
+  const avatarUrl = message.avatar_url || getGravatarFromEmail(message.sender_email);
   const subheaderHtml = template`
 <div class="subheader">
   <div class="username">
-    ${fromName}
+    ${sender_full_name}
   </div>
   <div class="timestamp">
     ${shortTime(new Date(timestamp * 1000), context.twentyFourHourTime)}
@@ -112,7 +111,7 @@ $!${divOpenHtml}
   return template`
 $!${divOpenHtml}
   <div class="avatar">
-    <img src="${avatarUrl}" alt="${fromName}" class="avatar-img" data-email="${fromEmail}">
+    <img src="${avatarUrl}" alt="${sender_full_name}" class="avatar-img" data-email="${sender_email}">
   </div>
   <div class="content">
     $!${subheaderHtml}
