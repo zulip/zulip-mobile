@@ -93,7 +93,7 @@ export default class StreamItem extends PureComponent<Props> {
       ? 'white'
       : color
         || foregroundColorFromBackground(
-          backgroundColor // $FlowFixMe
+          backgroundColor
             || (StyleSheet.flatten(styles.backgroundColor) || {}).backgroundColor
             || null,
         );
