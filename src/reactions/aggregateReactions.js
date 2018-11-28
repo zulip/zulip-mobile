@@ -1,7 +1,10 @@
 /* @flow strict-local */
 import type { Reaction, AggregatedReaction } from '../types';
 
-export default (reactions: Reaction[], ownEmail: string): AggregatedReaction[] =>
+export default (
+  reactions: $ReadOnlyArray<Reaction>,
+  ownEmail: string,
+): $ReadOnlyArray<AggregatedReaction> =>
   Array.from(
     reactions
       .reduce((reactionMap, x) => {

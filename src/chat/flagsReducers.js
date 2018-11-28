@@ -35,8 +35,8 @@ const initialState = {
 
 const addFlagsForMessages = (
   state: FlagsState,
-  messages: number[],
-  flags?: string[],
+  messages: $ReadOnlyArray<number>,
+  flags?: $ReadOnlyArray<string>,
 ): FlagsState => {
   if (!messages || messages.length === 0 || !flags || flags.length === 0) {
     return state;

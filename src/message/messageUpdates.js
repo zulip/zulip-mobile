@@ -4,7 +4,7 @@ import type { Narrow } from '../types';
 
 type Props = $ReadOnly<{
   narrow: Narrow,
-  messages: $ReadOnlyArray<{ id: number }>,
+  messages: $ReadOnlyArray<$ReadOnly<{ id: number }>>,
 }>;
 
 type TransitionProps = {

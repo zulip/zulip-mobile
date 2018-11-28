@@ -28,12 +28,12 @@ export type DevUser = {
 export type ReactionType = 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji';
 
 /** An emoji reaction to a message. */
-export type Reaction = {
-  user: {
+export type Reaction = $ReadOnly<{|
+  user: $ReadOnly<{|
     email: string,
     full_name: string,
     user_id: number,
-  },
+  |}>,
   emoji_name: string,
   reaction_type: ReactionType,
 
@@ -45,16 +45,16 @@ export type Reaction = {
    *   https://github.com/zulip/zulip/blob/master/zerver/models.py
    */
   emoji_code: string,
-};
+|}>;
 
-export type MessageEdit = {
+export type MessageEdit = $ReadOnly<{|
   prev_content?: string,
   prev_rendered_content?: string,
   prev_rendered_content_version?: number,
   prev_subject?: string,
   timestamp: number,
   user_id: number,
-};
+|}>;
 
 /**
  * A Zulip message.
@@ -91,7 +91,7 @@ export type MessageEdit = {
  *
  * See also `Outbox`.
  */
-export type Message = {
+export type Message = $ReadOnly<{
   /** Our own flag; if true, really type `Outbox`. */
   isOutbox: false,
 
@@ -115,7 +115,7 @@ export type Message = {
    *  * Absent in the Redux `state.messages`; we move the information to a
    *    separate subtree `state.flags`.
    */
-  flags?: string[],
+  flags?: $ReadOnlyArray<string>,
 
   /** The rest are believed to really appear in `message` events. */
   avatar_url: ?string,
@@ -123,12 +123,12 @@ export type Message = {
   content: string,
   content_type: 'text/html' | 'text/markdown',
   display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
-  edit_history: MessageEdit[],
+  edit_history: $ReadOnlyArray<MessageEdit>,
   gravatar_hash: string,
   id: number,
   is_me_message: boolean,
   last_edit_timestamp?: number,
-  reactions: Reaction[],
+  reactions: $ReadOnlyArray<Reaction>,
   recipient_id: number,
   sender_email: string,
   sender_full_name: string,
@@ -137,11 +137,11 @@ export type Message = {
   sender_short_name: string,
   stream_id: number, // FixMe: actually only for type `stream`, else absent.
   subject: string,
-  subject_links: string[],
-  submessages: Message[],
+  subject_links: $ReadOnlyArray<string>,
+  submessages: $ReadOnlyArray<Message>,
   timestamp: number,
   type: 'stream' | 'private',
-};
+}>;
 
 export type NarrowOperator =
   | 'is'
@@ -154,19 +154,19 @@ export type NarrowOperator =
   | 'pm-with'
   | 'search';
 
-export type NarrowElement = {
+export type NarrowElement = $ReadOnly<{|
   operand: string,
   operator?: NarrowOperator, // TODO type: this shouldn't be absent.
-};
+|}>;
 
-export type Narrow = NarrowElement[];
+export type Narrow = $ReadOnlyArray<NarrowElement>;
 
-export type RealmEmojiType = {
-  author: {
+export type RealmEmojiType = $ReadOnly<{|
+  author: $ReadOnly<{|
     email: string,
     full_name: string,
     id: number,
-  },
+  |}>,
   deactivated: boolean,
   id: number,
   name: string,
@@ -174,11 +174,11 @@ export type RealmEmojiType = {
   // This prevents accidentally using this type as a map.
   // See https://github.com/facebook/flow/issues/4257#issuecomment-321951793
   [empty]: mixed,
-};
+|}>;
 
-export type RealmEmojiState = {
+export type RealmEmojiState = $ReadOnly<{
   [id: string]: RealmEmojiType,
-};
+}>;
 
 export type RealmFilter = [string, string, number];
 

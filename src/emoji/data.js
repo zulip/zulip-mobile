@@ -26,7 +26,7 @@ export const codeToEmojiMap = unicodeEmojiNames.reduce((obj, name) => {
 
 export const getFilteredEmojiNames = (
   query: string,
-  activeRealmEmojiByName: { [string]: RealmEmojiType },
+  activeRealmEmojiByName: $ReadOnly<{ [string]: RealmEmojiType }>,
 ): string[] => {
   const names = [...unicodeEmojiNames, ...Object.keys(activeRealmEmojiByName)];
   return Array.from(new Set([...names.filter(x => x.indexOf(query) === 0).sort()]));

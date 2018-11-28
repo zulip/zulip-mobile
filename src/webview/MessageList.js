@@ -64,7 +64,7 @@ export type BackgroundData = $ReadOnly<{
   flags: FlagsState,
   mute: MuteState,
   ownEmail: string,
-  allRealmEmojiById: { [id: string]: RealmEmojiType },
+  allRealmEmojiById: $ReadOnly<{ [id: string]: RealmEmojiType }>,
   twentyFourHourTime: boolean,
   subscriptions: Subscription[],
 }>;
