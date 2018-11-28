@@ -102,7 +102,7 @@ describe('getInputMessages', () => {
       renderedMessages: [
         {
           key: 0,
-          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0 } }],
+          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
           message: {},
         },
       ],
@@ -157,7 +157,7 @@ describe('getInputMessages', () => {
       renderedMessages: [
         {
           key: 0,
-          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0 } }],
+          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
           message: {},
         },
       ],

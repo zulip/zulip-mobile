@@ -21,7 +21,6 @@ const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): strin
 };
 
 const messageReactionAsHtml = (
-  messageId: number,
   reaction: AggregatedReaction,
   allRealmEmojiById: { [id: string]: RealmEmojiType },
 ): string =>
@@ -32,26 +31,20 @@ const messageReactionAsHtml = (
     allRealmEmojiById[reaction.code]
       ? template`<img src="${allRealmEmojiById[reaction.code].source_url}"/>`
       : codeToEmojiMap[reaction.code]
-  }&nbsp;${reaction.count}
-</span>`;
+  }&nbsp;${reaction.count}</span>`;
 
 const messageReactionListAsHtml = (
   reactions: Reaction[],
-  messageId: number,
   ownEmail: string,
   allRealmEmojiById: { [id: string]: RealmEmojiType },
 ): string => {
-  if (!reactions || reactions.length === 0) {
+  if (reactions.length === 0) {
     return '';
   }
-
-  const aggregated = aggregateReactions(reactions, ownEmail);
-
-  return template`
-    <div class="reaction-list">
-      $!${aggregated.map(r => messageReactionAsHtml(messageId, r, allRealmEmojiById)).join('')}
-    </div>
-  `;
+  const htmlList = aggregateReactions(reactions, ownEmail).map(r =>
+    messageReactionAsHtml(r, allRealmEmojiById),
+  );
+  return template`<div class="reaction-list">$!${htmlList.join('')}</div>`;
 };
 
 /** Data to be used in rendering a specific message. */
@@ -75,7 +68,7 @@ const messageBody = (
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
-$!${messageReactionListAsHtml(reactions, id, ownEmail, allRealmEmojiById)}
+$!${messageReactionListAsHtml(reactions, ownEmail, allRealmEmojiById)}
 `;
 
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
