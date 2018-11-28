@@ -324,14 +324,14 @@ blockquote {
   border-radius: 4px;
   border: 1px solid rgba(127, 127, 127, 0.75);
   line-height: 1em;
+  height: 1em;
   margin: .25em 0.5em .25em 0;
 }
-.realm-reaction {
+.reaction img {
   pointer-events: none;
   cursor: default;
-  height: "auto";
-  width: 1.25em;
-  max-height: 1.25em;
+  max-height: 1em;
+  max-width: 1em;
   vertical-align: top;
 }
 .self-voted {

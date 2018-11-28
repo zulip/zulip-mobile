@@ -4,7 +4,7 @@ import { codeToEmojiMap } from '../../emoji/data';
 import template from './template';
 
 const getRealmEmojiHtml = (realmEmoji: RealmEmojiType): string =>
-  template`<img class="realm-reaction" src="${realmEmoji.source_url}"/>
+  template`<img src="${realmEmoji.source_url}"/>
   `;
 
 export default (
