@@ -1,3 +1,4 @@
+/* @flow */
 import deepFreeze from 'deep-freeze';
 
 import loadingReducers from '../loadingReducers';

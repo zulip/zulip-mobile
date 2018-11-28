@@ -1,3 +1,4 @@
+/* @flow */
 import getAutocompletedText from '../getAutocompletedText';
 
 describe('getAutocompletedText', () => {

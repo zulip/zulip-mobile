@@ -1,3 +1,4 @@
+/* @flow */
 import { sleep, timeout, tryUntilSuccessful } from '../async';
 
 describe('sleep', () => {

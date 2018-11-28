@@ -1,3 +1,4 @@
+/* @flow */
 import { getStatusBarStyle } from '../ZulipStatusBar';
 
 describe('getStatusBarStyle', () => {

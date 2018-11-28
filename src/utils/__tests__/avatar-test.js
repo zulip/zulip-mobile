@@ -1,3 +1,4 @@
+/* @flow */
 import { getMediumAvatar, getGravatarFromEmail } from '../avatar';
 
 // avatarUrl can be converted to retrieve medium sized avatars(mediumAvatarUrl) if and only if

@@ -1,3 +1,4 @@
+/* @flow */
 import { chooseUploadImageFilename } from '../ComposeMenu';
 
 describe('chooseUploadImageFilename', () => {

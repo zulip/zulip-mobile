@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable spellcheck/spell-checker */
 import {
   base64ToHex,
