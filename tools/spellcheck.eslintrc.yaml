@@ -32,7 +32,6 @@ rules:
     - async
     - attribs
     - auth
-    - autocomple
     - autocomplete
     - autocompleted
     - avoider
@@ -54,7 +53,6 @@ rules:
     - chatboxes
     - chatbubbles
     - codehilite
-    - collapsable
     - concat
     - const
     - copenhagen
@@ -146,7 +144,6 @@ rules:
     - msg1
     - msg2
     - msgs
-    - msup
     - multiline
     - na
     - natively

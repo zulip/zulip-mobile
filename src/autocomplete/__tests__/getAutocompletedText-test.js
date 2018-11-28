@@ -11,7 +11,7 @@ describe('getAutocompletedText', () => {
     expect(getAutocompletedText('@ab', '*abcd*', selection)).toEqual('@*abcd* ');
   });
 
-  test('can autocomple streams', () => {
+  test('can autocomplete streams', () => {
     expect(getAutocompletedText('#ab', '**abcd**', selection)).toEqual('#**abcd** ');
   });
 
