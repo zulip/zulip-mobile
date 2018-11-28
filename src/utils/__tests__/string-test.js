@@ -1,4 +1,3 @@
-/* @flow strict */
 
 import { transformToEncodedURI } from '../string';
 

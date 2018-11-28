@@ -1,4 +1,3 @@
-/* @flow strict */
 import getAutocompleteFilter from '../getAutocompleteFilter';
 
 describe('getAutocompleteFilter', () => {

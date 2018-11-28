@@ -1,4 +1,3 @@
-/* @flow strict */
 import { DEFAULT_TITLE_BACKGROUND_COLOR } from '../../title/titleSelectors';
 import { getStatusBarColor } from '../ZulipStatusBar';
 

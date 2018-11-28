@@ -1,4 +1,3 @@
-/* @flow strict */
 import deepFreeze from 'deep-freeze';
 
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../titleSelectors';

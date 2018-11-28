@@ -1,4 +1,3 @@
-/* @flow strict */
 import processAlertWords from '../processAlertWords';
 
 /* eslint spellcheck/spell-checker: 0 */
