@@ -105,6 +105,7 @@ rules:
     - 'http://[^s]*'
     - 'https://[^s]*'
     - '^[-\w]+/[-\w\.]+$'  # for MIME types
+    - '\s\.\w+'  # presumably a filename
     skipWords: [redux, Zulip, uri, timestamp, api, nav, init, auth, prev, utils, io,
       http, https, msg, msg1, msg2, gif, img, abc, def, jkl, xyz, fn, params, backends,
       dev, www, johndoe, janedoe, func, num, popup, codehilite, autocomplete, rgba,
@@ -129,7 +130,8 @@ rules:
       touchend, touchmove, remoteuser, sso, submessages, nbsp, args, px, na, heic,
       unstarred, gooooooooal, dogi, linter, lifecycle, subtree, zlib, lt, lector, overlayed,
       rehydration, howto, hotspots, pressable, uncomment, interoperability, ig,
-      rt2zz, bd20a756f9, issuecomment, flowtype, natively, libdef, fullsize, Kat]
+      rt2zz, bd20a756f9, issuecomment, flowtype, natively, libdef, fullsize, Kat,
+      destructuring]
 overrides:
   - files:
       - generatedEs3.js
