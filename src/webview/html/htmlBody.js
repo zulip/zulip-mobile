@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import template from './template';
 
-const messageLoadingAsHtml = template`
+const messageLoadingHtml = template`
 <div class="message">
   <div class="loading-avatar"></div>
   <div class="loading-content">
@@ -13,19 +13,6 @@ const messageLoadingAsHtml = template`
     <div class="block"></div>
   </div>
 </div>
-`;
-
-const messageLoadingList = template`
-$!${messageLoadingAsHtml}
-$!${messageLoadingAsHtml}
-$!${messageLoadingAsHtml}
-$!${messageLoadingAsHtml}
-$!${messageLoadingAsHtml}
-$!${messageLoadingAsHtml}
-$!${messageLoadingAsHtml}
-$!${messageLoadingAsHtml}
-$!${messageLoadingAsHtml}
-$!${messageLoadingAsHtml}
 `;
 
 const htmlScrollToBottom = template`
@@ -48,7 +35,7 @@ export default (content: string, showMessagePlaceholders: boolean): string => te
 $!${content}
 
 <div id="message-loading" class="${showMessagePlaceholders ? '' : 'hidden'}">
-  $!${messageLoadingList}
+  $!${messageLoadingHtml.repeat(10)}
 </div>
 
 <div id="spinner-newer" class="hidden loading-spinner"></div>
