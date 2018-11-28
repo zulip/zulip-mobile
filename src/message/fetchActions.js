@@ -135,6 +135,30 @@ export const initialFetchComplete = (): InitialFetchCompleteAction => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
+const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
+  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
+  if (caughtUp.newer && caughtUp.older) {
+    return false;
+  }
+  const numKnownMessages = getFetchedMessagesForNarrow(narrow)(state).length;
+  return numKnownMessages < config.messagesPerRequest / 2;
+};
+
+export const fetchMessagesInNarrow = (
+  narrow: Narrow,
+  anchor: number = FIRST_UNREAD_ANCHOR,
+) => async (dispatch: Dispatch, getState: GetState) => {
+  const state = getState();
+
+  if (anchor === FIRST_UNREAD_ANCHOR) {
+    if (needFetchAtFirstUnread(state, narrow)) {
+      dispatch(fetchMessagesAtFirstUnread(narrow));
+    }
+  } else {
+    dispatch(fetchMessagesAroundAnchor(narrow, anchor));
+  }
+};
+
 export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
@@ -169,6 +193,12 @@ export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState:
   if (auth.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
     refreshNotificationToken();
   }
+
+  const session = getSession(getState());
+  if (session.lastNarrow) {
+    dispatch(fetchMessagesInNarrow(session.lastNarrow));
+  }
+
   dispatch(trySendMessages());
 };
 
@@ -190,28 +220,4 @@ export const uploadImage = (narrow: Narrow, uri: string, name: string) => async 
   const messageToSend = `[${name}](${serverUri})`;
 
   dispatch(addToOutbox(narrow, messageToSend));
-};
-
-const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
-  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
-  if (caughtUp.newer && caughtUp.older) {
-    return false;
-  }
-  const numKnownMessages = getFetchedMessagesForNarrow(narrow)(state).length;
-  return numKnownMessages < config.messagesPerRequest / 2;
-};
-
-export const fetchMessagesInNarrow = (
-  narrow: Narrow,
-  anchor: number = FIRST_UNREAD_ANCHOR,
-) => async (dispatch: Dispatch, getState: GetState) => {
-  const state = getState();
-
-  if (anchor === FIRST_UNREAD_ANCHOR) {
-    if (needFetchAtFirstUnread(state, narrow)) {
-      dispatch(fetchMessagesAtFirstUnread(narrow));
-    }
-  } else {
-    dispatch(fetchMessagesAroundAnchor(narrow, anchor));
-  }
 };
