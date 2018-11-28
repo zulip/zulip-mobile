@@ -1,10 +1,11 @@
 /* @flow */
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import template from './template';
-import type { FlagsState, Reaction } from '../../types';
+import type { AggregatedReaction, FlagsState, Reaction, RealmEmojiType } from '../../types';
 import type { BackgroundData } from '../MessageList';
 import { shortTime } from '../../utils/date';
-import messageReactionListAsHtml from './messageReactionListAsHtml';
+import aggregateReactions from '../../reactions/aggregateReactions';
+import { codeToEmojiMap } from '../../emoji/data';
 import processAlertWords from './processAlertWords';
 
 const messageTagsAsHtml = (isStarred: boolean, timeEdited: ?number): string => {
@@ -19,6 +20,40 @@ const messageTagsAsHtml = (isStarred: boolean, timeEdited: ?number): string => {
   $!${isStarred ? '<span class="message-tag">starred</span>' : ''}
 </div>
 `;
+};
+
+const messageReactionAsHtml = (
+  messageId: number,
+  reaction: AggregatedReaction,
+  allRealmEmojiById: { [id: string]: RealmEmojiType },
+): string =>
+  template`<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}"
+        data-name="${reaction.name}"
+        data-code="${reaction.code}"
+        data-type="${reaction.type}">$!${
+    allRealmEmojiById[reaction.code]
+      ? template`<img src="${allRealmEmojiById[reaction.code].source_url}"/>`
+      : codeToEmojiMap[reaction.code]
+  }&nbsp;${reaction.count}
+</span>`;
+
+const messageReactionListAsHtml = (
+  reactions: Reaction[],
+  messageId: number,
+  ownEmail: string,
+  allRealmEmojiById: { [id: string]: RealmEmojiType },
+): string => {
+  if (!reactions || reactions.length === 0) {
+    return '';
+  }
+
+  const aggregated = aggregateReactions(reactions, ownEmail);
+
+  return template`
+    <div class="reaction-list">
+      $!${aggregated.map(r => messageReactionAsHtml(messageId, r, allRealmEmojiById)).join('')}
+    </div>
+  `;
 };
 
 /** Data to be used in rendering a specific message. */
