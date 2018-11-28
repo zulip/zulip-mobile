@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import template from './template';
 import type { AggregatedReaction, FlagsState, Reaction, RealmEmojiType } from '../../types';
@@ -8,18 +8,16 @@ import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';
 import processAlertWords from './processAlertWords';
 
-const messageTagsAsHtml = (isStarred: boolean, timeEdited: ?number): string => {
-  if (timeEdited === undefined && !isStarred) {
-    return '';
+const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): string => {
+  const pieces = [];
+  if (timeEdited !== undefined) {
+    const editedTime = distanceInWordsToNow(timeEdited * 1000);
+    pieces.push(template`<span class="message-tag">edited ${editedTime} ago</span>`);
   }
-
-  const editedTime = timeEdited ? distanceInWordsToNow(timeEdited * 1000) : '';
-
-  return template`<div class="message-tags">
-  $!${timeEdited ? template`<span class="message-tag">edited ${editedTime} ago</span>` : ''}
-  $!${isStarred ? '<span class="message-tag">starred</span>' : ''}
-</div>
-`;
+  if (isStarred) {
+    pieces.push('<span class="message-tag">starred</span>');
+  }
+  return !pieces.length ? '' : template`<div class="message-tags">$!${pieces.join('')}</div>`;
 };
 
 const messageReactionAsHtml = (
@@ -62,7 +60,7 @@ type MessageRenderData = {
   id: number,
   isOutbox: boolean,
   reactions: Reaction[],
-  timeEdited: ?number,
+  timeEdited: number | void,
   fromName: string,
   fromEmail: string,
   timestamp: number,
