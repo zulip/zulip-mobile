@@ -108,7 +108,7 @@ rules:
     - '\s\.\w+'  # presumably a filename
     skipWordIfMatch:
     - '(?![a-f]{4})[0-9a-f]{4}'  # hex strings
-    skipWords: [redux, Zulip, uri, timestamp, api, nav, init, auth, prev, utils, io,
+    skipWords: [redux, zulip, uri, timestamp, api, nav, init, auth, prev, utils, io,
       http, https, msg, msg1, msg2, gif, img, abc, def, jkl, xyz, fn, params, backends,
       dev, www, johndoe, janedoe, func, num, popup, codehilite, autocomplete, rgba,
       rehydrate, rehydrated, async, whitelist, str, del, subheader, concat, streamlist,
@@ -117,22 +117,22 @@ rules:
       ios, md, caughtup, autocompleted, substring, png, ds, videocam, unmount, github,
       facebook, idx, aaa, bbb, ccc, ddd, eee, fff, abcd, aaaaaa, ffffff, src,
       attribs, charset, utf, urlencoded, htmlparser, ul, ol, chatbubbles, vimeo,
-      nonexisting, primarytext, autocomple, stringify, backend, Zoe, Menlo, ok, py,
-      todo, Mc, lodash, selectable, isequal, lightgray, tc, zulipchat, prepend, pierre,
+      nonexisting, primarytext, autocomple, stringify, backend, zoe, menlo, ok, py,
+      todo, mc, lodash, selectable, isequal, lightgray, tc, zulipchat, prepend, pierre,
       allen, jan, donald, jane, unicode, joe, unescape, dan, abramov, lang, bool,
-      ionicons, truthy, bezier, decrement, js, oauth, jsonp, otp, Otp, ascii, Ascii,
-      substr, Util, actionsheet, unmute, mfrac, otp, Otp, ascii, Ascii, substr, Util,
-      actionsheet, jsonp, actionsheet, ionicons, denmark, copenhagen, unregister,
-      gcm, unstarMessage, Unstar, wildcard_mentioned, lightbox, resize, remobile, tz, rn,
-      multiline, uniqby, zoe, localizable, appid, apns, Entypo, msup, mrow, webview,
-      js, timerow, reselect, addons, cancelable, gravatar_hash, pms, msgs, collapsable,
-      const, wildcard, reactotron, camelcase, hydrator, perf, stacktrace, Dir, fs, youtube,
+      ionicons, truthy, bezier, decrement, js, oauth, jsonp, otp, ascii,
+      substr, util, actionsheet, unmute, mfrac,
+      denmark, copenhagen, unregister,
+      gcm, unstarmessage, unstar, wildcard_mentioned, lightbox, resize, remobile, tz, rn,
+      multiline, uniqby, localizable, appid, apns, entypo, msup, mrow, webview,
+      timerow, reselect, addons, cancelable, gravatar_hash, pms, msgs, collapsable,
+      const, wildcard, reactotron, camelcase, hydrator, perf, stacktrace, dir, fs, youtube,
       avoider, octicons, centerer, ldap, gravatar, identicon, blueimp, filename, wildcards,
       jpeg, jpg, tif, mov, notif, diag, bmp, viewport, scalable, polyfill, rect, touchstart,
       touchend, touchmove, remoteuser, sso, submessages, nbsp, args, px, na, heic,
       unstarred, gooooooooal, dogi, linter, lifecycle, subtree, zlib, lt, lector, overlayed,
       rehydration, howto, hotspots, pressable, uncomment, interoperability, ig,
-      rt2zz, issuecomment, flowtype, natively, libdef, fullsize, Kat,
+      rt2zz, issuecomment, flowtype, natively, libdef, fullsize, kat,
       destructuring]
 overrides:
   - files:
