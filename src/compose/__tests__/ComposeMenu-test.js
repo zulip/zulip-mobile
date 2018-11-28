@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { chooseUploadImageFilename } from '../ComposeMenu';
 
 describe('chooseUploadImageFilename', () => {

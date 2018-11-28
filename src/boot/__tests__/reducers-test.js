@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import reducers, { ALL_KEYS } from '../reducers';
 import { discardKeys, storeKeys, cacheKeys } from '../../boot/store';
 

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 import progressiveTimeout from '../progressiveTimeout';
 
 describe('progressiveTimeout', () => {

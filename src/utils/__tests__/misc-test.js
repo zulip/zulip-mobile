@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 import { initialsFromName, isValidEmailFormat, numberWithSeparators, deeperMerge } from '../misc';
 
 describe('numberWithSeparators', () => {

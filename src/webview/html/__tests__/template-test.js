@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 import escape from 'lodash.escape';
 import template from '../template';
 
