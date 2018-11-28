@@ -1,11 +1,25 @@
-/* @flow strict-local */
+/* @flow */
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import template from './template';
 import type { FlagsState, Reaction } from '../../types';
 import type { BackgroundData } from '../MessageList';
 import { shortTime } from '../../utils/date';
-import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
 import processAlertWords from './processAlertWords';
+
+const messageTagsAsHtml = (isStarred: boolean, timeEdited: ?number): string => {
+  if (timeEdited === undefined && !isStarred) {
+    return '';
+  }
+
+  const editedTime = timeEdited ? distanceInWordsToNow(timeEdited * 1000) : '';
+
+  return template`<div class="message-tags">
+  $!${timeEdited ? template`<span class="message-tag">edited ${editedTime} ago</span>` : ''}
+  $!${isStarred ? '<span class="message-tag">starred</span>' : ''}
+</div>
+`;
+};
 
 /** Data to be used in rendering a specific message. */
 type MessageRenderData = {
@@ -21,9 +35,6 @@ type MessageRenderData = {
   isBrief: boolean,
 };
 
-export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
-  Object.keys(flags).filter(key => flags[key][id]);
-
 const messageBody = (
   { alertWords, flags, ownEmail, allRealmEmojiById }: BackgroundData,
   { content, id, isOutbox, reactions, timeEdited }: MessageRenderData,
@@ -33,6 +44,9 @@ $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
 $!${messageReactionListAsHtml(reactions, id, ownEmail, allRealmEmojiById)}
 `;
+
+export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
+  Object.keys(flags).filter(key => flags[key][id]);
 
 export default (context: BackgroundData, message: MessageRenderData) => {
   const { id, isBrief } = message;
