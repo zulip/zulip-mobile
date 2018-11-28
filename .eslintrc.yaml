@@ -106,6 +106,8 @@ rules:
     - 'https://[^s]*'
     - '^[-\w]+/[-\w\.]+$'  # for MIME types
     - '\s\.\w+'  # presumably a filename
+    skipWordIfMatch:
+    - '(?![a-f]{4})[0-9a-f]{4}'  # hex strings
     skipWords: [redux, Zulip, uri, timestamp, api, nav, init, auth, prev, utils, io,
       http, https, msg, msg1, msg2, gif, img, abc, def, jkl, xyz, fn, params, backends,
       dev, www, johndoe, janedoe, func, num, popup, codehilite, autocomplete, rgba,
@@ -113,7 +115,7 @@ rules:
       scrollable, eslint, lastword, renderer, html, dom, tbody, thead, th, td, href,
       pre, blockquote, li, br, emojis, chatboxes, userlist, middleware, trunc, pushable,
       ios, md, caughtup, autocompleted, substring, png, ds, videocam, unmount, github,
-      facebook, idx, aaa, bbb, ccc, ddd, eee, fff, abcd, aaaaaa, ffffff, 24cac2, src,
+      facebook, idx, aaa, bbb, ccc, ddd, eee, fff, abcd, aaaaaa, ffffff, src,
       attribs, charset, utf, urlencoded, htmlparser, ul, ol, chatbubbles, vimeo,
       nonexisting, primarytext, autocomple, stringify, backend, Zoe, Menlo, ok, py,
       todo, Mc, lodash, selectable, isequal, lightgray, tc, zulipchat, prepend, pierre,
@@ -130,7 +132,7 @@ rules:
       touchend, touchmove, remoteuser, sso, submessages, nbsp, args, px, na, heic,
       unstarred, gooooooooal, dogi, linter, lifecycle, subtree, zlib, lt, lector, overlayed,
       rehydration, howto, hotspots, pressable, uncomment, interoperability, ig,
-      rt2zz, bd20a756f9, issuecomment, flowtype, natively, libdef, fullsize, Kat,
+      rt2zz, issuecomment, flowtype, natively, libdef, fullsize, Kat,
       destructuring]
 overrides:
   - files:
