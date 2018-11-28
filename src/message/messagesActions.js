@@ -1,24 +1,12 @@
 /* @flow strict-local */
-import type { Narrow, Dispatch, GetState, GlobalState } from '../types';
-import config from '../config';
+import type { Narrow, Dispatch, GetState } from '../types';
 import { getAuth, getUsers, isNarrowValid, getIsHydrated } from '../selectors';
-import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
-import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
 import { DO_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
-import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
+import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../constants';
-
-const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
-  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
-  if (caughtUp.newer && caughtUp.older) {
-    return false;
-  }
-  const numKnownMessages = getFetchedMessagesForNarrow(narrow)(state).length;
-  return numKnownMessages < config.messagesPerRequest / 2;
-};
 
 export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
   dispatch: Dispatch,
@@ -31,15 +19,7 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   }
 
   dispatch({ type: DO_NARROW, narrow });
-
-  if (anchor === FIRST_UNREAD_ANCHOR) {
-    if (needFetchAtFirstUnread(state, narrow)) {
-      dispatch(fetchMessagesAtFirstUnread(narrow));
-    }
-  } else {
-    dispatch(fetchMessagesAroundAnchor(narrow, anchor));
-  }
-
+  dispatch(fetchMessagesInNarrow(narrow, anchor));
   dispatch(navigateToChat(narrow));
 };
 

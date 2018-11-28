@@ -3,6 +3,7 @@ import type {
   Narrow,
   Dispatch,
   GetState,
+  GlobalState,
   Message,
   MessageFetchStartAction,
   MessageFetchCompleteAction,
@@ -28,11 +29,12 @@ import {
   MESSAGE_FETCH_COMPLETE,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
-import { LAST_MESSAGE_ANCHOR } from '../constants';
+import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../constants';
 import timing from '../utils/timing';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { refreshNotificationToken } from '../utils/notifications';
+import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
 import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
 import { initNotifications, realmInit } from '../realm/realmActions';
 import { initStreams } from '../streams/streamsActions';
@@ -188,4 +190,28 @@ export const uploadImage = (narrow: Narrow, uri: string, name: string) => async 
   const messageToSend = `[${name}](${serverUri})`;
 
   dispatch(addToOutbox(narrow, messageToSend));
+};
+
+const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
+  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
+  if (caughtUp.newer && caughtUp.older) {
+    return false;
+  }
+  const numKnownMessages = getFetchedMessagesForNarrow(narrow)(state).length;
+  return numKnownMessages < config.messagesPerRequest / 2;
+};
+
+export const fetchMessagesInNarrow = (
+  narrow: Narrow,
+  anchor: number = FIRST_UNREAD_ANCHOR,
+) => async (dispatch: Dispatch, getState: GetState) => {
+  const state = getState();
+
+  if (anchor === FIRST_UNREAD_ANCHOR) {
+    if (needFetchAtFirstUnread(state, narrow)) {
+      dispatch(fetchMessagesAtFirstUnread(narrow));
+    }
+  } else {
+    dispatch(fetchMessagesAroundAnchor(narrow, anchor));
+  }
 };
