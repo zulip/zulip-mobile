@@ -23,7 +23,6 @@
 .*/ios/Pods/*
 .*/node_modules/mitt/src/.*
 .*/node_modules/match-at/lib/.*
-.*/node_modules/react-static-container/.*
 .*/node_modules/eslint-plugin-jsx-a11y/.*
 .*/node_modules/react-native-notifications/.*
 .*/node_modules/react-native-tab-view/.*
