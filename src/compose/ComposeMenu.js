@@ -10,7 +10,6 @@ import { showErrorAlert } from '../utils/info';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
-import { getNarrowToSendTo } from '../selectors';
 
 type Props = {
   dispatch: Dispatch,
@@ -130,6 +129,4 @@ class ComposeMenu extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
-  destinationNarrow: getNarrowToSendTo(props.narrow)(state),
-}))(ComposeMenu);
+export default connect()(ComposeMenu);

@@ -212,15 +212,17 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({ isMenuExpanded: false });
   };
 
+  getDestinationNarrow = (): Narrow => {
+    const { narrow } = this.props;
+    const { topic } = this.state;
+    return isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, topic || '(no topic)') : narrow;
+  };
+
   handleSend = () => {
-    const { dispatch, narrow } = this.props;
-    const { topic, message } = this.state;
+    const { dispatch } = this.props;
+    const { message } = this.state;
 
-    const destinationNarrow = isStreamNarrow(narrow)
-      ? topicNarrow(narrow[0].operand, topic || '(no topic)')
-      : narrow;
-
-    dispatch(addToOutbox(destinationNarrow, message));
+    dispatch(addToOutbox(this.getDestinationNarrow(), message));
 
     this.setMessageInputValue('');
   };
@@ -302,7 +304,7 @@ class ComposeBox extends PureComponent<Props, State> {
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
           <View style={styles.alignBottom}>
             <ComposeMenu
-              narrow={narrow}
+              destinationNarrow={this.getDestinationNarrow()}
               expanded={isMenuExpanded}
               onExpandContract={this.handleComposeMenuToggle}
             />
