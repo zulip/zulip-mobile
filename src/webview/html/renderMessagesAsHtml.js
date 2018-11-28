@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Narrow, RenderedSectionDescriptor } from '../../types';
 import type { BackgroundData } from '../MessageList';
 
