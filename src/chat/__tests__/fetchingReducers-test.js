@@ -3,11 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import fetchingReducers from '../fetchingReducers';
 import { HOME_NARROW_STR, streamNarrow } from '../../utils/narrow';
-import {
-  DO_NARROW,
-  MESSAGE_FETCH_START,
-  MESSAGE_FETCH_COMPLETE,
-} from '../../actionConstants';
+import { DO_NARROW, MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
 
 describe('fetchingReducers', () => {
   describe('DO_NARROW', () => {
