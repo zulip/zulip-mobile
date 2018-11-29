@@ -31,7 +31,7 @@ const messageFetchComplete = (
   let anchorIdx = -1;
 
   if (action.anchor === FIRST_UNREAD_ANCHOR) {
-    anchorIdx = action.messages.findIndex(msg => msg.flags && msg.flags.indexOf('read') === -1);
+    anchorIdx = action.messages.findIndex(msg => !msg.flags || msg.flags.indexOf('read') === -1);
   } else {
     anchorIdx = action.messages.findIndex(msg => msg.id === action.anchor);
   }
