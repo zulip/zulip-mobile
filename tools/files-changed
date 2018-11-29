@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Compute what remote name is being used for the upstream repo.
+upstream_remote_name() {
+    # Out of the names listed by `git remote`, pick one from the
+    # list below, in preference order.
+    grep -m1 -xFf <(git remote) <<EOF
+upstream
+origin
+EOF
+}
+
+upstream_ref() {
+    echo refs/remotes/"$(upstream_remote_name)"/master
+}
+
+base_commit() {
+    tip_commit=${1:-@}
+    upstream=${2:-$(upstream_ref)}
+    git merge-base "$tip_commit" "$upstream"
+}
+
+# usage: files_changed [TIP [UPSTREAM]]
+#
+# Lists files that have changed in TIP (default: current worktree)
+# relative to UPSTREAM (default: upstream/master or origin/master).
+files_changed() {
+    base=$(base_commit "$@")
+    git diff --name-only "$base" $1
+}
+
+files_changed "$@"
