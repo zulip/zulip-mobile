@@ -14,7 +14,7 @@ import { getMute, getStreams, getTopics, getUnreadStreams } from '../directSelec
 import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
-import { isStreamNarrow, topicNarrow } from '../utils/narrow';
+import { isStreamNarrow } from '../utils/narrow';
 
 export const getTopicsForNarrow = (narrow: Narrow): Selector<string[]> =>
   createSelector(getTopics, getStreams, (topics: TopicsState, streams: StreamsState) => {
@@ -64,10 +64,4 @@ export const getLastMessageTopic = (narrow: Narrow): Selector<string> =>
   createSelector(
     getShownMessagesForNarrow(narrow),
     messages => (messages.length === 0 ? '' : messages[messages.length - 1].subject),
-  );
-
-export const getNarrowToSendTo = (narrow: Narrow): Selector<Narrow> =>
-  createSelector(
-    getLastMessageTopic(narrow),
-    lastTopic => (isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, lastTopic) : narrow),
   );
