@@ -28,8 +28,8 @@ const messageFetchStart = (
   return {
     ...state,
     [key]: {
-      older: action.numBefore > 0 || currentValue.older,
-      newer: action.numAfter > 0 || currentValue.newer,
+      older: currentValue.older || action.numBefore > 0,
+      newer: currentValue.newer || action.numAfter > 0,
     },
   };
 };
@@ -44,8 +44,8 @@ const messageFetchComplete = (
   return {
     ...state,
     [key]: {
-      older: currentValue.older && action.numBefore === 0,
-      newer: currentValue.newer && action.numAfter === 0,
+      older: currentValue.older && !(action.numBefore > 0),
+      newer: currentValue.newer && !(action.numAfter > 0),
     },
   };
 };
