@@ -80,7 +80,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-if (hasProperty('signed')) {
+if (hasProperty('sentry')) {
     // Conditionally enable Sentry, because it requires an auth key.
     apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 }
