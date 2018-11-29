@@ -18,7 +18,7 @@
     "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "build:ios-release": "detox build --configuration ios.sim.release",
 
-    "test": "yarn run test:flow && yarn run test:lint && yarn run jest && yarn run test:prettier",
+    "test": "yarn run test:flow && yarn run test:lint && yarn run jest --changedSince $(tools/files-changed --print-upstream) && yarn run test:prettier",
     "test:full": "yarn run test:flow && yarn run test:lint-full && yarn run test:coveralls && yarn run test:prettier-full",
 
     "test:lint": "files=( $(tools/files-changed | grep '^src/.*\\.js$') ) || exit 0 && eslint --max-warnings=0 ${files[@]}",
