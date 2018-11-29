@@ -18,7 +18,7 @@
     "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "build:ios-release": "detox build --configuration ios.sim.release",
 
-    "test": "yarn run test:lint && yarn run jest && yarn run test:flow && yarn run test:prettier",
+    "test": "yarn run test:flow && yarn run test:lint && yarn run jest && yarn run test:prettier",
     "test:full": "yarn run test:flow && yarn run test:lint && yarn run test:coveralls && yarn run test:prettier-full",
 
     "test:lint": "eslint --max-warnings=0 src/",
