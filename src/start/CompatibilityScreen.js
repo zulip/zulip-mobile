@@ -21,14 +21,15 @@ const styles = StyleSheet.create({
 
 export default class CompatibilityScreen extends PureComponent<{}> {
   render() {
+    const pleaseDownloadMsg =
+      Platform.OS === 'ios'
+        ? 'Please download the latest version from the App Store.'
+        : 'Please download the latest version from the Play Store.';
     return (
       <View style={styles.screen}>
         <Logo />
         <Text style={styles.text}>This app is too old!</Text>
-        <Text style={styles.text}>
-          Please download the latest version from the{' '}
-          {Platform.OS === 'ios' ? 'App Store' : 'Play Store'}.
-        </Text>
+        <Text style={styles.text}>{pleaseDownloadMsg}</Text>
       </View>
     );
   }
