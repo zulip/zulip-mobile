@@ -8,8 +8,9 @@ env:
   mocha: true
   node: true
   jest: true
-globals: 
+globals: # true/false means mutable/const
   __DEV__: false
+  __TEST__: false
 extends:
   - airbnb
   - plugin:jest/recommended

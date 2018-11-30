@@ -2,7 +2,7 @@
 
 let Reactotron; // eslint-disable-line import/no-mutable-exports
 
-if (__DEV__ && !process.env.JEST_WORKER_ID) {
+if (__DEV__ && !__TEST__) {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies
   Reactotron = require('reactotron-react-native').default;
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies
