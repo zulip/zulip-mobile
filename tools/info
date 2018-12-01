@@ -29,14 +29,8 @@ files_changed() {
     git diff --name-only "$base" $1
 }
 
-args="$(getopt -o '' --long print-upstream -- "$@")"
-eval "set -- $args"
-while true; do
-    case "$1" in
-        --print-upstream) upstream_ref; exit;;
-        --) shift; break;;
-        *) exit 1;;
-    esac
-done
-
-files_changed "$@"
+case "$1" in
+    upstream-ref) upstream_ref; exit;;
+    '' | changed-files) shift; files_changed "$@"; exit;;
+    *) exit 1;;
+esac
