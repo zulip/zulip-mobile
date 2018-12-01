@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, Platform } from 'react-native';
 
-import { Logo } from '../common';
 import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
@@ -27,7 +26,6 @@ export default class CompatibilityScreen extends PureComponent<{}> {
         : 'Please download the latest version from the Play Store.';
     return (
       <View style={styles.screen}>
-        <Logo />
         <Text style={styles.text}>This app is too old!</Text>
         <Text style={styles.text}>{pleaseDownloadMsg}</Text>
       </View>
