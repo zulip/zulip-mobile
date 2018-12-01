@@ -22,7 +22,7 @@ type Props = {
   narrow: Narrow,
 };
 
-class MainNavBar extends PureComponent<Props> {
+class ChatNavBar extends PureComponent<Props> {
   context: Context;
   props: Props;
 
@@ -64,4 +64,4 @@ export default connect(
   null,
   null,
   connectPreserveOnBackOption,
-)(MainNavBar);
+)(ChatNavBar);
