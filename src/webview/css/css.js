@@ -97,7 +97,7 @@ hr {
 }
 .timestamp {
   color: #999;
-  font-size: 14px;
+  font-size: 0.9em;
   white-space: nowrap;
 }
 .message {
@@ -304,7 +304,7 @@ blockquote {
 .message-tags {
   text-align: right;
   margin: 0.25em 0;
-  font-size: 10px;
+  font-size: 0.7em;
 }
 .message-tag {
   padding: 0.25em 0.5em;
@@ -400,7 +400,7 @@ blockquote {
   width: 100%;
   background: red;
   color: white;
-  font-size: 10px;
+  font-size: 0.7em;
 }
 #js-error-plain, #js-error-plain-dummy {
   z-index: 1000;
