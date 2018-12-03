@@ -20,20 +20,19 @@
 
     "test": "tools/test",
     "test:full": "tools/test --full --coverage",
-
     "test:lint": "tools/test lint",
     "test:lint-full": "tools/test lint --full",
     "test:flow": "tools/test flow",
     "test:prettier": "tools/test prettier",
     "test:prettier-full": "tools/test prettier --full",
+    "test:unit": "tools/test jest",
+    "test:coveralls": "tools/test jest --full --coverage",
 
     "prettier": "files=( $(tools/info changed-files | grep '^src/.*\\.js$') ) || exit 0 && prettier --write --loglevel=warn ${files[@]} && eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix ${files[@]}",
     "prettier-full": "prettier --write --loglevel=warn 'src/**/*.js' && eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix src/",
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
     "test:flow-todo": "eslint --no-eslintrc -c tools/flow-todo.eslintrc.yaml src/",
 
-    "test:unit": "jest src/ --maxWorkers=2",
-    "test:coveralls": "tools/test --coverage --full jest",
     "test:e2e": "detox test --configuration ios.sim.release --cleanup",
 
     "generate-webview-js": "node tools/generate-webview-js",

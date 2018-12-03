@@ -72,7 +72,7 @@ for suite in "${suites[@]}"; do
             if [ -n "$full" ]; then
                 if [ -n "$coverage" ]; then
                     "$bindir"/jest --maxWorkers=2 --coverage
-                    cat ./coverage/lcov.info | "$bindir"/coveralls
+                    "$bindir"/coveralls <./coverage/lcov.info
                 else
                     "$bindir"/jest --maxWorkers=2
                 fi
