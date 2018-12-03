@@ -1,7 +1,13 @@
 # Testing
 
+Run `tools/test` to run all our test suites.  This command is
+typically quite fast (5-10s, sometimes less), because it only rechecks
+tests related to the files you've changed.
+
+You can run all our tests with `tools/test --full`.
+
 ## Unit tests
-`yarn test` runs the unit test suite.
+`tools/test jest` runs the unit test suite.
 
 Our tests are written using [Jest](https://facebook.github.io/jest/).
 
@@ -15,7 +21,7 @@ Use [deepFreeze](https://github.com/substack/deep-freeze) to test functions whic
 Functional tests have not been set up. We plan to use [Appium](http://appium.io/).
 
 ## Linting
-`yarn test:lint` checks the codebase against our linting rules. We're using
+`tools/test lint` checks your changes against our linting rules. We're using
 the AirBnB [ES6](https://github.com/airbnb/javascript) and
 [React](https://github.com/airbnb/javascript/tree/master/react) style guides.
 

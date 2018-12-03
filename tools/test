@@ -53,6 +53,7 @@ changed_js() {
     tools/info changed-files | grep '^src/.*\.js$'
 }
 
+failed=()
 for suite in "${suites[@]}"; do
     echo "Running $suite..."
     case "$suite" in
@@ -90,5 +91,15 @@ for suite in "${suites[@]}"; do
                   $(changed_js)
             fi
             ;;
-    esac
+    esac || failed+=($suite)
 done
+
+if [ -n "$failed" ]; then
+    cat >&2 <<EOF
+
+FAILED: ${failed[*]}
+EOF
+    exit 1
+fi
+
+echo "Passed!"
