@@ -1,7 +1,6 @@
 /* @flow strict-local */
-/* eslint-disable */
 import type { ThemeType } from '../../types';
-import { BORDER_COLOR, BRAND_COLOR } from '../../styles';
+import { BRAND_COLOR } from '../../styles';
 import cssEmojis from './cssEmojis';
 
 const defaultTheme = `
@@ -213,15 +212,15 @@ hr {
     rgba(127, 127, 127, 0.5) 100%
   );
   background-size: 200% 200%;
-	animation: gradient-scroll 1s linear infinite;
+  animation: gradient-scroll 1s linear infinite;
 
   border-radius: 10px;
   height: 8px;
   margin-bottom: 10px;
 }
 @keyframes gradient-scroll {
-	0% { background-position: 100% 50% }
-	100% { background-position: 0 50% }
+  0% { background-position: 100% 50% }
+  100% { background-position: 0 50% }
 }
 .loading-subheader .name {
   width: 10em;
