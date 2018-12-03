@@ -1,0 +1,85 @@
+#!/bin/bash
+set -e
+
+## CLI PARSING
+
+usage() {
+    cat >&2 <<EOF
+usage: tools/test [--full] [SUITES]
+
+Run our tests.
+
+Options:
+  --full    Run on all files (default: only files changed in this branch,
+            as found by \`tools/info changed-files\`.)
+
+Suites: (default: all)
+  flow
+  lint
+  jest
+  prettier
+EOF
+    exit 2
+}
+
+full=
+suites=()
+while (( $# )); do
+    case "$1" in
+        --full) full=1; shift;;
+        flow|lint|jest|prettier)
+            suites+=("$1"); shift;;
+        *) usage;;
+    esac
+done
+
+if [ -z "$suites" ]; then
+    suites=(flow lint jest prettier)
+fi
+
+
+## EXECUTION
+
+rootdir=$(git rev-parse --show-toplevel)
+cd "$rootdir"
+
+bindir=node_modules/.bin
+
+changed_js() {
+    tools/info changed-files | grep '^src/.*\.js$'
+}
+
+for suite in "${suites[@]}"; do
+    echo "Running $suite..."
+    case "$suite" in
+        flow)
+            "$bindir"/flow
+            ;;
+        lint)
+            if [ -n "$full" ]; then
+                "$bindir"/eslint --max-warnings=0 src/
+            else
+                files=( $(changed_js) ) || continue
+                "$bindir"/eslint --max-warnings=0 "${files[@]}"
+            fi
+            ;;
+        jest)
+            if [ -n "$full" ]; then
+                "$bindir"/jest --maxWorkers=2
+            else
+                "$bindir"/jest --changedSince "$(tools/info upstream-ref)"
+            fi
+            ;;
+        prettier)
+            if [ -n "$full" ]; then
+                "$bindir"/prettier-eslint --list-different \
+                  --eslint-config-path ./tools/formatting.eslintrc.yaml \
+                  'src/**/*.js'
+            else
+                "$bindir"/prettier-eslint --list-different \
+                  --eslint-config-path ./tools/formatting.eslintrc.yaml \
+                  $(changed_js)
+            fi
+            ;;
+    esac
+done

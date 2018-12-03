@@ -18,14 +18,15 @@
     "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "build:ios-release": "detox build --configuration ios.sim.release",
 
-    "test": "yarn run test:flow && yarn run test:lint && yarn run jest --changedSince $(tools/info upstream-ref) && yarn run test:prettier",
-    "test:full": "yarn run test:flow && yarn run test:lint-full && yarn run test:coveralls && yarn run test:prettier-full",
+    "test": "tools/test",
+    "test:full": "tools/test --full flow lint && yarn run test:coveralls && tools/test --full prettier",
 
-    "test:lint": "files=( $(tools/info changed-files | grep '^src/.*\\.js$') ) || exit 0 && eslint --max-warnings=0 ${files[@]}",
-    "test:lint-full": "eslint --max-warnings=0 src/",
-    "test:flow": "flow",
-    "test:prettier": "prettier-eslint --list-different --eslint-config-path ./tools/formatting.eslintrc.yaml \"$(tools/info changed-files | grep '^src/.*\\.js$')\"",
-    "test:prettier-full": "prettier-eslint --list-different --eslint-config-path ./tools/formatting.eslintrc.yaml 'src/**/*.js'",
+    "test:lint": "tools/test lint",
+    "test:lint-full": "tools/test lint --full",
+    "test:flow": "tools/test flow",
+    "test:prettier": "tools/test prettier",
+    "test:prettier-full": "tools/test prettier --full",
+
     "prettier": "files=( $(tools/info changed-files | grep '^src/.*\\.js$') ) || exit 0 && prettier --write --loglevel=warn ${files[@]} && eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix ${files[@]}",
     "prettier-full": "prettier --write --loglevel=warn 'src/**/*.js' && eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix src/",
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
