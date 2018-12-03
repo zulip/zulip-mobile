@@ -28,6 +28,17 @@ Files: vendor/intl/*
 Copyright: 2013 Andy Earnshaw
 License: MIT
 
+Files: static/img/app-store-badge.*
+Copyright: 2018 Apple Inc.
+License:
+ Non-free.  Provided by Apple for use in connection with applications
+ available for download on the App Store.  Requirements include:
+ .
+ https://developer.apple.com/app-store/marketing/guidelines/
+ https://www.apple.com/legal/intellectual-property/guidelinesfor3rdparties.html
+ .
+ Apple is a trademark, and App Store is a service mark, of Apple Inc.
+
 License: MIT
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
