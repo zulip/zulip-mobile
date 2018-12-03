@@ -47,7 +47,7 @@ fi
 rootdir=$(git rev-parse --show-toplevel)
 cd "$rootdir"
 
-bindir=node_modules/.bin
+PATH=node_modules/.bin:"$PATH"
 
 changed_js() {
     tools/info changed-files | grep '^src/.*\.js$'
@@ -58,35 +58,35 @@ for suite in "${suites[@]}"; do
     echo "Running $suite..."
     case "$suite" in
         flow)
-            "$bindir"/flow
+            flow
             ;;
         lint)
             if [ -n "$full" ]; then
-                "$bindir"/eslint --max-warnings=0 src/
+                eslint --max-warnings=0 src/
             else
                 files=( $(changed_js) ) || continue
-                "$bindir"/eslint --max-warnings=0 "${files[@]}"
+                eslint --max-warnings=0 "${files[@]}"
             fi
             ;;
         jest)
             if [ -n "$full" ]; then
                 if [ -n "$coverage" ]; then
-                    "$bindir"/jest --maxWorkers=2 --coverage
-                    "$bindir"/coveralls <./coverage/lcov.info
+                    jest --maxWorkers=2 --coverage
+                    coveralls <./coverage/lcov.info
                 else
-                    "$bindir"/jest --maxWorkers=2
+                    jest --maxWorkers=2
                 fi
             else
-                "$bindir"/jest --changedSince "$(tools/info upstream-ref)"
+                jest --changedSince "$(tools/info upstream-ref)"
             fi
             ;;
         prettier)
             if [ -n "$full" ]; then
-                "$bindir"/prettier-eslint --list-different \
+                prettier-eslint --list-different \
                   --eslint-config-path ./tools/formatting.eslintrc.yaml \
                   'src/**/*.js'
             else
-                "$bindir"/prettier-eslint --list-different \
+                prettier-eslint --list-different \
                   --eslint-config-path ./tools/formatting.eslintrc.yaml \
                   $(changed_js)
             fi
