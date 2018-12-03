@@ -10,8 +10,10 @@ usage: tools/test [--full] [SUITES]
 Run our tests.
 
 Options:
-  --full    Run on all files (default: only files changed in this branch,
-            as found by \`tools/info changed-files\`.)
+  --coverage  Collect test-coverage information.  Only meaningful
+              with --full.
+  --full      Run on all files (default: only files changed in this
+              branch, as found by \`tools/info changed-files\`.)
 
 Suites: (default: all)
   flow
@@ -22,10 +24,12 @@ EOF
     exit 2
 }
 
+coverage=
 full=
 suites=()
 while (( $# )); do
     case "$1" in
+        --coverage) coverage=1; shift;;
         --full) full=1; shift;;
         flow|lint|jest|prettier)
             suites+=("$1"); shift;;
@@ -65,7 +69,12 @@ for suite in "${suites[@]}"; do
             ;;
         jest)
             if [ -n "$full" ]; then
-                "$bindir"/jest --maxWorkers=2
+                if [ -n "$coverage" ]; then
+                    "$bindir"/jest --maxWorkers=2 --coverage
+                    cat ./coverage/lcov.info | "$bindir"/coveralls
+                else
+                    "$bindir"/jest --maxWorkers=2
+                fi
             else
                 "$bindir"/jest --changedSince "$(tools/info upstream-ref)"
             fi

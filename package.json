@@ -19,7 +19,7 @@
     "build:ios-release": "detox build --configuration ios.sim.release",
 
     "test": "tools/test",
-    "test:full": "tools/test --full flow lint && yarn run test:coveralls && tools/test --full prettier",
+    "test:full": "tools/test --full --coverage",
 
     "test:lint": "tools/test lint",
     "test:lint-full": "tools/test lint --full",
@@ -33,7 +33,7 @@
     "test:flow-todo": "eslint --no-eslintrc -c tools/flow-todo.eslintrc.yaml src/",
 
     "test:unit": "jest src/ --maxWorkers=2",
-    "test:coveralls": "jest --maxWorkers=2 --coverage && cat ./coverage/lcov.info | coveralls",
+    "test:coveralls": "tools/test --coverage --full jest",
     "test:e2e": "detox test --configuration ios.sim.release --cleanup",
 
     "generate-webview-js": "node tools/generate-webview-js",
