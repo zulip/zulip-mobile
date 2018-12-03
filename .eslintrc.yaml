@@ -19,7 +19,7 @@ extends:
 settings:
   import/resolver:
     node:
-      extensions: [.js, .ios.js, .android.js]
+      extensions: [.js, .ios.js, .android.js, .json]
 rules:
   # Formatting and naming
   camelcase: off
