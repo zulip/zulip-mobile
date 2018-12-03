@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable spellcheck/spell-checker */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
