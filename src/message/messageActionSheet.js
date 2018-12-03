@@ -134,7 +134,7 @@ const actionSheetButtons: MessageButtonType[] = [
   {
     title: 'Delete message',
     onPress: doDeleteMessage,
-    onlyIf: allOf([isSentMessage, isSentBySelf, isNotDeleted]),
+    onlyIf: allOf([isSentBySelf, isNotDeleted]),
   },
   // If skip then covered in constructMessageActionButtons
   { title: 'Star message', onPress: starMessage, onlyIf: skip },
