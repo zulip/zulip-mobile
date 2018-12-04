@@ -78,5 +78,5 @@ of our codebase (`android/`), we therefore recommend using Android Studio.
 Using other editors isn't generally recommended.  Here's some miscellaneous
 information if you do.
 
-* We format our code using `prettier`.  Run `yarn prettier` to do this
+* We format our code using `prettier`.  Run `tools/fmt` to do this
   manually.  (If using Atom, the `prettier-atom` plugin helps.)
