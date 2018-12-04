@@ -51,7 +51,7 @@ class SettingsCard extends PureComponent<Props> {
 
   handleThemeChange = () => {
     const { dispatch, theme } = this.props;
-    dispatch(settingsChange('theme', theme === 'default' ? 'night' : 'default'));
+    dispatch(settingsChange({ theme: theme === 'default' ? 'night' : 'default' }));
   };
 
   render() {

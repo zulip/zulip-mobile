@@ -19,7 +19,7 @@ class LanguageScreen extends PureComponent<Props> {
 
   handleLocaleChange = (value: string) => {
     const { dispatch } = this.props;
-    dispatch(settingsChange('locale', value));
+    dispatch(settingsChange({ locale: value }));
   };
 
   render() {

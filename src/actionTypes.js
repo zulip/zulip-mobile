@@ -86,6 +86,7 @@ import type {
   PresenceState,
   Presence,
   RealmEmojiState,
+  SettingsState,
   CaughtUpState,
   MuteState,
   AlertWordsState,
@@ -515,8 +516,7 @@ export type FlagsAction =
 
 export type SettingsChangeAction = {
   type: typeof SETTINGS_CHANGE,
-  key: string,
-  value: boolean | string,
+  update: $Shape<SettingsState>,
 };
 
 export type DraftUpdateAction = {

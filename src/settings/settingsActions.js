@@ -1,9 +1,8 @@
 /* @flow */
-import type { SettingsChangeAction } from '../types';
+import type { SettingsChangeAction, SettingsState } from '../types';
 import { SETTINGS_CHANGE } from '../actionConstants';
 
-export const settingsChange = (key: string, value: boolean | string): SettingsChangeAction => ({
+export const settingsChange = (update: $Shape<SettingsState>): SettingsChangeAction => ({
   type: SETTINGS_CHANGE,
-  key,
-  value,
+  update,
 });

@@ -27,7 +27,7 @@ class NotificationsScreen extends PureComponent<Props> {
       opp: 'offline_notification_change',
       value: !offlineNotification,
     });
-    dispatch(settingsChange('offlineNotification', !offlineNotification));
+    dispatch(settingsChange({ offlineNotification: !offlineNotification }));
   };
 
   handleOnlineNotificationChange = () => {
@@ -37,7 +37,7 @@ class NotificationsScreen extends PureComponent<Props> {
       opp: 'online_notification_change',
       value: !onlineNotification,
     });
-    dispatch(settingsChange('onlineNotification', !onlineNotification));
+    dispatch(settingsChange({ onlineNotification: !onlineNotification }));
   };
 
   handleStreamNotificationChange = () => {
@@ -47,7 +47,7 @@ class NotificationsScreen extends PureComponent<Props> {
       opp: 'stream_notification_change',
       value: !streamNotification,
     });
-    dispatch(settingsChange('streamNotification', !streamNotification));
+    dispatch(settingsChange({ streamNotification: !streamNotification }));
   };
 
   render() {
