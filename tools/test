@@ -55,22 +55,30 @@ cd "$rootdir"
 
 PATH=node_modules/.bin:"$PATH"
 
-changed_js() {
-    tools/info changed-files | grep '^src/.*\.js$'
+files_js() {
+    if [ -n "$full" ]; then
+        echo src/
+        return
+    fi
+    tools/info changed-files | grep '^src/.*\.js$' || :
 }
 
 run_lint() {
+    (( $# )) || return 0
     eslint --max-warnings=0 "$@"
 }
 
 run_prettier() {
+    (( $# )) || return 0
+    patterns=( "${@/%\///**/*.js}" ) # replace trailing `/` with `/**/*.js`
     prettier-eslint \
       --list-different \
       --eslint-config-path ./tools/formatting.eslintrc.yaml \
-      "$@"
+      "${patterns[@]}"
 }
 
 run_spell() {
+    (( $# )) || return 0
     eslint --no-eslintrc -c tools/spellcheck.eslintrc.yaml "$@"
 }
 
@@ -82,12 +90,7 @@ for suite in "${suites[@]}"; do
             flow
             ;;
         lint)
-            if [ -n "$full" ]; then
-                run_lint src/
-            else
-                files=( $(changed_js) ) || continue
-                run_lint "${files[@]}"
-            fi
+            run_lint $(files_js)
             ;;
         jest)
             if [ -n "$full" ]; then
@@ -102,19 +105,10 @@ for suite in "${suites[@]}"; do
             fi
             ;;
         prettier)
-            if [ -n "$full" ]; then
-                run_prettier 'src/**/*.js'
-            else
-                run_prettier $(changed_js)
-            fi
+            run_prettier $(files_js)
             ;;
         spell)
-            if [ -n "$full" ]; then
-                run_spell src/
-            else
-                files=( $(changed_js) ) || continue
-                run_spell "${files[@]}"
-            fi
+            run_spell $(files_js)
             ;;
     esac || failed+=($suite)
 done
