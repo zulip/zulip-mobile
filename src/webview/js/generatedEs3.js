@@ -2,7 +2,7 @@
  * This is a GENERATED file -- do not edit.
  * To make changes:
  *   1. Edit `js.js`, which is the source for this file.
- *   2. Run `yarn run generate-webview-js`.
+ *   2. Run `tools/generate-webview-js`.
  */
 
 export default `

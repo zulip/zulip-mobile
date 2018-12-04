@@ -1,8 +1,7 @@
 #!/bin/bash
 oldjs=$(<./src/webview/js/generatedEs3.js)
 
-# generate new js
-yarn run generate-webview-js
+tools/generate-webview-js
 
 newjs=$(<./src/webview/js/generatedEs3.js)
 
