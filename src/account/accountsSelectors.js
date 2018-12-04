@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Account, Selector } from '../types';
+import type { Account, Identity, Selector } from '../types';
 import { NULL_ACCOUNT } from '../nullObjects';
 import { getAccounts } from '../directSelectors';
 
@@ -21,3 +21,8 @@ export const getCurrentRealm: Selector<string> = createSelector(
 );
 
 export const getAuth = getActiveAccount;
+
+export const getIdentity: Selector<Identity> = createSelector(getAuth, ({ email, realm }) => ({
+  email,
+  realm,
+}));

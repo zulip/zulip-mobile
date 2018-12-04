@@ -46,7 +46,7 @@ export type InputSelectionType = {
 };
 
 /**
- * An identity belonging to this app's user, as a user in a Zulip org/realm.
+ * An identity belonging to this user in some Zulip org, including a secret.
  *
  * At present this consists of just the information the API client library
  * needs in order to talk to the server on the user's behalf, aka `Auth`.
@@ -54,10 +54,21 @@ export type InputSelectionType = {
  *
  * In the future this might contain other metadata, if useful.
  *
- * TODO: Refactor things so that parts of the codebase that only need the
- * user's *identity* proper, and not a secret API key, get only that.
+ * See also `Identity`, which should be used instead where an API key is
+ * not required.
+ * TODO: move more code that way.
  */
 export type Account = Auth;
+
+/**
+ * An identity belonging to this user in some Zulip org, with no secrets.
+ *
+ * This should be used in preference to `Auth` or `Account` in code that
+ * doesn't need to make (authenticated) requests to the server and only
+ * needs to pick their own email or ID out of a list, use the org's base URL
+ * to make a relative URL absolute, etc.
+ */
+export type Identity = $Diff<Auth, { apiKey: string }>;
 
 /** An aggregate of all the reactions with one emoji to one message. */
 export type AggregatedReaction = {

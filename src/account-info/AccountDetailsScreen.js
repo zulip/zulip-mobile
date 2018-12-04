@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Auth, Dispatch, GlobalState, Orientation, User, PresenceState } from '../types';
-import { getAuth, getSession, getAccountDetailsUserFromEmail, getPresence } from '../selectors';
+import type { Identity, Dispatch, GlobalState, Orientation, User, PresenceState } from '../types';
+import { getIdentity, getSession, getAccountDetailsUserFromEmail, getPresence } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 
 type Props = {
-  auth: Auth,
+  identity: Identity,
   user: User,
   orientation: Orientation,
   dispatch: Dispatch,
@@ -20,7 +20,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { auth, dispatch, orientation, user, presence } = this.props;
+    const { identity, dispatch, orientation, user, presence } = this.props;
     const title = {
       text: '{_}',
       values: {
@@ -32,7 +32,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
     return (
       <Screen title={title}>
         <AccountDetails
-          auth={auth}
+          identity={identity}
           dispatch={dispatch}
           user={user}
           presence={presence[user.email]}
@@ -44,7 +44,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState, props: Object) => ({
-  auth: getAuth(state),
+  identity: getIdentity(state),
   user: getAccountDetailsUserFromEmail(props.navigation.state.params.email)(state),
   orientation: getSession(state).orientation,
   presence: getPresence(state),

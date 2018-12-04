@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Dimensions } from 'react-native';
 
-import type { Auth, Dispatch, Context, Presence, User } from '../types';
+import type { Identity, Dispatch, Context, Presence, User } from '../types';
 import { Avatar, ComponentList, RawLabel, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
@@ -13,7 +13,7 @@ import { nowInTimeZone } from '../utils/date';
 import { doNarrow } from '../actions';
 
 type Props = {
-  auth: Auth,
+  identity: Identity,
   dispatch: Dispatch,
   user: User,
   presence: Presence,
@@ -34,7 +34,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
 
   render() {
     const { styles } = this.context;
-    const { user, auth, presence } = this.props;
+    const { user, identity, presence } = this.props;
     const screenWidth = Dimensions.get('window').width;
 
     return (
@@ -44,7 +44,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
           name={user.full_name}
           email={user.email}
           size={screenWidth}
-          realm={auth.realm}
+          realm={identity.realm}
           shape="square"
         />
         <ComponentList outerSpacing itemStyle={[styles.row, styles.center]}>
