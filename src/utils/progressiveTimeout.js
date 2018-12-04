@@ -1,20 +1,24 @@
 /* @flow strict */
+
+/** The time at which we last started a timeout. */
 let lastTimeoutTime = 0;
+
+/** The duration of the last timeout we started. */
 let timeoutLength = 0;
 
 /**
- * Timeout that progressively increases its duration
- * Starts at 0 (no timeout the first time) and increases by 250 milliseconds
- * until it reaches 5 secs.
- * If the last timeout was more than a minute ago reset duration.
+ * Sleep for a timeout that progressively grows in duration.
+ *
+ * Starts at 0 on the first call, and increases by 250ms each call, to a
+ * maximum of 5s.
+ *
+ * If the last call was over 60s ago, starts over at 0.
  */
 export default (): Promise<void> => {
-  if (Date.now() - lastTimeoutTime > 60 * 1000) {
-    // did the last timeout happen more than a minute ago?
+  if (Date.now() > lastTimeoutTime + 60 * 1000) {
     timeoutLength = 0;
-  } else if (timeoutLength < 5000) {
-    // increase timeout by 250 milliseconds (only if not already at 5 secs)
-    timeoutLength += 250;
+  } else {
+    timeoutLength = Math.min(5000, timeoutLength + 250);
   }
   lastTimeoutTime = Date.now();
   return new Promise(resolve => setTimeout(resolve, timeoutLength));
