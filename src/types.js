@@ -45,6 +45,18 @@ export type InputSelectionType = {
   end: number,
 };
 
+/**
+ * An identity belonging to this app's user, as a user in a Zulip org/realm.
+ *
+ * At present this consists of just the information the API client library
+ * needs in order to talk to the server on the user's behalf, aka `Auth`.
+ * NB in particular this includes an API key.
+ *
+ * In the future this might contain other metadata, if useful.
+ *
+ * TODO: Refactor things so that parts of the codebase that only need the
+ * user's *identity* proper, and not a secret API key, get only that.
+ */
 export type Account = Auth;
 
 /** An aggregate of all the reactions with one emoji to one message. */
