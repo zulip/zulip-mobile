@@ -4,22 +4,33 @@
 let lastTimeoutTime = 0;
 
 /** The duration of the last timeout we started. */
-let timeoutLength = 0;
+let lastDuration = 0;
+
+const resetPeriod = 60 * 1000;
+const maxDuration = 10 * 1000;
+const incrementDuration = 100;
+const exponent = 2;
+
+const chooseNextDuration = () => {
+  if (Date.now() > lastTimeoutTime + resetPeriod) {
+    return 0;
+  }
+  // prettier-ignore
+  return Math.min(maxDuration,
+     Math.max(incrementDuration,
+      exponent * lastDuration));
+};
 
 /**
  * Sleep for a timeout that progressively grows in duration.
  *
- * Starts at 0 on the first call, and increases by 250ms each call, to a
- * maximum of 5s.
+ * Starts at 0 on the first call.  Grows initially by a small increment,
+ * then exponentially, up to a maximum.
  *
  * If the last call was over 60s ago, starts over at 0.
  */
 export default (): Promise<void> => {
-  if (Date.now() > lastTimeoutTime + 60 * 1000) {
-    timeoutLength = 0;
-  } else {
-    timeoutLength = Math.min(5000, timeoutLength + 250);
-  }
+  lastDuration = chooseNextDuration();
   lastTimeoutTime = Date.now();
-  return new Promise(resolve => setTimeout(resolve, timeoutLength));
+  return new Promise(resolve => setTimeout(resolve, lastDuration));
 };
