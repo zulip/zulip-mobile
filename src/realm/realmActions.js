@@ -11,10 +11,9 @@ import type {
   InitRealmEmojiAction,
   InitRealmFilterAction,
 } from '../types';
-import { initializeNotifications } from '../utils/notifications';
-import { getAuth } from '../selectors';
+import { initializeNotifications, refreshNotificationToken } from '../utils/notifications';
+import { getAuth, getPushToken } from '../selectors';
 import { getRealmEmojis, getRealmFilters } from '../api';
-
 import {
   REALM_INIT,
   SAVE_TOKEN_PUSH,
@@ -44,7 +43,12 @@ export const saveTokenPush = (
 });
 
 export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {
-  initializeNotifications(getAuth(getState()), (token, msg, result) => {
+  const auth = getAuth(getState());
+  const pushToken = getPushToken(getState());
+  if (auth.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
+    refreshNotificationToken();
+  }
+  initializeNotifications(auth, (token, msg, result) => {
     dispatch(saveTokenPush(token, result, msg));
   });
 };

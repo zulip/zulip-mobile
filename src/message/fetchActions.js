@@ -19,7 +19,6 @@ import {
   getLastMessageId,
   getCaughtUpForActiveNarrow,
   getFetchingForActiveNarrow,
-  getPushToken,
 } from '../selectors';
 import config from '../config';
 import {
@@ -33,7 +32,6 @@ import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../constants';
 import timing from '../utils/timing';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
-import { refreshNotificationToken } from '../utils/notifications';
 import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
 import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
 import { initNotifications, realmInit } from '../realm/realmActions';
@@ -177,7 +175,6 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
 
 export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
-  const pushToken = getPushToken(getState());
 
   timing.start('Rest of server data');
   const [messages, streams] = await Promise.all([
@@ -190,9 +187,6 @@ export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState:
 
   dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
   dispatch(initStreams(streams));
-  if (auth.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
-    refreshNotificationToken();
-  }
 
   const session = getSession(getState());
   if (session.lastNarrow) {
