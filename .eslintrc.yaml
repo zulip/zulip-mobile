@@ -15,7 +15,6 @@ extends:
   - airbnb
   - plugin:jest/recommended
   - ./tools/formatting.eslintrc.yaml
-  - ./tools/spellcheck.eslintrc.yaml
 settings:
   import/resolver:
     node:

@@ -15,11 +15,16 @@ Options:
   --full      Run on all files (default: only files changed in this
               branch, as found by \`tools/info changed-files\`.)
 
-Suites: (default: all)
+Suites:
   flow
   lint
   jest
   prettier
+  spell
+
+By default:
+ * without --full, all suites are run;
+ * with --full, all suites but \`spell\` are run.
 EOF
     exit 2
 }
@@ -31,7 +36,7 @@ while (( $# )); do
     case "$1" in
         --coverage) coverage=1; shift;;
         --full) full=1; shift;;
-        flow|lint|jest|prettier)
+        flow|lint|jest|prettier|spell)
             suites+=("$1"); shift;;
         *) usage;;
     esac
@@ -39,6 +44,7 @@ done
 
 if [ -z "$suites" ]; then
     suites=(flow lint jest prettier)
+    [ -z "$full" ] && suites+=(spell)
 fi
 
 
@@ -62,6 +68,10 @@ run_prettier() {
       --list-different \
       --eslint-config-path ./tools/formatting.eslintrc.yaml \
       "$@"
+}
+
+run_spell() {
+    eslint --no-eslintrc -c tools/spellcheck.eslintrc.yaml "$@"
 }
 
 failed=()
@@ -96,6 +106,14 @@ for suite in "${suites[@]}"; do
                 run_prettier 'src/**/*.js'
             else
                 run_prettier $(changed_js)
+            fi
+            ;;
+        spell)
+            if [ -n "$full" ]; then
+                run_spell src/
+            else
+                files=( $(changed_js) ) || continue
+                run_spell "${files[@]}"
             fi
             ;;
     esac || failed+=($suite)
