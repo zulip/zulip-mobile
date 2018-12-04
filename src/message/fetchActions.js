@@ -157,7 +157,7 @@ export const fetchMessagesInNarrow = (
   }
 };
 
-export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
+export const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
 
@@ -172,12 +172,7 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
 
   dispatch(realmInit(initData));
   dispatch(initialFetchComplete());
-
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
-};
-
-export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
-  const auth = getAuth(getState());
 
   const [{ messages }, { streams }] = await Promise.all([
     await tryUntilSuccessful(() =>
@@ -198,8 +193,7 @@ export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState:
 };
 
 export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
-  dispatch(fetchEssentialInitialData());
-  dispatch(fetchRestOfInitialData());
+  dispatch(fetchInitialData());
 
   dispatch(initNotifications());
   dispatch(reportPresence());

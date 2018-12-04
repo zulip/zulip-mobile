@@ -377,7 +377,7 @@ In the current Zulip mobile app, the structure looks like
   The code is in `eventActions.js` as `startEventPolling`, an action
   creator which takes the events finger as parameters.
 * That action creator is in turn invoked within the thunk action
-  created by the nullary action creator `fetchEssentialInitialData`
+  created by the nullary action creator `fetchInitialData`
   (in `fetchActions.js`), which does a number of other things but in
   particular first invokes `registerForEvents`, which is `/register`
   in the API binding.
@@ -399,7 +399,7 @@ In the current Zulip mobile app, the structure looks like
     exclusively by the long-poll loop in `startEventPolling`, when it
     finds the event queue has expired.
   * It's set to false on an `INITIAL_FETCH_COMPLETE` action -- which
-    is dispatched exclusively by `fetchEssentialInitialData`, just
+    is dispatched exclusively by `fetchInitialData`, just
     before it dispatches a `startEventPolling` action.
 
 Essentially, the `AppDataFetcher` React component is used as a way of
