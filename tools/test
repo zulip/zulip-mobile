@@ -53,6 +53,17 @@ changed_js() {
     tools/info changed-files | grep '^src/.*\.js$'
 }
 
+run_lint() {
+    eslint --max-warnings=0 "$@"
+}
+
+run_prettier() {
+    prettier-eslint \
+      --list-different \
+      --eslint-config-path ./tools/formatting.eslintrc.yaml \
+      "$@"
+}
+
 failed=()
 for suite in "${suites[@]}"; do
     echo "Running $suite..."
@@ -62,19 +73,19 @@ for suite in "${suites[@]}"; do
             ;;
         lint)
             if [ -n "$full" ]; then
-                eslint --max-warnings=0 src/
+                run_lint src/
             else
                 files=( $(changed_js) ) || continue
-                eslint --max-warnings=0 "${files[@]}"
+                run_lint "${files[@]}"
             fi
             ;;
         jest)
             if [ -n "$full" ]; then
                 if [ -n "$coverage" ]; then
-                    jest --maxWorkers=2 --coverage
+                    jest --coverage
                     coveralls <./coverage/lcov.info
                 else
-                    jest --maxWorkers=2
+                    jest
                 fi
             else
                 jest --changedSince "$(tools/info upstream-ref)"
@@ -82,13 +93,9 @@ for suite in "${suites[@]}"; do
             ;;
         prettier)
             if [ -n "$full" ]; then
-                prettier-eslint --list-different \
-                  --eslint-config-path ./tools/formatting.eslintrc.yaml \
-                  'src/**/*.js'
+                run_prettier 'src/**/*.js'
             else
-                prettier-eslint --list-different \
-                  --eslint-config-path ./tools/formatting.eslintrc.yaml \
-                  $(changed_js)
+                run_prettier $(changed_js)
             fi
             ;;
     esac || failed+=($suite)
