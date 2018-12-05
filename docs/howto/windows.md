@@ -1,18 +1,17 @@
 # Developing on Windows using WSL
 
 This is a guide on doing Zulip Mobile development on a Windows machine
-using WSL. Please note that you should be running Windows 10 Fall
-Creators Update or newer.
+using WSL.
 
 Using WSL is not a requirement for working on Zulip Mobile. If you
 follow our step-by-step [main install instructions](build-run.md) on
 Windows, they should work just fine.  You'll use the basic Windows
 "Command Prompt", aka `cmd.exe`, for your command line.
 
-However, If you'll be spending a lot of time developing Zulip Mobile, or if you're
-already very familiar with the command line on Linux or macOS,
-it's highly recommended that you install [WSL][wsl-home] / "Ubuntu for
-Windows", and use `bash` instead of `cmd.exe` for your main shell prompt.
+However, if you'll be spending a lot of time developing Zulip Mobile, or if
+you're already very familiar with the command line on Linux or macOS, it's
+highly recommended that you install [WSL][wsl-home] / "Ubuntu for Windows",
+and use `bash` instead of `cmd.exe` for your main shell prompt.
 
 WSL is a [pretty magical][wsl-announce-ubuntu] piece of engineering, and it
 gives you access to the same ecosystem of command-line tools that people on
@@ -40,7 +39,6 @@ approach to get some of the same benefits is [Cygwin](http://www.cygwin.com/).
 If you try it out with Zulip Mobile, a PR to add a section to this guide
 would be welcome!)
 
-
 [wsl-faq]: https://docs.microsoft.com/en-us/windows/wsl/faq
 
 
@@ -50,11 +48,11 @@ wide a range of contributors as most of our developer documentation.
 If you're trying them, we would love to hear from you [in #mobile on
 chat.zulip.org][czo]!
 
-Again, if you aren't already comfortable with the Linux (or macOS) command
-line, or just want to get things working quickly and
+Again, if you aren't already comfortable with the Linux (or macOS)
+command line, or just want to get things working quickly and
 straightforwardly, you may prefer to skip these beta instructions and
-instead follow our step-by-step [main install
-instructions](build-run.md) natively on Windows.
+instead follow our step-by-step [main install instructions](build-run.md)
+natively on Windows.
 
 [czo]: ../../README.md#discussion
 
@@ -71,7 +69,6 @@ You'll want to use the Windows side of things for:
 * Android Studio
 * the Android emulator
 * the location of your development tree in the filesystem
-
 
 What are the reasons to put a given piece on the Linux side or the
 Windows side?  (See the [WSL FAQ][wsl-faq] for more information on
@@ -91,13 +88,22 @@ many of these.)
   but it may be a bit simpler to use the Linux version.
 * One significant limitation of WSL (as of 2018) is that doing a large
   amount of filesystem I/O tends to be slow.  This is a reason to do
-  operations like a Gradle build (Gradle is the Java program that does the Android build), perhaps `git` commands, and perhaps
-  the occasional `yarn install` using the Windows versions.
+  operations like builds of the app (i.e. running Gradle), perhaps
+  `git` commands, and perhaps the occasional `yarn install` using the
+  Windows versions.
 
 [so-guide]: https://stackoverflow.com/questions/42614347/running-react-native-in-wsl-with-the-emulator-running-directly-in-windows
 
 
 ### Step-by-step instructions for setting up WSL
+
+These are primarily one Zulip contributor's notes from setting up
+their dev environment on WSL.  Again, if you're trying them, please
+come and say hello [in #mobile on chat.zulip.org][czo]!
+
+0. Update Windows to the latest version.  To use WSL you'll need at least
+   the Windows 10 Fall Creators Update, released in late 2017.  (For
+   options on Windows 8 and older, see above.)
 
 1. Open Powershell as an Administrator and run the command below to enable WSL.
 
@@ -135,11 +141,10 @@ many of these.)
         C:\Users\{User}\AppData\Local\Android\Sdk\emulator
         ```
 
-
 5. Go to the Windows Store and type the name of the linux distro you
    would like to use with WSL. These instructions have been tested to
    work on Ubuntu and Debian GNU/Linux. When the page for your selected
-   distro opens. Click on 'Get' to install it.
+   distro opens, click on 'Get' to install it.
 
 6. You will receive a notification when the installation has
    completed.  Click on 'Launch' to open it. When it opens, you will
@@ -180,11 +185,11 @@ many of these.)
     the zulip folder using `cd`.
 
     You can access your Windows local drives from bash and other Linux
-    programs by navigating to `/mnt/<drive-letter>` . In my case that
-    would be `cd /mnt/c`
+    programs by navigating to `/mnt/<drive-letter>` .  For example:
+    `cd /mnt/c`
 
 12. Clone the project into the directory using
-    `git clone https://github.com/zulip/zulip-mobile `
+    `git clone https://github.com/zulip/zulip-mobile`
 
 13. Navigate into the zulip-mobile directory and run yarn install.
 
@@ -210,23 +215,25 @@ many of these.)
     the zulip-mobile folder using Windows cmd and run yarn install
     from the Windows side.
 
-14. Follow the [instructions][react-native-setup-device] here to setup
+14. Follow the [instructions][react-native-setup-device] here to set up
     the device you plan to use, whether its an emulator or a physical
     device.
 
 15. Navigate into the `/android` directory then run the Gradle
-    installDebug script using the code below .
+    installDebug script using the commands below.
 
-    `cd android`
-    `/mnt/c/Windows/System32/cmd.exe /C gradlew.bat installDebug`
+    ```
+    cd android
+    /mnt/c/Windows/System32/cmd.exe /C gradlew.bat installDebug
+    ```
 
     If it succeeded, the command will terminate with the sentence
     "Installed on 1 device".
 
-    Open your Android device applications menu and look for the zulip
-    app with the name Zulip (debug).
+    Open your Android device applications menu and look for the Zulip
+    app, with the name "Zulip (debug)".
 
-16. Open a Windows `cmd` prompt and run the command below to setup the
+16. Open a Windows `cmd` prompt and run the command below to set up the
     reverse proxy that will allow development if you are using a
     physical device.
 
@@ -240,11 +247,10 @@ many of these.)
     the Zulip app on your device and the final app setup will
     occur. When it has completed, you will see the Zulip login page.
 
-
-
 [chocolatey]: https://chocolatey.org/
 [android-studio]: https://facebook.github.io/react-native/docs/getting-started.html#android-development-environment
 [react-native-setup-device]:https://facebook.github.io/react-native/docs/getting-started.html#preparing-the-android-device
+
 
 ### Helpful to Know
 Below are some useful tips for using WSL
@@ -263,30 +269,6 @@ export PATH="$HOME/bin:$HOME/.local/bin:/usr/bin:$PATH"
 source ~/.profile
 ```
 
-### Possible Issues
-
-#### JAVA_HOME is set to an invalid directory
-
-If you run into an error that says that 'JAVA_HOME is set to an
-invalid directory' consider using WSLENV to share the `JAVA_HOME`
-environment variable with your WSL installation. This only works if
-you have Windows 10 Build 17064 or newer.
-
-Open Powershell and run
-
-`setx WSLENV "JAVA_HOME/p"`
-
-You can also chain together several environment variables by
-separating them with a colon for example:
-
-`set WSLENV "JAVA_HOME/p:ANDROID_HOME/p`
-
-#### Unable to locate tools.jar
-
-Your Java SDK installation is missing the required tools.jar
-file. Follow our instructions in step 2 to reinstall the Java SDK
-using Chocolatey.
-
 #### Bonus: change your default home directory
 It can be useful to have WSL programs use the folder which contains your
 coding projects as its home path, `~`.
@@ -296,3 +278,28 @@ home directory) to add this line:
 ```
 export HOME=/mnt/<drive-letter>/path/to/your/folder
 ```
+
+
+### Troubleshooting
+
+#### `JAVA_HOME` is set to an invalid directory
+
+If you run into an error that says "JAVA_HOME is set to an invalid
+directory", consider using `WSLENV` to share the `JAVA_HOME` environment
+variable with your WSL installation.  This only works if you have
+Windows 10 Build 17064 or newer.
+
+Open Powershell and run
+
+`setx WSLENV "JAVA_HOME/p"`
+
+You can also chain together several environment variables by
+separating them with a colon.  For example:
+
+`set WSLENV "JAVA_HOME/p:ANDROID_HOME/p`
+
+#### Unable to locate `tools.jar`
+
+Your Java SDK installation is missing the required `tools.jar` file.
+Follow our instructions in step 2 to reinstall the Java SDK using
+Chocolatey.
