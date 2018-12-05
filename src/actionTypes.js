@@ -20,6 +20,8 @@ import {
   GOT_PUSH_TOKEN,
   UNACK_PUSH_TOKEN,
   ACK_PUSH_TOKEN,
+  LOADING_START,
+  LOADING_COMPLETE,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
   MARK_MESSAGES_READ,
@@ -207,6 +209,16 @@ export type AckPushTokenAction = {|
   identity: Identity,
   pushToken: string,
 |};
+
+export type LoadingStartAction = {
+  type: typeof LOADING_START,
+  entity: string,
+};
+
+export type LoadingCompleteAction = {
+  type: typeof LOADING_COMPLETE,
+  entity: string,
+};
 
 export type MessageFetchStartAction = {|
   type: typeof MESSAGE_FETCH_START,
