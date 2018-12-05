@@ -10,7 +10,6 @@ import type {
   EventUpdateMessageFlagsAction,
 } from '../types';
 import {
-  DEAD_QUEUE,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -102,7 +101,6 @@ const eventUpdateMessageFlags = (
 
 export default (state: NarrowsState = initialState, action: MessageAction): NarrowsState => {
   switch (action.type) {
-    case DEAD_QUEUE:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
