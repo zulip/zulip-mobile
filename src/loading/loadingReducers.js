@@ -2,12 +2,16 @@
 import type {
   LoadingState,
   LoadingAction,
+  LoadingStartAction,
+  LoadingCompleteAction,
   InitialFetchStartAction,
   InitialFetchCompleteAction,
   InitStreamsAction,
   InitSubscriptionsAction,
 } from '../types';
 import {
+  LOADING_START,
+  LOADING_COMPLETE,
   DEAD_QUEUE,
   ACCOUNT_SWITCH,
   INITIAL_FETCH_START,
@@ -23,6 +27,16 @@ const initialState: LoadingState = {
   unread: false,
   users: false,
 };
+
+const loadingStart = (state: LoadingState, action: LoadingStartAction): LoadingState => ({
+  ...state,
+  [action.entity]: true,
+});
+
+const loadingComplete = (state: LoadingState, action: LoadingCompleteAction): LoadingState => ({
+  ...state,
+  [action.entity]: false,
+});
 
 const initialFetchStart = (state: LoadingState, action: InitialFetchStartAction): LoadingState => ({
   ...state,
@@ -58,6 +72,12 @@ export default (state: LoadingState = initialState, action: LoadingAction): Load
     case DEAD_QUEUE:
     case ACCOUNT_SWITCH:
       return initialState;
+
+    case LOADING_START:
+      return loadingStart(state, action);
+
+    case LOADING_COMPLETE:
+      return loadingComplete(state, action);
 
     case INITIAL_FETCH_START:
       return initialFetchStart(state, action);
