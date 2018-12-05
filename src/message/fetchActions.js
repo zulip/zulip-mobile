@@ -157,6 +157,20 @@ export const fetchMessagesInNarrow = (
   }
 };
 
+export const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
+  const auth = getAuth(getState());
+  const { messages } = await tryUntilSuccessful(() =>
+    getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
+  );
+  dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
+};
+
+export const fetchStreams = () => async (dispatch: Dispatch, getState: GetState) => {
+  const auth = getAuth(getState());
+  const { streams } = await tryUntilSuccessful(() => getStreams(auth));
+  dispatch(initStreams(streams));
+};
+
 export const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
@@ -174,15 +188,8 @@ export const fetchInitialData = () => async (dispatch: Dispatch, getState: GetSt
   dispatch(initialFetchComplete());
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
 
-  const [{ messages }, { streams }] = await Promise.all([
-    await tryUntilSuccessful(() =>
-      getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
-    ),
-    await tryUntilSuccessful(() => getStreams(auth)),
-  ]);
-
-  dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
-  dispatch(initStreams(streams));
+  dispatch(fetchPrivateMessages());
+  dispatch(fetchStreams());
 
   const session = getSession(getState());
   if (session.lastNarrow) {
