@@ -15,7 +15,7 @@ simple terminology for the process we follow with both.
   [instructions](alpha.md) for joining.
 
   * On Google Play this means an "Internal test" release, and on iOS it
-    means a release in TestFlight to "iTunes Connect Users".
+    means a release in TestFlight to "App Store Connect Users".
 
   * On both platforms, a new version in this channel is available for update
     immediately on devices.  We use it for final manual QA before releasing
@@ -132,13 +132,10 @@ simple terminology for the process we follow with both.
 
 [xcode-upload]: https://help.apple.com/xcode/mac/9.0/#/dev442d7f2ca
 
-* Distribute from [iTunes Connect][itunes-connect].
-
-  * A tip: use Safari when working with iTunes Connect.  It's still
-    buggy and slow, but not as buggy as it is in Chrome.
+* Distribute from [App Store Connect][app-store-connect].
 
   * The new build will appear first in
-    [Activity -> iOS History -> All Builds][itc-builds], with the
+    [Activity -> iOS History -> All Builds][asc-builds], with the
     caveat "(Processing)" next to its build number.  If it doesn't
     appear there, look for an email from Apple explaining why; this
     can happen if an automated check doesn't like it.
@@ -149,7 +146,7 @@ simple terminology for the process we follow with both.
 
   * After processing is complete, you can add the build to TestFlight
     so it goes to our beta users.  Go to [TestFlight ->
-    Testers & Groups -> External Testers -> Builds][itc-external-builds],
+    Testers & Groups -> External Testers -> Builds][asc-external-builds],
     and hit the "+" icon at the top of the list of builds to enter a
     modal dialog.
 
@@ -161,9 +158,9 @@ simple terminology for the process we follow with both.
   * The build will go into "Beta App Review".  This typically comes back the
     next morning, California time.  If successful, the app is out in beta!
 
-[itunes-connect]: https://itunesconnect.apple.com/
-[itc-builds]: https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/activity/ios/builds
-[itc-external-builds]: https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/testflight?section=group&subsection=builds&id=1bf18c25-da12-4bad-8384-9dd872ce447f
+[app-store-connect]: https://appstoreconnect.apple.com/
+[asc-builds]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/activity/ios/builds
+[asc-external-builds]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/testflight?section=group&subsection=builds&id=1bf18c25-da12-4bad-8384-9dd872ce447f
 
 ### Releasing to production
 
@@ -182,7 +179,7 @@ seem to be bad regressions.
 
 * For iOS, promote the TestFlight build to the App Store.
 
-  * In iTunes Connect for the app, [go to the "App Store" tab][itc-main], and
+  * In App Store Connect for the app, [go to the "App Store" tab][asc-main], and
     hit the "+ Version" button at the bottom of the left sidebar.  Enter the
     version number.  This creates a new draft listing.
 
@@ -200,7 +197,7 @@ seem to be bad regressions.
     it typically takes a couple of days to get a result from the Apple review
     process; if it passes review, the app will go live.
 
-[itc-main]: https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395
+[asc-main]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395
 
 
 ## Security releases
@@ -232,7 +229,7 @@ vulnerable.
 
 ### iOS prep
 
-* Build and upload to iTunes Connect, but release only to alpha for now.
+* Build and upload to App Store Connect, but release only to alpha for now.
   Repeat manual QA with the alpha.
 
 * Follow the steps to release to production, with one change: in the draft
@@ -309,9 +306,18 @@ MYAPP_RELEASE_KEY_PASSWORD=*****
 
 ## Troubleshooting
 
+### App Store Connect webapp is buggy and slow
+
+Try using Safari when working with App Store Connect.  It's still
+buggy and slow, but not as buggy as it is in Chrome.
+
+
 <div id="trouble-uploading-apple" />
 
 ### Uploading to App Store: "No accounts with iTunes Connect access ..."
+
+(Probably this would say "App Store Connect" today; the issue was last
+seen before that rename.)
 
 If you get an error like "No accounts with iTunes Connect access have
 been found for the team ...", followed by your account name with the
