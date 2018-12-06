@@ -520,6 +520,22 @@ export interface Dispatch {
 
 export type LocalizableText = any; // string | { text: string, values: Object };
 
+/**
+ * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.
+ *
+ * Use `context: TranslationContext` in a React component; then in methods,
+ * say `const _ = this.context`.
+ *
+ * Alternatively, for when `context` is already in use, use `withGetText`
+ * and then say `const { _ } = this.props`.
+ *
+ * @prop intl - The full react-intl API, for more complex situations.
+ */
+export type GetText = {
+  (string): string,
+  intl: IntlShape,
+};
+
 export type RenderedTimeDescriptor = {|
   type: 'time',
   key: number | string,

@@ -6,7 +6,7 @@ import { Text } from 'react-native';
 import { IntlProvider } from 'react-intl';
 import type { IntlShape } from 'react-intl';
 
-import type { ChildrenArray, GlobalState } from '../types';
+import type { ChildrenArray, GetText, GlobalState } from '../types';
 import { getSettings } from '../selectors';
 import '../../vendor/intl/intl';
 import messages from '../i18n/messages';
@@ -14,22 +14,6 @@ import messages from '../i18n/messages';
 import '../i18n/locale';
 
 /* eslint-disable react/no-multi-comp */
-
-/**
- * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.
- *
- * Use `context: TranslationContext` in a React component; then in methods,
- * say `const _ = this.context`.
- *
- * Alternatively, for when `context` is already in use, use `withGetText`
- * and then say `const { _ } = this.props`.
- *
- * @prop intl - The full react-intl API, for more complex situations.
- */
-export type GetText = {
-  (string): string,
-  intl: IntlShape,
-};
 
 // $FlowFixMe could put a well-typed mock value here, to help write tests
 export const TranslationContext = React.createContext(undefined);
