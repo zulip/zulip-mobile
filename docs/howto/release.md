@@ -194,7 +194,7 @@ seem to be bad regressions.
   * For the "Advertising Identifier (IDFA)" question, select No.
 
   * The draft listing should enter state "Waiting for Review".  From here,
-    it typically takes a couple of days to get a result from the Apple review
+    it typically takes a day or so to get a result from the Apple review
     process; if it passes review, the app will go live.
 
 [asc-main]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395
@@ -244,7 +244,7 @@ vulnerable.
   beta and then immediately to production.
 
 * Also now submit to TestFlight, for beta users on iOS.  Wait for that to go
-  out before discussing further.
+  out before discussing further in public.
 
 ### Followup
 
