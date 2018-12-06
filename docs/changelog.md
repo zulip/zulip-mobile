@@ -33,8 +33,8 @@ Many fixes and improvements, including:
   work. (d92329bb4)
 * Messages pending send can now be deleted in long-press menu, like
   other messages. (#3189)
-* Force-upgrade screen says "Play Store" on Android, rather than
-  "App Store". (#3158)
+* Force-upgrade screen provides helpful App Store or Play Store
+  deep-link. (#3158)
 * Fixed handling of old reactions with emoji that have changed
   name. (#3169)
 * Fixed misrendering of "keypad" emoji like `:zero:`. (#3129)
