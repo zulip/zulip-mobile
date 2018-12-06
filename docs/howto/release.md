@@ -82,7 +82,7 @@ simple terminology for the process we follow with both.
   yarn build:android
   ```
 
-  This produces an APK at `android/app/build/outputs/apk/app-release.apk`.
+  This produces an APK at `android/app/build/outputs/apk/release/app-release.apk`.
 
 * Upload as an "Internal test track" release in the Google Play Console,
   under [Release management -> App releases](https://play.google.com/apps/publish/#ManageReleasesPlace:p=com.zulipmobile&appid=4976350040864490411).
