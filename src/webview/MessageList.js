@@ -136,8 +136,8 @@ class MessageList extends Component<Props> {
       this.sendMessagesIsReady = true;
       this.sendMessages(this.unsentMessages);
     } else {
-      const getString = this.props._;
-      handleMessageListEvent(this.props, getString, eventData);
+      const { _ } = this.props;
+      handleMessageListEvent(this.props, _, eventData);
     }
   };
 
