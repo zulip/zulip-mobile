@@ -15,7 +15,7 @@ import { getNarrowToSendTo } from '../selectors';
 type Props = {
   dispatch: Dispatch,
   expanded: boolean,
-  narrow: Narrow,
+  destinationNarrow: Narrow,
   onExpandContract: () => void,
 };
 
@@ -64,9 +64,13 @@ class ComposeMenu extends PureComponent<Props> {
       return;
     }
 
-    const { dispatch, narrow } = this.props;
+    const { dispatch, destinationNarrow } = this.props;
     dispatch(
-      uploadImage(narrow, response.uri, chooseUploadImageFilename(response.uri, response.fileName)),
+      uploadImage(
+        destinationNarrow,
+        response.uri,
+        chooseUploadImageFilename(response.uri, response.fileName),
+      ),
     );
   };
 
@@ -127,5 +131,5 @@ class ComposeMenu extends PureComponent<Props> {
 }
 
 export default connect((state, props) => ({
-  narrow: getNarrowToSendTo(props.narrow)(state),
+  destinationNarrow: getNarrowToSendTo(props.narrow)(state),
 }))(ComposeMenu);
