@@ -19,7 +19,7 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../constants';
-import { isMessageInNarrow, STARRED_NARROW_STR } from '../utils/narrow';
+import { isMessageInNarrow, STARRED_NARROW_STR, ALL_PRIVATE_NARROW_STR } from '../utils/narrow';
 import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: NarrowsState = NULL_OBJECT;
@@ -30,6 +30,13 @@ const messageFetchComplete = (
 ): NarrowsState => {
   const key = JSON.stringify(action.narrow);
   const fetchedMessageIds = action.messages.map(message => message.id);
+
+  if (action.replaceExisting) {
+    return {
+      [ALL_PRIVATE_NARROW_STR]: state[ALL_PRIVATE_NARROW_STR],
+      [key]: fetchedMessageIds,
+    };
+  }
 
   // We are not reading older or newer messages but trying to read 'fresh' information
   // at a position that makes sense (last unread or a specific ID). Replace old messages.

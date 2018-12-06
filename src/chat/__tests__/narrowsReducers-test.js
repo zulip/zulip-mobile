@@ -441,6 +441,31 @@ describe('narrowsReducers', () => {
 
       expect(newState).toEqual(expectedState);
     });
+
+    test('replace!', () => {
+      const initialState = deepFreeze({
+        [HOME_NARROW_STR]: [1, 2, 3, 4, 5, 6],
+        [ALL_PRIVATE_NARROW_STR]: [2, 3, 4],
+        [streamNarrowStr]: [4, 5, 6],
+        [JSON.stringify(privateNarrow('mark@example.com'))]: [3, 2],
+      });
+
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_COMPLETE,
+        narrow: streamNarrow('new stream'),
+        messages: [{ id: 4 }, { id: 5 }],
+        replaceExisting: true,
+      });
+
+      const expectedState = {
+        [ALL_PRIVATE_NARROW_STR]: [2, 3, 4],
+        [JSON.stringify(streamNarrow('new stream'))]: [4, 5],
+      };
+
+      const newState = narrowsReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
   });
 
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
