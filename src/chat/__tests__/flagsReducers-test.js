@@ -50,6 +50,32 @@ describe('flagsReducers', () => {
 
       expect(actualState).toBe(initialState);
     });
+
+    test('if `replaceExisting` is `true` replace old state completely', () => {
+      const initialState = deepFreeze({
+        read: {
+          1: true,
+          2: true,
+          3: true,
+        },
+      });
+
+      const expectedState = {
+        read: {
+          3: true,
+        },
+      };
+
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_COMPLETE,
+        messages: [{ id: 3, flags: ['read'] }],
+        replaceExisting: true,
+      });
+
+      const actualState = flagsReducers(initialState, action);
+
+      expect(actualState.read).toEqual(expectedState.read);
+    });
   });
 
   test('flags are added or replace existing flags', () => {

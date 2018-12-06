@@ -87,7 +87,7 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
 };
 
 const messageFetchComplete = (state: FlagsState, action: MessageFetchCompleteAction): FlagsState =>
-  processFlagsForMessages(state, action.messages);
+  processFlagsForMessages(action.replaceExisting ? initialState : state, action.messages);
 
 const eventNewMessage = (state: FlagsState, action: EventNewMessageAction): FlagsState =>
   addFlagsForMessages(state, [action.message.id], action.message.flags);
