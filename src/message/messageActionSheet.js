@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { Clipboard, Share } from 'react-native';
-import type { Auth, Dispatch, Message, Narrow, Subscription } from '../types';
+import type { Auth, Dispatch, GetText, Message, Narrow, Subscription } from '../types';
 import type { BackgroundData } from '../webview/MessageList';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
@@ -159,29 +159,27 @@ type ConstructSheetParams = {
   backgroundData: BackgroundData,
   message: Message,
   narrow: Narrow,
-  getString: (value: string) => string,
 };
 
 export const constructHeaderActionButtons = ({
   backgroundData: { mute, subscriptions },
   message,
-  getString,
 }: ConstructSheetParams) => {
   const buttons = [];
   if (message.type === 'stream') {
     if (isTopicMuted(message.display_recipient, message.subject, mute)) {
-      buttons.push(getString('Unmute topic'));
+      buttons.push('Unmute topic');
     } else {
-      buttons.push(getString('Mute topic'));
+      buttons.push('Mute topic');
     }
     const sub = subscriptions.find(x => x.name === message.display_recipient);
     if (sub && !sub.in_home_view) {
-      buttons.push(getString('Unmute stream'));
+      buttons.push('Unmute stream');
     } else {
-      buttons.push(getString('Mute stream'));
+      buttons.push('Mute stream');
     }
   }
-  buttons.push(getString('Cancel'));
+  buttons.push('Cancel');
   return buttons;
 };
 
@@ -189,39 +187,34 @@ export const constructMessageActionButtons = ({
   backgroundData: { auth, flags },
   message,
   narrow,
-  getString,
 }: ConstructSheetParams) => {
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
-    .map(x => getString(x.title));
+    .map(x => x.title);
   if (!isAnOutboxMessage(message)) {
     if (message.id in flags.starred) {
-      buttons.push(getString('Unstar message'));
+      buttons.push('Unstar message');
     } else {
-      buttons.push(getString('Star message'));
+      buttons.push('Star message');
     }
   }
-  buttons.push(getString('Cancel'));
+  buttons.push('Cancel');
   return buttons;
 };
 
 export const constructActionButtons = (target: string) =>
   target === 'header' ? constructHeaderActionButtons : constructMessageActionButtons;
 
-const executeActionSheetAction = (
-  isHeader: boolean,
-  title: string,
-  { getString, ...props }: ActionParams,
-) => {
+const executeActionSheetAction = (isHeader: boolean, title: string, props: ActionParams) => {
   if (isHeader) {
-    const headerButton = actionHeaderSheetButtons.find(x => getString(x.title) === title);
+    const headerButton = actionHeaderSheetButtons.find(x => x.title === title);
     if (headerButton) {
-      headerButton.onPress({ ...props, getString });
+      headerButton.onPress(props);
     }
   } else {
-    const button = actionSheetButtons.find(x => getString(x.title) === title);
+    const button = actionSheetButtons.find(x => x.title === title);
     if (button) {
-      button.onPress({ ...props, getString });
+      button.onPress(props);
     }
   }
 };
@@ -234,21 +227,23 @@ export const showActionSheet = (
     { options: string[], cancelButtonIndex: number },
     (number) => void,
   ) => void,
+  _: GetText,
   params: ConstructSheetParams,
 ): void => {
-  const options = constructActionButtons(isHeader ? 'header' : 'message')(params);
+  const optionCodes = constructActionButtons(isHeader ? 'header' : 'message')(params);
   const callback = buttonIndex => {
-    executeActionSheetAction(isHeader, options[buttonIndex], {
+    executeActionSheetAction(isHeader, optionCodes[buttonIndex], {
       dispatch,
       subscriptions: params.backgroundData.subscriptions,
       auth: params.backgroundData.auth,
+      getString: _,
       ...params,
     });
   };
   showActionSheetWithOptions(
     {
-      options,
-      cancelButtonIndex: options.length - 1,
+      options: optionCodes.map(code => _(code)),
+      cancelButtonIndex: optionCodes.length - 1,
     },
     callback,
   );

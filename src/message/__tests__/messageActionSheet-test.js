@@ -1,14 +1,12 @@
 import deepFreeze from 'deep-freeze';
 
 import { constructActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
-import extractString from '../../i18n/extractString';
 
 describe('constructActionButtons', () => {
   const auth = deepFreeze({
     realm: '',
     email: 'Zoe@zulip.com',
   });
-  const getString = value => extractString('en', value);
 
   const subscriptions = deepFreeze([]);
 
@@ -31,9 +29,7 @@ describe('constructActionButtons', () => {
     const buttons = constructActionButtons('message')({
       backgroundData: { auth, flags, mute, subscriptions },
       message,
-
       narrow,
-      getString,
     });
 
     expect(buttons).toContain('Star message');
@@ -48,7 +44,6 @@ describe('constructActionButtons', () => {
       backgroundData: { auth, flags, mute, subscriptions },
       message,
       narrow,
-      getString,
     });
 
     expect(buttons).toContain('Unstar message');
@@ -56,7 +51,6 @@ describe('constructActionButtons', () => {
 });
 
 describe('constructHeaderActionButtons', () => {
-  const getString = value => extractString('en', value);
   test('show Unmute topic option if topic is muted', () => {
     const subscriptions = deepFreeze([
       { name: 'denmark', in_home_view: true },
@@ -74,7 +68,6 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { mute, subscriptions },
       message,
-      getString,
     });
 
     expect(buttons).toContain('Unmute topic');
@@ -97,7 +90,6 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { mute, subscriptions },
       message,
-      getString,
     });
 
     expect(buttons).toContain('Mute topic');
@@ -121,7 +113,6 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { mute, subscriptions },
       message,
-      getString,
     });
 
     expect(buttons).toContain('Unmute stream');
@@ -142,7 +133,6 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { mute, subscriptions },
       message,
-      getString,
     });
 
     expect(buttons).toContain('Mute stream');
