@@ -14,7 +14,26 @@ import '../i18n/locale';
 
 /* eslint-disable react/no-multi-comp */
 
+/**
+ * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.
+ *
+ * Use `context: TranslationContext` in a React component; then in methods,
+ * say `const _ = this.context`.
+ *
+ * @prop intl - The full react-intl API, for more complex situations.
+ */
+export type GetText = {
+  (string): string,
+  intl: IntlShape,
+};
+
 export const TranslationContext = React.createContext(undefined);
+
+const makeGetText = (intl: IntlShape): GetText => {
+  const _ = value => intl.formatMessage({ id: value });
+  _.intl = intl;
+  return _;
+};
 
 /**
  * Consume the old-API context from IntlProvider, and provide a new-API context.
@@ -35,9 +54,11 @@ class TranslationContextTranslator extends PureComponent<{
     intl: () => null,
   };
 
+  _ = makeGetText(this.context.intl);
+
   render() {
     return (
-      <TranslationContext.Provider value={this.context.intl}>
+      <TranslationContext.Provider value={this._}>
         {this.props.children}
       </TranslationContext.Provider>
     );
