@@ -56,6 +56,7 @@ export const messageFetchComplete = (
   anchor: number,
   numBefore: number,
   numAfter: number,
+  replaceExisting: boolean,
 ): MessageFetchCompleteAction => ({
   type: MESSAGE_FETCH_COMPLETE,
   messages,
@@ -63,6 +64,7 @@ export const messageFetchComplete = (
   anchor,
   numBefore,
   numAfter,
+  replaceExisting,
 });
 
 export const fetchMessages = (
@@ -70,7 +72,8 @@ export const fetchMessages = (
   anchor: number,
   numBefore: number,
   numAfter: number,
-  useFirstUnread: boolean = false,
+  useFirstUnread: boolean,
+  replaceExisting: boolean,
 ) => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
   const messages = await getMessages(
@@ -81,20 +84,32 @@ export const fetchMessages = (
     numAfter,
     useFirstUnread,
   );
-  dispatch(messageFetchComplete(messages, narrow, anchor, numBefore, numAfter));
+  dispatch(messageFetchComplete(messages, narrow, anchor, numBefore, numAfter, replaceExisting));
 };
 
-export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number) =>
+export const fetchMessagesAroundAnchor = (
+  narrow: Narrow,
+  anchor: number,
+  replaceExisting: boolean,
+) =>
   fetchMessages(
     narrow,
     anchor,
     config.messagesPerRequest / 2,
     config.messagesPerRequest / 2,
     false,
+    replaceExisting,
   );
 
-export const fetchMessagesAtFirstUnread = (narrow: Narrow) =>
-  fetchMessages(narrow, 0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, true);
+export const fetchMessagesAtFirstUnread = (narrow: Narrow, replaceExisting: boolean) =>
+  fetchMessages(
+    narrow,
+    0,
+    config.messagesPerRequest / 2,
+    config.messagesPerRequest / 2,
+    true,
+    replaceExisting,
+  );
 
 export const markMessagesRead = (messageIds: number[]): MarkMessagesReadAction => ({
   type: MARK_MESSAGES_READ,
@@ -109,7 +124,7 @@ export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   const { needsInitialFetch } = getSession(state);
 
   if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId) {
-    dispatch(fetchMessages(narrow, firstMessageId, config.messagesPerRequest, 0));
+    dispatch(fetchMessages(narrow, firstMessageId, config.messagesPerRequest, 0, false, false));
   }
 };
 
@@ -121,7 +136,7 @@ export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   const { needsInitialFetch } = getSession(state);
 
   if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId) {
-    dispatch(fetchMessages(narrow, lastMessageId, 0, config.messagesPerRequest));
+    dispatch(fetchMessages(narrow, lastMessageId, 0, config.messagesPerRequest, false, false));
   }
 };
 
@@ -144,16 +159,17 @@ const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => 
 
 export const fetchMessagesInNarrow = (
   narrow: Narrow,
-  anchor: number = FIRST_UNREAD_ANCHOR,
+  anchor: number,
+  replaceExisting: boolean,
 ) => async (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
 
   if (anchor === FIRST_UNREAD_ANCHOR) {
     if (needFetchAtFirstUnread(state, narrow)) {
-      dispatch(fetchMessagesAtFirstUnread(narrow));
+      dispatch(fetchMessagesAtFirstUnread(narrow, replaceExisting));
     }
   } else {
-    dispatch(fetchMessagesAroundAnchor(narrow, anchor));
+    dispatch(fetchMessagesAroundAnchor(narrow, anchor, replaceExisting));
   }
 };
 
@@ -185,12 +201,12 @@ export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState:
   ]);
   timing.end('Rest of server data');
 
-  dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
+  dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0, false));
   dispatch(initStreams(streams));
 
   const session = getSession(getState());
   if (session.lastNarrow) {
-    dispatch(fetchMessagesInNarrow(session.lastNarrow));
+    dispatch(fetchMessagesInNarrow(session.lastNarrow, FIRST_UNREAD_ANCHOR, true));
   }
 
   dispatch(trySendMessages());

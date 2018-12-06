@@ -19,7 +19,7 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   }
 
   dispatch({ type: DO_NARROW, narrow });
-  dispatch(fetchMessagesInNarrow(narrow, anchor));
+  dispatch(fetchMessagesInNarrow(narrow, anchor, false));
   dispatch(navigateToChat(narrow));
 };
 

@@ -212,6 +212,7 @@ export type MessageFetchCompleteAction = {
   anchor: number,
   numBefore: number,
   numAfter: number,
+  replaceExisting: boolean,
 };
 
 export type MarkMessagesReadAction = {
