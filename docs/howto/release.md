@@ -118,8 +118,8 @@ simple terminology for the process we follow with both.
       aka "Organizer", window.
 
   * In the Archives organizer, select the archive and hit the button
-    "Upload to App Store...".  Follow the instructions in the [Xcode
-    docs on uploading][xcode-upload].
+    "Distribute App".  Follow the instructions in the [Xcode docs on
+    uploading][xcode-upload].
 
     * For the options "Include bitcode for iOS content" and "Upload
       your app's symbols...", keep both options enabled.
@@ -318,22 +318,20 @@ buggy and slow, but not as buggy as it is in Chrome.
 
 <div id="trouble-uploading-apple" />
 
-### Uploading to App Store: "No accounts with iTunes Connect access ..."
+### Uploading to App Store: "No accounts with App Store Connect access ..."
 
-(Probably this would say "App Store Connect" today; the issue was last
-seen before that rename.)
-
-If you get an error like "No accounts with iTunes Connect access have
+If you get an error like "No accounts with App Store Connect access have
 been found for the team ...", followed by your account name with the
-message "No iTunes Connect access for the team": this is an error
+message "No App Store Connect access for the team": this is an error
 [often reported, with varying causes][so-xcode-upload-fail] (also
 [forums 1][forums-xcode-fail-1], [forums 2][forums-xcode-fail-2]).  A
 workaround that works for many people on the internet, and worked for
 Greg when he first hit this issue in 2018, is to [use Application
 Loader instead][application-loader]:
 
-* Instead of the "Upload to App Store..." button, hit "Export...".
-  This will create a directory somewhere with a `.ipa` file in it.
+* In the modal a step or two after "Distribute App", choose ["Export /
+  Sign and export without uploading"][xcode-export].  This will create
+  a directory somewhere with a `.ipa` file in it.
 
 * From the Xcode menu, select Xcode -> Open Developer Tool ->
   Application Loader.  Hit the giant "Deliver Your App" button, then
@@ -345,3 +343,4 @@ Loader instead][application-loader]:
 [forums-xcode-fail-1]: https://forums.developer.apple.com/thread/86867
 [forums-xcode-fail-2]: https://forums.developer.apple.com/thread/67366
 [application-loader]: https://help.apple.com/itc/apploader/#/apdATD1E12-D1E1A1303-D1E12A1126
+[xcode-export]: https://stackoverflow.com/questions/5499125/how-to-create-ipa-file-using-xcode/47940681
