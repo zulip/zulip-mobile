@@ -13,6 +13,7 @@ import type {
   Dispatch,
   Fetching,
   FlagsState,
+  GetText,
   GlobalState,
   Message,
   MuteState,
@@ -38,6 +39,7 @@ import {
   getShownMessagesForNarrow,
   getRealm,
 } from '../selectors';
+import { withGetText } from '../boot/TranslationProvider';
 
 import type { WebviewInputMessage } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
@@ -84,6 +86,9 @@ export type Props = {
 
   // From `connectActionSheet`.
   showActionSheetWithOptions: (Object, (number) => void) => void,
+
+  // From `withGetText`.
+  _: GetText,
 };
 
 class MessageList extends Component<Props> {
@@ -94,7 +99,6 @@ class MessageList extends Component<Props> {
   unsentMessages: WebviewInputMessage[] = [];
 
   static contextTypes = {
-    intl: () => null,
     styles: () => null,
     theme: () => null,
   };
@@ -132,7 +136,7 @@ class MessageList extends Component<Props> {
       this.sendMessagesIsReady = true;
       this.sendMessages(this.unsentMessages);
     } else {
-      const getString = value => this.context.intl.formatMessage({ id: value });
+      const getString = this.props._;
       handleMessageListEvent(this.props, getString, eventData);
     }
   };
@@ -227,4 +231,4 @@ export default connect((state: GlobalState, props: OuterProps) => {
       props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
     typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
   };
-})(connectActionSheet(MessageList));
+})(connectActionSheet(withGetText(MessageList)));
