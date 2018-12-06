@@ -2,28 +2,42 @@
 
 The date on a release generally reflects when the source commit was
 tagged and the release build was first posted to GitHub or our alpha
-channels on the Play Store and Google's App Store.  The main rollout
+channels on the Play Store and Apple's App Store.  The main rollout
 to users in general on the app stores is typically a few days later.
 
 
 ## Unreleased
 
+### Highlights for users
 
-### Full user-visible changes
+Many fixes and improvements, including:
+* Added full support for custom emoji, including in composing messages
+  and in reactions.
+* The app now fetches updates much sooner when reopened after several
+  minutes idle.
+* Fixed issue where a draft message typed just after starting the app
+  was lost.
+* Complete translations for Italian and Korean.
 
-* Fix missing line that made switching to Indonesian language not
+
+### Full changes for users
+
+* Added full support for custom emoji ("realm emoji"), including in
+  composing messages and in reactions. (#2129, #2846)
+* The app now fetches updates much sooner when reopened after several
+  minutes idle. (#3190)
+* Fixed issue where a draft message typed just after starting the app
+  was lost. (#2861)
+* Complete translations for Italian and Korean. (62c8d92d8)
+* Fixed missing line that made switching to Indonesian language not
   work. (d92329bb4)
-* In retrying after failing to fetch events, retry immediately if we
-  haven't had to do so recently and back off if we have, rather than
-  vice versa. (#3190)
 * Messages pending send can now be deleted in long-press menu, like
   other messages. (#3189)
-* Force-upgrade screen says "Play Store" on Android, rather than "App
-  Store". (#3158)
-* Fixed handling of old reactions with emoji that have changed name. (#3169)
+* Force-upgrade screen says "Play Store" on Android, rather than
+  "App Store". (#3158)
+* Fixed handling of old reactions with emoji that have changed
+  name. (#3169)
 * Fixed misrendering of "keypad" emoji like `:zero:`. (#3129)
-* Implemented user-uploaded ("realm") emoji for reactions and compose;
-  they now work across the whole app. (#2129, #2846)
 * Group PM conversations now show combined avatars with rounded
   corners, like individual avatars. (#3167)
 * Fixed bugs causing top bar to sometimes be white instead of
@@ -31,14 +45,11 @@ to users in general on the app stores is typically a few days later.
 * Long-pressing a recipient bar now offers "Unmute topic" when
   appropriate. (8b60314e0 / #3156)
 * Alert words are now highlighted in the message list. (#3082)
-* Fixed issue where a draft message typed just after starting the app
-  was lost. (#2861)
 * Fixed fetching of explicit avatars (`!avatar(...)`) in messages. (#3047)
 * Overflow menu in lightbox is now properly aligned. (#3024)
 * Send button has larger touch target. (#2945)
 * Error banners in message list show as red, rather than gray.
-* Fix oversizing of images in Dropbox inline previews. (#3136)
-* Complete translations for Italian and Korean. (62c8d92d8)
+* Fixed oversizing of images in Dropbox inline previews. (#3136)
 * Various improvements across the app for latency and performance.
 
 
