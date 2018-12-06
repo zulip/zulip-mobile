@@ -119,39 +119,18 @@ simple terminology for the process we follow with both.
     "Upload to App Store...".  Follow the instructions in the [Xcode
     docs on uploading][xcode-upload].
 
-    * If you get an error like "No accounts with iTunes Connect access have
-      been found for the team ...", followed by your account name with the
-      message "No iTunes Connect access for the team": this is an error
-      [often reported, with varying causes][so-xcode-upload-fail] (also
-      [forums 1][forums-xcode-fail-1], [forums 2][forums-xcode-fail-2]).  A
-      workaround that works for many people on the internet, and worked for
-      Greg when he first hit this issue in 2018, is to [use Application
-      Loader instead][application-loader]:
-
-      * Instead of the "Upload to App Store..." button, hit "Export...".
-        This will create a directory somewhere with a `.ipa` file in it.
-
-      * From the Xcode menu, select Xcode -> Open Developer Tool ->
-        Application Loader.  Hit the giant "Deliver Your App" button, then
-        the "Choose" button in the corner.  Select the `.ipa` file you
-        exported.  Proceed through the next screens just like the normal
-        case below.
-
     * For the options "Include bitcode for iOS content" and "Upload
       your app's symbols...", keep both options enabled.
 
     * For signing, select "Manually manage signing".  Choose the
       provisioning profile called "XC iOS: org.zulip.Zulip".
       (On your first upload, you'll choose at this screen to download
-      the provisioning profile.  Or if you're hitting the bug linked above
-      where Xcode can't log in, you can download the provisioning profile
-      from developer.apple.com/account/ios/profile/.)
+      the provisioning profile.  Or if you're hitting the bug
+      described below where [Xcode can't log in](#trouble-uploading-apple),
+      you can download the provisioning profile from
+      developer.apple.com/account/ios/profile/.)
 
 [xcode-upload]: https://help.apple.com/xcode/mac/9.0/#/dev442d7f2ca
-[so-xcode-upload-fail]: https://stackoverflow.com/questions/46231372/xcode-8-3-3-no-accounts-with-itunes-connect-access
-[forums-xcode-fail-1]: https://forums.developer.apple.com/thread/86867
-[forums-xcode-fail-2]: https://forums.developer.apple.com/thread/67366
-[application-loader]: https://help.apple.com/itc/apploader/#/apdATD1E12-D1E1A1303-D1E12A1126
 
 * Distribute from [iTunes Connect][itunes-connect].
 
@@ -326,3 +305,33 @@ MYAPP_RELEASE_KEY_PASSWORD=*****
 
   * It's also possible to make a new certificate, using the web app at
     developer.apple.com/account/ .
+
+
+## Troubleshooting
+
+<div id="trouble-uploading-apple" />
+
+### Uploading to App Store: "No accounts with iTunes Connect access ..."
+
+If you get an error like "No accounts with iTunes Connect access have
+been found for the team ...", followed by your account name with the
+message "No iTunes Connect access for the team": this is an error
+[often reported, with varying causes][so-xcode-upload-fail] (also
+[forums 1][forums-xcode-fail-1], [forums 2][forums-xcode-fail-2]).  A
+workaround that works for many people on the internet, and worked for
+Greg when he first hit this issue in 2018, is to [use Application
+Loader instead][application-loader]:
+
+* Instead of the "Upload to App Store..." button, hit "Export...".
+  This will create a directory somewhere with a `.ipa` file in it.
+
+* From the Xcode menu, select Xcode -> Open Developer Tool ->
+  Application Loader.  Hit the giant "Deliver Your App" button, then
+  the "Choose" button in the corner.  Select the `.ipa` file you
+  exported.  Proceed through the next screens just like the normal
+  case below.
+
+[so-xcode-upload-fail]: https://stackoverflow.com/questions/46231372/xcode-8-3-3-no-accounts-with-itunes-connect-access
+[forums-xcode-fail-1]: https://forums.developer.apple.com/thread/86867
+[forums-xcode-fail-2]: https://forums.developer.apple.com/thread/67366
+[application-loader]: https://help.apple.com/itc/apploader/#/apdATD1E12-D1E1A1303-D1E12A1126
