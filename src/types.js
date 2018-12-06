@@ -360,7 +360,6 @@ export type TopicsState = {
 export type ThemeType = 'default' | 'night';
 
 export type Context = {
-  intl: IntlShape,
   styles: AppStyles,
   theme: ThemeType,
 };
