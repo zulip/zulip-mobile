@@ -97,6 +97,8 @@ simple terminology for the process we follow with both.
   useful for people who use Android without Google Play, e.g. out of privacy
   concerns or a desire to stick rigorously to free software.
 
+  Check the box "This is a pre-release".
+
 
 ### iOS
 
@@ -174,6 +176,8 @@ seem to be bad regressions.
 
   * Hit "Release to Production".  Look at the "What's new" box at the bottom,
     and check that the text is good.  Hit the button to confirm the release.
+
+  * Also edit the release on GitHub, and uncheck "This is a pre-release".
 
 [play-manage-beta]: https://play.google.com/apps/publish/?account=8060868091387311598#ManageReleaseTrackPlace:p=com.zulipmobile&releaseTrackId=4697711623380261182
 
