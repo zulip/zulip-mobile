@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import { connect } from 'react-redux';
-
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 import { IntlProvider } from 'react-intl';
+import type { IntlShape } from 'react-intl';
 
 import type { ChildrenArray, GlobalState } from '../types';
 import { getSettings } from '../selectors';
@@ -11,6 +11,38 @@ import '../../vendor/intl/intl';
 import messages from '../i18n/messages';
 
 import '../i18n/locale';
+
+/* eslint-disable react/no-multi-comp */
+
+export const TranslationContext = React.createContext(undefined);
+
+/**
+ * Consume the old-API context from IntlProvider, and provide a new-API context.
+ *
+ * This consumes the context provided by react-intl through React's
+ * "legacy context API" from before 16.3, and provides a context through the
+ * new API.
+ *
+ * See https://reactjs.org/docs/context.html
+ * vs. https://reactjs.org/docs/legacy-context.html .
+ */
+class TranslationContextTranslator extends PureComponent<{
+  children: ChildrenArray<*>,
+}> {
+  context: { intl: IntlShape };
+
+  static contextTypes = {
+    intl: () => null,
+  };
+
+  render() {
+    return (
+      <TranslationContext.Provider value={this.context.intl}>
+        {this.props.children}
+      </TranslationContext.Provider>
+    );
+  }
+}
 
 type Props = {
   locale: string,
@@ -39,7 +71,7 @@ class TranslationProvider extends PureComponent<Props> {
        * changing is rare.
        */
       <IntlProvider key={locale} locale={locale} textComponent={Text} messages={messages[locale]}>
-        {children}
+        <TranslationContextTranslator>{children}</TranslationContextTranslator>
       </IntlProvider>
     );
   }
