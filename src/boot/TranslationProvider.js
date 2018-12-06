@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
+import type { ComponentType, ElementConfig } from 'react';
 import { Text } from 'react-native';
 import { IntlProvider } from 'react-intl';
 import type { IntlShape } from 'react-intl';
@@ -20,6 +21,9 @@ import '../i18n/locale';
  * Use `context: TranslationContext` in a React component; then in methods,
  * say `const _ = this.context`.
  *
+ * Alternatively, for when `context` is already in use, use `withGetText`
+ * and then say `const { _ } = this.props`.
+ *
  * @prop intl - The full react-intl API, for more complex situations.
  */
 export type GetText = {
@@ -27,7 +31,29 @@ export type GetText = {
   intl: IntlShape,
 };
 
+// $FlowFixMe could put a well-typed mock value here, to help write tests
 export const TranslationContext = React.createContext(undefined);
+
+/**
+ * Provide `_` to the wrapped component, passing other props through.
+ *
+ * This is useful when the component is already using its `context` property
+ * for the legacy context API.  When that isn't the case, simply saying
+ * `context: TranslationContext` may be more convenient.
+ */
+export function withGetText<P: { _: GetText }, C: ComponentType<P>>(
+  WrappedComponent: C,
+): ComponentType<{ _: GetText, ...ElementConfig<C> }> {
+  return class extends React.Component<ElementConfig<C>> {
+    render() {
+      return (
+        <TranslationContext.Consumer>
+          {_ => <WrappedComponent _={_} {...this.props} />}
+        </TranslationContext.Consumer>
+      );
+    }
+  };
+}
 
 const makeGetText = (intl: IntlShape): GetText => {
   const _ = value => intl.formatMessage({ id: value });
