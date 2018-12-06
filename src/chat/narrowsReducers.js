@@ -30,13 +30,20 @@ const messageFetchComplete = (
 ): NarrowsState => {
   const key = JSON.stringify(action.narrow);
   const fetchedMessageIds = action.messages.map(message => message.id);
-  const replaceExisting =
-    action.anchor === FIRST_UNREAD_ANCHOR || action.anchor === LAST_MESSAGE_ANCHOR;
+
+  // We are not reading older or newer messages but trying to read 'fresh' information
+  // at a position that makes sense (last unread or a specific ID). Replace old messages.
+  if (action.anchor === FIRST_UNREAD_ANCHOR || action.anchor === LAST_MESSAGE_ANCHOR) {
+    return {
+      ...state,
+      [key]: fetchedMessageIds,
+    };
+  }
+
+  // Merge messages in state with the newly coming messages
   return {
     ...state,
-    [key]: replaceExisting
-      ? fetchedMessageIds
-      : union(state[key], fetchedMessageIds).sort((a, b) => a - b),
+    [key]: union(state[key], fetchedMessageIds).sort((a, b) => a - b),
   };
 };
 
