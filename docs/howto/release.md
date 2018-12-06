@@ -65,9 +65,8 @@ simple terminology for the process we follow with both.
 
 ### Preparing commit
 
-* Update version number, in three places: `versionCode` and
-  `versionName` in `android/app/build.gradle`, and
-  `CFBundleShortVersionString` in `ios/ZulipMobile/Info.plist`.
+* Run `tools/bump-version` to update the version number in the
+  Android and iOS build metadata.
 
 * QA the exact commit to be released: run tests, and do manual testing
   of core functionality and anything with risky changes.
