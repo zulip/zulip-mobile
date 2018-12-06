@@ -241,11 +241,11 @@ export type Debug = {
 };
 
 /**
-* @prop lastNarrow - the last narrow we navigated to. If the user is currently in a chat screen
-    this will also be the 'current' narrow. If they are in another screen this value will still
-    be valid and be the last narrow. This keeps the state simlper, not needing invalidating on
-    going back and deciding what to do during navigation transitions.
-*/
+ * Miscellaneous non-persistent state about this run of the app.
+ *
+ * @prop lastNarrow - the last narrow we navigated to.  If the user is
+ *   currently in a chat screen this will also be the "current" narrow.
+ */
 export type SessionState = {
   eventQueueId: number,
   editMessage: ?EditMessage,
