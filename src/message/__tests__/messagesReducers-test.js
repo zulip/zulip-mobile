@@ -306,6 +306,27 @@ describe('messagesReducers', () => {
       expect(newState).toEqual(expectedState);
     });
 
+    test('if `replaceExisting` is `true` completely replace previous state', () => {
+      const initialState = deepFreeze({
+        1: { id: 1 },
+        2: { id: 2 },
+        3: { id: 3 },
+        4: { id: 4 },
+        5: { id: 5 },
+      });
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_COMPLETE,
+        messages: [{ id: 3 }, { id: 4 }],
+        replaceExisting: true,
+      });
+      const expectedState = {
+        3: { id: 3 },
+        4: { id: 4 },
+      };
+      const newState = messagesReducers(initialState, action);
+      expect(newState).toEqual(expectedState);
+    });
+
     test('when anchor is FIRST_UNREAD_ANCHOR common messages are not replaced', () => {
       const commonMessages = { 2: { id: 2, timestamp: 4 }, 3: { id: 3, timestamp: 5 } };
       const initialState = deepFreeze({

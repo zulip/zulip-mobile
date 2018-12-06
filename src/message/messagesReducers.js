@@ -31,7 +31,7 @@ const messageFetchComplete = (
   state: MessagesState,
   action: MessageFetchCompleteAction,
 ): MessagesState => ({
-  ...state,
+  ...(action.replaceExisting ? initialState : state),
   ...groupItemsById(action.messages.map(message => omit(message, 'flags'))),
 });
 
