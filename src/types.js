@@ -244,7 +244,9 @@ export type Debug = {
  * Miscellaneous non-persistent state about this run of the app.
  *
  * @prop lastNarrow - the last narrow we navigated to.  If the user is
- *   currently in a chat screen this will also be the "current" narrow.
+ *   currently in a chat screen this will also be the "current" narrow,
+ *   but they may also be on an associated info screen or have navigated
+ *   away entirely.
  */
 export type SessionState = {
   eventQueueId: number,
