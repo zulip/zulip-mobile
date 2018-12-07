@@ -156,9 +156,11 @@ const handleLongPress = (props: Props, _: GetText, isHeader: boolean, messageId:
   if (!message) {
     return;
   }
-  showActionSheet(isHeader, props.dispatch, props.showActionSheetWithOptions, _, {
+  const { dispatch, showActionSheetWithOptions, backgroundData, narrow } = props;
+  showActionSheet(isHeader, dispatch, showActionSheetWithOptions, _, {
+    backgroundData,
     message,
-    ...props,
+    narrow,
   });
 };
 
