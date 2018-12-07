@@ -6,10 +6,10 @@ import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/na
 import { isTopicMuted } from '../utils/message';
 import {
   getMessageContentById,
-  muteTopic,
-  unmuteTopic,
+  muteTopic as apiMuteTopic,
+  unmuteTopic as apiUnmuteTopic,
   toggleMuteStream,
-  deleteMessage,
+  deleteMessage as apiDeleteMessage,
   toggleMessageStarred,
 } from '../api';
 import { showToast } from '../utils/info';
@@ -41,30 +41,30 @@ const editMessage = async ({ message, dispatch }: ActionParams) => {
   dispatch(startEditMessage(message.id, message.subject));
 };
 
-const doDeleteMessage = async ({ auth, message, dispatch }: ActionParams) => {
+const deleteMessage = async ({ auth, message, dispatch }: ActionParams) => {
   if (isAnOutboxMessage(message)) {
     dispatch(deleteOutboxMessage(message.timestamp));
   } else {
-    deleteMessage(auth, message.id);
+    apiDeleteMessage(auth, message.id);
   }
 };
 
-const doUnmuteTopic = ({ auth, message }: ActionParams) => {
-  unmuteTopic(auth, message.display_recipient, message.subject);
+const unmuteTopic = ({ auth, message }: ActionParams) => {
+  apiUnmuteTopic(auth, message.display_recipient, message.subject);
 };
 
-const doMuteTopic = ({ auth, message }: ActionParams) => {
-  muteTopic(auth, message.display_recipient, message.subject);
+const muteTopic = ({ auth, message }: ActionParams) => {
+  apiMuteTopic(auth, message.display_recipient, message.subject);
 };
 
-const doUnmuteStream = ({ auth, message, subscriptions }: ActionParams) => {
+const unmuteStream = ({ auth, message, subscriptions }: ActionParams) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
     toggleMuteStream(auth, sub.stream_id, false);
   }
 };
 
-const doMuteStream = ({ auth, message, subscriptions }: ActionParams) => {
+const muteStream = ({ auth, message, subscriptions }: ActionParams) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
     toggleMuteStream(auth, sub.stream_id, true);
@@ -109,16 +109,16 @@ const allButtonsRaw = {
   },
   deleteMessage: {
     title: 'Delete message',
-    onPress: doDeleteMessage,
+    onPress: deleteMessage,
   },
   starMessage: { title: 'Star message', onPress: starMessage },
   unstarMessage: { title: 'Unstar message', onPress: unstarMessage },
 
   // For headers
-  unmuteTopic: { title: 'Unmute topic', onPress: doUnmuteTopic },
-  muteTopic: { title: 'Mute topic', onPress: doMuteTopic },
-  muteStream: { title: 'Mute stream', onPress: doMuteStream },
-  unmuteStream: { title: 'Unmute stream', onPress: doUnmuteStream },
+  unmuteTopic: { title: 'Unmute topic', onPress: unmuteTopic },
+  muteTopic: { title: 'Mute topic', onPress: muteTopic },
+  muteStream: { title: 'Mute stream', onPress: muteStream },
+  unmuteStream: { title: 'Unmute stream', onPress: unmuteStream },
 
   // All
   cancel: { title: 'Cancel', onPress: () => {} },
