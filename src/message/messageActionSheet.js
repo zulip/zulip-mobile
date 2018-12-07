@@ -111,49 +111,47 @@ function allOf<T>(predicates: ((T) => boolean)[]): T => boolean {
   return x => predicates.every(p => p(x));
 }
 
-type MessageButtonType = {
+type ButtonDescription = {
   title: string,
   onPress: ActionParams => void | Promise<void>,
-  onlyIf: FilterParams => boolean,
+  onlyIf?: FilterParams => boolean,
 };
 
-const actionSheetButtons: MessageButtonType[] = [
-  {
+const allButtonsRaw = {
+  addReaction: {
     title: 'Add a reaction',
     onPress: addReaction,
     onlyIf: allOf([isSentMessage, isNotDeleted]),
   },
-  { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
-  { title: 'Copy to clipboard', onPress: copyToClipboard, onlyIf: isNotDeleted },
-  { title: 'Share', onPress: shareMessage, onlyIf: isNotDeleted },
-  {
+  reply: { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
+  copyToClipboard: { title: 'Copy to clipboard', onPress: copyToClipboard, onlyIf: isNotDeleted },
+  shareMessage: { title: 'Share', onPress: shareMessage, onlyIf: isNotDeleted },
+  editMessage: {
     title: 'Edit message',
     onPress: editMessage,
     onlyIf: allOf([isSentMessage, isSentBySelfAndNarrowed]),
   },
-  {
+  deleteMessage: {
     title: 'Delete message',
     onPress: doDeleteMessage,
     onlyIf: allOf([isSentBySelf, isNotDeleted]),
   },
-  // If skip then covered in constructMessageActionButtons
-  { title: 'Star message', onPress: starMessage, onlyIf: skip },
-  { title: 'Unstar message', onPress: unstarMessage, onlyIf: skip },
-  { title: 'Cancel', onPress: () => {}, onlyIf: skip },
-];
 
-type HeaderButtonType = {
-  title: string,
-  onPress: ActionParams => void | Promise<void>,
+  // If skip then covered in constructMessageActionButtons
+  starMessage: { title: 'Star message', onPress: starMessage, onlyIf: skip },
+  unstarMessage: { title: 'Unstar message', onPress: unstarMessage, onlyIf: skip },
+  cancel: { title: 'Cancel', onPress: () => {}, onlyIf: skip },
+
+  // Header
+  unmuteTopic: { title: 'Unmute topic', onPress: doUnmuteTopic },
+  muteTopic: { title: 'Mute topic', onPress: doMuteTopic },
+  muteStream: { title: 'Mute stream', onPress: doMuteStream },
+  unmuteStream: { title: 'Unmute stream', onPress: doUnmuteStream },
 };
 
-const actionHeaderSheetButtons: HeaderButtonType[] = [
-  { title: 'Unmute topic', onPress: doUnmuteTopic },
-  { title: 'Mute topic', onPress: doMuteTopic },
-  { title: 'Mute stream', onPress: doMuteStream },
-  { title: 'Unmute stream', onPress: doUnmuteStream },
-  { title: 'Cancel', onPress: () => {} },
-];
+type ButtonCode = $Keys<typeof allButtonsRaw>;
+
+const allButtons: { [ButtonCode]: ButtonDescription } = allButtonsRaw;
 
 type ConstructSheetParams = {
   backgroundData: BackgroundData,
@@ -188,9 +186,20 @@ export const constructMessageActionButtons = ({
   message,
   narrow,
 }: ConstructSheetParams) => {
-  const buttons = actionSheetButtons
-    .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
-    .map(x => x.title);
+  const buttons = [];
+  [
+    'addReaction',
+    'reply',
+    'copyToClipboard',
+    'shareMessage',
+    'editMessage',
+    'deleteMessage',
+  ].forEach((code: ButtonCode) => {
+    const button = allButtons[code];
+    if (button.onlyIf && button.onlyIf({ message, auth, narrow })) {
+      buttons.push(button.title);
+    }
+  });
   if (!isAnOutboxMessage(message)) {
     if (message.id in flags.starred) {
       buttons.push('Unstar message');
@@ -206,13 +215,11 @@ export const constructActionButtons = (target: string) =>
   target === 'header' ? constructHeaderActionButtons : constructMessageActionButtons;
 
 const executeActionSheetAction = (isHeader: boolean, title: string, props: ActionParams) => {
-  const buttons: $ReadOnlyArray<HeaderButtonType> = isHeader
-    ? actionHeaderSheetButtons
-    : actionSheetButtons;
-  const button = buttons.find(x => x.title === title);
-  if (button) {
-    button.onPress(props);
+  const code: ?ButtonCode = Object.keys(allButtons).find(c => allButtons[c].title === title);
+  if (!code) {
+    throw new Error(`bad action-sheet title: ${title}`);
   }
+  allButtons[code].onPress(props);
 };
 
 /** Invoke the given callback to show an appropriate action sheet. */
