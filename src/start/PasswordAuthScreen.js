@@ -6,7 +6,15 @@ import { View, StyleSheet } from 'react-native';
 
 import type { Auth, Context, Dispatch, GlobalState } from '../types';
 import { fetchApiKey } from '../api';
-import { ErrorMsg, Input, PasswordInput, Screen, WebLink, ZulipButton } from '../common';
+import {
+  ErrorMsg,
+  Input,
+  PasswordInput,
+  Screen,
+  WebLink,
+  ZulipButton,
+  ViewPlaceholder,
+} from '../common';
 import { getAuth } from '../selectors';
 import { isValidEmailFormat } from '../utils/misc';
 import { loginSuccess } from '../actions';
@@ -81,7 +89,6 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   };
 
   render() {
-    const { styles } = this.context;
     const { requireEmailFormat } = this.props.navigation.state.params;
     const { email, password, progress, error } = this.state;
     const isButtonDisabled =
@@ -101,8 +108,8 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
           defaultValue={email}
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
+        <ViewPlaceholder height={8} />
         <PasswordInput
-          style={styles.halfMarginTop}
           autoFocus={email.length !== 0}
           placeholder="Password"
           value={password}
@@ -110,8 +117,8 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
           blurOnSubmit={false}
           onSubmitEditing={this.validateForm}
         />
+        <ViewPlaceholder height={16} />
         <ZulipButton
-          style={styles.marginTop}
           disabled={isButtonDisabled}
           text="Log in"
           progress={progress}
