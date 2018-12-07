@@ -8,6 +8,7 @@ import { nullFunction } from '../nullObjects';
 import { HALF_COLOR, BORDER_COLOR } from '../styles';
 
 type Props = {
+  ...$PropertyType<TextInput, 'props'>,
   style?: Style,
   placeholder: LocalizableText,
   onChangeText: (text: string) => void,
@@ -29,6 +30,8 @@ type State = {
  * @prop onChangeText - Event called when text is edited.
  * @prop textInputRef - Callback used to pass a reference to the
  *   wrapped TextInput to parent component.
+ * @prop ...all other TextInput props - Passed through to the TextInput.
+ *   See https://facebook.github.io/react-native/docs/textinput .
  */
 export default class Input extends PureComponent<Props, State> {
   context: Context;
