@@ -5,7 +5,7 @@ import { TextInput } from 'react-native';
 import type { LocalizableText, Style } from '../types';
 import Input from './Input';
 
-type Props = {
+type Props = {|
   value?: string,
   style?: Style,
   placeholder?: LocalizableText,
@@ -13,8 +13,9 @@ type Props = {
   onBlur?: () => void,
   onFocus?: () => void,
   onSelectionChange?: (event: Object) => void,
+  onTouchStart?: () => void,
   textInputRef?: (component: ?TextInput) => void,
-};
+|};
 
 /**
  * Provides multi-line capabilities on top of an Input component.
