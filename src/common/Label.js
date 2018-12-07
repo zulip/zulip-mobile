@@ -5,19 +5,23 @@ import TranslatedText from './TranslatedText';
 
 import type { Context, LocalizableText, Style } from '../types';
 
-type Props = {
+type Props = {|
+  ...$Exact<$PropertyType<Text, 'props'>>,
   text: LocalizableText,
   style?: Style,
-};
+|};
 
 /**
  * A component that on top of a standard Text component
  * provides seamless translation and ensures consistent
  * styling for the default and night themes.
+ *
  * Use `RawLabel` if you don't want the text translated.
  *
- * @prop text - Main component to be rendered.
- * @prop [style] - Style object applied to the Text component.
+ * @prop text - Translated before putting inside Text.
+ * @prop [style] - Can override our default style for this component.
+ * @prop ...all other Text props - Passed through verbatim to Text.
+ *   See upstream: https://facebook.github.io/react-native/docs/text
  */
 export default class Label extends PureComponent<Props> {
   context: Context;

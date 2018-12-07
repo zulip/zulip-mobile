@@ -100,7 +100,7 @@ export default class StreamItem extends PureComponent<Props> {
     const textColorStyle = isSelected
       ? { color: 'white' }
       : backgroundColor
-        ? { color: foregroundColorFromBackground(backgroundColor) }
+        ? { color: (foregroundColorFromBackground(backgroundColor): string) }
         : styles.color;
 
     return (

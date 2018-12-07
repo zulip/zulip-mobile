@@ -4,18 +4,22 @@ import { Text } from 'react-native';
 
 import type { Context, Style } from '../types';
 
-type Props = {
+type Props = {|
+  ...$Exact<$PropertyType<Text, 'props'>>,
   text: string,
   style?: Style,
-};
+|};
 
 /**
  * A component that on top of a standard Text component
- * provides ensures consistent styling for the default and night themes.
+ * ensures consistent styling for the default and night themes.
+ *
  * Unlike `Label` it does not translate its contents.
  *
- * @prop text - Main component to be rendered.
- * @prop [style] - Style object applied to the Text component.
+ * @prop text - Contents for Text.
+ * @prop [style] - Can override our default style for this component.
+ * @prop ...all other Text props - Passed through verbatim to Text.
+ *   See upstream: https://facebook.github.io/react-native/docs/text
  */
 export default class RawLabel extends PureComponent<Props> {
   context: Context;
