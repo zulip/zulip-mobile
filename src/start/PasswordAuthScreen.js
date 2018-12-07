@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Auth, Context, Dispatch, GlobalState } from '../types';
+import type { Auth, Dispatch, GlobalState } from '../types';
 import { fetchApiKey } from '../api';
 import {
   ErrorMsg,
@@ -39,17 +39,12 @@ type State = {
 };
 
 class PasswordAuthScreen extends PureComponent<Props, State> {
-  context: Context;
   props: Props;
   state: State = {
     progress: false,
     email: this.props.auth.email || '',
     password: '',
     error: '',
-  };
-
-  static contextTypes = {
-    styles: () => null,
   };
 
   tryPasswordLogin = async () => {
