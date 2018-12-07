@@ -9,17 +9,15 @@ import Label from './Label';
 import Touchable from './Touchable';
 
 const componentStyles = StyleSheet.create({
-  passwordInput: {
-    flex: 1,
-    flexDirection: 'row',
-  },
   showPasswordButton: {
     position: 'absolute',
     right: 0,
-    alignItems: 'center',
-    padding: 8,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
   },
   showPasswordButtonText: {
+    margin: 8,
     color: BRAND_COLOR,
   },
 });
@@ -62,7 +60,6 @@ export default class PasswordInput extends PureComponent<Props, State> {
       <View style={style}>
         <Input
           {...this.props}
-          style={componentStyles.passwordInput}
           secureTextEntry={isHidden}
           autoCorrect={false}
           autoCapitalize="none"
