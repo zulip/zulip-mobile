@@ -53,13 +53,14 @@ export default class PasswordInput extends PureComponent<Props, State> {
   };
 
   render() {
-    const { style } = this.props;
+    const { style, placeholder } = this.props;
     const { isHidden } = this.state;
 
     return (
       <View style={style}>
         <Input
-          {...this.props}
+          style={style}
+          placeholder={placeholder}
           secureTextEntry={isHidden}
           autoCorrect={false}
           autoCapitalize="none"
