@@ -22,6 +22,7 @@ const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 const reply = ({ message, dispatch, auth }: ActionParams) => {
   dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
 };
+reply.title = 'Reply';
 
 const copyToClipboard = async ({ _, auth, message }: ActionParams) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
@@ -30,10 +31,12 @@ const copyToClipboard = async ({ _, auth, message }: ActionParams) => {
   Clipboard.setString(rawMessage);
   showToast(_('Message copied'));
 };
+copyToClipboard.title = 'Copy to clipboard';
 
 const editMessage = async ({ message, dispatch }: ActionParams) => {
   dispatch(startEditMessage(message.id, message.subject));
 };
+editMessage.title = 'Edit message';
 
 const deleteMessage = async ({ auth, message, dispatch }: ActionParams) => {
   if (isAnOutboxMessage(message)) {
@@ -42,14 +45,17 @@ const deleteMessage = async ({ auth, message, dispatch }: ActionParams) => {
     api.deleteMessage(auth, message.id);
   }
 };
+deleteMessage.title = 'Delete message';
 
 const unmuteTopic = ({ auth, message }: ActionParams) => {
   api.unmuteTopic(auth, message.display_recipient, message.subject);
 };
+unmuteTopic.title = 'Unmute topic';
 
 const muteTopic = ({ auth, message }: ActionParams) => {
   api.muteTopic(auth, message.display_recipient, message.subject);
 };
+muteTopic.title = 'Mute topic';
 
 const unmuteStream = ({ auth, message, subscriptions }: ActionParams) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
@@ -57,6 +63,7 @@ const unmuteStream = ({ auth, message, subscriptions }: ActionParams) => {
     toggleMuteStream(auth, sub.stream_id, false);
   }
 };
+unmuteStream.title = 'Unmute stream';
 
 const muteStream = ({ auth, message, subscriptions }: ActionParams) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
@@ -64,58 +71,57 @@ const muteStream = ({ auth, message, subscriptions }: ActionParams) => {
     toggleMuteStream(auth, sub.stream_id, true);
   }
 };
+muteStream.title = 'Mute stream';
 
 const starMessage = ({ auth, message }: ActionParams) => {
   toggleMessageStarred(auth, [message.id], true);
 };
+starMessage.title = 'Star message';
 
 const unstarMessage = ({ auth, message }: ActionParams) => {
   toggleMessageStarred(auth, [message.id], false);
 };
+unstarMessage.title = 'Unstar message';
 
 const shareMessage = ({ message }: ActionParams) => {
   Share.share({
     message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
   });
 };
+shareMessage.title = 'Share message';
 
 const addReaction = ({ message, dispatch }: ActionParams) => {
   dispatch(navigateToEmojiPicker(message.id));
 };
+addReaction.title = 'Add reaction';
+
+const cancel = params => {};
+cancel.title = 'Cancel';
 
 type ButtonDescription = {
+  (ActionParams): void | Promise<void>,
   title: string,
-  onPress: ActionParams => void | Promise<void>,
 };
 
 const allButtonsRaw = {
   // For messages
-  addReaction: {
-    title: 'Add a reaction',
-    onPress: addReaction,
-  },
-  reply: { title: 'Reply', onPress: reply },
-  copyToClipboard: { title: 'Copy to clipboard', onPress: copyToClipboard },
-  shareMessage: { title: 'Share', onPress: shareMessage },
-  editMessage: {
-    title: 'Edit message',
-    onPress: editMessage,
-  },
-  deleteMessage: {
-    title: 'Delete message',
-    onPress: deleteMessage,
-  },
-  starMessage: { title: 'Star message', onPress: starMessage },
-  unstarMessage: { title: 'Unstar message', onPress: unstarMessage },
+  addReaction,
+  reply,
+  copyToClipboard,
+  shareMessage,
+  editMessage,
+  deleteMessage,
+  starMessage,
+  unstarMessage,
 
   // For headers
-  unmuteTopic: { title: 'Unmute topic', onPress: unmuteTopic },
-  muteTopic: { title: 'Mute topic', onPress: muteTopic },
-  muteStream: { title: 'Mute stream', onPress: muteStream },
-  unmuteStream: { title: 'Unmute stream', onPress: unmuteStream },
+  unmuteTopic,
+  muteTopic,
+  muteStream,
+  unmuteStream,
 
   // All
-  cancel: { title: 'Cancel', onPress: () => {} },
+  cancel,
 };
 
 type ButtonCode = $Keys<typeof allButtonsRaw>;
@@ -205,7 +211,7 @@ export const showActionSheet = (
     ? constructHeaderActionButtons(params)
     : constructMessageActionButtons(params);
   const callback = buttonIndex => {
-    allButtons[optionCodes[buttonIndex]].onPress({
+    allButtons[optionCodes[buttonIndex]]({
       dispatch,
       subscriptions: params.backgroundData.subscriptions,
       auth: params.backgroundData.auth,
