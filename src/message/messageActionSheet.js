@@ -9,22 +9,25 @@ import api, { getMessageContentById, toggleMuteStream, toggleMessageStarred } fr
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
-type ActionParams = {
-  auth: Auth,
-  message: Message,
-  subscriptions: Subscription[],
-  dispatch: Dispatch,
-  _: GetText,
+type ButtonDescription = {
+  ({
+    auth: Auth,
+    message: Message,
+    subscriptions: Subscription[],
+    dispatch: Dispatch,
+    _: GetText,
+  }): void | Promise<void>,
+  title: string,
 };
 
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 
-const reply = ({ message, dispatch, auth }: ActionParams) => {
+const reply = ({ message, dispatch, auth }) => {
   dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
 };
 reply.title = 'Reply';
 
-const copyToClipboard = async ({ _, auth, message }: ActionParams) => {
+const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
     : await getMessageContentById(auth, message.id);
@@ -33,12 +36,12 @@ const copyToClipboard = async ({ _, auth, message }: ActionParams) => {
 };
 copyToClipboard.title = 'Copy to clipboard';
 
-const editMessage = async ({ message, dispatch }: ActionParams) => {
+const editMessage = async ({ message, dispatch }) => {
   dispatch(startEditMessage(message.id, message.subject));
 };
 editMessage.title = 'Edit message';
 
-const deleteMessage = async ({ auth, message, dispatch }: ActionParams) => {
+const deleteMessage = async ({ auth, message, dispatch }) => {
   if (isAnOutboxMessage(message)) {
     dispatch(deleteOutboxMessage(message.timestamp));
   } else {
@@ -47,17 +50,17 @@ const deleteMessage = async ({ auth, message, dispatch }: ActionParams) => {
 };
 deleteMessage.title = 'Delete message';
 
-const unmuteTopic = ({ auth, message }: ActionParams) => {
+const unmuteTopic = ({ auth, message }) => {
   api.unmuteTopic(auth, message.display_recipient, message.subject);
 };
 unmuteTopic.title = 'Unmute topic';
 
-const muteTopic = ({ auth, message }: ActionParams) => {
+const muteTopic = ({ auth, message }) => {
   api.muteTopic(auth, message.display_recipient, message.subject);
 };
 muteTopic.title = 'Mute topic';
 
-const unmuteStream = ({ auth, message, subscriptions }: ActionParams) => {
+const unmuteStream = ({ auth, message, subscriptions }) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
     toggleMuteStream(auth, sub.stream_id, false);
@@ -65,7 +68,7 @@ const unmuteStream = ({ auth, message, subscriptions }: ActionParams) => {
 };
 unmuteStream.title = 'Unmute stream';
 
-const muteStream = ({ auth, message, subscriptions }: ActionParams) => {
+const muteStream = ({ auth, message, subscriptions }) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
     toggleMuteStream(auth, sub.stream_id, true);
@@ -73,35 +76,30 @@ const muteStream = ({ auth, message, subscriptions }: ActionParams) => {
 };
 muteStream.title = 'Mute stream';
 
-const starMessage = ({ auth, message }: ActionParams) => {
+const starMessage = ({ auth, message }) => {
   toggleMessageStarred(auth, [message.id], true);
 };
 starMessage.title = 'Star message';
 
-const unstarMessage = ({ auth, message }: ActionParams) => {
+const unstarMessage = ({ auth, message }) => {
   toggleMessageStarred(auth, [message.id], false);
 };
 unstarMessage.title = 'Unstar message';
 
-const shareMessage = ({ message }: ActionParams) => {
+const shareMessage = ({ message }) => {
   Share.share({
     message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
   });
 };
 shareMessage.title = 'Share message';
 
-const addReaction = ({ message, dispatch }: ActionParams) => {
+const addReaction = ({ message, dispatch }) => {
   dispatch(navigateToEmojiPicker(message.id));
 };
 addReaction.title = 'Add reaction';
 
 const cancel = params => {};
 cancel.title = 'Cancel';
-
-type ButtonDescription = {
-  (ActionParams): void | Promise<void>,
-  title: string,
-};
 
 const allButtonsRaw = {
   // For messages
