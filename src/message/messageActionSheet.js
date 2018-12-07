@@ -144,7 +144,7 @@ const actionSheetButtons: MessageButtonType[] = [
 
 type HeaderButtonType = {
   title: string,
-  onPress: (props: ActionParams) => void,
+  onPress: ActionParams => void | Promise<void>,
 };
 
 const actionHeaderSheetButtons: HeaderButtonType[] = [
@@ -206,16 +206,12 @@ export const constructActionButtons = (target: string) =>
   target === 'header' ? constructHeaderActionButtons : constructMessageActionButtons;
 
 const executeActionSheetAction = (isHeader: boolean, title: string, props: ActionParams) => {
-  if (isHeader) {
-    const headerButton = actionHeaderSheetButtons.find(x => x.title === title);
-    if (headerButton) {
-      headerButton.onPress(props);
-    }
-  } else {
-    const button = actionSheetButtons.find(x => x.title === title);
-    if (button) {
-      button.onPress(props);
-    }
+  const buttons: $ReadOnlyArray<HeaderButtonType> = isHeader
+    ? actionHeaderSheetButtons
+    : actionSheetButtons;
+  const button = buttons.find(x => x.title === title);
+  if (button) {
+    button.onPress(props);
   }
 };
 
