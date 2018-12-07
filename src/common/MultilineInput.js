@@ -41,14 +41,7 @@ export default class MultilineInput extends PureComponent<Props> {
     const { onChange, ...restProps } = this.props;
 
     return (
-      <Input
-        bounces={false}
-        multiline
-        overScrollMode="never"
-        underlineColorAndroid="transparent"
-        onChangeText={onChange}
-        {...restProps}
-      />
+      <Input multiline underlineColorAndroid="transparent" onChangeText={onChange} {...restProps} />
     );
   }
 }
