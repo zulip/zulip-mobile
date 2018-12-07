@@ -25,13 +25,13 @@ type State = {
  * capabilities and also style the component depending on
  * the platform the app is running on.
  *
- * @prop [style] - Style applied to the TextInput component.
- * @prop [placeholder] - Text to be shown when no value is entered.
- * @prop onChangeText - Event called when text is edited.
- * @prop textInputRef - Callback used to pass a reference to the
- *   wrapped TextInput to parent component.
- * @prop ...all other TextInput props - Passed through to the TextInput.
- *   See https://facebook.github.io/react-native/docs/textinput .
+ * @prop [style] - Can override our default style for inputs.
+ * @prop [placeholder] - Translated before passing to TextInput as
+ *   a prop of the same name.
+ * @prop textInputRef - Passed to TextInput in `ref`.  See upstream docs
+ *   on refs: https://reactjs.org/docs/refs-and-the-dom.html
+ * @prop ...all other TextInput props - Passed through verbatim to TextInput.
+ *   See upstream: https://facebook.github.io/react-native/docs/textinput
  */
 export default class Input extends PureComponent<Props, State> {
   context: Context;
