@@ -211,9 +211,6 @@ export const constructMessageActionButtons = ({
   return buttons;
 };
 
-export const constructActionButtons = (target: string) =>
-  target === 'header' ? constructHeaderActionButtons : constructMessageActionButtons;
-
 const executeActionSheetAction = (isHeader: boolean, title: string, props: ActionParams) => {
   const code: ?ButtonCode = Object.keys(allButtons).find(c => allButtons[c].title === title);
   if (!code) {
@@ -233,7 +230,9 @@ export const showActionSheet = (
   _: GetText,
   params: ConstructSheetParams,
 ): void => {
-  const optionCodes = constructActionButtons(isHeader ? 'header' : 'message')(params);
+  const optionCodes = isHeader
+    ? constructHeaderActionButtons(params)
+    : constructMessageActionButtons(params);
   const callback = buttonIndex => {
     executeActionSheetAction(isHeader, optionCodes[buttonIndex], {
       dispatch,

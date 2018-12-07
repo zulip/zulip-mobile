@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { constructActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
+import { constructMessageActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
 
 describe('constructActionButtons', () => {
   const auth = deepFreeze({
@@ -26,7 +26,7 @@ describe('constructActionButtons', () => {
       id: 3,
     });
 
-    const buttons = constructActionButtons('message')({
+    const buttons = constructMessageActionButtons({
       backgroundData: { auth, flags, mute, subscriptions },
       message,
       narrow,
@@ -40,7 +40,7 @@ describe('constructActionButtons', () => {
       id: 1,
     });
 
-    const buttons = constructActionButtons('message')({
+    const buttons = constructMessageActionButtons({
       backgroundData: { auth, flags, mute, subscriptions },
       message,
       narrow,
