@@ -20,7 +20,7 @@ type ActionParams = {
   message: Message,
   subscriptions: Subscription[],
   dispatch: Dispatch,
-  getString: (value: string) => string,
+  _: GetText,
 };
 
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
@@ -29,12 +29,12 @@ const reply = ({ message, dispatch, auth }: ActionParams) => {
   dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
 };
 
-const copyToClipboard = async ({ getString, auth, message }: ActionParams) => {
+const copyToClipboard = async ({ _, auth, message }: ActionParams) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
     : await getMessageContentById(auth, message.id);
   Clipboard.setString(rawMessage);
-  showToast(getString('Message copied'));
+  showToast(_('Message copied'));
 };
 
 const editMessage = async ({ message, dispatch }: ActionParams) => {
@@ -215,7 +215,7 @@ export const showActionSheet = (
       dispatch,
       subscriptions: params.backgroundData.subscriptions,
       auth: params.backgroundData.auth,
-      getString: _,
+      _,
       ...params,
     });
   };
