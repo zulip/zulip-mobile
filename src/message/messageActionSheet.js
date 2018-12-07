@@ -162,22 +162,22 @@ type ConstructSheetParams = {
 export const constructHeaderActionButtons = ({
   backgroundData: { mute, subscriptions },
   message,
-}: ConstructSheetParams) => {
-  const buttons = [];
+}: ConstructSheetParams): ButtonCode[] => {
+  const buttons: ButtonCode[] = [];
   if (message.type === 'stream') {
     if (isTopicMuted(message.display_recipient, message.subject, mute)) {
-      buttons.push('Unmute topic');
+      buttons.push('unmuteTopic');
     } else {
-      buttons.push('Mute topic');
+      buttons.push('muteTopic');
     }
     const sub = subscriptions.find(x => x.name === message.display_recipient);
     if (sub && !sub.in_home_view) {
-      buttons.push('Unmute stream');
+      buttons.push('unmuteStream');
     } else {
-      buttons.push('Mute stream');
+      buttons.push('muteStream');
     }
   }
-  buttons.push('Cancel');
+  buttons.push('cancel');
   return buttons;
 };
 
@@ -185,7 +185,7 @@ export const constructMessageActionButtons = ({
   backgroundData: { auth, flags },
   message,
   narrow,
-}: ConstructSheetParams) => {
+}: ConstructSheetParams): ButtonCode[] => {
   const buttons = [];
   [
     'addReaction',
@@ -197,26 +197,18 @@ export const constructMessageActionButtons = ({
   ].forEach((code: ButtonCode) => {
     const button = allButtons[code];
     if (button.onlyIf && button.onlyIf({ message, auth, narrow })) {
-      buttons.push(button.title);
+      buttons.push(code);
     }
   });
   if (!isAnOutboxMessage(message)) {
     if (message.id in flags.starred) {
-      buttons.push('Unstar message');
+      buttons.push('unstarMessage');
     } else {
-      buttons.push('Star message');
+      buttons.push('starMessage');
     }
   }
-  buttons.push('Cancel');
+  buttons.push('cancel');
   return buttons;
-};
-
-const executeActionSheetAction = (isHeader: boolean, title: string, props: ActionParams) => {
-  const code: ?ButtonCode = Object.keys(allButtons).find(c => allButtons[c].title === title);
-  if (!code) {
-    throw new Error(`bad action-sheet title: ${title}`);
-  }
-  allButtons[code].onPress(props);
 };
 
 /** Invoke the given callback to show an appropriate action sheet. */
@@ -234,7 +226,7 @@ export const showActionSheet = (
     ? constructHeaderActionButtons(params)
     : constructMessageActionButtons(params);
   const callback = buttonIndex => {
-    executeActionSheetAction(isHeader, optionCodes[buttonIndex], {
+    allButtons[optionCodes[buttonIndex]].onPress({
       dispatch,
       subscriptions: params.backgroundData.subscriptions,
       auth: params.backgroundData.auth,
@@ -244,7 +236,7 @@ export const showActionSheet = (
   };
   showActionSheetWithOptions(
     {
-      options: optionCodes.map(code => _(code)),
+      options: optionCodes.map(code => _(allButtons[code].title)),
       cancelButtonIndex: optionCodes.length - 1,
     },
     callback,

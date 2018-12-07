@@ -32,7 +32,7 @@ describe('constructActionButtons', () => {
       narrow,
     });
 
-    expect(buttons).toContain('Star message');
+    expect(buttons).toContain('starMessage');
   });
 
   test('show unstar message option if message is starred', () => {
@@ -46,7 +46,7 @@ describe('constructActionButtons', () => {
       narrow,
     });
 
-    expect(buttons).toContain('Unstar message');
+    expect(buttons).toContain('unstarMessage');
   });
 });
 
@@ -70,7 +70,7 @@ describe('constructHeaderActionButtons', () => {
       message,
     });
 
-    expect(buttons).toContain('Unmute topic');
+    expect(buttons).toContain('unmuteTopic');
   });
 
   test('show mute topic option if topic is not muted', () => {
@@ -92,7 +92,7 @@ describe('constructHeaderActionButtons', () => {
       message,
     });
 
-    expect(buttons).toContain('Mute topic');
+    expect(buttons).toContain('muteTopic');
   });
 
   test('show Unmute stream option if stream is not in home view', () => {
@@ -115,7 +115,7 @@ describe('constructHeaderActionButtons', () => {
       message,
     });
 
-    expect(buttons).toContain('Unmute stream');
+    expect(buttons).toContain('unmuteStream');
   });
 
   test('show mute stream option if stream is in home view', () => {
@@ -135,6 +135,6 @@ describe('constructHeaderActionButtons', () => {
       message,
     });
 
-    expect(buttons).toContain('Mute stream');
+    expect(buttons).toContain('muteStream');
   });
 });
