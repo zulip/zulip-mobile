@@ -4,14 +4,8 @@ import type { Auth, Dispatch, GetText, Message, Narrow, Subscription } from '../
 import type { BackgroundData } from '../webview/MessageList';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
-import {
-  getMessageContentById,
-  muteTopic as apiMuteTopic,
-  unmuteTopic as apiUnmuteTopic,
-  toggleMuteStream,
-  deleteMessage as apiDeleteMessage,
-  toggleMessageStarred,
-} from '../api';
+/* eslint-disable import/no-named-as-default-member */
+import api, { getMessageContentById, toggleMuteStream, toggleMessageStarred } from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
@@ -45,16 +39,16 @@ const deleteMessage = async ({ auth, message, dispatch }: ActionParams) => {
   if (isAnOutboxMessage(message)) {
     dispatch(deleteOutboxMessage(message.timestamp));
   } else {
-    apiDeleteMessage(auth, message.id);
+    api.deleteMessage(auth, message.id);
   }
 };
 
 const unmuteTopic = ({ auth, message }: ActionParams) => {
-  apiUnmuteTopic(auth, message.display_recipient, message.subject);
+  api.unmuteTopic(auth, message.display_recipient, message.subject);
 };
 
 const muteTopic = ({ auth, message }: ActionParams) => {
-  apiMuteTopic(auth, message.display_recipient, message.subject);
+  api.muteTopic(auth, message.display_recipient, message.subject);
 };
 
 const unmuteStream = ({ auth, message, subscriptions }: ActionParams) => {
