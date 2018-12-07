@@ -89,64 +89,39 @@ const addReaction = ({ message, dispatch }: ActionParams) => {
   dispatch(navigateToEmojiPicker(message.id));
 };
 
-type FilterParams = {
-  message: Message,
-  auth: Auth,
-  narrow: Narrow,
-};
-
-const isSentMessage = ({ message }: FilterParams): boolean => !isAnOutboxMessage(message);
-
-const isSentBySelfAndNarrowed = ({ message, auth, narrow }: FilterParams): boolean =>
-  auth.email === message.sender_email && !isHomeNarrow(narrow) && !isSpecialNarrow(narrow);
-
-const isSentBySelf = ({ message, auth }: FilterParams): boolean =>
-  auth.email === message.sender_email;
-
-const isNotDeleted = ({ message }: FilterParams): boolean => message.content !== '<p>(deleted)</p>';
-
-const skip = () => false;
-
-function allOf<T>(predicates: ((T) => boolean)[]): T => boolean {
-  return x => predicates.every(p => p(x));
-}
-
 type ButtonDescription = {
   title: string,
   onPress: ActionParams => void | Promise<void>,
-  onlyIf?: FilterParams => boolean,
 };
 
 const allButtonsRaw = {
+  // For messages
   addReaction: {
     title: 'Add a reaction',
     onPress: addReaction,
-    onlyIf: allOf([isSentMessage, isNotDeleted]),
   },
-  reply: { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
-  copyToClipboard: { title: 'Copy to clipboard', onPress: copyToClipboard, onlyIf: isNotDeleted },
-  shareMessage: { title: 'Share', onPress: shareMessage, onlyIf: isNotDeleted },
+  reply: { title: 'Reply', onPress: reply },
+  copyToClipboard: { title: 'Copy to clipboard', onPress: copyToClipboard },
+  shareMessage: { title: 'Share', onPress: shareMessage },
   editMessage: {
     title: 'Edit message',
     onPress: editMessage,
-    onlyIf: allOf([isSentMessage, isSentBySelfAndNarrowed]),
   },
   deleteMessage: {
     title: 'Delete message',
     onPress: doDeleteMessage,
-    onlyIf: allOf([isSentBySelf, isNotDeleted]),
   },
+  starMessage: { title: 'Star message', onPress: starMessage },
+  unstarMessage: { title: 'Unstar message', onPress: unstarMessage },
 
-  // If skip then covered in constructMessageActionButtons
-  starMessage: { title: 'Star message', onPress: starMessage, onlyIf: skip },
-  unstarMessage: { title: 'Unstar message', onPress: unstarMessage, onlyIf: skip },
-  cancel: { title: 'Cancel', onPress: () => {}, onlyIf: skip },
-
-  // Header
+  // For headers
   unmuteTopic: { title: 'Unmute topic', onPress: doUnmuteTopic },
   muteTopic: { title: 'Mute topic', onPress: doMuteTopic },
   muteStream: { title: 'Mute stream', onPress: doMuteStream },
   unmuteStream: { title: 'Unmute stream', onPress: doUnmuteStream },
+
+  // All
+  cancel: { title: 'Cancel', onPress: () => {} },
 };
 
 type ButtonCode = $Keys<typeof allButtonsRaw>;
@@ -181,25 +156,35 @@ export const constructHeaderActionButtons = ({
   return buttons;
 };
 
+const messageNotDeleted = (message: Message): boolean => message.content !== '<p>(deleted)</p>';
+
 export const constructMessageActionButtons = ({
   backgroundData: { auth, flags },
   message,
   narrow,
 }: ConstructSheetParams): ButtonCode[] => {
   const buttons = [];
-  [
-    'addReaction',
-    'reply',
-    'copyToClipboard',
-    'shareMessage',
-    'editMessage',
-    'deleteMessage',
-  ].forEach((code: ButtonCode) => {
-    const button = allButtons[code];
-    if (button.onlyIf && button.onlyIf({ message, auth, narrow })) {
-      buttons.push(code);
-    }
-  });
+  if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
+    buttons.push('addReaction');
+  }
+  if (!isAnOutboxMessage(message)) {
+    buttons.push('reply');
+  }
+  if (messageNotDeleted(message)) {
+    buttons.push('copyToClipboard');
+    buttons.push('shareMessage');
+  }
+  if (
+    !isAnOutboxMessage(message)
+    && message.sender_email === auth.email
+    && !isHomeNarrow(narrow)
+    && !isSpecialNarrow(narrow)
+  ) {
+    buttons.push('editMessage');
+  }
+  if (message.sender_email === auth.email && messageNotDeleted(message)) {
+    buttons.push('deleteMessage');
+  }
   if (!isAnOutboxMessage(message)) {
     if (message.id in flags.starred) {
       buttons.push('unstarMessage');
