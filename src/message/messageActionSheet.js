@@ -9,7 +9,9 @@ import api, { getMessageContentById, toggleMuteStream, toggleMessageStarred } fr
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
+/** Description of a possible option for the action sheet. */
 type ButtonDescription = {
+  /** The callback. */
   ({
     auth: Auth,
     message: Message,
@@ -21,6 +23,10 @@ type ButtonDescription = {
 };
 
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
+
+//
+// Options for the action sheet go below: ...
+//
 
 const reply = ({ message, dispatch, auth }) => {
   dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
@@ -121,6 +127,10 @@ const allButtonsRaw = {
   // All
   cancel,
 };
+
+//
+// ... End of options for the action sheet.
+//
 
 type ButtonCode = $Keys<typeof allButtonsRaw>;
 
