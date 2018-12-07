@@ -9,7 +9,7 @@ type Props = {|
   value?: string,
   style?: Style,
   placeholder?: LocalizableText,
-  onChange?: (text: string) => void,
+  onChangeText?: (text: string) => void,
   onBlur?: () => void,
   onFocus?: () => void,
   onSelectionChange?: (event: Object) => void,
@@ -24,7 +24,7 @@ type Props = {|
  *   Setting this turns it into a controlled component.
  * @prop [style] - Style applied to the TextInput component.
  * @prop [placeholder] - Text to be shown when no value is entered.
- * @prop [onChange] - Event called when text is edited.
+ * @prop [onChangeText] - Event called when text is edited.
  * @prop [onBlur] - Event called on component losing focus.
  * @prop [onFocus] - Event called on component acquiring focus.
  * @prop [onSelectionChange] - Event called when text selection occurs or changes.
@@ -39,10 +39,6 @@ export default class MultilineInput extends PureComponent<Props> {
   };
 
   render() {
-    const { onChange, ...restProps } = this.props;
-
-    return (
-      <Input multiline underlineColorAndroid="transparent" onChangeText={onChange} {...restProps} />
-    );
+    return <Input multiline underlineColorAndroid="transparent" {...this.props} />;
   }
 }

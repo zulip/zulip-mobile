@@ -334,7 +334,7 @@ class ComposeBox extends PureComponent<Props, State> {
                 }
               }}
               onBlur={this.handleMessageBlur}
-              onChange={this.handleMessageChange}
+              onChangeText={this.handleMessageChange}
               onFocus={this.handleMessageFocus}
               onSelectionChange={this.handleMessageSelectionChange}
               onTouchStart={this.handleInputTouchStart}
