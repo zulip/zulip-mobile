@@ -5,12 +5,12 @@ import { View, FlatList } from 'react-native';
 import type { Auth, Account } from '../types';
 import AccountItem from './AccountItem';
 
-type Props = {
+type Props = {|
   auth: Auth,
   accounts: Account[],
   onAccountSelect: number => void,
   onAccountRemove: number => void,
-};
+|};
 
 export default class AccountList extends PureComponent<Props> {
   props: Props;
@@ -27,7 +27,8 @@ export default class AccountList extends PureComponent<Props> {
             <AccountItem
               index={index}
               showDoneIcon={index === 0 && auth.apiKey !== '' && auth.apiKey === item.apiKey}
-              {...item}
+              email={item.email}
+              realm={item.realm}
               onSelect={onAccountSelect}
               onRemove={onAccountRemove}
             />
