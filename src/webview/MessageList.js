@@ -21,7 +21,7 @@ import type {
   RealmEmojiType,
   RenderedSectionDescriptor,
   Subscription,
-  ThemeType,
+  ThemeName,
   User,
 } from '../types';
 import {
@@ -84,7 +84,7 @@ export type Props = {
   narrow: Narrow,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
-  theme: ThemeType,
+  theme: ThemeName,
   typingUsers: User[],
 
   // From `connectActionSheet`.

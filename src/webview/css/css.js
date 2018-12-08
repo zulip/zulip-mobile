@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ThemeType } from '../../types';
+import type { ThemeName } from '../../types';
 import { BRAND_COLOR } from '../../styles';
 import cssEmojis from './cssEmojis';
 
@@ -457,7 +457,7 @@ body {
 }
 `;
 
-export default (theme: ThemeType, highlightUnreadMessages: boolean) => `
+export default (theme: ThemeName, highlightUnreadMessages: boolean) => `
 <style>
 ${defaultTheme}
 ${theme === 'night' ? darkTheme : ''}

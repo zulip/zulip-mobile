@@ -5,14 +5,14 @@ import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
-import type { Dimensions, ThemeType } from '../types';
+import type { Dimensions, ThemeName } from '../types';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
 
 type BarStyle = $PropertyType<$PropertyType<StatusBar, 'props'>, 'barStyle'>;
 
-export const getStatusBarColor = (backgroundColor: string, theme: ThemeType): string =>
+export const getStatusBarColor = (backgroundColor: string, theme: ThemeName): string =>
   backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
     ? theme === 'night'
       ? '#212D3B'
@@ -26,7 +26,7 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
 
 type Props = {
   hidden: boolean,
-  theme: ThemeType,
+  theme: ThemeName,
   backgroundColor: string,
   safeAreaInsets: Dimensions,
   orientation: string,

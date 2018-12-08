@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import template from './template';
-import type { Auth, ThemeType } from '../../types';
+import type { Auth, ThemeName } from '../../types';
 import css from '../css/css';
 import htmlBody from './htmlBody';
 import script from '../js/script';
@@ -12,7 +12,7 @@ type InitOptionsType = {
   showMessagePlaceholders: boolean,
 };
 
-export default (content: string, theme: ThemeType, initOptions: InitOptionsType) => template`
+export default (content: string, theme: ThemeName, initOptions: InitOptionsType) => template`
 $!${script(initOptions.anchor, initOptions.auth)}
 $!${css(theme, initOptions.highlightUnreadMessages)}
 

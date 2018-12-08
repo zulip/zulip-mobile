@@ -357,7 +357,7 @@ export type TopicsState = {
   [number]: Topic[],
 };
 
-export type ThemeType = 'default' | 'night';
+export type ThemeName = 'default' | 'night';
 
 export type Context = {
   styles: AppStyles,
@@ -365,7 +365,7 @@ export type Context = {
 
 export type SettingsState = {|
   locale: string,
-  theme: ThemeType,
+  theme: ThemeName,
   offlineNotification: boolean,
   onlineNotification: boolean,
   experimentalFeaturesEnabled: boolean,
