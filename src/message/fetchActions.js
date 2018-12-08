@@ -29,7 +29,6 @@ import {
   MARK_MESSAGES_READ,
 } from '../actionConstants';
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../constants';
-import timing from '../utils/timing';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
@@ -162,7 +161,6 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
 
-  timing.start('Essential server data');
   const initData = await tryUntilSuccessful(() =>
     registerForEvents(auth, {
       fetch_event_types: config.serverDataOnStartup,
@@ -171,7 +169,6 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
       client_gravatar: true,
     }),
   );
-  timing.end('Essential server data');
 
   dispatch(realmInit(initData));
   dispatch(initialFetchComplete());
@@ -182,14 +179,12 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
 export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
 
-  timing.start('Rest of server data');
   const [{ messages }, { streams }] = await Promise.all([
     await tryUntilSuccessful(() =>
       getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
     ),
     await tryUntilSuccessful(() => getStreams(auth)),
   ]);
-  timing.end('Rest of server data');
 
   dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
   dispatch(initStreams(streams));
