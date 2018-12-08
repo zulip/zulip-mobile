@@ -7,6 +7,14 @@ import type { Context, LocalizableText, Style } from '../types';
 import { nullFunction } from '../nullObjects';
 import { HALF_COLOR, BORDER_COLOR } from '../styles';
 
+// This ought to be exact, but Flow (0.78) gives a baffling error at each
+// call site if I try that.  The error message is manifestly false -- it
+// says "property restProps ... exists in" the props passed at the call site
+// -- so there's clearly a bug here in Flow.
+//
+// From previous experience, this probably *does* reflect a real issue in
+// our types; perhaps a future Flow version will be able to coherently
+// point it out to us.
 type Props = {
   ...$PropertyType<TextInput, 'props'>,
   style?: Style,
