@@ -50,12 +50,13 @@ export default class PasswordInput extends PureComponent<Props, State> {
   };
 
   render() {
-    const { placeholder } = this.props;
+    const { placeholder, onChangeText } = this.props;
     const { isHidden } = this.state;
 
     return (
       <View>
         <Input
+          onChangeText={onChangeText}
           placeholder={placeholder}
           secureTextEntry={isHidden}
           autoCorrect={false}
