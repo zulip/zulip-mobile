@@ -21,7 +21,6 @@ export type MiscStyles = {
   label: Style,
   icon: Style,
   settingsIcon: Style,
-  item: Style,
   listItem: Style,
   screen: Style,
   flexed: Style,
@@ -29,18 +28,13 @@ export type MiscStyles = {
   messageList: Style,
   webview: Style,
   rightItem: Style,
-  screenWrapper: Style,
   link: Style,
   divider: Style,
-  navigationCard: Style,
   container: Style,
   center: Style,
   heading2: Style,
   field: Style,
-  disabled: Style,
-  username: Style,
   lineSeparator: Style,
-  floatingView: Style,
   alignBottom: Style,
 };
 
@@ -96,12 +90,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     marginLeft: 8,
     marginRight: 16,
   },
-  item: {
-    flex: 1,
-    flexBasis: CONTROL_SIZE,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -130,13 +118,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   rightItem: {
     marginLeft: 'auto',
   },
-  screenWrapper: {
-    flex: 1,
-    padding: 8,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-  },
   link: {
     marginTop: 10,
     fontSize: 15,
@@ -146,10 +127,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   divider: {
     borderBottomWidth: 1,
     borderBottomColor: dividerColor,
-  },
-  navigationCard: {
-    backgroundColor,
-    shadowColor: 'transparent',
   },
   center: {
     flex: 1,
@@ -163,24 +140,10 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     marginTop: 5,
     marginBottom: 5,
   },
-  disabled: {
-    backgroundColor: '#ddd',
-    color: '#333',
-  },
-  username: {
-    flex: 1,
-    fontWeight: 'bold',
-    fontSize: 16,
-    lineHeight: 16,
-  },
   lineSeparator: {
     height: 1,
     backgroundColor: cardColor,
     margin: 4,
-  },
-  floatingView: {
-    position: 'absolute',
-    width: '100%',
   },
   alignBottom: {
     flexDirection: 'column',

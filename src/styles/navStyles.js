@@ -5,13 +5,11 @@ import { BRAND_COLOR, NAVBAR_SIZE } from './';
 export type NavStyles = {
   navBar: Style,
   navWrapper: Style,
-  subheader: Style,
   titleAvatar: Style,
   navSubtitle: Style,
   navTitle: Style,
   titleStreamWrapper: Style,
   titleStreamRow: Style,
-  activityText: Style,
   navButtonFrame: Style,
   navButtonIcon: Style,
 };
@@ -37,13 +35,6 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  subheader: {
-    flex: 1,
-    flexBasis: 20,
-    paddingBottom: 4,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   titleAvatar: {
     marginRight: 16,
   },
@@ -62,10 +53,6 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
   titleStreamRow: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  activityText: {
-    fontSize: 13,
-    paddingLeft: 8,
   },
   navButtonFrame: {
     width: NAVBAR_SIZE,
