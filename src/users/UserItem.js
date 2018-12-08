@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -28,12 +28,12 @@ const componentStyles = StyleSheet.create({
 type Props = {
   email: string,
   fullName: string,
-  avatarUrl: string,
+  avatarUrl: ?string,
   presence?: Presence,
-  isSelected?: boolean,
-  showEmail?: boolean,
+  isSelected: boolean,
+  showEmail: boolean,
   unreadCount?: number,
-  onPress: (email: string) => void,
+  onPress: ({ email: string, fullName: string }) => void,
 };
 
 export default class UserItem extends PureComponent<Props> {
@@ -44,10 +44,15 @@ export default class UserItem extends PureComponent<Props> {
     styles: () => null,
   };
 
+  static defaultProps = {
+    isSelected: false,
+    showEmail: false,
+  };
+
   handlePress = () => {
-    const { email, onPress } = this.props;
-    if (email && onPress) {
-      onPress(email);
+    const { email, fullName, onPress } = this.props;
+    if (email && fullName && onPress) {
+      onPress({ email, fullName });
     }
   };
 

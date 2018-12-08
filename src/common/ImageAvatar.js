@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { ImageBackground, View } from 'react-native';
 
@@ -27,6 +27,7 @@ export default class ImageAvatar extends PureComponent<Props> {
   props: Props;
 
   static defaultProps = {
+    shape: 'rounded',
     onPress: nullFunction,
   };
 

@@ -28,8 +28,8 @@ type Props = {
 export default class PmConversationList extends PureComponent<Props> {
   props: Props;
 
-  handleUserNarrow = (email: string) => {
-    this.props.dispatch(doNarrow(privateNarrow(email)));
+  handleUserNarrow = (params: { email: string }) => {
+    this.props.dispatch(doNarrow(privateNarrow(params.email)));
   };
 
   handleGroupNarrow = (email: string) => {

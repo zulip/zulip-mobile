@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type {
   SettingsState,
   SettingsAction,
@@ -29,7 +29,7 @@ const realmInit = (state: SettingsState, action: RealmInitAction): SettingsState
 
 const settingsChange = (state: SettingsState, action: SettingsChangeAction): SettingsState => ({
   ...state,
-  [action.key]: action.value,
+  ...action.update,
 });
 
 const eventUpdateGlobalNotificationsSettings = (

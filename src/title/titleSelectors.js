@@ -1,36 +1,24 @@
-/* @flow */
+/* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Narrow } from '../types';
-import { BRAND_COLOR } from '../styles';
+import type { Narrow, Selector } from '../types';
 import { getSubscriptions } from '../directSelectors';
-import { getCurrentRoute } from '../nav/navSelectors';
-import { foregroundColorFromBackground } from '../utils/color';
-import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
+import { isStreamOrTopicNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
-export const getIsInTopicOrStreamNarrow = (narrow: Narrow) =>
-  createSelector(
-    getCurrentRoute,
-    route => (route === 'chat' ? isStreamNarrow(narrow) || isTopicNarrow(narrow) : false),
-  );
+export const DEFAULT_TITLE_BACKGROUND_COLOR = 'transparent';
 
-export const getTitleBackgroundColor = (narrow: Narrow) =>
-  createSelector(
-    getSubscriptions,
-    getIsInTopicOrStreamNarrow(narrow),
-    (subscriptions, isInTopicOrStreamNarrow) =>
-      isInTopicOrStreamNarrow
-        ? (subscriptions.find(sub => narrow[0].operand === sub.name) || NULL_SUBSCRIPTION).color
-        : 'transparent',
-  );
-
-export const getTitleTextColor = (narrow: Narrow) =>
-  createSelector(
-    getTitleBackgroundColor(narrow),
-    getIsInTopicOrStreamNarrow(narrow),
-    (backgroundColor, isInTopicOrStreamNarrow) =>
-      backgroundColor && isInTopicOrStreamNarrow
-        ? foregroundColorFromBackground(backgroundColor)
-        : BRAND_COLOR,
-  );
+/**
+ * Background color to use for the app bar in narrow `narrow`.
+ *
+ * If `narrow` is a stream or topic narrow, this is based on the stream color.
+ * Otherwise, it takes a default value.
+ */
+export const getTitleBackgroundColor = (narrow?: Narrow): Selector<string> =>
+  createSelector(getSubscriptions, subscriptions => {
+    if (!narrow || !isStreamOrTopicNarrow(narrow)) {
+      return DEFAULT_TITLE_BACKGROUND_COLOR;
+    }
+    const streamName = narrow[0].operand;
+    return (subscriptions.find(sub => streamName === sub.name) || NULL_SUBSCRIPTION).color;
+  });

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -19,14 +19,14 @@ class LanguageScreen extends PureComponent<Props> {
 
   handleLocaleChange = (value: string) => {
     const { dispatch } = this.props;
-    dispatch(settingsChange('locale', value));
+    dispatch(settingsChange({ locale: value }));
   };
 
   render() {
     const { locale } = this.props;
 
     return (
-      <Screen title="Language">
+      <Screen title="Language" scrollEnabled={false}>
         <LanguagePicker value={locale} onValueChange={this.handleLocaleChange} />
       </Screen>
     );

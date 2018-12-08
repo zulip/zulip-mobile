@@ -21,11 +21,8 @@
 
 ; Custom ignores
 .*/ios/Pods/*
-.*/__tests__/*
-.*/Libraries/react-native/ReactNative.js
 .*/node_modules/mitt/src/.*
 .*/node_modules/match-at/lib/.*
-.*/node_modules/react-static-container/.*
 .*/node_modules/eslint-plugin-jsx-a11y/.*
 .*/node_modules/react-native-notifications/.*
 .*/node_modules/react-native-tab-view/.*
@@ -60,8 +57,7 @@ esproposal.optional_chaining=enable
 esproposal.nullish_coalescing=enable
 
 # The main warning is "Unused suppression comment".
-# Temporarily disabled to facilitate RN version upgrade.
-#include_warnings=true
+include_warnings=true
 
 module.system=haste
 module.system.haste.use_name_reducers=true

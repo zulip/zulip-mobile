@@ -1,10 +1,10 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type { Context, Dispatch, GlobalState } from '../types';
+import type { Dispatch, GlobalState } from '../types';
 import { getSettings } from '../selectors';
 import { OptionButton, OptionDivider, OptionRow } from '../common';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
@@ -42,16 +42,11 @@ type Props = {
 };
 
 class SettingsCard extends PureComponent<Props> {
-  context: Context;
   props: Props;
-
-  static contextTypes = {
-    styles: () => null,
-  };
 
   handleThemeChange = () => {
     const { dispatch, theme } = this.props;
-    dispatch(settingsChange('theme', theme === 'default' ? 'night' : 'default'));
+    dispatch(settingsChange({ theme: theme === 'default' ? 'night' : 'default' }));
   };
 
   render() {

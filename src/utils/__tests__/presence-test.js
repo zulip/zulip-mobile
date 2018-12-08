@@ -1,4 +1,3 @@
-/* @flow */
 import { getAggregatedPresence, presenceToHumanTime, statusFromPresence } from '../presence';
 
 const currentTimestamp = Date.now() / 1000;

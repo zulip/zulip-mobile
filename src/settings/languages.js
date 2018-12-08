@@ -1,5 +1,5 @@
 /* @flow strict */
-/* eslint-disable */
+/* eslint-disable spellcheck/spell-checker */
 export default [
   {
     locale: 'en',

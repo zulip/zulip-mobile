@@ -5,7 +5,7 @@ import {
   REHYDRATE,
   APP_ONLINE,
   APP_STATE,
-  APP_REFRESH,
+  DEAD_QUEUE,
   INIT_SAFE_AREA_INSETS,
   APP_ORIENTATION,
   START_EDIT_MESSAGE,
@@ -28,7 +28,7 @@ import {
   INIT_REALM_FILTER,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
-  FETCH_STATE_RESET,
+  DO_NARROW,
   PRESENCE_RESPONSE,
   MESSAGE_SEND_START,
   MESSAGE_SEND_COMPLETE,
@@ -60,6 +60,7 @@ import {
   EVENT_SUBSCRIPTION_PEER_ADD,
   EVENT_SUBSCRIPTION_PEER_REMOVE,
   CLEAR_TYPING,
+  INIT_ALERT_WORDS,
   INIT_STREAMS,
   INIT_TOPICS,
   INIT_SUBSCRIPTIONS,
@@ -85,8 +86,10 @@ import type {
   PresenceState,
   Presence,
   RealmEmojiState,
+  SettingsState,
   CaughtUpState,
   MuteState,
+  AlertWordsState,
 } from './types';
 
 /**
@@ -104,25 +107,25 @@ import type {
  *     In any case it will only contain the keys we configure to be persisted.
  * @prop error
  */
-export type RehydrateAction = {
+export type RehydrateAction = {|
   type: typeof REHYDRATE,
   payload: GlobalState | { accounts: null } | {||} | void,
   error: ?Object,
-};
+|};
 
-export type AppOnlineAction = {
+export type AppOnlineAction = {|
   type: typeof APP_ONLINE,
   isOnline: boolean,
-};
+|};
 
-export type AppStateAction = {
+export type AppStateAction = {|
   type: typeof APP_STATE,
   isActive: boolean,
-};
+|};
 
-export type AppRefreshAction = {
-  type: typeof APP_REFRESH,
-};
+export type DeadQueueAction = {|
+  type: typeof DEAD_QUEUE,
+|};
 
 export type InitSafeAreaInsetsAction = {
   type: typeof INIT_SAFE_AREA_INSETS,
@@ -211,8 +214,6 @@ export type MessageFetchCompleteAction = {
   numAfter: number,
 };
 
-export type FetchMessagesAction = any;
-
 export type MarkMessagesReadAction = {
   type: typeof MARK_MESSAGES_READ,
   messageIds: number[],
@@ -239,7 +240,11 @@ export type ServerEvent = {
   id: number,
 };
 
-export type EventAlertWordsAction = any;
+export type EventAlertWordsAction = {
+  type: typeof INIT_ALERT_WORDS,
+  alertWords: AlertWordsState,
+};
+
 export type EventRealmFiltersAction = any;
 export type EventUpdateGlobalNotificationsSettingsAction = ServerEvent & {
   type: typeof EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
@@ -249,12 +254,13 @@ export type EventUpdateGlobalNotificationsSettingsAction = ServerEvent & {
   setting: boolean,
 };
 
-export type EventSubscriptionAddAction = ServerEvent & {
+export type EventSubscriptionAddAction = {|
+  ...$Exact<ServerEvent>,
   type: typeof EVENT_SUBSCRIPTION_ADD,
   op: 'add',
   subscriptions: Subscription[],
   user: User,
-};
+|};
 
 export type EventSubscriptionRemoveAction = ServerEvent & {
   type: typeof EVENT_SUBSCRIPTION_REMOVE,
@@ -488,7 +494,7 @@ export type InitRealmFilterAction = {
 };
 
 export type RealmAction =
-  | AppRefreshAction
+  | DeadQueueAction
   | RealmInitAction
   | DeleteTokenPushAction
   | SaveTokenPushAction
@@ -510,8 +516,7 @@ export type FlagsAction =
 
 export type SettingsChangeAction = {
   type: typeof SETTINGS_CHANGE,
-  key: string,
-  value: any,
+  update: $Shape<SettingsState>,
 };
 
 export type DraftUpdateAction = {
@@ -522,8 +527,9 @@ export type DraftUpdateAction = {
 
 export type DraftsAction = DraftUpdateAction | LogoutAction;
 
-export type FetchStateResetAction = {
-  type: typeof FETCH_STATE_RESET,
+export type DoNarrowAction = {
+  type: typeof DO_NARROW,
+  narrow: Narrow,
 };
 
 export type PresenceResponseAction = {
@@ -587,14 +593,14 @@ export type AccountAction =
   | LogoutAction;
 
 export type CaughtUpAction =
-  | AppRefreshAction
+  | DeadQueueAction
   | LogoutAction
   | LoginSuccessAction
   | AccountSwitchAction
   | MessageFetchCompleteAction;
 
 export type LoadingAction =
-  | AppRefreshAction
+  | DeadQueueAction
   | AccountSwitchAction
   | InitialFetchStartAction
   | InitialFetchCompleteAction
@@ -610,7 +616,7 @@ export type MessageAction =
   | EventUpdateMessageAction;
 
 export type MuteAction =
-  | AppRefreshAction
+  | DeadQueueAction
   | AccountSwitchAction
   | RealmInitAction
   | EventMutedTopicsAction;
@@ -631,7 +637,7 @@ export type SessionAction =
   | RehydrateAction
   | AppStateAction
   | AppOnlineAction
-  | AppRefreshAction
+  | DeadQueueAction
   | InitSafeAreaInsetsAction
   | AppOrientationAction
   | StartEditMessageAction

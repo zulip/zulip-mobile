@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -25,7 +25,7 @@ class NotificationDiagScreen extends PureComponent<Props> {
       'Initial notification': JSON.stringify(config.startup.notification),
     };
     return (
-      <Screen title="Notification Diagnostics" padding>
+      <Screen title="Notification Diagnostics" scrollEnabled={false}>
         <FlatList
           data={Object.keys(variables)}
           keyExtractor={item => item}

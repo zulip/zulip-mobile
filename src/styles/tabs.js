@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 import { BRAND_COLOR } from './';
 
 type Props = {

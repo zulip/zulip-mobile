@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Action, GlobalState, Dispatch } from './types';
 import { clearTypingNotification } from './typing/clearTypingNotification';
 import { EVENT_TYPING_START } from './actionConstants';

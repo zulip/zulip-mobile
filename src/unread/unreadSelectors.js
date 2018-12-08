@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import type { Narrow } from '../types';
-import { caseInsensitiveCompareObjFunc } from '../utils/misc';
+import { caseInsensitiveCompareFunc } from '../utils/misc';
 import {
   getMute,
   getReadFlags,
@@ -12,8 +12,8 @@ import {
   getUnreadHuddles,
   getUnreadMentions,
 } from '../directSelectors';
-import { getPrivateMessages } from '../baseSelectors';
-import { getOwnEmail } from '../account/accountSelectors';
+import { getOwnEmail } from '../account/accountsSelectors';
+import { getPrivateMessages } from '../message/messageSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { countUnread } from '../utils/unread';
 import { isTopicMuted } from '../utils/message';
@@ -87,20 +87,20 @@ export const getUnreadTotal = createSelector(
     unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal + mentionsTotal,
 );
 
-type UnreadTopic = {
+type UnreadTopic = {|
   key: string,
   topic: string,
   unread: number,
   lastUnreadMsgId: number,
-};
+|};
 
-type UnreadStream = {
+type UnreadStream = {|
   key: string,
   streamName: string,
   color: string,
   unread: number,
   data: Array<UnreadTopic>,
-};
+|};
 
 export const getUnreadStreamsAndTopics = createSelector(
   getSubscriptionsById,
@@ -141,7 +141,7 @@ export const getUnreadStreamsAndTopics = createSelector(
     }, {});
 
     const sortedStreams = Object.values(unreadMap)
-      .sort(caseInsensitiveCompareObjFunc('streamName'))
+      .sort((a: any, b: any) => caseInsensitiveCompareFunc(a.streamName, b.streamName))
       .sort((a: any, b: any): number => +b.isPinned - +a.isPinned);
 
     // $FlowFixMe

@@ -1,0 +1,63 @@
+#!/bin/bash
+
+shopt -s globstar
+
+this_file=$(readlink -f "$0")
+rootdir=${this_file%/*/*}
+
+bindir=$rootdir/node_modules/.bin
+
+import_pairs()
+{
+    "$bindir"/flow get-imports --json "$rootdir"/src/**/*.js \
+        | jq '.[] | .requirements[] | [.import, .path]
+              | map(ltrimstr("'"$rootdir"'/")) | join(" ") ' \
+             -r \
+#        | sort -u
+}
+
+sorted_files()
+{
+    import_pairs | tsort 2>/dev/null
+}
+
+sorted_ourfiles()
+{
+    grep -l '@flow' -- $(sorted_files | grep ^src/.*js$)
+}
+
+with_flow()
+{
+    grep '@flow' -- $(sorted_files | grep ^src/.*js$)
+}
+
+todo()
+{
+    with_flow | number_lines | grep -v '@flow strict '
+}
+
+depends()
+{
+    local f="$1";
+    import_pairs | perl -lane 'print $F[0] if (m( '"$f"'$))'
+}
+
+rdepends()
+{
+    local f="$1";
+    import_pairs | perl -lane 'print $F[1] if (m(^'"$f"' ))'
+}
+
+number_lines()
+{
+    nl -ba -nln -w3 -s' '
+}
+
+case "$1" in
+    pairs) import_pairs;;
+    ''|list) sorted_ourfiles;;
+    flow) with_flow | number_lines;;
+    todo) todo;;
+    depends) depends "$2";;
+    rdepends) rdepends "$2";;
+esac

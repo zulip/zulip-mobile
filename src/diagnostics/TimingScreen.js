@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
@@ -9,7 +9,7 @@ import timing from '../utils/timing';
 export default class TimingScreen extends PureComponent<{}> {
   render() {
     return (
-      <Screen title="Timing">
+      <Screen title="Timing" scrollEnabled={false}>
         <FlatList
           data={timing.log}
           keyExtractor={(item, index) => index.toString()}

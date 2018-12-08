@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { AsyncStorage, NativeModules } from 'react-native';
 import { logErrorRemotely } from '../utils/logging';
 

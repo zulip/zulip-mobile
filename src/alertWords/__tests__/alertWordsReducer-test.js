@@ -20,16 +20,17 @@ describe('alertWordsReducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('when no `alert_words` data is given do not mutate state', () => {
+    test('when no `alert_words` data is given reset state', () => {
       const initialState = deepFreeze(['word']);
       const action = deepFreeze({
         type: REALM_INIT,
         data: {},
       });
+      const expectedState = [];
 
       const actualState = alertWordsReducer(initialState, action);
 
-      expect(actualState).toBe(initialState);
+      expect(actualState).toEqual(expectedState);
     });
   });
 

@@ -10,12 +10,11 @@ describe('settingsReducers', () => {
 
       const action = deepFreeze({
         type: SETTINGS_CHANGE,
-        key: 'key',
-        value: 123,
+        update: { theme: 'default' },
       });
 
       const expectedState = {
-        key: 123,
+        theme: 'default',
       };
 
       const actualState = settingsReducers(prevState, action);
@@ -25,17 +24,16 @@ describe('settingsReducers', () => {
 
     test('changes value of an existing key', () => {
       const prevState = deepFreeze({
-        key: 123,
+        theme: 'night',
       });
 
       const action = deepFreeze({
         type: SETTINGS_CHANGE,
-        key: 'key',
-        value: 456,
+        update: { theme: 'default' },
       });
 
       const expectedState = {
-        key: 456,
+        theme: 'default',
       };
 
       const actualState = settingsReducers(prevState, action);

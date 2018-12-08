@@ -1,6 +1,5 @@
-/* @flow */
-/* eslint-disable */
-import { codeToEmojiMap } from '../../emoji/emojiMap';
+/* @flow strict-local */
+import { codeToEmojiMap } from '../../emoji/data';
 
 const codeToCss = (code: string): string =>
   `.emoji-${code}:before { content: '${codeToEmojiMap[code]}'; }`;

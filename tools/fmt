@@ -1,0 +1,40 @@
+#!/bin/bash
+set -e
+
+## CLI PARSING
+
+usage() {
+    cat >&2 <<EOF
+usage: tools/fmt [--all]
+
+Options:
+  --all       Run on all files (default: only files changed in this
+              branch, as found by \`tools/info changed-files\`.)
+EOF
+    exit 2
+}
+
+all=
+while (( $# )); do
+    case "$1" in
+        --all) all=1; shift;;
+        *) usage;;
+    esac
+done
+
+
+## EXECUTION
+
+cd "$(git rev-parse --show-toplevel)"
+
+PATH=node_modules/.bin:"$PATH"
+
+if [ -z "$all" ]; then
+    files=( $(tools/info changed-files | grep '^src/.*\.js$') ) \
+        || exit 0
+else
+    files=( 'src/**/*.js' )
+fi
+
+prettier --write --loglevel=warn "${files[@]}"
+eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix "${files[@]}"

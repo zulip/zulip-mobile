@@ -1,7 +1,6 @@
-/* @flow */
 import deepFreeze from 'deep-freeze';
 
-import { getActiveAccount } from '../accountSelectors';
+import { getActiveAccount } from '../accountsSelectors';
 import { NULL_ACCOUNT } from '../../nullObjects';
 
 test('when no accounts exist, returns undefined', () => {

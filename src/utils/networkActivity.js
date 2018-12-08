@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { StatusBar, Platform } from 'react-native';
 
 // Network activity indicators should be visible if *any* network activity is occurring

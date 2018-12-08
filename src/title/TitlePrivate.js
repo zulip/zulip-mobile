@@ -1,18 +1,19 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
-import type { Context, PresenceState, User } from '../types';
+import type { Context, Presence, User } from '../types';
 import { Avatar, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
-import { getPresence, getUserInPmNarrow } from '../selectors';
+import { getPresence } from '../directSelectors';
+import { getAllUsersByEmail } from '../users/userSelectors';
 
 type Props = {
   user: User,
   color: string,
-  presence: PresenceState,
+  presence: Presence,
 };
 
 class TitlePrivate extends PureComponent<Props> {
@@ -34,7 +35,7 @@ class TitlePrivate extends PureComponent<Props> {
           name={user.full_name}
           email={user.email}
           avatarUrl={user.avatar_url}
-          presence={presence[user.email]}
+          presence={presence}
         />
         <ViewPlaceholder width={8} />
         <View>
@@ -49,6 +50,6 @@ class TitlePrivate extends PureComponent<Props> {
 }
 
 export default connect((state, props) => ({
-  user: getUserInPmNarrow(props.narrow)(state),
-  presence: getPresence(state),
+  user: getAllUsersByEmail(state)[props.email],
+  presence: getPresence(state)[props.email],
 }))(TitlePrivate);

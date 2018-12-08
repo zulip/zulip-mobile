@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -37,14 +37,14 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   index: number,
   email: string,
   realm: string,
   onSelect: (index: number) => void,
   onRemove: (index: number) => void,
   showDoneIcon: boolean,
-};
+|};
 
 export default class AccountItem extends PureComponent<Props> {
   props: Props;

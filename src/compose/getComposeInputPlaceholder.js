@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Narrow, User, LocalizableText } from '../types';
 import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../utils/narrow';
 

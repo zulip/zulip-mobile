@@ -1,10 +1,10 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { ChildrenArray, GlobalState, ThemeType } from '../types';
+import type { ChildrenArray, GlobalState, ThemeName } from '../types';
 import { getSettings } from '../directSelectors';
 import themeCreator from '../styles/theme';
 import themeDark from '../styles/themeDark';
@@ -19,7 +19,7 @@ const themeNameToObject = {
 const Dummy = props => props.children;
 
 type Props = {
-  theme: ThemeType,
+  theme: ThemeName,
   children: ChildrenArray<*>,
 };
 

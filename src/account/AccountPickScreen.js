@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -8,7 +8,7 @@ import type { Auth, Account, Dispatch, GlobalState } from '../types';
 import { getAuth, getAccounts } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
-import { navigateToAddNewAccount, switchAccount, removeAccount } from '../actions';
+import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
 
 const styles = StyleSheet.create({
   button: {
@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   auth: Auth,
   accounts: Account[],
   dispatch: Dispatch,
-};
+|};
 
 class AccountPickScreen extends PureComponent<Props> {
   props: Props;
@@ -33,11 +33,13 @@ class AccountPickScreen extends PureComponent<Props> {
         dispatch(switchAccount(index));
       });
     } else {
-      dispatch(navigateToAddNewAccount(realm));
+      dispatch(navigateToRealmScreen(realm));
     }
   };
 
-  handleAccountRemove = (index: number) => this.props.dispatch(removeAccount(index));
+  handleAccountRemove = (index: number) => {
+    this.props.dispatch(removeAccount(index));
+  };
 
   render() {
     const { accounts, dispatch, auth } = this.props;
@@ -56,7 +58,7 @@ class AccountPickScreen extends PureComponent<Props> {
             text="Add new account"
             style={styles.button}
             onPress={() => {
-              dispatch(navigateToAddNewAccount(''));
+              dispatch(navigateToRealmScreen());
             }}
           />
         </Centerer>

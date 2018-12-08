@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { PmRecipientUser, Message, Outbox } from '../types';
 
 // TODO types: this union is confusing

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -6,13 +6,13 @@ import { FlatList } from 'react-native';
 
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
-import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
+import { getFilteredEmojiNames } from '../emoji/data';
 import type { GlobalState, RealmEmojiState } from '../types';
-import { getActiveRealmEmojiById } from '../selectors';
+import { getActiveRealmEmojiByName } from '../selectors';
 
 type Props = {
   filter: string,
-  realmEmoji: RealmEmojiState,
+  activeRealmEmojiByName: RealmEmojiState,
   onAutocomplete: (name: string) => void,
 };
 
@@ -21,11 +21,15 @@ const MAX_CHOICES = 30;
 class EmojiAutocomplete extends PureComponent<Props> {
   props: Props;
 
-  render() {
-    const { filter, realmEmoji, onAutocomplete } = this.props;
-    const emojis = getFilteredEmojiList(filter, realmEmoji);
+  onAutocomplete = (name: string): void => {
+    this.props.onAutocomplete(name);
+  };
 
-    if (emojis.length === 0) {
+  render() {
+    const { filter, activeRealmEmojiByName } = this.props;
+    const emojiNames = getFilteredEmojiNames(filter, activeRealmEmojiByName);
+
+    if (emojiNames.length === 0) {
       return null;
     }
 
@@ -34,9 +38,9 @@ class EmojiAutocomplete extends PureComponent<Props> {
         <FlatList
           keyboardShouldPersistTaps="always"
           initialNumToRender={12}
-          data={emojis.slice(0, MAX_CHOICES)}
+          data={emojiNames.slice(0, MAX_CHOICES)}
           keyExtractor={item => item}
-          renderItem={({ item }) => <EmojiRow name={item} onPress={() => onAutocomplete(item)} />}
+          renderItem={({ item: name }) => <EmojiRow name={name} onPress={this.onAutocomplete} />}
         />
       </Popup>
     );
@@ -44,5 +48,5 @@ class EmojiAutocomplete extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  realmEmoji: getActiveRealmEmojiById(state),
+  activeRealmEmojiByName: getActiveRealmEmojiByName(state),
 }))(EmojiAutocomplete);

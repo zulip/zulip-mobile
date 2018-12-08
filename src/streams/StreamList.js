@@ -1,9 +1,9 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { SectionList, StyleSheet } from 'react-native';
 
 import type { Subscription } from '../types';
-import { caseInsensitiveCompareObjFunc } from '../utils/misc';
+import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
 import { SectionSeparatorBetween, SearchEmptyState } from '../common';
 
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   showDescriptions: boolean,
   showSwitch: boolean,
   selected: boolean | string, // TODO type: pick one
@@ -22,7 +22,7 @@ type Props = {
   unreadByStream: number[],
   onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,
-};
+|};
 
 export default class StreamList extends PureComponent<Props> {
   props: Props;
@@ -50,7 +50,9 @@ export default class StreamList extends PureComponent<Props> {
       return <SearchEmptyState text="No streams found" />;
     }
 
-    const sortedStreams: Subscription[] = streams.sort(caseInsensitiveCompareObjFunc('name'));
+    const sortedStreams: Subscription[] = streams.sort((a, b) =>
+      caseInsensitiveCompareFunc(a.name, b.name),
+    );
     const sections = [
       {
         key: 'Pinned',

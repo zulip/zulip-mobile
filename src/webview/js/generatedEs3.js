@@ -2,7 +2,7 @@
  * This is a GENERATED file -- do not edit.
  * To make changes:
  *   1. Edit `js.js`, which is the source for this file.
- *   2. Run `yarn run generate-webview-js`.
+ *   2. Run `tools/generate-webview-js`.
  */
 
 export default `
@@ -316,7 +316,7 @@ var appendAuthToImages = function appendAuthToImages(auth) {
 
     var srcPath = img.src.substring(auth.realm.length);
 
-    if (!(srcPath.startsWith('/user_uploads/') || srcPath.startsWith('/thumbnail?'))) {
+    if (!(srcPath.startsWith('/user_uploads/') || srcPath.startsWith('/thumbnail?') || srcPath.startsWith('/avatar/'))) {
       return;
     }
 

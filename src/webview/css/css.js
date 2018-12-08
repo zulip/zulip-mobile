@@ -1,7 +1,6 @@
-/* @flow */
-/* eslint-disable */
-import type { ThemeType } from '../../types';
-import { BORDER_COLOR, BRAND_COLOR } from '../../styles';
+/* @flow strict-local */
+import type { ThemeName } from '../../types';
+import { BRAND_COLOR } from '../../styles';
 import cssEmojis from './cssEmojis';
 
 const defaultTheme = `
@@ -64,6 +63,9 @@ hr {
   margin: 1em 0;
   border: 0;
   border-top: 1px solid rgba(127, 127, 127, 0.5);
+}
+.alert-word {
+  background-color: hsla(102, 85%, 57%, .5);
 }
 .highlight {
   background-color: hsl(51, 94%, 74%);
@@ -210,15 +212,15 @@ hr {
     rgba(127, 127, 127, 0.5) 100%
   );
   background-size: 200% 200%;
-	animation: gradient-scroll 1s linear infinite;
+  animation: gradient-scroll 1s linear infinite;
 
   border-radius: 10px;
   height: 8px;
   margin-bottom: 10px;
 }
 @keyframes gradient-scroll {
-	0% { background-position: 100% 50% }
-	100% { background-position: 0 50% }
+  0% { background-position: 100% 50% }
+  100% { background-position: 0 50% }
 }
 .loading-subheader .name {
   width: 10em;
@@ -321,14 +323,14 @@ blockquote {
   border-radius: 4px;
   border: 1px solid rgba(127, 127, 127, 0.75);
   line-height: 1em;
+  height: 1em;
   margin: .25em 0.5em .25em 0;
 }
-.realm-reaction {
+.reaction img {
   pointer-events: none;
   cursor: default;
-  height: "auto";
-  width: 1.25em;
-  max-height: 1.25em;
+  max-height: 1em;
+  max-width: 1em;
   vertical-align: top;
 }
 .self-voted {
@@ -403,7 +405,7 @@ blockquote {
 #js-error-plain, #js-error-plain-dummy {
   z-index: 1000;
   width: 100%;
-  background: #555;
+  background: red;
   color: white;
   font-size: 15px;
   padding: 4px;
@@ -455,7 +457,7 @@ body {
 }
 `;
 
-export default (theme: ThemeType, highlightUnreadMessages: boolean) => `
+export default (theme: ThemeName, highlightUnreadMessages: boolean) => `
 <style>
 ${defaultTheme}
 ${theme === 'night' ? darkTheme : ''}

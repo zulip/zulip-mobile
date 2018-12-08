@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type {
   FetchingState,
   Action,
@@ -6,11 +6,11 @@ import type {
   MessageFetchCompleteAction,
 } from '../types';
 import {
-  APP_REFRESH,
+  DEAD_QUEUE,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  FETCH_STATE_RESET,
+  DO_NARROW,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
@@ -28,8 +28,8 @@ const messageFetchStart = (
   return {
     ...state,
     [key]: {
-      older: action.numBefore > 0 || currentValue.older,
-      newer: action.numAfter > 0 || currentValue.newer,
+      older: currentValue.older || action.numBefore > 0,
+      newer: currentValue.newer || action.numAfter > 0,
     },
   };
 };
@@ -44,18 +44,18 @@ const messageFetchComplete = (
   return {
     ...state,
     [key]: {
-      older: currentValue.older && action.numBefore === 0,
-      newer: currentValue.newer && action.numAfter === 0,
+      older: currentValue.older && !(action.numBefore > 0),
+      newer: currentValue.newer && !(action.numAfter > 0),
     },
   };
 };
 
 export default (state: FetchingState = initialState, action: Action): FetchingState => {
   switch (action.type) {
-    case APP_REFRESH:
+    case DEAD_QUEUE:
     case LOGOUT:
     case LOGIN_SUCCESS:
-    case FETCH_STATE_RESET:
+    case DO_NARROW:
     case ACCOUNT_SWITCH:
       return initialState;
 

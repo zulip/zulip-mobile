@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 import download from './downloadImage';
 import type { Auth } from '../types';
 import ShareImageAndroid from '../nativeModules/ShareImageAndroid';

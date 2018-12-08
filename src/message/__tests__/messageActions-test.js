@@ -32,7 +32,7 @@ describe('messageActions', () => {
       const actions = store.getActions();
 
       expect(actions).toHaveLength(3);
-      expect(actions[0].type).toBe('FETCH_STATE_RESET');
+      expect(actions[0].type).toBe('DO_NARROW');
       expect(actions[1].type).toBe('MESSAGE_FETCH_START');
       expect(actions[1].narrow).toEqual(streamNarrowObj);
       expect(actions[2].type).toBe('Navigation/NAVIGATE');
@@ -63,7 +63,7 @@ describe('messageActions', () => {
       const actions = store.getActions();
 
       expect(actions).toEqual([
-        { type: 'FETCH_STATE_RESET' },
+        { type: 'DO_NARROW', narrow: streamNarrowObj },
         {
           type: 'Navigation/NAVIGATE',
           routeName: 'chat',
@@ -95,7 +95,7 @@ describe('messageActions', () => {
       const actions = store.getActions();
 
       expect(actions).toHaveLength(3);
-      expect(actions[0].type).toBe('FETCH_STATE_RESET');
+      expect(actions[0].type).toBe('DO_NARROW');
       expect(actions[1].type).toBe('MESSAGE_FETCH_START');
       expect(actions[1].narrow).toEqual(streamNarrowObj);
       expect(actions[2].type).toBe('Navigation/NAVIGATE');

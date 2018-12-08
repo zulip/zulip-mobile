@@ -14,7 +14,7 @@ const getNavigationRoutes = (state: GlobalState): Object[] => state.nav.routes;
 
 const getNavigationIndex = (state: GlobalState): number => state.nav.index;
 
-export const getCurrentRoute = (state: GlobalState): string =>
+export const getCurrentRouteName = (state: GlobalState): string =>
   state.nav.routes[state.nav.index].routeName;
 
 export const getCurrentRouteParams = createSelector(

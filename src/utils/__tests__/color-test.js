@@ -1,3 +1,4 @@
+/* @flow strict-local */
 import { foregroundColorFromBackground, colorHashFromName } from '../color';
 
 describe('foregroundColorFromBackground', () => {

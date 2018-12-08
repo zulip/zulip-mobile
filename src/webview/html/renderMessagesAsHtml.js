@@ -1,57 +1,26 @@
-/* @flow */
-import type { Props } from '../../message/MessageList';
+/* @flow strict-local */
+import type { Narrow, RenderedSectionDescriptor } from '../../types';
+import type { BackgroundData } from '../MessageList';
 
 import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
-import { getGravatarFromEmail } from '../../utils/avatar';
 
-export default ({
-  auth,
-  subscriptions,
-  realmEmoji,
-  flags,
-  renderedMessages,
-  narrow,
-  twentyFourHourTime,
-}: Props): string =>
-  renderedMessages
-    .reduce((list, section, index) => {
-      list.push(
-        messageHeaderAsHtml({
-          auth,
-          item: section.message,
-          subscriptions,
-          narrow,
-        }),
-      );
-
-      section.data.forEach((item, idx) => {
-        if (item.type === 'time') {
-          list.push(timeRowAsHtml(item.timestamp, item.firstMessage));
-        } else {
-          const { message } = item;
-          list.push(
-            messageAsHtml({
-              id: message.id,
-              isBrief: item.isBrief,
-              fromName: message.sender_full_name,
-              fromEmail: message.sender_email,
-              content: message.match_content || message.content,
-              flags,
-              timestamp: message.timestamp,
-              avatarUrl: message.avatar_url || getGravatarFromEmail(message.sender_email),
-              timeEdited: message.last_edit_timestamp,
-              isOutbox: message.isOutbox,
-              reactions: message.reactions,
-              ownEmail: auth.email,
-              realmEmoji,
-              twentyFourHourTime,
-            }),
-          );
-        }
-      });
-
-      return list;
-    }, [])
-    .join('');
+export default (
+  backgroundData: BackgroundData,
+  narrow: Narrow,
+  renderedMessages: RenderedSectionDescriptor[],
+): string => {
+  const pieces = [];
+  renderedMessages.forEach(section => {
+    pieces.push(messageHeaderAsHtml(backgroundData, narrow, section.message));
+    section.data.forEach(item => {
+      if (item.type === 'time') {
+        pieces.push(timeRowAsHtml(item.timestamp, item.firstMessage));
+      } else {
+        pieces.push(messageAsHtml(backgroundData, item.message, item.isBrief));
+      }
+    });
+  });
+  return pieces.join('');
+};

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
@@ -13,7 +13,7 @@ const OFFLINE_THRESHOLD_SECS = 140;
  * the subsystem doc:
  *   https://zulip.readthedocs.io/en/latest/subsystems/presence.html
  *
- * This logic should match `status_from_timestamp` in the webapp's
+ * This logic should match `status_from_timestamp` in the web app's
  * `static/js/presence.js`.
  */
 export const getAggregatedPresence = (presence: Presence): PresenceAggregated =>

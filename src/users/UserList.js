@@ -1,8 +1,8 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, SectionList } from 'react-native';
 
-import type { Context, PresenceState, Style, User } from '../types';
+import type { PresenceState, Style, User } from '../types';
 import { SectionHeader, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByStatus } from '../users/userHelpers';
@@ -19,16 +19,11 @@ type Props = {
   users: User[],
   selected: User[],
   presences: PresenceState,
-  onPress: (email: string) => void,
+  onPress: ({ email: string, fullName: string }) => void,
 };
 
 export default class UserList extends PureComponent<Props> {
-  context: Context;
   props: Props;
-
-  static contextTypes = {
-    styles: () => null,
-  };
 
   static defaultProps = {
     selected: [],

@@ -1,10 +1,10 @@
 /* @flow */
 import type { Node } from 'react';
-import type { Dispatch as ReduxDispatch } from 'redux';
 import type { IntlShape } from 'react-intl';
 import type { InputSelector } from 'reselect';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
+import type { Action, NavigateAction } from './actionTypes';
 import type {
   Auth,
   Topic,
@@ -22,15 +22,8 @@ import type { AppStyles } from './styles/theme';
 export type { ChildrenArray } from 'react';
 export type React$Node = Node; // eslint-disable-line flowtype/type-id-match
 
-export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
-export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
-
 export type * from './actionTypes';
 export type * from './api/apiTypes';
-
-export type ThunkDispatch<T> = ((Dispatch, GetState) => T) => T;
-
-export type Dispatch = ReduxDispatch<*> & ThunkDispatch<*>;
 
 /*
  * TODO as the name suggests, this should be broken down more specifically.
@@ -47,21 +40,35 @@ export type Dimensions = {
   top: number,
 };
 
-export type ObjectWithId = {
-  id: number,
-  [key: string]: any,
-};
-
-export type ObjectsMappedById = {
-  [key: number]: ObjectWithId,
-};
-
 export type InputSelectionType = {
   start: number,
   end: number,
 };
 
+/**
+ * An identity belonging to this user in some Zulip org, including a secret.
+ *
+ * At present this consists of just the information the API client library
+ * needs in order to talk to the server on the user's behalf, aka `Auth`.
+ * NB in particular this includes an API key.
+ *
+ * In the future this might contain other metadata, if useful.
+ *
+ * See also `Identity`, which should be used instead where an API key is
+ * not required.
+ * TODO: move more code that way.
+ */
 export type Account = Auth;
+
+/**
+ * An identity belonging to this user in some Zulip org, with no secrets.
+ *
+ * This should be used in preference to `Auth` or `Account` in code that
+ * doesn't need to make (authenticated) requests to the server and only
+ * needs to pick their own email or ID out of a list, use the org's base URL
+ * to make a relative URL absolute, etc.
+ */
+export type Identity = $Diff<Auth, { apiKey: string }>;
 
 /** An aggregate of all the reactions with one emoji to one message. */
 export type AggregatedReaction = {
@@ -100,7 +107,7 @@ export type NarrowsState = {
  * messages belonging to a given narrow.
  */
 export type MessagesState = {
-  [id: number]: Message,
+  [id: number]: $Exact<Message>,
 };
 
 export type UserIdMap = {
@@ -233,12 +240,21 @@ export type Debug = {
   doNotMarkMessagesAsRead: boolean,
 };
 
+/**
+ * Miscellaneous non-persistent state about this run of the app.
+ *
+ * @prop lastNarrow - the last narrow we navigated to.  If the user is
+ *   currently in a chat screen this will also be the "current" narrow,
+ *   but they may also be on an associated info screen or have navigated
+ *   away entirely.
+ */
 export type SessionState = {
   eventQueueId: number,
   editMessage: ?EditMessage,
   isOnline: boolean,
   isActive: boolean,
   isHydrated: boolean,
+  lastNarrow: ?Narrow,
   needsInitialFetch: boolean,
   orientation: Orientation,
   outboxSending: boolean,
@@ -317,20 +333,20 @@ export type RealmBot = {
  * @prop emoji
  * @prop isAdmin
  */
-export type RealmState = {
+export type RealmState = {|
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
   crossRealmBots: RealmBot[],
   nonActiveUsers: User[],
-  pushToken: {
+  pushToken: {|
     token: string,
     msg: string,
     result: string,
-  },
+  |},
   filters: RealmFilter[],
   emoji: RealmEmojiState,
   isAdmin: boolean,
-};
+|};
 
 export type TopicExtended = Topic & {
   isMuted: boolean,
@@ -341,24 +357,20 @@ export type TopicsState = {
   [number]: Topic[],
 };
 
-export type ThemeType = 'default' | 'night';
+export type ThemeName = 'default' | 'night';
 
 export type Context = {
-  intl: IntlShape,
   styles: AppStyles,
-  theme: ThemeType,
 };
 
-export type StatusBarStyle = 'light-content' | 'dark-content';
-
-export type SettingsState = {
+export type SettingsState = {|
   locale: string,
-  theme: ThemeType,
+  theme: ThemeName,
   offlineNotification: boolean,
   onlineNotification: boolean,
   experimentalFeaturesEnabled: boolean,
   streamNotification: boolean,
-};
+|};
 
 export type TypingState = {
   [normalizedRecipients: string]: {
@@ -372,7 +384,7 @@ export type TypingState = {
  *
  * See also `Message`.
  */
-export type Outbox = {
+export type Outbox = {|
   isOutbox: true,
   isSent: boolean,
 
@@ -397,7 +409,7 @@ export type Outbox = {
   // values of type `Message | Outbox`.
   last_edit_timestamp?: void,
   match_content?: void,
-};
+|};
 
 export type StreamUnreadItem = {
   stream_id: number,
@@ -460,7 +472,7 @@ export type UnreadState = {
  *
  * Each property is a subtree maintained by its own reducer function.
  */
-export type GlobalState = {
+export type GlobalState = {|
   accounts: AccountsState,
   alertWords: AlertWordsState,
   caughtUp: CaughtUpState,
@@ -485,7 +497,7 @@ export type GlobalState = {
   unread: UnreadState,
   userGroups: UserGroupsState,
   users: UsersState,
-};
+|};
 
 /** A selector returning TResult. */
 // Seems like this should be OutputSelector... but for whatever reason,
@@ -497,27 +509,50 @@ export type MatchResult = Array<string> & { index: number, input: string };
 
 export type GetState = () => GlobalState;
 
+export type PlainDispatch = <A: Action | NavigateAction>(action: A) => A;
+
+export interface Dispatch {
+  <A: Action | NavigateAction>(action: A): A;
+  <T>((Dispatch, GetState) => T): T;
+}
+
 export type LocalizableText = any; // string | { text: string, values: Object };
 
-export type RenderedTimeDescriptor = {
+/**
+ * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.
+ *
+ * Use `context: TranslationContext` in a React component; then in methods,
+ * say `const _ = this.context`.
+ *
+ * Alternatively, for when `context` is already in use, use `withGetText`
+ * and then say `const { _ } = this.props`.
+ *
+ * @prop intl - The full react-intl API, for more complex situations.
+ */
+export type GetText = {
+  (string): string,
+  intl: IntlShape,
+};
+
+export type RenderedTimeDescriptor = {|
   type: 'time',
   key: number | string,
   timestamp: number,
   firstMessage: Message | Outbox,
-};
+|};
 
-export type RenderedMessageDescriptor = {
+export type RenderedMessageDescriptor = {|
   type: 'message',
   key: number | string,
   message: Message | Outbox,
   isBrief: boolean,
-};
+|};
 
-export type RenderedSectionDescriptor = {
+export type RenderedSectionDescriptor = {|
   key: string | number,
   message: Message | Outbox | {||},
   data: $ReadOnlyArray<RenderedMessageDescriptor | RenderedTimeDescriptor>,
-};
+|};
 
 export type DraftState = {
   [narrow: string]: string,
@@ -528,12 +563,6 @@ export type TimingItemType = {
   startMs: number,
   endMs: number,
 };
-
-export type ActionSheetButtonType = any; /* {
-  title: string,
-  onPress: (props: ButtonProps) => void | boolean | Promise<any>,
-  onlyIf?: (props: AuthMessageAndNarrow) => boolean,
-} */
 
 export type UnreadTopic = {
   isMuted: boolean,
@@ -605,17 +634,6 @@ export type NeverSubscribedStream = {
   is_old_stream: boolean,
   name: string,
   stream_id: number,
-};
-
-export type UnreadStreamData = {
-  key: string,
-  streamName: string,
-  isMuted: boolean,
-  isPrivate: boolean,
-  isPinned: boolean,
-  color: string,
-  unread: number,
-  data: Object[],
 };
 
 /**

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { DraftState, DraftsAction, DraftUpdateAction } from '../types';
 import { DRAFT_UPDATE, LOGOUT } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';

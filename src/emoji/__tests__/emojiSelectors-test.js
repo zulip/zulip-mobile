@@ -1,4 +1,3 @@
-/* @flow */
 import deepFreeze from 'deep-freeze';
 import {
   getActiveRealmEmojiById,

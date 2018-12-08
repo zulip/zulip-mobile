@@ -1,8 +1,8 @@
-/* @flow */
+/* @flow strict-local */
 import isEqual from 'lodash.isequal';
 
-import type { Auth } from '../types';
-import type { Props } from '../message/MessageList';
+import type { Auth, FlagsState } from '../types';
+import type { Props } from './MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
 import htmlBody from './html/htmlBody';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
@@ -40,14 +40,17 @@ export type WebviewInputMessage =
   | MessageInputReady;
 
 const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent => {
-  const content = htmlBody(renderMessagesAsHtml(nextProps), nextProps.showMessagePlaceholders);
+  const content = htmlBody(
+    renderMessagesAsHtml(nextProps.backgroundData, nextProps.narrow, nextProps.renderedMessages),
+    nextProps.showMessagePlaceholders,
+  );
   const transitionProps = getMessageTransitionProps(prevProps, nextProps);
   const updateStrategy = getMessageUpdateStrategy(transitionProps);
 
   return {
     type: 'content',
     anchor: nextProps.anchor,
-    auth: nextProps.auth,
+    auth: nextProps.backgroundData.auth,
     content,
     updateStrategy,
   };
@@ -64,20 +67,23 @@ const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping =>
   type: 'typing',
   content:
     nextProps.typingUsers.length > 0
-      ? messageTypingAsHtml(nextProps.auth.realm, nextProps.typingUsers)
+      ? messageTypingAsHtml(nextProps.backgroundData.auth.realm, nextProps.typingUsers)
       : '',
 });
 
-export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
-  const allFlagKeys = Array.from(
-    new Set([...Object.keys(prevProps.flags || {}), ...Object.keys(nextProps.flags || {})]),
+const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): boolean => {
+  const allFlagNames = Array.from(
+    new Set([...Object.keys(prevFlags || {}), ...Object.keys(nextFlags || {})]),
   );
+  return allFlagNames
+    .filter(name => name !== 'read')
+    .every(name => prevFlags[name] === nextFlags[name]);
+};
 
+export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
   if (
     !isEqual(prevProps.renderedMessages, nextProps.renderedMessages)
-    || allFlagKeys
-      .filter(key => key !== 'read')
-      .some(key => prevProps.flags[key] !== nextProps.flags[key])
+    || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
   ) {
     return [updateContent(prevProps, nextProps)];
   }

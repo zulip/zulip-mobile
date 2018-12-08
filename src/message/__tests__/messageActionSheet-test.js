@@ -1,14 +1,12 @@
 import deepFreeze from 'deep-freeze';
 
-import { constructActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
-import extractString from '../../i18n/extractString';
+import { constructMessageActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
 
 describe('constructActionButtons', () => {
   const auth = deepFreeze({
     realm: '',
     email: 'Zoe@zulip.com',
   });
-  const getString = value => extractString('en', value);
 
   const subscriptions = deepFreeze([]);
 
@@ -28,17 +26,13 @@ describe('constructActionButtons', () => {
       id: 3,
     });
 
-    const buttons = constructActionButtons('message')({
+    const buttons = constructMessageActionButtons({
+      backgroundData: { auth, flags, mute, subscriptions },
       message,
-      auth,
       narrow,
-      subscriptions,
-      mute,
-      flags,
-      getString,
     });
 
-    expect(buttons).toContain('Star message');
+    expect(buttons).toContain('starMessage');
   });
 
   test('show unstar message option if message is starred', () => {
@@ -46,22 +40,17 @@ describe('constructActionButtons', () => {
       id: 1,
     });
 
-    const buttons = constructActionButtons('message')({
+    const buttons = constructMessageActionButtons({
+      backgroundData: { auth, flags, mute, subscriptions },
       message,
-      auth,
       narrow,
-      subscriptions,
-      mute,
-      flags,
-      getString,
     });
 
-    expect(buttons).toContain('Unstar message');
+    expect(buttons).toContain('unstarMessage');
   });
 });
 
 describe('constructHeaderActionButtons', () => {
-  const getString = value => extractString('en', value);
   test('show Unmute topic option if topic is muted', () => {
     const subscriptions = deepFreeze([
       { name: 'denmark', in_home_view: true },
@@ -76,9 +65,12 @@ describe('constructHeaderActionButtons', () => {
 
     const mute = deepFreeze([['electron issues', 'issue #556']]);
 
-    const buttons = constructHeaderActionButtons({ message, subscriptions, mute, getString });
+    const buttons = constructHeaderActionButtons({
+      backgroundData: { mute, subscriptions },
+      message,
+    });
 
-    expect(buttons).toContain('Unmute topic');
+    expect(buttons).toContain('unmuteTopic');
   });
 
   test('show mute topic option if topic is not muted', () => {
@@ -95,9 +87,12 @@ describe('constructHeaderActionButtons', () => {
 
     const mute = deepFreeze([]);
 
-    const buttons = constructHeaderActionButtons({ message, subscriptions, mute, getString });
+    const buttons = constructHeaderActionButtons({
+      backgroundData: { mute, subscriptions },
+      message,
+    });
 
-    expect(buttons).toContain('Mute topic');
+    expect(buttons).toContain('muteTopic');
   });
 
   test('show Unmute stream option if stream is not in home view', () => {
@@ -115,9 +110,12 @@ describe('constructHeaderActionButtons', () => {
 
     const mute = deepFreeze([]);
 
-    const buttons = constructHeaderActionButtons({ message, subscriptions, mute, getString });
+    const buttons = constructHeaderActionButtons({
+      backgroundData: { mute, subscriptions },
+      message,
+    });
 
-    expect(buttons).toContain('Unmute stream');
+    expect(buttons).toContain('unmuteStream');
   });
 
   test('show mute stream option if stream is in home view', () => {
@@ -132,8 +130,11 @@ describe('constructHeaderActionButtons', () => {
 
     const mute = deepFreeze([]);
 
-    const buttons = constructHeaderActionButtons({ message, subscriptions, mute, getString });
+    const buttons = constructHeaderActionButtons({
+      backgroundData: { mute, subscriptions },
+      message,
+    });
 
-    expect(buttons).toContain('Mute stream');
+    expect(buttons).toContain('muteStream');
   });
 });

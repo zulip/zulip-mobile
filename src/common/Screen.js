@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -34,19 +34,19 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   autoFocus: boolean,
   centerContent: boolean,
   children: ChildrenArray<*>,
   safeAreaInsets: Dimensions,
   keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
-  padding?: boolean,
-  search?: boolean,
+  padding: boolean,
+  search: boolean,
   title?: LocalizableText,
-  scrollableContent?: boolean,
+  scrollEnabled?: boolean,
   style?: Style,
   searchBarOnChange?: (text: string) => void,
-};
+|};
 
 /**
  * A component representing a distinct screen of the app
@@ -78,7 +78,9 @@ class Screen extends PureComponent<Props> {
     autoFocus: false,
     centerContent: false,
     keyboardShouldPersistTaps: 'handled',
-    scrollableContent: true,
+    padding: false,
+    scrollEnabled: true,
+    search: false,
   };
 
   render() {
@@ -89,7 +91,7 @@ class Screen extends PureComponent<Props> {
       keyboardShouldPersistTaps,
       padding,
       safeAreaInsets,
-      scrollableContent,
+      scrollEnabled,
       search,
       searchBarOnChange,
       style,
@@ -112,20 +114,17 @@ class Screen extends PureComponent<Props> {
           style={[componentStyles.wrapper, padding && styles.padding]}
           contentContainerStyle={[padding && styles.padding]}
         >
-          {scrollableContent ? (
-            <ScrollView
-              contentContainerStyle={
-                /* $FlowFixMe wants ViewStyleProp */
-                [centerContent && componentStyles.content, style]
-              }
-              style={componentStyles.childrenWrapper}
-              keyboardShouldPersistTaps={keyboardShouldPersistTaps}
-            >
-              {children}
-            </ScrollView>
-          ) : (
-            <View style={componentStyles.childrenWrapper}>{children}</View>
-          )}
+          <ScrollView
+            contentContainerStyle={
+              /* $FlowFixMe wants ViewStyleProp */
+              [styles.flexed, centerContent && componentStyles.content, style]
+            }
+            style={componentStyles.childrenWrapper}
+            keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+            scrollEnabled={scrollEnabled}
+          >
+            {children}
+          </ScrollView>
         </KeyboardAvoider>
       </View>
     );

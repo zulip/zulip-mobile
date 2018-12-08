@@ -1,0 +1,2 @@
+# Prettier can't handle the Unicode.
+src/emoji/__tests__/data-test.js

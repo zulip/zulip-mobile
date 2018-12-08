@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 /**
  * This exposes the native CustomTabsAndroid module as a JS module. This has a
  * function 'openURL' which takes the following parameters:

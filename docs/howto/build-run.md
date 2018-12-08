@@ -62,10 +62,14 @@ might look through the other tools and try some more of them out.
 * Commands once you've set up:
   * `react-native run-android` - build, then run on an active emulator
     or USB-connected device.  This won't start the emulator automatically.
-  * `yarn build:android-unsigned` - build an APK in release mode, just
+  * `yarn build:android-nokeys` - build an APK in release mode, just
     skipping Sentry setup (which requires an authentication token) and
     skipping signing.  The output APK will be at
     `android/app/build/outputs/apk/release/app-release-unsigned.apk`.
+  * `yarn build:android-nokeys -Psigned` - build an APK in release
+    mode, just skipping Sentry setup (which requires an authentication
+    token).  The output APK will be at
+    `android/app/build/outputs/apk/release/app-release.apk`.
 
 ## iOS tips
 
@@ -88,6 +92,26 @@ next person with a setup like yours.
 
 
 ## Troubleshooting
+
+### Bundling failure: Unable to resolve module ...
+
+When running the app, you might see in the output of the Metro bundler
+-- aka "the JS server", or `react-native start` -- an error like this
+(reformatted for readability):
+
+```
+error: bundling failed: Error: Unable to resolve module `lodash.union`
+  from `.../zulip-mobile/src/chat/chatReducers.js`:
+  Module `lodash.union` does not exist in the Haste module map
+```
+
+This can happen when new dependencies have been added to
+`package.json`.  In the example above, `lodash.union` was added.
+
+To fix the problem, run `yarn`, which will update your installed
+packages in `node_modules/` to match the current `package.json`.  You
+might need to restart Metro / `react-native start` after doing so.
+
 
 ### Build failure: `aapt` / "error while loading shared libraries"
 

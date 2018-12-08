@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Switch } from 'react-native';
 import { BRAND_COLOR } from '../styles';

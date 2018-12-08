@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Auth } from './apiTypes';
 import { apiFile } from './apiFetch';
 import { getFileExtension, getMimeTypeFromFileExtension } from '../utils/url';

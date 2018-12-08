@@ -1,3 +1,4 @@
+/* @flow strict */
 import progressiveTimeout from '../progressiveTimeout';
 
 describe('progressiveTimeout', () => {
@@ -10,6 +11,6 @@ describe('progressiveTimeout', () => {
     const start2 = Date.now();
     await progressiveTimeout();
     const duration2 = Date.now() - start2;
-    expect(duration2 > 1900).toBeTruthy();
+    expect(duration2 > 80).toBeTruthy();
   });
 });

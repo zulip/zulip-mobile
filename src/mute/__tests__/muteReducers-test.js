@@ -5,9 +5,8 @@ import { ACCOUNT_SWITCH, EVENT_MUTED_TOPICS, REALM_INIT } from '../../actionCons
 
 describe('muteReducers', () => {
   describe('REALM_INIT', () => {
-    test('when same muted topics exists in state, do not change state', () => {
-      const initialState = deepFreeze([['stream'], ['topic']]);
-
+    test('when `mute` data is provided init state with it', () => {
+      const initialState = deepFreeze([]);
       const action = deepFreeze({
         type: REALM_INIT,
         data: {
@@ -16,7 +15,21 @@ describe('muteReducers', () => {
       });
 
       const actualState = muteReducers(initialState, action);
-      expect(actualState).toBe(initialState);
+
+      expect(actualState).toEqual([['stream'], ['topic']]);
+    });
+
+    test('when no `mute` data is given reset state', () => {
+      const initialState = deepFreeze([['stream'], ['topic']]);
+      const action = deepFreeze({
+        type: REALM_INIT,
+        data: {},
+      });
+      const expectedState = [];
+
+      const actualState = muteReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
     });
   });
 

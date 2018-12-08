@@ -1,15 +1,12 @@
-/* @flow */
+/* @flow strict-local */
 import type { Narrow, Dispatch, GetState } from '../types';
-import config from '../config';
-import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
-import { getAuth, getUsers, getAllNarrows, isNarrowValid, getIsHydrated } from '../selectors';
-import { FETCH_STATE_RESET } from '../actionConstants';
+import { getAuth, getUsers, isNarrowValid, getIsHydrated } from '../selectors';
+import { DO_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
-import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
+import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../constants';
-import { getMessages } from '../directSelectors';
 
 export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
   dispatch: Dispatch,
@@ -21,24 +18,8 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
     return;
   }
 
-  dispatch({ type: FETCH_STATE_RESET });
-
-  const allNarrows = getAllNarrows(state);
-  const messages = getMessages(state);
-  const messagesForNarrow = (allNarrows[JSON.stringify(narrow)] || NULL_ARRAY).map(
-    id => messages[id],
-  );
-  const tooFewMessages = messagesForNarrow.length < config.messagesPerRequest / 2;
-
-  const caughtUp = state.caughtUp[JSON.stringify(narrow)] || NULL_CAUGHTUP;
-  const isCaughtUp = caughtUp.newer && caughtUp.older;
-
-  if (anchor === FIRST_UNREAD_ANCHOR && tooFewMessages && !isCaughtUp) {
-    dispatch(fetchMessagesAtFirstUnread(narrow));
-  } else if (anchor !== FIRST_UNREAD_ANCHOR) {
-    dispatch(fetchMessagesAroundAnchor(narrow, anchor));
-  }
-
+  dispatch({ type: DO_NARROW, narrow });
+  dispatch(fetchMessagesInNarrow(narrow, anchor));
   dispatch(navigateToChat(narrow));
 };
 

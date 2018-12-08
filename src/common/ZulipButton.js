@@ -105,7 +105,7 @@ const ButtonNormal = ({
 
 type Props = {
   style?: Style,
-  progress?: boolean,
+  progress: boolean,
   disabled: boolean,
   Icon?: Object,
   text: string,
@@ -137,6 +137,7 @@ export default class ZulipButton extends PureComponent<Props> {
     secondary: false,
     fullSize: false,
     disabled: false,
+    progress: false,
   };
 
   render() {

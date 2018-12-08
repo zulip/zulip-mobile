@@ -10,12 +10,11 @@ import { showErrorAlert } from '../utils/info';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
-import { getNarrowToSendTo } from '../selectors';
 
 type Props = {
   dispatch: Dispatch,
   expanded: boolean,
-  narrow: Narrow,
+  destinationNarrow: Narrow,
   onExpandContract: () => void,
 };
 
@@ -34,7 +33,7 @@ type Props = {
 export const chooseUploadImageFilename = (uri: string, fileName: string): string => {
   /*
   * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
-  * HEIF format and have filenames with the extension `.HEIC`.  When the user
+  * HEIF format and have file names with the extension `.HEIC`.  When the user
   * selects one of these photos through the image picker, the file gets
   * automatically converted to JPEG format... but the `fileName` property in
   * the react-native-image-picker response still has the `.HEIC` extension.
@@ -64,9 +63,13 @@ class ComposeMenu extends PureComponent<Props> {
       return;
     }
 
-    const { dispatch, narrow } = this.props;
+    const { dispatch, destinationNarrow } = this.props;
     dispatch(
-      uploadImage(narrow, response.uri, chooseUploadImageFilename(response.uri, response.fileName)),
+      uploadImage(
+        destinationNarrow,
+        response.uri,
+        chooseUploadImageFilename(response.uri, response.fileName),
+      ),
     );
   };
 
@@ -126,6 +129,4 @@ class ComposeMenu extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
-  narrow: getNarrowToSendTo(props.narrow)(state),
-}))(ComposeMenu);
+export default connect()(ComposeMenu);

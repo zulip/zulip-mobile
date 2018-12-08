@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Auth, RealmFilter } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 

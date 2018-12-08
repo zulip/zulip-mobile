@@ -2,7 +2,7 @@
 import type {
   AppOnlineAction,
   AppStateAction,
-  AppRefreshAction,
+  DeadQueueAction,
   CancelEditMessageAction,
   AppOrientationAction,
   DebugFlagToggleAction,
@@ -15,7 +15,7 @@ import {
   APP_ONLINE,
   APP_ORIENTATION,
   APP_STATE,
-  APP_REFRESH,
+  DEAD_QUEUE,
   DEBUG_FLAG_TOGGLE,
   INIT_SAFE_AREA_INSETS,
   CANCEL_EDIT_MESSAGE,
@@ -48,8 +48,8 @@ export const appState = (isActive: boolean) => (
   }
 };
 
-export const appRefresh = (): AppRefreshAction => ({
-  type: APP_REFRESH,
+export const deadQueue = (): DeadQueueAction => ({
+  type: DEAD_QUEUE,
 });
 
 export const initSafeAreaInsets = (safeAreaInsets: Dimensions): InitSafeAreaInsetsAction => ({

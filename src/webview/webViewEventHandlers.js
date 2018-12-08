@@ -1,7 +1,8 @@
 /* @flow */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import type { Auth, Debug, Dispatch, FlagsState, Message, Narrow } from '../types';
+import type { Dispatch, GetText, Message, Narrow } from '../types';
+import type { BackgroundData } from './MessageList';
 import { isUrlAnImage } from '../utils/url';
 import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -14,6 +15,7 @@ import {
   navigateToLightbox,
   messageLinkPress,
 } from '../actions';
+import { showActionSheet } from '../message/messageActionSheet';
 
 type MessageListEventReady = {
   type: 'ready',
@@ -75,7 +77,7 @@ type MessageListEventUrl = {
 };
 
 type MessageListEventLongPress = {
-  type: 'url',
+  type: 'longPress',
   target: 'message' | 'header',
   messageId: number,
 };
@@ -107,89 +109,118 @@ export type MessageListEvent =
   | MessageListEventDebug
   | MessageListEventError;
 
-type Props = {
+type Props = $ReadOnly<{
+  backgroundData: BackgroundData,
   dispatch: Dispatch,
-  auth: Auth,
-  debug: Debug,
-  flags: FlagsState,
   messages: Message[],
   narrow: Narrow,
-  onLongPress: (messageId: number, target: string) => void,
-};
+  showActionSheetWithOptions: (Object, (number) => void) => void,
+}>;
 
-export const handleScroll = (props: Props, event: MessageListEventScroll) => {
-  const { innerHeight, offsetHeight, scrollY, startMessageId, endMessageId } = event;
+const fetchMore = (props: Props, event: MessageListEventScroll) => {
+  const { innerHeight, offsetHeight, scrollY } = event;
   const { dispatch, narrow } = props;
-
   if (scrollY < config.messageListThreshold) {
     dispatch(fetchOlder(narrow));
   }
-
   if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
     dispatch(fetchNewer(narrow));
   }
+};
 
+const markRead = (props: Props, event: MessageListEventScroll) => {
+  const { debug, flags, auth } = props.backgroundData;
+  if (debug.doNotMarkMessagesAsRead) {
+    return;
+  }
   const unreadMessageIds = filterUnreadMessagesInRange(
     props.messages,
-    props.flags,
-    startMessageId,
-    endMessageId,
+    flags,
+    event.startMessageId,
+    event.endMessageId,
   );
-
-  if (unreadMessageIds.length > 0 && !props.debug.doNotMarkMessagesAsRead) {
-    queueMarkAsRead(props.auth, unreadMessageIds);
+  if (unreadMessageIds.length > 0) {
+    queueMarkAsRead(auth, unreadMessageIds);
   }
 };
 
-export const handleAvatar = (props: Props, event: MessageListEventAvatar) => {
-  props.dispatch(navigateToAccountDetails(event.fromEmail));
-};
-
-export const handleNarrow = ({ dispatch }: Props, event: MessageListEventNarrow) => {
-  dispatch(doNarrow(parseNarrowString(event.narrow)));
-};
-
-export const handleImage = (props: Props, event: MessageListEventImage) => {
-  const { src, messageId } = event;
-
+const handleImage = (props: Props, src: string, messageId: number) => {
   const message = props.messages.find(x => x.id === messageId);
-
   if (message) {
     props.dispatch(navigateToLightbox(src, message));
   }
 };
 
-export const handleLongPress = (props: Props, event: MessageListEventLongPress) => {
-  const { messageId, target } = event;
-  props.onLongPress(messageId, target);
-};
-
-export const handleUrl = (props: Props, event: MessageListEventUrl) => {
-  const { dispatch } = props;
-
-  if (isUrlAnImage(event.href)) {
-    const imageEvent = { type: 'image', src: event.href, messageId: event.messageId };
-    handleImage(props, imageEvent);
+const handleLongPress = (props: Props, _: GetText, isHeader: boolean, messageId: number) => {
+  const message = props.messages.find(x => x.id === messageId);
+  if (!message) {
     return;
   }
-
-  dispatch(messageLinkPress(event.href));
+  const { dispatch, showActionSheetWithOptions, backgroundData, narrow } = props;
+  showActionSheet(isHeader, dispatch, showActionSheetWithOptions, _, {
+    backgroundData,
+    message,
+    narrow,
+  });
 };
 
-export const handleReaction = (props: Props, event: MessageListEventReaction) => {
-  const { code, messageId, name, reactionType, voted } = event;
+export const handleMessageListEvent = (props: Props, _: GetText, event: MessageListEvent) => {
+  switch (event.type) {
+    case 'ready':
+      // handled by caller
+      break;
 
-  if (voted) {
-    emojiReactionRemove(props.auth, messageId, reactionType, code, name);
-  } else {
-    emojiReactionAdd(props.auth, messageId, reactionType, code, name);
+    case 'scroll':
+      fetchMore(props, event);
+      markRead(props, event);
+      break;
+
+    case 'avatar':
+      props.dispatch(navigateToAccountDetails(event.fromEmail));
+      break;
+
+    case 'narrow':
+      props.dispatch(doNarrow(parseNarrowString(event.narrow)));
+      break;
+
+    case 'image':
+      handleImage(props, event.src, event.messageId);
+      break;
+
+    case 'longPress':
+      handleLongPress(props, _, event.target === 'header', event.messageId);
+      break;
+
+    case 'url':
+      if (isUrlAnImage(event.href)) {
+        handleImage(props, event.href, event.messageId);
+      } else {
+        props.dispatch(messageLinkPress(event.href));
+      }
+      break;
+
+    case 'reaction':
+      {
+        const { code, messageId, name, reactionType, voted } = event;
+        const { auth } = props.backgroundData;
+        if (voted) {
+          emojiReactionRemove(auth, messageId, reactionType, code, name);
+        } else {
+          emojiReactionAdd(auth, messageId, reactionType, code, name);
+        }
+      }
+      break;
+
+    case 'debug':
+      console.debug(props, event); // eslint-disable-line
+      break;
+
+    case 'error':
+      logErrorRemotely(new Error(JSON.stringify(event.details)), 'WebView Exception');
+      break;
+
+    default:
+      logErrorRemotely(new Error(event.type), 'WebView event of unknown type');
+      break;
   }
-};
-
-export const handleDebug = (props: Props, event: MessageListEventDebug) => {
-  console.debug(props, event); // eslint-disable-line
-};
-
-export const handleError = (props: Props, event: MessageListEventError) => {
-  logErrorRemotely(new Error(JSON.stringify(event.details)), 'WebView Exception');
 };

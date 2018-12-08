@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { NavigationActions } from 'react-navigation';
 
 import type {
@@ -50,7 +50,7 @@ export const navigateToAccountDetails = (email: string): NavigateAction =>
 export const navigateToGroupDetails = (recipients: string[]): NavigateAction =>
   NavigationActions.navigate({ routeName: 'group-details', params: { recipients } });
 
-export const navigateToAddNewAccount = (realm: string): NavigateAction =>
+export const navigateToRealmScreen = (realm?: string): NavigateAction =>
   NavigationActions.navigate({ routeName: 'realm', params: { realm } });
 
 export const navigateToLightbox = (src: string, message: Message): NavigateAction =>

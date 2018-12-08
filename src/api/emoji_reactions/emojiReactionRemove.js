@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Auth, ApiResponse } from '../apiTypes';
 import { apiDelete } from '../apiFetch';
 

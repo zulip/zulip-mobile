@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import format from 'date-fns/format';
 import isToday from 'date-fns/is_today';
 import isYesterday from 'date-fns/is_yesterday';

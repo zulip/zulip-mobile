@@ -169,7 +169,7 @@ When the update machine is *live*:
     the user opens the app after more than a few minutes away, it's
     likely to end up making this transition to stale.  The current
     implementation (see `eventActions.js`) is to dispatch a Redux
-    action with a type `APP_REFRESH`, which causes a variety of
+    action with a type `DEAD_QUEUE`, which causes a variety of
     effects.
 * When a poll request fails some other way: we retry, with some
   appropriate backoff.
@@ -395,7 +395,7 @@ In the current Zulip mobile app, the structure looks like
     `initialState`, and then set on a `REHYDRATE` action.)
   * It's set to true when the user logs into a server, or switches
     accounts (action types `LOGIN_SUCCESS` and `ACCOUNT_SWITCH`.)
-  * It's set to true on an `APP_REFRESH` action -- which is dispatched
+  * It's set to true on an `DEAD_QUEUE` action -- which is dispatched
     exclusively by the long-poll loop in `startEventPolling`, when it
     finds the event queue has expired.
   * It's set to false on an `INITIAL_FETCH_COMPLETE` action -- which

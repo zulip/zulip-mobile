@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import parseMarkdown from 'zulip-markdown-parser';
 
 import { logErrorRemotely } from '../utils/logging';

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -6,14 +6,14 @@ import { StyleSheet, View } from 'react-native';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, Dispatch, GlobalState, Message, Subscription } from '../types';
+import type { Auth, GlobalState, Message } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW, SEARCH_NARROW } from '../utils/narrow';
-import MessageList from '../message/MessageList';
+import MessageList from '../webview/MessageList';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 import { NULL_ARRAY, NULL_FETCHING } from '../nullObjects';
-import { getAllRealmEmojiById, getAuth, getSubscriptions } from '../selectors';
+import { getAuth } from '../selectors';
 import { LAST_MESSAGE_ANCHOR } from '../constants';
 
 const styles = StyleSheet.create({
@@ -24,9 +24,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   auth: Auth,
-  dispatch: Dispatch,
   query: string,
-  subscriptions: Subscription[],
 };
 
 type State = {
@@ -90,10 +88,8 @@ class SearchMessagesCard extends PureComponent<Props, State> {
             narrow={HOME_NARROW}
             renderedMessages={renderedMessages}
             fetching={NULL_FETCHING}
-            isFetching={isFetching}
             showMessagePlaceholders={false}
             typingUsers={NULL_ARRAY}
-            {...this.props}
           />
         </ActionSheetProvider>
       </View>
@@ -103,6 +99,4 @@ class SearchMessagesCard extends PureComponent<Props, State> {
 
 export default connect((state: GlobalState) => ({
   auth: getAuth(state),
-  subscriptions: getSubscriptions(state),
-  realmEmoji: getAllRealmEmojiById(state),
 }))(SearchMessagesCard);

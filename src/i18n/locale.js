@@ -1,5 +1,5 @@
 /* @flow */
-/* eslint-disable */
+/* eslint-disable spellcheck/spell-checker */
 
 import { addLocaleData } from 'react-intl';
 import ar from 'react-intl/locale-data/ar';
@@ -38,6 +38,7 @@ import zh from 'react-intl/locale-data/zh';
   fr,
   hi,
   hu,
+  id,
   it,
   ja,
   ko,

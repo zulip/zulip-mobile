@@ -52,11 +52,11 @@ export default class FloatingActionButton extends PureComponent<Props> {
     };
 
     return (
-      <View style={[styles.wrapper, customWrapperStyle, style]}>
-        <Touchable onPress={disabled ? undefined : onPress}>
+      <Touchable style={style} onPress={disabled ? undefined : onPress}>
+        <View style={[styles.wrapper, customWrapperStyle]}>
           <Icon style={iconStyle} size={iconSize} color="white" />
-        </Touchable>
-      </View>
+        </View>
+      </Touchable>
     );
   }
 }

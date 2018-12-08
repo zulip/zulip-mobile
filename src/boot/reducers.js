@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { combineReducers } from 'redux';
 import { enableBatching } from 'redux-batched-actions';
 
@@ -7,15 +7,15 @@ import { logSlowReducers } from '../utils/redux';
 import { NULL_OBJECT } from '../nullObjects';
 import type { MigrationsState } from '../types';
 
-import accounts from '../account/accountReducers';
+import accounts from '../account/accountsReducers';
 import alertWords from '../alertWords/alertWordsReducer';
 import caughtUp from '../caughtup/caughtUpReducers';
 import drafts from '../drafts/draftsReducers';
 import fetching from '../chat/fetchingReducers';
 import flags from '../chat/flagsReducers';
 import loading from '../loading/loadingReducers';
-import narrows from '../chat/narrowReducers';
-import messages from '../message/messageReducers';
+import narrows from '../chat/narrowsReducers';
+import messages from '../message/messagesReducers';
 import mute from '../mute/muteReducers';
 import nav from '../nav/navReducers';
 import outbox from '../outbox/outboxReducers';

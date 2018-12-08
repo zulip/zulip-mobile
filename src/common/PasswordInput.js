@@ -1,31 +1,28 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 
-import type { Context, LocalizableText, Style } from '../types';
+import type { LocalizableText } from '../types';
 import Input from './Input';
 import { BRAND_COLOR } from '../styles';
 import Label from './Label';
 import Touchable from './Touchable';
 
 const componentStyles = StyleSheet.create({
-  passwordInput: {
-    flex: 1,
-    flexDirection: 'row',
-  },
   showPasswordButton: {
     position: 'absolute',
     right: 0,
-    alignItems: 'center',
-    padding: 8,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
   },
   showPasswordButtonText: {
+    margin: 8,
     color: BRAND_COLOR,
   },
 });
 
 type Props = {
-  style?: Style,
   placeholder: LocalizableText,
 };
 
@@ -37,11 +34,9 @@ type State = {
  * A password input component using Input internally.
  * Provides a 'show'/'hide' button to show the password.
  *
- * @prop [style] - Style applied to the TextInput component.
  * @prop [placeholder] - Text to be shown when no value is entered.
  */
 export default class PasswordInput extends PureComponent<Props, State> {
-  context: Context;
   props: Props;
   state: State = {
     isHidden: true,
@@ -55,14 +50,13 @@ export default class PasswordInput extends PureComponent<Props, State> {
   };
 
   render() {
-    const { style } = this.props;
+    const { placeholder } = this.props;
     const { isHidden } = this.state;
 
     return (
-      <View style={style}>
+      <View>
         <Input
-          {...this.props}
-          style={componentStyles.passwordInput}
+          placeholder={placeholder}
           secureTextEntry={isHidden}
           autoCorrect={false}
           autoCapitalize="none"

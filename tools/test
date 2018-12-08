@@ -1,0 +1,124 @@
+#!/bin/bash
+set -e
+
+## CLI PARSING
+
+usage() {
+    cat >&2 <<EOF
+usage: tools/test [--full] [SUITES]
+
+Run our tests.
+
+Options:
+  --coverage  Collect test-coverage information.  Only meaningful
+              with --full.
+  --full      Run on all files (default: only files changed in this
+              branch, as found by \`tools/info changed-files\`.)
+
+Suites:
+  flow
+  lint
+  jest
+  prettier
+  spell
+
+By default:
+ * without --full, all suites are run;
+ * with --full, all suites but \`spell\` are run.
+EOF
+    exit 2
+}
+
+coverage=
+full=
+suites=()
+while (( $# )); do
+    case "$1" in
+        --coverage) coverage=1; shift;;
+        --full) full=1; shift;;
+        flow|lint|jest|prettier|spell)
+            suites+=("$1"); shift;;
+        *) usage;;
+    esac
+done
+
+if [ -z "$suites" ]; then
+    suites=(flow lint jest prettier)
+    [ -z "$full" ] && suites+=(spell)
+fi
+
+
+## EXECUTION
+
+rootdir=$(git rev-parse --show-toplevel)
+cd "$rootdir"
+
+PATH=node_modules/.bin:"$PATH"
+
+files_js() {
+    if [ -n "$full" ]; then
+        echo src/
+        return
+    fi
+    tools/info changed-files | grep '^src/.*\.js$' || :
+}
+
+run_lint() {
+    (( $# )) || return 0
+    eslint --max-warnings=0 "$@"
+}
+
+run_prettier() {
+    (( $# )) || return 0
+    patterns=( "${@/%\///**/*.js}" ) # replace trailing `/` with `/**/*.js`
+    prettier-eslint \
+      --list-different \
+      --eslint-config-path ./tools/formatting.eslintrc.yaml \
+      "${patterns[@]}"
+}
+
+run_spell() {
+    (( $# )) || return 0
+    eslint --no-eslintrc -c tools/spellcheck.eslintrc.yaml "$@"
+}
+
+failed=()
+for suite in "${suites[@]}"; do
+    echo "Running $suite..."
+    case "$suite" in
+        flow)
+            flow
+            ;;
+        lint)
+            run_lint $(files_js)
+            ;;
+        jest)
+            if [ -n "$full" ]; then
+                if [ -n "$coverage" ]; then
+                    jest --coverage
+                    coveralls <./coverage/lcov.info
+                else
+                    jest
+                fi
+            else
+                jest --changedSince "$(tools/info upstream-ref)"
+            fi
+            ;;
+        prettier)
+            run_prettier $(files_js)
+            ;;
+        spell)
+            run_spell $(files_js)
+            ;;
+    esac || failed+=($suite)
+done
+
+if [ -n "$failed" ]; then
+    cat >&2 <<EOF
+
+FAILED: ${failed[*]}
+EOF
+    exit 1
+fi
+
+echo "Passed!"

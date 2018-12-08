@@ -1,7 +1,11 @@
-/* @flow */
+/* @flow strict-local */
 import isEqual from 'lodash.isequal';
+import type { Narrow } from '../types';
 
-import type { Props } from './MessageList';
+type Props = $ReadOnly<{
+  narrow: Narrow,
+  messages: $ReadOnlyArray<$ReadOnly<{ id: number }>>,
+}>;
 
 type TransitionProps = {
   sameNarrow: boolean,

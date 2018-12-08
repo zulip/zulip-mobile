@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { Sentry, SentrySeverity } from 'react-native-sentry';
 import config from '../config';
 

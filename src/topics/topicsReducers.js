@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { TopicsState, TopicsAction, InitTopicsAction, EventNewMessageAction } from '../types';
 import { ACCOUNT_SWITCH, INIT_TOPICS, EVENT_NEW_MESSAGE } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';

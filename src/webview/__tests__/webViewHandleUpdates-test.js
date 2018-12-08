@@ -3,8 +3,12 @@ import { flagsStateToStringList } from '../html/messageAsHtml';
 
 describe('getInputMessages', () => {
   test('missing prev and next props returns no messages', () => {
-    const prevProps = {};
-    const nextProps = {};
+    const prevProps = {
+      backgroundData: {},
+    };
+    const nextProps = {
+      backgroundData: {},
+    };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -12,8 +16,14 @@ describe('getInputMessages', () => {
   });
 
   test('if fetching message differs send a message for fetching', () => {
-    const prevProps = { fetching: { older: false, newer: false } };
-    const nextProps = { fetching: { older: false, newer: true } };
+    const prevProps = {
+      backgroundData: {},
+      fetching: { older: false, newer: false },
+    };
+    const nextProps = {
+      backgroundData: {},
+      fetching: { older: false, newer: true },
+    };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -27,8 +37,14 @@ describe('getInputMessages', () => {
   });
 
   test('if fetching key is the same no message is sent', () => {
-    const prevProps = { fetching: { older: false, newer: false } };
-    const nextProps = { fetching: { older: false, newer: false } };
+    const prevProps = {
+      backgroundData: {},
+      fetching: { older: false, newer: false },
+    };
+    const nextProps = {
+      backgroundData: {},
+      fetching: { older: false, newer: false },
+    };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -36,8 +52,14 @@ describe('getInputMessages', () => {
   });
 
   test('if typing users differ send a "typing" message', () => {
-    const prevProps = { auth: {}, typingUsers: [] };
-    const nextProps = { auth: {}, typingUsers: [{ id: 10 }] };
+    const prevProps = {
+      backgroundData: { auth: {} },
+      typingUsers: [],
+    };
+    const nextProps = {
+      backgroundData: { auth: {} },
+      typingUsers: [{ id: 10 }],
+    };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -46,8 +68,14 @@ describe('getInputMessages', () => {
   });
 
   test('when rendered messages are the same return empty result', () => {
-    const prevProps = { renderedMessages: [] };
-    const nextProps = { renderedMessages: [] };
+    const prevProps = {
+      backgroundData: { auth: {} },
+      renderedMessages: [],
+    };
+    const nextProps = {
+      backgroundData: { auth: {} },
+      renderedMessages: [],
+    };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -56,19 +84,25 @@ describe('getInputMessages', () => {
 
   test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
     const prevProps = {
-      auth: { realm: '' },
+      backgroundData: {
+        alertWords: {},
+        auth: { realm: '' },
+        flags: { starred: {}, has_alert_word: {} },
+      },
       messages: [],
-      flags: { starred: {} },
       renderedMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
-      auth: { realm: '' },
+      backgroundData: {
+        alertWords: {},
+        auth: { realm: '' },
+        flags: { starred: {}, has_alert_word: {} },
+      },
       messages: [],
-      flags: { starred: {} },
       renderedMessages: [
         {
           key: 0,
-          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0 } }],
+          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
           message: {},
         },
       ],
@@ -82,12 +116,12 @@ describe('getInputMessages', () => {
 
   test('WUUT there are several diffs return several messages', () => {
     const prevProps = {
-      auth: {},
+      backgroundData: { auth: {} },
       fetching: { older: false, newer: false },
       typingUsers: [],
     };
     const nextProps = {
-      auth: {},
+      backgroundData: { auth: {} },
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
     };
@@ -101,23 +135,29 @@ describe('getInputMessages', () => {
 
   test('when there are several diffs but messages differ too return only a single "content" message', () => {
     const prevProps = {
-      auth: { realm: '' },
+      backgroundData: {
+        alertWords: {},
+        auth: { realm: '' },
+        flags: { starred: {}, has_alert_word: {} },
+      },
       fetching: { older: false, newer: false },
       typingUsers: [],
       messages: [],
       renderedMessages: [{ key: 0, data: [], message: {} }],
-      flags: { starred: {} },
     };
     const nextProps = {
-      auth: { realm: '' },
+      backgroundData: {
+        alertWords: {},
+        auth: { realm: '' },
+        flags: { starred: {}, has_alert_word: {} },
+      },
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
       messages: [],
-      flags: { starred: {} },
       renderedMessages: [
         {
           key: 0,
-          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0 } }],
+          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
           message: {},
         },
       ],

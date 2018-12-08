@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Dispatch, GetState } from '../types';
 import { getAlertWords } from '../api';
 import { INIT_ALERT_WORDS } from '../actionConstants';

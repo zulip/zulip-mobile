@@ -61,7 +61,6 @@ type Props = {
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
   dispatch: Dispatch,
-  messageInputRef: (component: any) => void,
 };
 
 type State = {
@@ -213,15 +212,17 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({ isMenuExpanded: false });
   };
 
+  getDestinationNarrow = (): Narrow => {
+    const { narrow } = this.props;
+    const { topic } = this.state;
+    return isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, topic || '(no topic)') : narrow;
+  };
+
   handleSend = () => {
-    const { dispatch, narrow } = this.props;
-    const { topic, message } = this.state;
+    const { dispatch } = this.props;
+    const { message } = this.state;
 
-    const destinationNarrow = isStreamNarrow(narrow)
-      ? topicNarrow(narrow[0].operand, topic || '(no topic)')
-      : narrow;
-
-    dispatch(addToOutbox(destinationNarrow, message));
+    dispatch(addToOutbox(this.getDestinationNarrow(), message));
 
     this.setMessageInputValue('');
   };
@@ -271,15 +272,10 @@ class ComposeBox extends PureComponent<Props, State> {
       users,
       editMessage,
       safeAreaInsets,
-      messageInputRef,
       isAdmin,
       isAnnouncementOnly,
       isSubscribed,
     } = this.props;
-
-    if (!canSend) {
-      return null;
-    }
 
     if (!isSubscribed) {
       return <NotSubscribed narrow={narrow} />;
@@ -288,9 +284,13 @@ class ComposeBox extends PureComponent<Props, State> {
     }
 
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
+    const style = {
+      marginBottom: safeAreaInsets.bottom,
+      ...(canSend ? {} : { opacity: 0, position: 'absolute' }),
+    };
 
     return (
-      <View style={{ marginBottom: safeAreaInsets.bottom }}>
+      <View style={style}>
         <AutocompleteViewWrapper
           composeText={message}
           isTopicFocused={isTopicFocused}
@@ -304,7 +304,7 @@ class ComposeBox extends PureComponent<Props, State> {
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
           <View style={styles.alignBottom}>
             <ComposeMenu
-              narrow={narrow}
+              destinationNarrow={this.getDestinationNarrow()}
               expanded={isMenuExpanded}
               onExpandContract={this.handleComposeMenuToggle}
             />
@@ -331,11 +331,10 @@ class ComposeBox extends PureComponent<Props, State> {
               textInputRef={component => {
                 if (component) {
                   this.messageInput = component;
-                  messageInputRef(component);
                 }
               }}
               onBlur={this.handleMessageBlur}
-              onChange={this.handleMessageChange}
+              onChangeText={this.handleMessageChange}
               onFocus={this.handleMessageFocus}
               onSelectionChange={this.handleMessageSelectionChange}
               onTouchStart={this.handleInputTouchStart}

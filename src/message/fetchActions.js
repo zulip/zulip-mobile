@@ -3,8 +3,8 @@ import type {
   Narrow,
   Dispatch,
   GetState,
+  GlobalState,
   Message,
-  FetchMessagesAction,
   MessageFetchStartAction,
   MessageFetchCompleteAction,
   MarkMessagesReadAction,
@@ -19,7 +19,6 @@ import {
   getLastMessageId,
   getCaughtUpForActiveNarrow,
   getFetchingForActiveNarrow,
-  getPushToken,
 } from '../selectors';
 import config from '../config';
 import {
@@ -29,11 +28,11 @@ import {
   MESSAGE_FETCH_COMPLETE,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
-import { LAST_MESSAGE_ANCHOR } from '../constants';
+import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../constants';
 import timing from '../utils/timing';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
-import { refreshNotificationToken } from '../utils/notifications';
+import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
 import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
 import { initNotifications, realmInit } from '../realm/realmActions';
 import { initStreams } from '../streams/streamsActions';
@@ -72,7 +71,7 @@ export const fetchMessages = (
   numBefore: number,
   numAfter: number,
   useFirstUnread: boolean = false,
-): FetchMessagesAction => async (dispatch: Dispatch, getState: GetState) => {
+) => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
   const messages = await getMessages(
     getAuth(getState()),
@@ -85,7 +84,7 @@ export const fetchMessages = (
   dispatch(messageFetchComplete(messages, narrow, anchor, numBefore, numAfter));
 };
 
-export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number): FetchMessagesAction =>
+export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number) =>
   fetchMessages(
     narrow,
     anchor,
@@ -94,7 +93,7 @@ export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number): Fetch
     false,
   );
 
-export const fetchMessagesAtFirstUnread = (narrow: Narrow): FetchMessagesAction =>
+export const fetchMessagesAtFirstUnread = (narrow: Narrow) =>
   fetchMessages(narrow, 0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, true);
 
 export const markMessagesRead = (messageIds: number[]): MarkMessagesReadAction => ({
@@ -102,10 +101,7 @@ export const markMessagesRead = (messageIds: number[]): MarkMessagesReadAction =
   messageIds,
 });
 
-export const fetchOlder = (narrow: Narrow): FetchMessagesAction => (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const firstMessageId = getFirstMessageId(narrow)(state);
   const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
@@ -117,10 +113,7 @@ export const fetchOlder = (narrow: Narrow): FetchMessagesAction => (
   }
 };
 
-export const fetchNewer = (narrow: Narrow): FetchMessagesAction => (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const lastMessageId = getLastMessageId(narrow)(state);
   const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
@@ -140,6 +133,30 @@ export const initialFetchComplete = (): InitialFetchCompleteAction => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
+const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
+  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
+  if (caughtUp.newer && caughtUp.older) {
+    return false;
+  }
+  const numKnownMessages = getFetchedMessagesForNarrow(narrow)(state).length;
+  return numKnownMessages < config.messagesPerRequest / 2;
+};
+
+export const fetchMessagesInNarrow = (
+  narrow: Narrow,
+  anchor: number = FIRST_UNREAD_ANCHOR,
+) => async (dispatch: Dispatch, getState: GetState) => {
+  const state = getState();
+
+  if (anchor === FIRST_UNREAD_ANCHOR) {
+    if (needFetchAtFirstUnread(state, narrow)) {
+      dispatch(fetchMessagesAtFirstUnread(narrow));
+    }
+  } else {
+    dispatch(fetchMessagesAroundAnchor(narrow, anchor));
+  }
+};
+
 export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
@@ -158,7 +175,6 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
 
 export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
-  const pushToken = getPushToken(getState());
 
   timing.start('Rest of server data');
   const [messages, streams] = await Promise.all([
@@ -171,9 +187,12 @@ export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState:
 
   dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
   dispatch(initStreams(streams));
-  if (auth.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
-    refreshNotificationToken();
+
+  const session = getSession(getState());
+  if (session.lastNarrow) {
+    dispatch(fetchMessagesInNarrow(session.lastNarrow));
   }
+
   dispatch(trySendMessages());
 };
 

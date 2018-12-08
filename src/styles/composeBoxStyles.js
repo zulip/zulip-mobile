@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { Platform } from 'react-native';
 
 import type { Style } from '../types';
@@ -62,7 +62,7 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     ...inputMarginPadding,
   },
   composeSendButton: {
-    margin: 8,
+    padding: 8,
   },
   composeMenu: {
     flexDirection: 'row',

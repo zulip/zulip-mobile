@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { UsersState, UsersAction, RealmInitAction, EventUserAddAction } from '../types';
 import {
   LOGOUT,
@@ -14,7 +14,7 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState: UsersState = NULL_ARRAY;
 
 const realmInit = (state: UsersState, action: RealmInitAction): UsersState =>
-  action.data.realm_users;
+  action.data.realm_users || initialState;
 
 const eventUserAdd = (state: UsersState, action: EventUserAddAction): UsersState => [
   ...state,

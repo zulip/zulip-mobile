@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
@@ -7,7 +7,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import type { Context, Narrow } from '../types';
 import { OfflineNotice, ZulipStatusBar } from '../common';
 import Chat from '../chat/Chat';
-import MainNavBar from '../nav/MainNavBar';
+import ChatNavBar from '../nav/ChatNavBar';
 
 type Props = {
   navigation: NavigationScreenProp<*> & {
@@ -35,7 +35,7 @@ export default class ChatScreen extends PureComponent<Props> {
       <ActionSheetProvider>
         <View style={styles.screen}>
           <ZulipStatusBar narrow={narrow} />
-          <MainNavBar narrow={narrow} />
+          <ChatNavBar narrow={narrow} />
           <OfflineNotice />
           <Chat narrow={narrow} />
         </View>

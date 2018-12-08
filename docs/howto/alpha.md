@@ -1,7 +1,7 @@
 # Joining the alpha channel
 
 If you're actively developing the app, you should join the [alpha
-channel](release-guide.md#terminology) so that when we make an alpha release
+channel](release.md#terminology) so that when we make an alpha release
 you get it on your normal devices you use daily.  This means you'll see any
 regressions we have, so you can help find and fix them before they go out
 wider. :-)

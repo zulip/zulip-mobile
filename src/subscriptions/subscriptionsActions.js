@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { GetState, Dispatch, Subscription, InitSubscriptionsAction } from '../types';
 import { getSubscriptions } from '../api';
 import { INIT_SUBSCRIPTIONS } from '../actionConstants';

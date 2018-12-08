@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type {
   SessionState,
   SessionAction,
@@ -6,7 +6,8 @@ import type {
   AccountSwitchAction,
   AppStateAction,
   AppOnlineAction,
-  AppRefreshAction,
+  DeadQueueAction,
+  DoNarrowAction,
   InitialFetchCompleteAction,
   InitSafeAreaInsetsAction,
   AppOrientationAction,
@@ -19,7 +20,8 @@ import type {
 } from '../types';
 import {
   REHYDRATE,
-  APP_REFRESH,
+  DEAD_QUEUE,
+  DO_NARROW,
   LOGIN_SUCCESS,
   APP_ONLINE,
   ACCOUNT_SWITCH,
@@ -41,6 +43,7 @@ const initialState: SessionState = {
   isOnline: true,
   isActive: true,
   isHydrated: false,
+  lastNarrow: null,
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
@@ -56,15 +59,10 @@ const initialState: SessionState = {
   },
 };
 
-const appRefresh = (
+const loginSuccess = (
   state: SessionState,
-  action: AppRefreshAction | AccountSwitchAction,
+  action: DeadQueueAction | LoginSuccessAction | AccountSwitchAction,
 ): SessionState => ({
-  ...state,
-  needsInitialFetch: true,
-});
-
-const loginSuccess = (state: SessionState, action: LoginSuccessAction): SessionState => ({
   ...state,
   needsInitialFetch: true,
 });
@@ -85,6 +83,11 @@ const rehydrate = (state: SessionState, action: RehydrateAction): SessionState =
 const realmInit = (state: SessionState, action: RealmInitAction): SessionState => ({
   ...state,
   eventQueueId: action.data.queue_id,
+});
+
+const doNarrow = (state: SessionState, action: DoNarrowAction): SessionState => ({
+  ...state,
+  lastNarrow: action.narrow,
 });
 
 const appOnline = (state: SessionState, action: AppOnlineAction): SessionState => ({
@@ -147,10 +150,8 @@ const debugFlagToggle = (state: SessionState, action: DebugFlagToggleAction): Se
 
 export default (state: SessionState = initialState, action: SessionAction): SessionState => {
   switch (action.type) {
-    case APP_REFRESH:
+    case DEAD_QUEUE:
     case ACCOUNT_SWITCH:
-      return appRefresh(state, action);
-
     case LOGIN_SUCCESS:
       return loginSuccess(state, action);
 
@@ -159,6 +160,9 @@ export default (state: SessionState = initialState, action: SessionAction): Sess
 
     case REALM_INIT:
       return realmInit(state, action);
+
+    case DO_NARROW:
+      return doNarrow(state, action);
 
     case APP_ONLINE:
       return appOnline(state, action);

@@ -30,7 +30,6 @@ describe('HOME_NARROW', () => {
 
   test('empty list is a home narrow', () => {
     expect(isHomeNarrow([])).toBe(true);
-    expect(isHomeNarrow([{}])).toBe(false);
   });
 });
 
@@ -56,14 +55,6 @@ describe('privateNarrow', () => {
         },
       ]),
     ).toBe(true);
-    expect(
-      isPrivateNarrow([
-        {
-          operator: 'with',
-          operand: 'bob@example.com',
-        },
-      ]),
-    ).toBe(false);
   });
 });
 
@@ -192,7 +183,6 @@ describe('topicNarrow', () => {
   test('only narrow with two items, one for stream, one for topic is a topic narrow', () => {
     expect(isTopicNarrow(undefined)).toBe(false);
     expect(isTopicNarrow([])).toBe(false);
-    expect(isTopicNarrow([{}])).toBe(false);
     expect(isTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
     expect(
       isTopicNarrow([

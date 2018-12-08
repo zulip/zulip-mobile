@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { ChildrenArray } from 'react';
 import { connect } from 'react-redux';
 

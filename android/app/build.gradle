@@ -80,7 +80,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-if (hasProperty('signed')) {
+if (hasProperty('sentry')) {
     // Conditionally enable Sentry, because it requires an auth key.
     apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 }
@@ -105,8 +105,8 @@ android {
         applicationId "com.zulipmobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 13
-        versionName "1.0.13"
+        versionCode 104
+        versionName "21.0.104"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

@@ -28,6 +28,27 @@ Files: vendor/intl/*
 Copyright: 2013 Andy Earnshaw
 License: MIT
 
+Files: static/img/app-store-badge.*
+Copyright: 2018 Apple Inc.
+License:
+ Non-free.  Provided by Apple for use in connection with applications
+ available for download on the App Store.  Requirements include:
+ .
+ https://developer.apple.com/app-store/marketing/guidelines/
+ https://www.apple.com/legal/intellectual-property/guidelinesfor3rdparties.html
+ .
+ Apple is a trademark, and App Store is a service mark, of Apple Inc.
+
+Files: static/img/google-play-badge.png
+Copyright: 2018 Google LLC
+License:
+ Non-free.  Provided by Google to promote content available on
+ Google Play.  Downloaded from, and see guidelines at:
+ .
+ https://play.google.com/intl/en_us/badges/
+ .
+ Google Play and the Google Play logo are trademarks of Google LLC.
+
 License: MIT
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
