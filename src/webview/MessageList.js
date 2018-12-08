@@ -21,6 +21,7 @@ import type {
   RealmEmojiType,
   RenderedSectionDescriptor,
   Subscription,
+  ThemeType,
   User,
 } from '../types';
 import {
@@ -34,6 +35,7 @@ import {
   getFetchingForActiveNarrow,
   getMute,
   getOwnEmail,
+  getSettings,
   getSubscriptions,
   getShowMessagePlaceholders,
   getShownMessagesForNarrow,
@@ -82,6 +84,7 @@ export type Props = {
   narrow: Narrow,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
+  theme: ThemeType,
   typingUsers: User[],
 
   // From `connectActionSheet`.
@@ -154,12 +157,13 @@ class MessageList extends Component<Props> {
   };
 
   render() {
-    const { styles, theme } = this.context;
+    const { styles } = this.context;
     const {
       backgroundData,
       renderedMessages,
       anchor,
       narrow,
+      theme,
       showMessagePlaceholders,
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
@@ -229,6 +233,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
     showMessagePlaceholders:
       props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
+    theme: getSettings(state).theme,
     typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
   };
 })(connectActionSheet(withGetText(MessageList)));

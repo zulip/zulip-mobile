@@ -361,7 +361,6 @@ export type ThemeType = 'default' | 'night';
 
 export type Context = {
   styles: AppStyles,
-  theme: ThemeType,
 };
 
 export type SettingsState = {|
