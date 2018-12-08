@@ -4,6 +4,7 @@ import type {
   LoadingAction,
   InitialFetchStartAction,
   InitialFetchCompleteAction,
+  InitUsersAction,
   InitStreamsAction,
   InitSubscriptionsAction,
 } from '../types';
@@ -14,6 +15,7 @@ import {
   INITIAL_FETCH_COMPLETE,
   INIT_STREAMS,
   INIT_SUBSCRIPTIONS,
+  INIT_USERS,
 } from '../actionConstants';
 
 const initialState: LoadingState = {
@@ -43,6 +45,11 @@ const initialFetchComplete = (
   users: false,
 });
 
+const initUsers = (state: LoadingState, action: InitUsersAction): LoadingState => ({
+  ...state,
+  users: false,
+});
+
 const initStreams = (state: LoadingState, action: InitStreamsAction): LoadingState => ({
   ...state,
   streams: false,
@@ -64,6 +71,9 @@ export default (state: LoadingState = initialState, action: LoadingAction): Load
 
     case INITIAL_FETCH_COMPLETE:
       return initialFetchComplete(state, action);
+
+    case INIT_USERS:
+      return initUsers(state, action);
 
     case INIT_STREAMS:
       return initStreams(state, action);

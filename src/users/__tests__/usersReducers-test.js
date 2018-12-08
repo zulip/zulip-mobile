@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { REALM_INIT, EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstants';
+import { REALM_INIT, INIT_USERS, EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstants';
 import usersReducers from '../usersReducers';
 
 describe('usersReducers', () => {
@@ -66,6 +66,20 @@ describe('usersReducers', () => {
       const actualState = usersReducers(initialState, action);
 
       expect(actualState).toEqual(expectedState);
+    });
+  });
+
+  describe('INIT_USERS', () => {
+    test('stores user data', () => {
+      const initialState = deepFreeze([]);
+
+      const action = deepFreeze({
+        type: INIT_USERS,
+        users: [{ full_name: 'user1' }, { full_name: 'user2' }],
+      });
+
+      const newState = usersReducers(initialState, action);
+      expect(newState).toHaveLength(2);
     });
   });
 

@@ -1,10 +1,10 @@
 /* @flow strict-local */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
-import type { Dispatch, GetState, Narrow } from '../types';
+import type { Dispatch, GetState, Narrow, InitUsersAction, User } from '../types';
 /* eslint-disable import/no-named-as-default-member */
 import api from '../api';
-import { PRESENCE_RESPONSE } from '../actionConstants';
+import { INIT_USERS, PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth, tryGetAuth } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
@@ -33,6 +33,14 @@ export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean =
     serverTimestamp: response.server_timestamp,
   });
 };
+
+export const initUsers = (users: User[]): InitUsersAction => ({
+  type: INIT_USERS,
+  users,
+});
+
+export const fetchUsers = () => async (dispatch: Dispatch, getState: GetState) =>
+  dispatch(initUsers(await api.getUsers(getAuth(getState()))));
 
 export const sendTypingEvent = (narrow: Narrow) => async (
   dispatch: Dispatch,
