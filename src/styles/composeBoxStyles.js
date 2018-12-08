@@ -6,6 +6,10 @@ import { BRAND_COLOR } from './';
 
 export type ComposeBoxStyles = {
   composeBox: Style,
+  composeImage: Style,
+  composeImages: Style,
+  composeImageDeleteButton: Style,
+  composeImageContainer: Style,
   composeText: Style,
   composeTextInput: Style,
   topicInput: Style,
@@ -40,13 +44,32 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
   composeBox: {
     flexDirection: 'row',
     backgroundColor: 'rgba(127, 127, 127, 0.1)',
+    flexShrink: 1,
   },
   composeText: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
     paddingVertical: 8,
     justifyContent: 'center',
+    alignSelf: 'stretch',
+  },
+  composeImage: {
+    flex: 1,
+  },
+  composeImageDeleteButton: {
+    position: 'absolute',
+    top: 3,
+    right: 3,
+    zIndex: 1,
+  },
+  composeImageContainer: {
+    minWidth: 90,
+    height: 90,
+    margin: 5,
   },
   composeTextInput: {
+    flexGrow: 0,
+    flexShrink: 1,
     borderWidth: 0,
     borderRadius: 5,
     backgroundColor,

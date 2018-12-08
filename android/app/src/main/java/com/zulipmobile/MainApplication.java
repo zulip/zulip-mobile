@@ -10,7 +10,7 @@ import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.wix.reactnativenotifications.RNNotificationsPackage;
-import com.imagepicker.ImagePickerPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -53,7 +53,7 @@ public class MainApplication extends Application implements ReactApplication, IN
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
                     new RNTextInputResetPackage(),
-                    new ImagePickerPackage(),
+                    new PickerPackage(),
                     new OrientationPackage(),
                     new RNSentryPackage(MainApplication.this),
                     new PhotoViewPackage(),

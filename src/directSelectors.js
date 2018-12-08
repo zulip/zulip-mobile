@@ -3,6 +3,7 @@ import type {
   GlobalState,
   SessionState,
   DraftState,
+  DraftImagesState,
   FetchingState,
   FlagsState,
   LoadingState,
@@ -41,6 +42,8 @@ export const getIsHydrated = (state: GlobalState): boolean => state.session.isHy
 export const getCanCreateStreams = (state: GlobalState): boolean => state.realm.canCreateStreams;
 
 export const getDrafts = (state: GlobalState): DraftState => state.drafts;
+
+export const getDraftImages = (state: GlobalState): DraftImagesState => state.draftImages;
 
 export const getLoading = (state: GlobalState): LoadingState => state.loading;
 
