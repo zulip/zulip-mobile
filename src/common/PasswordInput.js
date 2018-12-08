@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 
-import type { Context, LocalizableText } from '../types';
+import type { LocalizableText } from '../types';
 import Input from './Input';
 import { BRAND_COLOR } from '../styles';
 import Label from './Label';
@@ -37,7 +37,6 @@ type State = {
  * @prop [placeholder] - Text to be shown when no value is entered.
  */
 export default class PasswordInput extends PureComponent<Props, State> {
-  context: Context;
   props: Props;
   state: State = {
     isHidden: true,

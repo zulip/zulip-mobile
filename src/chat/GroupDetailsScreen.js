@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { Context, Dispatch } from '../types';
+import type { Dispatch } from '../types';
 import { Screen } from '../common';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
@@ -14,12 +14,7 @@ type Props = {
 };
 
 class GroupDetailsScreen extends PureComponent<Props> {
-  context: Context;
   props: Props;
-
-  static contextTypes = {
-    styles: () => null,
-  };
 
   handlePress = ({ email }) => {
     this.props.dispatch(navigateToAccountDetails(email));
