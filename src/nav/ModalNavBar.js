@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import type { ChildrenArray } from 'react';
 
-import type { Dispatch, Context, GlobalState, LocalizableText, Style } from '../types';
+import type { Dispatch, Context, GlobalState, LocalizableText } from '../types';
 import { NAVBAR_SIZE } from '../styles';
 import Label from '../common/Label';
 import { getCanGoBack } from '../selectors';
@@ -13,17 +12,11 @@ import NavButton from './NavButton';
 import { navigateBack } from '../actions';
 import { connectPreserveOnBackOption } from '../utils/redux';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   canGoBack: boolean,
   title?: LocalizableText,
-  titleColor?: string,
-  itemsColor: string,
-  rightItem?: Object,
-  style: Style,
-  children: ChildrenArray<*>,
-  childrenStyle?: Style,
-};
+|};
 
 class ModalNavBar extends PureComponent<Props> {
   context: Context;
@@ -35,42 +28,25 @@ class ModalNavBar extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const {
-      dispatch,
-      canGoBack,
-      title,
-      titleColor,
-      itemsColor,
-      rightItem,
-      style,
-      childrenStyle,
-    } = this.props;
+    const { dispatch, canGoBack, title } = this.props;
     const textStyle = [
       styles.navTitle,
       canGoBack ? { marginRight: NAVBAR_SIZE } : { marginLeft: 16 },
-      rightItem ? { marginLeft: NAVBAR_SIZE } : {},
-      titleColor ? { color: titleColor } : {},
     ];
-    const content =
-      React.Children.count(this.props.children) === 0 ? (
-        <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
-      ) : (
-        this.props.children
-      );
 
     return (
-      <View style={[styles.navBar, style]}>
+      <View style={[styles.navBar]}>
         {canGoBack && (
           <NavButton
             name="arrow-left"
-            color={itemsColor}
             onPress={() => {
               dispatch(navigateBack());
             }}
           />
         )}
-        <View style={[styles.flexedLeftAlign, childrenStyle]}>{content}</View>
-        {rightItem && <NavButton color={itemsColor} {...rightItem} />}
+        <View style={styles.flexedLeftAlign}>
+          <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
+        </View>
       </View>
     );
   }
