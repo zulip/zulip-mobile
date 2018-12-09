@@ -455,6 +455,9 @@ body {
 .highlight {
   background-color: hsla(51, 100%, 64%, 0.42);
 }
+[data-mentioned="true"], [data-wildcard_mentioned="true"] {
+  background: hsla(8, 78%, 43%, 0.15);
+}
 `;
 
 export default (theme: ThemeName, highlightUnreadMessages: boolean) => `
