@@ -1,19 +1,19 @@
 /* @flow strict-local */
 import { Share } from 'react-native';
 
-import type { Auth } from '../types';
+import type { Auth, GetText } from '../types';
 import downloadImage from './downloadImage';
 import { showToast } from '../utils/info';
 
-export default async (url: string, auth: Auth) => {
+export default async (url: string, auth: Auth, _: GetText) => {
   try {
     const uri = await downloadImage(url, auth);
     try {
       await Share.share({ url: uri, message: url });
     } catch (error) {
-      showToast('Can not share');
+      showToast(_('Can not share'));
     }
   } catch (error) {
-    showToast('Can not download');
+    showToast(_('Can not download'));
   }
 };

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Auth } from '../types';
+import type { Auth, GetText } from '../types';
 import downloadImage from './downloadImage';
 import share from './share';
 import shareImage from './shareImage';
@@ -9,22 +9,32 @@ import { getFullUrl } from '../utils/url';
 type DownloadImageType = {|
   src: string,
   auth: Auth,
+  _: GetText,
 |};
 
 type ShareLinkType = {|
   src: string,
   auth: Auth,
+  _: GetText,
 |};
 
 type ExecuteActionSheetActionType = {|
   title: string,
   src: string,
   auth: Auth,
+  _: GetText,
 |};
 
 type ButtonProps = {|
   auth: Auth,
   src: string,
+  _: GetText,
+|};
+
+type ShareImageType = {|
+  auth: Auth,
+  src: string,
+  _: GetText,
 |};
 
 type ButtonType = {|
@@ -32,21 +42,21 @@ type ButtonType = {|
   onPress: (props: ButtonProps) => void | Promise<void>,
 |};
 
-const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
+const tryToDownloadImage = async ({ src, auth, _ }: DownloadImageType) => {
   try {
     await downloadImage(src, auth);
-    showToast('Download complete');
+    showToast(_('Download complete'));
   } catch (error) {
     showToast(error.message);
   }
 };
 
-const shareLink = ({ src, auth }: ShareLinkType) => {
-  share(getFullUrl(src, auth.realm));
+const shareLink = ({ src, auth, _ }: ShareLinkType) => {
+  share(getFullUrl(src, auth.realm), _);
 };
 
-const shareImageDirectly = ({ src, auth }: DownloadImageType) => {
-  shareImage(src, auth);
+const shareImageDirectly = ({ src, auth, _ }: ShareImageType) => {
+  shareImage(src, auth, _);
 };
 
 const actionSheetButtons: ButtonType[] = [
@@ -56,12 +66,12 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Cancel', onPress: () => {} },
 ];
 
-export const constructActionSheetButtons = (): string[] =>
-  actionSheetButtons.map(button => button.title);
+export const constructActionSheetButtons = (_: GetText): string[] =>
+  actionSheetButtons.map(button => _(button.title));
 
-export const executeActionSheetAction = ({ title, ...props }: ExecuteActionSheetActionType) => {
-  const button = actionSheetButtons.find(x => x.title === title);
+export const executeActionSheetAction = ({ title, _, ...props }: ExecuteActionSheetActionType) => {
+  const button = actionSheetButtons.find(x => _(x.title) === title);
   if (button) {
-    button.onPress(props);
+    button.onPress({ ...props, _ });
   }
 };

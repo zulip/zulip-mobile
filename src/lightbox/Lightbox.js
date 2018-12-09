@@ -6,7 +6,8 @@ import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Auth, Dispatch, GlobalState, Message } from '../types';
+import { withGetText } from '../boot/TranslationProvider';
+import type { Auth, Dispatch, GlobalState, Message, GetText } from '../types';
 import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
 import { SlideAnimationView } from '../common';
@@ -42,6 +43,7 @@ type Props = {|
   src: string,
   message: Message,
   showActionSheetWithOptions: (Object, (number) => void) => void,
+  _: GetText,
 |};
 
 type State = {|
@@ -60,7 +62,8 @@ class Lightbox extends PureComponent<Props, State> {
   };
 
   handleOptionsPress = () => {
-    const options = constructActionSheetButtons();
+    const { _ } = this.props;
+    const options = constructActionSheetButtons(_);
     const cancelButtonIndex = options.length - 1;
     const { showActionSheetWithOptions, src, auth } = this.props;
     showActionSheetWithOptions(
@@ -73,6 +76,7 @@ class Lightbox extends PureComponent<Props, State> {
           title: options[buttonIndex],
           src,
           auth,
+          _,
         });
       },
     );
@@ -136,5 +140,5 @@ class Lightbox extends PureComponent<Props, State> {
 export default connectActionSheet(
   connect((state: GlobalState) => ({
     auth: getAuth(state),
-  }))(Lightbox),
+  }))(withGetText(Lightbox)),
 );
