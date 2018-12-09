@@ -517,7 +517,7 @@ describe('getUnreadStreamsAndTopics', () => {
     ]);
   });
 
-  test('streams are sorted alphabetically, case-insensitive, topics by last activity, pinned stream on top', () => {
+  test('streams are sorted alphabetically, case-insensitive, topics by last activity', () => {
     const state = deepFreeze({
       subscriptions: [
         {
@@ -586,19 +586,6 @@ describe('getUnreadStreamsAndTopics', () => {
 
     expect(unreadCount).toEqual([
       {
-        key: 'xyz stream',
-        streamName: 'xyz stream',
-        color: 'blue',
-        isMuted: false,
-        isPrivate: false,
-        isPinned: true,
-        unread: 2,
-        data: [
-          { key: 'e topic', topic: 'e topic', unread: 1, isMuted: false, lastUnreadMsgId: 10 },
-          { key: 'd topic', topic: 'd topic', unread: 1, isMuted: false, lastUnreadMsgId: 9 },
-        ],
-      },
-      {
         key: 'abc stream',
         streamName: 'abc stream',
         color: 'red',
@@ -622,6 +609,19 @@ describe('getUnreadStreamsAndTopics', () => {
         data: [
           { key: 'c topic', topic: 'c topic', unread: 2, isMuted: true, lastUnreadMsgId: 8 },
           { key: 'b topic', topic: 'b topic', unread: 2, isMuted: false, lastUnreadMsgId: 7 },
+        ],
+      },
+      {
+        key: 'xyz stream',
+        streamName: 'xyz stream',
+        color: 'blue',
+        isMuted: false,
+        isPrivate: false,
+        isPinned: true,
+        unread: 2,
+        data: [
+          { key: 'e topic', topic: 'e topic', unread: 1, isMuted: false, lastUnreadMsgId: 10 },
+          { key: 'd topic', topic: 'd topic', unread: 1, isMuted: false, lastUnreadMsgId: 9 },
         ],
       },
     ]);
