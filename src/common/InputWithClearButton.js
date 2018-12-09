@@ -62,10 +62,12 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
   render() {
     const { styles } = this.context;
     const { canBeCleared, text } = this.state;
+    const { style } = this.props;
 
     return (
       <View style={styles.row}>
         <Input
+          style={style}
           placeholder={this.props.placeholder}
           textInputRef={textInput => {
             this.textInput = textInput;
