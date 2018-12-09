@@ -5,7 +5,8 @@ import { View } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { connect } from 'react-redux';
 
-import type { Dispatch, Narrow } from '../types';
+import type { Dispatch, Narrow, GetText } from '../types';
+import { withGetText } from '../boot/TranslationProvider';
 import { showErrorAlert } from '../utils/info';
 import styles from '../styles';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
@@ -17,6 +18,7 @@ type Props = {|
   expanded: boolean,
   destinationNarrow: Narrow,
   onExpandContract: () => void,
+  _: GetText,
 |};
 
 /**
@@ -53,7 +55,8 @@ class ComposeMenu extends PureComponent<Props> {
     }
 
     if (response.error) {
-      showErrorAlert(response.error, 'Error');
+      const { _ } = this.props;
+      showErrorAlert(response.error, _('Error'));
       return;
     }
 
@@ -127,4 +130,4 @@ class ComposeMenu extends PureComponent<Props> {
   }
 }
 
-export default connect()(ComposeMenu);
+export default connect()(withGetText(ComposeMenu));

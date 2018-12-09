@@ -141,6 +141,7 @@
   "Shared using Zulip!": "Shared using Zulip!",
   "Add reaction": "Add reaction",
   "Share message": "Share message",
+  "Error": "Error",
   "Failed to edit message": "Failed to edit message",
   "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream."
 }
