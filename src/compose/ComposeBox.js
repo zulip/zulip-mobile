@@ -4,6 +4,7 @@ import { View, TextInput, findNodeHandle } from 'react-native';
 import { connect } from 'react-redux';
 import TextInputReset from 'react-native-text-input-reset';
 
+import { withGetText } from '../boot/TranslationProvider';
 import type {
   Auth,
   Context,
@@ -14,6 +15,7 @@ import type {
   Dispatch,
   Dimensions,
   GlobalState,
+  GetText,
 } from '../types';
 import {
   addToOutbox,
@@ -62,6 +64,7 @@ type Props = {|
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
   dispatch: Dispatch,
+  _: GetText,
 |};
 
 type State = {|
@@ -227,13 +230,13 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleEdit = () => {
-    const { auth, editMessage, dispatch } = this.props;
+    const { auth, editMessage, dispatch, _ } = this.props;
     const { message, topic } = this.state;
     const content = editMessage.content !== message ? message : undefined;
     const subject = topic !== editMessage.topic ? topic : undefined;
     if (content || subject) {
       updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
-        showErrorAlert(error.message, 'Failed to edit message');
+        showErrorAlert(error.message, _('Failed to edit message'));
       });
     }
     dispatch(cancelEditMessage());
@@ -373,4 +376,4 @@ export default connect((state: GlobalState, props) => ({
   editMessage: getSession(state).editMessage,
   draft: getDraftForActiveNarrow(props.narrow)(state),
   lastMessageTopic: getLastMessageTopic(props.narrow)(state),
-}))(ComposeBox);
+}))(withGetText(ComposeBox));
