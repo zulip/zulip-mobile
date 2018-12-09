@@ -1,6 +1,13 @@
 import deepFreeze from 'deep-freeze';
+import { IntlProvider } from 'react-intl';
 
 import { constructMessageActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
+
+const messages = require('../../i18n/translations/messages_en.json');
+
+const intlProvider = new IntlProvider({ locale: 'en', messages }, {});
+const { intl } = intlProvider.getChildContext();
+const _ = value => intl.formatMessage({ id: value });
 
 describe('constructActionButtons', () => {
   const auth = deepFreeze({
@@ -30,6 +37,7 @@ describe('constructActionButtons', () => {
       backgroundData: { auth, flags, mute, subscriptions },
       message,
       narrow,
+      _,
     });
 
     expect(buttons).toContain('starMessage');
@@ -44,6 +52,7 @@ describe('constructActionButtons', () => {
       backgroundData: { auth, flags, mute, subscriptions },
       message,
       narrow,
+      _,
     });
 
     expect(buttons).toContain('unstarMessage');
@@ -68,6 +77,7 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { mute, subscriptions },
       message,
+      _,
     });
 
     expect(buttons).toContain('unmuteTopic');
@@ -90,6 +100,7 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { mute, subscriptions },
       message,
+      _,
     });
 
     expect(buttons).toContain('muteTopic');
@@ -113,6 +124,7 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { mute, subscriptions },
       message,
+      _,
     });
 
     expect(buttons).toContain('unmuteStream');
@@ -133,6 +145,7 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { mute, subscriptions },
       message,
+      _,
     });
 
     expect(buttons).toContain('muteStream');
