@@ -48,6 +48,15 @@ project(":app").afterEvaluate {
 }
 subprojects {
     if (path != ":app") {
+        buildscript {
+            repositories {
+                google()
+                jcenter()
+            }
+            dependencies {
+                classpath 'com.android.tools.build:gradle:3.2.1'
+            }
+        }
         // This line is tricky -- it causes :app to be (sort of?) evaluated,
         // so the `project(":app").afterEvaluate` must come first.
         evaluationDependsOn(":app")
