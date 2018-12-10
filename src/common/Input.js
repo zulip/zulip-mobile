@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import type { Context, Style } from '../types';
 import { HALF_COLOR, BORDER_COLOR } from '../styles';
 
-type Props = {|
+export type Props = {|
   ...$PropertyType<TextInput, 'props'>,
   style?: Style,
   placeholder: string, // could become LocalizableText if need be
