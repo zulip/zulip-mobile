@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
-import type { Context, LocalizableText, Style } from '../types';
+import type { Context, Style } from '../types';
 import { HALF_COLOR, BORDER_COLOR } from '../styles';
 
 // This ought to be exact, but Flow (0.78) gives a baffling error at each
@@ -17,7 +17,7 @@ import { HALF_COLOR, BORDER_COLOR } from '../styles';
 type Props = {
   ...$PropertyType<TextInput, 'props'>,
   style?: Style,
-  placeholder: LocalizableText,
+  placeholder: string, // could become LocalizableText if need be
   onChangeText?: (text: string) => void,
   textInputRef?: (component: ?TextInput) => void,
 };
@@ -33,7 +33,7 @@ type State = {
  * the platform the app is running on.
  *
  * @prop [style] - Can override our default style for inputs.
- * @prop [placeholder] - Translated before passing to TextInput as
+ * @prop placeholder - Translated before passing to TextInput as
  *   a prop of the same name.
  * @prop [textInputRef] - Passed to TextInput in `ref`.  See upstream docs
  *   on refs: https://reactjs.org/docs/refs-and-the-dom.html
@@ -53,7 +53,6 @@ export default class Input extends PureComponent<Props, State> {
   };
 
   static defaultProps = {
-    placeholder: {},
     restProps: [],
   };
 
@@ -83,14 +82,9 @@ export default class Input extends PureComponent<Props, State> {
     const { styles } = this.context;
     const { style, placeholder, textInputRef, ...restProps } = this.props;
     const { isFocused } = this.state;
-    const placeholderMessage = placeholder.text || placeholder;
 
     return (
-      <FormattedMessage
-        id={placeholderMessage}
-        defaultMessage={placeholderMessage}
-        values={placeholder.values}
-      >
+      <FormattedMessage id={placeholder} defaultMessage={placeholder}>
         {(text: string) => (
           <TextInput
             style={[styles.input, style]}
