@@ -12,6 +12,7 @@ Run our tests.
 Options:
   --coverage  Collect test-coverage information.  Only meaningful
               with --full.
+  --fix       Fix issues found, where possible.
   --full      Run on all files (default: only files changed in this
               branch, as found by \`tools/info changed-files\`.)
 
@@ -30,12 +31,14 @@ EOF
 }
 
 coverage=
+fix=
 full=
 suites=()
 while (( $# )); do
     case "$1" in
         --coverage) coverage=1; shift;;
         --full) full=1; shift;;
+        --fix) fix=1; shift;;
         flow|lint|jest|prettier|spell)
             suites+=("$1"); shift;;
         *) usage;;
@@ -65,13 +68,14 @@ files_js() {
 
 run_lint() {
     (( $# )) || return 0
-    eslint --max-warnings=0 "$@"
+    eslint ${fix:+--fix} --max-warnings=0 "$@"
 }
 
 run_prettier() {
     (( $# )) || return 0
     patterns=( "${@/%\///**/*.js}" ) # replace trailing `/` with `/**/*.js`
     prettier-eslint \
+       ${fix:+--write} \
       --list-different \
       --eslint-config-path ./tools/formatting.eslintrc.yaml \
       "${patterns[@]}"
