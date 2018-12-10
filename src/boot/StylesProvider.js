@@ -24,8 +24,6 @@ type Props = {
 };
 
 class StyleProvider extends PureComponent<Props> {
-  props: Props;
-
   static childContextTypes = {
     theme: () => {},
     styles: () => {},

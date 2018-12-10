@@ -31,8 +31,6 @@ type Props = {
 };
 
 class StreamListCard extends PureComponent<Props> {
-  props: Props;
-
   handleSwitchChange = (streamName: string, switchValue: boolean) => {
     const { auth } = this.props;
 

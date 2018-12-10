@@ -16,7 +16,6 @@ type Props = {
 
 export default class OptionRow extends PureComponent<Props> {
   context: Context;
-  props: Props;
 
   static contextTypes = {
     styles: () => null,

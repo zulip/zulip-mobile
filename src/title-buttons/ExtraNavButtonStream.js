@@ -16,8 +16,6 @@ type Props = {
 };
 
 class ExtraNavButtonStream extends PureComponent<Props> {
-  props: Props;
-
   handlePress = () => {
     const { dispatch, narrow, streams } = this.props;
     const stream = streams.find(x => x.name === narrow[0].operand);

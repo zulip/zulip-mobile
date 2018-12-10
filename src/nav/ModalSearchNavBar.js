@@ -35,7 +35,6 @@ type State = {
 
 class ModalSearchNavBar extends PureComponent<Props, State> {
   context: Context;
-  props: Props;
   state: State = {
     isSearchActive: false,
   };

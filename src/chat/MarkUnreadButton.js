@@ -26,8 +26,6 @@ type Props = {
 };
 
 class MarkUnreadButton extends PureComponent<Props> {
-  props: Props;
-
   handleMarkAllAsRead = () => {
     const { auth } = this.props;
     markAllAsRead(auth);

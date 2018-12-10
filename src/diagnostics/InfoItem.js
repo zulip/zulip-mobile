@@ -24,8 +24,6 @@ type Props = {
 };
 
 export default class InfoItem extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { label, value } = this.props;
 

@@ -131,8 +131,6 @@ type Props = {
  * @prop onPress - Event called on button press.
  */
 export default class ZulipButton extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     secondary: false,
     fullSize: false,

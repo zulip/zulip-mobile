@@ -23,8 +23,6 @@ type Props = {
  * @prop [itemStyle] - Style applied to each child.
  */
 export default class ComponentList extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     outerSpacing: true,
     spacing: 16,

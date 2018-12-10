@@ -17,8 +17,6 @@ type Props = {|
 |};
 
 export default class RealmEmoji extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { emoji } = this.props;
     return <Image style={styles.image} source={{ uri: emoji.source_url }} />;

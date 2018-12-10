@@ -23,8 +23,6 @@ type Props = {
 };
 
 export default class UserList extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     selected: [],
   };

@@ -18,8 +18,6 @@ type Props = {
 };
 
 class NotificationsScreen extends PureComponent<Props> {
-  props: Props;
-
   handleOfflineNotificationChange = () => {
     const { auth, dispatch, offlineNotification } = this.props;
     toggleMobilePushSettings({

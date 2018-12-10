@@ -32,8 +32,6 @@ type Props = {
 let otp = '';
 
 class AuthScreen extends PureComponent<Props> {
-  props: Props;
-
   componentDidMount = () => {
     Linking.addEventListener('url', this.endOAuth);
     Linking.getInitialURL().then(initialUrl => {

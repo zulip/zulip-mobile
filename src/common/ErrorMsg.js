@@ -30,8 +30,6 @@ type Props = {
  * @prop error - The error message string.
  */
 export default class ErrorMsg extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { error } = this.props;
 

@@ -21,8 +21,6 @@ type Props = {
 };
 
 class StorageScreen extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { state } = this.props;
     const storageSizes = calculateKeyStorageSizes(state);

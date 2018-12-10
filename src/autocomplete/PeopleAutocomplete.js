@@ -23,8 +23,6 @@ type Props = {
 };
 
 class PeopleAutocomplete extends PureComponent<Props> {
-  props: Props;
-
   handleUserGroupItemAutocomplete = (name: string): void => {
     this.props.onAutocomplete(`*${name}*`);
   };

@@ -25,8 +25,6 @@ type Props = {
 };
 
 class SwitchAccountButton extends PureComponent<Props> {
-  props: Props;
-
   shutdownPUSH = async () => {
     const { auth, dispatch, pushToken } = this.props;
     if (pushToken !== '') {

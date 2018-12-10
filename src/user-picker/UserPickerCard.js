@@ -38,7 +38,6 @@ type State = {
 };
 
 class UserPickerCard extends PureComponent<Props, State> {
-  props: Props;
   state: State = {
     selected: [],
   };

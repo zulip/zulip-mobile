@@ -55,8 +55,6 @@ type Props = {
  * @prop [limited] - If set values over 100 will display as `99+`.
  */
 export default class UnreadCount extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     borderRadius: 2,
     color: BRAND_COLOR,

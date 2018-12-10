@@ -34,7 +34,6 @@ type State = {
  */
 export default class Input extends PureComponent<Props, State> {
   context: Context;
-  props: Props;
   state: State = {
     isFocused: false,
   };

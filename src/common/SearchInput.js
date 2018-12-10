@@ -29,7 +29,6 @@ type Props = {
  * @prop onChange - Event called when search query is edited.
  */
 export default class SearchInput extends PureComponent<Props> {
-  props: Props;
   textInput: TextInput;
 
   static defaultProps = {

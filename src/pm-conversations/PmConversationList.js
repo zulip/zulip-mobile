@@ -26,8 +26,6 @@ type Props = {
  * A list describing all PM conversations.
  * */
 export default class PmConversationList extends PureComponent<Props> {
-  props: Props;
-
   handleUserNarrow = (params: { email: string }) => {
     this.props.dispatch(doNarrow(privateNarrow(params.email)));
   };

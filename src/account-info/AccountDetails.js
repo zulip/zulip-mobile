@@ -21,7 +21,6 @@ type Props = {
 
 export default class AccountDetails extends PureComponent<Props, void> {
   context: Context;
-  props: Props;
 
   static contextTypes = {
     styles: () => null,

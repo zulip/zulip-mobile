@@ -19,8 +19,6 @@ type Props = {
 };
 
 export default class TopicList extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     showDescriptions: false,
     showSwitch: false,

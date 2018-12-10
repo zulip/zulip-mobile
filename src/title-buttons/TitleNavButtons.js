@@ -18,8 +18,6 @@ type Props = {
 };
 
 export default class TitleNavButtons extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { color, narrow } = this.props;
     const InfoButton = getInfoButtonFromNarrow(narrow);

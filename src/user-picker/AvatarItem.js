@@ -32,8 +32,6 @@ type Props = {
 };
 
 export default class AvatarItem extends PureComponent<Props> {
-  props: Props;
-
   animatedValue = new Animated.Value(0);
 
   componentDidMount() {

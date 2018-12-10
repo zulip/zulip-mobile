@@ -23,8 +23,6 @@ type Props = {
 };
 
 class TopicAutocomplete extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { isFocused, topics, text, onAutocomplete } = this.props;
 

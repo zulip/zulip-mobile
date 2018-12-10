@@ -14,7 +14,6 @@ type State = {
 };
 
 export default class CompatibilityChecker extends PureComponent<Props, State> {
-  props: Props;
   state: State = {
     compatibilityCheckFail: false,
   };

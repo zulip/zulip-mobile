@@ -16,8 +16,6 @@ type Props = {
 };
 
 class StreamAutocomplete extends PureComponent<Props> {
-  props: Props;
-
   onAutocomplete = (name: string): void => {
     this.props.onAutocomplete(`**${name}**`);
   };

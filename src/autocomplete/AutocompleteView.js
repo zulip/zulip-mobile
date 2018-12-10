@@ -22,8 +22,6 @@ type Props = {
 };
 
 export default class AutocompleteView extends PureComponent<Props> {
-  props: Props;
-
   handleAutocomplete = (autocomplete: string) => {
     const { text, onAutocomplete, selection } = this.props;
     const newText = getAutocompletedText(text, autocomplete, selection);

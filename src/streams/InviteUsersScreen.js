@@ -20,7 +20,6 @@ type State = {
 };
 
 class InviteUsersScreen extends PureComponent<Props, State> {
-  props: Props;
   state: State = {
     filter: '',
   };

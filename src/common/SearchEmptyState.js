@@ -29,8 +29,6 @@ type Props = {
 };
 
 export default class SearchEmptyState extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     text: 'No Results',
     buttonText: 'Show All',

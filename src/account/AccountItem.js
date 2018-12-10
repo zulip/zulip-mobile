@@ -47,8 +47,6 @@ type Props = {|
 |};
 
 export default class AccountItem extends PureComponent<Props> {
-  props: Props;
-
   handleSelect = () => this.props.onSelect(this.props.index);
 
   handleRemove = () => this.props.onRemove(this.props.index);

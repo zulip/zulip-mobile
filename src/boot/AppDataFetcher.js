@@ -14,8 +14,6 @@ type Props = {
 };
 
 class AppDataFetcher extends PureComponent<Props> {
-  props: Props;
-
   componentDidUpdate = () => {
     const { dispatch, needsInitialFetch } = this.props;
 

@@ -14,8 +14,6 @@ type Props = {
 };
 
 class EditStreamScreen extends PureComponent<Props> {
-  props: Props;
-
   handleComplete = (name: string, description: string, isPrivate: boolean) => {
     const { dispatch, stream } = this.props;
 

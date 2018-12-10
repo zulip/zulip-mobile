@@ -28,8 +28,6 @@ type Props = {
  * @prop [onLongPress] - Event fired on a long press.
  */
 export default class Touchable extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { accessibilityLabel, style, children, onPress, onLongPress } = this.props;
 

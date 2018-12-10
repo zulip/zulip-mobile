@@ -15,8 +15,6 @@ type Props = {
 };
 
 class AppWithNavigation extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { nav } = this.props;
     const dispatch = (this.props.dispatch: PlainDispatch);

@@ -65,8 +65,6 @@ type Props = {
  * @prop [onPress] - Event called on pressing the main component.
  */
 export default class ComponentWithOverlay extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     showOverlay: true,
     overlaySize: 0,

@@ -16,8 +16,6 @@ type Props = {
 };
 
 export default class AvatarList extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { listRef, users, onPress } = this.props;
 

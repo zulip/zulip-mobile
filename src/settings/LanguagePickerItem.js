@@ -32,8 +32,6 @@ type Props = {
 };
 
 export default class LanguagePickerItem extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { locale, flag, name, selected, onValueChange } = this.props;
 

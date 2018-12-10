@@ -17,8 +17,6 @@ type Props = {
  * @prop thickness - Thickness of the circle in pixels.
  */
 export default class Circle extends React.PureComponent<Props> {
-  props: Props;
-
   render() {
     const { color, size, thickness } = this.props;
 

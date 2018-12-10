@@ -40,7 +40,6 @@ type State = {
  * All props are passed through to `Input`.  See `Input` for descriptions.
  */
 export default class PasswordInput extends PureComponent<Props, State> {
-  props: Props;
   state: State = {
     isHidden: true,
   };

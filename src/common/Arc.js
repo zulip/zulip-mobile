@@ -17,8 +17,6 @@ type Props = {
  * @prop thickness - Thickness of the arc in pixels.
  */
 export default class Arc extends React.PureComponent<Props> {
-  props: Props;
-
   render() {
     const { color, size, thickness } = this.props;
 

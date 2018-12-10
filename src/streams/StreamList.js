@@ -25,8 +25,6 @@ type Props = {|
 |};
 
 export default class StreamList extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     showDescriptions: false,
     showSwitch: false,

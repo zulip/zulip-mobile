@@ -40,8 +40,6 @@ type Props = {
 };
 
 class AppEventHandlers extends PureComponent<Props> {
-  props: Props;
-
   handleOrientationChange = (orientation: string) => {
     const { dispatch } = this.props;
     dispatch(appOrientation(orientation));

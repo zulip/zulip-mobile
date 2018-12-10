@@ -13,8 +13,6 @@ type Props = {
 };
 
 class LegalScreen extends PureComponent<Props> {
-  props: Props;
-
   openTermsOfService = () => {
     const { realm } = this.props;
     openLink(getFullUrl('/terms/', realm));

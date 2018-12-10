@@ -29,8 +29,6 @@ type Props = {
 };
 
 export default class LightboxScreen extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { src, message } = this.props.navigation.state.params;
     return (

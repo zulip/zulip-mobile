@@ -47,7 +47,6 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
 
 class ComposeMenu extends PureComponent<Props> {
   context: Context;
-  props: Props;
 
   static contextTypes = {
     styles: () => null,

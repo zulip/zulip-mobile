@@ -41,8 +41,6 @@ type Props = {
  * @prop [narrow] - Currently active narrow.
  */
 class ZulipStatusBar extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     hidden: false,
   };

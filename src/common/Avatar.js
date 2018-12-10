@@ -45,8 +45,6 @@ type Props = {
  * @prop [onPress] - Event fired on pressing the component.
  */
 class Avatar extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     avatarUrl: '',
     email: '',

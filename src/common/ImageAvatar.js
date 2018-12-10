@@ -24,8 +24,6 @@ type Props = {
  * @prop [onPress] - Event fired on pressing the component.
  */
 export default class ImageAvatar extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     shape: 'rounded',
     onPress: nullFunction,

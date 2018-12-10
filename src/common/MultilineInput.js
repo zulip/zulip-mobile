@@ -12,8 +12,6 @@ type Props = $Diff<InputProps, { multiline: mixed, underlineColorAndroid: mixed 
  * All props are passed through to `Input`.  See `Input` for descriptions.
  */
 export default class MultilineInput extends PureComponent<Props> {
-  props: Props;
-
   render() {
     return <Input {...this.props} multiline underlineColorAndroid="transparent" />;
   }

@@ -8,8 +8,6 @@ type Props = {
 };
 
 export default class TitleHome extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { color } = this.props;
 

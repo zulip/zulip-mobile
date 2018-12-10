@@ -16,7 +16,6 @@ type State = {
 };
 
 export default class AnimatedScaleComponent extends PureComponent<Props, State> {
-  props: Props;
   state: State = {
     visible: this.props.visible,
   };
