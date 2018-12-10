@@ -143,5 +143,7 @@
   "Share message": "Share message",
   "Error": "Error",
   "Failed to edit message": "Failed to edit message",
+  "Storage permission needed": "Storage permission needed",
+  "To download images, allow Zulip to store files on your device.": "To download images, allow Zulip to store files on your device.",
   "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream."
 }

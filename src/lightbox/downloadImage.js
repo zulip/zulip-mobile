@@ -2,6 +2,7 @@
 import { CameraRoll, Platform, PermissionsAndroid } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
+import type { GetText } from '../types';
 import type { Auth } from '../api/apiTypes';
 import { getAuthHeader, getFullUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
@@ -12,7 +13,7 @@ import userAgent from '../utils/userAgent';
  * The error thrown will have a `message` suitable for showing to the user
  * as a toast.
  */
-const androidEnsureStoragePermission = async (): Promise<void> => {
+const androidEnsureStoragePermission = async (_: GetText): Promise<void> => {
   // See docs from Android for the underlying interaction with the user:
   //   https://developer.android.com/training/permissions/requesting
   // and from RN for the specific API that wraps it:
@@ -23,8 +24,8 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
     return;
   }
   const result = await PermissionsAndroid.request(permission, {
-    title: 'Storage permission needed',
-    message: 'To download images, allow Zulip to store files on your device.',
+    title: _('Storage permission needed'),
+    message: _('To download images, allow Zulip to store files on your device.'),
   });
   const { DENIED, NEVER_ASK_AGAIN /* , GRANTED */ } = PermissionsAndroid.RESULTS;
   if (result === DENIED || result === NEVER_ASK_AGAIN) {
@@ -33,7 +34,7 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
   // result === GRANTED
 };
 
-export default async (src: string, auth: Auth): Promise<mixed> => {
+export default async (src: string, auth: Auth, _: GetText): Promise<mixed> => {
   const absoluteUrl = getFullUrl(src, auth.realm);
 
   if (Platform.OS === 'ios') {
@@ -43,7 +44,7 @@ export default async (src: string, auth: Auth): Promise<mixed> => {
   }
 
   // Platform.OS === 'android'
-  await androidEnsureStoragePermission();
+  await androidEnsureStoragePermission(_);
   return RNFetchBlob.config({
     addAndroidDownloads: {
       path: `${RNFetchBlob.fs.dirs.DownloadDir}/${src.split('/').pop()}`,

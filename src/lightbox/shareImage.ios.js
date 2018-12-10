@@ -7,7 +7,7 @@ import { showToast } from '../utils/info';
 
 export default async (url: string, auth: Auth, _: GetText) => {
   try {
-    const uri = await downloadImage(url, auth);
+    const uri = await downloadImage(url, auth, _);
     try {
       await Share.share({ url: uri, message: url });
     } catch (error) {

@@ -44,7 +44,7 @@ type ButtonType = {|
 
 const tryToDownloadImage = async ({ src, auth, _ }: DownloadImageType) => {
   try {
-    await downloadImage(src, auth);
+    await downloadImage(src, auth, _);
     showToast(_('Download complete'));
   } catch (error) {
     showToast(error.message);
