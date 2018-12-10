@@ -4,7 +4,6 @@ import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
 import type { Context, LocalizableText, Style } from '../types';
-import { nullFunction } from '../nullObjects';
 import { HALF_COLOR, BORDER_COLOR } from '../styles';
 
 // This ought to be exact, but Flow (0.78) gives a baffling error at each
@@ -19,8 +18,8 @@ type Props = {
   ...$PropertyType<TextInput, 'props'>,
   style?: Style,
   placeholder: LocalizableText,
-  onChangeText: (text: string) => void,
-  textInputRef: (component: ?TextInput) => void,
+  onChangeText?: (text: string) => void,
+  textInputRef?: (component: ?TextInput) => void,
 };
 
 type State = {
@@ -36,7 +35,7 @@ type State = {
  * @prop [style] - Can override our default style for inputs.
  * @prop [placeholder] - Translated before passing to TextInput as
  *   a prop of the same name.
- * @prop textInputRef - Passed to TextInput in `ref`.  See upstream docs
+ * @prop [textInputRef] - Passed to TextInput in `ref`.  See upstream docs
  *   on refs: https://reactjs.org/docs/refs-and-the-dom.html
  * @prop ...all other TextInput props - Passed through verbatim to TextInput.
  *   See upstream: https://facebook.github.io/react-native/docs/textinput
@@ -56,8 +55,6 @@ export default class Input extends PureComponent<Props, State> {
   static defaultProps = {
     placeholder: {},
     restProps: [],
-    onChangeText: nullFunction,
-    textInputRef: nullFunction,
   };
 
   handleClear = () => {
