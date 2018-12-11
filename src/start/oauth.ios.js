@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { NativeModules } from 'react-native';
 import SafariView from 'react-native-safari-view';
 
@@ -11,7 +11,7 @@ export const generateOtp = async () => {
   return base64ToHex(rand);
 };
 
-export const openBrowser = (url: string, otp: any) => {
+export const openBrowser = (url: string, otp: string) => {
   SafariView.show({ url: `${url}?mobile_flow_otp=${otp}` });
 };
 
