@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   label: string,
-  value: any,
+  value: mixed,
 };
 
 export default class InfoItem extends PureComponent<Props> {
