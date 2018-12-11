@@ -1,10 +1,11 @@
-/* @flow */
+/* @flow strict-local */
 import type {
   Auth,
   GetState,
   Dispatch,
   RealmFilter,
   InitialData,
+  RealmEmojiState,
   RealmInitAction,
   DeleteTokenPushAction,
   SaveTokenPushAction,
@@ -53,7 +54,7 @@ export const initNotifications = () => (dispatch: Dispatch, getState: GetState) 
   });
 };
 
-export const initRealmEmojis = (emojis: Object): InitRealmEmojiAction => ({
+export const initRealmEmojis = (emojis: RealmEmojiState): InitRealmEmojiAction => ({
   type: INIT_REALM_EMOJI,
   emojis,
 });
