@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Node } from 'react';
 import type { IntlShape } from 'react-intl';
 import type { InputSelector } from 'reselect';
