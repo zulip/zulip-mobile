@@ -9,7 +9,7 @@ import { HALF_COLOR, BORDER_COLOR } from '../styles';
 export type Props = {|
   ...$PropertyType<TextInput, 'props'>,
   style?: Style,
-  placeholder: string, // could become LocalizableText if need be
+  placeholder: string | { text: string, values?: { [string]: string } },
   onChangeText?: (text: string) => void,
   textInputRef?: (component: ?TextInput) => void,
 |};
@@ -69,9 +69,17 @@ export default class Input extends PureComponent<Props, State> {
     const { styles } = this.context;
     const { style, placeholder, textInputRef, ...restProps } = this.props;
     const { isFocused } = this.state;
+    const fullPlaceholder =
+      typeof placeholder === 'object' /* force linebreak */
+        ? placeholder
+        : { text: placeholder, values: undefined };
 
     return (
-      <FormattedMessage id={placeholder} defaultMessage={placeholder}>
+      <FormattedMessage
+        id={fullPlaceholder.text}
+        defaultMessage={fullPlaceholder.text}
+        values={fullPlaceholder.values}
+      >
         {(text: string) => (
           <TextInput
             style={[styles.input, style]}
