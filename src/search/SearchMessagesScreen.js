@@ -13,7 +13,7 @@ type State = {
 
 export default class SearchMessagesScreen extends PureComponent<Props, State> {
   context: Context;
-  state: State = {
+  state = {
     query: '',
   };
 

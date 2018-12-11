@@ -20,7 +20,7 @@ type State = {
 };
 
 export default class SlideAnimationView extends PureComponent<Props, State> {
-  state: State = {
+  state = {
     animationIndex: new Animated.Value(0),
   };
 

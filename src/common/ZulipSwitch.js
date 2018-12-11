@@ -25,7 +25,7 @@ type State = {
  * @prop onValueChange - Event called on switch.
  */
 export default class ZulipSwitch extends PureComponent<Props, State> {
-  state: State = {
+  state = {
     valueControlled: this.props.defaultValue,
   };
 

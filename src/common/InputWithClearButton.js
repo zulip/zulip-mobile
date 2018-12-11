@@ -33,7 +33,7 @@ type State = {
  */
 export default class InputWithClearButton extends PureComponent<Props, State> {
   context: Context;
-  state: State = {
+  state = {
     canBeCleared: false,
     text: '',
   };

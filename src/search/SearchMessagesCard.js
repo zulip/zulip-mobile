@@ -33,7 +33,7 @@ type State = {
 };
 
 class SearchMessagesCard extends PureComponent<Props, State> {
-  state: State = {
+  state = {
     messages: [],
     isFetching: false,
   };

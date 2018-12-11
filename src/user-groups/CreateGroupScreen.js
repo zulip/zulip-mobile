@@ -17,7 +17,7 @@ type State = {
 };
 
 class CreateGroupScreen extends PureComponent<Props, State> {
-  state: State = {
+  state = {
     filter: '',
   };
 

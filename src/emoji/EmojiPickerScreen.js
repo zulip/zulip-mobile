@@ -32,8 +32,6 @@ type State = {
 };
 
 class EmojiPickerScreen extends PureComponent<Props, State> {
-  state: State;
-
   state = {
     filter: '',
   };

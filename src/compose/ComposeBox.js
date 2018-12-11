@@ -91,7 +91,6 @@ export const updateTextInput = (textInput: ?TextInput, text: string): void => {
 
 class ComposeBox extends PureComponent<Props, State> {
   context: Context;
-  state: State;
 
   messageInput: ?TextInput = null;
   topicInput: ?TextInput = null;

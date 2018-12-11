@@ -23,7 +23,7 @@ type State = {
 
 export default class EditStreamCard extends PureComponent<Props, State> {
   context: Context;
-  state: State = {
+  state = {
     name: this.props.initialValues.name,
     description: this.props.initialValues.description,
     isPrivate: this.props.initialValues.invite_only,

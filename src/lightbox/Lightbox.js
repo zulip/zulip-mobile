@@ -48,7 +48,7 @@ type State = {
 };
 
 class Lightbox extends PureComponent<Props, State> {
-  state: State = {
+  state = {
     movement: 'out',
   };
 
