@@ -15,7 +15,7 @@ import { connectPreserveOnBackOption } from '../utils/redux';
 type Props = {|
   dispatch: Dispatch,
   canGoBack: boolean,
-  title?: LocalizableText,
+  title: LocalizableText,
 |};
 
 class ModalNavBar extends PureComponent<Props> {

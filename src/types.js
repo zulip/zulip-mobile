@@ -516,7 +516,7 @@ export interface Dispatch {
   <T>((Dispatch, GetState) => T): T;
 }
 
-export type LocalizableText = any; // string | { text: string, values: Object };
+export type LocalizableText = string | { text: string, values?: { [string]: string } };
 
 /**
  * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.
