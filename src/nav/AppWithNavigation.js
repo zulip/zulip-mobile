@@ -1,17 +1,17 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { addNavigationHelpers } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
-import type { Dispatch, GlobalState, PlainDispatch } from '../types';
+import type { Dispatch, GlobalState, NavigationState, PlainDispatch } from '../types';
 import { getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
 
 type Props = {
   dispatch: Dispatch,
-  nav: Object,
+  nav: NavigationState,
 };
 
 class AppWithNavigation extends PureComponent<Props> {
