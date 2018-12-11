@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 /* eslint-disable react-native/no-unused-styles */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 type Props = {
   children: ChildrenArray<*>,
   accessibilityLabel?: string,
-  overlay: any,
+  overlay: ChildrenArray<*>,
   showOverlay: boolean,
   overlaySize: number,
   overlayColor: string,
