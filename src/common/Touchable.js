@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'react-native';
 
@@ -14,7 +14,7 @@ type Props = {
   accessibilityLabel?: string,
   style?: Style,
   children: ChildrenArray<*>,
-  onPress?: () => void | Promise<any>,
+  onPress?: () => void | Promise<void>,
   onLongPress?: () => void,
 };
 

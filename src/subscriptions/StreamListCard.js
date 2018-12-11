@@ -60,7 +60,11 @@ class StreamListCard extends PureComponent<Props> {
             style={styles.button}
             secondary
             text="Create new stream"
-            onPress={() => delay(() => dispatch(navigateToCreateStream()))}
+            onPress={() =>
+              delay(() => {
+                dispatch(navigateToCreateStream());
+              })
+            }
           />
         )}
         <StreamList
