@@ -8,6 +8,12 @@ to users in general on the app stores is typically a few days later.
 
 ## Unreleased
 
+* Fixed issue where message view seen shortly after starting app could
+  show "No messages". (#3162)
+* Fixed issue where uploading an image while viewing a stream would go
+  to the wrong topic. (#3130)
+* Fixed a regression in 21.0.104: the password input for logging into
+  a server was rendered in a broken way, looking empty. (#3182)
 
 ## 21.0.104 (2018-12-05)
 
