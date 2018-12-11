@@ -1,6 +1,7 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { GlobalState, User, PresenceState } from '../types';
@@ -25,24 +26,24 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   ownEmail: string,
   users: User[],
   presences: PresenceState,
   filter: string,
   onComplete: (selected: User[]) => void,
-};
+|};
 
-type State = {
+type State = {|
   selected: User[],
-};
+|};
 
 class UserPickerCard extends PureComponent<Props, State> {
   state = {
     selected: [],
   };
 
-  listRef: (component: any) => void;
+  listRef: ?FlatList<*>;
 
   handleUserSelect = (email: string) => {
     const { users } = this.props;
@@ -81,8 +82,9 @@ class UserPickerCard extends PureComponent<Props, State> {
   };
 
   componentDidUpdate = (prevProps: Props, prevState: State) => {
-    if (this.listRef && this.state.selected.length > prevState.selected.length) {
-      setTimeout(() => this.listRef.scrollToEnd());
+    const list = this.listRef;
+    if (list && this.state.selected.length > prevState.selected.length) {
+      setTimeout(() => list.scrollToEnd());
     }
   };
 
