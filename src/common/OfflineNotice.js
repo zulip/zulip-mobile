@@ -38,10 +38,10 @@ class OfflineNotice extends PureComponent<Props> {
     const { isOnline } = this.props;
     return (
       <AnimatedComponent
-        property="height"
+        stylePropertyName="height"
+        fullValue={30}
         useNativeDriver={false}
         visible={!isOnline}
-        height={30}
         style={styles.block}
         delay={300}
       >

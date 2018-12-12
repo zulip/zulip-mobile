@@ -5,14 +5,15 @@ import { Animated, Easing } from 'react-native';
 
 import type { Style } from '../types';
 
-type Props = {
+type Props = {|
+  stylePropertyName: string,
+  fullValue: number,
   children: ChildrenArray<*>,
   style?: Style,
   visible: boolean,
-  property: string,
   useNativeDriver: boolean,
   delay: number,
-};
+|};
 
 export default class AnimatedComponent extends PureComponent<Props> {
   static defaultProps = {
@@ -25,7 +26,7 @@ export default class AnimatedComponent extends PureComponent<Props> {
 
   animate() {
     Animated.timing(this.animatedValue, {
-      toValue: this.props.visible ? this.props[this.props.property] : 0,
+      toValue: this.props.visible ? this.props.fullValue : 0,
       delay: this.props.delay,
       duration: 300,
       useNativeDriver: this.props.useNativeDriver,
@@ -42,9 +43,9 @@ export default class AnimatedComponent extends PureComponent<Props> {
   }
 
   render() {
-    const { children, property, style } = this.props;
+    const { children, stylePropertyName, style } = this.props;
     const animatedStyle = {
-      [property]: this.animatedValue,
+      [stylePropertyName]: this.animatedValue,
     };
 
     return <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>;

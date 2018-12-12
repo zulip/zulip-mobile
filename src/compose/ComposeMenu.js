@@ -102,7 +102,12 @@ class ComposeMenu extends PureComponent<Props> {
     const { dispatch, expanded, onExpandContract } = this.props;
     return (
       <View style={styles.composeMenu}>
-        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={120}>
+        <AnimatedComponent
+          stylePropertyName="width"
+          fullValue={120}
+          useNativeDriver={false}
+          visible={expanded}
+        >
           <View style={styles.composeMenu}>
             <IconPeople
               style={styles.composeMenuButton}
