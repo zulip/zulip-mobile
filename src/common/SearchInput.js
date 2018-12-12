@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import InputWithClearButton from './InputWithClearButton';
 
 const styles = StyleSheet.create({
@@ -29,8 +29,6 @@ type Props = {
  * @prop onChange - Event called when search query is edited.
  */
 export default class SearchInput extends PureComponent<Props> {
-  textInput: TextInput;
-
   static defaultProps = {
     autoFocus: true,
   };
