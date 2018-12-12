@@ -9,7 +9,8 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 import type { Auth, Dispatch, GlobalState, Message } from '../types';
 import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
-import AnimatedLightboxHeader from './AnimatedLightboxHeader';
+import { SlideAnimationView } from '../common';
+import LightboxHeader from './LightboxHeader';
 import AnimatedLightboxFooter from './AnimatedLightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_SIZE } from '../styles';
@@ -97,16 +98,21 @@ class Lightbox extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
-        <AnimatedLightboxHeader
-          onPressBack={this.handlePressBack}
+        <SlideAnimationView
+          property="translateY"
           style={[styles.overlay, styles.header, { width }]}
           from={-NAVBAR_SIZE}
           to={0}
-          timestamp={message.timestamp}
-          avatarUrl={message.avatar_url || getGravatarFromEmail(message.sender_email)}
-          senderName={message.sender_full_name}
           {...this.getAnimationProps()}
-        />
+        >
+          <LightboxHeader
+            onPressBack={this.handlePressBack}
+            timestamp={message.timestamp}
+            avatarUrl={message.avatar_url || getGravatarFromEmail(message.sender_email)}
+            senderName={message.sender_full_name}
+          />
+        </SlideAnimationView>
+
         <PhotoView
           source={resource}
           style={[styles.img, { width }]}
