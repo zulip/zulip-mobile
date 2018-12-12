@@ -12,23 +12,22 @@ to users in general on the app stores is typically a few days later.
 ### Highlights for users (since 20.0.103)
 
 Many fixes and improvements, including:
-* Added full support for custom emoji, including in composing messages
-  and in reactions.
-* The app now fetches updates much sooner when reopened after several
-  minutes idle.
-* Fixed issue where message view seen shortly after starting app could
+* Full support for custom emoji, including in composing messages and
+  in reactions.
+* Fetch updates much sooner when reopened after several minutes idle.
+* Fixed bug: a message view seen shortly after starting the app could
   show "No messages".
-* Fixed issue where uploading an image while viewing a stream would go
-  to the wrong topic.
-* Fixed issue where a draft message typed just after starting the app
-  was lost.
+* Fixed bug: uploading an image while viewing a stream would go to the
+  wrong topic.
+* Fixed bug: a draft message typed just after starting the app was
+  lost.
 * Complete translations for Italian and Korean.
 
 
 ### Full changes for users (since 21.0.104)
 
-* Fixed issue where message view seen shortly after starting app could
-  show "No messages". (#3162)
+* Fixed issue where a message view seen shortly after starting the app
+  could show "No messages". (#3162)
 * Fixed issue where uploading an image while viewing a stream would go
   to the wrong topic. (#3130)
 * Fixed a regression in 21.0.104: the password input for logging into
