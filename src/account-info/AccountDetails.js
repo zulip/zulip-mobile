@@ -12,12 +12,12 @@ import { getMediumAvatar } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
 import { doNarrow } from '../actions';
 
-type Props = {
+type Props = {|
   identity: Identity,
   dispatch: Dispatch,
   user: User,
   presence: Presence,
-};
+|};
 
 export default class AccountDetails extends PureComponent<Props, void> {
   context: Context;

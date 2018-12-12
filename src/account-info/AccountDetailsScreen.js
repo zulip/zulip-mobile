@@ -3,22 +3,21 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Identity, Dispatch, GlobalState, Orientation, User, PresenceState } from '../types';
-import { getIdentity, getSession, getAccountDetailsUserFromEmail, getPresence } from '../selectors';
+import type { Identity, Dispatch, GlobalState, User, PresenceState } from '../types';
+import { getIdentity, getAccountDetailsUserFromEmail, getPresence } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 
 type Props = {|
   identity: Identity,
   user: User,
-  orientation: Orientation,
   dispatch: Dispatch,
   presence: PresenceState,
 |};
 
 class AccountDetailsScreen extends PureComponent<Props> {
   render() {
-    const { identity, dispatch, orientation, user, presence } = this.props;
+    const { identity, dispatch, user, presence } = this.props;
     const title = {
       text: '{_}',
       values: {
@@ -34,7 +33,6 @@ class AccountDetailsScreen extends PureComponent<Props> {
           dispatch={dispatch}
           user={user}
           presence={presence[user.email]}
-          orientation={orientation}
         />
       </Screen>
     );
@@ -44,6 +42,5 @@ class AccountDetailsScreen extends PureComponent<Props> {
 export default connect((state: GlobalState, props: Object) => ({
   identity: getIdentity(state),
   user: getAccountDetailsUserFromEmail(props.navigation.state.params.email)(state),
-  orientation: getSession(state).orientation,
   presence: getPresence(state),
 }))(AccountDetailsScreen);
