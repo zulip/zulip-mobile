@@ -4,8 +4,11 @@ import type {
   MessageSendStartAction,
   MessageSendCompleteAction,
   OutboxAction,
+  Outbox,
+  InitialFetchStartAction,
 } from '../types';
 import {
+  INITIAL_FETCH_COMPLETE,
   MESSAGE_SEND_START,
   EVENT_NEW_MESSAGE,
   LOGOUT,
@@ -17,6 +20,9 @@ import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
 
 const initialState = NULL_ARRAY;
+
+const initialFetchComplete = (state: OutboxState, action: InitialFetchStartAction): OutboxState =>
+  filterArray(state, (outbox: Outbox) => !outbox.isSent);
 
 const messageSendStart = (state: OutboxState, action: MessageSendStartAction): OutboxState => {
   const message = state.find(item => item.timestamp === action.outbox.timestamp);
@@ -36,6 +42,9 @@ const deleteOutboxMessage = (
 
 export default (state: OutboxState = initialState, action: OutboxAction): OutboxState => {
   switch (action.type) {
+    case INITIAL_FETCH_COMPLETE:
+      return initialFetchComplete(state, action);
+
     case MESSAGE_SEND_START:
       return messageSendStart(state, action);
 

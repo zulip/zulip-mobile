@@ -1,10 +1,34 @@
 import deepFreeze from 'deep-freeze';
 
 import outboxReducers from '../outboxReducers';
-import { MESSAGE_SEND_START, EVENT_NEW_MESSAGE } from '../../actionConstants';
+import {
+  INITIAL_FETCH_COMPLETE,
+  MESSAGE_SEND_START,
+  EVENT_NEW_MESSAGE,
+} from '../../actionConstants';
 import { streamNarrow } from '../../utils/narrow';
 
 describe('outboxReducers', () => {
+  describe(INITIAL_FETCH_COMPLETE, () => {
+    test('filters out isSent', () => {
+      const initialState = deepFreeze([
+        { content: 'New one' },
+        { content: 'Another one' },
+        { content: 'Message already sent', isSent: true },
+      ]);
+
+      const action = deepFreeze({
+        type: INITIAL_FETCH_COMPLETE,
+      });
+
+      const expectedState = [{ content: 'New one' }, { content: 'Another one' }];
+
+      const actualState = outboxReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+  });
+
   describe(MESSAGE_SEND_START, () => {
     test('add a new message to outbox', () => {
       const initialState = deepFreeze([]);
