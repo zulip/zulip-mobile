@@ -82,7 +82,6 @@ class StreamScreen extends PureComponent<Props> {
           label="Notifications"
           defaultValue={subscription.push_notifications}
           onValueChange={this.toggleStreamPushNotification}
-          customStyle={this.context.styles.backgroundColor}
         />
         <OptionDivider />
         <View style={styles.padding}>
