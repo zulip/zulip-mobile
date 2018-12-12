@@ -9,6 +9,8 @@ to users in general on the app stores is typically a few days later.
 ## Unreleased
 
 
+## 21.1.105 (2018-12-11)
+
 ### Highlights for users (since 20.0.103)
 
 Many fixes and improvements, including:
