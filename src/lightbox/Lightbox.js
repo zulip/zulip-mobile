@@ -11,7 +11,7 @@ import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
 import { SlideAnimationView } from '../common';
 import LightboxHeader from './LightboxHeader';
-import AnimatedLightboxFooter from './AnimatedLightboxFooter';
+import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_SIZE } from '../styles';
 import { getGravatarFromEmail } from '../utils/avatar';
@@ -119,14 +119,15 @@ class Lightbox extends PureComponent<Props, State> {
           resizeMode="contain"
           onTap={this.handleImagePress}
         />
-        <AnimatedLightboxFooter
+        <SlideAnimationView
+          property="translateY"
           style={[styles.overlay, { width, bottom: height - 44 }]}
-          displayMessage={footerMessage}
-          onOptionsPress={this.handleOptionsPress}
           from={height}
           to={height - 44}
           {...this.getAnimationProps()}
-        />
+        >
+          <LightboxFooter displayMessage={footerMessage} onOptionsPress={this.handleOptionsPress} />
+        </SlideAnimationView>
       </View>
     );
   }
