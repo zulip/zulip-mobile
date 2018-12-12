@@ -13,7 +13,6 @@ type Props = {
   to: number,
   style: Style,
   avatarUrl: string,
-  realm: string,
   onPressBack: () => void,
 };
 

@@ -105,7 +105,6 @@ class Lightbox extends PureComponent<Props, State> {
           timestamp={message.timestamp}
           avatarUrl={message.avatar_url || getGravatarFromEmail(message.sender_email)}
           senderName={message.sender_full_name}
-          realm={auth.realm}
           {...this.getAnimationProps()}
         />
         <PhotoView
