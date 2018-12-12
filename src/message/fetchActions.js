@@ -202,7 +202,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
 
   dispatch(initNotifications());
   dispatch(sendFocusPing());
-  setInterval(() => sendFocusPing(), 60 * 1000);
+  setInterval(() => dispatch(sendFocusPing()), 60 * 1000);
 };
 
 export const uploadImage = (narrow: Narrow, uri: string, name: string) => async (
