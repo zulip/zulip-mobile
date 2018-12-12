@@ -11,15 +11,15 @@ import { getStreamFromId } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 import { fetchTopics, doNarrow } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   stream: Stream,
   topics: TopicExtended[],
-};
+|};
 
-type State = {
+type State = {|
   filter: string,
-};
+|};
 
 class TopicListScreen extends PureComponent<Props, State> {
   state = {

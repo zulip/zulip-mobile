@@ -5,13 +5,13 @@ import type { ChildrenArray } from '../types';
 import { checkCompatibility } from '../api';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 
-type Props = {
+type Props = {|
   children: ChildrenArray<*>,
-};
+|};
 
-type State = {
+type State = {|
   compatibilityCheckFail: boolean,
-};
+|};
 
 export default class CompatibilityChecker extends PureComponent<Props, State> {
   state = {

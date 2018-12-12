@@ -19,11 +19,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   auth: Auth,
   narrow: Narrow,
   streams: Stream[],
-};
+|};
 
 class MarkUnreadButton extends PureComponent<Props> {
   handleMarkAllAsRead = () => {

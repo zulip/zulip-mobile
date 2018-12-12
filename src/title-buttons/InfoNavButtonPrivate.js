@@ -7,11 +7,11 @@ import type { Dispatch, Narrow } from '../types';
 import NavButton from '../nav/NavButton';
 import { navigateToAccountDetails } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   narrow: Narrow,
   color: string,
-};
+|};
 
 class InfoNavButtonPrivate extends PureComponent<Props> {
   handlePress = () => {

@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   navigation: NavigationScreenProp<*> & {
     state: {
       params: {
@@ -26,7 +26,7 @@ type Props = {
       },
     },
   },
-};
+|};
 
 export default class LightboxScreen extends PureComponent<Props> {
   render() {

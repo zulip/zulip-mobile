@@ -9,15 +9,15 @@ import { subscriptionAdd } from '../api';
 import { getAuth, getStreamFromId } from '../selectors';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   auth: Auth,
   stream: Stream,
-};
+|};
 
-type State = {
+type State = {|
   filter: string,
-};
+|};
 
 class InviteUsersScreen extends PureComponent<Props, State> {
   state = {

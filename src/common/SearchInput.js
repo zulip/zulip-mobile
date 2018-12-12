@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   autoFocus: boolean,
   onChangeText: (text: string) => void,
-};
+|};
 
 /**
  * A light abstraction over the standard TextInput component

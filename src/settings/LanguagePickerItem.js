@@ -23,13 +23,13 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   locale: string,
   flag: string,
   name: string,
   selected: boolean,
   onValueChange: (locale: string) => void,
-};
+|};
 
 export default class LanguagePickerItem extends PureComponent<Props> {
   render() {

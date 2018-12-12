@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   style?: Style,
   presence?: Presence,
   hideIfOffline: boolean,
-};
+|};
 
 /**
  * A colored dot indicating user online status.

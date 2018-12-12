@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
   presences: PresenceState,
   usersByEmail: Object,
-};
+|};
 
 /**
  * A list describing all PM conversations.

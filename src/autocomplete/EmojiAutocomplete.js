@@ -10,11 +10,11 @@ import { getFilteredEmojiNames } from '../emoji/data';
 import type { GlobalState, RealmEmojiState } from '../types';
 import { getActiveRealmEmojiByName } from '../selectors';
 
-type Props = {
+type Props = {|
   filter: string,
   activeRealmEmojiByName: RealmEmojiState,
   onAutocomplete: (name: string) => void,
-};
+|};
 
 const MAX_CHOICES = 30;
 

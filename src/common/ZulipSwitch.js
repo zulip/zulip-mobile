@@ -3,16 +3,16 @@ import React, { PureComponent } from 'react';
 import { Switch } from 'react-native';
 import { BRAND_COLOR } from '../styles';
 
-type Props = {
+type Props = {|
   value: boolean,
   disabled: boolean,
   defaultValue: boolean,
   onValueChange: (arg: boolean) => void,
-};
+|};
 
-type State = {
+type State = {|
   valueControlled: boolean,
-};
+|};
 
 /**
  * An on/off component, provides consistent styling of the

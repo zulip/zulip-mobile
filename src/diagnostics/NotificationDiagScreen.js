@@ -10,9 +10,9 @@ import config from '../config';
 import InfoItem from './InfoItem';
 import { getRealm } from '../selectors';
 
-type Props = {
+type Props = {|
   pushToken: { token: string, msg: string, result: string },
-};
+|};
 
 class NotificationDiagScreen extends PureComponent<Props> {
   render() {

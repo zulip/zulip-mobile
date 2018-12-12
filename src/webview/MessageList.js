@@ -74,7 +74,7 @@ export type BackgroundData = $ReadOnly<{
 }>;
 
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
-export type Props = {
+export type Props = {|
   backgroundData: BackgroundData,
 
   anchor: number,
@@ -92,7 +92,7 @@ export type Props = {
 
   // From `withGetText`.
   _: GetText,
-};
+|};
 
 class MessageList extends Component<Props> {
   context: Context;

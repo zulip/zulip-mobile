@@ -10,11 +10,11 @@ import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
 
-type Props = {
+type Props = {|
   label: string,
   href: string,
   realm: string,
-};
+|};
 
 /**
  * A button styled like a web link.

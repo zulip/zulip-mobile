@@ -31,13 +31,13 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   needsInitialFetch: boolean,
   dispatch: Dispatch,
   children: ChildrenArray<*>,
   unreadCount: number,
   usersById: UserIdMap,
-};
+|};
 
 class AppEventHandlers extends PureComponent<Props> {
   handleOrientationChange = (orientation: string) => {

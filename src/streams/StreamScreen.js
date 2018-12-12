@@ -17,12 +17,12 @@ import {
   navigateToStreamSubscribers,
 } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   isAdmin: boolean,
   stream: Stream,
   subscription: Subscription,
-};
+|};
 
 class StreamScreen extends PureComponent<Props> {
   context: Context;

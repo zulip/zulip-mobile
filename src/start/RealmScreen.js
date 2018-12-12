@@ -10,17 +10,17 @@ import { isValidUrl } from '../utils/url';
 import { getServerSettings } from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   navigation: Object,
   initialRealm: string,
-};
+|};
 
-type State = {
+type State = {|
   realm: string,
   error: ?string,
   progress: boolean,
-};
+|};
 
 class RealmScreen extends PureComponent<Props, State> {
   context: Context;

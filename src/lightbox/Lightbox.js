@@ -35,17 +35,17 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   auth: Auth,
   dispatch: Dispatch,
   src: string,
   message: Message,
   showActionSheetWithOptions: (Object, (number) => void) => void,
-};
+|};
 
-type State = {
+type State = {|
   movement: 'in' | 'out',
-};
+|};
 
 class Lightbox extends PureComponent<Props, State> {
   state = {

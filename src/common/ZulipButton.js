@@ -103,7 +103,7 @@ const ButtonNormal = ({
   </View>
 );
 
-type Props = {
+type Props = {|
   style?: Style,
   progress: boolean,
   disabled: boolean,
@@ -112,7 +112,7 @@ type Props = {
   secondary: boolean,
   fullSize: boolean,
   onPress: () => void | Promise<void>,
-};
+|};
 
 /**
  * A button component that is provides consistent look and feel

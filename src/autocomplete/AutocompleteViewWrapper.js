@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   composeText: string,
   isTopicFocused: boolean,
   marginBottom: number,
@@ -23,7 +23,7 @@ type Props = {
   topicText: string,
   onMessageAutocomplete: (message: string) => void,
   onTopicAutocomplete: (topic: string) => void,
-};
+|};
 
 export default class AutocompleteViewWrapper extends PureComponent<Props> {
   render() {

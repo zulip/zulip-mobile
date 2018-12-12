@@ -8,13 +8,13 @@ import { getIdentity, getSession, getAccountDetailsUserFromEmail, getPresence } 
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 
-type Props = {
+type Props = {|
   identity: Identity,
   user: User,
   orientation: Orientation,
   dispatch: Dispatch,
   presence: PresenceState,
-};
+|};
 
 class AccountDetailsScreen extends PureComponent<Props> {
   render() {

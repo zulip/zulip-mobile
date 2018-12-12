@@ -9,10 +9,10 @@ import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 
-type Props = {
+type Props = {|
   /* $FlowFixMe: probably this shouldn't be optional */
   narrow?: Narrow,
-};
+|};
 
 export default class Chat extends PureComponent<Props> {
   context: Context;

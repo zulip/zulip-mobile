@@ -37,7 +37,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   senderName: string,
   subheader: string,
   timestamp: number,
@@ -47,7 +47,7 @@ type Props = {
   avatarUrl: string,
   realm: string,
   onPressBack: () => void,
-};
+|};
 
 export default class LightboxHeader extends PureComponent<Props> {
   render() {

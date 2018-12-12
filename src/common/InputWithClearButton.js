@@ -17,10 +17,10 @@ const componentStyles = StyleSheet.create({
 
 type Props = $Diff<InputProps, { textInputRef: mixed, value: mixed }>;
 
-type State = {
+type State = {|
   canBeCleared: boolean,
   text: string,
-};
+|};
 
 /**
  * A component wrapping Input and providing an 'X' button

@@ -4,10 +4,10 @@ import { Text } from 'react-native';
 
 import type { Context } from '../types';
 
-type Props = {
+type Props = {|
   text: string,
   color: string,
-};
+|};
 
 export default class TitlePlain extends PureComponent<Props> {
   context: Context;

@@ -48,7 +48,7 @@ import {
 } from '../subscriptions/subscriptionSelectors';
 import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 
-type Props = {
+type Props = {|
   auth: Auth,
   canSend: boolean,
   narrow: Narrow,
@@ -61,9 +61,9 @@ type Props = {
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
   dispatch: Dispatch,
-};
+|};
 
-type State = {
+type State = {|
   isMessageFocused: boolean,
   isTopicFocused: boolean,
   isMenuExpanded: boolean,
@@ -71,7 +71,7 @@ type State = {
   message: string,
   height: number,
   selection: InputSelectionType,
-};
+|};
 
 export const updateTextInput = (textInput: ?TextInput, text: string): void => {
   if (!textInput) {

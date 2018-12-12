@@ -17,7 +17,7 @@ import { generateOtp, openBrowser, closeBrowser } from './oauth';
 import { activeAuthentications } from './authentications';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   realm: string,
   navigation: NavigationScreenProp<*> & {
@@ -27,7 +27,7 @@ type Props = {
       },
     },
   },
-};
+|};
 
 let otp = '';
 

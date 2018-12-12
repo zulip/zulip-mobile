@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   name: string,
   iconUrl: string,
-};
+|};
 
 export default class RealmInfo extends PureComponent<Props> {
   render() {

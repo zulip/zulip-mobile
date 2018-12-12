@@ -5,15 +5,15 @@ import { Animated, Easing } from 'react-native';
 
 import type { Style } from '../types';
 
-type Props = {
+type Props = {|
   children: ChildrenArray<*>,
   visible: boolean,
   style?: Style,
-};
+|};
 
-type State = {
+type State = {|
   visible: boolean,
-};
+|};
 
 export default class AnimatedScaleComponent extends PureComponent<Props, State> {
   state = {

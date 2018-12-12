@@ -18,11 +18,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   auth: Auth,
   dispatch: Dispatch,
   pushToken: string,
-};
+|};
 
 class SwitchAccountButton extends PureComponent<Props> {
   shutdownPUSH = async () => {

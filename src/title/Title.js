@@ -14,11 +14,11 @@ import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStream';
 import TitlePlain from './TitlePlain';
 
-type Props = {
+type Props = {|
   narrow: Narrow,
   editMessage: Message,
   color: string,
-};
+|};
 
 class Title extends PureComponent<Props> {
   render() {

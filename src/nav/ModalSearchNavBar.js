@@ -19,7 +19,7 @@ const localStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   canGoBack: boolean,
   dispatch: Dispatch,
   autoFocus: boolean,
@@ -27,11 +27,11 @@ type Props = {
   searchBar: boolean,
   searchBarOnChange: () => void,
   clearSearchInput?: () => void,
-};
+|};
 
-type State = {
+type State = {|
   isSearchActive: boolean,
-};
+|};
 
 class ModalSearchNavBar extends PureComponent<Props, State> {
   context: Context;

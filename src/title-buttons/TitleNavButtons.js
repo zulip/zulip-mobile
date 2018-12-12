@@ -12,10 +12,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   color: string,
   narrow: Narrow,
-};
+|};
 
 export default class TitleNavButtons extends PureComponent<Props> {
   render() {

@@ -25,18 +25,18 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   auth: Auth,
   dispatch: Dispatch,
   navigation: Object,
-};
+|};
 
-type State = {
+type State = {|
   email: string,
   password: string,
   error: string,
   progress: boolean,
-};
+|};
 
 class PasswordAuthScreen extends PureComponent<Props, State> {
   state = {

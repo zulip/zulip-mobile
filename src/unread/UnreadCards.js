@@ -19,14 +19,14 @@ import {
 } from '../selectors';
 import { doNarrow } from '../actions';
 
-type Props = {
+type Props = {|
   conversations: PmConversationData[],
   dispatch: Dispatch,
   isLoading: boolean,
   presences: PresenceState,
   usersByEmail: Object,
   unreadStreamsAndTopics: any /* UnreadStream[] */,
-};
+|};
 
 class UnreadCards extends PureComponent<Props> {
   context: Context;

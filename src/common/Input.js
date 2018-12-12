@@ -14,9 +14,9 @@ export type Props = {|
   textInputRef?: (component: ?TextInput) => void,
 |};
 
-type State = {
+type State = {|
   isFocused: boolean,
-};
+|};
 
 /**
  * A light abstraction over the standard TextInput component

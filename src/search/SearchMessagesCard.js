@@ -22,15 +22,15 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   auth: Auth,
   query: string,
-};
+|};
 
-type State = {
+type State = {|
   messages: Message[],
   isFetching: boolean,
-};
+|};
 
 class SearchMessagesCard extends PureComponent<Props, State> {
   state = {

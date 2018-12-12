@@ -14,7 +14,7 @@ import type { GlobalState, RealmEmojiState, Auth, Dispatch } from '../types';
 import { getAuth, getActiveRealmEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 
-type Props = {
+type Props = {|
   activeRealmEmojiByName: RealmEmojiState,
   auth: Auth,
   dispatch: Dispatch,
@@ -25,11 +25,11 @@ type Props = {
       },
     },
   },
-};
+|};
 
-type State = {
+type State = {|
   filter: string,
-};
+|};
 
 class EmojiPickerScreen extends PureComponent<Props, State> {
   state = {

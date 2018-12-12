@@ -23,7 +23,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   defaultValue: string,
   defaultOrganization: string,
   protocol: string,
@@ -33,11 +33,11 @@ type Props = {
   onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
   enablesReturnKeyAutomatically: boolean,
-};
+|};
 
-type State = {
+type State = {|
   value: string,
-};
+|};
 
 export default class SmartUrlInput extends PureComponent<Props, State> {
   context: Context;

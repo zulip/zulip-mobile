@@ -6,9 +6,9 @@ import type { ChildrenArray } from '../types';
 import store, { restore } from './store';
 import timing from '../utils/timing';
 
-type Props = {
+type Props = {|
   children: ChildrenArray<*>,
-};
+|};
 
 export default class StoreHydrator extends PureComponent<Props> {
   componentDidMount() {

@@ -2,10 +2,10 @@
 import React, { PureComponent } from 'react';
 import SectionSeparator from './SectionSeparator';
 
-type Props = {
+type Props = {|
   leadingItem: Object,
   leadingSection: Object,
-};
+|};
 
 export default class SectionSeparatorBetween extends PureComponent<Props> {
   render() {

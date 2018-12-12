@@ -11,12 +11,12 @@ import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   expanded: boolean,
   destinationNarrow: Narrow,
   onExpandContract: () => void,
-};
+|};
 
 /**
  * Adjust `fileName` to one with the right extension for the file format.

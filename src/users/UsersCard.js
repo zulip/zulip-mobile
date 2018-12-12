@@ -9,13 +9,13 @@ import UserList from './UserList';
 import { getOwnEmail, getUsers, getPresence } from '../selectors';
 import { navigateBack, doNarrow } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   ownEmail: string,
   users: User[],
   filter: string,
   presences: PresenceState,
-};
+|};
 
 class UsersCard extends PureComponent<Props> {
   handleUserNarrow = ({ email }) => {

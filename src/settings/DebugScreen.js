@@ -8,10 +8,10 @@ import { getSession } from '../selectors';
 import { OptionRow, Screen } from '../common';
 import { debugFlagToggle } from '../actions';
 
-type Props = {
+type Props = {|
   debug: Debug,
   dispatch: Dispatch,
-};
+|};
 
 class DebugScreen extends PureComponent<Props> {
   handleSettingToggle = (key: string) => {

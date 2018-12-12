@@ -47,11 +47,11 @@ const messages: EmptyMessage[] = [
   { isFunc: isSearchNarrow, text: 'No messages' },
 ];
 
-type Props = {
+type Props = {|
   narrow: Narrow,
   showMessagePlaceholders: boolean,
   noMessages: boolean,
-};
+|};
 
 class NoMessages extends PureComponent<Props> {
   render() {

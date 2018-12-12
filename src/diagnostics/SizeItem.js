@@ -19,10 +19,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   text: string,
   size: number,
-};
+|};
 
 export default class SizeItem extends PureComponent<Props> {
   render() {
