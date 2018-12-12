@@ -41,9 +41,6 @@ export default class SearchInput extends PureComponent<Props> {
     return (
       <View style={styles.wrapper}>
         <InputWithClearButton
-          textInputRef={component => {
-            this.textInput = component;
-          }}
           style={styles.input}
           autoCorrect={false}
           enablesReturnKeyAutomatically
