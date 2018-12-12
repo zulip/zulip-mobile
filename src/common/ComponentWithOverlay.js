@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   children: ChildrenArray<*>,
   accessibilityLabel?: string,
   overlay: ChildrenArray<*>,
@@ -45,7 +45,7 @@ type Props = {
   overlayPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
   style?: Style,
   onPress?: () => void,
-};
+|};
 
 /**
  * Layout component that streamlines how we
