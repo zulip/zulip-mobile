@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   autoFocus: boolean,
-  onChange: (text: string) => void,
+  onChangeText: (text: string) => void,
 };
 
 /**
@@ -26,7 +26,7 @@ type Props = {
  * that configures and styles it to be a used as a search input.
  *
  * @prop [autoFocus] - should the component be focused when mounted.
- * @prop onChange - Event called when search query is edited.
+ * @prop onChangeText - Event called when search query is edited.
  */
 export default class SearchInput extends PureComponent<Props> {
   static defaultProps = {
@@ -34,7 +34,7 @@ export default class SearchInput extends PureComponent<Props> {
   };
 
   render() {
-    const { autoFocus, onChange } = this.props;
+    const { autoFocus, onChangeText } = this.props;
 
     return (
       <View style={styles.wrapper}>
@@ -47,7 +47,7 @@ export default class SearchInput extends PureComponent<Props> {
           autoCapitalize="none"
           placeholder="Search"
           returnKeyType="search"
-          onChangeText={onChange}
+          onChangeText={onChangeText}
           autoFocus={autoFocus}
         />
       </View>

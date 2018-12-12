@@ -84,7 +84,7 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
           />
         )}
         {showSearchInput ? (
-          <SearchInput autoFocus={autoFocus} onChange={searchBarOnChange} />
+          <SearchInput autoFocus={autoFocus} onChangeText={searchBarOnChange} />
         ) : (
           <Label style={textStyle} text={title} />
         )}
