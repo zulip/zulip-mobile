@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import { shortTime, humanDate } from '../utils/date';
 import { Avatar, Touchable } from '../common';
 import Icon from '../common/Icons';
 
@@ -38,14 +39,17 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   senderName: string,
-  subheader: string,
+  timestamp: number,
   avatarUrl: string,
   onPressBack: () => void,
 |};
 
 export default class LightboxHeader extends PureComponent<Props> {
   render() {
-    const { onPressBack, senderName, subheader, avatarUrl } = this.props;
+    const { onPressBack, senderName, timestamp, avatarUrl } = this.props;
+    const displayDate = humanDate(new Date(timestamp * 1000));
+    const time = shortTime(new Date(timestamp * 1000));
+    const subheader = `${displayDate} at ${time}`;
 
     return (
       <View style={componentStyles.wrapper}>
