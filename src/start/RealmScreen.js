@@ -83,7 +83,7 @@ class RealmScreen extends PureComponent<Props, State> {
           protocol="https://"
           append=".zulipchat.com"
           defaultValue={initialRealm}
-          onChange={this.handleRealmChange}
+          onChangeText={this.handleRealmChange}
           onSubmitEditing={this.tryRealm}
           enablesReturnKeyAutomatically
         />
