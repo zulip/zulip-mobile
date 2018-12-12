@@ -21,7 +21,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   avatarUrl: ?string,
   email: string,
   name: string,
@@ -30,7 +30,7 @@ type Props = {
   realm: string,
   shape: 'square' | 'rounded' | 'circle',
   onPress?: () => void,
-};
+|};
 
 /**
  * Renders an image if avatarUrl is proved, a text avatar otherwise

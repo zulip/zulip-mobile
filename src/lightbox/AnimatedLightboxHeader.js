@@ -19,7 +19,7 @@ type Props = {
 
 export default class AnimatedLightboxHeader extends PureComponent<Props> {
   render() {
-    const { onPressBack, senderName, timestamp, ...restProps } = this.props;
+    const { onPressBack, senderName, timestamp, avatarUrl, ...restProps } = this.props;
     const displayDate = humanDate(new Date(timestamp * 1000));
     const time = shortTime(new Date(timestamp * 1000));
     const subheader = `${displayDate} at ${time}`;
@@ -29,9 +29,8 @@ export default class AnimatedLightboxHeader extends PureComponent<Props> {
         <LightboxHeader
           onPressBack={onPressBack}
           senderName={senderName}
-          timestamp={timestamp}
           subheader={subheader}
-          {...restProps}
+          avatarUrl={avatarUrl}
         />
       </SlideAnimationView>
     );
