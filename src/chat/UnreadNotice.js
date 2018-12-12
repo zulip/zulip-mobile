@@ -37,8 +37,6 @@ type Props = {
 };
 
 class UnreadNotice extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     limited: false,
   };

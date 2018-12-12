@@ -15,8 +15,6 @@ type Props = {
 };
 
 export default class AnimatedComponent extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     visible: true,
     useNativeDriver: true,

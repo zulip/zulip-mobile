@@ -15,8 +15,6 @@ type Props = {
 };
 
 class ActivityText extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { style, presence, color } = this.props;
 

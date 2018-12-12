@@ -31,8 +31,6 @@ type Props = {
 };
 
 class StreamListCard extends PureComponent<Props> {
-  props: Props;
-
   handleSwitchChange = (streamName: string, switchValue: boolean) => {
     const { auth } = this.props;
 
@@ -62,7 +60,11 @@ class StreamListCard extends PureComponent<Props> {
             style={styles.button}
             secondary
             text="Create new stream"
-            onPress={() => delay(() => dispatch(navigateToCreateStream()))}
+            onPress={() =>
+              delay(() => {
+                dispatch(navigateToCreateStream());
+              })
+            }
           />
         )}
         <StreamList

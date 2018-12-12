@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
@@ -9,15 +9,13 @@ const styles = StyleSheet.create({
   list: {},
 });
 
-type Props = {
+type Props = {|
   users: User[],
-  listRef: (component: any) => void,
+  listRef: (component: FlatList<*> | null) => void,
   onPress: (email: string) => void,
-};
+|};
 
 export default class AvatarList extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { listRef, users, onPress } = this.props;
 
@@ -28,7 +26,7 @@ export default class AvatarList extends PureComponent<Props> {
         showsHorizontalScrollIndicator={false}
         initialNumToRender={20}
         data={users}
-        ref={(component: any) => {
+        ref={(component: FlatList<User> | null) => {
           if (listRef) {
             listRef(component);
           }

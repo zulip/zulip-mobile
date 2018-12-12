@@ -10,12 +10,11 @@ import { IconRight } from './Icons';
 type Props = {
   Icon?: Object,
   label: string,
-  onPress: () => any,
+  onPress: () => void,
 };
 
 export default class OptionButton extends PureComponent<Props> {
   context: Context;
-  props: Props;
 
   static contextTypes = {
     styles: () => null,

@@ -11,8 +11,6 @@ type Props = {
 };
 
 export default class AnimatedRotateComponent extends PureComponent<Props> {
-  props: Props;
-
   rotation = new Animated.Value(0);
 
   componentDidMount() {

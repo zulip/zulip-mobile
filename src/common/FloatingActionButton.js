@@ -36,8 +36,6 @@ type Props = {
  * @prop onPress - Event called on component press.
  */
 export default class FloatingActionButton extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { style, size, disabled, onPress, Icon } = this.props;
     const iconSize = Math.trunc(size / 2);

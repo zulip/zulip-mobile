@@ -25,8 +25,6 @@ type Props = {
 };
 
 export default class SizeItem extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { text, size } = this.props;
 

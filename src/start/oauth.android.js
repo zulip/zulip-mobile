@@ -14,7 +14,7 @@ export const generateOtp = async () =>
     });
   });
 
-export const openBrowser = (url: string, otp: any) => {
+export const openBrowser = (url: string, otp: string) => {
   openLink(`${url}?mobile_flow_otp=${otp}`);
 };
 

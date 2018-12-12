@@ -32,7 +32,6 @@ type Props = {
 
 export default class StreamItem extends PureComponent<Props> {
   context: Context;
-  props: Props;
 
   static contextTypes = {
     styles: () => null,

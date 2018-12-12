@@ -29,7 +29,6 @@ type Props = {
  * @prop onChange - Event called when search query is edited.
  */
 export default class SearchInput extends PureComponent<Props> {
-  props: Props;
   textInput: TextInput;
 
   static defaultProps = {
@@ -42,9 +41,6 @@ export default class SearchInput extends PureComponent<Props> {
     return (
       <View style={styles.wrapper}>
         <InputWithClearButton
-          textInputRef={component => {
-            this.textInput = component;
-          }}
           style={styles.input}
           autoCorrect={false}
           enablesReturnKeyAutomatically

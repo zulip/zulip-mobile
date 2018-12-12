@@ -9,18 +9,61 @@ to users in general on the app stores is typically a few days later.
 ## Unreleased
 
 
-## 21.0.104 (2018-12-05)
+## 21.1.105 (2018-12-11)
 
-### Highlights for users
+### Highlights for users (since 20.0.103)
 
 Many fixes and improvements, including:
-* Added full support for custom emoji, including in composing messages
-  and in reactions.
-* The app now fetches updates much sooner when reopened after several
-  minutes idle.
-* Fixed issue where a draft message typed just after starting the app
-  was lost.
+* Full support for custom emoji, including in composing messages and
+  in reactions.
+* Fetch updates much sooner when reopened after several minutes idle.
+* Fixed bug: a message view seen shortly after starting the app could
+  show "No messages".
+* Fixed bug: uploading an image while viewing a stream would go to the
+  wrong topic.
+* Fixed bug: a draft message typed just after starting the app was
+  lost.
 * Complete translations for Italian and Korean.
+
+
+### Full changes for users (since 21.0.104)
+
+* Fixed issue where a message view seen shortly after starting the app
+  could show "No messages". (#3162)
+* Fixed issue where uploading an image while viewing a stream would go
+  to the wrong topic. (#3130)
+* Fixed a regression in 21.0.104: the password input for logging into
+  a server was rendered in a broken way, looking empty. (#3182)
+
+
+### Full changes for developers (since 21.0.104)
+
+#### Workflow improvements
+
+* `tools/test` accepts a `--fix` option.  (177d3eaa9)
+
+
+#### Architecture, interface, and quality improvements
+
+* New internal API `withGetText` for acquiring a handy
+  string-translating function, to use in any part of the app that
+  isn't a React component. (#2812; c22dfee9b^..9eaa05c27)
+* New experimental internal API for the (server) API bindings:
+  `import api from ...`, then `api.sendMessage(...)` etc.
+  (63ae59808^..acb979cf5)
+* We no longer write `props: Props`, or where applicable
+  `state: State`, at the top of each React component; the type
+  arguments to `PureComponent` or `Component` express that already.
+  (7e3becfba, c5df77962)
+* A good swath of our uses of `any` and `Object` are replaced with
+  real types, and 20 more files are marked strict-local; 60 to go.
+  (9a0df7416^..60f14ed83)
+
+
+## (beta) 21.0.104 (2018-12-05)
+
+This was a beta version that did not become a production release;
+see the regression fix above.
 
 
 ### Full changes for users

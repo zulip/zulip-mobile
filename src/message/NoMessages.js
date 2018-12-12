@@ -54,8 +54,6 @@ type Props = {
 };
 
 class NoMessages extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { noMessages, showMessagePlaceholders, narrow } = this.props;
 

@@ -27,8 +27,6 @@ type Props = {
 };
 
 class DiagnosticsScreen extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { dispatch } = this.props;
 

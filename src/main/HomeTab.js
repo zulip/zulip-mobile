@@ -26,8 +26,6 @@ type Props = {
 };
 
 class HomeTab extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { dispatch } = this.props;
 

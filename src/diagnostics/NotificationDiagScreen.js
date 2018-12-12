@@ -15,8 +15,6 @@ type Props = {
 };
 
 class NotificationDiagScreen extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { pushToken } = this.props;
     const variables = {

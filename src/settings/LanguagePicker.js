@@ -18,8 +18,6 @@ type Props = {
 };
 
 export default class LanguagePicker extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { value, onValueChange } = this.props;
 

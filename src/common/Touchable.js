@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'react-native';
 
@@ -14,7 +14,7 @@ type Props = {
   accessibilityLabel?: string,
   style?: Style,
   children: ChildrenArray<*>,
-  onPress?: () => void | Promise<any>,
+  onPress?: () => void | Promise<void>,
   onLongPress?: () => void,
 };
 
@@ -28,8 +28,6 @@ type Props = {
  * @prop [onLongPress] - Event fired on a long press.
  */
 export default class Touchable extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { accessibilityLabel, style, children, onPress, onLongPress } = this.props;
 

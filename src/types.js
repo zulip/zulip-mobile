@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Node } from 'react';
 import type { IntlShape } from 'react-intl';
 import type { InputSelector } from 'reselect';
@@ -516,7 +516,7 @@ export interface Dispatch {
   <T>((Dispatch, GetState) => T): T;
 }
 
-export type LocalizableText = any; // string | { text: string, values: Object };
+export type LocalizableText = string | { text: string, values?: { [string]: string } };
 
 /**
  * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.

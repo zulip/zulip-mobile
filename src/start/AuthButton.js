@@ -12,7 +12,6 @@ type Props = {
 
 export default class AuthButton extends PureComponent<Props> {
   context: Context;
-  props: Props;
 
   static contextTypes = {
     styles: () => null,

@@ -22,8 +22,6 @@ type Props = {
 };
 
 class IconUnreadConversations extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { unreadHuddlesTotal, unreadPmsTotal, color } = this.props;
     const unreadCount = unreadHuddlesTotal + unreadPmsTotal;

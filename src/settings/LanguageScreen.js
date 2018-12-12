@@ -15,8 +15,6 @@ type Props = {
 };
 
 class LanguageScreen extends PureComponent<Props> {
-  props: Props;
-
   handleLocaleChange = (value: string) => {
     const { dispatch } = this.props;
     dispatch(settingsChange({ locale: value }));

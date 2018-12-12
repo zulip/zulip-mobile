@@ -11,7 +11,7 @@ type State = {
 };
 
 export default class UsersScreen extends PureComponent<Props, State> {
-  state: State = {
+  state = {
     filter: '',
   };
 

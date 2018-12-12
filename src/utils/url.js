@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import base64 from 'base-64';
 import urlRegex from 'url-regex';
 
@@ -135,7 +135,10 @@ const getResourceNoAuth = (uri: string) => ({
   uri,
 });
 
-export const getResource = (uri: string, auth: Auth): Object =>
+export const getResource = (
+  uri: string,
+  auth: Auth,
+): {| uri: string, headers?: { [string]: ?string } |} =>
   isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
 export const hasProtocol = (url: string = '') => url.search(/\b(http|https):\/\//) !== -1;

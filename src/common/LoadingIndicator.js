@@ -36,8 +36,6 @@ type Props = {
  * @prop [size] - Diameter of the indicator in pixels.
  */
 export default class LoadingIndicator extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     color: '82, 194, 175',
     showLogo: false,

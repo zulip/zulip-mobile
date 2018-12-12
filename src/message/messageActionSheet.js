@@ -97,12 +97,12 @@ const shareMessage = ({ message }) => {
     message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
   });
 };
-shareMessage.title = 'Share message';
+shareMessage.title = 'Share';
 
 const addReaction = ({ message, dispatch }) => {
   dispatch(navigateToEmojiPicker(message.id));
 };
-addReaction.title = 'Add reaction';
+addReaction.title = 'Add a reaction';
 
 const cancel = params => {};
 cancel.title = 'Cancel';

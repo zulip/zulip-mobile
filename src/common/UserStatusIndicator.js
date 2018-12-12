@@ -42,8 +42,6 @@ type Props = {
  * @prop hideIfOffline - Do not render for 'offline' state.
  */
 export default class UserStatusIndicator extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { presence, style, hideIfOffline } = this.props;
 

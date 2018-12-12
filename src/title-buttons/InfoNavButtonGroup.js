@@ -15,8 +15,6 @@ type Props = {
 };
 
 class InfoNavButtonGroup extends PureComponent<Props> {
-  props: Props;
-
   handlePress = () => {
     const { dispatch, recipients } = this.props;
     dispatch(navigateToGroupDetails(recipients));

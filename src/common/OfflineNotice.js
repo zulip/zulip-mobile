@@ -34,8 +34,6 @@ type Props = {
  * @prop isOnline - Provide the online/offline state.
  */
 class OfflineNotice extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { isOnline } = this.props;
     return (

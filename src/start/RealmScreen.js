@@ -24,8 +24,7 @@ type State = {
 
 class RealmScreen extends PureComponent<Props, State> {
   context: Context;
-  props: Props;
-  state: State = {
+  state = {
     progress: false,
     realm: this.props.initialRealm,
     error: undefined,

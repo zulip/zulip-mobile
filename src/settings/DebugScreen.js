@@ -14,8 +14,6 @@ type Props = {
 };
 
 class DebugScreen extends PureComponent<Props> {
-  props: Props;
-
   handleSettingToggle = (key: string) => {
     const { debug, dispatch } = this.props;
     dispatch(debugFlagToggle(key, !debug[key]));

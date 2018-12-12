@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -45,8 +45,6 @@ type Props = {
  * @prop [onPress] - Event fired on pressing the component.
  */
 class Avatar extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     avatarUrl: '',
     email: '',
@@ -59,7 +57,8 @@ class Avatar extends PureComponent<Props> {
 
   render() {
     const { avatarUrl, email, name, size, presence, onPress, realm, shape } = this.props;
-    const fullAvatarUrl = avatarUrl ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
+    const fullAvatarUrl =
+      typeof avatarUrl === 'string' ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
     const AvatarComponent = fullAvatarUrl ? ImageAvatar : TextAvatar;
 
     return (

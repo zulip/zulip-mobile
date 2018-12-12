@@ -13,8 +13,6 @@ type Props = {
 };
 
 export default class KeyboardAvoider extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { behavior, children, style, contentContainerStyle } = this.props;
 

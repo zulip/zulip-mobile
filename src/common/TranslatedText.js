@@ -15,7 +15,8 @@ type Props = {
  * @prop text - The text to be translated.
  */
 export default ({ text }: Props) => {
-  const message = text.text || text;
+  const message = typeof text === 'object' ? text.text : text;
+  const values = typeof text === 'object' ? text.values : undefined;
 
-  return <FormattedMessage id={message} defaultMessage={message} values={text.values} />;
+  return <FormattedMessage id={message} defaultMessage={message} values={values} />;
 };

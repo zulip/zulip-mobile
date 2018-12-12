@@ -26,8 +26,6 @@ type Props = {
 };
 
 export default class AutocompleteViewWrapper extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const {
       composeText,

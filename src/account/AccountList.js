@@ -13,8 +13,6 @@ type Props = {|
 |};
 
 export default class AccountList extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { accounts, onAccountSelect, onAccountRemove, auth } = this.props;
 

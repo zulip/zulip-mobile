@@ -22,9 +22,7 @@ type State = {
 };
 
 class TopicListScreen extends PureComponent<Props, State> {
-  props: Props;
-
-  state: State = {
+  state = {
     filter: '',
   };
 

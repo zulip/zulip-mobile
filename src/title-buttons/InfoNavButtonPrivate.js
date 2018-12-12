@@ -14,8 +14,6 @@ type Props = {
 };
 
 class InfoNavButtonPrivate extends PureComponent<Props> {
-  props: Props;
-
   handlePress = () => {
     const { dispatch, narrow } = this.props;
     dispatch(navigateToAccountDetails(narrow[0].operand));

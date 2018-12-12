@@ -23,8 +23,6 @@ type Props = {|
 |};
 
 class AccountPickScreen extends PureComponent<Props> {
-  props: Props;
-
   handleAccountSelect = (index: number) => {
     const { accounts, dispatch } = this.props;
     const { realm, apiKey } = accounts[index];

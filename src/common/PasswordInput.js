@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 
-import type { LocalizableText } from '../types';
 import Input from './Input';
+import type { Props as InputProps } from './Input';
 import { BRAND_COLOR } from '../styles';
 import Label from './Label';
 import Touchable from './Touchable';
@@ -22,9 +22,12 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
-  placeholder: LocalizableText,
-};
+// Prettier wants a ", >" here, which is silly.
+// prettier-ignore
+type Props = $Diff<InputProps,
+  // "mixed" here is a way of spelling "no matter *what* type
+  // `InputProps` allows for these, don't allow them here."
+  { secureTextEntry: mixed, autoCorrect: mixed, autoCapitalize: mixed }>;
 
 type State = {
   isHidden: boolean,
@@ -34,11 +37,10 @@ type State = {
  * A password input component using Input internally.
  * Provides a 'show'/'hide' button to show the password.
  *
- * @prop [placeholder] - Text to be shown when no value is entered.
+ * All props are passed through to `Input`.  See `Input` for descriptions.
  */
 export default class PasswordInput extends PureComponent<Props, State> {
-  props: Props;
-  state: State = {
+  state = {
     isHidden: true,
   };
   textInput: TextInput;
@@ -50,13 +52,12 @@ export default class PasswordInput extends PureComponent<Props, State> {
   };
 
   render() {
-    const { placeholder } = this.props;
     const { isHidden } = this.state;
 
     return (
       <View>
         <Input
-          placeholder={placeholder}
+          {...this.props}
           secureTextEntry={isHidden}
           autoCorrect={false}
           autoCapitalize="none"

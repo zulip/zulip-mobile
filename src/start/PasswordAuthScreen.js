@@ -39,8 +39,7 @@ type State = {
 };
 
 class PasswordAuthScreen extends PureComponent<Props, State> {
-  props: Props;
-  state: State = {
+  state = {
     progress: false,
     email: this.props.auth.email || '',
     password: '',

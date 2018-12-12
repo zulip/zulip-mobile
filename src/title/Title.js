@@ -21,8 +21,6 @@ type Props = {
 };
 
 class Title extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { narrow, color, editMessage } = this.props;
     const props = { color };

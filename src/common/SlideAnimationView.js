@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Animated } from 'react-native';
 
@@ -16,11 +16,11 @@ type Props = {
 };
 
 type State = {
-  animationIndex: any, // { AnimatedValue } from 'react-native'
+  animationIndex: Animated.Value,
 };
 
 export default class SlideAnimationView extends PureComponent<Props, State> {
-  state: State = {
+  state = {
     animationIndex: new Animated.Value(0),
   };
 

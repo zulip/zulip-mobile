@@ -25,7 +25,6 @@ type Props = {
  * */
 export default class GroupPmConversationItem extends PureComponent<Props> {
   context: Context;
-  props: Props;
 
   static contextTypes = {
     styles: () => null,

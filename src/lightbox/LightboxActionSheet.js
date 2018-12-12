@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Auth } from '../types';
 import downloadImage from './downloadImage';
 import share from './share';
@@ -29,7 +29,7 @@ type ButtonProps = {
 
 type ButtonType = {
   title: string,
-  onPress: (props: ButtonProps) => void | boolean | Promise<any>,
+  onPress: (props: ButtonProps) => void | Promise<void>,
 };
 
 const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
@@ -53,7 +53,7 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Download image', onPress: tryToDownloadImage },
   { title: 'Share image', onPress: shareImageDirectly },
   { title: 'Share link to image', onPress: shareLink },
-  { title: 'Cancel', onPress: () => false },
+  { title: 'Cancel', onPress: () => {} },
 ];
 
 export const constructActionSheetButtons = (): string[] =>

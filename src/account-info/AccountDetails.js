@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, Dimensions } from 'react-native';
 
@@ -21,7 +21,6 @@ type Props = {
 
 export default class AccountDetails extends PureComponent<Props, void> {
   context: Context;
-  props: Props;
 
   static contextTypes = {
     styles: () => null,
@@ -40,7 +39,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
     return (
       <View>
         <Avatar
-          avatarUrl={user.avatar_url ? getMediumAvatar(user.avatar_url) : null}
+          avatarUrl={typeof user.avatar_url === 'string' ? getMediumAvatar(user.avatar_url) : null}
           name={user.full_name}
           email={user.email}
           size={screenWidth}

@@ -79,7 +79,7 @@ type ButtonNormalProps = {
   text: string,
   iconStyle: Style,
   Icon?: Object,
-  onPress?: () => void | Promise<any>,
+  onPress?: () => void | Promise<void>,
 };
 
 const ButtonNormal = ({
@@ -111,7 +111,7 @@ type Props = {
   text: string,
   secondary: boolean,
   fullSize: boolean,
-  onPress: () => void | Promise<any>,
+  onPress: () => void | Promise<void>,
 };
 
 /**
@@ -131,8 +131,6 @@ type Props = {
  * @prop onPress - Event called on button press.
  */
 export default class ZulipButton extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     secondary: false,
     fullSize: false,

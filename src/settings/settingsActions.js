@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { SettingsChangeAction, SettingsState } from '../types';
 import { SETTINGS_CHANGE } from '../actionConstants';
 

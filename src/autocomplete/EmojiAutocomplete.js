@@ -19,8 +19,6 @@ type Props = {
 const MAX_CHOICES = 30;
 
 class EmojiAutocomplete extends PureComponent<Props> {
-  props: Props;
-
   onAutocomplete = (name: string): void => {
     this.props.onAutocomplete(name);
   };

@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 
 import type { Context, Style } from '../types';
@@ -12,12 +12,11 @@ type Props = {
   style?: Style,
   name?: string,
   unreadCount: number,
-  onPress: () => any,
+  onPress: () => void,
 };
 
 export default class NavButton extends PureComponent<Props> {
   context: Context;
-  props: Props;
 
   static contextTypes = {
     styles: () => null,

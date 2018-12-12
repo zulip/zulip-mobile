@@ -16,8 +16,6 @@ type Props = {
  * @prop [height] - Height of the component in pixels.
  */
 export default class ViewPlaceholder extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { width, height } = this.props;
     const style = { width, height };

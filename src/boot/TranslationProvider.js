@@ -81,8 +81,6 @@ type Props = {
 };
 
 class TranslationProvider extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { locale, children } = this.props;
 

@@ -41,8 +41,7 @@ type State = {
 
 export default class SmartUrlInput extends PureComponent<Props, State> {
   context: Context;
-  props: Props;
-  state: State = {
+  state = {
     value: '',
   };
   textInputRef: any;

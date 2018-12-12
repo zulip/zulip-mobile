@@ -27,8 +27,6 @@ type Props = {
 };
 
 export default class RealmInfo extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { name, iconUrl } = this.props;
 

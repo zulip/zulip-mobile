@@ -17,8 +17,6 @@ type Props = {
 };
 
 class AccountDetailsScreen extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { identity, dispatch, orientation, user, presence } = this.props;
     const title = {

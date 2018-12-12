@@ -39,8 +39,7 @@ type State = {
 
 class DevAuthScreen extends PureComponent<Props, State> {
   context: Context;
-  props: Props;
-  state: State = {
+  state = {
     progress: false,
     directAdmins: [],
     directUsers: [],

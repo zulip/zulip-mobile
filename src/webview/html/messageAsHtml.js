@@ -60,7 +60,7 @@ const messageBody = (
   message: Message | Outbox,
 ) => {
   const { id, isOutbox, last_edit_timestamp, reactions } = message;
-  const content = message.match_content || message.content;
+  const content = message.match_content !== undefined ? message.match_content : message.content;
   return template`
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
@@ -96,7 +96,10 @@ $!${divOpenHtml}
   }
 
   const { sender_full_name, sender_email, timestamp } = message;
-  const avatarUrl = message.avatar_url || getGravatarFromEmail(message.sender_email);
+  const avatarUrl =
+    typeof message.avatar_url === 'string'
+      ? message.avatar_url
+      : getGravatarFromEmail(message.sender_email);
   const subheaderHtml = template`
 <div class="subheader">
   <div class="username">

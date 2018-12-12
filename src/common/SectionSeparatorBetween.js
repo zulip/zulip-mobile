@@ -8,8 +8,6 @@ type Props = {
 };
 
 export default class SectionSeparatorBetween extends PureComponent<Props> {
-  props: Props;
-
   render() {
     const { leadingItem, leadingSection } = this.props;
 

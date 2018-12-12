@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -15,12 +15,11 @@ import { connectPreserveOnBackOption } from '../utils/redux';
 type Props = {|
   dispatch: Dispatch,
   canGoBack: boolean,
-  title?: LocalizableText,
+  title: LocalizableText,
 |};
 
 class ModalNavBar extends PureComponent<Props> {
   context: Context;
-  props: Props;
 
   static contextTypes = {
     styles: () => null,

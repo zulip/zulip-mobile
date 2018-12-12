@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 /* eslint-disable react-native/no-unused-styles */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 type Props = {
   children: ChildrenArray<*>,
   accessibilityLabel?: string,
-  overlay: any,
+  overlay: ChildrenArray<*>,
   showOverlay: boolean,
   overlaySize: number,
   overlayColor: string,
@@ -65,8 +65,6 @@ type Props = {
  * @prop [onPress] - Event called on pressing the main component.
  */
 export default class ComponentWithOverlay extends PureComponent<Props> {
-  props: Props;
-
   static defaultProps = {
     showOverlay: true,
     overlaySize: 0,

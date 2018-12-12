@@ -27,8 +27,6 @@ type Props = {|
 |};
 
 class EmojiRow extends PureComponent<Props> {
-  props: Props;
-
   handlePress = () => {
     const { name, onPress } = this.props;
     onPress(name);
