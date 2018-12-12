@@ -35,6 +35,30 @@ Many fixes and improvements, including:
   a server was rendered in a broken way, looking empty. (#3182)
 
 
+### Full changes for developers (since 21.0.104)
+
+#### Workflow improvements
+
+* `tools/test` accepts a `--fix` option.  (177d3eaa9)
+
+
+#### Architecture, interface, and quality improvements
+
+* New internal API `withGetText` for acquiring a handy
+  string-translating function, to use in any part of the app that
+  isn't a React component. (#2812; c22dfee9b^..9eaa05c27)
+* New experimental internal API for the (server) API bindings:
+  `import api from ...`, then `api.sendMessage(...)` etc.
+  (63ae59808^..acb979cf5)
+* We no longer write `props: Props`, or where applicable
+  `state: State`, at the top of each React component; the type
+  arguments to `PureComponent` or `Component` express that already.
+  (7e3becfba, c5df77962)
+* A good swath of our uses of `any` and `Object` are replaced with
+  real types, and 20 more files are marked strict-local; 60 to go.
+  (9a0df7416^..60f14ed83)
+
+
 ## (beta) 21.0.104 (2018-12-05)
 
 This was a beta version that did not become a production release;
