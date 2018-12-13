@@ -581,7 +581,7 @@ export type UnreadStream = {
   unread: number,
 };
 
-export type NotificationCommon = {
+export type NotificationCommon = {|
   alert: string,
   content: string,
   content_truncated: string, // boolean
@@ -598,22 +598,25 @@ export type NotificationCommon = {
   time: string,
   user: string,
   zulip_message_id: string,
-};
+|};
 
-export type NotificationPrivate = NotificationCommon & {
+export type NotificationPrivate = {|
+  ...$Exact<NotificationCommon>,
   recipient_type: 'private',
-};
+|};
 
-export type NotificationGroup = NotificationCommon & {
+export type NotificationGroup = {|
+  ...$Exact<NotificationCommon>,
   pm_users: string, // comma separated ids
   recipient_type: 'private',
-};
+|};
 
-export type NotificationStream = NotificationCommon & {
+export type NotificationStream = {|
+  ...$Exact<NotificationCommon>,
   recipient_type: 'stream',
   stream: string,
   topic: string,
-};
+|};
 
 export type Notification = NotificationPrivate | NotificationGroup | NotificationStream;
 
