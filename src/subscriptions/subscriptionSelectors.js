@@ -31,7 +31,7 @@ export const getIsActiveStreamSubscribed = (narrow: Narrow): Selector<boolean> =
     return subscriptions.find(sub => narrow[0].operand === sub.name) !== undefined;
   });
 
-export const getSubscribedStreams: Selector<Stream[]> = createSelector(
+export const getSubscribedStreams: Selector<Subscription[]> = createSelector(
   getStreams,
   getSubscriptions,
   (allStreams, allSubscriptions) =>
