@@ -348,10 +348,11 @@ export type RealmState = {|
   isAdmin: boolean,
 |};
 
-export type TopicExtended = Topic & {
+export type TopicExtended = {|
+  ...$Exact<Topic>,
   isMuted: boolean,
   unreadCount: number,
-};
+|};
 
 export type TopicsState = {
   [number]: Topic[],

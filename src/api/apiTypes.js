@@ -205,10 +205,10 @@ export type Subscription = {|
   stream_weekly_traffic: number,
 |};
 
-export type Topic = {
+export type Topic = {|
   name: string,
   max_id: number,
-};
+|};
 
 /**
  * A Zulip user.
