@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+shopt -s extglob
+
 this_file=$(readlink -f "${BASH_SOURCE[0]}")
 root=${this_file%/*/*}
 
@@ -7,11 +10,14 @@ root=${this_file%/*/*}
 
 rn_gh_base_url=https://raw.githubusercontent.com/facebook/react-native
 
+# Fetch the package.json of the given RN version.
 get_rn_pjson() {
     local version=$1
     curl -s "${rn_gh_base_url}/${version}"/package.json
 }
 
+# Set the given dep and version in our package.json,
+# regardless of which kind of dependency it is.
 set_version() {
     local dep=$1 version=$2
     local subst=$(printf 's/"%s":\ "\K .*? (?= " )/%s/x' \
@@ -22,14 +28,31 @@ set_version() {
 cmd_rn() {
     (( $# == 1 )) || usage
     local version_git=$1
+    [[ "${version_git}" = v* ]] || usage
+
     local tmpdir=$(mktemp -d)
+    local rn_pjson="${tmpdir}"/deps.json
     get_rn_pjson "${version_git}" \
         | jq '.devDependencies + .dependencies + .peerDependencies' \
-             >"${tmpdir}"/deps.json
-    for dep in react react-test-renderer flow-bin; do
-        set_version "${dep}" "$(jq -r ".[\"${dep}\"]" <"${tmpdir}"/deps.json)"
-    done
+             >"${rn_pjson}"
+
     set_version react-native "${version_git#v}"
+    for dep in react react-test-renderer flow-bin; do
+        set_version "${dep}" "$(jq -r ".[\"${dep}\"]" <"${rn_pjson}")"
+    done
+
+    yarn
+
+    echo
+    echo "Upgraded.  Diff:"
+    git diff -U0 package.json
+
+    local changelog_anchor="${version_git//@(v|.)}"
+    cat <<EOF
+
+Changelog:
+  https://github.com/react-native-community/react-native-releases/blob/master/CHANGELOG.md#${changelog_anchor}
+EOF
 }
 
 usage() {
