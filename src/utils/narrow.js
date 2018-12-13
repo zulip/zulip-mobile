@@ -70,7 +70,7 @@ export const SEARCH_NARROW = (query: string): Narrow => [
   },
 ];
 
-type NarrowCases<T> = {
+type NarrowCases<T> = {|
   home: () => T,
   pm: (email: string) => T,
   groupPm: (emails: string[]) => T,
@@ -80,7 +80,7 @@ type NarrowCases<T> = {
   stream: (name: string) => T,
   topic: (streamName: string, topic: string) => T,
   search: (query: string) => T,
-};
+|};
 
 /* prettier-ignore */
 export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {

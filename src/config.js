@@ -8,7 +8,7 @@ import { FIRST_UNREAD_ANCHOR } from './constants';
 const isDevelopment = process.env.NODE_ENV === 'development';
 const isEmulator = NativeModules.RNDeviceInfo ? DeviceInfo.isEmulator() : false;
 
-type Config = {
+type Config = {|
   startup: {
     narrow: ?Narrow,
     anchor: number,
@@ -26,7 +26,7 @@ type Config = {
   enableErrorConsoleLogging: boolean,
   trackServerEvents: string[],
   serverDataOnStartup: string[],
-};
+|};
 
 const config: Config = {
   startup: {

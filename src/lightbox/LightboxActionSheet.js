@@ -6,31 +6,31 @@ import shareImage from './shareImage';
 import { showToast } from '../utils/info';
 import { getFullUrl } from '../utils/url';
 
-type DownloadImageType = {
+type DownloadImageType = {|
   src: string,
   auth: Auth,
-};
+|};
 
-type ShareLinkType = {
+type ShareLinkType = {|
   src: string,
   auth: Auth,
-};
+|};
 
-type ExecuteActionSheetActionType = {
+type ExecuteActionSheetActionType = {|
   title: string,
   src: string,
   auth: Auth,
-};
+|};
 
-type ButtonProps = {
+type ButtonProps = {|
   auth: Auth,
   src: string,
-};
+|};
 
-type ButtonType = {
+type ButtonType = {|
   title: string,
   onPress: (props: ButtonProps) => void | Promise<void>,
-};
+|};
 
 const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
   try {

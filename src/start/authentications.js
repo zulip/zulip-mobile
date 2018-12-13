@@ -2,12 +2,12 @@
 import type { AuthenticationMethods } from '../types';
 import { IconPrivate, IconGoogle, IconGitHub, IconTerminal } from '../common/Icons';
 
-type AuthenticationMethodDetails = {
+type AuthenticationMethodDetails = {|
   method: string,
   name: string,
   Icon: Object,
   handler: string,
-};
+|};
 
 const authentications: AuthenticationMethodDetails[] = [
   {

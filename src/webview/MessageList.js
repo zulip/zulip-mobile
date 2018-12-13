@@ -191,7 +191,7 @@ class MessageList extends Component<Props> {
   }
 }
 
-type OuterProps = {
+type OuterProps = {|
   narrow: Narrow,
 
   /* Remaining props are derived from `narrow` by default. */
@@ -205,7 +205,7 @@ type OuterProps = {
   fetching?: Fetching,
   showMessagePlaceholders?: boolean,
   typingUsers?: User[],
-};
+|};
 
 export default connect((state: GlobalState, props: OuterProps) => {
   // TODO Ideally this ought to be a caching selector that doesn't change

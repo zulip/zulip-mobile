@@ -32,10 +32,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type EmptyMessage = {
+type EmptyMessage = {|
   isFunc: Narrow => boolean,
   text: string,
-};
+|};
 
 const messages: EmptyMessage[] = [
   { isFunc: isHomeNarrow, text: 'No messages on server' },

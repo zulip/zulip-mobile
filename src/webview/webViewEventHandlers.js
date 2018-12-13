@@ -17,13 +17,13 @@ import {
 } from '../actions';
 import { showActionSheet } from '../message/messageActionSheet';
 
-type MessageListEventReady = {
+type MessageListEventReady = {|
   type: 'ready',
-};
+|};
 
 // The user scrolled in the message list, or we pretended they did.  We may
 // need to fetch more messages, or mark some messages as read.
-type MessageListEventScroll = {
+type MessageListEventScroll = {|
   type: 'scroll',
 
   // The height (in logical pixels?) of the entire message list document
@@ -42,51 +42,51 @@ type MessageListEventScroll = {
   // The latest message ID of all those in view either before or after
   // this scroll event.
   endMessageId: number,
-};
+|};
 
-type MessageListEventAvatar = {
+type MessageListEventAvatar = {|
   type: 'avatar',
   fromEmail: string,
-};
+|};
 
-type MessageListEventNarrow = {
+type MessageListEventNarrow = {|
   type: 'narrow',
   narrow: string,
   fromEmail: string,
-};
+|};
 
-type MessageListEventImage = {
+type MessageListEventImage = {|
   type: 'image',
   src: string,
   messageId: number,
-};
+|};
 
-type MessageListEventReaction = {
+type MessageListEventReaction = {|
   type: 'reaction',
   messageId: number,
   name: string,
   code: string,
   reactionType: string,
   voted: boolean,
-};
+|};
 
-type MessageListEventUrl = {
+type MessageListEventUrl = {|
   type: 'url',
   href: string,
   messageId: number,
-};
+|};
 
-type MessageListEventLongPress = {
+type MessageListEventLongPress = {|
   type: 'longPress',
   target: 'message' | 'header',
   messageId: number,
-};
+|};
 
-type MessageListEventDebug = {
+type MessageListEventDebug = {|
   type: 'debug',
-};
+|};
 
-type MessageListEventError = {
+type MessageListEventError = {|
   type: 'error',
   details: {
     message: string,
@@ -95,7 +95,7 @@ type MessageListEventError = {
     column: number,
     error: Object,
   },
-};
+|};
 
 export type MessageListEvent =
   | MessageListEventReady

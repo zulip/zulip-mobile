@@ -62,9 +62,9 @@ const styles = StyleSheet.create({
   },
 });
 
-type ButtonInProgressProps = {
+type ButtonInProgressProps = {|
   frameStyle: Style,
-};
+|};
 
 const ButtonInProgress = ({ frameStyle }: ButtonInProgressProps) => (
   <View style={frameStyle}>
@@ -72,7 +72,7 @@ const ButtonInProgress = ({ frameStyle }: ButtonInProgressProps) => (
   </View>
 );
 
-type ButtonNormalProps = {
+type ButtonNormalProps = {|
   frameStyle: Style,
   touchTargetStyle: Style,
   textStyle: Style,
@@ -80,7 +80,7 @@ type ButtonNormalProps = {
   iconStyle: Style,
   Icon?: Object,
   onPress?: () => void | Promise<void>,
-};
+|};
 
 const ButtonNormal = ({
   frameStyle,
