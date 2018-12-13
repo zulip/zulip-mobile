@@ -2,7 +2,7 @@
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
 import type { Dispatch, GetState, Narrow } from '../types';
-import { focusPing, typing } from '../api';
+import { reportPresence, typing } from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
@@ -25,7 +25,7 @@ export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = 
 
   lastFocusPing = new Date();
 
-  const response = await focusPing(auth, hasFocus, newUserInput);
+  const response = await reportPresence(auth, hasFocus, newUserInput);
   dispatch({
     type: PRESENCE_RESPONSE,
     presence: response.presences,
