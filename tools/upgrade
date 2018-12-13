@@ -1,0 +1,50 @@
+#!/bin/bash
+
+this_file=$(readlink -f "${BASH_SOURCE[0]}")
+root=${this_file%/*/*}
+
+. "${root}"/tools/lib/ensure-coreutils.sh
+
+rn_gh_base_url=https://raw.githubusercontent.com/facebook/react-native
+
+get_rn_pjson() {
+    local version=$1
+    curl -s "${rn_gh_base_url}/${version}"/package.json
+}
+
+set_version() {
+    local dep=$1 version=$2
+    local subst=$(printf 's/"%s":\ "\K .*? (?= " )/%s/x' \
+                         "${dep}" "${version}")
+    perl -i -0pe "${subst}" "${root}"/package.json
+}
+
+cmd_rn() {
+    (( $# == 1 )) || usage
+    local version_git=$1
+    local tmpdir=$(mktemp -d)
+    get_rn_pjson "${version_git}" \
+        | jq '.devDependencies + .dependencies + .peerDependencies' \
+             >"${tmpdir}"/deps.json
+    for dep in react react-test-renderer flow-bin; do
+        set_version "${dep}" "$(jq -r ".[\"${dep}\"]" <"${tmpdir}"/deps.json)"
+    done
+    set_version react-native "${version_git#v}"
+}
+
+usage() {
+    cat >&2 <<EOF
+usage: ${BASH_SOURCE[0]} CMD [OPTS...]
+
+  ${BASH_SOURCE[0]} rn v0.NN.M
+
+  Upgrade react-native and closely-related dependencies.
+
+EOF
+    exit 2
+}
+
+case "$1" in
+    rn) shift; cmd_rn "$@";;
+    *) usage;;
+esac
