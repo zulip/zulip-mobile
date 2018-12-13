@@ -429,8 +429,7 @@ documentBody.addEventListener('click', function (e) {
   if (target.matches('.header')) {
     sendMessage({
       type: 'narrow',
-      narrow: target.getAttribute('data-narrow'),
-      id: target.getAttribute('data-id')
+      narrow: target.getAttribute('data-narrow')
     });
     return;
   }
