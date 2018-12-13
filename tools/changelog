@@ -1,0 +1,54 @@
+#!/bin/bash
+
+this_file=$(readlink -f "${BASH_SOURCE[0]}")
+root=${this_file%/*/*}
+changelog_file=${root}/docs/changelog.md
+
+# Extract the most recent changelog entry.
+extract() {
+    perl -0n \
+      -e 'print $& if (
+            /^ \#\#\ (?!Unreleased)  # any h2 not matching "Unreleased"
+             .*?                     # ... up to the first following ...
+             (?= ^ \#\#\  )          # h2.
+            /xms)' \
+      "${changelog_file}"
+}
+
+# Undo line-wrapping.
+unwrap() {
+    fmt --tagged-paragraph --width=2000
+}
+
+# Print changelog entry, with line-wrapping removed.
+cmd_unwrap() {
+    extract | unwrap
+}
+
+show_hash() {
+    apk_file="${root}"/android/app/build/outputs/apk/release/app-release.apk
+    output=$(sha256sum "${apk_file}")
+    hash=${output%% *}
+    basename="${apk_file##*/}"
+    echo "sha256sum -c <<EOF
+${hash}  ${basename}
+EOF"
+}
+
+# Print release notes suitable for posting on e.g. GitHub.
+cmd_notes() {
+    cmd_unwrap
+    echo '```'; show_hash; echo '```'
+}
+
+usage() {
+    cat >&2 <<EOF
+usage: ${BASH_SOURCE[0]} { unwrap | notes }
+EOF
+}
+
+case "$1" in
+    unwrap) shift; cmd_unwrap "$@";;
+    notes) shift; cmd_notes "$@";;
+    *) usage;;
+esac
