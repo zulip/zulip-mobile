@@ -8,10 +8,10 @@ import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
-let lastFocusPing = new Date();
+let lastReportPresence = new Date();
 let lastTypingStart = new Date();
 
-export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = false) => async (
+export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean = false) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
@@ -20,11 +20,11 @@ export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = 
     return; // not logged in
   }
 
-  if (differenceInSeconds(new Date(), lastFocusPing) < 60) {
+  if (differenceInSeconds(new Date(), lastReportPresence) < 60) {
     return;
   }
 
-  lastFocusPing = new Date();
+  lastReportPresence = new Date();
 
   const response = await api.reportPresence(auth, hasFocus, newUserInput);
   dispatch({

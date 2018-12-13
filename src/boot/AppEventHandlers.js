@@ -19,7 +19,7 @@ import {
   appOrientation,
   appState,
   initSafeAreaInsets,
-  sendFocusPing,
+  reportPresence,
   trySendMessages,
 } from '../actions';
 
@@ -56,7 +56,7 @@ class AppEventHandlers extends PureComponent<Props> {
 
   handleAppStateChange = state => {
     const { dispatch, unreadCount } = this.props;
-    dispatch(sendFocusPing(state === 'active'));
+    dispatch(reportPresence(state === 'active'));
     dispatch(appState(state === 'active'));
     if (state === 'background' && Platform.OS === 'android') {
       NativeModules.BadgeCountUpdaterModule.setBadgeCount(unreadCount);

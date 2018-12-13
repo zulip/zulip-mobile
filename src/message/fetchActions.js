@@ -36,7 +36,7 @@ import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
 import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
 import { initNotifications, realmInit } from '../realm/realmActions';
 import { initStreams } from '../streams/streamsActions';
-import { sendFocusPing } from '../users/usersActions';
+import { reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
 
 export const messageFetchStart = (
@@ -201,8 +201,8 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
   dispatch(fetchRestOfInitialData());
 
   dispatch(initNotifications());
-  dispatch(sendFocusPing());
-  setInterval(() => dispatch(sendFocusPing()), 60 * 1000);
+  dispatch(reportPresence());
+  setInterval(() => dispatch(reportPresence()), 60 * 1000);
 };
 
 export const uploadImage = (narrow: Narrow, uri: string, name: string) => async (
