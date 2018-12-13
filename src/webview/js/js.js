@@ -572,7 +572,6 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     sendMessage({
       type: 'narrow',
       narrow: target.getAttribute('data-narrow'),
-      id: target.getAttribute('data-id'),
     });
     return;
   }

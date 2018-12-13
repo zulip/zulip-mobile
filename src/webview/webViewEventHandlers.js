@@ -52,7 +52,6 @@ type MessageListEventAvatar = {|
 type MessageListEventNarrow = {|
   type: 'narrow',
   narrow: string,
-  fromEmail: string,
 |};
 
 type MessageListEventImage = {|
