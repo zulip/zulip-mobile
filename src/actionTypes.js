@@ -227,14 +227,14 @@ export type InitialFetchCompleteAction = {
   type: typeof INITIAL_FETCH_COMPLETE,
 };
 
-export type StreamUpdateDetails = {
+export type StreamUpdateDetails = {|
   description: string,
   history_public_to_subscribers: boolean,
   invite_only: boolean,
   is_announcement_only: boolean,
   name: string,
   stream_id: number,
-};
+|};
 
 export type ServerEvent = {
   id: number,
