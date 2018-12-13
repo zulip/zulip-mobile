@@ -4,6 +4,8 @@ this_file=$(readlink -f "${BASH_SOURCE[0]}")
 root=${this_file%/*/*}
 changelog_file=${root}/docs/changelog.md
 
+. "${root}"/tools/lib/ensure-coreutils.sh
+
 # Extract the most recent changelog entry.
 extract() {
     perl -0n \
