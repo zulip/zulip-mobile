@@ -1,16 +1,16 @@
 /* @flow strict-local */
 import type { PresenceState } from '../types';
 
-export type Auth = {
+export type Auth = {|
   realm: string,
   apiKey: string,
   email: string,
-};
+|};
 
-export type DevUser = {
+export type DevUser = {|
   realm_uri: string,
   email: string,
-};
+|};
 
 /**
  * Type of an emoji reaction to a message.
@@ -216,7 +216,7 @@ export type Topic = {|
  * For details on the properties, see the Zulip API docs:
  *   https://zulipchat.com/api/get-all-users#response
  */
-export type User = {
+export type User = {|
   avatar_url: ?string,
   bot_type?: number,
   bot_owner?: string,
@@ -227,17 +227,17 @@ export type User = {
   profile_data?: empty, // TODO describe actual type
   timezone: string,
   user_id: number,
-};
+|};
 
-export type ApiResponse = {
+export type ApiResponse = {|
   result: string,
   msg: string,
-};
+|};
 
-export type ApiResponseSuccess = {
+export type ApiResponseSuccess = {|
   result: 'success',
   msg: '',
-};
+|};
 
 /** List of error codes at https://github.com/zulip/zulip/blob/master/zerver/lib/exceptions.py */
 
@@ -257,27 +257,27 @@ export type ApiErrorCode =
   | 'INVITATION_FAILED'
   | 'INVALID_ZULIP_SERVER';
 
-export type ApiResponseError = {
+export type ApiResponseError = {|
   code?: ApiErrorCode,
   msg: string,
   result: 'error',
-};
+|};
 
 export type ApiResponseWithPresence = ApiResponse & {
   server_timestamp: number,
   presences: PresenceState,
 };
 
-export type AuthenticationMethods = {
+export type AuthenticationMethods = {|
   dev: boolean,
   github: boolean,
   google: boolean,
   ldap: boolean,
   password: boolean,
   remoteuser: boolean,
-};
+|};
 
-export type ApiServerSettings = {
+export type ApiServerSettings = {|
   authentication_methods: AuthenticationMethods,
   email_auth_enabled: boolean,
   msg: string,
@@ -288,6 +288,6 @@ export type ApiServerSettings = {
   realm_uri: string,
   require_email_format_usernames: boolean,
   zulip_version: string,
-};
+|};
 
 export type TypingOperation = 'start' | 'stop';

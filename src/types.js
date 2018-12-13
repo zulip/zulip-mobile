@@ -33,17 +33,17 @@ export type Style = DangerouslyImpreciseStyleProp;
 
 export type Orientation = 'LANDSCAPE' | 'PORTRAIT';
 
-export type Dimensions = {
+export type Dimensions = {|
   bottom: number,
   left: number,
   right: number,
   top: number,
-};
+|};
 
-export type InputSelectionType = {
+export type InputSelectionType = {|
   start: number,
   end: number,
-};
+|};
 
 /**
  * An identity belonging to this user in some Zulip org, including a secret.
@@ -71,22 +71,22 @@ export type Account = Auth;
 export type Identity = $Diff<Auth, { apiKey: string }>;
 
 /** An aggregate of all the reactions with one emoji to one message. */
-export type AggregatedReaction = {
+export type AggregatedReaction = {|
   code: string,
   count: number,
   name: string,
   selfReacted: boolean,
   type: string,
-};
+|};
 
 /** A user, as seen in the `display_recipient` of a PM `Message`. */
-export type PmRecipientUser = {
+export type PmRecipientUser = {|
   email: string,
   full_name: string,
   id: number,
   is_mirror_dummy: boolean,
   short_name: string,
-};
+|};
 
 /**
  * An index on `MessagesState`, listing messages in each narrow.
@@ -106,20 +106,20 @@ export type NarrowsState = {
  * See also `NarrowsState`, which is an index on this data that identifies
  * messages belonging to a given narrow.
  */
-export type MessagesState = {
+export type MessagesState = {|
   [id: number]: $Exact<Message>,
-};
+|};
 
 export type UserIdMap = {
   [userId: string]: User,
 };
 
-export type UserGroup = {
+export type UserGroup = {|
   description: string,
   id: number,
   members: number[],
   name: string,
-};
+|};
 
 /** See ClientPresence, and the doc linked there. */
 export type UserStatus = 'active' | 'idle' | 'offline';
@@ -133,11 +133,11 @@ export type UserStatus = 'active' | 'idle' | 'offline';
  *
  * For our logic to implement this aggregation, see `getAggregatedPresence`.
  */
-export type PresenceAggregated = {
+export type PresenceAggregated = {|
   client: string,
   status: UserStatus,
   timestamp: number,
-};
+|};
 
 /**
  * A user's presence status, as reported by a specific client.
@@ -151,7 +151,7 @@ export type PresenceAggregated = {
  * @prop client
  * @prop pushable - Legacy; unused.
  */
-export type ClientPresence = {
+export type ClientPresence = {|
   status: UserStatus,
   timestamp: number,
   client: string,
@@ -163,7 +163,7 @@ export type ClientPresence = {
    * considered legacy.
    */
   pushable: boolean,
-};
+|};
 
 /**
  * A user's presence status, including all information from all their clients.
@@ -172,10 +172,10 @@ export type ClientPresence = {
  *   to display the user's presence status.
  * @prop (client) - The information reported by each of the user's clients.
  */
-export type Presence = {
+export type Presence = {|
   aggregated: PresenceAggregated,
   [client: string]: ClientPresence,
-};
+|};
 
 /**
  * Info about how complete our knowledge is of the messages in some narrow.
@@ -186,59 +186,59 @@ export type Presence = {
  *   the narrow.  Of course their may always be new messages, but we should
  *   learn about them through events; so again, no need to fetch more.
  */
-export type CaughtUp = {
+export type CaughtUp = {|
   older: boolean,
   newer: boolean,
-};
+|};
 
-export type Fetching = {
+export type Fetching = {|
   older: boolean,
   newer: boolean,
-};
+|};
 
 export type StreamsState = Stream[];
 
 export type SubscriptionsState = Subscription[];
 
-export type HeartbeatEvent = {
+export type HeartbeatEvent = {|
   type: 'heartbeat',
   id: number,
-};
+|};
 
-export type MessageEvent = {
+export type MessageEvent = {|
   type: 'message',
   id: number,
-};
+|};
 
-export type PresenceEvent = {
+export type PresenceEvent = {|
   type: 'message',
   id: number,
   email: string,
   presence: { [client: string]: ClientPresence },
   server_timestamp: number,
-};
+|};
 
-export type UpdateMessageFlagsEvent = {
+export type UpdateMessageFlagsEvent = {|
   type: 'update_message_flags',
   id: number,
   all: boolean,
   flag: 'read' | '???',
   messages: number[],
   operation: 'add' | '???',
-};
+|};
 
-export type EditMessage = {
+export type EditMessage = {|
   id: number,
   content: string,
   topic: string,
-};
+|};
 
 export type AccountsState = Account[];
 
-export type Debug = {
+export type Debug = {|
   highlightUnreadMessages: boolean,
   doNotMarkMessagesAsRead: boolean,
-};
+|};
 
 /**
  * Miscellaneous non-persistent state about this run of the app.
@@ -248,7 +248,7 @@ export type Debug = {
  *   but they may also be on an associated info screen or have navigated
  *   away entirely.
  */
-export type SessionState = {
+export type SessionState = {|
   eventQueueId: number,
   editMessage: ?EditMessage,
   isOnline: boolean,
@@ -260,15 +260,15 @@ export type SessionState = {
   outboxSending: boolean,
   safeAreaInsets: Dimensions,
   debug: Debug,
-};
+|};
 
 /**
  * Info about how completely we know the messages in each narrow of
  * MessagesState.
  */
-export type CaughtUpState = {
+export type CaughtUpState = {|
   [narrow: string]: CaughtUp,
-};
+|};
 
 export type FetchingState = {
   [narrow: string]: Fetching,
@@ -280,22 +280,22 @@ export type FlagsState = {
   },
 };
 
-export type MigrationsState = {
+export type MigrationsState = {|
   version?: string,
-};
+|};
 
-export type LoadingState = {
+export type LoadingState = {|
   presence: boolean,
   subscriptions: boolean,
   streams: boolean,
   unread: boolean,
   users: boolean,
-};
+|};
 
 export type MuteTuple = [string, string];
 export type MuteState = MuteTuple[];
 
-export type NavigationState = {
+export type NavigationState = {|
   index: number,
   isTransitioning: boolean,
   key: string,
@@ -308,15 +308,15 @@ export type NavigationState = {
       narrow?: Narrow,
     },
   }>,
-};
+|};
 
-export type RealmBot = {
+export type RealmBot = {|
   email: string,
   full_name: string,
   is_admin: boolean,
   is_bot: true,
   user_id: number,
-};
+|};
 
 /**
  * State with general info about a Zulip organization; our state subtree `realm`.
@@ -354,15 +354,15 @@ export type TopicExtended = {|
   unreadCount: number,
 |};
 
-export type TopicsState = {
+export type TopicsState = {|
   [number]: Topic[],
-};
+|};
 
 export type ThemeName = 'default' | 'night';
 
-export type Context = {
+export type Context = {|
   styles: AppStyles,
-};
+|};
 
 export type SettingsState = {|
   locale: string,
@@ -373,12 +373,12 @@ export type SettingsState = {|
   streamNotification: boolean,
 |};
 
-export type TypingState = {
+export type TypingState = {|
   [normalizedRecipients: string]: {
     time: number,
     userIds: number[],
   },
-};
+|};
 
 /**
  * A message we're in the process of sending.
@@ -412,21 +412,21 @@ export type Outbox = {|
   match_content?: void,
 |};
 
-export type StreamUnreadItem = {
+export type StreamUnreadItem = {|
   stream_id: number,
   topic: string,
   unread_message_ids: number[],
-};
+|};
 
-export type HuddlesUnreadItem = {
+export type HuddlesUnreadItem = {|
   user_ids_string: string,
   unread_message_ids: number[],
-};
+|};
 
-export type PmsUnreadItem = {
+export type PmsUnreadItem = {|
   sender_id: number,
   unread_message_ids: number[],
-};
+|};
 
 export type UnreadStreamsState = StreamUnreadItem[];
 export type UnreadHuddlesState = HuddlesUnreadItem[];
@@ -435,9 +435,9 @@ export type UnreadMentionsState = number[];
 
 export type AlertWordsState = string[];
 
-export type DraftsState = {
+export type DraftsState = {|
   [narrow: string]: string,
-};
+|};
 
 /**
  * A collection of (almost) all users in the Zulip org; our `users` state subtree.
@@ -455,18 +455,18 @@ export type UserGroupsState = UserGroup[];
  * @prop (email) - Indexes over all users for which the app has received a
  *   presence status.
  */
-export type PresenceState = {
+export type PresenceState = {|
   [email: string]: Presence,
-};
+|};
 
 export type OutboxState = Outbox[];
 
-export type UnreadState = {
+export type UnreadState = {|
   streams: UnreadStreamsState,
   huddles: UnreadHuddlesState,
   pms: UnreadPmsState,
   mentions: UnreadMentionsState,
-};
+|};
 
 /**
  * Our complete Redux state tree.
@@ -555,24 +555,24 @@ export type RenderedSectionDescriptor = {|
   data: $ReadOnlyArray<RenderedMessageDescriptor | RenderedTimeDescriptor>,
 |};
 
-export type DraftState = {
+export type DraftState = {|
   [narrow: string]: string,
-};
+|};
 
-export type TimingItemType = {
+export type TimingItemType = {|
   text: string,
   startMs: number,
   endMs: number,
-};
+|};
 
-export type UnreadTopic = {
+export type UnreadTopic = {|
   isMuted: boolean,
   key: string,
   topic: string,
   unread: number,
-};
+|};
 
-export type UnreadStream = {
+export type UnreadStream = {|
   color: string,
   data: UnreadTopic[],
   isMuted: boolean,
@@ -580,7 +580,7 @@ export type UnreadStream = {
   key: string,
   streamName: string,
   unread: number,
-};
+|};
 
 export type NotificationCommon = {|
   alert: string,
@@ -621,59 +621,59 @@ export type NotificationStream = {|
 
 export type Notification = NotificationPrivate | NotificationGroup | NotificationStream;
 
-export type NamedUser = {
+export type NamedUser = {|
   id: number,
   email: string,
   full_name: string,
-};
+|};
 
-export type TabNavigationOptionsPropsType = {
+export type TabNavigationOptionsPropsType = {|
   isFocussed: boolean,
   tintColor: string,
-};
+|};
 
-export type NeverSubscribedStream = {
+export type NeverSubscribedStream = {|
   description: string,
   invite_only: boolean,
   is_old_stream: boolean,
   name: string,
   stream_id: number,
-};
+|};
 
 /**
  * Summary of a PM conversation (either 1:1 or group PMs).
  */
-export type PmConversationData = {
+export type PmConversationData = {|
   ids: string,
   msgId: number,
   recipients: string,
   timestamp: number,
   unread: number,
-};
+|};
 
-export type InitialDataBase = {
+export type InitialDataBase = {|
   last_event_id: number,
   msg: string,
   queue_id: number,
-};
+|};
 
-export type InitialDataAlertWords = {
+export type InitialDataAlertWords = {|
   alert_words: string[],
-};
+|};
 
-export type InitialDataMessage = {
+export type InitialDataMessage = {|
   max_message_id: number,
-};
+|};
 
-export type InitialDataMutedTopics = {
+export type InitialDataMutedTopics = {|
   muted_topics: MuteTuple[],
-};
+|};
 
-export type InitialDataPresence = {
+export type InitialDataPresence = {|
   presences: PresenceState,
-};
+|};
 
-export type InitialDataRealm = {
+export type InitialDataRealm = {|
   max_icon_file_size: number,
   realm_add_emoji_by_admins_only: boolean,
   realm_allow_community_topic_editing: boolean,
@@ -715,17 +715,17 @@ export type InitialDataRealm = {
   realm_uri: string,
   realm_video_chat_provider: string,
   realm_waiting_period_threshold: number,
-};
+|};
 
-export type InitialDataRealmEmoji = {
+export type InitialDataRealmEmoji = {|
   realm_emoji: RealmEmojiState,
-};
+|};
 
-export type InitialDataRealmFilters = {
+export type InitialDataRealmFilters = {|
   realm_filters: RealmFilter[],
-};
+|};
 
-export type InitialDataRealmUser = {
+export type InitialDataRealmUser = {|
   avatar_source: 'G',
   avatar_url: string,
   avatar_url_medium: string,
@@ -738,19 +738,19 @@ export type InitialDataRealmUser = {
   realm_non_active_users: User[],
   realm_users: User[],
   user_id: number,
-};
+|};
 
-export type InitialDataRealmUserGroups = {
+export type InitialDataRealmUserGroups = {|
   realm_user_groups: UserGroup[],
-};
+|};
 
-export type InitialDataSubscription = {
+export type InitialDataSubscription = {|
   never_subscribed: NeverSubscribedStream[],
   subscriptions: Subscription[],
   unsubscribed: Subscription[],
-};
+|};
 
-export type InitialDataUpdateDisplaySettings = {
+export type InitialDataUpdateDisplaySettings = {|
   default_language: string,
   emojiset: string,
   emojiset_choices: { [string]: string },
@@ -760,9 +760,9 @@ export type InitialDataUpdateDisplaySettings = {
   timezone: string,
   translate_emoticons: boolean,
   twenty_four_hour_time: boolean,
-};
+|};
 
-export type InitialDataUpdateGlobalNotifications = {
+export type InitialDataUpdateGlobalNotifications = {|
   default_desktop_notifications: boolean,
   enable_desktop_notifications: boolean,
   enable_digest_emails: boolean,
@@ -777,9 +777,9 @@ export type InitialDataUpdateGlobalNotifications = {
   message_content_in_email_notifications: boolean,
   pm_content_in_desktop_notifications: boolean,
   realm_name_in_notifications: boolean,
-};
+|};
 
-export type InitialDataUpdateMessageFlags = {
+export type InitialDataUpdateMessageFlags = {|
   unread_msgs: {
     streams: UnreadStreamsState,
     huddles: UnreadHuddlesState,
@@ -787,7 +787,7 @@ export type InitialDataUpdateMessageFlags = {
     pms: UnreadPmsState,
     mentions: UnreadMentionsState,
   },
-};
+|};
 
 export type InitialData = InitialDataBase &
   InitialDataAlertWords &

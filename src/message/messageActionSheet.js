@@ -136,11 +136,11 @@ type ButtonCode = $Keys<typeof allButtonsRaw>;
 
 const allButtons: { [ButtonCode]: ButtonDescription } = allButtonsRaw;
 
-type ConstructSheetParams = {
+type ConstructSheetParams = {|
   backgroundData: BackgroundData,
   message: Message,
   narrow: Narrow,
-};
+|};
 
 export const constructHeaderActionButtons = ({
   backgroundData: { mute, subscriptions },

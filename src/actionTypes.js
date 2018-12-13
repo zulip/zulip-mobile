@@ -171,12 +171,12 @@ export type AccountRemoveAction = {
   index: number,
 };
 
-export type LoginSuccessAction = {
+export type LoginSuccessAction = {|
   type: typeof LOGIN_SUCCESS,
   realm: string,
   email: string,
   apiKey: string,
-};
+|};
 
 export type LogoutAction = {
   type: typeof LOGOUT,
