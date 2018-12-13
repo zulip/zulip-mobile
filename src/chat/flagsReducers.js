@@ -18,20 +18,7 @@ import {
 } from '../actionConstants';
 import { deeperMerge } from '../utils/misc';
 
-const initialState = {
-  read: {},
-  starred: {},
-  collapsed: {},
-  mentions: {},
-  wildcard_mentions: {},
-  summarize_in_home: {},
-  summarize_in_stream: {},
-  force_expand: {},
-  force_collapse: {},
-  has_alert_word: {},
-  historical: {},
-  is_me_message: {},
-};
+const initialState = {};
 
 const addFlagsForMessages = (
   state: FlagsState,
