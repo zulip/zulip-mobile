@@ -347,10 +347,10 @@ export type EventUpdateMessageAction = ServerEvent & {
   user_id: number,
 };
 
-export type EventReactionCommon = ServerEvent &
-  Reaction & {
-    message_id: number,
-  };
+export type EventReactionCommon = ServerEvent & {
+  ...$Exact<Reaction>,
+  message_id: number,
+};
 
 export type EventReactionAddAction = ServerEvent &
   EventReactionCommon & {
