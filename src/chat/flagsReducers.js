@@ -15,6 +15,7 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
   ACCOUNT_SWITCH,
+  LOGOUT,
 } from '../actionConstants';
 import { deeperMerge } from '../utils/misc';
 
@@ -104,6 +105,7 @@ const markMessagesRead = (state: FlagsState, action: MarkMessagesReadAction): Fl
 
 export default (state: FlagsState = initialState, action: FlagsAction): FlagsState => {
   switch (action.type) {
+    case LOGOUT:
     case DEAD_QUEUE:
     case ACCOUNT_SWITCH:
       return initialState;
