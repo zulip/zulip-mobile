@@ -64,7 +64,7 @@ const messageBody = (
   return template`
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
-$!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
+$!${messageTagsAsHtml(!!(flags.starred && !!flags.starred[id]), last_edit_timestamp)}
 $!${messageReactionListAsHtml(reactions, ownEmail, allRealmEmojiById)}
 `;
 };
