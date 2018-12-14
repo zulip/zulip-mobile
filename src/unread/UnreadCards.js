@@ -54,6 +54,8 @@ class UnreadCards extends PureComponent<Props, State> {
     setTimeout(() => this.props.dispatch(doNarrow(topicNarrow(stream, topic))));
   };
 
+  handleRefresh = () => {};
+
   render() {
     const { isLoading, conversations, unreadStreamsAndTopics, ...restProps } = this.props;
     const { refreshing } = this.state;
@@ -78,6 +80,7 @@ class UnreadCards extends PureComponent<Props, State> {
       <SectionList
         stickySectionHeadersEnabled
         initialNumToRender={20}
+        onRefresh={this.handleRefresh}
         refreshing={refreshing}
         sections={unreadCards}
         keyExtractor={item => item.key}
