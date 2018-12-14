@@ -26,6 +26,7 @@ describe('caughtUpReducers', () => {
         narrow: HOME_NARROW,
       });
 
+      // $FlowFixMe passing a mismatched action type
       const newState = caughtUpReducers(initialState, action);
 
       expect(newState).toBe(initialState);
@@ -45,6 +46,7 @@ describe('caughtUpReducers', () => {
         type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         anchor: 1,
+        // $FlowFixMe bogus messages in action
         messages: [{ id: 1 }, { id: 2 }, { id: 3 }],
         numBefore: 5,
         numAfter: 5,
@@ -75,6 +77,7 @@ describe('caughtUpReducers', () => {
       type: MESSAGE_FETCH_COMPLETE,
       narrow: [],
       anchor: 3,
+      // $FlowFixMe bogus messages in action
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
       numBefore: 2,
       numAfter: 2,
@@ -104,6 +107,7 @@ describe('caughtUpReducers', () => {
       type: MESSAGE_FETCH_COMPLETE,
       narrow: [],
       anchor: 3,
+      // $FlowFixMe bogus messages in action
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
       numBefore: 2,
       numAfter: 2,
@@ -148,6 +152,7 @@ describe('caughtUpReducers', () => {
       },
     };
 
+    // $FlowFixMe bogus messages in action
     const newState = caughtUpReducers(initialState, action);
 
     expect(newState).toEqual(expectedState);
@@ -179,6 +184,7 @@ describe('caughtUpReducers', () => {
       },
     };
 
+    // $FlowFixMe bogus messages in action
     const newState = caughtUpReducers(initialState, action);
 
     expect(newState).toEqual(expectedState);
@@ -210,6 +216,7 @@ describe('caughtUpReducers', () => {
       },
     };
 
+    // $FlowFixMe bogus messages in action
     const newState = caughtUpReducers(initialState, action);
 
     expect(newState).toEqual(expectedState);
@@ -240,6 +247,7 @@ describe('caughtUpReducers', () => {
       },
     };
 
+    // $FlowFixMe bogus messages in action
     const newState = caughtUpReducers(initialState, action);
 
     expect(newState).toEqual(expectedState);
@@ -252,6 +260,7 @@ describe('caughtUpReducers', () => {
       type: MESSAGE_FETCH_COMPLETE,
       narrow: ALL_PRIVATE_NARROW,
       anchor: LAST_MESSAGE_ANCHOR,
+      // $FlowFixMe bogus messages in action
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
       numBefore: 10,
       numAfter: 0,
@@ -302,6 +311,7 @@ describe('caughtUpReducers', () => {
         },
       };
 
+      // $FlowFixMe bogus messages in action
       const newState = caughtUpReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
@@ -340,6 +350,7 @@ describe('caughtUpReducers', () => {
         },
       };
 
+      // $FlowFixMe bogus messages in action
       const newState = caughtUpReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);

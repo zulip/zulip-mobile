@@ -127,49 +127,49 @@ export type DeadQueueAction = {|
   type: typeof DEAD_QUEUE,
 |};
 
-export type InitSafeAreaInsetsAction = {
+export type InitSafeAreaInsetsAction = {|
   type: typeof INIT_SAFE_AREA_INSETS,
   safeAreaInsets: Dimensions,
-};
+|};
 
-export type AppOrientationAction = {
+export type AppOrientationAction = {|
   type: typeof APP_ORIENTATION,
   orientation: Orientation,
-};
+|};
 
-export type StartEditMessageAction = {
+export type StartEditMessageAction = {|
   type: typeof START_EDIT_MESSAGE,
   messageId: number,
   message: string,
   topic: string,
-};
+|};
 
-export type CancelEditMessageAction = {
+export type CancelEditMessageAction = {|
   type: typeof CANCEL_EDIT_MESSAGE,
-};
+|};
 
-export type DebugFlagToggleAction = {
+export type DebugFlagToggleAction = {|
   type: typeof DEBUG_FLAG_TOGGLE,
   key: string,
   value: string,
-};
+|};
 
 export type NavigateAction = NavigationNavigateAction;
 
-export type AccountSwitchAction = {
+export type AccountSwitchAction = {|
   type: typeof ACCOUNT_SWITCH,
   index: number,
-};
+|};
 
-export type RealmAddAction = {
+export type RealmAddAction = {|
   type: typeof REALM_ADD,
   realm: string,
-};
+|};
 
-export type AccountRemoveAction = {
+export type AccountRemoveAction = {|
   type: typeof ACCOUNT_REMOVE,
   index: number,
-};
+|};
 
 export type LoginSuccessAction = {|
   type: typeof LOGIN_SUCCESS,
@@ -178,54 +178,54 @@ export type LoginSuccessAction = {|
   apiKey: string,
 |};
 
-export type LogoutAction = {
+export type LogoutAction = {|
   type: typeof LOGOUT,
-};
+|};
 
-export type RealmInitAction = {
+export type RealmInitAction = {|
   type: typeof REALM_INIT,
   data: InitialData,
-};
+|};
 
-export type DeleteTokenPushAction = {
+export type DeleteTokenPushAction = {|
   type: typeof DELETE_TOKEN_PUSH,
-};
+|};
 
-export type SaveTokenPushAction = {
+export type SaveTokenPushAction = {|
   type: typeof SAVE_TOKEN_PUSH,
   pushToken: string,
   result: string,
   msg: string,
-};
+|};
 
-export type MessageFetchStartAction = {
+export type MessageFetchStartAction = {|
   type: typeof MESSAGE_FETCH_START,
   narrow: Narrow,
   numBefore: number,
   numAfter: number,
-};
+|};
 
-export type MessageFetchCompleteAction = {
+export type MessageFetchCompleteAction = {|
   type: typeof MESSAGE_FETCH_COMPLETE,
   messages: Message[],
   narrow: Narrow,
   anchor: number,
   numBefore: number,
   numAfter: number,
-};
+|};
 
-export type MarkMessagesReadAction = {
+export type MarkMessagesReadAction = {|
   type: typeof MARK_MESSAGES_READ,
   messageIds: number[],
-};
+|};
 
-export type InitialFetchStartAction = {
+export type InitialFetchStartAction = {|
   type: typeof INITIAL_FETCH_START,
-};
+|};
 
-export type InitialFetchCompleteAction = {
+export type InitialFetchCompleteAction = {|
   type: typeof INITIAL_FETCH_COMPLETE,
-};
+|};
 
 export type StreamUpdateDetails = {|
   ...$Exact<Stream>,
@@ -235,10 +235,10 @@ export type ServerEvent = {
   id: number,
 };
 
-export type EventAlertWordsAction = {
+export type EventAlertWordsAction = {|
   type: typeof INIT_ALERT_WORDS,
   alertWords: AlertWordsState,
-};
+|};
 
 export type EventRealmFiltersAction = any;
 export type EventUpdateGlobalNotificationsSettingsAction = ServerEvent & {
@@ -329,10 +329,10 @@ export type EventNewMessageAction = ServerEvent & {
   ownEmail: string,
 };
 
-export type EventMessageDeleteAction = {
+export type EventMessageDeleteAction = {|
   type: typeof EVENT_MESSAGE_DELETE,
   messageId: number,
-};
+|};
 export type EventUpdateMessageAction = ServerEvent & {
   type: typeof EVENT_UPDATE_MESSAGE,
   edit_timestamp: number,
@@ -478,15 +478,15 @@ export type EventTypingAction = EventTypingStartAction | EventTypingStopAction;
 
 export type EventAction = EventSubscriptionAction | EventUserAction;
 
-export type InitRealmEmojiAction = {
+export type InitRealmEmojiAction = {|
   type: typeof INIT_REALM_EMOJI,
   emojis: RealmEmojiState,
-};
+|};
 
-export type InitRealmFilterAction = {
+export type InitRealmFilterAction = {|
   type: typeof INIT_REALM_FILTER,
   filters: RealmFilter[],
-};
+|};
 
 export type RealmAction =
   | DeadQueueAction
@@ -507,76 +507,76 @@ export type FlagsAction =
   | EventUpdateMessageFlagsAction
   | MarkMessagesReadAction;
 
-export type SettingsChangeAction = {
+export type SettingsChangeAction = {|
   type: typeof SETTINGS_CHANGE,
   update: $Shape<SettingsState>,
-};
+|};
 
-export type DraftUpdateAction = {
+export type DraftUpdateAction = {|
   type: typeof DRAFT_UPDATE,
   narrow: Narrow,
   content: string,
-};
+|};
 
 export type DraftsAction = DraftUpdateAction | LogoutAction;
 
-export type DoNarrowAction = {
+export type DoNarrowAction = {|
   type: typeof DO_NARROW,
   narrow: Narrow,
-};
+|};
 
-export type PresenceResponseAction = {
+export type PresenceResponseAction = {|
   type: typeof PRESENCE_RESPONSE,
   presence: PresenceState,
   serverTimestamp: number,
-};
+|};
 
 export type PresenceAction = EventPresenceAction | PresenceResponseAction | RealmInitAction;
 
-export type MessageSendStartAction = {
+export type MessageSendStartAction = {|
   type: typeof MESSAGE_SEND_START,
   outbox: Outbox,
-};
+|};
 
-export type MessageSendCompleteAction = {
+export type MessageSendCompleteAction = {|
   type: typeof MESSAGE_SEND_COMPLETE,
   local_message_id: number,
-};
+|};
 
-export type DeleteOutboxMessageAction = {
+export type DeleteOutboxMessageAction = {|
   type: typeof DELETE_OUTBOX_MESSAGE,
   local_message_id: number,
-};
+|};
 
-export type ToggleOutboxSendingAction = {
+export type ToggleOutboxSendingAction = {|
   type: typeof TOGGLE_OUTBOX_SENDING,
   sending: boolean,
-};
+|};
 
-export type ClearTypingAction = {
+export type ClearTypingAction = {|
   type: typeof CLEAR_TYPING,
   outdatedNotifications: string[],
-};
+|};
 
 export type TypingAction = EventTypingAction | ClearTypingAction;
 
-export type InitStreamsAction = {
+export type InitStreamsAction = {|
   type: typeof INIT_STREAMS,
   streams: Stream[],
-};
+|};
 
-export type InitTopicsAction = {
+export type InitTopicsAction = {|
   type: typeof INIT_TOPICS,
   topics: Topic[],
   streamId: number,
-};
+|};
 
 export type TopicsAction = InitTopicsAction | AccountSwitchAction;
 
-export type InitSubscriptionsAction = {
+export type InitSubscriptionsAction = {|
   type: typeof INIT_SUBSCRIPTIONS,
   subscriptions: Subscription[],
-};
+|};
 
 export type AccountAction =
   | AccountSwitchAction
