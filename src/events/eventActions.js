@@ -1,7 +1,7 @@
 /* @flow */
 import { batchActions } from 'redux-batched-actions';
 
-import type { EventAction, Dispatch, GetState, GlobalState } from '../types';
+import type { Action, Dispatch, GetState, GlobalState } from '../types';
 import { pollForEvents } from '../api';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
@@ -10,7 +10,7 @@ import { getAuth } from '../selectors';
 import actionCreator from '../actionCreator';
 import progressiveTimeout from '../utils/progressiveTimeout';
 
-export const responseToActions = (state: GlobalState, response: Object): EventAction[] =>
+export const responseToActions = (state: GlobalState, response: Object): Action[] =>
   response.events
     .map(event => {
       eventMiddleware(state, event);
@@ -29,7 +29,7 @@ export const responseToActions = (state: GlobalState, response: Object): EventAc
       return true;
     });
 
-export const dispatchOrBatch = (dispatch: Dispatch, actions: EventAction[]) => {
+export const dispatchOrBatch = (dispatch: Dispatch, actions: $ReadOnlyArray<Action>) => {
   if (actions.length > 1) {
     dispatch(batchActions(actions));
   } else if (actions.length === 1) {
