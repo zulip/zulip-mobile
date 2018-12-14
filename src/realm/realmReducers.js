@@ -97,6 +97,7 @@ const eventRealmEmojiUpdate = (
 
 export default (state: RealmState = initialState, action: RealmAction): RealmState => {
   switch (action.type) {
+    case LOGOUT:
     case ACCOUNT_SWITCH:
       return initialState;
 
@@ -109,7 +110,6 @@ export default (state: RealmState = initialState, action: RealmAction): RealmSta
     case DELETE_TOKEN_PUSH:
       return deleteTokenPush(state, action);
 
-    case LOGOUT:
     case LOGIN_SUCCESS:
       return loginChange(state, action);
 
