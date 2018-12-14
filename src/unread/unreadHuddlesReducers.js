@@ -15,6 +15,7 @@ import {
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
+  LOGOUT,
 } from '../actionConstants';
 import { getRecipientsIds } from '../utils/recipient';
 import { addItemsToHuddleArray, removeItemsDeeply } from './unreadHelpers';
@@ -84,6 +85,7 @@ export default (
   action: UnreadAction,
 ): UnreadHuddlesState => {
   switch (action.type) {
+    case LOGOUT:
     case ACCOUNT_SWITCH:
       return initialState;
 
