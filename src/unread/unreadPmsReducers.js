@@ -15,6 +15,7 @@ import {
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
+  LOGOUT,
 } from '../actionConstants';
 import { addItemsToPmArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
@@ -71,6 +72,7 @@ const eventUpdateMessageFlags = (
 
 export default (state: UnreadPmsState = initialState, action: UnreadAction): UnreadPmsState => {
   switch (action.type) {
+    case LOGOUT:
     case ACCOUNT_SWITCH:
       return initialState;
 
