@@ -5,7 +5,7 @@ import type {
   RealmInitAction,
   EventAlertWordsAction,
 } from '../types';
-import { REALM_INIT, INIT_ALERT_WORDS } from '../actionConstants';
+import { REALM_INIT, INIT_ALERT_WORDS, ACCOUNT_SWITCH, LOGOUT } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
 const initialState = NULL_ARRAY;
@@ -21,6 +21,10 @@ export default (
   action: AlertWordsAction,
 ): AlertWordsState => {
   switch (action.type) {
+    case ACCOUNT_SWITCH:
+    case LOGOUT:
+      return initialState;
+
     case REALM_INIT:
       return realmInit(state, action);
 
