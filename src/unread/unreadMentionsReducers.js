@@ -15,6 +15,7 @@ import {
   EVENT_MESSAGE_DELETE,
   MARK_MESSAGES_READ,
   EVENT_UPDATE_MESSAGE_FLAGS,
+  LOGOUT,
 } from '../actionConstants';
 import { addItemsToArray, removeItemsFromArray } from '../utils/immutability';
 import { NULL_ARRAY } from '../nullObjects';
@@ -70,6 +71,7 @@ export default (
   action: UnreadAction,
 ): UnreadMentionsState => {
   switch (action.type) {
+    case LOGOUT:
     case ACCOUNT_SWITCH:
       return initialState;
 
