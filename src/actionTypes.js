@@ -496,9 +496,7 @@ export type RealmAction =
   | LoginSuccessAction
   | LogoutAction
   | InitRealmEmojiAction
-  | InitRealmFilterAction
-  | EventRealmFilterUpdateAction
-  | EventRealmEmojiUpdateAction;
+  | InitRealmFilterAction;
 
 export type AlertWordsAction = RealmInitAction | EventAlertWordsAction;
 
@@ -679,15 +677,23 @@ export type UserGroupsAction =
 
 export type Action =
   | AccountAction
+  | AlertWordsAction
   | CaughtUpAction
+  | DoNarrowAction
+  | DraftsAction
   | LoadingAction
   | MessageAction
+  | MessageFetchStartAction
   | MuteAction
   | NavAction
   | OutboxAction
+  | PresenceAction
+  | RealmAction
   | SessionAction
   | SettingsAction
   | StreamAction
   | SubscriptionsAction
+  | TopicsAction
+  | TypingAction
   | UnreadAction
   | UsersAction;
