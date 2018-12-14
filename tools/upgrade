@@ -18,6 +18,29 @@ get_rn_pjson() {
         || { echo >&2 "bad RN version: ${version}"; return 1; }
 }
 
+# Get all dependencies of the given RN version.
+#
+# Output is stored in the given associative array, which should
+# already have been declared with `local -A`.
+#
+# @param $1 version  In the form `v0.NN.M`.
+# @param $2 out      The name of an associative array.
+get_rn_deps_by_ref() {
+    local version_git=$1 out=$2
+    local rn_deps_txt=$( \
+      get_rn_pjson "${version_git}" \
+          | jq '.devDependencies + .dependencies + .peerDependencies
+                | to_entries | .[] | "\(.key) \(.value)"' \
+               -r)
+    {
+        local ref
+        IFS=$'\n'
+        for line in ${rn_deps_txt}; do
+            printf -v "${out}[${line% *}]" %s "${line#* }"
+        done
+    }
+}
+
 # Set the given dep and version in our package.json,
 # regardless of which kind of dependency it is.
 set_version() {
@@ -32,15 +55,13 @@ cmd_rn() {
     local version_git=$1
     [[ "${version_git}" = v* ]] || usage
 
-    local tmpdir=$(mktemp -d)
-    local rn_pjson="${tmpdir}"/deps.json
-    get_rn_pjson "${version_git}" \
-        | jq '.devDependencies + .dependencies + .peerDependencies' \
-             >"${rn_pjson}"
+    local -A rn_deps
+    get_rn_deps_by_ref "${version_git}" rn_deps
 
+    local dep
     set_version react-native "${version_git#v}"
     for dep in react react-test-renderer flow-bin; do
-        set_version "${dep}" "$(jq -r ".[\"${dep}\"]" <"${rn_pjson}")"
+        set_version "${dep}" "${rn_deps["${dep}"]}"
     done
 
     yarn
