@@ -34,7 +34,9 @@ export const isMessageRead = (
   flags: FlagsState,
   subscriptions: Subscription[],
   mute: MuteState,
-): boolean => shouldBeMuted(message, HOME_NARROW, subscriptions, mute) || !!flags.read[message.id];
+): boolean =>
+  shouldBeMuted(message, HOME_NARROW, subscriptions, mute)
+  || !!(flags.read && !!flags.read[message.id]);
 
 export const findFirstUnread = (
   messages: $ReadOnlyArray<Message | Outbox>,
