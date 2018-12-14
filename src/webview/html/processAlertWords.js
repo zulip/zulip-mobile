@@ -61,7 +61,7 @@ const process_message = function (words: string[],
 export default (content: string, id: number, alertWords: string[], flags: FlagsState): string => {
   // This is kind of funny style, but lets us borrow the webapp's code near
   // verbatim, inside `process_message`.
-  let message = { content, alerted: flags.has_alert_word[id] };
+  let message = { content, alerted: !!(flags.has_alert_word && flags.has_alert_word[id]) };
   process_message(alertWords, message);
   return message.content;
 };
