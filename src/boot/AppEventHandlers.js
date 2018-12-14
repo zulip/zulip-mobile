@@ -6,7 +6,13 @@ import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 're
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
-import type { ChildrenArray, Dispatch, GlobalState, UserIdMap } from '../types';
+import type {
+  ChildrenArray,
+  Dispatch,
+  GlobalState,
+  Orientation as OrientationT,
+  UserIdMap,
+} from '../types';
 import { getSession, getUnreadByHuddlesMentionsAndPMs, getUsersById } from '../selectors';
 import {
   addNotificationListener,
@@ -40,7 +46,7 @@ type Props = {|
 |};
 
 class AppEventHandlers extends PureComponent<Props> {
-  handleOrientationChange = (orientation: string) => {
+  handleOrientationChange = (orientation: OrientationT) => {
     const { dispatch } = this.props;
     dispatch(appOrientation(orientation));
   };
