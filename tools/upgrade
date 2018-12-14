@@ -69,11 +69,16 @@ cmd_rn() {
     done
     echo
 
+    local subst=$(printf 's/\\[version\\]\\n \\K .*? $/%s/xms' \
+                         "${rn_deps[flow-bin]}" )
+    perl -i -0pe "${subst}" "${root}"/.flowconfig
+
     yarn
 
     echo
     echo "Upgraded.  Diff:"
     git diff -U0 package.json
+    git diff -U1 .flowconfig
 
     local changelog_anchor="${version_git//@(v|.)}"
     cat <<EOF
