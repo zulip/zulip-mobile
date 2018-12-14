@@ -58,11 +58,16 @@ cmd_rn() {
     local -A rn_deps
     get_rn_deps_by_ref "${version_git}" rn_deps
 
-    local dep
+    local dep version
+    echo "Versions:"
+    printf "  %-20s %s\n" react-native "${version_git#v}"
     set_version react-native "${version_git#v}"
     for dep in react react-test-renderer flow-bin; do
-        set_version "${dep}" "${rn_deps["${dep}"]}"
+        version=${rn_deps["${dep}"]}
+        printf "  %-20s %s\n" "${dep}" "${version}"
+        set_version "${dep}" "${version}"
     done
+    echo
 
     yarn
 
