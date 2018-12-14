@@ -13,6 +13,7 @@ import {
   EVENT_STREAM_REMOVE,
   EVENT_STREAM_UPDATE,
   ACCOUNT_SWITCH,
+  LOGOUT,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
@@ -53,6 +54,7 @@ export default (state: StreamsState = initialState, action: StreamAction): Strea
     case EVENT_STREAM_UPDATE:
       return eventStreamUpdate(state, action);
 
+    case LOGOUT:
     case ACCOUNT_SWITCH:
       return initialState;
 
