@@ -182,13 +182,17 @@ export type RealmEmojiState = $ReadOnly<{
 
 export type RealmFilter = [string, string, number];
 
-export type Stream = {|
-  stream_id: number,
+export type StreamOptions = {|
   description: string,
   name: string,
   invite_only: boolean,
   is_announcement_only: boolean,
   history_public_to_subscribers: boolean,
+|};
+
+export type Stream = {|
+  ...$Exact<StreamOptions>,
+  stream_id: number,
 |};
 
 export type Subscription = {|
