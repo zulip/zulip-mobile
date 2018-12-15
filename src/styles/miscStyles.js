@@ -36,6 +36,7 @@ export type MiscStyles = {
   field: Style,
   lineSeparator: Style,
   alignBottom: Style,
+  emptyStateContainer: Style,
 };
 
 type Props = {|
@@ -148,5 +149,11 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   alignBottom: {
     flexDirection: 'column',
     justifyContent: 'flex-end',
+  },
+  emptyStateContainer: {
+    flex: 1,
+    padding: 16,
+    marginTop: 8,
+    justifyContent: 'center',
   },
 });

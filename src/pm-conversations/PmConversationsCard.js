@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import type { Context, Dispatch, GlobalState, PmConversationData, PresenceState } from '../types';
-import { Label, LoadingIndicator, ZulipButton } from '../common';
+import { LoadingIndicator, ZulipButton, SearchEmptyState } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
 import { getLoading, getPresence, getRecentConversations, getAllUsersByEmail } from '../selectors';
@@ -18,12 +18,6 @@ const componentStyles = StyleSheet.create({
   button: {
     margin: 8,
     flex: 1,
-  },
-  emptySlate: {
-    flex: 1,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    fontSize: 20,
   },
   row: {
     flexDirection: 'row',
@@ -79,7 +73,7 @@ class PmConversationsCard extends PureComponent<Props> {
           />
         </View>
         {conversations.length === 0 ? (
-          <Label style={componentStyles.emptySlate} text="No recent conversations" />
+          <SearchEmptyState text="No recent conversations" />
         ) : (
           <PmConversationList
             dispatch={dispatch}

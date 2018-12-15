@@ -6,13 +6,7 @@ import Label from './Label';
 import ZulipButton from './ZulipButton';
 import { nullFunction } from '../nullObjects';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    marginTop: 8,
-    justifyContent: 'center',
-  },
+const componentStyles = StyleSheet.create({
   text: {
     fontSize: 18,
     textAlign: 'center',
@@ -35,14 +29,24 @@ export default class SearchEmptyState extends PureComponent<Props> {
     buttonAction: nullFunction,
   };
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
+    const { styles } = this.context;
     const { text, buttonText, buttonAction } = this.props;
 
     return (
-      <View style={styles.container}>
-        <Label style={styles.text} text={text} />
+      <View style={styles.emptyStateContainer}>
+        <Label style={componentStyles.text} text={text} />
         {buttonAction !== nullFunction && (
-          <ZulipButton style={styles.button} secondary text={buttonText} onPress={buttonAction} />
+          <ZulipButton
+            style={componentStyles.button}
+            secondary
+            text={buttonText}
+            onPress={buttonAction}
+          />
         )}
       </View>
     );
