@@ -194,7 +194,7 @@ export const constructMessageActionButtons = ({
     buttons.push('deleteMessage');
   }
   if (!isAnOutboxMessage(message)) {
-    if (message.id in flags.starred) {
+    if (flags.starred && message.id in flags.starred) {
       buttons.push('unstarMessage');
     } else {
       buttons.push('starMessage');
