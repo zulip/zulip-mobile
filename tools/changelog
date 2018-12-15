@@ -1,0 +1,74 @@
+#!/bin/bash
+
+this_file=$(readlink -f "${BASH_SOURCE[0]}")
+root=${this_file%/*/*}
+changelog_file=${root}/docs/changelog.md
+
+. "${root}"/tools/lib/ensure-coreutils.sh
+
+# Extract the most recent changelog entry.
+extract() {
+    perl -0n \
+      -e 'print $& if (
+            /^ \#\#\ (?!Unreleased)  # any h2 not matching "Unreleased"
+             .*?                     # ... up to the first following ...
+             (?= ^ \#\#\  )          # h2.
+            /xms)' \
+      "${changelog_file}"
+}
+
+# Extract the most recent user-highlights entry.
+extract_highlights() {
+    perl -0n \
+      -e 'print $& if (
+            /^ \#\#\#\ Highlights\ for\ users
+                                     # any matching h3
+             .*?                     # ... up to the first following ...
+             (?= ^ \#{1,3}\  )          # h3 or less.
+            /xms)' \
+      "${changelog_file}"
+}
+
+# Undo line-wrapping.
+unwrap() {
+    fmt --tagged-paragraph --width=2000
+}
+
+# Print changelog entry, with line-wrapping removed.
+cmd_unwrap() {
+    extract | unwrap
+}
+
+# Print user-highlights entry, with line-wrapping removed.
+cmd_user() {
+    extract_highlights | tail -n +2 | unwrap
+}
+
+show_hash() {
+    apk_file="${root}"/android/app/build/outputs/apk/release/app-release.apk
+    output=$(sha256sum "${apk_file}")
+    hash=${output%% *}
+    basename="${apk_file##*/}"
+    echo "sha256sum -c <<EOF
+${hash}  ${basename}
+EOF"
+}
+
+# Print release notes suitable for posting on e.g. GitHub.
+cmd_notes() {
+    cmd_unwrap
+    echo '```'; show_hash; echo '```'
+}
+
+usage() {
+    cat >&2 <<EOF
+usage: ${BASH_SOURCE[0]} { unwrap | user | notes }
+EOF
+}
+
+case "$1" in
+    unwrap) shift; cmd_unwrap "$@";;
+    user) shift; cmd_user "$@";;
+    notes) shift; cmd_notes "$@";;
+    *) usage;;
+esac

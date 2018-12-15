@@ -5,16 +5,23 @@ set -e
 
 usage() {
     cat >&2 <<EOF
-usage: tools/test [--full] [SUITES]
+usage: tools/test [--full | --diff COMMIT] [SUITES]
 
 Run our tests.
+
+By default, run only on files changed in this branch,
+as found by \`tools/info changed-files\`.
 
 Options:
   --coverage  Collect test-coverage information.  Only meaningful
               with --full.
   --fix       Fix issues found, where possible.
-  --full      Run on all files (default: only files changed in this
-              branch, as found by \`tools/info changed-files\`.)
+  --full      Run on all files, not only changed files.
+  --diff COMMIT
+              Run only on files that differ from the given commit.
+              (E.g., \`--diff @\` for files with uncommitted changes;
+              \`--diff @~10\` for files changed in last 10 commits; or see
+              \`git help revisions\` for many more ways to name a commit.)
 
 Suites:
   flow
@@ -31,13 +38,14 @@ EOF
 }
 
 coverage=
+files=branch
 fix=
-full=
 suites=()
 while (( $# )); do
     case "$1" in
         --coverage) coverage=1; shift;;
-        --full) full=1; shift;;
+        --diff) shift; files=diff:"$1"; shift;;
+        --full) files=full; shift;;
         --fix) fix=1; shift;;
         flow|lint|jest|prettier|spell)
             suites+=("$1"); shift;;
@@ -47,7 +55,7 @@ done
 
 if [ -z "$suites" ]; then
     suites=(flow lint jest prettier)
-    [ -z "$full" ] && suites+=(spell)
+    [ "$files" != full ] && suites+=(spell)
 fi
 
 
@@ -59,16 +67,45 @@ cd "$rootdir"
 PATH=node_modules/.bin:"$PATH"
 
 files_js() {
-    if [ -n "$full" ]; then
-        echo src/
-        return
-    fi
-    tools/info changed-files | grep '^src/.*\.js$' || :
+    case "$files" in
+        full)
+            echo src/
+            ;;
+        branch)
+            tools/info changed-files | grep '^src/.*\.js$' || :
+            ;;
+        diff:*)
+            commitish="${files#diff:}"
+            git diff --name-only "$commitish" | grep '^src/.*\.js$' || :
+            ;;
+    esac
 }
 
 run_lint() {
     (( $# )) || return 0
     eslint ${fix:+--fix} --max-warnings=0 "$@"
+}
+
+run_jest() {
+    # Unlike the others, this inspects "$files" for itself.
+    case "$files" in
+        full)
+            if [ -n "$coverage" ]; then
+                jest --coverage
+                coveralls <./coverage/lcov.info
+            else
+                jest
+            fi
+            ;;
+        branch)
+            jest --changedSince "$(tools/info upstream-ref)"
+            ;;
+        diff:*)
+            file_list=( $(files_js) )
+            (( ${#file_list[@]} )) || return 0
+            jest --findRelatedTests "${file_list[@]}"
+            ;;
+    esac
 }
 
 run_prettier() {
@@ -97,16 +134,7 @@ for suite in "${suites[@]}"; do
             run_lint $(files_js)
             ;;
         jest)
-            if [ -n "$full" ]; then
-                if [ -n "$coverage" ]; then
-                    jest --coverage
-                    coveralls <./coverage/lcov.info
-                else
-                    jest
-                fi
-            else
-                jest --changedSince "$(tools/info upstream-ref)"
-            fi
+            run_jest
             ;;
         prettier)
             run_prettier $(files_js)

@@ -8,10 +8,10 @@ import { getStreamFromId } from '../selectors';
 import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   stream: Stream,
-};
+|};
 
 class EditStreamScreen extends PureComponent<Props> {
   handleComplete = (name: string, description: string, isPrivate: boolean) => {

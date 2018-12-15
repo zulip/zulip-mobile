@@ -5,10 +5,10 @@ import { Animated, Easing } from 'react-native';
 
 import type { Style } from '../types';
 
-type Props = {
+type Props = {|
   style?: Style,
   children: ChildrenArray<*>,
-};
+|};
 
 export default class AnimatedRotateComponent extends PureComponent<Props> {
   rotation = new Animated.Value(0);

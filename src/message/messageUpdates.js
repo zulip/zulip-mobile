@@ -7,7 +7,7 @@ type Props = $ReadOnly<{
   messages: $ReadOnlyArray<$ReadOnly<{ id: number }>>,
 }>;
 
-type TransitionProps = {
+type TransitionProps = {|
   sameNarrow: boolean,
   noMessages: boolean,
   noNewMessages: boolean,
@@ -16,7 +16,7 @@ type TransitionProps = {
   oldMessagesAdded: boolean,
   newMessagesAdded: boolean,
   messagesReplaced: boolean,
-};
+|};
 
 export type UpdateStrategy =
   | 'default'

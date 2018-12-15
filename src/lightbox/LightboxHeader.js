@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import type { Style } from '../types';
+import { shortTime, humanDate } from '../utils/date';
 import { Avatar, Touchable } from '../common';
 import Icon from '../common/Icons';
 
@@ -37,25 +37,23 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   senderName: string,
-  subheader: string,
   timestamp: number,
-  from: number,
-  to: number,
-  style: Style,
   avatarUrl: string,
-  realm: string,
   onPressBack: () => void,
-};
+|};
 
 export default class LightboxHeader extends PureComponent<Props> {
   render() {
-    const { onPressBack, senderName, subheader, ...restProps } = this.props;
+    const { onPressBack, senderName, timestamp, avatarUrl } = this.props;
+    const displayDate = humanDate(new Date(timestamp * 1000));
+    const time = shortTime(new Date(timestamp * 1000));
+    const subheader = `${displayDate} at ${time}`;
 
     return (
       <View style={componentStyles.wrapper}>
-        <Avatar size={36} {...restProps} />
+        <Avatar size={36} avatarUrl={avatarUrl} />
         <View style={componentStyles.text}>
           <Text style={componentStyles.name} numberOfLines={1}>
             {senderName}

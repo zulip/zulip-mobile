@@ -9,10 +9,10 @@ import LanguagePicker from './LanguagePicker';
 import { getSettings } from '../selectors';
 import { settingsChange } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   locale: string,
-};
+|};
 
 class LanguageScreen extends PureComponent<Props> {
   handleLocaleChange = (value: string) => {

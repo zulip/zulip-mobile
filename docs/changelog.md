@@ -9,7 +9,7 @@ to users in general on the app stores is typically a few days later.
 ## Unreleased
 
 
-## 21.1.105 (2018-12-11)
+## 21.2.106 (2018-12-12)
 
 ### Highlights for users (since 20.0.103)
 
@@ -24,6 +24,18 @@ Many fixes and improvements, including:
 * Fixed bug: a draft message typed just after starting the app was
   lost.
 * Complete translations for Italian and Korean.
+
+
+### Full changes for users (since 21.1.105)
+
+* Fixed a regression in 21.0.104: the autocomplete popup would sometimes
+  not respond when touched. (#3209)
+
+
+## (beta) 21.1.105 (2018-12-11)
+
+This was a beta version that did not become a production release;
+see above.
 
 
 ### Full changes for users (since 21.0.104)

@@ -17,12 +17,12 @@ import {
   navigateToStreamSubscribers,
 } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   isAdmin: boolean,
   stream: Stream,
   subscription: Subscription,
-};
+|};
 
 class StreamScreen extends PureComponent<Props> {
   context: Context;
@@ -82,7 +82,6 @@ class StreamScreen extends PureComponent<Props> {
           label="Notifications"
           defaultValue={subscription.push_notifications}
           onValueChange={this.toggleStreamPushNotification}
-          customStyle={this.context.styles.backgroundColor}
         />
         <OptionDivider />
         <View style={styles.padding}>

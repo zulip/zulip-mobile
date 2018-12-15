@@ -1,0 +1,106 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+shopt -s extglob
+
+this_file=$(readlink -f "${BASH_SOURCE[0]}")
+root=${this_file%/*/*}
+
+. "${root}"/tools/lib/ensure-coreutils.sh
+
+rn_gh_base_url=https://raw.githubusercontent.com/facebook/react-native
+
+# Fetch the package.json of the given RN version.
+get_rn_pjson() {
+    local version=$1
+    curl -sf "${rn_gh_base_url}/${version}"/package.json \
+        || { echo >&2 "bad RN version: ${version}"; return 1; }
+}
+
+# Get all dependencies of the given RN version.
+#
+# Output is stored in the given associative array, which should
+# already have been declared with `local -A`.
+#
+# @param $1 version  In the form `v0.NN.M`.
+# @param $2 out      The name of an associative array.
+get_rn_deps_by_ref() {
+    local version_git=$1 out=$2
+    local rn_deps_txt=$( \
+      get_rn_pjson "${version_git}" \
+          | jq '.devDependencies + .dependencies + .peerDependencies
+                | to_entries | .[] | "\(.key) \(.value)"' \
+               -r)
+    {
+        local ref
+        IFS=$'\n'
+        for line in ${rn_deps_txt}; do
+            printf -v "${out}[${line% *}]" %s "${line#* }"
+        done
+    }
+}
+
+# Set the given dep and version in our package.json,
+# regardless of which kind of dependency it is.
+set_version() {
+    local dep=$1 version=$2
+    local subst=$(printf 's/"%s":\ "\K .*? (?= " )/%s/x' \
+                         "${dep}" "${version}")
+    perl -i -0pe "${subst}" "${root}"/package.json
+}
+
+cmd_rn() {
+    (( $# == 1 )) || usage
+    local version_git=$1
+    [[ "${version_git}" = v* ]] || usage
+
+    local -A rn_deps
+    get_rn_deps_by_ref "${version_git}" rn_deps
+
+    local dep version
+    echo "Versions:"
+    printf "  %-20s %s\n" react-native "${version_git#v}"
+    set_version react-native "${version_git#v}"
+    for dep in react react-test-renderer flow-bin; do
+        version=${rn_deps["${dep}"]}
+        printf "  %-20s %s\n" "${dep}" "${version}"
+        set_version "${dep}" "${version}"
+    done
+    echo
+
+    local subst=$(printf 's/\\[version\\]\\n \\K .*? $/%s/xms' \
+                         "${rn_deps[flow-bin]}" )
+    perl -i -0pe "${subst}" "${root}"/.flowconfig
+
+    yarn
+
+    echo
+    echo "Upgraded.  Diff:"
+    git diff -U0 package.json
+    git diff -U1 .flowconfig
+
+    local changelog_anchor="${version_git//@(v|.)}"
+    cat <<EOF
+
+Changelog:
+  https://github.com/react-native-community/react-native-releases/blob/master/CHANGELOG.md#${changelog_anchor}
+EOF
+}
+
+usage() {
+    cat >&2 <<EOF
+usage: ${BASH_SOURCE[0]} CMD [OPTS...]
+
+  ${BASH_SOURCE[0]} rn v0.NN.M
+
+  Upgrade react-native and closely-related dependencies.
+
+EOF
+    exit 2
+}
+
+case "$1" in
+    rn) shift; cmd_rn "$@";;
+    *) usage;;
+esac

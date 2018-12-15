@@ -4,7 +4,7 @@ import { Animated } from 'react-native';
 
 import type { ChildrenArray, Style } from '../types';
 
-type Props = {
+type Props = {|
   style: Style,
   children: ChildrenArray<*>,
   from: number,
@@ -13,11 +13,11 @@ type Props = {
   movement: 'in' | 'out',
   duration: number,
   easing?: (value: number) => number,
-};
+|};
 
-type State = {
+type State = {|
   animationIndex: Animated.Value,
-};
+|};
 
 export default class SlideAnimationView extends PureComponent<Props, State> {
   state = {

@@ -9,7 +9,7 @@ import { OfflineNotice, ZulipStatusBar } from '../common';
 import Chat from '../chat/Chat';
 import ChatNavBar from '../nav/ChatNavBar';
 
-type Props = {
+type Props = {|
   navigation: NavigationScreenProp<*> & {
     state: {
       params: {
@@ -17,7 +17,7 @@ type Props = {
       },
     },
   },
-};
+|};
 
 export default class ChatScreen extends PureComponent<Props> {
   context: Context;

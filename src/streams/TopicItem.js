@@ -21,14 +21,14 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   stream: string,
   name: string,
   isMuted: boolean,
   isSelected: boolean,
   unreadCount: number,
   onPress: (topic: string, stream: string) => void,
-};
+|};
 
 export default class StreamItem extends PureComponent<Props> {
   context: Context;

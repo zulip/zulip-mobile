@@ -21,9 +21,9 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
-};
+|};
 
 class HomeTab extends PureComponent<Props> {
   render() {

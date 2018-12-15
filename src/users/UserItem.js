@@ -25,7 +25,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   email: string,
   fullName: string,
   avatarUrl: ?string,
@@ -34,7 +34,7 @@ type Props = {
   showEmail: boolean,
   unreadCount?: number,
   onPress: ({ email: string, fullName: string }) => void,
-};
+|};
 
 export default class UserItem extends PureComponent<Props> {
   context: Context;

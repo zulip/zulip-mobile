@@ -4,7 +4,7 @@ import checkCompatibility from './checkCompatibility';
 import devFetchApiKey from './devFetchApiKey';
 import devListUsers from './devListUsers';
 import fetchApiKey from './fetchApiKey';
-import focusPing from './focusPing';
+import reportPresence from './reportPresence';
 import getTopics from './getTopics';
 import toggleMessageStarred from './messages/toggleMessageStarred';
 import typing from './typing';
@@ -54,7 +54,7 @@ export {
   devFetchApiKey,
   devListUsers,
   fetchApiKey,
-  focusPing,
+  reportPresence,
   getTopics,
   toggleMessageStarred,
   typing,
@@ -105,7 +105,7 @@ export default {
   devFetchApiKey,
   devListUsers,
   fetchApiKey,
-  focusPing,
+  reportPresence,
   getTopics,
   toggleMessageStarred,
   typing,

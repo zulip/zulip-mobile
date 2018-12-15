@@ -8,10 +8,10 @@ import { getOwnEmail } from '../selectors';
 import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   ownEmail: string,
-};
+|};
 
 class CreateStreamScreen extends PureComponent<Props> {
   handleComplete = (name: string, description: string, isPrivate: boolean) => {

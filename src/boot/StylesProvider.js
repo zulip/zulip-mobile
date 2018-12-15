@@ -18,10 +18,10 @@ const themeNameToObject = {
 
 const Dummy = props => props.children;
 
-type Props = {
+type Props = {|
   theme: ThemeName,
   children: ChildrenArray<*>,
-};
+|};
 
 class StyleProvider extends PureComponent<Props> {
   static childContextTypes = {

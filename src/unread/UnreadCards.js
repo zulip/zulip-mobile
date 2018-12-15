@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Context, Dispatch, GlobalState, PmConversationData, PresenceState } from '../types';
+import type { Dispatch, GlobalState, PmConversationData, PresenceState } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -19,22 +19,16 @@ import {
 } from '../selectors';
 import { doNarrow } from '../actions';
 
-type Props = {
+type Props = {|
   conversations: PmConversationData[],
   dispatch: Dispatch,
   isLoading: boolean,
   presences: PresenceState,
   usersByEmail: Object,
   unreadStreamsAndTopics: any /* UnreadStream[] */,
-};
+|};
 
 class UnreadCards extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   handleStreamPress = (stream: string) => {
     setTimeout(() => this.props.dispatch(doNarrow(streamNarrow(stream))));
   };
@@ -44,7 +38,6 @@ class UnreadCards extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
     const { isLoading, conversations, unreadStreamsAndTopics, ...restProps } = this.props;
     const unreadCards = [
       {
@@ -71,7 +64,6 @@ class UnreadCards extends PureComponent<Props> {
         renderSectionHeader={({ section }) =>
           section.key === 'private' ? null : (
             <StreamItem
-              style={styles.listItem}
               name={section.streamName}
               iconSize={16}
               isMuted={section.isMuted}

@@ -5,12 +5,12 @@ import css from '../css/css';
 import htmlBody from './htmlBody';
 import script from '../js/script';
 
-type InitOptionsType = {
+type InitOptionsType = {|
   anchor: number,
   auth: Auth,
   highlightUnreadMessages: boolean,
   showMessagePlaceholders: boolean,
-};
+|};
 
 export default (content: string, theme: ThemeName, initOptions: InitOptionsType) => template`
 $!${script(initOptions.anchor, initOptions.auth)}

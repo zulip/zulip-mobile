@@ -13,10 +13,10 @@ const specials = {
   mentioned: { name: 'Mentions', icon: 'at-sign' },
 };
 
-type Props = {
+type Props = {|
   narrow: Narrow,
   color: string,
-};
+|};
 
 export default class TitleSpecial extends PureComponent<Props> {
   context: Context;

@@ -4,13 +4,13 @@ import { View } from 'react-native';
 
 import type { React$Node, Style } from '../types';
 
-type Props = {
+type Props = {|
   children: $ReadOnlyArray<React$Node>,
   spacing?: number,
   outerSpacing: boolean,
   style?: Style,
   itemStyle?: Style,
-};
+|};
 
 /**
  * A convenience component that uniformly styles and spaces its children.

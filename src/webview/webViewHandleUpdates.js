@@ -9,29 +9,29 @@ import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
 import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
 
-export type MessageInputContent = {
+export type MessageInputContent = {|
   type: 'content',
   anchor: number,
   auth: Auth,
   content: string,
   updateStrategy: UpdateStrategy,
-};
+|};
 
-export type MessageInputFetching = {
+export type MessageInputFetching = {|
   type: 'fetching',
   showMessagePlaceholders: boolean,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
-};
+|};
 
-export type MessageInputTyping = {
+export type MessageInputTyping = {|
   type: 'typing',
   content: string,
-};
+|};
 
-export type MessageInputReady = {
+export type MessageInputReady = {|
   type: 'ready',
-};
+|};
 
 export type WebviewInputMessage =
   | MessageInputContent

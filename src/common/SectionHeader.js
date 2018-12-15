@@ -12,9 +12,9 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   text: string,
-};
+|};
 
 export default class SectionHeader extends PureComponent<Props> {
   context: Context;

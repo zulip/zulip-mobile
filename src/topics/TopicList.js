@@ -13,19 +13,12 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   topics: ?(TopicExtended[]),
   onPress: (stream: string, topic: string) => void,
-};
+|};
 
 export default class TopicList extends PureComponent<Props> {
-  static defaultProps = {
-    showDescriptions: false,
-    showSwitch: false,
-    selected: false,
-    streams: [],
-  };
-
   render() {
     const { topics, onPress } = this.props;
 

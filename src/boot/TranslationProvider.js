@@ -75,10 +75,10 @@ class TranslationContextTranslator extends PureComponent<{
   }
 }
 
-type Props = {
+type Props = {|
   locale: string,
   children: ChildrenArray<*>,
-};
+|};
 
 class TranslationProvider extends PureComponent<Props> {
   render() {

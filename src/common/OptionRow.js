@@ -6,13 +6,13 @@ import type { Context, Style } from '../types';
 import Label from './Label';
 import ZulipSwitch from './ZulipSwitch';
 
-type Props = {
+type Props = {|
   Icon?: Object,
   label: string,
   defaultValue: boolean,
   style?: Style,
   onValueChange: (newValue: boolean) => void,
-};
+|};
 
 export default class OptionRow extends PureComponent<Props> {
   context: Context;

@@ -7,13 +7,13 @@ import ComponentWithOverlay from '../common/ComponentWithOverlay';
 import UnreadCount from '../common/UnreadCount';
 import Icon from '../common/Icons';
 
-type Props = {
+type Props = {|
   color: string,
   style?: Style,
   name?: string,
   unreadCount: number,
   onPress: () => void,
-};
+|};
 
 export default class NavButton extends PureComponent<Props> {
   context: Context;
@@ -36,7 +36,6 @@ export default class NavButton extends PureComponent<Props> {
         style={styles.navButtonFrame}
         showOverlay={unreadCount > 0}
         overlaySize={20}
-        color="transparent"
         overlay={<UnreadCount count={unreadCount} />}
         onPress={onPress}
       >

@@ -14,11 +14,11 @@ import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStream';
 import TitlePlain from './TitlePlain';
 
-type Props = {
+type Props = {|
   narrow: Narrow,
   editMessage: Message,
   color: string,
-};
+|};
 
 class Title extends PureComponent<Props> {
   render() {
@@ -28,7 +28,7 @@ class Title extends PureComponent<Props> {
       return <TitlePlain text="Edit message" {...props} />;
     }
     return caseNarrow(narrow, {
-      home: () => <TitleHome narrow={narrow} {...props} />,
+      home: () => <TitleHome color={color} />,
       starred: () => <TitleSpecial narrow={narrow} {...props} />,
       mentioned: () => <TitleSpecial narrow={narrow} {...props} />,
       allPrivate: () => <TitleSpecial narrow={narrow} {...props} />,

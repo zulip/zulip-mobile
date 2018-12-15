@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   style?: Style,
   displayMessage: string,
   onOptionsPress: () => void,
-};
+|};
 
 export default class LightboxFooter extends PureComponent<Props> {
   render() {

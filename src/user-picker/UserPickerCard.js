@@ -10,7 +10,7 @@ import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
-import { getOwnEmail, getPresence, getUsersSansMe } from '../selectors';
+import { getPresence, getUsersSansMe } from '../selectors';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  ownEmail: string,
   users: User[],
   presences: PresenceState,
   filter: string,
@@ -89,7 +88,7 @@ class UserPickerCard extends PureComponent<Props, State> {
   };
 
   render() {
-    const { filter, ownEmail, users, presences } = this.props;
+    const { filter, users, presences } = this.props;
     const { selected } = this.state;
     return (
       <View style={styles.wrapper}>
@@ -105,7 +104,6 @@ class UserPickerCard extends PureComponent<Props, State> {
         {selected.length > 0 && <LineSeparator />}
         <UserList
           style={styles.list}
-          ownEmail={ownEmail}
           filter={filter}
           users={users}
           presences={presences}
@@ -126,7 +124,6 @@ class UserPickerCard extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  ownEmail: getOwnEmail(state),
   users: getUsersSansMe(state),
   presences: getPresence(state),
 }))(UserPickerCard);

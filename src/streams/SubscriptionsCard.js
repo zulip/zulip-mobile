@@ -18,12 +18,12 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   narrow: Narrow,
   subscriptions: Subscription[],
   unreadByStream: number[],
-};
+|};
 
 class SubscriptionsCard extends PureComponent<Props> {
   handleNarrow = (streamName: string) => {

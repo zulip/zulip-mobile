@@ -38,13 +38,13 @@ export type MiscStyles = {
   alignBottom: Style,
 };
 
-type Props = {
+type Props = {|
   color: string,
   backgroundColor: string,
   borderColor: string,
   cardColor: string,
   dividerColor: string,
-};
+|};
 
 export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }: Props) => ({
   largerText: {

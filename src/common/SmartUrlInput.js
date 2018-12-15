@@ -23,21 +23,21 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   defaultValue: string,
   defaultOrganization: string,
   protocol: string,
   append: string,
   navigation: Object,
   style?: Style,
-  onChange: (value: string) => void,
+  onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
   enablesReturnKeyAutomatically: boolean,
-};
+|};
 
-type State = {
+type State = {|
   value: string,
-};
+|};
 
 export default class SmartUrlInput extends PureComponent<Props, State> {
   context: Context;
@@ -64,8 +64,8 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   handleChange = (value: string) => {
     this.setState({ value });
 
-    const { append, protocol, onChange } = this.props;
-    onChange(fixRealmUrl(autocompleteUrl(value, protocol, append)));
+    const { append, protocol, onChangeText } = this.props;
+    onChangeText(fixRealmUrl(autocompleteUrl(value, protocol, append)));
   };
 
   urlPress = () => {

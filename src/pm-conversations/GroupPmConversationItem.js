@@ -13,12 +13,12 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   email: string,
   usersByEmail: Object,
   unreadCount: number,
   onPress: (emails: string) => void,
-};
+|};
 
 /**
  * A list item describing one group PM conversation.

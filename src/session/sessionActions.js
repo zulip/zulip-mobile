@@ -10,6 +10,7 @@ import type {
   Dimensions,
   Dispatch,
   GetState,
+  Orientation,
 } from '../types';
 import {
   APP_ONLINE,
@@ -57,7 +58,7 @@ export const initSafeAreaInsets = (safeAreaInsets: Dimensions): InitSafeAreaInse
   safeAreaInsets,
 });
 
-export const appOrientation = (orientation: string) => (
+export const appOrientation = (orientation: Orientation) => (
   dispatch: Dispatch,
   getState: GetState,
 ): ?AppOrientationAction => {

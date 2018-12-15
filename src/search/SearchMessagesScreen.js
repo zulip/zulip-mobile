@@ -5,11 +5,11 @@ import type { Context } from '../types';
 import { Screen } from '../common';
 import SearchMessagesCard from './SearchMessagesCard';
 
-type Props = {};
+type Props = {||};
 
-type State = {
+type State = {|
   query: string,
-};
+|};
 
 export default class SearchMessagesScreen extends PureComponent<Props, State> {
   context: Context;

@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import type { Context } from '../types';
 import { Input, Label, OptionRow, ZulipButton } from '../common';
 
-type Props = {
+type Props = {|
   isNewStream: boolean,
   initialValues: {
     name: string,
@@ -13,13 +13,13 @@ type Props = {
     invite_only: boolean,
   },
   onComplete: (name: string, description: string, isPrivate: boolean) => void,
-};
+|};
 
-type State = {
+type State = {|
   name: string,
   description: string,
   isPrivate: boolean,
-};
+|};
 
 export default class EditStreamCard extends PureComponent<Props, State> {
   context: Context;

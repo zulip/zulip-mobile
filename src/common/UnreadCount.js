@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   style?: Style,
   borderRadius: number,
   color: string,
@@ -40,7 +40,7 @@ type Props = {
   isMuted: boolean,
   inverse: boolean,
   limited: boolean,
-};
+|};
 
 /**
  * Unified way to display unread counts.

@@ -7,11 +7,11 @@ import Label from './Label';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
 
-type Props = {
+type Props = {|
   Icon?: Object,
   label: string,
   onPress: () => void,
-};
+|};
 
 export default class OptionButton extends PureComponent<Props> {
   context: Context;

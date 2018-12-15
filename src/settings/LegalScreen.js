@@ -8,9 +8,9 @@ import openLink from '../utils/openLink';
 import { getFullUrl } from '../utils/url';
 import { getCurrentRealm } from '../selectors';
 
-type Props = {
+type Props = {|
   realm: string,
-};
+|};
 
 class LegalScreen extends PureComponent<Props> {
   openTermsOfService = () => {

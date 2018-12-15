@@ -1,10 +1,10 @@
 /* @flow strict */
 import { BRAND_COLOR } from './';
 
-type Props = {
+type Props = {|
   showLabel: boolean,
   showIcon: boolean,
-};
+|};
 
 export default ({ showLabel, showIcon }: Props) => ({
   swipeEnabled: true,

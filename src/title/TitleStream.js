@@ -9,11 +9,11 @@ import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
 
-type Props = {
+type Props = {|
   narrow: Narrow,
   stream: Subscription,
   color: string,
-};
+|};
 
 class TitleStream extends PureComponent<Props> {
   context: Context;

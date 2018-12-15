@@ -23,9 +23,9 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   isOnline: boolean,
-};
+|};
 
 /**
  * Displays a notice that the app is working in offline mode.
@@ -38,10 +38,10 @@ class OfflineNotice extends PureComponent<Props> {
     const { isOnline } = this.props;
     return (
       <AnimatedComponent
-        property="height"
+        stylePropertyName="height"
+        fullValue={30}
         useNativeDriver={false}
         visible={!isOnline}
-        height={30}
         style={styles.block}
         delay={300}
       >

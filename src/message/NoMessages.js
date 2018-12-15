@@ -32,10 +32,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type EmptyMessage = {
+type EmptyMessage = {|
   isFunc: Narrow => boolean,
   text: string,
-};
+|};
 
 const messages: EmptyMessage[] = [
   { isFunc: isHomeNarrow, text: 'No messages on server' },
@@ -47,11 +47,11 @@ const messages: EmptyMessage[] = [
   { isFunc: isSearchNarrow, text: 'No messages' },
 ];
 
-type Props = {
+type Props = {|
   narrow: Narrow,
   showMessagePlaceholders: boolean,
   noMessages: boolean,
-};
+|};
 
 class NoMessages extends PureComponent<Props> {
   render() {

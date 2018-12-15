@@ -10,13 +10,13 @@ const androidBackground =
     ? TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR)
     : TouchableNativeFeedback.SelectableBackground();
 
-type Props = {
+type Props = {|
   accessibilityLabel?: string,
   style?: Style,
   children: ChildrenArray<*>,
   onPress?: () => void | Promise<void>,
   onLongPress?: () => void,
-};
+|};
 
 /**
  * Component to encapsulate our custom and platform-specific

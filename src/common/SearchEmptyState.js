@@ -22,11 +22,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   text: string,
   buttonText: string,
   buttonAction: () => void,
-};
+|};
 
 export default class SearchEmptyState extends PureComponent<Props> {
   static defaultProps = {

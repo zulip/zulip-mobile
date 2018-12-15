@@ -4,9 +4,9 @@ import { FormattedMessage } from 'react-intl';
 
 import type { LocalizableText } from '../types';
 
-type Props = {
+type Props = {|
   text: LocalizableText,
-};
+|};
 
 /**
  * A component that seamlessly translates text without

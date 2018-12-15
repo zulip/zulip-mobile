@@ -2,10 +2,10 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-type Props = {
+type Props = {|
   width?: number,
   height?: number,
-};
+|};
 
 /**
  * An empty layout component used to simplify UI alignment.

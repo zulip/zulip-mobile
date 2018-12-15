@@ -74,7 +74,7 @@ export type BackgroundData = $ReadOnly<{
 }>;
 
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
-export type Props = {
+export type Props = {|
   backgroundData: BackgroundData,
 
   anchor: number,
@@ -92,7 +92,7 @@ export type Props = {
 
   // From `withGetText`.
   _: GetText,
-};
+|};
 
 class MessageList extends Component<Props> {
   context: Context;
@@ -191,7 +191,7 @@ class MessageList extends Component<Props> {
   }
 }
 
-type OuterProps = {
+type OuterProps = {|
   narrow: Narrow,
 
   /* Remaining props are derived from `narrow` by default. */
@@ -205,7 +205,7 @@ type OuterProps = {
   fetching?: Fetching,
   showMessagePlaceholders?: boolean,
   typingUsers?: User[],
-};
+|};
 
 export default connect((state: GlobalState, props: OuterProps) => {
   // TODO Ideally this ought to be a caching selector that doesn't change

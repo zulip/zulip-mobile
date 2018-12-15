@@ -13,11 +13,11 @@ import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../titl
 import { foregroundColorFromBackground } from '../utils/color';
 import { navigateBack } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   backgroundColor: string,
   narrow: Narrow,
-};
+|};
 
 class ChatNavBar extends PureComponent<Props> {
   context: Context;

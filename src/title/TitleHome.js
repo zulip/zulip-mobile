@@ -3,9 +3,9 @@ import React, { PureComponent } from 'react';
 
 import TitleSpecial from './TitleSpecial';
 
-type Props = {
+type Props = {|
   color: string,
-};
+|};
 
 export default class TitleHome extends PureComponent<Props> {
   render() {

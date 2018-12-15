@@ -7,7 +7,7 @@ import type {
   Selector,
   StreamsState,
   StreamUnreadItem,
-  Topic,
+  TopicExtended,
   TopicsState,
 } from '../types';
 import { getMute, getStreams, getTopics, getUnreadStreams } from '../directSelectors';
@@ -30,7 +30,7 @@ export const getTopicsForNarrow = (narrow: Narrow): Selector<string[]> =>
     return topics[stream.stream_id].map(x => x.name);
   });
 
-export const getTopicsForStream = (streamId: number): Selector<?(Topic[])> =>
+export const getTopicsForStream = (streamId: number): Selector<?(TopicExtended[])> =>
   createSelector(
     getTopics,
     getMute,

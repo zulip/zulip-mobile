@@ -2,15 +2,16 @@
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
 import type { Dispatch, GetState, Narrow } from '../types';
-import { focusPing, typing } from '../api';
+/* eslint-disable import/no-named-as-default-member */
+import api from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
-let lastFocusPing = new Date();
+let lastReportPresence = new Date();
 let lastTypingStart = new Date();
 
-export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = false) => async (
+export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean = false) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
@@ -19,13 +20,13 @@ export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = 
     return; // not logged in
   }
 
-  if (differenceInSeconds(new Date(), lastFocusPing) < 60) {
+  if (differenceInSeconds(new Date(), lastReportPresence) < 60) {
     return;
   }
 
-  lastFocusPing = new Date();
+  lastReportPresence = new Date();
 
-  const response = await focusPing(auth, hasFocus, newUserInput);
+  const response = await api.reportPresence(auth, hasFocus, newUserInput);
   dispatch({
     type: PRESENCE_RESPONSE,
     presence: response.presences,
@@ -43,7 +44,7 @@ export const sendTypingEvent = (narrow: Narrow) => async (
 
   if (differenceInSeconds(new Date(), lastTypingStart) > 15) {
     const auth = getAuth(getState());
-    typing(auth, narrow[0].operand, 'start');
+    api.typing(auth, narrow[0].operand, 'start');
     lastTypingStart = new Date();
   }
 };

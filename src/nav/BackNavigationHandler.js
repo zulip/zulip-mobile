@@ -9,11 +9,11 @@ import type { Dispatch } from '../types';
 import { getCanGoBack } from '../selectors';
 import { navigateBack } from '../actions';
 
-type Props = {
+type Props = {|
   children: ChildrenArray<*>,
   canGoBack: boolean,
   dispatch: Dispatch,
-};
+|};
 
 class BackNavigationHandler extends PureComponent<Props> {
   componentDidMount() {

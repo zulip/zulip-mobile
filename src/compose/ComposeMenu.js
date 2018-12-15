@@ -11,12 +11,12 @@ import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   expanded: boolean,
   destinationNarrow: Narrow,
   onExpandContract: () => void,
-};
+|};
 
 /**
  * Adjust `fileName` to one with the right extension for the file format.
@@ -102,7 +102,12 @@ class ComposeMenu extends PureComponent<Props> {
     const { dispatch, expanded, onExpandContract } = this.props;
     return (
       <View style={styles.composeMenu}>
-        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={120}>
+        <AnimatedComponent
+          stylePropertyName="width"
+          fullValue={120}
+          useNativeDriver={false}
+          visible={expanded}
+        >
           <View style={styles.composeMenu}>
             <IconPeople
               style={styles.composeMenuButton}

@@ -9,8 +9,9 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 import type { Auth, Dispatch, GlobalState, Message } from '../types';
 import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
-import AnimatedLightboxHeader from './AnimatedLightboxHeader';
-import AnimatedLightboxFooter from './AnimatedLightboxFooter';
+import { SlideAnimationView } from '../common';
+import LightboxHeader from './LightboxHeader';
+import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_SIZE } from '../styles';
 import { getGravatarFromEmail } from '../utils/avatar';
@@ -35,17 +36,17 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   auth: Auth,
   dispatch: Dispatch,
   src: string,
   message: Message,
   showActionSheetWithOptions: (Object, (number) => void) => void,
-};
+|};
 
-type State = {
+type State = {|
   movement: 'in' | 'out',
-};
+|};
 
 class Lightbox extends PureComponent<Props, State> {
   state = {
@@ -97,31 +98,36 @@ class Lightbox extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
-        <AnimatedLightboxHeader
-          onPressBack={this.handlePressBack}
+        <SlideAnimationView
+          property="translateY"
           style={[styles.overlay, styles.header, { width }]}
           from={-NAVBAR_SIZE}
           to={0}
-          timestamp={message.timestamp}
-          avatarUrl={message.avatar_url || getGravatarFromEmail(message.sender_email)}
-          senderName={message.sender_full_name}
-          realm={auth.realm}
           {...this.getAnimationProps()}
-        />
+        >
+          <LightboxHeader
+            onPressBack={this.handlePressBack}
+            timestamp={message.timestamp}
+            avatarUrl={message.avatar_url || getGravatarFromEmail(message.sender_email)}
+            senderName={message.sender_full_name}
+          />
+        </SlideAnimationView>
+
         <PhotoView
           source={resource}
           style={[styles.img, { width }]}
           resizeMode="contain"
           onTap={this.handleImagePress}
         />
-        <AnimatedLightboxFooter
+        <SlideAnimationView
+          property="translateY"
           style={[styles.overlay, { width, bottom: height - 44 }]}
-          displayMessage={footerMessage}
-          onOptionsPress={this.handleOptionsPress}
           from={height}
           to={height - 44}
           {...this.getAnimationProps()}
-        />
+        >
+          <LightboxFooter displayMessage={footerMessage} onOptionsPress={this.handleOptionsPress} />
+        </SlideAnimationView>
       </View>
     );
   }

@@ -7,11 +7,11 @@ import type { ChildrenArray, Dispatch, GlobalState } from '../types';
 import { getSession } from '../directSelectors';
 import { doInitialFetch } from '../actions';
 
-type Props = {
+type Props = {|
   needsInitialFetch: boolean,
   dispatch: Dispatch,
   children: ChildrenArray<*>,
-};
+|};
 
 class AppDataFetcher extends PureComponent<Props> {
   componentDidUpdate = () => {

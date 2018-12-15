@@ -17,11 +17,11 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   style?: Style,
   children: React$Node,
   padding: boolean,
-};
+|};
 
 /**
  * A layout component that centers wrapped components

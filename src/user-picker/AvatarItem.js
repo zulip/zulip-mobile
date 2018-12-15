@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   email: string,
   avatarUrl: ?string,
   fullName: string,
   onPress: (email: string) => void,
-};
+|};
 
 export default class AvatarItem extends PureComponent<Props> {
   animatedValue = new Animated.Value(0);

@@ -79,7 +79,9 @@ describe('fetchingReducers', () => {
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
+        // $FlowFixMe bogus messages in action
         messages: [{ id: 1 }],
+        anchor: 0,
         numBefore: 10,
         numAfter: 0,
       });

@@ -25,17 +25,17 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   auth: Auth,
   dispatch: Dispatch,
-};
+|};
 
-type State = {
+type State = {|
   progress: boolean,
   directAdmins: DevUser[],
   directUsers: DevUser[],
   error: string,
-};
+|};
 
 class DevAuthScreen extends PureComponent<Props, State> {
   context: Context;

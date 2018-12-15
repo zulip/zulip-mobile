@@ -22,9 +22,9 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
-};
+|};
 
 class DiagnosticsScreen extends PureComponent<Props> {
   render() {

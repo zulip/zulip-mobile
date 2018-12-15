@@ -30,13 +30,13 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
   isLoading: boolean,
   presences: PresenceState,
   usersByEmail: Object,
-};
+|};
 
 /**
  * The "PMs" page in the main tabs navigation.

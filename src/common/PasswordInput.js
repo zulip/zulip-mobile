@@ -29,9 +29,9 @@ type Props = $Diff<InputProps,
   // `InputProps` allows for these, don't allow them here."
   { secureTextEntry: mixed, autoCorrect: mixed, autoCapitalize: mixed }>;
 
-type State = {
+type State = {|
   isHidden: boolean,
-};
+|};
 
 /**
  * A password input component using Input internally.

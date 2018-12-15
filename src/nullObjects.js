@@ -58,6 +58,7 @@ export const NULL_SUBSCRIPTION: Subscription = {
   push_notifications: false,
   is_old_stream: false,
   is_announcement_only: false,
+  history_public_to_subscribers: false,
 };
 
 /** DEPRECATED; don't add new uses.  See block comment above definition. */

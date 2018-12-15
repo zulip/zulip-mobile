@@ -36,10 +36,10 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   theme: string,
   dispatch: Dispatch,
-};
+|};
 
 class SettingsCard extends PureComponent<Props> {
   handleThemeChange = () => {

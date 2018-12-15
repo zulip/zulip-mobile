@@ -2,9 +2,9 @@
 import type { ApiResponse, Auth } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
-type SubscriptionObj = {
+type SubscriptionObj = {|
   name: string,
-};
+|};
 
 export default (
   auth: Auth,

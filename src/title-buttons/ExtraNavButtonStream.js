@@ -8,12 +8,12 @@ import { getStreams } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToTopicList } from '../actions';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   narrow: Narrow,
   color: string,
   streams: Stream[],
-};
+|};
 
 class ExtraNavButtonStream extends PureComponent<Props> {
   handlePress = () => {

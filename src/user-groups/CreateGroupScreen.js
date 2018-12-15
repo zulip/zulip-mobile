@@ -8,13 +8,13 @@ import { doNarrow, navigateBack } from '../actions';
 import { groupNarrow } from '../utils/narrow';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
-};
+|};
 
-type State = {
+type State = {|
   filter: string,
-};
+|};
 
 class CreateGroupScreen extends PureComponent<Props, State> {
   state = {
