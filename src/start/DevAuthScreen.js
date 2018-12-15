@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, SectionList } from 'react-native';
 
 import type { Auth, Context, DevUser, Dispatch, GlobalState } from '../types';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
@@ -70,14 +70,14 @@ class DevAuthScreen extends PureComponent<Props, State> {
     })();
   };
 
-  tryDevLogin = async (email: string) => {
-    const { auth } = this.props;
+  tryDevLogin = async (user: DevUser) => {
+    const { email, realm_uri } = user;
 
     this.setState({ progress: true, error: undefined });
 
     try {
-      const apiKey = await devFetchApiKey(auth, email);
-      this.props.dispatch(loginSuccess(auth.realm, email, apiKey));
+      const apiKey = await devFetchApiKey({ realm: realm_uri, email, apiKey: '' }, email);
+      this.props.dispatch(loginSuccess(realm_uri, email, apiKey));
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });
@@ -87,37 +87,37 @@ class DevAuthScreen extends PureComponent<Props, State> {
   render() {
     const { styles } = this.context;
     const { directAdmins, directUsers, error, progress } = this.state;
-
+    const sections = [
+      { title: 'Administrators', data: directAdmins },
+      { title: 'Normal users', data: directUsers },
+    ];
     return (
       <Screen title="Pick a dev account">
         <View style={componentStyles.container}>
           {progress && <ActivityIndicator />}
           {!!error && <ErrorMsg error={error} />}
-          <Label
-            style={[styles.field, componentStyles.heading2, componentStyles.heading]}
-            text="Administrators"
-          />
-          {directAdmins.map(admin => (
-            <ZulipButton
-              key={admin.email}
-              text={admin.email}
-              onPress={() => this.tryDevLogin(admin.email)}
-            />
-          ))}
-          <Label
-            style={[styles.field, componentStyles.heading2, componentStyles.heading]}
-            text="Normal users"
-          />
-          <FlatList
-            data={directUsers.map(user => user.email)}
-            keyExtractor={(item, index) => item}
+          <SectionList
+            stickySectionHeadersEnabled
+            keyboardShouldPersistTaps="always"
             ItemSeparatorComponent={() => <View style={componentStyles.accountItem} />}
-            renderItem={({ item }) => (
+            sections={sections}
+            keyExtractor={item => `${item.email}${item.realm_uri}`}
+            renderItem={({ item, index, section }) => (
               <ZulipButton
-                key={item}
-                text={item}
-                secondary
+                text={`${item.email} (${
+                  item.realm_uri
+                    .split('http://')[1]
+                    .split('.')[0]
+                    .split(':')[0]
+                })`}
+                secondary={section.title !== 'Administrators'}
                 onPress={() => this.tryDevLogin(item)}
+              />
+            )}
+            renderSectionHeader={({ section }) => (
+              <Label
+                style={[styles.field, componentStyles.heading2, componentStyles.heading]}
+                text={section.title}
               />
             )}
           />
