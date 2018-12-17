@@ -41,12 +41,12 @@ type Props = {|
   centerContent: boolean,
   children: ChildrenArray<*>,
   safeAreaInsets: Dimensions,
-  keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
+  keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
   padding: boolean,
   search: boolean,
   searchBarOnChange: (text: string) => void,
   title: LocalizableText,
-  scrollEnabled?: boolean,
+  scrollEnabled: boolean,
   style?: Style,
 |};
 
