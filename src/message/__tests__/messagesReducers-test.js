@@ -5,6 +5,7 @@ import { FIRST_UNREAD_ANCHOR } from '../../constants';
 import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
+  EVENT_SUBMESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE,
   EVENT_REACTION_ADD,
@@ -31,6 +32,52 @@ describe('messagesReducers', () => {
         1: { id: 1 },
         2: { id: 2 },
         3: { id: 3 },
+      };
+      const newState = messagesReducers(initialState, action);
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(initialState);
+    });
+  });
+
+  describe('EVENT_SUBMESSAGE', () => {
+    test('if the message does not exist do not mutate the state', () => {
+      const initialState = deepFreeze({
+        1: { id: 1 },
+        2: { id: 2 },
+      });
+      const action = deepFreeze({
+        type: EVENT_SUBMESSAGE,
+        message_id: 3,
+        submessage_id: 2,
+      });
+      const newState = messagesReducers(initialState, action);
+      expect(newState).toBe(initialState);
+    });
+
+    test('if the message exists add the incoming data to `submessages`', () => {
+      const initialState = deepFreeze({
+        1: { id: 1 },
+        2: { id: 2, submessages: [{ id: 1 }] },
+      });
+      const action = deepFreeze({
+        type: EVENT_SUBMESSAGE,
+        content: '{hello: "world"}',
+        message_id: 2,
+        submessage_id: 2,
+      });
+      const expectedState = {
+        1: { id: 1 },
+        2: {
+          id: 2,
+          submessages: [
+            { id: 1 },
+            {
+              id: 2,
+              content: '{hello: "world"}',
+              message_id: 2,
+            },
+          ],
+        },
       };
       const newState = messagesReducers(initialState, action);
       expect(newState).toEqual(expectedState);

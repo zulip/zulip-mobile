@@ -9,6 +9,7 @@ import {
   ACCOUNT_SWITCH,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
+  EVENT_SUBMESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
@@ -63,6 +64,28 @@ const eventNewMessage = (state, action) => {
   return {
     ...state,
     [action.message.id]: omit(action.message, 'flags'),
+  };
+};
+
+const eventSubmessage = (state, action) => {
+  const message = state[action.message_id];
+  if (!message) {
+    return state;
+  }
+  const newSubmessage = {
+    id: action.submessage_id,
+    message_id: action.message_id,
+    sender_id: action.sender_id,
+    msg_type: action.msg_type,
+    content: action.content,
+  };
+  const submessages = [...(message.submessages || []), newSubmessage];
+  return {
+    ...state,
+    [message.id]: {
+      ...state[message.id],
+      submessages,
+    },
   };
 };
 
@@ -135,6 +158,9 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
 
     case EVENT_NEW_MESSAGE:
       return eventNewMessage(state, action);
+
+    case EVENT_SUBMESSAGE:
+      return eventSubmessage(state, action);
 
     case EVENT_MESSAGE_DELETE:
       return eventMessageDelete(state, action);
