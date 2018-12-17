@@ -92,8 +92,7 @@ public class GCMPushNotifications extends PushNotification {
             getNotificationManager().cancelAll();
             return;
         }
-        final PendingIntent intent = getCTAPendingIntent();
-        final Notification notification = getNotificationBuilder(intent).build();
+        final Notification notification = getNotificationBuilder(null).build();
         final int notificationId = createNotificationId(notification);
         getNotificationManager().notify(notificationId, notification);
     }
@@ -131,13 +130,20 @@ public class GCMPushNotifications extends PushNotification {
     }
 
     @Override
-    protected Notification.Builder getNotificationBuilder(PendingIntent intent) {
+    protected Notification.Builder getNotificationBuilder(PendingIntent ignoredIntent) {
         final Notification.Builder builder = Build.VERSION.SDK_INT >= 26 ?
                 new Notification.Builder(mContext, CHANNEL_ID)
                 : new Notification.Builder(mContext);
 
-        builder.setContentIntent(intent)
-                .setDefaults(Notification.DEFAULT_ALL)
+        final int messageId = getProps().getZulipMessageId();
+        final Uri uri = Uri.fromParts("zulip", "msgid:" + Integer.toString(messageId), "");
+        final Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri, mContext, NotificationIntentService.class);
+        viewIntent.putExtra(PUSH_NOTIFICATION_EXTRA_NAME, getProps().asBundle());
+        final PendingIntent viewPendingIntent =
+                PendingIntent.getService(mContext, 0, viewIntent, 0);
+        builder.setContentIntent(viewPendingIntent);
+
+        builder.setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true);
 
         final PushNotificationsProp props = getProps();

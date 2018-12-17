@@ -23,7 +23,6 @@ import com.wix.reactnativenotifications.core.AppLaunchHelper;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
 import com.wix.reactnativenotifications.core.JsIOHelper;
 import com.wix.reactnativenotifications.core.notification.INotificationsApplication;
-import com.wix.reactnativenotifications.core.notification.IPushNotification;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.zulipmobile.notifications.GCMPushNotifications;
 import com.zulipmobile.notifications.MessageInfo;
@@ -90,7 +89,7 @@ public class MainApplication extends Application implements ReactApplication, IN
     }
 
     @Override
-    public IPushNotification getPushNotification(Context context, Bundle bundle, AppLifecycleFacade defaultFacade, AppLaunchHelper defaultAppLaunchHelper) {
+    public GCMPushNotifications getPushNotification(Context context, Bundle bundle, AppLifecycleFacade defaultFacade, AppLaunchHelper defaultAppLaunchHelper) {
         bundle.keySet(); // Has the side effect of making `bundle.toString` more informative.
         Log.v(NotificationHelper.TAG, "getPushNotification: " + bundle.toString(), new Throwable());
         return new GCMPushNotifications(context, bundle, defaultFacade, defaultAppLaunchHelper, new JsIOHelper(), conversations);
