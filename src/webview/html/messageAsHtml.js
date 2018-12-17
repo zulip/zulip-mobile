@@ -69,6 +69,10 @@ $!${messageReactionListAsHtml(reactions, ownEmail, allImageEmojiById)}
 `;
 };
 
+const widgetBody = (message: Message | Outbox) => template`
+<span class="widget">Widgets not supported yet!</span>
+`;
+
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
   Object.keys(flags).filter(key => flags[key][id]);
 
@@ -83,7 +87,10 @@ export default (backgroundData: BackgroundData, message: Message | Outbox, isBri
      $!${flagStrings.map(flag => template`data-${flag}="true" `).join('')}
     >`;
 
-  const bodyHtml = messageBody(backgroundData, message);
+  const bodyHtml =
+    message.submessages && message.submessages.length > 0
+      ? widgetBody(message)
+      : messageBody(backgroundData, message);
 
   if (isBrief) {
     return template`

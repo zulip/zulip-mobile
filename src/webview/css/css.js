@@ -455,6 +455,15 @@ blockquote {
   height: 32px;
   fill: rgba(255, 255, 255, 0.75);
 }
+.widget {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+  background: rgba(127, 127, 127, 0.1);
+  border: 1px dashed rgba(127, 127, 127, 0.5);
+  border-radius: 0.5em;
+}
 `;
 
 const darkTheme = `
