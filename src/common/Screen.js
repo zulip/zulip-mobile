@@ -15,10 +15,11 @@ import type {
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import ZulipStatusBar from './ZulipStatusBar';
-import { getSession } from '../selectors';
+import { getCanGoBack, getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 import styles from '../styles';
+import { connectPreserveOnBackOption } from '../utils/redux';
 
 const componentStyles = StyleSheet.create({
   wrapper: {
@@ -37,6 +38,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   autoFocus: boolean,
+  canGoBack: boolean,
   centerContent: boolean,
   children: ChildrenArray<*>,
   safeAreaInsets: Dimensions,
@@ -89,6 +91,7 @@ class Screen extends PureComponent<Props> {
   render() {
     const {
       autoFocus,
+      canGoBack,
       centerContent,
       children,
       keyboardShouldPersistTaps,
@@ -109,7 +112,7 @@ class Screen extends PureComponent<Props> {
         {search ? (
           <ModalSearchNavBar autoFocus={autoFocus} searchBarOnChange={searchBarOnChange} />
         ) : (
-          <ModalNavBar title={title} />
+          <ModalNavBar canGoBack={canGoBack} title={title} />
         )}
         <OfflineNotice />
         <KeyboardAvoider
@@ -134,6 +137,12 @@ class Screen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
-  safeAreaInsets: getSession(state).safeAreaInsets,
-}))(Screen);
+export default connect(
+  (state: GlobalState) => ({
+    canGoBack: getCanGoBack(state),
+    safeAreaInsets: getSession(state).safeAreaInsets,
+  }),
+  null,
+  null,
+  connectPreserveOnBackOption,
+)(Screen);

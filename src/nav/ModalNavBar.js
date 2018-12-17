@@ -4,13 +4,11 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, Context, GlobalState, LocalizableText } from '../types';
+import type { Dispatch, Context, LocalizableText } from '../types';
 import styles, { NAVBAR_SIZE } from '../styles';
 import Label from '../common/Label';
-import { getCanGoBack } from '../selectors';
 import NavButton from './NavButton';
 import { navigateBack } from '../actions';
-import { connectPreserveOnBackOption } from '../utils/redux';
 
 type Props = {|
   dispatch: Dispatch,
@@ -51,11 +49,4 @@ class ModalNavBar extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  (state: GlobalState) => ({
-    canGoBack: getCanGoBack(state),
-  }),
-  null,
-  null,
-  connectPreserveOnBackOption,
-)(ModalNavBar);
+export default connect()(ModalNavBar);
