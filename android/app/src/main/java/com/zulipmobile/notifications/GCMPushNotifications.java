@@ -42,7 +42,7 @@ public class GCMPushNotifications extends PushNotification {
 
     public static final String CHANNEL_ID = "default";
     public static final int NOTIFICATION_ID = 435;
-    public static final String ACTION_NOTIFICATIONS_DISMISS = "ACTION_NOTIFICATIONS_DISMISS";
+    public static final String ACTION_CLEAR = "ACTION_CLEAR";
 
     /**
      * The Zulip messages we're showing as a notification, grouped by conversation.
@@ -200,18 +200,9 @@ public class GCMPushNotifications extends PushNotification {
         long[] vPattern = {0, 100, 200, 100};
         builder.setVibrate(vPattern);
 
-        /**
-         * Ideally, actions are sent using dismissIntent.setAction(String),
-         * But here {@link com.wix.reactnativenotifications.core.NotificationIntentAdapter#extractPendingNotificationDataFromIntent(Intent)}
-         * it checks in the bundle hence, An empty bundle is sent and checked in
-         * {@link com.zulipmobile.MainApplication#getPushNotification} for this string and then dismissed
-         *
-         **/
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             Intent dismissIntent = new Intent(mContext, NotificationIntentService.class);
-            Bundle bundle = new Bundle();
-            bundle.putString(ACTION_NOTIFICATIONS_DISMISS, ACTION_NOTIFICATIONS_DISMISS);
-            dismissIntent.putExtra(PUSH_NOTIFICATION_EXTRA_NAME, bundle);
+            dismissIntent.setAction(ACTION_CLEAR);
             PendingIntent piDismiss = PendingIntent.getService(mContext, 0, dismissIntent, 0);
             Notification.Action action = new Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss);
             builder.addAction(action);
