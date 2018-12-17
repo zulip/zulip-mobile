@@ -18,7 +18,6 @@ import com.wix.reactnativenotifications.core.AppLaunchHelper;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
 import com.wix.reactnativenotifications.core.InitialNotificationHolder;
 import com.wix.reactnativenotifications.core.JsIOHelper;
-import com.wix.reactnativenotifications.core.ProxyService;
 import com.wix.reactnativenotifications.core.notification.PushNotification;
 import com.zulipmobile.BuildConfig;
 import com.zulipmobile.R;
@@ -58,7 +57,7 @@ public class GCMPushNotifications extends PushNotification {
     /**
      * Same as {@link com.wix.reactnativenotifications.core.NotificationIntentAdapter#PUSH_NOTIFICATION_EXTRA_NAME}
      */
-    private static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
+    public static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
 
     public static void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= 26) {
@@ -209,7 +208,7 @@ public class GCMPushNotifications extends PushNotification {
          *
          **/
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            Intent dismissIntent = new Intent(mContext, ProxyService.class);
+            Intent dismissIntent = new Intent(mContext, NotificationIntentService.class);
             Bundle bundle = new Bundle();
             bundle.putString(ACTION_NOTIFICATIONS_DISMISS, ACTION_NOTIFICATIONS_DISMISS);
             dismissIntent.putExtra(PUSH_NOTIFICATION_EXTRA_NAME, bundle);
