@@ -167,11 +167,8 @@ public class GCMPushNotifications extends PushNotification {
             }
             builder.setContentText(content);
             if (type.equals("stream")) {
-                if (Build.VERSION.SDK_INT >= 16) {
-                    String displayTopic = stream + " > "
-                            + topic;
-                    builder.setSubText("Message on " + displayTopic);
-                }
+                String displayTopic = stream + " > " + topic;
+                builder.setSubText("Message on " + displayTopic);
             }
             if (avatarURL != null && avatarURL.startsWith("http")) {
                 Bitmap avatar = fetchAvatar(NotificationHelper.sizedURL(mContext,
