@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import type {
   OutboxState,
+  InitialFetchCompleteAction,
   MessageSendStartAction,
   MessageSendCompleteAction,
   OutboxAction,
   Outbox,
-  InitialFetchStartAction,
 } from '../types';
 import {
   INITIAL_FETCH_COMPLETE,
@@ -21,8 +21,10 @@ import { filterArray } from '../utils/immutability';
 
 const initialState = NULL_ARRAY;
 
-const initialFetchComplete = (state: OutboxState, action: InitialFetchStartAction): OutboxState =>
-  filterArray(state, (outbox: Outbox) => !outbox.isSent);
+const initialFetchComplete = (
+  state: OutboxState,
+  action: InitialFetchCompleteAction,
+): OutboxState => filterArray(state, (outbox: Outbox) => !outbox.isSent);
 
 const messageSendStart = (state: OutboxState, action: MessageSendStartAction): OutboxState => {
   const message = state.find(item => item.timestamp === action.outbox.timestamp);
