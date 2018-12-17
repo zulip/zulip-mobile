@@ -46,13 +46,14 @@ export const getStateForRoute = (route: string) => {
   return action != null ? AppNavigator.router.getStateForAction(action) : null;
 };
 
-export const getInitialNavState = createSelector(getUsersById, usersById => {
+export const getInitialNavState = (inputState: GlobalState) => {
   const state = getStateForRoute('main');
 
   if (!config.startup.notification) {
     return state;
   }
 
+  const usersById = getUsersById(inputState);
   const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
   return AppNavigator.router.getStateForAction(navigateToChat(narrow), state);
-});
+};

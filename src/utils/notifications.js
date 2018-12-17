@@ -17,7 +17,7 @@ const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: 
   return doAllUsersExist ? groupNarrow(users.map(user => user.email)) : HOME_NARROW;
 };
 
-export const getNarrowFromNotificationData = (data: Notification, usersById: UserIdMap = {}) => {
+export const getNarrowFromNotificationData = (data: ?Notification, usersById: UserIdMap = {}) => {
   if (!data || !data.recipient_type) {
     return HOME_NARROW;
   }
