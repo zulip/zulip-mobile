@@ -1,8 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { LOGIN_SUCCESS, INITIAL_FETCH_COMPLETE, REHYDRATE } from '../../actionConstants';
-import navReducers from '../navReducers';
-import { getStateForRoute } from '../navSelectors';
+import navReducers, { getStateForRoute } from '../navReducers';
 import { NULL_OBJECT } from '../../nullObjects';
 
 describe('navReducers', () => {

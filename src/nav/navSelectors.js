@@ -2,11 +2,6 @@
 import { createSelector } from 'reselect';
 
 import type { GlobalState, NavigationState } from '../types';
-import config from '../config';
-import { navigateToChat } from './navActions';
-import { getUsersById } from '../users/userSelectors';
-import AppNavigator from './AppNavigator';
-import { getNarrowFromNotificationData } from '../utils/notifications';
 
 export const getNav = (state: GlobalState): NavigationState => state.nav;
 
@@ -40,20 +35,3 @@ export const getSameRoutesCount = createSelector(getNav, nav => {
   }
   return nav.routes.length - i - 1;
 });
-
-export const getStateForRoute = (route: string) => {
-  const action = AppNavigator.router.getActionForPathAndParams(route);
-  return action != null ? AppNavigator.router.getStateForAction(action) : null;
-};
-
-export const getInitialNavState = (inputState: GlobalState) => {
-  const state = getStateForRoute('main');
-
-  if (!config.startup.notification) {
-    return state;
-  }
-
-  const usersById = getUsersById(inputState);
-  const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
-  return AppNavigator.router.getStateForAction(navigateToChat(narrow), state);
-};

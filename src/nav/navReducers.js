@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type {
+  GlobalState,
   NavigationState,
   NavAction,
   RehydrateAction,
@@ -8,7 +9,10 @@ import type {
   LogoutAction,
   InitialFetchCompleteAction,
 } from '../types';
-import { getStateForRoute, getInitialNavState } from './navSelectors';
+import config from '../config';
+import { navigateToChat } from './navActions';
+import { getUsersById } from '../users/userSelectors';
+import { getNarrowFromNotificationData } from '../utils/notifications';
 import AppNavigator from './AppNavigator';
 import { NULL_NAV_STATE } from '../nullObjects';
 import {
@@ -20,7 +24,24 @@ import {
 } from '../actionConstants';
 import { getAuth } from '../account/accountsSelectors';
 
+export const getStateForRoute = (route: string) => {
+  const action = AppNavigator.router.getActionForPathAndParams(route);
+  return action != null ? AppNavigator.router.getStateForAction(action) : null;
+};
+
 const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
+
+export const getInitialNavState = (inputState: GlobalState) => {
+  const state = getStateForRoute('main');
+
+  if (!config.startup.notification) {
+    return state;
+  }
+
+  const usersById = getUsersById(inputState);
+  const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
+  return AppNavigator.router.getStateForAction(navigateToChat(narrow), state);
+};
 
 const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationState => {
   if (!action.payload || !action.payload.accounts) {
