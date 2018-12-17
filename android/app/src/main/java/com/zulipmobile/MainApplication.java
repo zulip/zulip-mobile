@@ -27,7 +27,6 @@ import com.wix.reactnativenotifications.core.notification.IPushNotification;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.zulipmobile.notifications.GCMPushNotifications;
 import com.zulipmobile.notifications.MessageInfo;
-import com.zulipmobile.RNSecureRandom;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
