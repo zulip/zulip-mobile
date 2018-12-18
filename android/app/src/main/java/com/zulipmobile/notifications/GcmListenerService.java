@@ -2,8 +2,6 @@ package com.zulipmobile.notifications;
 
 import android.content.Context;
 import android.os.Bundle;
-import com.wix.reactnativenotifications.core.AppLaunchHelper;
-import com.wix.reactnativenotifications.core.AppLifecycleFacadeHolder;
 import com.zulipmobile.MainApplication;
 
 public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerService {
@@ -16,9 +14,7 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
             return;
         }
         final GCMPushNotifications wixNotificationObject =
-                ((MainApplication) applicationContext).getPushNotification(
-                        applicationContext, data,
-                        AppLifecycleFacadeHolder.get(), new AppLaunchHelper());
+                GCMPushNotifications.make((MainApplication)applicationContext, data);
         wixNotificationObject.onReceived();
     }
 }

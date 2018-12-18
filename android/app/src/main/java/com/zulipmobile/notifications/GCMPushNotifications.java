@@ -14,12 +14,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.wix.reactnativenotifications.core.AppLaunchHelper;
-import com.wix.reactnativenotifications.core.AppLifecycleFacade;
-import com.wix.reactnativenotifications.core.InitialNotificationHolder;
-import com.wix.reactnativenotifications.core.JsIOHelper;
+import com.wix.reactnativenotifications.core.*;
 import com.wix.reactnativenotifications.core.notification.PushNotification;
 import com.zulipmobile.BuildConfig;
+import com.zulipmobile.MainApplication;
 import com.zulipmobile.R;
 
 import java.io.IOException;
@@ -69,9 +67,18 @@ public class GCMPushNotifications extends PushNotification {
         }
     }
 
-    public GCMPushNotifications(Context context, Bundle bundle, AppLifecycleFacade appLifecycleFacade, AppLaunchHelper appLaunchHelper, JsIOHelper jsIoHelper, LinkedHashMap<String, List<MessageInfo>> conversations) {
-        super(context, bundle, appLifecycleFacade, appLaunchHelper, jsIoHelper);
+    public GCMPushNotifications(
+            Context context, Bundle bundle,
+            LinkedHashMap<String, List<MessageInfo>> conversations) {
+        super(context, bundle, AppLifecycleFacadeHolder.get(), new AppLaunchHelper(), new JsIOHelper());
         this.conversations = conversations;
+    }
+
+    public static GCMPushNotifications make(MainApplication application, Bundle bundle) {
+        bundle.keySet(); // Has the side effect of making `bundle.toString` more informative.
+        Log.v(TAG, "getPushNotification: " + bundle.toString(), new Throwable());
+        final LinkedHashMap<String, List<MessageInfo>> conversations = application.getConversations();
+        return new GCMPushNotifications(application, bundle, conversations);
     }
 
     @Override

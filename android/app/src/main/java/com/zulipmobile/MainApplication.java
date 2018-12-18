@@ -3,9 +3,7 @@ package com.zulipmobile;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.os.Bundle;
 
-import android.util.Log;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
@@ -19,9 +17,6 @@ import com.facebook.soloader.SoLoader;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.remobile.toast.RCTToastPackage;
-import com.wix.reactnativenotifications.core.AppLaunchHelper;
-import com.wix.reactnativenotifications.core.AppLifecycleFacade;
-import com.wix.reactnativenotifications.core.JsIOHelper;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.zulipmobile.notifications.GCMPushNotifications;
 import com.zulipmobile.notifications.MessageInfo;
@@ -33,10 +28,10 @@ import java.util.List;
 import io.sentry.RNSentryPackage;
 
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
-import com.zulipmobile.notifications.NotificationHelper;
 
 public class MainApplication extends Application implements ReactApplication {
     private LinkedHashMap<String, List<MessageInfo>> conversations;
+    public LinkedHashMap<String, List<MessageInfo>> getConversations() { return conversations; }
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
@@ -85,11 +80,5 @@ public class MainApplication extends Application implements ReactApplication {
         clearConversations(conversations);
         NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nMgr.cancelAll();
-    }
-
-    public GCMPushNotifications getPushNotification(Context context, Bundle bundle, AppLifecycleFacade defaultFacade, AppLaunchHelper defaultAppLaunchHelper) {
-        bundle.keySet(); // Has the side effect of making `bundle.toString` more informative.
-        Log.v(NotificationHelper.TAG, "getPushNotification: " + bundle.toString(), new Throwable());
-        return new GCMPushNotifications(context, bundle, defaultFacade, defaultAppLaunchHelper, new JsIOHelper(), conversations);
     }
 }

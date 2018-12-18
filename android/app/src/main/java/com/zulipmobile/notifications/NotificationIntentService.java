@@ -4,8 +4,6 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import com.wix.reactnativenotifications.core.AppLaunchHelper;
-import com.wix.reactnativenotifications.core.AppLifecycleFacadeHolder;
 import com.zulipmobile.MainApplication;
 
 import static android.content.Intent.ACTION_VIEW;
@@ -24,9 +22,7 @@ public class NotificationIntentService extends IntentService {
         if (ACTION_VIEW.equals(intent.getAction())) {
             final Bundle bundle = intent.getBundleExtra(PUSH_NOTIFICATION_EXTRA_NAME);
             final GCMPushNotifications wixNotificationsObject =
-                    ((MainApplication) applicationContext).getPushNotification(
-                            applicationContext, bundle,
-                            AppLifecycleFacadeHolder.get(), new AppLaunchHelper());
+                    GCMPushNotifications.make((MainApplication)applicationContext, bundle);
             wixNotificationsObject.onOpened();
         } else if (ACTION_CLEAR.equals(intent.getAction())) {
             ((MainApplication) applicationContext).clearNotifications();
