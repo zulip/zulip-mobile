@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.wix.reactnativenotifications.core.*;
 import com.zulipmobile.BuildConfig;
 import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 import com.zulipmobile.R;
@@ -25,7 +24,6 @@ import java.util.Locale;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
-import static com.wix.reactnativenotifications.Defs.NOTIFICATION_OPENED_EVENT_NAME;
 import static com.zulipmobile.notifications.NotificationHelper.buildNotificationContent;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 import static com.zulipmobile.notifications.NotificationHelper.extractNames;
@@ -195,7 +193,7 @@ public class GCMPushNotifications {
 
     static void onOpened(Context context, ConversationMap conversations, Bundle data) {
         logNotificationData(data);
-        notifyReact(context, data);
+        NotifyReact.notifyReact(context, data);
         getNotificationManager(context).cancelAll();
         clearConversations(conversations);
         try {
@@ -203,35 +201,6 @@ public class GCMPushNotifications {
         } catch (Exception e) {
             Log.e(TAG, "BADGE ERROR: " + e.toString());
         }
-    }
-
-    private static void notifyReact(Context context, final Bundle data) {
-        // This version is largely copied from the wix code; it needs replacement.
-        InitialNotificationHolder.getInstance().set(new PushNotificationsProp(data));
-        final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
-        if (!lifecycleFacade.isReactInitialized()) {
-            context.startActivity(new AppLaunchHelper().getLaunchIntent(context));
-            return;
-        }
-        if (lifecycleFacade.isAppVisible()) {
-            notifyReactNow(data);
-        } else {
-            lifecycleFacade.addVisibilityListener(new AppLifecycleFacade.AppVisibilityListener() {
-                @Override public void onAppNotVisible() {}
-                @Override public void onAppVisible() {
-                    lifecycleFacade.removeVisibilityListener(this);
-                    notifyReactNow(data);
-                }
-            });
-            context.startActivity(new AppLaunchHelper().getLaunchIntent(context));
-        }
-    }
-
-    private static void notifyReactNow(Bundle data) {
-        new JsIOHelper().sendEventToJS(
-                NOTIFICATION_OPENED_EVENT_NAME,
-                data,
-                AppLifecycleFacadeHolder.get().getRunningReactContext());
     }
 
     static void onClear (Context context, ConversationMap conversations) {
