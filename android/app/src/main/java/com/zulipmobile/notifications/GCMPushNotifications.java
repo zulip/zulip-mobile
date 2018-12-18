@@ -93,16 +93,20 @@ public class GCMPushNotifications {
 
     void onReceived() {
         final String eventType = props.getEvent();
-        if (eventType.equals("message")) {
+        switch (eventType) {
+          case "message":
             addConversationToMap(props, conversations);
             updateNotification();
-        } else if (eventType.equals("remove")) {
+            break;
+          case "remove":
             removeMessageFromMap(props, conversations);
             if (conversations.isEmpty()) {
                 getNotificationManager().cancelAll();
             }
-        } else {
+            break;
+          default:
             Log.w(TAG, "Ignoring GCM message of unknown event type: " + eventType);
+            break;
         }
     }
 
