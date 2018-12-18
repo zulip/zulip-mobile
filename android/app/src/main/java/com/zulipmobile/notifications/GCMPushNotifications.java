@@ -201,11 +201,9 @@ public class GCMPushNotifications {
 
     static void onOpened(MainApplication application, Bundle data) {
         logNotificationData(data);
-        final ConversationMap conversations = application.getConversations();
-        final PushNotificationsProp props = new PushNotificationsProp(data);
-        notifyReact(application, props);
+        notifyReact(application, data);
         getNotificationManager(application).cancelAll();
-        clearConversations(conversations);
+        clearConversations(application.getConversations());
         try {
             ShortcutBadger.removeCount(application);
         } catch (Exception e) {
@@ -213,32 +211,32 @@ public class GCMPushNotifications {
         }
     }
 
-    private static void notifyReact(Context context, final PushNotificationsProp props) {
+    private static void notifyReact(Context context, final Bundle data) {
         // This version is largely copied from the wix code; it needs replacement.
-        InitialNotificationHolder.getInstance().set(props);
+        InitialNotificationHolder.getInstance().set(new PushNotificationsProp(data));
         final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
         if (!lifecycleFacade.isReactInitialized()) {
             context.startActivity(new AppLaunchHelper().getLaunchIntent(context));
             return;
         }
         if (lifecycleFacade.isAppVisible()) {
-            notifyReactNow(props);
+            notifyReactNow(data);
         } else {
             lifecycleFacade.addVisibilityListener(new AppLifecycleFacade.AppVisibilityListener() {
                 @Override public void onAppNotVisible() {}
                 @Override public void onAppVisible() {
                     lifecycleFacade.removeVisibilityListener(this);
-                    notifyReactNow(props);
+                    notifyReactNow(data);
                 }
             });
             context.startActivity(new AppLaunchHelper().getLaunchIntent(context));
         }
     }
 
-    private static void notifyReactNow(PushNotificationsProp props) {
+    private static void notifyReactNow(Bundle data) {
         new JsIOHelper().sendEventToJS(
                 NOTIFICATION_OPENED_EVENT_NAME,
-                props.asBundle(),
+                data,
                 AppLifecycleFacadeHolder.get().getRunningReactContext());
     }
 }
