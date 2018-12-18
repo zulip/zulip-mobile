@@ -38,9 +38,9 @@ import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
 public class GCMPushNotifications {
 
-    public static final String CHANNEL_ID = "default";
-    public static final int NOTIFICATION_ID = 435;
-    public static final String ACTION_CLEAR = "ACTION_CLEAR";
+    private static final String CHANNEL_ID = "default";
+    private static final int NOTIFICATION_ID = 435;
+    static final String ACTION_CLEAR = "ACTION_CLEAR";
 
     private Context mContext;
     private PushNotificationsProp mNotificationProps;
@@ -58,7 +58,7 @@ public class GCMPushNotifications {
     /**
      * Same as {@link com.wix.reactnativenotifications.core.NotificationIntentAdapter#PUSH_NOTIFICATION_EXTRA_NAME}
      */
-    public static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
+    static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
 
     public static void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= 26) {
@@ -70,7 +70,7 @@ public class GCMPushNotifications {
         }
     }
 
-    public GCMPushNotifications(
+    private GCMPushNotifications(
             Context context, Bundle bundle,
             LinkedHashMap<String, List<MessageInfo>> conversations) {
         this.mContext = context;
@@ -78,18 +78,18 @@ public class GCMPushNotifications {
         this.conversations = conversations;
     }
 
-    public static GCMPushNotifications make(MainApplication application, Bundle bundle) {
+    static GCMPushNotifications make(MainApplication application, Bundle bundle) {
         bundle.keySet(); // Has the side effect of making `bundle.toString` more informative.
         Log.v(TAG, "getPushNotification: " + bundle.toString(), new Throwable());
         final LinkedHashMap<String, List<MessageInfo>> conversations = application.getConversations();
         return new GCMPushNotifications(application, bundle, conversations);
     }
 
-    protected PushNotificationsProp createProps(Bundle bundle) {
+    private PushNotificationsProp createProps(Bundle bundle) {
         return new PushNotificationsProp(bundle);
     }
 
-    protected PushNotificationsProp getProps() {
+    private PushNotificationsProp getProps() {
         return (PushNotificationsProp) mNotificationProps;
     }
 
@@ -107,7 +107,7 @@ public class GCMPushNotifications {
         getNotificationManager().notify(notificationId, notification);
     }
 
-    public void onReceived() {
+    void onReceived() {
         final String eventType = getProps().getEvent();
         if (eventType.equals("message")) {
             addConversationToMap(getProps(), conversations);
@@ -122,7 +122,7 @@ public class GCMPushNotifications {
         }
     }
 
-    public void onOpened() {
+    void onOpened() {
         notifyReact();
         getNotificationManager().cancelAll();
         clearConversations(conversations);
@@ -133,7 +133,7 @@ public class GCMPushNotifications {
         }
     }
 
-    public void notifyReact() {
+    private void notifyReact() {
         // This version is largely copied from the wix code; it needs replacement.
         InitialNotificationHolder.getInstance().set(getProps());
         final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
@@ -162,7 +162,7 @@ public class GCMPushNotifications {
                 AppLifecycleFacadeHolder.get().getRunningReactContext());
     }
 
-    protected Notification.Builder getNotificationBuilder(PendingIntent ignoredIntent) {
+    private Notification.Builder getNotificationBuilder(PendingIntent ignoredIntent) {
         final Notification.Builder builder = Build.VERSION.SDK_INT >= 26 ?
                 new Notification.Builder(mContext, CHANNEL_ID)
                 : new Notification.Builder(mContext);
@@ -265,7 +265,7 @@ public class GCMPushNotifications {
         return null;
     }
 
-    protected int createNotificationId(Notification notification) {
+    private int createNotificationId(Notification notification) {
         return NOTIFICATION_ID;
     }
 }
