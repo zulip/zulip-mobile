@@ -3,6 +3,7 @@ import type { GetState, Dispatch, Stream, InitStreamsAction } from '../types';
 import { createStream, updateStream, toggleMuteStream, togglePinStream } from '../api';
 import { INIT_STREAMS } from '../actionConstants';
 import { getAuth } from '../selectors';
+import { getChangedValues } from '../utils/misc';
 
 export const initStreams = (streams: Stream[]): InitStreamsAction => ({
   type: INIT_STREAMS,
@@ -23,21 +24,20 @@ export const updateExistingStream = (
   initialValues: Object,
   newValues: Object,
 ) => async (dispatch: Dispatch, getState: GetState) => {
-  if (initialValues.name !== newValues.name) {
-    // Stream names might contain unsafe characters so we must encode it first.
-    await updateStream(getAuth(getState()), id, 'new_name', JSON.stringify(newValues.name));
-  }
-  if (initialValues.description !== newValues.description) {
-    // Description might contain unsafe characters so we must encode it first.
-    await updateStream(
-      getAuth(getState()),
-      id,
-      'description',
-      JSON.stringify(newValues.description),
-    );
-  }
-  if (initialValues.invite_only !== newValues.isPrivate) {
-    await updateStream(getAuth(getState()), id, 'is_private', newValues.isPrivate);
+  // strings might contain unsafe characters so we must encode it first.
+  const newData = {
+    new_name: JSON.stringify(newValues.name),
+    description: JSON.stringify(newValues.description),
+    is_private: newValues.is_private,
+  };
+  const oldData = {
+    new_name: JSON.stringify(initialValues.name),
+    description: JSON.stringify(initialValues.description),
+    is_private: initialValues.is_private,
+  };
+  const apiParams = getChangedValues(newData, oldData);
+  if (Object.keys(apiParams).length > 0) {
+    await updateStream(getAuth(getState()), id, apiParams);
   }
 };
 

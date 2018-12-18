@@ -2,7 +2,8 @@
 import type { ApiResponse, Auth } from '../apiTypes';
 import { apiPatch } from '../apiFetch';
 
-export default (auth: Auth, id: number, property: string, value: string): Promise<ApiResponse> =>
-  apiPatch(auth, `streams/${id}`, {
-    [property]: value,
-  });
+export default (
+  auth: Auth,
+  id: number,
+  newValues: { [string]: string | boolean | number },
+): Promise<ApiResponse> => apiPatch(auth, `streams/${id}`, { ...newValues });
