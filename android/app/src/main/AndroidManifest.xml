@@ -59,16 +59,28 @@
 
       <service android:name=".notifications.NotificationIntentService" />
       <service android:name="com.wix.reactnativenotifications.core.ProxyService" tools:node="remove" />
+
+      <receiver
+          android:name="com.google.android.gms.gcm.GcmReceiver"
+          android:exported="true"
+          android:permission="com.google.android.c2dm.permission.SEND"
+          tools:node="replace"
+      >
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+          <category android:name="${applicationId}" />
+        </intent-filter>
+      </receiver>
+      <service
+          android:name="com.zulipmobile.notifications.GcmListenerService"
+          android:exported="false" >
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        </intent-filter>
+      </service>
+      <service android:name="com.wix.reactnativenotifications.gcm.GcmMessageHandlerService" tools:node="remove" />
+
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.zulipmobile" />
-            </intent-filter>
-        </receiver>
-        <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="@string/gcm_id"/>
+      <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="@string/gcm_id"/>
     </application>
 </manifest>

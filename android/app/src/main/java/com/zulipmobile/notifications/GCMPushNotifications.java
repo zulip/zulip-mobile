@@ -98,7 +98,7 @@ public class GCMPushNotifications extends PushNotification {
     }
 
     @Override
-    public void onReceived() throws InvalidNotificationException {
+    public void onReceived() {
         final String eventType = getProps().getEvent();
         if (eventType.equals("message")) {
             addConversationToMap(getProps(), conversations);
