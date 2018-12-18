@@ -17,10 +17,9 @@ import com.reactnative.photoview.PhotoViewPackage;
 import com.remobile.toast.RCTToastPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.zulipmobile.notifications.GCMPushNotifications;
-import com.zulipmobile.notifications.MessageInfo;
+import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import io.sentry.RNSentryPackage;
@@ -28,8 +27,8 @@ import io.sentry.RNSentryPackage;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 
 public class MainApplication extends Application implements ReactApplication {
-    private LinkedHashMap<String, List<MessageInfo>> conversations;
-    public LinkedHashMap<String, List<MessageInfo>> getConversations() { return conversations; }
+    private ConversationMap conversations;
+    public ConversationMap getConversations() { return conversations; }
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
@@ -71,7 +70,7 @@ public class MainApplication extends Application implements ReactApplication {
         super.onCreate();
         GCMPushNotifications.createNotificationChannel(this);
         SoLoader.init(this, /* native exopackage */ false);
-        conversations = new LinkedHashMap<>();
+        conversations = new ConversationMap();
     }
 
     public void clearNotifications() {

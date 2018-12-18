@@ -27,6 +27,17 @@ import java.util.Map;
 public class NotificationHelper {
     public static final String TAG = "ZulipNotif";
 
+    /**
+     * The Zulip messages we're showing as a notification, grouped by conversation.
+     *
+     * Each key identifies a conversation; see @{link buildKeyString}.
+     *
+     * Each value is the messages in the conversation, in the order we
+     * received them.
+     */
+    public static final class ConversationMap
+            extends LinkedHashMap<String, List<MessageInfo>> {}
+
     public static Bitmap fetch(URL url) throws IOException {
         Log.i(TAG, "GAFT.fetch: Getting gravatar from url: " + url);
         URLConnection connection = url.openConnection();
@@ -67,7 +78,7 @@ public class NotificationHelper {
         return key.split(":")[0];
     }
 
-    public static void buildNotificationContent(LinkedHashMap<String, List<MessageInfo>> conversations, Notification.InboxStyle inboxStyle, Context mContext) {
+    public static void buildNotificationContent(ConversationMap conversations, Notification.InboxStyle inboxStyle, Context mContext) {
         for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
             String name = extractName(entry.getKey());
             List<MessageInfo> messages = entry.getValue();
@@ -79,7 +90,7 @@ public class NotificationHelper {
         }
     }
 
-    public static int extractTotalMessagesCount(LinkedHashMap<String, List<MessageInfo>> conversations) {
+    public static int extractTotalMessagesCount(ConversationMap conversations) {
         int totalNumber = 0;
         for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
             totalNumber += entry.getValue().size();
@@ -103,7 +114,7 @@ public class NotificationHelper {
         }
     }
 
-    public static String[] extractNames(LinkedHashMap<String, List<MessageInfo>> conversations) {
+    public static String[] extractNames(ConversationMap conversations) {
         String[] names = new String[conversations.size()];
         int index = 0;
         for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
@@ -112,7 +123,7 @@ public class NotificationHelper {
         return names;
     }
 
-    public static void addConversationToMap(PushNotificationsProp prop, LinkedHashMap<String, List<MessageInfo>> conversations) {
+    public static void addConversationToMap(PushNotificationsProp prop, ConversationMap conversations) {
         String key = buildKeyString(prop);
         List<MessageInfo> messages = conversations.get(key);
         MessageInfo messageInfo = new MessageInfo(prop.getContent(), prop.getZulipMessageId());
@@ -123,7 +134,7 @@ public class NotificationHelper {
         conversations.put(key, messages);
     }
 
-    public static void removeMessageFromMap(PushNotificationsProp prop, LinkedHashMap<String, List<MessageInfo>> conversations) {
+    public static void removeMessageFromMap(PushNotificationsProp prop, ConversationMap conversations) {
         // We don't have the information to compute what key we ought to find this message under,
         // so just walk the whole thing.  If the user has >100 notifications, this linear scan
         // won't be their worst problem anyway...
@@ -144,7 +155,7 @@ public class NotificationHelper {
         }
     }
 
-    public static void clearConversations(LinkedHashMap<String, List<MessageInfo>> conversations) {
+    public static void clearConversations(ConversationMap conversations) {
         conversations.clear();
     }
 }

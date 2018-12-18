@@ -17,12 +17,11 @@ import android.util.Log;
 import com.wix.reactnativenotifications.core.*;
 import com.zulipmobile.BuildConfig;
 import com.zulipmobile.MainApplication;
+import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 import com.zulipmobile.R;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
@@ -44,16 +43,7 @@ public class GCMPushNotifications {
 
     private Context mContext;
     private PushNotificationsProp props;
-
-    /**
-     * The Zulip messages we're showing as a notification, grouped by conversation.
-     *
-     * Each key identifies a conversation; see @{link buildKeyString}.
-     *
-     * Each value is the messages in the conversation, in the order we
-     * received them.
-     */
-    private LinkedHashMap<String, List<MessageInfo>> conversations;
+    private ConversationMap conversations;
 
     /**
      * Same as {@link com.wix.reactnativenotifications.core.NotificationIntentAdapter#PUSH_NOTIFICATION_EXTRA_NAME}
