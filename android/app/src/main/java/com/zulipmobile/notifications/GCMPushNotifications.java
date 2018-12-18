@@ -15,7 +15,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.wix.reactnativenotifications.core.*;
-import com.wix.reactnativenotifications.core.notification.PushNotification;
 import com.zulipmobile.BuildConfig;
 import com.zulipmobile.MainApplication;
 import com.zulipmobile.R;
@@ -37,11 +36,14 @@ import static com.zulipmobile.notifications.NotificationHelper.addConversationTo
 import static com.zulipmobile.notifications.NotificationHelper.removeMessageFromMap;
 import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
-public class GCMPushNotifications extends PushNotification {
+public class GCMPushNotifications {
 
     public static final String CHANNEL_ID = "default";
     public static final int NOTIFICATION_ID = 435;
     public static final String ACTION_CLEAR = "ACTION_CLEAR";
+
+    private Context mContext;
+    private PushNotificationsProp mNotificationProps;
 
     /**
      * The Zulip messages we're showing as a notification, grouped by conversation.
@@ -71,7 +73,8 @@ public class GCMPushNotifications extends PushNotification {
     public GCMPushNotifications(
             Context context, Bundle bundle,
             LinkedHashMap<String, List<MessageInfo>> conversations) {
-        super(context, bundle, AppLifecycleFacadeHolder.get(), new AppLaunchHelper(), new JsIOHelper());
+        this.mContext = context;
+        this.mNotificationProps = createProps(bundle);
         this.conversations = conversations;
     }
 
@@ -82,7 +85,6 @@ public class GCMPushNotifications extends PushNotification {
         return new GCMPushNotifications(application, bundle, conversations);
     }
 
-    @Override
     protected PushNotificationsProp createProps(Bundle bundle) {
         return new PushNotificationsProp(bundle);
     }
@@ -105,7 +107,6 @@ public class GCMPushNotifications extends PushNotification {
         getNotificationManager().notify(notificationId, notification);
     }
 
-    @Override
     public void onReceived() {
         final String eventType = getProps().getEvent();
         if (eventType.equals("message")) {
@@ -121,7 +122,6 @@ public class GCMPushNotifications extends PushNotification {
         }
     }
 
-    @Override
     public void onOpened() {
         notifyReact();
         getNotificationManager().cancelAll();
@@ -162,7 +162,6 @@ public class GCMPushNotifications extends PushNotification {
                 AppLifecycleFacadeHolder.get().getRunningReactContext());
     }
 
-    @Override
     protected Notification.Builder getNotificationBuilder(PendingIntent ignoredIntent) {
         final Notification.Builder builder = Build.VERSION.SDK_INT >= 26 ?
                 new Notification.Builder(mContext, CHANNEL_ID)
@@ -266,7 +265,6 @@ public class GCMPushNotifications extends PushNotification {
         return null;
     }
 
-    @Override
     protected int createNotificationId(Notification notification) {
         return NOTIFICATION_ID;
     }
