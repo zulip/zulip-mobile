@@ -85,15 +85,6 @@ public class GCMPushNotifications {
         this.conversations = application.getConversations();
     }
 
-    private void updateNotification() {
-        if (conversations.isEmpty()) {
-            getNotificationManager().cancelAll();
-            return;
-        }
-        final Notification notification = getNotificationBuilder().build();
-        getNotificationManager().notify(NOTIFICATION_ID, notification);
-    }
-
     void onReceived() {
         final String eventType = props.getEvent();
         switch (eventType) {
@@ -113,44 +104,13 @@ public class GCMPushNotifications {
         }
     }
 
-    void onOpened() {
-        notifyReact();
-        getNotificationManager().cancelAll();
-        clearConversations(conversations);
-        try {
-            ShortcutBadger.removeCount(mContext);
-        } catch (Exception e) {
-            Log.e(TAG, "BADGE ERROR: " + e.toString());
-        }
-    }
-
-    private void notifyReact() {
-        // This version is largely copied from the wix code; it needs replacement.
-        InitialNotificationHolder.getInstance().set(props);
-        final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
-        if (!lifecycleFacade.isReactInitialized()) {
-            mContext.startActivity(new AppLaunchHelper().getLaunchIntent(mContext));
+    private void updateNotification() {
+        if (conversations.isEmpty()) {
+            getNotificationManager().cancelAll();
             return;
         }
-        if (lifecycleFacade.isAppVisible()) {
-            notifyReactNow();
-        } else {
-            lifecycleFacade.addVisibilityListener(new AppLifecycleFacade.AppVisibilityListener() {
-                @Override public void onAppNotVisible() {}
-                @Override public void onAppVisible() {
-                    lifecycleFacade.removeVisibilityListener(this);
-                    notifyReactNow();
-                }
-            });
-            mContext.startActivity(new AppLaunchHelper().getLaunchIntent(mContext));
-        }
-    }
-
-    private void notifyReactNow() {
-        new JsIOHelper().sendEventToJS(
-                NOTIFICATION_OPENED_EVENT_NAME,
-                props.asBundle(),
-                AppLifecycleFacadeHolder.get().getRunningReactContext());
+        final Notification notification = getNotificationBuilder().build();
+        getNotificationManager().notify(NOTIFICATION_ID, notification);
     }
 
     private Notification.Builder getNotificationBuilder() {
@@ -253,5 +213,45 @@ public class GCMPushNotifications {
             Log.e(TAG, "ERROR: " + e.toString());
         }
         return null;
+    }
+
+    void onOpened() {
+        notifyReact();
+        getNotificationManager().cancelAll();
+        clearConversations(conversations);
+        try {
+            ShortcutBadger.removeCount(mContext);
+        } catch (Exception e) {
+            Log.e(TAG, "BADGE ERROR: " + e.toString());
+        }
+    }
+
+    private void notifyReact() {
+        // This version is largely copied from the wix code; it needs replacement.
+        InitialNotificationHolder.getInstance().set(props);
+        final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
+        if (!lifecycleFacade.isReactInitialized()) {
+            mContext.startActivity(new AppLaunchHelper().getLaunchIntent(mContext));
+            return;
+        }
+        if (lifecycleFacade.isAppVisible()) {
+            notifyReactNow();
+        } else {
+            lifecycleFacade.addVisibilityListener(new AppLifecycleFacade.AppVisibilityListener() {
+                @Override public void onAppNotVisible() {}
+                @Override public void onAppVisible() {
+                    lifecycleFacade.removeVisibilityListener(this);
+                    notifyReactNow();
+                }
+            });
+            mContext.startActivity(new AppLaunchHelper().getLaunchIntent(mContext));
+        }
+    }
+
+    private void notifyReactNow() {
+        new JsIOHelper().sendEventToJS(
+                NOTIFICATION_OPENED_EVENT_NAME,
+                props.asBundle(),
+                AppLifecycleFacadeHolder.get().getRunningReactContext());
     }
 }
