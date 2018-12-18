@@ -23,7 +23,7 @@ public class NotificationIntentService extends IntentService {
             final Bundle data = intent.getBundleExtra(PUSH_NOTIFICATION_EXTRA_NAME);
             GCMPushNotifications.onOpened((MainApplication)applicationContext, data);
         } else if (ACTION_CLEAR.equals(intent.getAction())) {
-            ((MainApplication) applicationContext).clearNotifications();
+            GCMPushNotifications.onClear((MainApplication)applicationContext);
         }
     }
 }

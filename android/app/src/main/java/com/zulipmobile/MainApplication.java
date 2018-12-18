@@ -24,8 +24,6 @@ import java.util.List;
 
 import io.sentry.RNSentryPackage;
 
-import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
-
 public class MainApplication extends Application implements ReactApplication {
     private ConversationMap conversations;
     public ConversationMap getConversations() { return conversations; }
@@ -71,10 +69,5 @@ public class MainApplication extends Application implements ReactApplication {
         GCMPushNotifications.createNotificationChannel(this);
         SoLoader.init(this, /* native exopackage */ false);
         conversations = new ConversationMap();
-    }
-
-    public void clearNotifications() {
-        clearConversations(conversations);
-        GCMPushNotifications.getNotificationManager(this).cancelAll();
     }
 }

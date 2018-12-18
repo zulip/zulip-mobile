@@ -46,7 +46,7 @@ public class GCMPushNotifications {
      */
     static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
 
-    public static NotificationManager getNotificationManager(Context context) {
+    private static NotificationManager getNotificationManager(Context context) {
         return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
@@ -238,5 +238,10 @@ public class GCMPushNotifications {
                 NOTIFICATION_OPENED_EVENT_NAME,
                 data,
                 AppLifecycleFacadeHolder.get().getRunningReactContext());
+    }
+
+    static void onClear(MainApplication application) {
+        clearConversations(application.getConversations());
+        getNotificationManager(application).cancelAll();
     }
 }
