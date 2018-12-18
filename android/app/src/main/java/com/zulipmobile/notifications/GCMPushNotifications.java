@@ -39,11 +39,7 @@ public class GCMPushNotifications {
     private static final String CHANNEL_ID = "default";
     private static final int NOTIFICATION_ID = 435;
     static final String ACTION_CLEAR = "ACTION_CLEAR";
-
-    /**
-     * Same as {@link com.wix.reactnativenotifications.core.NotificationIntentAdapter#PUSH_NOTIFICATION_EXTRA_NAME}
-     */
-    static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
+    static final String EXTRA_NOTIFICATION_DATA = "data";
 
     private static NotificationManager getNotificationManager(Context context) {
         return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -103,7 +99,7 @@ public class GCMPushNotifications {
         final int messageId = props.getZulipMessageId();
         final Uri uri = Uri.fromParts("zulip", "msgid:" + Integer.toString(messageId), "");
         final Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService.class);
-        viewIntent.putExtra(PUSH_NOTIFICATION_EXTRA_NAME, props.asBundle());
+        viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, props.asBundle());
         final PendingIntent viewPendingIntent =
                 PendingIntent.getService(context, 0, viewIntent, 0);
         builder.setContentIntent(viewPendingIntent);

@@ -9,7 +9,7 @@ import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 
 import static android.content.Intent.ACTION_VIEW;
 import static com.zulipmobile.notifications.GCMPushNotifications.ACTION_CLEAR;
-import static com.zulipmobile.notifications.GCMPushNotifications.PUSH_NOTIFICATION_EXTRA_NAME;
+import static com.zulipmobile.notifications.GCMPushNotifications.EXTRA_NOTIFICATION_DATA;
 
 public class NotificationIntentService extends IntentService {
     public NotificationIntentService() { super("NotificationIntentService"); }
@@ -23,7 +23,7 @@ public class NotificationIntentService extends IntentService {
         final ConversationMap conversations =
                 ((MainApplication) applicationContext).getConversations();
         if (ACTION_VIEW.equals(intent.getAction())) {
-            final Bundle data = intent.getBundleExtra(PUSH_NOTIFICATION_EXTRA_NAME);
+            final Bundle data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA);
             GCMPushNotifications.onOpened(this, conversations, data);
         } else if (ACTION_CLEAR.equals(intent.getAction())) {
             GCMPushNotifications.onClear(this, conversations);
