@@ -1,8 +1,6 @@
 package com.zulipmobile;
 
 import android.app.Application;
-import android.app.NotificationManager;
-import android.content.Context;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
@@ -78,7 +76,6 @@ public class MainApplication extends Application implements ReactApplication {
 
     public void clearNotifications() {
         clearConversations(conversations);
-        NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nMgr.cancelAll();
+        GCMPushNotifications.getNotificationManager(this).cancelAll();
     }
 }

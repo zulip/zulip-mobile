@@ -60,13 +60,20 @@ public class GCMPushNotifications {
      */
     static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
 
+    public static NotificationManager getNotificationManager(Context context) {
+        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+    private NotificationManager getNotificationManager() {
+        return getNotificationManager(mContext);
+    }
+
     public static void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= 26) {
             CharSequence name = context.getString(R.string.notification_channel_name);
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            getNotificationManager(context).createNotificationChannel(channel);
         }
     }
 
@@ -76,10 +83,6 @@ public class GCMPushNotifications {
         this.mContext = application;
         this.props = new PushNotificationsProp(bundle);
         this.conversations = application.getConversations();
-    }
-
-    private NotificationManager getNotificationManager() {
-        return (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     private void updateNotification() {
