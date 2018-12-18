@@ -41,10 +41,6 @@ public class GCMPushNotifications {
     private static final int NOTIFICATION_ID = 435;
     static final String ACTION_CLEAR = "ACTION_CLEAR";
 
-    private Context mContext;
-    private PushNotificationsProp props;
-    private ConversationMap conversations;
-
     /**
      * Same as {@link com.wix.reactnativenotifications.core.NotificationIntentAdapter#PUSH_NOTIFICATION_EXTRA_NAME}
      */
@@ -66,13 +62,6 @@ public class GCMPushNotifications {
     private static void logNotificationData(Bundle data) {
         data.keySet(); // Has the side effect of making `data.toString` more informative.
         Log.v(TAG, "getPushNotification: " + data.toString(), new Throwable());
-    }
-
-    GCMPushNotifications(MainApplication application, Bundle bundle) {
-        logNotificationData(bundle);
-        this.mContext = application;
-        this.props = new PushNotificationsProp(bundle);
-        this.conversations = application.getConversations();
     }
 
     static void onReceived(MainApplication application, Bundle data) {
