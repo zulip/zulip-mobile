@@ -16,7 +16,6 @@ import android.util.Log;
 
 import com.wix.reactnativenotifications.core.*;
 import com.zulipmobile.BuildConfig;
-import com.zulipmobile.MainApplication;
 import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 import com.zulipmobile.R;
 
@@ -64,20 +63,19 @@ public class GCMPushNotifications {
         Log.v(TAG, "getPushNotification: " + data.toString(), new Throwable());
     }
 
-    static void onReceived(MainApplication application, Bundle data) {
+    static void onReceived(Context context, ConversationMap conversations, Bundle data) {
         logNotificationData(data);
-        final ConversationMap conversations = application.getConversations();
         final PushNotificationsProp props = new PushNotificationsProp(data);
         final String eventType = props.getEvent();
         switch (eventType) {
           case "message":
             addConversationToMap(props, conversations);
-            updateNotification(application, conversations, props);
+            updateNotification(context, conversations, props);
             break;
           case "remove":
             removeMessageFromMap(props, conversations);
             if (conversations.isEmpty()) {
-                getNotificationManager(application).cancelAll();
+                getNotificationManager(context).cancelAll();
             }
             break;
           default:
@@ -199,13 +197,13 @@ public class GCMPushNotifications {
         return null;
     }
 
-    static void onOpened(MainApplication application, Bundle data) {
+    static void onOpened(Context context, ConversationMap conversations, Bundle data) {
         logNotificationData(data);
-        notifyReact(application, data);
-        getNotificationManager(application).cancelAll();
-        clearConversations(application.getConversations());
+        notifyReact(context, data);
+        getNotificationManager(context).cancelAll();
+        clearConversations(conversations);
         try {
-            ShortcutBadger.removeCount(application);
+            ShortcutBadger.removeCount(context);
         } catch (Exception e) {
             Log.e(TAG, "BADGE ERROR: " + e.toString());
         }
@@ -240,8 +238,8 @@ public class GCMPushNotifications {
                 AppLifecycleFacadeHolder.get().getRunningReactContext());
     }
 
-    static void onClear(MainApplication application) {
-        clearConversations(application.getConversations());
-        getNotificationManager(application).cancelAll();
+    static void onClear (Context context, ConversationMap conversations) {
+        clearConversations(conversations);
+        getNotificationManager(context).cancelAll();
     }
 }

@@ -3,6 +3,7 @@ package com.zulipmobile.notifications;
 import android.content.Context;
 import android.os.Bundle;
 import com.zulipmobile.MainApplication;
+import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 
 public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerService {
     @Override
@@ -13,6 +14,8 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
         if (!(applicationContext instanceof MainApplication)) {
             return;
         }
-        GCMPushNotifications.onReceived((MainApplication)applicationContext, data);
+        final ConversationMap conversations =
+                ((MainApplication) applicationContext).getConversations();
+        GCMPushNotifications.onReceived(this, conversations, data);
     }
 }
