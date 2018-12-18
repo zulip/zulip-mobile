@@ -124,7 +124,7 @@ public class GCMPushNotifications extends PushNotification {
     public void onOpened() {
         InitialNotificationHolder.getInstance().set(getProps());
         digestNotification();
-        clearAllNotifications();
+        getNotificationManager().cancelAll();
         clearConversations(conversations);
         try {
             ShortcutBadger.removeCount(mContext);
