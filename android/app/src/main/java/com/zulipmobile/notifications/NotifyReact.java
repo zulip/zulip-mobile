@@ -14,7 +14,8 @@ import static com.wix.reactnativenotifications.Defs.NOTIFICATION_OPENED_EVENT_NA
  */
 class NotifyReact {
     static void notifyReact(Context context, final Bundle data) {
-        InitialNotificationHolder.getInstance().set(new PushNotificationsProp(data));
+        NotificationsModule.initialNotification = data;
+
         final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
         if (!lifecycleFacade.isReactInitialized()) {
             context.startActivity(new AppLaunchHelper().getLaunchIntent(context));

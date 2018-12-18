@@ -1,9 +1,6 @@
 /* @flow */
-import { Platform, PushNotificationIOS } from 'react-native';
-import NotificationsIOS, {
-  NotificationsAndroid,
-  PendingNotifications,
-} from 'react-native-notifications';
+import { NativeModules, Platform, PushNotificationIOS } from 'react-native';
+import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
 import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
 import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
@@ -45,7 +42,10 @@ const extractNotificationData = (notification: Object): Notification | null => {
   return data && data.zulip ? data.zulip : data;
 };
 
-const handleNotification = (data: Notification, dispatch: Dispatch, usersById: UserIdMap) => {
+const handleNotification = (data: ?Notification, dispatch: Dispatch, usersById: UserIdMap) => {
+  if (!data) {
+    return;
+  }
   config.startup.notification = data;
   dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
 };
@@ -56,16 +56,18 @@ export const handleNotificationMuddle = (
   usersById: UserIdMap,
 ) => {
   const data = extractNotificationData(notification);
-  if (!data) {
-    return;
-  }
   handleNotification(data, dispatch, usersById);
 };
 
 export const handleInitialNotification = async (dispatch: Dispatch, usersById: UserIdMap) => {
-  const NotificationService = Platform.OS === 'ios' ? PushNotificationIOS : PendingNotifications;
-  const notification = await NotificationService.getInitialNotification();
-  handleNotificationMuddle(notification, dispatch, usersById);
+  if (Platform.OS === 'android') {
+    const { Notifications } = NativeModules;
+    const data = await Notifications.getInitialNotification();
+    handleNotification(data, dispatch, usersById);
+  } else {
+    const notification = await PushNotificationIOS.getInitialNotification();
+    handleNotificationMuddle(notification, dispatch, usersById);
+  }
 };
 
 export class NotificationListener {

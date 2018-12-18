@@ -22,6 +22,7 @@ import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 import java.util.Arrays;
 import java.util.List;
 
+import com.zulipmobile.notifications.NotificationsPackage;
 import io.sentry.RNSentryPackage;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -48,7 +49,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNSoundPackage(),
                     new RNDeviceInfo(),
                     new ZulipNativePackage(),
-                    new RNNotificationsPackage(MainApplication.this)
+                    new RNNotificationsPackage(MainApplication.this),
+                    new NotificationsPackage()
             );
         }
 
