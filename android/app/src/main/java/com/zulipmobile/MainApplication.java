@@ -22,7 +22,6 @@ import com.remobile.toast.RCTToastPackage;
 import com.wix.reactnativenotifications.core.AppLaunchHelper;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
 import com.wix.reactnativenotifications.core.JsIOHelper;
-import com.wix.reactnativenotifications.core.notification.INotificationsApplication;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.zulipmobile.notifications.GCMPushNotifications;
 import com.zulipmobile.notifications.MessageInfo;
@@ -36,7 +35,7 @@ import io.sentry.RNSentryPackage;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 import com.zulipmobile.notifications.NotificationHelper;
 
-public class MainApplication extends Application implements ReactApplication, INotificationsApplication {
+public class MainApplication extends Application implements ReactApplication {
     private LinkedHashMap<String, List<MessageInfo>> conversations;
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -88,7 +87,6 @@ public class MainApplication extends Application implements ReactApplication, IN
         nMgr.cancelAll();
     }
 
-    @Override
     public GCMPushNotifications getPushNotification(Context context, Bundle bundle, AppLifecycleFacade defaultFacade, AppLaunchHelper defaultAppLaunchHelper) {
         bundle.keySet(); // Has the side effect of making `bundle.toString` more informative.
         Log.v(NotificationHelper.TAG, "getPushNotification: " + bundle.toString(), new Throwable());
