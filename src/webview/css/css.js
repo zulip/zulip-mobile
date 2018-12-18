@@ -112,10 +112,11 @@ hr {
 .message p + p {
   margin-top: 1em;
 }
-.avatar {
-  min-width: 2em;
-  width: 2em;
-  height: 2em;
+.avatar,
+.loading-avatar {
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
   margin-right: 1em;
 }
 .avatar img {
@@ -204,10 +205,6 @@ hr {
   color: white;
 }
 .loading-avatar {
-  min-width: 2em;
-  width: 2em;
-  height: 2em;
-  margin-right: 1em;
   border-radius: 3px;
   background: rgba(127, 127, 127, 0.9);
 }
