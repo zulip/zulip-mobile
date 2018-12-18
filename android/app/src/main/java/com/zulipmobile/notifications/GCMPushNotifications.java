@@ -70,19 +70,12 @@ public class GCMPushNotifications {
         }
     }
 
-    private GCMPushNotifications(
-            Context context, Bundle bundle,
-            LinkedHashMap<String, List<MessageInfo>> conversations) {
-        this.mContext = context;
-        this.props = new PushNotificationsProp(bundle);
-        this.conversations = conversations;
-    }
-
-    static GCMPushNotifications make(MainApplication application, Bundle bundle) {
+    GCMPushNotifications(MainApplication application, Bundle bundle) {
         bundle.keySet(); // Has the side effect of making `bundle.toString` more informative.
         Log.v(TAG, "getPushNotification: " + bundle.toString(), new Throwable());
-        final LinkedHashMap<String, List<MessageInfo>> conversations = application.getConversations();
-        return new GCMPushNotifications(application, bundle, conversations);
+        this.mContext = application;
+        this.props = new PushNotificationsProp(bundle);
+        this.conversations = application.getConversations();
     }
 
     private NotificationManager getNotificationManager() {
