@@ -43,7 +43,7 @@ public class GCMPushNotifications {
     static final String ACTION_CLEAR = "ACTION_CLEAR";
 
     private Context mContext;
-    private PushNotificationsProp mNotificationProps;
+    private PushNotificationsProp props;
 
     /**
      * The Zulip messages we're showing as a notification, grouped by conversation.
@@ -74,7 +74,7 @@ public class GCMPushNotifications {
             Context context, Bundle bundle,
             LinkedHashMap<String, List<MessageInfo>> conversations) {
         this.mContext = context;
-        this.mNotificationProps = createProps(bundle);
+        this.props = createProps(bundle);
         this.conversations = conversations;
     }
 
@@ -87,10 +87,6 @@ public class GCMPushNotifications {
 
     private PushNotificationsProp createProps(Bundle bundle) {
         return new PushNotificationsProp(bundle);
-    }
-
-    private PushNotificationsProp getProps() {
-        return (PushNotificationsProp) mNotificationProps;
     }
 
     private NotificationManager getNotificationManager() {
@@ -107,12 +103,12 @@ public class GCMPushNotifications {
     }
 
     void onReceived() {
-        final String eventType = getProps().getEvent();
+        final String eventType = props.getEvent();
         if (eventType.equals("message")) {
-            addConversationToMap(getProps(), conversations);
+            addConversationToMap(props, conversations);
             updateNotification();
         } else if (eventType.equals("remove")) {
-            removeMessageFromMap(getProps(), conversations);
+            removeMessageFromMap(props, conversations);
             if (conversations.isEmpty()) {
                 getNotificationManager().cancelAll();
             }
@@ -134,7 +130,7 @@ public class GCMPushNotifications {
 
     private void notifyReact() {
         // This version is largely copied from the wix code; it needs replacement.
-        InitialNotificationHolder.getInstance().set(getProps());
+        InitialNotificationHolder.getInstance().set(props);
         final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
         if (!lifecycleFacade.isReactInitialized()) {
             mContext.startActivity(new AppLaunchHelper().getLaunchIntent(mContext));
@@ -157,7 +153,7 @@ public class GCMPushNotifications {
     private void notifyReactNow() {
         new JsIOHelper().sendEventToJS(
                 NOTIFICATION_OPENED_EVENT_NAME,
-                getProps().asBundle(),
+                props.asBundle(),
                 AppLifecycleFacadeHolder.get().getRunningReactContext());
     }
 
@@ -166,10 +162,10 @@ public class GCMPushNotifications {
                 new Notification.Builder(mContext, CHANNEL_ID)
                 : new Notification.Builder(mContext);
 
-        final int messageId = getProps().getZulipMessageId();
+        final int messageId = props.getZulipMessageId();
         final Uri uri = Uri.fromParts("zulip", "msgid:" + Integer.toString(messageId), "");
         final Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri, mContext, NotificationIntentService.class);
-        viewIntent.putExtra(PUSH_NOTIFICATION_EXTRA_NAME, getProps().asBundle());
+        viewIntent.putExtra(PUSH_NOTIFICATION_EXTRA_NAME, props.asBundle());
         final PendingIntent viewPendingIntent =
                 PendingIntent.getService(mContext, 0, viewIntent, 0);
         builder.setContentIntent(viewPendingIntent);
@@ -177,7 +173,6 @@ public class GCMPushNotifications {
         builder.setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true);
 
-        final PushNotificationsProp props = getProps();
         String type = props.getRecipientType();
         String content = props.getContent();
         String senderFullName = props.getSenderFullName();
