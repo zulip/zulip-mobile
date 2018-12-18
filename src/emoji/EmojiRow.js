@@ -1,13 +1,15 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 
 import type { GlobalState, RealmEmojiType } from '../types';
 import { RawLabel, Touchable } from '../common';
 import Emoji from './Emoji';
 import RealmEmoji from './RealmEmoji';
 import { getActiveRealmEmojiByName } from './emojiSelectors';
+
+const zulipLogo = require('../../static/img/zulip-logo.png');
 
 const styles = StyleSheet.create({
   emojiRow: {
@@ -17,6 +19,10 @@ const styles = StyleSheet.create({
   },
   text: {
     paddingLeft: 6,
+  },
+  image: {
+    width: 20,
+    height: 20,
   },
 });
 
@@ -35,12 +41,16 @@ class EmojiRow extends PureComponent<Props> {
   render() {
     const { name, realmEmoji } = this.props;
 
-    // TODO: this only handles Unicode emoji (shipped with the app)
-    // and realm emoji, but not Zulip extra emoji.  See our issue #2846.
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.emojiRow}>
-          {realmEmoji ? <RealmEmoji emoji={realmEmoji} /> : <Emoji name={name} size={20} />}
+          {realmEmoji ? (
+            <RealmEmoji emoji={realmEmoji} />
+          ) : name === 'zulip' ? (
+            <Image style={styles.image} source={zulipLogo} />
+          ) : (
+            <Emoji name={name} size={20} />
+          )}
           <RawLabel style={styles.text} text={name} />
         </View>
       </Touchable>

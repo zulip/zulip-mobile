@@ -2,7 +2,7 @@
 /* eslint-disable spellcheck/spell-checker */
 
 /** Maps certain emoji to substitutes, for us to show instead. */
-export const override: { [code: string]: string } = {
+export const override: {[code: string]: string} = {
   // :check_mark: -> :check: because the former is invisible on a light
   // background, i.e. when not in night mode.
   '2714': '2705',
@@ -20,7 +20,7 @@ export const override: { [code: string]: string } = {
  * Reaction.emoji_code here:
  *   https://github.com/zulip/zulip/blob/master/zerver/models.py
  */
-export const unicodeCodeByName: { [name: string]: string } = {
+export const unicodeCodeByName: {[name: string]: string} = {
   '+1': '1f44d',
   '-1': '1f44e',
   '0': '0030-20e3',
@@ -1581,4 +1581,5 @@ export const unicodeCodeByName: { [name: string]: string } = {
   zero: '0030-20e3',
   zip_it: '1f910',
   zzz: '1f4a4',
+  zulip: 'default',
 };

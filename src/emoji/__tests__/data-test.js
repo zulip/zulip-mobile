@@ -27,7 +27,7 @@ describe('nameToEmojiMap', () => {
 describe('getFilteredEmojiNames', () => {
   test('empty query returns all emojis', () => {
     const list = getFilteredEmojiNames('', {});
-    expect(list).toHaveLength(1560);
+    expect(list).toHaveLength(1561);
   });
 
   test('non existing query returns empty list', () => {
