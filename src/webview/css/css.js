@@ -356,8 +356,8 @@ blockquote {
 }
 .emoji {
   display: inline-block;
-  height: 20px;
-  width: 20px;
+  height: 1.25rem;
+  width: 1.25rem;
   white-space: nowrap;
   color: transparent;
   vertical-align: text-top;
