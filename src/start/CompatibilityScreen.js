@@ -6,6 +6,7 @@ import { Touchable } from '../common';
 import { BRAND_COLOR } from '../styles';
 import appStoreBadgePNG from '../../static/img/app-store-badge.png';
 import googlePlayBadgePNG from '../../static/img/google-play-badge.png';
+import type { ChildrenArray } from '../types';
 
 const styles = StyleSheet.create({
   appStoreBadge: {
@@ -46,6 +47,7 @@ const GooglePlayBadge = () => (
 
 type Props = {
   incompatibilityText?: string,
+  children?: ChildrenArray<*>,
 };
 export default class CompatibilityScreen extends PureComponent<Props> {
   storeURL = Platform.OS === 'ios'
@@ -66,6 +68,7 @@ export default class CompatibilityScreen extends PureComponent<Props> {
             {Platform.OS === 'ios' ? <AppStoreBadge /> : <GooglePlayBadge />}
           </Touchable>
         </View>
+        <View>{this.props.children}</View>
       </View>
     );
   }
