@@ -74,7 +74,7 @@ public class GCMPushNotifications {
             Context context, Bundle bundle,
             LinkedHashMap<String, List<MessageInfo>> conversations) {
         this.mContext = context;
-        this.props = createProps(bundle);
+        this.props = new PushNotificationsProp(bundle);
         this.conversations = conversations;
     }
 
@@ -83,10 +83,6 @@ public class GCMPushNotifications {
         Log.v(TAG, "getPushNotification: " + bundle.toString(), new Throwable());
         final LinkedHashMap<String, List<MessageInfo>> conversations = application.getConversations();
         return new GCMPushNotifications(application, bundle, conversations);
-    }
-
-    private PushNotificationsProp createProps(Bundle bundle) {
-        return new PushNotificationsProp(bundle);
     }
 
     private NotificationManager getNotificationManager() {
