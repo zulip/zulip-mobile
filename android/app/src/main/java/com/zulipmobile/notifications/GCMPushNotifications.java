@@ -80,7 +80,7 @@ public class GCMPushNotifications {
         switch (eventType) {
           case "message":
             addConversationToMap(props, conversations);
-            updateNotification();
+            updateNotification(mContext, conversations, props);
             break;
           case "remove":
             removeMessageFromMap(props, conversations);
@@ -94,26 +94,28 @@ public class GCMPushNotifications {
         }
     }
 
-    private void updateNotification() {
+    private static void updateNotification(
+            Context context, ConversationMap conversations, PushNotificationsProp props) {
         if (conversations.isEmpty()) {
-            getNotificationManager().cancelAll();
+            getNotificationManager(context).cancelAll();
             return;
         }
-        final Notification notification = getNotificationBuilder().build();
-        getNotificationManager().notify(NOTIFICATION_ID, notification);
+        final Notification notification = getNotificationBuilder(context, conversations, props).build();
+        getNotificationManager(context).notify(NOTIFICATION_ID, notification);
     }
 
-    private Notification.Builder getNotificationBuilder() {
+    private static Notification.Builder getNotificationBuilder(
+            Context context, ConversationMap conversations, PushNotificationsProp props) {
         final Notification.Builder builder = Build.VERSION.SDK_INT >= 26 ?
-                new Notification.Builder(mContext, CHANNEL_ID)
-                : new Notification.Builder(mContext);
+                new Notification.Builder(context, CHANNEL_ID)
+                : new Notification.Builder(context);
 
         final int messageId = props.getZulipMessageId();
         final Uri uri = Uri.fromParts("zulip", "msgid:" + Integer.toString(messageId), "");
-        final Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri, mContext, NotificationIntentService.class);
+        final Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService.class);
         viewIntent.putExtra(PUSH_NOTIFICATION_EXTRA_NAME, props.asBundle());
         final PendingIntent viewPendingIntent =
-                PendingIntent.getService(mContext, 0, viewIntent, 0);
+                PendingIntent.getService(context, 0, viewIntent, 0);
         builder.setContentIntent(viewPendingIntent);
 
         builder.setDefaults(Notification.DEFAULT_ALL)
@@ -148,7 +150,7 @@ public class GCMPushNotifications {
                 builder.setSubText("Message on " + displayTopic);
             }
             if (avatarURL != null && avatarURL.startsWith("http")) {
-                Bitmap avatar = fetchAvatar(NotificationHelper.sizedURL(mContext,
+                Bitmap avatar = fetchAvatar(NotificationHelper.sizedURL(context,
                         avatarURL, 64, baseURL));
                 if (avatar != null) {
                     builder.setLargeIcon(avatar);
@@ -161,12 +163,12 @@ public class GCMPushNotifications {
             builder.setContentText("Messages from " + TextUtils.join(",", extractNames(conversations)));
             Notification.InboxStyle inboxStyle = new Notification.InboxStyle(builder);
             inboxStyle.setSummaryText(String.format(Locale.ENGLISH, "%d conversations", conversations.size()));
-            buildNotificationContent(conversations, inboxStyle, mContext);
+            buildNotificationContent(conversations, inboxStyle, context);
             builder.setStyle(inboxStyle);
         }
 
         try {
-            ShortcutBadger.applyCount(mContext, totalMessagesCount);
+            ShortcutBadger.applyCount(context, totalMessagesCount);
         } catch (Exception e) {
             Log.e(TAG, "BADGE ERROR: " + e.toString());
         }
@@ -179,9 +181,9 @@ public class GCMPushNotifications {
         builder.setVibrate(vPattern);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            Intent dismissIntent = new Intent(mContext, NotificationIntentService.class);
+            Intent dismissIntent = new Intent(context, NotificationIntentService.class);
             dismissIntent.setAction(ACTION_CLEAR);
-            PendingIntent piDismiss = PendingIntent.getService(mContext, 0, dismissIntent, 0);
+            PendingIntent piDismiss = PendingIntent.getService(context, 0, dismissIntent, 0);
             Notification.Action action = new Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss);
             builder.addAction(action);
         }
@@ -189,14 +191,14 @@ public class GCMPushNotifications {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes audioAttr = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION).build();
-            builder.setSound(Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.zulip), audioAttr);
+            builder.setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.zulip), audioAttr);
         } else {
-            builder.setSound(Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.zulip));
+            builder.setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.zulip));
         }
         return builder;
     }
 
-    private Bitmap fetchAvatar(URL url) {
+    private static Bitmap fetchAvatar(URL url) {
         try {
             return NotificationHelper.fetch(url);
         } catch (IOException e) {
@@ -206,7 +208,7 @@ public class GCMPushNotifications {
     }
 
     void onOpened() {
-        notifyReact();
+        notifyReact(mContext, props);
         getNotificationManager().cancelAll();
         clearConversations(conversations);
         try {
@@ -216,29 +218,29 @@ public class GCMPushNotifications {
         }
     }
 
-    private void notifyReact() {
+    private static void notifyReact(Context context, final PushNotificationsProp props) {
         // This version is largely copied from the wix code; it needs replacement.
         InitialNotificationHolder.getInstance().set(props);
         final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
         if (!lifecycleFacade.isReactInitialized()) {
-            mContext.startActivity(new AppLaunchHelper().getLaunchIntent(mContext));
+            context.startActivity(new AppLaunchHelper().getLaunchIntent(context));
             return;
         }
         if (lifecycleFacade.isAppVisible()) {
-            notifyReactNow();
+            notifyReactNow(props);
         } else {
             lifecycleFacade.addVisibilityListener(new AppLifecycleFacade.AppVisibilityListener() {
                 @Override public void onAppNotVisible() {}
                 @Override public void onAppVisible() {
                     lifecycleFacade.removeVisibilityListener(this);
-                    notifyReactNow();
+                    notifyReactNow(props);
                 }
             });
-            mContext.startActivity(new AppLaunchHelper().getLaunchIntent(mContext));
+            context.startActivity(new AppLaunchHelper().getLaunchIntent(context));
         }
     }
 
-    private void notifyReactNow() {
+    private static void notifyReactNow(PushNotificationsProp props) {
         new JsIOHelper().sendEventToJS(
                 NOTIFICATION_OPENED_EVENT_NAME,
                 props.asBundle(),
