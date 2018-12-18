@@ -141,14 +141,24 @@ public class GCMPushNotifications extends PushNotification {
             return;
         }
         if (mAppLifecycleFacade.isAppVisible()) {
-            mJsIOHelper.sendEventToJS(
-                    NOTIFICATION_OPENED_EVENT_NAME,
-                    getProps().asBundle(),
-                    mAppLifecycleFacade.getRunningReactContext());
+            notifyReactNow();
         } else {
-            mAppLifecycleFacade.addVisibilityListener(mAppVisibilityListener);
+            mAppLifecycleFacade.addVisibilityListener(new AppLifecycleFacade.AppVisibilityListener() {
+                @Override public void onAppNotVisible() {}
+                @Override public void onAppVisible() {
+                    mAppLifecycleFacade.removeVisibilityListener(this);
+                    notifyReactNow();
+                }
+            });
             mContext.startActivity(mAppLaunchHelper.getLaunchIntent(mContext));
         }
+    }
+
+    private void notifyReactNow() {
+        mJsIOHelper.sendEventToJS(
+                NOTIFICATION_OPENED_EVENT_NAME,
+                getProps().asBundle(),
+                mAppLifecycleFacade.getRunningReactContext());
     }
 
     @Override
