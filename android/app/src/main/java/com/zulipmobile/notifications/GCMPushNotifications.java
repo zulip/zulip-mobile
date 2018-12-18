@@ -122,12 +122,9 @@ public class GCMPushNotifications extends PushNotification {
 
     @Override
     public void onOpened() {
-        try {
-            InitialNotificationHolder.getInstance().set(getProps());
-        } catch (Exception e) {
-            Log.e(TAG, "PendingNotif error: " + e.toString());
-        }
-        super.onOpened();
+        InitialNotificationHolder.getInstance().set(getProps());
+        digestNotification();
+        clearAllNotifications();
         clearConversations(conversations);
         try {
             ShortcutBadger.removeCount(mContext);
