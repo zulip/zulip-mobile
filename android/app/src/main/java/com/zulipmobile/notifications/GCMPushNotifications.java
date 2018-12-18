@@ -136,29 +136,30 @@ public class GCMPushNotifications extends PushNotification {
     public void notifyReact() {
         // This version is largely copied from the wix code; it needs replacement.
         InitialNotificationHolder.getInstance().set(getProps());
-        if (!mAppLifecycleFacade.isReactInitialized()) {
-            mContext.startActivity(mAppLaunchHelper.getLaunchIntent(mContext));
+        final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
+        if (!lifecycleFacade.isReactInitialized()) {
+            mContext.startActivity(new AppLaunchHelper().getLaunchIntent(mContext));
             return;
         }
-        if (mAppLifecycleFacade.isAppVisible()) {
+        if (lifecycleFacade.isAppVisible()) {
             notifyReactNow();
         } else {
-            mAppLifecycleFacade.addVisibilityListener(new AppLifecycleFacade.AppVisibilityListener() {
+            lifecycleFacade.addVisibilityListener(new AppLifecycleFacade.AppVisibilityListener() {
                 @Override public void onAppNotVisible() {}
                 @Override public void onAppVisible() {
-                    mAppLifecycleFacade.removeVisibilityListener(this);
+                    lifecycleFacade.removeVisibilityListener(this);
                     notifyReactNow();
                 }
             });
-            mContext.startActivity(mAppLaunchHelper.getLaunchIntent(mContext));
+            mContext.startActivity(new AppLaunchHelper().getLaunchIntent(mContext));
         }
     }
 
     private void notifyReactNow() {
-        mJsIOHelper.sendEventToJS(
+        new JsIOHelper().sendEventToJS(
                 NOTIFICATION_OPENED_EVENT_NAME,
                 getProps().asBundle(),
-                mAppLifecycleFacade.getRunningReactContext());
+                AppLifecycleFacadeHolder.get().getRunningReactContext());
     }
 
     @Override
