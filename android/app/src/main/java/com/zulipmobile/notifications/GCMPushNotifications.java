@@ -54,10 +54,6 @@ public class GCMPushNotifications {
         return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    private NotificationManager getNotificationManager() {
-        return getNotificationManager(mContext);
-    }
-
     public static void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= 26) {
             CharSequence name = context.getString(R.string.notification_channel_name);
@@ -79,17 +75,20 @@ public class GCMPushNotifications {
         this.conversations = application.getConversations();
     }
 
-    void onReceived() {
+    static void onReceived(MainApplication application, Bundle data) {
+        logNotificationData(data);
+        final ConversationMap conversations = application.getConversations();
+        final PushNotificationsProp props = new PushNotificationsProp(data);
         final String eventType = props.getEvent();
         switch (eventType) {
           case "message":
             addConversationToMap(props, conversations);
-            updateNotification(mContext, conversations, props);
+            updateNotification(application, conversations, props);
             break;
           case "remove":
             removeMessageFromMap(props, conversations);
             if (conversations.isEmpty()) {
-                getNotificationManager().cancelAll();
+                getNotificationManager(application).cancelAll();
             }
             break;
           default:

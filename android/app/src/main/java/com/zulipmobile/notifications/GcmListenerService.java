@@ -13,8 +13,6 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
         if (!(applicationContext instanceof MainApplication)) {
             return;
         }
-        final GCMPushNotifications wixNotificationObject =
-                new GCMPushNotifications((MainApplication)applicationContext, data);
-        wixNotificationObject.onReceived();
+        GCMPushNotifications.onReceived((MainApplication)applicationContext, data);
     }
 }
