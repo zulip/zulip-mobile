@@ -18,7 +18,20 @@ import {
 } from '../actionConstants';
 import { deeperMerge } from '../utils/misc';
 
-const initialState = {};
+const initialState = {
+  read: {},
+  starred: {},
+  collapsed: {},
+  mentions: {},
+  wildcard_mentions: {},
+  summarize_in_home: {},
+  summarize_in_stream: {},
+  force_expand: {},
+  force_collapse: {},
+  has_alert_word: {},
+  historical: {},
+  is_me_message: {},
+};
 
 const addFlagsForMessages = (
   state: FlagsState,
@@ -71,6 +84,7 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
     });
   });
 
+  // $FlowFixMe: Flow can't follow this objects-as-maps logic.
   return stateChanged ? deeperMerge(state, newState) : state;
 };
 

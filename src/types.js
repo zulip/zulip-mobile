@@ -274,11 +274,22 @@ export type FetchingState = {
   [narrow: string]: Fetching,
 };
 
-export type FlagsState = {
-  [flagName: string]: {
-    [messageId: number]: boolean,
-  },
-};
+export type FlagsState = {|
+  read: { [messageId: number]: boolean },
+  starred: { [messageId: number]: boolean },
+  collapsed: { [messageId: number]: boolean },
+  mentions: { [messageId: number]: boolean },
+  wildcard_mentions: { [messageId: number]: boolean },
+  summarize_in_home: { [messageId: number]: boolean },
+  summarize_in_stream: { [messageId: number]: boolean },
+  force_expand: { [messageId: number]: boolean },
+  force_collapse: { [messageId: number]: boolean },
+  has_alert_word: { [messageId: number]: boolean },
+  historical: { [messageId: number]: boolean },
+  is_me_message: { [messageId: number]: boolean },
+|};
+
+export type FlagName = $Keys<FlagsState>;
 
 export type MigrationsState = {|
   version?: string,
