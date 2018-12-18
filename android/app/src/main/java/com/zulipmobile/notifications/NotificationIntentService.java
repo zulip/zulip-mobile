@@ -21,9 +21,7 @@ public class NotificationIntentService extends IntentService {
         }
         if (ACTION_VIEW.equals(intent.getAction())) {
             final Bundle bundle = intent.getBundleExtra(PUSH_NOTIFICATION_EXTRA_NAME);
-            final GCMPushNotifications wixNotificationsObject =
-                    new GCMPushNotifications((MainApplication)applicationContext, bundle);
-            wixNotificationsObject.onOpened();
+            GCMPushNotifications.onOpened((MainApplication)applicationContext, bundle);
         } else if (ACTION_CLEAR.equals(intent.getAction())) {
             ((MainApplication) applicationContext).clearNotifications();
         }

@@ -67,9 +67,13 @@ public class GCMPushNotifications {
         }
     }
 
+    private static void logNotificationData(Bundle data) {
+        data.keySet(); // Has the side effect of making `data.toString` more informative.
+        Log.v(TAG, "getPushNotification: " + data.toString(), new Throwable());
+    }
+
     GCMPushNotifications(MainApplication application, Bundle bundle) {
-        bundle.keySet(); // Has the side effect of making `bundle.toString` more informative.
-        Log.v(TAG, "getPushNotification: " + bundle.toString(), new Throwable());
+        logNotificationData(bundle);
         this.mContext = application;
         this.props = new PushNotificationsProp(bundle);
         this.conversations = application.getConversations();
@@ -207,12 +211,15 @@ public class GCMPushNotifications {
         return null;
     }
 
-    void onOpened() {
-        notifyReact(mContext, props);
-        getNotificationManager().cancelAll();
+    static void onOpened(MainApplication application, Bundle data) {
+        logNotificationData(data);
+        final ConversationMap conversations = application.getConversations();
+        final PushNotificationsProp props = new PushNotificationsProp(data);
+        notifyReact(application, props);
+        getNotificationManager(application).cancelAll();
         clearConversations(conversations);
         try {
-            ShortcutBadger.removeCount(mContext);
+            ShortcutBadger.removeCount(application);
         } catch (Exception e) {
             Log.e(TAG, "BADGE ERROR: " + e.toString());
         }
