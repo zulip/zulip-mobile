@@ -102,9 +102,8 @@ public class GCMPushNotifications {
             getNotificationManager().cancelAll();
             return;
         }
-        final Notification notification = getNotificationBuilder(null).build();
-        final int notificationId = createNotificationId(notification);
-        getNotificationManager().notify(notificationId, notification);
+        final Notification notification = getNotificationBuilder().build();
+        getNotificationManager().notify(NOTIFICATION_ID, notification);
     }
 
     void onReceived() {
@@ -162,7 +161,7 @@ public class GCMPushNotifications {
                 AppLifecycleFacadeHolder.get().getRunningReactContext());
     }
 
-    private Notification.Builder getNotificationBuilder(PendingIntent ignoredIntent) {
+    private Notification.Builder getNotificationBuilder() {
         final Notification.Builder builder = Build.VERSION.SDK_INT >= 26 ?
                 new Notification.Builder(mContext, CHANNEL_ID)
                 : new Notification.Builder(mContext);
@@ -263,9 +262,5 @@ public class GCMPushNotifications {
             Log.e(TAG, "ERROR: " + e.toString());
         }
         return null;
-    }
-
-    private int createNotificationId(Notification notification) {
-        return NOTIFICATION_ID;
     }
 }
