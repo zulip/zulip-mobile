@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
+import static com.wix.reactnativenotifications.Defs.NOTIFICATION_OPENED_EVENT_NAME;
 import static com.zulipmobile.notifications.NotificationHelper.buildNotificationContent;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 import static com.zulipmobile.notifications.NotificationHelper.extractNames;
@@ -122,14 +123,31 @@ public class GCMPushNotifications extends PushNotification {
 
     @Override
     public void onOpened() {
-        InitialNotificationHolder.getInstance().set(getProps());
-        digestNotification();
+        notifyReact();
         getNotificationManager().cancelAll();
         clearConversations(conversations);
         try {
             ShortcutBadger.removeCount(mContext);
         } catch (Exception e) {
             Log.e(TAG, "BADGE ERROR: " + e.toString());
+        }
+    }
+
+    public void notifyReact() {
+        // This version is largely copied from the wix code; it needs replacement.
+        InitialNotificationHolder.getInstance().set(getProps());
+        if (!mAppLifecycleFacade.isReactInitialized()) {
+            mContext.startActivity(mAppLaunchHelper.getLaunchIntent(mContext));
+            return;
+        }
+        if (mAppLifecycleFacade.isAppVisible()) {
+            mJsIOHelper.sendEventToJS(
+                    NOTIFICATION_OPENED_EVENT_NAME,
+                    getProps().asBundle(),
+                    mAppLifecycleFacade.getRunningReactContext());
+        } else {
+            mAppLifecycleFacade.addVisibilityListener(mAppVisibilityListener);
+            mContext.startActivity(mAppLaunchHelper.getLaunchIntent(mContext));
         }
     }
 
