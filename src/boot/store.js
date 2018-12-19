@@ -1,10 +1,9 @@
 /* @flow */
-import { applyMiddleware, compose } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import type { Config } from 'redux-persist';
 import { AsyncStorage } from 'react-native';
 
-import Reactotron from './ReactotronConfig';
 import rootReducer from './reducers';
 import middleware from './middleware';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
@@ -68,8 +67,6 @@ const reduxPersistConfig: Config = {
   // $FlowFixMe: https://github.com/rt2zz/redux-persist/issues/823
   storage: ZulipAsyncStorage,
 };
-
-const createStore = Reactotron ? Reactotron.createStore : require('redux').createStore;
 
 const store = createStore(
   rootReducer,

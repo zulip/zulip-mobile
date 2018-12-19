@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
 
-import './boot/ReactotronConfig';
 import '../vendor/intl/intl';
 import StoreProvider from './boot/StoreProvider';
 import TranslationProvider from './boot/TranslationProvider';
