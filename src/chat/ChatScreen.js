@@ -34,9 +34,11 @@ export default class ChatScreen extends PureComponent<Props> {
       <ActionSheetProvider>
         <View style={styles.screen}>
           <ZulipStatusBar narrow={narrow} />
-          <ChatNavBar narrow={narrow} />
-          <OfflineNotice />
-          <Chat narrow={narrow} />
+          <View style={[styles.flexed, styles.flexDirectionColumnReversed]}>
+            <Chat narrow={narrow} />
+            <OfflineNotice />
+            <ChatNavBar narrow={narrow} />
+          </View>
         </View>
       </ActionSheetProvider>
     );
