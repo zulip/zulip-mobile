@@ -30,9 +30,11 @@ export default class Chat extends PureComponent<Props> {
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <View style={styles.flexed}>
-          <UnreadNotice narrow={narrow} />
-          <NoMessages narrow={narrow} />
-          <MessageList narrow={narrow} />
+          <View style={[styles.flexed, styles.flexDirectionColumnReversed]}>
+            <MessageList narrow={narrow} />
+            <NoMessages narrow={narrow} />
+            <UnreadNotice narrow={narrow} />
+          </View>
           <ComposeBox narrow={narrow} />
         </View>
       </KeyboardAvoider>
