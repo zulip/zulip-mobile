@@ -407,7 +407,6 @@ blockquote {
   width: 100%;
   background: red;
   color: white;
-  font-size: 15px;
   padding: 4px;
   text-align: center;
 }
