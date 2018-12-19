@@ -1,4 +1,4 @@
-import { getNarrowFromNotificationData, handleNotification } from '../notifications';
+import { getNarrowFromNotificationData, handleNotificationMuddle } from '../notifications';
 import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../narrow';
 
 describe('getNarrowFromNotificationData', () => {
@@ -59,15 +59,15 @@ describe('getNarrowFromNotificationData', () => {
 
 describe('handlePendingNotifications', () => {
   test('does not throw if `notificationData` value is not as expected', () => {
-    expect(() => handleNotification()).not.toThrow();
-    expect(() => handleNotification({})).not.toThrow();
+    expect(() => handleNotificationMuddle()).not.toThrow();
+    expect(() => handleNotificationMuddle({})).not.toThrow();
   });
 
   test('if no data is extracted dispatch nothing', () => {
     const notificationData = { getData: () => undefined };
     const dispatch = jest.fn();
 
-    handleNotification(notificationData);
+    handleNotificationMuddle(notificationData);
 
     expect(dispatch).not.toHaveBeenCalled();
   });
@@ -76,7 +76,7 @@ describe('handlePendingNotifications', () => {
     const notificationData = { getData: () => ({}) };
     const dispatch = jest.fn();
 
-    handleNotification(notificationData, dispatch);
+    handleNotificationMuddle(notificationData, dispatch);
 
     expect(dispatch).toHaveBeenCalled();
   });

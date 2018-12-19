@@ -37,27 +37,35 @@ export const getNarrowFromNotificationData = (data: Notification, usersById: Use
   return getGroupNarrowFromNotificationData(data, usersById);
 };
 
-export const handleNotification = (
+const extractNotificationData = (notification: Object): Notification | null => {
+  if (!notification || !notification.getData) {
+    return null;
+  }
+  const data = notification.getData();
+  return data && data.zulip ? data.zulip : data;
+};
+
+const handleNotification = (data: Notification, dispatch: Dispatch, usersById: UserIdMap) => {
+  config.startup.notification = data;
+  dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
+};
+
+export const handleNotificationMuddle = (
   notification: Object,
   dispatch: Dispatch,
   usersById: UserIdMap,
 ) => {
-  if (!notification || !notification.getData) {
+  const data = extractNotificationData(notification);
+  if (!data) {
     return;
   }
-
-  const data = notification.getData();
-  const extractedData = data && data.zulip ? data.zulip : data;
-  config.startup.notification = extractedData;
-  if (extractedData) {
-    dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
-  }
+  handleNotification(data, dispatch, usersById);
 };
 
 export const handleInitialNotification = async (dispatch: Dispatch, usersById: UserIdMap) => {
   const NotificationService = Platform.OS === 'ios' ? PushNotificationIOS : PendingNotifications;
-  const data = await NotificationService.getInitialNotification();
-  handleNotification(data, dispatch, usersById);
+  const notification = await NotificationService.getInitialNotification();
+  handleNotificationMuddle(notification, dispatch, usersById);
 };
 
 export class NotificationListener {
@@ -65,7 +73,7 @@ export class NotificationListener {
 
   constructor(dispatch: Dispatch, usersById: UserIdMap) {
     this.handleNotificationOpen = notification => {
-      handleNotification(notification, dispatch, usersById);
+      handleNotificationMuddle(notification, dispatch, usersById);
     };
   }
 
