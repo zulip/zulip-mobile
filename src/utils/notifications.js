@@ -37,21 +37,32 @@ export const getNarrowFromNotificationData = (data: Notification, usersById: Use
   return getGroupNarrowFromNotificationData(data, usersById);
 };
 
-export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
-  if (Platform.OS === 'ios') {
-    NotificationsIOS.addEventListener('notificationOpened', notificationHandler);
-  } else {
-    NotificationsAndroid.setNotificationOpenedListener(notificationHandler);
-  }
-};
+export class NotificationListener {
+  handleNotificationOpen: (notification: Object) => void;
 
-export const removeNotificationListener = (notificationHandler: (notification: Object) => void) => {
-  if (Platform.OS === 'ios') {
-    NotificationsIOS.removeEventListener('notificationOpened', notificationHandler);
-  } else {
-    // do nothing
+  constructor(dispatch: Dispatch, usersById: UserIdMap) {
+    this.handleNotificationOpen = notification => {
+      // eslint-disable-next-line no-use-before-define
+      handlePendingNotifications(notification, dispatch, usersById);
+    };
   }
-};
+
+  start() {
+    if (Platform.OS === 'ios') {
+      NotificationsIOS.addEventListener('notificationOpened', this.handleNotificationOpen);
+    } else {
+      NotificationsAndroid.setNotificationOpenedListener(this.handleNotificationOpen);
+    }
+  }
+
+  stop() {
+    if (Platform.OS === 'ios') {
+      NotificationsIOS.removeEventListener('notificationOpened', this.handleNotificationOpen);
+    } else {
+      // do nothing
+    }
+  }
+}
 
 export const initializeNotifications = (
   auth: Auth,

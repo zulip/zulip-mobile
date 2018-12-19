@@ -14,12 +14,7 @@ import type {
   UserIdMap,
 } from '../types';
 import { getSession, getUnreadByHuddlesMentionsAndPMs, getUsersById } from '../selectors';
-import {
-  addNotificationListener,
-  removeNotificationListener,
-  handlePendingNotifications,
-  handleInitialNotification,
-} from '../utils/notifications';
+import { handleInitialNotification, NotificationListener } from '../utils/notifications';
 import {
   appOnline,
   appOrientation,
@@ -69,10 +64,7 @@ class AppEventHandlers extends PureComponent<Props> {
     }
   };
 
-  handleNotificationOpen = (notification: Object) => {
-    const { dispatch, usersById } = this.props;
-    handlePendingNotifications(notification, dispatch, usersById);
-  };
+  notificationListener = new NotificationListener(this.props.dispatch, this.props.usersById);
 
   handleMemoryWarning = () => {
     // Release memory here
@@ -90,7 +82,7 @@ class AppEventHandlers extends PureComponent<Props> {
     );
     // $FlowFixMe: libdef wrongly says callback's parameter is optional
     Orientation.addOrientationListener(this.handleOrientationChange);
-    addNotificationListener(this.handleNotificationOpen);
+    this.notificationListener.start();
   }
 
   componentWillUnmount() {
@@ -99,7 +91,7 @@ class AppEventHandlers extends PureComponent<Props> {
     AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
     // $FlowFixMe: libdef wrongly says callback's parameter is optional
     Orientation.removeOrientationListener(this.handleOrientationChange);
-    removeNotificationListener(this.handleNotificationOpen);
+    this.notificationListener.stop();
   }
 
   render() {
