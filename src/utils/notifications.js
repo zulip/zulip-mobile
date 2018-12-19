@@ -37,12 +37,34 @@ export const getNarrowFromNotificationData = (data: Notification, usersById: Use
   return getGroupNarrowFromNotificationData(data, usersById);
 };
 
+export const handlePendingNotifications = (
+  notificationData: Object,
+  dispatch: Dispatch,
+  usersById: UserIdMap,
+) => {
+  if (!notificationData || !notificationData.getData) {
+    return;
+  }
+
+  const data = notificationData.getData();
+  const extractedData = data && data.zulip ? data.zulip : data;
+  config.startup.notification = extractedData;
+  if (extractedData) {
+    dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
+  }
+};
+
+export const handleInitialNotification = async (dispatch: Dispatch, usersById: UserIdMap) => {
+  const NotificationService = Platform.OS === 'ios' ? PushNotificationIOS : PendingNotifications;
+  const data = await NotificationService.getInitialNotification();
+  handlePendingNotifications(data, dispatch, usersById);
+};
+
 export class NotificationListener {
   handleNotificationOpen: (notification: Object) => void;
 
   constructor(dispatch: Dispatch, usersById: UserIdMap) {
     this.handleNotificationOpen = notification => {
-      // eslint-disable-next-line no-use-before-define
       handlePendingNotifications(notification, dispatch, usersById);
     };
   }
@@ -95,27 +117,4 @@ export const refreshNotificationToken = () => {
   } else {
     NotificationsAndroid.refreshToken();
   }
-};
-
-export const handlePendingNotifications = (
-  notificationData: Object,
-  dispatch: Dispatch,
-  usersById: UserIdMap,
-) => {
-  if (!notificationData || !notificationData.getData) {
-    return;
-  }
-
-  const data = notificationData.getData();
-  const extractedData = data && data.zulip ? data.zulip : data;
-  config.startup.notification = extractedData;
-  if (extractedData) {
-    dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
-  }
-};
-
-export const handleInitialNotification = async (dispatch: Dispatch, usersById: UserIdMap) => {
-  const NotificationService = Platform.OS === 'ios' ? PushNotificationIOS : PendingNotifications;
-  const data = await NotificationService.getInitialNotification();
-  handlePendingNotifications(data, dispatch, usersById);
 };
