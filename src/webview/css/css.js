@@ -40,7 +40,7 @@ pre {
   word-wrap: normal;
 }
 code, pre {
-  border-radius: 3px;
+  border-radius: 0.2rem;
   border: 1px solid rgba(127, 127, 127, 0.25);
   background-color: rgba(127, 127, 127, 0.125);
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
@@ -107,7 +107,7 @@ hr {
   padding: 16px;
 }
 .message-brief {
-  padding: 0 16px 16px 64px;
+  padding: 0 16px 16px 72px;
 }
 .message p + p {
   margin-top: 16px;
@@ -138,7 +138,7 @@ hr {
 .user-mention {
   white-space: nowrap;
   background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
+  border-radius: 0.2rem;
   padding: 0 4px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
@@ -146,6 +146,7 @@ hr {
   position: -webkit-sticky;
   position: sticky;
   top: -1px;
+  padding: 8px;
   z-index: 100;
   display: flex;
   justify-content: space-between;
@@ -162,13 +163,13 @@ hr {
 .stream-text,
 .topic-header,
 .private-header {
+  padding: 0 8px;
   line-height: 2;
   white-space: nowrap;
 }
-.private-header {
-  padding: 0 8px;
-}
-.topic-header {
+.topic-text {
+  flex: 1;
+  padding-left: 8px;
   background: #ccc;
   min-width: 30%;
 }
@@ -227,7 +228,7 @@ hr {
   background-size: 200% 200%;
   animation: gradient-scroll 1s linear infinite;
 
-  border-radius: 4px;
+  border-radius: 0.25rem;
   height: 8px;
   margin-bottom: 8px;
 }
@@ -276,7 +277,7 @@ hr {
 blockquote {
   padding-left: 8px;
   margin: 8px 0 8px 0;
-  border-left: 3px solid rgba(127, 127, 127, 0.5);
+  border-left: 0.2rem solid rgba(127, 127, 127, 0.5);
 }
 .message ul {
   padding-left: 20px;
@@ -299,12 +300,12 @@ blockquote {
 .twitter-tweet {
   border: 2px solid rgba(29, 161, 242, 0.5);
   background: rgba(29, 161, 242, 0.1);
-  border-radius: 6px;
+  border-radius: 0.4rem;
   padding: 8px 16px;
   margin: 8px 0;
 }
 .twitter-avatar {
-  border-radius: 3px;
+  border-radius: 0.2rem;
   margin: 8px 8px 4px 0;
   float: left;
   width: 2.2rem;
@@ -322,7 +323,7 @@ blockquote {
 .message-tag {
   padding: 3px 5px;
   margin-left: 4px;
-  border-radius: 3px;
+  border-radius: 0.2rem;
   color: rgba(127, 127, 127, 0.75);
   background: rgba(0, 0, 0, 0.1);
 }
@@ -333,7 +334,7 @@ blockquote {
   color: rgba(127, 127, 127, 1);
   display: inline-block;
   padding: 8px;
-  border-radius: 3px;
+  border-radius: 0.2rem;
   border: 1px solid rgba(127, 127, 127, 0.75);
   line-height: 1rem;
   height: 1rem;
