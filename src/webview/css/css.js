@@ -29,11 +29,11 @@ p {
 code {
   font-size: .857rem;
   white-space: pre-wrap;
-  padding: 0 0.25rem;
+  padding: 0 4px;
 }
 pre {
-  padding: 0.5rem;
-  margin: 0.5rem 0;
+  padding: 8px;
+  margin: 8px 0;
   font-size: 0.75rem;
   white-space: pre;
   overflow-x: auto;
@@ -57,10 +57,10 @@ thead {
 }
 th, td {
   align: center;
-  padding: 0.25rem 0.5rem;
+  padding: 4px 8px;
 }
 hr {
-  margin: 1rem 0;
+  margin: 16px 0;
   border: 0;
   border-top: 1px solid rgba(127, 127, 127, 0.5);
 }
@@ -74,20 +74,20 @@ hr {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 0.25rem;
+  margin-bottom: 4px;
 }
 .timerow {
   text-align: center;
   color: #999;
   display: flex;
   align-items: center;
-  padding: 0.5rem 0;
+  padding: 8px 0;
 }
 .timerow-left,
 .timerow-right {
   flex: 1;
   height: 1px;
-  margin: 0.5rem;
+  margin: 8px;
 }
 .timerow-left {
   background: -webkit-linear-gradient(left, transparent 10%, #999 100%);
@@ -104,20 +104,20 @@ hr {
 .loading {
   display: flex;
   word-wrap: break-word;
-  padding: 1rem;
+  padding: 16px;
 }
 .message-brief {
-  padding: 0 1rem 1rem 4rem;
+  padding: 0 16px 16px 64px;
 }
 .message p + p {
-  margin-top: 1rem;
+  margin-top: 16px;
 }
 .avatar,
 .loading-avatar {
   min-width: 32px;
   width: 32px;
   height: 32px;
-  margin-right: 1rem;
+  margin-right: 16px;
 }
 .avatar img {
   width: 100%;
@@ -139,7 +139,7 @@ hr {
   white-space: nowrap;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 3px;
-  padding: 0 .125rem;
+  padding: 0 2px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 .header-wrapper {
@@ -166,7 +166,7 @@ hr {
   white-space: nowrap;
 }
 .private-header {
-  padding: 0 0.5rem;
+  padding: 0 8px;
 }
 .topic-header {
   background: #ccc;
@@ -250,7 +250,7 @@ hr {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  margin: 1rem auto;
+  margin: 16px auto;
   font-size: 10px;
   border: 3px solid rgba(82, 194, 175, 0.25);
   border-left: 3px solid rgba(82, 194, 175, 0.75);
@@ -274,16 +274,16 @@ hr {
   object-fit: contain;
 }
 blockquote {
-  padding-left: 0.5rem;
-  margin: 0.5rem 0 0.5rem 0;
+  padding-left: 8px;
+  margin: 8px 0 8px 0;
   border-left: 3px solid rgba(127, 127, 127, 0.5);
 }
 .message ul {
-  padding-left: 1.25rem;
-  margin: 0.25rem 0 0 0;
+  padding-left: 20px;
+  margin: 4px 0 0 0;
 }
 .message ul + p {
-  margin-top: 1rem;
+  margin-top: 16px;
 }
 .codehilite .gi { color: #00a000; }
 .codehilite .gd { color: #a00000; }
@@ -300,34 +300,34 @@ blockquote {
   border: 2px solid rgba(29, 161, 242, 0.5);
   background: rgba(29, 161, 242, 0.1);
   border-radius: 6px;
-  padding: 0.5rem 1rem;
-  margin: 0.5rem 0;
+  padding: 8px 16px;
+  margin: 8px 0;
 }
 .twitter-avatar {
   border-radius: 3px;
-  margin: 0.5rem 0.5rem 0.25rem 0;
+  margin: 8px 8px 4px 0;
   float: left;
   width: 2.2rem;
   height: 2.2rem;
 }
 .twitter-image {
   text-align: center;
-  margin: 0.5rem auto;
+  margin: 8px auto;
 }
 .message-tags {
   text-align: right;
-  margin: 0.25rem 0;
+  margin: 4px 0;
   font-size: 0.7rem;
 }
 .message-tag {
-  padding: 0.25rem 0.25rem;
-  margin-left: 4;
+  padding: 4px 4px;
+  margin-left: 4px;
   border-radius: 3px;
   color: rgba(127, 127, 127, 0.75);
   background: rgba(0, 0, 0, 0.1);
 }
 .reaction-list {
-  margin: 0.5rem 0;
+  margin: 8px 0;
 }
 .reaction {
   color: rgba(127, 127, 127, 1);
@@ -337,7 +337,7 @@ blockquote {
   border: 1px solid rgba(127, 127, 127, 0.75);
   line-height: 1rem;
   height: 1rem;
-  margin: .25rem 0.5rem .25rem 0;
+  margin: 4px 8px 4px 0;
 }
 .reaction img {
   pointer-events: none;
@@ -377,11 +377,11 @@ blockquote {
 }
 #typing {
   display: flex;
-  padding-left: 1rem;
+  padding-left: 16px;
 }
 #typing .content {
-  padding-top: 0.5rem;
-  padding-bottom: 1rem;
+  padding-top: 8px;
+  padding-bottom: 16px;
 }
 #typing span {
   display: inline-block;
