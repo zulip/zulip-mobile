@@ -37,16 +37,16 @@ export const getNarrowFromNotificationData = (data: Notification, usersById: Use
   return getGroupNarrowFromNotificationData(data, usersById);
 };
 
-export const handlePendingNotifications = (
-  notificationData: Object,
+export const handleNotification = (
+  notification: Object,
   dispatch: Dispatch,
   usersById: UserIdMap,
 ) => {
-  if (!notificationData || !notificationData.getData) {
+  if (!notification || !notification.getData) {
     return;
   }
 
-  const data = notificationData.getData();
+  const data = notification.getData();
   const extractedData = data && data.zulip ? data.zulip : data;
   config.startup.notification = extractedData;
   if (extractedData) {
@@ -57,7 +57,7 @@ export const handlePendingNotifications = (
 export const handleInitialNotification = async (dispatch: Dispatch, usersById: UserIdMap) => {
   const NotificationService = Platform.OS === 'ios' ? PushNotificationIOS : PendingNotifications;
   const data = await NotificationService.getInitialNotification();
-  handlePendingNotifications(data, dispatch, usersById);
+  handleNotification(data, dispatch, usersById);
 };
 
 export class NotificationListener {
@@ -65,7 +65,7 @@ export class NotificationListener {
 
   constructor(dispatch: Dispatch, usersById: UserIdMap) {
     this.handleNotificationOpen = notification => {
-      handlePendingNotifications(notification, dispatch, usersById);
+      handleNotification(notification, dispatch, usersById);
     };
   }
 
