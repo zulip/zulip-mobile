@@ -74,14 +74,14 @@ hr {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 1.4rem;
+  margin-bottom: 4px;
 }
 .timerow {
   text-align: center;
   color: #999;
   display: flex;
   align-items: center;
-  margin: 16px;
+  padding: 8px 0;
 }
 .timerow-left,
 .timerow-right {
@@ -95,24 +95,16 @@ hr {
 .timerow-right {
   background: -webkit-linear-gradient(left, #999 0%, transparent 90%);
 }
-.username,
-.timestamp {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 1;
-}
-.username {
-  font-weight: bold;
-}
 .timestamp {
   color: #999;
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 .message,
 .loading {
   display: flex;
   word-wrap: break-word;
-  margin: 16px;
+  padding: 16px;
 }
 .message-brief {
   margin-left: 72px;
@@ -134,6 +126,12 @@ hr {
 .content {
   width: 100%;
   max-width: 100%;
+  overflow: hidden;
+}
+.username {
+  font-weight: bold;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   overflow: hidden;
 }
 .user-group-mention,
@@ -169,9 +167,14 @@ hr {
   line-height: 2;
   white-space: nowrap;
 }
-.topic-text {
-  flex: 1;
-  padding-left: 8px;
+.private-header {
+  padding: 0 0.5rem;
+}
+.topic-header {
+.private-header {
+  padding: 0 8px;
+}
+.topic-header {
   background: #ccc;
   min-width: 30%;
 }
@@ -319,7 +322,7 @@ blockquote {
 }
 .message-tags {
   text-align: right;
-  margin-top: 8px;
+  margin: 4px 0;
   font-size: 0.7rem;
 }
 .message-tag {
@@ -330,7 +333,7 @@ blockquote {
   background: rgba(0, 0, 0, 0.1);
 }
 .reaction-list {
-  margin-top: 8px;
+  margin: 8px 0;
 }
 .reaction {
   color: rgba(127, 127, 127, 1);
