@@ -24,6 +24,7 @@ export type MiscStyles = {
   listItem: Style,
   screen: Style,
   flexed: Style,
+  flexDirectionColumnReversed: Style,
   flexedLeftAlign: Style,
   messageList: Style,
   webview: Style,
@@ -107,6 +108,7 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   flexed: {
     flex: 1,
   },
+  flexDirectionColumnReversed: { flexDirection: 'column-reverse' },
   flexedLeftAlign: {
     flex: 1,
     justifyContent: 'flex-start',
