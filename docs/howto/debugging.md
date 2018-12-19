@@ -85,6 +85,12 @@ See also [in the "Troubleshooting" section below](#debug-remotely-never-loads).
 
 ## Reactotron
 
+**NOTE:** Reactotron is **removed** in master as a result of causing
+unpredictable problems in the basic functionality of debug versions of
+the app.  If you'd like to try it out, try `git revert 170ed2a32` to
+add it back; be sure to see `git log -n1 170ed2a32` for background on
+the removal.
+
 We have integrated [Reactotron](https://github.com/infinitered/reactotron) with the project.
 
 It can be used instead of together with the 'Chrome Developer Tools'.
