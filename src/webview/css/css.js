@@ -81,7 +81,7 @@ hr {
   color: #999;
   display: flex;
   align-items: center;
-  padding: 8px 0;
+  margin: 16px;
 }
 .timerow-left,
 .timerow-right {
@@ -104,10 +104,10 @@ hr {
 .loading {
   display: flex;
   word-wrap: break-word;
-  padding: 16px;
+  margin: 16px;
 }
 .message-brief {
-  padding: 0 16px 16px 72px;
+  margin-left: 72px;
 }
 .message p + p {
   margin-top: 16px;
@@ -317,7 +317,7 @@ blockquote {
 }
 .message-tags {
   text-align: right;
-  margin: 4px 0;
+  margin-top: 8px;
   font-size: 0.7rem;
 }
 .message-tag {
@@ -328,7 +328,7 @@ blockquote {
   background: rgba(0, 0, 0, 0.1);
 }
 .reaction-list {
-  margin: 8px 0;
+  margin-top: 8px;
 }
 .reaction {
   color: rgba(127, 127, 127, 1);
