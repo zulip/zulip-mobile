@@ -66,7 +66,6 @@ type Props = {|
 |};
 
 export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }: Props) => ({
-  ...statics,
   color: {
     color,
   },

@@ -2,7 +2,6 @@
 import { StyleSheet } from 'react-native';
 
 import type { ThemeName } from '../types';
-import utilityStyles from './utilityStyles';
 import navStyles from './navStyles';
 import miscStyles from './miscStyles';
 
@@ -15,7 +14,6 @@ type ThemeColors = {|
 |};
 
 export type AppStyles = $ReadOnly<{|
-  ...typeof utilityStyles,
   ...$Call<typeof navStyles, ThemeColors>,
   ...$Call<typeof miscStyles, ThemeColors>,
 |}>;
@@ -45,7 +43,6 @@ themeColors.default = themeColors.light;
 export const stylesFromTheme = (name: ThemeName) => {
   const colors = themeColors[name];
   return StyleSheet.create({
-    ...utilityStyles,
     ...navStyles(colors),
     ...miscStyles(colors),
   });

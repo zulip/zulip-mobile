@@ -46,7 +46,6 @@ type Props = {
 };
 
 export default ({ color, backgroundColor, borderColor }: Props) => ({
-  ...statics,
   navBar: {
     backgroundColor,
     borderColor,
