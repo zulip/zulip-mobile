@@ -72,9 +72,9 @@ $!${messageReactionListAsHtml(reactions, ownEmail, allRealmEmojiById)}
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
   Object.keys(flags).filter(key => flags[key][id]);
 
-export default (context: BackgroundData, message: Message | Outbox, isBrief: boolean) => {
+export default (backgroundData: BackgroundData, message: Message | Outbox, isBrief: boolean) => {
   const { id } = message;
-  const flagStrings = flagsStateToStringList(context.flags, id);
+  const flagStrings = flagsStateToStringList(backgroundData.flags, id);
   const divOpenHtml = template`
     <div
      class="message ${isBrief ? 'message-brief' : 'message-full'}"
@@ -83,7 +83,7 @@ export default (context: BackgroundData, message: Message | Outbox, isBrief: boo
      $!${flagStrings.map(flag => template`data-${flag}="true" `).join('')}
     >`;
 
-  const bodyHtml = messageBody(context, message);
+  const bodyHtml = messageBody(backgroundData, message);
 
   if (isBrief) {
     return template`
@@ -106,7 +106,7 @@ $!${divOpenHtml}
     ${sender_full_name}
   </div>
   <div class="timestamp">
-    ${shortTime(new Date(timestamp * 1000), context.twentyFourHourTime)}
+    ${shortTime(new Date(timestamp * 1000), backgroundData.twentyFourHourTime)}
   </div>
 </div>
 `;
