@@ -15,6 +15,7 @@ type Props = {|
 |};
 
 const componentStyles = StyleSheet.create({
+  /** A workaround for #3089, by letting us put MessageList first. */
   reverse: {
     flex: 1,
     flexDirection: 'column-reverse',
