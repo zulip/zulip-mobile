@@ -27,6 +27,7 @@ import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import { isStreamNarrow, isStreamOrTopicNarrow, topicNarrow } from '../utils/narrow';
+import styles from '../styles/composeBoxStyles';
 import ComposeMenu from './ComposeMenu';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
@@ -261,7 +262,7 @@ class ComposeBox extends PureComponent<Props, State> {
   }
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
     const {
       auth,
@@ -300,7 +301,7 @@ class ComposeBox extends PureComponent<Props, State> {
           onTopicAutocomplete={this.handleTopicAutocomplete}
         />
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
-          <View style={styles.alignBottom}>
+          <View style={contextStyles.alignBottom}>
             <ComposeMenu
               destinationNarrow={this.getDestinationNarrow()}
               expanded={isMenuExpanded}
@@ -310,7 +311,7 @@ class ComposeBox extends PureComponent<Props, State> {
           <View style={styles.composeText}>
             {this.getCanSelectTopic() && (
               <Input
-                style={styles.topicInput}
+                style={contextStyles.topicInput}
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
                 selectTextOnFocus
@@ -324,7 +325,7 @@ class ComposeBox extends PureComponent<Props, State> {
               />
             )}
             <MultilineInput
-              style={styles.composeTextInput}
+              style={contextStyles.composeTextInput}
               placeholder={placeholder}
               textInputRef={component => {
                 if (component) {
@@ -338,7 +339,7 @@ class ComposeBox extends PureComponent<Props, State> {
               onTouchStart={this.handleInputTouchStart}
             />
           </View>
-          <View style={styles.alignBottom}>
+          <View style={contextStyles.alignBottom}>
             <FloatingActionButton
               style={styles.composeSendButton}
               Icon={editMessage === null ? IconSend : IconDone}
