@@ -2,12 +2,14 @@
 import type { ApiResponseSuccess } from '../transportTypes';
 import { apiGet } from '../apiFetch';
 
+// This corresponds to AUTHENTICATION_FLAGS in zulip/zulip:zerver/models.py .
 export type AuthenticationMethods = {|
   dev: boolean,
   github: boolean,
   google: boolean,
   ldap: boolean,
   password: boolean,
+  azuread: boolean,
   remoteuser: boolean,
 |};
 

@@ -95,6 +95,10 @@ class AuthScreen extends PureComponent<Props> {
     this.beginOAuth('accounts/login/social/github');
   };
 
+  handleAzureAD = () => {
+    this.beginOAuth('/accounts/login/social/azuread-oauth2');
+  };
+
   handleSso = () => {
     this.beginOAuth('accounts/login/sso/');
   };

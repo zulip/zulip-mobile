@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { AuthenticationMethods } from '../types';
-import { IconPrivate, IconGoogle, IconGitHub, IconTerminal } from '../common/Icons';
+import { IconPrivate, IconGoogle, IconGitHub, IconWindows, IconTerminal } from '../common/Icons';
 import type { IconType } from '../common/Icons';
 
 type AuthenticationMethodDetails = {|
@@ -40,6 +40,12 @@ const authentications: AuthenticationMethodDetails[] = [
     name: 'GitHub',
     Icon: IconGitHub,
     handler: 'handleGitHub',
+  },
+  {
+    method: 'azuread',
+    name: 'Azure AD',
+    Icon: IconWindows,
+    handler: 'handleAzureAD',
   },
   {
     method: 'remoteuser',

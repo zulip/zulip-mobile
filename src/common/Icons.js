@@ -36,6 +36,7 @@ export const IconPrivateChat: IconType = props => <Feather name="mail" {...props
 export const IconDownArrow: IconType = props => <Feather name="chevron-down" {...props} />;
 export const IconGoogle: IconType = props => <IoniconsIcon name="logo-google" {...props} />;
 export const IconGitHub: IconType = props => <Feather name="github" {...props} />;
+export const IconWindows: IconType = props => <IoniconsIcon name="logo-windows" {...props} />;
 export const IconCross: IconType = props => <Feather name="x" {...props} />;
 export const IconDiagnostics: IconType = props => <Feather name="activity" {...props} />;
 export const IconNotifications: IconType = props => <Feather name="bell" {...props} />;

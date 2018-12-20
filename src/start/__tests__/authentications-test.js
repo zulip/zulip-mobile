@@ -35,6 +35,7 @@ describe('activeAuthentications', () => {
     const authenticationMethods = {
       dev: true,
       github: true,
+      azuread: true,
       google: true,
       ldap: true,
       password: true,
@@ -43,7 +44,7 @@ describe('activeAuthentications', () => {
 
     const actual = activeAuthentications(authenticationMethods);
 
-    expect(actual).toHaveLength(5);
+    expect(actual).toHaveLength(6);
   });
 
   test('only recognized auth methods are returned while the unknown are ignored', () => {
