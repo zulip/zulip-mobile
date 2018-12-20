@@ -1,15 +1,19 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { BackHandler, View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Context, Narrow } from '../types';
+import type { Auth, Context, EditMessage, Narrow, Message, GlobalState } from '../types';
+import { getMessageContentById } from '../api';
 import { OfflineNotice, ZulipStatusBar } from '../common';
+import { getAuth } from '../selectors';
 import Chat from '../chat/Chat';
 import ChatNavBar from '../nav/ChatNavBar';
 
 type Props = {|
+  auth: Auth,
   navigation: NavigationScreenProp<*> & {
     state: {
       params: {
@@ -17,6 +21,10 @@ type Props = {|
       },
     },
   },
+|};
+
+type State = {|
+  editMessage: ?EditMessage,
 |};
 
 const componentStyles = StyleSheet.create({
@@ -27,14 +35,56 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class ChatScreen extends PureComponent<Props> {
+class ChatScreen extends PureComponent<Props, State> {
   context: Context;
+
+  state = {
+    editMessage: null,
+  };
 
   static contextTypes = {
     styles: () => null,
   };
 
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  handleBackPress = () => {
+    const { editMessage } = this.state;
+    if (editMessage) {
+      this.cancelEditMode();
+      // do not propagate back event to navigation
+      return true;
+    }
+    // call react-navigation back handler implementation
+    return false;
+  };
+
+  onEditMessageSelect = async (editMessage: Message) => {
+    const { auth } = this.props;
+    const message = await getMessageContentById(auth, editMessage.id);
+    this.setState({
+      editMessage: {
+        id: editMessage.id,
+        content: message,
+        topic: editMessage.subject,
+      },
+    });
+  };
+
+  cancelEditMode = (): void => {
+    this.setState({
+      editMessage: null,
+    });
+  };
+
   render() {
+    const { editMessage } = this.state;
     const { styles } = this.context;
     const { narrow } = this.props.navigation.state.params;
 
@@ -43,12 +93,24 @@ export default class ChatScreen extends PureComponent<Props> {
         <View style={styles.screen}>
           <ZulipStatusBar narrow={narrow} />
           <View style={componentStyles.reverse}>
-            <Chat narrow={narrow} />
+            <Chat
+              narrow={narrow}
+              cancelEditMode={this.cancelEditMode}
+              editMessage={editMessage}
+              onEditMessageSelect={this.onEditMessageSelect}
+            />
             <OfflineNotice />
-            <ChatNavBar narrow={narrow} />
+            <ChatNavBar
+              narrow={narrow}
+              cancelEditMode={editMessage ? this.cancelEditMode : undefined}
+            />
           </View>
         </View>
       </ActionSheetProvider>
     );
   }
 }
+
+export default connect((state: GlobalState) => ({
+  auth: getAuth(state),
+}))(ChatScreen);

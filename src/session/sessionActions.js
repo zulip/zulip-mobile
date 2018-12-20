@@ -3,7 +3,6 @@ import type {
   AppOnlineAction,
   AppStateAction,
   DeadQueueAction,
-  CancelEditMessageAction,
   AppOrientationAction,
   DebugFlagToggleAction,
   InitSafeAreaInsetsAction,
@@ -19,11 +18,8 @@ import {
   DEAD_QUEUE,
   DEBUG_FLAG_TOGGLE,
   INIT_SAFE_AREA_INSETS,
-  CANCEL_EDIT_MESSAGE,
-  START_EDIT_MESSAGE,
 } from '../actionConstants';
-import { getMessageContentById } from '../api';
-import { getAuth, getIsOnline, getIsActive } from '../selectors';
+import { getIsOnline, getIsActive } from '../selectors';
 
 export const appOnline = (isOnline: boolean) => (
   dispatch: Dispatch,
@@ -69,23 +65,6 @@ export const appOrientation = (orientation: Orientation) => (
     });
   }
 };
-
-export const startEditMessage = (messageId: number, topic: string) => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
-  const message = await getMessageContentById(getAuth(getState()), messageId);
-  dispatch({
-    type: START_EDIT_MESSAGE,
-    messageId,
-    message,
-    topic,
-  });
-};
-
-export const cancelEditMessage = (): CancelEditMessageAction => ({
-  type: CANCEL_EDIT_MESSAGE,
-});
 
 export const debugFlagToggle = (key: string, value: any): DebugFlagToggleAction => ({
   type: DEBUG_FLAG_TOGGLE,

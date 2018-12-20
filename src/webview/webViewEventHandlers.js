@@ -113,6 +113,7 @@ type Props = $ReadOnly<{
   dispatch: Dispatch,
   messages: Message[],
   narrow: Narrow,
+  onEditMessageSelect: (editMessage: Message) => Promise<void>,
   showActionSheetWithOptions: (Object, (number) => void) => void,
 }>;
 
@@ -155,11 +156,18 @@ const handleLongPress = (props: Props, _: GetText, isHeader: boolean, messageId:
   if (!message) {
     return;
   }
-  const { dispatch, showActionSheetWithOptions, backgroundData, narrow } = props;
+  const {
+    dispatch,
+    showActionSheetWithOptions,
+    backgroundData,
+    narrow,
+    onEditMessageSelect,
+  } = props;
   showActionSheet(isHeader, dispatch, showActionSheetWithOptions, _, {
     backgroundData,
     message,
     narrow,
+    onEditMessageSelect,
   });
 };
 

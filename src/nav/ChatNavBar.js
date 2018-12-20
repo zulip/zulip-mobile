@@ -17,6 +17,7 @@ type Props = {|
   dispatch: Dispatch,
   backgroundColor: string,
   narrow: Narrow,
+  cancelEditMode: ?() => void,
 |};
 
 class ChatNavBar extends PureComponent<Props> {
@@ -26,9 +27,18 @@ class ChatNavBar extends PureComponent<Props> {
     styles: () => null,
   };
 
+  handlePress = (): void => {
+    const { dispatch, cancelEditMode } = this.props;
+    if (cancelEditMode) {
+      cancelEditMode();
+      return;
+    }
+    dispatch(navigateBack());
+  };
+
   render() {
     const { styles } = this.context;
-    const { dispatch, backgroundColor, narrow } = this.props;
+    const { backgroundColor, cancelEditMode, narrow } = this.props;
     const color =
       backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
         ? BRAND_COLOR
@@ -36,14 +46,8 @@ class ChatNavBar extends PureComponent<Props> {
 
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
-        <NavButton
-          name="arrow-left"
-          color={color}
-          onPress={() => {
-            dispatch(navigateBack());
-          }}
-        />
-        <Title color={color} narrow={narrow} />
+        <NavButton name="arrow-left" color={color} onPress={this.handlePress} />
+        <Title color={color} narrow={narrow} isEditMode={!!cancelEditMode} />
         <TitleNavButtons color={color} narrow={narrow} />
       </View>
     );

@@ -1,12 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
 import { caseNarrow } from '../utils/narrow';
-import { getSession } from '../selectors';
 
-import type { Message, GlobalState, Narrow } from '../types';
+import type { Narrow } from '../types';
 import TitleHome from './TitleHome';
 import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
@@ -15,16 +13,16 @@ import TitleStream from './TitleStream';
 import TitlePlain from './TitlePlain';
 
 type Props = {|
+  isEditMode: boolean,
   narrow: Narrow,
-  editMessage: Message,
   color: string,
 |};
 
-class Title extends PureComponent<Props> {
+export default class Title extends PureComponent<Props> {
   render() {
-    const { narrow, color, editMessage } = this.props;
+    const { narrow, color, isEditMode } = this.props;
     const props = { color };
-    if (editMessage != null) {
+    if (isEditMode) {
       return <TitlePlain text="Edit message" {...props} />;
     }
     return caseNarrow(narrow, {
@@ -40,7 +38,3 @@ class Title extends PureComponent<Props> {
     });
   }
 }
-
-export default connect((state: GlobalState) => ({
-  editMessage: getSession(state).editMessage,
-}))(Title);

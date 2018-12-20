@@ -86,6 +86,7 @@ export type Props = {|
   showMessagePlaceholders: boolean,
   theme: ThemeName,
   typingUsers: User[],
+  onEditMessageSelect: (editMessage: Message) => Promise<void>,
 
   // From `connectActionSheet`.
   showActionSheetWithOptions: (Object, (number) => void) => void,
@@ -193,6 +194,7 @@ class MessageList extends Component<Props> {
 
 type OuterProps = {|
   narrow: Narrow,
+  onEditMessageSelect: (editMessage: Message) => Promise<void>,
 
   /* Remaining props are derived from `narrow` by default. */
 

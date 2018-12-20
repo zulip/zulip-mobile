@@ -7,7 +7,7 @@ import { isTopicMuted } from '../utils/message';
 /* eslint-disable import/no-named-as-default-member */
 import api, { getMessageContentById, toggleMuteStream, toggleMessageStarred } from '../api';
 import { showToast } from '../utils/info';
-import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
+import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
 /** Description of a possible option for the action sheet. */
 type ButtonDescription = {
@@ -17,6 +17,7 @@ type ButtonDescription = {
     message: Message,
     subscriptions: Subscription[],
     dispatch: Dispatch,
+    onEditMessageSelect: (editMessage: Message) => Promise<void>,
     _: GetText,
   }): void | Promise<void>,
   title: string,
@@ -42,8 +43,8 @@ const copyToClipboard = async ({ _, auth, message }) => {
 };
 copyToClipboard.title = 'Copy to clipboard';
 
-const editMessage = async ({ message, dispatch }) => {
-  dispatch(startEditMessage(message.id, message.subject));
+const editMessage = async ({ message, onEditMessageSelect }) => {
+  onEditMessageSelect(message);
 };
 editMessage.title = 'Edit message';
 
@@ -140,6 +141,7 @@ type ConstructSheetParams = {|
   backgroundData: BackgroundData,
   message: Message,
   narrow: Narrow,
+  onEditMessageSelect: (editMessage: Message) => Promise<void>,
 |};
 
 export const constructHeaderActionButtons = ({

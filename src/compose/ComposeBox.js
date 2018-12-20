@@ -15,13 +15,7 @@ import type {
   Dimensions,
   GlobalState,
 } from '../types';
-import {
-  addToOutbox,
-  cancelEditMessage,
-  draftUpdate,
-  fetchTopicsForActiveStream,
-  sendTypingEvent,
-} from '../actions';
+import { addToOutbox, draftUpdate, fetchTopicsForActiveStream, sendTypingEvent } from '../actions';
 import { updateMessage } from '../api';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../utils/info';
@@ -51,6 +45,7 @@ import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 
 type Props = {|
   auth: Auth,
+  cancelEditMode: () => void,
   canSend: boolean,
   narrow: Narrow,
   users: User[],
@@ -59,7 +54,7 @@ type Props = {|
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
-  editMessage: EditMessage,
+  editMessage: ?EditMessage,
   safeAreaInsets: Dimensions,
   dispatch: Dispatch,
 |};
@@ -227,8 +222,11 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleEdit = () => {
-    const { auth, editMessage, dispatch } = this.props;
+    const { auth, cancelEditMode, editMessage } = this.props;
     const { message, topic } = this.state;
+    if (!editMessage) {
+      return;
+    }
     const content = editMessage.content !== message ? message : undefined;
     const subject = topic !== editMessage.topic ? topic : undefined;
     if (content || subject) {
@@ -236,7 +234,7 @@ class ComposeBox extends PureComponent<Props, State> {
         showErrorAlert(error.message, 'Failed to edit message');
       });
     }
-    dispatch(cancelEditMessage());
+    cancelEditMode();
   };
 
   componentDidMount() {
@@ -370,7 +368,6 @@ export default connect((state: GlobalState, props) => ({
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(props.narrow)(state),
   isSubscribed: getIsActiveStreamSubscribed(props.narrow)(state),
   canSend: canSendToActiveNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
-  editMessage: getSession(state).editMessage,
   draft: getDraftForActiveNarrow(props.narrow)(state),
   lastMessageTopic: getLastMessageTopic(props.narrow)(state),
 }))(ComposeBox);
