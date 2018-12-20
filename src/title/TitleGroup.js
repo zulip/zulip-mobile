@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Context, PresenceState, User } from '../types';
+import type { PresenceState, User } from '../types';
 import { Avatar } from '../common';
 import { getRecipientsInGroupNarrow, getPresence } from '../selectors';
 import styles from '../styles';
@@ -15,12 +15,6 @@ type Props = {
 };
 
 class TitleGroup extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   render() {
     const { recipients, presence } = this.props;
 

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Context, Stream, Subscription } from '../types';
+import type { Stream, Subscription } from '../types';
 import { RawLabel } from '../common';
 import StreamIcon from '../streams/StreamIcon';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
@@ -27,12 +27,6 @@ type Props = {|
 |};
 
 export default class StreamCard extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   render() {
     const { stream, subscription } = this.props;
 

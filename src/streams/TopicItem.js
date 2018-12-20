@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Context } from '../types';
 import styles, { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 
@@ -31,12 +30,6 @@ type Props = {|
 |};
 
 export default class StreamItem extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   static defaultProps = {
     stream: '',
     isMuted: false,

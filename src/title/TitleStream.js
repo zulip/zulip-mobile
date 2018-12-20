@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
-import type { Context, Narrow, Subscription } from '../types';
+import type { Narrow, Subscription } from '../types';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
@@ -17,12 +17,6 @@ type Props = {|
 |};
 
 class TitleStream extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   render() {
     const { narrow, stream, color } = this.props;
 

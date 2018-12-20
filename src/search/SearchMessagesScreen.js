@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { Context } from '../types';
 import { Screen } from '../common';
 import SearchMessagesCard from './SearchMessagesCard';
 import styles from '../styles';
@@ -13,13 +12,8 @@ type State = {|
 |};
 
 export default class SearchMessagesScreen extends PureComponent<Props, State> {
-  context: Context;
   state = {
     query: '',
-  };
-
-  static contextTypes = {
-    styles: () => null,
   };
 
   handleQueryChange = (query: string) => this.setState({ query });

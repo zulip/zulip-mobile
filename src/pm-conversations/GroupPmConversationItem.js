@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Context } from '../types';
 import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
 import styles from '../styles';
 
@@ -25,12 +24,6 @@ type Props = {|
  * A list item describing one group PM conversation.
  * */
 export default class GroupPmConversationItem extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   handlePress = () => {
     const { email, onPress } = this.props;
     onPress(email);

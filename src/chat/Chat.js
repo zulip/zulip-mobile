@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Context, Narrow } from '../types';
+import type { Narrow } from '../types';
 import { KeyboardAvoider } from '../common';
 import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
@@ -24,12 +24,6 @@ const componentStyles = StyleSheet.create({
 });
 
 export default class Chat extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   scrollOffset: number = 0;
 
   render() {

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Dimensions } from 'react-native';
 
-import type { Dispatch, Context, Presence, User } from '../types';
+import type { Dispatch, Presence, User } from '../types';
 import { Avatar, ComponentList, RawLabel, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
@@ -20,12 +20,6 @@ type Props = {|
 |};
 
 export default class AccountDetails extends PureComponent<Props, void> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   handleChatPress = () => {
     const { user, dispatch } = this.props;
     dispatch(doNarrow(privateNarrow(user.email)));

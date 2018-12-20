@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Context } from '../types';
 import { Input, Label, OptionRow, ZulipButton } from '../common';
 import styles from '../styles';
 
@@ -23,15 +22,10 @@ type State = {|
 |};
 
 export default class EditStreamCard extends PureComponent<Props, State> {
-  context: Context;
   state = {
     name: this.props.initialValues.name,
     description: this.props.initialValues.description,
     isPrivate: this.props.initialValues.invite_only,
-  };
-
-  static contextTypes = {
-    styles: () => null,
   };
 
   handlePerformAction = () => {

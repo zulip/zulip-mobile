@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Context } from '../types';
 import { IconPeople } from '../common/Icons';
 import { RawLabel, Touchable } from '../common';
 import styles from '../styles';
@@ -27,12 +26,6 @@ type Props = {|
 |};
 
 export default class UserGroupItem extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   handlePress = () => {
     const { name, onPress } = this.props;
     onPress(name);

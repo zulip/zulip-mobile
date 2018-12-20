@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 
-import type { Auth, Context, DevUser, Dispatch, GlobalState } from '../types';
+import type { Auth, DevUser, Dispatch, GlobalState } from '../types';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import { devListUsers, devFetchApiKey } from '../api';
 import { getAuth } from '../selectors';
@@ -39,16 +39,11 @@ type State = {|
 |};
 
 class DevAuthScreen extends PureComponent<Props, State> {
-  context: Context;
   state = {
     progress: false,
     directAdmins: [],
     directUsers: [],
     error: '',
-  };
-
-  static contextTypes = {
-    styles: () => null,
   };
 
   componentDidMount = () => {
