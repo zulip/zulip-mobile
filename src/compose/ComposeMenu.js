@@ -5,8 +5,9 @@ import { View } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { connect } from 'react-redux';
 
-import type { Context, Dispatch, Narrow } from '../types';
+import type { Dispatch, Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
+import styles from '../styles/composeBoxStyles';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
@@ -46,12 +47,6 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
 };
 
 class ComposeMenu extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   handleImagePickerResponse = (response: Object) => {
     if (response.didCancel) {
       return;
@@ -98,7 +93,6 @@ class ComposeMenu extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
     const { dispatch, expanded, onExpandContract } = this.props;
     return (
       <View style={styles.composeMenu}>

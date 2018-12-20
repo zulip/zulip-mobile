@@ -2,19 +2,11 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Context } from '../types';
-
 import { Label } from '../common';
+import styles from '../styles/composeBoxStyles';
 
 class AnnouncementOnly extends PureComponent<{}> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   render() {
-    const { styles } = this.context;
     return (
       <View style={styles.disabledComposeBox}>
         <Label

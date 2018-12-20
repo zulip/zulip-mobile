@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Auth, Context, Stream } from '../types';
+import type { Auth, Stream } from '../types';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
+import styles from '../styles/composeBoxStyles';
 
 type Props = {
   auth: Auth,
@@ -15,19 +16,12 @@ type Props = {
 };
 
 class NotSubscribed extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   subscribeToStream = () => {
     const { auth, stream } = this.props;
     subscriptionAdd(auth, [{ name: stream.name }]);
   };
 
   render() {
-    const { styles } = this.context;
     const { stream } = this.props;
 
     return (
