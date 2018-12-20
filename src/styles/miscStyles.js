@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
 
+import type { ThemeColors } from './theme';
 import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE } from './constants';
 
 export const statics = {
@@ -57,15 +58,7 @@ export const statics = {
   },
 };
 
-type Props = {|
-  color: string,
-  backgroundColor: string,
-  borderColor: string,
-  cardColor: string,
-  dividerColor: string,
-|};
-
-export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }: Props) => ({
+export default ({ color, backgroundColor, cardColor, dividerColor }: ThemeColors) => ({
   color: {
     color,
   },

@@ -5,7 +5,7 @@ import type { ThemeName } from '../types';
 import navStyles from './navStyles';
 import miscStyles from './miscStyles';
 
-type ThemeColors = {|
+export type ThemeColors = {|
   color: string,
   backgroundColor: string,
   borderColor: string,

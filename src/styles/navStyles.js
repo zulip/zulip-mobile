@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import type { ThemeColors } from './theme';
 import { BRAND_COLOR, NAVBAR_SIZE } from './constants';
 
 export const statics = {
@@ -39,13 +40,7 @@ export const statics = {
   },
 };
 
-type Props = {
-  color: string,
-  backgroundColor: string,
-  borderColor: string,
-};
-
-export default ({ color, backgroundColor, borderColor }: Props) => ({
+export default ({ color, backgroundColor, borderColor }: ThemeColors) => ({
   navBar: {
     backgroundColor,
     borderColor,
