@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import type { Context, Narrow } from '../types';
 import { KeyboardAvoider } from '../common';
@@ -13,6 +13,13 @@ type Props = {|
   /* $FlowFixMe: probably this shouldn't be optional */
   narrow?: Narrow,
 |};
+
+const componentStyles = StyleSheet.create({
+  reverse: {
+    flex: 1,
+    flexDirection: 'column-reverse',
+  },
+});
 
 export default class Chat extends PureComponent<Props> {
   context: Context;
@@ -30,7 +37,7 @@ export default class Chat extends PureComponent<Props> {
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <View style={styles.flexed}>
-          <View style={[styles.flexed, styles.flexDirectionColumnReversed]}>
+          <View style={componentStyles.reverse}>
             <MessageList narrow={narrow} />
             <NoMessages narrow={narrow} />
             <UnreadNotice narrow={narrow} />

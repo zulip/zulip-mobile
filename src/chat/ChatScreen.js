@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
@@ -19,6 +19,13 @@ type Props = {|
   },
 |};
 
+const componentStyles = StyleSheet.create({
+  reverse: {
+    flex: 1,
+    flexDirection: 'column-reverse',
+  },
+});
+
 export default class ChatScreen extends PureComponent<Props> {
   context: Context;
 
@@ -34,7 +41,7 @@ export default class ChatScreen extends PureComponent<Props> {
       <ActionSheetProvider>
         <View style={styles.screen}>
           <ZulipStatusBar narrow={narrow} />
-          <View style={[styles.flexed, styles.flexDirectionColumnReversed]}>
+          <View style={componentStyles.reverse}>
             <Chat narrow={narrow} />
             <OfflineNotice />
             <ChatNavBar narrow={narrow} />
