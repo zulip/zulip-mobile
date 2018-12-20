@@ -58,7 +58,7 @@ export const statics = {
   },
 };
 
-export default ({ color, backgroundColor, dividerColor }: ThemeColors) => ({
+export default ({ color, backgroundColor }: ThemeColors) => ({
   color: {
     color,
   },
@@ -100,9 +100,5 @@ export default ({ color, backgroundColor, dividerColor }: ThemeColors) => ({
   webview: {
     borderWidth: 0,
     backgroundColor,
-  },
-  divider: {
-    borderBottomWidth: 1,
-    borderBottomColor: dividerColor,
   },
 });

@@ -2,18 +2,21 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Context } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext } from '../styles';
 
 export default class OptionDivider extends PureComponent<{}> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
-  static contextTypes = {
-    styles: () => null,
+  styles = {
+    divider: {
+      borderBottomWidth: 1,
+      borderBottomColor: this.context.dividerColor,
+    },
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
-
-    return <View style={contextStyles.divider} />;
+    return <View style={this.styles.divider} />;
   }
 }
