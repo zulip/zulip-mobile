@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
 
-import { BRAND_COLOR } from './';
+import { BRAND_COLOR } from './constants';
 
 const inputMarginPadding = {
   paddingHorizontal: 8,

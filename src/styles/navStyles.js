@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { BRAND_COLOR, NAVBAR_SIZE } from './';
+import { BRAND_COLOR, NAVBAR_SIZE } from './constants';
 
 type Props = {
   color: string,

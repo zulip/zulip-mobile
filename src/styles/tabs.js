@@ -1,5 +1,5 @@
 /* @flow strict */
-import { BRAND_COLOR } from './';
+import { BRAND_COLOR } from './constants';
 
 type Props = {|
   showLabel: boolean,

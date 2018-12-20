@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
 
-import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE } from './';
+import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE } from './constants';
 
 type Props = {|
   color: string,
