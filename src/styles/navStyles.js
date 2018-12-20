@@ -40,10 +40,10 @@ export const statics = {
   },
 };
 
-export default ({ color, backgroundColor, borderColor }: ThemeColors) => ({
+export default ({ color, backgroundColor }: ThemeColors) => ({
   navBar: {
     backgroundColor,
-    borderColor,
+    borderColor: 'rgba(127, 127, 127, 0.25)',
     flexDirection: 'row',
     height: NAVBAR_SIZE,
     alignItems: 'center',

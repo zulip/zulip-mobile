@@ -8,7 +8,6 @@ import miscStyles from './miscStyles';
 export type ThemeColors = {|
   color: string,
   backgroundColor: string,
-  borderColor: string,
   cardColor: string,
   dividerColor: string,
 |};
@@ -22,7 +21,6 @@ const themeColors: { [string]: ThemeColors } = {
   night: {
     color: '#d5d9dd',
     backgroundColor: '#212D3B',
-    borderColor: 'rgba(127, 127, 127, 0.25)',
     cardColor: '#253547',
     // Dividers follow Material Design: opacity 12% black or 12% white.
     // See https://material.io/guidelines/components/dividers.html
@@ -31,7 +29,6 @@ const themeColors: { [string]: ThemeColors } = {
   light: {
     color: '#333',
     backgroundColor: 'white',
-    borderColor: 'rgba(127, 127, 127, 0.25)',
     cardColor: '#F8F8F8',
     // Dividers follow Material Design: opacity 12% black or 12% white.
     // See https://material.io/guidelines/components/dividers.html
