@@ -261,6 +261,15 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   }
 
+  styles = {
+    topicInput: [styles.topicInput, this.context.styles.backgroundColor],
+    composeTextInput: [
+      styles.composeTextInput,
+      this.context.styles.backgroundColor,
+      this.context.styles.color,
+    ],
+  };
+
   render() {
     const { styles: contextStyles } = this.context;
     const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
@@ -311,7 +320,7 @@ class ComposeBox extends PureComponent<Props, State> {
           <View style={styles.composeText}>
             {this.getCanSelectTopic() && (
               <Input
-                style={contextStyles.topicInput}
+                style={this.styles.topicInput}
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
                 selectTextOnFocus
@@ -325,7 +334,7 @@ class ComposeBox extends PureComponent<Props, State> {
               />
             )}
             <MultilineInput
-              style={contextStyles.composeTextInput}
+              style={this.styles.composeTextInput}
               placeholder={placeholder}
               textInputRef={component => {
                 if (component) {

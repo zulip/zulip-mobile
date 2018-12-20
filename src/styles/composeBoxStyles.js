@@ -3,6 +3,18 @@ import { Platform } from 'react-native';
 
 import { BRAND_COLOR } from './';
 
+const inputMarginPadding = {
+  paddingHorizontal: 8,
+  ...Platform.select({
+    ios: {
+      paddingVertical: 8,
+    },
+    android: {
+      paddingVertical: 2,
+    },
+  }),
+};
+
 const statics = {
   composeBox: {
     flexDirection: 'row',
@@ -44,18 +56,18 @@ const statics = {
     flex: 1,
     color: 'white',
   },
-};
-
-const inputMarginPadding = {
-  paddingHorizontal: 8,
-  ...Platform.select({
-    ios: {
-      paddingVertical: 8,
-    },
-    android: {
-      paddingVertical: 2,
-    },
-  }),
+  composeTextInput: {
+    borderWidth: 0,
+    borderRadius: 5,
+    fontSize: 15,
+    ...inputMarginPadding,
+  },
+  topicInput: {
+    borderWidth: 0,
+    borderRadius: 5,
+    marginBottom: 8,
+    ...inputMarginPadding,
+  },
 };
 
 type Props = {
@@ -66,21 +78,6 @@ type Props = {
 
 const fromTheme = ({ color, backgroundColor, borderColor }: Props) => ({
   ...statics,
-  composeTextInput: {
-    borderWidth: 0,
-    borderRadius: 5,
-    backgroundColor,
-    color,
-    fontSize: 15,
-    ...inputMarginPadding,
-  },
-  topicInput: {
-    borderWidth: 0,
-    borderRadius: 5,
-    backgroundColor,
-    marginBottom: 8,
-    ...inputMarginPadding,
-  },
 });
 
 export { statics as default, fromTheme };
