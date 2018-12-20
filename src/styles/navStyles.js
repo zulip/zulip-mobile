@@ -1,21 +1,7 @@
 /* @flow strict-local */
 import { BRAND_COLOR, NAVBAR_SIZE } from './constants';
 
-type Props = {
-  color: string,
-  backgroundColor: string,
-  borderColor: string,
-};
-
-export default ({ color, backgroundColor, borderColor }: Props) => ({
-  navBar: {
-    backgroundColor,
-    borderColor,
-    flexDirection: 'row',
-    height: NAVBAR_SIZE,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-  },
+export const statics = {
   navWrapper: {
     flex: 1,
     flexDirection: 'row',
@@ -50,5 +36,23 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
   navButtonIcon: {
     textAlign: 'center',
     fontSize: 26,
+  },
+};
+
+type Props = {
+  color: string,
+  backgroundColor: string,
+  borderColor: string,
+};
+
+export default ({ color, backgroundColor, borderColor }: Props) => ({
+  ...statics,
+  navBar: {
+    backgroundColor,
+    borderColor,
+    flexDirection: 'row',
+    height: NAVBAR_SIZE,
+    alignItems: 'center',
+    borderBottomWidth: 1,
   },
 });

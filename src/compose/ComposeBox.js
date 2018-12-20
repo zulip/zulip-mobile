@@ -271,7 +271,6 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
     const {
       auth,
@@ -310,7 +309,7 @@ class ComposeBox extends PureComponent<Props, State> {
           onTopicAutocomplete={this.handleTopicAutocomplete}
         />
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
-          <View style={contextStyles.alignBottom}>
+          <View style={styles.alignBottom}>
             <ComposeMenu
               destinationNarrow={this.getDestinationNarrow()}
               expanded={isMenuExpanded}
@@ -348,7 +347,7 @@ class ComposeBox extends PureComponent<Props, State> {
               onTouchStart={this.handleInputTouchStart}
             />
           </View>
-          <View style={contextStyles.alignBottom}>
+          <View style={styles.alignBottom}>
             <FloatingActionButton
               style={styles.composeSendButton}
               Icon={editMessage === null ? IconSend : IconDone}
