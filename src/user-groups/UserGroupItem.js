@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import type { Context } from '../types';
 import { IconPeople } from '../common/Icons';
 import { RawLabel, Touchable } from '../common';
+import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
   text: {
@@ -38,12 +39,11 @@ export default class UserGroupItem extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { name, description } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={contextStyles.listItem}>
+        <View style={styles.listItem}>
           <IconPeople size={32} />
           <View style={componentStyles.textWrapper}>
             <RawLabel

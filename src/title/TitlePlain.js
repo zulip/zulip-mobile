@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 
 import type { Context } from '../types';
+import styles from '../styles';
 
 type Props = {|
   text: string,
@@ -17,8 +18,7 @@ export default class TitlePlain extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { text, color } = this.props;
-    return <Text style={[contextStyles.navTitle, contextStyles.flexed, { color }]}>{text}</Text>;
+    return <Text style={[styles.navTitle, styles.flexed, { color }]}>{text}</Text>;
   }
 }

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Context } from '../types';
-import { BRAND_COLOR } from '../styles';
+import styles, { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
@@ -83,7 +83,7 @@ export default class StreamItem extends PureComponent<Props> {
     } = this.props;
 
     const wrapperStyle = [
-      contextStyles.listItem,
+      styles.listItem,
       { backgroundColor },
       isSelected && componentStyles.selectedRow,
       isMuted && componentStyles.muted,

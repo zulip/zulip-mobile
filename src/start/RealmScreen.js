@@ -9,6 +9,7 @@ import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { isValidUrl } from '../utils/url';
 import { getServerSettings } from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
+import styles from '../styles';
 
 type Props = {|
   dispatch: Dispatch,
@@ -69,7 +70,6 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { initialRealm, navigation } = this.props;
     const { progress, error, realm } = this.state;
 
@@ -77,7 +77,7 @@ class RealmScreen extends PureComponent<Props, State> {
       <Screen title="Welcome" padding centerContent keyboardShouldPersistTaps="always">
         <Label text="Organization URL" />
         <SmartUrlInput
-          style={contextStyles.marginVertical}
+          style={styles.marginVertical}
           navigation={navigation}
           defaultOrganization="your-org"
           protocol="https://"
@@ -89,7 +89,7 @@ class RealmScreen extends PureComponent<Props, State> {
         />
         {error && <ErrorMsg error={error} />}
         <ZulipButton
-          style={contextStyles.halfMarginTop}
+          style={styles.halfMarginTop}
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}

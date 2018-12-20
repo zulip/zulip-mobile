@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Context } from '../types';
 import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
+import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
   text: {
@@ -36,7 +37,6 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { email, usersByEmail, unreadCount } = this.props;
     const allUsers = email.split(',').map(e => usersByEmail[e]);
 
@@ -50,7 +50,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={contextStyles.listItem}>
+        <View style={styles.listItem}>
           <TextAvatar size={32} name={allNames} />
           <RawLabel
             style={componentStyles.text}

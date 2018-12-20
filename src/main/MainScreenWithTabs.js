@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import type { Context } from '../types';
 import { OfflineNotice, ZulipStatusBar } from '../common';
 import MainTabs from './MainTabs';
+import styles from '../styles';
 
 export default class MainScreenWithTabs extends PureComponent<{}> {
   context: Context;
@@ -17,7 +18,7 @@ export default class MainScreenWithTabs extends PureComponent<{}> {
     const { styles: contextStyles } = this.context;
 
     return (
-      <View style={[contextStyles.flexed, contextStyles.backgroundColor]}>
+      <View style={[styles.flexed, contextStyles.backgroundColor]}>
         {/* $FlowFixMe-56 Cannot create ZulipStatusBar element because ST is not a React component. */}
         <ZulipStatusBar />
         <OfflineNotice />

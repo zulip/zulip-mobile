@@ -5,7 +5,7 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import type { Context } from '../types';
 import Input from './Input';
 import type { Props as InputProps } from './Input';
-import { BRAND_COLOR } from '../styles';
+import styles, { BRAND_COLOR } from '../styles';
 import Icon from './Icons';
 
 const componentStyles = StyleSheet.create({
@@ -58,11 +58,10 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { canBeCleared, text } = this.state;
 
     return (
-      <View style={contextStyles.row}>
+      <View style={styles.row}>
         <Input
           {...this.props}
           textInputRef={textInput => {

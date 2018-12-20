@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { Context } from '../types';
 import { ZulipButton } from '../common';
+import styles from '../styles';
 
 type Props = {|
   name: string,
@@ -18,12 +19,11 @@ export default class AuthButton extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { name, Icon, onPress } = this.props;
 
     return (
       <ZulipButton
-        style={contextStyles.halfMarginTop}
+        style={styles.halfMarginTop}
         secondary
         text={`Log in with ${name}`}
         Icon={Icon}

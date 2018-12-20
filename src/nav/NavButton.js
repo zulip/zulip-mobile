@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import type { Context, Style } from '../types';
-import { BRAND_COLOR } from '../styles';
+import styles, { BRAND_COLOR } from '../styles';
 import ComponentWithOverlay from '../common/ComponentWithOverlay';
 import UnreadCount from '../common/UnreadCount';
 import Icon from '../common/Icons';
@@ -28,18 +28,17 @@ export default class NavButton extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { name, style, color, unreadCount, onPress } = this.props;
 
     return (
       <ComponentWithOverlay
-        style={contextStyles.navButtonFrame}
+        style={styles.navButtonFrame}
         showOverlay={unreadCount > 0}
         overlaySize={20}
         overlay={<UnreadCount count={unreadCount} />}
         onPress={onPress}
       >
-        <Icon style={[contextStyles.navButtonIcon, style]} color={color} name={name} />
+        <Icon style={[styles.navButtonIcon, style]} color={color} name={name} />
       </ComponentWithOverlay>
     );
   }

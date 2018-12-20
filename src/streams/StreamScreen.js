@@ -16,6 +16,7 @@ import {
   toggleStreamNotification,
   navigateToStreamSubscribers,
 } from '../actions';
+import styles from '../styles';
 
 type Props = {|
   dispatch: Dispatch,
@@ -63,7 +64,6 @@ class StreamScreen extends PureComponent<Props> {
 
   render() {
     const { isAdmin, stream, subscription } = this.props;
-    const { styles: contextStyles } = this.context;
 
     return (
       <Screen title="Stream">
@@ -84,17 +84,17 @@ class StreamScreen extends PureComponent<Props> {
           onValueChange={this.toggleStreamPushNotification}
         />
         <OptionDivider />
-        <View style={contextStyles.padding}>
+        <View style={styles.padding}>
           <ZulipButton text="Topics" onPress={() => delay(this.handleTopics)} />
           {isAdmin && (
             <ZulipButton
-              style={contextStyles.marginTop}
+              style={styles.marginTop}
               text="Edit"
               onPress={() => delay(this.handleEdit)}
             />
           )}
           <ZulipButton
-            style={contextStyles.marginTop}
+            style={styles.marginTop}
             text="Add subscribers"
             onPress={() => delay(this.handleEditSubscribers)}
           />

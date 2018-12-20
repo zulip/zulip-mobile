@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import type { Context, Style } from '../types';
 import Label from './Label';
 import ZulipSwitch from './ZulipSwitch';
+import styles from '../styles';
 
 type Props = {|
   Icon?: Object,
@@ -26,10 +27,10 @@ export default class OptionRow extends PureComponent<Props> {
     const { styles: contextStyles } = this.context;
 
     return (
-      <View style={[contextStyles.listItem, style]}>
-        {Icon && <Icon size={18} style={[contextStyles.icon, contextStyles.settingsIcon]} />}
-        <Label text={label} style={contextStyles.flexed} />
-        <View style={contextStyles.rightItem}>
+      <View style={[styles.listItem, style]}>
+        {Icon && <Icon size={18} style={[contextStyles.icon, styles.settingsIcon]} />}
+        <Label text={label} style={styles.flexed} />
+        <View style={styles.rightItem}>
           <ZulipSwitch defaultValue={defaultValue} onValueChange={onValueChange} />
         </View>
       </View>

@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Context, React$Node, Style } from '../types';
+import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
   centerer: {
@@ -43,11 +44,10 @@ export default class Centerer extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { children, padding, style } = this.props;
 
     return (
-      <View style={[componentStyles.centerer, padding && contextStyles.padding, style]}>
+      <View style={[componentStyles.centerer, padding && styles.padding, style]}>
         <View style={componentStyles.inner}>{children}</View>
       </View>
     );

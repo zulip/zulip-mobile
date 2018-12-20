@@ -9,6 +9,7 @@ import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import { devListUsers, devFetchApiKey } from '../api';
 import { getAuth } from '../selectors';
 import { loginSuccess } from '../actions';
+import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
   accountItem: { height: 10 },
@@ -85,7 +86,6 @@ class DevAuthScreen extends PureComponent<Props, State> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { directAdmins, directUsers, error, progress } = this.state;
 
     return (
@@ -94,7 +94,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
           {progress && <ActivityIndicator />}
           {!!error && <ErrorMsg error={error} />}
           <Label
-            style={[contextStyles.field, componentStyles.heading2, componentStyles.heading]}
+            style={[styles.field, componentStyles.heading2, componentStyles.heading]}
             text="Administrators"
           />
           {directAdmins.map(admin => (
@@ -105,7 +105,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
             />
           ))}
           <Label
-            style={[contextStyles.field, componentStyles.heading2, componentStyles.heading]}
+            style={[styles.field, componentStyles.heading2, componentStyles.heading]}
             text="Normal users"
           />
           <FlatList

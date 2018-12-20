@@ -7,6 +7,7 @@ import { View } from 'react-native';
 import type { Context, PresenceState, User } from '../types';
 import { Avatar } from '../common';
 import { getRecipientsInGroupNarrow, getPresence } from '../selectors';
+import styles from '../styles';
 
 type Props = {
   recipients: User[],
@@ -21,13 +22,12 @@ class TitleGroup extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { recipients, presence } = this.props;
 
     return (
-      <View style={contextStyles.navWrapper}>
+      <View style={styles.navWrapper}>
         {recipients.map((user, index) => (
-          <View key={user.email} style={contextStyles.titleAvatar}>
+          <View key={user.email} style={styles.titleAvatar}>
             <Avatar
               size={32}
               name={user.full_name}

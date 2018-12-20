@@ -9,6 +9,7 @@ import Label from './Label';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
+import styles from '../styles';
 
 type Props = {|
   label: string,
@@ -36,12 +37,11 @@ class WebLink extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { label } = this.props;
 
     return (
       <Touchable>
-        <Label style={contextStyles.link} text={label} onPress={this.handlePress} />
+        <Label style={styles.link} text={label} onPress={this.handlePress} />
       </Touchable>
     );
   }

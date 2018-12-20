@@ -9,6 +9,7 @@ import { Avatar, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
 import { getPresence } from '../directSelectors';
 import { getAllUsersByEmail } from '../users/userSelectors';
+import styles from '../styles';
 
 type Props = {
   user: User,
@@ -24,11 +25,10 @@ class TitlePrivate extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { user, color, presence } = this.props;
 
     return (
-      <View style={contextStyles.navWrapper}>
+      <View style={styles.navWrapper}>
         <Avatar
           size={32}
           name={user.full_name}
@@ -38,10 +38,10 @@ class TitlePrivate extends PureComponent<Props> {
         />
         <ViewPlaceholder width={8} />
         <View>
-          <Text style={[contextStyles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {user.full_name}
           </Text>
-          <ActivityText style={contextStyles.navSubtitle} color={color} email={user.email} />
+          <ActivityText style={styles.navSubtitle} color={color} email={user.email} />
         </View>
       </View>
     );

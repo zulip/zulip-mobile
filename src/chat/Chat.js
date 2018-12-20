@@ -8,6 +8,7 @@ import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
+import styles from '../styles';
 
 type Props = {|
   /* $FlowFixMe: probably this shouldn't be optional */
@@ -32,12 +33,11 @@ export default class Chat extends PureComponent<Props> {
   scrollOffset: number = 0;
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { narrow } = this.props;
 
     return (
-      <KeyboardAvoider style={contextStyles.flexed} behavior="padding">
-        <View style={contextStyles.flexed}>
+      <KeyboardAvoider style={styles.flexed} behavior="padding">
+        <View style={styles.flexed}>
           <View style={componentStyles.reverse}>
             <MessageList narrow={narrow} />
             <NoMessages narrow={narrow} />

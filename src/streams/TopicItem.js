@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Context } from '../types';
-import { BRAND_COLOR } from '../styles';
+import styles, { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 
 const componentStyles = StyleSheet.create({
@@ -50,14 +50,13 @@ export default class StreamItem extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { name, isMuted, isSelected, unreadCount } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View
           style={[
-            contextStyles.listItem,
+            styles.listItem,
             isSelected && componentStyles.selectedRow,
             isMuted && componentStyles.muted,
           ]}

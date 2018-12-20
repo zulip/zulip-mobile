@@ -8,6 +8,7 @@ import type { Context, Narrow, Subscription } from '../types';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
+import styles from '../styles';
 
 type Props = {|
   narrow: Narrow,
@@ -23,28 +24,23 @@ class TitleStream extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { narrow, stream, color } = this.props;
 
     return (
-      <View style={[contextStyles.navWrapper, contextStyles.titleStreamWrapper]}>
-        <View style={contextStyles.titleStreamRow}>
+      <View style={[styles.navWrapper, styles.titleStreamWrapper]}>
+        <View style={styles.titleStreamRow}>
           <StreamIcon
             isMuted={!stream.in_home_view}
             isPrivate={stream.invite_only}
             color={color}
             size={20}
           />
-          <Text style={[contextStyles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {stream.name}
           </Text>
         </View>
         {isTopicNarrow(narrow) && (
-          <Text
-            style={[contextStyles.navSubtitle, { color }]}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
+          <Text style={[styles.navSubtitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {narrow[1].operand}
           </Text>
         )}

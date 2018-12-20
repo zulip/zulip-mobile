@@ -6,6 +6,7 @@ import type { Context } from '../types';
 import Label from './Label';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
+import styles from '../styles';
 
 type Props = {|
   Icon?: Object,
@@ -26,11 +27,11 @@ export default class OptionButton extends PureComponent<Props> {
 
     return (
       <Touchable onPress={onPress}>
-        <View style={contextStyles.listItem}>
-          {Icon && <Icon size={18} style={[contextStyles.icon, contextStyles.settingsIcon]} />}
+        <View style={styles.listItem}>
+          {Icon && <Icon size={18} style={[contextStyles.icon, styles.settingsIcon]} />}
           <Label text={label} />
-          <View style={contextStyles.rightItem}>
-            <IconRight size={18} style={[contextStyles.icon, contextStyles.settingsIcon]} />
+          <View style={styles.rightItem}>
+            <IconRight size={18} style={[contextStyles.icon, styles.settingsIcon]} />
           </View>
         </View>
       </Touchable>

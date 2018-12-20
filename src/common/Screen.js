@@ -18,6 +18,7 @@ import ZulipStatusBar from './ZulipStatusBar';
 import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
+import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
   wrapper: {
@@ -110,13 +111,13 @@ class Screen extends PureComponent<Props> {
         <OfflineNotice />
         <KeyboardAvoider
           behavior="padding"
-          style={[componentStyles.wrapper, padding && contextStyles.padding]}
-          contentContainerStyle={[padding && contextStyles.padding]}
+          style={[componentStyles.wrapper, padding && styles.padding]}
+          contentContainerStyle={[padding && styles.padding]}
         >
           <ScrollView
             contentContainerStyle={
               /* $FlowFixMe wants ViewStyleProp */
-              [contextStyles.flexed, centerContent && componentStyles.content, style]
+              [styles.flexed, centerContent && componentStyles.content, style]
             }
             style={componentStyles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}

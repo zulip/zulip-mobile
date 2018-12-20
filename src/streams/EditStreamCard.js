@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import type { Context } from '../types';
 import { Input, Label, OptionRow, ZulipButton } from '../common';
+import styles from '../styles';
 
 type Props = {|
   isNewStream: boolean,
@@ -54,13 +55,12 @@ export default class EditStreamCard extends PureComponent<Props, State> {
   render() {
     const { initialValues, isNewStream } = this.props;
     const { name } = this.state;
-    const { styles: contextStyles } = this.context;
 
     return (
       <View>
         <Label text="Name" />
         <Input
-          style={contextStyles.marginBottom}
+          style={styles.marginBottom}
           placeholder="Name"
           autoFocus
           defaultValue={initialValues.name}
@@ -68,7 +68,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
         />
         <Label text="Description" />
         <Input
-          style={contextStyles.marginBottom}
+          style={styles.marginBottom}
           placeholder="Description"
           defaultValue={initialValues.description}
           onChangeText={this.handleDescriptionChange}
@@ -79,7 +79,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           onValueChange={this.handleIsPrivateChange}
         />
         <ZulipButton
-          style={contextStyles.marginTop}
+          style={styles.marginTop}
           text={isNewStream ? 'Create' : 'Update'}
           disabled={name.length === 0}
           onPress={this.handlePerformAction}

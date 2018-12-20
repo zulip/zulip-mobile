@@ -6,6 +6,7 @@ import type { Context, Stream, Subscription } from '../types';
 import { RawLabel } from '../common';
 import StreamIcon from '../streams/StreamIcon';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
+import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
   streamRow: {
@@ -33,14 +34,13 @@ export default class StreamCard extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { stream, subscription } = this.props;
 
     const name = subscription.name || stream.name;
     const description = subscription.description || stream.description;
 
     return (
-      <View style={contextStyles.padding}>
+      <View style={styles.padding}>
         <View style={componentStyles.streamRow}>
           <StreamIcon
             size={20}

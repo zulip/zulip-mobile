@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Dispatch, Context, GlobalState, LocalizableText } from '../types';
-import { NAVBAR_SIZE } from '../styles';
+import styles, { NAVBAR_SIZE } from '../styles';
 import Label from '../common/Label';
 import { getCanGoBack } from '../selectors';
 import NavButton from './NavButton';
@@ -29,7 +29,7 @@ class ModalNavBar extends PureComponent<Props> {
     const { styles: contextStyles } = this.context;
     const { dispatch, canGoBack, title } = this.props;
     const textStyle = [
-      contextStyles.navTitle,
+      styles.navTitle,
       canGoBack ? { marginRight: NAVBAR_SIZE } : { marginLeft: 16 },
     ];
 
@@ -43,7 +43,7 @@ class ModalNavBar extends PureComponent<Props> {
             }}
           />
         )}
-        <View style={contextStyles.flexedLeftAlign}>
+        <View style={styles.flexedLeftAlign}>
           <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
         </View>
       </View>
