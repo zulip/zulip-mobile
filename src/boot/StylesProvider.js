@@ -6,15 +6,7 @@ import { StyleSheet } from 'react-native';
 
 import type { ChildrenArray, GlobalState, ThemeName } from '../types';
 import { getSettings } from '../directSelectors';
-import themeCreator from '../styles/theme';
-import themeDark from '../styles/themeDark';
-import themeLight from '../styles/themeLight';
-
-const themeNameToObject = {
-  default: themeLight,
-  light: themeLight,
-  night: themeDark,
-};
+import themeCreator, { themeColors } from '../styles/theme';
 
 const Dummy = props => props.children;
 
@@ -35,7 +27,7 @@ class StyleProvider extends PureComponent<Props> {
 
   getChildContext() {
     const { theme } = this.props;
-    const styles = StyleSheet.create(themeCreator(themeNameToObject[theme]));
+    const styles = StyleSheet.create(themeCreator(themeColors[theme]));
     return { theme, styles };
   }
 
