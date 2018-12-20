@@ -2,16 +2,22 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Context } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext } from '../styles';
 
 export default class LineSeparator extends PureComponent<{}> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
-  static contextTypes = {
-    styles: () => null,
+  styles = {
+    lineSeparator: {
+      height: 1,
+      backgroundColor: this.context.cardColor,
+      margin: 4,
+    },
   };
 
   render() {
-    return <View style={this.context.styles.lineSeparator} />;
+    return <View style={this.styles.lineSeparator} />;
   }
 }

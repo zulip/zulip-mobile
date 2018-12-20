@@ -7,6 +7,8 @@ import { statics as navStyles } from './navStyles';
 import utilityStyles from './utilityStyles';
 
 export * from './constants';
+export type { ThemeColors } from './theme';
+export { ThemeContext } from './theme';
 
 export default StyleSheet.create({
   ...composeBoxStyles,

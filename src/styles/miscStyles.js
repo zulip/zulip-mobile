@@ -58,7 +58,7 @@ export const statics = {
   },
 };
 
-export default ({ color, backgroundColor, cardColor, dividerColor }: ThemeColors) => ({
+export default ({ color, backgroundColor, dividerColor }: ThemeColors) => ({
   color: {
     color,
   },
@@ -104,10 +104,5 @@ export default ({ color, backgroundColor, cardColor, dividerColor }: ThemeColors
   divider: {
     borderBottomWidth: 1,
     borderBottomColor: dividerColor,
-  },
-  lineSeparator: {
-    height: 1,
-    backgroundColor: cardColor,
-    margin: 4,
   },
 });

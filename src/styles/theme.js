@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { ThemeName } from '../types';
@@ -17,7 +18,7 @@ export type AppStyles = $ReadOnly<{|
   ...$Call<typeof miscStyles, ThemeColors>,
 |}>;
 
-const themeColors: { [string]: ThemeColors } = {
+export const themeColors: { [string]: ThemeColors } = {
   night: {
     color: '#d5d9dd',
     backgroundColor: '#212D3B',
@@ -36,6 +37,8 @@ const themeColors: { [string]: ThemeColors } = {
   },
 };
 themeColors.default = themeColors.light;
+
+export const ThemeContext = React.createContext(themeColors.default);
 
 export const stylesFromTheme = (name: ThemeName) => {
   const colors = themeColors[name];

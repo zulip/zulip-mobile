@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 
 import type { ChildrenArray, GlobalState, ThemeName } from '../types';
 import { getSettings } from '../directSelectors';
-import { stylesFromTheme } from '../styles/theme';
+import { stylesFromTheme, themeColors, ThemeContext } from '../styles/theme';
 
 const Dummy = props => props.children;
 
@@ -32,7 +32,11 @@ class StyleProvider extends PureComponent<Props> {
   render() {
     const { children, theme } = this.props;
 
-    return <Dummy key={theme}>{children}</Dummy>;
+    return (
+      <ThemeContext.Provider value={themeColors[theme]}>
+        <Dummy key={theme}>{children}</Dummy>
+      </ThemeContext.Provider>
+    );
   }
 }
 
