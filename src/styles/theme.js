@@ -1,8 +1,11 @@
 /* @flow strict-local */
+import { StyleSheet } from 'react-native';
+
 import type { UtilityStyles } from './utilityStyles';
 import type { ComposeBoxStyles } from './composeBoxStyles';
 import type { NavStyles } from './navStyles';
 import type { MiscStyles } from './miscStyles';
+import type { ThemeName } from '../types';
 import utilityStyles from './utilityStyles';
 import composeBoxStyles from './composeBoxStyles';
 import navStyles from './navStyles';
@@ -18,7 +21,7 @@ type ThemeColors = {|
   dividerColor: string,
 |};
 
-export const themeColors: { [string]: ThemeColors } = {
+const themeColors: { [string]: ThemeColors } = {
   night: {
     color: '#d5d9dd',
     backgroundColor: '#212D3B',
@@ -40,9 +43,12 @@ export const themeColors: { [string]: ThemeColors } = {
 };
 themeColors.default = themeColors.light;
 
-export default (props: ThemeColors) => ({
-  ...utilityStyles,
-  ...composeBoxStyles(props),
-  ...navStyles(props),
-  ...miscStyles(props),
-});
+export const stylesFromTheme = (name: ThemeName) => {
+  const colors = themeColors[name];
+  return StyleSheet.create({
+    ...utilityStyles,
+    ...composeBoxStyles(colors),
+    ...navStyles(colors),
+    ...miscStyles(colors),
+  });
+};

@@ -2,11 +2,10 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { ChildrenArray, GlobalState, ThemeName } from '../types';
 import { getSettings } from '../directSelectors';
-import themeCreator, { themeColors } from '../styles/theme';
+import { stylesFromTheme } from '../styles/theme';
 
 const Dummy = props => props.children;
 
@@ -27,7 +26,7 @@ class StyleProvider extends PureComponent<Props> {
 
   getChildContext() {
     const { theme } = this.props;
-    const styles = StyleSheet.create(themeCreator(themeColors[theme]));
+    const styles = stylesFromTheme(theme);
     return { theme, styles };
   }
 
