@@ -3,25 +3,7 @@ import { Platform } from 'react-native';
 
 import { BRAND_COLOR } from './';
 
-type Props = {
-  color: string,
-  backgroundColor: string,
-  borderColor: string,
-};
-
-const inputMarginPadding = {
-  paddingHorizontal: 8,
-  ...Platform.select({
-    ios: {
-      paddingVertical: 8,
-    },
-    android: {
-      paddingVertical: 2,
-    },
-  }),
-};
-
-export default ({ color, backgroundColor, borderColor }: Props) => ({
+const statics = {
   composeBox: {
     flexDirection: 'row',
     backgroundColor: 'rgba(127, 127, 127, 0.1)',
@@ -30,21 +12,6 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     flex: 1,
     paddingVertical: 8,
     justifyContent: 'center',
-  },
-  composeTextInput: {
-    borderWidth: 0,
-    borderRadius: 5,
-    backgroundColor,
-    color,
-    fontSize: 15,
-    ...inputMarginPadding,
-  },
-  topicInput: {
-    borderWidth: 0,
-    borderRadius: 5,
-    backgroundColor,
-    marginBottom: 8,
-    ...inputMarginPadding,
   },
   composeSendButton: {
     padding: 8,
@@ -77,4 +44,43 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     flex: 1,
     color: 'white',
   },
+};
+
+const inputMarginPadding = {
+  paddingHorizontal: 8,
+  ...Platform.select({
+    ios: {
+      paddingVertical: 8,
+    },
+    android: {
+      paddingVertical: 2,
+    },
+  }),
+};
+
+type Props = {
+  color: string,
+  backgroundColor: string,
+  borderColor: string,
+};
+
+const fromTheme = ({ color, backgroundColor, borderColor }: Props) => ({
+  ...statics,
+  composeTextInput: {
+    borderWidth: 0,
+    borderRadius: 5,
+    backgroundColor,
+    color,
+    fontSize: 15,
+    ...inputMarginPadding,
+  },
+  topicInput: {
+    borderWidth: 0,
+    borderRadius: 5,
+    backgroundColor,
+    marginBottom: 8,
+    ...inputMarginPadding,
+  },
 });
+
+export { statics as default, fromTheme };

@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 import type { ThemeName } from '../types';
 import utilityStyles from './utilityStyles';
-import composeBoxStyles from './composeBoxStyles';
+import { fromTheme as composeBoxStyles } from './composeBoxStyles';
 import navStyles from './navStyles';
 import miscStyles from './miscStyles';
 
