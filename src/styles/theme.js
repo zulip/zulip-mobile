@@ -10,7 +10,7 @@ import miscStyles from './miscStyles';
 
 export type AppStyles = UtilityStyles & ComposeBoxStyles & NavStyles & MiscStyles;
 
-type Props = {|
+type ThemeColors = {|
   color: string,
   backgroundColor: string,
   borderColor: string,
@@ -18,7 +18,7 @@ type Props = {|
   dividerColor: string,
 |};
 
-export default (props: Props) => ({
+export default (props: ThemeColors) => ({
   ...utilityStyles,
   ...composeBoxStyles(props),
   ...navStyles(props),
