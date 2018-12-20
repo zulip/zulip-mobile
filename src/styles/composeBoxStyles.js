@@ -1,22 +1,7 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
 
-import type { Style } from '../types';
 import { BRAND_COLOR } from './';
-
-export type ComposeBoxStyles = {
-  composeBox: Style,
-  composeText: Style,
-  composeTextInput: Style,
-  topicInput: Style,
-  composeSendButton: Style,
-  composeMenu: Style,
-  expandButton: Style,
-  composeMenuButton: Style,
-  disabledComposeBox: Style,
-  disabledComposeButton: Style,
-  disabledComposeText: Style,
-};
 
 type Props = {
   color: string,

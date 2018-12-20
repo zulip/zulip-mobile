@@ -1,17 +1,11 @@
 /* @flow strict-local */
 import { StyleSheet } from 'react-native';
 
-import type { UtilityStyles } from './utilityStyles';
-import type { ComposeBoxStyles } from './composeBoxStyles';
-import type { NavStyles } from './navStyles';
-import type { MiscStyles } from './miscStyles';
 import type { ThemeName } from '../types';
 import utilityStyles from './utilityStyles';
 import composeBoxStyles from './composeBoxStyles';
 import navStyles from './navStyles';
 import miscStyles from './miscStyles';
-
-export type AppStyles = UtilityStyles & ComposeBoxStyles & NavStyles & MiscStyles;
 
 type ThemeColors = {|
   color: string,
@@ -20,6 +14,13 @@ type ThemeColors = {|
   cardColor: string,
   dividerColor: string,
 |};
+
+export type AppStyles = $ReadOnly<{|
+  ...typeof utilityStyles,
+  ...$Call<typeof composeBoxStyles, ThemeColors>,
+  ...$Call<typeof navStyles, ThemeColors>,
+  ...$Call<typeof miscStyles, ThemeColors>,
+|}>;
 
 const themeColors: { [string]: ThemeColors } = {
   night: {

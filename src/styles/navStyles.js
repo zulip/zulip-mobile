@@ -1,18 +1,5 @@
 /* @flow strict-local */
-import type { Style } from '../types';
 import { BRAND_COLOR, NAVBAR_SIZE } from './';
-
-export type NavStyles = {
-  navBar: Style,
-  navWrapper: Style,
-  titleAvatar: Style,
-  navSubtitle: Style,
-  navTitle: Style,
-  titleStreamWrapper: Style,
-  titleStreamRow: Style,
-  navButtonFrame: Style,
-  navButtonIcon: Style,
-};
 
 type Props = {
   color: string,

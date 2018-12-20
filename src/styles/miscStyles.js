@@ -1,43 +1,7 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
 
-import type { Style } from '../types';
 import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE } from './';
-
-export type MiscStyles = {
-  text: Style,
-  largerText: Style,
-  color: Style,
-  backgroundColor: Style,
-  row: Style,
-  input: Style,
-  passwordInput: Style,
-  showPasswordButton: Style,
-  showPasswordButtonText: Style,
-  realmInput: Style,
-  realmPlaceholder: Style,
-  realmInputEmpty: Style,
-  background: Style,
-  label: Style,
-  icon: Style,
-  settingsIcon: Style,
-  listItem: Style,
-  screen: Style,
-  flexed: Style,
-  flexDirectionColumnReversed: Style,
-  flexedLeftAlign: Style,
-  messageList: Style,
-  webview: Style,
-  rightItem: Style,
-  link: Style,
-  divider: Style,
-  container: Style,
-  center: Style,
-  heading2: Style,
-  field: Style,
-  lineSeparator: Style,
-  alignBottom: Style,
-};
 
 type Props = {|
   color: string,
