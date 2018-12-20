@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, Context, GlobalState, Narrow } from '../types';
-import { BRAND_COLOR } from '../styles';
+import type { Dispatch, GlobalState, Narrow } from '../types';
+import styles, { BRAND_COLOR } from '../styles';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import TitleNavButtons from '../title-buttons/TitleNavButtons';
@@ -20,14 +20,7 @@ type Props = {|
 |};
 
 class ChatNavBar extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
   render() {
-    const { styles: contextStyles } = this.context;
     const { dispatch, backgroundColor, narrow } = this.props;
     const color =
       backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
@@ -35,7 +28,7 @@ class ChatNavBar extends PureComponent<Props> {
         : foregroundColorFromBackground(backgroundColor);
 
     return (
-      <View style={[contextStyles.navBar, { backgroundColor }]}>
+      <View style={[styles.navBar, { backgroundColor }]}>
         <NavButton
           name="arrow-left"
           color={color}

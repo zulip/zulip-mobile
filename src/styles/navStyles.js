@@ -38,15 +38,18 @@ export const statics = {
     textAlign: 'center',
     fontSize: 26,
   },
-};
-
-export default ({ color, backgroundColor }: ThemeColors) => ({
   navBar: {
-    backgroundColor,
     borderColor: 'rgba(127, 127, 127, 0.25)',
     flexDirection: 'row',
     height: NAVBAR_SIZE,
     alignItems: 'center',
     borderBottomWidth: 1,
+  },
+};
+
+export default ({ backgroundColor }: ThemeColors) => ({
+  navBar: {
+    ...statics.navBar,
+    backgroundColor,
   },
 });
