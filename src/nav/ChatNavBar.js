@@ -27,7 +27,7 @@ class ChatNavBar extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { dispatch, backgroundColor, narrow } = this.props;
     const color =
       backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
@@ -35,7 +35,7 @@ class ChatNavBar extends PureComponent<Props> {
         : foregroundColorFromBackground(backgroundColor);
 
     return (
-      <View style={[styles.navBar, { backgroundColor }]}>
+      <View style={[contextStyles.navBar, { backgroundColor }]}>
         <NavButton
           name="arrow-left"
           color={color}

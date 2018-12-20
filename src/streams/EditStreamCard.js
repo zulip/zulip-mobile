@@ -54,13 +54,13 @@ export default class EditStreamCard extends PureComponent<Props, State> {
   render() {
     const { initialValues, isNewStream } = this.props;
     const { name } = this.state;
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
 
     return (
       <View>
         <Label text="Name" />
         <Input
-          style={styles.marginBottom}
+          style={contextStyles.marginBottom}
           placeholder="Name"
           autoFocus
           defaultValue={initialValues.name}
@@ -68,7 +68,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
         />
         <Label text="Description" />
         <Input
-          style={styles.marginBottom}
+          style={contextStyles.marginBottom}
           placeholder="Description"
           defaultValue={initialValues.description}
           onChangeText={this.handleDescriptionChange}
@@ -79,7 +79,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           onValueChange={this.handleIsPrivateChange}
         />
         <ZulipButton
-          style={styles.marginTop}
+          style={contextStyles.marginTop}
           text={isNewStream ? 'Create' : 'Update'}
           disabled={name.length === 0}
           onPress={this.handlePerformAction}

@@ -66,7 +66,7 @@ export default class Input extends PureComponent<Props, State> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { style, placeholder, textInputRef, ...restProps } = this.props;
     const { isFocused } = this.state;
     const fullPlaceholder =
@@ -82,7 +82,7 @@ export default class Input extends PureComponent<Props, State> {
       >
         {(text: string) => (
           <TextInput
-            style={[styles.input, style]}
+            style={[contextStyles.input, style]}
             placeholder={text}
             placeholderTextColor={HALF_COLOR}
             underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}

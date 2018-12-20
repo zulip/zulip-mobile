@@ -32,12 +32,12 @@ export default class Chat extends PureComponent<Props> {
   scrollOffset: number = 0;
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { narrow } = this.props;
 
     return (
-      <KeyboardAvoider style={styles.flexed} behavior="padding">
-        <View style={styles.flexed}>
+      <KeyboardAvoider style={contextStyles.flexed} behavior="padding">
+        <View style={contextStyles.flexed}>
           <View style={componentStyles.reverse}>
             <MessageList narrow={narrow} />
             <NoMessages narrow={narrow} />

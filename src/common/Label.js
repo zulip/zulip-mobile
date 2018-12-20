@@ -31,11 +31,11 @@ export default class Label extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { text, style, ...restProps } = this.props;
 
     return (
-      <Text style={[styles.label, style]} {...restProps}>
+      <Text style={[contextStyles.label, style]} {...restProps}>
         <TranslatedText text={text} />
       </Text>
     );

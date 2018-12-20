@@ -56,12 +56,12 @@ export default class UserItem extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { fullName, avatarUrl, presence, isSelected, unreadCount, showEmail, email } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
+        <View style={[contextStyles.listItem, isSelected && componentStyles.selectedRow]}>
           <Avatar
             size={32}
             avatarUrl={avatarUrl}

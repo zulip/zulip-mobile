@@ -36,12 +36,12 @@ class WebLink extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { label } = this.props;
 
     return (
       <Touchable>
-        <Label style={styles.link} text={label} onPress={this.handlePress} />
+        <Label style={contextStyles.link} text={label} onPress={this.handlePress} />
       </Touchable>
     );
   }

@@ -17,8 +17,8 @@ export default class TitlePlain extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { text, color } = this.props;
-    return <Text style={[styles.navTitle, styles.flexed, { color }]}>{text}</Text>;
+    return <Text style={[contextStyles.navTitle, contextStyles.flexed, { color }]}>{text}</Text>;
   }
 }

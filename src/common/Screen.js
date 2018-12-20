@@ -96,10 +96,10 @@ class Screen extends PureComponent<Props> {
       style,
       title,
     } = this.props;
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
 
     return (
-      <View style={[styles.screen, { marginBottom: safeAreaInsets.bottom }]}>
+      <View style={[contextStyles.screen, { marginBottom: safeAreaInsets.bottom }]}>
         {/* $FlowFixMe-56 Cannot create ZulipStatusBar element because ST is not a React component. */}
         <ZulipStatusBar />
         {search ? (
@@ -110,13 +110,13 @@ class Screen extends PureComponent<Props> {
         <OfflineNotice />
         <KeyboardAvoider
           behavior="padding"
-          style={[componentStyles.wrapper, padding && styles.padding]}
-          contentContainerStyle={[padding && styles.padding]}
+          style={[componentStyles.wrapper, padding && contextStyles.padding]}
+          contentContainerStyle={[padding && contextStyles.padding]}
         >
           <ScrollView
             contentContainerStyle={
               /* $FlowFixMe wants ViewStyleProp */
-              [styles.flexed, centerContent && componentStyles.content, style]
+              [contextStyles.flexed, centerContent && componentStyles.content, style]
             }
             style={componentStyles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}

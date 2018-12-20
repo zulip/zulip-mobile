@@ -67,7 +67,7 @@ export default class StreamItem extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const {
       name,
       description,
@@ -83,7 +83,7 @@ export default class StreamItem extends PureComponent<Props> {
     } = this.props;
 
     const wrapperStyle = [
-      styles.listItem,
+      contextStyles.listItem,
       { backgroundColor },
       isSelected && componentStyles.selectedRow,
       isMuted && componentStyles.muted,
@@ -93,14 +93,14 @@ export default class StreamItem extends PureComponent<Props> {
       : color
         || foregroundColorFromBackground(
           backgroundColor
-            || (StyleSheet.flatten(styles.backgroundColor) || {}).backgroundColor
+            || (StyleSheet.flatten(contextStyles.backgroundColor) || {}).backgroundColor
             || null,
         );
     const textColorStyle = isSelected
       ? { color: 'white' }
       : backgroundColor
         ? { color: (foregroundColorFromBackground(backgroundColor): string) }
-        : styles.color;
+        : contextStyles.color;
 
     return (
       <Touchable onPress={this.handlePress}>

@@ -23,24 +23,28 @@ class TitleStream extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { narrow, stream, color } = this.props;
 
     return (
-      <View style={[styles.navWrapper, styles.titleStreamWrapper]}>
-        <View style={styles.titleStreamRow}>
+      <View style={[contextStyles.navWrapper, contextStyles.titleStreamWrapper]}>
+        <View style={contextStyles.titleStreamRow}>
           <StreamIcon
             isMuted={!stream.in_home_view}
             isPrivate={stream.invite_only}
             color={color}
             size={20}
           />
-          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+          <Text style={[contextStyles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {stream.name}
           </Text>
         </View>
         {isTopicNarrow(narrow) && (
-          <Text style={[styles.navSubtitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+          <Text
+            style={[contextStyles.navSubtitle, { color }]}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
             {narrow[1].operand}
           </Text>
         )}

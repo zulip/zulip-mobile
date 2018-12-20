@@ -43,11 +43,11 @@ export default class Centerer extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { children, padding, style } = this.props;
 
     return (
-      <View style={[componentStyles.centerer, padding && styles.padding, style]}>
+      <View style={[componentStyles.centerer, padding && contextStyles.padding, style]}>
         <View style={componentStyles.inner}>{children}</View>
       </View>
     );

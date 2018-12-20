@@ -31,7 +31,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { user, presence } = this.props;
     const screenWidth = Dimensions.get('window').width;
 
@@ -44,18 +44,21 @@ export default class AccountDetails extends PureComponent<Props, void> {
           size={screenWidth}
           shape="square"
         />
-        <ComponentList outerSpacing itemStyle={[styles.row, styles.center]}>
+        <ComponentList outerSpacing itemStyle={[contextStyles.row, contextStyles.center]}>
           <View>
             <UserStatusIndicator presence={presence} hideIfOffline={false} />
-            <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
+            <RawLabel
+              style={[contextStyles.largerText, contextStyles.halfMarginLeft]}
+              text={user.email}
+            />
           </View>
           <View>
-            <ActivityText style={styles.largerText} email={user.email} />
+            <ActivityText style={contextStyles.largerText} email={user.email} />
           </View>
           {user.timezone ? (
             <View>
               <RawLabel
-                style={styles.largerText}
+                style={contextStyles.largerText}
                 text={`${nowInTimeZone(user.timezone)} Local time`}
               />
             </View>

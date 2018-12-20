@@ -36,7 +36,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { email, usersByEmail, unreadCount } = this.props;
     const allUsers = email.split(',').map(e => usersByEmail[e]);
 
@@ -50,7 +50,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={styles.listItem}>
+        <View style={contextStyles.listItem}>
           <TextAvatar size={32} name={allNames} />
           <RawLabel
             style={componentStyles.text}

@@ -26,15 +26,15 @@ class ModalNavBar extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { dispatch, canGoBack, title } = this.props;
     const textStyle = [
-      styles.navTitle,
+      contextStyles.navTitle,
       canGoBack ? { marginRight: NAVBAR_SIZE } : { marginLeft: 16 },
     ];
 
     return (
-      <View style={[styles.navBar]}>
+      <View style={[contextStyles.navBar]}>
         {canGoBack && (
           <NavButton
             name="arrow-left"
@@ -43,7 +43,7 @@ class ModalNavBar extends PureComponent<Props> {
             }}
           />
         )}
-        <View style={styles.flexedLeftAlign}>
+        <View style={contextStyles.flexedLeftAlign}>
           <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
         </View>
       </View>

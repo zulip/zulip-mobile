@@ -33,14 +33,14 @@ export default class StreamCard extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { stream, subscription } = this.props;
 
     const name = subscription.name || stream.name;
     const description = subscription.description || stream.description;
 
     return (
-      <View style={styles.padding}>
+      <View style={contextStyles.padding}>
         <View style={componentStyles.streamRow}>
           <StreamIcon
             size={20}

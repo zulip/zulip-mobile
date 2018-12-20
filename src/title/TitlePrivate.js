@@ -24,11 +24,11 @@ class TitlePrivate extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { user, color, presence } = this.props;
 
     return (
-      <View style={styles.navWrapper}>
+      <View style={contextStyles.navWrapper}>
         <Avatar
           size={32}
           name={user.full_name}
@@ -38,10 +38,10 @@ class TitlePrivate extends PureComponent<Props> {
         />
         <ViewPlaceholder width={8} />
         <View>
-          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+          <Text style={[contextStyles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {user.full_name}
           </Text>
-          <ActivityText style={styles.navSubtitle} color={color} email={user.email} />
+          <ActivityText style={contextStyles.navSubtitle} color={color} email={user.email} />
         </View>
       </View>
     );

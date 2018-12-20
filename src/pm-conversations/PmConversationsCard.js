@@ -49,7 +49,7 @@ class PmConversationsCard extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { dispatch, conversations, isLoading, presences, usersByEmail } = this.props;
 
     if (isLoading) {
@@ -57,7 +57,7 @@ class PmConversationsCard extends PureComponent<Props> {
     }
 
     return (
-      <View style={[componentStyles.container, styles.background]}>
+      <View style={[componentStyles.container, contextStyles.background]}>
         <View style={componentStyles.row}>
           <ZulipButton
             secondary

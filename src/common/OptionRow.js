@@ -23,13 +23,13 @@ export default class OptionRow extends PureComponent<Props> {
 
   render() {
     const { label, defaultValue, onValueChange, style, Icon } = this.props;
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
 
     return (
-      <View style={[styles.listItem, style]}>
-        {Icon && <Icon size={18} style={[styles.icon, styles.settingsIcon]} />}
-        <Label text={label} style={styles.flexed} />
-        <View style={styles.rightItem}>
+      <View style={[contextStyles.listItem, style]}>
+        {Icon && <Icon size={18} style={[contextStyles.icon, contextStyles.settingsIcon]} />}
+        <Label text={label} style={contextStyles.flexed} />
+        <View style={contextStyles.rightItem}>
           <ZulipSwitch defaultValue={defaultValue} onValueChange={onValueChange} />
         </View>
       </View>

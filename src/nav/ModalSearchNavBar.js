@@ -56,7 +56,7 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { isSearchActive } = this.state;
     const {
       dispatch,
@@ -69,12 +69,12 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
     } = this.props;
     const showSearchInput = isSearchActive || !searchBar;
     const textStyle = [
-      styles.navTitle,
+      contextStyles.navTitle,
       canGoBack && showSearchInput && { marginRight: NAVBAR_SIZE },
     ];
 
     return (
-      <View style={styles.navBar}>
+      <View style={contextStyles.navBar}>
         {canGoBack && (
           <NavButton
             name="arrow-left"

@@ -21,13 +21,13 @@ class TitleGroup extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { recipients, presence } = this.props;
 
     return (
-      <View style={styles.navWrapper}>
+      <View style={contextStyles.navWrapper}>
         {recipients.map((user, index) => (
-          <View key={user.email} style={styles.titleAvatar}>
+          <View key={user.email} style={contextStyles.titleAvatar}>
             <Avatar
               size={32}
               name={user.full_name}

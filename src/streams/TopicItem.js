@@ -50,14 +50,14 @@ export default class StreamItem extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { name, isMuted, isSelected, unreadCount } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View
           style={[
-            styles.listItem,
+            contextStyles.listItem,
             isSelected && componentStyles.selectedRow,
             isMuted && componentStyles.muted,
           ]}

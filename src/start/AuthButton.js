@@ -18,12 +18,12 @@ export default class AuthButton extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { name, Icon, onPress } = this.props;
 
     return (
       <ZulipButton
-        style={styles.halfMarginTop}
+        style={contextStyles.halfMarginTop}
         secondary
         text={`Log in with ${name}`}
         Icon={Icon}

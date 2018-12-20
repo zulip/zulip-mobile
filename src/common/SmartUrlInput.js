@@ -87,7 +87,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   );
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const {
       defaultOrganization,
       protocol,
@@ -110,7 +110,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
         <TextInput
           style={[
             componentStyles.realmInput,
-            styles.color,
+            contextStyles.color,
             value.length === 0 && componentStyles.realmInputEmpty,
           ]}
           autoFocus

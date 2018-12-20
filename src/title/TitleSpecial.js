@@ -26,14 +26,14 @@ export default class TitleSpecial extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { narrow, color } = this.props;
     const { name, icon } = specials[narrow[0].operand];
 
     return (
-      <View style={styles.navWrapper}>
-        <Icon name={icon} size={20} color={color} style={styles.halfPaddingRight} />
-        <Label style={[styles.navTitle, { color }]} text={name} />
+      <View style={contextStyles.navWrapper}>
+        <Icon name={icon} size={20} color={color} style={contextStyles.halfPaddingRight} />
+        <Label style={[contextStyles.navTitle, { color }]} text={name} />
       </View>
     );
   }

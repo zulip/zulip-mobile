@@ -156,7 +156,7 @@ class MessageList extends Component<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const {
       backgroundData,
       renderedMessages,
@@ -180,7 +180,7 @@ class MessageList extends Component<Props> {
           baseUrl: auth.realm,
           html,
         }}
-        style={styles.webview}
+        style={contextStyles.webview}
         ref={webview => {
           this.webview = webview;
         }}

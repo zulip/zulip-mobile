@@ -12,8 +12,8 @@ export default class OptionDivider extends PureComponent<{}> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
 
-    return <View style={styles.divider} />;
+    return <View style={contextStyles.divider} />;
   }
 }

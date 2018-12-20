@@ -85,7 +85,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { directAdmins, directUsers, error, progress } = this.state;
 
     return (
@@ -94,7 +94,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
           {progress && <ActivityIndicator />}
           {!!error && <ErrorMsg error={error} />}
           <Label
-            style={[styles.field, componentStyles.heading2, componentStyles.heading]}
+            style={[contextStyles.field, componentStyles.heading2, componentStyles.heading]}
             text="Administrators"
           />
           {directAdmins.map(admin => (
@@ -105,7 +105,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
             />
           ))}
           <Label
-            style={[styles.field, componentStyles.heading2, componentStyles.heading]}
+            style={[contextStyles.field, componentStyles.heading2, componentStyles.heading]}
             text="Normal users"
           />
           <FlatList

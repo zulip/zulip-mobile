@@ -69,7 +69,7 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { initialRealm, navigation } = this.props;
     const { progress, error, realm } = this.state;
 
@@ -77,7 +77,7 @@ class RealmScreen extends PureComponent<Props, State> {
       <Screen title="Welcome" padding centerContent keyboardShouldPersistTaps="always">
         <Label text="Organization URL" />
         <SmartUrlInput
-          style={styles.marginVertical}
+          style={contextStyles.marginVertical}
           navigation={navigation}
           defaultOrganization="your-org"
           protocol="https://"
@@ -89,7 +89,7 @@ class RealmScreen extends PureComponent<Props, State> {
         />
         {error && <ErrorMsg error={error} />}
         <ZulipButton
-          style={styles.halfMarginTop}
+          style={contextStyles.halfMarginTop}
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}

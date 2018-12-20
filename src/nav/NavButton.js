@@ -28,18 +28,18 @@ export default class NavButton extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { name, style, color, unreadCount, onPress } = this.props;
 
     return (
       <ComponentWithOverlay
-        style={styles.navButtonFrame}
+        style={contextStyles.navButtonFrame}
         showOverlay={unreadCount > 0}
         overlaySize={20}
         overlay={<UnreadCount count={unreadCount} />}
         onPress={onPress}
       >
-        <Icon style={[styles.navButtonIcon, style]} color={color} name={name} />
+        <Icon style={[contextStyles.navButtonIcon, style]} color={color} name={name} />
       </ComponentWithOverlay>
     );
   }

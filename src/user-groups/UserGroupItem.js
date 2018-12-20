@@ -38,12 +38,12 @@ export default class UserGroupItem extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
+    const { styles: contextStyles } = this.context;
     const { name, description } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={styles.listItem}>
+        <View style={contextStyles.listItem}>
           <IconPeople size={32} />
           <View style={componentStyles.textWrapper}>
             <RawLabel
