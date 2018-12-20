@@ -16,7 +16,6 @@ type Props = {|
 
 class StyleProvider extends PureComponent<Props> {
   static childContextTypes = {
-    theme: () => {},
     styles: () => {},
   };
 
@@ -27,7 +26,7 @@ class StyleProvider extends PureComponent<Props> {
   getChildContext() {
     const { theme } = this.props;
     const styles = stylesFromTheme(theme);
-    return { theme, styles };
+    return { styles };
   }
 
   render() {
