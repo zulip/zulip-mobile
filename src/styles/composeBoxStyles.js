@@ -70,14 +70,4 @@ const statics = {
   },
 };
 
-type Props = {
-  color: string,
-  backgroundColor: string,
-  borderColor: string,
-};
-
-const fromTheme = ({ color, backgroundColor, borderColor }: Props) => ({
-  ...statics,
-});
-
-export { statics as default, fromTheme };
+export default statics;

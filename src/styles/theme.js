@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 
 import type { ThemeName } from '../types';
 import utilityStyles from './utilityStyles';
-import { fromTheme as composeBoxStyles } from './composeBoxStyles';
 import navStyles from './navStyles';
 import miscStyles from './miscStyles';
 
@@ -17,7 +16,6 @@ type ThemeColors = {|
 
 export type AppStyles = $ReadOnly<{|
   ...typeof utilityStyles,
-  ...$Call<typeof composeBoxStyles, ThemeColors>,
   ...$Call<typeof navStyles, ThemeColors>,
   ...$Call<typeof miscStyles, ThemeColors>,
 |}>;
@@ -48,7 +46,6 @@ export const stylesFromTheme = (name: ThemeName) => {
   const colors = themeColors[name];
   return StyleSheet.create({
     ...utilityStyles,
-    ...composeBoxStyles(colors),
     ...navStyles(colors),
     ...miscStyles(colors),
   });
