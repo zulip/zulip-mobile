@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, StyleSheet } from 'react-native';
 
 import type { Dispatch, Presence, User } from '../types';
 import { Avatar, ComponentList, RawLabel, ZulipButton } from '../common';
@@ -12,6 +12,12 @@ import { getMediumAvatar } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
 import { doNarrow } from '../actions';
 import styles from '../styles';
+
+const componentStyles = StyleSheet.create({
+  componentListItem: {
+    justifyContent: 'center',
+  },
+});
 
 type Props = {|
   dispatch: Dispatch,
@@ -38,7 +44,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
           size={screenWidth}
           shape="square"
         />
-        <ComponentList outerSpacing itemStyle={[styles.row, styles.center]}>
+        <ComponentList outerSpacing itemStyle={[styles.row, componentStyles.componentListItem]}>
           <View>
             <UserStatusIndicator presence={presence} hideIfOffline={false} />
             <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
