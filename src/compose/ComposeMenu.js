@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import type { Dispatch, Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
-import styles from '../styles/composeBoxStyles';
+import styles from '../styles';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';

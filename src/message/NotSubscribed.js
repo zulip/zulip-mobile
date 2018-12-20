@@ -8,7 +8,7 @@ import type { Auth, Stream } from '../types';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
-import styles from '../styles/composeBoxStyles';
+import styles from '../styles';
 
 type Props = {
   auth: Auth,

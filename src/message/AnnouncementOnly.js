@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import { Label } from '../common';
-import styles from '../styles/composeBoxStyles';
+import styles from '../styles';
 
 class AnnouncementOnly extends PureComponent<{}> {
   render() {

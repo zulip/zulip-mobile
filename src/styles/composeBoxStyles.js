@@ -15,7 +15,7 @@ const inputMarginPadding = {
   }),
 };
 
-const statics = {
+export default {
   composeBox: {
     flexDirection: 'row',
     backgroundColor: 'rgba(127, 127, 127, 0.1)',
@@ -69,5 +69,3 @@ const statics = {
     ...inputMarginPadding,
   },
 };
-
-export default statics;
