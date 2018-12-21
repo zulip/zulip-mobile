@@ -2,11 +2,11 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Context } from '../types';
 import Label from './Label';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
-import styles from '../styles';
+import type { ThemeColors } from '../styles';
+import styles, { ThemeContext } from '../styles';
 
 type Props = {|
   Icon?: Object,
@@ -15,23 +15,26 @@ type Props = {|
 |};
 
 export default class OptionButton extends PureComponent<Props> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
-  static contextTypes = {
-    styles: () => null,
+  styles = {
+    icon: {
+      ...styles.settingsIcon,
+      color: this.context.color,
+    },
   };
 
   render() {
     const { label, onPress, Icon } = this.props;
-    const { styles: contextStyles } = this.context;
 
     return (
       <Touchable onPress={onPress}>
         <View style={styles.listItem}>
-          {Icon && <Icon size={18} style={[contextStyles.icon, styles.settingsIcon]} />}
+          {Icon && <Icon size={18} style={this.styles.icon} />}
           <Label text={label} />
           <View style={styles.rightItem}>
-            <IconRight size={18} style={[contextStyles.icon, styles.settingsIcon]} />
+            <IconRight size={18} style={this.styles.icon} />
           </View>
         </View>
       </Touchable>

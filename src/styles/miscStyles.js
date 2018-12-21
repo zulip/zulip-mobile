@@ -13,6 +13,11 @@ export const statics = {
     alignItems: 'center',
   },
   settingsIcon: {
+    width: 24,
+    height: 24,
+    margin: 8,
+    fontSize: 24,
+    textAlign: 'center',
     marginLeft: 8,
     marginRight: 16,
   },
@@ -82,14 +87,6 @@ export default ({ color, backgroundColor }: ThemeColors) => ({
   label: {
     color,
     fontSize: 15,
-  },
-  icon: {
-    color,
-    width: 24,
-    height: 24,
-    margin: 8,
-    fontSize: 24,
-    textAlign: 'center',
   },
   screen: {
     flex: 1,
