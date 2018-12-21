@@ -7,9 +7,6 @@ import { BRAND_COLOR } from '../styles';
 import { IconDone } from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
-  flag: {
-    paddingRight: 8,
-  },
   language: {
     flex: 1,
   },
@@ -25,7 +22,6 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   locale: string,
-  flag: string,
   name: string,
   selected: boolean,
   onValueChange: (locale: string) => void,
@@ -33,12 +29,11 @@ type Props = {|
 
 export default class LanguagePickerItem extends PureComponent<Props> {
   render() {
-    const { locale, flag, name, selected, onValueChange } = this.props;
+    const { locale, name, selected, onValueChange } = this.props;
 
     return (
       <Touchable onPress={() => onValueChange(locale)}>
         <View style={componentStyles.listItem}>
-          <RawLabel style={componentStyles.flag} text={flag} />
           <RawLabel style={componentStyles.language} text={name} />
           {selected && <IconDone size={16} color={BRAND_COLOR} />}
         </View>
