@@ -50,6 +50,9 @@ public class GCMPushNotifications {
             CharSequence name = context.getString(R.string.notification_channel_name);
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            AudioAttributes audioAttr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION).build();
+            channel.setSound(getNotificationSoundUri(context), audioAttr);
             getNotificationManager(context).createNotificationChannel(channel);
         }
     }
@@ -185,7 +188,9 @@ public class GCMPushNotifications {
         }
 
         final Uri soundUri = getNotificationSoundUri(context);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (android.os.Build.VERSION.SDK_INT >= 26) {
+            // Managed by the channel.
+        } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes audioAttr = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION).build();
             builder.setSound(soundUri, audioAttr);
