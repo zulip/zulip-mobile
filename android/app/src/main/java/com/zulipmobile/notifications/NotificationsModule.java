@@ -7,8 +7,12 @@ public class NotificationsModule extends ReactContextBaseJavaModule {
 
     static Bundle initialNotification = null;
 
+    /** TODO store this in a more reasonable way. */
+    static ReactContext reactContext = null;
+
     NotificationsModule(ReactApplicationContext reactContext) {
         super(reactContext);
+        NotificationsModule.reactContext = reactContext;
     }
 
     @Override

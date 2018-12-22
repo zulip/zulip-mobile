@@ -41,8 +41,7 @@ class NotifyReact {
     }
 
     private static void notifyReactNow(Bundle data) {
-        final ReactContext reactContext =
-                AppLifecycleFacadeHolder.get().getRunningReactContext();
+        final ReactContext reactContext = NotificationsModule.reactContext;
         if (reactContext == null) {
             return;
         }
