@@ -22,6 +22,7 @@ import com.zulipmobile.R;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Locale;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
@@ -36,7 +37,8 @@ import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
 public class GCMPushNotifications {
 
-    private static final String CHANNEL_ID = "default";
+    private static final String CHANNEL_ID = "default_v2";
+
     private static final int NOTIFICATION_ID = 435;
     static final String ACTION_CLEAR = "ACTION_CLEAR";
     static final String EXTRA_NOTIFICATION_DATA = "data";
@@ -47,6 +49,17 @@ public class GCMPushNotifications {
 
     public static void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= 26) {
+            // for now we only support one default channel
+            // it is not possible to change channel properties after creation
+            // so new channel is created in such cases
+            // which can result in many old unused channel, so delete them
+            List<NotificationChannel> channels = getNotificationManager(context).getNotificationChannels();
+            for (NotificationChannel channel : channels) {
+                if (!channel.getId().equals(CHANNEL_ID)) {
+                    getNotificationManager(context).deleteNotificationChannel(channel.getId());
+                }
+            }
+
             CharSequence name = context.getString(R.string.notification_channel_name);
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
