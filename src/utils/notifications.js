@@ -1,5 +1,5 @@
 /* @flow */
-import { NativeModules, Platform, PushNotificationIOS } from 'react-native';
+import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
 import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
 import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
@@ -83,7 +83,9 @@ export class NotificationListener {
     if (Platform.OS === 'ios') {
       NotificationsIOS.addEventListener('notificationOpened', this.handleNotificationOpen);
     } else {
-      NotificationsAndroid.setNotificationOpenedListener(this.handleNotificationOpen);
+      DeviceEventEmitter.addListener('notificationOpened', notification =>
+        this.handleNotificationOpen({ getData: () => notification }),
+      );
     }
   }
 
