@@ -21,8 +21,9 @@ class NotifyReact {
     static void notifyReact(Context context, final Bundle data) {
         NotificationsModule.initialNotification = data;
 
+        final ReactContext reactContext = NotificationsModule.reactContext;
         final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
-        if (!lifecycleFacade.isReactInitialized()) {
+        if (reactContext == null || !reactContext.hasActiveCatalystInstance()) {
             context.startActivity(new AppLaunchHelper().getLaunchIntent(context));
             return;
         }
