@@ -2,7 +2,12 @@ package com.zulipmobile.notifications;
 
 import android.content.Context;
 import android.os.Bundle;
-import com.wix.reactnativenotifications.core.*;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.wix.reactnativenotifications.core.AppLaunchHelper;
+import com.wix.reactnativenotifications.core.AppLifecycleFacade;
+import com.wix.reactnativenotifications.core.AppLifecycleFacadeHolder;
 
 import static com.wix.reactnativenotifications.Defs.NOTIFICATION_OPENED_EVENT_NAME;
 
@@ -36,9 +41,14 @@ class NotifyReact {
     }
 
     private static void notifyReactNow(Bundle data) {
-        new JsIOHelper().sendEventToJS(
-                NOTIFICATION_OPENED_EVENT_NAME,
-                data,
-                AppLifecycleFacadeHolder.get().getRunningReactContext());
+        final ReactContext reactContext =
+                AppLifecycleFacadeHolder.get().getRunningReactContext();
+        if (reactContext == null) {
+            return;
+        }
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(NOTIFICATION_OPENED_EVENT_NAME,
+                      Arguments.fromBundle(data));
     }
 }
