@@ -89,6 +89,10 @@ public class GCMPushNotifications {
         getNotificationManager(context).notify(NOTIFICATION_ID, notification);
     }
 
+    private static Uri getNotificationSoundUri(Context context) {
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +"://" + context.getPackageName() + "/" + R.raw.zulip);
+    }
+
     private static Notification.Builder getNotificationBuilder(
             Context context, ConversationMap conversations, PushNotificationsProp props) {
         final Notification.Builder builder = Build.VERSION.SDK_INT >= 26 ?
@@ -173,12 +177,13 @@ public class GCMPushNotifications {
             builder.addAction(action);
         }
 
+        final Uri soundUri = getNotificationSoundUri(context);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes audioAttr = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION).build();
-            builder.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +"://" + context.getPackageName() + "/" + R.raw.zulip), audioAttr);
+            builder.setSound(soundUri, audioAttr);
         } else {
-            builder.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +"://" + context.getPackageName() + "/" + R.raw.zulip));
+            builder.setSound(soundUri);
         }
         return builder;
     }
