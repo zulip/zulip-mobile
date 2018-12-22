@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -175,9 +176,9 @@ public class GCMPushNotifications {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes audioAttr = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION).build();
-            builder.setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.zulip), audioAttr);
+            builder.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +"://" + context.getPackageName() + "/" + R.raw.zulip), audioAttr);
         } else {
-            builder.setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.zulip));
+            builder.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +"://" + context.getPackageName() + "/" + R.raw.zulip));
         }
         return builder;
     }
