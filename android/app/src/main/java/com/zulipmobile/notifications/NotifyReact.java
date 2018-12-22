@@ -1,13 +1,14 @@
 package com.zulipmobile.notifications;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.wix.reactnativenotifications.core.AppLaunchHelper;
+import com.zulipmobile.MainActivity;
 
 import static com.wix.reactnativenotifications.Defs.NOTIFICATION_OPENED_EVENT_NAME;
 
@@ -18,12 +19,13 @@ import static com.wix.reactnativenotifications.Defs.NOTIFICATION_OPENED_EVENT_NA
  * TODO: Replace this with a fresh implementation based on RN upstream docs.
  */
 class NotifyReact {
+
     static void notifyReact(Context context, final Bundle data) {
         NotificationsModule.initialNotification = data;
 
         final ReactContext reactContext = NotificationsModule.reactContext;
         if (reactContext == null || !reactContext.hasActiveCatalystInstance()) {
-            context.startActivity(new AppLaunchHelper().getLaunchIntent(context));
+            launchMainActivity(context);
             return;
         }
         if (reactContext.getLifecycleState() == LifecycleState.RESUMED) {
@@ -37,7 +39,7 @@ class NotifyReact {
                     notifyReactNow(data);
                 }
             });
-            context.startActivity(new AppLaunchHelper().getLaunchIntent(context));
+            launchMainActivity(context);
         }
     }
 
@@ -50,5 +52,12 @@ class NotifyReact {
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit(NOTIFICATION_OPENED_EVENT_NAME,
                       Arguments.fromBundle(data));
+    }
+
+    private static void launchMainActivity(Context context) {
+        final Intent intent = new Intent(context, MainActivity.class);
+        // TODO flags inherited from wix; consult Android docs, determine what we want
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        context.startActivity(intent);
     }
 }
