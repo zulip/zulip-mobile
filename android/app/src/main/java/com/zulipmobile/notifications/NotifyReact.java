@@ -3,11 +3,11 @@ package com.zulipmobile.notifications;
 import android.content.Context;
 import android.os.Bundle;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.wix.reactnativenotifications.core.AppLaunchHelper;
-import com.wix.reactnativenotifications.core.AppLifecycleFacade;
-import com.wix.reactnativenotifications.core.AppLifecycleFacadeHolder;
 
 import static com.wix.reactnativenotifications.Defs.NOTIFICATION_OPENED_EVENT_NAME;
 
@@ -22,18 +22,18 @@ class NotifyReact {
         NotificationsModule.initialNotification = data;
 
         final ReactContext reactContext = NotificationsModule.reactContext;
-        final AppLifecycleFacade lifecycleFacade = AppLifecycleFacadeHolder.get();
         if (reactContext == null || !reactContext.hasActiveCatalystInstance()) {
             context.startActivity(new AppLaunchHelper().getLaunchIntent(context));
             return;
         }
-        if (lifecycleFacade.isAppVisible()) {
+        if (reactContext.getLifecycleState() == LifecycleState.RESUMED) {
             notifyReactNow(data);
         } else {
-            lifecycleFacade.addVisibilityListener(new AppLifecycleFacade.AppVisibilityListener() {
-                @Override public void onAppNotVisible() {}
-                @Override public void onAppVisible() {
-                    lifecycleFacade.removeVisibilityListener(this);
+            reactContext.addLifecycleEventListener(new LifecycleEventListener() {
+                @Override public void onHostPause() {}
+                @Override public void onHostDestroy() {}
+                @Override public void onHostResume() {
+                    reactContext.removeLifecycleEventListener(this);
                     notifyReactNow(data);
                 }
             });
