@@ -2,15 +2,17 @@ package com.zulipmobile.notifications;
 
 import android.os.Bundle;
 
-import com.wix.reactnativenotifications.core.notification.PushNotificationProps;
-
 import java.util.Arrays;
 
-public class PushNotificationsProp extends PushNotificationProps {
+public class PushNotificationsProp {
+
+    private Bundle mBundle;
 
     public PushNotificationsProp(Bundle bundle) {
-        super(bundle);
+        mBundle = bundle;
     }
+
+    Bundle asBundle() { return (Bundle) mBundle.clone(); }
 
     /** Really "event type": one of a small fixed set of identifiers. */
     public String getEvent() {
@@ -46,7 +48,6 @@ public class PushNotificationsProp extends PushNotificationProps {
         return mBundle.getString("time");
     }
 
-    @Override
     protected PushNotificationsProp copy() {
         return new PushNotificationsProp((Bundle) mBundle.clone());
     }
