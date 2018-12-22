@@ -10,8 +10,6 @@ import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.zulipmobile.MainActivity;
 
-import static com.wix.reactnativenotifications.Defs.NOTIFICATION_OPENED_EVENT_NAME;
-
 /**
  * Methods for telling React about a notification.
  *
@@ -50,8 +48,7 @@ class NotifyReact {
         }
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(NOTIFICATION_OPENED_EVENT_NAME,
-                      Arguments.fromBundle(data));
+                .emit("notificationOpened", Arguments.fromBundle(data));
     }
 
     private static void launchMainActivity(Context context) {
