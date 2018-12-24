@@ -20,6 +20,8 @@ import com.zulipmobile.R;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
@@ -34,10 +36,13 @@ import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
 public class GCMPushNotifications {
 
-    private static final String CHANNEL_ID = "default";
     private static final int NOTIFICATION_ID = 435;
     static final String ACTION_CLEAR = "ACTION_CLEAR";
     static final String EXTRA_NOTIFICATION_DATA = "data";
+
+    private static final String CHANNEL_PRIVATE_ID = "private";
+    private static final String CHANNEL_GROUP_ID = "group";
+    private static final String CHANNEL_STREAM_ID = "stream";
 
     private static NotificationManager getNotificationManager(Context context) {
         return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -45,10 +50,12 @@ public class GCMPushNotifications {
 
     public static void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= 26) {
-            CharSequence name = context.getString(R.string.notification_channel_name);
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            getNotificationManager(context).createNotificationChannel(channel);
+            List<NotificationChannel> channels = new ArrayList<>();
+            channels.add(new NotificationChannel(CHANNEL_PRIVATE_ID, context.getString(R.string.notification_channel_private_name), importance));
+            channels.add(new NotificationChannel(CHANNEL_GROUP_ID, context.getString(R.string.notification_channel_huddle_name), importance));
+            channels.add(new NotificationChannel(CHANNEL_STREAM_ID, context.getString(R.string.notification_channel_stream_name), importance));
+            getNotificationManager(context).createNotificationChannels(channels);
         }
     }
 
@@ -91,7 +98,7 @@ public class GCMPushNotifications {
     private static Notification.Builder getNotificationBuilder(
             Context context, ConversationMap conversations, PushNotificationsProp props) {
         final Notification.Builder builder = Build.VERSION.SDK_INT >= 26 ?
-                new Notification.Builder(context, CHANNEL_ID)
+                new Notification.Builder(context, CHANNEL_STREAM_ID)
                 : new Notification.Builder(context);
 
         final int messageId = props.getZulipMessageId();
@@ -119,6 +126,14 @@ public class GCMPushNotifications {
             builder.setSmallIcon(R.mipmap.ic_launcher);
         } else {
             builder.setSmallIcon(R.drawable.zulip_notification);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type.equals("private")) {
+            if (props.getPmUsers() == null) {
+                builder.setChannelId(CHANNEL_PRIVATE_ID);
+            } else {
+                builder.setChannelId(CHANNEL_GROUP_ID);
+            }
         }
 
         if (conversations.size() == 1) {
