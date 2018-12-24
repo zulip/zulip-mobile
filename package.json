@@ -12,12 +12,10 @@
     "ios-device": "react-native run-ios --device",
     "android": "react-native run-android",
     "android-release": "react-native run-android --variant=release",
-
     "build:android": "cd android && ./gradlew assembleRelease -Psigned -Psentry",
     "build:android-nokeys": "cd android && ./gradlew assembleRelease",
     "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "build:ios-release": "detox build --configuration ios.sim.release",
-
     "test": "tools/test",
     "test:full": "tools/test --full --coverage",
     "test:lint": "tools/test lint",
@@ -29,12 +27,9 @@
     "test:coveralls": "tools/test jest --full --coverage",
     "prettier": "tools/fmt",
     "prettier-full": "tools/fmt --all",
-
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
     "test:flow-todo": "eslint --no-eslintrc -c tools/flow-todo.eslintrc.yaml src/",
-
     "test:e2e": "detox test --configuration ios.sim.release --cleanup",
-
     "update-libdefs": "yarn install && rm -rf flow-typed/npm/ && flow-typed update",
     "reinstall": "rm -rf node_modules && yarn cache clean && yarn install"
   },
@@ -56,7 +51,7 @@
     "react-intl": "^2.4.0",
     "react-native": "0.57.8",
     "react-native-device-info": "^0.21.5",
-    "rn-fetch-blob": "^0.10.13",
+    "react-native-document-picker": "^2.2.0",
     "react-native-image-picker": "^0.26.10",
     "react-native-notifications": "^1.2.0",
     "react-native-orientation": "^3.1.3",
@@ -79,6 +74,7 @@
     "redux-persist": "^4.10.2",
     "redux-thunk": "^2.1.0",
     "reselect": "^3.0.1",
+    "rn-fetch-blob": "^0.10.13",
     "string.fromcodepoint": "^0.2.1",
     "timezone": "^1.0.13",
     "url-parse": "^1.4.0",
@@ -123,7 +119,9 @@
   },
   "jest": {
     "preset": "react-native",
-    "globals": { "__TEST__": true },
+    "globals": {
+      "__TEST__": true
+    },
     "setupTestFrameworkScriptFile": "./jest/jestSetup.js",
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"

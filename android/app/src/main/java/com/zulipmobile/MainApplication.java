@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
+import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
+            new ReactNativeDocumentPicker(),
                     new RNTextInputResetPackage(),
                     new ImagePickerPackage(),
                     new OrientationPackage(),
