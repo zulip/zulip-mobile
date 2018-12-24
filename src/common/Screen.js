@@ -100,7 +100,7 @@ class Screen extends PureComponent<Props> {
     const { styles: contextStyles } = this.context;
 
     return (
-      <View style={[contextStyles.screen, { marginBottom: safeAreaInsets.bottom }]}>
+      <View style={[contextStyles.screen, { paddingBottom: safeAreaInsets.bottom }]}>
         {/* $FlowFixMe-56 Cannot create ZulipStatusBar element because ST is not a React component. */}
         <ZulipStatusBar />
         {search ? (
