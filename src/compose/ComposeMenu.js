@@ -3,12 +3,20 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
+import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 import { connect } from 'react-redux';
 
 import type { Dispatch, Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
 import styles from '../styles';
-import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
+import {
+  IconPlus,
+  IconLeft,
+  IconPeople,
+  IconImage,
+  IconCamera,
+  IconFileAdd,
+} from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
 
@@ -92,13 +100,31 @@ class ComposeMenu extends PureComponent<Props> {
     ImagePicker.launchCamera(options, this.handleImagePickerResponse);
   };
 
+  handleFileUpload = () => {
+    DocumentPicker.show(
+      {
+        filetype: [DocumentPickerUtil.allFiles()],
+      },
+      (error, response) => {
+        const { dispatch, destinationNarrow } = this.props;
+        dispatch(
+          uploadImage(
+            destinationNarrow,
+            response.uri,
+            chooseUploadImageFilename(response.uri, response.fileName),
+          ),
+        );
+      },
+    );
+  };
+
   render() {
     const { dispatch, expanded, onExpandContract } = this.props;
     return (
       <View style={styles.composeMenu}>
         <AnimatedComponent
           stylePropertyName="width"
-          fullValue={120}
+          fullValue={154}
           useNativeDriver={false}
           visible={expanded}
         >
@@ -117,6 +143,11 @@ class ComposeMenu extends PureComponent<Props> {
               style={styles.composeMenuButton}
               size={24}
               onPress={this.handleCameraCapture}
+            />
+            <IconFileAdd
+              style={styles.composeMenuButton}
+              size={24}
+              onPress={this.handleFileUpload}
             />
           </View>
         </AnimatedComponent>
