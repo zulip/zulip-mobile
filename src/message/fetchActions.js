@@ -164,7 +164,6 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
   timing.start('Essential server data');
   const initData = await tryUntilSuccessful(() =>
     registerForEvents(auth, {
-      event_types: config.trackServerEvents,
       fetch_event_types: config.serverDataOnStartup,
       apply_markdown: true,
       include_subscribers: false,
