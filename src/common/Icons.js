@@ -34,5 +34,6 @@ export const IconImage = (props: Object) => <Feather name="image" {...props} />;
 export const IconCamera = (props: Object) => <Feather name="camera" {...props} />;
 export const IconTerminal = (props: Object) => <Feather name="terminal" {...props} />;
 export const IconMoreHorizontal = (props: Object) => <Feather name="more-horizontal" {...props} />;
+export const IconFileAdd = (props: Object) => <Feather name="file-plus" {...props} />;
 
 export default Feather;
