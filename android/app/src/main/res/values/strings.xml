@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Zulip</string>
-    <string name="notification_channel_name">Notifications</string>
     <string name="gcm_id">835904834568\</string>
     <string name="no_browser_found">No Browser Found</string>
     <plurals name="messages">
@@ -8,4 +7,7 @@
         <item quantity="other">&#160;(%d messages)</item>
     </plurals>
     <string name="send_to">Share To</string>
+    <string name="notification_channel_stream_name">Stream notifications</string>
+    <string name="notification_channel_huddle_name">Group notifications</string>
+    <string name="notification_channel_private_name">Private notifications</string>
 </resources>
