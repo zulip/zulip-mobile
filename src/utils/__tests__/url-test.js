@@ -116,6 +116,14 @@ describe('isUrlInAppLink', () => {
     expect(isUrlInAppLink('#narrow/stream/jest/topic/topic1', 'https://example.com')).toBe(true);
     expect(isUrlInAppLink('/#narrow/stream/jest', 'https://example.com')).toBe(true);
   });
+
+  test('links including IDs are also recognized', () => {
+    expect(isUrlInAppLink('#narrow/stream/123-jest/topic/topic1', 'https://example.com')).toBe(
+      true,
+    );
+    expect(isUrlInAppLink('/#narrow/stream/123-jest', 'https://example.com')).toBe(true);
+    expect(isUrlInAppLink('/#narrow/pm-with/123-mark', 'https://example.com')).toBe(true);
+  });
 });
 
 describe('isMessageLink', () => {
