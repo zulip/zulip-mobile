@@ -28,7 +28,24 @@ type Props = {|
   unreadStreamsAndTopics: any /* UnreadStream[] */,
 |};
 
-class UnreadCards extends PureComponent<Props> {
+type State = {|
+  refreshing: boolean,
+|};
+
+class UnreadCards extends PureComponent<Props, State> {
+  state = {
+    refreshing: this.props.isLoading,
+  };
+
+  static getDerivedStateFromProps(props: Props, state: State) {
+    if (state.refreshing !== props.isLoading) {
+      return {
+        refreshing: props.isLoading,
+      };
+    }
+    return null;
+  }
+
   handleStreamPress = (stream: string) => {
     setTimeout(() => this.props.dispatch(doNarrow(streamNarrow(stream))));
   };
@@ -37,8 +54,12 @@ class UnreadCards extends PureComponent<Props> {
     setTimeout(() => this.props.dispatch(doNarrow(topicNarrow(stream, topic))));
   };
 
+  handleRefresh = () => {};
+
   render() {
     const { isLoading, conversations, unreadStreamsAndTopics, ...restProps } = this.props;
+    const { refreshing } = this.state;
+
     const unreadCards = [
       {
         key: 'private',
@@ -59,6 +80,8 @@ class UnreadCards extends PureComponent<Props> {
       <SectionList
         stickySectionHeadersEnabled
         initialNumToRender={20}
+        onRefresh={this.handleRefresh}
+        refreshing={refreshing}
         sections={unreadCards}
         keyExtractor={item => item.key}
         renderSectionHeader={({ section }) =>
