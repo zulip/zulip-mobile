@@ -11,7 +11,6 @@ import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.zulipmobile.BuildConfig;
@@ -26,9 +25,9 @@ import java.util.Locale;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
+import static com.zulipmobile.notifications.NotificationHelper.ZULIP_NOTIFICATION_GROUP;
 import static com.zulipmobile.notifications.NotificationHelper.buildNotificationContent;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
-import static com.zulipmobile.notifications.NotificationHelper.extractNames;
 import static com.zulipmobile.notifications.NotificationHelper.extractTotalMessagesCount;
 import static com.zulipmobile.notifications.NotificationHelper.addConversationToMap;
 import static com.zulipmobile.notifications.NotificationHelper.removeMessageFromMap;
@@ -112,14 +111,7 @@ public class GCMPushNotifications {
         builder.setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true);
 
-        String type = props.getRecipientType();
-        String content = props.getContent();
-        String senderFullName = props.getSenderFullName();
-        String avatarURL = props.getAvatarURL();
         String time = props.getTime();
-        String stream = props.getStream();
-        String topic = props.getTopic();
-        String baseURL = props.getBaseURL();
         int totalMessagesCount = extractTotalMessagesCount(conversations);
 
         if (BuildConfig.DEBUG) {
@@ -127,44 +119,17 @@ public class GCMPushNotifications {
         } else {
             builder.setSmallIcon(R.drawable.zulip_notification);
         }
+        
+        Notification.InboxStyle inboxStyle = new Notification.InboxStyle(builder);
+        String conversationTitle = String.format(Locale.ENGLISH, "%d messages in %d conversations", totalMessagesCount, conversations.size());
+        inboxStyle.setSummaryText(conversationTitle);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type.equals("private")) {
-            if (props.getPmUsers() == null) {
-                builder.setChannelId(CHANNEL_PRIVATE_ID);
-            } else {
-                builder.setChannelId(CHANNEL_GROUP_ID);
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            builder.setGroup(ZULIP_NOTIFICATION_GROUP);
+            builder.setGroupSummary(true);
         }
-
-        if (conversations.size() == 1) {
-            //Only one 1 notification therefore no using of big view styles
-            if (totalMessagesCount > 1) {
-                builder.setContentTitle(senderFullName + " (" + totalMessagesCount + ")");
-            } else {
-                builder.setContentTitle(senderFullName);
-            }
-            builder.setContentText(content);
-            if (type.equals("stream")) {
-                String displayTopic = stream + " > " + topic;
-                builder.setSubText("Message on " + displayTopic);
-            }
-            if (avatarURL != null && avatarURL.startsWith("http")) {
-                Bitmap avatar = fetchAvatar(NotificationHelper.sizedURL(context,
-                        avatarURL, 64, baseURL));
-                if (avatar != null) {
-                    builder.setLargeIcon(avatar);
-                }
-            }
-            builder.setStyle(new Notification.BigTextStyle().bigText(content));
-        } else {
-            String conversationTitle = String.format(Locale.ENGLISH, "%d messages in %d conversations", totalMessagesCount, conversations.size());
-            builder.setContentTitle(conversationTitle);
-            builder.setContentText("Messages from " + TextUtils.join(",", extractNames(conversations)));
-            Notification.InboxStyle inboxStyle = new Notification.InboxStyle(builder);
-            inboxStyle.setSummaryText(String.format(Locale.ENGLISH, "%d conversations", conversations.size()));
-            buildNotificationContent(conversations, inboxStyle, context);
-            builder.setStyle(inboxStyle);
-        }
+        buildNotificationContent(conversations, context);
+        builder.setStyle(inboxStyle);
 
         try {
             ShortcutBadger.applyCount(context, totalMessagesCount);

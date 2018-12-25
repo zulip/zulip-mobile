@@ -1,13 +1,11 @@
 package com.zulipmobile.notifications;
 
-import android.app.Notification;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -21,11 +19,11 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class NotificationHelper {
     public static final String TAG = "ZulipNotif";
+    public static final String ZULIP_NOTIFICATION_GROUP = "ZULIP_NOTIFICATION_GROUP";
 
     /**
      * The Zulip messages we're showing as a notification, grouped by conversation.
@@ -78,16 +76,37 @@ public class NotificationHelper {
         return key.split(":")[0];
     }
 
-    public static void buildNotificationContent(ConversationMap conversations, Notification.InboxStyle inboxStyle, Context mContext) {
+    public static void buildNotificationContent(ConversationMap conversations, Context mContext) {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
+        int id = 1;
+
         for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
             String name = extractName(entry.getKey());
             List<MessageInfo> messages = entry.getValue();
-            Spannable sb = new SpannableString(String.format(Locale.ENGLISH, "%s%s: %s", name,
-                    mContext.getResources().getQuantityString(R.plurals.messages,messages.size(),messages.size()),
-                   messages.get(entry.getValue().size() - 1).getContent()));
-            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            inboxStyle.addLine(sb);
+            NotificationCompat.Builder builder = buildNotification(name, messages, entry.getKey(), mContext);
+            notificationManager.notify(id++, builder.build());
         }
+    }
+
+    public static NotificationCompat.Builder buildNotification(String name, List<MessageInfo> messages, String key, Context context) {
+        NotificationCompat.MessagingStyle style = new NotificationCompat.MessagingStyle(name);
+        String type = getTypeFromKey(key);
+
+        for (MessageInfo message : messages) {
+            style.addMessage(new NotificationCompat.MessagingStyle.Message(message.getContent(), message.getTimestamp(), name));
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, type)
+                .setGroup(ZULIP_NOTIFICATION_GROUP)
+                .setSmallIcon(R.drawable.zulip_notification)
+                .setGroupSummary(false)
+                .setStyle(style);
+
+        if (type.equals("stream")) {
+            String displayTopic = extractStreamName(key);
+            builder.setSubText("Message on " + displayTopic);
+        }
+        return builder;
     }
 
     public static int extractTotalMessagesCount(ConversationMap conversations) {
