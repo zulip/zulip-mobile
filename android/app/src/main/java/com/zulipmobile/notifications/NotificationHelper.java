@@ -134,7 +134,7 @@ public class NotificationHelper {
     public static void addConversationToMap(PushNotificationsProp prop, ConversationMap conversations) {
         String key = buildKeyString(prop);
         List<MessageInfo> messages = conversations.get(key);
-        MessageInfo messageInfo = new MessageInfo(prop.getContent(), prop.getZulipMessageId());
+        MessageInfo messageInfo = new MessageInfo(prop.getContent(), prop.getZulipMessageId(), prop.getTimeInMilliSeconds());
         if (messages == null) {
             messages = new ArrayList<>();
         }

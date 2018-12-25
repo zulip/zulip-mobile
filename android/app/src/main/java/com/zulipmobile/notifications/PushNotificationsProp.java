@@ -48,6 +48,10 @@ public class PushNotificationsProp {
         return mBundle.getString("time");
     }
 
+    public Long getTimeInMilliSeconds() {
+        return Long.parseLong(getTime()) * 1000;
+    }
+
     protected PushNotificationsProp copy() {
         return new PushNotificationsProp((Bundle) mBundle.clone());
     }
