@@ -123,6 +123,14 @@ public class NotificationHelper {
         return names;
     }
 
+    private static String extractStreamName(String key) {
+        return key.split(":")[1];
+    }
+
+    private static String getTypeFromKey(String key) {
+        return key.substring(key.lastIndexOf(':') + 1, key.length());
+    }
+
     public static void addConversationToMap(PushNotificationsProp prop, ConversationMap conversations) {
         String key = buildKeyString(prop);
         List<MessageInfo> messages = conversations.get(key);
