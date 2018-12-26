@@ -2,7 +2,8 @@
 import type { Narrow, Dispatch, GetState } from '../types';
 import { getAuth, getUsersById, isNarrowValid, getIsHydrated } from '../selectors';
 import { DO_NARROW } from '../actionConstants';
-import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
+import { getFullUrl } from '../utils/url';
+import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink } from '../utils/internalLinks';
 import openLink from '../utils/openLink';
 import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
