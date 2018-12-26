@@ -26,40 +26,6 @@ export const isInternalLink = (url: string, realm: string): boolean =>
 export const isMessageLink = (url: string, realm: string): boolean =>
   isInternalLink(url, realm) && url.includes('near');
 
-export const isTopicLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return (
-    isInternalLink(url, realm)
-    && ((paths.length === 4 || paths.length === 6)
-      && paths[0] === 'stream'
-      && (paths[2] === 'subject' || paths[2] === 'topic'))
-  );
-};
-
-export const isPmLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return (
-    isInternalLink(url, realm)
-    && ((paths.length === 2 && paths[0] === 'pm-with')
-      || (paths.length === 4 && paths[0] === 'pm-with' && paths[2] === 'near'))
-  );
-};
-
-export const isStreamLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return isInternalLink(url, realm) && paths.length === 2 && paths[0] === 'stream';
-};
-
-export const isSpecialLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return (
-    isInternalLink(url, realm)
-    && paths.length === 2
-    && paths[0] === 'is'
-    && /^(private|starred|mentioned)/i.test(paths[1])
-  );
-};
-
 type LinkType = 'external' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
 export const getLinkType = (url: string, realm: string): LinkType => {
@@ -67,14 +33,32 @@ export const getLinkType = (url: string, realm: string): LinkType => {
     return 'external';
   }
 
-  const linkTypeDetectors = [
-    { type: 'pm', func: isPmLink },
-    { type: 'topic', func: isTopicLink },
-    { type: 'stream', func: isStreamLink },
-    { type: 'special', func: isSpecialLink },
-  ];
-  const type = linkTypeDetectors.find(x => x.func(url, realm));
-  return type ? type.type : 'home';
+  const paths = getPathsFromUrl(url, realm);
+
+  if (
+    (paths.length === 2 && paths[0] === 'pm-with')
+    || (paths.length === 4 && paths[0] === 'pm-with' && paths[2] === 'near')
+  ) {
+    return 'pm';
+  }
+
+  if (
+    (paths.length === 4 || paths.length === 6)
+    && paths[0] === 'stream'
+    && (paths[2] === 'subject' || paths[2] === 'topic')
+  ) {
+    return 'topic';
+  }
+
+  if (paths.length === 2 && paths[0] === 'stream') {
+    return 'stream';
+  }
+
+  if (paths.length === 2 && paths[0] === 'is' && /^(private|starred|mentioned)/i.test(paths[1])) {
+    return 'special';
+  }
+
+  return 'home';
 };
 
 export const getNarrowFromLink = (
