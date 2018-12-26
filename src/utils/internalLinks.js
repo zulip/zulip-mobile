@@ -60,32 +60,48 @@ export const isSpecialLink = (url: string, realm: string): boolean => {
   );
 };
 
+type LinkType = 'home' | 'pm' | 'topic' | 'stream' | 'special';
+
+export const getLinkType = (url: string, realm: string): LinkType => {
+  const linkTypeDetectors = [
+    { type: 'pm', func: isPmLink },
+    { type: 'topic', func: isTopicLink },
+    { type: 'stream', func: isStreamLink },
+    { type: 'special', func: isSpecialLink },
+  ];
+  const type = linkTypeDetectors.find(x => x.func(url, realm));
+  return type ? type.type : 'home';
+};
+
 export const getNarrowFromLink = (
   url: string,
   realm: string,
   usersById: Map<number, User>,
 ): Narrow => {
+  const type = getLinkType(url, realm);
   const paths = getPathsFromUrl(url, realm);
 
-  if (isPmLink(url, realm)) {
-    const recipients = paths[1].split('-')[0].split(',');
-    return groupNarrow(
-      recipients.map(
-        (recipient: string) => (usersById.get(parseInt(recipient, 10)) || NULL_USER).email,
-      ),
-    );
-  } else if (isTopicLink(url, realm)) {
-    return topicNarrow(
-      decodeURIComponent(transformToEncodedURI(paths[1])),
-      decodeURIComponent(transformToEncodedURI(paths[3])),
-    );
-  } else if (isStreamLink(url, realm)) {
-    return streamNarrow(decodeURIComponent(transformToEncodedURI(paths[1])));
-  } else if (isSpecialLink(url, realm)) {
-    return specialNarrow(paths[1]);
+  switch (type) {
+    case 'pm': {
+      const recipients = paths[1].split('-')[0].split(',');
+      return groupNarrow(
+        recipients.map(
+          (recipient: string) => (usersById.get(parseInt(recipient, 10)) || NULL_USER).email,
+        ),
+      );
+    }
+    case 'topic':
+      return topicNarrow(
+        decodeURIComponent(transformToEncodedURI(paths[1])),
+        decodeURIComponent(transformToEncodedURI(paths[3])),
+      );
+    case 'stream':
+      return streamNarrow(decodeURIComponent(transformToEncodedURI(paths[1])));
+    case 'special':
+      return specialNarrow(paths[1]);
+    default:
+      return HOME_NARROW;
   }
-
-  return HOME_NARROW;
 };
 
 export const getMessageIdFromLink = (url: string, realm: string): number => {
