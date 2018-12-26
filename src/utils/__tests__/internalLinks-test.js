@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
-  isUrlInAppLink,
+  isInternalLink,
   isMessageLink,
   isStreamLink,
   isTopicLink,
@@ -12,32 +12,32 @@ import {
 
 import { streamNarrow, topicNarrow } from '../narrow';
 
-describe('isUrlInAppLink', () => {
+describe('isInternalLink', () => {
   test('when link is external, return false', () => {
-    expect(isUrlInAppLink('https://example.com', 'https://another.com')).toBe(false);
+    expect(isInternalLink('https://example.com', 'https://another.com')).toBe(false);
   });
 
   test('when link is internal, but not in app, return false', () => {
-    expect(isUrlInAppLink('https://example.com/user_uploads', 'https://example.com')).toBe(false);
+    expect(isInternalLink('https://example.com/user_uploads', 'https://example.com')).toBe(false);
   });
 
   test('when link is internal and in app, return true', () => {
-    expect(isUrlInAppLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
+    expect(isInternalLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
       true,
     );
   });
 
   test('when link is relative and in app, return true', () => {
-    expect(isUrlInAppLink('#narrow/stream/jest/topic/topic1', 'https://example.com')).toBe(true);
-    expect(isUrlInAppLink('/#narrow/stream/jest', 'https://example.com')).toBe(true);
+    expect(isInternalLink('#narrow/stream/jest/topic/topic1', 'https://example.com')).toBe(true);
+    expect(isInternalLink('/#narrow/stream/jest', 'https://example.com')).toBe(true);
   });
 
   test('links including IDs are also recognized', () => {
-    expect(isUrlInAppLink('#narrow/stream/123-jest/topic/topic1', 'https://example.com')).toBe(
+    expect(isInternalLink('#narrow/stream/123-jest/topic/topic1', 'https://example.com')).toBe(
       true,
     );
-    expect(isUrlInAppLink('/#narrow/stream/123-jest', 'https://example.com')).toBe(true);
-    expect(isUrlInAppLink('/#narrow/pm-with/123-mark', 'https://example.com')).toBe(true);
+    expect(isInternalLink('/#narrow/stream/123-jest', 'https://example.com')).toBe(true);
+    expect(isInternalLink('/#narrow/pm-with/123-mark', 'https://example.com')).toBe(true);
   });
 });
 

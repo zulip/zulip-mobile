@@ -3,7 +3,7 @@ import type { Narrow, Dispatch, GetState } from '../types';
 import { getAuth, getUsersById, isNarrowValid, getIsHydrated } from '../selectors';
 import { DO_NARROW } from '../actionConstants';
 import { getFullUrl } from '../utils/url';
-import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink } from '../utils/internalLinks';
+import { getMessageIdFromLink, getNarrowFromLink, isInternalLink } from '../utils/internalLinks';
 import openLink from '../utils/openLink';
 import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
@@ -39,7 +39,7 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
   const state = getState();
   const auth = getAuth(state);
 
-  if (isUrlInAppLink(href, auth.realm)) {
+  if (isInternalLink(href, auth.realm)) {
     const usersById = getUsersById(state);
     const anchor = getMessageIdFromLink(href, auth.realm);
     const narrow = getNarrowFromLink(href, auth.realm, usersById);

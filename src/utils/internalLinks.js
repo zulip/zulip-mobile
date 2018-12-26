@@ -20,16 +20,16 @@ export const getPathsFromUrl = (url: string = '', realm: string) => {
   return paths;
 };
 
-export const isUrlInAppLink = (url: string, realm: string): boolean =>
+export const isInternalLink = (url: string, realm: string): boolean =>
   isUrlOnRealm(url, realm) ? /^(\/#narrow|#narrow)/i.test(url.split(realm).pop()) : false;
 
 export const isMessageLink = (url: string, realm: string): boolean =>
-  isUrlInAppLink(url, realm) && url.includes('near');
+  isInternalLink(url, realm) && url.includes('near');
 
 export const isTopicLink = (url: string, realm: string): boolean => {
   const paths = getPathsFromUrl(url, realm);
   return (
-    isUrlInAppLink(url, realm)
+    isInternalLink(url, realm)
     && ((paths.length === 4 || paths.length === 6)
       && paths[0] === 'stream'
       && (paths[2] === 'subject' || paths[2] === 'topic'))
@@ -39,7 +39,7 @@ export const isTopicLink = (url: string, realm: string): boolean => {
 export const isPmLink = (url: string, realm: string): boolean => {
   const paths = getPathsFromUrl(url, realm);
   return (
-    isUrlInAppLink(url, realm)
+    isInternalLink(url, realm)
     && ((paths.length === 2 && paths[0] === 'pm-with')
       || (paths.length === 4 && paths[0] === 'pm-with' && paths[2] === 'near'))
   );
@@ -47,13 +47,13 @@ export const isPmLink = (url: string, realm: string): boolean => {
 
 export const isStreamLink = (url: string, realm: string): boolean => {
   const paths = getPathsFromUrl(url, realm);
-  return isUrlInAppLink(url, realm) && paths.length === 2 && paths[0] === 'stream';
+  return isInternalLink(url, realm) && paths.length === 2 && paths[0] === 'stream';
 };
 
 export const isSpecialLink = (url: string, realm: string): boolean => {
   const paths = getPathsFromUrl(url, realm);
   return (
-    isUrlInAppLink(url, realm)
+    isInternalLink(url, realm)
     && paths.length === 2
     && paths[0] === 'is'
     && /^(private|starred|mentioned)/i.test(paths[1])
