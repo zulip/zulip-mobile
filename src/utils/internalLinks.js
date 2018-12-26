@@ -60,9 +60,13 @@ export const isSpecialLink = (url: string, realm: string): boolean => {
   );
 };
 
-type LinkType = 'home' | 'pm' | 'topic' | 'stream' | 'special';
+type LinkType = 'external' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
 export const getLinkType = (url: string, realm: string): LinkType => {
+  if (!isInternalLink(url, realm)) {
+    return 'external';
+  }
+
   const linkTypeDetectors = [
     { type: 'pm', func: isPmLink },
     { type: 'topic', func: isTopicLink },

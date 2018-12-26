@@ -48,6 +48,10 @@ describe('isMessageLink', () => {
 });
 
 describe('getLinkType', () => {
+  test('links to a different domain are of "external" type', () => {
+    expect(getLinkType('https://google.com/some-path', 'https://example.com')).toBe('external');
+  });
+
   test('only in-app link containing "stream" is a stream link', () => {
     expect(
       getLinkType('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
