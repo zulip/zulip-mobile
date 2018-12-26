@@ -2,10 +2,7 @@
 import {
   isInternalLink,
   isMessageLink,
-  isStreamLink,
-  isTopicLink,
-  isPmLink,
-  isSpecialLink,
+  getLinkType,
   getNarrowFromLink,
   getMessageIdFromLink,
 } from '../internalLinks';
@@ -50,121 +47,105 @@ describe('isMessageLink', () => {
   });
 });
 
-describe('isStreamLink', () => {
+describe('getLinkType', () => {
   test('only in-app link containing "stream" is a stream link', () => {
     expect(
-      isStreamLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
-    ).toBe(false);
-    expect(isStreamLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
-      true,
+      getLinkType('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
+    ).toBe('pm');
+    expect(getLinkType('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
+      'stream',
     );
-    expect(isStreamLink('https://example.com/#narrow/stream/stream/', 'https://example.com')).toBe(
-      true,
+    expect(getLinkType('https://example.com/#narrow/stream/stream/', 'https://example.com')).toBe(
+      'stream',
     );
   });
-});
 
-describe('isTopicLink', () => {
   test('when a url is not a topic narrow return false', () => {
     expect(
-      isTopicLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
-    ).toBe(false);
-    expect(isTopicLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
-      false,
+      getLinkType('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
+    ).toBe('pm');
+    expect(getLinkType('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
+      'stream',
     );
-
     expect(
-      isTopicLink(
+      getLinkType(
         'https://example.com/#narrow/stream/stream/topic/topic/near/',
         'https://example.com',
       ),
-    ).toBe(false);
-
-    expect(isTopicLink('https://example.com/#narrow/stream/topic/', 'https://example.com')).toBe(
-      false,
+    ).toBe('home');
+    expect(getLinkType('https://example.com/#narrow/stream/topic/', 'https://example.com')).toBe(
+      'stream',
     );
   });
 
   test('when a url is a topic narrow return true', () => {
     expect(
-      isTopicLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
-    ).toBe(true);
-
+      getLinkType('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
+    ).toBe('topic');
     expect(
-      isTopicLink(
+      getLinkType(
         'https://example.com/#narrow/stream/mobile/subject/topic/near/378333',
         'https://example.com',
       ),
-    ).toBe(true);
-
+    ).toBe('topic');
     expect(
-      isTopicLink('https://example.com/#narrow/stream/mobile/topic/topic/', 'https://example.com'),
-    ).toBe(true);
-
+      getLinkType('https://example.com/#narrow/stream/mobile/topic/topic/', 'https://example.com'),
+    ).toBe('topic');
     expect(
-      isTopicLink(
+      getLinkType(
         'https://example.com/#narrow/stream/stream/topic/topic/near/1',
         'https://example.com',
       ),
-    ).toBe(true);
-
+    ).toBe('topic');
     expect(
-      isTopicLink(
+      getLinkType(
         'https://example.com/#narrow/stream/stream/subject/topic/near/1',
         'https://example.com',
       ),
-    ).toBe(true);
+    ).toBe('topic');
 
-    expect(isTopicLink('/#narrow/stream/stream/subject/topic', 'https://example.com')).toBe(true);
+    expect(getLinkType('/#narrow/stream/stream/subject/topic', 'https://example.com')).toBe(
+      'topic',
+    );
   });
-});
 
-describe('isPmLink', () => {
   test('only in-app link containing "pm-with" is a group link', () => {
     expect(
-      isPmLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
-    ).toBe(false);
-    expect(isPmLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com')).toBe(
-      true,
-    );
+      getLinkType('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
+    ).toBe('topic');
     expect(
-      isPmLink('https://example.com/#narrow/pm-with/1,2-group/near/1', 'https://example.com'),
-    ).toBe(true);
+      getLinkType('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
+    ).toBe('pm');
     expect(
-      isPmLink(
+      getLinkType('https://example.com/#narrow/pm-with/1,2-group/near/1', 'https://example.com'),
+    ).toBe('pm');
+    expect(
+      getLinkType(
         'https://example.com/#narrow/pm-with/a.40b.2Ecom.c.d.2Ecom/near/3',
         'https://example.com',
       ),
-    ).toBe(true);
+    ).toBe('pm');
   });
-});
 
-describe('isSpecialLink', () => {
   test('only in-app link containing "is" is a special link', () => {
     expect(
-      isSpecialLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
-    ).toBe(false);
-
-    expect(isSpecialLink('https://example.com/#narrow/is/private', 'https://example.com')).toBe(
-      true,
+      getLinkType('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
+    ).toBe('topic');
+    expect(getLinkType('https://example.com/#narrow/is/private', 'https://example.com')).toBe(
+      'special',
     );
-
-    expect(isSpecialLink('https://example.com/#narrow/is/starred', 'https://example.com')).toBe(
-      true,
+    expect(getLinkType('https://example.com/#narrow/is/starred', 'https://example.com')).toBe(
+      'special',
     );
-
-    expect(isSpecialLink('https://example.com/#narrow/is/mentioned', 'https://example.com')).toBe(
-      true,
+    expect(getLinkType('https://example.com/#narrow/is/mentioned', 'https://example.com')).toBe(
+      'special',
     );
-
-    expect(isSpecialLink('https://example.com/#narrow/is/men', 'https://example.com')).toBe(false);
-
-    expect(isSpecialLink('https://example.com/#narrow/is/men/stream', 'https://example.com')).toBe(
-      false,
+    expect(getLinkType('https://example.com/#narrow/is/men', 'https://example.com')).toBe('home');
+    expect(getLinkType('https://example.com/#narrow/is/men/stream', 'https://example.com')).toBe(
+      'home',
     );
-
-    expect(isSpecialLink('https://example.com/#narrow/are/men/stream', 'https://example.com')).toBe(
-      false,
+    expect(getLinkType('https://example.com/#narrow/are/men/stream', 'https://example.com')).toBe(
+      'home',
     );
   });
 });
