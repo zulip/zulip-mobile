@@ -16,15 +16,24 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 8,
   },
+  whiteBorder: {
+    borderWidth: 1.3,
+    borderColor: 'white',
+  },
 });
 
 type Props = {|
   auth: Auth,
   dispatch: Dispatch,
+  isOnCompatibilityScreen: boolean,
   pushToken: string,
 |};
 
 class SwitchAccountButton extends PureComponent<Props> {
+  static defaultProps = {
+    isOnCompatibilityScreen: false,
+  };
+
   shutdownPUSH = async () => {
     const { auth, dispatch, pushToken } = this.props;
     if (pushToken !== '') {
@@ -44,8 +53,20 @@ class SwitchAccountButton extends PureComponent<Props> {
   };
 
   render() {
+    const { isOnCompatibilityScreen } = this.props;
+
+    const buttonStyle = [styles.button];
+    if (isOnCompatibilityScreen) {
+      buttonStyle.push(styles.whiteBorder);
+    }
+
     return (
-      <ZulipButton style={styles.button} secondary text="Switch" onPress={this.switchAccount} />
+      <ZulipButton
+        style={buttonStyle}
+        secondary={!isOnCompatibilityScreen}
+        text={isOnCompatibilityScreen ? 'Or, pick another account' : 'Switch'}
+        onPress={this.switchAccount}
+      />
     );
   }
 }

@@ -280,6 +280,7 @@ export type AuthenticationMethods = {|
 export type ApiServerSettings = {|
   authentication_methods: AuthenticationMethods,
   email_auth_enabled: boolean,
+  is_incompatible: boolean,
   msg: string,
   push_notifications_enabled: boolean,
   realm_description: string,

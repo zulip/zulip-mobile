@@ -6,6 +6,7 @@ import { Touchable } from '../common';
 import { BRAND_COLOR } from '../styles';
 import appStoreBadgePNG from '../../static/img/app-store-badge.png';
 import googlePlayBadgePNG from '../../static/img/google-play-badge.png';
+import type { ChildrenArray } from '../types';
 
 const styles = StyleSheet.create({
   appStoreBadge: {
@@ -44,7 +45,11 @@ const GooglePlayBadge = () => (
   <Image style={styles.googlePlayBadge} source={googlePlayBadgePNG} resizeMode="contain" />
 );
 
-export default class CompatibilityScreen extends PureComponent<{}> {
+type Props = {
+  incompatibilityText?: string,
+  children?: ChildrenArray<*>,
+};
+export default class CompatibilityScreen extends PureComponent<Props> {
   storeURL = Platform.OS === 'ios'
     ? 'https://itunes.apple.com/app/zulip/id1203036395'
     : 'https://play.google.com/store/apps/details?id=com.zulipmobile';
@@ -56,13 +61,14 @@ export default class CompatibilityScreen extends PureComponent<{}> {
   render() {
     return (
       <View style={styles.screen}>
-        <Text style={styles.text}>This app is too old!</Text>
+        <Text style={styles.text}>{this.props.incompatibilityText}</Text>
         <Text style={styles.text}>Please update to the latest version.</Text>
         <View style={styles.badgeContainer}>
           <Touchable onPress={this.openStoreURL}>
             {Platform.OS === 'ios' ? <AppStoreBadge /> : <GooglePlayBadge />}
           </Touchable>
         </View>
+        <View>{this.props.children}</View>
       </View>
     );
   }

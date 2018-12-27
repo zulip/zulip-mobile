@@ -31,6 +31,10 @@ export default class CompatibilityChecker extends PureComponent<Props, State> {
   render() {
     const { compatibilityCheckFail } = this.state;
 
-    return compatibilityCheckFail ? <CompatibilityScreen /> : this.props.children;
+    return compatibilityCheckFail ? (
+      <CompatibilityScreen incompatibilityText="This app is too old!" />
+    ) : (
+      this.props.children
+    );
   }
 }
