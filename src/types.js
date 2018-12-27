@@ -352,8 +352,6 @@ export type RealmState = {|
   nonActiveUsers: User[],
   pushToken: {|
     token: string,
-    msg: string,
-    result: string,
   |},
   filters: RealmFilter[],
   emoji: RealmEmojiState,

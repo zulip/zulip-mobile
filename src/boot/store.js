@@ -60,6 +60,16 @@ const migrations = {
     messages: {},
     narrows: {},
   }),
+  '2': state => ({
+    ...state,
+    realm: {
+      ...state.realm,
+      pushToken: {
+        token: state.realm.pushToken.token,
+        // Drop `result` and `msg`.
+      },
+    },
+  }),
 };
 
 const reduxPersistConfig: Config = {
