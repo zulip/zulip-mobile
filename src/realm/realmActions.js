@@ -12,10 +12,12 @@ import type {
   InitRealmEmojiAction,
   InitRealmFilterAction,
 } from '../types';
-import { logErrorRemotely } from '../utils/logging';
-import { getNotificationToken } from '../utils/notifications';
+import {
+  getNotificationToken,
+  tryStopNotifications as innerStopNotifications,
+} from '../utils/notifications';
 import { getAuth, getPushToken } from '../selectors';
-import { getRealmEmojis, getRealmFilters, unregisterPush } from '../api';
+import { getRealmEmojis, getRealmFilters } from '../api';
 import {
   REALM_INIT,
   SAVE_TOKEN_PUSH,
@@ -49,14 +51,9 @@ export const initNotifications = () => (dispatch: Dispatch, getState: GetState) 
 export const tryStopNotifications = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const pushToken = getPushToken(getState());
-  if (pushToken !== '') {
-    try {
-      await unregisterPush(auth, pushToken);
-    } catch (e) {
-      logErrorRemotely(e, 'failed to unregister Push token');
-    }
+  innerStopNotifications(auth, pushToken, () => {
     dispatch(deleteTokenPush());
-  }
+  });
 };
 
 export const initRealmEmojis = (emojis: RealmEmojiState): InitRealmEmojiAction => ({

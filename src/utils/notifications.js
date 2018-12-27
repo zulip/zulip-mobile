@@ -5,7 +5,7 @@ import NotificationsIOS, { NotificationsAndroid } from 'react-native-notificatio
 import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
 import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import config from '../config';
-import { registerPush } from '../api';
+import { registerPush, unregisterPush } from '../api';
 import { logErrorRemotely } from './logging';
 import { doNarrow } from '../message/messagesActions';
 
@@ -136,5 +136,16 @@ export const getNotificationToken = (
     getTokenIOS(auth, saveTokenPush);
   } else {
     getTokenAndroid(auth, oldToken, saveTokenPush);
+  }
+};
+
+export const tryStopNotifications = async (auth: Auth, token: string, callback: () => void) => {
+  if (token !== '') {
+    try {
+      await unregisterPush(auth, token);
+    } catch (e) {
+      logErrorRemotely(e, 'failed to unregister Push token');
+    }
+    callback();
   }
 };
