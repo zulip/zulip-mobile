@@ -98,7 +98,7 @@ export class NotificationListener {
   }
 }
 
-export const initializeNotifications = (
+const initializeNotifications = (
   auth: Auth,
   saveTokenPush: (pushToken: string, msg: string, result: string) => void,
 ) => {
@@ -123,10 +123,21 @@ export const initializeNotifications = (
   }
 };
 
-export const refreshNotificationToken = () => {
+const refreshNotificationToken = () => {
   if (Platform.OS === 'ios') {
     // do nothing
   } else {
     NotificationsAndroid.refreshToken();
   }
+};
+
+export const getNotificationToken = (
+  auth: Auth,
+  oldToken: string | void,
+  saveTokenPush: (pushToken: string, msg: string, result: string) => void,
+) => {
+  if (auth.apiKey !== '' && (oldToken === '' || oldToken === undefined)) {
+    refreshNotificationToken();
+  }
+  initializeNotifications(auth, saveTokenPush);
 };
