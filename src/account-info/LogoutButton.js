@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Dispatch, GlobalState } from '../types';
+import type { Dispatch } from '../types';
 import { ZulipButton } from '../common';
-import { unregisterPush } from '../api';
-import { getAuth, getPushToken } from '../selectors';
-import { logErrorRemotely } from '../utils/logging';
-import { deleteTokenPush, logout } from '../actions';
+import { logout, tryStopNotifications } from '../actions';
 
 const styles = StyleSheet.create({
   logoutButton: {
@@ -19,30 +16,15 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  auth: Auth,
-  pushToken: string,
   dispatch: Dispatch,
 |};
 
 class LogoutButton extends PureComponent<Props> {
-  shutdownPUSH = async () => {
-    const { auth, dispatch, pushToken } = this.props;
-    if (pushToken !== '') {
-      try {
-        await unregisterPush(auth, pushToken);
-      } catch (e) {
-        logErrorRemotely(e, 'failed to unregister Push token');
-      }
-      dispatch(deleteTokenPush());
-    }
-  };
-
   logout = () => {
     const { dispatch } = this.props;
-    this.shutdownPUSH();
+    dispatch(tryStopNotifications());
     dispatch(logout());
   };
-
   render() {
     return (
       <ZulipButton style={styles.logoutButton} secondary text="Logout" onPress={this.logout} />
@@ -50,7 +32,4 @@ class LogoutButton extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
-  pushToken: getPushToken(state),
-}))(LogoutButton);
+export default connect()(LogoutButton);
