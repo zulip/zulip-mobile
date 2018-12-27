@@ -70,6 +70,16 @@ const migrations = {
       },
     },
   }),
+  '3': state => ({
+    ...state,
+    realm: {
+      ...state.realm,
+      pushToken: {
+        // Previously we used an empty string here to mean "no value".
+        token: state.realm.pushToken.token || null,
+      },
+    },
+  }),
 };
 
 const reduxPersistConfig: Config = {

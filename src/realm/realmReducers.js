@@ -31,7 +31,7 @@ const initialState = {
   canCreateStreams: true,
   crossRealmBots: [],
   twentyFourHourTime: false,
-  pushToken: { token: '' },
+  pushToken: { token: null },
   emoji: {},
   filters: [],
   isAdmin: false,
@@ -58,13 +58,13 @@ const saveTokenPush = (state: RealmState, action: SaveTokenPushAction): RealmSta
 
 const deleteTokenPush = (state: RealmState, action: DeleteTokenPushAction): RealmState => ({
   ...state,
-  pushToken: { token: '' },
+  pushToken: { token: null },
 });
 
 const loginChange = (state: RealmState, action: LoginSuccessAction | LogoutAction): RealmState => ({
   ...state,
   emoji: {},
-  pushToken: { token: '' },
+  pushToken: { token: null },
 });
 
 const initRealmEmoji = (state: RealmState, action: InitRealmEmojiAction): RealmState => ({

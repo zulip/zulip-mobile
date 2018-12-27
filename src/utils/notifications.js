@@ -111,10 +111,10 @@ const getTokenIOS = (auth: Auth, saveTokenPush: (pushToken: string) => void) => 
 
 const getTokenAndroid = (
   auth: Auth,
-  oldToken: string | void,
+  oldToken: string | null,
   saveTokenPush: (pushToken: string) => void,
 ) => {
-  if (auth.apiKey !== '' && (oldToken === '' || oldToken === undefined)) {
+  if (auth.apiKey !== '' && oldToken === null) {
     NotificationsAndroid.refreshToken();
   }
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
@@ -129,7 +129,7 @@ const getTokenAndroid = (
 
 export const getNotificationToken = (
   auth: Auth,
-  oldToken: string | void,
+  oldToken: string | null,
   saveTokenPush: (pushToken: string) => void,
 ) => {
   if (Platform.OS === 'ios') {
@@ -139,8 +139,12 @@ export const getNotificationToken = (
   }
 };
 
-export const tryStopNotifications = async (auth: Auth, token: string, callback: () => void) => {
-  if (token !== '') {
+export const tryStopNotifications = async (
+  auth: Auth,
+  token: string | null,
+  callback: () => void,
+) => {
+  if (token !== null) {
     try {
       await unregisterPush(auth, token);
     } catch (e) {

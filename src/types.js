@@ -340,7 +340,7 @@ export type RealmBot = {|
  * @prop nonActiveUsers - All users in the organization with `is_active`
  *   false; for normal users, this means they or an admin deactivated their
  *   account.  See `User` and the linked documentation.
- * @prop pushToken
+ * @prop pushToken - See details inside definition.
  * @prop filters
  * @prop emoji
  * @prop isAdmin
@@ -351,7 +351,8 @@ export type RealmState = {|
   crossRealmBots: RealmBot[],
   nonActiveUsers: User[],
   pushToken: {|
-    token: string,
+    /** `null` before we've gotten a token. */
+    token: string | null,
   |},
   filters: RealmFilter[],
   emoji: RealmEmojiState,
