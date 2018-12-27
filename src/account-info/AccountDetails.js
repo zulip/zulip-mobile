@@ -15,7 +15,11 @@ import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
   componentListItem: {
+    alignItems: 'center',
+  },
+  userStatusWrapper: {
     justifyContent: 'center',
+    flexDirection: 'row',
   },
 });
 
@@ -44,8 +48,8 @@ export default class AccountDetails extends PureComponent<Props, void> {
           size={screenWidth}
           shape="square"
         />
-        <ComponentList outerSpacing itemStyle={[styles.row, componentStyles.componentListItem]}>
-          <View>
+        <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
+          <View style={componentStyles.userStatusWrapper}>
             <UserStatusIndicator presence={presence} hideIfOffline={false} />
             <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
           </View>
