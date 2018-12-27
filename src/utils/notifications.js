@@ -98,13 +98,10 @@ export class NotificationListener {
   }
 }
 
-const getTokenIOS = (
-  auth: Auth,
-  saveTokenPush: (pushToken: string, msg: string, result: string) => void,
-) => {
+const getTokenIOS = (auth: Auth, saveTokenPush: (pushToken: string) => void) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', async deviceToken => {
-    const result = await registerPush(auth, deviceToken);
-    saveTokenPush(deviceToken, result.msg, result.result);
+    await registerPush(auth, deviceToken);
+    saveTokenPush(deviceToken);
   });
   NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
     logErrorRemotely(new Error(error), 'Failed to register iOS push token');
@@ -115,15 +112,15 @@ const getTokenIOS = (
 const getTokenAndroid = (
   auth: Auth,
   oldToken: string | void,
-  saveTokenPush: (pushToken: string, msg: string, result: string) => void,
+  saveTokenPush: (pushToken: string) => void,
 ) => {
   if (auth.apiKey !== '' && (oldToken === '' || oldToken === undefined)) {
     NotificationsAndroid.refreshToken();
   }
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     try {
-      const result = await registerPush(auth, deviceToken);
-      saveTokenPush(deviceToken, result.msg, result.result);
+      await registerPush(auth, deviceToken);
+      saveTokenPush(deviceToken);
     } catch (e) {
       logErrorRemotely(e, 'Failed to register GCM');
     }
@@ -133,7 +130,7 @@ const getTokenAndroid = (
 export const getNotificationToken = (
   auth: Auth,
   oldToken: string | void,
-  saveTokenPush: (pushToken: string, msg: string, result: string) => void,
+  saveTokenPush: (pushToken: string) => void,
 ) => {
   if (Platform.OS === 'ios') {
     getTokenIOS(auth, saveTokenPush);

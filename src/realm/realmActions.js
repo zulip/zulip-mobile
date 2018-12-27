@@ -32,22 +32,16 @@ export const deleteTokenPush = (): DeleteTokenPushAction => ({
   type: DELETE_TOKEN_PUSH,
 });
 
-export const saveTokenPush = (
-  pushToken: string,
-  result: string,
-  msg: string,
-): SaveTokenPushAction => ({
+export const saveTokenPush = (pushToken: string): SaveTokenPushAction => ({
   type: SAVE_TOKEN_PUSH,
   pushToken,
-  result,
-  msg,
 });
 
 export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const pushToken = getPushToken(getState());
-  getNotificationToken(auth, pushToken, (token, msg, result) => {
-    dispatch(saveTokenPush(token, result, msg));
+  getNotificationToken(auth, pushToken, token => {
+    dispatch(saveTokenPush(token));
   });
 };
 

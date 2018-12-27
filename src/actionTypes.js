@@ -194,8 +194,6 @@ export type DeleteTokenPushAction = {|
 export type SaveTokenPushAction = {|
   type: typeof SAVE_TOKEN_PUSH,
   pushToken: string,
-  result: string,
-  msg: string,
 |};
 
 export type MessageFetchStartAction = {|

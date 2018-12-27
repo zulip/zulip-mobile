@@ -48,8 +48,6 @@ describe('realmReducers', () => {
       const action = deepFreeze({
         type: SAVE_TOKEN_PUSH,
         pushToken: 'new-key',
-        result: 'b',
-        msg: 'a',
       });
 
       const expectedState = {
