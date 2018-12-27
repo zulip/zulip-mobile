@@ -1,5 +1,7 @@
 package com.zulipmobile.notifications;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import com.facebook.react.bridge.*;
 
@@ -14,6 +16,12 @@ public class NotificationsModule extends ReactContextBaseJavaModule {
     @Override
     public String getName() {
         return "Notifications";
+    }
+
+    @Override
+    public void initialize() {
+        final Context context = getReactApplicationContext().getApplicationContext();
+        context.startService(new Intent(context, RegistrationIntentService.class));
     }
 
     @ReactMethod
