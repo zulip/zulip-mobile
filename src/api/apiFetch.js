@@ -11,6 +11,20 @@ type ResponseExtractionFunc = (response: Object) => any;
 
 const defaultResFunc: ResponseExtractionFunc = res => res;
 
+export const objectToParams = (obj: Object) => {
+  const newObj = {};
+  Object.keys(obj).forEach(key => {
+    if (Array.isArray(obj[key])) {
+      newObj[key] = JSON.stringify(obj[key]);
+    } else if (obj[key] === undefined) {
+      // do nothing, skip key
+    } else {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
+};
+
 export const getFetchParams = (auth: Auth, params: Object = {}) => {
   const contentType =
     params.body instanceof FormData
