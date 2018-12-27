@@ -3,6 +3,7 @@ package com.zulipmobile.notifications;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
@@ -27,25 +28,21 @@ class NotifyReact {
             return;
         }
         if (reactContext.getLifecycleState() == LifecycleState.RESUMED) {
-            notifyReactNow(data);
+            notifyReactNow(reactContext, data);
         } else {
             reactContext.addLifecycleEventListener(new LifecycleEventListener() {
                 @Override public void onHostPause() {}
                 @Override public void onHostDestroy() {}
                 @Override public void onHostResume() {
                     reactContext.removeLifecycleEventListener(this);
-                    notifyReactNow(data);
+                    notifyReactNow(reactContext, data);
                 }
             });
             launchMainActivity(context);
         }
     }
 
-    private static void notifyReactNow(Bundle data) {
-        final ReactContext reactContext = NotificationsModule.reactContext;
-        if (reactContext == null) {
-            return;
-        }
+    private static void notifyReactNow(@NonNull ReactContext reactContext, Bundle data) {
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("notificationOpened", Arguments.fromBundle(data));
