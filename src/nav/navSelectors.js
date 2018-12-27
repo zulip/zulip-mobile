@@ -46,11 +46,8 @@ export const getStateForRoute = (route: string, params?: Object) => {
   return action != null ? AppNavigator.router.getStateForAction(action) : null;
 };
 
-export const getInitialNavState = createSelector(getNav, getUsersById, (nav, usersById) => {
-  const state =
-    !nav || (nav.routes.length === 1 && nav.routes[0].routeName === 'loading')
-      ? getStateForRoute('main')
-      : nav;
+export const getInitialNavState = createSelector(getUsersById, usersById => {
+  const state = getStateForRoute('main');
 
   if (!config.startup.notification) {
     return state;

@@ -61,7 +61,7 @@ describe('navReducers', () => {
       expect(nav.routes).toHaveLength(1);
     });
 
-    test('if logged in, preserve the state', () => {
+    test('if logged in, go to main screen', () => {
       const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
@@ -69,18 +69,14 @@ describe('navReducers', () => {
         payload: {
           accounts: [{ apiKey: '123' }],
           users: [],
-          nav: {
-            routes: [{ routeName: 'route1' }, { routeName: 'route2' }],
-          },
           realm: {},
         },
       });
 
       const nav = navReducers(initialState, action);
 
-      expect(nav.routes).toHaveLength(2);
-      expect(nav.routes[0].routeName).toEqual('route1');
-      expect(nav.routes[1].routeName).toEqual('route2');
+      expect(nav.routes).toHaveLength(1);
+      expect(nav.routes[0].routeName).toEqual('main');
     });
 
     test('if not logged in, and no previous accounts, show welcome screen', () => {
@@ -91,9 +87,6 @@ describe('navReducers', () => {
         payload: {
           accounts: [],
           users: [],
-          nav: {
-            routes: [],
-          },
           realm: {},
         },
       });
@@ -112,9 +105,6 @@ describe('navReducers', () => {
         payload: {
           accounts: [{}, {}],
           users: [],
-          nav: {
-            routes: [],
-          },
           realm: {},
         },
       });
@@ -133,9 +123,6 @@ describe('navReducers', () => {
         payload: {
           accounts: [{ realm: 'https://example.com' }],
           users: [],
-          nav: {
-            routes: [],
-          },
           realm: {},
         },
       });
@@ -157,9 +144,6 @@ describe('navReducers', () => {
             { realm: 'https://example.com', email: 'janedoe@example.com' },
           ],
           users: [],
-          nav: {
-            routes: [],
-          },
           realm: {},
         },
       });
@@ -178,9 +162,6 @@ describe('navReducers', () => {
         payload: {
           accounts: [{ realm: 'https://example.com', email: 'johndoe@example.com' }],
           users: [],
-          nav: {
-            routes: [],
-          },
           realm: {},
         },
       });
