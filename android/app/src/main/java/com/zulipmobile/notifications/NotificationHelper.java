@@ -105,6 +105,8 @@ public class NotificationHelper {
         if (type.equals("stream")) {
             String displayTopic = extractStreamName(key);
             builder.setSubText("Message on " + displayTopic);
+        } else if (type.equals("group")) {
+            builder.setSubText("Message on group conversation");
         }
         return builder;
     }
