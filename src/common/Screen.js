@@ -57,6 +57,7 @@ type Props = {|
  * include a search input, center its contents, etc.
  *
  * @prop [autoFocus] - If search bar enabled, should it be focused initially.
+ * @prop [canGoBack] - If true (the default), show UI for "navigate back".
  * @prop [centerContent] - Should the contents be centered.
  * @prop children - Components to render inside the screen.
  * @prop safeAreaInsets - Supports safe area edge offsetting. Google 'iOS Safe Area'.
