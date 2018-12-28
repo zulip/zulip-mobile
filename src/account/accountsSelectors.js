@@ -1,19 +1,50 @@
 /* @flow strict-local */
 
-import type { Account, GlobalState, Identity } from '../types';
+import type { Account, Auth, GlobalState, Identity } from '../types';
 import { NULL_ACCOUNT } from '../nullObjects';
 import { getAccounts } from '../directSelectors';
 
-export const getActiveAccount = (state: GlobalState): Account => {
+/**
+ * Get the account currently foregrounded in the UI, or undefined if none.
+ *
+ * For use in early startup, onboarding, account-switch, or other times
+ * where there may be no active account.
+ *
+ * See `getActiveAccount` for use in the UI for an already-active account
+ * (including the bulk of the app), and code intended for that UI.
+ */
+export const tryGetActiveAccount = (state: GlobalState): Account | void => {
   const accounts = getAccounts(state);
-  return accounts && accounts.length > 0 ? accounts[0] : NULL_ACCOUNT;
+  return accounts && accounts.length > 0 ? accounts[0] : undefined;
 };
 
-export const getOwnEmail = (state: GlobalState) => getActiveAccount(state).email;
+/**
+ * Get the account currently foregrounded in the UI, asserting there is one.
+ *
+ * For use in all the normal-use screens of the app, which assume there is
+ * an active account.
+ *
+ * See `tryGetActiveAccount` for use where there might not be an active account.
+ */
+export const getActiveAccount = (state: GlobalState): Account => {
+  const account = tryGetActiveAccount(state);
+  if (account === undefined) {
+    throw new Error('No account found');
+  }
+  return account;
+};
 
-export const getCurrentRealm = (state: GlobalState) => getActiveAccount(state).realm;
+export const getOwnEmail = (state: GlobalState) => {
+  const activeAccount = tryGetActiveAccount(state);
+  return activeAccount ? activeAccount.email : '';
+};
 
-export const getAuth = getActiveAccount;
+export const getCurrentRealm = (state: GlobalState) => {
+  const activeAccount = tryGetActiveAccount(state);
+  return activeAccount ? activeAccount.realm : '';
+};
+
+export const getAuth = (state: GlobalState): Auth => tryGetActiveAccount(state) || NULL_ACCOUNT;
 
 export const getIdentity = (state: GlobalState): Identity => {
   const { email, realm } = getAuth(state);
