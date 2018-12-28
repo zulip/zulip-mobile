@@ -41,8 +41,8 @@ export const getSameRoutesCount = createSelector(getNav, nav => {
   return nav.routes.length - i - 1;
 });
 
-export const getStateForRoute = (route: string, params?: Object) => {
-  const action = AppNavigator.router.getActionForPathAndParams(route, params);
+export const getStateForRoute = (route: string) => {
+  const action = AppNavigator.router.getActionForPathAndParams(route);
   return action != null ? AppNavigator.router.getStateForAction(action) : null;
 };
 
