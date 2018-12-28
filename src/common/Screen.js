@@ -5,11 +5,11 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
 import type {
-  ChildrenArray,
   Context,
   Dimensions,
   GlobalState,
   LocalizableText,
+  React$Node,
   Style,
 } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
@@ -37,7 +37,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   centerContent: boolean,
-  children: ChildrenArray<*>,
+  children: React$Node,
   safeAreaInsets: Dimensions,
   keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
   padding: boolean,
