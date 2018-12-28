@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import type {
-  GlobalState,
   NavigationState,
   NavAction,
   RehydrateAction,
@@ -31,22 +30,11 @@ export const getStateForRoute = (route: string) => {
 
 const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
 
-export const getInitialNavState = (inputState: GlobalState) => {
-  const state = getStateForRoute('main');
-
-  if (!config.startup.notification) {
-    return state;
-  }
-
-  const usersById = getUsersById(inputState);
-  const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
-  return AppNavigator.router.getStateForAction(navigateToChat(narrow), state);
-};
-
 const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationState => {
   if (!action.payload || !action.payload.accounts) {
     return getStateForRoute('welcome') || state;
   }
+
   const rehydratedState = action.payload;
   if (!getAuth(rehydratedState).apiKey) {
     const { accounts } = rehydratedState;
@@ -56,7 +44,15 @@ const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationS
     // $FlowFixMe: getStateForRoute may return null but it shouldn't.
     return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
   }
-  return getInitialNavState(rehydratedState) || state;
+
+  const startState = getStateForRoute('main');
+  if (!config.startup.notification) {
+    return startState || state;
+  }
+
+  const usersById = getUsersById(rehydratedState);
+  const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
+  return AppNavigator.router.getStateForAction(navigateToChat(narrow), startState) || state;
 };
 
 const accountSwitch = (state: NavigationState, action: AccountSwitchAction): NavigationState =>
