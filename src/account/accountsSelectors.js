@@ -1,28 +1,24 @@
 /* @flow strict-local */
-import { createSelector } from 'reselect';
 
-import type { Account, Identity, Selector } from '../types';
+import type { Account, GlobalState, Identity } from '../types';
 import { NULL_ACCOUNT } from '../nullObjects';
 import { getAccounts } from '../directSelectors';
 
-export const getActiveAccount: Selector<Account> = createSelector(
-  getAccounts,
-  accounts => (accounts && accounts.length > 0 ? accounts[0] : NULL_ACCOUNT),
-);
+export const getActiveAccount = (state: GlobalState): Account => {
+  const accounts = getAccounts(state);
+  return accounts && accounts.length > 0 ? accounts[0] : NULL_ACCOUNT;
+};
 
-export const getOwnEmail: Selector<string> = createSelector(
-  getActiveAccount,
-  activeAccount => activeAccount.email,
-);
+export const getOwnEmail = (state: GlobalState) => getActiveAccount(state).email;
 
-export const getCurrentRealm: Selector<string> = createSelector(
-  getActiveAccount,
-  activeAccount => activeAccount.realm,
-);
+export const getCurrentRealm = (state: GlobalState) => getActiveAccount(state).realm;
 
 export const getAuth = getActiveAccount;
 
-export const getIdentity: Selector<Identity> = createSelector(getAuth, ({ email, realm }) => ({
-  email,
-  realm,
-}));
+export const getIdentity = (state: GlobalState): Identity => {
+  const { email, realm } = getAuth(state);
+  return {
+    email,
+    realm,
+  };
+};
