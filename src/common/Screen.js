@@ -61,14 +61,14 @@ type Props = {|
  * @prop [centerContent] - Should the contents be centered.
  * @prop children - Components to render inside the screen.
  * @prop safeAreaInsets - Supports safe area edge offsetting. Google 'iOS Safe Area'.
- * @prop [keyboardShouldPersistTaps] - Sets the same prop value to the internal
- *   ScrollView component.
+ * @prop [keyboardShouldPersistTaps] - Passed through to ScrollView.
  * @prop [padding] - Should padding be added to the contents of the screen.
+ * @prop [scrollEnabled] - Passed through to ScrollView.
  * @prop [style] - Additional style for the wrapper container.
  *
  * @prop [search] - If 'true' show a search box in place of the title.
  * @prop [autoFocus] - If search bar enabled, should it be focused initially.
- * @prop searchBarOnChange - Event called on search query change.
+ * @prop [searchBarOnChange] - Event called on search query change.
  *
  * @prop [canGoBack] - If true (the default), show UI for "navigate back".
  * @prop [title] - Text shown as the title of the screen.
