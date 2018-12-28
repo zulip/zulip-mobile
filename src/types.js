@@ -258,6 +258,7 @@ export type SessionState = {|
   needsInitialFetch: boolean,
   orientation: Orientation,
   outboxSending: boolean,
+  /** For background, google [ios safe area]. */
   safeAreaInsets: Dimensions,
   debug: Debug,
 |};

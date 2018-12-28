@@ -60,7 +60,6 @@ type Props = {|
  *
  * @prop [centerContent] - Should the contents be centered.
  * @prop children - Components to render inside the screen.
- * @prop safeAreaInsets - Supports safe area edge offsetting. Google 'iOS Safe Area'.
  * @prop [keyboardShouldPersistTaps] - Passed through to ScrollView.
  * @prop [padding] - Should padding be added to the contents of the screen.
  * @prop [scrollEnabled] - Passed through to ScrollView.
