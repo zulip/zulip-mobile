@@ -36,18 +36,20 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
-  autoFocus: boolean,
-  canGoBack: boolean,
   centerContent: boolean,
   children: ChildrenArray<*>,
   safeAreaInsets: Dimensions,
   keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
   padding: boolean,
-  search: boolean,
-  searchBarOnChange: (text: string) => void,
-  title: LocalizableText,
   scrollEnabled: boolean,
   style?: Style,
+
+  search: boolean,
+  autoFocus: boolean,
+  searchBarOnChange: (text: string) => void,
+
+  canGoBack: boolean,
+  title: LocalizableText,
 |};
 
 /**
@@ -56,19 +58,21 @@ type Props = {|
  * It can control the status bar, can render a nav bar or
  * include a search input, center its contents, etc.
  *
- * @prop [autoFocus] - If search bar enabled, should it be focused initially.
- * @prop [canGoBack] - If true (the default), show UI for "navigate back".
  * @prop [centerContent] - Should the contents be centered.
  * @prop children - Components to render inside the screen.
  * @prop safeAreaInsets - Supports safe area edge offsetting. Google 'iOS Safe Area'.
  * @prop [keyboardShouldPersistTaps] - Sets the same prop value to the internal
  *   ScrollView component.
  * @prop [padding] - Should padding be added to the contents of the screen.
+ * @prop [style] - Additional style for the wrapper container.
+ *
  * @prop [search] - If 'true' show a search box in place of the title.
+ * @prop [autoFocus] - If search bar enabled, should it be focused initially.
+ * @prop searchBarOnChange - Event called on search query change.
+ *
+ * @prop [canGoBack] - If true (the default), show UI for "navigate back".
  * @prop [title] - Text shown as the title of the screen.
  *                 Required unless `search` is true.
- * @prop [style] - Additional style for the wrapper container.
- * @prop searchBarOnChange - Event called on search query change.
  */
 class Screen extends PureComponent<Props> {
   context: Context;
@@ -78,14 +82,16 @@ class Screen extends PureComponent<Props> {
   };
 
   static defaultProps = {
-    autoFocus: false,
-    canGoBack: true,
     centerContent: false,
     keyboardShouldPersistTaps: 'handled',
     padding: false,
     scrollEnabled: true,
+
     search: false,
+    autoFocus: false,
     searchBarOnChange: (text: string) => {},
+
+    canGoBack: true,
     title: '',
   };
 
