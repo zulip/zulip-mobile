@@ -39,16 +39,23 @@ class AccountPickScreen extends PureComponent<Props> {
     this.props.dispatch(removeAccount(index));
   };
 
+  // We can get here three ways:
+  //  * the "switch accounts" button
+  //  * the "log out" button
+  //  * as the initial screen, if we have a known account but no API key.
+  //
+  // The "log out" button is a bit exceptional because it's the user
+  // taking a navigational action... but the screen they just left
+  // required the login they've just discarded, so they can't go back.
+  //
+  // So, show a "navigate back" UI in the first case, but not the other two.
+  canGoBack = !!this.props.auth.apiKey;
+
   render() {
     const { accounts, dispatch, auth } = this.props;
 
     return (
-      <Screen
-        title="Pick account"
-        centerContent
-        padding
-        canGoBack={!!(auth.apiKey && auth.apiKey.length > 0)}
-      >
+      <Screen title="Pick account" centerContent padding canGoBack={this.canGoBack}>
         <Centerer>
           {accounts.length === 0 && <Logo />}
           <AccountList
