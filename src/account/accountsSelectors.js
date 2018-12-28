@@ -40,9 +40,10 @@ export const getOwnEmail = (state: GlobalState): string => {
   return activeAccount.email;
 };
 
+/** The realm of the active account; throws if none. */
 export const getCurrentRealm = (state: GlobalState) => {
-  const activeAccount = tryGetActiveAccount(state);
-  return activeAccount ? activeAccount.realm : '';
+  const activeAccount = getActiveAccount(state);
+  return activeAccount.realm;
 };
 
 export const getAuth = (state: GlobalState): Auth => tryGetActiveAccount(state) || NULL_ACCOUNT;
