@@ -34,9 +34,10 @@ export const getActiveAccount = (state: GlobalState): Account => {
   return account;
 };
 
-export const getOwnEmail = (state: GlobalState) => {
-  const activeAccount = tryGetActiveAccount(state);
-  return activeAccount ? activeAccount.email : '';
+/** The user's own email in the active account; throws if none. */
+export const getOwnEmail = (state: GlobalState): string => {
+  const activeAccount = getActiveAccount(state);
+  return activeAccount.email;
 };
 
 export const getCurrentRealm = (state: GlobalState) => {
