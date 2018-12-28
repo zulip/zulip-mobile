@@ -43,7 +43,7 @@ type Props = {|
   keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
   padding: boolean,
   search: boolean,
-  title?: LocalizableText,
+  title: LocalizableText,
   scrollEnabled?: boolean,
   style?: Style,
   searchBarOnChange?: (text: string) => void,
@@ -64,6 +64,7 @@ type Props = {|
  * @prop [padding] - Should padding be added to the contents of the screen.
  * @prop [search] - If 'true' show a search box in place of the title.
  * @prop [title] - Text shown as the title of the screen.
+ *                 Required unless `search` is true.
  * @prop [style] - Additional style for the wrapper container.
  * @prop searchBarOnChange - Event called on search query change.
  */
@@ -81,6 +82,7 @@ class Screen extends PureComponent<Props> {
     padding: false,
     scrollEnabled: true,
     search: false,
+    title: '',
   };
 
   render() {
