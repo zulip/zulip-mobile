@@ -53,17 +53,17 @@ type Props = {|
 |};
 
 /**
- * A component representing a distinct screen of the app
- * ensuring consistent look-and-feel throughout.
- * It can control the status bar, can render a nav bar or
- * include a search input, center its contents, etc.
+ * Wrapper component for each screen of the app, for consistent look-and-feel.
+ *
+ * Provides a nav bar, colors the status bar, can center the contents, etc.
+ * The `children` are ultimately wrapped in a `ScrollView` from upstream.
  *
  * @prop [centerContent] - Should the contents be centered.
  * @prop children - Components to render inside the screen.
  * @prop [keyboardShouldPersistTaps] - Passed through to ScrollView.
  * @prop [padding] - Should padding be added to the contents of the screen.
  * @prop [scrollEnabled] - Passed through to ScrollView.
- * @prop [style] - Additional style for the wrapper container.
+ * @prop [style] - Additional style for the ScrollView.
  *
  * @prop [search] - If 'true' show a search box in place of the title.
  * @prop [autoFocus] - If search bar enabled, should it be focused initially.
