@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { getAuth, tryGetValidAuth } from '../accountsSelectors';
+import { getAuth, getPartialAuth, tryGetValidAuth } from '../accountsSelectors';
 
 describe('tryGetValidAuth', () => {
   test('returns undefined when no accounts', () => {
@@ -39,14 +39,14 @@ describe('tryGetValidAuth', () => {
   });
 });
 
-describe('getAuth', () => {
+describe('getPartialAuth', () => {
   test('throws when no accounts', () => {
     const state = deepFreeze({
       accounts: [],
     });
 
     expect(() => {
-      getAuth(state);
+      getPartialAuth(state);
     }).toThrow();
   });
 
@@ -58,6 +58,31 @@ describe('getAuth', () => {
       ],
     });
 
-    expect(getAuth(state)).toEqual(state.accounts[0]);
+    expect(getPartialAuth(state)).toEqual(state.accounts[0]);
+  });
+});
+
+describe('getAuth', () => {
+  test('throws when no accounts', () => {
+    const state = deepFreeze({
+      accounts: [],
+    });
+
+    expect(() => {
+      getAuth(state);
+    }).toThrow();
+  });
+
+  test('throws when no API key', () => {
+    const state = deepFreeze({
+      accounts: [
+        { apiKey: '', realm: 'https://realm1.com' },
+        { apiKey: 'asdf', realm: 'https://realm2.com' },
+      ],
+    });
+
+    expect(() => {
+      getAuth(state);
+    }).toThrow();
   });
 });

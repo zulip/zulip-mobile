@@ -7,7 +7,7 @@ import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 import type { Auth, DevUser, Dispatch, GlobalState } from '../types';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import { devListUsers, devFetchApiKey } from '../api';
-import { getAuth } from '../selectors';
+import { getPartialAuth } from '../selectors';
 import { loginSuccess } from '../actions';
 import styles from '../styles';
 
@@ -27,7 +27,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
-  auth: Auth,
+  partialAuth: Auth,
   dispatch: Dispatch,
 |};
 
@@ -47,12 +47,12 @@ class DevAuthScreen extends PureComponent<Props, State> {
   };
 
   componentDidMount = () => {
-    const { auth } = this.props;
+    const { partialAuth } = this.props;
     this.setState({ progress: true, error: undefined });
 
     (async () => {
       try {
-        const response = await devListUsers(auth);
+        const response = await devListUsers(partialAuth);
         this.setState({
           directAdmins: response.direct_admins,
           directUsers: response.direct_users,
@@ -67,13 +67,13 @@ class DevAuthScreen extends PureComponent<Props, State> {
   };
 
   tryDevLogin = async (email: string) => {
-    const { auth } = this.props;
+    const { partialAuth } = this.props;
 
     this.setState({ progress: true, error: undefined });
 
     try {
-      const apiKey = await devFetchApiKey(auth, email);
-      this.props.dispatch(loginSuccess(auth.realm, email, apiKey));
+      const apiKey = await devFetchApiKey(partialAuth, email);
+      this.props.dispatch(loginSuccess(partialAuth.realm, email, apiKey));
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });
@@ -123,5 +123,5 @@ class DevAuthScreen extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
+  partialAuth: getPartialAuth(state),
 }))(DevAuthScreen);

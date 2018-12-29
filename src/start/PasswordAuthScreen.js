@@ -15,7 +15,7 @@ import {
   ZulipButton,
   ViewPlaceholder,
 } from '../common';
-import { getAuth } from '../selectors';
+import { getPartialAuth } from '../selectors';
 import { isValidEmailFormat } from '../utils/misc';
 import { loginSuccess } from '../actions';
 
@@ -26,7 +26,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
-  auth: Auth,
+  partialAuth: Auth,
   dispatch: Dispatch,
   navigation: Object,
 |};
@@ -41,22 +41,22 @@ type State = {|
 class PasswordAuthScreen extends PureComponent<Props, State> {
   state = {
     progress: false,
-    email: this.props.auth.email || '',
+    email: this.props.partialAuth.email || '',
     password: '',
     error: '',
   };
 
   tryPasswordLogin = async () => {
-    const { dispatch, auth, navigation } = this.props;
+    const { dispatch, partialAuth, navigation } = this.props;
     const { requireEmailFormat } = navigation.state.params;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
 
     try {
-      const fetchedKey = await fetchApiKey(auth, email, password);
+      const fetchedKey = await fetchApiKey(partialAuth, email, password);
       this.setState({ progress: false });
-      dispatch(loginSuccess(auth.realm, fetchedKey.email, fetchedKey.api_key));
+      dispatch(loginSuccess(partialAuth.realm, fetchedKey.email, fetchedKey.api_key));
     } catch (err) {
       this.setState({
         progress: false,
@@ -128,5 +128,5 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
+  partialAuth: getPartialAuth(state),
 }))(PasswordAuthScreen);

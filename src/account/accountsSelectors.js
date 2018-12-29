@@ -46,6 +46,13 @@ export const getCurrentRealm = (state: GlobalState) => {
 };
 
 /**
+ * Gets the auth object for the active account, even if not logged in.
+ *
+ * Asserts there is such a thing; see `getActiveAccount`.
+ */
+export const getPartialAuth = (state: GlobalState): Auth => getActiveAccount(state);
+
+/**
  * Gets the auth object for the active account, if it actually has an API key.
  *
  * Returns `undefined` if there is no active account, or no API key for it.
@@ -61,8 +68,16 @@ export const tryGetValidAuth = (state: GlobalState): Auth | void => {
 /** True just if there is an active account, and we have an API key for it. */
 export const hasValidAuth = (state: GlobalState): boolean => !!tryGetValidAuth(state);
 
-/** Asserts there is such a thing; see `getActiveAccount`. */
-export const getAuth = (state: GlobalState): Auth => getActiveAccount(state);
+/**
+ * Gets the auth object for the active, logged-in account; throws if none.
+ */
+export const getAuth = (state: GlobalState): Auth => {
+  const auth = tryGetValidAuth(state);
+  if (auth === undefined) {
+    throw new Error('Active account not logged in');
+  }
+  return auth;
+};
 
 /**
  * Gets the identity for the active, logged-in account.
@@ -70,10 +85,6 @@ export const getAuth = (state: GlobalState): Auth => getActiveAccount(state);
  * Asserts there is such a thing; see `getActiveAccount`.
  */
 export const getIdentity = (state: GlobalState): Identity => {
-  const account = getActiveAccount(state);
-  if (account.apiKey === '') {
-    throw new Error('Active account not logged in');
-  }
-  const { email, realm } = account;
+  const { email, realm } = getAuth(state);
   return { email, realm };
 };
