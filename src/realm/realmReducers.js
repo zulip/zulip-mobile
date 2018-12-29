@@ -7,6 +7,7 @@ import type {
   DeleteTokenPushAction,
   LoginSuccessAction,
   LogoutAction,
+  InitEmojiNameToCodePointAction,
   InitRealmEmojiAction,
   InitRealmFilterAction,
   EventRealmFilterUpdateAction,
@@ -18,6 +19,7 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
+  INIT_EMOJI_NAME_TO_CODEPOINT,
   INIT_REALM_EMOJI,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   SAVE_TOKEN_PUSH,
@@ -26,6 +28,8 @@ import {
   EVENT_REALM_FILTER_UPDATE,
 } from '../actionConstants';
 
+import { unicodeCodeByName } from '../emoji/codePointMap';
+
 // Initial state
 const initialState = {
   canCreateStreams: true,
@@ -33,6 +37,7 @@ const initialState = {
   twentyFourHourTime: false,
   pushToken: { token: null },
   emoji: {},
+  unicodeCodeByName,
   filters: [],
   isAdmin: false,
   nonActiveUsers: [],
@@ -65,6 +70,11 @@ const loginChange = (state: RealmState, action: LoginSuccessAction | LogoutActio
   ...state,
   emoji: {},
   pushToken: { token: null },
+});
+
+const initEmojiNameToCodePoint = (state: RealmState, action: InitEmojiNameToCodePointAction) => ({
+  ...state,
+  unicodeCodeByName: action.unicodeCodeByName,
 });
 
 const initRealmEmoji = (state: RealmState, action: InitRealmEmojiAction): RealmState => ({
@@ -110,6 +120,9 @@ export default (state: RealmState = initialState, action: RealmAction): RealmSta
     case LOGOUT:
     case LOGIN_SUCCESS:
       return loginChange(state, action);
+
+    case INIT_EMOJI_NAME_TO_CODEPOINT:
+      return initEmojiNameToCodePoint(state, action);
 
     case INIT_REALM_EMOJI:
       return initRealmEmoji(state, action);

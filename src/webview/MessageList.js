@@ -11,6 +11,7 @@ import type {
   Context,
   Debug,
   Dispatch,
+  EmojiNameToCodePoint,
   Fetching,
   FlagsState,
   GetText,
@@ -27,6 +28,7 @@ import type {
 import {
   getAuth,
   getAllRealmEmojiById,
+  getCodePointMap,
   getCurrentTypingUsers,
   getDebug,
   getRenderedMessages,
@@ -64,6 +66,7 @@ import { base64Utf8Encode } from '../utils/encoding';
 export type BackgroundData = $ReadOnly<{
   alertWords: AlertWordsState,
   auth: Auth,
+  codePointMap: EmojiNameToCodePoint,
   debug: Debug,
   flags: FlagsState,
   mute: MuteState,
@@ -166,10 +169,11 @@ class MessageList extends Component<Props> {
       showMessagePlaceholders,
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
-    const { auth, debug } = backgroundData;
+    const { auth, codePointMap, debug } = backgroundData;
     const html = getHtml(messagesHtml, theme, {
       anchor,
       auth,
+      codePointMap,
       highlightUnreadMessages: debug.highlightUnreadMessages,
       showMessagePlaceholders,
     });
@@ -215,6 +219,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
   const backgroundData: BackgroundData = {
     alertWords: state.alertWords,
     auth: getAuth(state),
+    codePointMap: getCodePointMap(state),
     debug: getDebug(state),
     flags: getFlags(state),
     mute: getMute(state),

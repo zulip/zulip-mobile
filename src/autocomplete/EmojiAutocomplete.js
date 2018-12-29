@@ -7,10 +7,11 @@ import { FlatList } from 'react-native';
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import { getFilteredEmojiNames } from '../emoji/data';
-import type { GlobalState, RealmEmojiState } from '../types';
-import { getActiveRealmEmojiByName } from '../selectors';
+import type { EmojiNameToCodePoint, GlobalState, RealmEmojiState } from '../types';
+import { getActiveRealmEmojiByName, getCodePointMap } from '../selectors';
 
 type Props = {|
+  codePointMap: EmojiNameToCodePoint,
   filter: string,
   activeRealmEmojiByName: RealmEmojiState,
   onAutocomplete: (name: string) => void,
@@ -24,8 +25,8 @@ class EmojiAutocomplete extends PureComponent<Props> {
   };
 
   render() {
-    const { filter, activeRealmEmojiByName } = this.props;
-    const emojiNames = getFilteredEmojiNames(filter, activeRealmEmojiByName);
+    const { codePointMap, filter, activeRealmEmojiByName } = this.props;
+    const emojiNames = getFilteredEmojiNames(filter, activeRealmEmojiByName, codePointMap);
 
     if (emojiNames.length === 0) {
       return null;
@@ -38,7 +39,9 @@ class EmojiAutocomplete extends PureComponent<Props> {
           initialNumToRender={12}
           data={emojiNames.slice(0, MAX_CHOICES)}
           keyExtractor={item => item}
-          renderItem={({ item: name }) => <EmojiRow name={name} onPress={this.onAutocomplete} />}
+          renderItem={({ item: name }) => (
+            <EmojiRow codePointMap={codePointMap} name={name} onPress={this.onAutocomplete} />
+          )}
         />
       </Popup>
     );
@@ -47,4 +50,5 @@ class EmojiAutocomplete extends PureComponent<Props> {
 
 export default connect((state: GlobalState) => ({
   activeRealmEmojiByName: getActiveRealmEmojiByName(state),
+  codePointMap: getCodePointMap(state),
 }))(EmojiAutocomplete);

@@ -11,7 +11,13 @@ import type {
   InitialFetchStartAction,
   InitialFetchCompleteAction,
 } from '../types';
-import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
+import {
+  getEmojiNameToCodePoint,
+  getMessages,
+  getStreams,
+  registerForEvents,
+  uploadFile,
+} from '../api';
 import {
   getAuth,
   getSession,
@@ -34,7 +40,7 @@ import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
 import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
-import { initNotifications, realmInit } from '../realm/realmActions';
+import { initNotifications, initCodePointEmoji, realmInit } from '../realm/realmActions';
 import { initStreams } from '../streams/streamsActions';
 import { reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
@@ -182,16 +188,18 @@ export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState:
   const auth = getAuth(getState());
 
   timing.start('Rest of server data');
-  const [messages, streams] = await Promise.all([
+  const [messages, streams, unicodeCodeByName] = await Promise.all([
     await tryUntilSuccessful(() =>
       getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
     ),
     await tryUntilSuccessful(() => getStreams(auth)),
+    await tryUntilSuccessful(() => getEmojiNameToCodePoint(auth)),
   ]);
   timing.end('Rest of server data');
 
   dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
   dispatch(initStreams(streams));
+  dispatch(initCodePointEmoji(unicodeCodeByName));
 
   const session = getSession(getState());
   if (session.lastNarrow) {

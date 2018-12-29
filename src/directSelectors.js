@@ -3,6 +3,7 @@ import type {
   GlobalState,
   SessionState,
   DraftState,
+  EmojiNameToCodePoint,
   FetchingState,
   FlagsState,
   LoadingState,
@@ -92,3 +93,6 @@ export const getRawRealmEmoji = (state: GlobalState): RealmEmojiState => state.r
 export const getNonActiveUsers = (state: GlobalState): User[] => state.realm.nonActiveUsers;
 
 export const getIsAdmin = (state: GlobalState): boolean => state.realm.isAdmin;
+
+export const getCodePointMap = (state: GlobalState): EmojiNameToCodePoint =>
+  state.realm.unicodeCodeByName;

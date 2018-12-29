@@ -61,6 +61,7 @@ import {
   EVENT_SUBSCRIPTION_PEER_REMOVE,
   CLEAR_TYPING,
   INIT_ALERT_WORDS,
+  INIT_EMOJI_NAME_TO_CODEPOINT,
   INIT_STREAMS,
   INIT_TOPICS,
   INIT_SUBSCRIPTIONS,
@@ -69,6 +70,7 @@ import {
 
 import type {
   Dimensions,
+  EmojiNameToCodePoint,
   Orientation,
   GlobalState,
   Message,
@@ -476,6 +478,11 @@ export type EventTypingAction = EventTypingStartAction | EventTypingStopAction;
 
 export type EventAction = EventSubscriptionAction | EventUserAction;
 
+export type InitEmojiNameToCodePointAction = {|
+  type: typeof INIT_EMOJI_NAME_TO_CODEPOINT,
+  unicodeCodeByName: EmojiNameToCodePoint,
+|};
+
 export type InitRealmEmojiAction = {|
   type: typeof INIT_REALM_EMOJI,
   emojis: RealmEmojiState,
@@ -493,6 +500,7 @@ export type RealmAction =
   | SaveTokenPushAction
   | LoginSuccessAction
   | LogoutAction
+  | InitEmojiNameToCodePointAction
   | InitRealmEmojiAction
   | InitRealmFilterAction;
 

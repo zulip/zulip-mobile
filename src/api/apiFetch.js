@@ -49,8 +49,17 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}
   return fetch(url, getFetchParams(auth, params));
 };
 
-export const apiFetch = async (auth: Auth, route: string, params: Object = {}) =>
-  fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
+export const apiFetch = async (
+  auth: Auth,
+  route: string,
+  params: Object = {},
+  isStaticUrl: boolean,
+) =>
+  fetchWithAuth(
+    auth,
+    isStaticUrl ? `${auth.realm}/${route}` : `${auth.realm}/${apiVersion}/${route}`,
+    params,
+  );
 
 const makeApiError = (httpStatus: number, data: ?Object) => {
   const error = new Error('API');
@@ -67,10 +76,11 @@ export const apiCall = async (
   params: Object = {},
   resFunc: ResponseExtractionFunc = defaultResFunc,
   isSilent: boolean = false,
+  isStaticUrl: boolean = false,
 ) => {
   try {
     networkActivityStart(isSilent);
-    const response = await apiFetch(auth, route, params);
+    const response = await apiFetch(auth, route, params, isStaticUrl);
     const json = await response.json().catch(() => undefined);
     if (response.ok && json !== undefined) {
       return resFunc(json);
@@ -89,6 +99,7 @@ export const apiGet = async (
   resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
   isSilent: boolean = false,
+  isStaticUrl: boolean = false,
 ) =>
   apiCall(
     auth,
@@ -98,6 +109,7 @@ export const apiGet = async (
     },
     resFunc,
     isSilent,
+    isStaticUrl,
   );
 
 export const apiPost = async (
