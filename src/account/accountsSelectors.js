@@ -46,6 +46,19 @@ export const getCurrentRealm = (state: GlobalState) => {
   return activeAccount.realm;
 };
 
+/**
+ * Gets the auth object for the active account, if it actually has an API key.
+ *
+ * Returns `undefined` if there is no active account, or no API key for it.
+ */
+export const tryGetValidAuth = (state: GlobalState): Auth | void => {
+  const account = tryGetActiveAccount(state);
+  if (!account || account.apiKey === '') {
+    return undefined;
+  }
+  return account;
+};
+
 export const getAuth = (state: GlobalState): Auth => tryGetActiveAccount(state) || NULL_ACCOUNT;
 
 export const getIdentity = (state: GlobalState): Identity => {

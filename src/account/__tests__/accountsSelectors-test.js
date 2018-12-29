@@ -1,7 +1,44 @@
 import deepFreeze from 'deep-freeze';
 
-import { getAuth } from '../accountsSelectors';
+import { getAuth, tryGetValidAuth } from '../accountsSelectors';
 import { NULL_ACCOUNT } from '../../nullObjects';
+
+describe('tryGetValidAuth', () => {
+  test('returns undefined when no accounts', () => {
+    const state = deepFreeze({
+      accounts: [],
+    });
+
+    const auth = tryGetValidAuth(state);
+
+    expect(auth).toBe(undefined);
+  });
+
+  test('returns undefined when no API key on active account', () => {
+    const state = deepFreeze({
+      accounts: [
+        { apiKey: '', realm: 'https://realm1.com' },
+        { apiKey: 'asdf', realm: 'https://realm2.com' },
+      ],
+    });
+
+    expect(tryGetValidAuth(state)).toBe(undefined);
+  });
+
+  test('returns the auth information from the first account, if valid', () => {
+    const state = deepFreeze({
+      accounts: [
+        { apiKey: 'asdf', realm: 'https://realm1.com' },
+        { apiKey: 'aoeu', realm: 'https://realm2.com' },
+      ],
+    });
+
+    expect(tryGetValidAuth(state)).toEqual({
+      realm: 'https://realm1.com',
+      apiKey: 'asdf',
+    });
+  });
+});
 
 describe('getAuth', () => {
   test('returns an empty object when no accounts', () => {
@@ -9,22 +46,17 @@ describe('getAuth', () => {
       accounts: [],
     });
 
-    const auth = getAuth(state);
-
-    expect(auth).toBe(NULL_ACCOUNT);
+    expect(getAuth(state)).toBe(NULL_ACCOUNT);
   });
 
-  test('returns the auth information from the first account', () => {
+  test('returns first account even when no API key', () => {
     const state = deepFreeze({
-      accounts: [{ realm: 'https://realm1.com' }, { realm: 'https://realm2.com' }],
+      accounts: [
+        { apiKey: '', realm: 'https://realm1.com' },
+        { apiKey: 'asdf', realm: 'https://realm2.com' },
+      ],
     });
 
-    const auth = getAuth(state);
-
-    expect(auth).toEqual({
-      realm: 'https://realm1.com',
-      email: undefined,
-      apiKey: undefined,
-    });
+    expect(getAuth(state)).toEqual(state.accounts[0]);
   });
 });
