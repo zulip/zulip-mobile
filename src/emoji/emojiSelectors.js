@@ -2,15 +2,15 @@
 import { createSelector } from 'reselect';
 import type { Selector, RealmEmojiState, RealmEmojiType } from '../types';
 import { getRawRealmEmoji } from '../directSelectors';
-import { getAuth } from '../account/accountsSelectors';
+import { getIdentity } from '../account/accountsSelectors';
 import { getFullUrl } from '../utils/url';
 
 export const getAllRealmEmojiById: Selector<RealmEmojiState> = createSelector(
-  getAuth,
+  getIdentity,
   getRawRealmEmoji,
-  (auth, emojis) =>
+  (identity, emojis) =>
     Object.keys(emojis).reduce((result, id) => {
-      result[id] = { ...emojis[id], source_url: getFullUrl(emojis[id].source_url, auth.realm) };
+      result[id] = { ...emojis[id], source_url: getFullUrl(emojis[id].source_url, identity.realm) };
       return result;
     }, {}),
 );
