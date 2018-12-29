@@ -4,7 +4,7 @@ import type { Account, Auth, GlobalState, Identity } from '../types';
 import { getAccounts } from '../directSelectors';
 
 /**
- * Get the account currently foregrounded in the UI, or undefined if none.
+ * The account currently foregrounded in the UI, or undefined if none.
  *
  * For use in early startup, onboarding, account-switch, or other times
  * where there may be no active account.
@@ -18,7 +18,7 @@ export const tryGetActiveAccount = (state: GlobalState): Account | void => {
 };
 
 /**
- * Get the account currently foregrounded in the UI, asserting there is one.
+ * The account currently foregrounded in the UI; throws if none.
  *
  * For use in all the normal-use screens of the app, which assume there is
  * an active account.
@@ -46,16 +46,33 @@ export const getCurrentRealm = (state: GlobalState) => {
 };
 
 /**
- * Gets the auth object for the active account, even if not logged in.
+ * The auth object for the active account, even if not logged in; throws if none.
  *
- * Asserts there is such a thing; see `getActiveAccount`.
+ * For use in authentication flows, or other places that operate on an
+ * active account which may not be logged in.
+ *
+ * See:
+ *  * `tryGetAuth` for the meaning of "active" and "logged in".
+ *  * `tryGetAuth` again, for use where there might not be an active account.
+ *  * `getAuth` for use in the bulk of the app.
  */
 export const getPartialAuth = (state: GlobalState): Auth => getActiveAccount(state);
 
 /**
- * Gets the auth object for the active account, if it actually has an API key.
+ * The auth object for the active, logged-in account, or undefined if none.
  *
- * Returns `undefined` if there is no active account, or no API key for it.
+ * The "active" account is the one currently foregrounded in the UI, if any.
+ * The active account is "logged-in" if we have an API key for it.
+ *
+ * This is for use in early startup, onboarding, account-switch,
+ * authentication flows, or other times where there may be no active account
+ * or it may not be logged in.
+ *
+ * See:
+ *  * `getAuth` for use in the bulk of the app, operating on a logged-in
+ *    active account.
+ *  * `getPartialAuth` for use in authentication flows, where there is an
+ *    active account but it may not be logged in.
  */
 export const tryGetAuth = (state: GlobalState): Auth | void => {
   const account = tryGetActiveAccount(state);
@@ -65,11 +82,22 @@ export const tryGetAuth = (state: GlobalState): Auth | void => {
   return account;
 };
 
-/** True just if there is an active account, and we have an API key for it. */
+/**
+ * True just if there is an active, logged-in account.
+ *
+ * See `tryGetAuth` for the meaning of "active, logged-in".
+ */
 export const hasAuth = (state: GlobalState): boolean => !!tryGetAuth(state);
 
 /**
- * Gets the auth object for the active, logged-in account; throws if none.
+ * The auth object for the active, logged-in account; throws if none.
+ *
+ * For use in all the normal-use screens and codepaths of the app, which
+ * assume there is an active, logged-in account.
+ *
+ * See:
+ *  * `tryGetAuth` for the meaning of "active, logged-in".
+ *  * `tryGetAuth` again, for use where there might not be such an account.
  */
 export const getAuth = (state: GlobalState): Auth => {
   const auth = tryGetAuth(state);
@@ -80,9 +108,9 @@ export const getAuth = (state: GlobalState): Auth => {
 };
 
 /**
- * Gets the identity for the active, logged-in account.
+ * The identity for the active, logged-in account; throws if none.
  *
- * Asserts there is such a thing; see `getActiveAccount`.
+ * See `getAuth` and `tryGetAuth` for discussion.
  */
 export const getIdentity = (state: GlobalState): Identity => {
   const { email, realm } = getAuth(state);
