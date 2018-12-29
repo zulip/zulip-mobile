@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import type { Auth, ApiResponseSuccess, MessageHistory } from '../apiTypes';
+import type { Auth, ApiResponseSuccess, MessageSnapshot } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseMessageHistory = {|
   ...ApiResponseSuccess,
-  message_history: MessageHistory[],
+  message_history: MessageSnapshot[],
 |};
 
 /** See https://zulipchat.com/api/get-message-history */

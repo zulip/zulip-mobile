@@ -47,17 +47,34 @@ export type Reaction = $ReadOnly<{|
   emoji_code: string,
 |}>;
 
-export type MessageHistory = $ReadOnly<{|
-  content: string,
-  rendered_content: string,
-  timestamp: number,
-  topic: string,
+/**
+ * "Snapshot" objects from https://zulipchat.com/api/get-message-history .
+ *
+ * See also `MessageEdit`.
+ */
+export type MessageSnapshot = $ReadOnly<{|
   user_id: number,
+  timestamp: number,
+
+  /** Docs unclear but suggest absent if only content edited. */
+  topic?: string,
+
+  /**
+   * Docs unclear, but suggest these five absent if only topic edited.
+   * They definitely say "prev"/"diff" properties absent on the first snapshot.
+   */
+  content?: string,
+  rendered_content?: string,
   prev_content?: string,
   prev_rendered_content?: string,
   content_html_diff?: string,
 |}>;
 
+/**
+ * Found in the history within a `Message` object.
+ *
+ * See also `MessageSnapshot`.
+ */
 export type MessageEdit = $ReadOnly<{|
   prev_content?: string,
   prev_rendered_content?: string,
