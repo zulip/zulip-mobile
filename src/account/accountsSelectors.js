@@ -64,10 +64,16 @@ export const hasValidAuth = (state: GlobalState): boolean => !!tryGetValidAuth(s
 
 export const getAuth = (state: GlobalState): Auth => tryGetActiveAccount(state) || NULL_ACCOUNT;
 
+/**
+ * Gets the identity for the active, logged-in account.
+ *
+ * Asserts there is such a thing; see `getActiveAccount`.
+ */
 export const getIdentity = (state: GlobalState): Identity => {
-  const { email, realm } = getAuth(state);
-  return {
-    email,
-    realm,
-  };
+  const account = getActiveAccount(state);
+  if (account.apiKey === '') {
+    throw new Error('Active account not logged in');
+  }
+  const { email, realm } = account;
+  return { email, realm };
 };
