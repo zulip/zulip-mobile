@@ -1,7 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
 import { getAuth, tryGetValidAuth } from '../accountsSelectors';
-import { NULL_ACCOUNT } from '../../nullObjects';
 
 describe('tryGetValidAuth', () => {
   test('returns undefined when no accounts', () => {
@@ -41,12 +40,14 @@ describe('tryGetValidAuth', () => {
 });
 
 describe('getAuth', () => {
-  test('returns an empty object when no accounts', () => {
+  test('throws when no accounts', () => {
     const state = deepFreeze({
       accounts: [],
     });
 
-    expect(getAuth(state)).toBe(NULL_ACCOUNT);
+    expect(() => {
+      getAuth(state);
+    }).toThrow();
   });
 
   test('returns first account even when no API key', () => {

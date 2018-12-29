@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import type {
-  Account,
   User,
   Subscription,
   Presence,
@@ -23,13 +22,6 @@ export const NULL_ARRAY = Object.freeze([]);
  *
  * Further changes to eliminate the remaining uses of these would be great.
  */
-
-/** DEPRECATED; don't add new uses.  See block comment above definition. */
-export const NULL_ACCOUNT: Account = {
-  apiKey: '',
-  email: '',
-  realm: '',
-};
 
 /** DEPRECATED; don't add new uses.  See block comment above definition. */
 export const NULL_USER: User = {

@@ -1,7 +1,6 @@
 /* @flow strict-local */
 
 import type { Account, Auth, GlobalState, Identity } from '../types';
-import { NULL_ACCOUNT } from '../nullObjects';
 import { getAccounts } from '../directSelectors';
 
 /**
@@ -62,7 +61,8 @@ export const tryGetValidAuth = (state: GlobalState): Auth | void => {
 /** True just if there is an active account, and we have an API key for it. */
 export const hasValidAuth = (state: GlobalState): boolean => !!tryGetValidAuth(state);
 
-export const getAuth = (state: GlobalState): Auth => tryGetActiveAccount(state) || NULL_ACCOUNT;
+/** Asserts there is such a thing; see `getActiveAccount`. */
+export const getAuth = (state: GlobalState): Auth => getActiveAccount(state);
 
 /**
  * Gets the identity for the active, logged-in account.
