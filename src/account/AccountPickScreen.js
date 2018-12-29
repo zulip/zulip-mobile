@@ -52,7 +52,7 @@ class AccountPickScreen extends PureComponent<Props> {
   canGoBack = !!this.props.auth.apiKey;
 
   render() {
-    const { accounts, dispatch, auth } = this.props;
+    const { accounts, dispatch } = this.props;
 
     return (
       <Screen title="Pick account" centerContent padding canGoBack={this.canGoBack}>
@@ -62,7 +62,6 @@ class AccountPickScreen extends PureComponent<Props> {
             accounts={accounts}
             onAccountSelect={this.handleAccountSelect}
             onAccountRemove={this.handleAccountRemove}
-            auth={auth}
           />
           <ZulipButton
             text="Add new account"
