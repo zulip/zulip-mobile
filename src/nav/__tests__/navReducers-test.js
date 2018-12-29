@@ -102,7 +102,7 @@ describe('navReducers', () => {
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
-          accounts: [{}, {}],
+          accounts: [{ apiKey: '' }, { apiKey: '' }],
           users: [],
           realm: {},
         },
@@ -120,7 +120,7 @@ describe('navReducers', () => {
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
-          accounts: [{ realm: 'https://example.com' }],
+          accounts: [{ apiKey: '', realm: 'https://example.com' }],
           users: [],
           realm: {},
         },
@@ -139,8 +139,8 @@ describe('navReducers', () => {
         type: REHYDRATE,
         payload: {
           accounts: [
-            { realm: 'https://example.com', email: 'johndoe@example.com' },
-            { realm: 'https://example.com', email: 'janedoe@example.com' },
+            { apiKey: '', realm: 'https://example.com', email: 'johndoe@example.com' },
+            { apiKey: '', realm: 'https://example.com', email: 'janedoe@example.com' },
           ],
           users: [],
           realm: {},
@@ -159,7 +159,7 @@ describe('navReducers', () => {
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
-          accounts: [{ realm: 'https://example.com', email: 'johndoe@example.com' }],
+          accounts: [{ apiKey: '', realm: 'https://example.com', email: 'johndoe@example.com' }],
           users: [],
           realm: {},
         },

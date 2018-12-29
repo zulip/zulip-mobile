@@ -59,6 +59,9 @@ export const tryGetValidAuth = (state: GlobalState): Auth | void => {
   return account;
 };
 
+/** True just if there is an active account, and we have an API key for it. */
+export const hasValidAuth = (state: GlobalState): boolean => !!tryGetValidAuth(state);
+
 export const getAuth = (state: GlobalState): Auth => tryGetActiveAccount(state) || NULL_ACCOUNT;
 
 export const getIdentity = (state: GlobalState): Identity => {
