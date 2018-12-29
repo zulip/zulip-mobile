@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { Account, Dispatch, GlobalState } from '../types';
-import { hasValidAuth, getAccounts } from '../selectors';
+import { hasAuth, getAccounts } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 type Props = {|
   accounts: Account[],
   dispatch: Dispatch,
-  hasValidAuth: boolean,
+  hasAuth: boolean,
 |};
 
 class AccountPickScreen extends PureComponent<Props> {
@@ -49,7 +49,7 @@ class AccountPickScreen extends PureComponent<Props> {
   // required the login they've just discarded, so they can't go back.
   //
   // So, show a "navigate back" UI in the first case, but not the other two.
-  canGoBack = this.props.hasValidAuth;
+  canGoBack = this.props.hasAuth;
 
   render() {
     const { accounts, dispatch } = this.props;
@@ -78,5 +78,5 @@ class AccountPickScreen extends PureComponent<Props> {
 
 export default connect((state: GlobalState) => ({
   accounts: getAccounts(state),
-  hasValidAuth: hasValidAuth(state),
+  hasAuth: hasAuth(state),
 }))(AccountPickScreen);

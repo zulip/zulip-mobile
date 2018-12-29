@@ -6,7 +6,7 @@ import { pollForEvents } from '../api';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
-import { tryGetValidAuth } from '../selectors';
+import { tryGetAuth } from '../selectors';
 import actionCreator from '../actionCreator';
 import progressiveTimeout from '../utils/progressiveTimeout';
 
@@ -46,7 +46,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
   /* eslint-disable no-await-in-loop */
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const auth = tryGetValidAuth(getState());
+    const auth = tryGetAuth(getState());
     if (!auth) {
       // User switched accounts or logged out
       break;

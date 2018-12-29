@@ -57,7 +57,7 @@ export const getPartialAuth = (state: GlobalState): Auth => getActiveAccount(sta
  *
  * Returns `undefined` if there is no active account, or no API key for it.
  */
-export const tryGetValidAuth = (state: GlobalState): Auth | void => {
+export const tryGetAuth = (state: GlobalState): Auth | void => {
   const account = tryGetActiveAccount(state);
   if (!account || account.apiKey === '') {
     return undefined;
@@ -66,13 +66,13 @@ export const tryGetValidAuth = (state: GlobalState): Auth | void => {
 };
 
 /** True just if there is an active account, and we have an API key for it. */
-export const hasValidAuth = (state: GlobalState): boolean => !!tryGetValidAuth(state);
+export const hasAuth = (state: GlobalState): boolean => !!tryGetAuth(state);
 
 /**
  * Gets the auth object for the active, logged-in account; throws if none.
  */
 export const getAuth = (state: GlobalState): Auth => {
-  const auth = tryGetValidAuth(state);
+  const auth = tryGetAuth(state);
   if (auth === undefined) {
     throw new Error('Active account not logged in');
   }

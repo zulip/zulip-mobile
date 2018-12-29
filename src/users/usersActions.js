@@ -5,7 +5,7 @@ import type { Dispatch, GetState, Narrow } from '../types';
 /* eslint-disable import/no-named-as-default-member */
 import api from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
-import { getAuth, tryGetValidAuth } from '../selectors';
+import { getAuth, tryGetAuth } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
 let lastReportPresence = new Date();
@@ -15,7 +15,7 @@ export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean =
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const auth = tryGetValidAuth(getState());
+  const auth = tryGetAuth(getState());
   if (!auth) {
     return; // not logged in
   }
