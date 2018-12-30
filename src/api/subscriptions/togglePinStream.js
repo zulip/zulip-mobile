@@ -3,7 +3,7 @@ import type { ApiResponse, Auth } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
 export default async (auth: Auth, streamId: number, value: boolean): Promise<ApiResponse> =>
-  apiPost(auth, 'users/me/subscriptions/properties', res => res, {
+  apiPost(auth, 'users/me/subscriptions/properties', {
     subscription_data: JSON.stringify([
       {
         property: 'pin_to_top',

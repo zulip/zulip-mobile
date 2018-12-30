@@ -13,7 +13,7 @@ export default (
   fullName: string,
   shortName: string,
 ): Promise<ApiResponseSuccess> =>
-  apiPost(auth, 'users', res => res, {
+  apiPost(auth, 'users', {
     email,
     password,
     full_name: fullName,

@@ -8,4 +8,4 @@ type ApiResponseDevFetchApiKey = {|
 |};
 
 export default (auth: Auth, email: string): Promise<ApiResponseDevFetchApiKey> =>
-  apiPost(auth, 'dev_fetch_api_key', res => res, { username: email });
+  apiPost(auth, 'dev_fetch_api_key', { username: email });

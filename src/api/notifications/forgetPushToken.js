@@ -9,5 +9,5 @@ import { apiDelete } from '../apiFetch';
  */
 export default (auth: Auth, mobileOS: 'ios' | 'android', token: string) => {
   const routeName = mobileOS === 'android' ? 'android_gcm_reg_id' : 'apns_device_token';
-  return apiDelete(auth, `users/me/${routeName}`, res => res, { token });
+  return apiDelete(auth, `users/me/${routeName}`, { token });
 };

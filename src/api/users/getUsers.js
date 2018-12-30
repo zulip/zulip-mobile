@@ -9,4 +9,4 @@ type ApiResponseUsers = {|
 
 /** See https://zulipchat.com/api/get-all-users */
 export default (auth: Auth): Promise<ApiResponseUsers> =>
-  apiGet(auth, 'users', res => res, { client_gravatar: true });
+  apiGet(auth, 'users', { client_gravatar: true });

@@ -20,7 +20,7 @@ export default async (
   numAfter: number,
   useFirstUnread: boolean = false,
 ): Promise<ApiResponseMessages> =>
-  apiGet(auth, 'messages', (res: ApiResponseMessages): ApiResponseMessages => res, {
+  apiGet(auth, 'messages', {
     narrow: JSON.stringify(narrow),
     anchor,
     num_before: numBefore,

@@ -23,6 +23,6 @@ export default async ({
   opp: string,
   value: boolean,
 }): Promise<ApiResponse> =>
-  apiPatch(auth, 'settings/notifications', res => res, {
+  apiPatch(auth, 'settings/notifications', {
     ...getRequestBody(opp, value),
   });

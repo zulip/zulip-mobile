@@ -13,7 +13,7 @@ export default async (
   localId: number,
   eventQueueId: number,
 ): Promise<ApiResponse> =>
-  apiPost(auth, 'messages', res => res, {
+  apiPost(auth, 'messages', {
     type,
     to,
     subject,

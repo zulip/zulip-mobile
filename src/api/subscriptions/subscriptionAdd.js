@@ -12,7 +12,7 @@ export default (
   subscriptions: SubscriptionObj[],
   principals?: string[],
 ): Promise<ApiResponse> =>
-  apiPost(auth, 'users/me/subscriptions', res => res, {
+  apiPost(auth, 'users/me/subscriptions', {
     subscriptions: JSON.stringify(subscriptions),
     principals: JSON.stringify(principals),
   });

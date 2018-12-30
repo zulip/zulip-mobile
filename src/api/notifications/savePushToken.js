@@ -10,7 +10,7 @@ import { apiPost } from '../apiFetch';
 export default async (auth: Auth, mobileOS: 'ios' | 'android', token: string) => {
   const routeName = mobileOS === 'android' ? 'android_gcm_reg_id' : 'apns_device_token';
   const extraParams = mobileOS === 'android' ? {} : { appid: 'org.zulip.Zulip' };
-  return apiPost(auth, `users/me/${routeName}`, res => res, {
+  return apiPost(auth, `users/me/${routeName}`, {
     token,
     ...extraParams,
   });

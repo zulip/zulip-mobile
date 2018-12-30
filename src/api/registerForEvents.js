@@ -15,4 +15,4 @@ type RegisterForEventsParams = {
 
 /** See https://zulipchat.com/api/register-queue */
 export default (auth: Auth, params: RegisterForEventsParams) =>
-  apiPost(auth, 'register', res => res, objectToParams(params));
+  apiPost(auth, 'register', objectToParams(params));

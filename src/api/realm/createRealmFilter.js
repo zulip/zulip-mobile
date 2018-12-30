@@ -13,4 +13,4 @@ export default async (
   pattern: string,
   urlFormatString: string,
 ): Promise<ApiResponseRealmCreateFilters> =>
-  apiPost(auth, 'realm/filters', res => res, { pattern, url_format_string: urlFormatString });
+  apiPost(auth, 'realm/filters', { pattern, url_format_string: urlFormatString });

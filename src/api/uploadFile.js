@@ -14,5 +14,5 @@ export default (auth: Auth, uri: string, name: string): Promise<ApiResponseUploa
   const type = getMimeTypeFromFileExtension(extension);
   // $FlowFixMe
   formData.append('file', { uri, name, type, extension });
-  return apiFile(auth, 'user_uploads', res => res, formData);
+  return apiFile(auth, 'user_uploads', formData);
 };

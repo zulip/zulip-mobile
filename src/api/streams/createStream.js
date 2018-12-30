@@ -11,7 +11,7 @@ export default (
   inviteOnly?: boolean = false,
   announce?: boolean = false,
 ): Promise<ApiResponse> =>
-  apiPost(auth, 'users/me/subscriptions', res => res, {
+  apiPost(auth, 'users/me/subscriptions', {
     subscriptions: JSON.stringify([{ name, description }]),
     principals: JSON.stringify(principals),
     invite_only: inviteOnly,

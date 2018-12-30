@@ -8,7 +8,7 @@ export default (
   hasFocus: boolean = true,
   newUserInput: boolean = false,
 ): Promise<ApiResponseWithPresence> =>
-  apiPost(auth, 'users/me/presence', res => res, {
+  apiPost(auth, 'users/me/presence', {
     status: hasFocus ? 'active' : 'idle',
     new_user_input: newUserInput,
   });
