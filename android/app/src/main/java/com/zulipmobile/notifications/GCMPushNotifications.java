@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioAttributes;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -90,7 +91,9 @@ public class GCMPushNotifications {
     }
 
     private static Uri getNotificationSoundUri(Context context) {
-        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +"://" + context.getPackageName() + "/" + R.raw.zulip);
+        // Note: Provide default notification sound until we found a good sound
+        // return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +"://" + context.getPackageName() + "/" + R.raw.zulip);
+        return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     }
 
     private static Notification.Builder getNotificationBuilder(
