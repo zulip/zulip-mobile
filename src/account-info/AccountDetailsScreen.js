@@ -1,8 +1,9 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
+import type { NavigationScreenProp } from 'react-navigation';
 import type { Dispatch, GlobalState, User, PresenceState } from '../types';
 import { getAccountDetailsUserFromEmail, getPresence } from '../selectors';
 import { Screen } from '../common';
@@ -33,7 +34,15 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props: Object) => ({
+type ConnectorProps = {|
+  navigation: NavigationScreenProp<{
+    params: {
+      email: string,
+    },
+  }>,
+|};
+
+export default connect((state: GlobalState, props: ConnectorProps) => ({
   user: getAccountDetailsUserFromEmail(props.navigation.state.params.email)(state),
   presence: getPresence(state),
 }))(AccountDetailsScreen);
