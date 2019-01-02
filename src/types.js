@@ -48,7 +48,7 @@ export type InputSelectionType = {|
 |};
 
 /**
- * An identity belonging to this user in some Zulip org, including a secret.
+ * An `Identity`, a secret, and some other per-identity information.
  *
  * At present this consists of just the information the API client library
  * needs in order to talk to the server on the user's behalf, aka `Auth`.
@@ -60,7 +60,19 @@ export type InputSelectionType = {|
  * not required.
  * TODO: move more code that way.
  */
-export type Account = Auth;
+export type Account = {|
+  ...Auth,
+
+  /**
+   * The last device token value the server has definitely heard from us.
+   *
+   * This is `null` until we make a successful request to the server to
+   * tell it the token.
+   *
+   * See the `pushToken` property in `SessionState`, and docs linked there.
+   */
+  ackedPushToken: string | null,
+|};
 
 /**
  * An identity belonging to this user in some Zulip org, with no secrets.
@@ -319,7 +331,6 @@ export type RealmBot = {|
  * @prop nonActiveUsers - All users in the organization with `is_active`
  *   false; for normal users, this means they or an admin deactivated their
  *   account.  See `User` and the linked documentation.
- * @prop pushToken - See details inside definition.
  * @prop filters
  * @prop emoji
  * @prop isAdmin
@@ -329,10 +340,6 @@ export type RealmState = {|
   canCreateStreams: boolean,
   crossRealmBots: RealmBot[],
   nonActiveUsers: User[],
-  pushToken: {|
-    /** `null` before we've gotten a token. */
-    token: string | null,
-  |},
   filters: RealmFilter[],
   emoji: RealmEmojiState,
   isAdmin: boolean,

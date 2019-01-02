@@ -3,6 +3,8 @@ import {
   REALM_ADD,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
+  ACK_PUSH_TOKEN,
+  UNACK_PUSH_TOKEN,
   LOGOUT,
   ACCOUNT_REMOVE,
 } from '../actionConstants';
@@ -14,6 +16,8 @@ import type {
   RealmAddAction,
   AccountSwitchAction,
   AccountRemoveAction,
+  AckPushTokenAction,
+  UnackPushTokenAction,
   LoginSuccessAction,
   LogoutAction,
 } from '../types';
@@ -33,6 +37,7 @@ const realmAdd = (state: AccountsState, action: RealmAddAction): AccountsState =
       realm: action.realm,
       apiKey: '',
       email: '',
+      ackedPushToken: null,
     },
     ...state,
   ];
@@ -57,11 +62,37 @@ const loginSuccess = (state: AccountsState, action: LoginSuccessAction): Account
   const { realm, email, apiKey } = action;
   const accountIndex = findAccount(state, { realm, email });
   if (accountIndex === -1) {
-    return [{ realm, email, apiKey }, ...state];
+    return [{ realm, email, apiKey, ackedPushToken: null }, ...state];
   }
   return [
     { ...state[accountIndex], email, apiKey },
     ...state.slice(0, accountIndex),
+    ...state.slice(accountIndex + 1),
+  ];
+};
+
+const ackPushToken = (state: AccountsState, action: AckPushTokenAction): AccountsState => {
+  const { pushToken: ackedPushToken, identity } = action;
+  const accountIndex = findAccount(state, identity);
+  if (accountIndex === -1) {
+    return state;
+  }
+  return [
+    ...state.slice(0, accountIndex),
+    { ...state[accountIndex], ackedPushToken },
+    ...state.slice(accountIndex + 1),
+  ];
+};
+
+const unackPushToken = (state: AccountsState, action: UnackPushTokenAction): AccountsState => {
+  const { identity } = action;
+  const accountIndex = findAccount(state, identity);
+  if (accountIndex === -1) {
+    return state;
+  }
+  return [
+    ...state.slice(0, accountIndex),
+    { ...state[accountIndex], ackedPushToken: null },
     ...state.slice(accountIndex + 1),
   ];
 };
@@ -87,6 +118,12 @@ export default (state: AccountsState = initialState, action: AccountAction): Acc
 
     case LOGIN_SUCCESS:
       return loginSuccess(state, action);
+
+    case ACK_PUSH_TOKEN:
+      return ackPushToken(state, action);
+
+    case UNACK_PUSH_TOKEN:
+      return unackPushToken(state, action);
 
     case LOGOUT:
       return logout(state, action);

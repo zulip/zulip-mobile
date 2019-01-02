@@ -19,6 +19,7 @@ rules:
     - abc
     - abcd
     - ack
+    - acked
     - allen
     - api
     - apns

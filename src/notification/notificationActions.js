@@ -11,7 +11,7 @@ import {
   getNotificationToken,
   tryStopNotifications as innerStopNotifications,
 } from '../notification';
-import { getAuth, getPushToken } from '../selectors';
+import { getAuth, getActiveAccount } from '../selectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 
 export const gotPushToken = (pushToken: string): GotPushTokenAction => ({
@@ -32,12 +32,12 @@ export const ackPushToken = (pushToken: string, identity: Identity): AckPushToke
 
 export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
-  const pushToken = getPushToken(getState());
-  getNotificationToken(auth, pushToken, dispatch);
+  const { ackedPushToken } = getActiveAccount(getState());
+  getNotificationToken(auth, ackedPushToken, dispatch);
 };
 
 export const tryStopNotifications = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
-  const pushToken = getPushToken(getState());
-  innerStopNotifications(auth, pushToken, dispatch);
+  const { ackedPushToken } = getActiveAccount(getState());
+  innerStopNotifications(auth, ackedPushToken, dispatch);
 };

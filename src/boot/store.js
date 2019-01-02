@@ -80,6 +80,14 @@ const migrations = {
       },
     },
   }),
+  '4': state => {
+    const { pushToken, ...restRealm } = state.realm; // eslint-disable-line no-unused-vars
+    return {
+      ...state,
+      realm: restRealm,
+      accounts: state.accounts.map(a => ({ ...a, ackedPushToken: null })),
+    };
+  },
 };
 
 const reduxPersistConfig: Config = {

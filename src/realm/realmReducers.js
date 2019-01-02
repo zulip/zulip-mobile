@@ -3,8 +3,6 @@ import type {
   RealmState,
   RealmAction,
   RealmInitAction,
-  AckPushTokenAction,
-  UnackPushTokenAction,
   LoginSuccessAction,
   LogoutAction,
   InitRealmEmojiAction,
@@ -20,8 +18,6 @@ import {
   ACCOUNT_SWITCH,
   INIT_REALM_EMOJI,
   EVENT_UPDATE_DISPLAY_SETTINGS,
-  ACK_PUSH_TOKEN,
-  UNACK_PUSH_TOKEN,
   INIT_REALM_FILTER,
   EVENT_REALM_FILTER_UPDATE,
 } from '../actionConstants';
@@ -31,7 +27,6 @@ const initialState = {
   canCreateStreams: true,
   crossRealmBots: [],
   twentyFourHourTime: false,
-  pushToken: { token: null },
   emoji: {},
   filters: [],
   isAdmin: false,
@@ -49,22 +44,9 @@ const realmInit = (state: RealmState, action: RealmInitAction): RealmState => ({
   twentyFourHourTime: action.data.twenty_four_hour_time,
 });
 
-const ackPushToken = (state: RealmState, action: AckPushTokenAction): RealmState => ({
-  ...state,
-  pushToken: {
-    token: action.pushToken,
-  },
-});
-
-const unackPushToken = (state: RealmState, action: UnackPushTokenAction): RealmState => ({
-  ...state,
-  pushToken: { token: null },
-});
-
 const loginChange = (state: RealmState, action: LoginSuccessAction | LogoutAction): RealmState => ({
   ...state,
   emoji: {},
-  pushToken: { token: null },
 });
 
 const initRealmEmoji = (state: RealmState, action: InitRealmEmojiAction): RealmState => ({
@@ -100,12 +82,6 @@ export default (state: RealmState = initialState, action: RealmAction): RealmSta
 
     case REALM_INIT:
       return realmInit(state, action);
-
-    case ACK_PUSH_TOKEN:
-      return ackPushToken(state, action);
-
-    case UNACK_PUSH_TOKEN:
-      return unackPushToken(state, action);
 
     case LOGOUT:
     case LOGIN_SUCCESS:

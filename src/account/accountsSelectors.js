@@ -59,6 +59,11 @@ export const getCurrentRealm = (state: GlobalState) => {
   return activeAccount.realm;
 };
 
+const authOfAccount = (account: Account): Auth => {
+  const { realm, email, apiKey } = account;
+  return { realm, email, apiKey };
+};
+
 /**
  * The auth object for the active account, even if not logged in; throws if none.
  *
@@ -70,7 +75,7 @@ export const getCurrentRealm = (state: GlobalState) => {
  *  * `tryGetAuth` again, for use where there might not be an active account.
  *  * `getAuth` for use in the bulk of the app.
  */
-export const getPartialAuth = (state: GlobalState): Auth => getActiveAccount(state);
+export const getPartialAuth = (state: GlobalState): Auth => authOfAccount(getActiveAccount(state));
 
 /**
  * The auth object for the active, logged-in account, or undefined if none.
@@ -93,7 +98,7 @@ export const tryGetAuth = (state: GlobalState): Auth | void => {
   if (!account || account.apiKey === '') {
     return undefined;
   }
-  return account;
+  return authOfAccount(account);
 };
 
 /**

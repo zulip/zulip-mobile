@@ -20,7 +20,7 @@ describe('accountsReducers', () => {
       });
 
       const expectedState = [
-        { realm: 'new', apiKey: '', email: '' },
+        { realm: 'new', apiKey: '', email: '', ackedPushToken: null },
         { realm: '1' },
         { realm: '2' },
       ];
@@ -145,6 +145,7 @@ describe('accountsReducers', () => {
           apiKey: '456',
           email: 'two@example.com',
           realm: 'http://realm2.com',
+          ackedPushToken: null,
         },
         {
           apiKey: '123',
