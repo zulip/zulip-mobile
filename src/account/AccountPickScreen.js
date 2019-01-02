@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Account, Dispatch, GlobalState } from '../types';
-import { hasAuth, getAccounts } from '../selectors';
+import type { Dispatch, GlobalState } from '../types';
+import { hasAuth, getAccountStatuses } from '../selectors';
+import type { AccountStatus } from './accountsSelectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  accounts: Account[],
+  accounts: AccountStatus[],
   dispatch: Dispatch,
   hasAuth: boolean,
 |};
@@ -25,8 +26,8 @@ type Props = {|
 class AccountPickScreen extends PureComponent<Props> {
   handleAccountSelect = (index: number) => {
     const { accounts, dispatch } = this.props;
-    const { realm, apiKey } = accounts[index];
-    if (apiKey) {
+    const { realm, isLoggedIn } = accounts[index];
+    if (isLoggedIn) {
       setTimeout(() => {
         dispatch(switchAccount(index));
       });
@@ -77,6 +78,6 @@ class AccountPickScreen extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  accounts: getAccounts(state),
+  accounts: getAccountStatuses(state),
   hasAuth: hasAuth(state),
 }))(AccountPickScreen);

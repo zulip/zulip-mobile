@@ -3,6 +3,20 @@
 import type { Account, Auth, GlobalState, Identity } from '../types';
 import { getAccounts } from '../directSelectors';
 
+/** See `getAccountStatuses`. */
+export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
+
+/**
+ * The list of known accounts, with a boolean for logged-in vs. not.
+ *
+ * This should be used in preference to `getAccounts` where we don't
+ * actually need the API keys, but just need to know whether we have them.
+ */
+export const getAccountStatuses = (state: GlobalState): AccountStatus[] => {
+  const accounts = getAccounts(state);
+  return accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' }));
+};
+
 /**
  * The account currently foregrounded in the UI, or undefined if none.
  *
