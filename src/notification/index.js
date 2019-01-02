@@ -8,6 +8,7 @@ import config from '../config';
 import { registerPush, unregisterPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { doNarrow } from '../message/messagesActions';
+import { saveTokenPush, deleteTokenPush } from './notificationActions';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
   const userIds = data.pm_users.split(',');
@@ -98,10 +99,10 @@ export class NotificationListener {
   }
 }
 
-const getTokenIOS = (auth: Auth, saveTokenPush: (pushToken: string) => void) => {
+const getTokenIOS = (auth: Auth, dispatch: Dispatch) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', async deviceToken => {
     await registerPush(auth, deviceToken);
-    saveTokenPush(deviceToken);
+    dispatch(saveTokenPush(deviceToken));
   });
   NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
     logErrorRemotely(new Error(error), 'Failed to register iOS push token');
@@ -109,40 +110,32 @@ const getTokenIOS = (auth: Auth, saveTokenPush: (pushToken: string) => void) => 
   NotificationsIOS.requestPermissions();
 };
 
-const getTokenAndroid = (
-  auth: Auth,
-  oldToken: string | null,
-  saveTokenPush: (pushToken: string) => void,
-) => {
+const getTokenAndroid = (auth: Auth, oldToken: string | null, dispatch: Dispatch) => {
   if (auth.apiKey !== '' && oldToken === null) {
     NotificationsAndroid.refreshToken();
   }
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     try {
       await registerPush(auth, deviceToken);
-      saveTokenPush(deviceToken);
+      dispatch(saveTokenPush(deviceToken));
     } catch (e) {
       logErrorRemotely(e, 'Failed to register GCM');
     }
   });
 };
 
-export const getNotificationToken = (
-  auth: Auth,
-  oldToken: string | null,
-  saveTokenPush: (pushToken: string) => void,
-) => {
+export const getNotificationToken = (auth: Auth, oldToken: string | null, dispatch: Dispatch) => {
   if (Platform.OS === 'ios') {
-    getTokenIOS(auth, saveTokenPush);
+    getTokenIOS(auth, dispatch);
   } else {
-    getTokenAndroid(auth, oldToken, saveTokenPush);
+    getTokenAndroid(auth, oldToken, dispatch);
   }
 };
 
 export const tryStopNotifications = async (
   auth: Auth,
   token: string | null,
-  callback: () => void,
+  dispatch: Dispatch,
 ) => {
   if (token !== null) {
     try {
@@ -150,6 +143,6 @@ export const tryStopNotifications = async (
     } catch (e) {
       logErrorRemotely(e, 'failed to unregister Push token');
     }
-    callback();
+    dispatch(deleteTokenPush());
   }
 };

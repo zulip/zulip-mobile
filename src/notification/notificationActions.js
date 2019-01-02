@@ -19,15 +19,11 @@ export const saveTokenPush = (pushToken: string): SaveTokenPushAction => ({
 export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const pushToken = getPushToken(getState());
-  getNotificationToken(auth, pushToken, token => {
-    dispatch(saveTokenPush(token));
-  });
+  getNotificationToken(auth, pushToken, dispatch);
 };
 
 export const tryStopNotifications = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const pushToken = getPushToken(getState());
-  innerStopNotifications(auth, pushToken, () => {
-    dispatch(deleteTokenPush());
-  });
+  innerStopNotifications(auth, pushToken, dispatch);
 };
