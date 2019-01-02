@@ -2,6 +2,7 @@
 import type {
   Dispatch,
   GetState,
+  Identity,
   UnackPushTokenAction,
   GotPushTokenAction,
   AckPushTokenAction,
@@ -18,12 +19,14 @@ export const gotPushToken = (pushToken: string): GotPushTokenAction => ({
   pushToken,
 });
 
-export const unackPushToken = (): UnackPushTokenAction => ({
+export const unackPushToken = (identity: Identity): UnackPushTokenAction => ({
   type: UNACK_PUSH_TOKEN,
+  identity,
 });
 
-export const ackPushToken = (pushToken: string): AckPushTokenAction => ({
+export const ackPushToken = (pushToken: string, identity: Identity): AckPushTokenAction => ({
   type: ACK_PUSH_TOKEN,
+  identity,
   pushToken,
 });
 

@@ -77,6 +77,7 @@ import type {
   Outbox,
   Narrow,
   Reaction,
+  Identity,
   User,
   UserGroup,
   InitialData,
@@ -194,12 +195,16 @@ export type GotPushTokenAction = {|
   pushToken: string,
 |};
 
+/** We're about to tell the server to forget our device token. */
 export type UnackPushTokenAction = {|
   type: typeof UNACK_PUSH_TOKEN,
+  identity: Identity,
 |};
 
+/** The server acknowledged our device token. */
 export type AckPushTokenAction = {|
   type: typeof ACK_PUSH_TOKEN,
+  identity: Identity,
   pushToken: string,
 |};
 
