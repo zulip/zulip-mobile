@@ -2,7 +2,7 @@
 import type {
   Dispatch,
   GetState,
-  DeleteTokenPushAction,
+  UnackPushTokenAction,
   GotPushTokenAction,
   AckPushTokenAction,
 } from '../types';
@@ -11,15 +11,15 @@ import {
   tryStopNotifications as innerStopNotifications,
 } from '../notification';
 import { getAuth, getPushToken } from '../selectors';
-import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, DELETE_TOKEN_PUSH } from '../actionConstants';
+import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 
 export const gotPushToken = (pushToken: string): GotPushTokenAction => ({
   type: GOT_PUSH_TOKEN,
   pushToken,
 });
 
-export const deleteTokenPush = (): DeleteTokenPushAction => ({
-  type: DELETE_TOKEN_PUSH,
+export const unackPushToken = (): UnackPushTokenAction => ({
+  type: UNACK_PUSH_TOKEN,
 });
 
 export const ackPushToken = (pushToken: string): AckPushTokenAction => ({

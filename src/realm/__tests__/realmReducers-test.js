@@ -6,7 +6,7 @@ import {
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   ACK_PUSH_TOKEN,
-  DELETE_TOKEN_PUSH,
+  UNACK_PUSH_TOKEN,
   EVENT_REALM_FILTER_UPDATE,
 } from '../../actionConstants';
 import { NULL_OBJECT } from '../../nullObjects';
@@ -62,7 +62,7 @@ describe('realmReducers', () => {
     });
   });
 
-  describe('DELETE_TOKEN_PUSH', () => {
+  describe('UNACK_PUSH_TOKEN', () => {
     test('delete the PUSH token', () => {
       const initialState = deepFreeze({
         twentyFourHourTime: false,
@@ -71,7 +71,7 @@ describe('realmReducers', () => {
       });
 
       const action = deepFreeze({
-        type: DELETE_TOKEN_PUSH,
+        type: UNACK_PUSH_TOKEN,
       });
 
       const expectedState = {

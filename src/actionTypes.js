@@ -18,7 +18,7 @@ import {
   LOGOUT,
   REALM_INIT,
   GOT_PUSH_TOKEN,
-  DELETE_TOKEN_PUSH,
+  UNACK_PUSH_TOKEN,
   ACK_PUSH_TOKEN,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
@@ -194,8 +194,8 @@ export type GotPushTokenAction = {|
   pushToken: string,
 |};
 
-export type DeleteTokenPushAction = {|
-  type: typeof DELETE_TOKEN_PUSH,
+export type UnackPushTokenAction = {|
+  type: typeof UNACK_PUSH_TOKEN,
 |};
 
 export type AckPushTokenAction = {|
@@ -496,7 +496,7 @@ export type InitRealmFilterAction = {|
 export type RealmAction =
   | DeadQueueAction
   | RealmInitAction
-  | DeleteTokenPushAction
+  | UnackPushTokenAction
   | AckPushTokenAction
   | LoginSuccessAction
   | LogoutAction

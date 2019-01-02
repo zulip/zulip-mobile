@@ -8,7 +8,7 @@ import config from '../config';
 import { registerPush, unregisterPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { doNarrow } from '../message/messagesActions';
-import { ackPushToken, deleteTokenPush, gotPushToken } from './notificationActions';
+import { ackPushToken, unackPushToken, gotPushToken } from './notificationActions';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
   const userIds = data.pm_users.split(',');
@@ -145,6 +145,6 @@ export const tryStopNotifications = async (
     } catch (e) {
       logErrorRemotely(e, 'failed to unregister Push token');
     }
-    dispatch(deleteTokenPush());
+    dispatch(unackPushToken());
   }
 };

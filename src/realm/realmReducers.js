@@ -4,7 +4,7 @@ import type {
   RealmAction,
   RealmInitAction,
   AckPushTokenAction,
-  DeleteTokenPushAction,
+  UnackPushTokenAction,
   LoginSuccessAction,
   LogoutAction,
   InitRealmEmojiAction,
@@ -21,7 +21,7 @@ import {
   INIT_REALM_EMOJI,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   ACK_PUSH_TOKEN,
-  DELETE_TOKEN_PUSH,
+  UNACK_PUSH_TOKEN,
   INIT_REALM_FILTER,
   EVENT_REALM_FILTER_UPDATE,
 } from '../actionConstants';
@@ -56,7 +56,7 @@ const ackPushToken = (state: RealmState, action: AckPushTokenAction): RealmState
   },
 });
 
-const deleteTokenPush = (state: RealmState, action: DeleteTokenPushAction): RealmState => ({
+const unackPushToken = (state: RealmState, action: UnackPushTokenAction): RealmState => ({
   ...state,
   pushToken: { token: null },
 });
@@ -104,8 +104,8 @@ export default (state: RealmState = initialState, action: RealmAction): RealmSta
     case ACK_PUSH_TOKEN:
       return ackPushToken(state, action);
 
-    case DELETE_TOKEN_PUSH:
-      return deleteTokenPush(state, action);
+    case UNACK_PUSH_TOKEN:
+      return unackPushToken(state, action);
 
     case LOGOUT:
     case LOGIN_SUCCESS:
