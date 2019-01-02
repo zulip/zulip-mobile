@@ -15,7 +15,7 @@ import type {
 import {
   getNotificationToken,
   tryStopNotifications as innerStopNotifications,
-} from '../utils/notifications';
+} from '../notification';
 import { getAuth, getPushToken } from '../selectors';
 import { getRealmEmojis, getRealmFilters } from '../api';
 import {

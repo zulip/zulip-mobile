@@ -14,7 +14,7 @@ import type {
   UserIdMap,
 } from '../types';
 import { getSession, getUnreadByHuddlesMentionsAndPMs, getUsersById } from '../selectors';
-import { handleInitialNotification, NotificationListener } from '../utils/notifications';
+import { handleInitialNotification, NotificationListener } from '../notification';
 import {
   appOnline,
   appOrientation,

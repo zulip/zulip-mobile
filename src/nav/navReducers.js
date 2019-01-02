@@ -11,7 +11,7 @@ import type {
 import config from '../config';
 import { navigateToChat } from './navActions';
 import { getUsersById } from '../users/userSelectors';
-import { getNarrowFromNotificationData } from '../utils/notifications';
+import { getNarrowFromNotificationData } from '../notification';
 import AppNavigator from './AppNavigator';
 import { NULL_NAV_STATE } from '../nullObjects';
 import {

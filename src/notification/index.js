@@ -6,7 +6,7 @@ import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from 
 import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import config from '../config';
 import { registerPush, unregisterPush } from '../api';
-import { logErrorRemotely } from './logging';
+import { logErrorRemotely } from '../utils/logging';
 import { doNarrow } from '../message/messagesActions';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {

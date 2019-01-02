@@ -1,5 +1,5 @@
-import { getNarrowFromNotificationData, handleNotificationMuddle } from '../notifications';
-import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../narrow';
+import { getNarrowFromNotificationData, handleNotificationMuddle } from '..';
+import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('getNarrowFromNotificationData', () => {
   test('unknown notification data returns home narrow', () => {
