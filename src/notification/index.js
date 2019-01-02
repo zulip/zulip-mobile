@@ -8,7 +8,7 @@ import config from '../config';
 import { registerPush, unregisterPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { doNarrow } from '../message/messagesActions';
-import { saveTokenPush, deleteTokenPush } from './notificationActions';
+import { saveTokenPush, deleteTokenPush, gotPushToken } from './notificationActions';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
   const userIds = data.pm_users.split(',');
@@ -101,6 +101,7 @@ export class NotificationListener {
 
 const getTokenIOS = (auth: Auth, dispatch: Dispatch) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', async deviceToken => {
+    dispatch(gotPushToken(deviceToken));
     await registerPush(auth, deviceToken);
     dispatch(saveTokenPush(deviceToken));
   });
@@ -116,6 +117,7 @@ const getTokenAndroid = (auth: Auth, oldToken: string | null, dispatch: Dispatch
   }
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     try {
+      dispatch(gotPushToken(deviceToken));
       await registerPush(auth, deviceToken);
       dispatch(saveTokenPush(deviceToken));
     } catch (e) {

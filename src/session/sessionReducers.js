@@ -12,6 +12,7 @@ import type {
   AppOnlineAction,
   DeadQueueAction,
   DoNarrowAction,
+  GotPushTokenAction,
   InitialFetchCompleteAction,
   InitSafeAreaInsetsAction,
   AppOrientationAction,
@@ -38,6 +39,7 @@ import {
   START_EDIT_MESSAGE,
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
+  GOT_PUSH_TOKEN,
 } from '../actionConstants';
 import { hasAuth } from '../account/accountsSelectors';
 
@@ -59,8 +61,23 @@ export type SessionState = {|
   needsInitialFetch: boolean,
   orientation: Orientation,
   outboxSending: boolean,
+
+  /**
+   * Our actual device token, as most recently learned from the system.
+   *
+   * With GCM this is the "registration token"; with APNs the "device token".
+   *
+   * This is `null` before we've gotten a token.
+   *
+   * See upstream docs:
+   *   https://developers.google.com/cloud-messaging/android/client
+   *   https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns
+   */
+  pushToken: string | null,
+
   /** For background, google [ios safe area]. */
   safeAreaInsets: Dimensions,
+
   debug: Debug,
 |};
 
@@ -74,6 +91,7 @@ const initialState: SessionState = {
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
+  pushToken: null,
   safeAreaInsets: {
     bottom: 0,
     left: 0,
@@ -148,6 +166,11 @@ const appOrientation = (state: SessionState, action: AppOrientationAction): Sess
   orientation: action.orientation,
 });
 
+const gotPushToken = (state: SessionState, action: GotPushTokenAction): SessionState => ({
+  ...state,
+  pushToken: action.pushToken,
+});
+
 const cancelEditMessage = (state: SessionState, action: CancelEditMessageAction): SessionState => ({
   ...state,
   editMessage: null,
@@ -205,6 +228,9 @@ export default (state: SessionState = initialState, action: SessionAction): Sess
 
     case APP_ORIENTATION:
       return appOrientation(state, action);
+
+    case GOT_PUSH_TOKEN:
+      return gotPushToken(state, action);
 
     case CANCEL_EDIT_MESSAGE:
       return cancelEditMessage(state, action);

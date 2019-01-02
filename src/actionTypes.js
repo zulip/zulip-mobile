@@ -17,6 +17,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   REALM_INIT,
+  GOT_PUSH_TOKEN,
   DELETE_TOKEN_PUSH,
   SAVE_TOKEN_PUSH,
   MESSAGE_FETCH_START,
@@ -185,6 +186,12 @@ export type LogoutAction = {|
 export type RealmInitAction = {|
   type: typeof REALM_INIT,
   data: InitialData,
+|};
+
+/** We learned the device token from the system.  See `SessionState`. */
+export type GotPushTokenAction = {|
+  type: typeof GOT_PUSH_TOKEN,
+  pushToken: string,
 |};
 
 export type DeleteTokenPushAction = {|
@@ -631,6 +638,7 @@ export type SessionAction =
   | DeadQueueAction
   | InitSafeAreaInsetsAction
   | AppOrientationAction
+  | GotPushTokenAction
   | StartEditMessageAction
   | CancelEditMessageAction
   | DebugFlagToggleAction
