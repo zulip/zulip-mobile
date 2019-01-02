@@ -46,21 +46,18 @@ const accountSwitch = (state: AccountsState, action: AccountSwitchAction): Accou
 };
 
 const loginSuccess = (state: AccountsState, action: LoginSuccessAction): AccountsState => {
+  const { realm, email, apiKey } = action;
   const accountIndex = state.findIndex(
-    account => account.realm === action.realm && (!account.email || account.email === action.email),
+    account => account.realm === realm && (!account.email || account.email === email),
   );
-
-  const { type, ...newAccount } = action; // eslint-disable-line no-unused-vars
-
   if (accountIndex === -1) {
-    return [newAccount, ...state];
+    return [{ realm, email, apiKey }, ...state];
   }
-
-  const mergedAccount = {
-    ...state[accountIndex],
-    ...newAccount,
-  };
-  return [mergedAccount, ...state.slice(0, accountIndex), ...state.slice(accountIndex + 1)];
+  return [
+    { ...state[accountIndex], email, apiKey },
+    ...state.slice(0, accountIndex),
+    ...state.slice(accountIndex + 1),
+  ];
 };
 
 const logout = (state: AccountsState, action: LogoutAction): AccountsState => [
