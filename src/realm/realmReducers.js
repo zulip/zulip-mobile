@@ -3,7 +3,7 @@ import type {
   RealmState,
   RealmAction,
   RealmInitAction,
-  SaveTokenPushAction,
+  AckPushTokenAction,
   DeleteTokenPushAction,
   LoginSuccessAction,
   LogoutAction,
@@ -20,7 +20,7 @@ import {
   ACCOUNT_SWITCH,
   INIT_REALM_EMOJI,
   EVENT_UPDATE_DISPLAY_SETTINGS,
-  SAVE_TOKEN_PUSH,
+  ACK_PUSH_TOKEN,
   DELETE_TOKEN_PUSH,
   INIT_REALM_FILTER,
   EVENT_REALM_FILTER_UPDATE,
@@ -49,7 +49,7 @@ const realmInit = (state: RealmState, action: RealmInitAction): RealmState => ({
   twentyFourHourTime: action.data.twenty_four_hour_time,
 });
 
-const saveTokenPush = (state: RealmState, action: SaveTokenPushAction): RealmState => ({
+const ackPushToken = (state: RealmState, action: AckPushTokenAction): RealmState => ({
   ...state,
   pushToken: {
     token: action.pushToken,
@@ -101,8 +101,8 @@ export default (state: RealmState = initialState, action: RealmAction): RealmSta
     case REALM_INIT:
       return realmInit(state, action);
 
-    case SAVE_TOKEN_PUSH:
-      return saveTokenPush(state, action);
+    case ACK_PUSH_TOKEN:
+      return ackPushToken(state, action);
 
     case DELETE_TOKEN_PUSH:
       return deleteTokenPush(state, action);

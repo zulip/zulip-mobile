@@ -19,7 +19,7 @@ import {
   REALM_INIT,
   GOT_PUSH_TOKEN,
   DELETE_TOKEN_PUSH,
-  SAVE_TOKEN_PUSH,
+  ACK_PUSH_TOKEN,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
   MARK_MESSAGES_READ,
@@ -198,8 +198,8 @@ export type DeleteTokenPushAction = {|
   type: typeof DELETE_TOKEN_PUSH,
 |};
 
-export type SaveTokenPushAction = {|
-  type: typeof SAVE_TOKEN_PUSH,
+export type AckPushTokenAction = {|
+  type: typeof ACK_PUSH_TOKEN,
   pushToken: string,
 |};
 
@@ -497,7 +497,7 @@ export type RealmAction =
   | DeadQueueAction
   | RealmInitAction
   | DeleteTokenPushAction
-  | SaveTokenPushAction
+  | AckPushTokenAction
   | LoginSuccessAction
   | LogoutAction
   | InitRealmEmojiAction

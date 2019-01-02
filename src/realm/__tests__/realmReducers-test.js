@@ -5,7 +5,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
-  SAVE_TOKEN_PUSH,
+  ACK_PUSH_TOKEN,
   DELETE_TOKEN_PUSH,
   EVENT_REALM_FILTER_UPDATE,
 } from '../../actionConstants';
@@ -37,7 +37,7 @@ describe('realmReducers', () => {
     });
   });
 
-  describe('SAVE_TOKEN_PUSH', () => {
+  describe('ACK_PUSH_TOKEN', () => {
     test('save a new PUSH token', () => {
       const initialState = deepFreeze({
         twentyFourHourTime: false,
@@ -46,7 +46,7 @@ describe('realmReducers', () => {
       });
 
       const action = deepFreeze({
-        type: SAVE_TOKEN_PUSH,
+        type: ACK_PUSH_TOKEN,
         pushToken: 'new-key',
       });
 

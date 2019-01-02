@@ -18,6 +18,7 @@ rules:
     skipWords:
     - abc
     - abcd
+    - ack
     - allen
     - api
     - apns

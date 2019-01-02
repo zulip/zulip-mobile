@@ -8,7 +8,7 @@ import config from '../config';
 import { registerPush, unregisterPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { doNarrow } from '../message/messagesActions';
-import { saveTokenPush, deleteTokenPush, gotPushToken } from './notificationActions';
+import { ackPushToken, deleteTokenPush, gotPushToken } from './notificationActions';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
   const userIds = data.pm_users.split(',');
@@ -103,7 +103,7 @@ const getTokenIOS = (auth: Auth, dispatch: Dispatch) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', async deviceToken => {
     dispatch(gotPushToken(deviceToken));
     await registerPush(auth, deviceToken);
-    dispatch(saveTokenPush(deviceToken));
+    dispatch(ackPushToken(deviceToken));
   });
   NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
     logErrorRemotely(new Error(error), 'Failed to register iOS push token');
@@ -119,7 +119,7 @@ const getTokenAndroid = (auth: Auth, oldToken: string | null, dispatch: Dispatch
     try {
       dispatch(gotPushToken(deviceToken));
       await registerPush(auth, deviceToken);
-      dispatch(saveTokenPush(deviceToken));
+      dispatch(ackPushToken(deviceToken));
     } catch (e) {
       logErrorRemotely(e, 'Failed to register GCM');
     }
