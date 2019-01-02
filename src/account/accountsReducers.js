@@ -9,6 +9,7 @@ import {
 
 import type {
   AccountsState,
+  Identity,
   AccountAction,
   RealmAddAction,
   AccountSwitchAction,
@@ -45,11 +46,16 @@ const accountSwitch = (state: AccountsState, action: AccountSwitchAction): Accou
   return [state[action.index], ...state.slice(0, action.index), ...state.slice(action.index + 1)];
 };
 
-const loginSuccess = (state: AccountsState, action: LoginSuccessAction): AccountsState => {
-  const { realm, email, apiKey } = action;
-  const accountIndex = state.findIndex(
+const findAccount = (state: AccountsState, identity: Identity): number => {
+  const { realm, email } = identity;
+  return state.findIndex(
     account => account.realm === realm && (!account.email || account.email === email),
   );
+};
+
+const loginSuccess = (state: AccountsState, action: LoginSuccessAction): AccountsState => {
+  const { realm, email, apiKey } = action;
+  const accountIndex = findAccount(state, { realm, email });
   if (accountIndex === -1) {
     return [{ realm, email, apiKey }, ...state];
   }
