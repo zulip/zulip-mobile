@@ -56,12 +56,6 @@ const loginSuccess = (state: AccountsState, action: LoginSuccessAction): Account
     return [newAccount, ...state];
   }
 
-  if (accountIndex === 0) {
-    const newState = state.slice();
-    newState[0] = newAccount;
-    return newState;
-  }
-
   const mergedAccount = {
     ...state[accountIndex],
     ...newAccount,
