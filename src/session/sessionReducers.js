@@ -1,6 +1,10 @@
 /* @flow strict-local */
 import type {
-  SessionState,
+  Debug,
+  Dimensions,
+  EditMessage,
+  Narrow,
+  Orientation,
   SessionAction,
   RehydrateAction,
   AccountSwitchAction,
@@ -36,6 +40,29 @@ import {
   DEBUG_FLAG_TOGGLE,
 } from '../actionConstants';
 import { hasAuth } from '../account/accountsSelectors';
+
+/**
+ * Miscellaneous non-persistent state about this run of the app.
+ *
+ * @prop lastNarrow - the last narrow we navigated to.  If the user is
+ *   currently in a chat screen this will also be the "current" narrow,
+ *   but they may also be on an associated info screen or have navigated
+ *   away entirely.
+ */
+export type SessionState = {|
+  eventQueueId: number,
+  editMessage: ?EditMessage,
+  isOnline: boolean,
+  isActive: boolean,
+  isHydrated: boolean,
+  lastNarrow: ?Narrow,
+  needsInitialFetch: boolean,
+  orientation: Orientation,
+  outboxSending: boolean,
+  /** For background, google [ios safe area]. */
+  safeAreaInsets: Dimensions,
+  debug: Debug,
+|};
 
 const initialState: SessionState = {
   eventQueueId: -1,

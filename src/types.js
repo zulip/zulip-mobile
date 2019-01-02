@@ -19,6 +19,8 @@ import type {
 } from './api/apiTypes';
 import type { AppStyles } from './styles/theme';
 
+import type { SessionState } from './session/sessionReducers';
+
 export type { ChildrenArray } from 'react';
 export type React$Node = Node; // eslint-disable-line flowtype/type-id-match
 
@@ -238,29 +240,6 @@ export type AccountsState = Account[];
 export type Debug = {|
   highlightUnreadMessages: boolean,
   doNotMarkMessagesAsRead: boolean,
-|};
-
-/**
- * Miscellaneous non-persistent state about this run of the app.
- *
- * @prop lastNarrow - the last narrow we navigated to.  If the user is
- *   currently in a chat screen this will also be the "current" narrow,
- *   but they may also be on an associated info screen or have navigated
- *   away entirely.
- */
-export type SessionState = {|
-  eventQueueId: number,
-  editMessage: ?EditMessage,
-  isOnline: boolean,
-  isActive: boolean,
-  isHydrated: boolean,
-  lastNarrow: ?Narrow,
-  needsInitialFetch: boolean,
-  orientation: Orientation,
-  outboxSending: boolean,
-  /** For background, google [ios safe area]. */
-  safeAreaInsets: Dimensions,
-  debug: Debug,
 |};
 
 /**

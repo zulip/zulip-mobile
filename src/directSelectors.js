@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import type {
   GlobalState,
-  SessionState,
   DraftState,
   FetchingState,
   FlagsState,
@@ -28,6 +27,7 @@ import type {
   User,
   UserGroup,
 } from './types';
+import type { SessionState } from './session/sessionReducers';
 
 export const getAccounts = (state: GlobalState): Account[] => state.accounts;
 
