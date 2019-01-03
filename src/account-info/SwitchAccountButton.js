@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { ZulipButton } from '../common';
-import { navigateToAccountPicker, tryStopNotifications } from '../actions';
+import { navigateToAccountPicker } from '../actions';
 
 const styles = StyleSheet.create({
   button: {
@@ -21,10 +21,9 @@ type Props = {|
 
 class SwitchAccountButton extends PureComponent<Props> {
   switchAccount = () => {
-    const { dispatch } = this.props;
-    dispatch(tryStopNotifications());
-    dispatch(navigateToAccountPicker());
+    this.props.dispatch(navigateToAccountPicker());
   };
+
   render() {
     return (
       <ZulipButton style={styles.button} secondary text="Switch" onPress={this.switchAccount} />
