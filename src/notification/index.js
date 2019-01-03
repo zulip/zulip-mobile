@@ -117,13 +117,9 @@ const getTokenAndroid = (auth: Auth, oldToken: string | null, dispatch: Dispatch
     NotificationsAndroid.refreshToken();
   }
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
-    try {
-      dispatch(gotPushToken(deviceToken));
-      await registerPush(auth, deviceToken);
-      dispatch(ackPushToken(deviceToken, identityOfAuth(auth)));
-    } catch (e) {
-      logErrorRemotely(e, 'Failed to register GCM');
-    }
+    dispatch(gotPushToken(deviceToken));
+    await registerPush(auth, deviceToken);
+    dispatch(ackPushToken(deviceToken, identityOfAuth(auth)));
   });
 };
 
