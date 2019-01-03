@@ -5,10 +5,10 @@ import NotificationsIOS, { NotificationsAndroid } from 'react-native-notificatio
 import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
 import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import config from '../config';
-import { unregisterPush } from '../api';
+import { forgetPushToken } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { doNarrow } from '../message/messagesActions';
-import { unackPushToken, gotPushToken, registerPush } from './notificationActions';
+import { unackPushToken, gotPushToken, sendPushToken } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
@@ -103,7 +103,7 @@ export class NotificationListener {
 const getTokenIOS = (auth: Auth, dispatch: Dispatch) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', async deviceToken => {
     dispatch(gotPushToken(deviceToken));
-    await dispatch(registerPush(auth, deviceToken));
+    await dispatch(sendPushToken(auth, deviceToken));
   });
   NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
     logErrorRemotely(new Error(error), 'Failed to register iOS push token');
@@ -117,7 +117,7 @@ const getTokenAndroid = (auth: Auth, oldToken: string | null, dispatch: Dispatch
   }
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     dispatch(gotPushToken(deviceToken));
-    await dispatch(registerPush(auth, deviceToken));
+    await dispatch(sendPushToken(auth, deviceToken));
   });
 };
 
@@ -137,7 +137,7 @@ export const tryStopNotifications = async (
   if (token !== null) {
     dispatch(unackPushToken(identityOfAuth(auth)));
     try {
-      await unregisterPush(auth, Platform.OS, token);
+      await forgetPushToken(auth, Platform.OS, token);
     } catch (e) {
       logErrorRemotely(e, 'failed to unregister Push token');
     }

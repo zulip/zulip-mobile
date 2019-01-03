@@ -36,11 +36,11 @@ export const ackPushToken = (pushToken: string, identity: Identity): AckPushToke
 });
 
 /** Tell the given server about this device token. */
-export const registerPush = (auth: Auth, deviceToken: string) => async (
+export const sendPushToken = (auth: Auth, deviceToken: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  await api.registerPush(auth, Platform.OS, deviceToken);
+  await api.savePushToken(auth, Platform.OS, deviceToken);
   dispatch(ackPushToken(deviceToken, identityOfAuth(auth)));
 };
 

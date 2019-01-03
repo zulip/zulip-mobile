@@ -24,8 +24,8 @@ import getMessageHistory from './messages/getMessageHistory';
 import messagesFlags from './messages/messagesFlags';
 import sendMessage from './messages/sendMessage';
 import updateMessage from './messages/updateMessage';
-import registerPush from './notifications/registerPush';
-import unregisterPush from './notifications/unregisterPush';
+import savePushToken from './notifications/savePushToken';
+import forgetPushToken from './notifications/forgetPushToken';
 import getRealmEmojis from './realm/getRealmEmojis';
 import getRealmFilters from './realm/getRealmFilters';
 import getServerSettings from './settings/getServerSettings';
@@ -77,8 +77,8 @@ export {
   messagesFlags,
   sendMessage,
   updateMessage,
-  registerPush,
-  unregisterPush,
+  savePushToken,
+  forgetPushToken,
   getRealmEmojis,
   getRealmFilters,
   getServerSettings,
@@ -131,8 +131,8 @@ export default {
   messagesFlags,
   sendMessage,
   updateMessage,
-  registerPush,
-  unregisterPush,
+  savePushToken,
+  forgetPushToken,
   getRealmEmojis,
   getRealmFilters,
   getServerSettings,
