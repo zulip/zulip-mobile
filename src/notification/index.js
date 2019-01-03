@@ -8,12 +8,7 @@ import config from '../config';
 import { forgetPushToken } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { doNarrow } from '../message/messagesActions';
-import {
-  unackPushToken,
-  gotPushToken,
-  maybeSendPushToken,
-  sendAllPushToken,
-} from './notificationActions';
+import { unackPushToken, gotPushToken, sendAllPushToken } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
@@ -139,26 +134,24 @@ export class NotificationListener {
   }
 }
 
-const getTokenIOS = (auth: Auth, dispatch: Dispatch) => {
-  dispatch(maybeSendPushToken(identityOfAuth(auth)));
+const getTokenIOS = () => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
     logErrorRemotely(new Error(error), 'Failed to register iOS push token');
   });
   NotificationsIOS.requestPermissions();
 };
 
-const getTokenAndroid = (auth: Auth, oldToken: string | null, dispatch: Dispatch) => {
-  if (auth.apiKey !== '' && oldToken === null) {
+const getTokenAndroid = (oldToken: string | null) => {
+  if (oldToken === null) {
     NotificationsAndroid.refreshToken();
   }
-  dispatch(maybeSendPushToken(identityOfAuth(auth)));
 };
 
-export const getNotificationToken = (auth: Auth, oldToken: string | null, dispatch: Dispatch) => {
+export const getNotificationToken = (oldToken: string | null) => {
   if (Platform.OS === 'ios') {
-    getTokenIOS(auth, dispatch);
+    getTokenIOS();
   } else {
-    getTokenAndroid(auth, oldToken, dispatch);
+    getTokenAndroid(oldToken);
   }
 };
 

@@ -70,9 +70,9 @@ export const sendAllPushToken = () => async (dispatch: Dispatch, getState: GetSt
 };
 
 export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {
-  const auth = getAuth(getState());
-  const { ackedPushToken } = getActiveAccount(getState());
-  getNotificationToken(auth, ackedPushToken, dispatch);
+  const account = getActiveAccount(getState());
+  dispatch(maybeSendPushToken(identityOfAccount(account)));
+  getNotificationToken(account.ackedPushToken);
 };
 
 export const tryStopNotifications = () => async (dispatch: Dispatch, getState: GetState) => {
