@@ -27,7 +27,7 @@ export const TranslationContext = React.createContext(undefined);
  */
 export function withGetText<P: { _: GetText }, C: ComponentType<P>>(
   WrappedComponent: C,
-): ComponentType<{ _: GetText, ...ElementConfig<C> }> {
+): ComponentType<$Diff<ElementConfig<C>, { _: GetText }>> {
   return class extends React.Component<ElementConfig<C>> {
     render() {
       return (
