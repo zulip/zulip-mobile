@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import { Platform } from 'react-native';
 import type {
   Auth,
   Dispatch,
@@ -39,7 +40,7 @@ export const registerPush = (auth: Auth, deviceToken: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  await api.registerPush(auth, deviceToken);
+  await api.registerPush(auth, Platform.OS, deviceToken);
   dispatch(ackPushToken(deviceToken, identityOfAuth(auth)));
 };
 
