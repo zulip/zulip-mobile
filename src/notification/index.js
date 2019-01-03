@@ -137,7 +137,7 @@ export const tryStopNotifications = async (
   if (token !== null) {
     dispatch(unackPushToken(identityOfAuth(auth)));
     try {
-      await unregisterPush(auth, token);
+      await unregisterPush(auth, Platform.OS, token);
     } catch (e) {
       logErrorRemotely(e, 'failed to unregister Push token');
     }
