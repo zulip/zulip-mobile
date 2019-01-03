@@ -8,7 +8,7 @@ import {
   tryStopNotifications as innerStopNotifications,
 } from '../notification';
 import { getAuth, getActiveAccount } from '../selectors';
-import { getSession } from '../directSelectors';
+import { getSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 import { authOfAccount, getAccountsByIdentity } from '../account/accountsSelectors';
 import { identityOfAccount } from '../account/accountMisc';
@@ -51,10 +51,22 @@ export const maybeSendPushToken = (identity: Identity) => async (
 ) => {
   const { pushToken } = getSession(getState());
   if (pushToken === null) {
+    // We don't have the token yet.  When we learn it, the listener will
+    // update this and all other logged-in servers.
     return;
   }
   const account = getAccountsByIdentity(getState())(identity);
   await sendPushToken(dispatch, account, pushToken);
+};
+
+/** Tell all logged-in accounts' servers about our device token, as needed. */
+export const sendAllPushToken = () => async (dispatch: Dispatch, getState: GetState) => {
+  const { pushToken } = getSession(getState());
+  if (pushToken === null) {
+    return;
+  }
+  const accounts = getAccounts(getState());
+  await Promise.all(accounts.map(account => sendPushToken(dispatch, account, pushToken)));
 };
 
 export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {

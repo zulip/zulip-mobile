@@ -8,7 +8,12 @@ import config from '../config';
 import { forgetPushToken } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { doNarrow } from '../message/messagesActions';
-import { unackPushToken, gotPushToken, maybeSendPushToken } from './notificationActions';
+import {
+  unackPushToken,
+  gotPushToken,
+  maybeSendPushToken,
+  sendAllPushToken,
+} from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
@@ -110,6 +115,12 @@ export class NotificationListener {
     handleNotificationMuddle(notification, this.dispatch, this.usersById);
   };
 
+  /** Private. */
+  handleDeviceToken = async (deviceToken: string) => {
+    this.dispatch(gotPushToken(deviceToken));
+    await this.dispatch(sendAllPushToken());
+  };
+
   /** Start listening.  Don't call twice without intervening `stop`. */
   start() {
     if (Platform.OS === 'ios') {
@@ -119,6 +130,7 @@ export class NotificationListener {
         this.handleNotificationOpen({ getData: () => notification }),
       );
     }
+    this.listen('remoteNotificationsRegistered', this.handleDeviceToken);
   }
 
   /** Stop listening. */
@@ -128,10 +140,7 @@ export class NotificationListener {
 }
 
 const getTokenIOS = (auth: Auth, dispatch: Dispatch) => {
-  NotificationsIOS.addEventListener('remoteNotificationsRegistered', async deviceToken => {
-    dispatch(gotPushToken(deviceToken));
-    await dispatch(maybeSendPushToken(identityOfAuth(auth)));
-  });
+  dispatch(maybeSendPushToken(identityOfAuth(auth)));
   NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
     logErrorRemotely(new Error(error), 'Failed to register iOS push token');
   });
@@ -142,10 +151,7 @@ const getTokenAndroid = (auth: Auth, oldToken: string | null, dispatch: Dispatch
   if (auth.apiKey !== '' && oldToken === null) {
     NotificationsAndroid.refreshToken();
   }
-  NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
-    dispatch(gotPushToken(deviceToken));
-    await dispatch(maybeSendPushToken(identityOfAuth(auth)));
-  });
+  dispatch(maybeSendPushToken(identityOfAuth(auth)));
 };
 
 export const getNotificationToken = (auth: Auth, oldToken: string | null, dispatch: Dispatch) => {
