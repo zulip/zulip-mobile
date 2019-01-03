@@ -533,10 +533,14 @@ export type LocalizableText = string | { text: string, values?: { [string]: stri
 /**
  * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.
  *
- * Use `context: TranslationContext` in a React component; then in methods,
- * say `const _ = this.context`.
+ * To use, put these two lines at the top of a React component's body:
  *
- * Alternatively, for when `context` is already in use, use `withGetText`
+ *     static contextType = TranslationContext;
+ *     context: GetText;
+ *
+ * and then in methods, say `const _ = this.context`.
+ *
+ * Alternatively, for when `context` is already in use: use `withGetText`
  * and then say `const { _ } = this.props`.
  *
  * @prop intl - The full react-intl API, for more complex situations.
