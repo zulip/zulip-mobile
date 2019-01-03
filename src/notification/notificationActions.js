@@ -23,7 +23,7 @@ export const unackPushToken = (identity: Identity): Action => ({
   identity,
 });
 
-export const ackPushToken = (pushToken: string, identity: Identity): Action => ({
+const ackPushToken = (pushToken: string, identity: Identity): Action => ({
   type: ACK_PUSH_TOKEN,
   identity,
   pushToken,
@@ -45,7 +45,7 @@ const sendPushToken = async (dispatch: Dispatch, account: Account | void, pushTo
 };
 
 /** Tell the given server about our device token, if needed. */
-export const maybeSendPushToken = (identity: Identity) => async (
+const maybeSendPushToken = (identity: Identity) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
