@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type {
+  Auth,
   Dispatch,
   GetState,
   Identity,
@@ -7,12 +8,15 @@ import type {
   GotPushTokenAction,
   AckPushTokenAction,
 } from '../types';
+/* eslint-disable import/no-named-as-default-member */
+import api from '../api';
 import {
   getNotificationToken,
   tryStopNotifications as innerStopNotifications,
 } from '../notification';
 import { getAuth, getActiveAccount } from '../selectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
+import { identityOfAuth } from '../account/accountMisc';
 
 export const gotPushToken = (pushToken: string): GotPushTokenAction => ({
   type: GOT_PUSH_TOKEN,
@@ -29,6 +33,15 @@ export const ackPushToken = (pushToken: string, identity: Identity): AckPushToke
   identity,
   pushToken,
 });
+
+/** Tell the given server about this device token. */
+export const registerPush = (auth: Auth, deviceToken: string) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  await api.registerPush(auth, deviceToken);
+  dispatch(ackPushToken(deviceToken, identityOfAuth(auth)));
+};
 
 export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
