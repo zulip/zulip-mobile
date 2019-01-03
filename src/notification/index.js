@@ -73,13 +73,17 @@ export const handleInitialNotification = async (dispatch: Dispatch, usersById: U
 };
 
 export class NotificationListener {
-  handleNotificationOpen: (notification: Object) => void;
+  dispatch: Dispatch;
+  usersById: UserIdMap;
 
   constructor(dispatch: Dispatch, usersById: UserIdMap) {
-    this.handleNotificationOpen = notification => {
-      handleNotificationMuddle(notification, dispatch, usersById);
-    };
+    this.dispatch = dispatch;
+    this.usersById = usersById;
   }
+
+  handleNotificationOpen = (notification: Object) => {
+    handleNotificationMuddle(notification, this.dispatch, this.usersById);
+  };
 
   start() {
     if (Platform.OS === 'ios') {
