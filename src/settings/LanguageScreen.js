@@ -14,18 +14,29 @@ type Props = {|
   locale: string,
 |};
 
-class LanguageScreen extends PureComponent<Props> {
+type State = {|
+  filter: string,
+|};
+
+class LanguageScreen extends PureComponent<Props, State> {
+  state = {
+    filter: '',
+  };
+
   handleLocaleChange = (value: string) => {
     const { dispatch } = this.props;
     dispatch(settingsChange({ locale: value }));
   };
 
+  handleFilterChange = (filter: string) => this.setState({ filter });
+
   render() {
     const { locale } = this.props;
+    const { filter } = this.state;
 
     return (
-      <Screen title="Language" scrollEnabled={false}>
-        <LanguagePicker value={locale} onValueChange={this.handleLocaleChange} />
+      <Screen search searchBarOnChange={this.handleFilterChange} scrollEnabled={false}>
+        <LanguagePicker value={locale} onValueChange={this.handleLocaleChange} filter={filter} />
       </Screen>
     );
   }
