@@ -2,6 +2,9 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
+import type { GetText } from '../types';
+import { TranslationContext } from '../boot/TranslationProvider';
+
 import languages from './languages';
 import LanguagePickerItem from './LanguagePickerItem';
 
@@ -19,8 +22,21 @@ type Props = {|
 |};
 
 export default class LanguagePicker extends PureComponent<Props> {
+  static contextType = TranslationContext;
+  context: GetText;
+
+  getTranslatedLanguages = () =>
+    languages.map(language => {
+      const _ = this.context;
+      const translatedName = _(language.name);
+      return {
+        ...language,
+        name: translatedName,
+      };
+    });
+
   getFilteredLanguageList = (filter: string) => {
-    const list = languages;
+    const list = this.getTranslatedLanguages();
 
     if (!filter) {
       return list;
