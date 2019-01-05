@@ -41,22 +41,4 @@ describe('tryUntilSuccessful', () => {
 
     expect(result).toEqual('hello');
   });
-
-  test('does not retry a call if maxRetries = 0', async () => {
-    let callCount = 0;
-    const thrower = () => {
-      callCount++;
-      if (callCount === 1) {
-        throw new Error('First run exception');
-      }
-      return 'hello';
-    };
-
-    expect.assertions(1);
-    try {
-      await tryUntilSuccessful(async () => thrower(), 0);
-    } catch (e) {
-      expect(e).toBeTruthy();
-    }
-  });
 });

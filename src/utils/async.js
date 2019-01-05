@@ -1,4 +1,5 @@
 /* @flow strict */
+import progressiveTimeout from './progressiveTimeout';
 
 /** Like setTimeout(..., 0), but returns a Promise of the result. */
 export function delay<T>(callback: () => T): Promise<T> {
@@ -8,19 +9,11 @@ export function delay<T>(callback: () => T): Promise<T> {
 export const sleep = (ms: number = 0): Promise<void> =>
   new Promise(resolve => setTimeout(resolve, ms));
 
-export async function tryUntilSuccessful<T>(
-  func: () => Promise<T>,
-  maxRetries: number = 1000,
-  timeoutMs: number = 1000,
-): Promise<T> {
-  if (!maxRetries) {
-    return func();
-  }
-
+export async function tryUntilSuccessful<T>(func: () => Promise<T>): Promise<T> {
   try {
     return await func();
   } catch (e) {
-    await new Promise(resolve => setTimeout(resolve, timeoutMs));
+    await progressiveTimeout();
   }
-  return tryUntilSuccessful(func, maxRetries - 1, timeoutMs * 1.5);
+  return tryUntilSuccessful(func);
 }
