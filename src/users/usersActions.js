@@ -39,9 +39,6 @@ export const initUsers = (users: User[]): InitUsersAction => ({
   users,
 });
 
-export const fetchUsers = () => async (dispatch: Dispatch, getState: GetState) =>
-  dispatch(initUsers(await api.getUsers(getAuth(getState()))));
-
 export const sendTypingEvent = (narrow: Narrow) => async (
   dispatch: Dispatch,
   getState: GetState,

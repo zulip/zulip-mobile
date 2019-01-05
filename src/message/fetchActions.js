@@ -11,7 +11,7 @@ import type {
   InitialFetchStartAction,
   InitialFetchCompleteAction,
 } from '../types';
-import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
+import { getMessages, getStreams, getUsers, registerForEvents, uploadFile } from '../api';
 import {
   getAuth,
   getSession,
@@ -36,7 +36,7 @@ import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
 import { initStreams } from '../streams/streamsActions';
-import { reportPresence } from '../users/usersActions';
+import { initUsers, reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
 
 export const messageFetchStart = (
@@ -169,6 +169,12 @@ export const fetchStreams = () => async (dispatch: Dispatch, getState: GetState)
   const auth = getAuth(getState());
   const { streams } = await tryUntilSuccessful(() => getStreams(auth));
   dispatch(initStreams(streams));
+};
+
+export const fetchUsers = () => async (dispatch: Dispatch, getState: GetState) => {
+  const auth = getAuth(getState());
+  const { members } = await tryUntilSuccessful(() => getUsers(auth));
+  dispatch(initUsers(members));
 };
 
 export const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
