@@ -1,30 +1,30 @@
 /* eslint-disable spellcheck/spell-checker */
 /* @flow */
 
-import ar from './translations/messages_ar.json';
-import bg from './translations/messages_bg.json';
-import ca from './translations/messages_ca.json';
-import cs from './translations/messages_cs.json';
-import de from './translations/messages_de.json';
-import en from './translations/messages_en.json';
-import es from './translations/messages_es.json';
-import fr from './translations/messages_fr.json';
-import hi from './translations/messages_hi.json';
-import hu from './translations/messages_hu.json';
-import id from './translations/messages_id_ID.json';
-import it from './translations/messages_it.json';
-import ja from './translations/messages_ja.json';
-import ko from './translations/messages_ko.json';
-import ml from './translations/messages_ml.json';
-import nl from './translations/messages_nl.json';
-import pl from './translations/messages_pl.json';
-import pt from './translations/messages_pt.json';
-import ru from './translations/messages_ru.json';
-import sr from './translations/messages_sr.json';
-import sv from './translations/messages_sv.json';
-import ta from './translations/messages_ta.json';
-import tr from './translations/messages_tr.json';
-import zh from './translations/messages_zh-Hans.json';
+import ar from '../../static/translations/messages_ar.json';
+import bg from '../../static/translations/messages_bg.json';
+import ca from '../../static/translations/messages_ca.json';
+import cs from '../../static/translations/messages_cs.json';
+import de from '../../static/translations/messages_de.json';
+import en from '../../static/translations/messages_en.json';
+import es from '../../static/translations/messages_es.json';
+import fr from '../../static/translations/messages_fr.json';
+import hi from '../../static/translations/messages_hi.json';
+import hu from '../../static/translations/messages_hu.json';
+import id from '../../static/translations/messages_id_ID.json';
+import it from '../../static/translations/messages_it.json';
+import ja from '../../static/translations/messages_ja.json';
+import ko from '../../static/translations/messages_ko.json';
+import ml from '../../static/translations/messages_ml.json';
+import nl from '../../static/translations/messages_nl.json';
+import pl from '../../static/translations/messages_pl.json';
+import pt from '../../static/translations/messages_pt.json';
+import ru from '../../static/translations/messages_ru.json';
+import sr from '../../static/translations/messages_sr.json';
+import sv from '../../static/translations/messages_sv.json';
+import ta from '../../static/translations/messages_ta.json';
+import tr from '../../static/translations/messages_tr.json';
+import zh from '../../static/translations/messages_zh-Hans.json';
 
 export default {
   ar,
