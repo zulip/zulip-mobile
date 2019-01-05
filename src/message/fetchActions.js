@@ -196,6 +196,7 @@ export const fetchInitialData = () => async (dispatch: Dispatch, getState: GetSt
 
   dispatch(fetchPrivateMessages());
   dispatch(fetchStreams());
+  dispatch(fetchUsers());
 
   const session = getSession(getState());
   if (session.lastNarrow) {
