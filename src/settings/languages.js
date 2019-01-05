@@ -18,7 +18,7 @@ export default [
   },
   {
     locale: 'zh',
-    name: 'Chinese Simplified',
+    name: 'Chinese (Simplified)',
     flag: '🇨🇳',
   },
   {
