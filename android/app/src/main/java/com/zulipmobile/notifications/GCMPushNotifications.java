@@ -110,8 +110,7 @@ public class GCMPushNotifications {
                 PendingIntent.getService(context, 0, viewIntent, 0);
         builder.setContentIntent(viewPendingIntent);
 
-        builder.setDefaults(Notification.DEFAULT_ALL)
-                .setAutoCancel(true);
+        builder.setAutoCancel(true);
 
         String type = props.getRecipientType();
         String content = props.getContent();
@@ -170,7 +169,12 @@ public class GCMPushNotifications {
             builder.setWhen(timeMillis);
         }
         long[] vPattern = {0, 100, 200, 100};
+        // NB the DEFAULT_VIBRATE flag below causes this to have no effect.
+        // TODO: choose a vibration pattern we like, and unset DEFAULT_VIBRATE.
         builder.setVibrate(vPattern);
+
+        builder.setDefaults(Notification.DEFAULT_VIBRATE
+                | Notification.DEFAULT_LIGHTS);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             Intent dismissIntent = new Intent(context, NotificationIntentService.class);
