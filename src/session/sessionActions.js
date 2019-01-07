@@ -11,31 +11,17 @@ import {
   START_EDIT_MESSAGE,
 } from '../actionConstants';
 import { getMessageContentById } from '../api';
-import { getAuth, getIsOnline, getIsActive } from '../selectors';
+import { getAuth } from '../selectors';
 
-export const appOnline = (isOnline: boolean) => (
-  dispatch: Dispatch,
-  getState: GetState,
-): ?Action => {
-  if (isOnline !== getIsOnline(getState())) {
-    dispatch({
-      type: APP_ONLINE,
-      isOnline,
-    });
-  }
-};
+export const appOnline = (isOnline: boolean): Action => ({
+  type: APP_ONLINE,
+  isOnline,
+});
 
-export const appState = (isActive: boolean) => (
-  dispatch: Dispatch,
-  getState: GetState,
-): ?Action => {
-  if (isActive !== getIsActive(getState())) {
-    dispatch({
-      type: APP_STATE,
-      isActive,
-    });
-  }
-};
+export const appState = (isActive: boolean): Action => ({
+  type: APP_STATE,
+  isActive,
+});
 
 export const deadQueue = (): Action => ({
   type: DEAD_QUEUE,
@@ -46,17 +32,10 @@ export const initSafeAreaInsets = (safeAreaInsets: Dimensions): Action => ({
   safeAreaInsets,
 });
 
-export const appOrientation = (orientation: Orientation) => (
-  dispatch: Dispatch,
-  getState: GetState,
-): ?Action => {
-  if (orientation !== getState().session.orientation) {
-    dispatch({
-      type: APP_ORIENTATION,
-      orientation,
-    });
-  }
-};
+export const appOrientation = (orientation: Orientation): Action => ({
+  type: APP_ORIENTATION,
+  orientation,
+});
 
 export const startEditMessage = (messageId: number, topic: string) => async (
   dispatch: Dispatch,
