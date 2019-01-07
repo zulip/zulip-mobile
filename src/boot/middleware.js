@@ -10,7 +10,7 @@ import { getNav } from '../selectors';
 
 const reactNavigationMiddleware = createReactNavigationReduxMiddleware('root', getNav);
 
-const middleware = [reactNavigationMiddleware, thunk, createActionBuffer(REHYDRATE)];
+const middleware = [reactNavigationMiddleware, createActionBuffer(REHYDRATE), thunk];
 
 if (config.enableReduxLogging) {
   middleware.push(
