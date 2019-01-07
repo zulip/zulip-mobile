@@ -790,17 +790,19 @@ export type InitialDataUpdateMessageFlags = {|
   },
 |};
 
-export type InitialData = InitialDataBase &
-  InitialDataAlertWords &
-  InitialDataMessage &
-  InitialDataMutedTopics &
-  InitialDataPresence &
-  InitialDataRealm &
-  InitialDataRealmEmoji &
-  InitialDataRealmFilters &
-  InitialDataRealmUser &
-  InitialDataRealmUserGroups &
-  InitialDataSubscription &
-  InitialDataUpdateDisplaySettings &
-  InitialDataUpdateGlobalNotifications &
-  InitialDataUpdateMessageFlags;
+export type InitialData = {|
+  ...InitialDataBase,
+  ...InitialDataAlertWords,
+  ...InitialDataMessage,
+  ...InitialDataMutedTopics,
+  ...InitialDataPresence,
+  ...InitialDataRealm,
+  ...InitialDataRealmEmoji,
+  ...InitialDataRealmFilters,
+  ...InitialDataRealmUser,
+  ...InitialDataRealmUserGroups,
+  ...InitialDataSubscription,
+  ...InitialDataUpdateDisplaySettings,
+  ...InitialDataUpdateGlobalNotifications,
+  ...InitialDataUpdateMessageFlags,
+|};
