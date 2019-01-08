@@ -52,6 +52,10 @@ export default function createMigration(manifest, versionSelector, versionSetter
       let incomingVersion = parseInt(versionSelector(incomingState), 10);
       if (Number.isNaN(incomingVersion)) {
         incomingVersion = null;
+        // first launch after install, so initial state is empty object
+        // migration not required, just update verion
+        action.payload = versionSetter(incomingState, currentVersion);
+        return next(action);
       }
 
       if (incomingVersion !== currentVersion) {
