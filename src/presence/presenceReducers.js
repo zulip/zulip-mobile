@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type {
   PresenceState,
-  PresenceAction,
+  Action,
   EventPresenceAction,
   PresenceResponseAction,
   RealmInitAction,
@@ -36,7 +36,7 @@ const eventPresence = (state: PresenceState, action: EventPresenceAction): Prese
   },
 });
 
-export default (state: PresenceState = initialState, action: PresenceAction): PresenceState => {
+export default (state: PresenceState = initialState, action: Action): PresenceState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

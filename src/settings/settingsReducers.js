@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type {
   SettingsState,
-  SettingsAction,
+  Action,
   RealmInitAction,
   SettingsChangeAction,
   EventUpdateGlobalNotificationsSettingsAction,
@@ -48,7 +48,7 @@ const eventUpdateGlobalNotificationsSettings = (
   }
 };
 
-export default (state: SettingsState = initialState, action: SettingsAction): SettingsState => {
+export default (state: SettingsState = initialState, action: Action): SettingsState => {
   switch (action.type) {
     case REALM_INIT:
       return realmInit(state, action);

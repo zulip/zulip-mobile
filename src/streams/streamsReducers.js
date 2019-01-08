@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type {
-  StreamAction,
+  Action,
   StreamsState,
   InitStreamsAction,
   EventStreamAddAction,
@@ -39,7 +39,7 @@ const eventStreamUpdate = (state: StreamsState, action: EventStreamUpdateAction)
         : stream,
   );
 
-export default (state: StreamsState = initialState, action: StreamAction): StreamsState => {
+export default (state: StreamsState = initialState, action: Action): StreamsState => {
   switch (action.type) {
     case INIT_STREAMS:
       return initStreams(state, action);

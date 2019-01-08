@@ -3,7 +3,7 @@ import omit from 'lodash.omit';
 
 import type {
   MessagesState,
-  MessageAction,
+  Action,
   MessageFetchCompleteAction,
   EventReactionAddAction,
   EventReactionRemoveAction,
@@ -139,7 +139,7 @@ const eventUpdateMessage = (
   };
 };
 
-export default (state: MessagesState = initialState, action: MessageAction): MessagesState => {
+export default (state: MessagesState = initialState, action: Action): MessagesState => {
   switch (action.type) {
     case DEAD_QUEUE:
     case LOGOUT:

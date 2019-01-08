@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type {
   UnreadPmsState,
-  UnreadAction,
+  Action,
   RealmInitAction,
   EventNewMessageAction,
   MarkMessagesReadAction,
@@ -69,7 +69,7 @@ const eventUpdateMessageFlags = (
   return state;
 };
 
-export default (state: UnreadPmsState = initialState, action: UnreadAction): UnreadPmsState => {
+export default (state: UnreadPmsState = initialState, action: Action): UnreadPmsState => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return initialState;

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { UsersState, UsersAction, RealmInitAction, EventUserAddAction } from '../types';
+import type { UsersState, Action, RealmInitAction, EventUserAddAction } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -21,7 +21,7 @@ const eventUserAdd = (state: UsersState, action: EventUserAddAction): UsersState
   action.person,
 ];
 
-export default (state: UsersState = initialState, action: UsersAction): UsersState => {
+export default (state: UsersState = initialState, action: Action): UsersState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

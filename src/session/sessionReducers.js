@@ -5,7 +5,7 @@ import type {
   EditMessage,
   Narrow,
   Orientation,
-  SessionAction,
+  Action,
   RehydrateAction,
   AccountSwitchAction,
   AppStateAction,
@@ -198,7 +198,7 @@ const debugFlagToggle = (state: SessionState, action: DebugFlagToggleAction): Se
   },
 });
 
-export default (state: SessionState = initialState, action: SessionAction): SessionState => {
+export default (state: SessionState = initialState, action: Action): SessionState => {
   switch (action.type) {
     case DEAD_QUEUE:
     case ACCOUNT_SWITCH:

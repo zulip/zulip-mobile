@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type {
-  FlagsAction,
+  Action,
   FlagsState,
   Message,
   MessageFetchCompleteAction,
@@ -116,7 +116,7 @@ const eventUpdateMessageFlags = (
 const markMessagesRead = (state: FlagsState, action: MarkMessagesReadAction): FlagsState =>
   addFlagsForMessages(state, action.messageIds, ['read']);
 
-export default (state: FlagsState = initialState, action: FlagsAction): FlagsState => {
+export default (state: FlagsState = initialState, action: Action): FlagsState => {
   switch (action.type) {
     case DEAD_QUEUE:
     case ACCOUNT_SWITCH:

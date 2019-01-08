@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type {
   UnreadStreamsState,
-  UnreadAction,
+  Action,
   RealmInitAction,
   EventNewMessageAction,
   MarkMessagesReadAction,
@@ -75,10 +75,7 @@ const eventUpdateMessageFlags = (
   return state;
 };
 
-export default (
-  state: UnreadStreamsState = initialState,
-  action: UnreadAction,
-): UnreadStreamsState => {
+export default (state: UnreadStreamsState = initialState, action: Action): UnreadStreamsState => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return initialState;

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type {
   LoadingState,
-  LoadingAction,
+  Action,
   InitialFetchStartAction,
   InitialFetchCompleteAction,
   InitStreamsAction,
@@ -53,7 +53,7 @@ const initSubscriptions = (state: LoadingState, action: InitSubscriptionsAction)
   subscriptions: false,
 });
 
-export default (state: LoadingState = initialState, action: LoadingAction): LoadingState => {
+export default (state: LoadingState = initialState, action: Action): LoadingState => {
   switch (action.type) {
     case DEAD_QUEUE:
     case ACCOUNT_SWITCH:

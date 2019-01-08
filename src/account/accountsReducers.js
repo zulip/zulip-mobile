@@ -12,7 +12,7 @@ import {
 import type {
   AccountsState,
   Identity,
-  AccountAction,
+  Action,
   RealmAddAction,
   AccountSwitchAction,
   AccountRemoveAction,
@@ -108,7 +108,7 @@ const accountRemove = (state: AccountsState, action: AccountRemoveAction): Accou
   return newState;
 };
 
-export default (state: AccountsState = initialState, action: AccountAction): AccountsState => {
+export default (state: AccountsState = initialState, action: Action): AccountsState => {
   switch (action.type) {
     case REALM_ADD:
       return realmAdd(state, action);

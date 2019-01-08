@@ -1,10 +1,5 @@
 /* @flow strict-local */
-import type {
-  AlertWordsState,
-  AlertWordsAction,
-  RealmInitAction,
-  EventAlertWordsAction,
-} from '../types';
+import type { AlertWordsState, Action, RealmInitAction, EventAlertWordsAction } from '../types';
 import { REALM_INIT, INIT_ALERT_WORDS } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
@@ -16,10 +11,7 @@ const realmInit = (state: AlertWordsState, action: RealmInitAction): AlertWordsS
 const initAlertWords = (state: AlertWordsState, action: EventAlertWordsAction): AlertWordsState =>
   action.alertWords || initialState;
 
-export default (
-  state: AlertWordsState = initialState,
-  action: AlertWordsAction,
-): AlertWordsState => {
+export default (state: AlertWordsState = initialState, action: Action): AlertWordsState => {
   switch (action.type) {
     case REALM_INIT:
       return realmInit(state, action);

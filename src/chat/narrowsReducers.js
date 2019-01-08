@@ -3,7 +3,7 @@ import union from 'lodash.union';
 
 import type {
   NarrowsState,
-  MessageAction,
+  Action,
   MessageFetchCompleteAction,
   EventNewMessageAction,
   EventMessageDeleteAction,
@@ -100,7 +100,7 @@ const eventUpdateMessageFlags = (
   return Object.assign({}, state, ...updates);
 };
 
-export default (state: NarrowsState = initialState, action: MessageAction): NarrowsState => {
+export default (state: NarrowsState = initialState, action: Action): NarrowsState => {
   switch (action.type) {
     case DEAD_QUEUE:
     case LOGOUT:

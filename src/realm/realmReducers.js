@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type {
   RealmState,
-  RealmAction,
+  Action,
   RealmInitAction,
   LoginSuccessAction,
   LogoutAction,
@@ -75,7 +75,7 @@ const eventRealmEmojiUpdate = (
   emoji: action.realm_emoji,
 });
 
-export default (state: RealmState = initialState, action: RealmAction): RealmState => {
+export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return initialState;

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { TopicsState, TopicsAction, InitTopicsAction, EventNewMessageAction } from '../types';
+import type { TopicsState, Action, InitTopicsAction, EventNewMessageAction } from '../types';
 import { ACCOUNT_SWITCH, INIT_TOPICS, EVENT_NEW_MESSAGE } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { replaceItemInArray } from '../utils/immutability';
@@ -41,7 +41,7 @@ const eventNewMessage = (state: TopicsState, action: EventNewMessageAction): Top
   };
 };
 
-export default (state: TopicsState = initialState, action: TopicsAction): TopicsState => {
+export default (state: TopicsState = initialState, action: Action): TopicsState => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return initialState;

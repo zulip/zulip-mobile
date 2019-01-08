@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type {
-  TypingAction,
+  Action,
   EventTypingStartAction,
   EventTypingStopAction,
   ClearTypingAction,
@@ -83,7 +83,7 @@ const clearTyping = (state: TypingState, action: ClearTypingAction): TypingState
   return newState;
 };
 
-export default (state: TypingState = initialState, action: TypingAction): TypingState => {
+export default (state: TypingState = initialState, action: Action): TypingState => {
   switch (action.type) {
     case EVENT_TYPING_START:
       return eventTypingStart(state, action);

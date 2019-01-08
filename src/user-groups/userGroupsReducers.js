@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type {
   UserGroupsState,
-  UserGroupsAction,
+  Action,
   RealmInitAction,
   EventUserGroupAddAction,
   EventUserGroupRemoveAction,
@@ -79,10 +79,7 @@ const eventUserGroupRemoveMembers = (
           },
   );
 
-export default (
-  state: UserGroupsState = initialState,
-  action: UserGroupsAction,
-): UserGroupsState => {
+export default (state: UserGroupsState = initialState, action: Action): UserGroupsState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:
