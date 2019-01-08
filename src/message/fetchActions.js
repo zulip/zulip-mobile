@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Narrow, Dispatch, GetState, GlobalState, Message, Action } from '../types';
-import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
+import { getMessages, registerForEvents, uploadFile } from '../api';
 import {
   getAuth,
   getSession,
@@ -24,7 +24,6 @@ import { getFetchedMessageIdsForNarrow } from '../chat/narrowsSelectors';
 import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
-import { initStreams } from '../streams/streamsActions';
 import { reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
 
@@ -161,12 +160,6 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
   );
 };
 
-const fetchStreams = () => async (dispatch: Dispatch, getState: GetState) => {
-  const auth = getAuth(getState());
-  const { streams } = await tryUntilSuccessful(() => getStreams(auth));
-  dispatch(initStreams(streams));
-};
-
 const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) => {
   // only fetch messages if chat screen is at the top of stack
   // get narrow of top most chat screen in the stack
@@ -195,7 +188,6 @@ const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) =>
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
 
   dispatch(fetchPrivateMessages());
-  dispatch(fetchStreams());
 
   const session = getSession(getState());
   if (session.lastNarrow) {

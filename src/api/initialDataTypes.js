@@ -4,6 +4,7 @@ import type {
   CrossRealmBot,
   RealmEmojiById,
   RealmFilter,
+  Stream,
   Subscription,
   User,
   UserGroup,
@@ -114,6 +115,10 @@ type NeverSubscribedStream = {|
   stream_id: number,
 |};
 
+export type InitialDataStream = {|
+  streams: Stream[],
+|};
+
 export type InitialDataSubscription = {|
   never_subscribed: NeverSubscribedStream[],
   subscriptions: Subscription[],
@@ -194,6 +199,7 @@ export type InitialData = {|
   ...InitialDataRealmFilters,
   ...InitialDataRealmUser,
   ...InitialDataRealmUserGroups,
+  ...InitialDataStream,
   ...InitialDataSubscription,
   ...InitialDataUpdateDisplaySettings,
   ...InitialDataUpdateGlobalNotifications,

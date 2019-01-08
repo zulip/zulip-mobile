@@ -38,6 +38,7 @@ const config: Config = {
     'realm_filters',
     'realm_user',
     'realm_user_groups',
+    'stream',
     'subscription',
     'update_display_settings',
     'update_global_notifications',
