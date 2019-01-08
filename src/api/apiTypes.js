@@ -291,10 +291,11 @@ export type ApiResponseError = {|
   result: 'error',
 |};
 
-export type ApiResponseWithPresence = ApiResponse & {
+export type ApiResponseWithPresence = {|
+  ...ApiResponse,
   server_timestamp: number,
   presences: PresenceState,
-};
+|};
 
 export type AuthenticationMethods = {|
   dev: boolean,
