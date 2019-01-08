@@ -241,9 +241,9 @@ export type StreamUpdateDetails = {|
   ...$Exact<Stream>,
 |};
 
-export type ServerEvent = {
+export type ServerEvent = {|
   id: number,
-};
+|};
 
 export type EventAlertWordsAction = {|
   type: typeof INIT_ALERT_WORDS,
@@ -251,13 +251,14 @@ export type EventAlertWordsAction = {|
 |};
 
 export type EventRealmFiltersAction = any;
-export type EventUpdateGlobalNotificationsSettingsAction = ServerEvent & {
+export type EventUpdateGlobalNotificationsSettingsAction = {|
+  ...ServerEvent,
   type: typeof EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   notification_name: | 'enable_offline_push_notiications'
     | 'enable_online_push_notiications'
     | 'enable_stream_push_notifiations',
   setting: boolean,
-};
+|};
 
 export type EventSubscriptionAddAction = {|
   ...$Exact<ServerEvent>,
@@ -267,7 +268,8 @@ export type EventSubscriptionAddAction = {|
   user: User,
 |};
 
-export type EventSubscriptionRemoveAction = ServerEvent & {
+export type EventSubscriptionRemoveAction = {|
+  ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION_REMOVE,
   op: 'remove',
   subscriptions: Array<{
@@ -275,9 +277,10 @@ export type EventSubscriptionRemoveAction = ServerEvent & {
     stream_id: number,
   }>,
   user: User,
-};
+|};
 
-export type EventSubscriptionUpdateAction = ServerEvent & {
+export type EventSubscriptionUpdateAction = {|
+  ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION_UPDATE,
   op: 'update',
   email: string,
@@ -286,64 +289,72 @@ export type EventSubscriptionUpdateAction = ServerEvent & {
   stream_id: number,
   user: User,
   value: boolean | number | string,
-};
+|};
 
-export type EventSubscriptionPeerAddAction = ServerEvent & {
+export type EventSubscriptionPeerAddAction = {|
+  ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION_PEER_ADD,
   op: 'peer_add',
   subscriptions: string[],
   user: User,
   user_id: number,
-};
+|};
 
-export type EventSubscriptionPeerRemoveAction = ServerEvent & {
+export type EventSubscriptionPeerRemoveAction = {|
+  ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION_PEER_REMOVE,
   op: 'peer_remove',
   subscriptions: string[],
   user: User,
   user_id: number,
-};
+|};
 
-export type EventStreamAddAction = ServerEvent & {
+export type EventStreamAddAction = {|
+  ...ServerEvent,
   type: typeof EVENT_STREAM_ADD,
   op: 'create',
   streams: StreamUpdateDetails[],
-};
+|};
 
-export type EventStreamRemoveAction = ServerEvent & {
+export type EventStreamRemoveAction = {|
+  ...ServerEvent,
   type: typeof EVENT_STREAM_REMOVE,
   op: 'delete',
   streams: StreamUpdateDetails[],
-};
+|};
 
-export type EventStreamUpdateAction = ServerEvent & {
+export type EventStreamUpdateAction = {|
+  ...ServerEvent,
   type: typeof EVENT_STREAM_UPDATE,
   op: 'update',
   name: string,
   property: string,
   stream_id: number,
   value: string,
-};
+|};
 
-export type EventStreamOccupyAction = ServerEvent & {
+export type EventStreamOccupyAction = {|
+  ...ServerEvent,
   type: typeof EVENT_STREAM_OCCUPY,
   op: 'occupy',
   streams: StreamUpdateDetails[],
-};
+|};
 
-export type EventNewMessageAction = ServerEvent & {
+export type EventNewMessageAction = {|
+  ...ServerEvent,
   type: typeof EVENT_NEW_MESSAGE,
   caughtUp: CaughtUpState,
   local_message_id: ?number,
   message: Message,
   ownEmail: string,
-};
+|};
 
 export type EventMessageDeleteAction = {|
   type: typeof EVENT_MESSAGE_DELETE,
   messageId: number,
 |};
-export type EventUpdateMessageAction = ServerEvent & {
+export type EventUpdateMessageAction = {|
+  ...ServerEvent,
   type: typeof EVENT_UPDATE_MESSAGE,
   edit_timestamp: number,
   message_id: number,
@@ -355,31 +366,36 @@ export type EventUpdateMessageAction = ServerEvent & {
   subject_links: string[],
   subject: string,
   user_id: number,
-};
+|};
 
-export type EventReactionCommon = ServerEvent & {
+export type EventReactionCommon = {|
+  ...ServerEvent,
   ...$Exact<Reaction>,
   message_id: number,
-};
+|};
 
-export type EventReactionAddAction = ServerEvent &
-  EventReactionCommon & {
-    type: typeof EVENT_REACTION_ADD,
-  };
+export type EventReactionAddAction = {|
+  ...ServerEvent,
+  ...EventReactionCommon,
+  type: typeof EVENT_REACTION_ADD,
+|};
 
-export type EventReactionRemoveAction = ServerEvent &
-  EventReactionCommon & {
-    type: typeof EVENT_REACTION_REMOVE,
-  };
+export type EventReactionRemoveAction = {|
+  ...ServerEvent,
+  ...EventReactionCommon,
+  type: typeof EVENT_REACTION_REMOVE,
+|};
 
-export type EventPresenceAction = ServerEvent & {
+export type EventPresenceAction = {|
+  ...ServerEvent,
   type: typeof EVENT_PRESENCE,
   email: string,
   presence: Presence,
   server_timestamp: number,
-};
+|};
 
-export type EventTypingCommon = ServerEvent & {
+export type EventTypingCommon = {|
+  ...ServerEvent,
   ownEmail: string,
   recipients: Array<{
     user_id: number,
@@ -390,71 +406,81 @@ export type EventTypingCommon = ServerEvent & {
     email: string,
   },
   time: number,
-};
+|};
 
-export type EventTypingStartAction = EventTypingCommon & {
+export type EventTypingStartAction = {|
+  ...EventTypingCommon,
   type: typeof EVENT_TYPING_START,
   op: 'start',
-};
+|};
 
-export type EventTypingStopAction = EventTypingCommon & {
+export type EventTypingStopAction = {|
+  ...EventTypingCommon,
   type: typeof EVENT_TYPING_STOP,
   op: 'stop',
-};
+|};
 
-export type EventUpdateMessageFlagsAction = ServerEvent & {
+export type EventUpdateMessageFlagsAction = {|
+  ...ServerEvent,
   type: typeof EVENT_UPDATE_MESSAGE_FLAGS,
   all: boolean,
   allMessages: MessagesState,
   flag: string,
   messages: number[],
   operation: 'add' | 'remove',
-};
+|};
 
-export type EventUserAddAction = ServerEvent & {
+export type EventUserAddAction = {|
+  ...ServerEvent,
   type: typeof EVENT_USER_ADD,
   person: User,
-};
+|};
 export type EventUserRemoveAction = any;
 export type EventUserUpdateAction = any;
 
-export type EventMutedTopicsAction = ServerEvent & {
+export type EventMutedTopicsAction = {|
+  ...ServerEvent,
   type: typeof EVENT_MUTED_TOPICS,
   muted_topics: MuteState,
-};
+|};
 
-export type EventUserGroupAddAction = ServerEvent & {
+export type EventUserGroupAddAction = {|
+  ...ServerEvent,
   type: typeof EVENT_USER_GROUP_ADD,
   op: 'add',
   group: UserGroup,
-};
+|};
 
-export type EventUserGroupRemoveAction = ServerEvent & {
+export type EventUserGroupRemoveAction = {|
+  ...ServerEvent,
   type: typeof EVENT_USER_GROUP_REMOVE,
   op: 'remove',
   group_id: number,
-};
+|};
 
-export type EventUserGroupUpdateAction = ServerEvent & {
+export type EventUserGroupUpdateAction = {|
+  ...ServerEvent,
   type: typeof EVENT_USER_GROUP_UPDATE,
   op: 'update',
   group_id: number,
   data: { description?: string, name?: string },
-};
+|};
 
-export type EventUserGroupAddMembersAction = ServerEvent & {
+export type EventUserGroupAddMembersAction = {|
+  ...ServerEvent,
   type: typeof EVENT_USER_GROUP_ADD_MEMBERS,
   op: 'add_members',
   group_id: number,
   user_ids: number[],
-};
+|};
 
-export type EventUserGroupRemoveMembersAction = ServerEvent & {
+export type EventUserGroupRemoveMembersAction = {|
+  ...ServerEvent,
   type: typeof EVENT_USER_GROUP_REMOVE_MEMBERS,
   op: 'remove_members',
   group_id: number,
   user_ids: number[],
-};
+|};
 
 export type EventRealmEmojiUpdateAction = any;
 export type EventRealmFilterUpdateAction = any;
