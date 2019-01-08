@@ -60,6 +60,7 @@ export default class LanguagePicker extends PureComponent<Props> {
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         initialNumToRender={languages.length}
         data={data}
+        keyboardShouldPersistTaps="always"
         keyExtractor={item => item.locale}
         renderItem={({ item }) => (
           <LanguagePickerItem
