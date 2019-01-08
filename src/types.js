@@ -503,8 +503,6 @@ export type GlobalState = {|
 // the corresponding parameter when used in `createSelector`, and this does.
 export type Selector<TResult> = InputSelector<GlobalState, void, TResult>;
 
-export type MatchResult = Array<string> & { index: number, input: string };
-
 export type GetState = () => GlobalState;
 
 export type PlainDispatch = <A: Action | NavigateAction>(action: A) => A;
