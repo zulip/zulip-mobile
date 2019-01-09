@@ -13,6 +13,7 @@ import { getFilteredEmojiNames } from './data';
 import type { GlobalState, RealmEmojiById, Auth, Dispatch, ReactionType } from '../types';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
+import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 
 type Props = {|
   activeImageEmojiByName: RealmEmojiById,
@@ -48,7 +49,10 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     const { activeImageEmojiByName } = this.props;
     const imageEmoji = activeImageEmojiByName[emojiName];
     if (imageEmoji) {
-      return { reactionType: 'realm_emoji', emojiCode: imageEmoji.code };
+      return {
+        reactionType: zulipExtraEmojiMap[emojiName] ? 'zulip_extra_emoji' : 'realm_emoji',
+        emojiCode: imageEmoji.code,
+      };
     }
     return { reactionType: 'unicode_emoji', emojiCode: unicodeCodeByName[emojiName] };
   };
