@@ -49,11 +49,10 @@ export default function createMigration(manifest, versionSelector, versionSetter
   const migrationDispatch = next => action => {
     if (action.type === REHYDRATE) {
       const incomingState = action.payload;
-      let incomingVersion = parseInt(versionSelector(incomingState), 10);
+      const incomingVersion = parseInt(versionSelector(incomingState), 10);
       if (Number.isNaN(incomingVersion)) {
-        incomingVersion = null;
-        // first launch after install, so initial state is empty object
-        // migration not required, just update verion
+        // first launch after install, so incoming state is empty object
+        // migration not required, just update version
         action.payload = versionSetter(incomingState, currentVersion);
         return next(action);
       }
