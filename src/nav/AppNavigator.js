@@ -6,6 +6,7 @@ import RealmScreen from '../start/RealmScreen';
 import AuthScreen from '../start/AuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
 import MainScreenWithTabs from '../main/MainScreenWithTabs';
+import MessageReactionList from '../reactions/MessageReactionList';
 import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
 import GroupDetailsScreen from '../chat/GroupDetailsScreen';
 import SearchMessagesScreen from '../search/SearchMessagesScreen';
@@ -45,6 +46,7 @@ export default createStackNavigator(
     'emoji-picker': { screen: EmojiPickerScreen },
     loading: { screen: LoadingScreen },
     main: { screen: MainScreenWithTabs },
+    'message-reactions': { screen: MessageReactionList },
     password: { screen: PasswordAuthScreen },
     realm: { screen: RealmScreen },
     search: { screen: SearchMessagesScreen },
