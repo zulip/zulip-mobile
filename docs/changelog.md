@@ -8,6 +8,46 @@ to users in general on the app stores is typically a few days later.
 
 ## Unreleased
 
+### Full changes for users
+
+* Work around RN bug making nav bar fail to render. (#3089)
+* Drop sent messages when event queue re-established. (#3203)
+* Don't (attempt to) stop notifications on switching
+  accounts. (23e01e850)
+* Redesigned "(settings) > Language" screen: no flags, show each
+  language's own name for itself, add search. (#2611, #3231)
+* Fix broken layout on account details screen. (#3228)
+* Paint "safe area" with appropriate background color. (#3236)
+* Translation updates in Korean, Hindi, Ukrainian, and
+  Chinese. (7cc9950c6, 6b4ce281c)
+* Keep presence info up to date. (#3207)
+
+
+### Full changes for developers
+
+Many.  TODO write them up.  Some highlights:
+
+* Most object types are now exact.  Let's do more of that.
+* Intersection types nearly all replaced with object spread.
+* Upgraded RN to v0.57.8, from v0.57.1.  New script `tools/upgrade`.
+* Major parts of notifications code rewritten, others refactored;
+  the wix `react-native-notifications` library reduced to a small
+  role.
+* Internal `styles` APIs revised, to organize better and also toward
+  eliminating use of legacy React context API, in favor of new one.
+  Most code migrated.
+* Removed the `connectPreserveOnBackOption` hack, where we told lies
+  to Redux via `areStatesEqual`. (#3163, da6c43d4b^..cd7b25757)
+* Rewrote `accountsSelectors`.  Now `getAuth` can only return a real,
+  authentication-bearing value.
+* Server API bindings describe more routes (even that the app doesn't
+  use); route bindings have a more uniform signature, and link to API
+  docs.
+* Translated-message files moved out of `src/`, to `static`, to avoid
+  spamming grep results. (1fc26a512)
+* Some experimentation with automated refactoring.  (e566058bf with an
+  AST-based tool; and earlier forays, see `git log --grep perl`.)
+
 
 ## 21.2.106 (2018-12-12)
 
