@@ -10,7 +10,7 @@ import { unicodeCodeByName } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojiNames } from './data';
-import type { GlobalState, RealmEmojiById, Auth, Dispatch } from '../types';
+import type { GlobalState, RealmEmojiById, Auth, Dispatch, ReactionType } from '../types';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 
@@ -42,13 +42,22 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     });
   };
 
-  addReaction = (emojiName: string) => {
-    const { auth, dispatch, navigation, activeImageEmojiByName } = this.props;
-    const { messageId } = navigation.state.params;
+  getReactionTypeAndCode = (
+    emojiName: string,
+  ): { reactionType: ReactionType, emojiCode: string } => {
+    const { activeImageEmojiByName } = this.props;
     const imageEmoji = activeImageEmojiByName[emojiName];
-    const { reactionType, emojiCode } = imageEmoji
-      ? { reactionType: 'realm_emoji', emojiCode: imageEmoji.code }
-      : { reactionType: 'unicode_emoji', emojiCode: unicodeCodeByName[emojiName] };
+    if (imageEmoji) {
+      return { reactionType: 'realm_emoji', emojiCode: imageEmoji.code };
+    }
+    return { reactionType: 'unicode_emoji', emojiCode: unicodeCodeByName[emojiName] };
+  };
+
+  addReaction = (emojiName: string) => {
+    const { auth, dispatch, navigation } = this.props;
+    const { messageId } = navigation.state.params;
+
+    const { reactionType, emojiCode } = this.getReactionTypeAndCode(emojiName);
     emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName);
     dispatch(navigateBack());
   };
