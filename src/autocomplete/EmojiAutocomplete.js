@@ -8,11 +8,11 @@ import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import { getFilteredEmojiNames } from '../emoji/data';
 import type { GlobalState, RealmEmojiById } from '../types';
-import { getActiveRealmEmojiByName } from '../selectors';
+import { getActiveImageEmojiByName } from '../selectors';
 
 type Props = {|
   filter: string,
-  activeRealmEmojiByName: RealmEmojiById,
+  activeImageEmojiByName: RealmEmojiById,
   onAutocomplete: (name: string) => void,
 |};
 
@@ -24,8 +24,8 @@ class EmojiAutocomplete extends PureComponent<Props> {
   };
 
   render() {
-    const { filter, activeRealmEmojiByName } = this.props;
-    const emojiNames = getFilteredEmojiNames(filter, activeRealmEmojiByName);
+    const { filter, activeImageEmojiByName } = this.props;
+    const emojiNames = getFilteredEmojiNames(filter, activeImageEmojiByName);
 
     if (emojiNames.length === 0) {
       return null;
@@ -46,5 +46,5 @@ class EmojiAutocomplete extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  activeRealmEmojiByName: getActiveRealmEmojiByName(state),
+  activeImageEmojiByName: getActiveImageEmojiByName(state),
 }))(EmojiAutocomplete);

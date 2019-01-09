@@ -26,7 +26,7 @@ import type {
 } from '../types';
 import {
   getAuth,
-  getAllRealmEmojiById,
+  getAllImageEmojiById,
   getCurrentTypingUsers,
   getDebug,
   getRenderedMessages,
@@ -68,7 +68,7 @@ export type BackgroundData = $ReadOnly<{
   flags: FlagsState,
   mute: MuteState,
   ownEmail: string,
-  allRealmEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
+  allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
   twentyFourHourTime: boolean,
   subscriptions: Subscription[],
 }>;
@@ -219,7 +219,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
     flags: getFlags(state),
     mute: getMute(state),
     ownEmail: getOwnEmail(state),
-    allRealmEmojiById: getAllRealmEmojiById(state),
+    allImageEmojiById: getAllImageEmojiById(state),
     subscriptions: getSubscriptions(state),
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
   };
