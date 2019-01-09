@@ -31,7 +31,7 @@ const eventReactionAdd = (state, action) => {
       ...oldMessage,
       reactions: oldMessage.reactions.concat({
         emoji_name: action.emoji_name,
-        user: action.user,
+        user_id: action.user_id,
         reaction_type: action.reaction_type,
         emoji_code: action.emoji_code,
       }),
@@ -49,7 +49,7 @@ const eventReactionRemove = (state, action) => {
     [action.message_id]: {
       ...oldMessage,
       reactions: oldMessage.reactions.filter(
-        x => !(x.emoji_name === action.emoji_name && x.user.email === action.user.email),
+        x => !(x.emoji_name === action.emoji_name && x.user_id === action.user_id),
       ),
     },
   };

@@ -43,20 +43,20 @@ const messageReactionAsHtml = (
 
 const messageReactionListAsHtml = (
   reactions: $ReadOnlyArray<Reaction>,
-  ownEmail: string,
+  ownUserId: number,
   allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
 ): string => {
   if (reactions.length === 0) {
     return '';
   }
-  const htmlList = aggregateReactions(reactions, ownEmail).map(r =>
+  const htmlList = aggregateReactions(reactions, ownUserId).map(r =>
     messageReactionAsHtml(r, allImageEmojiById),
   );
   return template`<div class="reaction-list">$!${htmlList.join('')}</div>`;
 };
 
 const messageBody = (
-  { alertWords, flags, ownEmail, allImageEmojiById }: BackgroundData,
+  { alertWords, flags, ownUserId, allImageEmojiById }: BackgroundData,
   message: Message | Outbox,
 ) => {
   const { id, isOutbox, last_edit_timestamp, reactions } = message;
@@ -65,7 +65,7 @@ const messageBody = (
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
-$!${messageReactionListAsHtml(reactions, ownEmail, allImageEmojiById)}
+$!${messageReactionListAsHtml(reactions, ownUserId, allImageEmojiById)}
 `;
 };
 

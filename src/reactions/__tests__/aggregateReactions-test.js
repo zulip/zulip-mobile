@@ -14,7 +14,7 @@ describe('aggregateReactions', () => {
   });
 
   test('a single reaction, results in a single aggregate', () => {
-    const reactions = deepFreeze([{ emoji_name: 'emoji' }]);
+    const reactions = deepFreeze([{ emoji_name: 'emoji', user_id: 3 }]);
 
     const expectedResult = [
       {
@@ -24,26 +24,26 @@ describe('aggregateReactions', () => {
       },
     ];
 
-    const actualResult = aggregateReactions(reactions);
+    const actualResult = aggregateReactions(reactions, 1);
 
     expect(actualResult).toEqual(expectedResult);
   });
 
   test('every duplicate reaction is aggregated to a single one with appropriate count', () => {
     const reactions = deepFreeze([
-      { emoji_name: '1' },
-      { emoji_name: '2' },
-      { emoji_name: '1' },
-      { emoji_name: '1' },
-      { emoji_name: '3' },
-      { emoji_name: '2' },
+      { emoji_name: '1', user_id: 1 },
+      { emoji_name: '2', user_id: 2 },
+      { emoji_name: '1', user_id: 3 },
+      { emoji_name: '1', user_id: 4 },
+      { emoji_name: '3', user_id: 5 },
+      { emoji_name: '2', user_id: 6 },
     ]);
 
     const expectedResult = [
       {
         name: '1',
         count: 3,
-        selfReacted: false,
+        selfReacted: true,
       },
       {
         name: '2',
@@ -57,17 +57,17 @@ describe('aggregateReactions', () => {
       },
     ];
 
-    const actualResult = aggregateReactions(reactions);
+    const actualResult = aggregateReactions(reactions, 1);
 
     expect(actualResult).toEqual(expectedResult);
   });
 
   test('every duplicate reaction is aggregated, ignoring self', () => {
     const reactions = deepFreeze([
-      { emoji_name: '1', user: { email: 'another@example.com' } },
-      { emoji_name: '2', user: { email: 'me@example.com' } },
-      { emoji_name: '2', user: { email: 'another@example.com' } },
-      { emoji_name: '3', user: { email: 'third@example.com' } },
+      { emoji_name: '1', user_id: 1 },
+      { emoji_name: '2', user_id: 2 },
+      { emoji_name: '2', user_id: 1 },
+      { emoji_name: '3', user_id: 3 },
     ]);
 
     const expectedResult = [
@@ -88,7 +88,7 @@ describe('aggregateReactions', () => {
       },
     ];
 
-    const actualResult = aggregateReactions(reactions, 'me@example.com');
+    const actualResult = aggregateReactions(reactions, 2);
 
     expect(actualResult).toEqual(expectedResult);
   });

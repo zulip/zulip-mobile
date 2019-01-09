@@ -271,11 +271,11 @@ describe('messagesReducer', () => {
         type: EVENT_REACTION_ADD,
         message_id: 2,
         emoji_name: 'hello',
-        user: {},
+        user_id: 2,
       });
       const expectedState = {
         1: { id: 1, reactions: [] },
-        2: { id: 2, reactions: [{ emoji_name: 'hello', user: {} }] },
+        2: { id: 2, reactions: [{ emoji_name: 'hello', user_id: 2 }] },
       };
       const actualState = messagesReducer(initialState, action);
       expect(actualState).toEqual(expectedState);
@@ -291,7 +291,7 @@ describe('messagesReducer', () => {
         type: EVENT_REACTION_REMOVE,
         message_id: 1,
         emoji_name: 'hello',
-        user: {},
+        user_id: 2,
       });
       const expectedState = {
         1: { id: 1, reactions: [] },
@@ -305,9 +305,9 @@ describe('messagesReducer', () => {
         1: {
           id: 1,
           reactions: [
-            { emoji_name: 'hello', user: { email: 'bob@example.com' } },
-            { emoji_name: 'hello', user: { email: 'mark@example.com' } },
-            { emoji_name: 'goodbye', user: { email: 'bob@example.com' } },
+            { emoji_name: 'hello', user_id: 1 },
+            { emoji_name: 'hello', user_id: 2 },
+            { emoji_name: 'goodbye', user_id: 1 },
           ],
         },
       });
@@ -315,15 +315,12 @@ describe('messagesReducer', () => {
         type: EVENT_REACTION_REMOVE,
         message_id: 1,
         emoji_name: 'hello',
-        user: { email: 'bob@example.com' },
+        user_id: 1,
       });
       const expectedState = {
         1: {
           id: 1,
-          reactions: [
-            { emoji_name: 'hello', user: { email: 'mark@example.com' } },
-            { emoji_name: 'goodbye', user: { email: 'bob@example.com' } },
-          ],
+          reactions: [{ emoji_name: 'hello', user_id: 2 }, { emoji_name: 'goodbye', user_id: 1 }],
         },
       };
       const actualState = messagesReducer(initialState, action);

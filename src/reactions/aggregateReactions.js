@@ -3,7 +3,7 @@ import type { Reaction, AggregatedReaction } from '../types';
 
 export default (
   reactions: $ReadOnlyArray<Reaction>,
-  ownEmail: string,
+  ownUserId: number,
 ): $ReadOnlyArray<AggregatedReaction> => {
   const reactionMap = new Map();
   reactions.forEach(x => {
@@ -25,7 +25,7 @@ export default (
       }
     }
 
-    if (x.user && x.user.email === ownEmail) {
+    if (x.user_id === ownUserId) {
       reactionMap.set(x.emoji_name, {
         ...reactionMap.get(x.emoji_name),
         selfReacted: true,

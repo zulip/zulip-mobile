@@ -1,7 +1,9 @@
 /* @flow strict-local */
 import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import type { Message, Narrow } from '../apiTypes';
+import type { Reaction } from '../modelTypes';
 import { apiGet } from '../apiFetch';
+import migrateMessages from './migrateMessages';
 
 type ApiResponseMessages = {|
   ...ApiResponseSuccess,
@@ -11,6 +13,41 @@ type ApiResponseMessages = {|
   found_oldest?: boolean,
   messages: Message[],
 |};
+
+/**
+ * The variant of `Reaction` found in the actual server response.
+ *
+ * Note that reaction events have a *different* variation; see their
+ * handling in `eventToAction`.
+ */
+export type ApiMessageReaction = $ReadOnly<{|
+  ...$Diff<Reaction, {| user_id: mixed |}>,
+  user: $ReadOnly<{|
+    email: string,
+    full_name: string,
+    id: number,
+  |}>,
+|}>;
+
+export type ApiMessage = $ReadOnly<{|
+  ...$Exact<Message>,
+  reactions: $ReadOnlyArray<ApiMessageReaction>,
+|}>;
+
+// The actual response from the server.  We convert the data from this to
+// `ApiResponseMessages` before returning it to application code.
+type OriginalApiResponseMessages = {|
+  ...$Exact<ApiResponseMessages>,
+  messages: ApiMessage[],
+|};
+
+const migrateResponse = (response: OriginalApiResponseMessages): ApiResponseMessages => {
+  const { messages, ...restResponse } = response;
+  return {
+    ...restResponse,
+    messages: migrateMessages(messages),
+  };
+};
 
 /**
  * See https://zulipchat.com/api/get-messages
@@ -27,8 +64,8 @@ export default async (
   numBefore: number,
   numAfter: number,
   useFirstUnread: boolean = false,
-): Promise<ApiResponseMessages> =>
-  apiGet(auth, 'messages', {
+): Promise<ApiResponseMessages> => {
+  const response: OriginalApiResponseMessages = await apiGet(auth, 'messages', {
     narrow: JSON.stringify(narrow),
     anchor,
     num_before: numBefore,
@@ -36,3 +73,5 @@ export default async (
     apply_markdown: true,
     use_first_unread_anchor: useFirstUnread,
   });
+  return migrateResponse(response);
+};

@@ -127,6 +127,14 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
     case 'reaction':
       return {
         ...event,
+
+        // Raw reaction events from the server have a variation on the
+        // properties of `Reaction`: instead of `user_id: number`, they have
+        // `user: {| email: string, full_name: string, user_id: number |}`.
+        // NB this is different from the reactions in a `/messages` response;
+        // see `getMessages` to compare.
+        user_id: event.user.user_id,
+
         type: opToActionReaction[event.op],
       };
 

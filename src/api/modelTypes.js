@@ -276,14 +276,15 @@ export type Narrow = $ReadOnlyArray<NarrowElement>;
  */
 export type ReactionType = 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji';
 
-/** An emoji reaction to a message. */
+/**
+ * An emoji reaction to a message.
+ *
+ * The raw JSON from the server may have a different structure, but we
+ * normalize it to this form.
+ */
 export type Reaction = $ReadOnly<{|
-  user: $ReadOnly<{|
-    email: string,
-    full_name: string,
-    user_id?: number, //  present in reaction add event
-    id?: number, // present when messages are fetched via `getMessages` API
-  |}>,
+  user_id: number,
+
   emoji_name: string,
   reaction_type: ReactionType,
 
