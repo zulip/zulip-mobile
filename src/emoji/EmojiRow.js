@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 
-import type { GlobalState, RealmEmojiType } from '../types';
+import type { GlobalState, ImageEmojiType } from '../types';
 import { RawLabel, Touchable } from '../common';
 import Emoji from './Emoji';
 import RealmEmoji from './RealmEmoji';
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
 type Props = {|
   name: string,
-  realmEmoji: RealmEmojiType | void,
+  realmEmoji: ImageEmojiType | void,
   onPress: (name: string) => void,
 |};
 

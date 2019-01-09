@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
-import type { Selector, RealmEmojiById, RealmEmojiType } from '../types';
+import type { Selector, RealmEmojiById, ImageEmojiType } from '../types';
 import { getRawRealmEmoji } from '../directSelectors';
 import { getIdentity } from '../account/accountsSelectors';
 import { getFullUrl } from '../utils/url';
@@ -26,7 +26,7 @@ export const getActiveRealmEmojiById: Selector<RealmEmojiById> = createSelector(
       }, {}),
 );
 
-export const getAllRealmEmojiByName: Selector<{ [string]: RealmEmojiType }> = createSelector(
+export const getAllRealmEmojiByName: Selector<{ [string]: ImageEmojiType }> = createSelector(
   getAllRealmEmojiById,
   emojis =>
     Object.keys(emojis).reduce((result, id) => {
@@ -35,7 +35,7 @@ export const getAllRealmEmojiByName: Selector<{ [string]: RealmEmojiType }> = cr
     }, {}),
 );
 
-export const getActiveRealmEmojiByName: Selector<{ [string]: RealmEmojiType }> = createSelector(
+export const getActiveRealmEmojiByName: Selector<{ [string]: ImageEmojiType }> = createSelector(
   getActiveRealmEmojiById,
   emojis =>
     Object.keys(emojis).reduce((result, id) => {

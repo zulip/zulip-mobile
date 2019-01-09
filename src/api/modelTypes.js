@@ -12,8 +12,8 @@
 //
 //
 
-export type RealmEmojiType = $ReadOnly<{|
-  author: $ReadOnly<{|
+export type ImageEmojiType = $ReadOnly<{|
+  author?: $ReadOnly<{|
     email: string,
     full_name: string,
     id: number,
@@ -28,7 +28,7 @@ export type RealmEmojiType = $ReadOnly<{|
 |}>;
 
 export type RealmEmojiById = $ReadOnly<{
-  [id: string]: RealmEmojiType,
+  [id: string]: ImageEmojiType,
 }>;
 
 export type RealmFilter = [string, string, number];

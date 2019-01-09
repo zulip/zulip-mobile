@@ -18,7 +18,7 @@ import type {
   Message,
   MuteState,
   Narrow,
-  RealmEmojiType,
+  ImageEmojiType,
   RenderedSectionDescriptor,
   Subscription,
   ThemeName,
@@ -68,7 +68,7 @@ export type BackgroundData = $ReadOnly<{
   flags: FlagsState,
   mute: MuteState,
   ownEmail: string,
-  allRealmEmojiById: $ReadOnly<{ [id: string]: RealmEmojiType }>,
+  allRealmEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
   twentyFourHourTime: boolean,
   subscriptions: Subscription[],
 }>;

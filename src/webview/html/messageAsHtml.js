@@ -7,7 +7,7 @@ import type {
   Message,
   Outbox,
   Reaction,
-  RealmEmojiType,
+  ImageEmojiType,
 } from '../../types';
 import type { BackgroundData } from '../MessageList';
 import { getAvatarFromMessage } from '../../utils/avatar';
@@ -30,7 +30,7 @@ const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): strin
 
 const messageReactionAsHtml = (
   reaction: AggregatedReaction,
-  allRealmEmojiById: $ReadOnly<{ [id: string]: RealmEmojiType }>,
+  allRealmEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
 ): string =>
   template`<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}"
         data-name="${reaction.name}"
@@ -44,7 +44,7 @@ const messageReactionAsHtml = (
 const messageReactionListAsHtml = (
   reactions: $ReadOnlyArray<Reaction>,
   ownEmail: string,
-  allRealmEmojiById: $ReadOnly<{ [id: string]: RealmEmojiType }>,
+  allRealmEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
 ): string => {
   if (reactions.length === 0) {
     return '';
