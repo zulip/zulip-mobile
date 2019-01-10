@@ -8,6 +8,9 @@ to users in general on the app stores is typically a few days later.
 
 ## Unreleased
 
+
+## 22.0.107 (2019-01-09)
+
 ### Highlights for users
 
 Many fixes and improvements, including:
