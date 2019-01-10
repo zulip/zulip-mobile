@@ -8,18 +8,32 @@ to users in general on the app stores is typically a few days later.
 
 ## Unreleased
 
+### Highlights for users
+
+Many fixes and improvements, including:
+* Fixed bug: a successfully-sent message would stick around as a
+  zombie, with "sending" animation.
+* Evaded bug in React Native: the message list and nav bar sometimes
+  failed to display.
+* Redesigned language-settings screen uses each language's own name,
+  drops flag images, and has search.
+* Translation updates in Korean, Hindi, Ukrainian, and Chinese.
+
+
 ### Full changes for users
 
-* Work around RN bug making nav bar fail to render. (#3089)
-* Drop sent messages when event queue re-established. (#3203)
-* Don't (attempt to) stop notifications on switching
-  accounts. (23e01e850)
-* Redesigned "(settings) > Language" screen: no flags, show each
-  language's own name for itself, add search. (#2611, #3231)
+* Fixed bug: a successfully-sent message would stick around as a
+  zombie, with "sending" animation. (#3203)
+* Evaded bug in React Native: the message list and nav bar sometimes
+  failed to display. (#3089)
+* Redesigned language-settings screen uses each language's own name,
+  drops flag images, and has search. (#2611, #3231)
+* Don't (attempt to) stop notifications on switching accounts.
+  (23e01e850)
 * Fix broken layout on account details screen. (#3228)
 * Paint "safe area" with appropriate background color. (#3236)
-* Translation updates in Korean, Hindi, Ukrainian, and
-  Chinese. (7cc9950c6, 6b4ce281c)
+* Translation updates in Korean, Hindi, Ukrainian, and Chinese.
+  (7cc9950c6, 6b4ce281c)
 * Keep presence info up to date. (#3207)
 
 
