@@ -52,7 +52,7 @@ export default class LanguagePicker extends PureComponent<Props> {
     return (
       <FlatList
         ItemSeparatorComponent={OptionDivider}
-        initialNumToRender={languages.length}
+        initialNumToRender={15}
         data={data}
         keyboardShouldPersistTaps="always"
         keyExtractor={item => item.tag}
