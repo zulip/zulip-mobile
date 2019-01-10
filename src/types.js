@@ -727,6 +727,14 @@ export type InitialDataUpdateMessageFlags = {|
   },
 |};
 
+export type InitialDataUserStatus = {|
+  /**
+   * Older servers (through at least 1.9.1) don't send this.
+   * A missing value is equivalent to empty.
+   */
+  user_status?: UserStatusMap,
+|};
+
 export type InitialData = {|
   ...InitialDataBase,
   ...InitialDataAlertWords,
@@ -742,4 +750,5 @@ export type InitialData = {|
   ...InitialDataUpdateDisplaySettings,
   ...InitialDataUpdateGlobalNotifications,
   ...InitialDataUpdateMessageFlags,
+  ...InitialDataUserStatus,
 |};

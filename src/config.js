@@ -44,6 +44,7 @@ const config: Config = {
     'update_display_settings',
     'update_global_notifications',
     'update_message_flags',
+    'user_status',
   ],
 };
 
