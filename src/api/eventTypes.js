@@ -74,6 +74,7 @@ export class EventTypes {
   static presence: 'presence' = 'presence';
   static stream: 'stream' = 'stream';
   static update_message_flags: 'update_message_flags' = 'update_message_flags';
+  static user_status: 'user_status' = 'user_status';
 }
 
 type EventCommon = {|
@@ -108,6 +109,26 @@ export type PresenceEvent = {|
   email: string,
   server_timestamp: number,
   presence: UserPresence,
+|};
+
+/**
+ * Updates the user status for a user
+ *
+ * @prop [away] - update user's away status:
+ *       - `true` the user is away regardless of presence
+ *       - `false` remove the away status, now use presence
+ * @prop [status_text] - if present:
+ *       - empty string clears the user's status text
+ *       - any string sets user's status to that
+ *
+ * Not providing a property means 'leave this value unchanged'
+ */
+export type UserStatusEvent = {|
+  ...EventCommon,
+  type: typeof EventTypes.user_status,
+  user_id: number,
+  away?: boolean,
+  status_text?: string,
 |};
 
 type StreamListEvent = {|

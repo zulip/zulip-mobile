@@ -22,6 +22,7 @@ import {
   EVENT_USER_GROUP_UPDATE,
   EVENT_USER_GROUP_ADD_MEMBERS,
   EVENT_USER_GROUP_REMOVE_MEMBERS,
+  EVENT_USER_STATUS_UPDATE,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   EVENT_UPDATE_DISPLAY_SETTINGS,
@@ -63,6 +64,7 @@ const actionTypeOfEventType = {
   realm_filters: EVENT_REALM_FILTERS,
   update_global_notifications: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   update_display_settings: EVENT_UPDATE_DISPLAY_SETTINGS,
+  user_status: EVENT_USER_STATUS_UPDATE,
 };
 
 export default (state: GlobalState, event: Object): EventAction => {
@@ -101,6 +103,7 @@ export default (state: GlobalState, event: Object): EventAction => {
     case 'realm_filters':
     case 'update_global_notifications':
     case 'update_display_settings':
+    case 'user_status':
       return {
         ...event,
         type: actionTypeOfEventType[event.type],

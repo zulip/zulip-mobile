@@ -40,6 +40,7 @@ import {
   EVENT_USER_GROUP_UPDATE,
   EVENT_USER_GROUP_ADD_MEMBERS,
   EVENT_USER_GROUP_REMOVE_MEMBERS,
+  EVENT_USER_STATUS_UPDATE,
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   EVENT_NEW_MESSAGE,
@@ -90,6 +91,7 @@ import type {
   CaughtUpState,
   MuteState,
   AlertWordsState,
+  UserStatusEvent,
 } from './types';
 
 /**
@@ -461,6 +463,11 @@ type EventUpdateDisplaySettingsAction = {|
 
 type EventReactionAction = EventReactionAddAction | EventReactionRemoveAction;
 
+type EventUserStatusUpdateAction = {|
+  ...UserStatusEvent,
+  type: typeof EVENT_USER_STATUS_UPDATE,
+|};
+
 type EventSubscriptionAction =
   | EventSubscriptionAddAction
   | EventSubscriptionRemoveAction
@@ -500,6 +507,7 @@ export type EventAction =
   | EventTypingAction
   | EventUserAction
   | EventUserGroupAction
+  | EventUserStatusUpdateAction
   // Dummy actions.
   | {| type: 'ignore' |}
   | {| type: 'unknown', event: {} |};
