@@ -40,30 +40,113 @@ Many fixes and improvements, including:
 * Keep presence info up to date. (#3207)
 
 
-### Full changes for developers
+### Changes for developers
 
-Many.  TODO write them up.  Some highlights:
+#### Highlights of important updates to know
+
+All active developers will benefit from knowing about these.  More
+details on each in subsections below.
+
+* Major typing upgrades, including:
+  * Exact object types -- use them in most cases.
+    Discussion in 61d2e3426.
+  * Intersection types -- probably never use them.
+    Discussion in ff515bc9d and 124a2f39a.
+  * Read-only arrays -- use them in most cases.
+    Discussion in 4c3aaa0b1.
+
+* New patterns for getting styles: static where possible, and
+  otherwise using new React context API instead of legacy one.
+  All new code should follow.  Examples in a2bfcb41b, 51dd1b3b2,
+  f6ddc2dba.
+
+* The type `Account` is no longer the same as `Auth`.
+  In either case, `Identity` is preferred where it suffices.
+  Changed in 5738ccb6f, as part of notifications changes.
+
+* `getAuth` and other account-related selectors no longer return
+  malformed data.  Some throw; others explicitly can return
+  `undefined`.  Interfaces in jsdoc in `accountsSelectors.js`;
+  discussion in 33a4df218.
+
+* We no longer lie to Redux through `areStatesEqual`!  See #3163.
+
+* Automated refactoring is pretty great!  Discussion in e566058bf of
+  one approach.  Lower-tech approaches already helped powerfully for
+  migrating to exact types, and to new `styles` API.
+
+
+#### Workflow improvements
+
+* Experimented with automated refactoring: an AST-based tool
+  `jscodeshift`, and lower-tech Perl one-liners.  (`jscodeshift`
+  discussed in e566058bf, used in 47365203f.  Perl one-liners on
+  several occasions; see `git log --grep perl`.)
+
+* `tools/test` accepts `--diff COMMIT`: run only on files changed
+  since `COMMIT` (vs. default of files changed in current branch.)
+  (1fe380e1a)
+
+* Reactotron disabled by default, because it broke basic app
+  functionality. :'-( (170ed2a32, 598386524)
+
+* New script `tools/changelog` streamlines some steps of making a
+  release. (593d38d06^..9dfb52e24)
+
+
+#### Architecture, interface, and quality improvements
 
 * Most object types are now exact.  Let's do more of that.
+  (Discussion in 61d2e3426; additional changes in
+  a15c00e1a^..b9b48657f, 703739338, e5e57abe3^..9c1898242)
+
 * Intersection types nearly all replaced with object spread.
-* Upgraded RN to v0.57.8, from v0.57.1.  New script `tools/upgrade`.
+  (Discussion in ff515bc9d and 124a2f39a; additional changes in
+  eb3783b1a^..47365203f)
+
+* New patterns for getting styles: static where possible, and
+  otherwise using new React context API instead of legacy one.  Most
+  existing code migrated; all new code should follow. (examples in
+  a2bfcb41b, 51dd1b3b2, f6ddc2dba; fuller changes in
+  112f99be9^..8dad2d191, 1f71edad9^..a4e0f23b3)
+
 * Major parts of notifications code rewritten, others refactored;
   the wix `react-native-notifications` library reduced to a small
-  role.
-* Internal `styles` APIs revised, to organize better and also toward
-  eliminating use of legacy React context API, in favor of new one.
-  Most code migrated.
+  role.  (Context in #2877.  Changes in 410041dfa^..2ed116267,
+  dcbe2ac86^..d6454eb50, 034e25be8^..3a2076e0f, f1eae82d8^..233d68c40)
+
+* Rewrote `accountsSelectors.js`.  Now `getAuth` can only return a
+  real, authentication-bearing value.  (Discussion in 33a4df218;
+  changes in 3706965d3^..614f56bd2, f1eae82d8)
+
 * Removed the `connectPreserveOnBackOption` hack, where we told lies
   to Redux via `areStatesEqual`. (#3163, da6c43d4b^..cd7b25757)
-* Rewrote `accountsSelectors`.  Now `getAuth` can only return a real,
-  authentication-bearing value.
+
 * Server API bindings describe more routes (even that the app doesn't
   use); route bindings have a more uniform signature, and link to API
-  docs.
+  docs. (1acf7d96a^..8170045d8, 0af4af22b^..6becc6e91
+
+* We subscribe to all server events with our queue.
+  (d8b36412c^..6c7fffc76)
+
+* Logic fixes in Android notification UI code for sound and vibration;
+  no visible changes yet. (125dc0806^..458ef8832)
+
+* Don't run old migrations on first install. (863bca711)
+
+* Don't use `console.warn`. (21f64aad7)
+
+* More read-only array types. (4c3aaa0b1)
+
 * Translated-message files moved out of `src/`, to `static`, to avoid
   spamming grep results. (1fc26a512)
-* Some experimentation with automated refactoring.  (e566058bf with an
-  AST-based tool; and earlier forays, see `git log --grep perl`.)
+
+* Upgraded RN to v0.57.8, from v0.57.1. (c03c85684^..ca759b106,
+  329dd67f0)
+
+* New script `tools/upgrade` to help systematize upgrading
+  dependencies. (b64ce0023^..eb130c631)
+
 
 
 ## 21.2.106 (2018-12-12)
