@@ -578,11 +578,13 @@ var compiledWebviewJs = (function (exports) {
 
   var handleLongPress = function handleLongPress(target) {
     hasLongPressed = true;
+    var reactionNode = target.closest('.reaction');
 
-    if (target.closest('.reaction')) {
+    if (reactionNode) {
       sendMessage({
         type: 'reactionDetails',
-        messageId: getMessageIdFromNode(target)
+        messageId: getMessageIdFromNode(target),
+        reactionName: requireAttribute(reactionNode, 'data-name')
       });
       return;
     }

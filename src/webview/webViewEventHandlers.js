@@ -105,6 +105,7 @@ type MessageListEventError = {|
 type MessageListEventReactionDetails = {|
   type: 'reactionDetails',
   messageId: number,
+  reactionName: string,
 |};
 
 export type MessageListEvent =
@@ -236,9 +237,9 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
 
     case 'reactionDetails':
       {
-        const { messageId } = event;
+        const { messageId, reactionName } = event;
         const { dispatch } = props;
-        dispatch(navigateToMessageReactionScreen(messageId));
+        dispatch(navigateToMessageReactionScreen(messageId, reactionName));
       }
       break;
 

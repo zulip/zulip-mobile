@@ -701,10 +701,12 @@ const handleLongPress = (target: Element) => {
 
   hasLongPressed = true;
 
-  if (target.closest('.reaction')) {
+  const reactionNode = target.closest('.reaction');
+  if (reactionNode) {
     sendMessage({
       type: 'reactionDetails',
       messageId: getMessageIdFromNode(target),
+      reactionName: requireAttribute(reactionNode, 'data-name'),
     });
     return;
   }

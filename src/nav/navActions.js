@@ -96,8 +96,11 @@ export const navigateToStreamSubscribers = (streamId: number): NavigationAction 
 export const navigateToNotifications = (): NavigationAction =>
   StackActions.push({ routeName: 'notifications' });
 
-export const navigateToMessageReactionScreen = (messageId: number): NavigationAction =>
-  StackActions.push({ routeName: 'message-reactions', params: { messageId } });
+export const navigateToMessageReactionScreen = (
+  messageId: number,
+  reactionName?: string,
+): NavigationAction =>
+  StackActions.push({ routeName: 'message-reactions', params: { messageId, reactionName } });
 
 export const navigateToLegal = (): NavigationAction => StackActions.push({ routeName: 'legal' });
 
