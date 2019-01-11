@@ -68,18 +68,25 @@ export type UserPresence = {|
 // Then, the events themselves.
 //
 
+export class EventTypes {
+  static heartbeat: 'heartbeat' = 'heartbeat';
+  static message: 'message' = 'message';
+  static presence: 'presence' = 'presence';
+  static update_message_flags: 'update_message_flags' = 'update_message_flags';
+}
+
 type EventCommon = {|
   id: number,
 |};
 
 export type HeartbeatEvent = {|
   ...EventCommon,
-  type: 'heartbeat',
+  type: typeof EventTypes.heartbeat,
 |};
 
 export type MessageEvent = {|
   ...EventCommon,
-  type: 'message',
+  type: typeof EventTypes.message,
   message: Message,
 
   /** See the same-named property on `Message`. */
@@ -96,7 +103,7 @@ export type MessageEvent = {|
 
 export type PresenceEvent = {|
   ...EventCommon,
-  type: 'presence',
+  type: typeof EventTypes.presence,
   email: string,
   server_timestamp: number,
   presence: UserPresence,
@@ -104,7 +111,7 @@ export type PresenceEvent = {|
 
 export type UpdateMessageFlagsEvent = {|
   ...EventCommon,
-  type: 'update_message_flags',
+  type: typeof EventTypes.update_message_flags,
   operation: 'add' | 'remove',
   flag: empty, // TODO fill in
   all: boolean,
