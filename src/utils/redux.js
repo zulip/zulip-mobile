@@ -2,7 +2,7 @@
 import config from '../config';
 import timing from './timing';
 
-export const logSlowReducers = (reducers: Object): Object => {
+export function logSlowReducers<O: Object>(reducers: O): O {
   Object.keys(reducers).forEach((name: string) => {
     const originalReducer = reducers[name];
     reducers[name] = (state, action) => {
@@ -20,4 +20,4 @@ export const logSlowReducers = (reducers: Object): Object => {
     };
   });
   return reducers;
-};
+}
