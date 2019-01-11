@@ -52,6 +52,18 @@ const opToActionTyping = {
   stop: EVENT_TYPING_STOP,
 };
 
+const actionTypeOfEventType = {
+  update_message: EVENT_UPDATE_MESSAGE,
+  subscription: EVENT_SUBSCRIPTION,
+  stream: EVENT_STREAM,
+  presence: EVENT_PRESENCE,
+  muted_topics: EVENT_MUTED_TOPICS,
+  realm_emoji: EVENT_REALM_EMOJI_UPDATE,
+  realm_filters: EVENT_REALM_FILTERS,
+  update_global_notifications: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+  update_display_settings: EVENT_UPDATE_DISPLAY_SETTINGS,
+};
+
 export default (state: GlobalState, event: Object): EventAction => {
   switch (event.type) {
     case 'alert_words':
@@ -75,15 +87,17 @@ export default (state: GlobalState, event: Object): EventAction => {
       };
 
     case 'update_message':
-      return {
-        ...event,
-        type: EVENT_UPDATE_MESSAGE,
-      };
-
     case 'subscription':
+    case 'stream':
+    case 'presence':
+    case 'muted_topics':
+    case 'realm_emoji':
+    case 'realm_filters':
+    case 'update_global_notifications':
+    case 'update_display_settings':
       return {
         ...event,
-        type: EVENT_SUBSCRIPTION,
+        type: actionTypeOfEventType[event.type],
       };
 
     case 'realm_user':
@@ -95,12 +109,6 @@ export default (state: GlobalState, event: Object): EventAction => {
     case 'realm_bot':
       return { type: 'ignore' };
 
-    case 'stream':
-      return {
-        ...event,
-        type: EVENT_STREAM,
-      };
-
     case 'reaction':
       return {
         ...event,
@@ -109,12 +117,6 @@ export default (state: GlobalState, event: Object): EventAction => {
 
     case 'heartbeat':
       return { type: 'ignore' };
-
-    case 'presence':
-      return {
-        ...event,
-        type: EVENT_PRESENCE,
-      };
 
     case 'update_message_flags':
       return {
@@ -129,36 +131,6 @@ export default (state: GlobalState, event: Object): EventAction => {
         ownEmail: state.accounts[0].email,
         type: opToActionTyping[event.op],
         time: new Date().getTime(),
-      };
-
-    case 'muted_topics':
-      return {
-        ...event,
-        type: EVENT_MUTED_TOPICS,
-      };
-
-    case 'realm_emoji':
-      return {
-        ...event,
-        type: EVENT_REALM_EMOJI_UPDATE,
-      };
-
-    case 'realm_filters':
-      return {
-        ...event,
-        type: EVENT_REALM_FILTERS,
-      };
-
-    case 'update_global_notifications':
-      return {
-        ...event,
-        type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
-      };
-
-    case 'update_display_settings':
-      return {
-        ...event,
-        type: EVENT_UPDATE_DISPLAY_SETTINGS,
       };
 
     case 'user_group':
