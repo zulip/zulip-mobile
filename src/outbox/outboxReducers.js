@@ -4,7 +4,7 @@ import type {
   InitialFetchCompleteAction,
   MessageSendStartAction,
   MessageSendCompleteAction,
-  OutboxAction,
+  Action,
   Outbox,
 } from '../types';
 import {
@@ -39,10 +39,10 @@ const messageSendComplete = (state: OutboxState, action: MessageSendCompleteActi
 
 const deleteOutboxMessage = (
   state: OutboxState,
-  action: { local_message_id: number },
+  action: { +local_message_id?: number },
 ): OutboxState => filterArray(state, item => item && item.timestamp !== +action.local_message_id);
 
-export default (state: OutboxState = initialState, action: OutboxAction): OutboxState => {
+export default (state: OutboxState = initialState, action: Action): OutboxState => {
   switch (action.type) {
     case INITIAL_FETCH_COMPLETE:
       return initialFetchComplete(state, action);
