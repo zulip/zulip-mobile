@@ -271,7 +271,6 @@ type EventSubscriptionAddAction = {|
   type: typeof EVENT_SUBSCRIPTION_ADD,
   op: 'add',
   subscriptions: Subscription[],
-  user: User,
 |};
 
 type EventSubscriptionRemoveAction = {|
@@ -282,7 +281,6 @@ type EventSubscriptionRemoveAction = {|
     name: string,
     stream_id: number,
   }>,
-  user: User,
 |};
 
 type EventSubscriptionUpdateAction = {|
@@ -293,7 +291,6 @@ type EventSubscriptionUpdateAction = {|
   name: string,
   property: string,
   stream_id: number,
-  user: User,
   value: boolean | number | string,
 |};
 
@@ -302,7 +299,6 @@ type EventSubscriptionPeerAddAction = {|
   type: typeof EVENT_SUBSCRIPTION_PEER_ADD,
   op: 'peer_add',
   subscriptions: string[],
-  user: User,
   user_id: number,
 |};
 
@@ -311,7 +307,6 @@ type EventSubscriptionPeerRemoveAction = {|
   type: typeof EVENT_SUBSCRIPTION_PEER_REMOVE,
   op: 'peer_remove',
   subscriptions: string[],
-  user: User,
   user_id: number,
 |};
 

@@ -35,8 +35,6 @@ import {
   EVENT_REALM_FILTERS,
 } from '../actionConstants';
 
-import { getUserById } from '../users/userHelpers';
-
 const opToActionSubscription = {
   add: EVENT_SUBSCRIPTION_ADD,
   remove: EVENT_SUBSCRIPTION_REMOVE,
@@ -108,7 +106,6 @@ export default (state: GlobalState, event: Object): EventAction => {
       return {
         ...event,
         type: opToActionSubscription[event.op],
-        user: getUserById(state.users, event.user_id),
       };
 
     case 'realm_user':
