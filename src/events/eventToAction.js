@@ -6,10 +6,6 @@ import {
   EVENT_PRESENCE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
-  EVENT_STREAM_ADD,
-  EVENT_STREAM_REMOVE,
-  EVENT_STREAM_UPDATE,
-  EVENT_STREAM_OCCUPY,
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   EVENT_MESSAGE_DELETE,
@@ -29,14 +25,8 @@ import {
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_REALM_FILTERS,
   EVENT_SUBSCRIPTION,
+  EVENT_STREAM,
 } from '../actionConstants';
-
-const opToActionStream = {
-  create: EVENT_STREAM_ADD,
-  delete: EVENT_STREAM_REMOVE,
-  update: EVENT_STREAM_UPDATE,
-  occupy: EVENT_STREAM_OCCUPY,
-};
 
 const opToActionUser = {
   add: EVENT_USER_ADD,
@@ -108,7 +98,7 @@ export default (state: GlobalState, event: Object): EventAction => {
     case 'stream':
       return {
         ...event,
-        type: opToActionStream[event.op],
+        type: EVENT_STREAM,
       };
 
     case 'reaction':

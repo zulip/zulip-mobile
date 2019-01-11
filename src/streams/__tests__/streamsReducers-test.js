@@ -1,12 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import streamsReducers from '../streamsReducers';
-import {
-  ACCOUNT_SWITCH,
-  EVENT_STREAM_ADD,
-  EVENT_STREAM_REMOVE,
-  EVENT_STREAM_UPDATE,
-} from '../../actionConstants';
+import { ACCOUNT_SWITCH, EVENT_STREAM } from '../../actionConstants';
 
 describe('streamsReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -25,12 +20,13 @@ describe('streamsReducers', () => {
     });
   });
 
-  describe('EVENT_STREAM_ADD', () => {
+  describe('EVENT_STREAM -> create', () => {
     test('add new stream', () => {
       const initialState = deepFreeze([]);
 
       const action = deepFreeze({
-        type: EVENT_STREAM_ADD,
+        type: EVENT_STREAM,
+        op: 'create',
         streams: [
           {
             name: 'some stream',
@@ -69,7 +65,8 @@ describe('streamsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_STREAM_ADD,
+        type: EVENT_STREAM,
+        op: 'create',
         streams: [
           {
             description: 'description',
@@ -101,7 +98,7 @@ describe('streamsReducers', () => {
     });
   });
 
-  describe('EVENT_STREAM_REMOVE', () => {
+  describe('EVENT_STREAM -> delete', () => {
     test('removes stream from state', () => {
       const initialState = deepFreeze([
         {
@@ -122,7 +119,8 @@ describe('streamsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_STREAM_REMOVE,
+        type: EVENT_STREAM,
+        op: 'delete',
         streams: [
           {
             name: 'some stream',
@@ -157,7 +155,8 @@ describe('streamsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_STREAM_REMOVE,
+        type: EVENT_STREAM,
+        op: 'delete',
         streams: [
           {
             name: 'some stream',
@@ -178,7 +177,7 @@ describe('streamsReducers', () => {
     });
   });
 
-  describe('EVENT_SUBSCRIPTION_UPDATE', () => {
+  describe('EVENT_STREAM -> update', () => {
     test('Change the name property', () => {
       const initialState = deepFreeze([
         {
@@ -200,11 +199,11 @@ describe('streamsReducers', () => {
 
       const action = deepFreeze({
         stream_id: 123,
-        type: EVENT_STREAM_UPDATE,
+        type: EVENT_STREAM,
+        op: 'update',
         eventId: 2,
         id: 2,
         name: 'competition',
-        op: 'update',
         property: 'name',
         value: 'real competition',
       });
@@ -256,11 +255,11 @@ describe('streamsReducers', () => {
 
       const action = deepFreeze({
         stream_id: 53,
-        type: EVENT_STREAM_UPDATE,
+        type: EVENT_STREAM,
+        op: 'update',
         eventId: 2,
         id: 2,
         name: 'mobile',
-        op: 'update',
         property: 'description',
         value: 'iOS + android',
       });
@@ -312,11 +311,11 @@ describe('streamsReducers', () => {
 
       const action = deepFreeze({
         stream_id: 123,
-        type: EVENT_STREAM_UPDATE,
+        type: EVENT_STREAM,
+        op: 'update',
         eventId: 2,
         id: 2,
         name: 'competition',
-        op: 'update',
         property: 'email_address',
         value: '1234@realm.com',
       });

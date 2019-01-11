@@ -41,10 +41,6 @@ import {
   EVENT_USER_GROUP_UPDATE,
   EVENT_USER_GROUP_ADD_MEMBERS,
   EVENT_USER_GROUP_REMOVE_MEMBERS,
-  EVENT_STREAM_ADD,
-  EVENT_STREAM_REMOVE,
-  EVENT_STREAM_UPDATE,
-  EVENT_STREAM_OCCUPY,
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   EVENT_NEW_MESSAGE,
@@ -67,6 +63,7 @@ import {
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_SUBSCRIPTION,
+  EVENT_STREAM,
 } from './actionConstants';
 
 import type { MessageEvent, PresenceEvent } from './api/eventTypes';
@@ -308,21 +305,21 @@ type EventSubscriptionPeerRemoveAction = {|
 
 type EventStreamAddAction = {|
   ...ServerEvent,
-  type: typeof EVENT_STREAM_ADD,
+  type: typeof EVENT_STREAM,
   op: 'create',
   streams: Stream[],
 |};
 
 type EventStreamRemoveAction = {|
   ...ServerEvent,
-  type: typeof EVENT_STREAM_REMOVE,
+  type: typeof EVENT_STREAM,
   op: 'delete',
   streams: Stream[],
 |};
 
 type EventStreamUpdateAction = {|
   ...ServerEvent,
-  type: typeof EVENT_STREAM_UPDATE,
+  type: typeof EVENT_STREAM,
   op: 'update',
   stream_id: number,
   name: string,
@@ -332,7 +329,7 @@ type EventStreamUpdateAction = {|
 
 type EventStreamOccupyAction = {|
   ...ServerEvent,
-  type: typeof EVENT_STREAM_OCCUPY,
+  type: typeof EVENT_STREAM,
   op: 'occupy',
   streams: Stream[],
 |};

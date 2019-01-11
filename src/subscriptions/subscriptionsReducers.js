@@ -7,9 +7,9 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   INIT_SUBSCRIPTIONS,
-  EVENT_STREAM_UPDATE,
   EVENT_SUBSCRIPTION,
   REALM_INIT,
+  EVENT_STREAM,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
@@ -40,8 +40,20 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
     case INIT_SUBSCRIPTIONS:
       return isEqual(action.subscriptions, state) ? state : action.subscriptions;
 
-    case EVENT_STREAM_UPDATE:
-      return updateSubscription(state, action);
+    case EVENT_STREAM:
+      switch (action.op) {
+        case 'update':
+          return updateSubscription(state, action);
+
+        case 'create':
+        case 'delete':
+        case 'occupy':
+          return state;
+
+        default:
+          (action: empty); // eslint-disable-line no-unused-expressions
+          return state;
+      }
 
     case EVENT_SUBSCRIPTION:
       switch (action.op) {
