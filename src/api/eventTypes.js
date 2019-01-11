@@ -121,6 +121,7 @@ export type StreamEvent =
   | {| ...StreamListEvent, op: 'create', |}
   | {| ...StreamListEvent, op: 'delete', |}
   | {| ...StreamListEvent, op: 'occupy', |}
+  | {| ...StreamListEvent, op: 'vacate', |}
   | {|
       ...EventCommon,
       type: typeof EventTypes.stream,

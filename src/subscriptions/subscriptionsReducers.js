@@ -71,6 +71,7 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
             case 'create':
             case 'delete':
             case 'occupy':
+            case 'vacate':
               return state;
 
             default:

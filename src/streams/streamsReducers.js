@@ -43,6 +43,7 @@ export default (state: StreamsState = initialState, action: Action): StreamsStat
               );
 
             case 'occupy':
+            case 'vacate':
               return state;
 
             default:
