@@ -81,11 +81,6 @@ const initialState: SessionState = {
   },
 };
 
-const loginSuccess = (state, action) => ({
-  ...state,
-  needsInitialFetch: true,
-});
-
 const rehydrate = (state, action) => {
   const { payload } = action;
   const haveApiKey = !!(payload && payload.accounts && hasAuth(payload));
@@ -99,115 +94,94 @@ const rehydrate = (state, action) => {
   };
 };
 
-const realmInit = (state, action) => ({
-  ...state,
-  eventQueueId: action.data.queue_id,
-});
-
-const doNarrow = (state, action) => ({
-  ...state,
-  lastNarrow: action.narrow,
-});
-
-const appOnline = (state, action) => ({
-  ...state,
-  isOnline: action.isOnline,
-});
-
-const appState = (state, action) => ({
-  ...state,
-  isActive: action.isActive,
-});
-
-const initialFetchComplete = (state, action) => ({
-  ...state,
-  needsInitialFetch: false,
-});
-
-const initSafeAreaInsets = (state, action) => ({
-  ...state,
-  safeAreaInsets: action.safeAreaInsets,
-});
-
-const appOrientation = (state, action) => ({
-  ...state,
-  orientation: action.orientation,
-});
-
-const gotPushToken = (state, action) => ({
-  ...state,
-  pushToken: action.pushToken,
-});
-
-const cancelEditMessage = (state, action) => ({
-  ...state,
-  editMessage: null,
-});
-
-const startEditMessage = (state, action) => ({
-  ...state,
-  editMessage: {
-    id: action.messageId,
-    content: action.message,
-    topic: action.topic,
-  },
-});
-
-const toggleOutboxSending = (state, action) => ({ ...state, outboxSending: action.sending });
-
-const debugFlagToggle = (state, action) => ({
-  ...state,
-  debug: {
-    ...state.debug,
-    [action.key]: action.value,
-  },
-});
-
 export default (state: SessionState = initialState, action: Action): SessionState => {
   switch (action.type) {
     case DEAD_QUEUE:
     case ACCOUNT_SWITCH:
     case LOGIN_SUCCESS:
-      return loginSuccess(state, action);
+      return {
+        ...state,
+        needsInitialFetch: true,
+      };
 
     case REHYDRATE:
       return rehydrate(state, action);
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return {
+        ...state,
+        eventQueueId: action.data.queue_id,
+      };
 
     case DO_NARROW:
-      return doNarrow(state, action);
+      return {
+        ...state,
+        lastNarrow: action.narrow,
+      };
 
     case APP_ONLINE:
-      return appOnline(state, action);
+      return {
+        ...state,
+        isOnline: action.isOnline,
+      };
 
     case APP_STATE:
-      return appState(state, action);
+      return {
+        ...state,
+        isActive: action.isActive,
+      };
 
     case INITIAL_FETCH_COMPLETE:
-      return initialFetchComplete(state, action);
+      return {
+        ...state,
+        needsInitialFetch: false,
+      };
 
     case INIT_SAFE_AREA_INSETS:
-      return initSafeAreaInsets(state, action);
+      return {
+        ...state,
+        safeAreaInsets: action.safeAreaInsets,
+      };
 
     case APP_ORIENTATION:
-      return appOrientation(state, action);
+      return {
+        ...state,
+        orientation: action.orientation,
+      };
 
     case GOT_PUSH_TOKEN:
-      return gotPushToken(state, action);
+      return {
+        ...state,
+        pushToken: action.pushToken,
+      };
 
     case CANCEL_EDIT_MESSAGE:
-      return cancelEditMessage(state, action);
+      return {
+        ...state,
+        editMessage: null,
+      };
 
     case START_EDIT_MESSAGE:
-      return startEditMessage(state, action);
+      return {
+        ...state,
+        editMessage: {
+          id: action.messageId,
+          content: action.message,
+          topic: action.topic,
+        },
+      };
 
     case TOGGLE_OUTBOX_SENDING:
-      return toggleOutboxSending(state, action);
+      return { ...state, outboxSending: action.sending };
 
     case DEBUG_FLAG_TOGGLE:
-      return debugFlagToggle(state, action);
+      return {
+        ...state,
+        debug: {
+          ...state.debug,
+          [action.key]: action.value,
+        },
+      };
 
     default:
       return state;

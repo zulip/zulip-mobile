@@ -12,38 +12,29 @@ import { filterArray } from '../utils/immutability';
 
 const initialState: StreamsState = NULL_ARRAY;
 
-const initStreams = (state, action) => action.streams;
-
-const eventStreamAdd = (state, action) =>
-  state.concat(action.streams.filter(x => !state.find(y => x.stream_id === y.stream_id)));
-
-const eventStreamRemove = (state, action) =>
-  filterArray(state, x => !action.streams.find(y => x && x.stream_id === y.stream_id));
-
-const eventStreamUpdate = (state, action) =>
-  state.map(
-    stream =>
-      stream.stream_id === action.stream_id
-        ? {
-            ...stream,
-            [action.property]: action.value,
-          }
-        : stream,
-  );
-
 export default (state: StreamsState = initialState, action: Action): StreamsState => {
   switch (action.type) {
     case INIT_STREAMS:
-      return initStreams(state, action);
+      return action.streams;
 
     case EVENT_STREAM_ADD:
-      return eventStreamAdd(state, action);
+      return state.concat(
+        action.streams.filter(x => !state.find(y => x.stream_id === y.stream_id)),
+      );
 
     case EVENT_STREAM_REMOVE:
-      return eventStreamRemove(state, action);
+      return filterArray(state, x => !action.streams.find(y => x && x.stream_id === y.stream_id));
 
     case EVENT_STREAM_UPDATE:
-      return eventStreamUpdate(state, action);
+      return state.map(
+        stream =>
+          stream.stream_id === action.stream_id
+            ? {
+                ...stream,
+                [action.property]: action.value,
+              }
+            : stream,
+      );
 
     case ACCOUNT_SWITCH:
       return initialState;

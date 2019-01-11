@@ -15,12 +15,6 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UserGroupsState = NULL_ARRAY;
 
-const realmInit = (state, action) => action.data.realm_user_groups || initialState;
-
-const eventUserGroupAdd = (state, action) => [...state, action.group];
-
-const eventUserGroupRemove = (state, action) => state.filter(x => action.group_id !== x.id);
-
 const eventUserGroupUpdate = (state, action) =>
   state.map(
     userGroup =>
@@ -62,13 +56,13 @@ export default (state: UserGroupsState = initialState, action: Action): UserGrou
       return initialState;
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return action.data.realm_user_groups || initialState;
 
     case EVENT_USER_GROUP_ADD:
-      return eventUserGroupAdd(state, action);
+      return [...state, action.group];
 
     case EVENT_USER_GROUP_REMOVE:
-      return eventUserGroupRemove(state, action);
+      return state.filter(x => action.group_id !== x.id);
 
     case EVENT_USER_GROUP_UPDATE:
       return eventUserGroupUpdate(state, action);

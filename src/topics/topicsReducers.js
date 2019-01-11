@@ -6,11 +6,6 @@ import { replaceItemInArray } from '../utils/immutability';
 
 const initialState: TopicsState = NULL_OBJECT;
 
-const initTopics = (state, action) => ({
-  ...state,
-  [action.streamId]: action.topics,
-});
-
 const eventNewMessage = (state, action) => {
   if (action.message.type !== 'stream') {
     return state;
@@ -47,7 +42,10 @@ export default (state: TopicsState = initialState, action: Action): TopicsState 
       return initialState;
 
     case INIT_TOPICS:
-      return initTopics(state, action);
+      return {
+        ...state,
+        [action.streamId]: action.topics,
+      };
 
     case EVENT_NEW_MESSAGE:
       return eventNewMessage(state, action);

@@ -22,8 +22,6 @@ export const getStateForRoute = (route: string) => {
   return action != null ? AppNavigator.router.getStateForAction(action) : null;
 };
 
-const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
-
 const rehydrate = (state, action) => {
   if (!action.payload || !action.payload.accounts) {
     return getStateForRoute('welcome') || state;
@@ -50,14 +48,7 @@ const rehydrate = (state, action) => {
   return AppNavigator.router.getStateForAction(navigateToChat(narrow), startState) || state;
 };
 
-const accountSwitch = (state, action) => getStateForRoute('loading') || state;
-
-const loginSuccess = (state, action) => getStateForRoute('main') || state;
-
-const logout = (state, action) => getStateForRoute('account') || state;
-
-const initialFetchComplete = (state, action) =>
-  state.routes[0].routeName === 'main' ? state : getStateForRoute('main') || state;
+const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
 
 export default (state: NavigationState = initialState, action: Action): NavigationState => {
   switch (action.type) {
@@ -65,16 +56,16 @@ export default (state: NavigationState = initialState, action: Action): Navigati
       return rehydrate(state, action);
 
     case ACCOUNT_SWITCH:
-      return accountSwitch(state, action);
+      return getStateForRoute('loading') || state;
 
     case LOGIN_SUCCESS:
-      return loginSuccess(state, action);
+      return getStateForRoute('main') || state;
 
     case INITIAL_FETCH_COMPLETE:
-      return initialFetchComplete(state, action);
+      return state.routes[0].routeName === 'main' ? state : getStateForRoute('main') || state;
 
     case LOGOUT:
-      return logout(state, action);
+      return getStateForRoute('account') || state;
 
     default: {
       // The `react-navigation` libdef says this only takes a NavigationAction,

@@ -23,65 +23,53 @@ const initialState = {
   nonActiveUsers: [],
 };
 
-const realmInit = (state, action) => ({
-  ...state,
-  canCreateStreams: action.data.can_create_streams,
-  crossRealmBots: action.data.cross_realm_bots,
-  emoji: action.data.realm_emoji,
-  filters: action.data.realm_filters,
-  isAdmin: action.data.is_admin,
-  nonActiveUsers: action.data.realm_non_active_users,
-  twentyFourHourTime: action.data.twenty_four_hour_time,
-});
-
-const loginChange = (state, action) => ({
-  ...state,
-  emoji: {},
-});
-
-const initRealmEmoji = (state, action) => ({
-  ...state,
-  emoji: action.emojis,
-});
-
-const initRealmFilter = (state, action) => ({
-  ...state,
-  filters: action.filters,
-});
-
-const eventRealmFilters = (state, action) => ({
-  ...state,
-  filters: action.realm_filters,
-});
-
-const eventRealmEmojiUpdate = (state, action) => ({
-  ...state,
-  emoji: action.realm_emoji,
-});
-
 export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return initialState;
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return {
+        ...state,
+        canCreateStreams: action.data.can_create_streams,
+        crossRealmBots: action.data.cross_realm_bots,
+        emoji: action.data.realm_emoji,
+        filters: action.data.realm_filters,
+        isAdmin: action.data.is_admin,
+        nonActiveUsers: action.data.realm_non_active_users,
+        twentyFourHourTime: action.data.twenty_four_hour_time,
+      };
 
     case LOGOUT:
     case LOGIN_SUCCESS:
-      return loginChange(state, action);
+      return {
+        ...state,
+        emoji: {},
+      };
 
     case INIT_REALM_EMOJI:
-      return initRealmEmoji(state, action);
+      return {
+        ...state,
+        emoji: action.emojis,
+      };
 
     case INIT_REALM_FILTER:
-      return initRealmFilter(state, action);
+      return {
+        ...state,
+        filters: action.filters,
+      };
 
     case EVENT_REALM_FILTERS:
-      return eventRealmFilters(state, action);
+      return {
+        ...state,
+        filters: action.realm_filters,
+      };
 
     case EVENT_REALM_EMOJI_UPDATE:
-      return eventRealmEmojiUpdate(state, action);
+      return {
+        ...state,
+        emoji: action.realm_emoji,
+      };
 
     case EVENT_UPDATE_DISPLAY_SETTINGS:
       switch (action.setting_name) {

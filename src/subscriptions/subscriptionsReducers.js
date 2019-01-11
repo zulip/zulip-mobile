@@ -20,28 +20,6 @@ import { filterArray } from '../utils/immutability';
 
 const initialState: SubscriptionsState = NULL_ARRAY;
 
-const realmInit = (state, action) => action.data.subscriptions || initialState;
-
-const initSubscriptions = (state, action) =>
-  isEqual(action.subscriptions, state) ? state : action.subscriptions;
-
-const eventSubscriptionAdd = (state, action) =>
-  state.concat(action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)));
-
-const eventSubscriptionRemove = (state, action) =>
-  filterArray(state, x => !action.subscriptions.find(y => x && y && x.stream_id === y.stream_id));
-
-const eventSubscriptionUpdate = (state, action) =>
-  state.map(
-    sub =>
-      sub.stream_id === action.stream_id
-        ? {
-            ...sub,
-            [action.property]: action.value,
-          }
-        : sub,
-  );
-
 export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {
   switch (action.type) {
     case LOGOUT:
@@ -50,20 +28,33 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
       return initialState;
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return action.data.subscriptions || initialState;
 
     case INIT_SUBSCRIPTIONS:
-      return initSubscriptions(state, action);
+      return isEqual(action.subscriptions, state) ? state : action.subscriptions;
 
     case EVENT_SUBSCRIPTION_ADD:
-      return eventSubscriptionAdd(state, action);
+      return state.concat(
+        action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)),
+      );
 
     case EVENT_SUBSCRIPTION_REMOVE:
-      return eventSubscriptionRemove(state, action);
+      return filterArray(
+        state,
+        x => !action.subscriptions.find(y => x && y && x.stream_id === y.stream_id),
+      );
 
     case EVENT_STREAM_UPDATE:
     case EVENT_SUBSCRIPTION_UPDATE:
-      return eventSubscriptionUpdate(state, action);
+      return state.map(
+        sub =>
+          sub.stream_id === action.stream_id
+            ? {
+                ...sub,
+                [action.property]: action.value,
+              }
+            : sub,
+      );
 
     case EVENT_SUBSCRIPTION_PEER_ADD:
       return state;

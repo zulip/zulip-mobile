@@ -5,17 +5,13 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState = NULL_ARRAY;
 
-const realmInit = (state, action) => action.data.alert_words || initialState;
-
-const initAlertWords = (state, action) => action.alertWords || initialState;
-
 export default (state: AlertWordsState = initialState, action: Action): AlertWordsState => {
   switch (action.type) {
     case REALM_INIT:
-      return realmInit(state, action);
+      return action.data.alert_words || initialState;
 
     case INIT_ALERT_WORDS:
-      return initAlertWords(state, action);
+      return action.alertWords || initialState;
 
     default:
       return state;

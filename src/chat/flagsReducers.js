@@ -80,11 +80,6 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
   return stateChanged ? deeperMerge(state, newState) : state;
 };
 
-const messageFetchComplete = (state, action) => processFlagsForMessages(state, action.messages);
-
-const eventNewMessage = (state, action) =>
-  addFlagsForMessages(state, [action.message.id], action.message.flags);
-
 const eventUpdateMessageFlags = (state, action) => {
   if (action.all) {
     return addFlagsForMessages(initialState, Object.keys(action.allMessages).map(Number), ['read']);
@@ -101,8 +96,6 @@ const eventUpdateMessageFlags = (state, action) => {
   return state;
 };
 
-const markMessagesRead = (state, action) => addFlagsForMessages(state, action.messageIds, ['read']);
-
 export default (state: FlagsState = initialState, action: Action): FlagsState => {
   switch (action.type) {
     case DEAD_QUEUE:
@@ -110,16 +103,16 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
       return initialState;
 
     case MESSAGE_FETCH_COMPLETE:
-      return messageFetchComplete(state, action);
+      return processFlagsForMessages(state, action.messages);
 
     case EVENT_NEW_MESSAGE:
-      return eventNewMessage(state, action);
+      return addFlagsForMessages(state, [action.message.id], action.message.flags);
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
       return eventUpdateMessageFlags(state, action);
 
     case MARK_MESSAGES_READ:
-      return markMessagesRead(state, action);
+      return addFlagsForMessages(state, action.messageIds, ['read']);
 
     default:
       return state;

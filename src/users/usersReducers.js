@@ -13,10 +13,6 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UsersState = NULL_ARRAY;
 
-const realmInit = (state, action) => action.data.realm_users || initialState;
-
-const eventUserAdd = (state, action) => [...state, action.person];
-
 export default (state: UsersState = initialState, action: Action): UsersState => {
   switch (action.type) {
     case LOGOUT:
@@ -25,10 +21,10 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       return initialState;
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return action.data.realm_users || initialState;
 
     case EVENT_USER_ADD:
-      return eventUserAdd(state, action);
+      return [...state, action.person];
 
     case EVENT_USER_REMOVE:
       return state; // TODO

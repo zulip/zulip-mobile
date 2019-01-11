@@ -13,22 +13,6 @@ import { getAggregatedPresence } from '../utils/presence';
 
 const initialState: PresenceState = NULL_OBJECT;
 
-const realmInit = (state, action) => action.data.presences || initialState;
-
-const presenceResponse = (state, action) => ({
-  ...state,
-  ...action.presence,
-});
-
-const eventPresence = (state, action) => ({
-  ...state,
-  [action.email]: {
-    ...state[action.email],
-    ...action.presence,
-    aggregated: getAggregatedPresence({ ...state[action.email], ...action.presence }),
-  },
-});
-
 export default (state: PresenceState = initialState, action: Action): PresenceState => {
   switch (action.type) {
     case LOGOUT:
@@ -37,13 +21,23 @@ export default (state: PresenceState = initialState, action: Action): PresenceSt
       return initialState;
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return action.data.presences || initialState;
 
     case PRESENCE_RESPONSE:
-      return presenceResponse(state, action);
+      return {
+        ...state,
+        ...action.presence,
+      };
 
     case EVENT_PRESENCE:
-      return eventPresence(state, action);
+      return {
+        ...state,
+        [action.email]: {
+          ...state[action.email],
+          ...action.presence,
+          aggregated: getAggregatedPresence({ ...state[action.email], ...action.presence }),
+        },
+      };
 
     default:
       return state;
