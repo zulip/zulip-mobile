@@ -521,16 +521,13 @@ export type InitRealmFilterAction = {|
 |};
 
 type RealmAction =
-  | DeadQueueAction
   | RealmInitAction
   | UnackPushTokenAction
   | AckPushTokenAction
-  | LoginSuccessAction
-  | LogoutAction
   | InitRealmEmojiAction
   | InitRealmFilterAction;
 
-type AlertWordsAction = RealmInitAction | EventAlertWordsAction;
+type AlertWordsAction = EventAlertWordsAction;
 
 export type SettingsChangeAction = {|
   type: typeof SETTINGS_CHANGE,
@@ -543,7 +540,7 @@ export type DraftUpdateAction = {|
   content: string,
 |};
 
-type DraftsAction = DraftUpdateAction | LogoutAction;
+type DraftsAction = DraftUpdateAction;
 
 export type DoNarrowAction = {|
   type: typeof DO_NARROW,
@@ -556,7 +553,7 @@ export type PresenceResponseAction = {|
   serverTimestamp: number,
 |};
 
-type PresenceAction = EventPresenceAction | PresenceResponseAction | RealmInitAction;
+type PresenceAction = EventPresenceAction | PresenceResponseAction;
 
 export type MessageSendStartAction = {|
   type: typeof MESSAGE_SEND_START,
@@ -596,7 +593,7 @@ export type InitTopicsAction = {|
   streamId: number,
 |};
 
-type TopicsAction = InitTopicsAction | AccountSwitchAction;
+type TopicsAction = InitTopicsAction;
 
 export type InitSubscriptionsAction = {|
   type: typeof INIT_SUBSCRIPTIONS,
@@ -610,20 +607,7 @@ type AccountAction =
   | LoginSuccessAction
   | LogoutAction;
 
-type CaughtUpAction =
-  | DeadQueueAction
-  | LogoutAction
-  | LoginSuccessAction
-  | AccountSwitchAction
-  | MessageFetchCompleteAction;
-
-type LoadingAction =
-  | DeadQueueAction
-  | AccountSwitchAction
-  | InitialFetchStartAction
-  | InitialFetchCompleteAction
-  | InitStreamsAction
-  | InitSubscriptionsAction;
+type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
 
 type MessageAction =
   | MessageFetchCompleteAction
@@ -633,14 +617,7 @@ type MessageAction =
   | EventMessageDeleteAction
   | EventUpdateMessageAction;
 
-type MuteAction = DeadQueueAction | AccountSwitchAction | RealmInitAction | EventMutedTopicsAction;
-
-type NavAction =
-  | RehydrateAction
-  | AccountSwitchAction
-  | LoginSuccessAction
-  | InitialFetchCompleteAction
-  | LogoutAction;
+type MuteAction = EventMutedTopicsAction;
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 
@@ -648,57 +625,33 @@ type SessionAction =
   | RehydrateAction
   | AppStateAction
   | AppOnlineAction
-  | DeadQueueAction
   | InitSafeAreaInsetsAction
   | AppOrientationAction
   | GotPushTokenAction
   | StartEditMessageAction
   | CancelEditMessageAction
   | DebugFlagToggleAction
-  | RealmInitAction
-  | AccountSwitchAction
-  | LoginSuccessAction
-  | ToggleOutboxSendingAction
-  | InitialFetchCompleteAction;
+  | ToggleOutboxSendingAction;
 
-type SettingsAction =
-  | RealmInitAction
-  | SettingsChangeAction
-  | EventUpdateGlobalNotificationsSettingsAction;
+type SettingsAction = SettingsChangeAction | EventUpdateGlobalNotificationsSettingsAction;
 
-type StreamAction =
-  | InitStreamsAction
-  | EventStreamRemoveAction
-  | EventStreamUpdateAction
-  | AccountSwitchAction;
+type StreamAction = InitStreamsAction | EventStreamRemoveAction | EventStreamUpdateAction;
 
 type SubscriptionsAction =
   | InitSubscriptionsAction
-  | RealmInitAction
   | EventSubscriptionAddAction
   | EventSubscriptionRemoveAction
   | EventSubscriptionUpdateAction;
 
-type UnreadAction =
-  | RealmInitAction
-  | EventNewMessageAction
-  | MarkMessagesReadAction
-  | EventMessageDeleteAction
-  | EventUpdateMessageFlagsAction;
-
-type UsersAction = RealmInitAction | EventUserAddAction;
-
 export type Action =
   | AccountAction
   | AlertWordsAction
-  | CaughtUpAction
   | DoNarrowAction
   | DraftsAction
   | LoadingAction
   | MessageAction
   | MessageFetchStartAction
   | MuteAction
-  | NavAction
   | OutboxAction
   | PresenceAction
   | RealmAction
@@ -707,6 +660,4 @@ export type Action =
   | StreamAction
   | SubscriptionsAction
   | TopicsAction
-  | TypingAction
-  | UnreadAction
-  | UsersAction;
+  | TypingAction;
