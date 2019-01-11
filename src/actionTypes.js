@@ -243,11 +243,11 @@ type InitialFetchCompleteAction = {|
   type: typeof INITIAL_FETCH_COMPLETE,
 |};
 
-export type StreamUpdateDetails = {|
+type StreamUpdateDetails = {|
   ...$Exact<Stream>,
 |};
 
-export type ServerEvent = {|
+type ServerEvent = {|
   id: number,
 |};
 
@@ -376,7 +376,7 @@ type EventUpdateMessageAction = {|
   user_id: number,
 |};
 
-export type EventReactionCommon = {|
+type EventReactionCommon = {|
   ...ServerEvent,
   ...$Exact<Reaction>,
   message_id: number,
@@ -399,7 +399,7 @@ type EventPresenceAction = {|
   type: typeof EVENT_PRESENCE,
 |};
 
-export type EventTypingCommon = {|
+type EventTypingCommon = {|
   ...ServerEvent,
   ownEmail: string,
   recipients: Array<{
