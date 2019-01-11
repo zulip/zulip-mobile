@@ -68,6 +68,8 @@ import {
   EVENT_MUTED_TOPICS,
 } from './actionConstants';
 
+import type { PresenceEvent } from './api/eventTypes';
+
 import type {
   Dimensions,
   Orientation,
@@ -86,7 +88,6 @@ import type {
   Subscription,
   Topic,
   PresenceState,
-  UserPresence,
   RealmEmojiState,
   SettingsState,
   CaughtUpState,
@@ -387,11 +388,8 @@ export type EventReactionRemoveAction = {|
 |};
 
 export type EventPresenceAction = {|
-  ...ServerEvent,
+  ...PresenceEvent,
   type: typeof EVENT_PRESENCE,
-  email: string,
-  presence: UserPresence,
-  server_timestamp: number,
 |};
 
 export type EventTypingCommon = {|
