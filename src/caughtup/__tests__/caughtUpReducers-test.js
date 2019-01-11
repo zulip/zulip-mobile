@@ -26,6 +26,7 @@ describe('caughtUpReducers', () => {
         narrow: HOME_NARROW,
       });
 
+      // $FlowFixMe bogus action object
       const newState = caughtUpReducers(initialState, action);
 
       expect(newState).toBe(initialState);

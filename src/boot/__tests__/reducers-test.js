@@ -4,6 +4,7 @@ import { discardKeys, storeKeys, cacheKeys } from '../../boot/store';
 
 describe('reducers', () => {
   test('reducers return the default states on unknown action', () => {
+    // $FlowFixMe bogus action object
     expect(() => reducers({}, { type: 'UNKNOWN_ACTION' })).not.toThrow();
   });
 

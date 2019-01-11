@@ -643,7 +643,7 @@ type DraftsAction = DraftUpdateAction;
 
 type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
 
-type MessageAction = MessageFetchStartAction | MessageFetchCompleteAction;
+type MessageAction = MarkMessagesReadAction | MessageFetchStartAction | MessageFetchCompleteAction;
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 

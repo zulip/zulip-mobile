@@ -17,6 +17,7 @@ describe('loadingReducers', () => {
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
+        index: 1,
       });
 
       const expectedState = {
