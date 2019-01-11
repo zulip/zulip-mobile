@@ -2,11 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import {
   REALM_INIT,
-  EVENT_SUBSCRIPTION_ADD,
-  EVENT_SUBSCRIPTION_REMOVE,
-  // EVENT_SUBSCRIPTION_PEER_ADD,
-  // EVENT_SUBSCRIPTION_PEER_REMOVE,
-  EVENT_SUBSCRIPTION_UPDATE,
+  EVENT_SUBSCRIPTION,
   ACCOUNT_SWITCH,
   INIT_SUBSCRIPTIONS,
 } from '../../actionConstants';
@@ -97,12 +93,13 @@ describe('subscriptionsReducers', () => {
     expect(newState).toEqual(prevState);
   });
 
-  describe('EVENT_SUBSCRIPTION_ADD', () => {
+  describe('EVENT_SUBSCRIPTION -> add', () => {
     test('if new subscriptions do not exist in state, add them', () => {
       const prevState = deepFreeze([]);
 
       const action = deepFreeze({
-        type: EVENT_SUBSCRIPTION_ADD,
+        type: EVENT_SUBSCRIPTION,
+        op: 'add',
         subscriptions: [
           {
             name: 'some stream',
@@ -141,7 +138,8 @@ describe('subscriptionsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_SUBSCRIPTION_ADD,
+        type: EVENT_SUBSCRIPTION,
+        op: 'add',
         subscriptions: [
           {
             name: 'some stream',
@@ -172,7 +170,7 @@ describe('subscriptionsReducers', () => {
     });
   });
 
-  describe('EVENT_SUBSCRIPTION_REMOVE', () => {
+  describe('EVENT_SUBSCRIPTION -> remove', () => {
     test('removes subscriptions from state', () => {
       const prevState = deepFreeze([
         {
@@ -193,7 +191,8 @@ describe('subscriptionsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_SUBSCRIPTION_REMOVE,
+        type: EVENT_SUBSCRIPTION,
+        op: 'remove',
         subscriptions: [
           {
             name: 'some stream',
@@ -228,7 +227,8 @@ describe('subscriptionsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_SUBSCRIPTION_REMOVE,
+        type: EVENT_SUBSCRIPTION,
+        op: 'remove',
         subscriptions: [
           {
             name: 'some stream',
@@ -249,95 +249,7 @@ describe('subscriptionsReducers', () => {
     });
   });
 
-  describe('EVENT_SUBSCRIPTION_PEER_ADD', () => {
-    // we currently ignore this event
-    // test('adds user as subscriber of specified stream', () => {
-    //   const prevState = deepFreeze([
-    //     { stream_id: 1, subscribers: [] },
-    //     { stream_id: 2, subscribers: [] },
-    //   ]);
-    //
-    //   const action = deepFreeze({
-    //     type: EVENT_SUBSCRIPTION_PEER_ADD,
-    //     subscriptions: [1],
-    //     user: { id: 1, email: 'john@example.com' },
-    //   });
-    //
-    //   const expectedState = [
-    //     { stream_id: 1, subscribers: ['john@example.com'] },
-    //     { stream_id: 2, subscribers: [] },
-    //   ];
-    //
-    //   const newState = subscriptionsReducers(prevState, action);
-    //
-    //   expect(newState).toEqual(expectedState);
-    // });
-    //
-    // test('adds user as subscriber to multiple streams', () => {
-    //   const prevState = deepFreeze([
-    //     { stream_id: 1, subscribers: [] },
-    //     { stream_id: 2, subscribers: [] },
-    //   ]);
-    //
-    //   const action = deepFreeze({
-    //     type: EVENT_SUBSCRIPTION_PEER_ADD,
-    //     subscriptions: [1, 2, 3],
-    //     user: { id: 1, email: 'john@example.com' },
-    //   });
-    //
-    //   const expectedState = [
-    //     { stream_id: 1, subscribers: ['john@example.com'] },
-    //     { stream_id: 2, subscribers: ['john@example.com'] },
-    //   ];
-    //
-    //   const newState = subscriptionsReducers(prevState, action);
-    //
-    //   expect(newState).toEqual(expectedState);
-    // });
-  });
-
-  describe('EVENT_SUBSCRIPTION_PEER_REMOVE', () => {
-    // we currently ignore this event
-    // test('removes user as subscriber of specified stream', () => {
-    //   const prevState = deepFreeze([
-    //     { stream_id: 1, subscribers: ['john@example.com'] },
-    //     { stream_id: 2, subscribers: [] },
-    //   ]);
-    //
-    //   const action = deepFreeze({
-    //     type: EVENT_SUBSCRIPTION_PEER_REMOVE,
-    //     subscriptions: [1],
-    //     user: { id: 1, email: 'john@example.com' },
-    //   });
-    //
-    // const expectedState = [{ stream_id: 1, subscribers: [] }, { stream_id: 2, subscribers: [] }];
-    //
-    //   const newState = subscriptionsReducers(prevState, action);
-    //
-    //   expect(newState).toEqual(expectedState);
-    // });
-    //
-    // test('removes user as subscriber from multiple streams', () => {
-    //   const prevState = deepFreeze([
-    //     { stream_id: 1, subscribers: ['john@example.com'] },
-    //     { stream_id: 2, subscribers: ['john@example.com'] },
-    //   ]);
-    //
-    //   const action = {
-    //     type: EVENT_SUBSCRIPTION_PEER_REMOVE,
-    //     subscriptions: [1, 2, 3],
-    //     user: { id: 1, email: 'john@example.com' },
-    //   };
-    //
-    // const expectedState = [{ stream_id: 1, subscribers: [] }, { stream_id: 2, subscribers: [] }];
-    //
-    //   const newState = subscriptionsReducers(prevState, action);
-    //
-    //   expect(newState).toEqual(expectedState);
-    // });
-  });
-
-  describe('EVENT_SUBSCRIPTION_UPDATE', () => {
+  describe('EVENT_SUBSCRIPTION -> update', () => {
     test('Change the in_home_view property', () => {
       const initialState = deepFreeze([
         {
@@ -359,11 +271,11 @@ describe('subscriptionsReducers', () => {
 
       const action = deepFreeze({
         stream_id: 123,
-        type: EVENT_SUBSCRIPTION_UPDATE,
+        type: EVENT_SUBSCRIPTION,
+        op: 'update',
         eventId: 2,
         id: 2,
         name: 'competition',
-        op: 'update',
         property: 'in_home_view',
         value: true,
       });

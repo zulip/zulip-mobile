@@ -45,9 +45,6 @@ import {
   EVENT_STREAM_REMOVE,
   EVENT_STREAM_UPDATE,
   EVENT_STREAM_OCCUPY,
-  EVENT_SUBSCRIPTION_ADD,
-  EVENT_SUBSCRIPTION_REMOVE,
-  EVENT_SUBSCRIPTION_UPDATE,
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   EVENT_NEW_MESSAGE,
@@ -58,8 +55,6 @@ import {
   EVENT_UPDATE_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_USER_ADD,
-  EVENT_SUBSCRIPTION_PEER_ADD,
-  EVENT_SUBSCRIPTION_PEER_REMOVE,
   CLEAR_TYPING,
   INIT_ALERT_WORDS,
   INIT_STREAMS,
@@ -71,6 +66,7 @@ import {
   EVENT_USER_UPDATE,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
+  EVENT_SUBSCRIPTION,
 } from './actionConstants';
 
 import type { MessageEvent, PresenceEvent } from './api/eventTypes';
@@ -267,15 +263,15 @@ type EventUpdateGlobalNotificationsSettingsAction = {|
 |};
 
 type EventSubscriptionAddAction = {|
-  ...$Exact<ServerEvent>,
-  type: typeof EVENT_SUBSCRIPTION_ADD,
+  ...ServerEvent,
+  type: typeof EVENT_SUBSCRIPTION,
   op: 'add',
   subscriptions: Subscription[],
 |};
 
 type EventSubscriptionRemoveAction = {|
   ...ServerEvent,
-  type: typeof EVENT_SUBSCRIPTION_REMOVE,
+  type: typeof EVENT_SUBSCRIPTION,
   op: 'remove',
   subscriptions: Array<{
     name: string,
@@ -285,7 +281,7 @@ type EventSubscriptionRemoveAction = {|
 
 type EventSubscriptionUpdateAction = {|
   ...ServerEvent,
-  type: typeof EVENT_SUBSCRIPTION_UPDATE,
+  type: typeof EVENT_SUBSCRIPTION,
   op: 'update',
   email: string,
   name: string,
@@ -296,7 +292,7 @@ type EventSubscriptionUpdateAction = {|
 
 type EventSubscriptionPeerAddAction = {|
   ...ServerEvent,
-  type: typeof EVENT_SUBSCRIPTION_PEER_ADD,
+  type: typeof EVENT_SUBSCRIPTION,
   op: 'peer_add',
   subscriptions: string[],
   user_id: number,
@@ -304,7 +300,7 @@ type EventSubscriptionPeerAddAction = {|
 
 type EventSubscriptionPeerRemoveAction = {|
   ...ServerEvent,
-  type: typeof EVENT_SUBSCRIPTION_PEER_REMOVE,
+  type: typeof EVENT_SUBSCRIPTION,
   op: 'peer_remove',
   subscriptions: string[],
   user_id: number,

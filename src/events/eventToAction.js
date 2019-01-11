@@ -10,11 +10,6 @@ import {
   EVENT_STREAM_REMOVE,
   EVENT_STREAM_UPDATE,
   EVENT_STREAM_OCCUPY,
-  EVENT_SUBSCRIPTION_ADD,
-  EVENT_SUBSCRIPTION_REMOVE,
-  EVENT_SUBSCRIPTION_UPDATE,
-  EVENT_SUBSCRIPTION_PEER_ADD,
-  EVENT_SUBSCRIPTION_PEER_REMOVE,
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   EVENT_MESSAGE_DELETE,
@@ -33,15 +28,8 @@ import {
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_REALM_FILTERS,
+  EVENT_SUBSCRIPTION,
 } from '../actionConstants';
-
-const opToActionSubscription = {
-  add: EVENT_SUBSCRIPTION_ADD,
-  remove: EVENT_SUBSCRIPTION_REMOVE,
-  update: EVENT_SUBSCRIPTION_UPDATE,
-  peer_add: EVENT_SUBSCRIPTION_PEER_ADD,
-  peer_remove: EVENT_SUBSCRIPTION_PEER_REMOVE,
-};
 
 const opToActionStream = {
   create: EVENT_STREAM_ADD,
@@ -105,7 +93,7 @@ export default (state: GlobalState, event: Object): EventAction => {
     case 'subscription':
       return {
         ...event,
-        type: opToActionSubscription[event.op],
+        type: EVENT_SUBSCRIPTION,
       };
 
     case 'realm_user':

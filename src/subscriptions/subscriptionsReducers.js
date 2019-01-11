@@ -8,17 +8,24 @@ import {
   ACCOUNT_SWITCH,
   INIT_SUBSCRIPTIONS,
   EVENT_STREAM_UPDATE,
-  EVENT_SUBSCRIPTION_ADD,
-  EVENT_SUBSCRIPTION_REMOVE,
-  EVENT_SUBSCRIPTION_UPDATE,
-  EVENT_SUBSCRIPTION_PEER_ADD,
-  EVENT_SUBSCRIPTION_PEER_REMOVE,
+  EVENT_SUBSCRIPTION,
   REALM_INIT,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
 
 const initialState: SubscriptionsState = NULL_ARRAY;
+
+const updateSubscription = (state, action) =>
+  state.map(
+    sub =>
+      sub.stream_id === action.stream_id
+        ? {
+            ...sub,
+            [action.property]: action.value,
+          }
+        : sub,
+  );
 
 export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {
   switch (action.type) {
@@ -33,56 +40,33 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
     case INIT_SUBSCRIPTIONS:
       return isEqual(action.subscriptions, state) ? state : action.subscriptions;
 
-    case EVENT_SUBSCRIPTION_ADD:
-      return state.concat(
-        action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)),
-      );
-
-    case EVENT_SUBSCRIPTION_REMOVE:
-      return filterArray(
-        state,
-        x => !action.subscriptions.find(y => x && y && x.stream_id === y.stream_id),
-      );
-
     case EVENT_STREAM_UPDATE:
-    case EVENT_SUBSCRIPTION_UPDATE:
-      return state.map(
-        sub =>
-          sub.stream_id === action.stream_id
-            ? {
-                ...sub,
-                [action.property]: action.value,
-              }
-            : sub,
-      );
+      return updateSubscription(state, action);
 
-    case EVENT_SUBSCRIPTION_PEER_ADD:
-      return state;
+    case EVENT_SUBSCRIPTION:
+      switch (action.op) {
+        case 'add':
+          return state.concat(
+            action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)),
+          );
+        case 'remove':
+          return filterArray(
+            state,
+            x => !action.subscriptions.find(y => x && y && x.stream_id === y.stream_id),
+          );
 
-    // we currently do not track subscribers
+        case 'update':
+          return updateSubscription(state, action);
 
-    // return state.map(subscription => {
-    //   const shouldNotAddToStream = action.subscriptions.indexOf(subscription.stream_id) === -1;
-    //   const userAlreadySubscribed = subscription.subscribers.includes(action.user.email);
-    //   if (shouldNotAddToStream || userAlreadySubscribed) {
-    //     return subscription;
-    //   }
-    //
-    //   return {
-    //     ...subscription,
-    //     subscribers: [...subscription.subscribers, action.user.email],
-    //   };
-    // });
+        case 'peer_add':
+        case 'peer_remove':
+          // we currently do not track subscribers
+          return state;
 
-    case EVENT_SUBSCRIPTION_PEER_REMOVE:
-      return state;
-
-    // we currently do not track subscribers
-
-    // return state.map(subscription => ({
-    //   ...subscription,
-    //   subscribers: subscription.subscribers.filter(sub => sub !== action.user.email),
-    // }));
+        default:
+          (action: empty); // eslint-disable-line no-unused-expressions
+          return state;
+      }
 
     default:
       return state;
