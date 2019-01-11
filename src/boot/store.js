@@ -1,9 +1,11 @@
 /* @flow */
 import { applyMiddleware, compose, createStore } from 'redux';
+import type { Store } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import type { Config } from 'redux-persist';
 import { AsyncStorage } from 'react-native';
 
+import type { Action } from '../types';
 import rootReducer from './reducers';
 import middleware from './middleware';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
@@ -96,7 +98,7 @@ const reduxPersistConfig: Config = {
   storage: ZulipAsyncStorage,
 };
 
-const store = createStore(
+const store: Store<*, Action> = createStore(
   rootReducer,
   undefined,
   compose(
