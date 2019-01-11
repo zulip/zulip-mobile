@@ -1,4 +1,6 @@
 /* @flow */
+import { EventTypes } from '../api/eventTypes';
+
 import type { GlobalState, EventAction } from '../types';
 import {
   INIT_ALERT_WORDS,
@@ -25,7 +27,7 @@ import {
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_REALM_FILTERS,
   EVENT_SUBSCRIPTION,
-  EVENT_STREAM,
+  EVENT,
 } from '../actionConstants';
 
 const opToActionUser = {
@@ -55,7 +57,6 @@ const opToActionTyping = {
 const actionTypeOfEventType = {
   update_message: EVENT_UPDATE_MESSAGE,
   subscription: EVENT_SUBSCRIPTION,
-  stream: EVENT_STREAM,
   presence: EVENT_PRESENCE,
   muted_topics: EVENT_MUTED_TOPICS,
   realm_emoji: EVENT_REALM_EMOJI_UPDATE,
@@ -86,9 +87,14 @@ export default (state: GlobalState, event: Object): EventAction => {
         messageId: event.message_id,
       };
 
+    case EventTypes.stream:
+      return {
+        type: EVENT,
+        event,
+      };
+
     case 'update_message':
     case 'subscription':
-    case 'stream':
     case 'presence':
     case 'muted_topics':
     case 'realm_emoji':

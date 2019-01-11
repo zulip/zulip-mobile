@@ -63,9 +63,10 @@ import {
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_SUBSCRIPTION,
-  EVENT_STREAM,
+  EVENT,
 } from './actionConstants';
 
+import { EventTypes } from './api/eventTypes';
 import type { MessageEvent, PresenceEvent } from './api/eventTypes';
 
 import type {
@@ -303,23 +304,23 @@ type EventSubscriptionPeerRemoveAction = {|
   user_id: number,
 |};
 
-type EventStreamCreateAction = {|
+type EventStreamCreate = {|
   ...ServerEvent,
-  type: typeof EVENT_STREAM,
+  type: typeof EventTypes.stream,
   op: 'create',
   streams: Stream[],
 |};
 
-type EventStreamDeleteAction = {|
+type EventStreamDelete = {|
   ...ServerEvent,
-  type: typeof EVENT_STREAM,
+  type: typeof EventTypes.stream,
   op: 'delete',
   streams: Stream[],
 |};
 
-type EventStreamUpdateAction = {|
+type EventStreamUpdate = {|
   ...ServerEvent,
-  type: typeof EVENT_STREAM,
+  type: typeof EventTypes.stream,
   op: 'update',
   stream_id: number,
   name: string,
@@ -327,11 +328,16 @@ type EventStreamUpdateAction = {|
   value: string,
 |};
 
-type EventStreamOccupyAction = {|
+type EventStreamOccupy = {|
   ...ServerEvent,
-  type: typeof EVENT_STREAM,
+  type: typeof EventTypes.stream,
   op: 'occupy',
   streams: Stream[],
+|};
+
+type GenericEventAction = {|
+  type: typeof EVENT,
+  event: EventStreamCreate | EventStreamDelete | EventStreamUpdate | EventStreamOccupy,
 |};
 
 type EventNewMessageAction = {|
@@ -493,12 +499,6 @@ type EventUpdateDisplaySettingsAction = {|
 
 type EventReactionAction = EventReactionAddAction | EventReactionRemoveAction;
 
-type EventStreamAction =
-  | EventStreamCreateAction
-  | EventStreamDeleteAction
-  | EventStreamUpdateAction
-  | EventStreamOccupyAction;
-
 type EventSubscriptionAction =
   | EventSubscriptionAddAction
   | EventSubscriptionRemoveAction
@@ -519,6 +519,7 @@ type EventUserGroupAction =
 
 /** Covers all actions we make from server events. */
 export type EventAction =
+  | GenericEventAction
   // Specific actions.
   | EventAlertWordsAction
   | EventMessageDeleteAction
@@ -533,7 +534,6 @@ export type EventAction =
   | EventUpdateMessageFlagsAction
   // Unions, found just above.
   | EventReactionAction
-  | EventStreamAction
   | EventSubscriptionAction
   | EventTypingAction
   | EventUserAction

@@ -72,6 +72,7 @@ export class EventTypes {
   static heartbeat: 'heartbeat' = 'heartbeat';
   static message: 'message' = 'message';
   static presence: 'presence' = 'presence';
+  static stream: 'stream' = 'stream';
   static update_message_flags: 'update_message_flags' = 'update_message_flags';
 }
 

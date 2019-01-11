@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import isEqual from 'lodash.isequal';
 
+import { EventTypes } from '../api/eventTypes';
 import type { SubscriptionsState, Action } from '../types';
 import {
   LOGOUT,
@@ -9,22 +10,16 @@ import {
   INIT_SUBSCRIPTIONS,
   EVENT_SUBSCRIPTION,
   REALM_INIT,
-  EVENT_STREAM,
+  EVENT,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
 
 const initialState: SubscriptionsState = NULL_ARRAY;
 
-const updateSubscription = (state, action) =>
+const updateSubscription = (state, event) =>
   state.map(
-    sub =>
-      sub.stream_id === action.stream_id
-        ? {
-            ...sub,
-            [action.property]: action.value,
-          }
-        : sub,
+    sub => (sub.stream_id === event.stream_id ? { ...sub, [event.property]: event.value } : sub),
   );
 
 export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {
@@ -39,21 +34,6 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
 
     case INIT_SUBSCRIPTIONS:
       return isEqual(action.subscriptions, state) ? state : action.subscriptions;
-
-    case EVENT_STREAM:
-      switch (action.op) {
-        case 'update':
-          return updateSubscription(state, action);
-
-        case 'create':
-        case 'delete':
-        case 'occupy':
-          return state;
-
-        default:
-          (action: empty); // eslint-disable-line no-unused-expressions
-          return state;
-      }
 
     case EVENT_SUBSCRIPTION:
       switch (action.op) {
@@ -80,6 +60,27 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
           return state;
       }
 
+    case EVENT: {
+      const { event } = action;
+      switch (event.type) {
+        case EventTypes.stream:
+          switch (event.op) {
+            case 'update':
+              return updateSubscription(state, event);
+
+            case 'create':
+            case 'delete':
+            case 'occupy':
+              return state;
+
+            default:
+              (event: empty); // eslint-disable-line no-unused-expressions
+              return state;
+          }
+        default:
+          return state;
+      }
+    }
     default:
       return state;
   }
