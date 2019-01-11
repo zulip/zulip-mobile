@@ -1,7 +1,7 @@
 /* @flow */
 import uniqby from 'lodash.uniqby';
 
-import type { Presence, User, UserGroup, PresenceState } from '../types';
+import type { UserPresence, User, UserGroup, PresenceState } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
@@ -31,7 +31,7 @@ export const groupUsersByStatus = (users: User[], presences: PresenceState): Obj
     { active: [], idle: [], offline: [] },
   );
 
-const statusOrder = (presence: Presence): number => {
+const statusOrder = (presence: UserPresence): number => {
   const status = statusFromPresence(presence);
   switch (status) {
     case 'active':

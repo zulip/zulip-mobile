@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { GlobalState, Presence } from '../types';
+import type { GlobalState, UserPresence } from '../types';
 import { nullFunction } from '../nullObjects';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
@@ -26,7 +26,7 @@ type Props = {|
   email: string,
   name: string,
   size: number,
-  presence?: Presence,
+  presence?: UserPresence,
   realm: string,
   shape: 'square' | 'rounded' | 'circle',
   onPress?: () => void,

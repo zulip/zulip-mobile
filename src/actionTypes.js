@@ -86,7 +86,7 @@ import type {
   Subscription,
   Topic,
   PresenceState,
-  Presence,
+  UserPresence,
   RealmEmojiState,
   SettingsState,
   CaughtUpState,
@@ -390,7 +390,7 @@ export type EventPresenceAction = {|
   ...ServerEvent,
   type: typeof EVENT_PRESENCE,
   email: string,
-  presence: Presence,
+  presence: UserPresence,
   server_timestamp: number,
 |};
 

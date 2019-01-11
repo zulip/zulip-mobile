@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Presence } from '../types';
+import type { UserPresence } from '../types';
 import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
 import styles, { BRAND_COLOR } from '../styles';
 
@@ -29,7 +29,7 @@ type Props = {|
   email: string,
   fullName: string,
   avatarUrl: ?string,
-  presence?: Presence,
+  presence?: UserPresence,
   isSelected: boolean,
   showEmail: boolean,
   unreadCount?: number,

@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Style, Presence } from '../types';
+import type { Style, UserPresence } from '../types';
 import { statusFromPresence } from '../utils/presence';
 
 const styles = StyleSheet.create({
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 
 type Props = {|
   style?: Style,
-  presence?: Presence,
+  presence?: UserPresence,
   hideIfOffline: boolean,
 |};
 
@@ -38,7 +38,7 @@ type Props = {|
  * * gray if 'offline'
  *
  * @prop [style] - Style object for additional customization.
- * @prop [presence] - Presence object used to determine the status from.
+ * @prop [presence] - UserPresence object used to determine the status from.
  * @prop hideIfOffline - Do not render for 'offline' state.
  */
 export default class UserStatusIndicator extends PureComponent<Props> {

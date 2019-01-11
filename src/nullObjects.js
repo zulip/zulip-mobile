@@ -2,7 +2,7 @@
 import type {
   User,
   Subscription,
-  Presence,
+  UserPresence,
   PresenceAggregated,
   CaughtUp,
   Fetching,
@@ -61,7 +61,7 @@ export const NULL_PRESENCE_AGGREGATED: PresenceAggregated = {
 };
 
 /** DEPRECATED; don't add new uses.  See block comment above definition. */
-export const NULL_PRESENCE: Presence = {
+export const NULL_PRESENCE: UserPresence = {
   aggregated: NULL_PRESENCE_AGGREGATED,
 };
 

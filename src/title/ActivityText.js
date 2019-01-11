@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Presence, Style } from '../types';
+import type { UserPresence, Style } from '../types';
 import { getPresence } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
 
 type Props = {
   color?: string,
-  presence: Presence,
+  presence: UserPresence,
   style: Style,
 };
 

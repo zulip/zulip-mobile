@@ -159,7 +159,7 @@ export type PresenceAggregated = {|
  *   to display the user's presence status.
  * @prop (client) - The information reported by each of the user's clients.
  */
-export type Presence = {|
+export type UserPresence = {|
   aggregated: PresenceAggregated,
   [client: string]: ClientPresence,
 |};
@@ -399,7 +399,7 @@ export type UserGroupsState = UserGroup[];
  *   presence status.
  */
 export type PresenceState = {|
-  [email: string]: Presence,
+  [email: string]: UserPresence,
 |};
 
 export type OutboxState = Outbox[];

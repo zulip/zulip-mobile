@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
-import type { Presence, User } from '../types';
+import type { UserPresence, User } from '../types';
 import { Avatar, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
 import { getPresence } from '../directSelectors';
@@ -14,7 +14,7 @@ import styles from '../styles';
 type Props = {
   user: User,
   color: string,
-  presence: Presence,
+  presence: UserPresence,
 };
 
 class TitlePrivate extends PureComponent<Props> {

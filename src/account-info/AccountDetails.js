@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 
-import type { Dispatch, Presence, User } from '../types';
+import type { Dispatch, UserPresence, User } from '../types';
 import { Avatar, ComponentList, RawLabel, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
@@ -26,7 +26,7 @@ const componentStyles = StyleSheet.create({
 type Props = {|
   dispatch: Dispatch,
   user: User,
-  presence: Presence,
+  presence: UserPresence,
 |};
 
 export default class AccountDetails extends PureComponent<Props, void> {
