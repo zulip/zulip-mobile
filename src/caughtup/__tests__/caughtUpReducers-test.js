@@ -26,7 +26,6 @@ describe('caughtUpReducers', () => {
         narrow: HOME_NARROW,
       });
 
-      // $FlowFixMe passing a mismatched action type
       const newState = caughtUpReducers(initialState, action);
 
       expect(newState).toBe(initialState);

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { CaughtUpState, CaughtUpAction, MessageFetchCompleteAction } from '../types';
+import type { CaughtUpState, Action, MessageFetchCompleteAction } from '../types';
 import {
   DEAD_QUEUE,
   LOGOUT,
@@ -63,7 +63,7 @@ const messageFetchComplete = (
   };
 };
 
-export default (state: CaughtUpState = initialState, action: CaughtUpAction): CaughtUpState => {
+export default (state: CaughtUpState = initialState, action: Action): CaughtUpState => {
   switch (action.type) {
     case DEAD_QUEUE:
     case LOGOUT:
