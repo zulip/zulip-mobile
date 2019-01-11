@@ -520,7 +520,7 @@ export type InitRealmFilterAction = {|
   filters: RealmFilter[],
 |};
 
-export type RealmAction =
+type RealmAction =
   | DeadQueueAction
   | RealmInitAction
   | UnackPushTokenAction
@@ -530,14 +530,7 @@ export type RealmAction =
   | InitRealmEmojiAction
   | InitRealmFilterAction;
 
-export type AlertWordsAction = RealmInitAction | EventAlertWordsAction;
-
-export type FlagsAction =
-  | RehydrateAction
-  | MessageFetchCompleteAction
-  | EventNewMessageAction
-  | EventUpdateMessageFlagsAction
-  | MarkMessagesReadAction;
+type AlertWordsAction = RealmInitAction | EventAlertWordsAction;
 
 export type SettingsChangeAction = {|
   type: typeof SETTINGS_CHANGE,
@@ -550,7 +543,7 @@ export type DraftUpdateAction = {|
   content: string,
 |};
 
-export type DraftsAction = DraftUpdateAction | LogoutAction;
+type DraftsAction = DraftUpdateAction | LogoutAction;
 
 export type DoNarrowAction = {|
   type: typeof DO_NARROW,
@@ -563,7 +556,7 @@ export type PresenceResponseAction = {|
   serverTimestamp: number,
 |};
 
-export type PresenceAction = EventPresenceAction | PresenceResponseAction | RealmInitAction;
+type PresenceAction = EventPresenceAction | PresenceResponseAction | RealmInitAction;
 
 export type MessageSendStartAction = {|
   type: typeof MESSAGE_SEND_START,
@@ -590,7 +583,7 @@ export type ClearTypingAction = {|
   outdatedNotifications: string[],
 |};
 
-export type TypingAction = EventTypingAction | ClearTypingAction;
+type TypingAction = EventTypingAction | ClearTypingAction;
 
 export type InitStreamsAction = {|
   type: typeof INIT_STREAMS,
@@ -603,28 +596,28 @@ export type InitTopicsAction = {|
   streamId: number,
 |};
 
-export type TopicsAction = InitTopicsAction | AccountSwitchAction;
+type TopicsAction = InitTopicsAction | AccountSwitchAction;
 
 export type InitSubscriptionsAction = {|
   type: typeof INIT_SUBSCRIPTIONS,
   subscriptions: Subscription[],
 |};
 
-export type AccountAction =
+type AccountAction =
   | AccountSwitchAction
   | RealmAddAction
   | AccountRemoveAction
   | LoginSuccessAction
   | LogoutAction;
 
-export type CaughtUpAction =
+type CaughtUpAction =
   | DeadQueueAction
   | LogoutAction
   | LoginSuccessAction
   | AccountSwitchAction
   | MessageFetchCompleteAction;
 
-export type LoadingAction =
+type LoadingAction =
   | DeadQueueAction
   | AccountSwitchAction
   | InitialFetchStartAction
@@ -632,7 +625,7 @@ export type LoadingAction =
   | InitStreamsAction
   | InitSubscriptionsAction;
 
-export type MessageAction =
+type MessageAction =
   | MessageFetchCompleteAction
   | EventReactionAddAction
   | EventReactionRemoveAction
@@ -640,25 +633,18 @@ export type MessageAction =
   | EventMessageDeleteAction
   | EventUpdateMessageAction;
 
-export type MuteAction =
-  | DeadQueueAction
-  | AccountSwitchAction
-  | RealmInitAction
-  | EventMutedTopicsAction;
+type MuteAction = DeadQueueAction | AccountSwitchAction | RealmInitAction | EventMutedTopicsAction;
 
-export type NavAction =
+type NavAction =
   | RehydrateAction
   | AccountSwitchAction
   | LoginSuccessAction
   | InitialFetchCompleteAction
   | LogoutAction;
 
-export type OutboxAction =
-  | MessageSendStartAction
-  | MessageSendCompleteAction
-  | DeleteOutboxMessageAction;
+type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 
-export type SessionAction =
+type SessionAction =
   | RehydrateAction
   | AppStateAction
   | AppOnlineAction
@@ -675,38 +661,32 @@ export type SessionAction =
   | ToggleOutboxSendingAction
   | InitialFetchCompleteAction;
 
-export type SettingsAction =
+type SettingsAction =
   | RealmInitAction
   | SettingsChangeAction
   | EventUpdateGlobalNotificationsSettingsAction;
 
-export type StreamAction =
+type StreamAction =
   | InitStreamsAction
   | EventStreamRemoveAction
   | EventStreamUpdateAction
   | AccountSwitchAction;
 
-export type SubscriptionsAction =
+type SubscriptionsAction =
   | InitSubscriptionsAction
   | RealmInitAction
   | EventSubscriptionAddAction
   | EventSubscriptionRemoveAction
   | EventSubscriptionUpdateAction;
 
-export type UnreadAction =
+type UnreadAction =
   | RealmInitAction
   | EventNewMessageAction
   | MarkMessagesReadAction
   | EventMessageDeleteAction
   | EventUpdateMessageFlagsAction;
 
-export type UsersAction = RealmInitAction | EventUserAddAction;
-
-export type UserGroupsAction =
-  | RealmInitAction
-  | AccountSwitchAction
-  | LoginSuccessAction
-  | LogoutAction;
+type UsersAction = RealmInitAction | EventUserAddAction;
 
 export type Action =
   | AccountAction
