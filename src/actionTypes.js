@@ -533,7 +533,27 @@ export type EventReactionAction = EventReactionAddAction | EventReactionRemoveAc
 
 export type EventTypingAction = EventTypingStartAction | EventTypingStopAction;
 
-export type EventAction = EventSubscriptionAction | EventUserAction;
+export type EventAction =
+  | EventAlertWordsAction
+  | EventReactionAddAction
+  | EventReactionRemoveAction
+  | EventNewMessageAction
+  | EventMessageDeleteAction
+  | EventUpdateMessageAction
+  | EventMutedTopicsAction
+  | EventPresenceAction
+  | EventUpdateGlobalNotificationsSettingsAction
+  | EventStreamAction
+  | EventSubscriptionAction
+  | EventTypingAction
+  | EventRealmEmojiUpdateAction
+  | EventRealmFiltersAction
+  | EventUpdateDisplaySettingsAction
+  | EventUpdateMessageFlagsAction
+  | EventUserAction
+  | EventUserGroupAction
+  | {| type: 'ignore' |}
+  | {| type: 'unknown', event: {} |};
 
 export type InitRealmEmojiAction = {|
   type: typeof INIT_REALM_EMOJI,
@@ -619,26 +639,15 @@ type AccountAction =
   | LoginSuccessAction
   | LogoutAction;
 
-type AlertWordsAction = EventAlertWordsAction;
-
 type DraftsAction = DraftUpdateAction;
 
 type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
 
-type MessageAction =
-  | MessageFetchStartAction
-  | MessageFetchCompleteAction
-  | EventReactionAddAction
-  | EventReactionRemoveAction
-  | EventNewMessageAction
-  | EventMessageDeleteAction
-  | EventUpdateMessageAction;
-
-type MuteAction = EventMutedTopicsAction;
+type MessageAction = MessageFetchStartAction | MessageFetchCompleteAction;
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 
-type PresenceAction = EventPresenceAction | PresenceResponseAction;
+type PresenceAction = PresenceResponseAction;
 
 type RealmAction =
   | RealmInitAction
@@ -660,29 +669,24 @@ type SessionAction =
   | DebugFlagToggleAction
   | ToggleOutboxSendingAction;
 
-type SettingsAction = SettingsChangeAction | EventUpdateGlobalNotificationsSettingsAction;
+type SettingsAction = SettingsChangeAction;
 
-type StreamAction = InitStreamsAction | EventStreamRemoveAction | EventStreamUpdateAction;
+type StreamAction = InitStreamsAction;
 
-type SubscriptionsAction =
-  | InitSubscriptionsAction
-  | EventSubscriptionAddAction
-  | EventSubscriptionRemoveAction
-  | EventSubscriptionUpdateAction;
+type SubscriptionsAction = InitSubscriptionsAction;
 
 type TopicsAction = InitTopicsAction;
 
-type TypingAction = EventTypingAction | ClearTypingAction;
+type TypingAction = ClearTypingAction;
 
 /** Covers all actions we ever `dispatch`. */
 // The grouping here is completely arbitrary; don't worry about it.
 export type Action =
+  | EventAction
   | AccountAction
-  | AlertWordsAction
   | DraftsAction
   | LoadingAction
   | MessageAction
-  | MuteAction
   | OutboxAction
   | PresenceAction
   | RealmAction
