@@ -52,7 +52,7 @@ import {
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   EVENT_UPDATE_DISPLAY_SETTINGS,
-  EVENT_REALM_FILTER_UPDATE,
+  EVENT_REALM_FILTERS,
 } from '../actionConstants';
 
 import { getUserById } from '../users/userHelpers';
@@ -175,7 +175,7 @@ const realmEmojiUpdate = (state: GlobalState, event: Object): EventRealmEmojiUpd
 
 const realmFilters = (state: GlobalState, event: Object): EventRealmFiltersAction => ({
   ...event,
-  type: EVENT_REALM_FILTER_UPDATE,
+  type: EVENT_REALM_FILTERS,
 });
 
 const updateGlobalNotifications = (

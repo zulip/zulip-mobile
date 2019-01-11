@@ -5,7 +5,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
-  EVENT_REALM_FILTER_UPDATE,
+  EVENT_REALM_FILTERS,
 } from '../../actionConstants';
 import { NULL_OBJECT } from '../../nullObjects';
 
@@ -95,7 +95,7 @@ describe('realmReducers', () => {
     });
   });
 
-  describe('EVENT_REALM_FILTER_UPDATE', () => {
+  describe('EVENT_REALM_FILTERS', () => {
     test('update state to new realm_filter', () => {
       const prevState = deepFreeze({
         twentyFourHourTime: false,
@@ -108,7 +108,7 @@ describe('realmReducers', () => {
         id: 4,
         op: 'update',
         realm_filters: [['#(?P<id>[0-9]+)', 'https://github.com/zulip/zulip/issues/%(id)s', 2]],
-        type: EVENT_REALM_FILTER_UPDATE,
+        type: EVENT_REALM_FILTERS,
       });
 
       const expectedState = {

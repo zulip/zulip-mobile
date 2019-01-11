@@ -7,7 +7,7 @@ import type {
   LogoutAction,
   InitRealmEmojiAction,
   InitRealmFilterAction,
-  EventRealmFilterUpdateAction,
+  EventRealmFiltersAction,
   EventRealmEmojiUpdateAction,
 } from '../types';
 import {
@@ -19,7 +19,7 @@ import {
   INIT_REALM_EMOJI,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   INIT_REALM_FILTER,
-  EVENT_REALM_FILTER_UPDATE,
+  EVENT_REALM_FILTERS,
 } from '../actionConstants';
 
 // Initial state
@@ -59,10 +59,7 @@ const initRealmFilter = (state: RealmState, action: InitRealmFilterAction): Real
   filters: action.filters,
 });
 
-const eventRealmFilterUpdate = (
-  state: RealmState,
-  action: EventRealmFilterUpdateAction,
-): RealmState => ({
+const eventRealmFilters = (state: RealmState, action: EventRealmFiltersAction): RealmState => ({
   ...state,
   filters: action.realm_filters,
 });
@@ -93,8 +90,8 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
     case INIT_REALM_FILTER:
       return initRealmFilter(state, action);
 
-    case EVENT_REALM_FILTER_UPDATE:
-      return eventRealmFilterUpdate(state, action);
+    case EVENT_REALM_FILTERS:
+      return eventRealmFilters(state, action);
 
     case EVENT_REALM_EMOJI_UPDATE:
       return eventRealmEmojiUpdate(state, action);

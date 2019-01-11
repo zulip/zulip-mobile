@@ -479,7 +479,6 @@ export type EventUserGroupRemoveMembersAction = {|
 |};
 
 export type EventRealmEmojiUpdateAction = any;
-export type EventRealmFilterUpdateAction = any;
 export type EventUpdateDisplaySettingsAction = any;
 
 export type EventSubscriptionAction =
