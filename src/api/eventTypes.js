@@ -33,14 +33,19 @@ export type ClientPresence = {|
   status: UserStatus,
   timestamp: number,
   client: string,
-  /* Indicates if the client can receive push notifications. This property
+
+  /**
+   * Indicates if the client can receive push notifications. This property
    * was intended for showing a user's presence status as "on mobile" if
    * they are inactive on all devices but can receive push notifications
    * (see zulip/zulip bd20a756f9). However, this property doesn't seem to be
    * used anywhere on the web app or the mobile client, and can be
    * considered legacy.
+   *
+   * Empirically this is `boolean` on at least some clients, and absent on
+   * `aggregated`.  By writing `empty` we make it an error to actually use it.
    */
-  pushable: boolean,
+  pushable?: empty,
 |};
 
 //
