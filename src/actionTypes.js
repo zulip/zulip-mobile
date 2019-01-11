@@ -303,14 +303,14 @@ type EventSubscriptionPeerRemoveAction = {|
   user_id: number,
 |};
 
-type EventStreamAddAction = {|
+type EventStreamCreateAction = {|
   ...ServerEvent,
   type: typeof EVENT_STREAM,
   op: 'create',
   streams: Stream[],
 |};
 
-type EventStreamRemoveAction = {|
+type EventStreamDeleteAction = {|
   ...ServerEvent,
   type: typeof EVENT_STREAM,
   op: 'delete',
@@ -494,8 +494,8 @@ type EventUpdateDisplaySettingsAction = {|
 type EventReactionAction = EventReactionAddAction | EventReactionRemoveAction;
 
 type EventStreamAction =
-  | EventStreamAddAction
-  | EventStreamRemoveAction
+  | EventStreamCreateAction
+  | EventStreamDeleteAction
   | EventStreamUpdateAction
   | EventStreamOccupyAction;
 
