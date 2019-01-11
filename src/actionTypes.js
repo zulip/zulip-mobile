@@ -520,15 +520,6 @@ export type InitRealmFilterAction = {|
   filters: RealmFilter[],
 |};
 
-type RealmAction =
-  | RealmInitAction
-  | UnackPushTokenAction
-  | AckPushTokenAction
-  | InitRealmEmojiAction
-  | InitRealmFilterAction;
-
-type AlertWordsAction = EventAlertWordsAction;
-
 export type SettingsChangeAction = {|
   type: typeof SETTINGS_CHANGE,
   update: $Shape<SettingsState>,
@@ -540,8 +531,6 @@ export type DraftUpdateAction = {|
   content: string,
 |};
 
-type DraftsAction = DraftUpdateAction;
-
 export type DoNarrowAction = {|
   type: typeof DO_NARROW,
   narrow: Narrow,
@@ -552,8 +541,6 @@ export type PresenceResponseAction = {|
   presence: PresenceState,
   serverTimestamp: number,
 |};
-
-type PresenceAction = EventPresenceAction | PresenceResponseAction;
 
 export type MessageSendStartAction = {|
   type: typeof MESSAGE_SEND_START,
@@ -580,8 +567,6 @@ export type ClearTypingAction = {|
   outdatedNotifications: string[],
 |};
 
-type TypingAction = EventTypingAction | ClearTypingAction;
-
 export type InitStreamsAction = {|
   type: typeof INIT_STREAMS,
   streams: Stream[],
@@ -593,12 +578,14 @@ export type InitTopicsAction = {|
   streamId: number,
 |};
 
-type TopicsAction = InitTopicsAction;
-
 export type InitSubscriptionsAction = {|
   type: typeof INIT_SUBSCRIPTIONS,
   subscriptions: Subscription[],
 |};
+
+//
+// The `Action` union type.
+//
 
 type AccountAction =
   | AccountSwitchAction
@@ -607,9 +594,14 @@ type AccountAction =
   | LoginSuccessAction
   | LogoutAction;
 
+type AlertWordsAction = EventAlertWordsAction;
+
+type DraftsAction = DraftUpdateAction;
+
 type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
 
 type MessageAction =
+  | MessageFetchStartAction
   | MessageFetchCompleteAction
   | EventReactionAddAction
   | EventReactionRemoveAction
@@ -621,12 +613,22 @@ type MuteAction = EventMutedTopicsAction;
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 
+type PresenceAction = EventPresenceAction | PresenceResponseAction;
+
+type RealmAction =
+  | RealmInitAction
+  | UnackPushTokenAction
+  | AckPushTokenAction
+  | InitRealmEmojiAction
+  | InitRealmFilterAction;
+
 type SessionAction =
   | RehydrateAction
   | AppStateAction
   | AppOnlineAction
   | InitSafeAreaInsetsAction
   | AppOrientationAction
+  | DoNarrowAction
   | GotPushTokenAction
   | StartEditMessageAction
   | CancelEditMessageAction
@@ -643,14 +645,18 @@ type SubscriptionsAction =
   | EventSubscriptionRemoveAction
   | EventSubscriptionUpdateAction;
 
+type TopicsAction = InitTopicsAction;
+
+type TypingAction = EventTypingAction | ClearTypingAction;
+
+/** Covers all actions we ever `dispatch`. */
+// The grouping here is completely arbitrary; don't worry about it.
 export type Action =
   | AccountAction
   | AlertWordsAction
-  | DoNarrowAction
   | DraftsAction
   | LoadingAction
   | MessageAction
-  | MessageFetchStartAction
   | MuteAction
   | OutboxAction
   | PresenceAction
