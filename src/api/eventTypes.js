@@ -10,7 +10,7 @@
  * @flow strict-local
  */
 
-import type { Message } from './apiTypes';
+import type { Message, Stream } from './apiTypes';
 
 //
 // First, types used inside events.
@@ -109,6 +109,27 @@ export type PresenceEvent = {|
   server_timestamp: number,
   presence: UserPresence,
 |};
+
+type StreamListEvent = {|
+  ...EventCommon,
+  type: typeof EventTypes.stream,
+  streams: Stream[],
+|};
+
+// prettier-ignore
+export type StreamEvent =
+  | {| ...StreamListEvent, op: 'create', |}
+  | {| ...StreamListEvent, op: 'delete', |}
+  | {| ...StreamListEvent, op: 'occupy', |}
+  | {|
+      ...EventCommon,
+      type: typeof EventTypes.stream,
+      op: 'update',
+      stream_id: number,
+      name: string,
+      property: string,
+      value: string,
+    |};
 
 export type UpdateMessageFlagsEvent = {|
   ...EventCommon,

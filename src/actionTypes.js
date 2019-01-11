@@ -66,8 +66,7 @@ import {
   EVENT,
 } from './actionConstants';
 
-import { EventTypes } from './api/eventTypes';
-import type { MessageEvent, PresenceEvent } from './api/eventTypes';
+import type { MessageEvent, PresenceEvent, StreamEvent } from './api/eventTypes';
 
 import type {
   Dimensions,
@@ -304,40 +303,9 @@ type EventSubscriptionPeerRemoveAction = {|
   user_id: number,
 |};
 
-type EventStreamCreate = {|
-  ...ServerEvent,
-  type: typeof EventTypes.stream,
-  op: 'create',
-  streams: Stream[],
-|};
-
-type EventStreamDelete = {|
-  ...ServerEvent,
-  type: typeof EventTypes.stream,
-  op: 'delete',
-  streams: Stream[],
-|};
-
-type EventStreamUpdate = {|
-  ...ServerEvent,
-  type: typeof EventTypes.stream,
-  op: 'update',
-  stream_id: number,
-  name: string,
-  property: string,
-  value: string,
-|};
-
-type EventStreamOccupy = {|
-  ...ServerEvent,
-  type: typeof EventTypes.stream,
-  op: 'occupy',
-  streams: Stream[],
-|};
-
 type GenericEventAction = {|
   type: typeof EVENT,
-  event: EventStreamCreate | EventStreamDelete | EventStreamUpdate | EventStreamOccupy,
+  event: StreamEvent,
 |};
 
 type EventNewMessageAction = {|
