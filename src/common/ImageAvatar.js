@@ -3,15 +3,14 @@ import React, { PureComponent } from 'react';
 import { ImageBackground, View } from 'react-native';
 
 import type { ChildrenArray } from '../types';
-import { nullFunction } from '../nullObjects';
 import Touchable from './Touchable';
 
 type Props = {
   avatarUrl: string,
   size: number,
   shape: string,
-  children: ChildrenArray<*>,
-  onPress: () => void,
+  children?: ChildrenArray<*>,
+  onPress?: () => void,
 };
 
 /**
@@ -20,13 +19,12 @@ type Props = {
  * @prop avatarUrl - Absolute or relative url to an avatar image.
  * @prop size - Sets width and height in pixels.
  * @prop shape - One of 'square', 'rounded', 'circle'.
- * @prop children - If provided, will render inside the component body.
+ * @prop [children] - If provided, will render inside the component body.
  * @prop [onPress] - Event fired on pressing the component.
  */
 export default class ImageAvatar extends PureComponent<Props> {
   static defaultProps = {
     shape: 'rounded',
-    onPress: nullFunction,
   };
 
   render() {
