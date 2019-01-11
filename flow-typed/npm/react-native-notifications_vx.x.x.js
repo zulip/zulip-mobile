@@ -1,4 +1,4 @@
-// flow-typed signature: 086e03baede59bb43adf7ccc62806822
+// flow-typed signature: 399322e5cd765e244d5ca166c198afe4
 // flow-typed version: <<STUB>>/react-native-notifications_v^1.2.0/flow_v0.78.0
 
 /**
@@ -22,6 +22,14 @@ declare module 'react-native-notifications' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
+declare module 'react-native-notifications/android/build/reports/tests/testDebugUnitTest/js/report' {
+  declare module.exports: any;
+}
+
+declare module 'react-native-notifications/android/build/reports/tests/testReleaseUnitTest/js/report' {
+  declare module.exports: any;
+}
+
 declare module 'react-native-notifications/index.android' {
   declare module.exports: any;
 }
@@ -39,6 +47,12 @@ declare module 'react-native-notifications/notification.ios' {
 }
 
 // Filename aliases
+declare module 'react-native-notifications/android/build/reports/tests/testDebugUnitTest/js/report.js' {
+  declare module.exports: $Exports<'react-native-notifications/android/build/reports/tests/testDebugUnitTest/js/report'>;
+}
+declare module 'react-native-notifications/android/build/reports/tests/testReleaseUnitTest/js/report.js' {
+  declare module.exports: $Exports<'react-native-notifications/android/build/reports/tests/testReleaseUnitTest/js/report'>;
+}
 declare module 'react-native-notifications/index.android.js' {
   declare module.exports: $Exports<'react-native-notifications/index.android'>;
 }

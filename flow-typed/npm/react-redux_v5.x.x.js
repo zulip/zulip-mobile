@@ -1,5 +1,5 @@
-// flow-typed signature: 502cfd4f5e95c6308f747cdf16dc93ce
-// flow-typed version: 1751d5bf0a/react-redux_v5.x.x/flow_>=v0.68.0
+// flow-typed signature: b872fdc4da6b0c1021c55df6fab87e73
+// flow-typed version: f8afc4cfdd/react-redux_v5.x.x/flow_>=v0.68.0 <=v0.84.x
 
 declare module "react-redux" {
   import type { ComponentType, ElementConfig } from 'react';
