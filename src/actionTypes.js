@@ -507,6 +507,14 @@ export type EventUpdateDisplaySettingsAction = {|
   [string]: any,
 |};
 
+export type EventReactionAction = EventReactionAddAction | EventReactionRemoveAction;
+
+export type EventStreamAction =
+  | EventStreamAddAction
+  | EventStreamRemoveAction
+  | EventStreamUpdateAction
+  | EventStreamOccupyAction;
+
 export type EventSubscriptionAction =
   | EventSubscriptionAddAction
   | EventSubscriptionRemoveAction
@@ -514,11 +522,7 @@ export type EventSubscriptionAction =
   | EventSubscriptionPeerAddAction
   | EventSubscriptionPeerRemoveAction;
 
-export type EventStreamAction =
-  | EventStreamAddAction
-  | EventStreamRemoveAction
-  | EventStreamUpdateAction
-  | EventStreamOccupyAction;
+export type EventTypingAction = EventTypingStartAction | EventTypingStopAction;
 
 export type EventUserAction = EventUserAddAction | EventUserRemoveAction | EventUserUpdateAction;
 
@@ -529,29 +533,28 @@ export type EventUserGroupAction =
   | EventUserGroupAddMembersAction
   | EventUserGroupRemoveMembersAction;
 
-export type EventReactionAction = EventReactionAddAction | EventReactionRemoveAction;
-
-export type EventTypingAction = EventTypingStartAction | EventTypingStopAction;
-
+/** Covers all actions we make from server events. */
 export type EventAction =
+  // Specific actions.
   | EventAlertWordsAction
-  | EventReactionAddAction
-  | EventReactionRemoveAction
-  | EventNewMessageAction
   | EventMessageDeleteAction
-  | EventUpdateMessageAction
   | EventMutedTopicsAction
+  | EventNewMessageAction
   | EventPresenceAction
+  | EventRealmEmojiUpdateAction
+  | EventRealmFiltersAction
   | EventUpdateGlobalNotificationsSettingsAction
+  | EventUpdateDisplaySettingsAction
+  | EventUpdateMessageAction
+  | EventUpdateMessageFlagsAction
+  // Unions, found just above.
+  | EventReactionAction
   | EventStreamAction
   | EventSubscriptionAction
   | EventTypingAction
-  | EventRealmEmojiUpdateAction
-  | EventRealmFiltersAction
-  | EventUpdateDisplaySettingsAction
-  | EventUpdateMessageFlagsAction
   | EventUserAction
   | EventUserGroupAction
+  // Dummy actions.
   | {| type: 'ignore' |}
   | {| type: 'unknown', event: {} |};
 
