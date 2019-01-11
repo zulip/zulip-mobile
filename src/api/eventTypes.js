@@ -47,27 +47,31 @@ export type ClientPresence = {|
 // Then, the events themselves.
 //
 
-export type HeartbeatEvent = {|
-  type: 'heartbeat',
+type EventCommon = {|
   id: number,
+|};
+
+export type HeartbeatEvent = {|
+  ...EventCommon,
+  type: 'heartbeat',
 |};
 
 export type MessageEvent = {|
+  ...EventCommon,
   type: 'message',
-  id: number,
 |};
 
 export type PresenceEvent = {|
+  ...EventCommon,
   type: 'message',
-  id: number,
   email: string,
   presence: { [client: string]: ClientPresence },
   server_timestamp: number,
 |};
 
 export type UpdateMessageFlagsEvent = {|
+  ...EventCommon,
   type: 'update_message_flags',
-  id: number,
   all: boolean,
   flag: 'read' | '???',
   messages: number[],
