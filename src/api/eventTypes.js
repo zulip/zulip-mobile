@@ -58,22 +58,22 @@ export type HeartbeatEvent = {|
 
 export type MessageEvent = {|
   ...EventCommon,
-  type: 'message',
+  type: empty, // 'message' -- TODO fill in rest
 |};
 
 export type PresenceEvent = {|
   ...EventCommon,
-  type: 'message',
+  type: 'presence',
   email: string,
-  presence: { [client: string]: ClientPresence },
   server_timestamp: number,
+  presence: { [client: string]: ClientPresence },
 |};
 
 export type UpdateMessageFlagsEvent = {|
   ...EventCommon,
   type: 'update_message_flags',
+  operation: 'add' | 'remove',
+  flag: empty, // TODO fill in
   all: boolean,
-  flag: 'read' | '???',
   messages: number[],
-  operation: 'add' | '???',
 |};
