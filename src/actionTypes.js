@@ -243,10 +243,6 @@ type InitialFetchCompleteAction = {|
   type: typeof INITIAL_FETCH_COMPLETE,
 |};
 
-type StreamUpdateDetails = {|
-  ...$Exact<Stream>,
-|};
-
 type ServerEvent = {|
   id: number,
 |};
@@ -323,23 +319,23 @@ type EventStreamAddAction = {|
   ...ServerEvent,
   type: typeof EVENT_STREAM_ADD,
   op: 'create',
-  streams: StreamUpdateDetails[],
+  streams: Stream[],
 |};
 
 type EventStreamRemoveAction = {|
   ...ServerEvent,
   type: typeof EVENT_STREAM_REMOVE,
   op: 'delete',
-  streams: StreamUpdateDetails[],
+  streams: Stream[],
 |};
 
 type EventStreamUpdateAction = {|
   ...ServerEvent,
   type: typeof EVENT_STREAM_UPDATE,
   op: 'update',
+  stream_id: number,
   name: string,
   property: string,
-  stream_id: number,
   value: string,
 |};
 
@@ -347,7 +343,7 @@ type EventStreamOccupyAction = {|
   ...ServerEvent,
   type: typeof EVENT_STREAM_OCCUPY,
   op: 'occupy',
-  streams: StreamUpdateDetails[],
+  streams: Stream[],
 |};
 
 type EventNewMessageAction = {|
