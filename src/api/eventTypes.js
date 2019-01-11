@@ -48,6 +48,20 @@ export type ClientPresence = {|
   pushable?: empty,
 |};
 
+/**
+ * A user's presence status, including all information from all their clients.
+ *
+ * The `aggregated` property equals one of the others.  For details, see:
+ *   https://zulipchat.com/api/get-presence
+ *
+ * See also the app's `getAggregatedPresence`, which reimplements a version
+ * of the logic to compute `aggregated`.
+ */
+export type UserPresence = {|
+  aggregated: ClientPresence,
+  [client: string]: ClientPresence,
+|};
+
 //
 // Then, the events themselves.
 //
@@ -71,7 +85,7 @@ export type PresenceEvent = {|
   type: 'presence',
   email: string,
   server_timestamp: number,
-  presence: { [client: string]: ClientPresence },
+  presence: UserPresence,
 |};
 
 export type UpdateMessageFlagsEvent = {|

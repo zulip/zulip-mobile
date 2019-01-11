@@ -2,7 +2,7 @@
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
-import type { PresenceAggregated, UserPresence, UserStatus } from '../types';
+import type { ClientPresence, UserPresence, UserStatus } from '../types';
 
 const OFFLINE_THRESHOLD_SECS = 140;
 
@@ -16,7 +16,7 @@ const OFFLINE_THRESHOLD_SECS = 140;
  * This logic should match `status_from_timestamp` in the web app's
  * `static/js/presence.js`.
  */
-export const getAggregatedPresence = (presence: UserPresence): PresenceAggregated =>
+export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
   /* Out of the ClientPresence objects found in `presence`, we consider only
    * those with a timestamp newer than OFFLINE_THRESHOLD_SECS; then of
    * those, return the one that has the greatest UserStatus, where

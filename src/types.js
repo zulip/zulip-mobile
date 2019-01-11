@@ -7,7 +7,6 @@ import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/Style
 import type { Action, NavigateAction } from './actionTypes';
 import type {
   Auth,
-  ClientPresence,
   Topic,
   Message,
   Reaction,
@@ -17,7 +16,7 @@ import type {
   Stream,
   Subscription,
   User,
-  UserStatus,
+  UserPresence,
 } from './api/apiTypes';
 import type { AppStyles } from './styles/theme';
 
@@ -135,33 +134,6 @@ export type UserGroup = {|
   id: number,
   members: number[],
   name: string,
-|};
-
-/**
- * A user's presence status, summarized across all their clients.
- *
- * For an explanation of the Zulip presence model and how to interpret
- * `status` and `timestamp`, see the subsystem doc:
- *   https://zulip.readthedocs.io/en/latest/subsystems/presence.html
- *
- * For our logic to implement this aggregation, see `getAggregatedPresence`.
- */
-export type PresenceAggregated = {|
-  client: string,
-  status: UserStatus,
-  timestamp: number,
-|};
-
-/**
- * A user's presence status, including all information from all their clients.
- *
- * @prop aggregated - The summary of all available information, to be used
- *   to display the user's presence status.
- * @prop (client) - The information reported by each of the user's clients.
- */
-export type UserPresence = {|
-  aggregated: PresenceAggregated,
-  [client: string]: ClientPresence,
 |};
 
 /**
