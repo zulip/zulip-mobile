@@ -129,6 +129,10 @@ export type UserIdMap = {
   [userId: number]: User,
 };
 
+export type UserEmailMap = {|
+  [email: string]: User,
+|};
+
 /**
  * Specifies user status related properties
  * @prop away - present if we are to override user's presence status
