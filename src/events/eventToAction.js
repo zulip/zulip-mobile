@@ -76,94 +76,94 @@ const opToActionTyping = {
   stop: EVENT_TYPING_STOP,
 };
 
-const alertWords = (state: GlobalState, event: Object): EventAction => ({
+const alertWords = (state, event) => ({
   type: INIT_ALERT_WORDS,
   alertWords: event.alert_words,
 });
 
-const newMessage = (state: GlobalState, event: Object): EventAction => ({
+const newMessage = (state, event) => ({
   ...event,
   type: EVENT_NEW_MESSAGE,
   caughtUp: state.caughtUp,
   ownEmail: state.accounts[0].email,
 });
 
-const deleteMessage = (state: GlobalState, event: Object): EventAction => ({
+const deleteMessage = (state, event) => ({
   type: EVENT_MESSAGE_DELETE,
   messageId: event.message_id,
 });
 
-const updateMessage = (state: GlobalState, event: Object): EventAction => ({
+const updateMessage = (state, event) => ({
   ...event,
   type: EVENT_UPDATE_MESSAGE,
 });
 
-const subscription = (state: GlobalState, event: Object): EventAction => ({
+const subscription = (state, event) => ({
   ...event,
   type: opToActionSubscription[event.op],
   user: getUserById(state.users, event.user_id),
 });
 
-const realmUser = (state: GlobalState, event: Object): EventAction => ({
+const realmUser = (state, event) => ({
   ...event,
   type: opToActionUser[event.op],
 });
 
-const realmUserGroup = (state: GlobalState, event: Object): EventAction => ({
+const realmUserGroup = (state, event) => ({
   ...event,
   type: opToActionUserGroup[event.op],
 });
 
-const stream = (state: GlobalState, event: Object): EventAction => ({
+const stream = (state, event) => ({
   ...event,
   type: opToActionStream[event.op],
 });
 
-const reaction = (state: GlobalState, event: Object): EventAction => ({
+const reaction = (state, event) => ({
   ...event,
   // This cast seems redundant; but without it Flow (0.67) gives a puzzling type error.
   type: (opToActionReaction[event.op]: typeof EVENT_REACTION_ADD | typeof EVENT_REACTION_REMOVE),
 });
 
-const presence = (state: GlobalState, event: Object): EventAction => ({
+const presence = (state, event) => ({
   ...event,
   type: EVENT_PRESENCE,
 });
 
-const typing = (state: GlobalState, event: Object): EventAction => ({
+const typing = (state, event) => ({
   ...event,
   ownEmail: state.accounts[0].email,
   type: opToActionTyping[event.op],
   time: new Date().getTime(),
 });
 
-const updateMessageFlags = (state: GlobalState, event: Object): EventAction => ({
+const updateMessageFlags = (state, event) => ({
   ...event,
   type: EVENT_UPDATE_MESSAGE_FLAGS,
   allMessages: state.messages,
 });
 
-const updateMutedTopics = (state: GlobalState, event: Object): EventAction => ({
+const updateMutedTopics = (state, event) => ({
   ...event,
   type: EVENT_MUTED_TOPICS,
 });
 
-const realmEmojiUpdate = (state: GlobalState, event: Object): EventAction => ({
+const realmEmojiUpdate = (state, event) => ({
   ...event,
   type: EVENT_REALM_EMOJI_UPDATE,
 });
 
-const realmFilters = (state: GlobalState, event: Object): EventAction => ({
+const realmFilters = (state, event) => ({
   ...event,
   type: EVENT_REALM_FILTERS,
 });
 
-const updateGlobalNotifications = (state: GlobalState, event: Object): EventAction => ({
+const updateGlobalNotifications = (state, event) => ({
   ...event,
   type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
 });
 
-const updateDisplaySettings = (state: GlobalState, event: Object): EventAction => ({
+const updateDisplaySettings = (state, event) => ({
   ...event,
   type: EVENT_UPDATE_DISPLAY_SETTINGS,
 });
