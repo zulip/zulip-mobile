@@ -1,6 +1,8 @@
 /* @flow strict-local */
 import type { PresenceState } from '../types';
 
+export type * from './eventTypes';
+
 export type Auth = {|
   realm: string,
   apiKey: string,

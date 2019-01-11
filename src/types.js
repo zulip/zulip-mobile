@@ -7,6 +7,7 @@ import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/Style
 import type { Action, NavigateAction } from './actionTypes';
 import type {
   Auth,
+  ClientPresence,
   Topic,
   Message,
   Reaction,
@@ -16,6 +17,7 @@ import type {
   Stream,
   Subscription,
   User,
+  UserStatus,
 } from './api/apiTypes';
 import type { AppStyles } from './styles/theme';
 
@@ -135,9 +137,6 @@ export type UserGroup = {|
   name: string,
 |};
 
-/** See ClientPresence, and the doc linked there. */
-export type UserStatus = 'active' | 'idle' | 'offline';
-
 /**
  * A user's presence status, summarized across all their clients.
  *
@@ -151,32 +150,6 @@ export type PresenceAggregated = {|
   client: string,
   status: UserStatus,
   timestamp: number,
-|};
-
-/**
- * A user's presence status, as reported by a specific client.
- *
- * For an explanation of the Zulip presence model and how to interpret
- * `status` and `timestamp`, see the subsystem doc:
- *   https://zulip.readthedocs.io/en/latest/subsystems/presence.html
- *
- * @prop timestamp - When the server last heard from this client.
- * @prop status - See the presence subsystem doc.
- * @prop client
- * @prop pushable - Legacy; unused.
- */
-export type ClientPresence = {|
-  status: UserStatus,
-  timestamp: number,
-  client: string,
-  /* Indicates if the client can receive push notifications. This property
-   * was intended for showing a user's presence status as "on mobile" if
-   * they are inactive on all devices but can receive push notifications
-   * (see zulip/zulip bd20a756f9). However, this property doesn't seem to be
-   * used anywhere on the web app or the mobile client, and can be
-   * considered legacy.
-   */
-  pushable: boolean,
 |};
 
 /**
@@ -213,33 +186,6 @@ export type Fetching = {|
 export type StreamsState = Stream[];
 
 export type SubscriptionsState = Subscription[];
-
-export type HeartbeatEvent = {|
-  type: 'heartbeat',
-  id: number,
-|};
-
-export type MessageEvent = {|
-  type: 'message',
-  id: number,
-|};
-
-export type PresenceEvent = {|
-  type: 'message',
-  id: number,
-  email: string,
-  presence: { [client: string]: ClientPresence },
-  server_timestamp: number,
-|};
-
-export type UpdateMessageFlagsEvent = {|
-  type: 'update_message_flags',
-  id: number,
-  all: boolean,
-  flag: 'read' | '???',
-  messages: number[],
-  operation: 'add' | '???',
-|};
 
 export type EditMessage = {|
   id: number,
