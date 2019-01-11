@@ -1,17 +1,17 @@
 /* @flow strict-local */
-import type { TopicsState, Action, InitTopicsAction, EventNewMessageAction } from '../types';
+import type { TopicsState, Action } from '../types';
 import { ACCOUNT_SWITCH, INIT_TOPICS, EVENT_NEW_MESSAGE } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { replaceItemInArray } from '../utils/immutability';
 
 const initialState: TopicsState = NULL_OBJECT;
 
-const initTopics = (state: TopicsState, action: InitTopicsAction): TopicsState => ({
+const initTopics = (state, action) => ({
   ...state,
   [action.streamId]: action.topics,
 });
 
-const eventNewMessage = (state: TopicsState, action: EventNewMessageAction): TopicsState => {
+const eventNewMessage = (state, action) => {
   if (action.message.type !== 'stream') {
     return state;
   }

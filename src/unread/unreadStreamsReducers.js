@@ -1,13 +1,5 @@
 /* @flow strict-local */
-import type {
-  UnreadStreamsState,
-  Action,
-  RealmInitAction,
-  EventNewMessageAction,
-  MarkMessagesReadAction,
-  EventMessageDeleteAction,
-  EventUpdateMessageFlagsAction,
-} from '../types';
+import type { UnreadStreamsState, Action } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -21,13 +13,10 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UnreadStreamsState = NULL_ARRAY;
 
-const realmInit = (state: UnreadStreamsState, action: RealmInitAction): UnreadStreamsState =>
+const realmInit = (state, action) =>
   (action.data.unread_msgs && action.data.unread_msgs.streams) || initialState;
 
-const eventNewMessage = (
-  state: UnreadStreamsState,
-  action: EventNewMessageAction,
-): UnreadStreamsState => {
+const eventNewMessage = (state, action) => {
   if (action.message.type !== 'stream') {
     return state;
   }
@@ -44,20 +33,11 @@ const eventNewMessage = (
   );
 };
 
-const markMessagesRead = (
-  state: UnreadStreamsState,
-  action: MarkMessagesReadAction,
-): UnreadStreamsState => removeItemsDeeply(state, action.messageIds);
+const markMessagesRead = (state, action) => removeItemsDeeply(state, action.messageIds);
 
-const eventMessageDelete = (
-  state: UnreadStreamsState,
-  action: EventMessageDeleteAction,
-): UnreadStreamsState => removeItemsDeeply(state, [action.messageId]);
+const eventMessageDelete = (state, action) => removeItemsDeeply(state, [action.messageId]);
 
-const eventUpdateMessageFlags = (
-  state: UnreadStreamsState,
-  action: EventUpdateMessageFlagsAction,
-): UnreadStreamsState => {
+const eventUpdateMessageFlags = (state, action) => {
   if (action.flag !== 'read') {
     return state;
   }

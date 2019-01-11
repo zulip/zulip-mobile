@@ -1,12 +1,5 @@
 /* @flow strict-local */
-import type {
-  OutboxState,
-  InitialFetchCompleteAction,
-  MessageSendStartAction,
-  MessageSendCompleteAction,
-  Action,
-  Outbox,
-} from '../types';
+import type { OutboxState, Action, Outbox } from '../types';
 import {
   INITIAL_FETCH_COMPLETE,
   MESSAGE_SEND_START,
@@ -21,12 +14,10 @@ import { filterArray } from '../utils/immutability';
 
 const initialState = NULL_ARRAY;
 
-const initialFetchComplete = (
-  state: OutboxState,
-  action: InitialFetchCompleteAction,
-): OutboxState => filterArray(state, (outbox: Outbox) => !outbox.isSent);
+const initialFetchComplete = (state, action) =>
+  filterArray(state, (outbox: Outbox) => !outbox.isSent);
 
-const messageSendStart = (state: OutboxState, action: MessageSendStartAction): OutboxState => {
+const messageSendStart = (state, action) => {
   const message = state.find(item => item.timestamp === action.outbox.timestamp);
   if (message) {
     return state;
@@ -34,13 +25,11 @@ const messageSendStart = (state: OutboxState, action: MessageSendStartAction): O
   return [...state, { ...action.outbox }];
 };
 
-const messageSendComplete = (state: OutboxState, action: MessageSendCompleteAction): OutboxState =>
+const messageSendComplete = (state, action) =>
   state.map(item => (item.id !== action.local_message_id ? item : { ...item, isSent: true }));
 
-const deleteOutboxMessage = (
-  state: OutboxState,
-  action: { +local_message_id?: number },
-): OutboxState => filterArray(state, item => item && item.timestamp !== +action.local_message_id);
+const deleteOutboxMessage = (state, action) =>
+  filterArray(state, item => item && item.timestamp !== +action.local_message_id);
 
 export default (state: OutboxState = initialState, action: Action): OutboxState => {
   switch (action.type) {

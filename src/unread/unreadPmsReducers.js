@@ -1,13 +1,5 @@
 /* @flow strict-local */
-import type {
-  UnreadPmsState,
-  Action,
-  RealmInitAction,
-  EventNewMessageAction,
-  MarkMessagesReadAction,
-  EventMessageDeleteAction,
-  EventUpdateMessageFlagsAction,
-} from '../types';
+import type { UnreadPmsState, Action } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -21,10 +13,10 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UnreadPmsState = NULL_ARRAY;
 
-const realmInit = (state: UnreadPmsState, action: RealmInitAction): UnreadPmsState =>
+const realmInit = (state, action) =>
   (action.data.unread_msgs && action.data.unread_msgs.pms) || initialState;
 
-const eventNewMessage = (state: UnreadPmsState, action: EventNewMessageAction): UnreadPmsState => {
+const eventNewMessage = (state, action) => {
   if (action.message.type !== 'private') {
     return state;
   }
@@ -40,18 +32,11 @@ const eventNewMessage = (state: UnreadPmsState, action: EventNewMessageAction): 
   return addItemsToPmArray(state, [action.message.id], action.message.sender_id);
 };
 
-const markMessagesRead = (state: UnreadPmsState, action: MarkMessagesReadAction): UnreadPmsState =>
-  removeItemsDeeply(state, action.messageIds);
+const markMessagesRead = (state, action) => removeItemsDeeply(state, action.messageIds);
 
-const eventMessageDelete = (
-  state: UnreadPmsState,
-  action: EventMessageDeleteAction,
-): UnreadPmsState => removeItemsDeeply(state, [action.messageId]);
+const eventMessageDelete = (state, action) => removeItemsDeeply(state, [action.messageId]);
 
-const eventUpdateMessageFlags = (
-  state: UnreadPmsState,
-  action: EventUpdateMessageFlagsAction,
-): UnreadPmsState => {
+const eventUpdateMessageFlags = (state, action) => {
   if (action.flag !== 'read') {
     return state;
   }

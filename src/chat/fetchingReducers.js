@@ -1,10 +1,5 @@
 /* @flow strict-local */
-import type {
-  FetchingState,
-  Action,
-  MessageFetchStartAction,
-  MessageFetchCompleteAction,
-} from '../types';
+import type { FetchingState, Action } from '../types';
 import {
   DEAD_QUEUE,
   LOGOUT,
@@ -18,10 +13,7 @@ import { NULL_FETCHING, NULL_OBJECT } from '../nullObjects';
 
 const initialState: FetchingState = NULL_OBJECT;
 
-const messageFetchStart = (
-  state: FetchingState,
-  action: MessageFetchStartAction,
-): FetchingState => {
+const messageFetchStart = (state, action) => {
   const key = JSON.stringify(action.narrow);
   const currentValue = state[key] || NULL_FETCHING;
 
@@ -34,10 +26,7 @@ const messageFetchStart = (
   };
 };
 
-const messageFetchComplete = (
-  state: FetchingState,
-  action: MessageFetchCompleteAction,
-): FetchingState => {
+const messageFetchComplete = (state, action) => {
   const key = JSON.stringify(action.narrow);
   const currentValue = state[key] || NULL_FETCHING;
 

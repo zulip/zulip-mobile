@@ -1,11 +1,11 @@
 /* @flow strict-local */
-import type { DraftState, Action, DraftUpdateAction } from '../types';
+import type { DraftState, Action } from '../types';
 import { DRAFT_UPDATE, LOGOUT } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 
 const initialState = NULL_OBJECT;
 
-const draftUpdate = (state: DraftState, action: DraftUpdateAction): DraftState => {
+const draftUpdate = (state, action) => {
   const narrowStr = JSON.stringify(action.narrow);
 
   if (action.content.trim().length === 0) {

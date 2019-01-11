@@ -1,12 +1,5 @@
 /* @flow strict-local */
-import type {
-  Action,
-  StreamsState,
-  InitStreamsAction,
-  EventStreamAddAction,
-  EventStreamRemoveAction,
-  EventStreamUpdateAction,
-} from '../types';
+import type { Action, StreamsState } from '../types';
 import {
   INIT_STREAMS,
   EVENT_STREAM_ADD,
@@ -19,16 +12,15 @@ import { filterArray } from '../utils/immutability';
 
 const initialState: StreamsState = NULL_ARRAY;
 
-const initStreams = (state: StreamsState, action: InitStreamsAction): StreamsState =>
-  action.streams;
+const initStreams = (state, action) => action.streams;
 
-const eventStreamAdd = (state: StreamsState, action: EventStreamAddAction): StreamsState =>
+const eventStreamAdd = (state, action) =>
   state.concat(action.streams.filter(x => !state.find(y => x.stream_id === y.stream_id)));
 
-const eventStreamRemove = (state: StreamsState, action: EventStreamRemoveAction): StreamsState =>
+const eventStreamRemove = (state, action) =>
   filterArray(state, x => !action.streams.find(y => x && x.stream_id === y.stream_id));
 
-const eventStreamUpdate = (state: StreamsState, action: EventStreamUpdateAction): StreamsState =>
+const eventStreamUpdate = (state, action) =>
   state.map(
     stream =>
       stream.stream_id === action.stream_id

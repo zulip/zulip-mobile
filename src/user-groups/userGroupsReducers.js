@@ -1,14 +1,5 @@
 /* @flow strict-local */
-import type {
-  UserGroupsState,
-  Action,
-  RealmInitAction,
-  EventUserGroupAddAction,
-  EventUserGroupRemoveAction,
-  EventUserGroupUpdateAction,
-  EventUserGroupAddMembersAction,
-  EventUserGroupRemoveMembersAction,
-} from '../types';
+import type { UserGroupsState, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -24,23 +15,13 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UserGroupsState = NULL_ARRAY;
 
-const realmInit = (state: UserGroupsState, action: RealmInitAction): UserGroupsState =>
-  action.data.realm_user_groups || initialState;
+const realmInit = (state, action) => action.data.realm_user_groups || initialState;
 
-const eventUserGroupAdd = (
-  state: UserGroupsState,
-  action: EventUserGroupAddAction,
-): UserGroupsState => [...state, action.group];
+const eventUserGroupAdd = (state, action) => [...state, action.group];
 
-const eventUserGroupRemove = (
-  state: UserGroupsState,
-  action: EventUserGroupRemoveAction,
-): UserGroupsState => state.filter(x => action.group_id !== x.id);
+const eventUserGroupRemove = (state, action) => state.filter(x => action.group_id !== x.id);
 
-const eventUserGroupUpdate = (
-  state: UserGroupsState,
-  action: EventUserGroupUpdateAction,
-): UserGroupsState =>
+const eventUserGroupUpdate = (state, action) =>
   state.map(
     userGroup =>
       action.group_id !== userGroup.id
@@ -51,10 +32,7 @@ const eventUserGroupUpdate = (
           },
   );
 
-const eventUserGroupAddMembers = (
-  state: UserGroupsState,
-  action: EventUserGroupAddMembersAction,
-): UserGroupsState =>
+const eventUserGroupAddMembers = (state, action) =>
   state.map(
     userGroup =>
       action.group_id !== userGroup.id
@@ -65,10 +43,7 @@ const eventUserGroupAddMembers = (
           },
   );
 
-const eventUserGroupRemoveMembers = (
-  state: UserGroupsState,
-  action: EventUserGroupRemoveMembersAction,
-): UserGroupsState =>
+const eventUserGroupRemoveMembers = (state, action) =>
   state.map(
     userGroup =>
       action.group_id !== userGroup.id

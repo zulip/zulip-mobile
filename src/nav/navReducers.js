@@ -1,15 +1,7 @@
 /* @flow strict-local */
 import type { NavigationAction } from 'react-navigation';
 
-import type {
-  NavigationState,
-  Action,
-  RehydrateAction,
-  AccountSwitchAction,
-  LoginSuccessAction,
-  LogoutAction,
-  InitialFetchCompleteAction,
-} from '../types';
+import type { NavigationState, Action } from '../types';
 import config from '../config';
 import { navigateToChat } from './navActions';
 import { getUsersById } from '../users/userSelectors';
@@ -32,7 +24,7 @@ export const getStateForRoute = (route: string) => {
 
 const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
 
-const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationState => {
+const rehydrate = (state, action) => {
   if (!action.payload || !action.payload.accounts) {
     return getStateForRoute('welcome') || state;
   }
@@ -58,19 +50,13 @@ const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationS
   return AppNavigator.router.getStateForAction(navigateToChat(narrow), startState) || state;
 };
 
-const accountSwitch = (state: NavigationState, action: AccountSwitchAction): NavigationState =>
-  getStateForRoute('loading') || state;
+const accountSwitch = (state, action) => getStateForRoute('loading') || state;
 
-const loginSuccess = (state: NavigationState, action: LoginSuccessAction): NavigationState =>
-  getStateForRoute('main') || state;
+const loginSuccess = (state, action) => getStateForRoute('main') || state;
 
-const logout = (state: NavigationState, action: LogoutAction): NavigationState =>
-  getStateForRoute('account') || state;
+const logout = (state, action) => getStateForRoute('account') || state;
 
-const initialFetchComplete = (
-  state: NavigationState,
-  action: InitialFetchCompleteAction,
-): NavigationState =>
+const initialFetchComplete = (state, action) =>
   state.routes[0].routeName === 'main' ? state : getStateForRoute('main') || state;
 
 export default (state: NavigationState = initialState, action: Action): NavigationState => {

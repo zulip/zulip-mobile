@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { CaughtUpState, Action, MessageFetchCompleteAction } from '../types';
+import type { CaughtUpState, Action } from '../types';
 import {
   DEAD_QUEUE,
   LOGOUT,
@@ -12,10 +12,7 @@ import { NULL_CAUGHTUP, NULL_OBJECT } from '../nullObjects';
 
 const initialState: CaughtUpState = NULL_OBJECT;
 
-const messageFetchComplete = (
-  state: CaughtUpState,
-  action: MessageFetchCompleteAction,
-): CaughtUpState => {
+const messageFetchComplete = (state, action) => {
   const key = JSON.stringify(action.narrow);
 
   if (action.anchor === LAST_MESSAGE_ANCHOR) {

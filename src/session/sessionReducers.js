@@ -1,28 +1,5 @@
 /* @flow strict-local */
-import type {
-  Debug,
-  Dimensions,
-  EditMessage,
-  Narrow,
-  Orientation,
-  Action,
-  RehydrateAction,
-  AccountSwitchAction,
-  AppStateAction,
-  AppOnlineAction,
-  DeadQueueAction,
-  DoNarrowAction,
-  GotPushTokenAction,
-  InitialFetchCompleteAction,
-  InitSafeAreaInsetsAction,
-  AppOrientationAction,
-  StartEditMessageAction,
-  CancelEditMessageAction,
-  LoginSuccessAction,
-  RealmInitAction,
-  DebugFlagToggleAction,
-  ToggleOutboxSendingAction,
-} from '../types';
+import type { Debug, Dimensions, EditMessage, Narrow, Orientation, Action } from '../types';
 import {
   REHYDRATE,
   DEAD_QUEUE,
@@ -104,15 +81,12 @@ const initialState: SessionState = {
   },
 };
 
-const loginSuccess = (
-  state: SessionState,
-  action: DeadQueueAction | LoginSuccessAction | AccountSwitchAction,
-): SessionState => ({
+const loginSuccess = (state, action) => ({
   ...state,
   needsInitialFetch: true,
 });
 
-const rehydrate = (state: SessionState, action: RehydrateAction): SessionState => {
+const rehydrate = (state, action) => {
   const { payload } = action;
   const haveApiKey = !!(payload && payload.accounts && hasAuth(payload));
   return {
@@ -125,58 +99,52 @@ const rehydrate = (state: SessionState, action: RehydrateAction): SessionState =
   };
 };
 
-const realmInit = (state: SessionState, action: RealmInitAction): SessionState => ({
+const realmInit = (state, action) => ({
   ...state,
   eventQueueId: action.data.queue_id,
 });
 
-const doNarrow = (state: SessionState, action: DoNarrowAction): SessionState => ({
+const doNarrow = (state, action) => ({
   ...state,
   lastNarrow: action.narrow,
 });
 
-const appOnline = (state: SessionState, action: AppOnlineAction): SessionState => ({
+const appOnline = (state, action) => ({
   ...state,
   isOnline: action.isOnline,
 });
 
-const appState = (state: SessionState, action: AppStateAction): SessionState => ({
+const appState = (state, action) => ({
   ...state,
   isActive: action.isActive,
 });
 
-const initialFetchComplete = (
-  state: SessionState,
-  action: InitialFetchCompleteAction,
-): SessionState => ({
+const initialFetchComplete = (state, action) => ({
   ...state,
   needsInitialFetch: false,
 });
 
-const initSafeAreaInsets = (
-  state: SessionState,
-  action: InitSafeAreaInsetsAction,
-): SessionState => ({
+const initSafeAreaInsets = (state, action) => ({
   ...state,
   safeAreaInsets: action.safeAreaInsets,
 });
 
-const appOrientation = (state: SessionState, action: AppOrientationAction): SessionState => ({
+const appOrientation = (state, action) => ({
   ...state,
   orientation: action.orientation,
 });
 
-const gotPushToken = (state: SessionState, action: GotPushTokenAction): SessionState => ({
+const gotPushToken = (state, action) => ({
   ...state,
   pushToken: action.pushToken,
 });
 
-const cancelEditMessage = (state: SessionState, action: CancelEditMessageAction): SessionState => ({
+const cancelEditMessage = (state, action) => ({
   ...state,
   editMessage: null,
 });
 
-const startEditMessage = (state: SessionState, action: StartEditMessageAction): SessionState => ({
+const startEditMessage = (state, action) => ({
   ...state,
   editMessage: {
     id: action.messageId,
@@ -185,12 +153,9 @@ const startEditMessage = (state: SessionState, action: StartEditMessageAction): 
   },
 });
 
-const toggleOutboxSending = (
-  state: SessionState,
-  action: ToggleOutboxSendingAction,
-): SessionState => ({ ...state, outboxSending: action.sending });
+const toggleOutboxSending = (state, action) => ({ ...state, outboxSending: action.sending });
 
-const debugFlagToggle = (state: SessionState, action: DebugFlagToggleAction): SessionState => ({
+const debugFlagToggle = (state, action) => ({
   ...state,
   debug: {
     ...state.debug,

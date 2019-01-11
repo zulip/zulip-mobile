@@ -1,15 +1,13 @@
 /* @flow strict-local */
-import type { MuteState, Action, RealmInitAction, EventMutedTopicsAction } from '../types';
+import type { MuteState, Action } from '../types';
 import { REALM_INIT, ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: MuteState = NULL_ARRAY;
 
-const realmInit = (state: MuteState, action: RealmInitAction): MuteState =>
-  action.data.muted_topics || initialState;
+const realmInit = (state, action) => action.data.muted_topics || initialState;
 
-const eventMutedTopics = (state: MuteState, action: EventMutedTopicsAction): MuteState =>
-  action.muted_topics;
+const eventMutedTopics = (state, action) => action.muted_topics;
 
 export default (state: MuteState = initialState, action: Action): MuteState => {
   switch (action.type) {

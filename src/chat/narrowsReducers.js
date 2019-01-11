@@ -1,14 +1,7 @@
 /* @flow strict-local */
 import union from 'lodash.union';
 
-import type {
-  NarrowsState,
-  Action,
-  MessageFetchCompleteAction,
-  EventNewMessageAction,
-  EventMessageDeleteAction,
-  EventUpdateMessageFlagsAction,
-} from '../types';
+import type { NarrowsState, Action } from '../types';
 import {
   DEAD_QUEUE,
   LOGOUT,
@@ -25,10 +18,7 @@ import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: NarrowsState = NULL_OBJECT;
 
-const messageFetchComplete = (
-  state: NarrowsState,
-  action: MessageFetchCompleteAction,
-): NarrowsState => {
+const messageFetchComplete = (state, action) => {
   const key = JSON.stringify(action.narrow);
   const fetchedMessageIds = action.messages.map(message => message.id);
   const replaceExisting =
@@ -41,7 +31,7 @@ const messageFetchComplete = (
   };
 };
 
-const eventNewMessage = (state: NarrowsState, action: EventNewMessageAction): NarrowsState => {
+const eventNewMessage = (state, action) => {
   let stateChange = false;
   const newState = Object.keys(state).reduce((msg, key) => {
     const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
@@ -59,10 +49,7 @@ const eventNewMessage = (state: NarrowsState, action: EventNewMessageAction): Na
   return stateChange ? newState : state;
 };
 
-const eventMessageDelete = (
-  state: NarrowsState,
-  action: EventMessageDeleteAction,
-): NarrowsState => {
+const eventMessageDelete = (state, action) => {
   let stateChange = false;
   const newState = Object.keys(state).reduce((updatedState, key) => {
     updatedState[key] = state[key].filter(id => id !== action.messageId);
@@ -72,10 +59,7 @@ const eventMessageDelete = (
   return stateChange ? newState : state;
 };
 
-const eventUpdateMessageFlags = (
-  state: NarrowsState,
-  action: EventUpdateMessageFlagsAction,
-): NarrowsState => {
+const eventUpdateMessageFlags = (state, action) => {
   const { messages, flag, operation } = action;
   const messagesSet = new Set(messages);
   const updates = [];

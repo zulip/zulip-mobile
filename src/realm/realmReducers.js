@@ -1,15 +1,5 @@
 /* @flow strict-local */
-import type {
-  RealmState,
-  Action,
-  RealmInitAction,
-  LoginSuccessAction,
-  LogoutAction,
-  InitRealmEmojiAction,
-  InitRealmFilterAction,
-  EventRealmFiltersAction,
-  EventRealmEmojiUpdateAction,
-} from '../types';
+import type { RealmState, Action } from '../types';
 import {
   REALM_INIT,
   EVENT_REALM_EMOJI_UPDATE,
@@ -33,7 +23,7 @@ const initialState = {
   nonActiveUsers: [],
 };
 
-const realmInit = (state: RealmState, action: RealmInitAction): RealmState => ({
+const realmInit = (state, action) => ({
   ...state,
   canCreateStreams: action.data.can_create_streams,
   crossRealmBots: action.data.cross_realm_bots,
@@ -44,30 +34,27 @@ const realmInit = (state: RealmState, action: RealmInitAction): RealmState => ({
   twentyFourHourTime: action.data.twenty_four_hour_time,
 });
 
-const loginChange = (state: RealmState, action: LoginSuccessAction | LogoutAction): RealmState => ({
+const loginChange = (state, action) => ({
   ...state,
   emoji: {},
 });
 
-const initRealmEmoji = (state: RealmState, action: InitRealmEmojiAction): RealmState => ({
+const initRealmEmoji = (state, action) => ({
   ...state,
   emoji: action.emojis,
 });
 
-const initRealmFilter = (state: RealmState, action: InitRealmFilterAction): RealmState => ({
+const initRealmFilter = (state, action) => ({
   ...state,
   filters: action.filters,
 });
 
-const eventRealmFilters = (state: RealmState, action: EventRealmFiltersAction): RealmState => ({
+const eventRealmFilters = (state, action) => ({
   ...state,
   filters: action.realm_filters,
 });
 
-const eventRealmEmojiUpdate = (
-  state: RealmState,
-  action: EventRealmEmojiUpdateAction,
-): RealmState => ({
+const eventRealmEmojiUpdate = (state, action) => ({
   ...state,
   emoji: action.realm_emoji,
 });

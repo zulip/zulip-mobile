@@ -1,13 +1,5 @@
 /* @flow strict-local */
-import type {
-  UnreadMentionsState,
-  Action,
-  RealmInitAction,
-  EventNewMessageAction,
-  MarkMessagesReadAction,
-  EventMessageDeleteAction,
-  EventUpdateMessageFlagsAction,
-} from '../types';
+import type { UnreadMentionsState, Action } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -21,33 +13,21 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UnreadMentionsState = NULL_ARRAY;
 
-const realmInit = (state: UnreadMentionsState, action: RealmInitAction): UnreadMentionsState =>
+const realmInit = (state, action) =>
   (action.data.unread_msgs && action.data.unread_msgs.mentions) || initialState;
 
-const eventNewMessage = (
-  state: UnreadMentionsState,
-  action: EventNewMessageAction,
-): UnreadMentionsState =>
+const eventNewMessage = (state, action) =>
   action.message.flags
   && action.message.flags.includes('mentioned')
   && !state.includes(action.message.id)
     ? addItemsToArray(state, [action.message.id])
     : state;
 
-const markMessagesRead = (
-  state: UnreadMentionsState,
-  action: MarkMessagesReadAction,
-): UnreadMentionsState => removeItemsFromArray(state, action.messageIds);
+const markMessagesRead = (state, action) => removeItemsFromArray(state, action.messageIds);
 
-const eventMessageDelete = (
-  state: UnreadMentionsState,
-  action: EventMessageDeleteAction,
-): UnreadMentionsState => removeItemsFromArray(state, [action.messageId]);
+const eventMessageDelete = (state, action) => removeItemsFromArray(state, [action.messageId]);
 
-const eventUpdateMessageFlags = (
-  state: UnreadMentionsState,
-  action: EventUpdateMessageFlagsAction,
-): UnreadMentionsState => {
+const eventUpdateMessageFlags = (state, action) => {
   if (action.flag !== 'read') {
     return state;
   }

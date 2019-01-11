@@ -1,11 +1,5 @@
 /* @flow strict-local */
-import type {
-  SettingsState,
-  Action,
-  RealmInitAction,
-  SettingsChangeAction,
-  EventUpdateGlobalNotificationsSettingsAction,
-} from '../types';
+import type { SettingsState, Action } from '../types';
 import {
   SETTINGS_CHANGE,
   REALM_INIT,
@@ -21,21 +15,18 @@ const initialState: SettingsState = {
   streamNotification: false,
 };
 
-const realmInit = (state: SettingsState, action: RealmInitAction): SettingsState => ({
+const realmInit = (state, action) => ({
   ...state,
   offlineNotification: action.data.enable_offline_push_notifications,
   onlineNotification: action.data.enable_online_push_notifications,
 });
 
-const settingsChange = (state: SettingsState, action: SettingsChangeAction): SettingsState => ({
+const settingsChange = (state, action) => ({
   ...state,
   ...action.update,
 });
 
-const eventUpdateGlobalNotificationsSettings = (
-  state: SettingsState,
-  action: EventUpdateGlobalNotificationsSettingsAction,
-): SettingsState => {
+const eventUpdateGlobalNotificationsSettings = (state, action) => {
   switch (action.notification_name) {
     case 'enable_offline_push_notifications':
       return { ...state, offlineNotification: action.setting };

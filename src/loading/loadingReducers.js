@@ -1,12 +1,5 @@
 /* @flow strict-local */
-import type {
-  LoadingState,
-  Action,
-  InitialFetchStartAction,
-  InitialFetchCompleteAction,
-  InitStreamsAction,
-  InitSubscriptionsAction,
-} from '../types';
+import type { LoadingState, Action } from '../types';
 import {
   DEAD_QUEUE,
   ACCOUNT_SWITCH,
@@ -24,7 +17,7 @@ const initialState: LoadingState = {
   users: false,
 };
 
-const initialFetchStart = (state: LoadingState, action: InitialFetchStartAction): LoadingState => ({
+const initialFetchStart = (state, action) => ({
   ...state,
   presence: true,
   subscriptions: true,
@@ -32,10 +25,7 @@ const initialFetchStart = (state: LoadingState, action: InitialFetchStartAction)
   users: true,
 });
 
-const initialFetchComplete = (
-  state: LoadingState,
-  action: InitialFetchCompleteAction,
-): LoadingState => ({
+const initialFetchComplete = (state, action) => ({
   ...state,
   presence: false,
   subscriptions: false,
@@ -43,12 +33,12 @@ const initialFetchComplete = (
   users: false,
 });
 
-const initStreams = (state: LoadingState, action: InitStreamsAction): LoadingState => ({
+const initStreams = (state, action) => ({
   ...state,
   streams: false,
 });
 
-const initSubscriptions = (state: LoadingState, action: InitSubscriptionsAction): LoadingState => ({
+const initSubscriptions = (state, action) => ({
   ...state,
   subscriptions: false,
 });

@@ -1,11 +1,5 @@
 /* @flow strict-local */
-import type {
-  PresenceState,
-  Action,
-  EventPresenceAction,
-  PresenceResponseAction,
-  RealmInitAction,
-} from '../types';
+import type { PresenceState, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -19,15 +13,14 @@ import { getAggregatedPresence } from '../utils/presence';
 
 const initialState: PresenceState = NULL_OBJECT;
 
-const realmInit = (state: PresenceState, action: RealmInitAction): PresenceState =>
-  action.data.presences || initialState;
+const realmInit = (state, action) => action.data.presences || initialState;
 
-const presenceResponse = (state: PresenceState, action: PresenceResponseAction): PresenceState => ({
+const presenceResponse = (state, action) => ({
   ...state,
   ...action.presence,
 });
 
-const eventPresence = (state: PresenceState, action: EventPresenceAction): PresenceState => ({
+const eventPresence = (state, action) => ({
   ...state,
   [action.email]: {
     ...state[action.email],

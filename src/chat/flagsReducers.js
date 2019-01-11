@@ -1,13 +1,5 @@
 /* @flow strict-local */
-import type {
-  Action,
-  FlagsState,
-  Message,
-  MessageFetchCompleteAction,
-  EventNewMessageAction,
-  EventUpdateMessageFlagsAction,
-  MarkMessagesReadAction,
-} from '../types';
+import type { Action, FlagsState, Message } from '../types';
 import {
   DEAD_QUEUE,
   MESSAGE_FETCH_COMPLETE,
@@ -88,16 +80,12 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
   return stateChanged ? deeperMerge(state, newState) : state;
 };
 
-const messageFetchComplete = (state: FlagsState, action: MessageFetchCompleteAction): FlagsState =>
-  processFlagsForMessages(state, action.messages);
+const messageFetchComplete = (state, action) => processFlagsForMessages(state, action.messages);
 
-const eventNewMessage = (state: FlagsState, action: EventNewMessageAction): FlagsState =>
+const eventNewMessage = (state, action) =>
   addFlagsForMessages(state, [action.message.id], action.message.flags);
 
-const eventUpdateMessageFlags = (
-  state: FlagsState,
-  action: EventUpdateMessageFlagsAction,
-): FlagsState => {
+const eventUpdateMessageFlags = (state, action) => {
   if (action.all) {
     return addFlagsForMessages(initialState, Object.keys(action.allMessages).map(Number), ['read']);
   }
@@ -113,8 +101,7 @@ const eventUpdateMessageFlags = (
   return state;
 };
 
-const markMessagesRead = (state: FlagsState, action: MarkMessagesReadAction): FlagsState =>
-  addFlagsForMessages(state, action.messageIds, ['read']);
+const markMessagesRead = (state, action) => addFlagsForMessages(state, action.messageIds, ['read']);
 
 export default (state: FlagsState = initialState, action: Action): FlagsState => {
   switch (action.type) {

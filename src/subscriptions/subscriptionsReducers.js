@@ -1,16 +1,7 @@
 /* @flow strict-local */
 import isEqual from 'lodash.isequal';
 
-import type {
-  SubscriptionsState,
-  Action,
-  InitSubscriptionsAction,
-  RealmInitAction,
-  EventStreamUpdateAction,
-  EventSubscriptionAddAction,
-  EventSubscriptionRemoveAction,
-  EventSubscriptionUpdateAction,
-} from '../types';
+import type { SubscriptionsState, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -29,30 +20,18 @@ import { filterArray } from '../utils/immutability';
 
 const initialState: SubscriptionsState = NULL_ARRAY;
 
-const realmInit = (state: SubscriptionsState, action: RealmInitAction): SubscriptionsState =>
-  action.data.subscriptions || initialState;
+const realmInit = (state, action) => action.data.subscriptions || initialState;
 
-const initSubscriptions = (
-  state: SubscriptionsState,
-  action: InitSubscriptionsAction,
-): SubscriptionsState => (isEqual(action.subscriptions, state) ? state : action.subscriptions);
+const initSubscriptions = (state, action) =>
+  isEqual(action.subscriptions, state) ? state : action.subscriptions;
 
-const eventSubscriptionAdd = (
-  state: SubscriptionsState,
-  action: EventSubscriptionAddAction,
-): SubscriptionsState =>
+const eventSubscriptionAdd = (state, action) =>
   state.concat(action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)));
 
-const eventSubscriptionRemove = (
-  state: SubscriptionsState,
-  action: EventSubscriptionRemoveAction,
-): SubscriptionsState =>
+const eventSubscriptionRemove = (state, action) =>
   filterArray(state, x => !action.subscriptions.find(y => x && y && x.stream_id === y.stream_id));
 
-const eventSubscriptionUpdate = (
-  state: SubscriptionsState,
-  action: EventSubscriptionUpdateAction | EventStreamUpdateAction,
-): SubscriptionsState =>
+const eventSubscriptionUpdate = (state, action) =>
   state.map(
     sub =>
       sub.stream_id === action.stream_id

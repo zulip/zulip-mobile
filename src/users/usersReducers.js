@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { UsersState, Action, RealmInitAction, EventUserAddAction } from '../types';
+import type { UsersState, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -13,13 +13,9 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UsersState = NULL_ARRAY;
 
-const realmInit = (state: UsersState, action: RealmInitAction): UsersState =>
-  action.data.realm_users || initialState;
+const realmInit = (state, action) => action.data.realm_users || initialState;
 
-const eventUserAdd = (state: UsersState, action: EventUserAddAction): UsersState => [
-  ...state,
-  action.person,
-];
+const eventUserAdd = (state, action) => [...state, action.person];
 
 export default (state: UsersState = initialState, action: Action): UsersState => {
   switch (action.type) {

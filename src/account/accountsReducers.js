@@ -9,23 +9,12 @@ import {
   ACCOUNT_REMOVE,
 } from '../actionConstants';
 
-import type {
-  AccountsState,
-  Identity,
-  Action,
-  RealmAddAction,
-  AccountSwitchAction,
-  AccountRemoveAction,
-  AckPushTokenAction,
-  UnackPushTokenAction,
-  LoginSuccessAction,
-  LogoutAction,
-} from '../types';
+import type { AccountsState, Identity, Action } from '../types';
 import { NULL_ARRAY } from '../nullObjects';
 
 const initialState = NULL_ARRAY;
 
-const realmAdd = (state: AccountsState, action: RealmAddAction): AccountsState => {
+const realmAdd = (state, action) => {
   const accountIndex = state.findIndex(account => account.realm === action.realm);
 
   if (accountIndex !== -1) {
@@ -43,7 +32,7 @@ const realmAdd = (state: AccountsState, action: RealmAddAction): AccountsState =
   ];
 };
 
-const accountSwitch = (state: AccountsState, action: AccountSwitchAction): AccountsState => {
+const accountSwitch = (state, action) => {
   if (action.index === 0) {
     return state;
   }
@@ -58,7 +47,7 @@ const findAccount = (state: AccountsState, identity: Identity): number => {
   );
 };
 
-const loginSuccess = (state: AccountsState, action: LoginSuccessAction): AccountsState => {
+const loginSuccess = (state, action) => {
   const { realm, email, apiKey } = action;
   const accountIndex = findAccount(state, { realm, email });
   if (accountIndex === -1) {
@@ -71,7 +60,7 @@ const loginSuccess = (state: AccountsState, action: LoginSuccessAction): Account
   ];
 };
 
-const ackPushToken = (state: AccountsState, action: AckPushTokenAction): AccountsState => {
+const ackPushToken = (state, action) => {
   const { pushToken: ackedPushToken, identity } = action;
   const accountIndex = findAccount(state, identity);
   if (accountIndex === -1) {
@@ -84,7 +73,7 @@ const ackPushToken = (state: AccountsState, action: AckPushTokenAction): Account
   ];
 };
 
-const unackPushToken = (state: AccountsState, action: UnackPushTokenAction): AccountsState => {
+const unackPushToken = (state, action) => {
   const { identity } = action;
   const accountIndex = findAccount(state, identity);
   if (accountIndex === -1) {
@@ -97,12 +86,9 @@ const unackPushToken = (state: AccountsState, action: UnackPushTokenAction): Acc
   ];
 };
 
-const logout = (state: AccountsState, action: LogoutAction): AccountsState => [
-  { ...state[0], apiKey: '' },
-  ...state.slice(1),
-];
+const logout = (state, action) => [{ ...state[0], apiKey: '' }, ...state.slice(1)];
 
-const accountRemove = (state: AccountsState, action: AccountRemoveAction): AccountsState => {
+const accountRemove = (state, action) => {
   const newState = state.slice();
   newState.splice(action.index, 1);
   return newState;
