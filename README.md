@@ -39,7 +39,8 @@ bugs!  To get the beta:
   [join the testing program](https://play.google.com/apps/testing/com.zulipmobile/)
   on Google Play.
 * iOS: install [TestFlight](https://developer.apple.com/testflight/testers/),
-  then say hello in [the #mobile stream](#discussion) and ask for a beta invitation.
+  then open [this public invitation link](https://testflight.apple.com/join/ZuzqwXGf)
+  on your device.
 
 Bug reports are welcome either in [the #mobile stream](#discussion) or
 on this GitHub repo.

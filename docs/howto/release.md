@@ -34,13 +34,6 @@ simple terminology for the process we follow with both.
     it means a release to all our TestFlight users, through the "External
     Testers" group.
 
-  * One difference between platforms: on Google Play a beta is open for
-    anyone to join, while on iOS it requires an invite from us.  But as we
-    say in the repo's README, our iOS beta is as open as we can make it:
-    just ask and we gladly send an invite.  (The Google Play analog of the
-    closed TestFlight model would be their "Alpha" aka "Closed track"
-    feature, so we don't use that.)
-
   * We use this channel for wider testing of a release before sending to
     production: about 1 day for a typical (stable) release, 2-4 days for a
     new major release, or not at all for a security release.
