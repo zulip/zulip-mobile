@@ -3,9 +3,10 @@ import isEqual from 'lodash.isequal';
 
 import type {
   SubscriptionsState,
-  SubscriptionsAction,
+  Action,
   InitSubscriptionsAction,
   RealmInitAction,
+  EventStreamUpdateAction,
   EventSubscriptionAddAction,
   EventSubscriptionRemoveAction,
   EventSubscriptionUpdateAction,
@@ -50,7 +51,7 @@ const eventSubscriptionRemove = (
 
 const eventSubscriptionUpdate = (
   state: SubscriptionsState,
-  action: EventSubscriptionUpdateAction,
+  action: EventSubscriptionUpdateAction | EventStreamUpdateAction,
 ): SubscriptionsState =>
   state.map(
     sub =>
@@ -62,10 +63,7 @@ const eventSubscriptionUpdate = (
         : sub,
   );
 
-export default (
-  state: SubscriptionsState = initialState,
-  action: SubscriptionsAction,
-): SubscriptionsState => {
+export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:
