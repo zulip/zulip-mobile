@@ -194,7 +194,7 @@ const updateDisplaySettings = (
   type: EVENT_UPDATE_DISPLAY_SETTINGS,
 });
 
-export default (state: GlobalState, event: Object): EventAction => {
+export default (state: GlobalState, event: Object): $FlowFixMe<EventAction> => {
   switch (event.type) {
     case 'alert_words':
       return alertWords(state, event);

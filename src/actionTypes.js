@@ -66,6 +66,11 @@ import {
   INIT_TOPICS,
   INIT_SUBSCRIPTIONS,
   EVENT_MUTED_TOPICS,
+  EVENT_REALM_FILTERS,
+  EVENT_USER_REMOVE,
+  EVENT_USER_UPDATE,
+  EVENT_REALM_EMOJI_UPDATE,
+  EVENT_UPDATE_DISPLAY_SETTINGS,
 } from './actionConstants';
 
 import type { MessageEvent, PresenceEvent } from './api/eventTypes';
@@ -251,7 +256,11 @@ export type EventAlertWordsAction = {|
   alertWords: AlertWordsState,
 |};
 
-export type EventRealmFiltersAction = any;
+export type EventRealmFiltersAction = {|
+  type: typeof EVENT_REALM_FILTERS,
+  [string]: any,
+|};
+
 export type EventUpdateGlobalNotificationsSettingsAction = {|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
@@ -431,8 +440,18 @@ export type EventUserAddAction = {|
   type: typeof EVENT_USER_ADD,
   person: User,
 |};
-export type EventUserRemoveAction = any;
-export type EventUserUpdateAction = any;
+
+export type EventUserRemoveAction = {|
+  type: typeof EVENT_USER_REMOVE,
+  // In reality there's more -- but this will prevent accidentally using
+  // the type before going and adding those other properties here properly.
+|};
+
+export type EventUserUpdateAction = {|
+  type: typeof EVENT_USER_UPDATE,
+  // In reality there's more -- but this will prevent accidentally using
+  // the type before going and adding those other properties here properly.
+|};
 
 export type EventMutedTopicsAction = {|
   ...ServerEvent,
@@ -478,8 +497,15 @@ export type EventUserGroupRemoveMembersAction = {|
   user_ids: number[],
 |};
 
-export type EventRealmEmojiUpdateAction = any;
-export type EventUpdateDisplaySettingsAction = any;
+export type EventRealmEmojiUpdateAction = {|
+  type: typeof EVENT_REALM_EMOJI_UPDATE,
+  [string]: any,
+|};
+
+export type EventUpdateDisplaySettingsAction = {|
+  type: typeof EVENT_UPDATE_DISPLAY_SETTINGS,
+  [string]: any,
+|};
 
 export type EventSubscriptionAction =
   | EventSubscriptionAddAction
