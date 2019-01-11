@@ -68,7 +68,7 @@ import {
   EVENT_MUTED_TOPICS,
 } from './actionConstants';
 
-import type { PresenceEvent } from './api/eventTypes';
+import type { MessageEvent, PresenceEvent } from './api/eventTypes';
 
 import type {
   Dimensions,
@@ -342,11 +342,9 @@ export type EventStreamOccupyAction = {|
 |};
 
 export type EventNewMessageAction = {|
-  ...ServerEvent,
+  ...$Diff<MessageEvent, { flags: mixed }>,
   type: typeof EVENT_NEW_MESSAGE,
   caughtUp: CaughtUpState,
-  local_message_id: ?number,
-  message: Message,
   ownEmail: string,
 |};
 

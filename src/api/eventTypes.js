@@ -10,6 +10,8 @@
  * @flow strict-local
  */
 
+import type { Message } from './apiTypes';
+
 //
 // First, types used inside events.
 //
@@ -77,7 +79,19 @@ export type HeartbeatEvent = {|
 
 export type MessageEvent = {|
   ...EventCommon,
-  type: empty, // 'message' -- TODO fill in rest
+  type: 'message',
+  message: Message,
+
+  /** See the same-named property on `Message`. */
+  flags?: $ReadOnlyArray<string>,
+
+  /**
+   * When the message was sent by this client (with `queue_id` this queue),
+   * matches `local_id` from send.
+   *
+   * Otherwise absent.
+   */
+  local_message_id?: number,
 |};
 
 export type PresenceEvent = {|
