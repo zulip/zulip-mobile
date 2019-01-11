@@ -1,23 +1,14 @@
 /* @flow strict-local */
-import type {
-  Auth,
-  Dispatch,
-  RealmFilter,
-  InitialData,
-  RealmEmojiState,
-  RealmInitAction,
-  InitRealmEmojiAction,
-  InitRealmFilterAction,
-} from '../types';
+import type { Auth, Dispatch, RealmFilter, InitialData, RealmEmojiState, Action } from '../types';
 import { getRealmEmojis, getRealmFilters } from '../api';
 import { REALM_INIT, INIT_REALM_EMOJI, INIT_REALM_FILTER } from '../actionConstants';
 
-export const realmInit = (data: InitialData): RealmInitAction => ({
+export const realmInit = (data: InitialData): Action => ({
   type: REALM_INIT,
   data,
 });
 
-export const initRealmEmojis = (emojis: RealmEmojiState): InitRealmEmojiAction => ({
+export const initRealmEmojis = (emojis: RealmEmojiState): Action => ({
   type: INIT_REALM_EMOJI,
   emojis,
 });
@@ -27,7 +18,7 @@ export const fetchRealmEmojis = (auth: Auth) => async (dispatch: Dispatch) => {
   dispatch(initRealmEmojis(emoji));
 };
 
-export const initRealmFilters = (filters: RealmFilter[]): InitRealmFilterAction => ({
+export const initRealmFilters = (filters: RealmFilter[]): Action => ({
   type: INIT_REALM_FILTER,
   filters,
 });

@@ -10,10 +10,7 @@ import type {
   Narrow,
   Outbox,
   User,
-  DeleteOutboxMessageAction,
-  MessageSendStartAction,
-  MessageSendCompleteAction,
-  ToggleOutboxSendingAction,
+  Action,
 } from '../types';
 import {
   MESSAGE_SEND_START,
@@ -28,22 +25,22 @@ import { getUserByEmail, getUsersAndWildcards } from '../users/userHelpers';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import progressiveTimeout from '../utils/progressiveTimeout';
 
-export const messageSendStart = (outbox: Outbox): MessageSendStartAction => ({
+export const messageSendStart = (outbox: Outbox): Action => ({
   type: MESSAGE_SEND_START,
   outbox,
 });
 
-export const toggleOutboxSending = (sending: boolean): ToggleOutboxSendingAction => ({
+export const toggleOutboxSending = (sending: boolean): Action => ({
   type: TOGGLE_OUTBOX_SENDING,
   sending,
 });
 
-export const deleteOutboxMessage = (localMessageId: number): DeleteOutboxMessageAction => ({
+export const deleteOutboxMessage = (localMessageId: number): Action => ({
   type: DELETE_OUTBOX_MESSAGE,
   local_message_id: localMessageId,
 });
 
-export const messageSendComplete = (localMessageId: number): MessageSendCompleteAction => ({
+export const messageSendComplete = (localMessageId: number): Action => ({
   type: MESSAGE_SEND_COMPLETE,
   local_message_id: localMessageId,
 });

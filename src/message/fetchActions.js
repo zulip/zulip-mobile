@@ -1,16 +1,5 @@
 /* @flow */
-import type {
-  Narrow,
-  Dispatch,
-  GetState,
-  GlobalState,
-  Message,
-  MessageFetchStartAction,
-  MessageFetchCompleteAction,
-  MarkMessagesReadAction,
-  InitialFetchStartAction,
-  InitialFetchCompleteAction,
-} from '../types';
+import type { Narrow, Dispatch, GetState, GlobalState, Message, Action } from '../types';
 import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
 import {
   getAuth,
@@ -40,11 +29,7 @@ import { initStreams } from '../streams/streamsActions';
 import { reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
 
-export const messageFetchStart = (
-  narrow: Narrow,
-  numBefore: number,
-  numAfter: number,
-): MessageFetchStartAction => ({
+export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
   narrow,
   numBefore,
@@ -57,7 +42,7 @@ export const messageFetchComplete = (
   anchor: number,
   numBefore: number,
   numAfter: number,
-): MessageFetchCompleteAction => ({
+): Action => ({
   type: MESSAGE_FETCH_COMPLETE,
   messages,
   narrow,
@@ -97,7 +82,7 @@ export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number) =>
 export const fetchMessagesAtFirstUnread = (narrow: Narrow) =>
   fetchMessages(narrow, 0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, true);
 
-export const markMessagesRead = (messageIds: number[]): MarkMessagesReadAction => ({
+export const markMessagesRead = (messageIds: number[]): Action => ({
   type: MARK_MESSAGES_READ,
   messageIds,
 });
@@ -126,11 +111,11 @@ export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   }
 };
 
-export const initialFetchStart = (): InitialFetchStartAction => ({
+export const initialFetchStart = (): Action => ({
   type: INITIAL_FETCH_START,
 });
 
-export const initialFetchComplete = (): InitialFetchCompleteAction => ({
+export const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 

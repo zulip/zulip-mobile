@@ -1,14 +1,6 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
-import type {
-  Auth,
-  Dispatch,
-  GetState,
-  Identity,
-  UnackPushTokenAction,
-  GotPushTokenAction,
-  AckPushTokenAction,
-} from '../types';
+import type { Auth, Dispatch, GetState, Identity, Action } from '../types';
 /* eslint-disable import/no-named-as-default-member */
 import api from '../api';
 import {
@@ -19,17 +11,17 @@ import { getAuth, getActiveAccount } from '../selectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 import { identityOfAuth } from '../account/accountMisc';
 
-export const gotPushToken = (pushToken: string): GotPushTokenAction => ({
+export const gotPushToken = (pushToken: string): Action => ({
   type: GOT_PUSH_TOKEN,
   pushToken,
 });
 
-export const unackPushToken = (identity: Identity): UnackPushTokenAction => ({
+export const unackPushToken = (identity: Identity): Action => ({
   type: UNACK_PUSH_TOKEN,
   identity,
 });
 
-export const ackPushToken = (pushToken: string, identity: Identity): AckPushTokenAction => ({
+export const ackPushToken = (pushToken: string, identity: Identity): Action => ({
   type: ACK_PUSH_TOKEN,
   identity,
   pushToken,
