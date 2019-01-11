@@ -1,7 +1,9 @@
 /* @flow strict-local */
+import type { NavigationAction } from 'react-navigation';
+
 import type {
   NavigationState,
-  NavAction,
+  Action,
   RehydrateAction,
   AccountSwitchAction,
   LoginSuccessAction,
@@ -70,7 +72,7 @@ const initialFetchComplete = (
 ): NavigationState =>
   state.routes[0].routeName === 'main' ? state : getStateForRoute('main') || state;
 
-export default (state: NavigationState = initialState, action: NavAction): NavigationState => {
+export default (state: NavigationState = initialState, action: Action): NavigationState => {
   switch (action.type) {
     case REHYDRATE:
       return rehydrate(state, action);
@@ -87,7 +89,11 @@ export default (state: NavigationState = initialState, action: NavAction): Navig
     case LOGOUT:
       return logout(state, action);
 
-    default:
-      return AppNavigator.router.getStateForAction(action, state) || state;
+    default: {
+      // The `react-navigation` libdef says this only takes a NavigationAction,
+      // but docs say pass arbitrary action. $FlowFixMe
+      const action1: NavigationAction = action;
+      return AppNavigator.router.getStateForAction(action1, state) || state;
+    }
   }
 };
