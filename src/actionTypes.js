@@ -639,15 +639,11 @@ type AccountAction =
   | LoginSuccessAction
   | LogoutAction;
 
-type DraftsAction = DraftUpdateAction;
-
 type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
 
 type MessageAction = MarkMessagesReadAction | MessageFetchStartAction | MessageFetchCompleteAction;
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
-
-type PresenceAction = PresenceResponseAction;
 
 type RealmAction =
   | RealmInitAction
@@ -669,30 +665,20 @@ type SessionAction =
   | DebugFlagToggleAction
   | ToggleOutboxSendingAction;
 
-type SettingsAction = SettingsChangeAction;
-
-type StreamAction = InitStreamsAction;
-
-type SubscriptionsAction = InitSubscriptionsAction;
-
-type TopicsAction = InitTopicsAction;
-
-type TypingAction = ClearTypingAction;
-
 /** Covers all actions we ever `dispatch`. */
 // The grouping here is completely arbitrary; don't worry about it.
 export type Action =
   | EventAction
   | AccountAction
-  | DraftsAction
   | LoadingAction
   | MessageAction
   | OutboxAction
-  | PresenceAction
   | RealmAction
   | SessionAction
-  | SettingsAction
-  | StreamAction
-  | SubscriptionsAction
-  | TopicsAction
-  | TypingAction;
+  | DraftUpdateAction
+  | PresenceResponseAction
+  | SettingsChangeAction
+  | InitStreamsAction
+  | InitSubscriptionsAction
+  | InitTopicsAction
+  | ClearTypingAction;
