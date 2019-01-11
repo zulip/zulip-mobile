@@ -76,156 +76,121 @@ const opToActionTyping = {
   stop: EVENT_TYPING_STOP,
 };
 
-const alertWords = (state, event) => ({
-  type: INIT_ALERT_WORDS,
-  alertWords: event.alert_words,
-});
-
-const newMessage = (state, event) => ({
-  ...event,
-  type: EVENT_NEW_MESSAGE,
-  caughtUp: state.caughtUp,
-  ownEmail: state.accounts[0].email,
-});
-
-const deleteMessage = (state, event) => ({
-  type: EVENT_MESSAGE_DELETE,
-  messageId: event.message_id,
-});
-
-const updateMessage = (state, event) => ({
-  ...event,
-  type: EVENT_UPDATE_MESSAGE,
-});
-
-const subscription = (state, event) => ({
-  ...event,
-  type: opToActionSubscription[event.op],
-  user: getUserById(state.users, event.user_id),
-});
-
-const realmUser = (state, event) => ({
-  ...event,
-  type: opToActionUser[event.op],
-});
-
-const realmUserGroup = (state, event) => ({
-  ...event,
-  type: opToActionUserGroup[event.op],
-});
-
-const stream = (state, event) => ({
-  ...event,
-  type: opToActionStream[event.op],
-});
-
-const reaction = (state, event) => ({
-  ...event,
-  // This cast seems redundant; but without it Flow (0.67) gives a puzzling type error.
-  type: (opToActionReaction[event.op]: typeof EVENT_REACTION_ADD | typeof EVENT_REACTION_REMOVE),
-});
-
-const presence = (state, event) => ({
-  ...event,
-  type: EVENT_PRESENCE,
-});
-
-const typing = (state, event) => ({
-  ...event,
-  ownEmail: state.accounts[0].email,
-  type: opToActionTyping[event.op],
-  time: new Date().getTime(),
-});
-
-const updateMessageFlags = (state, event) => ({
-  ...event,
-  type: EVENT_UPDATE_MESSAGE_FLAGS,
-  allMessages: state.messages,
-});
-
-const updateMutedTopics = (state, event) => ({
-  ...event,
-  type: EVENT_MUTED_TOPICS,
-});
-
-const realmEmojiUpdate = (state, event) => ({
-  ...event,
-  type: EVENT_REALM_EMOJI_UPDATE,
-});
-
-const realmFilters = (state, event) => ({
-  ...event,
-  type: EVENT_REALM_FILTERS,
-});
-
-const updateGlobalNotifications = (state, event) => ({
-  ...event,
-  type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
-});
-
-const updateDisplaySettings = (state, event) => ({
-  ...event,
-  type: EVENT_UPDATE_DISPLAY_SETTINGS,
-});
-
 export default (state: GlobalState, event: Object): EventAction => {
   switch (event.type) {
     case 'alert_words':
-      return alertWords(state, event);
+      return {
+        type: INIT_ALERT_WORDS,
+        alertWords: event.alert_words,
+      };
 
     case 'message':
-      return newMessage(state, event);
+      return {
+        ...event,
+        type: EVENT_NEW_MESSAGE,
+        caughtUp: state.caughtUp,
+        ownEmail: state.accounts[0].email,
+      };
 
     case 'delete_message':
-      return deleteMessage(state, event);
+      return {
+        type: EVENT_MESSAGE_DELETE,
+        messageId: event.message_id,
+      };
 
     case 'update_message':
-      return updateMessage(state, event);
+      return {
+        ...event,
+        type: EVENT_UPDATE_MESSAGE,
+      };
 
     case 'subscription':
-      return subscription(state, event);
+      return {
+        ...event,
+        type: opToActionSubscription[event.op],
+        user: getUserById(state.users, event.user_id),
+      };
 
     case 'realm_user':
-      return realmUser(state, event);
+      return {
+        ...event,
+        type: opToActionUser[event.op],
+      };
 
     case 'realm_bot':
       return { type: 'ignore' };
 
     case 'stream':
-      return stream(state, event);
+      return {
+        ...event,
+        type: opToActionStream[event.op],
+      };
 
     case 'reaction':
-      return reaction(state, event);
+      return {
+        ...event,
+        type: opToActionReaction[event.op],
+      };
 
     case 'heartbeat':
       return { type: 'ignore' };
 
     case 'presence':
-      return presence(state, event);
+      return {
+        ...event,
+        type: EVENT_PRESENCE,
+      };
 
     case 'update_message_flags':
-      return updateMessageFlags(state, event);
+      return {
+        ...event,
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        allMessages: state.messages,
+      };
 
     case 'typing':
-      return typing(state, event);
+      return {
+        ...event,
+        ownEmail: state.accounts[0].email,
+        type: opToActionTyping[event.op],
+        time: new Date().getTime(),
+      };
 
     case 'muted_topics':
-      return updateMutedTopics(state, event);
+      return {
+        ...event,
+        type: EVENT_MUTED_TOPICS,
+      };
 
     case 'realm_emoji':
-      return realmEmojiUpdate(state, event);
+      return {
+        ...event,
+        type: EVENT_REALM_EMOJI_UPDATE,
+      };
 
     case 'realm_filters':
-      return realmFilters(state, event);
+      return {
+        ...event,
+        type: EVENT_REALM_FILTERS,
+      };
 
     case 'update_global_notifications':
-      return updateGlobalNotifications(state, event);
+      return {
+        ...event,
+        type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+      };
 
     case 'update_display_settings':
-      return updateDisplaySettings(state, event);
+      return {
+        ...event,
+        type: EVENT_UPDATE_DISPLAY_SETTINGS,
+      };
 
     case 'user_group':
-      return realmUserGroup(state, event);
+      return {
+        ...event,
+        type: opToActionUserGroup[event.op],
+      };
 
     default:
       return { type: 'unknown', event };
