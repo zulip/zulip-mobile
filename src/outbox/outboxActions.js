@@ -55,8 +55,8 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
   dispatch(toggleOutboxSending(true));
   const auth = getAuth(state);
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
-  outboxToSend.forEach(async item => {
-    try {
+  try {
+    outboxToSend.forEach(async item => {
       await sendMessage(
         auth,
         item.type,
@@ -67,10 +67,11 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
         state.session.eventQueueId,
       );
       dispatch(messageSendComplete(item.timestamp));
-    } catch (e) {
-      logErrorRemotely(e, 'error caught while sending');
-    }
-  });
+    });
+  } catch (e) {
+    logErrorRemotely(e, 'error caught while sending');
+  }
+
   dispatch(toggleOutboxSending(false));
 };
 
