@@ -33,7 +33,7 @@ import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
 import { initNotifications } from '../notification/notificationActions';
-import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
+import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
 import { initStreams } from '../streams/streamsActions';
 import { reportPresence } from '../users/usersActions';
@@ -196,7 +196,7 @@ export const fetchInitialData = () => async (dispatch: Dispatch, getState: GetSt
     dispatch(fetchMessagesInNarrow(session.lastNarrow));
   }
 
-  dispatch(trySendMessages());
+  dispatch(sendOutbox());
 };
 
 export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {

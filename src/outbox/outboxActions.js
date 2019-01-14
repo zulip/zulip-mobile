@@ -47,12 +47,8 @@ export const messageSendComplete = (localMessageId: number): MessageSendComplete
   local_message_id: localMessageId,
 });
 
-export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) => {
+export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean => {
   const state = getState();
-  if (state.outbox.length === 0 || state.session.outboxSending) {
-    return;
-  }
-  dispatch(toggleOutboxSending(true));
   const auth = getAuth(state);
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
   try {
@@ -68,10 +64,20 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
       );
       dispatch(messageSendComplete(item.timestamp));
     });
+    return true;
   } catch (e) {
     logErrorRemotely(e, 'error caught while sending');
+    return false;
   }
+};
 
+export const sendOutbox = () => (dispatch: Dispatch, getState: GetState) => {
+  const state = getState();
+  if (state.outbox.length === 0 || state.session.outboxSending) {
+    return;
+  }
+  dispatch(toggleOutboxSending(true));
+  trySendMessages(dispatch, getState);
   dispatch(toggleOutboxSending(false));
 };
 
@@ -141,5 +147,5 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
       reactions: [],
     }),
   );
-  dispatch(trySendMessages());
+  dispatch(sendOutbox());
 };

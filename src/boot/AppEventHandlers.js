@@ -21,7 +21,7 @@ import {
   appState,
   initSafeAreaInsets,
   reportPresence,
-  trySendMessages,
+  sendOutbox,
 } from '../actions';
 
 const componentStyles = StyleSheet.create({
@@ -51,7 +51,7 @@ class AppEventHandlers extends PureComponent<Props> {
     const isConnected = connectionInfo.type !== 'none' && connectionInfo.type !== 'unknown';
     dispatch(appOnline(isConnected));
     if (!needsInitialFetch && isConnected) {
-      dispatch(trySendMessages());
+      dispatch(sendOutbox());
     }
   };
 
