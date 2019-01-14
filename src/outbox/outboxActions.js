@@ -26,6 +26,7 @@ import { sendMessage } from '../api';
 import { getSelfUserDetail } from '../users/userSelectors';
 import { getUserByEmail, getUsersAndWildcards } from '../users/userHelpers';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
+import progressiveTimeout from '../utils/progressiveTimeout';
 
 export const messageSendStart = (outbox: Outbox): MessageSendStartAction => ({
   type: MESSAGE_SEND_START,
@@ -71,13 +72,15 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
   }
 };
 
-export const sendOutbox = () => (dispatch: Dispatch, getState: GetState) => {
+export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   if (state.outbox.length === 0 || state.session.outboxSending) {
     return;
   }
   dispatch(toggleOutboxSending(true));
-  trySendMessages(dispatch, getState);
+  while (!trySendMessages(dispatch, getState)) {
+    await progressiveTimeout(); // eslint-disable-line no-await-in-loop
+  }
   dispatch(toggleOutboxSending(false));
 };
 
