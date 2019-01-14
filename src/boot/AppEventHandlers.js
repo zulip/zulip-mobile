@@ -13,7 +13,7 @@ import type {
   Orientation as OrientationT,
   UserIdMap,
 } from '../types';
-import { getSession, getUnreadByHuddlesMentionsAndPMs, getUsersById } from '../selectors';
+import { getUnreadByHuddlesMentionsAndPMs, getUsersById } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
 import {
   appOnline,
@@ -21,7 +21,6 @@ import {
   appState,
   initSafeAreaInsets,
   reportPresence,
-  sendOutbox,
 } from '../actions';
 
 const componentStyles = StyleSheet.create({
@@ -33,7 +32,6 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
-  needsInitialFetch: boolean,
   dispatch: Dispatch,
   children: ChildrenArray<*>,
   unreadCount: number,
@@ -47,12 +45,9 @@ class AppEventHandlers extends PureComponent<Props> {
   };
 
   handleConnectivityChange = connectionInfo => {
-    const { dispatch, needsInitialFetch } = this.props;
+    const { dispatch } = this.props;
     const isConnected = connectionInfo.type !== 'none' && connectionInfo.type !== 'unknown';
     dispatch(appOnline(isConnected));
-    if (!needsInitialFetch && isConnected) {
-      dispatch(sendOutbox());
-    }
   };
 
   handleAppStateChange = state => {
@@ -100,7 +95,6 @@ class AppEventHandlers extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  needsInitialFetch: getSession(state).needsInitialFetch,
   usersById: getUsersById(state),
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
 }))(AppEventHandlers);
