@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     opacity: 0.8,
     position: 'absolute',
-    zIndex: 1,
   },
   container: {
     flex: 1,
@@ -98,6 +97,12 @@ class Lightbox extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
+        <PhotoView
+          source={resource}
+          style={[styles.img, { width }]}
+          resizeMode="contain"
+          onTap={this.handleImagePress}
+        />
         <SlideAnimationView
           property="translateY"
           style={[styles.overlay, styles.header, { width }]}
@@ -112,13 +117,6 @@ class Lightbox extends PureComponent<Props, State> {
             senderName={message.sender_full_name}
           />
         </SlideAnimationView>
-
-        <PhotoView
-          source={resource}
-          style={[styles.img, { width }]}
-          resizeMode="contain"
-          onTap={this.handleImagePress}
-        />
         <SlideAnimationView
           property="translateY"
           style={[styles.overlay, { width, bottom: height - 44 }]}
