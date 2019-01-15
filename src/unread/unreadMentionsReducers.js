@@ -13,20 +13,6 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UnreadMentionsState = NULL_ARRAY;
 
-const realmInit = (state, action) =>
-  (action.data.unread_msgs && action.data.unread_msgs.mentions) || initialState;
-
-const eventNewMessage = (state, action) =>
-  action.message.flags
-  && action.message.flags.includes('mentioned')
-  && !state.includes(action.message.id)
-    ? addItemsToArray(state, [action.message.id])
-    : state;
-
-const markMessagesRead = (state, action) => removeItemsFromArray(state, action.messageIds);
-
-const eventMessageDelete = (state, action) => removeItemsFromArray(state, [action.messageId]);
-
 const eventUpdateMessageFlags = (state, action) => {
   if (action.flag !== 'read') {
     return state;
@@ -51,16 +37,20 @@ export default (state: UnreadMentionsState = initialState, action: Action): Unre
       return initialState;
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return (action.data.unread_msgs && action.data.unread_msgs.mentions) || initialState;
 
     case EVENT_NEW_MESSAGE:
-      return eventNewMessage(state, action);
+      return action.message.flags
+        && action.message.flags.includes('mentioned')
+        && !state.includes(action.message.id)
+        ? addItemsToArray(state, [action.message.id])
+        : state;
 
     case MARK_MESSAGES_READ:
-      return markMessagesRead(state, action);
+      return removeItemsFromArray(state, action.messageIds);
 
     case EVENT_MESSAGE_DELETE:
-      return eventMessageDelete(state, action);
+      return removeItemsFromArray(state, [action.messageId]);
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
       return eventUpdateMessageFlags(state, action);

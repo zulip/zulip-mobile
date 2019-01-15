@@ -19,11 +19,6 @@ import { groupItemsById } from '../utils/misc';
 
 const initialState: MessagesState = NULL_OBJECT;
 
-const messageFetchComplete = (state, action) => ({
-  ...state,
-  ...groupItemsById(action.messages.map(message => omit(message, 'flags'))),
-});
-
 const eventReactionAdd = (state, action) => {
   const oldMessage = state[action.message_id];
   if (!oldMessage) {
@@ -127,7 +122,10 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
       return initialState;
 
     case MESSAGE_FETCH_COMPLETE:
-      return messageFetchComplete(state, action);
+      return {
+        ...state,
+        ...groupItemsById(action.messages.map(message => omit(message, 'flags'))),
+      };
 
     case EVENT_REACTION_ADD:
       return eventReactionAdd(state, action);

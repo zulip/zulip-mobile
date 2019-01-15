@@ -86,8 +86,6 @@ const unackPushToken = (state, action) => {
   ];
 };
 
-const logout = (state, action) => [{ ...state[0], apiKey: '' }, ...state.slice(1)];
-
 const accountRemove = (state, action) => {
   const newState = state.slice();
   newState.splice(action.index, 1);
@@ -112,7 +110,7 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
       return unackPushToken(state, action);
 
     case LOGOUT:
-      return logout(state, action);
+      return [{ ...state[0], apiKey: '' }, ...state.slice(1)];
 
     case ACCOUNT_REMOVE:
       return accountRemove(state, action);

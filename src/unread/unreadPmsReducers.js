@@ -13,9 +13,6 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UnreadPmsState = NULL_ARRAY;
 
-const realmInit = (state, action) =>
-  (action.data.unread_msgs && action.data.unread_msgs.pms) || initialState;
-
 const eventNewMessage = (state, action) => {
   if (action.message.type !== 'private') {
     return state;
@@ -31,10 +28,6 @@ const eventNewMessage = (state, action) => {
 
   return addItemsToPmArray(state, [action.message.id], action.message.sender_id);
 };
-
-const markMessagesRead = (state, action) => removeItemsDeeply(state, action.messageIds);
-
-const eventMessageDelete = (state, action) => removeItemsDeeply(state, [action.messageId]);
 
 const eventUpdateMessageFlags = (state, action) => {
   if (action.flag !== 'read') {
@@ -60,16 +53,16 @@ export default (state: UnreadPmsState = initialState, action: Action): UnreadPms
       return initialState;
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return (action.data.unread_msgs && action.data.unread_msgs.pms) || initialState;
 
     case EVENT_NEW_MESSAGE:
       return eventNewMessage(state, action);
 
     case MARK_MESSAGES_READ:
-      return markMessagesRead(state, action);
+      return removeItemsDeeply(state, action.messageIds);
 
     case EVENT_MESSAGE_DELETE:
-      return eventMessageDelete(state, action);
+      return removeItemsDeeply(state, [action.messageId]);
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
       return eventUpdateMessageFlags(state, action);
