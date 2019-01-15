@@ -10,10 +10,6 @@ import type {
   LogoutAction,
   InitialFetchCompleteAction,
 } from '../types';
-import config from '../config';
-import { navigateToChat } from './navActions';
-import { getUsersById } from '../users/userSelectors';
-import { getNarrowFromNotificationData } from '../notification';
 import AppNavigator from './AppNavigator';
 import { NULL_NAV_STATE } from '../nullObjects';
 import {
@@ -47,14 +43,7 @@ const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationS
     return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
   }
 
-  const startState = getStateForRoute('main');
-  if (!config.startup.notification) {
-    return startState || state;
-  }
-
-  const usersById = getUsersById(rehydratedState);
-  const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
-  return AppNavigator.router.getStateForAction(navigateToChat(narrow), startState) || state;
+  return getStateForRoute('main') || state;
 };
 
 const accountSwitch = (state: NavigationState, action: AccountSwitchAction): NavigationState =>
