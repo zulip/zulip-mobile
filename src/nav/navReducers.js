@@ -40,11 +40,12 @@ const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationS
   const rehydratedState = action.payload;
   if (!hasAuth(rehydratedState)) {
     const { accounts } = rehydratedState;
+    const result = getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
     // getStateForRoute can return null, but it is unclear under what
     // conditions. Empirically, it doesn't return null on the initial start of
     // the app, but this should be verified.
     // $FlowFixMe: getStateForRoute may return null but it shouldn't.
-    return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
+    return (result: NavigationState);
   }
 
   const startState = getStateForRoute('main');
