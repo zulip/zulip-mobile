@@ -8,6 +8,9 @@ to users in general on the app stores is typically a few days later.
 
 ## Unreleased
 
+
+## 22.1.108 (2019-01-15)
+
 * Fixed regression in 22.0.107: launching the app from a notification
   would lead to a "No messages" screen.  (#3284)
 
