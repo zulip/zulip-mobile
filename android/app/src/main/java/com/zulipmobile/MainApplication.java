@@ -12,6 +12,7 @@ import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.reactnative.photoview.PhotoViewPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.remobile.toast.RCTToastPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import io.sentry.RNSentryPackage;
@@ -36,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
+                    new RNCWebViewPackage(),
                     new RNTextInputResetPackage(),
                     new ImagePickerPackage(),
                     new OrientationPackage(),
