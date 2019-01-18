@@ -62,6 +62,9 @@ might look through the other tools and try some more of them out.
 * Commands once you've set up:
   * `react-native run-android` - build, then run on an active emulator
     or USB-connected device.  This won't start the emulator automatically.
+
+    `Note`: If you are behind a proxy, It is recommended to run this command for the first time on an internet connection without a proxy. This is because some files need to be downloaded for initial setup of the application which requires an internet connection without a proxy.
+
   * `yarn build:android-nokeys` - build an APK in release mode, just
     skipping Sentry setup (which requires an authentication token) and
     skipping signing.  The output APK will be at
