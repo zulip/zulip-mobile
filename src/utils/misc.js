@@ -29,3 +29,13 @@ export function groupItemsById<T: { id: number }>(items: T[]): { [id: number]: T
 }
 
 export const isValidEmailFormat = (email: string = ''): boolean => /\S+@\S+\.\S+/.test(email);
+
+export const getChangedValues = (newObj: {}, oldObj: {}) => {
+  const obj: {} = {};
+  Object.keys(newObj).forEach(key => {
+    if (newObj[key] !== oldObj[key]) {
+      obj[key] = newObj[key];
+    }
+  });
+  return obj;
+};
