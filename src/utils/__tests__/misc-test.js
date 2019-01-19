@@ -1,5 +1,11 @@
 /* @flow strict */
-import { initialsFromName, isValidEmailFormat, numberWithSeparators, deeperMerge } from '../misc';
+import {
+  initialsFromName,
+  isValidEmailFormat,
+  numberWithSeparators,
+  deeperMerge,
+  getChangedValues,
+} from '../misc';
 
 describe('numberWithSeparators', () => {
   test('do not change a small number', () => {
@@ -109,5 +115,13 @@ describe('isValidEmail', () => {
     expect(isValidEmailFormat('@a.com')).toBe(false);
     expect(isValidEmailFormat('a@b')).toBe(false);
     expect(isValidEmailFormat('a@.com')).toBe(false);
+  });
+});
+
+describe('getChangedValues', () => {
+  test('return a new object which has only changed data', () => {
+    expect(getChangedValues({ key: 2 }, { key: 1 })).toEqual({ key: 2 });
+    expect(getChangedValues({ key: 1 }, { key: 1 })).toEqual({});
+    expect(getChangedValues({ key: 1 }, { key2: 2 })).toEqual({ key: 1 });
   });
 });
