@@ -28,10 +28,10 @@ const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 // Options for the action sheet go below: ...
 //
 
-const reply = ({ message, dispatch, auth }) => {
+const showConversation = ({ message, dispatch, auth }) => {
   dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
 };
-reply.title = 'Reply';
+showConversation.title = 'Show conversation';
 
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
@@ -110,7 +110,7 @@ cancel.title = 'Cancel';
 const allButtonsRaw = {
   // For messages
   addReaction,
-  reply,
+  showConversation,
   copyToClipboard,
   shareMessage,
   editMessage,
@@ -176,7 +176,7 @@ export const constructMessageActionButtons = ({
     buttons.push('addReaction');
   }
   if (!isAnOutboxMessage(message)) {
-    buttons.push('reply');
+    buttons.push('showConversation');
   }
   if (messageNotDeleted(message)) {
     buttons.push('copyToClipboard');
