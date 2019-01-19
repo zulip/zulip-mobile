@@ -7,6 +7,7 @@ import { isTopicMuted } from '../utils/message';
 import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
+import { navigateToMessageReactionScreen } from '../nav/navActions';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -110,6 +111,11 @@ const addReaction = ({ message, dispatch }) => {
 };
 addReaction.title = 'Add a reaction';
 
+const showReactions = ({ message, dispatch }) => {
+  dispatch(navigateToMessageReactionScreen(message.id));
+};
+showReactions.title = 'See who reacted';
+
 const cancel = params => {};
 cancel.title = 'Cancel';
 
@@ -123,6 +129,7 @@ const allButtonsRaw = {
   deleteMessage,
   starMessage,
   unstarMessage,
+  showReactions,
 
   // For headers
   unmuteTopic,
@@ -179,6 +186,9 @@ export const constructMessageActionButtons = ({
   narrow,
 }: ConstructSheetParams): ButtonCode[] => {
   const buttons = [];
+  if (message.reactions.length > 0) {
+    buttons.push('showReactions');
+  }
   if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
     buttons.push('addReaction');
   }

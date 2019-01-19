@@ -24,6 +24,7 @@ describe('constructActionButtons', () => {
   test('show star message option if message is not starred', () => {
     const message = deepFreeze({
       id: 3,
+      reactions: [],
     });
 
     const buttons = constructMessageActionButtons({
@@ -38,6 +39,7 @@ describe('constructActionButtons', () => {
   test('show unstar message option if message is starred', () => {
     const message = deepFreeze({
       id: 1,
+      reactions: [],
     });
 
     const buttons = constructMessageActionButtons({
@@ -47,6 +49,21 @@ describe('constructActionButtons', () => {
     });
 
     expect(buttons).toContain('unstarMessage');
+  });
+
+  test('show reactions option if message is has at least one reaction', () => {
+    const message = deepFreeze({
+      id: 1,
+      reactions: [{}],
+    });
+
+    const buttons = constructMessageActionButtons({
+      backgroundData: { auth, flags, mute, subscriptions },
+      message,
+      narrow,
+    });
+
+    expect(buttons).toContain('showReactions');
   });
 });
 
