@@ -2,7 +2,13 @@
 import { Clipboard, Share } from 'react-native';
 import type { Auth, Dispatch, GetText, Message, Narrow, Subscription } from '../types';
 import type { BackgroundData } from '../webview/MessageList';
-import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
+import {
+  getNarrowFromMessage,
+  isHomeNarrow,
+  isSpecialNarrow,
+  isPrivateOrGroupNarrow,
+  isTopicNarrow,
+} from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 /* eslint-disable import/no-named-as-default-member */
 import api, { getMessageContentById, toggleMuteStream, toggleMessageStarred } from '../api';
@@ -175,7 +181,7 @@ export const constructMessageActionButtons = ({
   if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
     buttons.push('addReaction');
   }
-  if (!isAnOutboxMessage(message)) {
+  if (!isAnOutboxMessage(message) && !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
     buttons.push('showConversation');
   }
   if (messageNotDeleted(message)) {
