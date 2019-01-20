@@ -12,6 +12,7 @@ type Config = {|
   startup: {
     narrow: ?Narrow,
     anchor: number,
+    shouldNarrowToNotification: boolean,
     notification: ?Notification,
   },
   messagesPerRequest: number,
@@ -31,6 +32,7 @@ const config: Config = {
   startup: {
     narrow: undefined,
     anchor: FIRST_UNREAD_ANCHOR,
+    shouldNarrowToNotification: false,
     notification: undefined,
   },
   messagesPerRequest: 50,

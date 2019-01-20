@@ -49,6 +49,7 @@ const handleNotification = (data: ?Notification, dispatch: Dispatch, usersById: 
     return;
   }
   config.startup.notification = data;
+  config.startup.shouldNarrowToNotification = true;
   dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
 };
 

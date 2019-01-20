@@ -52,11 +52,12 @@ export const initNotifications = () => (dispatch: Dispatch, getState: GetState) 
   const { ackedPushToken } = getActiveAccount(getState());
   getNotificationToken(auth, ackedPushToken, dispatch);
 
-  const { notification } = config.startup;
-  if (notification) {
+  const { notification, shouldNarrowToNotification } = config.startup;
+  if (shouldNarrowToNotification && notification) {
     const usersById = getUsersById(getState());
-    const narrow = getNarrowFromNotificationData(notification, usersById);
-    dispatch(doNarrow(narrow, +notification.zulip_message_id));
+    const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
+    dispatch(doNarrow(narrow));
+    config.startup.shouldNarrowToNotification = false;
   }
 };
 
