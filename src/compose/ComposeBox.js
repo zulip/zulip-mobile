@@ -293,7 +293,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
     const style = {
       marginBottom: safeAreaInsets.bottom,
-      ...(canSend ? {} : { display: 'none' }),
+      ...(canSend ? {} : { height: 0 }),
     };
 
     return (
