@@ -684,3 +684,7 @@ documentBody.addEventListener('touchmove', (e: TouchEvent) => {
 documentBody.addEventListener('drag', (e: DragEvent) => {
   lastTouchEventTimestamp = 0;
 });
+
+window.addEventListener('resize', event => {
+  scrollToBottomIfNearEnd();
+});

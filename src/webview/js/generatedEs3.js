@@ -522,4 +522,7 @@ documentBody.addEventListener('touchmove', function (e) {
 documentBody.addEventListener('drag', function (e) {
   lastTouchEventTimestamp = 0;
 });
+window.addEventListener('resize', function (event) {
+  scrollToBottomIfNearEnd();
+});
 `;
