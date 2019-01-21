@@ -23,6 +23,7 @@ public class ZulipNativePackage implements ReactPackage {
         List<NativeModule> modules = new ArrayList<>();
         modules.add(new CustomTabsAndroid(reactContext));
         modules.add(new RNSecureRandom(reactContext));
+        modules.add(new RNGetShareData(reactContext));
         modules.add(new CloseAllCustomTabsAndroid(reactContext));
         modules.add(new ShareImageAndroid(reactContext));
         modules.add(new BadgeCountUpdaterModule(reactContext));
