@@ -48,6 +48,7 @@ import {
   getIsActiveStreamAnnouncementOnly,
 } from '../subscriptions/subscriptionSelectors';
 import { getDefaultTextForComposeBox } from '../drafts/draftsSelectors';
+import { updateShareData } from '../session/sessionActions';
 
 type Props = {|
   auth: Auth,
@@ -222,6 +223,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const { message } = this.state;
 
     dispatch(addToOutbox(this.getDestinationNarrow(), message));
+    dispatch(updateShareData(null));
 
     this.setMessageInputValue('');
   };
@@ -244,6 +246,11 @@ class ComposeBox extends PureComponent<Props, State> {
 
     updateTextInput(this.messageInput, message);
     updateTextInput(this.topicInput, topic);
+  }
+
+  componentWillUnmount() {
+    // make share data only avialable for first narrow
+    this.props.dispatch(updateShareData(null));
   }
 
   componentWillReceiveProps(nextProps: Props) {
