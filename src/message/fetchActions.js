@@ -19,7 +19,6 @@ import {
   getLastMessageId,
   getCaughtUpForActiveNarrow,
   getFetchingForActiveNarrow,
-  getTopMostNarrow,
 } from '../selectors';
 import config from '../config';
 import {
@@ -172,15 +171,6 @@ export const fetchStreams = () => async (dispatch: Dispatch, getState: GetState)
   dispatch(initStreams(streams));
 };
 
-const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) => {
-  // only fetch messages if chat screen is at the top of stack
-  // get narrow of top most chat screen in the stack
-  const narrow = getTopMostNarrow(getState());
-  if (narrow) {
-    dispatch(fetchMessagesInNarrow(narrow));
-  }
-};
-
 export const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
@@ -195,7 +185,6 @@ export const fetchInitialData = () => async (dispatch: Dispatch, getState: GetSt
   );
 
   dispatch(realmInit(initData));
-  dispatch(fetchTopMostNarrow());
   dispatch(initialFetchComplete());
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
 
