@@ -57,7 +57,7 @@ class UnreadCards extends PureComponent<Props> {
 
     return (
       <SectionList
-        stickySectionHeadersEnabled
+        stickySectionHeadersEnabled={false}
         initialNumToRender={20}
         sections={unreadCards}
         keyExtractor={item => item.key}
