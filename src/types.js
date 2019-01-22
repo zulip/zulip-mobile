@@ -213,6 +213,11 @@ export type LoadingState = {|
   users: boolean,
 |};
 
+export type ShareDataType = {|
+  type: 'text',
+  data: string,
+|};
+
 export type MuteTuple = [string, string];
 export type MuteState = MuteTuple[];
 

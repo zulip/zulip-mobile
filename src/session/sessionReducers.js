@@ -22,6 +22,8 @@ import type {
   RealmInitAction,
   DebugFlagToggleAction,
   ToggleOutboxSendingAction,
+  ShareDataType,
+  UpdateShareDataActionType,
 } from '../types';
 import {
   REHYDRATE,
@@ -40,6 +42,7 @@ import {
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
   GOT_PUSH_TOKEN,
+  UPDATE_SHARE_DATA,
 } from '../actionConstants';
 import { hasAuth } from '../account/accountsSelectors';
 
@@ -61,6 +64,7 @@ export type SessionState = {|
   needsInitialFetch: boolean,
   orientation: Orientation,
   outboxSending: boolean,
+  shareData: ?ShareDataType,
 
   /**
    * Our actual device token, as most recently learned from the system.
@@ -102,6 +106,7 @@ const initialState: SessionState = {
     highlightUnreadMessages: false,
     doNotMarkMessagesAsRead: false,
   },
+  shareData: null,
 };
 
 const loginSuccess = (
@@ -198,6 +203,11 @@ const debugFlagToggle = (state: SessionState, action: DebugFlagToggleAction): Se
   },
 });
 
+const updateShareData = (state: SessionState, action: UpdateShareDataActionType): SessionState => ({
+  ...state,
+  shareData: action.payload,
+});
+
 export default (state: SessionState = initialState, action: Action): SessionState => {
   switch (action.type) {
     case DEAD_QUEUE:
@@ -243,6 +253,9 @@ export default (state: SessionState = initialState, action: Action): SessionStat
 
     case DEBUG_FLAG_TOGGLE:
       return debugFlagToggle(state, action);
+
+    case UPDATE_SHARE_DATA:
+      return updateShareData(state, action);
 
     default:
       return state;

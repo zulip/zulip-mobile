@@ -71,6 +71,7 @@ import {
   EVENT_USER_UPDATE,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
+  UPDATE_SHARE_DATA,
 } from './actionConstants';
 
 import type { MessageEvent, PresenceEvent } from './api/eventTypes';
@@ -98,6 +99,7 @@ import type {
   CaughtUpState,
   MuteState,
   AlertWordsState,
+  ShareDataType,
 } from './types';
 
 /**
@@ -610,6 +612,11 @@ export type ToggleOutboxSendingAction = {|
   sending: boolean,
 |};
 
+export type UpdateShareDataActionType = {|
+  type: typeof UPDATE_SHARE_DATA,
+  payload: ?ShareDataType,
+|};
+
 export type ClearTypingAction = {|
   type: typeof CLEAR_TYPING,
   outdatedNotifications: string[],
@@ -666,7 +673,8 @@ type SessionAction =
   | StartEditMessageAction
   | CancelEditMessageAction
   | DebugFlagToggleAction
-  | ToggleOutboxSendingAction;
+  | ToggleOutboxSendingAction
+  | UpdateShareDataActionType;
 
 /** Covers all actions we ever `dispatch`. */
 // The grouping here is completely arbitrary; don't worry about it.

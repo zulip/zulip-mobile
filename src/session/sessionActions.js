@@ -11,6 +11,8 @@ import type {
   Dispatch,
   GetState,
   Orientation,
+  ShareDataType,
+  UpdateShareDataActionType,
 } from '../types';
 import {
   APP_ONLINE,
@@ -21,6 +23,7 @@ import {
   INIT_SAFE_AREA_INSETS,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
+  UPDATE_SHARE_DATA,
 } from '../actionConstants';
 import { getMessageContentById } from '../api';
 import { getAuth, getIsOnline, getIsActive } from '../selectors';
@@ -91,4 +94,9 @@ export const debugFlagToggle = (key: string, value: any): DebugFlagToggleAction 
   type: DEBUG_FLAG_TOGGLE,
   key,
   value,
+});
+
+export const updateShareData = (payload: ?ShareDataType): UpdateShareDataActionType => ({
+  type: UPDATE_SHARE_DATA,
+  payload,
 });
