@@ -15,6 +15,7 @@ import { shortTime } from '../../utils/date';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';
 import processAlertWords from './processAlertWords';
+import processMeMessage from './processMeMessage';
 
 const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): string => {
   const pieces = [];
@@ -62,7 +63,7 @@ const messageBody = (
   const { id, isOutbox, last_edit_timestamp, reactions } = message;
   const content = message.match_content !== undefined ? message.match_content : message.content;
   return template`
-$!${processAlertWords(content, id, alertWords, flags)}
+$!${processAlertWords(processMeMessage(content), id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
 $!${messageReactionListAsHtml(reactions, ownEmail, allImageEmojiById)}
