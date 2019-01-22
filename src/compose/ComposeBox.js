@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { NativeModules, Platform, View, TextInput, findNodeHandle } from 'react-native';
+import { View, TextInput, findNodeHandle } from 'react-native';
 import { connect } from 'react-redux';
 import TextInputReset from 'react-native-text-input-reset';
 

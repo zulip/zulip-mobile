@@ -21,6 +21,7 @@ import {
   appState,
   initSafeAreaInsets,
   reportPresence,
+  updateShareData,
 } from '../actions';
 
 const componentStyles = StyleSheet.create({
@@ -78,6 +79,16 @@ class AppEventHandlers extends PureComponent<Props> {
     // $FlowFixMe: libdef wrongly says callback's parameter is optional
     Orientation.addOrientationListener(this.handleOrientationChange);
     this.notificationListener.start();
+
+    if (Platform.OS === 'android') {
+      // currently we don't handle sharing from other app, see #3277
+      NativeModules.RNGetShareData.getShareData((type, data) => {
+        if (type === 'text') {
+          // currently only handelling text
+          dispatch(updateShareData({ type, data }));
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
