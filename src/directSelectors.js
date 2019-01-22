@@ -23,6 +23,7 @@ import type {
   Debug,
   Subscription,
   Stream,
+  ShareDataType,
   Outbox,
   User,
   UserGroup,
@@ -37,6 +38,7 @@ export const getIsActive = (state: GlobalState): boolean => state.session.isActi
 export const getIsOnline = (state: GlobalState): boolean => state.session.isOnline;
 export const getDebug = (state: GlobalState): Debug => state.session.debug;
 export const getIsHydrated = (state: GlobalState): boolean => state.session.isHydrated;
+export const getShareData = (state: GlobalState): ?ShareDataType => state.session.shareData;
 
 export const getCanCreateStreams = (state: GlobalState): boolean => state.realm.canCreateStreams;
 
