@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Narrow, User } from '../types';
-import { HOME_NARROW, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
+import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { isUrlOnRealm } from './url';
 import { transformToEncodedURI } from './string';
 import { NULL_USER } from '../nullObjects';
@@ -65,7 +65,7 @@ export const getNarrowFromLink = (
   url: string,
   realm: string,
   usersById: Map<number, User>,
-): Narrow => {
+): Narrow | null => {
   const type = getLinkType(url, realm);
   const paths = getPathsFromUrl(url, realm);
 
@@ -88,7 +88,7 @@ export const getNarrowFromLink = (
     case 'special':
       return specialNarrow(paths[1]);
     default:
-      return HOME_NARROW;
+      return null;
   }
 };
 
