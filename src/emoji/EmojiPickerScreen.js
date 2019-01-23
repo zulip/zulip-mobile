@@ -18,13 +18,11 @@ type Props = {|
   activeRealmEmojiByName: RealmEmojiState,
   auth: Auth,
   dispatch: Dispatch,
-  navigation: NavigationScreenProp<*> & {
-    state: {
-      params: {
-        messageId: number,
-      },
+  navigation: NavigationScreenProp<{
+    params: {
+      messageId: number,
     },
-  },
+  }>,
 |};
 
 type State = {|
