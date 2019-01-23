@@ -260,6 +260,16 @@ describe('getNarrowFromLink', () => {
     ).toEqual(expectedValue);
   });
 
+  test('if any of the user ids are not found return null', () => {
+    expect(
+      getNarrowFromLink(
+        'https://example.com/#narrow/pm-with/1,2,10-group',
+        'https://example.com',
+        usersById,
+      ),
+    ).toEqual(null);
+  });
+
   test('when link is a special link, return matching specialNarrow', () => {
     const expectedValue = [
       {

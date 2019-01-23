@@ -71,12 +71,14 @@ export const getNarrowFromLink = (
 
   switch (type) {
     case 'pm': {
-      const recipients = paths[1].split('-')[0].split(',');
-      return groupNarrow(
-        recipients.map(
-          (recipient: string) => (usersById.get(parseInt(recipient, 10)) || NULL_USER).email,
-        ),
+      const recipientIds = paths[1].split('-')[0].split(',');
+      const recipientUsers = recipientIds.map(
+        (recipient: string) => usersById.get(parseInt(recipient, 10)) || NULL_USER,
       );
+      if (!recipientUsers.every(user => user !== NULL_USER)) {
+        return null;
+      }
+      return groupNarrow(recipientUsers.map(user => user.email));
     }
     case 'topic':
       return topicNarrow(
