@@ -41,11 +41,14 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
 
   if (isInternalLink(href, auth.realm)) {
     const usersById = getUsersById(state);
-    const anchor = getMessageIdFromLink(href, auth.realm);
     const narrow = getNarrowFromLink(href, auth.realm, usersById);
 
-    dispatch(doNarrow(narrow, anchor));
-  } else {
-    openLink(getFullUrl(href, auth.realm));
+    if (narrow) {
+      const anchor = getMessageIdFromLink(href, auth.realm);
+      dispatch(doNarrow(narrow, anchor));
+      return;
+    }
   }
+
+  openLink(getFullUrl(href, auth.realm));
 };
