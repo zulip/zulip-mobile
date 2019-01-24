@@ -333,6 +333,7 @@ class ComposeBox extends PureComponent<Props, State> {
             onAutocomplete={this.handleTopicAutocomplete}
           />
           <AutocompleteView
+            isFocused={this.state.isMessageFocused}
             selection={selection}
             text={message}
             onAutocomplete={this.handleMessageAutocomplete}

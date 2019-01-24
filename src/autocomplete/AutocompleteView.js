@@ -16,6 +16,7 @@ const prefixToComponent = {
 };
 
 type Props = {|
+  isFocused: boolean,
   text: string,
   selection: InputSelectionType,
   onAutocomplete: (input: string) => void,
@@ -29,10 +30,10 @@ export default class AutocompleteView extends PureComponent<Props> {
   };
 
   render() {
-    const { text, selection } = this.props;
+    const { isFocused, text, selection } = this.props;
     const { lastWordPrefix, filter } = getAutocompleteFilter(text, selection);
     const AutocompleteComponent = prefixToComponent[lastWordPrefix];
-    const shouldShow = !!AutocompleteComponent && filter.length > 0;
+    const shouldShow = isFocused && !!AutocompleteComponent && filter.length > 0;
 
     return (
       <AnimatedScaleComponent visible={shouldShow}>
