@@ -23,7 +23,7 @@ import {
   sendTypingEvent,
 } from '../actions';
 import { updateMessage } from '../api';
-import { FloatingActionButton, Input, MultilineInput } from '../common';
+import { FloatingActionButton, Input } from '../common';
 import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import { isStreamNarrow, isStreamOrTopicNarrow, topicNarrow } from '../utils/narrow';
@@ -352,8 +352,10 @@ class ComposeBox extends PureComponent<Props, State> {
                 onTouchStart={this.handleInputTouchStart}
               />
             )}
-            <MultilineInput
+            <Input
+              multiline
               style={this.styles.composeTextInput}
+              underlineColorAndroid="transparent"
               placeholder={placeholder}
               defaultValue={message}
               textInputRef={component => {
