@@ -239,13 +239,6 @@ class ComposeBox extends PureComponent<Props, State> {
     dispatch(cancelEditMessage());
   };
 
-  componentDidMount() {
-    const { message, topic } = this.state;
-
-    updateTextInput(this.messageInput, message);
-    updateTextInput(this.topicInput, topic);
-  }
-
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       const topic =
@@ -322,6 +315,7 @@ class ComposeBox extends PureComponent<Props, State> {
                 style={this.styles.topicInput}
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
+                defaultValue={topic}
                 selectTextOnFocus
                 textInputRef={component => {
                   this.topicInput = component;
@@ -335,6 +329,7 @@ class ComposeBox extends PureComponent<Props, State> {
             <MultilineInput
               style={this.styles.composeTextInput}
               placeholder={placeholder}
+              defaultValue={message}
               textInputRef={component => {
                 if (component) {
                   this.messageInput = component;
