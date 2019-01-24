@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, TextInput, findNodeHandle } from 'react-native';
+import { Platform, View, TextInput, findNodeHandle } from 'react-native';
 import { connect } from 'react-redux';
 import TextInputReset from 'react-native-text-input-reset';
 
@@ -251,10 +251,43 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   }
 
+  inputMarginPadding = {
+    paddingHorizontal: 8,
+    paddingVertical: Platform.select({
+      ios: 8,
+      android: 2,
+    }),
+  };
+
   styles = {
-    topicInput: [styles.topicInput, this.context.styles.backgroundColor],
+    composeBox: {
+      flexDirection: 'row',
+      backgroundColor: 'rgba(127, 127, 127, 0.1)',
+    },
+    composeText: {
+      flex: 1,
+      paddingVertical: 8,
+      justifyContent: 'center',
+    },
+    composeSendButton: {
+      padding: 8,
+    },
+    topicInput: [
+      {
+        borderWidth: 0,
+        borderRadius: 5,
+        marginBottom: 8,
+        ...this.inputMarginPadding,
+      },
+      this.context.styles.backgroundColor,
+    ],
     composeTextInput: [
-      styles.composeTextInput,
+      {
+        borderWidth: 0,
+        borderRadius: 5,
+        fontSize: 15,
+        ...this.inputMarginPadding,
+      },
       this.context.styles.backgroundColor,
       this.context.styles.color,
     ],
@@ -298,7 +331,7 @@ class ComposeBox extends PureComponent<Props, State> {
           onMessageAutocomplete={this.handleMessageAutocomplete}
           onTopicAutocomplete={this.handleTopicAutocomplete}
         />
-        <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
+        <View style={this.styles.composeBox} onLayout={this.handleLayoutChange}>
           <View style={styles.alignBottom}>
             <ComposeMenu
               destinationNarrow={this.getDestinationNarrow()}
@@ -306,7 +339,7 @@ class ComposeBox extends PureComponent<Props, State> {
               onExpandContract={this.handleComposeMenuToggle}
             />
           </View>
-          <View style={styles.composeText}>
+          <View style={this.styles.composeText}>
             {this.getCanSelectTopic() && (
               <Input
                 style={this.styles.topicInput}
@@ -341,7 +374,7 @@ class ComposeBox extends PureComponent<Props, State> {
           </View>
           <View style={styles.alignBottom}>
             <FloatingActionButton
-              style={styles.composeSendButton}
+              style={this.styles.composeSendButton}
               Icon={editMessage === null ? IconSend : IconDone}
               size={32}
               disabled={message.trim().length === 0}

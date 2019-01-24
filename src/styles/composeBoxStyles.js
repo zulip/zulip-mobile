@@ -1,33 +1,8 @@
 /* @flow strict-local */
-import { Platform } from 'react-native';
 
 import { BRAND_COLOR } from './constants';
 
-const inputMarginPadding = {
-  paddingHorizontal: 8,
-  ...Platform.select({
-    ios: {
-      paddingVertical: 8,
-    },
-    android: {
-      paddingVertical: 2,
-    },
-  }),
-};
-
 export default {
-  composeBox: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(127, 127, 127, 0.1)',
-  },
-  composeText: {
-    flex: 1,
-    paddingVertical: 8,
-    justifyContent: 'center',
-  },
-  composeSendButton: {
-    padding: 8,
-  },
   composeMenu: {
     flexDirection: 'row',
     overflow: 'hidden',
@@ -55,17 +30,5 @@ export default {
   disabledComposeText: {
     flex: 1,
     color: 'white',
-  },
-  composeTextInput: {
-    borderWidth: 0,
-    borderRadius: 5,
-    fontSize: 15,
-    ...inputMarginPadding,
-  },
-  topicInput: {
-    borderWidth: 0,
-    borderRadius: 5,
-    marginBottom: 8,
-    ...inputMarginPadding,
   },
 };
