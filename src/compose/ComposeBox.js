@@ -27,7 +27,6 @@ import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import { isStreamNarrow, isStreamOrTopicNarrow, topicNarrow } from '../utils/narrow';
-import styles from '../styles';
 import ComposeMenu from './ComposeMenu';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
@@ -262,12 +261,12 @@ class ComposeBox extends PureComponent<Props, State> {
   styles = {
     composeBox: {
       flexDirection: 'row',
+      alignItems: 'flex-end',
       backgroundColor: 'rgba(127, 127, 127, 0.1)',
     },
     composeText: {
       flex: 1,
       paddingVertical: 8,
-      justifyContent: 'center',
     },
     composeSendButton: {
       padding: 8,
@@ -332,13 +331,11 @@ class ComposeBox extends PureComponent<Props, State> {
           onTopicAutocomplete={this.handleTopicAutocomplete}
         />
         <View style={this.styles.composeBox} onLayout={this.handleLayoutChange}>
-          <View style={styles.alignBottom}>
-            <ComposeMenu
-              destinationNarrow={this.getDestinationNarrow()}
-              expanded={isMenuExpanded}
-              onExpandContract={this.handleComposeMenuToggle}
-            />
-          </View>
+          <ComposeMenu
+            destinationNarrow={this.getDestinationNarrow()}
+            expanded={isMenuExpanded}
+            onExpandContract={this.handleComposeMenuToggle}
+          />
           <View style={this.styles.composeText}>
             {this.getCanSelectTopic() && (
               <Input
@@ -372,15 +369,13 @@ class ComposeBox extends PureComponent<Props, State> {
               onTouchStart={this.handleInputTouchStart}
             />
           </View>
-          <View style={styles.alignBottom}>
-            <FloatingActionButton
-              style={this.styles.composeSendButton}
-              Icon={editMessage === null ? IconSend : IconDone}
-              size={32}
-              disabled={message.trim().length === 0}
-              onPress={editMessage === null ? this.handleSend : this.handleEdit}
-            />
-          </View>
+          <FloatingActionButton
+            style={this.styles.composeSendButton}
+            Icon={editMessage === null ? IconSend : IconDone}
+            size={32}
+            disabled={message.trim().length === 0}
+            onPress={editMessage === null ? this.handleSend : this.handleEdit}
+          />
         </View>
       </View>
     );
