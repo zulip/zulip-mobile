@@ -32,15 +32,7 @@ import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
 import AnnouncementOnly from '../message/AnnouncementOnly';
 
-import {
-  getAuth,
-  getIsAdmin,
-  getSession,
-  canSendToActiveNarrow,
-  getLastMessageTopic,
-  getActiveUsers,
-  getShowMessagePlaceholders,
-} from '../selectors';
+import { getAuth, getIsAdmin, getSession, getLastMessageTopic, getActiveUsers } from '../selectors';
 import {
   getIsActiveStreamSubscribed,
   getIsActiveStreamAnnouncementOnly,
@@ -51,7 +43,6 @@ import AutocompleteView from '../autocomplete/AutocompleteView';
 
 type Props = {|
   auth: Auth,
-  canSend: boolean,
   narrow: Narrow,
   users: User[],
   draft: string,
@@ -314,7 +305,6 @@ class ComposeBox extends PureComponent<Props, State> {
     const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
     const {
       auth,
-      canSend,
       narrow,
       users,
       editMessage,
@@ -333,7 +323,6 @@ class ComposeBox extends PureComponent<Props, State> {
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
     const style = {
       marginBottom: safeAreaInsets.bottom,
-      ...(canSend ? {} : { display: 'none' }),
     };
 
     return (
@@ -411,7 +400,6 @@ export default connect((state: GlobalState, props) => ({
   isAdmin: getIsAdmin(state),
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(props.narrow)(state),
   isSubscribed: getIsActiveStreamSubscribed(props.narrow)(state),
-  canSend: canSendToActiveNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
   editMessage: getSession(state).editMessage,
   draft: getDraftForActiveNarrow(props.narrow)(state),
   lastMessageTopic: getLastMessageTopic(props.narrow)(state),
