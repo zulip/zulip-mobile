@@ -359,9 +359,7 @@ class ComposeBox extends PureComponent<Props, State> {
               placeholder={placeholder}
               defaultValue={message}
               textInputRef={component => {
-                if (component) {
-                  this.messageInput = component;
-                }
+                this.messageInput = component;
               }}
               onBlur={this.handleMessageBlur}
               onChangeText={this.handleMessageChange}
