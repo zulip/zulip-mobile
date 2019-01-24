@@ -176,7 +176,8 @@ class ComposeBox extends PureComponent<Props, State> {
       isMenuExpanded: false,
     });
     setTimeout(() => {
-      this.setTopicInputValue(topic || lastMessageTopic);
+      updateTextInput(this.topicInput, topic || lastMessageTopic);
+      this.setState({ topic: topic || lastMessageTopic, isMenuExpanded: false });
     }, 200); // wait, to hope the component is shown
   };
 
