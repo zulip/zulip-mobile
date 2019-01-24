@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, TextInput, findNodeHandle } from 'react-native';
 import { connect } from 'react-redux';
@@ -228,7 +228,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const { message, topic } = this.state;
     const content = editMessage.content !== message ? message : undefined;
     const subject = topic !== editMessage.topic ? topic : undefined;
-    if (content || subject) {
+    if ((content !== undefined && content !== '') || (subject !== undefined && subject !== '')) {
       updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
         showErrorAlert(error.message, 'Failed to edit message');
       });
