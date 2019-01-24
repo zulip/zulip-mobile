@@ -105,7 +105,7 @@ class ComposeBox extends PureComponent<Props, State> {
     isTopicFocused: false,
     isMenuExpanded: false,
     height: 20,
-    topic: '',
+    topic: this.props.lastMessageTopic,
     message: this.props.draft,
     selection: { start: 0, end: 0 },
   };
