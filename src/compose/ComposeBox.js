@@ -138,7 +138,7 @@ class ComposeBox extends PureComponent<Props, State> {
     }));
   };
 
-  handleLayoutChange = (event: Object) => {
+  handleLayoutChange = event => {
     this.setState({
       height: event.nativeEvent.layout.height,
     });
@@ -163,7 +163,7 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setMessageInputValue(message);
   };
 
-  handleMessageSelectionChange = (event: Object) => {
+  handleMessageSelectionChange = (event: { nativeEvent: { selection: InputSelectionType } }) => {
     const { selection } = event.nativeEvent;
     this.setState({ selection });
   };
