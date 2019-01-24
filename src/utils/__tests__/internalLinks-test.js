@@ -161,43 +161,49 @@ describe('getNarrowFromLink', () => {
     [3, { email: 'def@example.com', user_id: 3 }],
   ]);
 
+  const streams = [
+    { name: 'Stream', stream_id: 1 },
+    { name: 'Two words', stream_id: 2 },
+    { name: 'Stream3', stream_id: 3 },
+  ];
+
   test('when link is not in-app link, return null', () => {
     const url = 'https://example.com/user_uploads';
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     expect(result).toEqual(null);
   });
 
   test('when link is stream link, return matching streamNarrow', () => {
     const url = 'https://example.com/#narrow/stream/Stream';
     const expected = streamNarrow('Stream');
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     expect(result).toEqual(expected);
   });
 
   test('when stream name contains space decode this correctly', () => {
     const url = 'https://example.com/#narrow/stream/Two.20words';
     const expected = streamNarrow('Two words');
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     expect(result).toEqual(expected);
   });
 
   test('when link is stream link, without realm info, return matching streamNarrow', () => {
     const url = '/#narrow/stream/Stream';
     const expected = streamNarrow('Stream');
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     expect(result).toEqual(expected);
   });
 
   test('matches a link without the leading slash', () => {
     const url = '#narrow/stream/Stream';
     const expected = streamNarrow('Stream');
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     expect(result).toEqual(expected);
   });
 
   test('when link is a topic link and encoded, decode stream and topic names and return matching streamNarrow and topicNarrow', () => {
     const url = 'https://example.com/#narrow/stream/Stream/topic/(no.20topic)';
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     const expected = topicNarrow('Stream', '(no topic)');
     expect(result).toEqual(expected);
   });
@@ -205,34 +211,34 @@ describe('getNarrowFromLink', () => {
   test('when link is pointing to a topic without realm info, return matching topicNarrow', () => {
     const url = '/#narrow/stream/Stream/topic/topic';
     const expected = topicNarrow('Stream', 'topic');
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     expect(result).toEqual(expected);
   });
 
   test('when link is a group link, return matching groupNarrow', () => {
     const url = 'https://example.com/#narrow/pm-with/1,2,3-group';
     const expected = groupNarrow(['abc@example.com', 'xyz@example.com', 'def@example.com']);
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     expect(result).toEqual(expected);
   });
 
   test('if any of the user ids are not found return null', () => {
     const url = 'https://example.com/#narrow/pm-with/1,2,10-group';
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     expect(result).toEqual(null);
   });
 
   test('when link is a special link, return matching specialNarrow', () => {
     const url = 'https://example.com/#narrow/is/starred';
     const expected = specialNarrow('starred');
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     expect(result).toEqual(expected);
   });
 
   test('when link is a message link, return matching narrow', () => {
     const url = 'https://example.com/#narrow/pm-with/1,3-group/near/2';
     const expected = groupNarrow(['abc@example.com', 'def@example.com']);
-    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById, streams);
     expect(result).toEqual(expected);
   });
 });

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Narrow, User } from '../types';
+import type { Narrow, User, Stream } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { isUrlOnRealm } from './url';
 import { transformToEncodedURI } from './string';
@@ -65,6 +65,7 @@ export const getNarrowFromLink = (
   url: string,
   realm: string,
   usersById: Map<number, User>,
+  streams: Stream[],
 ): Narrow | null => {
   const type = getLinkType(url, realm);
   const paths = getPathsFromUrl(url, realm);
@@ -81,12 +82,26 @@ export const getNarrowFromLink = (
       return groupNarrow(recipientUsers.map(user => user.email));
     }
     case 'topic':
-      return topicNarrow(
-        decodeURIComponent(transformToEncodedURI(paths[1])),
-        decodeURIComponent(transformToEncodedURI(paths[3])),
-      );
-    case 'stream':
-      return streamNarrow(decodeURIComponent(transformToEncodedURI(paths[1])));
+    case 'stream': {
+      let streamName;
+      if (paths[1].includes('-')) {
+        const streamId = +paths[1].split('-')[0];
+        const stream = streams.find(x => x.stream_id === streamId);
+        if (!stream) {
+          return null;
+        }
+        streamName = stream.name;
+      } else {
+        streamName = paths[1]; // eslint-disable-line prefer-destructuring
+      }
+
+      if (type === 'stream') {
+        return streamNarrow(decodeURIComponent(transformToEncodedURI(streamName)));
+      }
+
+      const topic = decodeURIComponent(transformToEncodedURI(paths[3]));
+      return topicNarrow(streamName, topic);
+    }
     case 'special':
       return specialNarrow(paths[1]);
     default:

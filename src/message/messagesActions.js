@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Narrow, Dispatch, GetState } from '../types';
-import { getAuth, getUsersById, isNarrowValid, getIsHydrated } from '../selectors';
+import { getAuth, getUsersById, getStreams, isNarrowValid, getIsHydrated } from '../selectors';
 import { DO_NARROW } from '../actionConstants';
 import { getFullUrl } from '../utils/url';
 import { getMessageIdFromLink, getNarrowFromLink, isInternalLink } from '../utils/internalLinks';
@@ -30,8 +30,8 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
 
   if (isInternalLink(href, auth.realm)) {
     const usersById = getUsersById(state);
-    const narrow = getNarrowFromLink(href, auth.realm, usersById);
-
+    const streams = getStreams(state);
+    const narrow = getNarrowFromLink(href, auth.realm, usersById, streams);
     if (narrow) {
       const anchor = getMessageIdFromLink(href, auth.realm);
       dispatch(doNarrow(narrow, anchor));
