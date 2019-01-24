@@ -7,7 +7,7 @@ import {
   getMessageIdFromLink,
 } from '../internalLinks';
 
-import { streamNarrow, topicNarrow } from '../narrow';
+import { streamNarrow, topicNarrow, groupNarrow, specialNarrow } from '../narrow';
 
 describe('isInternalLink', () => {
   test('when link is external, return false', () => {
@@ -162,155 +162,78 @@ describe('getNarrowFromLink', () => {
   ]);
 
   test('when link is not in-app link, return null', () => {
-    expect(getNarrowFromLink('https://example.com/user_uploads', 'https://example.com')).toEqual(
-      null,
-    );
+    const url = 'https://example.com/user_uploads';
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    expect(result).toEqual(null);
   });
 
   test('when link is stream link, return matching streamNarrow', () => {
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/stream/jest', 'https://example.com'),
-    ).toEqual(streamNarrow('jest'));
+    const url = 'https://example.com/#narrow/stream/Stream';
+    const expected = streamNarrow('Stream');
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    expect(result).toEqual(expected);
+  });
 
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/stream/bot.20testing', 'https://example.com'),
-    ).toEqual(streamNarrow('bot testing'));
-
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/stream/jest.API', 'https://example.com'),
-    ).toEqual(streamNarrow('jest.API'));
-
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/stream/stream', 'https://example.com'),
-    ).toEqual(streamNarrow('stream'));
-
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/stream/topic', 'https://example.com'),
-    ).toEqual(streamNarrow('topic'));
+  test('when stream name contains space decode this correctly', () => {
+    const url = 'https://example.com/#narrow/stream/Two.20words';
+    const expected = streamNarrow('Two words');
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    expect(result).toEqual(expected);
   });
 
   test('when link is stream link, without realm info, return matching streamNarrow', () => {
-    expect(getNarrowFromLink('/#narrow/stream/jest', 'https://example.com')).toEqual(
-      streamNarrow('jest'),
-    );
-    expect(getNarrowFromLink('#narrow/stream/jest', 'https://example.com')).toEqual(
-      streamNarrow('jest'),
-    );
+    const url = '/#narrow/stream/Stream';
+    const expected = streamNarrow('Stream');
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    expect(result).toEqual(expected);
+  });
+
+  test('matches a link without the leading slash', () => {
+    const url = '#narrow/stream/Stream';
+    const expected = streamNarrow('Stream');
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    expect(result).toEqual(expected);
   });
 
   test('when link is a topic link and encoded, decode stream and topic names and return matching streamNarrow and topicNarrow', () => {
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/jest/topic/(no.20topic)',
-        'https://example.com',
-      ),
-    ).toEqual(topicNarrow('jest', '(no topic)'));
-
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/jest/topic/google.com',
-        'https://example.com',
-      ),
-    ).toEqual(topicNarrow('jest', 'google.com'));
-
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/topic/topic/topic.20name',
-        'https://example.com',
-      ),
-    ).toEqual(topicNarrow('topic', 'topic name'));
-
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/topic/topic/stream',
-        'https://example.com',
-      ),
-    ).toEqual(topicNarrow('topic', 'stream'));
-
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/stream/topic/topic',
-        'https://example.com',
-      ),
-    ).toEqual(topicNarrow('stream', 'topic'));
+    const url = 'https://example.com/#narrow/stream/Stream/topic/(no.20topic)';
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    const expected = topicNarrow('Stream', '(no topic)');
+    expect(result).toEqual(expected);
   });
 
   test('when link is pointing to a topic without realm info, return matching topicNarrow', () => {
-    expect(getNarrowFromLink('/#narrow/stream/stream/topic/topic', 'https://example.com')).toEqual(
-      topicNarrow('stream', 'topic'),
-    );
-    expect(getNarrowFromLink('#narrow/stream/stream/topic/topic', 'https://example.com')).toEqual(
-      topicNarrow('stream', 'topic'),
-    );
+    const url = '/#narrow/stream/Stream/topic/topic';
+    const expected = topicNarrow('Stream', 'topic');
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    expect(result).toEqual(expected);
   });
 
   test('when link is a group link, return matching groupNarrow', () => {
-    const expectedValue = [
-      {
-        operator: 'pm-with',
-        operand: 'abc@example.com,xyz@example.com,def@example.com',
-      },
-    ];
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/pm-with/1,2,3-group',
-        'https://example.com',
-        usersById,
-      ),
-    ).toEqual(expectedValue);
+    const url = 'https://example.com/#narrow/pm-with/1,2,3-group';
+    const expected = groupNarrow(['abc@example.com', 'xyz@example.com', 'def@example.com']);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    expect(result).toEqual(expected);
   });
 
   test('if any of the user ids are not found return null', () => {
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/pm-with/1,2,10-group',
-        'https://example.com',
-        usersById,
-      ),
-    ).toEqual(null);
+    const url = 'https://example.com/#narrow/pm-with/1,2,10-group';
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    expect(result).toEqual(null);
   });
 
   test('when link is a special link, return matching specialNarrow', () => {
-    const expectedValue = [
-      {
-        operator: 'is',
-        operand: 'starred',
-      },
-    ];
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/is/starred', 'https://example.com'),
-    ).toEqual(expectedValue);
+    const url = 'https://example.com/#narrow/is/starred';
+    const expected = specialNarrow('starred');
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    expect(result).toEqual(expected);
   });
 
   test('when link is a message link, return matching narrow', () => {
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/pm-with/1,3-group/near/2',
-        'https://example.com',
-        usersById,
-      ),
-    ).toEqual([
-      {
-        operator: 'pm-with',
-        operand: 'abc@example.com,def@example.com',
-      },
-    ]);
-
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/jest/topic/test/near/1',
-        'https://example.com',
-        usersById,
-      ),
-    ).toEqual(topicNarrow('jest', 'test'));
-
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/jest/subject/test/near/1',
-        'https://example.com',
-        usersById,
-      ),
-    ).toEqual(topicNarrow('jest', 'test'));
+    const url = 'https://example.com/#narrow/pm-with/1,3-group/near/2';
+    const expected = groupNarrow(['abc@example.com', 'def@example.com']);
+    const result = getNarrowFromLink(url, 'https://example.com', usersById);
+    expect(result).toEqual(expected);
   });
 });
 
