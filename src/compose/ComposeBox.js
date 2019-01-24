@@ -28,7 +28,6 @@ import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import { isStreamNarrow, isStreamOrTopicNarrow, topicNarrow } from '../utils/narrow';
 import ComposeMenu from './ComposeMenu';
-import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
 import AnnouncementOnly from '../message/AnnouncementOnly';
@@ -47,6 +46,8 @@ import {
   getIsActiveStreamAnnouncementOnly,
 } from '../subscriptions/subscriptionSelectors';
 import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
+import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
+import AutocompleteView from '../autocomplete/AutocompleteView';
 
 type Props = {|
   auth: Auth,
@@ -259,6 +260,11 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   styles = {
+    autocompleteWrapper: {
+      position: 'absolute',
+      bottom: 0,
+      width: '100%',
+    },
     composeBox: {
       flexDirection: 'row',
       alignItems: 'flex-end',
@@ -319,16 +325,19 @@ class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View style={style}>
-        <AutocompleteViewWrapper
-          composeText={message}
-          isTopicFocused={isTopicFocused}
-          marginBottom={height}
-          messageSelection={selection}
-          narrow={narrow}
-          topicText={topic}
-          onMessageAutocomplete={this.handleMessageAutocomplete}
-          onTopicAutocomplete={this.handleTopicAutocomplete}
-        />
+        <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
+          <TopicAutocomplete
+            isFocused={isTopicFocused}
+            narrow={narrow}
+            text={topic}
+            onAutocomplete={this.handleTopicAutocomplete}
+          />
+          <AutocompleteView
+            selection={selection}
+            text={message}
+            onAutocomplete={this.handleMessageAutocomplete}
+          />
+        </View>
         <View style={this.styles.composeBox} onLayout={this.handleLayoutChange}>
           <ComposeMenu
             destinationNarrow={this.getDestinationNarrow()}
