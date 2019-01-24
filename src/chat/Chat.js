@@ -34,8 +34,6 @@ const componentStyles = StyleSheet.create({
 });
 
 class Chat extends PureComponent<Props> {
-  scrollOffset: number = 0;
-
   render() {
     const { canSend, narrow } = this.props;
 
