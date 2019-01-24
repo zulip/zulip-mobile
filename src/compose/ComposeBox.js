@@ -288,7 +288,6 @@ class ComposeBox extends PureComponent<Props, State> {
         ...this.inputMarginPadding,
       },
       this.context.styles.backgroundColor,
-      this.context.styles.color,
     ],
   };
 
