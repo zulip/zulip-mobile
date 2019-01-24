@@ -67,6 +67,12 @@ type Props = {|
 type State = {|
   isMessageFocused: boolean,
   isTopicFocused: boolean,
+
+  /** Almost the same as isMessageFocused || isTopicFocused ... except
+   * debounced, to stay true while those flip from false/true to true/false
+   * and back. */
+  isFocused: boolean,
+
   isMenuExpanded: boolean,
   topic: string,
   message: string,
@@ -103,6 +109,7 @@ class ComposeBox extends PureComponent<Props, State> {
   state = {
     isMessageFocused: false,
     isTopicFocused: false,
+    isFocused: false,
     isMenuExpanded: false,
     height: 20,
     topic: this.props.lastMessageTopic,
@@ -110,8 +117,14 @@ class ComposeBox extends PureComponent<Props, State> {
     selection: { start: 0, end: 0 },
   };
 
+  updateIsFocused = () => {
+    this.setState(state => ({
+      ...state,
+      isFocused: state.isMessageFocused || state.isTopicFocused,
+    }));
+  };
+
   getCanSelectTopic = () => {
-    const { isMessageFocused, isTopicFocused } = this.state;
     const { editMessage, narrow } = this.props;
     if (editMessage) {
       return isStreamOrTopicNarrow(narrow);
@@ -119,7 +132,7 @@ class ComposeBox extends PureComponent<Props, State> {
     if (!isStreamNarrow(narrow)) {
       return false;
     }
-    return isMessageFocused || isTopicFocused;
+    return this.state.isFocused;
   };
 
   setMessageInputValue = (message: string) => {
@@ -173,35 +186,35 @@ class ComposeBox extends PureComponent<Props, State> {
       ...state,
       topic: state.topic || lastMessageTopic,
       isMessageFocused: true,
+      isFocused: true,
       isMenuExpanded: false,
     }));
   };
 
   handleMessageBlur = () => {
-    setTimeout(() => {
-      this.setState({
-        isMessageFocused: false,
-        isMenuExpanded: false,
-      });
-    }, 200); // give a chance to the topic input to get the focus
+    this.setState({
+      isMessageFocused: false,
+      isMenuExpanded: false,
+    });
+    setTimeout(this.updateIsFocused, 200); // give a chance to the topic input to get the focus
   };
 
   handleTopicFocus = () => {
     const { dispatch, narrow } = this.props;
     this.setState({
       isTopicFocused: true,
+      isFocused: true,
       isMenuExpanded: false,
     });
     dispatch(fetchTopicsForActiveStream(narrow));
   };
 
   handleTopicBlur = () => {
-    setTimeout(() => {
-      this.setState({
-        isTopicFocused: false,
-        isMenuExpanded: false,
-      });
-    }, 200); // give a chance to the message input to get the focus
+    this.setState({
+      isTopicFocused: false,
+      isMenuExpanded: false,
+    });
+    setTimeout(this.updateIsFocused, 200); // give a chance to the message input to get the focus
   };
 
   handleInputTouchStart = () => {
