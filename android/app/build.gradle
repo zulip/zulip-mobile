@@ -142,6 +142,8 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             if (project.hasProperty('signed')) {
                 signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
             }
             manifestPlaceholders = [
                     excludeSystemAlertWindowPermission: "true"
