@@ -29,6 +29,11 @@ codebase. Each extension page has install instructions at the top.
 * [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 * [prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
+#### Useful extension for zulip-mobile
+
+* [Save and Run](https://marketplace.visualstudio.com/items?itemName=wk-j.save-and-run)
+So that `generatedEs3.js` (webview js) is generated as soon as `js.js` file is saved.
+
 For the extensions to work properly, make sure that VS Code has recognized
 [our settings file](https://github.com/zulip/zulip-mobile/tree/master/.vscode/settings.json)
 in the zulip-mobile repository. Usually, this should happen automatically
