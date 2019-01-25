@@ -24,9 +24,19 @@ class ActivityText extends PureComponent<Props> {
 
     const activity = presenceToHumanTime(presence);
 
-    return (
-      <RawLabel style={[style, color !== undefined && { color }]} text={`Active ${activity}`} />
-    );
+    const activityText = {
+      active: `Active ${activity}`,
+      idle: `Idle ${activity}`,
+      offline: null,
+    };
+
+    const text = activityText[presence.aggregated.status];
+
+    if (text === null) {
+      return null;
+    }
+
+    return <RawLabel style={[style, color !== undefined && { color }]} text={text} />;
   }
 }
 
