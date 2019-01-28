@@ -45,7 +45,7 @@ export const encodeParamsForUrl = (params: UrlParams): string =>
     .join('&');
 
 export const getFullUrl = (url: string = '', realm: string): string =>
-  !url.startsWith('http') ? `${realm}${url.startsWith('/') ? '' : '/'}${url}` : url;
+  url.indexOf('http') !== 0 ? `${realm}${url.startsWith('/') ? '' : '/'}${url}` : url;
 
 export const isUrlOnRealm = (url: string = '', realm: string): boolean =>
   url.startsWith('/') || url.startsWith(realm) || !/^(http|www.)/i.test(url);
