@@ -1,12 +1,21 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
-
 import React, { PureComponent } from 'react';
+import { StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
 import type { Dispatch, GlobalState, User } from '../types';
 import { getAccountDetailsUserFromEmail } from '../selectors';
-import { Screen } from '../common';
+import { Screen, ZulipButton } from '../common';
+import { IconPrivateChat } from '../common/Icons';
+import { privateNarrow } from '../utils/narrow';
 import AccountDetails from './AccountDetails';
+import { doNarrow } from '../actions';
+
+const componentStyles = StyleSheet.create({
+  pmButton: {
+    marginHorizontal: 16,
+  },
+});
 
 type Props = {|
   user: User,
@@ -14,8 +23,13 @@ type Props = {|
 |};
 
 class AccountDetailsScreen extends PureComponent<Props> {
+  handleChatPress = () => {
+    const { user, dispatch } = this.props;
+    dispatch(doNarrow(privateNarrow(user.email)));
+  };
+
   render() {
-    const { dispatch, user } = this.props;
+    const { user } = this.props;
     const title = {
       text: '{_}',
       values: {
@@ -26,7 +40,13 @@ class AccountDetailsScreen extends PureComponent<Props> {
 
     return (
       <Screen title={title}>
-        <AccountDetails dispatch={dispatch} user={user} />
+        <AccountDetails user={user} />
+        <ZulipButton
+          style={componentStyles.pmButton}
+          text="Send private message"
+          onPress={this.handleChatPress}
+          Icon={IconPrivateChat}
+        />
       </Screen>
     );
   }
