@@ -11,7 +11,7 @@ import {
   getOutbox,
 } from '../directSelectors';
 import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
-import { getAllUsers } from '../users/userSelectors';
+import { getAllUsers, getAllUsersByEmail } from '../users/userSelectors';
 import { getIsFetching } from './fetchingSelectors';
 import {
   isAllPrivateNarrow,
@@ -99,8 +99,10 @@ export const getLastTopicForNarrow = (narrow: Narrow): Selector<string> =>
   });
 
 export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
-  createSelector(getAllUsers, allUsers =>
-    emailsOfGroupNarrow(narrow).map(r => allUsers.find(x => x.email === r) || []),
+  createSelector(getAllUsersByEmail, allUsersByEmail =>
+    emailsOfGroupNarrow(narrow)
+      .map(email => allUsersByEmail[email])
+      .filter(user => user),
   );
 
 export const getStreamInNarrow = (narrow: Narrow) =>
