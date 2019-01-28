@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Dispatch, GlobalState, User } from '../types';
+import type { GlobalState, User } from '../types';
 import { getSelfUserDetail } from '../selectors';
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
@@ -19,17 +19,16 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
   selfUserDetail: User,
 |};
 
 class ProfileCard extends PureComponent<Props> {
   render() {
-    const { dispatch, selfUserDetail } = this.props;
+    const { selfUserDetail } = this.props;
 
     return (
       <View>
-        <AccountDetails dispatch={dispatch} user={selfUserDetail} />
+        <AccountDetails user={selfUserDetail} />
         <AwayStatusSwitch />
         <View style={componentStyles.accountButtons}>
           <SwitchAccountButton />
