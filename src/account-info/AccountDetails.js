@@ -2,15 +2,12 @@
 import React, { PureComponent } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 
-import type { Dispatch, User } from '../types';
-import { Avatar, ComponentList, RawLabel, ZulipButton } from '../common';
-import { IconPrivateChat } from '../common/Icons';
-import { privateNarrow } from '../utils/narrow';
+import type { User } from '../types';
+import { Avatar, ComponentList, RawLabel } from '../common';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
 import { getMediumAvatar } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
-import { doNarrow } from '../actions';
 import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
@@ -24,16 +21,10 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
   user: User,
 |};
 
 export default class AccountDetails extends PureComponent<Props, void> {
-  handleChatPress = () => {
-    const { user, dispatch } = this.props;
-    dispatch(doNarrow(privateNarrow(user.email)));
-  };
-
   render() {
     const { user } = this.props;
     const screenWidth = Dimensions.get('window').width;
@@ -63,11 +54,6 @@ export default class AccountDetails extends PureComponent<Props, void> {
               />
             </View>
           ) : null}
-          <ZulipButton
-            text="Send private message"
-            onPress={this.handleChatPress}
-            Icon={IconPrivateChat}
-          />
         </ComponentList>
       </View>
     );
