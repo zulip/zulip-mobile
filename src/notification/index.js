@@ -72,35 +72,58 @@ export const handleInitialNotification = async (dispatch: Dispatch, usersById: U
   }
 };
 
+/**
+ * Listens for notification-related events.
+ *
+ * An instance of this doesn't affect the subscriptions of any other
+ * instance, or anything else.
+ */
 export class NotificationListener {
   dispatch: Dispatch;
   usersById: UserIdMap;
+  unsubs: Array<() => void> = [];
 
   constructor(dispatch: Dispatch, usersById: UserIdMap) {
     this.dispatch = dispatch;
     this.usersById = usersById;
   }
 
+  /** Private. */
+  listen(name: string, handler: (...empty) => void | Promise<void>) {
+    if (Platform.OS === 'ios') {
+      NotificationsIOS.addEventListener(name, handler);
+      this.unsubs.push(() => NotificationsIOS.removeEventListener(name, handler));
+    }
+    const subscription = DeviceEventEmitter.addListener(name, handler);
+    this.unsubs.push(() => subscription.remove());
+  }
+
+  /** Private. */
+  unlistenAll() {
+    while (this.unsubs.length > 0) {
+      this.unsubs.pop()();
+    }
+  }
+
+  /** Private. */
   handleNotificationOpen = (notification: Object) => {
     handleNotificationMuddle(notification, this.dispatch, this.usersById);
   };
 
+  /** Start listening.  Don't call twice without intervening `stop`. */
   start() {
     if (Platform.OS === 'ios') {
-      NotificationsIOS.addEventListener('notificationOpened', this.handleNotificationOpen);
+      this.listen('notificationOpened', this.handleNotificationOpen);
     } else {
-      DeviceEventEmitter.addListener('notificationOpened', notification =>
+      this.listen('notificationOpened', notification =>
         this.handleNotificationOpen({ getData: () => notification }),
       );
     }
   }
 
+  /** Stop listening. */
   stop() {
-    if (Platform.OS === 'ios') {
-      NotificationsIOS.removeEventListener('notificationOpened', this.handleNotificationOpen);
-    } else {
-      // do nothing
-    }
+    this.unlistenAll();
   }
 }
 
