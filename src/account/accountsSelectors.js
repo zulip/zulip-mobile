@@ -1,7 +1,9 @@
 /* @flow strict-local */
+import { createSelector } from 'reselect';
 
-import type { Account, Auth, GlobalState, Identity } from '../types';
+import type { Account, Auth, GlobalState, Identity, Selector } from '../types';
 import { getAccounts } from '../directSelectors';
+import { identityOfAccount, keyOfIdentity } from './accountMisc';
 
 /** See `getAccountStatuses`. */
 export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
@@ -16,6 +18,19 @@ export const getAccountStatuses = (state: GlobalState): AccountStatus[] => {
   const accounts = getAccounts(state);
   return accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' }));
 };
+
+/**
+ * All known accounts, indexed by identity.
+ */
+export const getAccountsByIdentity: Selector<(Identity) => Account | void> = createSelector(
+  getAccounts,
+  accounts => {
+    const map = new Map(
+      accounts.map(account => [keyOfIdentity(identityOfAccount(account)), account]),
+    );
+    return identity => map.get(keyOfIdentity(identity));
+  },
+);
 
 /**
  * The account currently foregrounded in the UI, or undefined if none.

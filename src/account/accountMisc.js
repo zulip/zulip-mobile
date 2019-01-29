@@ -1,7 +1,11 @@
 /* @flow strict-local */
-import type { Auth, Identity } from '../types';
+import type { Account, Auth, Identity } from '../types';
 
-export const identityOfAuth = (auth: Auth): Identity => {
-  const { realm, email } = auth;
-  return { realm, email };
-};
+const identitySlice = ({ realm, email }): Identity => ({ realm, email });
+
+export const identityOfAuth: Auth => Identity = identitySlice;
+
+export const identityOfAccount: Account => Identity = identitySlice;
+
+/** A string corresponding uniquely to an identity, for use in `Map`s. */
+export const keyOfIdentity = ({ realm, email }: Identity): string => `${realm}\0${email}`;
