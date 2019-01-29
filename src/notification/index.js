@@ -8,7 +8,7 @@ import config from '../config';
 import { forgetPushToken } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { doNarrow } from '../message/messagesActions';
-import { unackPushToken, gotPushToken, sendPushToken } from './notificationActions';
+import { unackPushToken, gotPushToken, maybeSendPushToken } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
@@ -130,7 +130,7 @@ export class NotificationListener {
 const getTokenIOS = (auth: Auth, dispatch: Dispatch) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', async deviceToken => {
     dispatch(gotPushToken(deviceToken));
-    await dispatch(sendPushToken(auth, deviceToken));
+    await dispatch(maybeSendPushToken(identityOfAuth(auth)));
   });
   NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
     logErrorRemotely(new Error(error), 'Failed to register iOS push token');
@@ -144,7 +144,7 @@ const getTokenAndroid = (auth: Auth, oldToken: string | null, dispatch: Dispatch
   }
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     dispatch(gotPushToken(deviceToken));
-    await dispatch(sendPushToken(auth, deviceToken));
+    await dispatch(maybeSendPushToken(identityOfAuth(auth)));
   });
 };
 

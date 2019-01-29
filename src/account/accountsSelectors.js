@@ -74,7 +74,7 @@ export const getCurrentRealm = (state: GlobalState) => {
   return activeAccount.realm;
 };
 
-const authOfAccount = (account: Account): Auth => {
+export const authOfAccount = (account: Account): Auth => {
   const { realm, email, apiKey } = account;
   return { realm, email, apiKey };
 };
