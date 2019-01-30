@@ -126,6 +126,11 @@ export class NotificationListener {
       );
     }
     this.listen('remoteNotificationsRegistered', this.handleDeviceToken);
+    if (Platform.OS === 'ios') {
+      this.listen('remoteNotificationsRegistrationFailed', (error: string) => {
+        logErrorRemotely(new Error(error), 'Failed to register iOS push token');
+      });
+    }
   }
 
   /** Stop listening. */
@@ -134,24 +139,15 @@ export class NotificationListener {
   }
 }
 
-const getTokenIOS = () => {
-  NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
-    logErrorRemotely(new Error(error), 'Failed to register iOS push token');
-  });
-  NotificationsIOS.requestPermissions();
-};
-
-const getTokenAndroid = (oldToken: string | null) => {
-  if (oldToken === null) {
-    NotificationsAndroid.refreshToken();
-  }
-};
-
 export const getNotificationToken = (oldToken: string | null) => {
   if (Platform.OS === 'ios') {
-    getTokenIOS();
+    NotificationsIOS.requestPermissions();
   } else {
-    getTokenAndroid(oldToken);
+    // Platform.OS === 'android'
+    /* eslint-disable no-lonely-if */
+    if (oldToken === null) {
+      NotificationsAndroid.refreshToken();
+    }
   }
 };
 
