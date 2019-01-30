@@ -17,7 +17,7 @@ import type { Message, Stream } from './apiTypes';
 //
 
 /** See ClientPresence, and the doc linked there. */
-export type UserStatus = 'active' | 'idle' | 'offline';
+export type PresenceStatus = 'active' | 'idle' | 'offline';
 
 /**
  * A user's presence status, as reported by a specific client.
@@ -32,7 +32,7 @@ export type UserStatus = 'active' | 'idle' | 'offline';
  * @prop pushable - Legacy; unused.
  */
 export type ClientPresence = {|
-  status: UserStatus,
+  status: PresenceStatus,
   timestamp: number,
   client: string,
 
