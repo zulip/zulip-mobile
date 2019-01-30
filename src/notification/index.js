@@ -141,6 +141,25 @@ export class NotificationListener {
 
 export const getNotificationToken = (oldToken: string | null) => {
   if (Platform.OS === 'ios') {
+    // This leads to a call (in wix's, or RN upstream's, NotificationsIOS) to this:
+    //   https://developer.apple.com/documentation/uikit/uiapplication/1622932-registerusernotificationsettings
+    // (deprecated after iOS 10, yikes!); which after possibly prompting the
+    // user causes "the app" (i.e. the platform part) to call this, I think,
+    // though I haven't successfully traced all the steps there:
+    //   https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623022-application?language=objc
+    // which certainly in the wix case leads to a call to this:
+    //   https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications
+    // which "initiate[s] the registration process with [APNs]".  Then the
+    // methods that calls on success/failure in turn are implemented to send
+    // an event with name `remoteNotificationsRegistered` etc., in both the
+    // wix and RN-upstream case.  (Though NB in the *failure* case, the
+    // event names differ!  wix has s/Error/Failed/ vs. upstream; also
+    // upstream has singular for failure although plural for success, ouch.)
+    //
+    // In short, this kicks off a sequence: permissions -> "register" ->
+    // send event we already have a global listener for.  And the first two
+    // steps satisfy the stern warnings in Apple's docs (at the above links)
+    // to request permissions first, then "register".
     NotificationsIOS.requestPermissions();
   } else {
     // Platform.OS === 'android'
