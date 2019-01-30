@@ -22,7 +22,7 @@ import createMigration from '../redux-persist-migrate/index';
 // prettier-ignore
 export const discardKeys = [
   'alertWords', 'caughtUp', 'fetching', 'loading',
-  'nav', 'presence', 'session', 'topics', 'typing',
+  'nav', 'presence', 'session', 'topics', 'typing', 'userStatus',
 ];
 
 /**

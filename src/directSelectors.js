@@ -26,6 +26,7 @@ import type {
   Outbox,
   User,
   UserGroup,
+  UserStatusState,
 } from './types';
 import type { SessionState } from './session/sessionReducers';
 
@@ -53,6 +54,8 @@ export const getTyping = (state: GlobalState): TypingState => state.typing;
 export const getTopics = (state: GlobalState): TopicsState => state.topics;
 
 export const getUserGroups = (state: GlobalState): UserGroup[] => state.userGroups;
+
+export const getUserStatus = (state: GlobalState): UserStatusState => state.userStatus;
 
 export const getUsers = (state: GlobalState): User[] => state.users;
 

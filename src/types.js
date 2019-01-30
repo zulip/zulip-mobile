@@ -129,6 +129,26 @@ export type UserIdMap = {
   [userId: number]: User,
 };
 
+/**
+ * Specifies user status related properties
+ * @prop away - present if we are to override user's presence status
+ *       * when `true` the user is always `offline`
+ *       * when missing the presence is not changed
+ *       * can not be `false`
+ * @prop status_text - a string representing information the user decided to
+ *   manually set as his 'current status'
+ */
+export type UserStatus = {|
+  away?: true,
+  status_text?: string,
+|};
+
+export type UserStatusMap = {|
+  [userId: number]: UserStatus,
+|};
+
+export type UserStatusState = UserStatusMap;
+
 export type UserGroup = {|
   description: string,
   id: number,
@@ -412,6 +432,7 @@ export type GlobalState = {|
   typing: TypingState,
   unread: UnreadState,
   userGroups: UserGroupsState,
+  userStatus: UserStatusState,
   users: UsersState,
 |};
 

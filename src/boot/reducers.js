@@ -33,6 +33,7 @@ import unreadMentions from '../unread/unreadMentionsReducers';
 import unreadPms from '../unread/unreadPmsReducers';
 import unreadStreams from '../unread/unreadStreamsReducers';
 import userGroups from '../user-groups/userGroupsReducers';
+import userStatus from '../user-status/userStatusReducers';
 import users from '../users/usersReducers';
 
 const reducers = {
@@ -64,6 +65,7 @@ const reducers = {
     mentions: unreadMentions,
   }): Reducer<*, Action>),
   userGroups,
+  userStatus,
   users,
 };
 
