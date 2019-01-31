@@ -10,7 +10,7 @@ import {
 import { getAuth, getActiveAccount } from '../selectors';
 import { getSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
-import { authOfAccount, getAccountsByIdentity } from '../account/accountsSelectors';
+import { authOfAccount, getAccountsByIdentity, getIdentity } from '../account/accountsSelectors';
 import { identityOfAccount } from '../account/accountMisc';
 
 export const gotPushToken = (pushToken: string): Action => ({
@@ -70,9 +70,16 @@ export const sendAllPushToken = () => async (dispatch: Dispatch, getState: GetSt
 };
 
 export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {
-  const account = getActiveAccount(getState());
-  dispatch(maybeSendPushToken(identityOfAccount(account)));
-  getNotificationToken(account.ackedPushToken);
+  dispatch(maybeSendPushToken(getIdentity(getState())));
+  if (getSession(getState()).pushToken === null) {
+    // On Android this shouldn't happen -- our Android-native code requests
+    // the token early in startup and fires the event that tells it to our
+    // JS code -- but it's harmless to try again.
+    //
+    // On iOS this is normal because getting the token may involve showing
+    // the user a permissions modal, so we defer that until this point.
+    getNotificationToken();
+  }
 };
 
 export const tryStopNotifications = () => async (dispatch: Dispatch, getState: GetState) => {

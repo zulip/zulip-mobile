@@ -139,7 +139,8 @@ export class NotificationListener {
   }
 }
 
-export const getNotificationToken = (oldToken: string | null) => {
+/** Try to cause a `remoteNotificationsRegistered` event. */
+export const getNotificationToken = () => {
   if (Platform.OS === 'ios') {
     // This leads to a call (in wix's, or RN upstream's, NotificationsIOS) to this:
     //   https://developer.apple.com/documentation/uikit/uiapplication/1622932-registerusernotificationsettings
@@ -163,10 +164,7 @@ export const getNotificationToken = (oldToken: string | null) => {
     NotificationsIOS.requestPermissions();
   } else {
     // Platform.OS === 'android'
-    /* eslint-disable no-lonely-if */
-    if (oldToken === null) {
-      NotificationsAndroid.refreshToken();
-    }
+    NotificationsAndroid.refreshToken();
   }
 };
 
