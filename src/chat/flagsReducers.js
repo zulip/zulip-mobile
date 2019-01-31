@@ -5,7 +5,6 @@ import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
-  MARK_MESSAGES_READ,
   ACCOUNT_SWITCH,
 } from '../actionConstants';
 import { deeperMerge } from '../utils/misc';
@@ -110,9 +109,6 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
       return eventUpdateMessageFlags(state, action);
-
-    case MARK_MESSAGES_READ:
-      return addFlagsForMessages(state, action.messageIds, ['read']);
 
     default:
       return state;

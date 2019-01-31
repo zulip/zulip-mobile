@@ -6,7 +6,6 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
-  MARK_MESSAGES_READ,
 } from '../actionConstants';
 import { getRecipientsIds } from '../utils/recipient';
 import { addItemsToHuddleArray, removeItemsDeeply } from './unreadHelpers';
@@ -62,9 +61,6 @@ export default (state: UnreadHuddlesState = initialState, action: Action): Unrea
 
     case EVENT_NEW_MESSAGE:
       return eventNewMessage(state, action);
-
-    case MARK_MESSAGES_READ:
-      return removeItemsDeeply(state, action.messageIds);
 
     case EVENT_MESSAGE_DELETE:
       return removeItemsDeeply(state, [action.messageId]);

@@ -22,7 +22,6 @@ import {
   ACK_PUSH_TOKEN,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
-  MARK_MESSAGES_READ,
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
   INIT_REALM_EMOJI,
@@ -221,11 +220,6 @@ type MessageFetchCompleteAction = {|
   anchor: number,
   numBefore: number,
   numAfter: number,
-|};
-
-type MarkMessagesReadAction = {|
-  type: typeof MARK_MESSAGES_READ,
-  messageIds: number[],
 |};
 
 type InitialFetchStartAction = {|
@@ -596,7 +590,7 @@ type AccountAction =
 
 type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
 
-type MessageAction = MarkMessagesReadAction | MessageFetchStartAction | MessageFetchCompleteAction;
+type MessageAction = MessageFetchStartAction | MessageFetchCompleteAction;
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 

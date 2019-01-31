@@ -5,7 +5,6 @@ import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
-  MARK_MESSAGES_READ,
   ACCOUNT_SWITCH,
 } from '../../actionConstants';
 import { NULL_OBJECT } from '../../nullObjects';
@@ -327,39 +326,6 @@ describe('flagsReducers', () => {
 
       const actualState = flagsReducers(initialState, action);
       expect(actualState.read).toEqual(expectedReadState);
-    });
-  });
-
-  describe('MARK_MESSAGES_READ', () => {
-    test('adds flag "read" to provided message ids', () => {
-      const initialState = deepFreeze({
-        read: {
-          1: true,
-        },
-        starred: {
-          1: true,
-        },
-      });
-
-      const action = deepFreeze({
-        type: MARK_MESSAGES_READ,
-        messageIds: [1, 2, 3],
-      });
-
-      const expectedState = {
-        read: {
-          1: true,
-          2: true,
-          3: true,
-        },
-        starred: {
-          1: true,
-        },
-      };
-
-      const actualState = flagsReducers(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
     });
   });
 

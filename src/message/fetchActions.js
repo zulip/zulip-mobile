@@ -16,7 +16,6 @@ import {
   INITIAL_FETCH_COMPLETE,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
-  MARK_MESSAGES_READ,
 } from '../actionConstants';
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../constants';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
@@ -81,11 +80,6 @@ export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number) =>
 
 export const fetchMessagesAtFirstUnread = (narrow: Narrow) =>
   fetchMessages(narrow, 0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, true);
-
-export const markMessagesRead = (messageIds: number[]): Action => ({
-  type: MARK_MESSAGES_READ,
-  messageIds,
-});
 
 export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();

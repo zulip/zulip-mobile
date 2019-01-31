@@ -6,7 +6,6 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
-  MARK_MESSAGES_READ,
 } from '../actionConstants';
 import { addItemsToPmArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
@@ -57,9 +56,6 @@ export default (state: UnreadPmsState = initialState, action: Action): UnreadPms
 
     case EVENT_NEW_MESSAGE:
       return eventNewMessage(state, action);
-
-    case MARK_MESSAGES_READ:
-      return removeItemsDeeply(state, action.messageIds);
 
     case EVENT_MESSAGE_DELETE:
       return removeItemsDeeply(state, [action.messageId]);

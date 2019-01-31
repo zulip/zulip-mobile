@@ -5,7 +5,6 @@ import {
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
-  MARK_MESSAGES_READ,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
 import { addItemsToArray, removeItemsFromArray } from '../utils/immutability';
@@ -45,9 +44,6 @@ export default (state: UnreadMentionsState = initialState, action: Action): Unre
         && !state.includes(action.message.id)
         ? addItemsToArray(state, [action.message.id])
         : state;
-
-    case MARK_MESSAGES_READ:
-      return removeItemsFromArray(state, action.messageIds);
 
     case EVENT_MESSAGE_DELETE:
       return removeItemsFromArray(state, [action.messageId]);
