@@ -10,7 +10,7 @@ import {
 import { getAuth, getActiveAccount } from '../selectors';
 import { getSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
-import { authOfAccount, getAccountsByIdentity, getIdentity } from '../account/accountsSelectors';
+import { authOfAccount } from '../account/accountsSelectors';
 import { identityOfAccount } from '../account/accountMisc';
 
 export const gotPushToken = (pushToken: string): Action => ({
@@ -44,21 +44,6 @@ const sendPushToken = async (dispatch: Dispatch, account: Account | void, pushTo
   dispatch(ackPushToken(pushToken, identityOfAccount(account)));
 };
 
-/** Tell the given server about our device token, if needed. */
-const maybeSendPushToken = (identity: Identity) => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
-  const { pushToken } = getSession(getState());
-  if (pushToken === null) {
-    // We don't have the token yet.  When we learn it, the listener will
-    // update this and all other logged-in servers.
-    return;
-  }
-  const account = getAccountsByIdentity(getState())(identity);
-  await sendPushToken(dispatch, account, pushToken);
-};
-
 /** Tell all logged-in accounts' servers about our device token, as needed. */
 export const sendAllPushToken = () => async (dispatch: Dispatch, getState: GetState) => {
   const { pushToken } = getSession(getState());
@@ -69,9 +54,13 @@ export const sendAllPushToken = () => async (dispatch: Dispatch, getState: GetSt
   await Promise.all(accounts.map(account => sendPushToken(dispatch, account, pushToken)));
 };
 
-export const initNotifications = () => (dispatch: Dispatch, getState: GetState) => {
-  dispatch(maybeSendPushToken(getIdentity(getState())));
-  if (getSession(getState()).pushToken === null) {
+/** Tell the active account's server about our device token, if needed. */
+export const initNotifications = () => async (dispatch: Dispatch, getState: GetState) => {
+  const { pushToken } = getSession(getState());
+  if (pushToken === null) {
+    // We don't have the token yet.  When we learn it, the listener will
+    // update this and all other logged-in servers.  Try to learn it.
+    //
     // On Android this shouldn't happen -- our Android-native code requests
     // the token early in startup and fires the event that tells it to our
     // JS code -- but it's harmless to try again.
@@ -79,7 +68,10 @@ export const initNotifications = () => (dispatch: Dispatch, getState: GetState) 
     // On iOS this is normal because getting the token may involve showing
     // the user a permissions modal, so we defer that until this point.
     getNotificationToken();
+    return;
   }
+  const account = getActiveAccount(getState());
+  await sendPushToken(dispatch, account, pushToken);
 };
 
 export const tryStopNotifications = () => async (dispatch: Dispatch, getState: GetState) => {
