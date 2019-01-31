@@ -34,7 +34,7 @@ export { default as SpinningProgress } from './SpinningProgress';
 export { default as TextAvatar } from './TextAvatar';
 export { default as Touchable } from './Touchable';
 export { default as UnreadCount } from './UnreadCount';
-export { default as UserStatusIndicator } from './UserStatusIndicator';
+export { default as PresenceStatusIndicator } from './PresenceStatusIndicator';
 export { default as ViewPlaceholder } from './ViewPlaceholder';
 export { default as WebLink } from './WebLink';
 export { default as ZulipButton } from './ZulipButton';

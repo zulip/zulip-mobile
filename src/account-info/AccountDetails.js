@@ -6,7 +6,7 @@ import type { Dispatch, UserPresence, User } from '../types';
 import { Avatar, ComponentList, RawLabel, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
-import UserStatusIndicator from '../common/UserStatusIndicator';
+import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
 import { getMediumAvatar } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
@@ -17,7 +17,7 @@ const componentStyles = StyleSheet.create({
   componentListItem: {
     alignItems: 'center',
   },
-  userStatusWrapper: {
+  statusWrapper: {
     justifyContent: 'center',
     flexDirection: 'row',
   },
@@ -49,8 +49,8 @@ export default class AccountDetails extends PureComponent<Props, void> {
           shape="square"
         />
         <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
-          <View style={componentStyles.userStatusWrapper}>
-            <UserStatusIndicator presence={presence} hideIfOffline={false} />
+          <View style={componentStyles.statusWrapper}>
+            <PresenceStatusIndicator presence={presence} hideIfOffline={false} />
             <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
           </View>
           <View>
