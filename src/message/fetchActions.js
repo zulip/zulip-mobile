@@ -28,14 +28,14 @@ import { initStreams } from '../streams/streamsActions';
 import { reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
 
-export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
+const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
   narrow,
   numBefore,
   numAfter,
 });
 
-export const messageFetchComplete = (
+const messageFetchComplete = (
   messages: Message[],
   narrow: Narrow,
   anchor: number,
@@ -69,7 +69,7 @@ export const fetchMessages = (
   dispatch(messageFetchComplete(messages, narrow, anchor, numBefore, numAfter));
 };
 
-export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number) =>
+const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number) =>
   fetchMessages(
     narrow,
     anchor,
@@ -105,11 +105,11 @@ export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   }
 };
 
-export const initialFetchStart = (): Action => ({
+const initialFetchStart = (): Action => ({
   type: INITIAL_FETCH_START,
 });
 
-export const initialFetchComplete = (): Action => ({
+const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
@@ -137,7 +137,7 @@ export const fetchMessagesInNarrow = (
   }
 };
 
-export const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
+const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const { messages } = await tryUntilSuccessful(() =>
     getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
@@ -145,7 +145,7 @@ export const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: G
   dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
 };
 
-export const fetchStreams = () => async (dispatch: Dispatch, getState: GetState) => {
+const fetchStreams = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const { streams } = await tryUntilSuccessful(() => getStreams(auth));
   dispatch(initStreams(streams));
@@ -160,7 +160,7 @@ const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) 
   }
 };
 
-export const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
+const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
 
