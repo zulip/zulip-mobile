@@ -2,18 +2,10 @@
 import { NativeModules } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
-import type { Narrow, Notification } from './types';
-import { FIRST_UNREAD_ANCHOR } from './constants';
-
 const isDevelopment = process.env.NODE_ENV === 'development';
 const isEmulator = NativeModules.RNDeviceInfo ? DeviceInfo.isEmulator() : false;
 
 type Config = {|
-  startup: {
-    narrow: ?Narrow,
-    anchor: number,
-    notification: ?Notification,
-  },
   messagesPerRequest: number,
   scrollCallbackThrottle: number,
   messageListThreshold: number,
@@ -28,11 +20,6 @@ type Config = {|
 |};
 
 const config: Config = {
-  startup: {
-    narrow: undefined,
-    anchor: FIRST_UNREAD_ANCHOR,
-    notification: undefined,
-  },
   messagesPerRequest: 50,
   scrollCallbackThrottle: 250,
   messageListThreshold: 250,
