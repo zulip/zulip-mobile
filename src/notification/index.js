@@ -93,7 +93,7 @@ export class NotificationListener {
 
   /** Private. */
   handleNotificationOpen = (notification: Object) => {
-    const data = extractNotificationData(notification);
+    const data = Platform.OS === 'ios' ? extractNotificationData(notification) : notification;
     this.dispatch(narrowToNotification(data));
   };
 
@@ -105,13 +105,7 @@ export class NotificationListener {
 
   /** Start listening.  Don't call twice without intervening `stop`. */
   start() {
-    if (Platform.OS === 'ios') {
-      this.listen('notificationOpened', this.handleNotificationOpen);
-    } else {
-      this.listen('notificationOpened', notification =>
-        this.handleNotificationOpen({ getData: () => notification }),
-      );
-    }
+    this.listen('notificationOpened', this.handleNotificationOpen);
     this.listen('remoteNotificationsRegistered', this.handleDeviceToken);
     if (Platform.OS === 'ios') {
       this.listen('remoteNotificationsRegistrationFailed', (error: string) => {
