@@ -36,7 +36,8 @@ export const getNarrowFromNotificationData = (data: ?Notification, usersById: Us
   return getGroupNarrowFromNotificationData(data, usersById);
 };
 
-const extractNotificationData = (notification: Object): Notification | null => {
+// exported for tests
+export const extractNotificationData = (notification: Object): Notification | null => {
   if (!notification || !notification.getData) {
     return null;
   }

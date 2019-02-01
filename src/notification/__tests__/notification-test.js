@@ -1,4 +1,4 @@
-import { getNarrowFromNotificationData, handleNotificationMuddle } from '..';
+import { getNarrowFromNotificationData, extractNotificationData } from '..';
 import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('getNarrowFromNotificationData', () => {
@@ -57,27 +57,16 @@ describe('getNarrowFromNotificationData', () => {
   });
 });
 
-describe('handlePendingNotifications', () => {
-  test('does not throw if `notificationData` value is not as expected', () => {
-    expect(() => handleNotificationMuddle()).not.toThrow();
-    expect(() => handleNotificationMuddle({})).not.toThrow();
+describe('extractNotificationData', () => {
+  test('if input value is not as expected, returns null', () => {
+    expect(extractNotificationData()).toBe(null);
+    expect(extractNotificationData({})).toBe(null);
+    expect(extractNotificationData({ getData: undefined })).toBe(null);
   });
 
-  test('if no data is extracted dispatch nothing', () => {
-    const notificationData = { getData: () => undefined };
-    const dispatch = jest.fn();
-
-    handleNotificationMuddle(notificationData);
-
-    expect(dispatch).not.toHaveBeenCalled();
-  });
-
-  test('if some data is passed dispatch a message', () => {
-    const notificationData = { getData: () => ({}) };
-    const dispatch = jest.fn();
-
-    handleNotificationMuddle(notificationData, dispatch);
-
-    expect(dispatch).toHaveBeenCalled();
+  test('if some data is passed, returns it', () => {
+    const data = {};
+    expect(extractNotificationData({ getData: () => data })).toBe(data);
+    expect(extractNotificationData({ getData: () => ({ zulip: data }) })).toBe(data);
   });
 });
