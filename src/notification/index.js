@@ -48,20 +48,16 @@ export const extractNotificationData = (notification: Object): Notification | nu
   return data && data.zulip ? data.zulip : data;
 };
 
-export const handleNotificationMuddle = (notification: Object, dispatch: Dispatch) => {
-  const data = extractNotificationData(notification);
-  dispatch(handleNotification(data));
-};
-
 export const handleInitialNotification = async (dispatch: Dispatch) => {
+  let data;
   if (Platform.OS === 'android') {
     const { Notifications } = NativeModules;
-    const data = await Notifications.getInitialNotification();
-    dispatch(handleNotification(data));
+    data = await Notifications.getInitialNotification();
   } else {
     const notification = await PushNotificationIOS.getInitialNotification();
-    handleNotificationMuddle(notification, dispatch);
+    data = extractNotificationData(notification);
   }
+  dispatch(handleNotification(data));
 };
 
 /**
@@ -97,7 +93,8 @@ export class NotificationListener {
 
   /** Private. */
   handleNotificationOpen = (notification: Object) => {
-    handleNotificationMuddle(notification, this.dispatch);
+    const data = extractNotificationData(notification);
+    this.dispatch(handleNotification(data));
   };
 
   /** Private. */
