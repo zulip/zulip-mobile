@@ -5,7 +5,6 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { GlobalState, UserPresence } from '../types';
-import { nullFunction } from '../nullObjects';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
@@ -52,7 +51,6 @@ class Avatar extends PureComponent<Props> {
     size: 32,
     realm: '',
     shape: 'rounded',
-    onPress: nullFunction,
   };
 
   render() {
