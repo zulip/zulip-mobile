@@ -126,7 +126,7 @@ export type MessagesState = {|
 |};
 
 export type UserIdMap = {
-  [userId: string]: User,
+  [userId: number]: User,
 };
 
 export type UserGroup = {|
