@@ -1,8 +1,6 @@
 /* @flow strict-local */
 import type { User, Subscription, CaughtUp, Fetching, NavigationState } from './types';
 
-export const nullFunction = () => {};
-
 export const NULL_OBJECT = Object.freeze({});
 
 export const NULL_ARRAY = Object.freeze([]);
