@@ -1,5 +1,4 @@
 /* @flow */
-import { nullFunction } from '../nullObjects';
 
 /** Like setTimeout(..., 0), but returns a Promise of the result. */
 export function delay<T>(callback: () => T): Promise<T> {
@@ -8,13 +7,6 @@ export function delay<T>(callback: () => T): Promise<T> {
 
 export const sleep = (ms: number = 0): Promise<void> =>
   new Promise(resolve => setTimeout(resolve, ms));
-
-export const timeout = (
-  func: any,
-  onTimeout: Function = nullFunction,
-  timeoutMs: number = 10000,
-): Promise<*> =>
-  Promise.race([func, new Promise(resolve => setTimeout(resolve, timeoutMs)).then(onTimeout)]);
 
 export const tryUntilSuccessful = async (
   func: any,
