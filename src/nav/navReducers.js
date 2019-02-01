@@ -2,10 +2,6 @@
 import type { NavigationAction } from 'react-navigation';
 
 import type { NavigationState, Action } from '../types';
-import config from '../config';
-import { navigateToChat } from './navActions';
-import { getUsersById } from '../users/userSelectors';
-import { getNarrowFromNotificationData } from '../notification';
 import AppNavigator from './AppNavigator';
 import { NULL_NAV_STATE } from '../nullObjects';
 import {
@@ -38,14 +34,7 @@ const rehydrate = (state, action) => {
     return (result: NavigationState);
   }
 
-  const startState = getStateForRoute('main');
-  if (!config.startup.notification) {
-    return startState || state;
-  }
-
-  const usersById = getUsersById(rehydratedState);
-  const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
-  return AppNavigator.router.getStateForAction(navigateToChat(narrow), startState) || state;
+  return getStateForRoute('main') || state;
 };
 
 const initialState = getStateForRoute('loading') || NULL_NAV_STATE;

@@ -14,7 +14,6 @@ import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConst
 import { authOfAccount } from '../account/accountsSelectors';
 import { identityOfAccount } from '../account/accountMisc';
 import { getUsersById } from '../users/userSelectors';
-import config from '../config';
 import { doNarrow } from '../message/messagesActions';
 
 export const gotPushToken = (pushToken: string): Action => ({
@@ -40,7 +39,6 @@ export const handleNotification = (data: ?Notification) => (
   if (!data) {
     return;
   }
-  config.startup.notification = data;
   const usersById = getUsersById(getState());
   dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
 };

@@ -9,7 +9,7 @@ import InfoItem from './InfoItem';
 export default class NotificationDiagScreen extends PureComponent<{||}> {
   render() {
     const variables = {
-      'Initial notification': JSON.stringify(config.startup.notification),
+      'Initial notification (disused)': JSON.stringify(config.startup.notification),
     };
     return (
       <Screen title="Notification Diagnostics" scrollEnabled={false}>
