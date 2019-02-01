@@ -10,7 +10,7 @@ import {
   unackPushToken,
   gotPushToken,
   sendAllPushToken,
-  handleNotification,
+  narrowToNotification,
 } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
 
@@ -57,7 +57,7 @@ export const handleInitialNotification = async (dispatch: Dispatch) => {
     const notification = await PushNotificationIOS.getInitialNotification();
     data = extractNotificationData(notification);
   }
-  dispatch(handleNotification(data));
+  dispatch(narrowToNotification(data));
 };
 
 /**
@@ -94,7 +94,7 @@ export class NotificationListener {
   /** Private. */
   handleNotificationOpen = (notification: Object) => {
     const data = extractNotificationData(notification);
-    this.dispatch(handleNotification(data));
+    this.dispatch(narrowToNotification(data));
   };
 
   /** Private. */

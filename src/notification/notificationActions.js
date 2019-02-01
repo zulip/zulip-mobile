@@ -32,7 +32,7 @@ const ackPushToken = (pushToken: string, identity: Identity): Action => ({
   pushToken,
 });
 
-export const handleNotification = (data: ?Notification) => (
+export const narrowToNotification = (data: ?Notification) => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
