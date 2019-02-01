@@ -4,11 +4,14 @@ import NotificationsIOS, { NotificationsAndroid } from 'react-native-notificatio
 
 import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
 import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
-import config from '../config';
 import { forgetPushToken } from '../api';
 import { logErrorRemotely } from '../utils/logging';
-import { doNarrow } from '../message/messagesActions';
-import { unackPushToken, gotPushToken, sendAllPushToken } from './notificationActions';
+import {
+  unackPushToken,
+  gotPushToken,
+  sendAllPushToken,
+  handleNotification,
+} from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
@@ -45,31 +48,19 @@ export const extractNotificationData = (notification: Object): Notification | nu
   return data && data.zulip ? data.zulip : data;
 };
 
-const handleNotification = (data: ?Notification, dispatch: Dispatch, usersById: UserIdMap) => {
-  if (!data) {
-    return;
-  }
-  config.startup.notification = data;
-  dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
-};
-
-export const handleNotificationMuddle = (
-  notification: Object,
-  dispatch: Dispatch,
-  usersById: UserIdMap,
-) => {
+export const handleNotificationMuddle = (notification: Object, dispatch: Dispatch) => {
   const data = extractNotificationData(notification);
-  handleNotification(data, dispatch, usersById);
+  dispatch(handleNotification(data));
 };
 
-export const handleInitialNotification = async (dispatch: Dispatch, usersById: UserIdMap) => {
+export const handleInitialNotification = async (dispatch: Dispatch) => {
   if (Platform.OS === 'android') {
     const { Notifications } = NativeModules;
     const data = await Notifications.getInitialNotification();
-    handleNotification(data, dispatch, usersById);
+    dispatch(handleNotification(data));
   } else {
     const notification = await PushNotificationIOS.getInitialNotification();
-    handleNotificationMuddle(notification, dispatch, usersById);
+    handleNotificationMuddle(notification, dispatch);
   }
 };
 
@@ -81,12 +72,10 @@ export const handleInitialNotification = async (dispatch: Dispatch, usersById: U
  */
 export class NotificationListener {
   dispatch: Dispatch;
-  usersById: UserIdMap;
   unsubs: Array<() => void> = [];
 
-  constructor(dispatch: Dispatch, usersById: UserIdMap) {
+  constructor(dispatch: Dispatch) {
     this.dispatch = dispatch;
-    this.usersById = usersById;
   }
 
   /** Private. */
@@ -108,7 +97,7 @@ export class NotificationListener {
 
   /** Private. */
   handleNotificationOpen = (notification: Object) => {
-    handleNotificationMuddle(notification, this.dispatch, this.usersById);
+    handleNotificationMuddle(notification, this.dispatch);
   };
 
   /** Private. */

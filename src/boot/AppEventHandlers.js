@@ -6,14 +6,8 @@ import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 're
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
-import type {
-  ChildrenArray,
-  Dispatch,
-  GlobalState,
-  Orientation as OrientationT,
-  UserIdMap,
-} from '../types';
-import { getUnreadByHuddlesMentionsAndPMs, getUsersById } from '../selectors';
+import type { ChildrenArray, Dispatch, GlobalState, Orientation as OrientationT } from '../types';
+import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
 import {
   appOnline,
@@ -35,7 +29,6 @@ type Props = {|
   dispatch: Dispatch,
   children: ChildrenArray<*>,
   unreadCount: number,
-  usersById: UserIdMap,
 |};
 
 class AppEventHandlers extends PureComponent<Props> {
@@ -59,15 +52,15 @@ class AppEventHandlers extends PureComponent<Props> {
     }
   };
 
-  notificationListener = new NotificationListener(this.props.dispatch, this.props.usersById);
+  notificationListener = new NotificationListener(this.props.dispatch);
 
   handleMemoryWarning = () => {
     // Release memory here
   };
 
   componentDidMount() {
-    const { dispatch, usersById } = this.props;
-    handleInitialNotification(dispatch, usersById);
+    const { dispatch } = this.props;
+    handleInitialNotification(dispatch);
 
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
@@ -95,6 +88,5 @@ class AppEventHandlers extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  usersById: getUsersById(state),
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
 }))(AppEventHandlers);

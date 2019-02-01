@@ -1,17 +1,21 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
-import type { Account, Dispatch, GetState, Identity, Action } from '../types';
+import type { Account, Dispatch, GetState, Identity, Notification, Action } from '../types';
 /* eslint-disable import/no-named-as-default-member */
 import api from '../api';
 import {
   getNotificationToken,
   tryStopNotifications as innerStopNotifications,
+  getNarrowFromNotificationData,
 } from '../notification';
 import { getAuth, getActiveAccount } from '../selectors';
 import { getSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 import { authOfAccount } from '../account/accountsSelectors';
 import { identityOfAccount } from '../account/accountMisc';
+import { getUsersById } from '../users/userSelectors';
+import config from '../config';
+import { doNarrow } from '../message/messagesActions';
 
 export const gotPushToken = (pushToken: string): Action => ({
   type: GOT_PUSH_TOKEN,
@@ -28,6 +32,18 @@ const ackPushToken = (pushToken: string, identity: Identity): Action => ({
   identity,
   pushToken,
 });
+
+export const handleNotification = (data: ?Notification) => (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  if (!data) {
+    return;
+  }
+  config.startup.notification = data;
+  const usersById = getUsersById(getState());
+  dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
+};
 
 /** Tell the given server about this device token, if it doesn't already know. */
 const sendPushToken = async (dispatch: Dispatch, account: Account | void, pushToken: string) => {
