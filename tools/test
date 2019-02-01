@@ -30,9 +30,7 @@ Suites:
   prettier
   spell
 
-By default:
- * without --full, all suites are run;
- * with --full, all suites but \`spell\` are run.
+By default, all suites but \`spell\` are run.
 EOF
     exit 2
 }
@@ -55,7 +53,6 @@ done
 
 if [ -z "$suites" ]; then
     suites=(flow lint jest prettier)
-    [ "$files" != full ] && suites+=(spell)
 fi
 
 
