@@ -20,7 +20,6 @@ import DebugScreen from '../settings/DebugScreen';
 import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
 import VariablesScreen from '../diagnostics/VariablesScreen';
 import TimingScreen from '../diagnostics/TimingScreen';
-import NotificationDiagScreen from '../diagnostics/NotificationDiagScreen';
 import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import CreateGroupScreen from '../user-groups/CreateGroupScreen';
@@ -65,7 +64,6 @@ export default StackNavigator(
     'stream-edit': { screen: EditStreamScreen },
     'stream-create': { screen: CreateStreamScreen },
     topics: { screen: TopicListScreen },
-    notifDiag: { screen: NotificationDiagScreen },
     notifications: { screen: NotificationsScreen },
     'welcome-help': { screen: WelcomeHelpScreen },
     welcome: { screen: WelcomeScreen },

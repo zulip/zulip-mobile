@@ -86,9 +86,6 @@ export const navigateToStorage = (): NavigateAction =>
 export const navigateToDebug = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'debug' });
 
-export const navigateToNotifDiag = (): NavigateAction =>
-  NavigationActions.navigate({ routeName: 'notifDiag' });
-
 export const navigateToStream = (streamId: number): NavigateAction =>
   NavigationActions.navigate({ routeName: 'stream', params: { streamId } });
 
