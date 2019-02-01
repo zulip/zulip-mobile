@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 
 /** Like setTimeout(..., 0), but returns a Promise of the result. */
 export function delay<T>(callback: () => T): Promise<T> {
@@ -8,11 +8,11 @@ export function delay<T>(callback: () => T): Promise<T> {
 export const sleep = (ms: number = 0): Promise<void> =>
   new Promise(resolve => setTimeout(resolve, ms));
 
-export const tryUntilSuccessful = async (
-  func: any,
+export async function tryUntilSuccessful<T>(
+  func: () => Promise<T>,
   maxRetries: number = 1000,
   timeoutMs: number = 1000,
-) => {
+): Promise<T> {
   if (!maxRetries) {
     return func();
   }
@@ -23,4 +23,4 @@ export const tryUntilSuccessful = async (
     await new Promise(resolve => setTimeout(resolve, timeoutMs));
   }
   return tryUntilSuccessful(func, maxRetries - 1, timeoutMs * 1.5);
-};
+}

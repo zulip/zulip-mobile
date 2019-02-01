@@ -13,7 +13,7 @@ describe('sleep', () => {
 
 describe('tryUntilSuccessful', () => {
   test('resolves any value when there is no exception', async () => {
-    const result = await tryUntilSuccessful(() => 'hello');
+    const result = await tryUntilSuccessful(async () => 'hello');
 
     expect(result).toEqual('hello');
   });
@@ -37,7 +37,7 @@ describe('tryUntilSuccessful', () => {
       return 'hello';
     };
 
-    const result = await tryUntilSuccessful(() => thrower());
+    const result = await tryUntilSuccessful(async () => thrower());
 
     expect(result).toEqual('hello');
   });
@@ -54,7 +54,7 @@ describe('tryUntilSuccessful', () => {
 
     expect.assertions(1);
     try {
-      await tryUntilSuccessful(() => thrower(), 0);
+      await tryUntilSuccessful(async () => thrower(), 0);
     } catch (e) {
       expect(e).toBeTruthy();
     }
