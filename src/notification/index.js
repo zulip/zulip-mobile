@@ -37,6 +37,7 @@ export const getNarrowFromNotificationData = (
   return groupNarrow(emails);
 };
 
+/** Extract the actual notification data from the wix library's wrapping (iOS only). */
 // exported for tests
 export const extractNotificationData = (notification: Object): Notification | null => {
   if (!notification || !notification.getData) {
@@ -46,15 +47,17 @@ export const extractNotificationData = (notification: Object): Notification | nu
   return data && data.zulip ? data.zulip : data;
 };
 
-export const handleInitialNotification = async (dispatch: Dispatch) => {
-  let data;
+const getInitialNotification = async (): Promise<Notification | null> => {
   if (Platform.OS === 'android') {
     const { Notifications } = NativeModules;
-    data = await Notifications.getInitialNotification();
-  } else {
-    const notification = await PushNotificationIOS.getInitialNotification();
-    data = extractNotificationData(notification);
+    return Notifications.getInitialNotification();
   }
+  const notification = await PushNotificationIOS.getInitialNotification();
+  return extractNotificationData(notification);
+};
+
+export const handleInitialNotification = async (dispatch: Dispatch) => {
+  const data = await getInitialNotification();
   dispatch(narrowToNotification(data));
 };
 
