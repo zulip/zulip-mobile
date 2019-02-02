@@ -4,7 +4,7 @@ import { topicNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 describe('getNarrowFromNotificationData', () => {
   test('unknown notification data returns null', () => {
     const notification = {};
-    const narrow = getNarrowFromNotificationData(notification);
+    const narrow = getNarrowFromNotificationData(notification, {});
     expect(narrow).toBe(null);
   });
 
@@ -14,7 +14,7 @@ describe('getNarrowFromNotificationData', () => {
       stream: 'some stream',
       topic: 'some topic',
     };
-    const narrow = getNarrowFromNotificationData(notification);
+    const narrow = getNarrowFromNotificationData(notification, {});
     expect(narrow).toEqual(topicNarrow('some stream', 'some topic'));
   });
 
@@ -23,7 +23,7 @@ describe('getNarrowFromNotificationData', () => {
       recipient_type: 'private',
       sender_email: 'mark@example.com',
     };
-    const narrow = getNarrowFromNotificationData(notification);
+    const narrow = getNarrowFromNotificationData(notification, {});
     expect(narrow).toEqual(privateNarrow('mark@example.com'));
   });
 

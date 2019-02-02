@@ -16,7 +16,7 @@ import { identityOfAuth } from '../account/accountMisc';
 
 const getGroupNarrowFromNotificationData = (
   data: NotificationGroup,
-  usersById: UserIdMap = {},
+  usersById: UserIdMap,
 ): Narrow | null => {
   const userIds = data.pm_users.split(',');
   const users = userIds.map(id => usersById[+id]);
@@ -27,7 +27,7 @@ const getGroupNarrowFromNotificationData = (
 
 export const getNarrowFromNotificationData = (
   data: ?Notification,
-  usersById: UserIdMap = {},
+  usersById: UserIdMap,
 ): Narrow | null => {
   if (!data || !data.recipient_type) {
     return null;
