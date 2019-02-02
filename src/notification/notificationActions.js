@@ -40,7 +40,10 @@ export const narrowToNotification = (data: ?Notification) => (
     return;
   }
   const usersById = getUsersById(getState());
-  dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
+  const narrow = getNarrowFromNotificationData(data, usersById);
+  if (narrow) {
+    dispatch(doNarrow(narrow));
+  }
 };
 
 /** Tell the given server about this device token, if it doesn't already know. */

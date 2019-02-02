@@ -2,8 +2,8 @@
 import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
 import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
-import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
-import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
+import type { Auth, Dispatch, Narrow, Notification, NotificationGroup, UserIdMap } from '../types';
+import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import { forgetPushToken } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import {
@@ -14,17 +14,23 @@ import {
 } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
 
-const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
+const getGroupNarrowFromNotificationData = (
+  data: NotificationGroup,
+  usersById: UserIdMap = {},
+): Narrow | null => {
   const userIds = data.pm_users.split(',');
   const users = userIds.map(id => usersById[+id]);
   const doAllUsersExist = users.every(user => user);
 
-  return doAllUsersExist ? groupNarrow(users.map(user => user.email)) : HOME_NARROW;
+  return doAllUsersExist ? groupNarrow(users.map(user => user.email)) : null;
 };
 
-export const getNarrowFromNotificationData = (data: ?Notification, usersById: UserIdMap = {}) => {
+export const getNarrowFromNotificationData = (
+  data: ?Notification,
+  usersById: UserIdMap = {},
+): Narrow | null => {
   if (!data || !data.recipient_type) {
-    return HOME_NARROW;
+    return null;
   }
 
   if (data.recipient_type === 'stream') {

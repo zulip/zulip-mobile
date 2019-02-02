@@ -1,11 +1,11 @@
 import { getNarrowFromNotificationData, extractNotificationData } from '..';
-import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
+import { topicNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('getNarrowFromNotificationData', () => {
-  test('unknown notification data returns home narrow', () => {
+  test('unknown notification data returns null', () => {
     const notification = {};
     const narrow = getNarrowFromNotificationData(notification);
-    expect(narrow).toEqual(HOME_NARROW);
+    expect(narrow).toBe(null);
   });
 
   test('recognizes stream notifications and returns topic narrow', () => {
@@ -44,7 +44,7 @@ describe('getNarrowFromNotificationData', () => {
     expect(narrow).toEqual(expectedNarrow);
   });
 
-  test('do not throw when users are not found; return a home narrow', () => {
+  test('do not throw when users are not found; return null', () => {
     const notification = {
       recipient_type: 'private',
       pm_users: '1,2,4',
@@ -53,7 +53,7 @@ describe('getNarrowFromNotificationData', () => {
 
     const narrow = getNarrowFromNotificationData(notification, usersById);
 
-    expect(narrow).toEqual(HOME_NARROW);
+    expect(narrow).toBe(null);
   });
 });
 
