@@ -2,7 +2,7 @@
 import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
 import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
-import type { Auth, Dispatch, Narrow, Notification, NotificationGroup, UserIdMap } from '../types';
+import type { Auth, Dispatch, Narrow, Notification, UserIdMap } from '../types';
 import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import { forgetPushToken } from '../api';
 import { logErrorRemotely } from '../utils/logging';
@@ -13,17 +13,6 @@ import {
   narrowToNotification,
 } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
-
-const getGroupNarrowFromNotificationData = (
-  data: NotificationGroup,
-  usersById: UserIdMap,
-): Narrow | null => {
-  const userIds = data.pm_users.split(',');
-  const users = userIds.map(id => usersById[+id]);
-  const doAllUsersExist = users.every(user => user);
-
-  return doAllUsersExist ? groupNarrow(users.map(user => user.email)) : null;
-};
 
 export const getNarrowFromNotificationData = (
   data: ?Notification,
@@ -37,12 +26,15 @@ export const getNarrowFromNotificationData = (
     return topicNarrow(data.stream, data.topic);
   }
 
-  // $FlowFixMe
   if (!data.pm_users) {
     return privateNarrow(data.sender_email);
   }
 
-  return getGroupNarrowFromNotificationData(data, usersById);
+  const emails = data.pm_users.split(',').map(id => usersById[+id] && usersById[+id].email);
+  if (!emails.every(email => email)) {
+    return null;
+  }
+  return groupNarrow(emails);
 };
 
 // exported for tests
