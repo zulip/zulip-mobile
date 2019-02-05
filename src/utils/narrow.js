@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
+import uniqby from 'lodash.uniqby';
 
 import type { Narrow, Message } from '../types';
 import { normalizeRecipients } from './recipient';
@@ -210,8 +211,10 @@ export const isSearchNarrow = (narrow?: Narrow): boolean =>
 export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: string): boolean => {
   const matchRecipients = (emails: string[]) => {
     const normalizedRecipients = normalizeRecipients(message.display_recipient);
-    const normalizedNarrow = [...emails, ownEmail].sort().join(',');
-    return normalizedRecipients === ownEmail || normalizedRecipients === normalizedNarrow;
+    const normalizedNarrow = uniqby([...emails, ownEmail])
+      .sort()
+      .join(',');
+    return normalizedRecipients === normalizedNarrow;
   };
 
   return caseNarrow(narrow, {
