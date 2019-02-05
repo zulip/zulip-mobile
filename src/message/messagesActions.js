@@ -23,7 +23,10 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   dispatch(navigateToChat(narrow));
 };
 
-export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {
+export const messageLinkPress = (href: string) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
   const state = getState();
   const auth = getAuth(state);
 
@@ -34,6 +37,23 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
 
     dispatch(doNarrow(narrow, anchor));
   } else {
-    openLink(getFullUrl(href, auth.realm));
+    let url = getFullUrl(href, auth.realm);
+    if (url.startsWith(auth.realm)) {
+      // get the AWS resource file path and open it in browser
+      const srcPath = url.substring(auth.realm.length);
+      if (
+        srcPath.startsWith('/user_uploads/')
+        || srcPath.startsWith('/thumbnail?')
+        || srcPath.startsWith('/avatar/')
+      ) {
+        const delimiter = url.includes('?') ? '&' : '?';
+        url += `${delimiter}api_key=${auth.apiKey}`;
+
+        const response = await fetch(url);
+        openLink(response.url);
+        return;
+      }
+    }
+    openLink(getFullUrl(url, auth.realm));
   }
 };
