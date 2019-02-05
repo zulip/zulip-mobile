@@ -278,7 +278,6 @@ class ComposeBox extends PureComponent<Props, State> {
     composeBox: {
       flexDirection: 'row',
       alignItems: 'flex-end',
-      backgroundColor: 'rgba(127, 127, 127, 0.1)',
     },
     composeText: {
       flex: 1,
@@ -328,12 +327,18 @@ class ComposeBox extends PureComponent<Props, State> {
 
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, usersByEmail);
     const style = {
-      marginBottom: safeAreaInsets.bottom,
+      paddingBottom: safeAreaInsets.bottom,
+      backgroundColor: 'rgba(127, 127, 127, 0.1)',
     };
 
     return (
       <View style={style}>
-        <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
+        <View
+          style={[
+            this.styles.autocompleteWrapper,
+            { marginBottom: safeAreaInsets.bottom + height },
+          ]}
+        >
           <TopicAutocomplete
             isFocused={isTopicFocused}
             narrow={narrow}
