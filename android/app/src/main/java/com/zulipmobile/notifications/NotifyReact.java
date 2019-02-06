@@ -52,7 +52,7 @@ class NotifyReact {
         return true;
     }
 
-    private static void emit(@NonNull ReactContext reactContext, String eventName, @Nullable Object data) {
+    static void emit(@NonNull ReactContext reactContext, String eventName, @Nullable Object data) {
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit(eventName, data);
