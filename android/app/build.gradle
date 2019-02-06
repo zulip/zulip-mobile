@@ -177,7 +177,6 @@ repositories {
 
 dependencies {
     implementation project(':react-native-text-input-reset')
-    implementation project(':react-native-notifications')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-orientation')
     implementation project(':react-native-sentry')
