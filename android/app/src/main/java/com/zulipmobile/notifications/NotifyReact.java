@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.LifecycleState;
@@ -29,13 +30,13 @@ class NotifyReact {
             launchMainActivity(context);
             return;
         }
-        notifyReactNow(reactContext, data);
+        emit(reactContext, "notificationOpened", Arguments.fromBundle(data));
     }
 
-    private static void notifyReactNow(@NonNull ReactContext reactContext, Bundle data) {
+    private static void emit(@NonNull ReactContext reactContext, String eventName, @Nullable Object data) {
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("notificationOpened", Arguments.fromBundle(data));
+                .emit(eventName, data);
     }
 
     private static void launchMainActivity(Context context) {
