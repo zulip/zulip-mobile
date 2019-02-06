@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { GlobalState, UserPresence } from '../types';
+import type { GlobalState } from '../types';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
@@ -25,7 +25,6 @@ type Props = {|
   email: string,
   name: string,
   size: number,
-  presence?: UserPresence,
   realm: string,
   shape: 'square' | 'rounded' | 'circle',
   onPress?: () => void,
@@ -38,7 +37,6 @@ type Props = {|
  * @prop [email] - User's' email address, to calculate Gravatar URL if not given `avatarUrl`.
  * @prop [name] - User's full name.
  * @prop [size] - Sets width and height in pixels.
- * @prop [presence] - Current presence for this user used to determine status.
  * @prop [realm] - Current realm url, used if avatarUrl is relative.
  * @prop [shape] - One of 'square', 'rounded', 'circle'.
  * @prop [onPress] - Event fired on pressing the component.
@@ -54,7 +52,7 @@ class Avatar extends PureComponent<Props> {
   };
 
   render() {
-    const { avatarUrl, email, name, size, presence, onPress, realm, shape } = this.props;
+    const { avatarUrl, email, name, size, onPress, realm, shape } = this.props;
     const fullAvatarUrl =
       typeof avatarUrl === 'string' ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
     const AvatarComponent = fullAvatarUrl ? ImageAvatar : TextAvatar;
@@ -67,7 +65,7 @@ class Avatar extends PureComponent<Props> {
         onPress={onPress}
         shape={shape}
       >
-        <PresenceStatusIndicator style={componentStyles.status} presence={presence} hideIfOffline />
+        <PresenceStatusIndicator style={componentStyles.status} email={email} hideIfOffline />
       </AvatarComponent>
     );
   }

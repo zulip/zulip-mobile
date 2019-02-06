@@ -2,9 +2,11 @@
 /* eslint-disable react-native/no-unused-styles */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 
-import type { Style, UserPresence } from '../types';
+import type { GlobalState, Style, PresenceState } from '../types';
 import { statusFromPresence } from '../utils/presence';
+import { getPresence } from '../selectors';
 
 const styles = StyleSheet.create({
   common: {
@@ -25,9 +27,14 @@ const styles = StyleSheet.create({
   },
 });
 
+type PropsFromConnect = {|
+  presence: PresenceState,
+|};
+
 type Props = {|
+  ...PropsFromConnect,
   style?: Style,
-  presence?: UserPresence,
+  email: string,
   hideIfOffline: boolean,
 |};
 
@@ -38,18 +45,20 @@ type Props = {|
  * * gray if 'offline'
  *
  * @prop [style] - Style object for additional customization.
- * @prop [presence] - UserPresence object used to determine the status from.
+ * @prop email - email of the user whose status we are showing.
  * @prop hideIfOffline - Do not render for 'offline' state.
  */
-export default class PresenceStatusIndicator extends PureComponent<Props> {
+class PresenceStatusIndicator extends PureComponent<Props> {
   render() {
-    const { presence, style, hideIfOffline } = this.props;
+    const { email, presence, style, hideIfOffline } = this.props;
 
-    if (!presence || !presence.aggregated) {
+    const userPresence = presence[email];
+
+    if (!userPresence || !userPresence.aggregated) {
       return null;
     }
 
-    const status = statusFromPresence(presence);
+    const status = statusFromPresence(userPresence);
 
     if (hideIfOffline && status === 'offline') {
       return null;
@@ -58,3 +67,7 @@ export default class PresenceStatusIndicator extends PureComponent<Props> {
     return <View style={[styles.common, styles[status], style]} />;
   }
 }
+
+export default connect((state: GlobalState) => ({
+  presence: getPresence(state),
+}))(PresenceStatusIndicator);
