@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Context, Dispatch, GlobalState, PmConversationData, PresenceState } from '../types';
+import type { Context, Dispatch, GlobalState, PmConversationData } from '../types';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
-import { getLoading, getPresence, getRecentConversations, getAllUsersByEmail } from '../selectors';
+import { getLoading, getRecentConversations, getAllUsersByEmail } from '../selectors';
 import { navigateToCreateGroup, navigateToUsersScreen } from '../actions';
 
 const componentStyles = StyleSheet.create({
@@ -34,7 +34,6 @@ type Props = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
   isLoading: boolean,
-  presences: PresenceState,
   usersByEmail: Object,
 |};
 
@@ -50,7 +49,7 @@ class PmConversationsCard extends PureComponent<Props> {
 
   render() {
     const { styles: contextStyles } = this.context;
-    const { dispatch, conversations, isLoading, presences, usersByEmail } = this.props;
+    const { dispatch, conversations, isLoading, usersByEmail } = this.props;
 
     if (isLoading) {
       return <LoadingIndicator size={40} />;
@@ -84,7 +83,6 @@ class PmConversationsCard extends PureComponent<Props> {
           <PmConversationList
             dispatch={dispatch}
             conversations={conversations}
-            presences={presences}
             usersByEmail={usersByEmail}
           />
         )}
@@ -96,6 +94,5 @@ class PmConversationsCard extends PureComponent<Props> {
 export default connect((state: GlobalState) => ({
   conversations: getRecentConversations(state),
   isLoading: getLoading(state).users,
-  presences: getPresence(state),
   usersByEmail: getAllUsersByEmail(state),
 }))(PmConversationsCard);

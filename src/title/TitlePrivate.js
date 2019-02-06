@@ -4,32 +4,24 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
-import type { UserPresence, User } from '../types';
+import type { User } from '../types';
 import { Avatar, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
-import { getPresence } from '../directSelectors';
 import { getAllUsersByEmail } from '../users/userSelectors';
 import styles from '../styles';
 
 type Props = {
   user: User,
   color: string,
-  presence: UserPresence,
 };
 
 class TitlePrivate extends PureComponent<Props> {
   render() {
-    const { user, color, presence } = this.props;
+    const { user, color } = this.props;
 
     return (
       <View style={styles.navWrapper}>
-        <Avatar
-          size={32}
-          name={user.full_name}
-          email={user.email}
-          avatarUrl={user.avatar_url}
-          presence={presence}
-        />
+        <Avatar size={32} name={user.full_name} email={user.email} avatarUrl={user.avatar_url} />
         <ViewPlaceholder width={8} />
         <View>
           <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
@@ -44,5 +36,4 @@ class TitlePrivate extends PureComponent<Props> {
 
 export default connect((state, props) => ({
   user: getAllUsersByEmail(state)[props.email],
-  presence: getPresence(state)[props.email],
 }))(TitlePrivate);

@@ -4,19 +4,18 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { PresenceState, User } from '../types';
+import type { User } from '../types';
 import { Avatar } from '../common';
-import { getRecipientsInGroupNarrow, getPresence } from '../selectors';
+import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
 
 type Props = {
   recipients: User[],
-  presence: PresenceState,
 };
 
 class TitleGroup extends PureComponent<Props> {
   render() {
-    const { recipients, presence } = this.props;
+    const { recipients } = this.props;
 
     return (
       <View style={styles.navWrapper}>
@@ -27,7 +26,6 @@ class TitleGroup extends PureComponent<Props> {
               name={user.full_name}
               avatarUrl={user.avatar_url}
               email={user.email}
-              presence={presence[user.email]}
             />
           </View>
         ))}
@@ -38,5 +36,4 @@ class TitleGroup extends PureComponent<Props> {
 
 export default connect((state, props) => ({
   recipients: getRecipientsInGroupNarrow(props.narrow)(state),
-  presence: getPresence(state),
 }))(TitleGroup);

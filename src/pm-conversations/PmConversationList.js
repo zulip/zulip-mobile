@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { Dispatch, PmConversationData, PresenceState } from '../types';
+import type { Dispatch, PmConversationData } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import GroupPmConversationItem from './GroupPmConversationItem';
@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
 type Props = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
-  presences: PresenceState,
   usersByEmail: Object,
 |};
 
@@ -35,7 +34,7 @@ export default class PmConversationList extends PureComponent<Props> {
   };
 
   render() {
-    const { conversations, presences, usersByEmail } = this.props;
+    const { conversations, usersByEmail } = this.props;
 
     return (
       <FlatList
@@ -56,7 +55,6 @@ export default class PmConversationList extends PureComponent<Props> {
                 email={user.email}
                 fullName={user.full_name}
                 avatarUrl={user.avatar_url}
-                presence={presences[user.email]}
                 unreadCount={item.unread}
                 onPress={this.handleUserNarrow}
               />

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 
-import type { Dispatch, UserPresence, User } from '../types';
+import type { Dispatch, User } from '../types';
 import { Avatar, ComponentList, RawLabel, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
@@ -26,7 +26,6 @@ const componentStyles = StyleSheet.create({
 type Props = {|
   dispatch: Dispatch,
   user: User,
-  presence: UserPresence,
 |};
 
 export default class AccountDetails extends PureComponent<Props, void> {
@@ -36,7 +35,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
   };
 
   render() {
-    const { user, presence } = this.props;
+    const { user } = this.props;
     const screenWidth = Dimensions.get('window').width;
 
     return (
@@ -50,7 +49,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
         />
         <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
           <View style={componentStyles.statusWrapper}>
-            <PresenceStatusIndicator presence={presence} hideIfOffline={false} />
+            <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
             <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
           </View>
           <View>
