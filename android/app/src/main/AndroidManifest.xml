@@ -82,6 +82,6 @@
       <service android:name="com.wix.reactnativenotifications.gcm.GcmMessageHandlerService" tools:node="remove" />
 
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-      <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="@string/gcm_id"/>
+      <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="@string/gcm_default_sender_id"/>
     </application>
 </manifest>
