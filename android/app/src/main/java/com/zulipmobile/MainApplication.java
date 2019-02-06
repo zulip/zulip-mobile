@@ -5,7 +5,6 @@ import android.app.Application;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
-import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.react.ReactNativeHost;
@@ -49,7 +48,6 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNSoundPackage(),
                     new RNDeviceInfo(),
                     new ZulipNativePackage(),
-                    new RNNotificationsPackage(MainApplication.this),
                     new NotificationsPackage()
             );
         }

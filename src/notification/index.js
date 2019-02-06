@@ -1,6 +1,6 @@
 /* @flow */
 import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
-import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
+import NotificationsIOS from 'react-native-notifications';
 
 import type { Auth, Dispatch, Narrow, Notification, UserIdMap } from '../types';
 import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
@@ -145,8 +145,7 @@ export const getNotificationToken = () => {
     // to request permissions first, then "register".
     NotificationsIOS.requestPermissions();
   } else {
-    // Platform.OS === 'android'
-    NotificationsAndroid.refreshToken();
+    // On Android, we do this at application startup.
   }
 };
 

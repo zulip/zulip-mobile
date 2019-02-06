@@ -88,12 +88,13 @@
           <action android:name="com.google.android.gms.iid.InstanceID" />
         </intent-filter>
       </service>
+      <service android:name="com.wix.reactnativenotifications.gcm.GcmInstanceIdListenerService" tools:node="remove" />
       <service
           android:name=".notifications.RegistrationIntentService"
           android:exported="false">
       </service>
+      <service android:name="com.wix.reactnativenotifications.gcm.GcmInstanceIdRefreshHandlerService" tools:node="remove" />
 
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-      <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="@string/gcm_default_sender_id"/>
     </application>
 </manifest>
