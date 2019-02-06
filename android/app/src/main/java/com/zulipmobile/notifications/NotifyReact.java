@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactNativeHost;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.LifecycleState;
@@ -17,23 +19,30 @@ import static com.zulipmobile.notifications.NotificationHelper.TAG;
 /**
  * Methods for telling React about a notification.
  *
- * This logic is largely inherited from the wix library.
+ * This logic was largely inherited from the wix library.
  * TODO: Replace this with a fresh implementation based on RN upstream docs.
  */
 class NotifyReact {
 
-    static void notifyReact(Context context, final Bundle data) {
+    static void notifyReact(ReactApplication application, final Bundle data) {
         NotificationsModule.initialNotification = data;
 
-        if (!emitIfResumed("notificationOpened", Arguments.fromBundle(data))) {
+        if (!emitIfResumed(application, "notificationOpened", Arguments.fromBundle(data))) {
             // The app will check initialNotification on launch.
             Log.d(TAG, "notifyReact: launching main activity");
-            launchMainActivity(context);
+            launchMainActivity((Context) application);
         }
     }
 
-    private static boolean emitIfResumed(final String eventName, final @Nullable Object data) {
-        final ReactContext reactContext = NotificationsModule.reactContext;
+    private static boolean emitIfResumed(ReactApplication application, final String eventName, final @Nullable Object data) {
+        final ReactNativeHost host = application.getReactNativeHost();
+        if (!host.hasInstance()) {
+            // Calling getReactInstanceManager would try to create one...
+            // which asserts we're on the UI thread, which isn't true if we
+            // got here from a Service.
+            return false;
+        }
+        final ReactContext reactContext = host.getReactInstanceManager().getCurrentReactContext();
         if (reactContext == null
                 || !reactContext.hasActiveCatalystInstance()
                 || reactContext.getLifecycleState() != LifecycleState.RESUMED) {

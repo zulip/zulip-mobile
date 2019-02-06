@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import com.facebook.react.ReactApplication;
 import com.zulipmobile.MainApplication;
 import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 
@@ -24,7 +25,7 @@ public class NotificationIntentService extends IntentService {
                 ((MainApplication) applicationContext).getConversations();
         if (ACTION_VIEW.equals(intent.getAction())) {
             final Bundle data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA);
-            GCMPushNotifications.onOpened(this, conversations, data);
+            GCMPushNotifications.onOpened((ReactApplication) getApplication(), conversations, data);
         } else if (ACTION_CLEAR.equals(intent.getAction())) {
             GCMPushNotifications.onClear(this, conversations);
         }

@@ -16,6 +16,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.facebook.react.ReactApplication;
 import com.zulipmobile.BuildConfig;
 import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 import com.zulipmobile.R;
@@ -204,13 +205,13 @@ public class GCMPushNotifications {
         return null;
     }
 
-    static void onOpened(Context context, ConversationMap conversations, Bundle data) {
+    static void onOpened(ReactApplication application, ConversationMap conversations, Bundle data) {
         logNotificationData(data);
-        NotifyReact.notifyReact(context, data);
-        getNotificationManager(context).cancelAll();
+        NotifyReact.notifyReact(application, data);
+        getNotificationManager((Context) application).cancelAll();
         clearConversations(conversations);
         try {
-            ShortcutBadger.removeCount(context);
+            ShortcutBadger.removeCount((Context) application);
         } catch (Exception e) {
             Log.e(TAG, "BADGE ERROR: " + e.toString());
         }
