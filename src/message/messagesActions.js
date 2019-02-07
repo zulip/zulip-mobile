@@ -1,12 +1,20 @@
 /* @flow strict-local */
+
 import type { Narrow, Dispatch, GetState } from '../types';
 import { getAuth, getUsersById, isNarrowValid, getIsHydrated } from '../selectors';
 import { DO_NARROW } from '../actionConstants';
-import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
+import {
+  getMessageIdFromLink,
+  getNarrowFromLink,
+  isUrlInAppLink,
+  getFullUrl,
+  isUrlFilePath,
+} from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../constants';
+import { downloadFile } from '../utils/download';
 
 export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
   dispatch: Dispatch,
@@ -33,7 +41,10 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
     const narrow = getNarrowFromLink(href, auth.realm, usersById);
 
     dispatch(doNarrow(narrow, anchor));
+  } else if (isUrlFilePath(href)) {
+    downloadFile(href, auth);
   } else {
-    openLink(getFullUrl(href, auth.realm));
+    const fullUrl = getFullUrl(href, auth.realm);
+    openLink(fullUrl);
   }
 };

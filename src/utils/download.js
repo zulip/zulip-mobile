@@ -6,6 +6,8 @@ import type { Auth } from '../api/transportTypes';
 import { objectToParams } from '../api/apiFetch';
 import { getAuthHeader, getFullUrl } from './url';
 import userAgent from './userAgent';
+import { showToast } from '../utils/info';
+import openLink from '../utils/openLink';
 
 /**
  * Request permission WRITE_EXTERNAL_STORAGE, or throw if can't get it.
@@ -62,4 +64,53 @@ export const downloadImage = async (src: string, auth: Auth): Promise<mixed> => 
       Authorization: getAuthHeader(auth.email, auth.apiKey),
     }),
   );
+};
+
+export const downloadFile = async (href: string, auth: Auth) => {
+  const fullUrl = getFullUrl(href, auth.realm);
+
+  const parentDir = auth.realm.replace('https://', '').replace('http://', '');
+  const fileName = fullUrl.split('/').pop();
+  const { dirs } = RNFetchBlob.fs;
+  let downloadDir = '';
+  if (Platform.OS === 'android') {
+    await androidEnsureStoragePermission();
+    downloadDir = dirs.DownloadDir;
+  } else {
+    downloadDir = dirs.DocumentDir;
+  }
+  const path = `${downloadDir}/${parentDir}/${fileName}`;
+
+  const authHeader = getAuthHeader(auth.email, auth.apiKey);
+  if (authHeader === null || authHeader === undefined) {
+    throw new Error('AuthHeader required');
+  }
+
+  showToast('Downloading file');
+
+  RNFetchBlob.config({
+    path,
+    addAndroidDownloads: {
+      notification: true,
+      description: `File downloaded to ${path}`,
+      mediaScannable: true,
+      title: `Successfully downloaded ${fileName}`,
+    },
+  })
+    .fetch('GET', fullUrl, {
+      Authorization: authHeader,
+    })
+    .then(res => {
+      const { status } = res.info();
+      if (status === 200) {
+        showToast('File successfully downloaded');
+        return;
+      }
+      openLink(fullUrl);
+      showToast('Unable to download file');
+    })
+    .catch((errorMessage, statusCode) => {
+      openLink(fullUrl);
+      showToast('Unable to download file');
+    });
 };
