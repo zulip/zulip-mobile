@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -23,23 +22,14 @@ class NotifyReact {
         NotificationsModule.initialNotification = data;
 
         final ReactContext reactContext = NotificationsModule.reactContext;
-        if (reactContext == null || !reactContext.hasActiveCatalystInstance()) {
+        if (reactContext == null
+                || !reactContext.hasActiveCatalystInstance()
+                || reactContext.getLifecycleState() != LifecycleState.RESUMED) {
+            // The app will check initialNotification on launch.
             launchMainActivity(context);
             return;
         }
-        if (reactContext.getLifecycleState() == LifecycleState.RESUMED) {
-            notifyReactNow(reactContext, data);
-        } else {
-            reactContext.addLifecycleEventListener(new LifecycleEventListener() {
-                @Override public void onHostPause() {}
-                @Override public void onHostDestroy() {}
-                @Override public void onHostResume() {
-                    reactContext.removeLifecycleEventListener(this);
-                    notifyReactNow(reactContext, data);
-                }
-            });
-            launchMainActivity(context);
-        }
+        notifyReactNow(reactContext, data);
     }
 
     private static void notifyReactNow(@NonNull ReactContext reactContext, Bundle data) {
