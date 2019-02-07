@@ -178,3 +178,9 @@ export const autocompleteUrl = (value: string = '', protocol: string, append: st
     : '';
 
 export const isValidUrl = (url: string): boolean => urlRegex({ exact: true }).test(url);
+
+export const isUrlFilePath = (url: string) =>
+  url
+    .split('/')
+    .pop()
+    .indexOf('.') > -1;
