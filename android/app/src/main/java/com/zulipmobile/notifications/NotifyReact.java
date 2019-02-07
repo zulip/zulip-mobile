@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.zulipmobile.MainActivity;
+
+import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
 /**
  * Methods for telling React about a notification.
@@ -22,15 +25,22 @@ class NotifyReact {
     static void notifyReact(Context context, final Bundle data) {
         NotificationsModule.initialNotification = data;
 
+        if (!emitIfResumed("notificationOpened", Arguments.fromBundle(data))) {
+            // The app will check initialNotification on launch.
+            Log.d(TAG, "notifyReact: launching main activity");
+            launchMainActivity(context);
+        }
+    }
+
+    private static boolean emitIfResumed(final String eventName, final @Nullable Object data) {
         final ReactContext reactContext = NotificationsModule.reactContext;
         if (reactContext == null
                 || !reactContext.hasActiveCatalystInstance()
                 || reactContext.getLifecycleState() != LifecycleState.RESUMED) {
-            // The app will check initialNotification on launch.
-            launchMainActivity(context);
-            return;
+            return false;
         }
-        emit(reactContext, "notificationOpened", Arguments.fromBundle(data));
+        emit(reactContext, eventName, data);
+        return true;
     }
 
     private static void emit(@NonNull ReactContext reactContext, String eventName, @Nullable Object data) {
