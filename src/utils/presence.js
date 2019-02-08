@@ -2,7 +2,7 @@
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
-import type { ClientPresence, UserPresence, PresenceStatus } from '../types';
+import type { ClientPresence, UserPresence, PresenceStatus, UserStatus } from '../types';
 
 const OFFLINE_THRESHOLD_SECS = 140;
 
@@ -82,3 +82,8 @@ export const statusFromPresence = (presence?: UserPresence): PresenceStatus => {
 
   return presence.aggregated.status;
 };
+
+export const statusFromPresenceAndUserStatus = (
+  presence?: UserPresence,
+  userStatus?: UserStatus,
+): PresenceStatus => (userStatus && userStatus.away ? 'offline' : statusFromPresence(presence));

@@ -1,4 +1,9 @@
-import { getAggregatedPresence, presenceToHumanTime, statusFromPresence } from '../presence';
+import {
+  getAggregatedPresence,
+  presenceToHumanTime,
+  statusFromPresence,
+  statusFromPresenceAndUserStatus,
+} from '../presence';
 
 const currentTimestamp = Date.now() / 1000;
 
@@ -186,5 +191,37 @@ describe('statusFromPresence', () => {
     };
     const result = statusFromPresence(presence);
     expect(result).toBe('active');
+  });
+});
+
+describe('statusFromPresenceAndUserStatus', () => {
+  test('if no `userPresence` is passed do not take it into account', () => {
+    const presence = {
+      aggregated: {
+        status: 'active',
+      },
+    };
+    const result = statusFromPresenceAndUserStatus(presence);
+    expect(result).toBe('active');
+  });
+
+  test('if `userPresence` is provided but no `away` value do not change', () => {
+    const presence = {
+      aggregated: {
+        status: 'active',
+      },
+    };
+    const result = statusFromPresenceAndUserStatus(presence, { status_text: 'Hello, world!' });
+    expect(result).toBe('active');
+  });
+
+  test('if `userPresence` is provided and `away` is `true` override status', () => {
+    const presence = {
+      aggregated: {
+        status: 'active',
+      },
+    };
+    const result = statusFromPresenceAndUserStatus(presence, { away: true });
+    expect(result).toBe('offline');
   });
 });
