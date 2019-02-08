@@ -259,6 +259,14 @@ export type User = {|
   user_id: number,
 |};
 
+export type RealmBot = {|
+  email: string,
+  full_name: string,
+  is_admin: boolean,
+  is_bot: true,
+  user_id: number,
+|};
+
 export type ApiResponse = {|
   result: string,
   msg: string,

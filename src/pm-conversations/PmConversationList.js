@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { Dispatch, PmConversationData } from '../types';
+import type { Dispatch, PmConversationData, UserBotEmailMap } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import GroupPmConversationItem from './GroupPmConversationItem';
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 type Props = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
-  usersByEmail: Object,
+  usersAndBotsByEmail: UserBotEmailMap,
 |};
 
 /**
@@ -34,7 +34,7 @@ export default class PmConversationList extends PureComponent<Props> {
   };
 
   render() {
-    const { conversations, usersByEmail } = this.props;
+    const { conversations, usersAndBotsByEmail } = this.props;
 
     return (
       <FlatList
@@ -44,7 +44,7 @@ export default class PmConversationList extends PureComponent<Props> {
         keyExtractor={item => item.recipients}
         renderItem={({ item }) => {
           if (item.recipients.indexOf(',') === -1) {
-            const user = usersByEmail[item.recipients];
+            const user = usersAndBotsByEmail[item.recipients];
 
             if (!user) {
               return null;
@@ -65,7 +65,7 @@ export default class PmConversationList extends PureComponent<Props> {
             <GroupPmConversationItem
               email={item.recipients}
               unreadCount={item.unread}
-              usersByEmail={usersByEmail}
+              usersAndBotsByEmail={usersAndBotsByEmail}
               onPress={this.handleGroupNarrow}
             />
           );

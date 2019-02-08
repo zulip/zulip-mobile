@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { UserBotEmailMap } from '../types';
 import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
 import styles from '../styles';
 
@@ -15,7 +16,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   email: string,
-  usersByEmail: Object,
+  usersAndBotsByEmail: UserBotEmailMap,
   unreadCount: number,
   onPress: (emails: string) => void,
 |};
@@ -30,8 +31,8 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
   };
 
   render() {
-    const { email, usersByEmail, unreadCount } = this.props;
-    const allUsers = email.split(',').map(e => usersByEmail[e]);
+    const { email, usersAndBotsByEmail, unreadCount } = this.props;
+    const allUsers = email.split(',').map(e => usersAndBotsByEmail[e]);
 
     const allUsersFound = allUsers.every(user => user);
 

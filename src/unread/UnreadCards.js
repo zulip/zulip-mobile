@@ -4,7 +4,13 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Dispatch, GlobalState, PmConversationData, PresenceState } from '../types';
+import type {
+  Dispatch,
+  GlobalState,
+  PmConversationData,
+  PresenceState,
+  UserBotEmailMap,
+} from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -14,7 +20,7 @@ import {
   getLoading,
   getPresence,
   getUnreadConversations,
-  getAllUsersByEmail,
+  getUsersAndBotsByEmail,
   getUnreadStreamsAndTopicsSansMuted,
 } from '../selectors';
 import { doNarrow } from '../actions';
@@ -24,7 +30,7 @@ type Props = {|
   dispatch: Dispatch,
   isLoading: boolean,
   presences: PresenceState,
-  usersByEmail: Object,
+  usersAndBotsByEmail: UserBotEmailMap,
   unreadStreamsAndTopics: any /* UnreadStream[] */,
 |};
 
@@ -97,6 +103,6 @@ export default connect((state: GlobalState) => ({
   isLoading: getLoading(state).unread,
   conversations: getUnreadConversations(state),
   presences: getPresence(state),
-  usersByEmail: getAllUsersByEmail(state),
+  usersAndBotsByEmail: getUsersAndBotsByEmail(state),
   unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),
 }))(UnreadCards);

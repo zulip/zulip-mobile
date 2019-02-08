@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
-import type { User } from '../types';
+import type { RealmBot, User } from '../types';
 import { Avatar, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
-import { getAllUsersByEmail } from '../users/userSelectors';
+import { getUsersAndBotsByEmail } from '../users/userSelectors';
 import styles from '../styles';
 
 type Props = {
-  user: User,
+  user: User | RealmBot,
   color: string,
 };
 
@@ -35,5 +35,5 @@ class TitlePrivate extends PureComponent<Props> {
 }
 
 export default connect((state, props) => ({
-  user: getAllUsersByEmail(state)[props.email],
+  user: getUsersAndBotsByEmail(state)[props.email],
 }))(TitlePrivate);

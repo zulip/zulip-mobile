@@ -13,6 +13,7 @@ import type {
   RealmEmojiState,
   RealmFilter,
   Narrow,
+  RealmBot,
   Stream,
   Subscription,
   User,
@@ -131,6 +132,10 @@ export type UserIdMap = {
 
 export type UserEmailMap = {|
   [email: string]: User,
+|};
+
+export type UserBotEmailMap = {|
+  [email: string]: User | RealmBot,
 |};
 
 /**
@@ -253,14 +258,6 @@ export type NavigationState = {|
       narrow?: Narrow,
     },
   }>,
-|};
-
-export type RealmBot = {|
-  email: string,
-  full_name: string,
-  is_admin: boolean,
-  is_bot: true,
-  user_id: number,
 |};
 
 /**
