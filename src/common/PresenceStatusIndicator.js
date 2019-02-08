@@ -4,9 +4,10 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { GlobalState, Style, PresenceState } from '../types';
-import { statusFromPresence } from '../utils/presence';
-import { getPresence } from '../selectors';
+import type { GlobalState, Style, PresenceState, User, UserStatusMapObject } from '../types';
+import { statusFromPresenceAndUserStatus } from '../utils/presence';
+import { getPresence, getUserStatus } from '../selectors';
+import { getUsersByEmail } from '../users/userSelectors';
 
 const styles = StyleSheet.create({
   common: {
@@ -29,6 +30,8 @@ const styles = StyleSheet.create({
 
 type PropsFromConnect = {|
   presence: PresenceState,
+  usersByEmail: Map<string, User>,
+  userStatus: UserStatusMapObject,
 |};
 
 type Props = {|
@@ -50,15 +53,16 @@ type Props = {|
  */
 class PresenceStatusIndicator extends PureComponent<Props> {
   render() {
-    const { email, presence, style, hideIfOffline } = this.props;
+    const { email, presence, style, hideIfOffline, usersByEmail, userStatus } = this.props;
 
     const userPresence = presence[email];
+    const user = usersByEmail.get(email);
 
-    if (!userPresence || !userPresence.aggregated) {
+    if (!user || !userPresence || !userPresence.aggregated) {
       return null;
     }
 
-    const status = statusFromPresence(userPresence);
+    const status = statusFromPresenceAndUserStatus(userPresence, userStatus[user.user_id]);
 
     if (hideIfOffline && status === 'offline') {
       return null;
@@ -70,4 +74,6 @@ class PresenceStatusIndicator extends PureComponent<Props> {
 
 export default connect((state: GlobalState) => ({
   presence: getPresence(state),
+  usersByEmail: getUsersByEmail(state),
+  userStatus: getUserStatus(state),
 }))(PresenceStatusIndicator);
