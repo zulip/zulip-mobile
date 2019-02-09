@@ -2,8 +2,6 @@ package com.zulipmobile.notifications;
 
 import android.os.Bundle;
 
-import java.util.Arrays;
-
 public class PushNotificationsProp {
 
     private Bundle mBundle;
@@ -60,18 +58,12 @@ public class PushNotificationsProp {
         return mBundle.getString("base_url");
     }
 
-    public int[] getPmUsers() {
-        if (mBundle.containsKey("pm_users")){
-            return mBundle.getIntArray("pm_users");
-        }
-        return null;
+    public String getPmUsers() {
+        return mBundle.getString("pm_users");
     }
 
     public boolean isGroupMessage() {
         return getRecipientType().equals("private") && mBundle.containsKey("pm_users");
-    }
-    public String getGroupRecipientString() {
-        return Arrays.toString(getPmUsers());
     }
 
     public int getZulipMessageId() {

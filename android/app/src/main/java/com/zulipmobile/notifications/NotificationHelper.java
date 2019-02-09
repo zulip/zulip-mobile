@@ -108,7 +108,7 @@ public class NotificationHelper {
         if (prop.getRecipientType().equals("stream"))
             return String.format("%s:%s:stream", prop.getSenderFullName(), prop.getStream());
         else if (prop.isGroupMessage()) {
-            return String.format("%s:%s:group", prop.getSenderFullName(), prop.getGroupRecipientString());
+            return String.format("%s:%s:group", prop.getSenderFullName(), prop.getPmUsers());
         } else {
             return String.format("%s:%s:private", prop.getSenderFullName(), prop.getEmail());
         }
