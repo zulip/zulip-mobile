@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import isEqual from 'lodash.isequal';
 import { createSelector } from 'reselect';
-import type { OutputSelector } from 'reselect';
 
 import type { GlobalState, Message, Narrow, Outbox, Selector } from '../types';
 import {
@@ -24,9 +23,7 @@ import {
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 
-// prettier-ignore
-export const outboxMessagesForNarrow:
-    OutputSelector<GlobalState, Narrow, Outbox[]> = createSelector(
+export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelector(
   (state, narrow) => narrow,
   getCaughtUpForNarrow,
   state => getOutbox(state),

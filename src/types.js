@@ -436,11 +436,11 @@ export type GlobalState = {|
   users: UsersState,
 |};
 
-/** A selector returning TResult. */
+/** A selector returning TResult, with extra parameter TParam. */
 // Seems like this should be OutputSelector... but for whatever reason,
 // putting that on a selector doesn't cause the result type to propagate to
 // the corresponding parameter when used in `createSelector`, and this does.
-export type Selector<TResult> = InputSelector<GlobalState, void, TResult>;
+export type Selector<TResult, TParam = void> = InputSelector<GlobalState, TParam, TResult>;
 
 export type GetState = () => GlobalState;
 
