@@ -25,6 +25,11 @@ public class NotificationsModule extends ReactContextBaseJavaModule {
 
     @Override
     public void initialize() {
+        // Invoking `emitToken` here is a bit belt-and-suspenders: the FCM framework
+        // already invokes it (via `onRefreshToken`) at app startup.  But that can be
+        // before React is ready.  With some more care we could hang on to it and emit
+        // the event a bit later, but instead we just redundantly emit here when we
+        // know things have started up.
         emitToken((ReactApplication) getCurrentActivity().getApplication());
     }
 
@@ -38,7 +43,7 @@ public class NotificationsModule extends ReactContextBaseJavaModule {
                         .getCurrentReactContext();
         if (reactContext == null) {
             // Perhaps this is possible if InstanceIDListenerService gets invoked?
-            // If so, the next time the app is launched, this service will be invoked again
+            // If so, the next time the app is launched, this method will be invoked again
             // by our NotificationsModule#initialize, by which point there certainly is
             // a React context; so we'll learn the new token then.
             Log.w(TAG, "Got token before React context initialized");
@@ -46,7 +51,6 @@ public class NotificationsModule extends ReactContextBaseJavaModule {
         }
         Log.i(TAG, "Got token; emitting event");
         NotifyReact.emit(reactContext, "remoteNotificationsRegistered", token);
-
     }
 
     @ReactMethod
