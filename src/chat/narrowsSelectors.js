@@ -1,7 +1,8 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
+import type { OutputSelector } from 'reselect';
 
-import type { Message, Narrow, Outbox, Selector } from '../types';
+import type { GlobalState, Message, Narrow, Outbox, Selector } from '../types';
 import {
   getAllNarrows,
   getSubscriptions,
@@ -25,30 +26,32 @@ import {
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 
-export const outboxMessagesForNarrow = (narrow: Narrow): Selector<Outbox[]> =>
-  createSelector(
-    state => getCaughtUpForNarrow(state, narrow),
-    getOutbox,
-    (caughtUp, outboxMessages) => {
-      if (!caughtUp.newer) {
-        return [];
-      }
+// prettier-ignore
+export const outboxMessagesForNarrow:
+    OutputSelector<GlobalState, Narrow, Outbox[]> = createSelector(
+  (state, narrow) => narrow,
+  getCaughtUpForNarrow,
+  state => getOutbox(state),
+  (narrow, caughtUp, outboxMessages) => {
+    if (!caughtUp.newer) {
+      return [];
+    }
 
-      if (isHomeNarrow(narrow)) {
-        return outboxMessages;
-      }
+    if (isHomeNarrow(narrow)) {
+      return outboxMessages;
+    }
 
-      return outboxMessages.filter(item => {
-        if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) {
-          return true;
-        }
-        if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) {
-          return true;
-        }
-        return JSON.stringify(item.narrow) === JSON.stringify(narrow);
-      });
-    },
-  );
+    return outboxMessages.filter(item => {
+      if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) {
+        return true;
+      }
+      if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) {
+        return true;
+      }
+      return JSON.stringify(item.narrow) === JSON.stringify(narrow);
+    });
+  },
+);
 
 export const getFetchedMessagesForNarrow = (narrow: Narrow): Selector<Message[]> =>
   createSelector(getAllNarrows, getMessages, (allNarrows, messages) =>
@@ -58,7 +61,7 @@ export const getFetchedMessagesForNarrow = (narrow: Narrow): Selector<Message[]>
 export const getMessagesForNarrow = (narrow: Narrow): Selector<$ReadOnlyArray<Message | Outbox>> =>
   createSelector(
     getFetchedMessagesForNarrow(narrow),
-    outboxMessagesForNarrow(narrow),
+    state => outboxMessagesForNarrow(state, narrow),
     (fetchedMessages, outboxMessages) => {
       if (outboxMessages.length === 0) {
         return fetchedMessages;
