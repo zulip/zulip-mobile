@@ -45,24 +45,25 @@ const getFetchedMessagesForNarrow: Selector<Message[], Narrow> = createSelector(
   (messageIds, messages) => messageIds.map(id => messages[id]),
 );
 
-export const getMessagesForNarrow = (narrow: Narrow): Selector<$ReadOnlyArray<Message | Outbox>> =>
-  createSelector(
-    state => getFetchedMessagesForNarrow(state, narrow),
-    state => outboxMessagesForNarrow(state, narrow),
-    (fetchedMessages, outboxMessages) => {
-      if (outboxMessages.length === 0) {
-        return fetchedMessages;
-      }
+// prettier-ignore
+export const getMessagesForNarrow:
+    Selector<$ReadOnlyArray<Message | Outbox>, Narrow> = createSelector(
+  getFetchedMessagesForNarrow,
+  outboxMessagesForNarrow,
+  (fetchedMessages, outboxMessages) => {
+    if (outboxMessages.length === 0) {
+      return fetchedMessages;
+    }
 
-      return [...fetchedMessages, ...outboxMessages].sort((a, b) => a.id - b.id);
-    },
-  );
+    return [...fetchedMessages, ...outboxMessages].sort((a, b) => a.id - b.id);
+  },
+);
 
 export const getShownMessagesForNarrow = (
   narrow: Narrow,
 ): Selector<$ReadOnlyArray<Message | Outbox>> =>
   createSelector(
-    getMessagesForNarrow(narrow),
+    state => getMessagesForNarrow(state, narrow),
     getSubscriptions,
     getMute,
     (messagesForNarrow, subscriptions, mute) =>
@@ -82,14 +83,17 @@ export const getLastMessageId = (narrow: Narrow): Selector<?number> =>
   );
 
 export const getLastTopicForNarrow = (narrow: Narrow): Selector<string> =>
-  createSelector(getMessagesForNarrow(narrow), messages => {
-    for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].subject) {
-        return messages[i].subject;
+  createSelector(
+    state => getMessagesForNarrow(state, narrow),
+    messages => {
+      for (let i = messages.length - 1; i >= 0; i--) {
+        if (messages[i].subject) {
+          return messages[i].subject;
+        }
       }
-    }
-    return '';
-  });
+      return '';
+    },
+  );
 
 export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
   createSelector(getAllUsers, allUsers =>

@@ -33,7 +33,7 @@ describe('getMessagesForNarrow', () => {
 
     const expectedState = deepFreeze([state.messages[123]]);
 
-    const anchor = getMessagesForNarrow(HOME_NARROW)(state);
+    const anchor = getMessagesForNarrow(state, HOME_NARROW);
 
     expect(anchor).toEqual(expectedState);
   });
@@ -60,7 +60,7 @@ describe('getMessagesForNarrow', () => {
       },
     });
 
-    const anchor = getMessagesForNarrow(HOME_NARROW)(state);
+    const anchor = getMessagesForNarrow(state, HOME_NARROW);
 
     const expectedState = deepFreeze([
       { id: 123 },
@@ -97,7 +97,7 @@ describe('getMessagesForNarrow', () => {
 
     const expectedState = deepFreeze([state.messages[123]]);
 
-    const anchor = getMessagesForNarrow(HOME_NARROW)(state);
+    const anchor = getMessagesForNarrow(state, HOME_NARROW);
 
     expect(anchor).toEqual(expectedState);
   });
@@ -121,7 +121,7 @@ describe('getMessagesForNarrow', () => {
       ],
     });
 
-    const anchor = getMessagesForNarrow(privateNarrow('john@example.com'))(state);
+    const anchor = getMessagesForNarrow(state, privateNarrow('john@example.com'));
 
     const expectedState = deepFreeze([{ id: 123 }]);
 
