@@ -20,7 +20,7 @@ import {
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../constants';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
-import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
+import { getFetchedMessageIdsForNarrow } from '../chat/narrowsSelectors';
 import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
@@ -124,7 +124,7 @@ const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => 
   if (caughtUp.newer && caughtUp.older) {
     return false;
   }
-  const numKnownMessages = getFetchedMessagesForNarrow(narrow)(state).length;
+  const numKnownMessages = getFetchedMessageIdsForNarrow(state, narrow).length;
   return numKnownMessages < config.messagesPerRequest / 2;
 };
 

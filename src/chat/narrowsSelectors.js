@@ -39,9 +39,14 @@ export const outboxMessagesForNarrow:
   },
 );
 
-export const getFetchedMessagesForNarrow = (narrow: Narrow): Selector<Message[]> =>
-  createSelector(getAllNarrows, getMessages, (allNarrows, messages) =>
-    (allNarrows[JSON.stringify(narrow)] || NULL_ARRAY).map(id => messages[id]),
+export const getFetchedMessageIdsForNarrow = (state: GlobalState, narrow: Narrow) =>
+  getAllNarrows(state)[JSON.stringify(narrow)] || NULL_ARRAY;
+
+const getFetchedMessagesForNarrow = (narrow: Narrow): Selector<Message[]> =>
+  createSelector(
+    state => getFetchedMessageIdsForNarrow(state, narrow),
+    getMessages,
+    (messageIds, messages) => messageIds.map(id => messages[id]),
   );
 
 export const getMessagesForNarrow = (narrow: Narrow): Selector<$ReadOnlyArray<Message | Outbox>> =>
