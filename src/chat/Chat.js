@@ -10,7 +10,8 @@ import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 import styles from '../styles';
-import { canSendToActiveNarrow, getShowMessagePlaceholders } from '../selectors';
+import { canSendToNarrow } from '../utils/narrow';
+import { getShowMessagePlaceholders } from '../selectors';
 
 type Props = {|
   /* $FlowFixMe: probably this shouldn't be optional */
@@ -48,5 +49,5 @@ class Chat extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState, props) => ({
-  canSend: canSendToActiveNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
+  canSend: canSendToNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
 }))(Chat);

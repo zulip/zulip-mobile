@@ -19,7 +19,6 @@ import {
   isStreamNarrow,
   isHomeNarrow,
   isPrivateNarrow,
-  canSendToNarrow,
   isStreamOrTopicNarrow,
   emailsOfGroupNarrow,
 } from '../utils/narrow';
@@ -134,8 +133,6 @@ export const getShowMessagePlaceholders = (narrow: Narrow) =>
     getIsFetching(narrow),
     (noMessages, isFetching) => isFetching && noMessages,
   );
-
-export const canSendToActiveNarrow = (narrow: Narrow) => canSendToNarrow(narrow);
 
 export const isNarrowValid = (narrow: Narrow) =>
   createSelector(getStreams, getAllUsers, (streams, allUsers) => {
