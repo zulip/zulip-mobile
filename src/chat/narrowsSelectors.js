@@ -39,16 +39,15 @@ export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelecto
 export const getFetchedMessageIdsForNarrow = (state: GlobalState, narrow: Narrow) =>
   getAllNarrows(state)[JSON.stringify(narrow)] || NULL_ARRAY;
 
-const getFetchedMessagesForNarrow = (narrow: Narrow): Selector<Message[]> =>
-  createSelector(
-    state => getFetchedMessageIdsForNarrow(state, narrow),
-    getMessages,
-    (messageIds, messages) => messageIds.map(id => messages[id]),
-  );
+const getFetchedMessagesForNarrow: Selector<Message[], Narrow> = createSelector(
+  getFetchedMessageIdsForNarrow,
+  state => getMessages(state),
+  (messageIds, messages) => messageIds.map(id => messages[id]),
+);
 
 export const getMessagesForNarrow = (narrow: Narrow): Selector<$ReadOnlyArray<Message | Outbox>> =>
   createSelector(
-    getFetchedMessagesForNarrow(narrow),
+    state => getFetchedMessagesForNarrow(state, narrow),
     state => outboxMessagesForNarrow(state, narrow),
     (fetchedMessages, outboxMessages) => {
       if (outboxMessages.length === 0) {
@@ -72,13 +71,13 @@ export const getShownMessagesForNarrow = (
 
 export const getFirstMessageId = (narrow: Narrow): Selector<?number> =>
   createSelector(
-    getFetchedMessagesForNarrow(narrow),
+    state => getFetchedMessagesForNarrow(state, narrow),
     messages => (messages.length > 0 ? messages[0].id : undefined),
   );
 
 export const getLastMessageId = (narrow: Narrow): Selector<?number> =>
   createSelector(
-    getFetchedMessagesForNarrow(narrow),
+    state => getFetchedMessagesForNarrow(state, narrow),
     messages => (messages.length > 0 ? messages[messages.length - 1].id : undefined),
   );
 
