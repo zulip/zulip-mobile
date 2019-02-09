@@ -138,7 +138,7 @@ describe('getFirstMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getFirstMessageId(HOME_NARROW)(state);
+    const anchor = getFirstMessageId(state, HOME_NARROW);
 
     expect(anchor).toEqual(undefined);
   });
@@ -156,7 +156,7 @@ describe('getFirstMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getFirstMessageId(HOME_NARROW)(state);
+    const anchor = getFirstMessageId(state, HOME_NARROW);
 
     expect(anchor).toEqual(1);
   });
@@ -172,7 +172,7 @@ describe('getLastMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getLastMessageId(HOME_NARROW)(state);
+    const anchor = getLastMessageId(state, HOME_NARROW);
 
     expect(anchor).toEqual(undefined);
   });
@@ -190,7 +190,7 @@ describe('getLastMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getLastMessageId(HOME_NARROW)(state);
+    const anchor = getLastMessageId(state, HOME_NARROW);
 
     expect(anchor).toEqual(3);
   });

@@ -70,17 +70,15 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
       messagesForNarrow.filter(item => !shouldBeMuted(item, narrow, subscriptions, mute)),
   );
 
-export const getFirstMessageId = (narrow: Narrow): Selector<?number> =>
-  createSelector(
-    state => getFetchedMessagesForNarrow(state, narrow),
-    messages => (messages.length > 0 ? messages[0].id : undefined),
-  );
+export const getFirstMessageId = (state: GlobalState, narrow: Narrow): ?number => {
+  const messages = getFetchedMessagesForNarrow(state, narrow);
+  return messages.length > 0 ? messages[0].id : undefined;
+};
 
-export const getLastMessageId = (narrow: Narrow): Selector<?number> =>
-  createSelector(
-    state => getFetchedMessagesForNarrow(state, narrow),
-    messages => (messages.length > 0 ? messages[messages.length - 1].id : undefined),
-  );
+export const getLastMessageId = (state: GlobalState, narrow: Narrow): ?number => {
+  const messages = getFetchedMessagesForNarrow(state, narrow);
+  return messages.length > 0 ? messages[messages.length - 1].id : undefined;
+};
 
 export const getLastTopicForNarrow = (narrow: Narrow): Selector<string> =>
   createSelector(
