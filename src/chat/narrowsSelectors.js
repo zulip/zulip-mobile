@@ -80,10 +80,11 @@ export const getLastMessageId = (state: GlobalState, narrow: Narrow): ?number =>
   return ids.length > 0 ? ids[ids.length - 1] : undefined;
 };
 
-export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
-  createSelector(getAllUsersByEmail, allUsersByEmail =>
-    emailsOfGroupNarrow(narrow).map(r => allUsersByEmail[r] || []),
-  );
+export const getRecipientsInGroupNarrow = createSelector(
+  (state, narrow) => narrow,
+  state => getAllUsersByEmail(state),
+  (narrow, allUsersByEmail) => emailsOfGroupNarrow(narrow).map(r => allUsersByEmail[r] || []),
+);
 
 export const getStreamInNarrow = (narrow: Narrow) =>
   createSelector(getSubscriptions, getStreams, (subscriptions, streams) => {

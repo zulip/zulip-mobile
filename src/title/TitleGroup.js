@@ -35,5 +35,5 @@ class TitleGroup extends PureComponent<Props> {
 }
 
 export default connect((state, props) => ({
-  recipients: getRecipientsInGroupNarrow(props.narrow)(state),
+  recipients: getRecipientsInGroupNarrow(state, props.narrow),
 }))(TitleGroup);
