@@ -5,9 +5,6 @@ import type { UserPresence, User, UserGroup, PresenceState } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
-export const getUserByEmail = (users: User[], userEmail: string): User =>
-  users.find(user => user.email === userEmail) || NULL_USER;
-
 export const getUserById = (users: User[], userId: number): User =>
   users.find(user => user.user_id === userId) || NULL_USER;
 

@@ -1,17 +1,10 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { RealmBot, Selector, User } from '../types';
+import type { GlobalState, RealmBot, Selector, User } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 import { getOwnEmail } from '../account/accountsSelectors';
-import { getUserByEmail } from './userHelpers';
-
-export const getSelfUserDetail: Selector<User> = createSelector(
-  getUsers,
-  getOwnEmail,
-  (users, ownEmail) => getUserByEmail(users, ownEmail),
-);
 
 export const getSortedUsers: Selector<User[]> = createSelector(getUsers, users =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
@@ -50,6 +43,9 @@ export const getAllUsersByEmail = createSelector(getAllUsers, allUsers =>
     return usersByEmail;
   }, {}),
 );
+
+export const getSelfUserDetail = (state: GlobalState): User =>
+  getUsersByEmail(state).get(getOwnEmail(state)) || NULL_USER;
 
 export const getUsersSansMe: Selector<User[]> = createSelector(
   getUsers,

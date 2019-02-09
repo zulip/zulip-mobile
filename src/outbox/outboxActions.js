@@ -20,10 +20,11 @@ import {
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { sendMessage } from '../api';
-import { getSelfUserDetail } from '../users/userSelectors';
-import { getUserByEmail, getUsersAndWildcards } from '../users/userHelpers';
+import { getSelfUserDetail, getUsersByEmail } from '../users/userSelectors';
+import { getUsersAndWildcards } from '../users/userHelpers';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import progressiveTimeout from '../utils/progressiveTimeout';
+import { NULL_USER } from '../nullObjects';
 
 export const messageSendStart = (outbox: Outbox): Action => ({
   type: MESSAGE_SEND_START,
@@ -81,11 +82,11 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
   dispatch(toggleOutboxSending(false));
 };
 
-const mapEmailsToUsers = (users, narrow, selfDetail) =>
+const mapEmailsToUsers = (usersByEmail, narrow, selfDetail) =>
   narrow[0].operand
     .split(',')
     .map(item => {
-      const user = getUserByEmail(users, item);
+      const user = usersByEmail.get(item) || NULL_USER;
       return { email: item, id: user.user_id, full_name: user.full_name };
     })
     .concat({ email: selfDetail.email, id: selfDetail.user_id, full_name: selfDetail.full_name });
@@ -93,13 +94,13 @@ const mapEmailsToUsers = (users, narrow, selfDetail) =>
 // TODO type: `string | NamedUser[]` is a bit confusing.
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
-  users: User[],
+  usersByEmail: Map<string, User>,
   selfDetail: { email: string, user_id: number, full_name: string },
 ): { type: 'private' | 'stream', display_recipient: string | NamedUser[], subject: string } => {
   if (isPrivateOrGroupNarrow(narrow)) {
     return {
       type: 'private',
-      display_recipient: mapEmailsToUsers(users, narrow, selfDetail),
+      display_recipient: mapEmailsToUsers(usersByEmail, narrow, selfDetail),
       subject: '',
     };
   } else if (isStreamNarrow(narrow)) {
@@ -135,7 +136,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
     messageSendStart({
       narrow,
       isSent: false,
-      ...extractTypeToAndSubjectFromNarrow(narrow, state.users, userDetail),
+      ...extractTypeToAndSubjectFromNarrow(narrow, getUsersByEmail(state), userDetail),
       markdownContent: content,
       content: getContentPreview(content, state),
       timestamp: localTime,
