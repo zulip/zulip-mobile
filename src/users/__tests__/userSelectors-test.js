@@ -3,7 +3,6 @@ import deepFreeze from 'deep-freeze';
 import {
   getAccountDetailsUserFromEmail,
   getActiveUsers,
-  getAllUsers,
   getAllUsersByEmail,
   getUsersById,
   getUsersSansMe,
@@ -67,38 +66,6 @@ describe('getActiveUsers', () => {
   });
 });
 
-describe('getAllUsers', () => {
-  test('return users, bots, and inactive users', () => {
-    const state = deepFreeze({
-      users: [{ email: 'abc@example.com' }],
-      realm: {
-        crossRealmBots: [{ email: 'def@example.com' }],
-        nonActiveUsers: [{ email: 'xyz@example.com' }],
-      },
-    });
-    const expectedResult = [
-      { email: 'abc@example.com' },
-      { email: 'xyz@example.com' },
-      { email: 'def@example.com' },
-    ];
-
-    const result = getAllUsers(state);
-
-    expect(result).toEqual(expectedResult);
-  });
-
-  test('empty state does not cause an exception, returns an empty list', () => {
-    const state = deepFreeze({
-      realm: {},
-    });
-    const expectedResult = [];
-
-    const result = getAllUsers(state);
-
-    expect(result).toEqual(expectedResult);
-  });
-});
-
 describe('getAllUsersByEmail', () => {
   test('return users mapped by their email', () => {
     const state = deepFreeze({
@@ -136,6 +103,17 @@ describe('getAllUsersByEmail', () => {
       'def@example.com': { email: 'def@example.com' },
       'xyz@example.com': { email: 'xyz@example.com' },
     };
+
+    const result = getAllUsersByEmail(state);
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  test('empty state does not cause an exception, returns an empty object', () => {
+    const state = deepFreeze({
+      realm: {},
+    });
+    const expectedResult = {};
 
     const result = getAllUsersByEmail(state);
 

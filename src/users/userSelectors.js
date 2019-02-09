@@ -23,7 +23,7 @@ export const getActiveUsers: Selector<(User | RealmBot)[]> = createSelector(
   (users = [], crossRealmBots = []) => [...users, ...crossRealmBots],
 );
 
-export const getAllUsers: Selector<(User | RealmBot)[]> = createSelector(
+const getAllUsers: Selector<(User | RealmBot)[]> = createSelector(
   getUsers,
   getNonActiveUsers,
   getCrossRealmBots,
@@ -55,13 +55,13 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
 );
 
 export const getAccountDetailsUserFromEmail = (email: string) =>
-  createSelector(getAllUsers, allUsers => {
+  createSelector(getAllUsersByEmail, allUsersByEmail => {
     if (!email) {
       return NULL_USER;
     }
 
     return (
-      allUsers.find(x => x.email === email) || {
+      allUsersByEmail[email] || {
         ...NULL_USER,
         email,
         full_name: email,

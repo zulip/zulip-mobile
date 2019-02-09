@@ -25,7 +25,7 @@ import {
   isPrivateNarrow,
 } from '../utils/narrow';
 import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
-import { getAllUsers } from '../users/userSelectors';
+import { getAllUsersByEmail } from '../users/userSelectors';
 
 export const getUnreadByStream = createSelector(
   getUnreadStreams,
@@ -180,14 +180,23 @@ export const getUnreadByHuddlesMentionsAndPMs = createSelector(
 export const getUnreadCountForNarrow = (narrow: Narrow) =>
   createSelector(
     getStreams,
-    getAllUsers,
+    getAllUsersByEmail,
     getOwnEmail,
     getUnreadTotal,
     getUnreadStreams,
     getUnreadHuddles,
     getUnreadPms,
     getMute,
-    (streams, users, ownEmail, unreadTotal, unreadStreams, unreadHuddles, unreadPms, mute) => {
+    (
+      streams,
+      usersByEmail,
+      ownEmail,
+      unreadTotal,
+      unreadStreams,
+      unreadHuddles,
+      unreadPms,
+      mute,
+    ) => {
       if (isHomeNarrow(narrow)) {
         return unreadTotal;
       }
@@ -222,7 +231,7 @@ export const getUnreadCountForNarrow = (narrow: Narrow) =>
 
       if (isGroupNarrow(narrow)) {
         const userIds = [...narrow[0].operand.split(','), ownEmail]
-          .map(email => (users.find(user => user.email === email) || NULL_USER).user_id)
+          .map(email => (usersByEmail[email] || NULL_USER).user_id)
           .sort((a, b) => a - b)
           .join(',');
         const unread = unreadHuddles.find(x => x.user_ids_string === userIds);
@@ -230,7 +239,7 @@ export const getUnreadCountForNarrow = (narrow: Narrow) =>
       }
 
       if (isPrivateNarrow(narrow)) {
-        const sender = users.find(user => user.email === narrow[0].operand);
+        const sender = usersByEmail[narrow[0].operand];
         if (!sender) {
           return 0;
         }

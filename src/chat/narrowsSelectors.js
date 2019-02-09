@@ -12,7 +12,7 @@ import {
   getOutbox,
 } from '../directSelectors';
 import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
-import { getAllUsers } from '../users/userSelectors';
+import { getAllUsersByEmail } from '../users/userSelectors';
 import { getIsFetching } from './fetchingSelectors';
 import {
   isPrivateNarrow,
@@ -81,8 +81,8 @@ export const getLastMessageId = (state: GlobalState, narrow: Narrow): ?number =>
 };
 
 export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
-  createSelector(getAllUsers, allUsers =>
-    emailsOfGroupNarrow(narrow).map(r => allUsers.find(x => x.email === r) || []),
+  createSelector(getAllUsersByEmail, allUsersByEmail =>
+    emailsOfGroupNarrow(narrow).map(r => allUsersByEmail[r] || []),
   );
 
 export const getStreamInNarrow = (narrow: Narrow) =>
@@ -121,13 +121,13 @@ export const getShowMessagePlaceholders = (narrow: Narrow) =>
   );
 
 export const isNarrowValid = (narrow: Narrow) =>
-  createSelector(getStreams, getAllUsers, (streams, allUsers) => {
+  createSelector(getStreams, getAllUsersByEmail, (streams, allUsersByEmail) => {
     if (isStreamOrTopicNarrow(narrow)) {
       return streams.find(s => s.name === narrow[0].operand) !== undefined;
     }
 
     if (isPrivateNarrow(narrow)) {
-      return allUsers.find(u => u.email === narrow[0].operand) !== undefined;
+      return allUsersByEmail[narrow[0].operand] !== undefined;
     }
 
     return true;
