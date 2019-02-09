@@ -53,6 +53,7 @@ rules:
     - emojis
     - eslint
     - facebook
+    - fcm
     - fff
     - ffffff
     - filename
@@ -61,7 +62,6 @@ rules:
     - fs
     - fullsize
     - func
-    - gcm
     - gif
     - github
     - gravatar

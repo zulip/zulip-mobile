@@ -15,6 +15,6 @@ public class FcmListenerService extends FirebaseMessagingService {
         }
         final ConversationMap conversations =
                 ((MainApplication) applicationContext).getConversations();
-        GCMPushNotifications.onReceived(this, conversations, message.getData());
+        FCMPushNotifications.onReceived(this, conversations, message.getData());
     }
 }

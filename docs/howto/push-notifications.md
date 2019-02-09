@@ -124,27 +124,27 @@ readability):
 
 ```
 $ adb logcat -T 1000 ZulipNotif:V *:E
-V ZulipNotif: getPushNotification: Bundle[{google.delivered_priority=normal,
-    sender_full_name=Othello, the Moor of Venice, google.sent_time=1541205694753, google.ttl=2419200,
-    google.original_priority=normal, sender_avatar_url=https://secure.gravatar.com/avatar/23f3blah,
-    server=10.10.116.251:9991, realm_uri=http://10.10.116.251:9991, realm_id=1, content_truncated=false,
-    zulip_message_id=108, recipient_type=private, time=1541205694, user=hamlet@zulip.com, sender_id=6,
-    alert=New private message from Othello, the Moor of Venice, event=message,
-    google.message_id=0:1541205694760139%d08e4852f9fd7ecd, content=hi, sender_email=othello@zulip.com}]
+V ZulipNotif: getPushNotification: Bundle[{sender_full_name=Greg 試し, pm_users=101712,101713,108224,
+    sender_avatar_url=https://secure.gravatar.com/avatar/39da3be46238cf93b47a1f5af3df993f?d=identicon&version=1,
+    server=zulipchat.com, realm_uri=https://kandra-test.zulipchat.com, realm_id=1230, content_truncated=false,
+    zulip_message_id=157914854, recipient_type=private, time=1549686858, user=greg+t2@zulipchat.com,
+    sender_id=101712, alert=New private group message from Greg 試し, event=message, content=C,
+    sender_email=greg+t1@zulipchat.com}]
 V ZulipNotif: java.lang.Throwable
-V ZulipNotif: 	at com.zulipmobile.MainApplication.getPushNotification(MainApplication.java:86)
-V ZulipNotif: 	at com.wix.reactnativenotifications.core.notification.PushNotification.get(PushNotification.java:45)
-V ZulipNotif: 	at com.wix.reactnativenotifications.gcm.GcmMessageHandlerService.onMessageReceived(GcmMessageHandlerService.java:19)
-V ZulipNotif: 	at com.google.android.gms.gcm.GcmListenerService.handleIntent(Unknown Source:409)
-V ZulipNotif: 	at com.google.android.gms.iid.zzj.run(Unknown Source:26)
+V ZulipNotif: 	at com.zulipmobile.notifications.FCMPushNotifications.logNotificationData(FCMPushNotifications.java:61)
+V ZulipNotif: 	at com.zulipmobile.notifications.FCMPushNotifications.onReceived(FCMPushNotifications.java:70)
+V ZulipNotif: 	at com.zulipmobile.notifications.FcmListenerService.onMessageReceived(FcmListenerService.java:18)
+V ZulipNotif: 	at com.google.firebase.messaging.FirebaseMessagingService.zzd(Unknown Source:60)
+V ZulipNotif: 	at com.google.firebase.iid.zzg.run(Unknown Source:4)
 V ZulipNotif: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
 V ZulipNotif: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+V ZulipNotif: 	at com.google.android.gms.common.util.concurrent.zza.run(Unknown Source:6)
 V ZulipNotif: 	at java.lang.Thread.run(Thread.java:764)
 ```
 
 The spew in this example is from this line in our code:
 ```
-    Log.v(NotificationHelper.TAG, "getPushNotification: " + bundle.toString(), new Throwable());
+    Log.v(TAG, "getPushNotification: " + data.toString(), new Throwable());
 ```
 (The stack trace is just for information; it doesn't represent an
 error.)

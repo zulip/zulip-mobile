@@ -15,7 +15,7 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.remobile.toast.RCTToastPackage;
 import com.zmxv.RNSound.RNSoundPackage;
-import com.zulipmobile.notifications.GCMPushNotifications;
+import com.zulipmobile.notifications.FCMPushNotifications;
 import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 
 import java.util.Arrays;
@@ -66,7 +66,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        GCMPushNotifications.createNotificationChannel(this);
+        FCMPushNotifications.createNotificationChannel(this);
         SoLoader.init(this, /* native exopackage */ false);
         conversations = new ConversationMap();
     }

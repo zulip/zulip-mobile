@@ -36,7 +36,7 @@ import static com.zulipmobile.notifications.NotificationHelper.addConversationTo
 import static com.zulipmobile.notifications.NotificationHelper.removeMessageFromMap;
 import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
-public class GCMPushNotifications {
+public class FCMPushNotifications {
 
     private static final String CHANNEL_ID = "default";
     private static final int NOTIFICATION_ID = 435;
@@ -82,7 +82,7 @@ public class GCMPushNotifications {
             }
             break;
           default:
-            Log.w(TAG, "Ignoring GCM message of unknown event type: " + eventType);
+            Log.w(TAG, "Ignoring FCM message of unknown event type: " + eventType);
             break;
         }
     }
