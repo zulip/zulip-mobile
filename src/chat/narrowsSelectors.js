@@ -80,19 +80,6 @@ export const getLastMessageId = (state: GlobalState, narrow: Narrow): ?number =>
   return ids.length > 0 ? ids[ids.length - 1] : undefined;
 };
 
-export const getLastTopicForNarrow = (narrow: Narrow): Selector<string> =>
-  createSelector(
-    state => getMessagesForNarrow(state, narrow),
-    messages => {
-      for (let i = messages.length - 1; i >= 0; i--) {
-        if (messages[i].subject) {
-          return messages[i].subject;
-        }
-      }
-      return '';
-    },
-  );
-
 export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
   createSelector(getAllUsers, allUsers =>
     emailsOfGroupNarrow(narrow).map(r => allUsers.find(x => x.email === r) || []),

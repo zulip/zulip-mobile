@@ -3,7 +3,6 @@ import deepFreeze from 'deep-freeze';
 import {
   getFirstMessageId,
   getLastMessageId,
-  getLastTopicForNarrow,
   getMessagesForNarrow,
   getStreamInNarrow,
   isNarrowValid,
@@ -193,73 +192,6 @@ describe('getLastMessageId', () => {
     const anchor = getLastMessageId(state, HOME_NARROW);
 
     expect(anchor).toEqual(3);
-  });
-});
-
-describe('getLastTopicForNarrow', () => {
-  test('when no messages yet, return empty string', () => {
-    const state = deepFreeze({
-      narrows: {},
-      messages: {},
-      outbox: [],
-    });
-
-    const actualLastTopic = getLastTopicForNarrow(HOME_NARROW)(state);
-
-    expect(actualLastTopic).toEqual('');
-  });
-
-  test('when last message has a `subject` property, return it', () => {
-    const state = deepFreeze({
-      narrows: {
-        [HOME_NARROW_STR]: [0, 1],
-      },
-      messages: {
-        0: { subject: 'First subject' },
-        1: { subject: 'Last subject' },
-      },
-      outbox: [],
-    });
-
-    const actualLastTopic = getLastTopicForNarrow(HOME_NARROW)(state);
-
-    expect(actualLastTopic).toEqual('Last subject');
-  });
-
-  test('when there are messages, but none with a `subject` property, return empty', () => {
-    const narrow = privateNarrow('john@example.com');
-    const state = deepFreeze({
-      narrows: {
-        [JSON.stringify(narrow)]: [0],
-      },
-      messages: {
-        0: {},
-      },
-      outbox: [],
-    });
-
-    const actualLastTopic = getLastTopicForNarrow(narrow)(state);
-
-    expect(actualLastTopic).toEqual('');
-  });
-
-  test('when last message has no `subject` property, return last one that has', () => {
-    const narrow = privateNarrow('john@example.com');
-    const state = deepFreeze({
-      narrows: {
-        [JSON.stringify(narrow)]: [0, 1, 2],
-      },
-      messages: {
-        0: {},
-        1: { id: 1, subject: 'Some subject' },
-        2: {},
-      },
-      outbox: [],
-    });
-
-    const actualLastTopic = getLastTopicForNarrow(narrow)(state);
-
-    expect(actualLastTopic).toEqual('Some subject');
   });
 });
 
