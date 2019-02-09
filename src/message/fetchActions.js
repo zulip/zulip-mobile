@@ -6,8 +6,8 @@ import {
   getSession,
   getFirstMessageId,
   getLastMessageId,
-  getCaughtUpForActiveNarrow,
-  getFetchingForActiveNarrow,
+  getCaughtUpForNarrow,
+  getFetchingForNarrow,
   getTopMostNarrow,
 } from '../selectors';
 import config from '../config';
@@ -90,8 +90,8 @@ export const fetchMessagesAtFirstUnread = (narrow: Narrow) =>
 export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const firstMessageId = getFirstMessageId(narrow)(state);
-  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
-  const fetching = getFetchingForActiveNarrow(narrow)(state);
+  const caughtUp = getCaughtUpForNarrow(narrow)(state);
+  const fetching = getFetchingForNarrow(narrow)(state);
   const { needsInitialFetch } = getSession(state);
 
   if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId) {
@@ -102,8 +102,8 @@ export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
 export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const lastMessageId = getLastMessageId(narrow)(state);
-  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
-  const fetching = getFetchingForActiveNarrow(narrow)(state);
+  const caughtUp = getCaughtUpForNarrow(narrow)(state);
+  const fetching = getFetchingForNarrow(narrow)(state);
   const { needsInitialFetch } = getSession(state);
 
   if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId) {
@@ -120,7 +120,7 @@ const initialFetchComplete = (): Action => ({
 });
 
 const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
-  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
+  const caughtUp = getCaughtUpForNarrow(narrow)(state);
   if (caughtUp.newer && caughtUp.older) {
     return false;
   }

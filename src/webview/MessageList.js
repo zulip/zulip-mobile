@@ -31,8 +31,8 @@ import {
   getDebug,
   getRenderedMessages,
   getFlags,
-  getAnchorForActiveNarrow,
-  getFetchingForActiveNarrow,
+  getAnchorForNarrow,
+  getFetchingForNarrow,
   getMute,
   getOwnEmail,
   getSettings,
@@ -226,8 +226,8 @@ export default connect((state: GlobalState, props: OuterProps) => {
 
   return {
     backgroundData,
-    anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
-    fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
+    anchor: props.anchor || getAnchorForNarrow(props.narrow)(state),
+    fetching: props.fetching || getFetchingForNarrow(props.narrow)(state),
     messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
     showMessagePlaceholders:

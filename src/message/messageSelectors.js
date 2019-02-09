@@ -24,7 +24,7 @@ export const getPrivateMessages: Selector<Message[]> = createSelector(
 export const getRenderedMessages = (narrow: Narrow): Selector<RenderedSectionDescriptor[]> =>
   createSelector(getShownMessagesForNarrow(narrow), messages => renderMessages(messages, narrow));
 
-export const getAnchorForActiveNarrow = (narrow: Narrow): Selector<number> =>
+export const getAnchorForNarrow = (narrow: Narrow): Selector<number> =>
   createSelector(
     getShownMessagesForNarrow(narrow),
     getFlags,

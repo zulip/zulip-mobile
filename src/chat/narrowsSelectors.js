@@ -10,7 +10,7 @@ import {
   getStreams,
   getOutbox,
 } from '../directSelectors';
-import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
+import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
 import { getAllUsers } from '../users/userSelectors';
 import { getIsFetching } from './fetchingSelectors';
 import {
@@ -26,7 +26,7 @@ import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const outboxMessagesForCurrentNarrow = (narrow: Narrow): Selector<Outbox[]> =>
-  createSelector(getCaughtUpForActiveNarrow(narrow), getOutbox, (caughtUp, outboxMessages) => {
+  createSelector(getCaughtUpForNarrow(narrow), getOutbox, (caughtUp, outboxMessages) => {
     if (!caughtUp.newer) {
       return [];
     }

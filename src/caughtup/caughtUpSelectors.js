@@ -12,5 +12,5 @@ export const DEFAULT_CAUGHTUP: CaughtUp = {
 
 export const getCaughtUp = (state: GlobalState): CaughtUpState => state.caughtUp || NULL_OBJECT;
 
-export const getCaughtUpForActiveNarrow = (narrow: Narrow): Selector<CaughtUp> =>
+export const getCaughtUpForNarrow = (narrow: Narrow): Selector<CaughtUp> =>
   createSelector(getCaughtUp, caughtUp => caughtUp[JSON.stringify(narrow)] || DEFAULT_CAUGHTUP);

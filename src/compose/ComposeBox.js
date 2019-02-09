@@ -37,7 +37,7 @@ import {
   getIsActiveStreamSubscribed,
   getIsActiveStreamAnnouncementOnly,
 } from '../subscriptions/subscriptionSelectors';
-import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
+import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
 
@@ -401,6 +401,6 @@ export default connect((state: GlobalState, props) => ({
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(props.narrow)(state),
   isSubscribed: getIsActiveStreamSubscribed(props.narrow)(state),
   editMessage: getSession(state).editMessage,
-  draft: getDraftForActiveNarrow(props.narrow)(state),
+  draft: getDraftForNarrow(props.narrow)(state),
   lastMessageTopic: getLastMessageTopic(props.narrow)(state),
 }))(ComposeBox);
