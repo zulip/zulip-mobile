@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { RealmBot, Selector, User, UserIdMap } from '../types';
+import type { RealmBot, Selector, User, UserIdMapObject } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 import { getOwnEmail } from '../account/accountsSelectors';
@@ -41,7 +41,7 @@ export const getAllUsersByEmail = createSelector(getAllUsers, allUsers =>
   }, {}),
 );
 
-export const getUsersById: Selector<UserIdMap> = createSelector(getUsers, (users = []) =>
+export const getUsersById: Selector<UserIdMapObject> = createSelector(getUsers, (users = []) =>
   users.reduce((usersById, user) => {
     usersById[user.user_id] = user;
     return usersById;

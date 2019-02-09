@@ -2,7 +2,7 @@
 import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
 import NotificationsIOS from 'react-native-notifications';
 
-import type { Auth, Dispatch, Narrow, Notification, UserIdMap } from '../types';
+import type { Auth, Dispatch, Narrow, Notification, UserIdMapObject } from '../types';
 import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import { forgetPushToken } from '../api';
 import { logErrorRemotely } from '../utils/logging';
@@ -16,7 +16,7 @@ import { identityOfAuth } from '../account/accountMisc';
 
 export const getNarrowFromNotificationData = (
   data: ?Notification,
-  usersById: UserIdMap,
+  usersById: UserIdMapObject,
 ): Narrow | null => {
   if (!data || !data.recipient_type) {
     return null;

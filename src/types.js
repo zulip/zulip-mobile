@@ -125,7 +125,7 @@ export type MessagesState = {|
   [id: number]: $Exact<Message>,
 |};
 
-export type UserIdMap = {
+export type UserIdMapObject = {
   [userId: number]: User,
 };
 
@@ -143,11 +143,11 @@ export type UserStatus = {|
   status_text?: string,
 |};
 
-export type UserStatusMap = {|
+export type UserStatusMapObject = {|
   [userId: number]: UserStatus,
 |};
 
-export type UserStatusState = UserStatusMap;
+export type UserStatusState = UserStatusMapObject;
 
 export type UserGroup = {|
   description: string,
@@ -732,7 +732,7 @@ export type InitialDataUserStatus = {|
    * Older servers (through at least 1.9.1) don't send this.
    * A missing value is equivalent to empty.
    */
-  user_status?: UserStatusMap,
+  user_status?: UserStatusMapObject,
 |};
 
 export type InitialData = {|
