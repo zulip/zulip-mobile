@@ -32,11 +32,11 @@ describe('getNarrowFromNotificationData', () => {
       recipient_type: 'private',
       pm_users: '1,2,4',
     };
-    const usersById = {
-      '1': { email: 'me@example.com' },
-      '2': { email: 'mark@example.com' },
-      '4': { email: 'john@example.com' },
-    };
+    const usersById = new Map([
+      [1, { email: 'me@example.com' }],
+      [2, { email: 'mark@example.com' }],
+      [4, { email: 'john@example.com' }],
+    ]);
     const expectedNarrow = groupNarrow(['me@example.com', 'mark@example.com', 'john@example.com']);
 
     const narrow = getNarrowFromNotificationData(notification, usersById);
@@ -49,7 +49,7 @@ describe('getNarrowFromNotificationData', () => {
       recipient_type: 'private',
       pm_users: '1,2,4',
     };
-    const usersById = {};
+    const usersById = new Map();
 
     const narrow = getNarrowFromNotificationData(notification, usersById);
 

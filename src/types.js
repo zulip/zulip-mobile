@@ -125,10 +125,6 @@ export type MessagesState = {|
   [id: number]: $Exact<Message>,
 |};
 
-export type UserIdMapObject = {
-  [userId: number]: User,
-};
-
 /**
  * Specifies user status related properties
  * @prop away - present if we are to override user's presence status

@@ -130,11 +130,11 @@ describe('getUsersById', () => {
         { user_id: 3, email: 'xyz@example.com' },
       ],
     });
-    const expectedResult = {
-      1: { user_id: 1, email: 'abc@example.com' },
-      2: { user_id: 2, email: 'def@example.com' },
-      3: { user_id: 3, email: 'xyz@example.com' },
-    };
+    const expectedResult = new Map([
+      [1, { user_id: 1, email: 'abc@example.com' }],
+      [2, { user_id: 2, email: 'def@example.com' }],
+      [3, { user_id: 3, email: 'xyz@example.com' }],
+    ]);
 
     const result = getUsersById(state);
 
