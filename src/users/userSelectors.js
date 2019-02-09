@@ -34,16 +34,21 @@ const getAllUsers: Selector<(User | RealmBot)[]> = createSelector(
   ],
 );
 
+export const getUsersById: Selector<Map<number, User>> = createSelector(
+  getUsers,
+  (users = []) => new Map(users.map(user => [user.user_id, user])),
+);
+
+export const getUsersByEmail: Selector<Map<string, User>> = createSelector(
+  getUsers,
+  (users = []) => new Map(users.map(user => [user.email, user])),
+);
+
 export const getAllUsersByEmail = createSelector(getAllUsers, allUsers =>
   allUsers.reduce((usersByEmail, user) => {
     usersByEmail[user.email] = user;
     return usersByEmail;
   }, {}),
-);
-
-export const getUsersById: Selector<Map<number, User>> = createSelector(
-  getUsers,
-  (users = []) => new Map(users.map(user => [user.user_id, user])),
 );
 
 export const getUsersSansMe: Selector<User[]> = createSelector(
