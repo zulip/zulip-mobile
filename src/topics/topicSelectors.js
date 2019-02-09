@@ -62,6 +62,6 @@ export const getTopicsForStream = (streamId: number): Selector<?(TopicExtended[]
 
 export const getLastMessageTopic = (narrow: Narrow): Selector<string> =>
   createSelector(
-    getShownMessagesForNarrow(narrow),
+    state => getShownMessagesForNarrow(state, narrow),
     messages => (messages.length === 0 ? '' : messages[messages.length - 1].subject),
   );

@@ -228,7 +228,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
     backgroundData,
     anchor: props.anchor || getAnchorForNarrow(props.narrow)(state),
     fetching: props.fetching || getFetchingForNarrow(props.narrow)(state),
-    messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
+    messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
     showMessagePlaceholders:
       props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),

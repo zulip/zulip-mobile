@@ -59,14 +59,14 @@ export const getMessagesForNarrow:
   },
 );
 
-export const getShownMessagesForNarrow = (
-  narrow: Narrow,
-): Selector<$ReadOnlyArray<Message | Outbox>> =>
+// prettier-ignore
+export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox>, Narrow> =
   createSelector(
-    state => getMessagesForNarrow(state, narrow),
-    getSubscriptions,
-    getMute,
-    (messagesForNarrow, subscriptions, mute) =>
+    (state, narrow) => narrow,
+    getMessagesForNarrow,
+    state => getSubscriptions(state),
+    state => getMute(state),
+    (narrow, messagesForNarrow, subscriptions, mute) =>
       messagesForNarrow.filter(item => !shouldBeMuted(item, narrow, subscriptions, mute)),
   );
 
@@ -123,7 +123,10 @@ export const getStreamInNarrow = (narrow: Narrow) =>
   });
 
 export const getIfNoMessages = (narrow: Narrow) =>
-  createSelector(getShownMessagesForNarrow(narrow), messages => messages && messages.length === 0);
+  createSelector(
+    state => getShownMessagesForNarrow(state, narrow),
+    messages => messages && messages.length === 0,
+  );
 
 export const getShowMessagePlaceholders = (narrow: Narrow) =>
   createSelector(
