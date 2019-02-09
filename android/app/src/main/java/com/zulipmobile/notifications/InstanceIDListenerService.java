@@ -1,16 +1,17 @@
 package com.zulipmobile.notifications;
 
-import android.content.Intent;
+import com.facebook.react.ReactApplication;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
-public class InstanceIDListenerService extends com.google.android.gms.iid.InstanceIDListenerService {
+public class InstanceIDListenerService extends FirebaseInstanceIdService {
     /**
-     * Called by the GCM framework if for some reason the token changes.
+     * Called by the Firebase framework when the InstanceID token is updated.
      *
-     * Compare upstream example code:
-     *   https://github.com/googlesamples/google-services/blob/3e2518f6d/android/gcm/app/src/main/java/gcm/play/android/samples/com/gcmquickstart/MyInstanceIDListenerService.java
+     * Mainly this means on first registration, but the framework
+     * might choose to rotate the token later.
      */
     @Override
     public void onTokenRefresh() {
-        startService(new Intent(this, RegistrationIntentService.class));
+        NotificationsModule.emitToken((ReactApplication) getApplication());
     }
 }

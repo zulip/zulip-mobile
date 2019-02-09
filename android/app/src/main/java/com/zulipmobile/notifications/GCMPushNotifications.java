@@ -24,6 +24,7 @@ import com.zulipmobile.R;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.Map;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
@@ -60,7 +61,12 @@ public class GCMPushNotifications {
         Log.v(TAG, "getPushNotification: " + data.toString(), new Throwable());
     }
 
-    static void onReceived(Context context, ConversationMap conversations, Bundle data) {
+    static void onReceived(Context context, ConversationMap conversations, Map<String, String> mapData) {
+        // TODO refactor to not need this; reflects a juxtaposition of FCM with old GCM interfaces.
+        final Bundle data = new Bundle();
+        for (Map.Entry<String, String> entry : mapData.entrySet()) {
+            data.putString(entry.getKey(), entry.getValue());
+        }
         logNotificationData(data);
         final PushNotificationsProp props = new PushNotificationsProp(data);
         final String eventType = props.getEvent();
