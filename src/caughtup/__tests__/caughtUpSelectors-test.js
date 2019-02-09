@@ -11,7 +11,7 @@ describe('getCaughtUpForNarrow', () => {
       },
     });
 
-    const caughtUp = getCaughtUpForNarrow(HOME_NARROW)(state);
+    const caughtUp = getCaughtUpForNarrow(state, HOME_NARROW);
 
     expect(caughtUp).toEqual({ older: false, newer: true });
   });
@@ -21,7 +21,7 @@ describe('getCaughtUpForNarrow', () => {
       caughtUp: {},
     });
 
-    const caughtUp = getCaughtUpForNarrow(HOME_NARROW)(state);
+    const caughtUp = getCaughtUpForNarrow(state, HOME_NARROW);
 
     expect(caughtUp).toEqual({ older: false, newer: false });
   });

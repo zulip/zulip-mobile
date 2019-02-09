@@ -90,7 +90,7 @@ export const fetchMessagesAtFirstUnread = (narrow: Narrow) =>
 export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const firstMessageId = getFirstMessageId(narrow)(state);
-  const caughtUp = getCaughtUpForNarrow(narrow)(state);
+  const caughtUp = getCaughtUpForNarrow(state, narrow);
   const fetching = getFetchingForNarrow(narrow)(state);
   const { needsInitialFetch } = getSession(state);
 
@@ -102,7 +102,7 @@ export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
 export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const lastMessageId = getLastMessageId(narrow)(state);
-  const caughtUp = getCaughtUpForNarrow(narrow)(state);
+  const caughtUp = getCaughtUpForNarrow(state, narrow);
   const fetching = getFetchingForNarrow(narrow)(state);
   const { needsInitialFetch } = getSession(state);
 
@@ -120,7 +120,7 @@ const initialFetchComplete = (): Action => ({
 });
 
 const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
-  const caughtUp = getCaughtUpForNarrow(narrow)(state);
+  const caughtUp = getCaughtUpForNarrow(state, narrow);
   if (caughtUp.newer && caughtUp.older) {
     return false;
   }

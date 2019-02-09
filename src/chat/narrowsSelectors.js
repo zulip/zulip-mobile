@@ -26,25 +26,29 @@ import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const outboxMessagesForNarrow = (narrow: Narrow): Selector<Outbox[]> =>
-  createSelector(getCaughtUpForNarrow(narrow), getOutbox, (caughtUp, outboxMessages) => {
-    if (!caughtUp.newer) {
-      return [];
-    }
-
-    if (isHomeNarrow(narrow)) {
-      return outboxMessages;
-    }
-
-    return outboxMessages.filter(item => {
-      if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) {
-        return true;
+  createSelector(
+    state => getCaughtUpForNarrow(state, narrow),
+    getOutbox,
+    (caughtUp, outboxMessages) => {
+      if (!caughtUp.newer) {
+        return [];
       }
-      if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) {
-        return true;
+
+      if (isHomeNarrow(narrow)) {
+        return outboxMessages;
       }
-      return JSON.stringify(item.narrow) === JSON.stringify(narrow);
-    });
-  });
+
+      return outboxMessages.filter(item => {
+        if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) {
+          return true;
+        }
+        if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) {
+          return true;
+        }
+        return JSON.stringify(item.narrow) === JSON.stringify(narrow);
+      });
+    },
+  );
 
 export const getFetchedMessagesForNarrow = (narrow: Narrow): Selector<Message[]> =>
   createSelector(getAllNarrows, getMessages, (allNarrows, messages) =>
