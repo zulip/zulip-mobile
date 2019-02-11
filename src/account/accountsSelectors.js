@@ -14,10 +14,11 @@ export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
  * This should be used in preference to `getAccounts` where we don't
  * actually need the API keys, but just need to know whether we have them.
  */
-export const getAccountStatuses = (state: GlobalState): AccountStatus[] => {
-  const accounts = getAccounts(state);
-  return accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' }));
-};
+export const getAccountStatuses: Selector<$ReadOnlyArray<AccountStatus>> = createSelector(
+  getAccounts,
+  accounts =>
+    accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
+);
 
 /**
  * All known accounts, indexed by identity.
