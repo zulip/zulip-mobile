@@ -12,7 +12,7 @@ import { HOME_NARROW, SEARCH_NARROW } from '../utils/narrow';
 import MessageList from '../webview/MessageList';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
-import { NULL_ARRAY, NULL_FETCHING } from '../nullObjects';
+import { NULL_ARRAY } from '../nullObjects';
 import { getAuth } from '../selectors';
 import { LAST_MESSAGE_ANCHOR } from '../constants';
 
@@ -64,6 +64,8 @@ class SearchMessagesCard extends PureComponent<Props, State> {
     }
   }
 
+  static NOT_FETCHING = { older: false, newer: false };
+
   render() {
     const { isFetching, messages } = this.state;
     const { query } = this.props;
@@ -86,7 +88,7 @@ class SearchMessagesCard extends PureComponent<Props, State> {
             messages={messages}
             narrow={HOME_NARROW}
             renderedMessages={renderedMessages}
-            fetching={NULL_FETCHING}
+            fetching={SearchMessagesCard.NOT_FETCHING}
             showMessagePlaceholders={false}
             typingUsers={NULL_ARRAY}
           />
