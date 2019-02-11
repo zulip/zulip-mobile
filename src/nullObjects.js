@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { User, Subscription, NavigationState } from './types';
+import type { User, Subscription } from './types';
 
 export const NULL_OBJECT = Object.freeze({});
 
@@ -41,12 +41,4 @@ export const NULL_SUBSCRIPTION: Subscription = {
   is_old_stream: false,
   is_announcement_only: false,
   history_public_to_subscribers: false,
-};
-
-/** DEPRECATED; don't add new uses.  See block comment above definition. */
-export const NULL_NAV_STATE: NavigationState = {
-  index: -1,
-  isTransitioning: false,
-  key: '',
-  routes: [],
 };
