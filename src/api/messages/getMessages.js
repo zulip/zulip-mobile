@@ -5,13 +5,20 @@ import { apiGet } from '../apiFetch';
 type ApiResponseMessages = {|
   ...ApiResponseSuccess,
   anchor: number,
-  found_anchor: boolean,
-  found_newest: boolean,
-  found_oldest: boolean,
+  found_anchor?: boolean,
+  found_newest?: boolean,
+  found_oldest?: boolean,
   messages: Message[],
 |};
 
-/** See https://zulipchat.com/api/get-messages */
+/**
+ * See https://zulipchat.com/api/get-messages
+ *
+ * These values exist only in Zulip 1.8 or newer:
+ *   * found_anchor
+ *   * found_newest
+ *   * found_oldest
+ */
 export default async (
   auth: Auth,
   narrow: Narrow,
