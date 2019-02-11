@@ -71,13 +71,13 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
   );
 
 export const getFirstMessageId = (state: GlobalState, narrow: Narrow): ?number => {
-  const messages = getFetchedMessagesForNarrow(state, narrow);
-  return messages.length > 0 ? messages[0].id : undefined;
+  const ids = getFetchedMessageIdsForNarrow(state, narrow);
+  return ids.length > 0 ? ids[0] : undefined;
 };
 
 export const getLastMessageId = (state: GlobalState, narrow: Narrow): ?number => {
-  const messages = getFetchedMessagesForNarrow(state, narrow);
-  return messages.length > 0 ? messages[messages.length - 1].id : undefined;
+  const ids = getFetchedMessageIdsForNarrow(state, narrow);
+  return ids.length > 0 ? ids[ids.length - 1] : undefined;
 };
 
 export const getLastTopicForNarrow = (narrow: Narrow): Selector<string> =>
