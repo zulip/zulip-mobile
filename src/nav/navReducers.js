@@ -3,7 +3,6 @@ import type { NavigationAction } from 'react-navigation';
 
 import type { NavigationState, Action } from '../types';
 import AppNavigator from './AppNavigator';
-import { NULL_NAV_STATE } from '../nullObjects';
 import {
   REHYDRATE,
   INITIAL_FETCH_COMPLETE,
@@ -13,31 +12,40 @@ import {
 } from '../actionConstants';
 import { hasAuth } from '../account/accountsSelectors';
 
-export const getStateForRoute = (route: string) => {
+/**
+ * Get the initial state for the given route.
+ *
+ * Private; exported only for tests.
+ */
+export const getStateForRoute = (route: string): NavigationState => {
   const action = AppNavigator.router.getActionForPathAndParams(route);
-  return action != null ? AppNavigator.router.getStateForAction(action) : null;
+  if (!action) {
+    // The argument should be a constant string that is a genuine nav route;
+    // so this condition can only happen if we've gotten that wrong.
+    throw new Error(`bad route: ${route}`);
+  }
+  const state = AppNavigator.router.getStateForAction(action);
+  if (!state) {
+    throw new Error(`bad route at getStateForAction: ${route}`);
+  }
+  return state;
 };
 
 const rehydrate = (state, action) => {
   if (!action.payload || !action.payload.accounts) {
-    return getStateForRoute('welcome') || state;
+    return getStateForRoute('welcome');
   }
 
   const rehydratedState = action.payload;
   if (!hasAuth(rehydratedState)) {
     const { accounts } = rehydratedState;
-    const result = getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
-    // getStateForRoute can return null, but it is unclear under what
-    // conditions. Empirically, it doesn't return null on the initial start of
-    // the app, but this should be verified.
-    // $FlowFixMe: getStateForRoute may return null but it shouldn't.
-    return (result: NavigationState);
+    return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
   }
 
-  return getStateForRoute('main') || state;
+  return getStateForRoute('main');
 };
 
-const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
+const initialState = getStateForRoute('loading');
 
 export default (state: NavigationState = initialState, action: Action): NavigationState => {
   switch (action.type) {
@@ -45,16 +53,16 @@ export default (state: NavigationState = initialState, action: Action): Navigati
       return rehydrate(state, action);
 
     case ACCOUNT_SWITCH:
-      return getStateForRoute('loading') || state;
+      return getStateForRoute('loading');
 
     case LOGIN_SUCCESS:
-      return getStateForRoute('main') || state;
+      return getStateForRoute('main');
 
     case INITIAL_FETCH_COMPLETE:
-      return state.routes[0].routeName === 'main' ? state : getStateForRoute('main') || state;
+      return state.routes[0].routeName === 'main' ? state : getStateForRoute('main');
 
     case LOGOUT:
-      return getStateForRoute('account') || state;
+      return getStateForRoute('account');
 
     default: {
       // The `react-navigation` libdef says this only takes a NavigationAction,
