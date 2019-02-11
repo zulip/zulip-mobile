@@ -41,8 +41,8 @@ const messageFetchComplete = (
   anchor: number,
   numBefore: number,
   numAfter: number,
-  foundNewest: ?boolean,
-  foundOldest: ?boolean,
+  foundNewest?: boolean,
+  foundOldest?: boolean,
 ): Action => ({
   type: MESSAGE_FETCH_COMPLETE,
   messages,
