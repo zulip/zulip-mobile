@@ -16,6 +16,7 @@ const messageFetchComplete = (state, action) => {
   const key = JSON.stringify(action.narrow);
 
   if (action.foundNewest !== undefined && action.foundOldest !== undefined) {
+    /* This should always be the case for Zulip Server v1.8 or newer. */
     return {
       ...state,
       [key]: {
@@ -24,6 +25,8 @@ const messageFetchComplete = (state, action) => {
       },
     };
   }
+
+  /* A legacy server.  Try to infer the caught-up state ourselves. */
 
   if (action.anchor === LAST_MESSAGE_ANCHOR) {
     return {
