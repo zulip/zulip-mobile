@@ -90,7 +90,10 @@ export const authOfAccount = (account: Account): Auth => {
  *  * `tryGetAuth` again, for use where there might not be an active account.
  *  * `getAuth` for use in the bulk of the app.
  */
-export const getPartialAuth = (state: GlobalState): Auth => authOfAccount(getActiveAccount(state));
+export const getPartialAuth: Selector<Auth> = createSelector(getActiveAccount, account => {
+  const auth = authOfAccount(account);
+  return auth;
+});
 
 /**
  * The auth object for the active, logged-in account, or undefined if none.
