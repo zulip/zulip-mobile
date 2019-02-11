@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import isEqual from 'lodash.isequal';
 import { createSelector } from 'reselect';
 import type { OutputSelector } from 'reselect';
 
@@ -15,13 +16,10 @@ import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
 import { getAllUsers } from '../users/userSelectors';
 import { getIsFetching } from './fetchingSelectors';
 import {
-  isAllPrivateNarrow,
-  isPrivateOrGroupNarrow,
-  isStreamNarrow,
-  isHomeNarrow,
   isPrivateNarrow,
   isStreamOrTopicNarrow,
   emailsOfGroupNarrow,
+  narrowContains,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
@@ -34,22 +32,10 @@ export const outboxMessagesForNarrow:
   state => getOutbox(state),
   (narrow, caughtUp, outboxMessages) => {
     if (!caughtUp.newer) {
-      return [];
+      return NULL_ARRAY;
     }
-
-    if (isHomeNarrow(narrow)) {
-      return outboxMessages;
-    }
-
-    return outboxMessages.filter(item => {
-      if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) {
-        return true;
-      }
-      if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) {
-        return true;
-      }
-      return JSON.stringify(item.narrow) === JSON.stringify(narrow);
-    });
+    const filtered = outboxMessages.filter(item => narrowContains(narrow, item.narrow));
+    return isEqual(filtered, outboxMessages) ? outboxMessages : filtered;
   },
 );
 
