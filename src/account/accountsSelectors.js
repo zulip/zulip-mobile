@@ -146,7 +146,7 @@ export const getAuth = (state: GlobalState): Auth => {
  *
  * See `getAuth` and `tryGetAuth` for discussion.
  */
-export const getIdentity = (state: GlobalState): Identity => {
-  const { email, realm } = getAuth(state);
+export const getIdentity: Selector<Identity> = createSelector(getAuth, auth => {
+  const { email, realm } = auth;
   return { email, realm };
-};
+});
