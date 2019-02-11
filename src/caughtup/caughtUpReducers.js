@@ -8,7 +8,8 @@ import {
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../constants';
-import { NULL_CAUGHTUP, NULL_OBJECT } from '../nullObjects';
+import { NULL_OBJECT } from '../nullObjects';
+import { DEFAULT_CAUGHTUP } from './caughtUpSelectors';
 
 const initialState: CaughtUpState = NULL_OBJECT;
 
@@ -45,7 +46,7 @@ const legacyInferCaughtUp = (prevCaughtUp: CaughtUp | void, action) => {
   const caughtUpOlder = anchorIdx < action.numBefore;
   const caughtUpNewer = action.messages.length - anchorIdx + adjustment < action.numAfter;
 
-  const { older: prevOlder, newer: prevNewer } = prevCaughtUp || NULL_CAUGHTUP;
+  const { older: prevOlder, newer: prevNewer } = prevCaughtUp || DEFAULT_CAUGHTUP;
 
   return {
     older: prevOlder || caughtUpOlder,
