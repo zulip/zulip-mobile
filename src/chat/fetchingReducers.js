@@ -9,13 +9,14 @@ import {
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
-import { NULL_FETCHING, NULL_OBJECT } from '../nullObjects';
+import { NULL_OBJECT } from '../nullObjects';
+import { DEFAULT_FETCHING } from './fetchingSelectors';
 
 const initialState: FetchingState = NULL_OBJECT;
 
 const messageFetchStart = (state, action) => {
   const key = JSON.stringify(action.narrow);
-  const currentValue = state[key] || NULL_FETCHING;
+  const currentValue = state[key] || DEFAULT_FETCHING;
 
   return {
     ...state,
@@ -28,7 +29,7 @@ const messageFetchStart = (state, action) => {
 
 const messageFetchComplete = (state, action) => {
   const key = JSON.stringify(action.narrow);
-  const currentValue = state[key] || NULL_FETCHING;
+  const currentValue = state[key] || DEFAULT_FETCHING;
 
   return {
     ...state,
