@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { Account, Auth, GlobalState, Identity, Selector } from '../types';
 import { getAccounts } from '../directSelectors';
-import { identityOfAccount, keyOfIdentity, identityOfAuth } from './accountMisc';
+import { identityOfAccount, keyOfIdentity, identityOfAuth, authOfAccount } from './accountMisc';
 
 /** See `getAccountStatuses`. */
 export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
@@ -67,11 +67,6 @@ export const getOwnEmail = (state: GlobalState): string => getActiveAccount(stat
 
 /** The realm of the active account; throws if none. */
 export const getCurrentRealm = (state: GlobalState) => getActiveAccount(state).realm;
-
-export const authOfAccount = (account: Account): Auth => {
-  const { realm, email, apiKey } = account;
-  return { realm, email, apiKey };
-};
 
 /**
  * The auth object for the active account, even if not logged in; throws if none.

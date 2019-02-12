@@ -11,8 +11,7 @@ import {
 import { getAuth, getActiveAccount } from '../selectors';
 import { getSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
-import { authOfAccount } from '../account/accountsSelectors';
-import { identityOfAccount } from '../account/accountMisc';
+import { identityOfAccount, authOfAccount } from '../account/accountMisc';
 import { getUsersById } from '../users/userSelectors';
 import { doNarrow } from '../message/messagesActions';
 
