@@ -113,7 +113,11 @@ class Lightbox extends PureComponent<Props, State> {
           <LightboxHeader
             onPressBack={this.handlePressBack}
             timestamp={message.timestamp}
-            avatarUrl={message.avatar_url || getGravatarFromEmail(message.sender_email)}
+            avatarUrl={
+              typeof message.avatar_url === 'string'
+                ? message.avatar_url
+                : getGravatarFromEmail(message.sender_email)
+            }
             senderName={message.sender_full_name}
           />
         </SlideAnimationView>
