@@ -9,8 +9,12 @@ import { isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients } from '../utils/recipient';
 import { NULL_ARRAY } from '../nullObjects';
 
-export const getCurrentTypingUsers = (narrow: Narrow): Selector<User[]> =>
-  createSelector(getTyping, getUsers, getOwnEmail, (typing, users, ownEmail) => {
+export const getCurrentTypingUsers: Selector<$ReadOnlyArray<User>, Narrow> = createSelector(
+  (state, narrow) => narrow,
+  state => getTyping(state),
+  state => getUsers(state),
+  state => getOwnEmail(state),
+  (narrow, typing, users, ownEmail): User[] => {
     if (!isPrivateOrGroupNarrow(narrow)) {
       return NULL_ARRAY;
     }
@@ -24,4 +28,5 @@ export const getCurrentTypingUsers = (narrow: Narrow): Selector<User[]> =>
     }
 
     return currentTyping.userIds.map(userId => getUserById(users, userId));
-  });
+  },
+);

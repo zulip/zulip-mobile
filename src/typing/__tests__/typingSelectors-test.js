@@ -10,7 +10,7 @@ describe('getCurrentTypingUsers', () => {
       accounts: [{}],
     });
 
-    const typingUsers = getCurrentTypingUsers(HOME_NARROW)(state);
+    const typingUsers = getCurrentTypingUsers(state, HOME_NARROW);
 
     expect(typingUsers).toBe(NULL_ARRAY);
   });
@@ -30,7 +30,7 @@ describe('getCurrentTypingUsers', () => {
       users: [expectedUser],
     });
 
-    const typingUsers = getCurrentTypingUsers(privateNarrow('john@example.com'))(state);
+    const typingUsers = getCurrentTypingUsers(state, privateNarrow('john@example.com'));
 
     expect(typingUsers).toEqual([expectedUser]);
   });
@@ -57,8 +57,9 @@ describe('getCurrentTypingUsers', () => {
     });
 
     const typingUsers = getCurrentTypingUsers(
+      state,
       groupNarrow(['john@example.com', 'mark@example.com']),
-    )(state);
+    );
 
     expect(typingUsers).toEqual([user1, user2]);
   });
@@ -71,7 +72,7 @@ describe('getCurrentTypingUsers', () => {
       },
     });
 
-    const typingUsers = getCurrentTypingUsers(privateNarrow('mark@example.com'))(state);
+    const typingUsers = getCurrentTypingUsers(state, privateNarrow('mark@example.com'));
 
     expect(typingUsers).toEqual(NULL_ARRAY);
   });
@@ -92,8 +93,9 @@ describe('getCurrentTypingUsers', () => {
     });
 
     const typingUsers = getCurrentTypingUsers(
+      state,
       groupNarrow(['mark@example.com', 'john@example.com']),
-    )(state);
+    );
 
     expect(typingUsers).toEqual([expectedUser]);
   });
