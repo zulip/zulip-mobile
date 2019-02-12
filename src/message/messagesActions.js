@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Narrow, Dispatch, GetState } from '../types';
-import { getAuth, getUsers, isNarrowValid, getIsHydrated } from '../selectors';
+import { getAuth, getUsersById, isNarrowValid, getIsHydrated } from '../selectors';
 import { DO_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
@@ -28,9 +28,9 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
   const auth = getAuth(state);
 
   if (isUrlInAppLink(href, auth.realm)) {
-    const users = getUsers(state);
+    const usersById = getUsersById(state);
     const anchor = getMessageIdFromLink(href, auth.realm);
-    const narrow = getNarrowFromLink(href, auth.realm, users);
+    const narrow = getNarrowFromLink(href, auth.realm, usersById);
 
     dispatch(doNarrow(narrow, anchor));
   } else {

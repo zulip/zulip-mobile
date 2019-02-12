@@ -4,8 +4,8 @@ import urlRegex from 'url-regex';
 
 import type { Auth, Narrow, User } from '../types';
 import { HOME_NARROW, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
-import { getUserById } from '../users/userHelpers';
 import { transformToEncodedURI } from './string';
+import { NULL_USER } from '../nullObjects';
 
 /**
  * An object `encodeParamsForUrl` can flatten.
@@ -96,13 +96,19 @@ export const isEmojiUrl = (url: string, realm: string): boolean =>
 export const getEmojiUrl = (unicode: string): string =>
   `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
 
-export const getNarrowFromLink = (url: string, realm: string, users: User[]): Narrow => {
+export const getNarrowFromLink = (
+  url: string,
+  realm: string,
+  usersById: Map<number, User>,
+): Narrow => {
   const paths = getPathsFromUrl(url, realm);
 
   if (isGroupLink(url, realm)) {
     const recipients = paths[1].split('-')[0].split(',');
     return groupNarrow(
-      recipients.map((recipient: string) => getUserById(users, parseInt(recipient, 10)).email),
+      recipients.map(
+        (recipient: string) => (usersById.get(parseInt(recipient, 10)) || NULL_USER).email,
+      ),
     );
   } else if (isTopicLink(url, realm)) {
     return topicNarrow(
