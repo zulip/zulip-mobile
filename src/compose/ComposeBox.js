@@ -44,7 +44,7 @@ import AutocompleteView from '../autocomplete/AutocompleteView';
 type Props = {|
   auth: Auth,
   narrow: Narrow,
-  users: User[],
+  usersByEmail: Map<string, User>,
   draft: string,
   lastMessageTopic: string,
   isAdmin: boolean,
@@ -306,7 +306,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const {
       auth,
       narrow,
-      users,
+      usersByEmail,
       editMessage,
       safeAreaInsets,
       isAdmin,
@@ -320,7 +320,7 @@ class ComposeBox extends PureComponent<Props, State> {
       return <AnnouncementOnly />;
     }
 
-    const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
+    const placeholder = getComposeInputPlaceholder(narrow, auth.email, usersByEmail);
     const style = {
       marginBottom: safeAreaInsets.bottom,
     };
@@ -395,7 +395,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
 export default connect((state: GlobalState, props) => ({
   auth: getAuth(state),
-  users: getActiveUsers(state),
+  usersByEmail: getActiveUsers(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
   isAdmin: getIsAdmin(state),
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(props.narrow)(state),

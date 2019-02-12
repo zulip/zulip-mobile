@@ -10,10 +10,11 @@ export const getSortedUsers: Selector<User[]> = createSelector(getUsers, users =
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
 );
 
-export const getActiveUsers: Selector<(User | RealmBot)[]> = createSelector(
+export const getActiveUsers: Selector<Map<string, User | RealmBot>> = createSelector(
   getUsers,
   getCrossRealmBots,
-  (users = [], crossRealmBots = []) => [...users, ...crossRealmBots],
+  (users = [], crossRealmBots = []) =>
+    new Map([...users, ...crossRealmBots].map(user => [user.email, user])),
 );
 
 const getAllUsers: Selector<(User | RealmBot)[]> = createSelector(

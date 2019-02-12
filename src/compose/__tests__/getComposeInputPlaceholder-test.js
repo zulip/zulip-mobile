@@ -9,20 +9,26 @@ describe('getComposeInputPlaceholder', () => {
 
     const ownEmail = 'hamlet@zulip.com';
 
-    const users = deepFreeze([
-      {
-        id: 23,
-        email: 'abc@zulip.com',
-        full_name: 'ABC',
-      },
-      {
-        id: 22,
-        email: 'xyz@zulip.com',
-        full_name: 'XYZ',
-      },
+    const usersByEmail = new Map([
+      [
+        'abc@zulip.com',
+        {
+          id: 23,
+          email: 'abc@zulip.com',
+          full_name: 'ABC',
+        },
+      ],
+      [
+        'xyz@zulip.com',
+        {
+          id: 22,
+          email: 'xyz@zulip.com',
+          full_name: 'XYZ',
+        },
+      ],
     ]);
 
-    const placeholder = getComposeInputPlaceholder(narrow, ownEmail, users);
+    const placeholder = getComposeInputPlaceholder(narrow, ownEmail, usersByEmail);
     expect(placeholder).toEqual({ text: 'Message {recipient}', values: { recipient: '@ABC' } });
   });
 
