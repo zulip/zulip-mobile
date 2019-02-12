@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { Account, Auth, GlobalState, Identity, Selector } from '../types';
 import { getAccounts } from '../directSelectors';
-import { identityOfAccount, keyOfIdentity } from './accountMisc';
+import { identityOfAccount, keyOfIdentity, identityOfAuth } from './accountMisc';
 
 /** See `getAccountStatuses`. */
 export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
@@ -63,16 +63,10 @@ export const getActiveAccount = (state: GlobalState): Account => {
 };
 
 /** The user's own email in the active account; throws if none. */
-export const getOwnEmail = (state: GlobalState): string => {
-  const activeAccount = getActiveAccount(state);
-  return activeAccount.email;
-};
+export const getOwnEmail = (state: GlobalState): string => getActiveAccount(state).email;
 
 /** The realm of the active account; throws if none. */
-export const getCurrentRealm = (state: GlobalState) => {
-  const activeAccount = getActiveAccount(state);
-  return activeAccount.realm;
-};
+export const getCurrentRealm = (state: GlobalState) => getActiveAccount(state).realm;
 
 export const authOfAccount = (account: Account): Auth => {
   const { realm, email, apiKey } = account;
@@ -90,10 +84,9 @@ export const authOfAccount = (account: Account): Auth => {
  *  * `tryGetAuth` again, for use where there might not be an active account.
  *  * `getAuth` for use in the bulk of the app.
  */
-export const getPartialAuth: Selector<Auth> = createSelector(getActiveAccount, account => {
-  const auth = authOfAccount(account);
-  return auth;
-});
+export const getPartialAuth: Selector<Auth> = createSelector(getActiveAccount, account =>
+  authOfAccount(account),
+);
 
 /**
  * The auth object for the active, logged-in account, or undefined if none.
@@ -149,7 +142,6 @@ export const getAuth = (state: GlobalState): Auth => {
  *
  * See `getAuth` and `tryGetAuth` for discussion.
  */
-export const getIdentity: Selector<Identity> = createSelector(getAuth, auth => {
-  const { email, realm } = auth;
-  return { email, realm };
-});
+export const getIdentity: Selector<Identity> = createSelector(getAuth, auth =>
+  identityOfAuth(auth),
+);
