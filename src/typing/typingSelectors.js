@@ -2,19 +2,19 @@
 import { createSelector } from 'reselect';
 
 import type { Narrow, Selector, User } from '../types';
-import { getTyping, getUsers } from '../directSelectors';
+import { getTyping } from '../directSelectors';
 import { getOwnEmail } from '../account/accountsSelectors';
-import { getUserById } from '../users/userHelpers';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients } from '../utils/recipient';
-import { NULL_ARRAY } from '../nullObjects';
+import { NULL_ARRAY, NULL_USER } from '../nullObjects';
+import { getUsersById } from '../users/userSelectors';
 
 export const getCurrentTypingUsers: Selector<$ReadOnlyArray<User>, Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getTyping(state),
-  state => getUsers(state),
+  state => getUsersById(state),
   state => getOwnEmail(state),
-  (narrow, typing, users, ownEmail): User[] => {
+  (narrow, typing, usersById, ownEmail): User[] => {
     if (!isPrivateOrGroupNarrow(narrow)) {
       return NULL_ARRAY;
     }
@@ -27,6 +27,6 @@ export const getCurrentTypingUsers: Selector<$ReadOnlyArray<User>, Narrow> = cre
       return NULL_ARRAY;
     }
 
-    return currentTyping.userIds.map(userId => getUserById(users, userId));
+    return currentTyping.userIds.map(userId => usersById.get(userId) || NULL_USER);
   },
 );
