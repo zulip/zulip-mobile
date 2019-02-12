@@ -10,7 +10,7 @@ import type {
   RealmEmojiType,
 } from '../../types';
 import type { BackgroundData } from '../MessageList';
-import { getGravatarFromEmail } from '../../utils/avatar';
+import { getAvatarFromMessage } from '../../utils/avatar';
 import { shortTime } from '../../utils/date';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';
@@ -96,10 +96,7 @@ $!${divOpenHtml}
   }
 
   const { sender_full_name, sender_email, timestamp } = message;
-  const avatarUrl =
-    typeof message.avatar_url === 'string'
-      ? message.avatar_url
-      : getGravatarFromEmail(message.sender_email);
+  const avatarUrl = getAvatarFromMessage(message);
   const subheaderHtml = template`
 <div class="subheader">
   <div class="username">

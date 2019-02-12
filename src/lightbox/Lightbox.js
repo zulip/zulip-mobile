@@ -14,7 +14,7 @@ import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_SIZE } from '../styles';
-import { getGravatarFromEmail } from '../utils/avatar';
+import { getAvatarFromMessage } from '../utils/avatar';
 import { navigateBack } from '../actions';
 
 const styles = StyleSheet.create({
@@ -113,11 +113,7 @@ class Lightbox extends PureComponent<Props, State> {
           <LightboxHeader
             onPressBack={this.handlePressBack}
             timestamp={message.timestamp}
-            avatarUrl={
-              typeof message.avatar_url === 'string'
-                ? message.avatar_url
-                : getGravatarFromEmail(message.sender_email)
-            }
+            avatarUrl={getAvatarFromMessage(message)}
             senderName={message.sender_full_name}
           />
         </SlideAnimationView>
