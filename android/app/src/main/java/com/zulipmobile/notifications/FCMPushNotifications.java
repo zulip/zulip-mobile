@@ -67,10 +67,10 @@ public class FCMPushNotifications {
             data.putString(entry.getKey(), entry.getValue());
         }
         logNotificationData(data);
-        final PushNotificationsProp props = new PushNotificationsProp(data);
-        final String eventType = props.getEvent();
+        final String eventType = mapData.get("event");
         switch (eventType) {
           case "message":
+            final PushNotificationsProp props = new PushNotificationsProp(data);
             addConversationToMap(props, conversations);
             updateNotification(context, conversations, props);
             break;
