@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -76,7 +75,8 @@ public class FCMPushNotifications {
             updateNotification(context, conversations, props);
             break;
           case "remove":
-            removeMessageFromMap(props, conversations);
+            final int zulipMessageId = Integer.parseInt(mapData.get("zulip_message_id"));
+            removeMessageFromMap(conversations, zulipMessageId);
             if (conversations.isEmpty()) {
                 getNotificationManager(context).cancelAll();
             }
