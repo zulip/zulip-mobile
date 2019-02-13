@@ -18,11 +18,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class NotificationHelper {
     public static final String TAG = "ZulipNotif";
@@ -135,21 +131,26 @@ public class NotificationHelper {
     }
 
     public static void removeMessageFromMap(ConversationMap conversations, int zulipMessageId) {
-        // We don't have the information to compute what key we ought to find this message under,
+        final Set<Integer> messageIds = new HashSet<>(Collections.singletonList(zulipMessageId));
+        removeMessagesFromMap(conversations, messageIds);
+    }
+
+    private static void removeMessagesFromMap(ConversationMap conversations, Set<Integer> messageIds) {
+        // We don't have the information to compute what key we ought to find each message under,
         // so just walk the whole thing.  If the user has >100 notifications, this linear scan
         // won't be their worst problem anyway...
         //
         // TODO redesign this whole data structure, for many reasons.
-        for (String key : conversations.keySet()) {
-            List<MessageInfo> messages = conversations.get(key);
-            for (int i = 0; i < messages.size(); i++) {
-                if (messages.get(i).getMessageId() == zulipMessageId) {
+        final Iterator<List<MessageInfo>> it = conversations.values().iterator();
+        while (it.hasNext()) {
+            final List<MessageInfo> messages = it.next();
+            for (int i = messages.size() - 1; i >= 0; --i) {
+                if (messageIds.contains(messages.get(i).getMessageId())) {
                     messages.remove(i);
-                    if (messages.isEmpty()) {
-                        conversations.remove(key);
-                    }
-                    return;
                 }
+            }
+            if (messages.isEmpty()) {
+                it.remove();
             }
         }
     }
