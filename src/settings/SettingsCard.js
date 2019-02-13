@@ -2,13 +2,11 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 import type { Dispatch, GlobalState } from '../types';
 import { getSettings } from '../selectors';
-import { OptionButton, OptionDivider, OptionRow } from '../common';
-import SwitchAccountButton from '../account-info/SwitchAccountButton';
-import LogoutButton from '../account-info/LogoutButton';
+import { OptionButton, OptionRow } from '../common';
 import {
   IconDiagnostics,
   IconNotifications,
@@ -27,12 +25,6 @@ import {
 const componentStyles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
-  },
-  accountButtons: {
-    flex: 1,
-    alignItems: 'flex-end',
-    flexDirection: 'row',
-    marginTop: 8,
   },
 });
 
@@ -86,11 +78,6 @@ class SettingsCard extends PureComponent<Props> {
             dispatch(navigateToLegal());
           }}
         />
-        <OptionDivider />
-        <View style={componentStyles.accountButtons}>
-          <SwitchAccountButton />
-          <LogoutButton />
-        </View>
       </ScrollView>
     );
   }
