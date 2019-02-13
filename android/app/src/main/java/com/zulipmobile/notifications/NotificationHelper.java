@@ -130,12 +130,7 @@ public class NotificationHelper {
         conversations.put(key, messages);
     }
 
-    public static void removeMessageFromMap(ConversationMap conversations, int zulipMessageId) {
-        final Set<Integer> messageIds = new HashSet<>(Collections.singletonList(zulipMessageId));
-        removeMessagesFromMap(conversations, messageIds);
-    }
-
-    private static void removeMessagesFromMap(ConversationMap conversations, Set<Integer> messageIds) {
+    static void removeMessagesFromMap(ConversationMap conversations, Set<Integer> messageIds) {
         // We don't have the information to compute what key we ought to find each message under,
         // so just walk the whole thing.  If the user has >100 notifications, this linear scan
         // won't be their worst problem anyway...

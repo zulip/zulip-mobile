@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -22,18 +23,11 @@ import com.zulipmobile.R;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
-import static com.zulipmobile.notifications.NotificationHelper.buildNotificationContent;
-import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
-import static com.zulipmobile.notifications.NotificationHelper.extractNames;
-import static com.zulipmobile.notifications.NotificationHelper.extractTotalMessagesCount;
-import static com.zulipmobile.notifications.NotificationHelper.addConversationToMap;
-import static com.zulipmobile.notifications.NotificationHelper.removeMessageFromMap;
-import static com.zulipmobile.notifications.NotificationHelper.TAG;
+import static com.zulipmobile.notifications.NotificationHelper.*;
 
 public class FCMPushNotifications {
 
@@ -75,8 +69,8 @@ public class FCMPushNotifications {
             updateNotification(context, conversations, props);
             break;
           case "remove":
-            final int zulipMessageId = Integer.parseInt(mapData.get("zulip_message_id"));
-            removeMessageFromMap(conversations, zulipMessageId);
+            final Set<Integer> messageIds = parseMessageIds(mapData);
+            removeMessagesFromMap(conversations, messageIds);
             if (conversations.isEmpty()) {
                 getNotificationManager(context).cancelAll();
             }
@@ -85,6 +79,23 @@ public class FCMPushNotifications {
             Log.w(TAG, "Ignoring FCM message of unknown event type: " + eventType);
             break;
         }
+    }
+
+    @NonNull
+    private static Set<Integer> parseMessageIds(Map<String, String> mapData) {
+        final Set<Integer> messageIds = new HashSet<>();
+        final String idStr = mapData.get("zulip_message_id");
+        if (idStr != null) {
+            messageIds.add(Integer.parseInt(idStr));
+        }
+        final String idsStr = mapData.get("zulip_message_ids");
+        if (idsStr != null) {
+            final String[] idStrs = idsStr.split(",");
+            for (final String idStr1 : idStrs) {
+                messageIds.add(Integer.parseInt(idStr1));
+            }
+        }
+        return messageIds;
     }
 
     private static void updateNotification(
