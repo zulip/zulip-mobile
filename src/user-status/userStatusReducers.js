@@ -6,6 +6,7 @@ import {
   ACCOUNT_SWITCH,
   REALM_INIT,
   EVENT_USER_STATUS_UPDATE,
+  OPTIMISTIC_USER_STATUS_UPDATE,
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 
@@ -21,6 +22,7 @@ export default (state: UserStatusState = initialState, action: Action): UserStat
     case REALM_INIT:
       return action.data.user_status || initialState;
 
+    case OPTIMISTIC_USER_STATUS_UPDATE:
     case EVENT_USER_STATUS_UPDATE: {
       const newUserStatus = { ...state[action.user_id] };
       if (action.away !== undefined) {
