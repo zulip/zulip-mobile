@@ -3,8 +3,10 @@ import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { GlobalState, User } from '../types';
+import type { Dispatch, GlobalState, User } from '../types';
 import { getSelfUserDetail } from '../selectors';
+import { ZulipButton } from '../common';
+import { navigateToUserStatus } from '../actions';
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
 import SwitchAccountButton from './SwitchAccountButton';
@@ -16,9 +18,13 @@ const componentStyles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 8,
   },
+  setStatusButton: {
+    marginHorizontal: 16,
+  },
 });
 
 type Props = {|
+  dispatch: Dispatch,
   selfUserDetail: User,
 |};
 
@@ -29,6 +35,11 @@ type Props = {|
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
  */
 class ProfileCard extends PureComponent<Props> {
+  handleSetUserStatus = () => {
+    const { dispatch } = this.props;
+    dispatch(navigateToUserStatus());
+  };
+
   render() {
     const { selfUserDetail } = this.props;
 
@@ -36,6 +47,12 @@ class ProfileCard extends PureComponent<Props> {
       <ScrollView>
         <AccountDetails user={selfUserDetail} />
         <AwayStatusSwitch />
+        <ZulipButton
+          style={componentStyles.setStatusButton}
+          secondary
+          text="Set a status"
+          onPress={this.handleSetUserStatus}
+        />
         <View style={componentStyles.accountButtons}>
           <SwitchAccountButton />
           <LogoutButton />
