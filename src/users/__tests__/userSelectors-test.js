@@ -2,7 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import {
   getAccountDetailsUserFromEmail,
-  getActiveUsers,
+  getActiveUsersByEmail,
   getAllUsersByEmail,
   getUsersById,
   getUsersSansMe,
@@ -63,7 +63,7 @@ describe('getActiveUsers', () => {
       ['def@example.com', { email: 'def@example.com' }],
     ]);
 
-    const result = getActiveUsers(state);
+    const result = getActiveUsersByEmail(state);
 
     expect(result).toEqual(expectedResult);
   });

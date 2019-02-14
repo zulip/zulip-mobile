@@ -32,7 +32,13 @@ import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
 import AnnouncementOnly from '../message/AnnouncementOnly';
 
-import { getAuth, getIsAdmin, getSession, getLastMessageTopic, getActiveUsers } from '../selectors';
+import {
+  getAuth,
+  getIsAdmin,
+  getSession,
+  getLastMessageTopic,
+  getActiveUsersByEmail,
+} from '../selectors';
 import {
   getIsActiveStreamSubscribed,
   getIsActiveStreamAnnouncementOnly,
@@ -395,7 +401,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
 export default connect((state: GlobalState, props) => ({
   auth: getAuth(state),
-  usersByEmail: getActiveUsers(state),
+  usersByEmail: getActiveUsersByEmail(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
   isAdmin: getIsAdmin(state),
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(props.narrow)(state),
