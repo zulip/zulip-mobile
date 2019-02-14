@@ -33,6 +33,7 @@ import WelcomeHelpScreen from '../start/WelcomeHelpScreen';
 import WelcomeScreen from '../start/WelcomeScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
+import UserStatusScreen from '../user-status/UserStatusScreen';
 
 export default StackNavigator(
   {
@@ -68,6 +69,7 @@ export default StackNavigator(
     'welcome-help': { screen: WelcomeHelpScreen },
     welcome: { screen: WelcomeScreen },
     legal: { screen: LegalScreen },
+    'user-status': { screen: UserStatusScreen },
   },
   {
     initialRouteName: 'main',
