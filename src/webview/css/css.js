@@ -343,8 +343,8 @@ blockquote {
 }
 .emoji {
   display: inline-block;
-  height: 18px;
   width: 18px;
+  max-height: 100%;
   white-space: nowrap;
   color: transparent;
   vertical-align: text-top;
