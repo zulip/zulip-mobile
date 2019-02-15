@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import type { GlobalState, User } from '../types';
 import { UserAvatar, ComponentList, RawLabel } from '../common';
-import { getCurrentRealm } from '../selectors';
+import { getCurrentRealm, getUserStatusTextForUser } from '../selectors';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
 import { getAvatarFromUser } from '../utils/avatar';
@@ -20,6 +20,9 @@ const componentStyles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
+  statusText: {
+    textAlign: 'center',
+  },
 });
 
 const AVATAR_SIZE = 200;
@@ -27,11 +30,12 @@ const AVATAR_SIZE = 200;
 type Props = {|
   realm: string,
   user: User,
+  userStatusText: string | void,
 |};
 
 class AccountDetails extends PureComponent<Props, void> {
   render() {
-    const { realm, user } = this.props;
+    const { realm, user, userStatusText } = this.props;
 
     return (
       <View>
@@ -47,6 +51,12 @@ class AccountDetails extends PureComponent<Props, void> {
             <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
             <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
           </View>
+          {userStatusText !== undefined && (
+            <RawLabel
+              style={[styles.largerText, componentStyles.statusText]}
+              text={userStatusText}
+            />
+          )}
           <View>
             <ActivityText style={styles.largerText} email={user.email} />
           </View>
@@ -64,6 +74,7 @@ class AccountDetails extends PureComponent<Props, void> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect((state: GlobalState, props) => ({
   realm: getCurrentRealm(state),
+  userStatusText: getUserStatusTextForUser(state, props.user.user_id),
 }))(AccountDetails);

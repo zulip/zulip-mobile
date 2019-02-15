@@ -33,3 +33,12 @@ export const getSelfUserStatusText = (state: GlobalState): string => {
   const selfUserStatus = getSelfUserStatus(state);
   return (selfUserStatus && selfUserStatus.status_text) || '';
 };
+
+/**
+ * Returns the `status text` value of the user with the given userId.
+ * We return `undefined` if no value is set.
+ */
+export const getUserStatusTextForUser = (state: GlobalState, userId: number): string | void => {
+  const userStatus = getUserStatus(state);
+  return userStatus[userId] && userStatus[userId].status_text;
+};
