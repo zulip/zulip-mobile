@@ -1,10 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
-import type { User } from '../types';
+import type { GlobalState, User, UserStatusMapObject } from '../types';
 import { Avatar, ComponentList, RawLabel } from '../common';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
+import { getUserStatus } from '../selectors';
 import ActivityText from '../title/ActivityText';
 import { getMediumAvatar } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
@@ -18,16 +20,21 @@ const componentStyles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
+  statusText: {
+    textAlign: 'center',
+  },
 });
 
 type Props = {|
   user: User,
+  userStatus: UserStatusMapObject,
 |};
 
-export default class AccountDetails extends PureComponent<Props, void> {
+class AccountDetails extends PureComponent<Props, void> {
   render() {
-    const { user } = this.props;
+    const { user, userStatus } = this.props;
     const screenWidth = Dimensions.get('window').width;
+    const statusText = userStatus[user.user_id] && userStatus[user.user_id].status_text;
 
     return (
       <View>
@@ -43,6 +50,9 @@ export default class AccountDetails extends PureComponent<Props, void> {
             <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
             <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
           </View>
+          {statusText !== undefined && (
+            <RawLabel style={[styles.largerText, componentStyles.statusText]} text={statusText} />
+          )}
           <View>
             <ActivityText style={styles.largerText} email={user.email} />
           </View>
@@ -59,3 +69,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
     );
   }
 }
+
+export default connect((state: GlobalState) => ({
+  userStatus: getUserStatus(state),
+}))(AccountDetails);
