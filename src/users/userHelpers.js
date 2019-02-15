@@ -5,9 +5,6 @@ import type { UserPresence, User, UserGroup, PresenceState } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
-export const getUserById = (users: User[], userId: number): User =>
-  users.find(user => user.user_id === userId) || NULL_USER;
-
 export const groupUsersByInitials = (users: User[]): Object =>
   users.reduce((accounts, x) => {
     const firstLetter = x.full_name[0].toUpperCase();

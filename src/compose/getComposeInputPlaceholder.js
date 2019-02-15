@@ -2,7 +2,11 @@
 import type { Narrow, User, LocalizableText } from '../types';
 import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../utils/narrow';
 
-export default (narrow: Narrow, ownEmail: string, users: User[]): LocalizableText => {
+export default (
+  narrow: Narrow,
+  ownEmail: string,
+  usersByEmail: Map<string, User>,
+): LocalizableText => {
   if (isGroupNarrow(narrow)) {
     return { text: 'Message group' };
   }
@@ -12,11 +16,11 @@ export default (narrow: Narrow, ownEmail: string, users: User[]): LocalizableTex
       return { text: 'Jot down something' };
     }
 
-    if (!users) {
+    if (!usersByEmail) {
       return { text: 'Type a message' };
     }
 
-    const user = users.find(u => u.email === narrow[0].operand) || {};
+    const user = usersByEmail.get(narrow[0].operand) || {};
     return {
       text: 'Message {recipient}',
       values: { recipient: `@${user.full_name}` },

@@ -233,6 +233,6 @@ export default connect((state: GlobalState, props: OuterProps) => {
     showMessagePlaceholders:
       props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
     theme: getSettings(state).theme,
-    typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
+    typingUsers: props.typingUsers || getCurrentTypingUsers(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));

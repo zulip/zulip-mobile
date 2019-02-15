@@ -268,11 +268,11 @@ describe('getEmojiUrl', () => {
 });
 
 describe('getNarrowFromLink', () => {
-  const users = [
-    { email: 'abc@example.com', user_id: 1 },
-    { email: 'xyz@example.com', user_id: 2 },
-    { email: 'def@example.com', user_id: 3 },
-  ];
+  const usersById = new Map([
+    [1, { email: 'abc@example.com', user_id: 1 }],
+    [2, { email: 'xyz@example.com', user_id: 2 }],
+    [3, { email: 'def@example.com', user_id: 3 }],
+  ]);
 
   test('when link is not in-app link, return default HOME_NARROW', () => {
     expect(getNarrowFromLink('https://example.com/user_uploads', 'https://example.com')).toEqual(
@@ -368,7 +368,7 @@ describe('getNarrowFromLink', () => {
       getNarrowFromLink(
         'https://example.com/#narrow/pm-with/1,2,3-group',
         'https://example.com',
-        users,
+        usersById,
       ),
     ).toEqual(expectedValue);
   });
@@ -390,7 +390,7 @@ describe('getNarrowFromLink', () => {
       getNarrowFromLink(
         'https://example.com/#narrow/pm-with/1,3-group/near/2',
         'https://example.com',
-        users,
+        usersById,
       ),
     ).toEqual([
       {
@@ -403,7 +403,7 @@ describe('getNarrowFromLink', () => {
       getNarrowFromLink(
         'https://example.com/#narrow/stream/jest/topic/test/near/1',
         'https://example.com',
-        users,
+        usersById,
       ),
     ).toEqual(topicNarrow('jest', 'test'));
 
@@ -411,7 +411,7 @@ describe('getNarrowFromLink', () => {
       getNarrowFromLink(
         'https://example.com/#narrow/stream/jest/subject/test/near/1',
         'https://example.com',
-        users,
+        usersById,
       ),
     ).toEqual(topicNarrow('jest', 'test'));
   });

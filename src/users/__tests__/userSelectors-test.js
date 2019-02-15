@@ -2,7 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import {
   getAccountDetailsUserFromEmail,
-  getActiveUsers,
+  getActiveUsersByEmail,
   getAllUsersByEmail,
   getUsersById,
   getUsersSansMe,
@@ -50,7 +50,7 @@ describe('getAccountDetailsUserFromEmail', () => {
 });
 
 describe('getActiveUsers', () => {
-  test('return users, bots, does not include inactive users', () => {
+  test('return users, bots, map by email and do not include inactive users', () => {
     const state = deepFreeze({
       users: [{ email: 'abc@example.com' }],
       realm: {
@@ -58,9 +58,12 @@ describe('getActiveUsers', () => {
         nonActiveUsers: [{ email: 'xyz@example.com' }],
       },
     });
-    const expectedResult = [{ email: 'abc@example.com' }, { email: 'def@example.com' }];
+    const expectedResult = new Map([
+      ['abc@example.com', { email: 'abc@example.com' }],
+      ['def@example.com', { email: 'def@example.com' }],
+    ]);
 
-    const result = getActiveUsers(state);
+    const result = getActiveUsersByEmail(state);
 
     expect(result).toEqual(expectedResult);
   });
