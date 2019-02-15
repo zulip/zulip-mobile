@@ -1,7 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { Narrow } from '../types';
+import type { Narrow, Selector } from '../types';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import {
   getMute,
@@ -46,7 +46,7 @@ export const getUnreadByStream = createSelector(
     }, ({}: { [number]: number })),
 );
 
-export const getUnreadStreamTotal = createSelector(getUnreadByStream, unreadByStream =>
+export const getUnreadStreamTotal: Selector<number> = createSelector(getUnreadByStream, unreadByStream =>
   Object.values(unreadByStream).reduce((total, x) => +x + total, 0),
 );
 
@@ -57,7 +57,7 @@ export const getUnreadByPms = createSelector(getUnreadPms, unreadPms =>
   }, ({}: { [number]: number })),
 );
 
-export const getUnreadPmsTotal = createSelector(getUnreadPms, unreadPms =>
+export const getUnreadPmsTotal: Selector<number> = createSelector(getUnreadPms, unreadPms =>
   unreadPms.reduce((total, pm) => total + pm.unread_message_ids.length, 0),
 );
 
@@ -69,16 +69,16 @@ export const getUnreadByHuddles = createSelector(getUnreadHuddles, unreadHuddles
   }, ({}: { [string]: number })),
 );
 
-export const getUnreadHuddlesTotal = createSelector(getUnreadHuddles, unreadHuddles =>
+export const getUnreadHuddlesTotal: Selector<number> = createSelector(getUnreadHuddles, unreadHuddles =>
   unreadHuddles.reduce((total, huddle) => total + huddle.unread_message_ids.length, 0),
 );
 
-export const getUnreadMentionsTotal = createSelector(
+export const getUnreadMentionsTotal: Selector<number> = createSelector(
   getUnreadMentions,
   unreadMentions => unreadMentions.length,
 );
 
-export const getUnreadTotal = createSelector(
+export const getUnreadTotal: Selector<number> = createSelector(
   getUnreadStreamTotal,
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
