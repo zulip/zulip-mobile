@@ -84,9 +84,8 @@ export type UserGroup = {|
 /**
  * Specifies user status related properties
  * @prop away - present if we are to override user's presence status
- *       * when `true` the user is always `offline`
- *       * when missing the presence is not changed
- *       * can not be `false`
+ *   * This is the "user status" / "unavailable" feature added in early 2019.
+ *     (At time of writing, there are no docs to link to.)
  * @prop status_text - a string representing information the user decided to
  *   manually set as his 'current status'
  */

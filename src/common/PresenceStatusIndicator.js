@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
   active: {
     backgroundColor: '#44c21d',
   },
+  unavailable: {
+    backgroundColor: 'lightgray',
+  },
   idle: {
     backgroundColor: 'rgba(255, 165, 0, 1)',
   },

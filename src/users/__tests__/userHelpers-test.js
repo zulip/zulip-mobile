@@ -271,7 +271,7 @@ describe('groupUsersByStatus', () => {
     const presence = deepFreeze({});
 
     const groupedUsers = groupUsersByStatus(users, presence);
-    expect(groupedUsers).toEqual({ active: [], idle: [], offline: [] });
+    expect(groupedUsers).toEqual({ active: [], idle: [], unavailable: [], offline: [] });
   });
 
   test('sort input by status, when no presence entry consider offline', () => {
@@ -290,6 +290,7 @@ describe('groupUsersByStatus', () => {
       active: [{ email: 'allen@example.com' }],
       idle: [{ email: 'bob@example.com' }],
       offline: [{ email: 'carter@example.com' }, { email: 'dan@example.com' }],
+      unavailable: [],
     };
 
     const groupedUsers = groupUsersByStatus(users, presence);

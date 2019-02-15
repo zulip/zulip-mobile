@@ -86,4 +86,5 @@ export const statusFromPresence = (presence?: UserPresence): PresenceStatus => {
 export const statusFromPresenceAndUserStatus = (
   presence?: UserPresence,
   userStatus?: UserStatus,
-): PresenceStatus => (userStatus && userStatus.away ? 'offline' : statusFromPresence(presence));
+): PresenceStatus | 'unavailable' =>
+  userStatus && userStatus.away ? 'unavailable' : statusFromPresence(presence);

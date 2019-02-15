@@ -215,13 +215,13 @@ describe('statusFromPresenceAndUserStatus', () => {
     expect(result).toBe('active');
   });
 
-  test('if `userPresence` is provided and `away` is `true` override status', () => {
+  test('if `userPresence` is provided and `away` is `true` override status with "unavailable"', () => {
     const presence = {
       aggregated: {
         status: 'active',
       },
     };
     const result = statusFromPresenceAndUserStatus(presence, { away: true });
-    expect(result).toBe('offline');
+    expect(result).toBe('unavailable');
   });
 });
