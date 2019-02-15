@@ -17,7 +17,7 @@ import type { Message, Stream } from './apiTypes';
 //
 
 /** See ClientPresence, and the doc linked there. */
-export type PresenceStatus = 'active' | 'idle' | 'offline';
+export type PresenceStatus = 'active' | 'idle' | 'offline' | 'away';
 
 /**
  * A user's presence status, as reported by a specific client.

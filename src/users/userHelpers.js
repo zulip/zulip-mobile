@@ -15,7 +15,7 @@ export const groupUsersByStatus = (
       groupedUsers[status].push(user);
       return groupedUsers;
     },
-    { active: [], idle: [], offline: [] },
+    { active: [], away: [], idle: [], offline: [] },
   );
 
 const statusOrder = (presence: UserPresence): number => {
