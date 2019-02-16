@@ -232,19 +232,21 @@ export type LoadingState = {|
 export type MuteTuple = [string, string];
 export type MuteState = MuteTuple[];
 
+export type NavigationRouteState = {
+  key: string,
+  title: string,
+  routeName: string,
+  /** The fields in `params` vary by route; see `navActions.js`. */
+  params: {
+    narrow?: Narrow,
+  },
+};
+
 export type NavigationState = {|
   index: number,
   isTransitioning: boolean,
   key: string,
-  routes: Array<{
-    key: string,
-    title: string,
-    routeName: string,
-    /** The fields in `params` vary by route; see `navActions.js`. */
-    params: {
-      narrow?: Narrow,
-    },
-  }>,
+  routes: NavigationRouteState[],
 |};
 
 export type RealmBot = {|

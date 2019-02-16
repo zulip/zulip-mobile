@@ -1,11 +1,11 @@
-/* @flow */
+/* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { GlobalState, NavigationState } from '../types';
+import type { GlobalState, NavigationRouteState, NavigationState } from '../types';
 
 export const getNav = (state: GlobalState): NavigationState => state.nav;
 
-const getNavigationRoutes = (state: GlobalState): Object[] => state.nav.routes;
+const getNavigationRoutes = (state: GlobalState): NavigationRouteState[] => state.nav.routes;
 
 const getNavigationIndex = (state: GlobalState): number => state.nav.index;
 
