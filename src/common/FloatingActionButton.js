@@ -1,8 +1,9 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Style } from '../types';
+import type { Icon as IconType } from './Icons';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 
@@ -19,7 +20,7 @@ type Props = {|
   style?: Style,
   disabled: boolean,
   size: number,
-  Icon: any,
+  Icon: IconType,
   onPress: () => void,
 |};
 

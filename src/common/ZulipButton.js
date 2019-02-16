@@ -1,9 +1,10 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import TranslatedText from './TranslatedText';
 
 import type { Style } from '../types';
+import type { Icon as IconType } from './Icons';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 
@@ -78,7 +79,7 @@ type ButtonNormalProps = {|
   textStyle: Style,
   text: string,
   iconStyle: Style,
-  Icon?: Object,
+  Icon?: IconType,
   onPress?: () => void | Promise<void>,
 |};
 
@@ -107,7 +108,7 @@ type Props = {|
   style?: Style,
   progress: boolean,
   disabled: boolean,
-  Icon?: Object,
+  Icon?: IconType,
   text: string,
   secondary: boolean,
   fullSize: boolean,

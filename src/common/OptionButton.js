@@ -1,15 +1,16 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import Label from './Label';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
+import type { Icon as IconType } from './Icons';
 import type { ThemeColors } from '../styles';
 import styles, { ThemeContext } from '../styles';
 
 type Props = {|
-  Icon?: Object,
+  Icon?: IconType,
   label: string,
   onPress: () => void,
 |};

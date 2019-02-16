@@ -1,15 +1,16 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Style } from '../types';
+import type { Icon as IconType } from './Icons';
 import Label from './Label';
 import ZulipSwitch from './ZulipSwitch';
 import type { ThemeColors } from '../styles';
 import styles, { ThemeContext } from '../styles';
 
 type Props = {|
-  Icon?: Object,
+  Icon?: IconType,
   label: string,
   defaultValue: boolean,
   style?: Style,
