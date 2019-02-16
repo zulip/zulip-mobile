@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import template from './template';
 import type { Message, Narrow, Outbox } from '../../types';
 import type { BackgroundData } from '../MessageList';
@@ -14,6 +14,12 @@ import {
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 
+const renderSubject = item =>
+  // TODO: pin down if '' happens, and what its proper semantics are.
+  item.match_subject !== undefined && item.match_subject !== ''
+    ? item.match_subject
+    : template`${item.subject}`;
+
 export default (
   { ownEmail, subscriptions }: BackgroundData,
   narrow: Narrow,
@@ -25,7 +31,7 @@ export default (
 
   if (isStreamNarrow(narrow)) {
     const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
-    const topicHtml = item.match_subject || template`${item.subject}`;
+    const topicHtml = renderSubject(item);
 
     return template`
 <div
@@ -48,7 +54,7 @@ export default (
     const textColor = foregroundColorFromBackground(backgroundColor);
     const streamNarrowStr = JSON.stringify(streamNarrow(item.display_recipient));
     const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
-    const topicHtml = item.match_subject || template`${item.subject}`;
+    const topicHtml = renderSubject(item);
 
     return template`
 <div class="header-wrapper stream-header" data-msg-id="${item.id}">
