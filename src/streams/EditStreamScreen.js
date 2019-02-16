@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
@@ -36,6 +36,6 @@ class EditStreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props: Object) => ({
+export default connect((state: GlobalState, props) => ({
   stream: getStreamFromId(props.navigation.state.params.streamId)(state),
 }))(EditStreamScreen);

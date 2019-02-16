@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -32,6 +32,6 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props: Object) => ({
+export default connect((state: GlobalState, props) => ({
   user: getAccountDetailsUserFromEmail(props.navigation.state.params.email)(state),
 }))(AccountDetailsScreen);

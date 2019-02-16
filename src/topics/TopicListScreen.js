@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -52,7 +52,7 @@ class TopicListScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState, props: Object) => ({
+export default connect((state: GlobalState, props) => ({
   stream: getStreamFromId(props.navigation.state.params.streamId)(state),
   topics: getTopicsForStream(props.navigation.state.params.streamId)(state),
 }))(TopicListScreen);

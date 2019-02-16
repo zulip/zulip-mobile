@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
@@ -44,7 +44,7 @@ class InviteUsersScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState, props: Object) => ({
+export default connect((state: GlobalState, props) => ({
   auth: getAuth(state),
   stream: getStreamFromId(props.navigation.state.params.streamId)(state),
 }))(InviteUsersScreen);
