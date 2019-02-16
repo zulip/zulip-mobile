@@ -38,11 +38,13 @@ export const getUsersByEmail: Selector<Map<string, User>> = createSelector(
   (users = []) => new Map(users.map(user => [user.email, user])),
 );
 
-export const getAllUsersByEmail = createSelector(getAllUsers, allUsers =>
-  allUsers.reduce((usersByEmail, user) => {
-    usersByEmail[user.email] = user;
-    return usersByEmail;
-  }, {}),
+export const getAllUsersByEmail: Selector<{ [string]: User | RealmBot }> = createSelector(
+  getAllUsers,
+  allUsers =>
+    allUsers.reduce((usersByEmail, user) => {
+      usersByEmail[user.email] = user;
+      return usersByEmail;
+    }, {}),
 );
 
 export const getSelfUserDetail = (state: GlobalState): User =>

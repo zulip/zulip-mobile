@@ -2,7 +2,7 @@
 import isEqual from 'lodash.isequal';
 import { createSelector } from 'reselect';
 
-import type { GlobalState, Message, Narrow, Outbox, Selector, User } from '../types';
+import type { GlobalState, Message, Narrow, Outbox, RealmBot, Selector, User } from '../types';
 import {
   getAllNarrows,
   getSubscriptions,
@@ -80,7 +80,7 @@ export const getLastMessageId = (state: GlobalState, narrow: Narrow): number | v
   return ids.length > 0 ? ids[ids.length - 1] : undefined;
 };
 
-export const getRecipientsInGroupNarrow: Selector<User[], Narrow> = createSelector(
+export const getRecipientsInGroupNarrow: Selector<(User | RealmBot)[], Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getAllUsersByEmail(state),
   (narrow, allUsersByEmail) =>
