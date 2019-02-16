@@ -1,11 +1,14 @@
-/* @flow */
+/* @flow strict-local */
 import uniqby from 'lodash.uniqby';
 
 import type { UserPresence, User, UserGroup, PresenceState } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
-export const groupUsersByStatus = (users: User[], presences: PresenceState): Object =>
+export const groupUsersByStatus = (
+  users: User[],
+  presences: PresenceState,
+): {| active: User[], idle: User[], offline: User[] |} =>
   users.reduce(
     (groupedUsers, user) => {
       const status = statusFromPresence(presences[user.email]);
@@ -29,7 +32,7 @@ const statusOrder = (presence: UserPresence): number => {
   }
 };
 
-export const sortUserList = (users: any[], presences: PresenceState): User[] =>
+export const sortUserList = (users: User[], presences: PresenceState): User[] =>
   [...users].sort(
     (x1, x2) =>
       statusOrder(presences[x1.email]) - statusOrder(presences[x2.email])
