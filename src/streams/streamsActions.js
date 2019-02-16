@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { GetState, Dispatch, Stream, Action } from '../types';
 import { createStream, updateStream, toggleMuteStream, togglePinStream } from '../api';
 import { INIT_STREAMS } from '../actionConstants';
@@ -20,8 +20,8 @@ export const createNewStream = (
 
 export const updateExistingStream = (
   id: number,
-  initialValues: Object,
-  newValues: Object,
+  initialValues: Stream,
+  newValues: {| name: string, description: string, isPrivate: boolean |},
 ) => async (dispatch: Dispatch, getState: GetState) => {
   if (initialValues.name !== newValues.name) {
     // Stream names might contain unsafe characters so we must encode it first.
