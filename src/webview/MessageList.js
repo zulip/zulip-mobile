@@ -375,7 +375,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
         : getFirstUnreadIdInNarrow(state, props.narrow),
     fetching: props.fetching || getFetchingForNarrow(state, props.narrow),
     messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
-    renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
+    renderedMessages: props.renderedMessages || getRenderedMessages(state, props.narrow),
     typingUsers: props.typingUsers || getCurrentTypingUsers(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));
