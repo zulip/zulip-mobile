@@ -103,48 +103,48 @@ export const getRecipientsInGroupNarrow: Selector<UserOrBot[], Narrow> = createS
     }),
 );
 
+// Prettier mishandles this Flow syntax.
+// prettier-ignore
 // TODO: clean up what this returns.
-export const getStreamInNarrow = (
-  narrow: Narrow,
-): Selector<Subscription | {| ...Stream, in_home_view: boolean |}> =>
-  createSelector(
-    getSubscriptions,
-    getStreams,
-    (subscriptions, streams) => {
-      if (!isStreamOrTopicNarrow(narrow)) {
-        return NULL_SUBSCRIPTION;
-      }
-
-      const subscription = subscriptions.find(x => x.name === narrow[0].operand);
-      if (subscription) {
-        return subscription;
-      }
-
-      const stream = streams.find(x => x.name === narrow[0].operand);
-      if (stream) {
-        return {
-          ...stream,
-          in_home_view: true,
-        };
-      }
-
+export const getStreamInNarrow: Selector<Subscription | {| ...Stream, in_home_view: boolean |}, Narrow> = createSelector(
+  (state, narrow) => narrow,
+  state => getSubscriptions(state),
+  state => getStreams(state),
+  (narrow, subscriptions, streams) => {
+    if (!isStreamOrTopicNarrow(narrow)) {
       return NULL_SUBSCRIPTION;
-    },
-  );
+    }
 
-export const isNarrowValid = (narrow: Narrow): Selector<boolean> =>
-  createSelector(
-    getStreams,
-    getAllUsersByEmail,
-    (streams, allUsersByEmail) => {
-      if (isStreamOrTopicNarrow(narrow)) {
-        return streams.find(s => s.name === narrow[0].operand) !== undefined;
-      }
+    const subscription = subscriptions.find(x => x.name === narrow[0].operand);
+    if (subscription) {
+      return subscription;
+    }
 
-      if (isPrivateNarrow(narrow)) {
-        return allUsersByEmail.get(narrow[0].operand) !== undefined;
-      }
+    const stream = streams.find(x => x.name === narrow[0].operand);
+    if (stream) {
+      return {
+        ...stream,
+        in_home_view: true,
+      };
+    }
 
-      return true;
-    },
-  );
+    return NULL_SUBSCRIPTION;
+  },
+);
+
+export const isNarrowValid: Selector<boolean, Narrow> = createSelector(
+  (state, narrow) => narrow,
+  state => getStreams(state),
+  state => getAllUsersByEmail(state),
+  (narrow, streams, allUsersByEmail) => {
+    if (isStreamOrTopicNarrow(narrow)) {
+      return streams.find(s => s.name === narrow[0].operand) !== undefined;
+    }
+
+    if (isPrivateNarrow(narrow)) {
+      return allUsersByEmail.get(narrow[0].operand) !== undefined;
+    }
+
+    return true;
+  },
+);
