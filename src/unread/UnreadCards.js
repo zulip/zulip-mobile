@@ -4,14 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type {
-  Dispatch,
-  GlobalState,
-  PmConversationData,
-  PresenceState,
-  User,
-  RealmBot,
-} from '../types';
+import type { Dispatch, GlobalState, PmConversationData, User, RealmBot } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -19,7 +12,6 @@ import TopicItem from '../streams/TopicItem';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
 import {
   getLoading,
-  getPresence,
   getUnreadConversations,
   getAllUsersByEmail,
   getUnreadStreamsAndTopicsSansMuted,
@@ -30,7 +22,6 @@ type Props = {|
   conversations: PmConversationData[],
   dispatch: Dispatch,
   isLoading: boolean,
-  presences: PresenceState,
   usersByEmail: Map<string, User | RealmBot>,
   unreadStreamsAndTopics: any /* UnreadStream[] */,
 |};
@@ -103,7 +94,6 @@ class UnreadCards extends PureComponent<Props> {
 export default connect((state: GlobalState) => ({
   isLoading: getLoading(state).unread,
   conversations: getUnreadConversations(state),
-  presences: getPresence(state),
   usersByEmail: getAllUsersByEmail(state),
   unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),
 }))(UnreadCards);
