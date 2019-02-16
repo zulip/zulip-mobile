@@ -2,7 +2,7 @@
 import isEqual from 'lodash.isequal';
 import { createSelector } from 'reselect';
 
-import type { GlobalState, Message, Narrow, Outbox, Selector } from '../types';
+import type { GlobalState, Message, Narrow, Outbox, Selector, User } from '../types';
 import {
   getAllNarrows,
   getSubscriptions,
@@ -80,10 +80,17 @@ export const getLastMessageId = (state: GlobalState, narrow: Narrow): number | v
   return ids.length > 0 ? ids[ids.length - 1] : undefined;
 };
 
-export const getRecipientsInGroupNarrow = createSelector(
+export const getRecipientsInGroupNarrow: Selector<User[], Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getAllUsersByEmail(state),
-  (narrow, allUsersByEmail) => emailsOfGroupNarrow(narrow).map(r => allUsersByEmail[r] || []),
+  (narrow, allUsersByEmail) =>
+    emailsOfGroupNarrow(narrow).map(r => {
+      const user = allUsersByEmail[r];
+      if (user === undefined) {
+        throw new Error(`missing user: ${r}`);
+      }
+      return user;
+    }),
 );
 
 export const getStreamInNarrow = (narrow: Narrow) =>
