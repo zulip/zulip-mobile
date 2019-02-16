@@ -1,12 +1,14 @@
-/* @flow */
+/* @flow strict-local */
 import type { InputSelectionType } from '../types';
 
-export default (text: string, selection: InputSelectionType) => {
+export default (textWhole: string, selection: InputSelectionType) => {
   const { start, end } = selection;
+  let text = textWhole;
   if (start === end && start !== text.length) {
     // new letter is typed in middle
     text = text.substring(0, start);
   }
+
   const lastIndex: number = Math.max(
     text.lastIndexOf(':'),
     text.lastIndexOf('#'),
