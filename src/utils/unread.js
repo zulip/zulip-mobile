@@ -1,12 +1,12 @@
-/* @flow */
-import type { Message } from '../types';
+/* @flow strict-local */
+import type { FlagsState, Message } from '../types';
 
-export const filterUnreadMessageIds = (messageIds: number[], flags: Object): number[] =>
+export const filterUnreadMessageIds = (messageIds: number[], flags: FlagsState): number[] =>
   messageIds.filter((msgId: number) => !flags || !flags.read || !flags.read[msgId]);
 
 export const filterUnreadMessagesInRange = (
   messages: Message[],
-  flags: Object,
+  flags: FlagsState,
   fromId: number,
   toId: number,
 ): number[] => {
@@ -18,7 +18,7 @@ export const filterUnreadMessagesInRange = (
 
 export const countUnread = (
   messageIds: number[],
-  readFlags: Object,
+  readFlags: { [messageId: number]: boolean },
   fromId: number = -1,
   toId: number = -1,
 ): number => {
