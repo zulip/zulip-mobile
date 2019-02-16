@@ -82,11 +82,11 @@ describe('getAllUsersByEmail', () => {
         nonActiveUsers: [],
       },
     });
-    const expectedResult = {
-      'abc@example.com': { email: 'abc@example.com' },
-      'def@example.com': { email: 'def@example.com' },
-      'xyz@example.com': { email: 'xyz@example.com' },
-    };
+    const expectedResult = new Map([
+      ['abc@example.com', { email: 'abc@example.com' }],
+      ['def@example.com', { email: 'def@example.com' }],
+      ['xyz@example.com', { email: 'xyz@example.com' }],
+    ]);
 
     const result = getAllUsersByEmail(state);
 
@@ -101,11 +101,11 @@ describe('getAllUsersByEmail', () => {
         nonActiveUsers: [{ email: 'xyz@example.com' }],
       },
     });
-    const expectedResult = {
-      'abc@example.com': { email: 'abc@example.com' },
-      'def@example.com': { email: 'def@example.com' },
-      'xyz@example.com': { email: 'xyz@example.com' },
-    };
+    const expectedResult = new Map([
+      ['abc@example.com', { email: 'abc@example.com' }],
+      ['def@example.com', { email: 'def@example.com' }],
+      ['xyz@example.com', { email: 'xyz@example.com' }],
+    ]);
 
     const result = getAllUsersByEmail(state);
 
@@ -116,7 +116,7 @@ describe('getAllUsersByEmail', () => {
     const state = deepFreeze({
       realm: {},
     });
-    const expectedResult = {};
+    const expectedResult = new Map();
 
     const result = getAllUsersByEmail(state);
 

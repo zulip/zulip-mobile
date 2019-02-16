@@ -85,7 +85,7 @@ export const getRecipientsInGroupNarrow: Selector<(User | RealmBot)[], Narrow> =
   state => getAllUsersByEmail(state),
   (narrow, allUsersByEmail) =>
     emailsOfGroupNarrow(narrow).map(r => {
-      const user = allUsersByEmail[r];
+      const user = allUsersByEmail.get(r);
       if (user === undefined) {
         throw new Error(`missing user: ${r}`);
       }
@@ -135,7 +135,7 @@ export const isNarrowValid = (narrow: Narrow) =>
     }
 
     if (isPrivateNarrow(narrow)) {
-      return allUsersByEmail[narrow[0].operand] !== undefined;
+      return allUsersByEmail.get(narrow[0].operand) !== undefined;
     }
 
     return true;

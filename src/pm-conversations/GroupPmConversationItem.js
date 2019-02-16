@@ -16,7 +16,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   email: string,
-  usersByEmail: { [string]: User | RealmBot },
+  usersByEmail: Map<string, User | RealmBot>,
   unreadCount: number,
   onPress: (emails: string) => void,
 |};
@@ -32,7 +32,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
 
   render() {
     const { email, usersByEmail, unreadCount } = this.props;
-    const allUsers = email.split(',').map(e => usersByEmail[e]);
+    const allUsers = email.split(',').map(e => usersByEmail.get(e));
 
     const allUsersFound = allUsers.every(user => user);
 
@@ -40,6 +40,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
       return null;
     }
 
+    // $FlowFixMe Flow doesn't see the `every` check above.
     const allNames = allUsers.map(user => user.full_name).join(', ');
 
     return (

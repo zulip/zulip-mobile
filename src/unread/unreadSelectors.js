@@ -216,7 +216,7 @@ export const getUnreadCountForNarrow = (narrow: Narrow) =>
 
       if (isGroupNarrow(narrow)) {
         const userIds = [...narrow[0].operand.split(','), ownEmail]
-          .map(email => (usersByEmail[email] || NULL_USER).user_id)
+          .map(email => (usersByEmail.get(email) || NULL_USER).user_id)
           .sort((a, b) => a - b)
           .join(',');
         const unread = unreadHuddles.find(x => x.user_ids_string === userIds);
@@ -224,7 +224,7 @@ export const getUnreadCountForNarrow = (narrow: Narrow) =>
       }
 
       if (isPrivateNarrow(narrow)) {
-        const sender = usersByEmail[narrow[0].operand];
+        const sender = usersByEmail.get(narrow[0].operand);
         if (!sender) {
           return 0;
         }

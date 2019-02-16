@@ -34,7 +34,7 @@ type Props = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
   isLoading: boolean,
-  usersByEmail: { [string]: User | RealmBot },
+  usersByEmail: Map<string, User | RealmBot>,
 |};
 
 /**

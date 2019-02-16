@@ -31,7 +31,7 @@ type Props = {|
   dispatch: Dispatch,
   isLoading: boolean,
   presences: PresenceState,
-  usersByEmail: { [string]: User | RealmBot },
+  usersByEmail: Map<string, User | RealmBot>,
   unreadStreamsAndTopics: any /* UnreadStream[] */,
 |};
 

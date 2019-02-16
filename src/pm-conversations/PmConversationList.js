@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 type Props = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
-  usersByEmail: { [string]: User | RealmBot },
+  usersByEmail: Map<string, User | RealmBot>,
 |};
 
 /**
@@ -44,7 +44,7 @@ export default class PmConversationList extends PureComponent<Props> {
         keyExtractor={item => item.recipients}
         renderItem={({ item }) => {
           if (item.recipients.indexOf(',') === -1) {
-            const user = usersByEmail[item.recipients];
+            const user = usersByEmail.get(item.recipients);
 
             if (!user) {
               return null;

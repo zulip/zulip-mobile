@@ -36,5 +36,5 @@ class TitlePrivate extends PureComponent<Props> {
 }
 
 export default connect((state, props) => ({
-  user: getAllUsersByEmail(state)[props.email],
+  user: getAllUsersByEmail(state).get(props.email),
 }))(TitlePrivate);
