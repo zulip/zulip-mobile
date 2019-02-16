@@ -1,4 +1,6 @@
-/* @flow */
+/* @flow strict-local */
+import type { ComponentType } from 'react';
+
 import type { Narrow } from '../types';
 import {
   isHomeNarrow,
@@ -14,7 +16,13 @@ import InfoNavButtonGroup from './InfoNavButtonGroup';
 import ExtraNavButtonStream from './ExtraNavButtonStream';
 import ExtraNavButtonTopic from './ExtraNavButtonTopic';
 
-const infoButtonHandlers = [
+type NarrowNavButton = ComponentType<{| color: string, narrow: Narrow |}>;
+type NarrowNavButtonCandidate = {
+  isFunc: Narrow => boolean,
+  ButtonComponent: NarrowNavButton | null,
+};
+
+const infoButtonHandlers: NarrowNavButtonCandidate[] = [
   { isFunc: isHomeNarrow, ButtonComponent: null },
   { isFunc: isSpecialNarrow, ButtonComponent: null },
   { isFunc: isStreamNarrow, ButtonComponent: InfoNavButtonStream },
@@ -23,7 +31,7 @@ const infoButtonHandlers = [
   { isFunc: isGroupNarrow, ButtonComponent: InfoNavButtonGroup },
 ];
 
-const extraButtonHandlers = [
+const extraButtonHandlers: NarrowNavButtonCandidate[] = [
   { isFunc: isHomeNarrow, ButtonComponent: null },
   { isFunc: isSpecialNarrow, ButtonComponent: null },
   { isFunc: isStreamNarrow, ButtonComponent: ExtraNavButtonStream },
@@ -32,13 +40,13 @@ const extraButtonHandlers = [
   { isFunc: isGroupNarrow, ButtonComponent: null },
 ];
 
-const getButton = (handlers: Object[], narrow: Narrow): ?Object => {
+const getButton = (handlers, narrow): ?NarrowNavButton => {
   const handler = handlers.find(x => x.isFunc(narrow));
   return handler && handler.ButtonComponent;
 };
 
-export const getInfoButtonFromNarrow = (narrow: Narrow): ?Object =>
+export const getInfoButtonFromNarrow = (narrow: Narrow): ?NarrowNavButton =>
   getButton(infoButtonHandlers, narrow);
 
-export const getExtraButtonFromNarrow = (narrow: Narrow): ?Object =>
+export const getExtraButtonFromNarrow = (narrow: Narrow): ?NarrowNavButton =>
   getButton(extraButtonHandlers, narrow);
