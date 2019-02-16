@@ -1,10 +1,17 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Dispatch, GlobalState, PmConversationData, User, RealmBot } from '../types';
+import type {
+  Dispatch,
+  GlobalState,
+  PmConversationData,
+  UnreadStreamItem,
+  User,
+  RealmBot,
+} from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -23,7 +30,7 @@ type Props = {|
   dispatch: Dispatch,
   isLoading: boolean,
   usersByEmail: Map<string, User | RealmBot>,
-  unreadStreamsAndTopics: any /* UnreadStream[] */,
+  unreadStreamsAndTopics: UnreadStreamItem[],
 |};
 
 class UnreadCards extends PureComponent<Props> {
@@ -37,7 +44,10 @@ class UnreadCards extends PureComponent<Props> {
 
   render() {
     const { isLoading, conversations, unreadStreamsAndTopics, ...restProps } = this.props;
-    const unreadCards = [
+    type Card =
+      | UnreadStreamItem
+      | { key: 'private', data: Array<$PropertyType<PmConversationList, 'props'>> };
+    const unreadCards: Array<Card> = [
       {
         key: 'private',
         data: [{ conversations, ...restProps }],
@@ -54,6 +64,7 @@ class UnreadCards extends PureComponent<Props> {
     }
 
     return (
+      // $FlowFixMe SectionList libdef seems confused; should take $ReadOnly objects.
       <SectionList
         stickySectionHeadersEnabled
         initialNumToRender={20}

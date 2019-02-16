@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Narrow } from '../types';
+import type { Narrow, Selector, UnreadStreamItem } from '../types';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import {
   getMute,
@@ -87,7 +87,7 @@ export const getUnreadTotal = createSelector(
     unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal + mentionsTotal,
 );
 
-export const getUnreadStreamsAndTopics = createSelector(
+export const getUnreadStreamsAndTopics: Selector<UnreadStreamItem[]> = createSelector(
   getSubscriptionsById,
   getUnreadStreams,
   getMute,

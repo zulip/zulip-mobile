@@ -471,6 +471,23 @@ export type GetText = {
   intl: IntlShape,
 };
 
+export type UnreadStreamItem = {|
+  key: string,
+  streamName: string,
+  unread: number,
+  color: string,
+  isMuted: boolean,
+  isPinned: boolean,
+  isPrivate: boolean,
+  data: Array<{|
+    key: string,
+    topic: string,
+    unread: number,
+    isMuted: boolean,
+    lastUnreadMsgId: number,
+  |}>,
+|};
+
 export type RenderedTimeDescriptor = {|
   type: 'time',
   key: number | string,
