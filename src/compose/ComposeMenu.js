@@ -106,7 +106,9 @@ class ComposeMenu extends PureComponent<Props> {
             <IconPeople
               style={styles.composeMenuButton}
               size={24}
-              onPress={() => dispatch(navigateToCreateGroup())}
+              onPress={() => {
+                dispatch(navigateToCreateGroup());
+              }}
             />
             <IconImage
               style={styles.composeMenuButton}
