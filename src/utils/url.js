@@ -13,7 +13,7 @@ import { NULL_USER } from '../nullObjects';
  * In principle the values should be strings; but we include some other
  * primitive types for which `toString` is just as good as `JSON.stringify`.
  */
-export type UrlParams = { [string]: string | boolean | number };
+export type UrlParams = $ReadOnly<{ [string]: string | boolean | number }>;
 
 export const getPathsFromUrl = (url: string = '', realm: string) => {
   const paths = url
