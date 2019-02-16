@@ -1,7 +1,8 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { RealmBot, User } from '../types';
 import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
 import styles from '../styles';
 
@@ -15,7 +16,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   email: string,
-  usersByEmail: Object,
+  usersByEmail: { [string]: User | RealmBot },
   unreadCount: number,
   onPress: (emails: string) => void,
 |};

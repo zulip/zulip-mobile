@@ -4,7 +4,14 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Dispatch, GlobalState, PmConversationData, PresenceState } from '../types';
+import type {
+  Dispatch,
+  GlobalState,
+  PmConversationData,
+  PresenceState,
+  User,
+  RealmBot,
+} from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -24,7 +31,7 @@ type Props = {|
   dispatch: Dispatch,
   isLoading: boolean,
   presences: PresenceState,
-  usersByEmail: Object,
+  usersByEmail: { [string]: User | RealmBot },
   unreadStreamsAndTopics: any /* UnreadStream[] */,
 |};
 
