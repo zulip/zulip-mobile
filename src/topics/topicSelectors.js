@@ -19,23 +19,23 @@ import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow } from '../utils/narrow';
 
-export const getTopicsForNarrow = (narrow: Narrow): Selector<string[]> =>
-  createSelector(
-    getTopics,
-    getStreams,
-    (topics: TopicsState, streams: StreamsState) => {
-      if (!isStreamNarrow(narrow)) {
-        return NULL_ARRAY;
-      }
-      const stream = streams.find(x => x.name === narrow[0].operand);
+export const getTopicsForNarrow: Selector<string[], Narrow> = createSelector(
+  (state, narrow) => narrow,
+  state => getTopics(state),
+  state => getStreams(state),
+  (narrow: Narrow, topics: TopicsState, streams: StreamsState) => {
+    if (!isStreamNarrow(narrow)) {
+      return NULL_ARRAY;
+    }
+    const stream = streams.find(x => x.name === narrow[0].operand);
 
-      if (!stream || !topics[stream.stream_id]) {
-        return NULL_ARRAY;
-      }
+    if (!stream || !topics[stream.stream_id]) {
+      return NULL_ARRAY;
+    }
 
-      return topics[stream.stream_id].map(x => x.name);
-    },
-  );
+    return topics[stream.stream_id].map(x => x.name);
+  },
+);
 
 export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSelector(
   (state, streamId) => getTopics(state)[streamId],

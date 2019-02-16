@@ -7,7 +7,7 @@ describe('getTopicsForNarrow', () => {
   test('when no topics return an empty list', () => {
     const state = deepFreeze({});
 
-    const topics = getTopicsForNarrow(HOME_NARROW)(state);
+    const topics = getTopicsForNarrow(state, HOME_NARROW);
 
     expect(topics).toEqual([]);
   });
@@ -20,7 +20,7 @@ describe('getTopicsForNarrow', () => {
       },
     });
 
-    const topics = getTopicsForNarrow(streamNarrow('hello'))(state);
+    const topics = getTopicsForNarrow(state, streamNarrow('hello'));
 
     expect(topics).toEqual(['hi', 'wow']);
   });

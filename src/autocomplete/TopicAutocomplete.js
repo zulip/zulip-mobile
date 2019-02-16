@@ -62,5 +62,5 @@ class TopicAutocomplete extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  topics: getTopicsForNarrow(props.narrow)(state),
+  topics: getTopicsForNarrow(state, props.narrow),
 }))(TopicAutocomplete);
