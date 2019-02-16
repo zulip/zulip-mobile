@@ -5,7 +5,6 @@ import {
   filterUserList,
   getAutocompleteSuggestion,
   getAutocompleteUserGroupSuggestions,
-  groupUsersByInitials,
   sortAlphabetically,
   filterUserStartWith,
   filterUserByInitials,
@@ -199,29 +198,6 @@ describe('sortUserList', () => {
     const sortedUsers = sortUserList(users, presences);
 
     expect(sortedUsers).toEqual(shouldMatch);
-  });
-});
-
-describe('groupUsersByInitials', () => {
-  test('empty input results in empty map', () => {
-    const users = deepFreeze([]);
-
-    const groupedUsers = groupUsersByInitials(users);
-    expect(groupedUsers).toEqual({});
-  });
-
-  test('empty input results in empty list', () => {
-    const users = deepFreeze([
-      { full_name: 'Allen' },
-      { full_name: 'Bob Tester' },
-      { full_name: 'bob bob' },
-    ]);
-
-    const groupedUsers = groupUsersByInitials(users);
-    expect(groupedUsers).toEqual({
-      A: [{ full_name: 'Allen' }],
-      B: [{ full_name: 'Bob Tester' }, { full_name: 'bob bob' }],
-    });
   });
 });
 

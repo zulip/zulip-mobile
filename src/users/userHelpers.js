@@ -5,16 +5,6 @@ import type { UserPresence, User, UserGroup, PresenceState } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
-export const groupUsersByInitials = (users: User[]): Object =>
-  users.reduce((accounts, x) => {
-    const firstLetter = x.full_name[0].toUpperCase();
-    if (!accounts[firstLetter]) {
-      accounts[firstLetter] = []; // eslint-disable-line
-    }
-    accounts[firstLetter].push(x);
-    return accounts;
-  }, {});
-
 export const groupUsersByStatus = (users: User[], presences: PresenceState): Object =>
   users.reduce(
     (groupedUsers, user) => {
