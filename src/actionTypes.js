@@ -153,7 +153,7 @@ type CancelEditMessageAction = {|
 type DebugFlagToggleAction = {|
   type: typeof DEBUG_FLAG_TOGGLE,
   key: string,
-  value: string,
+  value: boolean,
 |};
 
 export type NavigateAction = NavigationNavigateAction;

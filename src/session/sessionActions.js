@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Action, Dimensions, Dispatch, GetState, Orientation } from '../types';
 import {
   APP_ONLINE,
@@ -54,7 +54,7 @@ export const cancelEditMessage = (): Action => ({
   type: CANCEL_EDIT_MESSAGE,
 });
 
-export const debugFlagToggle = (key: string, value: any): Action => ({
+export const debugFlagToggle = (key: string, value: boolean): Action => ({
   type: DEBUG_FLAG_TOGGLE,
   key,
   value,
