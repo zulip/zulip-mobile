@@ -112,7 +112,7 @@ import type {
 type RehydrateAction = {|
   type: typeof REHYDRATE,
   payload: GlobalState | { accounts: null } | {||} | void,
-  error: ?Object,
+  error: mixed,
 |};
 
 type AppOnlineAction = {|
@@ -245,7 +245,7 @@ type EventAlertWordsAction = {|
 
 type EventRealmFiltersAction = {|
   type: typeof EVENT_REALM_FILTERS,
-  [string]: any,
+  realm_filters: RealmFilter[],
 |};
 
 type EventUpdateGlobalNotificationsSettingsAction = {|
@@ -455,12 +455,16 @@ type EventUserGroupRemoveMembersAction = {|
 
 type EventRealmEmojiUpdateAction = {|
   type: typeof EVENT_REALM_EMOJI_UPDATE,
-  [string]: any,
+  realm_emoji: RealmEmojiState,
 |};
 
 type EventUpdateDisplaySettingsAction = {|
   type: typeof EVENT_UPDATE_DISPLAY_SETTINGS,
-  [string]: any,
+  setting_name: string,
+  /** In reality, this can be a variety of types. It's boolean for a
+   * `setting_name` of `twenty_four_hour_time`, which is the only case we
+   * currently look at. */
+  setting: boolean,
 |};
 
 type EventReactionAction = EventReactionAddAction | EventReactionRemoveAction;
