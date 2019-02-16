@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
 import NotificationsIOS from 'react-native-notifications';
 
@@ -26,7 +26,7 @@ export const getNarrowFromNotificationData = (
     return topicNarrow(data.stream, data.topic);
   }
 
-  if (!data.pm_users) {
+  if (data.pm_users === undefined) {
     return privateNarrow(data.sender_email);
   }
 
@@ -42,9 +42,15 @@ export const getNarrowFromNotificationData = (
   return groupNarrow(emails);
 };
 
+type NotificationMuddle =
+  | Notification
+  | null
+  | void
+  | { getData: () => Notification | { zulip: Notification } };
+
 /** Extract the actual notification data from the wix library's wrapping (iOS only). */
 // exported for tests
-export const extractNotificationData = (notification: Object): Notification | null => {
+export const extractNotificationData = (notification: NotificationMuddle): Notification | null => {
   if (!notification || !notification.getData) {
     return null;
   }
@@ -58,6 +64,7 @@ const getInitialNotification = async (): Promise<Notification | null> => {
     return Notifications.getInitialNotification();
   }
   const notification = await PushNotificationIOS.getInitialNotification();
+  // $FlowFixMe Upstream's libdef for getInitialNotification has `Object` types.
   return extractNotificationData(notification);
 };
 
@@ -98,8 +105,10 @@ export class NotificationListener {
   }
 
   /** Private. */
-  handleNotificationOpen = (notification: Object) => {
-    const data = Platform.OS === 'ios' ? extractNotificationData(notification) : notification;
+  handleNotificationOpen = (notification: NotificationMuddle) => {
+    const data: Notification =
+      // $FlowFixMe clarify notification types
+      Platform.OS === 'ios' ? extractNotificationData(notification) : notification;
     this.dispatch(narrowToNotification(data));
   };
 
