@@ -52,8 +52,10 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
   (users, ownEmail) => users.filter(user => user.email !== ownEmail),
 );
 
-export const getAccountDetailsUserFromEmail = (email: string): Selector<User | RealmBot> =>
-  createSelector(getAllUsersByEmail, allUsersByEmail => {
+export const getAccountDetailsUserFromEmail: Selector<User | RealmBot, string> = createSelector(
+  (state, email) => email,
+  state => getAllUsersByEmail(state),
+  (email, allUsersByEmail) => {
     if (!email) {
       return NULL_USER;
     }
@@ -65,4 +67,5 @@ export const getAccountDetailsUserFromEmail = (email: string): Selector<User | R
         full_name: email,
       }
     );
-  });
+  },
+);

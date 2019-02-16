@@ -16,7 +16,7 @@ describe('getAccountDetailsUserFromEmail', () => {
     });
     const expectedUser = { firstName: 'b', email: 'b@a.com' };
 
-    const actualUser = getAccountDetailsUserFromEmail('b@a.com')(state);
+    const actualUser = getAccountDetailsUserFromEmail(state, 'b@a.com');
 
     expect(actualUser).toEqual(expectedUser);
   });
@@ -43,7 +43,7 @@ describe('getAccountDetailsUserFromEmail', () => {
       is_bot: false,
     };
 
-    const actualUser = getAccountDetailsUserFromEmail('b@a.com')(state);
+    const actualUser = getAccountDetailsUserFromEmail(state, 'b@a.com');
 
     expect(actualUser).toEqual(expectedUser);
   });
