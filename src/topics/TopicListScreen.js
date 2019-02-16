@@ -53,6 +53,6 @@ class TopicListScreen extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState, props) => ({
-  stream: getStreamFromId(props.navigation.state.params.streamId)(state),
+  stream: getStreamFromId(state, props.navigation.state.params.streamId),
   topics: getTopicsForStream(state, props.navigation.state.params.streamId),
 }))(TopicListScreen);
