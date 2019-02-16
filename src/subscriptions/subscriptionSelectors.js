@@ -22,14 +22,17 @@ export const getSubscriptionsById: Selector<{ [number]: Subscription }> = create
     }, ({}: { [number]: Subscription })),
 );
 
-export const getIsActiveStreamSubscribed = (narrow: Narrow): Selector<boolean> =>
-  createSelector(getSubscriptions, subscriptions => {
+export const getIsActiveStreamSubscribed: Selector<boolean, Narrow> = createSelector(
+  (state, narrow) => narrow,
+  state => getSubscriptions(state),
+  (narrow, subscriptions) => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return true;
     }
 
     return subscriptions.find(sub => narrow[0].operand === sub.name) !== undefined;
-  });
+  },
+);
 
 export const getSubscribedStreams: Selector<Subscription[]> = createSelector(
   getStreams,
@@ -56,11 +59,14 @@ export const getSubscriptionFromId = (streamId: string): Selector<Subscription> 
     subscriptions => subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION,
   );
 
-export const getIsActiveStreamAnnouncementOnly = (narrow: Narrow): Selector<boolean> =>
-  createSelector(getStreams, streams => {
+export const getIsActiveStreamAnnouncementOnly: Selector<boolean, Narrow> = createSelector(
+  (state, narrow) => narrow,
+  state => getStreams(state),
+  (narrow, streams) => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return false;
     }
     const stream = streams.find(stream_ => narrow[0].operand === stream_.name);
     return stream ? stream.is_announcement_only : false;
-  });
+  },
+);
