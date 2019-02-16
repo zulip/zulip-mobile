@@ -66,7 +66,7 @@ describe('getTopicsForStream', () => {
       },
     });
 
-    const topics = getTopicsForStream(123)(state);
+    const topics = getTopicsForStream(state, 123);
 
     expect(topics).toEqual(undefined);
   });
@@ -83,7 +83,7 @@ describe('getTopicsForStream', () => {
       },
     });
 
-    const topics = getTopicsForStream(123)(state);
+    const topics = getTopicsForStream(state, 123);
 
     expect(topics).toEqual([{ name: 'topic', max_id: 456, isMuted: false, unreadCount: 0 }]);
   });
@@ -124,7 +124,7 @@ describe('getTopicsForStream', () => {
       { name: 'topic 5', max_id: 9, isMuted: false, unreadCount: 0 },
     ];
 
-    const topics = getTopicsForStream(1)(state);
+    const topics = getTopicsForStream(state, 1);
 
     expect(topics).toEqual(expected);
   });
