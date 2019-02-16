@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { createSelector } from 'reselect';
 
 import type { Narrow } from '../types';
@@ -87,32 +87,19 @@ export const getUnreadTotal = createSelector(
     unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal + mentionsTotal,
 );
 
-type UnreadTopic = {|
-  key: string,
-  topic: string,
-  unread: number,
-  lastUnreadMsgId: number,
-|};
-
-type UnreadStream = {|
-  key: string,
-  streamName: string,
-  color: string,
-  unread: number,
-  data: Array<UnreadTopic>,
-|};
-
 export const getUnreadStreamsAndTopics = createSelector(
   getSubscriptionsById,
   getUnreadStreams,
   getMute,
   (subscriptionsById, unreadStreams, mute) => {
-    const unreadMap = unreadStreams.reduce((totals, stream) => {
+    const totals = new Map();
+    unreadStreams.forEach(stream => {
       const { name, color, in_home_view, invite_only, pin_to_top } =
         subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
 
-      if (!totals[stream.stream_id]) {
-        totals[stream.stream_id] = {
+      let total = totals.get(stream.stream_id);
+      if (!total) {
+        total = {
           key: name,
           streamName: name,
           isMuted: !in_home_view,
@@ -122,30 +109,28 @@ export const getUnreadStreamsAndTopics = createSelector(
           unread: 0,
           data: [],
         };
+        totals.set(stream.stream_id, total);
       }
 
       const isMuted = !mute.every(x => x[0] !== name || x[1] !== stream.topic);
       if (!isMuted) {
-        totals[stream.stream_id].unread += stream.unread_message_ids.length;
+        total.unread += stream.unread_message_ids.length;
       }
 
-      totals[stream.stream_id].data.push({
+      total.data.push({
         key: stream.topic,
         topic: stream.topic,
         unread: stream.unread_message_ids.length,
         lastUnreadMsgId: stream.unread_message_ids[stream.unread_message_ids.length - 1],
         isMuted,
       });
+    });
 
-      return totals;
-    }, {});
+    const sortedStreams = Array.from(totals.values())
+      .sort((a, b) => caseInsensitiveCompareFunc(a.streamName, b.streamName))
+      .sort((a, b) => +b.isPinned - +a.isPinned);
 
-    const sortedStreams = Object.values(unreadMap)
-      .sort((a: any, b: any) => caseInsensitiveCompareFunc(a.streamName, b.streamName))
-      .sort((a: any, b: any): number => +b.isPinned - +a.isPinned);
-
-    // $FlowFixMe
-    sortedStreams.forEach((stream: UnreadStream) => {
+    sortedStreams.forEach(stream => {
       stream.data.sort((a, b) => b.lastUnreadMsgId - a.lastUnreadMsgId);
     });
 
