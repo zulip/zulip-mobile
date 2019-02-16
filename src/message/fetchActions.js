@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Narrow, Dispatch, GetState, GlobalState, Message, Action } from '../types';
 import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
 import {
@@ -94,7 +94,7 @@ export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   const fetching = getFetchingForNarrow(narrow)(state);
   const { needsInitialFetch } = getSession(state);
 
-  if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId) {
+  if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId !== undefined) {
     dispatch(fetchMessages(narrow, firstMessageId, config.messagesPerRequest, 0));
   }
 };
@@ -106,7 +106,7 @@ export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   const fetching = getFetchingForNarrow(narrow)(state);
   const { needsInitialFetch } = getSession(state);
 
-  if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId) {
+  if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId !== undefined) {
     dispatch(fetchMessages(narrow, lastMessageId, 0, config.messagesPerRequest));
   }
 };
