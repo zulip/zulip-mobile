@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { NavigationNavigateAction } from 'react-navigation';
 
 import {
@@ -322,7 +322,9 @@ type EventUpdateMessageAction = {|
   type: typeof EVENT_UPDATE_MESSAGE,
   edit_timestamp: number,
   message_id: number,
+  // TODO is it really right that just one of the orig_* is optional?
   orig_content: string,
+  // $FlowFixMe clarify orig_subject vs. other orig_*, and missing vs. empty
   orig_subject?: string,
   orig_rendered_content: string,
   prev_rendered_content_version: number,
