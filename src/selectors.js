@@ -14,3 +14,4 @@ export * from './topics/topicSelectors';
 export * from './typing/typingSelectors';
 export * from './unread/unreadSelectors';
 export * from './users/userSelectors';
+export * from './user-status/userStatusSelectors';
