@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Style } from '../types';
-import type { Icon as IconType } from './Icons';
+import type { IconType } from './Icons';
 import Label from './Label';
 import ZulipSwitch from './ZulipSwitch';
 import type { ThemeColors } from '../styles';

@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import Label from './Label';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
-import type { Icon as IconType } from './Icons';
+import type { IconType } from './Icons';
 import type { ThemeColors } from '../styles';
 import styles, { ThemeContext } from '../styles';
 

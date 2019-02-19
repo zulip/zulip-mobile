@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import TranslatedText from './TranslatedText';
 
 import type { Style } from '../types';
-import type { Icon as IconType } from './Icons';
+import type { IconType } from './Icons';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 

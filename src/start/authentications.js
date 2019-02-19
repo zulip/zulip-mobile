@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import type { AuthenticationMethods } from '../types';
 import { IconPrivate, IconGoogle, IconGitHub, IconTerminal } from '../common/Icons';
-import type { Icon } from '../common/Icons';
+import type { IconType } from '../common/Icons';
 
 type AuthenticationMethodDetails = {|
   method: string,
   name: string,
-  Icon: Icon,
+  Icon: IconType,
   handler: string,
 |};
 

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import { ZulipButton } from '../common';
-import type { Icon as IconType } from '../common/Icons';
+import type { IconType } from '../common/Icons';
 import styles from '../styles';
 
 type Props = {|
