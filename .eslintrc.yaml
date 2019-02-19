@@ -50,6 +50,7 @@ rules:
 
   # Imports
   import/prefer-default-export: off
+  import/no-named-as-default: off
   import/no-extraneous-dependencies:
   - error
   - devDependencies: ['**/__tests__/*.js', tools/**]
