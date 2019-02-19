@@ -14,22 +14,58 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    borderColor: 'white',
-    borderWidth: 2,
   },
   active: {
-    backgroundColor: '#44c21d',
+    backgroundColor: 'hsl(106, 74%, 44%)',
   },
-  unavailable: {
-    backgroundColor: 'lightgray',
+  idleWrapper: {
+    borderWidth: 2,
+    borderColor: 'rgba(255, 165, 0, 1)',
   },
-  idle: {
+  idleHalfCircle: {
     backgroundColor: 'rgba(255, 165, 0, 1)',
+    width: 8,
+    height: 4,
+    marginTop: 4,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
   },
   offline: {
-    backgroundColor: 'lightgray',
+    backgroundColor: 'gray',
+  },
+  unavailableWrapper: {
+    borderColor: 'gray',
+    borderWidth: 1.5,
+  },
+  unavailableLine: {
+    backgroundColor: 'gray',
+    marginVertical: 3.5,
+    marginHorizontal: 1.5,
+    height: 2,
   },
 });
+
+const PresenceStatusIndicatorIdle = ({ style }: { style: Style }) => (
+  <View style={[styles.idleWrapper, styles.common, style]}>
+    <View style={styles.idleHalfCircle} />
+  </View>
+);
+
+const PresenceStatusIndicatorOnline = ({ style }: { style: Style }) => (
+  <View style={[styles.active, styles.common, style]} />
+);
+
+const PresenceStatusIndicatorOffline = ({ style }: { style: Style }) => (
+  <View style={[styles.offline, styles.common, style]} />
+);
+
+const PresenceStatusIndicatorUnavailable = ({ style }: { style: Style }) => (
+  <View style={[styles.unavailableWrapper, styles.common, style]}>
+    <View style={styles.unavailableLine} />
+  </View>
+);
 
 type PropsFromConnect = {|
   presence: PresenceState,
@@ -71,7 +107,22 @@ class PresenceStatusIndicator extends PureComponent<Props> {
       return null;
     }
 
-    return <View style={[styles.common, styles[status], style]} />;
+    switch (status) {
+      case 'active':
+        return <PresenceStatusIndicatorOnline style={style} />;
+
+      case 'idle':
+        return <PresenceStatusIndicatorIdle style={style} />;
+
+      case 'offline':
+        return <PresenceStatusIndicatorOffline style={style} />;
+
+      case 'unavailable':
+        return <PresenceStatusIndicatorUnavailable style={style} />;
+
+      default:
+        return null;
+    }
   }
 }
 
