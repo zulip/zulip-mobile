@@ -14,8 +14,6 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    borderColor: 'white',
-    borderWidth: 2,
   },
   active: {
     backgroundColor: '#44c21d',
@@ -23,13 +21,30 @@ const styles = StyleSheet.create({
   away: {
     backgroundColor: 'lightgray',
   },
-  idle: {
+  idleWrapper: {
+    borderWidth: 2,
+    borderColor: 'rgba(255, 165, 0, 1)',
+  },
+  idleHalfCircle: {
     backgroundColor: 'rgba(255, 165, 0, 1)',
+    width: 8,
+    height: 4,
+    marginTop: 4,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
   },
   offline: {
     backgroundColor: 'lightgray',
   },
 });
+
+const PresenceStatusIndicatorIdle = ({ style }: { style: Style }) => (
+  <View style={[styles.idleWrapper, styles.common, style]}>
+    <View style={styles.idleHalfCircle} />
+  </View>
+);
 
 type PropsFromConnect = {|
   presence: PresenceState,
@@ -69,6 +84,10 @@ class PresenceStatusIndicator extends PureComponent<Props> {
 
     if (hideIfOffline && status === 'offline') {
       return null;
+    }
+
+    if (status === 'idle') {
+      return <PresenceStatusIndicatorIdle style={style} />;
     }
 
     return <View style={[styles.common, styles[status], style]} />;
