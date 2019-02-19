@@ -49,6 +49,7 @@ rules:
   no-param-reassign: off
 
   # Imports
+  import/no-named-as-default: off
   import/prefer-default-export: off
   import/no-extraneous-dependencies:
   - error
