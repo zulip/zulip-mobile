@@ -53,13 +53,7 @@ export default class UserItem extends PureComponent<Props> {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
-          <Avatar
-            size={32}
-            avatarUrl={avatarUrl}
-            email={email}
-            name={fullName}
-            onPress={this.handlePress}
-          />
+          <Avatar size={32} avatarUrl={avatarUrl} email={email} onPress={this.handlePress} />
           <View style={componentStyles.textWrapper}>
             <RawLabel
               style={[componentStyles.text, isSelected && componentStyles.selectedText]}

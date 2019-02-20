@@ -74,7 +74,6 @@ export default class AvatarItem extends PureComponent<Props> {
             size={50}
             avatarUrl={avatarUrl}
             email={email}
-            name={fullName}
             onPress={this.handlePress}
           />
         </ComponentWithOverlay>

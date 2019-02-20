@@ -22,7 +22,7 @@ class TitlePrivate extends PureComponent<Props> {
     const avatarUrl: string | void | null = user.avatar_url;
     return (
       <View style={styles.navWrapper}>
-        <Avatar size={32} name={user.full_name} email={user.email} avatarUrl={avatarUrl} />
+        <Avatar size={32} email={user.email} avatarUrl={avatarUrl} />
         <ViewPlaceholder width={8} />
         <View>
           <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">

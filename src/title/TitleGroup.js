@@ -21,12 +21,7 @@ class TitleGroup extends PureComponent<Props> {
       <View style={styles.navWrapper}>
         {recipients.map((user, index) => (
           <View key={user.email} style={styles.titleAvatar}>
-            <Avatar
-              size={32}
-              name={user.full_name}
-              avatarUrl={user.avatar_url}
-              email={user.email}
-            />
+            <Avatar size={32} avatarUrl={user.avatar_url} email={user.email} />
           </View>
         ))}
       </View>

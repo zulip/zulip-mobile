@@ -33,7 +33,6 @@ export default class AccountDetails extends PureComponent<Props, void> {
       <View>
         <Avatar
           avatarUrl={typeof user.avatar_url === 'string' ? getMediumAvatar(user.avatar_url) : null}
-          name={user.full_name}
           email={user.email}
           size={screenWidth}
           shape="square"
