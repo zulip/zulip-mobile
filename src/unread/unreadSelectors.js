@@ -27,7 +27,7 @@ import {
 import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
 import { getAllUsersByEmail } from '../users/userSelectors';
 
-export const getUnreadByStream = createSelector(
+export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
   getUnreadStreams,
   getSubscriptionsById,
   getMute,
@@ -51,23 +51,27 @@ export const getUnreadStreamTotal: Selector<number> = createSelector(
   unreadByStream => Object.values(unreadByStream).reduce((total, x) => +x + total, 0),
 );
 
-export const getUnreadByPms = createSelector(getUnreadPms, unreadPms =>
-  unreadPms.reduce((totals, pm) => {
-    totals[pm.sender_id] = totals[pm.sender_id] || 0 + pm.unread_message_ids.length;
-    return totals;
-  }, ({}: { [number]: number })),
+export const getUnreadByPms: Selector<{ [number]: number }> = createSelector(
+  getUnreadPms,
+  unreadPms =>
+    unreadPms.reduce((totals, pm) => {
+      totals[pm.sender_id] = totals[pm.sender_id] || 0 + pm.unread_message_ids.length;
+      return totals;
+    }, ({}: { [number]: number })),
 );
 
 export const getUnreadPmsTotal: Selector<number> = createSelector(getUnreadPms, unreadPms =>
   unreadPms.reduce((total, pm) => total + pm.unread_message_ids.length, 0),
 );
 
-export const getUnreadByHuddles = createSelector(getUnreadHuddles, unreadHuddles =>
-  unreadHuddles.reduce((totals, huddle) => {
-    totals[huddle.user_ids_string] =
-      totals[huddle.user_ids_string] || 0 + huddle.unread_message_ids.length;
-    return totals;
-  }, ({}: { [string]: number })),
+export const getUnreadByHuddles: Selector<{ [string]: number }> = createSelector(
+  getUnreadHuddles,
+  unreadHuddles =>
+    unreadHuddles.reduce((totals, huddle) => {
+      totals[huddle.user_ids_string] =
+        totals[huddle.user_ids_string] || 0 + huddle.unread_message_ids.length;
+      return totals;
+    }, ({}: { [string]: number })),
 );
 
 export const getUnreadHuddlesTotal: Selector<number> = createSelector(
@@ -141,7 +145,7 @@ export const getUnreadStreamsAndTopics: Selector<UnreadStreamItem[]> = createSel
   },
 );
 
-export const getUnreadStreamsAndTopicsSansMuted = createSelector(
+export const getUnreadStreamsAndTopicsSansMuted: Selector<UnreadStreamItem[]> = createSelector(
   getUnreadStreamsAndTopics,
   unreadStreamsAndTopics =>
     unreadStreamsAndTopics
@@ -158,14 +162,14 @@ export const getUnreadPrivateMessagesCount: Selector<number> = createSelector(
   (privateMessages, readFlags) => countUnread(privateMessages.map(msg => msg.id), readFlags),
 );
 
-export const getUnreadByHuddlesMentionsAndPMs = createSelector(
+export const getUnreadByHuddlesMentionsAndPMs: Selector<number> = createSelector(
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
   getUnreadMentionsTotal,
   (unreadPms, unreadHuddles, unreadMentions) => unreadPms + unreadHuddles + unreadMentions,
 );
 
-export const getUnreadCountForNarrow = (narrow: Narrow) =>
+export const getUnreadCountForNarrow = (narrow: Narrow): Selector<number> =>
   createSelector(
     getStreams,
     getAllUsersByEmail,
