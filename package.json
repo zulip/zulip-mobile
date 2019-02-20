@@ -26,7 +26,6 @@
     "test:prettier": "tools/test prettier",
     "test:prettier-full": "tools/test prettier --full",
     "test:unit": "tools/test jest",
-    "test:coveralls": "tools/test jest --full --coverage",
     "prettier": "tools/fmt",
     "prettier-full": "tools/fmt --all",
 
@@ -92,7 +91,6 @@
     "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-preset-react-native": "^4.0.0",
     "metro-react-native-babel-preset": "0.49.1",
-    "coveralls": "^3.0.1",
     "deep-freeze": "^0.0.1",
     "detox": "^9.0.6",
     "eslint": "^4.19.1",

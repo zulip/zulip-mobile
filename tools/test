@@ -107,7 +107,6 @@ run_jest() {
         full)
             if [ -n "$coverage" ]; then
                 jest --coverage
-                coveralls <./coverage/lcov.info
             else
                 jest
             fi
