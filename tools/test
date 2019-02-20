@@ -103,23 +103,23 @@ run_lint() {
 
 run_jest() {
     # Unlike some others, this inspects "$files" for itself.
+    jest_args=()
     case "$files" in
         full)
             if [ -n "$coverage" ]; then
-                jest --coverage
-            else
-                jest
+                jest_args+=( --coverage )
             fi
             ;;
         branch)
-            jest --changedSince "$(tools/info upstream-ref)"
+            jest_args+=( --changedSince "$(tools/info upstream-ref)" )
             ;;
         diff:*)
             file_list=( $(files_js) )
             (( ${#file_list[@]} )) || return 0
-            jest --findRelatedTests "${file_list[@]}"
+            jest_args+=( --findRelatedTests "${file_list[@]}" )
             ;;
     esac
+    jest "${jest_args[@]}"
 }
 
 run_prettier() {
