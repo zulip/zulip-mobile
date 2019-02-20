@@ -43,7 +43,6 @@ install:
 script:
   - tools/test --full --coverage
   - tools/verify-webview-js
-  - cd android && ./gradlew assembleDebug
 
 env:
   - COVERALLS_REPO_TOKEN=4eYQDtWoBJlDz2QkxoQ2UcnmJFcOB7zkv
