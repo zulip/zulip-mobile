@@ -16,6 +16,8 @@ type IconProps = {|
   color?: string,
 |};
 
+export const Icon: ComponentType<{| ...IconProps, name: string |}> = Feather;
+
 export type IconType = ComponentType<IconProps>;
 
 export const IconHome: IconType = props => <Feather name="home" {...props} />;
@@ -48,5 +50,3 @@ export const IconImage: IconType = props => <Feather name="image" {...props} />;
 export const IconCamera: IconType = props => <Feather name="camera" {...props} />;
 export const IconTerminal: IconType = props => <Feather name="terminal" {...props} />;
 export const IconMoreHorizontal: IconType = props => <Feather name="more-horizontal" {...props} />;
-
-export default Feather;

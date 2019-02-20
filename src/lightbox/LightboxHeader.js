@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { shortTime, humanDate } from '../utils/date';
 import { Avatar, Touchable } from '../common';
-import Icon from '../common/Icons';
+import { Icon } from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
   text: {

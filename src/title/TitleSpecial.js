@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import type { Narrow } from '../types';
 import { Label } from '../common';
-import Icon from '../common/Icons';
+import { Icon } from '../common/Icons';
 import styles from '../styles';
 
 const specials = {

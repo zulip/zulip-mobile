@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
 import type { Style } from '../types';
-import Icon from '../common/Icons';
+import { Icon } from '../common/Icons';
 
 const styles = StyleSheet.create({
   wrapper: {
