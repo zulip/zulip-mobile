@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { GlobalState, User } from '../types';
@@ -22,6 +22,8 @@ const componentStyles = StyleSheet.create({
   },
 });
 
+const AVATAR_SIZE = 200;
+
 type Props = {|
   realm: string,
   user: User,
@@ -30,16 +32,17 @@ type Props = {|
 class AccountDetails extends PureComponent<Props, void> {
   render() {
     const { realm, user } = this.props;
-    const screenWidth = Dimensions.get('window').width;
 
     return (
       <View>
-        <UserAvatar
-          avatarUrl={getAvatarFromUser(user, realm, screenWidth)}
-          size={screenWidth}
-          shape="square"
-        />
         <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
+          <View>
+            <UserAvatar
+              avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)}
+              size={AVATAR_SIZE}
+              shape="circle"
+            />
+          </View>
           <View style={componentStyles.statusWrapper}>
             <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
             <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
