@@ -31,6 +31,7 @@ A terse and incomplete list:
 * Fixed #3289, `@`-autocomplete following newline
 * Cleaned up CI in several ways
 * Fixed #2693, emoji cut off at bottom
+* Translation updates for Portuguese, Italian, Hindi, French, German, and Czech
 
 
 ## 22.1.108 (2019-01-15)
