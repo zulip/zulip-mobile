@@ -32,7 +32,7 @@ export { default as SectionSeparatorBetween } from './SectionSeparatorBetween';
 export { default as SlideAnimationView } from './SlideAnimationView';
 export { default as SmartUrlInput } from './SmartUrlInput';
 export { default as SpinningProgress } from './SpinningProgress';
-export { default as TextAvatar } from './TextAvatar';
+export { default as GroupAvatar } from './GroupAvatar';
 export { default as Touchable } from './Touchable';
 export { default as UnreadCount } from './UnreadCount';
 export { default as PresenceStatusIndicator } from './PresenceStatusIndicator';

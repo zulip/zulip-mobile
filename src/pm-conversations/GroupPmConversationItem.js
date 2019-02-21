@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { RealmBot, User } from '../types';
-import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
+import { GroupAvatar, RawLabel, Touchable, UnreadCount } from '../common';
 import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
@@ -46,7 +46,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.listItem}>
-          <TextAvatar size={32} name={allNames} />
+          <GroupAvatar size={32} name={allNames} />
           <RawLabel
             style={componentStyles.text}
             numberOfLines={2}

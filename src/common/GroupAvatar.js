@@ -28,16 +28,17 @@ type Props = {
 };
 
 /**
- * Renders a text avatar based on user initials and a color
- * calculated as a hash from their name.
+ * Renders a text avatar based on a single or multiple user's
+ * initials and a color calculated as a hash from their name.
+ * We are currently using it only for group chats.
  *
- * @prop name - User's full name to extract initials from.
+ * @prop name - User's names to extract initials from.
  * @prop size - Sets width and height in pixels.
  * @prop shape - One of 'square', 'rounded', 'circle'.
  * @prop children - If provided, will render inside the component body.
  * @prop onPress - Event fired on pressing the component.
  */
-export default class TextAvatar extends PureComponent<Props> {
+export default class GroupAvatar extends PureComponent<Props> {
   static defaultProps = {
     shape: 'rounded',
   };
