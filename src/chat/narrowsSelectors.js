@@ -121,14 +121,14 @@ export const getIfNoMessages = (narrow: Narrow) =>
     messages => messages && messages.length === 0,
   );
 
-export const getShowMessagePlaceholders = (narrow: Narrow) =>
+export const getShowMessagePlaceholders = (narrow: Narrow): Selector<boolean> =>
   createSelector(
     getIfNoMessages(narrow),
     getIsFetching(narrow),
     (noMessages, isFetching) => isFetching && noMessages,
   );
 
-export const isNarrowValid = (narrow: Narrow) =>
+export const isNarrowValid = (narrow: Narrow): Selector<boolean> =>
   createSelector(getStreams, getAllUsersByEmail, (streams, allUsersByEmail) => {
     if (isStreamOrTopicNarrow(narrow)) {
       return streams.find(s => s.name === narrow[0].operand) !== undefined;
