@@ -11,6 +11,18 @@ to users in general on the app stores is typically a few days later.
 
 ## 23.0.109 (2019-02-20)
 
+### Highlights for users
+
+Many fixes and improvements, including:
+* Fixed several issues in message compose and autocomplete.
+* Fixed several issues in sending messages under bad network
+  conditions.
+* Translation updates for Portuguese, Italian, Hindi, French,
+  German, and Czech.
+
+
+### Detailed changes
+
 A terse and incomplete list:
 
 * Numerous type improvements: actions, events, strict-local
