@@ -22,12 +22,12 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   avatarUrl: ?string,
-  email: string,
-  name: string,
-  size: number,
-  realm: string,
-  shape: 'square' | 'rounded' | 'circle',
-  onPress?: () => void,
+    email: string,
+      name: string,
+        size: number,
+          realm: string,
+            shape: 'square' | 'rounded' | 'circle',
+              onPress ?: () => void,
 |};
 
 /**
@@ -54,7 +54,7 @@ class Avatar extends PureComponent<Props> {
   render() {
     const { avatarUrl, email, name, size, onPress, realm, shape } = this.props;
     const fullAvatarUrl =
-      typeof avatarUrl === 'string' ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
+      typeof avatarUrl === 'string' ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email, size);
     const AvatarComponent = fullAvatarUrl ? ImageAvatar : TextAvatar;
 
     return (
