@@ -1,8 +1,7 @@
 package com.zulipmobile.notifications;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.bridge.*;
@@ -30,17 +29,16 @@ public class NotificationsModule extends ReactContextBaseJavaModule {
         // before React is ready.  With some more care we could hang on to it and emit
         // the event a bit later, but instead we just redundantly emit here when we
         // know things have started up.
-        emitToken((ReactApplication) getCurrentActivity().getApplication());
+        final ReactContext reactContext =
+                ((ReactApplication) getCurrentActivity().getApplication())
+                .getReactNativeHost()
+                .getReactInstanceManager()
+                .getCurrentReactContext();
+        emitToken(reactContext);
     }
 
-    static void emitToken(ReactApplication application) {
+    static void emitToken(@Nullable ReactContext reactContext) {
         final String token = FirebaseInstanceId.getInstance().getToken();
-
-        final ReactContext reactContext =
-                application
-                        .getReactNativeHost()
-                        .getReactInstanceManager()
-                        .getCurrentReactContext();
         if (reactContext == null) {
             // Perhaps this is possible if InstanceIDListenerService gets invoked?
             // If so, the next time the app is launched, this method will be invoked again
