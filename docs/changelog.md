@@ -9,7 +9,7 @@ to users in general on the app stores is typically a few days later.
 ## Unreleased
 
 
-## 23.0.109 (2019-02-20)
+## 23.1.110 (2019-02-20)
 
 ### Highlights for users
 
@@ -47,6 +47,12 @@ A terse and incomplete list:
 * Cleaned up CI in several ways
 * Fixed #2693, emoji cut off at bottom
 * Translation updates for Portuguese, Italian, Hindi, French, German, and Czech
+
+
+## (alpha) 23.0.109 (2019-02-20)
+
+This was an alpha-only release, followed closely by 23.1.110.
+See above for details.
 
 
 ## 22.1.108 (2019-01-15)
