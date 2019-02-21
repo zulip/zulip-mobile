@@ -8,6 +8,30 @@ to users in general on the app stores is typically a few days later.
 
 ## Unreleased
 
+A terse and incomplete list:
+
+* Numerous type improvements: actions, events, strict-local
+* Fixed #3274, lightbox action sheet
+* Fixed #3259, outbox reordering
+* Fixed #3120 by retrying outbox
+* Reducer refactor
+* Fixed #3280, iOS layout at top
+* Android build updates
+* Compose box simpler, and fixed some latency
+* Fixed double autocomplete popups
+* Fixed #3295 in compose box
+* Make WebViews debuggable
+* Buffer thunk actions
+* Fixed #2128, spamming server with notif signups
+* android notif: Completely cut out wix library
+* android notif: Upgrade to FCM from GCM
+* Fixed #3338, by using server's `found_newest`/`found_oldest`
+* Fixed caching in some selectors (#3015)
+* Fixed some inefficient data structures (#3339)
+* Fixed #3289, `@`-autocomplete following newline
+* Cleaned up CI in several ways
+* Fixed #2693, emoji cut off at bottom
+
 
 ## 22.1.108 (2019-01-15)
 
