@@ -8,6 +8,9 @@ to users in general on the app stores is typically a few days later.
 
 ## Unreleased
 
+
+## 23.0.109 (2019-02-20)
+
 A terse and incomplete list:
 
 * Numerous type improvements: actions, events, strict-local
