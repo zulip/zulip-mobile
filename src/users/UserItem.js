@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
+import { UserAvatarWithPresence, RawLabel, Touchable, UnreadCount } from '../common';
 import styles, { BRAND_COLOR } from '../styles';
 
 const componentStyles = StyleSheet.create({
@@ -53,7 +53,12 @@ export default class UserItem extends PureComponent<Props> {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
-          <Avatar size={32} avatarUrl={avatarUrl} email={email} onPress={this.handlePress} />
+          <UserAvatarWithPresence
+            size={32}
+            avatarUrl={avatarUrl}
+            email={email}
+            onPress={this.handlePress}
+          />
           <View style={componentStyles.textWrapper}>
             <RawLabel
               style={[componentStyles.text, isSelected && componentStyles.selectedText]}

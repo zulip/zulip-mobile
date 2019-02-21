@@ -29,7 +29,7 @@ type Props = {|
 |};
 
 /**
- * Renders an image if avatarUrl is proved, a text avatar otherwise
+ * Renders a user avatar with a PresenceStatusIndicator in the corner
  *
  * @prop [avatarUrl] - Absolute or relative url to an avatar image.
  * @prop [email] - User's' email address, to calculate Gravatar URL if not given `avatarUrl`.
@@ -38,7 +38,7 @@ type Props = {|
  * @prop [shape] - One of 'square', 'rounded', 'circle'.
  * @prop [onPress] - Event fired on pressing the component.
  */
-class Avatar extends PureComponent<Props> {
+class UserAvatarWithPresence extends PureComponent<Props> {
   static defaultProps = {
     avatarUrl: '',
     email: '',
@@ -62,4 +62,4 @@ class Avatar extends PureComponent<Props> {
 
 export default connect((state: GlobalState) => ({
   realm: getCurrentRealm(state),
-}))(Avatar);
+}))(UserAvatarWithPresence);

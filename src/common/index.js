@@ -1,6 +1,6 @@
 /* @flow strict-local */
 export { default as Arc } from './Arc';
-export { default as Avatar } from './Avatar';
+export { default as UserAvatarWithPresence } from './UserAvatarWithPresence';
 export { default as Centerer } from './Centerer';
 export { default as Circle } from './Circle';
 export { default as ComponentList } from './ComponentList';

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import { shortTime, humanDate } from '../utils/date';
-import { Avatar, Touchable } from '../common';
+import { UserAvatarWithPresence, Touchable } from '../common';
 import { Icon } from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
@@ -53,7 +53,7 @@ export default class LightboxHeader extends PureComponent<Props> {
 
     return (
       <View style={componentStyles.wrapper}>
-        <Avatar size={36} avatarUrl={avatarUrl} />
+        <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} />
         <View style={componentStyles.text}>
           <Text style={componentStyles.name} numberOfLines={1}>
             {senderName}

@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
 import type { RealmBot, User } from '../types';
-import { Avatar, ViewPlaceholder } from '../common';
+import { UserAvatarWithPresence, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
 import { getAllUsersByEmail } from '../users/userSelectors';
 import styles from '../styles';
@@ -22,7 +22,7 @@ class TitlePrivate extends PureComponent<Props> {
     const avatarUrl: string | void | null = user.avatar_url;
     return (
       <View style={styles.navWrapper}>
-        <Avatar size={32} email={user.email} avatarUrl={avatarUrl} />
+        <UserAvatarWithPresence size={32} email={user.email} avatarUrl={avatarUrl} />
         <ViewPlaceholder width={8} />
         <View>
           <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">

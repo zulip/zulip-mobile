@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 
 import type { User } from '../types';
-import { Avatar, ComponentList, RawLabel } from '../common';
+import { UserAvatarWithPresence, ComponentList, RawLabel } from '../common';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
 import { getMediumAvatar } from '../utils/avatar';
@@ -31,7 +31,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
 
     return (
       <View>
-        <Avatar
+        <UserAvatarWithPresence
           avatarUrl={typeof user.avatar_url === 'string' ? getMediumAvatar(user.avatar_url) : null}
           email={user.email}
           size={screenWidth}

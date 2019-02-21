@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { User } from '../types';
-import { Avatar } from '../common';
+import { UserAvatarWithPresence } from '../common';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
 
@@ -21,7 +21,7 @@ class TitleGroup extends PureComponent<Props> {
       <View style={styles.navWrapper}>
         {recipients.map((user, index) => (
           <View key={user.email} style={styles.titleAvatar}>
-            <Avatar size={32} avatarUrl={user.avatar_url} email={user.email} />
+            <UserAvatarWithPresence size={32} avatarUrl={user.avatar_url} email={user.email} />
           </View>
         ))}
       </View>

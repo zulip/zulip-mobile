@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
-import { Avatar, ComponentWithOverlay, RawLabel } from '../common';
+import { UserAvatarWithPresence, ComponentWithOverlay, RawLabel } from '../common';
 import { IconCancel } from '../common/Icons';
 
 const styles = StyleSheet.create({
@@ -69,7 +69,7 @@ export default class AvatarItem extends PureComponent<Props> {
           overlay={<IconCancel color="gray" size={20} />}
           onPress={this.handlePress}
         >
-          <Avatar
+          <UserAvatarWithPresence
             key={email}
             size={50}
             avatarUrl={avatarUrl}
