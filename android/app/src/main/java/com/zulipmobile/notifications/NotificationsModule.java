@@ -3,7 +3,6 @@ package com.zulipmobile.notifications;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import com.facebook.react.ReactApplication;
 import com.facebook.react.bridge.*;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -29,12 +28,7 @@ public class NotificationsModule extends ReactContextBaseJavaModule {
         // before React is ready.  With some more care we could hang on to it and emit
         // the event a bit later, but instead we just redundantly emit here when we
         // know things have started up.
-        final ReactContext reactContext =
-                ((ReactApplication) getCurrentActivity().getApplication())
-                .getReactNativeHost()
-                .getReactInstanceManager()
-                .getCurrentReactContext();
-        emitToken(reactContext);
+        emitToken(getReactApplicationContext());
     }
 
     static void emitToken(@Nullable ReactContext reactContext) {
