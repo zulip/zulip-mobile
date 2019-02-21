@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import type { GlobalState, User } from '../types';
 import { getCurrentRealm, getSelfUserDetail } from '../selectors';
-import ImageAvatar from './ImageAvatar';
+import UserAvatar from './UserAvatar';
 import { getFullUrl } from '../utils/url';
 import { getGravatarFromEmail } from '../utils/avatar';
 
@@ -27,7 +27,7 @@ class OwnAvatar extends PureComponent<Props> {
         ? getFullUrl(user.avatar_url, realm)
         : getGravatarFromEmail(user.email);
 
-    return <ImageAvatar avatarUrl={fullAvatarUrl} size={size} shape="circle" />;
+    return <UserAvatar avatarUrl={fullAvatarUrl} size={size} shape="circle" />;
   }
 }
 

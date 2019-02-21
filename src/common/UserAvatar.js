@@ -14,7 +14,7 @@ type Props = {
 };
 
 /**
- * Renders an image avatar
+ * Renders an image of the user's avatar.
  *
  * @prop avatarUrl - Absolute or relative url to an avatar image.
  * @prop size - Sets width and height in pixels.
@@ -22,7 +22,7 @@ type Props = {
  * @prop [children] - If provided, will render inside the component body.
  * @prop [onPress] - Event fired on pressing the component.
  */
-export default class ImageAvatar extends PureComponent<Props> {
+export default class UserAvatar extends PureComponent<Props> {
   static defaultProps = {
     shape: 'rounded',
   };
