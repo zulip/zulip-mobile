@@ -156,6 +156,16 @@ function idFromMessage(element) {
   return +idStr;
 }
 
+var ancestorMessageId = function ancestorMessageId(element) {
+  var messagePeerAncestor = element.closest('body > *');
+
+  if (!messagePeerAncestor) {
+    throw new Error('ancestorMessageId: Bad element');
+  }
+
+  return idFromMessage(messagePeerAncestor);
+};
+
 function visibleMessageIds() {
   var top = 0;
   var bottom = viewportHeight;
@@ -184,22 +194,6 @@ function visibleMessageIds() {
     last: last
   };
 }
-
-var getMessageNode = function getMessageNode(node) {
-  var curNode = node;
-
-  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
-    curNode = curNode.parentNode;
-  }
-
-  return curNode;
-};
-
-var getMessageIdFromNode = function getMessageIdFromNode(node) {
-  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
-  var msgNode = getMessageNode(node);
-  return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
-};
 
 var prevMessageRange = visibleMessageIds();
 
@@ -440,7 +434,7 @@ documentBody.addEventListener('click', function (e) {
     sendMessage({
       type: 'image',
       src: inlineImageLink.getAttribute('href'),
-      messageId: getMessageIdFromNode(inlineImageLink)
+      messageId: ancestorMessageId(inlineImageLink)
     });
     return;
   }
@@ -449,16 +443,18 @@ documentBody.addEventListener('click', function (e) {
     sendMessage({
       type: 'url',
       href: target.getAttribute('href'),
-      messageId: getMessageIdFromNode(target)
+      messageId: ancestorMessageId(target)
     });
     return;
   }
 
-  if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
+  var parent = target.parentNode;
+
+  if (parent instanceof Element && parent.matches('a')) {
     sendMessage({
       type: 'url',
-      href: target.parentNode.getAttribute('href'),
-      messageId: getMessageIdFromNode(target.parentNode)
+      href: parent.getAttribute('href'),
+      messageId: ancestorMessageId(parent)
     });
     return;
   }
@@ -469,7 +465,7 @@ documentBody.addEventListener('click', function (e) {
       name: target.getAttribute('data-name'),
       code: target.getAttribute('data-code'),
       reactionType: target.getAttribute('data-type'),
-      messageId: getMessageIdFromNode(target),
+      messageId: ancestorMessageId(target),
       voted: target.classList.contains('self-voted')
     });
   }
@@ -484,7 +480,7 @@ var handleLongPress = function handleLongPress(target) {
   sendMessage({
     type: 'longPress',
     target: target.matches('.header') ? 'header' : 'message',
-    messageId: getMessageIdFromNode(target)
+    messageId: ancestorMessageId(target)
   });
 };
 

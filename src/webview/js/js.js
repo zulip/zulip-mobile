@@ -248,6 +248,15 @@ function idFromMessage(element: Element): number {
   return +idStr;
 }
 
+const ancestorMessageId = (element: Element): number => {
+  const messagePeerAncestor = element.closest('body > *');
+  if (!messagePeerAncestor) {
+    throw new Error('ancestorMessageId: Bad element');
+  }
+  // TODO require actually message, or rummage for sibling?
+  return idFromMessage(messagePeerAncestor);
+};
+
 /**
  * Returns the IDs of the first and last visible messages, if any.
  *
@@ -282,23 +291,6 @@ function visibleMessageIds(): { first: number, last: number } {
 
   return { first, last };
 }
-
-/** DEPRECATED */
-const getMessageNode = (node: ?Node): ?Node => {
-  let curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
-    curNode = curNode.parentNode;
-  }
-  return curNode;
-};
-
-/** DEPRECATED */
-const getMessageIdFromNode = (node: ?Node, defaultValue: number = -1): number => {
-  const msgNode = getMessageNode(node);
-  return msgNode && msgNode instanceof Element
-    ? +msgNode.getAttribute('data-msg-id')
-    : defaultValue;
-};
 
 /*
  *
@@ -588,7 +580,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     sendMessage({
       type: 'image',
       src: inlineImageLink.getAttribute('href'), // TODO: should be `src` / `data-src-fullsize`.
-      messageId: getMessageIdFromNode(inlineImageLink),
+      messageId: ancestorMessageId(inlineImageLink),
     });
     return;
   }
@@ -597,16 +589,17 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     sendMessage({
       type: 'url',
       href: target.getAttribute('href'),
-      messageId: getMessageIdFromNode(target),
+      messageId: ancestorMessageId(target),
     });
     return;
   }
 
-  if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
+  const parent = target.parentNode;
+  if (parent instanceof Element && parent.matches('a')) {
     sendMessage({
       type: 'url',
-      href: target.parentNode.getAttribute('href'),
-      messageId: getMessageIdFromNode(target.parentNode),
+      href: parent.getAttribute('href'),
+      messageId: ancestorMessageId(parent),
     });
     return;
   }
@@ -617,7 +610,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
       name: target.getAttribute('data-name'),
       code: target.getAttribute('data-code'),
       reactionType: target.getAttribute('data-type'),
-      messageId: getMessageIdFromNode(target),
+      messageId: ancestorMessageId(target),
       voted: target.classList.contains('self-voted'),
     });
   }
@@ -645,7 +638,7 @@ const handleLongPress = (target: Element) => {
   sendMessage({
     type: 'longPress',
     target: target.matches('.header') ? 'header' : 'message',
-    messageId: getMessageIdFromNode(target),
+    messageId: ancestorMessageId(target),
   });
 };
 

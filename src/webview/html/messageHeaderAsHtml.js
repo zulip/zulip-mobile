@@ -37,7 +37,6 @@ export default (
 <div
   class="header-wrapper header topic-text"
   data-narrow="${topicNarrowStr}"
-  data-msg-id="${item.id}"
 >
   $!${topicHtml}
 </div>
@@ -57,7 +56,7 @@ export default (
     const topicHtml = renderSubject(item);
 
     return template`
-<div class="header-wrapper stream-header" data-msg-id="${item.id}">
+<div class="header-wrapper stream-header">
   <div class="header stream-text"
        style="color: ${textColor};
               background: ${backgroundColor}"
@@ -90,8 +89,7 @@ export default (
 
     return template`
 <div class="header-wrapper private-header header"
-     data-narrow="${privateNarrowStr}"
-     data-msg-id="${item.id}">
+     data-narrow="${privateNarrowStr}">
   ${recipients
     .map(r => r.full_name)
     .sort()
