@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -81,18 +82,24 @@ public class FCMPushNotifications {
         }
     }
 
+    private static void parseMessageIdInto(Set<Integer> messageIds, @Nullable String idStr) {
+        try {
+            messageIds.add(Integer.parseInt(idStr));
+        } catch(NumberFormatException e) {
+            Log.w(TAG, String.format("Ignoring malformed message ID: %s", idStr));
+        }
+    }
+
     @NonNull
     private static Set<Integer> parseMessageIds(Map<String, String> mapData) {
         final Set<Integer> messageIds = new HashSet<>();
         final String idStr = mapData.get("zulip_message_id");
-        if (idStr != null) {
-            messageIds.add(Integer.parseInt(idStr));
-        }
+        parseMessageIdInto(messageIds, idStr);
         final String idsStr = mapData.get("zulip_message_ids");
         if (idsStr != null) {
             final String[] idStrs = idsStr.split(",");
             for (final String idStr1 : idStrs) {
-                messageIds.add(Integer.parseInt(idStr1));
+                parseMessageIdInto(messageIds, idStr1);
             }
         }
         return messageIds;
