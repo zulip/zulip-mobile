@@ -17,11 +17,15 @@ export const getAvatarUrl = (
   avatarUrl: string | null | void,
   email: string,
   realm: string,
+  size: number = 80,
 ): string =>
-  typeof avatarUrl === 'string' ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
+  typeof avatarUrl === 'string' ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email, size);
 
-export const getAvatarFromUser = (user: User, realm: string): string =>
-  getAvatarUrl(user.avatar_url, user.email, realm);
+export const getAvatarFromUser = (user: User, realm: string, size?: number): string =>
+  getAvatarUrl(user.avatar_url, user.email, realm, size);
 
-export const getAvatarFromMessage = (message: Message | Outbox, realm: string): string =>
-  getAvatarUrl(message.avatar_url, message.sender_email, realm);
+export const getAvatarFromMessage = (
+  message: Message | Outbox,
+  realm: string,
+  size?: number,
+): string => getAvatarUrl(message.avatar_url, message.sender_email, realm, size);
