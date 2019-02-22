@@ -7,8 +7,7 @@ import { StyleSheet } from 'react-native';
 import type { GlobalState } from '../types';
 import { getCurrentRealm } from '../selectors';
 import UserAvatar from './UserAvatar';
-import { getFullUrl } from '../utils/url';
-import { getGravatarFromEmail } from '../utils/avatar';
+import { getAvatarUrl } from '../utils/avatar';
 import PresenceStatusIndicator from './PresenceStatusIndicator';
 
 const componentStyles = StyleSheet.create({
@@ -49,8 +48,7 @@ class UserAvatarWithPresence extends PureComponent<Props> {
 
   render() {
     const { avatarUrl, email, size, onPress, realm, shape } = this.props;
-    const fullAvatarUrl =
-      typeof avatarUrl === 'string' ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
+    const fullAvatarUrl = getAvatarUrl(avatarUrl, email, realm);
 
     return (
       <UserAvatar avatarUrl={fullAvatarUrl} size={size} onPress={onPress} shape={shape}>
