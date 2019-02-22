@@ -15,7 +15,7 @@ export const getCurrentRouteName = (state: GlobalState): string =>
 export const getCurrentRouteParams = createSelector(
   getNavigationRoutes,
   getNavigationIndex,
-  (routes, index) => routes && routes[index] && routes[index].params,
+  (routes, index) => routes[index] && routes[index].params,
 );
 
 export const getChatScreenParams = createSelector(

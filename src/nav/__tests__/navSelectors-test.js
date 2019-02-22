@@ -30,16 +30,6 @@ describe('getCurrentRouteName', () => {
 });
 
 describe('getCurrentRouteParams', () => {
-  test('return "undefined" even when there is no data', () => {
-    const state = deepFreeze({
-      nav: {},
-    });
-
-    const actualResult = getCurrentRouteParams(state);
-
-    expect(actualResult).toBe(undefined);
-  });
-
   test('return params of the current route', () => {
     const state = deepFreeze({
       nav: {
