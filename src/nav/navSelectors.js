@@ -28,7 +28,8 @@ export const getTopMostNarrow = createSelector(getNav, nav => {
   let { index } = nav;
   while (index >= 0) {
     if (routes[index].routeName === 'chat') {
-      return routes[index].params.narrow;
+      const { params } = routes[index];
+      return params ? params.narrow : undefined;
     }
     index--;
   }

@@ -234,10 +234,9 @@ export type MuteState = MuteTuple[];
 
 export type NavigationRouteState = {
   key: string,
-  title: string,
   routeName: string,
   /** The fields in `params` vary by route; see `navActions.js`. */
-  params: {
+  params?: {
     narrow?: Narrow,
   },
 };
