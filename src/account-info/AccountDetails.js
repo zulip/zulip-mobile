@@ -4,7 +4,7 @@ import { View, Dimensions, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { GlobalState, User } from '../types';
-import { UserAvatarWithPresence, ComponentList, RawLabel } from '../common';
+import { UserAvatar, ComponentList, RawLabel } from '../common';
 import { getCurrentRealm } from '../selectors';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
@@ -34,9 +34,8 @@ class AccountDetails extends PureComponent<Props, void> {
 
     return (
       <View>
-        <UserAvatarWithPresence
+        <UserAvatar
           avatarUrl={getAvatarFromUser(user, realm, screenWidth)}
-          email={user.email}
           size={screenWidth}
           shape="square"
         />
