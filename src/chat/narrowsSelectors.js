@@ -2,7 +2,17 @@
 import isEqual from 'lodash.isequal';
 import { createSelector } from 'reselect';
 
-import type { GlobalState, Message, Narrow, Outbox, RealmBot, Selector, User } from '../types';
+import type {
+  GlobalState,
+  Message,
+  Narrow,
+  Outbox,
+  RealmBot,
+  Selector,
+  User,
+  Stream,
+  Subscription,
+} from '../types';
 import {
   getAllNarrows,
   getSubscriptions,
@@ -93,7 +103,9 @@ export const getRecipientsInGroupNarrow: Selector<(User | RealmBot)[], Narrow> =
     }),
 );
 
-export const getStreamInNarrow = (narrow: Narrow) =>
+export const getStreamInNarrow = (
+  narrow: Narrow,
+): Selector<Subscription | {| ...Stream, in_home_view: boolean |}> =>
   createSelector(getSubscriptions, getStreams, (subscriptions, streams) => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return NULL_SUBSCRIPTION;
