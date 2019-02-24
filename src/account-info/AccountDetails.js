@@ -6,7 +6,6 @@ import type { User } from '../types';
 import { UserAvatar, ComponentList, RawLabel } from '../common';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
-import { getMediumAvatar } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
 import styles from '../styles';
 
@@ -32,10 +31,11 @@ export default class AccountDetails extends PureComponent<Props, void> {
     return (
       <View>
         <UserAvatar
-          avatarUrl={typeof user.avatar_url === 'string' ? getMediumAvatar(user.avatar_url) : null}
+          avatarUrl={user.avatar_url}
           email={user.email}
           size={screenWidth}
           shape="square"
+          useProgressiveImage
         />
         <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
           <View style={componentStyles.statusWrapper}>
