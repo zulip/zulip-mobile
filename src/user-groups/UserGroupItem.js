@@ -4,7 +4,8 @@ import { StyleSheet, View } from 'react-native';
 
 import { IconPeople } from '../common/Icons';
 import { RawLabel, Touchable } from '../common';
-import styles from '../styles';
+import styles, { ThemeContext } from '../styles';
+import type { ThemeColors } from '../styles';
 
 const componentStyles = StyleSheet.create({
   text: {
@@ -26,6 +27,9 @@ type Props = {|
 |};
 
 export default class UserGroupItem extends PureComponent<Props> {
+  static contextType = ThemeContext;
+  context: ThemeColors;
+
   handlePress = () => {
     const { name, onPress } = this.props;
     onPress(name);
@@ -37,7 +41,7 @@ export default class UserGroupItem extends PureComponent<Props> {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.listItem}>
-          <IconPeople size={32} />
+          <IconPeople size={32} color={this.context.color} />
           <View style={componentStyles.textWrapper}>
             <RawLabel
               style={componentStyles.text}
