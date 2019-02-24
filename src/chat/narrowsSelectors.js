@@ -115,10 +115,10 @@ export const getStreamInNarrow = (narrow: Narrow) =>
     return NULL_SUBSCRIPTION;
   });
 
-export const getIfNoMessages = (narrow: Narrow) =>
+export const getIfNoMessages = (narrow: Narrow): Selector<boolean> =>
   createSelector(
     state => getShownMessagesForNarrow(state, narrow),
-    messages => messages && messages.length === 0,
+    messages => messages.length === 0,
   );
 
 export const getShowMessagePlaceholders = (narrow: Narrow): Selector<boolean> =>
