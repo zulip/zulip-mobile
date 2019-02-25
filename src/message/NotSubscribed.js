@@ -12,7 +12,7 @@ import styles from '../styles';
 
 type Props = {
   auth: Auth,
-  stream: Stream,
+  stream: { ...Stream },
 };
 
 class NotSubscribed extends PureComponent<Props> {

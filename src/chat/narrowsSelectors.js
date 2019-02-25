@@ -103,6 +103,7 @@ export const getRecipientsInGroupNarrow: Selector<(User | RealmBot)[], Narrow> =
     }),
 );
 
+// TODO: clean up what this returns.
 export const getStreamInNarrow = (
   narrow: Narrow,
 ): Selector<Subscription | {| ...Stream, in_home_view: boolean |}> =>
