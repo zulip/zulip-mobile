@@ -3,10 +3,9 @@ import React, { PureComponent } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 
 import type { User } from '../types';
-import { UserAvatarWithPresence, ComponentList, RawLabel } from '../common';
+import { UserAvatar, ComponentList, RawLabel } from '../common';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
-import { getMediumAvatar } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
 import styles from '../styles';
 
@@ -31,11 +30,12 @@ export default class AccountDetails extends PureComponent<Props, void> {
 
     return (
       <View>
-        <UserAvatarWithPresence
-          avatarUrl={typeof user.avatar_url === 'string' ? getMediumAvatar(user.avatar_url) : null}
+        <UserAvatar
+          avatarUrl={user.avatar_url}
           email={user.email}
           size={screenWidth}
           shape="square"
+          useProgressiveImage
         />
         <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
           <View style={componentStyles.statusWrapper}>
