@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 
 type PropsFromConnect = {|
   userPresence: UserPresence | void,
-  usersByEmail: Map<string, User>,
+  user: User | void,
   userStatus: UserStatusMapObject,
 |};
 
@@ -53,9 +53,7 @@ type Props = {|
  */
 class PresenceStatusIndicator extends PureComponent<Props> {
   render() {
-    const { email, style, hideIfOffline, usersByEmail, userPresence, userStatus } = this.props;
-
-    const user = usersByEmail.get(email);
+    const { style, hideIfOffline, user, userPresence, userStatus } = this.props;
 
     if (!user || !userPresence || !userPresence.aggregated) {
       return null;
@@ -73,6 +71,6 @@ class PresenceStatusIndicator extends PureComponent<Props> {
 
 export default connect((state: GlobalState, props) => ({
   userPresence: getPresence(state)[props.email],
-  usersByEmail: getUsersByEmail(state),
+  user: getUsersByEmail(state).get(props.email),
   userStatus: getUserStatus(state),
 }))(PresenceStatusIndicator);
