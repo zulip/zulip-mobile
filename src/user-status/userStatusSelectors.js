@@ -1,8 +1,9 @@
 /* @flow strict-local */
+import { createSelector } from 'reselect';
+
 import type { GlobalState, Selector, UserStatus } from '../types';
 import { getUserStatus } from '../directSelectors';
-
-import { getSelfUserDetail } from '../users/userSelectors';
+import { getSelfUserDetail, getUsersByEmail } from '../users/userSelectors';
 
 /**
  * Extract the user status object for the logged in user.
@@ -33,3 +34,16 @@ export const getSelfUserStatusText = (state: GlobalState): string => {
   const selfUserStatus = getSelfUserStatus(state);
   return (selfUserStatus && selfUserStatus.status_text) || '';
 };
+
+export const getUserStatusByEmail: Selector<UserStatus | void, string> = createSelector(
+  (state, email) => email,
+  state => getUserStatus(state),
+  state => getUsersByEmail(state),
+  (email, userStatus, users) => {
+    const user = users.get(email);
+    if (!user) {
+      return undefined;
+    }
+    return userStatus[user.user_id];
+  },
+);
