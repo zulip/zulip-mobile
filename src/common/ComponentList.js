@@ -32,18 +32,13 @@ export default class ComponentList extends PureComponent<Props> {
     const { children, itemStyle, spacing, outerSpacing, style } = this.props;
     const outerStyle = outerSpacing ? { margin: spacing } : {};
     const marginStyle = { marginBottom: spacing };
-
-    return (
-      <View style={[style, outerStyle]}>
-        {React.Children.map(
-          children,
-          (child, i) =>
-            child
-            && React.cloneElement(child, {
-              style: [child.props.style, i + 1 < children.length ? marginStyle : {}, itemStyle],
-            }),
-        )}
-      </View>
+    const childrenToRender = React.Children.toArray(children).filter(child => child);
+    const childrenWithStyles = childrenToRender.map((child, i) =>
+      React.cloneElement(child, {
+        style: [child.props.style, i + 1 < childrenToRender.length ? marginStyle : {}, itemStyle],
+      }),
     );
+
+    return <View style={[style, outerStyle]}>{childrenWithStyles}</View>;
   }
 }
