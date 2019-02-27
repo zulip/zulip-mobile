@@ -4,10 +4,8 @@ import { Text, StyleSheet, View } from 'react-native';
 
 import type { ChildrenArray } from '../types';
 import Touchable from './Touchable';
-import { colorHashFromName } from '../utils/color';
-
-export const initialsFromName = (name: string) =>
-  (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');
+import { colorHashFromString } from '../utils/color';
+import { initialsFromString } from '../utils/misc';
 
 const styles = StyleSheet.create({
   frame: {
@@ -20,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  name: string,
+  names: string,
   size: number,
   shape: string,
   children?: ChildrenArray<*>,
@@ -32,7 +30,7 @@ type Props = {
  * initials and a color calculated as a hash from their name.
  * We are currently using it only for group chats.
  *
- * @prop name - User's names to extract initials from.
+ * @prop names - The name of one or more users, used to extract their initials.
  * @prop size - Sets width and height in pixels.
  * @prop shape - One of 'square', 'rounded', 'circle'.
  * @prop children - If provided, will render inside the component body.
@@ -44,14 +42,14 @@ export default class GroupAvatar extends PureComponent<Props> {
   };
 
   render() {
-    const { children, name, size, shape, onPress } = this.props;
+    const { children, names, size, shape, onPress } = this.props;
 
     const frameSize = {
       height: size,
       width: size,
       borderRadius:
         shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0,
-      backgroundColor: colorHashFromName(name),
+      backgroundColor: colorHashFromString(names),
     };
     const textSize = {
       fontSize: size / 3,
@@ -60,7 +58,7 @@ export default class GroupAvatar extends PureComponent<Props> {
     return (
       <Touchable onPress={onPress}>
         <View style={[styles.frame, frameSize]}>
-          <Text style={[styles.text, textSize]}>{initialsFromName(name)}</Text>
+          <Text style={[styles.text, textSize]}>{initialsFromString(names)}</Text>
           {children}
         </View>
       </Touchable>

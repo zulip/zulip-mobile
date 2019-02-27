@@ -1,5 +1,5 @@
 /* @flow strict */
-import { initialsFromName, isValidEmailFormat, numberWithSeparators, deeperMerge } from '../misc';
+import { initialsFromString, isValidEmailFormat, numberWithSeparators, deeperMerge } from '../misc';
 
 describe('numberWithSeparators', () => {
   test('do not change a small number', () => {
@@ -72,30 +72,30 @@ describe('deeperMerge', () => {
   });
 });
 
-describe('initialsFromName', () => {
+describe('initialsFromString', () => {
   test('empty string returns empty strings of initials', () => {
-    const initials = initialsFromName('');
+    const initials = initialsFromString('');
     expect(initials).toEqual('');
   });
 
   test('a single name has a single letter initial', () => {
-    const initials = initialsFromName('John');
+    const initials = initialsFromString('John');
     expect(initials).toEqual('J');
   });
 
   test('two names result in two initials', () => {
-    const initials = initialsFromName('John Doe');
+    const initials = initialsFromString('John Doe');
     expect(initials).toEqual('JD');
   });
 
   test('initials are always upper case', () => {
-    const initials = initialsFromName('small caps');
+    const initials = initialsFromString('small caps');
     expect(initials).toEqual('SC');
   });
 
   test('double names produce one initial', () => {
-    expect(initialsFromName('Jean-Pierre')).toEqual('J');
-    expect(initialsFromName("Mc'Donald")).toEqual('M');
+    expect(initialsFromString('Jean-Pierre')).toEqual('J');
+    expect(initialsFromString("Mc'Donald")).toEqual('M');
   });
 });
 

@@ -46,7 +46,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.listItem}>
-          <GroupAvatar size={32} name={allNames} />
+          <GroupAvatar size={32} names={allNames} />
           <RawLabel
             style={componentStyles.text}
             numberOfLines={2}

@@ -5,7 +5,7 @@ import type { ColorValue } from 'react-native/Libraries/StyleSheet/StyleSheetTyp
 export const foregroundColorFromBackground = (color: ColorValue): string =>
   Color(color).luminosity() > 0.4 ? 'black' : 'white';
 
-export const colorHashFromName = (name: string): string => {
+export const colorHashFromString = (name: string): string => {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = hash * 31 + name.charCodeAt(1);
