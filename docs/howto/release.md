@@ -265,6 +265,9 @@ vulnerable.
 
 ### Prepare Android
 
+(Caveat lector: This is stale; will update after some upcoming
+further changes.)
+
 Put the release key file in `./android/app/my-release-key.keystore`
 
 Make sure you have the file `~/.gradle/gradle.properties`:

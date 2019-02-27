@@ -77,9 +77,18 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+
 if (hasProperty('sentry')) {
     // Conditionally enable Sentry, because it requires an auth key.
     apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+}
+
+def keystorePropertiesFile = rootProject.file("release-keystore.properties")
+def keystoreProperties = new Properties()
+try {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} catch (FileNotFoundException e) {
+    keystoreProperties = null
 }
 
 /**
@@ -111,18 +120,18 @@ android {
     signingConfigs {
         release {
             if (project.hasProperty('signed')) {
-                if (!project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                if (keystoreProperties == null) {
                     throw new GradleException(
                             "Missing signing config, but signing requested (-Psigned).  Did you want an unsigned build?")
                 }
-                if (!file(MYAPP_RELEASE_STORE_FILE).exists()) {
+                storeFile rootProject.file(keystoreProperties.storeFile)
+                if (!storeFile.exists()) {
                     throw new GradleException(
                             "Keystore file missing, but signing requested (-Psigned).  Did you want an unsigned build?")
                 }
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+                storePassword keystoreProperties.storePassword
+                keyAlias keystoreProperties.keyAlias
+                keyPassword keystoreProperties.keyPassword
             }
         }
     }
