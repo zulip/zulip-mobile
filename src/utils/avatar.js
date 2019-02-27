@@ -18,7 +18,7 @@ export const getAvatarFromUser = (user: User, realm: string): string =>
     ? getFullUrl(user.avatar_url, realm)
     : getGravatarFromEmail(user.email);
 
-export const getAvatarFromMessage = (message: Message | Outbox): string =>
+export const getAvatarFromMessage = (message: Message | Outbox, realm: string): string =>
   typeof message.avatar_url === 'string'
-    ? message.avatar_url
+    ? getFullUrl(message.avatar_url, realm)
     : getGravatarFromEmail(message.sender_email);

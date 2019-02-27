@@ -96,7 +96,7 @@ $!${divOpenHtml}
   }
 
   const { sender_full_name, sender_email, timestamp } = message;
-  const avatarUrl = getAvatarFromMessage(message);
+  const avatarUrl = getAvatarFromMessage(message, backgroundData.auth.realm);
   const subheaderHtml = template`
 <div class="subheader">
   <div class="username">
