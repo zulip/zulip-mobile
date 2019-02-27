@@ -72,6 +72,7 @@ android/keystores/debug.keystore
 
 # Android release builds
 *.keystore
+*.keystore.gpg
 /android/release-keystore.properties
 
 # fastlane
