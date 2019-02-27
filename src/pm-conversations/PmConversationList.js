@@ -51,7 +51,7 @@ export default class PmConversationList extends PureComponent<Props> {
             }
 
             // $FlowFixMe: sort out RealmBot
-            const avatarUrl: string | void | null = user.avatar_url;
+            const avatarUrl: string | null = user.avatar_url;
             return (
               <UserItem
                 email={user.email}

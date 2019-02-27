@@ -148,7 +148,7 @@ export type Message = $ReadOnly<{
   flags?: $ReadOnlyArray<string>,
 
   /** The rest are believed to really appear in `message` events. */
-  avatar_url: ?string,
+  avatar_url: string | null,
   client: string,
   content: string,
   content_type: 'text/html' | 'text/markdown',
@@ -247,7 +247,7 @@ export type Topic = {|
  *   https://zulipchat.com/api/get-all-users#response
  */
 export type User = {|
-  avatar_url: ?string,
+  avatar_url: string | null,
   bot_type?: number,
   bot_owner?: string,
   email: string,

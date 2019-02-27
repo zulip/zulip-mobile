@@ -325,7 +325,7 @@ export type Outbox = {|
   narrow: Narrow,
 
   // These fields are modeled on `Message`.
-  avatar_url: ?string,
+  avatar_url: string | null,
   content: string,
   display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
   id: number,
@@ -679,7 +679,7 @@ export type InitialDataRealmFilters = {|
 
 export type InitialDataRealmUser = {|
   avatar_source: 'G',
-  avatar_url: string,
+  avatar_url: string | null,
   avatar_url_medium: string,
   can_create_streams: boolean,
   cross_realm_bots: RealmBot[],

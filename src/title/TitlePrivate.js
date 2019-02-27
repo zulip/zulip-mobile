@@ -19,7 +19,7 @@ class TitlePrivate extends PureComponent<Props> {
   render() {
     const { user, color } = this.props;
     // $FlowFixMe: sort out RealmBot
-    const avatarUrl: string | void | null = user.avatar_url;
+    const avatarUrl: string | null = user.avatar_url;
     return (
       <View style={styles.navWrapper}>
         <UserAvatarWithPresence size={32} email={user.email} avatarUrl={avatarUrl} />
