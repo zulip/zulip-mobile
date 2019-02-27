@@ -10,7 +10,7 @@ export const getMediumAvatar = (avatarUrl: string): string => {
   return matches ? avatarUrl.replace(matches[0], `${matches[1]}-medium.png`) : avatarUrl;
 };
 
-export const getGravatarFromEmail = (email: string = '', size: number = 80): string =>
+export const getGravatarFromEmail = (email: string = '', size: number): string =>
   `https://secure.gravatar.com/avatar/${md5(email.toLowerCase())}?d=identicon&s=${size}`;
 
 export const getAvatarUrl = (
