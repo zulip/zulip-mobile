@@ -45,9 +45,20 @@ checker (unused)
 The source directory is broken up into subdirectories corresponding to
 components of the app:
 * `account` - login, logout, and user account
+* `account-info` - account details,status switiching, logoutbutton
 * `api` - clients for the Zulip server API
+* `animation` - rotating and scaling animation components
+* `autocomplete` - autocomplete items for people,stream and topics
+* `boot` - sets up store, translationprovider, aysncstorage,logging , reducers
+* `caughtup` - checks if mobile is caught up with server
+* `chat` - flags messages, unread messages, mark as read, group details, chat screen
 * `common` - common components for multiple reuse (buttons, inputs, etc.)
 * `compose` - composing messages
+* `emoji` - maps emojis to code, emoji picker
+* `event` - eventActions
+* `i18n` - time formatting
+* `lightbox` - sets up lightbox, lighbox animaiton, sharing
+* `main` - tabs, hometab(home, starred, mentions, search),  streams tab, conversation tab,settings tab, tab navigator
 * `message` - messages and groups of related messages
 * `nav` - navigation
 * `streams` - stream of messages
