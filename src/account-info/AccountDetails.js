@@ -1,12 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
-import type { User } from '../types';
+import type { GlobalState, User } from '../types';
 import { UserAvatarWithPresence, ComponentList, RawLabel } from '../common';
+import { getCurrentRealm } from '../selectors';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
-import { getMediumAvatar } from '../utils/avatar';
+import { getAvatarFromUser } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
 import styles from '../styles';
 
@@ -21,18 +23,19 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
+  realm: string,
   user: User,
 |};
 
-export default class AccountDetails extends PureComponent<Props, void> {
+class AccountDetails extends PureComponent<Props, void> {
   render() {
-    const { user } = this.props;
+    const { realm, user } = this.props;
     const screenWidth = Dimensions.get('window').width;
 
     return (
       <View>
         <UserAvatarWithPresence
-          avatarUrl={typeof user.avatar_url === 'string' ? getMediumAvatar(user.avatar_url) : null}
+          avatarUrl={getAvatarFromUser(user, realm, screenWidth)}
           email={user.email}
           size={screenWidth}
           shape="square"
@@ -58,3 +61,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
     );
   }
 }
+
+export default connect((state: GlobalState) => ({
+  realm: getCurrentRealm(state),
+}))(AccountDetails);
