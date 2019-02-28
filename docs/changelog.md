@@ -9,7 +9,18 @@ to users in general on the app stores is typically a few days later.
 ## Unreleased
 
 
-## 23.1.111 (2019-02-28)
+## 23.2.111 (2019-02-28)
+
+### Highlights for users (since 22.1.108)
+
+Many fixes and improvements, including:
+* Support for the new "availability" or "user status" feature.
+* Fixed several issues in message compose and autocomplete.
+* Fixed several issues in sending messages under bad network
+  conditions.
+* Translation updates for Portuguese, Italian, Hindi, Turkish, French,
+  German, and Czech.
+
 
 ### Full changes for users
 
