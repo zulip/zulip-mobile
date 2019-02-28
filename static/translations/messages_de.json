@@ -158,5 +158,7 @@
   "Topics": "Themen",
   "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Willkommen bei Zulip!\n\nDu musst zuerst einen Account von Deinem Computer aus erstellen. Falls Du Dir nicht sicher bist, wo Du beginnen sollst, gehe auf zulipchat.com in Deinem Webbrowser.\n\nBis gleich!",
   "Add subscribers": "Abonnenten hinzufügen",
+  "Set yourself to away": "Dein Profil als abwesend anzeigen",
+  "Clear": "Löschen",
   "Only organization admins are allowed to post to this stream.": "Nur Administratoren dieser Organisation können in diesen Stream schreiben."
 }

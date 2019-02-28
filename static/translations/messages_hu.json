@@ -158,5 +158,7 @@
   "Topics": "Témák",
   "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Üdvözöl a Zulip!\n\nElőször a számítógépedről létre kell hoznod egy felhasználói fiókot. Ha nem tudod, hogyan kezdj hozzá, írd be a böngésződbe a zulipchat.com címet!\n\nReméljük, hamarosan viszontlátunk!\n",
   "Add subscribers": "Feliratkozók hozzáadása",
+  "Set yourself to away": "Set yourself to away",
+  "Clear": "Clear",
   "Only organization admins are allowed to post to this stream.": "Erre az üzenetfolyamra csak szervezeti adminisztrátorok írhatnak!"
 }

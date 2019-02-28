@@ -158,5 +158,7 @@
   "Topics": "주제",
   "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Zulip에 오신걸 환영합니다!\n\n먼저 컴퓨터에서 계정을 만들어야 합니다. 어디에서 시작해야 할지 잘 모르겠다면 웹 브라우저에서 zulipchat.com으로 이동하십시오.\n\n여기서 어서 다시 보는 걸 기대하고 있겠습니다!\n",
   "Add subscribers": "구독자 추가",
+  "Set yourself to away": "Set yourself to away",
+  "Clear": "Clear",
   "Only organization admins are allowed to post to this stream.": "이 스트림에는 조직 관리자만 글을 게시할 수 있습니다."
 }
