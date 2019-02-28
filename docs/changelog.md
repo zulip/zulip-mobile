@@ -8,6 +8,9 @@ to users in general on the app stores is typically a few days later.
 
 ## Unreleased
 
+
+## 23.1.111 (2019-02-28)
+
 ### Full changes for users
 
 * Support for the new "availability" or "user status" feature (#3344;
@@ -37,7 +40,10 @@ to users in general on the app stores is typically a few days later.
   release builds. (06b53639b^..23a3c705b)
 
 
-## 23.1.110 (2019-02-20)
+## (beta) 23.1.110 (2019-02-20)
+
+This was a beta-only release.
+
 
 ### Highlights for users
 
