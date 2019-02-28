@@ -8,6 +8,34 @@ to users in general on the app stores is typically a few days later.
 
 ## Unreleased
 
+### Full changes for users
+
+* Support for the new "availability" or "user status" feature (#3344;
+  7d16af845^..f37856207, 130fde9fd^..7bbd09896)
+* Distinct nav icons "inbox" and "world" for the unreads and
+  all-messages screens, rather than both "home". (#3232)
+* Fixed issue causing stuttering animation on lightbox. (#3334)
+* Fixed background color below compose box on notched
+  displays. (#3329)
+* Fixed color of user-group icon in @-mention autocomplete in dark
+  mode. (#3366)
+* Support batched remove-notification events, on Android. (#3343)
+* Translation updates for Turkish. (a6b548999)
+
+
+### Full changes for developers
+
+* Improved documentation for developing against a dev server.
+  (e62f84f2d)
+* Small improvements to Git documentation. (f018461d4)
+* Almost all selectors are now annotated with types. (#3360, #3364)
+* Fixed ineffective caching in many selectors. (#3015;
+  2e898e745^..414e48cc6)
+* New script `tools/ios` to build for iOS and upload to the App Store,
+  entirely from the command line. (38f8b5da1)
+* New, more streamlined and secure workflow for signing Android
+  release builds. (06b53639b^..23a3c705b)
+
 
 ## 23.1.110 (2019-02-20)
 
