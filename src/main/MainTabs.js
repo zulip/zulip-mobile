@@ -9,7 +9,7 @@ import HomeTab from './HomeTab';
 import StreamTabs from './StreamTabs';
 import PmConversationsCard from '../pm-conversations/PmConversationsCard';
 import SettingsCard from '../settings/SettingsCard';
-import { IconHome, IconSettings, IconStream } from '../common/Icons';
+import { IconInbox, IconSettings, IconStream } from '../common/Icons';
 import { OwnAvatar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileCard from '../account-info/ProfileCard';
@@ -21,7 +21,7 @@ export default TabNavigator(
       navigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-          <IconHome size={24} color={props.tintColor} />
+          <IconInbox size={24} color={props.tintColor} />
         ),
       },
     },

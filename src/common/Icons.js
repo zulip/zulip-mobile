@@ -20,7 +20,7 @@ export const Icon: ComponentType<{| ...IconProps, name: string |}> = Feather;
 
 export type IconType = ComponentType<IconProps>;
 
-export const IconHome: IconType = props => <Feather name="home" {...props} />;
+export const IconInbox: IconType = props => <Feather name="inbox" {...props} />;
 export const IconStar: IconType = props => <Feather name="star" {...props} />;
 export const IconMention: IconType = props => <Feather name="at-sign" {...props} />;
 export const IconSearch: IconType = props => <Feather name="search" {...props} />;
