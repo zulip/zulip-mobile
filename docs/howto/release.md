@@ -68,6 +68,12 @@ simple terminology for the process we follow with both.
 
 ### Android
 
+* Decrypt the keystore file temporarily:
+
+  ```
+  tools/checkout-keystore
+  ```
+
 * Build the app:
 
   ```
@@ -263,20 +269,40 @@ vulnerable.
 
 * Set client key (DSN): file `config.js` set `sentryKey` value
 
+
 ### Prepare Android
 
-(Caveat lector: This is stale; will update after some upcoming
-further changes.)
+We have a keystore file containing our [app signing key].  As the
+linked upstream doc explains, this is a highly sensitive secret
+which it's very important to handle securely.
 
-Put the release key file in `./android/app/my-release-key.keystore`
+[app signing key]: https://developer.android.com/studio/publish/app-signing#secure_key
 
-Make sure you have the file `~/.gradle/gradle.properties`:
+* Get the keystore file, and the keystore properties file.
+  An existing/previous release manager can send these to you,
+  encrypted to your GPG key.
+
+  * Never make an unencrypted version visible to the network or to a
+    cloud service (including Zulip).
+
+* Put the release-signing keystore, GPG-encrypted to yourself,
+  at `android/release.keystore.gpg`.
+
+  * Don't leave an unencrypted version on disk, except temporarily.
+    The script `tools/checkout-keystore` will help manage this;
+    see release instructions above.
+
+* Put the keystore properties file at
+  `android/release-keystore.properties`.
+  It looks like this (passwords redacted):
+
 ```
-MYAPP_RELEASE_STORE_FILE=my-release-key.keystore
-MYAPP_RELEASE_KEY_ALIAS=zulip-mobile
-MYAPP_RELEASE_STORE_PASSWORD=*****
-MYAPP_RELEASE_KEY_PASSWORD=*****
+storeFile=release.keystore
+keyAlias=zulip-mobile
+storePassword=*****
+keyPassword=*****
 ```
+
 
 ### Prepare iOS
 
