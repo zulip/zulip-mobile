@@ -33,7 +33,7 @@ class HomeTab extends PureComponent<Props> {
       <View style={styles.wrapper}>
         <View style={styles.iconList}>
           <NavButton
-            name="home"
+            name="globe"
             onPress={() => {
               dispatch(doNarrow(HOME_NARROW));
             }}
