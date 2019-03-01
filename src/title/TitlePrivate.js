@@ -4,24 +4,31 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
-import type { RealmBot, User } from '../types';
-import { UserAvatarWithPresence, ViewPlaceholder } from '../common';
+import type { Dispatch, RealmBot, User } from '../types';
+import { Touchable, UserAvatarWithPresence, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
 import { getAllUsersByEmail } from '../users/userSelectors';
 import styles from '../styles';
+import { navigateToAccountDetails } from '../nav/navActions';
 
 type Props = {
+  dispatch: Dispatch,
   user: User | RealmBot,
   color: string,
 };
 
 class TitlePrivate extends PureComponent<Props> {
+  handlePress = () => {
+    const { dispatch, user } = this.props;
+    dispatch(navigateToAccountDetails(user.email));
+  };
+
   render() {
     const { user, color } = this.props;
     // $FlowFixMe: sort out RealmBot
     const avatarUrl: string | null = user.avatar_url;
     return (
-      <View style={styles.navWrapper}>
+      <Touchable onPress={this.handlePress} style={styles.navWrapper}>
         <UserAvatarWithPresence size={32} email={user.email} avatarUrl={avatarUrl} />
         <ViewPlaceholder width={8} />
         <View>
@@ -30,7 +37,7 @@ class TitlePrivate extends PureComponent<Props> {
           </Text>
           <ActivityText style={styles.navSubtitle} color={color} email={user.email} />
         </View>
-      </View>
+      </Touchable>
     );
   }
 }
