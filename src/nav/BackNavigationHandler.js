@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ChildrenArray } from 'react';
+import type { Node as React$Node } from 'react';
 import { connect } from 'react-redux';
 
 import { PureComponent } from 'react';
@@ -10,7 +10,7 @@ import { getCanGoBack } from '../selectors';
 import { navigateBack } from '../actions';
 
 type Props = {|
-  children: ChildrenArray<*>,
+  children: React$Node,
   canGoBack: boolean,
   dispatch: Dispatch,
 |};

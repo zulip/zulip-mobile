@@ -6,7 +6,7 @@ import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 're
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
-import type { ChildrenArray, Dispatch, GlobalState, Orientation as OrientationT } from '../types';
+import type { React$Node, Dispatch, GlobalState, Orientation as OrientationT } from '../types';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
 import {
@@ -27,7 +27,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   dispatch: Dispatch,
-  children: ChildrenArray<*>,
+  children: React$Node,
   unreadCount: number,
 |};
 

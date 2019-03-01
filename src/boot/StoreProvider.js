@@ -2,12 +2,12 @@
 import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 
-import type { ChildrenArray } from '../types';
+import type { React$Node } from '../types';
 import store, { restore } from './store';
 import timing from '../utils/timing';
 
 type Props = {|
-  children: ChildrenArray<*>,
+  children: React$Node,
 |};
 
 export default class StoreHydrator extends PureComponent<Props> {

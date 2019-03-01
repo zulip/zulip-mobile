@@ -22,7 +22,6 @@ import type { AppStyles } from './styles/theme';
 
 import type { SessionState } from './session/sessionReducers';
 
-export type { ChildrenArray } from 'react';
 export type React$Node = Node; // eslint-disable-line flowtype/type-id-match
 
 export type * from './actionTypes';

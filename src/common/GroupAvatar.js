@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
-import type { ChildrenArray } from '../types';
+import type { React$Node } from '../types';
 import Touchable from './Touchable';
 import { colorHashFromString } from '../utils/color';
 import { initialsFromString } from '../utils/misc';
@@ -21,7 +21,7 @@ type Props = {
   names: string,
   size: number,
   shape: string,
-  children?: ChildrenArray<*>,
+  children?: React$Node,
   onPress?: () => void,
 };
 

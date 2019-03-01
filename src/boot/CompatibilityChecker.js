@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { ChildrenArray } from '../types';
+import type { React$Node } from '../types';
 import { checkCompatibility } from '../api';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 
 type Props = {|
-  children: ChildrenArray<*>,
+  children: React$Node,
 |};
 
 type State = {|

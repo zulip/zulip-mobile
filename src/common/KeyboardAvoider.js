@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { ChildrenArray } from 'react';
+import type { Node as React$Node } from 'react';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 
 import type { Style } from '../types';
 
 type Props = {|
   behavior?: ?('height' | 'position' | 'padding'),
-  children: ChildrenArray<*>,
+  children: React$Node,
   style?: Style,
   contentContainerStyle?: Style,
 |};

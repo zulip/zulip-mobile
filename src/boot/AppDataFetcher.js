@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import { PureComponent } from 'react';
 
-import type { ChildrenArray, Dispatch, GlobalState } from '../types';
+import type { React$Node, Dispatch, GlobalState } from '../types';
 import { getSession } from '../directSelectors';
 import { doInitialFetch } from '../actions';
 
 type Props = {|
   needsInitialFetch: boolean,
   dispatch: Dispatch,
-  children: ChildrenArray<*>,
+  children: React$Node,
 |};
 
 class AppDataFetcher extends PureComponent<Props> {

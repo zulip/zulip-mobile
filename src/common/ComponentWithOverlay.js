@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { ChildrenArray, Style } from '../types';
+import type { React$Node, Style } from '../types';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 
@@ -36,9 +36,9 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  children: ChildrenArray<*>,
+  children: React$Node,
   accessibilityLabel?: string,
-  overlay: ChildrenArray<*>,
+  overlay: React$Node,
   showOverlay: boolean,
   overlaySize: number,
   overlayColor: string,

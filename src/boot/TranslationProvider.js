@@ -6,7 +6,7 @@ import { Text } from 'react-native';
 import { IntlProvider } from 'react-intl';
 import type { IntlShape } from 'react-intl';
 
-import type { ChildrenArray, GetText, GlobalState } from '../types';
+import type { React$Node, GetText, GlobalState } from '../types';
 import { getSettings } from '../selectors';
 import '../../vendor/intl/intl';
 import messages from '../i18n/messages';
@@ -56,7 +56,7 @@ const makeGetText = (intl: IntlShape): GetText => {
  * vs. https://reactjs.org/docs/legacy-context.html .
  */
 class TranslationContextTranslator extends PureComponent<{
-  children: ChildrenArray<*>,
+  children: React$Node,
 }> {
   context: { intl: IntlShape };
 
@@ -77,7 +77,7 @@ class TranslationContextTranslator extends PureComponent<{
 
 type Props = {|
   locale: string,
-  children: ChildrenArray<*>,
+  children: React$Node,
 |};
 
 class TranslationProvider extends PureComponent<Props> {

@@ -2,11 +2,11 @@
 import React, { PureComponent } from 'react';
 import { Animated } from 'react-native';
 
-import type { ChildrenArray, Style } from '../types';
+import type { React$Node, Style } from '../types';
 
 type Props = {|
   style: Style,
-  children: ChildrenArray<*>,
+  children: React$Node,
   from: number,
   to: number,
   property: string,

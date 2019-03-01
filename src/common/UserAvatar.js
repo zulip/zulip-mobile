@@ -2,14 +2,14 @@
 import React, { PureComponent } from 'react';
 import { ImageBackground, View } from 'react-native';
 
-import type { ChildrenArray } from '../types';
+import type { React$Node } from '../types';
 import Touchable from './Touchable';
 
 type Props = {
   avatarUrl: string,
   size: number,
   shape: string,
-  children?: ChildrenArray<*>,
+  children?: React$Node,
   onPress?: () => void,
 };
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { ChildrenArray, GlobalState, ThemeName } from '../types';
+import type { React$Node, GlobalState, ThemeName } from '../types';
 import { getSettings } from '../directSelectors';
 import { stylesFromTheme, themeColors, ThemeContext } from '../styles/theme';
 
@@ -11,7 +11,7 @@ const Dummy = props => props.children;
 
 type Props = {|
   theme: ThemeName,
-  children: ChildrenArray<*>,
+  children: React$Node,
 |};
 
 class StyleProvider extends PureComponent<Props> {
