@@ -1,6 +1,12 @@
 /* @flow strict-local */
-import type { ApiResponseWithPresence, Auth } from './apiTypes';
+import type { ApiResponse, Auth, UserPresence } from './apiTypes';
 import { apiPost } from './apiFetch';
+
+type ApiResponseWithPresence = {|
+  ...ApiResponse,
+  server_timestamp: number,
+  presences: {| [email: string]: UserPresence |},
+|};
 
 /** See https://zulip.readthedocs.io/en/latest/subsystems/presence.html . */
 export default (

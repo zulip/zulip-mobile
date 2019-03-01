@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import type { PresenceState } from '../types';
 
 export type * from './eventTypes';
 export type * from './initialDataTypes';
@@ -325,12 +324,6 @@ export type ApiResponseError = {|
   code?: ApiErrorCode,
   msg: string,
   result: 'error',
-|};
-
-export type ApiResponseWithPresence = {|
-  ...ApiResponse,
-  server_timestamp: number,
-  presences: PresenceState,
 |};
 
 export type AuthenticationMethods = {|
