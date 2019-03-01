@@ -2,6 +2,7 @@
 import type { PresenceState } from '../types';
 
 export type * from './eventTypes';
+export type * from './initialDataTypes';
 
 export type Auth = {|
   realm: string,
