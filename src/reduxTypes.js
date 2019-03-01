@@ -35,35 +35,9 @@ import type { SessionState } from './session/sessionReducers';
 
 export type * from './actionTypes';
 
-/**
- * An index on `MessagesState`, listing messages in each narrow.
- *
- * Keys are `JSON.stringify`-encoded `Narrow` objects.
- * Values are sorted lists of message IDs.
- *
- * See also `MessagesState`, which stores the message data indexed by ID.
- */
-export type NarrowsState = {
-  [narrow: string]: number[],
-};
-
-/**
- * A map with all messages we've stored locally, indexed by ID.
- *
- * See also `NarrowsState`, which is an index on this data that identifies
- * messages belonging to a given narrow.
- */
-export type MessagesState = {|
-  [id: number]: $Exact<Message>,
-|};
-
-export type UserStatusState = UserStatusMapObject;
-
-export type StreamsState = Stream[];
-
-export type SubscriptionsState = Subscription[];
-
 export type AccountsState = Account[];
+
+export type AlertWordsState = string[];
 
 /**
  * Info about how complete our knowledge is of the messages in some narrow.
@@ -79,17 +53,21 @@ export type CaughtUp = {|
   newer: boolean,
 |};
 
-export type Fetching = {|
-  older: boolean,
-  newer: boolean,
-|};
-
 /**
  * Info about how completely we know the messages in each narrow of
  * MessagesState.
  */
 export type CaughtUpState = {|
   [narrow: string]: CaughtUp,
+|};
+
+export type DraftsState = {|
+  [narrow: string]: string,
+|};
+
+export type Fetching = {|
+  older: boolean,
+  newer: boolean,
 |};
 
 export type FetchingState = {
@@ -113,10 +91,6 @@ export type FlagsState = {|
 
 export type FlagName = $Keys<FlagsState>;
 
-export type MigrationsState = {|
-  version?: string,
-|};
-
 export type LoadingState = {|
   presence: boolean,
   subscriptions: boolean,
@@ -125,7 +99,33 @@ export type LoadingState = {|
   users: boolean,
 |};
 
+/**
+ * A map with all messages we've stored locally, indexed by ID.
+ *
+ * See also `NarrowsState`, which is an index on this data that identifies
+ * messages belonging to a given narrow.
+ */
+export type MessagesState = {|
+  [id: number]: $Exact<Message>,
+|};
+
+export type MigrationsState = {|
+  version?: string,
+|};
+
 export type MuteState = MuteTuple[];
+
+/**
+ * An index on `MessagesState`, listing messages in each narrow.
+ *
+ * Keys are `JSON.stringify`-encoded `Narrow` objects.
+ * Values are sorted lists of message IDs.
+ *
+ * See also `MessagesState`, which stores the message data indexed by ID.
+ */
+export type NarrowsState = {
+  [narrow: string]: number[],
+};
 
 export type NavigationRouteState = {
   key: string,
@@ -141,6 +141,18 @@ export type NavigationState = {|
   isTransitioning: boolean,
   key: string,
   routes: NavigationRouteState[],
+|};
+
+export type OutboxState = Outbox[];
+
+/**
+ * The `presence` subtree of our Redux state.
+ *
+ * @prop (email) - Indexes over all users for which the app has received a
+ *   presence status.
+ */
+export type PresenceState = {|
+  [email: string]: UserPresence,
 |};
 
 /**
@@ -167,10 +179,6 @@ export type RealmState = {|
   isAdmin: boolean,
 |};
 
-export type TopicsState = {|
-  [number]: Topic[],
-|};
-
 export type ThemeName = 'default' | 'night';
 
 export type SettingsState = {|
@@ -180,6 +188,14 @@ export type SettingsState = {|
   onlineNotification: boolean,
   experimentalFeaturesEnabled: boolean,
   streamNotification: boolean,
+|};
+
+export type StreamsState = Stream[];
+
+export type SubscriptionsState = Subscription[];
+
+export type TopicsState = {|
+  [number]: Topic[],
 |};
 
 export type TypingState = {|
@@ -193,12 +209,16 @@ export type UnreadStreamsState = StreamUnreadItem[];
 export type UnreadHuddlesState = HuddlesUnreadItem[];
 export type UnreadPmsState = PmsUnreadItem[];
 export type UnreadMentionsState = number[];
-
-export type AlertWordsState = string[];
-
-export type DraftsState = {|
-  [narrow: string]: string,
+export type UnreadState = {|
+  streams: UnreadStreamsState,
+  huddles: UnreadHuddlesState,
+  pms: UnreadPmsState,
+  mentions: UnreadMentionsState,
 |};
+
+export type UserGroupsState = UserGroup[];
+
+export type UserStatusState = UserStatusMapObject;
 
 /**
  * A collection of (almost) all users in the Zulip org; our `users` state subtree.
@@ -207,27 +227,6 @@ export type DraftsState = {|
  * For those, see RealmState.
  */
 export type UsersState = User[];
-
-export type UserGroupsState = UserGroup[];
-
-/**
- * The `presence` subtree of our Redux state.
- *
- * @prop (email) - Indexes over all users for which the app has received a
- *   presence status.
- */
-export type PresenceState = {|
-  [email: string]: UserPresence,
-|};
-
-export type OutboxState = Outbox[];
-
-export type UnreadState = {|
-  streams: UnreadStreamsState,
-  huddles: UnreadHuddlesState,
-  pms: UnreadPmsState,
-  mentions: UnreadMentionsState,
-|};
 
 /**
  * Our complete Redux state tree.
@@ -241,9 +240,9 @@ export type GlobalState = {|
   drafts: DraftsState,
   fetching: FetchingState,
   flags: FlagsState,
-  migrations: MigrationsState,
   loading: LoadingState,
   messages: MessagesState,
+  migrations: MigrationsState,
   mute: MuteState,
   narrows: NarrowsState,
   nav: NavigationState,
