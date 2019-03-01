@@ -349,16 +349,3 @@ export type ApiServerSettings = {|
 |};
 
 export type TypingOperation = 'start' | 'stop';
-
-/** See https://zulipchat.com/api/get-profile */
-export type UserProfile = {|
-  client_id: string,
-  email: string,
-  full_name: string,
-  is_admin: boolean,
-  is_bot: boolean,
-  max_message_id: number,
-  pointer: number,
-  short_name: string,
-  user_id: number,
-|};
