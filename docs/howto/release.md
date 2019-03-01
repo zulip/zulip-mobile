@@ -101,37 +101,36 @@ simple terminology for the process we follow with both.
 
 ### iOS
 
-* Build and upload from Xcode.
+* Build using our script:
 
-  * First: in a terminal, run `yarn`.
+  ```
+  tools/ios build
+  ```
 
-  * In the "scheme" menu at the top center-left of the main window,
-    select "ZulipMobile > Generic iOS Device".
+  This will take a few minutes.
 
-  * Select Product -> Archive from the application menu.
+  * Toward the end this will need access to your keychain to sign the
+    build.  If you have a graphical session, this gets taken care of;
+    if you're SSHed in, you can run `security unlock-keychain` first
+    (and type your password into the prompt) to make things work.
 
-    * This runs the actual build; typically it takes a few minutes.
-      If it fails, debug and try again.
+  * Given past experience with Apple tools, this will probably prove
+    to be flaky in new and exciting ways.  See the history of this
+    howto file for possibly-helpful historical problems and solutions
+    with the previous, GUI-based way.
 
-    * When the build succeeds, Xcode opens its "Archives organizer",
-      aka "Organizer", window.
+* Upload using our script:
 
-  * In the Archives organizer, select the archive and hit the button
-    "Distribute App".  Follow the instructions in the [Xcode docs on
-    uploading][xcode-upload].
+  ```
+  tools/ios upload
+  ```
 
-    * For the options "Include bitcode for iOS content" and "Upload
-      your app's symbols...", keep both options enabled.
+  * You'll need a graphical session; `security unlock-keychain`
+    doesn't seem to suffice.  Finding a pure-CLI, SSH-accessible way
+    to do this step would be pretty nice.
 
-    * For signing, select "Manually manage signing".  Choose the
-      provisioning profile called "XC iOS: org.zulip.Zulip".
-      (On your first upload, you'll choose at this screen to download
-      the provisioning profile.  Or if you're hitting the bug
-      described below where [Xcode can't log in](#trouble-uploading-apple),
-      you can download the provisioning profile from
-      developer.apple.com/account/ios/profile/.)
-
-[xcode-upload]: https://help.apple.com/xcode/mac/9.0/#/dev442d7f2ca
+  * Like the build, this will probably be flaky in exciting ways;
+    see history for hints.
 
 * Distribute from [App Store Connect][app-store-connect].
 
@@ -162,6 +161,7 @@ simple terminology for the process we follow with both.
 [app-store-connect]: https://appstoreconnect.apple.com/
 [asc-builds]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/activity/ios/builds
 [asc-external-builds]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/testflight?section=group&subsection=builds&id=1bf18c25-da12-4bad-8384-9dd872ce447f
+
 
 ### Releasing to production
 
@@ -336,33 +336,3 @@ keyPassword=*****
 
 Try using Safari when working with App Store Connect.  It's still
 buggy and slow, but not as buggy as it is in Chrome.
-
-
-<div id="trouble-uploading-apple" />
-
-### Uploading to App Store: "No accounts with App Store Connect access ..."
-
-If you get an error like "No accounts with App Store Connect access have
-been found for the team ...", followed by your account name with the
-message "No App Store Connect access for the team": this is an error
-[often reported, with varying causes][so-xcode-upload-fail] (also
-[forums 1][forums-xcode-fail-1], [forums 2][forums-xcode-fail-2]).  A
-workaround that works for many people on the internet, and worked for
-Greg when he first hit this issue in 2018, is to [use Application
-Loader instead][application-loader]:
-
-* In the modal a step or two after "Distribute App", choose ["Export /
-  Sign and export without uploading"][xcode-export].  This will create
-  a directory somewhere with a `.ipa` file in it.
-
-* From the Xcode menu, select Xcode -> Open Developer Tool ->
-  Application Loader.  Hit the giant "Deliver Your App" button, then
-  the "Choose" button in the corner.  Select the `.ipa` file you
-  exported.  Proceed through the next screens just like the normal
-  case below.
-
-[so-xcode-upload-fail]: https://stackoverflow.com/questions/46231372/xcode-8-3-3-no-accounts-with-itunes-connect-access
-[forums-xcode-fail-1]: https://forums.developer.apple.com/thread/86867
-[forums-xcode-fail-2]: https://forums.developer.apple.com/thread/67366
-[application-loader]: https://help.apple.com/itc/apploader/#/apdATD1E12-D1E1A1303-D1E12A1126
-[xcode-export]: https://stackoverflow.com/questions/5499125/how-to-create-ipa-file-using-xcode/47940681
