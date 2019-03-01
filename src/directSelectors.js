@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type {
   GlobalState,
-  DraftState,
+  DraftsState,
   FetchingState,
   FlagsState,
   LoadingState,
@@ -41,7 +41,7 @@ export const getIsHydrated = (state: GlobalState): boolean => state.session.isHy
 
 export const getCanCreateStreams = (state: GlobalState): boolean => state.realm.canCreateStreams;
 
-export const getDrafts = (state: GlobalState): DraftState => state.drafts;
+export const getDrafts = (state: GlobalState): DraftsState => state.drafts;
 
 export const getLoading = (state: GlobalState): LoadingState => state.loading;
 

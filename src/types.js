@@ -451,10 +451,6 @@ export type RenderedSectionDescriptor = {|
   data: $ReadOnlyArray<RenderedMessageDescriptor | RenderedTimeDescriptor>,
 |};
 
-export type DraftState = {|
-  [narrow: string]: string,
-|};
-
 export type TimingItemType = {|
   text: string,
   startMs: number,
