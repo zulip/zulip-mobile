@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import type { Auth, ApiResponseSuccess, DevUser } from './apiTypes';
+import type { Auth, ApiResponseSuccess } from './transportTypes';
+import type { DevUser } from './apiTypes';
 import { apiGet } from './apiFetch';
 
 type ApiResponseDevListUsers = {|

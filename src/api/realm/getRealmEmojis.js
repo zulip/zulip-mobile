@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import type { Auth, ApiResponseSuccess, RealmEmojiState } from '../apiTypes';
+import type { Auth, ApiResponseSuccess } from '../transportTypes';
+import type { RealmEmojiState } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseRealmEmojis = {|

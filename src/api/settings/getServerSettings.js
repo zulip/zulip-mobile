@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ApiResponseSuccess } from '../apiTypes';
+import type { ApiResponseSuccess } from '../transportTypes';
 import { apiGet } from '../apiFetch';
 
 export type AuthenticationMethods = {|

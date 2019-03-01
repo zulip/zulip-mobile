@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Auth } from './apiTypes';
+import type { Auth } from './transportTypes';
 import { apiGet } from './apiFetch';
 
 /** See https://zulipchat.com/api/get-events-from-queue */

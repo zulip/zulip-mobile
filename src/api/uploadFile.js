@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Auth, ApiResponseSuccess } from './apiTypes';
+import type { Auth, ApiResponseSuccess } from './transportTypes';
 import { apiFile } from './apiFetch';
 import { getFileExtension, getMimeTypeFromFileExtension } from '../utils/url';
 

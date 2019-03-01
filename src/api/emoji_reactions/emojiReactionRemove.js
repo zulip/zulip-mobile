@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Auth, ApiResponse } from '../apiTypes';
+import type { Auth, ApiResponse } from '../transportTypes';
 import { apiDelete } from '../apiFetch';
 
 export default (

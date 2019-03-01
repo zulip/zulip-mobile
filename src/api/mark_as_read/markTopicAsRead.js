@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
 export default async (auth: Auth, streamId: number, topic: string): Promise<ApiResponse> =>

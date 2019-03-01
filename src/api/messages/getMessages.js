@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import type { Auth, ApiResponseSuccess, Message, Narrow } from '../apiTypes';
+import type { Auth, ApiResponseSuccess } from '../transportTypes';
+import type { Message, Narrow } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseMessages = {|

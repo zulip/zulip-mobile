@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ApiResponseSuccess, Auth } from '../apiTypes';
+import type { ApiResponseSuccess, Auth } from '../transportTypes';
 import { apiPost, objectToParams } from '../apiFetch';
 
 type UserStatusParams = {

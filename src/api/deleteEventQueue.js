@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Auth, ApiResponseSuccess } from './apiTypes';
+import type { Auth, ApiResponseSuccess } from './transportTypes';
 import { apiDelete } from './apiFetch';
 
 /** See https://zulipchat.com/api/delete-queue */

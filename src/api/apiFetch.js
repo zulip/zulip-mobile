@@ -1,6 +1,6 @@
 /* @flow */
 import type { UrlParams } from '../utils/url';
-import type { Auth } from './apiTypes';
+import type { Auth } from './transportTypes';
 import { getAuthHeader, encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';

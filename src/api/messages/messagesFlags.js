@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
 export default (auth: Auth, messages: number[], op: string, flag: string): Promise<ApiResponse> =>

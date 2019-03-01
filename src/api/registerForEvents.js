@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import type { Auth, Narrow } from './apiTypes';
+import type { Auth } from './transportTypes';
+import type { Narrow } from './apiTypes';
 import { apiPost, objectToParams } from './apiFetch';
 
 type RegisterForEventsParams = {

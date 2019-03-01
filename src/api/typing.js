@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ApiResponse, Auth } from './apiTypes';
+import type { ApiResponse, Auth } from './transportTypes';
 import { apiPost } from './apiFetch';
 
 type TypingOperation = 'start' | 'stop';

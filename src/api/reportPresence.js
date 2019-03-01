@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import type { ApiResponse, Auth, UserPresence } from './apiTypes';
+import type { ApiResponse, Auth } from './transportTypes';
+import type { UserPresence } from './apiTypes';
 import { apiPost } from './apiFetch';
 
 type ApiResponseWithPresence = {|

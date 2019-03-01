@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
 /** See https://zulipchat.com/api/send-message */

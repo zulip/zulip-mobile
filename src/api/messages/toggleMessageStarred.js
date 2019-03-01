@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Auth } from '../apiTypes';
+import type { Auth } from '../transportTypes';
 import messagesFlags from './messagesFlags';
 
 export default (auth: Auth, messageIds: number[], starMessage: boolean): void => {
