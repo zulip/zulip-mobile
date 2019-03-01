@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Auth, Dispatch, RealmFilter, InitialData, RealmEmojiState, Action } from '../types';
+import type { Auth, Dispatch, RealmFilter, InitialData, RealmEmojiById, Action } from '../types';
 import { getRealmEmojis, getRealmFilters } from '../api';
 import { REALM_INIT, INIT_REALM_EMOJI, INIT_REALM_FILTER } from '../actionConstants';
 
@@ -8,7 +8,7 @@ export const realmInit = (data: InitialData): Action => ({
   data,
 });
 
-export const initRealmEmojis = (emojis: RealmEmojiState): Action => ({
+export const initRealmEmojis = (emojis: RealmEmojiById): Action => ({
   type: INIT_REALM_EMOJI,
   emojis,
 });

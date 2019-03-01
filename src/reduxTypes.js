@@ -19,7 +19,7 @@ import type {
   MuteTuple,
   PmsUnreadItem,
   RealmBot,
-  RealmEmojiState,
+  RealmEmojiById,
   RealmFilter,
   Narrow,
   Stream,
@@ -175,7 +175,7 @@ export type RealmState = {|
   crossRealmBots: RealmBot[],
   nonActiveUsers: User[],
   filters: RealmFilter[],
-  emoji: RealmEmojiState,
+  emoji: RealmEmojiById,
   isAdmin: boolean,
 |};
 

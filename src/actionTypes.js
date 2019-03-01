@@ -86,7 +86,7 @@ import type {
   Subscription,
   Topic,
   PresenceState,
-  RealmEmojiState,
+  RealmEmojiById,
   SettingsState,
   CaughtUpState,
   MuteState,
@@ -457,7 +457,7 @@ type EventUserGroupRemoveMembersAction = {|
 
 type EventRealmEmojiUpdateAction = {|
   type: typeof EVENT_REALM_EMOJI_UPDATE,
-  realm_emoji: RealmEmojiState,
+  realm_emoji: RealmEmojiById,
 |};
 
 type EventUpdateDisplaySettingsAction = {|
@@ -522,7 +522,7 @@ export type EventAction =
 
 type InitRealmEmojiAction = {|
   type: typeof INIT_REALM_EMOJI,
-  emojis: RealmEmojiState,
+  emojis: RealmEmojiById,
 |};
 
 type InitRealmFilterAction = {|

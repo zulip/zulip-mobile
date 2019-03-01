@@ -27,7 +27,7 @@ export type RealmEmojiType = $ReadOnly<{|
   [empty]: mixed,
 |}>;
 
-export type RealmEmojiState = $ReadOnly<{
+export type RealmEmojiById = $ReadOnly<{
   [id: string]: RealmEmojiType,
 }>;
 

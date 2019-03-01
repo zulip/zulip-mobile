@@ -2,7 +2,7 @@
 
 import type {
   RealmBot,
-  RealmEmojiState,
+  RealmEmojiById,
   RealmFilter,
   Subscription,
   User,
@@ -80,7 +80,7 @@ export type InitialDataRealm = {|
 |};
 
 export type InitialDataRealmEmoji = {|
-  realm_emoji: RealmEmojiState,
+  realm_emoji: RealmEmojiById,
 |};
 
 export type InitialDataRealmFilters = {|

@@ -11,7 +11,7 @@ import type {
   TopicsState,
   PresenceState,
   RealmBot,
-  RealmEmojiState,
+  RealmEmojiById,
   RealmState,
   SettingsState,
   StreamUnreadItem,
@@ -90,7 +90,7 @@ export const getRealm = (state: GlobalState): RealmState => state.realm;
 
 export const getCrossRealmBots = (state: GlobalState): RealmBot[] => state.realm.crossRealmBots;
 
-export const getRawRealmEmoji = (state: GlobalState): RealmEmojiState => state.realm.emoji;
+export const getRawRealmEmoji = (state: GlobalState): RealmEmojiById => state.realm.emoji;
 
 export const getNonActiveUsers = (state: GlobalState): User[] => state.realm.nonActiveUsers;
 
