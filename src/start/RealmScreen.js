@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
 
-import type { ApiServerSettings, Dispatch } from '../types';
+import type { ApiResponseServerSettings, Dispatch } from '../types';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { isValidUrl } from '../utils/url';
 import { getServerSettings } from '../api';
@@ -44,7 +44,7 @@ class RealmScreen extends PureComponent<Props, State> {
     const { dispatch } = this.props;
 
     try {
-      const serverSettings: ApiServerSettings = await getServerSettings(realm);
+      const serverSettings: ApiResponseServerSettings = await getServerSettings(realm);
       dispatch(realmAdd(realm));
       dispatch(navigateToAuth(serverSettings));
       Keyboard.dismiss();

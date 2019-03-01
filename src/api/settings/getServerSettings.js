@@ -11,7 +11,7 @@ export type AuthenticationMethods = {|
   remoteuser: boolean,
 |};
 
-export type ApiServerSettings = {|
+export type ApiResponseServerSettings = {|
   ...ApiResponseSuccess,
   authentication_methods: AuthenticationMethods,
   email_auth_enabled: boolean,
@@ -25,5 +25,5 @@ export type ApiServerSettings = {|
 |};
 
 /** See https://zulipchat.com/api/server-settings */
-export default async (realm: string): Promise<ApiServerSettings> =>
+export default async (realm: string): Promise<ApiResponseServerSettings> =>
   apiGet({ apiKey: '', email: '', realm }, 'server_settings');

@@ -3,7 +3,10 @@
 export type * from './eventTypes';
 export type * from './initialDataTypes';
 
-export type { AuthenticationMethods, ApiServerSettings } from './settings/getServerSettings';
+export type {
+  AuthenticationMethods,
+  ApiResponseServerSettings,
+} from './settings/getServerSettings';
 
 export type Auth = {|
   realm: string,

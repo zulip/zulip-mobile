@@ -6,7 +6,7 @@ import { Linking } from 'react-native';
 import parseURL from 'url-parse';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, GlobalState, ApiServerSettings } from '../types';
+import type { Dispatch, GlobalState, ApiResponseServerSettings } from '../types';
 import { Centerer, Screen } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
@@ -23,7 +23,7 @@ type Props = {|
   navigation: NavigationScreenProp<*> & {
     state: {
       params: {
-        serverSettings: ApiServerSettings,
+        serverSettings: ApiResponseServerSettings,
       },
     },
   },
