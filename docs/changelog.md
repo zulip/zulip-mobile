@@ -14,7 +14,8 @@ to users in general on the app stores is typically a few days later.
 ### Highlights for users (since 22.1.108)
 
 Many fixes and improvements, including:
-* Support for the new "availability" or "user status" feature.
+* Support for setting yourself as away/unavailable, or setting
+  a status message.
 * Fixed several issues in message compose and autocomplete.
 * Fixed several issues in sending messages under bad network
   conditions.
