@@ -4,25 +4,36 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { User } from '../types';
-import { UserAvatarWithPresence } from '../common';
+import type { Dispatch, User } from '../types';
+import { Touchable, UserAvatarWithPresence } from '../common';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
+import { navigateToAccountDetails } from '../nav/navActions';
 
 type Props = {
+  dispatch: Dispatch,
   recipients: User[],
 };
 
 class TitleGroup extends PureComponent<Props> {
+  handlePress = user => {
+    const { dispatch } = this.props;
+    dispatch(navigateToAccountDetails(user.email));
+  };
+
   render() {
     const { recipients } = this.props;
 
     return (
       <View style={styles.navWrapper}>
         {recipients.map((user, index) => (
-          <View key={user.email} style={styles.titleAvatar}>
+          <Touchable
+            key={user.email}
+            onPress={() => this.handlePress(user)}
+            style={styles.titleAvatar}
+          >
             <UserAvatarWithPresence size={32} avatarUrl={user.avatar_url} email={user.email} />
-          </View>
+          </Touchable>
         ))}
       </View>
     );
