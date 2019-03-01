@@ -97,15 +97,6 @@ export type AggregatedReaction = {|
   type: string,
 |};
 
-/** A user, as seen in the `display_recipient` of a PM `Message`. */
-export type PmRecipientUser = {|
-  email: string,
-  full_name: string,
-  id: number,
-  is_mirror_dummy: boolean,
-  short_name: string,
-|};
-
 /**
  * An index on `MessagesState`, listing messages in each narrow.
  *

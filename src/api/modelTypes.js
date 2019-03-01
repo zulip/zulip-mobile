@@ -288,6 +288,15 @@ export type MessageEdit = $ReadOnly<{|
   user_id: number,
 |}>;
 
+/** A user, as seen in the `display_recipient` of a PM `Message`. */
+export type PmRecipientUser = {|
+  email: string,
+  full_name: string,
+  id: number,
+  is_mirror_dummy: boolean,
+  short_name: string,
+|};
+
 /**
  * A Zulip message.
  *
