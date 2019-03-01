@@ -461,23 +461,6 @@ export type TimingItemType = {|
   endMs: number,
 |};
 
-export type UnreadTopic = {|
-  isMuted: boolean,
-  key: string,
-  topic: string,
-  unread: number,
-|};
-
-export type UnreadStream = {|
-  color: string,
-  data: UnreadTopic[],
-  isMuted: boolean,
-  isPrivate: boolean,
-  key: string,
-  streamName: string,
-  unread: number,
-|};
-
 export type NotificationCommon = {|
   alert: string,
   content: string,
