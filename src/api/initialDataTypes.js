@@ -1,65 +1,15 @@
 /* @flow strict-local */
 
-import type { RealmEmojiState, RealmFilter, Subscription, User, UserPresence } from './apiTypes';
-
-export type MuteTuple = [string, string];
-
-export type RealmBot = {|
-  email: string,
-  full_name: string,
-  is_admin: boolean,
-  is_bot: true,
-  user_id: number,
-|};
-
-/**
- * Specifies user status related properties
- * @prop away - present if we are to override user's presence status
- *       * when `true` the user is always `offline`
- *       * when missing the presence is not changed
- *       * can not be `false`
- * @prop status_text - a string representing information the user decided to
- *   manually set as his 'current status'
- */
-export type UserStatus = {|
-  away?: true,
-  status_text?: string,
-|};
-
-export type UserStatusMapObject = {|
-  [userId: number]: UserStatus,
-|};
-
-export type UserGroup = {|
-  description: string,
-  id: number,
-  members: number[],
-  name: string,
-|};
-
-export type StreamUnreadItem = {|
-  stream_id: number,
-  topic: string,
-  unread_message_ids: number[],
-|};
-
-export type HuddlesUnreadItem = {|
-  user_ids_string: string,
-  unread_message_ids: number[],
-|};
-
-export type PmsUnreadItem = {|
-  sender_id: number,
-  unread_message_ids: number[],
-|};
-
-export type NeverSubscribedStream = {|
-  description: string,
-  invite_only: boolean,
-  is_old_stream: boolean,
-  name: string,
-  stream_id: number,
-|};
+import type {
+  RealmBot,
+  RealmEmojiState,
+  RealmFilter,
+  Subscription,
+  User,
+  UserGroup,
+  UserPresence,
+  UserStatusMapObject,
+} from './apiTypes';
 
 export type InitialDataBase = {|
   last_event_id: number,
@@ -74,6 +24,8 @@ export type InitialDataAlertWords = {|
 export type InitialDataMessage = {|
   max_message_id: number,
 |};
+
+export type MuteTuple = [string, string];
 
 export type InitialDataMutedTopics = {|
   muted_topics: MuteTuple[],
@@ -154,6 +106,14 @@ export type InitialDataRealmUserGroups = {|
   realm_user_groups: UserGroup[],
 |};
 
+type NeverSubscribedStream = {|
+  description: string,
+  invite_only: boolean,
+  is_old_stream: boolean,
+  name: string,
+  stream_id: number,
+|};
+
 export type InitialDataSubscription = {|
   never_subscribed: NeverSubscribedStream[],
   subscriptions: Subscription[],
@@ -187,6 +147,22 @@ export type InitialDataUpdateGlobalNotifications = {|
   message_content_in_email_notifications: boolean,
   pm_content_in_desktop_notifications: boolean,
   realm_name_in_notifications: boolean,
+|};
+
+export type StreamUnreadItem = {|
+  stream_id: number,
+  topic: string,
+  unread_message_ids: number[],
+|};
+
+export type HuddlesUnreadItem = {|
+  user_ids_string: string,
+  unread_message_ids: number[],
+|};
+
+export type PmsUnreadItem = {|
+  sender_id: number,
+  unread_message_ids: number[],
 |};
 
 export type InitialDataUpdateMessageFlags = {|

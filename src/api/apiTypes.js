@@ -260,6 +260,39 @@ export type User = {|
   user_id: number,
 |};
 
+export type RealmBot = {|
+  email: string,
+  full_name: string,
+  is_admin: boolean,
+  is_bot: true,
+  user_id: number,
+|};
+
+export type UserGroup = {|
+  description: string,
+  id: number,
+  members: number[],
+  name: string,
+|};
+
+/**
+ * Specifies user status related properties
+ * @prop away - present if we are to override user's presence status
+ *       * when `true` the user is always `offline`
+ *       * when missing the presence is not changed
+ *       * can not be `false`
+ * @prop status_text - a string representing information the user decided to
+ *   manually set as his 'current status'
+ */
+export type UserStatus = {|
+  away?: true,
+  status_text?: string,
+|};
+
+export type UserStatusMapObject = {|
+  [userId: number]: UserStatus,
+|};
+
 export type ApiResponse = {|
   result: string,
   msg: string,
