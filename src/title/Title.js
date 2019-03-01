@@ -7,7 +7,6 @@ import { caseNarrow } from '../utils/narrow';
 import { getSession } from '../selectors';
 
 import type { Message, GlobalState, Narrow } from '../types';
-import TitleHome from './TitleHome';
 import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
@@ -28,7 +27,7 @@ class Title extends PureComponent<Props> {
       return <TitlePlain text="Edit message" {...props} />;
     }
     return caseNarrow(narrow, {
-      home: () => <TitleHome color={color} />,
+      home: () => <TitleSpecial code="home" color={color} />,
       starred: () => <TitleSpecial code="starred" {...props} />,
       mentioned: () => <TitleSpecial code="mentioned" {...props} />,
       allPrivate: () => <TitleSpecial code="private" {...props} />,
