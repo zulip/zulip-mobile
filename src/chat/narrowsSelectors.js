@@ -7,11 +7,10 @@ import type {
   Message,
   Narrow,
   Outbox,
-  RealmBot,
   Selector,
-  User,
   Stream,
   Subscription,
+  UserOrBot,
 } from '../types';
 import {
   getAllNarrows,
@@ -90,7 +89,7 @@ export const getLastMessageId = (state: GlobalState, narrow: Narrow): number | v
   return ids.length > 0 ? ids[ids.length - 1] : undefined;
 };
 
-export const getRecipientsInGroupNarrow: Selector<(User | RealmBot)[], Narrow> = createSelector(
+export const getRecipientsInGroupNarrow: Selector<UserOrBot[], Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getAllUsersByEmail(state),
   (narrow, allUsersByEmail) =>

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { Dispatch, PmConversationData, User, RealmBot } from '../types';
+import type { Dispatch, PmConversationData, UserOrBot } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import GroupPmConversationItem from './GroupPmConversationItem';
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 type Props = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
-  usersByEmail: Map<string, User | RealmBot>,
+  usersByEmail: Map<string, UserOrBot>,
 |};
 
 /**

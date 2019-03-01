@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
-import type { Dispatch, RealmBot, User } from '../types';
+import type { Dispatch, UserOrBot } from '../types';
 import { Touchable, UserAvatarWithPresence, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
 import { getAllUsersByEmail } from '../users/userSelectors';
@@ -13,7 +13,7 @@ import { navigateToAccountDetails } from '../nav/navActions';
 
 type Props = {
   dispatch: Dispatch,
-  user: User | RealmBot,
+  user: UserOrBot,
   color: string,
 };
 

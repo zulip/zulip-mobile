@@ -9,8 +9,7 @@ import type {
   GlobalState,
   PmConversationData,
   UnreadStreamItem,
-  User,
-  RealmBot,
+  UserOrBot,
 } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
@@ -29,7 +28,7 @@ type Props = {|
   conversations: PmConversationData[],
   dispatch: Dispatch,
   isLoading: boolean,
-  usersByEmail: Map<string, User | RealmBot>,
+  usersByEmail: Map<string, UserOrBot>,
   unreadStreamsAndTopics: UnreadStreamItem[],
 |};
 

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { RealmBot, User } from '../types';
+import type { UserOrBot } from '../types';
 import { GroupAvatar, RawLabel, Touchable, UnreadCount } from '../common';
 import styles from '../styles';
 
@@ -16,7 +16,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   email: string,
-  usersByEmail: Map<string, User | RealmBot>,
+  usersByEmail: Map<string, UserOrBot>,
   unreadCount: number,
   onPress: (emails: string) => void,
 |};

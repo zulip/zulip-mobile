@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Context, Dispatch, GlobalState, PmConversationData, RealmBot, User } from '../types';
+import type { Context, Dispatch, GlobalState, PmConversationData, UserOrBot } from '../types';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
@@ -34,7 +34,7 @@ type Props = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
   isLoading: boolean,
-  usersByEmail: Map<string, User | RealmBot>,
+  usersByEmail: Map<string, UserOrBot>,
 |};
 
 /**
