@@ -67,6 +67,7 @@ class UserStatusScreen extends PureComponent<Props, State> {
       <Screen title="User status">
         <Input
           autoFocus
+          maxLength={60}
           style={styles.statusTextInput}
           placeholder="What's your status?"
           value={statusText}
