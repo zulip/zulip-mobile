@@ -10,63 +10,7 @@
  * @flow strict-local
  */
 
-import type { Message, Stream } from './apiTypes';
-
-//
-// First, types used inside events.
-//
-
-/** See ClientPresence, and the doc linked there. */
-export type PresenceStatus = 'active' | 'idle' | 'offline';
-
-/**
- * A user's presence status, as reported by a specific client.
- *
- * For an explanation of the Zulip presence model and how to interpret
- * `status` and `timestamp`, see the subsystem doc:
- *   https://zulip.readthedocs.io/en/latest/subsystems/presence.html
- *
- * @prop timestamp - When the server last heard from this client.
- * @prop status - See the presence subsystem doc.
- * @prop client
- * @prop pushable - Legacy; unused.
- */
-export type ClientPresence = {|
-  status: PresenceStatus,
-  timestamp: number,
-  client: string,
-
-  /**
-   * Indicates if the client can receive push notifications. This property
-   * was intended for showing a user's presence status as "on mobile" if
-   * they are inactive on all devices but can receive push notifications
-   * (see zulip/zulip bd20a756f9). However, this property doesn't seem to be
-   * used anywhere on the web app or the mobile client, and can be
-   * considered legacy.
-   *
-   * Empirically this is `boolean` on at least some clients, and absent on
-   * `aggregated`.  By writing `empty` we make it an error to actually use it.
-   */
-  pushable?: empty,
-|};
-
-/**
- * A user's presence status, including all information from all their clients.
- *
- * The `aggregated` property equals one of the others.  For details, see:
- *   https://zulipchat.com/api/get-presence
- *
- * See also the app's `getAggregatedPresence`, which reimplements a version
- * of the logic to compute `aggregated`.
- */
-export type UserPresence = {|
-  aggregated: ClientPresence,
-  [client: string]: ClientPresence,
-|};
-
-//
-// Then, the events themselves.
-//
+import type { Message, Stream, UserPresence } from './modelTypes';
 
 export class EventTypes {
   static heartbeat: 'heartbeat' = 'heartbeat';
