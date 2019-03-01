@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Narrow } from '../types';
 import { Label } from '../common';
 import { Icon } from '../common/Icons';
 import styles from '../styles';
@@ -15,14 +14,14 @@ const specials = {
 };
 
 type Props = {|
-  narrow: Narrow,
+  code: 'home' | 'private' | 'starred' | 'mentioned',
   color: string,
 |};
 
 export default class TitleSpecial extends PureComponent<Props> {
   render() {
-    const { narrow, color } = this.props;
-    const { name, icon } = specials[narrow[0].operand];
+    const { code, color } = this.props;
+    const { name, icon } = specials[code];
 
     return (
       <View style={styles.navWrapper}>

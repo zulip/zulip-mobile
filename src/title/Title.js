@@ -29,9 +29,9 @@ class Title extends PureComponent<Props> {
     }
     return caseNarrow(narrow, {
       home: () => <TitleHome color={color} />,
-      starred: () => <TitleSpecial narrow={narrow} {...props} />,
-      mentioned: () => <TitleSpecial narrow={narrow} {...props} />,
-      allPrivate: () => <TitleSpecial narrow={narrow} {...props} />,
+      starred: () => <TitleSpecial code="starred" {...props} />,
+      mentioned: () => <TitleSpecial code="mentioned" {...props} />,
+      allPrivate: () => <TitleSpecial code="private" {...props} />,
       stream: () => <TitleStream narrow={narrow} {...props} />,
       topic: () => <TitleStream narrow={narrow} {...props} />,
       pm: email => <TitlePrivate email={email} {...props} />,

@@ -11,6 +11,6 @@ export default class TitleHome extends PureComponent<Props> {
   render() {
     const { color } = this.props;
 
-    return <TitleSpecial narrow={[{ operand: 'home' }]} color={color} />;
+    return <TitleSpecial code="home" color={color} />;
   }
 }
