@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'react-native';
 
-import type { ChildrenArray, Style } from '../types';
+import type { React$Node, Style } from '../types';
 import { HIGHLIGHT_COLOR } from '../styles';
 
 const androidBackground =
@@ -13,7 +13,7 @@ const androidBackground =
 type Props = {|
   accessibilityLabel?: string,
   style?: Style,
-  children: ChildrenArray<*>,
+  children: React$Node,
   onPress?: () => void | Promise<void>,
   onLongPress?: () => void,
 |};
