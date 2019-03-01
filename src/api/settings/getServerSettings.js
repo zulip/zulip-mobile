@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import type { ApiResponseSuccess } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 export type AuthenticationMethods = {|
@@ -11,9 +12,9 @@ export type AuthenticationMethods = {|
 |};
 
 export type ApiServerSettings = {|
+  ...ApiResponseSuccess,
   authentication_methods: AuthenticationMethods,
   email_auth_enabled: boolean,
-  msg: string,
   push_notifications_enabled: boolean,
   realm_description: string,
   realm_icon: string,
