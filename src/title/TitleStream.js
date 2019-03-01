@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import type { Narrow, Stream, Subscription } from '../types';
 import StreamIcon from '../streams/StreamIcon';
@@ -17,12 +17,25 @@ type Props = {|
 |};
 
 class TitleStream extends PureComponent<Props> {
+  styles = StyleSheet.create({
+    outer: {
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+    },
+    streamRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+  });
+
   render() {
     const { narrow, stream, color } = this.props;
 
     return (
-      <View style={[styles.navWrapper, styles.titleStreamWrapper]}>
-        <View style={styles.titleStreamRow}>
+      <View style={this.styles.outer}>
+        <View style={this.styles.streamRow}>
           <StreamIcon
             isMuted={!stream.in_home_view}
             isPrivate={stream.invite_only}

@@ -20,14 +20,6 @@ export const statics = {
     textAlign: 'left',
     fontSize: 20,
   },
-  titleStreamWrapper: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  titleStreamRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   navButtonFrame: {
     width: NAVBAR_SIZE,
     height: NAVBAR_SIZE,
