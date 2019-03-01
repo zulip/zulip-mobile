@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 
-import type { React$Node } from '../types';
+import type { Node as React$Node } from 'react';
 import store, { restore } from './store';
 import timing from '../utils/timing';
 

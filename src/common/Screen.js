@@ -2,16 +2,10 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
+import type { Node as React$Node } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type {
-  Context,
-  Dimensions,
-  GlobalState,
-  LocalizableText,
-  React$Node,
-  Style,
-} from '../types';
+import type { Context, Dimensions, GlobalState, LocalizableText, Style } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import ZulipStatusBar from './ZulipStatusBar';

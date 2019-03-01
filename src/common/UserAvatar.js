@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ImageBackground, View } from 'react-native';
 
-import type { React$Node } from '../types';
+import type { Node as React$Node } from 'react';
 import Touchable from './Touchable';
 
 type Props = {

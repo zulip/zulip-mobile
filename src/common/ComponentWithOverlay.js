@@ -3,7 +3,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { React$Node, Style } from '../types';
+import type { Node as React$Node } from 'react';
+import type { Style } from '../types';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 

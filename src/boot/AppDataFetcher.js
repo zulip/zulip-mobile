@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import { PureComponent } from 'react';
 
-import type { React$Node, Dispatch, GlobalState } from '../types';
+import type { Node as React$Node } from 'react';
+import type { Dispatch, GlobalState } from '../types';
 import { getSession } from '../directSelectors';
 import { doInitialFetch } from '../actions';
 

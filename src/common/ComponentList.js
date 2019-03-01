@@ -2,7 +2,8 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { React$Node, Style } from '../types';
+import type { Node as React$Node } from 'react';
+import type { Style } from '../types';
 
 type Props = {|
   children: $ReadOnlyArray<React$Node>,

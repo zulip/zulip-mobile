@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { React$Node, GlobalState, ThemeName } from '../types';
+import type { Node as React$Node } from 'react';
+import type { GlobalState, ThemeName } from '../types';
 import { getSettings } from '../directSelectors';
 import { stylesFromTheme, themeColors, ThemeContext } from '../styles/theme';
 

@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import type { Node } from 'react';
 import type { IntlShape } from 'react-intl';
 import type { InputSelector } from 'reselect';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
@@ -21,8 +20,6 @@ import type {
 import type { AppStyles } from './styles/theme';
 
 import type { SessionState } from './session/sessionReducers';
-
-export type React$Node = Node; // eslint-disable-line flowtype/type-id-match
 
 export type * from './actionTypes';
 export type * from './api/apiTypes';

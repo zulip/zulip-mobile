@@ -2,7 +2,8 @@
 import React, { PureComponent } from 'react';
 import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'react-native';
 
-import type { React$Node, Style } from '../types';
+import type { Node as React$Node } from 'react';
+import type { Style } from '../types';
 import { HIGHLIGHT_COLOR } from '../styles';
 
 const androidBackground =
