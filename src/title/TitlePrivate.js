@@ -25,7 +25,7 @@ class TitlePrivate extends PureComponent<Props> {
 
   render() {
     const { user, color } = this.props;
-    // $FlowFixMe: sort out RealmBot
+    // $FlowFixMe: sort out CrossRealmBot
     const avatarUrl: string | null = user.avatar_url;
     return (
       <Touchable onPress={this.handlePress} style={styles.navWrapper}>

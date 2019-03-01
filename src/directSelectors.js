@@ -10,7 +10,7 @@ import type {
   NarrowsState,
   TopicsState,
   PresenceState,
-  RealmBot,
+  CrossRealmBot,
   RealmEmojiById,
   RealmState,
   SettingsState,
@@ -88,7 +88,8 @@ export const getUnreadMentions = (state: GlobalState): UnreadMentionsState => st
 
 export const getRealm = (state: GlobalState): RealmState => state.realm;
 
-export const getCrossRealmBots = (state: GlobalState): RealmBot[] => state.realm.crossRealmBots;
+export const getCrossRealmBots = (state: GlobalState): CrossRealmBot[] =>
+  state.realm.crossRealmBots;
 
 export const getRawRealmEmoji = (state: GlobalState): RealmEmojiById => state.realm.emoji;
 

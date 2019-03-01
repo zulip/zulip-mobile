@@ -65,7 +65,7 @@ export type User = {|
   user_id: number,
 |};
 
-export type RealmBot = {|
+export type CrossRealmBot = {|
   email: string,
   full_name: string,
   is_admin: boolean,

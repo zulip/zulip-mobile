@@ -18,7 +18,7 @@ import type {
   Message,
   MuteTuple,
   PmsUnreadItem,
-  RealmBot,
+  CrossRealmBot,
   RealmEmojiById,
   RealmFilter,
   Narrow,
@@ -172,7 +172,7 @@ export type PresenceState = {|
 export type RealmState = {|
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
-  crossRealmBots: RealmBot[],
+  crossRealmBots: CrossRealmBot[],
   nonActiveUsers: User[],
   filters: RealmFilter[],
   emoji: RealmEmojiById,

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import type {
-  RealmBot,
+  CrossRealmBot,
   RealmEmojiById,
   RealmFilter,
   Subscription,
@@ -92,7 +92,7 @@ export type InitialDataRealmUser = {|
   avatar_url: string | null,
   avatar_url_medium: string,
   can_create_streams: boolean,
-  cross_realm_bots: RealmBot[],
+  cross_realm_bots: CrossRealmBot[],
   email: string,
   enter_sends: boolean,
   full_name: string,

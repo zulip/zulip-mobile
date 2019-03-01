@@ -50,7 +50,7 @@ export default class PmConversationList extends PureComponent<Props> {
               return null;
             }
 
-            // $FlowFixMe: sort out RealmBot
+            // $FlowFixMe: sort out CrossRealmBot
             const avatarUrl: string | null = user.avatar_url;
             return (
               <UserItem
