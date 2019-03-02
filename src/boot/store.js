@@ -90,6 +90,16 @@ const migrations = {
       accounts: state.accounts.map(a => ({ ...a, ackedPushToken: null })),
     };
   },
+  '5': state => ({
+    ...state,
+    realm: {
+      ...state.realm,
+      emoji: Object.keys(state.realm.emoji).reduce((emojis, id) => {
+        emojis[id] = { ...state.realm.emoji[id], code: id.toString() };
+        return emojis;
+      }, {}),
+    },
+  }),
 };
 
 const reduxPersistConfig: Config = {

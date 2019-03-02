@@ -19,7 +19,8 @@ export type ImageEmojiType = $ReadOnly<{|
     id: number,
   |}>,
   deactivated: boolean,
-  id: number,
+  id?: number,
+  code: string,
   name: string,
   source_url: string,
   // This prevents accidentally using this type as a map.

@@ -83,8 +83,8 @@ describe('realmReducers', () => {
       const expectedState = {
         twentyFourHourTime: false,
         emoji: {
-          customEmoji1: {},
-          customEmoji2: {},
+          customEmoji1: { code: 'customEmoji1' },
+          customEmoji2: { code: 'customEmoji2' },
         },
         filter: [],
       };
