@@ -332,13 +332,8 @@ class ComposeBox extends PureComponent<Props, State> {
     };
 
     return (
-      <View style={style}>
-        <View
-          style={[
-            this.styles.autocompleteWrapper,
-            { marginBottom: safeAreaInsets.bottom + height },
-          ]}
-        >
+      <View>
+        <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
           <TopicAutocomplete
             isFocused={isTopicFocused}
             narrow={narrow}
@@ -352,7 +347,7 @@ class ComposeBox extends PureComponent<Props, State> {
             onAutocomplete={this.handleMessageAutocomplete}
           />
         </View>
-        <View style={this.styles.composeBox} onLayout={this.handleLayoutChange}>
+        <View style={[this.styles.composeBox, style]} onLayout={this.handleLayoutChange}>
           <ComposeMenu
             destinationNarrow={this.getDestinationNarrow()}
             expanded={isMenuExpanded}
