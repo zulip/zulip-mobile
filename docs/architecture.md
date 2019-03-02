@@ -60,9 +60,34 @@ components of the app:
 * `lightbox` - sets up lightbox, lighbox animaiton, sharing
 * `main` - tabs, hometab(home, starred, mentions, search),  streams tab, conversation tab,settings tab, tab navigator
 * `message` - messages and groups of related messages
+* `mute` - mutestate and its reducer
+* `nativeModules` - image sharing for android
 * `nav` - navigation
+* `notification` - notification tokens and actions
+* `outbox` - outbox message send, recieve, delete
+* `pm-conversations` - group pm conversation item, list of pm conversations, sort by last activity
+* `presence` - define state based on presence data
+* `reactions` - aggregate reactions to one array
+* `realm` - realm updation, reset , filter
+* `redux-persist-migrate` - migrate to different versions
+* `search` - search functonality
+* `sessions` - app states, message fetch, edit message
+* `settings` - night mode, notification settings, language, diagnostics , legal page
+* `start` - welcome screen, login screen, authentication, compatibility check
 * `streams` - stream of messages
+* `styles` - styles
+* `subscriptions` - update subscriptions
+* `title` - title customization for group, home, special stream, and private
+* `title-buttons` - different nav buttons to navigate to group, private, topic, streams
+* `topic` - topic addition, updation and display
+* `typing` - typing time updation, notification
+* `unread` - unread count, sort, mute, count for mentions/groups/streams/private messages
+* `user-groups` - update, delete, creation of groups and group members
+* `user-picker` - avatar display, and avatar list
+* `user-status` - setting user status(such as away), update user status text, 
 * `users` - user display, search and selection
+* `utils` - used for network activity, getting avatar, date, color
+* `webview` - webview, webview handlers, message updates
 
 
 `ZulipMobile.js` contains the top-level React component for the app and
