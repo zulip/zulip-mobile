@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { Dispatch, GlobalState, Narrow } from '../types';
 import styles, { BRAND_COLOR } from '../styles';
@@ -12,6 +12,15 @@ import TitleNavButtons from '../title-buttons/TitleNavButtons';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { navigateBack } from '../actions';
+
+const componentStyles = StyleSheet.create({
+  navContent: {
+    flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+});
 
 type Props = {|
   dispatch: Dispatch,
@@ -36,8 +45,10 @@ class ChatNavBar extends PureComponent<Props> {
             dispatch(navigateBack());
           }}
         />
-        <Title color={color} narrow={narrow} />
-        <TitleNavButtons color={color} narrow={narrow} />
+        <View style={componentStyles.navContent}>
+          <Title color={color} narrow={narrow} />
+          <TitleNavButtons color={color} narrow={narrow} />
+        </View>
       </View>
     );
   }
