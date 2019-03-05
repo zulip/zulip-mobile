@@ -100,13 +100,13 @@ public class NotificationHelper {
      * group message - fullName:Recipients:'group'
      * private message - fullName:Email:'private'
      */
-    private static String buildKeyString(PushNotificationsProp prop) {
-        if (prop.getRecipientType().equals("stream"))
-            return String.format("%s:%s:stream", prop.getSenderFullName(), prop.getStream());
-        else if (prop.isGroupMessage()) {
-            return String.format("%s:%s:group", prop.getSenderFullName(), prop.getPmUsers());
+    private static String buildKeyString(MessageFcmMessage fcmMessage) {
+        if (fcmMessage.getRecipientType().equals("stream"))
+            return String.format("%s:%s:stream", fcmMessage.getSenderFullName(), fcmMessage.getStream());
+        else if (fcmMessage.isGroupMessage()) {
+            return String.format("%s:%s:group", fcmMessage.getSenderFullName(), fcmMessage.getPmUsers());
         } else {
-            return String.format("%s:%s:private", prop.getSenderFullName(), prop.getEmail());
+            return String.format("%s:%s:private", fcmMessage.getSenderFullName(), fcmMessage.getEmail());
         }
     }
 
@@ -119,10 +119,10 @@ public class NotificationHelper {
         return names;
     }
 
-    static void addConversationToMap(PushNotificationsProp prop, ConversationMap conversations) {
-        String key = buildKeyString(prop);
+    static void addConversationToMap(MessageFcmMessage fcmMessage, ConversationMap conversations) {
+        String key = buildKeyString(fcmMessage);
         List<MessageInfo> messages = conversations.get(key);
-        MessageInfo messageInfo = new MessageInfo(prop.getContent(), prop.getZulipMessageId());
+        MessageInfo messageInfo = new MessageInfo(fcmMessage.getContent(), fcmMessage.getZulipMessageId());
         if (messages == null) {
             messages = new ArrayList<>();
         }

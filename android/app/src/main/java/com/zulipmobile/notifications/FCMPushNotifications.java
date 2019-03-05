@@ -65,9 +65,9 @@ public class FCMPushNotifications {
         final String eventType = mapData.get("event");
         switch (eventType) {
           case "message":
-            final PushNotificationsProp props = new PushNotificationsProp(data);
-            addConversationToMap(props, conversations);
-            updateNotification(context, conversations, props);
+            final MessageFcmMessage fcmMessage = new MessageFcmMessage(data);
+            addConversationToMap(fcmMessage, conversations);
+            updateNotification(context, conversations, fcmMessage);
             break;
           case "remove":
             final Set<Integer> messageIds = parseMessageIds(mapData);
@@ -106,12 +106,12 @@ public class FCMPushNotifications {
     }
 
     private static void updateNotification(
-            Context context, ConversationMap conversations, PushNotificationsProp props) {
+            Context context, ConversationMap conversations, MessageFcmMessage fcmMessage) {
         if (conversations.isEmpty()) {
             getNotificationManager(context).cancelAll();
             return;
         }
-        final Notification notification = getNotificationBuilder(context, conversations, props).build();
+        final Notification notification = getNotificationBuilder(context, conversations, fcmMessage).build();
         getNotificationManager(context).notify(NOTIFICATION_ID, notification);
     }
 
@@ -122,29 +122,29 @@ public class FCMPushNotifications {
     }
 
     private static Notification.Builder getNotificationBuilder(
-            Context context, ConversationMap conversations, PushNotificationsProp props) {
+            Context context, ConversationMap conversations, MessageFcmMessage fcmMessage) {
         final Notification.Builder builder = Build.VERSION.SDK_INT >= 26 ?
                 new Notification.Builder(context, CHANNEL_ID)
                 : new Notification.Builder(context);
 
-        final int messageId = props.getZulipMessageId();
+        final int messageId = fcmMessage.getZulipMessageId();
         final Uri uri = Uri.fromParts("zulip", "msgid:" + Integer.toString(messageId), "");
         final Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService.class);
-        viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, props.asBundle());
+        viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.asBundle());
         final PendingIntent viewPendingIntent =
                 PendingIntent.getService(context, 0, viewIntent, 0);
         builder.setContentIntent(viewPendingIntent);
 
         builder.setAutoCancel(true);
 
-        String type = props.getRecipientType();
-        String content = props.getContent();
-        String senderFullName = props.getSenderFullName();
-        String avatarURL = props.getAvatarURL();
-        String time = props.getTime();
-        String stream = props.getStream();
-        String topic = props.getTopic();
-        String baseURL = props.getBaseURL();
+        String type = fcmMessage.getRecipientType();
+        String content = fcmMessage.getContent();
+        String senderFullName = fcmMessage.getSenderFullName();
+        String avatarURL = fcmMessage.getAvatarURL();
+        String time = fcmMessage.getTime();
+        String stream = fcmMessage.getStream();
+        String topic = fcmMessage.getTopic();
+        String baseURL = fcmMessage.getBaseURL();
         int totalMessagesCount = extractTotalMessagesCount(conversations);
 
         if (BuildConfig.DEBUG) {

@@ -2,14 +2,33 @@ package com.zulipmobile.notifications
 
 import android.os.Bundle
 
-internal class PushNotificationsProp(private val mBundle: Bundle) {
+
+/**
+ * Parsed version of an FCM message of type `message`.
+ *
+ * This corresponds to a Zulip message for which the user wants to
+ * see a notification.
+ *
+ * The word "message" can be confusing in this context:
+ *
+ *  * FCM docs say "message" to refer to one of the blobs we receive over FCM,
+ *    aka a "data notification".  One of these might correspond to zero, one,
+ *    or more actual notifications we show in the UI.
+ *
+ *  * Around Zulip we of course say "message" all the time to mean the
+ *    central item in the app model.
+ *
+ * In our notification code we often say "FCM message" or "Zulip message"
+ * to disambiguate between these two.
+ */
+internal class MessageFcmMessage(private val mBundle: Bundle) {
 
     fun asBundle(): Bundle {
         return mBundle.clone() as Bundle
     }
 
-    protected fun copy(): PushNotificationsProp {
-        return PushNotificationsProp(mBundle.clone() as Bundle)
+    protected fun copy(): MessageFcmMessage {
+        return MessageFcmMessage(mBundle.clone() as Bundle)
     }
 
     /** Really "event type": one of a small fixed set of identifiers.  */
