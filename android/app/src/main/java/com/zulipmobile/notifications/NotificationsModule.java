@@ -8,7 +8,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
-public class NotificationsModule extends ReactContextBaseJavaModule {
+class NotificationsModule extends ReactContextBaseJavaModule {
 
     static Bundle initialNotification = null;
 

@@ -11,7 +11,7 @@ import java.util.List;
  * Contains helper methods for custom tabs.
  */
 
-public class CustomTabsHelper {
+class CustomTabsHelper {
 
     private static final String SERVICE_ACTION = "android.support.customtabs.action.CustomTabsService";
     private static final String CHROME_PACKAGE = "com.android.chrome";

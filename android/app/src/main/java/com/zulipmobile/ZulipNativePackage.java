@@ -9,7 +9,7 @@ import com.zulipmobile.notifications.BadgeCountUpdaterModule;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZulipNativePackage implements ReactPackage {
+class ZulipNativePackage implements ReactPackage {
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {

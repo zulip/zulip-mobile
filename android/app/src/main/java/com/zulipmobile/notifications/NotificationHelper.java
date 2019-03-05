@@ -21,7 +21,7 @@ import java.net.URLConnection;
 import java.util.*;
 
 public class NotificationHelper {
-    public static final String TAG = "ZulipNotif";
+    static final String TAG = "ZulipNotif";
 
     /**
      * The Zulip messages we're showing as a notification, grouped by conversation.
@@ -34,7 +34,7 @@ public class NotificationHelper {
     public static final class ConversationMap
             extends LinkedHashMap<String, List<MessageInfo>> {}
 
-    public static Bitmap fetch(URL url) throws IOException {
+    static Bitmap fetch(URL url) throws IOException {
         Log.i(TAG, "GAFT.fetch: Getting gravatar from url: " + url);
         URLConnection connection = url.openConnection();
         connection.setUseCaches(true);
@@ -45,7 +45,7 @@ public class NotificationHelper {
         return null;
     }
 
-    public static URL sizedURL(Context context, String url, float dpSize, String baseUrl) {
+    static URL sizedURL(Context context, String url, float dpSize, String baseUrl) {
         // From http://stackoverflow.com/questions/4605527/
         Resources r = context.getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
@@ -58,7 +58,7 @@ public class NotificationHelper {
         }
     }
 
-    public static String addHost(String url, String baseURL) {
+    private static String addHost(String url, String baseURL) {
         if (!url.startsWith("http")) {
             if (baseURL.endsWith("/")) {
                 url = baseURL.substring(0, baseURL.length() - 1) + url;
@@ -70,11 +70,11 @@ public class NotificationHelper {
     }
 
 
-    public static String extractName(String key) {
+    private static String extractName(String key) {
         return key.split(":")[0];
     }
 
-    public static void buildNotificationContent(ConversationMap conversations, Notification.InboxStyle inboxStyle, Context mContext) {
+    static void buildNotificationContent(ConversationMap conversations, Notification.InboxStyle inboxStyle, Context mContext) {
         for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
             String name = extractName(entry.getKey());
             List<MessageInfo> messages = entry.getValue();
@@ -86,7 +86,7 @@ public class NotificationHelper {
         }
     }
 
-    public static int extractTotalMessagesCount(ConversationMap conversations) {
+    static int extractTotalMessagesCount(ConversationMap conversations) {
         int totalNumber = 0;
         for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
             totalNumber += entry.getValue().size();
@@ -100,7 +100,7 @@ public class NotificationHelper {
      * group message - fullName:Recipients:'group'
      * private message - fullName:Email:'private'
      */
-    public static String buildKeyString(PushNotificationsProp prop) {
+    private static String buildKeyString(PushNotificationsProp prop) {
         if (prop.getRecipientType().equals("stream"))
             return String.format("%s:%s:stream", prop.getSenderFullName(), prop.getStream());
         else if (prop.isGroupMessage()) {
@@ -110,7 +110,7 @@ public class NotificationHelper {
         }
     }
 
-    public static String[] extractNames(ConversationMap conversations) {
+    static String[] extractNames(ConversationMap conversations) {
         String[] names = new String[conversations.size()];
         int index = 0;
         for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
@@ -119,7 +119,7 @@ public class NotificationHelper {
         return names;
     }
 
-    public static void addConversationToMap(PushNotificationsProp prop, ConversationMap conversations) {
+    static void addConversationToMap(PushNotificationsProp prop, ConversationMap conversations) {
         String key = buildKeyString(prop);
         List<MessageInfo> messages = conversations.get(key);
         MessageInfo messageInfo = new MessageInfo(prop.getContent(), prop.getZulipMessageId());
@@ -150,7 +150,7 @@ public class NotificationHelper {
         }
     }
 
-    public static void clearConversations(ConversationMap conversations) {
+    static void clearConversations(ConversationMap conversations) {
         conversations.clear();
     }
 }
