@@ -111,8 +111,8 @@ android {
         applicationId "com.zulipmobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 111
-        versionName "23.2.111"
+        versionCode 112
+        versionName "23.3.112"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

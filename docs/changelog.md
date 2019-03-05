@@ -9,6 +9,12 @@ to users in general on the app stores is typically a few days later.
 ## Unreleased
 
 
+## 23.3.112 (2019-03-04)
+
+Small Android-only bugfix release following 23.2.111.
+* Fixed regression in 23.2.111 that broke autocomplete on Android.
+
+
 ## 23.2.111 (2019-02-28)
 
 ### Highlights for users (since 22.1.108)
