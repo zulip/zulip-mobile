@@ -24,10 +24,7 @@ internal sealed class Recipient {
 }
 
 /**
- * Parsed version of an FCM message of type `message`.
- *
- * This corresponds to a Zulip message for which the user wants to
- * see a notification.
+ * Parsed version of an FCM message, of any type.
  *
  * The word "message" can be confusing in this context:
  *
@@ -41,6 +38,17 @@ internal sealed class Recipient {
  * In our notification code we often say "FCM message" or "Zulip message"
  * to disambiguate between these two.
  */
+internal sealed class FcmMessage {}
+
+/**
+ * Parsed version of an FCM message of type `message`.
+ *
+ * This corresponds to a Zulip message for which the user wants to
+ * see a notification.
+ *
+ * The word "message" can be confusing in this context.
+ * See `FcmMessage` for discussion.
+ */
 internal data class MessageFcmMessage(
         val email: String,
         val senderFullName: String,
@@ -52,7 +60,7 @@ internal data class MessageFcmMessage(
         val time: String,
 
         val bundle: Bundle
-) {
+) : FcmMessage() {
     companion object {
         fun fromBundle(bundle: Bundle): MessageFcmMessage {
             val recipientType = bundle.requireString("recipient_type")
