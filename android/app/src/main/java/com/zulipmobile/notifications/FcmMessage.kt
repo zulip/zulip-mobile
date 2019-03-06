@@ -105,31 +105,14 @@ internal data class RemoveFcmMessage(
 ) : FcmMessage() {
     companion object {
         fun fromFcmData(data: Map<String, String>): RemoveFcmMessage {
-            return RemoveFcmMessage(parseMessageIds(data))
-        }
-
-        private fun parseMessageIdInto(messageIds: MutableSet<Int>, idStr: String) {
-            try {
-                messageIds.add(Integer.parseInt(idStr))
-            } catch (e: NumberFormatException) {
-                throw FcmMessageParseException("malformed message ID: $idStr")
-            }
-        }
-
-        private fun parseMessageIds(mapData: Map<String, String>): Set<Int> {
             val messageIds = HashSet<Int>()
-            val idStr = mapData["zulip_message_id"]
-            if (idStr != null) {
-                parseMessageIdInto(messageIds, idStr)
+            data["zulip_message_id"]?.let {
+                messageIds.add(parseInt(it, "malformed message ID"))
             }
-            val idsStr = mapData["zulip_message_ids"]
-            if (idsStr != null) {
-                val idStrs = idsStr.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                for (idStr1 in idStrs) {
-                    parseMessageIdInto(messageIds, idStr1)
-                }
+            for (idStr in data["zulip_message_ids"]?.split(",") ?: emptyList()) {
+                messageIds.add(parseInt(idStr, "malformed message ID"))
             }
-            return messageIds
+            return RemoveFcmMessage(messageIds)
         }
     }
 }
@@ -139,11 +122,14 @@ private fun Bundle.requireString(key: String): String {
 }
 
 private fun Bundle.requireIntString(key: String): Int {
-    val s = requireString(key);
+    return parseInt(requireString(key), "invalid format where int expected, at $key")
+}
+
+private fun parseInt(s: String, msg: String): Int {
     return try {
         Integer.parseInt(s)
     } catch (e: NumberFormatException) {
-        throw FcmMessageParseException("invalid format where int expected: $key -> $s")
+        throw FcmMessageParseException("$msg: $s")
     }
 }
 
