@@ -32,6 +32,7 @@ internal class MessageFcmMessage private constructor(
         val topic: String?,
         val pmUsers: String?,
 
+        val zulipMessageId: Int,
         val content: String,
         val time: String,
 
@@ -44,9 +45,6 @@ internal class MessageFcmMessage private constructor(
 
     val baseURL: String?
         get() = bundle.getString("base_url")
-
-    val zulipMessageId: Int
-        get() = Integer.parseInt(bundle.getString("zulip_message_id"))
 
     protected fun copy(): MessageFcmMessage {
         return fromBundle(bundle)
@@ -77,8 +75,10 @@ internal class MessageFcmMessage private constructor(
                 topic = bundle.getString("topic"),
                 pmUsers = bundle.getString("pm_users"),
 
+                zulipMessageId = bundle.requireIntString("zulip_message_id"),
                 content = bundle.requireString("content"),
                 time = bundle.requireString("time"),
+
                 bundle = bundle.clone() as Bundle
             )
         }
@@ -87,6 +87,15 @@ internal class MessageFcmMessage private constructor(
 
 private fun Bundle.requireString(key: String): String {
     return getString(key) ?: throw FcmMessageParseException("missing expected field: $key")
+}
+
+private fun Bundle.requireIntString(key: String): Int {
+    val s = requireString(key);
+    return try {
+        Integer.parseInt(s)
+    } catch (e: NumberFormatException) {
+        throw FcmMessageParseException("invalid format where int expected: $key -> $s")
+    }
 }
 
 class FcmMessageParseException(errorMessage: String): RuntimeException(errorMessage)
