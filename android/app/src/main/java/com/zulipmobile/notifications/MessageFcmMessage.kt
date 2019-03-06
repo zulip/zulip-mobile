@@ -21,53 +21,55 @@ import android.os.Bundle
  * In our notification code we often say "FCM message" or "Zulip message"
  * to disambiguate between these two.
  */
-internal class MessageFcmMessage(private val mBundle: Bundle) {
-
-    fun asBundle(): Bundle {
-        return mBundle.clone() as Bundle
-    }
-
-    protected fun copy(): MessageFcmMessage {
-        return MessageFcmMessage(mBundle.clone() as Bundle)
-    }
+internal class MessageFcmMessage private constructor(val bundle: Bundle) {
 
     /** Really "event type": one of a small fixed set of identifiers.  */
     val event: String?
-        get() = mBundle.getString("event")
+        get() = bundle.getString("event")
 
     val recipientType: String?
-        get() = mBundle.getString("recipient_type")
+        get() = bundle.getString("recipient_type")
 
     val content: String?
-        get() = mBundle.getString("content")
+        get() = bundle.getString("content")
 
     val senderFullName: String?
-        get() = mBundle.getString("sender_full_name")
+        get() = bundle.getString("sender_full_name")
 
     val avatarURL: String?
-        get() = mBundle.getString("sender_avatar_url")
+        get() = bundle.getString("sender_avatar_url")
 
     val stream: String?
-        get() = mBundle.getString("stream")
+        get() = bundle.getString("stream")
 
     val topic: String?
-        get() = mBundle.getString("topic")
+        get() = bundle.getString("topic")
 
     val time: String?
-        get() = mBundle.getString("time")
+        get() = bundle.getString("time")
 
     val email: String?
-        get() = mBundle.getString("sender_email")
+        get() = bundle.getString("sender_email")
 
     val baseURL: String?
-        get() = mBundle.getString("base_url")
+        get() = bundle.getString("base_url")
 
     val pmUsers: String?
-        get() = mBundle.getString("pm_users")
+        get() = bundle.getString("pm_users")
 
     val isGroupMessage: Boolean
-        get() = recipientType == "private" && mBundle.containsKey("pm_users")
+        get() = recipientType == "private" && bundle.containsKey("pm_users")
 
     val zulipMessageId: Int
-        get() = Integer.parseInt(mBundle.getString("zulip_message_id"))
+        get() = Integer.parseInt(bundle.getString("zulip_message_id"))
+
+    protected fun copy(): MessageFcmMessage {
+        return fromBundle(bundle)
+    }
+
+    companion object {
+        fun fromBundle(bundle: Bundle): MessageFcmMessage {
+            return MessageFcmMessage(bundle.clone() as Bundle)
+        }
+    }
 }

@@ -65,7 +65,7 @@ public class FCMPushNotifications {
         final String eventType = mapData.get("event");
         switch (eventType) {
           case "message":
-            final MessageFcmMessage fcmMessage = new MessageFcmMessage(data);
+            final MessageFcmMessage fcmMessage = MessageFcmMessage.Companion.fromBundle(data);
             addConversationToMap(fcmMessage, conversations);
             updateNotification(context, conversations, fcmMessage);
             break;
@@ -130,7 +130,7 @@ public class FCMPushNotifications {
         final int messageId = fcmMessage.getZulipMessageId();
         final Uri uri = Uri.fromParts("zulip", "msgid:" + Integer.toString(messageId), "");
         final Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService.class);
-        viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.asBundle());
+        viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.getBundle());
         final PendingIntent viewPendingIntent =
                 PendingIntent.getService(context, 0, viewIntent, 0);
         builder.setContentIntent(viewPendingIntent);
