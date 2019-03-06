@@ -27,6 +27,10 @@ internal class MessageFcmMessage private constructor(
         val avatarURL: String,
 
         val recipientType: String,
+        val isGroupMessage: Boolean,
+        val stream: String?,
+        val topic: String?,
+        val pmUsers: String?,
 
         val content: String,
         val time: String,
@@ -38,20 +42,8 @@ internal class MessageFcmMessage private constructor(
     val event: String?
         get() = bundle.getString("event")
 
-    val stream: String?
-        get() = bundle.getString("stream")
-
-    val topic: String?
-        get() = bundle.getString("topic")
-
     val baseURL: String?
         get() = bundle.getString("base_url")
-
-    val pmUsers: String?
-        get() = bundle.getString("pm_users")
-
-    val isGroupMessage: Boolean
-        get() = recipientType == "private" && bundle.containsKey("pm_users")
 
     val zulipMessageId: Int
         get() = Integer.parseInt(bundle.getString("zulip_message_id"))
@@ -62,11 +54,29 @@ internal class MessageFcmMessage private constructor(
 
     companion object {
         fun fromBundle(bundle: Bundle): MessageFcmMessage {
+            val recipientType = bundle.requireString("recipient_type")
+            when (recipientType) {
+                "stream" -> {
+                    bundle.requireString("stream")
+                    bundle.requireString("topic")
+                }
+                "private" -> {
+                    // "pm_users" optional -- present just for group PMs
+                }
+                else -> throw FcmMessageParseException("unexpected recipient_type: $recipientType")
+            }
+
             return MessageFcmMessage(
                 email = bundle.requireString("sender_email"),
                 senderFullName = bundle.requireString("sender_full_name"),
                 avatarURL = bundle.requireString("sender_avatar_url"),
-                recipientType = bundle.requireString("recipient_type"),
+
+                recipientType = recipientType,
+                isGroupMessage = recipientType == "private" && bundle.getString("pm_users") != null,
+                stream = bundle.getString("stream"),
+                topic = bundle.getString("topic"),
+                pmUsers = bundle.getString("pm_users"),
+
                 content = bundle.requireString("content"),
                 time = bundle.requireString("time"),
                 bundle = bundle.clone() as Bundle
