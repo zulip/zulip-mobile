@@ -62,35 +62,23 @@ public class FCMPushNotifications {
             data.putString(entry.getKey(), entry.getValue());
         }
         logNotificationData(data);
-        final String eventType = mapData.get("event");
-        switch (eventType) {
-          case "message":
-            MessageFcmMessage fcmMessage;
-            try {
-                fcmMessage = MessageFcmMessage.Companion.fromFcmData(mapData);
-            } catch (FcmMessageParseException e) {
-                Log.w(TAG, "Ignoring malformed FCM message of type `message`: " + e.getMessage());
-                return;
-            }
-            addConversationToMap(fcmMessage, conversations);
-            updateNotification(context, conversations, fcmMessage);
-            break;
-          case "remove":
-            RemoveFcmMessage fcmMessage1;
-            try {
-                fcmMessage1 = RemoveFcmMessage.Companion.fromFcmData(mapData);
-            } catch (FcmMessageParseException e) {
-                Log.w(TAG, "Ignoring malformed FCM message of type `remove`: " + e.getMessage());
-                return;
-            }
-            removeMessagesFromMap(conversations, fcmMessage1.getMessageIds());
+
+        FcmMessage fcmMessage;
+        try {
+            fcmMessage = FcmMessage.Companion.fromFcmData(mapData);
+        } catch (FcmMessageParseException e) {
+            Log.w(TAG, "Ignoring malformed FCM message: " + e.getMessage());
+            return;
+        }
+
+        if (fcmMessage instanceof MessageFcmMessage) {
+            addConversationToMap((MessageFcmMessage) fcmMessage, conversations);
+            updateNotification(context, conversations, (MessageFcmMessage) fcmMessage);
+        } else if (fcmMessage instanceof RemoveFcmMessage) {
+            removeMessagesFromMap(conversations, ((RemoveFcmMessage) fcmMessage).getMessageIds());
             if (conversations.isEmpty()) {
                 getNotificationManager(context).cancelAll();
             }
-            break;
-          default:
-            Log.w(TAG, "Ignoring FCM message of unknown event type: " + eventType);
-            break;
         }
     }
 

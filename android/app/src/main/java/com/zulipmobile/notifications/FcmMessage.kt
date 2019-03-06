@@ -39,7 +39,18 @@ internal sealed class Recipient {
  * In our notification code we often say "FCM message" or "Zulip message"
  * to disambiguate between these two.
  */
-internal sealed class FcmMessage {}
+internal sealed class FcmMessage {
+    companion object {
+        fun fromFcmData(data: Map<String, String>): FcmMessage {
+            return when (val eventType = data["event"]) {
+                "message" -> MessageFcmMessage.fromFcmData(data)
+                "remove" -> RemoveFcmMessage.fromFcmData(data)
+                null -> throw FcmMessageParseException("missing event type")
+                else -> throw FcmMessageParseException("unknown event type: $eventType")
+            }
+        }
+    }
+}
 
 /**
  * Parsed version of an FCM message of type `message`.
