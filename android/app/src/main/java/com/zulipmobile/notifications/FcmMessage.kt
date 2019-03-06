@@ -41,14 +41,13 @@ internal sealed class Recipient {
  */
 internal sealed class FcmMessage {
     companion object {
-        fun fromFcmData(data: Map<String, String>): FcmMessage {
-            return when (val eventType = data["event"]) {
+        fun fromFcmData(data: Map<String, String>): FcmMessage =
+            when (val eventType = data["event"]) {
                 "message" -> MessageFcmMessage.fromFcmData(data)
                 "remove" -> RemoveFcmMessage.fromFcmData(data)
                 null -> throw FcmMessageParseException("missing event type")
                 else -> throw FcmMessageParseException("unknown event type: $eventType")
             }
-        }
     }
 }
 
@@ -152,20 +151,16 @@ internal data class RemoveFcmMessage(
     }
 }
 
-private fun Map<String, String>.requireString(key: String): String {
-    return this[key] ?: throw FcmMessageParseException("missing expected field: $key")
-}
+private fun Map<String, String>.requireString(key: String): String =
+        this[key] ?: throw FcmMessageParseException("missing expected field: $key")
 
-private fun Map<String, String>.requireIntString(key: String): Int {
-    return parseInt(requireString(key), "invalid format where int expected, at $key")
-}
+private fun Map<String, String>.requireIntString(key: String): Int =
+        parseInt(requireString(key), "invalid format where int expected, at $key")
 
-private fun parseInt(s: String, msg: String): Int {
-    return try {
-        Integer.parseInt(s)
-    } catch (e: NumberFormatException) {
-        throw FcmMessageParseException("$msg: $s")
-    }
+private fun parseInt(s: String, msg: String): Int = try {
+    Integer.parseInt(s)
+} catch (e: NumberFormatException) {
+    throw FcmMessageParseException("$msg: $s")
 }
 
 class FcmMessageParseException(errorMessage: String): RuntimeException(errorMessage)
