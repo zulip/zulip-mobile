@@ -58,10 +58,36 @@ internal data class MessageFcmMessage(
         val zulipMessageId: Int,
         val recipient: Recipient,
         val content: String,
-        val time: String,
-
-        val bundle: Bundle
+        val time: String
 ) : FcmMessage() {
+
+    /**
+     * All the data our React code needs on opening the notification.
+     *
+     * For the corresponding type definition on the JS side, see `Notification`
+     * in `notification/index.js`.
+     */
+    fun dataForOpen(): Bundle {
+        val bundle = Bundle()
+        when (recipient) {
+            // NOTE: Keep the JS-side type definition in sync with this code.
+            is Recipient.Stream -> {
+                bundle.putString("recipient_type", "stream")
+                bundle.putString("stream", recipient.stream)
+                bundle.putString("topic", recipient.topic)
+            }
+            is Recipient.GroupPm -> {
+                bundle.putString("recipient_type", "private")
+                bundle.putString("pm_users", recipient.pmUsers)
+            }
+            is Recipient.Pm -> {
+                bundle.putString("recipient_type", "private")
+                bundle.putString("sender_email", email)
+            }
+        }
+        return bundle
+    }
+
     companion object {
         fun fromBundle(bundle: Bundle): MessageFcmMessage {
             val recipientType = bundle.requireString("recipient_type")
@@ -92,9 +118,7 @@ internal data class MessageFcmMessage(
                 zulipMessageId = bundle.requireIntString("zulip_message_id"),
                 recipient = recipient,
                 content = bundle.requireString("content"),
-                time = bundle.requireString("time"),
-
-                bundle = bundle.clone() as Bundle
+                time = bundle.requireString("time")
             )
         }
     }
