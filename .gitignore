@@ -27,6 +27,7 @@ project.xcworkspace
 *.iml
 android/.idea/*
 !android/.idea/vcs.xml
+!android/.idea/codeStyles/
 .gradle
 local.properties
 
