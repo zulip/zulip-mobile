@@ -21,14 +21,14 @@ import android.os.Bundle
  * In our notification code we often say "FCM message" or "Zulip message"
  * to disambiguate between these two.
  */
-internal class MessageFcmMessage private constructor(val bundle: Bundle) {
+internal class MessageFcmMessage private constructor(
+        val bundle: Bundle,
+        val recipientType: String
+) {
 
     /** Really "event type": one of a small fixed set of identifiers.  */
     val event: String?
         get() = bundle.getString("event")
-
-    val recipientType: String?
-        get() = bundle.getString("recipient_type")
 
     val content: String?
         get() = bundle.getString("content")
@@ -69,7 +69,16 @@ internal class MessageFcmMessage private constructor(val bundle: Bundle) {
 
     companion object {
         fun fromBundle(bundle: Bundle): MessageFcmMessage {
-            return MessageFcmMessage(bundle.clone() as Bundle)
+            return MessageFcmMessage(
+                bundle = bundle.clone() as Bundle,
+                recipientType = bundle.requireString("recipient_type")
+            )
         }
     }
 }
+
+private fun Bundle.requireString(key: String): String {
+    return getString(key) ?: throw FcmMessageParseException("missing expected field: $key")
+}
+
+class FcmMessageParseException(errorMessage: String): RuntimeException(errorMessage)

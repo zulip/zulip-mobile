@@ -65,7 +65,13 @@ public class FCMPushNotifications {
         final String eventType = mapData.get("event");
         switch (eventType) {
           case "message":
-            final MessageFcmMessage fcmMessage = MessageFcmMessage.Companion.fromBundle(data);
+            MessageFcmMessage fcmMessage;
+            try {
+                fcmMessage = MessageFcmMessage.Companion.fromBundle(data);
+            } catch (FcmMessageParseException e) {
+                Log.w(TAG, "Ignoring malformed FCM message of type `message`: " + e.getMessage());
+                return;
+            }
             addConversationToMap(fcmMessage, conversations);
             updateNotification(context, conversations, fcmMessage);
             break;
