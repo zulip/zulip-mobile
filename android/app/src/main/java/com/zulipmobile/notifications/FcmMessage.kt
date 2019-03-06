@@ -61,14 +61,14 @@ internal sealed class FcmMessage {
  * See `FcmMessage` for discussion.
  */
 internal data class MessageFcmMessage(
-        val email: String,
-        val senderFullName: String,
-        val avatarURL: String,
+    val email: String,
+    val senderFullName: String,
+    val avatarURL: String,
 
-        val zulipMessageId: Int,
-        val recipient: Recipient,
-        val content: String,
-        val time: String
+    val zulipMessageId: Int,
+    val recipient: Recipient,
+    val content: String,
+    val time: String
 ) : FcmMessage() {
 
     /**
@@ -104,8 +104,8 @@ internal data class MessageFcmMessage(
             val recipient = when (recipientType) {
                 "stream" ->
                     Recipient.Stream(
-                            data.requireString("stream"),
-                            data.requireString("topic"))
+                        data.requireString("stream"),
+                        data.requireString("topic"))
                 "private" ->
                     data["pm_users"]?.let {
                         Recipient.GroupPm(it)
@@ -135,7 +135,7 @@ internal data class MessageFcmMessage(
 }
 
 internal data class RemoveFcmMessage(
-        val messageIds: Set<Int>
+    val messageIds: Set<Int>
 ) : FcmMessage() {
     companion object {
         fun fromFcmData(data: Map<String, String>): RemoveFcmMessage {
@@ -152,10 +152,10 @@ internal data class RemoveFcmMessage(
 }
 
 private fun Map<String, String>.requireString(key: String): String =
-        this[key] ?: throw FcmMessageParseException("missing expected field: $key")
+    this[key] ?: throw FcmMessageParseException("missing expected field: $key")
 
 private fun Map<String, String>.requireIntString(key: String): Int =
-        parseInt(requireString(key), "invalid format where int expected, at $key")
+    parseInt(requireString(key), "invalid format where int expected, at $key")
 
 private fun parseInt(s: String, msg: String): Int = try {
     Integer.parseInt(s)
@@ -163,4 +163,4 @@ private fun parseInt(s: String, msg: String): Int = try {
     throw FcmMessageParseException("$msg: $s")
 }
 
-class FcmMessageParseException(errorMessage: String): RuntimeException(errorMessage)
+class FcmMessageParseException(errorMessage: String) : RuntimeException(errorMessage)
