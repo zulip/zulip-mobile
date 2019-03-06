@@ -41,10 +41,6 @@ internal class MessageFcmMessage private constructor(
         val bundle: Bundle
 ) {
 
-    /** Really "event type": one of a small fixed set of identifiers.  */
-    val event: String?
-        get() = bundle.getString("event")
-
     protected fun copy(): MessageFcmMessage {
         return fromBundle(bundle)
     }
