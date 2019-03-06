@@ -33,4 +33,9 @@ describe('getAutocompletedText', () => {
     selection = { start: 3, end: 3 };
     expect(getAutocompletedText(':abSome text', 'abcd', selection)).toEqual(':abcd: Some text');
   });
+
+  test('can autocomplete users (silently)', () => {
+    selection = { start: 4, end: 4 };
+    expect(getAutocompletedText('@_ab', '**abcd**', selection)).toEqual('@_**abcd** ');
+  });
 });

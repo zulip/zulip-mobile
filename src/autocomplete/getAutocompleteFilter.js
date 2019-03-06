@@ -20,7 +20,10 @@ export default (textWhole: string, selection: InputSelectionType) => {
   const lastWordPrefix: string = lastIndex !== -1 ? text[lastIndex] : '';
   const filter: string =
     text.length > lastIndex + 1 && !['\n', ' '].includes(text[lastIndex + 1])
-      ? text.substring(lastIndex + 1, text.length)
+      ? text.substring(
+          lastIndex + 1 + (text[lastIndex] === '@' && text[lastIndex + 1] === '_'),
+          text.length,
+        )
       : '';
 
   return { lastWordPrefix, filter };

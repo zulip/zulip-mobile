@@ -11,6 +11,18 @@ describe('getAutocompleteFilter', () => {
     selection = { start: 1, end: 1 };
     expect(getAutocompleteFilter('@', selection)).toEqual({ filter: '', lastWordPrefix: '@' });
 
+    selection = { start: 2, end: 2 };
+    expect(getAutocompleteFilter('@_', selection)).toEqual({ filter: '', lastWordPrefix: '@' });
+
+    selection = { start: 4, end: 4 };
+    expect(getAutocompleteFilter('@_ab', selection)).toEqual({ filter: 'ab', lastWordPrefix: '@' });
+
+    selection = { start: 7, end: 7 };
+    expect(getAutocompleteFilter('@_ab cd', selection)).toEqual({
+      filter: 'ab cd',
+      lastWordPrefix: '@',
+    });
+
     selection = { start: 3, end: 3 };
     expect(getAutocompleteFilter('@ab', selection)).toEqual({ filter: 'ab', lastWordPrefix: '@' });
 

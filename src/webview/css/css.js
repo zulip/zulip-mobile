@@ -140,6 +140,8 @@ hr {
   padding: 0 .2em;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
+.silent {
+}
 .header-wrapper {
   position: -webkit-sticky;
   position: sticky;

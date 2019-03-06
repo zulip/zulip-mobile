@@ -17,7 +17,10 @@ export default (textWhole: string, autocompleteText: string, selection: InputSel
     text.lastIndexOf('@'),
   );
 
-  const prefix = text[lastIndex] === ':' ? ':' : `${text[lastIndex]}`;
+  let prefix = text[lastIndex] === ':' ? ':' : `${text[lastIndex]}`;
+  if (text[lastIndex] === '@' && text[lastIndex + 1] === '_') {
+    prefix += '_';
+  }
   const suffix = text[lastIndex] === ':' ? ':' : '';
 
   return `${text.substring(0, lastIndex)}${prefix}${autocompleteText}${suffix} ${remainder}`;
