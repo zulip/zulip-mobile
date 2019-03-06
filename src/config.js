@@ -19,8 +19,8 @@ type Config = {|
 |};
 
 const config: Config = {
-  messagesPerRequest: 50,
-  messageListThreshold: 250,
+  messagesPerRequest: 100,
+  messageListThreshold: 4000,
   enableReduxLogging: isDevelopment && !!global.btoa,
   enableReduxSlowReducerWarnings: isDevelopment && !!global.btoa,
   enableSentry: !isDevelopment && !isEmulator,
