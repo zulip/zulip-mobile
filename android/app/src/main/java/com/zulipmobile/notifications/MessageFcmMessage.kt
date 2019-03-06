@@ -4,6 +4,24 @@ import android.os.Bundle
 import java.net.MalformedURLException
 import java.net.URL
 
+/**
+ * Data identifying where a Zulip message was sent.
+ */
+internal sealed class Recipient {
+    /** A 1:1 private message.  Must have been sent to this user, so nothing more to say. */
+    object Pm : Recipient()
+
+    /**
+     * A group PM.
+     *
+     * pmUsers: the user IDs of all users in the conversation, sorted,
+     *     in ASCII decimal, comma-separated.
+     */
+    data class GroupPm(val pmUsers: String) : Recipient()
+
+    /** A stream message. */
+    data class Stream(val stream: String, val topic: String) : Recipient()
+}
 
 /**
  * Parsed version of an FCM message of type `message`.
@@ -28,13 +46,8 @@ internal data class MessageFcmMessage(
         val senderFullName: String,
         val avatarURL: String,
 
-        val recipientType: String,
-        val isGroupMessage: Boolean,
-        val stream: String?,
-        val topic: String?,
-        val pmUsers: String?,
-
         val zulipMessageId: Int,
+        val recipient: Recipient,
         val content: String,
         val time: String,
 
@@ -43,14 +56,15 @@ internal data class MessageFcmMessage(
     companion object {
         fun fromBundle(bundle: Bundle): MessageFcmMessage {
             val recipientType = bundle.requireString("recipient_type")
-            when (recipientType) {
-                "stream" -> {
-                    bundle.requireString("stream")
-                    bundle.requireString("topic")
-                }
-                "private" -> {
-                    // "pm_users" optional -- present just for group PMs
-                }
+            val recipient = when (recipientType) {
+                "stream" ->
+                    Recipient.Stream(
+                            bundle.requireString("stream"),
+                            bundle.requireString("topic"))
+                "private" ->
+                    bundle.getString("pm_users")?.let {
+                        Recipient.GroupPm(it)
+                    } ?: Recipient.Pm
                 else -> throw FcmMessageParseException("unexpected recipient_type: $recipientType")
             }
 
@@ -66,13 +80,8 @@ internal data class MessageFcmMessage(
                 senderFullName = bundle.requireString("sender_full_name"),
                 avatarURL = avatarURL,
 
-                recipientType = recipientType,
-                isGroupMessage = recipientType == "private" && bundle.getString("pm_users") != null,
-                stream = bundle.getString("stream"),
-                topic = bundle.getString("topic"),
-                pmUsers = bundle.getString("pm_users"),
-
                 zulipMessageId = bundle.requireIntString("zulip_message_id"),
+                recipient = recipient,
                 content = bundle.requireString("content"),
                 time = bundle.requireString("time"),
 

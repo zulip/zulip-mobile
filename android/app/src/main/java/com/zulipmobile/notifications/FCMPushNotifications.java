@@ -143,13 +143,11 @@ public class FCMPushNotifications {
 
         builder.setAutoCancel(true);
 
-        String type = fcmMessage.getRecipientType();
+        Recipient recipient = fcmMessage.getRecipient();
         String content = fcmMessage.getContent();
         String senderFullName = fcmMessage.getSenderFullName();
         String avatarURL = fcmMessage.getAvatarURL();
         String time = fcmMessage.getTime();
-        String stream = fcmMessage.getStream();
-        String topic = fcmMessage.getTopic();
         int totalMessagesCount = extractTotalMessagesCount(conversations);
 
         if (BuildConfig.DEBUG) {
@@ -166,8 +164,9 @@ public class FCMPushNotifications {
                 builder.setContentTitle(senderFullName);
             }
             builder.setContentText(content);
-            if (type.equals("stream")) {
-                String displayTopic = stream + " > " + topic;
+            if (recipient instanceof Recipient.Stream) {
+                Recipient.Stream r = (Recipient.Stream) recipient;
+                String displayTopic = r.getStream() + " > " + r.getTopic();
                 builder.setSubText("Message on " + displayTopic);
             }
             if (avatarURL.startsWith("http")) {
