@@ -23,7 +23,7 @@ import java.net.URL
  * In our notification code we often say "FCM message" or "Zulip message"
  * to disambiguate between these two.
  */
-internal class MessageFcmMessage private constructor(
+internal data class MessageFcmMessage(
         val email: String,
         val senderFullName: String,
         val avatarURL: String,
@@ -40,11 +40,6 @@ internal class MessageFcmMessage private constructor(
 
         val bundle: Bundle
 ) {
-
-    protected fun copy(): MessageFcmMessage {
-        return fromBundle(bundle)
-    }
-
     companion object {
         fun fromBundle(bundle: Bundle): MessageFcmMessage {
             val recipientType = bundle.requireString("recipient_type")
