@@ -171,7 +171,7 @@ public class FCMPushNotifications {
                 String displayTopic = stream + " > " + topic;
                 builder.setSubText("Message on " + displayTopic);
             }
-            if (avatarURL != null && avatarURL.startsWith("http")) {
+            if (avatarURL.startsWith("http")) {
                 Bitmap avatar = fetchAvatar(NotificationHelper.sizedURL(context,
                         avatarURL, 64, baseURL));
                 if (avatar != null) {
@@ -195,10 +195,8 @@ public class FCMPushNotifications {
             Log.e(TAG, "BADGE ERROR: " + e.toString());
         }
 
-        if (time != null) {
-            long timeMillis = Long.parseLong(time) * 1000;
-            builder.setWhen(timeMillis);
-        }
+        long timeMillis = Long.parseLong(time) * 1000;
+        builder.setWhen(timeMillis);
         long[] vPattern = {0, 100, 200, 100};
         // NB the DEFAULT_VIBRATE flag below causes this to have no effect.
         // TODO: choose a vibration pattern we like, and unset DEFAULT_VIBRATE.

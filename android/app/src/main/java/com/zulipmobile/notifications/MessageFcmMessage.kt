@@ -22,34 +22,27 @@ import android.os.Bundle
  * to disambiguate between these two.
  */
 internal class MessageFcmMessage private constructor(
-        val bundle: Bundle,
-        val recipientType: String
+        val email: String,
+        val senderFullName: String,
+        val avatarURL: String,
+
+        val recipientType: String,
+
+        val content: String,
+        val time: String,
+
+        val bundle: Bundle
 ) {
 
     /** Really "event type": one of a small fixed set of identifiers.  */
     val event: String?
         get() = bundle.getString("event")
 
-    val content: String?
-        get() = bundle.getString("content")
-
-    val senderFullName: String?
-        get() = bundle.getString("sender_full_name")
-
-    val avatarURL: String?
-        get() = bundle.getString("sender_avatar_url")
-
     val stream: String?
         get() = bundle.getString("stream")
 
     val topic: String?
         get() = bundle.getString("topic")
-
-    val time: String?
-        get() = bundle.getString("time")
-
-    val email: String?
-        get() = bundle.getString("sender_email")
 
     val baseURL: String?
         get() = bundle.getString("base_url")
@@ -70,8 +63,13 @@ internal class MessageFcmMessage private constructor(
     companion object {
         fun fromBundle(bundle: Bundle): MessageFcmMessage {
             return MessageFcmMessage(
-                bundle = bundle.clone() as Bundle,
-                recipientType = bundle.requireString("recipient_type")
+                email = bundle.requireString("sender_email"),
+                senderFullName = bundle.requireString("sender_full_name"),
+                avatarURL = bundle.requireString("sender_avatar_url"),
+                recipientType = bundle.requireString("recipient_type"),
+                content = bundle.requireString("content"),
+                time = bundle.requireString("time"),
+                bundle = bundle.clone() as Bundle
             )
         }
     }
