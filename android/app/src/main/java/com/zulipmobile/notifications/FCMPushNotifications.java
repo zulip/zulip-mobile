@@ -67,7 +67,7 @@ public class FCMPushNotifications {
           case "message":
             MessageFcmMessage fcmMessage;
             try {
-                fcmMessage = MessageFcmMessage.Companion.fromBundle(data);
+                fcmMessage = MessageFcmMessage.Companion.fromFcmData(mapData);
             } catch (FcmMessageParseException e) {
                 Log.w(TAG, "Ignoring malformed FCM message of type `message`: " + e.getMessage());
                 return;

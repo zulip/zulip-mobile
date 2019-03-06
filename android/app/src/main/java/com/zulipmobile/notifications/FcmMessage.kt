@@ -89,21 +89,21 @@ internal data class MessageFcmMessage(
     }
 
     companion object {
-        fun fromBundle(bundle: Bundle): MessageFcmMessage {
-            val recipientType = bundle.requireString("recipient_type")
+        fun fromFcmData(data: Map<String, String>): MessageFcmMessage {
+            val recipientType = data.requireString("recipient_type")
             val recipient = when (recipientType) {
                 "stream" ->
                     Recipient.Stream(
-                            bundle.requireString("stream"),
-                            bundle.requireString("topic"))
+                            data.requireString("stream"),
+                            data.requireString("topic"))
                 "private" ->
-                    bundle.getString("pm_users")?.let {
+                    data["pm_users"]?.let {
                         Recipient.GroupPm(it)
                     } ?: Recipient.Pm
                 else -> throw FcmMessageParseException("unexpected recipient_type: $recipientType")
             }
 
-            val avatarURL = bundle.requireString("sender_avatar_url")
+            val avatarURL = data.requireString("sender_avatar_url")
             try {
                 URL(avatarURL)
             } catch (e: MalformedURLException) {
@@ -111,14 +111,14 @@ internal data class MessageFcmMessage(
             }
 
             return MessageFcmMessage(
-                email = bundle.requireString("sender_email"),
-                senderFullName = bundle.requireString("sender_full_name"),
+                email = data.requireString("sender_email"),
+                senderFullName = data.requireString("sender_full_name"),
                 avatarURL = avatarURL,
 
-                zulipMessageId = bundle.requireIntString("zulip_message_id"),
+                zulipMessageId = data.requireIntString("zulip_message_id"),
                 recipient = recipient,
-                content = bundle.requireString("content"),
-                time = bundle.requireString("time")
+                content = data.requireString("content"),
+                time = data.requireString("time")
             )
         }
     }
@@ -141,11 +141,11 @@ internal data class RemoveFcmMessage(
     }
 }
 
-private fun Bundle.requireString(key: String): String {
-    return getString(key) ?: throw FcmMessageParseException("missing expected field: $key")
+private fun Map<String, String>.requireString(key: String): String {
+    return this[key] ?: throw FcmMessageParseException("missing expected field: $key")
 }
 
-private fun Bundle.requireIntString(key: String): Int {
+private fun Map<String, String>.requireIntString(key: String): Int {
     return parseInt(requireString(key), "invalid format where int expected, at $key")
 }
 
