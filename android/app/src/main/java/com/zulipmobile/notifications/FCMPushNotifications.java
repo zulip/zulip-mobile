@@ -76,8 +76,14 @@ public class FCMPushNotifications {
             updateNotification(context, conversations, fcmMessage);
             break;
           case "remove":
-            final Set<Integer> messageIds = parseMessageIds(mapData);
-            removeMessagesFromMap(conversations, messageIds);
+            RemoveFcmMessage fcmMessage1;
+            try {
+                fcmMessage1 = RemoveFcmMessage.Companion.fromFcmData(mapData);
+            } catch (FcmMessageParseException e) {
+                Log.w(TAG, "Ignoring malformed FCM message of type `remove`: " + e.getMessage());
+                return;
+            }
+            removeMessagesFromMap(conversations, fcmMessage1.getMessageIds());
             if (conversations.isEmpty()) {
                 getNotificationManager(context).cancelAll();
             }
@@ -86,29 +92,6 @@ public class FCMPushNotifications {
             Log.w(TAG, "Ignoring FCM message of unknown event type: " + eventType);
             break;
         }
-    }
-
-    private static void parseMessageIdInto(Set<Integer> messageIds, @Nullable String idStr) {
-        try {
-            messageIds.add(Integer.parseInt(idStr));
-        } catch(NumberFormatException e) {
-            Log.w(TAG, String.format("Ignoring malformed message ID: %s", idStr));
-        }
-    }
-
-    @NonNull
-    private static Set<Integer> parseMessageIds(Map<String, String> mapData) {
-        final Set<Integer> messageIds = new HashSet<>();
-        final String idStr = mapData.get("zulip_message_id");
-        parseMessageIdInto(messageIds, idStr);
-        final String idsStr = mapData.get("zulip_message_ids");
-        if (idsStr != null) {
-            final String[] idStrs = idsStr.split(",");
-            for (final String idStr1 : idStrs) {
-                parseMessageIdInto(messageIds, idStr1);
-            }
-        }
-        return messageIds;
     }
 
     private static void updateNotification(
