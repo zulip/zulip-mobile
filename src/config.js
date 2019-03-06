@@ -7,7 +7,6 @@ const isEmulator = NativeModules.RNDeviceInfo ? DeviceInfo.isEmulator() : false;
 
 type Config = {|
   messagesPerRequest: number,
-  scrollCallbackThrottle: number,
   messageListThreshold: number,
   enableReduxLogging: boolean,
   enableReduxSlowReducerWarnings: boolean,
@@ -21,7 +20,6 @@ type Config = {|
 
 const config: Config = {
   messagesPerRequest: 50,
-  scrollCallbackThrottle: 250,
   messageListThreshold: 250,
   enableReduxLogging: isDevelopment && !!global.btoa,
   enableReduxSlowReducerWarnings: isDevelopment && !!global.btoa,
