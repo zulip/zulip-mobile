@@ -150,7 +150,6 @@ public class FCMPushNotifications {
         String time = fcmMessage.getTime();
         String stream = fcmMessage.getStream();
         String topic = fcmMessage.getTopic();
-        String baseURL = fcmMessage.getBaseURL();
         int totalMessagesCount = extractTotalMessagesCount(conversations);
 
         if (BuildConfig.DEBUG) {
@@ -173,7 +172,7 @@ public class FCMPushNotifications {
             }
             if (avatarURL.startsWith("http")) {
                 Bitmap avatar = fetchAvatar(NotificationHelper.sizedURL(context,
-                        avatarURL, 64, baseURL));
+                        avatarURL, 64));
                 if (avatar != null) {
                     builder.setLargeIcon(avatar);
                 }

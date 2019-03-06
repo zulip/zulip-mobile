@@ -1,6 +1,8 @@
 package com.zulipmobile.notifications
 
 import android.os.Bundle
+import java.net.MalformedURLException
+import java.net.URL
 
 
 /**
@@ -43,9 +45,6 @@ internal class MessageFcmMessage private constructor(
     val event: String?
         get() = bundle.getString("event")
 
-    val baseURL: String?
-        get() = bundle.getString("base_url")
-
     protected fun copy(): MessageFcmMessage {
         return fromBundle(bundle)
     }
@@ -64,10 +63,17 @@ internal class MessageFcmMessage private constructor(
                 else -> throw FcmMessageParseException("unexpected recipient_type: $recipientType")
             }
 
+            val avatarURL = bundle.requireString("sender_avatar_url")
+            try {
+                URL(avatarURL)
+            } catch (e: MalformedURLException) {
+                throw FcmMessageParseException("invalid sender_avatar_url: $avatarURL")
+            }
+
             return MessageFcmMessage(
                 email = bundle.requireString("sender_email"),
                 senderFullName = bundle.requireString("sender_full_name"),
-                avatarURL = bundle.requireString("sender_avatar_url"),
+                avatarURL = avatarURL,
 
                 recipientType = recipientType,
                 isGroupMessage = recipientType == "private" && bundle.getString("pm_users") != null,

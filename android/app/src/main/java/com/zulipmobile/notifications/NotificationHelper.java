@@ -45,28 +45,17 @@ public class NotificationHelper {
         return null;
     }
 
-    static URL sizedURL(Context context, String url, float dpSize, String baseUrl) {
+    static URL sizedURL(Context context, String url, float dpSize) {
         // From http://stackoverflow.com/questions/4605527/
         Resources r = context.getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 dpSize, r.getDisplayMetrics());
         try {
-            return new URL(addHost(url, baseUrl) + "&s=" + px);
+            return new URL(url + "&s=" + px);
         } catch (MalformedURLException e) {
             Log.e(TAG, "ERROR: " + e.toString());
             return null;
         }
-    }
-
-    private static String addHost(String url, String baseURL) {
-        if (!url.startsWith("http")) {
-            if (baseURL.endsWith("/")) {
-                url = baseURL.substring(0, baseURL.length() - 1) + url;
-            } else {
-                url = baseURL + url;
-            }
-        }
-        return url;
     }
 
 
