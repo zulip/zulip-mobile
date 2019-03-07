@@ -9,9 +9,6 @@ export const statics = {
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  titleAvatar: {
-    marginRight: 16,
-  },
   navSubtitle: {
     fontSize: 13,
   },

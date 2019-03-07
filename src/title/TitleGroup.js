@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { Dispatch, User } from '../types';
 import { Touchable, UserAvatarWithPresence } from '../common';
@@ -21,6 +21,12 @@ class TitleGroup extends PureComponent<Props> {
     dispatch(navigateToAccountDetails(user.email));
   };
 
+  styles = StyleSheet.create({
+    titleAvatar: {
+      marginRight: 16,
+    },
+  });
+
   render() {
     const { recipients } = this.props;
 
@@ -30,7 +36,7 @@ class TitleGroup extends PureComponent<Props> {
           <Touchable
             key={user.email}
             onPress={() => this.handlePress(user)}
-            style={styles.titleAvatar}
+            style={this.styles.titleAvatar}
           >
             <UserAvatarWithPresence size={32} avatarUrl={user.avatar_url} email={user.email} />
           </Touchable>
