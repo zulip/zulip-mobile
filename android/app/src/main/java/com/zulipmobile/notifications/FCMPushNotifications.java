@@ -12,21 +12,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.facebook.react.ReactApplication;
-import com.zulipmobile.BuildConfig;
-import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
-import com.zulipmobile.R;
-
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-
+import java.util.Locale;
+import java.util.Map;
 import me.leolin.shortcutbadger.ShortcutBadger;
+
+import com.zulipmobile.BuildConfig;
+import com.zulipmobile.R;
+import com.zulipmobile.notifications.NotificationHelper.*;
 
 import static com.zulipmobile.notifications.NotificationHelper.*;
 

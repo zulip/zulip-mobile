@@ -2,7 +2,6 @@ package com.zulipmobile;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-
 import android.os.Bundle;
 import android.webkit.WebView;
 import com.facebook.react.ReactActivity;

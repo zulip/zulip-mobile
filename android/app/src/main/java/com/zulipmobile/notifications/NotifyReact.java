@@ -12,6 +12,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+
 import com.zulipmobile.MainActivity;
 
 import static com.zulipmobile.notifications.NotificationHelper.TAG;

@@ -1,13 +1,10 @@
 package com.zulipmobile;
 
 import android.util.Base64;
-
-import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.Promise;
-
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
-
+import com.facebook.react.bridge.ReactMethod;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -16,8 +13,6 @@ import java.util.Map;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
-
-import android.util.Log;
 
 class TextCompressionModule extends ReactContextBaseJavaModule {
   public TextCompressionModule(ReactApplicationContext reactContext) {

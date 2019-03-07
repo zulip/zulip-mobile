@@ -1,8 +1,7 @@
 package com.zulipmobile;
 
-import android.net.Uri;
 import android.content.Intent;
-
+import android.net.Uri;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;

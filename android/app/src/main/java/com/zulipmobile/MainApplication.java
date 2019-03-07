@@ -1,28 +1,26 @@
 package com.zulipmobile;
 
 import android.app.Application;
-
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
-import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.github.yamill.orientation.OrientationPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.remobile.toast.RCTToastPackage;
 import com.zmxv.RNSound.RNSoundPackage;
-import com.zulipmobile.notifications.FCMPushNotifications;
-import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
-
+import io.sentry.RNSentryPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.zulipmobile.notifications.FCMPushNotifications;
+import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 import com.zulipmobile.notifications.NotificationsPackage;
-import io.sentry.RNSentryPackage;
 
 public class MainApplication extends Application implements ReactApplication {
     private ConversationMap conversations;

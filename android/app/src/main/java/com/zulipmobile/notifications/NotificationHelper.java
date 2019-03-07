@@ -10,15 +10,14 @@ import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.TypedValue;
-
-import com.zulipmobile.R;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
+
+import com.zulipmobile.R;
 
 public class NotificationHelper {
     static final String TAG = "ZulipNotif";

@@ -3,7 +3,7 @@ package com.zulipmobile.notifications
 import android.os.Bundle
 import java.net.MalformedURLException
 import java.net.URL
-import java.util.HashSet
+import java.util.*
 
 /**
  * Data identifying where a Zulip message was sent.

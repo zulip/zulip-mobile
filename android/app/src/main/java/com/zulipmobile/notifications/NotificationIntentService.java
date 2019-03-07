@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import com.facebook.react.ReactApplication;
+
 import com.zulipmobile.MainApplication;
 import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 
