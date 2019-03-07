@@ -14,43 +14,35 @@ import {
 } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
 
-type NotificationCommon = {|
-  alert: string,
-  content: string,
-  content_truncated: string, // boolean
-  'google.message_id': string,
-  'google.sent_time': number,
-  'google.ttl': number,
-  event: 'message',
-  realm_id: string, // string
-  sender_avatar_url: string,
-  sender_email: string, // email
-  sender_full_name: string,
-  sender_id: string,
-  server: string,
-  time: string,
-  user: string,
-  zulip_message_id: string,
-|};
-
 type NotificationPrivate = {|
-  ...$Exact<NotificationCommon>,
   recipient_type: 'private',
+  sender_email: string, // email
 |};
 
 type NotificationGroup = {|
-  ...$Exact<NotificationCommon>,
-  pm_users: string, // comma separated ids
   recipient_type: 'private',
+  pm_users: string, // comma separated ids
 |};
 
 type NotificationStream = {|
-  ...$Exact<NotificationCommon>,
   recipient_type: 'stream',
   stream: string,
   topic: string,
 |};
 
+/**
+ * The data we need in JS/React code for acting on a notification.
+ *
+ * The actual objects we describe with these types may have a bunch more
+ * fields.  So, properly, these object types aren't really exact.  But
+ * pretending they are seems to be the least unpleasant way to get Flow to
+ * recognize the effect of refinements like `data.pm_users === undefined`.
+ *
+ * Currently these objects are translated directly, field by field, from the
+ * blobs of key/value pairs sent by the Zulip server in the "payload".  The
+ * set of fields therefore differs between server versions, and between iOS
+ * and Android (because the server logic conditions on that.)
+ */
 export type Notification = NotificationPrivate | NotificationGroup | NotificationStream;
 
 export const getNarrowFromNotificationData = (
