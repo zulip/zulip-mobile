@@ -5,7 +5,6 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { GlobalState } from '../types';
-import Touchable from './Touchable';
 import Label from './Label';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
@@ -41,11 +40,7 @@ class WebLink extends PureComponent<Props> {
   });
 
   render() {
-    return (
-      <Touchable>
-        <Label style={this.styles.link} text={this.props.label} onPress={this.handlePress} />
-      </Touchable>
-    );
+    return <Label style={this.styles.link} text={this.props.label} onPress={this.handlePress} />;
   }
 }
 
