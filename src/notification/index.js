@@ -14,22 +14,6 @@ import {
 } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
 
-type NotificationPrivate = {|
-  recipient_type: 'private',
-  sender_email: string, // email
-|};
-
-type NotificationGroup = {|
-  recipient_type: 'private',
-  pm_users: string, // comma separated ids
-|};
-
-type NotificationStream = {|
-  recipient_type: 'stream',
-  stream: string,
-  topic: string,
-|};
-
 /**
  * The data we need in JS/React code for acting on a notification.
  *
@@ -43,7 +27,12 @@ type NotificationStream = {|
  * set of fields therefore differs between server versions, and between iOS
  * and Android (because the server logic conditions on that.)
  */
-export type Notification = NotificationPrivate | NotificationGroup | NotificationStream;
+export type Notification =
+  | {| recipient_type: 'stream', stream: string, topic: string |}
+  // Group PM messages have `pm_users`, which is comma-separated IDs.
+  | {| recipient_type: 'private', pm_users: string |}
+  // 1:1 PM messages lack `pm_users`.
+  | {| recipient_type: 'private', sender_email: string |};
 
 export const getNarrowFromNotificationData = (
   data: ?Notification,
