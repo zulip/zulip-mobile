@@ -28,14 +28,16 @@ class TitlePrivate extends PureComponent<Props> {
     // $FlowFixMe: sort out CrossRealmBot
     const avatarUrl: string | null = user.avatar_url;
     return (
-      <Touchable onPress={this.handlePress} style={styles.navWrapper}>
-        <UserAvatarWithPresence size={32} email={user.email} avatarUrl={avatarUrl} />
-        <ViewPlaceholder width={8} />
-        <View>
-          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
-            {user.full_name}
-          </Text>
-          <ActivityText style={styles.navSubtitle} color={color} email={user.email} />
+      <Touchable onPress={this.handlePress}>
+        <View style={styles.row}>
+          <UserAvatarWithPresence size={32} email={user.email} avatarUrl={avatarUrl} />
+          <ViewPlaceholder width={8} />
+          <View>
+            <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+              {user.full_name}
+            </Text>
+            <ActivityText style={styles.navSubtitle} color={color} email={user.email} />
+          </View>
         </View>
       </Touchable>
     );
