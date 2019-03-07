@@ -63,47 +63,6 @@ const styles = StyleSheet.create({
   },
 });
 
-type ButtonInProgressProps = {|
-  frameStyle: Style,
-|};
-
-const ButtonInProgress = ({ frameStyle }: ButtonInProgressProps) => (
-  <View style={frameStyle}>
-    <ActivityIndicator color="white" />
-  </View>
-);
-
-type ButtonNormalProps = {|
-  frameStyle: Style,
-  touchTargetStyle: Style,
-  textStyle: Style,
-  text: string,
-  iconStyle: Style,
-  Icon?: IconType,
-  onPress?: () => void | Promise<void>,
-|};
-
-const ButtonNormal = ({
-  frameStyle,
-  touchTargetStyle,
-  textStyle,
-  text,
-  onPress,
-  Icon,
-  iconStyle,
-}: ButtonNormalProps) => (
-  <View style={frameStyle}>
-    <Touchable style={touchTargetStyle} onPress={onPress}>
-      <View style={styles.buttonContent}>
-        {Icon && <Icon style={iconStyle} size={25} />}
-        <Text style={textStyle}>
-          <TranslatedText text={text} />
-        </Text>
-      </View>
-    </Touchable>
-  </View>
-);
-
 type Props = {|
   style?: Style,
   progress: boolean,
@@ -152,19 +111,24 @@ export default class ZulipButton extends PureComponent<Props> {
     const iconStyle = [styles.icon, secondary ? styles.secondaryIcon : styles.primaryIcon];
 
     if (progress) {
-      return <ButtonInProgress frameStyle={frameStyle} />;
+      return (
+        <View style={frameStyle}>
+          <ActivityIndicator color="white" />
+        </View>
+      );
     }
 
     return (
-      <ButtonNormal
-        frameStyle={frameStyle}
-        touchTargetStyle={styles.touchTarget}
-        text={text}
-        onPress={disabled ? undefined : onPress}
-        textStyle={textStyle}
-        Icon={Icon}
-        iconStyle={iconStyle}
-      />
+      <View style={frameStyle}>
+        <Touchable style={styles.touchTarget} onPress={disabled ? undefined : onPress}>
+          <View style={styles.buttonContent}>
+            {Icon && <Icon style={iconStyle} size={25} />}
+            <Text style={textStyle}>
+              <TranslatedText text={text} />
+            </Text>
+          </View>
+        </Touchable>
+      </View>
     );
   }
 }
