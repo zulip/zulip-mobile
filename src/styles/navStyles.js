@@ -20,16 +20,6 @@ export const statics = {
     textAlign: 'left',
     fontSize: 20,
   },
-  navButtonFrame: {
-    width: NAVBAR_SIZE,
-    height: NAVBAR_SIZE,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  navButtonIcon: {
-    textAlign: 'center',
-    fontSize: 26,
-  },
   navBar: {
     borderColor: 'rgba(127, 127, 127, 0.25)',
     flexDirection: 'row',
