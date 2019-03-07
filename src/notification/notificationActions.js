@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
-import type { Account, Dispatch, GetState, Identity, Notification, Action } from '../types';
+import type { Account, Dispatch, GetState, Identity, Action } from '../types';
 /* eslint-disable import/no-named-as-default-member */
 import api from '../api';
 import {
@@ -8,6 +8,7 @@ import {
   tryStopNotifications as innerStopNotifications,
   getNarrowFromNotificationData,
 } from '../notification';
+import type { Notification } from '../notification';
 import { getAuth, getActiveAccount } from '../selectors';
 import { getSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';

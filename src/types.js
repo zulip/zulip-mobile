@@ -197,45 +197,6 @@ export type TimingItemType = {|
   endMs: number,
 |};
 
-export type NotificationCommon = {|
-  alert: string,
-  content: string,
-  content_truncated: string, // boolean
-  'google.message_id': string,
-  'google.sent_time': number,
-  'google.ttl': number,
-  event: 'message',
-  realm_id: string, // string
-  sender_avatar_url: string,
-  sender_email: string, // email
-  sender_full_name: string,
-  sender_id: string,
-  server: string,
-  time: string,
-  user: string,
-  zulip_message_id: string,
-|};
-
-export type NotificationPrivate = {|
-  ...$Exact<NotificationCommon>,
-  recipient_type: 'private',
-|};
-
-export type NotificationGroup = {|
-  ...$Exact<NotificationCommon>,
-  pm_users: string, // comma separated ids
-  recipient_type: 'private',
-|};
-
-export type NotificationStream = {|
-  ...$Exact<NotificationCommon>,
-  recipient_type: 'stream',
-  stream: string,
-  topic: string,
-|};
-
-export type Notification = NotificationPrivate | NotificationGroup | NotificationStream;
-
 export type NamedUser = {|
   id: number,
   email: string,

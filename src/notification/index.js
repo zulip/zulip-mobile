@@ -2,7 +2,7 @@
 import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
 import NotificationsIOS from 'react-native-notifications';
 
-import type { Auth, Dispatch, Narrow, Notification, User } from '../types';
+import type { Auth, Dispatch, Narrow, User } from '../types';
 import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import { forgetPushToken } from '../api';
 import { logErrorRemotely } from '../utils/logging';
@@ -13,6 +13,45 @@ import {
   narrowToNotification,
 } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
+
+type NotificationCommon = {|
+  alert: string,
+  content: string,
+  content_truncated: string, // boolean
+  'google.message_id': string,
+  'google.sent_time': number,
+  'google.ttl': number,
+  event: 'message',
+  realm_id: string, // string
+  sender_avatar_url: string,
+  sender_email: string, // email
+  sender_full_name: string,
+  sender_id: string,
+  server: string,
+  time: string,
+  user: string,
+  zulip_message_id: string,
+|};
+
+type NotificationPrivate = {|
+  ...$Exact<NotificationCommon>,
+  recipient_type: 'private',
+|};
+
+type NotificationGroup = {|
+  ...$Exact<NotificationCommon>,
+  pm_users: string, // comma separated ids
+  recipient_type: 'private',
+|};
+
+type NotificationStream = {|
+  ...$Exact<NotificationCommon>,
+  recipient_type: 'stream',
+  stream: string,
+  topic: string,
+|};
+
+export type Notification = NotificationPrivate | NotificationGroup | NotificationStream;
 
 export const getNarrowFromNotificationData = (
   data: ?Notification,
