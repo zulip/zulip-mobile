@@ -16,7 +16,6 @@ import InfoNavButtonPrivate from './InfoNavButtonPrivate';
 import InfoNavButtonGroup from './InfoNavButtonGroup';
 import ExtraNavButtonStream from './ExtraNavButtonStream';
 import ExtraNavButtonTopic from './ExtraNavButtonTopic';
-import { ViewPlaceholder } from '../common';
 
 type Props = {| color: string, narrow: Narrow |};
 type NarrowNavButton = ComponentType<Props>;
@@ -44,9 +43,9 @@ const extraButtonHandlers: NarrowNavButtonCandidate[] = [
 ];
 
 const makeButton = (handlers): NarrowNavButton => props => {
-  const handler = handlers.find(x => x.isFunc(props.narrow));
+  const handler = handlers.find(x => x.isFunc(props.narrow)) || null;
   const SpecificButton = handler && handler.ButtonComponent;
-  return SpecificButton ? <SpecificButton {...props} /> : <ViewPlaceholder width={44} />;
+  return SpecificButton && <SpecificButton {...props} />;
 };
 
 export const InfoButton = makeButton(infoButtonHandlers);
