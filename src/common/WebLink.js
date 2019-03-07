@@ -2,6 +2,7 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
+import { StyleSheet } from 'react-native';
 
 import type { GlobalState } from '../types';
 import Touchable from './Touchable';
@@ -9,7 +10,7 @@ import Label from './Label';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
-import styles from '../styles';
+import { BRAND_COLOR } from '../styles';
 
 type Props = {|
   label: string,
@@ -30,12 +31,19 @@ class WebLink extends PureComponent<Props> {
     openLink(getFullUrl(href, realm));
   };
 
-  render() {
-    const { label } = this.props;
+  styles = StyleSheet.create({
+    link: {
+      marginTop: 10,
+      fontSize: 15,
+      color: BRAND_COLOR,
+      textAlign: 'right',
+    },
+  });
 
+  render() {
     return (
       <Touchable>
-        <Label style={styles.link} text={label} onPress={this.handlePress} />
+        <Label style={this.styles.link} text={this.props.label} onPress={this.handlePress} />
       </Touchable>
     );
   }
