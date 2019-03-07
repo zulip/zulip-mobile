@@ -28,11 +28,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: BRAND_COLOR,
   },
-  fullSizeFrame: {
-    backgroundColor: BRAND_COLOR,
-    borderRadius: 0,
-    flex: 1,
-  },
   touchTarget: {
     flex: 1,
     alignSelf: 'stretch',
@@ -70,7 +65,6 @@ type Props = {|
   Icon?: IconType,
   text: string,
   secondary: boolean,
-  fullSize: boolean,
   onPress: () => void | Promise<void>,
 |};
 
@@ -87,23 +81,20 @@ type Props = {|
  * @prop [Icon] - Icon component to display in front of the button text
  * @prop text - The button text
  * @prop [secondary] - Less prominent styling, the button is not as important.
- * @prop [fullSize] - The button becomes as wide as its container.
  * @prop onPress - Event called on button press.
  */
 export default class ZulipButton extends PureComponent<Props> {
   static defaultProps = {
     secondary: false,
-    fullSize: false,
     disabled: false,
     progress: false,
   };
 
   render() {
-    const { style, text, disabled, secondary, progress, fullSize, onPress, Icon } = this.props;
+    const { style, text, disabled, secondary, progress, onPress, Icon } = this.props;
     const frameStyle = [
       styles.frame,
       secondary ? styles.secondaryFrame : styles.primaryFrame,
-      fullSize && styles.fullSizeFrame,
       disabled && styles.disabled,
       style,
     ];
