@@ -28,12 +28,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: BRAND_COLOR,
   },
-  touchTarget: {
-    flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   text: {
     color: '#FFFFFF',
     fontSize: 16,
@@ -111,7 +105,7 @@ export default class ZulipButton extends PureComponent<Props> {
 
     return (
       <View style={frameStyle}>
-        <Touchable style={styles.touchTarget} onPress={disabled ? undefined : onPress}>
+        <Touchable onPress={disabled ? undefined : onPress}>
           <View style={styles.buttonContent}>
             {Icon && <Icon style={iconStyle} size={25} />}
             <Text style={textStyle}>
