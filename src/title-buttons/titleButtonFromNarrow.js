@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import React from 'react';
 import type { ComponentType } from 'react';
 
 import type { Narrow } from '../types';
@@ -15,8 +16,10 @@ import InfoNavButtonPrivate from './InfoNavButtonPrivate';
 import InfoNavButtonGroup from './InfoNavButtonGroup';
 import ExtraNavButtonStream from './ExtraNavButtonStream';
 import ExtraNavButtonTopic from './ExtraNavButtonTopic';
+import { ViewPlaceholder } from '../common';
 
-type NarrowNavButton = ComponentType<{| color: string, narrow: Narrow |}>;
+type Props = {| color: string, narrow: Narrow |};
+type NarrowNavButton = ComponentType<Props>;
 type NarrowNavButtonCandidate = {
   isFunc: Narrow => boolean,
   ButtonComponent: NarrowNavButton | null,
@@ -40,13 +43,12 @@ const extraButtonHandlers: NarrowNavButtonCandidate[] = [
   { isFunc: isGroupNarrow, ButtonComponent: null },
 ];
 
-const getButton = (handlers, narrow): ?NarrowNavButton => {
-  const handler = handlers.find(x => x.isFunc(narrow));
-  return handler && handler.ButtonComponent;
+const makeButton = (handlers): NarrowNavButton => props => {
+  const handler = handlers.find(x => x.isFunc(props.narrow));
+  const SpecificButton = handler && handler.ButtonComponent;
+  return SpecificButton ? <SpecificButton {...props} /> : <ViewPlaceholder width={44} />;
 };
 
-export const getInfoButtonFromNarrow = (narrow: Narrow): ?NarrowNavButton =>
-  getButton(infoButtonHandlers, narrow);
+export const InfoButton = makeButton(infoButtonHandlers);
 
-export const getExtraButtonFromNarrow = (narrow: Narrow): ?NarrowNavButton =>
-  getButton(extraButtonHandlers, narrow);
+export const ExtraButton = makeButton(extraButtonHandlers);

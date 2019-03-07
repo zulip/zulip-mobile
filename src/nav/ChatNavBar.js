@@ -11,11 +11,7 @@ import NavButton from './NavButton';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { navigateBack } from '../actions';
-import {
-  getInfoButtonFromNarrow,
-  getExtraButtonFromNarrow,
-} from '../title-buttons/titleButtonFromNarrow';
-import { ViewPlaceholder } from '../common';
+import { ExtraButton, InfoButton } from '../title-buttons/titleButtonFromNarrow';
 
 type Props = {|
   dispatch: Dispatch,
@@ -31,9 +27,6 @@ class ChatNavBar extends PureComponent<Props> {
         ? BRAND_COLOR
         : foregroundColorFromBackground(backgroundColor);
 
-    const InfoButton = getInfoButtonFromNarrow(narrow);
-    const ExtraButton = getExtraButtonFromNarrow(narrow);
-
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
         <NavButton
@@ -44,12 +37,8 @@ class ChatNavBar extends PureComponent<Props> {
           }}
         />
         <Title color={color} narrow={narrow} />
-        {ExtraButton ? (
-          <ExtraButton color={color} narrow={narrow} />
-        ) : (
-          <ViewPlaceholder width={44} />
-        )}
-        {InfoButton ? <InfoButton color={color} narrow={narrow} /> : <ViewPlaceholder width={44} />}
+        <ExtraButton color={color} narrow={narrow} />
+        <InfoButton color={color} narrow={narrow} />
       </View>
     );
   }
