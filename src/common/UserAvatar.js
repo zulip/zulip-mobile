@@ -29,21 +29,22 @@ export default class UserAvatar extends PureComponent<Props> {
 
   render() {
     const { avatarUrl, children, size, shape, onPress } = this.props;
-    const touchableStyle = {
-      height: size,
-      width: size,
-    };
-
     const borderRadius =
       shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0;
+    const style = {
+      height: size,
+      width: size,
+      borderRadius,
+    };
 
     return (
       <View>
-        <Touchable onPress={onPress} style={touchableStyle}>
+        <Touchable onPress={onPress} style={style}>
           <ImageBackground
-            style={touchableStyle}
+            style={style}
             source={{ uri: avatarUrl }}
             resizeMode="cover"
+            /* ImageBackground seems to ignore `style.borderRadius`. */
             borderRadius={borderRadius}
           >
             {children}
