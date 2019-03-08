@@ -122,18 +122,29 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
 
 class RemoveFcmMessageTest : FcmMessageTestBase() {
     object Example {
+        /// The Zulip server before v2.0 sends this form (plus some irrelevant fields).
         val singular = mapOf(
             "event" to "remove",
             "zulip_message_id" to "123"
         )
-        val batched = mapOf(
-            "event" to "remove",
-            "zulip_message_ids" to "123,234,345"
-        )
+
+        /// Zulip servers starting at v2.0 (released 2019-02-28; commit 2.0.0~57)
+        /// send a hybrid form.  (In practice the singular field has one of the
+        /// same IDs found in the batch.)
+        ///
+        /// We started consuming the batch field in 23.2.111 (released 2019-02-28;
+        /// commit 23.2.111~32).
         val hybrid = mapOf(
             "event" to "remove",
             "zulip_message_ids" to "234,345",
             "zulip_message_id" to "123"
+        )
+
+        /// Some future Zulip server (at least v2.1; after clients older than
+        /// v23.2.111 are rare) may drop the singular field.
+        val batched = mapOf(
+            "event" to "remove",
+            "zulip_message_ids" to "123,234,345"
         )
     }
 
