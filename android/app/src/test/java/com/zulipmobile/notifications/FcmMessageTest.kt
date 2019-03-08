@@ -32,4 +32,80 @@ class FcmMessageTest {
         assertParseFails(mapOf())
         assertParseFails(mapOf("event" to "nonsense"))
     }
+
+    private val exampleMessageBase = mapOf(
+        "event" to "message",
+        "sender_avatar_url" to "https://zulip.example.com/avatar/123.jpeg",
+        "sender_email" to "sender@example.com",
+        "sender_full_name" to "A Sender",
+        "zulip_message_id" to "12345",
+        "content" to "This is a *message*",
+        "time" to "??? time in some format"
+    )
+    private val exampleMessageStream = exampleMessageBase.plus(sequenceOf(
+        "recipient_type" to "stream",
+        "stream" to "denmark",
+        "topic" to "play"
+    ))
+    private val exampleMessageGroupPm = exampleMessageBase.plus(sequenceOf(
+        "recipient_type" to "private",
+        "pm_users" to "123,234,345"
+    ))
+    private val exampleMessagePm = exampleMessageBase.plus(sequenceOf(
+        "recipient_type" to "private"
+    ))
+
+    @Test
+    fun `'message' messages parse as MessageFcmMessage`() {
+        val message = FcmMessage.fromFcmData(exampleMessageStream)
+        expect.that(message).isInstanceOf(MessageFcmMessage::class.java)
+    }
+
+    @Test
+    fun `fields get parsed right in 'message' happy path`() {
+        expect.that(
+            FcmMessage.fromFcmData(exampleMessageStream) as MessageFcmMessage
+        ).isEqualTo(MessageFcmMessage(
+            email = exampleMessageStream["sender_email"]!!,
+            senderFullName = exampleMessageStream["sender_full_name"]!!,
+            avatarURL = exampleMessageStream["sender_avatar_url"]!!,
+            zulipMessageId = 12345,
+            recipient = Recipient.Stream(
+                stream = exampleMessageStream["stream"]!!,
+                topic = exampleMessageStream["topic"]!!
+            ),
+            content = exampleMessageStream["content"]!!,
+            time = exampleMessageStream["time"]!!
+        ))
+        val groupMessage = FcmMessage.fromFcmData(exampleMessageGroupPm) as MessageFcmMessage
+        expect.that(groupMessage.recipient).isEqualTo(
+            Recipient.GroupPm(pmUsers = exampleMessageGroupPm["pm_users"]!!)
+        )
+        val pmMessage = FcmMessage.fromFcmData(exampleMessagePm) as MessageFcmMessage
+        expect.that(pmMessage.recipient).isEqualTo(
+            Recipient.Pm
+        )
+    }
+
+    @Test
+    fun `parse failures on malformed 'message'`() {
+        assertParseFails(exampleMessageStream.minus("recipient_type"))
+        assertParseFails(exampleMessageStream.minus("stream"))
+        assertParseFails(exampleMessageStream.minus("topic"))
+        assertParseFails(exampleMessageGroupPm.minus("recipient_type"))
+        assertParseFails(exampleMessagePm.minus("recipient_type"))
+        assertParseFails(exampleMessagePm.plus("recipient_type" to "nonsense"))
+
+        assertParseFails(exampleMessagePm.minus("sender_avatar_url"))
+        assertParseFails(exampleMessagePm.plus("sender_avatar_url" to "/avatar/123.jpeg"))
+        assertParseFails(exampleMessagePm.plus("sender_avatar_url" to ""))
+
+        assertParseFails(exampleMessagePm.minus("sender_email"))
+        assertParseFails(exampleMessagePm.minus("sender_full_name"))
+        assertParseFails(exampleMessagePm.minus("zulip_message_id"))
+        assertParseFails(exampleMessagePm.plus("zulip_message_id" to "12,34"))
+        assertParseFails(exampleMessagePm.plus("zulip_message_id" to "abc"))
+        assertParseFails(exampleMessagePm.minus("content"))
+        assertParseFails(exampleMessagePm.minus("time"))
+    }
 }
