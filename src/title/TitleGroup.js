@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Dispatch, User } from '../types';
-import { Touchable, UserAvatarWithPresence } from '../common';
+import { UserAvatarWithPresence } from '../common';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
 import { navigateToAccountDetails } from '../nav/navActions';
@@ -33,13 +33,14 @@ class TitleGroup extends PureComponent<Props> {
     return (
       <View style={styles.navWrapper}>
         {recipients.map((user, index) => (
-          <Touchable
-            key={user.email}
-            onPress={() => this.handlePress(user)}
-            style={this.styles.titleAvatar}
-          >
-            <UserAvatarWithPresence size={32} avatarUrl={user.avatar_url} email={user.email} />
-          </Touchable>
+          <View key={user.email} style={this.styles.titleAvatar}>
+            <UserAvatarWithPresence
+              onPress={() => this.handlePress(user)}
+              size={32}
+              avatarUrl={user.avatar_url}
+              email={user.email}
+            />
+          </View>
         ))}
       </View>
     );
