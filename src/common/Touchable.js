@@ -69,7 +69,7 @@ export default class Touchable extends PureComponent<Props> {
       );
     }
 
-    if (1 || Platform.OS === 'ios') {
+    if (Platform.OS === 'ios') {
       // TouchableHighlight makes its own wrapper View to be the touch
       // target, passing the `style` prop through.
       return (
