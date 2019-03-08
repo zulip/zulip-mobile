@@ -5,7 +5,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 
-class FcmMessageTest {
+open class FcmMessageTestBase {
     // This lets a single test method report multiple failures.
     // See upstream docs:
     //   https://google.github.io/truth/api/0.43/com/google/common/truth/Expect.html
@@ -21,18 +21,22 @@ class FcmMessageTest {
     //
     // But this is what I've figured out enough of the API so far to do,
     // and it'll be good enough for now.
-    private fun assertParseFails(data: Map<String, String>): FcmMessageParseException? {
+    protected fun assertParseFails(data: Map<String, String>): FcmMessageParseException? {
         val f = assertThrows { FcmMessage.fromFcmData(data) } as Throwable
         expect.that(f).isInstanceOf(FcmMessageParseException::class.java)
         return f as? FcmMessageParseException
     }
+}
 
+class FcmMessageTest : FcmMessageTestBase() {
     @Test
     fun `parse failures on missing or bad event type`() {
         assertParseFails(mapOf())
         assertParseFails(mapOf("event" to "nonsense"))
     }
+}
 
+class MessageFcmMessageTest : FcmMessageTestBase() {
     private val exampleMessageBase = mapOf(
         "event" to "message",
         "sender_avatar_url" to "https://zulip.example.com/avatar/123.jpeg",
@@ -61,28 +65,29 @@ class FcmMessageTest {
         expect.that(message).isInstanceOf(MessageFcmMessage::class.java)
     }
 
+    private fun parse(data: Map<String, String>) =
+        FcmMessage.fromFcmData(data) as MessageFcmMessage
+
     @Test
     fun `fields get parsed right in 'message' happy path`() {
-        expect.that(
-            FcmMessage.fromFcmData(exampleMessageStream) as MessageFcmMessage
-        ).isEqualTo(MessageFcmMessage(
-            email = exampleMessageStream["sender_email"]!!,
-            senderFullName = exampleMessageStream["sender_full_name"]!!,
-            avatarURL = exampleMessageStream["sender_avatar_url"]!!,
-            zulipMessageId = 12345,
-            recipient = Recipient.Stream(
-                stream = exampleMessageStream["stream"]!!,
-                topic = exampleMessageStream["topic"]!!
-            ),
-            content = exampleMessageStream["content"]!!,
-            time = exampleMessageStream["time"]!!
-        ))
-        val groupMessage = FcmMessage.fromFcmData(exampleMessageGroupPm) as MessageFcmMessage
-        expect.that(groupMessage.recipient).isEqualTo(
+        expect.that(parse(exampleMessageStream)).isEqualTo(
+            MessageFcmMessage(
+                email = exampleMessageStream["sender_email"]!!,
+                senderFullName = exampleMessageStream["sender_full_name"]!!,
+                avatarURL = exampleMessageStream["sender_avatar_url"]!!,
+                zulipMessageId = 12345,
+                recipient = Recipient.Stream(
+                    stream = exampleMessageStream["stream"]!!,
+                    topic = exampleMessageStream["topic"]!!
+                ),
+                content = exampleMessageStream["content"]!!,
+                time = exampleMessageStream["time"]!!
+            )
+        )
+        expect.that(parse(exampleMessageGroupPm).recipient).isEqualTo(
             Recipient.GroupPm(pmUsers = exampleMessageGroupPm["pm_users"]!!)
         )
-        val pmMessage = FcmMessage.fromFcmData(exampleMessagePm) as MessageFcmMessage
-        expect.that(pmMessage.recipient).isEqualTo(
+        expect.that(parse(exampleMessagePm).recipient).isEqualTo(
             Recipient.Pm
         )
     }
