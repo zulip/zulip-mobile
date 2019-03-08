@@ -119,3 +119,69 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.pm.minus("time"))
     }
 }
+
+class RemoveFcmMessageTest : FcmMessageTestBase() {
+    object Example {
+        val singular = mapOf(
+            "event" to "remove",
+            "zulip_message_id" to "123"
+        )
+        val batched = mapOf(
+            "event" to "remove",
+            "zulip_message_ids" to "123,234,345"
+        )
+        val hybrid = mapOf(
+            "event" to "remove",
+            "zulip_message_ids" to "234,345",
+            "zulip_message_id" to "123"
+        )
+    }
+
+    @Test
+    fun `'remove' messages parse as RemoveFcmMessage`() {
+        val message = FcmMessage.fromFcmData(Example.batched)
+        expect.that(message).isInstanceOf(RemoveFcmMessage::class.java)
+    }
+
+    private fun parse(data: Map<String, String>) =
+        FcmMessage.fromFcmData(data) as RemoveFcmMessage
+
+    @Test
+    fun `fields get parsed right in happy path`() {
+        expect.that(parse(Example.hybrid)).isEqualTo(
+            RemoveFcmMessage(setOf(123, 234, 345))
+        )
+        expect.that(parse(Example.batched)).isEqualTo(
+            RemoveFcmMessage(setOf(123, 234, 345))
+        )
+        expect.that(parse(Example.singular)).isEqualTo(
+            RemoveFcmMessage(setOf(123))
+        )
+        expect.that(parse(Example.singular.minus("zulip_message_id"))).isEqualTo(
+            // This doesn't seem very useful to send, but harmless.
+            RemoveFcmMessage(setOf())
+        )
+    }
+
+    @Test
+    fun `parse failures on malformed data`() {
+        for (badInt in sequenceOf(
+            "12,34",
+            "abc",
+            ""
+        )) {
+            assertParseFails(Example.singular.plus("zulip_message_id" to badInt))
+            assertParseFails(Example.hybrid.plus("zulip_message_id" to badInt))
+        }
+
+        for (badIntList in sequenceOf(
+            "abc,34",
+            "12,abc",
+            "12,",
+            ""
+        )) {
+            assertParseFails(Example.hybrid.plus("zulip_message_ids" to badIntList))
+            assertParseFails(Example.batched.plus("zulip_message_ids" to badIntList))
+        }
+    }
+}
