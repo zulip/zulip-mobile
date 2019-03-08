@@ -100,12 +100,12 @@ internal data class MessageFcmMessage(
 
     companion object {
         fun fromFcmData(data: Map<String, String>): MessageFcmMessage {
-            val recipientType = data.requireString("recipient_type")
+            val recipientType = data.require("recipient_type")
             val recipient = when (recipientType) {
                 "stream" ->
                     Recipient.Stream(
-                        data.requireString("stream"),
-                        data.requireString("topic"))
+                        data.require("stream"),
+                        data.require("topic"))
                 "private" ->
                     data["pm_users"]?.let {
                         Recipient.GroupPm(it)
@@ -113,7 +113,7 @@ internal data class MessageFcmMessage(
                 else -> throw FcmMessageParseException("unexpected recipient_type: $recipientType")
             }
 
-            val avatarURL = data.requireString("sender_avatar_url")
+            val avatarURL = data.require("sender_avatar_url")
             try {
                 URL(avatarURL)
             } catch (e: MalformedURLException) {
@@ -121,14 +121,14 @@ internal data class MessageFcmMessage(
             }
 
             return MessageFcmMessage(
-                email = data.requireString("sender_email"),
-                senderFullName = data.requireString("sender_full_name"),
+                email = data.require("sender_email"),
+                senderFullName = data.require("sender_full_name"),
                 avatarURL = avatarURL,
 
-                zulipMessageId = data.requireIntString("zulip_message_id"),
+                zulipMessageId = data.requireInt("zulip_message_id"),
                 recipient = recipient,
-                content = data.requireString("content"),
-                time = data.requireString("time")
+                content = data.require("content"),
+                time = data.require("time")
             )
         }
     }
@@ -151,11 +151,11 @@ internal data class RemoveFcmMessage(
     }
 }
 
-private fun Map<String, String>.requireString(key: String): String =
+private fun Map<String, String>.require(key: String): String =
     this[key] ?: throw FcmMessageParseException("missing expected field: $key")
 
-private fun Map<String, String>.requireIntString(key: String): Int =
-    parseInt(requireString(key), "invalid format where int expected, at $key")
+private fun Map<String, String>.requireInt(key: String): Int =
+    parseInt(require(key), "invalid format where int expected, at $key")
 
 private fun parseInt(s: String, msg: String): Int = try {
     Integer.parseInt(s)
