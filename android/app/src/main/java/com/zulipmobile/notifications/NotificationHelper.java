@@ -91,13 +91,14 @@ public class NotificationHelper {
     private static String buildKeyString(MessageFcmMessage fcmMessage) {
         final Recipient recipient = fcmMessage.getRecipient();
         if (recipient instanceof Recipient.Stream)
-            return String.format("%s:%s:stream", fcmMessage.getSenderFullName(),
+            return String.format("%s:%s:stream", fcmMessage.getSender().getFullName(),
                     ((Recipient.Stream) recipient).getStream());
         else if (recipient instanceof Recipient.GroupPm) {
-            return String.format("%s:%s:group", fcmMessage.getSenderFullName(),
+            return String.format("%s:%s:group", fcmMessage.getSender().getFullName(),
                     ((Recipient.GroupPm) recipient).getPmUsers());
         } else {
-            return String.format("%s:%s:private", fcmMessage.getSenderFullName(), fcmMessage.getEmail());
+            return String.format("%s:%s:private", fcmMessage.getSender().getFullName(),
+                    fcmMessage.getSender().getEmail());
         }
     }
 

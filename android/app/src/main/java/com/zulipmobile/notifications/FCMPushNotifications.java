@@ -113,8 +113,8 @@ public class FCMPushNotifications {
 
         Recipient recipient = fcmMessage.getRecipient();
         String content = fcmMessage.getContent();
-        String senderFullName = fcmMessage.getSenderFullName();
-        String avatarURL = fcmMessage.getAvatarURL();
+        String senderFullName = fcmMessage.getSender().getFullName();
+        String avatarURL = fcmMessage.getSender().getAvatarURL();
         String time = fcmMessage.getTime();
         int totalMessagesCount = extractTotalMessagesCount(conversations);
 

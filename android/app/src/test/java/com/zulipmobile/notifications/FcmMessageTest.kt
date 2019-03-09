@@ -98,9 +98,12 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
     fun `fields get parsed right in 'message' happy path`() {
         expect.that(parse(Example.stream)).isEqualTo(
             MessageFcmMessage(
-                email = Example.stream["sender_email"]!!,
-                senderFullName = Example.stream["sender_full_name"]!!,
-                avatarURL = Example.stream["sender_avatar_url"]!!,
+                sender = Sender(
+                    id = 123,
+                    email = Example.stream["sender_email"]!!,
+                    avatarURL = Example.stream["sender_avatar_url"]!!,
+                    fullName = Example.stream["sender_full_name"]!!
+                ),
                 zulipMessageId = 12345,
                 recipient = Recipient.Stream(
                     stream = Example.stream["stream"]!!,
@@ -116,6 +119,11 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         expect.that(parse(Example.pm).recipient).isEqualTo(
             Recipient.Pm
         )
+    }
+
+    @Test
+    fun `optional fields missing cause no error`() {
+        expect.that(parse(Example.pm.minus("sender_id")).sender.id).isNull()
     }
 
     @Test

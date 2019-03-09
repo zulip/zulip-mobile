@@ -6,6 +6,16 @@ import java.net.URL
 import java.util.*
 
 /**
+ * Data about the Zulip user that sent a message.
+ */
+internal data class Sender(
+    val id: Int?,
+    val email: String,
+    val avatarURL: String,
+    val fullName: String
+)
+
+/**
  * Data identifying where a Zulip message was sent.
  */
 internal sealed class Recipient {
@@ -61,9 +71,7 @@ internal sealed class FcmMessage {
  * See `FcmMessage` for discussion.
  */
 internal data class MessageFcmMessage(
-    val email: String,
-    val senderFullName: String,
-    val avatarURL: String,
+    val sender: Sender,
 
     val zulipMessageId: Int,
     val recipient: Recipient,
@@ -92,7 +100,7 @@ internal data class MessageFcmMessage(
             }
             is Recipient.Pm -> {
                 bundle.putString("recipient_type", "private")
-                bundle.putString("sender_email", email)
+                bundle.putString("sender_email", sender.email)
             }
         }
         return bundle
@@ -121,9 +129,15 @@ internal data class MessageFcmMessage(
             }
 
             return MessageFcmMessage(
-                email = data.require("sender_email"),
-                senderFullName = data.require("sender_full_name"),
-                avatarURL = avatarURL,
+                sender = Sender(
+                    // sender_id was added in server version 1.8.0
+                    // (released 2018-04-16; commit 1.8.0-rc1~1860).
+                    id = data["sender_id"]?.let { parseInt(it, "invalid int at sender_id") },
+
+                    email = data.require("sender_email"),
+                    avatarURL = avatarURL,
+                    fullName = data.require("sender_full_name")
+                ),
 
                 zulipMessageId = data.requireInt("zulip_message_id"),
                 recipient = recipient,
