@@ -48,27 +48,40 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
     object Example {
         val base = FcmMessageTestBase.Example.base.plus(sequenceOf(
             "event" to "message",
-            "sender_avatar_url" to "https://zulip.example.com/avatar/123.jpeg",
-            "sender_email" to "sender@example.com",
-            "sender_full_name" to "A Sender",
+
             "zulip_message_id" to "12345",
-            "content" to "This is a *message*",
-            "time" to "??? time in some format"
+
+            "sender_id" to "123",
+            "sender_email" to "sender@example.com",
+            "sender_avatar_url" to "https://zulip.example.com/avatar/123.jpeg",
+            "sender_full_name" to "A Sender",
+
+            "time" to "1546300800",  // a Unix seconds-since-epoch
+
+            "user" to "client@example.com",  // this recipient's email address
+            "content" to "This is a message",  // rendered_content, reduced to plain text
+            "content_truncated" to "This is a m…"
         ))
 
         val stream = base.plus(sequenceOf(
             "recipient_type" to "stream",
             "stream" to "denmark",
-            "topic" to "play"
+            "topic" to "play",
+
+            "alert" to "New stream message from A Sender in denmark"
         ))
 
         val groupPm = base.plus(sequenceOf(
             "recipient_type" to "private",
-            "pm_users" to "123,234,345"
+            "pm_users" to "123,234,345",
+
+            "alert" to "New private group message from A Sender"
         ))
 
         val pm = base.plus(sequenceOf(
-            "recipient_type" to "private"
+            "recipient_type" to "private",
+
+            "alert" to "New private message from A Sender"
         ))
     }
 
