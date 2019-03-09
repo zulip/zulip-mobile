@@ -25,6 +25,12 @@ describe('getAutocompleteFilter', () => {
       filter: '',
       lastWordPrefix: '@',
     });
+
+    selection = { start: 4, end: 4 };
+    expect(getAutocompleteFilter('c@abc', selection)).toEqual({
+      filter: '',
+      lastWordPrefix: '',
+    });
   });
 
   test('get respective lastWordPrefix even when keyword is entered in new line', () => {

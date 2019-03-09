@@ -2,6 +2,14 @@
 import type { InputSelectionType } from '../types';
 
 export default (textWhole: string, selection: InputSelectionType) => {
+  /* This regular expression has 3 parts each divided by an or symbol. The first tries to match with : and it can have
+     alphanumeric characters and @ after it. The second part is @, this part only matches @ if there are no words right
+     before it because that would imply that it is an email. This gives a problem for strings such as '@ab' but that is
+     taken care of later. Finally, the 3rd part has # which can have words or spaces or lines after it. The g flag helps
+     iterate through all the matches.
+  */
+  const myReg = /[:][\w\s|@]*|[^\w][@][\w\s]*|[#][\w\s]*$/gm;
+
   const { start, end } = selection;
   let text = textWhole;
   if (start === end && start !== text.length) {
@@ -9,19 +17,38 @@ export default (textWhole: string, selection: InputSelectionType) => {
     text = text.substring(0, start);
   }
 
-  const lastIndex: number = Math.max(
-    text.lastIndexOf(':'),
-    text.lastIndexOf('#'),
-    ['\n', ' ', '#', ':'].includes(text[text.lastIndexOf('@') - 1]) || text.lastIndexOf('@') === 0 // to make sure `@` is not the part of email
-      ? text.lastIndexOf('@')
-      : -1,
-  );
-
-  const lastWordPrefix: string = lastIndex !== -1 ? text[lastIndex] : '';
-  const filter: string =
-    text.length > lastIndex + 1 && !['\n', ' '].includes(text[lastIndex + 1])
-      ? text.substring(lastIndex + 1, text.length)
-      : '';
+  /*
+    arrayofMatches will contain all the matches to the regular expression. Latest match is the last match in the arrayofMatches
+    because that is what we want to autocomplete. Filter will give the part after the sigil(@,:,#) but some have higher 'priority'
+    in a sense. If : is in the first index then choose it as sigil and take everything after it. The way we have defined @ in RegEx
+    things like ' @ab' will result in match being ' @ab' so to remove the part left of @ we check if the second letter is @ and
+    then take that as sigil and everything after it as filter. # works the same way as :.
+  */
+  const arrayOfMatches = text.match(myReg) != null ? text.match(myReg) : null;
+  const latestMatch = arrayOfMatches != null ? arrayOfMatches[arrayOfMatches.length - 1] : null;
+  let sigil = '';
+  let filter = null;
+  if (latestMatch != null) {
+    if (latestMatch[0] === ':') {
+      sigil = ':';
+      filter = latestMatch.substring(1, latestMatch.length);
+    } else if (latestMatch[1] === '@') {
+      sigil = '@';
+      filter = latestMatch.substring(2, latestMatch.length);
+    } else {
+      sigil = '#';
+      filter = latestMatch.substring(1, latestMatch.length);
+    }
+  } else if (text[0] === '@') {
+    // This case is if @ is in the beginning such as '@ab' our RegEx does not catch it because we have made it [^\w]
+    sigil = '@';
+    filter = text.substring(1, text.length);
+  } else {
+    // This is for no matches
+    sigil = '';
+    filter = '';
+  }
+  const lastWordPrefix: string = sigil;
 
   return { lastWordPrefix, filter };
 };
