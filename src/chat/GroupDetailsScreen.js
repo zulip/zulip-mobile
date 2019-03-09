@@ -2,15 +2,22 @@
 import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch } from '../types';
+import type { Dispatch, User } from '../types';
 import { Screen } from '../common';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 
 type Props = {|
-  navigation: Object,
-  dispatch: Dispatch,
+  navigation: NavigationScreenProp<*> & {
+    state: {
+      params: {
+        recipients: User[],
+      },
+    },
+  },
+    dispatch: Dispatch,
 |};
 
 class GroupDetailsScreen extends PureComponent<Props> {
