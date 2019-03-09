@@ -93,7 +93,18 @@ run_android() {
                 && return
             ;;
     esac
-    ( cd android && ./gradlew -q assembleDebug )
+    (
+        cd android
+
+        ./gradlew -q assembleDebug || exit
+
+        # The `-q` suppresses noise from warnings about obsolete build config
+        # in our dependencies from the React Native ecosystem.
+        # But it also suppresses the names of tests that failed.
+        # So on failure, rerun without it.
+        ./gradlew -q testDebugUnitTest \
+            || ./gradlew testDebugUnitTest || exit
+    )
 }
 
 run_lint() {
