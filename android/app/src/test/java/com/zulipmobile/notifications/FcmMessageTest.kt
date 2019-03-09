@@ -26,6 +26,14 @@ open class FcmMessageTestBase {
         expect.that(f).isInstanceOf(FcmMessageParseException::class.java)
         return f as? FcmMessageParseException
     }
+
+    object Example {
+        val base = mapOf(
+            "server" to "zulip.example.cloud",  // corresponds to EXTERNAL_HOST
+            "realm_id" to "4",
+            "realm_uri" to "https://zulip.example.com"  // corresponds to realm.uri
+        )
+    }
 }
 
 class FcmMessageTest : FcmMessageTestBase() {
@@ -38,7 +46,7 @@ class FcmMessageTest : FcmMessageTestBase() {
 
 class MessageFcmMessageTest : FcmMessageTestBase() {
     object Example {
-        val base = mapOf(
+        val base = FcmMessageTestBase.Example.base.plus(sequenceOf(
             "event" to "message",
             "sender_avatar_url" to "https://zulip.example.com/avatar/123.jpeg",
             "sender_email" to "sender@example.com",
@@ -46,7 +54,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
             "zulip_message_id" to "12345",
             "content" to "This is a *message*",
             "time" to "??? time in some format"
-        )
+        ))
 
         val stream = base.plus(sequenceOf(
             "recipient_type" to "stream",
@@ -122,11 +130,14 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
 
 class RemoveFcmMessageTest : FcmMessageTestBase() {
     object Example {
+        val base = FcmMessageTestBase.Example.base.plus(sequenceOf(
+            "event" to "remove"
+        ))
+
         /// The Zulip server before v2.0 sends this form (plus some irrelevant fields).
-        val singular = mapOf(
-            "event" to "remove",
+        val singular = base.plus(sequenceOf(
             "zulip_message_id" to "123"
-        )
+        ))
 
         /// Zulip servers starting at v2.0 (released 2019-02-28; commit 2.0.0~57)
         /// send a hybrid form.  (In practice the singular field has one of the
@@ -134,18 +145,16 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
         ///
         /// We started consuming the batch field in 23.2.111 (released 2019-02-28;
         /// commit 23.2.111~32).
-        val hybrid = mapOf(
-            "event" to "remove",
+        val hybrid = base.plus(sequenceOf(
             "zulip_message_ids" to "234,345",
             "zulip_message_id" to "123"
-        )
+        ))
 
         /// Some future Zulip server (at least v2.1; after clients older than
         /// v23.2.111 are rare) may drop the singular field.
-        val batched = mapOf(
-            "event" to "remove",
+        val batched = base.plus(sequenceOf(
             "zulip_message_ids" to "123,234,345"
-        )
+        ))
     }
 
     @Test
