@@ -31,8 +31,8 @@ export default class AutocompleteView extends PureComponent<Props> {
 
   render() {
     const { isFocused, text, selection } = this.props;
-    const { lastWordPrefix, filter } = getAutocompleteFilter(text, selection);
-    const AutocompleteComponent = prefixToComponent[lastWordPrefix];
+    const { sigil, filter } = getAutocompleteFilter(text, selection);
+    const AutocompleteComponent = prefixToComponent[sigil];
     const shouldShow = isFocused && !!AutocompleteComponent && filter.length > 0;
 
     return (

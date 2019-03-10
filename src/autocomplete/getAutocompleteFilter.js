@@ -26,29 +26,29 @@ export default (textWhole: string, selection: InputSelectionType) => {
   */
   const arrayOfMatches = text.match(myReg) != null ? text.match(myReg) : null;
   const latestMatch = arrayOfMatches != null ? arrayOfMatches[arrayOfMatches.length - 1] : null;
-  let sigil = '';
+  let tempSigil = '';
   let filter = null;
   if (latestMatch != null) {
     if (latestMatch[0] === ':') {
-      sigil = ':';
+      tempSigil = ':';
       filter = latestMatch.substring(1, latestMatch.length);
     } else if (latestMatch[1] === '@') {
-      sigil = '@';
+      tempSigil = '@';
       filter = latestMatch.substring(2, latestMatch.length);
     } else {
-      sigil = '#';
+      tempSigil = '#';
       filter = latestMatch.substring(1, latestMatch.length);
     }
   } else if (text[0] === '@') {
     // This case is if @ is in the beginning such as '@ab' our RegEx does not catch it because we have made it [^\w]
-    sigil = '@';
+    tempSigil = '@';
     filter = text.substring(1, text.length);
   } else {
     // This is for no matches
-    sigil = '';
+    tempSigil = '';
     filter = '';
   }
-  const lastWordPrefix: string = sigil;
+  const sigil: string = tempSigil;
 
-  return { lastWordPrefix, filter };
+  return { sigil, filter };
 };
