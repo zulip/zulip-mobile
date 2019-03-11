@@ -35,7 +35,7 @@ internal data class Identity(
 internal data class Sender(
     val id: Int?,
     val email: String,
-    val avatarURL: String,
+    val avatarURL: URL,
     val fullName: String
 )
 
@@ -163,8 +163,7 @@ internal data class MessageFcmMessage(
                 else -> throw FcmMessageParseException("unexpected recipient_type: $recipientType")
             }
 
-            val avatarURL = data.require("sender_avatar_url")
-            parseUrl(avatarURL, "sender_avatar_url")
+            val avatarURL = data.requireUrl("sender_avatar_url")
 
             return MessageFcmMessage(
                 identity = identity,
@@ -215,6 +214,8 @@ private fun parseInt(s: String, msg: String): Int = try {
 } catch (e: NumberFormatException) {
     throw FcmMessageParseException("$msg: $s")
 }
+
+private fun Map<String, String>.requireUrl(key: String): URL = parseUrl(require(key), key)
 
 private fun parseUrl(s: String, loc: String): URL = try {
     URL(s)

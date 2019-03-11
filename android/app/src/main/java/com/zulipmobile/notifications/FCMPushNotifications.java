@@ -114,7 +114,7 @@ public class FCMPushNotifications {
         Recipient recipient = fcmMessage.getRecipient();
         String content = fcmMessage.getContent();
         String senderFullName = fcmMessage.getSender().getFullName();
-        String avatarURL = fcmMessage.getSender().getAvatarURL();
+        URL avatarURL = fcmMessage.getSender().getAvatarURL();
         String time = fcmMessage.getTime();
         int totalMessagesCount = extractTotalMessagesCount(conversations);
 
@@ -137,12 +137,10 @@ public class FCMPushNotifications {
                 String displayTopic = r.getStream() + " > " + r.getTopic();
                 builder.setSubText("Message on " + displayTopic);
             }
-            if (avatarURL.startsWith("http")) {
-                Bitmap avatar = fetchAvatar(NotificationHelper.sizedURL(context,
-                        avatarURL, 64));
-                if (avatar != null) {
-                    builder.setLargeIcon(avatar);
-                }
+            Bitmap avatar = fetchAvatar(NotificationHelper.sizedURL(context,
+                    avatarURL, 64));
+            if (avatar != null) {
+                builder.setLargeIcon(avatar);
             }
             builder.setStyle(new Notification.BigTextStyle().bigText(content));
         } else {

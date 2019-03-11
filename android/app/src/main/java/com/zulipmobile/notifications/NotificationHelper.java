@@ -44,13 +44,14 @@ public class NotificationHelper {
         return null;
     }
 
-    static URL sizedURL(Context context, String url, float dpSize) {
+    static URL sizedURL(Context context, URL url, float dpSize) {
         // From http://stackoverflow.com/questions/4605527/
         Resources r = context.getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 dpSize, r.getDisplayMetrics());
+        final String query = url.getQuery() != null ? url.getQuery() + "&s=" + px : "s=" + px;
         try {
-            return new URL(url + "&s=" + px);
+            return new URL(url, "?" + query);
         } catch (MalformedURLException e) {
             Log.e(TAG, "ERROR: " + e.toString());
             return null;

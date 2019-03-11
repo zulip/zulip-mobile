@@ -108,7 +108,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
                 sender = Sender(
                     id = 123,
                     email = Example.stream["sender_email"]!!,
-                    avatarURL = Example.stream["sender_avatar_url"]!!,
+                    avatarURL = URL(Example.stream["sender_avatar_url"]!!),
                     fullName = Example.stream["sender_full_name"]!!
                 ),
                 zulipMessageId = 12345,
