@@ -6,6 +6,30 @@ import java.net.URL
 import java.util.*
 
 /**
+ * An identity belonging to this user in some Zulip org/realm.
+ */
+internal data class Identity(
+    /// The server's `EXTERNAL_HOST` setting.  This is a hostname,
+    /// or a colon-separated hostname-plus-port.  For documentation,
+    /// see zulip-server:zproject/prod_settings_template.py .
+    val serverHost: String,
+
+    /// The realm's ID within the server.
+    val realmId: Int,
+
+    /// The realm's own URL/URI.  This is a real, absolute URL which is
+    /// the base for all URLs a client uses with this realm.  It corresponds
+    /// to `realm_uri` in the `server_settings` API response:
+    ///   https://zulipchat.com/api/server-settings
+    val realmUri: URL?,
+
+    /// This user's email address with which they log into this org/realm.
+    /// Useful mainly in the case where the user has multiple accounts in
+    /// the same org.
+    val email: String
+)
+
+/**
  * Data about the Zulip user that sent a message.
  */
 internal data class Sender(
@@ -71,8 +95,8 @@ internal sealed class FcmMessage {
  * See `FcmMessage` for discussion.
  */
 internal data class MessageFcmMessage(
+    val identity: Identity?,
     val sender: Sender,
-
     val zulipMessageId: Int,
     val recipient: Recipient,
     val content: String,
@@ -108,6 +132,24 @@ internal data class MessageFcmMessage(
 
     companion object {
         fun fromFcmData(data: Map<String, String>): MessageFcmMessage {
+            val identity = data["server"]?.let { serverHost ->
+                Identity(
+                    // `server` was added in server version 1.8.0
+                    // (released 2018-04-16; commit 014900c2e).
+                    serverHost = serverHost,
+
+                    // `realm_id` was added in the same commit as `server`.
+                    realmId = data.requireInt("realm_id"),
+
+                    // `realm_uri` was added in server version 1.9.0
+                    // (released 2018-11-06; commit 5f8d193bb).
+                    realmUri = data["realm_uri"]?.let { parseUrl(it, "realm_uri") },
+
+                    // `user` was already present in server version 1.6.0 .
+                    email = data.require("user")
+                )
+            }
+
             val recipientType = data.require("recipient_type")
             val recipient = when (recipientType) {
                 "stream" ->
@@ -125,6 +167,7 @@ internal data class MessageFcmMessage(
             parseUrl(avatarURL, "sender_avatar_url")
 
             return MessageFcmMessage(
+                identity = identity,
                 sender = Sender(
                     // sender_id was added in server version 1.8.0
                     // (released 2018-04-16; commit 014900c2e).

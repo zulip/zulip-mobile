@@ -4,6 +4,7 @@ import com.google.common.truth.Expect
 import org.junit.Rule
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
+import java.net.URL
 
 open class FcmMessageTestBase {
     // This lets a single test method report multiple failures.
@@ -98,6 +99,12 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
     fun `fields get parsed right in 'message' happy path`() {
         expect.that(parse(Example.stream)).isEqualTo(
             MessageFcmMessage(
+                identity = Identity(
+                    serverHost = Example.stream["server"]!!,
+                    realmId = 4,
+                    realmUri = URL(Example.stream["realm_uri"]!!),
+                    email = Example.stream["user"]!!
+                ),
                 sender = Sender(
                     id = 123,
                     email = Example.stream["sender_email"]!!,
@@ -123,11 +130,23 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
 
     @Test
     fun `optional fields missing cause no error`() {
+        expect.that(parse(Example.pm.minus("server")).identity).isNull()
+        expect.that(parse(Example.pm.minus("realm_uri")).identity?.serverHost)
+            .isEqualTo(Example.stream["server"]!!)
+        expect.that(parse(Example.pm.minus("realm_uri")).identity?.realmUri).isNull()
+
         expect.that(parse(Example.pm.minus("sender_id")).sender.id).isNull()
     }
 
     @Test
     fun `parse failures on malformed 'message'`() {
+        assertParseFails(Example.pm.minus("realm_id"))
+        assertParseFails(Example.pm.plus("realm_id" to "12,34"))
+        assertParseFails(Example.pm.plus("realm_id" to "abc"))
+        assertParseFails(Example.pm.plus("realm_uri" to "zulip.example.com"))
+        assertParseFails(Example.pm.plus("realm_uri" to "/examplecorp"))
+        assertParseFails(Example.pm.minus("user"))
+
         assertParseFails(Example.stream.minus("recipient_type"))
         assertParseFails(Example.stream.minus("stream"))
         assertParseFails(Example.stream.minus("topic"))
