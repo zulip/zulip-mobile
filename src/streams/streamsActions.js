@@ -1,13 +1,7 @@
 /* @flow strict-local */
-import type { GetState, Dispatch, Stream, Action } from '../types';
+import type { GetState, Dispatch, Stream } from '../types';
 import { createStream, updateStream, toggleMuteStream, togglePinStream } from '../api';
-import { INIT_STREAMS } from '../actionConstants';
 import { getAuth } from '../selectors';
-
-export const initStreams = (streams: Stream[]): Action => ({
-  type: INIT_STREAMS,
-  streams,
-});
 
 export const createNewStream = (
   name: string,

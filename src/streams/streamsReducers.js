@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { EventTypes } from '../api/eventTypes';
 import type { Action, StreamsState } from '../types';
-import { INIT_STREAMS, ACCOUNT_SWITCH, EVENT, REALM_INIT } from '../actionConstants';
+import { ACCOUNT_SWITCH, EVENT, REALM_INIT } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
 
@@ -14,9 +14,6 @@ export default (state: StreamsState = initialState, action: Action): StreamsStat
 
     case ACCOUNT_SWITCH:
       return initialState;
-
-    case INIT_STREAMS:
-      return action.streams;
 
     case EVENT: {
       const { event } = action;

@@ -5,7 +5,6 @@ import {
   ACCOUNT_SWITCH,
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
-  INIT_STREAMS,
 } from '../actionConstants';
 
 const initialState: LoadingState = {
@@ -27,9 +26,6 @@ export default (state: LoadingState = initialState, action: Action): LoadingStat
 
     case INITIAL_FETCH_COMPLETE:
       return { ...state, presence: false, subscriptions: false, unread: false, users: false };
-
-    case INIT_STREAMS:
-      return { ...state, streams: false };
 
     default:
       return state;

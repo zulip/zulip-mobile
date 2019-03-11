@@ -51,7 +51,6 @@ import {
   EVENT_USER_ADD,
   CLEAR_TYPING,
   EVENT_ALERT_WORDS,
-  INIT_STREAMS,
   INIT_TOPICS,
   EVENT_MUTED_TOPICS,
   EVENT_REALM_FILTERS,
@@ -79,7 +78,6 @@ import type {
   UserGroup,
   InitialData,
   RealmFilter,
-  Stream,
   Subscription,
   Topic,
   PresenceState,
@@ -564,11 +562,6 @@ type ClearTypingAction = {|
   outdatedNotifications: string[],
 |};
 
-type InitStreamsAction = {|
-  type: typeof INIT_STREAMS,
-  streams: Stream[],
-|};
-
 type InitTopicsAction = {|
   type: typeof INIT_TOPICS,
   topics: Topic[],
@@ -620,6 +613,5 @@ export type Action =
   | DraftUpdateAction
   | PresenceResponseAction
   | SettingsChangeAction
-  | InitStreamsAction
   | InitTopicsAction
   | ClearTypingAction;
