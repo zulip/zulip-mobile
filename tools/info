@@ -31,6 +31,7 @@ files_changed() {
 
 case "$1" in
     upstream-ref) upstream_ref; exit;;
+    base-commit) shift; base_commit "$@"; exit;;
     '' | changed-files) shift; files_changed "$@"; exit;;
     *) exit 1;;
 esac

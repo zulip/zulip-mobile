@@ -85,7 +85,7 @@ run_android() {
         full)
             ;;
         branch)
-            git diff --quiet "$(tools/info upstream-ref)" android/ \
+            git diff --quiet "$(tools/info base-commit)" android/ \
                 && return
             ;;
         diff:*)
