@@ -122,11 +122,7 @@ internal data class MessageFcmMessage(
             }
 
             val avatarURL = data.require("sender_avatar_url")
-            try {
-                URL(avatarURL)
-            } catch (e: MalformedURLException) {
-                throw FcmMessageParseException("invalid sender_avatar_url: $avatarURL")
-            }
+            parseUrl(avatarURL, "sender_avatar_url")
 
             return MessageFcmMessage(
                 sender = Sender(
@@ -175,6 +171,12 @@ private fun parseInt(s: String, msg: String): Int = try {
     Integer.parseInt(s)
 } catch (e: NumberFormatException) {
     throw FcmMessageParseException("$msg: $s")
+}
+
+private fun parseUrl(s: String, loc: String): URL = try {
+    URL(s)
+} catch (e: MalformedURLException) {
+    throw FcmMessageParseException("invalid URL at $loc: $s")
 }
 
 class FcmMessageParseException(errorMessage: String) : RuntimeException(errorMessage)
