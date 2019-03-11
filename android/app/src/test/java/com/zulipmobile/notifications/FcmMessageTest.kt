@@ -160,12 +160,12 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
             "zulip_message_id" to "123"
         ))
 
-        /// Zulip servers starting at v2.0 (released 2019-02-28; commit 2.0.0~57)
+        /// Zulip servers starting at v2.0 (released 2019-02-28; commit 9869153ae)
         /// send a hybrid form.  (In practice the singular field has one of the
         /// same IDs found in the batch.)
         ///
         /// We started consuming the batch field in 23.2.111 (released 2019-02-28;
-        /// commit 23.2.111~32).
+        /// commit 4acd07376).
         val hybrid = base.plus(sequenceOf(
             "zulip_message_ids" to "234,345",
             "zulip_message_id" to "123"

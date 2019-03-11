@@ -131,7 +131,7 @@ internal data class MessageFcmMessage(
             return MessageFcmMessage(
                 sender = Sender(
                     // sender_id was added in server version 1.8.0
-                    // (released 2018-04-16; commit 1.8.0-rc1~1860).
+                    // (released 2018-04-16; commit 014900c2e).
                     id = data["sender_id"]?.let { parseInt(it, "invalid int at sender_id") },
 
                     email = data.require("sender_email"),
