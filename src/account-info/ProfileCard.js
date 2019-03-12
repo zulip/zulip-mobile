@@ -30,7 +30,7 @@ type Props = {|
 
 /**
  * This is similar to `AccountDetails` but used to show the current users account.
- * It does not have a 'Send private message` but has `Switch` and `Logout` buttons.
+ * It does not have a "Send private message" but has "Switch account" and "Log out" buttons.
  *
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
  */

@@ -27,7 +27,7 @@ class LogoutButton extends PureComponent<Props> {
   };
   render() {
     return (
-      <ZulipButton style={styles.logoutButton} secondary text="Logout" onPress={this.logout} />
+      <ZulipButton style={styles.logoutButton} secondary text="Log out" onPress={this.logout} />
     );
   }
 }
