@@ -93,6 +93,33 @@ next person with a setup like yours.
 
 ## Troubleshooting
 
+### `yarn install` failure, at `fsevents`
+
+When running `yarn install` on initial setup, if you see an error like
+this:
+```
+warning Error running install script for optional dependency: "[...]/zulip-mobile/node_modules/fsevents: Command failed.
+Exit code: 1
+Command: node install
+Arguments:
+Directory: [...]/zulip-mobile/node_modules/fsevents
+Output:
+[... lots of output ...]
+
+../../nan/nan_maybe_43_inl.h:112:15: error: no member named 'ForceSet' in 'v8::Object'
+ return obj->ForceSet(isolate->GetCurrentContext(), key, value, attribs);
+        ~~~  ^  return obj->ForceSet(isolate->GetCurrentContext(), key, value, attribs);
+
+[... lots more output ...]
+node-pre-gyp ERR! not ok
+Failed to execute [...]
+```
+then this is a known error caused by using Node 11, which one of our
+dependencies (`fsevents`) isn't yet compatible with.
+
+To fix the problem, use Node 10.x instead.
+
+
 ### Bundling failure: Unable to resolve module ...
 
 When running the app, you might see in the output of the Metro bundler
