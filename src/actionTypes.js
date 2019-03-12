@@ -91,6 +91,7 @@ import type {
   CaughtUpState,
   MuteState,
   AlertWordsState,
+  UserAvatarSource,
   UserStatusEvent,
 } from './types';
 
@@ -405,10 +406,39 @@ type EventUserRemoveAction = {|
   // the type before going and adding those other properties here properly.
 |};
 
+/** Sent when editing a custom profile field */
+type UserUpdatePayloadCustomProfileField = {|
+  custom_profile_field: {
+    id: number,
+    rendered_value: string,
+    value: string,
+  },
+|};
+
+/** Sent when editing full name */
+type UserUpdatePayloadName = {|
+  email: string,
+  full_name: string,
+|};
+
+/** Sent when changing user's avatar */
+type UserUpdatePayloadAvatar = {|
+  avatar_source: UserAvatarSource,
+  avatar_url: string,
+  avatar_url_medium: string,
+  email: string,
+|};
+
+/** Contains only one of the possible payloads */
+export type UserUpdatePayload = {|
+  user_id: number,
+  ...UserUpdatePayloadName | UserUpdatePayloadAvatar | UserUpdatePayloadCustomProfileField,
+|};
+
 type EventUserUpdateAction = {|
   type: typeof EVENT_USER_UPDATE,
-  // In reality there's more -- but this will prevent accidentally using
-  // the type before going and adding those other properties here properly.
+  op: 'update',
+  person: UserUpdatePayload,
 |};
 
 type EventMutedTopicsAction = {|
