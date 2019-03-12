@@ -13,8 +13,6 @@ import messages from '../i18n/messages';
 
 import '../i18n/locale';
 
-/* eslint-disable react/no-multi-comp */
-
 // $FlowFixMe could put a well-typed mock value here, to help write tests
 export const TranslationContext = React.createContext(undefined);
 
