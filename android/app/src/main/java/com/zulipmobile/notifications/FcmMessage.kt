@@ -195,8 +195,10 @@ internal data class RemoveFcmMessage(
             data["zulip_message_id"]?.let {
                 messageIds.add(it.parseInt("zulip_message_id"))
             }
-            for (idStr in data["zulip_message_ids"]?.split(",") ?: emptyList()) {
-                messageIds.add(idStr.parseInt("zulip_message_ids"))
+            data["zulip_message_ids"]?.let {
+                for (id in it.parseCommaSeparatedInts("zulip_message_ids")) {
+                    messageIds.add(id)
+                }
             }
             return RemoveFcmMessage(messageIds)
         }
@@ -223,5 +225,8 @@ private fun String.parseUrl(loc: String): URL = try {
 } catch (e: MalformedURLException) {
     throw FcmMessageParseException("invalid URL at $loc: $this")
 }
+
+private fun String.parseCommaSeparatedInts(loc: String): Sequence<Int> =
+    splitToSequence(",").map { it.parseInt(loc) }
 
 class FcmMessageParseException(errorMessage: String) : RuntimeException(errorMessage)
