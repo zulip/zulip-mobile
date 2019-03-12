@@ -100,7 +100,7 @@ internal data class MessageFcmMessage(
     val zulipMessageId: Int,
     val recipient: Recipient,
     val content: String,
-    val time: String
+    val timeMs: Long
 ) : FcmMessage() {
 
     /**
@@ -180,7 +180,7 @@ internal data class MessageFcmMessage(
                 zulipMessageId = data.requireInt("zulip_message_id"),
                 recipient = recipient,
                 content = data.require("content"),
-                time = data.require("time")
+                timeMs = data.requireLong("time") * 1000
             )
         }
     }
@@ -213,6 +213,14 @@ private fun parseInt(s: String, msg: String): Int = try {
     Integer.parseInt(s)
 } catch (e: NumberFormatException) {
     throw FcmMessageParseException("$msg: $s")
+}
+
+private fun Map<String, String>.requireLong(key: String): Long = parseLong(require(key), key)
+
+private fun parseLong(s: String, loc: String): Long = try {
+    s.toLong()
+} catch (e: NumberFormatException) {
+    throw FcmMessageParseException("invalid long at $loc: $s")
 }
 
 private fun Map<String, String>.requireUrl(key: String): URL = parseUrl(require(key), key)

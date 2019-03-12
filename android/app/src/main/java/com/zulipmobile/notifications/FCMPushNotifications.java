@@ -115,7 +115,7 @@ public class FCMPushNotifications {
         String content = fcmMessage.getContent();
         String senderFullName = fcmMessage.getSender().getFullName();
         URL avatarURL = fcmMessage.getSender().getAvatarURL();
-        String time = fcmMessage.getTime();
+        Long timeMs = fcmMessage.getTimeMs();
         int totalMessagesCount = extractTotalMessagesCount(conversations);
 
         if (BuildConfig.DEBUG) {
@@ -159,8 +159,7 @@ public class FCMPushNotifications {
             Log.e(TAG, "BADGE ERROR: " + e.toString());
         }
 
-        long timeMillis = Long.parseLong(time) * 1000;
-        builder.setWhen(timeMillis);
+        builder.setWhen(timeMs);
         long[] vPattern = {0, 100, 200, 100};
         // NB the DEFAULT_VIBRATE flag below causes this to have no effect.
         // TODO: choose a vibration pattern we like, and unset DEFAULT_VIBRATE.

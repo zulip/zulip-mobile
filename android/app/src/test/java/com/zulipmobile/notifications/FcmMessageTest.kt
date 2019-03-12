@@ -117,7 +117,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
                     topic = Example.stream["topic"]!!
                 ),
                 content = Example.stream["content"]!!,
-                time = Example.stream["time"]!!
+                timeMs = Example.stream["time"]!!.toLong() * 1000
             )
         )
         expect.that(parse(Example.groupPm).recipient).isEqualTo(
@@ -165,6 +165,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.pm.plus("zulip_message_id" to "abc"))
         assertParseFails(Example.pm.minus("content"))
         assertParseFails(Example.pm.minus("time"))
+        assertParseFails(Example.pm.plus("time" to "12:34"))
     }
 }
 
