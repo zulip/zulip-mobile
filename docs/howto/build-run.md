@@ -16,8 +16,8 @@ use the WSL `bash` command line.)
 
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/en/download/package-manager/), latest 8.x
-  (LTS) version
+* [Node.js](https://nodejs.org/en/download/package-manager/),
+  latest 10.x (LTS) version
 * [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
 
 Then, run the commands below in your terminal:
