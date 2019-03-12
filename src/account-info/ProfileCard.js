@@ -6,11 +6,14 @@ import { connect } from 'react-redux';
 import type { Dispatch, GlobalState, User } from '../types';
 import { getSelfUserDetail } from '../selectors';
 import { ZulipButton } from '../common';
-import { navigateToUserStatus } from '../actions';
+import {
+  logout,
+  tryStopNotifications,
+  navigateToAccountPicker,
+  navigateToUserStatus,
+} from '../actions';
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
-import SwitchAccountButton from './SwitchAccountButton';
-import LogoutButton from './LogoutButton';
 
 const styles = StyleSheet.create({
   accountButtons: {
@@ -19,6 +22,10 @@ const styles = StyleSheet.create({
   },
   setStatusButton: {
     marginHorizontal: 16,
+  },
+  button: {
+    flex: 1,
+    margin: 8,
   },
 });
 
@@ -37,6 +44,30 @@ class SetStatusButton extends PureComponent<{| dispatch: Dispatch |}> {
         onPress={this.onPress}
       />
     );
+  }
+}
+
+class SwitchAccountButton extends PureComponent<{| dispatch: Dispatch |}> {
+  onPress = () => {
+    this.props.dispatch(navigateToAccountPicker());
+  };
+
+  render() {
+    return (
+      <ZulipButton style={styles.button} secondary text="Switch account" onPress={this.onPress} />
+    );
+  }
+}
+
+class LogoutButton extends PureComponent<{| dispatch: Dispatch |}> {
+  onPress = () => {
+    const { dispatch } = this.props;
+    dispatch(tryStopNotifications());
+    dispatch(logout());
+  };
+
+  render() {
+    return <ZulipButton style={styles.button} secondary text="Log out" onPress={this.onPress} />;
   }
 }
 
@@ -61,8 +92,8 @@ class ProfileCard extends PureComponent<Props> {
         <AwayStatusSwitch />
         <SetStatusButton dispatch={this.props.dispatch} />
         <View style={styles.accountButtons}>
-          <SwitchAccountButton />
-          <LogoutButton />
+          <SwitchAccountButton dispatch={this.props.dispatch} />
+          <LogoutButton dispatch={this.props.dispatch} />
         </View>
       </ScrollView>
     );
