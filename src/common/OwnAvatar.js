@@ -22,7 +22,7 @@ class OwnAvatar extends PureComponent<Props> {
   render() {
     const { user, size, realm } = this.props;
     const fullAvatarUrl = getAvatarFromUser(user, realm);
-    return <UserAvatar avatarUrl={fullAvatarUrl} size={size} shape="circle" />;
+    return <UserAvatar avatarUrl={fullAvatarUrl} size={size} />;
   }
 }
 

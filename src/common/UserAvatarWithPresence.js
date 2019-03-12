@@ -23,7 +23,7 @@ type Props = {|
   email: string,
   size: number,
   realm: string,
-  shape: 'square' | 'rounded' | 'circle',
+  shape: 'rounded' | 'square',
   onPress?: () => void,
 |};
 
@@ -34,7 +34,7 @@ type Props = {|
  * @prop [email] - User's' email address, to calculate Gravatar URL if not given `avatarUrl`.
  * @prop [size] - Sets width and height in pixels.
  * @prop [realm] - Current realm url, used if avatarUrl is relative.
- * @prop [shape] - One of 'square', 'rounded', 'circle'.
+ * @prop [shape] - 'rounded' (default) means a square with rounded corners.
  * @prop [onPress] - Event fired on pressing the component.
  */
 class UserAvatarWithPresence extends PureComponent<Props> {

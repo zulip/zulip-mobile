@@ -44,7 +44,6 @@ class AccountDetails extends PureComponent<Props, void> {
             <UserAvatar
               avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)}
               size={AVATAR_SIZE}
-              shape="circle"
             />
           </View>
           <View style={componentStyles.statusWrapper}>

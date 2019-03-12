@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 type Props = {
   names: string,
   size: number,
-  shape: string,
+  shape: 'rounded' | 'square',
   children?: React$Node,
   onPress?: () => void,
 };
@@ -32,7 +32,7 @@ type Props = {
  *
  * @prop names - The name of one or more users, used to extract their initials.
  * @prop size - Sets width and height in pixels.
- * @prop shape - One of 'square', 'rounded', 'circle'.
+ * @prop [shape]
  * @prop children - If provided, will render inside the component body.
  * @prop onPress - Event fired on pressing the component.
  */
@@ -47,8 +47,7 @@ export default class GroupAvatar extends PureComponent<Props> {
     const frameSize = {
       height: size,
       width: size,
-      borderRadius:
-        shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0,
+      borderRadius: shape === 'rounded' ? size / 8 : 0,
       backgroundColor: colorHashFromString(names),
     };
     const textSize = {

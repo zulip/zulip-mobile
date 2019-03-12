@@ -8,7 +8,7 @@ import Touchable from './Touchable';
 type Props = {
   avatarUrl: string,
   size: number,
-  shape: string,
+  shape: 'rounded' | 'square',
   children?: React$Node,
   onPress?: () => void,
 };
@@ -18,7 +18,7 @@ type Props = {
  *
  * @prop avatarUrl - Absolute or relative url to an avatar image.
  * @prop size - Sets width and height in pixels.
- * @prop shape - One of 'square', 'rounded', 'circle'.
+ * @prop [shape] - 'rounded' (default) means a square with rounded corners.
  * @prop [children] - If provided, will render inside the component body.
  * @prop [onPress] - Event fired on pressing the component.
  */
@@ -29,8 +29,7 @@ export default class UserAvatar extends PureComponent<Props> {
 
   render() {
     const { avatarUrl, children, size, shape, onPress } = this.props;
-    const borderRadius =
-      shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0;
+    const borderRadius = shape === 'rounded' ? size / 8 : 0;
     const style = {
       height: size,
       width: size,
