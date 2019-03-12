@@ -143,7 +143,7 @@ internal data class MessageFcmMessage(
 
                     // `realm_uri` was added in server version 1.9.0
                     // (released 2018-11-06; commit 5f8d193bb).
-                    realmUri = data["realm_uri"]?.let { parseUrl(it, "realm_uri") },
+                    realmUri = data["realm_uri"]?.parseUrl("realm_uri"),
 
                     // `user` was already present in server version 1.6.0 .
                     email = data.require("user")
@@ -170,7 +170,7 @@ internal data class MessageFcmMessage(
                 sender = Sender(
                     // sender_id was added in server version 1.8.0
                     // (released 2018-04-16; commit 014900c2e).
-                    id = data["sender_id"]?.let { parseInt(it, "sender_id") },
+                    id = data["sender_id"]?.parseInt("sender_id"),
 
                     email = data.require("sender_email"),
                     avatarURL = avatarURL,
@@ -193,10 +193,10 @@ internal data class RemoveFcmMessage(
         fun fromFcmData(data: Map<String, String>): RemoveFcmMessage {
             val messageIds = HashSet<Int>()
             data["zulip_message_id"]?.let {
-                messageIds.add(parseInt(it, "zulip_message_id"))
+                messageIds.add(it.parseInt("zulip_message_id"))
             }
             for (idStr in data["zulip_message_ids"]?.split(",") ?: emptyList()) {
-                messageIds.add(parseInt(idStr, "zulip_message_ids"))
+                messageIds.add(idStr.parseInt("zulip_message_ids"))
             }
             return RemoveFcmMessage(messageIds)
         }
@@ -206,28 +206,28 @@ internal data class RemoveFcmMessage(
 private fun Map<String, String>.require(key: String): String =
     this[key] ?: throw FcmMessageParseException("missing expected field: $key")
 
-private fun Map<String, String>.requireInt(key: String): Int = parseInt(require(key), key)
+private fun Map<String, String>.requireInt(key: String): Int = require(key).parseInt(key)
 
-private fun parseInt(s: String, loc: String): Int = try {
-    Integer.parseInt(s)
+private fun String.parseInt(loc: String): Int = try {
+    Integer.parseInt(this)
 } catch (e: NumberFormatException) {
-    throw FcmMessageParseException("invalid int at $loc: $s")
+    throw FcmMessageParseException("invalid int at $loc: $this")
 }
 
-private fun Map<String, String>.requireLong(key: String): Long = parseLong(require(key), key)
+private fun Map<String, String>.requireLong(key: String): Long = require(key).parseLong(key)
 
-private fun parseLong(s: String, loc: String): Long = try {
-    s.toLong()
+private fun String.parseLong(loc: String): Long = try {
+    toLong()
 } catch (e: NumberFormatException) {
-    throw FcmMessageParseException("invalid long at $loc: $s")
+    throw FcmMessageParseException("invalid long at $loc: $this")
 }
 
-private fun Map<String, String>.requireUrl(key: String): URL = parseUrl(require(key), key)
+private fun Map<String, String>.requireUrl(key: String): URL = require(key).parseUrl(key)
 
-private fun parseUrl(s: String, loc: String): URL = try {
-    URL(s)
+private fun String.parseUrl(loc: String): URL = try {
+    URL(this)
 } catch (e: MalformedURLException) {
-    throw FcmMessageParseException("invalid URL at $loc: $s")
+    throw FcmMessageParseException("invalid URL at $loc: $this")
 }
 
 class FcmMessageParseException(errorMessage: String) : RuntimeException(errorMessage)
