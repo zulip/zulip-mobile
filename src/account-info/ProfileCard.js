@@ -16,12 +16,9 @@ import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
 
 const styles = StyleSheet.create({
-  accountButtons: {
+  buttonRow: {
     flexDirection: 'row',
     marginHorizontal: 8,
-  },
-  setStatusButton: {
-    marginHorizontal: 16,
   },
   button: {
     flex: 1,
@@ -37,12 +34,7 @@ class SetStatusButton extends PureComponent<{| dispatch: Dispatch |}> {
 
   render() {
     return (
-      <ZulipButton
-        style={styles.setStatusButton}
-        secondary
-        text="Set a status"
-        onPress={this.onPress}
-      />
+      <ZulipButton style={styles.button} secondary text="Set a status" onPress={this.onPress} />
     );
   }
 }
@@ -90,8 +82,10 @@ class ProfileCard extends PureComponent<Props> {
       <ScrollView>
         <AccountDetails user={selfUserDetail} />
         <AwayStatusSwitch />
-        <SetStatusButton dispatch={this.props.dispatch} />
-        <View style={styles.accountButtons}>
+        <View style={styles.buttonRow}>
+          <SetStatusButton dispatch={this.props.dispatch} />
+        </View>
+        <View style={styles.buttonRow}>
           <SwitchAccountButton dispatch={this.props.dispatch} />
           <LogoutButton dispatch={this.props.dispatch} />
         </View>
