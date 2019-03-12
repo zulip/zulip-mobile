@@ -170,7 +170,7 @@ internal data class MessageFcmMessage(
                 sender = Sender(
                     // sender_id was added in server version 1.8.0
                     // (released 2018-04-16; commit 014900c2e).
-                    id = data["sender_id"]?.let { parseInt(it, "invalid int at sender_id") },
+                    id = data["sender_id"]?.let { parseInt(it, "sender_id") },
 
                     email = data.require("sender_email"),
                     avatarURL = avatarURL,
@@ -193,10 +193,10 @@ internal data class RemoveFcmMessage(
         fun fromFcmData(data: Map<String, String>): RemoveFcmMessage {
             val messageIds = HashSet<Int>()
             data["zulip_message_id"]?.let {
-                messageIds.add(parseInt(it, "malformed message ID"))
+                messageIds.add(parseInt(it, "zulip_message_id"))
             }
             for (idStr in data["zulip_message_ids"]?.split(",") ?: emptyList()) {
-                messageIds.add(parseInt(idStr, "malformed message ID"))
+                messageIds.add(parseInt(idStr, "zulip_message_ids"))
             }
             return RemoveFcmMessage(messageIds)
         }
@@ -206,13 +206,12 @@ internal data class RemoveFcmMessage(
 private fun Map<String, String>.require(key: String): String =
     this[key] ?: throw FcmMessageParseException("missing expected field: $key")
 
-private fun Map<String, String>.requireInt(key: String): Int =
-    parseInt(require(key), "invalid format where int expected, at $key")
+private fun Map<String, String>.requireInt(key: String): Int = parseInt(require(key), key)
 
-private fun parseInt(s: String, msg: String): Int = try {
+private fun parseInt(s: String, loc: String): Int = try {
     Integer.parseInt(s)
 } catch (e: NumberFormatException) {
-    throw FcmMessageParseException("$msg: $s")
+    throw FcmMessageParseException("invalid int at $loc: $s")
 }
 
 private fun Map<String, String>.requireLong(key: String): Long = parseLong(require(key), key)
