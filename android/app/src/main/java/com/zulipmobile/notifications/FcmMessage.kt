@@ -49,10 +49,11 @@ internal sealed class Recipient {
     /**
      * A group PM.
      *
-     * pmUsers: the user IDs of all users in the conversation, sorted,
-     *     in ASCII decimal, comma-separated.
+     * pmUsers: the user IDs of all users in the conversation.
      */
-    data class GroupPm(val pmUsers: String) : Recipient()
+    data class GroupPm(val pmUsers: Set<Int>) : Recipient() {
+        fun getPmUsersString() = pmUsers.sorted().joinToString { toString() }
+    }
 
     /** A stream message. */
     data class Stream(val stream: String, val topic: String) : Recipient()
@@ -120,7 +121,7 @@ internal data class MessageFcmMessage(
             }
             is Recipient.GroupPm -> {
                 bundle.putString("recipient_type", "private")
-                bundle.putString("pm_users", recipient.pmUsers)
+                bundle.putString("pm_users", recipient.getPmUsersString())
             }
             is Recipient.Pm -> {
                 bundle.putString("recipient_type", "private")
@@ -157,8 +158,8 @@ internal data class MessageFcmMessage(
                         data.require("stream"),
                         data.require("topic"))
                 "private" ->
-                    data["pm_users"]?.let {
-                        Recipient.GroupPm(it)
+                    data["pm_users"]?.parseCommaSeparatedInts("pm_users")?.let {
+                        Recipient.GroupPm(it.toSet())
                     } ?: Recipient.Pm
                 else -> throw FcmMessageParseException("unexpected recipient_type: $recipientType")
             }

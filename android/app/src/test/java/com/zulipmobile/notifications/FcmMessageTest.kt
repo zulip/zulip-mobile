@@ -121,7 +121,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
             )
         )
         expect.that(parse(Example.groupPm).recipient).isEqualTo(
-            Recipient.GroupPm(pmUsers = Example.groupPm["pm_users"]!!)
+            Recipient.GroupPm(pmUsers = setOf(123, 234, 345))
         )
         expect.that(parse(Example.pm).recipient).isEqualTo(
             Recipient.Pm
@@ -151,6 +151,9 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.stream.minus("stream"))
         assertParseFails(Example.stream.minus("topic"))
         assertParseFails(Example.groupPm.minus("recipient_type"))
+        assertParseFails(Example.groupPm.plus("pm_users" to "abc,34"))
+        assertParseFails(Example.groupPm.plus("pm_users" to "12,abc"))
+        assertParseFails(Example.groupPm.plus("pm_users" to "12,"))
         assertParseFails(Example.pm.minus("recipient_type"))
         assertParseFails(Example.pm.plus("recipient_type" to "nonsense"))
 

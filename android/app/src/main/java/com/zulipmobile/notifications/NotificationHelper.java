@@ -96,7 +96,7 @@ public class NotificationHelper {
                     ((Recipient.Stream) recipient).getStream());
         else if (recipient instanceof Recipient.GroupPm) {
             return String.format("%s:%s:group", fcmMessage.getSender().getFullName(),
-                    ((Recipient.GroupPm) recipient).getPmUsers());
+                    ((Recipient.GroupPm) recipient).getPmUsersString());
         } else {
             return String.format("%s:%s:private", fcmMessage.getSender().getFullName(),
                     fcmMessage.getSender().getEmail());
