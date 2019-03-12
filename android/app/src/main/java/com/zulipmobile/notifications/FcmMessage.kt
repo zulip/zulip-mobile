@@ -192,13 +192,11 @@ internal data class RemoveFcmMessage(
     companion object {
         fun fromFcmData(data: Map<String, String>): RemoveFcmMessage {
             val messageIds = HashSet<Int>()
-            data["zulip_message_id"]?.let {
-                messageIds.add(it.parseInt("zulip_message_id"))
+            data["zulip_message_id"]?.parseInt("zulip_message_id")?.let {
+                messageIds.add(it)
             }
-            data["zulip_message_ids"]?.let {
-                for (id in it.parseCommaSeparatedInts("zulip_message_ids")) {
-                    messageIds.add(id)
-                }
+            data["zulip_message_ids"]?.parseCommaSeparatedInts("zulip_message_ids")?.let {
+                messageIds.addAll(it)
             }
             return RemoveFcmMessage(messageIds)
         }
