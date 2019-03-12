@@ -55,7 +55,7 @@
     "react-intl": "^2.4.0",
     "react-native": "0.57.8",
     "react-native-device-info": "^0.21.5",
-    "rn-fetch-blob": "^0.10.13",
+    "rn-fetch-blob": "^0.10.15",
     "react-native-image-picker": "^0.26.10",
     "react-native-notifications": "^1.2.0",
     "react-native-orientation": "^3.1.3",
