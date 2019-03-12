@@ -22,6 +22,24 @@ const styles = StyleSheet.create({
   },
 });
 
+class SetStatusButton extends PureComponent<{| dispatch: Dispatch |}> {
+  onPress = () => {
+    const { dispatch } = this.props;
+    dispatch(navigateToUserStatus());
+  };
+
+  render() {
+    return (
+      <ZulipButton
+        style={styles.setStatusButton}
+        secondary
+        text="Set a status"
+        onPress={this.onPress}
+      />
+    );
+  }
+}
+
 type Props = {|
   dispatch: Dispatch,
   selfUserDetail: User,
@@ -34,11 +52,6 @@ type Props = {|
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
  */
 class ProfileCard extends PureComponent<Props> {
-  handleSetUserStatus = () => {
-    const { dispatch } = this.props;
-    dispatch(navigateToUserStatus());
-  };
-
   render() {
     const { selfUserDetail } = this.props;
 
@@ -46,12 +59,7 @@ class ProfileCard extends PureComponent<Props> {
       <ScrollView>
         <AccountDetails user={selfUserDetail} />
         <AwayStatusSwitch />
-        <ZulipButton
-          style={styles.setStatusButton}
-          secondary
-          text="Set a status"
-          onPress={this.handleSetUserStatus}
-        />
+        <SetStatusButton dispatch={this.props.dispatch} />
         <View style={styles.accountButtons}>
           <SwitchAccountButton />
           <LogoutButton />
