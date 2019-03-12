@@ -139,7 +139,7 @@ internal data class MessageFcmMessage(
                     serverHost = serverHost,
 
                     // `realm_id` was added in the same commit as `server`.
-                    realmId = data.requireInt("realm_id"),
+                    realmId = data.require("realm_id").parseInt("realm_id"),
 
                     // `realm_uri` was added in server version 1.9.0
                     // (released 2018-11-06; commit 5f8d193bb).
@@ -163,7 +163,7 @@ internal data class MessageFcmMessage(
                 else -> throw FcmMessageParseException("unexpected recipient_type: $recipientType")
             }
 
-            val avatarURL = data.requireUrl("sender_avatar_url")
+            val avatarURL = data.require("sender_avatar_url").parseUrl("sender_avatar_url")
 
             return MessageFcmMessage(
                 identity = identity,
@@ -177,10 +177,10 @@ internal data class MessageFcmMessage(
                     fullName = data.require("sender_full_name")
                 ),
 
-                zulipMessageId = data.requireInt("zulip_message_id"),
+                zulipMessageId = data.require("zulip_message_id").parseInt("zulip_message_id"),
                 recipient = recipient,
                 content = data.require("content"),
-                timeMs = data.requireLong("time") * 1000
+                timeMs = data.require("time").parseLong("time") * 1000
             )
         }
     }
@@ -206,23 +206,17 @@ internal data class RemoveFcmMessage(
 private fun Map<String, String>.require(key: String): String =
     this[key] ?: throw FcmMessageParseException("missing expected field: $key")
 
-private fun Map<String, String>.requireInt(key: String): Int = require(key).parseInt(key)
-
 private fun String.parseInt(loc: String): Int = try {
     Integer.parseInt(this)
 } catch (e: NumberFormatException) {
     throw FcmMessageParseException("invalid int at $loc: $this")
 }
 
-private fun Map<String, String>.requireLong(key: String): Long = require(key).parseLong(key)
-
 private fun String.parseLong(loc: String): Long = try {
     toLong()
 } catch (e: NumberFormatException) {
     throw FcmMessageParseException("invalid long at $loc: $this")
 }
-
-private fun Map<String, String>.requireUrl(key: String): URL = require(key).parseUrl(key)
 
 private fun String.parseUrl(loc: String): URL = try {
     URL(this)
