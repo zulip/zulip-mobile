@@ -14,7 +14,6 @@ import LogoutButton from './LogoutButton';
 
 const styles = StyleSheet.create({
   accountButtons: {
-    alignItems: 'flex-end',
     flexDirection: 'row',
     marginHorizontal: 8,
   },
