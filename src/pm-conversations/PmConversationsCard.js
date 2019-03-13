@@ -11,7 +11,7 @@ import PmConversationList from './PmConversationList';
 import { getLoading, getRecentConversations, getAllUsersByEmail } from '../selectors';
 import { navigateToCreateGroup, navigateToUsersScreen } from '../actions';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -56,12 +56,12 @@ class PmConversationsCard extends PureComponent<Props> {
     }
 
     return (
-      <View style={[componentStyles.container, contextStyles.background]}>
-        <View style={componentStyles.row}>
+      <View style={[styles.container, contextStyles.background]}>
+        <View style={styles.row}>
           <ZulipButton
             secondary
             Icon={IconPeople}
-            style={componentStyles.button}
+            style={styles.button}
             text="Create group"
             onPress={() => {
               setTimeout(() => dispatch(navigateToCreateGroup()));
@@ -70,7 +70,7 @@ class PmConversationsCard extends PureComponent<Props> {
           <ZulipButton
             secondary
             Icon={IconSearch}
-            style={componentStyles.button}
+            style={styles.button}
             text="Search"
             onPress={() => {
               setTimeout(() => dispatch(navigateToUsersScreen()));
@@ -78,7 +78,7 @@ class PmConversationsCard extends PureComponent<Props> {
           />
         </View>
         {conversations.length === 0 ? (
-          <Label style={componentStyles.emptySlate} text="No recent conversations" />
+          <Label style={styles.emptySlate} text="No recent conversations" />
         ) : (
           <PmConversationList
             dispatch={dispatch}

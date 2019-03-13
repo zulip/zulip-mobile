@@ -11,7 +11,7 @@ import { privateNarrow } from '../utils/narrow';
 import AccountDetails from './AccountDetails';
 import { doNarrow } from '../actions';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   pmButton: {
     marginHorizontal: 16,
   },
@@ -42,7 +42,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
       <Screen title={title}>
         <AccountDetails user={user} />
         <ZulipButton
-          style={componentStyles.pmButton}
+          style={styles.pmButton}
           text="Send private message"
           onPress={this.handleChatPress}
           Icon={IconPrivateChat}

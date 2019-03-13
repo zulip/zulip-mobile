@@ -6,7 +6,7 @@ import { RawLabel, Touchable } from '../common';
 import { BRAND_COLOR } from '../styles';
 import { IconDone } from '../common/Icons';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   languageWrapper: {
     flex: 1,
     flexDirection: 'column',
@@ -39,10 +39,10 @@ export default class LanguagePickerItem extends PureComponent<Props> {
 
     return (
       <Touchable onPress={() => onValueChange(locale)}>
-        <View style={componentStyles.listItem}>
-          <View style={componentStyles.languageWrapper}>
+        <View style={styles.listItem}>
+          <View style={styles.languageWrapper}>
             <RawLabel text={nativeName} />
-            <RawLabel text={name} style={componentStyles.name} />
+            <RawLabel text={name} style={styles.name} />
           </View>
           <View>{selected && <IconDone size={16} color={BRAND_COLOR} />}</View>
         </View>

@@ -19,7 +19,7 @@ type Props = {|
   },
 |};
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   /** A workaround for #3089, by letting us put Chat (with MessageList) first. */
   reverse: {
     flexDirection: 'column-reverse',
@@ -39,7 +39,7 @@ export default class ChatScreen extends PureComponent<Props> {
 
     return (
       <ActionSheetProvider>
-        <View style={[contextStyles.screen, componentStyles.reverse]}>
+        <View style={[contextStyles.screen, styles.reverse]}>
           <Chat narrow={narrow} />
           <OfflineNotice />
           <ChatNavBar narrow={narrow} />

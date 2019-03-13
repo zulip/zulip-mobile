@@ -12,7 +12,7 @@ import AwayStatusSwitch from './AwayStatusSwitch';
 import SwitchAccountButton from './SwitchAccountButton';
 import LogoutButton from './LogoutButton';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   accountButtons: {
     alignItems: 'flex-end',
     flexDirection: 'row',
@@ -48,12 +48,12 @@ class ProfileCard extends PureComponent<Props> {
         <AccountDetails user={selfUserDetail} />
         <AwayStatusSwitch />
         <ZulipButton
-          style={componentStyles.setStatusButton}
+          style={styles.setStatusButton}
           secondary
           text="Set a status"
           onPress={this.handleSetUserStatus}
         />
-        <View style={componentStyles.accountButtons}>
+        <View style={styles.accountButtons}>
           <SwitchAccountButton />
           <LogoutButton />
         </View>

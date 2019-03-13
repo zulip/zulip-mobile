@@ -6,7 +6,7 @@ import type { Context, Style } from '../types';
 import { autocompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
 import RawLabel from './RawLabel';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     opacity: 0.8,
@@ -76,11 +76,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   renderPlaceholderPart = (text: string) => (
     <TouchableWithoutFeedback onPress={this.urlPress}>
       <RawLabel
-        style={[
-          componentStyles.realmInput,
-          this.context.styles.color,
-          componentStyles.realmPlaceholder,
-        ]}
+        style={[styles.realmInput, this.context.styles.color, styles.realmPlaceholder]}
         text={text}
       />
     </TouchableWithoutFeedback>
@@ -105,13 +101,13 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
     }
 
     return (
-      <View style={[componentStyles.wrapper, style]}>
+      <View style={[styles.wrapper, style]}>
         {!hasProtocol(value) && this.renderPlaceholderPart(protocol)}
         <TextInput
           style={[
-            componentStyles.realmInput,
+            styles.realmInput,
             contextStyles.color,
-            value.length === 0 && componentStyles.realmInputEmpty,
+            value.length === 0 && styles.realmInputEmpty,
           ]}
           autoFocus
           autoCorrect={false}

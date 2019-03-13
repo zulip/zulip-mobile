@@ -22,7 +22,7 @@ import {
   navigateToLegal,
 } from '../actions';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
   },
@@ -43,7 +43,7 @@ class SettingsCard extends PureComponent<Props> {
     const { theme, dispatch } = this.props;
 
     return (
-      <ScrollView style={componentStyles.optionWrapper}>
+      <ScrollView style={styles.optionWrapper}>
         <OptionRow
           Icon={IconNight}
           label="Night mode"

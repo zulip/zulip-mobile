@@ -10,7 +10,7 @@ import UserAvatar from './UserAvatar';
 import { getAvatarUrl } from '../utils/avatar';
 import PresenceStatusIndicator from './PresenceStatusIndicator';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   status: {
     bottom: 0,
     right: 0,
@@ -52,7 +52,7 @@ class UserAvatarWithPresence extends PureComponent<Props> {
 
     return (
       <UserAvatar avatarUrl={fullAvatarUrl} size={size} onPress={onPress} shape={shape}>
-        <PresenceStatusIndicator style={componentStyles.status} email={email} hideIfOffline />
+        <PresenceStatusIndicator style={styles.status} email={email} hideIfOffline />
       </UserAvatar>
     );
   }

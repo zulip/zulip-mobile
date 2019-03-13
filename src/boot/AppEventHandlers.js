@@ -18,7 +18,7 @@ import {
   reportPresence,
 } from '../actions';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     flexDirection: 'column',
@@ -84,7 +84,7 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 
   render() {
-    return <View style={componentStyles.wrapper}>{this.props.children}</View>;
+    return <View style={styles.wrapper}>{this.props.children}</View>;
   }
 }
 

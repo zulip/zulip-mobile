@@ -6,7 +6,7 @@ import { shortTime, humanDate } from '../utils/date';
 import { UserAvatarWithPresence, Touchable } from '../common';
 import { Icon } from '../common/Icons';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   text: {
     flex: 1,
     justifyContent: 'space-between',
@@ -52,18 +52,18 @@ export default class LightboxHeader extends PureComponent<Props> {
     const subheader = `${displayDate} at ${time}`;
 
     return (
-      <View style={componentStyles.wrapper}>
+      <View style={styles.wrapper}>
         <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} />
-        <View style={componentStyles.text}>
-          <Text style={componentStyles.name} numberOfLines={1}>
+        <View style={styles.text}>
+          <Text style={styles.name} numberOfLines={1}>
             {senderName}
           </Text>
-          <Text style={componentStyles.subheader} numberOfLines={1}>
+          <Text style={styles.subheader} numberOfLines={1}>
             {subheader}
           </Text>
         </View>
         <Touchable onPress={onPressBack}>
-          <Icon style={componentStyles.rightIcon} color="white" name="x" />
+          <Icon style={styles.rightIcon} color="white" name="x" />
         </Touchable>
       </View>
     );

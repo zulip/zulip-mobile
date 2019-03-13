@@ -19,7 +19,7 @@ import { getPartialAuth } from '../selectors';
 import { isValidEmailFormat } from '../utils/misc';
 import { loginSuccess } from '../actions';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   linksTouchable: {
     alignItems: 'flex-end',
   },
@@ -119,7 +119,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
           onPress={this.validateForm}
         />
         <ErrorMsg error={error} />
-        <View style={componentStyles.linksTouchable}>
+        <View style={styles.linksTouchable}>
           <WebLink label="Forgot password?" href="/accounts/password/reset/" />
         </View>
       </Screen>
