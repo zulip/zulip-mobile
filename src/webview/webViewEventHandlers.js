@@ -79,6 +79,7 @@ type MessageListEventLongPress = {|
   type: 'longPress',
   target: 'message' | 'header',
   messageId: number,
+  href: string,
 |};
 
 type MessageListEventDebug = {|
@@ -150,7 +151,13 @@ const handleImage = (props: Props, src: string, messageId: number) => {
   }
 };
 
-const handleLongPress = (props: Props, _: GetText, isHeader: boolean, messageId: number) => {
+const handleLongPress = (
+  props: Props,
+  _: GetText,
+  isHeader: boolean,
+  messageId: number,
+  href: string,
+) => {
   const message = props.messages.find(x => x.id === messageId);
   if (!message) {
     return;
@@ -160,6 +167,7 @@ const handleLongPress = (props: Props, _: GetText, isHeader: boolean, messageId:
     backgroundData,
     message,
     narrow,
+    href,
   });
 };
 
@@ -187,7 +195,7 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
       break;
 
     case 'longPress':
-      handleLongPress(props, _, event.target === 'header', event.messageId);
+      handleLongPress(props, _, event.target === 'header', event.messageId, event.href);
       break;
 
     case 'url':

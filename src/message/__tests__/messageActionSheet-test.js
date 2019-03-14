@@ -48,6 +48,35 @@ describe('constructActionButtons', () => {
 
     expect(buttons).toContain('unstarMessage');
   });
+
+  test('show copy link option if long pressed on link', () => {
+    const message = deepFreeze({
+      id: 1,
+    });
+
+    const buttons = constructMessageActionButtons({
+      backgroundData: { auth, flags },
+      message,
+      narrow,
+      href: 'https://zulipchat.com',
+    });
+
+    expect(buttons).toContain('copyLinkToClipboard');
+  });
+
+  test('show copy message option if long pressed on a text', () => {
+    const message = deepFreeze({
+      id: 1,
+    });
+
+    const buttons = constructMessageActionButtons({
+      backgroundData: { auth, flags },
+      message,
+      narrow,
+    });
+
+    expect(buttons).toContain('copyToClipboard');
+  });
 });
 
 describe('constructHeaderActionButtons', () => {

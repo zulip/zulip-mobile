@@ -17,6 +17,7 @@ type ButtonDescription = {
     message: Message,
     subscriptions: Subscription[],
     dispatch: Dispatch,
+    href: string,
     _: GetText,
   }): void | Promise<void>,
   title: string,
@@ -41,6 +42,12 @@ const copyToClipboard = async ({ _, auth, message }) => {
   showToast(_('Message copied'));
 };
 copyToClipboard.title = 'Copy to clipboard';
+
+const copyLinkToClipboard = async ({ _, href }) => {
+  Clipboard.setString(href);
+  showToast(_('Link copied'));
+};
+copyLinkToClipboard.title = 'Copy link to clipboard';
 
 const editMessage = async ({ message, dispatch }) => {
   dispatch(startEditMessage(message.id, message.subject));
@@ -112,6 +119,7 @@ const allButtonsRaw = {
   addReaction,
   reply,
   copyToClipboard,
+  copyLinkToClipboard,
   shareMessage,
   editMessage,
   deleteMessage,
@@ -140,6 +148,7 @@ type ConstructSheetParams = {|
   backgroundData: BackgroundData,
   message: Message,
   narrow: Narrow,
+  href: string,
 |};
 
 export const constructHeaderActionButtons = ({
@@ -170,6 +179,7 @@ export const constructMessageActionButtons = ({
   backgroundData: { auth, flags },
   message,
   narrow,
+  href,
 }: ConstructSheetParams): ButtonCode[] => {
   const buttons = [];
   if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
@@ -179,7 +189,11 @@ export const constructMessageActionButtons = ({
     buttons.push('reply');
   }
   if (messageNotDeleted(message)) {
-    buttons.push('copyToClipboard');
+    if (href) {
+      buttons.push('copyLinkToClipboard');
+    } else {
+      buttons.push('copyToClipboard');
+    }
     buttons.push('shareMessage');
   }
   if (

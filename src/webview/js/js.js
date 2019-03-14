@@ -646,6 +646,7 @@ const handleLongPress = (target: Element) => {
     type: 'longPress',
     target: target.matches('.header') ? 'header' : 'message',
     messageId: getMessageIdFromNode(target),
+    href: target.matches('a') ? target.getAttribute('href') : '',
   });
 };
 

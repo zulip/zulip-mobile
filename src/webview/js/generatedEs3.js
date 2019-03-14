@@ -484,7 +484,8 @@ var handleLongPress = function handleLongPress(target) {
   sendMessage({
     type: 'longPress',
     target: target.matches('.header') ? 'header' : 'message',
-    messageId: getMessageIdFromNode(target)
+    messageId: getMessageIdFromNode(target),
+    href: target.matches('a') ? target.getAttribute('href') : ''
   });
 };
 
