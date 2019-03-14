@@ -14,6 +14,7 @@ import {
   doNarrow,
   navigateToLightbox,
   messageLinkPress,
+  replyQuoteMessage,
 } from '../actions';
 import { showActionSheet } from '../message/messageActionSheet';
 
@@ -81,6 +82,12 @@ type MessageListEventLongPress = {|
   messageId: number,
 |};
 
+type MessageListEventDoubleTap = {|
+  type: 'doubleTap',
+  target: 'message',
+  messageId: number,
+|};
+
 type MessageListEventDebug = {|
   type: 'debug',
 |};
@@ -105,6 +112,7 @@ export type MessageListEvent =
   | MessageListEventReaction
   | MessageListEventUrl
   | MessageListEventLongPress
+  | MessageListEventDoubleTap
   | MessageListEventDebug
   | MessageListEventError;
 
@@ -163,6 +171,15 @@ const handleLongPress = (props: Props, _: GetText, isHeader: boolean, messageId:
   });
 };
 
+const handleDoubleTap = (props: Props, _: GetText, messageId: number) => {
+  const message = props.messages.find(x => x.id === messageId);
+  if (!message) {
+    return;
+  }
+
+  props.dispatch(replyQuoteMessage(message.id, message.subject));
+};
+
 export const handleMessageListEvent = (props: Props, _: GetText, event: MessageListEvent) => {
   switch (event.type) {
     case 'ready':
@@ -188,6 +205,10 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
 
     case 'longPress':
       handleLongPress(props, _, event.target === 'header', event.messageId);
+      break;
+
+    case 'doubleTap':
+      handleDoubleTap(props, _, event.messageId);
       break;
 
     case 'url':

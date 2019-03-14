@@ -9,6 +9,7 @@ import {
   INIT_SAFE_AREA_INSETS,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
+  REPLY_QUOTE_MESSAGE,
 } from '../actionConstants';
 import { getMessageContentById } from '../api';
 import { getAuth } from '../selectors';
@@ -53,6 +54,20 @@ export const startEditMessage = (messageId: number, topic: string) => async (
 export const cancelEditMessage = (): Action => ({
   type: CANCEL_EDIT_MESSAGE,
 });
+
+export const replyQuoteMessage = (messageId: number, topic: string) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  const { raw_content } = await getMessageContentById(getAuth(getState()), messageId);
+
+  dispatch({
+    type: REPLY_QUOTE_MESSAGE,
+    messageId,
+    message: `\`\`\`quote\n${raw_content}\n\`\`\`\n`,
+    topic,
+  });
+};
 
 export const debugFlagToggle = (key: string, value: boolean): Action => ({
   type: DEBUG_FLAG_TOGGLE,

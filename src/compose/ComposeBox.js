@@ -9,6 +9,7 @@ import type {
   Context,
   Narrow,
   EditMessage,
+  ReplyQuoteMessage,
   InputSelectionType,
   User,
   Dispatch,
@@ -57,6 +58,7 @@ type Props = {|
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
   editMessage: EditMessage,
+  replyQuoteMessage: ReplyQuoteMessage,
   safeAreaInsets: Dimensions,
   dispatch: Dispatch,
 |};
@@ -258,6 +260,15 @@ class ComposeBox extends PureComponent<Props, State> {
       if (this.messageInput) {
         this.messageInput.focus();
       }
+    } else if (
+      nextProps.replyQuoteMessage
+      && nextProps.replyQuoteMessage !== this.props.replyQuoteMessage
+    ) {
+      this.setMessageInputValue(nextProps.replyQuoteMessage.content);
+      this.setTopicInputValue(nextProps.replyQuoteMessage.topic);
+      if (this.messageInput) {
+        this.messageInput.focus();
+      }
     }
   }
 
@@ -313,6 +324,7 @@ class ComposeBox extends PureComponent<Props, State> {
       narrow,
       usersByEmail,
       editMessage,
+      replyQuoteMessage,
       safeAreaInsets,
       isAdmin,
       isAnnouncementOnly,
@@ -407,6 +419,7 @@ export default connect((state: GlobalState, props) => ({
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
   isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
   editMessage: getSession(state).editMessage,
+  replyQuoteMessage: getSession(state).replyQuoteMessage,
   draft: getDraftForNarrow(props.narrow)(state),
   lastMessageTopic: getLastMessageTopic(props.narrow)(state),
 }))(ComposeBox);

@@ -85,6 +85,12 @@ export type EditMessage = {|
   topic: string,
 |};
 
+export type ReplyQuoteMessage = {|
+  id: number,
+  content: string,
+  topic: string,
+|};
+
 export type Debug = {|
   highlightUnreadMessages: boolean,
   doNotMarkMessagesAsRead: boolean,

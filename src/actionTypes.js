@@ -10,6 +10,7 @@ import {
   APP_ORIENTATION,
   START_EDIT_MESSAGE,
   CANCEL_EDIT_MESSAGE,
+  REPLY_QUOTE_MESSAGE,
   DEBUG_FLAG_TOGGLE,
   ACCOUNT_SWITCH,
   REALM_ADD,
@@ -148,6 +149,13 @@ type StartEditMessageAction = {|
 
 type CancelEditMessageAction = {|
   type: typeof CANCEL_EDIT_MESSAGE,
+|};
+
+type ReplyQuoteMessageAction = {|
+  type: typeof REPLY_QUOTE_MESSAGE,
+  messageId: number,
+  message: string,
+  topic: string,
 |};
 
 type DebugFlagToggleAction = {|
@@ -627,6 +635,7 @@ type SessionAction =
   | GotPushTokenAction
   | StartEditMessageAction
   | CancelEditMessageAction
+  | ReplyQuoteMessageAction
   | DebugFlagToggleAction
   | ToggleOutboxSendingAction;
 

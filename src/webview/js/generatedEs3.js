@@ -227,6 +227,7 @@ var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
 };
 
 var scrollEventsDisabled = true;
+var lastTouchEndEventTimestamp = 0;
 var lastTouchEventTimestamp = 0;
 var lastTouchPositionX = -1;
 var lastTouchPositionY = -1;
@@ -488,6 +489,21 @@ var handleLongPress = function handleLongPress(target) {
   });
 };
 
+var handleDoubleTap = function handleDoubleTap(target) {
+  if (Date.now() - lastTouchEndEventTimestamp > 500) {
+    lastTouchEndEventTimestamp = Date.now();
+    return;
+  }
+
+  lastTouchEndEventTimestamp = 0;
+  lastTouchEventTimestamp = 0;
+  sendMessage({
+    type: 'doubleTap',
+    target: 'message',
+    messageId: getMessageIdFromNode(target)
+  });
+};
+
 documentBody.addEventListener('touchstart', function (e) {
   var target = e.target;
 
@@ -512,7 +528,13 @@ var isNearPositions = function isNearPositions() {
 };
 
 documentBody.addEventListener('touchend', function (e) {
+  var target = e.target;
+
   if (isNearPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
+    if (target instanceof Element) {
+      handleDoubleTap(target);
+    }
+
     lastTouchEventTimestamp = Date.now();
   }
 });

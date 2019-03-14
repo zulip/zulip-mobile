@@ -349,6 +349,7 @@ const sendScrollMessageIfListShort = () => {
  */
 let scrollEventsDisabled = true;
 
+let lastTouchEndEventTimestamp = 0;
 let lastTouchEventTimestamp = 0;
 let lastTouchPositionX = -1;
 let lastTouchPositionY = -1;
@@ -649,6 +650,21 @@ const handleLongPress = (target: Element) => {
   });
 };
 
+const handleDoubleTap = (target: Element) => {
+  if (Date.now() - lastTouchEndEventTimestamp > 500) {
+    lastTouchEndEventTimestamp = Date.now();
+    return;
+  }
+
+  lastTouchEndEventTimestamp = 0;
+  lastTouchEventTimestamp = 0;
+  sendMessage({
+    type: 'doubleTap',
+    target: 'message',
+    messageId: getMessageIdFromNode(target),
+  });
+};
+
 documentBody.addEventListener('touchstart', (e: TouchEvent) => {
   const { target } = e;
   if (e.changedTouches[0].pageX < 20 || !(target instanceof Element)) {
@@ -665,6 +681,7 @@ const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: num
   Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
 documentBody.addEventListener('touchend', (e: TouchEvent) => {
+  const { target } = e;
   if (
     isNearPositions(
       lastTouchPositionX,
@@ -673,6 +690,9 @@ documentBody.addEventListener('touchend', (e: TouchEvent) => {
       e.changedTouches[0].pageY,
     )
   ) {
+    if (target instanceof Element) {
+      handleDoubleTap(target);
+    }
     lastTouchEventTimestamp = Date.now();
   }
 });
