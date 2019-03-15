@@ -12,6 +12,7 @@ import {
   filterUserMatchesEmail,
   getUniqueUsers,
   groupUsersByStatus,
+  updateUser,
 } from '../userHelpers';
 
 describe('filterUserList', () => {
@@ -354,5 +355,92 @@ describe('getUniqueUsers', () => {
       { full_name: 'app', email: 'own@example.com' },
     ];
     expect(getUniqueUsers(users)).toEqual(expectedUsers);
+  });
+});
+
+describe('updateUser', () => {
+  test('updates full name if that is the form of the payload', () => {
+    const initialValue = {
+      user_id: 1,
+      full_name: 'Some Guy',
+    };
+    const person = {
+      user_id: 1,
+      full_name: 'New Name',
+    };
+    const expectedValue = {
+      user_id: 1,
+      full_name: 'New Name',
+    };
+
+    const updatedValue = updateUser(initialValue, person);
+
+    expect(updatedValue).toEqual(expectedValue);
+  });
+
+  test('updating avatar using only the `avatar_url` value', () => {
+    const initialValue = {
+      user_id: 1,
+      full_name: 'Some Guy',
+      avatar_url: 'https://example.com/avatar.png',
+    };
+    const person = {
+      user_id: 1,
+      avatar_source: 'G',
+      avatar_url: 'https://example.com/new-avatar.png',
+      avatar_url_medium: 'https://example.com/new-avatar-medium.png',
+    };
+    const expectedValue = {
+      user_id: 1,
+      full_name: 'Some Guy',
+      avatar_url: 'https://example.com/new-avatar.png',
+    };
+
+    const updatedValue = updateUser(initialValue, person);
+
+    expect(updatedValue).toEqual(expectedValue);
+  });
+
+  test('updating custom profile field', () => {
+    const initialValue = {
+      user_id: 1,
+      full_name: 'Some Guy',
+      profile_data: {
+        1: {
+          value: 'CA',
+          rendered_value: null,
+        },
+        2: {
+          value: 'Blue',
+          rendered_value: null,
+        },
+      },
+    };
+    const person = {
+      user_id: 1,
+      custom_profile_field: {
+        id: 2,
+        value: 'Red',
+        rendered_value: null,
+      },
+    };
+    const expectedValue = {
+      user_id: 1,
+      full_name: 'Some Guy',
+      profile_data: {
+        1: {
+          value: 'CA',
+          rendered_value: null,
+        },
+        2: {
+          value: 'Red',
+          rendered_value: null,
+        },
+      },
+    };
+
+    const updatedValue = updateUser(initialValue, person);
+
+    expect(updatedValue).toEqual(expectedValue);
   });
 });

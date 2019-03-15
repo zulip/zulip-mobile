@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import uniqby from 'lodash.uniqby';
 
-import type { UserPresence, User, UserGroup, PresenceState } from '../types';
+import type { UserPresence, User, UserGroup, UserUpdatePayload, PresenceState } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
@@ -124,3 +124,34 @@ export const getAutocompleteUserGroupSuggestions = (
       userGroup.name.toLowerCase().includes(filter.toLowerCase())
       || userGroup.description.toLowerCase().includes(filter.toLowerCase()),
   );
+
+export const updateUser = (oldValue: User, updateData: UserUpdatePayload): User => {
+  if (updateData.full_name !== undefined) {
+    // update full name
+    return {
+      ...oldValue,
+      full_name: updateData.full_name,
+    };
+  } else if (updateData.avatar_url !== undefined) {
+    // update avatar
+    return {
+      ...oldValue,
+      avatar_url: updateData.avatar_url,
+    };
+  } else if (updateData.custom_profile_field) {
+    // update a profile field
+    return {
+      ...oldValue,
+      profile_data: {
+        ...oldValue.profile_data,
+        [updateData.custom_profile_field.id]: {
+          value: updateData.custom_profile_field.value,
+          rendered_value: updateData.custom_profile_field.rendered_value,
+        },
+      },
+    };
+  }
+
+  // unsupported/unrecognized update, do nothing
+  return oldValue;
+};
