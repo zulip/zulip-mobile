@@ -1,6 +1,6 @@
 package com.zulipmobile.notifications;
 
-class MessageInfo {
+public class MessageInfo {
     private String content;
     private int messageId;
 

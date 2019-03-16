@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.facebook.react.ReactApplication;
 
 import com.zulipmobile.MainApplication;
-import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 
 import static android.content.Intent.ACTION_VIEW;
 import static com.zulipmobile.notifications.FCMPushNotifications.ACTION_CLEAR;

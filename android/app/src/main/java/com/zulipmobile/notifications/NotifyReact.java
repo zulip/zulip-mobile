@@ -77,7 +77,7 @@ class NotifyReact {
         //   as we only have one activity; but if we add more, it will destroy
         //   all the activities on top of the target one.
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                      | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 }

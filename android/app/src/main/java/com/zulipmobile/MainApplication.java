@@ -19,8 +19,8 @@ import io.sentry.RNSentryPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.zulipmobile.notifications.ConversationMap;
 import com.zulipmobile.notifications.FCMPushNotifications;
-import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 import com.zulipmobile.notifications.NotificationsPackage;
 
 public class MainApplication extends Application implements ReactApplication {

@@ -23,7 +23,6 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 
 import com.zulipmobile.BuildConfig;
 import com.zulipmobile.R;
-import com.zulipmobile.notifications.NotificationHelper.*;
 
 import static com.zulipmobile.notifications.NotificationHelper.*;
 
@@ -116,7 +115,7 @@ public class FCMPushNotifications {
         String senderFullName = fcmMessage.getSender().getFullName();
         URL avatarURL = fcmMessage.getSender().getAvatarURL();
         Long timeMs = fcmMessage.getTimeMs();
-        int totalMessagesCount = extractTotalMessagesCount(conversations);
+        int totalMessagesCount = NotificationHelper.extractTotalMessagesCount(conversations);
 
         if (BuildConfig.DEBUG) {
             builder.setSmallIcon(R.mipmap.ic_launcher);
@@ -146,7 +145,7 @@ public class FCMPushNotifications {
         } else {
             String conversationTitle = String.format(Locale.ENGLISH, "%d messages in %d conversations", totalMessagesCount, conversations.size());
             builder.setContentTitle(conversationTitle);
-            builder.setContentText("Messages from " + TextUtils.join(",", extractNames(conversations)));
+            builder.setContentText("Messages from " + TextUtils.join(",", NotificationHelper.extractNames(conversations)));
             Notification.InboxStyle inboxStyle = new Notification.InboxStyle(builder);
             inboxStyle.setSummaryText(String.format(Locale.ENGLISH, "%d conversations", conversations.size()));
             buildNotificationContent(conversations, inboxStyle, context);

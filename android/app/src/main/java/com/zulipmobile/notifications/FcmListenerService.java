@@ -5,7 +5,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import com.zulipmobile.MainApplication;
-import com.zulipmobile.notifications.NotificationHelper.ConversationMap;
 
 public class FcmListenerService extends FirebaseMessagingService {
     @Override
