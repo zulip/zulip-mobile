@@ -51,6 +51,9 @@ class AccountDetails extends PureComponent<Props, void> {
             <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
             <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
           </View>
+          <View style={componentStyles.statusWrapper}>
+            <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.full_name} />
+          </View>
           {userStatusText !== undefined && (
             <RawLabel
               style={[styles.largerText, componentStyles.statusText]}
