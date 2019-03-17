@@ -15,14 +15,14 @@ import TitlePlain from './TitlePlain';
 
 type Props = {|
   narrow: Narrow,
-  editMessage: Message,
+  refMessage: Message,
   color: string,
 |};
 
 class Title extends PureComponent<Props> {
   render() {
-    const { narrow, color, editMessage } = this.props;
-    if (editMessage != null) {
+    const { narrow, color, refMessage } = this.props;
+    if (refMessage != null && refMessage.type === 'edit') {
       return <TitlePlain text="Edit message" color={color} />;
     }
     return caseNarrow(narrow, {
@@ -40,5 +40,5 @@ class Title extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  editMessage: getSession(state).editMessage,
+  refMessage: getSession(state).refMessage,
 }))(Title);

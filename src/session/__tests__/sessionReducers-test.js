@@ -29,7 +29,7 @@ describe('sessionReducers', () => {
         twentyFourHourTime: false,
         pushToken: {},
         emoji: {},
-        editMessage: null,
+        refMessage: null,
       });
 
       const action = deepFreeze({
@@ -42,9 +42,10 @@ describe('sessionReducers', () => {
         twentyFourHourTime: false,
         pushToken: {},
         emoji: {},
-        editMessage: {
+        refMessage: {
           id: 12,
           content: 'test',
+          type: 'edit',
         },
       };
 
@@ -60,7 +61,7 @@ describe('sessionReducers', () => {
         twentyFourHourTime: false,
         pushToken: {},
         emoji: {},
-        editMessage: {
+        refMessage: {
           id: 12,
           content: 'test',
         },
@@ -74,9 +75,10 @@ describe('sessionReducers', () => {
         twentyFourHourTime: false,
         pushToken: {},
         emoji: {},
-        editMessage: {
+        refMessage: {
           content: undefined,
           id: undefined,
+          type: 'edit',
         },
       };
 

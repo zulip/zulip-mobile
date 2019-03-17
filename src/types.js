@@ -79,13 +79,8 @@ export type AggregatedReaction = {|
   type: string,
 |};
 
-export type EditMessage = {|
-  id: number,
-  content: string,
-  topic: string,
-|};
-
-export type ReplyQuoteMessage = {|
+export type RefMessage = {|
+  type: 'edit' | 'replyQuote',
   id: number,
   content: string,
   topic: string,

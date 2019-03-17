@@ -8,8 +8,7 @@ import type {
   Auth,
   Context,
   Narrow,
-  EditMessage,
-  ReplyQuoteMessage,
+  RefMessage,
   InputSelectionType,
   User,
   Dispatch,
@@ -57,8 +56,7 @@ type Props = {|
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
-  editMessage: EditMessage,
-  replyQuoteMessage: ReplyQuoteMessage,
+  refMessage: RefMessage,
   safeAreaInsets: Dimensions,
   dispatch: Dispatch,
 |};
@@ -124,8 +122,8 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   getCanSelectTopic = () => {
-    const { editMessage, narrow } = this.props;
-    if (editMessage) {
+    const { refMessage, narrow } = this.props;
+    if (refMessage) {
       return isStreamOrTopicNarrow(narrow);
     }
     if (!isStreamNarrow(narrow)) {
@@ -236,12 +234,12 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleEdit = () => {
-    const { auth, editMessage, dispatch } = this.props;
+    const { auth, refMessage, dispatch } = this.props;
     const { message, topic } = this.state;
-    const content = editMessage.content !== message ? message : undefined;
-    const subject = topic !== editMessage.topic ? topic : undefined;
+    const content = refMessage.content !== message ? message : undefined;
+    const subject = topic !== refMessage.topic ? topic : undefined;
     if ((content !== undefined && content !== '') || (subject !== undefined && subject !== '')) {
-      updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
+      updateMessage(auth, { content, subject }, refMessage.id).catch(error => {
         showErrorAlert(error.message, 'Failed to edit message');
       });
     }
@@ -249,23 +247,13 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.editMessage !== this.props.editMessage) {
+    if (nextProps.refMessage !== this.props.refMessage) {
       const topic =
-        isStreamNarrow(nextProps.narrow) && nextProps.editMessage
-          ? nextProps.editMessage.topic
-          : '';
-      const message = nextProps.editMessage ? nextProps.editMessage.content : '';
+        isStreamNarrow(nextProps.narrow) && nextProps.refMessage ? nextProps.refMessage.topic : '';
+      const message = nextProps.refMessage ? nextProps.refMessage.content : '';
+
       this.setMessageInputValue(message);
       this.setTopicInputValue(topic);
-      if (this.messageInput) {
-        this.messageInput.focus();
-      }
-    } else if (
-      nextProps.replyQuoteMessage
-      && nextProps.replyQuoteMessage !== this.props.replyQuoteMessage
-    ) {
-      this.setMessageInputValue(nextProps.replyQuoteMessage.content);
-      this.setTopicInputValue(nextProps.replyQuoteMessage.topic);
       if (this.messageInput) {
         this.messageInput.focus();
       }
@@ -323,8 +311,7 @@ class ComposeBox extends PureComponent<Props, State> {
       auth,
       narrow,
       usersByEmail,
-      editMessage,
-      replyQuoteMessage,
+      refMessage,
       safeAreaInsets,
       isAdmin,
       isAnnouncementOnly,
@@ -400,10 +387,14 @@ class ComposeBox extends PureComponent<Props, State> {
           </View>
           <FloatingActionButton
             style={this.styles.composeSendButton}
-            Icon={editMessage === null ? IconSend : IconDone}
+            Icon={refMessage === null || refMessage.type === 'replyQuote' ? IconSend : IconDone}
             size={32}
             disabled={message.trim().length === 0}
-            onPress={editMessage === null ? this.handleSend : this.handleEdit}
+            onPress={
+              refMessage === null || refMessage.type === 'replyQuote'
+                ? this.handleSend
+                : this.handleEdit
+            }
           />
         </View>
       </View>
@@ -418,8 +409,7 @@ export default connect((state: GlobalState, props) => ({
   isAdmin: getIsAdmin(state),
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
   isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
-  editMessage: getSession(state).editMessage,
-  replyQuoteMessage: getSession(state).replyQuoteMessage,
+  refMessage: getSession(state).refMessage,
   draft: getDraftForNarrow(props.narrow)(state),
   lastMessageTopic: getLastMessageTopic(props.narrow)(state),
 }))(ComposeBox);

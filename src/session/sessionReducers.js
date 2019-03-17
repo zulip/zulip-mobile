@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Debug, Dimensions, EditMessage, Narrow, Orientation, ReplyQuoteMessage, Action } from '../types';
+import type { Debug, Dimensions, Narrow, Orientation, RefMessage, Action } from '../types';
 import {
   REHYDRATE,
   DEAD_QUEUE,
@@ -31,8 +31,7 @@ import { hasAuth } from '../account/accountsSelectors';
  */
 export type SessionState = {|
   eventQueueId: number,
-  editMessage: ?EditMessage,
-  replyQuoteMessage: ?ReplyQuoteMessage,
+  refMessage: ?RefMessage,
   isOnline: boolean,
   isActive: boolean,
   isHydrated: boolean,
@@ -63,8 +62,7 @@ export type SessionState = {|
 
 const initialState: SessionState = {
   eventQueueId: -1,
-  editMessage: null,
-  replyQuoteMessage: null,
+  refMessage: null,
   isOnline: true,
   isActive: true,
   isHydrated: false,
@@ -162,13 +160,14 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case CANCEL_EDIT_MESSAGE:
       return {
         ...state,
-        editMessage: null,
+        refMessage: null,
       };
 
     case START_EDIT_MESSAGE:
       return {
         ...state,
-        editMessage: {
+        refMessage: {
+          type: 'edit',
           id: action.messageId,
           content: action.message,
           topic: action.topic,
@@ -178,7 +177,8 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case REPLY_QUOTE_MESSAGE:
       return {
         ...state,
-        replyQuoteMessage: {
+        refMessage: {
+          type: 'replyQuote',
           id: action.messageId,
           content: action.message,
           topic: action.topic,
