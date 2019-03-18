@@ -3,25 +3,26 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { UserPresence, Style } from '../types';
-import { getPresence } from '../selectors';
+import type { Style, UserPresence, UserStatus } from '../types';
+import { getPresence, getUserStatus } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
 
 type Props = {
   presence: UserPresence,
   style: Style,
+  userStatus: UserStatus,
 };
 
 class ActivityText extends PureComponent<Props> {
   render() {
-    const { style, presence } = this.props;
+    const { style, presence, userStatus } = this.props;
 
     if (!presence) {
       return null;
     }
 
-    const activity = presenceToHumanTime(presence);
+    const activity = presenceToHumanTime(presence, userStatus);
 
     return <RawLabel style={style} text={`Active ${activity}`} />;
   }
@@ -29,4 +30,5 @@ class ActivityText extends PureComponent<Props> {
 
 export default connect((state, props) => ({
   presence: getPresence(state)[props.user.email],
+  userStatus: getUserStatus(state)[props.user.user_id],
 }))(ActivityText);
