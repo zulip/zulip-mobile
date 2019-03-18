@@ -57,7 +57,7 @@ class AccountDetails extends PureComponent<Props, void> {
             />
           )}
           <View>
-            <ActivityText style={styles.largerText} email={user.email} />
+            <ActivityText style={styles.largerText} user={user} />
           </View>
           {user.timezone ? (
             <View>

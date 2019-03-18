@@ -41,7 +41,7 @@ class TitlePrivate extends PureComponent<Props> {
             <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
               {user.full_name}
             </Text>
-            <ActivityText style={[styles.navSubtitle, { color }]} email={user.email} />
+            <ActivityText style={[styles.navSubtitle, { color }]} user={user} />
           </View>
         </View>
       </Touchable>
