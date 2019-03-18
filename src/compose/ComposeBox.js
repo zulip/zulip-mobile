@@ -300,6 +300,7 @@ class ComposeBox extends PureComponent<Props, State> {
         borderWidth: 0,
         borderRadius: 5,
         fontSize: 15,
+        maxHeight: 120,
         ...this.inputMarginPadding,
       },
       this.context.styles.backgroundColor,
