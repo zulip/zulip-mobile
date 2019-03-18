@@ -9,15 +9,17 @@ import zulipExtraEmojiMap from '../emoji/zulipExtraEmojiMap';
 export const getAllImageEmojiById: Selector<RealmEmojiById> = createSelector(
   getIdentity,
   getRawRealmEmoji,
-  (identity, emojis) => {
-    const allEmojies = { ...emojis, ...zulipExtraEmojiMap };
-    return Object.keys(allEmojies).reduce((result, id) => {
-      result[id] = {
-        ...allEmojies[id],
-        source_url: getFullUrl(allEmojies[id].source_url, identity.realm),
-      };
-      return result;
-    }, {});
+  (identity, realmEmoji) => {
+    const result = {};
+    [realmEmoji, zulipExtraEmojiMap].forEach(emojis => {
+      Object.keys(emojis).forEach(id => {
+        result[id] = {
+          ...emojis[id],
+          source_url: getFullUrl(emojis[id].source_url, identity.realm),
+        };
+      });
+    });
+    return result;
   },
 );
 
