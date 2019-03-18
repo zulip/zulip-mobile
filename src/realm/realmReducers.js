@@ -7,7 +7,6 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   EVENT_UPDATE_DISPLAY_SETTINGS,
-  INIT_REALM_FILTER,
   EVENT_REALM_FILTERS,
 } from '../actionConstants';
 
@@ -53,12 +52,6 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
       return {
         ...state,
         emoji: {},
-      };
-
-    case INIT_REALM_FILTER:
-      return {
-        ...state,
-        filters: action.filters,
       };
 
     case EVENT_REALM_FILTERS:

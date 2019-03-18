@@ -24,7 +24,6 @@ import {
   MESSAGE_FETCH_COMPLETE,
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
-  INIT_REALM_FILTER,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
   DO_NARROW,
@@ -518,11 +517,6 @@ export type EventAction =
   | {| type: 'ignore' |}
   | {| type: 'unknown', event: {} |};
 
-type InitRealmFilterAction = {|
-  type: typeof INIT_REALM_FILTER,
-  filters: RealmFilter[],
-|};
-
 type SettingsChangeAction = {|
   type: typeof SETTINGS_CHANGE,
   update: $Shape<SettingsState>,
@@ -598,11 +592,7 @@ type MessageAction = MessageFetchStartAction | MessageFetchCompleteAction;
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 
-type RealmAction =
-  | RealmInitAction
-  | UnackPushTokenAction
-  | AckPushTokenAction
-  | InitRealmFilterAction;
+type RealmAction = RealmInitAction | UnackPushTokenAction | AckPushTokenAction;
 
 type SessionAction =
   | RehydrateAction
