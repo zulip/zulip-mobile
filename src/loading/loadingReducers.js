@@ -10,7 +10,6 @@ import {
 const initialState: LoadingState = {
   presence: false,
   subscriptions: false,
-  streams: false,
   unread: false,
   users: false,
 };

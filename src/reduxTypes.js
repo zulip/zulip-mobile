@@ -94,7 +94,6 @@ export type FlagName = $Keys<FlagsState>;
 export type LoadingState = {|
   presence: boolean,
   subscriptions: boolean,
-  streams: boolean,
   unread: boolean,
   users: boolean,
 |};

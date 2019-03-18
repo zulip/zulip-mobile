@@ -10,7 +10,6 @@ describe('loadingReducers', () => {
       const initialState = deepFreeze({
         presence: true,
         subscriptions: true,
-        streams: true,
         unread: true,
         users: true,
       });
@@ -23,7 +22,6 @@ describe('loadingReducers', () => {
       const expectedState = {
         presence: false,
         subscriptions: false,
-        streams: false,
         unread: false,
         users: false,
       };
