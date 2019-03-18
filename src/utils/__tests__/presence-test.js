@@ -141,6 +141,15 @@ describe('presenceToHumanTime', () => {
     };
     expect(presenceToHumanTime(presence)).toBe('now');
   });
+
+  test('if less than a day, and the user is "away" the user is ...', () => {
+    const presence = {
+      aggregated: {
+        timestamp: currentTimestamp - 100,
+      },
+    };
+    expect(presenceToHumanTime(presence, { away: true })).toBe('today');
+  });
 });
 
 describe('statusFromPresence', () => {

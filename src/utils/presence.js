@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
+import differenceInDays from 'date-fns/difference_in_days';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
 import type { ClientPresence, UserPresence, PresenceStatus, UserStatus } from '../types';
@@ -53,12 +54,19 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
       { client: '', status: 'offline', timestamp: 0 },
     );
 
-export const presenceToHumanTime = (presence: UserPresence): string => {
+export const presenceToHumanTime = (presence: UserPresence, status?: UserStatus): string => {
   if (!presence || !presence.aggregated) {
     return 'never';
   }
 
   const lastTimeActive = new Date(presence.aggregated.timestamp * 1000);
+
+  if (status && status.away && differenceInDays(Date.now(), lastTimeActive) < 1) {
+    // Be vague when an unavailable user is recently online.
+    // TODO: This phrasing doesn't really match the logic and can be misleading.
+    return 'today';
+  }
+
   return differenceInSeconds(Date.now(), lastTimeActive) < OFFLINE_THRESHOLD_SECS
     ? 'now'
     : `${distanceInWordsToNow(lastTimeActive)} ago`;
