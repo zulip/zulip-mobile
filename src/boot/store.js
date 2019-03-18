@@ -94,10 +94,13 @@ const migrations = {
     ...state,
     realm: {
       ...state.realm,
-      emoji: Object.keys(state.realm.emoji).reduce((emojis, id) => {
-        emojis[id] = { ...state.realm.emoji[id], code: id.toString() };
+      emoji: (data => {
+        const emojis = {};
+        Object.keys(data).forEach(id => {
+          emojis[id] = { ...data[id], code: id.toString() };
+        });
         return emojis;
-      }, {}),
+      })(state.realm.emoji),
     },
   }),
 };

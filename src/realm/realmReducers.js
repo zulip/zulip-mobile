@@ -22,11 +22,13 @@ const initialState = {
   nonActiveUsers: [],
 };
 
-const getRealmEmojis = (data): RealmEmojiById =>
-  Object.keys(data).reduce((emojis, id) => {
+const getRealmEmojis = (data): RealmEmojiById => {
+  const emojis = {};
+  Object.keys(data).forEach(id => {
     emojis[id] = { ...data[id], code: id.toString() };
-    return emojis;
-  }, {});
+  });
+  return emojis;
+};
 
 export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {
