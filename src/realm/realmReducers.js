@@ -6,7 +6,6 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  INIT_REALM_EMOJI,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   INIT_REALM_FILTER,
   EVENT_REALM_FILTERS,
@@ -45,12 +44,6 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
       return {
         ...state,
         emoji: {},
-      };
-
-    case INIT_REALM_EMOJI:
-      return {
-        ...state,
-        emoji: action.emojis,
       };
 
     case INIT_REALM_FILTER:

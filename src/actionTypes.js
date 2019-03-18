@@ -24,7 +24,6 @@ import {
   MESSAGE_FETCH_COMPLETE,
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
-  INIT_REALM_EMOJI,
   INIT_REALM_FILTER,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
@@ -520,11 +519,6 @@ export type EventAction =
   | {| type: 'ignore' |}
   | {| type: 'unknown', event: {} |};
 
-type InitRealmEmojiAction = {|
-  type: typeof INIT_REALM_EMOJI,
-  emojis: RealmEmojiById,
-|};
-
 type InitRealmFilterAction = {|
   type: typeof INIT_REALM_FILTER,
   filters: RealmFilter[],
@@ -614,7 +608,6 @@ type RealmAction =
   | RealmInitAction
   | UnackPushTokenAction
   | AckPushTokenAction
-  | InitRealmEmojiAction
   | InitRealmFilterAction;
 
 type SessionAction =
