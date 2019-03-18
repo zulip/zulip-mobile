@@ -22,7 +22,7 @@ const initialState = {
   nonActiveUsers: [],
 };
 
-const getRealmEmojis = (data): RealmEmojiById => {
+const convertRealmEmoji = (data): RealmEmojiById => {
   const emojis = {};
   Object.keys(data).forEach(id => {
     emojis[id] = { ...data[id], code: id.toString() };
@@ -40,7 +40,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         ...state,
         canCreateStreams: action.data.can_create_streams,
         crossRealmBots: action.data.cross_realm_bots,
-        emoji: getRealmEmojis(action.data.realm_emoji),
+        emoji: convertRealmEmoji(action.data.realm_emoji),
         filters: action.data.realm_filters,
         isAdmin: action.data.is_admin,
         nonActiveUsers: action.data.realm_non_active_users,
@@ -70,7 +70,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
     case EVENT_REALM_EMOJI_UPDATE:
       return {
         ...state,
-        emoji: getRealmEmojis(action.realm_emoji),
+        emoji: convertRealmEmoji(action.realm_emoji),
       };
 
     case EVENT_UPDATE_DISPLAY_SETTINGS:
