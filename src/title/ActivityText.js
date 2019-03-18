@@ -9,14 +9,13 @@ import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
 
 type Props = {
-  color?: string,
   presence: UserPresence,
   style: Style,
 };
 
 class ActivityText extends PureComponent<Props> {
   render() {
-    const { style, presence, color } = this.props;
+    const { style, presence } = this.props;
 
     if (!presence) {
       return null;
@@ -24,9 +23,7 @@ class ActivityText extends PureComponent<Props> {
 
     const activity = presenceToHumanTime(presence);
 
-    return (
-      <RawLabel style={[style, color !== undefined && { color }]} text={`Active ${activity}`} />
-    );
+    return <RawLabel style={style} text={`Active ${activity}`} />;
   }
 }
 
