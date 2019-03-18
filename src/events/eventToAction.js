@@ -3,7 +3,7 @@ import { EventTypes } from '../api/eventTypes';
 
 import type { GlobalState, EventAction } from '../types';
 import {
-  INIT_ALERT_WORDS,
+  EVENT_ALERT_WORDS,
   EVENT_NEW_MESSAGE,
   EVENT_PRESENCE,
   EVENT_REACTION_ADD,
@@ -71,7 +71,7 @@ export default (state: GlobalState, event: Object): EventAction => {
   switch (event.type) {
     case 'alert_words':
       return {
-        type: INIT_ALERT_WORDS,
+        type: EVENT_ALERT_WORDS,
         alertWords: event.alert_words,
       };
 

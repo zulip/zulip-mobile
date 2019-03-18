@@ -50,7 +50,7 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_USER_ADD,
   CLEAR_TYPING,
-  INIT_ALERT_WORDS,
+  EVENT_ALERT_WORDS,
   INIT_STREAMS,
   INIT_TOPICS,
   EVENT_MUTED_TOPICS,
@@ -236,7 +236,7 @@ type ServerEvent = {|
 |};
 
 type EventAlertWordsAction = {|
-  type: typeof INIT_ALERT_WORDS,
+  type: typeof EVENT_ALERT_WORDS,
   alertWords: AlertWordsState,
 |};
 
