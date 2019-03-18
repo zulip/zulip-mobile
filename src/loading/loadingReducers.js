@@ -6,7 +6,6 @@ import {
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
   INIT_STREAMS,
-  INIT_SUBSCRIPTIONS,
 } from '../actionConstants';
 
 const initialState: LoadingState = {
@@ -31,9 +30,6 @@ export default (state: LoadingState = initialState, action: Action): LoadingStat
 
     case INIT_STREAMS:
       return { ...state, streams: false };
-
-    case INIT_SUBSCRIPTIONS:
-      return { ...state, subscriptions: false };
 
     default:
       return state;

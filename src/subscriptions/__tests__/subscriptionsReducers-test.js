@@ -1,11 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import {
-  REALM_INIT,
-  EVENT_SUBSCRIPTION,
-  ACCOUNT_SWITCH,
-  INIT_SUBSCRIPTIONS,
-} from '../../actionConstants';
+import { REALM_INIT, EVENT_SUBSCRIPTION, ACCOUNT_SWITCH } from '../../actionConstants';
 import subscriptionsReducers from '../subscriptionsReducers';
 
 describe('subscriptionsReducers', () => {
@@ -50,39 +45,6 @@ describe('subscriptionsReducers', () => {
       const actualState = subscriptionsReducers(initialState, action);
 
       expect(actualState).toEqual(expectedState);
-    });
-  });
-
-  describe('INIT_SUBSCRIPTIONS', () => {
-    test('when subscriptions are same in state as initialized', () => {
-      const prevState = deepFreeze([
-        {
-          name: 'some stream',
-          stream_id: 1,
-        },
-        {
-          name: 'some other stream',
-          stream_id: 2,
-        },
-      ]);
-
-      const action = deepFreeze({
-        type: INIT_SUBSCRIPTIONS,
-        subscriptions: [
-          {
-            name: 'some stream',
-            stream_id: 1,
-          },
-          {
-            name: 'some other stream',
-            stream_id: 2,
-          },
-        ],
-      });
-
-      const newState = subscriptionsReducers(prevState, action);
-
-      expect(newState).toBe(prevState);
     });
   });
 

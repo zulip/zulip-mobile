@@ -1,13 +1,10 @@
 /* @flow strict-local */
-import isEqual from 'lodash.isequal';
-
 import { EventTypes } from '../api/eventTypes';
 import type { SubscriptionsState, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  INIT_SUBSCRIPTIONS,
   EVENT_SUBSCRIPTION,
   REALM_INIT,
   EVENT,
@@ -31,9 +28,6 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
 
     case REALM_INIT:
       return action.data.subscriptions || initialState;
-
-    case INIT_SUBSCRIPTIONS:
-      return isEqual(action.subscriptions, state) ? state : action.subscriptions;
 
     case EVENT_SUBSCRIPTION:
       switch (action.op) {

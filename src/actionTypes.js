@@ -54,7 +54,6 @@ import {
   INIT_ALERT_WORDS,
   INIT_STREAMS,
   INIT_TOPICS,
-  INIT_SUBSCRIPTIONS,
   EVENT_MUTED_TOPICS,
   EVENT_REALM_FILTERS,
   EVENT_USER_REMOVE,
@@ -582,11 +581,6 @@ type InitTopicsAction = {|
   streamId: number,
 |};
 
-type InitSubscriptionsAction = {|
-  type: typeof INIT_SUBSCRIPTIONS,
-  subscriptions: Subscription[],
-|};
-
 //
 // The `Action` union type.
 //
@@ -637,6 +631,5 @@ export type Action =
   | PresenceResponseAction
   | SettingsChangeAction
   | InitStreamsAction
-  | InitSubscriptionsAction
   | InitTopicsAction
   | ClearTypingAction;
