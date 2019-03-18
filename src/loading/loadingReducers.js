@@ -8,8 +8,6 @@ import {
 } from '../actionConstants';
 
 const initialState: LoadingState = {
-  presence: false,
-  subscriptions: false,
   unread: false,
   users: false,
 };
@@ -21,10 +19,10 @@ export default (state: LoadingState = initialState, action: Action): LoadingStat
       return initialState;
 
     case INITIAL_FETCH_START:
-      return { ...state, presence: true, subscriptions: true, unread: true, users: true };
+      return { unread: true, users: true };
 
     case INITIAL_FETCH_COMPLETE:
-      return { ...state, presence: false, subscriptions: false, unread: false, users: false };
+      return { unread: false, users: false };
 
     default:
       return state;

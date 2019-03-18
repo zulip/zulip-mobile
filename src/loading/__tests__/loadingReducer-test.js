@@ -8,8 +8,6 @@ describe('loadingReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to nothing is loading', () => {
       const initialState = deepFreeze({
-        presence: true,
-        subscriptions: true,
         unread: true,
         users: true,
       });
@@ -20,8 +18,6 @@ describe('loadingReducers', () => {
       });
 
       const expectedState = {
-        presence: false,
-        subscriptions: false,
         unread: false,
         users: false,
       };
