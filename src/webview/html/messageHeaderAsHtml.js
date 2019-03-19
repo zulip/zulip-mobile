@@ -13,12 +13,22 @@ import {
   groupNarrow,
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
+import { shortDate } from '../../utils/date';
 
 const renderSubject = item =>
   // TODO: pin down if '' happens, and what its proper semantics are.
   item.match_subject !== undefined && item.match_subject !== ''
     ? item.match_subject
-    : template`${item.subject}`;
+    : template`
+    <div class="subheader topic-header">
+      <div class="topic-text">
+        ${item.subject}
+      </div>
+      <div class="topic-timestamp">
+        ${shortDate(new Date(item.timestamp * 1000))}
+      </div>
+    </div>
+    `;
 
 export default (
   { ownEmail, subscriptions }: BackgroundData,

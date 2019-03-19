@@ -76,6 +76,10 @@ hr {
   justify-content: space-between;
   margin-bottom: 0.25em;
 }
+.topic-header {
+  margin-top: 0.2em;
+  margin-bottom: 0.00em;
+}
 .timerow {
   text-align: center;
   color: #999;
@@ -99,6 +103,11 @@ hr {
   color: #999;
   font-size: 0.9em;
   white-space: nowrap;
+}
+.topic-timestamp {
+  font-size: 0.9em;
+  white-space: nowrap;
+  margin-right: 0.5em;
 }
 .message {
   display: flex;
