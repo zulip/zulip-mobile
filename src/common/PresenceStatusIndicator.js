@@ -47,14 +47,14 @@ const styles = StyleSheet.create({
   },
 });
 
+const PresenceStatusIndicatorActive = ({ style }: { style: Style }) => (
+  <View style={[styles.active, styles.common, style]} />
+);
+
 const PresenceStatusIndicatorIdle = ({ style }: { style: Style }) => (
   <View style={[styles.idleWrapper, styles.common, style]}>
     <View style={styles.idleHalfCircle} />
   </View>
-);
-
-const PresenceStatusIndicatorOnline = ({ style }: { style: Style }) => (
-  <View style={[styles.active, styles.common, style]} />
 );
 
 const PresenceStatusIndicatorOffline = ({ style }: { style: Style }) => (
@@ -109,7 +109,7 @@ class PresenceStatusIndicator extends PureComponent<Props> {
 
     switch (status) {
       case 'active':
-        return <PresenceStatusIndicatorOnline style={style} />;
+        return <PresenceStatusIndicatorActive style={style} />;
 
       case 'idle':
         return <PresenceStatusIndicatorIdle style={style} />;
