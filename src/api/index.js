@@ -51,6 +51,7 @@ import getUsers from './users/getUsers';
 import createUser from './users/createUser';
 import getUserProfile from './users/getUserProfile';
 import updateUserStatus from './users/updateUserStatus';
+import updateUserProfile from './users/updateUserProfile';
 
 export {
   queueMarkAsRead,
@@ -105,6 +106,7 @@ export {
   createUser,
   getUserProfile,
   updateUserStatus,
+  updateUserProfile,
 };
 
 export default {
@@ -160,4 +162,5 @@ export default {
   createUser,
   getUserProfile,
   updateUserStatus,
+  updateUserProfile,
 };

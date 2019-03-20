@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import type { Dispatch, GlobalState, User } from '../types';
 import { getSelfUserDetail } from '../selectors';
 import { ZulipButton } from '../common';
-import { navigateToUserStatus } from '../actions';
+import { navigateToUserStatus, navigateToEditProfile } from '../actions';
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
 import SwitchAccountButton from './SwitchAccountButton';
@@ -20,6 +20,10 @@ const componentStyles = StyleSheet.create({
   },
   setStatusButton: {
     marginHorizontal: 16,
+  },
+  editProfileButton: {
+    marginHorizontal: 16,
+    marginTop: 8,
   },
 });
 
@@ -40,6 +44,11 @@ class ProfileCard extends PureComponent<Props> {
     dispatch(navigateToUserStatus());
   };
 
+  handleEditProfile = () => {
+    const { dispatch } = this.props;
+    dispatch(navigateToEditProfile());
+  };
+
   render() {
     const { selfUserDetail } = this.props;
 
@@ -52,6 +61,12 @@ class ProfileCard extends PureComponent<Props> {
           secondary
           text="Set a status"
           onPress={this.handleSetUserStatus}
+        />
+        <ZulipButton
+          style={componentStyles.editProfileButton}
+          secondary
+          text="Edit your profile"
+          onPress={this.handleEditProfile}
         />
         <View style={componentStyles.accountButtons}>
           <SwitchAccountButton />

@@ -13,6 +13,20 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UsersState = NULL_ARRAY;
 
+const findUser = (state: UsersState, email: string): number =>
+  state.findIndex(user => user.email && user.email === email);
+
+const updateUser = (state, action) => {
+  const { email, newAccountDetails } = action;
+  const userIndex = findUser(state, email);
+
+  return [
+    { ...state[userIndex], ...newAccountDetails },
+    ...state.slice(0, userIndex),
+    ...state.slice(userIndex + 1),
+  ];
+};
+
 export default (state: UsersState = initialState, action: Action): UsersState => {
   switch (action.type) {
     case LOGOUT:
@@ -30,7 +44,7 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       return state; // TODO
 
     case EVENT_USER_UPDATE:
-      return state; // TODO
+      return updateUser(state, action);
 
     default:
       return state;

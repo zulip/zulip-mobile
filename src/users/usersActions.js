@@ -1,10 +1,10 @@
 /* @flow strict-local */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
-import type { Dispatch, GetState, Narrow } from '../types';
+import type { Dispatch, GetState, Narrow, Action, User } from '../types';
 /* eslint-disable import/no-named-as-default-member */
-import api from '../api';
-import { PRESENCE_RESPONSE } from '../actionConstants';
+import api, { updateUserProfile } from '../api';
+import { PRESENCE_RESPONSE, EVENT_USER_UPDATE } from '../actionConstants';
 import { getAuth, tryGetAuth } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
@@ -47,4 +47,22 @@ export const sendTypingEvent = (narrow: Narrow) => async (
     api.typing(auth, narrow[0].operand, 'start');
     lastTypingStart = new Date();
   }
+};
+
+export const updateAccount = (
+  email: string,
+  newAccountDetails: {| full_name: string |},
+): Action => ({
+  type: EVENT_USER_UPDATE,
+  email,
+  newAccountDetails,
+});
+
+export const doUpdateUserProfile = (
+  initialValues: User,
+  newValues: {| full_name: string |},
+) => async (dispatch: Dispatch, getState: GetState) => {
+  const auth = getAuth(getState());
+  await updateUserProfile(auth, newValues);
+  dispatch(updateAccount(initialValues.email, newValues));
 };

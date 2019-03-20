@@ -109,3 +109,6 @@ export const navigateToLegal = (): NavigateAction =>
 
 export const navigateToUserStatus = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'user-status' });
+
+export const navigateToEditProfile = (): NavigateAction =>
+  NavigationActions.navigate({ routeName: 'edit-profile' });

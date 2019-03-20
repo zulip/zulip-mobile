@@ -407,8 +407,8 @@ type EventUserRemoveAction = {|
 
 type EventUserUpdateAction = {|
   type: typeof EVENT_USER_UPDATE,
-  // In reality there's more -- but this will prevent accidentally using
-  // the type before going and adding those other properties here properly.
+  email: string,
+  newAccountDetails: {| full_name: string |},
 |};
 
 type EventMutedTopicsAction = {|
@@ -601,6 +601,7 @@ type AccountAction =
   | AccountSwitchAction
   | RealmAddAction
   | AccountRemoveAction
+  | EventUserUpdateAction
   | LoginSuccessAction
   | LogoutAction;
 

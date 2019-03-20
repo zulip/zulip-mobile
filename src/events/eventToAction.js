@@ -15,7 +15,6 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
-  EVENT_USER_UPDATE,
   EVENT_MUTED_TOPICS,
   EVENT_USER_GROUP_ADD,
   EVENT_USER_GROUP_REMOVE,
@@ -34,7 +33,6 @@ import {
 const opToActionUser = {
   add: EVENT_USER_ADD,
   remove: EVENT_USER_REMOVE,
-  update: EVENT_USER_UPDATE,
 };
 
 const opToActionUserGroup = {

@@ -34,6 +34,7 @@ import WelcomeScreen from '../start/WelcomeScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 import UserStatusScreen from '../user-status/UserStatusScreen';
+import EditProfileScreen from '../edit-profile/EditProfileScreen';
 
 export default StackNavigator(
   {
@@ -70,6 +71,7 @@ export default StackNavigator(
     welcome: { screen: WelcomeScreen },
     legal: { screen: LegalScreen },
     'user-status': { screen: UserStatusScreen },
+    'edit-profile': { screen: EditProfileScreen },
   },
   {
     initialRouteName: 'main',
