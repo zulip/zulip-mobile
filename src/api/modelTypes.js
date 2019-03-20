@@ -87,7 +87,7 @@ export type UserGroup = {|
  *   * This is the "user status" / "unavailable" feature added in early 2019.
  *     (At time of writing, there are no docs to link to.)
  * @prop status_text - a string representing information the user decided to
- *   manually set as his 'current status'
+ *   manually set as their 'current status'
  */
 export type UserStatus = {|
   away?: true,
