@@ -121,6 +121,7 @@ class PresenceStatusIndicator extends PureComponent<Props> {
         return <PresenceStatusIndicatorUnavailable style={style} />;
 
       default:
+        (status: empty); // eslint-disable-line no-unused-expressions
         return null;
     }
   }
