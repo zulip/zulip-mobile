@@ -1,9 +1,11 @@
 /* @flow strict-local */
+import { Clipboard } from 'react-native';
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
 import type { Dispatch, GetText, Message, Narrow } from '../types';
 import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import { showToast } from '../utils/info';
 import { isUrlAnImage } from '../utils/url';
 import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -78,8 +80,9 @@ type MessageListEventUrl = {|
 
 type MessageListEventLongPress = {|
   type: 'longPress',
-  target: 'message' | 'header',
+  target: 'message' | 'header' | 'link',
   messageId: number,
+  href: string | null,
 |};
 
 type MessageListEventDebug = {|
@@ -151,13 +154,24 @@ const handleImage = (props: Props, src: string, messageId: number) => {
   }
 };
 
-const handleLongPress = (props: Props, _: GetText, isHeader: boolean, messageId: number) => {
+const handleLongPress = (
+  props: Props,
+  _: GetText,
+  target: 'message' | 'header' | 'link',
+  messageId: number,
+  href: string | null,
+) => {
+  if (href !== null) {
+    Clipboard.setString(href);
+    showToast(_('Link copied to clipboard'));
+    return;
+  }
   const message = props.messages.find(x => x.id === messageId);
   if (!message) {
     return;
   }
   const { dispatch, showActionSheetWithOptions, backgroundData, narrow } = props;
-  showActionSheet(isHeader, dispatch, showActionSheetWithOptions, _, {
+  showActionSheet(target === 'header', dispatch, showActionSheetWithOptions, _, {
     backgroundData,
     message,
     narrow,
@@ -188,7 +202,7 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
       break;
 
     case 'longPress':
-      handleLongPress(props, _, event.target === 'header', event.messageId);
+      handleLongPress(props, _, event.target, event.messageId, event.href);
       break;
 
     case 'url':
