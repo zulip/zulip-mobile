@@ -38,9 +38,17 @@ If you're writing Android unit tests:
   -- it's a good writeup.
 * Definitely also read the short Android guide on [local unit tests],
   which has more concrete details about the APIs we use here.
-* Potentially also helpful:
-  * Truth docs: [homepage][Truth], [FAQ][truth-faq]
-  * JUnit docs: e.g. [Assertions javadoc], [user guide][junit5-user-guide]
+  * (A "local unit test" is Android jargon for a genuine,
+    self-contained unit test, specifically a test that doesn't require
+    an Android device to run on.  All our unit tests are "local unit
+    tests".)
+
+Other sources which might be helpful to read or refer to:
+* Truth docs: [homepage][Truth], [FAQ][truth-faq]
+* JUnit docs: e.g. [Assertions javadoc], [user guide][junit5-user-guide]
+* Good blog-style articles from "Baeldung":
+  on [JUnit in Kotlin][baeldung-junit-kotlin]
+  and on [Truth][baeldung-truth].
 
 [JUnit 4]: https://junit.org/junit4/
 [Assertions javadoc]: https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/Assertions.html
@@ -49,6 +57,8 @@ If you're writing Android unit tests:
 [truth-faq]: https://google.github.io/truth/faq
 [principles of testing]: https://developer.android.com/training/testing/fundamentals
 [local unit tests]: https://developer.android.com/training/testing/unit-testing/local-unit-tests
+[baeldung-junit-kotlin]: https://www.baeldung.com/junit-5-kotlin
+[baeldung-truth]: https://www.baeldung.com/google-truth
 
 
 ## Functional tests
