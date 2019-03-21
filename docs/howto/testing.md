@@ -6,6 +6,8 @@ tests related to the files you've changed.
 
 You can run all our tests with `tools/test --full`.
 
+To see all options, run `tools/test --help`.
+
 
 ## Unit tests: JS
 
@@ -56,9 +58,39 @@ Functional tests have not been set up. We plan to use [Appium](http://appium.io/
 
 ## Linting
 
-`tools/test lint` checks your changes against our linting rules. We're using
-the AirBnB [ES6](https://github.com/airbnb/javascript) and
-[React](https://github.com/airbnb/javascript/tree/master/react) style guides.
+We use [ESLint] to catch many kinds of style issues, together with
+[Prettier] to maintain consistent formatting.
+
+[ESLint]: https://eslint.org/
+[Prettier]: https://prettier.io/
+
+Our [lint config] starts from the Airbnb guides
+([for ES6][airbnb-base] and [for React][airbnb-react]),
+with a number of specific changes.
+
+[lint config]: ../../.eslintrc.yaml
+[airbnb-base]: https://github.com/airbnb/javascript
+[airbnb-react]: https://github.com/airbnb/javascript/tree/master/react
+
+Prettier is an "opinionated" tool, which is a euphemism for having
+virtually no configuration options; and unfortunately a few of its
+unchangeable "opinions" are outright harmful.  So we use
+[prettier-eslint] to overrule it on those points; the details are in a
+[small, formatting-only ESLint config file][formatting.eslintrc].
+
+[prettier-eslint]: https://github.com/prettier/prettier-eslint
+[formatting.eslintrc]: ../../tools/formatting.eslintrc.yaml
+
+For proper results, always run ESLint or Prettier through our
+canonical interfaces:
+* `tools/test` (or `tools/test lint prettier` for these steps alone);
+* `tools/test --fix`, to actually modify the files to fix issues where
+  possible; or
+* in your editor, with our [recommended editor config](editor.md).
+
+If you find another interface more convenient, please send a PR and/or
+mention it in chat!  We'll be interested to learn about it, and to see
+what we can do to support it.
 
 
 ## Type checking with Flow
