@@ -97,14 +97,39 @@ general, algorithm for learning is:
 5. Do the thing you just learned how to do, and repeat from step 1.
 
 Good resources for looking things up and learning more include:
-* [Kotlin reference docs] upstream -- tons of good stuff here.
+* [Kotlin reference docs] upstream -- tons of good stuff here,
+  including many pages you'll definitely want to read eventually.
+  Here's an incomplete list:
+  * Key concepts that don't exist in Java:
+    [null safety], [extensions], [inline functions].
+  * Key concepts that exist in Java but with differences:
+    [control flow (especially `when`)][control-flow];
+    [classes].
+  * Some [Kotlin idioms].  This one is like StackOverflow answers;
+    once you find something relevant here, you'll want to go look up
+    its real documentation.
 * [Kotlin standard library reference][kotlin-stdlib]; especially on
   [collections (List, Iterable, Map, etc.)][kotlin-collections].
+* A [Kotlin style guide][android-kotlin-style],
+  and a [bonus style guide][android-kotlin-java-interop] for Kotlin
+  code that'll be used from Java.  These come from Android upstream,
+  but their content isn't specific to Android.
+* [Android KTX], a library that uses Kotlin features to provide nicer
+  interfaces to Android APIs.
 * Various resources linked from [Android upstream][android-kotlin-resources].
 
 [Kotlin reference docs]: https://kotlinlang.org/docs/reference/basic-types.html
+[null safety]: https://kotlinlang.org/docs/reference/null-safety.html
+[extensions]: https://kotlinlang.org/docs/reference/extensions.html
+[inline functions]: https://kotlinlang.org/docs/reference/inline-functions.html
+[control-flow]: https://kotlinlang.org/docs/reference/control-flow.html
+[classes]: https://kotlinlang.org/docs/reference/classes.html
+[Kotlin idioms]: https://kotlinlang.org/docs/reference/idioms.html
 [kotlin-stdlib]: https://kotlinlang.org/api/latest/jvm/stdlib/index.html
 [kotlin-collections]: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/index.html
+[android-kotlin-style]: https://developer.android.com/kotlin/style-guide
+[android-kotlin-java-interop]: https://developer.android.com/kotlin/interop#kotlin_for_java_consumption
+[Android KTX]: https://developer.android.com/kotlin/ktx.html
 [android-kotlin-resources]: https://developer.android.com/kotlin/resources
 
 
