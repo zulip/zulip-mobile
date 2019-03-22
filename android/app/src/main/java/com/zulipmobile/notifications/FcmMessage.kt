@@ -169,6 +169,7 @@ internal data class MessageFcmMessage(
 }
 
 internal data class RemoveFcmMessage(
+    val identity: Identity,
     val messageIds: Set<Int>
 ) : FcmMessage() {
     companion object {
@@ -180,7 +181,18 @@ internal data class RemoveFcmMessage(
             data["zulip_message_ids"]?.parseCommaSeparatedInts("zulip_message_ids")?.let {
                 messageIds.addAll(it)
             }
-            return RemoveFcmMessage(messageIds)
+
+            return RemoveFcmMessage(
+                // When the server first started sending `remove` messages at all
+                // (commit bc43eefbf, released in 1.9.0), it already included
+                // `server`, `realm_id`, and `realm_uri`.  So we can insist on an
+                // Identity here in the "crunchy shell", and reduce null-checks in
+                // the "soft center".
+                identity = extractIdentity(data)
+                    ?: throw FcmMessageParseException("missing expected field: server"),
+
+                messageIds = messageIds
+            )
         }
     }
 }

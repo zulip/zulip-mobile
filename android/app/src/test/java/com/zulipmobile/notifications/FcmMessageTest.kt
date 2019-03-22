@@ -35,6 +35,12 @@ open class FcmMessageTestBase {
             "realm_uri" to "https://zulip.example.com",  // corresponds to realm.uri
             "user_id" to "234"
         )
+        internal val identity = Identity(
+            serverHost = base["server"]!!,
+            realmId = 4,
+            realmUri = URL(base["realm_uri"]!!),
+            userId = 234
+        )
     }
 }
 
@@ -99,12 +105,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
     fun `fields get parsed right in 'message' happy path`() {
         expect.that(parse(Example.stream)).isEqualTo(
             MessageFcmMessage(
-                identity = Identity(
-                    serverHost = Example.stream["server"]!!,
-                    realmId = 4,
-                    realmUri = URL(Example.stream["realm_uri"]!!),
-                    userId = 234
-                ),
+                identity = FcmMessageTestBase.Example.identity,
                 sender = Sender(
                     id = 123,
                     email = Example.stream["sender_email"]!!,
@@ -207,6 +208,8 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
         val batched = base.plus(sequenceOf(
             "zulip_message_ids" to "123,234,345"
         ))
+
+        internal val identity = FcmMessageTestBase.Example.identity
     }
 
     @Test
@@ -221,22 +224,37 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
     @Test
     fun `fields get parsed right in happy path`() {
         expect.that(parse(Example.hybrid)).isEqualTo(
-            RemoveFcmMessage(setOf(123, 234, 345))
+            RemoveFcmMessage(Example.identity, setOf(123, 234, 345))
         )
         expect.that(parse(Example.batched)).isEqualTo(
-            RemoveFcmMessage(setOf(123, 234, 345))
+            RemoveFcmMessage(Example.identity, setOf(123, 234, 345))
         )
         expect.that(parse(Example.singular)).isEqualTo(
-            RemoveFcmMessage(setOf(123))
+            RemoveFcmMessage(Example.identity, setOf(123))
         )
         expect.that(parse(Example.singular.minus("zulip_message_id"))).isEqualTo(
             // This doesn't seem very useful to send, but harmless.
-            RemoveFcmMessage(setOf())
+            RemoveFcmMessage(Example.identity, setOf())
         )
     }
 
     @Test
+    fun `optional fields missing cause no error`() {
+        expect.that(parse(Example.hybrid.minus("realm_uri")).identity.serverHost)
+            .isEqualTo(Example.hybrid["server"]!!)
+        expect.that(parse(Example.hybrid.minus("realm_uri")).identity.realmUri).isNull()
+        expect.that(parse(Example.hybrid.minus("user_id")).identity.userId).isNull()
+    }
+
+    @Test
     fun `parse failures on malformed data`() {
+        assertParseFails(Example.hybrid.minus("server"))
+        assertParseFails(Example.hybrid.minus("realm_id"))
+        assertParseFails(Example.hybrid.plus("realm_id" to "abc"))
+        assertParseFails(Example.hybrid.plus("realm_id" to "12,34"))
+        assertParseFails(Example.hybrid.plus("realm_uri" to "zulip.example.com"))
+        assertParseFails(Example.hybrid.plus("realm_uri" to "/examplecorp"))
+
         for (badInt in sequenceOf(
             "12,34",
             "abc",
