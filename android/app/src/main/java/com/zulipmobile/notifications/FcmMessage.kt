@@ -132,32 +132,6 @@ internal data class MessageFcmMessage(
 
     companion object {
         fun fromFcmData(data: Map<String, String>): MessageFcmMessage {
-            val identity = data["server"]?.let { serverHost ->
-                Identity(
-                    // `server` was added in server version 1.8.0
-                    // (released 2018-04-16; commit 014900c2e).
-                    serverHost = serverHost,
-
-                    // `realm_id` was added in the same commit as `server`.
-                    realmId = data.require("realm_id").parseInt("realm_id"),
-
-                    // `realm_uri` was added in server version 1.9.0
-                    // (released 2018-11-06; commit 5f8d193bb).
-                    realmUri = data["realm_uri"]?.parseUrl("realm_uri"),
-
-                    // Server versions from 1.6.0 through 2.0.0 (and possibly earlier
-                    // and later) send the user's email address, as `user`.  We *could*
-                    // use this as a substitute for `user_id` when that's missing...
-                    // but it'd be inherently buggy, and the bug it'd introduce seems
-                    // likely to affect more users than the bug it'd fix.  So just ignore.
-                    // (data["user"] ignored)
-
-                    // As of 2019-03 (with 2.0.0 the latest release), the server
-                    // is expected to start sending this soon.  See zulip/zulip#11961 .
-                    userId = data["user_id"]?.parseInt("user_id")
-                )
-            }
-
             val recipientType = data.require("recipient_type")
             val recipient = when (recipientType) {
                 "stream" ->
@@ -174,7 +148,7 @@ internal data class MessageFcmMessage(
             val avatarURL = data.require("sender_avatar_url").parseUrl("sender_avatar_url")
 
             return MessageFcmMessage(
-                identity = identity,
+                identity = extractIdentity(data),
                 sender = Sender(
                     // sender_id was added in server version 1.8.0
                     // (released 2018-04-16; commit 014900c2e).
@@ -210,6 +184,33 @@ internal data class RemoveFcmMessage(
         }
     }
 }
+
+private fun extractIdentity(data: Map<String, String>): Identity? =
+    data["server"]?.let { serverHost ->
+        Identity(
+            // `server` was added in server version 1.8.0
+            // (released 2018-04-16; commit 014900c2e).
+            serverHost = serverHost,
+
+            // `realm_id` was added in the same commit as `server`.
+            realmId = data.require("realm_id").parseInt("realm_id"),
+
+            // `realm_uri` was added in server version 1.9.0
+            // (released 2018-11-06; commit 5f8d193bb).
+            realmUri = data["realm_uri"]?.parseUrl("realm_uri"),
+
+            // Server versions from 1.6.0 through 2.0.0 (and possibly earlier
+            // and later) send the user's email address, as `user`.  We *could*
+            // use this as a substitute for `user_id` when that's missing...
+            // but it'd be inherently buggy, and the bug it'd introduce seems
+            // likely to affect more users than the bug it'd fix.  So just ignore.
+            // (data["user"] ignored)
+
+            // As of 2019-03 (with 2.0.0 the latest release), the server
+            // is expected to start sending this soon.  See zulip/zulip#11961 .
+            userId = data["user_id"]?.parseInt("user_id")
+        )
+    }
 
 private fun Map<String, String>.require(key: String): String =
     this[key] ?: throw FcmMessageParseException("missing expected field: $key")
