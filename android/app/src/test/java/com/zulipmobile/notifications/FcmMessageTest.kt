@@ -32,7 +32,8 @@ open class FcmMessageTestBase {
         val base = mapOf(
             "server" to "zulip.example.cloud",  // corresponds to EXTERNAL_HOST
             "realm_id" to "4",
-            "realm_uri" to "https://zulip.example.com"  // corresponds to realm.uri
+            "realm_uri" to "https://zulip.example.com",  // corresponds to realm.uri
+            "user_id" to "234"
         )
     }
 }
@@ -59,7 +60,6 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
 
             "time" to "1546300800",  // a Unix seconds-since-epoch
 
-            "user" to "client@example.com",  // this recipient's email address
             "content" to "This is a message",  // rendered_content, reduced to plain text
             "content_truncated" to "This is a m…"
         ))
@@ -103,7 +103,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
                     serverHost = Example.stream["server"]!!,
                     realmId = 4,
                     realmUri = URL(Example.stream["realm_uri"]!!),
-                    email = Example.stream["user"]!!
+                    userId = 234
                 ),
                 sender = Sender(
                     id = 123,
@@ -134,8 +134,17 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         expect.that(parse(Example.pm.minus("realm_uri")).identity?.serverHost)
             .isEqualTo(Example.stream["server"]!!)
         expect.that(parse(Example.pm.minus("realm_uri")).identity?.realmUri).isNull()
+        expect.that(parse(Example.pm.minus("user_id")).identity?.userId).isNull()
 
         expect.that(parse(Example.pm.minus("sender_id")).sender.id).isNull()
+    }
+
+    @Test
+    fun `obsolete or novel fields have no effect`() {
+        expect.that(parse(Example.pm.plus("user" to "client@example.com")))
+            .isEqualTo(parse(Example.pm))
+        expect.that(parse(Example.pm.plus("awesome_feature" to "behold!")))
+            .isEqualTo(parse(Example.pm))
     }
 
     @Test
@@ -145,7 +154,6 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.pm.plus("realm_id" to "abc"))
         assertParseFails(Example.pm.plus("realm_uri" to "zulip.example.com"))
         assertParseFails(Example.pm.plus("realm_uri" to "/examplecorp"))
-        assertParseFails(Example.pm.minus("user"))
 
         assertParseFails(Example.stream.minus("recipient_type"))
         assertParseFails(Example.stream.minus("stream"))

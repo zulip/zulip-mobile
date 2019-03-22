@@ -23,10 +23,9 @@ internal data class Identity(
     ///   https://zulipchat.com/api/server-settings
     val realmUri: URL?,
 
-    /// This user's email address with which they log into this org/realm.
-    /// Useful mainly in the case where the user has multiple accounts in
-    /// the same org.
-    val email: String
+    /// This user's ID within the server.  Useful mainly in the case where
+    /// the user has multiple accounts in the same org.
+    val userId: Int?
 )
 
 /**
@@ -146,8 +145,16 @@ internal data class MessageFcmMessage(
                     // (released 2018-11-06; commit 5f8d193bb).
                     realmUri = data["realm_uri"]?.parseUrl("realm_uri"),
 
-                    // `user` was already present in server version 1.6.0 .
-                    email = data.require("user")
+                    // Server versions from 1.6.0 through 2.0.0 (and possibly earlier
+                    // and later) send the user's email address, as `user`.  We *could*
+                    // use this as a substitute for `user_id` when that's missing...
+                    // but it'd be inherently buggy, and the bug it'd introduce seems
+                    // likely to affect more users than the bug it'd fix.  So just ignore.
+                    // (data["user"] ignored)
+
+                    // As of 2019-03 (with 2.0.0 the latest release), the server
+                    // is expected to start sending this soon.  See zulip/zulip#11961 .
+                    userId = data["user_id"]?.parseInt("user_id")
                 )
             }
 
