@@ -11,7 +11,7 @@ export const shouldBeMuted = (
   subscriptions: Subscription[] = [],
   mutes: MuteState = [],
 ): boolean => {
-  if (typeof message.display_recipient !== 'string') {
+  if (message.type === 'private') {
     return false; // private/group messages are not muted
   }
 

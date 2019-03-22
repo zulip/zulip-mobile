@@ -5,6 +5,7 @@ describe('shouldBeMuted', () => {
   test('private messages are never muted', () => {
     const message = {
       display_recipient: [],
+      type: 'private',
     };
 
     const isMuted = shouldBeMuted(message, HOME_NARROW, []);
@@ -70,10 +71,11 @@ describe('shouldBeMuted', () => {
 
 describe('isMessageRead', () => {
   test('message with no flags entry is considered not read', () => {
-    const message = { id: 0 };
+    const message = { id: 0, display_recipient: 'testStream', type: 'stream' };
     const flags = { read: {} };
+    const subscriptions = [{ name: 'testStream', in_home_view: true }];
 
-    const result = isMessageRead(message, flags);
+    const result = isMessageRead(message, flags, subscriptions);
 
     expect(result).toEqual(false);
   });
@@ -128,16 +130,22 @@ describe('isMessageRead', () => {
 });
 
 describe('findFirstUnread', () => {
-  test('returns first message not flags "read" map', () => {
-    const messages = [{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }];
+  test('returns first message not flagged "read"', () => {
+    const messages = [
+      { id: 0, display_recipient: 'testStream', type: 'stream' },
+      { id: 1, display_recipient: 'testStream', type: 'stream' },
+      { id: 2, display_recipient: 'testStream', type: 'stream' },
+      { id: 3, display_recipient: 'testStream', type: 'stream' },
+    ];
     const flags = {
       read: {
         0: true,
         1: true,
       },
     };
+    const subscriptions = [{ name: 'testStream', in_home_view: true }];
 
-    const result = findFirstUnread(messages, flags);
+    const result = findFirstUnread(messages, flags, subscriptions);
 
     expect(result).toEqual(messages[2]);
   });
@@ -170,13 +178,15 @@ describe('findFirstUnread', () => {
       id: 0,
       display_recipient: 'muted stream',
       subject: 'topic',
+      type: 'stream',
     };
     const messageInMutedTopic = {
       id: 1,
       display_recipient: 'stream',
       subject: 'muted topic',
+      type: 'stream',
     };
-    const unreadMessage = { id: 2 };
+    const unreadMessage = { id: 2, display_recipient: 'stream', type: 'stream' };
     const flags = { read: {} };
     const messages = [messageInMutedStream, messageInMutedTopic, unreadMessage];
     const subscriptions = [
