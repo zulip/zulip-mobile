@@ -36,7 +36,7 @@ export default (textWhole: string, selection: InputSelectionType) => {
       filter = text.substring(lastIndex + 1, text.length);
     } else if (latestMatch[1] === '@') {
       tempSigil = '@';
-      filter = latestMatch.substring(2, latestMatch.length);
+      filter = text.substring(text.lastIndexOf('@') + 1, text.length);
     } else {
       tempSigil = '#';
       filter = latestMatch.substring(1, latestMatch.length);
