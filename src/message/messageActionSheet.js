@@ -130,9 +130,15 @@ const unstarMessage = async ({ auth, message }) => {
 unstarMessage.title = 'Unstar message';
 unstarMessage.errorMessage = 'Failed to unstar message';
 
-const shareMessage = ({ message }) => {
+const shareMessage = ({ auth, message }) => {
+  if (message.isOutbox === true) {
+    throw new Error('Message has not been sent.');
+  }
   Share.share({
-    message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
+    message: `${message.content.replace(/<(?:.|\n)*?>/gm, '')}\n\n-- ${getLinkToMessage(
+      auth.realm,
+      message,
+    )}`,
   });
 };
 shareMessage.title = 'Share';
@@ -243,10 +249,10 @@ export const constructMessageActionButtons = ({
   }
   if (messageNotDeleted(message)) {
     buttons.push('copyMessageContent');
-    buttons.push('shareMessage');
   }
   if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
     buttons.push('copyMessageLink');
+    buttons.push('shareMessage');
   }
   if (
     !isAnOutboxMessage(message)
