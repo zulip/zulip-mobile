@@ -9,7 +9,7 @@ export default (textWhole: string, selection: InputSelectionType) => {
      iterate through all the matches.
   */
   // const myReg = /:[\w\s|@]*|[^\w][@][\w\s]*|[#][\w\s]*$/gm;
-  const myReg = /:|[^\w]@|#$/gm;
+  const myReg = /:|[^\w]@|#/gm;
 
   const { start, end } = selection;
   let text = textWhole;
@@ -39,7 +39,7 @@ export default (textWhole: string, selection: InputSelectionType) => {
       filter = text.substring(text.lastIndexOf('@') + 1, text.length);
     } else {
       tempSigil = '#';
-      filter = latestMatch.substring(1, latestMatch.length);
+      filter = text.substring(text.lastIndexOf('#') + 1, text.length);
     }
   } else if (text[0] === '@') {
     // This case is if @ is in the beginning such as '@ab' our RegEx does not catch it because we have made it [^\w]
