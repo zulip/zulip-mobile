@@ -52,6 +52,11 @@ type ButtonDescription = {
 
 const isAnOutboxMessage = (message: Message | Outbox): boolean => message.isOutbox;
 
+const getRawMessageContent = async (auth: Auth, message: Message | Outbox) =>
+  message.isOutbox
+    ? message.markdownContent
+    : (await api.getRawMessageContent(auth, message.id)).raw_content;
+
 //
 // Options for the action sheet go below: ...
 //
@@ -63,10 +68,7 @@ reply.title = 'Reply';
 reply.errorMessage = 'Failed to reply';
 
 const copyMessageContent = async ({ _, auth, message }) => {
-  const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
-    ? message.markdownContent
-    : (await api.getRawMessageContent(auth, message.id)).raw_content;
-  Clipboard.setString(rawMessage);
+  Clipboard.setString(await getRawMessageContent(auth, message));
   showToast(_('Copied message content'));
 };
 copyMessageContent.title = 'Copy message content';
@@ -130,15 +132,13 @@ const unstarMessage = async ({ auth, message }) => {
 unstarMessage.title = 'Unstar message';
 unstarMessage.errorMessage = 'Failed to unstar message';
 
-const shareMessage = ({ auth, message }) => {
+const shareMessage = async ({ auth, message }) => {
   if (message.isOutbox === true) {
     throw new Error('Message has not been sent.');
   }
+  const rawMessage = await getRawMessageContent(auth, message);
   Share.share({
-    message: `${message.content.replace(/<(?:.|\n)*?>/gm, '')}\n\n-- ${getLinkToMessage(
-      auth.realm,
-      message,
-    )}`,
+    message: `${rawMessage}\n\n— ${getLinkToMessage(auth.realm, message)}`,
   });
 };
 shareMessage.title = 'Share';
