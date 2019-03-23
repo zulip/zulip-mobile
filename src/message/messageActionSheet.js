@@ -101,7 +101,10 @@ unstarMessage.title = 'Unstar message';
 
 const shareMessage = ({ message }) => {
   Share.share({
-    message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
+    message: `${message.content.replace(/<(?:.|\n)*?>/gm, '')}\n\n-- ${getLinkToMessage(
+      auth,
+      message,
+    )}`,
   });
 };
 shareMessage.title = 'Share';
