@@ -9,7 +9,7 @@ export default (textWhole: string, selection: InputSelectionType) => {
      iterate through all the matches.
   */
   // const myReg = /:[\w\s|@]*|[^\w][@][\w\s]*|[#][\w\s]*$/gm;
-  const myReg = /:|[^\w]@[\w\s]*|#[\w\s]*$/gm;
+  const myReg = /:|[^\w]@|#[\w\s]*$/gm;
 
   const { start, end } = selection;
   let text = textWhole;
