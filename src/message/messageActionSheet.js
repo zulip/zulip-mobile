@@ -5,7 +5,7 @@ import type { BackgroundData } from '../webview/MessageList';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted, getLinkToMessage } from '../utils/message';
 /* eslint-disable import/no-named-as-default-member */
-import api, { getRawMessageContent, toggleMuteStream, toggleMessageStarred } from '../api';
+import api, { toggleMuteStream, toggleMessageStarred } from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
@@ -31,6 +31,11 @@ type ButtonDescription = {
 
 const isAnOutboxMessage = (message: Message | Outbox): boolean => message.isOutbox;
 
+const getRawMessageContent = async (auth: Auth, message: Message | Outbox) =>
+  isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
+    ? message.markdownContent
+    : (await api.getRawMessageContent(auth, message.id)).raw_content;
+
 //
 // Options for the action sheet go below: ...
 //
@@ -41,10 +46,7 @@ const reply = ({ message, dispatch, ownEmail }) => {
 reply.title = 'Reply';
 
 const copyMessageContent = async ({ _, auth, message }) => {
-  const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
-    ? message.markdownContent
-    : (await getRawMessageContent(auth, message.id)).raw_content;
-  Clipboard.setString(rawMessage);
+  Clipboard.setString(await getRawMessageContent(auth, message));
   showToast(_('Copied message content'));
 };
 copyMessageContent.title = 'Copy message content';
@@ -99,12 +101,11 @@ const unstarMessage = ({ auth, message }) => {
 };
 unstarMessage.title = 'Unstar message';
 
-const shareMessage = ({ message }) => {
+const shareMessage = async ({ auth, message }) => {
+  const rawMessage = await getRawMessageContent(auth, message);
   Share.share({
-    message: `${message.content.replace(/<(?:.|\n)*?>/gm, '')}\n\n-- ${getLinkToMessage(
-      auth,
-      message,
-    )}`,
+    /* $FlowFixMe: message will always be of type Message */
+    message: `${rawMessage}\n\n-- ${getLinkToMessage(auth.realm, message)}`,
   });
 };
 shareMessage.title = 'Share';
