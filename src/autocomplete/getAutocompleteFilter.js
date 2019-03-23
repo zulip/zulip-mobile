@@ -8,7 +8,6 @@ export default (textWhole: string, selection: InputSelectionType) => {
      taken care of later. Finally, the 3rd part has # which can have words or spaces or lines after it. The g flag helps
      iterate through all the matches.
   */
-  // const myReg = /:[\w\s|@]*|[^\w][@][\w\s]*|[#][\w\s]*$/gm;
   const myReg = /:|[^\w]@|#/gm;
 
   const { start, end } = selection;
