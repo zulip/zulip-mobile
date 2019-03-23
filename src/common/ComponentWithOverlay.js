@@ -7,6 +7,7 @@ import type { Node as React$Node } from 'react';
 import type { Style } from '../types';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
+import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -103,7 +104,9 @@ export default class ComponentWithOverlay extends PureComponent<Props> {
       <Touchable onPress={onPress} accessibilityLabel={accessibilityLabel}>
         <View style={wrapperStyle}>
           {children}
-          {showOverlay && overlaySize > 0 && <View style={overlayStyle}>{overlay}</View>}
+          <AnimatedScaleComponent style={overlayStyle} visible={showOverlay && overlaySize > 0}>
+            <View>{overlay}</View>
+          </AnimatedScaleComponent>
         </View>
       </Touchable>
     );
