@@ -152,7 +152,7 @@ function someVisibleMessage(top, bottom) {
 function idFromMessage(element) {
   var idStr = element.getAttribute('data-msg-id');
 
-  if (!idStr) {
+  if (idStr === null || idStr === undefined) {
     throw new Error('Bad message element');
   }
 
@@ -231,6 +231,7 @@ var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
 
 var scrollEventsDisabled = true;
 var lastTouchEventTimestamp = 0;
+var hasLongPressed = false;
 var lastTouchPositionX = -1;
 var lastTouchPositionY = -1;
 
@@ -421,6 +422,12 @@ var requireAttribute = function requireAttribute(e, name) {
 documentBody.addEventListener('click', function (e) {
   e.preventDefault();
   lastTouchEventTimestamp = 0;
+
+  if (hasLongPressed) {
+    hasLongPressed = false;
+    return;
+  }
+
   var target = e.target;
 
   if (!(target instanceof Element)) {
@@ -495,6 +502,7 @@ var handleLongPress = function handleLongPress(target) {
   }
 
   lastTouchEventTimestamp = 0;
+  hasLongPressed = true;
   sendMessage({
     type: 'longPress',
     target: target.matches('.header') ? 'header' : 'message',
@@ -512,6 +520,7 @@ documentBody.addEventListener('touchstart', function (e) {
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
+  hasLongPressed = false;
   setTimeout(function () {
     return handleLongPress(target);
   }, 500);

@@ -351,6 +351,7 @@ const sendScrollMessageIfListShort = () => {
 let scrollEventsDisabled = true;
 
 let lastTouchEventTimestamp = 0;
+let hasLongPressed = false;
 let lastTouchPositionX = -1;
 let lastTouchPositionY = -1;
 
@@ -558,6 +559,13 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   e.preventDefault();
   lastTouchEventTimestamp = 0;
 
+  /* Without a flag `hasLongPressed`, both the short press and the long
+   * press actions get triggered. See PR #3404 for more context. */
+  if (hasLongPressed) {
+    hasLongPressed = false;
+    return;
+  }
+
   const { target } = e;
 
   if (!(target instanceof Element)) {
@@ -650,6 +658,7 @@ const handleLongPress = (target: Element) => {
   }
 
   lastTouchEventTimestamp = 0;
+  hasLongPressed = true;
 
   sendMessage({
     type: 'longPress',
@@ -667,6 +676,7 @@ documentBody.addEventListener('touchstart', (e: TouchEvent) => {
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
+  hasLongPressed = false;
   setTimeout(() => handleLongPress(target), 500);
 });
 
