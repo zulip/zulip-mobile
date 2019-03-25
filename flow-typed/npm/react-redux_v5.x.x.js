@@ -31,7 +31,7 @@ Decrypting the abbreviations:
   EFO = Extra factory options (used only in connectAdvanced)
 */
 
-declare module "react-redux" {
+declare module 'react-redux' {
   // ------------------------------------------------------------
   // Typings for connect()
   // ------------------------------------------------------------
@@ -207,10 +207,7 @@ declare module "react-redux" {
     children?: React$Node,
   }> {}
 
-  declare export function createProvider(
-    storeKey?: string,
-    subKey?: string,
-  ): Class<Provider<*>>;
+  declare export function createProvider(storeKey?: string, subKey?: string): Class<Provider<*>>;
 
   // ------------------------------------------------------------
   // Typings for connectAdvanced()
@@ -237,10 +234,7 @@ declare module "react-redux" {
     WrappedComponent: Com,
   };
 
-  declare type MapStateToPropsEx<S: Object, SP: Object, RSP: Object> = (
-    state: S,
-    props: SP,
-  ) => RSP;
+  declare type MapStateToPropsEx<S: Object, SP: Object, RSP: Object> = (state: S, props: SP) => RSP;
 
   declare type SelectorFactory<
     Com: React$ComponentType<*>,
