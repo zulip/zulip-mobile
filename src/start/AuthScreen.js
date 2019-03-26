@@ -20,13 +20,7 @@ import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 type Props = {|
   dispatch: Dispatch,
   realm: string,
-  navigation: NavigationScreenProp<*> & {
-    state: {
-      params: {
-        serverSettings: ApiResponseServerSettings,
-      },
-    },
-  },
+  navigation: NavigationScreenProp<{ params: {| serverSettings: ApiResponseServerSettings |} }>,
 |};
 
 let otp = '';

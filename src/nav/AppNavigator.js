@@ -41,6 +41,7 @@ export default StackNavigator(
     'account-details': { screen: AccountDetailsScreen },
     'group-details': { screen: GroupDetailsScreen },
     auth: { screen: AuthScreen },
+    // $FlowFixMe react-navigation types :-/
     chat: { screen: ChatScreen },
     dev: { screen: DevAuthScreen },
     'emoji-picker': { screen: EmojiPickerScreen },
@@ -53,6 +54,7 @@ export default StackNavigator(
     users: { screen: UsersScreen },
     settings: { screen: SettingsScreen },
     language: { screen: LanguageScreen },
+    // $FlowFixMe react-navigation types :-/
     lightbox: { screen: LightboxScreen },
     group: { screen: CreateGroupScreen },
     'invite-users': { screen: InviteUsersScreen },
