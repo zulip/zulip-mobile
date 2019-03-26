@@ -1,4 +1,4 @@
-/* @flow strict-local */
+/* @flow strict */
 import { sleep, tryUntilSuccessful } from '../async';
 
 describe('sleep', () => {

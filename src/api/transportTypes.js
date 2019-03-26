@@ -1,4 +1,4 @@
-/* @flow strict-local */
+/* @flow strict */
 
 export type Auth = {|
   realm: string,
