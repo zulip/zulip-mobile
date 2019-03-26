@@ -110,7 +110,7 @@ class MessageList extends Component<Props> {
     this.setupSendMessages();
   }
 
-  handleError = (event: Object) => {
+  handleError = (event: mixed) => {
     console.error(event); // eslint-disable-line
   };
 

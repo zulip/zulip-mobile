@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
 import type { Dispatch, GetText, Message, Narrow } from '../types';
@@ -93,7 +93,7 @@ type MessageListEventError = {|
     source: string,
     line: number,
     column: number,
-    error: Object,
+    error: mixed,
   },
 |};
 
