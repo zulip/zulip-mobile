@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Auth } from '../../types';
 import type {
   WebviewInputMessage,
@@ -7,6 +7,7 @@ import type {
   MessageInputTyping,
   MessageInputReady,
 } from '../webViewHandleUpdates';
+import type { MessageListEvent } from '../webViewEventHandlers';
 
 /*
  * Supported platforms:
@@ -74,7 +75,7 @@ const escapeHtml = (text: string): string => {
   return element.innerHTML;
 };
 
-const sendMessage = (msg: Object) => {
+const sendMessage = (msg: MessageListEvent) => {
   window.postMessage(JSON.stringify(msg), '*');
 };
 
@@ -545,6 +546,14 @@ document.addEventListener('message', e => {
  *
  */
 
+const requireAttribute = (e: Element, name: string): string => {
+  const value = e.getAttribute(name);
+  if (value === null || value === undefined) {
+    throw new Error(`Missing expected attribute ${name}`);
+  }
+  return value;
+};
+
 documentBody.addEventListener('click', (e: MouseEvent) => {
   e.preventDefault();
   lastTouchEventTimestamp = 0;
@@ -563,7 +572,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromEmail: target.getAttribute('data-email'),
+      fromEmail: requireAttribute(target, 'data-emailer'),
     });
     return;
   }
@@ -571,7 +580,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('.header')) {
     sendMessage({
       type: 'narrow',
-      narrow: target.getAttribute('data-narrow'),
+      narrow: requireAttribute(target, 'data-narrow'),
     });
     return;
   }
@@ -587,7 +596,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   ) {
     sendMessage({
       type: 'image',
-      src: inlineImageLink.getAttribute('href'), // TODO: should be `src` / `data-src-fullsize`.
+      src: requireAttribute(inlineImageLink, 'href'), // TODO: should be `src` / `data-src-fullsize`.
       messageId: getMessageIdFromNode(inlineImageLink),
     });
     return;
@@ -596,7 +605,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('a')) {
     sendMessage({
       type: 'url',
-      href: target.getAttribute('href'),
+      href: requireAttribute(target, 'href'),
       messageId: getMessageIdFromNode(target),
     });
     return;
@@ -605,7 +614,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
     sendMessage({
       type: 'url',
-      href: target.parentNode.getAttribute('href'),
+      href: requireAttribute(target.parentNode, 'href'),
       messageId: getMessageIdFromNode(target.parentNode),
     });
     return;
@@ -614,9 +623,9 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('.reaction')) {
     sendMessage({
       type: 'reaction',
-      name: target.getAttribute('data-name'),
-      code: target.getAttribute('data-code'),
-      reactionType: target.getAttribute('data-type'),
+      name: requireAttribute(target, 'data-name'),
+      code: requireAttribute(target, 'data-code'),
+      reactionType: requireAttribute(target, 'data-type'),
       messageId: getMessageIdFromNode(target),
       voted: target.classList.contains('self-voted'),
     });

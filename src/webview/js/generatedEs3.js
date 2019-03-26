@@ -404,6 +404,17 @@ document.addEventListener('message', function (e) {
   });
   scrollEventsDisabled = false;
 });
+
+var requireAttribute = function requireAttribute(e, name) {
+  var value = e.getAttribute(name);
+
+  if (value === null || value === undefined) {
+    throw new Error("Missing expected attribute " + name);
+  }
+
+  return value;
+};
+
 documentBody.addEventListener('click', function (e) {
   e.preventDefault();
   lastTouchEventTimestamp = 0;
@@ -421,7 +432,7 @@ documentBody.addEventListener('click', function (e) {
   if (target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromEmail: target.getAttribute('data-email')
+      fromEmail: requireAttribute(target, 'data-emailer')
     });
     return;
   }
@@ -429,7 +440,7 @@ documentBody.addEventListener('click', function (e) {
   if (target.matches('.header')) {
     sendMessage({
       type: 'narrow',
-      narrow: target.getAttribute('data-narrow')
+      narrow: requireAttribute(target, 'data-narrow')
     });
     return;
   }
@@ -439,7 +450,7 @@ documentBody.addEventListener('click', function (e) {
   if (inlineImageLink && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
     sendMessage({
       type: 'image',
-      src: inlineImageLink.getAttribute('href'),
+      src: requireAttribute(inlineImageLink, 'href'),
       messageId: getMessageIdFromNode(inlineImageLink)
     });
     return;
@@ -448,7 +459,7 @@ documentBody.addEventListener('click', function (e) {
   if (target.matches('a')) {
     sendMessage({
       type: 'url',
-      href: target.getAttribute('href'),
+      href: requireAttribute(target, 'href'),
       messageId: getMessageIdFromNode(target)
     });
     return;
@@ -457,7 +468,7 @@ documentBody.addEventListener('click', function (e) {
   if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
     sendMessage({
       type: 'url',
-      href: target.parentNode.getAttribute('href'),
+      href: requireAttribute(target.parentNode, 'href'),
       messageId: getMessageIdFromNode(target.parentNode)
     });
     return;
@@ -466,9 +477,9 @@ documentBody.addEventListener('click', function (e) {
   if (target.matches('.reaction')) {
     sendMessage({
       type: 'reaction',
-      name: target.getAttribute('data-name'),
-      code: target.getAttribute('data-code'),
-      reactionType: target.getAttribute('data-type'),
+      name: requireAttribute(target, 'data-name'),
+      code: requireAttribute(target, 'data-code'),
+      reactionType: requireAttribute(target, 'data-type'),
       messageId: getMessageIdFromNode(target),
       voted: target.classList.contains('self-voted')
     });
