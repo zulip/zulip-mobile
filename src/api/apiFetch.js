@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { UrlParams } from '../utils/url';
 import type { Auth } from './transportTypes';
 import { getAuthHeader, encodeParamsForUrl, isValidUrl } from '../utils/url';
@@ -7,7 +7,7 @@ import { networkActivityStart, networkActivityStop } from '../utils/networkActiv
 
 const apiVersion = 'api/v1';
 
-export const objectToParams = (obj: Object) => {
+export const objectToParams = (obj: {}) => {
   const newObj = {};
   Object.keys(obj).forEach(key => {
     if (Array.isArray(obj[key])) {
@@ -21,9 +21,11 @@ export const objectToParams = (obj: Object) => {
   return newObj;
 };
 
-export const getFetchParams = (auth: Auth, params: Object = {}) => {
+export const getFetchParams = (auth: Auth, params: {} = {}) => {
+  // $FlowFixMe This is purely a no-op, and Flow even knows that. :-/
+  const { body } = (params: { body?: mixed });
   const contentType =
-    params.body instanceof FormData
+    body instanceof FormData
       ? 'multipart/form-data'
       : 'application/x-www-form-urlencoded; charset=utf-8';
 
@@ -37,7 +39,7 @@ export const getFetchParams = (auth: Auth, params: Object = {}) => {
   };
 };
 
-export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}) => {
+export const fetchWithAuth = async (auth: Auth, url: string, params: {} = {}) => {
   if (!isValidUrl(url)) {
     throw new Error(`Invalid url ${url}`);
   }
@@ -45,10 +47,10 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}
   return fetch(url, getFetchParams(auth, params));
 };
 
-export const apiFetch = async (auth: Auth, route: string, params: Object = {}) =>
+export const apiFetch = async (auth: Auth, route: string, params: {} = {}) =>
   fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
-const makeApiError = (httpStatus: number, data: ?Object) => {
+const makeApiError = (httpStatus: number, data: ?{}) => {
   const error = new Error('API');
   // $FlowFixMe
   error.data = data;
@@ -60,7 +62,7 @@ const makeApiError = (httpStatus: number, data: ?Object) => {
 export const apiCall = async (
   auth: Auth,
   route: string,
-  params: Object = {},
+  params: {} = {},
   isSilent: boolean = false,
 ) => {
   try {
