@@ -97,7 +97,7 @@ export type Props = {|
 
 class MessageList extends Component<Props> {
   context: Context;
-  webview: ?Object;
+  webview: ?{ postMessage: (string, string) => void };
   sendMessagesIsReady: boolean;
   unsentMessages: WebviewInputMessage[] = [];
 
