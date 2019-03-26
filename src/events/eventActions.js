@@ -1,7 +1,7 @@
-/* @flow */
+/* @flow strict-local */
 import { batchActions } from 'redux-batched-actions';
 
-import type { Action, Dispatch, GetState, GlobalState } from '../types';
+import type { Action, Dispatch, GeneralEvent, GetState, GlobalState } from '../types';
 import { pollForEvents } from '../api';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
@@ -10,7 +10,10 @@ import { tryGetAuth } from '../selectors';
 import actionCreator from '../actionCreator';
 import progressiveTimeout from '../utils/progressiveTimeout';
 
-export const responseToActions = (state: GlobalState, events: $ReadOnlyArray<Object>): Action[] =>
+export const responseToActions = (
+  state: GlobalState,
+  events: $ReadOnlyArray<GeneralEvent>,
+): Action[] =>
   events
     .map(event => {
       eventMiddleware(state, event);
