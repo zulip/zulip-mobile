@@ -9,6 +9,12 @@ import api, { getMessageContentById, toggleMuteStream, toggleMessageStarred } fr
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
+// TODO really this belongs in a libdef.
+export type ShowActionSheetWithOptions = (
+  { options: string[], cancelButtonIndex: number },
+  (number) => void,
+) => void;
+
 /** Description of a possible option for the action sheet. */
 type ButtonDescription = {
   /** The callback. */
@@ -208,10 +214,7 @@ export const constructMessageActionButtons = ({
 export const showActionSheet = (
   isHeader: boolean,
   dispatch: Dispatch,
-  showActionSheetWithOptions: (
-    { options: string[], cancelButtonIndex: number },
-    (number) => void,
-  ) => void,
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
   _: GetText,
   params: ConstructSheetParams,
 ): void => {

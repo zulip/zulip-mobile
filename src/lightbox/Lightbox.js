@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
@@ -7,6 +7,7 @@ import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type { Auth, Dispatch, GlobalState, Message } from '../types';
+import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
 import { SlideAnimationView } from '../common';
@@ -40,7 +41,7 @@ type Props = {|
   dispatch: Dispatch,
   src: string,
   message: Message,
-  showActionSheetWithOptions: (Object, (number) => void) => void,
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
 |};
 
 type State = {|

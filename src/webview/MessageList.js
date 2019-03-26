@@ -43,6 +43,7 @@ import {
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
 
+import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { WebviewInputMessage } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
 import getHtml from './html/html';
@@ -88,7 +89,7 @@ export type Props = {|
   typingUsers: User[],
 
   // From `connectActionSheet`.
-  showActionSheetWithOptions: (Object, (number) => void) => void,
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
 
   // From `withGetText`.
   _: GetText,

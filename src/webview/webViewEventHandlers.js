@@ -3,6 +3,7 @@ import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
 import type { Dispatch, GetText, Message, Narrow } from '../types';
 import type { BackgroundData } from './MessageList';
+import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { isUrlAnImage } from '../utils/url';
 import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -113,7 +114,7 @@ type Props = $ReadOnly<{
   dispatch: Dispatch,
   messages: Message[],
   narrow: Narrow,
-  showActionSheetWithOptions: (Object, (number) => void) => void,
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
 }>;
 
 const fetchMore = (props: Props, event: MessageListEventScroll) => {
