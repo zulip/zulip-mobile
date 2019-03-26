@@ -2,14 +2,15 @@
 import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch } from '../types';
+import type { Dispatch, UserOrBot } from '../types';
 import { Screen } from '../common';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 
 type Props = {|
-  navigation: Object,
+  navigation: NavigationScreenProp<{ params: {| recipients: UserOrBot[] |} }>,
   dispatch: Dispatch,
 |};
 
