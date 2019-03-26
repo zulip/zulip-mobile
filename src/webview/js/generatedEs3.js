@@ -3,6 +3,9 @@
  * To make changes:
  *   1. Edit `js.js`, which is the source for this file.
  *   2. Run `tools/generate-webview-js`.
+ *
+ * @generated
+ * @flow strict
  */
 
 export default `

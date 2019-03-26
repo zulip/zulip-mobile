@@ -11,11 +11,17 @@ const es3Code = babel.transformFileSync(sourceFilename, {
   compact: false,
 }).code;
 
+/* eslint-disable-next-line no-useless-concat */
+const generatedMarker = '@' + 'generated';
+
 const output = `/*
  * This is a GENERATED file -- do not edit.
  * To make changes:
  *   1. Edit \`js.js\`, which is the source for this file.
  *   2. Run \`tools/generate-webview-js\`.
+ *
+ * ${generatedMarker}
+ * @flow strict
  */
 
 export default \`
