@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { EventTypes } from '../api/eventTypes';
 
 import type { GlobalState, EventAction } from '../types';
@@ -67,7 +67,9 @@ const actionTypeOfEventType = {
   user_status: EVENT_USER_STATUS_UPDATE,
 };
 
-export default (state: GlobalState, event: Object): EventAction => {
+// This FlowFixMe is because this function encodes a large number of
+// assumptions about the events the server sends, and doesn't check them.
+export default (state: GlobalState, event: $FlowFixMe): EventAction => {
   switch (event.type) {
     case 'alert_words':
       return {
