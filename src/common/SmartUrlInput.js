@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import type { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
 
 import type { Context, Style } from '../types';
 import { autocompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
@@ -28,7 +29,7 @@ type Props = {|
   defaultOrganization: string,
   protocol: string,
   append: string,
-  navigation: Object,
+  navigation: NavigationScreenProp<mixed>,
   style?: Style,
   onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
@@ -45,7 +46,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
     value: '',
   };
   textInputRef: any;
-  focusListener: Object;
+  focusListener: void | NavigationEventSubscription;
 
   static contextTypes = {
     styles: () => null,
@@ -58,7 +59,9 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    this.focusListener.remove();
+    if (this.focusListener) {
+      this.focusListener.remove();
+    }
   }
 
   handleChange = (value: string) => {
