@@ -7,6 +7,7 @@ import type {
   GetState,
   Message,
   Narrow,
+  UserOrBot,
   ApiResponseServerSettings,
 } from '../types';
 import { getSameRoutesCount } from '../selectors';
@@ -47,7 +48,7 @@ export const navigateToAccountPicker = (): NavigateAction =>
 export const navigateToAccountDetails = (email: string): NavigateAction =>
   NavigationActions.navigate({ routeName: 'account-details', params: { email } });
 
-export const navigateToGroupDetails = (recipients: string[]): NavigateAction =>
+export const navigateToGroupDetails = (recipients: UserOrBot[]): NavigateAction =>
   NavigationActions.navigate({ routeName: 'group-details', params: { recipients } });
 
 export const navigateToRealmScreen = (realm?: string): NavigateAction =>
