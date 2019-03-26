@@ -33,7 +33,7 @@ with_flow()
 
 todo()
 {
-    with_flow | number_lines | grep -v '@flow strict '
+    with_flow | number_lines | grep -Ev '@flow strict(\s|$)'
 }
 
 depends()
