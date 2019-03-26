@@ -1,16 +1,20 @@
-/* @flow */
+/* @flow strict-local */
 // import { Vibration } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { GeneralEvent, GlobalState, MessageEvent } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
 import { getActiveAccount, getChatScreenParams, getOwnEmail, getIsActive } from '../selectors';
 import { playMessageSound } from '../utils/sound';
 
-export default (state: GlobalState, event: Object) => {
-  switch (event.type) {
+export default (state: GlobalState, event_: GeneralEvent) => {
+  switch (event_.type) {
     case 'message': {
+      // $FlowFixMe This expresses our unchecked assumptions about `message` events.
+      const event = (event_: MessageEvent);
+
       // move `flags` key from `event` to `event.message` for consistency
       if (event.flags && !event.message.flags) {
+        // $FlowFixMe Message is readonly to serve our use of it in Redux.
         event.message.flags = event.flags;
         delete event.flags;
       }
