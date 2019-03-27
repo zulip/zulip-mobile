@@ -45,7 +45,7 @@ const extraButtonHandlers: NarrowNavButtonCandidate[] = [
 const makeButton = (handlers): NarrowNavButton => props => {
   const handler = handlers.find(x => x.isFunc(props.narrow)) || null;
   const SpecificButton = handler && handler.ButtonComponent;
-  return SpecificButton && <SpecificButton {...props} />;
+  return !!SpecificButton && <SpecificButton {...props} />;
 };
 
 export const InfoButton = makeButton(infoButtonHandlers);

@@ -107,7 +107,7 @@ export default class ZulipButton extends PureComponent<Props> {
       <View style={frameStyle}>
         <Touchable onPress={disabled ? undefined : onPress}>
           <View style={styles.buttonContent}>
-            {Icon && <Icon style={iconStyle} size={25} />}
+            {!!Icon && <Icon style={iconStyle} size={25} />}
             <Text style={textStyle}>
               <TranslatedText text={text} />
             </Text>
