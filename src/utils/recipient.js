@@ -50,9 +50,6 @@ export const isSameRecipient = (
         message1.display_recipient.toLowerCase() === message2.display_recipient.toLowerCase()
         && message1.subject.toLowerCase() === message2.subject.toLowerCase()
       );
-    case 'outbox': {
-      return message2.isOutbox;
-    }
     default:
       // Invariant
       return false;
