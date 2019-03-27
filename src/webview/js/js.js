@@ -243,7 +243,7 @@ function someVisibleMessage(top: number, bottom: number): ?Element {
 
 function idFromMessage(element: Element): number {
   const idStr = element.getAttribute('data-msg-id');
-  if (!idStr) {
+  if (idStr === null || idStr === undefined) {
     throw new Error('Bad message element');
   }
   return +idStr;
