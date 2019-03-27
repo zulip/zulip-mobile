@@ -435,7 +435,7 @@ documentBody.addEventListener('click', function (e) {
   if (target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromEmail: requireAttribute(target, 'data-emailer')
+      fromEmail: requireAttribute(target, 'data-email')
     });
     return;
   }
