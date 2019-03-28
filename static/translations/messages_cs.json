@@ -24,7 +24,7 @@
   "Search": "Hledat",
   "Log in": "Přihlásit se",
   "Enter": "Zadat",
-  "Switch account": "Switch account",
+  "Switch account": "Přepnout účet",
   "Log out": "Odhlásit se",
   "Add new account": "Přidat nový účet",
   "Search messages": "Hledat zprávy",
@@ -35,7 +35,7 @@
   "Username": "Uživatelské jméno",
   "Password": "Heslo",
   "Why not start the conversation?": "Proč nezačít konverzaci?",
-  "Chat": "Chat",
+  "Chat": "Rozhovor",
   "Log in with Google": "Přihlásit se pomocí Google",
   "Log in with GitHub": "Přihlásit se pomocí GitHub",
   "Log in with password": "Přihlásit se pomocí hesla",
@@ -158,7 +158,7 @@
   "Topics": "Témata",
   "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Vítejte v Zulipu\n\nNejprve si z vašeho počítače musíte vytvořit účet. Pokud si nejste jisti, kde začít, jděte ve svém internetovém prohlížeči na stránku zulipchat.com.\n\nDoufáme, že vás tu brzy opět uvidíme!\n",
   "Add subscribers": "Přidat odběratele",
-  "Set yourself to away": "Nastavit stav „pryč“",
+  "Set yourself to away": "Nastavit stav na „pryč“",
   "Clear": "Smazat",
   "Only organization admins are allowed to post to this stream.": "Pouze správci organizace mohou v tomto kanálu přidávat zprávy."
 }
