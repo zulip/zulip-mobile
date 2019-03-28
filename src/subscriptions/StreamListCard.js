@@ -68,7 +68,7 @@ class StreamListCard extends PureComponent<Props> {
           />
         )}
         <StreamList
-          streams={(subsAndStreams: $FlowFixMe)} // fixed in next commit
+          streams={subsAndStreams}
           showSwitch
           showDescriptions
           onSwitch={this.handleSwitchChange}
