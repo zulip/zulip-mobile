@@ -10,7 +10,7 @@ import type {
   Narrow,
   EditMessage,
   InputSelectionType,
-  User,
+  UserOrBot,
   Dispatch,
   Dimensions,
   GlobalState,
@@ -50,7 +50,7 @@ import AutocompleteView from '../autocomplete/AutocompleteView';
 type Props = {|
   auth: Auth,
   narrow: Narrow,
-  usersByEmail: Map<string, User>,
+  usersByEmail: Map<string, UserOrBot>,
   draft: string,
   lastMessageTopic: string,
   isAdmin: boolean,

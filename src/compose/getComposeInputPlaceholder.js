@@ -1,11 +1,11 @@
 /* @flow strict-local */
-import type { Narrow, User, LocalizableText } from '../types';
+import type { Narrow, UserOrBot, LocalizableText } from '../types';
 import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../utils/narrow';
 
 export default (
   narrow: Narrow,
   ownEmail: string,
-  usersByEmail: Map<string, User>,
+  usersByEmail: Map<string, UserOrBot>,
 ): LocalizableText => {
   if (isGroupNarrow(narrow)) {
     return { text: 'Message group' };
