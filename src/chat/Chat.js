@@ -9,6 +9,7 @@ import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
+import LoadingNotice from './LoadingNotice';
 import styles from '../styles';
 import { canSendToNarrow } from '../utils/narrow';
 import { getShowMessagePlaceholders } from '../selectors';
@@ -40,6 +41,7 @@ class Chat extends PureComponent<Props> {
             <MessageList narrow={narrow} />
             <NoMessages narrow={narrow} />
             <UnreadNotice narrow={narrow} />
+            <LoadingNotice narrow={narrow} />
           </View>
           {canSend && <ComposeBox narrow={narrow} />}
         </View>
