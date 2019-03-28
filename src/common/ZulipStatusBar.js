@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
-import type { Dimensions, GlobalState, Narrow, ThemeName } from '../types';
+import type { Dimensions, GlobalState, Narrow, Orientation, ThemeName } from '../types';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
@@ -29,7 +29,7 @@ type Props = {
   theme: ThemeName,
   backgroundColor: string,
   safeAreaInsets: Dimensions,
-  orientation: string,
+  orientation: Orientation,
 };
 
 /**
