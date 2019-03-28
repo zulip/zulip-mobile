@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Auth, Dispatch, GlobalState } from '../types';
+import type { Auth, Dispatch, GlobalState, Stream, Subscription } from '../types';
 import { ZulipButton } from '../common';
 import { subscriptionAdd, subscriptionRemove } from '../api';
 import { delay } from '../utils/async';
@@ -26,8 +26,8 @@ type Props = {|
   dispatch: Dispatch,
   auth: Auth,
   canCreateStreams: boolean,
-  streams: [],
-  subscriptions: [],
+  streams: Stream[],
+  subscriptions: Subscription[],
 |};
 
 class StreamListCard extends PureComponent<Props> {
@@ -68,7 +68,7 @@ class StreamListCard extends PureComponent<Props> {
           />
         )}
         <StreamList
-          streams={subsAndStreams}
+          streams={(subsAndStreams: $FlowFixMe)} // fixed in next commit
           showSwitch
           showDescriptions
           onSwitch={this.handleSwitchChange}
