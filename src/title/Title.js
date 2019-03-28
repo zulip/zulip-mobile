@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react';
 import { caseNarrow } from '../utils/narrow';
 import { getSession } from '../selectors';
 
-import type { Message, GlobalState, Narrow } from '../types';
+import type { EditMessage, GlobalState, Narrow } from '../types';
 import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
@@ -15,7 +15,7 @@ import TitlePlain from './TitlePlain';
 
 type Props = {|
   narrow: Narrow,
-  editMessage: Message,
+  editMessage: ?EditMessage,
   color: string,
 |};
 
