@@ -31,7 +31,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   centerContent: boolean,
-  children: React$Node,
+  +children: React$Node,
   safeAreaInsets: Dimensions,
   keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
   padding: boolean,
@@ -43,7 +43,7 @@ type Props = {|
   searchBarOnChange: (text: string) => void,
 
   canGoBack: boolean,
-  title: LocalizableText,
+  +title: LocalizableText,
 |};
 
 /**
