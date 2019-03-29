@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
+import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation';
 
 import type { Auth, Dispatch, GlobalState } from '../types';
 import { fetchApiKey } from '../api';
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
 type Props = {|
   partialAuth: Auth,
   dispatch: Dispatch,
-  navigation: Object,
+  navigation: NavigationScreenProp<NavigationStateRoute>,
 |};
 
 type State = {|

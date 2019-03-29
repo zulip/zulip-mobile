@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
-import type { NavigationScreenProp } from 'react-navigation';
+import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Context, Narrow } from '../types';
@@ -10,13 +10,7 @@ import Chat from '../chat/Chat';
 import ChatNavBar from '../nav/ChatNavBar';
 
 type Props = {|
-  navigation: NavigationScreenProp<*> & {
-    state: {
-      params: {
-        narrow: Narrow,
-      },
-    },
-  },
+  navigation: NavigationScreenProp<NavigationStateRoute>,
 |};
 
 const styles = StyleSheet.create({
@@ -35,7 +29,7 @@ export default class ChatScreen extends PureComponent<Props> {
 
   render() {
     const { styles: contextStyles } = this.context;
-    const { narrow } = this.props.navigation.state.params;
+    const narrow: Narrow = this.props.navigation.getParam('narrow');
 
     return (
       <ActionSheetProvider>

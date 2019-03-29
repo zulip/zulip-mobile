@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
-import type { NavigationScreenProp } from 'react-navigation';
+import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation';
 
 import { emojiReactionAdd } from '../api';
 import { unicodeCodeByName } from './codePointMap';
@@ -19,13 +19,7 @@ type Props = {|
   activeImageEmojiByName: RealmEmojiById,
   auth: Auth,
   dispatch: Dispatch,
-  navigation: NavigationScreenProp<*> & {
-    state: {
-      params: {
-        messageId: number,
-      },
-    },
-  },
+  navigation: NavigationScreenProp<NavigationStateRoute>,
 |};
 
 type State = {|

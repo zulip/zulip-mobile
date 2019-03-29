@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
+import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation';
 
 import type { ApiResponseServerSettings, Dispatch } from '../types';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
@@ -13,7 +14,7 @@ import styles from '../styles';
 
 type Props = {|
   dispatch: Dispatch,
-  navigation: Object,
+  navigation: NavigationScreenProp<NavigationStateRoute>,
   initialRealm: string,
 |};
 

@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation';
 
 import type { Context, Style } from '../types';
 import { autocompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
@@ -28,7 +29,7 @@ type Props = {|
   defaultOrganization: string,
   protocol: string,
   append: string,
-  navigation: Object,
+  navigation: NavigationScreenProp<NavigationStateRoute>,
   style?: Style,
   onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,

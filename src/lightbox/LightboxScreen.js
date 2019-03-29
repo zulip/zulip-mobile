@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
-import type { NavigationScreenProp } from 'react-navigation';
+import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { ZulipStatusBar } from '../common';
@@ -18,21 +18,14 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  navigation: NavigationScreenProp<*> & {
-    state: {
-      params: {
-        src: string,
-        message: Message,
-      },
-    },
-  },
+  navigation: NavigationScreenProp<NavigationStateRoute>,
 |};
 
 export default class LightboxScreen extends PureComponent<Props> {
   render() {
     const { navigation } = this.props;
-    const src = navigation.getParam('src');
-    const message = navigation.getParam('message');
+    const src: string = navigation.getParam('src');
+    const message: Message = navigation.getParam('message');
     return (
       <View style={styles.screen}>
         <ZulipStatusBar hidden backgroundColor="black" />
