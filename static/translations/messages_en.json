@@ -161,5 +161,10 @@
   "Add subscribers": "Add subscribers",
   "Set yourself to away": "Set yourself to away",
   "Clear": "Clear",
-  "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream."
+  "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream.",
+  "📅 In a meeting": "📅 In a meeting",
+  "🚌 Commuting": "🚌 Commuting",
+  "🤒 Out sick": "🤒 Out sick",
+  "🌴 Vacationing": "🌴 Vacationing",
+  "🏠 Working remotely": "🏠 Working remotely"
 }

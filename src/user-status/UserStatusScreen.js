@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Dispatch, GlobalState } from '../types';
-import { Input, OptionButton, Screen, ZulipButton } from '../common';
+import { Input, Screen, ZulipButton } from '../common';
 import { getSelfUserStatusText } from '../selectors';
 import { IconCancel, IconDone } from '../common/Icons';
-import statusSuggestions from './userStatusTextSuggestions';
+import UserStatusPicker from './UserStatusPicker';
 import { updateUserStatusText } from './userStatusActions';
 import { navigateBack } from '../nav/navActions';
 
@@ -73,20 +73,7 @@ class UserStatusScreen extends PureComponent<Props, State> {
           value={statusText}
           onChangeText={this.setStatusTextState}
         />
-        <FlatList
-          data={statusSuggestions}
-          keyboardShouldPersistTaps="always"
-          keyExtractor={item => item}
-          renderItem={({ item, index }) => (
-            <OptionButton
-              key={item}
-              label={item}
-              onPress={() => {
-                this.setStatusTextState(item);
-              }}
-            />
-          )}
-        />
+        <UserStatusPicker onPress={(item) => this.setStatusTextState(item)} />
         <View style={styles.buttonsWrapper}>
           <ZulipButton
             style={styles.button}
