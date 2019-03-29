@@ -2,11 +2,9 @@
 import type { InputSelectionType } from '../types';
 
 export default (textWhole: string, selection: InputSelectionType) => {
-  /* This regular expression has 3 parts each divided by an or symbol. The first tries to match with : and it can have
-     alphanumeric characters and @ after it. The second part is @, this part only matches @ if there are no words right
-     before it because that would imply that it is an email. This gives a problem for strings such as '@ab' but that is
-     taken care of later. Finally, the 3rd part has # which can have words or spaces or lines after it. The g flag helps
-     iterate through all the matches.
+  /* This regular expression has 3 parts each divided by an or symbol.The first part matches the colon and the second part
+  finds the @ with no word before it (signifies an email which we do not want to autocomplete). Finally the third part matches
+  the #.
   */
   const myReg = /:|[^\w]@|#/gm;
 
