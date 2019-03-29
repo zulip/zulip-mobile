@@ -10,6 +10,7 @@ import {
   caseNarrow,
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
+import { humanDate } from '../../utils/date';
 
 const renderSubject = item =>
   // TODO: pin down if '' happens, and what its proper semantics are.
@@ -47,11 +48,12 @@ export default (
 
     return template`
 <div
-  class="header-wrapper header topic-text"
+  class="header-wrapper header topic-header"
   data-narrow="${topicNarrowStr}"
   data-msg-id="${item.id}"
 >
-  $!${topicHtml}
+  <div class="topic-text">$!${topicHtml}</div>
+  <div class="topic-date">${humanDate(new Date(item.timestamp * 1000))}</div>
 </div>
     `;
   }
@@ -69,16 +71,17 @@ export default (
     const topicHtml = renderSubject(item);
 
     return template`
-<div class="header-wrapper stream-header" data-msg-id="${item.id}">
+<div class="header-wrapper header stream-header topic-header"
+    data-msg-id="${item.id}"
+    data-narrow="${topicNarrowStr}">
   <div class="header stream-text"
        style="color: ${textColor};
               background: ${backgroundColor}"
        data-narrow="${streamNarrowStr}">
     # ${item.display_recipient}
   </div>
-  <div class="header topic-text" data-narrow="${topicNarrowStr}">
-    $!${topicHtml}
-  </div>
+  <div class="topic-text">$!${topicHtml}</div>
+  <div class="topic-date">${humanDate(new Date(item.timestamp * 1000))}</div>
 </div>
     `;
   }
