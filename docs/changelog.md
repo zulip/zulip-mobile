@@ -8,6 +8,84 @@ to users in general on the app stores is typically a few days later.
 
 ## Unreleased
 
+### Highlights for users
+
+Many fixes and improvements, including:
+* The app now fetches more messages more eagerly when scrolling
+  through the message list, so you'll less often have to wait.
+* Long-pressing a link in a message copies the link.
+* The special `:zulip:` emoji.
+* A new complete translation for Romanian, and updates for Czech,
+  Turkish, and Italian.
+
+
+### Full changes for users
+
+* Touching a user's avatar or name in the app bar above a message list
+  leads to their profile.
+* Fetch more messages sooner, to reduce user waiting. (6ccf3a297)
+* Adjusted text on "Switch account" and "Log out" buttons.
+* The special `:zulip:` emoji is now supported. (#2375)
+* User status / "unavailable" feature more fully supported. (#3417)
+* Azure AD authentication backend supported, when enabled on server. (#3227)
+* On iOS when displaying the message list, switched a major
+  system-provided component ("WebView") to a newer version offering
+  performance and stability improvements. (#3296)
+* Complete translation into Romanian from scratch; translation updates
+  for Czech, Turkish, and Italian.
+* Fixed a bug on iOS where long-pressing something in the message list
+  could act like a normal press after the long-press. (#3429)
+* When a message contains a link, you can now copy the link by
+  long-pressing it. (#3385)
+
+
+### Highlights for developers
+
+* The Android app now supports Kotlin!  In fact we're migrating to
+  Kotlin -- new code will be in Kotlin.  See
+  [doc](architecture/android.md#kotlin-and-java).
+
+* The Android app now has unit tests!  Just a few so far -- but now
+  that we have a model to follow, we'll write them for other code
+  as appropriate.  See [doc](howto/testing.md#unit-tests-android).
+
+* We've begun using a "crunchy shell, soft center" pattern in handling
+  data from the server.  This means all parsing of messy
+  data-from-the-network happens at the edge (the "crunchy shell") --
+  and constructs new, clean data structures with an exactly known
+  format.  Then the rest of the app can be a "soft center", with many
+  fewer boring checks, so the real application logic it's expressing
+  easier to read and the code is less prone to bugs.
+
+  So far this is demonstrated in parsing of notification data
+  (i.e. FCM messages) in our Android code, in [FcmMessage.kt].
+  See also discussion in the commit message of f85d3250f.
+  The same pattern works great in JS too, and we may gradually 
+  also move to it there.
+
+[FcmMessage.kt]: ../android/app/src/main/java/com/zulipmobile/notifications/FcmMessage.kt
+
+* We've begun to put small single-use helper React components in the
+  same file where they're used, and in general to put several React
+  components in a file when that makes the code clearer.  Disabled the
+  lint rule that would complain about that.  Discussion in cb418f134,
+  examples in 7f7620811 and parent.
+
+
+### Other changes for developers
+
+* Types for the server API significantly reorganized: moved
+  initial-data types in from app's `types.js`, and separated out model
+  types and generic protocol/transport types in their own files.
+  (12bc3e801^..958bc2b7e)
+* Types for our Redux state separated out and organized.
+  (cc945867a^..4bc77bdab)
+* `Touchable` revised to more effectively cover up a subtle,
+  regrettable difference between upstream RN's interfaces for the
+  implementations we use on Android vs. iOS. (ec32af1a4, f44114b2b)
+* Fixed most remaining violations of Flow's `strict-local`; just 8
+  files remain without it. (dd03939cb^..d298669ef)
+
 
 ## 23.3.112 (2019-03-04)
 
