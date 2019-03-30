@@ -101,18 +101,20 @@ simple terminology for the process we follow with both.
 
 ### iOS
 
-* Build using our script:
+* Build using our `tools/ios` script:
 
   ```
+  security unlock-keychain  # will prompt for your password
   tools/ios build
   ```
 
-  This will take a few minutes.
+  This will take a few minutes to run (it's about 5 minutes on the
+  Mac Mini in the Zulip office.)
 
-  * Toward the end this will need access to your keychain to sign the
-    build.  If you have a graphical session, this gets taken care of;
-    if you're SSHed in, you can run `security unlock-keychain` first
-    (and type your password into the prompt) to make things work.
+  * If you have a graphical session (rather than SSHing in to the
+    machine), you could skip the `security unlock-keychain`; then
+    toward the end you'll get a graphical prompt to do the same thing,
+    when the job needs access to your keychain to sign the build.
 
   * Given past experience with Apple tools, this will probably prove
     to be flaky in new and exciting ways.  See the history of this
@@ -127,7 +129,9 @@ simple terminology for the process we follow with both.
 
   * You'll need a graphical session; `security unlock-keychain`
     doesn't seem to suffice.  Finding a pure-CLI, SSH-accessible way
-    to do this step would be pretty nice.
+    to do this step would be pretty nice.  (Possible route: export
+    to a `.ipa` file, then use `altool --upload-app`.  Can prompt for
+    App Store Connect password, or get it from the keychain.)
 
   * Like the build, this will probably be flaky in exciting ways;
     see history for hints.
