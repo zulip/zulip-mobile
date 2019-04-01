@@ -2,7 +2,13 @@
 import { Clipboard, Share } from 'react-native';
 import type { Auth, Dispatch, GetText, Message, Narrow, Subscription } from '../types';
 import type { BackgroundData } from '../webview/MessageList';
-import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
+import {
+  getNarrowFromMessage,
+  isHomeNarrow,
+  isSpecialNarrow,
+  isPrivateOrGroupNarrow,
+  isTopicNarrow,
+} from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 /* eslint-disable import/no-named-as-default-member */
 import api, { getMessageContentById, toggleMuteStream, toggleMessageStarred } from '../api';
@@ -34,10 +40,10 @@ const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 // Options for the action sheet go below: ...
 //
 
-const reply = ({ message, dispatch, auth }) => {
+const showConversation = ({ message, dispatch, auth }) => {
   dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
 };
-reply.title = 'Reply';
+showConversation.title = 'Show conversation';
 
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
@@ -116,7 +122,7 @@ cancel.title = 'Cancel';
 const allButtonsRaw = {
   // For messages
   addReaction,
-  reply,
+  showConversation,
   copyToClipboard,
   shareMessage,
   editMessage,
@@ -181,8 +187,8 @@ export const constructMessageActionButtons = ({
   if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
     buttons.push('addReaction');
   }
-  if (!isAnOutboxMessage(message)) {
-    buttons.push('reply');
+  if (!isAnOutboxMessage(message) && !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
+    buttons.push('showConversation');
   }
   if (messageNotDeleted(message)) {
     buttons.push('copyToClipboard');

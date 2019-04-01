@@ -1,6 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { constructMessageActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
+import { privateNarrow, streamNarrow, topicNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('constructActionButtons', () => {
   const auth = deepFreeze({
@@ -19,6 +20,44 @@ describe('constructActionButtons', () => {
       1: true,
       2: true,
     },
+  });
+
+  test('add show conversation option if narrow is not pm, group, topic', () => {
+    const message = deepFreeze({
+      id: 3,
+    });
+
+    const buttonsForHomeNarrow = constructMessageActionButtons({
+      backgroundData: { auth, flags, mute, subscriptions },
+      message,
+      narrow,
+    });
+    const buttonsForPMNarrow = constructMessageActionButtons({
+      backgroundData: { auth, flags, mute, subscriptions },
+      message,
+      narrow: privateNarrow('a@zulip.com'),
+    });
+    const buttonsForStreamNarrow = constructMessageActionButtons({
+      backgroundData: { auth, flags, mute, subscriptions },
+      message,
+      narrow: streamNarrow('stream'),
+    });
+    const buttonsForGroupNarrow = constructMessageActionButtons({
+      backgroundData: { auth, flags, mute, subscriptions },
+      message,
+      narrow: groupNarrow(['a@zulip.com', 'b@zulip.com']),
+    });
+    const buttonsForTopicNarrow = constructMessageActionButtons({
+      backgroundData: { auth, flags, mute, subscriptions },
+      message,
+      narrow: topicNarrow('stream', 'topic'),
+    });
+
+    expect(buttonsForHomeNarrow).toContain('showConversation');
+    expect(buttonsForPMNarrow).not.toContain('showConversation');
+    expect(buttonsForStreamNarrow).toContain('showConversation');
+    expect(buttonsForGroupNarrow).not.toContain('showConversation');
+    expect(buttonsForTopicNarrow).not.toContain('showConversation');
   });
 
   test('show star message option if message is not starred', () => {
