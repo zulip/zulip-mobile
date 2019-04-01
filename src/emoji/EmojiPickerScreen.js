@@ -59,7 +59,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
 
   addReaction = (emojiName: string) => {
     const { auth, dispatch, navigation } = this.props;
-    const { messageId } = navigation.state.params;
+    const messageId = navigation.getParam('messageId');
 
     const { reactionType, emojiCode } = this.getReactionTypeAndCode(emojiName);
     emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName);

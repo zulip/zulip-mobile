@@ -19,7 +19,8 @@ class GroupDetailsScreen extends PureComponent<Props> {
   };
 
   render() {
-    const { recipients } = this.props.navigation.state.params;
+    const { navigation } = this.props;
+    const recipients = navigation.getParam('recipients');
     return (
       <Screen title="Recipients" scrollEnabled={false}>
         <FlatList

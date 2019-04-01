@@ -48,7 +48,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
 
   tryPasswordLogin = async () => {
     const { dispatch, partialAuth, navigation } = this.props;
-    const { requireEmailFormat } = navigation.state.params;
+    const requireEmailFormat = navigation.getParam('requireEmailFormat');
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
@@ -68,8 +68,9 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   };
 
   validateForm = () => {
-    const { requireEmailFormat } = this.props.navigation.state.params;
+    const { navigation } = this.props;
     const { email, password } = this.state;
+    const requireEmailFormat = navigation.getParam('requireEmailFormat');
 
     if (requireEmailFormat && !isValidEmailFormat(email)) {
       this.setState({ error: 'Enter a valid email address' });
@@ -83,8 +84,9 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   };
 
   render() {
-    const { requireEmailFormat } = this.props.navigation.state.params;
+    const { navigation } = this.props;
     const { email, password, progress, error } = this.state;
+    const requireEmailFormat = navigation.getParam('requireEmailFormat');
     const isButtonDisabled =
       password.length === 0
       || email.length === 0

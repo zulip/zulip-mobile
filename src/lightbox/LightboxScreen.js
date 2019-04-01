@@ -30,7 +30,9 @@ type Props = {|
 
 export default class LightboxScreen extends PureComponent<Props> {
   render() {
-    const { src, message } = this.props.navigation.state.params;
+    const { navigation } = this.props;
+    const src = navigation.getParam('src');
+    const message = navigation.getParam('message');
     return (
       <View style={styles.screen}>
         <ZulipStatusBar hidden backgroundColor="black" />

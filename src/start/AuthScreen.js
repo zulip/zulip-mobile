@@ -40,9 +40,9 @@ class AuthScreen extends PureComponent<Props> {
       }
     });
 
-    const authList = activeAuthentications(
-      this.props.navigation.state.params.serverSettings.authentication_methods,
-    );
+    const { navigation } = this.props;
+    const { authentication_methods } = navigation.getParam('serverSettings');
+    const authList = activeAuthentications(authentication_methods);
     if (authList.length === 1) {
       // $FlowFixMe
       this[authList[0].handler]();
@@ -83,8 +83,9 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   handlePassword = () => {
-    const { serverSettings } = this.props.navigation.state.params;
-    this.props.dispatch(navigateToPassword(serverSettings.require_email_format_usernames));
+    const { navigation } = this.props;
+    const { require_email_format_usernames } = navigation.getParam('serverSettings');
+    this.props.dispatch(navigateToPassword(require_email_format_usernames));
   };
 
   handleGoogle = () => {
@@ -104,7 +105,8 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   render() {
-    const { serverSettings } = this.props.navigation.state.params;
+    const { navigation } = this.props;
+    const serverSettings = navigation.getParam('serverSettings');
 
     return (
       <Screen title="Log in" centerContent padding>
