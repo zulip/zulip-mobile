@@ -47,9 +47,12 @@ import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
 
-type Props = {|
-  auth: Auth,
+type OwnProps = {|
   narrow: Narrow,
+|};
+
+type StateProps = {|
+  auth: Auth,
   usersByEmail: Map<string, User>,
   draft: string,
   lastMessageTopic: string,
@@ -59,6 +62,11 @@ type Props = {|
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
   dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 type State = {|
@@ -399,7 +407,7 @@ class ComposeBox extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props: OwnProps) => ({
   auth: getAuth(state),
   usersByEmail: getActiveUsersByEmail(state),
   safeAreaInsets: getSession(state).safeAreaInsets,

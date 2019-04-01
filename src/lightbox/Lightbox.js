@@ -36,12 +36,20 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  auth: Auth,
-  dispatch: Dispatch,
+type OwnProps = {|
   src: string,
   message: Message,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
+|};
+
+type StateProps = {|
+  auth: Auth,
+  dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 type State = {|

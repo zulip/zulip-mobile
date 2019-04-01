@@ -8,10 +8,18 @@ import { getRecipientsInGroupNarrow } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToGroupDetails } from '../actions';
 
-type Props = {|
-  dispatch: Dispatch,
+type OwnProps = {|
   color: string,
+|};
+
+type StateProps = {|
+  dispatch: Dispatch,
   recipients: string[],
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class InfoNavButtonGroup extends PureComponent<Props> {

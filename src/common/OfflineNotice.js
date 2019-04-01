@@ -23,8 +23,12 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type StateProps = {|
   isOnline: boolean,
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 /**

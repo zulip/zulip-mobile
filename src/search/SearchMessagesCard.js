@@ -22,9 +22,17 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  auth: Auth,
+type OwnProps = {|
   query: string,
+|};
+
+type StateProps = {|
+  auth: Auth,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 type State = {|

@@ -21,8 +21,12 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type StateProps = {|
   dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 class DiagnosticsScreen extends PureComponent<Props> {

@@ -15,10 +15,18 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type OwnProps = {|
+  color: string,
+|};
+
+type StateProps = {|
   unreadHuddlesTotal: number,
   unreadPmsTotal: number,
-  color: string,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class IconUnreadConversations extends PureComponent<Props> {

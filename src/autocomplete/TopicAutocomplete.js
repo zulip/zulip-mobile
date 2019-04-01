@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, Narrow } from '../types';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
@@ -15,12 +15,21 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type OwnProps = {|
   isFocused: boolean,
   text: string,
-  topics: string[],
+  narrow: Narrow,
   onAutocomplete: (name: string) => void,
-};
+|};
+
+type StateProps = {|
+  topics: string[],
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
+|};
 
 class TopicAutocomplete extends PureComponent<Props> {
   render() {
@@ -54,6 +63,6 @@ class TopicAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props: OwnProps) => ({
   topics: getTopicsForNarrow(props.narrow)(state),
 }))(TopicAutocomplete);

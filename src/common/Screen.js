@@ -29,10 +29,9 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type OwnProps = {|
   centerContent: boolean,
   +children: React$Node,
-  safeAreaInsets: Dimensions,
   keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
   padding: boolean,
   scrollEnabled: boolean,
@@ -44,6 +43,15 @@ type Props = {|
 
   canGoBack: boolean,
   +title: LocalizableText,
+|};
+
+type StateProps = {|
+  safeAreaInsets: Dimensions,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 /**

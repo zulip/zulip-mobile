@@ -30,11 +30,15 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type StateProps = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
   isLoading: boolean,
   usersByEmail: Map<string, UserOrBot>,
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 /**

@@ -24,13 +24,23 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     ? 'light-content'
     : 'dark-content';
 
-type Props = {
+type OwnProps = {|
+  backgroundColor?: string,
   hidden: boolean,
+  narrow?: Narrow,
+|};
+
+type StateProps = {|
   theme: ThemeName,
   backgroundColor: string,
   safeAreaInsets: Dimensions,
   orientation: Orientation,
-};
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
+|};
 
 /**
  * Controls the status bar settings depending on platform
@@ -55,7 +65,7 @@ class ZulipStatusBar extends PureComponent<Props> {
           <StatusBar
             animated
             showHideTransition="slide"
-            hidden={hidden && Platform.OS !== 'android'}
+            hidden={!!hidden && Platform.OS !== 'android'}
             backgroundColor={Color(statusBarColor).darken(0.1)}
             barStyle={getStatusBarStyle(statusBarColor)}
           />
@@ -65,14 +75,12 @@ class ZulipStatusBar extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  (state: GlobalState, props: { backgroundColor?: string, narrow?: Narrow }) => ({
-    safeAreaInsets: getSession(state).safeAreaInsets,
-    theme: getSettings(state).theme,
-    backgroundColor:
-      props.backgroundColor !== undefined
-        ? props.backgroundColor
-        : getTitleBackgroundColor(props.narrow)(state),
-    orientation: getSession(state).orientation,
-  }),
-)(ZulipStatusBar);
+export default connect((state: GlobalState, props: OwnProps) => ({
+  safeAreaInsets: getSession(state).safeAreaInsets,
+  theme: getSettings(state).theme,
+  backgroundColor:
+    props.backgroundColor !== undefined
+      ? props.backgroundColor
+      : getTitleBackgroundColor(props.narrow)(state),
+  orientation: getSession(state).orientation,
+}))(ZulipStatusBar);

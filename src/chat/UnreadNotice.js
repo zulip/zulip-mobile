@@ -30,10 +30,18 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type OwnProps = {|
   limited: boolean,
   narrow: Narrow,
+|};
+
+type StateProps = {|
   unreadCount: number,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class UnreadNotice extends PureComponent<Props> {

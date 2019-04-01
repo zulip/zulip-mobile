@@ -28,9 +28,13 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type StateProps = {|
   theme: string,
   dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 class SettingsCard extends PureComponent<Props> {

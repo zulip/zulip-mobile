@@ -7,10 +7,18 @@ import type { Dispatch, Narrow } from '../types';
 import NavButton from '../nav/NavButton';
 import { navigateToAccountDetails } from '../actions';
 
-type Props = {|
-  dispatch: Dispatch,
+type OwnProps = {|
   narrow: Narrow,
   color: string,
+|};
+
+type StateProps = {|
+  dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class InfoNavButtonPrivate extends PureComponent<Props> {

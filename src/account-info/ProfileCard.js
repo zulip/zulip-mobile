@@ -63,9 +63,13 @@ class LogoutButton extends PureComponent<{| dispatch: Dispatch |}> {
   }
 }
 
-type Props = {|
+type StateProps = {|
   dispatch: Dispatch,
   selfUserDetail: User,
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 /**

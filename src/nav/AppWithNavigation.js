@@ -9,9 +9,13 @@ import type { Dispatch, GlobalState, NavigationState, PlainDispatch } from '../t
 import { getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
 
-type Props = {|
+type StateProps = {|
   dispatch: Dispatch,
   nav: NavigationState,
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 class AppWithNavigation extends PureComponent<Props> {

@@ -27,10 +27,18 @@ const componentStyles = StyleSheet.create({
 
 const AVATAR_SIZE = 200;
 
-type Props = {|
-  realm: string,
+type OwnProps = {|
   user: User,
+|};
+
+type StateProps = {|
+  realm: string,
   userStatusText: string | void,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class AccountDetails extends PureComponent<Props, void> {
@@ -73,7 +81,7 @@ class AccountDetails extends PureComponent<Props, void> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props: OwnProps) => ({
   realm: getCurrentRealm(state),
   userStatusText: getUserStatusTextForUser(state, props.user.user_id),
 }))(AccountDetails);

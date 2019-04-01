@@ -8,9 +8,17 @@ import { Screen } from '../common';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 
-type Props = {|
+type NavigationProps = {|
   navigation: Object,
+|};
+
+type StateProps = {|
   dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...NavigationProps,
+  ...StateProps,
 |};
 
 class GroupDetailsScreen extends PureComponent<Props> {

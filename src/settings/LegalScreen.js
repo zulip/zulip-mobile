@@ -8,8 +8,12 @@ import openLink from '../utils/openLink';
 import { getFullUrl } from '../utils/url';
 import { getCurrentRealm } from '../selectors';
 
-type Props = {|
+type StateProps = {|
   realm: string,
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 class LegalScreen extends PureComponent<Props> {

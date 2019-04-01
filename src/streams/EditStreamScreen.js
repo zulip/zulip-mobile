@@ -8,9 +8,18 @@ import { getStreamFromId } from '../selectors';
 import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
-type Props = {|
+type OwnProps = {|
+  navigation: Object,
+|};
+
+type StateProps = {|
   dispatch: Dispatch,
   stream: Stream,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class EditStreamScreen extends PureComponent<Props> {
@@ -36,6 +45,6 @@ class EditStreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props: OwnProps) => ({
   stream: getStreamFromId(state, props.navigation.state.params.streamId),
 }))(EditStreamScreen);

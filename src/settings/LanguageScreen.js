@@ -9,9 +9,13 @@ import LanguagePicker from './LanguagePicker';
 import { getSettings } from '../selectors';
 import { settingsChange } from '../actions';
 
-type Props = {|
+type StateProps = {|
   dispatch: Dispatch,
   locale: string,
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 type State = {|

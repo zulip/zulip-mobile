@@ -11,10 +11,18 @@ import openLink from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
 import { BRAND_COLOR } from '../styles';
 
-type Props = {|
+type OwnProps = {|
   label: string,
   href: string,
+|};
+
+type StateProps = {|
   realm: string,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 /**

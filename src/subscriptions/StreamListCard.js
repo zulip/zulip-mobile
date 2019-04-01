@@ -22,12 +22,16 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type StateProps = {|
   dispatch: Dispatch,
   auth: Auth,
   canCreateStreams: boolean,
   streams: Stream[],
   subscriptions: Subscription[],
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 class StreamListCard extends PureComponent<Props> {

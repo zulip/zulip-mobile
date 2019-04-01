@@ -24,10 +24,14 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type StateProps = {|
   dispatch: Dispatch,
   userStatusText: string,
-};
+|};
+
+type Props = {|
+  ...StateProps,
+|};
 
 type State = {
   statusText: string,

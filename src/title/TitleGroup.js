@@ -4,16 +4,25 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Dispatch, User } from '../types';
+import type { Dispatch, Narrow, User } from '../types';
 import { UserAvatarWithPresence } from '../common';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
 import { navigateToAccountDetails } from '../nav/navActions';
 
-type Props = {
+type OwnProps = {|
+  narrow: Narrow,
+|};
+
+type StateProps = {|
   dispatch: Dispatch,
   recipients: User[],
-};
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
+|};
 
 class TitleGroup extends PureComponent<Props> {
   handlePress = user => {

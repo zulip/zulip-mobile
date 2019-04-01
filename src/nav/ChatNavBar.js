@@ -13,10 +13,18 @@ import { foregroundColorFromBackground } from '../utils/color';
 import { navigateBack } from '../actions';
 import { ExtraButton, InfoButton } from '../title-buttons/titleButtonFromNarrow';
 
-type Props = {|
-  dispatch: Dispatch,
+type OwnProps = {|
   backgroundColor: string,
   narrow: Narrow,
+|};
+
+type StateProps = {|
+  dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class ChatNavBar extends PureComponent<Props> {
@@ -44,6 +52,6 @@ class ChatNavBar extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props: OwnProps) => ({
   backgroundColor: getTitleBackgroundColor(props.narrow)(state),
 }))(ChatNavBar);

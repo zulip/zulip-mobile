@@ -3,16 +3,25 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Style, UserPresence, UserStatus } from '../types';
+import type { Style, UserOrBot, UserPresence, UserStatus } from '../types';
 import { getPresence, getUserStatus } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
 
-type Props = {
-  presence: UserPresence,
+type OwnProps = {|
   style: Style,
+  user: UserOrBot,
+|};
+
+type StateProps = {|
+  presence: UserPresence,
   userStatus: UserStatus,
-};
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
+|};
 
 class ActivityText extends PureComponent<Props> {
   render() {

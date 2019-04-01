@@ -18,11 +18,20 @@ import {
 } from '../actions';
 import styles from '../styles';
 
-type Props = {|
+type OwnProps = {|
+  navigation: Object,
+|};
+
+type StateProps = {|
   dispatch: Dispatch,
   isAdmin: boolean,
   stream: Stream,
   subscription: Subscription,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class StreamScreen extends PureComponent<Props> {
@@ -98,7 +107,7 @@ class StreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props: OwnProps) => ({
   isAdmin: getIsAdmin(state),
   stream: getStreamFromId(state, props.navigation.state.params.streamId),
   subscription: getSubscriptionFromId(state, props.navigation.state.params.streamId),

@@ -17,9 +17,18 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type OwnProps = {|
+  navigation: Object,
+|};
+
+type StateProps = {|
   user: User,
   dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class AccountDetailsScreen extends PureComponent<Props> {
@@ -52,6 +61,6 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props: OwnProps) => ({
   user: getAccountDetailsUserFromEmail(state, props.navigation.state.params.email),
 }))(AccountDetailsScreen);

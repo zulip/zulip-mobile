@@ -10,10 +10,18 @@ import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
-type Props = {|
+type OwnProps = {|
   narrow: Narrow,
-  stream: Subscription | {| ...Stream, in_home_view: boolean |},
   color: string,
+|};
+
+type StateProps = {|
+  stream: Subscription | {| ...Stream, in_home_view: boolean |},
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class TitleStream extends PureComponent<Props> {

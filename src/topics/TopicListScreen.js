@@ -11,10 +11,19 @@ import { getStreamFromId } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 import { fetchTopics, doNarrow } from '../actions';
 
-type Props = {|
+type OwnProps = {|
+  navigation: Object,
+|};
+
+type StateProps = {|
   dispatch: Dispatch,
   stream: Stream,
   topics: TopicExtended[],
+|};
+
+export type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 type State = {|
@@ -52,7 +61,7 @@ class TopicListScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props: OwnProps) => ({
   stream: getStreamFromId(state, props.navigation.state.params.streamId),
   topics: getTopicsForStream(state, props.navigation.state.params.streamId),
 }))(TopicListScreen);

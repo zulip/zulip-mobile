@@ -18,13 +18,21 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type OwnProps = {|
   avatarUrl: string | null,
   email: string,
   size: number,
-  realm: string,
   shape: 'rounded' | 'square',
   onPress?: () => void,
+|};
+
+type StateProps = {|
+  realm: string,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 /**

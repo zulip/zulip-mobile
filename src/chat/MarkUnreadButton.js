@@ -19,10 +19,18 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  auth: Auth,
+type OwnProps = {|
   narrow: Narrow,
+|};
+
+type StateProps = {|
+  auth: Auth,
   streams: Stream[],
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class MarkUnreadButton extends PureComponent<Props> {

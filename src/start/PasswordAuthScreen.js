@@ -25,10 +25,18 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type NavigationProps = {|
+  navigation: Object,
+|};
+
+type StateProps = {|
   partialAuth: Auth,
   dispatch: Dispatch,
-  navigation: Object,
+|};
+
+type Props = {|
+  ...NavigationProps,
+  ...StateProps,
 |};
 
 type State = {|

@@ -74,15 +74,19 @@ export type BackgroundData = $ReadOnly<{
   subscriptions: Subscription[],
 }>;
 
+export type OwnProps = {|
+  narrow: Narrow,
+|};
+
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
-export type Props = {|
+type StateProps = {|
   backgroundData: BackgroundData,
 
   anchor: number,
   dispatch: Dispatch,
   fetching: Fetching,
   messages: Message[],
-  narrow: Narrow,
+
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
   theme: ThemeName,
@@ -93,6 +97,11 @@ export type Props = {|
 
   // From `withGetText`.
   _: GetText,
+|};
+
+export type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class MessageList extends Component<Props> {

@@ -18,11 +18,19 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  dispatch: Dispatch,
+type OwnProps = {|
   narrow: Narrow,
+|};
+
+type StateProps = {|
+  dispatch: Dispatch,
   subscriptions: Subscription[],
   unreadByStream: number[],
+|};
+
+export type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class SubscriptionsCard extends PureComponent<Props> {
@@ -47,11 +55,7 @@ class SubscriptionsCard extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
-  narrow: props.narrow || [],
-  // Main screen no longer contains drawer,
-  // so at any position we cannot show selected stream in the list
-  // needs to be removed when we finalize navigation without drawer
+export default connect((state: GlobalState, props: OwnProps) => ({
   subscriptions: getSubscribedStreams(state),
   unreadByStream: getUnreadByStream(state),
 }))(SubscriptionsCard);

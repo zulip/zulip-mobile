@@ -10,10 +10,18 @@ import { getFilteredEmojiNames } from '../emoji/data';
 import type { GlobalState, RealmEmojiById } from '../types';
 import { getActiveImageEmojiByName } from '../selectors';
 
-type Props = {|
+type OwnProps = {|
   filter: string,
-  activeImageEmojiByName: RealmEmojiById,
   onAutocomplete: (name: string) => void,
+|};
+
+type StateProps = {|
+  activeImageEmojiByName: RealmEmojiById,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 const MAX_CHOICES = 30;

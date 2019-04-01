@@ -67,17 +67,21 @@ const PresenceStatusIndicatorUnavailable = ({ style }: { style: Style }) => (
   </View>
 );
 
-type PropsFromConnect = {|
+type OwnProps = {|
+  style?: Style,
+  email: string,
+  hideIfOffline: boolean,
+|};
+
+type StateProps = {|
   presence: PresenceState,
   usersByEmail: Map<string, User>,
   userStatus: UserStatusMapObject,
 |};
 
 type Props = {|
-  ...PropsFromConnect,
-  style?: Style,
-  email: string,
-  hideIfOffline: boolean,
+  ...OwnProps,
+  ...StateProps,
 |};
 
 /**

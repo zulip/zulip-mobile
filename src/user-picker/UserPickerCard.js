@@ -26,12 +26,20 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type OwnProps = {|
+  filter: string,
+  onComplete: (selected: User[]) => void,
+|};
+
+type StateProps = {|
   users: User[],
   usersByEmail: Map<string, User>,
   presences: PresenceState,
-  filter: string,
-  onComplete: (selected: User[]) => void,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 type State = {|

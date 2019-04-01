@@ -14,12 +14,20 @@ import { Popup } from '../common';
 import UserItem from '../users/UserItem';
 import UserGroupItem from '../user-groups/UserGroupItem';
 
-type Props = {|
+type OwnProps = {|
   filter: string,
   onAutocomplete: (name: string) => void,
+|};
+
+type StateProps = {|
   ownEmail: string,
   users: User[],
   userGroups: UserGroup[],
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class PeopleAutocomplete extends PureComponent<Props> {

@@ -9,12 +9,16 @@ import { OptionRow, Screen } from '../common';
 import { toggleMobilePushSettings } from '../api';
 import { settingsChange } from '../actions';
 
-type Props = {|
+type StateProps = {|
   auth: Auth,
   dispatch: Dispatch,
   offlineNotification: boolean,
   onlineNotification: boolean,
   streamNotification: boolean,
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 class NotificationsScreen extends PureComponent<Props> {

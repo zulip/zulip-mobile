@@ -10,9 +10,17 @@ import { stylesFromTheme, themeColors, ThemeContext } from '../styles/theme';
 
 const Dummy = props => props.children;
 
-type Props = {|
-  theme: ThemeName,
+type OwnProps = {|
   children: React$Node,
+|};
+
+type StateProps = {|
+  theme: ThemeName,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class StyleProvider extends PureComponent<Props> {

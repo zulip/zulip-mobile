@@ -9,10 +9,18 @@ import type { Dispatch } from '../types';
 import { getCanGoBack } from '../selectors';
 import { navigateBack } from '../actions';
 
-type Props = {|
+type OwnProps = {|
   children: React$Node,
   canGoBack: boolean,
+|};
+
+type StateProps = {|
   dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class BackNavigationHandler extends PureComponent<Props> {

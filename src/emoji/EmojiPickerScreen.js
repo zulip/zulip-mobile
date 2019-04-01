@@ -15,10 +15,7 @@ import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 
-type Props = {|
-  activeImageEmojiByName: RealmEmojiById,
-  auth: Auth,
-  dispatch: Dispatch,
+type OwnProps = {|
   navigation: NavigationScreenProp<*> & {
     state: {
       params: {
@@ -26,6 +23,17 @@ type Props = {|
       },
     },
   },
+|};
+
+type StateProps = {|
+  activeImageEmojiByName: RealmEmojiById,
+  auth: Auth,
+  dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 type State = {|

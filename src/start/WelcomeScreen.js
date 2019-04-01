@@ -7,8 +7,12 @@ import type { Dispatch } from '../types';
 import { Screen, ViewPlaceholder, ZulipButton } from '../common';
 import { navigateToRealmScreen, navigateToWelcomeHelp } from '../actions';
 
-type Props = {|
+type StateProps = {|
   dispatch: Dispatch,
+|};
+
+type Props = {|
+  ...StateProps,
 |};
 
 class WelcomeScreen extends PureComponent<Props> {

@@ -11,10 +11,18 @@ import { getServerSettings } from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
 import styles from '../styles';
 
-type Props = {|
-  dispatch: Dispatch,
+type NavigationProps = {|
   navigation: Object,
+|};
+
+type StateProps = {|
+  dispatch: Dispatch,
   initialRealm: string,
+|};
+
+type Props = {|
+  ...NavigationProps,
+  ...StateProps,
 |};
 
 type State = {|

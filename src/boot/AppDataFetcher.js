@@ -8,10 +8,18 @@ import type { Dispatch, GlobalState } from '../types';
 import { getSession } from '../directSelectors';
 import { doInitialFetch } from '../actions';
 
-type Props = {|
+type OwnProps = {|
+  children: React$Node,
+|};
+
+type StateProps = {|
   needsInitialFetch: boolean,
   dispatch: Dispatch,
-  children: React$Node,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
 |};
 
 class AppDataFetcher extends PureComponent<Props> {
