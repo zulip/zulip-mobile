@@ -46,5 +46,5 @@ class InviteUsersScreen extends PureComponent<Props, State> {
 
 export default connect((state: GlobalState, props) => ({
   auth: getAuth(state),
-  stream: getStreamFromId(state, props.navigation.state.params.streamId),
+  stream: getStreamFromId(state, props.navigation.getParam('streamId')),
 }))(InviteUsersScreen);

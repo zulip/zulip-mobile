@@ -53,5 +53,5 @@ class AccountDetailsScreen extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState, props) => ({
-  user: getAccountDetailsUserFromEmail(state, props.navigation.state.params.email),
+  user: getAccountDetailsUserFromEmail(state, props.navigation.getParam('email')),
 }))(AccountDetailsScreen);

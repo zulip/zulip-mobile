@@ -37,5 +37,5 @@ class EditStreamScreen extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState, props) => ({
-  stream: getStreamFromId(state, props.navigation.state.params.streamId),
+  stream: getStreamFromId(state, props.navigation.getParam('streamId')),
 }))(EditStreamScreen);

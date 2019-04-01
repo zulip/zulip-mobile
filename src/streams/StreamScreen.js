@@ -100,6 +100,6 @@ class StreamScreen extends PureComponent<Props> {
 
 export default connect((state: GlobalState, props) => ({
   isAdmin: getIsAdmin(state),
-  stream: getStreamFromId(state, props.navigation.state.params.streamId),
-  subscription: getSubscriptionFromId(state, props.navigation.state.params.streamId),
+  stream: getStreamFromId(state, props.navigation.getParam('streamId')),
+  subscription: getSubscriptionFromId(state, props.navigation.getParam('streamId')),
 }))(StreamScreen);
