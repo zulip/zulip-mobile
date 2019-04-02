@@ -44,7 +44,8 @@ class AppEventHandlers extends PureComponent<Props> {
     dispatch(appOnline(isConnected));
   };
 
-  handleAppStateChange = state => {
+  /** https://facebook.github.io/react-native/docs/appstate */
+  handleAppStateChange = (state: 'active' | 'background' | 'inactive') => {
     const { dispatch, unreadCount } = this.props;
     dispatch(reportPresence(state === 'active'));
     dispatch(appState(state === 'active'));
