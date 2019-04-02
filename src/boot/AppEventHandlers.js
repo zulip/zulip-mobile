@@ -6,7 +6,7 @@ import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
 import type { Node as React$Node } from 'react';
-import type { Dispatch, Orientation as OrientationT } from '../types';
+import type { Dispatch, Orientation as OrientationT, ConnectionType } from '../types';
 import { connect } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
@@ -38,7 +38,8 @@ class AppEventHandlers extends PureComponent<Props> {
     dispatch(appOrientation(orientation));
   };
 
-  handleConnectivityChange = connectionInfo => {
+  /** https://facebook.github.io/react-native/docs/netinfo */
+  handleConnectivityChange = (connectionInfo: ConnectionType) => {
     const { dispatch } = this.props;
     const isConnected = connectionInfo.type !== 'none' && connectionInfo.type !== 'unknown';
     dispatch(appOnline(isConnected));
