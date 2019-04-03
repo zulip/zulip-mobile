@@ -72,6 +72,7 @@ rules:
   # React
   react/jsx-filename-extension: off  # Like RN upstream, we call the files *.js.
   react/no-multi-comp: off  # This often just forces making code worse.
+  react/no-unused-prop-types: off  # This can be perfectly appropriate.
   react/prop-types: off  # We handle this better with types.
   react/require-default-props: off  # We handle this better with types.
   # These two could be good to fix.
