@@ -1,6 +1,13 @@
 /* @flow strict */
 /* eslint-disable spellcheck/spell-checker */
-export default [
+
+export type Language = {
+  locale: string,
+  name: string,
+  nativeName: string,
+};
+
+const languages: $ReadOnlyArray<Language> = [
   {
     locale: 'en',
     name: 'English',
@@ -107,3 +114,5 @@ export default [
     nativeName: 'Türkçe',
   },
 ];
+
+export default languages;
