@@ -55,7 +55,7 @@ class RealmScreen extends PureComponent<Props, State> {
     }
   };
 
-  handleRealmChange = value => this.setState({ realm: value });
+  handleRealmChange = (value: string) => this.setState({ realm: value });
 
   componentDidMount() {
     const { initialRealm } = this.props;

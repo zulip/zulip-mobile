@@ -16,7 +16,7 @@ type Props = {
 };
 
 class TitleGroup extends PureComponent<Props> {
-  handlePress = user => {
+  handlePress = (user: UserOrBot) => {
     const { dispatch } = this.props;
     dispatch(navigateToAccountDetails(user.email));
   };
