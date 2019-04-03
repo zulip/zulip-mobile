@@ -80,11 +80,20 @@ export type User = {|
 |};
 
 export type CrossRealmBot = {|
+  // avatar_url included since commit 58ee3fa8c (in 1.9.0)
+  avatar_url?: string | null,
+
+  // date_joined included since commit 58ee3fa8c (in 1.9.0)
+  date_joined?: string,
+
   email: string,
   full_name: string,
   is_admin: boolean,
   is_bot: true,
   user_id: number,
+
+  // timezone included since commit 58ee3fa8c (in 1.9.0)
+  timezone?: string,
 |};
 
 export type UserGroup = {|
