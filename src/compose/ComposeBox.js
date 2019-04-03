@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Platform, View, TextInput, findNodeHandle } from 'react-native';
+import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
 
 import type {
@@ -152,7 +153,7 @@ class ComposeBox extends PureComponent<Props, State> {
     }));
   };
 
-  handleLayoutChange = event => {
+  handleLayoutChange = (event: LayoutEvent) => {
     this.setState({
       height: event.nativeEvent.layout.height,
     });
