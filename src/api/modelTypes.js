@@ -57,11 +57,24 @@ export type User = {|
   avatar_url: string | null,
   bot_type?: number,
   bot_owner?: string,
+
+  // date_joined included since commit 372e9740a (in 1.9.0)
+  date_joined?: string,
+
   email: string,
   full_name: string,
+
   is_admin: boolean,
   is_bot: boolean,
+
+  // is_guest included since commit d5df0377c (in 1.9.0); before that,
+  // there's no such concept, so effectively it's implicitly false.
+  is_guest?: boolean,
+
+  // profile_data added in commit 02b845336 (in 1.8.0);
+  // see also e3aed0f7b (in 2.0.0)
   profile_data?: empty, // TODO describe actual type
+
   timezone: string,
   user_id: number,
 |};
