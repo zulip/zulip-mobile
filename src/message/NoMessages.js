@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Narrow } from '../types';
+import type { Narrow, Dispatch } from '../types';
 import { getIfNoMessages, getShowMessagePlaceholders } from '../selectors';
 import { Label } from '../common';
 
@@ -48,6 +48,7 @@ const messages: EmptyMessage[] = [
 ];
 
 type Props = {|
+  dispatch: Dispatch,
   narrow: Narrow,
   showMessagePlaceholders: boolean,
   noMessages: boolean,

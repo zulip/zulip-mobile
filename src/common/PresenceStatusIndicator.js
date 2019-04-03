@@ -4,7 +4,14 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { GlobalState, Style, PresenceState, User, UserStatusMapObject } from '../types';
+import type {
+  GlobalState,
+  Style,
+  PresenceState,
+  User,
+  UserStatusMapObject,
+  Dispatch,
+} from '../types';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence, getUserStatus } from '../selectors';
 import { getUsersByEmail } from '../users/userSelectors';
@@ -74,6 +81,7 @@ type PropsFromConnect = {|
 |};
 
 type Props = {|
+  dispatch: Dispatch,
   ...PropsFromConnect,
   style?: Style,
   email: string,

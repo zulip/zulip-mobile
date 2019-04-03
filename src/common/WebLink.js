@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, Dispatch } from '../types';
 import Label from './Label';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
@@ -12,6 +12,7 @@ import { getCurrentRealm } from '../selectors';
 import { BRAND_COLOR } from '../styles';
 
 type Props = {|
+  dispatch: Dispatch,
   label: string,
   href: string,
   realm: string,

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { GlobalState, User } from '../types';
+import type { GlobalState, User, Dispatch } from '../types';
 import { UserAvatar, ComponentList, RawLabel } from '../common';
 import { getCurrentRealm, getUserStatusTextForUser } from '../selectors';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
@@ -28,6 +28,7 @@ const componentStyles = StyleSheet.create({
 const AVATAR_SIZE = 200;
 
 type Props = {|
+  dispatch: Dispatch,
   realm: string,
   user: User,
   userStatusText: string | void,

@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { GlobalState, SubscriptionsState } from '../types';
+import type { GlobalState, SubscriptionsState, Dispatch } from '../types';
 import { Popup } from '../common';
 import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
 import StreamItem from '../streams/StreamItem';
 
 type Props = {|
+  dispatch: Dispatch,
   filter: string,
   onAutocomplete: (name: string) => void,
   subscriptions: SubscriptionsState,

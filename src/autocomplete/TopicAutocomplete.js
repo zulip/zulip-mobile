@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, Dispatch } from '../types';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  dispatch: Dispatch,
   isFocused: boolean,
   text: string,
   topics: string[],

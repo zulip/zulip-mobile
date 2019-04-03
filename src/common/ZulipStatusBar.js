@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
-import type { Dimensions, GlobalState, Narrow, Orientation, ThemeName } from '../types';
+import type { Dimensions, GlobalState, Narrow, Orientation, ThemeName, Dispatch } from '../types';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
@@ -25,6 +25,7 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     : 'dark-content';
 
 type Props = {
+  dispatch: Dispatch,
   hidden: boolean,
   theme: ThemeName,
   backgroundColor: string,

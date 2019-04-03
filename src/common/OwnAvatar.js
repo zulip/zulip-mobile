@@ -2,12 +2,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import type { GlobalState, User } from '../types';
+import type { GlobalState, User, Dispatch } from '../types';
 import { getCurrentRealm, getSelfUserDetail } from '../selectors';
 import UserAvatar from './UserAvatar';
 import { getAvatarFromUser } from '../utils/avatar';
 
 type Props = {|
+  dispatch: Dispatch,
   user: User,
   size: number,
   realm: string,

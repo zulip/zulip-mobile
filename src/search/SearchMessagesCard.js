@@ -6,7 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, GlobalState, Message } from '../types';
+import type { Auth, GlobalState, Message, Dispatch } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW, SEARCH_NARROW } from '../utils/narrow';
 import MessageList from '../webview/MessageList';
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   auth: Auth,
   query: string,
 |};

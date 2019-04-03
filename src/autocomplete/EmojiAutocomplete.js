@@ -7,10 +7,11 @@ import { FlatList } from 'react-native';
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import { getFilteredEmojiNames } from '../emoji/data';
-import type { GlobalState, RealmEmojiById } from '../types';
+import type { GlobalState, RealmEmojiById, Dispatch } from '../types';
 import { getActiveImageEmojiByName } from '../selectors';
 
 type Props = {|
+  dispatch: Dispatch,
   filter: string,
   activeImageEmojiByName: RealmEmojiById,
   onAutocomplete: (name: string) => void,

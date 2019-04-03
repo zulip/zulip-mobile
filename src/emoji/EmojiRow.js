@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 
-import type { GlobalState, ImageEmojiType } from '../types';
+import type { GlobalState, ImageEmojiType, Dispatch } from '../types';
 import { RawLabel, Touchable } from '../common';
 import Emoji from './Emoji';
 import ImageEmoji from './ImageEmoji';
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   name: string,
   imageEmoji: ImageEmojiType | void,
   onPress: (name: string) => void,

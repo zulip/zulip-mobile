@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import type { Node as React$Node } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type { Context, Dimensions, GlobalState, LocalizableText, Style } from '../types';
+import type { Context, Dimensions, GlobalState, LocalizableText, Style, Dispatch } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import ZulipStatusBar from './ZulipStatusBar';
@@ -30,6 +30,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   centerContent: boolean,
   +children: React$Node,
   safeAreaInsets: Dimensions,

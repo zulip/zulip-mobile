@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import type { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { GlobalState, User, PresenceState } from '../types';
+import type { GlobalState, User, PresenceState, Dispatch } from '../types';
 import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   users: User[],
   usersByEmail: Map<string, User>,
   presences: PresenceState,

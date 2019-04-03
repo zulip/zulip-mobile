@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import type { Narrow, Stream, Subscription } from '../types';
+import type { Narrow, Stream, Subscription, Dispatch } from '../types';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
 type Props = {|
+  dispatch: Dispatch,
   narrow: Narrow,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
   color: string,

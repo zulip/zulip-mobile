@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, Dispatch } from '../types';
 import { getSession } from '../selectors';
 import Label from './Label';
 
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   isOnline: boolean,
 |};
 

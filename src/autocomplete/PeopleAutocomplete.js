@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { User, UserGroup, GlobalState } from '../types';
+import type { User, UserGroup, GlobalState, Dispatch } from '../types';
 import { getOwnEmail, getSortedUsers, getUserGroups } from '../selectors';
 import {
   getAutocompleteSuggestion,
@@ -15,6 +15,7 @@ import UserItem from '../users/UserItem';
 import UserGroupItem from '../user-groups/UserGroupItem';
 
 type Props = {|
+  dispatch: Dispatch,
   filter: string,
   onAutocomplete: (name: string) => void,
   ownEmail: string,

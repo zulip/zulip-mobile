@@ -6,7 +6,7 @@ import { Text } from 'react-native';
 import { IntlProvider } from 'react-intl';
 import type { IntlShape } from 'react-intl';
 
-import type { GetText, GlobalState } from '../types';
+import type { GetText, GlobalState, Dispatch } from '../types';
 import { getSettings } from '../selectors';
 import '../../vendor/intl/intl';
 import messages from '../i18n/messages';
@@ -74,6 +74,7 @@ class TranslationContextTranslator extends PureComponent<{
 }
 
 type Props = {|
+  dispatch: Dispatch,
   locale: string,
   children: React$Node,
 |};

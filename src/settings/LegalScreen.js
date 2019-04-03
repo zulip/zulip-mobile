@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
+import type { Dispatch } from '../types';
 import { Screen, OptionButton } from '../common';
 import openLink from '../utils/openLink';
 import { getFullUrl } from '../utils/url';
 import { getCurrentRealm } from '../selectors';
 
 type Props = {|
+  dispatch: Dispatch,
   realm: string,
 |};
 

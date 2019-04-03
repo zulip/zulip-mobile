@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, Dispatch } from '../types';
 import { getCurrentRealm } from '../selectors';
 import UserAvatar from './UserAvatar';
 import { getAvatarUrl } from '../utils/avatar';
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   avatarUrl: ?string,
   email: string,
   size: number,

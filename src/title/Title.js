@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react';
 import { caseNarrow } from '../utils/narrow';
 import { getSession } from '../selectors';
 
-import type { EditMessage, GlobalState, Narrow } from '../types';
+import type { EditMessage, GlobalState, Narrow, Dispatch } from '../types';
 import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
@@ -14,6 +14,7 @@ import TitleStream from './TitleStream';
 import TitlePlain from './TitlePlain';
 
 type Props = {|
+  dispatch: Dispatch,
   narrow: Narrow,
   editMessage: ?EditMessage,
   color: string,

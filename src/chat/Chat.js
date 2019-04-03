@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { GlobalState, Narrow } from '../types';
+import type { GlobalState, Narrow, Dispatch } from '../types';
 import { KeyboardAvoider } from '../common';
 import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
@@ -14,6 +14,7 @@ import { canSendToNarrow } from '../utils/narrow';
 import { getShowMessagePlaceholders } from '../selectors';
 
 type Props = {|
+  dispatch: Dispatch,
   /* $FlowFixMe: probably this shouldn't be optional */
   narrow?: Narrow,
   canSend: boolean,

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, Dispatch } from '../types';
 import { Screen } from '../common';
 import SizeItem from './SizeItem';
 
@@ -17,6 +17,7 @@ const calculateKeyStorageSizes = obj =>
     .sort((a, b) => b.size - a.size);
 
 type Props = {|
+  dispatch: Dispatch,
   state: GlobalState,
 |};
 
