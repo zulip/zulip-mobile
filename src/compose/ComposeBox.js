@@ -56,7 +56,7 @@ type Props = {|
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
-  editMessage: EditMessage,
+  editMessage: ?EditMessage,
   safeAreaInsets: Dimensions,
   dispatch: Dispatch,
 |};
@@ -235,6 +235,9 @@ class ComposeBox extends PureComponent<Props, State> {
 
   handleEdit = () => {
     const { auth, editMessage, dispatch } = this.props;
+    if (!editMessage) {
+      throw new Error('expected editMessage');
+    }
     const { message, topic } = this.state;
     const content = editMessage.content !== message ? message : undefined;
     const subject = topic !== editMessage.topic ? topic : undefined;
