@@ -6,6 +6,7 @@ import type { GetText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 
 import languages from './languages';
+import type { Language } from './languages';
 import LanguagePickerItem from './LanguagePickerItem';
 
 const styles = StyleSheet.create({
@@ -25,8 +26,8 @@ export default class LanguagePicker extends PureComponent<Props> {
   static contextType = TranslationContext;
   context: GetText;
 
-  getTranslatedLanguages = () =>
-    languages.map(language => {
+  getTranslatedLanguages = (): Language[] =>
+    languages.map((language: Language) => {
       const _ = this.context;
       const translatedName = _(language.name);
       return {
@@ -35,7 +36,7 @@ export default class LanguagePicker extends PureComponent<Props> {
       };
     });
 
-  getFilteredLanguageList = (filter: string) => {
+  getFilteredLanguageList = (filter: string): Language[] => {
     const list = this.getTranslatedLanguages();
 
     if (!filter) {
