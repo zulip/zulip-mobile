@@ -1,5 +1,6 @@
 import { getInputMessages } from '../webViewHandleUpdates';
 import { flagsStateToStringList } from '../html/messageAsHtml';
+import { HOME_NARROW } from '../../utils/narrow';
 
 describe('getInputMessages', () => {
   test('missing prev and next props returns no messages', () => {
@@ -89,6 +90,7 @@ describe('getInputMessages', () => {
         auth: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
+      narrow: HOME_NARROW,
       messages: [],
       renderedMessages: [{ key: 0, data: [], message: {} }],
     };
@@ -98,6 +100,7 @@ describe('getInputMessages', () => {
         auth: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
+      narrow: HOME_NARROW,
       messages: [],
       renderedMessages: [
         {
@@ -117,11 +120,13 @@ describe('getInputMessages', () => {
   test('WUUT there are several diffs return several messages', () => {
     const prevProps = {
       backgroundData: { auth: {} },
+      narrow: HOME_NARROW,
       fetching: { older: false, newer: false },
       typingUsers: [],
     };
     const nextProps = {
       backgroundData: { auth: {} },
+      narrow: HOME_NARROW,
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
     };
@@ -140,6 +145,7 @@ describe('getInputMessages', () => {
         auth: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
+      narrow: HOME_NARROW,
       fetching: { older: false, newer: false },
       typingUsers: [],
       messages: [],
@@ -151,6 +157,7 @@ describe('getInputMessages', () => {
         auth: { realm: '' },
         flags: { starred: {}, has_alert_word: {} },
       },
+      narrow: HOME_NARROW,
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
       messages: [],

@@ -3,14 +3,11 @@ import template from './template';
 import type { Message, Narrow, Outbox } from '../../types';
 import type { BackgroundData } from '../MessageList';
 import {
-  isStreamNarrow,
-  isTopicNarrow,
-  isPrivateNarrow,
-  isGroupNarrow,
   streamNarrow,
   topicNarrow,
   privateNarrow,
   groupNarrow,
+  caseNarrow,
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 
@@ -25,11 +22,23 @@ export default (
   narrow: Narrow,
   item: Message | Outbox | {||},
 ) => {
+  const headerStyle = caseNarrow(narrow, {
+    home: () => 'full',
+    pm: () => null,
+    groupPm: () => null,
+    starred: () => 'full',
+    mentioned: () => 'full',
+    allPrivate: () => 'full',
+    stream: () => 'topic+date',
+    topic: () => null,
+    search: () => 'full',
+  });
+
   if (!item.type) {
     return '';
   }
 
-  if (isStreamNarrow(narrow)) {
+  if (item.type === 'stream' && headerStyle === 'topic+date') {
     const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
     const topicHtml = renderSubject(item);
 
@@ -44,7 +53,7 @@ export default (
     `;
   }
 
-  if (item.type === 'stream') {
+  if (item.type === 'stream' && headerStyle === 'full') {
     // Somehow, if `item.display_recipient` appears in the `find` callback,
     // Flow worries that `item` will turn out to be a {||} after all.
     const { display_recipient } = item;
@@ -71,12 +80,7 @@ export default (
     `;
   }
 
-  if (
-    item.type === 'private'
-    && !isPrivateNarrow(narrow)
-    && !isGroupNarrow(narrow)
-    && !isTopicNarrow(narrow)
-  ) {
+  if (item.type === 'private' && headerStyle === 'full') {
     const recipients =
       item.display_recipient.length === 1 && item.display_recipient[0].email === ownEmail
         ? item.display_recipient
