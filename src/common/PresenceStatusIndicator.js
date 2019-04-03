@@ -75,13 +75,13 @@ const PresenceStatusIndicatorUnavailable = ({ style }: { style: Style }) => (
 );
 
 type PropsFromConnect = {|
+  dispatch: Dispatch,
   presence: PresenceState,
   usersByEmail: Map<string, User>,
   userStatus: UserStatusMapObject,
 |};
 
 type Props = {|
-  dispatch: Dispatch,
   ...PropsFromConnect,
   style?: Style,
   email: string,
