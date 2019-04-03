@@ -25,11 +25,16 @@ type Props = {|
 
 let otp = '';
 
+/** https://facebook.github.io/react-native/docs/linking */
+type LinkingEvent = {
+  url: string,
+};
+
 class AuthScreen extends PureComponent<Props> {
   componentDidMount = () => {
     Linking.addEventListener('url', this.endOAuth);
-    Linking.getInitialURL().then(initialUrl => {
-      if (initialUrl) {
+    Linking.getInitialURL().then((initialUrl: ?string) => {
+      if (initialUrl !== null && initialUrl !== undefined) {
         this.endOAuth({ url: initialUrl });
       }
     });
@@ -47,12 +52,12 @@ class AuthScreen extends PureComponent<Props> {
     Linking.removeEventListener('url', this.endOAuth);
   };
 
-  beginOAuth = async url => {
+  beginOAuth = async (url: string) => {
     otp = await generateOtp();
     openBrowser(`${this.props.realm}/${url}`, otp);
   };
 
-  endOAuth = event => {
+  endOAuth = (event: LinkingEvent) => {
     closeBrowser();
 
     const { dispatch, realm } = this.props;
