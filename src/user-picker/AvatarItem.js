@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
 type Props = {|
   email: string,
-  avatarUrl: string | null,
+  avatarUrl: ?string,
   fullName: string,
   onPress: (email: string) => void,
 |};

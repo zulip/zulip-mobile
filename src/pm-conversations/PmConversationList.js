@@ -50,13 +50,11 @@ export default class PmConversationList extends PureComponent<Props> {
               return null;
             }
 
-            // $FlowFixMe: sort out CrossRealmBot
-            const avatarUrl: string | null = user.avatar_url;
             return (
               <UserItem
                 email={user.email}
                 fullName={user.full_name}
-                avatarUrl={avatarUrl}
+                avatarUrl={user.avatar_url}
                 unreadCount={item.unread}
                 onPress={this.handleUserNarrow}
               />

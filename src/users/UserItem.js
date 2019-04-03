@@ -27,7 +27,7 @@ const componentStyles = StyleSheet.create({
 type Props = {|
   email: string,
   fullName: string,
-  avatarUrl: string | null,
+  avatarUrl: ?string,
   isSelected: boolean,
   showEmail: boolean,
   unreadCount?: number,

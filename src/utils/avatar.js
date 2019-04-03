@@ -23,7 +23,7 @@ export const getGravatarFromEmail = (email: string = '', size: number): string =
   `https://secure.gravatar.com/avatar/${md5(email.toLowerCase())}?d=identicon&s=${size}`;
 
 export const getAvatarUrl = (
-  avatarUrl: string | null,
+  avatarUrl: ?string,
   email: string,
   realm: string,
   size: number = 80,

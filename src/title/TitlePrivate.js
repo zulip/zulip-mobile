@@ -30,12 +30,10 @@ class TitlePrivate extends PureComponent<Props> {
 
   render() {
     const { user, color } = this.props;
-    // $FlowFixMe: sort out CrossRealmBot
-    const avatarUrl: string | null = user.avatar_url;
     return (
       <Touchable onPress={this.handlePress} style={this.styles.outer}>
         <View style={this.styles.inner}>
-          <UserAvatarWithPresence size={32} email={user.email} avatarUrl={avatarUrl} />
+          <UserAvatarWithPresence size={32} email={user.email} avatarUrl={user.avatar_url} />
           <ViewPlaceholder width={8} />
           <View>
             <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
