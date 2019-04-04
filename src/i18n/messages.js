@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-/* @flow strict-local */
+/* @flow strict */
 
 import ar from '../../static/translations/messages_ar.json';
 import bg from '../../static/translations/messages_bg.json';
