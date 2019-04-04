@@ -6,6 +6,10 @@
 Zulip Mobile is the official mobile Zulip client, supporting both iOS
 and Android.
 
+![ios-screenshots](https://user-images.githubusercontent.com/18381652/55577814-b4746480-5714-11e9-8d92-5631922d22e3.png)
+
+![night-mode](https://user-images.githubusercontent.com/18381652/55577813-b4746480-5714-11e9-85a8-a1124d295231.png)
+
 ## Get the app
 
 Release versions of the app are available here:
