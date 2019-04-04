@@ -1,5 +1,8 @@
-import { REHYDRATE } from 'redux-persist/constants';
+/* @flow */
+import type { Reducer, Store, Dispatch } from 'redux';
 
+import { REHYDRATE } from '../actionConstants';
+import type { Action, GlobalState as State } from '../types';
 import { logErrorRemotely } from '../utils/logging';
 
 const processKey = key => {
@@ -10,7 +13,14 @@ const processKey = key => {
   return int;
 };
 
-export default function createMigration(manifest, versionSelector, versionSetter) {
+type InnerStoreCreator<S, A, D> = (Reducer<S, A>, S | void) => Store<S, A, D>;
+type StoreEnhancer<S, A, D> = (InnerStoreCreator<S, A, D>) => InnerStoreCreator<S, A, D>;
+
+export default function createMigration(
+  manifest: { [string]: (State) => State },
+  versionSelector: string | (State => number | string | void),
+  versionSetter?: (State, number) => State,
+): StoreEnhancer<State, Action, Dispatch<Action>> {
   if (typeof versionSelector === 'string') {
     const reducerKey = versionSelector;
     versionSelector = state => state && state[reducerKey] && state[reducerKey].version;
@@ -37,24 +47,31 @@ export default function createMigration(manifest, versionSelector, versionSetter
     currentVersion = -1;
   }
 
-  const migrate = (state, version) => {
+  const migrate = (state: State, version) => {
     versionKeys.filter(v => v > version || version === null).forEach(v => {
-      state = manifest[v](state);
+      state = manifest[v.toString()](state);
     });
 
+    if (versionSetter === undefined) {
+      throw new Error('createMigration: bad arguments');
+    }
     state = versionSetter(state, currentVersion);
     return state;
   };
 
-  const migrationDispatch = next => action => {
+  const migrationDispatch = next => (action: Action) => {
+    if (versionSetter === undefined || typeof versionSelector === 'string') {
+      throw new Error('createMigration: bad arguments');
+    }
     if (action.type === REHYDRATE) {
-      const incomingState = action.payload;
+      // $FlowMigrationFudge this really is a lie -- and kind of central to migration
+      const incomingState: State = action.payload;
       const incomingVersion = parseInt(versionSelector(incomingState), 10);
       if (Number.isNaN(incomingVersion)) {
         // first launch after install, so incoming state is empty object
         // migration not required, just update version
-        action.payload = versionSetter(incomingState, currentVersion);
-        return next(action);
+        const payload = versionSetter(incomingState, currentVersion);
+        return next({ ...action, type: REHYDRATE, payload });
       }
 
       if (incomingVersion !== currentVersion) {
@@ -65,8 +82,8 @@ export default function createMigration(manifest, versionSelector, versionSetter
     return next(action);
   };
 
-  return next => (reducer, initialState, enhancer) => {
-    const store = next(reducer, initialState, enhancer);
+  return next => (reducer, initialState) => {
+    const store = next(reducer, initialState);
     return {
       ...store,
       dispatch: migrationDispatch(store.dispatch),
