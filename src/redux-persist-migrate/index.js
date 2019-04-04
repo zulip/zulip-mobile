@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Reducer, Store, Dispatch } from 'redux';
 
 import { REHYDRATE } from '../actionConstants';
@@ -16,6 +16,8 @@ const processKey = key => {
 type InnerStoreCreator<S, A, D> = (Reducer<S, A>, S | void) => Store<S, A, D>;
 type StoreEnhancer<S, A, D> = (InnerStoreCreator<S, A, D>) => InnerStoreCreator<S, A, D>;
 
+/* eslint-disable no-use-before-define */
+
 export default function createMigration(
   manifest: { [string]: (State) => State },
   versionSelector: string | (State => number | string | void),
@@ -23,8 +25,8 @@ export default function createMigration(
 ): StoreEnhancer<State, Action, Dispatch<Action>> {
   if (typeof versionSelector === 'string') {
     const reducerKey = versionSelector;
-    versionSelector = state => state && state[reducerKey] && state[reducerKey].version;
-    versionSetter = (state, version) => {
+    const realVersionSelector = state => state && state[reducerKey] && state[reducerKey].version;
+    const realVersionSetter = (state, version) => {
       if (['undefined', 'object'].indexOf(typeof state[reducerKey]) === -1) {
         logErrorRemotely(
           new Error(
@@ -37,8 +39,21 @@ export default function createMigration(
       state[reducerKey].version = version;
       return state;
     };
+    return createMigrationImpl(manifest, realVersionSelector, realVersionSetter);
   }
 
+  if (versionSetter === undefined) {
+    throw new Error('createMigration: bad arguments');
+  }
+
+  return createMigrationImpl(manifest, versionSelector, versionSetter);
+}
+
+export function createMigrationImpl(
+  manifest: { [string]: (State) => State },
+  versionSelector: State => number | string | void,
+  versionSetter: (State, number) => State,
+): StoreEnhancer<State, Action, Dispatch<Action>> {
   const versionKeys = Object.keys(manifest)
     .map(processKey)
     .sort((a, b) => a - b);
@@ -47,16 +62,14 @@ export default function createMigration(
     currentVersion = -1;
   }
 
-  const migrate = (state: State, version) => {
+  const migrate = (state, version) => {
+    let newState = state;
     versionKeys.filter(v => v > version || version === null).forEach(v => {
-      state = manifest[v.toString()](state);
+      newState = manifest[v.toString()](state);
     });
 
-    if (versionSetter === undefined) {
-      throw new Error('createMigration: bad arguments');
-    }
-    state = versionSetter(state, currentVersion);
-    return state;
+    newState = versionSetter(state, currentVersion);
+    return newState;
   };
 
   const migrationDispatch = next => (action: Action) => {
