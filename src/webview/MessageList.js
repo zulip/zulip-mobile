@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { Component } from 'react';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
@@ -228,7 +228,7 @@ export default connect((state: GlobalState, props: OuterProps) => {
 
   return {
     backgroundData,
-    anchor: props.anchor || getAnchorForNarrow(props.narrow)(state),
+    anchor: props.anchor !== undefined ? props.anchor : getAnchorForNarrow(props.narrow)(state),
     fetching: props.fetching || getFetchingForNarrow(props.narrow)(state),
     messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
