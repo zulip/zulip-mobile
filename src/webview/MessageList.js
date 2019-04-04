@@ -233,7 +233,9 @@ export default connect((state: GlobalState, props: OuterProps) => {
     messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
     showMessagePlaceholders:
-      props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
+      props.showMessagePlaceholders !== undefined
+        ? props.showMessagePlaceholders
+        : getShowMessagePlaceholders(props.narrow)(state),
     theme: getSettings(state).theme,
     typingUsers: props.typingUsers || getCurrentTypingUsers(state, props.narrow),
   };
