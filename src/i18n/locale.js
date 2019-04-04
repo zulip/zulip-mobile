@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 /* eslint-disable spellcheck/spell-checker */
 
 import { addLocaleData } from 'react-intl';
