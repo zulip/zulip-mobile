@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
@@ -19,7 +19,7 @@ type Props = {|
 
 type State = {|
   realm: string,
-  error: ?string,
+  error: string | null,
   progress: boolean,
 |};
 
@@ -27,7 +27,7 @@ class RealmScreen extends PureComponent<Props, State> {
   state = {
     progress: false,
     realm: this.props.initialRealm,
-    error: undefined,
+    error: null,
   };
 
   scrollView: ScrollView;
@@ -38,7 +38,7 @@ class RealmScreen extends PureComponent<Props, State> {
     this.setState({
       realm,
       progress: true,
-      error: undefined,
+      error: null,
     });
 
     const { dispatch } = this.props;
@@ -82,7 +82,7 @@ class RealmScreen extends PureComponent<Props, State> {
           onSubmitEditing={this.tryRealm}
           enablesReturnKeyAutomatically
         />
-        {error && <ErrorMsg error={error} />}
+        {error !== null && <ErrorMsg error={error} />}
         <ZulipButton
           style={styles.halfMarginTop}
           text="Enter"
