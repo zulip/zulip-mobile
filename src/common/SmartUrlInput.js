@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import type { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
@@ -45,7 +45,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   state = {
     value: '',
   };
-  textInputRef: any;
+  textInputRef: ?TextInput;
   focusListener: void | NavigationEventSubscription;
 
   static contextTypes = {
@@ -53,9 +53,11 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    this.focusListener = this.props.navigation.addListener('didFocus', () =>
-      this.textInputRef.focus(),
-    );
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      if (this.textInputRef) {
+        this.textInputRef.focus();
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -72,8 +74,11 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   };
 
   urlPress = () => {
-    this.textInputRef.blur();
-    setTimeout(() => this.textInputRef.focus(), 100);
+    const { textInputRef } = this;
+    if (textInputRef) {
+      textInputRef.blur();
+      setTimeout(() => textInputRef.focus(), 100);
+    }
   };
 
   renderPlaceholderPart = (text: string) => (
@@ -123,7 +128,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
           underlineColorAndroid="transparent"
           onSubmitEditing={onSubmitEditing}
           enablesReturnKeyAutomatically={enablesReturnKeyAutomatically}
-          ref={(component: any) => {
+          ref={(component: TextInput | null) => {
             this.textInputRef = component;
           }}
         />
