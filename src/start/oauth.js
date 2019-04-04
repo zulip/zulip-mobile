@@ -26,11 +26,7 @@ export const generateOtp = async () => {
 };
 
 export const openBrowser = (url: string, otp: string) => {
-  if (Platform.OS === 'android') {
-    openLink(`${url}?mobile_flow_otp=${otp}`);
-  } else {
-    SafariView.show({ url: `${url}?mobile_flow_otp=${otp}` });
-  }
+  openLink(`${url}?mobile_flow_otp=${otp}`);
 };
 
 export const closeBrowser = () => {
