@@ -117,7 +117,7 @@ const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
-const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
+const isFetchNeededAtAnchor = (state: GlobalState, narrow: Narrow, anchor: number): boolean => {
   const caughtUp = getCaughtUpForNarrow(state, narrow);
   return !(caughtUp.newer && caughtUp.older);
 };
@@ -126,12 +126,11 @@ export const fetchMessagesInNarrow = (
   narrow: Narrow,
   anchor: number = FIRST_UNREAD_ANCHOR,
 ) => async (dispatch: Dispatch, getState: GetState) => {
-  const state = getState();
-
+  if (!isFetchNeededAtAnchor(getState(), narrow, anchor)) {
+    return;
+  }
   if (anchor === FIRST_UNREAD_ANCHOR) {
-    if (needFetchAtFirstUnread(state, narrow)) {
-      dispatch(fetchMessagesAtFirstUnread(narrow));
-    }
+    dispatch(fetchMessagesAtFirstUnread(narrow));
   } else {
     dispatch(fetchMessagesAroundAnchor(narrow, anchor));
   }
