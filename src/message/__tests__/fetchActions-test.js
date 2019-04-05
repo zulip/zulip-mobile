@@ -1,6 +1,6 @@
 import mockStore from 'redux-mock-store'; // eslint-disable-line
 
-import { fetchMessages, fetchMessagesAtFirstUnread, fetchOlder, fetchNewer } from '../fetchActions';
+import { fetchMessages, fetchOlder, fetchNewer } from '../fetchActions';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
 
@@ -77,23 +77,6 @@ describe('fetchActions', () => {
       });
 
       store.dispatch(fetchMessages(HOME_NARROW, 0, 1, -1, true));
-      const actions = store.getActions();
-
-      expect(actions).toHaveLength(1);
-      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
-    });
-  });
-
-  describe('fetchMessagesAtFirstUnread', () => {
-    test('message fetch start action is dispatched with fetchingOlder and fetchingNewer true', () => {
-      const store = mockStore({
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [{ id: 1 }],
-        },
-      });
-
-      store.dispatch(fetchMessagesAtFirstUnread(HOME_NARROW));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(1);

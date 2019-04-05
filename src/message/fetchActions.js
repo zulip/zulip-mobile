@@ -73,18 +73,6 @@ export const fetchMessages = (
   );
 };
 
-const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number) =>
-  fetchMessages(
-    narrow,
-    anchor,
-    config.messagesPerRequest / 2,
-    config.messagesPerRequest / 2,
-    false,
-  );
-
-export const fetchMessagesAtFirstUnread = (narrow: Narrow) =>
-  fetchMessages(narrow, 0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, true);
-
 export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const firstMessageId = getFirstMessageId(state, narrow);
@@ -129,11 +117,15 @@ export const fetchMessagesInNarrow = (
   if (!isFetchNeededAtAnchor(getState(), narrow, anchor)) {
     return;
   }
-  if (anchor === FIRST_UNREAD_ANCHOR) {
-    dispatch(fetchMessagesAtFirstUnread(narrow));
-  } else {
-    dispatch(fetchMessagesAroundAnchor(narrow, anchor));
-  }
+  dispatch(
+    fetchMessages(
+      narrow,
+      anchor,
+      config.messagesPerRequest / 2,
+      config.messagesPerRequest / 2,
+      anchor === FIRST_UNREAD_ANCHOR,
+    ),
+  );
 };
 
 const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
