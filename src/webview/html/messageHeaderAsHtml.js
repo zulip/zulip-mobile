@@ -23,13 +23,13 @@ export default (
   narrow: Narrow,
   item: Message | Outbox | {||},
 ) => {
-  type HeaderStyle = 'none' | 'topic+date' | 'full';
+  type HeaderStyle = 'none' | 'topic+date' | 'date' | 'full';
   const headerStyle: HeaderStyle = caseNarrow(narrow, {
     stream: () => 'topic+date',
     topic: () => 'none',
 
-    pm: () => 'none',
-    groupPm: () => 'none',
+    pm: () => 'date',
+    groupPm: () => 'full',
 
     home: () => 'full',
     starred: () => 'full',
@@ -52,8 +52,8 @@ export default (
   data-narrow="${topicNarrowStr}"
   data-msg-id="${item.id}"
 >
-  <div class="topic-text">$!${topicHtml}</div>
-  <div class="topic-date">${humanDate(new Date(item.timestamp * 1000))}</div>
+  <div class="header-text">$!${topicHtml}</div>
+  <div class="header-date">${humanDate(new Date(item.timestamp * 1000))}</div>
 </div>
     `;
   }
@@ -80,13 +80,13 @@ export default (
        data-narrow="${streamNarrowStr}">
     # ${item.display_recipient}
   </div>
-  <div class="topic-text">$!${topicHtml}</div>
-  <div class="topic-date">${humanDate(new Date(item.timestamp * 1000))}</div>
+  <div class="header-text">$!${topicHtml}</div>
+  <div class="header-date">${humanDate(new Date(item.timestamp * 1000))}</div>
 </div>
     `;
   }
 
-  if (item.type === 'private' && headerStyle === 'full') {
+  if (item.type === 'private') {
     const recipients =
       item.display_recipient.length === 1 && item.display_recipient[0].email === ownEmail
         ? item.display_recipient
@@ -98,16 +98,30 @@ export default (
         : groupNarrow(recipients.map(r => r.email));
     const privateNarrowStr = JSON.stringify(narrowObj);
 
-    return template`
+    if (headerStyle === 'date') {
+      return template`
 <div class="header-wrapper private-header header"
      data-narrow="${privateNarrowStr}"
      data-msg-id="${item.id}">
-  ${recipients
+  <empty></empty>
+  <div class="header-date">${humanDate(new Date(item.timestamp * 1000))}</div>
+</div>
+      `;
+    }
+
+    if (headerStyle === 'full') {
+      return template`
+<div class="header-wrapper private-header header"
+     data-narrow="${privateNarrowStr}"
+     data-msg-id="${item.id}">
+  <div class="header-text">${recipients
     .map(r => r.full_name)
     .sort()
-    .join(', ')}
+    .join(', ')}</div>
+  <div class="header-date">${humanDate(new Date(item.timestamp * 1000))}</div>
 </div>
-    `;
+      `;
+    }
   }
 
   return '';

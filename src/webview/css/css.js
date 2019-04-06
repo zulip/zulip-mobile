@@ -170,14 +170,14 @@ hr {
 .stream-text {
   padding: 0 0.5em;
 }
-.topic-text {
+.header-text {
   flex: 1;
   padding: 0 0.5em;
   overflow: hidden;
   text-overflow: ellipsis;
   pointer-events: none;
 }
-.topic-date {
+.header-date {
   opacity: 0.5;
   padding: 0 0.5em;
   pointer-events: none;
