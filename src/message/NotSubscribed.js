@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Auth, Stream, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { connectFlowFixMe } from '../react-redux';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
@@ -40,7 +40,7 @@ class NotSubscribed extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connectFlowFixMe((state, props) => ({
   auth: getAuth(state),
   stream: getStreamInNarrow(props.narrow)(state),
 }))(NotSubscribed);

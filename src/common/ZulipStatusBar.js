@@ -5,7 +5,7 @@ import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
 import type { Dimensions, GlobalState, Narrow, Orientation, ThemeName, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { connectFlowFixMe } from '../react-redux';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
@@ -66,7 +66,7 @@ class ZulipStatusBar extends PureComponent<Props> {
   }
 }
 
-export default connect(
+export default connectFlowFixMe(
   (state: GlobalState, props: { backgroundColor?: string, narrow?: Narrow }) => ({
     safeAreaInsets: getSession(state).safeAreaInsets,
     theme: getSettings(state).theme,

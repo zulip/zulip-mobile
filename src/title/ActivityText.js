@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 
 import type { Style, UserPresence, UserStatus, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { connectFlowFixMe } from '../react-redux';
 import { getPresence, getUserStatus } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
@@ -29,7 +29,7 @@ class ActivityText extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connectFlowFixMe((state, props) => ({
   presence: getPresence(state)[props.user.email],
   userStatus: getUserStatus(state)[props.user.user_id],
 }))(ActivityText);

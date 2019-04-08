@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import type { Dispatch, UserOrBot } from '../types';
-import { connect } from '../react-redux';
+import { connectFlowFixMe } from '../react-redux';
 import { Touchable, UserAvatarWithPresence, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
 import { getAllUsersByEmail } from '../users/userSelectors';
@@ -47,6 +47,6 @@ class TitlePrivate extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connectFlowFixMe((state, props) => ({
   user: getAllUsersByEmail(state).get(props.email),
 }))(TitlePrivate);

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import type { Auth, Dispatch, GlobalState, Stream, User } from '../types';
-import { connect } from '../react-redux';
+import { connectFlowFixMe } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
 import { subscriptionAdd } from '../api';
@@ -44,7 +44,7 @@ class InviteUsersScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connectFlowFixMe((state: GlobalState, props) => ({
   auth: getAuth(state),
   stream: getStreamFromId(state, props.navigation.state.params.streamId),
 }))(InviteUsersScreen);

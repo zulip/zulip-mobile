@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import type { Dispatch, GlobalState, Stream } from '../types';
-import { connect } from '../react-redux';
+import { connectFlowFixMe } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamFromId } from '../selectors';
 import { Screen } from '../common';
@@ -36,6 +36,6 @@ class EditStreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connectFlowFixMe((state: GlobalState, props) => ({
   stream: getStreamFromId(state, props.navigation.state.params.streamId),
 }))(EditStreamScreen);
