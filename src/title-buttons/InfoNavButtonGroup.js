@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, UserOrBot } from '../types';
+import type { Dispatch, Narrow, UserOrBot } from '../types';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToGroupDetails } from '../actions';
@@ -11,6 +11,7 @@ import { navigateToGroupDetails } from '../actions';
 type Props = {|
   dispatch: Dispatch,
   color: string,
+  narrow: Narrow,
   recipients: UserOrBot[],
 |};
 
