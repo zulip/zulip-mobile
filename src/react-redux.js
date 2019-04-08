@@ -68,7 +68,9 @@ export type OwnProps<-C, -SP> = $Diff<
  */
 // prettier-ignore
 export function connect<SP, P, C: ComponentType<P>>(
-  mapStateToProps?: (GlobalState, OwnProps<C, SP>) => SP,
+  mapStateToProps?: (GlobalState, OwnProps<C,
+    // Error "property `foo` is missing"?  Add to inner component's props.
+    SP>) => SP,
 ): C => ComponentType<OwnProps<C, SP>> {
   return connectInner(mapStateToProps);
 }
