@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
 import type { GlobalState, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { Screen } from '../common';
 import SizeItem from './SizeItem';
 

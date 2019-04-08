@@ -1,9 +1,9 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
 import type { Dispatch, GlobalState, PresenceState, User } from '../types';
+import { connect } from '../react-redux';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 import { getUsers, getPresence } from '../selectors';

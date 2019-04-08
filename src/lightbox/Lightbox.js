@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, Dimensions, Easing } from 'react-native';
@@ -7,6 +6,7 @@ import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type { Auth, Dispatch, GlobalState, Message } from '../types';
+import { connect } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';

@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import type { GlobalState, User, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getCurrentRealm, getSelfUserDetail } from '../selectors';
 import UserAvatar from './UserAvatar';
 import { getAvatarFromUser } from '../utils/avatar';

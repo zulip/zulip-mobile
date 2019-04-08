@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Auth, Dispatch, GlobalState } from '../types';
+import { connect } from '../react-redux';
 import { fetchApiKey } from '../api';
 import {
   ErrorMsg,

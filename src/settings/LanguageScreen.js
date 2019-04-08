@@ -1,9 +1,9 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
 import type { Dispatch, GlobalState } from '../types';
+import { connect } from '../react-redux';
 import { Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
 import { getSettings } from '../selectors';

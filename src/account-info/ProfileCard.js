@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Dispatch, GlobalState, User } from '../types';
+import { connect } from '../react-redux';
 import { getSelfUserDetail } from '../selectors';
 import { ZulipButton } from '../common';
 import {

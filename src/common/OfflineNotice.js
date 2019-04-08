@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { GlobalState, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getSession } from '../selectors';
 import Label from './Label';
 

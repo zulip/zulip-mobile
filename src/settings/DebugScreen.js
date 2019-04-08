@@ -1,9 +1,9 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
 import type { Debug, Dispatch, GlobalState } from '../types';
+import { connect } from '../react-redux';
 import { getSession } from '../selectors';
 import { OptionRow, Screen } from '../common';
 import { debugFlagToggle } from '../actions';

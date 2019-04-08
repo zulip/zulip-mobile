@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
 import type { User, UserGroup, GlobalState, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getOwnEmail, getSortedUsers, getUserGroups } from '../selectors';
 import {
   getAutocompleteSuggestion,

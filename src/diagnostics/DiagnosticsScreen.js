@@ -1,11 +1,11 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import DeviceInfo from 'react-native-device-info';
 import type { Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
 import {
   navigateToDebug,

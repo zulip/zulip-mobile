@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import type { Dispatch, Narrow, Subscription, GlobalState } from '../types';
+import { connect } from '../react-redux';
 import StreamList from './StreamList';
 import { isStreamNarrow, streamNarrow } from '../utils/narrow';
 import { getUnreadByStream } from '../selectors';

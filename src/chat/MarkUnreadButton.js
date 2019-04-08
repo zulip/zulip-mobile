@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { Auth, GlobalState, Narrow, Stream, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
 import { markAllAsRead, markStreamAsRead, markTopicAsRead } from '../api';
 import { getAuth, getStreams } from '../selectors';

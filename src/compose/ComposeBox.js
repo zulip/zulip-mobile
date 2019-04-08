@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Platform, View, TextInput, findNodeHandle } from 'react-native';
-import { connect } from 'react-redux';
 import TextInputReset from 'react-native-text-input-reset';
 
 import type {
@@ -15,6 +14,7 @@ import type {
   Dimensions,
   GlobalState,
 } from '../types';
+import { connect } from '../react-redux';
 import {
   addToOutbox,
   cancelEditMessage,

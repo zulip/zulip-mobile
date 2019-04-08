@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import type { Dispatch, GlobalState } from '../types';
+import { connect } from '../react-redux';
 import { OptionRow } from '../common';
 import { getSelfUserAwayStatus } from '../selectors';
 import { updateUserAwayStatus } from '../user-status/userStatusActions';

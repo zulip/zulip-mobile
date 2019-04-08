@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Auth, Dispatch, GlobalState, Stream, Subscription } from '../types';
+import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
 import { subscriptionAdd, subscriptionRemove } from '../api';
 import { delay } from '../utils/async';

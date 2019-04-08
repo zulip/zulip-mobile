@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import type { Auth, Dispatch, GlobalState, Stream, User } from '../types';
+import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
 import { subscriptionAdd } from '../api';

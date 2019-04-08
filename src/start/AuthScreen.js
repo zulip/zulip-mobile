@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { Linking } from 'react-native';
@@ -7,6 +6,7 @@ import parseURL from 'url-parse';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Dispatch, GlobalState, ApiResponseServerSettings } from '../types';
+import { connect } from '../react-redux';
 import { Centerer, Screen } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';

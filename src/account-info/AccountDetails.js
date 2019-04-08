@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { GlobalState, User, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { UserAvatar, ComponentList, RawLabel } from '../common';
 import { getCurrentRealm, getUserStatusTextForUser } from '../selectors';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';

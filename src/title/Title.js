@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
@@ -7,6 +6,7 @@ import { caseNarrow } from '../utils/narrow';
 import { getSession } from '../selectors';
 
 import type { EditMessage, GlobalState, Narrow, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';

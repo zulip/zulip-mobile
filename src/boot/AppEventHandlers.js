@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 'react-native';
@@ -8,6 +7,7 @@ import Orientation from 'react-native-orientation';
 
 import type { Node as React$Node } from 'react';
 import type { Dispatch, GlobalState, Orientation as OrientationT } from '../types';
+import { connect } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
 import {

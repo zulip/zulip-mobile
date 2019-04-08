@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Dispatch, GlobalState, User } from '../types';
+import { connect } from '../react-redux';
 import { getAccountDetailsUserFromEmail } from '../selectors';
 import { Screen, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';

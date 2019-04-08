@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import type { Dispatch, GlobalState, Stream } from '../types';
+import { connect } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamFromId } from '../selectors';
 import { Screen } from '../common';

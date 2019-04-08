@@ -3,9 +3,9 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
-import { connect } from 'react-redux';
 
 import type { Dispatch, Narrow } from '../types';
+import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import styles from '../styles';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';

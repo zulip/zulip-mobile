@@ -1,11 +1,11 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { addNavigationHelpers } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
 import type { Dispatch, GlobalState, NavigationState, PlainDispatch } from '../types';
+import { connect } from '../react-redux';
 import { getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
 

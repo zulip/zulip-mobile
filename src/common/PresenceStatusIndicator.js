@@ -2,7 +2,6 @@
 /* eslint-disable react-native/no-unused-styles */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
 import type {
   GlobalState,
@@ -12,6 +11,7 @@ import type {
   UserStatusMapObject,
   Dispatch,
 } from '../types';
+import { connect } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence, getUserStatus } from '../selectors';
 import { getUsersByEmail } from '../users/userSelectors';

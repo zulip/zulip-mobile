@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Dispatch, GlobalState, Stream, Subscription } from '../types';
+import { connect } from '../react-redux';
 import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
 import { getIsAdmin, getStreamFromId, getSubscriptionFromId } from '../selectors';

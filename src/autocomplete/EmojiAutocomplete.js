@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
@@ -8,6 +7,7 @@ import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import { getFilteredEmojiNames } from '../emoji/data';
 import type { GlobalState, RealmEmojiById, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getActiveImageEmojiByName } from '../selectors';
 
 type Props = {|

@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Dispatch, GlobalState, Narrow } from '../types';
+import { connect } from '../react-redux';
 import styles, { BRAND_COLOR } from '../styles';
 import Title from '../title/Title';
 import NavButton from './NavButton';

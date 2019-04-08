@@ -2,9 +2,9 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { FlatList } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { GlobalState, User, PresenceState, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';

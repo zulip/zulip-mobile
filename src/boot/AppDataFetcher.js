@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import { PureComponent } from 'react';
 
 import type { Node as React$Node } from 'react';
 import type { Dispatch, GlobalState } from '../types';
+import { connect } from '../react-redux';
 import { getSession } from '../directSelectors';
 import { doInitialFetch } from '../actions';
 

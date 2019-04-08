@@ -1,9 +1,9 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
 import type { Auth, Dispatch, GlobalState } from '../types';
+import { connect } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
 import { OptionRow, Screen } from '../common';
 import { toggleMobilePushSettings } from '../api';

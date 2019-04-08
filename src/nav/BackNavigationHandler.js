@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import type { Node as React$Node } from 'react';
-import { connect } from 'react-redux';
 
 import { PureComponent } from 'react';
 import { BackHandler } from 'react-native';
 
 import type { Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getCanGoBack } from '../selectors';
 import { navigateBack } from '../actions';
 

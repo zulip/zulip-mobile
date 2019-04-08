@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 
 import type { Dispatch, GlobalState } from '../types';
+import { connect } from '../react-redux';
 import { getSettings } from '../selectors';
 import { OptionButton, OptionRow } from '../common';
 import {

@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
@@ -11,6 +10,7 @@ import type {
   UnreadStreamItem,
   UserOrBot,
 } from '../types';
+import { connect } from '../react-redux';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';

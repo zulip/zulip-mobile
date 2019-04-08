@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import type { ComponentType, ElementConfig, Node as React$Node } from 'react';
 import { Text } from 'react-native';
@@ -7,6 +6,7 @@ import { IntlProvider } from 'react-intl';
 import type { IntlShape } from 'react-intl';
 
 import type { GetText, GlobalState, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getSettings } from '../selectors';
 import '../../vendor/intl/intl';
 import messages from '../i18n/messages';

@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
@@ -11,6 +10,7 @@ import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojiNames } from './data';
 import type { GlobalState, RealmEmojiById, Auth, Dispatch, ReactionType } from '../types';
+import { connect } from '../react-redux';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';

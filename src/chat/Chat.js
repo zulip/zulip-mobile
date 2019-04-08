@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { GlobalState, Narrow, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { KeyboardAvoider } from '../common';
 import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';

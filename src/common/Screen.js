@@ -1,11 +1,11 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import type { Node as React$Node } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
 import type { Context, Dimensions, GlobalState, LocalizableText, Style, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import ZulipStatusBar from './ZulipStatusBar';
