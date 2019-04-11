@@ -106,6 +106,9 @@ const initialFetchComplete = (): Action => ({
 });
 
 const isFetchNeededAtAnchor = (state: GlobalState, narrow: Narrow, anchor: number): boolean => {
+  // Ideally this would detect whether, even if we don't have *all* the
+  // messages in the narrow, we have enough of them around the anchor
+  // to show a message list already.  For now it's simple and cautious.
   const caughtUp = getCaughtUpForNarrow(state, narrow);
   return !(caughtUp.newer && caughtUp.older);
 };
