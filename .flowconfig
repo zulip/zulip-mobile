@@ -50,6 +50,12 @@ untyped-type-import
 sketchy-null
 
 
+[lints]
+sketchy-number=error
+unnecessary-optional-chain=warn
+unnecessary-invariant=warn
+
+
 [options]
 emoji=true
 
