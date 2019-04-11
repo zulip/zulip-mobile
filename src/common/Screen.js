@@ -3,8 +3,9 @@
 import React, { PureComponent } from 'react';
 import type { Node as React$Node } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Context, Dimensions, GlobalState, LocalizableText, Style, Dispatch } from '../types';
+import type { Context, Dimensions, GlobalState, LocalizableText, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
@@ -37,7 +38,7 @@ type Props = {|
   keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
   padding: boolean,
   scrollEnabled: boolean,
-  style?: Style,
+  style?: ViewStyleProp,
 
   search: boolean,
   autoFocus: boolean,
@@ -121,10 +122,7 @@ class Screen extends PureComponent<Props> {
           contentContainerStyle={[padding && styles.padding]}
         >
           <ScrollView
-            contentContainerStyle={
-              /* $FlowFixMe wants ViewStyleProp */
-              [styles.flexed, centerContent && componentStyles.content, style]
-            }
+            contentContainerStyle={[styles.flexed, centerContent && componentStyles.content, style]}
             style={componentStyles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
             scrollEnabled={scrollEnabled}

@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import TranslatedText from './TranslatedText';
 
-import type { Style } from '../types';
 import type { IconType } from './Icons';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  style?: Style,
+  style?: ViewStyleProp,
   progress: boolean,
   disabled: boolean,
   Icon?: IconType,
@@ -69,7 +69,7 @@ type Props = {|
  * If several buttons are on the same screen all or all but one should
  * have their `secondary` property set to `true`.
  *
- * @prop [style] - Style object applied to the Text component.
+ * @prop [style] - Style object applied to the outermost component.
  * @prop [progress] - Shows a progress indicator in place of the button text.
  * @prop [disabled] - If set the button is not pressable and visually looks disabled.
  * @prop [Icon] - Icon component to display in front of the button text

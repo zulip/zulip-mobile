@@ -2,15 +2,9 @@
 /* eslint-disable react-native/no-unused-styles */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type {
-  GlobalState,
-  Style,
-  PresenceState,
-  User,
-  UserStatusMapObject,
-  Dispatch,
-} from '../types';
+import type { GlobalState, PresenceState, User, UserStatusMapObject, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence, getUserStatus } from '../selectors';
@@ -54,21 +48,21 @@ const styles = StyleSheet.create({
   },
 });
 
-const PresenceStatusIndicatorActive = ({ style }: { style: Style }) => (
+const PresenceStatusIndicatorActive = ({ style }: { style: ViewStyleProp }) => (
   <View style={[styles.active, styles.common, style]} />
 );
 
-const PresenceStatusIndicatorIdle = ({ style }: { style: Style }) => (
+const PresenceStatusIndicatorIdle = ({ style }: { style: ViewStyleProp }) => (
   <View style={[styles.idleWrapper, styles.common, style]}>
     <View style={styles.idleHalfCircle} />
   </View>
 );
 
-const PresenceStatusIndicatorOffline = ({ style }: { style: Style }) => (
+const PresenceStatusIndicatorOffline = ({ style }: { style: ViewStyleProp }) => (
   <View style={[styles.offline, styles.common, style]} />
 );
 
-const PresenceStatusIndicatorUnavailable = ({ style }: { style: Style }) => (
+const PresenceStatusIndicatorUnavailable = ({ style }: { style: ViewStyleProp }) => (
   <View style={[styles.unavailableWrapper, styles.common, style]}>
     <View style={styles.unavailableLine} />
   </View>
@@ -83,7 +77,7 @@ type PropsFromConnect = {|
 
 type Props = {|
   ...PropsFromConnect,
-  style?: Style,
+  style?: ViewStyleProp,
   email: string,
   hideIfOffline: boolean,
 |};

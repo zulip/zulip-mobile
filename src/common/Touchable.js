@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { Node as React$Node } from 'react';
-import type { Style } from '../types';
 import { HIGHLIGHT_COLOR } from '../styles';
 
 const androidBackground =
@@ -13,7 +13,7 @@ const androidBackground =
 
 type Props = {|
   accessibilityLabel?: string,
-  style?: Style,
+  style?: ViewStyleProp,
   children: React$Node,
   onPress?: () => void | Promise<void>,
   onLongPress?: () => void,
@@ -75,7 +75,7 @@ export default class Touchable extends PureComponent<Props> {
       return (
         <TouchableHighlight
           accessibilityLabel={accessibilityLabel}
-          underlayColor={HIGHLIGHT_COLOR /* v--- $FlowFixMe wants ViewStyleProp */}
+          underlayColor={HIGHLIGHT_COLOR}
           style={style}
           onPress={onPress}
           onLongPress={onLongPress}

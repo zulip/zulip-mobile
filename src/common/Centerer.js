@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { Node as React$Node } from 'react';
-import type { Style } from '../types';
 import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
@@ -20,7 +20,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
-  style?: Style,
+  style?: ViewStyleProp,
   children: React$Node,
   padding: boolean,
 |};

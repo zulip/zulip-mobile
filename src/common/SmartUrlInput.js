@@ -1,9 +1,10 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import type { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
 
-import type { Context, Style } from '../types';
+import type { Context } from '../types';
 import { autocompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
 import RawLabel from './RawLabel';
 
@@ -30,7 +31,7 @@ type Props = {|
   protocol: string,
   append: string,
   navigation: NavigationScreenProp<mixed>,
-  style?: Style,
+  style?: ViewStyleProp,
   onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
   enablesReturnKeyAutomatically: boolean,

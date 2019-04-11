@@ -3,12 +3,11 @@ import React, { PureComponent } from 'react';
 import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
-import type { Context, LocalizableText, Style } from '../types';
+import type { Context, LocalizableText } from '../types';
 import { HALF_COLOR, BORDER_COLOR } from '../styles';
 
 export type Props = {|
   ...$PropertyType<TextInput, 'props'>,
-  style?: Style,
   placeholder: LocalizableText,
   onChangeText?: (text: string) => void,
   textInputRef?: (component: ?TextInput) => void,

@@ -292,24 +292,20 @@ class ComposeBox extends PureComponent<Props, State> {
     composeSendButton: {
       padding: 8,
     },
-    topicInput: [
-      {
-        borderWidth: 0,
-        borderRadius: 5,
-        marginBottom: 8,
-        ...this.inputMarginPadding,
-      },
-      this.context.styles.backgroundColor,
-    ],
-    composeTextInput: [
-      {
-        borderWidth: 0,
-        borderRadius: 5,
-        fontSize: 15,
-        ...this.inputMarginPadding,
-      },
-      this.context.styles.backgroundColor,
-    ],
+    topicInput: {
+      borderWidth: 0,
+      borderRadius: 5,
+      marginBottom: 8,
+      ...this.inputMarginPadding,
+      ...this.context.styles.backgroundColor,
+    },
+    composeTextInput: {
+      borderWidth: 0,
+      borderRadius: 5,
+      fontSize: 15,
+      ...this.inputMarginPadding,
+      ...this.context.styles.backgroundColor,
+    },
   };
 
   render() {

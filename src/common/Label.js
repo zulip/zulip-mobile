@@ -3,12 +3,11 @@ import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 import TranslatedText from './TranslatedText';
 
-import type { Context, LocalizableText, Style } from '../types';
+import type { Context, LocalizableText } from '../types';
 
 type Props = {|
   ...$Exact<$PropertyType<Text, 'props'>>,
   text: LocalizableText,
-  style?: Style,
 |};
 
 /**

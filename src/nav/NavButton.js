@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
+import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Style } from '../types';
 import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import ComponentWithOverlay from '../common/ComponentWithOverlay';
 import UnreadCount from '../common/UnreadCount';
@@ -10,7 +10,7 @@ import { Icon } from '../common/Icons';
 
 type Props = {|
   color: string,
-  style?: Style,
+  style?: TextStyleProp,
   name: string,
   unreadCount: number,
   onPress: () => void,

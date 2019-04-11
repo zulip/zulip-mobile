@@ -2,9 +2,9 @@
 /* eslint-disable react-native/no-unused-styles */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { Node as React$Node } from 'react';
-import type { Style } from '../types';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 
@@ -44,7 +44,7 @@ type Props = {|
   overlaySize: number,
   overlayColor: string,
   overlayPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
-  style?: Style,
+  style?: ViewStyleProp,
   onPress?: () => void,
 |};
 

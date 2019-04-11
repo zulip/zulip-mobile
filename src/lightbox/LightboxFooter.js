@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Style } from '../types';
 import { Icon } from '../common/Icons';
 
 const styles = StyleSheet.create({
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  style?: Style,
+  style?: ViewStyleProp,
   displayMessage: string,
   onOptionsPress: () => void,
 |};
