@@ -12,7 +12,6 @@ import type {
   UserOrBot,
   Dispatch,
   Dimensions,
-  GlobalState,
 } from '../types';
 import { connect } from '../react-redux';
 import {
@@ -47,18 +46,22 @@ import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
 
-type Props = {|
+type SelectorProps = {|
   auth: Auth,
-  narrow: Narrow,
   usersByEmail: Map<string, UserOrBot>,
-  draft: string,
-  lastMessageTopic: string,
+  safeAreaInsets: Dimensions,
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
   editMessage: ?EditMessage,
-  safeAreaInsets: Dimensions,
+  draft: string,
+  lastMessageTopic: string,
+|};
+
+type Props = {|
+  narrow: Narrow,
   dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 type State = {|
@@ -402,7 +405,7 @@ class ComposeBox extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state, props): SelectorProps => ({
   auth: getAuth(state),
   usersByEmail: getActiveUsersByEmail(state),
   safeAreaInsets: getSession(state).safeAreaInsets,

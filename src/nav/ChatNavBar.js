@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, GlobalState, Narrow } from '../types';
+import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import styles, { BRAND_COLOR } from '../styles';
 import Title from '../title/Title';
@@ -13,10 +13,15 @@ import { foregroundColorFromBackground } from '../utils/color';
 import { navigateBack } from '../actions';
 import { ExtraButton, InfoButton } from '../title-buttons/titleButtonFromNarrow';
 
-type Props = {|
-  dispatch: Dispatch,
+type SelectorProps = {|
   backgroundColor: string,
+|};
+
+type Props = {|
   narrow: Narrow,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 class ChatNavBar extends PureComponent<Props> {
@@ -44,6 +49,6 @@ class ChatNavBar extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state, props): SelectorProps => ({
   backgroundColor: getTitleBackgroundColor(props.narrow)(state),
 }))(ChatNavBar);
