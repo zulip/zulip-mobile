@@ -24,14 +24,14 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = {|
   dispatch: Dispatch,
   userStatusText: string,
-};
+|};
 
-type State = {
+type State = {|
   statusText: string,
-};
+|};
 
 class UserStatusScreen extends PureComponent<Props, State> {
   state = {

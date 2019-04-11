@@ -19,10 +19,10 @@ import ExtraNavButtonTopic from './ExtraNavButtonTopic';
 
 type Props = {| color: string, narrow: Narrow |};
 type NarrowNavButton = ComponentType<Props>;
-type NarrowNavButtonCandidate = {
+type NarrowNavButtonCandidate = {|
   isFunc: Narrow => boolean,
   ButtonComponent: NarrowNavButton | null,
-};
+|};
 
 const infoButtonHandlers: NarrowNavButtonCandidate[] = [
   { isFunc: isHomeNarrow, ButtonComponent: null },
