@@ -8,7 +8,7 @@ import type {
   Context,
   Narrow,
   EditMessage,
-  InputSelectionType,
+  InputSelection,
   UserOrBot,
   Dispatch,
   Dimensions,
@@ -77,7 +77,7 @@ type State = {|
   topic: string,
   message: string,
   height: number,
-  selection: InputSelectionType,
+  selection: InputSelection,
 |};
 
 export const updateTextInput = (textInput: ?TextInput, text: string): void => {
@@ -176,7 +176,7 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setMessageInputValue(message);
   };
 
-  handleMessageSelectionChange = (event: { +nativeEvent: { +selection: InputSelectionType } }) => {
+  handleMessageSelectionChange = (event: { +nativeEvent: { +selection: InputSelection } }) => {
     const { selection } = event.nativeEvent;
     this.setState({ selection });
   };

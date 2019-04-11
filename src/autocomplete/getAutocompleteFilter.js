@@ -1,7 +1,7 @@
 /* @flow strict-local */
-import type { InputSelectionType } from '../types';
+import type { InputSelection } from '../types';
 
-export default (textWhole: string, selection: InputSelectionType) => {
+export default (textWhole: string, selection: InputSelection) => {
   const { start, end } = selection;
   let text = textWhole;
   if (start === end && start !== text.length) {

@@ -23,7 +23,7 @@ export type Dimensions = {|
   top: number,
 |};
 
-export type InputSelectionType = {|
+export type InputSelection = {|
   +start: number,
   +end: number,
 |};

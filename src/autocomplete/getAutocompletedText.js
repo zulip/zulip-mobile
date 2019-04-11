@@ -1,7 +1,7 @@
 /* @flow strict-local */
-import type { InputSelectionType } from '../types';
+import type { InputSelection } from '../types';
 
-export default (textWhole: string, autocompleteText: string, selection: InputSelectionType) => {
+export default (textWhole: string, autocompleteText: string, selection: InputSelection) => {
   const { start, end } = selection;
   let remainder = '';
   let text = textWhole;

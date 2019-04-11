@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { InputSelectionType } from '../types';
+import type { InputSelection } from '../types';
 import getAutocompletedText from './getAutocompletedText';
 import getAutocompleteFilter from './getAutocompleteFilter';
 import EmojiAutocomplete from './EmojiAutocomplete';
@@ -18,7 +18,7 @@ const prefixToComponent = {
 type Props = {|
   isFocused: boolean,
   text: string,
-  selection: InputSelectionType,
+  selection: InputSelection,
   onAutocomplete: (input: string) => void,
 |};
 
