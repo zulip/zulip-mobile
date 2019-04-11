@@ -176,7 +176,7 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setMessageInputValue(message);
   };
 
-  handleMessageSelectionChange = (event: { nativeEvent: { selection: InputSelectionType } }) => {
+  handleMessageSelectionChange = (event: { +nativeEvent: { +selection: InputSelectionType } }) => {
     const { selection } = event.nativeEvent;
     this.setState({ selection });
   };
