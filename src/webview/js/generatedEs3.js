@@ -230,13 +230,13 @@ var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
 };
 
 var scrollEventsDisabled = true;
-var lastTouchEventTimestamp = 0;
 var hasLongPressed = false;
+var longPressTimeout;
 var lastTouchPositionX = -1;
 var lastTouchPositionY = -1;
 
 var handleScrollEvent = function handleScrollEvent() {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 
   if (scrollEventsDisabled) {
     return;
@@ -421,7 +421,7 @@ var requireAttribute = function requireAttribute(e, name) {
 
 documentBody.addEventListener('click', function (e) {
   e.preventDefault();
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 
   if (hasLongPressed) {
     hasLongPressed = false;
@@ -497,11 +497,6 @@ documentBody.addEventListener('click', function (e) {
 });
 
 var handleLongPress = function handleLongPress(target) {
-  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) {
-    return;
-  }
-
-  lastTouchEventTimestamp = 0;
   hasLongPressed = true;
   sendMessage({
     type: 'longPress',
@@ -520,9 +515,9 @@ documentBody.addEventListener('touchstart', function (e) {
 
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
-  lastTouchEventTimestamp = Date.now();
   hasLongPressed = false;
-  setTimeout(function () {
+  clearTimeout(longPressTimeout);
+  longPressTimeout = setTimeout(function () {
     return handleLongPress(target);
   }, 500);
 });
@@ -537,13 +532,13 @@ var isNearPositions = function isNearPositions() {
 
 documentBody.addEventListener('touchend', function (e) {
   if (isNearPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
-    lastTouchEventTimestamp = Date.now();
+    clearTimeout(longPressTimeout);
   }
 });
 documentBody.addEventListener('touchmove', function (e) {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 });
 documentBody.addEventListener('drag', function (e) {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 });
 `;

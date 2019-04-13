@@ -350,13 +350,13 @@ const sendScrollMessageIfListShort = () => {
  */
 let scrollEventsDisabled = true;
 
-let lastTouchEventTimestamp = 0;
 let hasLongPressed = false;
+let longPressTimeout;
 let lastTouchPositionX = -1;
 let lastTouchPositionY = -1;
 
 const handleScrollEvent = () => {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
   if (scrollEventsDisabled) {
     return;
   }
@@ -557,7 +557,7 @@ const requireAttribute = (e: Element, name: string): string => {
 
 documentBody.addEventListener('click', (e: MouseEvent) => {
   e.preventDefault();
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 
   /* Without a flag `hasLongPressed`, both the short press and the long
    * press actions get triggered. See PR #3404 for more context. */
@@ -641,23 +641,11 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
 });
 
 const handleLongPress = (target: Element) => {
-  // The logic that defines a "long press" in terms of raw touch events
-  // is pretty subtle.  The `lastTouchEventTimestamp` and surrounding logic
-  // are an attempt to define a long press.
-  //
-  // TODO: The logic around this "timestamp" is a bit obscure; it's
-  // sometimes a real timestamp, other times 0 as sort of a boolean flag.
-  // It would be good to clean it up to be clearer.
-  //
-  // At the same time, the logic is believed not to cover all the cases it
-  // should; for example, multi-touch events.  Better would be to either find
-  // a library we can use which strives to handle all that complexity, or
+  // The logic is believed not to cover all the cases it should; for
+  // example, multi-touch events. Better would be to either find a
+  // library we can use which strives to handle all that complexity, or
   // get long-press events from the platform.
-  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) {
-    return;
-  }
 
-  lastTouchEventTimestamp = 0;
   hasLongPressed = true;
 
   sendMessage({
@@ -676,9 +664,9 @@ documentBody.addEventListener('touchstart', (e: TouchEvent) => {
 
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
-  lastTouchEventTimestamp = Date.now();
   hasLongPressed = false;
-  setTimeout(() => handleLongPress(target), 500);
+  clearTimeout(longPressTimeout);
+  longPressTimeout = setTimeout(() => handleLongPress(target), 500);
 });
 
 const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
@@ -693,14 +681,14 @@ documentBody.addEventListener('touchend', (e: TouchEvent) => {
       e.changedTouches[0].pageY,
     )
   ) {
-    lastTouchEventTimestamp = Date.now();
+    clearTimeout(longPressTimeout);
   }
 });
 
 documentBody.addEventListener('touchmove', (e: TouchEvent) => {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 });
 
 documentBody.addEventListener('drag', (e: DragEvent) => {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 });
