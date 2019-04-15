@@ -7,6 +7,7 @@ import DeviceInfo from 'react-native-device-info';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
+import DiagnosticNicknameEdit from './DiagnosticNicknameEdit';
 import {
   navigateToDebug,
   navigateToStorage,
@@ -33,6 +34,7 @@ class DiagnosticsScreen extends PureComponent<Props> {
       <Screen title="Diagnostics">
         <RawLabel style={styles.versionLabel} text={`v${DeviceInfo.getVersion()}`} />
         <OptionDivider />
+        <DiagnosticNicknameEdit />
         <OptionButton
           label="Variables"
           onPress={() => {
