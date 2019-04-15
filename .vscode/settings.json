@@ -13,4 +13,11 @@
     "[javascript]": {
         "editor.formatOnSave": true,
     },
+    "saveAndRun": {
+        "commands": [{
+            "match": "/js.js",
+            "isAsync": true,
+			"cmd": "tools/generate-webview-js"
+        }]
+    },
 }
