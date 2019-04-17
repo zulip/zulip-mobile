@@ -60,6 +60,7 @@ type SelectorProps = {|
 
 type Props = {|
   narrow: Narrow,
+
   dispatch: Dispatch,
   ...SelectorProps,
 |};

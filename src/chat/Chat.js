@@ -13,11 +13,16 @@ import styles from '../styles';
 import { canSendToNarrow } from '../utils/narrow';
 import { getShowMessagePlaceholders } from '../selectors';
 
+type SelectorProps = {|
+  canSend: boolean,
+|};
+
 type Props = {|
-  dispatch: Dispatch,
   /* $FlowFixMe: probably this shouldn't be optional */
   narrow?: Narrow,
-  canSend: boolean,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 const componentStyles = StyleSheet.create({
@@ -49,6 +54,6 @@ class Chat extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props): SelectorProps => ({
   canSend: canSendToNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
 }))(Chat);

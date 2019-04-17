@@ -47,11 +47,16 @@ const messages: EmptyMessage[] = [
   { isFunc: isSearchNarrow, text: 'No messages' },
 ];
 
-type Props = {|
-  dispatch: Dispatch,
-  narrow: Narrow,
+type SelectorProps = {|
   showMessagePlaceholders: boolean,
   noMessages: boolean,
+|};
+
+type Props = {|
+  narrow: Narrow,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 class NoMessages extends PureComponent<Props> {
@@ -73,7 +78,7 @@ class NoMessages extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connect((state, props): SelectorProps => ({
   showMessagePlaceholders: getShowMessagePlaceholders(props.narrow)(state),
   noMessages: getIfNoMessages(props.narrow)(state),
 }))(NoMessages);

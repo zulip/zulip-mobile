@@ -8,11 +8,16 @@ import { getRecipientsInGroupNarrow } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToGroupDetails } from '../actions';
 
+type SelectorProps = {|
+  recipients: UserOrBot[],
+|};
+
 type Props = {|
-  dispatch: Dispatch,
   color: string,
   narrow: Narrow,
-  recipients: UserOrBot[],
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 class InfoNavButtonGroup extends PureComponent<Props> {
@@ -28,6 +33,6 @@ class InfoNavButtonGroup extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connect((state, props): SelectorProps => ({
   recipients: getRecipientsInGroupNarrow(state, props.narrow),
 }))(InfoNavButtonGroup);

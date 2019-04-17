@@ -10,11 +10,16 @@ import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
-type Props = {|
-  dispatch: Dispatch,
-  narrow: Narrow,
+type SelectorProps = {|
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
+|};
+
+type Props = {|
+  narrow: Narrow,
   color: string,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 class TitleStream extends PureComponent<Props> {
@@ -57,6 +62,6 @@ class TitleStream extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connect((state, props): SelectorProps => ({
   stream: getStreamInNarrow(props.narrow)(state),
 }))(TitleStream);
