@@ -5,7 +5,7 @@ export const filterUnreadMessageIds = (messageIds: number[], flags: FlagsState):
   messageIds.filter((msgId: number) => !flags || !flags.read || !flags.read[msgId]);
 
 export const filterUnreadMessagesInRange = (
-  messages: Message[],
+  messages: $ReadOnlyArray<Message>,
   flags: FlagsState,
   fromId: number,
   toId: number,

@@ -80,12 +80,12 @@ export type Props = {|
   anchor: number,
   dispatch: Dispatch,
   fetching: Fetching,
-  messages: Message[],
+  messages: $ReadOnlyArray<Message>,
   narrow: Narrow,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
   theme: ThemeName,
-  typingUsers: User[],
+  typingUsers: $ReadOnlyArray<User>,
 
   // From `connectActionSheet`.
   showActionSheetWithOptions: ShowActionSheetWithOptions,

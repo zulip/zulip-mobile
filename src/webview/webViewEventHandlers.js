@@ -115,7 +115,7 @@ export type MessageListEvent =
 type Props = $ReadOnly<{
   backgroundData: BackgroundData,
   dispatch: Dispatch,
-  messages: Message[],
+  messages: $ReadOnlyArray<Message>,
   narrow: Narrow,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
 }>;
