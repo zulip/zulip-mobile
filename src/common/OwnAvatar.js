@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { GlobalState, User, Dispatch } from '../types';
+import type { User, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getCurrentRealm, getSelfUserDetail } from '../selectors';
 import UserAvatar from './UserAvatar';
@@ -27,7 +27,7 @@ class OwnAvatar extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   realm: getCurrentRealm(state),
   user: getSelfUserDetail(state),
 }))(OwnAvatar);

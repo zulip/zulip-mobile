@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import type { Dispatch, GlobalState, User } from '../types';
+import type { Dispatch, User } from '../types';
 import { connect } from '../react-redux';
 import { getSelfUserDetail } from '../selectors';
 import { ZulipButton } from '../common';
@@ -94,6 +94,6 @@ class ProfileCard extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   selfUserDetail: getSelfUserDetail(state),
 }))(ProfileCard);

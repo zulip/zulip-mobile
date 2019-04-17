@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
-import type { Dispatch, GlobalState } from '../types';
+import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { Input, OptionButton, Screen, ZulipButton } from '../common';
 import { getSelfUserStatusText } from '../selectors';
@@ -107,6 +107,6 @@ class UserStatusScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   userStatusText: getSelfUserStatusText(state),
 }))(UserStatusScreen);

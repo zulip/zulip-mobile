@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, GlobalState } from '../types';
+import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
@@ -42,6 +42,6 @@ class LanguageScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   locale: getSettings(state).locale,
 }))(LanguageScreen);

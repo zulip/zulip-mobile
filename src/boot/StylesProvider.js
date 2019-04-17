@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 
 import type { Node as React$Node } from 'react';
-import type { GlobalState, ThemeName, Dispatch } from '../types';
+import type { ThemeName, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSettings } from '../directSelectors';
 import { stylesFromTheme, themeColors, ThemeContext } from '../styles/theme';
@@ -42,6 +42,6 @@ class StyleProvider extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   theme: getSettings(state).theme,
 }))(StyleProvider);

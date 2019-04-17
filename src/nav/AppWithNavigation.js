@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { addNavigationHelpers } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
-import type { Dispatch, GlobalState, NavigationState, PlainDispatch } from '../types';
+import type { Dispatch, NavigationState, PlainDispatch } from '../types';
 import { connect } from '../react-redux';
 import { getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
@@ -34,6 +34,6 @@ class AppWithNavigation extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   nav: getNav(state),
 }))(AppWithNavigation);

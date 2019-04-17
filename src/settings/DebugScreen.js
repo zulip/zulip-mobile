@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Debug, Dispatch, GlobalState } from '../types';
+import type { Debug, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSession } from '../selectors';
 import { OptionRow, Screen } from '../common';
@@ -39,6 +39,6 @@ class DebugScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   debug: getSession(state).debug,
 }))(DebugScreen);

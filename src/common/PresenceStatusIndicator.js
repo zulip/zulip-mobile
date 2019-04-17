@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { GlobalState, PresenceState, User, UserStatusMapObject, Dispatch } from '../types';
+import type { PresenceState, User, UserStatusMapObject, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence, getUserStatus } from '../selectors';
@@ -129,7 +129,7 @@ class PresenceStatusIndicator extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   presence: getPresence(state),
   usersByEmail: getUsersByEmail(state),
   userStatus: getUserStatus(state),

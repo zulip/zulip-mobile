@@ -3,13 +3,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type {
-  Dispatch,
-  GlobalState,
-  PmConversationData,
-  UnreadStreamItem,
-  UserOrBot,
-} from '../types';
+import type { Dispatch, PmConversationData, UnreadStreamItem, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
@@ -101,7 +95,7 @@ class UnreadCards extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   isLoading: getLoading(state).unread,
   conversations: getUnreadConversations(state),
   usersByEmail: getAllUsersByEmail(state),

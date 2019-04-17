@@ -5,7 +5,7 @@ import { Linking } from 'react-native';
 import parseURL from 'url-parse';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, GlobalState, ApiResponseServerSettings } from '../types';
+import type { Dispatch, ApiResponseServerSettings } from '../types';
 import { connect } from '../react-redux';
 import { Centerer, Screen } from '../common';
 import { getCurrentRealm } from '../selectors';
@@ -124,6 +124,6 @@ class AuthScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   realm: getCurrentRealm(state),
 }))(AuthScreen);

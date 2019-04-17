@@ -5,7 +5,7 @@ import { Text } from 'react-native';
 import { IntlProvider } from 'react-intl';
 import type { IntlShape } from 'react-intl';
 
-import type { GetText, GlobalState, Dispatch } from '../types';
+import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSettings } from '../selectors';
 import '../../vendor/intl/intl';
@@ -105,6 +105,6 @@ class TranslationProvider extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   locale: getSettings(state).locale,
 }))(TranslationProvider);

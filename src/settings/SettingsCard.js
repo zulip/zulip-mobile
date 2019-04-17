@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 
-import type { Dispatch, GlobalState } from '../types';
+import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSettings } from '../selectors';
 import { OptionButton, OptionRow } from '../common';
@@ -83,6 +83,6 @@ class SettingsCard extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   theme: getSettings(state).theme,
 }))(SettingsCard);

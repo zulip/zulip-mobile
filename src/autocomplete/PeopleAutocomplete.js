@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { User, UserGroup, GlobalState, Dispatch } from '../types';
+import type { User, UserGroup, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getOwnEmail, getSortedUsers, getUserGroups } from '../selectors';
 import {
@@ -80,7 +80,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   ownEmail: getOwnEmail(state),
   users: getSortedUsers(state),
   userGroups: getUserGroups(state),

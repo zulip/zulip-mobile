@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { GlobalState, ImageEmojiType, Dispatch } from '../types';
+import type { ImageEmojiType, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { RawLabel, Touchable } from '../common';
 import Emoji from './Emoji';
@@ -54,6 +54,6 @@ class EmojiRow extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props): SelectorProps => ({
+export default connect((state, props): SelectorProps => ({
   imageEmoji: getActiveImageEmojiByName(state)[props.name],
 }))(EmojiRow);

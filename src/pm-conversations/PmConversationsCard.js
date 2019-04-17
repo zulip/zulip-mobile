@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Context, Dispatch, GlobalState, PmConversationData, UserOrBot } from '../types';
+import type { Context, Dispatch, PmConversationData, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
@@ -91,7 +91,7 @@ class PmConversationsCard extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   conversations: getRecentConversations(state),
   isLoading: getLoading(state).users,
   usersByEmail: getAllUsersByEmail(state),

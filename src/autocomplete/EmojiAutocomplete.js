@@ -6,7 +6,7 @@ import { FlatList } from 'react-native';
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import { getFilteredEmojiNames } from '../emoji/data';
-import type { GlobalState, RealmEmojiById, Dispatch } from '../types';
+import type { RealmEmojiById, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getActiveImageEmojiByName } from '../selectors';
 
@@ -46,6 +46,6 @@ class EmojiAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   activeImageEmojiByName: getActiveImageEmojiByName(state),
 }))(EmojiAutocomplete);

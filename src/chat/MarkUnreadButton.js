@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, GlobalState, Narrow, Stream, Dispatch } from '../types';
+import type { Auth, Narrow, Stream, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
 import { markAllAsRead, markStreamAsRead, markTopicAsRead } from '../api';
@@ -85,7 +85,7 @@ class MarkUnreadButton extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   auth: getAuth(state),
   streams: getStreams(state),
 }))(MarkUnreadButton);

@@ -5,7 +5,7 @@ import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Auth, Dispatch, GlobalState, Message } from '../types';
+import type { Auth, Dispatch, Message } from '../types';
 import { connect } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { getAuth } from '../selectors';
@@ -133,7 +133,7 @@ class Lightbox extends PureComponent<Props, State> {
 }
 
 export default connectActionSheet(
-  connect((state: GlobalState) => ({
+  connect(state => ({
     auth: getAuth(state),
   }))(Lightbox),
 );

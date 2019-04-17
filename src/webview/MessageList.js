@@ -13,7 +13,6 @@ import type {
   Fetching,
   FlagsState,
   GetText,
-  GlobalState,
   Message,
   MuteState,
   Narrow,
@@ -209,7 +208,7 @@ type OuterProps = {|
   typingUsers?: User[],
 |};
 
-export default connect((state: GlobalState, props: OuterProps) => {
+export default connect((state, props: OuterProps) => {
   // TODO Ideally this ought to be a caching selector that doesn't change
   // when the inputs don't.  Doesn't matter in a practical way here, because
   // we have a `shouldComponentUpdate` that doesn't look at this prop... but

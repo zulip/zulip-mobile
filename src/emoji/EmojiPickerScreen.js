@@ -9,7 +9,7 @@ import { unicodeCodeByName } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojiNames } from './data';
-import type { GlobalState, RealmEmojiById, Auth, Dispatch, ReactionType } from '../types';
+import type { RealmEmojiById, Auth, Dispatch, ReactionType } from '../types';
 import { connect } from '../react-redux';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
@@ -80,7 +80,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   activeImageEmojiByName: getActiveImageEmojiByName(state),
   auth: getAuth(state),
 }))(EmojiPickerScreen);

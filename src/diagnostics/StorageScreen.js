@@ -38,6 +38,6 @@ class StorageScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   state,
 }))(StorageScreen);

@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { GlobalState, Dispatch } from '../types';
+import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getUnreadPmsTotal, getUnreadHuddlesTotal } from '../selectors';
 import { IconPeople } from '../common/Icons';
@@ -40,7 +40,7 @@ class IconUnreadConversations extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   unreadHuddlesTotal: getUnreadHuddlesTotal(state),
   unreadPmsTotal: getUnreadPmsTotal(state),
 }))(IconUnreadConversations);

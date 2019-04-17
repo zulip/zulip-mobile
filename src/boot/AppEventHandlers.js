@@ -6,7 +6,7 @@ import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
 import type { Node as React$Node } from 'react';
-import type { Dispatch, GlobalState, Orientation as OrientationT } from '../types';
+import type { Dispatch, Orientation as OrientationT } from '../types';
 import { connect } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
@@ -88,6 +88,6 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
 }))(AppEventHandlers);

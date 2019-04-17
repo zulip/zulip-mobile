@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { GlobalState, Dispatch } from '../types';
+import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getCurrentRealm } from '../selectors';
 import UserAvatar from './UserAvatar';
@@ -59,6 +59,6 @@ class UserAvatarWithPresence extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   realm: getCurrentRealm(state),
 }))(UserAvatarWithPresence);

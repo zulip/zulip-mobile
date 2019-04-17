@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Auth, Dispatch, GlobalState } from '../types';
+import type { Auth, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { fetchApiKey } from '../api';
 import {
@@ -127,6 +127,6 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   partialAuth: getPartialAuth(state),
 }))(PasswordAuthScreen);

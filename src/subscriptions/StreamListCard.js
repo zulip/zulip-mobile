@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Auth, Dispatch, GlobalState, Stream, Subscription } from '../types';
+import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
 import { subscriptionAdd, subscriptionRemove } from '../api';
@@ -79,7 +79,7 @@ class StreamListCard extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   auth: getAuth(state),
   canCreateStreams: getCanCreateStreams(state),
   streams: getStreams(state),

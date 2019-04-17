@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, GlobalState } from '../types';
+import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { OptionRow } from '../common';
 import { getSelfUserAwayStatus } from '../selectors';
@@ -36,6 +36,6 @@ class AwayStatusSwitch extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   awayStatus: getSelfUserAwayStatus(state),
 }))(AwayStatusSwitch);

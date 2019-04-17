@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 
-import type { Auth, DevUser, Dispatch, GlobalState } from '../types';
+import type { Auth, DevUser, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import { devListUsers, devFetchApiKey } from '../api';
@@ -122,6 +122,6 @@ class DevAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   partialAuth: getPartialAuth(state),
 }))(DevAuthScreen);

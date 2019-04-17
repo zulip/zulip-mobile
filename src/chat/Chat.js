@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { GlobalState, Narrow, Dispatch } from '../types';
+import type { Narrow, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { KeyboardAvoider } from '../common';
 import MessageList from '../webview/MessageList';
@@ -54,6 +54,6 @@ class Chat extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props): SelectorProps => ({
+export default connect((state, props): SelectorProps => ({
   canSend: canSendToNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
 }))(Chat);

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { GlobalState, User, Dispatch } from '../types';
+import type { User, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { UserAvatar, ComponentList, RawLabel } from '../common';
 import { getCurrentRealm, getUserStatusTextForUser } from '../selectors';
@@ -79,7 +79,7 @@ class AccountDetails extends PureComponent<Props, void> {
   }
 }
 
-export default connect((state: GlobalState, props): SelectorProps => ({
+export default connect((state, props): SelectorProps => ({
   realm: getCurrentRealm(state),
   userStatusText: getUserStatusTextForUser(state, props.user.user_id),
 }))(AccountDetails);

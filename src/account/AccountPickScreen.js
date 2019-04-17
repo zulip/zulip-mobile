@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Dispatch, GlobalState } from '../types';
+import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { hasAuth, getAccountStatuses } from '../selectors';
 import type { AccountStatus } from './accountsSelectors';
@@ -77,7 +77,7 @@ class AccountPickScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   accounts: getAccountStatuses(state),
   hasAuth: hasAuth(state),
 }))(AccountPickScreen);

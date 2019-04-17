@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, GlobalState, Message, Dispatch } from '../types';
+import type { Auth, Message, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW, SEARCH_NARROW } from '../utils/narrow';
@@ -99,6 +99,6 @@ class SearchMessagesCard extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   auth: getAuth(state),
 }))(SearchMessagesCard);

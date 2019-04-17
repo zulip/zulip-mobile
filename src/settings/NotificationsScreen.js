@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Auth, Dispatch, GlobalState } from '../types';
+import type { Auth, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
 import { OptionRow, Screen } from '../common';
@@ -73,7 +73,7 @@ class NotificationsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   auth: getAuth(state),
   offlineNotification: getSettings(state).offlineNotification,
   onlineNotification: getSettings(state).onlineNotification,
