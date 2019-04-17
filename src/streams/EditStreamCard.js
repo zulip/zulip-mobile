@@ -55,7 +55,13 @@ export default class EditStreamCard extends PureComponent<Props, State> {
 
   render() {
     const { initialValues, isNewStream } = this.props;
-    const { name } = this.state;
+    const { name, description, isPrivate } = this.state;
+
+    const canSubmit =
+      name.length !== 0
+      && (initialValues.name !== name
+        || initialValues.description !== description
+        || initialValues.invite_only !== isPrivate);
 
     return (
       <View>
@@ -82,7 +88,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
         <ZulipButton
           style={styles.marginTop}
           text={isNewStream ? 'Create' : 'Update'}
-          disabled={name.length === 0}
+          disabled={!canSubmit}
           onPress={this.handlePerformAction}
         />
       </View>
