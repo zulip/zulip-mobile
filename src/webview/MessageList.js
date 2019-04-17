@@ -74,19 +74,23 @@ export type BackgroundData = $ReadOnly<{
   subscriptions: Subscription[],
 }>;
 
-// TODO get a type for `connectActionSheet` so this gets fully type-checked.
-export type Props = {|
+type SelectorProps = {|
   backgroundData: BackgroundData,
-
   anchor: number,
-  dispatch: Dispatch,
   fetching: Fetching,
   messages: $ReadOnlyArray<Message | Outbox>,
-  narrow: Narrow,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
   theme: ThemeName,
   typingUsers: $ReadOnlyArray<User>,
+|};
+
+// TODO get a type for `connectActionSheet` so this gets fully type-checked.
+export type Props = {|
+  narrow: Narrow,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 
   // From `connectActionSheet`.
   showActionSheetWithOptions: ShowActionSheetWithOptions,
@@ -209,7 +213,7 @@ type OuterProps = {|
   typingUsers?: User[],
 |};
 
-export default connect((state, props: OuterProps) => {
+export default connect((state, props: OuterProps): SelectorProps => {
   // TODO Ideally this ought to be a caching selector that doesn't change
   // when the inputs don't.  Doesn't matter in a practical way here, because
   // we have a `shouldComponentUpdate` that doesn't look at this prop... but
