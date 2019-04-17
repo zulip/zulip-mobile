@@ -149,7 +149,7 @@ const markRead = (props: Props, event: MessageListEventScroll) => {
 
 const handleImage = (props: Props, src: string, messageId: number) => {
   const message = props.messages.find(x => x.id === messageId);
-  if (message) {
+  if (message && !message.isOutbox) {
     props.dispatch(navigateToLightbox(src, message));
   }
 };
