@@ -2,7 +2,7 @@
 import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
 
-import type { Narrow, Message } from '../types';
+import type { Narrow, Message, Outbox } from '../types';
 import { normalizeRecipients } from './recipient';
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
@@ -255,7 +255,7 @@ export const narrowContains = (haystack: Narrow, needle: Narrow): boolean => {
   return JSON.stringify(needle) === JSON.stringify(haystack);
 };
 
-export const getNarrowFromMessage = (message: Message, email: string) => {
+export const getNarrowFromMessage = (message: Message | Outbox, email: string) => {
   if (Array.isArray(message.display_recipient)) {
     const recipient =
       message.display_recipient.length > 1

@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { Clipboard, Share } from 'react-native';
-import type { Auth, Dispatch, GetText, Message, Narrow, Subscription } from '../types';
+import type { Auth, Dispatch, GetText, Message, Narrow, Outbox, Subscription } from '../types';
 import type { BackgroundData } from '../webview/MessageList';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
@@ -20,7 +20,7 @@ type ButtonDescription = {
   /** The callback. */
   ({
     auth: Auth,
-    message: Message,
+    message: Message | Outbox,
     subscriptions: Subscription[],
     dispatch: Dispatch,
     _: GetText,
@@ -28,7 +28,7 @@ type ButtonDescription = {
   title: string,
 };
 
-const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
+const isAnOutboxMessage = (message: Message | Outbox): boolean => message.isOutbox;
 
 //
 // Options for the action sheet go below: ...
@@ -144,7 +144,7 @@ const allButtons: { [ButtonCode]: ButtonDescription } = allButtonsRaw;
 
 type ConstructSheetParams = {|
   backgroundData: BackgroundData,
-  message: Message,
+  message: Message | Outbox,
   narrow: Narrow,
 |};
 
@@ -170,7 +170,8 @@ export const constructHeaderActionButtons = ({
   return buttons;
 };
 
-const messageNotDeleted = (message: Message): boolean => message.content !== '<p>(deleted)</p>';
+const messageNotDeleted = (message: Message | Outbox): boolean =>
+  message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = ({
   backgroundData: { auth, flags },
