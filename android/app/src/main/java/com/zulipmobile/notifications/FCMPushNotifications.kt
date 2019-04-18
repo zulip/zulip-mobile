@@ -19,7 +19,6 @@ import android.util.Log
 import com.facebook.react.ReactApplication
 import java.io.IOException
 import java.net.URL
-import java.util.Locale
 import me.leolin.shortcutbadger.ShortcutBadger
 
 import com.zulipmobile.BuildConfig
@@ -64,7 +63,7 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
     try {
         fcmMessage = FcmMessage.fromFcmData(mapData)
     } catch (e: FcmMessageParseException) {
-        Log.w(TAG, "Ignoring malformed FCM message: " + e.message)
+        Log.w(TAG, "Ignoring malformed FCM message: ${e.message}")
         return
     }
 
@@ -91,7 +90,7 @@ private fun updateNotification(
 
 private fun getNotificationSoundUri(context: Context): Uri {
     // Note: Provide default notification sound until we found a good sound
-    // return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +"://" + context.getPackageName() + "/" + R.raw.zulip);
+    // return Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${context.packageName}/${R.raw.zulip}")
     return Settings.System.DEFAULT_NOTIFICATION_URI
 }
 
@@ -103,7 +102,7 @@ private fun getNotificationBuilder(
         Notification.Builder(context)
 
     val messageId = fcmMessage.zulipMessageId
-    val uri = Uri.fromParts("zulip", "msgid:" + Integer.toString(messageId), "")
+    val uri = Uri.fromParts("zulip", "msgid:${messageId}", "")
     val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
     viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
     val viewPendingIntent = PendingIntent.getService(context, 0, viewIntent, 0)
@@ -144,11 +143,10 @@ private fun getNotificationBuilder(
         }
         builder.setStyle(Notification.BigTextStyle().bigText(content))
     } else {
-        val conversationTitle = String.format(Locale.ENGLISH, "%d messages in %d conversations", totalMessagesCount, conversations.size)
-        builder.setContentTitle(conversationTitle)
-        builder.setContentText("Messages from " + TextUtils.join(",", extractNames(conversations)))
+        builder.setContentTitle("$totalMessagesCount messages in ${conversations.size} conversations")
+        builder.setContentText("Messages from ${TextUtils.join(",", extractNames(conversations))}")
         val inboxStyle = Notification.InboxStyle(builder)
-        inboxStyle.setSummaryText(String.format(Locale.ENGLISH, "%d conversations", conversations.size))
+        inboxStyle.setSummaryText("${conversations.size} conversations")
         buildNotificationContent(conversations, inboxStyle, context)
         builder.setStyle(inboxStyle)
     }

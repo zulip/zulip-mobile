@@ -47,7 +47,7 @@ fun sizedURL(context: Context, url: URL, dpSize: Float): URL? {
     val r = context.resources
     val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
         dpSize, r.displayMetrics)
-    val query = if (url.query != null) url.query + "&s=" + px else "s=$px"
+    val query = if (url.query != null) "${url.query}&s=$px" else "s=$px"
     return try {
         URL(url, "?$query")
     } catch (e: MalformedURLException) {
