@@ -40,8 +40,7 @@ private fun getNotificationManager(context: Context): NotificationManager {
 fun createNotificationChannel(context: Context) {
     if (Build.VERSION.SDK_INT >= 26) {
         val name = context.getString(R.string.notification_channel_name)
-        val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel(CHANNEL_ID, name, importance)
+        val channel = NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH)
         getNotificationManager(context).createNotificationChannel(channel)
     }
 }
@@ -101,8 +100,7 @@ private fun getNotificationBuilder(
     else
         Notification.Builder(context)
 
-    val messageId = fcmMessage.zulipMessageId
-    val uri = Uri.fromParts("zulip", "msgid:${messageId}", "")
+    val uri = Uri.fromParts("zulip", "msgid:${fcmMessage.zulipMessageId}", "")
     val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
     viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
     val viewPendingIntent = PendingIntent.getService(context, 0, viewIntent, 0)
@@ -110,11 +108,6 @@ private fun getNotificationBuilder(
 
     builder.setAutoCancel(true)
 
-    val recipient = fcmMessage.recipient
-    val content = fcmMessage.content
-    val senderFullName = fcmMessage.sender.fullName
-    val avatarURL = fcmMessage.sender.avatarURL
-    val timeMs = fcmMessage.timeMs
     val totalMessagesCount = extractTotalMessagesCount(conversations)
 
     if (BuildConfig.DEBUG) {
@@ -126,22 +119,22 @@ private fun getNotificationBuilder(
     if (conversations.size == 1) {
         //Only one 1 notification therefore no using of big view styles
         if (totalMessagesCount > 1) {
-            builder.setContentTitle("$senderFullName ($totalMessagesCount)")
+            builder.setContentTitle("${fcmMessage.sender.fullName} ($totalMessagesCount)")
         } else {
-            builder.setContentTitle(senderFullName)
+            builder.setContentTitle(fcmMessage.sender.fullName)
         }
-        builder.setContentText(content)
-        if (recipient is Recipient.Stream) {
-            val (stream, topic) = recipient
+        builder.setContentText(fcmMessage.content)
+        if (fcmMessage.recipient is Recipient.Stream) {
+            val (stream, topic) = fcmMessage.recipient
             val displayTopic = "$stream > $topic"
             builder.setSubText("Message on $displayTopic")
         }
         val avatar = fetchAvatar(sizedURL(context,
-            avatarURL, 64f))
+            fcmMessage.sender.avatarURL, 64f))
         if (avatar != null) {
             builder.setLargeIcon(avatar)
         }
-        builder.setStyle(Notification.BigTextStyle().bigText(content))
+        builder.setStyle(Notification.BigTextStyle().bigText(fcmMessage.content))
     } else {
         builder.setContentTitle("$totalMessagesCount messages in ${conversations.size} conversations")
         builder.setContentText("Messages from ${TextUtils.join(",", extractNames(conversations))}")
@@ -157,7 +150,7 @@ private fun getNotificationBuilder(
         Log.e(TAG, "BADGE ERROR: $e")
     }
 
-    builder.setWhen(timeMs)
+    builder.setWhen(fcmMessage.timeMs)
     val vPattern = longArrayOf(0, 100, 200, 100)
     // NB the DEFAULT_VIBRATE flag below causes this to have no effect.
     // TODO: choose a vibration pattern we like, and unset DEFAULT_VIBRATE.
