@@ -31,7 +31,7 @@ type Props = {|
   isSelected: boolean,
   showEmail: boolean,
   unreadCount?: number,
-  onPress: ({ email: string, fullName: string }) => void,
+  onPress: (email: string) => void,
 |};
 
 export default class UserItem extends PureComponent<Props> {
@@ -41,9 +41,9 @@ export default class UserItem extends PureComponent<Props> {
   };
 
   handlePress = () => {
-    const { email, fullName, onPress } = this.props;
-    if (email && fullName && onPress) {
-      onPress({ email, fullName });
+    const { email, onPress } = this.props;
+    if (email && onPress) {
+      onPress(email);
     }
   };
 

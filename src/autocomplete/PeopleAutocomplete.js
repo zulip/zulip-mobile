@@ -28,8 +28,12 @@ class PeopleAutocomplete extends PureComponent<Props> {
     this.props.onAutocomplete(`*${name}*`);
   };
 
-  handleUserItemAutocomplete = ({ fullName }): void => {
-    this.props.onAutocomplete(`**${fullName}**`);
+  handleUserItemAutocomplete = (email: string): void => {
+    const { users, onAutocomplete } = this.props;
+    const user = users.find(x => x.email === email);
+    if (user) {
+      onAutocomplete(`**${user.full_name}**`);
+    }
   };
 
   render() {

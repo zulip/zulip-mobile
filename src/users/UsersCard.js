@@ -17,7 +17,7 @@ type Props = {|
 |};
 
 class UsersCard extends PureComponent<Props> {
-  handleUserNarrow = ({ email }) => {
+  handleUserNarrow = (email: string) => {
     const { dispatch } = this.props;
     dispatch(navigateBack());
     dispatch(doNarrow(privateNarrow(email)));

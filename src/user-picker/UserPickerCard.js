@@ -58,7 +58,7 @@ class UserPickerCard extends PureComponent<Props, State> {
     }
   };
 
-  handleUserPress = ({ email }) => {
+  handleUserPress = (email: string) => {
     const { selected } = this.state;
 
     if (selected.find(x => x.email === email)) {

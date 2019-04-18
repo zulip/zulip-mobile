@@ -15,7 +15,7 @@ type Props = {|
 |};
 
 class GroupDetailsScreen extends PureComponent<Props> {
-  handlePress = ({ email }) => {
+  handlePress = (email: string) => {
     this.props.dispatch(navigateToAccountDetails(email));
   };
 
