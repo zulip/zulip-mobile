@@ -129,11 +129,8 @@ private fun getNotificationBuilder(
             val displayTopic = "$stream > $topic"
             builder.setSubText("Message on $displayTopic")
         }
-        val avatar = fetchAvatar(sizedURL(context,
-            fcmMessage.sender.avatarURL, 64f))
-        if (avatar != null) {
-            builder.setLargeIcon(avatar)
-        }
+        val avatar = fetchAvatar(sizedURL(context, fcmMessage.sender.avatarURL, 64f))
+        avatar?.let { builder.setLargeIcon(it) }
         builder.setStyle(Notification.BigTextStyle().bigText(fcmMessage.content))
     } else {
         builder.setContentTitle("$totalMessagesCount messages in ${conversations.size} conversations")
