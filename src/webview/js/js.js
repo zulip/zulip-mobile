@@ -685,6 +685,10 @@ documentBody.addEventListener('touchend', (e: TouchEvent) => {
   }
 });
 
+documentBody.addEventListener('touchcancel', (e: TouchEvent) => {
+  clearTimeout(longPressTimeout);
+});
+
 documentBody.addEventListener('touchmove', (e: TouchEvent) => {
   clearTimeout(longPressTimeout);
 });
