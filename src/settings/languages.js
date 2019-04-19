@@ -2,11 +2,6 @@
 /* eslint-disable spellcheck/spell-checker */
 export default [
   {
-    locale: 'en',
-    name: 'English',
-    nativeName: 'English',
-  },
-  {
     locale: 'bg',
     name: 'Bulgarian',
     nativeName: 'Български',
@@ -17,29 +12,29 @@ export default [
     nativeName: 'Català',
   },
   {
-    locale: 'zh',
-    name: 'Chinese (Simplified)',
-    nativeName: '中文 (简体)',
-  },
-  {
     locale: 'cs',
     name: 'Czech',
     nativeName: 'Čeština',
   },
   {
-    locale: 'nl',
-    name: 'Dutch',
-    nativeName: 'Nederlands',
+    locale: 'de',
+    name: 'German',
+    nativeName: 'Deutsch',
+  },
+  {
+    locale: 'en',
+    name: 'English',
+    nativeName: 'English',
+  },
+  {
+    locale: 'es',
+    name: 'Spanish',
+    nativeName: 'Español',
   },
   {
     locale: 'fr',
     name: 'French',
     nativeName: 'Français',
-  },
-  {
-    locale: 'de',
-    name: 'German',
-    nativeName: 'Deutsch',
   },
   {
     locale: 'hi',
@@ -72,6 +67,11 @@ export default [
     nativeName: 'മലയാളം',
   },
   {
+    locale: 'nl',
+    name: 'Dutch',
+    nativeName: 'Nederlands',
+  },
+  {
     locale: 'pl',
     name: 'Polish',
     nativeName: 'Polski',
@@ -92,11 +92,6 @@ export default [
     nativeName: 'Српски',
   },
   {
-    locale: 'es',
-    name: 'Spanish',
-    nativeName: 'Español',
-  },
-  {
     locale: 'ta',
     name: 'Tamil',
     nativeName: 'தமிழ்',
@@ -105,5 +100,10 @@ export default [
     locale: 'tr',
     name: 'Turkish',
     nativeName: 'Türkçe',
+  },
+  {
+    locale: 'zh',
+    name: 'Chinese (Simplified)',
+    nativeName: '中文 (简体)',
   },
 ];

@@ -25,8 +25,10 @@ export default class LanguagePicker extends PureComponent<Props> {
   static contextType = TranslationContext;
   context: GetText;
 
+  getSortedLanguages = () => languages.sort((a, b) => a.locale.localeCompare(b.locale));
+
   getTranslatedLanguages = () =>
-    languages.map(language => {
+    this.getSortedLanguages().map(language => {
       const _ = this.context;
       const translatedName = _(language.name);
       return {
@@ -57,7 +59,7 @@ export default class LanguagePicker extends PureComponent<Props> {
     return (
       <FlatList
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        initialNumToRender={languages.length}
+        keyboardShouldPersistTaps="always"
         data={data}
         keyExtractor={item => item.locale}
         renderItem={({ item }) => (
