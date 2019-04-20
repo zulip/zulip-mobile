@@ -28,7 +28,8 @@ val TAG = "ZulipNotif"
  * Each value is the messages in the conversation, in the order we
  * received them.
  */
-class ConversationMap : LinkedHashMap<String, MutableList<MessageInfo>>()
+open class ByConversationMap : LinkedHashMap<String, MutableList<MessageInfo>>()
+class ConversationMap : ByConversationMap()
 
 fun fetchBitmap(url: URL): Bitmap? {
     Log.i(TAG, "GAFT.fetch: Getting gravatar from url: $url")
