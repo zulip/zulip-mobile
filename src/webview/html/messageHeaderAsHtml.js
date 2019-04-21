@@ -26,7 +26,7 @@ export default (
   type HeaderStyle = 'none' | 'topic+date' | 'date' | 'full';
   const headerStyle: HeaderStyle = caseNarrow(narrow, {
     stream: () => 'topic+date',
-    topic: () => 'none',
+    topic: () => 'topic+date',
 
     pm: () => 'date',
     groupPm: () => 'full',

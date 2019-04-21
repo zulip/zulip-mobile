@@ -6,7 +6,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import type { Narrow, Stream, Subscription, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import StreamIcon from '../streams/StreamIcon';
-import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
@@ -37,7 +36,7 @@ class TitleStream extends PureComponent<Props> {
   });
 
   render() {
-    const { narrow, stream, color } = this.props;
+    const { stream, color } = this.props;
 
     return (
       <View style={this.styles.outer}>
@@ -52,11 +51,6 @@ class TitleStream extends PureComponent<Props> {
             {stream.name}
           </Text>
         </View>
-        {isTopicNarrow(narrow) && (
-          <Text style={[styles.navSubtitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
-            {narrow[1].operand}
-          </Text>
-        )}
       </View>
     );
   }

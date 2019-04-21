@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import type { Message, Narrow, Outbox, RenderedSectionDescriptor } from '../types';
-import { isTopicNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/recipient';
 import { isSameDay } from '../utils/date';
 
@@ -9,7 +8,6 @@ export default (
   narrow: Narrow,
 ): RenderedSectionDescriptor[] => {
   let prevItem;
-  const showHeader = !isTopicNarrow(narrow);
 
   return messages.reduce(
     (sections, item) => {
@@ -25,7 +23,7 @@ export default (
         });
       }
       const diffRecipient = !isSameRecipient(prevItem, item);
-      if (showHeader && diffRecipient) {
+      if (diffRecipient) {
         sections.push({
           key: `header${item.id}`,
           message: item,
