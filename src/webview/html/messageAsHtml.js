@@ -11,7 +11,7 @@ import type {
 } from '../../types';
 import type { BackgroundData } from '../MessageList';
 import { getAvatarFromMessage } from '../../utils/avatar';
-import { shortTime } from '../../utils/date';
+import { shortTime, humanDate } from '../../utils/date';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';
 import processAlertWords from './processAlertWords';
@@ -80,6 +80,7 @@ export default (backgroundData: BackgroundData, message: Message | Outbox, isBri
      class="message ${isBrief ? 'message-brief' : 'message-full'}"
      id="msg-${id}"
      data-msg-id="${id}"
+     msg-human-date="${humanDate(new Date(message.timestamp * 1000))}"
      $!${flagStrings.map(flag => template`data-${flag}="true" `).join('')}
     >`;
 

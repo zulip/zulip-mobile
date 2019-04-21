@@ -207,6 +207,14 @@ function walkToMessage(
   return element;
 }
 
+function walkToHeaderAbove(start: ?Element): ?Element {
+  let element: ?Element = start;
+  while (element && !element.classList.contains('header')) {
+    element = element.previousElementSibling;
+  }
+  return element;
+}
+
 function firstMessage(): ?Element {
   return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
 }
@@ -284,6 +292,27 @@ function visibleMessageIds(): { first: number, last: number } {
   return { first, last };
 }
 
+function getFirstVisibleMessage(): Element {
+  const top = 0;
+  const bottom = viewportHeight;
+  let message = document.createElement('null');
+
+  function walkElements(start: ?Element) {
+    let element = start;
+    while (element && isVisible(element, top, bottom)) {
+      if (element.classList.contains('message')) {
+        message = element;
+      }
+      element = element.previousElementSibling;
+    }
+  }
+
+  const start = someVisibleMessage(top, bottom);
+  walkElements(start);
+
+  return message;
+}
+
 /** DEPRECATED */
 const getMessageNode = (node: ?Node): ?Node => {
   let curNode = node;
@@ -333,6 +362,18 @@ const sendScrollMessage = () => {
   prevMessageRange = messageRange;
 };
 
+const handleDateInHeader = () => {
+  const firstVisibleMessage = getFirstVisibleMessage();
+
+  if (firstVisibleMessage) {
+    const replaceableDate = firstVisibleMessage.getAttribute('msg-human-date');
+    const closestHeader = walkToHeaderAbove(firstVisibleMessage);
+    if (replaceableDate && closestHeader) {
+      closestHeader.getElementsByClassName('header-date').item(0).innerHTML = replaceableDate;
+    }
+  }
+};
+
 // If the message list is too short to scroll, fake a scroll event
 // in order to cause the messages to be marked as read.
 const sendScrollMessageIfListShort = () => {
@@ -362,6 +403,7 @@ const handleScrollEvent = () => {
   }
 
   sendScrollMessage();
+  handleDateInHeader();
 
   const nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
   showHideElement('scroll-bottom', nearEnd);
