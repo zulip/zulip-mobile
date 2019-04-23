@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import { Input, Label, OptionRow, ZulipButton } from '../common';
 import styles from '../styles';
@@ -20,6 +20,13 @@ type State = {|
   description: string,
   isPrivate: boolean,
 |};
+
+const componentStyles = StyleSheet.create({
+  captionText: {
+    fontSize: 12,
+    color: 'gray',
+  },
+});
 
 export default class EditStreamCard extends PureComponent<Props, State> {
   state = {
@@ -54,12 +61,12 @@ export default class EditStreamCard extends PureComponent<Props, State> {
       <View>
         <Label text="Name" />
         <Input
-          style={styles.marginBottom}
           placeholder="Name"
           autoFocus
           defaultValue={initialValues.name}
           onChangeText={this.handleNameChange}
         />
+        <Label style={[styles.marginBottom, componentStyles.captionText]} text="* Required" />
         <Label text="Description" />
         <Input
           style={styles.marginBottom}
