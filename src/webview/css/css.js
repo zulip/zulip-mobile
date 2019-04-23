@@ -455,17 +455,21 @@ blockquote {
   right: 5px;
   bottom: 15px;
 }
+.scroll-bottom-link {
+  padding: 8px;
+  display: block;
+}
 .scroll-bottom-link * {
   pointer-events: none;
 }
-#scroll-bottom a {
+.scroll-bottom-circle {
   display: block;
   width: 32px;
   height: 32px;
   border-radius: 50%;
   background: rgba(82, 194, 175, 0.5);
 }
-#scroll-bottom .text {
+.scroll-bottom-text {
   clip: rect(0 0 0 0);
   overflow: hidden;
   position: absolute;
