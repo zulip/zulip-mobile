@@ -462,6 +462,16 @@ blockquote {
 .scroll-bottom-link * {
   pointer-events: none;
 }
+#scroll-bottom.hidden {
+  transition: opacity 300ms ease-out, transform 300ms ease-in;
+  transform: translate(0, 50px);
+  opacity: 0;
+  display: block;
+}
+#scroll-bottom:not(.hidden) {
+  transition: opacity 300ms ease-in, transform 300ms ease-out;
+  opacity: 1;
+}
 .scroll-bottom-circle {
   display: block;
   width: 32px;
