@@ -455,6 +455,9 @@ blockquote {
   right: 5px;
   bottom: 15px;
 }
+.scroll-bottom-link * {
+  pointer-events: none;
+}
 #scroll-bottom a {
   display: block;
   width: 32px;
