@@ -8,7 +8,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
@@ -17,8 +16,6 @@ import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import com.facebook.react.ReactApplication
-import java.io.IOException
-import java.net.URL
 import me.leolin.shortcutbadger.ShortcutBadger
 
 import com.zulipmobile.BuildConfig
@@ -129,8 +126,8 @@ private fun getNotificationBuilder(
             val displayTopic = "$stream > $topic"
             builder.setSubText("Message on $displayTopic")
         }
-        val avatar = fetchAvatar(sizedURL(context, fcmMessage.sender.avatarURL, 64f))
-        avatar?.let { builder.setLargeIcon(it) }
+        fetchBitmap(sizedURL(context, fcmMessage.sender.avatarURL, 64f))
+            ?.let { builder.setLargeIcon(it) }
         builder.setStyle(Notification.BigTextStyle().bigText(fcmMessage.content))
     } else {
         builder.setContentTitle("$totalMessagesCount messages in ${conversations.size} conversations")
@@ -172,16 +169,6 @@ private fun getNotificationBuilder(
         builder.setSound(soundUri)
     }
     return builder
-}
-
-private fun fetchAvatar(url: URL): Bitmap? {
-    try {
-        return fetch(url)
-    } catch (e: IOException) {
-        Log.e(TAG, "ERROR: $e")
-    }
-
-    return null
 }
 
 internal fun onOpened(application: ReactApplication, conversations: ConversationMap, data: Bundle) {

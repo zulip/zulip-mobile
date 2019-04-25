@@ -30,15 +30,17 @@ val TAG = "ZulipNotif"
  */
 class ConversationMap : LinkedHashMap<String, MutableList<MessageInfo>>()
 
-@Throws(IOException::class)
-fun fetch(url: URL): Bitmap? {
+fun fetchBitmap(url: URL): Bitmap? {
     Log.i(TAG, "GAFT.fetch: Getting gravatar from url: $url")
-    val connection = url.openConnection()
-    connection.useCaches = true
-    val response = connection.content
-    return if (response is InputStream) {
-        BitmapFactory.decodeStream(response)
-    } else null
+    return try {
+        val connection = url.openConnection()
+        connection.useCaches = true
+        (connection.content as? InputStream)
+            ?.let { BitmapFactory.decodeStream(it) }
+    } catch (e: IOException) {
+        Log.e(TAG, "ERROR: $e")
+        null
+    }
 }
 
 fun sizedURL(context: Context, url: URL, dpSize: Float): URL {
