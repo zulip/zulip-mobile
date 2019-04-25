@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { ImageEmojiType, Dispatch } from '../types';
+import type { ImageEmojiType, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { RawLabel, Touchable } from '../common';
 import Emoji from './Emoji';
@@ -28,7 +28,7 @@ type Props = {|
   name: string,
   onPress: (name: string) => void,
 
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   ...SelectorProps,
 |};
 

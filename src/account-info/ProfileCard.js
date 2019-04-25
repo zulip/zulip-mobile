@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import type { Dispatch, User } from '../types';
+import type { Dispatch, InjectedDispatch, User } from '../types';
 import { connect } from '../react-redux';
 import { getSelfUserDetail } from '../selectors';
 import { ZulipButton } from '../common';
@@ -64,7 +64,7 @@ class LogoutButton extends PureComponent<{| dispatch: Dispatch |}> {
 }
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   selfUserDetail: User,
 |};
 

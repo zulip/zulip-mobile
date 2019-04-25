@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, Narrow, Stream } from '../types';
+import type { InjectedDispatch, Narrow, Stream } from '../types';
 import { connect } from '../react-redux';
 import { getStreams } from '../selectors';
 import { streamNarrow } from '../utils/narrow';
@@ -10,7 +10,7 @@ import NavButton from '../nav/NavButton';
 import { doNarrow } from '../actions';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   narrow: Narrow,
   color: string,
   streams: Stream[],

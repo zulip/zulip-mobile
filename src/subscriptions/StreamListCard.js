@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Auth, Dispatch, Stream, Subscription } from '../types';
+import type { Auth, InjectedDispatch, Stream, Subscription } from '../types';
 import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
 import { subscriptionAdd, subscriptionRemove } from '../api';
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   auth: Auth,
   canCreateStreams: boolean,
   streams: Stream[],

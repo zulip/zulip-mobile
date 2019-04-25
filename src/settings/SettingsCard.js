@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSettings } from '../selectors';
 import { OptionButton, OptionRow } from '../common';
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 
 type Props = {|
   theme: string,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
 |};
 
 class SettingsCard extends PureComponent<Props> {

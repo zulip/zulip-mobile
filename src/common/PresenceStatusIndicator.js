@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { PresenceState, User, UserStatusMapObject, Dispatch } from '../types';
+import type { PresenceState, User, UserStatusMapObject, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence, getUserStatus } from '../selectors';
@@ -69,7 +69,7 @@ const PresenceStatusIndicatorUnavailable = ({ style }: { style: ViewStyleProp })
 );
 
 type PropsFromConnect = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   presence: PresenceState,
   usersByEmail: Map<string, User>,
   userStatus: UserStatusMapObject,

@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { hasAuth, getAccountStatuses } from '../selectors';
 import type { AccountStatus } from './accountsSelectors';
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 
 type Props = {|
   accounts: $ReadOnlyArray<AccountStatus>,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   hasAuth: boolean,
 |};
 

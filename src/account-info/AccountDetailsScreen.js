@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, UserOrBot } from '../types';
+import type { InjectedDispatch, UserOrBot } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { getAccountDetailsUserForEmail } from '../selectors';
 import { Screen, ZulipButton } from '../common';
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
 
 type Props = {|
   user: UserOrBot,
+  ...InjectedDispatch,
   navigation: NavigationScreenProp<{ params: {| email: string |} }>,
-  dispatch: Dispatch,
 |};
 
 class AccountDetailsScreen extends PureComponent<Props> {

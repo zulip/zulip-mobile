@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
-import type { Dimensions, Narrow, Orientation, ThemeName, Dispatch } from '../types';
+import type { Dimensions, Narrow, Orientation, ThemeName, InjectedDispatch } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
@@ -25,7 +25,7 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     : 'dark-content';
 
 type Props = {
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   hidden: boolean,
   theme: ThemeName,
   noBackground: boolean,

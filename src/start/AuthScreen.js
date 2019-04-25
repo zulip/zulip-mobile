@@ -5,7 +5,7 @@ import { Linking } from 'react-native';
 import parseURL from 'url-parse';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, ApiResponseServerSettings } from '../types';
+import type { InjectedDispatch, ApiResponseServerSettings } from '../types';
 import { connect } from '../react-redux';
 import { Centerer, Screen } from '../common';
 import { getCurrentRealm } from '../selectors';
@@ -18,7 +18,7 @@ import { activeAuthentications } from './authentications';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   realm: string,
   navigation: NavigationScreenProp<{ params: {| serverSettings: ApiResponseServerSettings |} }>,
 |};

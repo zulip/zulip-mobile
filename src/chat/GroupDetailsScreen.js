@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, UserOrBot } from '../types';
+import type { InjectedDispatch, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import UserItem from '../users/UserItem';
@@ -11,7 +11,7 @@ import { navigateToAccountDetails } from '../actions';
 
 type Props = {|
   navigation: NavigationScreenProp<{ params: {| recipients: UserOrBot[] |} }>,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
 |};
 
 class GroupDetailsScreen extends PureComponent<Props> {

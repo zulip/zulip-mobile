@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 
-import type { Auth, DevUser, Dispatch } from '../types';
+import type { Auth, DevUser, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import { devListUsers, devFetchApiKey } from '../api';
@@ -28,7 +28,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   partialAuth: Auth,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
 |};
 
 type State = {|

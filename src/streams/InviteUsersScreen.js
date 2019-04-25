@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Auth, Dispatch, Stream, User } from '../types';
+import type { Auth, InjectedDispatch, Stream, User } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
@@ -11,7 +11,7 @@ import { getAuth, getStreamForId } from '../selectors';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   auth: Auth,
   stream: Stream,
   navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,

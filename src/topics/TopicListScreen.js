@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, Stream, TopicExtended } from '../types';
+import type { InjectedDispatch, Stream, TopicExtended } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
@@ -13,7 +13,7 @@ import TopicList from './TopicList';
 import { fetchTopics, doNarrow } from '../actions';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   stream: Stream,
 <<<<<<< HEAD
   topics: TopicExtended[] | void,

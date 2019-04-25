@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, User } from '../types';
+import type { InjectedDispatch, User } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { doNarrow, navigateBack } from '../actions';
@@ -9,7 +9,7 @@ import { groupNarrow } from '../utils/narrow';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
 |};
 
 type State = {|

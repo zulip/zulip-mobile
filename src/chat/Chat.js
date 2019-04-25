@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Narrow, Dispatch } from '../types';
+import type { Narrow, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { KeyboardAvoider } from '../common';
 import MessageList from '../webview/MessageList';
@@ -21,7 +21,7 @@ type Props = {|
   /* $FlowFixMe: probably this shouldn't be optional */
   narrow?: Narrow,
 
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   ...SelectorProps,
 |};
 

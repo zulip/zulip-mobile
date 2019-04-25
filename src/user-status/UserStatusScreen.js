@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { Input, OptionButton, Screen, ZulipButton } from '../common';
 import { getSelfUserStatusText } from '../selectors';
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   userStatusText: string,
 |};
 

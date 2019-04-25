@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { HOME_NARROW, MENTIONED_NARROW, STARRED_NARROW } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
 |};
 
 class HomeTab extends PureComponent<Props> {

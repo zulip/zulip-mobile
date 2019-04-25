@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { User, Dispatch } from '../types';
+import type { User, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { UserAvatar, ComponentList, RawLabel } from '../common';
 import { getCurrentRealm, getUserStatusTextForUser } from '../selectors';
@@ -35,7 +35,7 @@ type SelectorProps = {|
 type Props = {|
   user: User,
 
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   ...SelectorProps,
 |};
 

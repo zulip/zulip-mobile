@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   isFocused: boolean,
   text: string,
   topics: string[],

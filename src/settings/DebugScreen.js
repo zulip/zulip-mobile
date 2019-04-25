@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Debug, Dispatch } from '../types';
+import type { Debug, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSession } from '../selectors';
 import { OptionRow, Screen } from '../common';
@@ -10,7 +10,7 @@ import { debugFlagToggle } from '../actions';
 
 type Props = {|
   debug: Debug,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
 |};
 
 class DebugScreen extends PureComponent<Props> {

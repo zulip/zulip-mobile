@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, Narrow, UserOrBot } from '../types';
+import type { InjectedDispatch, Narrow, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import NavButton from '../nav/NavButton';
@@ -16,7 +16,7 @@ type Props = {|
   color: string,
   narrow: Narrow,
 
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   ...SelectorProps,
 |};
 

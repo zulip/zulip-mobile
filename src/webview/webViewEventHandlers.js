@@ -2,7 +2,7 @@
 import { Clipboard } from 'react-native';
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import type { Dispatch, GetText, Message, Narrow, Outbox } from '../types';
+import type { InjectedDispatch, GetText, Message, Narrow, Outbox } from '../types';
 import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { showToast } from '../utils/info';
@@ -114,7 +114,7 @@ export type MessageListEvent =
 
 type Props = $ReadOnly<{
   backgroundData: BackgroundData,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
   showActionSheetWithOptions: ShowActionSheetWithOptions,

@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Narrow, Stream, Dispatch } from '../types';
+import type { Auth, Narrow, Stream, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
 import { markAllAsRead, markStreamAsRead, markTopicAsRead } from '../api';
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   auth: Auth,
   narrow: Narrow,
   streams: Stream[],

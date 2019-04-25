@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { createNewStream, navigateBack } from '../actions';
 import { getOwnEmail } from '../selectors';
@@ -9,7 +9,7 @@ import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   ownEmail: string,
 |};
 

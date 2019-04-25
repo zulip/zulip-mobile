@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Dispatch, PmConversationData, UnreadStreamItem, UserOrBot } from '../types';
+import type { InjectedDispatch, PmConversationData, UnreadStreamItem, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
@@ -20,7 +20,7 @@ import { doNarrow } from '../actions';
 
 type Props = {|
   conversations: PmConversationData[],
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   isLoading: boolean,
   usersByEmail: Map<string, UserOrBot>,
   unreadStreamsAndTopics: UnreadStreamItem[],

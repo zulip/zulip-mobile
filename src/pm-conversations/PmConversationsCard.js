@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Context, Dispatch, PmConversationData, UserOrBot } from '../types';
+import type { Context, InjectedDispatch, PmConversationData, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   conversations: PmConversationData[],
   isLoading: boolean,
   usersByEmail: Map<string, UserOrBot>,

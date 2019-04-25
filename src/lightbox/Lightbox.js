@@ -5,7 +5,7 @@ import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Auth, Dispatch, Message } from '../types';
+import type { Auth, InjectedDispatch, Message } from '../types';
 import { connect } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { getAuth } from '../selectors';
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 
 type Props = {|
   auth: Auth,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   src: string,
   message: Message,
   showActionSheetWithOptions: ShowActionSheetWithOptions,

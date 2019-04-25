@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, Stream } from '../types';
+import type { InjectedDispatch, Stream } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamForId } from '../selectors';
@@ -10,7 +10,7 @@ import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   stream: Stream,
   navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
 |};

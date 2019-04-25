@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { ApiResponseServerSettings, Dispatch } from '../types';
+import type { ApiResponseServerSettings, InjectedDispatch } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { isValidUrl } from '../utils/url';
@@ -12,7 +12,7 @@ import { realmAdd, navigateToAuth } from '../actions';
 import styles from '../styles';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   navigation: NavigationScreenProp<{ params: {| realm: string |} }>,
   initialRealm: string,
 |};

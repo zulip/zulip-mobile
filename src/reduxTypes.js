@@ -272,3 +272,7 @@ export interface Dispatch {
   <A: Action | NavigateAction>(action: A): A;
   <T>((Dispatch, GetState) => T): T;
 }
+
+export type InjectedDispatch = {|
+  dispatch: Dispatch,
+|};
