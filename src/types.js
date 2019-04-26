@@ -218,11 +218,3 @@ export type PmConversationData = {|
   timestamp: number,
   unread: number,
 |};
-
-/**
- * Typed as documented at https://facebook.github.io/react-native/docs/netinfo.html
- */
-export type ConnectionType = {|
-  type: 'none' | 'wifi' | 'cellular' | 'unknown' | 'bluetooth' | 'ethernet' | 'wimax',
-  effectiveType: '2g' | '3g' | '4g' | 'unknown',
-|};

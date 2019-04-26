@@ -6,7 +6,7 @@ import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
 import type { Node as React$Node } from 'react';
-import type { Dispatch, Orientation as OrientationT, ConnectionType } from '../types';
+import type { Dispatch, Orientation as OrientationT } from '../types';
 import { connect } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
@@ -17,6 +17,18 @@ import {
   initSafeAreaInsets,
   reportPresence,
 } from '../actions';
+
+/**
+ * Part of the type of upstream's `NetInfo`.
+ *
+ * Based on docs: https://facebook.github.io/react-native/docs/netinfo
+ *
+ * TODO move this to a libdef, and/or get an explicit type into upstream.
+ */
+type ConnectionInfo = {|
+  type: 'none' | 'wifi' | 'cellular' | 'unknown' | 'bluetooth' | 'ethernet' | 'wimax',
+  effectiveType: '2g' | '3g' | '4g' | 'unknown',
+|};
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -39,7 +51,7 @@ class AppEventHandlers extends PureComponent<Props> {
   };
 
   /** https://facebook.github.io/react-native/docs/netinfo */
-  handleConnectivityChange = (connectionInfo: ConnectionType) => {
+  handleConnectivityChange = (connectionInfo: ConnectionInfo) => {
     const { dispatch } = this.props;
     const isConnected = connectionInfo.type !== 'none' && connectionInfo.type !== 'unknown';
     dispatch(appOnline(isConnected));
