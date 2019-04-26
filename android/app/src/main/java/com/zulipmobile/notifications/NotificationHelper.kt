@@ -69,7 +69,7 @@ private fun extractName(key: String): String {
     return key.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
 }
 
-fun buildNotificationContent(conversations: ConversationMap, inboxStyle: Notification.InboxStyle, mContext: Context) {
+fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: Notification.InboxStyle, mContext: Context) {
     for ((key, messages) in conversations) {
         val name = extractName(key)
         val sb = SpannableString(String.format(Locale.ENGLISH, "%s%s: %s", name,
@@ -80,7 +80,7 @@ fun buildNotificationContent(conversations: ConversationMap, inboxStyle: Notific
     }
 }
 
-fun extractTotalMessagesCount(conversations: ConversationMap): Int {
+fun extractTotalMessagesCount(conversations: ByConversationMap): Int {
     var totalNumber = 0
     for ((_, value) in conversations) {
         totalNumber += value.size
@@ -106,7 +106,7 @@ private fun buildKeyString(fcmMessage: MessageFcmMessage): String {
     }
 }
 
-fun extractNames(conversations: ConversationMap): ArrayList<String> {
+fun extractNames(conversations: ByConversationMap): ArrayList<String> {
     val names = arrayListOf<String>()
     for ((key) in conversations) {
         names.add(key.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
