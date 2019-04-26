@@ -14,7 +14,6 @@ import android.util.TypedValue
 import com.zulipmobile.R
 import java.io.IOException
 import java.io.InputStream
-import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
 
@@ -42,18 +41,13 @@ fun fetch(url: URL): Bitmap? {
     } else null
 }
 
-fun sizedURL(context: Context, url: URL, dpSize: Float): URL? {
+fun sizedURL(context: Context, url: URL, dpSize: Float): URL {
     // From http://stackoverflow.com/questions/4605527/
     val r = context.resources
     val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
         dpSize, r.displayMetrics)
     val query = if (url.query != null) "${url.query}&s=$px" else "s=$px"
-    return try {
-        URL(url, "?$query")
-    } catch (e: MalformedURLException) {
-        Log.e(TAG, "ERROR: $e")
-        null
-    }
+    return URL(url, "?$query")
 }
 
 private fun extractName(key: String): String {

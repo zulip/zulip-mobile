@@ -174,9 +174,9 @@ private fun getNotificationBuilder(
     return builder
 }
 
-private fun fetchAvatar(url: URL?): Bitmap? {
+private fun fetchAvatar(url: URL): Bitmap? {
     try {
-        return fetch(url!!)
+        return fetch(url)
     } catch (e: IOException) {
         Log.e(TAG, "ERROR: $e")
     }
