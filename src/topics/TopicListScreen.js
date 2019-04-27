@@ -12,8 +12,11 @@ import { getStreamForId } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 import { fetchTopics, doNarrow } from '../actions';
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+|};
+
+type SelectorProps = {|
   stream: Stream,
 <<<<<<< HEAD
   topics: TopicExtended[] | void,
@@ -23,6 +26,12 @@ type Props = {|
   topics: TopicExtended[] | void,
   navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
 >>>>>>> 6b0b2995... flow: Add missing types for 'navigation' prop
+|};
+
+export type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 type State = {|

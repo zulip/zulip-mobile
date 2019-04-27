@@ -18,10 +18,18 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  user: UserOrBot,
-  ...InjectedDispatch,
+type OwnProps = {|
   navigation: NavigationScreenProp<{ params: {| email: string |} }>,
+|};
+
+type SelectorProps = {|
+  user: UserOrBot,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class AccountDetailsScreen extends PureComponent<Props> {

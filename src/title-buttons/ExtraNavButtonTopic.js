@@ -9,11 +9,19 @@ import { streamNarrow } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
 import { doNarrow } from '../actions';
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
   narrow: Narrow,
   color: string,
+|};
+
+type SelectorProps = {|
   streams: Stream[],
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class ExtraNavButtonTopic extends PureComponent<Props> {

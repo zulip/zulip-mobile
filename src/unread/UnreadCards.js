@@ -18,12 +18,16 @@ import {
 } from '../selectors';
 import { doNarrow } from '../actions';
 
-type Props = {|
+type SelectorProps = {|
   conversations: PmConversationData[],
-  ...InjectedDispatch,
   isLoading: boolean,
   usersByEmail: Map<string, UserOrBot>,
   unreadStreamsAndTopics: UnreadStreamItem[],
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...SelectorProps,
 |};
 
 class UnreadCards extends PureComponent<Props> {

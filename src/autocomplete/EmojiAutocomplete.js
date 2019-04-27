@@ -10,11 +10,19 @@ import type { RealmEmojiById, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { getActiveImageEmojiByName } from '../selectors';
 
+type OwnProps = {|
+  filter: string,
+  onAutocomplete: (name: string) => void,
+|};
+
+type SelectorProps = {|
+  activeImageEmojiByName: RealmEmojiById,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  filter: string,
-  activeImageEmojiByName: RealmEmojiById,
-  onAutocomplete: (name: string) => void,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 const MAX_CHOICES = 30;

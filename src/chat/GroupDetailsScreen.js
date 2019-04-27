@@ -9,9 +9,13 @@ import { Screen } from '../common';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 
-type Props = {|
+type OwnProps = {|
   navigation: NavigationScreenProp<{ params: {| recipients: UserOrBot[] |} }>,
+|};
+
+type Props = {|
   ...InjectedDispatch,
+  ...OwnProps,
 |};
 
 class GroupDetailsScreen extends PureComponent<Props> {

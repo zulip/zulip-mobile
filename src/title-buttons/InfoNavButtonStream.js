@@ -8,11 +8,19 @@ import { getStreams } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToStream } from '../actions';
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
   narrow: Narrow,
   color: string,
+|};
+
+type SelectorProps = {|
   streams: Stream[],
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class InfoNavButtonStream extends PureComponent<Props> {

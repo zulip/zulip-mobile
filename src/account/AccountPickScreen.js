@@ -17,10 +17,14 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type SelectorProps = {|
   accounts: $ReadOnlyArray<AccountStatus>,
-  ...InjectedDispatch,
   hasAuth: boolean,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...SelectorProps,
 |};
 
 class AccountPickScreen extends PureComponent<Props> {

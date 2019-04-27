@@ -24,15 +24,25 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     ? 'light-content'
     : 'dark-content';
 
-type Props = {
-  ...InjectedDispatch,
+type OwnProps = {|
+  backgroundColor?: string,
   hidden: boolean,
+  narrow?: Narrow,
+|};
+
+type SelectorProps = {|
   theme: ThemeName,
   noBackground: boolean,
   backgroundColor: string,
   safeAreaInsets: Dimensions,
   orientation: Orientation,
-};
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
+|};
 
 /**
  * Controls the status bar settings depending on platform

@@ -9,10 +9,18 @@ import { connect } from '../react-redux';
 import { getCanGoBack } from '../selectors';
 import { navigateBack } from '../actions';
 
-type Props = {|
+type OwnProps = {|
   children: React$Node,
+|};
+
+type SelectorProps = {|
   canGoBack: boolean,
+|};
+
+type Props = {|
   ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class BackNavigationHandler extends PureComponent<Props> {

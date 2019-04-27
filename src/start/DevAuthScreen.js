@@ -26,9 +26,13 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type SelectorProps = {|
   partialAuth: Auth,
+|};
+
+type Props = {|
   ...InjectedDispatch,
+  ...SelectorProps,
 |};
 
 type State = {|

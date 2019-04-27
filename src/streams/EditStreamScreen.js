@@ -9,10 +9,18 @@ import { getStreamForId } from '../selectors';
 import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
+type OwnProps = {|
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+|};
+
+type SelectorProps = {|
+  stream: Stream,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  stream: Stream,
-  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class EditStreamScreen extends PureComponent<Props> {

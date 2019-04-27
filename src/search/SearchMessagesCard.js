@@ -22,10 +22,18 @@ const styles = StyleSheet.create({
   },
 });
 
+type OwnProps = {|
+  query: string,
+|};
+
+type SelectorProps = {|
+  auth: Auth,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  auth: Auth,
-  query: string,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 type State = {|

@@ -3,17 +3,26 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { InjectedDispatch, UserOrBot } from '../types';
+import type { InjectedDispatch, Narrow, UserOrBot } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { UserAvatarWithPresence } from '../common';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
 import { navigateToAccountDetails } from '../nav/navActions';
 
-type Props = {
-  ...InjectedDispatch,
+type OwnProps = {|
+  narrow: Narrow,
+|};
+
+type SelectorProps = {|
   recipients: UserOrBot[],
-};
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
+|};
 
 class TitleGroup extends PureComponent<Props> {
   handlePress = (user: UserOrBot) => {

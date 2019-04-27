@@ -9,9 +9,13 @@ import openLink from '../utils/openLink';
 import { getFullUrl } from '../utils/url';
 import { getCurrentRealm } from '../selectors';
 
+type SelectorProps = {|
+  realm: string,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  realm: string,
+  ...SelectorProps,
 |};
 
 class LegalScreen extends PureComponent<Props> {

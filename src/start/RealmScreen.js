@@ -11,10 +11,18 @@ import { getServerSettings } from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
 import styles from '../styles';
 
+type OwnProps = {|
+  navigation: NavigationScreenProp<{ params: {| realm: string |} }>,
+|};
+
+type SelectorProps = {|
+  initialRealm: string,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  navigation: NavigationScreenProp<{ params: {| realm: string |} }>,
-  initialRealm: string,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 type State = {|

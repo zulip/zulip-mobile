@@ -28,9 +28,13 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type SelectorProps = {|
   theme: string,
+|};
+
+type Props = {|
   ...InjectedDispatch,
+  ...SelectorProps,
 |};
 
 class SettingsCard extends PureComponent<Props> {

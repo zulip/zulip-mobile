@@ -22,12 +22,16 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  ...InjectedDispatch,
+type SelectorProps = {|
   auth: Auth,
   canCreateStreams: boolean,
   streams: Stream[],
   subscriptions: Subscription[],
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...SelectorProps,
 |};
 
 class StreamListCard extends PureComponent<Props> {

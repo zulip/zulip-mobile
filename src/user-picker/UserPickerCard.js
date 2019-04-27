@@ -26,13 +26,21 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
+  filter: string,
+  onComplete: (selected: User[]) => void,
+|};
+
+type SelectorProps = {|
   users: User[],
   usersByEmail: Map<string, User>,
   presences: PresenceState,
-  filter: string,
-  onComplete: (selected: User[]) => void,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 type State = {|

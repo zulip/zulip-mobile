@@ -11,11 +11,19 @@ import openLink from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
 import { BRAND_COLOR } from '../styles';
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
   label: string,
   href: string,
+|};
+
+type SelectorProps = {|
   realm: string,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 /**

@@ -38,10 +38,18 @@ const styles = StyleSheet.create({
   },
 });
 
+type OwnProps = {|
+  children: React$Node,
+|};
+
+type SelectorProps = {|
+  unreadCount: number,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  children: React$Node,
-  unreadCount: number,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class AppEventHandlers extends PureComponent<Props> {

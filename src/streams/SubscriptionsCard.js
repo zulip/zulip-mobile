@@ -18,10 +18,14 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  ...InjectedDispatch,
+type SelectorProps = {|
   subscriptions: Subscription[],
   unreadByStream: { [number]: number },
+|};
+
+export type Props = {|
+  ...InjectedDispatch,
+  ...SelectorProps,
 |};
 
 class SubscriptionsCard extends PureComponent<Props> {

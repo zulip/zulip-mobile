@@ -20,15 +20,18 @@ const styles = StyleSheet.create({
   },
 });
 
+type OwnProps = {|
+  name: string,
+  onPress: (name: string) => void,
+|};
+
 type SelectorProps = {|
   imageEmoji: ImageEmojiType | void,
 |};
 
 type Props = {|
-  name: string,
-  onPress: (name: string) => void,
-
   ...InjectedDispatch,
+  ...OwnProps,
   ...SelectorProps,
 |};
 
@@ -54,6 +57,6 @@ class EmojiRow extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   imageEmoji: getActiveImageEmojiByName(state)[props.name],
 }))(EmojiRow);

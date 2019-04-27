@@ -10,10 +10,14 @@ import Label from '../common/Label';
 import NavButton from './NavButton';
 import { navigateBack } from '../actions';
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
   canGoBack: boolean,
   title: LocalizableText,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
 |};
 
 class ModalNavBar extends PureComponent<Props> {

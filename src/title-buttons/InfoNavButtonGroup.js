@@ -8,15 +8,18 @@ import { getRecipientsInGroupNarrow } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToGroupDetails } from '../actions';
 
+type OwnProps = {|
+  color: string,
+  narrow: Narrow,
+|};
+
 type SelectorProps = {|
   recipients: UserOrBot[],
 |};
 
 type Props = {|
-  color: string,
-  narrow: Narrow,
-
   ...InjectedDispatch,
+  ...OwnProps,
   ...SelectorProps,
 |};
 

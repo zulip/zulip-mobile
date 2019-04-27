@@ -36,12 +36,20 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  auth: Auth,
-  ...InjectedDispatch,
+type OwnProps = {|
   src: string,
   message: Message,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
+|};
+
+type SelectorProps = {|
+  auth: Auth,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 type State = {|

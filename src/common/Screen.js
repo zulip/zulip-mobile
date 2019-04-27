@@ -30,11 +30,9 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
   centerContent: boolean,
   +children: React$Node,
-  safeAreaInsets: Dimensions,
   keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
   padding: boolean,
   scrollEnabled: boolean,
@@ -46,6 +44,16 @@ type Props = {|
 
   canGoBack: boolean,
   +title: LocalizableText,
+|};
+
+type SelectorProps = {|
+  safeAreaInsets: Dimensions,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 /**

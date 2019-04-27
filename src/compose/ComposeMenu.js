@@ -12,11 +12,15 @@ import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
   expanded: boolean,
   destinationNarrow: Narrow,
   onExpandContract: () => void,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
 |};
 
 /**

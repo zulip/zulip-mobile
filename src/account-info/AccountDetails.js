@@ -27,15 +27,18 @@ const componentStyles = StyleSheet.create({
 
 const AVATAR_SIZE = 200;
 
+type OwnProps = {|
+  user: User,
+|};
+
 type SelectorProps = {|
   realm: string,
   userStatusText: string | void,
 |};
 
 type Props = {|
-  user: User,
-
   ...InjectedDispatch,
+  ...OwnProps,
   ...SelectorProps,
 |};
 

@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { InjectedDispatch } from '../types';
+import type { InjectedDispatch, Narrow } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
@@ -15,13 +15,22 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  ...InjectedDispatch,
+type OwnProps = {|
   isFocused: boolean,
   text: string,
-  topics: string[],
+  narrow: Narrow,
   onAutocomplete: (name: string) => void,
-};
+|};
+
+type SelectorProps = {|
+  topics: string[],
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
+|};
 
 class TopicAutocomplete extends PureComponent<Props> {
   render() {
@@ -55,6 +64,6 @@ class TopicAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps) => ({
   topics: getTopicsForNarrow(props.narrow)(state),
 }))(TopicAutocomplete);

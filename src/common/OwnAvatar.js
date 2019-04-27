@@ -7,11 +7,19 @@ import { getCurrentRealm, getSelfUserDetail } from '../selectors';
 import UserAvatar from './UserAvatar';
 import { getAvatarFromUser } from '../utils/avatar';
 
+type OwnProps = {|
+  size: number,
+|};
+
+type SelectorProps = {|
+  realm: string,
+  user: User,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  user: User,
-  size: number,
-  realm: string,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 /**

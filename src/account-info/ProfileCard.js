@@ -63,9 +63,13 @@ class LogoutButton extends PureComponent<{| dispatch: Dispatch |}> {
   }
 }
 
+type SelectorProps = {|
+  selfUserDetail: User,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  selfUserDetail: User,
+  ...SelectorProps,
 |};
 
 /**

@@ -23,9 +23,13 @@ const styles = StyleSheet.create({
   },
 });
 
+type SelectorProps = {|
+  isOnline: boolean,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  isOnline: boolean,
+  ...SelectorProps,
 |};
 
 /**

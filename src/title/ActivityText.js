@@ -3,18 +3,27 @@
 import React, { PureComponent } from 'react';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { UserPresence, UserStatus, InjectedDispatch } from '../types';
+import type { InjectedDispatch, UserOrBot, UserPresence, UserStatus } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { getPresence, getUserStatus } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
 
-type Props = {
-  ...InjectedDispatch,
-  presence: UserPresence,
+type OwnProps = {|
   style: TextStyleProp,
+  user: UserOrBot,
+|};
+
+type SelectorProps = {|
+  presence: UserPresence,
   userStatus: UserStatus,
-};
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
+|};
 
 class ActivityText extends PureComponent<Props> {
   render() {

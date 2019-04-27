@@ -15,10 +15,14 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
   conversations: PmConversationData[],
   usersByEmail: Map<string, UserOrBot>,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
 |};
 
 /**

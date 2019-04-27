@@ -10,11 +10,19 @@ import { subscriptionAdd } from '../api';
 import { getAuth, getStreamForId } from '../selectors';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+|};
+
+type SelectorProps = {|
   auth: Auth,
   stream: Stream,
-  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 type State = {|

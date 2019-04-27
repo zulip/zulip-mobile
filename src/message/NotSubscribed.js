@@ -3,18 +3,27 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Auth, Stream, InjectedDispatch } from '../types';
+import type { Auth, Narrow, Stream, InjectedDispatch } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
-type Props = {
-  ...InjectedDispatch,
+type OwnProps = {|
+  narrow: Narrow,
+|};
+
+type SelectorProps = {|
   auth: Auth,
   stream: { ...Stream },
-};
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
+|};
 
 class NotSubscribed extends PureComponent<Props> {
   subscribeToStream = () => {

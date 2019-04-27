@@ -9,9 +9,13 @@ import { connect } from '../react-redux';
 import { getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
 
+type SelectorProps = {|
+  nav: NavigationState,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  nav: NavigationState,
+  ...SelectorProps,
 |};
 
 class AppWithNavigation extends PureComponent<Props> {

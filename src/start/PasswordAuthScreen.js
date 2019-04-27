@@ -25,10 +25,18 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  partialAuth: Auth,
-  ...InjectedDispatch,
+type OwnProps = {|
   navigation: NavigationScreenProp<{ params: {| requireEmailFormat: boolean |} }>,
+|};
+
+type SelectorProps = {|
+  partialAuth: Auth,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 type State = {|

@@ -24,9 +24,13 @@ const styles = StyleSheet.create({
   },
 });
 
+type SelectorProps = {|
+  userStatusText: string,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  userStatusText: string,
+  ...SelectorProps,
 |};
 
 type State = {|

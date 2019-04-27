@@ -47,15 +47,18 @@ const messages: EmptyMessage[] = [
   { isFunc: isSearchNarrow, text: 'No messages' },
 ];
 
+type OwnProps = {|
+  narrow: Narrow,
+|};
+
 type SelectorProps = {|
   showMessagePlaceholders: boolean,
   noMessages: boolean,
 |};
 
 type Props = {|
-  narrow: Narrow,
-
   ...InjectedDispatch,
+  ...OwnProps,
   ...SelectorProps,
 |};
 

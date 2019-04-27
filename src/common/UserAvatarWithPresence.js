@@ -18,14 +18,22 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
-  ...InjectedDispatch,
-  avatarUrl: ?string,
+type OwnProps = {|
+  avatarUrl: string | null,
   email: string,
   size: number,
-  realm: string,
   shape: 'rounded' | 'square',
   onPress?: () => void,
+|};
+
+type SelectorProps = {|
+  realm: string,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 /**

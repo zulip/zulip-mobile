@@ -29,14 +29,17 @@ const styles = StyleSheet.create({
   },
 });
 
+type OwnProps = {|
+  narrow: Narrow,
+|};
+
 type SelectorProps = {|
   unreadCount: number,
 |};
 
 type Props = {|
-  narrow: Narrow,
-
   ...InjectedDispatch,
+  ...OwnProps,
   ...SelectorProps,
 |};
 
@@ -61,6 +64,6 @@ class UnreadNotice extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   unreadCount: getUnreadCountForNarrow(state, props.narrow),
 }))(UnreadNotice);

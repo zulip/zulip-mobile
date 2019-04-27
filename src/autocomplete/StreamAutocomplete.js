@@ -9,11 +9,19 @@ import { Popup } from '../common';
 import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
 import StreamItem from '../streams/StreamItem';
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
   filter: string,
   onAutocomplete: (name: string) => void,
+|};
+
+type SelectorProps = {|
   subscriptions: SubscriptionsState,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class StreamAutocomplete extends PureComponent<Props> {

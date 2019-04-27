@@ -73,10 +73,18 @@ class TranslationContextTranslator extends PureComponent<{
   }
 }
 
+type OwnProps = {|
+  children: React$Node,
+|};
+
+type SelectorProps = {|
+  locale: string,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  locale: string,
-  children: React$Node,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class TranslationProvider extends PureComponent<Props> {

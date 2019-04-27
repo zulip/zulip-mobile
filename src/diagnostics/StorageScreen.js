@@ -16,9 +16,13 @@ const calculateKeyStorageSizes = obj =>
     }))
     .sort((a, b) => b.size - a.size);
 
+type SelectorProps = {|
+  state: GlobalState,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  state: GlobalState,
+  ...SelectorProps,
 |};
 
 class StorageScreen extends PureComponent<Props> {

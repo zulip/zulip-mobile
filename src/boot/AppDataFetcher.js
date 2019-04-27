@@ -8,10 +8,18 @@ import { connect } from '../react-redux';
 import { getSession } from '../directSelectors';
 import { doInitialFetch } from '../actions';
 
-type Props = {|
-  needsInitialFetch: boolean,
-  ...InjectedDispatch,
+type OwnProps = {|
   children: React$Node,
+|};
+
+type SelectorProps = {|
+  needsInitialFetch: boolean,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class AppDataFetcher extends PureComponent<Props> {

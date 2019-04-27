@@ -74,6 +74,10 @@ export type BackgroundData = $ReadOnly<{
   subscriptions: Subscription[],
 }>;
 
+export type OwnProps = {|
+  narrow: Narrow,
+|};
+
 type SelectorProps = {|
   backgroundData: BackgroundData,
   anchor: number,
@@ -85,16 +89,12 @@ type SelectorProps = {|
   typingUsers: $ReadOnlyArray<User>,
 |};
 
-// TODO get a type for `connectActionSheet` so this gets fully type-checked.
 export type Props = {|
-  narrow: Narrow,
-
   ...InjectedDispatch,
+  ...OwnProps,
   ...SelectorProps,
-
   // From `connectActionSheet`.
   showActionSheetWithOptions: ShowActionSheetWithOptions,
-
   // From `withGetText`.
   _: GetText,
 |};

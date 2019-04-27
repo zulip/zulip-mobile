@@ -9,11 +9,19 @@ import UserList from './UserList';
 import { getUsers, getPresence } from '../selectors';
 import { navigateBack, doNarrow } from '../actions';
 
+type OwnProps = {|
+  filter: string,
+|};
+
+type SelectorProps = {|
+  users: User[],
+  presences: PresenceState,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  users: User[],
-  filter: string,
-  presences: PresenceState,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class UsersCard extends PureComponent<Props> {

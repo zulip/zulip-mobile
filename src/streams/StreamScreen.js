@@ -19,12 +19,20 @@ import {
 } from '../actions';
 import styles from '../styles';
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+|};
+
+type SelectorProps = {|
   isAdmin: boolean,
   stream: Stream,
   subscription: Subscription,
-  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+|};
+
+type Props = {|
+  ...InjectedDispatch,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class StreamScreen extends PureComponent<Props> {

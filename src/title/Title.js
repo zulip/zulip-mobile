@@ -13,11 +13,19 @@ import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStream';
 import TitlePlain from './TitlePlain';
 
+type OwnProps = {|
+  narrow: Narrow,
+  color: string,
+|};
+
+type SelectorProps = {|
+  editMessage: ?EditMessage,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  narrow: Narrow,
-  editMessage: ?EditMessage,
-  color: string,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 class Title extends PureComponent<Props> {
@@ -34,7 +42,7 @@ class Title extends PureComponent<Props> {
       stream: () => <TitleStream narrow={narrow} color={color} />,
       topic: () => <TitleStream narrow={narrow} color={color} />,
       pm: email => <TitlePrivate email={email} color={color} />,
-      groupPm: () => <TitleGroup narrow={narrow} color={color} />,
+      groupPm: () => <TitleGroup narrow={narrow} />,
       search: () => null,
     });
   }

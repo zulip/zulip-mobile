@@ -7,9 +7,13 @@ import { OptionRow } from '../common';
 import { getSelfUserAwayStatus } from '../selectors';
 import { updateUserAwayStatus } from '../user-status/userStatusActions';
 
-type Props = {|
+type SelectorProps = {|
   awayStatus: boolean,
+|};
+
+type Props = {|
   ...InjectedDispatch,
+  ...SelectorProps,
 |};
 
 /**

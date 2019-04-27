@@ -10,15 +10,18 @@ import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
+type OwnProps = {|
+  narrow: Narrow,
+  color: string,
+|};
+
 type SelectorProps = {|
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
 |};
 
 type Props = {|
-  narrow: Narrow,
-  color: string,
-
   ...InjectedDispatch,
+  ...OwnProps,
   ...SelectorProps,
 |};
 

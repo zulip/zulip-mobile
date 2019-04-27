@@ -7,10 +7,14 @@ import { connect } from '../react-redux';
 import NavButton from '../nav/NavButton';
 import { navigateToAccountDetails } from '../actions';
 
-type Props = {|
-  ...InjectedDispatch,
+type OwnProps = {|
   narrow: Narrow,
   color: string,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...InjectedDispatch,
 |};
 
 class InfoNavButtonPrivate extends PureComponent<Props> {

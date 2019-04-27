@@ -17,10 +17,18 @@ import { generateOtp, openBrowser, closeBrowser } from './oauth';
 import { activeAuthentications } from './authentications';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 
+type OwnProps = {|
+  navigation: NavigationScreenProp<{ params: {| serverSettings: ApiResponseServerSettings |} }>,
+|};
+
+type SelectorProps = {|
+  realm: string,
+|};
+
 type Props = {|
   ...InjectedDispatch,
-  realm: string,
-  navigation: NavigationScreenProp<{ params: {| serverSettings: ApiResponseServerSettings |} }>,
+  ...OwnProps,
+  ...SelectorProps,
 |};
 
 let otp = '';
@@ -136,6 +144,6 @@ class AuthScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   realm: getCurrentRealm(state),
 }))(AuthScreen);
