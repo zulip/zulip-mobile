@@ -29,6 +29,13 @@ export type InputSelection = {|
 |};
 
 /**
+ * Arrays can be:
+ *  * dense - contain values of the given type at all array's indices
+ *  * sparse - not all indices contain values, often happens when used as a Map
+ */
+export type SparseArray<T> = Array<?T>;
+
+/**
  * An `Identity`, a secret, and some other per-identity information.
  *
  * At present this consists of just the information the API client library
