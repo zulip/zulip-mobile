@@ -1,25 +1,25 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Narrow, Selector, Stream, Subscription } from '../types';
+import type { Narrow, Selector, Stream, Subscription, SparseArray } from '../types';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
 import { getSubscriptions, getStreams } from '../directSelectors';
 
-export const getStreamsById: Selector<{ [number]: Stream }> = createSelector(getStreams, streams =>
+export const getStreamsById: Selector<SparseArray<Stream>> = createSelector(getStreams, streams =>
   streams.reduce((streamsById, stream) => {
     streamsById[stream.stream_id] = stream;
     return streamsById;
-  }, ({}: { [number]: Stream })),
+  }, ([]: SparseArray<Stream>)),
 );
 
-export const getSubscriptionsById: Selector<{ [number]: Subscription }> = createSelector(
+export const getSubscriptionsById: Selector<SparseArray<Subscription>> = createSelector(
   getSubscriptions,
   subscriptions =>
     subscriptions.reduce((subsById, subscription) => {
       subsById[subscription.stream_id] = subscription;
       return subsById;
-    }, ({}: { [number]: Subscription })),
+    }, ([]: SparseArray<Subscription>)),
 );
 
 export const getIsActiveStreamSubscribed: Selector<boolean, Narrow> = createSelector(

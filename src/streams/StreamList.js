@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList, StyleSheet } from 'react-native';
 
-import type { Stream, Subscription } from '../types';
+import type { Stream, SparseArray, Subscription } from '../types';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
 import { SectionSeparatorBetween, SearchEmptyState } from '../common';
@@ -21,7 +21,7 @@ type Props = {|
   showSwitch: boolean,
   selected: boolean | string, // TODO type: pick one
   streams: $ReadOnlyArray<PseudoSubscription>,
-  unreadByStream: number[],
+  unreadByStream: SparseArray<number>,
   onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,
 |};

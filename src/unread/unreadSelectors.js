@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Narrow, Selector, UnreadStreamItem } from '../types';
+import type { Narrow, Selector, SparseArray, UnreadStreamItem } from '../types';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import {
   getMute,
@@ -27,7 +27,7 @@ import {
 import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
 import { getAllUsersByEmail } from '../users/userSelectors';
 
-export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
+export const getUnreadByStream: Selector<SparseArray<number>> = createSelector(
   getUnreadStreams,
   getSubscriptionsById,
   getMute,
@@ -43,7 +43,7 @@ export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
       );
       totals[stream.stream_id] += isMuted ? 0 : stream.unread_message_ids.length;
       return totals;
-    }, ({}: { [number]: number })),
+    }, ([]: SparseArray<number>)),
 );
 
 export const getUnreadStreamTotal: Selector<number> = createSelector(
@@ -51,13 +51,13 @@ export const getUnreadStreamTotal: Selector<number> = createSelector(
   unreadByStream => Object.values(unreadByStream).reduce((total, x) => +x + total, 0),
 );
 
-export const getUnreadByPms: Selector<{ [number]: number }> = createSelector(
+export const getUnreadByPms: Selector<SparseArray<number>> = createSelector(
   getUnreadPms,
   unreadPms =>
     unreadPms.reduce((totals, pm) => {
       totals[pm.sender_id] = totals[pm.sender_id] || 0 + pm.unread_message_ids.length;
       return totals;
-    }, ({}: { [number]: number })),
+    }, ([]: SparseArray<number>)),
 );
 
 export const getUnreadPmsTotal: Selector<number> = createSelector(getUnreadPms, unreadPms =>

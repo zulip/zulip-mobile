@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Message, PmConversationData, Selector } from '../types';
+import type { Message, PmConversationData, Selector, SparseArray } from '../types';
 import { getPrivateMessages } from '../message/messageSelectors';
 import { getOwnEmail } from '../account/accountsSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
@@ -15,7 +15,7 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
   (
     ownEmail: string,
     messages: Message[],
-    unreadPms: { [number]: number },
+    unreadPms: SparseArray<number>,
     unreadHuddles: { [string]: number },
   ): PmConversationData[] => {
     const recipients = messages.map(msg => ({
