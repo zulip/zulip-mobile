@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Dispatch, Stream, TopicExtended } from '../types';
 import { connectFlowFixMe } from '../react-redux';
@@ -14,7 +15,14 @@ import { fetchTopics, doNarrow } from '../actions';
 type Props = {|
   dispatch: Dispatch,
   stream: Stream,
+<<<<<<< HEAD
   topics: TopicExtended[] | void,
+||||||| parent of 6b0b2995... flow: Add missing types for 'navigation' prop
+  topics: ?(TopicExtended[]),
+=======
+  topics: TopicExtended[] | void,
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+>>>>>>> 6b0b2995... flow: Add missing types for 'navigation' prop
 |};
 
 type State = {|

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Auth, Dispatch, Stream, User } from '../types';
 import { connectFlowFixMe } from '../react-redux';
@@ -13,6 +14,7 @@ type Props = {|
   dispatch: Dispatch,
   auth: Auth,
   stream: Stream,
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
 |};
 
 type State = {|

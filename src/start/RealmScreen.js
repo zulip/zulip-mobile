@@ -13,7 +13,7 @@ import styles from '../styles';
 
 type Props = {|
   dispatch: Dispatch,
-  navigation: NavigationScreenProp<mixed>,
+  navigation: NavigationScreenProp<{ params: {| realm: string |} }>,
   initialRealm: string,
 |};
 

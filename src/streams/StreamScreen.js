@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Dispatch, Stream, Subscription } from '../types';
 import { connectFlowFixMe } from '../react-redux';
@@ -23,6 +24,7 @@ type Props = {|
   isAdmin: boolean,
   stream: Stream,
   subscription: Subscription,
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
 |};
 
 class StreamScreen extends PureComponent<Props> {
