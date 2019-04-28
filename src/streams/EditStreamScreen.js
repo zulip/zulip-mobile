@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Dispatch, GlobalState, Stream } from '../types';
 import { connectFlowFixMe } from '../react-redux';
@@ -11,6 +12,7 @@ import EditStreamCard from './EditStreamCard';
 type Props = {|
   dispatch: Dispatch,
   stream: Stream,
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
 |};
 
 class EditStreamScreen extends PureComponent<Props> {

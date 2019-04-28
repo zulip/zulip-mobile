@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Dispatch, GlobalState, Stream, TopicExtended } from '../types';
 import { connectFlowFixMe } from '../react-redux';
@@ -15,6 +16,7 @@ type Props = {|
   dispatch: Dispatch,
   stream: Stream,
   topics: TopicExtended[],
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
 |};
 
 type State = {|

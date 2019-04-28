@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Dispatch, GlobalState, User } from '../types';
 import { connectFlowFixMe } from '../react-redux';
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
 
 type Props = {|
   user: User,
+  navigation: NavigationScreenProp<{ params: {| email: string |} }>,
   dispatch: Dispatch,
 |};
 
