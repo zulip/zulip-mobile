@@ -22,15 +22,18 @@ export default (
   narrow: Narrow,
   item: Message | Outbox | {||},
 ) => {
-  const headerStyle = caseNarrow(narrow, {
+  type HeaderStyle = 'none' | 'topic+date' | 'full';
+  const headerStyle: HeaderStyle = caseNarrow(narrow, {
+    stream: () => 'topic+date',
+    topic: () => 'none',
+
+    pm: () => 'none',
+    groupPm: () => 'none',
+
     home: () => 'full',
-    pm: () => null,
-    groupPm: () => null,
     starred: () => 'full',
     mentioned: () => 'full',
     allPrivate: () => 'full',
-    stream: () => 'topic+date',
-    topic: () => null,
     search: () => 'full',
   });
 
