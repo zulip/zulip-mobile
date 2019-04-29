@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 type Props = {|
   dispatch: Dispatch,
   subscriptions: Subscription[],
-  unreadByStream: number[],
+  unreadByStream: { [number]: number },
 |};
 
 class SubscriptionsCard extends PureComponent<Props> {

@@ -21,7 +21,7 @@ type Props = {|
   showSwitch: boolean,
   selected: boolean | string, // TODO type: pick one
   streams: $ReadOnlyArray<PseudoSubscription>,
-  unreadByStream: number[],
+  unreadByStream: { [number]: number },
   onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,
 |};
@@ -32,7 +32,7 @@ export default class StreamList extends PureComponent<Props> {
     showSwitch: false,
     selected: false,
     streams: [],
-    unreadByStream: [],
+    unreadByStream: {},
   };
 
   render() {
