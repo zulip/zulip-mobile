@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Dispatch, GlobalState, User } from '../types';
+import type { Dispatch, GlobalState, UserOrBot } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { getAccountDetailsUserForEmail } from '../selectors';
 import { Screen, ZulipButton } from '../common';
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  user: User,
+  user: UserOrBot,
   dispatch: Dispatch,
 |};
 
