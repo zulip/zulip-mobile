@@ -56,6 +56,6 @@ class TitleGroup extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   recipients: getRecipientsInGroupNarrow(state, props.narrow),
 }))(TitleGroup);

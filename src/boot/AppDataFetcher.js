@@ -36,6 +36,6 @@ class AppDataFetcher extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   needsInitialFetch: getSession(state).needsInitialFetch,
 }))(AppDataFetcher);

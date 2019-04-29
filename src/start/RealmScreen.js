@@ -103,7 +103,7 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   initialRealm:
     (props.navigation && props.navigation.state.params && props.navigation.state.params.realm)
     || '',

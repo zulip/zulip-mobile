@@ -88,7 +88,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   activeImageEmojiByName: getActiveImageEmojiByName(state),
   auth: getAuth(state),
 }))(EmojiPickerScreen);

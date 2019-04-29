@@ -143,6 +143,6 @@ class Screen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   safeAreaInsets: getSession(state).safeAreaInsets,
 }))(Screen);

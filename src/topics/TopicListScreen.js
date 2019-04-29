@@ -18,14 +18,7 @@ type OwnProps = {|
 
 type SelectorProps = {|
   stream: Stream,
-<<<<<<< HEAD
   topics: TopicExtended[] | void,
-||||||| parent of 6b0b2995... flow: Add missing types for 'navigation' prop
-  topics: ?(TopicExtended[]),
-=======
-  topics: TopicExtended[] | void,
-  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
->>>>>>> 6b0b2995... flow: Add missing types for 'navigation' prop
 |};
 
 export type Props = {|
@@ -69,7 +62,7 @@ class TopicListScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   stream: getStreamForId(state, props.navigation.state.params.streamId),
   topics: getTopicsForStream(state, props.navigation.state.params.streamId),
 }))(TopicListScreen);

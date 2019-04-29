@@ -39,7 +39,7 @@ class ActivityText extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   presence: getPresence(state)[props.user.email],
   userStatus: getUserStatus(state)[props.user.user_id],
 }))(ActivityText);

@@ -133,7 +133,7 @@ class PresenceStatusIndicator extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   presence: getPresence(state),
   usersByEmail: getUsersByEmail(state),
   userStatus: getUserStatus(state),

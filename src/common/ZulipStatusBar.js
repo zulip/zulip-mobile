@@ -87,7 +87,7 @@ class ZulipStatusBar extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props: { backgroundColor?: string, narrow?: Narrow }) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   safeAreaInsets: getSession(state).safeAreaInsets,
   theme: getSettings(state).theme,
   backgroundColor: getTitleBackgroundColor(props.narrow)(state),

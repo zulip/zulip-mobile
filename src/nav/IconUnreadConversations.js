@@ -48,7 +48,7 @@ class IconUnreadConversations extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   unreadHuddlesTotal: getUnreadHuddlesTotal(state),
   unreadPmsTotal: getUnreadPmsTotal(state),
 }))(IconUnreadConversations);

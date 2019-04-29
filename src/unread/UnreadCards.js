@@ -99,7 +99,7 @@ class UnreadCards extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   isLoading: getLoading(state).unread,
   conversations: getUnreadConversations(state),
   usersByEmail: getAllUsersByEmail(state),

@@ -14,8 +14,8 @@ type OwnProps = {|
 |};
 
 type SelectorProps = {|
-  users: User[],
   presences: PresenceState,
+  users: User[],
 |};
 
 type Props = {|
@@ -44,7 +44,7 @@ class UsersCard extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   users: getUsers(state),
   presences: getPresence(state),
 }))(UsersCard);

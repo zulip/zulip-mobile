@@ -56,6 +56,6 @@ class TitlePrivate extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   user: getAllUsersByEmail(state).get(props.email),
 }))(TitlePrivate);

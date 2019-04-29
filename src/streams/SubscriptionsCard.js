@@ -48,7 +48,7 @@ class SubscriptionsCard extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state): SelectorProps => ({
   subscriptions: getSubscribedStreams(state),
   unreadByStream: getUnreadByStream(state),
 }))(SubscriptionsCard);

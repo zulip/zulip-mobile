@@ -49,7 +49,7 @@ class NotSubscribed extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   auth: getAuth(state),
   stream: getStreamInNarrow(props.narrow)(state),
 }))(NotSubscribed);

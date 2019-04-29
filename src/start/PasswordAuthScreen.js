@@ -135,6 +135,6 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   partialAuth: getPartialAuth(state),
 }))(PasswordAuthScreen);

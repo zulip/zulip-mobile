@@ -133,7 +133,7 @@ class UserPickerCard extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   users: getUsersSansMe(state),
   usersByEmail: getUsersByEmail(state),
   presences: getPresence(state),

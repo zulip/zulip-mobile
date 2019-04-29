@@ -38,6 +38,6 @@ class CreateStreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   ownEmail: getOwnEmail(state),
 }))(CreateStreamScreen);

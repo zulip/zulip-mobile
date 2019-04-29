@@ -82,7 +82,7 @@ class AccountDetails extends PureComponent<Props, void> {
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   realm: getCurrentRealm(state),
   userStatusText: getUserStatusTextForUser(state, props.user.user_id),
 }))(AccountDetails);

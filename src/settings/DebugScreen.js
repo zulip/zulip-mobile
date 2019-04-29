@@ -43,6 +43,6 @@ class DebugScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   debug: getSession(state).debug,
 }))(DebugScreen);

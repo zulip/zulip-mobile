@@ -92,7 +92,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   ownEmail: getOwnEmail(state),
   users: getSortedUsers(state),
   userGroups: getUserGroups(state),

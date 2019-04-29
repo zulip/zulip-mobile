@@ -45,6 +45,6 @@ class BackNavigationHandler extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   canGoBack: getCanGoBack(state),
 }))(BackNavigationHandler);

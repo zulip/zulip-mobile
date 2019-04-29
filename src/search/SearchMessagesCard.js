@@ -107,6 +107,6 @@ class SearchMessagesCard extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   auth: getAuth(state),
 }))(SearchMessagesCard);

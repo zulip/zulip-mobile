@@ -93,7 +93,7 @@ class MarkUnreadButton extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   auth: getAuth(state),
   streams: getStreams(state),
 }))(MarkUnreadButton);

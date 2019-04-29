@@ -62,6 +62,6 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   user: getAccountDetailsUserForEmail(state, props.navigation.state.params.email),
 }))(AccountDetailsScreen);

@@ -141,7 +141,7 @@ class Lightbox extends PureComponent<Props, State> {
 }
 
 export default connectActionSheet(
-  connect(state => ({
+  connect((state): SelectorProps => ({
     auth: getAuth(state),
   }))(Lightbox),
 );

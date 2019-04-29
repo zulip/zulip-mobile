@@ -40,6 +40,6 @@ class AwayStatusSwitch extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   awayStatus: getSelfUserAwayStatus(state),
 }))(AwayStatusSwitch);

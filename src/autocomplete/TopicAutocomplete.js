@@ -64,6 +64,6 @@ class TopicAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props: OwnProps) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   topics: getTopicsForNarrow(props.narrow)(state),
 }))(TopicAutocomplete);

@@ -56,6 +56,6 @@ class OfflineNotice extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   isOnline: getSession(state).isOnline,
 }))(OfflineNotice);

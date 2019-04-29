@@ -98,6 +98,6 @@ class ProfileCard extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   selfUserDetail: getSelfUserDetail(state),
 }))(ProfileCard);

@@ -65,6 +65,6 @@ class TitleStream extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   stream: getStreamInNarrow(props.narrow)(state),
 }))(TitleStream);

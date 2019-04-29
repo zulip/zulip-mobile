@@ -48,6 +48,6 @@ class Title extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   editMessage: getSession(state).editMessage,
 }))(Title);

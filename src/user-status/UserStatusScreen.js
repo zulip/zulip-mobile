@@ -111,6 +111,6 @@ class UserStatusScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   userStatusText: getSelfUserStatusText(state),
 }))(UserStatusScreen);

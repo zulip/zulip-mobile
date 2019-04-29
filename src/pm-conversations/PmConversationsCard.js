@@ -95,7 +95,7 @@ class PmConversationsCard extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   conversations: getRecentConversations(state),
   isLoading: getLoading(state).users,
   usersByEmail: getAllUsersByEmail(state),

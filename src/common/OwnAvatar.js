@@ -35,7 +35,7 @@ class OwnAvatar extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   realm: getCurrentRealm(state),
   user: getSelfUserDetail(state),
 }))(OwnAvatar);

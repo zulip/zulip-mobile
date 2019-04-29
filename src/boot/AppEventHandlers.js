@@ -110,6 +110,6 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
 }))(AppEventHandlers);

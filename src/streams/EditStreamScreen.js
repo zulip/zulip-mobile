@@ -46,6 +46,6 @@ class EditStreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   stream: getStreamForId(state, props.navigation.state.params.streamId),
 }))(EditStreamScreen);

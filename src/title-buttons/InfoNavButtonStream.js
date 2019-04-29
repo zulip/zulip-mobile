@@ -39,6 +39,6 @@ class InfoNavButtonStream extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   streams: getStreams(state),
 }))(InfoNavButtonStream);

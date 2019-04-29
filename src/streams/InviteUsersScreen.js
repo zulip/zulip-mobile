@@ -54,7 +54,7 @@ class InviteUsersScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   auth: getAuth(state),
   stream: getStreamForId(state, props.navigation.state.params.streamId),
 }))(InviteUsersScreen);

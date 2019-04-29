@@ -36,6 +36,6 @@ class InfoNavButtonGroup extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   recipients: getRecipientsInGroupNarrow(state, props.narrow),
 }))(InfoNavButtonGroup);

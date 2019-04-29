@@ -62,6 +62,6 @@ class StreamAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   subscriptions: getSubscribedStreams(state),
 }))(StreamAutocomplete);

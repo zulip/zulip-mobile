@@ -38,6 +38,6 @@ class AppWithNavigation extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   nav: getNav(state),
 }))(AppWithNavigation);

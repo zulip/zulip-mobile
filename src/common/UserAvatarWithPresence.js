@@ -67,6 +67,6 @@ class UserAvatarWithPresence extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   realm: getCurrentRealm(state),
 }))(UserAvatarWithPresence);

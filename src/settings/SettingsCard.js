@@ -87,6 +87,6 @@ class SettingsCard extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   theme: getSettings(state).theme,
 }))(SettingsCard);

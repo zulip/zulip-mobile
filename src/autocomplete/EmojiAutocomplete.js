@@ -54,6 +54,6 @@ class EmojiAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   activeImageEmojiByName: getActiveImageEmojiByName(state),
 }))(EmojiAutocomplete);

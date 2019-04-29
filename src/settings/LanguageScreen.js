@@ -46,6 +46,6 @@ class LanguageScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   locale: getSettings(state).locale,
 }))(LanguageScreen);

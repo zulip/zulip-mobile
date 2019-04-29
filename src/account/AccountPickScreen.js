@@ -81,7 +81,7 @@ class AccountPickScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state): SelectorProps => ({
   accounts: getAccountStatuses(state),
   hasAuth: hasAuth(state),
 }))(AccountPickScreen);

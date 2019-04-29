@@ -108,7 +108,7 @@ class StreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
   isAdmin: getIsAdmin(state),
   stream: getStreamForId(state, props.navigation.state.params.streamId),
   subscription: getSubscriptionForId(state, props.navigation.state.params.streamId),
