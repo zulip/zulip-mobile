@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, GlobalState, Stream, Subscription } from '../types';
+import type { InjectedDispatch, GlobalState, Stream, Subscription } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
@@ -19,7 +19,7 @@ import {
 import styles from '../styles';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   isAdmin: boolean,
   stream: Stream,
   subscription: Subscription,

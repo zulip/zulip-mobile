@@ -9,7 +9,7 @@ import { unicodeCodeByName } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojiNames } from './data';
-import type { RealmEmojiById, Auth, Dispatch, ReactionType } from '../types';
+import type { RealmEmojiById, Auth, InjectedDispatch, ReactionType } from '../types';
 import { connect } from '../react-redux';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
@@ -18,7 +18,7 @@ import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 type Props = {|
   activeImageEmojiByName: RealmEmojiById,
   auth: Auth,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   navigation: NavigationScreenProp<{ params: {| messageId: number |} }>,
 |};
 

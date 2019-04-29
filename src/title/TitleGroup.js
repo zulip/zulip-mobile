@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Dispatch, UserOrBot } from '../types';
+import type { InjectedDispatch, UserOrBot } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { UserAvatarWithPresence } from '../common';
 import { getRecipientsInGroupNarrow } from '../selectors';
@@ -11,7 +11,7 @@ import styles from '../styles';
 import { navigateToAccountDetails } from '../nav/navActions';
 
 type Props = {
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   recipients: UserOrBot[],
 };
 

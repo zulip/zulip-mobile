@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
@@ -10,7 +10,7 @@ import { getSettings } from '../selectors';
 import { settingsChange } from '../actions';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   locale: string,
 |};
 

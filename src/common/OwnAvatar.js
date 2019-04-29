@@ -1,14 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { User, Dispatch } from '../types';
+import type { User, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { getCurrentRealm, getSelfUserDetail } from '../selectors';
 import UserAvatar from './UserAvatar';
 import { getAvatarFromUser } from '../utils/avatar';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   user: User,
   size: number,
   realm: string,

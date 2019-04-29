@@ -4,13 +4,13 @@ import React, { PureComponent } from 'react';
 import { addNavigationHelpers } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
-import type { Dispatch, NavigationState, PlainDispatch } from '../types';
+import type { InjectedDispatch, NavigationState, PlainDispatch } from '../types';
 import { connect } from '../react-redux';
 import { getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   nav: NavigationState,
 |};
 

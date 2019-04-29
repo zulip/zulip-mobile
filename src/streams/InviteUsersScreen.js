@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { Auth, Dispatch, GlobalState, Stream, User } from '../types';
+import type { Auth, InjectedDispatch, GlobalState, Stream, User } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
@@ -10,7 +10,7 @@ import { getAuth, getStreamFromId } from '../selectors';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   auth: Auth,
   stream: Stream,
 |};

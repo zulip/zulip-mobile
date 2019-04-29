@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Dispatch, GlobalState, User } from '../types';
+import type { InjectedDispatch, GlobalState, User } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { getAccountDetailsUserFromEmail } from '../selectors';
 import { Screen, ZulipButton } from '../common';
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 
 type Props = {|
   user: User,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
 |};
 
 class AccountDetailsScreen extends PureComponent<Props> {

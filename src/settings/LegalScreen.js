@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { Screen, OptionButton } from '../common';
 import openLink from '../utils/openLink';
@@ -10,7 +10,7 @@ import { getFullUrl } from '../utils/url';
 import { getCurrentRealm } from '../selectors';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   realm: string,
 |};
 

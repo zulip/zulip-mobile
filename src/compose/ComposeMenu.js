@@ -4,7 +4,7 @@ import { View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
 
-import type { Dispatch, Narrow } from '../types';
+import type { InjectedDispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import styles from '../styles';
@@ -13,7 +13,7 @@ import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   expanded: boolean,
   destinationNarrow: Narrow,
   onExpandContract: () => void,

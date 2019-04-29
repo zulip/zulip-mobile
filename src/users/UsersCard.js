@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, PresenceState, User } from '../types';
+import type { InjectedDispatch, PresenceState, User } from '../types';
 import { connect } from '../react-redux';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
@@ -10,7 +10,7 @@ import { getUsers, getPresence } from '../selectors';
 import { navigateBack, doNarrow } from '../actions';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   users: User[],
   filter: string,
   presences: PresenceState,

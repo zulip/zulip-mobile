@@ -6,7 +6,7 @@ import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
 import type { Node as React$Node } from 'react';
-import type { Dispatch, Orientation as OrientationT } from '../types';
+import type { InjectedDispatch, Orientation as OrientationT } from '../types';
 import { connect } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   children: React$Node,
   unreadCount: number,
 |};

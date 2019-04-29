@@ -3,14 +3,14 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { SubscriptionsState, Dispatch } from '../types';
+import type { SubscriptionsState, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { Popup } from '../common';
 import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
 import StreamItem from '../streams/StreamItem';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   filter: string,
   onAutocomplete: (name: string) => void,
   subscriptions: SubscriptionsState,

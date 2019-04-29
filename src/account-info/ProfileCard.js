@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import type { Dispatch, User } from '../types';
+import type { InjectedDispatch, User } from '../types';
 import { connect } from '../react-redux';
 import { getSelfUserDetail } from '../selectors';
 import { ZulipButton } from '../common';
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SetStatusButton extends PureComponent<{| dispatch: Dispatch |}> {
+class SetStatusButton extends PureComponent<InjectedDispatch> {
   onPress = () => {
     const { dispatch } = this.props;
     dispatch(navigateToUserStatus());
@@ -39,7 +39,7 @@ class SetStatusButton extends PureComponent<{| dispatch: Dispatch |}> {
   }
 }
 
-class SwitchAccountButton extends PureComponent<{| dispatch: Dispatch |}> {
+class SwitchAccountButton extends PureComponent<InjectedDispatch> {
   onPress = () => {
     this.props.dispatch(navigateToAccountPicker());
   };
@@ -51,7 +51,7 @@ class SwitchAccountButton extends PureComponent<{| dispatch: Dispatch |}> {
   }
 }
 
-class LogoutButton extends PureComponent<{| dispatch: Dispatch |}> {
+class LogoutButton extends PureComponent<InjectedDispatch> {
   onPress = () => {
     const { dispatch } = this.props;
     dispatch(tryStopNotifications());
@@ -64,7 +64,7 @@ class LogoutButton extends PureComponent<{| dispatch: Dispatch |}> {
 }
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   selfUserDetail: User,
 |};
 

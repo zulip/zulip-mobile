@@ -2,14 +2,14 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, Context } from '../types';
+import type { InjectedDispatch, Context } from '../types';
 import { connect } from '../react-redux';
 import SearchInput from '../common/SearchInput';
 import NavButton from './NavButton';
 import { navigateBack } from '../actions';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   autoFocus: boolean,
   searchBarOnChange: (text: string) => void,
 |};

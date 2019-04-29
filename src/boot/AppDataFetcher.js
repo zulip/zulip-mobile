@@ -3,14 +3,14 @@
 import { PureComponent } from 'react';
 
 import type { Node as React$Node } from 'react';
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSession } from '../directSelectors';
 import { doInitialFetch } from '../actions';
 
 type Props = {|
   needsInitialFetch: boolean,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   children: React$Node,
 |};
 

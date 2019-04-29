@@ -5,7 +5,7 @@ import type { Node as React$Node } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Context, Dimensions, LocalizableText, Dispatch } from '../types';
+import type { Context, Dimensions, LocalizableText, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
@@ -31,7 +31,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   centerContent: boolean,
   +children: React$Node,
   safeAreaInsets: Dimensions,

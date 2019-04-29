@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, Context, LocalizableText } from '../types';
+import type { InjectedDispatch, Context, LocalizableText } from '../types';
 import { connect } from '../react-redux';
 import styles, { NAVBAR_SIZE } from '../styles';
 import Label from '../common/Label';
@@ -11,7 +11,7 @@ import NavButton from './NavButton';
 import { navigateBack } from '../actions';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   canGoBack: boolean,
   title: LocalizableText,
 |};

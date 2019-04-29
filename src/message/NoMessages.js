@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Narrow, Dispatch } from '../types';
+import type { Narrow, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { getIfNoMessages, getShowMessagePlaceholders } from '../selectors';
 import { Label } from '../common';
@@ -55,7 +55,7 @@ type SelectorProps = {|
 type Props = {|
   narrow: Narrow,
 
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   ...SelectorProps,
 |};
 

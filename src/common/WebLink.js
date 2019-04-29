@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import Label from './Label';
 import { getFullUrl } from '../utils/url';
@@ -12,7 +12,7 @@ import { getCurrentRealm } from '../selectors';
 import { BRAND_COLOR } from '../styles';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   label: string,
   href: string,
   realm: string,

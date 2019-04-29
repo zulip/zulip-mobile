@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import DeviceInfo from 'react-native-device-info';
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
 import {
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
 |};
 
 class DiagnosticsScreen extends PureComponent<Props> {

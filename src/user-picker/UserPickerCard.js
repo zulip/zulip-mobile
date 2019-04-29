@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { FlatList } from 'react-native';
 
-import type { User, PresenceState, Dispatch } from '../types';
+import type { User, PresenceState, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   users: User[],
   usersByEmail: Map<string, User>,
   presences: PresenceState,

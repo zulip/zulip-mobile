@@ -2,13 +2,13 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, Narrow } from '../types';
+import type { InjectedDispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import NavButton from '../nav/NavButton';
 import { navigateToAccountDetails } from '../actions';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   narrow: Narrow,
   color: string,
 |};

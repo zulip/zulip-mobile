@@ -2,13 +2,13 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { Screen, ViewPlaceholder, ZulipButton } from '../common';
 import { navigateToRealmScreen, navigateToWelcomeHelp } from '../actions';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
 |};
 
 class WelcomeScreen extends PureComponent<Props> {

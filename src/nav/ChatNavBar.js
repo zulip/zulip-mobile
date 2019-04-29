@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, Narrow } from '../types';
+import type { InjectedDispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import styles, { BRAND_COLOR } from '../styles';
 import Title from '../title/Title';
@@ -20,7 +20,7 @@ type SelectorProps = {|
 type Props = {|
   narrow: Narrow,
 
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   ...SelectorProps,
 |};
 

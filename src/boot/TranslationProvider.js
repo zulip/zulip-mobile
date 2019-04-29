@@ -5,7 +5,7 @@ import { Text } from 'react-native';
 import { IntlProvider } from 'react-intl';
 import type { IntlShape } from 'react-intl';
 
-import type { GetText, Dispatch } from '../types';
+import type { GetText, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSettings } from '../selectors';
 import '../../vendor/intl/intl';
@@ -74,7 +74,7 @@ class TranslationContextTranslator extends PureComponent<{
 }
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   locale: string,
   children: React$Node,
 |};

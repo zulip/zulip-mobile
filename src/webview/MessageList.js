@@ -9,7 +9,7 @@ import type {
   Auth,
   Context,
   Debug,
-  Dispatch,
+  InjectedDispatch,
   Fetching,
   FlagsState,
   GetText,
@@ -89,7 +89,7 @@ type SelectorProps = {|
 export type Props = {|
   narrow: Narrow,
 
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   ...SelectorProps,
 
   // From `connectActionSheet`.

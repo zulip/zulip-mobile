@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Auth, Dispatch } from '../types';
+import type { Auth, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
 import { OptionRow, Screen } from '../common';
@@ -11,7 +11,7 @@ import { settingsChange } from '../actions';
 
 type Props = {|
   auth: Auth,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   offlineNotification: boolean,
   onlineNotification: boolean,
   streamNotification: boolean,

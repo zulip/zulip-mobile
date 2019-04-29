@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { Dispatch } from '../types';
+import type { InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { OptionRow } from '../common';
 import { getSelfUserAwayStatus } from '../selectors';
@@ -9,7 +9,7 @@ import { updateUserAwayStatus } from '../user-status/userStatusActions';
 
 type Props = {|
   awayStatus: boolean,
-  dispatch: Dispatch,
+  ...InjectedDispatch,
 |};
 
 /**

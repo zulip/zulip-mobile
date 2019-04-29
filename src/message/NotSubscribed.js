@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Auth, Stream, Dispatch } from '../types';
+import type { Auth, Stream, InjectedDispatch } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
@@ -11,7 +11,7 @@ import { getAuth, getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
 type Props = {
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   auth: Auth,
   stream: { ...Stream },
 };

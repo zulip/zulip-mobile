@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, GlobalState, Stream } from '../types';
+import type { InjectedDispatch, GlobalState, Stream } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamFromId } from '../selectors';
@@ -9,7 +9,7 @@ import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   stream: Stream,
 |};
 

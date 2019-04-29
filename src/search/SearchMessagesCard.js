@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, Message, Dispatch } from '../types';
+import type { Auth, Message, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW, SEARCH_NARROW } from '../utils/narrow';
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   auth: Auth,
   query: string,
 |};

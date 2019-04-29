@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { caseNarrow } from '../utils/narrow';
 import { getSession } from '../selectors';
 
-import type { EditMessage, Narrow, Dispatch } from '../types';
+import type { EditMessage, Narrow, InjectedDispatch } from '../types';
 import { connect } from '../react-redux';
 import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
@@ -14,7 +14,7 @@ import TitleStream from './TitleStream';
 import TitlePlain from './TitlePlain';
 
 type Props = {|
-  dispatch: Dispatch,
+  ...InjectedDispatch,
   narrow: Narrow,
   editMessage: ?EditMessage,
   color: string,
