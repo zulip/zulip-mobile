@@ -1,6 +1,10 @@
 /* @flow strict-local */
+import deepFreeze from 'deep-freeze';
+import { createStore } from 'redux';
 
 import type { Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
+import type { GlobalState } from '../reduxTypes';
+import rootReducer from '../boot/reducers';
 
 // TODO either fix Jest test-discovery patterns, or rename this file,
 // so this dummy test isn't required.
@@ -158,6 +162,16 @@ const streamMessage = (extra?: $Rest<Message, {}>): Message => {
   return { ...baseMessage, ...extra };
 };
 
+const privateReduxStore = createStore(rootReducer);
+
+const baseReduxState: GlobalState = deepFreeze(privateReduxStore.getState());
+
+const reduxState = (extra?: $Rest<GlobalState, {}>): GlobalState =>
+  deepFreeze({
+    ...baseReduxState,
+    ...extra,
+  });
+
 export const eg = {
   selfUser,
   otherUser,
@@ -165,4 +179,6 @@ export const eg = {
 
   pmMessage,
   streamMessage,
+
+  reduxState,
 };

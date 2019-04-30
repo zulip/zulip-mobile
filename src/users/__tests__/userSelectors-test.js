@@ -7,33 +7,19 @@ import {
   getUsersById,
   getUsersSansMe,
 } from '../userSelectors';
+import { eg } from '../../__tests__/exampleData';
 
 describe('getAccountDetailsUserForEmail', () => {
   test('return user for the account details screen', () => {
-    const state = deepFreeze({
-      realm: {},
-      users: [{ firstName: 'a', email: 'a@a.com' }, { firstName: 'b', email: 'b@a.com' }],
+    const state = eg.reduxState({
+      users: [eg.selfUser, eg.otherUser],
     });
-    const expectedUser = { firstName: 'b', email: 'b@a.com' };
-
-    const actualUser = getAccountDetailsUserForEmail(state, 'b@a.com');
-
-    expect(actualUser).toEqual(expectedUser);
+    expect(getAccountDetailsUserForEmail(state, eg.otherUser.email)).toEqual(eg.otherUser);
   });
 
   test('if user does not exist return a user with the same email and no details', () => {
-    const state = deepFreeze({
-      nav: {
-        index: 1,
-        routes: [
-          { routeName: 'first', params: { email: 'a@a.com' } },
-          { routeName: 'second', params: { email: 'b@a.com' } },
-        ],
-      },
-      realm: {},
-      users: [],
-    });
-    const expectedUser = {
+    const state = eg.reduxState();
+    expect(getAccountDetailsUserForEmail(state, 'b@a.com')).toEqual({
       email: 'b@a.com',
       full_name: 'b@a.com',
       avatar_url: '',
@@ -41,11 +27,7 @@ describe('getAccountDetailsUserForEmail', () => {
       user_id: -1,
       is_admin: false,
       is_bot: false,
-    };
-
-    const actualUser = getAccountDetailsUserForEmail(state, 'b@a.com');
-
-    expect(actualUser).toEqual(expectedUser);
+    });
   });
 });
 
