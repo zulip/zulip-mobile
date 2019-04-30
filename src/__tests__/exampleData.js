@@ -2,7 +2,7 @@
 import deepFreeze from 'deep-freeze';
 import { createStore } from 'redux';
 
-import type { Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
+import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
 import type { GlobalState } from '../reduxTypes';
 import rootReducer from '../boot/reducers';
 
@@ -21,14 +21,11 @@ const randString = () =>
 /** Return an integer 0 <= N < end, roughly uniformly at random. */
 const randInt = (end: number) => Math.floor(Math.random() * end);
 
-/** Caveat emptor!  These values may not be representative. */
-const makeUser = (args: { name?: string }): User => {
-  const name = args.name !== undefined ? args.name : randString();
+const userOrBotProperties = ({ name: _name }) => {
+  const name = _name !== undefined ? _name : randString();
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
   return {
     avatar_url: `https://zulip.example.org/yo/avatar-${name}.png`,
-    // bot_type omitted
-    // bot_owner omitted
 
     date_joined: `2014-04-${randInt(30)
       .toString()
@@ -36,18 +33,30 @@ const makeUser = (args: { name?: string }): User => {
 
     email: `${name}@example.org`,
     full_name: `${capsName} User`,
-
     is_admin: false,
-    is_bot: false,
-
-    is_guest: false,
-
-    // profile_data omitted
-
     timezone: 'UTC',
     user_id: randInt(10000),
   };
 };
+
+/** Caveat emptor!  These values may not be representative. */
+const makeUser = (args: { name?: string } = {}): User => ({
+  ...userOrBotProperties(args),
+
+  is_bot: false,
+  // bot_type omitted
+  // bot_owner omitted
+
+  is_guest: false,
+
+  // profile_data omitted
+});
+
+/** Caveat emptor!  These values may not be representative. */
+const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot => ({
+  ...userOrBotProperties(args),
+  is_bot: true,
+});
 
 const selfUser: User = makeUser({ name: 'self' });
 
@@ -171,6 +180,7 @@ const reduxState = (extra?: $Rest<GlobalState, {}>): GlobalState =>
 
 export const eg = {
   makeUser,
+  makeCrossRealmBot,
   selfUser,
   otherUser,
   stream,
