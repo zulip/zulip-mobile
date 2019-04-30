@@ -12,49 +12,46 @@ describe('nothing', () => {
   test('nothing', () => {});
 });
 
-/** Caveat emptor!  These values may not be representative. */
-const selfUser: User = {
-  avatar_url: 'https://zulip.example.org/an/avatar.png',
-  // bot_type omitted
-  // bot_owner omitted
+/** Return a string that's almost surely different every time. */
+const randString = () =>
+  Math.random()
+    .toString(36)
+    .substring(7);
 
-  date_joined: '2014-04-01',
-
-  email: 'user@example.org',
-  full_name: 'Self User',
-
-  is_admin: false,
-  is_bot: false,
-
-  is_guest: false,
-
-  // profile_data omitted
-
-  timezone: 'UTC',
-  user_id: 123,
-};
+/** Return an integer 0 <= N < end, roughly uniformly at random. */
+const randInt = (end: number) => Math.floor(Math.random() * end);
 
 /** Caveat emptor!  These values may not be representative. */
-const otherUser: User = {
-  avatar_url: 'https://zulip.example.org/an/other-avatar.png',
-  // bot_type omitted
-  // bot_owner omitted
+const makeUser = (args: { name?: string }): User => {
+  const name = args.name !== undefined ? args.name : randString();
+  const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
+  return {
+    avatar_url: `https://zulip.example.org/yo/avatar-${name}.png`,
+    // bot_type omitted
+    // bot_owner omitted
 
-  date_joined: '2014-04-01',
+    date_joined: `2014-04-${randInt(30)
+      .toString()
+      .padStart(2, '0')}`,
 
-  email: 'other@example.org',
-  full_name: 'Other User',
+    email: `${name}@example.org`,
+    full_name: `${capsName} User`,
 
-  is_admin: false,
-  is_bot: false,
+    is_admin: false,
+    is_bot: false,
 
-  is_guest: false,
+    is_guest: false,
 
-  // profile_data omitted
+    // profile_data omitted
 
-  timezone: 'Pacific/Chatham', // i.e. UTC+1245 / UTC+1345 :-D
-  user_id: 234,
+    timezone: 'UTC',
+    user_id: randInt(10000),
+  };
 };
+
+const selfUser: User = makeUser({ name: 'self' });
+
+const otherUser: User = makeUser({ name: 'other' });
 
 const stream: Stream = {
   stream_id: 34,
@@ -173,6 +170,7 @@ const reduxState = (extra?: $Rest<GlobalState, {}>): GlobalState =>
   });
 
 export const eg = {
+  makeUser,
   selfUser,
   otherUser,
   stream,
