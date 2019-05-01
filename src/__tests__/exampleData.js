@@ -4,6 +4,7 @@ import { createStore } from 'redux';
 
 import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
 import type { GlobalState } from '../reduxTypes';
+import type { Account } from '../types';
 import rootReducer from '../boot/reducers';
 
 // TODO either fix Jest test-discovery patterns, or rename this file,
@@ -58,9 +59,19 @@ const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot => ({
   is_bot: true,
 });
 
+const makeAccount = (user: User): Account => ({
+  realm: 'https://zulip.example.org',
+  email: user.email,
+  apiKey: randString() + randString(),
+  ackedPushToken: null,
+});
+
 const selfUser: User = makeUser({ name: 'self' });
+const selfAccount: Account = makeAccount(selfUser);
 
 const otherUser: User = makeUser({ name: 'other' });
+
+const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
 
 const stream: Stream = {
   stream_id: 34,
@@ -182,11 +193,14 @@ export const eg = {
   makeUser,
   makeCrossRealmBot,
   selfUser,
+  selfAccount,
   otherUser,
+  crossRealmBot,
   stream,
 
   pmMessage,
   streamMessage,
 
+  baseReduxState,
   reduxState,
 };

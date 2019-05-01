@@ -1,5 +1,4 @@
-import deepFreeze from 'deep-freeze';
-
+/* @flow strict-local */
 import {
   getAccountDetailsUserForEmail,
   getActiveUsersByEmail,
@@ -33,114 +32,61 @@ describe('getAccountDetailsUserForEmail', () => {
 
 describe('getActiveUsers', () => {
   test('return users, bots, map by email and do not include inactive users', () => {
-    const state = deepFreeze({
-      users: [{ email: 'abc@example.com' }],
+    const state = eg.reduxState({
+      users: [eg.selfUser],
       realm: {
-        crossRealmBots: [{ email: 'def@example.com' }],
-        nonActiveUsers: [{ email: 'xyz@example.com' }],
+        ...eg.baseReduxState.realm,
+        crossRealmBots: [eg.crossRealmBot],
+        nonActiveUsers: [eg.otherUser],
       },
     });
-    const expectedResult = new Map([
-      ['abc@example.com', { email: 'abc@example.com' }],
-      ['def@example.com', { email: 'def@example.com' }],
-    ]);
-
-    const result = getActiveUsersByEmail(state);
-
-    expect(result).toEqual(expectedResult);
+    expect(getActiveUsersByEmail(state)).toEqual(
+      new Map([[eg.selfUser.email, eg.selfUser], [eg.crossRealmBot.email, eg.crossRealmBot]]),
+    );
   });
 });
 
 describe('getAllUsersByEmail', () => {
   test('return users mapped by their email', () => {
-    const state = deepFreeze({
-      users: [
-        { email: 'abc@example.com' },
-        { email: 'def@example.com' },
-        { email: 'xyz@example.com' },
-      ],
-      realm: {
-        crossRealmBots: [],
-        nonActiveUsers: [],
-      },
-    });
-    const expectedResult = new Map([
-      ['abc@example.com', { email: 'abc@example.com' }],
-      ['def@example.com', { email: 'def@example.com' }],
-      ['xyz@example.com', { email: 'xyz@example.com' }],
-    ]);
-
-    const result = getAllUsersByEmail(state);
-
-    expect(result).toEqual(expectedResult);
+    const users = [eg.makeUser(), eg.makeUser(), eg.makeUser()];
+    const state = eg.reduxState({ users });
+    expect(getAllUsersByEmail(state)).toEqual(new Map(users.map(u => [u.email, u])));
   });
 
   test('return users, bots, and inactive users mapped by their email', () => {
-    const state = deepFreeze({
-      users: [{ email: 'abc@example.com' }],
+    const state = eg.reduxState({
+      users: [eg.selfUser],
       realm: {
-        crossRealmBots: [{ email: 'def@example.com' }],
-        nonActiveUsers: [{ email: 'xyz@example.com' }],
+        ...eg.baseReduxState.realm,
+        crossRealmBots: [eg.crossRealmBot],
+        nonActiveUsers: [eg.otherUser],
       },
     });
-    const expectedResult = new Map([
-      ['abc@example.com', { email: 'abc@example.com' }],
-      ['def@example.com', { email: 'def@example.com' }],
-      ['xyz@example.com', { email: 'xyz@example.com' }],
-    ]);
-
-    const result = getAllUsersByEmail(state);
-
-    expect(result).toEqual(expectedResult);
+    expect(getAllUsersByEmail(state)).toEqual(
+      new Map([
+        [eg.selfUser.email, eg.selfUser],
+        [eg.crossRealmBot.email, eg.crossRealmBot],
+        [eg.otherUser.email, eg.otherUser],
+      ]),
+    );
   });
 
   test('empty state does not cause an exception, returns an empty object', () => {
-    const state = deepFreeze({
-      realm: {},
-    });
-    const expectedResult = new Map();
-
-    const result = getAllUsersByEmail(state);
-
-    expect(result).toEqual(expectedResult);
+    expect(getAllUsersByEmail(eg.reduxState())).toEqual(new Map());
   });
 });
 
 describe('getUsersById', () => {
   test('return users mapped by their Id', () => {
-    const state = deepFreeze({
-      users: [
-        { user_id: 1, email: 'abc@example.com' },
-        { user_id: 2, email: 'def@example.com' },
-        { user_id: 3, email: 'xyz@example.com' },
-      ],
-    });
-    const expectedResult = new Map([
-      [1, { user_id: 1, email: 'abc@example.com' }],
-      [2, { user_id: 2, email: 'def@example.com' }],
-      [3, { user_id: 3, email: 'xyz@example.com' }],
-    ]);
-
-    const result = getUsersById(state);
-
-    expect(result).toEqual(expectedResult);
+    const users = [eg.makeUser(), eg.makeUser(), eg.makeUser()];
+    const state = eg.reduxState({ users });
+    expect(getUsersById(state)).toEqual(new Map(users.map(u => [u.user_id, u])));
   });
 });
 
 describe('getUsersSansMe', () => {
   test('returns all users except current user', () => {
-    const state = deepFreeze({
-      users: [
-        { email: 'me@example.com' },
-        { email: 'john@example.com' },
-        { email: 'doe@example.com' },
-      ],
-      accounts: [{ email: 'me@example.com' }],
-    });
-    const expectedResult = [{ email: 'john@example.com' }, { email: 'doe@example.com' }];
-
-    const actualResult = getUsersSansMe(state);
-
-    expect(actualResult).toEqual(expectedResult);
+    const state = eg.reduxState({ users: [eg.selfUser, eg.otherUser], accounts: [eg.selfAccount] });
+    expect(getUsersSansMe(state)).toEqual([eg.otherUser]);
   });
 });
