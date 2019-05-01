@@ -32,7 +32,7 @@ val TAG = "ZulipNotif"
  * this type will represent the messages for just one @{link Identity}.
  * See also @{link ConversationMap}.
  */
-open class ByConversationMap : LinkedHashMap<String, MutableList<MessageInfo>>()
+open class ByConversationMap : LinkedHashMap<String, MutableList<MessageFcmMessage>>()
 
 /**
  * All Zulip messages we're showing in notifications.
@@ -116,12 +116,11 @@ fun extractNames(conversations: ByConversationMap): ArrayList<String> {
 
 fun addConversationToMap(fcmMessage: MessageFcmMessage, conversations: ConversationMap) {
     val key = buildKeyString(fcmMessage)
-    var messages: MutableList<MessageInfo>? = conversations[key]
-    val messageInfo = MessageInfo(fcmMessage.content, fcmMessage.zulipMessageId)
+    var messages: MutableList<MessageFcmMessage>? = conversations[key]
     if (messages == null) {
         messages = ArrayList()
     }
-    messages.add(messageInfo)
+    messages.add(fcmMessage)
     conversations[key] = messages
 }
 
@@ -133,9 +132,9 @@ fun removeMessagesFromMap(conversations: ConversationMap, messageIds: Set<Int>) 
     // TODO redesign this whole data structure, for many reasons.
     val it = conversations.values.iterator()
     while (it.hasNext()) {
-        val messages: MutableList<MessageInfo> = it.next()
+        val messages: MutableList<MessageFcmMessage> = it.next()
         for (i in messages.indices.reversed()) {
-            if (messageIds.contains(messages[i].messageId)) {
+            if (messageIds.contains(messages[i].zulipMessageId)) {
                 messages.removeAt(i)
             }
         }
