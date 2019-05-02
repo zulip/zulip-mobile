@@ -26,43 +26,6 @@ const styles = StyleSheet.create({
   },
 });
 
-class SetStatusButton extends PureComponent<{| dispatch: Dispatch |}> {
-  onPress = () => {
-    const { dispatch } = this.props;
-    dispatch(navigateToUserStatus());
-  };
-
-  render() {
-    return (
-      <ZulipButton style={styles.button} secondary text="Set a status" onPress={this.onPress} />
-    );
-  }
-}
-
-class SwitchAccountButton extends PureComponent<{| dispatch: Dispatch |}> {
-  onPress = () => {
-    this.props.dispatch(navigateToAccountPicker());
-  };
-
-  render() {
-    return (
-      <ZulipButton style={styles.button} secondary text="Switch account" onPress={this.onPress} />
-    );
-  }
-}
-
-class LogoutButton extends PureComponent<{| dispatch: Dispatch |}> {
-  onPress = () => {
-    const { dispatch } = this.props;
-    dispatch(tryStopNotifications());
-    dispatch(logout());
-  };
-
-  render() {
-    return <ZulipButton style={styles.button} secondary text="Log out" onPress={this.onPress} />;
-  }
-}
-
 type Props = {|
   dispatch: Dispatch,
   selfUserDetail: User,
@@ -75,6 +38,22 @@ type Props = {|
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
  */
 class ProfileCard extends PureComponent<Props> {
+  handleSetStatusPress = () => {
+    const { dispatch } = this.props;
+    dispatch(navigateToUserStatus());
+  };
+
+  handleSwitchAccountPress = () => {
+    const { dispatch } = this.props;
+    dispatch(navigateToAccountPicker());
+  };
+
+  handleLogoutPress = () => {
+    const { dispatch } = this.props;
+    dispatch(tryStopNotifications());
+    dispatch(logout());
+  };
+
   render() {
     const { selfUserDetail } = this.props;
 
@@ -83,11 +62,26 @@ class ProfileCard extends PureComponent<Props> {
         <AccountDetails user={selfUserDetail} />
         <AwayStatusSwitch />
         <View style={styles.buttonRow}>
-          <SetStatusButton dispatch={this.props.dispatch} />
+          <ZulipButton
+            style={styles.button}
+            secondary
+            text="Set a status"
+            onPress={this.handleSetStatusPress}
+          />
         </View>
         <View style={styles.buttonRow}>
-          <SwitchAccountButton dispatch={this.props.dispatch} />
-          <LogoutButton dispatch={this.props.dispatch} />
+          <ZulipButton
+            style={styles.button}
+            secondary
+            text="Switch account"
+            onPress={this.handleSwitchAccountPress}
+          />
+          <ZulipButton
+            style={styles.button}
+            secondary
+            text="Log out"
+            onPress={this.handleLogoutPress}
+          />;
         </View>
       </ScrollView>
     );
