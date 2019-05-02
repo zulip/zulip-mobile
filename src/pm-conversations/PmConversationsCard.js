@@ -80,11 +80,7 @@ class PmConversationsCard extends PureComponent<Props> {
         {conversations.length === 0 ? (
           <Label style={styles.emptySlate} text="No recent conversations" />
         ) : (
-          <PmConversationList
-            dispatch={dispatch}
-            conversations={conversations}
-            usersByEmail={usersByEmail}
-          />
+          <PmConversationList conversations={conversations} usersByEmail={usersByEmail} />
         )}
       </View>
     );

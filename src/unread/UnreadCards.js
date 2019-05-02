@@ -39,6 +39,7 @@ class UnreadCards extends PureComponent<Props> {
     const { isLoading, conversations, unreadStreamsAndTopics, ...restProps } = this.props;
     type Card =
       | UnreadStreamItem
+      // $FlowFixMe temporary until next commit
       | { key: 'private', data: Array<$PropertyType<PmConversationList, 'props'>> };
     const unreadCards: Array<Card> = [
       {

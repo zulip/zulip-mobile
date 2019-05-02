@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import type { Dispatch, PmConversationData, UserOrBot } from '../types';
+import { connect } from '../react-redux';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import GroupPmConversationItem from './GroupPmConversationItem';
@@ -24,7 +25,7 @@ type Props = {|
 /**
  * A list describing all PM conversations.
  * */
-export default class PmConversationList extends PureComponent<Props> {
+class PmConversationList extends PureComponent<Props> {
   handleUserNarrow = (email: string) => {
     this.props.dispatch(doNarrow(privateNarrow(email)));
   };
@@ -74,3 +75,5 @@ export default class PmConversationList extends PureComponent<Props> {
     );
   }
 }
+
+export default connect()(PmConversationList);
