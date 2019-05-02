@@ -27,8 +27,20 @@ val TAG = "ZulipNotif"
  *
  * Each value is the messages in the conversation, in the order we
  * received them.
+ *
+ * When we start showing a separate notification for each @{link Identity},
+ * this type will represent the messages for just one @{link Identity}.
+ * See also @{link ConversationMap}.
  */
 open class ByConversationMap : LinkedHashMap<String, MutableList<MessageInfo>>()
+
+/**
+ * All Zulip messages we're showing in notifications.
+ *
+ * Currently an alias of @{link ByConversationMap}.  When we start showing
+ * a separate notification for each @{link Identity}, this type will become
+ * a collection of one @{link ByConversationMap} per @{link Identity}.
+ */
 class ConversationMap : ByConversationMap()
 
 fun fetchBitmap(url: URL): Bitmap? {
