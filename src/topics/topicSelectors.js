@@ -30,7 +30,7 @@ export const getTopicsForNarrow = (narrow: Narrow): Selector<string[]> =>
     return topics[stream.stream_id].map(x => x.name);
   });
 
-export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSelector(
+export const getTopicsForStream: Selector<TopicExtended[] | void, number> = createSelector(
   (state, streamId) => streamId,
   state => getTopics(state),
   state => getMute(state),
