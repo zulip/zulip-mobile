@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { GlobalState, Dispatch } from '../types';
+import type { Dispatch } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
@@ -55,6 +55,6 @@ class TopicAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state: GlobalState, props) => ({
+export default connectFlowFixMe((state, props) => ({
   topics: getTopicsForNarrow(props.narrow)(state),
 }))(TopicAutocomplete);

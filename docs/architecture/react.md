@@ -78,7 +78,7 @@ are created with Redux's `connect`, and the code of ours that's involved is
 typically highly structured and pretty short, as in this example:
 
 ```
-export default connect((state: GlobalState) => ({
+export default connect((state) => ({
   unreadHuddlesTotal: getUnreadHuddlesTotal(state),
   unreadPmsTotal: getUnreadPmsTotal(state),
 }))(IconUnreadConversations);

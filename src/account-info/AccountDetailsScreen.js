@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Dispatch, GlobalState, UserOrBot } from '../types';
+import type { Dispatch, UserOrBot } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { getAccountDetailsUserForEmail } from '../selectors';
 import { Screen, ZulipButton } from '../common';
@@ -52,6 +52,6 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state: GlobalState, props) => ({
+export default connectFlowFixMe((state, props) => ({
   user: getAccountDetailsUserForEmail(state, props.navigation.state.params.email),
 }))(AccountDetailsScreen);

@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, GlobalState, Stream, TopicExtended } from '../types';
+import type { Dispatch, Stream, TopicExtended } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
@@ -52,7 +52,7 @@ class TopicListScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectFlowFixMe((state: GlobalState, props) => ({
+export default connectFlowFixMe((state, props) => ({
   stream: getStreamForId(state, props.navigation.state.params.streamId),
   topics: getTopicsForStream(state, props.navigation.state.params.streamId),
 }))(TopicListScreen);

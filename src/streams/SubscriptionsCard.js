@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Dispatch, Subscription, GlobalState } from '../types';
+import type { Dispatch, Subscription } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import StreamList from './StreamList';
 import { streamNarrow } from '../utils/narrow';
@@ -44,7 +44,7 @@ class SubscriptionsCard extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state: GlobalState, props) => ({
+export default connectFlowFixMe((state, props) => ({
   subscriptions: getSubscribedStreams(state),
   unreadByStream: getUnreadByStream(state),
 }))(SubscriptionsCard);
