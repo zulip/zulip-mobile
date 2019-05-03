@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  accounts: AccountStatus[],
+  accounts: $ReadOnlyArray<AccountStatus>,
   dispatch: Dispatch,
   hasAuth: boolean,
 |};

@@ -6,7 +6,7 @@ import type { AccountStatus } from './accountsSelectors';
 import AccountItem from './AccountItem';
 
 type Props = {|
-  accounts: AccountStatus[],
+  accounts: $ReadOnlyArray<AccountStatus>,
   onAccountSelect: number => void,
   onAccountRemove: number => void,
 |};
