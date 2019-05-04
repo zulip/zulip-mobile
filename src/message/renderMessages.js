@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Message, Narrow, Outbox, RenderedSectionDescriptor } from '../types';
-import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
+import { isTopicNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/recipient';
 import { isSameDay } from '../utils/date';
 
@@ -9,7 +9,7 @@ export default (
   narrow: Narrow,
 ): RenderedSectionDescriptor[] => {
   let prevItem;
-  const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
+  const showHeader = !isTopicNarrow(narrow);
 
   return messages.reduce(
     (sections, item) => {
