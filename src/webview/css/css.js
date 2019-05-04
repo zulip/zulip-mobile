@@ -152,11 +152,6 @@ hr {
 .header-wrapper {
   cursor: pointer;
 }
-.stream-header {
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-}
 .stream-text,
 .topic-header,
 .private-header {

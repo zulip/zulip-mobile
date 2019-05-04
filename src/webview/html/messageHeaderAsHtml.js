@@ -71,7 +71,7 @@ export default (
     const topicHtml = renderSubject(item);
 
     return template`
-<div class="header-wrapper header stream-header topic-header"
+<div class="header-wrapper header topic-header"
     data-msg-id="${item.id}"
     data-narrow="${topicNarrowStr}">
   <div class="header stream-text"
