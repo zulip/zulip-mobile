@@ -163,9 +163,6 @@ hr {
   line-height: 2;
   white-space: nowrap;
 }
-.private-header {
-  padding: 0 0.5em;
-}
 .topic-header {
   background: #ccc;
   min-width: 30%;
