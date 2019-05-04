@@ -72,8 +72,8 @@ export default (
 
     return template`
 <div class="header-wrapper header topic-header"
-    data-msg-id="${item.id}"
-    data-narrow="${topicNarrowStr}">
+    data-narrow="${topicNarrowStr}"
+    data-msg-id="${item.id}">
   <div class="header stream-text"
        style="color: ${textColor};
               background: ${backgroundColor}"
