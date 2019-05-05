@@ -1,8 +1,7 @@
 /* @flow strict-local */
 import type {
   GlobalState,
-  SessionState,
-  DraftState,
+  DraftsState,
   FetchingState,
   FlagsState,
   LoadingState,
@@ -11,8 +10,8 @@ import type {
   NarrowsState,
   TopicsState,
   PresenceState,
-  RealmBot,
-  RealmEmojiState,
+  CrossRealmBot,
+  RealmEmojiById,
   RealmState,
   SettingsState,
   StreamUnreadItem,
@@ -27,7 +26,9 @@ import type {
   Outbox,
   User,
   UserGroup,
+  UserStatusState,
 } from './types';
+import type { SessionState } from './session/sessionReducers';
 
 export const getAccounts = (state: GlobalState): Account[] => state.accounts;
 
@@ -40,7 +41,7 @@ export const getIsHydrated = (state: GlobalState): boolean => state.session.isHy
 
 export const getCanCreateStreams = (state: GlobalState): boolean => state.realm.canCreateStreams;
 
-export const getDrafts = (state: GlobalState): DraftState => state.drafts;
+export const getDrafts = (state: GlobalState): DraftsState => state.drafts;
 
 export const getLoading = (state: GlobalState): LoadingState => state.loading;
 
@@ -53,6 +54,8 @@ export const getTyping = (state: GlobalState): TypingState => state.typing;
 export const getTopics = (state: GlobalState): TopicsState => state.topics;
 
 export const getUserGroups = (state: GlobalState): UserGroup[] => state.userGroups;
+
+export const getUserStatus = (state: GlobalState): UserStatusState => state.userStatus;
 
 export const getUsers = (state: GlobalState): User[] => state.users;
 
@@ -85,9 +88,10 @@ export const getUnreadMentions = (state: GlobalState): UnreadMentionsState => st
 
 export const getRealm = (state: GlobalState): RealmState => state.realm;
 
-export const getCrossRealmBots = (state: GlobalState): RealmBot[] => state.realm.crossRealmBots;
+export const getCrossRealmBots = (state: GlobalState): CrossRealmBot[] =>
+  state.realm.crossRealmBots;
 
-export const getRawRealmEmoji = (state: GlobalState): RealmEmojiState => state.realm.emoji;
+export const getRawRealmEmoji = (state: GlobalState): RealmEmojiById => state.realm.emoji;
 
 export const getNonActiveUsers = (state: GlobalState): User[] => state.realm.nonActiveUsers;
 

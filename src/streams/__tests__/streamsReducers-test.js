@@ -1,12 +1,8 @@
 import deepFreeze from 'deep-freeze';
 
+import { EventTypes } from '../../api/eventTypes';
+import { ACCOUNT_SWITCH, EVENT } from '../../actionConstants';
 import streamsReducers from '../streamsReducers';
-import {
-  ACCOUNT_SWITCH,
-  EVENT_STREAM_ADD,
-  EVENT_STREAM_REMOVE,
-  EVENT_STREAM_UPDATE,
-} from '../../actionConstants';
 
 describe('streamsReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -25,22 +21,26 @@ describe('streamsReducers', () => {
     });
   });
 
-  describe('EVENT_STREAM_ADD', () => {
+  describe('EVENT -> stream -> create', () => {
     test('add new stream', () => {
       const initialState = deepFreeze([]);
 
       const action = deepFreeze({
-        type: EVENT_STREAM_ADD,
-        streams: [
-          {
-            name: 'some stream',
-            stream_id: 1,
-          },
-          {
-            name: 'some other stream',
-            stream_id: 2,
-          },
-        ],
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          op: 'create',
+          streams: [
+            {
+              name: 'some stream',
+              stream_id: 1,
+            },
+            {
+              name: 'some other stream',
+              stream_id: 2,
+            },
+          ],
+        },
       });
 
       const expectedState = [
@@ -69,18 +69,22 @@ describe('streamsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_STREAM_ADD,
-        streams: [
-          {
-            description: 'description',
-            name: 'some stream',
-            stream_id: 1,
-          },
-          {
-            name: 'some other stream',
-            stream_id: 2,
-          },
-        ],
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          op: 'create',
+          streams: [
+            {
+              description: 'description',
+              name: 'some stream',
+              stream_id: 1,
+            },
+            {
+              name: 'some other stream',
+              stream_id: 2,
+            },
+          ],
+        },
       });
 
       const expectedState = [
@@ -101,7 +105,7 @@ describe('streamsReducers', () => {
     });
   });
 
-  describe('EVENT_STREAM_REMOVE', () => {
+  describe('EVENT -> stream -> delete', () => {
     test('removes stream from state', () => {
       const initialState = deepFreeze([
         {
@@ -122,17 +126,21 @@ describe('streamsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_STREAM_REMOVE,
-        streams: [
-          {
-            name: 'some stream',
-            stream_id: 1,
-          },
-          {
-            name: 'some other stream',
-            stream_id: 2,
-          },
-        ],
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          op: 'delete',
+          streams: [
+            {
+              name: 'some stream',
+              stream_id: 1,
+            },
+            {
+              name: 'some other stream',
+              stream_id: 2,
+            },
+          ],
+        },
       });
 
       const expectedState = [
@@ -157,17 +165,21 @@ describe('streamsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_STREAM_REMOVE,
-        streams: [
-          {
-            name: 'some stream',
-            stream_id: 1,
-          },
-          {
-            name: 'some other stream',
-            stream_id: 2,
-          },
-        ],
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          op: 'delete',
+          streams: [
+            {
+              name: 'some stream',
+              stream_id: 1,
+            },
+            {
+              name: 'some other stream',
+              stream_id: 2,
+            },
+          ],
+        },
       });
 
       const expectedState = [];
@@ -178,7 +190,7 @@ describe('streamsReducers', () => {
     });
   });
 
-  describe('EVENT_SUBSCRIPTION_UPDATE', () => {
+  describe('EVENT -> stream -> update', () => {
     test('Change the name property', () => {
       const initialState = deepFreeze([
         {
@@ -199,14 +211,17 @@ describe('streamsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        stream_id: 123,
-        type: EVENT_STREAM_UPDATE,
-        eventId: 2,
-        id: 2,
-        name: 'competition',
-        op: 'update',
-        property: 'name',
-        value: 'real competition',
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          stream_id: 123,
+          op: 'update',
+          eventId: 2,
+          id: 2,
+          name: 'competition',
+          property: 'name',
+          value: 'real competition',
+        },
       });
 
       const expectedState = [
@@ -255,14 +270,17 @@ describe('streamsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        stream_id: 53,
-        type: EVENT_STREAM_UPDATE,
-        eventId: 2,
-        id: 2,
-        name: 'mobile',
-        op: 'update',
-        property: 'description',
-        value: 'iOS + android',
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          stream_id: 53,
+          op: 'update',
+          eventId: 2,
+          id: 2,
+          name: 'mobile',
+          property: 'description',
+          value: 'iOS + android',
+        },
       });
 
       const expectedState = [
@@ -311,14 +329,17 @@ describe('streamsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        stream_id: 123,
-        type: EVENT_STREAM_UPDATE,
-        eventId: 2,
-        id: 2,
-        name: 'competition',
-        op: 'update',
-        property: 'email_address',
-        value: '1234@realm.com',
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          stream_id: 123,
+          op: 'update',
+          eventId: 2,
+          id: 2,
+          name: 'competition',
+          property: 'email_address',
+          value: '1234@realm.com',
+        },
       });
 
       const expectedState = [

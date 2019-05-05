@@ -1,9 +1,11 @@
-/* @flow */
+/* @flow strict-local */
 import { applyMiddleware, compose, createStore } from 'redux';
+import type { Store } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import type { Config } from 'redux-persist';
 import { AsyncStorage } from 'react-native';
 
+import type { Action, GlobalState } from '../types';
 import rootReducer from './reducers';
 import middleware from './middleware';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
@@ -20,7 +22,7 @@ import createMigration from '../redux-persist-migrate/index';
 // prettier-ignore
 export const discardKeys = [
   'alertWords', 'caughtUp', 'fetching', 'loading',
-  'nav', 'presence', 'session', 'topics', 'typing',
+  'nav', 'presence', 'session', 'topics', 'typing', 'userStatus',
 ];
 
 /**
@@ -44,13 +46,14 @@ export const cacheKeys = [
   'flags', 'messages', 'mute', 'narrows', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
-const migrations = {
+const migrations: { [string]: (GlobalState) => GlobalState } = {
   '0': state => {
     // We deleted `messages` and created `narrows`.  (Really we renamed
     // `messages` to `narrows, but a migration for delete + create is
     // simpler, and is good enough because these are "cache" data anyway.)
     AsyncStorage.removeItem('reduxPersist:messages');
     const { messages, ...restState } = state; // eslint-disable-line no-unused-vars
+    // $FlowMigrationFudge
     return { ...restState, narrows: {} };
   },
   '1': state => ({
@@ -62,9 +65,11 @@ const migrations = {
   }),
   '2': state => ({
     ...state,
+    // $FlowMigrationFudge
     realm: {
       ...state.realm,
       pushToken: {
+        // $FlowMigrationFudge
         token: state.realm.pushToken.token,
         // Drop `result` and `msg`.
       },
@@ -72,12 +77,36 @@ const migrations = {
   }),
   '3': state => ({
     ...state,
+    // $FlowMigrationFudge
     realm: {
       ...state.realm,
       pushToken: {
         // Previously we used an empty string here to mean "no value".
+        // $FlowMigrationFudge
         token: state.realm.pushToken.token || null,
       },
+    },
+  }),
+  '4': state => {
+    // $FlowMigrationFudge
+    const { pushToken, ...restRealm } = state.realm; // eslint-disable-line no-unused-vars
+    return {
+      ...state,
+      realm: restRealm,
+      accounts: state.accounts.map(a => ({ ...a, ackedPushToken: null })),
+    };
+  },
+  '5': state => ({
+    ...state,
+    realm: {
+      ...state.realm,
+      emoji: (data => {
+        const emojis = {};
+        Object.keys(data).forEach(id => {
+          emojis[id] = { ...data[id], code: id.toString() };
+        });
+        return emojis;
+      })(state.realm.emoji),
     },
   }),
 };
@@ -88,7 +117,7 @@ const reduxPersistConfig: Config = {
   storage: ZulipAsyncStorage,
 };
 
-const store = createStore(
+const store: Store<*, Action> = createStore(
   rootReducer,
   undefined,
   compose(

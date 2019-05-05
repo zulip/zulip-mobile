@@ -1,12 +1,12 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { Linking } from 'react-native';
 import parseURL from 'url-parse';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, GlobalState, ApiServerSettings } from '../types';
+import type { Dispatch, ApiResponseServerSettings } from '../types';
+import { connect } from '../react-redux';
 import { Centerer, Screen } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
@@ -20,22 +20,28 @@ import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 type Props = {|
   dispatch: Dispatch,
   realm: string,
-  navigation: NavigationScreenProp<*> & {
-    state: {
-      params: {
-        serverSettings: ApiServerSettings,
-      },
-    },
-  },
+  navigation: NavigationScreenProp<{ params: {| serverSettings: ApiResponseServerSettings |} }>,
 |};
 
 let otp = '';
 
+/**
+ * An event emitted by `Linking`.
+ *
+ * Determined by reading the implementation source code, and documentation:
+ *   https://facebook.github.io/react-native/docs/linking
+ *
+ * TODO move this to a libdef, and/or get an explicit type into upstream.
+ */
+type LinkingEvent = {
+  url: string,
+};
+
 class AuthScreen extends PureComponent<Props> {
   componentDidMount = () => {
     Linking.addEventListener('url', this.endOAuth);
-    Linking.getInitialURL().then(initialUrl => {
-      if (initialUrl) {
+    Linking.getInitialURL().then((initialUrl: ?string) => {
+      if (initialUrl !== null && initialUrl !== undefined) {
         this.endOAuth({ url: initialUrl });
       }
     });
@@ -53,12 +59,12 @@ class AuthScreen extends PureComponent<Props> {
     Linking.removeEventListener('url', this.endOAuth);
   };
 
-  beginOAuth = async url => {
+  beginOAuth = async (url: string) => {
     otp = await generateOtp();
     openBrowser(`${this.props.realm}/${url}`, otp);
   };
 
-  endOAuth = event => {
+  endOAuth = (event: LinkingEvent) => {
     closeBrowser();
 
     const { dispatch, realm } = this.props;
@@ -95,6 +101,10 @@ class AuthScreen extends PureComponent<Props> {
     this.beginOAuth('accounts/login/social/github');
   };
 
+  handleAzureAD = () => {
+    this.beginOAuth('/accounts/login/social/azuread-oauth2');
+  };
+
   handleSso = () => {
     this.beginOAuth('accounts/login/sso/');
   };
@@ -126,6 +136,6 @@ class AuthScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   realm: getCurrentRealm(state),
 }))(AuthScreen);

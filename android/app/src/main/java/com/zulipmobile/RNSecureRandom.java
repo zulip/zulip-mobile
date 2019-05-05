@@ -1,16 +1,13 @@
 package com.zulipmobile;
 
-import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.Callback;
-
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-
-import java.security.SecureRandom;
-import java.util.Map;
-import java.util.HashMap;
-
 import android.util.Base64;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 class RNSecureRandom extends ReactContextBaseJavaModule {
   private static final String SEED_KEY = "seed";

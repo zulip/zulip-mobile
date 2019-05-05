@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Style } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { unreadToLimitedCount } from '../utils/unread';
 import { foregroundColorFromBackground } from '../utils/color';
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  style?: Style,
+  style?: ViewStyleProp,
   borderRadius: number,
   color: string,
   count: number,

@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getSession } from '../selectors';
 import Label from './Label';
 
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   isOnline: boolean,
 |};
 
@@ -51,6 +52,6 @@ class OfflineNotice extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   isOnline: getSession(state).isOnline,
 }))(OfflineNotice);

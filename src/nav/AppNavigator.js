@@ -20,7 +20,6 @@ import DebugScreen from '../settings/DebugScreen';
 import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
 import VariablesScreen from '../diagnostics/VariablesScreen';
 import TimingScreen from '../diagnostics/TimingScreen';
-import NotificationDiagScreen from '../diagnostics/NotificationDiagScreen';
 import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import CreateGroupScreen from '../user-groups/CreateGroupScreen';
@@ -34,8 +33,10 @@ import WelcomeHelpScreen from '../start/WelcomeHelpScreen';
 import WelcomeScreen from '../start/WelcomeScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
+import UserStatusScreen from '../user-status/UserStatusScreen';
 
 export default StackNavigator(
+  // $FlowFixMe react-navigation types :-/ -- see a36814e80
   {
     account: { screen: AccountPickScreen },
     'account-details': { screen: AccountDetailsScreen },
@@ -65,11 +66,11 @@ export default StackNavigator(
     'stream-edit': { screen: EditStreamScreen },
     'stream-create': { screen: CreateStreamScreen },
     topics: { screen: TopicListScreen },
-    notifDiag: { screen: NotificationDiagScreen },
     notifications: { screen: NotificationsScreen },
     'welcome-help': { screen: WelcomeHelpScreen },
     welcome: { screen: WelcomeScreen },
     legal: { screen: LegalScreen },
+    'user-status': { screen: UserStatusScreen },
   },
   {
     initialRouteName: 'main',

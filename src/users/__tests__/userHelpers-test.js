@@ -5,7 +5,6 @@ import {
   filterUserList,
   getAutocompleteSuggestion,
   getAutocompleteUserGroupSuggestions,
-  groupUsersByInitials,
   sortAlphabetically,
   filterUserStartWith,
   filterUserByInitials,
@@ -202,29 +201,6 @@ describe('sortUserList', () => {
   });
 });
 
-describe('groupUsersByInitials', () => {
-  test('empty input results in empty map', () => {
-    const users = deepFreeze([]);
-
-    const groupedUsers = groupUsersByInitials(users);
-    expect(groupedUsers).toEqual({});
-  });
-
-  test('empty input results in empty list', () => {
-    const users = deepFreeze([
-      { full_name: 'Allen' },
-      { full_name: 'Bob Tester' },
-      { full_name: 'bob bob' },
-    ]);
-
-    const groupedUsers = groupUsersByInitials(users);
-    expect(groupedUsers).toEqual({
-      A: [{ full_name: 'Allen' }],
-      B: [{ full_name: 'Bob Tester' }, { full_name: 'bob bob' }],
-    });
-  });
-});
-
 describe('sortAlphabetically', () => {
   test('alphabetically sort user list by full_name', () => {
     const users = deepFreeze([
@@ -295,7 +271,7 @@ describe('groupUsersByStatus', () => {
     const presence = deepFreeze({});
 
     const groupedUsers = groupUsersByStatus(users, presence);
-    expect(groupedUsers).toEqual({ active: [], idle: [], offline: [] });
+    expect(groupedUsers).toEqual({ active: [], idle: [], unavailable: [], offline: [] });
   });
 
   test('sort input by status, when no presence entry consider offline', () => {
@@ -314,6 +290,7 @@ describe('groupUsersByStatus', () => {
       active: [{ email: 'allen@example.com' }],
       idle: [{ email: 'bob@example.com' }],
       offline: [{ email: 'carter@example.com' }, { email: 'dan@example.com' }],
+      unavailable: [],
     };
 
     const groupedUsers = groupUsersByStatus(users, presence);

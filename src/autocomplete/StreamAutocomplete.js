@@ -1,15 +1,16 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { GlobalState, SubscriptionsState } from '../types';
+import type { SubscriptionsState, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { Popup } from '../common';
 import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
 import StreamItem from '../streams/StreamItem';
 
 type Props = {|
+  dispatch: Dispatch,
   filter: string,
   onAutocomplete: (name: string) => void,
   subscriptions: SubscriptionsState,
@@ -53,6 +54,6 @@ class StreamAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   subscriptions: getSubscribedStreams(state),
 }))(StreamAutocomplete);

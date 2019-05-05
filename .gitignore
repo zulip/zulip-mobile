@@ -27,6 +27,7 @@ project.xcworkspace
 *.iml
 android/.idea/*
 !android/.idea/vcs.xml
+!android/.idea/codeStyles/
 .gradle
 local.properties
 
@@ -72,6 +73,8 @@ android/keystores/debug.keystore
 
 # Android release builds
 *.keystore
+*.keystore.gpg
+/android/release-keystore.properties
 
 # fastlane
 # See: https://docs.fastlane.tools/best-practices/source-control/

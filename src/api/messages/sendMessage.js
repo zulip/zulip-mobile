@@ -1,8 +1,9 @@
 /* @flow strict-local */
 
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
+/** See https://zulipchat.com/api/send-message */
 export default async (
   auth: Auth,
   type: 'private' | 'stream',
@@ -12,7 +13,7 @@ export default async (
   localId: number,
   eventQueueId: number,
 ): Promise<ApiResponse> =>
-  apiPost(auth, 'messages', res => res, {
+  apiPost(auth, 'messages', {
     type,
     to,
     subject,

@@ -1,12 +1,17 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import SectionSeparator from './SectionSeparator';
 
-type Props = {|
-  leadingItem: Object,
-  leadingSection: Object,
-|};
+/*
+ * Upstream `SectionList` is full of `any`s.  This type is incomplete,
+ * and just captures what we use.
+ */
+type Props = {
+  leadingItem: ?{},
+  leadingSection: ?{ data: { length: number } },
+};
 
+/** Can be passed to RN's `SectionList` as `SectionSeparatorComponent`. */
 export default class SectionSeparatorBetween extends PureComponent<Props> {
   render() {
     const { leadingItem, leadingSection } = this.props;

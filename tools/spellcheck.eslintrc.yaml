@@ -18,6 +18,8 @@ rules:
     skipWords:
     - abc
     - abcd
+    - ack
+    - acked
     - allen
     - api
     - apns
@@ -51,6 +53,7 @@ rules:
     - emojis
     - eslint
     - facebook
+    - fcm
     - fff
     - ffffff
     - filename
@@ -59,7 +62,6 @@ rules:
     - fs
     - fullsize
     - func
-    - gcm
     - gif
     - github
     - gravatar
@@ -150,6 +152,7 @@ rules:
     - touchstart
     - truthy
     - tz
+    - unack
     - unicode
     - uniqby
     - unmount

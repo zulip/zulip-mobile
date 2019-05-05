@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
+import differenceInDays from 'date-fns/difference_in_days';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
-import type { PresenceAggregated, Presence, UserStatus } from '../types';
+import type { ClientPresence, UserPresence, PresenceStatus, UserStatus } from '../types';
 
 const OFFLINE_THRESHOLD_SECS = 140;
 
@@ -16,14 +17,14 @@ const OFFLINE_THRESHOLD_SECS = 140;
  * This logic should match `status_from_timestamp` in the web app's
  * `static/js/presence.js`.
  */
-export const getAggregatedPresence = (presence: Presence): PresenceAggregated =>
+export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
   /* Out of the ClientPresence objects found in `presence`, we consider only
    * those with a timestamp newer than OFFLINE_THRESHOLD_SECS; then of
-   * those, return the one that has the greatest UserStatus, where
+   * those, return the one that has the greatest PresenceStatus, where
    * `active` > `idle` > `offline`.
    *
    * If there are several ClientPresence objects with the greatest
-   * UserStatus, an arbitrary one is chosen.
+   * PresenceStatus, an arbitrary one is chosen.
   */
   Object.keys(presence)
     .filter((client: string) => client !== 'aggregated')
@@ -53,18 +54,25 @@ export const getAggregatedPresence = (presence: Presence): PresenceAggregated =>
       { client: '', status: 'offline', timestamp: 0 },
     );
 
-export const presenceToHumanTime = (presence: Presence): string => {
+export const presenceToHumanTime = (presence: UserPresence, status?: UserStatus): string => {
   if (!presence || !presence.aggregated) {
     return 'never';
   }
 
   const lastTimeActive = new Date(presence.aggregated.timestamp * 1000);
+
+  if (status && status.away && differenceInDays(Date.now(), lastTimeActive) < 1) {
+    // Be vague when an unavailable user is recently online.
+    // TODO: This phrasing doesn't really match the logic and can be misleading.
+    return 'today';
+  }
+
   return differenceInSeconds(Date.now(), lastTimeActive) < OFFLINE_THRESHOLD_SECS
     ? 'now'
     : `${distanceInWordsToNow(lastTimeActive)} ago`;
 };
 
-export const statusFromPresence = (presence?: Presence): UserStatus => {
+export const statusFromPresence = (presence?: UserPresence): PresenceStatus => {
   if (!presence || !presence.aggregated) {
     return 'offline';
   }
@@ -82,3 +90,9 @@ export const statusFromPresence = (presence?: Presence): UserStatus => {
 
   return presence.aggregated.status;
 };
+
+export const statusFromPresenceAndUserStatus = (
+  presence?: UserPresence,
+  userStatus?: UserStatus,
+): PresenceStatus | 'unavailable' =>
+  userStatus && userStatus.away ? 'unavailable' : statusFromPresence(presence);

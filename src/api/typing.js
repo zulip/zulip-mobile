@@ -1,9 +1,12 @@
 /* @flow strict-local */
-import type { ApiResponse, Auth, TypingOperation } from './apiTypes';
+import type { ApiResponse, Auth } from './transportTypes';
 import { apiPost } from './apiFetch';
 
+type TypingOperation = 'start' | 'stop';
+
+/** See https://zulipchat.com/api/typing */
 export default (auth: Auth, recipients: string, operation: TypingOperation): Promise<ApiResponse> =>
-  apiPost(auth, 'typing', res => res, {
+  apiPost(auth, 'typing', {
     to: recipients,
     op: operation,
   });

@@ -1,33 +1,44 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import type { PresenceState, User } from '../types';
-import { Avatar } from '../common';
-import { getRecipientsInGroupNarrow, getPresence } from '../selectors';
+import type { Dispatch, UserOrBot } from '../types';
+import { connectFlowFixMe } from '../react-redux';
+import { UserAvatarWithPresence } from '../common';
+import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
+import { navigateToAccountDetails } from '../nav/navActions';
 
 type Props = {
-  recipients: User[],
-  presence: PresenceState,
+  dispatch: Dispatch,
+  recipients: UserOrBot[],
 };
 
 class TitleGroup extends PureComponent<Props> {
+  handlePress = (user: UserOrBot) => {
+    const { dispatch } = this.props;
+    dispatch(navigateToAccountDetails(user.email));
+  };
+
+  styles = StyleSheet.create({
+    titleAvatar: {
+      marginRight: 16,
+    },
+  });
+
   render() {
-    const { recipients, presence } = this.props;
+    const { recipients } = this.props;
 
     return (
       <View style={styles.navWrapper}>
         {recipients.map((user, index) => (
-          <View key={user.email} style={styles.titleAvatar}>
-            <Avatar
+          <View key={user.email} style={this.styles.titleAvatar}>
+            <UserAvatarWithPresence
+              onPress={() => this.handlePress(user)}
               size={32}
-              name={user.full_name}
               avatarUrl={user.avatar_url}
               email={user.email}
-              presence={presence[user.email]}
             />
           </View>
         ))}
@@ -36,7 +47,6 @@ class TitleGroup extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
-  recipients: getRecipientsInGroupNarrow(props.narrow)(state),
-  presence: getPresence(state),
+export default connectFlowFixMe((state, props) => ({
+  recipients: getRecipientsInGroupNarrow(state, props.narrow),
 }))(TitleGroup);

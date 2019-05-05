@@ -9,9 +9,6 @@ export const statics = {
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  titleAvatar: {
-    marginRight: 16,
-  },
   navSubtitle: {
     fontSize: 13,
   },
@@ -19,24 +16,6 @@ export const statics = {
     color: BRAND_COLOR,
     textAlign: 'left',
     fontSize: 20,
-  },
-  titleStreamWrapper: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  titleStreamRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  navButtonFrame: {
-    width: NAVBAR_SIZE,
-    height: NAVBAR_SIZE,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  navButtonIcon: {
-    textAlign: 'center',
-    fontSize: 26,
   },
   navBar: {
     borderColor: 'rgba(127, 127, 127, 0.25)',

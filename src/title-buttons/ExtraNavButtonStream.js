@@ -1,9 +1,9 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
 import type { Dispatch, Narrow, Stream } from '../types';
+import { connect } from '../react-redux';
 import { getStreams } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToTopicList } from '../actions';

@@ -8,7 +8,7 @@ import { BRAND_COLOR } from '../styles';
 import Label from './Label';
 import Touchable from './Touchable';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   showPasswordButton: {
     position: 'absolute',
     right: 0,
@@ -62,8 +62,8 @@ export default class PasswordInput extends PureComponent<Props, State> {
           autoCorrect={false}
           autoCapitalize="none"
         />
-        <Touchable style={componentStyles.showPasswordButton} onPress={this.handleShow}>
-          <Label style={componentStyles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
+        <Touchable style={styles.showPasswordButton} onPress={this.handleShow}>
+          <Label style={styles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
         </Touchable>
       </View>
     );

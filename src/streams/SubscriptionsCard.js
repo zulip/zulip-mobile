@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import type { Dispatch, Narrow, Subscription, GlobalState } from '../types';
+import { connectFlowFixMe } from '../react-redux';
 import StreamList from './StreamList';
 import { isStreamNarrow, streamNarrow } from '../utils/narrow';
 import { getUnreadByStream } from '../selectors';
@@ -47,7 +47,7 @@ class SubscriptionsCard extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+export default connectFlowFixMe((state: GlobalState, props) => ({
   narrow: props.narrow || [],
   // Main screen no longer contains drawer,
   // so at any position we cannot show selected stream in the list

@@ -5,7 +5,8 @@ usage () {
     cat <<EOF >&2
 usage: bump-version VERSION_NAME
 
-Updates the version number in our Android and iOS build configs.
+Updates the version number in our Android and iOS build configs,
+and in the changelog.
 
 Example:
   bump-version 17.1.98
@@ -18,6 +19,7 @@ shift || usage;
 shift && usage;
 
 version_code="${version_name##*.}"
+date="$(date --iso)"
 
 had_uncommitted=
 if ! git diff-index --quiet HEAD; then
@@ -34,6 +36,14 @@ s|<key>CFBundleShortVersionString</key> \s*
   <string>\K [0-9.]+
  |'"$version_name"'|xs
 ' ios/ZulipMobile/Info.plist
+
+perl -i -0pe '
+s/^\#\#\ Unreleased\n\K
+/
+
+## '"$version_name"' ('"$date"')
+/xms
+' docs/changelog.md
 
 msg="version: Bump version to $version_name."
 if [ -n "$had_uncommitted" ]; then

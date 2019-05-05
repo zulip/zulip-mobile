@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -88,17 +88,19 @@ export default class StreamItem extends PureComponent<Props> {
       isSelected && componentStyles.selectedRow,
       isMuted && componentStyles.muted,
     ];
+    // TODO: confirm these '' cases are irrelevant, and remove.
     const iconColor = isSelected
       ? 'white'
-      : color
-        || foregroundColorFromBackground(
-          backgroundColor
-            || (StyleSheet.flatten(contextStyles.backgroundColor) || {}).backgroundColor
-            || null,
-        );
+      : color !== undefined && color !== ''
+        ? color
+        : foregroundColorFromBackground(
+            backgroundColor !== undefined && backgroundColor !== ''
+              ? backgroundColor
+              : (StyleSheet.flatten(contextStyles.backgroundColor) || {}).backgroundColor || null,
+          );
     const textColorStyle = isSelected
       ? { color: 'white' }
-      : backgroundColor
+      : backgroundColor !== undefined && backgroundColor !== ''
         ? { color: (foregroundColorFromBackground(backgroundColor): string) }
         : contextStyles.color;
 
@@ -108,14 +110,15 @@ export default class StreamItem extends PureComponent<Props> {
           <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
           <View style={componentStyles.text}>
             <RawLabel numberOfLines={1} style={textColorStyle} text={name} ellipsizeMode="tail" />
-            {!!description && (
-              <RawLabel
-                numberOfLines={1}
-                style={componentStyles.description}
-                text={description}
-                ellipsizeMode="tail"
-              />
-            )}
+            {description !== undefined
+              && description !== '' && (
+                <RawLabel
+                  numberOfLines={1}
+                  style={componentStyles.description}
+                  text={description}
+                  ellipsizeMode="tail"
+                />
+              )}
           </View>
           <UnreadCount color={iconColor} count={unreadCount} inverse={isSelected} />
           {showSwitch && (

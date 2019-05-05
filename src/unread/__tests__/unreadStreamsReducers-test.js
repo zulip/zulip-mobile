@@ -5,7 +5,6 @@ import {
   REALM_INIT,
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
-  MARK_MESSAGES_READ,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
@@ -197,53 +196,6 @@ describe('unreadStreamsReducers', () => {
           stream_id: 2,
           topic: 'another topic',
           unread_message_ids: [4],
-        },
-      ];
-
-      const actualState = unreadStreamsReducers(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
-    });
-  });
-
-  describe('MARK_MESSAGES_READ', () => {
-    test('when ids are not contained already, do not change the state', () => {
-      const initialState = deepFreeze([]);
-
-      const action = deepFreeze({
-        type: MARK_MESSAGES_READ,
-        messageIds: [1, 2, 3],
-      });
-
-      const actualState = unreadStreamsReducers(initialState, action);
-
-      expect(actualState).toBe(initialState);
-    });
-
-    test('if message ids exist in state, remove them', () => {
-      const initialState = deepFreeze([
-        {
-          stream_id: 1,
-          topic: 'some topic',
-          unread_message_ids: [1, 2, 3, 4, 5],
-        },
-        {
-          stream_id: 2,
-          topic: 'another topic',
-          unread_message_ids: [6, 7],
-        },
-      ]);
-
-      const action = deepFreeze({
-        type: MARK_MESSAGES_READ,
-        messageIds: [1, 2, 3, 6, 7],
-      });
-
-      const expectedState = [
-        {
-          stream_id: 1,
-          topic: 'some topic',
-          unread_message_ids: [4, 5],
         },
       ];
 

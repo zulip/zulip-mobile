@@ -1,11 +1,12 @@
 /* @flow strict-local */
 import { combineReducers } from 'redux';
+import type { CombinedReducer, Reducer } from 'redux';
 import { enableBatching } from 'redux-batched-actions';
 
 import config from '../config';
 import { logSlowReducers } from '../utils/redux';
 import { NULL_OBJECT } from '../nullObjects';
-import type { MigrationsState } from '../types';
+import type { Action, GlobalState, MigrationsState } from '../types';
 
 import accounts from '../account/accountsReducers';
 import alertWords from '../alertWords/alertWordsReducer';
@@ -32,6 +33,7 @@ import unreadMentions from '../unread/unreadMentionsReducers';
 import unreadPms from '../unread/unreadPmsReducers';
 import unreadStreams from '../unread/unreadStreamsReducers';
 import userGroups from '../user-groups/userGroupsReducers';
+import userStatus from '../user-status/userStatusReducers';
 import users from '../users/usersReducers';
 
 const reducers = {
@@ -56,18 +58,21 @@ const reducers = {
   subscriptions,
   topics,
   typing,
-  unread: combineReducers({
+  unread: (combineReducers({
     streams: unreadStreams,
     pms: unreadPms,
     huddles: unreadHuddles,
     mentions: unreadMentions,
-  }),
+  }): Reducer<*, Action>),
   userGroups,
+  userStatus,
   users,
 };
 
 export const ALL_KEYS: string[] = Object.keys(reducers);
 
-export default enableBatching(
-  combineReducers(config.enableReduxSlowReducerWarnings ? logSlowReducers(reducers) : reducers),
+const combinedReducer: CombinedReducer<GlobalState, Action> = combineReducers(
+  config.enableReduxSlowReducerWarnings ? logSlowReducers(reducers) : reducers,
 );
+
+export default enableBatching(combinedReducer);

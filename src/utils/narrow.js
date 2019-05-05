@@ -2,7 +2,7 @@
 import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
 
-import type { Narrow, Message } from '../types';
+import type { Narrow, Message, Outbox } from '../types';
 import { normalizeRecipients } from './recipient';
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
@@ -241,7 +241,21 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
     search: () => false,
   });
 
-export const getNarrowFromMessage = (message: Message, email: string) => {
+/** True just if `haystack` contains all possible messages in `needle`. */
+export const narrowContains = (haystack: Narrow, needle: Narrow): boolean => {
+  if (isHomeNarrow(haystack)) {
+    return true;
+  }
+  if (isAllPrivateNarrow(haystack) && isPrivateOrGroupNarrow(needle)) {
+    return true;
+  }
+  if (isStreamNarrow(haystack) && needle[0].operand === haystack[0].operand) {
+    return true;
+  }
+  return JSON.stringify(needle) === JSON.stringify(haystack);
+};
+
+export const getNarrowFromMessage = (message: Message | Outbox, email: string) => {
   if (Array.isArray(message.display_recipient)) {
     const recipient =
       message.display_recipient.length > 1

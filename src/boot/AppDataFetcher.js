@@ -1,16 +1,17 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import { PureComponent } from 'react';
 
-import type { ChildrenArray, Dispatch, GlobalState } from '../types';
+import type { Node as React$Node } from 'react';
+import type { Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getSession } from '../directSelectors';
 import { doInitialFetch } from '../actions';
 
 type Props = {|
   needsInitialFetch: boolean,
   dispatch: Dispatch,
-  children: ChildrenArray<*>,
+  children: React$Node,
 |};
 
 class AppDataFetcher extends PureComponent<Props> {
@@ -27,6 +28,6 @@ class AppDataFetcher extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   needsInitialFetch: getSession(state).needsInitialFetch,
 }))(AppDataFetcher);

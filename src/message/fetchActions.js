@@ -1,24 +1,14 @@
-/* @flow */
-import type {
-  Narrow,
-  Dispatch,
-  GetState,
-  GlobalState,
-  Message,
-  MessageFetchStartAction,
-  MessageFetchCompleteAction,
-  MarkMessagesReadAction,
-  InitialFetchStartAction,
-  InitialFetchCompleteAction,
-} from '../types';
-import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
+/* @flow strict-local */
+import type { Narrow, Dispatch, GetState, GlobalState, Message, Action } from '../types';
+import { getMessages, registerForEvents, uploadFile } from '../api';
 import {
   getAuth,
   getSession,
   getFirstMessageId,
   getLastMessageId,
-  getCaughtUpForActiveNarrow,
-  getFetchingForActiveNarrow,
+  getCaughtUpForNarrow,
+  getFetchingForNarrow,
+  getTopMostNarrow,
 } from '../selectors';
 import config from '../config';
 import {
@@ -26,43 +16,40 @@ import {
   INITIAL_FETCH_COMPLETE,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
-  MARK_MESSAGES_READ,
 } from '../actionConstants';
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../constants';
-import timing from '../utils/timing';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
-import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
-import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
-import { initNotifications, realmInit } from '../realm/realmActions';
-import { initStreams } from '../streams/streamsActions';
+import { initNotifications } from '../notification/notificationActions';
+import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
+import { realmInit } from '../realm/realmActions';
 import { reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
 
-export const messageFetchStart = (
-  narrow: Narrow,
-  numBefore: number,
-  numAfter: number,
-): MessageFetchStartAction => ({
+const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
   narrow,
   numBefore,
   numAfter,
 });
 
-export const messageFetchComplete = (
+const messageFetchComplete = (
   messages: Message[],
   narrow: Narrow,
   anchor: number,
   numBefore: number,
   numAfter: number,
-): MessageFetchCompleteAction => ({
+  foundNewest?: boolean,
+  foundOldest?: boolean,
+): Action => ({
   type: MESSAGE_FETCH_COMPLETE,
   messages,
   narrow,
   anchor,
   numBefore,
   numAfter,
+  foundNewest,
+  foundOldest,
 });
 
 export const fetchMessages = (
@@ -73,7 +60,7 @@ export const fetchMessages = (
   useFirstUnread: boolean = false,
 ) => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
-  const messages = await getMessages(
+  const { messages, found_newest, found_oldest } = await getMessages(
     getAuth(getState()),
     narrow,
     anchor,
@@ -81,87 +68,100 @@ export const fetchMessages = (
     numAfter,
     useFirstUnread,
   );
-  dispatch(messageFetchComplete(messages, narrow, anchor, numBefore, numAfter));
-};
-
-export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number) =>
-  fetchMessages(
-    narrow,
-    anchor,
-    config.messagesPerRequest / 2,
-    config.messagesPerRequest / 2,
-    false,
+  dispatch(
+    messageFetchComplete(messages, narrow, anchor, numBefore, numAfter, found_newest, found_oldest),
   );
-
-export const fetchMessagesAtFirstUnread = (narrow: Narrow) =>
-  fetchMessages(narrow, 0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, true);
-
-export const markMessagesRead = (messageIds: number[]): MarkMessagesReadAction => ({
-  type: MARK_MESSAGES_READ,
-  messageIds,
-});
+};
 
 export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
-  const firstMessageId = getFirstMessageId(narrow)(state);
-  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
-  const fetching = getFetchingForActiveNarrow(narrow)(state);
+  const firstMessageId = getFirstMessageId(state, narrow);
+  const caughtUp = getCaughtUpForNarrow(state, narrow);
+  const fetching = getFetchingForNarrow(narrow)(state);
   const { needsInitialFetch } = getSession(state);
 
-  if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId) {
+  if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId !== undefined) {
     dispatch(fetchMessages(narrow, firstMessageId, config.messagesPerRequest, 0));
   }
 };
 
 export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
-  const lastMessageId = getLastMessageId(narrow)(state);
-  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
-  const fetching = getFetchingForActiveNarrow(narrow)(state);
+  const lastMessageId = getLastMessageId(state, narrow);
+  const caughtUp = getCaughtUpForNarrow(state, narrow);
+  const fetching = getFetchingForNarrow(narrow)(state);
   const { needsInitialFetch } = getSession(state);
 
-  if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId) {
+  if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId !== undefined) {
     dispatch(fetchMessages(narrow, lastMessageId, 0, config.messagesPerRequest));
   }
 };
 
-export const initialFetchStart = (): InitialFetchStartAction => ({
+const initialFetchStart = (): Action => ({
   type: INITIAL_FETCH_START,
 });
 
-export const initialFetchComplete = (): InitialFetchCompleteAction => ({
+const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
-const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
-  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
-  if (caughtUp.newer && caughtUp.older) {
-    return false;
-  }
-  const numKnownMessages = getFetchedMessagesForNarrow(narrow)(state).length;
-  return numKnownMessages < config.messagesPerRequest / 2;
+const isFetchNeededAtAnchor = (state: GlobalState, narrow: Narrow, anchor: number): boolean => {
+  // Ideally this would detect whether, even if we don't have *all* the
+  // messages in the narrow, we have enough of them around the anchor
+  // to show a message list already.  For now it's simple and cautious.
+  const caughtUp = getCaughtUpForNarrow(state, narrow);
+  return !(caughtUp.newer && caughtUp.older);
 };
 
 export const fetchMessagesInNarrow = (
   narrow: Narrow,
   anchor: number = FIRST_UNREAD_ANCHOR,
 ) => async (dispatch: Dispatch, getState: GetState) => {
-  const state = getState();
+  if (!isFetchNeededAtAnchor(getState(), narrow, anchor)) {
+    return;
+  }
+  dispatch(
+    fetchMessages(
+      narrow,
+      anchor,
+      config.messagesPerRequest / 2,
+      config.messagesPerRequest / 2,
+      anchor === FIRST_UNREAD_ANCHOR,
+    ),
+  );
+};
 
-  if (anchor === FIRST_UNREAD_ANCHOR) {
-    if (needFetchAtFirstUnread(state, narrow)) {
-      dispatch(fetchMessagesAtFirstUnread(narrow));
-    }
-  } else {
-    dispatch(fetchMessagesAroundAnchor(narrow, anchor));
+const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
+  const auth = getAuth(getState());
+  const { messages, found_newest, found_oldest } = await tryUntilSuccessful(() =>
+    getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
+  );
+  dispatch(
+    messageFetchComplete(
+      messages,
+      ALL_PRIVATE_NARROW,
+      LAST_MESSAGE_ANCHOR,
+      100,
+      0,
+      found_newest,
+      found_oldest,
+    ),
+  );
+};
+
+const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) => {
+  // only fetch messages if chat screen is at the top of stack
+  // get narrow of top most chat screen in the stack
+  const narrow = getTopMostNarrow(getState());
+  if (narrow) {
+    dispatch(fetchMessagesInNarrow(narrow));
   }
 };
 
-export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
+const fetchInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
 
-  timing.start('Essential server data');
   const initData = await tryUntilSuccessful(() =>
     registerForEvents(auth, {
       fetch_event_types: config.serverDataOnStartup,
@@ -170,40 +170,24 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
       client_gravatar: true,
     }),
   );
-  timing.end('Essential server data');
 
   dispatch(realmInit(initData));
+  dispatch(fetchTopMostNarrow());
   dispatch(initialFetchComplete());
-
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
-};
 
-export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
-  const auth = getAuth(getState());
-
-  timing.start('Rest of server data');
-  const [messages, streams] = await Promise.all([
-    await tryUntilSuccessful(() =>
-      getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
-    ),
-    await tryUntilSuccessful(() => getStreams(auth)),
-  ]);
-  timing.end('Rest of server data');
-
-  dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
-  dispatch(initStreams(streams));
+  dispatch(fetchPrivateMessages());
 
   const session = getSession(getState());
   if (session.lastNarrow) {
     dispatch(fetchMessagesInNarrow(session.lastNarrow));
   }
 
-  dispatch(trySendMessages());
+  dispatch(sendOutbox());
 };
 
 export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
-  dispatch(fetchEssentialInitialData());
-  dispatch(fetchRestOfInitialData());
+  dispatch(fetchInitialData());
 
   dispatch(initNotifications());
   dispatch(reportPresence());
@@ -215,8 +199,8 @@ export const uploadImage = (narrow: Narrow, uri: string, name: string) => async 
   getState: GetState,
 ) => {
   const auth = getAuth(getState());
-  const serverUri = await uploadFile(auth, uri, name);
-  const messageToSend = `[${name}](${serverUri})`;
+  const response = await uploadFile(auth, uri, name);
+  const messageToSend = `[${name}](${response.uri})`;
 
   dispatch(addToOutbox(narrow, messageToSend));
 };

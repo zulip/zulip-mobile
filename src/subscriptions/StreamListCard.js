@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Auth, Dispatch, GlobalState } from '../types';
+import type { Auth, Dispatch, Stream, Subscription } from '../types';
+import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
 import { subscriptionAdd, subscriptionRemove } from '../api';
 import { delay } from '../utils/async';
@@ -26,8 +26,8 @@ type Props = {|
   dispatch: Dispatch,
   auth: Auth,
   canCreateStreams: boolean,
-  streams: [],
-  subscriptions: [],
+  streams: Stream[],
+  subscriptions: Subscription[],
 |};
 
 class StreamListCard extends PureComponent<Props> {
@@ -79,7 +79,7 @@ class StreamListCard extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   auth: getAuth(state),
   canCreateStreams: getCanCreateStreams(state),
   streams: getStreams(state),

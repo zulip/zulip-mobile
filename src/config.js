@@ -2,20 +2,11 @@
 import { NativeModules } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
-import type { Narrow, Notification } from './types';
-import { FIRST_UNREAD_ANCHOR } from './constants';
-
 const isDevelopment = process.env.NODE_ENV === 'development';
 const isEmulator = NativeModules.RNDeviceInfo ? DeviceInfo.isEmulator() : false;
 
 type Config = {|
-  startup: {
-    narrow: ?Narrow,
-    anchor: number,
-    notification: ?Notification,
-  },
   messagesPerRequest: number,
-  scrollCallbackThrottle: number,
   messageListThreshold: number,
   enableReduxLogging: boolean,
   enableReduxSlowReducerWarnings: boolean,
@@ -28,14 +19,8 @@ type Config = {|
 |};
 
 const config: Config = {
-  startup: {
-    narrow: undefined,
-    anchor: FIRST_UNREAD_ANCHOR,
-    notification: undefined,
-  },
-  messagesPerRequest: 50,
-  scrollCallbackThrottle: 250,
-  messageListThreshold: 250,
+  messagesPerRequest: 100,
+  messageListThreshold: 4000,
   enableReduxLogging: isDevelopment && !!global.btoa,
   enableReduxSlowReducerWarnings: isDevelopment && !!global.btoa,
   enableSentry: !isDevelopment && !isEmulator,
@@ -53,10 +38,12 @@ const config: Config = {
     'realm_filters',
     'realm_user',
     'realm_user_groups',
+    'stream',
     'subscription',
     'update_display_settings',
     'update_global_notifications',
     'update_message_flags',
+    'user_status',
   ],
 };
 

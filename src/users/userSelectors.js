@@ -1,29 +1,23 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { RealmBot, Selector, User, UserIdMap } from '../types';
+import type { GlobalState, UserOrBot, Selector, User } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 import { getOwnEmail } from '../account/accountsSelectors';
-import { getUserByEmail } from './userHelpers';
-
-export const getSelfUserDetail: Selector<User> = createSelector(
-  getUsers,
-  getOwnEmail,
-  (users, ownEmail) => getUserByEmail(users, ownEmail),
-);
 
 export const getSortedUsers: Selector<User[]> = createSelector(getUsers, users =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
 );
 
-export const getActiveUsers: Selector<(User | RealmBot)[]> = createSelector(
+export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(
   getUsers,
   getCrossRealmBots,
-  (users = [], crossRealmBots = []) => [...users, ...crossRealmBots],
+  (users = [], crossRealmBots = []) =>
+    new Map([...users, ...crossRealmBots].map(user => [user.email, user])),
 );
 
-export const getAllUsers: Selector<(User | RealmBot)[]> = createSelector(
+const getAllUsers: Selector<UserOrBot[]> = createSelector(
   getUsers,
   getNonActiveUsers,
   getCrossRealmBots,
@@ -34,19 +28,23 @@ export const getAllUsers: Selector<(User | RealmBot)[]> = createSelector(
   ],
 );
 
-export const getAllUsersByEmail = createSelector(getAllUsers, allUsers =>
-  allUsers.reduce((usersByEmail, user) => {
-    usersByEmail[user.email] = user;
-    return usersByEmail;
-  }, {}),
+export const getUsersById: Selector<Map<number, User>> = createSelector(
+  getUsers,
+  (users = []) => new Map(users.map(user => [user.user_id, user])),
 );
 
-export const getUsersById: Selector<UserIdMap> = createSelector(getUsers, (users = []) =>
-  users.reduce((usersById, user) => {
-    usersById[user.user_id] = user;
-    return usersById;
-  }, {}),
+export const getUsersByEmail: Selector<Map<string, User>> = createSelector(
+  getUsers,
+  (users = []) => new Map(users.map(user => [user.email, user])),
 );
+
+export const getAllUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(
+  getAllUsers,
+  allUsers => new Map(allUsers.map(user => [user.email, user])),
+);
+
+export const getSelfUserDetail = (state: GlobalState): User =>
+  getUsersByEmail(state).get(getOwnEmail(state)) || NULL_USER;
 
 export const getUsersSansMe: Selector<User[]> = createSelector(
   getUsers,
@@ -54,17 +52,20 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
   (users, ownEmail) => users.filter(user => user.email !== ownEmail),
 );
 
-export const getAccountDetailsUserFromEmail = (email: string) =>
-  createSelector(getAllUsers, allUsers => {
+export const getAccountDetailsUserFromEmail: Selector<UserOrBot, string> = createSelector(
+  (state, email) => email,
+  state => getAllUsersByEmail(state),
+  (email, allUsersByEmail) => {
     if (!email) {
       return NULL_USER;
     }
 
     return (
-      allUsers.find(x => x.email === email) || {
+      allUsersByEmail.get(email) || {
         ...NULL_USER,
         email,
         full_name: email,
       }
     );
-  });
+  },
+);

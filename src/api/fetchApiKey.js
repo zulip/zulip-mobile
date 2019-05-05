@@ -1,11 +1,12 @@
 /* @flow strict-local */
-import type { Auth, ApiResponseSuccess } from './apiTypes';
+import type { Auth, ApiResponseSuccess } from './transportTypes';
 import { apiPost } from './apiFetch';
 
-type ApiResponseFetchApiKey = ApiResponseSuccess & {
+type ApiResponseFetchApiKey = {|
+  ...ApiResponseSuccess,
   email: string,
   api_key: string,
-};
+|};
 
 export default (auth: Auth, email: string, password: string): Promise<ApiResponseFetchApiKey> =>
-  apiPost(auth, 'fetch_api_key', res => res, { username: email, password });
+  apiPost(auth, 'fetch_api_key', { username: email, password });

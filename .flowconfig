@@ -50,6 +50,12 @@ untyped-type-import
 sketchy-null
 
 
+[lints]
+sketchy-number=error
+unnecessary-optional-chain=warn
+unnecessary-invariant=warn
+
+
 [options]
 emoji=true
 
@@ -93,6 +99,7 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(<VERSION>\\)? *\\(si
 suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(<VERSION>\\)? *\\(site=[a-z,_]*react_native[a-z,_]*\\)?)\\)?:? #[0-9]+
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
+suppress_comment=\\(.\\|\n\\)*\\$FlowMigrationFudge
 
 [version]
 ^0.78.0

@@ -22,14 +22,17 @@ export const getSubscriptionsById: Selector<{ [number]: Subscription }> = create
     }, ({}: { [number]: Subscription })),
 );
 
-export const getIsActiveStreamSubscribed = (narrow: Narrow): Selector<boolean> =>
-  createSelector(getSubscriptions, subscriptions => {
+export const getIsActiveStreamSubscribed: Selector<boolean, Narrow> = createSelector(
+  (state, narrow) => narrow,
+  state => getSubscriptions(state),
+  (narrow, subscriptions) => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return true;
     }
 
     return subscriptions.find(sub => narrow[0].operand === sub.name) !== undefined;
-  });
+  },
+);
 
 export const getSubscribedStreams: Selector<Subscription[]> = createSelector(
   getStreams,
@@ -41,26 +44,33 @@ export const getSubscribedStreams: Selector<Subscription[]> = createSelector(
     })),
 );
 
-export const getStreamFromId = (streamId: string): Selector<Stream> =>
-  createSelector([getStreams], (streams, params) => {
+export const getStreamFromId: Selector<Stream, number> = createSelector(
+  (state, streamId) => streamId,
+  state => getStreams(state),
+  (streamId, streams, params) => {
     const stream = streams.find(x => x.stream_id === streamId);
     if (!stream) {
       throw new Error(`getStreamFromId: missing stream: id ${streamId}`);
     }
     return stream;
-  });
+  },
+);
 
-export const getSubscriptionFromId = (streamId: string): Selector<Subscription> =>
-  createSelector(
-    [getSubscriptions],
-    subscriptions => subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION,
-  );
+export const getSubscriptionFromId: Selector<Subscription, number> = createSelector(
+  (state, streamId) => streamId,
+  state => getSubscriptions(state),
+  (streamId, subscriptions) =>
+    subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION,
+);
 
-export const getIsActiveStreamAnnouncementOnly = (narrow: Narrow): Selector<boolean> =>
-  createSelector(getStreams, streams => {
+export const getIsActiveStreamAnnouncementOnly: Selector<boolean, Narrow> = createSelector(
+  (state, narrow) => narrow,
+  state => getStreams(state),
+  (narrow, streams) => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return false;
     }
     const stream = streams.find(stream_ => narrow[0].operand === stream_.name);
     return stream ? stream.is_announcement_only : false;
-  });
+  },
+);

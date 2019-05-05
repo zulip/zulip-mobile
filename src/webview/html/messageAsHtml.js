@@ -7,10 +7,10 @@ import type {
   Message,
   Outbox,
   Reaction,
-  RealmEmojiType,
+  ImageEmojiType,
 } from '../../types';
 import type { BackgroundData } from '../MessageList';
-import { getGravatarFromEmail } from '../../utils/avatar';
+import { getAvatarFromMessage } from '../../utils/avatar';
 import { shortTime } from '../../utils/date';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';
@@ -30,33 +30,33 @@ const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): strin
 
 const messageReactionAsHtml = (
   reaction: AggregatedReaction,
-  allRealmEmojiById: $ReadOnly<{ [id: string]: RealmEmojiType }>,
+  allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
 ): string =>
   template`<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}"
         data-name="${reaction.name}"
         data-code="${reaction.code}"
         data-type="${reaction.type}">$!${
-    allRealmEmojiById[reaction.code]
-      ? template`<img src="${allRealmEmojiById[reaction.code].source_url}"/>`
+    allImageEmojiById[reaction.code]
+      ? template`<img src="${allImageEmojiById[reaction.code].source_url}"/>`
       : codeToEmojiMap[reaction.code]
   }&nbsp;${reaction.count}</span>`;
 
 const messageReactionListAsHtml = (
   reactions: $ReadOnlyArray<Reaction>,
   ownEmail: string,
-  allRealmEmojiById: $ReadOnly<{ [id: string]: RealmEmojiType }>,
+  allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
 ): string => {
   if (reactions.length === 0) {
     return '';
   }
   const htmlList = aggregateReactions(reactions, ownEmail).map(r =>
-    messageReactionAsHtml(r, allRealmEmojiById),
+    messageReactionAsHtml(r, allImageEmojiById),
   );
   return template`<div class="reaction-list">$!${htmlList.join('')}</div>`;
 };
 
 const messageBody = (
-  { alertWords, flags, ownEmail, allRealmEmojiById }: BackgroundData,
+  { alertWords, flags, ownEmail, allImageEmojiById }: BackgroundData,
   message: Message | Outbox,
 ) => {
   const { id, isOutbox, last_edit_timestamp, reactions } = message;
@@ -65,7 +65,7 @@ const messageBody = (
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
-$!${messageReactionListAsHtml(reactions, ownEmail, allRealmEmojiById)}
+$!${messageReactionListAsHtml(reactions, ownEmail, allImageEmojiById)}
 `;
 };
 
@@ -96,10 +96,7 @@ $!${divOpenHtml}
   }
 
   const { sender_full_name, sender_email, timestamp } = message;
-  const avatarUrl =
-    typeof message.avatar_url === 'string'
-      ? message.avatar_url
-      : getGravatarFromEmail(message.sender_email);
+  const avatarUrl = getAvatarFromMessage(message, backgroundData.auth.realm);
   const subheaderHtml = template`
 <div class="subheader">
   <div class="username">

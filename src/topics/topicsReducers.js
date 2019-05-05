@@ -1,17 +1,12 @@
 /* @flow strict-local */
-import type { TopicsState, TopicsAction, InitTopicsAction, EventNewMessageAction } from '../types';
+import type { TopicsState, Action } from '../types';
 import { ACCOUNT_SWITCH, INIT_TOPICS, EVENT_NEW_MESSAGE } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { replaceItemInArray } from '../utils/immutability';
 
 const initialState: TopicsState = NULL_OBJECT;
 
-const initTopics = (state: TopicsState, action: InitTopicsAction): TopicsState => ({
-  ...state,
-  [action.streamId]: action.topics,
-});
-
-const eventNewMessage = (state: TopicsState, action: EventNewMessageAction): TopicsState => {
+const eventNewMessage = (state, action) => {
   if (action.message.type !== 'stream') {
     return state;
   }
@@ -41,13 +36,16 @@ const eventNewMessage = (state: TopicsState, action: EventNewMessageAction): Top
   };
 };
 
-export default (state: TopicsState = initialState, action: TopicsAction): TopicsState => {
+export default (state: TopicsState = initialState, action: Action): TopicsState => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return initialState;
 
     case INIT_TOPICS:
-      return initTopics(state, action);
+      return {
+        ...state,
+        [action.streamId]: action.topics,
+      };
 
     case EVENT_NEW_MESSAGE:
       return eventNewMessage(state, action);

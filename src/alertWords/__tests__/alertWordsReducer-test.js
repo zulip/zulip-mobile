@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import alertWordsReducer from '../alertWordsReducer';
-import { REALM_INIT, INIT_ALERT_WORDS } from '../../actionConstants';
+import { REALM_INIT, EVENT_ALERT_WORDS } from '../../actionConstants';
 
 describe('alertWordsReducer', () => {
   describe('REALM_INIT', () => {
@@ -34,11 +34,11 @@ describe('alertWordsReducer', () => {
     });
   });
 
-  describe('INIT_ALERT_WORDS', () => {
+  describe('EVENT_ALERT_WORDS', () => {
     test('on first call adds new data', () => {
       const initialState = deepFreeze([]);
       const action = deepFreeze({
-        type: INIT_ALERT_WORDS,
+        type: EVENT_ALERT_WORDS,
         alertWords: ['word', '@mobile-core', 'alert'],
       });
       const expectedState = ['word', '@mobile-core', 'alert'];
@@ -51,7 +51,7 @@ describe('alertWordsReducer', () => {
     test('subsequent calls replace existing data', () => {
       const initialState = deepFreeze(['word', '@mobile-core', 'alert']);
       const action = deepFreeze({
-        type: INIT_ALERT_WORDS,
+        type: EVENT_ALERT_WORDS,
         alertWords: ['word', '@mobile-core', 'new alert'],
       });
       const expectedState = ['word', '@mobile-core', 'new alert'];

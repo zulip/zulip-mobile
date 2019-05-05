@@ -1,7 +1,37 @@
 /* @flow strict-local */
+import { createSelector } from 'reselect';
 
-import type { Account, Auth, GlobalState, Identity } from '../types';
+import type { Account, Auth, GlobalState, Identity, Selector } from '../types';
 import { getAccounts } from '../directSelectors';
+import { identityOfAccount, keyOfIdentity, identityOfAuth, authOfAccount } from './accountMisc';
+
+/** See `getAccountStatuses`. */
+export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
+
+/**
+ * The list of known accounts, with a boolean for logged-in vs. not.
+ *
+ * This should be used in preference to `getAccounts` where we don't
+ * actually need the API keys, but just need to know whether we have them.
+ */
+export const getAccountStatuses: Selector<$ReadOnlyArray<AccountStatus>> = createSelector(
+  getAccounts,
+  accounts =>
+    accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
+);
+
+/**
+ * All known accounts, indexed by identity.
+ */
+export const getAccountsByIdentity: Selector<(Identity) => Account | void> = createSelector(
+  getAccounts,
+  accounts => {
+    const map = new Map(
+      accounts.map(account => [keyOfIdentity(identityOfAccount(account)), account]),
+    );
+    return identity => map.get(keyOfIdentity(identity));
+  },
+);
 
 /**
  * The account currently foregrounded in the UI, or undefined if none.
@@ -34,16 +64,10 @@ export const getActiveAccount = (state: GlobalState): Account => {
 };
 
 /** The user's own email in the active account; throws if none. */
-export const getOwnEmail = (state: GlobalState): string => {
-  const activeAccount = getActiveAccount(state);
-  return activeAccount.email;
-};
+export const getOwnEmail = (state: GlobalState): string => getActiveAccount(state).email;
 
 /** The realm of the active account; throws if none. */
-export const getCurrentRealm = (state: GlobalState) => {
-  const activeAccount = getActiveAccount(state);
-  return activeAccount.realm;
-};
+export const getCurrentRealm = (state: GlobalState) => getActiveAccount(state).realm;
 
 /**
  * The auth object for the active account, even if not logged in; throws if none.
@@ -56,7 +80,9 @@ export const getCurrentRealm = (state: GlobalState) => {
  *  * `tryGetAuth` again, for use where there might not be an active account.
  *  * `getAuth` for use in the bulk of the app.
  */
-export const getPartialAuth = (state: GlobalState): Auth => getActiveAccount(state);
+export const getPartialAuth: Selector<Auth> = createSelector(getActiveAccount, account =>
+  authOfAccount(account),
+);
 
 /**
  * The auth object for the active, logged-in account, or undefined if none.
@@ -74,13 +100,12 @@ export const getPartialAuth = (state: GlobalState): Auth => getActiveAccount(sta
  *  * `getPartialAuth` for use in authentication flows, where there is an
  *    active account but it may not be logged in.
  */
-export const tryGetAuth = (state: GlobalState): Auth | void => {
-  const account = tryGetActiveAccount(state);
+export const tryGetAuth: Selector<Auth | void> = createSelector(tryGetActiveAccount, account => {
   if (!account || account.apiKey === '') {
     return undefined;
   }
-  return account;
-};
+  return authOfAccount(account);
+});
 
 /**
  * True just if there is an active, logged-in account.
@@ -112,7 +137,6 @@ export const getAuth = (state: GlobalState): Auth => {
  *
  * See `getAuth` and `tryGetAuth` for discussion.
  */
-export const getIdentity = (state: GlobalState): Identity => {
-  const { email, realm } = getAuth(state);
-  return { email, realm };
-};
+export const getIdentity: Selector<Identity> = createSelector(getAuth, auth =>
+  identityOfAuth(auth),
+);

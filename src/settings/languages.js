@@ -1,109 +1,118 @@
 /* @flow strict */
 /* eslint-disable spellcheck/spell-checker */
-export default [
+
+export type Language = {
+  locale: string,
+  name: string,
+  nativeName: string,
+};
+
+const languages: $ReadOnlyArray<Language> = [
   {
     locale: 'en',
     name: 'English',
-    flag: '🇬🇧',
+    nativeName: 'English',
   },
   {
     locale: 'bg',
     name: 'Bulgarian',
-    flag: '🇧🇬',
+    nativeName: 'Български',
   },
   {
     locale: 'ca',
     name: 'Catalan',
-    flag: '🇪🇸',
+    nativeName: 'Català',
   },
   {
     locale: 'zh',
-    name: 'Chinese Simplified',
-    flag: '🇨🇳',
+    name: 'Chinese (Simplified)',
+    nativeName: '中文 (简体)',
   },
   {
     locale: 'cs',
     name: 'Czech',
-    flag: '🇨🇿',
+    nativeName: 'Čeština',
   },
   {
     locale: 'nl',
     name: 'Dutch',
-    flag: '🇳🇱',
+    nativeName: 'Nederlands',
   },
   {
     locale: 'fr',
     name: 'French',
-    flag: '🇫🇷',
+    nativeName: 'Français',
   },
   {
     locale: 'de',
     name: 'German',
-    flag: '🇩🇪',
+    nativeName: 'Deutsch',
   },
   {
     locale: 'hi',
     name: 'Hindi',
-    flag: '🇮🇳',
+    nativeName: 'हिन्दी',
   },
   {
     locale: 'hu',
     name: 'Hungarian',
-    flag: '🇭🇺',
+    nativeName: 'Magyar',
   },
   {
     locale: 'id',
     name: 'Indonesian',
-    flag: '🇮🇩',
+    nativeName: 'Bahasa Indonesia',
   },
   {
     locale: 'it',
     name: 'Italian',
-    flag: '🇮🇹',
+    nativeName: 'Italiano',
   },
   {
     locale: 'ja',
     name: 'Japanese',
-    flag: '🇯🇵',
+    nativeName: '日本語',
   },
   {
     locale: 'ml',
     name: 'Malayalam',
-    flag: '🇮🇳',
+    nativeName: 'മലയാളം',
   },
   {
     locale: 'pl',
     name: 'Polish',
-    flag: '🇵🇱',
+    nativeName: 'Polski',
   },
   {
     locale: 'pt',
     name: 'Portuguese',
-    flag: '🇵🇹',
+    nativeName: 'Português',
   },
   {
     locale: 'ru',
     name: 'Russian',
-    flag: '🇷🇺',
+    nativeName: 'Русский',
   },
   {
     locale: 'sr',
     name: 'Serbian',
-    flag: '🇪🇷',
+    nativeName: 'Српски',
   },
   {
     locale: 'es',
     name: 'Spanish',
-    flag: '🇪🇸',
+    nativeName: 'Español',
   },
   {
     locale: 'ta',
     name: 'Tamil',
-    flag: '🇱🇰',
+    nativeName: 'தமிழ்',
   },
   {
     locale: 'tr',
     name: 'Turkish',
-    flag: '🇹🇷',
+    nativeName: 'Türkçe',
   },
 ];
+
+export default languages;

@@ -1,40 +1,13 @@
-/* @flow */
-import type {
-  GlobalState,
-  EventAction,
-  EventAlertWordsAction,
-  EventNewMessageAction,
-  EventMessageDeleteAction,
-  EventUpdateMessageAction,
-  EventSubscriptionAction,
-  EventStreamAction,
-  EventUserAction,
-  EventPresenceAction,
-  EventReactionAction,
-  EventTypingAction,
-  EventUpdateMessageFlagsAction,
-  EventMutedTopicsAction,
-  EventRealmEmojiUpdateAction,
-  EventRealmFiltersAction,
-  EventUpdateGlobalNotificationsSettingsAction,
-  EventUpdateDisplaySettingsAction,
-  EventUserGroupAction,
-} from '../types';
+/* @flow strict-local */
+import { EventTypes } from '../api/eventTypes';
+
+import type { GlobalState, EventAction } from '../types';
 import {
-  INIT_ALERT_WORDS,
+  EVENT_ALERT_WORDS,
   EVENT_NEW_MESSAGE,
   EVENT_PRESENCE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
-  EVENT_STREAM_ADD,
-  EVENT_STREAM_REMOVE,
-  EVENT_STREAM_UPDATE,
-  EVENT_STREAM_OCCUPY,
-  EVENT_SUBSCRIPTION_ADD,
-  EVENT_SUBSCRIPTION_REMOVE,
-  EVENT_SUBSCRIPTION_UPDATE,
-  EVENT_SUBSCRIPTION_PEER_ADD,
-  EVENT_SUBSCRIPTION_PEER_REMOVE,
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   EVENT_MESSAGE_DELETE,
@@ -49,28 +22,14 @@ import {
   EVENT_USER_GROUP_UPDATE,
   EVENT_USER_GROUP_ADD_MEMBERS,
   EVENT_USER_GROUP_REMOVE_MEMBERS,
+  EVENT_USER_STATUS_UPDATE,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   EVENT_UPDATE_DISPLAY_SETTINGS,
-  EVENT_REALM_FILTER_UPDATE,
+  EVENT_REALM_FILTERS,
+  EVENT_SUBSCRIPTION,
+  EVENT,
 } from '../actionConstants';
-
-import { getUserById } from '../users/userHelpers';
-
-const opToActionSubscription = {
-  add: EVENT_SUBSCRIPTION_ADD,
-  remove: EVENT_SUBSCRIPTION_REMOVE,
-  update: EVENT_SUBSCRIPTION_UPDATE,
-  peer_add: EVENT_SUBSCRIPTION_PEER_ADD,
-  peer_remove: EVENT_SUBSCRIPTION_PEER_REMOVE,
-};
-
-const opToActionStream = {
-  create: EVENT_STREAM_ADD,
-  delete: EVENT_STREAM_REMOVE,
-  update: EVENT_STREAM_UPDATE,
-  occupy: EVENT_STREAM_OCCUPY,
-};
 
 const opToActionUser = {
   add: EVENT_USER_ADD,
@@ -96,162 +55,100 @@ const opToActionTyping = {
   stop: EVENT_TYPING_STOP,
 };
 
-const alertWords = (state: GlobalState, event: Object): EventAlertWordsAction => ({
-  type: INIT_ALERT_WORDS,
-  alertWords: event.alert_words,
-});
+const actionTypeOfEventType = {
+  update_message: EVENT_UPDATE_MESSAGE,
+  subscription: EVENT_SUBSCRIPTION,
+  presence: EVENT_PRESENCE,
+  muted_topics: EVENT_MUTED_TOPICS,
+  realm_emoji: EVENT_REALM_EMOJI_UPDATE,
+  realm_filters: EVENT_REALM_FILTERS,
+  update_global_notifications: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+  update_display_settings: EVENT_UPDATE_DISPLAY_SETTINGS,
+  user_status: EVENT_USER_STATUS_UPDATE,
+};
 
-const newMessage = (state: GlobalState, event: Object): EventNewMessageAction => ({
-  ...event,
-  type: EVENT_NEW_MESSAGE,
-  caughtUp: state.caughtUp,
-  ownEmail: state.accounts[0].email,
-});
-
-const deleteMessage = (state: GlobalState, event: Object): EventMessageDeleteAction => ({
-  type: EVENT_MESSAGE_DELETE,
-  messageId: event.message_id,
-});
-
-const updateMessage = (state: GlobalState, event: Object): EventUpdateMessageAction => ({
-  ...event,
-  type: EVENT_UPDATE_MESSAGE,
-});
-
-const subscription = (state: GlobalState, event: Object): EventSubscriptionAction => ({
-  ...event,
-  type: opToActionSubscription[event.op],
-  user: getUserById(state.users, event.user_id),
-});
-
-const realmUser = (state: GlobalState, event: Object): EventUserAction => ({
-  ...event,
-  type: opToActionUser[event.op],
-});
-
-const realmUserGroup = (state: GlobalState, event: Object): EventUserGroupAction => ({
-  ...event,
-  type: opToActionUserGroup[event.op],
-});
-
-const stream = (state: GlobalState, event: Object): EventStreamAction => ({
-  ...event,
-  type: opToActionStream[event.op],
-});
-
-const reaction = (state: GlobalState, event: Object): EventReactionAction => ({
-  ...event,
-  // This cast seems redundant; but without it Flow (0.67) gives a puzzling type error.
-  type: (opToActionReaction[event.op]: typeof EVENT_REACTION_ADD | typeof EVENT_REACTION_REMOVE),
-});
-
-const presence = (state: GlobalState, event: Object): EventPresenceAction => ({
-  ...event,
-  type: EVENT_PRESENCE,
-});
-
-const typing = (state: GlobalState, event: Object): EventTypingAction => ({
-  ...event,
-  ownEmail: state.accounts[0].email,
-  type: opToActionTyping[event.op],
-  time: new Date().getTime(),
-});
-
-const updateMessageFlags = (state: GlobalState, event: Object): EventUpdateMessageFlagsAction => ({
-  ...event,
-  type: EVENT_UPDATE_MESSAGE_FLAGS,
-  allMessages: state.messages,
-});
-
-const updateMutedTopics = (state: GlobalState, event: Object): EventMutedTopicsAction => ({
-  ...event,
-  type: EVENT_MUTED_TOPICS,
-});
-
-const realmEmojiUpdate = (state: GlobalState, event: Object): EventRealmEmojiUpdateAction => ({
-  ...event,
-  type: EVENT_REALM_EMOJI_UPDATE,
-});
-
-const realmFilters = (state: GlobalState, event: Object): EventRealmFiltersAction => ({
-  ...event,
-  type: EVENT_REALM_FILTER_UPDATE,
-});
-
-const updateGlobalNotifications = (
-  state: GlobalState,
-  event: Object,
-): EventUpdateGlobalNotificationsSettingsAction => ({
-  ...event,
-  type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
-});
-
-const updateDisplaySettings = (
-  state: GlobalState,
-  event: Object,
-): EventUpdateDisplaySettingsAction => ({
-  ...event,
-  type: EVENT_UPDATE_DISPLAY_SETTINGS,
-});
-
-export default (state: GlobalState, event: Object): EventAction => {
+// This FlowFixMe is because this function encodes a large number of
+// assumptions about the events the server sends, and doesn't check them.
+export default (state: GlobalState, event: $FlowFixMe): EventAction => {
   switch (event.type) {
     case 'alert_words':
-      return alertWords(state, event);
+      return {
+        type: EVENT_ALERT_WORDS,
+        alertWords: event.alert_words,
+      };
 
     case 'message':
-      return newMessage(state, event);
+      return {
+        ...event,
+        type: EVENT_NEW_MESSAGE,
+        caughtUp: state.caughtUp,
+        ownEmail: state.accounts[0].email,
+      };
 
     case 'delete_message':
-      return deleteMessage(state, event);
+      return {
+        type: EVENT_MESSAGE_DELETE,
+        messageId: event.message_id,
+      };
+
+    case EventTypes.stream:
+      return {
+        type: EVENT,
+        event,
+      };
 
     case 'update_message':
-      return updateMessage(state, event);
-
     case 'subscription':
-      return subscription(state, event);
+    case 'presence':
+    case 'muted_topics':
+    case 'realm_emoji':
+    case 'realm_filters':
+    case 'update_global_notifications':
+    case 'update_display_settings':
+    case 'user_status':
+      return {
+        ...event,
+        type: actionTypeOfEventType[event.type],
+      };
 
     case 'realm_user':
-      return realmUser(state, event);
+      return {
+        ...event,
+        type: opToActionUser[event.op],
+      };
 
     case 'realm_bot':
       return { type: 'ignore' };
 
-    case 'stream':
-      return stream(state, event);
-
     case 'reaction':
-      return reaction(state, event);
+      return {
+        ...event,
+        type: opToActionReaction[event.op],
+      };
 
     case 'heartbeat':
       return { type: 'ignore' };
 
-    case 'presence':
-      return presence(state, event);
-
     case 'update_message_flags':
-      return updateMessageFlags(state, event);
+      return {
+        ...event,
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        allMessages: state.messages,
+      };
 
     case 'typing':
-      return typing(state, event);
-
-    case 'muted_topics':
-      return updateMutedTopics(state, event);
-
-    case 'realm_emoji':
-      return realmEmojiUpdate(state, event);
-
-    case 'realm_filters':
-      return realmFilters(state, event);
-
-    case 'update_global_notifications':
-      return updateGlobalNotifications(state, event);
-
-    case 'update_display_settings':
-      return updateDisplaySettings(state, event);
+      return {
+        ...event,
+        ownEmail: state.accounts[0].email,
+        type: opToActionTyping[event.op],
+        time: new Date().getTime(),
+      };
 
     case 'user_group':
-      return realmUserGroup(state, event);
+      return {
+        ...event,
+        type: opToActionUserGroup[event.op],
+      };
 
     default:
       return { type: 'unknown', event };

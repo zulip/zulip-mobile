@@ -1,28 +1,47 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import type { Narrow, Subscription } from '../types';
+import type { Narrow, Stream, Subscription, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
+type SelectorProps = {|
+  stream: Subscription | {| ...Stream, in_home_view: boolean |},
+|};
+
 type Props = {|
   narrow: Narrow,
-  stream: Subscription,
   color: string,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 class TitleStream extends PureComponent<Props> {
+  styles = StyleSheet.create({
+    outer: {
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+    },
+    streamRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+  });
+
   render() {
     const { narrow, stream, color } = this.props;
 
     return (
-      <View style={[styles.navWrapper, styles.titleStreamWrapper]}>
-        <View style={styles.titleStreamRow}>
+      <View style={this.styles.outer}>
+        <View style={this.styles.streamRow}>
           <StreamIcon
             isMuted={!stream.in_home_view}
             isPrivate={stream.invite_only}
@@ -43,6 +62,6 @@ class TitleStream extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connect((state, props): SelectorProps => ({
   stream: getStreamInNarrow(props.narrow)(state),
 }))(TitleStream);

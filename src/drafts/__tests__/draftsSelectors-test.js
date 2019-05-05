@@ -1,9 +1,9 @@
 import deepFreeze from 'deep-freeze';
 
-import { getDraftForActiveNarrow } from '../draftsSelectors';
+import { getDraftForNarrow } from '../draftsSelectors';
 import { topicNarrow } from '../../utils/narrow';
 
-describe('getDraftForActiveNarrow', () => {
+describe('getDraftForNarrow', () => {
   test('return content of draft if exists', () => {
     const narrow = topicNarrow('stream', 'topic');
     const state = deepFreeze({
@@ -12,7 +12,7 @@ describe('getDraftForActiveNarrow', () => {
       },
     });
 
-    const draft = getDraftForActiveNarrow(narrow)(state);
+    const draft = getDraftForNarrow(narrow)(state);
 
     expect(draft).toEqual('content');
   });
@@ -25,7 +25,7 @@ describe('getDraftForActiveNarrow', () => {
       },
     });
 
-    const draft = getDraftForActiveNarrow(topicNarrow('stream', 'topic1'))(state);
+    const draft = getDraftForNarrow(topicNarrow('stream', 'topic1'))(state);
 
     expect(draft).toEqual('');
   });

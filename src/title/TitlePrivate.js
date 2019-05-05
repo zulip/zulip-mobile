@@ -1,48 +1,52 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import type { Presence, User } from '../types';
-import { Avatar, ViewPlaceholder } from '../common';
+import type { Dispatch, UserOrBot } from '../types';
+import { connectFlowFixMe } from '../react-redux';
+import { Touchable, UserAvatarWithPresence, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
-import { getPresence } from '../directSelectors';
 import { getAllUsersByEmail } from '../users/userSelectors';
 import styles from '../styles';
+import { navigateToAccountDetails } from '../nav/navActions';
 
 type Props = {
-  user: User,
+  dispatch: Dispatch,
+  user: UserOrBot,
   color: string,
-  presence: Presence,
 };
 
 class TitlePrivate extends PureComponent<Props> {
-  render() {
-    const { user, color, presence } = this.props;
+  handlePress = () => {
+    const { dispatch, user } = this.props;
+    dispatch(navigateToAccountDetails(user.email));
+  };
 
+  styles = StyleSheet.create({
+    outer: { flex: 1 },
+    inner: { flexDirection: 'row', alignItems: 'center' },
+  });
+
+  render() {
+    const { user, color } = this.props;
     return (
-      <View style={styles.navWrapper}>
-        <Avatar
-          size={32}
-          name={user.full_name}
-          email={user.email}
-          avatarUrl={user.avatar_url}
-          presence={presence}
-        />
-        <ViewPlaceholder width={8} />
-        <View>
-          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
-            {user.full_name}
-          </Text>
-          <ActivityText style={styles.navSubtitle} color={color} email={user.email} />
+      <Touchable onPress={this.handlePress} style={this.styles.outer}>
+        <View style={this.styles.inner}>
+          <UserAvatarWithPresence size={32} email={user.email} avatarUrl={user.avatar_url} />
+          <ViewPlaceholder width={8} />
+          <View>
+            <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+              {user.full_name}
+            </Text>
+            <ActivityText style={[styles.navSubtitle, { color }]} user={user} />
+          </View>
         </View>
-      </View>
+      </Touchable>
     );
   }
 }
 
-export default connect((state, props) => ({
-  user: getAllUsersByEmail(state)[props.email],
-  presence: getPresence(state)[props.email],
+export default connectFlowFixMe((state, props) => ({
+  user: getAllUsersByEmail(state).get(props.email),
 }))(TitlePrivate);

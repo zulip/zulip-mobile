@@ -1,0 +1,61 @@
+#!/bin/bash
+set -e
+
+## CLI PARSING
+
+usage() {
+    cat >&2 <<EOF
+usage: tools/ios {build | upload}
+
+Build the app for release on iOS, or upload the result to the
+App Store.
+EOF
+    exit 2
+}
+
+action=
+case "${1}" in
+    build|upload) action="${1}"; shift;;
+    *) usage;;
+esac
+if (( ${#} )); then
+    usage
+fi
+
+
+## EXECUTION
+
+rootdir=$(git rev-parse --show-toplevel)
+cd "${rootdir}"/ios
+
+archive_path="${rootdir}"/ios/build/ZulipMobile.xcarchive
+
+do_build() {
+    yarn
+    echo >&2
+
+    logfile="$(mktemp build/log.XXXX)"
+    echo >&2 "Logs going to: ${logfile}"
+
+    echo >&2
+    echo >&2 "Archiving (i.e. building)..."
+    xcodebuild \
+      >"${logfile}" 2>&1 \
+      -workspace ZulipMobile.xcworkspace \
+      -scheme ZulipMobile \
+      archive \
+      -archivePath "${archive_path}"
+}
+
+do_upload() {
+    echo >&2 "Uploading..."
+    xcodebuild \
+      -exportArchive \
+      -archivePath "${archive_path}" \
+      -exportOptionsPlist upload.plist
+}
+
+case "${action}" in
+    build)  do_build ;;
+    upload) do_upload ;;
+esac

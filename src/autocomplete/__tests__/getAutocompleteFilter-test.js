@@ -27,6 +27,18 @@ describe('getAutocompleteFilter', () => {
     });
   });
 
+  test('get respective lastWordPrefix even when keyword is entered in new line', () => {
+    selection = { start: 1, end: 1 };
+    expect(getAutocompleteFilter('\n@', selection)).toEqual({ filter: '', lastWordPrefix: '' });
+    expect(getAutocompleteFilter('\n#', selection)).toEqual({ filter: '', lastWordPrefix: '' });
+    expect(getAutocompleteFilter('\n:', selection)).toEqual({ filter: '', lastWordPrefix: '' });
+
+    selection = { start: 2, end: 2 };
+    expect(getAutocompleteFilter('\n@', selection)).toEqual({ filter: '', lastWordPrefix: '@' });
+    expect(getAutocompleteFilter('\n#', selection)).toEqual({ filter: '', lastWordPrefix: '#' });
+    expect(getAutocompleteFilter('\n:', selection)).toEqual({ filter: '', lastWordPrefix: ':' });
+  });
+
   test('get #streams filters', () => {
     selection = { start: 1, end: 1 };
     expect(getAutocompleteFilter('#', selection)).toEqual({ filter: '', lastWordPrefix: '#' });

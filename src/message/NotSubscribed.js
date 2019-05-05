@@ -1,18 +1,19 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Auth, Stream } from '../types';
+import type { Auth, Stream, Dispatch } from '../types';
+import { connectFlowFixMe } from '../react-redux';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
 type Props = {
+  dispatch: Dispatch,
   auth: Auth,
-  stream: Stream,
+  stream: { ...Stream },
 };
 
 class NotSubscribed extends PureComponent<Props> {
@@ -39,7 +40,7 @@ class NotSubscribed extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connectFlowFixMe((state, props) => ({
   auth: getAuth(state),
   stream: getStreamInNarrow(props.narrow)(state),
 }))(NotSubscribed);

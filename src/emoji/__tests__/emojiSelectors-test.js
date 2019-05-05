@@ -1,12 +1,12 @@
 import deepFreeze from 'deep-freeze';
 import {
-  getActiveRealmEmojiById,
-  getAllRealmEmojiById,
-  getActiveRealmEmojiByName,
-  getAllRealmEmojiByName,
+  getActiveImageEmojiById,
+  getAllImageEmojiById,
+  getActiveImageEmojiByName,
+  getAllImageEmojiByName,
 } from '../emojiSelectors';
 
-describe('getActiveRealmEmojiById', () => {
+describe('getActiveImageEmojiById', () => {
   test('filter out all deactivated emojis', () => {
     const state = {
       accounts: [
@@ -41,13 +41,19 @@ describe('getActiveRealmEmojiById', () => {
         deactivated: false,
         source_url: 'https://example.com/static/user_upload/laugh.png',
       },
+      zulip: {
+        deactivated: false,
+        name: 'zulip',
+        code: 'zulip',
+        source_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
+      },
     };
 
-    expect(getActiveRealmEmojiById(deepFreeze(state))).toEqual(expectedResult);
+    expect(getActiveImageEmojiById(deepFreeze(state))).toEqual(expectedResult);
   });
 });
 
-describe('getAllRealmEmojiById', () => {
+describe('getAllImageEmojiById', () => {
   test('get realm emojis with absolute url', () => {
     const state = {
       accounts: [{ realm: 'https://example.com' }],
@@ -64,19 +70,21 @@ describe('getAllRealmEmojiById', () => {
     };
 
     const expectedResult = {
-      1: {
-        source_url: 'https://example.com/static/user_upload/smile.png',
-      },
-      2: {
-        source_url: 'https://example.com/static/user_upload/laugh.png',
+      '1': { source_url: 'https://example.com/static/user_upload/smile.png' },
+      '2': { source_url: 'https://example.com/static/user_upload/laugh.png' },
+      zulip: {
+        deactivated: false,
+        name: 'zulip',
+        code: 'zulip',
+        source_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
       },
     };
 
-    expect(getAllRealmEmojiById(deepFreeze(state))).toEqual(expectedResult);
+    expect(getAllImageEmojiById(deepFreeze(state))).toEqual(expectedResult);
   });
 });
 
-describe('getAllRealmEmojiByName', () => {
+describe('getAllImageEmojiByName', () => {
   test('get realm emoji object with emoji names as the keys', () => {
     const state = {
       accounts: [{ realm: 'https://example.com' }],
@@ -103,12 +111,18 @@ describe('getAllRealmEmojiByName', () => {
         name: 'laugh',
         source_url: 'https://example.com/static/user_upload/laugh.png',
       },
+      zulip: {
+        deactivated: false,
+        name: 'zulip',
+        code: 'zulip',
+        source_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
+      },
     };
-    expect(getAllRealmEmojiByName(deepFreeze(state))).toEqual(expectedResult);
+    expect(getAllImageEmojiByName(deepFreeze(state))).toEqual(expectedResult);
   });
 });
 
-describe('getActiveRealmEmojiByName', () => {
+describe('getActiveImageEmojiByName', () => {
   test('get realm emoji object with emoji names as the keys', () => {
     const state = {
       accounts: [{ realm: 'https://example.com' }],
@@ -135,7 +149,13 @@ describe('getActiveRealmEmojiByName', () => {
         name: 'laugh',
         source_url: 'https://example.com/static/user_upload/laugh.png',
       },
+      zulip: {
+        deactivated: false,
+        name: 'zulip',
+        code: 'zulip',
+        source_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
+      },
     };
-    expect(getActiveRealmEmojiByName(deepFreeze(state))).toEqual(expectedResult);
+    expect(getActiveImageEmojiByName(deepFreeze(state))).toEqual(expectedResult);
   });
 });

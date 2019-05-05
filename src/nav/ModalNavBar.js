@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Dispatch, Context, LocalizableText } from '../types';
+import { connect } from '../react-redux';
 import styles, { NAVBAR_SIZE } from '../styles';
 import Label from '../common/Label';
 import NavButton from './NavButton';

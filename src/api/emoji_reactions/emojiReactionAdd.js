@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
 export default (
@@ -9,7 +9,7 @@ export default (
   emojiCode: string,
   emojiName: string,
 ): Promise<ApiResponse> =>
-  apiPost(auth, `messages/${messageId}/reactions`, res => res, {
+  apiPost(auth, `messages/${messageId}/reactions`, {
     reaction_type: reactionType,
     emoji_code: emojiCode,
     emoji_name: emojiName,

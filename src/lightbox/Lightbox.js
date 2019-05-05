@@ -1,12 +1,13 @@
-/* @flow */
-import { connect } from 'react-redux';
+/* @flow strict-local */
 
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Auth, Dispatch, GlobalState, Message } from '../types';
+import type { Auth, Dispatch, Message } from '../types';
+import { connect } from '../react-redux';
+import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
 import { SlideAnimationView } from '../common';
@@ -14,7 +15,7 @@ import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_SIZE } from '../styles';
-import { getGravatarFromEmail } from '../utils/avatar';
+import { getAvatarFromMessage } from '../utils/avatar';
 import { navigateBack } from '../actions';
 
 const styles = StyleSheet.create({
@@ -27,7 +28,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     opacity: 0.8,
     position: 'absolute',
-    zIndex: 1,
   },
   container: {
     flex: 1,
@@ -41,7 +41,7 @@ type Props = {|
   dispatch: Dispatch,
   src: string,
   message: Message,
-  showActionSheetWithOptions: (Object, (number) => void) => void,
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
 |};
 
 type State = {|
@@ -98,6 +98,12 @@ class Lightbox extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
+        <PhotoView
+          source={resource}
+          style={[styles.img, { width }]}
+          resizeMode="contain"
+          onTap={this.handleImagePress}
+        />
         <SlideAnimationView
           property="translateY"
           style={[styles.overlay, styles.header, { width }]}
@@ -108,17 +114,10 @@ class Lightbox extends PureComponent<Props, State> {
           <LightboxHeader
             onPressBack={this.handlePressBack}
             timestamp={message.timestamp}
-            avatarUrl={message.avatar_url || getGravatarFromEmail(message.sender_email)}
+            avatarUrl={getAvatarFromMessage(message, auth.realm)}
             senderName={message.sender_full_name}
           />
         </SlideAnimationView>
-
-        <PhotoView
-          source={resource}
-          style={[styles.img, { width }]}
-          resizeMode="contain"
-          onTap={this.handleImagePress}
-        />
         <SlideAnimationView
           property="translateY"
           style={[styles.overlay, { width, bottom: height - 44 }]}
@@ -134,7 +133,7 @@ class Lightbox extends PureComponent<Props, State> {
 }
 
 export default connectActionSheet(
-  connect((state: GlobalState) => ({
+  connect(state => ({
     auth: getAuth(state),
   }))(Lightbox),
 );

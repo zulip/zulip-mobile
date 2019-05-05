@@ -7,7 +7,8 @@ import type {
   GetState,
   Message,
   Narrow,
-  ApiServerSettings,
+  UserOrBot,
+  ApiResponseServerSettings,
 } from '../types';
 import { getSameRoutesCount } from '../selectors';
 
@@ -33,7 +34,7 @@ export const navigateToSettings = (): NavigateAction =>
 export const navigateToEmojiPicker = (messageId: number): NavigateAction =>
   NavigationActions.navigate({ routeName: 'emoji-picker', params: { messageId } });
 
-export const navigateToAuth = (serverSettings: ApiServerSettings): NavigateAction =>
+export const navigateToAuth = (serverSettings: ApiResponseServerSettings): NavigateAction =>
   NavigationActions.navigate({ routeName: 'auth', params: { serverSettings } });
 
 export const navigateToDev = (): NavigateAction => NavigationActions.navigate({ routeName: 'dev' });
@@ -47,7 +48,7 @@ export const navigateToAccountPicker = (): NavigateAction =>
 export const navigateToAccountDetails = (email: string): NavigateAction =>
   NavigationActions.navigate({ routeName: 'account-details', params: { email } });
 
-export const navigateToGroupDetails = (recipients: string[]): NavigateAction =>
+export const navigateToGroupDetails = (recipients: UserOrBot[]): NavigateAction =>
   NavigationActions.navigate({ routeName: 'group-details', params: { recipients } });
 
 export const navigateToRealmScreen = (realm?: string): NavigateAction =>
@@ -86,9 +87,6 @@ export const navigateToStorage = (): NavigateAction =>
 export const navigateToDebug = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'debug' });
 
-export const navigateToNotifDiag = (): NavigateAction =>
-  NavigationActions.navigate({ routeName: 'notifDiag' });
-
 export const navigateToStream = (streamId: number): NavigateAction =>
   NavigationActions.navigate({ routeName: 'stream', params: { streamId } });
 
@@ -109,3 +107,6 @@ export const navigateToNotifications = (): NavigateAction =>
 
 export const navigateToLegal = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'legal' });
+
+export const navigateToUserStatus = (): NavigateAction =>
+  NavigationActions.navigate({ routeName: 'user-status' });

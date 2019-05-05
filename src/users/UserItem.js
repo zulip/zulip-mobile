@@ -2,8 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Presence } from '../types';
-import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
+import { UserAvatarWithPresence, RawLabel, Touchable, UnreadCount } from '../common';
 import styles, { BRAND_COLOR } from '../styles';
 
 const componentStyles = StyleSheet.create({
@@ -29,11 +28,10 @@ type Props = {|
   email: string,
   fullName: string,
   avatarUrl: ?string,
-  presence?: Presence,
   isSelected: boolean,
   showEmail: boolean,
   unreadCount?: number,
-  onPress: ({ email: string, fullName: string }) => void,
+  onPress: (email: string) => void,
 |};
 
 export default class UserItem extends PureComponent<Props> {
@@ -43,24 +41,22 @@ export default class UserItem extends PureComponent<Props> {
   };
 
   handlePress = () => {
-    const { email, fullName, onPress } = this.props;
-    if (email && fullName && onPress) {
-      onPress({ email, fullName });
+    const { email, onPress } = this.props;
+    if (email && onPress) {
+      onPress(email);
     }
   };
 
   render() {
-    const { fullName, avatarUrl, presence, isSelected, unreadCount, showEmail, email } = this.props;
+    const { fullName, avatarUrl, isSelected, unreadCount, showEmail, email } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
-          <Avatar
+          <UserAvatarWithPresence
             size={32}
             avatarUrl={avatarUrl}
             email={email}
-            name={fullName}
-            presence={presence}
             onPress={this.handlePress}
           />
           <View style={componentStyles.textWrapper}>

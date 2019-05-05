@@ -1,17 +1,13 @@
-/* @flow */
+/* @flow strict-local */
 import type { UrlParams } from '../utils/url';
-import type { Auth } from './apiTypes';
+import type { Auth } from './transportTypes';
 import { getAuthHeader, encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
 
 const apiVersion = 'api/v1';
 
-type ResponseExtractionFunc = (response: Object) => any;
-
-const defaultResFunc: ResponseExtractionFunc = res => res;
-
-export const objectToParams = (obj: Object) => {
+export const objectToParams = (obj: {}) => {
   const newObj = {};
   Object.keys(obj).forEach(key => {
     if (Array.isArray(obj[key])) {
@@ -25,9 +21,11 @@ export const objectToParams = (obj: Object) => {
   return newObj;
 };
 
-export const getFetchParams = (auth: Auth, params: Object = {}) => {
+export const getFetchParams = (auth: Auth, params: {} = {}) => {
+  // $FlowFixMe This is purely a no-op, and Flow even knows that. :-/
+  const { body } = (params: { body?: mixed });
   const contentType =
-    params.body instanceof FormData
+    body instanceof FormData
       ? 'multipart/form-data'
       : 'application/x-www-form-urlencoded; charset=utf-8';
 
@@ -41,7 +39,7 @@ export const getFetchParams = (auth: Auth, params: Object = {}) => {
   };
 };
 
-export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}) => {
+export const fetchWithAuth = async (auth: Auth, url: string, params: {} = {}) => {
   if (!isValidUrl(url)) {
     throw new Error(`Invalid url ${url}`);
   }
@@ -49,10 +47,10 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}
   return fetch(url, getFetchParams(auth, params));
 };
 
-export const apiFetch = async (auth: Auth, route: string, params: Object = {}) =>
+export const apiFetch = async (auth: Auth, route: string, params: {} = {}) =>
   fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
-const makeApiError = (httpStatus: number, data: ?Object) => {
+const makeApiError = (httpStatus: number, data: ?{}) => {
   const error = new Error('API');
   // $FlowFixMe
   error.data = data;
@@ -64,8 +62,7 @@ const makeApiError = (httpStatus: number, data: ?Object) => {
 export const apiCall = async (
   auth: Auth,
   route: string,
-  params: Object = {},
-  resFunc: ResponseExtractionFunc = defaultResFunc,
+  params: {} = {},
   isSilent: boolean = false,
 ) => {
   try {
@@ -73,7 +70,7 @@ export const apiCall = async (
     const response = await apiFetch(auth, route, params);
     const json = await response.json().catch(() => undefined);
     if (response.ok && json !== undefined) {
-      return resFunc(json);
+      return json;
     }
     // eslint-disable-next-line no-console
     console.log({ route, params, httpStatus: response.status, json });
@@ -86,7 +83,6 @@ export const apiCall = async (
 export const apiGet = async (
   auth: Auth,
   route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
   isSilent: boolean = false,
 ) =>
@@ -96,101 +92,40 @@ export const apiGet = async (
     {
       method: 'get',
     },
-    resFunc,
     isSilent,
   );
 
-export const apiPost = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: UrlParams = {},
-) =>
-  apiCall(
-    auth,
-    route,
-    {
-      method: 'post',
-      body: encodeParamsForUrl(params),
-    },
-    resFunc,
-  );
+export const apiPost = async (auth: Auth, route: string, params: UrlParams = {}) =>
+  apiCall(auth, route, {
+    method: 'post',
+    body: encodeParamsForUrl(params),
+  });
 
-export const apiFile = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  body: FormData,
-) =>
-  apiCall(
-    auth,
-    route,
-    {
-      method: 'post',
-      body,
-    },
-    resFunc,
-  );
+export const apiFile = async (auth: Auth, route: string, body: FormData) =>
+  apiCall(auth, route, {
+    method: 'post',
+    body,
+  });
 
-export const apiPut = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: UrlParams = {},
-) =>
-  apiCall(
-    auth,
-    route,
-    {
-      method: 'put',
-      body: encodeParamsForUrl(params),
-    },
-    resFunc,
-  );
+export const apiPut = async (auth: Auth, route: string, params: UrlParams = {}) =>
+  apiCall(auth, route, {
+    method: 'put',
+    body: encodeParamsForUrl(params),
+  });
 
-export const apiDelete = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: UrlParams = {},
-) =>
-  apiCall(
-    auth,
-    route,
-    {
-      method: 'delete',
-      body: encodeParamsForUrl(params),
-    },
-    resFunc,
-  );
+export const apiDelete = async (auth: Auth, route: string, params: UrlParams = {}) =>
+  apiCall(auth, route, {
+    method: 'delete',
+    body: encodeParamsForUrl(params),
+  });
 
-export const apiPatch = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: UrlParams = {},
-) =>
-  apiCall(
-    auth,
-    route,
-    {
-      method: 'patch',
-      body: encodeParamsForUrl(params),
-    },
-    resFunc,
-  );
+export const apiPatch = async (auth: Auth, route: string, params: UrlParams = {}) =>
+  apiCall(auth, route, {
+    method: 'patch',
+    body: encodeParamsForUrl(params),
+  });
 
-export const apiHead = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: UrlParams = {},
-) =>
-  apiCall(
-    auth,
-    `${route}?${encodeParamsForUrl(params)}`,
-    {
-      method: 'head',
-    },
-    resFunc,
-  );
+export const apiHead = async (auth: Auth, route: string, params: UrlParams = {}) =>
+  apiCall(auth, `${route}?${encodeParamsForUrl(params)}`, {
+    method: 'head',
+  });

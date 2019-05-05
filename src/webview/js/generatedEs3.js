@@ -3,6 +3,9 @@
  * To make changes:
  *   1. Edit `js.js`, which is the source for this file.
  *   2. Run `tools/generate-webview-js`.
+ *
+ * @generated
+ * @flow strict
  */
 
 export default `
@@ -149,7 +152,7 @@ function someVisibleMessage(top, bottom) {
 function idFromMessage(element) {
   var idStr = element.getAttribute('data-msg-id');
 
-  if (!idStr) {
+  if (idStr === null || idStr === undefined) {
     throw new Error('Bad message element');
   }
 
@@ -227,12 +230,13 @@ var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
 };
 
 var scrollEventsDisabled = true;
-var lastTouchEventTimestamp = 0;
+var hasLongPressed = false;
+var longPressTimeout;
 var lastTouchPositionX = -1;
 var lastTouchPositionY = -1;
 
 var handleScrollEvent = function handleScrollEvent() {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 
   if (scrollEventsDisabled) {
     return;
@@ -404,9 +408,26 @@ document.addEventListener('message', function (e) {
   });
   scrollEventsDisabled = false;
 });
+
+var requireAttribute = function requireAttribute(e, name) {
+  var value = e.getAttribute(name);
+
+  if (value === null || value === undefined) {
+    throw new Error("Missing expected attribute " + name);
+  }
+
+  return value;
+};
+
 documentBody.addEventListener('click', function (e) {
   e.preventDefault();
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
+
+  if (hasLongPressed) {
+    hasLongPressed = false;
+    return;
+  }
+
   var target = e.target;
 
   if (!(target instanceof Element)) {
@@ -421,7 +442,7 @@ documentBody.addEventListener('click', function (e) {
   if (target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromEmail: target.getAttribute('data-email')
+      fromEmail: requireAttribute(target, 'data-email')
     });
     return;
   }
@@ -429,7 +450,7 @@ documentBody.addEventListener('click', function (e) {
   if (target.matches('.header')) {
     sendMessage({
       type: 'narrow',
-      narrow: target.getAttribute('data-narrow')
+      narrow: requireAttribute(target, 'data-narrow')
     });
     return;
   }
@@ -439,7 +460,7 @@ documentBody.addEventListener('click', function (e) {
   if (inlineImageLink && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
     sendMessage({
       type: 'image',
-      src: inlineImageLink.getAttribute('href'),
+      src: requireAttribute(inlineImageLink, 'href'),
       messageId: getMessageIdFromNode(inlineImageLink)
     });
     return;
@@ -448,7 +469,7 @@ documentBody.addEventListener('click', function (e) {
   if (target.matches('a')) {
     sendMessage({
       type: 'url',
-      href: target.getAttribute('href'),
+      href: requireAttribute(target, 'href'),
       messageId: getMessageIdFromNode(target)
     });
     return;
@@ -457,7 +478,7 @@ documentBody.addEventListener('click', function (e) {
   if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
     sendMessage({
       type: 'url',
-      href: target.parentNode.getAttribute('href'),
+      href: requireAttribute(target.parentNode, 'href'),
       messageId: getMessageIdFromNode(target.parentNode)
     });
     return;
@@ -466,9 +487,9 @@ documentBody.addEventListener('click', function (e) {
   if (target.matches('.reaction')) {
     sendMessage({
       type: 'reaction',
-      name: target.getAttribute('data-name'),
-      code: target.getAttribute('data-code'),
-      reactionType: target.getAttribute('data-type'),
+      name: requireAttribute(target, 'data-name'),
+      code: requireAttribute(target, 'data-code'),
+      reactionType: requireAttribute(target, 'data-type'),
       messageId: getMessageIdFromNode(target),
       voted: target.classList.contains('self-voted')
     });
@@ -476,15 +497,12 @@ documentBody.addEventListener('click', function (e) {
 });
 
 var handleLongPress = function handleLongPress(target) {
-  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) {
-    return;
-  }
-
-  lastTouchEventTimestamp = 0;
+  hasLongPressed = true;
   sendMessage({
     type: 'longPress',
-    target: target.matches('.header') ? 'header' : 'message',
-    messageId: getMessageIdFromNode(target)
+    target: target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message',
+    messageId: getMessageIdFromNode(target),
+    href: target.matches('a') ? requireAttribute(target, 'href') : null
   });
 };
 
@@ -497,8 +515,9 @@ documentBody.addEventListener('touchstart', function (e) {
 
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
-  lastTouchEventTimestamp = Date.now();
-  setTimeout(function () {
+  hasLongPressed = false;
+  clearTimeout(longPressTimeout);
+  longPressTimeout = setTimeout(function () {
     return handleLongPress(target);
   }, 500);
 });
@@ -513,13 +532,16 @@ var isNearPositions = function isNearPositions() {
 
 documentBody.addEventListener('touchend', function (e) {
   if (isNearPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
-    lastTouchEventTimestamp = Date.now();
+    clearTimeout(longPressTimeout);
   }
 });
+documentBody.addEventListener('touchcancel', function (e) {
+  clearTimeout(longPressTimeout);
+});
 documentBody.addEventListener('touchmove', function (e) {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 });
 documentBody.addEventListener('drag', function (e) {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 });
 `;

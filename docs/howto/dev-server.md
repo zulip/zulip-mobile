@@ -17,6 +17,22 @@ yours.
 chat!  And PRs very welcome.)
 
 
+## Summary checklist
+
+This checklist describes a typical setup (with your Zulip dev server
+inside Vagrant).  It may be helpful for reminders after you've done
+this a time or two before.
+
+For details on each step, and for alternative configurations, see the
+sections below.
+
+- [ ] Find your computer's IP address on your LAN; perhaps try
+      `ip route get 8 | perl -lne '/src (\S+)/ && print $1'`.
+- [ ] Check your `~/.zulip-vagrant-config` (outside the dev VM).
+- [ ] Run the server like `EXTERNAL_HOST=${ip_address}:9991 tools/run-dev.py`.
+- [ ] Log in at `http://${ip_address}:9991`.  Type `http://` explicitly.
+
+
 ## 1. Set up a dev server
 
 First, if you haven't already, you'll want to install and provision a
@@ -85,9 +101,14 @@ isn't a special "loopback" address like 127.0.0.1, will do.)
 
 To find this, you can use a command-line tool like (on Linux or macOS)
 `ip addr` or `ifconfig`; or look in the network pane of macOS's System
-Preferences or of Windows's Control Panel.  The IP address you want will
-often start with `192.168`; the network interface it belongs to might look
-like `wlp4s0` or `en1`.
+Preferences or of Windows's Control Panel.  The IP address you want
+will often start with `192.168` or `10.10`; the network interface it
+belongs to might look like `wlp4s0` or `en1`.
+
+The command `ip route get 8.8.8.8` (on Linux) will show how your
+computer would send a packet to the Internet, which is typically the
+right direction.  You'd use the address shown after `src`, which is
+the one that belongs to your computer.
 
 For a detailed example, see our howto on [finding your IP
 address](find-ip-address.md).

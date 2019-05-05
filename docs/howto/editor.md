@@ -64,6 +64,35 @@ Take a look through some of VS Code's docs.  In particular:
   enable this feature, and configure it to use our standard formatting
   rules.
 
+### Troubleshooting
+
+#### Saving causes bad reformatting of code
+
+When you save a file after installing the extensions above, the file
+should be automatically formatted to stick to our code-formatting
+style.
+
+If instead it gets reformatted with lots of changes, for example like this:
+```
+export {
+  default as Arc
+}
+from './Arc';
+```
+this might be caused by additional extensions you have installed.
+
+To fix the problem, [view your extensions][vscode-doc-extensions].
+On each extension you have enabled that isn't in our list above,
+select "Disable (Workspace)" to disable it for your Zulip Mobile
+workspace (or "Disable" or "Uninstall", if you no longer want it
+in general.)
+
+Once you have things working with purely our standard list of
+extensions, you can re-enable other extensions one at a time to
+identify which one caused the problem.
+
+[vscode-doc-extensions]: https://code.visualstudio.com/docs/editor/extension-gallery#_manage-extensions
+
 
 ## Android Studio (as needed)
 

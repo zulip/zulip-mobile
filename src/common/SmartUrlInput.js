@@ -1,12 +1,14 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import type { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
 
-import type { Context, Style } from '../types';
+import type { Context } from '../types';
 import { autocompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
 import RawLabel from './RawLabel';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     opacity: 0.8,
@@ -28,8 +30,8 @@ type Props = {|
   defaultOrganization: string,
   protocol: string,
   append: string,
-  navigation: Object,
-  style?: Style,
+  navigation: NavigationScreenProp<mixed>,
+  style?: ViewStyleProp,
   onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
   enablesReturnKeyAutomatically: boolean,
@@ -44,21 +46,25 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   state = {
     value: '',
   };
-  textInputRef: any;
-  focusListener: Object;
+  textInputRef: ?TextInput;
+  focusListener: void | NavigationEventSubscription;
 
   static contextTypes = {
     styles: () => null,
   };
 
   componentDidMount() {
-    this.focusListener = this.props.navigation.addListener('didFocus', () =>
-      this.textInputRef.focus(),
-    );
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      if (this.textInputRef) {
+        this.textInputRef.focus();
+      }
+    });
   }
 
   componentWillUnmount() {
-    this.focusListener.remove();
+    if (this.focusListener) {
+      this.focusListener.remove();
+    }
   }
 
   handleChange = (value: string) => {
@@ -69,18 +75,17 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   };
 
   urlPress = () => {
-    this.textInputRef.blur();
-    setTimeout(() => this.textInputRef.focus(), 100);
+    const { textInputRef } = this;
+    if (textInputRef) {
+      textInputRef.blur();
+      setTimeout(() => textInputRef.focus(), 100);
+    }
   };
 
   renderPlaceholderPart = (text: string) => (
     <TouchableWithoutFeedback onPress={this.urlPress}>
       <RawLabel
-        style={[
-          componentStyles.realmInput,
-          this.context.styles.color,
-          componentStyles.realmPlaceholder,
-        ]}
+        style={[styles.realmInput, this.context.styles.color, styles.realmPlaceholder]}
         text={text}
       />
     </TouchableWithoutFeedback>
@@ -105,13 +110,13 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
     }
 
     return (
-      <View style={[componentStyles.wrapper, style]}>
+      <View style={[styles.wrapper, style]}>
         {!hasProtocol(value) && this.renderPlaceholderPart(protocol)}
         <TextInput
           style={[
-            componentStyles.realmInput,
+            styles.realmInput,
             contextStyles.color,
-            value.length === 0 && componentStyles.realmInputEmpty,
+            value.length === 0 && styles.realmInputEmpty,
           ]}
           autoFocus
           autoCorrect={false}
@@ -124,7 +129,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
           underlineColorAndroid="transparent"
           onSubmitEditing={onSubmitEditing}
           enablesReturnKeyAutomatically={enablesReturnKeyAutomatically}
-          ref={(component: any) => {
+          ref={(component: TextInput | null) => {
             this.textInputRef = component;
           }}
         />

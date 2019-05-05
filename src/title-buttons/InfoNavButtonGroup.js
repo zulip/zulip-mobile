@@ -1,17 +1,23 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch } from '../types';
+import type { Dispatch, Narrow, UserOrBot } from '../types';
+import { connect } from '../react-redux';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToGroupDetails } from '../actions';
 
+type SelectorProps = {|
+  recipients: UserOrBot[],
+|};
+
 type Props = {|
-  dispatch: Dispatch,
   color: string,
-  recipients: string[],
+  narrow: Narrow,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 class InfoNavButtonGroup extends PureComponent<Props> {
@@ -27,6 +33,6 @@ class InfoNavButtonGroup extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
-  recipients: getRecipientsInGroupNarrow(props.narrow)(state),
+export default connect((state, props): SelectorProps => ({
+  recipients: getRecipientsInGroupNarrow(state, props.narrow),
 }))(InfoNavButtonGroup);

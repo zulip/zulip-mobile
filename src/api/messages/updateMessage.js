@@ -1,6 +1,14 @@
-/* @flow */
-import type { ApiResponse, Auth } from '../apiTypes';
+/* @flow strict-local */
+import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPatch } from '../apiFetch';
 
-export default async (auth: Auth, content: Object, id: number): Promise<ApiResponse> =>
-  apiPatch(auth, `messages/${id}`, res => res, content);
+/** See https://zulipchat.com/api/update-message */
+export default async (
+  auth: Auth,
+  params: $ReadOnly<{|
+    subject?: string,
+    propagate_mode?: boolean,
+    content?: string,
+  |}>,
+  id: number,
+): Promise<ApiResponse> => apiPatch(auth, `messages/${id}`, params);

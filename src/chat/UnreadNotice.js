@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Narrow } from '../types';
+import type { Narrow, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getUnreadCountForNarrow } from '../selectors';
 import { Label, RawLabel } from '../common';
 import { unreadToLimitedCount } from '../utils/unread';
@@ -30,10 +30,16 @@ const styles = StyleSheet.create({
   },
 });
 
+type SelectorProps = {|
+  unreadCount: number,
+|};
+
 type Props = {|
   limited: boolean,
   narrow: Narrow,
-  unreadCount: number,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 class UnreadNotice extends PureComponent<Props> {
@@ -64,6 +70,6 @@ class UnreadNotice extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
-  unreadCount: getUnreadCountForNarrow(props.narrow)(state),
+export default connect((state, props): SelectorProps => ({
+  unreadCount: getUnreadCountForNarrow(state, props.narrow),
 }))(UnreadNotice);

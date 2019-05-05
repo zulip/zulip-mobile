@@ -1,14 +1,12 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
-import type { Dispatch, GlobalState } from '../types';
+import type { Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getSettings } from '../selectors';
-import { OptionButton, OptionDivider, OptionRow } from '../common';
-import SwitchAccountButton from '../account-info/SwitchAccountButton';
-import LogoutButton from '../account-info/LogoutButton';
+import { OptionButton, OptionRow } from '../common';
 import {
   IconDiagnostics,
   IconNotifications,
@@ -24,15 +22,9 @@ import {
   navigateToLegal,
 } from '../actions';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
-  },
-  accountButtons: {
-    flex: 1,
-    alignItems: 'flex-end',
-    flexDirection: 'row',
-    marginTop: 8,
   },
 });
 
@@ -51,7 +43,7 @@ class SettingsCard extends PureComponent<Props> {
     const { theme, dispatch } = this.props;
 
     return (
-      <ScrollView style={componentStyles.optionWrapper}>
+      <ScrollView style={styles.optionWrapper}>
         <OptionRow
           Icon={IconNight}
           label="Night mode"
@@ -86,16 +78,11 @@ class SettingsCard extends PureComponent<Props> {
             dispatch(navigateToLegal());
           }}
         />
-        <OptionDivider />
-        <View style={componentStyles.accountButtons}>
-          <SwitchAccountButton />
-          <LogoutButton />
-        </View>
       </ScrollView>
     );
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   theme: getSettings(state).theme,
 }))(SettingsCard);

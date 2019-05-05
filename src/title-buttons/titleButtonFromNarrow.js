@@ -1,4 +1,7 @@
-/* @flow */
+/* @flow strict-local */
+import React from 'react';
+import type { ComponentType } from 'react';
+
 import type { Narrow } from '../types';
 import {
   isHomeNarrow,
@@ -14,7 +17,14 @@ import InfoNavButtonGroup from './InfoNavButtonGroup';
 import ExtraNavButtonStream from './ExtraNavButtonStream';
 import ExtraNavButtonTopic from './ExtraNavButtonTopic';
 
-const infoButtonHandlers = [
+type Props = {| color: string, narrow: Narrow |};
+type NarrowNavButton = ComponentType<Props>;
+type NarrowNavButtonCandidate = {|
+  isFunc: Narrow => boolean,
+  ButtonComponent: NarrowNavButton | null,
+|};
+
+const infoButtonHandlers: NarrowNavButtonCandidate[] = [
   { isFunc: isHomeNarrow, ButtonComponent: null },
   { isFunc: isSpecialNarrow, ButtonComponent: null },
   { isFunc: isStreamNarrow, ButtonComponent: InfoNavButtonStream },
@@ -23,7 +33,7 @@ const infoButtonHandlers = [
   { isFunc: isGroupNarrow, ButtonComponent: InfoNavButtonGroup },
 ];
 
-const extraButtonHandlers = [
+const extraButtonHandlers: NarrowNavButtonCandidate[] = [
   { isFunc: isHomeNarrow, ButtonComponent: null },
   { isFunc: isSpecialNarrow, ButtonComponent: null },
   { isFunc: isStreamNarrow, ButtonComponent: ExtraNavButtonStream },
@@ -32,13 +42,12 @@ const extraButtonHandlers = [
   { isFunc: isGroupNarrow, ButtonComponent: null },
 ];
 
-const getButton = (handlers: Object[], narrow: Narrow): ?Object => {
-  const handler = handlers.find(x => x.isFunc(narrow));
-  return handler && handler.ButtonComponent;
+const makeButton = (handlers): NarrowNavButton => props => {
+  const handler = handlers.find(x => x.isFunc(props.narrow)) || null;
+  const SpecificButton = handler && handler.ButtonComponent;
+  return !!SpecificButton && <SpecificButton {...props} />;
 };
 
-export const getInfoButtonFromNarrow = (narrow: Narrow): ?Object =>
-  getButton(infoButtonHandlers, narrow);
+export const InfoButton = makeButton(infoButtonHandlers);
 
-export const getExtraButtonFromNarrow = (narrow: Narrow): ?Object =>
-  getButton(extraButtonHandlers, narrow);
+export const ExtraButton = makeButton(extraButtonHandlers);

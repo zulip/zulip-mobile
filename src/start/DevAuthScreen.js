@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 
-import type { Auth, DevUser, Dispatch, GlobalState } from '../types';
+import type { Auth, DevUser, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import { devListUsers, devFetchApiKey } from '../api';
 import { getPartialAuth } from '../selectors';
@@ -72,8 +72,8 @@ class DevAuthScreen extends PureComponent<Props, State> {
     this.setState({ progress: true, error: undefined });
 
     try {
-      const apiKey = await devFetchApiKey(partialAuth, email);
-      this.props.dispatch(loginSuccess(partialAuth.realm, email, apiKey));
+      const { api_key } = await devFetchApiKey(partialAuth, email);
+      this.props.dispatch(loginSuccess(partialAuth.realm, email, api_key));
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });
@@ -122,6 +122,6 @@ class DevAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   partialAuth: getPartialAuth(state),
 }))(DevAuthScreen);

@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
@@ -10,21 +9,17 @@ import { unicodeCodeByName } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojiNames } from './data';
-import type { GlobalState, RealmEmojiState, Auth, Dispatch } from '../types';
-import { getAuth, getActiveRealmEmojiByName } from '../selectors';
+import type { RealmEmojiById, Auth, Dispatch, ReactionType } from '../types';
+import { connect } from '../react-redux';
+import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
+import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 
 type Props = {|
-  activeRealmEmojiByName: RealmEmojiState,
+  activeImageEmojiByName: RealmEmojiById,
   auth: Auth,
   dispatch: Dispatch,
-  navigation: NavigationScreenProp<*> & {
-    state: {
-      params: {
-        messageId: number,
-      },
-    },
-  },
+  navigation: NavigationScreenProp<{ params: {| messageId: number |} }>,
 |};
 
 type State = {|
@@ -42,22 +37,34 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     });
   };
 
+  getReactionTypeAndCode = (
+    emojiName: string,
+  ): { reactionType: ReactionType, emojiCode: string } => {
+    const { activeImageEmojiByName } = this.props;
+    const imageEmoji = activeImageEmojiByName[emojiName];
+    if (imageEmoji) {
+      return {
+        reactionType: zulipExtraEmojiMap[emojiName] ? 'zulip_extra_emoji' : 'realm_emoji',
+        emojiCode: imageEmoji.code,
+      };
+    }
+    return { reactionType: 'unicode_emoji', emojiCode: unicodeCodeByName[emojiName] };
+  };
+
   addReaction = (emojiName: string) => {
-    const { auth, dispatch, navigation, activeRealmEmojiByName } = this.props;
+    const { auth, dispatch, navigation } = this.props;
     const { messageId } = navigation.state.params;
-    const realmEmoji = activeRealmEmojiByName[emojiName];
-    const { reactionType, emojiCode } = realmEmoji
-      ? { reactionType: 'realm_emoji', emojiCode: realmEmoji.id.toString() }
-      : { reactionType: 'unicode_emoji', emojiCode: unicodeCodeByName[emojiName] };
+
+    const { reactionType, emojiCode } = this.getReactionTypeAndCode(emojiName);
     emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName);
     dispatch(navigateBack());
   };
 
   render() {
-    const { activeRealmEmojiByName } = this.props;
+    const { activeImageEmojiByName } = this.props;
     const { filter } = this.state;
 
-    const emojiNames = getFilteredEmojiNames(filter, activeRealmEmojiByName);
+    const emojiNames = getFilteredEmojiNames(filter, activeImageEmojiByName);
 
     return (
       <Screen search scrollEnabled={false} searchBarOnChange={this.handleInputChange}>
@@ -73,7 +80,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
-  activeRealmEmojiByName: getActiveRealmEmojiByName(state),
+export default connect(state => ({
+  activeImageEmojiByName: getActiveImageEmojiByName(state),
   auth: getAuth(state),
 }))(EmojiPickerScreen);

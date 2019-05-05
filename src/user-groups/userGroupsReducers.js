@@ -1,14 +1,5 @@
 /* @flow strict-local */
-import type {
-  UserGroupsState,
-  UserGroupsAction,
-  RealmInitAction,
-  EventUserGroupAddAction,
-  EventUserGroupRemoveAction,
-  EventUserGroupUpdateAction,
-  EventUserGroupAddMembersAction,
-  EventUserGroupRemoveMembersAction,
-} from '../types';
+import type { UserGroupsState, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -24,23 +15,7 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UserGroupsState = NULL_ARRAY;
 
-const realmInit = (state: UserGroupsState, action: RealmInitAction): UserGroupsState =>
-  action.data.realm_user_groups || initialState;
-
-const eventUserGroupAdd = (
-  state: UserGroupsState,
-  action: EventUserGroupAddAction,
-): UserGroupsState => [...state, action.group];
-
-const eventUserGroupRemove = (
-  state: UserGroupsState,
-  action: EventUserGroupRemoveAction,
-): UserGroupsState => state.filter(x => action.group_id !== x.id);
-
-const eventUserGroupUpdate = (
-  state: UserGroupsState,
-  action: EventUserGroupUpdateAction,
-): UserGroupsState =>
+const eventUserGroupUpdate = (state, action) =>
   state.map(
     userGroup =>
       action.group_id !== userGroup.id
@@ -51,10 +26,7 @@ const eventUserGroupUpdate = (
           },
   );
 
-const eventUserGroupAddMembers = (
-  state: UserGroupsState,
-  action: EventUserGroupAddMembersAction,
-): UserGroupsState =>
+const eventUserGroupAddMembers = (state, action) =>
   state.map(
     userGroup =>
       action.group_id !== userGroup.id
@@ -65,10 +37,7 @@ const eventUserGroupAddMembers = (
           },
   );
 
-const eventUserGroupRemoveMembers = (
-  state: UserGroupsState,
-  action: EventUserGroupRemoveMembersAction,
-): UserGroupsState =>
+const eventUserGroupRemoveMembers = (state, action) =>
   state.map(
     userGroup =>
       action.group_id !== userGroup.id
@@ -79,10 +48,7 @@ const eventUserGroupRemoveMembers = (
           },
   );
 
-export default (
-  state: UserGroupsState = initialState,
-  action: UserGroupsAction,
-): UserGroupsState => {
+export default (state: UserGroupsState = initialState, action: Action): UserGroupsState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:
@@ -90,13 +56,13 @@ export default (
       return initialState;
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return action.data.realm_user_groups || initialState;
 
     case EVENT_USER_GROUP_ADD:
-      return eventUserGroupAdd(state, action);
+      return [...state, action.group];
 
     case EVENT_USER_GROUP_REMOVE:
-      return eventUserGroupRemove(state, action);
+      return state.filter(x => action.group_id !== x.id);
 
     case EVENT_USER_GROUP_UPDATE:
       return eventUserGroupUpdate(state, action);

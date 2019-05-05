@@ -1,20 +1,11 @@
 /* @flow strict-local */
-import type {
-  UnreadHuddlesState,
-  UnreadAction,
-  RealmInitAction,
-  EventNewMessageAction,
-  MarkMessagesReadAction,
-  EventMessageDeleteAction,
-  EventUpdateMessageFlagsAction,
-} from '../types';
+import type { UnreadHuddlesState, Action } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
-  MARK_MESSAGES_READ,
 } from '../actionConstants';
 import { getRecipientsIds } from '../utils/recipient';
 import { addItemsToHuddleArray, removeItemsDeeply } from './unreadHelpers';
@@ -22,13 +13,7 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UnreadHuddlesState = NULL_ARRAY;
 
-const realmInit = (state: UnreadHuddlesState, action: RealmInitAction): UnreadHuddlesState =>
-  (action.data.unread_msgs && action.data.unread_msgs.huddles) || initialState;
-
-const eventNewMessage = (
-  state: UnreadHuddlesState,
-  action: EventNewMessageAction,
-): UnreadHuddlesState => {
+const eventNewMessage = (state, action) => {
   if (action.message.type !== 'private') {
     return state;
   }
@@ -48,20 +33,7 @@ const eventNewMessage = (
   );
 };
 
-const markMessagesRead = (
-  state: UnreadHuddlesState,
-  action: MarkMessagesReadAction,
-): UnreadHuddlesState => removeItemsDeeply(state, action.messageIds);
-
-const eventMessageDelete = (
-  state: UnreadHuddlesState,
-  action: EventMessageDeleteAction,
-): UnreadHuddlesState => removeItemsDeeply(state, [action.messageId]);
-
-const eventUpdateMessageFlags = (
-  state: UnreadHuddlesState,
-  action: EventUpdateMessageFlagsAction,
-): UnreadHuddlesState => {
+const eventUpdateMessageFlags = (state, action) => {
   if (action.flag !== 'read') {
     return state;
   }
@@ -79,25 +51,19 @@ const eventUpdateMessageFlags = (
   return state;
 };
 
-export default (
-  state: UnreadHuddlesState = initialState,
-  action: UnreadAction,
-): UnreadHuddlesState => {
+export default (state: UnreadHuddlesState = initialState, action: Action): UnreadHuddlesState => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return initialState;
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return (action.data.unread_msgs && action.data.unread_msgs.huddles) || initialState;
 
     case EVENT_NEW_MESSAGE:
       return eventNewMessage(state, action);
 
-    case MARK_MESSAGES_READ:
-      return markMessagesRead(state, action);
-
     case EVENT_MESSAGE_DELETE:
-      return eventMessageDelete(state, action);
+      return removeItemsDeeply(state, [action.messageId]);
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
       return eventUpdateMessageFlags(state, action);

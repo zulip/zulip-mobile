@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ApiResponseSuccess, Auth } from '../apiTypes';
+import type { ApiResponseSuccess, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
 /**
@@ -13,7 +13,7 @@ export default (
   fullName: string,
   shortName: string,
 ): Promise<ApiResponseSuccess> =>
-  apiPost(auth, 'users', res => res, {
+  apiPost(auth, 'users', {
     email,
     password,
     full_name: fullName,

@@ -1,17 +1,19 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { ChildrenArray, GlobalState, ThemeName } from '../types';
+import type { Node as React$Node } from 'react';
+import type { ThemeName, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getSettings } from '../directSelectors';
 import { stylesFromTheme, themeColors, ThemeContext } from '../styles/theme';
 
 const Dummy = props => props.children;
 
 type Props = {|
+  dispatch: Dispatch,
   theme: ThemeName,
-  children: ChildrenArray<*>,
+  children: React$Node,
 |};
 
 class StyleProvider extends PureComponent<Props> {
@@ -40,6 +42,6 @@ class StyleProvider extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   theme: getSettings(state).theme,
 }))(StyleProvider);

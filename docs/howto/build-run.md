@@ -16,8 +16,8 @@ use the WSL `bash` command line.)
 
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/en/download/package-manager/), latest 8.x
-  (LTS) version
+* [Node.js](https://nodejs.org/en/download/package-manager/),
+  latest 10.x (LTS) version
 * [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
 
 Then, run the commands below in your terminal:
@@ -63,9 +63,9 @@ might look through the other tools and try some more of them out.
   * `react-native run-android` - build, then run on an active emulator
     or USB-connected device.  This won't start the emulator automatically.
   * `yarn build:android-nokeys` - build an APK in release mode, just
-    skipping Sentry setup (which requires an authentication token) and
-    skipping signing.  The output APK will be at
-    `android/app/build/outputs/apk/release/app-release-unsigned.apk`.
+    skipping Sentry setup (which requires an authentication token), and
+    using your debug keystore for signing.  The output APK will be at
+    `android/app/build/outputs/apk/release/app-release.apk`.
   * `yarn build:android-nokeys -Psigned` - build an APK in release
     mode, just skipping Sentry setup (which requires an authentication
     token).  The output APK will be at
@@ -92,6 +92,33 @@ next person with a setup like yours.
 
 
 ## Troubleshooting
+
+### `yarn install` failure, at `fsevents`
+
+When running `yarn install` on initial setup, if you see an error like
+this:
+```
+warning Error running install script for optional dependency: "[...]/zulip-mobile/node_modules/fsevents: Command failed.
+Exit code: 1
+Command: node install
+Arguments:
+Directory: [...]/zulip-mobile/node_modules/fsevents
+Output:
+[... lots of output ...]
+
+../../nan/nan_maybe_43_inl.h:112:15: error: no member named 'ForceSet' in 'v8::Object'
+ return obj->ForceSet(isolate->GetCurrentContext(), key, value, attribs);
+        ~~~  ^  return obj->ForceSet(isolate->GetCurrentContext(), key, value, attribs);
+
+[... lots more output ...]
+node-pre-gyp ERR! not ok
+Failed to execute [...]
+```
+then this is a known error caused by using Node 11, which one of our
+dependencies (`fsevents`) isn't yet compatible with.
+
+To fix the problem, use Node 10.x instead.
+
 
 ### Bundling failure: Unable to resolve module ...
 

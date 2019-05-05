@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { Clipboard, Share } from 'react-native';
-import type { Auth, Dispatch, GetText, Message, Narrow, Subscription } from '../types';
+import type { Auth, Dispatch, GetText, Message, Narrow, Outbox, Subscription } from '../types';
 import type { BackgroundData } from '../webview/MessageList';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
@@ -9,12 +9,18 @@ import api, { getMessageContentById, toggleMuteStream, toggleMessageStarred } fr
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
+// TODO really this belongs in a libdef.
+export type ShowActionSheetWithOptions = (
+  { options: string[], cancelButtonIndex: number },
+  (number) => void,
+) => void;
+
 /** Description of a possible option for the action sheet. */
 type ButtonDescription = {
   /** The callback. */
   ({
     auth: Auth,
-    message: Message,
+    message: Message | Outbox,
     subscriptions: Subscription[],
     dispatch: Dispatch,
     _: GetText,
@@ -22,7 +28,7 @@ type ButtonDescription = {
   title: string,
 };
 
-const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
+const isAnOutboxMessage = (message: Message | Outbox): boolean => message.isOutbox;
 
 //
 // Options for the action sheet go below: ...
@@ -36,7 +42,7 @@ reply.title = 'Reply';
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
-    : await getMessageContentById(auth, message.id);
+    : (await getMessageContentById(auth, message.id)).raw_content;
   Clipboard.setString(rawMessage);
   showToast(_('Message copied'));
 };
@@ -138,7 +144,7 @@ const allButtons: { [ButtonCode]: ButtonDescription } = allButtonsRaw;
 
 type ConstructSheetParams = {|
   backgroundData: BackgroundData,
-  message: Message,
+  message: Message | Outbox,
   narrow: Narrow,
 |};
 
@@ -164,7 +170,8 @@ export const constructHeaderActionButtons = ({
   return buttons;
 };
 
-const messageNotDeleted = (message: Message): boolean => message.content !== '<p>(deleted)</p>';
+const messageNotDeleted = (message: Message | Outbox): boolean =>
+  message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = ({
   backgroundData: { auth, flags },
@@ -208,10 +215,7 @@ export const constructMessageActionButtons = ({
 export const showActionSheet = (
   isHeader: boolean,
   dispatch: Dispatch,
-  showActionSheetWithOptions: (
-    { options: string[], cancelButtonIndex: number },
-    (number) => void,
-  ) => void,
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
   _: GetText,
   params: ConstructSheetParams,
 ): void => {

@@ -1,5 +1,5 @@
-/* @flow strict-local */
-import { sleep, timeout, tryUntilSuccessful } from '../async';
+/* @flow strict */
+import { sleep, tryUntilSuccessful } from '../async';
 
 describe('sleep', () => {
   test('waits for a given time in milliseconds', async () => {
@@ -11,30 +11,9 @@ describe('sleep', () => {
   });
 });
 
-describe('timeout', () => {
-  test('when no parameters passed, there is no timeout', async () => {
-    const result = await timeout('hello');
-    expect(result).toEqual('hello');
-  });
-
-  test('if function takes more than the timeout value, the timeoutCallback is called', async () => {
-    const longDurationFunc = new Promise(resolve => setTimeout(resolve, 1000));
-    const timeoutCallback = jest.fn();
-    await timeout(longDurationFunc, timeoutCallback, 100);
-    expect(timeoutCallback).toHaveBeenCalled();
-  });
-
-  test('if no timeout value is passed, the default is 10secs', async () => {
-    const longDurationFunc = new Promise(resolve => setTimeout(resolve, 100));
-    const timeoutCallback = jest.fn();
-    await timeout(longDurationFunc, timeoutCallback);
-    expect(timeoutCallback).not.toHaveBeenCalled();
-  });
-});
-
 describe('tryUntilSuccessful', () => {
   test('resolves any value when there is no exception', async () => {
-    const result = await tryUntilSuccessful(() => 'hello');
+    const result = await tryUntilSuccessful(async () => 'hello');
 
     expect(result).toEqual('hello');
   });
@@ -58,7 +37,7 @@ describe('tryUntilSuccessful', () => {
       return 'hello';
     };
 
-    const result = await tryUntilSuccessful(() => thrower());
+    const result = await tryUntilSuccessful(async () => thrower());
 
     expect(result).toEqual('hello');
   });
@@ -75,7 +54,7 @@ describe('tryUntilSuccessful', () => {
 
     expect.assertions(1);
     try {
-      await tryUntilSuccessful(() => thrower(), 0);
+      await tryUntilSuccessful(async () => thrower(), 0);
     } catch (e) {
       expect(e).toBeTruthy();
     }

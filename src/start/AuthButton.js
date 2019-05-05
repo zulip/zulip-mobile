@@ -1,12 +1,13 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 
 import { ZulipButton } from '../common';
+import type { IconType } from '../common/Icons';
 import styles from '../styles';
 
 type Props = {|
   name: string,
-  Icon: Object,
+  Icon: IconType,
   onPress: () => void,
 |};
 

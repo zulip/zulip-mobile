@@ -1,16 +1,7 @@
-/* @flow */
-import type { GetState, Dispatch, Stream, InitStreamsAction } from '../types';
-import { createStream, updateStream, getStreams, toggleMuteStream, togglePinStream } from '../api';
-import { INIT_STREAMS } from '../actionConstants';
+/* @flow strict-local */
+import type { GetState, Dispatch, Stream } from '../types';
+import { createStream, updateStream, toggleMuteStream, togglePinStream } from '../api';
 import { getAuth } from '../selectors';
-
-export const initStreams = (streams: Stream[]): InitStreamsAction => ({
-  type: INIT_STREAMS,
-  streams,
-});
-
-export const fetchStreams = () => async (dispatch: Dispatch, getState: GetState) =>
-  dispatch(initStreams(await getStreams(getAuth(getState()))));
 
 export const createNewStream = (
   name: string,
@@ -23,8 +14,8 @@ export const createNewStream = (
 
 export const updateExistingStream = (
   id: number,
-  initialValues: Object,
-  newValues: Object,
+  initialValues: Stream,
+  newValues: {| name: string, description: string, isPrivate: boolean |},
 ) => async (dispatch: Dispatch, getState: GetState) => {
   if (initialValues.name !== newValues.name) {
     // Stream names might contain unsafe characters so we must encode it first.

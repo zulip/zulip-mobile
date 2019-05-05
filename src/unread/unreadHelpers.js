@@ -1,8 +1,10 @@
-/* @flow */
-import type { StreamUnreadItem, UnreadPmsState } from '../types';
+/* @flow strict-local */
+import type { HuddlesUnreadItem, PmsUnreadItem, StreamUnreadItem } from '../types';
 import { addItemsToArray, removeItemsFromArray, filterArray } from '../utils/immutability';
 
-export const removeItemsDeeply = (objArray: Object[], messageIds: number[]): Object[] => {
+type SomeUnreadItem = { unread_message_ids: number[] };
+
+export function removeItemsDeeply<T: SomeUnreadItem>(objArray: T[], messageIds: number[]): T[] {
   let changed = false;
   const objWithAddedUnreadIds = objArray.map(obj => {
     const newIds = removeItemsFromArray(obj.unread_message_ids, messageIds);
@@ -32,9 +34,9 @@ export const removeItemsDeeply = (objArray: Object[], messageIds: number[]): Obj
     objWithAddedUnreadIds,
     sender => sender && sender.unread_message_ids.length > 0,
   );
-};
+}
 
-const addItemsDeeply = (input: Object[], itemsToAdd: number[], index: number): Object[] => {
+function addItemsDeeply<T: SomeUnreadItem>(input: T[], itemsToAdd: number[], index: number): T[] {
   const item = input[index];
 
   const unreadMessageIds = addItemsToArray(item.unread_message_ids, itemsToAdd);
@@ -51,13 +53,13 @@ const addItemsDeeply = (input: Object[], itemsToAdd: number[], index: number): O
     },
     ...input.slice(index + 1),
   ];
-};
+}
 
 export const addItemsToPmArray = (
-  input: Object[],
+  input: PmsUnreadItem[],
   itemsToAdd: number[],
   senderId: number,
-): UnreadPmsState => {
+): PmsUnreadItem[] => {
   const index = input.findIndex(sender => sender.sender_id === senderId);
 
   if (index !== -1) {
@@ -74,10 +76,10 @@ export const addItemsToPmArray = (
 };
 
 export const addItemsToHuddleArray = (
-  input: Object[],
+  input: HuddlesUnreadItem[],
   itemsToAdd: number[],
   userIds: string,
-): Object[] => {
+): HuddlesUnreadItem[] => {
   const index = input.findIndex(recipients => recipients.user_ids_string === userIds);
 
   if (index !== -1) {
@@ -98,7 +100,7 @@ export const addItemsToStreamArray = (
   itemsToAdd: number[],
   streamId: number,
   topic: string,
-): Object[] => {
+): StreamUnreadItem[] => {
   const index = input.findIndex(s => s.stream_id === streamId && s.topic === topic);
 
   if (index !== -1) {

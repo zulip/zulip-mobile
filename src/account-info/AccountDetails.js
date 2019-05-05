@@ -1,60 +1,69 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import type { Dispatch, Presence, User } from '../types';
-import { Avatar, ComponentList, RawLabel, ZulipButton } from '../common';
-import { IconPrivateChat } from '../common/Icons';
-import { privateNarrow } from '../utils/narrow';
-import UserStatusIndicator from '../common/UserStatusIndicator';
+import type { User, Dispatch } from '../types';
+import { connect } from '../react-redux';
+import { UserAvatar, ComponentList, RawLabel } from '../common';
+import { getCurrentRealm, getUserStatusTextForUser } from '../selectors';
+import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
-import { getMediumAvatar } from '../utils/avatar';
+import { getAvatarFromUser } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
-import { doNarrow } from '../actions';
 import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
   componentListItem: {
     alignItems: 'center',
   },
-  userStatusWrapper: {
+  statusWrapper: {
     justifyContent: 'center',
     flexDirection: 'row',
   },
+  statusText: {
+    textAlign: 'center',
+  },
 });
 
-type Props = {|
-  dispatch: Dispatch,
-  user: User,
-  presence: Presence,
+const AVATAR_SIZE = 200;
+
+type SelectorProps = {|
+  realm: string,
+  userStatusText: string | void,
 |};
 
-export default class AccountDetails extends PureComponent<Props, void> {
-  handleChatPress = () => {
-    const { user, dispatch } = this.props;
-    dispatch(doNarrow(privateNarrow(user.email)));
-  };
+type Props = {|
+  user: User,
 
+  dispatch: Dispatch,
+  ...SelectorProps,
+|};
+
+class AccountDetails extends PureComponent<Props, void> {
   render() {
-    const { user, presence } = this.props;
-    const screenWidth = Dimensions.get('window').width;
+    const { realm, user, userStatusText } = this.props;
 
     return (
       <View>
-        <Avatar
-          avatarUrl={typeof user.avatar_url === 'string' ? getMediumAvatar(user.avatar_url) : null}
-          name={user.full_name}
-          email={user.email}
-          size={screenWidth}
-          shape="square"
-        />
         <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
-          <View style={componentStyles.userStatusWrapper}>
-            <UserStatusIndicator presence={presence} hideIfOffline={false} />
+          <View>
+            <UserAvatar
+              avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)}
+              size={AVATAR_SIZE}
+            />
+          </View>
+          <View style={componentStyles.statusWrapper}>
+            <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
             <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
           </View>
+          {userStatusText !== undefined && (
+            <RawLabel
+              style={[styles.largerText, componentStyles.statusText]}
+              text={userStatusText}
+            />
+          )}
           <View>
-            <ActivityText style={styles.largerText} email={user.email} />
+            <ActivityText style={styles.largerText} user={user} />
           </View>
           {user.timezone ? (
             <View>
@@ -64,13 +73,13 @@ export default class AccountDetails extends PureComponent<Props, void> {
               />
             </View>
           ) : null}
-          <ZulipButton
-            text="Send private message"
-            onPress={this.handleChatPress}
-            Icon={IconPrivateChat}
-          />
         </ComponentList>
       </View>
     );
   }
 }
+
+export default connect((state, props): SelectorProps => ({
+  realm: getCurrentRealm(state),
+  userStatusText: getUserStatusTextForUser(state, props.user.user_id),
+}))(AccountDetails);

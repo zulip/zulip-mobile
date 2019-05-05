@@ -1,6 +1,13 @@
 /* @flow strict-local */
-import type { Auth, Topic } from './apiTypes';
+import type { Auth, ApiResponseSuccess } from './transportTypes';
+import type { Topic } from './apiTypes';
 import { apiGet } from './apiFetch';
 
-export default async (auth: Auth, streamId: number): Promise<Topic[]> =>
-  apiGet(auth, `users/me/${streamId}/topics`, res => res.topics);
+type ApiResponseTopics = {|
+  ...ApiResponseSuccess,
+  topics: Topic[],
+|};
+
+/** See https://zulipchat.com/api/get-stream-topics */
+export default async (auth: Auth, streamId: number): Promise<ApiResponseTopics> =>
+  apiGet(auth, `users/me/${streamId}/topics`);

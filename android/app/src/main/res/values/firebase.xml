@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--
+    These are used for receiving notifications through the
+    Zulip notification bouncer service:
+      https://zulip.readthedocs.io/en/latest/production/mobile-push-notifications.html
+
+    They represent public identifiers for that service as an application
+    registered with the relevant Google service.  They're derived from
+    a `google-services.json` file.  For details, see:
+      https://developers.google.com/android/guides/google-services-plugin#processing_the_json_file
+   -->
+  <string name="google_app_id" translatable="false">1:835904834568:android:19a01c6476449260</string>
+  <string name="gcm_defaultSenderId" translatable="false">835904834568</string>
+</resources>

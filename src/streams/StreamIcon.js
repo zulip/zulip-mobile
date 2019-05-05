@@ -1,15 +1,15 @@
 /* @flow strict-local */
 import React from 'react';
+import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { IconMute, IconStream, IconPrivate } from '../common/Icons';
-import type { Style } from '../types';
 
 type Props = {|
   color?: string,
   isPrivate: boolean,
   isMuted: boolean,
   size: number,
-  style?: Style,
+  style?: TextStyleProp,
 |};
 
 export default ({ color, style, isPrivate = false, isMuted = false, size }: Props) => {

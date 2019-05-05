@@ -5,7 +5,6 @@ import {
   REALM_INIT,
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
-  MARK_MESSAGES_READ,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
@@ -200,50 +199,6 @@ describe('unreadHuddlesReducers', () => {
         {
           user_ids_string: '0,1,2',
           unread_message_ids: [4],
-        },
-      ];
-
-      const actualState = unreadHuddlesReducers(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
-    });
-  });
-
-  describe('MARK_MESSAGES_READ', () => {
-    test('when ids are not contained already, do not change the state', () => {
-      const initialState = deepFreeze([]);
-
-      const action = deepFreeze({
-        type: MARK_MESSAGES_READ,
-        messageIds: [1, 2, 3],
-      });
-
-      const actualState = unreadHuddlesReducers(initialState, action);
-
-      expect(actualState).toBe(initialState);
-    });
-
-    test('if message ids exist in state, remove them', () => {
-      const initialState = deepFreeze([
-        {
-          user_ids_string: '0,1,2',
-          unread_message_ids: [1, 2, 3, 4, 5],
-        },
-        {
-          user_ids_string: '0,3,4',
-          unread_message_ids: [6, 7],
-        },
-      ]);
-
-      const action = deepFreeze({
-        type: MARK_MESSAGES_READ,
-        messageIds: [1, 2, 3, 6, 7],
-      });
-
-      const expectedState = [
-        {
-          user_ids_string: '0,1,2',
-          unread_message_ids: [4, 5],
         },
       ];
 

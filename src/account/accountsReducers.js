@@ -3,24 +3,18 @@ import {
   REALM_ADD,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
+  ACK_PUSH_TOKEN,
+  UNACK_PUSH_TOKEN,
   LOGOUT,
   ACCOUNT_REMOVE,
 } from '../actionConstants';
 
-import type {
-  AccountsState,
-  AccountAction,
-  RealmAddAction,
-  AccountSwitchAction,
-  AccountRemoveAction,
-  LoginSuccessAction,
-  LogoutAction,
-} from '../types';
+import type { AccountsState, Identity, Action } from '../types';
 import { NULL_ARRAY } from '../nullObjects';
 
 const initialState = NULL_ARRAY;
 
-const realmAdd = (state: AccountsState, action: RealmAddAction): AccountsState => {
+const realmAdd = (state, action) => {
   const accountIndex = state.findIndex(account => account.realm === action.realm);
 
   if (accountIndex !== -1) {
@@ -32,12 +26,13 @@ const realmAdd = (state: AccountsState, action: RealmAddAction): AccountsState =
       realm: action.realm,
       apiKey: '',
       email: '',
+      ackedPushToken: null,
     },
     ...state,
   ];
 };
 
-const accountSwitch = (state: AccountsState, action: AccountSwitchAction): AccountsState => {
+const accountSwitch = (state, action) => {
   if (action.index === 0) {
     return state;
   }
@@ -45,42 +40,59 @@ const accountSwitch = (state: AccountsState, action: AccountSwitchAction): Accou
   return [state[action.index], ...state.slice(0, action.index), ...state.slice(action.index + 1)];
 };
 
-const loginSuccess = (state: AccountsState, action: LoginSuccessAction): AccountsState => {
-  const accountIndex = state.findIndex(
-    account => account.realm === action.realm && (!account.email || account.email === action.email),
+const findAccount = (state: AccountsState, identity: Identity): number => {
+  const { realm, email } = identity;
+  return state.findIndex(
+    account => account.realm === realm && (!account.email || account.email === email),
   );
-
-  const { type, ...newAccount } = action; // eslint-disable-line no-unused-vars
-
-  if (accountIndex === -1) {
-    return [newAccount, ...state];
-  }
-
-  if (accountIndex === 0) {
-    const newState = state.slice();
-    newState[0] = newAccount;
-    return newState;
-  }
-
-  const mergedAccount = {
-    ...state[accountIndex],
-    ...newAccount,
-  };
-  return [mergedAccount, ...state.slice(0, accountIndex), ...state.slice(accountIndex + 1)];
 };
 
-const logout = (state: AccountsState, action: LogoutAction): AccountsState => [
-  { ...state[0], apiKey: '' },
-  ...state.slice(1),
-];
+const loginSuccess = (state, action) => {
+  const { realm, email, apiKey } = action;
+  const accountIndex = findAccount(state, { realm, email });
+  if (accountIndex === -1) {
+    return [{ realm, email, apiKey, ackedPushToken: null }, ...state];
+  }
+  return [
+    { ...state[accountIndex], email, apiKey },
+    ...state.slice(0, accountIndex),
+    ...state.slice(accountIndex + 1),
+  ];
+};
 
-const accountRemove = (state: AccountsState, action: AccountRemoveAction): AccountsState => {
+const ackPushToken = (state, action) => {
+  const { pushToken: ackedPushToken, identity } = action;
+  const accountIndex = findAccount(state, identity);
+  if (accountIndex === -1) {
+    return state;
+  }
+  return [
+    ...state.slice(0, accountIndex),
+    { ...state[accountIndex], ackedPushToken },
+    ...state.slice(accountIndex + 1),
+  ];
+};
+
+const unackPushToken = (state, action) => {
+  const { identity } = action;
+  const accountIndex = findAccount(state, identity);
+  if (accountIndex === -1) {
+    return state;
+  }
+  return [
+    ...state.slice(0, accountIndex),
+    { ...state[accountIndex], ackedPushToken: null },
+    ...state.slice(accountIndex + 1),
+  ];
+};
+
+const accountRemove = (state, action) => {
   const newState = state.slice();
   newState.splice(action.index, 1);
   return newState;
 };
 
-export default (state: AccountsState = initialState, action: AccountAction): AccountsState => {
+export default (state: AccountsState = initialState, action: Action): AccountsState => {
   switch (action.type) {
     case REALM_ADD:
       return realmAdd(state, action);
@@ -91,8 +103,14 @@ export default (state: AccountsState = initialState, action: AccountAction): Acc
     case LOGIN_SUCCESS:
       return loginSuccess(state, action);
 
+    case ACK_PUSH_TOKEN:
+      return ackPushToken(state, action);
+
+    case UNACK_PUSH_TOKEN:
+      return unackPushToken(state, action);
+
     case LOGOUT:
-      return logout(state, action);
+      return [{ ...state[0], apiKey: '' }, ...state.slice(1)];
 
     case ACCOUNT_REMOVE:
       return accountRemove(state, action);

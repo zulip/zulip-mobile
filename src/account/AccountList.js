@@ -2,11 +2,11 @@
 import React, { PureComponent } from 'react';
 import { View, FlatList } from 'react-native';
 
-import type { Account } from '../types';
+import type { AccountStatus } from './accountsSelectors';
 import AccountItem from './AccountItem';
 
 type Props = {|
-  accounts: Account[],
+  accounts: AccountStatus[],
   onAccountSelect: number => void,
   onAccountRemove: number => void,
 |};
@@ -23,7 +23,7 @@ export default class AccountList extends PureComponent<Props> {
           renderItem={({ item, index }) => (
             <AccountItem
               index={index}
-              showDoneIcon={index === 0 && item.apiKey !== ''}
+              showDoneIcon={index === 0 && item.isLoggedIn}
               email={item.email}
               realm={item.realm}
               onSelect={onAccountSelect}

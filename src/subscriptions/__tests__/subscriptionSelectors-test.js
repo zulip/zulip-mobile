@@ -60,7 +60,7 @@ describe('getIsActiveStreamSubscribed', () => {
   test('return true for narrows other than stream and topic', () => {
     const state = deepFreeze({});
 
-    expect(getIsActiveStreamSubscribed(HOME_NARROW)(state)).toBe(true);
+    expect(getIsActiveStreamSubscribed(state, HOME_NARROW)).toBe(true);
   });
 
   test('return true if current narrowed stream is subscribed', () => {
@@ -68,7 +68,7 @@ describe('getIsActiveStreamSubscribed', () => {
       subscriptions: [{ name: 'announce' }],
     });
 
-    expect(getIsActiveStreamSubscribed(streamNarrow('announce'))(state)).toBe(true);
+    expect(getIsActiveStreamSubscribed(state, streamNarrow('announce'))).toBe(true);
   });
 
   test('return false if current narrowed stream is not subscribed', () => {
@@ -76,7 +76,7 @@ describe('getIsActiveStreamSubscribed', () => {
       subscriptions: [{ name: 'announce' }],
     });
 
-    expect(getIsActiveStreamSubscribed(streamNarrow('all'))(state)).toBe(false);
+    expect(getIsActiveStreamSubscribed(state, streamNarrow('all'))).toBe(false);
   });
 
   test('return true if stream of current narrowed topic is subscribed', () => {
@@ -84,7 +84,7 @@ describe('getIsActiveStreamSubscribed', () => {
       subscriptions: [{ name: 'announce' }],
     });
 
-    expect(getIsActiveStreamSubscribed(topicNarrow('announce', 'news'))(state)).toBe(true);
+    expect(getIsActiveStreamSubscribed(state, topicNarrow('announce', 'news'))).toBe(true);
   });
 
   test('return false if stream of current narrowed topic is not subscribed', () => {
@@ -92,7 +92,7 @@ describe('getIsActiveStreamSubscribed', () => {
       subscriptions: [{ name: 'announce' }],
     });
 
-    expect(getIsActiveStreamSubscribed(topicNarrow('all', 'news'))(state)).toBe(false);
+    expect(getIsActiveStreamSubscribed(state, topicNarrow('all', 'news'))).toBe(false);
   });
 });
 

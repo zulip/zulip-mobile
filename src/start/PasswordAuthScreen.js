@@ -1,10 +1,10 @@
-/* @flow */
-import { connect } from 'react-redux';
-
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Auth, Dispatch, GlobalState } from '../types';
+import type { Auth, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { fetchApiKey } from '../api';
 import {
   ErrorMsg,
@@ -19,7 +19,7 @@ import { getPartialAuth } from '../selectors';
 import { isValidEmailFormat } from '../utils/misc';
 import { loginSuccess } from '../actions';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   linksTouchable: {
     alignItems: 'flex-end',
   },
@@ -28,7 +28,7 @@ const componentStyles = StyleSheet.create({
 type Props = {|
   partialAuth: Auth,
   dispatch: Dispatch,
-  navigation: Object,
+  navigation: NavigationScreenProp<{ params: {| requireEmailFormat: boolean |} }>,
 |};
 
 type State = {|
@@ -119,7 +119,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
           onPress={this.validateForm}
         />
         <ErrorMsg error={error} />
-        <View style={componentStyles.linksTouchable}>
+        <View style={styles.linksTouchable}>
           <WebLink label="Forgot password?" href="/accounts/password/reset/" />
         </View>
       </Screen>
@@ -127,6 +127,6 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   partialAuth: getPartialAuth(state),
 }))(PasswordAuthScreen);

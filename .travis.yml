@@ -41,9 +41,8 @@ install:
   - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
 script:
-  - tools/test --full --coverage
+  - TERM=dumb tools/test --full
   - tools/verify-webview-js
-  - cd android && ./gradlew assembleDebug
 
 env:
   - COVERALLS_REPO_TOKEN=4eYQDtWoBJlDz2QkxoQ2UcnmJFcOB7zkv

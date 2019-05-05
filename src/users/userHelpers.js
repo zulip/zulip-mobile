@@ -1,37 +1,24 @@
-/* @flow */
+/* @flow strict-local */
 import uniqby from 'lodash.uniqby';
 
-import type { Presence, User, UserGroup, PresenceState } from '../types';
+import type { UserPresence, User, UserGroup, PresenceState } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
-export const getUserByEmail = (users: User[], userEmail: string): User =>
-  users.find(user => user.email === userEmail) || NULL_USER;
-
-export const getUserById = (users: User[], userId: number): User =>
-  users.find(user => user.user_id === userId) || NULL_USER;
-
-export const groupUsersByInitials = (users: User[]): Object =>
-  users.reduce((accounts, x) => {
-    const firstLetter = x.full_name[0].toUpperCase();
-    if (!accounts[firstLetter]) {
-      accounts[firstLetter] = []; // eslint-disable-line
-    }
-    accounts[firstLetter].push(x);
-    return accounts;
-  }, {});
-
-export const groupUsersByStatus = (users: User[], presences: PresenceState): Object =>
+export const groupUsersByStatus = (
+  users: User[],
+  presences: PresenceState,
+): {| active: User[], idle: User[], offline: User[], unavailable: User[] |} =>
   users.reduce(
     (groupedUsers, user) => {
       const status = statusFromPresence(presences[user.email]);
       groupedUsers[status].push(user);
       return groupedUsers;
     },
-    { active: [], idle: [], offline: [] },
+    { active: [], idle: [], offline: [], unavailable: [] },
   );
 
-const statusOrder = (presence: Presence): number => {
+const statusOrder = (presence: UserPresence): number => {
   const status = statusFromPresence(presence);
   switch (status) {
     case 'active':
@@ -45,7 +32,7 @@ const statusOrder = (presence: Presence): number => {
   }
 };
 
-export const sortUserList = (users: any[], presences: PresenceState): User[] =>
+export const sortUserList = (users: User[], presences: PresenceState): User[] =>
   [...users].sort(
     (x1, x2) =>
       statusOrder(presences[x1.email]) - statusOrder(presences[x2.email])

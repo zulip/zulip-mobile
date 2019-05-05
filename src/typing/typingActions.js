@@ -1,7 +1,7 @@
 /* @flow strict-local */
-import type { ClearTypingAction } from '../types';
+import type { Action } from '../types';
 
-export const clearTyping = (outdatedNotifications: string[]): ClearTypingAction => ({
+export const clearTyping = (outdatedNotifications: string[]): Action => ({
   type: 'CLEAR_TYPING',
   outdatedNotifications,
 });

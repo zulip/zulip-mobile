@@ -1,11 +1,11 @@
 /* @flow strict-local */
-import type { GetState, Dispatch, Narrow, Topic, InitTopicsAction } from '../types';
+import type { GetState, Dispatch, Narrow, Topic, Action } from '../types';
 import { getTopics } from '../api';
 import { INIT_TOPICS } from '../actionConstants';
 import { isStreamNarrow } from '../utils/narrow';
 import { getAuth, getStreams } from '../selectors';
 
-export const initTopics = (topics: Topic[], streamId: number): InitTopicsAction => ({
+export const initTopics = (topics: Topic[], streamId: number): Action => ({
   type: INIT_TOPICS,
   topics,
   streamId,
@@ -13,7 +13,7 @@ export const initTopics = (topics: Topic[], streamId: number): InitTopicsAction 
 
 export const fetchTopics = (streamId: number) => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
-  const topics = await getTopics(auth, streamId);
+  const { topics } = await getTopics(auth, streamId);
   dispatch(initTopics(topics, streamId));
 };
 

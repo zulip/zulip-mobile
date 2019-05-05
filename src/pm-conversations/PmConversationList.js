@@ -1,8 +1,8 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { Dispatch, PmConversationData, PresenceState } from '../types';
+import type { Dispatch, PmConversationData, UserOrBot } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import GroupPmConversationItem from './GroupPmConversationItem';
@@ -18,16 +18,15 @@ const styles = StyleSheet.create({
 type Props = {|
   dispatch: Dispatch,
   conversations: PmConversationData[],
-  presences: PresenceState,
-  usersByEmail: Object,
+  usersByEmail: Map<string, UserOrBot>,
 |};
 
 /**
  * A list describing all PM conversations.
  * */
 export default class PmConversationList extends PureComponent<Props> {
-  handleUserNarrow = (params: { email: string }) => {
-    this.props.dispatch(doNarrow(privateNarrow(params.email)));
+  handleUserNarrow = (email: string) => {
+    this.props.dispatch(doNarrow(privateNarrow(email)));
   };
 
   handleGroupNarrow = (email: string) => {
@@ -35,7 +34,7 @@ export default class PmConversationList extends PureComponent<Props> {
   };
 
   render() {
-    const { conversations, presences, usersByEmail } = this.props;
+    const { conversations, usersByEmail } = this.props;
 
     return (
       <FlatList
@@ -45,7 +44,7 @@ export default class PmConversationList extends PureComponent<Props> {
         keyExtractor={item => item.recipients}
         renderItem={({ item }) => {
           if (item.recipients.indexOf(',') === -1) {
-            const user = usersByEmail[item.recipients];
+            const user = usersByEmail.get(item.recipients);
 
             if (!user) {
               return null;
@@ -56,7 +55,6 @@ export default class PmConversationList extends PureComponent<Props> {
                 email={user.email}
                 fullName={user.full_name}
                 avatarUrl={user.avatar_url}
-                presence={presences[user.email]}
                 unreadCount={item.unread}
                 onPress={this.handleUserNarrow}
               />

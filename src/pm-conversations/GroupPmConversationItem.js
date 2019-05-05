@@ -1,8 +1,9 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
+import type { UserOrBot } from '../types';
+import { GroupAvatar, RawLabel, Touchable, UnreadCount } from '../common';
 import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
@@ -15,7 +16,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {|
   email: string,
-  usersByEmail: Object,
+  usersByEmail: Map<string, UserOrBot>,
   unreadCount: number,
   onPress: (emails: string) => void,
 |};
@@ -31,7 +32,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
 
   render() {
     const { email, usersByEmail, unreadCount } = this.props;
-    const allUsers = email.split(',').map(e => usersByEmail[e]);
+    const allUsers = email.split(',').map(e => usersByEmail.get(e));
 
     const allUsersFound = allUsers.every(user => user);
 
@@ -39,12 +40,13 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
       return null;
     }
 
+    // $FlowFixMe Flow doesn't see the `every` check above.
     const allNames = allUsers.map(user => user.full_name).join(', ');
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.listItem}>
-          <TextAvatar size={32} name={allNames} />
+          <GroupAvatar size={32} names={allNames} />
           <RawLabel
             style={componentStyles.text}
             numberOfLines={2}

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ApiResponse, Auth } from '../apiTypes';
+import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPatch } from '../apiFetch';
 
 const getRequestBody = (opp, value) => {
@@ -23,6 +23,6 @@ export default async ({
   opp: string,
   value: boolean,
 }): Promise<ApiResponse> =>
-  apiPatch(auth, 'settings/notifications', res => res, {
+  apiPatch(auth, 'settings/notifications', {
     ...getRequestBody(opp, value),
   });

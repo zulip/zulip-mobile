@@ -1,12 +1,18 @@
 /* @flow strict-local */
-import type { Auth } from './apiTypes';
+import type { ApiResponseSuccess, Auth } from './transportTypes';
+import type { GeneralEvent } from './eventTypes';
 import { apiGet } from './apiFetch';
 
-export default (auth: Auth, queueId: number, lastEventId: number) =>
+type ApiResponsePollEvents = {|
+  ...ApiResponseSuccess,
+  events: GeneralEvent[],
+|};
+
+/** See https://zulipchat.com/api/get-events-from-queue */
+export default (auth: Auth, queueId: number, lastEventId: number): Promise<ApiResponsePollEvents> =>
   apiGet(
     auth,
     'events',
-    res => res,
     {
       queue_id: queueId,
       last_event_id: lastEventId,

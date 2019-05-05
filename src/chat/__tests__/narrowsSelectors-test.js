@@ -3,7 +3,6 @@ import deepFreeze from 'deep-freeze';
 import {
   getFirstMessageId,
   getLastMessageId,
-  getLastTopicForNarrow,
   getMessagesForNarrow,
   getStreamInNarrow,
   isNarrowValid,
@@ -33,7 +32,7 @@ describe('getMessagesForNarrow', () => {
 
     const expectedState = deepFreeze([state.messages[123]]);
 
-    const anchor = getMessagesForNarrow(HOME_NARROW)(state);
+    const anchor = getMessagesForNarrow(state, HOME_NARROW);
 
     expect(anchor).toEqual(expectedState);
   });
@@ -60,7 +59,7 @@ describe('getMessagesForNarrow', () => {
       },
     });
 
-    const anchor = getMessagesForNarrow(HOME_NARROW)(state);
+    const anchor = getMessagesForNarrow(state, HOME_NARROW);
 
     const expectedState = deepFreeze([
       { id: 123 },
@@ -97,7 +96,7 @@ describe('getMessagesForNarrow', () => {
 
     const expectedState = deepFreeze([state.messages[123]]);
 
-    const anchor = getMessagesForNarrow(HOME_NARROW)(state);
+    const anchor = getMessagesForNarrow(state, HOME_NARROW);
 
     expect(anchor).toEqual(expectedState);
   });
@@ -121,7 +120,7 @@ describe('getMessagesForNarrow', () => {
       ],
     });
 
-    const anchor = getMessagesForNarrow(privateNarrow('john@example.com'))(state);
+    const anchor = getMessagesForNarrow(state, privateNarrow('john@example.com'));
 
     const expectedState = deepFreeze([{ id: 123 }]);
 
@@ -138,7 +137,7 @@ describe('getFirstMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getFirstMessageId(HOME_NARROW)(state);
+    const anchor = getFirstMessageId(state, HOME_NARROW);
 
     expect(anchor).toEqual(undefined);
   });
@@ -156,7 +155,7 @@ describe('getFirstMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getFirstMessageId(HOME_NARROW)(state);
+    const anchor = getFirstMessageId(state, HOME_NARROW);
 
     expect(anchor).toEqual(1);
   });
@@ -172,7 +171,7 @@ describe('getLastMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getLastMessageId(HOME_NARROW)(state);
+    const anchor = getLastMessageId(state, HOME_NARROW);
 
     expect(anchor).toEqual(undefined);
   });
@@ -190,76 +189,9 @@ describe('getLastMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getLastMessageId(HOME_NARROW)(state);
+    const anchor = getLastMessageId(state, HOME_NARROW);
 
     expect(anchor).toEqual(3);
-  });
-});
-
-describe('getLastTopicForNarrow', () => {
-  test('when no messages yet, return empty string', () => {
-    const state = deepFreeze({
-      narrows: {},
-      messages: {},
-      outbox: [],
-    });
-
-    const actualLastTopic = getLastTopicForNarrow(HOME_NARROW)(state);
-
-    expect(actualLastTopic).toEqual('');
-  });
-
-  test('when last message has a `subject` property, return it', () => {
-    const state = deepFreeze({
-      narrows: {
-        [HOME_NARROW_STR]: [0, 1],
-      },
-      messages: {
-        0: { subject: 'First subject' },
-        1: { subject: 'Last subject' },
-      },
-      outbox: [],
-    });
-
-    const actualLastTopic = getLastTopicForNarrow(HOME_NARROW)(state);
-
-    expect(actualLastTopic).toEqual('Last subject');
-  });
-
-  test('when there are messages, but none with a `subject` property, return empty', () => {
-    const narrow = privateNarrow('john@example.com');
-    const state = deepFreeze({
-      narrows: {
-        [JSON.stringify(narrow)]: [0],
-      },
-      messages: {
-        0: {},
-      },
-      outbox: [],
-    });
-
-    const actualLastTopic = getLastTopicForNarrow(narrow)(state);
-
-    expect(actualLastTopic).toEqual('');
-  });
-
-  test('when last message has no `subject` property, return last one that has', () => {
-    const narrow = privateNarrow('john@example.com');
-    const state = deepFreeze({
-      narrows: {
-        [JSON.stringify(narrow)]: [0, 1, 2],
-      },
-      messages: {
-        0: {},
-        1: { id: 1, subject: 'Some subject' },
-        2: {},
-      },
-      outbox: [],
-    });
-
-    const actualLastTopic = getLastTopicForNarrow(narrow)(state);
-
-    expect(actualLastTopic).toEqual('Some subject');
   });
 });
 

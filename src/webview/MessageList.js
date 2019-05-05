@@ -1,7 +1,6 @@
-/* @flow */
+/* @flow strict-local */
 import React, { Component } from 'react';
-import { WebView } from 'react-native';
-import { connect } from 'react-redux';
+import { WebView } from 'react-native-webview';
 
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
@@ -14,25 +13,26 @@ import type {
   Fetching,
   FlagsState,
   GetText,
-  GlobalState,
   Message,
   MuteState,
   Narrow,
-  RealmEmojiType,
+  Outbox,
+  ImageEmojiType,
   RenderedSectionDescriptor,
   Subscription,
   ThemeName,
   User,
 } from '../types';
+import { connect } from '../react-redux';
 import {
   getAuth,
-  getAllRealmEmojiById,
+  getAllImageEmojiById,
   getCurrentTypingUsers,
   getDebug,
   getRenderedMessages,
   getFlags,
-  getAnchorForActiveNarrow,
-  getFetchingForActiveNarrow,
+  getAnchorForNarrow,
+  getFetchingForNarrow,
   getMute,
   getOwnEmail,
   getSettings,
@@ -43,6 +43,7 @@ import {
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
 
+import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { WebviewInputMessage } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
 import getHtml from './html/html';
@@ -68,27 +69,31 @@ export type BackgroundData = $ReadOnly<{
   flags: FlagsState,
   mute: MuteState,
   ownEmail: string,
-  allRealmEmojiById: $ReadOnly<{ [id: string]: RealmEmojiType }>,
+  allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
   twentyFourHourTime: boolean,
   subscriptions: Subscription[],
 }>;
 
-// TODO get a type for `connectActionSheet` so this gets fully type-checked.
-export type Props = {|
+type SelectorProps = {|
   backgroundData: BackgroundData,
-
   anchor: number,
-  dispatch: Dispatch,
   fetching: Fetching,
-  messages: Message[],
-  narrow: Narrow,
+  messages: $ReadOnlyArray<Message | Outbox>,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
   theme: ThemeName,
-  typingUsers: User[],
+  typingUsers: $ReadOnlyArray<User>,
+|};
+
+// TODO get a type for `connectActionSheet` so this gets fully type-checked.
+export type Props = {|
+  narrow: Narrow,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 
   // From `connectActionSheet`.
-  showActionSheetWithOptions: (Object, (number) => void) => void,
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
 
   // From `withGetText`.
   _: GetText,
@@ -96,7 +101,7 @@ export type Props = {|
 
 class MessageList extends Component<Props> {
   context: Context;
-  webview: ?Object;
+  webview: ?{ postMessage: (string, string) => void };
   sendMessagesIsReady: boolean;
   unsentMessages: WebviewInputMessage[] = [];
 
@@ -109,7 +114,7 @@ class MessageList extends Component<Props> {
     this.setupSendMessages();
   }
 
-  handleError = (event: Object) => {
+  handleError = (event: mixed) => {
     console.error(event); // eslint-disable-line
   };
 
@@ -176,6 +181,7 @@ class MessageList extends Component<Props> {
 
     return (
       <WebView
+        useWebKit
         source={{
           baseUrl: auth.realm,
           html,
@@ -207,7 +213,7 @@ type OuterProps = {|
   typingUsers?: User[],
 |};
 
-export default connect((state: GlobalState, props: OuterProps) => {
+export default connect((state, props: OuterProps): SelectorProps => {
   // TODO Ideally this ought to be a caching selector that doesn't change
   // when the inputs don't.  Doesn't matter in a practical way here, because
   // we have a `shouldComponentUpdate` that doesn't look at this prop... but
@@ -219,20 +225,22 @@ export default connect((state: GlobalState, props: OuterProps) => {
     flags: getFlags(state),
     mute: getMute(state),
     ownEmail: getOwnEmail(state),
-    allRealmEmojiById: getAllRealmEmojiById(state),
+    allImageEmojiById: getAllImageEmojiById(state),
     subscriptions: getSubscriptions(state),
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
   };
 
   return {
     backgroundData,
-    anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
-    fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
-    messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
+    anchor: props.anchor !== undefined ? props.anchor : getAnchorForNarrow(props.narrow)(state),
+    fetching: props.fetching || getFetchingForNarrow(props.narrow)(state),
+    messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
     showMessagePlaceholders:
-      props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
+      props.showMessagePlaceholders !== undefined
+        ? props.showMessagePlaceholders
+        : getShowMessagePlaceholders(props.narrow)(state),
     theme: getSettings(state).theme,
-    typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
+    typingUsers: props.typingUsers || getCurrentTypingUsers(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));

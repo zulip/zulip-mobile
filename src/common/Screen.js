@@ -1,17 +1,12 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
+import type { Node as React$Node } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type {
-  Context,
-  Dimensions,
-  GlobalState,
-  LocalizableText,
-  React$Node,
-  Style,
-} from '../types';
+import type { Context, Dimensions, LocalizableText, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import ZulipStatusBar from './ZulipStatusBar';
@@ -36,20 +31,21 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   centerContent: boolean,
-  children: React$Node,
+  +children: React$Node,
   safeAreaInsets: Dimensions,
   keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
   padding: boolean,
   scrollEnabled: boolean,
-  style?: Style,
+  style?: ViewStyleProp,
 
   search: boolean,
   autoFocus: boolean,
   searchBarOnChange: (text: string) => void,
 
   canGoBack: boolean,
-  title: LocalizableText,
+  +title: LocalizableText,
 |};
 
 /**
@@ -126,10 +122,7 @@ class Screen extends PureComponent<Props> {
           contentContainerStyle={[padding && styles.padding]}
         >
           <ScrollView
-            contentContainerStyle={
-              /* $FlowFixMe wants ViewStyleProp */
-              [styles.flexed, centerContent && componentStyles.content, style]
-            }
+            contentContainerStyle={[styles.flexed, centerContent && componentStyles.content, style]}
             style={componentStyles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
             scrollEnabled={scrollEnabled}
@@ -142,6 +135,6 @@ class Screen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   safeAreaInsets: getSession(state).safeAreaInsets,
 }))(Screen);

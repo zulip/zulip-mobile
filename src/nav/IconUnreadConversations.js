@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getUnreadPmsTotal, getUnreadHuddlesTotal } from '../selectors';
 import { IconPeople } from '../common/Icons';
 import { ComponentWithOverlay, UnreadCount } from '../common';
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   unreadHuddlesTotal: number,
   unreadPmsTotal: number,
   color: string,
@@ -39,7 +40,7 @@ class IconUnreadConversations extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   unreadHuddlesTotal: getUnreadHuddlesTotal(state),
   unreadPmsTotal: getUnreadPmsTotal(state),
 }))(IconUnreadConversations);

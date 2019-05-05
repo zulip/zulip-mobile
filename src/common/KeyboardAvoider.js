@@ -1,15 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { ChildrenArray } from 'react';
+import type { Node as React$Node } from 'react';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
-
-import type { Style } from '../types';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 type Props = {|
   behavior?: ?('height' | 'position' | 'padding'),
-  children: ChildrenArray<*>,
-  style?: Style,
-  contentContainerStyle?: Style,
+  children: React$Node,
+  style?: ViewStyleProp,
+  contentContainerStyle?: ViewStyleProp,
 |};
 
 export default class KeyboardAvoider extends PureComponent<Props> {
@@ -22,7 +21,7 @@ export default class KeyboardAvoider extends PureComponent<Props> {
 
     return (
       <KeyboardAvoidingView
-        behavior={behavior /* v--- $FlowFixMe wants ViewStyleProp */}
+        behavior={behavior}
         contentContainerStyle={contentContainerStyle}
         style={style}
       >

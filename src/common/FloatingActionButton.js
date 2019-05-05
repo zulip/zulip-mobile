@@ -1,8 +1,9 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Style } from '../types';
+import type { IconType } from './Icons';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 
@@ -16,10 +17,10 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  style?: Style,
+  style?: ViewStyleProp,
   disabled: boolean,
   size: number,
-  Icon: any,
+  Icon: IconType,
   onPress: () => void,
 |};
 

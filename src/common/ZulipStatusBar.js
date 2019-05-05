@@ -1,11 +1,11 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
-import type { Dimensions, GlobalState, Narrow, ThemeName } from '../types';
+import type { Dimensions, GlobalState, Narrow, Orientation, ThemeName, Dispatch } from '../types';
+import { connectFlowFixMe } from '../react-redux';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
@@ -25,11 +25,12 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     : 'dark-content';
 
 type Props = {
+  dispatch: Dispatch,
   hidden: boolean,
   theme: ThemeName,
   backgroundColor: string,
   safeAreaInsets: Dimensions,
-  orientation: string,
+  orientation: Orientation,
 };
 
 /**
@@ -65,7 +66,7 @@ class ZulipStatusBar extends PureComponent<Props> {
   }
 }
 
-export default connect(
+export default connectFlowFixMe(
   (state: GlobalState, props: { backgroundColor?: string, narrow?: Narrow }) => ({
     safeAreaInsets: getSession(state).safeAreaInsets,
     theme: getSettings(state).theme,

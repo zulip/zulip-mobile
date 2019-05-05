@@ -1,10 +1,10 @@
-/* @flow */
-import { connect } from 'react-redux';
+/* @flow strict-local */
 
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Dispatch, GlobalState, PmConversationData, PresenceState } from '../types';
+import type { Dispatch, PmConversationData, UnreadStreamItem, UserOrBot } from '../types';
+import { connect } from '../react-redux';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -12,7 +12,6 @@ import TopicItem from '../streams/TopicItem';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
 import {
   getLoading,
-  getPresence,
   getUnreadConversations,
   getAllUsersByEmail,
   getUnreadStreamsAndTopicsSansMuted,
@@ -23,9 +22,8 @@ type Props = {|
   conversations: PmConversationData[],
   dispatch: Dispatch,
   isLoading: boolean,
-  presences: PresenceState,
-  usersByEmail: Object,
-  unreadStreamsAndTopics: any /* UnreadStream[] */,
+  usersByEmail: Map<string, UserOrBot>,
+  unreadStreamsAndTopics: UnreadStreamItem[],
 |};
 
 class UnreadCards extends PureComponent<Props> {
@@ -39,7 +37,10 @@ class UnreadCards extends PureComponent<Props> {
 
   render() {
     const { isLoading, conversations, unreadStreamsAndTopics, ...restProps } = this.props;
-    const unreadCards = [
+    type Card =
+      | UnreadStreamItem
+      | { key: 'private', data: Array<$PropertyType<PmConversationList, 'props'>> };
+    const unreadCards: Array<Card> = [
       {
         key: 'private',
         data: [{ conversations, ...restProps }],
@@ -56,6 +57,7 @@ class UnreadCards extends PureComponent<Props> {
     }
 
     return (
+      // $FlowFixMe SectionList libdef seems confused; should take $ReadOnly objects.
       <SectionList
         stickySectionHeadersEnabled
         initialNumToRender={20}
@@ -93,10 +95,9 @@ class UnreadCards extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   isLoading: getLoading(state).unread,
   conversations: getUnreadConversations(state),
-  presences: getPresence(state),
   usersByEmail: getAllUsersByEmail(state),
   unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),
 }))(UnreadCards);

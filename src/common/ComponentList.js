@@ -1,14 +1,16 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node as React$Node } from 'react';
 import { View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { React$Node, Style } from '../types';
+import type { Style } from '../types';
 
 type Props = {|
   children: $ReadOnlyArray<React$Node>,
   spacing?: number,
   outerSpacing: boolean,
-  style?: Style,
+  style?: ViewStyleProp,
   itemStyle?: Style,
 |};
 
@@ -32,18 +34,13 @@ export default class ComponentList extends PureComponent<Props> {
     const { children, itemStyle, spacing, outerSpacing, style } = this.props;
     const outerStyle = outerSpacing ? { margin: spacing } : {};
     const marginStyle = { marginBottom: spacing };
-
-    return (
-      <View style={[style, outerStyle]}>
-        {React.Children.map(
-          children,
-          (child, i) =>
-            child
-            && React.cloneElement(child, {
-              style: [child.props.style, i + 1 < children.length ? marginStyle : {}, itemStyle],
-            }),
-        )}
-      </View>
+    const childrenToRender = React.Children.toArray(children).filter(child => child);
+    const childrenWithStyles = childrenToRender.map((child, i) =>
+      React.cloneElement(child, {
+        style: [child.props.style, i + 1 < childrenToRender.length ? marginStyle : {}, itemStyle],
+      }),
     );
+
+    return <View style={[style, outerStyle]}>{childrenWithStyles}</View>;
   }
 }

@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { User, UserGroup, GlobalState } from '../types';
+import type { User, UserGroup, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getOwnEmail, getSortedUsers, getUserGroups } from '../selectors';
 import {
   getAutocompleteSuggestion,
@@ -15,6 +15,7 @@ import UserItem from '../users/UserItem';
 import UserGroupItem from '../user-groups/UserGroupItem';
 
 type Props = {|
+  dispatch: Dispatch,
   filter: string,
   onAutocomplete: (name: string) => void,
   ownEmail: string,
@@ -27,8 +28,12 @@ class PeopleAutocomplete extends PureComponent<Props> {
     this.props.onAutocomplete(`*${name}*`);
   };
 
-  handleUserItemAutocomplete = ({ fullName }): void => {
-    this.props.onAutocomplete(`**${fullName}**`);
+  handleUserItemAutocomplete = (email: string): void => {
+    const { users, onAutocomplete } = this.props;
+    const user = users.find(x => x.email === email);
+    if (user) {
+      onAutocomplete(`**${user.full_name}**`);
+    }
   };
 
   render() {
@@ -79,7 +84,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   ownEmail: getOwnEmail(state),
   users: getSortedUsers(state),
   userGroups: getUserGroups(state),

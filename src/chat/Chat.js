@@ -2,17 +2,27 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Narrow } from '../types';
+import type { Narrow, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { KeyboardAvoider } from '../common';
 import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 import styles from '../styles';
+import { canSendToNarrow } from '../utils/narrow';
+import { getShowMessagePlaceholders } from '../selectors';
+
+type SelectorProps = {|
+  canSend: boolean,
+|};
 
 type Props = {|
   /* $FlowFixMe: probably this shouldn't be optional */
   narrow?: Narrow,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 const componentStyles = StyleSheet.create({
@@ -23,11 +33,11 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class Chat extends PureComponent<Props> {
+class Chat extends PureComponent<Props> {
   scrollOffset: number = 0;
 
   render() {
-    const { narrow } = this.props;
+    const { canSend, narrow } = this.props;
 
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
@@ -37,9 +47,13 @@ export default class Chat extends PureComponent<Props> {
             <NoMessages narrow={narrow} />
             <UnreadNotice narrow={narrow} />
           </View>
-          <ComposeBox narrow={narrow} />
+          {canSend && <ComposeBox narrow={narrow} />}
         </View>
       </KeyboardAvoider>
     );
   }
 }
+
+export default connect((state, props): SelectorProps => ({
+  canSend: canSendToNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
+}))(Chat);

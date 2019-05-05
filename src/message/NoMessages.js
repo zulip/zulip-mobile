@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Narrow } from '../types';
+import type { Narrow, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getIfNoMessages, getShowMessagePlaceholders } from '../selectors';
 import { Label } from '../common';
 
@@ -47,10 +47,16 @@ const messages: EmptyMessage[] = [
   { isFunc: isSearchNarrow, text: 'No messages' },
 ];
 
-type Props = {|
-  narrow: Narrow,
+type SelectorProps = {|
   showMessagePlaceholders: boolean,
   noMessages: boolean,
+|};
+
+type Props = {|
+  narrow: Narrow,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 class NoMessages extends PureComponent<Props> {
@@ -72,7 +78,7 @@ class NoMessages extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connect((state, props): SelectorProps => ({
   showMessagePlaceholders: getShowMessagePlaceholders(props.narrow)(state),
   noMessages: getIfNoMessages(props.narrow)(state),
 }))(NoMessages);

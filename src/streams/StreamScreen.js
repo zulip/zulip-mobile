@@ -1,9 +1,9 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Dispatch, GlobalState, Stream, Subscription } from '../types';
+import { connectFlowFixMe } from '../react-redux';
 import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
 import { getIsAdmin, getStreamFromId, getSubscriptionFromId } from '../selectors';
@@ -98,8 +98,8 @@ class StreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState, props: Object) => ({
+export default connectFlowFixMe((state: GlobalState, props) => ({
   isAdmin: getIsAdmin(state),
-  stream: getStreamFromId(props.navigation.state.params.streamId)(state),
-  subscription: getSubscriptionFromId(props.navigation.state.params.streamId)(state),
+  stream: getStreamFromId(state, props.navigation.state.params.streamId),
+  subscription: getSubscriptionFromId(state, props.navigation.state.params.streamId),
 }))(StreamScreen);

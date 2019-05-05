@@ -1,9 +1,9 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
 import type { Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { Screen, ViewPlaceholder, ZulipButton } from '../common';
 import { navigateToRealmScreen, navigateToWelcomeHelp } from '../actions';
 

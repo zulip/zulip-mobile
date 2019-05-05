@@ -2,15 +2,15 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { FlatList } from 'react-native';
-import { connect } from 'react-redux';
 
-import type { GlobalState, User, PresenceState } from '../types';
+import type { User, PresenceState, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
-import { getPresence, getUsersSansMe } from '../selectors';
+import { getPresence, getUsersSansMe, getUsersByEmail } from '../selectors';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -27,7 +27,9 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   users: User[],
+  usersByEmail: Map<string, User>,
   presences: PresenceState,
   filter: string,
   onComplete: (selected: User[]) => void,
@@ -45,10 +47,10 @@ class UserPickerCard extends PureComponent<Props, State> {
   listRef: ?FlatList<*>;
 
   handleUserSelect = (email: string) => {
-    const { users } = this.props;
+    const { usersByEmail } = this.props;
     const { selected } = this.state;
 
-    const user = users.find(x => x.email === email);
+    const user = usersByEmail.get(email);
     if (user) {
       this.setState({
         selected: [...selected, user],
@@ -56,7 +58,7 @@ class UserPickerCard extends PureComponent<Props, State> {
     }
   };
 
-  handleUserPress = ({ email }) => {
+  handleUserPress = (email: string) => {
     const { selected } = this.state;
 
     if (selected.find(x => x.email === email)) {
@@ -123,7 +125,8 @@ class UserPickerCard extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   users: getUsersSansMe(state),
+  usersByEmail: getUsersByEmail(state),
   presences: getPresence(state),
 }))(UserPickerCard);

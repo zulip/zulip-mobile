@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Context } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { ThemeName } from '../types';
@@ -38,7 +39,7 @@ export const themeColors: { [string]: ThemeColors } = {
 };
 themeColors.default = themeColors.light;
 
-export const ThemeContext = React.createContext(themeColors.default);
+export const ThemeContext: Context<ThemeColors> = React.createContext(themeColors.default);
 
 export const stylesFromTheme = (name: ThemeName) => {
   const colors = themeColors[name];

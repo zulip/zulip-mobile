@@ -1,20 +1,21 @@
-/* @flow */
-import { connect } from 'react-redux';
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch } from '../types';
+import type { Dispatch, UserOrBot } from '../types';
+import { connect } from '../react-redux';
 import { Screen } from '../common';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 
 type Props = {|
-  navigation: Object,
+  navigation: NavigationScreenProp<{ params: {| recipients: UserOrBot[] |} }>,
   dispatch: Dispatch,
 |};
 
 class GroupDetailsScreen extends PureComponent<Props> {
-  handlePress = ({ email }) => {
+  handlePress = (email: string) => {
     this.props.dispatch(navigateToAccountDetails(email));
   };
 

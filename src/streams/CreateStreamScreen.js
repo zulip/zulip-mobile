@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
-import type { Dispatch, GlobalState } from '../types';
+import type { Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { createNewStream, navigateBack } from '../actions';
 import { getOwnEmail } from '../selectors';
 import { Screen } from '../common';
@@ -34,6 +34,6 @@ class CreateStreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   ownEmail: getOwnEmail(state),
 }))(CreateStreamScreen);

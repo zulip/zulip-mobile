@@ -1,30 +1,36 @@
-/* @flow */
-import { connect } from 'react-redux';
+/* @flow strict-local */
 
 import React, { PureComponent } from 'react';
 import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 'react-native';
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
-import type {
-  ChildrenArray,
-  Dispatch,
-  GlobalState,
-  Orientation as OrientationT,
-  UserIdMap,
-} from '../types';
-import { getSession, getUnreadByHuddlesMentionsAndPMs, getUsersById } from '../selectors';
-import { handleInitialNotification, NotificationListener } from '../utils/notifications';
+import type { Node as React$Node } from 'react';
+import type { Dispatch, Orientation as OrientationT } from '../types';
+import { connect } from '../react-redux';
+import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
+import { handleInitialNotification, NotificationListener } from '../notification';
 import {
   appOnline,
   appOrientation,
   appState,
   initSafeAreaInsets,
   reportPresence,
-  trySendMessages,
 } from '../actions';
 
-const componentStyles = StyleSheet.create({
+/**
+ * Part of the type of upstream's `NetInfo`.
+ *
+ * Based on docs: https://facebook.github.io/react-native/docs/netinfo
+ *
+ * TODO move this to a libdef, and/or get an explicit type into upstream.
+ */
+type ConnectionInfo = {|
+  type: 'none' | 'wifi' | 'cellular' | 'unknown' | 'bluetooth' | 'ethernet' | 'wimax',
+  effectiveType: '2g' | '3g' | '4g' | 'unknown',
+|};
+
+const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     flexDirection: 'column',
@@ -33,11 +39,9 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {|
-  needsInitialFetch: boolean,
   dispatch: Dispatch,
-  children: ChildrenArray<*>,
+  children: React$Node,
   unreadCount: number,
-  usersById: UserIdMap,
 |};
 
 class AppEventHandlers extends PureComponent<Props> {
@@ -46,16 +50,15 @@ class AppEventHandlers extends PureComponent<Props> {
     dispatch(appOrientation(orientation));
   };
 
-  handleConnectivityChange = connectionInfo => {
-    const { dispatch, needsInitialFetch } = this.props;
+  /** https://facebook.github.io/react-native/docs/netinfo */
+  handleConnectivityChange = (connectionInfo: ConnectionInfo) => {
+    const { dispatch } = this.props;
     const isConnected = connectionInfo.type !== 'none' && connectionInfo.type !== 'unknown';
     dispatch(appOnline(isConnected));
-    if (!needsInitialFetch && isConnected) {
-      dispatch(trySendMessages());
-    }
   };
 
-  handleAppStateChange = state => {
+  /** For the type, see docs: https://facebook.github.io/react-native/docs/appstate */
+  handleAppStateChange = (state: 'active' | 'background' | 'inactive') => {
     const { dispatch, unreadCount } = this.props;
     dispatch(reportPresence(state === 'active'));
     dispatch(appState(state === 'active'));
@@ -64,15 +67,15 @@ class AppEventHandlers extends PureComponent<Props> {
     }
   };
 
-  notificationListener = new NotificationListener(this.props.dispatch, this.props.usersById);
+  notificationListener = new NotificationListener(this.props.dispatch);
 
   handleMemoryWarning = () => {
     // Release memory here
   };
 
   componentDidMount() {
-    const { dispatch, usersById } = this.props;
-    handleInitialNotification(dispatch, usersById);
+    const { dispatch } = this.props;
+    handleInitialNotification(dispatch);
 
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
@@ -95,12 +98,10 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 
   render() {
-    return <View style={componentStyles.wrapper}>{this.props.children}</View>;
+    return <View style={styles.wrapper}>{this.props.children}</View>;
   }
 }
 
-export default connect((state: GlobalState) => ({
-  needsInitialFetch: getSession(state).needsInitialFetch,
-  usersById: getUsersById(state),
+export default connect(state => ({
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
 }))(AppEventHandlers);

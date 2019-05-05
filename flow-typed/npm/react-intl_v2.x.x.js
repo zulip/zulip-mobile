@@ -1,5 +1,5 @@
-// flow-typed signature: c3aa29455eb7f759ba4d433975a4ec02
-// flow-typed version: b14d5b4826/react-intl_v2.x.x/flow_>=v0.63.x
+// flow-typed signature: 3902298e28ed22d8cd8d49828801a760
+// flow-typed version: eb50783110/react-intl_v2.x.x/flow_>=v0.63.x
 
 /**
  * Original implementation of this file by @marudor at https://github.com/marudor/flowInterfaces
@@ -121,7 +121,7 @@ declare module "react-intl" {
     data: $npm$ReactIntl$LocaleData | Array<$npm$ReactIntl$LocaleData>
   ): void;
   declare function defineMessages<
-    T: { [key: string]: $npm$ReactIntl$MessageDescriptor }
+    T: { [key: string]: $Exact<$npm$ReactIntl$MessageDescriptor> }
   >(
     messageDescriptors: T
   ): T;
@@ -197,7 +197,7 @@ declare module "react-intl" {
     $npm$ReactIntl$MessageDescriptor & {
       values?: Object,
       tagName?: string,
-      children?: 
+      children?:
         | ((...formattedMessage: Array<React$Node>) => React$Node)
         | (string => React$Node)
     }

@@ -1,11 +1,11 @@
-/* @flow */
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
-import { connect } from 'react-redux';
 
 import type { Dispatch, Narrow } from '../types';
+import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import styles from '../styles';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
@@ -47,13 +47,22 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
 };
 
 class ComposeMenu extends PureComponent<Props> {
-  handleImagePickerResponse = (response: Object) => {
+  handleImagePickerResponse = (response: {
+    didCancel: boolean,
+    // Upstream docs are vague:
+    // https://github.com/react-native-community/react-native-image-picker/blob/master/docs/Reference.md
+    error?: string | void | null | false,
+    uri: string,
+    fileName: string,
+  }) => {
     if (response.didCancel) {
       return;
     }
 
-    if (response.error) {
-      showErrorAlert(response.error, 'Error');
+    // $FlowFixMe sketchy falsiness check, because upstream API is unclear
+    const error: string | null = response.error || null;
+    if (error !== null) {
+      showErrorAlert(error, 'Error');
       return;
     }
 
@@ -106,7 +115,9 @@ class ComposeMenu extends PureComponent<Props> {
             <IconPeople
               style={styles.composeMenuButton}
               size={24}
-              onPress={() => dispatch(navigateToCreateGroup())}
+              onPress={() => {
+                dispatch(navigateToCreateGroup());
+              }}
             />
             <IconImage
               style={styles.composeMenuButton}

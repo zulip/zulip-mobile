@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Auth, ApiResponseSuccess } from '../apiTypes';
+import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
 type ApiResponseRealmCreateFilters = {|
@@ -13,4 +13,4 @@ export default async (
   pattern: string,
   urlFormatString: string,
 ): Promise<ApiResponseRealmCreateFilters> =>
-  apiPost(auth, 'realm/filters', res => res, { pattern, url_format_string: urlFormatString });
+  apiPost(auth, 'realm/filters', { pattern, url_format_string: urlFormatString });

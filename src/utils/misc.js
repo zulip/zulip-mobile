@@ -18,7 +18,7 @@ export function deeperMerge<K, V>(obj1: { [K]: V }, obj2: { [K]: V }): { [K]: V 
   }, ({}: { [K]: V }));
 }
 
-export const initialsFromName = (name: string): string =>
+export const initialsFromString = (name: string): string =>
   (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');
 
 export function groupItemsById<T: { id: number }>(items: T[]): { [id: number]: T } {

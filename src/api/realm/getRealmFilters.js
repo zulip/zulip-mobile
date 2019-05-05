@@ -1,6 +1,12 @@
 /* @flow strict-local */
-import type { Auth, RealmFilter } from '../apiTypes';
+import type { Auth, ApiResponseSuccess } from '../transportTypes';
+import type { RealmFilter } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
-export default async (auth: Auth): Promise<RealmFilter[]> =>
-  apiGet(auth, 'realm/filters', res => res.filters);
+type ApiResponseRealmFilters = {|
+  ...ApiResponseSuccess,
+  filters: RealmFilter[],
+|};
+
+export default async (auth: Auth): Promise<ApiResponseRealmFilters> =>
+  apiGet(auth, 'realm/filters');

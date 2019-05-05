@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { CaughtUpState, CaughtUpAction, MessageFetchCompleteAction } from '../types';
+import type { CaughtUp, CaughtUpState, Action } from '../types';
 import {
   DEAD_QUEUE,
   LOGOUT,
@@ -8,23 +8,17 @@ import {
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../constants';
-import { NULL_CAUGHTUP, NULL_OBJECT } from '../nullObjects';
+import { NULL_OBJECT } from '../nullObjects';
+import { DEFAULT_CAUGHTUP } from './caughtUpSelectors';
 
 const initialState: CaughtUpState = NULL_OBJECT;
 
-const messageFetchComplete = (
-  state: CaughtUpState,
-  action: MessageFetchCompleteAction,
-): CaughtUpState => {
-  const key = JSON.stringify(action.narrow);
-
+/** Try to infer the caught-up state, when the server didn't tell us. */
+const legacyInferCaughtUp = (prevCaughtUp: CaughtUp | void, action) => {
   if (action.anchor === LAST_MESSAGE_ANCHOR) {
     return {
-      ...state,
-      [key]: {
-        older: action.numBefore > action.messages.length,
-        newer: true,
-      },
+      older: action.numBefore > action.messages.length,
+      newer: true,
     };
   }
 
@@ -52,18 +46,15 @@ const messageFetchComplete = (
   const caughtUpOlder = anchorIdx < action.numBefore;
   const caughtUpNewer = action.messages.length - anchorIdx + adjustment < action.numAfter;
 
-  const prevState = state[key] || NULL_CAUGHTUP;
+  const { older: prevOlder, newer: prevNewer } = prevCaughtUp || DEFAULT_CAUGHTUP;
 
   return {
-    ...state,
-    [key]: {
-      older: prevState.older || caughtUpOlder,
-      newer: prevState.newer || caughtUpNewer,
-    },
+    older: prevOlder || caughtUpOlder,
+    newer: prevNewer || caughtUpNewer,
   };
 };
 
-export default (state: CaughtUpState = initialState, action: CaughtUpAction): CaughtUpState => {
+export default (state: CaughtUpState = initialState, action: Action): CaughtUpState => {
   switch (action.type) {
     case DEAD_QUEUE:
     case LOGOUT:
@@ -71,8 +62,20 @@ export default (state: CaughtUpState = initialState, action: CaughtUpAction): Ca
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case MESSAGE_FETCH_COMPLETE:
-      return messageFetchComplete(state, action);
+    case MESSAGE_FETCH_COMPLETE: {
+      const key = JSON.stringify(action.narrow);
+      let caughtUp;
+      if (action.foundNewest !== undefined && action.foundOldest !== undefined) {
+        /* This should always be the case for Zulip Server v1.8 or newer. */
+        caughtUp = { older: action.foundOldest, newer: action.foundNewest };
+      } else {
+        caughtUp = legacyInferCaughtUp(state[key], action);
+      }
+      return {
+        ...state,
+        [key]: caughtUp,
+      };
+    }
 
     default:
       return state;

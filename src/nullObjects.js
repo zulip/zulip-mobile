@@ -1,15 +1,5 @@
 /* @flow strict-local */
-import type {
-  User,
-  Subscription,
-  Presence,
-  PresenceAggregated,
-  CaughtUp,
-  Fetching,
-  NavigationState,
-} from './types';
-
-export const nullFunction = () => {};
+import type { User, Subscription } from './types';
 
 export const NULL_OBJECT = Object.freeze({});
 
@@ -51,36 +41,4 @@ export const NULL_SUBSCRIPTION: Subscription = {
   is_old_stream: false,
   is_announcement_only: false,
   history_public_to_subscribers: false,
-};
-
-/** DEPRECATED; don't add new uses.  See block comment above definition. */
-export const NULL_PRESENCE_AGGREGATED: PresenceAggregated = {
-  client: '',
-  status: 'offline',
-  timestamp: 0,
-};
-
-/** DEPRECATED; don't add new uses.  See block comment above definition. */
-export const NULL_PRESENCE: Presence = {
-  aggregated: NULL_PRESENCE_AGGREGATED,
-};
-
-/** DEPRECATED; don't add new uses.  See block comment above definition. */
-export const NULL_CAUGHTUP: CaughtUp = {
-  older: false,
-  newer: false,
-};
-
-/** DEPRECATED; don't add new uses.  See block comment above definition. */
-export const NULL_FETCHING: Fetching = {
-  older: false,
-  newer: false,
-};
-
-/** DEPRECATED; don't add new uses.  See block comment above definition. */
-export const NULL_NAV_STATE: NavigationState = {
-  index: -1,
-  isTransitioning: false,
-  key: '',
-  routes: [],
 };

@@ -1,18 +1,18 @@
 /* @flow strict-local */
-import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, GlobalState, Message } from '../types';
+import type { Auth, Message, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW, SEARCH_NARROW } from '../utils/narrow';
 import MessageList from '../webview/MessageList';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
-import { NULL_ARRAY, NULL_FETCHING } from '../nullObjects';
+import { NULL_ARRAY } from '../nullObjects';
 import { getAuth } from '../selectors';
 import { LAST_MESSAGE_ANCHOR } from '../constants';
 
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
+  dispatch: Dispatch,
   auth: Auth,
   query: string,
 |};
@@ -43,7 +44,7 @@ class SearchMessagesCard extends PureComponent<Props, State> {
 
     throttle(async () => {
       this.setState({ isFetching: true });
-      const messages = await getMessages(
+      const { messages } = await getMessages(
         auth,
         SEARCH_NARROW(query),
         LAST_MESSAGE_ANCHOR,
@@ -63,6 +64,8 @@ class SearchMessagesCard extends PureComponent<Props, State> {
       this.handleQueryChange(this.props.query);
     }
   }
+
+  static NOT_FETCHING = { older: false, newer: false };
 
   render() {
     const { isFetching, messages } = this.state;
@@ -86,7 +89,7 @@ class SearchMessagesCard extends PureComponent<Props, State> {
             messages={messages}
             narrow={HOME_NARROW}
             renderedMessages={renderedMessages}
-            fetching={NULL_FETCHING}
+            fetching={SearchMessagesCard.NOT_FETCHING}
             showMessagePlaceholders={false}
             typingUsers={NULL_ARRAY}
           />
@@ -96,6 +99,6 @@ class SearchMessagesCard extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect(state => ({
   auth: getAuth(state),
 }))(SearchMessagesCard);

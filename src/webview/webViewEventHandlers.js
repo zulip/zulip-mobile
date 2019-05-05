@@ -1,8 +1,11 @@
-/* @flow */
+/* @flow strict-local */
+import { Clipboard } from 'react-native';
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import type { Dispatch, GetText, Message, Narrow } from '../types';
+import type { Dispatch, GetText, Message, Narrow, Outbox } from '../types';
 import type { BackgroundData } from './MessageList';
+import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import { showToast } from '../utils/info';
 import { isUrlAnImage } from '../utils/url';
 import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -77,8 +80,9 @@ type MessageListEventUrl = {|
 
 type MessageListEventLongPress = {|
   type: 'longPress',
-  target: 'message' | 'header',
+  target: 'message' | 'header' | 'link',
   messageId: number,
+  href: string | null,
 |};
 
 type MessageListEventDebug = {|
@@ -92,7 +96,7 @@ type MessageListEventError = {|
     source: string,
     line: number,
     column: number,
-    error: Object,
+    error: mixed,
   },
 |};
 
@@ -111,9 +115,9 @@ export type MessageListEvent =
 type Props = $ReadOnly<{
   backgroundData: BackgroundData,
   dispatch: Dispatch,
-  messages: Message[],
+  messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
-  showActionSheetWithOptions: (Object, (number) => void) => void,
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
 }>;
 
 const fetchMore = (props: Props, event: MessageListEventScroll) => {
@@ -145,18 +149,29 @@ const markRead = (props: Props, event: MessageListEventScroll) => {
 
 const handleImage = (props: Props, src: string, messageId: number) => {
   const message = props.messages.find(x => x.id === messageId);
-  if (message) {
+  if (message && !message.isOutbox) {
     props.dispatch(navigateToLightbox(src, message));
   }
 };
 
-const handleLongPress = (props: Props, _: GetText, isHeader: boolean, messageId: number) => {
+const handleLongPress = (
+  props: Props,
+  _: GetText,
+  target: 'message' | 'header' | 'link',
+  messageId: number,
+  href: string | null,
+) => {
+  if (href !== null) {
+    Clipboard.setString(href);
+    showToast(_('Link copied to clipboard'));
+    return;
+  }
   const message = props.messages.find(x => x.id === messageId);
   if (!message) {
     return;
   }
   const { dispatch, showActionSheetWithOptions, backgroundData, narrow } = props;
-  showActionSheet(isHeader, dispatch, showActionSheetWithOptions, _, {
+  showActionSheet(target === 'header', dispatch, showActionSheetWithOptions, _, {
     backgroundData,
     message,
     narrow,
@@ -187,7 +202,7 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
       break;
 
     case 'longPress':
-      handleLongPress(props, _, event.target === 'header', event.messageId);
+      handleLongPress(props, _, event.target, event.messageId, event.href);
       break;
 
     case 'url':

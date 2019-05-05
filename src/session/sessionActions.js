@@ -1,17 +1,5 @@
-/* @flow */
-import type {
-  AppOnlineAction,
-  AppStateAction,
-  DeadQueueAction,
-  CancelEditMessageAction,
-  AppOrientationAction,
-  DebugFlagToggleAction,
-  InitSafeAreaInsetsAction,
-  Dimensions,
-  Dispatch,
-  GetState,
-  Orientation,
-} from '../types';
+/* @flow strict-local */
+import type { Action, Dimensions, Dispatch, GetState, Orientation } from '../types';
 import {
   APP_ONLINE,
   APP_ORIENTATION,
@@ -23,71 +11,50 @@ import {
   START_EDIT_MESSAGE,
 } from '../actionConstants';
 import { getMessageContentById } from '../api';
-import { getAuth, getIsOnline, getIsActive } from '../selectors';
+import { getAuth } from '../selectors';
 
-export const appOnline = (isOnline: boolean) => (
-  dispatch: Dispatch,
-  getState: GetState,
-): ?AppOnlineAction => {
-  if (isOnline !== getIsOnline(getState())) {
-    dispatch({
-      type: APP_ONLINE,
-      isOnline,
-    });
-  }
-};
+export const appOnline = (isOnline: boolean): Action => ({
+  type: APP_ONLINE,
+  isOnline,
+});
 
-export const appState = (isActive: boolean) => (
-  dispatch: Dispatch,
-  getState: GetState,
-): ?AppStateAction => {
-  if (isActive !== getIsActive(getState())) {
-    dispatch({
-      type: APP_STATE,
-      isActive,
-    });
-  }
-};
+export const appState = (isActive: boolean): Action => ({
+  type: APP_STATE,
+  isActive,
+});
 
-export const deadQueue = (): DeadQueueAction => ({
+export const deadQueue = (): Action => ({
   type: DEAD_QUEUE,
 });
 
-export const initSafeAreaInsets = (safeAreaInsets: Dimensions): InitSafeAreaInsetsAction => ({
+export const initSafeAreaInsets = (safeAreaInsets: Dimensions): Action => ({
   type: INIT_SAFE_AREA_INSETS,
   safeAreaInsets,
 });
 
-export const appOrientation = (orientation: Orientation) => (
-  dispatch: Dispatch,
-  getState: GetState,
-): ?AppOrientationAction => {
-  if (orientation !== getState().session.orientation) {
-    dispatch({
-      type: APP_ORIENTATION,
-      orientation,
-    });
-  }
-};
+export const appOrientation = (orientation: Orientation): Action => ({
+  type: APP_ORIENTATION,
+  orientation,
+});
 
 export const startEditMessage = (messageId: number, topic: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const message = await getMessageContentById(getAuth(getState()), messageId);
+  const { raw_content } = await getMessageContentById(getAuth(getState()), messageId);
   dispatch({
     type: START_EDIT_MESSAGE,
     messageId,
-    message,
+    message: raw_content,
     topic,
   });
 };
 
-export const cancelEditMessage = (): CancelEditMessageAction => ({
+export const cancelEditMessage = (): Action => ({
   type: CANCEL_EDIT_MESSAGE,
 });
 
-export const debugFlagToggle = (key: string, value: any): DebugFlagToggleAction => ({
+export const debugFlagToggle = (key: string, value: boolean): Action => ({
   type: DEBUG_FLAG_TOGGLE,
   key,
   value,

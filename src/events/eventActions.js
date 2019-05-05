@@ -1,7 +1,7 @@
-/* @flow */
+/* @flow strict-local */
 import { batchActions } from 'redux-batched-actions';
 
-import type { Action, Dispatch, GetState, GlobalState } from '../types';
+import type { Action, Dispatch, GeneralEvent, GetState, GlobalState } from '../types';
 import { pollForEvents } from '../api';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
@@ -10,8 +10,11 @@ import { tryGetAuth } from '../selectors';
 import actionCreator from '../actionCreator';
 import progressiveTimeout from '../utils/progressiveTimeout';
 
-export const responseToActions = (state: GlobalState, response: Object): Action[] =>
-  response.events
+export const responseToActions = (
+  state: GlobalState,
+  events: $ReadOnlyArray<GeneralEvent>,
+): Action[] =>
+  events
     .map(event => {
       eventMiddleware(state, event);
       return eventToAction(state, event);
@@ -53,19 +56,19 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
     }
 
     try {
-      const response = await pollForEvents(auth, queueId, lastEventId);
+      const { events } = await pollForEvents(auth, queueId, lastEventId);
 
       // User switched accounts or logged out
       if (queueId !== getState().session.eventQueueId) {
         break;
       }
 
-      const actions = responseToActions(getState(), response);
+      const actions = responseToActions(getState(), events);
 
       actionCreator(dispatch, actions, getState());
       dispatchOrBatch(dispatch, actions);
 
-      lastEventId = Math.max.apply(null, [lastEventId, ...response.events.map(x => x.id)]);
+      lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
     } catch (e) {
       // protection from inadvertent DDOS
       await progressiveTimeout();

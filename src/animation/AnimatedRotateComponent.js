@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { ChildrenArray } from 'react';
+import type { Node as React$Node } from 'react';
 import { Animated, Easing } from 'react-native';
 
 import type { Style } from '../types';
 
 type Props = {|
   style?: Style,
-  children: ChildrenArray<*>,
+  children: React$Node,
 |};
 
 export default class AnimatedRotateComponent extends PureComponent<Props> {

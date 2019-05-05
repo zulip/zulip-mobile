@@ -1,16 +1,16 @@
 /* @flow strict-local */
-import type { ChildrenArray } from 'react';
-import { connect } from 'react-redux';
+import type { Node as React$Node } from 'react';
 
 import { PureComponent } from 'react';
 import { BackHandler } from 'react-native';
 
 import type { Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { getCanGoBack } from '../selectors';
 import { navigateBack } from '../actions';
 
 type Props = {|
-  children: ChildrenArray<*>,
+  children: React$Node,
   canGoBack: boolean,
   dispatch: Dispatch,
 |};

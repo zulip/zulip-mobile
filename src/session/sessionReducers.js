@@ -1,23 +1,5 @@
 /* @flow strict-local */
-import type {
-  SessionState,
-  SessionAction,
-  RehydrateAction,
-  AccountSwitchAction,
-  AppStateAction,
-  AppOnlineAction,
-  DeadQueueAction,
-  DoNarrowAction,
-  InitialFetchCompleteAction,
-  InitSafeAreaInsetsAction,
-  AppOrientationAction,
-  StartEditMessageAction,
-  CancelEditMessageAction,
-  LoginSuccessAction,
-  RealmInitAction,
-  DebugFlagToggleAction,
-  ToggleOutboxSendingAction,
-} from '../types';
+import type { Debug, Dimensions, EditMessage, Narrow, Orientation, Action } from '../types';
 import {
   REHYDRATE,
   DEAD_QUEUE,
@@ -34,8 +16,48 @@ import {
   START_EDIT_MESSAGE,
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
+  GOT_PUSH_TOKEN,
 } from '../actionConstants';
 import { hasAuth } from '../account/accountsSelectors';
+
+/**
+ * Miscellaneous non-persistent state about this run of the app.
+ *
+ * @prop lastNarrow - the last narrow we navigated to.  If the user is
+ *   currently in a chat screen this will also be the "current" narrow,
+ *   but they may also be on an associated info screen or have navigated
+ *   away entirely.
+ */
+export type SessionState = {|
+  eventQueueId: number,
+  editMessage: ?EditMessage,
+  isOnline: boolean,
+  isActive: boolean,
+  isHydrated: boolean,
+  lastNarrow: ?Narrow,
+  needsInitialFetch: boolean,
+  orientation: Orientation,
+  outboxSending: boolean,
+
+  /**
+   * Our actual device token, as most recently learned from the system.
+   *
+   * With FCM/GCM this is the "registration token"; with APNs the "device token".
+   *
+   * This is `null` before we've gotten a token.
+   *
+   * See upstream docs:
+   *   https://firebase.google.com/docs/cloud-messaging/android/client#sample-register
+   *   https://developers.google.com/cloud-messaging/android/client
+   *   https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns
+   */
+  pushToken: string | null,
+
+  /** For background, google [ios safe area]. */
+  safeAreaInsets: Dimensions,
+
+  debug: Debug,
+|};
 
 const initialState: SessionState = {
   eventQueueId: -1,
@@ -47,6 +69,7 @@ const initialState: SessionState = {
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
+  pushToken: null,
   safeAreaInsets: {
     bottom: 0,
     left: 0,
@@ -59,15 +82,7 @@ const initialState: SessionState = {
   },
 };
 
-const loginSuccess = (
-  state: SessionState,
-  action: DeadQueueAction | LoginSuccessAction | AccountSwitchAction,
-): SessionState => ({
-  ...state,
-  needsInitialFetch: true,
-});
-
-const rehydrate = (state: SessionState, action: RehydrateAction): SessionState => {
+const rehydrate = (state, action) => {
   const { payload } = action;
   const haveApiKey = !!(payload && payload.accounts && hasAuth(payload));
   return {
@@ -80,116 +95,94 @@ const rehydrate = (state: SessionState, action: RehydrateAction): SessionState =
   };
 };
 
-const realmInit = (state: SessionState, action: RealmInitAction): SessionState => ({
-  ...state,
-  eventQueueId: action.data.queue_id,
-});
-
-const doNarrow = (state: SessionState, action: DoNarrowAction): SessionState => ({
-  ...state,
-  lastNarrow: action.narrow,
-});
-
-const appOnline = (state: SessionState, action: AppOnlineAction): SessionState => ({
-  ...state,
-  isOnline: action.isOnline,
-});
-
-const appState = (state: SessionState, action: AppStateAction): SessionState => ({
-  ...state,
-  isActive: action.isActive,
-});
-
-const initialFetchComplete = (
-  state: SessionState,
-  action: InitialFetchCompleteAction,
-): SessionState => ({
-  ...state,
-  needsInitialFetch: false,
-});
-
-const initSafeAreaInsets = (
-  state: SessionState,
-  action: InitSafeAreaInsetsAction,
-): SessionState => ({
-  ...state,
-  safeAreaInsets: action.safeAreaInsets,
-});
-
-const appOrientation = (state: SessionState, action: AppOrientationAction): SessionState => ({
-  ...state,
-  orientation: action.orientation,
-});
-
-const cancelEditMessage = (state: SessionState, action: CancelEditMessageAction): SessionState => ({
-  ...state,
-  editMessage: null,
-});
-
-const startEditMessage = (state: SessionState, action: StartEditMessageAction): SessionState => ({
-  ...state,
-  editMessage: {
-    id: action.messageId,
-    content: action.message,
-    topic: action.topic,
-  },
-});
-
-const toggleOutboxSending = (
-  state: SessionState,
-  action: ToggleOutboxSendingAction,
-): SessionState => ({ ...state, outboxSending: action.sending });
-
-const debugFlagToggle = (state: SessionState, action: DebugFlagToggleAction): SessionState => ({
-  ...state,
-  debug: {
-    ...state.debug,
-    [action.key]: action.value,
-  },
-});
-
-export default (state: SessionState = initialState, action: SessionAction): SessionState => {
+export default (state: SessionState = initialState, action: Action): SessionState => {
   switch (action.type) {
     case DEAD_QUEUE:
     case ACCOUNT_SWITCH:
     case LOGIN_SUCCESS:
-      return loginSuccess(state, action);
+      return {
+        ...state,
+        needsInitialFetch: true,
+      };
 
     case REHYDRATE:
       return rehydrate(state, action);
 
     case REALM_INIT:
-      return realmInit(state, action);
+      return {
+        ...state,
+        eventQueueId: action.data.queue_id,
+      };
 
     case DO_NARROW:
-      return doNarrow(state, action);
+      return {
+        ...state,
+        lastNarrow: action.narrow,
+      };
 
     case APP_ONLINE:
-      return appOnline(state, action);
+      return {
+        ...state,
+        isOnline: action.isOnline,
+      };
 
     case APP_STATE:
-      return appState(state, action);
+      return {
+        ...state,
+        isActive: action.isActive,
+      };
 
     case INITIAL_FETCH_COMPLETE:
-      return initialFetchComplete(state, action);
+      return {
+        ...state,
+        needsInitialFetch: false,
+      };
 
     case INIT_SAFE_AREA_INSETS:
-      return initSafeAreaInsets(state, action);
+      return {
+        ...state,
+        safeAreaInsets: action.safeAreaInsets,
+      };
 
     case APP_ORIENTATION:
-      return appOrientation(state, action);
+      return {
+        ...state,
+        orientation: action.orientation,
+      };
+
+    case GOT_PUSH_TOKEN:
+      return {
+        ...state,
+        pushToken: action.pushToken,
+      };
 
     case CANCEL_EDIT_MESSAGE:
-      return cancelEditMessage(state, action);
+      return {
+        ...state,
+        editMessage: null,
+      };
 
     case START_EDIT_MESSAGE:
-      return startEditMessage(state, action);
+      return {
+        ...state,
+        editMessage: {
+          id: action.messageId,
+          content: action.message,
+          topic: action.topic,
+        },
+      };
 
     case TOGGLE_OUTBOX_SENDING:
-      return toggleOutboxSending(state, action);
+      return { ...state, outboxSending: action.sending };
 
     case DEBUG_FLAG_TOGGLE:
-      return debugFlagToggle(state, action);
+      return {
+        ...state,
+        debug: {
+          ...state.debug,
+          [action.key]: action.value,
+        },
+      };
 
     default:
       return state;

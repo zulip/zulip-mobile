@@ -24,15 +24,14 @@ Options:
               \`git help revisions\` for many more ways to name a commit.)
 
 Suites:
+  android
   flow
   lint
   jest
   prettier
   spell
 
-By default:
- * without --full, all suites are run;
- * with --full, all suites but \`spell\` are run.
+By default, all suites but \`spell\` are run.
 EOF
     exit 2
 }
@@ -47,15 +46,14 @@ while (( $# )); do
         --diff) shift; files=diff:"$1"; shift;;
         --full) files=full; shift;;
         --fix) fix=1; shift;;
-        flow|lint|jest|prettier|spell)
+        android|flow|lint|jest|prettier|spell)
             suites+=("$1"); shift;;
         *) usage;;
     esac
 done
 
 if [ -z "$suites" ]; then
-    suites=(flow lint jest prettier)
-    [ "$files" != full ] && suites+=(spell)
+    suites=(android flow lint jest prettier)
 fi
 
 
@@ -81,31 +79,58 @@ files_js() {
     esac
 }
 
+run_android() {
+    # Unlike some others, this inspects "$files" for itself.
+    case "$files" in
+        full)
+            ;;
+        branch)
+            git diff --quiet "$(tools/info base-commit)" android/ \
+                && return
+            ;;
+        diff:*)
+            git diff --quiet "${files#diff:}" android/ \
+                && return
+            ;;
+    esac
+    (
+        cd android
+
+        ./gradlew -q assembleDebug assembleDebugUnitTest || exit
+
+        # The `-q` suppresses noise from warnings about obsolete build config
+        # in our dependencies from the React Native ecosystem.
+        # But it also suppresses the names of tests that failed.
+        # So on failure, rerun without it.
+        ./gradlew -q testDebugUnitTest \
+            || ./gradlew testDebugUnitTest || exit
+    )
+}
+
 run_lint() {
     (( $# )) || return 0
     eslint ${fix:+--fix} --max-warnings=0 "$@"
 }
 
 run_jest() {
-    # Unlike the others, this inspects "$files" for itself.
+    # Unlike some others, this inspects "$files" for itself.
+    jest_args=()
     case "$files" in
         full)
             if [ -n "$coverage" ]; then
-                jest --coverage
-                coveralls <./coverage/lcov.info
-            else
-                jest
+                jest_args+=( --coverage )
             fi
             ;;
         branch)
-            jest --changedSince "$(tools/info upstream-ref)"
+            jest_args+=( --changedSince "$(tools/info upstream-ref)" )
             ;;
         diff:*)
             file_list=( $(files_js) )
             (( ${#file_list[@]} )) || return 0
-            jest --findRelatedTests "${file_list[@]}"
+            jest_args+=( --findRelatedTests "${file_list[@]}" )
             ;;
     esac
+    jest "${jest_args[@]}"
 }
 
 run_prettier() {
@@ -127,6 +152,9 @@ failed=()
 for suite in "${suites[@]}"; do
     echo "Running $suite..."
     case "$suite" in
+        android)
+            run_android
+            ;;
         flow)
             flow
             ;;

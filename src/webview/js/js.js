@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict-local */
 import type { Auth } from '../../types';
 import type {
   WebviewInputMessage,
@@ -7,6 +7,7 @@ import type {
   MessageInputTyping,
   MessageInputReady,
 } from '../webViewHandleUpdates';
+import type { MessageListEvent } from '../webViewEventHandlers';
 
 /*
  * Supported platforms:
@@ -74,7 +75,7 @@ const escapeHtml = (text: string): string => {
   return element.innerHTML;
 };
 
-const sendMessage = (msg: Object) => {
+const sendMessage = (msg: MessageListEvent) => {
   window.postMessage(JSON.stringify(msg), '*');
 };
 
@@ -242,7 +243,7 @@ function someVisibleMessage(top: number, bottom: number): ?Element {
 
 function idFromMessage(element: Element): number {
   const idStr = element.getAttribute('data-msg-id');
-  if (!idStr) {
+  if (idStr === null || idStr === undefined) {
     throw new Error('Bad message element');
   }
   return +idStr;
@@ -349,12 +350,13 @@ const sendScrollMessageIfListShort = () => {
  */
 let scrollEventsDisabled = true;
 
-let lastTouchEventTimestamp = 0;
+let hasLongPressed = false;
+let longPressTimeout;
 let lastTouchPositionX = -1;
 let lastTouchPositionY = -1;
 
 const handleScrollEvent = () => {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
   if (scrollEventsDisabled) {
     return;
   }
@@ -545,9 +547,24 @@ document.addEventListener('message', e => {
  *
  */
 
+const requireAttribute = (e: Element, name: string): string => {
+  const value = e.getAttribute(name);
+  if (value === null || value === undefined) {
+    throw new Error(`Missing expected attribute ${name}`);
+  }
+  return value;
+};
+
 documentBody.addEventListener('click', (e: MouseEvent) => {
   e.preventDefault();
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
+
+  /* Without a flag `hasLongPressed`, both the short press and the long
+   * press actions get triggered. See PR #3404 for more context. */
+  if (hasLongPressed) {
+    hasLongPressed = false;
+    return;
+  }
 
   const { target } = e;
 
@@ -563,7 +580,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromEmail: target.getAttribute('data-email'),
+      fromEmail: requireAttribute(target, 'data-email'),
     });
     return;
   }
@@ -571,7 +588,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('.header')) {
     sendMessage({
       type: 'narrow',
-      narrow: target.getAttribute('data-narrow'),
+      narrow: requireAttribute(target, 'data-narrow'),
     });
     return;
   }
@@ -587,7 +604,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   ) {
     sendMessage({
       type: 'image',
-      src: inlineImageLink.getAttribute('href'), // TODO: should be `src` / `data-src-fullsize`.
+      src: requireAttribute(inlineImageLink, 'href'), // TODO: should be `src` / `data-src-fullsize`.
       messageId: getMessageIdFromNode(inlineImageLink),
     });
     return;
@@ -596,7 +613,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('a')) {
     sendMessage({
       type: 'url',
-      href: target.getAttribute('href'),
+      href: requireAttribute(target, 'href'),
       messageId: getMessageIdFromNode(target),
     });
     return;
@@ -605,7 +622,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
     sendMessage({
       type: 'url',
-      href: target.parentNode.getAttribute('href'),
+      href: requireAttribute(target.parentNode, 'href'),
       messageId: getMessageIdFromNode(target.parentNode),
     });
     return;
@@ -614,9 +631,9 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('.reaction')) {
     sendMessage({
       type: 'reaction',
-      name: target.getAttribute('data-name'),
-      code: target.getAttribute('data-code'),
-      reactionType: target.getAttribute('data-type'),
+      name: requireAttribute(target, 'data-name'),
+      code: requireAttribute(target, 'data-code'),
+      reactionType: requireAttribute(target, 'data-type'),
       messageId: getMessageIdFromNode(target),
       voted: target.classList.contains('self-voted'),
     });
@@ -624,28 +641,18 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
 });
 
 const handleLongPress = (target: Element) => {
-  // The logic that defines a "long press" in terms of raw touch events
-  // is pretty subtle.  The `lastTouchEventTimestamp` and surrounding logic
-  // are an attempt to define a long press.
-  //
-  // TODO: The logic around this "timestamp" is a bit obscure; it's
-  // sometimes a real timestamp, other times 0 as sort of a boolean flag.
-  // It would be good to clean it up to be clearer.
-  //
-  // At the same time, the logic is believed not to cover all the cases it
-  // should; for example, multi-touch events.  Better would be to either find
-  // a library we can use which strives to handle all that complexity, or
+  // The logic is believed not to cover all the cases it should; for
+  // example, multi-touch events. Better would be to either find a
+  // library we can use which strives to handle all that complexity, or
   // get long-press events from the platform.
-  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) {
-    return;
-  }
 
-  lastTouchEventTimestamp = 0;
+  hasLongPressed = true;
 
   sendMessage({
     type: 'longPress',
-    target: target.matches('.header') ? 'header' : 'message',
+    target: target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message',
     messageId: getMessageIdFromNode(target),
+    href: target.matches('a') ? requireAttribute(target, 'href') : null,
   });
 };
 
@@ -657,8 +664,9 @@ documentBody.addEventListener('touchstart', (e: TouchEvent) => {
 
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
-  lastTouchEventTimestamp = Date.now();
-  setTimeout(() => handleLongPress(target), 500);
+  hasLongPressed = false;
+  clearTimeout(longPressTimeout);
+  longPressTimeout = setTimeout(() => handleLongPress(target), 500);
 });
 
 const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
@@ -673,14 +681,18 @@ documentBody.addEventListener('touchend', (e: TouchEvent) => {
       e.changedTouches[0].pageY,
     )
   ) {
-    lastTouchEventTimestamp = Date.now();
+    clearTimeout(longPressTimeout);
   }
 });
 
+documentBody.addEventListener('touchcancel', (e: TouchEvent) => {
+  clearTimeout(longPressTimeout);
+});
+
 documentBody.addEventListener('touchmove', (e: TouchEvent) => {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 });
 
 documentBody.addEventListener('drag', (e: DragEvent) => {
-  lastTouchEventTimestamp = 0;
+  clearTimeout(longPressTimeout);
 });

@@ -1,10 +1,10 @@
-/* @flow */
-import { connect } from 'react-redux';
-
+/* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
-import type { ApiServerSettings, Dispatch } from '../types';
+import type { ApiResponseServerSettings, Dispatch } from '../types';
+import { connectFlowFixMe } from '../react-redux';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { isValidUrl } from '../utils/url';
 import { getServerSettings } from '../api';
@@ -13,13 +13,13 @@ import styles from '../styles';
 
 type Props = {|
   dispatch: Dispatch,
-  navigation: Object,
+  navigation: NavigationScreenProp<mixed>,
   initialRealm: string,
 |};
 
 type State = {|
   realm: string,
-  error: ?string,
+  error: string | null,
   progress: boolean,
 |};
 
@@ -27,7 +27,7 @@ class RealmScreen extends PureComponent<Props, State> {
   state = {
     progress: false,
     realm: this.props.initialRealm,
-    error: undefined,
+    error: null,
   };
 
   scrollView: ScrollView;
@@ -38,13 +38,13 @@ class RealmScreen extends PureComponent<Props, State> {
     this.setState({
       realm,
       progress: true,
-      error: undefined,
+      error: null,
     });
 
     const { dispatch } = this.props;
 
     try {
-      const serverSettings: ApiServerSettings = await getServerSettings(realm);
+      const serverSettings: ApiResponseServerSettings = await getServerSettings(realm);
       dispatch(realmAdd(realm));
       dispatch(navigateToAuth(serverSettings));
       Keyboard.dismiss();
@@ -55,7 +55,7 @@ class RealmScreen extends PureComponent<Props, State> {
     }
   };
 
-  handleRealmChange = value => this.setState({ realm: value });
+  handleRealmChange = (value: string) => this.setState({ realm: value });
 
   componentDidMount() {
     const { initialRealm } = this.props;
@@ -82,7 +82,7 @@ class RealmScreen extends PureComponent<Props, State> {
           onSubmitEditing={this.tryRealm}
           enablesReturnKeyAutomatically
         />
-        {error && <ErrorMsg error={error} />}
+        {error !== null && <ErrorMsg error={error} />}
         <ZulipButton
           style={styles.halfMarginTop}
           text="Enter"
@@ -95,7 +95,7 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state, props) => ({
+export default connectFlowFixMe((state, props) => ({
   initialRealm:
     (props.navigation && props.navigation.state.params && props.navigation.state.params.realm)
     || '',

@@ -2,12 +2,11 @@
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 
-import type { Context, Style } from '../types';
+import type { Context } from '../types';
 
 type Props = {|
   ...$Exact<$PropertyType<Text, 'props'>>,
   text: string,
-  style?: Style,
 |};
 
 /**

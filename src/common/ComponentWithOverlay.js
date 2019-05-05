@@ -2,8 +2,9 @@
 /* eslint-disable react-native/no-unused-styles */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { ChildrenArray, Style } from '../types';
+import type { Node as React$Node } from 'react';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 
@@ -36,14 +37,14 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  children: ChildrenArray<*>,
+  children: React$Node,
   accessibilityLabel?: string,
-  overlay: ChildrenArray<*>,
+  overlay: React$Node,
   showOverlay: boolean,
   overlaySize: number,
   overlayColor: string,
   overlayPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
-  style?: Style,
+  style?: ViewStyleProp,
   onPress?: () => void,
 |};
 

@@ -2,7 +2,7 @@
 import { Platform } from 'react-native';
 
 import type { ThemeColors } from './theme';
-import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE } from './constants';
+import { BORDER_COLOR, CONTROL_SIZE } from './constants';
 
 export const statics = {
   largerText: {
@@ -38,12 +38,6 @@ export const statics = {
   },
   rightItem: {
     marginLeft: 'auto',
-  },
-  link: {
-    marginTop: 10,
-    fontSize: 15,
-    color: BRAND_COLOR,
-    textAlign: 'right',
   },
   center: {
     flex: 1,
