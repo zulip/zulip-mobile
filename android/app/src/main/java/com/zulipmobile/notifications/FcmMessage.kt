@@ -168,7 +168,7 @@ data class MessageFcmMessage(
     }
 }
 
-internal data class RemoveFcmMessage(
+data class RemoveFcmMessage(
     val identity: Identity,
     val messageIds: Set<Int>
 ) : FcmMessage() {

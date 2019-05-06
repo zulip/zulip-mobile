@@ -67,7 +67,7 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
         addConversationToMap(fcmMessage, conversations)
         updateNotification(context, conversations, fcmMessage)
     } else if (fcmMessage is RemoveFcmMessage) {
-        removeMessagesFromMap(conversations, fcmMessage.messageIds)
+        removeMessagesFromMap(conversations, fcmMessage)
         if (conversations.isEmpty()) {
             getNotificationManager(context).cancelAll()
         }

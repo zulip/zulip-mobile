@@ -124,7 +124,7 @@ fun addConversationToMap(fcmMessage: MessageFcmMessage, conversations: Conversat
     conversations[key] = messages
 }
 
-fun removeMessagesFromMap(conversations: ConversationMap, messageIds: Set<Int>) {
+fun removeMessagesFromMap(conversations: ConversationMap, removeFcmMessage: RemoveFcmMessage) {
     // We don't have the information to compute what key we ought to find each message under,
     // so just walk the whole thing.  If the user has >100 notifications, this linear scan
     // won't be their worst problem anyway...
@@ -134,7 +134,7 @@ fun removeMessagesFromMap(conversations: ConversationMap, messageIds: Set<Int>) 
     while (it.hasNext()) {
         val messages: MutableList<MessageFcmMessage> = it.next()
         for (i in messages.indices.reversed()) {
-            if (messageIds.contains(messages[i].zulipMessageId)) {
+            if (removeFcmMessage.messageIds.contains(messages[i].zulipMessageId)) {
                 messages.removeAt(i)
             }
         }
