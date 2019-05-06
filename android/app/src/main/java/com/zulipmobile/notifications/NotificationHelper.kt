@@ -23,23 +23,23 @@ val TAG = "ZulipNotif"
 /**
  * The Zulip messages we're showing as a notification, grouped by conversation.
  *
- * Each key identifies a conversation; see @{link buildKeyString}.
+ * Each key identifies a conversation; see [buildKeyString].
  *
  * Each value is the messages in the conversation, in the order we
  * received them.
  *
- * When we start showing a separate notification for each @{link Identity},
- * this type will represent the messages for just one @{link Identity}.
- * See also @{link ConversationMap}.
+ * When we start showing a separate notification for each  [Identity],
+ * this type will represent the messages for just one [Identity].
+ * See also [ConversationMap].
  */
 open class ByConversationMap : LinkedHashMap<String, MutableList<MessageFcmMessage>>()
 
 /**
  * All Zulip messages we're showing in notifications.
  *
- * Currently an alias of @{link ByConversationMap}.  When we start showing
- * a separate notification for each @{link Identity}, this type will become
- * a collection of one @{link ByConversationMap} per @{link Identity}.
+ * Currently an alias of [ByConversationMap].  When we start showing
+ * a separate notification for each [Identity], this type will become
+ * a collection of one [ByConversationMap] per [Identity].
  */
 class ConversationMap : ByConversationMap()
 
