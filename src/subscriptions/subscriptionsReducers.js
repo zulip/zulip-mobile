@@ -62,8 +62,13 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
             case 'update':
               return updateSubscription(state, event);
 
-            case 'create':
             case 'delete':
+              return filterArray(
+                state,
+                x => !event.streams.find(y => x && y && x.stream_id === y.stream_id),
+              );
+
+            case 'create':
             case 'occupy':
             case 'vacate':
               return state;

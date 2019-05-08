@@ -1,6 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
-import { REALM_INIT, EVENT_SUBSCRIPTION, ACCOUNT_SWITCH } from '../../actionConstants';
+import { EventTypes } from '../../api/eventTypes';
+import { REALM_INIT, EVENT_SUBSCRIPTION, ACCOUNT_SWITCH, EVENT } from '../../actionConstants';
 import subscriptionsReducers from '../subscriptionsReducers';
 
 describe('subscriptionsReducers', () => {
@@ -259,6 +260,100 @@ describe('subscriptionsReducers', () => {
           in_home_view: true,
         },
       ];
+
+      const actualState = subscriptionsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_STREAM -> delete', () => {
+    test('when a stream is delrted but user is not subscribed to it, do not change state', () => {
+      const initialState = deepFreeze([
+        {
+          stream_id: 3,
+          name: 'not subscribed to stream',
+        },
+      ]);
+      const action = deepFreeze({
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          op: 'delete',
+          streams: [
+            {
+              name: 'some stream',
+              stream_id: 1,
+            },
+          ],
+        },
+      });
+
+      const actualState = subscriptionsReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+
+    test('when a stream is deleted the user is unsubscribed', () => {
+      const initialState = deepFreeze([
+        {
+          stream_id: 1,
+          name: 'some stream',
+        },
+      ]);
+      const action = deepFreeze({
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          op: 'delete',
+          streams: [
+            {
+              name: 'some stream',
+              stream_id: 1,
+            },
+            {
+              name: 'some other stream',
+              stream_id: 2,
+            },
+          ],
+        },
+      });
+      const expectedState = [];
+
+      const actualState = subscriptionsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('when multiple streams are deleted the user is unsubscribed from all of them', () => {
+      const initialState = deepFreeze([
+        {
+          stream_id: 1,
+          name: 'some stream',
+        },
+        {
+          name: 'some other stream',
+          stream_id: 2,
+        },
+      ]);
+      const action = deepFreeze({
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          op: 'delete',
+          streams: [
+            {
+              name: 'some stream',
+              stream_id: 1,
+            },
+            {
+              name: 'some other stream',
+              stream_id: 2,
+            },
+          ],
+        },
+      });
+      const expectedState = [];
 
       const actualState = subscriptionsReducers(initialState, action);
 
