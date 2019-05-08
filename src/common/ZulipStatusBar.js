@@ -28,6 +28,7 @@ type Props = {
   dispatch: Dispatch,
   hidden: boolean,
   theme: ThemeName,
+  noBackground: boolean,
   backgroundColor: string,
   safeAreaInsets: Dimensions,
   orientation: Orientation,
@@ -40,16 +41,26 @@ type Props = {
  * matches that of the stream.
  *
  * @prop [narrow] - Currently active narrow.
+ * @prop [narrow] - If true, renders as black.
  */
 class ZulipStatusBar extends PureComponent<Props> {
   static defaultProps = {
     hidden: false,
+    noBackground: false,
   };
 
   render() {
-    const { theme, backgroundColor, hidden, safeAreaInsets, orientation } = this.props;
+    const {
+      theme,
+      backgroundColor,
+      hidden,
+      noBackground,
+      safeAreaInsets,
+      orientation,
+    } = this.props;
     const style = { height: hidden ? 0 : safeAreaInsets.top, backgroundColor };
-    const statusBarColor = getStatusBarColor(backgroundColor, theme);
+    const statusBarColor = getStatusBarColor(noBackground ? 'black' : backgroundColor, theme);
+
     return (
       orientation === 'PORTRAIT' && (
         <View style={style}>
@@ -70,10 +81,7 @@ export default connectFlowFixMe(
   (state: GlobalState, props: { backgroundColor?: string, narrow?: Narrow }) => ({
     safeAreaInsets: getSession(state).safeAreaInsets,
     theme: getSettings(state).theme,
-    backgroundColor:
-      props.backgroundColor !== undefined
-        ? props.backgroundColor
-        : getTitleBackgroundColor(props.narrow)(state),
+    backgroundColor: getTitleBackgroundColor(props.narrow)(state),
     orientation: getSession(state).orientation,
   }),
 )(ZulipStatusBar);
