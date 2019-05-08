@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import type { InjectedDispatch, Narrow } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
@@ -64,6 +64,6 @@ class TopicAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   topics: getTopicsForNarrow(props.narrow)(state),
 }))(TopicAutocomplete);

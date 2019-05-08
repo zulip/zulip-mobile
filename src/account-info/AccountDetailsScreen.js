@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { InjectedDispatch, UserOrBot } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { getAccountDetailsUserForEmail } from '../selectors';
 import { Screen, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
@@ -62,6 +62,6 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   user: getAccountDetailsUserForEmail(state, props.navigation.state.params.email),
 }))(AccountDetailsScreen);

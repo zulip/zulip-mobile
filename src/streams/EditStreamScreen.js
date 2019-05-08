@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { InjectedDispatch, Stream } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamForId } from '../selectors';
 import { Screen } from '../common';
@@ -46,6 +46,6 @@ class EditStreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   stream: getStreamForId(state, props.navigation.state.params.streamId),
 }))(EditStreamScreen);

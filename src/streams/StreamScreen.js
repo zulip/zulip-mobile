@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { InjectedDispatch, Stream, Subscription } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
 import { getIsAdmin, getStreamForId, getSubscriptionForId } from '../selectors';
@@ -108,7 +108,7 @@ class StreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   isAdmin: getIsAdmin(state),
   stream: getStreamForId(state, props.navigation.state.params.streamId),
   subscription: getSubscriptionForId(state, props.navigation.state.params.streamId),

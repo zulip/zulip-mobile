@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import type { InjectedDispatch, Subscription } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import StreamList from './StreamList';
 import { streamNarrow } from '../utils/narrow';
 import { getUnreadByStream } from '../selectors';
@@ -48,7 +48,7 @@ class SubscriptionsCard extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state): SelectorProps => ({
+export default connect((state): SelectorProps => ({
   subscriptions: getSubscribedStreams(state),
   unreadByStream: getUnreadByStream(state),
 }))(SubscriptionsCard);

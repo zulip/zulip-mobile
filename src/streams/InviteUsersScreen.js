@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Auth, InjectedDispatch, Stream, User } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
 import { subscriptionAdd } from '../api';
@@ -54,7 +54,7 @@ class InviteUsersScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   auth: getAuth(state),
   stream: getStreamForId(state, props.navigation.state.params.streamId),
 }))(InviteUsersScreen);

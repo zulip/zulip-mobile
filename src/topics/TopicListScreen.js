@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { InjectedDispatch, Stream, TopicExtended } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
 import { getTopicsForStream } from '../selectors';
@@ -62,7 +62,7 @@ class TopicListScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   stream: getStreamForId(state, props.navigation.state.params.streamId),
   topics: getTopicsForStream(state, props.navigation.state.params.streamId),
 }))(TopicListScreen);

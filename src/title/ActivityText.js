@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { InjectedDispatch, UserOrBot, UserPresence, UserStatus } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { getPresence, getUserStatus } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
@@ -39,7 +39,7 @@ class ActivityText extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props: OwnProps): SelectorProps => ({
+export default connect((state, props: OwnProps): SelectorProps => ({
   presence: getPresence(state)[props.user.email],
   userStatus: getUserStatus(state)[props.user.user_id],
 }))(ActivityText);
