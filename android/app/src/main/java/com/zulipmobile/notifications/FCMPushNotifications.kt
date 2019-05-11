@@ -22,7 +22,6 @@ import com.zulipmobile.BuildConfig
 import com.zulipmobile.R
 
 private val CHANNEL_ID = "default"
-private val NOTIFICATION_ID = 435
 
 @JvmField
 val ACTION_CLEAR = "ACTION_CLEAR"
@@ -68,6 +67,10 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
         updateNotification(context, conversations, fcmMessage)
     } else if (fcmMessage is RemoveFcmMessage) {
         removeMessagesFromMap(conversations, fcmMessage)
+        val byConversationMap = conversations[fcmMessage.identity]
+        if (byConversationMap == null || byConversationMap.isEmpty()) {
+            getNotificationManager(context).cancel(getNotificationTag(fcmMessage.identity), getNotificationId(fcmMessage.identity))
+        }
         if (conversations.isEmpty()) {
             getNotificationManager(context).cancelAll()
         }
@@ -76,13 +79,20 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
 
 private fun updateNotification(
     context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage) {
-    if (conversations.isEmpty()) {
+    val byConversationMap = conversations[fcmMessage.identity]
+    if (byConversationMap == null || byConversationMap.isEmpty()) {
+        getNotificationManager(context).cancel(getNotificationTag(fcmMessage.identity), getNotificationId(fcmMessage.identity))
+        return
+    } else if (conversations.isEmpty()) {
         getNotificationManager(context).cancelAll()
         return
     }
-    val byConversationMap = conversations[fcmMessage.identity] ?: return
     val notification = getNotificationBuilder(context, byConversationMap, fcmMessage).build()
-    getNotificationManager(context).notify(NOTIFICATION_ID, notification)
+    getNotificationManager(context).notify(
+        getNotificationTag(fcmMessage.identity),
+        getNotificationId(fcmMessage.identity),
+        notification
+    )
 }
 
 private fun getNotificationSoundUri(context: Context): Uri {
@@ -177,7 +187,7 @@ private fun getNotificationBuilder(
 fun onOpened(application: ReactApplication, conversations: ConversationMap, data: Bundle, identity: Identity) {
     logNotificationData(data)
     NotifyReact.notifyReact(application, data)
-    getNotificationManager(application as Context).cancelAll()
+    getNotificationManager(application as Context).cancel(getNotificationTag(identity), getNotificationId(identity))
     clearConversations(conversations, identity)
     try {
         ShortcutBadger.removeCount(application as Context)
@@ -189,5 +199,5 @@ fun onOpened(application: ReactApplication, conversations: ConversationMap, data
 
 fun onClear(context: Context, conversations: ConversationMap, identity: Identity) {
     clearConversations(conversations, identity)
-    getNotificationManager(context).cancelAll()
+    getNotificationManager(context).cancel(getNotificationTag(identity), getNotificationId(identity))
 }
