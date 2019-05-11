@@ -111,6 +111,7 @@ data class MessageFcmMessage(
      */
     fun dataForOpen(): Bundle {
         val bundle = Bundle()
+        bundle.putAll(dataForClearAction())
         when (recipient) {
             // NOTE: Keep the JS-side type definition in sync with this code.
             is Recipient.Stream -> {
