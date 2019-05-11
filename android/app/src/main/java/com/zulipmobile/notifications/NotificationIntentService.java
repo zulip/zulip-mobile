@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import com.facebook.react.ReactApplication;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import com.zulipmobile.MainApplication;
 
@@ -23,11 +25,23 @@ public class NotificationIntentService extends IntentService {
         }
         final ConversationMap conversations =
                 ((MainApplication) applicationContext).getConversations();
-        if (ACTION_VIEW.equals(intent.getAction())) {
-            final Bundle data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA);
-            FCMPushNotifications.onOpened((ReactApplication) getApplication(), conversations, data);
-        } else if (ACTION_CLEAR.equals(intent.getAction())) {
-            FCMPushNotifications.onClear(this, conversations);
+        final Bundle data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA);
+
+        try {
+            Identity identity = new Identity(
+                    data.getString("server_host", null),
+                    data.getInt("realm_id"),
+                    new URL(data.getString("realm_url")),
+                    data.getInt("user_id")
+            );
+            if (ACTION_VIEW.equals(intent.getAction())) {
+                FCMPushNotifications.onOpened((ReactApplication) getApplication(), conversations, data, identity);
+            } else if (ACTION_CLEAR.equals(intent.getAction())) {
+                FCMPushNotifications.onClear(this, conversations, identity);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
+
     }
 }

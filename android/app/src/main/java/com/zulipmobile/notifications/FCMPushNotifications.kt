@@ -174,11 +174,11 @@ private fun getNotificationBuilder(
     return builder
 }
 
-internal fun onOpened(application: ReactApplication, conversations: ConversationMap, data: Bundle) {
+fun onOpened(application: ReactApplication, conversations: ConversationMap, data: Bundle, identity: Identity) {
     logNotificationData(data)
     NotifyReact.notifyReact(application, data)
     getNotificationManager(application as Context).cancelAll()
-    clearConversations(conversations)
+    clearConversations(conversations, identity)
     try {
         ShortcutBadger.removeCount(application as Context)
     } catch (e: Exception) {
@@ -187,7 +187,7 @@ internal fun onOpened(application: ReactApplication, conversations: Conversation
 
 }
 
-internal fun onClear(context: Context, conversations: ConversationMap) {
-    clearConversations(conversations)
+fun onClear(context: Context, conversations: ConversationMap, identity: Identity) {
+    clearConversations(conversations, identity)
     getNotificationManager(context).cancelAll()
 }

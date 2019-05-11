@@ -151,8 +151,8 @@ fun removeMessagesFromMap(conversations: ConversationMap, removeFcmMessage: Remo
     }
 }
 
-fun clearConversations(conversations: ConversationMap) {
-    conversations.clear()
+fun clearConversations(conversations: ConversationMap, identity: Identity) {
+    conversations[identity]?.clear()
 }
 
 fun getNotificationId(identity: Identity?): Int {
