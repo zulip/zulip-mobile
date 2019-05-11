@@ -157,6 +157,7 @@ private fun getNotificationBuilder(
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
         val uri = Uri.fromParts("zulip", "clear:${fcmMessage.zulipMessageId}", "")
         val dismissIntent = Intent(ACTION_CLEAR, uri, context, NotificationIntentService::class.java)
+        dismissIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForClearAction())
         val piDismiss = PendingIntent.getService(context, 0, dismissIntent, 0)
         val action = Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss)
         builder.addAction(action)
