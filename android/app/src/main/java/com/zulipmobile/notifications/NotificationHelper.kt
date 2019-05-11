@@ -16,6 +16,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.net.URL
 import java.util.*
+import kotlin.collections.LinkedHashMap
 
 @JvmField
 val TAG = "ZulipNotif"
@@ -28,8 +29,7 @@ val TAG = "ZulipNotif"
  * Each value is the messages in the conversation, in the order we
  * received them.
  *
- * When we start showing a separate notification for each  [Identity],
- * this type will represent the messages for just one [Identity].
+ * This represent the messages for just one [Identity].
  * See also [ConversationMap].
  */
 open class ByConversationMap : LinkedHashMap<String, MutableList<MessageFcmMessage>>()
@@ -37,11 +37,9 @@ open class ByConversationMap : LinkedHashMap<String, MutableList<MessageFcmMessa
 /**
  * All Zulip messages we're showing in notifications.
  *
- * Currently an alias of [ByConversationMap].  When we start showing
- * a separate notification for each [Identity], this type will become
- * a collection of one [ByConversationMap] per [Identity].
+ * This type is a collection of one [ByConversationMap] per [Identity].
  */
-class ConversationMap : ByConversationMap()
+class ConversationMap : LinkedHashMap<Identity?, ByConversationMap>()
 
 fun fetchBitmap(url: URL): Bitmap? {
     Log.i(TAG, "GAFT.fetch: Getting gravatar from url: $url")
@@ -116,12 +114,17 @@ fun extractNames(conversations: ByConversationMap): ArrayList<String> {
 
 fun addConversationToMap(fcmMessage: MessageFcmMessage, conversations: ConversationMap) {
     val key = buildKeyString(fcmMessage)
-    var messages: MutableList<MessageFcmMessage>? = conversations[key]
+    var byConversationMap: ByConversationMap? = conversations[fcmMessage.identity]
+    if (byConversationMap == null) {
+        byConversationMap = ByConversationMap()
+    }
+    var messages: MutableList<MessageFcmMessage>? = byConversationMap[key]
     if (messages == null) {
         messages = ArrayList()
     }
     messages.add(fcmMessage)
-    conversations[key] = messages
+    byConversationMap[key] = messages
+    conversations[fcmMessage.identity] = byConversationMap
 }
 
 fun removeMessagesFromMap(conversations: ConversationMap, removeFcmMessage: RemoveFcmMessage) {
@@ -130,7 +133,8 @@ fun removeMessagesFromMap(conversations: ConversationMap, removeFcmMessage: Remo
     // won't be their worst problem anyway...
     //
     // TODO redesign this whole data structure, for many reasons.
-    val it = conversations.values.iterator()
+    val byConversationMap: ByConversationMap? = conversations[removeFcmMessage.identity] ?: return
+    val it = byConversationMap!!.values.iterator()
     while (it.hasNext()) {
         val messages: MutableList<MessageFcmMessage> = it.next()
         for (i in messages.indices.reversed()) {

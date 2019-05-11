@@ -80,7 +80,8 @@ private fun updateNotification(
         getNotificationManager(context).cancelAll()
         return
     }
-    val notification = getNotificationBuilder(context, conversations, fcmMessage).build()
+    val byConversationMap = conversations[fcmMessage.identity] ?: return
+    val notification = getNotificationBuilder(context, byConversationMap, fcmMessage).build()
     getNotificationManager(context).notify(NOTIFICATION_ID, notification)
 }
 
@@ -91,7 +92,8 @@ private fun getNotificationSoundUri(context: Context): Uri {
 }
 
 private fun getNotificationBuilder(
-    context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage): Notification.Builder {
+    context: Context, byConversationMap: ByConversationMap, fcmMessage: MessageFcmMessage): Notification.Builder {
+
     val builder = if (Build.VERSION.SDK_INT >= 26)
         Notification.Builder(context, CHANNEL_ID)
     else
@@ -105,7 +107,7 @@ private fun getNotificationBuilder(
 
     builder.setAutoCancel(true)
 
-    val totalMessagesCount = extractTotalMessagesCount(conversations)
+    val totalMessagesCount = extractTotalMessagesCount(byConversationMap)
 
     if (BuildConfig.DEBUG) {
         builder.setSmallIcon(R.mipmap.ic_launcher)
@@ -113,7 +115,7 @@ private fun getNotificationBuilder(
         builder.setSmallIcon(R.drawable.zulip_notification)
     }
 
-    if (conversations.size == 1) {
+    if (byConversationMap.size == 1) {
         //Only one 1 notification therefore no using of big view styles
         if (totalMessagesCount > 1) {
             builder.setContentTitle("${fcmMessage.sender.fullName} ($totalMessagesCount)")
@@ -130,11 +132,11 @@ private fun getNotificationBuilder(
             ?.let { builder.setLargeIcon(it) }
         builder.setStyle(Notification.BigTextStyle().bigText(fcmMessage.content))
     } else {
-        builder.setContentTitle("$totalMessagesCount messages in ${conversations.size} conversations")
-        builder.setContentText("Messages from ${TextUtils.join(",", extractNames(conversations))}")
+        builder.setContentTitle("$totalMessagesCount messages in ${byConversationMap.size} conversations")
+        builder.setContentText("Messages from ${TextUtils.join(",", extractNames(byConversationMap))}")
         val inboxStyle = Notification.InboxStyle(builder)
-        inboxStyle.setSummaryText("${conversations.size} conversations")
-        buildNotificationContent(conversations, inboxStyle, context)
+        inboxStyle.setSummaryText("${byConversationMap.size} conversations")
+        buildNotificationContent(byConversationMap, inboxStyle, context)
         builder.setStyle(inboxStyle)
     }
 
