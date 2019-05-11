@@ -21,6 +21,9 @@ import kotlin.collections.LinkedHashMap
 @JvmField
 val TAG = "ZulipNotif"
 
+private val NOTIFICATION_ID = 435
+private val NOTIFICATION_TAG = "zulip"
+
 /**
  * The Zulip messages we're showing as a notification, grouped by conversation.
  *
@@ -150,4 +153,12 @@ fun removeMessagesFromMap(conversations: ConversationMap, removeFcmMessage: Remo
 
 fun clearConversations(conversations: ConversationMap) {
     conversations.clear()
+}
+
+fun getNotificationId(identity: Identity?): Int {
+    return if (identity?.userId != null) identity.userId else NOTIFICATION_ID
+}
+
+fun getNotificationTag(identity: Identity?): String {
+    return if (identity?.realmUri != null) identity.realmUri.toString() else NOTIFICATION_TAG
 }
