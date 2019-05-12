@@ -78,22 +78,15 @@ hr {
 }
 .timerow {
   text-align: center;
-  color: hsl(0, 0%, 60%);
-  display: flex;
-  align-items: center;
-  padding: 8px 0;
-}
-.timerow-left,
-.timerow-right {
-  flex: 1;
-  height: 1px;
   margin: 8px;
 }
-.timerow-left {
-  background: -webkit-linear-gradient(left, transparent 10%, hsl(0, 0%, 60%) 100%);
+.timerow-content {
+  color: hsla(0, 0%, 0%, 0.65);
+  background: hsl(0, 0%, 92%);
+  border-radius: 3px;
 }
-.timerow-right {
-  background: -webkit-linear-gradient(left, hsl(0, 0%, 60%) 0%, transparent 90%);
+.timerow-content {
+  padding: 0.25em 0.5em;
 }
 .message,
 .loading {

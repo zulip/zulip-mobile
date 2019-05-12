@@ -11,6 +11,10 @@ body {
 .timestamp {
   background: hsl(212, 28%, 25%);
 }
+.timerow-content {
+  color: hsla(0, 0%, 100%, 0.5);
+  background: hsl(213, 14%, 34%);
+}
 .highlight {
   background-color: hsla(51, 100%, 64%, 0.42);
 }
