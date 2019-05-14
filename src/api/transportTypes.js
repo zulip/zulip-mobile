@@ -48,6 +48,15 @@ export type ApiErrorCode =
   | 'INVITATION_FAILED'
   | 'INVALID_ZULIP_SERVER';
 
+/**
+ * Response from the API in case of an error.
+ *
+ * @prop code - A string error code, one of several predefined values. See
+ *   ApiErrorCode. (Some older API endpoints, or older Zulip servers, may not
+ *   include this value.)
+ * @prop msg - Human-readable error message. May be localized and so is not
+ *    suitable for programmatic use; use 'code' instead.
+ */
 export type ApiResponseError = {|
   code?: ApiErrorCode,
   msg: string,
