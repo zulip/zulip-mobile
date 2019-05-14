@@ -1,9 +1,16 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
 import { Input, Label, OptionRow, ZulipButton } from '../common';
+import type { Stream, Dispatch } from '../types';
+import { getStreams } from '../selectors';
 import styles from '../styles';
+
+type SelectorProps = {|
+  streams: Stream[],
+|};
 
 type Props = {|
   isNewStream: boolean,
@@ -13,6 +20,9 @@ type Props = {|
     invite_only: boolean,
   },
   onComplete: (name: string, description: string, isPrivate: boolean) => void,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |};
 
 type State = {|
@@ -21,7 +31,17 @@ type State = {|
   isPrivate: boolean,
 |};
 
-export default class EditStreamCard extends PureComponent<Props, State> {
+const componentStyles = StyleSheet.create({
+  captionText: {
+    fontSize: 12,
+    color: 'gray',
+  },
+  errorText: {
+    color: 'red',
+  },
+});
+
+class EditStreamCard extends PureComponent<Props, State> {
   state = {
     name: this.props.initialValues.name,
     description: this.props.initialValues.description,
@@ -47,18 +67,36 @@ export default class EditStreamCard extends PureComponent<Props, State> {
   };
 
   render() {
-    const { initialValues, isNewStream } = this.props;
-    const { name } = this.state;
+    const { initialValues, isNewStream, streams } = this.props;
+    const { name, description, isPrivate } = this.state;
+
+    const isValidStreamName =
+      name.toLowerCase() === initialValues.name.toLowerCase()
+      || !streams.find(stream => stream.name.toLowerCase() === name.toLowerCase());
+    const canSubmit =
+      name.length !== 0
+      && isValidStreamName
+      && (initialValues.name !== name
+        || initialValues.description !== description
+        || initialValues.invite_only !== isPrivate);
 
     return (
       <View>
         <Label text="Name" />
         <Input
-          style={styles.marginBottom}
           placeholder="Name"
           autoFocus
           defaultValue={initialValues.name}
           onChangeText={this.handleNameChange}
+          error={!isValidStreamName}
+        />
+        <Label
+          style={[
+            styles.marginBottom,
+            componentStyles.captionText,
+            !isValidStreamName && componentStyles.errorText,
+          ]}
+          text={isValidStreamName ? '* Required' : 'Stream name unavailable'}
         />
         <Label text="Description" />
         <Input
@@ -75,10 +113,14 @@ export default class EditStreamCard extends PureComponent<Props, State> {
         <ZulipButton
           style={styles.marginTop}
           text={isNewStream ? 'Create' : 'Update'}
-          disabled={name.length === 0}
+          disabled={!canSubmit}
           onPress={this.handlePerformAction}
         />
       </View>
     );
   }
 }
+
+export default connect((state, props): SelectorProps => ({
+  streams: getStreams(state),
+}))(EditStreamCard);

@@ -4,11 +4,12 @@ import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
 import type { Context, LocalizableText } from '../types';
-import { HALF_COLOR, BORDER_COLOR } from '../styles';
+import { HALF_COLOR, BORDER_COLOR, ERROR_COLOR } from '../styles';
 
 export type Props = {|
   ...$PropertyType<TextInput, 'props'>,
   placeholder: LocalizableText,
+  error?: boolean,
   onChangeText?: (text: string) => void,
   textInputRef?: (component: ?TextInput) => void,
 |};
@@ -64,9 +65,16 @@ export default class Input extends PureComponent<Props, State> {
     });
   };
 
+  getUnderlineColorAndroid = (isFocused: boolean, error?: boolean) => {
+    if (error === true) {
+      return ERROR_COLOR;
+    }
+    return isFocused ? BORDER_COLOR : HALF_COLOR;
+  };
+
   render() {
     const { styles: contextStyles } = this.context;
-    const { style, placeholder, textInputRef, ...restProps } = this.props;
+    const { style, placeholder, error, textInputRef, ...restProps } = this.props;
     const { isFocused } = this.state;
     const fullPlaceholder =
       typeof placeholder === 'object' /* force linebreak */
@@ -84,7 +92,7 @@ export default class Input extends PureComponent<Props, State> {
             style={[contextStyles.input, style]}
             placeholder={text}
             placeholderTextColor={HALF_COLOR}
-            underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
+            underlineColorAndroid={this.getUnderlineColorAndroid(isFocused, error)}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
             ref={(component: ?TextInput) => {
