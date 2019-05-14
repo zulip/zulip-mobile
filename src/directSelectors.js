@@ -72,6 +72,12 @@ export const getSettings = (state: GlobalState): SettingsState => state.settings
 
 export const getSubscriptions = (state: GlobalState): Subscription[] => state.subscriptions;
 
+/**
+ * All streams in the current realm.
+ *
+ * This is rarely the right selector to use: consider `getStreamForId`
+ * or `getStreamsById` instead.
+ */
 export const getStreams = (state: GlobalState): Stream[] => state.streams;
 
 export const getPresence = (state: GlobalState): PresenceState => state.presence;
