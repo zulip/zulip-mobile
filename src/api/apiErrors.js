@@ -33,3 +33,17 @@ export class EventQueueError extends BaseApiError<ApiEventQueueResponseError> {}
  */
 export const isErrorBadEventQueueId = (e: Error | ApiError | EventQueueError): boolean =>
   (e instanceof ApiError || e instanceof EventQueueError) && e.data.code === 'BAD_EVENT_QUEUE_ID';
+
+/**
+ * Is exception caused by a Client Error (4xx)?
+ *
+ * Client errors are often caused by incorrect parameters given the back-end
+ * by the client application.
+ *
+ * A notable difference between a Server (5xx) and Client (4xx) errors is that
+ * a client error will not be resolved by waiting and retrying the same request.
+ */
+export const isClientError = (e: Error | ApiError | EventQueueError): boolean =>
+  (e instanceof ApiError || e instanceof EventQueueError)
+  && e.httpStatus >= 400
+  && e.httpStatus <= 499;
