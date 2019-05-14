@@ -4,6 +4,7 @@ import type { Auth } from './transportTypes';
 import { getAuthHeader, encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
+import { ApiError } from './apiErrors';
 
 const apiVersion = 'api/v1';
 
@@ -50,15 +51,6 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: {} = {}) =>
 export const apiFetch = async (auth: Auth, route: string, params: {} = {}) =>
   fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
-const makeApiError = (httpStatus: number, data: ?{}) => {
-  const error = new Error('API');
-  // $FlowFixMe
-  error.data = data;
-  // $FlowFixMe
-  error.httpStatus = httpStatus;
-  return error;
-};
-
 export const apiCall = async (
   auth: Auth,
   route: string,
@@ -74,7 +66,7 @@ export const apiCall = async (
     }
     // eslint-disable-next-line no-console
     console.log({ route, params, httpStatus: response.status, json });
-    throw makeApiError(response.status, json);
+    throw new ApiError(response.status, json);
   } finally {
     networkActivityStop(isSilent);
   }
