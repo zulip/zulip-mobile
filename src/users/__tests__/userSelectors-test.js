@@ -1,14 +1,14 @@
 import deepFreeze from 'deep-freeze';
 
 import {
-  getAccountDetailsUserFromEmail,
+  getAccountDetailsUserForEmail,
   getActiveUsersByEmail,
   getAllUsersByEmail,
   getUsersById,
   getUsersSansMe,
 } from '../userSelectors';
 
-describe('getAccountDetailsUserFromEmail', () => {
+describe('getAccountDetailsUserForEmail', () => {
   test('return user for the account details screen', () => {
     const state = deepFreeze({
       realm: {},
@@ -16,7 +16,7 @@ describe('getAccountDetailsUserFromEmail', () => {
     });
     const expectedUser = { firstName: 'b', email: 'b@a.com' };
 
-    const actualUser = getAccountDetailsUserFromEmail(state, 'b@a.com');
+    const actualUser = getAccountDetailsUserForEmail(state, 'b@a.com');
 
     expect(actualUser).toEqual(expectedUser);
   });
@@ -43,7 +43,7 @@ describe('getAccountDetailsUserFromEmail', () => {
       is_bot: false,
     };
 
-    const actualUser = getAccountDetailsUserFromEmail(state, 'b@a.com');
+    const actualUser = getAccountDetailsUserForEmail(state, 'b@a.com');
 
     expect(actualUser).toEqual(expectedUser);
   });

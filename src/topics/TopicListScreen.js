@@ -7,7 +7,7 @@ import { connectFlowFixMe } from '../react-redux';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
 import { getTopicsForStream } from '../selectors';
-import { getStreamFromId } from '../subscriptions/subscriptionSelectors';
+import { getStreamForId } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 import { fetchTopics, doNarrow } from '../actions';
 
@@ -53,6 +53,6 @@ class TopicListScreen extends PureComponent<Props, State> {
 }
 
 export default connectFlowFixMe((state: GlobalState, props) => ({
-  stream: getStreamFromId(state, props.navigation.state.params.streamId),
+  stream: getStreamForId(state, props.navigation.state.params.streamId),
   topics: getTopicsForStream(state, props.navigation.state.params.streamId),
 }))(TopicListScreen);

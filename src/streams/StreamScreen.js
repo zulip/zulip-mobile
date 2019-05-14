@@ -6,7 +6,7 @@ import type { Dispatch, GlobalState, Stream, Subscription } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
-import { getIsAdmin, getStreamFromId, getSubscriptionFromId } from '../selectors';
+import { getIsAdmin, getStreamForId, getSubscriptionForId } from '../selectors';
 import StreamCard from './StreamCard';
 import {
   doToggleMuteStream,
@@ -100,6 +100,6 @@ class StreamScreen extends PureComponent<Props> {
 
 export default connectFlowFixMe((state: GlobalState, props) => ({
   isAdmin: getIsAdmin(state),
-  stream: getStreamFromId(state, props.navigation.state.params.streamId),
-  subscription: getSubscriptionFromId(state, props.navigation.state.params.streamId),
+  stream: getStreamForId(state, props.navigation.state.params.streamId),
+  subscription: getSubscriptionForId(state, props.navigation.state.params.streamId),
 }))(StreamScreen);

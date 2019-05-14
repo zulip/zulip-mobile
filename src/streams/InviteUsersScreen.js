@@ -6,7 +6,7 @@ import { connectFlowFixMe } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
 import { subscriptionAdd } from '../api';
-import { getAuth, getStreamFromId } from '../selectors';
+import { getAuth, getStreamForId } from '../selectors';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = {|
@@ -46,5 +46,5 @@ class InviteUsersScreen extends PureComponent<Props, State> {
 
 export default connectFlowFixMe((state: GlobalState, props) => ({
   auth: getAuth(state),
-  stream: getStreamFromId(state, props.navigation.state.params.streamId),
+  stream: getStreamForId(state, props.navigation.state.params.streamId),
 }))(InviteUsersScreen);

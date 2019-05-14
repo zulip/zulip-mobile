@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 import type { Dispatch, GlobalState, User } from '../types';
 import { connectFlowFixMe } from '../react-redux';
-import { getAccountDetailsUserFromEmail } from '../selectors';
+import { getAccountDetailsUserForEmail } from '../selectors';
 import { Screen, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
@@ -53,5 +53,5 @@ class AccountDetailsScreen extends PureComponent<Props> {
 }
 
 export default connectFlowFixMe((state: GlobalState, props) => ({
-  user: getAccountDetailsUserFromEmail(state, props.navigation.state.params.email),
+  user: getAccountDetailsUserForEmail(state, props.navigation.state.params.email),
 }))(AccountDetailsScreen);

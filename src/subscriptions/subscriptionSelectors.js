@@ -44,19 +44,19 @@ export const getSubscribedStreams: Selector<Subscription[]> = createSelector(
     })),
 );
 
-export const getStreamFromId: Selector<Stream, number> = createSelector(
+export const getStreamForId: Selector<Stream, number> = createSelector(
   (state, streamId) => streamId,
   state => getStreams(state),
   (streamId, streams, params) => {
     const stream = streams.find(x => x.stream_id === streamId);
     if (!stream) {
-      throw new Error(`getStreamFromId: missing stream: id ${streamId}`);
+      throw new Error(`getStreamForId: missing stream: id ${streamId}`);
     }
     return stream;
   },
 );
 
-export const getSubscriptionFromId: Selector<Subscription, number> = createSelector(
+export const getSubscriptionForId: Selector<Subscription, number> = createSelector(
   (state, streamId) => streamId,
   state => getSubscriptions(state),
   (streamId, subscriptions) =>
