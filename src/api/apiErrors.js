@@ -43,3 +43,15 @@ export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
   logging.warn(`Bad response from server: ${JSON.stringify(data)}`);
   return new Error('Server responded with invalid message');
 };
+
+/**
+ * Is exception caused by a Client Error (4xx)?
+ *
+ * Client errors are often caused by incorrect parameters given to the backend
+ * by the client application.
+ *
+ * A notable difference between a Server (5xx) and Client (4xx) errors is that
+ * a client error will not be resolved by waiting and retrying the same request.
+ */
+export const isClientError = (e: Error): boolean =>
+  e instanceof ApiError && e.httpStatus >= 400 && e.httpStatus <= 499;

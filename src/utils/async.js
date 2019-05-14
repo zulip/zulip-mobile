@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import progressiveTimeout from './progressiveTimeout';
+import { isClientError } from '../api/apiErrors';
 
 /** Like setTimeout(..., 0), but returns a Promise of the result. */
 export function delay<T>(callback: () => T): Promise<T> {
@@ -20,7 +21,7 @@ export async function tryUntilSuccessful<T>(func: () => Promise<T>): Promise<T> 
   try {
     return await func();
   } catch (e) {
-    if (e.httpStatus !== undefined && e.httpStatus >= 400 && e.httpStatus <= 499) {
+    if (isClientError(e)) {
       // do not retry if error is 4xx (Client Error)
       throw e;
     }
