@@ -26,3 +26,10 @@ export class ApiError extends BaseApiError<ApiResponseError> {}
  * cases that can not be resolved by retrying.
  */
 export class EventQueueError extends BaseApiError<ApiEventQueueResponseError> {}
+
+/**
+ * The event queue is too old or has been garbage collected.
+ * https://zulipchat.com/api/get-events-from-queue#bad_event_queue_id-errors
+ */
+export const isErrorBadEventQueueId = (e: Error | ApiError | EventQueueError): boolean =>
+  (e instanceof ApiError || e instanceof EventQueueError) && e.data.code === 'BAD_EVENT_QUEUE_ID';

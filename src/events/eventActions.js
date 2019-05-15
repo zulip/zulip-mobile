@@ -10,6 +10,7 @@ import eventMiddleware from './eventMiddleware';
 import { tryGetAuth } from '../selectors';
 import actionCreator from '../actionCreator';
 import progressiveTimeout from '../utils/progressiveTimeout';
+import { isErrorBadEventQueueId } from '../api/apiErrors';
 
 export const responseToActions = (
   state: GlobalState,
@@ -80,12 +81,9 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       // protection from inadvertent DDOS
       await progressiveTimeout();
 
-      if (e.message === 'API') {
-        if (e.data && e.data.code === 'BAD_EVENT_QUEUE_ID') {
-          // The event queue is too old or has been garbage collected.
-          dispatch(deadQueue());
-          break;
-        }
+      if (isErrorBadEventQueueId(e)) {
+        dispatch(deadQueue());
+        break;
       }
     }
   }
