@@ -48,3 +48,14 @@ export type ApiResponseError = {|
   msg: string,
   result: 'error',
 |};
+
+/**
+ * Response from the event queue in case of an error.
+ *
+ * @prop queue_id - String uniquely identifying the queue. Available in addition to
+ *   the usual error message information.
+ */
+export type ApiEventQueueResponseError = {|
+  ...ApiResponseError,
+  queue_id: string,
+|};
