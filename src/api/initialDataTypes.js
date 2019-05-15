@@ -7,6 +7,7 @@ import type {
   Stream,
   Subscription,
   User,
+  UserAvatarSource,
   UserGroup,
   UserPresence,
   UserStatusMapObject,
@@ -89,7 +90,7 @@ export type InitialDataRealmFilters = {|
 |};
 
 export type InitialDataRealmUser = {|
-  avatar_source: 'G',
+  avatar_source: UserAvatarSource,
   avatar_url: string | null,
   avatar_url_medium: string,
   can_create_streams: boolean,

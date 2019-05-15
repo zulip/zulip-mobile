@@ -47,6 +47,9 @@ export type DevUser = {|
   email: string,
 |};
 
+/** Gravatar or Upload */
+export type UserAvatarSource = 'G' | 'U';
+
 /**
  * A Zulip user.
  *

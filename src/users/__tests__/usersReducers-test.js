@@ -1,6 +1,11 @@
 import deepFreeze from 'deep-freeze';
 
-import { REALM_INIT, EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstants';
+import {
+  REALM_INIT,
+  EVENT_USER_ADD,
+  ACCOUNT_SWITCH,
+  EVENT_USER_UPDATE,
+} from '../../actionConstants';
 import usersReducers from '../usersReducers';
 
 describe('usersReducers', () => {
@@ -93,6 +98,74 @@ describe('usersReducers', () => {
       const actualState = usersReducers(initialState, action);
 
       expect(actualState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_USER_UPDATE', () => {
+    test('updating non existing user does not mutate state', () => {
+      const initialState = deepFreeze([
+        {
+          user_id: 1,
+          full_name: 'Some Guy',
+        },
+      ]);
+      const action = deepFreeze({
+        type: EVENT_USER_UPDATE,
+        person: {
+          user_id: 2,
+          full_name: 'New Name',
+        },
+      });
+
+      const actualState = usersReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+
+    test('updating an existing user mutates state', () => {
+      const initialState = deepFreeze([
+        {
+          user_id: 1,
+          full_name: 'Some Guy',
+        },
+      ]);
+      const action = deepFreeze({
+        type: EVENT_USER_UPDATE,
+        person: {
+          user_id: 1,
+          full_name: 'New Name',
+        },
+      });
+      const expectedState = [
+        {
+          user_id: 1,
+          full_name: 'New Name',
+        },
+      ];
+
+      const actualState = usersReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('updating existing user with the same values does not mutate state', () => {
+      const initialState = deepFreeze([
+        {
+          user_id: 1,
+          full_name: 'Some Guy',
+        },
+      ]);
+      const action = deepFreeze({
+        type: EVENT_USER_UPDATE,
+        person: {
+          user_id: 1,
+          full_name: 'Some Guy',
+        },
+      });
+
+      const actualState = usersReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
     });
   });
 
