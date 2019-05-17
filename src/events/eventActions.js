@@ -3,6 +3,7 @@ import { batchActions } from 'redux-batched-actions';
 
 import type { Action, Dispatch, GeneralEvent, GetState, GlobalState } from '../types';
 import { pollForEvents } from '../api';
+import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
@@ -70,6 +71,12 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
 
       lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
     } catch (e) {
+      if (e.httpStatus === 401) {
+        // 401 Unauthorized -> our `auth` is invalid.  No use retrying.
+        dispatch(logout());
+        break;
+      }
+
       // protection from inadvertent DDOS
       await progressiveTimeout();
 
