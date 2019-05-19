@@ -75,19 +75,22 @@ $!${message.content}
  ><p>Interactive message</p
  ><p>To use, open on web or desktop</p
 ></div>
+<div class="dummy-element-to-align-timestamp"></div>
 `;
 
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
   Object.keys(flags).filter(key => flags[key][id]);
 
 export default (backgroundData: BackgroundData, message: Message | Outbox, isBrief: boolean) => {
-  const { id } = message;
+  const { id, timestamp } = message;
   const flagStrings = flagsStateToStringList(backgroundData.flags, id);
+  const messageTime = shortTime(new Date(timestamp * 1000), backgroundData.twentyFourHourTime);
   const divOpenHtml = template`
     <div
      class="message ${isBrief ? 'message-brief' : 'message-full'}"
      id="msg-${id}"
      data-msg-id="${id}"
+     $!${isBrief ? template`style="--time:'${messageTime}'"` : ''}
      $!${flagStrings.map(flag => template`data-${flag}="true" `).join('')}
     >`;
 
@@ -106,7 +109,7 @@ $!${divOpenHtml}
 `;
   }
 
-  const { sender_full_name, sender_email, timestamp } = message;
+  const { sender_full_name, sender_email } = message;
   const avatarUrl = getAvatarFromMessage(message, backgroundData.auth.realm);
   const subheaderHtml = template`
 <div class="subheader">
@@ -114,7 +117,7 @@ $!${divOpenHtml}
     ${sender_full_name}
   </div>
   <div class="timestamp">
-    ${shortTime(new Date(timestamp * 1000), backgroundData.twentyFourHourTime)}
+    ${messageTime}
   </div>
 </div>
 `;
