@@ -95,7 +95,7 @@ hr {
 .timerow-right {
   background: -webkit-linear-gradient(left, #999 0%, transparent 90%);
 }
-.timestamp {
+.timestamp, .message-brief > .content > :last-child::after {
   color: #999;
   font-size: 0.9rem;
   white-space: nowrap;
@@ -108,6 +108,14 @@ hr {
 }
 .message-brief {
   padding: 0 1rem 1rem 4rem;
+}
+.message-brief > .content > :first-child {
+  clear: right;
+}
+.message-brief > .content > :last-child::after {
+  content: var(--time);
+  float: right;
+  margin: 0.1rem 0 0 2rem;
 }
 .message p + p {
   margin-top: 1rem;
