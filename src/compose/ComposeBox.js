@@ -375,7 +375,7 @@ class ComposeBox extends PureComponent<Props, State> {
               />
             )}
             <Input
-              multiline
+              multiline={!isMenuExpanded}
               style={this.styles.composeTextInput}
               underlineColorAndroid="transparent"
               placeholder={placeholder}
