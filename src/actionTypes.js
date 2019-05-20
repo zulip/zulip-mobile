@@ -58,11 +58,12 @@ import {
   EVENT_USER_UPDATE,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
+  EVENT_SUBMESSAGE,
   EVENT_SUBSCRIPTION,
   EVENT,
 } from './actionConstants';
 
-import type { MessageEvent, PresenceEvent, StreamEvent } from './api/eventTypes';
+import type { MessageEvent, PresenceEvent, StreamEvent, SubmessageEvent } from './api/eventTypes';
 
 import type {
   Dimensions,
@@ -308,6 +309,11 @@ type EventNewMessageAction = {|
   ownEmail: string,
 |};
 
+type EventSubmessageAction = {|
+  ...SubmessageEvent,
+  type: typeof EVENT_SUBMESSAGE,
+|};
+
 type EventMessageDeleteAction = {|
   type: typeof EVENT_MESSAGE_DELETE,
   messageId: number,
@@ -497,6 +503,7 @@ export type EventAction =
   | EventMessageDeleteAction
   | EventMutedTopicsAction
   | EventNewMessageAction
+  | EventSubmessageAction
   | EventPresenceAction
   | EventRealmEmojiUpdateAction
   | EventRealmFiltersAction

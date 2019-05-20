@@ -17,6 +17,7 @@ export class EventTypes {
   static message: 'message' = 'message';
   static presence: 'presence' = 'presence';
   static stream: 'stream' = 'stream';
+  static submessage: 'submessage' = 'submessage';
   static update_message_flags: 'update_message_flags' = 'update_message_flags';
   static user_status: 'user_status' = 'user_status';
 }
@@ -52,6 +53,17 @@ export type MessageEvent = {|
    * Otherwise absent.
    */
   local_message_id?: number,
+|};
+
+/** A new submessage.  See the `Submessage` type for details. */
+export type SubmessageEvent = {|
+  ...EventCommon,
+  type: typeof EventTypes.submessage,
+  submessage_id: number,
+  message_id: number,
+  sender_id: number,
+  msg_type: 'widget',
+  content: string,
 |};
 
 export type PresenceEvent = {|

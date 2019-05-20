@@ -10,6 +10,7 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
+  EVENT_SUBMESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
@@ -62,6 +63,7 @@ const actionTypeOfEventType = {
   muted_topics: EVENT_MUTED_TOPICS,
   realm_emoji: EVENT_REALM_EMOJI_UPDATE,
   realm_filters: EVENT_REALM_FILTERS,
+  submessage: EVENT_SUBMESSAGE,
   update_global_notifications: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   update_display_settings: EVENT_UPDATE_DISPLAY_SETTINGS,
   user_status: EVENT_USER_STATUS_UPDATE,
@@ -103,6 +105,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
     case 'muted_topics':
     case 'realm_emoji':
     case 'realm_filters':
+    case 'submessage':
     case 'update_global_notifications':
     case 'update_display_settings':
     case 'user_status':
