@@ -323,7 +323,7 @@ export type PmRecipientUser = {|
 /**
  * Submessages are items containing extra data that can be added to a
  * message. Despite what their name might suggest, they are not a subtype
- * of the `Message` type, nor they share almost any fields with it.
+ * of the `Message` type, nor do they share almost any fields with it.
  *
  * Submessages are used by Widgets:
  * https://zulip.readthedocs.io/en/latest/subsystems/widgets.html
@@ -333,11 +333,11 @@ export type PmRecipientUser = {|
  * array property. Widgets will have 1 or more submessages.
  */
 export type Submessage = $ReadOnly<{|
-  content: string, // JSON string
   id: number,
   message_id: number,
-  msg_type: 'widget', // only this type is currently available
   sender_id: number,
+  msg_type: 'widget', // only this type is currently available
+  content: string, // JSON string
 |}>;
 
 /**
@@ -423,8 +423,9 @@ export type Message = $ReadOnly<{
   subject: string,
   subject_links: $ReadOnlyArray<string>,
 
-  /** Exists only if back-end is recent enough to support this functionality */
+  /** Older servers omit this; when omitted, equivalent to empty array. */
   submessages?: $ReadOnlyArray<Submessage>,
+
   timestamp: number,
   type: 'stream' | 'private',
 }>;
