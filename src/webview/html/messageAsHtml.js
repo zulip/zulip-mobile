@@ -70,7 +70,11 @@ $!${messageReactionListAsHtml(reactions, ownEmail, allImageEmojiById)}
 };
 
 const widgetBody = (message: Message | Outbox) => template`
-<span class="widget">Widgets not supported yet!</span>
+$!${message.content}
+<div class="widget"
+ ><p>Interactive message</p
+ ><p>To use, open on web or desktop</p
+></div>
 `;
 
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
