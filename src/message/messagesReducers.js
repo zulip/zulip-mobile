@@ -82,8 +82,8 @@ const eventSubmessage = (state, action) => {
   const submessages = [...(message.submessages || []), newSubmessage];
   return {
     ...state,
-    [message.id]: {
-      ...state[message.id],
+    [action.message_id]: {
+      ...message,
       submessages,
     },
   };
