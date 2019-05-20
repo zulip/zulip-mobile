@@ -81,7 +81,7 @@ export const flagsStateToStringList = (flags: FlagsState, id: number): string[] 
   Object.keys(flags).filter(key => flags[key][id]);
 
 export default (backgroundData: BackgroundData, message: Message | Outbox, isBrief: boolean) => {
-  const { id } = message;
+  const { id, timestamp } = message;
   const flagStrings = flagsStateToStringList(backgroundData.flags, id);
   const divOpenHtml = template`
     <div
@@ -91,6 +91,13 @@ export default (backgroundData: BackgroundData, message: Message | Outbox, isBri
      $!${flagStrings.map(flag => template`data-${flag}="true" `).join('')}
     >`;
 
+  const timestampHtml = (showOnRender: boolean) => template`
+<div class="time-container">
+  <div class="timestamp ${showOnRender ? 'show' : ''}">
+    ${shortTime(new Date(timestamp * 1000), backgroundData.twentyFourHourTime)}
+  </div>
+</div>
+`;
   const bodyHtml =
     message.submessages && message.submessages.length > 0
       ? widgetBody(message)
@@ -100,22 +107,21 @@ export default (backgroundData: BackgroundData, message: Message | Outbox, isBri
     return template`
 $!${divOpenHtml}
   <div class="content">
+    $!${timestampHtml(false)}
     $!${bodyHtml}
   </div>
 </div>
 `;
   }
 
-  const { sender_full_name, sender_email, timestamp } = message;
+  const { sender_full_name, sender_email } = message;
   const avatarUrl = getAvatarFromMessage(message, backgroundData.auth.realm);
   const subheaderHtml = template`
 <div class="subheader">
   <div class="username">
     ${sender_full_name}
   </div>
-  <div class="timestamp">
-    ${shortTime(new Date(timestamp * 1000), backgroundData.twentyFourHourTime)}
-  </div>
+  $!${timestampHtml(true)}
 </div>
 `;
 

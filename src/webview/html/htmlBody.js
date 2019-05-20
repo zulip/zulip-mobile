@@ -7,7 +7,7 @@ const messageLoadingHtml = template`
   <div class="loading-content">
     <div class="loading-subheader">
       <div class="block name"></div>
-      <div class="block timestamp"></div>
+      <div class="block timestamp show"></div>
     </div>
     <div class="block"></div>
     <div class="block"></div>

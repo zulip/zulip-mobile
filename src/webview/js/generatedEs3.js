@@ -527,6 +527,13 @@ documentBody.addEventListener('click', function (e) {
     });
     return;
   }
+
+  var messageElement = target.closest('.message');
+
+  if (messageElement) {
+    messageElement.getElementsByClassName('timestamp')[0].classList.toggle('show');
+    return;
+  }
 });
 
 var handleLongPress = function handleLongPress(target) {

@@ -684,6 +684,12 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     });
     return;
   }
+
+  const messageElement = target.closest('.message');
+  if (messageElement) {
+    messageElement.getElementsByClassName('timestamp')[0].classList.toggle('show');
+    return;
+  }
 });
 
 const handleLongPress = (target: Element) => {
