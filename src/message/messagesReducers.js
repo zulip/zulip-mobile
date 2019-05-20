@@ -72,19 +72,20 @@ const eventSubmessage = (state, action) => {
   if (!message) {
     return state;
   }
-  const newSubmessage = {
-    id: action.submessage_id,
-    message_id: action.message_id,
-    sender_id: action.sender_id,
-    msg_type: action.msg_type,
-    content: action.content,
-  };
-  const submessages = [...(message.submessages || []), newSubmessage];
   return {
     ...state,
     [action.message_id]: {
       ...message,
-      submessages,
+      submessages: [
+        ...(message.submessages || []),
+        {
+          id: action.submessage_id,
+          message_id: action.message_id,
+          sender_id: action.sender_id,
+          msg_type: action.msg_type,
+          content: action.content,
+        },
+      ],
     },
   };
 };
