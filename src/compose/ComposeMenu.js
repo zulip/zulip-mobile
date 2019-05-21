@@ -10,7 +10,7 @@ import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR } from '../styles';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
-import { navigateToCreateGroup, uploadImage } from '../actions';
+import { navigateToCreateGroup, uploadFile } from '../actions';
 
 type Props = {|
   dispatch: Dispatch,
@@ -68,7 +68,7 @@ class ComposeMenu extends PureComponent<Props> {
 
     const { dispatch, destinationNarrow } = this.props;
     dispatch(
-      uploadImage(
+      uploadFile(
         destinationNarrow,
         response.uri,
         chooseUploadImageFilename(response.uri, response.fileName),
@@ -76,7 +76,7 @@ class ComposeMenu extends PureComponent<Props> {
     );
   };
 
-  handleImageUpload = () => {
+  handleImagePicker = () => {
     ImagePicker.launchImageLibrary(
       {
         quality: 1.0,
@@ -138,7 +138,7 @@ class ComposeMenu extends PureComponent<Props> {
             <IconImage
               style={this.styles.composeMenuButton}
               size={24}
-              onPress={this.handleImageUpload}
+              onPress={this.handleImagePicker}
             />
             <IconCamera
               style={this.styles.composeMenuButton}
