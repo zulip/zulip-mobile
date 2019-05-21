@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
+import DocumentPicker from 'react-native-document-picker';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
 
@@ -8,7 +9,7 @@ import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR } from '../styles';
-import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
+import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera, IconFile } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadFile } from '../actions';
 
@@ -76,6 +77,26 @@ class ComposeMenu extends PureComponent<Props> {
     );
   };
 
+  handleFilePicker = () => {
+    DocumentPicker.pick({ type: [DocumentPicker.types.allFiles] })
+      .then((response: { uri: string, type: string, name: string, size: number }) => {
+        this.handleImagePickerResponse({
+          didCancel: false,
+          error: null,
+          uri: response.uri,
+          fileName: response.name,
+        });
+      })
+      .catch((error: string) => {
+        this.handleImagePickerResponse({
+          didCancel: DocumentPicker.isCancel(error),
+          error,
+          uri: 'error',
+          fileName: 'error',
+        });
+      });
+  };
+
   handleImagePicker = () => {
     ImagePicker.launchImageLibrary(
       {
@@ -119,11 +140,12 @@ class ComposeMenu extends PureComponent<Props> {
 
   render() {
     const { dispatch, expanded, onExpandContract } = this.props;
+    const numIcons = Platform.OS === 'android' ? 4 : 3;
     return (
       <View style={this.styles.composeMenu}>
         <AnimatedComponent
           stylePropertyName="width"
-          fullValue={120}
+          fullValue={40 * numIcons}
           useNativeDriver={false}
           visible={expanded}
         >
@@ -135,6 +157,13 @@ class ComposeMenu extends PureComponent<Props> {
                 dispatch(navigateToCreateGroup());
               }}
             />
+            {Platform.OS === 'android' && (
+              <IconFile
+                style={this.styles.composeMenuButton}
+                size={24}
+                onPress={this.handleFilePicker}
+              />
+            )}
             <IconImage
               style={this.styles.composeMenuButton}
               size={24}
