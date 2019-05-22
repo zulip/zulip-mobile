@@ -307,13 +307,12 @@ const getMessageIdFromNode = (node: ?Node, defaultValue: number = -1): number =>
  */
 const setMessagesReadAttributes = rangeHull => {
   let element = document.querySelector(`[data-msg-id='${rangeHull.first}']`);
-  while (
-    element
-    && element.hasAttribute('data-msg-id')
-    && +element.getAttribute('data-msg-id') <= rangeHull.last
-  ) {
+  while (element) {
     if (element.classList.contains('message')) {
       element.setAttribute('data-read', 'true');
+      if (idFromMessage(element) >= rangeHull.last) {
+        break;
+      }
     }
     element = element.nextElementSibling;
   }
