@@ -194,7 +194,7 @@ hr {
   pointer-events: none;
 }
 [data-mentioned="true"], [data-wildcard_mentioned="true"] {
-  background: rgba(255, 0, 0, 0.05);
+  box-shadow: inset 8px 0 rgba(255, 0, 0, 0.2);
 }
 .message:not([data-read="true"]) {
   box-shadow: inset 4px 0 ${BRAND_COLOR};
