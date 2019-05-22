@@ -19,6 +19,7 @@ import {
   messageLinkPress,
 } from '../actions';
 import { showActionSheet } from '../message/messageActionSheet';
+import { ensureUnreachable } from '../types';
 
 type MessageListEventReady = {|
   type: 'ready',
@@ -234,6 +235,7 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
       break;
 
     default:
+      ensureUnreachable(event);
       logErrorRemotely(new Error(event.type), 'WebView event of unknown type');
       break;
   }

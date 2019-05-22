@@ -4,6 +4,7 @@ import differenceInDays from 'date-fns/difference_in_days';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
 import type { ClientPresence, UserPresence, PresenceStatus, UserStatus } from '../types';
+import { ensureUnreachable } from '../types';
 
 const OFFLINE_THRESHOLD_SECS = 140;
 
@@ -46,6 +47,7 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
               }
               break;
             default:
+              ensureUnreachable(status);
               return aggregated;
           }
         }

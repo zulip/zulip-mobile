@@ -2,6 +2,7 @@
 import uniqby from 'lodash.uniqby';
 
 import type { UserPresence, User, UserGroup, PresenceState } from '../types';
+import { ensureUnreachable } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
@@ -28,6 +29,7 @@ const statusOrder = (presence: UserPresence): number => {
     case 'offline':
       return 3;
     default:
+      ensureUnreachable(status);
       return 4;
   }
 };
