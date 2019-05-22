@@ -433,7 +433,7 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
 const appendAuthToImages = auth => {
   const imageTags = document.getElementsByTagName('img');
   arrayFrom(imageTags).forEach(img => {
-    if (!img.src.startsWith(auth.realm)) {
+    if (!img.src || !img.src.startsWith(auth.realm)) {
       return;
     }
 

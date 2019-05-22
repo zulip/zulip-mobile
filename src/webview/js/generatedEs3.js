@@ -314,7 +314,7 @@ var scrollToPreserve = function scrollToPreserve(msgId, prevBoundTop) {
 var appendAuthToImages = function appendAuthToImages(auth) {
   var imageTags = document.getElementsByTagName('img');
   arrayFrom(imageTags).forEach(function (img) {
-    if (!img.src.startsWith(auth.realm)) {
+    if (!img.src || !img.src.startsWith(auth.realm)) {
       return;
     }
 
