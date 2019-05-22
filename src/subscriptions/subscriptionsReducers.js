@@ -65,7 +65,7 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
             case 'delete':
               return filterArray(
                 state,
-                x => !event.streams.find(y => x && y && x.stream_id === y.stream_id),
+                sub => !event.streams.find(stream => sub.stream_id === stream.stream_id),
               );
 
             case 'create':
