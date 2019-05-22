@@ -475,6 +475,23 @@ const appendAuthToImages = auth => {
   });
 };
 
+const appendAuthToFileLinks = auth => {
+  const aTags = document.getElementsByTagName('a');
+  arrayFrom(aTags).forEach(a => {
+    if (!(a.href && a.href.startsWith(auth.realm))) {
+      return;
+    }
+
+    const hrefPath = a.href.substring(auth.realm.length);
+    if (!hrefPath.startsWith('/user_uploads/')) {
+      return;
+    }
+
+    const delimiter = a.href.includes('?') ? '&' : '?';
+    a.href += `${delimiter}api_key=${auth.apiKey}`;
+  });
+};
+
 const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
   let target: ScrollTarget;
   if (uevent.updateStrategy === 'replace') {
@@ -494,6 +511,7 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
   documentBody.innerHTML = uevent.content;
 
   appendAuthToImages(uevent.auth);
+  appendAuthToFileLinks(uevent.auth);
 
   if (target.type === 'bottom') {
     scrollToBottom();

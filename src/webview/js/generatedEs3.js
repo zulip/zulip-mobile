@@ -346,6 +346,24 @@ var appendAuthToImages = function appendAuthToImages(auth) {
   });
 };
 
+var appendAuthToFileLinks = function appendAuthToFileLinks(auth) {
+  var aTags = document.getElementsByTagName('a');
+  arrayFrom(aTags).forEach(function (a) {
+    if (!(a.href && a.href.startsWith(auth.realm))) {
+      return;
+    }
+
+    var hrefPath = a.href.substring(auth.realm.length);
+
+    if (!hrefPath.startsWith('/user_uploads/')) {
+      return;
+    }
+
+    var delimiter = a.href.includes('?') ? '&' : '?';
+    a.href += delimiter + "api_key=" + auth.apiKey;
+  });
+};
+
 var handleUpdateEventContent = function handleUpdateEventContent(uevent) {
   var target;
 
@@ -368,6 +386,7 @@ var handleUpdateEventContent = function handleUpdateEventContent(uevent) {
 
   documentBody.innerHTML = uevent.content;
   appendAuthToImages(uevent.auth);
+  appendAuthToFileLinks(uevent.auth);
 
   if (target.type === 'bottom') {
     scrollToBottom();
