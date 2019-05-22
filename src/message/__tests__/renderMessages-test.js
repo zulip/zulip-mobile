@@ -23,8 +23,9 @@ describe('renderMessages', () => {
     const messageList = renderMessages(messages, narrow);
 
     expect(messageList).toHaveLength(2);
-    expect(messageList[0].data[0].key).toEqual('time123');
-    expect(messageList[1].data[0].key).toEqual(12345);
+    expect(messageList[1].key).toEqual('header12345');
+    expect(messageList[1].data[0].key).toEqual('time123');
+    expect(messageList[1].data[1].key).toEqual(12345);
   });
 
   test('several messages in same stream, from same person result in time row, header for the stream, three messages, only first of which is full detail', () => {
@@ -62,8 +63,9 @@ describe('renderMessages', () => {
 
     const messageKeys = messageList[1].data.map(x => x.key);
     const messageBriefs = messageList[1].data.map(x => x.isBrief);
-    expect(messageKeys).toEqual([1, 2, 3]);
-    expect(messageBriefs).toEqual([false, true, true]);
+    expect(messageList[1].key).toEqual('header1');
+    expect(messageKeys).toEqual(['time123', 1, 2, 3]);
+    expect(messageBriefs).toEqual([undefined, false, true, true]);
   });
 
   test('several messages in same stream, from different people result in time row, header for the stream, three messages, only all full detail', () => {
@@ -101,8 +103,9 @@ describe('renderMessages', () => {
 
     const messageKeys = messageList[1].data.map(x => x.key);
     const messageBriefs = messageList[1].data.map(x => x.isBrief);
-    expect(messageKeys).toEqual([1, 2, 3]);
-    expect(messageBriefs).toEqual([false, false, false]);
+    expect(messageList[1].key).toEqual('header1');
+    expect(messageKeys).toEqual(['time123', 1, 2, 3]);
+    expect(messageBriefs).toEqual([undefined, false, false, false]);
   });
 
   test('private messages between two people, results in time row, header and two full messages', () => {
@@ -129,7 +132,8 @@ describe('renderMessages', () => {
 
     const messageKeys = messageList[1].data.map(x => x.key);
     const messageBriefs = messageList[1].data.map(x => x.isBrief);
-    expect(messageKeys).toEqual([1, 2]);
-    expect(messageBriefs).toEqual([false, false]);
+    expect(messageList[1].key).toEqual('header1');
+    expect(messageKeys).toEqual(['time123', 1, 2]);
+    expect(messageBriefs).toEqual([undefined, false, false]);
   });
 });

@@ -51,6 +51,7 @@ import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import { getUpdateEvents } from './webViewHandleUpdates';
 import { handleMessageListEvent } from './webViewEventHandlers';
 import { base64Utf8Encode } from '../utils/encoding';
+import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
 // ESLint doesn't notice how `this.props` escapes, and complains about some
 // props not being used here.
@@ -174,7 +175,7 @@ class MessageList extends Component<Props> {
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
     const { auth } = backgroundData;
-    const html = getHtml(messagesHtml, theme, {
+    const html = getHtml(messagesHtml, theme, !isPrivateOrGroupNarrow(narrow), {
       anchor,
       auth,
       showMessagePlaceholders,
