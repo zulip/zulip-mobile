@@ -226,6 +226,14 @@ function walkToMessage(
   return element;
 }
 
+function walkToTimerowAbove(start: ?Element): ?Element {
+  let element: ?Element = start;
+  while (element && !element.classList.contains('timerow')) {
+    element = element.previousElementSibling;
+  }
+  return element;
+}
+
 function firstMessage(): ?Element {
   return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
 }
@@ -234,10 +242,8 @@ function lastMessage(): ?Element {
   return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
 }
 
-/** The minimum height (in px) to see of a message to call it visible. */
-const minOverlap = 20;
-
-function isVisible(element: Element, top: number, bottom: number): boolean {
+/** minOverlap: The minimum height (in px) to see of a message to call it visible. */
+function isVisible(element: Element, top: number, bottom: number, minOverlap: number): boolean {
   const rect = element.getBoundingClientRect();
   return top + minOverlap < rect.bottom && rect.top + minOverlap < bottom;
 }
@@ -245,7 +251,7 @@ function isVisible(element: Element, top: number, bottom: number): boolean {
 /** Returns some message element which is visible, if any. */
 function someVisibleMessage(top: number, bottom: number): ?Element {
   function checkVisible(candidate: ?Element): ?Element {
-    return candidate && isVisible(candidate, top, bottom) ? candidate : null;
+    return candidate && isVisible(candidate, top, bottom, 20) ? candidate : null;
   }
   // Algorithm: if some message-peer is visible, then either the message
   // just before or after it should be visible.  If not, we must be at one
@@ -285,7 +291,7 @@ function visibleMessageIds(): { first: number, last: number } {
   // Walk through visible elements, observing message IDs.
   function walkElements(start: ?Element, step: 'nextElementSibling' | 'previousElementSibling') {
     let element = start;
-    while (element && isVisible(element, top, bottom)) {
+    while (element && isVisible(element, top, bottom, 20)) {
       if (element.classList.contains('message')) {
         const id = idFromMessage(element);
         first = Math.min(first, id);
@@ -301,6 +307,28 @@ function visibleMessageIds(): { first: number, last: number } {
   walkElements(start, 'previousElementSibling');
 
   return { first, last };
+}
+
+function getFirstVisibleMessage(): Element {
+  const header = document.getElementsByClassName('header')[0];
+  const top = header ? header.offsetHeight : 0;
+  const bottom = viewportHeight;
+  let message = document.createElement('null');
+
+  function walkElements(start: ?Element) {
+    let element = start;
+    while (element && isVisible(element, top, bottom, 0)) {
+      if (element.classList.contains('message') || element.classList.contains('header')) {
+        message = element;
+      }
+      element = element.previousElementSibling;
+    }
+  }
+
+  const start = someVisibleMessage(top, bottom);
+  walkElements(start);
+
+  return message;
 }
 
 /** DEPRECATED */
@@ -367,6 +395,32 @@ const sendScrollMessage = () => {
   });
   setMessagesReadAttributes(rangeHull);
   prevMessageRange = messageRange;
+};
+
+let dateTimeout: TimeoutID;
+const handleStickyDatePill = () => {
+  const firstVisibleMessage = getFirstVisibleMessage();
+  const timerowAbove = walkToTimerowAbove(firstVisibleMessage);
+  if (!(firstVisibleMessage && timerowAbove)) {
+    return;
+  }
+
+  const replaceableDate = timerowAbove.getElementsByClassName('date-pill')[0].innerHTML;
+  const datePillSticky = document.getElementById('date-pill-sticky');
+  if (!datePillSticky) {
+    throw new Error('No date-pill-sticky element!');
+  }
+  if (!replaceableDate) {
+    throw new Error('No date-pill element in timerow!');
+  }
+
+  datePillSticky.classList.remove('hide');
+  if (datePillSticky.innerHTML !== replaceableDate) {
+    datePillSticky.innerHTML = replaceableDate;
+  }
+
+  clearTimeout(dateTimeout);
+  dateTimeout = setTimeout(() => datePillSticky.classList.add('hide'), 1000);
 };
 
 // If the message list is too short to scroll, fake a scroll event
@@ -756,6 +810,7 @@ documentBody.addEventListener('touchcancel', (e: TouchEvent) => {
 });
 
 documentBody.addEventListener('touchmove', (e: TouchEvent) => {
+  handleStickyDatePill();
   clearTimeout(longPressTimeout);
 });
 

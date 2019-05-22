@@ -83,6 +83,10 @@ hr {
   z-index: 100;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   transform: translateX(-50%);
+  transition: top 0.2s;
+}
+#date-pill-sticky.hide {
+  top: -2.5em;
 }
 #date-pill-sticky:empty {
   display: none;
