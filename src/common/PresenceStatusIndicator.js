@@ -9,6 +9,7 @@ import { connect } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence, getUserStatus } from '../selectors';
 import { getUsersByEmail } from '../users/userSelectors';
+import { ensureUnreachable } from '../types';
 
 const styles = StyleSheet.create({
   common: {
@@ -123,7 +124,7 @@ class PresenceStatusIndicator extends PureComponent<Props> {
         return <PresenceStatusIndicatorUnavailable style={style} />;
 
       default:
-        (status: empty); // eslint-disable-line no-unused-expressions
+        ensureUnreachable(status);
         return null;
     }
   }

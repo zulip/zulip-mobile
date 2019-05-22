@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import { EventTypes } from '../api/eventTypes';
 import type { SubscriptionsState, Action } from '../types';
+import { ensureUnreachable } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -50,7 +51,7 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
           return state;
 
         default:
-          (action: empty); // eslint-disable-line no-unused-expressions
+          ensureUnreachable(action);
           return state;
       }
 
@@ -74,7 +75,7 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
               return state;
 
             default:
-              (event: empty); // eslint-disable-line no-unused-expressions
+              ensureUnreachable(event);
               return state;
           }
         default:
