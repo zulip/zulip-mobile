@@ -7,6 +7,7 @@ import {
 } from '../actionConstants';
 
 const initialState: SettingsState = {
+  diagnosticNickname: '',
   locale: 'en',
   theme: 'default',
   offlineNotification: true,

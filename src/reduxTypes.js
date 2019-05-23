@@ -179,6 +179,7 @@ export type RealmState = {|
 export type ThemeName = 'default' | 'night';
 
 export type SettingsState = {|
+  diagnosticNickname: string,
   locale: string,
   theme: ThemeName,
   offlineNotification: boolean,

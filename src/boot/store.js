@@ -127,7 +127,7 @@ const store: Store<*, Action> = createStore(
   ),
 );
 
-export const restore = (onFinished?: () => void) =>
+export const restore = (onFinished: (err?: Error, result?: GlobalState) => void) =>
   persistStore(store, reduxPersistConfig, onFinished);
 
 export default store;
