@@ -27,14 +27,14 @@ p {
   margin: 0;
 }
 code {
-  font-size: .857em;
+  font-size: .857rem;
   white-space: pre-wrap;
-  padding: 0 0.25em;
+  padding: 0 0.25rem;
 }
 pre {
-  padding: 0.5em;
-  margin: 0.5em 0;
-  font-size: 0.75em;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  font-size: 0.75rem;
   white-space: pre;
   overflow-x: auto;
   word-wrap: normal;
@@ -57,10 +57,10 @@ thead {
 }
 th, td {
   align: center;
-  padding: 0.25em 0.5em;
+  padding: 0.25rem 0.5rem;
 }
 hr {
-  margin: 1em 0;
+  margin: 1rem 0;
   border: 0;
   border-top: 1px solid rgba(127, 127, 127, 0.5);
 }
@@ -74,20 +74,20 @@ hr {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 0.25em;
+  margin-bottom: 0.25rem;
 }
 .timerow {
   text-align: center;
   color: #999;
   display: flex;
   align-items: center;
-  padding: 0.5em 0;
+  padding: 0.5rem 0;
 }
 .timerow-left,
 .timerow-right {
   flex: 1;
   height: 1px;
-  margin: 0.5em;
+  margin: 0.5rem;
 }
 .timerow-left {
   background: -webkit-linear-gradient(left, transparent 10%, #999 100%);
@@ -97,27 +97,27 @@ hr {
 }
 .timestamp {
   color: #999;
-  font-size: 0.9em;
+  font-size: 0.9rem;
   white-space: nowrap;
 }
 .message,
 .loading {
   display: flex;
   word-wrap: break-word;
-  padding: 1em;
+  padding: 1rem;
 }
 .message-brief {
-  padding: 0 1em 1em 4em;
+  padding: 0 1rem 1rem 4rem;
 }
 .message p + p {
-  margin-top: 1em;
+  margin-top: 1rem;
 }
 .avatar,
 .loading-avatar {
   min-width: 40px;
   width: 40px;
   height: 40px;
-  margin-right: 1em;
+  margin-right: 1rem;
 }
 .avatar img {
   width: 100%;
@@ -139,7 +139,7 @@ hr {
   white-space: nowrap;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 3px;
-  padding: 0 .2em;
+  padding: 0 .2rem;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 .header-wrapper {
@@ -166,25 +166,25 @@ hr {
   white-space: nowrap;
 }
 .private-header {
-  padding: 0 0.5em;
+  padding: 0 0.5rem;
 }
 .topic-header {
   background: #ccc;
   min-width: 30%;
 }
 .stream-text {
-  padding: 0 0.5em;
+  padding: 0 0.5rem;
 }
 .topic-text {
   flex: 1;
-  padding: 0 0.5em;
+  padding: 0 0.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
   pointer-events: none;
 }
 .topic-date {
   opacity: 0.5;
-  padding: 0 0.5em;
+  padding: 0 0.5rem;
   pointer-events: none;
 }
 [data-mentioned="true"], [data-wildcard_mentioned="true"] {
@@ -236,21 +236,21 @@ hr {
   100% { background-position: 0 50% }
 }
 .loading-subheader .name {
-  width: 10em;
+  width: 10rem;
   background-color: rgba(127, 127, 127, 0.9);
 }
 .loading-subheader .timestamp {
-  width: 5em;
+  width: 5rem;
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 .loading-spinner, .outbox-spinner {
-  width: 2em;
-  height: 2em;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
-  margin: 1em auto;
+  margin: 1rem auto;
   font-size: 10px;
   border: 3px solid rgba(82, 194, 175, 0.25);
   border-left: 3px solid rgba(82, 194, 175, 0.75);
@@ -274,16 +274,16 @@ hr {
   object-fit: contain;
 }
 blockquote {
-  padding-left: 0.5em;
-  margin: 0.5em 0 0.5em 0;
+  padding-left: 0.5rem;
+  margin: 0.5rem 0 0.5rem 0;
   border-left: 3px solid rgba(127, 127, 127, 0.5);
 }
 .message ul {
-  padding-left: 1.2em;
-  margin: 0.2em 0 0 0;
+  padding-left: 1.2rem;
+  margin: 0.2rem 0 0 0;
 }
 .message ul + p {
-  margin-top: 1em;
+  margin-top: 1rem;
 }
 .codehilite .gi { color: #00a000; }
 .codehilite .gd { color: #a00000; }
@@ -300,34 +300,34 @@ blockquote {
   border: 2px solid rgba(29, 161, 242, 0.5);
   background: rgba(29, 161, 242, 0.1);
   border-radius: 6px;
-  padding: 0.5em 1em;
-  margin: 0.5em 0;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
 }
 .twitter-avatar {
   border-radius: 3px;
-  margin: 0.4em 0.4em 0.2em 0;
+  margin: 0.4rem 0.4rem 0.2rem 0;
   float: left;
-  width: 2.2em;
-  height: 2.2em;
+  width: 2.2rem;
+  height: 2.2rem;
 }
 .twitter-image {
   text-align: center;
-  margin: 0.5em auto;
+  margin: 0.5rem auto;
 }
 .message-tags {
   text-align: right;
-  margin: 0.25em 0;
-  font-size: 0.7em;
+  margin: 0.25rem 0;
+  font-size: 0.7rem;
 }
 .message-tag {
-  padding: 0.25em 0.5em;
+  padding: 0.175rem 0.35rem;
   margin-left: 4;
   border-radius: 3px;
   color: rgba(127, 127, 127, 0.75);
   background: rgba(0, 0, 0, 0.1);
 }
 .reaction-list {
-  margin: 0.5em 0;
+  margin: 0.5rem 0;
 }
 .reaction {
   color: rgba(127, 127, 127, 1);
@@ -335,15 +335,15 @@ blockquote {
   padding: 5px 6.5px;
   border-radius: 3px;
   border: 1px solid rgba(127, 127, 127, 0.75);
-  line-height: 1em;
-  height: 1em;
-  margin: .25em 0.5em .25em 0;
+  line-height: 1rem;
+  height: 1rem;
+  margin: .25rem 0.5rem .25rem 0;
 }
 .reaction img {
   pointer-events: none;
   cursor: default;
-  max-height: 1em;
-  max-width: 1em;
+  max-height: 1rem;
+  max-width: 1rem;
   vertical-align: top;
 }
 .self-voted {
@@ -370,24 +370,24 @@ blockquote {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1em;
+  padding: 1rem;
   background: rgba(127, 127, 127, 0.1);
   border: 1px dashed rgba(127, 127, 127, 0.5);
-  border-radius: 0.5em;
+  border-radius: 0.5rem;
 }
 #typing {
   display: flex;
-  padding-left: 1em;
+  padding-left: 1rem;
 }
 #typing .content {
-  padding-top: 0.5em;
-  padding-bottom: 1em;
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
 }
 #typing span {
   display: inline-block;
   background-color: #B6B5BA;
-  width: 0.5em;
-  height: 0.5em;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 100%;
   margin-right: 5px;
   animation: bob 2s infinite;
@@ -419,7 +419,7 @@ blockquote {
   width: 100%;
   background: red;
   color: white;
-  font-size: 0.7em;
+  font-size: 0.7rem;
 }
 #js-error-plain, #js-error-plain-dummy {
   z-index: 1000;
