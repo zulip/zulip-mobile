@@ -332,9 +332,8 @@ const sendScrollMessage = () => {
   const messageRange = visibleMessageIds();
   // rangeHull is the convex hull of the previous range and the new one.
   // When the user is actively scrolling, the browser gives us scroll events
-  // only occasionally (or even none at all until they're done, on iOS), so
-  // we use this to interpolate scrolling past the messages in between, as a
-  // partial workaround.
+  // only occasionally, so we use this to interpolate scrolling past the
+  // messages in between, as a partial workaround.
   const rangeHull = {
     first: Math.min(prevMessageRange.first, messageRange.first),
     last: Math.max(prevMessageRange.last, messageRange.last),
