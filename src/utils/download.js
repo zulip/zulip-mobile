@@ -4,8 +4,8 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 import type { Auth } from '../api/transportTypes';
 import { objectToParams } from '../api/apiFetch';
-import { getAuthHeader, getFullUrl } from '../utils/url';
-import userAgent from '../utils/userAgent';
+import { getAuthHeader, getFullUrl } from './url';
+import userAgent from './userAgent';
 
 /**
  * Request permission WRITE_EXTERNAL_STORAGE, or throw if can't get it.
@@ -34,7 +34,7 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
   // result === GRANTED
 };
 
-export default async (src: string, auth: Auth): Promise<mixed> => {
+export const downloadImage = async (src: string, auth: Auth): Promise<mixed> => {
   const absoluteUrl = getFullUrl(src, auth.realm);
 
   if (Platform.OS === 'ios') {
