@@ -76,7 +76,7 @@ hr {
   justify-content: space-between;
   margin-bottom: 6px;
 }
-#timerow-persistent {
+#date-pill-sticky {
   position: fixed;
   top: ${hasRecipientHeaders ? '2.3em' : '0.3em'};
   left: 50%;
@@ -84,19 +84,19 @@ hr {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   transform: translateX(-50%);
 }
-#timerow-persistent:empty {
+#date-pill-sticky:empty {
   display: none;
 }
 .timerow {
   text-align: center;
   margin: 8px;
 }
-.timerow-content, #timerow-persistent {
+.date-pill, #date-pill-sticky {
   color: hsla(0, 0%, 0%, 0.65);
   background: hsl(0, 0%, 92%);
   border-radius: 3px;
 }
-.timerow-content, #timerow-persistent {
+.date-pill, #date-pill-sticky {
   padding: 0.25em 0.5em;
 }
 .message,
