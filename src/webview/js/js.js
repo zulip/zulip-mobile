@@ -42,8 +42,22 @@ import type { MessageListEvent } from '../webViewEventHandlers';
  * A substitute for `Array.from`, which doesn't exist in the WebViews of some
  * of our supported platforms.
  */
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Array-like_objects
-const arrayFrom = arrayLike => Array.prototype.slice.call(arrayLike);
+function arrayFrom<T>(arrayLike: HTMLCollection<T>): T[] {
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Array-like_objects
+  return Array.prototype.slice.call(arrayLike);
+}
+
+/**
+ * A substitute for `Array.from`, for `NodeList` input.
+ *
+ * See `arrayFrom`.  Duplicated to satisfy Flow.
+ */
+// On at least Flow v0.78.0, writing `HTMLCollection<T> | NodeList<T>`
+// worked fine for `HTMLCollection` arguments, but not `NodeList`.  Shrug.
+function arrayFromNodes<T>(arrayLike: NodeList<T>): T[] {
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Array-like_objects
+  return Array.prototype.slice.call(arrayLike);
+}
 
 /*
  * Polyfill Element#closest.
@@ -545,9 +559,9 @@ const handleUpdateEventReady = (uevent: WebViewUpdateEventReady) => {
  */
 const handleUpdateEventMessagesRead = (uevent: WebViewUpdateEventMessagesRead) => {
   const selector = uevent.messageIds.map(id => `[data-msg-id="${id}"]`).join(',');
-  const messageElements = arrayFrom(document.querySelectorAll(selector));
+  const messageElements = arrayFromNodes(document.querySelectorAll(selector));
   messageElements.forEach(element => {
-    element.setAttribute('data-read', true);
+    element.setAttribute('data-read', 'true');
   });
 };
 

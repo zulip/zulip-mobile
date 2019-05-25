@@ -11,9 +11,13 @@
 export default `
 'use strict';
 
-var arrayFrom = function arrayFrom(arrayLike) {
+function arrayFrom(arrayLike) {
   return Array.prototype.slice.call(arrayLike);
-};
+}
+
+function arrayFromNodes(arrayLike) {
+  return Array.prototype.slice.call(arrayLike);
+}
 
 if (!Element.prototype.closest) {
   Element.prototype.closest = function closest(selector) {
@@ -414,9 +418,9 @@ var handleUpdateEventMessagesRead = function handleUpdateEventMessagesRead(ueven
   var selector = uevent.messageIds.map(function (id) {
     return "[data-msg-id=\\"" + id + "\\"]";
   }).join(',');
-  var messageElements = arrayFrom(document.querySelectorAll(selector));
+  var messageElements = arrayFromNodes(document.querySelectorAll(selector));
   messageElements.forEach(function (element) {
-    element.setAttribute('data-read', true);
+    element.setAttribute('data-read', 'true');
   });
 };
 
