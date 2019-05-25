@@ -61,8 +61,13 @@ export const fetchMessages = (
   useFirstUnread: boolean = false,
 ) => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
-  const { messages, found_newest, found_oldest } = await tryUntilSuccessful(() =>
-    getMessages(getAuth(getState()), narrow, anchor, numBefore, numAfter, useFirstUnread),
+  const { messages, found_newest, found_oldest } = await getMessages(
+    getAuth(getState()),
+    narrow,
+    anchor,
+    numBefore,
+    numAfter,
+    useFirstUnread,
   );
   dispatch(
     messageFetchComplete(messages, narrow, anchor, numBefore, numAfter, found_newest, found_oldest),
