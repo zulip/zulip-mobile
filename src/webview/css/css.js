@@ -199,13 +199,6 @@ hr {
   transition-delay: 1s;
   transition-timing-function: ease-out;
 }
-.arrow-right {
-  width: 0;
-  height: 0;
-  border-top: 1em solid transparent;
-  border-bottom: 1em solid transparent;
-  border-left: 1em solid green;
-}
 .private-header {
   background: #444;
   color: white;
@@ -418,10 +411,6 @@ blockquote {
     transform: translateY(0);
     background-color: #B6B5BA;
   }
-}
-.typing-list {
-  background: green;
-  height: 20px;
 }
 #message-loading {
   position: fixed;
