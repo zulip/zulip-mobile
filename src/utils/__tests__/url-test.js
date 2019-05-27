@@ -7,7 +7,7 @@ import {
   isMessageLink,
   isStreamLink,
   isTopicLink,
-  isGroupLink,
+  isPmLink,
   isSpecialLink,
   isEmojiUrl,
   getEmojiUrl,
@@ -196,19 +196,19 @@ describe('isTopicLink', () => {
   });
 });
 
-describe('isGroupLink', () => {
+describe('isPmLink', () => {
   test('only in-app link containing "pm-with" is a group link', () => {
     expect(
-      isGroupLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
+      isPmLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
     ).toBe(false);
+    expect(isPmLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com')).toBe(
+      true,
+    );
     expect(
-      isGroupLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
+      isPmLink('https://example.com/#narrow/pm-with/1,2-group/near/1', 'https://example.com'),
     ).toBe(true);
     expect(
-      isGroupLink('https://example.com/#narrow/pm-with/1,2-group/near/1', 'https://example.com'),
-    ).toBe(true);
-    expect(
-      isGroupLink(
+      isPmLink(
         'https://example.com/#narrow/pm-with/a.40b.2Ecom.c.d.2Ecom/near/3',
         'https://example.com',
       ),

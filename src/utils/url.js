@@ -63,7 +63,7 @@ export const isTopicLink = (url: string, realm: string): boolean => {
   );
 };
 
-export const isGroupLink = (url: string, realm: string): boolean => {
+export const isPmLink = (url: string, realm: string): boolean => {
   const paths = getPathsFromUrl(url, realm);
   return (
     isUrlInAppLink(url, realm)
@@ -100,7 +100,7 @@ export const getNarrowFromLink = (
 ): Narrow => {
   const paths = getPathsFromUrl(url, realm);
 
-  if (isGroupLink(url, realm)) {
+  if (isPmLink(url, realm)) {
     const recipients = paths[1].split('-')[0].split(',');
     return groupNarrow(
       recipients.map(
