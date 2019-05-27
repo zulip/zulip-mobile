@@ -121,32 +121,22 @@ function midMessagePeer(top, bottom) {
   return midElements[midElements.length - 3];
 }
 
-function walkToMessage(start, step) {
+function walkToElement(start, elementType, step) {
   var element = start;
 
-  while (element && !element.classList.contains('message')) {
+  while (element && !element.classList.contains(elementType)) {
     element = element[step];
   }
 
   return element;
 }
 
-function walkToTimerowAbove(start) {
-  var element = start;
-
-  while (element && !element.classList.contains('timerow')) {
-    element = element.previousElementSibling;
-  }
-
-  return element;
-}
-
 function firstMessage() {
-  return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+  return walkToElement(documentBody.firstElementChild, 'message', 'nextElementSibling');
 }
 
 function lastMessage() {
-  return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+  return walkToElement(documentBody.lastElementChild, 'message', 'previousElementSibling');
 }
 
 function isVisible(element, top, bottom, minOverlap) {
@@ -160,7 +150,7 @@ function someVisibleMessage(top, bottom) {
   }
 
   var midPeer = midMessagePeer(top, bottom);
-  return checkVisible(walkToMessage(midPeer, 'previousElementSibling')) || checkVisible(walkToMessage(midPeer, 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
+  return checkVisible(walkToElement(midPeer, 'message', 'previousElementSibling')) || checkVisible(walkToElement(midPeer, 'message', 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
 }
 
 function idFromMessage(element) {
@@ -281,7 +271,7 @@ var dateTimeout;
 
 var handleStickyDatePill = function handleStickyDatePill() {
   var firstVisibleMessage = getFirstVisibleMessage();
-  var timerowAbove = walkToTimerowAbove(firstVisibleMessage);
+  var timerowAbove = walkToElement(firstVisibleMessage, 'timerow', 'previousElementSibling');
 
   if (!(firstVisibleMessage && timerowAbove)) {
     return;

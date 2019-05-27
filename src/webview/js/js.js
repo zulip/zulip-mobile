@@ -214,32 +214,25 @@ function midMessagePeer(top: number, bottom: number): ?Element {
   return midElements[midElements.length - 3];
 }
 
-function walkToMessage(
+function walkToElement(
   start: ?Element,
+  elementType: 'message' | 'timerow',
   step: 'nextElementSibling' | 'previousElementSibling',
 ): ?Element {
   let element: ?Element = start;
-  while (element && !element.classList.contains('message')) {
+  while (element && !element.classList.contains(elementType)) {
     // $FlowFixMe: doesn't use finite type of `step`
     element = element[step];
   }
   return element;
 }
 
-function walkToTimerowAbove(start: ?Element): ?Element {
-  let element: ?Element = start;
-  while (element && !element.classList.contains('timerow')) {
-    element = element.previousElementSibling;
-  }
-  return element;
-}
-
 function firstMessage(): ?Element {
-  return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+  return walkToElement(documentBody.firstElementChild, 'message', 'nextElementSibling');
 }
 
 function lastMessage(): ?Element {
-  return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+  return walkToElement(documentBody.lastElementChild, 'message', 'previousElementSibling');
 }
 
 /** minOverlap: The minimum height (in px) to see of a message to call it visible. */
@@ -259,8 +252,8 @@ function someVisibleMessage(top: number, bottom: number): ?Element {
   // (or both) should be visible.
   const midPeer = midMessagePeer(top, bottom);
   return (
-    checkVisible(walkToMessage(midPeer, 'previousElementSibling'))
-    || checkVisible(walkToMessage(midPeer, 'nextElementSibling'))
+    checkVisible(walkToElement(midPeer, 'message', 'previousElementSibling'))
+    || checkVisible(walkToElement(midPeer, 'message', 'nextElementSibling'))
     || checkVisible(firstMessage())
     || checkVisible(lastMessage())
   );
@@ -310,6 +303,7 @@ function visibleMessageIds(): { first: number, last: number } {
 }
 
 function getFirstVisibleMessage(): Element {
+  // Find if a header exists, use its height as top if it does.
   const header = document.getElementsByClassName('header')[0];
   const top = header ? header.offsetHeight : 0;
   const bottom = viewportHeight;
@@ -400,7 +394,7 @@ const sendScrollMessage = () => {
 let dateTimeout: TimeoutID;
 const handleStickyDatePill = () => {
   const firstVisibleMessage = getFirstVisibleMessage();
-  const timerowAbove = walkToTimerowAbove(firstVisibleMessage);
+  const timerowAbove = walkToElement(firstVisibleMessage, 'timerow', 'previousElementSibling');
   if (!(firstVisibleMessage && timerowAbove)) {
     return;
   }
