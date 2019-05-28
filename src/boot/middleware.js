@@ -8,7 +8,7 @@ import config from '../config';
 import { REHYDRATE } from '../actionConstants';
 import { getNav } from '../selectors';
 
-const reactNavigationMiddleware = createReactNavigationReduxMiddleware('root', getNav);
+const reactNavigationMiddleware = createReactNavigationReduxMiddleware(getNav);
 
 const middleware = [reactNavigationMiddleware, createActionBuffer(REHYDRATE), thunk];
 
