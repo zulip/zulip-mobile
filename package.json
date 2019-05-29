@@ -16,7 +16,6 @@
     "build:android": "cd android && ./gradlew assembleRelease -Psigned -Psentry",
     "build:android-nokeys": "cd android && ./gradlew assembleRelease",
     "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
-    "build:ios-release": "detox build --configuration ios.sim.release",
 
     "test": "tools/test",
     "test:full": "tools/test --full --coverage",
@@ -31,8 +30,6 @@
 
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
     "test:flow-todo": "eslint --no-eslintrc -c tools/flow-todo.eslintrc.yaml src/",
-
-    "test:e2e": "detox test --configuration ios.sim.release --cleanup",
 
     "update-libdefs": "yarn install && rm -rf flow-typed/npm/ && flow-typed update",
     "reinstall": "rm -rf node_modules && yarn cache clean && yarn install"
@@ -93,7 +90,6 @@
     "babel-preset-react-native": "^4.0.0",
     "metro-react-native-babel-preset": "0.49.1",
     "deep-freeze": "^0.0.1",
-    "detox": "^9.0.6",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-airbnb-base": "^12.1.0",
@@ -131,22 +127,10 @@
       "node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/",
-      "<rootDir>/__e2e__tests__"
+      "/node_modules/"
     ],
     "setupFiles": [
       "./jest/globalFetch.js"
     ]
-  },
-  "detox": {
-    "configurations": {
-      "ios.sim.release": {
-        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/ZulipMobile.app",
-        "build": "cd ios && xcodebuild -workspace ZulipMobile.xcworkspace -configuration Release -scheme ZulipMobile -derivedDataPath build -sdk iphonesimulator -quiet",
-        "type": "ios.simulator",
-        "name": "iPhone 6, iOS 10.3"
-      }
-    },
-    "specs": "__e2e__tests__"
   }
 }
