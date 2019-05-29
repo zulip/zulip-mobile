@@ -11,6 +11,7 @@ html {
   user-select: none; /* Standard syntax */
   -khtml-user-select: none;
   -webkit-touch-callout: none;
+  font-size: 15px;
 }
 body {
   font-family: sans-serif;
@@ -18,7 +19,6 @@ body {
   margin: 0;
   width: 100%;
   max-width: 100%;
-  font-size: 15px;
 }
 a {
   color: #08c;
