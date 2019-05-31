@@ -9,6 +9,17 @@ to users in general on the app stores is typically a few days later.
 ## Unreleased
 
 
+### Highlights for users
+
+Special highlights:
+* Just like Zulip on the desktop and web, we now highlight
+  messages that you're reading for the first time. (#3125)
+* Fixed a bug that caused the app to miss some messages. (#3441)
+
+Like every release, this contains many other improvements for
+your Zulip experience.
+
+
 ## 24.0.113 (2019-03-29)
 
 ### Highlights for users
