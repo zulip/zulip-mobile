@@ -56,7 +56,8 @@ simple terminology for the process we follow with both.
 
 (For one-time initial setup, see [below](#initial-setup).)
 
-### Preparing commit
+
+### Prepare the commit
 
 * Run `tools/bump-version` to update the version number in the
   Android and iOS build metadata.
@@ -66,7 +67,8 @@ simple terminology for the process we follow with both.
 
 * Tag the commit and push the tag.
 
-### Android
+
+### Build and upload alpha: Android
 
 * Decrypt the keystore file temporarily:
 
@@ -86,20 +88,8 @@ simple terminology for the process we follow with both.
 * Upload as an "Internal test track" release in the Google Play Console,
   under [Release management -> App releases](https://play.google.com/apps/publish/#ManageReleasesPlace:p=com.zulipmobile&appid=4976350040864490411).
 
-  * Update your device to the new version, and smoke-test it.
 
-* Promote the release to beta, using the "Release to beta" button on that
-  "Internal test" page.  (Skip this for a very raw new major release.)
-
-* If promoting to beta: also upload as a release
-  [on GitHub](https://github.com/zulip/zulip-mobile/releases).  This is
-  useful for people who use Android without Google Play, e.g. out of privacy
-  concerns or a desire to stick rigorously to free software.
-
-  Check the box "This is a pre-release".
-
-
-### iOS
+### Build and upload alpha: iOS
 
 * Build using our `tools/ios` script:
 
@@ -136,7 +126,7 @@ simple terminology for the process we follow with both.
   * Like the build, this will probably be flaky in exciting ways;
     see history for hints.
 
-* Distribute from [App Store Connect][app-store-connect].
+* Watch progress on [App Store Connect][app-store-connect].
 
   * The new build will appear first in
     [Activity -> iOS History -> All Builds][asc-builds], with the
@@ -148,8 +138,43 @@ simple terminology for the process we follow with both.
     when it's complete.  At this point, the new build automatically becomes
     available in alpha.
 
-  * After processing is complete, you can add the build to TestFlight
-    so it goes to our beta users.  Go to [TestFlight ->
+[app-store-connect]: https://appstoreconnect.apple.com/
+[asc-builds]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/activity/ios/builds
+
+
+### Promote to beta
+
+Do this after updating your device to the new version from alpha, and
+smoke-testing it.  Or for a very raw new major release, perhaps hold
+off further.
+
+* Android via Play Store:
+
+  * Go to
+    [Release management -> App releases -> Internal test][play-manage-internal]
+    in the Google Play Console.  (If you just uploaded the alpha, that
+    took you here already.)
+
+  * Use the "Release to beta" button there.
+
+[play-manage-internal]: https://play.google.com/apps/publish/?account=8060868091387311598#ManageReleaseTrackPlace:p=com.zulipmobile&releaseTrackId=4699145961663258026
+
+
+* Android via GitHub:
+
+  * Upload as a
+    [GitHub release](https://github.com/zulip/zulip-mobile/releases).
+
+    This is useful for people who use Android without Google Play,
+    e.g. out of privacy concerns or a desire to stick rigorously to
+    free software.
+
+  * Check the box "This is a pre-release".
+
+* iOS via App Store:
+
+  * After the build reaches alpha, you can add it to TestFlight so it
+    goes to our beta users.  Go in App Store Connect to [TestFlight ->
     Testers & Groups -> External Testers -> Builds][asc-external-builds],
     and hit the "+" icon at the top of the list of builds to enter a
     modal dialog.
@@ -162,17 +187,15 @@ simple terminology for the process we follow with both.
   * The build will go into "Beta App Review".  This typically comes back the
     next morning, California time.  If successful, the app is out in beta!
 
-[app-store-connect]: https://appstoreconnect.apple.com/
-[asc-builds]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/activity/ios/builds
 [asc-external-builds]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/testflight?section=group&subsection=builds&id=1bf18c25-da12-4bad-8384-9dd872ce447f
 
 
-### Releasing to production
+### Release to production
 
-Do these after the beta has been out a couple of days and there don't
+Do this after the beta has been out a couple of days and there don't
 seem to be bad regressions.
 
-* For Android, promote the beta to production.
+* Android via Play Store:
 
   * In the Play Console, go to [Release Management -> App releases ->
     Manage Beta][play-manage-beta].
@@ -180,11 +203,15 @@ seem to be bad regressions.
   * Hit "Release to Production".  Look at the "What's new" box at the bottom,
     and check that the text is good.  Hit the button to confirm the release.
 
-  * Also edit the release on GitHub, and uncheck "This is a pre-release".
-
 [play-manage-beta]: https://play.google.com/apps/publish/?account=8060868091387311598#ManageReleaseTrackPlace:p=com.zulipmobile&releaseTrackId=4697711623380261182
 
-* For iOS, promote the TestFlight build to the App Store.
+
+* Android via GitHub:
+
+  * Edit the release on GitHub, and uncheck "This is a pre-release".
+
+
+* iOS via App Store:
 
   * In App Store Connect for the app, [go to the "App Store" tab][asc-main], and
     hit the "+ Version" button at the bottom of the left sidebar.  Enter the
