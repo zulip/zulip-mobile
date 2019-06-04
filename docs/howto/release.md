@@ -97,17 +97,21 @@ simple terminology for the process we follow with both.
 * Build using our `tools/ios` script:
 
   ```
-  security unlock-keychain  # will prompt for your password
   tools/ios build
   ```
 
   This will take a few minutes to run (it's about 5 minutes on the
   Mac Mini in the Zulip office.)
 
-  * If you have a graphical session (rather than SSHing in to the
-    machine), you could skip the `security unlock-keychain`; then
-    toward the end you'll get a graphical prompt to do the same thing,
-    when the job needs access to your keychain to sign the build.
+  * You'll need a graphical session (rather than SSHing in to the
+    machine); toward the end you'll get a graphical prompt for your
+    login password (in fact two of them in quick succession), when the
+    job needs access to your keychain to sign the build.
+
+  * At one point I (Greg) found I could do a build over SSH by first
+    running the command `security unlock-keychain` (which prompts for
+    the login password), then the build script.  But then that stopped
+    working; not clear what changed.
 
   * Given past experience with Apple tools, this will probably prove
     to be flaky in new and exciting ways.  See the history of this
@@ -120,11 +124,15 @@ simple terminology for the process we follow with both.
   tools/ios upload
   ```
 
-  * You'll need a graphical session; `security unlock-keychain`
-    doesn't seem to suffice.  Finding a pure-CLI, SSH-accessible way
-    to do this step would be pretty nice.  (Possible route: export
-    to a `.ipa` file, then use `altool --upload-app`.  Can prompt for
-    App Store Connect password, or get it from the keychain.)
+  * You'll need a graphical session.  For this step, happily, the
+    Keychain prompts come at the beginning instead of the end.
+
+  * For this step `security unlock-keychain` wasn't effective even
+    when it did work for the actual build.  Finding a pure-CLI,
+    SSH-accessible way to do this step would be pretty nice.
+    (Possible route: export to a `.ipa` file, then use `altool
+    --upload-app`.  Can prompt for App Store Connect password, or get
+    it from the keychain.)
 
   * Like the build, this will probably be flaky in exciting ways;
     see history for hints.
