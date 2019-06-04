@@ -59,11 +59,10 @@ simple terminology for the process we follow with both.
 
 ### Prepare the commit
 
+* Check that tests pass: `tools/test`.
+
 * Run `tools/bump-version` to update the version number in the
   Android and iOS build metadata.
-
-* QA the exact commit to be released: run tests, and do manual testing
-  of core functionality and anything with risky changes.
 
 * Tag the commit and push the tag.
 
@@ -144,9 +143,17 @@ simple terminology for the process we follow with both.
 
 ### Promote to beta
 
-Do this after updating your device to the new version from alpha, and
-smoke-testing it.  Or for a very raw new major release, perhaps hold
-off further.
+* Before doing this:
+
+  * Update your device to the alpha.
+
+  * Manually test core functionality, and anything with risky changes.
+
+  * Then, perhaps promote immediately.
+
+  * For a very raw new major release, perhaps hold off a couple of
+    days for feedback from other alpha users.
+
 
 * Android via Play Store:
 
