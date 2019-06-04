@@ -84,8 +84,12 @@ simple terminology for the process we follow with both.
 
   This produces an APK at `android/app/build/outputs/apk/release/app-release.apk`.
 
-* Upload as an "Internal test track" release in the Google Play Console,
-  under [Release management -> App releases](https://play.google.com/apps/publish/#ManageReleasesPlace:p=com.zulipmobile&appid=4976350040864490411).
+* Upload to Google Play via the "Create Release" button on the
+  ["Internal test" track management][play-manage-internal] page
+  (within [Release management -> App releases][play-manage-releases]).
+
+[play-manage-releases]: https://play.google.com/apps/publish/#ManageReleasesPlace:p=com.zulipmobile&appid=4976350040864490411
+[play-manage-internal]: https://play.google.com/apps/publish/?account=8060868091387311598#ManageReleaseTrackPlace:p=com.zulipmobile&releaseTrackId=4699145961663258026
 
 
 ### Build and upload alpha: iOS
