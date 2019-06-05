@@ -9,6 +9,11 @@ to users in general on the app stores is typically a few days later.
 ## Unreleased
 
 
+## 25.2.116 (2019-06-05)
+
+Alpha release; no release notes.  See Git log for detailed changes.
+
+
 ## 25.1.115 (2019-06-04)
 
 Alpha release; no release notes.  See Git log for detailed changes.
