@@ -114,9 +114,9 @@ hr {
 }
 .avatar,
 .loading-avatar {
-  min-width: 40px;
-  width: 40px;
-  height: 40px;
+  min-width: 32px;
+  width: 32px;
+  height: 32px;
   margin-right: 1rem;
 }
 .avatar img {
