@@ -140,6 +140,7 @@ hr {
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   padding: 0 2px;
+  margin: 0 1px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 .header-wrapper {
