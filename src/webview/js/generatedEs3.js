@@ -525,6 +525,7 @@ documentBody.addEventListener('click', function (e) {
       messageId: getMessageIdFromNode(target),
       voted: target.classList.contains('self-voted')
     });
+    return;
   }
 });
 

@@ -1,4 +1,5 @@
 /* @flow strict-local */
+/* eslint-disable no-useless-return */
 import type { Auth } from '../../types';
 import type {
   WebViewUpdateEvent,
@@ -681,6 +682,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
       messageId: getMessageIdFromNode(target),
       voted: target.classList.contains('self-voted'),
     });
+    return;
   }
 });
 
