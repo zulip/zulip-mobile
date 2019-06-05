@@ -21,6 +21,12 @@ body {
   width: 100%;
   max-width: 100%;
 }
+body > .message-full {
+  padding: 16px;
+}
+body > .message-brief {
+  padding: 0 16px 16px 80px;
+}
 a {
   color: hsl(200, 100%, 40%);
 }
@@ -100,11 +106,7 @@ hr {
 .loading {
   display: flex;
   word-wrap: break-word;
-  padding: 16px;
   -webkit-tap-highlight-color: transparent;
-}
-.message-brief {
-  padding: 0 16px 16px 80px;
 }
 .static-timestamp {
   color: hsl(0, 0%, 60%);
@@ -236,6 +238,9 @@ hr {
 .private-header {
   background: hsl(0, 0%, 27%);
   color: white;
+}
+.loading {
+  padding: 16px;
 }
 .loading-avatar {
   border-radius: 3px;
