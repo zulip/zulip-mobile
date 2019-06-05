@@ -2,8 +2,9 @@
 import type { ThemeName } from '../../types';
 import { BRAND_COLOR } from '../../styles';
 import cssEmojis from './cssEmojis';
+import cssNight from './cssNight';
 
-const defaultTheme = `
+const cssBase = `
 html {
   -webkit-user-select: none; /* Safari 3.1+ */
   -moz-user-select: none; /* Firefox 2+ */
@@ -462,23 +463,10 @@ blockquote {
 }
 `;
 
-const darkTheme = `
-body {
-  color: #d5d9dd;
-  background: #212D3B;
-}
-.topic-header {
-  background: #54606E;
-}
-.highlight {
-  background-color: hsla(51, 100%, 64%, 0.42);
-}
-`;
-
 export default (theme: ThemeName) => `
 <style>
-${defaultTheme}
-${theme === 'night' ? darkTheme : ''}
+${cssBase}
+${theme === 'night' ? cssNight : ''}
 ${cssEmojis}
 </style>
 <style id="style-hide-js-error-plain">
