@@ -40,7 +40,7 @@ pre {
   word-wrap: normal;
 }
 code, pre {
-  border-radius: 3px;
+  border-radius: 0.2rem;
   border: 1px solid rgba(127, 127, 127, 0.25);
   background-color: rgba(127, 127, 127, 0.125);
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
@@ -107,7 +107,7 @@ hr {
   padding: 16px;
 }
 .message-brief {
-  padding: 0 16px 16px 64px;
+  margin-left: 72px;
 }
 .message p + p {
   margin-top: 16px;
@@ -138,14 +138,15 @@ hr {
 .user-mention {
   white-space: nowrap;
   background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
-  padding: 0 2px;
+  border-radius: 0.2rem;
+  padding: 0 4px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 .header-wrapper {
   position: -webkit-sticky;
   position: sticky;
   top: -1px;
+  padding: 8px;
   z-index: 100;
   display: flex;
   justify-content: space-between;
@@ -162,9 +163,14 @@ hr {
 .stream-text,
 .topic-header,
 .private-header {
+  padding: 0 8px;
   line-height: 2;
   white-space: nowrap;
 }
+.private-header {
+  padding: 0 0.5rem;
+}
+.topic-header {
 .private-header {
   padding: 0 8px;
 }
@@ -188,7 +194,7 @@ hr {
   pointer-events: none;
 }
 [data-mentioned="true"], [data-wildcard_mentioned="true"] {
-  background: rgba(255, 0, 0, 0.05);
+  box-shadow: inset 8px 0 rgba(255, 0, 0, 0.2);
 }
 .message:not([data-read="true"]) {
   box-shadow: inset 4px 0 ${BRAND_COLOR};
@@ -227,9 +233,9 @@ hr {
   background-size: 200% 200%;
   animation: gradient-scroll 1s linear infinite;
 
-  border-radius: 10px;
+  border-radius: 0.25rem;
   height: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 @keyframes gradient-scroll {
   0% { background-position: 100% 50% }
@@ -276,7 +282,7 @@ hr {
 blockquote {
   padding-left: 8px;
   margin: 8px 0 8px 0;
-  border-left: 3px solid rgba(127, 127, 127, 0.5);
+  border-left: 0.2rem solid rgba(127, 127, 127, 0.5);
 }
 .message ul {
   padding-left: 20px;
@@ -299,12 +305,12 @@ blockquote {
 .twitter-tweet {
   border: 2px solid rgba(29, 161, 242, 0.5);
   background: rgba(29, 161, 242, 0.1);
-  border-radius: 6px;
+  border-radius: 0.4rem;
   padding: 8px 16px;
   margin: 8px 0;
 }
 .twitter-avatar {
-  border-radius: 3px;
+  border-radius: 0.2rem;
   margin: 8px 8px 4px 0;
   float: left;
   width: 2.2rem;
@@ -320,9 +326,9 @@ blockquote {
   font-size: 0.7rem;
 }
 .message-tag {
-  padding: 4px 4px;
+  padding: 3px 5px;
   margin-left: 4px;
-  border-radius: 3px;
+  border-radius: 0.2rem;
   color: rgba(127, 127, 127, 0.75);
   background: rgba(0, 0, 0, 0.1);
 }
@@ -332,8 +338,8 @@ blockquote {
 .reaction {
   color: rgba(127, 127, 127, 1);
   display: inline-block;
-  padding: 5px 6.5px;
-  border-radius: 3px;
+  padding: 8px;
+  border-radius: 0.2rem;
   border: 1px solid rgba(127, 127, 127, 0.75);
   line-height: 1rem;
   height: 1rem;
@@ -356,8 +362,8 @@ blockquote {
 }
 .emoji {
   display: inline-block;
-  height: 1.25rem;
-  width: 1.25rem;
+  height: 1.2rem;
+  width: 1.2rem;
   white-space: nowrap;
   color: transparent;
   vertical-align: text-top;
@@ -389,7 +395,7 @@ blockquote {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 100%;
-  margin-right: 5px;
+  margin-right: 8px;
   animation: bob 2s infinite;
 }
 #typing span:nth-child(2) {
@@ -438,8 +444,8 @@ blockquote {
 #scroll-bottom {
   position: fixed;
   z-index: 200;
-  right: 5px;
-  bottom: 15px;
+  right: 8px;
+  bottom: 8px;
 }
 #scroll-bottom a {
   display: block;
