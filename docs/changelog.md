@@ -11,7 +11,7 @@ to users in general on the app stores is typically a few days later.
 
 ## 25.2.116 (2019-06-05)
 
-Alpha release; no release notes.  See Git log for detailed changes.
+Incremental release following 25.0.114, with several bugfixes.
 
 
 ## 25.1.115 (2019-06-04)
