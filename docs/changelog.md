@@ -6,6 +6,20 @@ channels on the Play Store and Apple's App Store.  The main rollout
 to users in general on the app stores is typically a few days later.
 
 
+#### Version numbering
+
+We number our versions like so:
+
+* Android requires a monotonically increasing integer version ID.
+  Call that N.  We increment it on each release, including those that
+  only go to alpha or beta.
+
+* Then we use version numbers A.B.N, where N is that same N, and...
+  * A is incremented for "a major release", whatever that means. (It's
+    a bit of an arbitrary choice we make when making the release.)
+  * B is reset to zero on "a major release", and otherwise incremented.
+
+
 ## Unreleased
 
 
