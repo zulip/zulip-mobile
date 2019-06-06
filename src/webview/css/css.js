@@ -139,7 +139,7 @@ hr {
   white-space: nowrap;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 3px;
-  padding: 0 .2rem;
+  padding: 0 .125rem;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 .header-wrapper {
@@ -279,8 +279,8 @@ blockquote {
   border-left: 3px solid rgba(127, 127, 127, 0.5);
 }
 .message ul {
-  padding-left: 1.2rem;
-  margin: 0.2rem 0 0 0;
+  padding-left: 1.25rem;
+  margin: 0.25rem 0 0 0;
 }
 .message ul + p {
   margin-top: 1rem;
@@ -305,7 +305,7 @@ blockquote {
 }
 .twitter-avatar {
   border-radius: 3px;
-  margin: 0.4rem 0.4rem 0.2rem 0;
+  margin: 0.5rem 0.5rem 0.25rem 0;
   float: left;
   width: 2.2rem;
   height: 2.2rem;
@@ -320,7 +320,7 @@ blockquote {
   font-size: 0.7rem;
 }
 .message-tag {
-  padding: 0.175rem 0.35rem;
+  padding: 0.25rem 0.25rem;
   margin-left: 4;
   border-radius: 3px;
   color: rgba(127, 127, 127, 0.75);
