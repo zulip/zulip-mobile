@@ -139,7 +139,7 @@ hr {
   white-space: nowrap;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 3px;
-  padding: 0 2px;
+  padding: 0 4px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 .header-wrapper {
@@ -227,9 +227,9 @@ hr {
   background-size: 200% 200%;
   animation: gradient-scroll 1s linear infinite;
 
-  border-radius: 10px;
+  border-radius: 4px;
   height: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 @keyframes gradient-scroll {
   0% { background-position: 100% 50% }
@@ -320,7 +320,7 @@ blockquote {
   font-size: 0.7rem;
 }
 .message-tag {
-  padding: 4px 4px;
+  padding: 3px 5px;
   margin-left: 4px;
   border-radius: 3px;
   color: rgba(127, 127, 127, 0.75);
@@ -332,7 +332,7 @@ blockquote {
 .reaction {
   color: rgba(127, 127, 127, 1);
   display: inline-block;
-  padding: 5px 6.5px;
+  padding: 8px;
   border-radius: 3px;
   border: 1px solid rgba(127, 127, 127, 0.75);
   line-height: 1rem;
@@ -356,8 +356,8 @@ blockquote {
 }
 .emoji {
   display: inline-block;
-  height: 1.25rem;
-  width: 1.25rem;
+  height: 1.2rem;
+  width: 1.2rem;
   white-space: nowrap;
   color: transparent;
   vertical-align: text-top;
@@ -389,7 +389,7 @@ blockquote {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 100%;
-  margin-right: 5px;
+  margin-right: 8px;
   animation: bob 2s infinite;
 }
 #typing span:nth-child(2) {
@@ -438,8 +438,8 @@ blockquote {
 #scroll-bottom {
   position: fixed;
   z-index: 200;
-  right: 5px;
-  bottom: 15px;
+  right: 8px;
+  bottom: 8px;
 }
 #scroll-bottom a {
   display: block;
