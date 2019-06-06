@@ -30,9 +30,6 @@ body > .message-full {
 body > .message-brief {
   padding: 8px 16px 8px 80px;
 }
-.message + .message-full {
-  padding-top: 24px;
-}
 a {
   color: hsl(200, 100%, 40%);
 }
