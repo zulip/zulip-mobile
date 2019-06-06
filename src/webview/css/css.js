@@ -12,7 +12,6 @@ html {
   user-select: none; /* Standard syntax */
   -khtml-user-select: none;
   -webkit-touch-callout: none;
-  font-size: 93.75%;
 }
 body {
   font-family: sans-serif;
