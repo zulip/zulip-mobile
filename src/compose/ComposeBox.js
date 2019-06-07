@@ -332,7 +332,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, usersByEmail);
     const style = {
       paddingBottom: safeAreaInsets.bottom,
-      backgroundColor: 'rgba(127, 127, 127, 0.1)',
+      backgroundColor: 'hsla(0, 0%, 49.8%, 0.1)',
     };
 
     return (

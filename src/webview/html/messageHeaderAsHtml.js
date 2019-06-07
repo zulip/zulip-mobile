@@ -64,7 +64,7 @@ export default (
     const { display_recipient } = item;
     const stream = subscriptions.find(x => x.name === display_recipient);
 
-    const backgroundColor = stream ? stream.color : '#ccc';
+    const backgroundColor = stream ? stream.color : 'hsl(0, 0%, 80%)';
     const textColor = foregroundColorFromBackground(backgroundColor);
     const streamNarrowStr = JSON.stringify(streamNarrow(item.display_recipient));
     const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));

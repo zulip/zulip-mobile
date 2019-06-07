@@ -21,20 +21,20 @@ export type AppStyles = $ReadOnly<{|
 
 export const themeColors: { [string]: ThemeColors } = {
   night: {
-    color: '#d5d9dd',
-    backgroundColor: '#212D3B',
-    cardColor: '#253547',
+    color: 'hsl(210, 10.7%, 85.1%)',
+    backgroundColor: 'hsl(212.4, 28.3%, 18%)',
+    cardColor: 'hsl(211.6, 31.4%, 21.2%)',
     // Dividers follow Material Design: opacity 12% black or 12% white.
     // See https://material.io/guidelines/components/dividers.html
-    dividerColor: 'rgba(255, 255, 255, 0.12)',
+    dividerColor: 'hsla(0, 0%, 100%, 0.12)',
   },
   light: {
-    color: '#333',
+    color: 'hsl(0, 0%, 20%)',
     backgroundColor: 'white',
-    cardColor: '#F8F8F8',
+    cardColor: 'hsl(0, 0%, 97.3%)',
     // Dividers follow Material Design: opacity 12% black or 12% white.
     // See https://material.io/guidelines/components/dividers.html
-    dividerColor: 'rgba(0, 0, 0, 0.12)',
+    dividerColor: 'hsla(0, 0%, 0%, 0.12)',
   },
 };
 themeColors.default = themeColors.light;

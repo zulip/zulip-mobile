@@ -13,7 +13,7 @@ const componentStyles = StyleSheet.create({
   },
   textEmail: {
     fontSize: 10,
-    color: '#999',
+    color: 'hsl(0, 0%, 60%)',
   },
   textWrapper: {
     flex: 1,

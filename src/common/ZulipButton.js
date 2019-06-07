@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     borderColor: BRAND_COLOR,
   },
   text: {
-    color: '#FFFFFF',
+    color: 'hsl(0, 0%, 100%)',
     fontSize: 16,
   },
   primaryText: {
@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
     color: BRAND_COLOR,
   },
   disabledPrimaryFrame: {
-    backgroundColor: 'rgba(127, 127, 127, 0.4)',
+    backgroundColor: 'hsla(0, 0%, 49.8%, 0.4)',
   },
   disabledSecondaryFrame: {
     borderWidth: 1.5,
-    borderColor: 'rgba(127, 127, 127, 0.4)',
+    borderColor: 'hsla(0, 0%, 49.8%, 0.4)',
   },
   disabledText: {
-    color: 'rgba(127, 127, 127, 0.8)',
+    color: 'hsla(0, 0%, 49.8%, 0.8)',
   },
 });
 

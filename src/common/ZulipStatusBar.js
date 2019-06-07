@@ -15,7 +15,7 @@ type BarStyle = $PropertyType<$PropertyType<StatusBar, 'props'>, 'barStyle'>;
 export const getStatusBarColor = (backgroundColor: string, theme: ThemeName): string =>
   backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
     ? theme === 'night'
-      ? '#212D3B'
+      ? 'hsl(212.4, 28.3%, 18%)'
       : 'white'
     : backgroundColor;
 

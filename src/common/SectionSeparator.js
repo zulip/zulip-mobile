@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     margin: 10,
-    backgroundColor: 'rgba(127, 127, 127, 0.75)',
+    backgroundColor: 'hsla(0, 0%, 49.8%, 0.75)',
   },
 });
 

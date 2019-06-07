@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 8,
     borderBottomWidth: 1,
-    borderColor: 'rgba(127, 127, 127, 0.25)',
+    borderColor: 'hsla(0, 0%, 49.8%, 0.25)',
   },
   key: {},
   size: {

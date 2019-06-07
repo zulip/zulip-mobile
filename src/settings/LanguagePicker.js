@@ -12,7 +12,7 @@ import LanguagePickerItem from './LanguagePickerItem';
 const styles = StyleSheet.create({
   separator: {
     height: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'hsla(0, 0%, 0%, 0.1)',
   },
 });
 
