@@ -41,8 +41,8 @@ pre {
 }
 code, pre {
   border-radius: 3px;
-  border: 1px solid hsla(0, 0%, 49.8%, 0.25);
-  background-color: hsla(0, 0%, 49.8%, 0.125);
+  border: 1px solid hsla(0, 0%, 50%, 0.25);
+  background-color: hsla(0, 0%, 50%, 0.125);
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 table {
@@ -50,10 +50,10 @@ table {
   width: 100%;
 }
 table, th, td {
-  border: 1px solid hsla(0, 0%, 49.8%, 0.25);
+  border: 1px solid hsla(0, 0%, 50%, 0.25);
 }
 thead {
-  background: hsla(0, 0%, 49.8%, 0.1);
+  background: hsla(0, 0%, 50%, 0.1);
 }
 th, td {
   align: center;
@@ -62,7 +62,7 @@ th, td {
 hr {
   margin: 16px 0;
   border: 0;
-  border-top: 1px solid hsla(0, 0%, 49.8%, 0.5);
+  border-top: 1px solid hsla(0, 0%, 50%, 0.5);
 }
 .alert-word {
   background-color: hsla(102, 85%, 57%, .5);
@@ -233,12 +233,12 @@ hr {
   transition-timing-function: ease-out;
 }
 .private-header {
-  background: hsl(0, 0%, 26.7%);
+  background: hsl(0, 0%, 27%);
   color: white;
 }
 .loading-avatar {
   border-radius: 3px;
-  background: hsla(0, 0%, 49.8%, 0.9);
+  background: hsla(0, 0%, 50%, 0.9);
 }
 .loading-content {
   width: 100%;
@@ -250,11 +250,11 @@ hr {
 .loading-content .block {
   background: linear-gradient(
     to right,
-    hsla(0, 0%, 49.8%, 0.5) 0%,
-    hsla(0, 0%, 49.8%, 0.5) 40%,
-    hsla(0, 0%, 49.8%, 0.25) 51%,
-    hsla(0, 0%, 49.8%, 0.5) 60%,
-    hsla(0, 0%, 49.8%, 0.5) 100%
+    hsla(0, 0%, 50%, 0.5) 0%,
+    hsla(0, 0%, 50%, 0.5) 40%,
+    hsla(0, 0%, 50%, 0.25) 51%,
+    hsla(0, 0%, 50%, 0.5) 60%,
+    hsla(0, 0%, 50%, 0.5) 100%
   );
   background-size: 200% 200%;
   animation: gradient-scroll 1s linear infinite;
@@ -269,7 +269,7 @@ hr {
 }
 .loading-subheader .name {
   width: 10rem;
-  background-color: hsla(0, 0%, 49.8%, 0.9);
+  background-color: hsla(0, 0%, 50%, 0.9);
 }
 .loading-subheader .timestamp {
   width: 5rem;
@@ -284,8 +284,8 @@ hr {
   border-radius: 50%;
   margin: 16px auto;
   font-size: 10px;
-  border: 3px solid hsla(169.8, 47.9%, 54.1%, 0.25);
-  border-left: 3px solid hsla(169.8, 47.9%, 54.1%, 0.75);
+  border: 3px solid hsla(170, 48%, 54%, 0.25);
+  border-left: 3px solid hsla(170, 48%, 54%, 0.75);
   animation: spin 1s linear infinite;
 }
 .outbox-spinner {
@@ -308,7 +308,7 @@ hr {
 blockquote {
   padding-left: 8px;
   margin: 8px 0 8px 0;
-  border-left: 3px solid hsla(0, 0%, 49.8%, 0.5);
+  border-left: 3px solid hsla(0, 0%, 50%, 0.5);
 }
 .message ul {
   padding-left: 20px;
@@ -317,20 +317,20 @@ blockquote {
 .message ul + p {
   margin-top: 16px;
 }
-.codehilite .gi { color: hsl(120, 100%, 31.4%); }
-.codehilite .gd { color: hsl(0, 100%, 31.4%); }
-.codehilite .k { color: hsl(120, 100%, 25.1%); font-weight: bold; }
-.codehilite .kd { color: hsl(120, 100%, 25.1%); font-weight: bold; }
+.codehilite .gi { color: hsl(120, 100%, 31%); }
+.codehilite .gd { color: hsl(0, 100%, 31%); }
+.codehilite .k { color: hsl(120, 100%, 25%); font-weight: bold; }
+.codehilite .kd { color: hsl(120, 100%, 25%); font-weight: bold; }
 .codehilite .nf { color: hsl(240, 100%, 50%); }
-.codehilite .s2 { color: hsl(0, 69.9%, 42.9%); }
-.codehilite .cp { color: hsl(38.9, 100%, 36.9%); }
-.codehilite .kt { color: hsl(338.2, 100%, 34.5%); }
+.codehilite .s2 { color: hsl(0, 70%, 43%); }
+.codehilite .cp { color: hsl(39, 100%, 37%); }
+.codehilite .kt { color: hsl(338, 100%, 35%); }
 .codehilite .nc { color: hsl(240, 100%, 50%); font-weight: bold; }
-.codehilite .nb { color: hsl(120, 100%, 25.1%); }
-.codehilite .s1 { color: hsl(0, 69.9%, 42.9%); }
+.codehilite .nb { color: hsl(120, 100%, 25%); }
+.codehilite .s1 { color: hsl(0, 70%, 43%); }
 .twitter-tweet {
-  border: 2px solid hsla(202.8, 89.1%, 53.1%, 0.5);
-  background: hsla(202.8, 89.1%, 53.1%, 0.1);
+  border: 2px solid hsla(203, 89%, 53%, 0.5);
+  background: hsla(203, 89%, 53%, 0.1);
   border-radius: 6px;
   padding: 8px 16px;
   margin: 8px 0;
@@ -355,18 +355,18 @@ blockquote {
   padding: 4px 4px;
   margin-left: 4px;
   border-radius: 3px;
-  color: hsla(0, 0%, 49.8%, 0.75);
+  color: hsla(0, 0%, 50%, 0.75);
   background: hsla(0, 0%, 0%, 0.1);
 }
 .reaction-list {
   margin: 8px 0;
 }
 .reaction {
-  color: hsl(0, 0%, 49.8%);
+  color: hsl(0, 0%, 50%);
   display: inline-block;
   padding: 5px 6.5px;
   border-radius: 3px;
-  border: 1px solid hsla(0, 0%, 49.8%, 0.75);
+  border: 1px solid hsla(0, 0%, 50%, 0.75);
   line-height: 1rem;
   height: 1rem;
   margin: 4px 8px 4px 0;
@@ -403,8 +403,8 @@ blockquote {
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  background: hsla(0, 0%, 49.8%, 0.1);
-  border: 1px dashed hsla(0, 0%, 49.8%, 0.5);
+  background: hsla(0, 0%, 50%, 0.1);
+  border: 1px dashed hsla(0, 0%, 50%, 0.5);
   border-radius: 0.5rem;
 }
 #typing {
@@ -417,7 +417,7 @@ blockquote {
 }
 #typing span {
   display: inline-block;
-  background-color: hsl(252.6, 3.4%, 72%);
+  background-color: hsl(253, 3%, 72%);
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 100%;
@@ -434,11 +434,11 @@ blockquote {
 @keyframes bob {
   10% {
     transform: translateY(-10px);
-    background-color: hsl(252.6, 2.5%, 62.6%);
+    background-color: hsl(253, 3%, 63%);
   }
   50% {
     transform: translateY(0);
-    background-color: hsl(252.6, 3.4%, 72%);
+    background-color: hsl(253, 3%, 72%);
   }
 }
 #message-loading {
@@ -478,7 +478,7 @@ blockquote {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: hsla(169.8, 47.9%, 54.1%, 0.5);
+  background: hsla(170, 48%, 54%, 0.5);
 }
 #scroll-bottom .text {
   clip: rect(0 0 0 0);
