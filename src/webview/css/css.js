@@ -21,7 +21,7 @@ body {
   max-width: 100%;
 }
 a {
-  color: #08c;
+  color: hsl(200, 100%, 40%);
 }
 p {
   margin: 0;
@@ -41,8 +41,8 @@ pre {
 }
 code, pre {
   border-radius: 3px;
-  border: 1px solid rgba(127, 127, 127, 0.25);
-  background-color: rgba(127, 127, 127, 0.125);
+  border: 1px solid hsla(0, 0%, 49.8%, 0.25);
+  background-color: hsla(0, 0%, 49.8%, 0.125);
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 table {
@@ -50,10 +50,10 @@ table {
   width: 100%;
 }
 table, th, td {
-  border: 1px solid rgba(127, 127, 127, 0.25);
+  border: 1px solid hsla(0, 0%, 49.8%, 0.25);
 }
 thead {
-  background: rgba(127, 127, 127, 0.1);
+  background: hsla(0, 0%, 49.8%, 0.1);
 }
 th, td {
   align: center;
@@ -62,7 +62,7 @@ th, td {
 hr {
   margin: 16px 0;
   border: 0;
-  border-top: 1px solid rgba(127, 127, 127, 0.5);
+  border-top: 1px solid hsla(0, 0%, 49.8%, 0.5);
 }
 .alert-word {
   background-color: hsla(102, 85%, 57%, .5);
@@ -78,7 +78,7 @@ hr {
 }
 .timerow {
   text-align: center;
-  color: #999;
+  color: hsl(0, 0%, 60%);
   display: flex;
   align-items: center;
   padding: 8px 0;
@@ -90,10 +90,10 @@ hr {
   margin: 8px;
 }
 .timerow-left {
-  background: -webkit-linear-gradient(left, transparent 10%, #999 100%);
+  background: -webkit-linear-gradient(left, transparent 10%, hsl(0, 0%, 60%) 100%);
 }
 .timerow-right {
-  background: -webkit-linear-gradient(left, #999 0%, transparent 90%);
+  background: -webkit-linear-gradient(left, hsl(0, 0%, 60%) 0%, transparent 90%);
 }
 .message,
 .loading {
@@ -106,7 +106,7 @@ hr {
   padding: 0 16px 16px 64px;
 }
 .static-timestamp {
-  color: #999;
+  color: hsl(0, 0%, 60%);
   font-size: 0.9rem;
   white-space: nowrap;
 }
@@ -127,7 +127,7 @@ hr {
   padding: 2px 4px;
   font-size: 0.9rem;
   white-space: nowrap;
-  color: #999;
+  color: hsl(0, 0%, 60%);
   background: hsl(0, 0%, 97%);
   border-radius: 3px;
   box-shadow:
@@ -167,11 +167,11 @@ hr {
 .user-group-mention,
 .user-mention {
   white-space: nowrap;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: hsla(0, 0%, 0%, 0.1);
   border-radius: 3px;
   padding: 0 2px;
   margin: 0 1px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.2);
 }
 .header-wrapper {
   position: -webkit-sticky;
@@ -201,7 +201,7 @@ hr {
   padding: 0 8px;
 }
 .topic-header {
-  background: #ccc;
+  background: hsl(0, 0%, 80%);
   min-width: 30%;
 }
 .stream-text {
@@ -220,7 +220,7 @@ hr {
   pointer-events: none;
 }
 [data-mentioned="true"], [data-wildcard_mentioned="true"] {
-  background: rgba(255, 0, 0, 0.05);
+  background: hsla(0, 100%, 50%, 0.05);
 }
 .message:not([data-read="true"]) {
   box-shadow: inset 4px 0 ${BRAND_COLOR};
@@ -233,12 +233,12 @@ hr {
   transition-timing-function: ease-out;
 }
 .private-header {
-  background: #444;
+  background: hsl(0, 0%, 26.7%);
   color: white;
 }
 .loading-avatar {
   border-radius: 3px;
-  background: rgba(127, 127, 127, 0.9);
+  background: hsla(0, 0%, 49.8%, 0.9);
 }
 .loading-content {
   width: 100%;
@@ -250,11 +250,11 @@ hr {
 .loading-content .block {
   background: linear-gradient(
     to right,
-    rgba(127, 127, 127, 0.5) 0%,
-    rgba(127, 127, 127, 0.5) 40%,
-    rgba(127, 127, 127, 0.25) 51%,
-    rgba(127, 127, 127, 0.5) 60%,
-    rgba(127, 127, 127, 0.5) 100%
+    hsla(0, 0%, 49.8%, 0.5) 0%,
+    hsla(0, 0%, 49.8%, 0.5) 40%,
+    hsla(0, 0%, 49.8%, 0.25) 51%,
+    hsla(0, 0%, 49.8%, 0.5) 60%,
+    hsla(0, 0%, 49.8%, 0.5) 100%
   );
   background-size: 200% 200%;
   animation: gradient-scroll 1s linear infinite;
@@ -269,7 +269,7 @@ hr {
 }
 .loading-subheader .name {
   width: 10rem;
-  background-color: rgba(127, 127, 127, 0.9);
+  background-color: hsla(0, 0%, 49.8%, 0.9);
 }
 .loading-subheader .timestamp {
   width: 5rem;
@@ -284,8 +284,8 @@ hr {
   border-radius: 50%;
   margin: 16px auto;
   font-size: 10px;
-  border: 3px solid rgba(82, 194, 175, 0.25);
-  border-left: 3px solid rgba(82, 194, 175, 0.75);
+  border: 3px solid hsla(169.8, 47.9%, 54.1%, 0.25);
+  border-left: 3px solid hsla(169.8, 47.9%, 54.1%, 0.75);
   animation: spin 1s linear infinite;
 }
 .outbox-spinner {
@@ -308,7 +308,7 @@ hr {
 blockquote {
   padding-left: 8px;
   margin: 8px 0 8px 0;
-  border-left: 3px solid rgba(127, 127, 127, 0.5);
+  border-left: 3px solid hsla(0, 0%, 49.8%, 0.5);
 }
 .message ul {
   padding-left: 20px;
@@ -317,20 +317,20 @@ blockquote {
 .message ul + p {
   margin-top: 16px;
 }
-.codehilite .gi { color: #00a000; }
-.codehilite .gd { color: #a00000; }
-.codehilite .k { color: #008000; font-weight: bold; }
-.codehilite .kd { color: #008000; font-weight: bold; }
-.codehilite .nf { color: #00f; }
-.codehilite .s2 { color: #ba2121; }
-.codehilite .cp { color: #bc7a00; }
-.codehilite .kt { color: #b00040; }
-.codehilite .nc { color: #00f; font-weight: bold; }
-.codehilite .nb { color: #008000; }
-.codehilite .s1 { color: #ba2121; }
+.codehilite .gi { color: hsl(120, 100%, 31.4%); }
+.codehilite .gd { color: hsl(0, 100%, 31.4%); }
+.codehilite .k { color: hsl(120, 100%, 25.1%); font-weight: bold; }
+.codehilite .kd { color: hsl(120, 100%, 25.1%); font-weight: bold; }
+.codehilite .nf { color: hsl(240, 100%, 50%); }
+.codehilite .s2 { color: hsl(0, 69.9%, 42.9%); }
+.codehilite .cp { color: hsl(38.9, 100%, 36.9%); }
+.codehilite .kt { color: hsl(338.2, 100%, 34.5%); }
+.codehilite .nc { color: hsl(240, 100%, 50%); font-weight: bold; }
+.codehilite .nb { color: hsl(120, 100%, 25.1%); }
+.codehilite .s1 { color: hsl(0, 69.9%, 42.9%); }
 .twitter-tweet {
-  border: 2px solid rgba(29, 161, 242, 0.5);
-  background: rgba(29, 161, 242, 0.1);
+  border: 2px solid hsla(202.8, 89.1%, 53.1%, 0.5);
+  background: hsla(202.8, 89.1%, 53.1%, 0.1);
   border-radius: 6px;
   padding: 8px 16px;
   margin: 8px 0;
@@ -355,18 +355,18 @@ blockquote {
   padding: 4px 4px;
   margin-left: 4px;
   border-radius: 3px;
-  color: rgba(127, 127, 127, 0.75);
-  background: rgba(0, 0, 0, 0.1);
+  color: hsla(0, 0%, 49.8%, 0.75);
+  background: hsla(0, 0%, 0%, 0.1);
 }
 .reaction-list {
   margin: 8px 0;
 }
 .reaction {
-  color: rgba(127, 127, 127, 1);
+  color: hsl(0, 0%, 49.8%);
   display: inline-block;
   padding: 5px 6.5px;
   border-radius: 3px;
-  border: 1px solid rgba(127, 127, 127, 0.75);
+  border: 1px solid hsla(0, 0%, 49.8%, 0.75);
   line-height: 1rem;
   height: 1rem;
   margin: 4px 8px 4px 0;
@@ -381,7 +381,7 @@ blockquote {
 .self-voted {
   color: ${BRAND_COLOR};
   border: 1px solid ${BRAND_COLOR};
-  background: rgba(36, 202, 194, 0.1);
+  background: hsla(177.1, 69.7%, 46.7%, 0.1);
 }
 .hidden {
   display: none;
@@ -403,8 +403,8 @@ blockquote {
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  background: rgba(127, 127, 127, 0.1);
-  border: 1px dashed rgba(127, 127, 127, 0.5);
+  background: hsla(0, 0%, 49.8%, 0.1);
+  border: 1px dashed hsla(0, 0%, 49.8%, 0.5);
   border-radius: 0.5rem;
 }
 #typing {
@@ -417,7 +417,7 @@ blockquote {
 }
 #typing span {
   display: inline-block;
-  background-color: #B6B5BA;
+  background-color: hsl(252.6, 3.4%, 72%);
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 100%;
@@ -434,11 +434,11 @@ blockquote {
 @keyframes bob {
   10% {
     transform: translateY(-10px);
-    background-color: #9E9DA2;
+    background-color: hsl(252.6, 2.5%, 62.6%);
   }
   50% {
     transform: translateY(0);
-    background-color: #B6B5BA;
+    background-color: hsl(252.6, 3.4%, 72%);
   }
 }
 #message-loading {
@@ -478,7 +478,7 @@ blockquote {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(82, 194, 175, 0.5);
+  background: hsla(169.8, 47.9%, 54.1%, 0.5);
 }
 #scroll-bottom .text {
   clip: rect(0 0 0 0);
@@ -490,7 +490,7 @@ blockquote {
 #scroll-bottom svg {
   width: 32px;
   height: 32px;
-  fill: rgba(255, 255, 255, 0.75);
+  fill: hsla(0, 0%, 100%, 0.75);
 }
 `;
 
