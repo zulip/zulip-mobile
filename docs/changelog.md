@@ -25,7 +25,7 @@ We number our versions like so:
 
 ## 25.3.117 (2019-06-06)
 
-Alpha release; no release notes.  See Git log for detailed changes.
+Incremental release following 25.2.116, with several bugfixes.
 
 
 ## 25.2.116 (2019-06-05)
