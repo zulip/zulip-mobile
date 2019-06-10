@@ -108,8 +108,8 @@ hr {
 .time-container {
   position: absolute;
   right: 0;
-  width: 7em;
-  height: 2em;
+  width: 7rem;
+  height: 2rem;
   overflow: hidden;
   pointer-events: none;
 }
@@ -118,8 +118,8 @@ hr {
   background: hsl(0, 0%, 92%);
   box-shadow: -1px 1px 2px 0 hsla(0, 0%, 0%, 0.3), -2px 2px 4px 0 hsla(0, 0%, 0%, 0.3);
   border-radius: 3px;
-  padding: 0.125em 0;
-  margin: 0 1.5em;
+  padding: 0.112rem 0;
+  margin: 0 1.35rem;
   font-size: 0.9rem;
   text-align: center;
   white-space: nowrap;
