@@ -197,18 +197,18 @@ hr {
   min-width: 30%;
 }
 .stream-text {
-  padding: 0 0.5rem;
+  padding: 0 8px;
 }
 .topic-text {
   flex: 1;
-  padding: 0 0.5rem;
+  padding: 0 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   pointer-events: none;
 }
 .topic-date {
   opacity: 0.5;
-  padding: 0 0.5rem;
+  padding: 0 8px;
   pointer-events: none;
 }
 [data-mentioned="true"], [data-wildcard_mentioned="true"] {
@@ -271,8 +271,8 @@ hr {
   100% { transform: rotate(360deg); }
 }
 .loading-spinner, .outbox-spinner {
-  width: 2rem;
-  height: 2rem;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   margin: 16px auto;
   font-size: 10px;
