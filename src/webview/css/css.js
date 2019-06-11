@@ -107,17 +107,19 @@ hr {
 }
 .time-container {
   position: absolute;
+  left: 0;
   right: 0;
   height: 2rem;
   overflow: hidden;
   pointer-events: none;
 }
 .timestamp {
+  position: absolute;
+  right: 1.35rem;
   transform: translateX(125%);
   transition: transform 0.2s;
   width: 4.3rem;
   padding: 0.112rem 0;
-  margin: 0 1.35rem;
   font-size: 0.9rem;
   text-align: center;
   white-space: nowrap;
