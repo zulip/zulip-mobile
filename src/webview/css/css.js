@@ -115,8 +115,8 @@ hr {
 }
 .timestamp {
   position: absolute;
-  right: 1.35rem;
-  transform: translateX(125%);
+  right: 0.705rem;
+  transform: translateX(110%);
   transition: transform 0.2s;
   width: 4.3rem;
   padding: 0.112rem 0;
@@ -129,7 +129,7 @@ hr {
   box-shadow: -1px 1px 2px 0 hsla(0, 0%, 0%, 0.3), -2px 2px 4px 0 hsla(0, 0%, 0%, 0.3);
 }
 .timestamp.show {
-  transform: translateX(15%);
+  transform: none;
 }
 .message p + p {
   margin-top: 16px;
