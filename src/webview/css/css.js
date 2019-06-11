@@ -114,17 +114,17 @@ hr {
   pointer-events: none;
 }
 .timestamp {
-  color: hsla(0, 0%, 0%, 0.65);
-  background: hsl(0, 0%, 92%);
-  box-shadow: -1px 1px 2px 0 hsla(0, 0%, 0%, 0.3), -2px 2px 4px 0 hsla(0, 0%, 0%, 0.3);
-  border-radius: 3px;
+  transform: translateX(125%);
+  transition: transform 0.2s;
   padding: 0.112rem 0;
   margin: 0 1.35rem;
   font-size: 0.9rem;
   text-align: center;
   white-space: nowrap;
-  transition: transform 0.2s;
-  transform: translateX(125%);
+  color: hsla(0, 0%, 0%, 0.65);
+  background: hsl(0, 0%, 92%);
+  border-radius: 3px;
+  box-shadow: -1px 1px 2px 0 hsla(0, 0%, 0%, 0.3), -2px 2px 4px 0 hsla(0, 0%, 0%, 0.3);
 }
 .timestamp.show {
   transform: translateX(15%);
