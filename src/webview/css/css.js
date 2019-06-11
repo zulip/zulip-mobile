@@ -119,10 +119,8 @@ hr {
   transform: translateX(100%);
   transition-property: right, transform;
   transition-duration: 0.2s;
-  width: 4.3rem;
-  padding: 2px 0;
+  padding: 2px 4px;
   font-size: 0.9rem;
-  text-align: center;
   white-space: nowrap;
   color: hsla(0, 0%, 0%, 0.65);
   background: hsl(0, 0%, 92%);
