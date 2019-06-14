@@ -74,7 +74,7 @@ hr {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .timerow {
   text-align: center;
@@ -95,41 +95,19 @@ hr {
 .timerow-right {
   background: -webkit-linear-gradient(left, #999 0%, transparent 90%);
 }
+.timestamp {
+  color: #999;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
 .message,
 .loading {
   display: flex;
   word-wrap: break-word;
   padding: 16px;
-  -webkit-tap-highlight-color: transparent;
 }
 .message-brief {
   padding: 0 16px 16px 64px;
-}
-.time-container {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2rem;
-  overflow: hidden;
-  pointer-events: none;
-}
-.timestamp {
-  position: absolute;
-  right: 4px;
-  transform: translateX(100%);
-  transition-property: right, transform;
-  transition-duration: 0.2s;
-  padding: 2px 4px;
-  font-size: 0.9rem;
-  white-space: nowrap;
-  color: hsla(0, 0%, 0%, 0.65);
-  background: hsl(0, 0%, 92%);
-  border-radius: 3px;
-  box-shadow: -1px 1px 2px 0 hsla(0, 0%, 0%, 0.3), -2px 2px 4px 0 hsla(0, 0%, 0%, 0.3);
-}
-.timestamp.show {
-  right: 8px;
-  transform: none;
 }
 .message p + p {
   margin-top: 16px;
@@ -174,8 +152,7 @@ hr {
   justify-content: space-between;
 }
 .avatar,
-.header-wrapper,
-.message {
+.header-wrapper {
   cursor: pointer;
 }
 .stream-header {
