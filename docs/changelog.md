@@ -23,6 +23,19 @@ We number our versions like so:
 ## Unreleased
 
 
+## 25.5.119 (2019-06-13)
+
+### Highlights for users
+
+This is a beta-only release for testing an in-development feature:
+
+* The time each message was sent is now tucked in at the end,
+  rather than sliding in when tapped. (#3488, replacing #3491)
+
+Like every release, it comes with many other improvements for your
+Zulip experience.
+
+
 ## 25.4.118 (2019-06-11)
 
 ### Highlights for users
