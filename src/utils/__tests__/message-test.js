@@ -11,24 +11,32 @@ describe('shouldBeMuted', () => {
     expect(shouldBeMuted(eg.pmMessage(), HOME_NARROW, [], [])).toBe(false);
   });
 
-  test('messages when narrowed to a topic are never muted', () => {
-    expect(
-      shouldBeMuted(message, topicNarrow(eg.stream.name, message.subject), [], [messageMute]),
-    ).toBe(false);
+  test('stream message not muted in base case', () => {
+    expect(shouldBeMuted(message, HOME_NARROW, [eg.subscription], [])).toBe(false);
   });
 
-  test('message in a stream is muted if stream is not in mute list', () => {
+  test('stream message is muted if stream not subscribed to', () => {
     expect(shouldBeMuted(message, HOME_NARROW, [], [])).toBe(true);
   });
 
-  test('message in a stream is muted if the stream is muted', () => {
+  test('stream message is muted if the stream is muted', () => {
     expect(
       shouldBeMuted(message, HOME_NARROW, [{ ...eg.subscription, in_home_view: false }], []),
     ).toBe(true);
   });
 
-  test('message in a stream is muted if the topic is muted and topic matches', () => {
+  test('stream message is muted if the topic is muted', () => {
     expect(shouldBeMuted(message, HOME_NARROW, [eg.subscription], [messageMute])).toBe(true);
+  });
+
+  test('stream message not muted when narrowed to topic, even if otherwise would be', () => {
+    const narrow = topicNarrow(eg.stream.name, message.subject);
+    expect(shouldBeMuted(message, narrow, [], [])).toBe(false);
+    expect(shouldBeMuted(message, narrow, [{ ...eg.subscription, in_home_view: false }], [])).toBe(
+      false,
+    );
+    expect(shouldBeMuted(message, narrow, [eg.subscription], [messageMute])).toBe(false);
+    expect(shouldBeMuted(message, narrow, [], [messageMute])).toBe(false);
   });
 });
 
