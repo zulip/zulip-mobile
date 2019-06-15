@@ -49,29 +49,20 @@ describe('isMessageRead', () => {
     const message = eg.streamMessage();
     const flags = eg.baseReduxState.flags;
     const subscriptions = [eg.subscription];
-
-    const result = isMessageRead(message, flags, subscriptions, []);
-
-    expect(result).toEqual(false);
+    expect(isMessageRead(message, flags, subscriptions, [])).toEqual(false);
   });
 
   test('message with flags entry is considered read', () => {
     const message = eg.streamMessage();
     const flags = { ...eg.baseReduxState.flags, read: { [123]: true } }; // eslint-disable-line no-useless-computed-key
-
-    const result = isMessageRead(message, flags, [], []);
-
-    expect(result).toEqual(true);
+    expect(isMessageRead(message, flags, [], [])).toEqual(true);
   });
 
   test('a message in a muted stream is considered read', () => {
     const message = eg.streamMessage();
     const flags = eg.baseReduxState.flags;
     const subscriptions = [{ ...eg.subscription, in_home_view: false }];
-
-    const result = isMessageRead(message, flags, subscriptions, []);
-
-    expect(result).toEqual(true);
+    expect(isMessageRead(message, flags, subscriptions, [])).toEqual(true);
   });
 
   test('a message in a muted topic is considered read', () => {
@@ -79,10 +70,7 @@ describe('isMessageRead', () => {
     const flags = eg.baseReduxState.flags;
     const subscriptions = [eg.subscription];
     const mute = [[eg.stream.name, message.subject]];
-
-    const result = isMessageRead(message, flags, subscriptions, mute);
-
-    expect(result).toEqual(true);
+    expect(isMessageRead(message, flags, subscriptions, mute)).toEqual(true);
   });
 });
 
