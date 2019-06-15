@@ -47,9 +47,7 @@ describe('shouldBeMuted', () => {
 describe('isMessageRead', () => {
   const message = eg.streamMessage();
   const flags = read =>
-    read
-      ? { ...eg.baseReduxState.flags, read: { [123]: true } } // eslint-disable-line no-useless-computed-key
-      : eg.baseReduxState.flags;
+    read ? { ...eg.baseReduxState.flags, read: { [message.id]: true } } : eg.baseReduxState.flags;
 
   test('message with no flags entry is considered not read', () => {
     expect(isMessageRead(message, flags(false), [eg.subscription], [])).toEqual(false);
