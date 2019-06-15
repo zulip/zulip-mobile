@@ -2,7 +2,14 @@
 import deepFreeze from 'deep-freeze';
 import { createStore } from 'redux';
 
-import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
+import type {
+  CrossRealmBot,
+  Message,
+  PmRecipientUser,
+  Stream,
+  Subscription,
+  User,
+} from '../api/modelTypes';
 import type { GlobalState } from '../reduxTypes';
 import type { Account } from '../types';
 import rootReducer from '../boot/reducers';
@@ -80,6 +87,19 @@ const stream: Stream = {
   invite_only: false,
   is_announcement_only: false,
   history_public_to_subscribers: true,
+};
+
+const subscription: Subscription = {
+  ...stream,
+  color: '#123456',
+  in_home_view: true,
+  pin_to_top: false,
+  audible_notifications: false,
+  desktop_notifications: false,
+  push_notifications: false,
+  email_address: '???',
+  stream_weekly_traffic: 9000,
+  is_old_stream: false, // ??
 };
 
 const displayRecipientFromUser = (user: User): PmRecipientUser => {
@@ -197,6 +217,7 @@ export const eg = {
   otherUser,
   crossRealmBot,
   stream,
+  subscription,
 
   pmMessage,
   streamMessage,

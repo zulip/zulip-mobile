@@ -10,51 +10,37 @@ describe('shouldBeMuted', () => {
 
   test('messages when narrowed to a topic are never muted', () => {
     const message = eg.streamMessage();
-    const narrow = topicNarrow(eg.stream.name, 'some topic');
-    const mutes = [[eg.stream.name, 'some topic']];
+    const narrow = topicNarrow(eg.stream.name, message.subject);
+    const mutes = [[eg.stream.name, message.subject]];
     expect(shouldBeMuted(message, narrow, [], mutes)).toBe(false);
   });
 
   test('message in a stream is muted if stream is not in mute list', () => {
-    const message = {
-      display_recipient: 'stream',
-    };
-
-    const isMuted = shouldBeMuted(message, HOME_NARROW, []);
-
-    expect(isMuted).toBe(true);
+    const message = eg.streamMessage();
+    expect(shouldBeMuted(message, HOME_NARROW, [])).toBe(true);
   });
 
   test('message in a stream is muted if the stream is muted', () => {
-    const message = {
-      display_recipient: 'stream',
-    };
-    const subscriptions = [
-      {
-        name: 'stream',
-        in_home_view: false,
-      },
-    ];
-    const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions);
-
-    expect(isMuted).toBe(true);
+    expect(
+      shouldBeMuted(
+        eg.streamMessage(),
+        HOME_NARROW,
+        [{ ...eg.subscription, in_home_view: false }],
+        [],
+      ),
+    ).toBe(true);
   });
 
   test('message in a stream is muted if the topic is muted and topic matches', () => {
-    const message = {
-      display_recipient: 'stream',
-      subject: 'topic',
-    };
-    const subscriptions = [
-      {
-        name: 'stream',
-        in_home_view: true,
-      },
-    ];
-    const mutes = [['stream', 'topic']];
-    const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions, mutes);
-
-    expect(isMuted).toBe(true);
+    const message = eg.streamMessage();
+    expect(
+      shouldBeMuted(
+        message,
+        HOME_NARROW,
+        [{ ...eg.subscription, in_home_view: true }],
+        [[eg.stream.name, message.subject]],
+      ),
+    ).toBe(true);
   });
 });
 
