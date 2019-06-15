@@ -54,7 +54,11 @@ describe('isMessageRead', () => {
   });
 
   test('message with flags entry is considered read', () => {
-    expect(isMessageRead(message, flags(true), [], [])).toEqual(true);
+    expect(isMessageRead(message, flags(true), [eg.subscription], [])).toEqual(true);
+  });
+
+  test('message in not-subscribed-to stream is considered read', () => {
+    expect(isMessageRead(message, flags(false), [], [])).toEqual(true);
   });
 
   test('a message in a muted stream is considered read', () => {
