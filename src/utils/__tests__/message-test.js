@@ -1,29 +1,18 @@
+/* @flow strict-local */
 import { shouldBeMuted, isMessageRead, findFirstUnread } from '../message';
 import { HOME_NARROW, topicNarrow } from '../narrow';
+import { eg } from '../../__tests__/exampleData';
 
 describe('shouldBeMuted', () => {
   test('private messages are never muted', () => {
-    const message = {
-      display_recipient: [],
-      type: 'private',
-    };
-
-    const isMuted = shouldBeMuted(message, HOME_NARROW, []);
-
-    expect(isMuted).toBe(false);
+    expect(shouldBeMuted(eg.pmMessage(), HOME_NARROW, [])).toBe(false);
   });
 
   test('messages when narrowed to a topic are never muted', () => {
-    const message = {
-      display_recipient: 'stream',
-      subject: 'some topic',
-    };
-    const narrow = topicNarrow('some topic');
-    const mutes = [['stream', 'some topic']];
-
-    const isMuted = shouldBeMuted(message, narrow, [], mutes);
-
-    expect(isMuted).toBe(false);
+    const message = eg.streamMessage();
+    const narrow = topicNarrow(eg.stream.name, 'some topic');
+    const mutes = [[eg.stream.name, 'some topic']];
+    expect(shouldBeMuted(message, narrow, [], mutes)).toBe(false);
   });
 
   test('message in a stream is muted if stream is not in mute list', () => {
