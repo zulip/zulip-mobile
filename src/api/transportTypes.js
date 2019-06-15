@@ -1,5 +1,20 @@
 /* @flow strict */
 
+/**
+ * An identity, plus secret, authenticating this user in some Zulip org.
+ *
+ * This consists of all the information the API client library needs in
+ * order to talk to the server on the user's behalf.  All API functions
+ * for making (authenticated) requests to the server require this as a
+ * parameter.
+ *
+ * See also `Account` which the app uses to contain this information plus
+ * other metadata.
+ *
+ * Prefer using `Identity` where possible, which identifies the user but
+ * leaves out the secret API key; use `identityOfAuth` to extract one from
+ * an `Auth`.
+ */
 export type Auth = {|
   realm: string,
   apiKey: string,

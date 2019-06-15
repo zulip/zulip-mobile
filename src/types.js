@@ -63,14 +63,16 @@ export type InputSelection = {|
 /**
  * An `Identity`, a secret, and some other per-identity information.
  *
- * At present this consists of just the information the API client library
- * needs in order to talk to the server on the user's behalf, aka `Auth`.
- * NB in particular this includes an API key.
+ * This includes all the information the API client library
+ * needs in order to talk to the server on the user's behalf.
+ * Use `authOfAccount` to extract that information as an `Auth`,
+ * the form used by the API client library.
  *
- * In the future this might contain other metadata, if useful.
+ * NB in particular this includes an API key, which must be handled with
+ * care.
  *
- * See also `Identity`, which should be used instead where an API key is
- * not required.
+ * Use `Identity` instead for code where an API key is not required,
+ * with `identityOfAccount` to convert at the boundary.
  * TODO: move more code that way.
  */
 export type Account = {|
@@ -94,6 +96,9 @@ export type Account = {|
  * doesn't need to make (authenticated) requests to the server and only
  * needs to pick their own email or ID out of a list, use the org's base URL
  * to make a relative URL absolute, etc.
+ *
+ * Use `identityOfAuth` or `identityOfAccount` to make one of these where
+ * you have an `Auth` or `Account`.
  */
 export type Identity = $Diff<Auth, { apiKey: string }>;
 
