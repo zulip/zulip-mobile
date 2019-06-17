@@ -22,10 +22,10 @@ const styles = StyleSheet.create({
   },
   idleWrapper: {
     borderWidth: 2,
-    borderColor: 'hsl(38.8, 100%, 50%)',
+    borderColor: 'hsl(39, 100%, 50%)',
   },
   idleHalfCircle: {
-    backgroundColor: 'hsl(38.8, 100%, 50%)',
+    backgroundColor: 'hsl(39, 100%, 50%)',
     width: 8,
     height: 4,
     marginTop: 4,

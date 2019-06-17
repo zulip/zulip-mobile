@@ -18,7 +18,7 @@ export const statics = {
     fontSize: 20,
   },
   navBar: {
-    borderColor: 'hsla(0, 0%, 49.8%, 0.25)',
+    borderColor: 'hsla(0, 0%, 50%, 0.25)',
     flexDirection: 'row',
     height: NAVBAR_SIZE,
     alignItems: 'center',

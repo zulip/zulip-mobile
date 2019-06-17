@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   accountItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'hsla(177.1, 69.7%, 46.7%, 0.1)',
+    backgroundColor: 'hsla(177, 70%, 47%, 0.1)',
     borderRadius: 4,
     height: 72,
   },

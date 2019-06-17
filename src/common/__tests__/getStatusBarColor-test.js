@@ -14,7 +14,7 @@ describe('getStatusBarColor', () => {
   test('returns color according to theme for default case', () => {
     expect(getStatusBarColor(DEFAULT_TITLE_BACKGROUND_COLOR, themeDefault)).toEqual('white');
     expect(getStatusBarColor(DEFAULT_TITLE_BACKGROUND_COLOR, themeNight)).toEqual(
-      'hsl(212.4, 28.3%, 18%)',
+      'hsl(212, 28%, 18%)',
     );
   });
 });

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   unreadContainer: {
     paddingHorizontal: 8,
     paddingVertical: 4,
-    backgroundColor: 'hsl(232.1, 89%, 78.2%)',
+    backgroundColor: 'hsl(232, 89%, 78%)',
     flexDirection: 'row',
     justifyContent: 'space-between',
     overflow: 'hidden',

@@ -56,7 +56,7 @@ export default class ZulipSwitch extends PureComponent<Props, State> {
       <Switch
         value={switchValue}
         trackColor={{
-          false: 'hsl(0, 0%, 86.3%)',
+          false: 'hsl(0, 0%, 86%)',
           true: BRAND_COLOR,
         }}
         onValueChange={this.handleValueChange}

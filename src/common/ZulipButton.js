@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
     color: BRAND_COLOR,
   },
   disabledPrimaryFrame: {
-    backgroundColor: 'hsla(0, 0%, 49.8%, 0.4)',
+    backgroundColor: 'hsla(0, 0%, 50%, 0.4)',
   },
   disabledSecondaryFrame: {
     borderWidth: 1.5,
-    borderColor: 'hsla(0, 0%, 49.8%, 0.4)',
+    borderColor: 'hsla(0, 0%, 50%, 0.4)',
   },
   disabledText: {
-    color: 'hsla(0, 0%, 49.8%, 0.8)',
+    color: 'hsla(0, 0%, 50%, 0.8)',
   },
 });
 
