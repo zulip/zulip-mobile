@@ -103,7 +103,7 @@ hr {
   -webkit-tap-highlight-color: transparent;
 }
 .message-brief {
-  padding: 0 16px 16px 64px;
+  padding: 0 16px 16px 80px;
 }
 .static-timestamp {
   color: hsl(0, 0%, 60%);
@@ -144,9 +144,9 @@ hr {
 }
 .avatar,
 .loading-avatar {
-  min-width: 32px;
-  width: 32px;
-  height: 32px;
+  min-width: 48px;
+  width: 48px;
+  height: 48px;
   margin-right: 16px;
 }
 .avatar img {
