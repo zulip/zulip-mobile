@@ -685,7 +685,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
-  const messageElement = target.closest('.message');
+  const messageElement = target.closest('.message-brief');
   if (messageElement) {
     messageElement.getElementsByClassName('timestamp')[0].classList.toggle('show');
     return;

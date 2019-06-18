@@ -528,7 +528,7 @@ documentBody.addEventListener('click', function (e) {
     return;
   }
 
-  var messageElement = target.closest('.message');
+  var messageElement = target.closest('.message-brief');
 
   if (messageElement) {
     messageElement.getElementsByClassName('timestamp')[0].classList.toggle('show');

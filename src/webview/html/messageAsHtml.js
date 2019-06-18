@@ -90,11 +90,12 @@ export default (backgroundData: BackgroundData, message: Message | Outbox, isBri
      data-msg-id="${id}"
      $!${flagStrings.map(flag => template`data-${flag}="true" `).join('')}
     >`;
+  const messageTime = shortTime(new Date(timestamp * 1000), backgroundData.twentyFourHourTime);
 
   const timestampHtml = (showOnRender: boolean) => template`
 <div class="time-container">
   <div class="timestamp ${showOnRender ? 'show' : ''}">
-    ${shortTime(new Date(timestamp * 1000), backgroundData.twentyFourHourTime)}
+    ${messageTime}
   </div>
 </div>
 `;
@@ -121,7 +122,7 @@ $!${divOpenHtml}
   <div class="username">
     ${sender_full_name}
   </div>
-  $!${timestampHtml(true)}
+  <div class="static-timestamp">${messageTime}</div>
 </div>
 `;
 

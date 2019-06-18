@@ -105,6 +105,11 @@ hr {
 .message-brief {
   padding: 0 16px 16px 64px;
 }
+.static-timestamp {
+  color: #999;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
 .time-container {
   position: absolute;
   left: 0;
@@ -122,10 +127,13 @@ hr {
   padding: 2px 4px;
   font-size: 0.9rem;
   white-space: nowrap;
-  color: hsla(0, 0%, 0%, 0.65);
-  background: hsl(0, 0%, 92%);
+  color: #999;
+  background: hsl(0, 0%, 97%);
   border-radius: 3px;
-  box-shadow: -1px 1px 2px 0 hsla(0, 0%, 0%, 0.3), -2px 2px 4px 0 hsla(0, 0%, 0%, 0.3);
+  box-shadow:
+      0px 3px 1px -2px hsla(0, 0%, 0%, 0.2),
+      0px 2px 2px  0px hsla(0, 0%, 0%, 0.14),
+      0px 1px 5px  0px hsla(0, 0%, 0%, 0.12);
 }
 .timestamp.show {
   right: 8px;
@@ -175,7 +183,7 @@ hr {
 }
 .avatar,
 .header-wrapper,
-.message {
+.message-brief {
   cursor: pointer;
 }
 .stream-header {
