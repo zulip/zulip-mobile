@@ -21,11 +21,17 @@ body {
   width: 100%;
   max-width: 100%;
 }
+body > .timerow, body > .header {
+  margin: 8px 0;
+}
 body > .message-full {
-  padding: 16px;
+  padding: 8px 16px;
 }
 body > .message-brief {
-  padding: 0 16px 16px 80px;
+  padding: 8px 16px 8px 80px;
+}
+.message + .message-full {
+  padding-top: 24px;
 }
 a {
   color: hsl(200, 100%, 40%);
