@@ -9,7 +9,7 @@ import styles from '../styles';
 const componentStyles = StyleSheet.create({
   text: {
     flex: 1,
-    marginLeft: 8,
+    marginLeft: 16,
     marginRight: 8,
   },
 });
@@ -46,7 +46,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.listItem}>
-          <GroupAvatar size={32} names={allNames} />
+          <GroupAvatar size={48} names={allNames} />
           <RawLabel
             style={componentStyles.text}
             numberOfLines={2}

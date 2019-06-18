@@ -10,7 +10,7 @@ const componentStyles = StyleSheet.create({
     backgroundColor: BRAND_COLOR,
   },
   text: {
-    marginLeft: 8,
+    marginLeft: 16,
   },
   selectedText: {
     color: 'white',
@@ -54,7 +54,7 @@ export default class UserItem extends PureComponent<Props> {
       <Touchable onPress={this.handlePress}>
         <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
           <UserAvatarWithPresence
-            size={32}
+            size={48}
             avatarUrl={avatarUrl}
             email={email}
             onPress={this.handlePress}
