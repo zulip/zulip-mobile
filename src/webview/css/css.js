@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import type { ThemeName } from '../../types';
 import { BRAND_COLOR } from '../../styles';
+import cssPygments from './cssPygments';
 import cssEmojis from './cssEmojis';
 import cssNight from './cssNight';
 
@@ -317,17 +318,6 @@ blockquote {
 .message ul + p {
   margin-top: 16px;
 }
-.codehilite .gi { color: hsl(120, 100%, 31%); }
-.codehilite .gd { color: hsl(0, 100%, 31%); }
-.codehilite .k { color: hsl(120, 100%, 25%); font-weight: bold; }
-.codehilite .kd { color: hsl(120, 100%, 25%); font-weight: bold; }
-.codehilite .nf { color: hsl(240, 100%, 50%); }
-.codehilite .s2 { color: hsl(0, 70%, 43%); }
-.codehilite .cp { color: hsl(39, 100%, 37%); }
-.codehilite .kt { color: hsl(338, 100%, 35%); }
-.codehilite .nc { color: hsl(240, 100%, 50%); font-weight: bold; }
-.codehilite .nb { color: hsl(120, 100%, 25%); }
-.codehilite .s1 { color: hsl(0, 70%, 43%); }
 .twitter-tweet {
   border: 2px solid hsla(203, 89%, 53%, 0.5);
   background: hsla(203, 89%, 53%, 0.1);
@@ -498,6 +488,7 @@ export default (theme: ThemeName) => `
 <style>
 ${cssBase}
 ${theme === 'night' ? cssNight : ''}
+${cssPygments(theme === 'night')}
 ${cssEmojis}
 </style>
 <style id="style-hide-js-error-plain">
