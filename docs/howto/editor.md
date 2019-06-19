@@ -31,6 +31,11 @@ codebase. Each extension page has install instructions at the top.
 
 If something doesn't seem right, see the items under "Troubleshooting" below.
 
+Perhaps try the following extensions too, which can be handy:
+
+* [Color Picker](https://marketplace.visualstudio.com/items?itemName=anseki.vscode-color)
+* [Color Highlight](https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight)
+
 
 ### Getting familiar with VS Code
 
