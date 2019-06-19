@@ -4,8 +4,21 @@ buildscript {
     ext {
         kotlin_version = '1.3.21'
 
+        // The oldest Android version we support.  Increasing this stops updates
+        // for users on old devices, but can simplify the system.  Synced with
+        // our dev docs: docs/developer-guide.md
         minSdkVersion = 19
+
+        // A bit subtle: we should try to keep this at the latest version,
+        // but some testing is required and code changes are often required.
+        // See upstream for background and more discussion:
+        //   https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
         targetSdkVersion = 26
+
+        // Should be the latest SDK version available.  See upstream recommendation:
+        //   https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
+        // What's the latest?  Consult this list:
+        //   https://developer.android.com/studio/releases/platforms
         compileSdkVersion = 28
 
         supportLibVersion = "27.1.1"
