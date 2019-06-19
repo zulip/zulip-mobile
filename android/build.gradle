@@ -6,7 +6,7 @@ buildscript {
 
         minSdkVersion = 19
         targetSdkVersion = 26
-        compileSdkVersion = 27
+        compileSdkVersion = 28
 
         supportLibVersion = "27.1.1"
     }
