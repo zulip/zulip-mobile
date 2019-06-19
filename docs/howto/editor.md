@@ -29,19 +29,8 @@ codebase. Each extension page has install instructions at the top.
 * [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 * [prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
-For the extensions to work properly, make sure that VS Code has recognized
-[our settings file](https://github.com/zulip/zulip-mobile/tree/master/.vscode/settings.json)
-in the zulip-mobile repository. Usually, this should happen automatically
-when you open the `zulip-mobile` folder in VS Code. You can verify that the
-settings were recognized by opening your Workspace Settings with
-`Ctrl+Shift+P` -> `Open Workspace Settings`. If the editor on the right-hand
-side starts with the comment
-```js
-// Workspace Settings for the zulip-mobile repo.
-```
-you're all set - VS Code has recognized your workspace settings. If not,
-make sure that you opened VS Code as a folder. Do this by pressing
-`Ctrl+K Ctrl+O` and navigating to your local `zulip-mobile` clone.
+If something doesn't seem right, see the items under "Troubleshooting" below.
+
 
 ### Getting familiar with VS Code
 
@@ -64,7 +53,27 @@ Take a look through some of VS Code's docs.  In particular:
   enable this feature, and configure it to use our standard formatting
   rules.
 
+
 ### Troubleshooting
+
+#### Confirm our workspace settings took effect
+
+For the extensions to work properly, make sure that VS Code has recognized
+[our settings file](https://github.com/zulip/zulip-mobile/tree/master/.vscode/settings.json)
+in the zulip-mobile repository. Usually, this should happen automatically
+when you open the `zulip-mobile` folder in VS Code.
+
+You can verify that the settings were recognized by opening your
+Workspace Settings with `Ctrl+Shift+P` -> `Open Workspace
+Settings`. If the editor on the right-hand side starts with the
+comment
+```js
+// Workspace Settings for the zulip-mobile repo.
+```
+you're all set - VS Code has recognized your workspace settings. If not,
+make sure that you opened VS Code as a folder. Do this by pressing
+`Ctrl+K Ctrl+O` and navigating to your local `zulip-mobile` clone.
+
 
 #### Saving causes bad reformatting of code
 
