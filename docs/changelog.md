@@ -23,6 +23,16 @@ We number our versions like so:
 ## Unreleased
 
 
+## 25.6.120 (2019-06-18)
+
+### Highlights for users
+
+* You can now see when any message was sent by tapping on it. (#3491)
+
+Plus, like every release, many other improvements for your Zulip
+experience.
+
+
 ## 25.5.119 (2019-06-13)
 
 ### Highlights for users
@@ -37,6 +47,8 @@ Zulip experience.
 
 
 ## 25.4.118 (2019-06-11)
+
+(This was a beta-only release.)
 
 ### Highlights for users
 
