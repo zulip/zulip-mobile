@@ -1,9 +1,9 @@
 import deepFreeze from 'deep-freeze';
 
-import muteReducers from '../muteReducers';
+import muteReducer from '../muteReducer';
 import { ACCOUNT_SWITCH, EVENT_MUTED_TOPICS, REALM_INIT } from '../../actionConstants';
 
-describe('muteReducers', () => {
+describe('muteReducer', () => {
   describe('REALM_INIT', () => {
     test('when `mute` data is provided init state with it', () => {
       const initialState = deepFreeze([]);
@@ -14,7 +14,7 @@ describe('muteReducers', () => {
         },
       });
 
-      const actualState = muteReducers(initialState, action);
+      const actualState = muteReducer(initialState, action);
 
       expect(actualState).toEqual([['stream'], ['topic']]);
     });
@@ -27,7 +27,7 @@ describe('muteReducers', () => {
       });
       const expectedState = [];
 
-      const actualState = muteReducers(initialState, action);
+      const actualState = muteReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -43,7 +43,7 @@ describe('muteReducers', () => {
 
       const expectedState = [];
 
-      const actualState = muteReducers(initialState, action);
+      const actualState = muteReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -60,7 +60,7 @@ describe('muteReducers', () => {
 
       const expectedState = [[['stream'], ['topic']]];
 
-      const newState = muteReducers(initialState, action);
+      const newState = muteReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);

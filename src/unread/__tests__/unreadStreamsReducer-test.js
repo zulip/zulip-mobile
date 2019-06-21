@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import unreadStreamsReducers from '../unreadStreamsReducers';
+import unreadStreamsReducer from '../unreadStreamsReducer';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -9,7 +9,7 @@ import {
 } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 
-describe('unreadStreamsReducers', () => {
+describe('unreadStreamsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze([
@@ -26,7 +26,7 @@ describe('unreadStreamsReducers', () => {
 
       const expectedState = [];
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -62,7 +62,7 @@ describe('unreadStreamsReducers', () => {
         },
       ];
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -88,7 +88,7 @@ describe('unreadStreamsReducers', () => {
         },
       });
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -110,7 +110,7 @@ describe('unreadStreamsReducers', () => {
         },
       });
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -130,7 +130,7 @@ describe('unreadStreamsReducers', () => {
         ownEmail: 'me@example.com',
       });
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -162,7 +162,7 @@ describe('unreadStreamsReducers', () => {
         },
       ];
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -199,7 +199,7 @@ describe('unreadStreamsReducers', () => {
         },
       ];
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -216,7 +216,7 @@ describe('unreadStreamsReducers', () => {
         operation: 'add',
       };
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -242,7 +242,7 @@ describe('unreadStreamsReducers', () => {
         operation: 'add',
       });
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -276,7 +276,7 @@ describe('unreadStreamsReducers', () => {
         },
       ];
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -297,7 +297,7 @@ describe('unreadStreamsReducers', () => {
         operation: 'remove',
       });
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -319,7 +319,7 @@ describe('unreadStreamsReducers', () => {
         all: true,
       });
 
-      const actualState = unreadStreamsReducers(initialState, action);
+      const actualState = unreadStreamsReducer(initialState, action);
 
       expect(actualState).toBe(NULL_ARRAY);
     });

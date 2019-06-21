@@ -1,10 +1,10 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import loadingReducers from '../loadingReducers';
+import loadingReducer from '../loadingReducer';
 import { ACCOUNT_SWITCH } from '../../actionConstants';
 
-describe('loadingReducers', () => {
+describe('loadingReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to nothing is loading', () => {
       const initialState = deepFreeze({
@@ -22,7 +22,7 @@ describe('loadingReducers', () => {
         users: false,
       };
 
-      const actualState = loadingReducers(initialState, action);
+      const actualState = loadingReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });

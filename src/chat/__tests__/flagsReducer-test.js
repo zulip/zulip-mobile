@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import flagsReducers from '../flagsReducers';
+import flagsReducer from '../flagsReducer';
 import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
@@ -9,7 +9,7 @@ import {
 } from '../../actionConstants';
 import { NULL_OBJECT } from '../../nullObjects';
 
-describe('flagsReducers', () => {
+describe('flagsReducer', () => {
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('flags from all messages are extracted and stored by id', () => {
       const initialState = NULL_OBJECT;
@@ -25,7 +25,7 @@ describe('flagsReducers', () => {
         },
       };
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -45,7 +45,7 @@ describe('flagsReducers', () => {
         messages: [{ id: 1, flags: ['read', 'starred'] }],
       });
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -70,7 +70,7 @@ describe('flagsReducers', () => {
       },
     };
 
-    const actualState = flagsReducers(initialState, action);
+    const actualState = flagsReducer(initialState, action);
 
     expect(actualState).toEqual(expectedState);
   });
@@ -86,7 +86,7 @@ describe('flagsReducers', () => {
 
       const expectedState = {};
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -105,7 +105,7 @@ describe('flagsReducers', () => {
         },
       };
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -128,7 +128,7 @@ describe('flagsReducers', () => {
         },
       };
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -153,7 +153,7 @@ describe('flagsReducers', () => {
         },
       };
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -181,7 +181,7 @@ describe('flagsReducers', () => {
         },
       };
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -214,7 +214,7 @@ describe('flagsReducers', () => {
         },
       };
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -237,7 +237,7 @@ describe('flagsReducers', () => {
         read: {},
       };
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -256,7 +256,7 @@ describe('flagsReducers', () => {
         read: {},
       };
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -288,7 +288,7 @@ describe('flagsReducers', () => {
         starred: {},
       };
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -324,7 +324,7 @@ describe('flagsReducers', () => {
         5: true,
       };
 
-      const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducer(initialState, action);
       expect(actualState.read).toEqual(expectedReadState);
     });
   });
@@ -365,7 +365,7 @@ describe('flagsReducers', () => {
         is_me_message: {},
       };
 
-      const actualState = flagsReducers(prevState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });

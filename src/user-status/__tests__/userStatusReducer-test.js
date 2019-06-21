@@ -1,9 +1,9 @@
 import deepFreeze from 'deep-freeze';
 
 import { ACCOUNT_SWITCH, REALM_INIT, EVENT_USER_STATUS_UPDATE } from '../../actionConstants';
-import userStatusReducers from '../userStatusReducers';
+import userStatusReducer from '../userStatusReducer';
 
-describe('userStatusReducers', () => {
+describe('userStatusReducer', () => {
   const testUserStatusData = deepFreeze({
     1: {
       away: true,
@@ -15,7 +15,7 @@ describe('userStatusReducers', () => {
 
   test('handles unknown action by returning initial state', () => {
     const initialState = {};
-    const newState = userStatusReducers(initialState, {});
+    const newState = userStatusReducer(initialState, {});
     expect(newState).toBeDefined();
   });
 
@@ -27,7 +27,7 @@ describe('userStatusReducers', () => {
       });
       const expectedState = {};
 
-      const actualState = userStatusReducers(initialState, action);
+      const actualState = userStatusReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -43,7 +43,7 @@ describe('userStatusReducers', () => {
         },
       };
 
-      const actualState = userStatusReducers(initialState, action);
+      const actualState = userStatusReducer(initialState, action);
 
       expect(actualState).toEqual(testUserStatusData);
     });
@@ -56,7 +56,7 @@ describe('userStatusReducers', () => {
       });
       const expectedState = {};
 
-      const actualState = userStatusReducers(initialState, action);
+      const actualState = userStatusReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -83,7 +83,7 @@ describe('userStatusReducers', () => {
         },
       };
 
-      const actualState = userStatusReducers(initialState, action);
+      const actualState = userStatusReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -105,7 +105,7 @@ describe('userStatusReducers', () => {
         },
       };
 
-      const actualState = userStatusReducers(initialState, action);
+      const actualState = userStatusReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -123,7 +123,7 @@ describe('userStatusReducers', () => {
         },
       };
 
-      const actualState = userStatusReducers(initialState, action);
+      const actualState = userStatusReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -147,7 +147,7 @@ describe('userStatusReducers', () => {
         },
       };
 
-      const actualState = userStatusReducers(initialState, action);
+      const actualState = userStatusReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -167,7 +167,7 @@ describe('userStatusReducers', () => {
         1: {},
       };
 
-      const actualState = userStatusReducers(initialState, action);
+      const actualState = userStatusReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -187,7 +187,7 @@ describe('userStatusReducers', () => {
         1: {},
       };
 
-      const actualState = userStatusReducers(initialState, action);
+      const actualState = userStatusReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });

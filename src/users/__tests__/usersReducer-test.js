@@ -1,15 +1,15 @@
 import deepFreeze from 'deep-freeze';
 
 import { REALM_INIT, EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstants';
-import usersReducers from '../usersReducers';
+import usersReducer from '../usersReducer';
 
-describe('usersReducers', () => {
+describe('usersReducer', () => {
   test('handles unknown action and no state by returning initial state', () => {
     const initialState = undefined;
 
     const action = deepFreeze({});
 
-    const newState = usersReducers(initialState, action);
+    const newState = usersReducer(initialState, action);
     expect(newState).toBeDefined();
   });
 
@@ -18,7 +18,7 @@ describe('usersReducers', () => {
 
     const action = deepFreeze({});
 
-    const newState = usersReducers(initialState, action);
+    const newState = usersReducer(initialState, action);
     expect(newState).toBe(initialState);
   });
 
@@ -38,7 +38,7 @@ describe('usersReducers', () => {
         },
       });
 
-      const actualState = usersReducers(initialState, action);
+      const actualState = usersReducer(initialState, action);
 
       expect(actualState).toEqual([
         {
@@ -63,7 +63,7 @@ describe('usersReducers', () => {
       });
       const expectedState = [];
 
-      const actualState = usersReducers(initialState, action);
+      const actualState = usersReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -90,7 +90,7 @@ describe('usersReducers', () => {
         },
       ];
 
-      const actualState = usersReducers(initialState, action);
+      const actualState = usersReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -112,7 +112,7 @@ describe('usersReducers', () => {
 
       const expectedState = [];
 
-      const actualState = usersReducers(initialState, action);
+      const actualState = usersReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });

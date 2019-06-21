@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import fetchingReducers from '../fetchingReducers';
+import fetchingReducer from '../fetchingReducer';
 import { HOME_NARROW_STR, streamNarrow } from '../../utils/narrow';
 import { DO_NARROW, MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
 
-describe('fetchingReducers', () => {
+describe('fetchingReducer', () => {
   describe('DO_NARROW', () => {
     test('resets state', () => {
       const initialState = deepFreeze({
@@ -19,7 +19,7 @@ describe('fetchingReducers', () => {
 
       const expectedState = {};
 
-      const newState = fetchingReducers(initialState, action);
+      const newState = fetchingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -42,7 +42,7 @@ describe('fetchingReducers', () => {
         [HOME_NARROW_STR]: { older: true, newer: true },
       };
 
-      const newState = fetchingReducers(initialState, action);
+      const newState = fetchingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -64,7 +64,7 @@ describe('fetchingReducers', () => {
         [JSON.stringify(streamNarrow('some stream'))]: { older: true, newer: false },
       };
 
-      const newState = fetchingReducers(initialState, action);
+      const newState = fetchingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -92,7 +92,7 @@ describe('fetchingReducers', () => {
         [HOME_NARROW_STR]: { older: false, newer: true },
       };
 
-      const newState = fetchingReducers(initialState, action);
+      const newState = fetchingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });

@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import messagesReducers from '../messagesReducers';
+import messagesReducer from '../messagesReducer';
 import { FIRST_UNREAD_ANCHOR } from '../../constants';
 import {
   MESSAGE_FETCH_COMPLETE,
@@ -12,9 +12,9 @@ import {
   EVENT_REACTION_REMOVE,
 } from '../../actionConstants';
 
-describe('messagesReducers', () => {
+describe('messagesReducer', () => {
   test('handles unknown action and no previous state by returning initial state', () => {
-    const newState = messagesReducers(undefined, {});
+    const newState = messagesReducer(undefined, {});
     expect(newState).toBeDefined();
   });
 
@@ -33,7 +33,7 @@ describe('messagesReducers', () => {
         2: { id: 2 },
         3: { id: 3 },
       };
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);
     });
@@ -50,7 +50,7 @@ describe('messagesReducers', () => {
         message_id: 3,
         submessage_id: 2,
       });
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
       expect(newState).toBe(initialState);
     });
 
@@ -79,7 +79,7 @@ describe('messagesReducers', () => {
           ],
         },
       };
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);
     });
@@ -92,7 +92,7 @@ describe('messagesReducers', () => {
         type: EVENT_MESSAGE_DELETE,
         messageId: 2,
       });
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
       expect(newState).toEqual(initialState);
     });
     test('if a message exists it is deleted', () => {
@@ -103,7 +103,7 @@ describe('messagesReducers', () => {
         messageId: 2,
       });
       const expectedState = deepFreeze({ 1: { id: 1 } });
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
       expect(newState).toEqual(expectedState);
     });
   });
@@ -118,7 +118,7 @@ describe('messagesReducers', () => {
         type: EVENT_UPDATE_MESSAGE,
         messageId: 3,
       });
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
       expect(newState).toBe(initialState);
     });
 
@@ -154,7 +154,7 @@ describe('messagesReducers', () => {
           ],
         },
       };
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
       expect(newState).not.toBe(initialState);
       expect(newState).toEqual(expectedState);
     });
@@ -197,7 +197,7 @@ describe('messagesReducers', () => {
         },
       };
 
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
 
       expect(newState).not.toBe(initialState);
       expect(newState).toEqual(expectedState);
@@ -255,7 +255,7 @@ describe('messagesReducers', () => {
           ],
         },
       };
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
       expect(newState).not.toBe(initialState);
       expect(newState).toEqual(expectedState);
     });
@@ -277,7 +277,7 @@ describe('messagesReducers', () => {
         1: { id: 1, reactions: [] },
         2: { id: 2, reactions: [{ emoji_name: 'hello', user: {} }] },
       };
-      const actualState = messagesReducers(initialState, action);
+      const actualState = messagesReducer(initialState, action);
       expect(actualState).toEqual(expectedState);
     });
   });
@@ -296,7 +296,7 @@ describe('messagesReducers', () => {
       const expectedState = {
         1: { id: 1, reactions: [] },
       };
-      const actualState = messagesReducers(initialState, action);
+      const actualState = messagesReducer(initialState, action);
       expect(actualState).toEqual(expectedState);
     });
 
@@ -326,7 +326,7 @@ describe('messagesReducers', () => {
           ],
         },
       };
-      const actualState = messagesReducers(initialState, action);
+      const actualState = messagesReducer(initialState, action);
       expect(actualState).toEqual(expectedState);
     });
   });
@@ -349,7 +349,7 @@ describe('messagesReducers', () => {
         4: { id: 4 },
         5: { id: 5 },
       };
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
       expect(newState).toEqual(expectedState);
     });
 
@@ -367,7 +367,7 @@ describe('messagesReducers', () => {
         messages: [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }],
       });
 
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
 
       expect(newState['2']).toEqual(commonMessages['2']);
       expect(newState['3']).toEqual(commonMessages['3']);
@@ -394,7 +394,7 @@ describe('messagesReducers', () => {
         ...changedMessages,
       };
 
-      const newState = messagesReducers(initialState, action);
+      const newState = messagesReducer(initialState, action);
 
       expect(newState['2']).toEqual(expectedState['2']);
       expect(newState['3']).toEqual(expectedState['3']);

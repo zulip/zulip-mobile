@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import outboxReducers from '../outboxReducers';
+import outboxReducer from '../outboxReducer';
 import {
   INITIAL_FETCH_COMPLETE,
   MESSAGE_SEND_START,
@@ -8,7 +8,7 @@ import {
 } from '../../actionConstants';
 import { streamNarrow } from '../../utils/narrow';
 
-describe('outboxReducers', () => {
+describe('outboxReducer', () => {
   describe(INITIAL_FETCH_COMPLETE, () => {
     test('filters out isSent', () => {
       const initialState = deepFreeze([
@@ -23,7 +23,7 @@ describe('outboxReducers', () => {
 
       const expectedState = [{ content: 'New one' }, { content: 'Another one' }];
 
-      const actualState = outboxReducers(initialState, action);
+      const actualState = outboxReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -56,7 +56,7 @@ describe('outboxReducers', () => {
         },
       ];
 
-      const actualState = outboxReducers(initialState, action);
+      const actualState = outboxReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -75,7 +75,7 @@ describe('outboxReducers', () => {
         },
       });
 
-      const actualState = outboxReducers(initialState, action);
+      const actualState = outboxReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -98,7 +98,7 @@ describe('outboxReducers', () => {
         type: EVENT_NEW_MESSAGE,
         timestamp: 123,
       });
-      const actualState = outboxReducers(initialState, action);
+      const actualState = outboxReducer(initialState, action);
       expect(actualState).toBe(initialState);
     });
 
@@ -116,7 +116,7 @@ describe('outboxReducers', () => {
 
       const expectedState = [{ timestamp: 150238512430 }, { timestamp: 150238594540 }];
 
-      const actualState = outboxReducers(initialState, action);
+      const actualState = outboxReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -138,7 +138,7 @@ describe('outboxReducers', () => {
         timestamp: 15023859,
       });
 
-      const actualState = outboxReducers(initialState, action);
+      const actualState = outboxReducer(initialState, action);
       expect(actualState).toBe(initialState);
     });
   });

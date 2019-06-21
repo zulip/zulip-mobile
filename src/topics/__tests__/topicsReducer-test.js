@@ -1,10 +1,10 @@
 import deepFreeze from 'deep-freeze';
 
-import topicsReducers from '../topicsReducers';
+import topicsReducer from '../topicsReducer';
 import { ACCOUNT_SWITCH, INIT_TOPICS, EVENT_NEW_MESSAGE } from '../../actionConstants';
 import { NULL_OBJECT } from '../../nullObjects';
 
-describe('streamsReducers', () => {
+describe('streamsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze([{ max_id: 1, name: 'some_topic' }]);
@@ -15,7 +15,7 @@ describe('streamsReducers', () => {
 
       const expectedState = NULL_OBJECT;
 
-      const actualState = topicsReducers(initialState, action);
+      const actualState = topicsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -53,7 +53,7 @@ describe('streamsReducers', () => {
         ],
       };
 
-      const newState = topicsReducers(initialState, action);
+      const newState = topicsReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -96,7 +96,7 @@ describe('streamsReducers', () => {
         ],
       };
 
-      const newState = topicsReducers(initialState, action);
+      const newState = topicsReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -115,7 +115,7 @@ describe('streamsReducers', () => {
         },
       };
 
-      const actualState = topicsReducers(initialState, action);
+      const actualState = topicsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -149,7 +149,7 @@ describe('streamsReducers', () => {
         ],
       };
 
-      const actualState = topicsReducers(initialState, action);
+      const actualState = topicsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -176,7 +176,7 @@ describe('streamsReducers', () => {
         ],
       };
 
-      const actualState = topicsReducers(initialState, action);
+      const actualState = topicsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });

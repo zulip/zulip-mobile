@@ -6,9 +6,9 @@ import {
   START_EDIT_MESSAGE,
   LOGIN_SUCCESS,
 } from '../../actionConstants';
-import sessionReducers from '../sessionReducers';
+import sessionReducer from '../sessionReducer';
 
-describe('sessionReducers', () => {
+describe('sessionReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('reissues initial fetch', () => {
       const prevState = deepFreeze({});
@@ -17,7 +17,7 @@ describe('sessionReducers', () => {
         type: ACCOUNT_SWITCH,
       });
 
-      const newState = sessionReducers(prevState, action);
+      const newState = sessionReducer(prevState, action);
 
       expect(newState.needsInitialFetch).toBe(true);
     });
@@ -48,7 +48,7 @@ describe('sessionReducers', () => {
         },
       };
 
-      const newState = sessionReducers(prevState, action);
+      const newState = sessionReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -80,7 +80,7 @@ describe('sessionReducers', () => {
         },
       };
 
-      const newState = sessionReducers(prevState, action);
+      const newState = sessionReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -94,7 +94,7 @@ describe('sessionReducers', () => {
         type: LOGIN_SUCCESS,
       });
 
-      const newState = sessionReducers(prevState, action);
+      const newState = sessionReducer(prevState, action);
 
       expect(newState.needsInitialFetch).toBe(true);
     });

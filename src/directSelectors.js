@@ -28,7 +28,7 @@ import type {
   UserGroup,
   UserStatusState,
 } from './types';
-import type { SessionState } from './session/sessionReducers';
+import type { SessionState } from './session/sessionReducer';
 
 export const getAccounts = (state: GlobalState): Account[] => state.accounts;
 

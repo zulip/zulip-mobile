@@ -9,15 +9,15 @@ import {
   EVENT_USER_GROUP_ADD_MEMBERS,
   EVENT_USER_GROUP_REMOVE_MEMBERS,
 } from '../../actionConstants';
-import userGroupsReducers from '../userGroupsReducers';
+import userGroupsReducer from '../userGroupsReducer';
 
-describe('userGroupsReducers', () => {
+describe('userGroupsReducer', () => {
   test('handles unknown action and no state by returning initial state', () => {
     const initialState = undefined;
 
     const action = deepFreeze({});
 
-    const newState = userGroupsReducers(initialState, action);
+    const newState = userGroupsReducer(initialState, action);
     expect(newState).toBeDefined();
   });
 
@@ -37,7 +37,7 @@ describe('userGroupsReducers', () => {
         },
       });
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual([
         {
@@ -56,7 +56,7 @@ describe('userGroupsReducers', () => {
       });
       const expectedState = [];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -79,7 +79,7 @@ describe('userGroupsReducers', () => {
 
       const expectedState = [];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -102,7 +102,7 @@ describe('userGroupsReducers', () => {
 
       const expectedState = [group];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -118,7 +118,7 @@ describe('userGroupsReducers', () => {
       });
       const expectedState = [];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -147,7 +147,7 @@ describe('userGroupsReducers', () => {
         },
       ];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -164,7 +164,7 @@ describe('userGroupsReducers', () => {
       });
       const expectedState = [];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -197,7 +197,7 @@ describe('userGroupsReducers', () => {
         },
       ];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -214,7 +214,7 @@ describe('userGroupsReducers', () => {
       });
       const expectedState = [];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -241,7 +241,7 @@ describe('userGroupsReducers', () => {
         },
       ];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -258,7 +258,7 @@ describe('userGroupsReducers', () => {
       });
       const expectedState = [];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -295,7 +295,7 @@ describe('userGroupsReducers', () => {
         },
       ];
 
-      const actualState = userGroupsReducers(initialState, action);
+      const actualState = userGroupsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });

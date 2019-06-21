@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import unreadPmsReducers from '../unreadPmsReducers';
+import unreadPmsReducer from '../unreadPmsReducer';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -9,7 +9,7 @@ import {
 } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 
-describe('unreadPmsReducers', () => {
+describe('unreadPmsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze([
@@ -25,7 +25,7 @@ describe('unreadPmsReducers', () => {
 
       const expectedState = [];
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -59,7 +59,7 @@ describe('unreadPmsReducers', () => {
         },
       ];
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -81,7 +81,7 @@ describe('unreadPmsReducers', () => {
         },
       });
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -101,7 +101,7 @@ describe('unreadPmsReducers', () => {
         ownEmail: 'me@example.com',
       });
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -123,7 +123,7 @@ describe('unreadPmsReducers', () => {
         },
       });
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -153,7 +153,7 @@ describe('unreadPmsReducers', () => {
         },
       ];
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -187,7 +187,7 @@ describe('unreadPmsReducers', () => {
         },
       ];
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -204,7 +204,7 @@ describe('unreadPmsReducers', () => {
         operation: 'add',
       };
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -228,7 +228,7 @@ describe('unreadPmsReducers', () => {
         operation: 'add',
       });
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -259,7 +259,7 @@ describe('unreadPmsReducers', () => {
         },
       ];
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -279,7 +279,7 @@ describe('unreadPmsReducers', () => {
         operation: 'remove',
       });
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -300,7 +300,7 @@ describe('unreadPmsReducers', () => {
         all: true,
       });
 
-      const actualState = unreadPmsReducers(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action);
 
       expect(actualState).toBe(NULL_ARRAY);
     });

@@ -1,9 +1,9 @@
 import deepFreeze from 'deep-freeze';
 
 import { SETTINGS_CHANGE, EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS } from '../../actionConstants';
-import settingsReducers from '../settingsReducers';
+import settingsReducer from '../settingsReducer';
 
-describe('settingsReducers', () => {
+describe('settingsReducer', () => {
   describe('SETTINGS_CHANGE', () => {
     test('sets a key if it does not exist', () => {
       const prevState = deepFreeze({});
@@ -17,7 +17,7 @@ describe('settingsReducers', () => {
         theme: 'default',
       };
 
-      const actualState = settingsReducers(prevState, action);
+      const actualState = settingsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -36,7 +36,7 @@ describe('settingsReducers', () => {
         theme: 'default',
       };
 
-      const actualState = settingsReducers(prevState, action);
+      const actualState = settingsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -68,7 +68,7 @@ describe('settingsReducers', () => {
         offlineNotification: false,
       };
 
-      const actualState = settingsReducers(prevState, action);
+      const actualState = settingsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });

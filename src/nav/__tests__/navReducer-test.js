@@ -1,10 +1,10 @@
 import deepFreeze from 'deep-freeze';
 
 import { LOGIN_SUCCESS, INITIAL_FETCH_COMPLETE, REHYDRATE } from '../../actionConstants';
-import navReducers, { getStateForRoute } from '../navReducers';
+import navReducer, { getStateForRoute } from '../navReducer';
 import { NULL_OBJECT } from '../../nullObjects';
 
-describe('navReducers', () => {
+describe('navReducer', () => {
   describe('LOGIN_SUCCESS', () => {
     test('replaces the existing route stack with "main" on sign in', () => {
       const prevState = deepFreeze({
@@ -21,7 +21,7 @@ describe('navReducers', () => {
         routes: [{ routeName: 'main' }],
       };
 
-      const newState = navReducers(prevState, action);
+      const newState = navReducer(prevState, action);
 
       expect(newState.index).toEqual(expectedState.index);
       expect(newState.routes[0].routeName).toEqual(expectedState.routes[0].routeName);
@@ -36,7 +36,7 @@ describe('navReducers', () => {
         type: INITIAL_FETCH_COMPLETE,
       });
 
-      const newState = navReducers(prevState, action);
+      const newState = navReducer(prevState, action);
 
       expect(newState).toBe(prevState);
     });
@@ -55,7 +55,7 @@ describe('navReducers', () => {
         },
       });
 
-      const nav = navReducers(initialState, action);
+      const nav = navReducer(initialState, action);
 
       expect(nav.routes).toHaveLength(1);
     });
@@ -72,7 +72,7 @@ describe('navReducers', () => {
         },
       });
 
-      const nav = navReducers(initialState, action);
+      const nav = navReducer(initialState, action);
 
       expect(nav.routes).toHaveLength(1);
       expect(nav.routes[0].routeName).toEqual('main');
@@ -90,7 +90,7 @@ describe('navReducers', () => {
         },
       });
 
-      const nav = navReducers(initialState, action);
+      const nav = navReducer(initialState, action);
 
       expect(nav.routes).toHaveLength(1);
       expect(nav.routes[0].routeName).toEqual('welcome');
@@ -108,7 +108,7 @@ describe('navReducers', () => {
         },
       });
 
-      const nav = navReducers(initialState, action);
+      const nav = navReducer(initialState, action);
 
       expect(nav.routes).toHaveLength(1);
       expect(nav.routes[0].routeName).toEqual('account');
@@ -126,7 +126,7 @@ describe('navReducers', () => {
         },
       });
 
-      const nav = navReducers(initialState, action);
+      const nav = navReducer(initialState, action);
 
       expect(nav.routes).toHaveLength(1);
       expect(nav.routes[0].routeName).toEqual('welcome');
@@ -147,7 +147,7 @@ describe('navReducers', () => {
         },
       });
 
-      const nav = navReducers(initialState, action);
+      const nav = navReducer(initialState, action);
 
       expect(nav.routes).toHaveLength(1);
       expect(nav.routes[0].routeName).toEqual('account');
@@ -165,7 +165,7 @@ describe('navReducers', () => {
         },
       });
 
-      const nav = navReducers(initialState, action);
+      const nav = navReducer(initialState, action);
 
       expect(nav.routes).toHaveLength(1);
       expect(nav.routes[0].routeName).toEqual('welcome');

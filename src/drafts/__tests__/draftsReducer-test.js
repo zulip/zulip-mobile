@@ -1,11 +1,11 @@
 import deepFreeze from 'deep-freeze';
 
 import { NULL_OBJECT } from '../../nullObjects';
-import draftsReducers from '../draftsReducers';
+import draftsReducer from '../draftsReducer';
 import { DRAFT_UPDATE } from '../../actionConstants';
 import { topicNarrow } from '../../utils/narrow';
 
-describe('draftsReducers', () => {
+describe('draftsReducer', () => {
   const testNarrow = topicNarrow('denmark', 'denmark2');
   const testNarrowStr = JSON.stringify(testNarrow);
 
@@ -23,7 +23,7 @@ describe('draftsReducers', () => {
         [testNarrowStr]: 'Hello',
       };
 
-      const actualState = draftsReducers(initialState, action);
+      const actualState = draftsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -39,7 +39,7 @@ describe('draftsReducers', () => {
         narrow: testNarrow,
       });
 
-      const actualState = draftsReducers(initialState, action);
+      const actualState = draftsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -57,7 +57,7 @@ describe('draftsReducers', () => {
 
       const expectedState = {};
 
-      const actualState = draftsReducers(initialState, action);
+      const actualState = draftsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -75,7 +75,7 @@ describe('draftsReducers', () => {
 
       const expectedState = {};
 
-      const actualState = draftsReducers(initialState, action);
+      const actualState = draftsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -89,7 +89,7 @@ describe('draftsReducers', () => {
         narrow: testNarrow,
       });
 
-      const actualState = draftsReducers(initialState, action);
+      const actualState = draftsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });

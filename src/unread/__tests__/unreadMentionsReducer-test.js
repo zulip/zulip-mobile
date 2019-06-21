@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import unreadMentionsReducers from '../unreadMentionsReducers';
+import unreadMentionsReducer from '../unreadMentionsReducer';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -9,7 +9,7 @@ import {
 } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 
-describe('unreadMentionsReducers', () => {
+describe('unreadMentionsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze([1, 2, 3]);
@@ -20,7 +20,7 @@ describe('unreadMentionsReducers', () => {
 
       const expectedState = [];
 
-      const actualState = unreadMentionsReducers(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -44,7 +44,7 @@ describe('unreadMentionsReducers', () => {
 
       const expectedState = [1, 2, 3];
 
-      const actualState = unreadMentionsReducers(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -62,7 +62,7 @@ describe('unreadMentionsReducers', () => {
         },
       });
 
-      const actualState = unreadMentionsReducers(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -78,7 +78,7 @@ describe('unreadMentionsReducers', () => {
         },
       });
 
-      const actualState = unreadMentionsReducers(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -96,7 +96,7 @@ describe('unreadMentionsReducers', () => {
 
       const expectedState = [1, 2, 3];
 
-      const actualState = unreadMentionsReducers(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -113,7 +113,7 @@ describe('unreadMentionsReducers', () => {
         operation: 'add',
       };
 
-      const actualState = unreadMentionsReducers(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -128,7 +128,7 @@ describe('unreadMentionsReducers', () => {
         operation: 'add',
       });
 
-      const actualState = unreadMentionsReducers(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -145,7 +145,7 @@ describe('unreadMentionsReducers', () => {
 
       const expectedState = [1];
 
-      const actualState = unreadMentionsReducers(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -160,7 +160,7 @@ describe('unreadMentionsReducers', () => {
         operation: 'remove',
       });
 
-      const actualState = unreadMentionsReducers(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -176,7 +176,7 @@ describe('unreadMentionsReducers', () => {
         all: true,
       });
 
-      const actualState = unreadMentionsReducers(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, action);
 
       expect(actualState).toBe(NULL_ARRAY);
     });

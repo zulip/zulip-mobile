@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import caughtUpReducers from '../caughtUpReducers';
+import caughtUpReducer from '../caughtUpReducer';
 import { MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../constants';
 import {
@@ -11,7 +11,7 @@ import {
   ALL_PRIVATE_NARROW_STR,
 } from '../../utils/narrow';
 
-describe('caughtUpReducers', () => {
+describe('caughtUpReducer', () => {
   describe('MESSAGE_FETCH_START', () => {
     test('when fetch starts caught up does not change', () => {
       const initialState = deepFreeze({
@@ -27,7 +27,7 @@ describe('caughtUpReducers', () => {
       });
 
       // $FlowFixMe bogus action object
-      const newState = caughtUpReducers(initialState, action);
+      const newState = caughtUpReducer(initialState, action);
 
       expect(newState).toBe(initialState);
     });
@@ -61,7 +61,7 @@ describe('caughtUpReducers', () => {
         },
       };
 
-      const newState = caughtUpReducers(initialState, action);
+      const newState = caughtUpReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -94,7 +94,7 @@ describe('caughtUpReducers', () => {
       },
     };
 
-    const newState = caughtUpReducers(initialState, action);
+    const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
   });
@@ -126,7 +126,7 @@ describe('caughtUpReducers', () => {
       },
     };
 
-    const newState = caughtUpReducers(initialState, action);
+    const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
   });
@@ -159,7 +159,7 @@ describe('caughtUpReducers', () => {
     };
 
     // $FlowFixMe bogus messages in action
-    const newState = caughtUpReducers(initialState, action);
+    const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
   });
@@ -191,7 +191,7 @@ describe('caughtUpReducers', () => {
     };
 
     // $FlowFixMe bogus messages in action
-    const newState = caughtUpReducers(initialState, action);
+    const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
   });
@@ -223,7 +223,7 @@ describe('caughtUpReducers', () => {
     };
 
     // $FlowFixMe bogus messages in action
-    const newState = caughtUpReducers(initialState, action);
+    const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
   });
@@ -254,7 +254,7 @@ describe('caughtUpReducers', () => {
     };
 
     // $FlowFixMe bogus messages in action
-    const newState = caughtUpReducers(initialState, action);
+    const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
   });
@@ -281,7 +281,7 @@ describe('caughtUpReducers', () => {
       },
     };
 
-    const newState = caughtUpReducers(initialState, action);
+    const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
   });
@@ -320,7 +320,7 @@ describe('caughtUpReducers', () => {
       };
 
       // $FlowFixMe bogus messages in action
-      const newState = caughtUpReducers(initialState, action);
+      const newState = caughtUpReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -359,7 +359,7 @@ describe('caughtUpReducers', () => {
       };
 
       // $FlowFixMe bogus messages in action
-      const newState = caughtUpReducers(initialState, action);
+      const newState = caughtUpReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -386,7 +386,7 @@ describe('caughtUpReducers', () => {
       },
     };
 
-    const newState = caughtUpReducers(initialState, action);
+    const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
   });

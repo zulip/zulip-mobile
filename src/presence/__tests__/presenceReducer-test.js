@@ -6,20 +6,20 @@ import {
   EVENT_PRESENCE,
   ACCOUNT_SWITCH,
 } from '../../actionConstants';
-import presenceReducers from '../presenceReducers';
+import presenceReducer from '../presenceReducer';
 
 const currentTimestamp = Date.now() / 1000;
 
-describe('presenceReducers', () => {
+describe('presenceReducer', () => {
   test('handles unknown action and no state by returning initial state', () => {
-    const newState = presenceReducers(undefined, {});
+    const newState = presenceReducer(undefined, {});
     expect(newState).toBeDefined();
   });
 
   test('on unrecognized action, returns input state unchanged', () => {
     const prevState = deepFreeze({ hello: 'world' });
 
-    const newState = presenceReducers(prevState, {});
+    const newState = presenceReducer(prevState, {});
     expect(newState).toBe(prevState);
   });
 
@@ -42,7 +42,7 @@ describe('presenceReducers', () => {
         },
       });
 
-      const actualState = presenceReducers(initialState, action);
+      const actualState = presenceReducer(initialState, action);
 
       expect(actualState).toEqual(presenceData);
     });
@@ -63,7 +63,7 @@ describe('presenceReducers', () => {
       });
       const expectedState = {};
 
-      const actualState = presenceReducers(initialState, action);
+      const actualState = presenceReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -98,7 +98,7 @@ describe('presenceReducers', () => {
         },
       };
 
-      const newState = presenceReducers(prevState, action);
+      const newState = presenceReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -149,7 +149,7 @@ describe('presenceReducers', () => {
         'janedoe@example.com': {},
       };
 
-      const newState = presenceReducers(prevState, action);
+      const newState = presenceReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -203,7 +203,7 @@ describe('presenceReducers', () => {
         },
       };
 
-      const newState = presenceReducers(prevState, action);
+      const newState = presenceReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -225,7 +225,7 @@ describe('presenceReducers', () => {
 
       const expectedState = {};
 
-      const actualState = presenceReducers(initialState, action);
+      const actualState = presenceReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });

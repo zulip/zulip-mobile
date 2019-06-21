@@ -2,9 +2,9 @@ import deepFreeze from 'deep-freeze';
 
 import { EventTypes } from '../../api/eventTypes';
 import { REALM_INIT, EVENT_SUBSCRIPTION, ACCOUNT_SWITCH, EVENT } from '../../actionConstants';
-import subscriptionsReducers from '../subscriptionsReducers';
+import subscriptionsReducer from '../subscriptionsReducer';
 
-describe('subscriptionsReducers', () => {
+describe('subscriptionsReducer', () => {
   describe('REALM_INIT', () => {
     test('when `subscriptions` data is provided init state with it', () => {
       const initialState = deepFreeze([]);
@@ -20,7 +20,7 @@ describe('subscriptionsReducers', () => {
         },
       });
 
-      const actualState = subscriptionsReducers(initialState, action);
+      const actualState = subscriptionsReducer(initialState, action);
 
       expect(actualState).toEqual([
         {
@@ -43,7 +43,7 @@ describe('subscriptionsReducers', () => {
       });
       const expectedState = [];
 
-      const actualState = subscriptionsReducers(initialState, action);
+      const actualState = subscriptionsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -52,7 +52,7 @@ describe('subscriptionsReducers', () => {
   test('on unrecognized action, returns input state unchanged', () => {
     const prevState = deepFreeze({ hello: 'world' });
 
-    const newState = subscriptionsReducers(prevState, {});
+    const newState = subscriptionsReducer(prevState, {});
     expect(newState).toEqual(prevState);
   });
 
@@ -86,7 +86,7 @@ describe('subscriptionsReducers', () => {
         },
       ];
 
-      const newState = subscriptionsReducers(prevState, action);
+      const newState = subscriptionsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -127,7 +127,7 @@ describe('subscriptionsReducers', () => {
         },
       ];
 
-      const newState = subscriptionsReducers(prevState, action);
+      const newState = subscriptionsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -176,7 +176,7 @@ describe('subscriptionsReducers', () => {
         },
       ];
 
-      const newState = subscriptionsReducers(prevState, action);
+      const newState = subscriptionsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -206,7 +206,7 @@ describe('subscriptionsReducers', () => {
 
       const expectedState = [];
 
-      const newState = subscriptionsReducers(prevState, action);
+      const newState = subscriptionsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -261,7 +261,7 @@ describe('subscriptionsReducers', () => {
         },
       ];
 
-      const actualState = subscriptionsReducers(initialState, action);
+      const actualState = subscriptionsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -289,7 +289,7 @@ describe('subscriptionsReducers', () => {
         },
       });
 
-      const actualState = subscriptionsReducers(initialState, action);
+      const actualState = subscriptionsReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -320,7 +320,7 @@ describe('subscriptionsReducers', () => {
       });
       const expectedState = [];
 
-      const actualState = subscriptionsReducers(initialState, action);
+      const actualState = subscriptionsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -355,7 +355,7 @@ describe('subscriptionsReducers', () => {
       });
       const expectedState = [];
 
-      const actualState = subscriptionsReducers(initialState, action);
+      const actualState = subscriptionsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -371,7 +371,7 @@ describe('subscriptionsReducers', () => {
 
       const expectedState = [];
 
-      const actualState = subscriptionsReducers(initialState, action);
+      const actualState = subscriptionsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });

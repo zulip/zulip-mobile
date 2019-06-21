@@ -128,7 +128,7 @@ When running the app, you might see in the output of the Metro bundler
 
 ```
 error: bundling failed: Error: Unable to resolve module `lodash.union`
-  from `.../zulip-mobile/src/chat/chatReducers.js`:
+  from `.../zulip-mobile/src/chat/chatReducer.js`:
   Module `lodash.union` does not exist in the Haste module map
 ```
 

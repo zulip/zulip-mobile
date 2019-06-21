@@ -1,10 +1,10 @@
 import deepFreeze from 'deep-freeze';
 
 import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../../actionConstants';
-import typingReducers from '../typingReducers';
+import typingReducer from '../typingReducer';
 import { NULL_OBJECT } from '../../nullObjects';
 
-describe('typingReducers', () => {
+describe('typingReducer', () => {
   describe('EVENT_TYPING_START', () => {
     test('adds sender as currently typing user', () => {
       const initialState = NULL_OBJECT;
@@ -25,7 +25,7 @@ describe('typingReducers', () => {
         'john@example.com': { time: 123456789, userIds: [1] },
       };
 
-      const newState = typingReducers(initialState, action);
+      const newState = typingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -51,7 +51,7 @@ describe('typingReducers', () => {
         'john@example.com': { time: 123456889, userIds: [1] },
       };
 
-      const newState = typingReducers(initialState, action);
+      const newState = typingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -79,7 +79,7 @@ describe('typingReducers', () => {
         'john@example.com,mark@example.com': { time: 123456789, userIds: [2] },
       };
 
-      const newState = typingReducers(initialState, action);
+      const newState = typingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -106,7 +106,7 @@ describe('typingReducers', () => {
         'john@example.com,mark@example.com': { time: 123456789, userIds: [1, 2] },
       };
 
-      const newState = typingReducers(initialState, action);
+      const newState = typingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -135,7 +135,7 @@ describe('typingReducers', () => {
         'mark@example.com': { time: 123489, userIds: [2] },
       };
 
-      const newState = typingReducers(initialState, action);
+      const newState = typingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -161,7 +161,7 @@ describe('typingReducers', () => {
         'john@example.com': { time: 123456789, userIds: [2] },
       };
 
-      const newState = typingReducers(initialState, action);
+      const newState = typingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -183,7 +183,7 @@ describe('typingReducers', () => {
 
       const expectedState = {};
 
-      const newState = typingReducers(initialState, action);
+      const newState = typingReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });

@@ -7,9 +7,9 @@ import {
   LOGOUT,
   ACCOUNT_REMOVE,
 } from '../../actionConstants';
-import accountsReducers from '../accountsReducers';
+import accountsReducer from '../accountsReducer';
 
-describe('accountsReducers', () => {
+describe('accountsReducer', () => {
   describe('REALM_ADD', () => {
     test('if no account with this realm exists, insert new account in front', () => {
       const prevState = deepFreeze([{ realm: '1' }, { realm: '2' }]);
@@ -25,7 +25,7 @@ describe('accountsReducers', () => {
         { realm: '2' },
       ];
 
-      const newState = accountsReducers(prevState, action);
+      const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(prevState);
@@ -47,7 +47,7 @@ describe('accountsReducers', () => {
         { realm: '1', someProp: 'someValue' },
       ];
 
-      const newState = accountsReducers(prevState, action);
+      const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(prevState);
@@ -67,7 +67,7 @@ describe('accountsReducers', () => {
         index: 0,
       });
 
-      const newState = accountsReducers(prevState, action);
+      const newState = accountsReducer(prevState, action);
 
       expect(newState).toBe(prevState);
     });
@@ -90,7 +90,7 @@ describe('accountsReducers', () => {
         { realm: 'http://realm3.com' },
       ];
 
-      const newState = accountsReducers(prevState, action);
+      const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -119,7 +119,7 @@ describe('accountsReducers', () => {
         },
       ];
 
-      const newState = accountsReducers(prevState, action);
+      const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -154,7 +154,7 @@ describe('accountsReducers', () => {
         },
       ];
 
-      const newState = accountsReducers(prevState, action);
+      const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -193,7 +193,7 @@ describe('accountsReducers', () => {
         },
       ];
 
-      const newState = accountsReducers(prevState, action);
+      const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -229,7 +229,7 @@ describe('accountsReducers', () => {
         },
       ];
 
-      const newState = accountsReducers(prevState, action);
+      const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -252,7 +252,7 @@ describe('accountsReducers', () => {
 
       const expectedState = [];
 
-      const newState = accountsReducers(prevState, action);
+      const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });

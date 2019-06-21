@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import unreadHuddlesReducers from '../unreadHuddlesReducers';
+import unreadHuddlesReducer from '../unreadHuddlesReducer';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -9,7 +9,7 @@ import {
 } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 
-describe('unreadHuddlesReducers', () => {
+describe('unreadHuddlesReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze([
@@ -25,7 +25,7 @@ describe('unreadHuddlesReducers', () => {
 
       const expectedState = [];
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -59,7 +59,7 @@ describe('unreadHuddlesReducers', () => {
         },
       ];
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -81,7 +81,7 @@ describe('unreadHuddlesReducers', () => {
         },
       });
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -107,7 +107,7 @@ describe('unreadHuddlesReducers', () => {
         },
       });
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -131,7 +131,7 @@ describe('unreadHuddlesReducers', () => {
         ownEmail: 'me@example.com',
       });
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -164,7 +164,7 @@ describe('unreadHuddlesReducers', () => {
         },
       ];
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -202,7 +202,7 @@ describe('unreadHuddlesReducers', () => {
         },
       ];
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -219,7 +219,7 @@ describe('unreadHuddlesReducers', () => {
         operation: 'add',
       };
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -243,7 +243,7 @@ describe('unreadHuddlesReducers', () => {
         operation: 'add',
       });
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -274,7 +274,7 @@ describe('unreadHuddlesReducers', () => {
         },
       ];
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -294,7 +294,7 @@ describe('unreadHuddlesReducers', () => {
         operation: 'remove',
       });
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
@@ -315,7 +315,7 @@ describe('unreadHuddlesReducers', () => {
         all: true,
       });
 
-      const actualState = unreadHuddlesReducers(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action);
 
       expect(actualState).toBe(NULL_ARRAY);
     });

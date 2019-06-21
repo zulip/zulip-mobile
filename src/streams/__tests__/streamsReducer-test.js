@@ -2,9 +2,9 @@ import deepFreeze from 'deep-freeze';
 
 import { EventTypes } from '../../api/eventTypes';
 import { ACCOUNT_SWITCH, EVENT } from '../../actionConstants';
-import streamsReducers from '../streamsReducers';
+import streamsReducer from '../streamsReducer';
 
-describe('streamsReducers', () => {
+describe('streamsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze(['some_stream']);
@@ -15,7 +15,7 @@ describe('streamsReducers', () => {
 
       const expectedState = [];
 
-      const actualState = streamsReducers(initialState, action);
+      const actualState = streamsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -54,7 +54,7 @@ describe('streamsReducers', () => {
         },
       ];
 
-      const newState = streamsReducers(initialState, action);
+      const newState = streamsReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -99,7 +99,7 @@ describe('streamsReducers', () => {
         },
       ];
 
-      const newState = streamsReducers(initialState, action);
+      const newState = streamsReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -151,7 +151,7 @@ describe('streamsReducers', () => {
         },
       ];
 
-      const newState = streamsReducers(initialState, action);
+      const newState = streamsReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -184,7 +184,7 @@ describe('streamsReducers', () => {
 
       const expectedState = [];
 
-      const newState = streamsReducers(initialState, action);
+      const newState = streamsReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -242,7 +242,7 @@ describe('streamsReducers', () => {
         },
       ];
 
-      const actualState = streamsReducers(initialState, action);
+      const actualState = streamsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -304,7 +304,7 @@ describe('streamsReducers', () => {
         },
       ];
 
-      const actualState = streamsReducers(initialState, action);
+      const actualState = streamsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -360,7 +360,7 @@ describe('streamsReducers', () => {
         },
       ];
 
-      const actualState = streamsReducers(initialState, action);
+      const actualState = streamsReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
