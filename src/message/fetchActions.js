@@ -53,6 +53,7 @@ const messageFetchComplete = (
   foundOldest,
 });
 
+/** PRIVATE: exported for tests only. */
 export const fetchMessages = (
   narrow: Narrow,
   anchor: number,
@@ -114,6 +115,30 @@ const isFetchNeededAtAnchor = (state: GlobalState, narrow: Narrow, anchor: numbe
   return !(caughtUp.newer && caughtUp.older);
 };
 
+/**
+ * Fetch messages in the given narrow, around the given anchor.
+ *
+ * For almost all types of data we need from the server, we use the Zulip
+ * event system to get a complete snapshot and to maintain it incrementally.
+ * See `doInitialFetch` for discussion and links to documentation.  As a
+ * result, there are very few types of data we need to go fetch from the
+ * server as the user navigates through the app or as different information
+ * is to appear on screen.
+ *
+ * The one major exception is messages.  For new messages while we're
+ * online, and updates to existing messages, we learn them in real time
+ * through the event system; but because the full history of messages can be
+ * very large, it's left out of the snapshot obtained through `/register` by
+ * `doInitialFetch`.  Instead, we fetch specific message history as needed.
+ * This is the main function used for that, especially as the user navigates
+ * to a given narrow.
+ *
+ * See also the `message` event and corresponding `EVENT_NEW_MESSAGE`
+ * action, which is how we learn about new messages in real time.
+ *
+ * See also handlers for the `MESSAGE_FETCH_COMPLETE` action, which this
+ * dispatches with the data it receives from the server.
+ */
 export const fetchMessagesInNarrow = (
   narrow: Narrow,
   anchor: number = FIRST_UNREAD_ANCHOR,
@@ -132,6 +157,16 @@ export const fetchMessagesInNarrow = (
   );
 };
 
+/**
+ * Fetch the few most recent PMs.
+ *
+ * We do this eagerly in `doInitialFetch`, where it mainly serves to let us
+ * show something useful in the PM conversations screen.  Recent server
+ * versions have a custom-made API to help us do this better, which we hope
+ * to use soon: see #3133.
+ *
+ * See `fetchMessagesInNarrow` for further background.
+ */
 const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const { messages, found_newest, found_oldest } = await tryUntilSuccessful(() =>
@@ -150,6 +185,20 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
   );
 };
 
+/**
+ * If we're navigated to a narrow, fetch messages for it.
+ *
+ * Specifically, fetch messages for the topmost narrow on the nav stack.
+ *
+ * We do this eagerly in `doInitialFetch`.  It's intended to ensure we get
+ * messages appropriately if we're already narrowed when we do a fresh
+ * initial fetch.
+ *
+ * See `fetchMessagesInNarrow` for further background.
+ *
+ * See also `doNarrow` which takes care of fetching messages for a narrow in
+ * the common case, at the time the user narrows to it.
+ */
 const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) => {
   // only fetch messages if chat screen is at the top of stack
   // get narrow of top most chat screen in the stack
@@ -159,6 +208,20 @@ const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) 
   }
 };
 
+/**
+ * Fetch lots of state from the server, and start an event queue.
+ *
+ * This is where we set up our use of the Zulip event system for real-time
+ * updates, calling its `/register` endpoint and starting an async loop to
+ * poll for events.  For background on the Zulip event system and how we use
+ * it, see docs from the client-side perspective:
+ *   https://github.com/zulip/zulip-mobile/blob/master/docs/architecture/realtime.md
+ * and a mainly server-side perspective:
+ *   https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
+ *
+ * Also fetch some messages eagerly, and do some miscellaneous other work
+ * we want to do when starting up, or regaining a network connection.
+ */
 export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());

@@ -11,6 +11,7 @@ import { tryGetAuth } from '../selectors';
 import actionCreator from '../actionCreator';
 import progressiveTimeout from '../utils/progressiveTimeout';
 
+/** Convert an `/events` response into a sequence of our Redux actions. */
 export const responseToActions = (
   state: GlobalState,
   events: $ReadOnlyArray<GeneralEvent>,
@@ -41,6 +42,12 @@ export const dispatchOrBatch = (dispatch: Dispatch, actions: $ReadOnlyArray<Acti
   }
 };
 
+/**
+ * Poll an event queue on the Zulip server for updates, in a loop.
+ *
+ * This is part of our use of the Zulip events system; see `doInitialFetch`
+ * for discussion.
+ */
 export const startEventPolling = (queueId: number, eventId: number) => async (
   dispatch: Dispatch,
   getState: GetState,
