@@ -74,6 +74,12 @@ export type FetchingState = {
   [narrow: string]: Fetching,
 };
 
+/**
+ * The message flags corresponding to all the messages in `MessagesState`.
+ *
+ * Unlike almost all other subtrees of our state, this one can be
+ * incomplete, always in exactly the same way that `MessagesState` is.
+ */
 export type FlagsState = {|
   read: { [messageId: number]: boolean },
   starred: { [messageId: number]: boolean },
@@ -117,9 +123,15 @@ export type LoadingState = {|
  * `doInitialFetch`.  Instead, we fetch specific message history as needed.
  *
  * This subtree of our state stores all the messages we've fetched, prompted
- * by any of a variety of reasons.  Once a message does appear here, we use
- * the Zulip event system to make sure it stays up to date through edits,
- * emoji reactions, or other changes to its data.
+ * by any of a variety of reasons.
+ *
+ * Although this map is *incomplete*, it should always be *accurate* about
+ * each message it does contain -- once a message appears here, we use the
+ * Zulip event system to make sure it stays up to date through edits, emoji
+ * reactions, or other changes to its data.
+ *
+ * These `Message` objects lack the `flags` property; we store that
+ * information separately, as `FlagsState`.
  *
  * See also `NarrowsState`, which is an index on this data that identifies
  * messages belonging to a given narrow.

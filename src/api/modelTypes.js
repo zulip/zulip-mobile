@@ -373,7 +373,11 @@ export type Submessage = $ReadOnly<{|
  *  * empirical study looking at Redux events logged [to the
  *    console](docs/howto/debugging.md).
  *
- * See also `Outbox`.
+ * See also `Outbox`, which is deliberately similar so that we can use
+ * the type `Message | Outbox` in many places.
+ *
+ * See also `MessagesState` for discussion of how we fetch and store message
+ * data.
  */
 export type Message = $ReadOnly<{
   /** Our own flag; if true, really type `Outbox`. */
