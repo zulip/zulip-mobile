@@ -92,7 +92,7 @@ const escapeHtml = (text: string): string => {
 };
 
 const sendMessage = (msg: MessageListEvent) => {
-  window.postMessage(JSON.stringify(msg), '*');
+  window.ReactNativeWebView.postMessage(JSON.stringify(msg), '*');
 };
 
 window.onerror = (message, source, line, column, error) => {

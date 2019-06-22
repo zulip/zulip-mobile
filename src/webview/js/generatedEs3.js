@@ -44,7 +44,7 @@ var escapeHtml = function escapeHtml(text) {
 };
 
 var sendMessage = function sendMessage(msg) {
-  window.postMessage(JSON.stringify(msg), '*');
+  window.ReactNativeWebView.postMessage(JSON.stringify(msg), '*');
 };
 
 window.onerror = function (message, source, line, column, error) {
