@@ -118,18 +118,14 @@ const isFetchNeededAtAnchor = (state: GlobalState, narrow: Narrow, anchor: numbe
 /**
  * Fetch messages in the given narrow, around the given anchor.
  *
- * For almost all types of data we need from the server, we use the Zulip
- * event system to get a complete snapshot and to maintain it incrementally.
- * See `doInitialFetch` for discussion and links to documentation.  As a
- * result, there are very few types of data we need to go fetch from the
- * server as the user navigates through the app or as different information
- * is to appear on screen.
+ * For almost all types of data we need from the server, the magic of the
+ * Zulip event system provides us a complete, updating view of all the data
+ * we could want.  For background and links to docs, see `MessagesState` and
+ * `doInitialFetch`.
  *
- * The one major exception is messages.  For new messages while we're
- * online, and updates to existing messages, we learn them in real time
- * through the event system; but because the full history of messages can be
- * very large, it's left out of the snapshot obtained through `/register` by
- * `doInitialFetch`.  Instead, we fetch specific message history as needed.
+ * Message data is the one major exception, where as a result we have to go
+ * fetch more data from the server as the user navigates around.
+ *
  * This is the main function used for that, especially as the user navigates
  * to a given narrow.
  *

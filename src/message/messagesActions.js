@@ -8,6 +8,17 @@ import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../constants';
 
+/**
+ * Navigate to the given narrow, while fetching any data needed.
+ *
+ * Also does other things we should always do when navigating to a narrow.
+ *
+ * If the narrow is invalid or narrowing is impossible, silently does nothing.
+ *
+ * See `MessagesState` for background about the fetching, including why this
+ * is nearly the only navigation in the app where additional data fetching
+ * is required.  See `fetchMessagesInNarrow` for more details.
+ */
 export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
   dispatch: Dispatch,
   getState: GetState,

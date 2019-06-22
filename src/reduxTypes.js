@@ -55,7 +55,7 @@ export type CaughtUp = {|
 
 /**
  * Info about how completely we know the messages in each narrow of
- * MessagesState.
+ * `MessagesState`.
  */
 export type CaughtUpState = {|
   [narrow: string]: CaughtUp,
@@ -99,6 +99,28 @@ export type LoadingState = {|
 /**
  * A map with all messages we've stored locally, indexed by ID.
  *
+ * For almost all types of data we need from the server, we use the Zulip
+ * event system to get a complete snapshot and to maintain it incrementally.
+ * See `doInitialFetch` for discussion, and see our docs from the
+ * client-side perspective:
+ *   https://github.com/zulip/zulip-mobile/blob/master/docs/architecture/realtime.md
+ * and a mainly server-side perspective:
+ *   https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
+ * As a result, there are very few types of data we need to go fetch from
+ * the server as the user navigates through the app or as different
+ * information is to appear on screen.
+ *
+ * Message data is the one major exception.  For new messages while we're
+ * online, and updates to existing messages, we learn them in real time
+ * through the event system; but because the full history of messages can be
+ * very large, it's left out of the snapshot obtained through `/register` by
+ * `doInitialFetch`.  Instead, we fetch specific message history as needed.
+ *
+ * This subtree of our state stores all the messages we've fetched, prompted
+ * by any of a variety of reasons.  Once a message does appear here, we use
+ * the Zulip event system to make sure it stays up to date through edits,
+ * emoji reactions, or other changes to its data.
+ *
  * See also `NarrowsState`, which is an index on this data that identifies
  * messages belonging to a given narrow.
  */
@@ -115,10 +137,18 @@ export type MuteState = MuteTuple[];
 /**
  * An index on `MessagesState`, listing messages in each narrow.
  *
+ * Unlike almost all other subtrees of our state, this one can be incomplete
+ * compared to the data that exists on the server and the user has access
+ * to; see `MessagesState` for more context.  The data here should
+ * correspond exactly to the data in `MessagesState`.
+ *
  * Keys are `JSON.stringify`-encoded `Narrow` objects.
  * Values are sorted lists of message IDs.
  *
  * See also `MessagesState`, which stores the message data indexed by ID.
+ * See also `CaughtUpState` for information about where this data *is*
+ * complete for a given narrow, and `FetchingState` for information about
+ * which narrows we're actively fetching more messages from.
  */
 export type NarrowsState = {
   [narrow: string]: number[],

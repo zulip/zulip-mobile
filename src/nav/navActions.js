@@ -16,6 +16,7 @@ export const navigateBack = () => (dispatch: Dispatch, getState: GetState): Navi
   // $FlowFixMe
   dispatch(NavigationActions.pop({ n: getSameRoutesCount(getState()) }));
 
+/** Only call this via `doNarrow`.  See there for details. */
 export const navigateToChat = (narrow: Narrow): NavigateAction =>
   NavigationActions.navigate({ routeName: 'chat', params: { narrow } });
 
