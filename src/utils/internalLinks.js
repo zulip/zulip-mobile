@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { addBreadcrumb } from '@sentry/react-native';
-import type { Narrow, Stream, User } from '../types';
+import type { Narrow, Message, Stream, User } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { isUrlOnRealm } from './url';
 
@@ -62,6 +62,14 @@ export const getLinkType = (url: string, realm: string): LinkType => {
   return 'home';
 };
 
+// Duplicated from
+// https://github.com/zulip/zulip/blob/1577662a6/static/js/hash_util.js#L18-L25;
+// #3757 addresses using @zulip/shared for this and decodeHashComponent.
+export const encodeHashComponent = (string: string): string =>
+  encodeURIComponent(string)
+    .replace(/\./g, '%2E')
+    .replace(/%/g, '.');
+
 /** Decode a dot-encoded string. */
 // The Zulip webapp uses this encoding in narrow-links:
 // https://github.com/zulip/zulip/blob/1577662a6/static/js/hash_util.js#L18-L25
@@ -96,8 +104,20 @@ const parseStreamOperand = (operand, streamsById): string => {
   return decodeHashComponent(operand);
 };
 
+/**
+ * Produce the operand of a `stream` operator from a message.
+ * See encode_stream_id in `static/js/hash_util` in the web app.
+ * */
+const unparseStreamOperand = (message: Message) => {
+  const name = (message.display_recipient || 'unknown').replace(' ', '-');
+  return encodeHashComponent(`${message.stream_id.toString()}-${name}`);
+};
+
 /** Parse the operand of a `topic` or `subject` operator. */
 const parseTopicOperand = operand => decodeHashComponent(operand);
+
+/** Produce the operand of a `topic` or `subject` operator from a message */
+const unparseTopicOperand = (message: Message) => encodeHashComponent(message.subject);
 
 /** Parse the operand of a `pm-with` operator. */
 const parsePmOperand = (operand, usersById) => {
@@ -111,6 +131,19 @@ const parsePmOperand = (operand, usersById) => {
     recipientEmails.push(user.email);
   }
   return recipientEmails;
+};
+
+const unparsePmOperand = (message: Message) => {
+  if (message.type !== 'private') {
+    throw new Error('unparsePmOperand called with a non-pm message!');
+  }
+
+  // Compare `pm_perma_link` in the webapp's `static/js/people.js` for -group
+  // and -pm logic
+  const suffix = message.display_recipient.length >= 3 ? 'group' : 'pm';
+  return `${message.display_recipient
+    .map(recipient => encodeHashComponent(recipient.id.toString()))
+    .join(',')}-${suffix}`;
 };
 
 export const getNarrowFromLink = (
@@ -145,4 +178,13 @@ export const getMessageIdFromLink = (url: string, realm: string): number => {
   const paths = getPathsFromUrl(url, realm);
 
   return isMessageLink(url, realm) ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
+};
+
+// Compare `by_conversation_and_time_uri` in the webapp's `static/js/hash_util.js`.
+export const getLinkToMessage = (realm: string, message: Message): string => {
+  const conversationPath =
+    message.type === 'stream'
+      ? `stream/${unparseStreamOperand(message)}/topic/${unparseTopicOperand(message)}`
+      : `pm-with/${unparsePmOperand(message)}`;
+  return `${realm}/#narrow/${conversationPath}/near/${encodeHashComponent(message.id.toString())}`;
 };
