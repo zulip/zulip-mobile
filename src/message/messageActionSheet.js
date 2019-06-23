@@ -18,6 +18,7 @@ import {
   isTopicNarrow,
 } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
+import { getLinkToMessage } from '../utils/internalLinks';
 import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
@@ -61,15 +62,15 @@ const reply = ({ message, dispatch, ownEmail }) => {
 reply.title = 'Reply';
 reply.errorMessage = 'Failed to reply';
 
-const copyToClipboard = async ({ _, auth, message }) => {
+const copyMessageContent = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
     : (await api.getRawMessageContent(auth, message.id)).raw_content;
   Clipboard.setString(rawMessage);
-  showToast(_('Message copied'));
+  showToast(_('Copied message content'));
 };
-copyToClipboard.title = 'Copy to clipboard';
-copyToClipboard.errorMessage = 'Failed to copy message to clipboard';
+copyMessageContent.title = 'Copy message content';
+copyMessageContent.errorMessage = 'Failed to copy message content';
 
 const editMessage = async ({ message, dispatch }) => {
   dispatch(startEditMessage(message.id, message.subject));
@@ -137,6 +138,16 @@ const shareMessage = ({ message }) => {
 shareMessage.title = 'Share';
 shareMessage.errorMessage = 'Failed to share message';
 
+const copyMessageLink = ({ _, auth, message }) => {
+  if (message.isOutbox === true) {
+    throw new Error('Message has not been sent.');
+  }
+  Clipboard.setString(getLinkToMessage(auth.realm, message));
+  showToast(_('Copied link to message'));
+};
+copyMessageLink.title = 'Copy link to message';
+copyMessageLink.errorMessage = 'Failed to copy link to message';
+
 const addReaction = ({ message, dispatch }) => {
   dispatch(navigateToEmojiPicker(message.id));
 };
@@ -157,7 +168,8 @@ const allButtonsRaw = {
   // For messages
   addReaction,
   reply,
-  copyToClipboard,
+  copyMessageContent,
+  copyMessageLink,
   shareMessage,
   editMessage,
   deleteMessage,
@@ -230,8 +242,11 @@ export const constructMessageActionButtons = ({
     buttons.push('reply');
   }
   if (messageNotDeleted(message)) {
-    buttons.push('copyToClipboard');
+    buttons.push('copyMessageContent');
     buttons.push('shareMessage');
+  }
+  if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
+    buttons.push('copyMessageLink');
   }
   if (
     !isAnOutboxMessage(message)
