@@ -10,7 +10,7 @@ const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
   code
     .split('-')
     .map(hex => String.fromCodePoint(parseInt(hex, 16)))
-    .join('');
+    .join('\uFE0F');
 
 export const nameToEmojiMap = unicodeEmojiNames.reduce((obj, name) => {
   obj[name] = parseUnicodeEmojiCode(unicodeCodeByName[name]);
