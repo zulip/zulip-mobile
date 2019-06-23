@@ -52,3 +52,17 @@ export const findAnchor = (
   const firstUnreadMessage = findFirstUnread(messages, flags, subscriptions, mute);
   return firstUnreadMessage ? firstUnreadMessage.id : 0;
 };
+
+export const getLinkToMessage = (realm: string, message: Message): string => {
+  let conversationPath;
+  if (message.type === 'stream') {
+    conversationPath = `stream/${message.stream_id}-${message.display_recipient}/topic/${
+      message.subject
+    }`;
+  } else {
+    conversationPath = `pm-with/${message.display_recipient.map(recipient => recipient.id).join()}${
+      message.display_recipient.length >= 3 ? '-group' : '-pm'
+    }`;
+  }
+  return encodeURI(`${realm}/#narrow/${conversationPath}/near/${message.id}`);
+};

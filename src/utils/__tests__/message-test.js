@@ -1,4 +1,4 @@
-import { shouldBeMuted, isMessageRead, findFirstUnread } from '../message';
+import { shouldBeMuted, isMessageRead, findFirstUnread, getLinkToMessage } from '../message';
 import { HOME_NARROW, topicNarrow } from '../narrow';
 
 describe('shouldBeMuted', () => {
@@ -204,5 +204,53 @@ describe('findFirstUnread', () => {
     const result = findFirstUnread(messages, flags, subscriptions, mute);
 
     expect(result).toEqual(unreadMessage);
+  });
+});
+
+describe('getLinkToMessage', () => {
+  test('should return a stream link if message link copied from stream', () => {
+    const realm = 'https://zulip.com';
+    const message = {
+      display_recipient: 'stream',
+      stream_id: 12345,
+      subject: 'exampleTopic',
+      id: 2345,
+      type: 'stream',
+    };
+
+    const result = getLinkToMessage(realm, message);
+    const expectedResult =
+      'https://zulip.com/#narrow/stream/12345-stream/topic/exampleTopic/near/2345';
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  test('should return a group link if message link copied from pm with > 3 people', () => {
+    const realm = 'https://zulip.com';
+    const message = {
+      display_recipient: [{ id: 11111 }, { id: 22222 }, { id: 33333 }, { id: 44444 }],
+      id: 2345,
+      type: 'private',
+    };
+
+    const result = getLinkToMessage(realm, message);
+    const expectedResult =
+      'https://zulip.com/#narrow/pm-with/11111,22222,33333,44444-group/near/2345';
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  test('should return pm link for message link copied from pm with >= 3 people', () => {
+    const realm = 'https://zulip.com';
+    const message = {
+      display_recipient: [{ id: 11111 }, { id: 22222 }, { id: 33333 }],
+      id: 2345,
+      type: 'private',
+    };
+
+    const result = getLinkToMessage(realm, message);
+    const expectedResult = 'https://zulip.com/#narrow/pm-with/11111,22222,33333-group/near/2345';
+
+    expect(result).toEqual(expectedResult);
   });
 });
