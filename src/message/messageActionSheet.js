@@ -3,7 +3,7 @@ import { Clipboard, Share } from 'react-native';
 import type { Auth, Dispatch, GetText, Message, Narrow, Outbox, Subscription } from '../types';
 import type { BackgroundData } from '../webview/MessageList';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
-import { isTopicMuted } from '../utils/message';
+import { isTopicMuted, getLinkToMessage } from '../utils/message';
 /* eslint-disable import/no-named-as-default-member */
 import api, { getRawMessageContent, toggleMuteStream, toggleMessageStarred } from '../api';
 import { showToast } from '../utils/info';
@@ -40,14 +40,14 @@ const reply = ({ message, dispatch, ownEmail }) => {
 };
 reply.title = 'Reply';
 
-const copyToClipboard = async ({ _, auth, message }) => {
+const copyMessageContent = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
     : (await getRawMessageContent(auth, message.id)).raw_content;
   Clipboard.setString(rawMessage);
-  showToast(_('Message copied'));
+  showToast(_('Copied message content'));
 };
-copyToClipboard.title = 'Copy to clipboard';
+copyMessageContent.title = 'Copy message content';
 
 const editMessage = async ({ message, dispatch }) => {
   dispatch(startEditMessage(message.id, message.subject));
@@ -106,6 +106,13 @@ const shareMessage = ({ message }) => {
 };
 shareMessage.title = 'Share';
 
+const copyMessageLink = ({ _, auth, message }) => {
+  /* $FlowFixMe: message will always be of type Message */
+  Clipboard.setString(getLinkToMessage(auth.realm, message));
+  showToast(_('Copied link to message'));
+};
+copyMessageLink.title = 'Copy message link';
+
 const addReaction = ({ message, dispatch }) => {
   dispatch(navigateToEmojiPicker(message.id));
 };
@@ -118,7 +125,8 @@ const allButtonsRaw = {
   // For messages
   addReaction,
   reply,
-  copyToClipboard,
+  copyMessageContent,
+  copyMessageLink,
   shareMessage,
   editMessage,
   deleteMessage,
@@ -187,7 +195,8 @@ export const constructMessageActionButtons = ({
     buttons.push('reply');
   }
   if (messageNotDeleted(message)) {
-    buttons.push('copyToClipboard');
+    buttons.push('copyMessageContent');
+    buttons.push('copyMessageLink');
     buttons.push('shareMessage');
   }
   if (
