@@ -66,7 +66,7 @@ hr {
   border-top: 1px solid hsla(0, 0%, 50%, 0.5);
 }
 .alert-word {
-  background-color: hsla(102, 85%, 57%, .5);
+  background-color: hsla(102, 85%, 57%, 0.3);
 }
 .highlight {
   background-color: hsl(51, 94%, 74%);
