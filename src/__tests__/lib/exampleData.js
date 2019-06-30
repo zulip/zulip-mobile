@@ -147,7 +147,7 @@ export const stream: Stream = makeStream({
   description: 'An example stream.',
 });
 
-const displayRecipientFromUser = (user: User): PmRecipientUser => {
+export const displayRecipientFromUser = (user: User): PmRecipientUser => {
   const { email, full_name, user_id: id } = user;
   return deepFreeze({
     email,
