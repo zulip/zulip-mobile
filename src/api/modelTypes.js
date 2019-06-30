@@ -545,3 +545,26 @@ export type Message = $ReadOnly<{
   subject: string,
   subject_links: $ReadOnlyArray<string>,
 }>;
+
+//
+//
+//
+// ===================================================================
+// Summaries of messages and conversations.
+//
+//
+
+/**
+ * Describes a single recent PM conversation.
+ *
+ * For the structure of this type and the meaning of its properties, see:
+ * https://github.com/zulip/zulip/blob/4c3c669b41/zerver/lib/events.py#L283-L290
+ *
+ * `user_ids` does not contain the `user_id` of the current user. Consequently,
+ * a user's conversation with themselves will be listed here as [], which is
+ * unlike the behaviour found in some other parts of the codebase.
+ */
+export type RecentPrivateConversation = {|
+  max_message_id: number,
+  user_ids: number[],
+|};
