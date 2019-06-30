@@ -566,5 +566,7 @@ export type Message = $ReadOnly<{
  */
 export type RecentPrivateConversation = {|
   max_message_id: number,
+  // When received from the server, these are guaranteed to be sorted only after
+  // 2.2-dev-53-g405a529340. To be safe, we always sort them on receipt.
   user_ids: number[],
 |};

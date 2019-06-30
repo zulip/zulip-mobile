@@ -21,6 +21,7 @@ import nav from '../nav/navReducer';
 import outbox from '../outbox/outboxReducer';
 import presence from '../presence/presenceReducer';
 import realm from '../realm/realmReducer';
+import recentPrivateConversations from '../pm-conversations/recentPmConversationsReducer';
 import session from '../session/sessionReducer';
 import settings from '../settings/settingsReducer';
 import streams from '../streams/streamsReducer';
@@ -50,6 +51,7 @@ const reducers = {
   outbox,
   presence,
   realm,
+  recentPrivateConversations,
   session,
   settings,
   streams,
