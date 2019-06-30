@@ -4,6 +4,7 @@ import type {
   CrossRealmBot,
   RealmEmojiById,
   RealmFilter,
+  RecentPrivateConversation,
   Stream,
   Subscription,
   User,
@@ -127,6 +128,14 @@ export type InitialDataRealmUserGroups = {|
    * Absent in servers prior to v1.8.0-rc1~2711 (or thereabouts).
    */
   realm_user_groups?: UserGroup[],
+|};
+
+export type InitialDataRecentPmConversations = {|
+  // * Added in server commit 2.1-dev-384-g4c3c669b41.
+  // * `user_id` fields are sorted as of commit 2.2-dev-53-g405a529340, which
+  //    was backported to 2.1.1-50-gd452ad31e0 -- meaning that they are _not_
+  //    sorted in either v2.1.0 or v2.1.1.
+  recent_private_conversations?: RecentPrivateConversation[],
 |};
 
 type NeverSubscribedStream = {|
@@ -307,6 +316,7 @@ export type InitialData = {|
   ...InitialDataRealmFilters,
   ...InitialDataRealmUser,
   ...InitialDataRealmUserGroups,
+  ...InitialDataRecentPmConversations,
   ...InitialDataStream,
   ...InitialDataSubscription,
   ...InitialDataUpdateDisplaySettings,

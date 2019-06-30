@@ -579,3 +579,29 @@ export type Message = $ReadOnly<{|
   subject: string,
   subject_links: $ReadOnlyArray<string>,
 |}>;
+
+//
+//
+//
+// ===================================================================
+// Summaries of messages and conversations.
+//
+//
+
+/**
+ * Describes a single recent PM conversation.
+ *
+ * See API documentation under `recent_private_conversations` at:
+ *   https://chat.zulip.org/api/register-queue
+ *
+ * Note that `user_ids` does not contain the `user_id` of the current user.
+ * Consequently, a user's conversation with themselves will be listed here
+ * as [], which is unlike the behaviour found in some other parts of the
+ * codebase.
+ */
+export type RecentPrivateConversation = {|
+  max_message_id: number,
+  // When received from the server, these are guaranteed to be sorted only after
+  // 2.2-dev-53-g405a529340. To be safe, we always sort them on receipt.
+  user_ids: number[],
+|};

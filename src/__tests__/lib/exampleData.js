@@ -539,6 +539,7 @@ export const action = deepFreeze({
       realm_users: [],
       user_id: 4,
       realm_user_groups: [],
+      recent_private_conversations: [],
       streams: [],
       never_subscribed: [],
       subscriptions: [],

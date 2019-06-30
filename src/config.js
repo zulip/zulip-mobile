@@ -33,6 +33,7 @@ const config: Config = {
     'realm_filters',
     'realm_user',
     'realm_user_groups',
+    'recent_private_conversations',
     'stream',
     'subscription',
     'update_display_settings',
