@@ -1,16 +1,13 @@
 import deepFreeze from 'deep-freeze';
 
 import { getRecentConversations } from '../pmConversationsSelectors';
-import { ALL_PRIVATE_NARROW_STR } from '../../utils/narrow';
 
 describe('getRecentConversations', () => {
-  test('when no messages, return no conversations', () => {
+  test('when no recent conversations, return no conversations', () => {
     const state = deepFreeze({
       realm: { email: 'me@example.com' },
+      recentPrivateConversations: [],
       users: [{ user_id: 0, email: 'me@example.com' }],
-      narrows: {
-        [ALL_PRIVATE_NARROW_STR]: [],
-      },
       unread: {
         pms: [],
         huddles: [],
@@ -25,54 +22,17 @@ describe('getRecentConversations', () => {
   test('returns unique list of recipients, includes conversations with self', () => {
     const state = deepFreeze({
       realm: { email: 'me@example.com' },
+      recentPrivateConversations: [
+        { max_message_id: 3, user_ids: [1] },
+        { max_message_id: 2, user_ids: [2] },
+        { max_message_id: 0, user_ids: [1, 2] },
+        { max_message_id: 4, user_ids: [] },
+      ],
       users: [
         { user_id: 0, email: 'me@example.com' },
         { user_id: 1, email: 'john@example.com' },
         { user_id: 2, email: 'mark@example.com' },
       ],
-      narrows: {
-        [ALL_PRIVATE_NARROW_STR]: [0, 1, 2, 3, 4],
-      },
-      messages: {
-        1: {
-          id: 1,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-          ],
-        },
-        2: {
-          id: 2,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
-        3: {
-          id: 3,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-          ],
-        },
-        4: {
-          id: 4,
-          type: 'private',
-          display_recipient: [{ id: 0, email: 'me@example.com' }],
-        },
-        0: {
-          id: 0,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
-      },
       unread: {
         pms: [
           {
@@ -132,62 +92,17 @@ describe('getRecentConversations', () => {
   test('returns recipients sorted by last activity', () => {
     const state = deepFreeze({
       realm: { email: 'me@example.com' },
+      recentPrivateConversations: [
+        { max_message_id: 4, user_ids: [1] },
+        { max_message_id: 3, user_ids: [2] },
+        { max_message_id: 5, user_ids: [1, 2] },
+        { max_message_id: 6, user_ids: [] },
+      ],
       users: [
         { user_id: 0, email: 'me@example.com' },
         { user_id: 1, email: 'john@example.com' },
         { user_id: 2, email: 'mark@example.com' },
       ],
-      narrows: {
-        [ALL_PRIVATE_NARROW_STR]: [1, 2, 3, 4, 5, 6],
-      },
-      messages: {
-        2: {
-          id: 2,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-          ],
-        },
-        1: {
-          id: 1,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
-        4: {
-          id: 4,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-          ],
-        },
-        3: {
-          id: 3,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
-        5: {
-          id: 5,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
-        6: {
-          id: 6,
-          type: 'private',
-          display_recipient: [{ id: 0, email: 'me@example.com' }],
-        },
-      },
       unread: {
         pms: [
           {

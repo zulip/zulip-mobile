@@ -97,6 +97,12 @@ export const pmKeyRecipientsFromMessage = (
   return filterRecipients(message.display_recipient, ownUser.user_id);
 };
 
+export const sortIds = (ids: number[]): string =>
+  ids
+    .slice()
+    .sort((a, b) => a - b)
+    .join(',');
+
 /**
  * The key this PM is filed under in the "unread messages" data structure.
  *

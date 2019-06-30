@@ -1,44 +1,40 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Message, PmConversationData, Selector, User } from '../types';
-import { getPrivateMessages } from '../message/messageSelectors';
-import { getOwnUser } from '../users/userSelectors';
+import type { RecentPrivateConversation, PmConversationData, Selector, User } from '../types';
+import { getRecentPrivateConversations } from '../directSelectors';
+import { getOwnUser, getAllUserEmails } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
-import { normalizeRecipientsSansMe, pmUnreadsKeyFromMessage } from '../utils/recipient';
+import { normalizeRecipientsSansMe, sortIds } from '../utils/recipient';
 
 export const getRecentConversations: Selector<PmConversationData[]> = createSelector(
+  getRecentPrivateConversations,
+  getAllUserEmails,
   getOwnUser,
-  getPrivateMessages,
   getUnreadByPms,
   getUnreadByHuddles,
   (
+    recentPrivateConversations: RecentPrivateConversation[],
+    emails: $ReadOnly<{ [user_id: number]: string }>,
     ownUser: User,
-    messages: Message[],
     unreadPms: { [number]: number },
     unreadHuddles: { [string]: number },
   ): PmConversationData[] => {
-    const recipients = messages.map(msg => ({
-      ids: pmUnreadsKeyFromMessage(msg, ownUser.user_id),
-      emails: normalizeRecipientsSansMe(msg.display_recipient, ownUser.email),
-      msgId: msg.id,
-    }));
-
-    const latestByRecipient = new Map();
-    recipients.forEach(recipient => {
-      const prev = latestByRecipient.get(recipient.emails);
-      if (!prev || recipient.msgId > prev.msgId) {
-        latestByRecipient.set(recipient.emails, {
-          ids: recipient.ids,
-          recipients: recipient.emails,
-          msgId: recipient.msgId,
-        });
+    const recipients = recentPrivateConversations.map(conversation => {
+      const conversationUserIdsIncludeMe = conversation.user_ids.slice();
+      if (conversationUserIdsIncludeMe.length !== 1) {
+        conversationUserIdsIncludeMe.push(ownUser.user_id);
       }
+      return {
+        ids: sortIds(conversationUserIdsIncludeMe),
+        recipients: normalizeRecipientsSansMe(
+          conversationUserIdsIncludeMe.map(id => ({ email: emails[id] })),
+          ownUser.email,
+        ),
+        msgId: conversation.max_message_id,
+      };
     });
-
-    const sortedByMostRecent = Array.from(latestByRecipient.values()).sort(
-      (a, b) => +b.msgId - +a.msgId,
-    );
+    const sortedByMostRecent = recipients.sort((a, b) => +b.msgId - +a.msgId);
 
     return sortedByMostRecent.map(recipient => ({
       ...recipient,
