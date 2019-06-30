@@ -536,3 +536,26 @@ export type Message = $ReadOnly<{
   subject: string,
   subject_links: $ReadOnlyArray<string>,
 }>;
+
+//
+//
+//
+// ===================================================================
+// Summaries of messages and conversations.
+//
+//
+
+/**
+ * Describes a recent PM conversation.
+ *
+ * See https://github.com/zulip/zulip/commit/4c3c669b4#diff-2c2aa234cb4a0120fa5f2eeaf8a94fa2R283
+ * for the structure of this type and the meaning of its properties.
+ *
+ * `user_ids` does not contain the `user_id` of the current user. Consequently,
+ * a user's conversation with themselves will return [], which is unlike the
+ * behaviour found in other parts of codebase.
+ */
+export type RecentPrivateConversation = {|
+  max_message_id: number,
+  user_ids: number[],
+|};

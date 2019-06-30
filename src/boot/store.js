@@ -44,9 +44,9 @@ export const storeKeys: Array<$Keys<GlobalState>> = [
  * don't have to re-download it.
  */
 // prettier-ignore
-export const cacheKeys: Array<$Keys<GlobalState>> = [
-  'flags', 'messages', 'mute', 'narrows', 'realm', 'streams',
-  'subscriptions', 'unread', 'userGroups', 'users',
+export const cacheKeys = [
+  'flags', 'messages', 'mute', 'narrows', 'realm', 'recentPrivateConversations',
+  'streams', 'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
 /**
