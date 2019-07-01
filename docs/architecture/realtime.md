@@ -95,7 +95,7 @@ interesting:
 * perhaps a count of the number of failed update attempts in a row, or
   other data to guide backoff on repeated attempts
 * when the app is in the foreground, the app maintains an *open TCP
-  connection* with the server in which it long-polls for updates
+  connection* with the server in which it [long-polls](https://en.wikipedia.org/wiki/Push_technology#Long_polling) for updates
   * here, "in the foreground" is in the context of a mobile app,
     identifying the main context in which mobile platforms expect an
     app to be doing work; more generally, the condition is "where
