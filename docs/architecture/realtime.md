@@ -112,7 +112,8 @@ things:
 * A snapshot (the "initial state") of the relevant application-level
   state.
 * An event finger -- the ID of a newly-created event queue, and a last
-  event ID.
+  event ID, which we use in the [`/events` endpoint](https://zulipchat.com/api/get-events-from-queue) to long-poll the
+  events from the server.
 
 See the [Zulip API docs][api-register] for details on this API route,
 or [section "The initial data fetch"][se-initial-fetch] of the events
@@ -153,8 +154,9 @@ When the update machine is *live*:
   * We update timestamps etc. in the obvious ways.
   * We start a new long-poll, or perhaps schedule a future background
     poll, as appropriate.
-* When a poll request fails, saying the event queue has expired: we
-  move to stale. 😢
+* When a poll request fails, saying the event queue has expired
+  (which happens after 10 minutes of network inactivity / not
+  polling): we move to stale. 😢
   * This causes us to attempt to get back to live, with a `/register`
     request.
   * The Zulip webapp implements this by reloading the whole app; see
