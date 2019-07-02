@@ -14,6 +14,7 @@ import {
   IconLanguage,
   IconMoreHorizontal,
 } from '../common/Icons';
+import ModalNavBar from '../nav/ModalNavBar';
 import {
   settingsChange,
   navigateToNotifications,
@@ -44,6 +45,7 @@ class SettingsCard extends PureComponent<Props> {
 
     return (
       <ScrollView style={styles.optionWrapper}>
+        <ModalNavBar canGoBack={false} title="Settings" />
         <OptionRow
           Icon={IconNight}
           label="Night mode"
