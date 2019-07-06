@@ -95,7 +95,8 @@ interesting:
 * perhaps a count of the number of failed update attempts in a row, or
   other data to guide backoff on repeated attempts
 * when the app is in the foreground, the app maintains an *open TCP
-  connection* with the server in which it [long-polls](https://en.wikipedia.org/wiki/Push_technology#Long_polling) for updates
+  connection* with the server in which it [long-polls][long-polling]
+  for updates, using the event finger
   * here, "in the foreground" is in the context of a mobile app,
     identifying the main context in which mobile platforms expect an
     app to be doing work; more generally, the condition is "where
@@ -103,25 +104,22 @@ interesting:
 * when in the background (more generally, when not long-polling),
   the app might periodically poll for updates
 
+[long-polling]: https://en.wikipedia.org/wiki/Push_technology#Long_polling
+
 ### Moving between states
 
 When *stale*, the update machine seeks to move to live.  To do this,
-it makes a `/register` API request to the server, which returns two
-things:
+it makes [a `/register` API request][api-register] to the server,
+which returns two things:
 
 * A snapshot (the "initial state") of the relevant application-level
   state.
 * An event finger -- the ID of a newly-created event queue, and a last
-  event ID, which we use in the [`/events` endpoint](https://zulipchat.com/api/get-events-from-queue) to long-poll the
-  events from the server.
+  event ID, to be used for polling at the [`/events` endpoint][api-events].
 
-See the [Zulip API docs][api-register] for details on this API route,
-or [section "The initial data fetch"][se-initial-fetch] of the events
+See [section "The initial data fetch"][se-initial-fetch] of the events
 system doc for design background and some details on the server-side
 implementation.
-
-[api-register]: https://zulipchat.com/api/register-queue
-[se-initial-fetch]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html#the-initial-data-fetch
 
 The key aspect of the design is this: the snapshot is *atomic* with
 the finger.  That means that until an event shows up that the event
@@ -130,6 +128,10 @@ the state as seen by the server; and whenever an event does happen,
 once we poll using the finger, get the event, and apply it to our
 local version of the state, we'll be back to 100% up to date with the
 state as seen by the server.
+
+[api-register]: https://zulipchat.com/api/register-queue
+[api-events]: https://zulipchat.com/api/get-events-from-queue
+[se-initial-fetch]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html#the-initial-data-fetch
 
 So, when the update machine gets that `/register` response, it moves
 to the following state:
@@ -140,8 +142,10 @@ to the following state:
 * Timestamps etc.: the obvious/boring now, null, etc.
 
 When the update machine is *live*:
-* If there isn't an open long-poll request, it makes one.
-* When a poll request returns successfully, we take the following steps:
+* If there isn't an open long-poll request, it makes one,
+  [at `/events`][api-events].
+* When an `/events` poll request returns successfully, we take the
+  following steps:
   * We apply the received events to the application-level state: for
     example, we might add a new user, update or delete some user's
     info, mark some messages as read, or add a new message.  In the
@@ -154,9 +158,9 @@ When the update machine is *live*:
   * We update timestamps etc. in the obvious ways.
   * We start a new long-poll, or perhaps schedule a future background
     poll, as appropriate.
-* When a poll request fails, saying the event queue has expired
-  (which happens after 10 minutes of network inactivity / not
-  polling): we move to stale. 😢
+* When an `/events` poll request fails, saying the event queue has
+  been expired (which by default the server does after 10 minutes of
+  not hearing from the client): we move to stale. 😢
   * This causes us to attempt to get back to live, with a `/register`
     request.
   * The Zulip webapp implements this by reloading the whole app; see
@@ -173,8 +177,8 @@ When the update machine is *live*:
     implementation (see `eventActions.js`) is to dispatch a Redux
     action with a type `DEAD_QUEUE`, which causes a variety of
     effects.
-* When a poll request fails some other way: we retry, with some
-  appropriate backoff.
+* When an `/events` poll request fails some other way: we retry, with
+  some appropriate backoff.
   * This is normal when there's some transient problem with the
     network connection, or on the server.
 * If the timestamp of last successful update is too far in the past
@@ -198,8 +202,8 @@ When the app *starts up*:
   * Once loaded, the update machine is in whatever state was stored;
     it might be either stale or live.
   * The update machine promptly goes on to act on its state, as
-    described above: a `/register` request, a long-poll request, or a
-    transition to stale because of a hopelessly old timestamp.
+    described above: a `/register` request, an `/events` poll request,
+    or a transition to stale because of a hopelessly old timestamp.
 * If the app doesn't persist the update machine's state, or if this is
   the first startup of the app:
   * The update machine begins in a stale state, with some appropriate
