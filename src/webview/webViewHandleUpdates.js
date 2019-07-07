@@ -105,7 +105,7 @@ export const getUpdateEvents = (prevProps: Props, nextProps: Props): WebViewUpda
 
   if (
     prevProps.backgroundData.flags
-    && prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read
+    && !isEqual(prevProps.backgroundData.flags.read, nextProps.backgroundData.flags.read)
   ) {
     uevents.push(updateRead(prevProps, nextProps));
   }
