@@ -415,6 +415,10 @@ var handleUpdateEventReady = function handleUpdateEventReady(uevent) {
 };
 
 var handleUpdateEventMessagesRead = function handleUpdateEventMessagesRead(uevent) {
+  if (uevent.messageIds.length === 0) {
+    return;
+  }
+
   var selector = uevent.messageIds.map(function (id) {
     return "[data-msg-id=\\"" + id + "\\"]";
   }).join(',');

@@ -559,6 +559,9 @@ const handleUpdateEventReady = (uevent: WebViewUpdateEventReady) => {
  * Handles messages that have been read outside of the WebView
  */
 const handleUpdateEventMessagesRead = (uevent: WebViewUpdateEventMessagesRead) => {
+  if (uevent.messageIds.length === 0) {
+    return;
+  }
   const selector = uevent.messageIds.map(id => `[data-msg-id="${id}"]`).join(',');
   const messageElements = arrayFromNodes(document.querySelectorAll(selector));
   messageElements.forEach(element => {
