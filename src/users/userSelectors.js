@@ -89,6 +89,18 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
   (users, ownEmail) => users.filter(user => user.email !== ownEmail),
 );
 
+export const getOwnUser: Selector<User> = createSelector(
+  getUsersByEmail,
+  getOwnEmail,
+  (usersByEmail, ownEmail) => {
+    const ownUser = usersByEmail.get(ownEmail);
+    if (ownUser === undefined) {
+      throw new Error('Active user not found');
+    }
+    return ownUser;
+  },
+);
+
 export const getSelfUserDetail = (state: GlobalState): User =>
   getUsersByEmail(state).get(getOwnEmail(state)) || NULL_USER;
 
