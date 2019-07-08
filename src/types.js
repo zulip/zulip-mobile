@@ -2,7 +2,16 @@
 import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Auth, Topic, Message, Reaction, Narrow, CrossRealmBot, User } from './api/apiTypes';
+import type {
+  Auth,
+  Topic,
+  Message,
+  Submessage,
+  Reaction,
+  Narrow,
+  CrossRealmBot,
+  User,
+} from './api/apiTypes';
 import type { AppStyles } from './styles/theme';
 
 export type * from './reduxTypes';
@@ -157,6 +166,7 @@ export type Outbox = {|
   sender_email: string,
   sender_full_name: string,
   subject: string,
+  submessages?: $ReadOnlyArray<Submessage>,
   timestamp: number,
   type: 'stream' | 'private',
 
