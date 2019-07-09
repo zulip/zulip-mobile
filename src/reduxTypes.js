@@ -195,26 +195,37 @@ export type PresenceState = {|
 |};
 
 /**
- * State with general info about a Zulip organization; our state subtree `realm`.
+ * State with miscellaneous data from the server; our state subtree `realm`.
  *
- * @prop twentyFourHourTime
- * @prop canCreateStreams
+ * Despite the name, this info doesn't necessarily have much to do with the
+ * Zulip organization/realm; some properties do, but others are per-user,
+ * and others are per-server.
+ *
+ * About the server:
  * @prop crossRealmBots - The server's cross-realm bots; e.g., Welcome Bot.
  *   Cross-realm bots should be treated like normal bots.
+ *
+ * About the org/realm:
  * @prop nonActiveUsers - All users in the organization with `is_active`
  *   false; for normal users, this means they or an admin deactivated their
  *   account.  See `User` and the linked documentation.
  * @prop filters
  * @prop emoji
+ *
+ * About the user:
+ * @prop twentyFourHourTime
+ * @prop canCreateStreams
  * @prop isAdmin
  */
 export type RealmState = {|
-  twentyFourHourTime: boolean,
-  canCreateStreams: boolean,
   crossRealmBots: CrossRealmBot[],
+
   nonActiveUsers: User[],
   filters: RealmFilter[],
   emoji: RealmEmojiById,
+
+  twentyFourHourTime: boolean,
+  canCreateStreams: boolean,
   isAdmin: boolean,
 |};
 
