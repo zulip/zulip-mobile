@@ -104,6 +104,9 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
       ackedPushToken: a.ackedPushToken !== undefined ? a.ackedPushToken : null,
     })),
   }),
+
+  // $FlowMigrationFudge
+  '7': dropCache,
 };
 
 const reduxPersistConfig: Config = {

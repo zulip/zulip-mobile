@@ -14,6 +14,7 @@ import {
 const initialState = {
   canCreateStreams: true,
   crossRealmBots: [],
+  email: undefined,
   twentyFourHourTime: false,
   emoji: {},
   filters: [],
@@ -41,6 +42,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         ...state,
         canCreateStreams: action.data.can_create_streams,
         crossRealmBots: action.data.cross_realm_bots,
+        email: action.data.email,
         emoji: convertRealmEmoji(action.data.realm_emoji),
         filters: action.data.realm_filters,
         isAdmin: action.data.is_admin,
@@ -48,6 +50,8 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         twentyFourHourTime: action.data.twenty_four_hour_time,
       };
     }
+
+    // TODO on EVENT_USER_UPDATE for self: update email, isAdmin, etc.
 
     case EVENT_REALM_FILTERS:
       return {

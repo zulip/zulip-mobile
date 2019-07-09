@@ -213,6 +213,7 @@ export type PresenceState = {|
  * @prop emoji
  *
  * About the user:
+ * @prop email
  * @prop twentyFourHourTime
  * @prop canCreateStreams
  * @prop isAdmin
@@ -224,6 +225,7 @@ export type RealmState = {|
   filters: RealmFilter[],
   emoji: RealmEmojiById,
 
+  email: string | void,
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
   isAdmin: boolean,
