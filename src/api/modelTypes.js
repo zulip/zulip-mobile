@@ -50,33 +50,59 @@ export type DevUser = {|
 /**
  * A Zulip user.
  *
- * For details on the properties, see the Zulip API docs:
+ * This is a user object as found in properties `realm_users` and
+ * `realm_non_active_users` of a `/register` response.
+ *
+ * For details on the properties, see the Zulip API docs on `/users`:
  *   https://zulipchat.com/api/get-all-users#response
+ * which returns almost the same set of properties.
+ *
+ * See also the comments on `UserProfile` in the server (lineno is approx.):
+ *   https://github.com/zulip/zulip/blob/master/zerver/models.py#L734
+ * Most properties correspond to fields on `UserProfile`, and many are
+ * described most usefully there.
+ *
+ * For authoritative results, consult how `raw_users`, and then
+ * `realm_users` and `realm_non_active_users`, are computed in
+ * `zulip/zulip:zerver/lib/events.py` .
+ *
+ * Properties are listed below in the order they appear on `UserProfile`,
+ * because that's the most logically-organized and also the most helpful
+ * of the references above.
  */
 export type User = {|
-  avatar_url: string | null,
-  bot_type?: number,
-  bot_owner?: string,
+  user_id: number,
+  email: string,
+
+  full_name: string,
 
   // date_joined included since commit 372e9740a (in 1.9.0)
   date_joined?: string,
 
-  email: string,
-  full_name: string,
+  // is_active doesn't appear in `/register` responses -- instead,
+  // users where is_active is true go in `realm_users`, and where false
+  // go in `realm_non_active_users`.  Shrug.
 
+  // is_admin corresponds to is_realm_admin in server code.
   is_admin: boolean,
-  is_bot: boolean,
 
   // is_guest included since commit d5df0377c (in 1.9.0); before that,
   // there's no such concept, so effectively it's implicitly false.
   is_guest?: boolean,
 
-  // profile_data added in commit 02b845336 (in 1.8.0);
-  // see also e3aed0f7b (in 2.0.0)
-  profile_data?: empty, // TODO describe actual type
+  is_bot: boolean,
+  bot_type?: number,
+  bot_owner?: string,
 
   timezone: string,
-  user_id: number,
+
+  // avatar_url is synthesized on the server by `get_avatar_field`.
+  avatar_url: string | null,
+
+  // profile_data added in commit 02b845336 (in 1.8.0);
+  // see also e3aed0f7b (in 2.0.0)
+  // (This one doesn't appear in `/users` responses.)
+  profile_data?: empty, // TODO describe actual type
 |};
 
 export type CrossRealmBot = {|
