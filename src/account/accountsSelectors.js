@@ -64,7 +64,13 @@ export const getActiveAccount = (state: GlobalState): Account => {
 };
 
 /** The user's own email in the active account; throws if none. */
-export const getOwnEmail = (state: GlobalState): string => getActiveAccount(state).email;
+export const getOwnEmail = (state: GlobalState): string => {
+  const { email } = state.realm;
+  if (email === undefined) {
+    throw new Error('No server data found');
+  }
+  return email;
+};
 
 /** The realm of the active account; throws if none. */
 export const getCurrentRealm = (state: GlobalState) => getActiveAccount(state).realm;

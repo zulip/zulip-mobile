@@ -86,7 +86,10 @@ describe('getUsersById', () => {
 
 describe('getUsersSansMe', () => {
   test('returns all users except current user', () => {
-    const state = eg.reduxState({ users: [eg.selfUser, eg.otherUser], accounts: [eg.selfAccount] });
+    const state = eg.reduxState({
+      users: [eg.selfUser, eg.otherUser],
+      realm: eg.realmState({ email: eg.selfUser.email }),
+    });
     expect(getUsersSansMe(state)).toEqual([eg.otherUser]);
   });
 });

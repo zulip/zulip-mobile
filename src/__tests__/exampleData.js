@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 import { createStore } from 'redux';
 
 import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
-import type { GlobalState } from '../reduxTypes';
+import type { GlobalState, RealmState } from '../reduxTypes';
 import type { Account } from '../types';
 import rootReducer from '../boot/reducers';
 
@@ -189,6 +189,12 @@ const reduxState = (extra?: $Rest<GlobalState, {}>): GlobalState =>
     ...extra,
   });
 
+const realmState = (extra?: $Rest<RealmState, {}>): RealmState =>
+  deepFreeze({
+    ...baseReduxState.realm,
+    ...extra,
+  });
+
 export const eg = {
   makeUser,
   makeCrossRealmBot,
@@ -203,4 +209,5 @@ export const eg = {
 
   baseReduxState,
   reduxState,
+  realmState,
 };
