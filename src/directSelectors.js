@@ -57,6 +57,11 @@ export const getUserGroups = (state: GlobalState): UserGroup[] => state.userGrou
 
 export const getUserStatus = (state: GlobalState): UserStatusState => state.userStatus;
 
+/**
+ * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
+ *
+ * See `getAllUsers`.
+ */
 export const getUsers = (state: GlobalState): User[] => state.users;
 
 export const getFetching = (state: GlobalState): FetchingState => state.fetching;

@@ -32,6 +32,8 @@ export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSel
  *
  * This is the right list to use in any UI context that might involve things
  * a user did in the past: messages they sent, reactions they added, etc.
+ * Deactivating a user means they can't log in and see or send new messages,
+ * and doesn't erase them from history.
  *
  * In contexts that are about offering *new* interactions -- like choosing a
  * user to send a PM to -- deactivated users should be left out.  See
@@ -68,6 +70,7 @@ export const getUsersByEmail: Selector<Map<string, User>> = createSelector(
   (users = []) => new Map(users.map(user => [user.email, user])),
 );
 
+/** See `getAllUsers` for discussion. */
 export const getAllUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(
   getAllUsers,
   allUsers => new Map(allUsers.map(user => [user.email, user])),
