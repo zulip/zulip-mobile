@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { DraftsState, Action } from '../types';
-import { DRAFT_UPDATE, LOGOUT } from '../actionConstants';
+import { DRAFT_UPDATE, LOGOUT, ACCOUNT_SWITCH } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 
 const initialState = NULL_OBJECT;
@@ -24,6 +24,7 @@ const draftUpdate = (state, action) => {
 export default (state: DraftsState = initialState, action: Action): DraftsState => {
   switch (action.type) {
     case LOGOUT:
+    case ACCOUNT_SWITCH:
       return initialState;
 
     case DRAFT_UPDATE:
