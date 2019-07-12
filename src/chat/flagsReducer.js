@@ -5,6 +5,7 @@ import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
+  LOGOUT,
   ACCOUNT_SWITCH,
 } from '../actionConstants';
 import { deeperMerge } from '../utils/misc';
@@ -98,6 +99,7 @@ const eventUpdateMessageFlags = (state, action) => {
 export default (state: FlagsState = initialState, action: Action): FlagsState => {
   switch (action.type) {
     case DEAD_QUEUE:
+    case LOGOUT:
     case ACCOUNT_SWITCH:
       return initialState;
 

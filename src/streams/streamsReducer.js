@@ -2,7 +2,7 @@
 import { EventTypes } from '../api/eventTypes';
 import type { Action, StreamsState } from '../types';
 import { ensureUnreachable } from '../types';
-import { ACCOUNT_SWITCH, EVENT, REALM_INIT } from '../actionConstants';
+import { LOGOUT, ACCOUNT_SWITCH, EVENT, REALM_INIT } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
 
@@ -13,6 +13,7 @@ export default (state: StreamsState = initialState, action: Action): StreamsStat
     case REALM_INIT:
       return action.data.streams || initialState;
 
+    case LOGOUT:
     case ACCOUNT_SWITCH:
       return initialState;
 

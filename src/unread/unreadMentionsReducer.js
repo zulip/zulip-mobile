@@ -2,6 +2,7 @@
 import type { UnreadMentionsState, Action } from '../types';
 import {
   REALM_INIT,
+  LOGOUT,
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
@@ -32,6 +33,7 @@ const eventUpdateMessageFlags = (state, action) => {
 
 export default (state: UnreadMentionsState = initialState, action: Action): UnreadMentionsState => {
   switch (action.type) {
+    case LOGOUT:
     case ACCOUNT_SWITCH:
       return initialState;
 
