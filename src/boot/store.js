@@ -20,7 +20,7 @@ import createMigration from '../redux-persist-migrate/index';
  * lists of properties we do persist, below.
  */
 // prettier-ignore
-export const discardKeys = [
+export const discardKeys: Array<$Keys<GlobalState>> = [
   'alertWords', 'caughtUp', 'fetching', 'loading',
   'nav', 'presence', 'session', 'topics', 'typing', 'userStatus',
 ];
@@ -32,7 +32,10 @@ export const discardKeys = [
  * install of the app), where things wouldn't work right if we didn't
  * persist them.
  */
-export const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'settings'];
+// prettier-ignore
+export const storeKeys: Array<$Keys<GlobalState>> = [
+  'migrations', 'accounts', 'drafts', 'outbox', 'settings',
+];
 
 /**
  * Properties on the global store which we persist for caching's sake.
@@ -42,7 +45,7 @@ export const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'setting
  * don't have to re-download it.
  */
 // prettier-ignore
-export const cacheKeys = [
+export const cacheKeys: Array<$Keys<GlobalState>> = [
   'flags', 'messages', 'mute', 'narrows', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
