@@ -97,37 +97,8 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     // $FlowMigrationFudge
     return { ...restState, narrows: {} };
   },
-  '1': state => ({
-    // We changed the format of `narrows` and created `messages`.  Just
-    // initialize them both.
-    ...state,
-    messages: {},
-    narrows: {},
-  }),
-  '2': state => ({
-    ...state,
-    // $FlowMigrationFudge
-    realm: {
-      ...state.realm,
-      pushToken: {
-        // $FlowMigrationFudge
-        token: state.realm.pushToken.token,
-        // Drop `result` and `msg`.
-      },
-    },
-  }),
-  '3': state => ({
-    ...state,
-    // $FlowMigrationFudge
-    realm: {
-      ...state.realm,
-      pushToken: {
-        // Previously we used an empty string here to mean "no value".
-        // $FlowMigrationFudge
-        token: state.realm.pushToken.token || null,
-      },
-    },
-  }),
+  // $FlowMigrationFudge
+  '3': dropCache,
   '4': state => {
     // $FlowMigrationFudge
     const { pushToken, ...restRealm } = state.realm; // eslint-disable-line no-unused-vars
@@ -137,19 +108,7 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
       accounts: state.accounts.map(a => ({ ...a, ackedPushToken: null })),
     };
   },
-  '5': state => ({
-    ...state,
-    realm: {
-      ...state.realm,
-      emoji: (data => {
-        const emojis = {};
-        Object.keys(data).forEach(id => {
-          emojis[id] = { ...data[id], code: id.toString() };
-        });
-        return emojis;
-      })(state.realm.emoji),
-    },
-  }),
+  '5': dropCache,
 };
 
 const reduxPersistConfig: Config = {
