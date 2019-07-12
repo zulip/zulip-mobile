@@ -93,21 +93,15 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     // `messages` to `narrows, but a migration for delete + create is
     // simpler, and is good enough because these are "cache" data anyway.)
     AsyncStorage.removeItem('reduxPersist:messages');
-    const { messages, ...restState } = state; // eslint-disable-line no-unused-vars
     // $FlowMigrationFudge
-    return { ...restState, narrows: {} };
+    return dropCache(state);
   },
   // $FlowMigrationFudge
   '3': dropCache,
-  '4': state => {
-    // $FlowMigrationFudge
-    const { pushToken, ...restRealm } = state.realm; // eslint-disable-line no-unused-vars
-    return {
-      ...state,
-      realm: restRealm,
-      accounts: state.accounts.map(a => ({ ...a, ackedPushToken: null })),
-    };
-  },
+  '4': state => ({
+    ...dropCache(state),
+    accounts: state.accounts.map(a => ({ ...a, ackedPushToken: null })),
+  }),
   '5': dropCache,
 };
 
