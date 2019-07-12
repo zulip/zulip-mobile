@@ -51,6 +51,16 @@ export const cacheKeys: Array<$Keys<GlobalState>> = [
 ];
 
 const migrations: { [string]: (GlobalState) => GlobalState } = {
+  // The type is a lie, in several ways:
+  //  * The actual object contains only the properties we persist:
+  //    those in `storeKeys` and `cacheKeys`, but not `discardKeys`.
+  //  * The actual input is from an older version of the code, one with
+  //    different data structures -- after all, that's the point of the
+  //    migration -- which usually have a different type.
+  //  * For all but the latest migration, the same is true of the output.
+  //
+  // Still, it seems a more helpful approximation than nothing.  Where the
+  // falsehoods show through, we freely tell Flow to ignore them.
   '0': state => {
     // We deleted `messages` and created `narrows`.  (Really we renamed
     // `messages` to `narrows, but a migration for delete + create is
