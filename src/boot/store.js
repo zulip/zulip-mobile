@@ -3,7 +3,6 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import type { Store } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import type { Config } from 'redux-persist';
-import { AsyncStorage } from 'react-native';
 
 import type { Action, GlobalState } from '../types';
 import rootReducer from './reducers';
@@ -88,21 +87,23 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
   //
   // Still, it seems a more helpful approximation than nothing.  Where the
   // falsehoods show through, we freely tell Flow to ignore them.
-  '0': state => {
-    // We deleted `messages` and created `narrows`.  (Really we renamed
-    // `messages` to `narrows, but a migration for delete + create is
-    // simpler, and is good enough because these are "cache" data anyway.)
-    AsyncStorage.removeItem('reduxPersist:messages');
-    // $FlowMigrationFudge
-    return dropCache(state);
-  },
-  // $FlowMigrationFudge
-  '3': dropCache,
-  '4': state => ({
+
+  // Example if removing a top-level subtree entirely:
+  //   import { AsyncStorage } from 'react-native';
+  //   ...
+  //   AsyncStorage.removeItem('reduxPersist:messages');
+
+  '6': state => ({
+    // This rolls up all previous migrations, to clean up after our bug #3553.
+    // Mostly we can just `dropCache`, to reload data from the server...
     ...dropCache(state),
-    accounts: state.accounts.map(a => ({ ...a, ackedPushToken: null })),
+    accounts: state.accounts.map(a => ({
+      ...a,
+      // but in the case of `ackedPushToken` let's be a bit more precise,
+      // and avoid clobbering it if present.
+      ackedPushToken: a.ackedPushToken !== undefined ? a.ackedPushToken : null,
+    })),
   }),
-  '5': dropCache,
 };
 
 const reduxPersistConfig: Config = {
