@@ -11,7 +11,7 @@ import { NULL_OBJECT } from '../../nullObjects';
 
 describe('realmReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
-    test('resets state to initial state', () => {
+    test('resets state to blank state', () => {
       const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
@@ -21,6 +21,7 @@ describe('realmReducer', () => {
       const expectedState = {
         canCreateStreams: true,
         crossRealmBots: [],
+        email: '',
         isAdmin: false,
         twentyFourHourTime: false,
         emoji: {},

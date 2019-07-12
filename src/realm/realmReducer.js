@@ -22,6 +22,23 @@ const initialState = {
   nonActiveUsers: [],
 };
 
+/**
+ * A version of `initialState` with some made-up blank data.
+ *
+ * On `LOGIN_SUCCESS`, we go straight to showing the main app UI (see
+ * `navReducer`) even though we're still loading the actual data from the
+ * server.  So we need some fake data that the UI code will swallow.
+ * TODO: Probably stop doing that.
+ *
+ * Also: On `ACCOUNT_SWITCH`, during the transition animation, some old
+ * components can still be mounted from the UI for the previous account that
+ * make no sense without server data.  Probably ditto `LOGOUT`.
+ */
+const fakeBlankState = {
+  ...initialState,
+  email: '',
+};
+
 const convertRealmEmoji = (data): RealmEmojiById => {
   const emojis = {};
   Object.keys(data).forEach(id => {
@@ -35,7 +52,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
-      return initialState;
+      return fakeBlankState;
 
     case REALM_INIT: {
       return {
