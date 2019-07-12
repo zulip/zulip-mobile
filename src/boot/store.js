@@ -46,7 +46,8 @@ export const storeKeys: Array<$Keys<GlobalState>> = [
  */
 // prettier-ignore
 export const cacheKeys: Array<$Keys<GlobalState>> = [
-  'flags', 'messages', 'mute', 'narrows', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
+  'flags', 'messages', 'mute', 'narrows', 'realm', 'streams',
+  'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
 const migrations: { [string]: (GlobalState) => GlobalState } = {
