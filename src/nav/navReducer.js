@@ -32,16 +32,30 @@ export const getStateForRoute = (route: string): NavigationState => {
 };
 
 const rehydrate = (state, action) => {
+  // If there's no data to rehydrate, or no account data, show welcome screen.
   if (!action.payload || !action.payload.accounts) {
     return getStateForRoute('welcome');
   }
 
+  // If there are accounts but the active account is not logged in,
+  // show account screen.
   const rehydratedState = action.payload;
   if (!hasAuth(rehydratedState)) {
     const { accounts } = rehydratedState;
     return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
   }
 
+  // If there's an active, logged-in account but no server data, then behave
+  // like `ACCOUNT_SWITCH`: show loading screen.  Crucially, `sessionReducer`
+  // will have set `needsInitialFetch`, too, so we really will be loading.
+  //
+  // (Valid server data must have a user: the self user, at a minimum.)
+  if (rehydratedState.users === undefined) {
+    return getStateForRoute('loading');
+  }
+
+  // Great: we have an active, logged-in account, and server data for it.
+  // Show the main UI.
   return getStateForRoute('main');
 };
 

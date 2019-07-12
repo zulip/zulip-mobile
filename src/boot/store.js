@@ -50,6 +50,33 @@ export const cacheKeys: Array<$Keys<GlobalState>> = [
   'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
+/**
+ * Drop all server data, as a rehydrate-time migration.
+ *
+ * Most of our data is just copied from the server, and gets routinely
+ * discarded any time the event queue expires and we make a new `/register`
+ * call.  That's much more frequent than a new app release, let alone one
+ * with a data migration... so forcing the same thing in a migration is
+ * inexpensive, and makes a simple way to handle most migrations.
+ *
+ * One important difference from an expired event queue: `DEAD_QUEUE`
+ * leaves the stale data mostly in place, to be clobbered by fresh data
+ * by the subsequent `REALM_INIT`.  Here, because the old data may not work
+ * with the current code at all, we have to actually discard it up front.
+ * The behavior is similar to `ACCOUNT_SWITCH`, which also discards most
+ * data: we'll show the loading screen while fetching initial data.  See
+ * the `REHYDRATE` handlers in `sessionReducer` and `navReducer` for how
+ * that happens.
+ */
+function dropCache(state: GlobalState): $Shape<GlobalState> {
+  const result: $Shape<GlobalState> = {};
+  storeKeys.forEach(key => {
+    // $FlowFixMe This is well-typed only because it's the same `key` twice.
+    result[key] = state[key];
+  });
+  return result;
+}
+
 const migrations: { [string]: (GlobalState) => GlobalState } = {
   // The type is a lie, in several ways:
   //  * The actual object contains only the properties we persist:
