@@ -46,13 +46,12 @@ export default class ZulipSwitch extends PureComponent<Props, State> {
   };
 
   render() {
-    const { value, disabled } = this.props;
+    const { disabled } = this.props;
     const { valueControlled } = this.state;
-    const switchValue = typeof valueControlled !== 'undefined' ? valueControlled : value;
 
     return (
       <Switch
-        value={switchValue}
+        value={valueControlled}
         trackColor={{
           false: 'hsl(0, 0%, 86%)',
           true: BRAND_COLOR,
