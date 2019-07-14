@@ -38,9 +38,7 @@ export default class ZulipSwitch extends PureComponent<Props, State> {
   handleValueChange = (newValue: boolean) => {
     const { onValueChange } = this.props;
 
-    if (onValueChange) {
-      onValueChange(newValue);
-    }
+    onValueChange(newValue);
 
     this.setState({
       valueControlled: newValue,
