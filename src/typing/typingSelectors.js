@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 
 import type { Narrow, Selector, User } from '../types';
 import { getTyping } from '../directSelectors';
-import { getOwnEmail } from '../account/accountsSelectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients } from '../utils/recipient';
 import { NULL_ARRAY, NULL_USER } from '../nullObjects';
@@ -13,8 +12,7 @@ export const getCurrentTypingUsers: Selector<$ReadOnlyArray<User>, Narrow> = cre
   (state, narrow) => narrow,
   state => getTyping(state),
   state => getUsersById(state),
-  state => getOwnEmail(state),
-  (narrow, typing, usersById, ownEmail): User[] => {
+  (narrow, typing, usersById): User[] => {
     if (!isPrivateOrGroupNarrow(narrow)) {
       return NULL_ARRAY;
     }
