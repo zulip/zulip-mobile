@@ -3,7 +3,7 @@ import { CameraRoll, Platform, PermissionsAndroid } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import type { Auth } from '../api/transportTypes';
-import { getAuthHeader } from '../api/transport';
+import { getAuthHeaders } from '../api/transport';
 import { objectToParams } from '../api/apiFetch';
 import { getFullUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
@@ -60,7 +60,7 @@ export default async (src: string, auth: Auth): Promise<mixed> => {
     objectToParams({
       'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
       'User-Agent': userAgent,
-      Authorization: getAuthHeader(auth.email, auth.apiKey),
+      ...getAuthHeaders(auth.email, auth.apiKey),
     }),
   );
 };

@@ -1,5 +1,5 @@
 /* @flow strict-local */
 import base64 from 'base-64';
 
-export const getAuthHeader = (email: string, apiKey: string): ?string =>
-  apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined;
+export const getAuthHeaders = (email: string, apiKey: string): { [string]: string } =>
+  apiKey ? { Authorization: `Basic ${base64.encode(`${email}:${apiKey}`)}` } : {};

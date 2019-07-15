@@ -2,7 +2,7 @@
 import urlRegex from 'url-regex';
 
 import type { Auth, Narrow, User } from '../types';
-import { getAuthHeader } from '../api/transport';
+import { getAuthHeaders } from '../api/transport';
 import { HOME_NARROW, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { transformToEncodedURI } from './string';
 import { NULL_USER } from '../nullObjects';
@@ -129,9 +129,7 @@ export const getMessageIdFromLink = (url: string, realm: string): number => {
 
 const getResourceWithAuth = (uri: string, auth: Auth) => ({
   uri: getFullUrl(uri, auth.realm),
-  headers: {
-    Authorization: getAuthHeader(auth.email, auth.apiKey),
-  },
+  headers: getAuthHeaders(auth.email, auth.apiKey),
 });
 
 const getResourceNoAuth = (uri: string) => ({
@@ -141,7 +139,7 @@ const getResourceNoAuth = (uri: string) => ({
 export const getResource = (
   uri: string,
   auth: Auth,
-): {| uri: string, headers?: { [string]: ?string } |} =>
+): {| uri: string, headers?: { [string]: string } |} =>
   isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
 export const hasProtocol = (url: string = '') => url.search(/\b(http|https):\/\//) !== -1;

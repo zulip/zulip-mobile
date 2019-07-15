@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { UrlParams } from '../utils/url';
 import type { Auth } from './transportTypes';
-import { getAuthHeader } from './transport';
+import { getAuthHeaders } from './transport';
 import { encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
@@ -34,7 +34,7 @@ export const getFetchParams = (auth: Auth, params: {} = {}) => {
     headers: {
       'Content-Type': contentType,
       'User-Agent': userAgent,
-      ...(auth.apiKey ? { Authorization: getAuthHeader(auth.email, auth.apiKey) } : {}),
+      ...getAuthHeaders(auth.email, auth.apiKey),
     },
     ...params,
   };
