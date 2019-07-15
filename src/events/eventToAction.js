@@ -31,6 +31,7 @@ import {
   EVENT_SUBSCRIPTION,
   EVENT,
 } from '../actionConstants';
+import { getOwnEmail } from '../account/accountsSelectors';
 
 const opToActionUser = {
   add: EVENT_USER_ADD,
@@ -84,7 +85,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
         ...event,
         type: EVENT_NEW_MESSAGE,
         caughtUp: state.caughtUp,
-        ownEmail: state.accounts[0].email,
+        ownEmail: getOwnEmail(state),
       };
 
     case 'delete_message':
@@ -142,7 +143,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
     case 'typing':
       return {
         ...event,
-        ownEmail: state.accounts[0].email,
+        ownEmail: getOwnEmail(state),
         type: opToActionTyping[event.op],
         time: new Date().getTime(),
       };
