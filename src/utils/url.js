@@ -129,7 +129,7 @@ export const getMessageIdFromLink = (url: string, realm: string): number => {
 
 const getResourceWithAuth = (uri: string, auth: Auth) => ({
   uri: getFullUrl(uri, auth.realm),
-  headers: getAuthHeaders(auth.email, auth.apiKey),
+  headers: getAuthHeaders(auth),
 });
 
 const getResourceNoAuth = (uri: string) => ({

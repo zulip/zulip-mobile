@@ -60,7 +60,7 @@ export default async (src: string, auth: Auth): Promise<mixed> => {
     objectToParams({
       'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
       'User-Agent': userAgent,
-      ...getAuthHeaders(auth.email, auth.apiKey),
+      ...getAuthHeaders(auth),
     }),
   );
 };
