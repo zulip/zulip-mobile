@@ -46,9 +46,11 @@ import {
 import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
+import { getOwnEmail } from '../account/accountsSelectors';
 
 type SelectorProps = {|
   auth: Auth,
+  ownEmail: string,
   usersByEmail: Map<string, UserOrBot>,
   safeAreaInsets: Dimensions,
   isAdmin: boolean,
@@ -313,7 +315,7 @@ class ComposeBox extends PureComponent<Props, State> {
   render() {
     const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
     const {
-      auth,
+      ownEmail,
       narrow,
       usersByEmail,
       editMessage,
@@ -329,7 +331,7 @@ class ComposeBox extends PureComponent<Props, State> {
       return <AnnouncementOnly />;
     }
 
-    const placeholder = getComposeInputPlaceholder(narrow, auth.email, usersByEmail);
+    const placeholder = getComposeInputPlaceholder(narrow, ownEmail, usersByEmail);
     const style = {
       paddingBottom: safeAreaInsets.bottom,
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
@@ -405,6 +407,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
 export default connect((state, props): SelectorProps => ({
   auth: getAuth(state),
+  ownEmail: getOwnEmail(state),
   usersByEmail: getActiveUsersByEmail(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
   isAdmin: getIsAdmin(state),
