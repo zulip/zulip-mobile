@@ -1,8 +1,8 @@
 /* @flow strict-local */
-import base64 from 'base-64';
 import urlRegex from 'url-regex';
 
 import type { Auth, Narrow, User } from '../types';
+import { getAuthHeader } from '../api/transport';
 import { HOME_NARROW, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { transformToEncodedURI } from './string';
 import { NULL_USER } from '../nullObjects';
@@ -29,9 +29,6 @@ export const getPathsFromUrl = (url: string = '', realm: string) => {
   }
   return paths;
 };
-
-export const getAuthHeader = (email: string, apiKey: string): ?string =>
-  apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined;
 
 /** Encode parameters as if for the URL query-part submitting an HTML form. */
 export const encodeParamsForUrl = (params: UrlParams): string =>

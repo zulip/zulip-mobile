@@ -1,7 +1,8 @@
 /* @flow strict-local */
 import type { UrlParams } from '../utils/url';
 import type { Auth } from './transportTypes';
-import { getAuthHeader, encodeParamsForUrl, isValidUrl } from '../utils/url';
+import { getAuthHeader } from './transport';
+import { encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
 

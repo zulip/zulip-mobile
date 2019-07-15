@@ -3,8 +3,9 @@ import { CameraRoll, Platform, PermissionsAndroid } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import type { Auth } from '../api/transportTypes';
+import { getAuthHeader } from '../api/transport';
 import { objectToParams } from '../api/apiFetch';
-import { getAuthHeader, getFullUrl } from '../utils/url';
+import { getFullUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 
 /**
