@@ -255,11 +255,11 @@ export const narrowContains = (haystack: Narrow, needle: Narrow): boolean => {
   return JSON.stringify(needle) === JSON.stringify(haystack);
 };
 
-export const getNarrowFromMessage = (message: Message | Outbox, email: string) => {
+export const getNarrowFromMessage = (message: Message | Outbox, ownEmail: string) => {
   if (Array.isArray(message.display_recipient)) {
     const recipient =
       message.display_recipient.length > 1
-        ? message.display_recipient.filter(x => x.email !== email)
+        ? message.display_recipient.filter(x => x.email !== ownEmail)
         : message.display_recipient;
     return groupNarrow(recipient.map(x => x.email));
   }
