@@ -20,6 +20,7 @@ type ButtonDescription = {
   /** The callback. */
   ({
     auth: Auth,
+    ownEmail: string,
     message: Message | Outbox,
     subscriptions: Subscription[],
     dispatch: Dispatch,
@@ -34,8 +35,8 @@ const isAnOutboxMessage = (message: Message | Outbox): boolean => message.isOutb
 // Options for the action sheet go below: ...
 //
 
-const reply = ({ message, dispatch, auth }) => {
-  dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
+const reply = ({ message, dispatch, ownEmail }) => {
+  dispatch(doNarrow(getNarrowFromMessage(message, ownEmail), message.id));
 };
 reply.title = 'Reply';
 
@@ -174,7 +175,7 @@ const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = ({
-  backgroundData: { auth, flags },
+  backgroundData: { ownEmail, flags },
   message,
   narrow,
 }: ConstructSheetParams): ButtonCode[] => {
@@ -191,13 +192,13 @@ export const constructMessageActionButtons = ({
   }
   if (
     !isAnOutboxMessage(message)
-    && message.sender_email === auth.email
+    && message.sender_email === ownEmail
     && !isHomeNarrow(narrow)
     && !isSpecialNarrow(narrow)
   ) {
     buttons.push('editMessage');
   }
-  if (message.sender_email === auth.email && messageNotDeleted(message)) {
+  if (message.sender_email === ownEmail && messageNotDeleted(message)) {
     buttons.push('deleteMessage');
   }
   if (!isAnOutboxMessage(message)) {
@@ -227,6 +228,7 @@ export const showActionSheet = (
       dispatch,
       subscriptions: params.backgroundData.subscriptions,
       auth: params.backgroundData.auth,
+      ownEmail: params.backgroundData.ownEmail,
       _,
       ...params,
     });
