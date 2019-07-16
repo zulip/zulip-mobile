@@ -183,7 +183,8 @@ hr {
 }
 .avatar,
 .header-wrapper,
-.message-brief {
+.message-brief,
+.poll-button {
   cursor: pointer;
 }
 .stream-header {

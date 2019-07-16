@@ -70,7 +70,7 @@ const pollWidgetAsHtml = (ownUserId, submessages): string => {
 
   pollOptions.forEach(option => {
     htmlPieces.push(template`
-<div class="poll-option-container">
+<div class="poll-option-container" data-option-id="${option.id}">
   <div class="poll-button${
     option.voters.find(voter => voter === ownUserId.toString()) ? ' self-voted' : ''
   }">

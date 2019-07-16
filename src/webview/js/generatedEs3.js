@@ -541,6 +541,22 @@ documentBody.addEventListener('click', function (e) {
     return;
   }
 
+  if (target.matches('.poll-button')) {
+    var optionElement = target.closest('.poll-option-container');
+
+    if (!optionElement) {
+      throw new Error('Corresponding option element not found.');
+    }
+
+    sendMessage({
+      type: 'vote',
+      messageId: getMessageIdFromNode(target),
+      optionId: parseInt(requireAttribute(optionElement, 'data-option-id'), 10),
+      vote: target.classList.contains('self-voted') ? -1 : 1
+    });
+    return;
+  }
+
   var messageElement = target.closest('.message-brief');
 
   if (messageElement) {

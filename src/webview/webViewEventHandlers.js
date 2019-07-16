@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { Clipboard } from 'react-native';
-import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
+import { emojiReactionAdd, emojiReactionRemove, sendSubmessage, queueMarkAsRead } from '../api';
 import config from '../config';
 import type { Dispatch, GetText, Message, Narrow, Outbox } from '../types';
 import type { BackgroundData } from './MessageList';
@@ -73,6 +73,13 @@ type MessageListEventReaction = {|
   voted: boolean,
 |};
 
+type MessageListEventVote = {|
+  type: 'vote',
+  messageId: number,
+  optionId: number,
+  vote: number,
+|};
+
 type MessageListEventUrl = {|
   type: 'url',
   href: string,
@@ -108,6 +115,7 @@ export type MessageListEvent =
   | MessageListEventNarrow
   | MessageListEventImage
   | MessageListEventReaction
+  | MessageListEventVote
   | MessageListEventUrl
   | MessageListEventLongPress
   | MessageListEventDebug
@@ -223,6 +231,22 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
         } else {
           emojiReactionAdd(auth, messageId, reactionType, code, name);
         }
+      }
+      break;
+
+    case 'vote':
+      {
+        const { auth, ownUser } = props.backgroundData;
+
+        sendSubmessage(
+          auth,
+          event.messageId,
+          JSON.stringify({
+            type: 'vote',
+            key: [ownUser.user_id, event.optionId].join(),
+            vote: event.vote,
+          }),
+        );
       }
       break;
 
