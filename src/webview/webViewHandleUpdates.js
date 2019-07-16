@@ -96,10 +96,7 @@ export const getUpdateEvents = (prevProps: Props, nextProps: Props): WebViewUpda
 
   const uevents = [];
 
-  if (
-    prevProps.backgroundData.flags
-    && prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read
-  ) {
+  if (prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read) {
     const messageIds = Object.keys(nextProps.backgroundData.flags.read)
       .filter(id => !prevProps.backgroundData.flags.read[+id])
       .map(id => +id);

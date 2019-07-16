@@ -1,15 +1,25 @@
+import deepFreeze from 'deep-freeze';
+
 import { getUpdateEvents } from '../webViewHandleUpdates';
 import { flagsStateToStringList } from '../html/messageAsHtml';
 import { HOME_NARROW } from '../../utils/narrow';
+import { eg } from '../../__tests__/exampleData';
 
 describe('getUpdateEvents', () => {
+  const emptyFlags = eg.baseReduxState.flags;
+
+  const baseBackgroundData = deepFreeze({
+    flags: emptyFlags,
+    auth: {},
+  });
+
+  const baseProps = deepFreeze({
+    backgroundData: baseBackgroundData,
+  });
+
   test('missing prev and next props returns no messages', () => {
-    const prevProps = {
-      backgroundData: {},
-    };
-    const nextProps = {
-      backgroundData: {},
-    };
+    const prevProps = baseProps;
+    const nextProps = baseProps;
 
     const messages = getUpdateEvents(prevProps, nextProps);
 
@@ -18,11 +28,11 @@ describe('getUpdateEvents', () => {
 
   test('if fetching message differs send a message for fetching', () => {
     const prevProps = {
-      backgroundData: {},
+      ...baseProps,
       fetching: { older: false, newer: false },
     };
     const nextProps = {
-      backgroundData: {},
+      ...baseProps,
       fetching: { older: false, newer: true },
     };
 
@@ -39,11 +49,11 @@ describe('getUpdateEvents', () => {
 
   test('if fetching key is the same no message is sent', () => {
     const prevProps = {
-      backgroundData: {},
+      ...baseProps,
       fetching: { older: false, newer: false },
     };
     const nextProps = {
-      backgroundData: {},
+      ...baseProps,
       fetching: { older: false, newer: false },
     };
 
@@ -54,11 +64,11 @@ describe('getUpdateEvents', () => {
 
   test('if typing users differ send a "typing" message', () => {
     const prevProps = {
-      backgroundData: { auth: {} },
+      ...baseProps,
       typingUsers: [],
     };
     const nextProps = {
-      backgroundData: { auth: {} },
+      ...baseProps,
       typingUsers: [{ id: 10 }],
     };
 
@@ -70,11 +80,11 @@ describe('getUpdateEvents', () => {
 
   test('when rendered messages are the same return empty result', () => {
     const prevProps = {
-      backgroundData: { auth: {} },
+      ...baseProps,
       renderedMessages: [],
     };
     const nextProps = {
-      backgroundData: { auth: {} },
+      ...baseProps,
       renderedMessages: [],
     };
 
@@ -119,13 +129,13 @@ describe('getUpdateEvents', () => {
 
   test('WUUT there are several diffs return several messages', () => {
     const prevProps = {
-      backgroundData: { auth: {} },
+      ...baseProps,
       narrow: HOME_NARROW,
       fetching: { older: false, newer: false },
       typingUsers: [],
     };
     const nextProps = {
-      backgroundData: { auth: {} },
+      ...baseProps,
       narrow: HOME_NARROW,
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
