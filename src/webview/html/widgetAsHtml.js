@@ -59,7 +59,7 @@ const pollWidgetAsHtml = (ownUserId, submessages): string => {
 
   const widgetMetadata = JSON.parse(submessages[0].content);
 
-  htmlPieces.push('<div class="poll">');
+  htmlPieces.push('<div class="widget poll">');
   htmlPieces.push(template`<div class="poll-question">${widgetMetadata.extra_data.question}</div>`);
 
   pollOptions = extractPollOptions(submessages);
@@ -97,7 +97,7 @@ export default (
 
   return template`
 $!${contentHtml}
-<div class="widget">
+<div class="widget dummy-widget">
  <p>Interactive message</p>
  <p>To use, open on web or desktop</p>
 </div>

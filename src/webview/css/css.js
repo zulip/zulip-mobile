@@ -390,15 +390,15 @@ blockquote {
   color: white;
 }
 .widget {
+  padding: 1rem;
+  border: 1px solid hsl(0, 0%, 60%);
+  border-radius: 0.5rem;
+}
+.dummy-widget {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-.widget, .poll {
-  padding: 1rem;
-  border: 1px solid hsl(0, 0%, 60%);
-  border-radius: 0.5rem;
 }
 .poll-question {
   text-overflow: ellipsis;
