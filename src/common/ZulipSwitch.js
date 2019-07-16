@@ -18,7 +18,7 @@ type State = {|
  * built-in Switch component.
  *
  * @prop [disabled] - If set the component is not switchable and visually looks disabled.
- * @prop [defaultValue] - Initial value of the switch.
+ * @prop defaultValue - Initial value of the switch.
  * @prop onValueChange - Event called on switch.
  */
 export default class ZulipSwitch extends PureComponent<Props, State> {
@@ -28,7 +28,6 @@ export default class ZulipSwitch extends PureComponent<Props, State> {
 
   static defaultProps = {
     disabled: false,
-    defaultValue: false,
   };
 
   handleValueChange = (newValue: boolean) => {
