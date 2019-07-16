@@ -78,6 +78,10 @@ const updateTyping = (prevProps: Props, nextProps: Props): WebViewUpdateEventTyp
 });
 
 const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): boolean => {
+  if (prevFlags === nextFlags) {
+    return true;
+  }
+
   const allFlagNames = Array.from(
     new Set([...Object.keys(prevFlags || {}), ...Object.keys(nextFlags || {})]),
   );
