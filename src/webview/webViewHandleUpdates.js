@@ -77,13 +77,6 @@ const updateTyping = (prevProps: Props, nextProps: Props): WebViewUpdateEventTyp
       : '',
 });
 
-const updateRead = (prevProps: Props, nextProps: Props): WebViewUpdateEventMessagesRead => ({
-  type: 'read',
-  messageIds: Object.keys(nextProps.backgroundData.flags.read)
-    .filter(id => !prevProps.backgroundData.flags.read[+id])
-    .map(id => +id),
-});
-
 const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): boolean => {
   const allFlagNames = Array.from(
     new Set([...Object.keys(prevFlags || {}), ...Object.keys(nextFlags || {})]),
@@ -105,9 +98,17 @@ export const getUpdateEvents = (prevProps: Props, nextProps: Props): WebViewUpda
 
   if (
     prevProps.backgroundData.flags
-    && !isEqual(prevProps.backgroundData.flags.read, nextProps.backgroundData.flags.read)
+    && prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read
   ) {
-    uevents.push(updateRead(prevProps, nextProps));
+    const messageIds = Object.keys(nextProps.backgroundData.flags.read)
+      .filter(id => !prevProps.backgroundData.flags.read[+id])
+      .map(id => +id);
+    if (messageIds.length > 0) {
+      uevents.push({
+        type: 'read',
+        messageIds,
+      });
+    }
   }
 
   if (
