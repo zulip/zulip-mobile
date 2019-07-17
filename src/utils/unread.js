@@ -15,6 +15,3 @@ export const filterUnreadMessagesInRange = (
     .filter(msg => msg.id >= fromId && msg.id <= toId);
   return filterUnreadMessageIds(messagesInRange.map(x => x.id), flags);
 };
-
-export const unreadToLimitedCount = (count: number): string =>
-  count < 100 ? count.toString() : '99+';

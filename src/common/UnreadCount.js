@@ -4,7 +4,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { BRAND_COLOR } from '../styles';
-import { unreadToLimitedCount } from '../utils/unread';
 import { foregroundColorFromBackground } from '../utils/color';
 
 const styles = StyleSheet.create({
@@ -83,10 +82,11 @@ export default class UnreadCount extends PureComponent<Props> {
     const textColor = foregroundColorFromBackground(color);
     const textStyle = [styles.text, inverse && styles.textInverse, { color: textColor }];
 
+    const countString = limited && count >= 100 ? '99+' : count.toString();
     return (
       <View style={frameStyle}>
         <Text style={textStyle} numberOfLines={1}>
-          {limited ? unreadToLimitedCount(count) : count}
+          {countString}
         </Text>
       </View>
     );
