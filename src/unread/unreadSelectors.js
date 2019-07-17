@@ -5,7 +5,6 @@ import type { Narrow, Selector, UnreadStreamItem } from '../types';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import {
   getMute,
-  getReadFlags,
   getStreams,
   getUnreadStreams,
   getUnreadPms,
@@ -13,9 +12,7 @@ import {
   getUnreadMentions,
 } from '../directSelectors';
 import { getOwnEmail } from '../account/accountsSelectors';
-import { getPrivateMessages } from '../message/messageSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
-import { countUnread } from '../utils/unread';
 import { isTopicMuted } from '../utils/message';
 import {
   isHomeNarrow,
@@ -154,12 +151,6 @@ export const getUnreadStreamsAndTopicsSansMuted: Selector<UnreadStreamItem[]> = 
         data: stream.data.filter(topic => !topic.isMuted),
       }))
       .filter(stream => !stream.isMuted && stream.data.length > 0),
-);
-
-export const getUnreadPrivateMessagesCount: Selector<number> = createSelector(
-  getPrivateMessages,
-  getReadFlags,
-  (privateMessages, readFlags) => countUnread(privateMessages.map(msg => msg.id), readFlags),
 );
 
 export const getUnreadByHuddlesMentionsAndPMs: Selector<number> = createSelector(
