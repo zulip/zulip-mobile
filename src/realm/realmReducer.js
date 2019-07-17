@@ -31,6 +31,8 @@ const convertRealmEmoji = (data): RealmEmojiById => {
 
 export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {
+    case LOGOUT:
+    case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
 
@@ -46,13 +48,6 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         twentyFourHourTime: action.data.twenty_four_hour_time,
       };
     }
-
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-      return {
-        ...state,
-        emoji: {},
-      };
 
     case EVENT_REALM_FILTERS:
       return {
