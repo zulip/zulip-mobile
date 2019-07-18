@@ -95,6 +95,8 @@ export default class ZulipButton extends PureComponent<Props> {
     const { style, text, disabled, secondary, progress, onPress, Icon } = this.props;
     const frameStyle = [
       styles.frame,
+      // Prettier bug on nested ternary
+      /* prettier-ignore */
       disabled
         ? secondary
           ? styles.disabledSecondaryFrame

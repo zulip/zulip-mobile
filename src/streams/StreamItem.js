@@ -89,6 +89,8 @@ export default class StreamItem extends PureComponent<Props> {
       isMuted && componentStyles.muted,
     ];
     // TODO: confirm these '' cases are irrelevant, and remove.
+    // Prettier bug on nested ternary
+    /* prettier-ignore */
     const iconColor = isSelected
       ? 'white'
       : color !== undefined && color !== ''
@@ -98,6 +100,8 @@ export default class StreamItem extends PureComponent<Props> {
               ? backgroundColor
               : (StyleSheet.flatten(contextStyles.backgroundColor) || {}).backgroundColor || null,
           );
+    // Prettier bug on nested ternary
+    /* prettier-ignore */
     const textColorStyle = isSelected
       ? { color: 'white' }
       : backgroundColor !== undefined && backgroundColor !== ''
