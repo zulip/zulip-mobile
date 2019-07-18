@@ -9,6 +9,3 @@ export type {
   AuthenticationMethods,
   ApiResponseServerSettings,
 } from './settings/getServerSettings';
-export type{
-	ApiResponseStreamId
-} from './streams/getStreamId.js'
