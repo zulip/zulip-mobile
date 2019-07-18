@@ -26,7 +26,7 @@ class DebugScreen extends PureComponent<Props> {
       <Screen title="Debug">
         <OptionRow
           label="Do not mark messages read on scroll"
-          defaultValue={debug.doNotMarkMessagesAsRead}
+          value={debug.doNotMarkMessagesAsRead}
           onValueChange={() => this.handleSettingToggle('doNotMarkMessagesAsRead')}
         />
       </Screen>

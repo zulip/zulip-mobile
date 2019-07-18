@@ -79,7 +79,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           style={componentStyles.optionRow}
           Icon={IconPrivate}
           label="Private"
-          defaultValue={initialValues.invite_only}
+          value={initialValues.invite_only}
           onValueChange={this.handleIsPrivateChange}
         />
         <ZulipButton

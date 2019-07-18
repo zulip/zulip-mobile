@@ -12,7 +12,7 @@ import styles, { ThemeContext } from '../styles';
 type Props = {|
   Icon?: IconType,
   label: string,
-  defaultValue: boolean,
+  value: boolean,
   style?: ViewStyleProp,
   onValueChange: (newValue: boolean) => void,
 |};
@@ -29,14 +29,14 @@ export default class OptionRow extends PureComponent<Props> {
   };
 
   render() {
-    const { label, defaultValue, onValueChange, style, Icon } = this.props;
+    const { label, value, onValueChange, style, Icon } = this.props;
 
     return (
       <View style={[styles.listItem, style]}>
         {!!Icon && <Icon size={18} style={this.styles.icon} />}
         <Label text={label} style={styles.flexed} />
         <View style={styles.rightItem}>
-          <ZulipSwitch defaultValue={defaultValue} onValueChange={onValueChange} />
+          <ZulipSwitch defaultValue={value} onValueChange={onValueChange} />
         </View>
       </View>
     );

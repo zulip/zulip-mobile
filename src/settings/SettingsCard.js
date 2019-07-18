@@ -47,7 +47,7 @@ class SettingsCard extends PureComponent<Props> {
         <OptionRow
           Icon={IconNight}
           label="Night mode"
-          defaultValue={theme === 'night'}
+          value={theme === 'night'}
           onValueChange={this.handleThemeChange}
         />
         <OptionButton

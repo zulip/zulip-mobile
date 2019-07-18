@@ -29,7 +29,7 @@ class AwayStatusSwitch extends PureComponent<Props> {
     return (
       <OptionRow
         label="Set yourself to away"
-        defaultValue={awayStatus}
+        value={awayStatus}
         onValueChange={this.handleUpdateAwayStatus}
       />
     );

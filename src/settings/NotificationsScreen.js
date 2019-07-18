@@ -55,17 +55,17 @@ class NotificationsScreen extends PureComponent<Props> {
       <Screen title="Notifications">
         <OptionRow
           label="Notifications when offline"
-          defaultValue={offlineNotification}
+          value={offlineNotification}
           onValueChange={this.handleOfflineNotificationChange}
         />
         <OptionRow
           label="Notifications when online"
-          defaultValue={onlineNotification}
+          value={onlineNotification}
           onValueChange={this.handleOnlineNotificationChange}
         />
         <OptionRow
           label="Stream notifications"
-          defaultValue={streamNotification}
+          value={streamNotification}
           onValueChange={this.handleStreamNotificationChange}
         />
       </Screen>

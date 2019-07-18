@@ -60,19 +60,19 @@ class StreamScreen extends PureComponent<Props> {
         <OptionRow
           Icon={IconPin}
           label="Pinned"
-          defaultValue={subscription.pin_to_top}
+          value={subscription.pin_to_top}
           onValueChange={this.handleTogglePinStream}
         />
         <OptionRow
           Icon={IconMute}
           label="Muted"
-          defaultValue={subscription.in_home_view === false}
+          value={subscription.in_home_view === false}
           onValueChange={this.handleToggleMuteStream}
         />
         <OptionRow
           Icon={IconNotifications}
           label="Notifications"
-          defaultValue={subscription.push_notifications}
+          value={subscription.push_notifications}
           onValueChange={this.toggleStreamPushNotification}
         />
         <View style={styles.padding}>
