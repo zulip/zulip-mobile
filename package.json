@@ -118,7 +118,9 @@
     "globals": {
       "__TEST__": true
     },
-    "setupTestFrameworkScriptFile": "./jest/jestSetup.js",
+    "setupFilesAfterEnv": [
+      "./jest/jestSetup.js"
+    ],
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
     },
