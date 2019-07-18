@@ -36,12 +36,6 @@ local.properties
 node_modules/
 npm-debug.log
 
-# BUCK
-buck-out/
-\.buckd/
-android/app/libs
-android/keystores/debug.keystore
-
 ### ^
 ### The portion of this file above this line comes from RN upstream's
 ### template.  We leave that part unchanged as much as we can, to help
