@@ -5,12 +5,8 @@ import { BRAND_COLOR } from '../styles';
 
 type Props = {|
   disabled: boolean,
-  defaultValue: boolean,
+  value: boolean,
   onValueChange: (arg: boolean) => void,
-|};
-
-type State = {|
-  valueControlled: boolean,
 |};
 
 /**
@@ -18,14 +14,10 @@ type State = {|
  * built-in Switch component.
  *
  * @prop [disabled] - If set the component is not switchable and visually looks disabled.
- * @prop defaultValue - Initial value of the switch.
+ * @prop value - value of the switch.
  * @prop onValueChange - Event called on switch.
  */
-export default class ZulipSwitch extends PureComponent<Props, State> {
-  state = {
-    valueControlled: this.props.defaultValue,
-  };
-
+export default class ZulipSwitch extends PureComponent<Props> {
   static defaultProps = {
     disabled: false,
   };
@@ -34,19 +26,14 @@ export default class ZulipSwitch extends PureComponent<Props, State> {
     const { onValueChange } = this.props;
 
     onValueChange(newValue);
-
-    this.setState({
-      valueControlled: newValue,
-    });
   };
 
   render() {
-    const { disabled } = this.props;
-    const { valueControlled } = this.state;
+    const { disabled, value } = this.props;
 
     return (
       <Switch
-        value={valueControlled}
+        value={value}
         trackColor={{
           false: 'hsl(0, 0%, 86%)',
           true: BRAND_COLOR,
