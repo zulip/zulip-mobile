@@ -2,7 +2,7 @@
 import type { Dispatch, GetState } from '../types';
 
 import { sleep } from '../utils/async';
-import { clearTyping } from '../typing/typingActions';
+import { clearTyping } from './typingActions';
 import { getTyping } from '../directSelectors';
 
 export const clearTypingNotification = () => async (dispatch: Dispatch, getState: GetState) => {

@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Stream, Subscription } from '../types';
 import { RawLabel } from '../common';
-import StreamIcon from '../streams/StreamIcon';
+import StreamIcon from './StreamIcon';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 import styles from '../styles';
 

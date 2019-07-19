@@ -5,7 +5,7 @@ import { StyleSheet, SectionList } from 'react-native';
 import type { PresenceState, Style, User } from '../types';
 import { SectionHeader, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
-import { sortUserList, filterUserList, groupUsersByStatus } from '../users/userHelpers';
+import { sortUserList, filterUserList, groupUsersByStatus } from './userHelpers';
 
 const styles = StyleSheet.create({
   list: {

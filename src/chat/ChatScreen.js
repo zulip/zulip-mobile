@@ -6,7 +6,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Context, Narrow } from '../types';
 import { OfflineNotice, ZulipStatusBar } from '../common';
-import Chat from '../chat/Chat';
+import Chat from './Chat';
 import ChatNavBar from '../nav/ChatNavBar';
 
 type Props = {|

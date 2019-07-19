@@ -4,7 +4,7 @@ import type { Selector, RealmEmojiById, ImageEmojiType } from '../types';
 import { getRawRealmEmoji } from '../directSelectors';
 import { getIdentity } from '../account/accountsSelectors';
 import { getFullUrl } from '../utils/url';
-import zulipExtraEmojiMap from '../emoji/zulipExtraEmojiMap';
+import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 
 export const getAllImageEmojiById: Selector<RealmEmojiById> = createSelector(
   getIdentity,

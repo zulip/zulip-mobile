@@ -7,8 +7,8 @@ import {
   getNotificationToken,
   tryStopNotifications as innerStopNotifications,
   getNarrowFromNotificationData,
-} from '../notification';
-import type { Notification } from '../notification';
+} from '.';
+import type { Notification } from '.';
 import { getAuth, getActiveAccount } from '../selectors';
 import { getSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
