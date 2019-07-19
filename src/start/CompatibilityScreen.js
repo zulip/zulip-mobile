@@ -45,9 +45,10 @@ const GooglePlayBadge = () => (
 );
 
 export default class CompatibilityScreen extends PureComponent<{}> {
-  storeURL = Platform.OS === 'ios'
-    ? 'https://itunes.apple.com/app/zulip/id1203036395'
-    : 'https://play.google.com/store/apps/details?id=com.zulipmobile';
+  storeURL =
+    Platform.OS === 'ios'
+      ? 'https://itunes.apple.com/app/zulip/id1203036395'
+      : 'https://play.google.com/store/apps/details?id=com.zulipmobile';
 
   openStoreURL = () => {
     Linking.openURL(this.storeURL);

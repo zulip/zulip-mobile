@@ -114,15 +114,14 @@ export default class StreamItem extends PureComponent<Props> {
           <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
           <View style={componentStyles.text}>
             <RawLabel numberOfLines={1} style={textColorStyle} text={name} ellipsizeMode="tail" />
-            {description !== undefined
-              && description !== '' && (
-                <RawLabel
-                  numberOfLines={1}
-                  style={componentStyles.description}
-                  text={description}
-                  ellipsizeMode="tail"
-                />
-              )}
+            {description !== undefined && description !== '' && (
+              <RawLabel
+                numberOfLines={1}
+                style={componentStyles.description}
+                text={description}
+                ellipsizeMode="tail"
+              />
+            )}
           </View>
           <UnreadCount color={iconColor} count={unreadCount} inverse={isSelected} />
           {showSwitch && (

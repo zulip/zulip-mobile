@@ -16,36 +16,33 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState: UserGroupsState = NULL_ARRAY;
 
 const eventUserGroupUpdate = (state, action) =>
-  state.map(
-    userGroup =>
-      action.group_id !== userGroup.id
-        ? userGroup
-        : {
-            ...userGroup,
-            ...action.data,
-          },
+  state.map(userGroup =>
+    action.group_id !== userGroup.id
+      ? userGroup
+      : {
+          ...userGroup,
+          ...action.data,
+        },
   );
 
 const eventUserGroupAddMembers = (state, action) =>
-  state.map(
-    userGroup =>
-      action.group_id !== userGroup.id
-        ? userGroup
-        : {
-            ...userGroup,
-            members: [...userGroup.members, ...action.user_ids],
-          },
+  state.map(userGroup =>
+    action.group_id !== userGroup.id
+      ? userGroup
+      : {
+          ...userGroup,
+          members: [...userGroup.members, ...action.user_ids],
+        },
   );
 
 const eventUserGroupRemoveMembers = (state, action) =>
-  state.map(
-    userGroup =>
-      action.group_id !== userGroup.id
-        ? userGroup
-        : {
-            ...userGroup,
-            members: userGroup.members.filter(x => !action.user_ids.includes(x)),
-          },
+  state.map(userGroup =>
+    action.group_id !== userGroup.id
+      ? userGroup
+      : {
+          ...userGroup,
+          members: userGroup.members.filter(x => !action.user_ids.includes(x)),
+        },
   );
 
 export default (state: UserGroupsState = initialState, action: Action): UserGroupsState => {

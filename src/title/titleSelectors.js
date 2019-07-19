@@ -15,10 +15,13 @@ export const DEFAULT_TITLE_BACKGROUND_COLOR = 'transparent';
  * Otherwise, it takes a default value.
  */
 export const getTitleBackgroundColor = (narrow?: Narrow): Selector<string> =>
-  createSelector(getSubscriptions, subscriptions => {
-    if (!narrow || !isStreamOrTopicNarrow(narrow)) {
-      return DEFAULT_TITLE_BACKGROUND_COLOR;
-    }
-    const streamName = narrow[0].operand;
-    return (subscriptions.find(sub => streamName === sub.name) || NULL_SUBSCRIPTION).color;
-  });
+  createSelector(
+    getSubscriptions,
+    subscriptions => {
+      if (!narrow || !isStreamOrTopicNarrow(narrow)) {
+        return DEFAULT_TITLE_BACKGROUND_COLOR;
+      }
+      const streamName = narrow[0].operand;
+      return (subscriptions.find(sub => streamName === sub.name) || NULL_SUBSCRIPTION).color;
+    },
+  );

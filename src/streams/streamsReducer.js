@@ -34,14 +34,13 @@ export default (state: StreamsState = initialState, action: Action): StreamsStat
               );
 
             case 'update':
-              return state.map(
-                stream =>
-                  stream.stream_id === event.stream_id
-                    ? {
-                        ...stream,
-                        [event.property]: event.value,
-                      }
-                    : stream,
+              return state.map(stream =>
+                stream.stream_id === event.stream_id
+                  ? {
+                      ...stream,
+                      [event.property]: event.value,
+                    }
+                  : stream,
               );
 
             case 'occupy':

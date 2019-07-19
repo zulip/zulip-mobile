@@ -53,7 +53,7 @@ export default class LoadingIndicator extends PureComponent<Props> {
             <Image
               style={[
                 styles.logo,
-                { width: size / 3 * 2, height: size / 3 * 2, marginTop: size / 6 },
+                { width: (size / 3) * 2, height: (size / 3) * 2, marginTop: size / 6 },
               ]}
               source={messageLoadingImg}
               resizeMode="contain"

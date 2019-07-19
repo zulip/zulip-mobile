@@ -86,8 +86,9 @@ export const getCurrentRealm = (state: GlobalState) => getActiveAccount(state).r
  *  * `tryGetAuth` again, for use where there might not be an active account.
  *  * `getAuth` for use in the bulk of the app.
  */
-export const getPartialAuth: Selector<Auth> = createSelector(getActiveAccount, account =>
-  authOfAccount(account),
+export const getPartialAuth: Selector<Auth> = createSelector(
+  getActiveAccount,
+  account => authOfAccount(account),
 );
 
 /**
@@ -106,12 +107,15 @@ export const getPartialAuth: Selector<Auth> = createSelector(getActiveAccount, a
  *  * `getPartialAuth` for use in authentication flows, where there is an
  *    active account but it may not be logged in.
  */
-export const tryGetAuth: Selector<Auth | void> = createSelector(tryGetActiveAccount, account => {
-  if (!account || account.apiKey === '') {
-    return undefined;
-  }
-  return authOfAccount(account);
-});
+export const tryGetAuth: Selector<Auth | void> = createSelector(
+  tryGetActiveAccount,
+  account => {
+    if (!account || account.apiKey === '') {
+      return undefined;
+    }
+    return authOfAccount(account);
+  },
+);
 
 /**
  * True just if there is an active, logged-in account.
@@ -143,6 +147,7 @@ export const getAuth = (state: GlobalState): Auth => {
  *
  * See `getAuth` and `tryGetAuth` for discussion.
  */
-export const getIdentity: Selector<Identity> = createSelector(getAuth, auth =>
-  identityOfAuth(auth),
+export const getIdentity: Selector<Identity> = createSelector(
+  getAuth,
+  auth => identityOfAuth(auth),
 );

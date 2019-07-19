@@ -26,7 +26,7 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
    *
    * If there are several ClientPresence objects with the greatest
    * PresenceStatus, an arbitrary one is chosen.
-  */
+   */
   Object.keys(presence)
     .filter((client: string) => client !== 'aggregated')
     .reduce(

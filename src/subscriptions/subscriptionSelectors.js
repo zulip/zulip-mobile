@@ -17,11 +17,13 @@ import { getSubscriptions, getStreams } from '../directSelectors';
  *
  * See also `getStreams` for the stream objects as an array.
  */
-export const getStreamsById: Selector<{ [number]: Stream }> = createSelector(getStreams, streams =>
-  streams.reduce((streamsById, stream) => {
-    streamsById[stream.stream_id] = stream;
-    return streamsById;
-  }, ({}: { [number]: Stream })),
+export const getStreamsById: Selector<{ [number]: Stream }> = createSelector(
+  getStreams,
+  streams =>
+    streams.reduce((streamsById, stream) => {
+      streamsById[stream.stream_id] = stream;
+      return streamsById;
+    }, ({}: { [number]: Stream })),
 );
 
 export const getSubscriptionsById: Selector<{ [number]: Subscription }> = createSelector(

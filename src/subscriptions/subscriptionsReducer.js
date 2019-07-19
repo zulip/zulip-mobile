@@ -16,8 +16,8 @@ import { filterArray } from '../utils/immutability';
 const initialState: SubscriptionsState = NULL_ARRAY;
 
 const updateSubscription = (state, event) =>
-  state.map(
-    sub => (sub.stream_id === event.stream_id ? { ...sub, [event.property]: event.value } : sub),
+  state.map(sub =>
+    sub.stream_id === event.stream_id ? { ...sub, [event.property]: event.value } : sub,
   );
 
 export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {

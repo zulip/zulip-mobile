@@ -24,28 +24,34 @@ export const getChatScreenParams: Selector<{ narrow?: Narrow }> = createSelector
   params => params || { narrow: undefined },
 );
 
-export const getTopMostNarrow: Selector<void | Narrow> = createSelector(getNav, nav => {
-  const { routes } = nav;
-  let { index } = nav;
-  while (index >= 0) {
-    if (routes[index].routeName === 'chat') {
-      const { params } = routes[index];
-      return params ? params.narrow : undefined;
+export const getTopMostNarrow: Selector<void | Narrow> = createSelector(
+  getNav,
+  nav => {
+    const { routes } = nav;
+    let { index } = nav;
+    while (index >= 0) {
+      if (routes[index].routeName === 'chat') {
+        const { params } = routes[index];
+        return params ? params.narrow : undefined;
+      }
+      index--;
     }
-    index--;
-  }
-  return undefined;
-});
+    return undefined;
+  },
+);
 
 export const getCanGoBack = (state: GlobalState) => state.nav.index > 0;
 
-export const getSameRoutesCount: Selector<number> = createSelector(getNav, nav => {
-  let i = nav.routes.length - 1;
-  while (i >= 0) {
-    if (nav.routes[i].routeName !== nav.routes[nav.routes.length - 1].routeName) {
-      break;
+export const getSameRoutesCount: Selector<number> = createSelector(
+  getNav,
+  nav => {
+    let i = nav.routes.length - 1;
+    while (i >= 0) {
+      if (nav.routes[i].routeName !== nav.routes[nav.routes.length - 1].routeName) {
+        break;
+      }
+      i--;
     }
-    i--;
-  }
-  return nav.routes.length - i - 1;
-});
+    return nav.routes.length - i - 1;
+  },
+);

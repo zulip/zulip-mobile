@@ -8,7 +8,10 @@ import { getFetching } from '../directSelectors';
 export const DEFAULT_FETCHING = { older: false, newer: false };
 
 export const getFetchingForNarrow = (narrow: Narrow): Selector<Fetching> =>
-  createSelector(getFetching, fetching => fetching[JSON.stringify(narrow)] || DEFAULT_FETCHING);
+  createSelector(
+    getFetching,
+    fetching => fetching[JSON.stringify(narrow)] || DEFAULT_FETCHING,
+  );
 
 export const getIsFetching = (narrow: Narrow): Selector<boolean> =>
   createSelector(

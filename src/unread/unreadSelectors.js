@@ -57,8 +57,9 @@ export const getUnreadByPms: Selector<{ [number]: number }> = createSelector(
     }, ({}: { [number]: number })),
 );
 
-export const getUnreadPmsTotal: Selector<number> = createSelector(getUnreadPms, unreadPms =>
-  unreadPms.reduce((total, pm) => total + pm.unread_message_ids.length, 0),
+export const getUnreadPmsTotal: Selector<number> = createSelector(
+  getUnreadPms,
+  unreadPms => unreadPms.reduce((total, pm) => total + pm.unread_message_ids.length, 0),
 );
 
 export const getUnreadByHuddles: Selector<{ [string]: number }> = createSelector(

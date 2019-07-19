@@ -33,12 +33,12 @@ type Props = {|
  */
 export const chooseUploadImageFilename = (uri: string, fileName: string): string => {
   /*
-  * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
-  * HEIF format and have file names with the extension `.HEIC`.  When the user
-  * selects one of these photos through the image picker, the file gets
-  * automatically converted to JPEG format... but the `fileName` property in
-  * the react-native-image-picker response still has the `.HEIC` extension.
-  */
+   * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
+   * HEIF format and have file names with the extension `.HEIC`.  When the user
+   * selects one of these photos through the image picker, the file gets
+   * automatically converted to JPEG format... but the `fileName` property in
+   * the react-native-image-picker response still has the `.HEIC` extension.
+   */
   if (/\.jpe?g$/i.test(uri)) {
     return fileName.replace(/\.heic$/i, '.jpeg');
   }
