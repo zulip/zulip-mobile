@@ -23,6 +23,13 @@ We number our versions like so:
 ## Unreleased
 
 
+## 25.7.121 (2019-07-19)
+
+### Highlights for users
+
+Bugfixes and other improvements for your Zulip experience.
+
+
 ## 25.6.120 (2019-06-18)
 
 ### Highlights for users
