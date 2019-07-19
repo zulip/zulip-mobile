@@ -1,99 +1,41 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import {
-  ACCOUNT_SWITCH,
-  CANCEL_EDIT_MESSAGE,
-  START_EDIT_MESSAGE,
-  LOGIN_SUCCESS,
-} from '../../actionConstants';
+import { CANCEL_EDIT_MESSAGE, START_EDIT_MESSAGE } from '../../actionConstants';
 import sessionReducer from '../sessionReducer';
+import { eg } from '../../__tests__/exampleData';
 
 describe('sessionReducer', () => {
-  describe('ACCOUNT_SWITCH', () => {
-    test('reissues initial fetch', () => {
-      const prevState = deepFreeze({});
+  const baseState = eg.baseReduxState.session;
 
-      const action = deepFreeze({
-        type: ACCOUNT_SWITCH,
-      });
+  test('ACCOUNT_SWITCH', () => {
+    const newState = sessionReducer(baseState, eg.action.account_switch);
+    expect(newState).toEqual({ ...baseState, needsInitialFetch: true });
+  });
 
-      const newState = sessionReducer(prevState, action);
-
-      expect(newState.needsInitialFetch).toBe(true);
+  test('START_EDIT_MESSAGE', () => {
+    const action = deepFreeze({
+      type: START_EDIT_MESSAGE,
+      messageId: 12,
+      message: 'test',
+      topic: 'test topic',
+    });
+    expect(sessionReducer(baseState, action)).toEqual({
+      ...baseState,
+      editMessage: { id: 12, content: 'test', topic: 'test topic' },
     });
   });
 
-  describe('START_EDIT_MESSAGE', () => {
-    test('Test start edit message method', () => {
-      const prevState = deepFreeze({
-        twentyFourHourTime: false,
-        pushToken: {},
-        emoji: {},
-        editMessage: null,
-      });
-
-      const action = deepFreeze({
-        type: START_EDIT_MESSAGE,
-        messageId: 12,
-        message: 'test',
-      });
-
-      const expectedState = {
-        twentyFourHourTime: false,
-        pushToken: {},
-        emoji: {},
-        editMessage: {
-          id: 12,
-          content: 'test',
-        },
-      };
-
-      const newState = sessionReducer(prevState, action);
-
-      expect(newState).toEqual(expectedState);
+  test('CANCEL_EDIT_MESSAGE', () => {
+    const state = deepFreeze({
+      ...baseState,
+      editMessage: { id: 12, content: 'test', topic: 'test topic' },
     });
+    expect(sessionReducer(state, deepFreeze({ type: CANCEL_EDIT_MESSAGE }))).toEqual(baseState);
   });
 
-  describe('CANCEL_EDIT_MESSAGE', () => {
-    test('Test cancel edit message method', () => {
-      const prevState = deepFreeze({
-        twentyFourHourTime: false,
-        pushToken: {},
-        emoji: {},
-        editMessage: {
-          id: 12,
-          content: 'test',
-        },
-      });
-
-      const action = deepFreeze({
-        type: CANCEL_EDIT_MESSAGE,
-      });
-
-      const expectedState = {
-        twentyFourHourTime: false,
-        pushToken: {},
-        emoji: {},
-        editMessage: null,
-      };
-
-      const newState = sessionReducer(prevState, action);
-
-      expect(newState).toEqual(expectedState);
-    });
-  });
-
-  describe('LOGIN_SUCCESS', () => {
-    test('reissues initial fetch', () => {
-      const prevState = deepFreeze({});
-
-      const action = deepFreeze({
-        type: LOGIN_SUCCESS,
-      });
-
-      const newState = sessionReducer(prevState, action);
-
-      expect(newState.needsInitialFetch).toBe(true);
-    });
+  test('LOGIN_SUCCESS', () => {
+    const newState = sessionReducer(baseState, eg.action.login_success);
+    expect(newState).toEqual({ ...baseState, needsInitialFetch: true });
   });
 });

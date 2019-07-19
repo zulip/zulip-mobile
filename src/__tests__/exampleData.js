@@ -5,6 +5,7 @@ import { createStore } from 'redux';
 import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
 import type { GlobalState, RealmState } from '../reduxTypes';
 import type { Account } from '../types';
+import { ACCOUNT_SWITCH, LOGIN_SUCCESS } from '../actionConstants';
 import rootReducer from '../boot/reducers';
 
 // TODO either fix Jest test-discovery patterns, or rename this file,
@@ -195,6 +196,19 @@ const realmState = (extra?: $Rest<RealmState, {}>): RealmState =>
     ...extra,
   });
 
+const action = deepFreeze({
+  account_switch: {
+    type: ACCOUNT_SWITCH,
+    index: 0,
+  },
+  login_success: {
+    type: LOGIN_SUCCESS,
+    realm: selfAccount.realm,
+    email: selfAccount.email,
+    apiKey: selfAccount.apiKey,
+  },
+});
+
 export const eg = {
   makeUser,
   makeCrossRealmBot,
@@ -210,4 +224,6 @@ export const eg = {
   baseReduxState,
   reduxState,
   realmState,
+
+  action,
 };
