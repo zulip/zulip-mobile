@@ -100,7 +100,6 @@ rules:
   flowtype/no-primitive-constructor-types: error
   flowtype/no-types-missing-file-annotation: error
   ################# flowtype/no-weak-types: error
-  flowtype/object-type-delimiter: [error, comma]
   # flowtype/require-parameter-type: error
   # flowtype/require-return-type: [error, always, {annotateUndefined: never}]
   flowtype/require-valid-file-annotation: error
