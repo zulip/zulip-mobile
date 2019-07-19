@@ -9,7 +9,7 @@ describe('draftsReducer', () => {
   const testNarrow = topicNarrow('denmark', 'denmark2');
   const testNarrowStr = JSON.stringify(testNarrow);
 
-  describe(DRAFT_UPDATE, () => {
+  describe('DRAFT_UPDATE', () => {
     test('add a new draft key drafts', () => {
       const initialState = NULL_OBJECT;
 

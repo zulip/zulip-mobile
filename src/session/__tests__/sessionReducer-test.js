@@ -54,7 +54,7 @@ describe('sessionReducer', () => {
     });
   });
 
-  describe(CANCEL_EDIT_MESSAGE, () => {
+  describe('CANCEL_EDIT_MESSAGE', () => {
     test('Test cancel edit message method', () => {
       const prevState = deepFreeze({
         twentyFourHourTime: false,

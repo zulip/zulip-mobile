@@ -9,7 +9,7 @@ import {
 import { streamNarrow } from '../../utils/narrow';
 
 describe('outboxReducer', () => {
-  describe(INITIAL_FETCH_COMPLETE, () => {
+  describe('INITIAL_FETCH_COMPLETE', () => {
     test('filters out isSent', () => {
       const initialState = deepFreeze([
         { content: 'New one' },
@@ -29,7 +29,7 @@ describe('outboxReducer', () => {
     });
   });
 
-  describe(MESSAGE_SEND_START, () => {
+  describe('MESSAGE_SEND_START', () => {
     test('add a new message to outbox', () => {
       const initialState = deepFreeze([]);
 
@@ -81,7 +81,7 @@ describe('outboxReducer', () => {
     });
   });
 
-  describe(EVENT_NEW_MESSAGE, () => {
+  describe('EVENT_NEW_MESSAGE', () => {
     test('do not mutate state if a message is not removed', () => {
       const initialState = deepFreeze([
         {
