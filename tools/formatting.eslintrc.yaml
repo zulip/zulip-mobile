@@ -28,6 +28,10 @@ rules:
       # ... There are 10 other assignment operators in JavaScript;
       # if they come up, add them.
 
+  # This *would* overrule Prettier, and in particular run roughshod over
+  # line-length limits.  Let Prettier take care of it.
+  implicit-arrow-linebreak: off
+
   # Not sure this rule is quite *right* -- in a type fragment like
   #   foo:
   #     | 'have_a_long_name_number_the_first'

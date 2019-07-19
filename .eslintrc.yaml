@@ -37,6 +37,7 @@ rules:
   comma-dangle: off
   function-paren-newline: off
   indent: off
+  lines-between-class-members: off
   max-len: off
   no-mixed-operators: off
   object-curly-newline: off
@@ -71,8 +72,10 @@ rules:
 
   # React
   react/jsx-filename-extension: off  # Like RN upstream, we call the files *.js.
+  react/destructuring-assignment: off  # The opposite is often much cleaner.
   react/no-multi-comp: off  # This often just forces making code worse.
   react/no-unused-prop-types: off  # This can be perfectly appropriate.
+  react/default-props-match-prop-types: off  # We handle this better with types.
   react/prop-types: off  # We handle this better with types.
   react/require-default-props: off  # We handle this better with types.
   # These two could be good to fix.
@@ -81,8 +84,8 @@ rules:
 
   # React Native.  This plugin isn't included in the airbnb config, and
   # nothing is enabled by default, so we enable its rules.
-  react-native/no-unused-styles: error
   react-native/no-inline-styles: error
+  # react-native/no-unused-styles: error  # This is buggy on the `this.styles` pattern.
   # react-native/no-color-literals: error  # TODO eliminate these and enable.
 
   # Flow
