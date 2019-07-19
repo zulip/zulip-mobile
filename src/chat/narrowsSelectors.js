@@ -54,20 +54,22 @@ const getFetchedMessagesForNarrow: Selector<Message[], Narrow> = createSelector(
   (messageIds, messages) => messageIds.map(id => messages[id]),
 );
 
+// Prettier mishandles this Flow syntax.
 // prettier-ignore
-export const getMessagesForNarrow:
-    Selector<$ReadOnlyArray<Message | Outbox>, Narrow> = createSelector(
-  getFetchedMessagesForNarrow,
-  outboxMessagesForNarrow,
-  (fetchedMessages, outboxMessages) => {
-    if (outboxMessages.length === 0) {
-      return fetchedMessages;
-    }
+export const getMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox>, Narrow> =
+  createSelector(
+    getFetchedMessagesForNarrow,
+    outboxMessagesForNarrow,
+    (fetchedMessages, outboxMessages) => {
+      if (outboxMessages.length === 0) {
+        return fetchedMessages;
+      }
 
-    return [...fetchedMessages, ...outboxMessages].sort((a, b) => a.id - b.id);
-  },
-);
+      return [...fetchedMessages, ...outboxMessages].sort((a, b) => a.id - b.id);
+    },
+  );
 
+// Prettier mishandles this Flow syntax.
 // prettier-ignore
 export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox>, Narrow> =
   createSelector(
