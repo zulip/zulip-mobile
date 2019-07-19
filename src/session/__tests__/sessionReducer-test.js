@@ -67,17 +67,14 @@ describe('sessionReducer', () => {
       });
 
       const action = deepFreeze({
-        type: START_EDIT_MESSAGE,
+        type: CANCEL_EDIT_MESSAGE,
       });
 
       const expectedState = {
         twentyFourHourTime: false,
         pushToken: {},
         emoji: {},
-        editMessage: {
-          content: undefined,
-          id: undefined,
-        },
+        editMessage: null,
       };
 
       const newState = sessionReducer(prevState, action);
