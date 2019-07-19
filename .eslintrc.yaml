@@ -67,6 +67,7 @@ rules:
   import/no-extraneous-dependencies:
   - error
   - devDependencies: ['**/__tests__/*.js', tools/**]
+  import/no-cycle: off  # This would be nice to fix; but isn't easy.
 
   # Jest
   # This rule could be useful if it fired only on new instances; but we
