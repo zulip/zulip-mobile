@@ -5,8 +5,6 @@ import SafariView from 'react-native-safari-view';
 import openLink from '../utils/openLink';
 import { base64ToHex } from '../utils/encoding';
 
-/* eslint-disable no-else-return */
-
 // Generate a one time pad (OTP) which the server XORs the API key with
 // in its response to protect against credentials intercept
 export const generateOtp = async () => {
