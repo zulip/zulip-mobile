@@ -1,0 +1,24 @@
+#!/bin/bash
+
+this_file=$(readlink -f "${BASH_SOURCE[0]}")
+root=${this_file%/*/*}
+
+# List all direct dependencies, as package names.
+direct_dep_names() {
+    <package.json \
+    jq '.dependencies + .devDependencies | keys[]' -r \
+      | LC_ALL=C sort
+}
+
+usage() {
+    cat >&2 <<EOF
+usage: ${BASH_SOURCE[0]}
+EOF
+    exit 1
+}
+
+if (( $# > 0 )); then
+    usage
+fi
+
+direct_dep_names
