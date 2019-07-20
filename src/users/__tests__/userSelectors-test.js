@@ -3,6 +3,7 @@ import {
   getAccountDetailsUserForEmail,
   getActiveUsersByEmail,
   getAllUsersByEmail,
+  getAllUsersById,
   getUsersById,
   getUsersSansMe,
 } from '../userSelectors';
@@ -73,6 +74,36 @@ describe('getAllUsersByEmail', () => {
 
   test('empty state does not cause an exception, returns an empty object', () => {
     expect(getAllUsersByEmail(eg.reduxState())).toEqual(new Map());
+  });
+});
+
+describe('getAllUsersById', () => {
+  test('return users mapped by their id', () => {
+    const users = [eg.makeUser(), eg.makeUser(), eg.makeUser()];
+    const state = eg.reduxState({ users });
+    expect(getAllUsersById(state)).toEqual(new Map(users.map(u => [u.user_id, u])));
+  });
+
+  test('return users, bots, and inactive users mapped by their id', () => {
+    const state = eg.reduxState({
+      users: [eg.selfUser],
+      realm: {
+        ...eg.baseReduxState.realm,
+        crossRealmBots: [eg.crossRealmBot],
+        nonActiveUsers: [eg.otherUser],
+      },
+    });
+    expect(getAllUsersById(state)).toEqual(
+      new Map([
+        [eg.selfUser.user_id, eg.selfUser],
+        [eg.crossRealmBot.user_id, eg.crossRealmBot],
+        [eg.otherUser.user_id, eg.otherUser],
+      ]),
+    );
+  });
+
+  test('empty state does not cause an exception, returns an empty object', () => {
+    expect(getAllUsersById(eg.reduxState())).toEqual(new Map());
   });
 });
 

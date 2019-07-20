@@ -54,6 +54,11 @@ const getAllUsers: Selector<UserOrBot[]> = createSelector(
   ],
 );
 
+export const getAllUsersById: Selector<Map<number, UserOrBot>> = createSelector(
+  getAllUsers,
+  (allUsers = []) => new Map(allUsers.map(user => [user.user_id, user])),
+);
+
 /**
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
  *
