@@ -82,7 +82,6 @@
     "@babel/core": "^7.1.2",
     "babel-eslint": "^10.0.2",
     "babel-plugin-transform-remove-console": "^6.9.4",
-    "babel-preset-react-native": "^4.0.0",
     "deep-freeze": "^0.0.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
