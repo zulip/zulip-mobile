@@ -153,9 +153,6 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            manifestPlaceholders = [
-                    excludeSystemAlertWindowPermission: "false"
-            ]
         }
         release {
             minifyEnabled enableProguardInReleaseBuilds
@@ -165,9 +162,6 @@ android {
             } else {
                 signingConfig signingConfigs.debug
             }
-            manifestPlaceholders = [
-                    excludeSystemAlertWindowPermission: "true"
-            ]
         }
     }
     // applicationVariants are e.g. debug, release
