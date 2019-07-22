@@ -3,8 +3,8 @@
 import React, { PureComponent } from 'react';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { UserPresence, UserStatus, Dispatch } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import type { UserPresence, UserStatus, Dispatch, User } from '../types';
+import { connect } from '../react-redux';
 import { getPresence, getUserStatus } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
@@ -14,6 +14,7 @@ type Props = {
   presence: UserPresence,
   style: TextStyleProp,
   userStatus: UserStatus,
+  user: User,
 };
 
 class ActivityText extends PureComponent<Props> {
@@ -30,7 +31,7 @@ class ActivityText extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connect((state, props) => ({
   presence: getPresence(state)[props.user.email],
   userStatus: getUserStatus(state)[props.user.user_id],
 }))(ActivityText);
