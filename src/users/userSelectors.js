@@ -48,7 +48,7 @@ export const getAllUsersByEmail: Selector<Map<string, UserOrBot>> = createSelect
 /**
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
  *
- * See `getAllUsers`.
+ * See `getAllUsersById`, and `getAllUsers` for discussion.
  */
 export const getUsersById: Selector<Map<number, User>> = createSelector(
   getUsers,
@@ -58,7 +58,7 @@ export const getUsersById: Selector<Map<number, User>> = createSelector(
 /**
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
  *
- * See `getAllUsersByEmail`.
+ * See `getAllUsersByEmail`, and `getAllUsers` for discussion.
  */
 export const getUsersByEmail: Selector<Map<string, User>> = createSelector(
   getUsers,
