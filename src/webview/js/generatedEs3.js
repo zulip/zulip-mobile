@@ -44,7 +44,7 @@ var escapeHtml = function escapeHtml(text) {
 };
 
 var sendMessage = function sendMessage(msg) {
-  window.postMessage(JSON.stringify(msg), '*');
+  window.ReactNativeWebView.postMessage(JSON.stringify(msg));
 };
 
 window.onerror = function (message, source, line, column, error) {
@@ -435,7 +435,8 @@ var eventUpdateHandlers = {
   ready: handleUpdateEventReady,
   read: handleUpdateEventMessagesRead
 };
-document.addEventListener('message', function (e) {
+
+var handleMessageEvent = function handleMessageEvent(e) {
   scrollEventsDisabled = true;
   var decodedData = decodeURIComponent(escape(window.atob(e.data)));
   var updateEvents = JSON.parse(decodedData);
@@ -443,7 +444,13 @@ document.addEventListener('message', function (e) {
     eventUpdateHandlers[uevent.type](uevent);
   });
   scrollEventsDisabled = false;
-});
+};
+
+if (isIos) {
+  window.addEventListener('message', handleMessageEvent);
+} else {
+  document.addEventListener('message', handleMessageEvent);
+}
 
 var requireAttribute = function requireAttribute(e, name) {
   var value = e.getAttribute(name);

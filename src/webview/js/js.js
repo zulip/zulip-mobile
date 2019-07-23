@@ -92,7 +92,7 @@ const escapeHtml = (text: string): string => {
 };
 
 const sendMessage = (msg: MessageListEvent) => {
-  window.postMessage(JSON.stringify(msg), '*');
+  window.ReactNativeWebView.postMessage(JSON.stringify(msg));
 };
 
 window.onerror = (message, source, line, column, error) => {
@@ -577,7 +577,7 @@ const eventUpdateHandlers = {
   read: handleUpdateEventMessagesRead,
 };
 
-document.addEventListener('message', e => {
+const handleMessageEvent = e => {
   scrollEventsDisabled = true;
   // $FlowFixMe
   const decodedData = decodeURIComponent(escape(window.atob(e.data)));
@@ -587,7 +587,21 @@ document.addEventListener('message', e => {
     eventUpdateHandlers[uevent.type](uevent);
   });
   scrollEventsDisabled = false;
-});
+};
+
+/**
+ * after https://github.com/react-native-community/react-native-webview/commit/f3bdab5
+ * The message is now being posted to window rather than document for iOS.
+ * But on Android it is still on document
+ */
+
+// prettier-ignore
+// $FlowFixMe this variable is being added in the script
+if (isIos) { // eslint-disable-line no-undef
+  window.addEventListener('message', handleMessageEvent);
+} else {
+  document.addEventListener('message', handleMessageEvent);
+}
 
 /*
  *
