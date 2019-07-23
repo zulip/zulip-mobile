@@ -7,27 +7,6 @@ import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelecto
 import { getOwnEmail } from '../account/accountsSelectors';
 
 /**
- * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
- *
- * See `getAllUsers`.
- */
-export const getSortedUsers: Selector<User[]> = createSelector(
-  getUsers,
-  users =>
-    [...users].sort((x1, x2) =>
-      x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
-    ),
-);
-
-/** Excludes deactivated users.  See `getAllUsers` for discussion. */
-export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(
-  getUsers,
-  getCrossRealmBots,
-  (users = [], crossRealmBots = []) =>
-    new Map([...users, ...crossRealmBots].map(user => [user.email, user])),
-);
-
-/**
  * All users in this Zulip org (aka realm).
  *
  * In particular this includes:
@@ -60,6 +39,12 @@ export const getAllUsersById: Selector<Map<number, UserOrBot>> = createSelector(
   allUsers => new Map(allUsers.map(user => [user.user_id, user])),
 );
 
+/** See `getAllUsers` for discussion. */
+export const getAllUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(
+  getAllUsers,
+  allUsers => new Map(allUsers.map(user => [user.email, user])),
+);
+
 /**
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
  *
@@ -80,14 +65,18 @@ export const getUsersByEmail: Selector<Map<string, User>> = createSelector(
   (users = []) => new Map(users.map(user => [user.email, user])),
 );
 
-/** See `getAllUsers` for discussion. */
-export const getAllUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(
-  getAllUsers,
-  allUsers => new Map(allUsers.map(user => [user.email, user])),
+/**
+ * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
+ *
+ * See `getAllUsers`.
+ */
+export const getSortedUsers: Selector<User[]> = createSelector(
+  getUsers,
+  users =>
+    [...users].sort((x1, x2) =>
+      x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
+    ),
 );
-
-export const getSelfUserDetail = (state: GlobalState): User =>
-  getUsersByEmail(state).get(getOwnEmail(state)) || NULL_USER;
 
 /**
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
@@ -98,6 +87,17 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
   getUsers,
   getOwnEmail,
   (users, ownEmail) => users.filter(user => user.email !== ownEmail),
+);
+
+export const getSelfUserDetail = (state: GlobalState): User =>
+  getUsersByEmail(state).get(getOwnEmail(state)) || NULL_USER;
+
+/** Excludes deactivated users.  See `getAllUsers` for discussion. */
+export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(
+  getUsers,
+  getCrossRealmBots,
+  (users = [], crossRealmBots = []) =>
+    new Map([...users, ...crossRealmBots].map(user => [user.email, user])),
 );
 
 export const getAccountDetailsUserForEmail: Selector<UserOrBot, string> = createSelector(
