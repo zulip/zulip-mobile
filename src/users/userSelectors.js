@@ -54,9 +54,10 @@ const getAllUsers: Selector<UserOrBot[]> = createSelector(
   ],
 );
 
+/** See `getAllUsers` for discussion. */
 export const getAllUsersById: Selector<Map<number, UserOrBot>> = createSelector(
   getAllUsers,
-  (allUsers = []) => new Map(allUsers.map(user => [user.user_id, user])),
+  allUsers => new Map(allUsers.map(user => [user.user_id, user])),
 );
 
 /**
