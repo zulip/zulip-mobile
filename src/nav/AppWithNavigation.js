@@ -21,7 +21,6 @@ class AppWithNavigation extends PureComponent<Props> {
     const addListener = createReduxBoundAddListener('root');
 
     return (
-      // $FlowFixMe-56 flow-typed object type is incompatible with statics of React.Component
       <AppNavigator
         navigation={addNavigationHelpers({
           state: nav,
