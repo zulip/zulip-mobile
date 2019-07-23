@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { Platform } from 'react-native';
 import type { Auth } from '../../types';
 import smoothScroll from './smoothScroll.min';
 import matchesPolyfill from './matchesPolyfill';
@@ -13,7 +12,6 @@ ${smoothScroll}
 ${matchesPolyfill}
 window.enableWebViewErrorDisplay = ${config.enableWebViewErrorDisplay.toString()};
 document.addEventListener('DOMContentLoaded', function() {
-  var isIos = ${Platform.OS === 'ios' ? 'true' : 'false'};
   ${js}
   handleInitialLoad(${anchor}, ${JSON.stringify(auth)});
 });

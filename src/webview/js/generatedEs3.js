@@ -11,6 +11,8 @@
 export default `
 'use strict';
 
+var platformOS = window.navigator.userAgent.match(/iPhone|iPad|iPod/) ? 'ios' : 'android';
+
 function arrayFrom(arrayLike) {
   return Array.prototype.slice.call(arrayLike);
 }
@@ -446,7 +448,7 @@ var handleMessageEvent = function handleMessageEvent(e) {
   scrollEventsDisabled = false;
 };
 
-if (isIos) {
+if (platformOS === 'ios') {
   window.addEventListener('message', handleMessageEvent);
 } else {
   document.addEventListener('message', handleMessageEvent);

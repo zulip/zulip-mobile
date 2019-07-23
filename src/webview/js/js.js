@@ -37,6 +37,9 @@ import type { MessageListEvent } from '../webViewEventHandlers';
  *     ancient, even when their Android version is.
  */
 
+/** Like RN's `Platform.OS`. */
+const platformOS = window.navigator.userAgent.match(/iPhone|iPad|iPod/) ? 'ios' : 'android';
+
 /**
  * Convert an array-like object to an actual array.
  *
@@ -589,15 +592,9 @@ const handleMessageEvent = e => {
   scrollEventsDisabled = false;
 };
 
-/**
- * after https://github.com/react-native-community/react-native-webview/commit/f3bdab5
- * The message is now being posted to window rather than document for iOS.
- * But on Android it is still on document
- */
-
-// prettier-ignore
-// $FlowFixMe this variable is being added in the script
-if (isIos) { // eslint-disable-line no-undef
+// Since its version 5.x, the `react-native-webview` library dispatches our
+// `message` events at `window` on iOS but `document` on Android.
+if (platformOS === 'ios') {
   window.addEventListener('message', handleMessageEvent);
 } else {
   document.addEventListener('message', handleMessageEvent);
