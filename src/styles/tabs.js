@@ -7,8 +7,8 @@ type Props = {|
 |};
 
 export default ({ showLabel, showIcon }: Props) => ({
-  swipeEnabled: true,
-  animationEnabled: true,
+  swipeEnabled: false,
+  animationEnabled: false,
   tabBarOptions: {
     showLabel,
     showIcon,
