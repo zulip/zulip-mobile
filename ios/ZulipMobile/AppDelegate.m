@@ -9,6 +9,7 @@
 
 #import "AppDelegate.h"
 
+#import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #if __has_include(<React/RNSentry.h>)
@@ -27,21 +28,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  NSURL *jsCodeLocation;
-
-  // The template upstream has some `#if DEBUG` goo around this, to
-  // use the `main.jsbundle` resource instead when in release mode.
-  // Skip the goo, because RCTBundleURLProvider is already smart enough
-  // to do exactly that.
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-
   RCTSetLogThreshold(RCTLogLevelError);
 
-  // Set up React Native root view
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                       moduleName:@"ZulipMobile"
-                                               initialProperties:nil
-                                                   launchOptions:launchOptions];
+                                               initialProperties:nil];
+
   [RNSentry installWithRootView:rootView];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
@@ -52,6 +45,15 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
+}
+
+- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
+{
+  // The template upstream has some `#if DEBUG` goo around this, to
+  // use the `main.jsbundle` resource instead when in release mode.
+  // Skip the goo, because RCTBundleURLProvider is already smart enough
+  // to do exactly that.
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
