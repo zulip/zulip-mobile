@@ -14,8 +14,8 @@ import type { MessageListEvent } from '../webViewEventHandlers';
 /*
  * Supported platforms:
  *
- * * We support iOS 9.  So this code needs to work on Mobile Safari 9.
- *   Graceful degradation is acceptable below iOS 10 / Mobile Safari 10.
+ * * We support iOS 10.  So this code needs to work on Mobile Safari 10.
+ *   Graceful degradation is acceptable below iOS 12 / Mobile Safari 12.
  *
  * * On Android, core functionality needs to work on Chrome 44 (conveniently
  *   available for testing in a stock Android 6.0 Marshmallow image.)
