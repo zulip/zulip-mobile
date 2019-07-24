@@ -22,6 +22,9 @@ We number our versions like so:
 
 ## Unreleased
 
+
+## 25.8.122 (2019-07-24)
+
 ### Highlights for users
 
 Bugfixes and other improvements for your Zulip experience.
