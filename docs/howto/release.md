@@ -369,6 +369,12 @@ keyPassword=*****
 * You'll need the private key for the distribution certificate.  To
   install that:
 
+  * (Maybe skip all the below steps, and instead follow the "Create
+    certificate" troubleshooting entry? ... Possibly not even that;
+    now that `-allowProvisioningUpdates` is in `tools/ios`, it might
+    be enough just to sign in to your Apple developer account, above,
+    except when the cert has expired.)
+
   * Get an export from someone who has the key.  Give it a filename
     ending in `.p12`.
 
@@ -381,6 +387,36 @@ keyPassword=*****
 
 
 ## Troubleshooting
+
+### iOS upload error "Create certificate"
+
+You might get an error like this from `tools/ios upload`:
+```
+error: exportArchive: Create certificate
+
+Error Domain=IDEProvisioningErrorDomain Code=18 "Create certificate" UserInfo={IDEProvisioningError_UserInfoKey_IDEProvisioningUserAction=<IDEProvisioningCreateTeamOwnedCertificateUserAction: 0x7fedcba98700>, NSLocalizedDescription=Create certificate, NSLocalizedRecoverySuggestion=Create a new iOS Distribution certificate for your team.}
+
+error: exportArchive: No profiles for 'org.zulip.Zulip' were found
+
+Error Domain=IDEProfileLocatorErrorDomain Code=1 "No profiles for 'org.zulip.Zulip' were found" UserInfo={NSLocalizedDescription=No profiles for 'org.zulip.Zulip' were found, NSLocalizedRecoverySuggestion=Xcode couldn't find any iOS App Store provisioning profiles matching 'org.zulip.Zulip'.}
+
+** EXPORT FAILED **
+```
+
+To resolve this, follow that first suggestion: "Create a new iOS
+Distribution certificate for your team."
+
+To do that, at least as of Xcode 10.3:
+* Go to Xcode -> Preferences -> Accounts.
+* With your Apple ID selected in the left pane, select
+  "Kandra Labs, Inc." (that's the "your team" part) on the right.
+* Hit "Manage Certificates...".  You might see an entry under
+  "iOS Development Certificates" -- but probably there's no heading
+  "iOS Distribution Certificates".
+* Hit the "add" icon, and choose "iOS Distribution".
+  Now such a cert should appear; and now `tools/ios upload`
+  should work again.
+
 
 ### App Store Connect webapp is buggy and slow
 
