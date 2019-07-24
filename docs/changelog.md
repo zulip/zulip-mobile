@@ -22,8 +22,21 @@ We number our versions like so:
 
 ## Unreleased
 
+### Highlights for users
+
+Bugfixes and other improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+* Upgrades to lots of dependencies, and other changes in preparation
+  for the RN v0.59 upgrade #3399.
+
 
 ## 25.7.121 (2019-07-19)
+
+(This was a beta-only, and Android-only, release.)
+
 
 ### Highlights for users
 
