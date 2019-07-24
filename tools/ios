@@ -34,6 +34,7 @@ do_build() {
     yarn
     echo >&2
 
+    mkdir -p build
     logfile="$(mktemp build/log.XXXX)"
     echo >&2 "Logs going to: ${logfile}"
 
