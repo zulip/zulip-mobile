@@ -187,8 +187,10 @@ class MessageList extends Component<Props> {
         }}
         style={contextStyles.webview}
         ref={webview => {
+          // $FlowFixMe WebView has a libdef now!
           this.webview = webview;
         }}
+        // $FlowFixMe WebView has a libdef now!
         onMessage={this.handleMessage}
         onError={this.handleError}
       />
