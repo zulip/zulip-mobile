@@ -29,6 +29,10 @@
 {
   NSURL *jsCodeLocation;
 
+  // The template upstream has some `#if DEBUG` goo around this, to
+  // use the `main.jsbundle` resource instead when in release mode.
+  // Skip the goo, because RCTBundleURLProvider is already smart enough
+  // to do exactly that.
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
   RCTSetLogThreshold(RCTLogLevelError);
