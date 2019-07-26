@@ -20,7 +20,25 @@ We number our versions like so:
   * B is reset to zero on "a major release", and otherwise incremented.
 
 
+#### "Resolved issues"
+
+The list of "Resolved issues" on each release is intended to be
+* comprehensive,
+* as a list of issues we believe were resolved by changes in that
+  release -- a bug fixed, feature implemented, or desired change made.
+
+It doesn't include
+* duplicate issues
+* issues we determined had been fixed, but don't know when
+* issues we closed because we decided not to make the requested
+  change, or couldn't make use of the bug report
+
+
 ## Unreleased
+
+### Details
+
+Resolved issues: #3399, #3323, #3176
 
 
 ## 25.8.122 (2019-07-24)
@@ -35,6 +53,10 @@ Bugfixes and other improvements for your Zulip experience.
 * Upgrades to lots of dependencies, and other changes in preparation
   for the RN v0.59 upgrade #3399.
 
+* Dropped iOS 9 support; now iOS 10.3+.
+
+* Resolved issues: #3106, #3565, #3550, #3518
+
 
 ## 25.7.121 (2019-07-19)
 
@@ -46,6 +68,11 @@ Bugfixes and other improvements for your Zulip experience.
 Bugfixes and other improvements for your Zulip experience.
 
 
+### Details
+
+Resolved issues: #3553, #3539, #3196
+
+
 ## 25.6.120 (2019-06-18)
 
 ### Highlights for users
@@ -54,6 +81,11 @@ Bugfixes and other improvements for your Zulip experience.
 
 Plus, like every release, many other improvements for your Zulip
 experience.
+
+
+## Details
+
+Resolved issues: #3264, #3526, #3516
 
 
 ## 25.5.119 (2019-06-13)
@@ -79,6 +111,11 @@ Zulip experience.
 
 Plus, like every release, many other improvements for your Zulip
 experience.
+
+
+### Details
+
+Resolved issues: #3375
 
 
 ## 25.3.117 (2019-06-06)
