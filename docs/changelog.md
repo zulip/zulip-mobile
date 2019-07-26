@@ -58,7 +58,7 @@ Bugfixes and other improvements for your Zulip experience.
 * Resolved issues: #3106, #3565, #3550, #3518
 
 
-## 25.7.121 (2019-07-19)
+## (beta) 25.7.121 (2019-07-19)
 
 (This was a beta-only, and Android-only, release.)
 
@@ -88,7 +88,7 @@ experience.
 Resolved issues: #3264, #3526, #3516
 
 
-## 25.5.119 (2019-06-13)
+## (beta) 25.5.119 (2019-06-13)
 
 ### Highlights for users
 
@@ -101,7 +101,7 @@ Like every release, it comes with many other improvements for your
 Zulip experience.
 
 
-## 25.4.118 (2019-06-11)
+## (beta) 25.4.118 (2019-06-11)
 
 (This was a beta-only release.)
 
@@ -128,7 +128,7 @@ Incremental release following 25.2.116, with several bugfixes.
 Incremental release following 25.0.114, with several bugfixes.
 
 
-## 25.1.115 (2019-06-04)
+## (alpha) 25.1.115 (2019-06-04)
 
 Alpha release; no release notes.  See Git log for detailed changes.
 
