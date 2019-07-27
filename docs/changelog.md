@@ -36,12 +36,26 @@ It doesn't include
 
 ## Unreleased
 
-### Details
 
-Resolved issues: #3399, #3323, #3176
+## 26.0.123 (2019-07-26)
+
+### Highlights for users (since 25.6.120)
+
+* Upgrades across most of the third-party software we use to help
+  make the app.
+
+Plus, like every release, many other improvements for your Zulip
+experience.
 
 
-## 25.8.122 (2019-07-24)
+### Highlights for developers
+
+* Upgraded React Native to v0.59! (#3399)
+
+* Resolved issues: #3399, #3323, #3176
+
+
+## (beta) 25.8.122 (2019-07-24)
 
 ### Highlights for users
 
