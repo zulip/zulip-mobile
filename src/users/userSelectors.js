@@ -111,17 +111,14 @@ export const getOwnUserId = (state: GlobalState): number => getOwnUser(state).us
  *
  * Throws if we have no such information.
  */
-export const getOwnUser: Selector<User> = createSelector(
-  getUsersByEmail,
-  getOwnEmail,
-  (usersByEmail, ownEmail) => {
-    const ownUser = usersByEmail.get(ownEmail);
-    if (ownUser === undefined) {
-      throw new Error('Have ownEmail, but not found in user data');
-    }
-    return ownUser;
-  },
-);
+export const getOwnUser = (state: GlobalState): User => {
+  const ownEmail = getOwnEmail(state);
+  const ownUser = getUsersByEmail(state).get(ownEmail);
+  if (ownUser === undefined) {
+    throw new Error('Have ownEmail, but not found in user data');
+  }
+  return ownUser;
+};
 
 /**
  * DEPRECATED; don't add new uses.  Generally, use `getOwnUser` instead.
