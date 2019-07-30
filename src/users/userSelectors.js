@@ -90,6 +90,19 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
 );
 
 /**
+ * The user's own user ID in the active account.
+ *
+ * Throws if we have no data from the server.
+ *
+ * See also `getOwnEmail` and `getOwnUser`.
+ */
+// TODO get this directly from initial data, like we do `getOwnEmail`;
+//   then we can switch `getOwnUser` and other uses of `getOwnEmail` to use
+//   user IDs instead!
+// eslint-disable-next-line no-use-before-define
+export const getOwnUserId = (state: GlobalState): number => getOwnUser(state).user_id;
+
+/**
  * The person using the app, as represented by a `User` object.
  *
  * This is the server's information about the active, logged-in account, in
