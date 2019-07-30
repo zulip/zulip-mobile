@@ -89,18 +89,32 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
   (users, ownEmail) => users.filter(user => user.email !== ownEmail),
 );
 
+/**
+ * The person using the app, as represented by a `User` object.
+ *
+ * This is the server's information about the active, logged-in account, in
+ * the same form as the information we get from the server about everyone
+ * else in the organization.
+ *
+ * Throws if we have no such information.
+ */
 export const getOwnUser: Selector<User> = createSelector(
   getUsersByEmail,
   getOwnEmail,
   (usersByEmail, ownEmail) => {
     const ownUser = usersByEmail.get(ownEmail);
     if (ownUser === undefined) {
-      throw new Error('Active user not found');
+      throw new Error('Have ownEmail, but not found in user data');
     }
     return ownUser;
   },
 );
 
+/**
+ * DEPRECATED; don't add new uses.  Generally, use `getOwnUser` instead.
+ *
+ * For discussion, see `nullObjects.js`.
+ */
 export const getSelfUserDetail = (state: GlobalState): User =>
   getUsersByEmail(state).get(getOwnEmail(state)) || NULL_USER;
 
