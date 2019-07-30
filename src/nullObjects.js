@@ -8,9 +8,25 @@ export const NULL_ARRAY = Object.freeze([]);
 /*
  * All the below objects are DEPRECATED; rather than using one, choose the
  * appropriate fallback behavior explicitly.  See 25125db94 for more
- * discussion, and 25125db94^..e22596c24 for a variety of examples of how.
+ * discussion.
  *
  * Further changes to eliminate the remaining uses of these would be great.
+ *
+ * For examples of explicit fallback behavior, see:
+ *
+ *  * Selector `getActiveAccount` -- throw an error.  Good when missing data
+ *    is a bug and the caller can't reasonably do without it.  This is the
+ *    right thing for most callers of most selectors.
+ *
+ *  * Selectors `tryGetActiveAccount` and `tryGetAuth` -- return undefined,
+ *    and reflect that in the type.  Caller then gets to decide what to do;
+ *    see callsites of `tryGetAuth`.
+ *
+ *  * Commit 7829bef43 -- simple cases showing a couple of different
+ *    fallbacks.
+ *
+ *  * Commit e22596c24 -- throwing an error, in a case that required some
+ *    more work to decide that was the right thing.
  */
 
 /** DEPRECATED; don't add new uses.  See block comment above definition. */
