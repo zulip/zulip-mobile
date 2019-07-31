@@ -13,11 +13,11 @@ const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
     .map(hex => String.fromCodePoint(parseInt(hex, 16)))
     .join('');
 
-export const nameToEmojiMap = objectFromEntries<string>(
+export const nameToEmojiMap = objectFromEntries<string, string>(
   unicodeEmojiNames.map(name => [name, parseUnicodeEmojiCode(unicodeCodeByName[name])]),
 );
 
-export const codeToEmojiMap = objectFromEntries<string>(
+export const codeToEmojiMap = objectFromEntries<string, string>(
   unicodeEmojiNames.map(name => {
     const code = unicodeCodeByName[name];
     const displayCode = override[code] || code;
