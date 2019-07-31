@@ -33,7 +33,7 @@ const messageFetchComplete = (state, action) => {
 
 const eventNewMessage = (state, action) => {
   let stateChange = false;
-  const newState = {};
+  const newState: NarrowsState = {};
   Object.keys(state).forEach(key => {
     const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
     const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
@@ -51,7 +51,7 @@ const eventNewMessage = (state, action) => {
 
 const eventMessageDelete = (state, action) => {
   let stateChange = false;
-  const newState = {};
+  const newState: NarrowsState = {};
   Object.keys(state).forEach(key => {
     newState[key] = state[key].filter(id => id !== action.messageId);
     stateChange = stateChange || newState[key].length < state[key].length;
