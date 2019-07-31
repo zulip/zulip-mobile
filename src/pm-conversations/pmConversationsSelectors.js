@@ -25,7 +25,8 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
       msgId: msg.id,
     }));
 
-    const groupedRecipients = recipients.reduce((uniqueMap, recipient) => {
+    const uniqueMap = new Map();
+    recipients.forEach(recipient => {
       const prev = uniqueMap.get(recipient.emails);
       if (!prev || recipient.msgId > prev.msgId) {
         uniqueMap.set(recipient.emails, {
@@ -35,8 +36,8 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
           msgId: recipient.msgId,
         });
       }
-      return uniqueMap;
-    }, new Map());
+    });
+    const groupedRecipients = uniqueMap;
 
     const sortedByMostRecent = Array.from(groupedRecipients.values()).sort(
       (a, b) => +b.msgId - +a.msgId,
