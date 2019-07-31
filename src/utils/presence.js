@@ -8,24 +8,14 @@ import { ensureUnreachable } from '../types';
 
 /** The relation `>=`, where `active` > `idle` > `offline`. */
 const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {
+  /* prettier-ignore */ /* eslint-disable no-multi-spaces */
   switch (a) {
-    case 'active':
-      return true;
-    case 'idle':
-      if (b !== 'active') {
-        return true;
-      }
-      break;
-    case 'offline':
-      if (b !== 'active' && b !== 'idle') {
-        return true;
-      }
-      break;
+    case 'active':  return true;
+    case 'idle':    return b !== 'active';
+    case 'offline': return b !== 'active' && b !== 'idle';
     default:
-      ensureUnreachable(a);
-      return false;
+      ensureUnreachable(a); return false;
   }
-  return false;
 };
 
 const OFFLINE_THRESHOLD_SECS = 140;
