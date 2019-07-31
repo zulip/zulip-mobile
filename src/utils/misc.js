@@ -28,10 +28,7 @@ export const initialsFromString = (name: string): string =>
   (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');
 
 export function groupItemsById<T: { +id: number }>(items: T[]): { [id: number]: T } {
-  return items.reduce((itemsById, item) => {
-    itemsById[item.id] = item;
-    return itemsById;
-  }, {});
+  return objectFromEntries(items.map(item => [item.id, item]));
 }
 
 export const isValidEmailFormat = (email: string = ''): boolean => /\S+@\S+\.\S+/.test(email);
