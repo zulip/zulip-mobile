@@ -9,6 +9,7 @@ import {
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_REALM_FILTERS,
 } from '../actionConstants';
+import { objectFromEntries } from '../jsBackport';
 
 // Initial state
 const initialState = {
@@ -39,13 +40,8 @@ const fakeBlankState = {
   email: '',
 };
 
-const convertRealmEmoji = (data): RealmEmojiById => {
-  const emojis = {};
-  Object.keys(data).forEach(id => {
-    emojis[id] = { ...data[id], code: id.toString() };
-  });
-  return emojis;
-};
+const convertRealmEmoji = (data): RealmEmojiById =>
+  objectFromEntries(Object.keys(data).map(id => [id, { ...data[id], code: id.toString() }]));
 
 export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {
