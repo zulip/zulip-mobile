@@ -12,17 +12,23 @@ const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
     .map(hex => String.fromCodePoint(parseInt(hex, 16)))
     .join('');
 
-export const nameToEmojiMap = unicodeEmojiNames.reduce((obj, name) => {
-  obj[name] = parseUnicodeEmojiCode(unicodeCodeByName[name]);
+export const nameToEmojiMap = (() => {
+  const obj = ({}: { [string]: string });
+  unicodeEmojiNames.forEach(name => {
+    obj[name] = parseUnicodeEmojiCode(unicodeCodeByName[name]);
+  });
   return obj;
-}, ({}: { [string]: string }));
+})();
 
-export const codeToEmojiMap = unicodeEmojiNames.reduce((obj, name) => {
-  const code = unicodeCodeByName[name];
-  const displayCode = override[code] || code;
-  obj[code] = parseUnicodeEmojiCode(displayCode);
+export const codeToEmojiMap = (() => {
+  const obj = ({}: { [string]: string });
+  unicodeEmojiNames.forEach(name => {
+    const code = unicodeCodeByName[name];
+    const displayCode = override[code] || code;
+    obj[code] = parseUnicodeEmojiCode(displayCode);
+  });
   return obj;
-}, ({}: { [string]: string }));
+})();
 
 export const getFilteredEmojiNames = (
   query: string,
