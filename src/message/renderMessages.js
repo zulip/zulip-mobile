@@ -8,9 +8,9 @@ export default (
   messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
 ): RenderedSectionDescriptor[] => {
-  let prevItem;
   const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
 
+  let prevItem;
   const sections = [{ key: 0, data: [], message: {} }];
   messages.forEach(item => {
     const diffDays =
