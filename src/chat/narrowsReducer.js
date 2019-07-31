@@ -33,7 +33,8 @@ const messageFetchComplete = (state, action) => {
 
 const eventNewMessage = (state, action) => {
   let stateChange = false;
-  const newState = Object.keys(state).reduce((msg, key) => {
+  const msg = {};
+  Object.keys(state).forEach(key => {
     const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
     const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
     const messageDoesNotExist = state[key].find(id => action.message.id === id) === undefined;
@@ -44,18 +45,19 @@ const eventNewMessage = (state, action) => {
     } else {
       msg[key] = state[key];
     }
-    return msg;
-  }, {});
+  });
+  const newState = msg;
   return stateChange ? newState : state;
 };
 
 const eventMessageDelete = (state, action) => {
   let stateChange = false;
-  const newState = Object.keys(state).reduce((updatedState, key) => {
+  const updatedState = {};
+  Object.keys(state).forEach(key => {
     updatedState[key] = state[key].filter(id => id !== action.messageId);
     stateChange = stateChange || updatedState[key].length < state[key].length;
-    return updatedState;
-  }, {});
+  });
+  const newState = updatedState;
   return stateChange ? newState : state;
 };
 
