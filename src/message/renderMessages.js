@@ -11,44 +11,40 @@ export default (
   let prevItem;
   const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
 
-  return messages.reduce(
-    (sections, item) => {
-      const diffDays =
-        prevItem
-        && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
-      if (!prevItem || diffDays) {
-        sections[sections.length - 1].data.push({
-          key: `time${item.timestamp}`,
-          type: 'time',
-          timestamp: item.timestamp,
-          firstMessage: item,
-        });
-      }
-      const diffRecipient = !isSameRecipient(prevItem, item);
-      if (showHeader && diffRecipient) {
-        sections.push({
-          key: `header${item.id}`,
-          message: item,
-          data: [],
-        });
-      }
-      const shouldGroupWithPrev =
-        !diffRecipient
-        && !diffDays
-        && prevItem
-        && prevItem.sender_full_name === item.sender_full_name;
-
+  const sections = [{ key: 0, data: [], message: {} }];
+  messages.forEach(item => {
+    const diffDays =
+      prevItem && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
+    if (!prevItem || diffDays) {
       sections[sections.length - 1].data.push({
-        key: item.id,
-        type: 'message',
-        isBrief: shouldGroupWithPrev,
-        message: item,
+        key: `time${item.timestamp}`,
+        type: 'time',
+        timestamp: item.timestamp,
+        firstMessage: item,
       });
+    }
+    const diffRecipient = !isSameRecipient(prevItem, item);
+    if (showHeader && diffRecipient) {
+      sections.push({
+        key: `header${item.id}`,
+        message: item,
+        data: [],
+      });
+    }
+    const shouldGroupWithPrev =
+      !diffRecipient
+      && !diffDays
+      && prevItem
+      && prevItem.sender_full_name === item.sender_full_name;
 
-      prevItem = item;
+    sections[sections.length - 1].data.push({
+      key: item.id,
+      type: 'message',
+      isBrief: shouldGroupWithPrev,
+      message: item,
+    });
 
-      return sections;
-    },
-    [{ key: 0, data: [], message: {} }],
-  );
+    prevItem = item;
+  });
+  return sections;
 };
