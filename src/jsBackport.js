@@ -5,7 +5,7 @@
  * objects that belong to the standard library, we give our versions their
  * own distinct names.
  *
- * @flow strict-local
+ * @flow strict
  */
 
 /**

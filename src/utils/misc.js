@@ -1,5 +1,7 @@
 /* @flow strict */
 
+import { objectFromEntries } from '../jsBackport';
+
 export const caseInsensitiveCompareFunc = (a: string, b: string): number =>
   a.toLowerCase().localeCompare(b.toLowerCase());
 
@@ -8,16 +10,18 @@ export const numberWithSeparators = (value: number | string): string =>
 
 export function deeperMerge<K, V>(obj1: { [K]: V }, obj2: { [K]: V }): { [K]: V } {
   const mergedKeys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)]));
-  return mergedKeys.reduce((newObj, key) => {
-    /* prettier-ignore */ // Prettier bug on nested ternary
-    newObj[key] =
-      obj1[key] === undefined
-        ? obj2[key]
-        : obj2[key] === undefined
-          ? obj1[key]
-          : { ...obj1[key], ...obj2[key] };
-    return newObj;
-  }, ({}: { [K]: V }));
+  return objectFromEntries(
+    mergedKeys.map(key =>
+      // Prettier bug on nested ternary
+      /* prettier-ignore */
+      [key,
+       obj1[key] === undefined
+         ? obj2[key]
+         : obj2[key] === undefined
+           ? obj1[key]
+           : { ...obj1[key], ...obj2[key] }],
+    ),
+  );
 }
 
 export const initialsFromString = (name: string): string =>
