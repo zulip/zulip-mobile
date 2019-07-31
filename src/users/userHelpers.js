@@ -6,10 +6,14 @@ import { ensureUnreachable } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
+/* VS Code's highlighter misparses this if formatted normally, so we added some newlines. */
+/* prettier-ignore */
 export const groupUsersByStatus = (
   users: User[],
   presences: PresenceState,
-): {| active: User[], idle: User[], offline: User[], unavailable: User[] |} => {
+): {|
+  active: User[], idle: User[], offline: User[], unavailable: User[]
+|} => {
   const groupedUsers = { active: [], idle: [], offline: [], unavailable: [] };
   users.forEach(user => {
     const status = statusFromPresence(presences[user.email]);
