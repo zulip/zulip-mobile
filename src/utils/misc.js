@@ -7,7 +7,8 @@ export const numberWithSeparators = (value: number | string): string =>
   value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 export function deeperMerge<K, V>(obj1: { [K]: V }, obj2: { [K]: V }): { [K]: V } {
-  return Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).reduce((newObj, key) => {
+  const mergedKeys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)]));
+  return mergedKeys.reduce((newObj, key) => {
     /* prettier-ignore */ // Prettier bug on nested ternary
     newObj[key] =
       obj1[key] === undefined
