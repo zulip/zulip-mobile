@@ -23,9 +23,6 @@ export type ImageEmojiType = $ReadOnly<{|
   code: string,
   name: string,
   source_url: string,
-  // This prevents accidentally using this type as a map.
-  // See https://github.com/facebook/flow/issues/4257#issuecomment-321951793
-  [empty]: mixed,
 |}>;
 
 export type RealmEmojiById = $ReadOnly<{
