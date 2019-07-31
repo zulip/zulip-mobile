@@ -1,13 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 
 import type { User } from '../types';
 import AvatarItem from './AvatarItem';
-
-const styles = StyleSheet.create({
-  list: {},
-});
 
 type Props = {|
   users: User[],
@@ -21,7 +17,6 @@ export default class AvatarList extends PureComponent<Props> {
 
     return (
       <FlatList
-        style={styles.list}
         horizontal
         showsHorizontalScrollIndicator={false}
         initialNumToRender={20}
