@@ -25,29 +25,35 @@ export const getAllImageEmojiById: Selector<RealmEmojiById> = createSelector(
 
 export const getActiveImageEmojiById: Selector<RealmEmojiById> = createSelector(
   getAllImageEmojiById,
-  emojis =>
-    Object.keys(emojis)
-      .filter(id => !emojis[id].deactivated)
-      .reduce((result, id) => {
+  emojis => {
+    const result = {};
+    Object.keys(emojis).forEach(id => {
+      if (!emojis[id].deactivated) {
         result[id] = emojis[id];
-        return result;
-      }, {}),
+      }
+    });
+    return result;
+  },
 );
 
 export const getAllImageEmojiByName: Selector<{ [string]: ImageEmojiType }> = createSelector(
   getAllImageEmojiById,
-  emojis =>
-    Object.keys(emojis).reduce((result, id) => {
+  emojis => {
+    const result = {};
+    Object.keys(emojis).forEach(id => {
       result[emojis[id].name] = emojis[id];
-      return result;
-    }, {}),
+    });
+    return result;
+  },
 );
 
 export const getActiveImageEmojiByName: Selector<{ [string]: ImageEmojiType }> = createSelector(
   getActiveImageEmojiById,
-  emojis =>
-    Object.keys(emojis).reduce((result, id) => {
+  emojis => {
+    const result = {};
+    Object.keys(emojis).forEach(id => {
       result[emojis[id].name] = emojis[id];
-      return result;
-    }, {}),
+    });
+    return result;
+  },
 );
