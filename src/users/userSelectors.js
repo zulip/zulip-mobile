@@ -91,9 +91,11 @@ export const getSortedUsers: Selector<User[]> = createSelector(
 export const getOwnUserId = (state: GlobalState): number => getOwnUser(state).user_id;
 
 /**
- * The user's own email in the active account; throws if none.
+ * The user's own email in the active account.
  *
- * See also `getOwnUser` to get a corresponding `User` object.
+ * Throws if we have no data from the server.
+ *
+ * See also `getOwnUserId` and `getOwnUser`.
  */
 export const getOwnEmail = (state: GlobalState): string => {
   const { email } = state.realm;
@@ -111,6 +113,8 @@ export const getOwnEmail = (state: GlobalState): string => {
  * else in the organization.
  *
  * Throws if we have no such information.
+ *
+ * See also `getOwnUserId` and `getOwnEmail`.
  */
 export const getOwnUser = (state: GlobalState): User => {
   const ownEmail = getOwnEmail(state);
