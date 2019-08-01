@@ -84,11 +84,15 @@ export const getSortedUsers: Selector<User[]> = createSelector(
  *
  * See also `getOwnEmail` and `getOwnUser`.
  */
-// TODO get this directly from initial data, like we do `getOwnEmail`;
-//   then we can switch `getOwnUser` and other uses of `getOwnEmail` to use
+//   TODO  we can switch `getOwnUser` and other uses of `getOwnEmail` to use
 //   user IDs instead!
-// eslint-disable-next-line no-use-before-define
-export const getOwnUserId = (state: GlobalState): number => getOwnUser(state).user_id;
+export const getOwnUserId = (state: GlobalState): number => {
+  const { user_id } = state.realm;
+  if (user_id === undefined) {
+    throw new Error('No server data found');
+  }
+  return user_id;
+};
 
 /**
  * The user's own email in the active account.
