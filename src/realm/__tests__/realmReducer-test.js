@@ -22,6 +22,7 @@ describe('realmReducer', () => {
         canCreateStreams: true,
         crossRealmBots: [],
         email: '',
+        user_id: 0,
         isAdmin: false,
         twentyFourHourTime: false,
         emoji: {},

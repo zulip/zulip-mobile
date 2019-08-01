@@ -16,6 +16,7 @@ const initialState = {
   canCreateStreams: true,
   crossRealmBots: [],
   email: undefined,
+  user_id: undefined,
   twentyFourHourTime: false,
   emoji: {},
   filters: [],
@@ -38,6 +39,7 @@ const initialState = {
 const fakeBlankState = {
   ...initialState,
   email: '',
+  user_id: 0,
 };
 
 const convertRealmEmoji = (data): RealmEmojiById =>
@@ -56,6 +58,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         canCreateStreams: action.data.can_create_streams,
         crossRealmBots: action.data.cross_realm_bots,
         email: action.data.email,
+        user_id: action.data.user_id,
         emoji: convertRealmEmoji(action.data.realm_emoji),
         filters: action.data.realm_filters,
         isAdmin: action.data.is_admin,

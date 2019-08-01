@@ -226,6 +226,7 @@ export type RealmState = {|
   emoji: RealmEmojiById,
 
   email: string | void,
+  user_id: number | void,
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
   isAdmin: boolean,
