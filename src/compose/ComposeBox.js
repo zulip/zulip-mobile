@@ -46,7 +46,7 @@ import {
 import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
-import { getOwnEmail } from '../account/accountsSelectors';
+import { getOwnEmail } from '../users/userSelectors';
 
 type SelectorProps = {|
   auth: Auth,

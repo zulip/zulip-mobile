@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { Message, PmConversationData, Selector } from '../types';
 import { getPrivateMessages } from '../message/messageSelectors';
-import { getOwnEmail } from '../account/accountsSelectors';
+import { getOwnEmail } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
 import { normalizeRecipientsSansMe, getRecipientsIds } from '../utils/recipient';
 

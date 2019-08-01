@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import type { GlobalState, UserOrBot, Selector, User } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
-import { getOwnEmail } from '../account/accountsSelectors';
 
 /**
  * All users in this Zulip org (aka realm).
@@ -79,17 +78,6 @@ export const getSortedUsers: Selector<User[]> = createSelector(
 );
 
 /**
- * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
- *
- * See `getAllUsers`.
- */
-export const getUsersSansMe: Selector<User[]> = createSelector(
-  getUsers,
-  getOwnEmail,
-  (users, ownEmail) => users.filter(user => user.email !== ownEmail),
-);
-
-/**
  * The user's own user ID in the active account.
  *
  * Throws if we have no data from the server.
@@ -101,6 +89,19 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
 //   user IDs instead!
 // eslint-disable-next-line no-use-before-define
 export const getOwnUserId = (state: GlobalState): number => getOwnUser(state).user_id;
+
+/**
+ * The user's own email in the active account; throws if none.
+ *
+ * See also `getOwnUser` to get a corresponding `User` object.
+ */
+export const getOwnEmail = (state: GlobalState): string => {
+  const { email } = state.realm;
+  if (email === undefined) {
+    throw new Error('No server data found');
+  }
+  return email;
+};
 
 /**
  * The person using the app, as represented by a `User` object.
@@ -127,6 +128,17 @@ export const getOwnUser = (state: GlobalState): User => {
  */
 export const getSelfUserDetail = (state: GlobalState): User =>
   getUsersByEmail(state).get(getOwnEmail(state)) || NULL_USER;
+
+/**
+ * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
+ *
+ * See `getAllUsers`.
+ */
+export const getUsersSansMe: Selector<User[]> = createSelector(
+  getUsers,
+  getOwnEmail,
+  (users, ownEmail) => users.filter(user => user.email !== ownEmail),
+);
 
 /** Excludes deactivated users.  See `getAllUsers` for discussion. */
 export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(

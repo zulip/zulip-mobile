@@ -11,7 +11,7 @@ import {
   getUnreadHuddles,
   getUnreadMentions,
 } from '../directSelectors';
-import { getOwnEmail } from '../account/accountsSelectors';
+import { getOwnEmail, getAllUsersByEmail } from '../users/userSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { isTopicMuted } from '../utils/message';
 import {
@@ -22,7 +22,6 @@ import {
   isPrivateNarrow,
 } from '../utils/narrow';
 import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
-import { getAllUsersByEmail } from '../users/userSelectors';
 
 export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
   getUnreadStreams,
