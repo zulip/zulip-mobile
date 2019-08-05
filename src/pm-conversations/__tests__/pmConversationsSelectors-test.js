@@ -91,28 +91,24 @@ describe('getRecentConversations', () => {
         ids: '0',
         recipients: 'me@example.com',
         msgId: 4,
-        timestamp: 0,
         unread: 1,
       },
       {
         ids: '1',
         recipients: 'john@example.com',
         msgId: 3,
-        timestamp: 0,
         unread: 2,
       },
       {
         ids: '2',
         recipients: 'mark@example.com',
         msgId: 2,
-        timestamp: 0,
         unread: 1,
       },
       {
         ids: '0,1,2',
         recipients: 'john@example.com,mark@example.com',
         msgId: 0,
-        timestamp: 0,
         unread: 1,
       },
     ];
@@ -135,7 +131,6 @@ describe('getRecentConversations', () => {
             { id: 0, email: 'me@example.com' },
             { id: 1, email: 'john@example.com' },
           ],
-          timestamp: 2,
         },
         1: {
           id: 1,
@@ -143,7 +138,6 @@ describe('getRecentConversations', () => {
             { id: 0, email: 'me@example.com' },
             { id: 2, email: 'mark@example.com' },
           ],
-          timestamp: 1,
         },
         4: {
           id: 4,
@@ -151,7 +145,6 @@ describe('getRecentConversations', () => {
             { id: 0, email: 'me@example.com' },
             { id: 1, email: 'john@example.com' },
           ],
-          timestamp: 4,
         },
         3: {
           id: 3,
@@ -159,7 +152,6 @@ describe('getRecentConversations', () => {
             { id: 0, email: 'me@example.com' },
             { id: 2, email: 'mark@example.com' },
           ],
-          timestamp: 3,
         },
         5: {
           id: 5,
@@ -168,12 +160,10 @@ describe('getRecentConversations', () => {
             { id: 1, email: 'john@example.com' },
             { id: 2, email: 'mark@example.com' },
           ],
-          timestamp: 5,
         },
         6: {
           id: 6,
           display_recipient: [{ id: 0, email: 'me@example.com' }],
-          timestamp: 6,
         },
       },
       unread: {
@@ -205,28 +195,24 @@ describe('getRecentConversations', () => {
         ids: '0',
         recipients: 'me@example.com',
         msgId: 6,
-        timestamp: 6,
         unread: 1,
       },
       {
         ids: '0,1,2',
         recipients: 'john@example.com,mark@example.com',
         msgId: 5,
-        timestamp: 5,
         unread: 1,
       },
       {
         ids: '1',
         recipients: 'john@example.com',
         msgId: 4,
-        timestamp: 4,
         unread: 2,
       },
       {
         ids: '2',
         recipients: 'mark@example.com',
         msgId: 3,
-        timestamp: 3,
         unread: 1,
       },
     ];

@@ -251,6 +251,5 @@ export type PmConversationData = {|
   ids: string,
   msgId: number,
   recipients: string,
-  timestamp: number,
   unread: number,
 |};

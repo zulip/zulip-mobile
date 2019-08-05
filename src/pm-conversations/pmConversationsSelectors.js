@@ -21,7 +21,6 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
     const recipients = messages.map(msg => ({
       ids: getRecipientsIds(msg.display_recipient, ownEmail),
       emails: normalizeRecipientsSansMe(msg.display_recipient, ownEmail),
-      timestamp: msg.timestamp,
       msgId: msg.id,
     }));
 
@@ -32,7 +31,6 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
         latestByRecipient.set(recipient.emails, {
           ids: recipient.ids,
           recipients: recipient.emails,
-          timestamp: recipient.timestamp || 0,
           msgId: recipient.msgId,
         });
       }
