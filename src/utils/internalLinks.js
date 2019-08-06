@@ -2,7 +2,6 @@
 import type { Narrow, User } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { isUrlOnRealm } from './url';
-import { transformToEncodedURI } from './string';
 
 export const getPathsFromUrl = (url: string = '', realm: string) => {
   const paths = url
@@ -60,6 +59,16 @@ export const getLinkType = (url: string, realm: string): LinkType => {
   return 'home';
 };
 
+/** PRIVATE -- exported only for tests. */
+export const transformToEncodedURI = (string: string): string =>
+  string.replace(/\.\d/g, (match, p1, p2, offset, str) => `%${match[1]}`);
+
+/** Parse the operand of a `stream` operator. */
+const parseStreamOperand = operand => decodeURIComponent(transformToEncodedURI(operand));
+
+/** Parse the operand of a `topic` or `subject` operator. */
+const parseTopicOperand = operand => decodeURIComponent(transformToEncodedURI(operand));
+
 /** Parse the operand of a `pm-with` operator. */
 const parsePmOperand = (operand, usersById) => {
   const recipientIds = operand.split('-')[0].split(',');
@@ -91,12 +100,9 @@ export const getNarrowFromLink = (
       return groupNarrow(recipientEmails);
     }
     case 'topic':
-      return topicNarrow(
-        decodeURIComponent(transformToEncodedURI(paths[1])),
-        decodeURIComponent(transformToEncodedURI(paths[3])),
-      );
+      return topicNarrow(parseStreamOperand(paths[1]), parseTopicOperand(paths[3]));
     case 'stream':
-      return streamNarrow(decodeURIComponent(transformToEncodedURI(paths[1])));
+      return streamNarrow(parseStreamOperand(paths[1]));
     case 'special':
       return specialNarrow(paths[1]);
     default:

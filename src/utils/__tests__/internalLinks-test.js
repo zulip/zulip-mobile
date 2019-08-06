@@ -8,6 +8,7 @@ import {
   getLinkType,
   getNarrowFromLink,
   getMessageIdFromLink,
+  transformToEncodedURI,
 } from '../internalLinks';
 import { eg } from '../../__tests__/exampleData';
 
@@ -153,6 +154,13 @@ describe('getLinkType', () => {
     expect(getLinkType('https://example.com/#narrow/are/men/stream', 'https://example.com')).toBe(
       'home',
     );
+  });
+});
+
+describe('transformToEncodedURI', () => {
+  test('if dot is part of encoding, i.e followed by digit then replace it with "%"', () => {
+    expect(transformToEncodedURI('some.text')).toEqual('some.text');
+    expect(transformToEncodedURI('some.20text')).toEqual('some%20text');
   });
 });
 
