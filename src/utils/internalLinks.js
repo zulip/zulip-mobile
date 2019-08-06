@@ -3,7 +3,6 @@ import type { Narrow, User } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { isUrlOnRealm } from './url';
 import { transformToEncodedURI } from './string';
-import { NULL_USER } from '../nullObjects';
 
 export const getPathsFromUrl = (url: string = '', realm: string) => {
   const paths = url
@@ -61,6 +60,20 @@ export const getLinkType = (url: string, realm: string): LinkType => {
   return 'home';
 };
 
+/** Parse the operand of a `pm-with` operator. */
+const parsePmOperand = (operand, usersById) => {
+  const recipientIds = operand.split('-')[0].split(',');
+  const recipientEmails = [];
+  for (let i = 0; i < recipientIds.length; ++i) {
+    const user = usersById.get(parseInt(recipientIds[i], 10));
+    if (user === undefined) {
+      return null;
+    }
+    recipientEmails.push(user.email);
+  }
+  return recipientEmails;
+};
+
 export const getNarrowFromLink = (
   url: string,
   realm: string,
@@ -71,14 +84,11 @@ export const getNarrowFromLink = (
 
   switch (type) {
     case 'pm': {
-      const recipientIds = paths[1].split('-')[0].split(',');
-      const recipientUsers = recipientIds.map(
-        (recipient: string) => usersById.get(parseInt(recipient, 10)) || NULL_USER,
-      );
-      if (!recipientUsers.every(user => user !== NULL_USER)) {
+      const recipientEmails = parsePmOperand(paths[1], usersById);
+      if (recipientEmails === null) {
         return null;
       }
-      return groupNarrow(recipientUsers.map(user => user.email));
+      return groupNarrow(recipientEmails);
     }
     case 'topic':
       return topicNarrow(
