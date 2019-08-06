@@ -34,7 +34,7 @@ describe('getSubscriptionsById', () => {
     const state = deepFreeze({
       subscriptions: [],
     });
-    expect(getSubscriptionsById(state)).toEqual({});
+    expect(getSubscriptionsById(state)).toEqual(new Map());
   });
 
   test('returns an object with stream id as keys', () => {
@@ -42,10 +42,7 @@ describe('getSubscriptionsById', () => {
       subscriptions: [{ stream_id: 1 }, { stream_id: 2 }],
     });
 
-    const expectedState = {
-      '1': { stream_id: 1 },
-      '2': { stream_id: 2 },
-    };
+    const expectedState = new Map([[1, { stream_id: 1 }], [2, { stream_id: 2 }]]);
 
     const subscriptionsById = getSubscriptionsById(state);
 

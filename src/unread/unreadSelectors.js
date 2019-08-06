@@ -34,7 +34,7 @@ export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
         totals[stream.stream_id] = 0;
       }
       const isMuted = isTopicMuted(
-        (subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION).name,
+        (subscriptionsById.get(stream.stream_id) || NULL_SUBSCRIPTION).name,
         stream.topic,
         mute,
       );
@@ -105,7 +105,7 @@ export const getUnreadStreamsAndTopics: Selector<UnreadStreamItem[]> = createSel
     const totals = new Map();
     unreadStreams.forEach(stream => {
       const { name, color, in_home_view, invite_only, pin_to_top } =
-        subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
+        subscriptionsById.get(stream.stream_id) || NULL_SUBSCRIPTION;
 
       let total = totals.get(stream.stream_id);
       if (!total) {
