@@ -18,6 +18,7 @@ export const getPathsFromUrl = (url: string = '', realm: string) => {
   return paths;
 };
 
+/** PRIVATE -- exported only for tests. */
 export const isInternalLink = (url: string, realm: string): boolean =>
   isUrlOnRealm(url, realm) ? /^(\/#narrow|#narrow)/i.test(url.split(realm).pop()) : false;
 

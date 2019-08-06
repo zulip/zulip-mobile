@@ -3,7 +3,7 @@ import type { Narrow, Dispatch, GetState } from '../types';
 import { getAuth, getUsersById, isNarrowValid, getIsHydrated } from '../selectors';
 import { DO_NARROW } from '../actionConstants';
 import { getFullUrl } from '../utils/url';
-import { getMessageIdFromLink, getNarrowFromLink, isInternalLink } from '../utils/internalLinks';
+import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
 import openLink from '../utils/openLink';
 import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
@@ -38,17 +38,12 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
 export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const auth = getAuth(state);
-
-  if (isInternalLink(href, auth.realm)) {
-    const usersById = getUsersById(state);
-    const narrow = getNarrowFromLink(href, auth.realm, usersById);
-
-    if (narrow) {
-      const anchor = getMessageIdFromLink(href, auth.realm);
-      dispatch(doNarrow(narrow, anchor));
-      return;
-    }
+  const usersById = getUsersById(state);
+  const narrow = getNarrowFromLink(href, auth.realm, usersById);
+  if (narrow) {
+    const anchor = getMessageIdFromLink(href, auth.realm);
+    dispatch(doNarrow(narrow, anchor));
+    return;
   }
-
   openLink(getFullUrl(href, auth.realm));
 };
