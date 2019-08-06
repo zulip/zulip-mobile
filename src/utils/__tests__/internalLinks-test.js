@@ -1,4 +1,7 @@
+/* @flow strict-local */
 /* eslint-disable spellcheck/spell-checker */
+import type { User } from '../../api/modelTypes';
+import { streamNarrow, topicNarrow } from '../narrow';
 import {
   isInternalLink,
   isMessageLink,
@@ -6,8 +9,6 @@ import {
   getNarrowFromLink,
   getMessageIdFromLink,
 } from '../internalLinks';
-
-import { streamNarrow, topicNarrow } from '../narrow';
 
 describe('isInternalLink', () => {
   test('when link is external, return false', () => {
@@ -155,93 +156,59 @@ describe('getLinkType', () => {
 });
 
 describe('getNarrowFromLink', () => {
-  const usersById = new Map([
+  // $FlowFixMe ill-typed test
+  const usersById: Map<number, User> = new Map([
     [1, { email: 'abc@example.com', user_id: 1 }],
     [2, { email: 'xyz@example.com', user_id: 2 }],
     [3, { email: 'def@example.com', user_id: 3 }],
   ]);
 
+  const get = url => getNarrowFromLink(url, 'https://example.com', usersById);
+
   test('when link is not in-app link, return null', () => {
-    expect(getNarrowFromLink('https://example.com/user_uploads', 'https://example.com')).toEqual(
-      null,
-    );
+    expect(get('https://example.com/user_uploads')).toEqual(null);
   });
 
   test('when link is stream link, return matching streamNarrow', () => {
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/stream/jest', 'https://example.com'),
-    ).toEqual(streamNarrow('jest'));
-
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/stream/bot.20testing', 'https://example.com'),
-    ).toEqual(streamNarrow('bot testing'));
-
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/stream/jest.API', 'https://example.com'),
-    ).toEqual(streamNarrow('jest.API'));
-
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/stream/stream', 'https://example.com'),
-    ).toEqual(streamNarrow('stream'));
-
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/stream/topic', 'https://example.com'),
-    ).toEqual(streamNarrow('topic'));
+    expect(get('https://example.com/#narrow/stream/jest')).toEqual(streamNarrow('jest'));
+    expect(get('https://example.com/#narrow/stream/bot.20testing')).toEqual(
+      streamNarrow('bot testing'),
+    );
+    expect(get('https://example.com/#narrow/stream/jest.API')).toEqual(streamNarrow('jest.API'));
+    expect(get('https://example.com/#narrow/stream/stream')).toEqual(streamNarrow('stream'));
+    expect(get('https://example.com/#narrow/stream/topic')).toEqual(streamNarrow('topic'));
   });
 
   test('when link is stream link, without realm info, return matching streamNarrow', () => {
-    expect(getNarrowFromLink('/#narrow/stream/jest', 'https://example.com')).toEqual(
-      streamNarrow('jest'),
-    );
-    expect(getNarrowFromLink('#narrow/stream/jest', 'https://example.com')).toEqual(
-      streamNarrow('jest'),
-    );
+    expect(get('/#narrow/stream/jest')).toEqual(streamNarrow('jest'));
+    expect(get('#narrow/stream/jest')).toEqual(streamNarrow('jest'));
   });
 
   test('when link is a topic link and encoded, decode stream and topic names and return matching streamNarrow and topicNarrow', () => {
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/jest/topic/(no.20topic)',
-        'https://example.com',
-      ),
-    ).toEqual(topicNarrow('jest', '(no topic)'));
+    expect(get('https://example.com/#narrow/stream/jest/topic/(no.20topic)')).toEqual(
+      topicNarrow('jest', '(no topic)'),
+    );
 
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/jest/topic/google.com',
-        'https://example.com',
-      ),
-    ).toEqual(topicNarrow('jest', 'google.com'));
+    expect(get('https://example.com/#narrow/stream/jest/topic/google.com')).toEqual(
+      topicNarrow('jest', 'google.com'),
+    );
 
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/topic/topic/topic.20name',
-        'https://example.com',
-      ),
-    ).toEqual(topicNarrow('topic', 'topic name'));
+    expect(get('https://example.com/#narrow/stream/topic/topic/topic.20name')).toEqual(
+      topicNarrow('topic', 'topic name'),
+    );
 
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/topic/topic/stream',
-        'https://example.com',
-      ),
-    ).toEqual(topicNarrow('topic', 'stream'));
+    expect(get('https://example.com/#narrow/stream/topic/topic/stream')).toEqual(
+      topicNarrow('topic', 'stream'),
+    );
 
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/stream/topic/topic',
-        'https://example.com',
-      ),
-    ).toEqual(topicNarrow('stream', 'topic'));
+    expect(get('https://example.com/#narrow/stream/stream/topic/topic')).toEqual(
+      topicNarrow('stream', 'topic'),
+    );
   });
 
   test('when link is pointing to a topic without realm info, return matching topicNarrow', () => {
-    expect(getNarrowFromLink('/#narrow/stream/stream/topic/topic', 'https://example.com')).toEqual(
-      topicNarrow('stream', 'topic'),
-    );
-    expect(getNarrowFromLink('#narrow/stream/stream/topic/topic', 'https://example.com')).toEqual(
-      topicNarrow('stream', 'topic'),
-    );
+    expect(get('/#narrow/stream/stream/topic/topic')).toEqual(topicNarrow('stream', 'topic'));
+    expect(get('#narrow/stream/stream/topic/topic')).toEqual(topicNarrow('stream', 'topic'));
   });
 
   test('when link is a group link, return matching groupNarrow', () => {
@@ -251,23 +218,11 @@ describe('getNarrowFromLink', () => {
         operand: 'abc@example.com,xyz@example.com,def@example.com',
       },
     ];
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/pm-with/1,2,3-group',
-        'https://example.com',
-        usersById,
-      ),
-    ).toEqual(expectedValue);
+    expect(get('https://example.com/#narrow/pm-with/1,2,3-group')).toEqual(expectedValue);
   });
 
   test('if any of the user ids are not found return null', () => {
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/pm-with/1,2,10-group',
-        'https://example.com',
-        usersById,
-      ),
-    ).toEqual(null);
+    expect(get('https://example.com/#narrow/pm-with/1,2,10-group')).toEqual(null);
   });
 
   test('when link is a special link, return matching specialNarrow', () => {
@@ -277,40 +232,24 @@ describe('getNarrowFromLink', () => {
         operand: 'starred',
       },
     ];
-    expect(
-      getNarrowFromLink('https://example.com/#narrow/is/starred', 'https://example.com'),
-    ).toEqual(expectedValue);
+    expect(get('https://example.com/#narrow/is/starred')).toEqual(expectedValue);
   });
 
   test('when link is a message link, return matching narrow', () => {
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/pm-with/1,3-group/near/2',
-        'https://example.com',
-        usersById,
-      ),
-    ).toEqual([
+    expect(get('https://example.com/#narrow/pm-with/1,3-group/near/2')).toEqual([
       {
         operator: 'pm-with',
         operand: 'abc@example.com,def@example.com',
       },
     ]);
 
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/jest/topic/test/near/1',
-        'https://example.com',
-        usersById,
-      ),
-    ).toEqual(topicNarrow('jest', 'test'));
+    expect(get('https://example.com/#narrow/stream/jest/topic/test/near/1')).toEqual(
+      topicNarrow('jest', 'test'),
+    );
 
-    expect(
-      getNarrowFromLink(
-        'https://example.com/#narrow/stream/jest/subject/test/near/1',
-        'https://example.com',
-        usersById,
-      ),
-    ).toEqual(topicNarrow('jest', 'test'));
+    expect(get('https://example.com/#narrow/stream/jest/subject/test/near/1')).toEqual(
+      topicNarrow('jest', 'test'),
+    );
   });
 });
 
