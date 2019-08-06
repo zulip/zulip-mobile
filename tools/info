@@ -24,9 +24,11 @@ base_commit() {
 #
 # Lists files that have changed in TIP (default: current worktree)
 # relative to UPSTREAM (default: upstream/master or origin/master).
+#
+# Excludes files that no longer exist in TIP.
 files_changed() {
     base=$(base_commit "$@")
-    git diff --name-only "$base" $1
+    git diff --name-only --diff-filter=d "$base" $1
 }
 
 case "$1" in
