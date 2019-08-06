@@ -71,14 +71,24 @@ const otherUser: User = makeUser({ name: 'other' });
 
 const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
 
-const stream: Stream = {
-  stream_id: 34,
-  description: 'An example stream.',
-  name: 'a stream',
-  invite_only: false,
-  is_announcement_only: false,
-  history_public_to_subscribers: true,
+const makeStream = (args: { name?: string, description?: string } = {}): Stream => {
+  const name = args.name !== undefined ? args.name : randString();
+  const description =
+    args.description !== undefined ? args.description : `On the ${randString()} of ${name}`;
+  return {
+    stream_id: randInt(1000),
+    name,
+    description,
+    invite_only: false,
+    is_announcement_only: false,
+    history_public_to_subscribers: true,
+  };
 };
+
+const stream: Stream = makeStream({
+  name: 'a stream',
+  description: 'An example stream.',
+});
 
 const displayRecipientFromUser = (user: User): PmRecipientUser => {
   const { email, full_name, user_id: id } = user;
@@ -213,6 +223,7 @@ export const eg = {
   selfAccount,
   otherUser,
   crossRealmBot,
+  makeStream,
   stream,
 
   pmMessage,
