@@ -1,7 +1,7 @@
 /* @flow strict-local */
 /* eslint-disable spellcheck/spell-checker */
 import type { User } from '../../api/modelTypes';
-import { streamNarrow, topicNarrow } from '../narrow';
+import { streamNarrow, topicNarrow, groupNarrow, STARRED_NARROW } from '../narrow';
 import {
   isInternalLink,
   isMessageLink,
@@ -213,14 +213,10 @@ describe('getNarrowFromLink', () => {
   });
 
   test('when link is a group link, return matching groupNarrow', () => {
-    const expectedValue = [
-      {
-        operator: 'pm-with',
-        operand: `${userA.email},${userB.email},${userC.email}`,
-      },
-    ];
     const ids = `${userA.user_id},${userB.user_id},${userC.user_id}`;
-    expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(expectedValue);
+    expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(
+      groupNarrow([userA.email, userB.email, userC.email]),
+    );
   });
 
   test('if any of the user ids are not found return null', () => {
@@ -230,23 +226,14 @@ describe('getNarrowFromLink', () => {
   });
 
   test('when link is a special link, return matching specialNarrow', () => {
-    const expectedValue = [
-      {
-        operator: 'is',
-        operand: 'starred',
-      },
-    ];
-    expect(get('https://example.com/#narrow/is/starred')).toEqual(expectedValue);
+    expect(get('https://example.com/#narrow/is/starred')).toEqual(STARRED_NARROW);
   });
 
   test('when link is a message link, return matching narrow', () => {
     const ids = `${userA.user_id},${userC.user_id}`;
-    expect(get(`https://example.com/#narrow/pm-with/${ids}-group/near/2`)).toEqual([
-      {
-        operator: 'pm-with',
-        operand: `${userA.email},${userC.email}`,
-      },
-    ]);
+    expect(get(`https://example.com/#narrow/pm-with/${ids}-group/near/2`)).toEqual(
+      groupNarrow([userA.email, userC.email]),
+    );
 
     expect(get('https://example.com/#narrow/stream/jest/topic/test/near/1')).toEqual(
       topicNarrow('jest', 'test'),
