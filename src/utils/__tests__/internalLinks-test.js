@@ -9,6 +9,7 @@ import {
   getNarrowFromLink,
   getMessageIdFromLink,
 } from '../internalLinks';
+import { eg } from '../../__tests__/exampleData';
 
 describe('isInternalLink', () => {
   test('when link is external, return false', () => {
@@ -156,11 +157,11 @@ describe('getLinkType', () => {
 });
 
 describe('getNarrowFromLink', () => {
-  // $FlowFixMe ill-typed test
+  const [userA, userB, userC] = [eg.makeUser(), eg.makeUser(), eg.makeUser()];
   const usersById: Map<number, User> = new Map([
-    [1, { email: 'abc@example.com', user_id: 1 }],
-    [2, { email: 'xyz@example.com', user_id: 2 }],
-    [3, { email: 'def@example.com', user_id: 3 }],
+    [userA.user_id, userA],
+    [userB.user_id, userB],
+    [userC.user_id, userC],
   ]);
 
   const get = url => getNarrowFromLink(url, 'https://example.com', usersById);
@@ -215,14 +216,17 @@ describe('getNarrowFromLink', () => {
     const expectedValue = [
       {
         operator: 'pm-with',
-        operand: 'abc@example.com,xyz@example.com,def@example.com',
+        operand: `${userA.email},${userB.email},${userC.email}`,
       },
     ];
-    expect(get('https://example.com/#narrow/pm-with/1,2,3-group')).toEqual(expectedValue);
+    const ids = `${userA.user_id},${userB.user_id},${userC.user_id}`;
+    expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(expectedValue);
   });
 
   test('if any of the user ids are not found return null', () => {
-    expect(get('https://example.com/#narrow/pm-with/1,2,10-group')).toEqual(null);
+    const otherId = 1 + Math.max(userA.user_id, userB.user_id, userC.user_id);
+    const ids = `${userA.user_id},${userB.user_id},${otherId}`;
+    expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(null);
   });
 
   test('when link is a special link, return matching specialNarrow', () => {
@@ -236,10 +240,11 @@ describe('getNarrowFromLink', () => {
   });
 
   test('when link is a message link, return matching narrow', () => {
-    expect(get('https://example.com/#narrow/pm-with/1,3-group/near/2')).toEqual([
+    const ids = `${userA.user_id},${userC.user_id}`;
+    expect(get(`https://example.com/#narrow/pm-with/${ids}-group/near/2`)).toEqual([
       {
         operator: 'pm-with',
-        operand: 'abc@example.com,def@example.com',
+        operand: `${userA.email},${userC.email}`,
       },
     ]);
 
