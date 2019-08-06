@@ -8,6 +8,7 @@ import openLink from '../utils/openLink';
 import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../constants';
+import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 
 /**
  * Navigate to the given narrow, while fetching any data needed.
@@ -39,7 +40,8 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
   const state = getState();
   const auth = getAuth(state);
   const usersById = getUsersById(state);
-  const narrow = getNarrowFromLink(href, auth.realm, usersById);
+  const streamsById = getStreamsById(state);
+  const narrow = getNarrowFromLink(href, auth.realm, usersById, streamsById);
   if (narrow) {
     const anchor = getMessageIdFromLink(href, auth.realm);
     dispatch(doNarrow(narrow, anchor));

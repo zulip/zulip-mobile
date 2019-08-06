@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Narrow, User } from '../types';
+import type { Narrow, Stream, User } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { isUrlOnRealm } from './url';
 
@@ -65,8 +65,21 @@ export const getLinkType = (url: string, realm: string): LinkType => {
 export const transformToEncodedURI = (string: string): string =>
   string.replace(/\.\d/g, (match, p1, p2, offset, str) => `%${match[1]}`);
 
-/** Parse the operand of a `stream` operator. */
-const parseStreamOperand = operand => decodeURIComponent(transformToEncodedURI(operand));
+/** Parse the operand of a `stream` operator, returning a stream name. */
+const parseStreamOperand = (operand, streamsById): string => {
+  // "New" (2018) format: ${stream_id}-${stream_name} .
+  const match = /^(\d+)-/.exec(operand);
+  if (match) {
+    const stream = streamsById.get(parseInt(match[0], 10));
+    if (stream) {
+      return stream.name;
+    }
+  }
+
+  // Old format: just stream name.  This case is relevant indefinitely,
+  // so that links in old conversations continue to work.
+  return decodeURIComponent(transformToEncodedURI(operand));
+};
 
 /** Parse the operand of a `topic` or `subject` operator. */
 const parseTopicOperand = operand => decodeURIComponent(transformToEncodedURI(operand));
@@ -89,6 +102,7 @@ export const getNarrowFromLink = (
   url: string,
   realm: string,
   usersById: Map<number, User>,
+  streamsById: Map<number, Stream>,
 ): Narrow | null => {
   const type = getLinkType(url, realm);
   const paths = getPathsFromUrl(url, realm);
@@ -102,9 +116,9 @@ export const getNarrowFromLink = (
       return groupNarrow(recipientEmails);
     }
     case 'topic':
-      return topicNarrow(parseStreamOperand(paths[1]), parseTopicOperand(paths[3]));
+      return topicNarrow(parseStreamOperand(paths[1], streamsById), parseTopicOperand(paths[3]));
     case 'stream':
-      return streamNarrow(parseStreamOperand(paths[1]));
+      return streamNarrow(parseStreamOperand(paths[1], streamsById));
     case 'special':
       return specialNarrow(paths[1]);
     default:

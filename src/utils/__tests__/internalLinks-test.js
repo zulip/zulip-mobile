@@ -172,14 +172,67 @@ describe('getNarrowFromLink', () => {
     [userC.user_id, userC],
   ]);
 
-  const get = url => getNarrowFromLink(url, 'https://example.com', usersById);
+  const streamGeneral = eg.makeStream({ name: 'general' });
+
+  const get = (url, streams = []) =>
+    getNarrowFromLink(
+      url,
+      'https://example.com',
+      usersById,
+      new Map(streams.map(s => [s.stream_id, s])),
+    );
 
   test('on link to realm domain but not narrow: return null', () => {
     expect(get('https://example.com/user_uploads')).toEqual(null);
   });
 
   describe('on stream links', () => {
-    test('on stream link', () => {
+    const expectStream = (operand, streams, expectedName: null | string) => {
+      expect(get(`#narrow/stream/${operand}`, streams)).toEqual(
+        expectedName === null ? null : streamNarrow(expectedName),
+      );
+    };
+
+    test('basic', () => {
+      expectStream(`${streamGeneral.stream_id}-general`, [streamGeneral], 'general');
+    });
+
+    test('on stream link with wrong name: ID wins', () => {
+      expectStream(`${streamGeneral.stream_id}-nonsense`, [streamGeneral], 'general');
+      expectStream(`${streamGeneral.stream_id}-`, [streamGeneral], 'general');
+    });
+
+    test('on malformed stream link: treat as old format', () => {
+      const expectAsName = name => expectStream(name, [streamGeneral], name);
+      expectAsName(`${streamGeneral.stream_id}`);
+      expectAsName(`-${streamGeneral.stream_id}`);
+      expectAsName(`${streamGeneral.stream_id}nonsense-general`);
+    });
+
+    {
+      const testTeam = eg.makeStream({ name: 'test-team' });
+      const numbers = eg.makeStream({ name: '311' });
+      const numbersHyphen = eg.makeStream({ name: '311-' });
+      const numbersPlus = eg.makeStream({ name: '311-help' });
+      const dashdash = eg.makeStream({ name: '--help' });
+
+      test('on old stream link, for stream with hyphens or even looking like new-style', () => {
+        expectStream('test-team', [testTeam], 'test-team');
+        expectStream('311', [numbers], '311');
+        expectStream('311-', [numbersHyphen], '311-');
+        expectStream('311-help', [numbersPlus], '311-help');
+        expectStream('--help', [dashdash], '--help');
+      });
+
+      test('on ambiguous new- or old-style: new wins', () => {
+        const collider = { ...eg.makeStream({ name: 'collider' }), stream_id: 311 };
+        expectStream('311', [numbers, collider], '311'); // malformed for new-style
+        expectStream('311-', [numbersHyphen, collider], 'collider');
+        expectStream('311-help', [numbersPlus, collider], 'collider');
+      });
+    }
+
+    test('on old stream link', () => {
       expect(get('https://example.com/#narrow/stream/jest')).toEqual(streamNarrow('jest'));
       expect(get('https://example.com/#narrow/stream/bot.20testing')).toEqual(
         streamNarrow('bot testing'),
@@ -189,14 +242,24 @@ describe('getNarrowFromLink', () => {
       expect(get('https://example.com/#narrow/stream/topic')).toEqual(streamNarrow('topic'));
     });
 
-    test('on stream link, without realm info', () => {
+    test('on old stream link, without realm info', () => {
       expect(get('/#narrow/stream/jest')).toEqual(streamNarrow('jest'));
       expect(get('#narrow/stream/jest')).toEqual(streamNarrow('jest'));
     });
   });
 
   describe('on topic links', () => {
-    test('on topic link, with dot-encoding', () => {
+    test('basic', () => {
+      const expectBasic = (operand, expectedTopic) => {
+        const url = `#narrow/stream/${streamGeneral.stream_id}-general/topic/${operand}`;
+        expect(get(url, [streamGeneral])).toEqual(topicNarrow('general', expectedTopic));
+      };
+
+      expectBasic('(no.20topic)', '(no topic)');
+      expectBasic('lunch', 'lunch');
+    });
+
+    test('on old topic link, with dot-encoding', () => {
       expect(get('https://example.com/#narrow/stream/jest/topic/(no.20topic)')).toEqual(
         topicNarrow('jest', '(no topic)'),
       );
@@ -218,7 +281,7 @@ describe('getNarrowFromLink', () => {
       );
     });
 
-    test('on topic link, without realm info', () => {
+    test('on old topic link, without realm info', () => {
       expect(get('/#narrow/stream/stream/topic/topic')).toEqual(topicNarrow('stream', 'topic'));
       expect(get('#narrow/stream/stream/topic/topic')).toEqual(topicNarrow('stream', 'topic'));
     });
