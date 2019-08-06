@@ -14,14 +14,11 @@ describe('nothing', () => {
   test('nothing', () => {});
 });
 
-/** Return a string that's almost surely different every time. */
-const randString = () =>
-  Math.random()
-    .toString(36)
-    .substring(7);
-
 /** Return an integer 0 <= N < end, roughly uniformly at random. */
 const randInt = (end: number) => Math.floor(Math.random() * end);
+
+/** Return a string that's almost surely different every time. */
+const randString = () => randInt(2 ** 54).toString(36);
 
 const userOrBotProperties = ({ name: _name }) => {
   const name = _name !== undefined ? _name : randString();
