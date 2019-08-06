@@ -174,11 +174,11 @@ describe('getNarrowFromLink', () => {
 
   const get = url => getNarrowFromLink(url, 'https://example.com', usersById);
 
-  test('when link is not in-app link, return null', () => {
+  test('on link to realm domain but not narrow: return null', () => {
     expect(get('https://example.com/user_uploads')).toEqual(null);
   });
 
-  test('when link is stream link, return matching streamNarrow', () => {
+  test('on stream link', () => {
     expect(get('https://example.com/#narrow/stream/jest')).toEqual(streamNarrow('jest'));
     expect(get('https://example.com/#narrow/stream/bot.20testing')).toEqual(
       streamNarrow('bot testing'),
@@ -188,12 +188,12 @@ describe('getNarrowFromLink', () => {
     expect(get('https://example.com/#narrow/stream/topic')).toEqual(streamNarrow('topic'));
   });
 
-  test('when link is stream link, without realm info, return matching streamNarrow', () => {
+  test('on stream link, without realm info', () => {
     expect(get('/#narrow/stream/jest')).toEqual(streamNarrow('jest'));
     expect(get('#narrow/stream/jest')).toEqual(streamNarrow('jest'));
   });
 
-  test('when link is a topic link and encoded, decode stream and topic names and return matching streamNarrow and topicNarrow', () => {
+  test('on topic link, with dot-encoding', () => {
     expect(get('https://example.com/#narrow/stream/jest/topic/(no.20topic)')).toEqual(
       topicNarrow('jest', '(no topic)'),
     );
@@ -215,29 +215,29 @@ describe('getNarrowFromLink', () => {
     );
   });
 
-  test('when link is pointing to a topic without realm info, return matching topicNarrow', () => {
+  test('on topic link, without realm info', () => {
     expect(get('/#narrow/stream/stream/topic/topic')).toEqual(topicNarrow('stream', 'topic'));
     expect(get('#narrow/stream/stream/topic/topic')).toEqual(topicNarrow('stream', 'topic'));
   });
 
-  test('when link is a group link, return matching groupNarrow', () => {
+  test('on group PM link', () => {
     const ids = `${userA.user_id},${userB.user_id},${userC.user_id}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(
       groupNarrow([userA.email, userB.email, userC.email]),
     );
   });
 
-  test('if any of the user ids are not found return null', () => {
+  test('if any of the user ids are not found: return null', () => {
     const otherId = 1 + Math.max(userA.user_id, userB.user_id, userC.user_id);
     const ids = `${userA.user_id},${userB.user_id},${otherId}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(null);
   });
 
-  test('when link is a special link, return matching specialNarrow', () => {
+  test('on a special link', () => {
     expect(get('https://example.com/#narrow/is/starred')).toEqual(STARRED_NARROW);
   });
 
-  test('when link is a message link, return matching narrow', () => {
+  test('on a message link', () => {
     const ids = `${userA.user_id},${userC.user_id}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group/near/2`)).toEqual(
       groupNarrow([userA.email, userC.email]),
