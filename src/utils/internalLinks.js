@@ -3,7 +3,7 @@ import type { Narrow, User } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { isUrlOnRealm } from './url';
 
-export const getPathsFromUrl = (url: string = '', realm: string) => {
+const getPathsFromUrl = (url: string = '', realm: string) => {
   const paths = url
     .split(realm)
     .pop()
@@ -22,6 +22,7 @@ export const getPathsFromUrl = (url: string = '', realm: string) => {
 export const isInternalLink = (url: string, realm: string): boolean =>
   isUrlOnRealm(url, realm) ? /^(\/#narrow|#narrow)/i.test(url.split(realm).pop()) : false;
 
+/** PRIVATE -- exported only for tests. */
 export const isMessageLink = (url: string, realm: string): boolean =>
   isInternalLink(url, realm) && url.includes('near');
 
