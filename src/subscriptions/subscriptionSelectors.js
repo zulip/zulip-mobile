@@ -18,9 +18,9 @@ import { getSubscriptions, getStreams } from '../directSelectors';
  *
  * See also `getStreams` for the stream objects as an array.
  */
-export const getStreamsById: Selector<{ [number]: Stream }> = createSelector(
+export const getStreamsById: Selector<Map<number, Stream>> = createSelector(
   getStreams,
-  streams => objectFromEntries(streams.map(stream => [stream.stream_id, stream])),
+  streams => new Map(streams.map(stream => [stream.stream_id, stream])),
 );
 
 export const getSubscriptionsById: Selector<{ [number]: Subscription }> = createSelector(
