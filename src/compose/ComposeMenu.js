@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
 
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
-import styles from '../styles';
+import { BRAND_COLOR } from '../styles';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
@@ -101,38 +101,58 @@ class ComposeMenu extends PureComponent<Props> {
     ImagePicker.launchCamera(options, this.handleImagePickerResponse);
   };
 
+  styles = StyleSheet.create({
+    composeMenu: {
+      flexDirection: 'row',
+      overflow: 'hidden',
+    },
+    expandButton: {
+      padding: 12,
+      color: BRAND_COLOR,
+    },
+    composeMenuButton: {
+      padding: 12,
+      marginRight: -8,
+      color: BRAND_COLOR,
+    },
+  });
+
   render() {
     const { dispatch, expanded, onExpandContract } = this.props;
     return (
-      <View style={styles.composeMenu}>
+      <View style={this.styles.composeMenu}>
         <AnimatedComponent
           stylePropertyName="width"
           fullValue={120}
           useNativeDriver={false}
           visible={expanded}
         >
-          <View style={styles.composeMenu}>
+          <View style={this.styles.composeMenu}>
             <IconPeople
-              style={styles.composeMenuButton}
+              style={this.styles.composeMenuButton}
               size={24}
               onPress={() => {
                 dispatch(navigateToCreateGroup());
               }}
             />
             <IconImage
-              style={styles.composeMenuButton}
+              style={this.styles.composeMenuButton}
               size={24}
               onPress={this.handleImageUpload}
             />
             <IconCamera
-              style={styles.composeMenuButton}
+              style={this.styles.composeMenuButton}
               size={24}
               onPress={this.handleCameraCapture}
             />
           </View>
         </AnimatedComponent>
-        {!expanded && <IconPlus style={styles.expandButton} size={24} onPress={onExpandContract} />}
-        {expanded && <IconLeft style={styles.expandButton} size={24} onPress={onExpandContract} />}
+        {!expanded && (
+          <IconPlus style={this.styles.expandButton} size={24} onPress={onExpandContract} />
+        )}
+        {expanded && (
+          <IconLeft style={this.styles.expandButton} size={24} onPress={onExpandContract} />
+        )}
       </View>
     );
   }

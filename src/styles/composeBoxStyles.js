@@ -1,21 +1,6 @@
 /* @flow strict */
 
-import { BRAND_COLOR } from './constants';
-
 export default {
-  composeMenu: {
-    flexDirection: 'row',
-    overflow: 'hidden',
-  },
-  expandButton: {
-    padding: 12,
-    color: BRAND_COLOR,
-  },
-  composeMenuButton: {
-    padding: 12,
-    marginRight: -8,
-    color: BRAND_COLOR,
-  },
   disabledComposeBox: {
     flexDirection: 'row',
     alignItems: 'center',
