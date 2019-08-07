@@ -48,6 +48,11 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
 };
 
 class ComposeMenu extends PureComponent<Props> {
+  uploadFile = (uri: string, fileName: string) => {
+    const { dispatch, destinationNarrow } = this.props;
+    dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
+  };
+
   handleImagePickerResponse = (response: {
     didCancel: boolean,
     // Upstream docs are vague:
@@ -67,34 +72,7 @@ class ComposeMenu extends PureComponent<Props> {
       return;
     }
 
-    const { dispatch, destinationNarrow } = this.props;
-    dispatch(
-      uploadFile(
-        destinationNarrow,
-        response.uri,
-        chooseUploadImageFilename(response.uri, response.fileName),
-      ),
-    );
-  };
-
-  handleFilePicker = () => {
-    DocumentPicker.pick({ type: [DocumentPicker.types.allFiles] })
-      .then((response: { uri: string, type: string, name: string, size: number }) => {
-        this.handleImagePickerResponse({
-          didCancel: false,
-          error: null,
-          uri: response.uri,
-          fileName: response.name,
-        });
-      })
-      .catch((error: string) => {
-        this.handleImagePickerResponse({
-          didCancel: DocumentPicker.isCancel(error),
-          error,
-          uri: 'error',
-          fileName: 'error',
-        });
-      });
+    this.uploadFile(response.uri, response.fileName);
   };
 
   handleImagePicker = () => {
@@ -120,6 +98,29 @@ class ComposeMenu extends PureComponent<Props> {
     };
 
     ImagePicker.launchCamera(options, this.handleImagePickerResponse);
+  };
+
+  handleFilePicker = async () => {
+    type DocumentPickerResponse = {
+      uri: string,
+      type: string,
+      name: string,
+      size: number,
+    };
+
+    let response;
+    try {
+      response = (await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      }): DocumentPickerResponse);
+    } catch (e) {
+      if (!DocumentPicker.isCancel(e)) {
+        showErrorAlert(e, 'Error');
+      }
+      return;
+    }
+
+    this.uploadFile(response.uri, response.name);
   };
 
   styles = StyleSheet.create({
