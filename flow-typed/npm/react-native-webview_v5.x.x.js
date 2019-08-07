@@ -1,5 +1,5 @@
-// flow-typed signature: 8401030c6b51556131687bf01bc6ad34
-// flow-typed version: 7ba20641a6/react-native-webview_v5.x.x/flow_>=v0.88.x
+// flow-typed signature: 41cec0d82f4afbe4616a577845c60c4e
+// flow-typed version: c6154227d1/react-native-webview_v5.x.x/flow_>=v0.88.x <=v0.103.x
 
 /*
  * The next module declaration need to show which types was copy from `react-native`

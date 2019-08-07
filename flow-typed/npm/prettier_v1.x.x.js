@@ -1,5 +1,5 @@
-// flow-typed signature: 5d9f7564186b12849222d06b0c689452
-// flow-typed version: a3dbb68519/prettier_v1.x.x/flow_>=v0.84.x
+// flow-typed signature: b80517b7c0c4c471e1e6fdbeb22ce46e
+// flow-typed version: c6154227d1/prettier_v1.x.x/flow_>=v0.84.x <=v0.103.x
 
 declare module "prettier" {
   declare export type AST = { [key: string]: any, ... };

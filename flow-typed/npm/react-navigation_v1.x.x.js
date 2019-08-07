@@ -1,5 +1,5 @@
-// flow-typed signature: 85def21ceb20e9791ebf9bd09521e44c
-// flow-typed version: 8840f4cb4b/react-navigation_v1.x.x/flow_>=v0.60.x
+// flow-typed signature: 89ebdb469424ffd80a1c4e583485b8b1
+// flow-typed version: c6154227d1/react-navigation_v1.x.x/flow_>=v0.60.x <=v0.103.x
 
 declare module 'react-navigation' {
   import type { ComponentType, Node, ElementType, Ref, Element } from 'react'

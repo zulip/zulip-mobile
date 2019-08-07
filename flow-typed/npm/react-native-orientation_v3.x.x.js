@@ -1,5 +1,5 @@
-// flow-typed signature: 45f8df224739e1e4731542d811198f25
-// flow-typed version: c72bfb2ba6/react-native-orientation_v3.x.x/flow_>=v0.68.0
+// flow-typed signature: f052bc3c508312d9a9f76d42d122cc0e
+// flow-typed version: c6154227d1/react-native-orientation_v3.x.x/flow_>=v0.68.0 <=v0.103.x
 
 declare module "react-native-orientation" {
   declare export type Orientations =
