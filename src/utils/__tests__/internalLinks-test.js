@@ -178,46 +178,50 @@ describe('getNarrowFromLink', () => {
     expect(get('https://example.com/user_uploads')).toEqual(null);
   });
 
-  test('on stream link', () => {
-    expect(get('https://example.com/#narrow/stream/jest')).toEqual(streamNarrow('jest'));
-    expect(get('https://example.com/#narrow/stream/bot.20testing')).toEqual(
-      streamNarrow('bot testing'),
-    );
-    expect(get('https://example.com/#narrow/stream/jest.API')).toEqual(streamNarrow('jest.API'));
-    expect(get('https://example.com/#narrow/stream/stream')).toEqual(streamNarrow('stream'));
-    expect(get('https://example.com/#narrow/stream/topic')).toEqual(streamNarrow('topic'));
+  describe('on stream links', () => {
+    test('on stream link', () => {
+      expect(get('https://example.com/#narrow/stream/jest')).toEqual(streamNarrow('jest'));
+      expect(get('https://example.com/#narrow/stream/bot.20testing')).toEqual(
+        streamNarrow('bot testing'),
+      );
+      expect(get('https://example.com/#narrow/stream/jest.API')).toEqual(streamNarrow('jest.API'));
+      expect(get('https://example.com/#narrow/stream/stream')).toEqual(streamNarrow('stream'));
+      expect(get('https://example.com/#narrow/stream/topic')).toEqual(streamNarrow('topic'));
+    });
+
+    test('on stream link, without realm info', () => {
+      expect(get('/#narrow/stream/jest')).toEqual(streamNarrow('jest'));
+      expect(get('#narrow/stream/jest')).toEqual(streamNarrow('jest'));
+    });
   });
 
-  test('on stream link, without realm info', () => {
-    expect(get('/#narrow/stream/jest')).toEqual(streamNarrow('jest'));
-    expect(get('#narrow/stream/jest')).toEqual(streamNarrow('jest'));
-  });
+  describe('on topic links', () => {
+    test('on topic link, with dot-encoding', () => {
+      expect(get('https://example.com/#narrow/stream/jest/topic/(no.20topic)')).toEqual(
+        topicNarrow('jest', '(no topic)'),
+      );
 
-  test('on topic link, with dot-encoding', () => {
-    expect(get('https://example.com/#narrow/stream/jest/topic/(no.20topic)')).toEqual(
-      topicNarrow('jest', '(no topic)'),
-    );
+      expect(get('https://example.com/#narrow/stream/jest/topic/google.com')).toEqual(
+        topicNarrow('jest', 'google.com'),
+      );
 
-    expect(get('https://example.com/#narrow/stream/jest/topic/google.com')).toEqual(
-      topicNarrow('jest', 'google.com'),
-    );
+      expect(get('https://example.com/#narrow/stream/topic/topic/topic.20name')).toEqual(
+        topicNarrow('topic', 'topic name'),
+      );
 
-    expect(get('https://example.com/#narrow/stream/topic/topic/topic.20name')).toEqual(
-      topicNarrow('topic', 'topic name'),
-    );
+      expect(get('https://example.com/#narrow/stream/topic/topic/stream')).toEqual(
+        topicNarrow('topic', 'stream'),
+      );
 
-    expect(get('https://example.com/#narrow/stream/topic/topic/stream')).toEqual(
-      topicNarrow('topic', 'stream'),
-    );
+      expect(get('https://example.com/#narrow/stream/stream/topic/topic')).toEqual(
+        topicNarrow('stream', 'topic'),
+      );
+    });
 
-    expect(get('https://example.com/#narrow/stream/stream/topic/topic')).toEqual(
-      topicNarrow('stream', 'topic'),
-    );
-  });
-
-  test('on topic link, without realm info', () => {
-    expect(get('/#narrow/stream/stream/topic/topic')).toEqual(topicNarrow('stream', 'topic'));
-    expect(get('#narrow/stream/stream/topic/topic')).toEqual(topicNarrow('stream', 'topic'));
+    test('on topic link, without realm info', () => {
+      expect(get('/#narrow/stream/stream/topic/topic')).toEqual(topicNarrow('stream', 'topic'));
+      expect(get('#narrow/stream/stream/topic/topic')).toEqual(topicNarrow('stream', 'topic'));
+    });
   });
 
   test('on group PM link', () => {
