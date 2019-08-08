@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
-import DocumentPicker from 'react-native-document-picker';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
@@ -106,6 +105,8 @@ class ComposeMenu extends PureComponent<Props> {
   };
 
   handleFilePicker = async () => {
+    // eslint-disable-next-line global-require
+    const DocumentPicker = require('react-native-document-picker').default;
     let response;
     try {
       response = (await DocumentPicker.pick({
