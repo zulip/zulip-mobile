@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
+import type { DocumentPickerResponse } from 'react-native-document-picker';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
 
@@ -31,8 +32,12 @@ type Props = {|
  * extension, so in this case we need to adjust the extension to match the
  * actual format.  The clue we get in the image-picker response is the extension
  * found in `uri`.
+ *
+ * Also if `fileName` is undefined, default to the last component of `uri`.
  */
-export const chooseUploadImageFilename = (uri: string, fileName: string): string => {
+export const chooseUploadImageFilename = (uri: string, fileName: string | void): string => {
+  const name = fileName !== undefined ? fileName : uri.replace(/.*\//, '');
+
   /*
    * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
    * HEIF format and have file names with the extension `.HEIC`.  When the user
@@ -41,14 +46,14 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
    * the react-native-image-picker response still has the `.HEIC` extension.
    */
   if (/\.jpe?g$/i.test(uri)) {
-    return fileName.replace(/\.heic$/i, '.jpeg');
+    return name.replace(/\.heic$/i, '.jpeg');
   }
 
-  return fileName;
+  return name;
 };
 
 class ComposeMenu extends PureComponent<Props> {
-  uploadFile = (uri: string, fileName: string) => {
+  uploadFile = (uri: string, fileName: string | void) => {
     const { dispatch, destinationNarrow } = this.props;
     dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
   };
@@ -101,13 +106,6 @@ class ComposeMenu extends PureComponent<Props> {
   };
 
   handleFilePicker = async () => {
-    type DocumentPickerResponse = {
-      uri: string,
-      type: string,
-      name: string,
-      size: number,
-    };
-
     let response;
     try {
       response = (await DocumentPicker.pick({
