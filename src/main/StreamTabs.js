@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { TabNavigator, TabBarTop } from 'react-navigation';
 import { FormattedMessage } from 'react-intl';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
@@ -16,10 +16,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabNavigator(
+export default createMaterialTopTabNavigator(
   {
     subscribed: {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: SubscriptionsCard,
       navigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (
@@ -30,7 +29,6 @@ export default TabNavigator(
       },
     },
     allStreams: {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: StreamListCard,
       navigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (
@@ -42,8 +40,6 @@ export default TabNavigator(
     },
   },
   {
-    tabBarComponent: TabBarTop,
-    tabBarPosition: 'top',
     ...tabsOptions({
       showLabel: true,
       showIcon: false,

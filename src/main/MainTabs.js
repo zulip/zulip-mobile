@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
 import { Platform } from 'react-native';
-import { createBottomTabNavigator, TabBarBottom } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
@@ -17,7 +17,6 @@ import ProfileCard from '../account-info/ProfileCard';
 export default createBottomTabNavigator(
   {
     home: {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: HomeTab,
       navigationOptions: {
         tabBarLabel: 'Home',
@@ -36,7 +35,6 @@ export default createBottomTabNavigator(
       },
     },
     conversations: {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: PmConversationsCard,
       navigationOptions: {
         tabBarLabel: 'Conversations',
@@ -46,7 +44,6 @@ export default createBottomTabNavigator(
       },
     },
     settings: {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: SettingsCard,
       navigationOptions: {
         tabBarLabel: 'Settings',
@@ -56,7 +53,6 @@ export default createBottomTabNavigator(
       },
     },
     profile: {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: ProfileCard,
       navigationOptions: {
         tabBarLabel: 'Profile',
@@ -66,8 +62,6 @@ export default createBottomTabNavigator(
   },
   {
     backBehavior: 'none',
-    tabBarComponent: TabBarBottom,
-    tabBarPosition: 'bottom',
     ...tabsOptions({
       showLabel: !!Platform.isPad,
       showIcon: true,
