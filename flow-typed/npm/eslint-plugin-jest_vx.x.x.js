@@ -1,4 +1,4 @@
-// flow-typed signature: 1719da9ec13d2253bad0cc1acb9354d1
+// flow-typed signature: 032485549ac58129c545675bf9954277
 // flow-typed version: <<STUB>>/eslint-plugin-jest_v^22.11.1/flow_v0.92.0
 
 /**
@@ -66,6 +66,10 @@ declare module 'eslint-plugin-jest/lib/rules/no-empty-title' {
   declare module.exports: any;
 }
 
+declare module 'eslint-plugin-jest/lib/rules/no-expect-resolves' {
+  declare module.exports: any;
+}
+
 declare module 'eslint-plugin-jest/lib/rules/no-export' {
   declare module.exports: any;
 }
@@ -99,6 +103,10 @@ declare module 'eslint-plugin-jest/lib/rules/no-large-snapshots' {
 }
 
 declare module 'eslint-plugin-jest/lib/rules/no-mocks-import' {
+  declare module.exports: any;
+}
+
+declare module 'eslint-plugin-jest/lib/rules/no-standalone-expect' {
   declare module.exports: any;
 }
 
@@ -223,6 +231,9 @@ declare module 'eslint-plugin-jest/lib/rules/no-duplicate-hooks.js' {
 declare module 'eslint-plugin-jest/lib/rules/no-empty-title.js' {
   declare module.exports: $Exports<'eslint-plugin-jest/lib/rules/no-empty-title'>;
 }
+declare module 'eslint-plugin-jest/lib/rules/no-expect-resolves.js' {
+  declare module.exports: $Exports<'eslint-plugin-jest/lib/rules/no-expect-resolves'>;
+}
 declare module 'eslint-plugin-jest/lib/rules/no-export.js' {
   declare module.exports: $Exports<'eslint-plugin-jest/lib/rules/no-export'>;
 }
@@ -249,6 +260,9 @@ declare module 'eslint-plugin-jest/lib/rules/no-large-snapshots.js' {
 }
 declare module 'eslint-plugin-jest/lib/rules/no-mocks-import.js' {
   declare module.exports: $Exports<'eslint-plugin-jest/lib/rules/no-mocks-import'>;
+}
+declare module 'eslint-plugin-jest/lib/rules/no-standalone-expect.js' {
+  declare module.exports: $Exports<'eslint-plugin-jest/lib/rules/no-standalone-expect'>;
 }
 declare module 'eslint-plugin-jest/lib/rules/no-test-callback.js' {
   declare module.exports: $Exports<'eslint-plugin-jest/lib/rules/no-test-callback'>;
