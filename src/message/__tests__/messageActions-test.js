@@ -35,7 +35,7 @@ describe('messageActions', () => {
       expect(actions[0].type).toBe('DO_NARROW');
       expect(actions[1].type).toBe('MESSAGE_FETCH_START');
       expect(actions[1].narrow).toEqual(streamNarrowObj);
-      expect(actions[2].type).toBe('Navigation/NAVIGATE');
+      expect(actions[2].type).toBe('Navigation/PUSH');
     });
 
     test('when no messages in new narrow but caught up, only switch to narrow, do not fetch', () => {
@@ -65,7 +65,7 @@ describe('messageActions', () => {
       expect(actions).toEqual([
         { type: 'DO_NARROW', narrow: streamNarrowObj },
         {
-          type: 'Navigation/NAVIGATE',
+          type: 'Navigation/PUSH',
           routeName: 'chat',
           params: { narrow: streamNarrowObj },
         },
@@ -98,7 +98,7 @@ describe('messageActions', () => {
       expect(actions[0].type).toBe('DO_NARROW');
       expect(actions[1].type).toBe('MESSAGE_FETCH_START');
       expect(actions[1].narrow).toEqual(streamNarrowObj);
-      expect(actions[2].type).toBe('Navigation/NAVIGATE');
+      expect(actions[2].type).toBe('Navigation/PUSH');
     });
 
     test('if new narrow stream is not valid, do nothing', () => {
