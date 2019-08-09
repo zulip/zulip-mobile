@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.1.124 (2019-08-09)
+
 ### Highlights for users
 
 * Links to other Zulip conversations were broken; now they work again.
