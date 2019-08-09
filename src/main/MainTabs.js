@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
 import { Platform } from 'react-native';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { createBottomTabNavigator, TabBarBottom } from 'react-navigation';
 
 import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
@@ -14,7 +14,7 @@ import { OwnAvatar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileCard from '../account-info/ProfileCard';
 
-export default TabNavigator(
+export default createBottomTabNavigator(
   {
     home: {
       // $FlowFixMe react-navigation types are twisty and seem wrong
