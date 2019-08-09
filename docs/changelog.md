@@ -36,6 +36,18 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Links to other Zulip conversations were broken; now they work again.
+
+* On Android you can now upload any file from your device, in addition
+  to photos.
+
+
+### Highlights for developers
+
+* Resolved issues: #2760, #3184
+
 
 ## 26.0.123 (2019-07-26)
 
@@ -52,7 +64,7 @@ experience.
 
 * Upgraded React Native to v0.59! (#3399)
 
-* Resolved issues: #3399, #3323, #3176
+* Resolved issues: #3399, #3323, #3176, #3574
 
 
 ## (beta) 25.8.122 (2019-07-24)
