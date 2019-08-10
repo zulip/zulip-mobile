@@ -14,12 +14,15 @@ export const resetAll = () => {
   lastSentTime = 0;
 };
 
-export default (auth: Auth, messageIds: number[]): void => {
-  unsentMessageIds.push(...messageIds);
-
+const processQueue = (auth: Auth) => {
   if (Date.now() - lastSentTime > 2000) {
     messagesFlags(auth, unsentMessageIds, 'add', 'read');
     unsentMessageIds = [];
     lastSentTime = Date.now();
   }
+};
+
+export default (auth: Auth, messageIds: number[]): void => {
+  unsentMessageIds.push(...messageIds);
+  processQueue(auth);
 };
