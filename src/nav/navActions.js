@@ -20,6 +20,12 @@ export const navigateBack = () => (dispatch: Dispatch, getState: GetState): Navi
 export const navigateToChat = (narrow: Narrow): NavigateAction =>
   NavigationActions.navigate({ routeName: 'chat', params: { narrow } });
 
+// Other stack routes reached through `navReducer`:
+//    NavigationActions.navigate({ routeName: 'loading' });
+//    NavigationActions.navigate({ routeName: 'welcome' });
+//    NavigationActions.navigate({ routeName: 'account' });
+//    NavigationActions.navigate({ routeName: 'main' });
+
 export const navigateToUsersScreen = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'users' });
 
@@ -52,9 +58,6 @@ export const navigateToRealmScreen = (realm?: string): NavigateAction =>
 export const navigateToLightbox = (src: string, message: Message): NavigateAction =>
   NavigationActions.navigate({ routeName: 'lightbox', params: { src, message } });
 
-export const navigateToLoading = (): NavigateAction =>
-  NavigationActions.navigate({ routeName: 'loading' });
-
 export const navigateToLanguage = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'language' });
 
@@ -66,9 +69,6 @@ export const navigateToDiagnostics = (): NavigateAction =>
 
 export const navigateToWelcomeHelp = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'welcome-help' });
-
-export const navigateToWelcomeScreen = (): NavigateAction =>
-  NavigationActions.navigate({ routeName: 'welcome' });
 
 export const navigateToVariables = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'variables' });
