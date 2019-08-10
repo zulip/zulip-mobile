@@ -5,6 +5,15 @@ import messagesFlags from './messages/messagesFlags';
 let unsentMessageIds = [];
 let lastSentTime = 0;
 
+/**
+ * Exported so that it can be used in test
+ * See queueMarkAsRead-test.js
+ */
+export const resetAll = () => {
+  unsentMessageIds = [];
+  lastSentTime = 0;
+};
+
 export default (auth: Auth, messageIds: number[]): void => {
   unsentMessageIds.push(...messageIds);
 

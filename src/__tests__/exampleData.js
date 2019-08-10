@@ -4,9 +4,10 @@ import { createStore } from 'redux';
 
 import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
 import type { GlobalState, RealmState } from '../reduxTypes';
-import type { Account } from '../types';
+import type { Auth, Account } from '../types';
 import { ACCOUNT_SWITCH, LOGIN_SUCCESS } from '../actionConstants';
 import rootReducer from '../boot/reducers';
+import { authOfAccount } from '../account/accountMisc';
 
 // TODO either fix Jest test-discovery patterns, or rename this file,
 // so this dummy test isn't required.
@@ -66,6 +67,7 @@ const makeAccount = (user: User): Account => ({
 
 export const selfUser: User = makeUser({ name: 'self' });
 export const selfAccount: Account = makeAccount(selfUser);
+export const selfAuth: Auth = authOfAccount(selfAccount);
 
 export const otherUser: User = makeUser({ name: 'other' });
 
