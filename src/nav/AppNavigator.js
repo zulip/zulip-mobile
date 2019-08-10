@@ -10,7 +10,6 @@ import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
 import GroupDetailsScreen from '../chat/GroupDetailsScreen';
 import SearchMessagesScreen from '../search/SearchMessagesScreen';
 import UsersScreen from '../users/UsersScreen';
-import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import SettingsScreen from '../settings/SettingsScreen';
@@ -50,7 +49,6 @@ export default StackNavigator(
     password: { screen: PasswordAuthScreen },
     realm: { screen: RealmScreen },
     search: { screen: SearchMessagesScreen },
-    subscriptions: { screen: SubscriptionsScreen },
     users: { screen: UsersScreen },
     settings: { screen: SettingsScreen },
     language: { screen: LanguageScreen },

@@ -20,9 +20,6 @@ export const navigateBack = () => (dispatch: Dispatch, getState: GetState): Navi
 export const navigateToChat = (narrow: Narrow): NavigateAction =>
   NavigationActions.navigate({ routeName: 'chat', params: { narrow } });
 
-export const navigateToAllStreams = (): NavigateAction =>
-  NavigationActions.navigate({ routeName: 'subscriptions' });
-
 export const navigateToUsersScreen = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'users' });
 
