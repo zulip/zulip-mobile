@@ -26,9 +26,6 @@ export const navigateToUsersScreen = (): NavigateAction =>
 export const navigateToSearch = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'search' });
 
-export const navigateToSettings = (): NavigateAction =>
-  NavigationActions.navigate({ routeName: 'settings' });
-
 export const navigateToEmojiPicker = (messageId: number): NavigateAction =>
   NavigationActions.navigate({ routeName: 'emoji-picker', params: { messageId } });
 

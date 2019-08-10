@@ -12,7 +12,6 @@ import SearchMessagesScreen from '../search/SearchMessagesScreen';
 import UsersScreen from '../users/UsersScreen';
 import ChatScreen from '../chat/ChatScreen';
 import LoadingScreen from '../start/LoadingScreen';
-import SettingsScreen from '../settings/SettingsScreen';
 import LanguageScreen from '../settings/LanguageScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import DebugScreen from '../settings/DebugScreen';
@@ -50,7 +49,6 @@ export default StackNavigator(
     realm: { screen: RealmScreen },
     search: { screen: SearchMessagesScreen },
     users: { screen: UsersScreen },
-    settings: { screen: SettingsScreen },
     language: { screen: LanguageScreen },
     lightbox: { screen: LightboxScreen },
     group: { screen: CreateGroupScreen },
