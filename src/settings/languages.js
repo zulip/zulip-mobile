@@ -1,11 +1,11 @@
 /* @flow strict */
 /* eslint-disable spellcheck/spell-checker */
 
-export type Language = {
+export type Language = {|
   locale: string,
   name: string,
   nativeName: string,
-};
+|};
 
 const languages: $ReadOnlyArray<Language> = [
   {

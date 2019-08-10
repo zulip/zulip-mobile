@@ -33,9 +33,9 @@ let otp = '';
  *
  * TODO move this to a libdef, and/or get an explicit type into upstream.
  */
-type LinkingEvent = {
+type LinkingEvent = {|
   url: string,
-};
+|};
 
 class AuthScreen extends PureComponent<Props> {
   componentDidMount = () => {
