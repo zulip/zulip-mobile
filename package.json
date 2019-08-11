@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.1.0",
+    "@react-native-community/netinfo": "^3.2.1",
     "@remobile/react-native-toast": "^1.0.7",
     "base-64": "^0.1.0",
     "blueimp-md5": "^2.10.0",

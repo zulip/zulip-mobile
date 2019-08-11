@@ -1,7 +1,8 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 'react-native';
+import { AppState, View, StyleSheet, Platform, NativeModules } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
