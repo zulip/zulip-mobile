@@ -66,7 +66,7 @@ fun sizedURL(context: Context, url: URL, dpSize: Float): URL {
 }
 
 private fun extractName(key: String): String {
-    return key.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+    return key.split(":")[0]
 }
 
 fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: Notification.InboxStyle, mContext: Context) {
@@ -109,7 +109,7 @@ private fun buildKeyString(fcmMessage: MessageFcmMessage): String {
 fun extractNames(conversations: ByConversationMap): ArrayList<String> {
     val names = arrayListOf<String>()
     for ((key) in conversations) {
-        names.add(key.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
+        names.add(key.split(":")[0])
     }
     return names
 }
