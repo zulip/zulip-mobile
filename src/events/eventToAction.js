@@ -31,7 +31,7 @@ import {
   EVENT_SUBSCRIPTION,
   EVENT,
 } from '../actionConstants';
-import { getOwnEmail } from '../users/userSelectors';
+import { getOwnEmail } from '../account/accountsSelectors';
 
 const opToActionUser = {
   add: EVENT_USER_ADD,

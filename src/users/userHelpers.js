@@ -6,21 +6,18 @@ import { ensureUnreachable } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
-type UsersByStatus = {|
-  active: User[],
-  idle: User[],
-  offline: User[],
-  unavailable: User[],
-|};
-
-export const groupUsersByStatus = (users: User[], presences: PresenceState): UsersByStatus => {
-  const groupedUsers = { active: [], idle: [], offline: [], unavailable: [] };
-  users.forEach(user => {
-    const status = statusFromPresence(presences[user.email]);
-    groupedUsers[status].push(user);
-  });
-  return groupedUsers;
-};
+export const groupUsersByStatus = (
+  users: User[],
+  presences: PresenceState,
+): {| active: User[], idle: User[], offline: User[], unavailable: User[] |} =>
+  users.reduce(
+    (groupedUsers, user) => {
+      const status = statusFromPresence(presences[user.email]);
+      groupedUsers[status].push(user);
+      return groupedUsers;
+    },
+    { active: [], idle: [], offline: [], unavailable: [] },
+  );
 
 const statusOrder = (presence: UserPresence): number => {
   const status = statusFromPresence(presence);

@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import type { Narrow, Dispatch, GetState, GlobalState, Message, Action } from '../types';
-/* eslint-disable import/no-named-as-default-member */
-import api, { getMessages, registerForEvents } from '../api';
+import { getMessages, registerForEvents, uploadFile } from '../api';
 import {
   getAuth,
   getSession,
@@ -258,12 +257,12 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
   setInterval(() => dispatch(reportPresence()), 60 * 1000);
 };
 
-export const uploadFile = (narrow: Narrow, uri: string, name: string) => async (
+export const uploadImage = (narrow: Narrow, uri: string, name: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
   const auth = getAuth(getState());
-  const response = await api.uploadFile(auth, uri, name);
+  const response = await uploadFile(auth, uri, name);
   const messageToSend = `[${name}](${response.uri})`;
 
   dispatch(addToOutbox(narrow, messageToSend));

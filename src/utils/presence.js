@@ -6,18 +6,6 @@ import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import type { ClientPresence, UserPresence, PresenceStatus, UserStatus } from '../types';
 import { ensureUnreachable } from '../types';
 
-/** The relation `>=`, where `active` > `idle` > `offline`. */
-const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {
-  /* prettier-ignore */ /* eslint-disable no-multi-spaces */
-  switch (a) {
-    case 'active':  return true;
-    case 'idle':    return b !== 'active';
-    case 'offline': return b !== 'active' && b !== 'idle';
-    default:
-      ensureUnreachable(a); return false;
-  }
-};
-
 const OFFLINE_THRESHOLD_SECS = 140;
 
 /**
@@ -45,8 +33,22 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
       (aggregated, client: string) => {
         const { status, timestamp } = presence[client];
         if (Date.now() / 1000 - timestamp < OFFLINE_THRESHOLD_SECS) {
-          if (presenceStatusGeq(status, aggregated.status)) {
-            return { client, status, timestamp };
+          switch (status) {
+            case 'active':
+              return { client, status, timestamp };
+            case 'idle':
+              if (aggregated.status !== 'active') {
+                return { client, status, timestamp };
+              }
+              break;
+            case 'offline':
+              if (aggregated.status !== 'active' && aggregated.status !== 'idle') {
+                return { client, status, timestamp };
+              }
+              break;
+            default:
+              ensureUnreachable(status);
+              return aggregated;
           }
         }
         return aggregated;

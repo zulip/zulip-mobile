@@ -48,10 +48,12 @@ export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSe
     unreadStreams: StreamUnreadItem[],
   ) => {
     const topicList = topics[streamId];
-    const stream = streamsById.get(streamId);
-    if (!topicList || !stream) {
+
+    if (!topicList) {
       return undefined;
     }
+
+    const stream = streamsById[streamId];
 
     return topicList.map(({ name, max_id }) => {
       const isMuted = !!mute.find(x => x[0] === stream.name && x[1] === name);

@@ -11,7 +11,7 @@ import {
   getUnreadHuddles,
   getUnreadMentions,
 } from '../directSelectors';
-import { getOwnEmail, getAllUsersByEmail } from '../users/userSelectors';
+import { getOwnEmail } from '../account/accountsSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { isTopicMuted } from '../utils/message';
 import {
@@ -22,26 +22,25 @@ import {
   isPrivateNarrow,
 } from '../utils/narrow';
 import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
+import { getAllUsersByEmail } from '../users/userSelectors';
 
 export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
   getUnreadStreams,
   getSubscriptionsById,
   getMute,
-  (unreadStreams, subscriptionsById, mute) => {
-    const totals = ({}: { [number]: number });
-    unreadStreams.forEach(stream => {
+  (unreadStreams, subscriptionsById, mute) =>
+    unreadStreams.reduce((totals, stream) => {
       if (!totals[stream.stream_id]) {
         totals[stream.stream_id] = 0;
       }
       const isMuted = isTopicMuted(
-        (subscriptionsById.get(stream.stream_id) || NULL_SUBSCRIPTION).name,
+        (subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION).name,
         stream.topic,
         mute,
       );
       totals[stream.stream_id] += isMuted ? 0 : stream.unread_message_ids.length;
-    });
-    return totals;
-  },
+      return totals;
+    }, ({}: { [number]: number })),
 );
 
 export const getUnreadStreamTotal: Selector<number> = createSelector(
@@ -51,13 +50,11 @@ export const getUnreadStreamTotal: Selector<number> = createSelector(
 
 export const getUnreadByPms: Selector<{ [number]: number }> = createSelector(
   getUnreadPms,
-  unreadPms => {
-    const totals = ({}: { [number]: number });
-    unreadPms.forEach(pm => {
+  unreadPms =>
+    unreadPms.reduce((totals, pm) => {
       totals[pm.sender_id] = totals[pm.sender_id] || 0 + pm.unread_message_ids.length;
-    });
-    return totals;
-  },
+      return totals;
+    }, ({}: { [number]: number })),
 );
 
 export const getUnreadPmsTotal: Selector<number> = createSelector(
@@ -67,14 +64,12 @@ export const getUnreadPmsTotal: Selector<number> = createSelector(
 
 export const getUnreadByHuddles: Selector<{ [string]: number }> = createSelector(
   getUnreadHuddles,
-  unreadHuddles => {
-    const totals = ({}: { [string]: number });
-    unreadHuddles.forEach(huddle => {
+  unreadHuddles =>
+    unreadHuddles.reduce((totals, huddle) => {
       totals[huddle.user_ids_string] =
         totals[huddle.user_ids_string] || 0 + huddle.unread_message_ids.length;
-    });
-    return totals;
-  },
+      return totals;
+    }, ({}: { [string]: number })),
 );
 
 export const getUnreadHuddlesTotal: Selector<number> = createSelector(
@@ -105,7 +100,7 @@ export const getUnreadStreamsAndTopics: Selector<UnreadStreamItem[]> = createSel
     const totals = new Map();
     unreadStreams.forEach(stream => {
       const { name, color, in_home_view, invite_only, pin_to_top } =
-        subscriptionsById.get(stream.stream_id) || NULL_SUBSCRIPTION;
+        subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
 
       let total = totals.get(stream.stream_id);
       if (!total) {

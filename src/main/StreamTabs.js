@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
 export default TabNavigator(
   {
     subscribed: {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: SubscriptionsCard,
       navigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (
@@ -30,7 +29,6 @@ export default TabNavigator(
       },
     },
     allStreams: {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: StreamListCard,
       navigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (

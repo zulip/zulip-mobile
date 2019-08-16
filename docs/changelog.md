@@ -20,57 +20,10 @@ We number our versions like so:
   * B is reset to zero on "a major release", and otherwise incremented.
 
 
-#### "Resolved issues"
-
-The list of "Resolved issues" on each release is intended to be
-* comprehensive,
-* as a list of issues we believe were resolved by changes in that
-  release -- a bug fixed, feature implemented, or desired change made.
-
-It doesn't include
-* duplicate issues
-* issues we determined had been fixed, but don't know when
-* issues we closed because we decided not to make the requested
-  change, or couldn't make use of the bug report
-
-
 ## Unreleased
 
 
-## 26.1.124 (2019-08-09)
-
-### Highlights for users
-
-* Links to other Zulip conversations were broken; now they work again.
-
-* On Android you can now upload any file from your device, in addition
-  to photos.
-
-
-### Highlights for developers
-
-* Resolved issues: #2760, #3184
-
-
-## 26.0.123 (2019-07-26)
-
-### Highlights for users (since 25.6.120)
-
-* Upgrades across most of the third-party software we use to help
-  make the app.
-
-Plus, like every release, many other improvements for your Zulip
-experience.
-
-
-### Highlights for developers
-
-* Upgraded React Native to v0.59! (#3399)
-
-* Resolved issues: #3399, #3323, #3176, #3574
-
-
-## (beta) 25.8.122 (2019-07-24)
+## 25.8.122 (2019-07-24)
 
 ### Highlights for users
 
@@ -82,12 +35,8 @@ Bugfixes and other improvements for your Zulip experience.
 * Upgrades to lots of dependencies, and other changes in preparation
   for the RN v0.59 upgrade #3399.
 
-* Dropped iOS 9 support; now iOS 10.3+.
 
-* Resolved issues: #3106, #3565, #3550, #3518
-
-
-## (beta) 25.7.121 (2019-07-19)
+## 25.7.121 (2019-07-19)
 
 (This was a beta-only, and Android-only, release.)
 
@@ -95,11 +44,6 @@ Bugfixes and other improvements for your Zulip experience.
 ### Highlights for users
 
 Bugfixes and other improvements for your Zulip experience.
-
-
-### Details
-
-Resolved issues: #3553, #3539, #3196
 
 
 ## 25.6.120 (2019-06-18)
@@ -112,12 +56,7 @@ Plus, like every release, many other improvements for your Zulip
 experience.
 
 
-## Details
-
-Resolved issues: #3264, #3526, #3516
-
-
-## (beta) 25.5.119 (2019-06-13)
+## 25.5.119 (2019-06-13)
 
 ### Highlights for users
 
@@ -130,7 +69,7 @@ Like every release, it comes with many other improvements for your
 Zulip experience.
 
 
-## (beta) 25.4.118 (2019-06-11)
+## 25.4.118 (2019-06-11)
 
 (This was a beta-only release.)
 
@@ -140,11 +79,6 @@ Zulip experience.
 
 Plus, like every release, many other improvements for your Zulip
 experience.
-
-
-### Details
-
-Resolved issues: #3375
 
 
 ## 25.3.117 (2019-06-06)
@@ -157,7 +91,7 @@ Incremental release following 25.2.116, with several bugfixes.
 Incremental release following 25.0.114, with several bugfixes.
 
 
-## (alpha) 25.1.115 (2019-06-04)
+## 25.1.115 (2019-06-04)
 
 Alpha release; no release notes.  See Git log for detailed changes.
 

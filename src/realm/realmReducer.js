@@ -9,14 +9,12 @@ import {
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_REALM_FILTERS,
 } from '../actionConstants';
-import { objectFromEntries } from '../jsBackport';
 
 // Initial state
 const initialState = {
   canCreateStreams: true,
   crossRealmBots: [],
   email: undefined,
-  user_id: undefined,
   twentyFourHourTime: false,
   emoji: {},
   filters: [],
@@ -39,11 +37,15 @@ const initialState = {
 const fakeBlankState = {
   ...initialState,
   email: '',
-  user_id: 0,
 };
 
-const convertRealmEmoji = (data): RealmEmojiById =>
-  objectFromEntries(Object.keys(data).map(id => [id, { ...data[id], code: id.toString() }]));
+const convertRealmEmoji = (data): RealmEmojiById => {
+  const emojis = {};
+  Object.keys(data).forEach(id => {
+    emojis[id] = { ...data[id], code: id.toString() };
+  });
+  return emojis;
+};
 
 export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {
@@ -58,7 +60,6 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         canCreateStreams: action.data.can_create_streams,
         crossRealmBots: action.data.cross_realm_bots,
         email: action.data.email,
-        user_id: action.data.user_id,
         emoji: convertRealmEmoji(action.data.realm_emoji),
         filters: action.data.realm_filters,
         isAdmin: action.data.is_admin,

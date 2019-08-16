@@ -1,17 +1,16 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
-import type { DocumentPickerResponse } from 'react-native-document-picker';
+import { View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
 
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
-import { BRAND_COLOR } from '../styles';
-import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera, IconFile } from '../common/Icons';
+import styles from '../styles';
+import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
-import { navigateToCreateGroup, uploadFile } from '../actions';
+import { navigateToCreateGroup, uploadImage } from '../actions';
 
 type Props = {|
   dispatch: Dispatch,
@@ -31,12 +30,8 @@ type Props = {|
  * extension, so in this case we need to adjust the extension to match the
  * actual format.  The clue we get in the image-picker response is the extension
  * found in `uri`.
- *
- * Also if `fileName` is undefined, default to the last component of `uri`.
  */
-export const chooseUploadImageFilename = (uri: string, fileName: string | void): string => {
-  const name = fileName !== undefined ? fileName : uri.replace(/.*\//, '');
-
+export const chooseUploadImageFilename = (uri: string, fileName: string): string => {
   /*
    * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
    * HEIF format and have file names with the extension `.HEIC`.  When the user
@@ -45,18 +40,13 @@ export const chooseUploadImageFilename = (uri: string, fileName: string | void):
    * the react-native-image-picker response still has the `.HEIC` extension.
    */
   if (/\.jpe?g$/i.test(uri)) {
-    return name.replace(/\.heic$/i, '.jpeg');
+    return fileName.replace(/\.heic$/i, '.jpeg');
   }
 
-  return name;
+  return fileName;
 };
 
 class ComposeMenu extends PureComponent<Props> {
-  uploadFile = (uri: string, fileName: string | void) => {
-    const { dispatch, destinationNarrow } = this.props;
-    dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
-  };
-
   handleImagePickerResponse = (response: {
     didCancel: boolean,
     // Upstream docs are vague:
@@ -76,10 +66,17 @@ class ComposeMenu extends PureComponent<Props> {
       return;
     }
 
-    this.uploadFile(response.uri, response.fileName);
+    const { dispatch, destinationNarrow } = this.props;
+    dispatch(
+      uploadImage(
+        destinationNarrow,
+        response.uri,
+        chooseUploadImageFilename(response.uri, response.fileName),
+      ),
+    );
   };
 
-  handleImagePicker = () => {
+  handleImageUpload = () => {
     ImagePicker.launchImageLibrary(
       {
         quality: 1.0,
@@ -104,84 +101,38 @@ class ComposeMenu extends PureComponent<Props> {
     ImagePicker.launchCamera(options, this.handleImagePickerResponse);
   };
 
-  handleFilePicker = async () => {
-    // eslint-disable-next-line global-require
-    const DocumentPicker = require('react-native-document-picker').default;
-    let response;
-    try {
-      response = (await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles],
-      }): DocumentPickerResponse);
-    } catch (e) {
-      if (!DocumentPicker.isCancel(e)) {
-        showErrorAlert(e, 'Error');
-      }
-      return;
-    }
-
-    this.uploadFile(response.uri, response.name);
-  };
-
-  styles = StyleSheet.create({
-    composeMenu: {
-      flexDirection: 'row',
-      overflow: 'hidden',
-    },
-    expandButton: {
-      padding: 12,
-      color: BRAND_COLOR,
-    },
-    composeMenuButton: {
-      padding: 12,
-      marginRight: -8,
-      color: BRAND_COLOR,
-    },
-  });
-
   render() {
     const { dispatch, expanded, onExpandContract } = this.props;
-    const numIcons = Platform.OS === 'android' ? 4 : 3;
     return (
-      <View style={this.styles.composeMenu}>
+      <View style={styles.composeMenu}>
         <AnimatedComponent
           stylePropertyName="width"
-          fullValue={40 * numIcons}
+          fullValue={120}
           useNativeDriver={false}
           visible={expanded}
         >
-          <View style={this.styles.composeMenu}>
+          <View style={styles.composeMenu}>
             <IconPeople
-              style={this.styles.composeMenuButton}
+              style={styles.composeMenuButton}
               size={24}
               onPress={() => {
                 dispatch(navigateToCreateGroup());
               }}
             />
-            {Platform.OS === 'android' && (
-              <IconFile
-                style={this.styles.composeMenuButton}
-                size={24}
-                onPress={this.handleFilePicker}
-              />
-            )}
             <IconImage
-              style={this.styles.composeMenuButton}
+              style={styles.composeMenuButton}
               size={24}
-              onPress={this.handleImagePicker}
+              onPress={this.handleImageUpload}
             />
             <IconCamera
-              style={this.styles.composeMenuButton}
+              style={styles.composeMenuButton}
               size={24}
               onPress={this.handleCameraCapture}
             />
           </View>
         </AnimatedComponent>
-        {!expanded && (
-          <IconPlus style={this.styles.expandButton} size={24} onPress={onExpandContract} />
-        )}
-        {expanded && (
-          <IconLeft style={this.styles.expandButton} size={24} onPress={onExpandContract} />
-        )}
+        {!expanded && <IconPlus style={styles.expandButton} size={24} onPress={onExpandContract} />}
+        {expanded && <IconLeft style={styles.expandButton} size={24} onPress={onExpandContract} />}
       </View>
     );
   }

@@ -17,15 +17,22 @@ import { getSubscriptions, getStreams } from '../directSelectors';
  *
  * See also `getStreams` for the stream objects as an array.
  */
-export const getStreamsById: Selector<Map<number, Stream>> = createSelector(
+export const getStreamsById: Selector<{ [number]: Stream }> = createSelector(
   getStreams,
-  streams => new Map(streams.map(stream => [stream.stream_id, stream])),
+  streams =>
+    streams.reduce((streamsById, stream) => {
+      streamsById[stream.stream_id] = stream;
+      return streamsById;
+    }, ({}: { [number]: Stream })),
 );
 
-export const getSubscriptionsById: Selector<Map<number, Subscription>> = createSelector(
+export const getSubscriptionsById: Selector<{ [number]: Subscription }> = createSelector(
   getSubscriptions,
   subscriptions =>
-    new Map(subscriptions.map(subscription => [subscription.stream_id, subscription])),
+    subscriptions.reduce((subsById, subscription) => {
+      subsById[subscription.stream_id] = subscription;
+      return subsById;
+    }, ({}: { [number]: Subscription })),
 );
 
 export const getIsActiveStreamSubscribed: Selector<boolean, Narrow> = createSelector(

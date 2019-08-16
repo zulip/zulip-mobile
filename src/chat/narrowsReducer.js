@@ -33,29 +33,29 @@ const messageFetchComplete = (state, action) => {
 
 const eventNewMessage = (state, action) => {
   let stateChange = false;
-  const newState: NarrowsState = {};
-  Object.keys(state).forEach(key => {
+  const newState = Object.keys(state).reduce((msg, key) => {
     const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
     const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
     const messageDoesNotExist = state[key].find(id => action.message.id === id) === undefined;
 
     if (isInNarrow && isCaughtUp && messageDoesNotExist) {
       stateChange = true;
-      newState[key] = [...state[key], action.message.id];
+      msg[key] = [...state[key], action.message.id];
     } else {
-      newState[key] = state[key];
+      msg[key] = state[key];
     }
-  });
+    return msg;
+  }, {});
   return stateChange ? newState : state;
 };
 
 const eventMessageDelete = (state, action) => {
   let stateChange = false;
-  const newState: NarrowsState = {};
-  Object.keys(state).forEach(key => {
-    newState[key] = state[key].filter(id => id !== action.messageId);
-    stateChange = stateChange || newState[key].length < state[key].length;
-  });
+  const newState = Object.keys(state).reduce((updatedState, key) => {
+    updatedState[key] = state[key].filter(id => id !== action.messageId);
+    stateChange = stateChange || updatedState[key].length < state[key].length;
+    return updatedState;
+  }, {});
   return stateChange ? newState : state;
 };
 

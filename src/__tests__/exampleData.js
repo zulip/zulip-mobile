@@ -14,11 +14,14 @@ describe('nothing', () => {
   test('nothing', () => {});
 });
 
+/** Return a string that's almost surely different every time. */
+const randString = () =>
+  Math.random()
+    .toString(36)
+    .substring(7);
+
 /** Return an integer 0 <= N < end, roughly uniformly at random. */
 const randInt = (end: number) => Math.floor(Math.random() * end);
-
-/** Return a string that's almost surely different every time. */
-const randString = () => randInt(2 ** 54).toString(36);
 
 const userOrBotProperties = ({ name: _name }) => {
   const name = _name !== undefined ? _name : randString();
@@ -71,24 +74,14 @@ const otherUser: User = makeUser({ name: 'other' });
 
 const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
 
-const makeStream = (args: { name?: string, description?: string } = {}): Stream => {
-  const name = args.name !== undefined ? args.name : randString();
-  const description =
-    args.description !== undefined ? args.description : `On the ${randString()} of ${name}`;
-  return {
-    stream_id: randInt(1000),
-    name,
-    description,
-    invite_only: false,
-    is_announcement_only: false,
-    history_public_to_subscribers: true,
-  };
-};
-
-const stream: Stream = makeStream({
-  name: 'a stream',
+const stream: Stream = {
+  stream_id: 34,
   description: 'An example stream.',
-});
+  name: 'a stream',
+  invite_only: false,
+  is_announcement_only: false,
+  history_public_to_subscribers: true,
+};
 
 const displayRecipientFromUser = (user: User): PmRecipientUser => {
   const { email, full_name, user_id: id } = user;
@@ -223,7 +216,6 @@ export const eg = {
   selfAccount,
   otherUser,
   crossRealmBot,
-  makeStream,
   stream,
 
   pmMessage,

@@ -73,7 +73,7 @@ describe('getTopicsForStream', () => {
 
   test('when topics loaded for given stream return them', () => {
     const state = deepFreeze({
-      streams: [{ stream_id: 123, name: 'stream 123' }],
+      streams: [],
       topics: {
         123: [{ name: 'topic', max_id: 456 }],
       },

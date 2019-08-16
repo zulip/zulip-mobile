@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import type { GlobalState, UserOrBot, Selector, User } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
+import { getOwnEmail } from '../account/accountsSelectors';
 
 /**
  * All users in this Zulip org (aka realm).
@@ -78,66 +79,6 @@ export const getSortedUsers: Selector<User[]> = createSelector(
 );
 
 /**
- * The user's own user ID in the active account.
- *
- * Throws if we have no data from the server.
- *
- * See also `getOwnEmail` and `getOwnUser`.
- */
-//   TODO  we can switch `getOwnUser` and other uses of `getOwnEmail` to use
-//   user IDs instead!
-export const getOwnUserId = (state: GlobalState): number => {
-  const { user_id } = state.realm;
-  if (user_id === undefined) {
-    throw new Error('No server data found');
-  }
-  return user_id;
-};
-
-/**
- * The user's own email in the active account.
- *
- * Throws if we have no data from the server.
- *
- * See also `getOwnUserId` and `getOwnUser`.
- */
-export const getOwnEmail = (state: GlobalState): string => {
-  const { email } = state.realm;
-  if (email === undefined) {
-    throw new Error('No server data found');
-  }
-  return email;
-};
-
-/**
- * The person using the app, as represented by a `User` object.
- *
- * This is the server's information about the active, logged-in account, in
- * the same form as the information we get from the server about everyone
- * else in the organization.
- *
- * Throws if we have no such information.
- *
- * See also `getOwnUserId` and `getOwnEmail`.
- */
-export const getOwnUser = (state: GlobalState): User => {
-  const ownEmail = getOwnEmail(state);
-  const ownUser = getUsersByEmail(state).get(ownEmail);
-  if (ownUser === undefined) {
-    throw new Error('Have ownEmail, but not found in user data');
-  }
-  return ownUser;
-};
-
-/**
- * DEPRECATED; don't add new uses.  Generally, use `getOwnUser` instead.
- *
- * For discussion, see `nullObjects.js`.
- */
-export const getSelfUserDetail = (state: GlobalState): User =>
-  getUsersByEmail(state).get(getOwnEmail(state)) || NULL_USER;
-
-/**
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
  *
  * See `getAllUsers`.
@@ -147,6 +88,9 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
   getOwnEmail,
   (users, ownEmail) => users.filter(user => user.email !== ownEmail),
 );
+
+export const getSelfUserDetail = (state: GlobalState): User =>
+  getUsersByEmail(state).get(getOwnEmail(state)) || NULL_USER;
 
 /** Excludes deactivated users.  See `getAllUsers` for discussion. */
 export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(

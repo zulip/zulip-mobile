@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { Message, PmConversationData, Selector } from '../types';
 import { getPrivateMessages } from '../message/messageSelectors';
-import { getOwnEmail } from '../users/userSelectors';
+import { getOwnEmail } from '../account/accountsSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
 import { normalizeRecipientsSansMe, getRecipientsIds } from '../utils/recipient';
 
@@ -25,20 +25,20 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
       msgId: msg.id,
     }));
 
-    const latestByRecipient = new Map();
-    recipients.forEach(recipient => {
-      const prev = latestByRecipient.get(recipient.emails);
+    const groupedRecipients = recipients.reduce((uniqueMap, recipient) => {
+      const prev = uniqueMap.get(recipient.emails);
       if (!prev || recipient.msgId > prev.msgId) {
-        latestByRecipient.set(recipient.emails, {
+        uniqueMap.set(recipient.emails, {
           ids: recipient.ids,
           recipients: recipient.emails,
           timestamp: recipient.timestamp || 0,
           msgId: recipient.msgId,
         });
       }
-    });
+      return uniqueMap;
+    }, new Map());
 
-    const sortedByMostRecent = Array.from(latestByRecipient.values()).sort(
+    const sortedByMostRecent = Array.from(groupedRecipients.values()).sort(
       (a, b) => +b.msgId - +a.msgId,
     );
 

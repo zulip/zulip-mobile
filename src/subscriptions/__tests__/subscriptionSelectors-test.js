@@ -13,7 +13,7 @@ describe('getStreamsById', () => {
     const state = deepFreeze({
       streams: [],
     });
-    expect(getStreamsById(state)).toEqual(new Map());
+    expect(getStreamsById(state)).toEqual({});
   });
 
   test('returns an object with stream id as keys', () => {
@@ -21,7 +21,10 @@ describe('getStreamsById', () => {
       streams: [{ stream_id: 1 }, { stream_id: 2 }],
     });
 
-    const expectedState = new Map([[1, { stream_id: 1 }], [2, { stream_id: 2 }]]);
+    const expectedState = {
+      '1': { stream_id: 1 },
+      '2': { stream_id: 2 },
+    };
 
     const streamsById = getStreamsById(state);
 
@@ -34,7 +37,7 @@ describe('getSubscriptionsById', () => {
     const state = deepFreeze({
       subscriptions: [],
     });
-    expect(getSubscriptionsById(state)).toEqual(new Map());
+    expect(getSubscriptionsById(state)).toEqual({});
   });
 
   test('returns an object with stream id as keys', () => {
@@ -42,7 +45,10 @@ describe('getSubscriptionsById', () => {
       subscriptions: [{ stream_id: 1 }, { stream_id: 2 }],
     });
 
-    const expectedState = new Map([[1, { stream_id: 1 }], [2, { stream_id: 2 }]]);
+    const expectedState = {
+      '1': { stream_id: 1 },
+      '2': { stream_id: 2 },
+    };
 
     const subscriptionsById = getSubscriptionsById(state);
 
