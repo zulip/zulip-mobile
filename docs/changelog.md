@@ -37,6 +37,22 @@ It doesn't include
 ## Unreleased
 
 
+## (iOS) 26.2.125 (2019-08-16)
+
+### Highlights for users
+
+* Fixed issue where new users couldn't log in (yikes!)
+
+
+### Highlights for developers
+
+This release is identical to 25.8.122, except for the version number.
+It was released for iOS only, as a stopgap fix for #3588.
+
+Reintroduces two issues (excluding Android-only issues): #2760, #3176.
+Also returns us to RN v0.57.
+
+
 ## 26.1.124 (2019-08-09)
 
 ### Highlights for users
