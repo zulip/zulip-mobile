@@ -183,7 +183,8 @@ hr {
 }
 .avatar,
 .header-wrapper,
-.message-brief {
+.message-brief,
+.poll-button {
   cursor: pointer;
 }
 .stream-header {
@@ -362,11 +363,7 @@ blockquote {
   margin: 8px 0;
 }
 .reaction {
-  color: hsl(0, 0%, 50%);
-  display: inline-block;
   padding: 5px 6.5px;
-  border-radius: 3px;
-  border: 1px solid hsla(0, 0%, 50%, 0.75);
   line-height: 1rem;
   height: 1rem;
   margin: 4px 8px 4px 0;
@@ -377,11 +374,6 @@ blockquote {
   max-height: 1rem;
   max-width: 1rem;
   vertical-align: top;
-}
-.self-voted {
-  color: ${BRAND_COLOR};
-  border: 1px solid ${BRAND_COLOR};
-  background: hsla(177.1, 69.7%, 46.7%, 0.1);
 }
 .hidden {
   display: none;
@@ -398,14 +390,50 @@ blockquote {
   color: white;
 }
 .widget {
+  padding: 1rem;
+  border: 1px solid hsl(0, 0%, 60%);
+  border-radius: 0.5rem;
+}
+.dummy-widget {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  background: hsla(0, 0%, 50%, 0.1);
-  border: 1px dashed hsla(0, 0%, 50%, 0.5);
-  border-radius: 0.5rem;
+}
+.poll-question {
+  text-overflow: ellipsis;
+  font-size: 20px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid hsla(0, 0%, 60%, 0.2);
+}
+.poll-button {
+  height: 24px;
+  width: 32px;
+  margin: 4px 4px 4px 0;
+  text-align: center;
+}
+.poll-button, .reaction {
+  border-radius: 3px;
+  border: 1px solid hsla(0, 0%, 50%, 0.75);
+  color: hsl(0, 0%, 50%);
+  display: inline-block;
+}
+.reaction.self-voted, .poll-button.self-voted {
+  color: ${BRAND_COLOR};
+  border-color: ${BRAND_COLOR};
+  background: hsla(177, 70%, 47%, 0.1);
+}
+.poll-option {
+  display: inline;
+}
+.poll:after {
+  content: "Poll";
+  display: block;
+  font-size: 12px;
+  font-style: italic;
+  color: hsl(0, 0%, 60%);
+  text-align: right;
+  margin: 0 -8px -12px 0;
 }
 #typing {
   display: flex;

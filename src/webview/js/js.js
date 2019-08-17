@@ -699,6 +699,20 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
+  if (target.matches('.poll-button')) {
+    const optionElement = target.closest('.poll-option-container');
+    if (!optionElement) {
+      throw new Error('Corresponding option element not found.');
+    }
+    sendMessage({
+      type: 'vote',
+      messageId: getMessageIdFromNode(target),
+      optionId: parseInt(requireAttribute(optionElement, 'data-option-id'), 10),
+      vote: target.classList.contains('self-voted') ? -1 : 1,
+    });
+    return;
+  }
+
   const messageElement = target.closest('.message-brief');
   if (messageElement) {
     messageElement.getElementsByClassName('timestamp')[0].classList.toggle('show');

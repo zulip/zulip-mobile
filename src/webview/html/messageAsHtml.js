@@ -15,6 +15,7 @@ import { shortTime } from '../../utils/date';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';
 import processAlertWords from './processAlertWords';
+import widgetAsHtml from './widgetAsHtml';
 
 const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): string => {
   const pieces = [];
@@ -69,14 +70,6 @@ $!${messageReactionListAsHtml(reactions, ownEmail, allImageEmojiById)}
 `;
 };
 
-const widgetBody = (message: Message | Outbox) => template`
-$!${message.content}
-<div class="widget"
- ><p>Interactive message</p
- ><p>To use, open on web or desktop</p
-></div>
-`;
-
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
   Object.keys(flags).filter(key => flags[key][id]);
 
@@ -99,9 +92,11 @@ export default (backgroundData: BackgroundData, message: Message | Outbox, isBri
   </div>
 </div>
 `;
+
+  const { ownUser } = backgroundData;
   const bodyHtml =
     message.submessages && message.submessages.length > 0
-      ? widgetBody(message)
+      ? widgetAsHtml(ownUser.user_id, message.submessages, message.content)
       : messageBody(backgroundData, message);
 
   if (isBrief) {

@@ -23,6 +23,7 @@ import getMessages from './messages/getMessages';
 import getMessageHistory from './messages/getMessageHistory';
 import messagesFlags from './messages/messagesFlags';
 import sendMessage from './messages/sendMessage';
+import sendSubmessage from './submessages/sendSubmessage';
 import updateMessage from './messages/updateMessage';
 import savePushToken from './notifications/savePushToken';
 import forgetPushToken from './notifications/forgetPushToken';
@@ -77,6 +78,7 @@ export {
   getMessageHistory,
   messagesFlags,
   sendMessage,
+  sendSubmessage,
   updateMessage,
   savePushToken,
   forgetPushToken,
@@ -132,6 +134,7 @@ export default {
   getMessageHistory,
   messagesFlags,
   sendMessage,
+  sendSubmessage,
   updateMessage,
   savePushToken,
   forgetPushToken,
