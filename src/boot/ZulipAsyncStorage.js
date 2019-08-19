@@ -24,7 +24,7 @@ export default class ZulipAsyncStorage {
     if (result !== null && result.startsWith('z')) {
       const header = result.substring(0, result.indexOf('|', result.indexOf('|') + 1) + 1);
       if (
-        NativeModules.TextCompressionModule !== undefined
+        NativeModules.TextCompressionModule
         && header === NativeModules.TextCompressionModule.header
       ) {
         result = await NativeModules.TextCompressionModule.decompress(result);
@@ -48,7 +48,7 @@ export default class ZulipAsyncStorage {
   }
 
   static async setItem(key: string, value: string, callback: ?(error: ?Error) => void) {
-    if (NativeModules.TextCompressionModule === undefined) {
+    if (!NativeModules.TextCompressionModule) {
       return AsyncStorage.setItem(key, value, callback);
     }
     return AsyncStorage.setItem(
