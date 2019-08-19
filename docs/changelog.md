@@ -36,6 +36,17 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (iOS) Fixed issue where new users couldn't log in (yikes!)
+
+
+### Highlights for developers
+
+* Upgraded to react-navigation v2 (part of #3573).
+
+* Resolved issues: #3588
+
 
 ## (iOS) 26.2.125 (2019-08-16)
 
