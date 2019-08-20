@@ -4,8 +4,7 @@ import type { Auth, Dispatch, GetText, Message, Narrow, Outbox, Subscription } f
 import type { BackgroundData } from '../webview/MessageList';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
-/* eslint-disable import/no-named-as-default-member */
-import api, { getRawMessageContent, toggleMuteStream, toggleMessageStarred } from '../api';
+import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
@@ -43,7 +42,7 @@ reply.title = 'Reply';
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
-    : (await getRawMessageContent(auth, message.id)).raw_content;
+    : (await api.getRawMessageContent(auth, message.id)).raw_content;
   Clipboard.setString(rawMessage);
   showToast(_('Message copied'));
 };
@@ -76,7 +75,7 @@ muteTopic.title = 'Mute topic';
 const unmuteStream = ({ auth, message, subscriptions }) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
-    toggleMuteStream(auth, sub.stream_id, false);
+    api.toggleMuteStream(auth, sub.stream_id, false);
   }
 };
 unmuteStream.title = 'Unmute stream';
@@ -84,18 +83,18 @@ unmuteStream.title = 'Unmute stream';
 const muteStream = ({ auth, message, subscriptions }) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
-    toggleMuteStream(auth, sub.stream_id, true);
+    api.toggleMuteStream(auth, sub.stream_id, true);
   }
 };
 muteStream.title = 'Mute stream';
 
 const starMessage = ({ auth, message }) => {
-  toggleMessageStarred(auth, [message.id], true);
+  api.toggleMessageStarred(auth, [message.id], true);
 };
 starMessage.title = 'Star message';
 
 const unstarMessage = ({ auth, message }) => {
-  toggleMessageStarred(auth, [message.id], false);
+  api.toggleMessageStarred(auth, [message.id], false);
 };
 unstarMessage.title = 'Unstar message';
 

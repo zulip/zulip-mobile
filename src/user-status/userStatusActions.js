@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import type { Dispatch, GetState } from '../types';
-/* eslint-disable import/no-named-as-default-member */
-import api from '../api';
+import * as api from '../api';
 import { getAuth } from '../selectors';
 
 export const updateUserAwayStatus = (away: boolean) => async (

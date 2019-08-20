@@ -2,7 +2,7 @@
 import { batchActions } from 'redux-batched-actions';
 
 import type { Action, Dispatch, GeneralEvent, GetState, GlobalState } from '../types';
-import { pollForEvents } from '../api';
+import * as api from '../api';
 import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
@@ -64,7 +64,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
     }
 
     try {
-      const { events } = await pollForEvents(auth, queueId, lastEventId);
+      const { events } = await api.pollForEvents(auth, queueId, lastEventId);
 
       // User switched accounts or logged out
       if (queueId !== getState().session.eventQueueId) {

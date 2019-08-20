@@ -5,7 +5,7 @@ import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Auth, Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { fetchApiKey } from '../api';
+import * as api from '../api';
 import {
   ErrorMsg,
   Input,
@@ -54,7 +54,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
     this.setState({ progress: true, error: undefined });
 
     try {
-      const fetchedKey = await fetchApiKey(partialAuth, email, password);
+      const fetchedKey = await api.fetchApiKey(partialAuth, email, password);
       this.setState({ progress: false });
       dispatch(loginSuccess(partialAuth.realm, fetchedKey.email, fetchedKey.api_key));
     } catch (err) {

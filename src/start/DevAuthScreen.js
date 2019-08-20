@@ -6,7 +6,7 @@ import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 import type { Auth, DevUser, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
-import { devListUsers, devFetchApiKey } from '../api';
+import * as api from '../api';
 import { getPartialAuth } from '../selectors';
 import { loginSuccess } from '../actions';
 import styles from '../styles';
@@ -52,7 +52,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
 
     (async () => {
       try {
-        const response = await devListUsers(partialAuth);
+        const response = await api.devListUsers(partialAuth);
         this.setState({
           directAdmins: response.direct_admins,
           directUsers: response.direct_users,
@@ -72,7 +72,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
     this.setState({ progress: true, error: undefined });
 
     try {
-      const { api_key } = await devFetchApiKey(partialAuth, email);
+      const { api_key } = await api.devFetchApiKey(partialAuth, email);
       this.props.dispatch(loginSuccess(partialAuth.realm, email, api_key));
       this.setState({ progress: false });
     } catch (err) {

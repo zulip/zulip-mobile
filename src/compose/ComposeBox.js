@@ -22,7 +22,7 @@ import {
   fetchTopicsForActiveStream,
   sendTypingEvent,
 } from '../actions';
-import { updateMessage } from '../api';
+import * as api from '../api';
 import { FloatingActionButton, Input } from '../common';
 import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
@@ -249,7 +249,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const content = editMessage.content !== message ? message : undefined;
     const subject = topic !== editMessage.topic ? topic : undefined;
     if ((content !== undefined && content !== '') || (subject !== undefined && subject !== '')) {
-      updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
+      api.updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
         showErrorAlert(error.message, 'Failed to edit message');
       });
     }

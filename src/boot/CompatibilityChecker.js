@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import type { Node as React$Node } from 'react';
-import { checkCompatibility } from '../api';
+import * as api from '../api';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 
 type Props = {|
@@ -19,7 +19,7 @@ export default class CompatibilityChecker extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    checkCompatibility().then(res => {
+    api.checkCompatibility().then(res => {
       if (res.status === 400) {
         this.setState({
           compatibilityCheckFail: true,

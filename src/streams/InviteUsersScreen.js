@@ -5,7 +5,7 @@ import type { Auth, Dispatch, GlobalState, Stream, User } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
-import { subscriptionAdd } from '../api';
+import * as api from '../api';
 import { getAuth, getStreamForId } from '../selectors';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
@@ -30,7 +30,7 @@ class InviteUsersScreen extends PureComponent<Props, State> {
     const { auth, dispatch, stream } = this.props;
 
     const recipients = selected.map(user => user.email);
-    subscriptionAdd(auth, [{ name: stream.name }], recipients);
+    api.subscriptionAdd(auth, [{ name: stream.name }], recipients);
     dispatch(navigateBack());
   };
 

@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 import type { Auth, Narrow, Stream, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
-import { markAllAsRead, markStreamAsRead, markTopicAsRead } from '../api';
+import * as api from '../api';
 import { getAuth, getStreams } from '../selectors';
 import { isHomeNarrow, isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 
@@ -29,14 +29,14 @@ type Props = {|
 class MarkUnreadButton extends PureComponent<Props> {
   handleMarkAllAsRead = () => {
     const { auth } = this.props;
-    markAllAsRead(auth);
+    api.markAllAsRead(auth);
   };
 
   handleMarkStreamAsRead = () => {
     const { auth, narrow, streams } = this.props;
     const stream = streams.find(s => s.name === narrow[0].operand);
     if (stream) {
-      markStreamAsRead(auth, stream.stream_id);
+      api.markStreamAsRead(auth, stream.stream_id);
     }
   };
 
@@ -44,7 +44,7 @@ class MarkUnreadButton extends PureComponent<Props> {
     const { auth, narrow, streams } = this.props;
     const stream = streams.find(s => s.name === narrow[0].operand);
     if (stream) {
-      markTopicAsRead(auth, stream.stream_id, narrow[1].operand);
+      api.markTopicAsRead(auth, stream.stream_id, narrow[1].operand);
     }
   };
 

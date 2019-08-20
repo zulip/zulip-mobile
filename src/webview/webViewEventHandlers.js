@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { Clipboard } from 'react-native';
-import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
+import * as api from '../api';
 import config from '../config';
 import type { Dispatch, GetText, Message, Narrow, Outbox } from '../types';
 import type { BackgroundData } from './MessageList';
@@ -144,7 +144,7 @@ const markRead = (props: Props, event: MessageListEventScroll) => {
     event.endMessageId,
   );
   if (unreadMessageIds.length > 0) {
-    queueMarkAsRead(auth, unreadMessageIds);
+    api.queueMarkAsRead(auth, unreadMessageIds);
   }
 };
 
@@ -219,9 +219,9 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
         const { code, messageId, name, reactionType, voted } = event;
         const { auth } = props.backgroundData;
         if (voted) {
-          emojiReactionRemove(auth, messageId, reactionType, code, name);
+          api.emojiReactionRemove(auth, messageId, reactionType, code, name);
         } else {
-          emojiReactionAdd(auth, messageId, reactionType, code, name);
+          api.emojiReactionAdd(auth, messageId, reactionType, code, name);
         }
       }
       break;

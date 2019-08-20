@@ -6,7 +6,7 @@ import type { Auth, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
 import { OptionRow, Screen } from '../common';
-import { toggleMobilePushSettings } from '../api';
+import * as api from '../api';
 import { settingsChange } from '../actions';
 
 type Props = {|
@@ -20,7 +20,7 @@ type Props = {|
 class NotificationsScreen extends PureComponent<Props> {
   handleOfflineNotificationChange = () => {
     const { auth, dispatch, offlineNotification } = this.props;
-    toggleMobilePushSettings({
+    api.toggleMobilePushSettings({
       auth,
       opp: 'offline_notification_change',
       value: !offlineNotification,
@@ -30,7 +30,7 @@ class NotificationsScreen extends PureComponent<Props> {
 
   handleOnlineNotificationChange = () => {
     const { auth, dispatch, onlineNotification } = this.props;
-    toggleMobilePushSettings({
+    api.toggleMobilePushSettings({
       auth,
       opp: 'online_notification_change',
       value: !onlineNotification,
@@ -40,7 +40,7 @@ class NotificationsScreen extends PureComponent<Props> {
 
   handleStreamNotificationChange = () => {
     const { auth, dispatch, streamNotification } = this.props;
-    toggleMobilePushSettings({
+    api.toggleMobilePushSettings({
       auth,
       opp: 'stream_notification_change',
       value: !streamNotification,

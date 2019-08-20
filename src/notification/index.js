@@ -4,7 +4,7 @@ import NotificationsIOS from 'react-native-notifications';
 
 import type { Auth, Dispatch, Narrow, User } from '../types';
 import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
-import { forgetPushToken } from '../api';
+import * as api from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import {
   unackPushToken,
@@ -197,7 +197,7 @@ export const tryStopNotifications = async (
   if (token !== null) {
     dispatch(unackPushToken(identityOfAuth(auth)));
     try {
-      await forgetPushToken(auth, Platform.OS, token);
+      await api.forgetPushToken(auth, Platform.OS, token);
     } catch (e) {
       logErrorRemotely(e, 'failed to unregister Push token');
     }

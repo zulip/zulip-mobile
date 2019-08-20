@@ -10,7 +10,7 @@ import { connect } from '../react-redux';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW, SEARCH_NARROW } from '../utils/narrow';
 import MessageList from '../webview/MessageList';
-import { getMessages } from '../api';
+import * as api from '../api';
 import renderMessages from '../message/renderMessages';
 import { NULL_ARRAY } from '../nullObjects';
 import { getAuth } from '../selectors';
@@ -44,7 +44,7 @@ class SearchMessagesCard extends PureComponent<Props, State> {
 
     throttle(async () => {
       this.setState({ isFetching: true });
-      const { messages } = await getMessages(
+      const { messages } = await api.getMessages(
         auth,
         SEARCH_NARROW(query),
         LAST_MESSAGE_ANCHOR,

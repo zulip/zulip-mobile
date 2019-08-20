@@ -19,7 +19,7 @@ import {
   MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
 import { getAuth } from '../selectors';
-import { sendMessage } from '../api';
+import * as api from '../api';
 import { getSelfUserDetail, getUsersByEmail } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
@@ -52,7 +52,7 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
   try {
     outboxToSend.forEach(async item => {
-      await sendMessage(
+      await api.sendMessage(
         auth,
         item.type,
         isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,

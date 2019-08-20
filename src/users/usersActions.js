@@ -2,8 +2,7 @@
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
 import type { Dispatch, GetState, Narrow } from '../types';
-/* eslint-disable import/no-named-as-default-member */
-import api from '../api';
+import * as api from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth, tryGetAuth } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';

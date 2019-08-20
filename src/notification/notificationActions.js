@@ -1,8 +1,7 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
 import type { Account, Dispatch, GetState, Identity, Action } from '../types';
-/* eslint-disable import/no-named-as-default-member */
-import api from '../api';
+import * as api from '../api';
 import {
   getNotificationToken,
   tryStopNotifications as innerStopNotifications,

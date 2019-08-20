@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import type { Auth, Stream, Dispatch } from '../types';
 import { connectFlowFixMe } from '../react-redux';
-import { subscriptionAdd } from '../api';
+import * as api from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
 import styles from '../styles';
@@ -19,7 +19,7 @@ type Props = {
 class NotSubscribed extends PureComponent<Props> {
   subscribeToStream = () => {
     const { auth, stream } = this.props;
-    subscriptionAdd(auth, [{ name: stream.name }]);
+    api.subscriptionAdd(auth, [{ name: stream.name }]);
   };
 
   render() {

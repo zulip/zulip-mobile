@@ -6,7 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
-import { subscriptionAdd, subscriptionRemove } from '../api';
+import * as api from '../api';
 import { delay } from '../utils/async';
 import { streamNarrow } from '../utils/narrow';
 import StreamList from '../streams/StreamList';
@@ -35,9 +35,9 @@ class StreamListCard extends PureComponent<Props> {
     const { auth } = this.props;
 
     if (switchValue) {
-      subscriptionAdd(auth, [{ name: streamName }]);
+      api.subscriptionAdd(auth, [{ name: streamName }]);
     } else {
-      subscriptionRemove(auth, [streamName]);
+      api.subscriptionRemove(auth, [streamName]);
     }
   };
 

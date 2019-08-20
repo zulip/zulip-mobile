@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import type { Narrow, Dispatch, GetState, GlobalState, Message, Action } from '../types';
-/* eslint-disable import/no-named-as-default-member */
-import api, { getMessages, registerForEvents } from '../api';
+import * as api from '../api';
 import {
   getAuth,
   getSession,
@@ -63,7 +62,7 @@ export const fetchMessages = (
   useFirstUnread: boolean = false,
 ) => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
-  const { messages, found_newest, found_oldest } = await getMessages(
+  const { messages, found_newest, found_oldest } = await api.getMessages(
     getAuth(getState()),
     narrow,
     anchor,
@@ -167,7 +166,7 @@ export const fetchMessagesInNarrow = (
 const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const { messages, found_newest, found_oldest } = await tryUntilSuccessful(() =>
-    getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
+    api.getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
   );
   dispatch(
     messageFetchComplete(
@@ -226,7 +225,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
   let initData;
   try {
     initData = await tryUntilSuccessful(() =>
-      registerForEvents(auth, {
+      api.registerForEvents(auth, {
         fetch_event_types: config.serverDataOnStartup,
         apply_markdown: true,
         include_subscribers: false,
