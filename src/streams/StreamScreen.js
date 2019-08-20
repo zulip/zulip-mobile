@@ -10,8 +10,8 @@ import { getIsAdmin, getStreamForId, getSubscriptionForId } from '../selectors';
 import StreamCard from './StreamCard';
 import { IconPin, IconMute, IconNotifications, IconEdit, IconPlusSquare } from '../common/Icons';
 import {
-  doToggleMuteStream,
-  doTogglePinStream,
+  toggleMuteStream,
+  togglePinStream,
   navigateToEditStream,
   toggleStreamNotification,
   navigateToStreamSubscribers,
@@ -28,12 +28,12 @@ type Props = {|
 class StreamScreen extends PureComponent<Props> {
   handleTogglePinStream = (newValue: boolean) => {
     const { dispatch, stream } = this.props;
-    dispatch(doTogglePinStream(stream.stream_id, newValue));
+    dispatch(togglePinStream(stream.stream_id, newValue));
   };
 
   handleToggleMuteStream = (newValue: boolean) => {
     const { dispatch, stream } = this.props;
-    dispatch(doToggleMuteStream(stream.stream_id, newValue));
+    dispatch(toggleMuteStream(stream.stream_id, newValue));
   };
 
   handleEdit = () => {

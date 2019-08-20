@@ -27,12 +27,12 @@ type Props = {|
 |};
 
 class MarkUnreadButton extends PureComponent<Props> {
-  handleMarkAllAsRead = () => {
+  markAllAsRead = () => {
     const { auth } = this.props;
     api.markAllAsRead(auth);
   };
 
-  handleMarkStreamAsRead = () => {
+  markStreamAsRead = () => {
     const { auth, narrow, streams } = this.props;
     const stream = streams.find(s => s.name === narrow[0].operand);
     if (stream) {
@@ -40,7 +40,7 @@ class MarkUnreadButton extends PureComponent<Props> {
     }
   };
 
-  handleMarkTopicAsRead = () => {
+  markTopicAsRead = () => {
     const { auth, narrow, streams } = this.props;
     const stream = streams.find(s => s.name === narrow[0].operand);
     if (stream) {
@@ -53,11 +53,7 @@ class MarkUnreadButton extends PureComponent<Props> {
 
     if (isHomeNarrow(narrow)) {
       return (
-        <ZulipButton
-          style={styles.button}
-          text="Mark all as read"
-          onPress={this.handleMarkAllAsRead}
-        />
+        <ZulipButton style={styles.button} text="Mark all as read" onPress={this.markAllAsRead} />
       );
     }
 
@@ -66,7 +62,7 @@ class MarkUnreadButton extends PureComponent<Props> {
         <ZulipButton
           style={styles.button}
           text="Mark stream as read"
-          onPress={this.handleMarkStreamAsRead}
+          onPress={this.markStreamAsRead}
         />
       );
     }
@@ -76,7 +72,7 @@ class MarkUnreadButton extends PureComponent<Props> {
         <ZulipButton
           style={styles.button}
           text="Mark topic as read"
-          onPress={this.handleMarkTopicAsRead}
+          onPress={this.markTopicAsRead}
         />
       );
     }

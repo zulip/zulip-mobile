@@ -35,14 +35,14 @@ export const updateExistingStream = (
   }
 };
 
-export const doTogglePinStream = (streamId: number, value: boolean) => async (
+export const togglePinStream = (streamId: number, value: boolean) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
   await api.togglePinStream(getAuth(getState()), streamId, value);
 };
 
-export const doToggleMuteStream = (streamId: number, value: boolean) => async (
+export const toggleMuteStream = (streamId: number, value: boolean) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
