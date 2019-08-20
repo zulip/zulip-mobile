@@ -40,6 +40,9 @@ describe('getLastMessageTopic', () => {
   test('when one or more messages return the topic of the last one', () => {
     const narrow = streamNarrow('hello');
     const state = deepFreeze({
+      flags: {
+        mentioned: {},
+      },
       narrows: {
         [JSON.stringify(narrow)]: [1, 2],
       },
