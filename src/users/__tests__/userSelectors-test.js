@@ -7,7 +7,7 @@ import {
   getUsersById,
   getUsersSansMe,
 } from '../userSelectors';
-import { eg } from '../../__tests__/exampleData';
+import * as eg from '../../__tests__/exampleData';
 
 describe('getAccountDetailsUserForEmail', () => {
   test('return user for the account details screen', () => {

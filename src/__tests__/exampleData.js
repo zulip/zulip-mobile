@@ -39,7 +39,7 @@ const userOrBotProperties = ({ name: _name }) => {
 };
 
 /** Caveat emptor!  These values may not be representative. */
-const makeUser = (args: { name?: string } = {}): User => ({
+export const makeUser = (args: { name?: string } = {}): User => ({
   ...userOrBotProperties(args),
 
   is_bot: false,
@@ -52,7 +52,7 @@ const makeUser = (args: { name?: string } = {}): User => ({
 });
 
 /** Caveat emptor!  These values may not be representative. */
-const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot => ({
+export const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot => ({
   ...userOrBotProperties(args),
   is_bot: true,
 });
@@ -64,14 +64,14 @@ const makeAccount = (user: User): Account => ({
   ackedPushToken: null,
 });
 
-const selfUser: User = makeUser({ name: 'self' });
-const selfAccount: Account = makeAccount(selfUser);
+export const selfUser: User = makeUser({ name: 'self' });
+export const selfAccount: Account = makeAccount(selfUser);
 
-const otherUser: User = makeUser({ name: 'other' });
+export const otherUser: User = makeUser({ name: 'other' });
 
-const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
+export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
 
-const makeStream = (args: { name?: string, description?: string } = {}): Stream => {
+export const makeStream = (args: { name?: string, description?: string } = {}): Stream => {
   const name = args.name !== undefined ? args.name : randString();
   const description =
     args.description !== undefined ? args.description : `On the ${randString()} of ${name}`;
@@ -85,7 +85,7 @@ const makeStream = (args: { name?: string, description?: string } = {}): Stream 
   };
 };
 
-const stream: Stream = makeStream({
+export const stream: Stream = makeStream({
   name: 'a stream',
   description: 'An example stream.',
 });
@@ -141,7 +141,7 @@ const messagePropertiesFromSender = (user: User) => {
 };
 
 /** Caveat emptor!  These values may not be representative. */
-const pmMessage = (extra?: $Rest<Message, {}>): Message => {
+export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
   const baseMessage: Message = {
     ...messagePropertiesBase,
     ...messagePropertiesFromSender(otherUser),
@@ -170,7 +170,7 @@ const messagePropertiesFromStream = (stream1: Stream) => {
 };
 
 /** Caveat emptor!  These values may not be representative. */
-const streamMessage = (extra?: $Rest<Message, {}>): Message => {
+export const streamMessage = (extra?: $Rest<Message, {}>): Message => {
   const baseMessage: Message = {
     ...messagePropertiesBase,
     ...messagePropertiesFromSender(otherUser),
@@ -189,21 +189,21 @@ const streamMessage = (extra?: $Rest<Message, {}>): Message => {
 
 const privateReduxStore = createStore(rootReducer);
 
-const baseReduxState: GlobalState = deepFreeze(privateReduxStore.getState());
+export const baseReduxState: GlobalState = deepFreeze(privateReduxStore.getState());
 
-const reduxState = (extra?: $Rest<GlobalState, {}>): GlobalState =>
+export const reduxState = (extra?: $Rest<GlobalState, {}>): GlobalState =>
   deepFreeze({
     ...baseReduxState,
     ...extra,
   });
 
-const realmState = (extra?: $Rest<RealmState, {}>): RealmState =>
+export const realmState = (extra?: $Rest<RealmState, {}>): RealmState =>
   deepFreeze({
     ...baseReduxState.realm,
     ...extra,
   });
 
-const action = deepFreeze({
+export const action = deepFreeze({
   account_switch: {
     type: ACCOUNT_SWITCH,
     index: 0,
@@ -215,23 +215,3 @@ const action = deepFreeze({
     apiKey: selfAccount.apiKey,
   },
 });
-
-export const eg = {
-  makeUser,
-  makeCrossRealmBot,
-  selfUser,
-  selfAccount,
-  otherUser,
-  crossRealmBot,
-  makeStream,
-  stream,
-
-  pmMessage,
-  streamMessage,
-
-  baseReduxState,
-  reduxState,
-  realmState,
-
-  action,
-};

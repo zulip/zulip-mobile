@@ -10,7 +10,7 @@ import {
   getMessageIdFromLink,
   transformToEncodedURI,
 } from '../internalLinks';
-import { eg } from '../../__tests__/exampleData';
+import * as eg from '../../__tests__/exampleData';
 
 describe('isInternalLink', () => {
   test('when link is external, return false', () => {

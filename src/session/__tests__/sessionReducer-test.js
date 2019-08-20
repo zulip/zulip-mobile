@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import { CANCEL_EDIT_MESSAGE, START_EDIT_MESSAGE } from '../../actionConstants';
 import sessionReducer from '../sessionReducer';
-import { eg } from '../../__tests__/exampleData';
+import * as eg from '../../__tests__/exampleData';
 
 describe('sessionReducer', () => {
   const baseState = eg.baseReduxState.session;
