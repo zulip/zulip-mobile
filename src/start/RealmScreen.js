@@ -50,6 +50,9 @@ class RealmScreen extends PureComponent<Props, State> {
       Keyboard.dismiss();
     } catch (err) {
       this.setState({ error: 'Cannot connect to server' });
+      /* eslint-disable no-console */
+      console.warn('RealmScreen: failed to connect to server:', err);
+      console.warn(err.stack);
     } finally {
       this.setState({ progress: false });
     }
