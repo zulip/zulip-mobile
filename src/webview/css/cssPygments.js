@@ -18,9 +18,6 @@ export default (isNightMode: boolean): string => `
 .codehilite .hll {
     background-color: hsl(60, 100%, 90%);
 }
-.codehilite {
-    background-color: hsl(0, 0%, 98%);
-}
 .codehilite .c {
     color: hsl(180, 33%, 37%);
     font-style: italic;
@@ -232,11 +229,7 @@ ${
     .codehilite code,
     .codehilite pre {
         color: hsl(212, 100%, 82%);
-        background-color: hsl(212, 28%, 18%);
-    }
-
-    .codehilite {
-        background-color: hsl(212, 25%, 17%);
+        background-color: hsl(212, 25%, 15%);
     }
 
     .codehilite .hll {
