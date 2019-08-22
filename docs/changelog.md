@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.4.127 (2019-08-21)
+
 ### Highlights for users (since 26.1.124)
 
 * (iOS) Fixed issue where new users couldn't log in (yikes!)
