@@ -17,6 +17,7 @@ import {
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
   GOT_PUSH_TOKEN,
+  LOGOUT,
 } from '../actionConstants';
 import { hasAuth } from '../account/accountsSelectors';
 
@@ -98,10 +99,22 @@ const rehydrate = (state, action) => {
 export default (state: SessionState = initialState, action: Action): SessionState => {
   switch (action.type) {
     case DEAD_QUEUE:
-    case ACCOUNT_SWITCH:
     case LOGIN_SUCCESS:
       return {
         ...state,
+        needsInitialFetch: true,
+      };
+
+    case LOGOUT:
+      return {
+        ...state,
+        lastNarrow: null,
+      };
+
+    case ACCOUNT_SWITCH:
+      return {
+        ...state,
+        lastNarrow: null,
         needsInitialFetch: true,
       };
 
