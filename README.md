@@ -13,6 +13,9 @@ Release versions of the app are available here:
   on the iTunes App Store
 * [Zulip for Android](https://play.google.com/store/apps/details?id=com.zulipmobile)
   on the Google Play Store
+  * Or if you don't use Google Play, you can [download an
+    APK](https://github.com/zulip/zulip-mobile/releases/latest)
+    from the official build we post on GitHub.
 
 You can also help out by [running beta versions](#using-the-beta) of
 the app, and reporting bugs!
@@ -37,6 +40,9 @@ bugs!  To get the beta:
 * Android: install the app, then just
   [join the testing program](https://play.google.com/apps/testing/com.zulipmobile/)
   on Google Play.
+  * Or if you don't use Google Play, you can [download an
+    APK](https://github.com/zulip/zulip-mobile/releases/); the latest
+    release on GitHub (including "pre-releases") is the current beta.
 * iOS: install [TestFlight](https://developer.apple.com/testflight/testers/),
   then open [this public invitation link](https://testflight.apple.com/join/ZuzqwXGf)
   on your device.
