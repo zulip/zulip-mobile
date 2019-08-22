@@ -54,7 +54,7 @@ experience.
 
 * Logging added on connection failure at RealmScreen.
 
-* Resolved issues: #3568, #3524
+* Resolved issues: #3568, #3515, #3524
 
 
 ## (beta) 26.3.126 (2019-08-19)
