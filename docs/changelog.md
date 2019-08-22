@@ -36,8 +36,25 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users (since 26.1.124)
 
-## 26.3.126 (2019-08-19)
+* (iOS) Fixed issue where new users couldn't log in (yikes!)
+
+* Highlight colors for code blocks now match the webapp and
+  offer more contrast, especially in night mode.
+
+Plus, like every release, many other improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Logging added on connection failure at RealmScreen.
+
+* Resolved issues: #3568, #3524
+
+
+## (beta) 26.3.126 (2019-08-19)
 
 ### Highlights for users
 
