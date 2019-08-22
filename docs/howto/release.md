@@ -181,14 +181,16 @@ simple terminology for the process we follow with both.
 
 * Android via GitHub:
 
-  * Upload as a
-    [GitHub release](https://github.com/zulip/zulip-mobile/releases).
+  * Upload as a [GitHub release][gh-releases].
 
     This is useful for people who use Android without Google Play,
     e.g. out of privacy concerns or a desire to stick rigorously to
     free software.
 
   * Check the box "This is a pre-release".
+
+[gh-releases]: https://github.com/zulip/zulip-mobile/releases
+
 
 * iOS via App Store:
 
@@ -227,7 +229,8 @@ seem to be bad regressions.
 
 * Android via GitHub:
 
-  * Edit the release on GitHub, and uncheck "This is a pre-release".
+  * Edit the release [on GitHub][gh-releases], and uncheck
+    "This is a pre-release".
 
 
 * iOS via App Store:
