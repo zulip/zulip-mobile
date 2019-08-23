@@ -49,6 +49,29 @@ describe('flagsReducer', () => {
 
       expect(actualState).toBe(initialState);
     });
+
+    test('merge mentioned and wildcard_mentioned in FlagsState', () => {
+      const initialState = NULL_OBJECT;
+
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_COMPLETE,
+        messages: [{ id: 1, flags: ['wildcard_mentioned'] }, { id: 2, flags: ['mentioned'] }],
+      });
+
+      const expectedState = {
+        mentioned: {
+          2: true,
+          1: true,
+        },
+        wildcard_mentioned: {
+          1: true,
+        },
+      };
+
+      const actualState = flagsReducer(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
   });
 
   test('flags are added or replace existing flags', () => {
@@ -85,6 +108,28 @@ describe('flagsReducer', () => {
       });
 
       const expectedState = {};
+
+      const actualState = flagsReducer(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('merge mentioned and wildcard_mentioned in FlagsState', () => {
+      const initialState = NULL_OBJECT;
+
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message: { id: 1, flags: ['wildcard_mentioned'] },
+      });
+
+      const expectedState = {
+        mentioned: {
+          1: true,
+        },
+        wildcard_mentioned: {
+          1: true,
+        },
+      };
 
       const actualState = flagsReducer(initialState, action);
 
