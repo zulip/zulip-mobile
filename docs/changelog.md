@@ -39,6 +39,17 @@ It doesn't include
 
 ## 26.5.128 (2019-08-22)
 
+### Highlights for users (since 26.1.124)
+
+* (iOS) Fixed issue where new users couldn't log in (yikes!)
+
+* Highlight colors for code blocks now match the webapp and
+  offer more contrast, especially in night mode.
+
+Plus, like every release, many other improvements for your Zulip
+experience.
+
+
 ### Highlights for developers
 
 * Logging to the device log (via `console`) is now enabled in release
@@ -47,7 +58,7 @@ It doesn't include
 * Resolved issues: d6f497bd6
 
 
-## 26.4.127 (2019-08-21)
+## (beta) 26.4.127 (2019-08-21)
 
 ### Highlights for users (since 26.1.124)
 
