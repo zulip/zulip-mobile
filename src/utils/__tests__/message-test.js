@@ -8,7 +8,21 @@ describe('shouldBeMuted', () => {
   test('private messages are never muted', () => {
     const message = eg.pmMessage();
 
-    const isMuted = shouldBeMuted(message, HOME_NARROW);
+    const isMuted = shouldBeMuted(message, HOME_NARROW, eg.flagsState());
+
+    expect(isMuted).toBe(false);
+  });
+
+  test('message in a muted stream is un-muted if it mentions the current user', () => {
+    const message = eg.streamMessage();
+    const flags = eg.flagsState({
+      mentioned: {
+        [message.id]: true,
+      },
+    });
+    const mutes = [[message.display_recipient, message.subject]];
+
+    const isMuted = shouldBeMuted(message, HOME_NARROW, flags, [], mutes);
 
     expect(isMuted).toBe(false);
   });
@@ -21,7 +35,7 @@ describe('shouldBeMuted', () => {
     const narrow = topicNarrow('stream', 'some topic');
     const mutes = [['stream', 'some topic']];
 
-    const isMuted = shouldBeMuted(message, narrow, [], mutes);
+    const isMuted = shouldBeMuted(message, narrow, eg.flagsState(), [], mutes);
 
     expect(isMuted).toBe(false);
   });
@@ -29,7 +43,7 @@ describe('shouldBeMuted', () => {
   test('message in a stream is muted if stream is not in mute list', () => {
     const message = eg.streamMessage();
 
-    const isMuted = shouldBeMuted(message, HOME_NARROW);
+    const isMuted = shouldBeMuted(message, HOME_NARROW, eg.flagsState());
 
     expect(isMuted).toBe(true);
   });
@@ -42,7 +56,7 @@ describe('shouldBeMuted', () => {
         in_home_view: false,
       }),
     ];
-    const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions);
+    const isMuted = shouldBeMuted(message, HOME_NARROW, eg.flagsState(), subscriptions);
 
     expect(isMuted).toBe(true);
   });
@@ -56,7 +70,7 @@ describe('shouldBeMuted', () => {
       }),
     ];
     const mutes = [[message.display_recipient, message.subject]];
-    const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions, mutes);
+    const isMuted = shouldBeMuted(message, HOME_NARROW, eg.flagsState(), subscriptions, mutes);
 
     expect(isMuted).toBe(true);
   });

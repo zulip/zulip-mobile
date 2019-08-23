@@ -15,6 +15,7 @@ import type {
 import {
   getAllNarrows,
   getSubscriptions,
+  getFlags,
   getMessages,
   getMute,
   getStreams,
@@ -75,10 +76,11 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
   createSelector(
     (state, narrow) => narrow,
     getMessagesForNarrow,
+    state => getFlags(state),
     state => getSubscriptions(state),
     state => getMute(state),
-    (narrow, messagesForNarrow, subscriptions, mute) =>
-      messagesForNarrow.filter(item => !shouldBeMuted(item, narrow, subscriptions, mute)),
+    (narrow, messagesForNarrow, flags, subscriptions, mute) =>
+      messagesForNarrow.filter(item => !shouldBeMuted(item, narrow, flags, subscriptions, mute)),
   );
 
 export const getFirstMessageId = (state: GlobalState, narrow: Narrow): number | void => {
