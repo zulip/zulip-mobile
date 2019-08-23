@@ -1,24 +1,24 @@
+/* @flow strict-local */
+
 import { shouldBeMuted, isMessageRead, findFirstUnread } from '../message';
 import { HOME_NARROW, topicNarrow } from '../narrow';
+import * as eg from '../../__tests__/exampleData';
 
 describe('shouldBeMuted', () => {
   test('private messages are never muted', () => {
-    const message = {
-      display_recipient: [],
-      type: 'private',
-    };
+    const message = eg.pmMessage();
 
-    const isMuted = shouldBeMuted(message, HOME_NARROW, []);
+    const isMuted = shouldBeMuted(message, HOME_NARROW);
 
     expect(isMuted).toBe(false);
   });
 
   test('messages when narrowed to a topic are never muted', () => {
-    const message = {
+    const message = eg.streamMessage({
       display_recipient: 'stream',
       subject: 'some topic',
-    };
-    const narrow = topicNarrow('some topic');
+    });
+    const narrow = topicNarrow('stream', 'some topic');
     const mutes = [['stream', 'some topic']];
 
     const isMuted = shouldBeMuted(message, narrow, [], mutes);
@@ -27,24 +27,20 @@ describe('shouldBeMuted', () => {
   });
 
   test('message in a stream is muted if stream is not in mute list', () => {
-    const message = {
-      display_recipient: 'stream',
-    };
+    const message = eg.streamMessage();
 
-    const isMuted = shouldBeMuted(message, HOME_NARROW, []);
+    const isMuted = shouldBeMuted(message, HOME_NARROW);
 
     expect(isMuted).toBe(true);
   });
 
   test('message in a stream is muted if the stream is muted', () => {
-    const message = {
-      display_recipient: 'stream',
-    };
+    const message = eg.streamMessage();
     const subscriptions = [
-      {
-        name: 'stream',
+      eg.subscription({
+        name: message.display_recipient,
         in_home_view: false,
-      },
+      }),
     ];
     const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions);
 
@@ -52,17 +48,14 @@ describe('shouldBeMuted', () => {
   });
 
   test('message in a stream is muted if the topic is muted and topic matches', () => {
-    const message = {
-      display_recipient: 'stream',
-      subject: 'topic',
-    };
+    const message = eg.streamMessage();
     const subscriptions = [
-      {
-        name: 'stream',
+      eg.subscription({
+        name: message.display_recipient,
         in_home_view: true,
-      },
+      }),
     ];
-    const mutes = [['stream', 'topic']];
+    const mutes = [[message.display_recipient, message.subject]];
     const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions, mutes);
 
     expect(isMuted).toBe(true);
@@ -71,59 +64,50 @@ describe('shouldBeMuted', () => {
 
 describe('isMessageRead', () => {
   test('message with no flags entry is considered not read', () => {
-    const message = { id: 0, display_recipient: 'testStream', type: 'stream' };
-    const flags = { read: {} };
-    const subscriptions = [{ name: 'testStream', in_home_view: true }];
+    const message = eg.streamMessage();
+    const subscriptions = [
+      eg.subscription({ name: message.display_recipient, in_home_view: true }),
+    ];
 
-    const result = isMessageRead(message, flags, subscriptions);
+    const result = isMessageRead(message, eg.flagsState(), subscriptions, []);
 
     expect(result).toEqual(false);
   });
 
   test('message with flags entry is considered read', () => {
-    const message = { id: 123 };
-    const flags = { read: { 123: true } };
+    const message = eg.streamMessage();
+    const flags = eg.flagsState({ read: { [message.id]: true } });
 
-    const result = isMessageRead(message, flags);
+    const result = isMessageRead(message, flags, [], []);
 
     expect(result).toEqual(true);
   });
 
   test('a message in a muted stream is considered read', () => {
-    const message = {
-      id: 0,
-      display_recipient: 'muted stream',
-      subject: 'topic',
-    };
-    const flags = { read: {} };
+    const message = eg.streamMessage();
     const subscriptions = [
-      {
-        name: 'muted stream',
+      eg.subscription({
+        name: message.display_recipient,
         in_home_view: false,
-      },
+      }),
     ];
 
-    const result = isMessageRead(message, flags, subscriptions);
+    const result = isMessageRead(message, eg.flagsState(), subscriptions, []);
 
     expect(result).toEqual(true);
   });
 
   test('a message in a muted topic is considered read', () => {
-    const message = {
-      id: 0,
-      display_recipient: 'stream',
-      subject: 'muted topic',
-    };
-    const flags = { read: {} };
+    const message = eg.streamMessage();
     const subscriptions = [
-      {
+      eg.subscription({
         name: 'stream',
         in_home_view: false,
-      },
+      }),
     ];
     const mute = [['stream', 'muted topic']];
 
-    const result = isMessageRead(message, flags, subscriptions, mute);
+    const result = isMessageRead(message, eg.flagsState(), subscriptions, mute);
 
     expect(result).toEqual(true);
   });
@@ -132,35 +116,41 @@ describe('isMessageRead', () => {
 describe('findFirstUnread', () => {
   test('returns first message not flagged "read"', () => {
     const messages = [
-      { id: 0, display_recipient: 'testStream', type: 'stream' },
-      { id: 1, display_recipient: 'testStream', type: 'stream' },
-      { id: 2, display_recipient: 'testStream', type: 'stream' },
-      { id: 3, display_recipient: 'testStream', type: 'stream' },
+      eg.streamMessage({ id: 0 }),
+      eg.streamMessage({ id: 1 }),
+      eg.streamMessage({ id: 2 }),
+      eg.streamMessage({ id: 3 }),
     ];
-    const flags = {
+    const flags = eg.flagsState({
       read: {
-        0: true,
-        1: true,
+        [messages[0].id]: true,
+        [messages[1].id]: true,
       },
-    };
-    const subscriptions = [{ name: 'testStream', in_home_view: true }];
+    });
+    const subscriptions = [
+      eg.subscription({ name: messages[0].display_recipient, in_home_view: true }),
+    ];
 
-    const result = findFirstUnread(messages, flags, subscriptions);
+    const result = findFirstUnread(messages, flags, subscriptions, []);
 
     expect(result).toEqual(messages[2]);
   });
 
   test('if all are read return undefined', () => {
-    const messages = [{ id: 0 }, { id: 1 }, { id: 2 }];
-    const flags = {
+    const messages = [
+      eg.streamMessage({ id: 0 }),
+      eg.streamMessage({ id: 1 }),
+      eg.streamMessage({ id: 2 }),
+    ];
+    const flags = eg.flagsState({
       read: {
-        0: true,
-        1: true,
-        2: true,
+        [messages[0].id]: true,
+        [messages[1].id]: true,
+        [messages[2].id]: true,
       },
-    };
+    });
 
-    const result = findFirstUnread(messages, flags);
+    const result = findFirstUnread(messages, flags, [], []);
 
     expect(result).toEqual(undefined);
   });
@@ -168,40 +158,37 @@ describe('findFirstUnread', () => {
   test('if no messages returns undefined', () => {
     const messages = [];
 
-    const result = findFirstUnread(messages);
+    const result = findFirstUnread(messages, eg.flagsState(), [], []);
 
     expect(result).toEqual(undefined);
   });
 
   test('a message in muted stream or topic is considered read', () => {
-    const messageInMutedStream = {
+    const messageInMutedStream = eg.streamMessage({
       id: 0,
       display_recipient: 'muted stream',
       subject: 'topic',
-      type: 'stream',
-    };
-    const messageInMutedTopic = {
+    });
+    const messageInMutedTopic = eg.streamMessage({
       id: 1,
       display_recipient: 'stream',
       subject: 'muted topic',
-      type: 'stream',
-    };
-    const unreadMessage = { id: 2, display_recipient: 'stream', type: 'stream' };
-    const flags = { read: {} };
+    });
+    const unreadMessage = eg.streamMessage({ id: 2, display_recipient: 'stream' });
     const messages = [messageInMutedStream, messageInMutedTopic, unreadMessage];
     const subscriptions = [
-      {
+      eg.subscription({
         name: 'stream',
         in_home_view: true,
-      },
-      {
-        name: 'muted stream',
-        in_home_view: false,
-      },
+      }),
+      eg.subscription({
+        name: 'stream',
+        in_home_view: true,
+      }),
     ];
     const mute = [['stream', 'muted topic']];
 
-    const result = findFirstUnread(messages, flags, subscriptions, mute);
+    const result = findFirstUnread(messages, eg.flagsState(), subscriptions, mute);
 
     expect(result).toEqual(unreadMessage);
   });

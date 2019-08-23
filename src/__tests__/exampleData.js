@@ -2,8 +2,15 @@
 import deepFreeze from 'deep-freeze';
 import { createStore } from 'redux';
 
-import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
-import type { GlobalState, RealmState } from '../reduxTypes';
+import type {
+  CrossRealmBot,
+  Message,
+  PmRecipientUser,
+  Stream,
+  Subscription,
+  User,
+} from '../api/modelTypes';
+import type { GlobalState, FlagsState, RealmState } from '../reduxTypes';
 import type { Account } from '../types';
 import { ACCOUNT_SWITCH, LOGIN_SUCCESS } from '../actionConstants';
 import rootReducer from '../boot/reducers';
@@ -89,6 +96,11 @@ export const stream: Stream = makeStream({
   name: 'a stream',
   description: 'An example stream.',
 });
+
+export const subscription = (extra?: $Rest<Subscription, {}>): Subscription =>
+  deepFreeze({
+    ...extra,
+  });
 
 const displayRecipientFromUser = (user: User): PmRecipientUser => {
   const { email, full_name, user_id: id } = user;
@@ -200,6 +212,12 @@ export const reduxState = (extra?: $Rest<GlobalState, {}>): GlobalState =>
 export const realmState = (extra?: $Rest<RealmState, {}>): RealmState =>
   deepFreeze({
     ...baseReduxState.realm,
+    ...extra,
+  });
+
+export const flagsState = (extra?: $Rest<FlagsState, {}>): FlagsState =>
+  deepFreeze({
+    ...baseReduxState.flags,
     ...extra,
   });
 
