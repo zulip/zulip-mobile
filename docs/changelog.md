@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.5.128 (2019-08-22)
+
 ### Highlights for developers
 
 * Logging to the device log (via `console`) is now enabled in release
