@@ -36,6 +36,13 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for developers
+
+* Logging to the device log (via `console`) is now enabled in release
+  builds as well as debug.
+
+* Resolved issues: d6f497bd6
+
 
 ## 26.4.127 (2019-08-21)
 
