@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Platform, View, TextInput, findNodeHandle } from 'react-native';
+import { Platform, View, TextInput, findNodeHandle, ScrollView } from 'react-native';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
 
@@ -290,7 +290,6 @@ class ComposeBox extends PureComponent<Props, State> {
       alignItems: 'flex-end',
     },
     composeText: {
-      flex: 1,
       paddingVertical: 8,
     },
     composeSendButton: {
@@ -359,7 +358,7 @@ class ComposeBox extends PureComponent<Props, State> {
             expanded={isMenuExpanded}
             onExpandContract={this.handleComposeMenuToggle}
           />
-          <View style={this.styles.composeText}>
+          <ScrollView contentContainerStyle={this.styles.composeText}>
             {this.getCanSelectTopic() && (
               <Input
                 style={this.styles.topicInput}
@@ -391,7 +390,7 @@ class ComposeBox extends PureComponent<Props, State> {
               onSelectionChange={this.handleMessageSelectionChange}
               onTouchStart={this.handleInputTouchStart}
             />
-          </View>
+          </ScrollView>
           <FloatingActionButton
             style={this.styles.composeSendButton}
             Icon={editMessage === null ? IconSend : IconDone}
