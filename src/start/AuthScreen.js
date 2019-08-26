@@ -94,7 +94,7 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   handleGoogle = () => {
-    this.beginOAuth('accounts/login/google/');
+    this.beginOAuth('accounts/login/social/google');
   };
 
   handleGitHub = () => {
