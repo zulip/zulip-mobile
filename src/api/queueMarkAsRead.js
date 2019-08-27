@@ -2,15 +2,14 @@
 import type { Auth } from './transportTypes';
 import messagesFlags from './messages/messagesFlags';
 
-const TIME_INTERVAL_BETWEEN_CONSECUTIVE_CALLS_MS = 2000;
+/** We batch up requests to avoid sending them twice in this much time. */
+const debouncePeriodMs = 2000;
+
 let unsentMessageIds = [];
 let lastSentTime = 0;
 let timeout = null;
 
-/**
- * Exported so that it can be used in test
- * See queueMarkAsRead-test.js
- */
+/** Private; exported only for tests. */
 export const resetAll = () => {
   unsentMessageIds = [];
   lastSentTime = 0;
@@ -18,8 +17,8 @@ export const resetAll = () => {
 };
 
 const processQueue = (auth: Auth) => {
-  const timeInMsSinceLastApiCall = Date.now() - lastSentTime;
-  if (timeInMsSinceLastApiCall > TIME_INTERVAL_BETWEEN_CONSECUTIVE_CALLS_MS) {
+  const sinceSentMs = Date.now() - lastSentTime;
+  if (sinceSentMs > debouncePeriodMs) {
     messagesFlags(auth, unsentMessageIds, 'add', 'read');
     unsentMessageIds = [];
     lastSentTime = Date.now();
@@ -27,7 +26,7 @@ const processQueue = (auth: Auth) => {
     timeout = setTimeout(() => {
       timeout = null;
       processQueue(auth);
-    }, TIME_INTERVAL_BETWEEN_CONSECUTIVE_CALLS_MS - timeInMsSinceLastApiCall);
+    }, debouncePeriodMs - sinceSentMs);
   }
 };
 

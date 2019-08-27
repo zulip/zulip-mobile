@@ -25,39 +25,32 @@ describe('queueMarkAsRead', () => {
     expect(messagesFlags.default).toHaveBeenCalledTimes(1);
   });
 
-  test('should call messagesFlags, if calls to queueMarkAsRead are 2s apart', async () => {
-    const currentDate = Date.now();
-    const secondCall = currentDate + 2100;
+  test('should call messagesFlags, if calls to queueMarkAsRead are 2s apart', () => {
+    const start = Date.now();
     // $FlowFixMe Make flow understand about mocking
-    Date.now = jest.fn().mockReturnValue(currentDate);
-
+    Date.now = jest.fn().mockReturnValue(start);
     queueMarkAsRead(eg.selfAuth, [13, 14, 15]);
 
     // $FlowFixMe Make flow understand about mocking
-    Date.now = jest.fn().mockReturnValue(secondCall);
-
+    Date.now = jest.fn().mockReturnValue(start + 2100);
     queueMarkAsRead(eg.selfAuth, [16, 17, 18]);
 
     expect(messagesFlags.default).toHaveBeenCalledTimes(2);
   });
 
-  test('should set timeout for time remaining for next API call to clear queue', async () => {
-    const currentDate = Date.now();
-    const secondCall = currentDate + 1900;
-    const thirdCall = currentDate + 2001;
+  test('should set timeout for time remaining for next API call to clear queue', () => {
+    const start = Date.now();
     // $FlowFixMe Make flow understand about mocking
-    Date.now = jest.fn().mockReturnValue(currentDate);
-
+    Date.now = jest.fn().mockReturnValue(start);
     queueMarkAsRead(eg.selfAuth, [1, 2, 3]);
 
     // $FlowFixMe Make flow understand about mocking
-    Date.now = jest.fn().mockReturnValue(secondCall);
+    Date.now = jest.fn().mockReturnValue(start + 1900);
     queueMarkAsRead(eg.selfAuth, [4, 5, 6]);
 
     // $FlowFixMe Make flow understand about mocking
-    Date.now = jest.fn().mockReturnValue(thirdCall);
+    Date.now = jest.fn().mockReturnValue(start + 2001);
     jest.runOnlyPendingTimers();
-
     expect(messagesFlags.default).toHaveBeenCalledTimes(2);
   });
 });
