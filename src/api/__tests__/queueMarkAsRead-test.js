@@ -41,17 +41,21 @@ describe('queueMarkAsRead', () => {
     expect(messagesFlags.default).toHaveBeenCalledTimes(2);
   });
 
-  test('should call messagesFlags after 2s to clear queue', async () => {
+  test('should set timeout for time remaining for next API call to clear queue', async () => {
     const currentDate = Date.now();
-    const secondCall = currentDate + 2100;
+    const secondCall = currentDate + 1900;
+    const thirdCall = currentDate + 2001;
     // $FlowFixMe Make flow understand about mocking
     Date.now = jest.fn().mockReturnValue(currentDate);
 
     queueMarkAsRead(eg.selfAuth, [1, 2, 3]);
-    queueMarkAsRead(eg.selfAuth, [4, 5, 6]);
 
     // $FlowFixMe Make flow understand about mocking
     Date.now = jest.fn().mockReturnValue(secondCall);
+    queueMarkAsRead(eg.selfAuth, [4, 5, 6]);
+
+    // $FlowFixMe Make flow understand about mocking
+    Date.now = jest.fn().mockReturnValue(thirdCall);
     jest.runOnlyPendingTimers();
 
     expect(messagesFlags.default).toHaveBeenCalledTimes(2);

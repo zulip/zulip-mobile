@@ -18,7 +18,8 @@ export const resetAll = () => {
 };
 
 const processQueue = (auth: Auth) => {
-  if (Date.now() - lastSentTime > TIME_INTERVAL_BETWEEN_CONSECUTIVE_CALLS_MS) {
+  const timeInMsSinceLastApiCall = Date.now() - lastSentTime;
+  if (timeInMsSinceLastApiCall > TIME_INTERVAL_BETWEEN_CONSECUTIVE_CALLS_MS) {
     messagesFlags(auth, unsentMessageIds, 'add', 'read');
     unsentMessageIds = [];
     lastSentTime = Date.now();
@@ -26,7 +27,7 @@ const processQueue = (auth: Auth) => {
     timeout = setTimeout(() => {
       timeout = null;
       processQueue(auth);
-    }, TIME_INTERVAL_BETWEEN_CONSECUTIVE_CALLS_MS);
+    }, TIME_INTERVAL_BETWEEN_CONSECUTIVE_CALLS_MS - timeInMsSinceLastApiCall);
   }
 };
 
