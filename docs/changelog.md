@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.6.129 (2019-08-26)
+
 ### Highlights for users
 
 * Updated Google auth process to match a recent change in the
