@@ -36,6 +36,16 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Updated Google auth process to match a recent change in the
+  Zulip server.
+
+
+### Highlights for developers
+
+* Resolved issues: #3594
+
 
 ## 26.5.128 (2019-08-22)
 
