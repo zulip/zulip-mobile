@@ -17,17 +17,22 @@ export const resetAll = () => {
 };
 
 const processQueue = (auth: Auth) => {
-  const sinceSentMs = Date.now() - lastSentTime;
-  if (sinceSentMs > debouncePeriodMs) {
-    messagesFlags(auth, unsentMessageIds, 'add', 'read');
-    unsentMessageIds = [];
-    lastSentTime = Date.now();
-  } else if (timeout === null) {
+  if (timeout !== null) {
+    return;
+  }
+
+  const remainingMs = lastSentTime + debouncePeriodMs - Date.now();
+  if (remainingMs > 0) {
     timeout = setTimeout(() => {
       timeout = null;
       processQueue(auth);
-    }, debouncePeriodMs - sinceSentMs);
+    }, remainingMs);
+    return;
   }
+
+  messagesFlags(auth, unsentMessageIds, 'add', 'read');
+  unsentMessageIds = [];
+  lastSentTime = Date.now();
 };
 
 export default (auth: Auth, messageIds: number[]): void => {
