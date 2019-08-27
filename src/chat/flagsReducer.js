@@ -25,6 +25,13 @@ const initialState = {
   is_me_message: {},
 };
 
+const combineMentionedFlags = state => {
+  if (state.wildcard_mentioned) {
+    state.mentioned = deeperMerge(state.mentioned || {}, state.wildcard_mentioned);
+  }
+  return state;
+};
+
 const addFlagsForMessages = (
   state: FlagsState,
   messages: $ReadOnlyArray<number>,
@@ -34,7 +41,7 @@ const addFlagsForMessages = (
     return state;
   }
 
-  const newState = {};
+  let newState = {};
 
   flags.forEach(flag => {
     newState[flag] = { ...(state[flag] || {}) };
@@ -43,6 +50,8 @@ const addFlagsForMessages = (
       newState[flag][message] = true;
     });
   });
+
+  newState = combineMentionedFlags(newState);
 
   return {
     ...state,
@@ -63,7 +72,7 @@ const removeFlagForMessages = (state: FlagsState, messages: number[], flag: stri
 
 const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsState => {
   let stateChanged = false;
-  const newState = {};
+  let newState = {};
   messages.forEach(msg => {
     (msg.flags || []).forEach(flag => {
       if (!state[flag] || !state[flag][msg.id]) {
@@ -75,6 +84,10 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
       }
     });
   });
+
+  if (stateChanged) {
+    newState = combineMentionedFlags(newState);
+  }
 
   // $FlowFixMe: Flow can't follow this objects-as-maps logic.
   return stateChanged ? deeperMerge(state, newState) : state;

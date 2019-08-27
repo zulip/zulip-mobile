@@ -8,11 +8,16 @@ export const isTopicMuted = (stream: string, topic: string, mute: MuteState = []
 export const shouldBeMuted = (
   message: Message | Outbox,
   narrow: Narrow,
+  flags: FlagsState,
   subscriptions: Subscription[] = [],
   mutes: MuteState = [],
 ): boolean => {
   if (message.type === 'private') {
     return false; // private/group messages are not muted
+  }
+
+  if (flags.mentioned && flags.mentioned[message.id] === true) {
+    return false; // never hide a message which mentions current user
   }
 
   if (isTopicNarrow(narrow)) {
@@ -34,7 +39,8 @@ export const isMessageRead = (
   flags: FlagsState,
   subscriptions: Subscription[],
   mute: MuteState,
-): boolean => shouldBeMuted(message, HOME_NARROW, subscriptions, mute) || !!flags.read[message.id];
+): boolean =>
+  shouldBeMuted(message, HOME_NARROW, flags, subscriptions, mute) || !!flags.read[message.id];
 
 export const findFirstUnread = (
   messages: $ReadOnlyArray<Message | Outbox>,
