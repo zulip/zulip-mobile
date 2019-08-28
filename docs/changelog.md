@@ -36,8 +36,21 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
 
-## 26.6.129 (2019-08-26)
+Bugfixes and other improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+* Reverted the client-side fix for #3594; it's now fixed on the server
+  side, and this keeps us compatible with servers running Zulip
+  versions from before the original change.
+
+* Resolved issues: #3369, #3509
+
+
+## (beta) 26.6.129 (2019-08-26)
 
 ### Highlights for users
 
