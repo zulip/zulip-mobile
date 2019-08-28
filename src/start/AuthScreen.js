@@ -94,7 +94,10 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   handleGoogle = () => {
-    this.beginOAuth('accounts/login/social/google');
+    // Server versions through 2.0 accept only this URL for Google auth.
+    // Since server commit 2.0.0-2478-ga43b231f9 , both this URL and the new
+    // accounts/login/social/google are accepted; see zulip/zulip#13081 .
+    this.beginOAuth('accounts/login/google/');
   };
 
   handleGitHub = () => {
