@@ -177,52 +177,18 @@ A problem occurred evaluating project ':@remobile/react-native-toast'.
 ```
 
 This can happen if you have a very old version of the JDK (Java Development
-Kit); React Native requires JDK 8, which was released in 2014.
+Kit); React Native requires at least JDK 8, which was released in 2014.
 
-To fix this, install [JDK 8][jdk-8-oracle-dl] or a newer version.  You can
-check what version is installed by running the command `java -version`; with
-JDK 8, the version number starts with "1.8".
+To fix this, install a newer JDK.  As of 2019, we generally use [JDK
+11][jdk-11-oracle-dl] (which is [expected to be][jdk-lts-roadmap] the
+latest LTS version until 2021).  You can check what version is
+installed by running the command `java -version`; with JDK 8, the
+version number starts with "1.8", and with JDK 11, it starts with
+"11.".
 
-[jdk-8-oracle-dl]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+[jdk-11-oracle-dl]: https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html
+[jdk-lts-roadmap]: https://adoptopenjdk.net/support.html#roadmap
 
-### Build failure: Could not determine java version from '10.0.1'
-
-When trying to build the Android app, if you're on an OS release from 2018
-(including Ubuntu 18.04 "bionic" or Debian "buster"), you may see an error
-like the following:
-
-```
-* What went wrong:
-Could not determine java version from '10.0.1'.
-```
-
-This is a sort of inverse of the issue above: we follow RN upstream in using
-an older version of Gradle, which doesn't support newer JDKs than Java 8.
-This issue happens when the default `java` on your system is a newer
-version.
-
-To fix this,
-
-1. Make sure you have JDK 8 installed.  On Ubuntu or Debian, you can do this
-   with `sudo apt install openjdk-8-jdk`.  In general, you can [download it
-   from Oracle][jdk-8-oracle-dl].
-
-2. Set your `JAVA_HOME` to that JDK 8 installation.  (This is used by
-   `gradlew` to find the `java` command to run Gradle under.)
-
-   - If you installed the Debian/Ubuntu package, then `ls -l /usr/lib/jvm/`
-     should list `java-8-openjdk-amd64` or something similar to that.
-   - `export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64` (and put that in
-     your `~/.bashrc` or equivalent, so that you don't have to repeat it in
-     the future.)
-   - Now `react-native run-android` should work correctly.
-
-(It's actually pretty reasonable to just stick to Java 8 everywhere.  Java 9
-only came out in late 2017 and was a short-term release with [just 6 months
-of support][wp-java-versions]; Java 10 is the same way.  The next LTS
-version supported for several years will be Java 11, due in 2018-09.)
-
-[wp-java-versions]: https://en.wikipedia.org/wiki/Java_version_history
 
 ### App shows a blank white screen
 
@@ -234,6 +200,7 @@ increase this limit with the following commands:
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p
 ```
+
 
 ### Other issues
 
