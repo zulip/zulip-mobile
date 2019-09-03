@@ -113,7 +113,9 @@ private fun getNotificationBuilder(
         builder.setSmallIcon(R.drawable.zulip_notification)
     }
 
-    if (conversations.size == 1) {
+    val nameList = extractNames(conversations)
+
+    if (conversations.size == 1 && nameList.size == 1) {
         //Only one 1 notification therefore no using of big view styles
         if (totalMessagesCount > 1) {
             builder.setContentTitle("${fcmMessage.sender.fullName} ($totalMessagesCount)")
@@ -131,7 +133,7 @@ private fun getNotificationBuilder(
         builder.setStyle(Notification.BigTextStyle().bigText(fcmMessage.content))
     } else {
         builder.setContentTitle("$totalMessagesCount messages in ${conversations.size} conversations")
-        builder.setContentText("Messages from ${TextUtils.join(",", extractNames(conversations))}")
+        builder.setContentText("Messages from ${TextUtils.join(",", nameList)}")
         val inboxStyle = Notification.InboxStyle(builder)
         inboxStyle.setSummaryText("${conversations.size} conversations")
         buildNotificationContent(conversations, inboxStyle, context)
