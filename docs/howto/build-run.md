@@ -34,8 +34,8 @@ To install the React Native tools, and either Xcode or the Android SDK
 and Android Studio, follow the helpful instructions from React
 Native upstream on
 [Getting Started](https://facebook.github.io/react-native/docs/getting-started.html).
-You want the tab "Building Projects with Native Code";
-the "Quick Start" does not apply.
+You want the tab "React Native CLI Quickstart"; the "Expo CLI Quickstart" does
+not apply.
 
 Continue those instructions until you can run the Zulip Mobile app
 with either `react-native run-android` or `react-native run-ios`.
