@@ -15,7 +15,7 @@ android:
     - tools
     - platform-tools
     - build-tools-28.0.3
-    - android-28  # corresponds to compileSdkVersion
+    - android-29  # corresponds to compileSdkVersion
     - extra-google-m2repository
     - extra-android-m2repository
     - extra-google-android-support
