@@ -62,7 +62,7 @@
     "react-native-sound": "^0.10.9",
     "react-native-text-input-reset": "^1.0.2",
     "react-native-vector-icons": "^4.6.0",
-    "react-native-webview": "^5.0.0",
+    "react-native-webview": "git://github.com/zulip/react-native-webview#49aca8206",
     "react-navigation": "^2.18.3",
     "react-navigation-redux-helpers": "^2.0.9",
     "react-navigation-tabs": "0.8.4",
