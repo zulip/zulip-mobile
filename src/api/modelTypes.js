@@ -217,7 +217,6 @@ export type Subscription = {|
   audible_notifications: boolean,
   desktop_notifications: boolean,
   email_address: string,
-  push_notifications: boolean,
   is_old_stream: boolean,
   push_notifications: boolean,
   stream_weekly_traffic: number,
