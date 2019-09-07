@@ -180,13 +180,13 @@ This can happen if you have a very old version of the JDK (Java Development
 Kit); React Native requires at least JDK 8, which was released in 2014.
 
 To fix this, install a newer JDK.  As of 2019, we generally use [JDK
-11][jdk-11-oracle-dl] (which is [expected to be][jdk-lts-roadmap] the
+11][openjdk-11-dl] (which is [expected to be][jdk-lts-roadmap] the
 latest LTS version until 2021).  You can check what version is
 installed by running the command `java -version`; with JDK 8, the
 version number starts with "1.8", and with JDK 11, it starts with
 "11.".
 
-[jdk-11-oracle-dl]: https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html
+[openjdk-11-dl]: https://adoptopenjdk.net/?variant=openjdk11
 [jdk-lts-roadmap]: https://adoptopenjdk.net/support.html#roadmap
 
 
