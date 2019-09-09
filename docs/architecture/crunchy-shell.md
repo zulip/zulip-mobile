@@ -79,13 +79,23 @@ contents.  For example:
 Currently our most systematic, crunchiest shell is found in the
 Android code handling FCM messages, the data from the server that
 powers notifications.  See [`FcmMessage.kt`][], and see commits
-f85d3250f, 58e074b31, cee71e005, 907410d5e, edf3c08e1, 1620867c7,
-739e55ab5, 9b6f6fb9f for discussion and particularly interesting bits
-of its step-by-step construction.  In particular 58e074b31 and
-cee71e005 fix crash bugs in the app, in ways that were made easy and
-obvious by building the crunchy shell.
+[f85d3250f][], [58e074b31][], [cee71e005][], [907410d5e][],
+[edf3c08e1][], [1620867c7][], [739e55ab5][], [9b6f6fb9f][] for
+discussion and particularly interesting bits of its step-by-step
+construction.  In particular [58e074b31][] and [cee71e005][] fix crash
+bugs in the app, in ways that were made easy and obvious by building
+the crunchy shell.
 
 [`FcmMessage.kt`]: ../../android/app/src/main/java/com/zulipmobile/notifications/FcmMessage.kt
+[f85d3250f]: https://github.com/zulip/zulip-mobile/commit/f85d3250f
+[58e074b31]: https://github.com/zulip/zulip-mobile/commit/58e074b31
+[cee71e005]: https://github.com/zulip/zulip-mobile/commit/cee71e005
+[907410d5e]: https://github.com/zulip/zulip-mobile/commit/907410d5e
+[edf3c08e1]: https://github.com/zulip/zulip-mobile/commit/edf3c08e1
+[1620867c7]: https://github.com/zulip/zulip-mobile/commit/1620867c7
+[739e55ab5]: https://github.com/zulip/zulip-mobile/commit/739e55ab5
+[9b6f6fb9f]: https://github.com/zulip/zulip-mobile/commit/9b6f6fbf9
+
 
 A small example with a different flavor appears in the JS of our
 message list WebView, where it examines the HTML of the message list
@@ -94,8 +104,10 @@ and pulls attributes off of it.  We don't entirely control that HTML
 the extent that we do, the structure of it is encoded in
 sometimes-complicated ways in our HTML templates... so when we make
 assumptions about it, it's hard to be certain the assumptions are
-right, and a crunchy shell is again useful.  See dd03939cb for this
-example.
+right, and a crunchy shell is again useful.  See [dd03939cb][] for
+this example.
+
+[dd03939cb]: https://github.com/zulip/zulip-mobile/commit/dd03939cb
 
 
 ## More needed
