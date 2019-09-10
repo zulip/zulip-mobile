@@ -3,8 +3,6 @@ import {
   getFullUrl,
   getResource,
   isUrlOnRealm,
-  isEmojiUrl,
-  getEmojiUrl,
   hasProtocol,
   fixRealmUrl,
   autocompleteUrl,
@@ -84,27 +82,6 @@ describe('isUrlOnRealm', () => {
     expect(isUrlOnRealm('https://demo.example.com', 'https://example.com')).toBe(false);
 
     expect(isUrlOnRealm('www.google.com', 'https://example.com')).toBe(false);
-  });
-});
-
-describe('isEmojiUrl', () => {
-  test('when url is on realm, but not an emoji url', () => {
-    const result = isEmojiUrl('/user_uploads/abc.png', 'https://example.com');
-    expect(result).toBe(false);
-  });
-  test('when url is on realm and emoji', () => {
-    const result = isEmojiUrl(
-      '/static/generated/emoji/images/emoji/unicode/1f680.png',
-      'https://example.com',
-    );
-    expect(result).toBe(true);
-  });
-});
-
-describe('getEmojiUrl', () => {
-  test('when unicode is passed, output relative link on server', () => {
-    const url = getEmojiUrl('1f680');
-    expect(url).toBe('/static/generated/emoji/images/emoji/unicode/1f680.png');
   });
 });
 
