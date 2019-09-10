@@ -29,12 +29,6 @@ export const getFullUrl = (url: string = '', realm: string): string =>
 export const isUrlOnRealm = (url: string = '', realm: string): boolean =>
   url.startsWith('/') || url.startsWith(realm) || !/^(http|www.)/i.test(url);
 
-export const isEmojiUrl = (url: string, realm: string): boolean =>
-  isUrlOnRealm(url, realm) && url.includes('/static/generated/emoji/images/emoji/unicode/');
-
-export const getEmojiUrl = (unicode: string): string =>
-  `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
-
 const getResourceWithAuth = (uri: string, auth: Auth) => ({
   uri: getFullUrl(uri, auth.realm),
   headers: getAuthHeaders(auth),
