@@ -109,16 +109,16 @@ fun extractTotalMessagesCount(conversations: ByConversationMap): Int {
 private fun buildKeyString(fcmMessage: MessageFcmMessage): String {
     val recipient = fcmMessage.recipient
     return when (recipient) {
-        is Recipient.Stream -> String.format("%s:%s:stream", recipient.stream, recipient.topic)
+        is Recipient.Stream -> String.format("%s:stream", recipient.stream)
         is Recipient.GroupPm -> String.format("%s:group", recipient.getPmUsersString())
-        is Recipient.Pm -> String.format("%s:private", recipient.getPmParticipantIdsString())
+        is Recipient.Pm -> String.format("%s:private", fcmMessage.sender.id)
     }
 }
 
 fun extractNames(conversations: ByConversationMap): ArrayList<String> {
     val namesSet = LinkedHashSet<String>()
-    for ( fcmMessages in conversations.values) {
-        for (fcmMessage in fcmMessages){
+    for (fcmMessages in conversations.values) {
+        for (fcmMessage in fcmMessages) {
             namesSet.add(fcmMessage.sender.fullName)
         }
     }

@@ -42,18 +42,8 @@ data class Sender(
  * Data identifying where a Zulip message was sent.
  */
 sealed class Recipient {
-    /**
-     * A 1:1 private message.  Must be identified by the participants in the
-     * private conversation, i.e. who sent it and who received it.
-     */
-    data class Pm (val senderIdString: String, val userIdString: String ) : Recipient() {
-        fun getPmParticipantIdsString() =
-            if (userIdString < senderIdString){
-                "$userIdString:$senderIdString"
-                } else {
-                    "$senderIdString:$userIdString"
-        }
-    }
+    /** A 1:1 private message.  Must have been sent to this user, so nothing more to say. */
+    object Pm : Recipient()
 
     /**
      * A group PM.
@@ -151,9 +141,7 @@ data class MessageFcmMessage(
                 "private" ->
                     data["pm_users"]?.parseCommaSeparatedInts("pm_users")?.let {
                         Recipient.GroupPm(it.toSet())
-                    } ?: Recipient.Pm(
-                            data.require("sender_id"),
-                            data.require("user_id"))
+                    } ?: Recipient.Pm
                 else -> throw FcmMessageParseException("unexpected recipient_type: $recipientType")
             }
 
