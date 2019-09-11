@@ -105,8 +105,11 @@ class ComposeMenu extends PureComponent<Props> {
   };
 
   handleFilePicker = async () => {
+    // Defer import to here, to avoid an obnoxious import-time warning
+    // from this library when in the test environment.
     // eslint-disable-next-line global-require
     const DocumentPicker = require('react-native-document-picker').default;
+
     let response;
     try {
       response = (await DocumentPicker.pick({
