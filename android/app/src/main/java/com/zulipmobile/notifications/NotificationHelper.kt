@@ -7,11 +7,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.text.Spannable
-import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.Log
 import android.util.TypedValue
-import com.zulipmobile.R
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
@@ -65,19 +64,35 @@ fun sizedURL(context: Context, url: URL, dpSize: Float): URL {
     return URL(url, "?$query")
 }
 
-private fun extractName(key: String): String {
-    return key.split(":")[0]
+fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: Notification.InboxStyle, mContext: Context) {
+    for (messages in conversations.values) {
+
+        val messagesByNameMap = buildMessagesByNameMap(messages)
+        val builder = SpannableStringBuilder()
+
+        for (name in messagesByNameMap.keys) {
+            builder.append("$name, ")
+        }
+        val namesLength = builder.length
+        builder.replace(namesLength - 2, namesLength - 1, ":")
+        builder.append(messages[messages.size - 1].content)
+        builder.setSpan(StyleSpan(android.graphics.Typeface.BOLD), 0, namesLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        inboxStyle.addLine(builder)
+    }
 }
 
-fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: Notification.InboxStyle, mContext: Context) {
-    for ((key, messages) in conversations) {
-        val name = extractName(key)
-        val sb = SpannableString(String.format(Locale.ENGLISH, "%s%s: %s", name,
-            mContext.resources.getQuantityString(R.plurals.messages, messages.size, messages.size),
-            messages[messages.size - 1].content))
-        sb.setSpan(StyleSpan(android.graphics.Typeface.BOLD), 0, name.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        inboxStyle.addLine(sb)
+fun buildMessagesByNameMap(allMessages: List<MessageFcmMessage>): LinkedHashMap<String, MutableList<MessageFcmMessage>> {
+    val map = LinkedHashMap<String, MutableList<MessageFcmMessage>>()
+    for (message in allMessages) {
+        val name = message.sender.fullName
+        var messagesForName: MutableList<MessageFcmMessage>? = map[name]
+        if (messagesForName == null) {
+            messagesForName = ArrayList()
+        }
+        messagesForName.add(message)
+        map[name] = messagesForName
     }
+    return map
 }
 
 fun extractTotalMessagesCount(conversations: ByConversationMap): Int {
@@ -97,21 +112,20 @@ fun extractTotalMessagesCount(conversations: ByConversationMap): Int {
 private fun buildKeyString(fcmMessage: MessageFcmMessage): String {
     val recipient = fcmMessage.recipient
     return when (recipient) {
-        is Recipient.Stream -> String.format("%s:%s:stream", fcmMessage.sender.fullName,
-            recipient.stream)
-        is Recipient.GroupPm -> String.format("%s:%s:group", fcmMessage.sender.fullName,
-            recipient.getPmUsersString())
-        else -> String.format("%s:%s:private", fcmMessage.sender.fullName,
-            fcmMessage.sender.email)
+        is Recipient.Stream -> String.format("%s:stream", recipient.stream)
+        is Recipient.GroupPm -> String.format("%s:group", recipient.getPmUsersString())
+        is Recipient.Pm -> String.format("%s:private", fcmMessage.sender.email)
     }
 }
 
 fun extractNames(conversations: ByConversationMap): ArrayList<String> {
-    val names = arrayListOf<String>()
-    for ((key) in conversations) {
-        names.add(key.split(":")[0])
+    val namesSet = LinkedHashSet<String>()
+    for (fcmMessages in conversations.values) {
+        for (fcmMessage in fcmMessages) {
+            namesSet.add(fcmMessage.sender.fullName)
+        }
     }
-    return names
+    return ArrayList(namesSet)
 }
 
 fun addConversationToMap(fcmMessage: MessageFcmMessage, conversations: ConversationMap) {

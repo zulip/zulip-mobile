@@ -6,5 +6,9 @@
         <item quantity="one"></item>
         <item quantity="other">&#160;(%d messages)</item>
     </plurals>
+    <plurals name="numConversations">
+        <item quantity="one">%d conversation</item>
+        <item quantity="other">%d conversations</item>
+    </plurals>
     <string name="send_to">Share To</string>
 </resources>
