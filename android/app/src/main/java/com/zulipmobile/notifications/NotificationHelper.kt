@@ -7,7 +7,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.text.Spannable
-import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.Log
 import android.util.TypedValue
@@ -67,14 +67,18 @@ fun sizedURL(context: Context, url: URL, dpSize: Float): URL {
 
 fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: Notification.InboxStyle, mContext: Context) {
     for (messages in conversations.values) {
+
         val messagesByNameMap = buildMessagesByNameMap(messages)
-        for ((name, messagesForName) in messagesByNameMap) {
-            val sb = SpannableString(String.format(Locale.ENGLISH, "%s%s: %s", name,
-                mContext.resources.getQuantityString(R.plurals.messages, messagesForName.size, messagesForName.size),
-                messagesForName[messagesForName.size - 1].content))
-            sb.setSpan(StyleSpan(android.graphics.Typeface.BOLD), 0, name.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            inboxStyle.addLine(sb)
+        val builder = SpannableStringBuilder()
+
+        for (name in messagesByNameMap.keys) {
+            builder.append("$name, ")
         }
+        val namesLength = builder.length
+        builder.replace(namesLength - 2, namesLength - 1, ":" )
+        builder.append(messages[messages.size - 1].content)
+        builder.setSpan(StyleSpan(android.graphics.Typeface.BOLD), 0, namesLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        inboxStyle.addLine(builder)
     }
 }
 
