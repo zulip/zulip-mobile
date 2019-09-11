@@ -1,4 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
+import base64 from 'base-64';
 import {
   getFullUrl,
   getResource,
@@ -27,31 +28,39 @@ describe('getFullUrl', () => {
 
 describe('getResource', () => {
   test('when uri contains domain, do not change, add auth headers', () => {
-    const expectedResult = {
-      uri: 'https://example.com/img.gif',
-      headers: {
-        Authorization: 'Basic am9obmRvZUBleGFtcGxlLmNvbTpzb21lQXBpS2V5',
-      },
-    };
-    const resource = getResource('https://example.com/img.gif', {
+    const auth = {
       realm: '',
       apiKey: 'someApiKey',
       email: 'johndoe@example.com',
-    });
-    expect(resource).toEqual(expectedResult);
-  });
+    };
+    const authEncoded = base64.encode(`${auth.email}:${auth.apiKey}`);
 
-  test('when uri does not contain domain, append realm, add auth headers', () => {
     const expectedResult = {
       uri: 'https://example.com/img.gif',
       headers: {
-        Authorization: 'Basic dW5kZWZpbmVkOnNvbWVBcGlLZXk=',
+        Authorization: `Basic ${authEncoded}`,
       },
     };
-    const resource = getResource('/img.gif', {
-      realm: 'https://example.com',
-      apiKey: 'someApiKey',
-    });
+    const resource = getResource('https://example.com/img.gif', auth);
+    expect(resource).toEqual(expectedResult);
+  });
+
+  const exampleAuth = {
+    realm: 'https://example.com',
+    email: 'nobody@example.org',
+    apiKey: 'someApiKey',
+  };
+
+  test('when uri does not contain domain, append realm, add auth headers', () => {
+    const authEncoded = base64.encode(`${exampleAuth.email}:${exampleAuth.apiKey}`);
+
+    const expectedResult = {
+      uri: 'https://example.com/img.gif',
+      headers: {
+        Authorization: `Basic ${authEncoded}`,
+      },
+    };
+    const resource = getResource('/img.gif', exampleAuth);
     expect(resource).toEqual(expectedResult);
   });
 
@@ -59,10 +68,7 @@ describe('getResource', () => {
     const expectedResult = {
       uri: 'https://another.com/img.gif',
     };
-    const resource = getResource('https://another.com/img.gif', {
-      realm: 'https://example.com',
-      apiKey: 'someApiKey',
-    });
+    const resource = getResource('https://another.com/img.gif', exampleAuth);
     expect(resource).toEqual(expectedResult);
   });
 });
