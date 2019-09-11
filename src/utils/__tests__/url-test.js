@@ -1,4 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
+/* @flow strict-local */
 import base64 from 'base-64';
 import {
   getFullUrl,
@@ -8,6 +9,7 @@ import {
   fixRealmUrl,
   autocompleteUrl,
 } from '../url';
+import type { Auth } from '../../types';
 
 describe('getFullUrl', () => {
   test('when uri contains domain, do not change', () => {
@@ -28,7 +30,7 @@ describe('getFullUrl', () => {
 
 describe('getResource', () => {
   test('when uri contains domain, do not change, add auth headers', () => {
-    const auth = {
+    const auth: Auth = {
       realm: '',
       apiKey: 'someApiKey',
       email: 'johndoe@example.com',
@@ -45,7 +47,7 @@ describe('getResource', () => {
     expect(resource).toEqual(expectedResult);
   });
 
-  const exampleAuth = {
+  const exampleAuth: Auth = {
     realm: 'https://example.com',
     email: 'nobody@example.org',
     apiKey: 'someApiKey',
