@@ -32,7 +32,7 @@ notifications:
     on_failure: always
 
 install:
-  - nvm install 8
+  - nvm install 10
   - node --version
   - npm i yarn -g
   - yarn
