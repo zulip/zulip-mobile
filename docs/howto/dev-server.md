@@ -55,13 +55,19 @@ in a browser on your computer, with the URL `http://localhost:9991/`.  This
 refers to port 9991 on `localhost`, which is a name that works for talking
 to a server on your own computer.
 
-That URL won't work for the mobile app, because on your phone (either
-physical or emulated), `localhost` would be a name for the phone itself,
-rather than your computer.  Instead, we'll find an IP address that we can
-use instead of `localhost`, which will reach your computer when used on the
-phone.
+That URL won't necessarily work for the mobile app, because on your phone
+(either physical or emulated), `localhost` would be a name for the phone
+itself, rather than your computer.  Instead, we'll find an IP address that we
+can use instead of `localhost`, which will reach your computer when used on
+the phone.
 
 There are several ways to do this, depending on your platform.  See below.
+
+### iOS simulator (macOS only)
+
+The iOS simulator shares its network interface with the computer it's running
+on. Happily, this means `https://localhost:9991` will work without further
+configuration; you can skip to [the last step](#last-step).
 
 ### Android emulator
 
@@ -80,11 +86,10 @@ alternative approach below, which additionally works on all platforms.
 
 [android-emulator-net]: https://developer.android.com/studio/run/emulator-networking
 
-### Any (?) physical or emulated device
+### Any physical or emulated device
 
-This method should work on any physical device, or the Android emulator or
-iOS simulator.  (It's been tested at least on the Android emulator and
-physical Android and iOS devices.)
+This method should work on any physical device, the Android emulator,
+or the iOS simulator.
 
 First:
 * If you're using a physical device, you'll need it and your computer to be
@@ -94,10 +99,12 @@ First:
 * For an emulator/simulator, you just need to run it on the same computer
   you're running the Zulip server on.
 
-We'll use **the IP address your computer uses on the local network**.  (For
-a physical device, we want this to be the same network the phone is on.  For
-an emulator/simulator, any IP address that belongs to your computer, and
-isn't a special "loopback" address like 127.0.0.1, will do.)
+We'll use **the IP address your computer uses on the local network**.
+  * For a physical device, this should be on the same network the phone is on.
+  * For an emulator, any IP address that belongs to your computer (and isn't a
+    special "loopback" address like 127.0.0.1) will do.
+  * For the iOS simulator, if you are not using the simpler method above,
+    even a loopback address like 127.0.0.1 will be fine.
 
 To find this, you can use a command-line tool like (on Linux or macOS)
 `ip addr` or `ifconfig`; or look in the network pane of macOS's System
@@ -116,8 +123,9 @@ address](find-ip-address.md).
 
 ## 3. Listen on all interfaces
 
-If you're using the Android emulator and the IP address 10.0.2.2, you can
-skip this step and move on to step 4.  Otherwise, read on.
+If you're using the Android emulator and the IP address 10.0.2.2, or if you're
+using the iOS simulator, you can skip this step and move on to step 4.
+Otherwise, read on.
 
 By default, the Zulip dev server only listens on the "loopback" network
 interface, 127.0.0.1, aka `localhost`.  This is a nice secure default,
@@ -180,6 +188,7 @@ or if step 3 called for `--interface=`, then
 in `zproject/dev_settings.py`, which is actually the critical part here.)
 
 
+<a id="last-step"></a>
 ## 5. Log in!
 
 Now [fire up the app](build-run.md) on your emulator or device, go to the
