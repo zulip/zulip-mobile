@@ -138,7 +138,7 @@ private fun getNotificationBuilder(
         builder.setContentText("Messages from ${TextUtils.join(",", nameList)}")
         val inboxStyle = Notification.InboxStyle(builder)
         inboxStyle.setSummaryText(numConversations)
-        buildNotificationContent(conversations, inboxStyle, context)
+        buildNotificationContent(conversations, inboxStyle)
         builder.setStyle(inboxStyle)
     }
 

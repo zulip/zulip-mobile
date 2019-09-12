@@ -65,7 +65,7 @@ fun sizedURL(context: Context, url: URL, dpSize: Float): URL {
     return URL(url, "?$query")
 }
 
-fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: Notification.InboxStyle, mContext: Context) {
+fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: Notification.InboxStyle) {
     for (conversation in conversations.values) {
         // TODO ensure latest sender is shown last?  E.g. Gmail-style A, B, ..., A.
         val seenSenders = HashSet<String>()

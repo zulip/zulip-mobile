@@ -2,10 +2,6 @@
     <string name="app_name">Zulip</string>
     <string name="notification_channel_name">Notifications</string>
     <string name="no_browser_found">No Browser Found</string>
-    <plurals name="messages">
-        <item quantity="one"></item>
-        <item quantity="other">&#160;(%d messages)</item>
-    </plurals>
     <plurals name="numConversations">
         <item quantity="one">%d conversation</item>
         <item quantity="other">%d conversations</item>
