@@ -23,7 +23,7 @@ Install the following extensions, which support important aspects of our
 codebase. Each extension page has install instructions at the top.
 
 * [React Native
-    Tools](https://marketplace.visualstudio.com/items?itemName=vsmobile.vscode-react-native)
+    Tools](https://marketplace.visualstudio.com/items?itemName=msjsdiag.vscode-react-native)
 * [Flow Language
     Support](https://marketplace.visualstudio.com/items?itemName=flowtype.flow-for-vscode)
 * [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
