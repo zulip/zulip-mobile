@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.text.style.StyleSpan
 import android.util.Log
 import android.util.TypedValue
@@ -65,34 +66,25 @@ fun sizedURL(context: Context, url: URL, dpSize: Float): URL {
 }
 
 fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: Notification.InboxStyle, mContext: Context) {
-    for (messages in conversations.values) {
-
-        val messagesByNameMap = buildMessagesByNameMap(messages)
-        val builder = SpannableStringBuilder()
-
-        for (name in messagesByNameMap.keys) {
-            builder.append("$name, ")
+    for (conversation in conversations.values) {
+        // TODO ensure latest sender is shown last?  E.g. Gmail-style A, B, ..., A.
+        val seenSenders = HashSet<String>()
+        val names = ArrayList<String>()
+        for (message in conversation) {
+            if (seenSenders.contains(message.sender.email))
+                continue;
+            seenSenders.add(message.sender.email)
+            names.add(message.sender.fullName)
         }
-        val namesLength = builder.length
-        builder.replace(namesLength - 2, namesLength - 1, ":")
-        builder.append(messages[messages.size - 1].content)
-        builder.setSpan(StyleSpan(android.graphics.Typeface.BOLD), 0, namesLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val builder = SpannableStringBuilder()
+        builder.append(TextUtils.join(", ", names))
+        builder.setSpan(StyleSpan(android.graphics.Typeface.BOLD),
+            0, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.append(": ")
+        builder.append(conversation.last().content)
         inboxStyle.addLine(builder)
     }
-}
-
-fun buildMessagesByNameMap(allMessages: List<MessageFcmMessage>): LinkedHashMap<String, MutableList<MessageFcmMessage>> {
-    val map = LinkedHashMap<String, MutableList<MessageFcmMessage>>()
-    for (message in allMessages) {
-        val name = message.sender.fullName
-        var messagesForName: MutableList<MessageFcmMessage>? = map[name]
-        if (messagesForName == null) {
-            messagesForName = ArrayList()
-        }
-        messagesForName.add(message)
-        map[name] = messagesForName
-    }
-    return map
 }
 
 fun extractTotalMessagesCount(conversations: ByConversationMap): Int {
