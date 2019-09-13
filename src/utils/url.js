@@ -44,7 +44,10 @@ export const getResource = (
 ): {| uri: string, headers?: { [string]: string } |} =>
   isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
-export const hasProtocol = (url: string = '') => url.search(/\b(http|https):\/\//) !== -1;
+const protocolRegex = /^\s*((?:http|https):\/\/)(.*)$/;
+
+/** DEPRECATED */
+export const hasProtocol = (url: string = '') => url.search(protocolRegex) !== -1;
 
 export const fixRealmUrl = (url: string = '') =>
   url.length > 0 ? (!hasProtocol(url) ? 'https://' : '') + url.trim().replace(/\s+|\/$/g, '') : '';
