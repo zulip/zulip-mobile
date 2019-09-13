@@ -49,6 +49,17 @@ const protocolRegex = /^\s*((?:http|https):\/\/)(.*)$/;
 /** DEPRECATED */
 export const hasProtocol = (url: string = '') => url.search(protocolRegex) !== -1;
 
+// Split a (possible) URL into protocol and non-protocol parts.
+// The former will be null if no recognized protocol is a component
+// of the string.
+//
+// Ignores initial spaces.
+/** PRIVATE -- exported only for testing */
+export const parseProtocol = (value: string): [string | null, string] => {
+  const match = protocolRegex.exec(value);
+  return match ? [match[1], match[2]] : [null, value];
+};
+
 export const fixRealmUrl = (url: string = '') =>
   url.length > 0 ? (!hasProtocol(url) ? 'https://' : '') + url.trim().replace(/\s+|\/$/g, '') : '';
 
