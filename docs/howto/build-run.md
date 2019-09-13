@@ -190,6 +190,23 @@ version number starts with "1.8", and with JDK 11, it starts with
 [jdk-lts-roadmap]: https://adoptopenjdk.net/support.html#roadmap
 
 
+### Build failure: Task 'installDebug' not found in project ':app'
+
+When trying to build the Android app, you may see this error:
+
+```
+* What went wrong:
+Task 'installDebug' not found in project ':app'.
+```
+
+This (somewhat misleading) error message has been seen when the Android SDK is
+not fully configured. Creating a new React Native project (per [the upstream
+docs](https://facebook.github.io/react-native/docs/getting-started.html)) and
+running `react-native android` may give clearer error messages.
+
+[rn-installation]: https://facebook.github.io/react-native/docs/getting-started.html
+
+
 ### App shows a blank white screen
 
 If you're developing on a Linux machine, and when you start the dev version of
