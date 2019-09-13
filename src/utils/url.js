@@ -60,8 +60,17 @@ export const parseProtocol = (value: string): [string | null, string] => {
   return match ? [match[1], match[2]] : [null, value];
 };
 
-export const fixRealmUrl = (url: string = '') =>
-  url.length > 0 ? (!hasProtocol(url) ? 'https://' : '') + url.trim().replace(/\s+|\/$/g, '') : '';
+/** DEPRECATED */
+export const fixRealmUrl = (url: string = '') => {
+  if (url === '') {
+    return '';
+  }
+  const trimmedUrl = url
+    .replace(/\s/g, '') // strip any spaces, internal or otherwise
+    .replace(/\/$/g, ''); // eliminate trailing slash
+
+  return hasProtocol(trimmedUrl) ? trimmedUrl : `https://${trimmedUrl}`;
+};
 
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 
