@@ -7,9 +7,11 @@ import {
   isUrlOnRealm,
   parseProtocol,
   fixRealmUrl,
-  autocompleteUrl,
+  autocompleteRealmPieces,
+  autocompleteRealm,
 } from '../url';
 import type { Auth } from '../../types';
+import type { AutocompletionDefaults } from '../url';
 
 describe('getFullUrl', () => {
   test('when uri contains domain, do not change', () => {
@@ -151,29 +153,120 @@ describe('fixRealmUrl', () => {
   });
 });
 
-describe('autocompleteUrl', () => {
+describe('autocompleteRealmPieces', () => {
+  const exampleData: AutocompletionDefaults = {
+    protocol: 'http://',
+    domain: 'example.com',
+  };
+
+  test('the empty string yields reasonable values', () => {
+    const [head, , tail] = autocompleteRealmPieces('', exampleData);
+    expect(head).toEqual('http://');
+    expect(tail).toEqual('.example.com');
+  });
+
+  /* Test that input value is unchanged.
+
+     Future versions of `autocompleteRealmPieces` may alter certain inputs --
+     for example, by trimming spaces, standardizing to lowercase, or escaping
+     via punycode -- but the particular values tested here should all remain
+     unaltered.
+  */
+  const doSimpleCompletion = (input: string, data?: AutocompletionDefaults) => {
+    const [head, output, tail] = autocompleteRealmPieces(input, data ?? exampleData);
+    expect(input).toEqual(output);
+    return [head, tail];
+  };
+
+  test('a plain word is fully autocompleted', () => {
+    const [head, tail] = doSimpleCompletion('host-name');
+    expect(head).toEqual('http://');
+    expect(tail).toEqual('.example.com');
+  });
+
+  test('an explicit `http` is recognized', () => {
+    const [head, tail] = doSimpleCompletion('http://host-name');
+    expect(head).toBeFalsy();
+    expect(tail).toEqual('.example.com');
+  });
+
+  test('an explicit `https` is recognized', () => {
+    const [head, tail] = doSimpleCompletion('https://host-name');
+    expect(head).toBeFalsy();
+    expect(tail).toEqual('.example.com');
+  });
+
+  test('an explicit IPv4 is recognized', () => {
+    const [head, tail] = doSimpleCompletion('23.6.64.128');
+    expect(head).toBeTruthy();
+    expect(tail).toBeFalsy();
+  });
+
+  test('an explicit IPv6 is recognized', () => {
+    const [head, tail] = doSimpleCompletion('[2a02:26f0:12f:293:0:0:0:255e]');
+    expect(head).toBeTruthy();
+    expect(tail).toBeFalsy();
+  });
+
+  test('localhost with an explicit port is recognized', () => {
+    const [head, tail] = doSimpleCompletion('localhost:9991');
+    expect(head).toBeTruthy();
+    expect(tail).toBeFalsy();
+  });
+
+  test('full host name is recognized', () => {
+    const [head, tail] = doSimpleCompletion('my-server.example.com');
+    expect(head).toBeTruthy();
+    expect(tail).toBeFalsy();
+  });
+
+  test('full host and protocol are recognized', () => {
+    const [head, tail] = doSimpleCompletion('http://my-server.com');
+    expect(head).toBeFalsy();
+    expect(tail).toBeFalsy();
+  });
+
+  test('fully explicit localhost is recognized', () => {
+    const [head, tail] = doSimpleCompletion('http://localhost:9991');
+    expect(head).toBeFalsy();
+    expect(tail).toBeFalsy();
+  });
+});
+
+describe('autocompleteRealm', () => {
+  const zulipData: AutocompletionDefaults = {
+    protocol: 'https://',
+    domain: 'zulipchat.com',
+  };
+
   test('when no value is entered return empty string', () => {
-    const result = autocompleteUrl('', 'https://', '.zulipchat.com');
+    const result = autocompleteRealm('', zulipData);
     expect(result).toEqual('');
   });
 
-  test('when an protocol is provided use it', () => {
-    const result = autocompleteUrl('http://example', 'https://', '.zulipchat.com');
+  test('when a protocol is provided, use it', () => {
+    const result = autocompleteRealm('http://example', zulipData);
     expect(result).toEqual('http://example.zulipchat.com');
   });
 
   test('do not use any other protocol than http and https', () => {
-    const result = autocompleteUrl('ftp://example', 'https://', '.zulipchat.com');
-    expect(result).toEqual('https://ftp://example.zulipchat.com');
+    const result = autocompleteRealm('ftp://example', zulipData);
+    const isAsExpected = result.startsWith('https://ftp://');
+    expect(isAsExpected).toBeTruthy();
   });
 
-  test('if more than one dots in input do not use any append', () => {
-    const result = autocompleteUrl('subdomain.mydomain.org', 'https://', '.zulipchat.com');
+  test('if the hostname contains a dot, consider it complete', () => {
+    const result = autocompleteRealm('mydomain.org', zulipData);
+    expect(result).toEqual('https://mydomain.org');
+  });
+
+  test('if the hostname contains multiple dots, consider it complete', () => {
+    const result = autocompleteRealm('subdomain.mydomain.org', zulipData);
     expect(result).toEqual('https://subdomain.mydomain.org');
   });
 
-  test('when no subdomain entered do not append top-level domain', () => {
-    const result = autocompleteUrl('mydomain.org', 'https://', '.zulipchat.com');
-    expect(result).toEqual('https://mydomain.org');
+  test('if the hostname contains a colon, consider it complete', () => {
+    const result = autocompleteRealm('localhost:9991', zulipData);
+    expect(result).toEqual('https://localhost:9991');
   });
 });

@@ -98,3 +98,37 @@ export const autocompleteUrl = (value: string = '', protocol: string, append: st
     : '';
 
 export const isValidUrl = (url: string): boolean => urlRegex({ exact: true }).test(url);
+
+export type AutocompletionDefaults = {|
+  protocol: string,
+  domain: string,
+|};
+
+export type AutocompletionPieces = [string | null, string, string | null];
+
+/**
+ * Given user input purporting to identify a Zulip realm, provide a prefix,
+ * derived value, and suffix which may suffice to turn it into a full URL.
+ *
+ * Presently, the derived value will always be equal to the input value;
+ * this property should not be relied on, as it may change in future.
+ */
+export const autocompleteRealmPieces = (
+  value: string,
+  defaults: AutocompletionDefaults,
+): AutocompletionPieces => {
+  const [protocol, nonProtocolValue] = parseProtocol(value);
+
+  const prefix = protocol === null ? defaults.protocol : null;
+
+  const suffix = nonProtocolValue.includes('.') ? null : `.${defaults.domain}`;
+
+  return [prefix, value, suffix];
+};
+
+export const autocompleteRealm = (value: string, data: AutocompletionDefaults): string =>
+  value === ''
+    ? ''
+    : autocompleteRealmPieces(value, data)
+        .filter(s => s)
+        .join('');
