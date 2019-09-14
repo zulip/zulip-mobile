@@ -44,6 +44,8 @@ export const getResource = (
 ): {| uri: string, headers?: { [string]: string } |} =>
   isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
+export type Protocol = 'https://' | 'http://';
+
 const protocolRegex = /^\s*((?:http|https):\/\/)(.*)$/;
 
 /** DEPRECATED */
@@ -55,9 +57,18 @@ const hasProtocol = (url: string = '') => url.search(protocolRegex) !== -1;
 //
 // Ignores initial spaces.
 /** PRIVATE -- exported only for testing */
-export const parseProtocol = (value: string): [string | null, string] => {
+export const parseProtocol = (value: string): [Protocol | null, string] => {
   const match = protocolRegex.exec(value);
-  return match ? [match[1], match[2]] : [null, value];
+
+  if (match) {
+    const [, protocol, rest] = match;
+    if (protocol === 'http://' || protocol === 'https://') {
+      return [protocol, rest];
+    } else {
+      throw new Error(`impossible match: protocol = '${escape(protocol)}'`);
+    }
+  }
+  return [null, value];
 };
 
 /** DEPRECATED */
@@ -93,11 +104,11 @@ export const getMimeTypeFromFileExtension = (extension: string): string =>
 export const isValidUrl = (url: string): boolean => urlRegex({ exact: true }).test(url);
 
 export type AutocompletionDefaults = {|
-  protocol: string,
+  protocol: Protocol,
   domain: string,
 |};
 
-export type AutocompletionPieces = [string | null, string, string | null];
+export type AutocompletionPieces = [Protocol | null, string, string | null];
 
 /**
  * A short list of some characters not permitted in subdomain name elements.

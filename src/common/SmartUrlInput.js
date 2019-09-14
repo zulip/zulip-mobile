@@ -6,6 +6,7 @@ import type { NavigationEventSubscription, NavigationScreenProp } from 'react-na
 
 import type { Context } from '../types';
 import { autocompleteRealmPieces, autocompleteRealm, fixRealmUrl } from '../utils/url';
+import type { Protocol } from '../utils/url';
 import RawLabel from './RawLabel';
 
 const styles = StyleSheet.create({
@@ -31,7 +32,7 @@ type Props = {|
    * The protocol which will be used if the user doesn't specify one.
    * Should almost certainly be "https://".
    */
-  defaultProtocol: string,
+  defaultProtocol: Protocol,
   /**
    * The example organization name that will be displayed while the
    * entry field is empty. Appears, briefly, as the initial (lowest-
