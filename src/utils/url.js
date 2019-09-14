@@ -100,6 +100,11 @@ export type AutocompletionDefaults = {|
 export type AutocompletionPieces = [string | null, string, string | null];
 
 /**
+ * A short list of some characters not permitted in subdomain name elements.
+ */
+const disallowedCharacters: Array<string> = [...'.:/'];
+
+/**
  * Given user input purporting to identify a Zulip realm, provide a prefix,
  * derived value, and suffix which may suffice to turn it into a full URL.
  *
@@ -114,7 +119,10 @@ export const autocompleteRealmPieces = (
 
   const prefix = protocol === null ? defaults.protocol : null;
 
-  const suffix = nonProtocolValue.includes('.') ? null : `.${defaults.domain}`;
+  // If the user supplies one of these characters, assume they know what they're doing.
+  const suffix = disallowedCharacters.some(c => nonProtocolValue.includes(c))
+    ? null
+    : `.${defaults.domain}`;
 
   return [prefix, value, suffix];
 };
