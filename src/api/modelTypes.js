@@ -281,7 +281,8 @@ export type Reaction = $ReadOnly<{|
   user: $ReadOnly<{|
     email: string,
     full_name: string,
-    user_id: number,
+    user_id?: number, //  present in reaction add event
+    id?: number, // present when messages are fetched via `getMessages` API
   |}>,
   emoji_name: string,
   reaction_type: ReactionType,
