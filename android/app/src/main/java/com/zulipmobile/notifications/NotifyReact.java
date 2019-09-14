@@ -28,29 +28,37 @@ class NotifyReact {
     static void notifyReact(ReactApplication application, final Bundle data) {
         NotificationsModule.initialNotification = data;
 
-        if (!emitIfResumed(application, "notificationOpened", Arguments.fromBundle(data))) {
-            // The app will check initialNotification on launch.
-            Log.d(TAG, "notifyReact: launching main activity");
-            launchMainActivity((Context) application);
-        }
+        emitIfResumed(application, "notificationOpened", Arguments.fromBundle(data));
+        Log.d(TAG, "notifyReact: launching main activity");
+        bringAppToForegroundIfNot(application);
+
     }
 
-    private static boolean emitIfResumed(ReactApplication application, final String eventName, final @Nullable Object data) {
+    private static void bringAppToForegroundIfNot(ReactApplication application) {
+        final ReactNativeHost host = application.getReactNativeHost();
+        final ReactContext reactContext = host.getReactInstanceManager().getCurrentReactContext();
+        if (reactContext != null && reactContext.getLifecycleState() == LifecycleState.RESUMED) {
+            return;
+        }
+        launchMainActivity((Context) application);
+    }
+
+    private static void emitIfResumed(ReactApplication application, final String eventName, final @Nullable Object data) {
         final ReactNativeHost host = application.getReactNativeHost();
         if (!host.hasInstance()) {
             // Calling getReactInstanceManager would try to create one...
             // which asserts we're on the UI thread, which isn't true if we
             // got here from a Service.
-            return false;
+            return;
         }
         final ReactContext reactContext = host.getReactInstanceManager().getCurrentReactContext();
         if (reactContext == null
                 || !reactContext.hasActiveCatalystInstance()
-                || reactContext.getLifecycleState() != LifecycleState.RESUMED) {
-            return false;
+                || reactContext.getLifecycleState() == LifecycleState.BEFORE_CREATE) {
+            // The app will check initialNotification on launch.
+            return;
         }
         emit(reactContext, eventName, data);
-        return true;
     }
 
     static void emit(@NonNull ReactContext reactContext, String eventName, @Nullable Object data) {
