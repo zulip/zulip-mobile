@@ -219,6 +219,9 @@ const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) 
  * we want to do when starting up, or regaining a network connection.
  */
 export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
+  dispatch(reportPresence());
+  setInterval(() => dispatch(reportPresence()), 60 * 1000);
+
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
 
@@ -253,8 +256,6 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
 
   dispatch(sendOutbox());
   dispatch(initNotifications());
-  dispatch(reportPresence());
-  setInterval(() => dispatch(reportPresence()), 60 * 1000);
 };
 
 export const uploadFile = (narrow: Narrow, uri: string, name: string) => async (
