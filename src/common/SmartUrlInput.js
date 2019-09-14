@@ -5,7 +5,7 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import type { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
 
 import type { Context } from '../types';
-import { autocompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
+import { autocompleteRealmPieces, autocompleteRealm, fixRealmUrl } from '../utils/url';
 import RawLabel from './RawLabel';
 
 const styles = StyleSheet.create({
@@ -27,9 +27,22 @@ const styles = StyleSheet.create({
 
 type Props = {|
   defaultValue: string,
+  /**
+   * The protocol which will be used if the user doesn't specify one.
+   * Should almost certainly be "https://".
+   */
+  defaultProtocol: string,
+  /**
+   * The example organization name that will be displayed while the
+   * entry field is empty. Appears, briefly, as the initial (lowest-
+   * level) component of the realm's domain.
+   */
   defaultOrganization: string,
-  protocol: string,
-  append: string,
+  /**
+   * The default domain to which the user's input will be appended, if
+   * it appears not to contain an explicit domain.
+   */
+  defaultDomain: string,
   navigation: NavigationScreenProp<mixed>,
   style?: ViewStyleProp,
   onChangeText: (value: string) => void,
@@ -38,6 +51,10 @@ type Props = {|
 |};
 
 type State = {|
+  /**
+   * The actual input string, exactly as entered by the user,
+   * without modifications by autocomplete.
+   */
   value: string,
 |};
 
@@ -70,8 +87,8 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   handleChange = (value: string) => {
     this.setState({ value });
 
-    const { append, protocol, onChangeText } = this.props;
-    onChangeText(fixRealmUrl(autocompleteUrl(value, protocol, append)));
+    const { onChangeText, defaultProtocol: protocol, defaultDomain: domain } = this.props;
+    onChangeText(fixRealmUrl(autocompleteRealm(value, { protocol, domain })));
   };
 
   urlPress = () => {
@@ -94,24 +111,24 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   render() {
     const { styles: contextStyles } = this.context;
     const {
-      defaultOrganization,
-      protocol,
-      append,
       defaultValue,
+      defaultProtocol,
+      defaultOrganization,
+      defaultDomain,
       style,
       onSubmitEditing,
       enablesReturnKeyAutomatically,
     } = this.props;
-    let { value } = this.state;
-    let showAppend = value.indexOf('.') === -1;
-    if (defaultValue && value.length === 0) {
-      showAppend = false;
-      value = defaultValue;
-    }
+    const { value } = this.state;
+
+    const [prefix, , suffix] = autocompleteRealmPieces(value || defaultValue, {
+      domain: defaultDomain,
+      protocol: defaultProtocol,
+    });
 
     return (
       <View style={[styles.wrapper, style]}>
-        {!hasProtocol(value) && this.renderPlaceholderPart(protocol)}
+        {prefix !== null && this.renderPlaceholderPart(prefix)}
         <TextInput
           style={[
             styles.realmInput,
@@ -133,8 +150,8 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
             this.textInputRef = component;
           }}
         />
-        {value.length === 0 && this.renderPlaceholderPart(defaultOrganization)}
-        {showAppend && this.renderPlaceholderPart(append)}
+        {!value && this.renderPlaceholderPart(defaultOrganization)}
+        {suffix !== null && this.renderPlaceholderPart(suffix)}
       </View>
     );
   }

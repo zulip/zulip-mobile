@@ -77,9 +77,9 @@ class RealmScreen extends PureComponent<Props, State> {
         <SmartUrlInput
           style={styles.marginVertical}
           navigation={navigation}
+          defaultProtocol="https://"
           defaultOrganization="your-org"
-          protocol="https://"
-          append=".zulipchat.com"
+          defaultDomain="zulipchat.com"
           defaultValue={initialRealm}
           onChangeText={this.handleRealmChange}
           onSubmitEditing={this.tryRealm}

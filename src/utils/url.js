@@ -47,7 +47,7 @@ export const getResource = (
 const protocolRegex = /^\s*((?:http|https):\/\/)(.*)$/;
 
 /** DEPRECATED */
-export const hasProtocol = (url: string = '') => url.search(protocolRegex) !== -1;
+const hasProtocol = (url: string = '') => url.search(protocolRegex) !== -1;
 
 // Split a (possible) URL into protocol and non-protocol parts.
 // The former will be null if no recognized protocol is a component
@@ -89,13 +89,6 @@ const mimes = {
 
 export const getMimeTypeFromFileExtension = (extension: string): string =>
   mimes[extension.toLowerCase()] || 'application/octet-stream';
-
-export const autocompleteUrl = (value: string = '', protocol: string, append: string): string =>
-  value.length > 0
-    ? `${hasProtocol(value) ? '' : protocol}${value || 'your-org'}${
-        value.indexOf('.') === -1 ? append : ''
-      }`
-    : '';
 
 export const isValidUrl = (url: string): boolean => urlRegex({ exact: true }).test(url);
 
