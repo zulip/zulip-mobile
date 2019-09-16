@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
-import ComponentWithOverlay from '../common/ComponentWithOverlay';
 import { Icon } from '../common/Icons';
+import { Touchable } from '../common';
 
 type Props = {|
   color: string,
@@ -36,14 +36,11 @@ export default class NavButton extends PureComponent<Props> {
     const { name, style, color, onPress } = this.props;
 
     return (
-      <ComponentWithOverlay
-        style={this.styles.navButtonFrame}
-        showOverlay={false}
-        overlay={null}
-        onPress={onPress}
-      >
-        <Icon style={[this.styles.navButtonIcon, style]} color={color} name={name} />
-      </ComponentWithOverlay>
+      <Touchable onPress={onPress}>
+        <View style={this.styles.navButtonFrame}>
+          <Icon style={[this.styles.navButtonIcon, style]} color={color} name={name} />
+        </View>
+      </Touchable>
     );
   }
 }
