@@ -6,7 +6,6 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 
 import type { Node as React$Node } from 'react';
 import { BRAND_COLOR } from '../styles';
-import Touchable from './Touchable';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -38,14 +37,12 @@ const styles = StyleSheet.create({
 
 type Props = {|
   children: React$Node,
-  accessibilityLabel?: string,
   overlay: React$Node,
   showOverlay: boolean,
   overlaySize: number,
   overlayColor: string,
   overlayPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
   style?: ViewStyleProp,
-  onPress?: () => void,
 |};
 
 /**
@@ -63,7 +60,6 @@ type Props = {|
  *  * 'bottom-right'
  *  * 'bottom-left'
  * @prop [style] - Style object applied to the main component.
- * @prop [onPress] - Event called on pressing the main component.
  */
 export default class ComponentWithOverlay extends PureComponent<Props> {
   static defaultProps = {
@@ -76,14 +72,12 @@ export default class ComponentWithOverlay extends PureComponent<Props> {
   render() {
     const {
       children,
-      accessibilityLabel,
       style,
       overlay,
       showOverlay,
       overlayPosition,
       overlaySize,
       overlayColor,
-      onPress,
     } = this.props;
 
     const wrapperStyle = [styles.wrapper, style];
@@ -100,12 +94,10 @@ export default class ComponentWithOverlay extends PureComponent<Props> {
     ];
 
     return (
-      <Touchable onPress={onPress} accessibilityLabel={accessibilityLabel}>
-        <View style={wrapperStyle}>
-          {children}
-          {showOverlay && overlaySize > 0 && <View style={overlayStyle}>{overlay}</View>}
-        </View>
-      </Touchable>
+      <View style={wrapperStyle}>
+        {children}
+        {showOverlay && overlaySize > 0 && <View style={overlayStyle}>{overlay}</View>}
+      </View>
     );
   }
 }

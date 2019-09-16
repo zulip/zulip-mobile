@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
-import { UserAvatarWithPresence, ComponentWithOverlay, RawLabel } from '../common';
+import { UserAvatarWithPresence, ComponentWithOverlay, RawLabel, Touchable } from '../common';
 import { IconCancel } from '../common/Icons';
 
 const styles = StyleSheet.create({
@@ -62,21 +62,22 @@ export default class AvatarItem extends PureComponent<Props> {
 
     return (
       <Animated.View style={[styles.wrapper, animatedStyle]}>
-        <ComponentWithOverlay
-          overlaySize={20}
-          overlayColor="white"
-          overlayPosition="bottom-right"
-          overlay={<IconCancel color="gray" size={20} />}
-          onPress={this.handlePress}
-        >
-          <UserAvatarWithPresence
-            key={email}
-            size={50}
-            avatarUrl={avatarUrl}
-            email={email}
-            onPress={this.handlePress}
-          />
-        </ComponentWithOverlay>
+        <Touchable onPress={this.handlePress}>
+          <ComponentWithOverlay
+            overlaySize={20}
+            overlayColor="white"
+            overlayPosition="bottom-right"
+            overlay={<IconCancel color="gray" size={20} />}
+          >
+            <UserAvatarWithPresence
+              key={email}
+              size={50}
+              avatarUrl={avatarUrl}
+              email={email}
+              onPress={this.handlePress}
+            />
+          </ComponentWithOverlay>
+        </Touchable>
         <View style={styles.textFrame}>
           <RawLabel style={styles.text} text={firstName} numberOfLines={1} />
         </View>

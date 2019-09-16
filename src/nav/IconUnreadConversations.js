@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -28,14 +28,16 @@ class IconUnreadConversations extends PureComponent<Props> {
     const unreadCount = unreadHuddlesTotal + unreadPmsTotal;
 
     return (
-      <ComponentWithOverlay
-        style={styles.button}
-        overlaySize={15}
-        showOverlay={unreadCount > 0}
-        overlay={<UnreadCount count={unreadCount} />}
-      >
-        <IconPeople size={24} color={color} />
-      </ComponentWithOverlay>
+      <View>
+        <ComponentWithOverlay
+          style={styles.button}
+          overlaySize={15}
+          showOverlay={unreadCount > 0}
+          overlay={<UnreadCount count={unreadCount} />}
+        >
+          <IconPeople size={24} color={color} />
+        </ComponentWithOverlay>
+      </View>
     );
   }
 }
