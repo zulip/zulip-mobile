@@ -8,6 +8,7 @@ import { connect } from '../react-redux';
 import { getUnreadPmsTotal, getUnreadHuddlesTotal } from '../selectors';
 import { IconPeople } from '../common/Icons';
 import { ComponentWithOverlay, UnreadCount } from '../common';
+import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
   button: {
@@ -32,6 +33,8 @@ class IconUnreadConversations extends PureComponent<Props> {
         <ComponentWithOverlay
           style={styles.button}
           overlaySize={15}
+          overlayColor={BRAND_COLOR}
+          overlayPosition="top-right"
           showOverlay={unreadCount > 0}
           overlay={<UnreadCount count={unreadCount} />}
         >
