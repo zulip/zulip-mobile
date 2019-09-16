@@ -4,6 +4,22 @@
 
 ## Git: commits, commit messages
 
+### See also
+
+**Zulip guide to [clear and coherent commits][].** This has important
+principles about structuring your changes, and about writing commit
+messages.
+
+[clear and coherent commits]: https://zulip.readthedocs.io/en/latest/contributing/version-control.html
+
+
+**Our [Git guide][howto/git.md].** This includes some valuable tips
+you may not know, even if you've been using Git for a while.  The
+Zulip maintainers spend a lot of time reading Git commits, which is a
+major reason we keep high standards for commit clarity.  These tips
+will help you get a lot of value from reading Git history too.
+
+
 ### Mentioning people
 
 **No GitHub @-mentions:** GitHub makes it tempting to refer to people
