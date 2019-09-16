@@ -69,13 +69,7 @@ export default class AvatarItem extends PureComponent<Props> {
             overlayPosition="bottom-right"
             overlay={<IconCancel color="gray" size={20} />}
           >
-            <UserAvatarWithPresence
-              key={email}
-              size={50}
-              avatarUrl={avatarUrl}
-              email={email}
-              onPress={this.handlePress}
-            />
+            <UserAvatarWithPresence key={email} size={50} avatarUrl={avatarUrl} email={email} />
           </ComponentWithOverlay>
         </Touchable>
         <View style={styles.textFrame}>
