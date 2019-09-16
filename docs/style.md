@@ -13,7 +13,7 @@ messages.
 [clear and coherent commits]: https://zulip.readthedocs.io/en/latest/contributing/version-control.html
 
 
-**Our [Git guide][howto/git.md].** This includes some valuable tips
+**Our [Git guide](howto/git.md).** This includes some valuable tips
 you may not know, even if you've been using Git for a while.  The
 Zulip maintainers spend a lot of time reading Git commits, which is a
 major reason we keep high standards for commit clarity.  These tips
