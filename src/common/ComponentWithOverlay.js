@@ -1,5 +1,4 @@
 /* @flow strict-local */
-/* eslint-disable react-native/no-unused-styles */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
@@ -8,7 +7,6 @@ import type { Node as React$Node } from 'react';
 
 const styles = StyleSheet.create({
   wrapper: {
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -45,20 +43,15 @@ type Props = {|
 |};
 
 /**
- * Layout component that streamlines how we
- * overlay a component over another component
+ * Place an overlay, with a colored-disk background, on another component.
  *
  * @prop children - Main component to be rendered.
  * @prop overlay - Component to be overlayed over the main one.
  * @prop [showOverlay] - Should the overlay be shown.
- * @prop overlaySize - The size of the overlay in pixels,
- * @prop overlayColor - The color of the overlay.
- * @prop overlayPosition - Overlay position can be one of the following:
- *  * 'top-right'
- *  * 'top-left'
- *  * 'bottom-right'
- *  * 'bottom-left'
- * @prop [style] - Style object applied to the main component.
+ * @prop overlaySize - The size of the overlay in pixels.
+ * @prop overlayColor - Background color for overlay.
+ * @prop overlayPosition - What corner to align the overlay to.
+ * @prop [style] - Applied to a wrapper View.
  */
 export default class ComponentWithOverlay extends PureComponent<Props> {
   static defaultProps = {
