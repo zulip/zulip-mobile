@@ -199,10 +199,10 @@ When trying to build the Android app, you may see this error:
 Task 'installDebug' not found in project ':app'.
 ```
 
-This (somewhat misleading) error message has been seen when the Android SDK is
-not fully configured. Creating a new React Native project (per [the upstream
-docs](https://facebook.github.io/react-native/docs/getting-started.html)) and
-running `react-native android` may give clearer error messages.
+This (somewhat misleading) error message can occur when the Android
+SDK is not fully configured.  Creating a new React Native project (per
+[the upstream docs][rn-installation]), and running `react-native
+android` there, may give clearer error messages for debugging.
 
 [rn-installation]: https://facebook.github.io/react-native/docs/getting-started.html
 
