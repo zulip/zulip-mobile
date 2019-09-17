@@ -66,7 +66,7 @@ There are several ways to do this, depending on your platform.  See below.
 ### iOS simulator (macOS only)
 
 The iOS simulator shares its network interface with the computer it's running
-on. Happily, this means `https://localhost:9991` will work without further
+on.  Happily, this means `http://localhost:9991` will work without further
 configuration; you can skip to [the last step](#last-step).
 
 ### Android emulator
@@ -101,8 +101,9 @@ First:
 
 We'll use **the IP address your computer uses on the local network**.
   * For a physical device, this should be on the same network the phone is on.
-  * For an emulator, any IP address that belongs to your computer (and isn't a
-    special "loopback" address like 127.0.0.1) will do.
+  * For the Android emulator, any IP address that belongs to your
+    computer (and isn't a special "loopback" address like 127.0.0.1)
+    will do.
   * For the iOS simulator, if you are not using the simpler method above,
     even a loopback address like 127.0.0.1 will be fine.
 
@@ -123,9 +124,9 @@ address](find-ip-address.md).
 
 ## 3. Listen on all interfaces
 
-If you're using the Android emulator and the IP address 10.0.2.2, or if you're
-using the iOS simulator, you can skip this step and move on to step 4.
-Otherwise, read on.
+(If you're using the Android emulator and the IP address 10.0.2.2, or if you're
+using the iOS simulator and `localhost`, you can skip this step and move on
+to step 4.)
 
 By default, the Zulip dev server only listens on the "loopback" network
 interface, 127.0.0.1, aka `localhost`.  This is a nice secure default,
@@ -163,6 +164,9 @@ For example:
 
 
 ## 4. Set EXTERNAL_HOST
+
+(If you're using `localhost` with the iOS simulator, you can skip this
+step.)
 
 Like most complex web apps, the Zulip server has an idea internally of what
 base URL it's supposed to be accessed at; we call this setting
