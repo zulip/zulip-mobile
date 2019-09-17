@@ -140,33 +140,6 @@ packages in `node_modules/` to match the current `package.json`.  You
 might need to restart Metro / `react-native start` after doing so.
 
 
-### Build failure: `aapt` / "error while loading shared libraries"
-
-When trying to build the Android app, you may see an error like this one
-(reformatted slightly for readability):
-```
-.../Android/Sdk/build-tools/23.0.1/aapt: error while loading shared libraries: libz.so.1:
-  cannot open shared object file: No such file or directory
-
-:@remobile_react-native-toast:processReleaseResources FAILED
-```
-
-This happens because we follow RN upstream in using an older version
-(23.0.1) of the Android SDK's build tools, which is distributed as a 32-bit
-binary and needs 32-bit versions of common system libraries.  Most new
-computers and OS installs for a number of years have been 64-bit systems,
-and on Linux most 64-bit systems don't include 32-bit libraries by default
-when the system is first installed.
-
-To fix this, install the handful of libraries these Android build tools
-need.  On Ubuntu or Debian, you can do this with the following commands:
-```
-sudo dpkg --add-architecture i386
-sudo apt update
-sudo apt install libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386
-```
-
-
 ### Build failure: java.lang.UnsupportedClassVersionError
 
 When trying to build the Android app, you may see this error:
