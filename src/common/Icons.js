@@ -2,24 +2,37 @@
 import React from 'react';
 import type { ComponentType } from 'react';
 import type { Text } from 'react-native';
+import type { Color } from 'react-native-vector-icons';
 import Feather from 'react-native-vector-icons/Feather';
+import type { FeatherGlyphs } from 'react-native-vector-icons/Feather';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 /*
- * This corresponds to the documented interface:
- * https://github.com/oblador/react-native-vector-icons/blob/v4.6.0/README.md#properties
+ * This is a reimplementation of react-native-vector-icons (RVNI)'s own
+ * IconProps<...> type, corresponding to the documented interface:
+ *
+ * https://github.com/oblador/react-native-vector-icons/blob/v6.6.0/README.md#properties
+ *
+ * Unfortunately the upstream implementation of this type explicitly includes
+ * `allowFontScaling?: boolean` -- a misrespecification of the React Native
+ * property (which RN itself specifies to be `allowFontScaling?: ?boolean`).
  */
-type IconProps = {|
+type IconProps<Glyphs: string> = {|
   ...$Exact<$PropertyType<Text, 'props'>>,
   size?: number,
-  color?: string,
+  name: Glyphs,
+  color?: Color,
 |};
 
-export const Icon: ComponentType<{| ...IconProps, name: string |}> = Feather;
+export type IconNames = FeatherGlyphs;
 
-export type IconType = ComponentType<IconProps>;
+/** The type of an Icon whose `name` has already been specified. */
+export type IconType = ComponentType<$Diff<IconProps<IconNames>, {| name: mixed |}>>;
+
+/* $FlowFixMe: See comments above. */
+export const Icon: ComponentType<IconProps<IconNames>> = Feather;
 
 export const IconInbox: IconType = props => <Feather name="inbox" {...props} />;
 export const IconStar: IconType = props => <Feather name="star" {...props} />;

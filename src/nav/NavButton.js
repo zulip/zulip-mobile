@@ -6,11 +6,12 @@ import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import { Icon } from '../common/Icons';
 import { Touchable } from '../common';
+import type { IconNames } from '../common/Icons';
 
 type Props = {|
   color: string,
   style?: TextStyleProp,
-  name: string,
+  name: IconNames,
   onPress: () => void,
 |};
 

@@ -86,6 +86,8 @@ if (hasProperty('sentry')) {
     apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 }
 
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
 def keystorePropertiesFile = rootProject.file("release-keystore.properties")
 def keystoreProperties = new Properties()
 try {
