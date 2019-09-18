@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
+import throttle from 'lodash.throttle';
 import * as api from '../api';
 import type { Auth, Message } from '../types';
 import { Screen } from '../common';
@@ -74,7 +75,7 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
    * Asynchronously performs a search query. Discards any responses thereto
    * which have been delayed long enough to be out-of-order.
    */
-  performQuery = async (query: string) => {
+  performQuery = throttle(async (query: string) => {
     const id = ++this.lastIdSent;
 
     let messages: Message[] | null = null;
@@ -95,7 +96,7 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
 
     // A query is concluded. Report the message-list.
     this.setState({ messages, isFetching: this.lastIdReceived === id });
-  };
+  }, 500);
 
   handleQueryChange = (query: string) => {
     this.performQuery(query);
