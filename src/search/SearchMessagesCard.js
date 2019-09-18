@@ -29,7 +29,11 @@ export default class SearchMessagesCard extends PureComponent<Props> {
     const { isFetching, messages } = this.props;
 
     if (isFetching) {
-      return <LoadingIndicator size={40} />;
+      // Display loading indicator only if there are no messages to
+      // display from a previous search.
+      if ((messages ?? []).length === 0) {
+        return <LoadingIndicator size={40} />;
+      }
     }
 
     if (messages === null) {

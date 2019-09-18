@@ -94,7 +94,7 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
     this.lastIdReceived = id;
 
     // A query is concluded. Report the message-list.
-    this.setState({ messages, isFetching: false });
+    this.setState({ messages, isFetching: this.lastIdReceived === id });
   };
 
   handleQueryChange = (query: string) => {
