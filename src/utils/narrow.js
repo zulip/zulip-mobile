@@ -41,6 +41,8 @@ export const STARRED_NARROW_STR = JSON.stringify(STARRED_NARROW);
 
 export const MENTIONED_NARROW = specialNarrow('mentioned');
 
+export const MENTIONED_NARROW_STR = JSON.stringify(MENTIONED_NARROW);
+
 export const ALL_PRIVATE_NARROW = specialNarrow('private');
 
 export const ALL_PRIVATE_NARROW_STR = JSON.stringify(ALL_PRIVATE_NARROW);

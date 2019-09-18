@@ -13,7 +13,7 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../constants';
-import { isMessageInNarrow, STARRED_NARROW_STR } from '../utils/narrow';
+import { isMessageInNarrow, MENTIONED_NARROW_STR, STARRED_NARROW_STR } from '../utils/narrow';
 import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: NarrowsState = NULL_OBJECT;
@@ -64,17 +64,26 @@ const eventUpdateMessageFlags = (state, action) => {
   const messagesSet = new Set(messages);
   const updates = [];
 
-  if (flag === 'starred' && state[STARRED_NARROW_STR]) {
-    if (operation === 'add') {
-      updates.push({
-        [STARRED_NARROW_STR]: [...state[STARRED_NARROW_STR], ...messages].sort(),
-      });
-    } else {
-      // operation === 'remove'
-      updates.push({
-        [STARRED_NARROW_STR]: state[STARRED_NARROW_STR].filter(id => !messagesSet.has(id)),
-      });
+  const updateFlagNarrow = narrowStr => {
+    if (state[narrowStr]) {
+      if (operation === 'add') {
+        updates.push({
+          [narrowStr]: [...state[narrowStr], ...messages].sort(),
+        });
+      } else if (operation === 'remove') {
+        updates.push({
+          [narrowStr]: state[narrowStr].filter(id => !messagesSet.has(id)),
+        });
+      }
     }
+
+    return updates;
+  };
+
+  if (flag === 'starred') {
+    updateFlagNarrow(STARRED_NARROW_STR);
+  } else if (['mentioned', 'wildcard_mentioned'].includes(flag)) {
+    updateFlagNarrow(MENTIONED_NARROW_STR);
   }
 
   if (!updates.length) {
