@@ -214,6 +214,11 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: st
     return normalizedRecipients === ownEmail || normalizedRecipients === normalizedNarrow;
   };
 
+  const { flags } = message;
+  if (!flags) {
+    throw new Error('`message.flags` should be defined.');
+  }
+
   return caseNarrow(narrow, {
     home: () => true,
     stream: name => name === message.display_recipient,
@@ -221,8 +226,8 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: st
       streamName === message.display_recipient && topic === message.subject,
     pm: email => matchRecipients([email]),
     groupPm: matchRecipients,
-    starred: () => message.type === 'starred',
-    mentioned: () => message.type === 'mentioned',
+    starred: () => flags.includes('starred'),
+    mentioned: () => flags.includes('mentioned') || flags.includes('wildcard_mentioned'),
     allPrivate: () => message.type === 'private',
     search: () => false,
   });

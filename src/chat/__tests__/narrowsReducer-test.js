@@ -37,7 +37,7 @@ describe('narrowsReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        message: { id: 3, display_recipient: 'some stream', subject: 'some topic' },
+        message: { id: 3, display_recipient: 'some stream', subject: 'some topic', flags: [] },
         caughtUp: {},
       });
 
@@ -57,7 +57,7 @@ describe('narrowsReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        message: { id: 3 },
+        message: { id: 3, flags: [] },
         caughtUp: {
           [HOME_NARROW_STR]: {
             older: false,
@@ -83,7 +83,7 @@ describe('narrowsReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        message: { id: 3, type: 'stream', display_recipient: 'stream', subject: 'topic' },
+        message: { id: 3, type: 'stream', display_recipient: 'stream', subject: 'topic', flags: [] },
         caughtUp: {},
       });
 
@@ -104,6 +104,7 @@ describe('narrowsReducer', () => {
       id: 1,
       type: 'private',
       display_recipient: [{ email: 'me@example.com' }, { email: 'a@a.com' }, { email: 'b@b.com' }],
+      flags: [],
     };
     const action = deepFreeze({
       type: EVENT_NEW_MESSAGE,
@@ -132,6 +133,7 @@ describe('narrowsReducer', () => {
       type: 'stream',
       display_recipient: 'some stream',
       subject: 'some topic',
+      flags: [],
     };
     const action = deepFreeze({
       type: EVENT_NEW_MESSAGE,
@@ -167,6 +169,7 @@ describe('narrowsReducer', () => {
     const message = {
       id: 1,
       display_recipient: [{ email: 'me@example.com' }],
+      flags: [],
     };
     const action = deepFreeze({
       type: EVENT_NEW_MESSAGE,
@@ -204,6 +207,7 @@ describe('narrowsReducer', () => {
       type: 'stream',
       display_recipient: 'some stream',
       subject: 'some topic',
+      flags: [],
     };
     const action = deepFreeze({
       type: EVENT_NEW_MESSAGE,
@@ -240,6 +244,7 @@ describe('narrowsReducer', () => {
       type: 'stream',
       display_recipient: 'stream name',
       subject: 'some topic',
+      flags: [],
     };
     const action = deepFreeze({
       type: EVENT_NEW_MESSAGE,
@@ -274,6 +279,7 @@ describe('narrowsReducer', () => {
       type: 'private',
       sender_email: 'someone@example.com',
       display_recipient: [{ email: 'me@example.com' }, { email: 'mark@example.com' }],
+      flags: [],
     };
     const action = deepFreeze({
       type: EVENT_NEW_MESSAGE,

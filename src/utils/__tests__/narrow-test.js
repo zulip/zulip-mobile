@@ -21,6 +21,7 @@ import {
   getNarrowFromMessage,
   parseNarrowString,
   STARRED_NARROW,
+  MENTIONED_NARROW,
 } from '../narrow';
 
 describe('HOME_NARROW', () => {
@@ -219,13 +220,16 @@ describe('SEARCH_NARROW', () => {
 
 describe('isMessageInNarrow', () => {
   test('any message is in "Home"', () => {
-    const message = {};
+    const message = {
+      flags: [],
+    };
     const narrow = HOME_NARROW;
     expect(isMessageInNarrow(message, narrow)).toBe(true);
   });
 
   test('message with type "private" is in private narrow if recipient matches', () => {
     const message = {
+      flags: [],
       type: 'private',
       display_recipient: [{ email: 'me@example.com' }, { email: 'john@example.com' }],
     };
@@ -236,6 +240,7 @@ describe('isMessageInNarrow', () => {
 
   test('message to self is in "private" narrow with self', () => {
     const message = {
+      flags: [],
       type: 'private',
       display_recipient: [{ email: 'me@example.com' }],
     };
@@ -247,6 +252,7 @@ describe('isMessageInNarrow', () => {
   test('message with type "private" is in group narrow if all recipients match ', () => {
     const message = {
       type: 'private',
+      flags: [],
       display_recipient: [
         { email: 'me@example.com' },
         { email: 'john@example.com' },
@@ -261,6 +267,7 @@ describe('isMessageInNarrow', () => {
 
   test('message with type "private" is always in "private messages" narrow', () => {
     const message = {
+      flags: [],
       type: 'private',
       display_recipient: [{ email: 'me@example.com' }, { email: 'john@example.com' }],
     };
@@ -269,6 +276,7 @@ describe('isMessageInNarrow', () => {
 
   test('message with type "stream" is in narrow if recipient and current stream match', () => {
     const message = {
+      flags: [],
       type: 'stream',
       display_recipient: 'some stream',
     };
@@ -277,11 +285,53 @@ describe('isMessageInNarrow', () => {
     expect(isMessageInNarrow(message, narrow)).toBe(true);
   });
 
+  test('message with flags undefined throws an error', () => {
+    const message = {
+      // no flags key
+    };
+    expect(() => isMessageInNarrow(message, MENTIONED_NARROW)).toThrow();
+  });
+
+  test('message with flag "mentioned" is in is:mentioned narrow', () => {
+    const message = {
+      flags: ['mentioned'],
+    };
+    expect(isMessageInNarrow(message, MENTIONED_NARROW)).toBe(true);
+  });
+
+  test('message with flag "wildcard_mentioned" is in is:mentioned narrow', () => {
+    const message = {
+      flags: ['wildcard_mentioned'],
+    };
+    expect(isMessageInNarrow(message, MENTIONED_NARROW)).toBe(true);
+  });
+
+  test('message without flag "mentioned" or "wildcard_mentioned" is not in is:mentioned narrow', () => {
+    const message = {
+      flags: [],
+    };
+    expect(isMessageInNarrow(message, MENTIONED_NARROW)).toBe(false);
+  });
+
+  test('message with flag "starred" is in is:starred narrow', () => {
+    const message = {
+      flags: ['starred'],
+    };
+    expect(isMessageInNarrow(message, STARRED_NARROW)).toBe(true);
+  });
+  test('message without flag "starred" is not in is:starred narrow', () => {
+    const message = {
+      flags: [],
+    };
+    expect(isMessageInNarrow(message, STARRED_NARROW)).toBe(false);
+  });
+
   test('message with type stream is in topic narrow if current stream and topic match with its own', () => {
     const message = {
       type: 'stream',
       subject: 'some topic',
       display_recipient: 'some stream',
+      flags: []
     };
     const narrow = topicNarrow('some stream', 'some topic');
 
