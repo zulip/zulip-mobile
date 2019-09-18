@@ -5,6 +5,7 @@ import type { GeneralEvent, GlobalState, MessageEvent } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
 import { getActiveAccount, getChatScreenParams, getOwnEmail, getIsActive } from '../selectors';
 import { playMessageSound } from '../utils/sound';
+import { NULL_ARRAY } from '../nullObjects';
 
 export default (state: GlobalState, event_: GeneralEvent) => {
   switch (event_.type) {
@@ -12,10 +13,11 @@ export default (state: GlobalState, event_: GeneralEvent) => {
       // $FlowFixMe This expresses our unchecked assumptions about `message` events.
       const event = (event_: MessageEvent);
 
-      // move `flags` key from `event` to `event.message` for consistency
-      if (event.flags && !event.message.flags) {
+      // move `flags` key from `event` to `event.message` for consistency, and
+      // default to an empty array if event.flags is not set.
+      if (!event.message.flags) {
         // $FlowFixMe Message is readonly to serve our use of it in Redux.
-        event.message.flags = event.flags;
+        event.message.flags = event.flags || NULL_ARRAY;
         delete event.flags;
       }
 

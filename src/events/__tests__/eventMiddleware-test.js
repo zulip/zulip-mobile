@@ -1,9 +1,8 @@
-import deepFreeze from 'deep-freeze';
-
 import eventMiddleware from '../eventMiddleware';
+import { NULL_ARRAY } from '../../nullObjects';
 
 describe('eventMiddleware', () => {
-  test('if `event.flags` key exist, move it to `event.message.flags`', () => {
+  test('if `event.flags` key exists, move it to `event.message.flags`', () => {
     const state = { session: {} };
     const event = {
       type: 'message',
@@ -16,12 +15,13 @@ describe('eventMiddleware', () => {
     expect(event.message.flags).toEqual(['mentioned']);
   });
 
-  test('if `event.flags` do not exist, do not mutate event', () => {
+  test('if `event.flags` does not exist, set message.flags to an empty array', () => {
     const state = { session: {} };
-    const event = deepFreeze({
+    const event = {
       type: 'message',
       message: {},
-    });
-    expect(() => eventMiddleware(state, event)).not.toThrow();
+    };
+    eventMiddleware(state, event);
+    expect(event.message.flags).toEqual(NULL_ARRAY);
   });
 });
