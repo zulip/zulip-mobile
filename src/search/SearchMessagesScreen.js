@@ -23,6 +23,7 @@ type State = {|
    *  effectively no "latest query" to have results from.
    */
   messages: Message[] | null,
+  /** Whether there is currently an active valid network request. */
   isFetching: boolean,
 |};
 
@@ -88,7 +89,10 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
     this.lastIdReceived = id;
 
     // A query is concluded. Report the message-list.
-    this.setState({ messages, isFetching: false });
+    this.setState({
+      messages,
+      isFetching: this.lastIdSent !== this.lastIdReceived,
+    });
   };
 
   render() {
