@@ -331,7 +331,7 @@ describe('isMessageInNarrow', () => {
       type: 'stream',
       subject: 'some topic',
       display_recipient: 'some stream',
-      flags: []
+      flags: [],
     };
     const narrow = topicNarrow('some stream', 'some topic');
 

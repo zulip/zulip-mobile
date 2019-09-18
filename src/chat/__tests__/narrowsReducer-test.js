@@ -83,7 +83,13 @@ describe('narrowsReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        message: { id: 3, type: 'stream', display_recipient: 'stream', subject: 'topic', flags: [] },
+        message: {
+          id: 3,
+          type: 'stream',
+          display_recipient: 'stream',
+          subject: 'topic',
+          flags: [],
+        },
         caughtUp: {},
       });
 

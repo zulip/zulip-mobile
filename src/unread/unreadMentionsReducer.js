@@ -40,12 +40,16 @@ export default (state: UnreadMentionsState = initialState, action: Action): Unre
     case REALM_INIT:
       return (action.data.unread_msgs && action.data.unread_msgs.mentions) || initialState;
 
-    case EVENT_NEW_MESSAGE:
-      return action.message.flags
-        && action.message.flags.includes('mentioned')
+    case EVENT_NEW_MESSAGE: {
+      const { flags } = action.message;
+      if (!flags) {
+        throw new Error('action.message.flags should be defined.');
+      }
+      return (flags.includes('mentioned') || flags.includes('wildcard_mentioned'))
         && !state.includes(action.message.id)
         ? addItemsToArray(state, [action.message.id])
         : state;
+    }
 
     case EVENT_MESSAGE_DELETE:
       return removeItemsFromArray(state, [action.messageId]);
