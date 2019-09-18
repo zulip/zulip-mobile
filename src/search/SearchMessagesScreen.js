@@ -16,14 +16,12 @@ type Props = {|
 |};
 
 type State = {|
-  query: string,
-  messages: Message[],
+  messages: Message[] | null,
   isFetching: boolean,
 |};
 
 class SearchMessagesScreen extends PureComponent<Props, State> {
   state = {
-    query: '',
     messages: [],
     isFetching: false,
   };
@@ -46,20 +44,15 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
   };
 
   handleQueryChange = (query: string) => {
-    this.setState({ query });
     this.performQuery(query);
   };
 
   render() {
-    const { query, messages, isFetching } = this.state;
+    const { messages, isFetching } = this.state;
 
     return (
       <Screen search autoFocus searchBarOnChange={this.handleQueryChange} style={styles.flexed}>
-        <SearchMessagesCard
-          queryIsEmpty={query === ''}
-          messages={messages}
-          isFetching={isFetching}
-        />
+        <SearchMessagesCard messages={messages} isFetching={isFetching} />
       </Screen>
     );
   }

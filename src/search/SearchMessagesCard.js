@@ -18,8 +18,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {|
-  queryIsEmpty: boolean,
-  messages: Message[],
+  messages: Message[] | null,
   isFetching: boolean,
 |};
 
@@ -27,14 +26,18 @@ export default class SearchMessagesCard extends PureComponent<Props> {
   static NOT_FETCHING = { older: false, newer: false };
 
   render() {
-    const { queryIsEmpty, isFetching, messages } = this.props;
+    const { isFetching, messages } = this.props;
 
     if (isFetching) {
       return <LoadingIndicator size={40} />;
     }
 
+    if (messages === null) {
+      return null;
+    }
+
     if (messages.length === 0) {
-      return !queryIsEmpty ? <SearchEmptyState text="No results" /> : null;
+      return <SearchEmptyState text="No results" />;
     }
 
     const renderedMessages = renderMessages(messages, []);
