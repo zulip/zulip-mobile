@@ -40,7 +40,7 @@ class NotifyReact {
         if (reactContext != null && reactContext.getLifecycleState() == LifecycleState.RESUMED) {
             return;
         }
-        launchMainActivity((Context) application);
+        launchOrResumeMainActivity((Context) application);
     }
 
     private static void emitIfResumed(ReactApplication application, final String eventName, final @Nullable Object data) {
@@ -67,7 +67,7 @@ class NotifyReact {
                 .emit(eventName, data);
     }
 
-    private static void launchMainActivity(Context context) {
+    private static void launchOrResumeMainActivity(Context context) {
         final Intent intent = new Intent(context, MainActivity.class);
         // See these sections in the Android docs:
         //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
