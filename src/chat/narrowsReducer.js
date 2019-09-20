@@ -74,6 +74,10 @@ const eventUpdateMessageFlags = (state, action) => {
         updates.push({
           [narrowStr]: state[narrowStr].filter(id => !messagesSet.has(id)),
         });
+      } else {
+        throw new Error(
+          `Unexpected operation ${operation} in an EVENT_UPDATE_MESSAGE_FLAGS action`,
+        );
       }
     }
 
