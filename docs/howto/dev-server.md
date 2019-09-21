@@ -149,7 +149,7 @@ following line to a file `~/.zulip-vagrant-config` on the host computer
 HOST_IP_ADDR 0.0.0.0
 ```
 
-Then restart the Vagrant guest.
+Then restart the Vagrant guest using `vagrant reload`.
 
 ### If running server directly on host
 
