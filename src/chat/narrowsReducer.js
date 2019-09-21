@@ -60,7 +60,7 @@ const eventMessageDelete = (state, action) => {
   return stateChange ? newState : state;
 };
 
-const updateFlagNarrow = (state, narrowStr, operation, messages): NarrowsState => {
+const updateFlagNarrow = (state, narrowStr, operation, messageIds): NarrowsState => {
   if (!state[narrowStr]) {
     return state;
   }
@@ -68,13 +68,13 @@ const updateFlagNarrow = (state, narrowStr, operation, messages): NarrowsState =
     case 'add':
       return {
         ...state,
-        [narrowStr]: [...state[narrowStr], ...messages].sort(),
+        [narrowStr]: [...state[narrowStr], ...messageIds].sort(),
       };
     case 'remove': {
-      const messagesSet = new Set(messages);
+      const messageIdSet = new Set(messageIds);
       return {
         ...state,
-        [narrowStr]: state[narrowStr].filter(id => !messagesSet.has(id)),
+        [narrowStr]: state[narrowStr].filter(id => !messageIdSet.has(id)),
       };
     }
     default:
@@ -84,11 +84,11 @@ const updateFlagNarrow = (state, narrowStr, operation, messages): NarrowsState =
 };
 
 const eventUpdateMessageFlags = (state, action) => {
-  const { flag, operation, messages } = action;
+  const { flag, operation, messages: messageIds } = action;
   if (flag === 'starred') {
-    return updateFlagNarrow(state, STARRED_NARROW_STR, operation, messages);
+    return updateFlagNarrow(state, STARRED_NARROW_STR, operation, messageIds);
   } else if (['mentioned', 'wildcard_mentioned'].includes(flag)) {
-    return updateFlagNarrow(state, MENTIONED_NARROW_STR, operation, messages);
+    return updateFlagNarrow(state, MENTIONED_NARROW_STR, operation, messageIds);
   }
   return state;
 };
