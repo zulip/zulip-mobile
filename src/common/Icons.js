@@ -2,7 +2,7 @@
 import React from 'react';
 import type { ComponentType } from 'react';
 import type { Text } from 'react-native';
-import type { Color } from 'react-native-vector-icons';
+import type { Color, IconProps as IconPropsBusted } from 'react-native-vector-icons';
 import Feather from 'react-native-vector-icons/Feather';
 import type { FeatherGlyphs } from 'react-native-vector-icons/Feather';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
@@ -30,47 +30,59 @@ type IconProps<Glyphs: string> = {|
   color?: Color,
 |};
 
+const fixIconType = <Glyphs: string>(
+  iconSet: ComponentType<IconPropsBusted<Glyphs>>,
+): ComponentType<IconProps<Glyphs>> => (iconSet: $FlowFixMe); // See comment above about wrong types.
+
+/** Names acceptable for `Icon`. */
 export type IconNames = FeatherGlyphs;
 
-/** The type of an Icon whose `name` has already been specified. */
-export type IconType = ComponentType<$Diff<IconProps<IconNames>, {| name: mixed |}>>;
+/** A component-type for the icon set we mainly use. */
+export const Icon = fixIconType<IconNames>(Feather);
 
-/* $FlowFixMe: See comments above. */
-export const Icon: ComponentType<IconProps<IconNames>> = Feather;
+/** A (type for a) component-type like `Icon` but with `name` already specified. */
+export type IconType = ComponentType<$Diff<IconProps<empty>, {| name: mixed |}>>;
 
-export const IconInbox: IconType = props => <Feather name="inbox" {...props} />;
-export const IconStar: IconType = props => <Feather name="star" {...props} />;
-export const IconMention: IconType = props => <Feather name="at-sign" {...props} />;
-export const IconSearch: IconType = props => <Feather name="search" {...props} />;
-export const IconDone: IconType = props => <Feather name="check" {...props} />;
-export const IconCancel: IconType = props => <Feather name="slash" {...props} />;
-export const IconTrash: IconType = props => <Feather name="trash-2" {...props} />;
-export const IconWarning: IconType = props => <Feather name="alert-triangle" {...props} />;
-export const IconSend: IconType = props => <MaterialIcon name="send" {...props} />;
-export const IconMute: IconType = props => <MaterialIcon name="volume-off" {...props} />;
-export const IconStream: IconType = props => <Feather name="hash" {...props} />;
-export const IconPin: IconType = props => <SimpleLineIcons name="pin" {...props} />;
-export const IconPrivate: IconType = props => <Feather name="lock" {...props} />;
-export const IconPrivateChat: IconType = props => <Feather name="mail" {...props} />;
-export const IconDownArrow: IconType = props => <Feather name="chevron-down" {...props} />;
-export const IconGoogle: IconType = props => <IoniconsIcon name="logo-google" {...props} />;
-export const IconGitHub: IconType = props => <Feather name="github" {...props} />;
-export const IconWindows: IconType = props => <IoniconsIcon name="logo-windows" {...props} />;
-export const IconCross: IconType = props => <Feather name="x" {...props} />;
-export const IconDiagnostics: IconType = props => <Feather name="activity" {...props} />;
-export const IconNotifications: IconType = props => <Feather name="bell" {...props} />;
-export const IconLanguage: IconType = props => <Feather name="globe" {...props} />;
-export const IconNight: IconType = props => <Feather name="moon" {...props} />;
-export const IconSettings: IconType = props => <Feather name="settings" {...props} />;
-export const IconRight: IconType = props => <Feather name="chevron-right" {...props} />;
-export const IconPlusCircle: IconType = props => <Feather name="plus-circle" {...props} />;
-export const IconLeft: IconType = props => <Feather name="chevron-left" {...props} />;
-export const IconPeople: IconType = props => <Feather name="users" {...props} />;
-export const IconImage: IconType = props => <Feather name="image" {...props} />;
-export const IconCamera: IconType = props => <Feather name="camera" {...props} />;
-export const IconFile: IconType = props => <Feather name="file" {...props} />;
-export const IconTerminal: IconType = props => <Feather name="terminal" {...props} />;
-export const IconMoreHorizontal: IconType = props => <Feather name="more-horizontal" {...props} />;
-export const IconEdit: IconType = props => <Feather name="edit" {...props} />;
-export const IconPlusSquare: IconType = props => <Feather name="plus-square" {...props} />;
-export const IconPlus: IconType = props => <Feather name="plus" {...props} />;
+const makeIcon = <Glyphs: string>(
+  iconSet: ComponentType<IconPropsBusted<Glyphs>>,
+  name: Glyphs,
+): IconType => props => {
+  const FixedIcon = fixIconType<Glyphs>(iconSet);
+  return <FixedIcon name={name} {...props} />;
+};
+
+export const IconInbox = makeIcon(Feather, 'inbox');
+export const IconStar = makeIcon(Feather, 'star');
+export const IconMention = makeIcon(Feather, 'at-sign');
+export const IconSearch = makeIcon(Feather, 'search');
+export const IconDone = makeIcon(Feather, 'check');
+export const IconCancel = makeIcon(Feather, 'slash');
+export const IconTrash = makeIcon(Feather, 'trash-2');
+export const IconWarning = makeIcon(Feather, 'alert-triangle');
+export const IconSend = makeIcon(MaterialIcon, 'send');
+export const IconMute = makeIcon(MaterialIcon, 'volume-off');
+export const IconStream = makeIcon(Feather, 'hash');
+export const IconPin = makeIcon(SimpleLineIcons, 'pin');
+export const IconPrivate = makeIcon(Feather, 'lock');
+export const IconPrivateChat = makeIcon(Feather, 'mail');
+export const IconDownArrow = makeIcon(Feather, 'chevron-down');
+export const IconGoogle = makeIcon(IoniconsIcon, 'logo-google');
+export const IconGitHub = makeIcon(Feather, 'github');
+export const IconWindows = makeIcon(IoniconsIcon, 'logo-windows');
+export const IconCross = makeIcon(Feather, 'x');
+export const IconDiagnostics = makeIcon(Feather, 'activity');
+export const IconNotifications = makeIcon(Feather, 'bell');
+export const IconLanguage = makeIcon(Feather, 'globe');
+export const IconNight = makeIcon(Feather, 'moon');
+export const IconSettings = makeIcon(Feather, 'settings');
+export const IconRight = makeIcon(Feather, 'chevron-right');
+export const IconPlusCircle = makeIcon(Feather, 'plus-circle');
+export const IconLeft = makeIcon(Feather, 'chevron-left');
+export const IconPeople = makeIcon(Feather, 'users');
+export const IconImage = makeIcon(Feather, 'image');
+export const IconCamera = makeIcon(Feather, 'camera');
+export const IconFile = makeIcon(Feather, 'file');
+export const IconTerminal = makeIcon(Feather, 'terminal');
+export const IconMoreHorizontal = makeIcon(Feather, 'more-horizontal');
+export const IconEdit = makeIcon(Feather, 'edit');
+export const IconPlusSquare = makeIcon(Feather, 'plus-square');
