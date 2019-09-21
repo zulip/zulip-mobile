@@ -2,6 +2,7 @@
 import union from 'lodash.union';
 
 import type { NarrowsState, Action } from '../types';
+import { ensureUnreachable } from '../types';
 import {
   DEAD_QUEUE,
   LOGOUT,
@@ -75,6 +76,7 @@ const eventUpdateMessageFlags = (state, action) => {
           [narrowStr]: state[narrowStr].filter(id => !messagesSet.has(id)),
         });
       } else {
+        ensureUnreachable(operation);
         throw new Error(
           `Unexpected operation ${operation} in an EVENT_UPDATE_MESSAGE_FLAGS action`,
         );
