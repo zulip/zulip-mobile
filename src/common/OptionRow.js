@@ -3,14 +3,14 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { IconType } from './Icons';
+import type { SpecificIconType } from './Icons';
 import Label from './Label';
 import ZulipSwitch from './ZulipSwitch';
 import type { ThemeColors } from '../styles';
 import styles, { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
-  Icon?: IconType,
+  Icon?: SpecificIconType,
   label: string,
   value: boolean,
   style?: ViewStyleProp,

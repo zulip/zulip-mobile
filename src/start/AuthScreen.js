@@ -12,7 +12,7 @@ import type {
   ApiResponseServerSettings,
 } from '../types';
 import { IconPrivate, IconGoogle, IconGitHub, IconWindows, IconTerminal } from '../common/Icons';
-import type { IconType } from '../common/Icons';
+import type { SpecificIconType } from '../common/Icons';
 import { connect } from '../react-redux';
 import styles from '../styles';
 import { Centerer, Screen, ZulipButton } from '../common';
@@ -36,7 +36,7 @@ type AuthenticationMethodDetails = {|
   /** A name to show in the UI. */
   displayName: string,
 
-  Icon: IconType,
+  Icon: SpecificIconType,
   action: 'dev' | 'password' | {| url: string |},
 |};
 

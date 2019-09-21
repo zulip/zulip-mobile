@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { IconType } from './Icons';
+import type { SpecificIconType } from './Icons';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 
@@ -20,7 +20,7 @@ type Props = $ReadOnly<{|
   style?: ViewStyleProp,
   disabled: boolean,
   size: number,
-  Icon: IconType,
+  Icon: SpecificIconType,
   onPress: () => void,
 |}>;
 

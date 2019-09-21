@@ -41,12 +41,12 @@ export type IconNames = FeatherGlyphs;
 export const Icon = fixIconType<IconNames>(Feather);
 
 /** A (type for a) component-type like `Icon` but with `name` already specified. */
-export type IconType = ComponentType<$Diff<IconProps<empty>, {| name: mixed |}>>;
+export type SpecificIconType = ComponentType<$Diff<IconProps<empty>, {| name: mixed |}>>;
 
 const makeIcon = <Glyphs: string>(
   iconSet: ComponentType<IconPropsBusted<Glyphs>>,
   name: Glyphs,
-): IconType => props => {
+): SpecificIconType => props => {
   const FixedIcon = fixIconType<Glyphs>(iconSet);
   return <FixedIcon name={name} {...props} />;
 };
