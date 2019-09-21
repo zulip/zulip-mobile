@@ -60,43 +60,37 @@ const eventMessageDelete = (state, action) => {
   return stateChange ? newState : state;
 };
 
-const eventUpdateMessageFlags = (state, action) => {
-  const { messages, flag, operation } = action;
-  const messagesSet = new Set(messages);
-  const updates = [];
-
-  const updateFlagNarrow = narrowStr => {
-    if (state[narrowStr]) {
-      if (operation === 'add') {
-        updates.push({
-          [narrowStr]: [...state[narrowStr], ...messages].sort(),
-        });
-      } else if (operation === 'remove') {
-        updates.push({
-          [narrowStr]: state[narrowStr].filter(id => !messagesSet.has(id)),
-        });
-      } else {
-        ensureUnreachable(operation);
-        throw new Error(
-          `Unexpected operation ${operation} in an EVENT_UPDATE_MESSAGE_FLAGS action`,
-        );
-      }
-    }
-
-    return updates;
-  };
-
-  if (flag === 'starred') {
-    updateFlagNarrow(STARRED_NARROW_STR);
-  } else if (['mentioned', 'wildcard_mentioned'].includes(flag)) {
-    updateFlagNarrow(MENTIONED_NARROW_STR);
-  }
-
-  if (!updates.length) {
+const updateFlagNarrow = (state, narrowStr, operation, messages): NarrowsState => {
+  if (!state[narrowStr]) {
     return state;
   }
+  switch (operation) {
+    case 'add':
+      return {
+        ...state,
+        [narrowStr]: [...state[narrowStr], ...messages].sort(),
+      };
+    case 'remove': {
+      const messagesSet = new Set(messages);
+      return {
+        ...state,
+        [narrowStr]: state[narrowStr].filter(id => !messagesSet.has(id)),
+      };
+    }
+    default:
+      ensureUnreachable(operation);
+      throw new Error(`Unexpected operation ${operation} in an EVENT_UPDATE_MESSAGE_FLAGS action`);
+  }
+};
 
-  return Object.assign({}, state, ...updates);
+const eventUpdateMessageFlags = (state, action) => {
+  const { flag, operation, messages } = action;
+  if (flag === 'starred') {
+    return updateFlagNarrow(state, STARRED_NARROW_STR, operation, messages);
+  } else if (['mentioned', 'wildcard_mentioned'].includes(flag)) {
+    return updateFlagNarrow(state, MENTIONED_NARROW_STR, operation, messages);
+  }
+  return state;
 };
 
 export default (state: NarrowsState = initialState, action: Action): NarrowsState => {
