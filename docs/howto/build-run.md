@@ -192,6 +192,47 @@ sudo sysctl -p
 ```
 
 
+### Test failure: `SyntaxError: Unexpected token`
+
+When running tests (with e.g. `tools/test`), you may see an error like
+this (edited slightly for readability):
+
+```
+ FAIL  src/session/__tests__/sessionReducer-test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    This usually means that you are trying to import a file which Jest
+    cannot parse, e.g. it's not plain JavaScript. [...]
+
+        import('react-native-document-picker'));case 2:[...]
+        ^^^^^^
+
+    SyntaxError: Unexpected token import
+
+    [...]
+      at ScriptTransformer._transformAndBuildScript
+          (node_modules/@jest/transform/build/ScriptTransformer.js:471:17)
+      at ScriptTransformer.transform
+          (node_modules/@jest/transform/build/ScriptTransformer.js:513:25)
+      at Object.<anonymous>
+          (src/compose/ComposeBox.js:30:43)
+```
+
+Typically when this happens it'll be repeated many times, across many
+of our Jest unit tests.
+
+This can happen if you're using an older version of Node, such as
+Node 8.  (Probably this means our Jest config doesn't have Node set up
+quite right.  Discussion [here][jest-babel-discussion].)
+
+To fix this, use Node 10.x instead.  You can check what version is
+installed by running the command `node --version`.
+
+[jest-babel-discussion]: https://github.com/zulip/zulip-mobile/pull/3619#issuecomment-533349362
+
+
 ### Other issues
 
 If you are having issues running the code on your machine, either for the first time or after updating an outdated code with the latest, please run:
