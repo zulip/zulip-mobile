@@ -113,6 +113,22 @@ run_lint() {
     eslint ${fix:+--fix} --max-warnings=0 "$@"
 }
 
+check_node() {
+    local node_version
+    node_version="$(node --version)"
+    case "${node_version}" in
+        v1[0-9].*) ;;
+        *)
+            cat >&2 <<EOF
+Node 10 required; \`node --version\` says: ${node_version:-(nothing)}
+
+To run the zulip-mobile tests, please install Node v10.x .
+
+EOF
+            return 1 ;;
+    esac
+}
+
 run_jest() {
     # Unlike some others, this inspects "$files" for itself.
     jest_args=()
@@ -131,6 +147,8 @@ run_jest() {
             jest_args+=( --findRelatedTests "${file_list[@]}" )
             ;;
     esac
+
+    check_node || return
     jest "${jest_args[@]}"
 }
 
