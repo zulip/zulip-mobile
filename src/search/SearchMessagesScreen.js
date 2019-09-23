@@ -80,13 +80,28 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
     const id = ++this.lastIdSent;
 
     this.setState({ isFetching: true });
-    const messages = await this.performQueryRaw(query);
 
-    if (this.lastIdReceived > id) {
-      return;
+    let messages: Message[];
+    {
+      // if the promise's construction fails, we let the exception
+      // propagate immediately
+      const networkPromise = this.performQueryRaw(query);
+
+      try {
+        messages = await networkPromise;
+      } finally {
+        /* Succeed or fail, we update our request-state. We discard late
+           results _even if they are errors_. */
+        if (this.lastIdReceived > id) {
+          // eslint-disable-next-line no-unsafe-finally
+          return;
+        }
+        this.lastIdReceived = id;
+      }
+      /* TODO: if an error makes it through the filter above,
+         should we arrange to display something to the user? */
     }
-
-    this.lastIdReceived = id;
+    // N.B.: `messages` is now set
 
     // A query is concluded. Report the message-list.
     this.setState({
