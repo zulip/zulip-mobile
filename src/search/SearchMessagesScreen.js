@@ -67,9 +67,7 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
     const id = ++this.lastIdSent;
 
     if (query === '') {
-      // The empty query can be resolved without a network call,
-      // and should avoid throttling. (Ideally it should also cancel
-      // pending throttled requests, but that's probably overkill.)
+      // The empty query can be resolved without a network call.
       this.lastIdReceived = id;
       this.setState({ messages: null, isFetching: false });
       return;
