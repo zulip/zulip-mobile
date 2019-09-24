@@ -64,23 +64,22 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
   // invalidate outstanding requests on change will require more work.
 
   handleQueryChange = (query: string) => {
+    const id = ++this.lastIdSent;
+
     if (query === '') {
       // The empty query can be resolved without a network call,
       // and should avoid throttling. (Ideally it should also cancel
       // pending throttled requests, but that's probably overkill.)
-      this.lastIdReceived = ++this.lastIdSent;
+      this.lastIdReceived = id;
       this.setState({ messages: null, isFetching: false });
       return;
     }
 
-    this.handleQueryChangeInner(query);
+    this.setState({ isFetching: true });
+    this.handleQueryChangeInner(id, query);
   };
 
-  handleQueryChangeInner = async (query: string) => {
-    const id = ++this.lastIdSent;
-
-    this.setState({ isFetching: true });
-
+  handleQueryChangeInner = async (id: number, query: string) => {
     let messages: Message[];
     {
       // if the promise's construction fails, we let the exception
