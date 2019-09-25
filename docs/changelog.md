@@ -36,6 +36,19 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Fixed issue where search results would be based on an incomplete
+  version of your query.
+
+Plus, like every release, many other improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Resolved issues: #3591, #3592, #2209, #3058
+
 
 ## 26.7.130 (2019-08-27)
 
