@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.8.131 (2019-09-25)
+
 ### Highlights for users
 
 * Fixed issue where search results would be based on an incomplete
