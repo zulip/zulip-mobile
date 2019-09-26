@@ -54,6 +54,10 @@ might look through the other tools and try some more of them out.
   the React Native [Getting Started][rn-getting-started] instructions. After you
   set up the emulator in Android Studio, you can start it [from the command
   line][android-emu-cmd-line].
+* To build to a physical Android device, you may also need to install the
+  Android NDK. In Android Studio's SDK Manager, under the **SDK Tools** tab,
+  select **NDK (Side by side)** for installation; then click **OK** or
+  **Apply**.
 * When running on a physical device, if the device has Zulip installed
   from the Play Store, you may need to uninstall that version first.
 * Commands once you've set up:
