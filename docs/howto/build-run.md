@@ -51,12 +51,10 @@ might look through the other tools and try some more of them out.
 ## Android tips
 
 * To set up the Android emulator, follow the heading "Using a virtual device"
-  in those React Native
-  [Getting Started](https://facebook.github.io/react-native/docs/getting-started.html)
-  instructions.
+  in those React Native [Getting Started][rn-getting-started] instructions.
 * After you set up the Android emulator, you no longer need Android
-  Studio.  You can start the emulator [from the command
-  line](https://developer.android.com/studio/run/emulator-commandline.html).
+  Studio.  You can start the emulator [from the command line][
+  android-emu-cmd-line].
 * When running on a physical device, if the device has Zulip installed
   from the Play Store, you may need to uninstall that version first.
 * Commands once you've set up:
@@ -70,6 +68,9 @@ might look through the other tools and try some more of them out.
     mode, just skipping Sentry setup (which requires an authentication
     token).  The output APK will be at
     `android/app/build/outputs/apk/release/app-release.apk`.
+
+[rn-getting-started]: https://facebook.github.io/react-native/docs/getting-started.html
+[android-emu-cmd-line]: https://developer.android.com/studio/run/emulator-commandline.html
 
 ## iOS tips
 
