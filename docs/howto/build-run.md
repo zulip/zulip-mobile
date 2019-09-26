@@ -50,11 +50,10 @@ might look through the other tools and try some more of them out.
 
 ## Android tips
 
-* To set up the Android emulator, follow the heading "Using a virtual device"
-  in those React Native [Getting Started][rn-getting-started] instructions.
-* After you set up the Android emulator, you no longer need Android
-  Studio.  You can start the emulator [from the command line][
-  android-emu-cmd-line].
+* To set up the Android emulator, follow the heading "Using a virtual device" in
+  the React Native [Getting Started][rn-getting-started] instructions. After you
+  set up the emulator in Android Studio, you can start it [from the command
+  line][android-emu-cmd-line].
 * When running on a physical device, if the device has Zulip installed
   from the Play Store, you may need to uninstall that version first.
 * Commands once you've set up:
