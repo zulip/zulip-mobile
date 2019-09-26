@@ -30,6 +30,15 @@ cd "${rootdir}"/ios
 
 archive_path="${rootdir}"/ios/build/ZulipMobile.xcarchive
 
+# These two steps "build" and "upload" are logically part of a single
+# sequence: when all goes well, we invariably follow each "build" with
+# one "upload".  (As described in docs/howto/release.md .)
+#
+# They're separate because sometimes things do not go well, and in
+# particular sometimes "upload" fails for transient reasons.  And the
+# "build" step is slow, so when retrying and/or debugging the upload,
+# it's very helpful to reuse the build output.
+
 do_build() {
     yarn
     echo >&2
