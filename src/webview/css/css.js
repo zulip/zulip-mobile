@@ -482,6 +482,9 @@ blockquote {
   height: 32px;
   fill: hsla(0, 0%, 100%, 0.75);
 }
+[data-mentioned="true"], [data-wildcard_mentioned="true"] {
+  background: hsla(8, 78%, 43%, 0.15);
+}
 `;
 
 export default (theme: ThemeName) => `
