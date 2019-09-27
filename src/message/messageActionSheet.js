@@ -6,7 +6,13 @@ import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/na
 import { isTopicMuted } from '../utils/message';
 import * as api from '../api';
 import { showToast } from '../utils/info';
-import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
+import {
+  doNarrow,
+  startEditMessage,
+  draftUpdate,
+  deleteOutboxMessage,
+  navigateToEmojiPicker,
+} from '../actions';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -38,6 +44,13 @@ const reply = ({ message, dispatch, ownEmail }) => {
   dispatch(doNarrow(getNarrowFromMessage(message, ownEmail), message.id));
 };
 reply.title = 'Reply';
+
+const replyWithMention = ({ message, dispatch, auth }) => {
+  const narrow = getNarrowFromMessage(message, auth.email);
+  dispatch(doNarrow(narrow, message.id));
+  dispatch(draftUpdate(narrow, `@**${message.sender_full_name}** `));
+};
+replyWithMention.title = 'Reply to user';
 
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
@@ -117,6 +130,7 @@ const allButtonsRaw = {
   // For messages
   addReaction,
   reply,
+  replyWithMention,
   copyToClipboard,
   shareMessage,
   editMessage,
@@ -185,6 +199,9 @@ export const constructMessageActionButtons = ({
   if (!isAnOutboxMessage(message)) {
     buttons.push('reply');
   }
+  if (message.sender_email !== auth.email) {
+    buttons.push('replyWithMention');
+  }
   if (messageNotDeleted(message)) {
     buttons.push('copyToClipboard');
     buttons.push('shareMessage');
@@ -232,9 +249,10 @@ export const showActionSheet = (
       ...params,
     });
   };
+  const decorateTitle = title => title.replace('user', params.message.sender_full_name);
   showActionSheetWithOptions(
     {
-      options: optionCodes.map(code => _(allButtons[code].title)),
+      options: optionCodes.map(code => decorateTitle(_(allButtons[code].title))),
       cancelButtonIndex: optionCodes.length - 1,
     },
     callback,
