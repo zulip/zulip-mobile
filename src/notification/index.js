@@ -41,10 +41,15 @@ export type Notification =
   | {| recipient_type: 'private', sender_email: string |};
 
 export const getNarrowFromNotificationData = (
-  data: ?Notification,
+  data: Notification,
   usersById: Map<number, User>,
 ): Narrow | null => {
-  if (!data || !data.recipient_type) {
+  if (!data.recipient_type) {
+    // This condition is impossible if the value is rightly-typed; but in
+    // the iOS case it comes more or less unfiltered from the Zulip server,
+    // so we check here.
+    //
+    // TODO check further upstream instead, at a "crunchy shell".
     return null;
   }
 
