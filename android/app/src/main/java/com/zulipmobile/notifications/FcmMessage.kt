@@ -109,25 +109,23 @@ data class MessageFcmMessage(
      * For the corresponding type definition on the JS side, see `Notification`
      * in `notification/index.js`.
      */
-    fun dataForOpen(): Bundle {
-        val bundle = Bundle()
+    fun dataForOpen(): Bundle = Bundle().apply {
+        // NOTE: Keep the JS-side type definition in sync with this code.
         when (recipient) {
-            // NOTE: Keep the JS-side type definition in sync with this code.
             is Recipient.Stream -> {
-                bundle.putString("recipient_type", "stream")
-                bundle.putString("stream", recipient.stream)
-                bundle.putString("topic", recipient.topic)
+                putString("recipient_type", "stream")
+                putString("stream", recipient.stream)
+                putString("topic", recipient.topic)
             }
             is Recipient.GroupPm -> {
-                bundle.putString("recipient_type", "private")
-                bundle.putString("pm_users", recipient.getPmUsersString())
+                putString("recipient_type", "private")
+                putString("pm_users", recipient.getPmUsersString())
             }
             is Recipient.Pm -> {
-                bundle.putString("recipient_type", "private")
-                bundle.putString("sender_email", sender.email)
+                putString("recipient_type", "private")
+                putString("sender_email", sender.email)
             }
         }
-        return bundle
     }
 
     companion object {
