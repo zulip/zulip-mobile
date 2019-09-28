@@ -11,14 +11,6 @@ export const logErrorRemotely = (e: Error, msg: ?string) => {
   }
 };
 
-export const logWarningToSentry = (msg: string) => {
-  if (config.enableSentry) {
-    Sentry.captureMessage(msg, {
-      level: SentrySeverity.Warning,
-    });
-  }
-};
-
 // Notes on the behavior of `console.error`, `console.warn`, `console.log`:
 //
 // * When debugging JS: all display in the Chrome dev console, and not in
