@@ -8,7 +8,7 @@ import { getAuth, tryGetAuth } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
 let lastReportPresence = new Date(0);
-let lastTypingStart = new Date();
+let lastTypingStart = new Date(0);
 
 export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean = false) => async (
   dispatch: Dispatch,
