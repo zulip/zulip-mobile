@@ -20,6 +20,12 @@ export const getAccountStatuses: Selector<$ReadOnlyArray<AccountStatus>> = creat
     accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
 );
 
+/** The list of known accounts, reduced to `Identity`. */
+export const getIdentities: Selector<$ReadOnlyArray<Identity>> = createSelector(
+  getAccounts,
+  accounts => accounts.map(identityOfAccount),
+);
+
 /**
  * All known accounts, indexed by identity.
  */
