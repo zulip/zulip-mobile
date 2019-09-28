@@ -6,6 +6,7 @@ import {
   getNotificationToken,
   tryStopNotifications as innerStopNotifications,
   getNarrowFromNotificationData,
+  getAccountFromNotificationData,
 } from '.';
 import type { Notification } from '.';
 import { getAuth, getActiveAccount } from '../selectors';
@@ -14,6 +15,8 @@ import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConst
 import { identityOfAccount, authOfAccount } from '../account/accountMisc';
 import { getUsersById } from '../users/userSelectors';
 import { doNarrow } from '../message/messagesActions';
+import { switchAccount } from '../account/accountActions';
+import { getIdentities } from '../account/accountsSelectors';
 
 export const gotPushToken = (pushToken: string): Action => ({
   type: GOT_PUSH_TOKEN,
@@ -38,8 +41,17 @@ export const narrowToNotification = (data: ?Notification) => (
   if (!data) {
     return;
   }
-  const usersById = getUsersById(getState());
-  const narrow = getNarrowFromNotificationData(data, usersById);
+
+  const state = getState();
+  const accountIndex = getAccountFromNotificationData(data, getIdentities(state));
+  if (accountIndex !== null && accountIndex > 0) {
+    // Notification is for a non-active account.  Switch there.
+    dispatch(switchAccount(accountIndex));
+    // TODO actually narrow to conversation.
+    return;
+  }
+
+  const narrow = getNarrowFromNotificationData(data, getUsersById(state));
   if (narrow) {
     dispatch(doNarrow(narrow));
   }
