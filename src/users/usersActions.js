@@ -7,7 +7,7 @@ import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth, tryGetAuth } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
-let lastReportPresence = new Date();
+let lastReportPresence = new Date(0);
 let lastTypingStart = new Date();
 
 export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean = false) => async (
