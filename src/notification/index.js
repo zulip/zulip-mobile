@@ -2,7 +2,7 @@
 import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
 import NotificationsIOS from 'react-native-notifications';
 
-import type { Auth, Dispatch, Narrow, User } from '../types';
+import type { Auth, Dispatch, Identity, Narrow, User } from '../types';
 import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import * as api from '../api';
 import * as logging from '../utils/logging';
@@ -34,11 +34,62 @@ import { identityOfAuth } from '../account/accountMisc';
  *    these types really are exact.
  */
 export type Notification =
-  | {| recipient_type: 'stream', stream: string, topic: string |}
+  | {| recipient_type: 'stream', stream: string, topic: string, realm_uri?: string |}
   // Group PM messages have `pm_users`, which is comma-separated IDs.
-  | {| recipient_type: 'private', pm_users: string |}
+  | {| recipient_type: 'private', pm_users: string, realm_uri?: string |}
   // 1:1 PM messages lack `pm_users`.
-  | {| recipient_type: 'private', sender_email: string |};
+  | {| recipient_type: 'private', sender_email: string, realm_uri?: string |};
+
+/**
+ * Identify the account the notification is for, if possible.
+ *
+ * Returns an index into `identities`, or `null` if we can't tell.
+ *
+ * @param identities Identities corresponding to the accounts state in Redux.
+ */
+export const getAccountFromNotificationData = (
+  data: Notification,
+  identities: $ReadOnlyArray<Identity>,
+): number | null => {
+  const { realm_uri } = data;
+  if (realm_uri == null) {
+    // Old server, no realm info included.  If needed to cater to 1.8.x
+    // servers, could try to guess using serverHost; for now, don't.
+    logging.warn('notification missing field: realm_uri');
+    return null;
+  }
+
+  const urlMatches = [];
+  identities.forEach((account, i) => {
+    if (account.realm === realm_uri) {
+      urlMatches.push(i);
+    }
+  });
+  if (urlMatches.length === 0) {
+    // No match.  Either we logged out of this account and didn't
+    // successfully tell the server to stop sending notifications (possibly
+    // just a race -- this notification was sent before the logout); or
+    // there's some confusion where the realm_uri we have is different from
+    // the one the server sends in notifications.
+    const knownUrls = identities.map(({ realm }) => realm);
+    logging.warn(
+      `notif realm_uri not found: ${realm_uri}, known values are ${JSON.stringify(knownUrls)}`,
+    );
+    return null;
+  }
+
+  if (urlMatches.length > 1) {
+    // The user has several accounts in the notification's realm.  We should
+    // be able to tell the right one using the notification's `user_id`...
+    // except we don't store user IDs in `accounts`, only emails.  Until we
+    // fix that, just ignore the information.
+    logging.warn(`notif realm_uri ambiguous: ${urlMatches.length} matches for ${realm_uri}`);
+    // TODO get user_id into accounts data, and use that
+    return null;
+  }
+
+  return urlMatches[0];
+};
 
 export const getNarrowFromNotificationData = (
   data: Notification,
