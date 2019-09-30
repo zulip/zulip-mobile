@@ -3,7 +3,7 @@ import type { Reducer, Store, Dispatch } from 'redux';
 
 import { REHYDRATE } from '../actionConstants';
 import type { Action, GlobalState as State } from '../types';
-import { logErrorRemotely } from '../utils/logging';
+import * as logging from '../utils/logging';
 
 const processKey = key => {
   const int = parseInt(key, 10);
@@ -28,10 +28,8 @@ export default function createMigration(
     const realVersionSelector = state => state && state[reducerKey] && state[reducerKey].version;
     const realVersionSetter = (state, version) => {
       if (['undefined', 'object'].indexOf(typeof state[reducerKey]) === -1) {
-        logErrorRemotely(
-          new Error(
-            'redux-persist-migrate: state for versionSetter key must be an object or undefined',
-          ),
+        logging.error(
+          'redux-persist-migrate: state for versionSetter key must be an object or undefined',
         );
         return state;
       }

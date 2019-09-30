@@ -2,15 +2,6 @@
 import { Sentry, SentrySeverity } from 'react-native-sentry';
 import config from '../config';
 
-export const logErrorRemotely = (e: Error, msg: ?string) => {
-  if (config.enableSentry) {
-    Sentry.captureException(e);
-  }
-  if (config.enableErrorConsoleLogging) {
-    console.log(msg || '', e); // eslint-disable-line
-  }
-};
-
 // Notes on the behavior of `console.error`, `console.warn`, `console.log`:
 //
 // * When debugging JS: all display in the Chrome dev console, and not in

@@ -7,7 +7,7 @@ import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { showToast } from '../utils/info';
 import { isUrlAnImage } from '../utils/url';
-import { logErrorRemotely } from '../utils/logging';
+import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrowString } from '../utils/narrow';
 import {
@@ -231,12 +231,12 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
       break;
 
     case 'error':
-      logErrorRemotely(new Error(JSON.stringify(event.details)), 'WebView Exception');
+      logging.error(`WebView exception: ${JSON.stringify(event.details)}`);
       break;
 
     default:
       ensureUnreachable(event);
-      logErrorRemotely(new Error(event.type), 'WebView event of unknown type');
+      logging.error(`WebView event of unknown type: ${event.type}`);
       break;
   }
 };

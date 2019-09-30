@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { AsyncStorage, NativeModules } from 'react-native';
-import { logErrorRemotely } from '../utils/logging';
+import * as logging from '../utils/logging';
 
 export default class ZulipAsyncStorage {
   static async getItem(key: string, callback: (error: ?Error, result: ?string) => void) {
@@ -34,7 +34,7 @@ export default class ZulipAsyncStorage {
         // the data.  This error should not happen unless a user downgrades
         // their version of the app.
         const err = new Error(`No decompression module found for format ${header}`);
-        logErrorRemotely(err, '');
+        logging.error(err);
         if (callback) {
           callback(err, null);
         }

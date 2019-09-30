@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import parseMarkdown from 'zulip-markdown-parser';
 
-import { logErrorRemotely } from '../utils/logging';
+import * as logging from '../utils/logging';
 import type {
   Dispatch,
   GetState,
@@ -65,7 +65,7 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
     });
     return true;
   } catch (e) {
-    logErrorRemotely(e, 'error caught while sending');
+    logging.warn(e);
     return false;
   }
 };

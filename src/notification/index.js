@@ -5,7 +5,7 @@ import NotificationsIOS from 'react-native-notifications';
 import type { Auth, Dispatch, Narrow, User } from '../types';
 import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import * as api from '../api';
-import { logErrorRemotely } from '../utils/logging';
+import * as logging from '../utils/logging';
 import {
   unackPushToken,
   gotPushToken,
@@ -149,8 +149,8 @@ export class NotificationListener {
     this.listen('notificationOpened', this.handleNotificationOpen);
     this.listen('remoteNotificationsRegistered', this.handleDeviceToken);
     if (Platform.OS === 'ios') {
-      this.listen('remoteNotificationsRegistrationFailed', (error: string) => {
-        logErrorRemotely(new Error(error), 'Failed to register iOS push token');
+      this.listen('remoteNotificationsRegistrationFailed', (errMsg: string) => {
+        logging.warn(`Failed to register iOS push token: ${errMsg}`);
       });
     }
   }
@@ -199,7 +199,7 @@ export const tryStopNotifications = async (
     try {
       await api.forgetPushToken(auth, Platform.OS, token);
     } catch (e) {
-      logErrorRemotely(e, 'failed to unregister Push token');
+      logging.warn(e);
     }
   }
 };
