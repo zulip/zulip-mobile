@@ -7,6 +7,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.facebook.react.ReactApplication
+import com.facebook.react.ReactInstanceManager
+import com.facebook.react.ReactNativeHost
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.common.LifecycleState
@@ -31,15 +33,19 @@ internal fun notifyReact(application: ReactApplication, data: Bundle) {
     }
 }
 
+/**
+ * Like getReactInstanceManager, but just return what exists; avoid trying to create.
+ *
+ * When there isn't already an instance manager, if we call
+ * getReactInstanceManager it'll try to create one... which asserts we're
+ * on the UI thread, which isn't true if e.g. we got here from a Service.
+ */
+private fun ReactNativeHost.tryGetReactInstanceManager(): ReactInstanceManager? =
+    if (this.hasInstance()) this.reactInstanceManager else null
+
 private fun emitIfResumed(application: ReactApplication, eventName: String, data: Any?): Boolean {
     val host = application.reactNativeHost
-    if (!host.hasInstance()) {
-        // Calling getReactInstanceManager would try to create one...
-        // which asserts we're on the UI thread, which isn't true if we
-        // got here from a Service.
-        return false
-    }
-    val reactContext = host.reactInstanceManager.currentReactContext
+    val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
     if (reactContext == null
         || !reactContext.hasActiveCatalystInstance()
         || reactContext.lifecycleState != LifecycleState.RESUMED) {
