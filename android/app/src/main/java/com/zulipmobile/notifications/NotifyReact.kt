@@ -82,15 +82,19 @@ internal fun notifyReact(application: ReactApplication, data: Bundle) {
     val appStatus = reactContext?.appStatus
     Log.d(TAG, "notifyReact: app status is $appStatus")
     when (appStatus) {
-        null, ReactAppStatus.NOT_RUNNING, ReactAppStatus.BACKGROUND -> {
-            // If not running, the app will check initialNotification on launch.
+        null, ReactAppStatus.NOT_RUNNING ->
+            // Either there's no JS environment running, or we haven't yet reached
+            // foreground.  Expect the app to check initialNotification on launch.
             NotificationsModule.initialNotification = data
-            launchMainActivity(application as Context)
-        }
-        ReactAppStatus.FOREGROUND ->
-            // JS is running and in foreground.  It won't check initialNotification
-            // again, but it will see a notificationOpened event.
+        ReactAppStatus.BACKGROUND, ReactAppStatus.FOREGROUND ->
+            // JS is running and has already reached foreground.  It won't check
+            // initialNotification again, but it will see a notificationOpened event.
             emit(reactContext, "notificationOpened", Arguments.fromBundle(data))
+    }
+    when (appStatus) {
+        null, ReactAppStatus.NOT_RUNNING, ReactAppStatus.BACKGROUND ->
+            launchMainActivity(application as Context)
+        ReactAppStatus.FOREGROUND -> Unit
     }
 }
 
