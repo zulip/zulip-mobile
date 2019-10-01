@@ -56,13 +56,29 @@ private fun emitOrLaunch(application: ReactApplication, eventName: String, data:
         return
     }
 
+    // The RN lifecycleState:
+    //  * starts as BEFORE_CREATE
+    //  * responds to onResume, onPause, and onDestroy on the host Activity
+    //    * Android upstream docs on those:
+    //        https://developer.android.com/guide/components/activities/activity-lifecycle
+    //    * RN wires those through ReactActivity -> ReactActivityDelegate ->
+    //      ReactInstanceManager (as onHost{Resume,Pause,Destroy}) -> ReactContext
+    //  * notably goes straight BEFORE_CREATE -> RESUMED when first starting
+    //    (at least as of RN v0.59)
     val lifecycleState = reactContext.lifecycleState!!
     Log.d(TAG, "emitOrLaunch: lifecycle state is $lifecycleState")
     when (lifecycleState) {
-        LifecycleState.BEFORE_CREATE, LifecycleState.BEFORE_RESUME -> {
+        LifecycleState.BEFORE_CREATE,
+            // Main activity has not yet "resumed" for the first time,
+            // or else has been "destroyed" and will never be resumed again.
+        LifecycleState.BEFORE_RESUME
+            // Main activity has "resumed" (gone to foreground) at least once,
+            // but is out of foreground now, but might come back.
+        -> {
             launchMainActivity(application as Context)
         }
         LifecycleState.RESUMED -> {
+            // Main activity is in foreground.
             emit(reactContext, eventName, data)
         }
     }
