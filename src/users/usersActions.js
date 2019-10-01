@@ -19,11 +19,11 @@ export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean =
     return; // not logged in
   }
 
-  if (differenceInSeconds(new Date(), lastReportPresence) < 60) {
+  const now = new Date();
+  if (differenceInSeconds(now, lastReportPresence) < 60) {
     return;
   }
-
-  lastReportPresence = new Date();
+  lastReportPresence = now;
 
   const response = await api.reportPresence(auth, hasFocus, newUserInput);
   dispatch({
@@ -41,9 +41,10 @@ export const sendTypingEvent = (narrow: Narrow) => async (
     return;
   }
 
-  if (differenceInSeconds(new Date(), lastTypingStart) > 15) {
+  const now = new Date();
+  if (differenceInSeconds(now, lastTypingStart) > 15) {
     const auth = getAuth(getState());
     api.typing(auth, narrow[0].operand, 'start');
-    lastTypingStart = new Date();
+    lastTypingStart = now;
   }
 };
