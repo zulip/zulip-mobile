@@ -52,24 +52,20 @@ const makeIcon = <Glyphs: string>(
 };
 
 export const IconInbox = makeIcon(Feather, 'inbox');
-export const IconStar = makeIcon(Feather, 'star');
 export const IconMention = makeIcon(Feather, 'at-sign');
 export const IconSearch = makeIcon(Feather, 'search');
 export const IconDone = makeIcon(Feather, 'check');
 export const IconCancel = makeIcon(Feather, 'slash');
 export const IconTrash = makeIcon(Feather, 'trash-2');
-export const IconWarning = makeIcon(Feather, 'alert-triangle');
 export const IconSend = makeIcon(MaterialIcon, 'send');
 export const IconMute = makeIcon(MaterialIcon, 'volume-off');
 export const IconStream = makeIcon(Feather, 'hash');
 export const IconPin = makeIcon(SimpleLineIcons, 'pin');
 export const IconPrivate = makeIcon(Feather, 'lock');
 export const IconPrivateChat = makeIcon(Feather, 'mail');
-export const IconDownArrow = makeIcon(Feather, 'chevron-down');
 export const IconGoogle = makeIcon(IoniconsIcon, 'logo-google');
 export const IconGitHub = makeIcon(Feather, 'github');
 export const IconWindows = makeIcon(IoniconsIcon, 'logo-windows');
-export const IconCross = makeIcon(Feather, 'x');
 export const IconDiagnostics = makeIcon(Feather, 'activity');
 export const IconNotifications = makeIcon(Feather, 'bell');
 export const IconLanguage = makeIcon(Feather, 'globe');
