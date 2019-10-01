@@ -48,9 +48,15 @@ private fun ReactNativeHost.tryGetReactInstanceManager(): ReactInstanceManager? 
 private fun emitOrLaunch(application: ReactApplication, eventName: String, data: Any?) {
     val host = application.reactNativeHost
     val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
-    if (reactContext == null
-        || !reactContext.hasActiveCatalystInstance()
-        || reactContext.lifecycleState != LifecycleState.RESUMED) {
+    if (reactContext?.hasActiveCatalystInstance() != true) {
+        // No JS environment running; so on the one hand `emit` can't work,
+        // but on the other hand launch will cause initialization logic to run.
+        Log.d(TAG, "emitOrLaunch: lacking catalyst")
+        launchMainActivity(application as Context)
+        return
+    }
+
+    if (reactContext.lifecycleState != LifecycleState.RESUMED) {
         launchMainActivity(application as Context)
     } else {
         emit(reactContext, eventName, data)
