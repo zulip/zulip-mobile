@@ -21,6 +21,7 @@ export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean =
 
   const now = new Date();
   if (differenceInSeconds(now, lastReportPresence) < 60) {
+    // TODO throttle properly; probably fold setInterval logic in here
     return;
   }
   lastReportPresence = now;
@@ -42,9 +43,13 @@ export const sendTypingEvent = (narrow: Narrow) => async (
   }
 
   const now = new Date();
-  if (differenceInSeconds(now, lastTypingStart) > 15) {
-    const auth = getAuth(getState());
-    api.typing(auth, narrow[0].operand, 'start');
-    lastTypingStart = now;
+  if (differenceInSeconds(now, lastTypingStart) < 15) {
+    // TODO throttle properly -- e.g. if typing furiously for 14s,
+    //      don't treat as if just typed briefly at start
+    return;
   }
+  lastTypingStart = now;
+
+  const auth = getAuth(getState());
+  api.typing(auth, narrow[0].operand, 'start');
 };
