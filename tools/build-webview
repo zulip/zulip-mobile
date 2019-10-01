@@ -1,0 +1,144 @@
+#!/bin/bash
+set -eu
+unset CDPATH
+
+# CAVEAT EMENDATOR: Neither of the build systems have any visibility into this
+# script's dependencies -- it is run unconditionally, and must ensure on its own
+# that it performs as few actions as possible when nothing has changed.
+
+################################################################################
+# Common functions
+################################################################################
+
+# print usage message; do not die
+usage() {
+    cat >&2 <<EOF
+usage: $0 [ios | android] --destination DEST
+
+Builds a platform-local intermediate directory containing files used by the
+message-list WebView. The target platform (either \`ios\` or \`android\`) must
+be specified, along with the expected destination directory.
+
+(This script is usually run automatically by the build system.)
+EOF
+}
+
+# print error and die
+err() {
+    echo "$0:" $'\e[31merror:\e[0m' "$1" >&2
+    exit 1;
+}
+
+
+
+################################################################################
+# Parameters and environment
+################################################################################
+
+# chdir to the current git repo's root
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+# Parse arguments. Sloppy, but sufficient for now.
+unset TARGET
+unset DEST
+while (( $# )); do
+    case "$1" in
+        --help|-h|help)
+            usage; exit 0;;
+        android|ios)
+            # no check for multiple nouns; oh well
+            TARGET="$1"; shift;;
+        --destination)
+            # note: this doesn't permit an equals sign after `--destination`
+            shift; DEST="$1"; shift;;
+        *) usage; exit 2;;
+    esac
+done
+
+if  [ -z "${TARGET-}" ]; then
+    usage; exit 2
+elif [ -z "${DEST-}" ]; then
+    usage; exit 2
+fi
+
+# Sanity-check DEST and TARGET.
+case "$TARGET" in
+    ios)
+        if [ "$(uname)" != "Darwin" ]; then
+            err "iOS builds only supported on macOS";
+        fi
+
+        # $DEST should be copied to `${bundle_root}/webview`.
+        #
+        # $DEST itself must be specified twice in Xcode: once in the invocation
+        # of this script, and once in the "Copy Bundle Resources" step. If you
+        # change it, you'll need to change it in both places. (And here, of
+        # course.)
+        if [[ "$DEST" != "$ROOT/ios/"* ]]; then
+            err "unexpected destination directory '$DEST' (expected target in iOS build dir)"
+        fi
+    ;;
+    android)
+        # $DEST should be copied to `file:///android_asset/webview`.
+        #
+        # Gradle -- more precisely, the Android Gradle plugin -- is already
+        # configured to copy some directory from `build/` into the APK. We
+        # determine which directory that is in Gradle, and pass it here.
+        if [[ "$DEST" != "$ROOT/android/app/build/"* ]]; then
+            err "unexpected destination directory '$DEST' (expected target in Android build dir)"
+        fi
+    ;;
+    *) err "impossible target $TARGET";;
+esac
+
+# As implied above, the ultimate destination of these files should be a
+# directory named `./webview` (relative to the platform-dependent asset
+# root directory).
+#
+# The target directory basename should therefore be 'webview': both build
+# systems will preserve the name they're given here.
+if [[ "$DEST" != *"/webview" ]]; then
+    err "unexpected destination directory '$DEST'"
+fi
+
+# Set SRC.
+SRC=src/webview/static
+if [ ! -d "$SRC" ]; then
+    err "cannot find asset source directory '$SRC'";
+fi
+
+
+################################################################################
+# Pre-sync: platform-agnostic build steps
+################################################################################
+
+# Currently none, but this is where they'll go.
+#
+# TODO: Use something like `make -f src/webview/static.Makefile`, to ensure that
+#   complicated build steps are not run unconditionally.
+#
+# TODO: split assets into build-time-generated and build-time-static?
+#   - rsync can sync from multiple directories, but has no collision-detection
+#   - might be too many layers of abstraction
+
+
+
+################################################################################
+# Sync
+################################################################################
+
+# Sync the directory structure, preserving metadata. (We ignore any files named
+# 'README.md'; these should be strictly informative.)
+#
+# We use `rsync` here, as it will skip unchanged files.
+mkdir -p "$DEST"
+rsync -a --no-D --delete --delete-excluded --exclude=README.md "$SRC/." "$DEST"
+
+
+
+################################################################################
+# Post-sync: platform-specific build steps
+################################################################################
+
+# None yet.
