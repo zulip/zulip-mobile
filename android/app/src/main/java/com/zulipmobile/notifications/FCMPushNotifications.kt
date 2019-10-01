@@ -42,9 +42,9 @@ fun createNotificationChannel(context: Context) {
     }
 }
 
-private fun logNotificationData(data: Bundle) {
+private fun logNotificationData(msg: String, data: Bundle) {
     data.keySet() // Has the side effect of making `data.toString` more informative.
-    Log.v(TAG, "getPushNotification: $data", Throwable())
+    Log.v(TAG, "$msg: $data")
 }
 
 internal fun onReceived(context: Context, conversations: ConversationMap, mapData: Map<String, String>) {
@@ -53,7 +53,7 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
     for ((key, value) in mapData) {
         data.putString(key, value)
     }
-    logNotificationData(data)
+    logNotificationData("notif received", data)
 
     val fcmMessage: FcmMessage
     try {
@@ -176,7 +176,7 @@ private fun getNotificationBuilder(
 }
 
 internal fun onOpened(application: ReactApplication, conversations: ConversationMap, data: Bundle) {
-    logNotificationData(data)
+    logNotificationData("notif opened", data)
     notifyReact(application, data)
     getNotificationManager(application as Context).cancelAll()
     clearConversations(conversations)
