@@ -13,7 +13,6 @@ import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.common.LifecycleState
 import com.facebook.react.modules.core.DeviceEventManagerModule
-
 import com.zulipmobile.MainActivity
 
 /**
@@ -25,12 +24,8 @@ import com.zulipmobile.MainActivity
 
 internal fun notifyReact(application: ReactApplication, data: Bundle) {
     NotificationsModule.initialNotification = data
-
-    if (!emitIfResumed(application, "notificationOpened", Arguments.fromBundle(data))) {
-        // The app will check initialNotification on launch.
-        Log.d(TAG, "notifyReact: launching main activity")
-        launchMainActivity(application as Context)
-    }
+    // If not running, the app will check initialNotification on launch.
+    emitOrLaunch(application, "notificationOpened", Arguments.fromBundle(data))
 }
 
 /**
@@ -43,16 +38,23 @@ internal fun notifyReact(application: ReactApplication, data: Bundle) {
 private fun ReactNativeHost.tryGetReactInstanceManager(): ReactInstanceManager? =
     if (this.hasInstance()) this.reactInstanceManager else null
 
-private fun emitIfResumed(application: ReactApplication, eventName: String, data: Any?): Boolean {
+/**
+ * Get the app to the foreground, with this event emitted to it.
+ *
+ * Assumes that if the app isn't already running, then it's enough
+ * just to launch it -- i.e., that we've made some other arrangement
+ * so that on launch it'll behave as if the event were emitted.
+ */
+private fun emitOrLaunch(application: ReactApplication, eventName: String, data: Any?) {
     val host = application.reactNativeHost
     val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
     if (reactContext == null
         || !reactContext.hasActiveCatalystInstance()
         || reactContext.lifecycleState != LifecycleState.RESUMED) {
-        return false
+        launchMainActivity(application as Context)
+    } else {
+        emit(reactContext, eventName, data)
     }
-    emit(reactContext, eventName, data)
-    return true
 }
 
 internal fun emit(reactContext: ReactContext, eventName: String, data: Any?) {
@@ -62,6 +64,7 @@ internal fun emit(reactContext: ReactContext, eventName: String, data: Any?) {
 }
 
 private fun launchMainActivity(context: Context) {
+    Log.d(TAG, "NotifyReact: launching main activity")
     val intent = Intent(context, MainActivity::class.java)
     // See these sections in the Android docs:
     //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
