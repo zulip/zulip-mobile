@@ -177,7 +177,7 @@ private fun getNotificationBuilder(
 
 internal fun onOpened(application: ReactApplication, conversations: ConversationMap, data: Bundle) {
     logNotificationData(data)
-    NotifyReact.notifyReact(application, data)
+    notifyReact(application, data)
     getNotificationManager(application as Context).cancelAll()
     clearConversations(conversations)
     try {
