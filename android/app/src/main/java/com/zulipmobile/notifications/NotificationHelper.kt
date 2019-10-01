@@ -44,7 +44,6 @@ open class ByConversationMap : LinkedHashMap<String, MutableList<MessageFcmMessa
 class ConversationMap : ByConversationMap()
 
 fun fetchBitmap(url: URL): Bitmap? {
-    Log.i(TAG, "GAFT.fetch: Getting gravatar from url: $url")
     return try {
         val connection = url.openConnection()
         connection.useCaches = true
