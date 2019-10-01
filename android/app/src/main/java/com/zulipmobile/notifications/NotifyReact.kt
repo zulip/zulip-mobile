@@ -56,10 +56,15 @@ private fun emitOrLaunch(application: ReactApplication, eventName: String, data:
         return
     }
 
-    if (reactContext.lifecycleState != LifecycleState.RESUMED) {
-        launchMainActivity(application as Context)
-    } else {
-        emit(reactContext, eventName, data)
+    val lifecycleState = reactContext.lifecycleState!!
+    Log.d(TAG, "emitOrLaunch: lifecycle state is $lifecycleState")
+    when (lifecycleState) {
+        LifecycleState.BEFORE_CREATE, LifecycleState.BEFORE_RESUME -> {
+            launchMainActivity(application as Context)
+        }
+        LifecycleState.RESUMED -> {
+            emit(reactContext, eventName, data)
+        }
     }
 }
 
