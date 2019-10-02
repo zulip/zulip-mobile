@@ -22,12 +22,6 @@ import com.zulipmobile.MainActivity
  * TODO: Replace this with a fresh implementation based on RN upstream docs.
  */
 
-internal fun notifyReact(application: ReactApplication, data: Bundle) {
-    NotificationsModule.initialNotification = data
-    // If not running, the app will check initialNotification on launch.
-    emitOrLaunch(application, "notificationOpened", Arguments.fromBundle(data))
-}
-
 /**
  * Like getReactInstanceManager, but just return what exists; avoid trying to create.
  *
@@ -38,20 +32,15 @@ internal fun notifyReact(application: ReactApplication, data: Bundle) {
 private fun ReactNativeHost.tryGetReactInstanceManager(): ReactInstanceManager? =
     if (this.hasInstance()) this.reactInstanceManager else null
 
-/**
- * Get the app to the foreground, with this event emitted to it.
- *
- * Assumes that if the app isn't already running, then it's enough
- * just to launch it -- i.e., that we've made some other arrangement
- * so that on launch it'll behave as if the event were emitted.
- */
-private fun emitOrLaunch(application: ReactApplication, eventName: String, data: Any?) {
+internal fun notifyReact(application: ReactApplication, data: Bundle) {
     val host = application.reactNativeHost
     val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
     if (reactContext?.hasActiveCatalystInstance() != true) {
         // No JS environment running; so on the one hand `emit` can't work,
         // but on the other hand launch will cause initialization logic to run.
         Log.d(TAG, "emitOrLaunch: lacking catalyst")
+        // If not running, the app will check initialNotification on launch.
+        NotificationsModule.initialNotification = data
         launchMainActivity(application as Context)
         return
     }
@@ -75,11 +64,13 @@ private fun emitOrLaunch(application: ReactApplication, eventName: String, data:
             // Main activity has "resumed" (gone to foreground) at least once,
             // but is out of foreground now, but might come back.
         -> {
+            // If not running, the app will check initialNotification on launch.
+            NotificationsModule.initialNotification = data
             launchMainActivity(application as Context)
         }
         LifecycleState.RESUMED -> {
             // Main activity is in foreground.
-            emit(reactContext, eventName, data)
+            emit(reactContext, "notificationOpened", Arguments.fromBundle(data))
         }
     }
 }
