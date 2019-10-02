@@ -32,46 +32,65 @@ import com.zulipmobile.MainActivity
 private fun ReactNativeHost.tryGetReactInstanceManager(): ReactInstanceManager? =
     if (this.hasInstance()) this.reactInstanceManager else null
 
+/**
+ * A distillation of ReactContext.getLifecycleState() and related information.
+ *
+ * See ReactContext.getAppStatus().
+ */
+private enum class ReactAppStatus {
+    /**
+     * The main activity has either never yet been in the foreground,
+     * or never will again.  There might not be an active JS instance.
+     */
+    NOT_RUNNING,
+    /**
+     * The main activity has been in the foreground, is out of foreground
+     * now, but might come back.  There must be an active JS instance.
+     */
+    BACKGROUND,
+    /**
+     * The main activity is in the foreground.
+     * There must be an active JS instance.
+     */
+    FOREGROUND
+}
+
+private val ReactContext.appStatus: ReactAppStatus
+    get() {
+        if (!hasActiveCatalystInstance())
+            return ReactAppStatus.NOT_RUNNING
+
+        // The RN lifecycleState:
+        //  * starts as BEFORE_CREATE
+        //  * responds to onResume, onPause, and onDestroy on the host Activity
+        //    * Android upstream docs on those:
+        //        https://developer.android.com/guide/components/activities/activity-lifecycle
+        //    * RN wires those through ReactActivity -> ReactActivityDelegate ->
+        //      ReactInstanceManager (as onHost{Resume,Pause,Destroy}) -> ReactContext
+        //  * notably goes straight BEFORE_CREATE -> RESUMED when first starting
+        //    (at least as of RN v0.59)
+        return when (lifecycleState!!) {
+            LifecycleState.BEFORE_CREATE -> ReactAppStatus.NOT_RUNNING
+            LifecycleState.BEFORE_RESUME -> ReactAppStatus.BACKGROUND
+            LifecycleState.RESUMED -> ReactAppStatus.FOREGROUND
+        }
+    }
+
 internal fun notifyReact(application: ReactApplication, data: Bundle) {
     val host = application.reactNativeHost
     val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
-    if (reactContext?.hasActiveCatalystInstance() != true) {
-        // No JS environment running; so on the one hand `emit` can't work,
-        // but on the other hand launch will cause initialization logic to run.
-        Log.d(TAG, "emitOrLaunch: lacking catalyst")
-        // If not running, the app will check initialNotification on launch.
-        NotificationsModule.initialNotification = data
-        launchMainActivity(application as Context)
-        return
-    }
-
-    // The RN lifecycleState:
-    //  * starts as BEFORE_CREATE
-    //  * responds to onResume, onPause, and onDestroy on the host Activity
-    //    * Android upstream docs on those:
-    //        https://developer.android.com/guide/components/activities/activity-lifecycle
-    //    * RN wires those through ReactActivity -> ReactActivityDelegate ->
-    //      ReactInstanceManager (as onHost{Resume,Pause,Destroy}) -> ReactContext
-    //  * notably goes straight BEFORE_CREATE -> RESUMED when first starting
-    //    (at least as of RN v0.59)
-    val lifecycleState = reactContext.lifecycleState!!
-    Log.d(TAG, "emitOrLaunch: lifecycle state is $lifecycleState")
-    when (lifecycleState) {
-        LifecycleState.BEFORE_CREATE,
-            // Main activity has not yet "resumed" for the first time,
-            // or else has been "destroyed" and will never be resumed again.
-        LifecycleState.BEFORE_RESUME
-            // Main activity has "resumed" (gone to foreground) at least once,
-            // but is out of foreground now, but might come back.
-        -> {
+    val appStatus = reactContext?.appStatus
+    Log.d(TAG, "notifyReact: app status is $appStatus")
+    when (appStatus) {
+        null, ReactAppStatus.NOT_RUNNING, ReactAppStatus.BACKGROUND -> {
             // If not running, the app will check initialNotification on launch.
             NotificationsModule.initialNotification = data
             launchMainActivity(application as Context)
         }
-        LifecycleState.RESUMED -> {
-            // Main activity is in foreground.
+        ReactAppStatus.FOREGROUND ->
+            // JS is running and in foreground.  It won't check initialNotification
+            // again, but it will see a notificationOpened event.
             emit(reactContext, "notificationOpened", Arguments.fromBundle(data))
-        }
     }
 }
 
