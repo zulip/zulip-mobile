@@ -1,0 +1,35 @@
+/**
+ * Build and merge static webview assets.
+ *
+ * This is largely the job of `$ROOT/tools/build-webview`, a script external to
+ * Gradle, as there is significant overlap between the iOS and Android build
+ * processes. See comments therein (or $ROOT/src/webview/static/README.md) for
+ * more information.
+ */
+
+gradle.projectsEvaluated {
+    // The root of our git repository.
+    def repoDir = project.file('../..').absolutePath
+
+    android.applicationVariants.all { variant ->
+        // Accurate as of Android Gradle Plugin 3.4.0. Known to move between
+        // releases; but alas, no stable API is known to the Internet at large.
+        def assetsDir = "${buildDir}/intermediates/merged_assets/${variant.name}/out"
+
+        def variantTask = tasks.create(
+            name: "build${variant.name.capitalize()}StaticWebviewAssets",
+            type: Exec
+        ) {
+            executable "${repoDir}/tools/build-webview"
+            args "android", "--destination", "${assetsDir}/webview"
+        }
+
+        // Run this task as part of assets merging for this variant.
+        //
+        // Caveat lector: this block is almost 100% voodoo -- it seems to work,
+        // but the present author has no documentation proving it.
+        variant.mergeAssetsProvider.configure {
+            dependsOn variantTask
+        }
+    }
+}

@@ -70,6 +70,9 @@ npm-debug.log
 *.keystore.gpg
 /android/release-keystore.properties
 
+# Intermediate directories for webview assets
+# /android/app/build/... is already covered above
+
 # fastlane
 # See: https://docs.fastlane.tools/best-practices/source-control/
 /fastlane/report.xml
