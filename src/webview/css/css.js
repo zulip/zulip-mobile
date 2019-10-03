@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import type { ThemeName } from '../../types';
-import { BRAND_COLOR } from '../../styles';
 import cssPygments from './cssPygments';
 import cssEmojis from './cssEmojis';
 import cssNight from './cssNight';
@@ -224,7 +223,7 @@ hr {
   background: hsla(0, 100%, 50%, 0.05);
 }
 .message:not([data-read="true"]) {
-  box-shadow: inset 4px 0 ${BRAND_COLOR};
+  box-shadow: inset 4px 0 hsl(170, 48%, 54%);
 }
 .message[data-read="true"] {
   box-shadow: inset 4px 0 transparent;
@@ -369,8 +368,8 @@ blockquote {
   vertical-align: top;
 }
 .self-voted {
-  color: ${BRAND_COLOR};
-  border: 1px solid ${BRAND_COLOR};
+  color: hsl(170, 48%, 54%);
+  border: 1px solid hsl(170, 48%, 54%);
   background: hsla(177.1, 69.7%, 46.7%, 0.1);
 }
 .hidden {
