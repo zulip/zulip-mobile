@@ -1,10 +1,10 @@
 /** @jest-environment jsdom-global */
 // @flow strict-local
 
-import appendAuthToImages from '../appendAuthToImages';
+import rewriteImageUrls from '../rewriteImageUrls';
 import type { Auth } from '../../../types';
 
-describe('appendAuthToImages', () => {
+describe('rewriteImageUrls', () => {
   // URL will be on-realm
   const realm = 'https://realm.example.com';
   global.jsdom.reconfigure({ url: `${realm}/` });
@@ -19,7 +19,7 @@ describe('appendAuthToImages', () => {
     const img = document.createElement('img');
     img.setAttribute('src', src);
     const before = img.src;
-    appendAuthToImages(auth, img);
+    rewriteImageUrls(auth, img);
     const after = img.src;
     return { input: src, before, after };
   };

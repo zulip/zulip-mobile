@@ -14,24 +14,61 @@ export default `
 var compiledWebviewJs = (function (exports) {
   'use strict';
 
-  var appendAuthToImages = (function (auth) {
+  var origin = function origin(url) {
+    if (url.origin) {
+      return url.origin;
+    }
+
+    var href = url.href,
+        pathname = url.pathname,
+        search = url.search;
+    return href.slice(0, href.length - pathname.length - search.length);
+  };
+
+  var splitUrl = function splitUrl(url) {
+    var head = origin(url);
+    var rest = url.href.slice(head.length);
+    return {
+      head: head,
+      rest: rest
+    };
+  };
+
+  var inlineApiRoutes = ['/user_uploads/', '/thumbnail?', '/avatar/'];
+
+  var rewriteImageUrls = function rewriteImageUrls(auth) {
     var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
+    var realm = new URL(auth.realm);
     var imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
     imageTags.forEach(function (img) {
-      if (!img.src.startsWith(auth.realm)) {
+      var _img$attributes$getNa;
+
+      var actualSrc = (_img$attributes$getNa = img.attributes.getNamedItem('src')) === null || _img$attributes$getNa === void 0 ? void 0 : _img$attributes$getNa.value;
+
+      if (actualSrc === null) {
         return;
       }
 
-      var srcPath = img.src.substring(auth.realm.length);
+      var fixedSrc = new URL(actualSrc, realm);
 
-      if (!(srcPath.startsWith('/user_uploads/') || srcPath.startsWith('/thumbnail?') || srcPath.startsWith('/avatar/'))) {
-        return;
+      var _splitUrl = splitUrl(fixedSrc),
+          fixedOrigin = _splitUrl.head,
+          fixedPath = _splitUrl.rest;
+
+      if (fixedOrigin === origin(realm)) {
+        if (inlineApiRoutes.some(function (route) {
+          return fixedPath.startsWith(route);
+        })) {
+          var delimiter = actualSrc.includes('?') ? '&' : '?';
+          fixedSrc.search += "".concat(delimiter, "api_key=").concat(auth.apiKey);
+        }
       }
 
-      var delimiter = img.src.includes('?') ? '&' : '?';
-      img.src += "".concat(delimiter, "api_key=").concat(auth.apiKey);
+      if (img.src !== fixedSrc.href) {
+        img.src = fixedSrc.href;
+      }
     });
-  });
+  };
 
   var platformOS = window.navigator.userAgent.match(/iPhone|iPad|iPod/) ? 'ios' : 'android';
 
@@ -389,7 +426,7 @@ var compiledWebviewJs = (function (exports) {
     }
 
     documentBody.innerHTML = uevent.content;
-    appendAuthToImages(uevent.auth);
+    rewriteImageUrls(uevent.auth);
 
     if (target.type === 'bottom') {
       scrollToBottom();
@@ -404,7 +441,7 @@ var compiledWebviewJs = (function (exports) {
 
   var handleInitialLoad = function handleInitialLoad(anchor, auth) {
     scrollToAnchor(anchor);
-    appendAuthToImages(auth);
+    rewriteImageUrls(auth);
     sendScrollMessageIfListShort();
     scrollEventsDisabled = false;
   };

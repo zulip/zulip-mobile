@@ -11,7 +11,7 @@ import type {
 } from '../webViewHandleUpdates';
 import type { MessageListEvent } from '../webViewEventHandlers';
 
-import appendAuthToImages from './appendAuthToImages';
+import rewriteImageUrls from './rewriteImageUrls';
 
 /*
  * Supported platforms:
@@ -497,7 +497,7 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
 
   documentBody.innerHTML = uevent.content;
 
-  appendAuthToImages(uevent.auth);
+  rewriteImageUrls(uevent.auth);
 
   if (target.type === 'bottom') {
     scrollToBottom();
@@ -513,7 +513,7 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
 // We call this when the webview's content first loads.
 export const handleInitialLoad = /* eslint-disable-line */ (anchor: number, auth: Auth) => {
   scrollToAnchor(anchor);
-  appendAuthToImages(auth);
+  rewriteImageUrls(auth);
   sendScrollMessageIfListShort();
   scrollEventsDisabled = false;
 };
