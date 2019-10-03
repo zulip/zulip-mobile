@@ -9,15 +9,19 @@ import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
-/*
- * This is a reimplementation of react-native-vector-icons (RVNI)'s own
- * IconProps<...> type, corresponding to the documented interface:
+/**
+ * The props actually accepted by icon components in r-n-vector-icons.
  *
- * https://github.com/oblador/react-native-vector-icons/blob/v6.6.0/README.md#properties
+ * This corresponds to the documented interface:
+ *   https://github.com/oblador/react-native-vector-icons/blob/v6.6.0/README.md#properties
  *
- * Unfortunately the upstream implementation of this type explicitly includes
- * `allowFontScaling?: boolean` -- a misrespecification of the React Native
- * property (which RN itself specifies to be `allowFontScaling?: ?boolean`).
+ * Upstream has a .js.flow file which is meant to describe this.  But the
+ * type definition there is wrong in a couple of ways:
+ *  * it leaves most of the properties of `Text` unspecified, and just
+ *    defines an inexact object type so that it's much looser than reality;
+ *  * of the handful of properties it does mention, it defines one more
+ *    narrowly than the actual `Text`, as `allowFontScaling?: boolean` when
+ *    it should be `allowFontScaling?: ?boolean`.
  */
 type IconProps<Glyphs: string> = {|
   ...$Exact<$PropertyType<Text, 'props'>>,
