@@ -101,6 +101,25 @@ export type Props = {|
   _: GetText,
 |};
 
+/**
+ * The path to the webview assets, represented as a `file:`-schema URL. Note
+ * that the path may be relative (in which case the schema is implicit).
+ *
+ * See the `tools/build-webview` script for more details.
+ *
+ * This value should not be used by components _within_ the webview: it will
+ * probably yield incorrect results on iOS, since this value must be relative
+ * there. Use './' instead.
+ */
+// (The above is technically a lie. An absolute root directory would work fine
+// on iOS; it's just not fixed enough to be able to hardcode the way the Android
+// root directory is.
+//
+// We could still use something like `[[NSBundle mainbundle] bundleURL]` to get
+// an absolute URL on iOS -- but there's no convenient interface to that from
+// React, and it's not worth linking something like react-native-fs for.)
+const assetsPath = Platform.OS === 'ios' ? './webview' : 'file:///android_asset/webview';
+
 class MessageList extends Component<Props> {
   context: Context;
   webview: ?WebView;
@@ -182,13 +201,25 @@ class MessageList extends Component<Props> {
       showMessagePlaceholders,
     });
 
+    /**
+     * Effective URL of the MessageList webview.
+     *
+     * We provide all HTML at creation (or refresh) time; the document named
+     * here is not loaded, and doesn't even need to exist. It serves only as a
+     * placeholder, so that relative URLs and cross-domain security restrictions
+     * have somewhere to believe that this document originates from.
+     */
+    const baseUrl = `${assetsPath}/index.html`;
+
+    // Note: `originWhitelist`, below, is not a significant security barrier;
+    // it's checked only against the origin of the URL of the document itself.
+    // It cannot be used to validate the full URL, nor any part of any URL of
+    // any resource the WebView loads.
     return (
       <WebView
         useWebKit
-        source={{
-          baseUrl: auth.realm,
-          html,
-        }}
+        source={{ baseUrl, html }}
+        originWhitelist={['file://']}
         style={contextStyles.webview}
         ref={webview => {
           this.webview = webview;
