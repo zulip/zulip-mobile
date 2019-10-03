@@ -71,6 +71,7 @@ npm-debug.log
 /android/release-keystore.properties
 
 # Intermediate directories for webview assets
+/ios/webview
 # /android/app/build/... is already covered above
 
 # fastlane

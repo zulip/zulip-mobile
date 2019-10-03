@@ -32,6 +32,7 @@
 		39BAF54680504277B9E1F111 /* libRNCWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB41D085CB4A4C4580BA1877 /* libRNCWebView.a */; };
 		3C289EE01FF361C9002AF37A /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C289E9B1FF3617C002AF37A /* libRCTPushNotification.a */; };
 		3C4249EB1EF6E09F00D245F1 /* libRNNotifications.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C4249E61EF6E05C00D245F1 /* libRNNotifications.a */; };
+		42689E9C23466FF7007540AA /* webview in Resources */ = {isa = PBXBuildFile; fileRef = 42689E9B23466FF7007540AA /* webview */; };
 		48D1FC73615948D79D3BD31E /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7F287C57D8A4354A8B6A3E7 /* Octicons.ttf */; };
 		49692FC0562C40F3946EC6D4 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A752523B8D8E49E792F653E1 /* Foundation.ttf */; };
 		4B12DC82ECA043809695F227 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB2E7AE39A448A98E7A4E4A /* Ionicons.ttf */; };
@@ -522,6 +523,7 @@
 		3C289E861FF3617C002AF37A /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		3C4249C61EF6E05C00D245F1 /* RNNotifications.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNNotifications.xcodeproj; path = "../node_modules/react-native-notifications/RNNotifications/RNNotifications.xcodeproj"; sourceTree = "<group>"; };
 		3C4249EC1EF6E16500D245F1 /* ZulipMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ZulipMobile.entitlements; path = ZulipMobile/ZulipMobile.entitlements; sourceTree = "<group>"; };
+		42689E9B23466FF7007540AA /* webview */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webview; sourceTree = "<group>"; };
 		51E1EDA028654E17A35C5BCA /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		5597847AA2A04FEE894C9C9E /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
 		66E34CC6219226D10091B852 /* ZulipMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZulipMobile-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -889,6 +891,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				42689E9B23466FF7007540AA /* webview */,
 				A148FEFB1E9D8CB900479280 /* zulip.mp3 */,
 				CF6CFE2C1E7DC55100F687C7 /* Build-Phases */,
 				13B07FAE1A68108700A75B9A /* ZulipMobile */,
@@ -1063,9 +1066,9 @@
 			buildPhases = (
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
+				CF6CFE0C1E7DC27200F687C7 /* Run Script: tools/build-webview */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				CF6CFE0C1E7DC27200F687C7 /* Run Script */,
 				6FD412E618344A7FB938E4AC /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
@@ -1682,6 +1685,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42689E9C23466FF7007540AA /* webview in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				9958691A3D1D436DA0727A14 /* Entypo.ttf in Resources */,
@@ -1714,7 +1718,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ $SDKROOT == *\"iPhoneSimulator\"* ]]; then\necho [Bundle React Native code and images] Skipping sentry\n../node_modules/react-native/scripts/react-native-xcode.sh\nelse\nexport SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\nfi";
+			shellScript = "if [[ $SDKROOT == *\"iPhoneSimulator\"* ]]; then\necho [Bundle React Native code and images] Skipping sentry\n../node_modules/react-native/scripts/react-native-xcode.sh\nelse\nexport SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\nfi\n";
 		};
 		6FD412E618344A7FB938E4AC /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1730,19 +1734,19 @@
 			shellPath = /bin/sh;
 			shellScript = "if [[ $SDKROOT == *\"iPhoneSimulator\"* ]]; then\necho [Upload Debug Symbols to Sentry] Skipping sentry\nelse\nexport SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\nfi\n";
 		};
-		CF6CFE0C1E7DC27200F687C7 /* Run Script */ = {
+		CF6CFE0C1E7DC27200F687C7 /* Run Script: tools/build-webview */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
+			name = "Run Script: tools/build-webview";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "";
+			shellPath = /bin/bash;
+			shellScript = "exec $SRCROOT/../tools/build-webview ios --destination $SRCROOT/webview\n# See this script, or src/webview/static/README.md, for more information.\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
