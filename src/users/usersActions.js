@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
+import * as typing_status from '@zulip/shared/js/typing_status';
 
 import type { Dispatch, GetState, Narrow } from '../types';
 import * as api from '../api';
@@ -41,6 +42,15 @@ export const sendTypingStart = (narrow: Narrow) => async (
   if (!isPrivateOrGroupNarrow(narrow)) {
     return;
   }
+
+  const nopWorker = {
+    get_recipient: () => undefined,
+    is_valid_conversation: () => true,
+    get_current_time: () => new Date().getTime(),
+    notify_server_start: () => {},
+    notify_server_stop: () => {},
+  };
+  typing_status.handle_text_input(nopWorker);
 
   const now = new Date();
   if (differenceInSeconds(now, lastTypingStart) < 15) {

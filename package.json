@@ -34,6 +34,7 @@
     "@expo/react-native-action-sheet": "^1.1.0",
     "@react-native-community/netinfo": "^3.2.1",
     "@remobile/react-native-toast": "^1.0.7",
+    "@zulip/shared": "^0.0.1",
     "base-64": "^0.1.0",
     "blueimp-md5": "^2.10.0",
     "color": "^3.0.0",

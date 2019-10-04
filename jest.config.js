@@ -7,7 +7,9 @@ module.exports = {
     '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)',
+    // Transform everything *but* most things in node_modules... but do
+    // transform those covered by the pattern inside the `(?!)`.
+    'node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation|@zulip/)',
   ],
 
   // The runtime test environment.

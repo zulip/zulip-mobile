@@ -1058,6 +1058,13 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
+"@zulip/shared@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.1.tgz#f388018a0d3532703e0d3745facde41c025fd634"
+  integrity sha512-Nbd6Z2k/MbX75brPknF+UHyTmt8UPKWsNeec4hqRTk2ppx2pQ2IptCBlM7MjdX0mC0D88i/wGt2lLNAAdxZV3g==
+  dependencies:
+    underscore "^1.9.1"
+
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"
@@ -8542,6 +8549,11 @@ ultron@~1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.1.tgz#9fe1536a10a664a65266a1e3ccf85fd36302bc9c"
   integrity sha512-UIEXBNeYmKptWH6z8ZnqTeS8fV74zG0/eRU9VGkpzz+LIJNs8W/zM/L+7ctCkRrgbNnnR0xxw4bKOr0cW0N0Og==
+
+underscore@^1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.1.tgz#06dce34a0e68a7babc29b365b8e74b8925203961"
+  integrity sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
