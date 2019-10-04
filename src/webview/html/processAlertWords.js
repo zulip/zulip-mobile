@@ -4,7 +4,7 @@ import type { FlagsState } from '../../types';
 /* eslint-disable */
 /*
  * The bulk of this code is taken verbatim from the webapp:
- *   https://github.com/zulip/zulip/blob/54d3d8e8b/static/js/alert_words.js
+ *   https://github.com/zulip/zulip/blob/9545569dc/static/js/alert_words.js
  * in order to avoid multiple implementations of this rather tricky logic.
  * To permit that, we disable ESLint and Prettier.
  *
@@ -37,7 +37,7 @@ const process_message = function (words: string[],
 
         var regex = new RegExp('(' + before_punctuation + ')' +
                                '(' + clean + ')' +
-                               '(' + after_punctuation + ')' , 'ig');
+                               '(' + after_punctuation + ')', 'ig');
         message.content = message.content.replace(regex, function (match, before, word,
                                                                    after, offset, content) {
             // Logic for ensuring that we don't muck up rendered HTML.
