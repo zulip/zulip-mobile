@@ -20,7 +20,7 @@ import {
   cancelEditMessage,
   draftUpdate,
   fetchTopicsForActiveStream,
-  sendTypingEvent,
+  sendTypingStart,
 } from '../actions';
 import * as api from '../api';
 import { FloatingActionButton, Input } from '../common';
@@ -172,7 +172,7 @@ class ComposeBox extends PureComponent<Props, State> {
   handleMessageChange = (message: string) => {
     this.setState({ message, isMenuExpanded: false });
     const { dispatch, narrow } = this.props;
-    dispatch(sendTypingEvent(narrow));
+    dispatch(sendTypingStart(narrow));
     dispatch(draftUpdate(narrow, message));
   };
 

@@ -34,7 +34,7 @@ export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean =
   });
 };
 
-export const sendTypingEvent = (narrow: Narrow) => async (
+export const sendTypingStart = (narrow: Narrow) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
