@@ -53,3 +53,16 @@ export const sendTypingStart = (narrow: Narrow) => async (
   const auth = getAuth(getState());
   api.typing(auth, narrow[0].operand, 'start');
 };
+
+export const sendTypingStop = (narrow: Narrow) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  if (!isPrivateOrGroupNarrow(narrow)) {
+    return;
+  }
+
+  const auth = getAuth(getState());
+  api.typing(auth, narrow[0].operand, 'stop');
+  lastTypingStart = new Date(0);
+};
