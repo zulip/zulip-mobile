@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
+import { BRAND_COLOR } from '../styles';
 import { Icon } from '../common/Icons';
-import { Touchable } from '../common';
 import type { IconNames } from '../common/Icons';
+import NavButtonGeneral from './NavButtonGeneral';
 
 type Props = {|
   color: string,
@@ -21,12 +21,6 @@ export default class NavButton extends PureComponent<Props> {
   };
 
   styles = StyleSheet.create({
-    navButtonFrame: {
-      width: NAVBAR_SIZE,
-      height: NAVBAR_SIZE,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
     navButtonIcon: {
       textAlign: 'center',
       fontSize: 26,
@@ -37,11 +31,9 @@ export default class NavButton extends PureComponent<Props> {
     const { name, style, color, onPress } = this.props;
 
     return (
-      <Touchable onPress={onPress}>
-        <View style={this.styles.navButtonFrame}>
-          <Icon style={[this.styles.navButtonIcon, style]} color={color} name={name} />
-        </View>
-      </Touchable>
+      <NavButtonGeneral onPress={onPress}>
+        <Icon style={[this.styles.navButtonIcon, style]} color={color} name={name} />
+      </NavButtonGeneral>
     );
   }
 }
