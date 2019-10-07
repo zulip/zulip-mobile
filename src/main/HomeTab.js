@@ -7,8 +7,11 @@ import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { HOME_NARROW, MENTIONED_NARROW, STARRED_NARROW } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
+import NavButtonGeneral from '../nav/NavButtonGeneral';
 import UnreadCards from '../unread/UnreadCards';
 import { doNarrow, navigateToSearch } from '../actions';
+import IconUnreadMentions from '../nav/IconUnreadMentions';
+import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -44,12 +47,13 @@ class HomeTab extends PureComponent<Props> {
               dispatch(doNarrow(STARRED_NARROW));
             }}
           />
-          <NavButton
-            name="at-sign"
+          <NavButtonGeneral
             onPress={() => {
               dispatch(doNarrow(MENTIONED_NARROW));
             }}
-          />
+          >
+            <IconUnreadMentions color={BRAND_COLOR} />
+          </NavButtonGeneral>
           <NavButton
             name="search"
             onPress={() => {
