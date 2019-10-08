@@ -60,7 +60,7 @@ export type ApiErrorCode =
  *
  * This type is not exact: some error responses may contain additional data.
  */
-export type ApiResponseError = {
+export type ApiResponseErrorData = {
   code: ApiErrorCode,
   msg: string,
   result: 'error',
