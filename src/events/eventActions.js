@@ -10,6 +10,7 @@ import eventMiddleware from './eventMiddleware';
 import { tryGetAuth } from '../selectors';
 import actionCreator from '../actionCreator';
 import progressiveTimeout from '../utils/progressiveTimeout';
+import { ApiError } from '../api/apiErrors';
 
 /** Convert an `/events` response into a sequence of our Redux actions. */
 export const responseToActions = (
@@ -87,12 +88,10 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       // protection from inadvertent DDOS
       await progressiveTimeout();
 
-      if (e.message === 'API') {
-        if (e.data && e.data.code === 'BAD_EVENT_QUEUE_ID') {
-          // The event queue is too old or has been garbage collected.
-          dispatch(deadQueue());
-          break;
-        }
+      if (e instanceof ApiError && e.code === 'BAD_EVENT_QUEUE_ID') {
+        // The event queue is too old or has been garbage collected.
+        dispatch(deadQueue());
+        break;
       }
     }
   }

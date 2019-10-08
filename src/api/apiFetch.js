@@ -5,6 +5,7 @@ import { getAuthHeaders } from './transport';
 import { encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
+import { makeErrorFromApi } from './apiErrors';
 
 const apiVersion = 'api/v1';
 
@@ -51,19 +52,6 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: {} = {}) =>
 export const apiFetch = async (auth: Auth, route: string, params: {} = {}) =>
   fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
-const makeApiError = (httpStatus: number, data: ?{}) => {
-  const error = new Error('API');
-  if (data) {
-    // $FlowFixMe
-    data.code = data.code ?? 'BAD_REQUEST';
-  }
-  // $FlowFixMe
-  error.data = data;
-  // $FlowFixMe
-  error.httpStatus = httpStatus;
-  return error;
-};
-
 export const apiCall = async (
   auth: Auth,
   route: string,
@@ -79,7 +67,7 @@ export const apiCall = async (
     }
     // eslint-disable-next-line no-console
     console.log({ route, params, httpStatus: response.status, json });
-    throw makeApiError(response.status, json);
+    throw makeErrorFromApi(response.status, json);
   } finally {
     networkActivityStop(isSilent);
   }
