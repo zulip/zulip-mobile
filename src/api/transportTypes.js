@@ -31,31 +31,42 @@ export type ApiResponseSuccess = {|
   msg: '',
 |};
 
-/** List of error codes at https://github.com/zulip/zulip/blob/master/zerver/lib/exceptions.py */
-export type ApiErrorCode =
-  | 'BAD_REQUEST'
-  | 'REQUEST_VARIABLE_MISSING'
-  | 'REQUEST_VARIABLE_INVALID'
-  | 'BAD_IMAGE'
-  | 'REALM_UPLOAD_QUOTA'
-  | 'BAD_NARROW'
-  | 'MISSING_HTTP_EVENT_HEADER'
-  | 'STREAM_DOES_NOT_EXIST'
-  | 'UNAUTHORIZED_PRINCIPAL'
-  | 'UNEXPECTED_WEBHOOK_EVENT_TYPE'
-  | 'BAD_EVENT_QUEUE_ID'
-  | 'CSRF_FAILED'
-  | 'INVITATION_FAILED'
-  | 'INVALID_ZULIP_SERVER';
+/**
+ * A list of current error codes can be found at:
+ *   https://github.com/zulip/zulip/blob/master/zerver/lib/exceptions.py
+ *
+ * Unfortunately, the `code` entry is a relatively late addition to the Zulip
+ * API: prior to (about) version 1.7.0, it hasn't always been present in
+ * responses. [1]  The modern default, when no other code has been defined, is
+ * 'BAD_REQUEST'; we therefore synthesize that value when connecting to old
+ * servers that don't provide an error code.
+ *
+ * It's tempting to make ApiErrorCode an enumerated type, save for the dual
+ * problem: when connecting to _newer_ Zulip servers, we may see values of
+ * `code` not known to this version of the client! In particular, new error
+ * codes are occasionally assigned to existing classes of error which previously
+ * returned 'BAD_REQUEST'.
+ *
+ * (Note that "newer" here doesn't necessarily mean "newer than this client",
+ * but "newer than the last time someone updated the error code list from the
+ * server". We have no mechanism in place to share the set of error codes --
+ * and, given the facts above, it's not clear that the existence of such a
+ * mechanism would be helpful anyway.)
+ *
+ * Though unstable in the general case, `code` is still useful. It _is_
+ * guaranteed to be returned, and stable, for certain known classes of errors
+ * arising from certain known endpoints. Nonetheless: let its user beware.
+ *
+ * [1] Reference: https://github.com/zulip/zulip/commit/709c3b50fc
+ */
+export type ApiErrorCode = string;
 
 /**
  * Response from the API in case of an error.
  *
- * @prop code - A string error code, one of several predefined values. See
- *   ApiErrorCode. (Some older API endpoints, or older Zulip servers, may not
- *   include this value; in this case it will be the modern default code
- *   'BAD_REQUEST'.)
- * @prop msg - Human-readable error message. May be localized and so is not
+ * @prop code - A string error code, one of several predefined values. Defaults
+ *  to 'BAD_REQUEST'. See {@link ApiErrorCode} for details.
+ * @prop msg - Human-readable error message. May be localized, and so is not
  *    suitable for programmatic use; use 'code' instead.
  *
  * This type is not exact: some error responses may contain additional data.
