@@ -57,9 +57,12 @@ export type ApiErrorCode =
  *   'BAD_REQUEST'.)
  * @prop msg - Human-readable error message. May be localized and so is not
  *    suitable for programmatic use; use 'code' instead.
+ *
+ * This type is not exact: some error responses may contain additional data.
  */
-export type ApiResponseError = {|
+export type ApiResponseError = {
   code: ApiErrorCode,
   msg: string,
   result: 'error',
-|};
+  ...
+};
