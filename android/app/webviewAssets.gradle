@@ -14,6 +14,10 @@ gradle.projectsEvaluated {
     android.applicationVariants.all { variant ->
         // Accurate as of Android Gradle Plugin 3.4.0. Known to move between
         // releases; but alas, no stable API is known to the Internet at large.
+        //
+        // This should be the same as `project.ext.react.jsBundleDirRelease`
+        // for release builds. See commits 8f8a266af and 833d083a9 for examples
+        // of what went wrong when it changed out from under us.
         def assetsDir = "${buildDir}/intermediates/merged_assets/${variant.name}/out"
 
         def variantTask = tasks.create(
