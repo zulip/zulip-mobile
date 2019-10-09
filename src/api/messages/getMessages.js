@@ -42,11 +42,11 @@ type OriginalApiResponseMessages = {|
 
 /** Exported for tests only. */
 export const migrateMessages = (messages: ApiMessage[]): Message[] =>
-  messages.map((message: ApiMessage) => {
+  messages.map(message => {
     const { reactions, ...restMessage } = message;
     return {
       ...restMessage,
-      reactions: reactions.map((reaction: ApiMessageReaction) => {
+      reactions: reactions.map(reaction => {
         const { user, ...restReaction } = reaction;
         return {
           ...restReaction,
@@ -56,7 +56,7 @@ export const migrateMessages = (messages: ApiMessage[]): Message[] =>
     };
   });
 
-const migrateResponse = (response: OriginalApiResponseMessages): ApiResponseMessages => {
+const migrateResponse = response => {
   const { messages, ...restResponse } = response;
   return {
     ...restResponse,
