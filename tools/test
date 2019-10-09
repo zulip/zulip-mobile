@@ -97,14 +97,14 @@ run_android() {
     (
         cd android
 
-        ./gradlew -q assembleDebug assembleDebugUnitTest || exit
+        ./gradlew -q :app:assembleDebug :app:assembleDebugUnitTest || exit
 
         # The `-q` suppresses noise from warnings about obsolete build config
         # in our dependencies from the React Native ecosystem.
         # But it also suppresses the names of tests that failed.
         # So on failure, rerun without it.
-        ./gradlew -q testDebugUnitTest \
-            || ./gradlew testDebugUnitTest || exit
+        ./gradlew -q :app:testDebugUnitTest \
+            || ./gradlew :app:testDebugUnitTest || exit
     )
 }
 
