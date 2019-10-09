@@ -1,4 +1,4 @@
-/* @flow strict */
+/* @flow strict-local */
 
 /**
  * This entire code has been copied near verbatim from the WebApp's `pygments.scss` file.

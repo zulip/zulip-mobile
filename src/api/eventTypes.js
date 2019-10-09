@@ -7,7 +7,7 @@
  *
  * NB this is just a start -- far from complete.
  *
- * @flow strict
+ * @flow strict-local
  */
 
 import type { Message, Stream, UserPresence } from './modelTypes';

@@ -1,7 +1,7 @@
 /**
  * Types for things in the Zulip data model, as seen in the API.
  *
- * @flow strict
+ * @flow strict-local
  */
 
 //

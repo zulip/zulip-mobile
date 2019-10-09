@@ -1,4 +1,4 @@
-/* @flow strict */
+/* @flow strict-local */
 import { BRAND_COLOR } from './constants';
 
 type Props = {|

@@ -1,4 +1,4 @@
-/* @flow strict */
+/* @flow strict-local */
 
 /** The time at which we last started a timeout. */
 let lastTimeoutTime = 0;
