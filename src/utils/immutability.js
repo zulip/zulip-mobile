@@ -1,4 +1,4 @@
-/* @flow strict */
+/* @flow strict-local */
 
 export const removeItemsFromArray = (input: number[], itemsToRemove: number[]): number[] => {
   const output = input.filter((item: number) => !itemsToRemove.includes(item));

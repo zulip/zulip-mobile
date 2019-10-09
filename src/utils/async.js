@@ -1,4 +1,4 @@
-/* @flow strict */
+/* @flow strict-local */
 import progressiveTimeout from './progressiveTimeout';
 
 /** Like setTimeout(..., 0), but returns a Promise of the result. */

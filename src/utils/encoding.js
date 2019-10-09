@@ -1,4 +1,4 @@
-/* @flow strict */
+/* @flow strict-local */
 import base64 from 'base-64';
 
 export const xorHexStrings = (hex1: string, hex2: string) => {

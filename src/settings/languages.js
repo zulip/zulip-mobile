@@ -1,4 +1,4 @@
-/* @flow strict */
+/* @flow strict-local */
 /* eslint-disable spellcheck/spell-checker */
 
 export type Language = {

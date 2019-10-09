@@ -1,4 +1,4 @@
-/* @flow strict */
+/* @flow strict-local */
 
 /**
  * Pointer to the oldest message in a narrow.
