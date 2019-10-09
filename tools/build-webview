@@ -35,10 +35,6 @@ err() {
 # Parameters and environment
 ################################################################################
 
-# chdir to the current git repo's root
-ROOT="$(git rev-parse --show-toplevel)"
-cd "$ROOT"
-
 # Parse arguments. Sloppy, but sufficient for now.
 unset TARGET
 unset DEST
@@ -61,6 +57,14 @@ if  [ -z "${TARGET-}" ]; then
 elif [ -z "${DEST-}" ]; then
     usage; exit 2
 fi
+
+# If DEST is relative (or contains symlinks), make it absolute for the
+# sake of the glob checks below.
+DEST=$(readlink -m "$DEST")
+
+# chdir to the current git repo's root
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
 
 # Sanity-check DEST and TARGET.
 case "$TARGET" in
