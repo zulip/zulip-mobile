@@ -33,6 +33,20 @@ if (!Element.prototype.closest) {
   };
 }
 
+if (!String.prototype.startsWith) {
+  String.prototype.startsWith = function startsWith(search, rawPos) {
+    var pos = rawPos > 0 ? rawPos | 0 : 0;
+    return this.substring(pos, pos + search.length) === search;
+  };
+}
+
+if (!String.prototype.includes) {
+  String.prototype.includes = function includes(search) {
+    var start = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    return this.indexOf(search, start) !== -1;
+  };
+}
+
 var documentBody = document.body;
 
 if (!documentBody) {

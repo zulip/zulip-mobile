@@ -63,6 +63,8 @@ function arrayFromNodes<T>(arrayLike: NodeList<T>): T[] {
   return Array.prototype.slice.call(arrayLike);
 }
 
+/* eslint-disable no-extend-native */
+
 /*
  * Polyfill Element#closest.
  *
@@ -80,6 +82,30 @@ if (!Element.prototype.closest) {
     return element;
   };
 }
+
+/* Polyfill String#startsWith. Native in Mobile Safari 9, Chrome 49.
+   Taken (with minor edits) from the relevant MDN page. */
+if (!String.prototype.startsWith) {
+  // $FlowFixMe (polyfill)
+  String.prototype.startsWith = function startsWith(search, rawPos) {
+    const pos = rawPos > 0 ? rawPos | 0 : 0;
+    return this.substring(pos, pos + search.length) === search;
+  };
+}
+
+/* Polyfill String#includes. Native in Mobile Safari 9, Chrome 41.
+   Based directly on the current ECMAScript draft:
+     https://tc39.es/ecma262/#sec-string.prototype.includes */
+if (!String.prototype.includes) {
+  // $FlowFixMe (polyfill)
+  String.prototype.includes = function includes(search, start = 0) {
+    /* required by the spec, but not worth the trouble */
+    // if (search instanceof RegExp) { throw new TypeError('...'); }
+    return this.indexOf(search, start) !== -1;
+  };
+}
+
+/* eslint-enable no-extend-native */
 
 // We pull out document.body in one place, and check it's not null, in order
 // to provide that assertion to the type-checker.
