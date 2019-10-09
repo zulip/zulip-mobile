@@ -2,7 +2,16 @@
 import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Auth, Topic, Message, Reaction, Narrow, CrossRealmBot, User } from './api/apiTypes';
+import type {
+  Auth,
+  Topic,
+  Message,
+  Reaction,
+  ReactionType,
+  Narrow,
+  CrossRealmBot,
+  User,
+} from './api/apiTypes';
 import type { AppStyles } from './styles/theme';
 
 export type * from './reduxTypes';
@@ -113,7 +122,7 @@ export type AggregatedReaction = {|
   count: number,
   name: string,
   selfReacted: boolean,
-  type: string,
+  type: ReactionType,
 |};
 
 export type EditMessage = {|
