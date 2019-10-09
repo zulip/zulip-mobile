@@ -3,7 +3,6 @@ import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import type { Message, Narrow } from '../apiTypes';
 import type { Reaction } from '../modelTypes';
 import { apiGet } from '../apiFetch';
-import migrateMessages from './migrateMessages';
 
 type ApiResponseMessages = {|
   ...ApiResponseSuccess,
@@ -20,7 +19,7 @@ type ApiResponseMessages = {|
  * Note that reaction events have a *different* variation; see their
  * handling in `eventToAction`.
  */
-export type ApiMessageReaction = $ReadOnly<{|
+type ApiMessageReaction = $ReadOnly<{|
   ...$Diff<Reaction, {| user_id: mixed |}>,
   user: $ReadOnly<{|
     email: string,
@@ -29,7 +28,7 @@ export type ApiMessageReaction = $ReadOnly<{|
   |}>,
 |}>;
 
-export type ApiMessage = $ReadOnly<{|
+type ApiMessage = $ReadOnly<{|
   ...$Exact<Message>,
   reactions: $ReadOnlyArray<ApiMessageReaction>,
 |}>;
@@ -40,6 +39,22 @@ type OriginalApiResponseMessages = {|
   ...$Exact<ApiResponseMessages>,
   messages: ApiMessage[],
 |};
+
+/** Exported for tests only. */
+export const migrateMessages = (messages: ApiMessage[]): Message[] =>
+  messages.map((message: ApiMessage) => {
+    const { reactions, ...restMessage } = message;
+    return {
+      ...restMessage,
+      reactions: reactions.map((reaction: ApiMessageReaction) => {
+        const { user, ...restReaction } = reaction;
+        return {
+          ...restReaction,
+          user_id: user.id,
+        };
+      }),
+    };
+  });
 
 const migrateResponse = (response: OriginalApiResponseMessages): ApiResponseMessages => {
   const { messages, ...restResponse } = response;

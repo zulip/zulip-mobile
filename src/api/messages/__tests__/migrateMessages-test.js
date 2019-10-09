@@ -1,4 +1,4 @@
-import migrateMessages from '../migrateMessages';
+import { migrateMessages } from '../getMessages';
 
 describe('migrateMessages', () => {
   test('Replace user object with `user_id`', () => {
