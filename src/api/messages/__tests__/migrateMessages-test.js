@@ -9,14 +9,4 @@ describe('migrateMessages', () => {
 
     expect(migrateMessages(messages)).toEqual(expectedOutput);
   });
-
-  test('Do nothing `user_id` is already present', () => {
-    const messages = [{ reactions: [{ user_id: 1 }] }];
-    const messagesWithNoReactions = [{ id: 1 }];
-    const messagesWithNoReactions2 = [{ id: 1, reactions: [] }];
-
-    expect(migrateMessages(messages)).toEqual(messages);
-    expect(migrateMessages(messagesWithNoReactions)).toEqual(messagesWithNoReactions);
-    expect(migrateMessages(messagesWithNoReactions2)).toEqual(messagesWithNoReactions2);
-  });
 });

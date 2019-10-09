@@ -27,7 +27,10 @@ describe('fetchActions', () => {
           [streamNarrowStr]: [{ id: 1 }],
         },
       });
-      const response = { messages: [{ id: 1 }, { id: 2 }, { id: 3 }], result: 'success' };
+      const response = {
+        messages: [{ id: 1, reactions: [] }, { id: 2, reactions: [] }, { id: 3, reactions: [] }],
+        result: 'success',
+      };
       fetch.mockResponseSuccess(JSON.stringify(response));
 
       await store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1, true));
