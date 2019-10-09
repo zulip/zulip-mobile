@@ -19,7 +19,7 @@ type ApiResponseMessages = {|
  * Note that reaction events have a *different* variation; see their
  * handling in `eventToAction`.
  */
-type ApiMessageReaction = $ReadOnly<{|
+type ServerReaction = $ReadOnly<{|
   ...$Diff<Reaction, {| user_id: mixed |}>,
   user: $ReadOnly<{|
     email: string,
@@ -28,20 +28,20 @@ type ApiMessageReaction = $ReadOnly<{|
   |}>,
 |}>;
 
-type ApiMessage = $ReadOnly<{|
+type ServerMessage = $ReadOnly<{|
   ...$Exact<Message>,
-  reactions: $ReadOnlyArray<ApiMessageReaction>,
+  reactions: $ReadOnlyArray<ServerReaction>,
 |}>;
 
 // The actual response from the server.  We convert the data from this to
 // `ApiResponseMessages` before returning it to application code.
-type OriginalApiResponseMessages = {|
-  ...$Exact<ApiResponseMessages>,
-  messages: ApiMessage[],
+type ServerApiResponseMessages = {|
+  ...ApiResponseMessages,
+  messages: ServerMessage[],
 |};
 
 /** Exported for tests only. */
-export const migrateMessages = (messages: ApiMessage[]): Message[] =>
+export const migrateMessages = (messages: ServerMessage[]): Message[] =>
   messages.map(message => {
     const { reactions, ...restMessage } = message;
     return {
@@ -80,7 +80,7 @@ export default async (
   numAfter: number,
   useFirstUnread: boolean = false,
 ): Promise<ApiResponseMessages> => {
-  const response: OriginalApiResponseMessages = await apiGet(auth, 'messages', {
+  const response: ServerApiResponseMessages = await apiGet(auth, 'messages', {
     narrow: JSON.stringify(narrow),
     anchor,
     num_before: numBefore,
