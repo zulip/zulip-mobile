@@ -24,7 +24,7 @@ const randString = () => randInt(2 ** 54).toString(36);
 const userOrBotProperties = ({ name: _name }) => {
   const name = _name !== undefined ? _name : randString();
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
-  return {
+  return deepFreeze({
     avatar_url: `https://zulip.example.org/yo/avatar-${name}.png`,
 
     date_joined: `2014-04-${randInt(30)
@@ -36,38 +36,41 @@ const userOrBotProperties = ({ name: _name }) => {
     is_admin: false,
     timezone: 'UTC',
     user_id: randInt(10000),
-  };
+  });
 };
 
 /** Caveat emptor!  These values may not be representative. */
-export const makeUser = (args: { name?: string } = {}): User => ({
-  ...userOrBotProperties(args),
+export const makeUser = (args: { name?: string } = {}): User =>
+  deepFreeze({
+    ...userOrBotProperties(args),
 
-  is_bot: false,
-  // bot_type omitted
-  // bot_owner omitted
+    is_bot: false,
+    // bot_type omitted
+    // bot_owner omitted
 
-  is_guest: false,
+    is_guest: false,
 
-  // profile_data omitted
-});
+    // profile_data omitted
+  });
 
 /** Caveat emptor!  These values may not be representative. */
-export const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot => ({
-  ...userOrBotProperties(args),
-  is_bot: true,
-});
+export const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot =>
+  deepFreeze({
+    ...userOrBotProperties(args),
+    is_bot: true,
+  });
 
-const makeAccount = (user: User): Account => ({
-  realm: 'https://zulip.example.org',
-  email: user.email,
-  apiKey: randString() + randString(),
-  ackedPushToken: null,
-});
+const makeAccount = (user: User): Account =>
+  deepFreeze({
+    realm: 'https://zulip.example.org',
+    email: user.email,
+    apiKey: randString() + randString(),
+    ackedPushToken: null,
+  });
 
 export const selfUser: User = makeUser({ name: 'self' });
 export const selfAccount: Account = makeAccount(selfUser);
-export const selfAuth: Auth = authOfAccount(selfAccount);
+export const selfAuth: Auth = deepFreeze(authOfAccount(selfAccount));
 
 export const otherUser: User = makeUser({ name: 'other' });
 
@@ -77,14 +80,14 @@ export const makeStream = (args: { name?: string, description?: string } = {}): 
   const name = args.name !== undefined ? args.name : randString();
   const description =
     args.description !== undefined ? args.description : `On the ${randString()} of ${name}`;
-  return {
+  return deepFreeze({
     stream_id: randInt(1000),
     name,
     description,
     invite_only: false,
     is_announcement_only: false,
     history_public_to_subscribers: true,
-  };
+  });
 };
 
 export const stream: Stream = makeStream({
@@ -94,17 +97,17 @@ export const stream: Stream = makeStream({
 
 const displayRecipientFromUser = (user: User): PmRecipientUser => {
   const { email, full_name, user_id: id } = user;
-  return {
+  return deepFreeze({
     email,
     full_name,
     id,
     is_mirror_dummy: false,
     short_name: '', // what is this, anyway?
-  };
+  });
 };
 
 /** Boring properties common to all example Message objects. */
-const messagePropertiesBase = {
+const messagePropertiesBase = deepFreeze({
   isOutbox: false,
 
   // match_content omitted
@@ -118,7 +121,7 @@ const messagePropertiesBase = {
   reactions: [],
   subject_links: [],
   submessages: [],
-};
+});
 
 const messagePropertiesFromSender = (user: User) => {
   const {
@@ -128,7 +131,7 @@ const messagePropertiesFromSender = (user: User) => {
     full_name: sender_full_name,
   } = otherUser;
 
-  return {
+  return deepFreeze({
     sender_domain: '',
 
     avatar_url,
@@ -139,7 +142,7 @@ const messagePropertiesFromSender = (user: User) => {
     sender_id,
     sender_realm_str: 'zulip',
     sender_short_name: '',
-  };
+  });
 };
 
 /** Caveat emptor!  These values may not be representative. */
@@ -159,16 +162,16 @@ export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
     type: 'private',
   };
 
-  return { ...baseMessage, ...extra };
+  return deepFreeze({ ...baseMessage, ...extra });
 };
 
 const messagePropertiesFromStream = (stream1: Stream) => {
   const { stream_id, name: display_recipient } = stream1;
-  return {
+  return deepFreeze({
     recipient_id: 2567,
     display_recipient,
     stream_id,
-  };
+  });
 };
 
 /** Caveat emptor!  These values may not be representative. */
@@ -186,7 +189,7 @@ export const streamMessage = (extra?: $Rest<Message, {}>): Message => {
     type: 'stream',
   };
 
-  return { ...baseMessage, ...extra };
+  return deepFreeze({ ...baseMessage, ...extra });
 };
 
 const privateReduxStore = createStore(rootReducer);
