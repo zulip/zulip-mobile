@@ -35,11 +35,14 @@ export type ApiResponseSuccess = {|
  * A list of current error codes can be found at:
  *   https://github.com/zulip/zulip/blob/master/zerver/lib/exceptions.py
  *
- * Unfortunately, the `code` entry is a relatively late addition to the Zulip
- * API: prior to (about) version 1.7.0, it hasn't always been present in
- * responses. [1]  The modern default, when no other code has been defined, is
- * 'BAD_REQUEST'; we therefore synthesize that value when connecting to old
- * servers that don't provide an error code.
+ * Unfortunately, the `code` property is a relatively late addition to the
+ * Zulip API, introduced for version 1.7.0. [1]  The modern default, when no
+ * other code has been defined, is 'BAD_REQUEST'; we therefore synthesize
+ * that value when connecting to old servers that don't provide an error
+ * code.
+ *
+ * [1] Specifically at 1.7.0~2354 and ancestors, aka 9faa44af6^..709c3b50fc .
+ *     See: https://github.com/zulip/zulip/commit/709c3b50fc
  *
  * It's tempting to make ApiErrorCode an enumerated type, save for the dual
  * problem: when connecting to _newer_ Zulip servers, we may see values of
@@ -53,11 +56,9 @@ export type ApiResponseSuccess = {|
  * and, given the facts above, it's not clear that the existence of such a
  * mechanism would be helpful anyway.)
  *
- * Though unstable in the general case, `code` is still useful. It _is_
- * guaranteed to be returned, and stable, for certain known classes of errors
- * arising from certain known endpoints. Nonetheless: let its user beware.
- *
- * [1] Reference: https://github.com/zulip/zulip/commit/709c3b50fc
+ * Though unstable in the general case, `code` is still useful.  It _is_
+ * guaranteed to be stable for certain known classes of errors.
+ * Nonetheless: let its user beware.
  */
 export type ApiErrorCode = string;
 
