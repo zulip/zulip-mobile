@@ -53,12 +53,13 @@ export type ApiErrorCode =
  *
  * @prop code - A string error code, one of several predefined values. See
  *   ApiErrorCode. (Some older API endpoints, or older Zulip servers, may not
- *   include this value.)
+ *   include this value; in this case it will be the modern default code
+ *   'BAD_REQUEST'.)
  * @prop msg - Human-readable error message. May be localized and so is not
  *    suitable for programmatic use; use 'code' instead.
  */
 export type ApiResponseError = {|
-  code?: ApiErrorCode,
+  code: ApiErrorCode,
   msg: string,
   result: 'error',
 |};

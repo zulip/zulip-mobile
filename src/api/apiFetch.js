@@ -53,6 +53,10 @@ export const apiFetch = async (auth: Auth, route: string, params: {} = {}) =>
 
 const makeApiError = (httpStatus: number, data: ?{}) => {
   const error = new Error('API');
+  if (data) {
+    // $FlowFixMe
+    data.code = data.code ?? 'BAD_REQUEST';
+  }
   // $FlowFixMe
   error.data = data;
   // $FlowFixMe
