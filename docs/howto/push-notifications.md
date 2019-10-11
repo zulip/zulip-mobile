@@ -158,10 +158,77 @@ make it into the final code you send in a PR.  Here's another example:
 
 ## Testing client-side changes on iOS
 
-The Apple Push Notification service (APNs) does not allow our production
-bouncer to send notifications to a development build of the Zulip Mobile
-app.
+Apple makes this much more of a pain than it is on Android: APNs (*)
+does not allow our production bouncer to send notifications to a
+development build of the app.
 
-(Work in progress; given an appropriate dev certificate, we should be able
-to send notifications to a dev build of the app through Apple's sandbox
-instance of APNs.)
+(*) i.e. "Apple Push Notification service" -- Apple is very Apple
+about this name, styling it without an article and with the
+idiosyncratic capitalization shown.
+
+
+### Current workaround
+
+Make a release build of the app, and upload it [as an alpha][].
+Update your device to the alpha from TestFlight, and test there.
+
+[as an alpha]: release.md#build-and-upload-alpha-ios
+
+This works OK, but it's slow: about 5m to build and upload, and
+another few on Apple's servers before it's available in alpha.  In
+total perhaps 10m from "save and hit go" to actually getting to test.
+
+The long iteration cycle can be tolerable for changes that are very
+likely to need only zero to one revision -- because they're very
+small, or already well tested on Android -- but makes serious
+development basically infeasible.
+
+
+#### Tip: setting the iOS build number
+
+For making a throwaway alpha build like this approach calls for, you
+may find something like the following command helpful.  It sets the
+[iOS build number][] (which we normally leave set to 1) to a new value
+so the new build can coexist on TestFlight with previous builds:
+
+    $ set-buildno () {
+        version="$1" perl -i -0pe '
+	    s|<key>CFBundleVersion</key> \s* <string>\K [0-9.]+
+	     |$ENV{version}|xs
+	  ' ios/ZulipMobile/Info.plist &&
+	git commit -am "version: Bump iOS build number to $1."
+      }
+    $ set-buildno 2
+
+This is similar to the job of `tools/bump-version`, which operates on
+the user-facing [version number][].
+
+[iOS build number]: https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+[version number]: https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleshortversionstring
+
+
+### Possible future solution
+
+We believe that given an appropriate dev certificate, it should be
+possible to send notifications to a dev build of the app through
+Apple's sandbox instance of APNs.
+
+Open questions include how to teach the Zulip server and/or bouncer to
+talk to the sandbox APNs.
+
+* A good first step would be to do so from a development server,
+  without involving the bouncer.
+
+* To make the development experience as good as it is on Android,
+  though, it should be possible to get notifications from
+  zulipchat.com and chat.zulip.org in a development build of the app.
+
+* One way to arrange that might be to have the production bouncer talk
+  to either the production or staging instance of APNs; the client
+  tell the Zulip server which one to use for that client's
+  notifications, and the Zulip server pass that information on to the
+  bouncer.
+
+* Another might be to leave the bouncer out of it, and have the Zulip
+  server talk directly to the sandbox APNs when the client asks it to,
+  rather than talk to the bouncer.
