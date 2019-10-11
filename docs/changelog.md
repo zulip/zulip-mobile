@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.9.132 (2019-10-10)
+
 ### Highlights for users
 
 * Fixed issue where opening a notification wouldn't go to the specific
