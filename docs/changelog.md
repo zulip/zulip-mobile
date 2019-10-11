@@ -41,8 +41,9 @@ It doesn't include
 
 ### Highlights for users
 
-* Fixed issue where opening a notification wouldn't go to the specific
-  conversation if the app was already running in the background.
+* (Android) Fixed issue where opening a notification wouldn't go to
+  the specific conversation if the app was already running in the
+  background.
 
 * Fixed issue where we didn't set your availability to "active" until
   one minute after launching the app.
