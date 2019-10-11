@@ -2,7 +2,7 @@
 import type { Auth } from '../../types';
 import smoothScroll from './smoothScroll.min';
 import matchesPolyfill from './matchesPolyfill';
-import js from './generatedEs3';
+import compiledWebviewJs from './generatedEs3';
 import config from '../../config';
 
 export default (anchor: number, auth: Auth): string => `
@@ -12,8 +12,8 @@ ${smoothScroll}
 ${matchesPolyfill}
 window.enableWebViewErrorDisplay = ${config.enableWebViewErrorDisplay.toString()};
 document.addEventListener('DOMContentLoaded', function() {
-  ${js}
-  handleInitialLoad(${anchor}, ${JSON.stringify(auth)});
+  ${compiledWebviewJs}
+  compiledWebviewJs.handleInitialLoad(${anchor}, ${JSON.stringify(auth)});
 });
 </script>
 `;

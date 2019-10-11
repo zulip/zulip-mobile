@@ -549,8 +549,8 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
   sendScrollMessageIfListShort();
 };
 
-/** We call this when the webview's content first loads. */
-const handleInitialLoad = /* eslint-disable-line */ (anchor: number, auth: Auth) => {
+// We call this when the webview's content first loads.
+export const handleInitialLoad = /* eslint-disable-line */ (anchor: number, auth: Auth) => {
   scrollToAnchor(anchor);
   appendAuthToImages(auth);
   sendScrollMessageIfListShort();
