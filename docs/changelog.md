@@ -36,6 +36,22 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Fixed issue where opening a notification wouldn't go to the specific
+  conversation if the app was already running in the background.
+
+* Fixed issue where we didn't set your availability to "active" until
+  one minute after launching the app.
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Resolved issues: #3582, #3590, #2902
+
 
 ## 26.8.131 (2019-09-25)
 
@@ -51,6 +67,8 @@ experience.
 ### Highlights for developers
 
 * Resolved issues: #3591, #3592, #2209, #3058
+
+* Started sending typing "stop" events when message sent.
 
 
 ## 26.7.130 (2019-08-27)
