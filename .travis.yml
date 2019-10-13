@@ -6,8 +6,10 @@ jdk: oraclejdk8
 
 env:
   global:
-    - ANDROID_HOME=${TRAVIS_BUILD_DIR}/android-sdk
-    - PATH=${ANDROID_HOME}/:${ANDROID_HOME}/tools/:${ANDROID_HOME}/platform-tools/:${PATH}
+    - COVERALLS_REPO_TOKEN=4eYQDtWoBJlDz2QkxoQ2UcnmJFcOB7zkv
+  jobs:
+    - TEST_SUITE=''
+    - TEST_SUITE=functional
 
 android:
   components:
@@ -43,8 +45,5 @@ install:
   - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
 script:
-  - TERM=dumb tools/test --full
+  - TERM=dumb tools/test --full ${TEST_SUITE}
   - tools/verify-webview-js
-
-env:
-  - COVERALLS_REPO_TOKEN=4eYQDtWoBJlDz2QkxoQ2UcnmJFcOB7zkv
