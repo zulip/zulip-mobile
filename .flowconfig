@@ -29,6 +29,12 @@
 
 
 [include]
+; Effectively this line warns Flow that this path might be a symlink
+; (because the developer might be using `yarn link` to have this point into
+; their zulip.git worktree), and it should watch/inotify at the target.
+node_modules/@zulip/shared/
+; Add more as needed!  See also metro.config.js and docs/howto/yarn-link.md .
+
 
 [libs]
 node_modules/react-native/Libraries/react-native/react-native-interface.js
