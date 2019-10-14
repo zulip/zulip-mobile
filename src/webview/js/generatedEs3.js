@@ -71,7 +71,7 @@ var compiledWebviewJs = (function (exports) {
       var elementJsError = document.getElementById('js-error-detailed');
 
       if (elementJsError) {
-        elementJsError.innerHTML = ["Message: " + message, "Source: " + source, "Line: " + line + ":" + column, "Error: " + JSON.stringify(error), ''].map(escapeHtml).join('<br>');
+        elementJsError.innerHTML = ["Message: ".concat(message), "Source: ".concat(source), "Line: ".concat(line, ":").concat(column), "Error: ".concat(JSON.stringify(error)), ''].map(escapeHtml).join('<br>');
       }
     } else {
       var _elementJsError = document.getElementById('js-error-plain');
@@ -82,7 +82,7 @@ var compiledWebviewJs = (function (exports) {
       if (_elementJsError && elementSheetGenerated && elementSheetHide && elementSheetHide instanceof HTMLStyleElement && elementSheetHide.sheet && elementSheetGenerated instanceof HTMLStyleElement && elementSheetGenerated.sheet) {
         elementSheetHide.sheet.disabled = true;
         var height = _elementJsError.offsetHeight;
-        elementSheetGenerated.sheet.insertRule(".header-wrapper { top: " + height + "px; }", 0);
+        elementSheetGenerated.sheet.insertRule(".header-wrapper { top: ".concat(height, "px; }"), 0);
       }
     }
 
@@ -228,7 +228,7 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var setMessagesReadAttributes = function setMessagesReadAttributes(rangeHull) {
-    var element = document.querySelector("[data-msg-id='" + rangeHull.first + "']");
+    var element = document.querySelector("[data-msg-id='".concat(rangeHull.first, "']"));
 
     while (element) {
       if (element.classList.contains('message')) {
@@ -308,7 +308,7 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var scrollToAnchor = function scrollToAnchor(anchor) {
-    var anchorNode = document.getElementById("msg-" + anchor);
+    var anchorNode = document.getElementById("msg-".concat(anchor));
 
     if (anchorNode) {
       anchorNode.scrollIntoView({
@@ -341,7 +341,7 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var scrollToPreserve = function scrollToPreserve(msgId, prevBoundTop) {
-    var newElement = document.getElementById("msg-" + msgId);
+    var newElement = document.getElementById("msg-".concat(msgId));
 
     if (!newElement) {
       return;
@@ -365,7 +365,7 @@ var compiledWebviewJs = (function (exports) {
       }
 
       var delimiter = img.src.includes('?') ? '&' : '?';
-      img.src += delimiter + "api_key=" + auth.apiKey;
+      img.src += "".concat(delimiter, "api_key=").concat(auth.apiKey);
     });
   };
 
@@ -439,7 +439,7 @@ var compiledWebviewJs = (function (exports) {
     }
 
     var selector = uevent.messageIds.map(function (id) {
-      return "[data-msg-id=\\"" + id + "\\"]";
+      return "[data-msg-id=\\"".concat(id, "\\"]");
     }).join(',');
     var messageElements = arrayFromNodes(document.querySelectorAll(selector));
     messageElements.forEach(function (element) {
@@ -475,7 +475,7 @@ var compiledWebviewJs = (function (exports) {
     var value = e.getAttribute(name);
 
     if (value === null || value === undefined) {
-      throw new Error("Missing expected attribute " + name);
+      throw new Error("Missing expected attribute ".concat(name));
     }
 
     return value;

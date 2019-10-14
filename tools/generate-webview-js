@@ -60,10 +60,7 @@ ${es3Code.replace(/\\/g, '\\\\')}
 
         compact: false,
         comments: false,
-        plugins: [
-          ['@babel/transform-flow-strip-types'],
-          ['@babel/plugin-transform-template-literals', { loose: true }],
-        ],
+        plugins: [['@babel/transform-flow-strip-types']],
 
         /* See comments in src/webview/js/js.js for details about the target set
            selected here. */
