@@ -25,5 +25,5 @@ module.exports = {
     __TEST__: true,
   },
   setupFiles: ['./jest/globalFetch.js'],
-  setupFilesAfterEnv: ['./jest/jestSetup.js'],
+  setupFilesAfterEnv: ['./jest/jestSetup.js', 'jest-extended'],
 };

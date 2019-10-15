@@ -7,14 +7,14 @@ describe('responseToActions', () => {
     const events = [];
     const actions = responseToActions({}, events);
 
-    expect(actions).toEqual([]);
+    expect(actions).toBeEmpty();
   });
 
   test('filter out unknown event types and some known ones', () => {
     const events = [{ type: 'some unknown type' }, { type: 'heartbeat' }];
     const actions = responseToActions({}, events);
 
-    expect(actions).toEqual([]);
+    expect(actions).toBeEmpty();
   });
 
   test('when known events process and return actions', () => {
