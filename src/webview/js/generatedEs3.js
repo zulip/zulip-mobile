@@ -15,8 +15,9 @@ var compiledWebviewJs = (function (exports) {
   'use strict';
 
   var appendAuthToImages = (function (auth) {
-    var imageTags = document.getElementsByTagName('img');
-    Array.from(imageTags).forEach(function (img) {
+    var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
+    var imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
+    imageTags.forEach(function (img) {
       if (!img.src.startsWith(auth.realm)) {
         return;
       }
