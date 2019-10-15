@@ -16,12 +16,10 @@ var compiledWebviewJs = (function (exports) {
 
   var platformOS = window.navigator.userAgent.match(/iPhone|iPad|iPod/) ? 'ios' : 'android';
 
-  function arrayFrom(arrayLike) {
-    return Array.prototype.slice.call(arrayLike);
-  }
-
-  function arrayFromNodes(arrayLike) {
-    return Array.prototype.slice.call(arrayLike);
+  if (!Array.from) {
+    Array.from = function from(arr) {
+      return Array.prototype.slice.call(arr);
+    };
   }
 
   if (!Element.prototype.closest) {
@@ -353,7 +351,7 @@ var compiledWebviewJs = (function (exports) {
 
   var appendAuthToImages = function appendAuthToImages(auth) {
     var imageTags = document.getElementsByTagName('img');
-    arrayFrom(imageTags).forEach(function (img) {
+    Array.from(imageTags).forEach(function (img) {
       if (!img.src.startsWith(auth.realm)) {
         return;
       }
@@ -441,7 +439,7 @@ var compiledWebviewJs = (function (exports) {
     var selector = uevent.messageIds.map(function (id) {
       return "[data-msg-id=\\"".concat(id, "\\"]");
     }).join(',');
-    var messageElements = arrayFromNodes(document.querySelectorAll(selector));
+    var messageElements = Array.from(document.querySelectorAll(selector));
     messageElements.forEach(function (element) {
       element.setAttribute('data-read', 'true');
     });

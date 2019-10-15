@@ -40,30 +40,17 @@ import type { MessageListEvent } from '../webViewEventHandlers';
 /** Like RN's `Platform.OS`. */
 const platformOS = window.navigator.userAgent.match(/iPhone|iPad|iPod/) ? 'ios' : 'android';
 
-/**
- * Convert an array-like object to an actual array.
- *
- * A substitute for `Array.from`, which doesn't exist in the WebViews of some
- * of our supported platforms.
- */
-function arrayFrom<T>(arrayLike: HTMLCollection<T>): T[] {
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Array-like_objects
-  return Array.prototype.slice.call(arrayLike);
-}
-
-/**
- * A substitute for `Array.from`, for `NodeList` input.
- *
- * See `arrayFrom`.  Duplicated to satisfy Flow.
- */
-// On at least Flow v0.78.0, writing `HTMLCollection<T> | NodeList<T>`
-// worked fine for `HTMLCollection` arguments, but not `NodeList`.  Shrug.
-function arrayFromNodes<T>(arrayLike: NodeList<T>): T[] {
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Array-like_objects
-  return Array.prototype.slice.call(arrayLike);
-}
-
 /* eslint-disable no-extend-native */
+
+/* Polyfill Array.from. Native in Chrome 45 and at least Safari 13.
+   Leaves out some of the fancy features (see MDN). */
+type ArrayLike<T> = { [indexer: number]: T, length: number, ... };
+if (!Array.from) {
+  // $FlowFixMe (polyfill)
+  Array.from = function from<T>(arr: ArrayLike<T>): Array<T> {
+    return Array.prototype.slice.call(arr);
+  };
+}
 
 /*
  * Polyfill Element#closest.
@@ -494,7 +481,7 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
 
 const appendAuthToImages = auth => {
   const imageTags = document.getElementsByTagName('img');
-  arrayFrom(imageTags).forEach(img => {
+  Array.from(imageTags).forEach(img => {
     if (!img.src.startsWith(auth.realm)) {
       return;
     }
@@ -592,7 +579,7 @@ const handleUpdateEventMessagesRead = (uevent: WebViewUpdateEventMessagesRead) =
     return;
   }
   const selector = uevent.messageIds.map(id => `[data-msg-id="${id}"]`).join(',');
-  const messageElements = arrayFromNodes(document.querySelectorAll(selector));
+  const messageElements = Array.from(document.querySelectorAll(selector));
   messageElements.forEach(element => {
     element.setAttribute('data-read', 'true');
   });
