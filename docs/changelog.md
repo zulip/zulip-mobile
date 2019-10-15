@@ -36,6 +36,20 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+(Android-only release.)
+
+Fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+* In f65b50c85 (#3644), fixed an issue affecting the message list on
+  very old Chrome versions.  (Found on Android K, L, and M on the
+  small fraction of devices where the WebView implementation hasn't
+  been getting updated.)
+
 
 ## 26.9.132 (2019-10-10)
 
