@@ -463,14 +463,31 @@ blockquote {
   right: 5px;
   bottom: 15px;
 }
-#scroll-bottom a {
+.scroll-bottom-link {
+  padding: 8px;
+  display: block;
+}
+.scroll-bottom-link * {
+  pointer-events: none;
+}
+#scroll-bottom.hidden {
+  transition: opacity 300ms ease-out, transform 300ms ease-in;
+  transform: translate(0, 50px);
+  opacity: 0;
+  display: block;
+}
+#scroll-bottom:not(.hidden) {
+  transition: opacity 300ms ease-in, transform 300ms ease-out;
+  opacity: 1;
+}
+.scroll-bottom-circle {
   display: block;
   width: 32px;
   height: 32px;
   border-radius: 50%;
   background: hsla(170, 48%, 54%, 0.5);
 }
-#scroll-bottom .text {
+.scroll-bottom-text {
   clip: rect(0 0 0 0);
   overflow: hidden;
   position: absolute;

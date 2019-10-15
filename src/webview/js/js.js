@@ -657,7 +657,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
-  if (target.matches('.scroll-bottom')) {
+  if (target.matches('.scroll-bottom-link')) {
     scrollToBottom();
     return;
   }
