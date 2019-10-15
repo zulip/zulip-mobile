@@ -14,6 +14,24 @@ export default `
 var compiledWebviewJs = (function (exports) {
   'use strict';
 
+  var appendAuthToImages = (function (auth) {
+    var imageTags = document.getElementsByTagName('img');
+    Array.from(imageTags).forEach(function (img) {
+      if (!img.src.startsWith(auth.realm)) {
+        return;
+      }
+
+      var srcPath = img.src.substring(auth.realm.length);
+
+      if (!(srcPath.startsWith('/user_uploads/') || srcPath.startsWith('/thumbnail?') || srcPath.startsWith('/avatar/'))) {
+        return;
+      }
+
+      var delimiter = img.src.includes('?') ? '&' : '?';
+      img.src += "".concat(delimiter, "api_key=").concat(auth.apiKey);
+    });
+  });
+
   var platformOS = window.navigator.userAgent.match(/iPhone|iPad|iPod/) ? 'ios' : 'android';
 
   if (!Array.from) {
@@ -347,24 +365,6 @@ var compiledWebviewJs = (function (exports) {
 
     var newBoundRect = newElement.getBoundingClientRect();
     window.scrollBy(0, newBoundRect.top - prevBoundTop);
-  };
-
-  var appendAuthToImages = function appendAuthToImages(auth) {
-    var imageTags = document.getElementsByTagName('img');
-    Array.from(imageTags).forEach(function (img) {
-      if (!img.src.startsWith(auth.realm)) {
-        return;
-      }
-
-      var srcPath = img.src.substring(auth.realm.length);
-
-      if (!(srcPath.startsWith('/user_uploads/') || srcPath.startsWith('/thumbnail?') || srcPath.startsWith('/avatar/'))) {
-        return;
-      }
-
-      var delimiter = img.src.includes('?') ? '&' : '?';
-      img.src += "".concat(delimiter, "api_key=").concat(auth.apiKey);
-    });
   };
 
   var handleUpdateEventContent = function handleUpdateEventContent(uevent) {
