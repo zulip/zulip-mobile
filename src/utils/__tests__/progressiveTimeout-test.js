@@ -6,11 +6,11 @@ describe('progressiveTimeout', () => {
     const start = Date.now();
     await progressiveTimeout();
     const duration = Date.now() - start;
-    expect(duration < 1000).toBeTruthy();
+    expect(duration).toBeLessThan(1000);
 
     const start2 = Date.now();
     await progressiveTimeout();
     const duration2 = Date.now() - start2;
-    expect(duration2 > 80).toBeTruthy();
+    expect(duration2).toBeGreaterThan(80);
   });
 });
