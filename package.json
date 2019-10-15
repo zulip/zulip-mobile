@@ -103,6 +103,7 @@
     "flow-typed": "^2.4.0",
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
+    "jest-extended": "^0.11.2",
     "metro-react-native-babel-preset": "^0.54.1",
     "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0",
