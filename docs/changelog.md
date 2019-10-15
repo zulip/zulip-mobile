@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## (Android) 26.10.133 (2019-10-14)
+
 ### Highlights for users
 
 (Android-only release.)
