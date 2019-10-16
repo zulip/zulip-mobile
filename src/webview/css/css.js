@@ -154,6 +154,9 @@ hr {
   width: 100%;
   border-radius: 3px;
 }
+.message-me {
+  font-style: italic;
+}
 .content {
   width: 100%;
   max-width: 100%;
