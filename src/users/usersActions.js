@@ -6,10 +6,10 @@ import type { Dispatch, GetState, Narrow } from '../types';
 import * as api from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth, tryGetAuth } from '../selectors';
-import { isPrivateOrGroupNarrow } from '../utils/narrow';
+import { isPrivateOrGroupNarrow, caseNarrowPartial } from '../utils/narrow';
+import { getAllUsersByEmail } from './userSelectors';
 
 let lastReportPresence = new Date(0);
-let lastTypingStart = new Date(0);
 
 export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean = false) => async (
   dispatch: Dispatch,
@@ -35,6 +35,76 @@ export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean =
   });
 };
 
+const typingWorkerBase = auth => ({
+  get_current_time: () => new Date().getTime(),
+
+  notify_server_start: (user_ids_array: number[]) => {
+    api.typing(auth, JSON.stringify(user_ids_array), 'start');
+  },
+
+  notify_server_stop: (user_ids_array: number[]) => {
+    api.typing(auth, JSON.stringify(user_ids_array), 'stop');
+  },
+});
+
+/**
+ * Tell the server the user is, is still, or is no longer typing, as needed.
+ *
+ * This can and should be called frequently, on each keystroke.  The
+ * implementation sends "still typing" notices at an appropriate throttled
+ * rate, and keeps a timer to send a "stopped typing" notice when the user
+ * hasn't typed for a few seconds.
+ *
+ * Zulip supports typing notifications only for PMs (both 1:1 and group); so
+ * composing a stream message should be treated here like composing no
+ * message at all.
+ *
+ * Call with `recipientIds` of `null` when the user actively stops composing
+ * a message.  If the user switches from one set of recipients to another,
+ * there's no need to call with `null` in between; the implementation tracks
+ * the change and behaves appropriately.
+ *
+ * @param recipientIds The users the message being composed is addressed to;
+ *   `null` if no message is being composed anymore.
+ */
+const maybeNotifyTyping = (auth, recipientIds: number[] | null) => {
+  // We rely on a few facts about the implementation of typing_status.
+  // TODO refactor its API to something that reflects the needed facts
+  //   directly... e.g. one closer to this function's interface.
+  //
+  // Fact: get_recipient has just one call site, at the top of
+  // handle_text_input.  Effectively its *return value* behaves as a
+  // parameter to handle_text_input.
+  //
+  // Fact: is_valid_conversation also has just one call site, also in
+  // handle_text_input.  Barring a pathological notify_server_stop, it might
+  // as well be at the function's top.  So effectively its return value also
+  // behaves as a parameter to handle_text_input.
+  //
+  // So for both get_recipient and is_valid_conversation, we always just
+  // pass constant functions that return our intended values for those
+  // logical "parameters".
+  if (!recipientIds) {
+    // A fun fact we don't directly rely on: calling `handle_text_input`
+    // with these arguments would have exactly the same effect as `stop`.
+    typing_status.stop({
+      ...typingWorkerBase(auth),
+      // (These two aren't actually consulted by `stop`.)
+      get_recipient: () => undefined,
+      is_valid_conversation: () => false,
+    });
+  } else {
+    typing_status.handle_text_input({
+      ...typingWorkerBase(auth),
+      get_recipient: () => recipientIds,
+
+      // The `is_valid_conversation` implementation in the webapp has a few
+      // wrinkles we don't see a need to include.
+      is_valid_conversation: () => true,
+    });
+  }
+};
+
 export const sendTypingStart = (narrow: Narrow) => async (
   dispatch: Dispatch,
   getState: GetState,
@@ -43,27 +113,24 @@ export const sendTypingStart = (narrow: Narrow) => async (
     return;
   }
 
-  const nopWorker = {
-    get_recipient: () => undefined,
-    is_valid_conversation: () => true,
-    get_current_time: () => new Date().getTime(),
-    notify_server_start: () => {},
-    notify_server_stop: () => {},
-  };
-  typing_status.handle_text_input(nopWorker);
-
-  const now = new Date();
-  if (differenceInSeconds(now, lastTypingStart) < 15) {
-    // TODO throttle properly -- e.g. if typing furiously for 14s,
-    //      don't treat as if just typed briefly at start
-    return;
-  }
-  lastTypingStart = now;
+  const usersByEmail = getAllUsersByEmail(getState());
+  const recipientIds = caseNarrowPartial(narrow, {
+    pm: email => [email],
+    groupPm: emails => emails,
+  }).map(email => {
+    const user = usersByEmail.get(email);
+    if (!user) {
+      throw new Error('unknown user');
+    }
+    return user.user_id;
+  });
 
   const auth = getAuth(getState());
-  api.typing(auth, narrow[0].operand, 'start');
+  maybeNotifyTyping(auth, recipientIds);
 };
 
+// TODO call this on more than send: blur, navigate away,
+//   delete all contents, etc.
 export const sendTypingStop = (narrow: Narrow) => async (
   dispatch: Dispatch,
   getState: GetState,
@@ -73,6 +140,5 @@ export const sendTypingStop = (narrow: Narrow) => async (
   }
 
   const auth = getAuth(getState());
-  api.typing(auth, narrow[0].operand, 'stop');
-  lastTypingStart = new Date(0);
+  maybeNotifyTyping(auth, null);
 };
