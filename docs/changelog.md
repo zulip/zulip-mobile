@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.11.134 (2019-10-17)
+
 ### Highlights for users
 
 * If you use multiple Zulip accounts, the app now switches to the
