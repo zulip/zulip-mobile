@@ -113,6 +113,7 @@ def enableSeparateBuildPerCPUArchitecture = false
  * Run Proguard to shrink the Java bytecode in release builds.
  */
 def enableProguardInReleaseBuilds = false
+def shrinkResourcesInProguardBuilds = false
 
 android {
     defaultConfig {
@@ -158,6 +159,9 @@ android {
         }
         release {
             minifyEnabled enableProguardInReleaseBuilds
+            // `minifyEnabled` is required for `shrinkResources`
+            shrinkResources (enableProguardInReleaseBuilds && shrinkResourcesInProguardBuilds)
+
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             if (project.hasProperty('signed')) {
                 signingConfig signingConfigs.release
