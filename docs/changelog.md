@@ -36,6 +36,20 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* If you use multiple Zulip accounts, the app now switches to the
+  right one when you open a notification.
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Resolved issues: much of #2295 (via PR #3648); and issue described
+  in PR #3084.
+
 
 ## (Android) 26.10.133 (2019-10-14)
 
