@@ -135,10 +135,10 @@ function midMessagePeer(top, bottom) {
   return midElements[midElements.length - 3];
 }
 
-function walkToMessage(start, step) {
+function walkToElement(start, elementType, step) {
   var element = start;
 
-  while (element && !element.classList.contains('message')) {
+  while (element && !element.classList.contains(elementType)) {
     element = element[step];
   }
 
@@ -146,27 +146,25 @@ function walkToMessage(start, step) {
 }
 
 function firstMessage() {
-  return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+  return walkToElement(documentBody.firstElementChild, 'message', 'nextElementSibling');
 }
 
 function lastMessage() {
-  return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+  return walkToElement(documentBody.lastElementChild, 'message', 'previousElementSibling');
 }
 
-var minOverlap = 20;
-
-function isVisible(element, top, bottom) {
+function isVisible(element, top, bottom, minOverlap) {
   var rect = element.getBoundingClientRect();
   return top + minOverlap < rect.bottom && rect.top + minOverlap < bottom;
 }
 
 function someVisibleMessage(top, bottom) {
   function checkVisible(candidate) {
-    return candidate && isVisible(candidate, top, bottom) ? candidate : null;
+    return candidate && isVisible(candidate, top, bottom, 20) ? candidate : null;
   }
 
   var midPeer = midMessagePeer(top, bottom);
-  return checkVisible(walkToMessage(midPeer, 'previousElementSibling')) || checkVisible(walkToMessage(midPeer, 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
+  return checkVisible(walkToElement(midPeer, 'message', 'previousElementSibling')) || checkVisible(walkToElement(midPeer, 'message', 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
 }
 
 function idFromMessage(element) {
@@ -188,7 +186,7 @@ function visibleMessageIds() {
   function walkElements(start, step) {
     var element = start;
 
-    while (element && isVisible(element, top, bottom)) {
+    while (element && isVisible(element, top, bottom, 20)) {
       if (element.classList.contains('message')) {
         var id = idFromMessage(element);
         first = Math.min(first, id);
@@ -206,6 +204,29 @@ function visibleMessageIds() {
     first: first,
     last: last
   };
+}
+
+function getFirstVisibleMessage() {
+  var header = document.getElementsByClassName('header')[0];
+  var top = header ? header.offsetHeight : 0;
+  var bottom = viewportHeight;
+  var message = document.createElement('null');
+
+  function walkElements(start) {
+    var element = start;
+
+    while (element && isVisible(element, top, bottom, 0)) {
+      if (element.classList.contains('message') || element.classList.contains('header')) {
+        message = element;
+      }
+
+      element = element.previousElementSibling;
+    }
+  }
+
+  var start = someVisibleMessage(top, bottom);
+  walkElements(start);
+  return message;
 }
 
 var getMessageNode = function getMessageNode(node) {
@@ -258,6 +279,39 @@ var sendScrollMessage = function sendScrollMessage() {
   });
   setMessagesReadAttributes(rangeHull);
   prevMessageRange = messageRange;
+};
+
+var dateTimeout;
+
+var handleStickyDatePill = function handleStickyDatePill() {
+  var firstVisibleMessage = getFirstVisibleMessage();
+  var timerowAbove = walkToElement(firstVisibleMessage, 'timerow', 'previousElementSibling');
+
+  if (!(firstVisibleMessage && timerowAbove)) {
+    return;
+  }
+
+  var replaceableDate = timerowAbove.getElementsByClassName('date-pill')[0].innerHTML;
+  var datePillSticky = document.getElementById('date-pill-sticky');
+
+  if (!datePillSticky) {
+    throw new Error('No date-pill-sticky element!');
+  }
+
+  if (!replaceableDate) {
+    throw new Error('No date-pill element in timerow!');
+  }
+
+  datePillSticky.classList.remove('hide');
+
+  if (datePillSticky.innerHTML !== replaceableDate) {
+    datePillSticky.innerHTML = replaceableDate;
+  }
+
+  clearTimeout(dateTimeout);
+  dateTimeout = setTimeout(function () {
+    return datePillSticky.classList.add('hide');
+  }, 1000);
 };
 
 var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
@@ -606,6 +660,7 @@ documentBody.addEventListener('touchcancel', function (e) {
   clearTimeout(longPressTimeout);
 });
 documentBody.addEventListener('touchmove', function (e) {
+  handleStickyDatePill();
   clearTimeout(longPressTimeout);
 });
 documentBody.addEventListener('drag', function (e) {

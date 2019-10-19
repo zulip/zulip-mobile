@@ -240,12 +240,13 @@ function midMessagePeer(top: number, bottom: number): ?Element {
   return midElements[midElements.length - 3];
 }
 
-function walkToMessage(
+function walkToElement(
   start: ?Element,
+  elementType: 'message' | 'timerow',
   step: 'nextElementSibling' | 'previousElementSibling',
 ): ?Element {
   let element: ?Element = start;
-  while (element && !element.classList.contains('message')) {
+  while (element && !element.classList.contains(elementType)) {
     // $FlowFixMe: doesn't use finite type of `step`
     element = element[step];
   }
@@ -253,17 +254,15 @@ function walkToMessage(
 }
 
 function firstMessage(): ?Element {
-  return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+  return walkToElement(documentBody.firstElementChild, 'message', 'nextElementSibling');
 }
 
 function lastMessage(): ?Element {
-  return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+  return walkToElement(documentBody.lastElementChild, 'message', 'previousElementSibling');
 }
 
-/** The minimum height (in px) to see of a message to call it visible. */
-const minOverlap = 20;
-
-function isVisible(element: Element, top: number, bottom: number): boolean {
+/** minOverlap: The minimum height (in px) to see of a message to call it visible. */
+function isVisible(element: Element, top: number, bottom: number, minOverlap: number): boolean {
   const rect = element.getBoundingClientRect();
   return top + minOverlap < rect.bottom && rect.top + minOverlap < bottom;
 }
@@ -271,7 +270,7 @@ function isVisible(element: Element, top: number, bottom: number): boolean {
 /** Returns some message element which is visible, if any. */
 function someVisibleMessage(top: number, bottom: number): ?Element {
   function checkVisible(candidate: ?Element): ?Element {
-    return candidate && isVisible(candidate, top, bottom) ? candidate : null;
+    return candidate && isVisible(candidate, top, bottom, 20) ? candidate : null;
   }
   // Algorithm: if some message-peer is visible, then either the message
   // just before or after it should be visible.  If not, we must be at one
@@ -279,8 +278,8 @@ function someVisibleMessage(top: number, bottom: number): ?Element {
   // (or both) should be visible.
   const midPeer = midMessagePeer(top, bottom);
   return (
-    checkVisible(walkToMessage(midPeer, 'previousElementSibling'))
-    || checkVisible(walkToMessage(midPeer, 'nextElementSibling'))
+    checkVisible(walkToElement(midPeer, 'message', 'previousElementSibling'))
+    || checkVisible(walkToElement(midPeer, 'message', 'nextElementSibling'))
     || checkVisible(firstMessage())
     || checkVisible(lastMessage())
   );
@@ -311,7 +310,7 @@ function visibleMessageIds(): { first: number, last: number } {
   // Walk through visible elements, observing message IDs.
   function walkElements(start: ?Element, step: 'nextElementSibling' | 'previousElementSibling') {
     let element = start;
-    while (element && isVisible(element, top, bottom)) {
+    while (element && isVisible(element, top, bottom, 20)) {
       if (element.classList.contains('message')) {
         const id = idFromMessage(element);
         first = Math.min(first, id);
@@ -327,6 +326,29 @@ function visibleMessageIds(): { first: number, last: number } {
   walkElements(start, 'previousElementSibling');
 
   return { first, last };
+}
+
+function getFirstVisibleMessage(): Element {
+  // Find if a header exists, use its height as top if it does.
+  const header = document.getElementsByClassName('header')[0];
+  const top = header ? header.offsetHeight : 0;
+  const bottom = viewportHeight;
+  let message = document.createElement('null');
+
+  function walkElements(start: ?Element) {
+    let element = start;
+    while (element && isVisible(element, top, bottom, 0)) {
+      if (element.classList.contains('message') || element.classList.contains('header')) {
+        message = element;
+      }
+      element = element.previousElementSibling;
+    }
+  }
+
+  const start = someVisibleMessage(top, bottom);
+  walkElements(start);
+
+  return message;
 }
 
 /** DEPRECATED */
@@ -393,6 +415,32 @@ const sendScrollMessage = () => {
   });
   setMessagesReadAttributes(rangeHull);
   prevMessageRange = messageRange;
+};
+
+let dateTimeout: TimeoutID;
+const handleStickyDatePill = () => {
+  const firstVisibleMessage = getFirstVisibleMessage();
+  const timerowAbove = walkToElement(firstVisibleMessage, 'timerow', 'previousElementSibling');
+  if (!(firstVisibleMessage && timerowAbove)) {
+    return;
+  }
+
+  const replaceableDate = timerowAbove.getElementsByClassName('date-pill')[0].innerHTML;
+  const datePillSticky = document.getElementById('date-pill-sticky');
+  if (!datePillSticky) {
+    throw new Error('No date-pill-sticky element!');
+  }
+  if (!replaceableDate) {
+    throw new Error('No date-pill element in timerow!');
+  }
+
+  datePillSticky.classList.remove('hide');
+  if (datePillSticky.innerHTML !== replaceableDate) {
+    datePillSticky.innerHTML = replaceableDate;
+  }
+
+  clearTimeout(dateTimeout);
+  dateTimeout = setTimeout(() => datePillSticky.classList.add('hide'), 1000);
 };
 
 // If the message list is too short to scroll, fake a scroll event
@@ -782,6 +830,7 @@ documentBody.addEventListener('touchcancel', (e: TouchEvent) => {
 });
 
 documentBody.addEventListener('touchmove', (e: TouchEvent) => {
+  handleStickyDatePill();
   clearTimeout(longPressTimeout);
 });
 

@@ -11,9 +11,14 @@ type InitOptionsType = {|
   showMessagePlaceholders: boolean,
 |};
 
-export default (content: string, theme: ThemeName, initOptions: InitOptionsType) => template`
+export default (
+  content: string,
+  theme: ThemeName,
+  hasRecipientHeaders: boolean,
+  initOptions: InitOptionsType,
+) => template`
 $!${script(initOptions.anchor, initOptions.auth)}
-$!${css(theme)}
+$!${css(theme, hasRecipientHeaders)}
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <body style="overflow-x: hidden;">

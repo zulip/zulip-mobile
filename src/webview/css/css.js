@@ -5,7 +5,7 @@ import cssPygments from './cssPygments';
 import cssEmojis from './cssEmojis';
 import cssNight from './cssNight';
 
-const cssBase = `
+const cssBase = (hasRecipientHeaders: boolean) => `
 html {
   -webkit-user-select: none; /* Safari 3.1+ */
   -moz-user-select: none; /* Firefox 2+ */
@@ -77,24 +77,32 @@ hr {
   justify-content: space-between;
   margin-bottom: 6px;
 }
+#date-pill-sticky {
+  position: fixed;
+  top: ${hasRecipientHeaders ? '2.3em' : '0.3em'};
+  left: 50%;
+  z-index: 100;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  transform: translateX(-50%);
+  transition: top 0.2s;
+}
+#date-pill-sticky.hide {
+  top: -2.5em;
+}
+#date-pill-sticky:empty {
+  display: none;
+}
 .timerow {
   text-align: center;
-  color: hsl(0, 0%, 60%);
-  display: flex;
-  align-items: center;
-  padding: 8px 0;
-}
-.timerow-left,
-.timerow-right {
-  flex: 1;
-  height: 1px;
   margin: 8px;
 }
-.timerow-left {
-  background: -webkit-linear-gradient(left, transparent 10%, hsl(0, 0%, 60%) 100%);
+.date-pill, #date-pill-sticky {
+  color: hsla(0, 0%, 0%, 0.65);
+  background: hsl(0, 0%, 92%);
+  border-radius: 3px;
 }
-.timerow-right {
-  background: -webkit-linear-gradient(left, hsl(0, 0%, 60%) 0%, transparent 90%);
+.date-pill, #date-pill-sticky {
+  padding: 0.25em 0.5em;
 }
 .message,
 .loading {
@@ -178,7 +186,7 @@ hr {
   position: -webkit-sticky;
   position: sticky;
   top: -1px;
-  z-index: 100;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
 }
@@ -484,9 +492,9 @@ blockquote {
 }
 `;
 
-export default (theme: ThemeName) => `
+export default (theme: ThemeName, hasRecipientHeaders: boolean) => `
 <style>
-${cssBase}
+${cssBase(hasRecipientHeaders)}
 ${theme === 'night' ? cssNight : ''}
 ${cssPygments(theme === 'night')}
 ${cssEmojis}
