@@ -63,7 +63,11 @@ ${es3Code.replace(/\\/g, '\\\\')}
         plugins: [['@babel/transform-flow-strip-types']],
 
         /* See comments in src/webview/js/js.js for details about the target set
-           selected here. */
+           selected here.
+
+           See comments below about (the absence of) automatic polyfills via
+           `core-js`.
+        */
         presets: [['@babel/preset-env', { targets: { android: '4.4', chrome: 30, safari: 10 } }]],
       }),
     ],
@@ -102,3 +106,56 @@ ${es3Code.replace(/\\/g, '\\\\')}
   asset file. Only a <script> tag and a one-to-three-line invocation should need
   to be emitted into the dynamically-rendered HTML.
 */
+
+/**
+ * # Babel, core-js and polyfills
+ *
+ * The `@babel/preset-env` package relies on the definitions and compatibility
+ * declarations in `core-js` to select polyfills for rollup to include.
+ *
+ * Alas, this induces problems.
+ *
+ * The `core-js` package is dedicated to 100% compatibility, even on very old
+ * (ES3) engines. This means that its compatibility profile includes polyfills
+ * for marginal (read: irrelevant) functionality like `@@species` support
+ * [c#644].
+ *
+ * Furthermore, the compatibility table checks aren't run recursively on the
+ * dependencies of those polyfills; instead, the polyfills' dependencies are
+ * polyfilled automatically. [t] `core-js`'s feature-detection _should_ prevent
+ * these unnecessary polyfills from actually attaching to global objects; but
+ * Rollup is entirely oblivious to this, and will (as directed by `core-js`)
+ * cheerfully push into the final bundle all sorts of unnecessary-but-
+ * `require()`d polyfills containing all sorts of support functionality that,
+ * due to their runtime checks, can't be tree-shaken away. [c#388]
+ *
+ * It is possible to exclude individual polyfills on an item-by-item basis
+ * [b.excl]; but this will only block detection at the top level by
+ * @babel/preset-env. Even `core-js`'s own exclusion system [c.cloa] will not
+ * honor internal polyfill block requests. [c#388]
+ *
+ * It's bad enough that `core-js` inflates the bundle with things like IE8- bug
+ * workarounds [t] [c#388] and unstripped comments [t], and that it replaces
+ * fast, sufficient native code with complex, less-JITtable code. Worse, though,
+ * is that its aggressive replacement of native functionality can introduce
+ * slowdown even on formally-unrelated code paths. [b#5771] [c#306]
+ *
+ * For all that, `core-js` _does_ work. Using it, or not using it, is a
+ * tradeoff... but then, so is supporting older WebViews at all.
+ *
+ * See the comments heading `js.js` for details about our version-support
+ * strategy.
+ */
+
+/**
+ * Footnotes (separated to keep the paragraph rewrapper from trying to wrap
+ * them):
+ *
+ *   [b#5771] https://github.com/babel/babel/issues/5771
+ *   [b.excl] https://babeljs.io/docs/en/babel-preset-env#exclude
+ *   [c#306] https://github.com/zloirock/core-js/issues/306
+ *   [c#388] https://github.com/zloirock/core-js/issues/388
+ *   [c#644] https://github.com/zloirock/core-js/issues/644
+ *   [c.cloa] https://github.com/zloirock/core-js#configurable-level-of-aggressiveness
+ *   [t] Observed in tests.
+ */
