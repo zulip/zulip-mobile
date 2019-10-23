@@ -1307,10 +1307,10 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-"@zulip/shared@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.1.tgz#f388018a0d3532703e0d3745facde41c025fd634"
-  integrity sha512-Nbd6Z2k/MbX75brPknF+UHyTmt8UPKWsNeec4hqRTk2ppx2pQ2IptCBlM7MjdX0mC0D88i/wGt2lLNAAdxZV3g==
+"@zulip/shared@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.2.tgz#14613950551c96d88f7b8929056ac1b640f15343"
+  integrity sha512-Thts/Mu/9ry4M0K4RjL4Gym8MTxkcnk7lkBuH8hiMkIEbWoK5CaHSRxvn96wCsUJJcQ7A99Sd+RVQLPMorRLAg==
   dependencies:
     underscore "^1.9.1"
 
