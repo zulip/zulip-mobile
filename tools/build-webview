@@ -25,7 +25,7 @@ EOF
 
 # print error and die
 err() {
-    echo "$0:" $'\e[31merror:\e[0m' "$1" >&2
+    echo -e "$0:" $'\e[31merror:\e[0m' "$@" >&2
     exit 1;
 }
 
