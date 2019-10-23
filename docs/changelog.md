@@ -36,6 +36,21 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+Fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+* Bumped targetSdkVersion to 28!  Aka Android 9 Pie.  (#3563)
+
+* Started importing certain code directly from the webapp: see #3638
+  and its companion zulip/zulip-mobile#13253.  (This also fixed some
+  quirks in our sending of typing-status events.)
+
+* Resolved issues: #3563 (modulo beta feedback).
+
 
 ## 26.11.134 (2019-10-17)
 
