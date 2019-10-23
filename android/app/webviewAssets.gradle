@@ -1,3 +1,6 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+import java.nio.file.Paths
+
 /**
  * Build and merge static webview assets.
  *
@@ -6,6 +9,49 @@
  * processes. See comments therein (or $ROOT/src/webview/static/README.md) for
  * more information.
  */
+
+/*
+ * Windows support functions.
+ *
+ * On Windows, we have three different possible setups:
+ *   1. Windows Gradle + Git Bash.
+ *   2. Windows Gradle + WSL's bash.
+ *   3. WSL Gradle + WSL's bash.
+ *
+ * Case 3, fortunately, should behave exactly like Linux.
+ *
+ * In cases 1 and 2, however, all paths Gradle provides are backslash-separated.
+ * This is problematic on its own, as the script we're invoking doesn't grok
+ * backslashes, so we normalize those on Windows. That's enough for case 1.
+ *
+ * Case 2 is worse, though. The `bash` of Git Bash groks both "C:/" and "C:\";
+ * more generally, it operates on the Windows filesystem with Windows path
+ * names. The WSL `bash` _doesn't_ -- it's a standard Linux `bash` (or close
+ * enough), and it only sees the Windows disks as ordinary mounts under the lone
+ * root path '/'. Paths beginning with either "C:/" or "C:\" will confuse it
+ * terribly.
+ *
+ * And, of course, Gradle has no good way of distinguishing between cases 1 and
+ * 2. As far as it's concerned, `bash.exe` is `bash.exe`.
+ *
+ * Since we can't predict the environment of our callee, we can't use absolute
+ * paths. Fortunately, with only a little extra work within the script itself,
+ * we _can_ use relative paths; the script must derelativize them appropriately.
+ */
+
+/** Normalize the path-separators of `path` to be forward slashes. */
+def normalizePath(String path) {
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        return path.replace('\\', '/')
+    } else {
+        return path
+    }
+}
+
+/** Return `path`, made relative to `basePath`. */
+def relativizePath(String path, String basePath) {
+    return Paths.get(basePath).relativize(Paths.get(path)).toString();
+}
 
 gradle.projectsEvaluated {
     // The root of our git repository.
@@ -24,8 +70,13 @@ gradle.projectsEvaluated {
             name: "build${variant.name.capitalize()}StaticWebviewAssets",
             type: Exec
         ) {
-            executable "${repoDir}/tools/build-webview"
-            args "android", "--destination", "${assetsDir}/webview"
+            // All arguments to our script must be relative to `workingDir`.
+            workingDir repoDir
+            executable "bash"
+            args "./tools/build-webview",
+                "android", "--destination",
+                // See above note on Windows compatibility.
+                normalizePath(relativizePath("${assetsDir}/webview", repoDir))
         }
 
         // Run this task as part of assets merging for this variant.
