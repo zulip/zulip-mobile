@@ -29,8 +29,6 @@ err() {
     exit 1;
 }
 
-
-
 ################################################################################
 # Parameters and environment
 ################################################################################
@@ -38,6 +36,8 @@ err() {
 # chdir to the current git repo's root
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
+
+. "$ROOT"/tools/lib/ensure-coreutils.sh
 
 # Parse arguments. Sloppy, but sufficient for now.
 unset TARGET
@@ -61,6 +61,9 @@ if  [ -z "${TARGET-}" ]; then
 elif [ -z "${DEST-}" ]; then
     usage; exit 2
 fi
+
+# Make $DEST absolute, if it isn't already.
+DEST=$(readlink -m "$DEST")
 
 # Sanity-check DEST and TARGET.
 case "$TARGET" in
