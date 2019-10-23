@@ -114,34 +114,24 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
 
     `choco install -y jdk8`
 
-3. Follow the [instructions][android-studio] here to install Android Studio.
+3. Install and set up Android Studio.
 
-4. In Step 3 above, you saw how to add the `ANDROID_HOME` environment
-   variable. Return to the Environment Variables screen. Scroll down
-   in the User variables section where you added `ANDROID_HOME` until
-   you find a variable called `Path`.
+   React Native provides [instructions][getting-started] for this. You'll need
+   to click the tab labeled **React Native CLI Quickstart**, and select the
+   **Windows** and **Android** options when they become available (if they're
+   not already selected).
 
-    * Double-click on it, click New in the window that comes up and
-      add the line below:
+   For now, just follow the four steps under **Android development
+   environment**; we'll be installing (most of) the other requirements in other
+   ways. (You may still want to leave the tab open, though; as this document
+   will be referenced later.)
 
-        `%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools;%ANDROID_HOME%\build-tools;`
+   You can optionally use Chocolatey in step 1, in place of manually downloading
+   and executing an installer:
 
-    * Then move to the System variables section and add the
-      `ANDROID_HOME` environment variable you added at the end of Step
-      3 to System variables.
+     `choco install -y AndroidStudio`
 
-    * Finally, scroll down in the System variables section until you
-      find `Path`. Double-click on it, click New in the window that
-      comes up and then add the lines below in separate lines. Be sure
-      to replace `{User}` in the lines below with your Windows account
-      username.
-
-        ```
-        C:\Users\{User}\AppData\Local\Android\Sdk\platform-tools
-        C:\Users\{User}\AppData\Local\Android\Sdk\emulator
-        ```
-
-5. Go to the Windows Store and type the name of the linux distro you
+5. Go to the Windows Store and type the name of the Linux distro you
    would like to use with WSL. These instructions have been tested to
    work on Ubuntu and Debian GNU/Linux. When the page for your selected
    distro opens, click on 'Get' to install it.
@@ -150,55 +140,66 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
    completed.  Click on 'Launch' to open it. When it opens, you will
    see the message "Installing, this may take a few minutes...". Soon
    after that, you will be prompted to enter the username and password
-   you wish to use. If you haven't used a UNIX based system you will
-   notice that nothing shows up while you are typing your password.
-   This is normal and expected behavior.
+   you wish to use.
 
-7. After setting up your username and password, run
+   If you haven't used a Unix-based system, you will notice that nothing shows
+   up while you are typing your password. This is normal and expected behavior.
+
+7. After setting up your username and password, run:
 
     `sudo apt update && sudo apt -y upgrade`
 
     This will initialize your WSL installation and update your
-    distro. This could take a while so grab a cup of coffee. (You can
-    paste this and the rest of the commands in this guide into the WSL
-    window using your right-click button. Ctrl + V will not work. )
+    distro. This could take a while, so grab a cup of coffee. (You can
+    paste this, and the rest of the commands in this guide, into the WSL
+    window using your right-click button. Ctrl + V will not work.)
 
-8. Install Node with the command below :
+8. Install Node v10 and Yarn on your Linux distribution.
 
-    ```
-    curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
-    sudo apt-get install -y nodejs
-    ```
+    You'll need to refer to the upstream installation instructions for
+    [Node](https://nodejs.org/en/download/package-manager/) and
+    [Yarn](https://yarnpkg.com/en/docs/install) for your particular
+    distrubution.
 
-9. Install Yarn with the command below:
+    (Note that installation via `snap` is not currently an option, as `snapd` is
+    not available under WSL.)
 
-    ```
-    curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-    sudo apt-get update && sudo apt-get install yarn
-    ```
+10. Install the React Native CLI:
 
-10. Install React Native CLI
     `sudo npm install -g react-native-cli`
 
 11. Navigate to the Windows directory where you would like to store
-    the zulip folder using `cd`.
+    the `zulip-mobile` folder using `cd`.
 
-    You can access your Windows local drives from bash and other Linux
-    programs by navigating to `/mnt/<drive-letter>` .  For example:
-    `cd /mnt/c`
+    Note that Windows programs (including the Android emulator) can't easily
+    access files on the Linux system. We therefore recommend creating your
+    project folder on a Windows-managed drive, so that the Android emulator
+    (etc.) can read it.
 
-12. Clone the project into the directory using
+    Conversely, you can easily access your Windows local drives from Linux at
+    `/mnt/<drive-letter>`. For example: `cd /mnt/c/`
+
+12. Clone the project into the chosen directory using
+
     `git clone https://github.com/zulip/zulip-mobile`
 
-13. Navigate into the zulip-mobile directory and run yarn install.
+    This will create the `zulip-mobile` subdirectory.
+
+13. Navigate into `zulip-mobile` and run `yarn install`.
 
     ```
     cd zulip-mobile
     yarn install
     ```
 
-    If you get the error : `EACCESS: permission denied, scandir '/home/{yourUnixuUsername}/.config/yarn/link'`
+    #### Troubleshooting Yarn
+
+    If you get an error along the lines of
+
+    ```
+    EACCESS: permission denied, scandir '/home/{your_unix_username}/.config/yarn/link'
+    ```
+
     run the lines below and then try `yarn install` again.
 
     ```
@@ -211,20 +212,21 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
     to keep retrying. If it fails, simply run `yarn install` again and
     again until it completes.
 
-    Alternatively, you can install Yarn on Windows, and navigate into
-    the zulip-mobile folder using Windows cmd and run yarn install
-    from the Windows side.
+    Alternatively, you can [install Yarn on
+    Windows](https://yarnpkg.com/lang/en/docs/install/#windows-stable), navigate
+    into the `zulip-mobile` folder in the Windows Command Prompt, and run `yarn
+    install` from the Windows side.
 
-14. Follow the [instructions][react-native-setup-device] here to set up
-    the device you plan to use, whether its an emulator or a physical
-    device.
+14. Follow the React Native instructions ([here][getting-started], if you've
+    closed the tab) under **Preparing the Android device** to set up the device
+    you plan to use, whether virtual or physical.
 
-15. Navigate into the `/android` directory then run the Gradle
+15. Navigate into the `android` directory and run the Gradle
     installDebug script using the commands below.
 
     ```
     cd android
-    /mnt/c/Windows/System32/cmd.exe /C gradlew.bat installDebug
+    /mnt/c/Windows/System32/cmd.exe /C gradlew.bat :app:installDebug
     ```
 
     If it succeeded, the command will terminate with the sentence
@@ -239,17 +241,17 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
 
     `adb reverse tcp:8081 tcp:8081`
 
-17. Navigate up one level back into the zulip-mobile folder. From here run
+17. Navigate up one level, back into the zulip-mobile folder, with `cd ..`.
+    (Unlike on Windows, the space after `cd` is required.) From here, run
 
     `react-native start`
 
-    When you see the message "Loading dependency graph, done." Open
+    When you see the message `Loading dependency graph, done.` open
     the Zulip app on your device and the final app setup will
     occur. When it has completed, you will see the Zulip login page.
 
 [chocolatey]: https://chocolatey.org/
-[android-studio]: https://facebook.github.io/react-native/docs/getting-started.html#android-development-environment
-[react-native-setup-device]:https://facebook.github.io/react-native/docs/getting-started.html#preparing-the-android-device
+[getting-started]: https://facebook.github.io/react-native/docs/getting-started.html
 
 
 ### Helpful to Know
@@ -269,15 +271,19 @@ export PATH="$HOME/bin:$HOME/.local/bin:/usr/bin:$PATH"
 source ~/.profile
 ```
 
-#### Bonus: change your default home directory
-It can be useful to have WSL programs use the folder which contains your
-coding projects as its home path, `~`.
+#### Updating your Linux distribution
 
-If you want to try this, modify your `.bashrc` file (located in the default
-home directory) to add this line:
-```
-export HOME=/mnt/<drive-letter>/path/to/your/folder
-```
+It's generally recommended to update your Linux distro daily or weekly. This is
+not, by default, automatic; you can do this by typing
+
+`sudo apt update && sudo apt -y upgrade`
+
+(This will take much less time than it did during initial setup.)
+
+You will usually not need to restart Linux after updates unless a package named
+`linux-image-` is installed; even then, a restart can be delayed until you're
+ready. After the restart, you'll probably want to type `sudo apt autoremove`, to
+clear out any old Linux images.
 
 
 ### Troubleshooting
