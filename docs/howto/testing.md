@@ -133,6 +133,19 @@ what we can do to support it.
 
 ## Type checking with Flow
 
-We use [Flow](https://flowtype.org/) and
-[flow-typed](https://github.com/flowtype/flow-typed) to find and
-prevent type related issues.
+We use the [Flow][] type-checker on our JS code, and [flow-typed][]
+for community-maintained type definitions for many dependencies.
+
+Flow is not among the world's best-documented software.  If you don't
+find something in its docs, it's worth
+* searching [its issues][flow-issues] (including closed issues);
+  sometimes a valuable feature is undocumented and the best discussion
+  of it is where someone offers it as a workaround in an issue thread.
+* scanning this ["cheat sheet"][flow-cheat-sheet] maintained by
+  another Flow user, which provides an index of features both
+  documented and undocumented.
+
+[Flow]: https://flowtype.org/
+[flow-typed]: https://github.com/flowtype/flow-typed
+[flow-issues]: https://github.com/facebook/flow/issues?q=is%3Aissue
+[flow-cheat-sheet]: https://www.saltycrane.com/flow-type-cheat-sheet/latest/
