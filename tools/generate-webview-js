@@ -143,8 +143,8 @@ ${es3Code.replace(/\\/g, '\\\\')}
  * For all that, `core-js` _does_ work. Using it, or not using it, is a
  * tradeoff... but then, so is supporting older WebViews at all.
  *
- * See the comments heading `js.js` for details about our version-support
- * strategy.
+ * See docs/architecture/platform-versions.md for details about our
+ * version-support strategy.
  */
 
 /**

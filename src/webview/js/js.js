@@ -19,24 +19,22 @@ import appendAuthToImages from './appendAuthToImages';
  * * We support iOS 10.  So this code needs to work on Mobile Safari 10.
  *   Graceful degradation is acceptable below iOS 12 / Mobile Safari 12.
  *
- * * On Android, core functionality needs to work on Chrome 44 (conveniently
- *   available for testing in a stock Android 6.0 Marshmallow image.)
- *   Graceful degradation is acceptable below Chrome 58 (ditto 8.0 Oreo.)
- *   When aware of issues down to Chrome 30 (shipped with 4.4 KitKat), we
- *   fix them if trivial, or else record in comments here.
+ * * For Android, core functionality needs to work on Chrome 44.
+ *   Graceful degradation is acceptable below Chrome 58.
  *
- *   * More details: Starting in Android 4.4 KitKat, which is our minimum
- *     supported Android version, the browser in a WebView is updated as an
- *     APK, independently of the OS... but empirically something like 10% of
- *     users are stuck on older versions than the latest, though usually
- *     still newer than their OS was released with.  These targets are based
- *     on figures from 2018-10.
+ *   * These versions are found in stock images for Android 6 Marshmallow
+ *     and Android 8 Oreo, respectively, for convenient testing.
  *
- *   * To be explicit: although we support Android as old as 4.4 and 5.0,
- *     the app *doesn't work correctly* on the Chrome versions (30 and 37)
- *     that those Android releases originally shipped with.  That's OK
- *     because it is rare for a user's Chrome version to still be that
- *     ancient, even when their Android version is.
+ *   * (Note that Android's Chrome auto-updates independently of the OS, and
+ *     the large majority of Android users have a fully-updated Chrome --
+ *     more recent than the Safari on most iOS devices.)
+ *
+ *   * Below Chrome 44, it's possible (but rare) for a user to be on a
+ *     version as old as Chrome 30, which shipped with Android 4.4 KitKat.
+ *     We sometimes fix issues affecting those versions, only when trivial.
+ *
+ * * See docs/architecture/platform-versions.md for data and discussion
+ *   about our version-support strategy.
  */
 
 /** Like RN's `Platform.OS`. */
