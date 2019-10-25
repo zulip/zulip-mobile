@@ -6,8 +6,10 @@ This guide describes how to build and run the app so you can develop it.
 
 (First, if using **macOS**: Upgrade to the latest version of the OS and then to
 the latest Xcode.  In particular, Xcode versions before 9.0 are known to
-definitely not work. You'll also need the GNU coreutils package from Homebrew,
-installable via `brew install coreutils`.)
+definitely not work.  You'll also need [GNU coreutils][] installed, e.g.
+with `brew install coreutils`.)
+
+[GNU coreutils]: https://www.gnu.org/software/coreutils/
 
 (If using **Windows**: The step-by-step instructions below should work
 fine on Windows.  Alternatively if you'd like a richer command-line
