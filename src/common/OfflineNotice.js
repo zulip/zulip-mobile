@@ -1,14 +1,14 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSession } from '../selectors';
 import Label from './Label';
 
-import AnimatedComponent from '../animation/AnimatedComponent';
+const key = 'OfflineNotice';
 
 const styles = StyleSheet.create({
   block: {
@@ -20,7 +20,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     color: 'white',
+    margin: 2,
   },
+  none: { display: 'none' },
 });
 
 type Props = {|
@@ -37,17 +39,14 @@ type Props = {|
 class OfflineNotice extends PureComponent<Props> {
   render() {
     const { isOnline } = this.props;
+    if (isOnline) {
+      return <View key={key} style={styles.none} />;
+    }
+
     return (
-      <AnimatedComponent
-        stylePropertyName="height"
-        fullValue={30}
-        useNativeDriver={false}
-        visible={!isOnline}
-        style={styles.block}
-        delay={300}
-      >
-        {!isOnline && <Label style={styles.text} text="No Internet connection" />}
-      </AnimatedComponent>
+      <View key={key} style={styles.block}>
+        <Label style={styles.text} text="No Internet connection" />
+      </View>
     );
   }
 }
