@@ -5,9 +5,8 @@ import rewriteImageUrls from '../rewriteImageUrls';
 import type { Auth } from '../../../types';
 
 describe('rewriteImageUrls', () => {
-  // URL will be on-realm
   const realm = 'https://realm.example.com';
-  global.jsdom.reconfigure({ url: `${realm}/` });
+  global.jsdom.reconfigure({ url: 'file:///nowhere_land/index.html' });
 
   const auth: Auth = {
     realm,
@@ -28,7 +27,7 @@ describe('rewriteImageUrls', () => {
   const prefixes = {
     relative: '',
     'root-relative': '/',
-    absolute: realm,
+    'absolute on-realm': realm,
     'absolute off-realm': 'https://example.org',
   };
 
@@ -67,11 +66,13 @@ describe('rewriteImageUrls', () => {
             });
           }
 
+          /* This tests and confirms the behavior of JSDOM, rather than that of
+             `rewriteImageUrls`. */
           if (pType.includes('off-realm')) {
             test('... yields an off-realm URL', () => {
               expect(new URL(before).hostname).not.toBe('realm.example.com');
             });
-          } else {
+          } else if (pType.includes('on-realm')) {
             test('... yields an on-realm URL', () => {
               expect(new URL(before).hostname).toBe('realm.example.com');
             });
