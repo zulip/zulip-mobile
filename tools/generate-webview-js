@@ -60,7 +60,12 @@ ${es3Code.replace(/\\/g, '\\\\')}
 
         compact: false,
         comments: false,
-        plugins: [['@babel/transform-flow-strip-types']],
+        plugins: [
+          ['@babel/transform-flow-strip-types'],
+
+          /* Add TC39 stage 3+ transforms here as needed. */
+          ['@babel/plugin-proposal-optional-chaining'],
+        ],
 
         /* See comments in src/webview/js/js.js for details about the target set
            selected here.
