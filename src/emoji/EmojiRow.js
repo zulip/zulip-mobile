@@ -2,12 +2,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { ImageEmojiType, Dispatch } from '../types';
-import { connect } from '../react-redux';
 import { RawLabel, Touchable } from '../common';
-import UnicodeEmoji from './UnicodeEmoji';
-import ImageEmoji from './ImageEmoji';
-import { getActiveImageEmojiByName } from './emojiSelectors';
+import Emoji from './Emoji';
 
 const styles = StyleSheet.create({
   emojiRow: {
@@ -20,40 +16,27 @@ const styles = StyleSheet.create({
   },
 });
 
-type SelectorProps = {|
-  imageEmoji: ImageEmojiType | void,
-|};
-
 type Props = {|
   name: string,
   onPress: (name: string) => void,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |};
 
-class EmojiRow extends PureComponent<Props> {
+export default class EmojiRow extends PureComponent<Props> {
   handlePress = () => {
     const { name, onPress } = this.props;
     onPress(name);
   };
 
   render() {
-    const { name, imageEmoji } = this.props;
+    const { name } = this.props;
 
-    // TODO: this only handles Unicode emoji (shipped with the app)
-    // and realm emoji, but not Zulip extra emoji.  See our issue #2846.
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.emojiRow}>
-          {imageEmoji ? <ImageEmoji emoji={imageEmoji} /> : <UnicodeEmoji name={name} size={20} />}
+          <Emoji name={name} />
           <RawLabel style={styles.text} text={name} />
         </View>
       </Touchable>
     );
   }
 }
-
-export default connect((state, props): SelectorProps => ({
-  imageEmoji: getActiveImageEmojiByName(state)[props.name],
-}))(EmojiRow);
