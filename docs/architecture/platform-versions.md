@@ -103,6 +103,49 @@ Related observations:
     version vs. those with an earlier version tends to be about 5-10x
     more for our Android users than for those on Google Play at large.
 
+* Android [upstream's advice][android-doc-supporting-platforms] is:
+
+  > Generally, it’s a good practice to support about 90% of the active devices
+
+  with a link to the dashboard of [global Google Play figures][].
+  Based on the May 2019 figures quoted above, this advice roughly
+  corresponds to dropping an old platform at a threshold of about 1%
+  of our userbase.
+
+[android-doc-supporting-platforms]: https://developer.android.com/training/basics/supporting-devices/platforms
+[global Google Play figures]: https://developer.android.com/about/dashboards/
+
+
+* On both the Play Store and the App Store, when we upload a new app
+  version that drops support for a given OS version, that appears to
+  make the app unavailable to install on devices with older versions.
+
+  * We haven't seen clear documentation of this; but we confirmed
+    empirically in 2019-10 (a little over a year after dropping
+    Android 4.1-4.3 J support) that an Android J device couldn't see
+    Zulip on the Play Store.
+
+  * Also in 2019-10, the [App Store listing][] (on the web) for Zulip
+    had a line "Compatibility: Requires iOS 10.3 or later.", which
+    matches the metadata in our uploaded app versions of the previous
+    few months.
+
+  * On the other hand, in the Play Console under ["Release management >
+    Artifact library"][play-artifact-library], the last APK that did
+    still support Android J still appears (as of 2019-10) under
+    "Active artifacts" -- which is glossed "Artifacts being served to
+    device configurations" -- rather than "Archived artifacts".
+
+    It's not made entirely clear what that means.  One sensible thing
+    that might mean (but we haven't confirmed it does mean) would be
+    that an Android J device which already had a previous version of
+    Zulip will upgrade as far as that version, even while an Android J
+    device that doesn't already have Zulip won't be shown it for a
+    fresh install.
+
+[App Store listing]: https://apps.apple.com/us/app/zulip/id1203036395
+[play-artifact-library]: https://play.google.com/apps/publish/?account=8060868091387311598#ArtifactLibraryPlace:p=com.zulipmobile
+
 
 ## Browser versions (for the WebView for the message list)
 
