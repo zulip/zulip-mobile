@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import type { ImageEmojiType, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { RawLabel, Touchable } from '../common';
-import Emoji from './Emoji';
+import UnicodeEmoji from './UnicodeEmoji';
 import ImageEmoji from './ImageEmoji';
 import { getActiveImageEmojiByName } from './emojiSelectors';
 
@@ -46,7 +46,7 @@ class EmojiRow extends PureComponent<Props> {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.emojiRow}>
-          {imageEmoji ? <ImageEmoji emoji={imageEmoji} /> : <Emoji name={name} size={20} />}
+          {imageEmoji ? <ImageEmoji emoji={imageEmoji} /> : <UnicodeEmoji name={name} size={20} />}
           <RawLabel style={styles.text} text={name} />
         </View>
       </Touchable>
