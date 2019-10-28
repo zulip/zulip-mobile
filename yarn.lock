@@ -2431,7 +2431,7 @@ cosmiconfig@^5.0.5:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-create-react-class@^15.6.3:
+create-react-class@^15.6.2, create-react-class@^15.6.3:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   integrity sha512-M+/3Q6E6DLO6Yx3OwrWjwHBnvfXXYA7W+dFjt/ZDBemHO1DDZhsalX/NUtnTYclN6GfnBDRh4qRHjcDHmlJBJg==
@@ -7414,6 +7414,15 @@ react-native-screens@^1.0.0-alpha.11, react-native-screens@^1.0.0-alpha.23:
   dependencies:
     debounce "^1.2.0"
 
+react-native-scrollable-tab-view@0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.10.0.tgz#8ce7908254685ee37d35df7d849676eaa1e81132"
+  integrity sha512-7FWw9X2hLozWqpGJTAU/p7ONdTTO635bbAZ5AUPDrB4JwaLbhNV6ePjsNUjsCaopgCwz/EdmH0hTCPeja9dh4w==
+  dependencies:
+    create-react-class "^15.6.2"
+    prop-types "^15.6.0"
+    react-timer-mixin "^0.13.3"
+
 react-native-sentry@^0.37.0:
   version "0.37.1"
   resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.37.1.tgz#22809b7fdca4552b8efea7e42b36a58a0e791794"
@@ -7609,6 +7618,11 @@ react-test-renderer@16.8.3:
     prop-types "^15.6.2"
     react-is "^16.8.3"
     scheduler "^0.13.3"
+
+react-timer-mixin@^0.13.3:
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
+  integrity sha512-4+ow23tp/Tv7hBM5Az5/Be/eKKF7DIvJ09voz5LyHGQaqqz9WV8YMs31eFvcYQs7d451LSg7kDJV70XYN/Ug/Q==
 
 react-transform-hmr@^1.0.4:
   version "1.0.4"

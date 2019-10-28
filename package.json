@@ -57,6 +57,7 @@
     "react-native-safari-view": "2.0.0",
     "react-native-safe-area": "^0.4.1",
     "react-native-screens": "^1.0.0-alpha.23",
+    "react-native-scrollable-tab-view": "0.10.0",
     "react-native-sentry": "^0.37.0",
     "react-native-simple-toast": "0.0.8",
     "react-native-sound": "^0.10.9",

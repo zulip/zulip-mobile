@@ -1,13 +1,11 @@
 /* @flow strict-local */
-import React from 'react';
-import { StyleSheet, Text } from 'react-native';
-import { FormattedMessage } from 'react-intl';
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
-
-import type { TabNavigationOptionsPropsType } from '../types';
-import tabsOptions from '../styles/tabs';
+import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import SubscriptionsCard from '../streams/SubscriptionsCard';
 import StreamListCard from '../subscriptions/StreamListCard';
+
+import { BRAND_COLOR } from '../styles/constants';
 
 const styles = StyleSheet.create({
   tab: {
@@ -16,33 +14,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default createMaterialTopTabNavigator(
-  {
-    subscribed: {
-      screen: SubscriptionsCard,
-      navigationOptions: {
-        tabBarLabel: (props: TabNavigationOptionsPropsType) => (
-          <Text style={[styles.tab, { color: props.tintColor }]}>
-            <FormattedMessage id="Subscribed" defaultMessage="Subscribed" />
-          </Text>
-        ),
-      },
-    },
-    allStreams: {
-      screen: StreamListCard,
-      navigationOptions: {
-        tabBarLabel: (props: TabNavigationOptionsPropsType) => (
-          <Text style={[styles.tab, { color: props.tintColor }]}>
-            <FormattedMessage id="All streams" defaultMessage="All streams" />
-          </Text>
-        ),
-      },
-    },
-  },
-  {
-    ...tabsOptions({
-      showLabel: true,
-      showIcon: false,
-    }),
-  },
-);
+export default class App extends Component {
+  render() {
+    return (
+      <ScrollableTabView
+        style={styles.tab}
+        tabBarActiveTextColor={BRAND_COLOR}
+        tabBarInactiveTextColor="#a9a9a9"
+        tabBarUnderlineStyle={{ backgroundColor: BRAND_COLOR }}
+      >
+        <SubscriptionsCard tabLabel="Subscribed" />
+        <StreamListCard tabLabel="All streams" />
+      </ScrollableTabView>
+    );
+  }
+}
