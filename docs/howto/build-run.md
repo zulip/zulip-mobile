@@ -187,6 +187,50 @@ android` there, may give clearer error messages for debugging.
 [rn-installation]: https://facebook.github.io/react-native/docs/getting-started.html
 
 
+### Build failure in `react-native-screens` or at `new RNNotificationsPackage()`
+
+When trying to build the Android app, if you get an error like this:
+
+```
+> Task :react-native-screens:compileDebugJavaWithJavac FAILED
+C:\Users\[...]\zulip-mobile\node_modules\react-native-screens\android\src\main\java\com\swmansion\rnscreens\LifecycleHelper.java:3: error: package androidx.lifecycle does not exist
+import androidx.lifecycle.Lifecycle;
+                         ^
+[... lots more ...]
+```
+
+or like this:
+
+```
+[... lots of output ...]
+[...]/MainApplication.java:45: error: constructor RNNotificationsPackage in class RNNotificationsPackage cannot be applied to given types;
+            new RNNotificationsPackage(),
+            ^
+  required: Application
+  found: no arguments
+  reason: actual and formal argument lists differ in length
+[...]
+
+> Task :app:compileDebugJavaWithJavac FAILED
+
+[...]
+```
+
+then check that `git status` shows you're running unmodified code from
+our repo.  These errors can be caused by the modifications made if you
+run the command `react-native link`.
+
+Some React Native projects reportedly say in their build instructions
+to run this command before building.  This is a bad practice: the
+command edits the project's source files in heuristic ways, and so it
+should always be a development step -- with the results committed to
+the project's version-control repo -- and not a build step.  We don't
+use it as a build step.
+
+If you've run `react-native link`, you can discard the edits it made
+(along with any other edits you've made) by running `git reset --hard`.
+
+
 ### App shows a blank white screen
 
 If you're developing on a Linux machine, and when you start the dev version of
