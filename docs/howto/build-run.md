@@ -231,7 +231,7 @@ Typically when this happens it'll be repeated many times, across many
 of our Jest unit tests.
 
 This can happen if you're using an older version of Node, such as
-Node 8.  (Probably this means our Jest config doesn't have Node set up
+Node 8.  (Probably this means our Jest config doesn't have Babel set up
 quite right.  Discussion [here][jest-babel-discussion].)
 
 To fix this, use Node 10.x instead.  You can check what version is
