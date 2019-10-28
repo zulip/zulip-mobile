@@ -238,3 +238,11 @@ Related observations:
     it makes the app slower and more battery-draining for all users --
     which is why we don't pursue it.  See discussion in
     `tools/generate-webview-js` for details.
+
+
+* For more about how WebView implementations are tied to Chrome
+  versions -- which has changed several times! -- see the WebView
+  docs [on pre-release channels][webview-docs/channels].  Handy in
+  particular for trying beta versions of Chrome.
+
+[webview-docs/channels]: https://chromium.googlesource.com/chromium/src/+/HEAD/android_webview/docs/channels.md
