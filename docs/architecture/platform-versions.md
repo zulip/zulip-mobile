@@ -83,10 +83,16 @@ History:
 * We [dropped iOS 9 support][] in 2019-07.  It was 0.4% of iOS users
   who tried Zulip, and an Xcode upgrade had dropped iOS 9 from the
   simulator.
+* We [dropped Android 4.4 KitKat support][dropped-android-k] in
+  2019-10.  It represented 0.6% of our Android users, and we'd just
+  discovered that we'd been mistaken in thinking since 2018 that its
+  WebView browser got updated independently; in fact it's pinned at a
+  version a couple of years older than any other browser we support.
 
 [dropped-android-j]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/625585
 [dropped iOS 8 support]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/628412
 [dropped iOS 9 support]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/771761
+[dropped-android-k]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/794551
 
 
 Related observations:
@@ -188,8 +194,8 @@ General policy:
 
 Empirical details on Android Chrome versions found in WebViews:
 
-* Starting in Android 4.4 KitKat (which is <= our minimum supported
-  Android version), the browser in a WebView is updated as an APK 🎉,
+* Starting in Android 5 Lollipop (which is <= our minimum supported
+  Android version), the browser in a WebView [is updated as an APK][] 🎉,
   independently of the OS...
   * but [empirically][browser-data-2018-10] something like 10% of
     users are stuck on older versions than the latest 😞.
@@ -211,13 +217,14 @@ Empirical details on Android Chrome versions found in WebViews:
     have the same version.  But they get updated the same way, so
     there's at least no obvious mechanism for one to be systematically
     more commonly up to date than the other.)
-  * Android versions 4.4 K, 5 L, 6 M, 7 N, 8 O had originally shipped
-    with Chrome versions 30, 37, 44, 51, 58 respectively (based on
+  * Android versions 5 L, 6 M, 7 N, 8 O had originally shipped
+    with Chrome versions 37, 44, 51, 58 respectively (based on
     looking at stock emulator images.)
   * At that time about 17% of our Android users were on Android
     versions <=6 M -- far more than the 2% or so of Android users with
     Chrome versions older than what shipped with Android 7 N.
 
+[is updated as an APK]: https://developer.chrome.com/multidevice/webview/overview
 [browser-data-2018-10]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/656679
 
 
