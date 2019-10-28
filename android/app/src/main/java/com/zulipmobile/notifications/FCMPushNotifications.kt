@@ -156,22 +156,16 @@ private fun getNotificationBuilder(
 
     builder.setDefaults(Notification.DEFAULT_VIBRATE or Notification.DEFAULT_LIGHTS)
 
-    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-        val dismissIntent = Intent(context, NotificationIntentService::class.java)
-        dismissIntent.action = ACTION_CLEAR
-        val piDismiss = PendingIntent.getService(context, 0, dismissIntent, 0)
-        val action = Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss)
-        builder.addAction(action)
-    }
+    val dismissIntent = Intent(context, NotificationIntentService::class.java)
+    dismissIntent.action = ACTION_CLEAR
+    val piDismiss = PendingIntent.getService(context, 0, dismissIntent, 0)
+    val action = Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss)
+    builder.addAction(action)
 
     val soundUri = getNotificationSoundUri(context)
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-        val audioAttr = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
-        builder.setSound(soundUri, audioAttr)
-    } else {
-        builder.setSound(soundUri)
-    }
+    val audioAttr = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
+    builder.setSound(soundUri, audioAttr)
     return builder
 }
 
