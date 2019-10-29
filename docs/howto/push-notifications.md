@@ -109,7 +109,7 @@ Then, each time you test:
 Happily, this is straightforward: just edit, build, and run the app
 the same as for any other change.
 
-Typically you'll be editing Java code (not only JS), so remember to
+Typically you'll be editing Kotlin code (not only JS), so remember to
 rerun `react-native run-android`.
 
 ### Debugging tips (for Android client)
@@ -193,10 +193,10 @@ so the new build can coexist on TestFlight with previous builds:
 
     $ set-buildno () {
         version="$1" perl -i -0pe '
-	    s|<key>CFBundleVersion</key> \s* <string>\K [0-9.]+
-	     |$ENV{version}|xs
-	  ' ios/ZulipMobile/Info.plist &&
-	git commit -am "version: Bump iOS build number to $1."
+            s|<key>CFBundleVersion</key> \s* <string>\K [0-9.]+
+             |$ENV{version}|xs
+          ' ios/ZulipMobile/Info.plist &&
+        git commit -am "version: Bump iOS build number to $1."
       }
     $ set-buildno 2
 
