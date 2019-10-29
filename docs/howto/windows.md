@@ -112,7 +112,12 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
 2. Install [Chocolatey][chocolatey]. After installing Chocolatey, use
    it to install the JAVA SE Development Kit with
 
-    `choco install -y jdk8`
+   `choco install -y jdk8`
+
+   (Or possibly now JDK 11, which is the LTS release after JDK 8.  See
+   our [main install instructions](build-run.md) for more on JDK
+   versions; and [let us know][czo] if you use one version or the
+   other and it works for you.)
 
 3. Install and set up Android Studio.
 
@@ -123,13 +128,13 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
 
    For now, just follow the four steps under **Android development
    environment**; we'll be installing (most of) the other requirements in other
-   ways. (You may still want to leave the tab open, though; as this document
+   ways. (You may still want to leave the tab open, though, as this document
    will be referenced later.)
 
    You can optionally use Chocolatey in step 1, in place of manually downloading
    and executing an installer:
 
-     `choco install -y AndroidStudio`
+   `choco install -y AndroidStudio`
 
 5. Go to the Windows Store and type the name of the Linux distro you
    would like to use with WSL. These instructions have been tested to
@@ -154,30 +159,24 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
     paste this, and the rest of the commands in this guide, into the WSL
     window using your right-click button. Ctrl + V will not work.)
 
-8. Install Node v10 and Yarn on your Linux distribution.
+8. Install Node and Yarn on your Linux distribution.  See our [main
+   install instructions](build-run.md) for the current recommended
+   versions, with links to upstream install instructions.
 
-    You'll need to refer to the upstream installation instructions for
-    [Node](https://nodejs.org/en/download/package-manager/) and
-    [Yarn](https://yarnpkg.com/en/docs/install) for your particular
-    distrubution.
-
-    (Note that installation via `snap` is not currently an option, as `snapd` is
-    not available under WSL.)
+   (Note that installation via `snap` is not currently an option, as
+   `snapd` is not available under WSL.)
 
 10. Install the React Native CLI:
 
     `sudo npm install -g react-native-cli`
 
-11. Navigate to the Windows directory where you would like to store
-    the `zulip-mobile` folder using `cd`.
+11. Navigate with `cd` to the folder where you would like to put your
+    `zulip-mobile` development tree.
 
-    Note that Windows programs (including the Android emulator) can't easily
-    access files on the Linux system. We therefore recommend creating your
-    project folder on a Windows-managed drive, so that the Android emulator
-    (etc.) can read it.
-
-    Conversely, you can easily access your Windows local drives from Linux at
-    `/mnt/<drive-letter>`. For example: `cd /mnt/c/`
+    This folder must be in the Windows filesystem, not the Linux
+    filesystem inside WSL; see discussion [above](#the-plan).  From
+    WSL, you can find your Windows local drives at paths under
+    `/mnt/`: for example, `cd /mnt/c/` to navigate to the `C:\` drive.
 
 12. Clone the project into the chosen directory using
 
@@ -240,6 +239,11 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
     physical device.
 
     `adb reverse tcp:8081 tcp:8081`
+
+    (There's probably a way to run this same command from the WSL
+    `bash` prompt, too.  If you try these instructions out and work
+    out how to do that, PRs welcome!  ... Better yet, find a way to
+    make it happen automatically, like it does for other platforms.)
 
 17. Navigate up one level, back into the zulip-mobile folder, with `cd ..`.
     (Unlike on Windows, the space after `cd` is required.) From here, run
