@@ -59,9 +59,18 @@ export const getAccountFromNotificationData = (
     return null;
   }
 
+  // The `realm_uri` we get from the server should be case-normalized already;
+  // but better safe than sorry.
+  const normalized_realm_uri = realm_uri.toLowerCase();
   const urlMatches = [];
   identities.forEach((account, i) => {
-    if (account.realm === realm_uri) {
+    // `account.realm` is _not_ case-normalized; it's straight from user input,
+    // which (judging from error reports) autocorrect seems to be forcibly
+    // autocapitalizing on some devices.
+    //
+    // (TODO: instead of performing case-mangling, just compare against the
+    // value of `realm_uri` we get from `/server_settings` at login time.)
+    if (account.realm.toLowerCase() === normalized_realm_uri) {
       urlMatches.push(i);
     }
   });
