@@ -7,8 +7,8 @@ const origin = (url: URL) => {
   if (url.origin) {
     return url.origin;
   }
-  const { href, pathname, search } = url;
-  return href.slice(0, href.length - pathname.length - search.length);
+  const { href, pathname, search, hash } = url;
+  return href.slice(0, href.length - pathname.length - search.length - hash.length);
 };
 
 // Parse URL into origin and path-plus-search.

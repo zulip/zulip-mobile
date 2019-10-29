@@ -36,7 +36,8 @@ describe('rewriteImageUrls', () => {
   const suffixes = {
     empty: '',
     'known endpoint': 'avatar/example',
-    'known endpoint plus': 'avatar/example?size=large',
+    'known endpoint plus query': 'avatar/example?size=large',
+    'known endpoint plus fragment': 'avatar/example#00000042',
     'other endpoint': 'placekitten?w=640&w=480',
   };
 
@@ -56,8 +57,8 @@ describe('rewriteImageUrls', () => {
 
           if (pType.includes('absolute')) {
             test('... is not relativized', () => {
-              expect(before).toStartWith(url);
-              expect(after).toStartWith(url);
+              expect(before).toStartWith(prefix);
+              expect(after).toStartWith(prefix);
             });
           } else {
             test('... gains a prefix when relativized', () => {

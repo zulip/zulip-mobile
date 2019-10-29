@@ -21,8 +21,9 @@ var compiledWebviewJs = (function (exports) {
 
     var href = url.href,
         pathname = url.pathname,
-        search = url.search;
-    return href.slice(0, href.length - pathname.length - search.length);
+        search = url.search,
+        hash = url.hash;
+    return href.slice(0, href.length - pathname.length - search.length - hash.length);
   };
 
   var splitUrl = function splitUrl(url) {
