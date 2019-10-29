@@ -110,7 +110,8 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
     `Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux`
 
 2. Install [Chocolatey][chocolatey]. After installing Chocolatey, use
-   it to install the JAVA SE Development Kit with
+   it to install the JAVA SE Development Kit with, at a Windows
+   command prompt:
 
    `choco install -y jdk8`
 
@@ -132,7 +133,7 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
    will be referenced later.)
 
    You can optionally use Chocolatey in step 1, in place of manually downloading
-   and executing an installer:
+   and executing an installer.  To do so, run at a Windows command prompt:
 
    `choco install -y AndroidStudio`
 
@@ -150,7 +151,7 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
    If you haven't used a Unix-based system, you will notice that nothing shows
    up while you are typing your password. This is normal and expected behavior.
 
-7. After setting up your username and password, run:
+7. After setting up your username and password, run at the WSL Bash prompt:
 
     `sudo apt update && sudo apt -y upgrade`
 
@@ -166,25 +167,26 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
    (Note that installation via `snap` is not currently an option, as
    `snapd` is not available under WSL.)
 
-10. Install the React Native CLI:
+10. Install the React Native CLI inside WSL:
 
     `sudo npm install -g react-native-cli`
 
-11. Navigate with `cd` to the folder where you would like to put your
-    `zulip-mobile` development tree.
+11. At the WSL Bash prompt, navigate with `cd` to the folder where you
+    would like to put your `zulip-mobile` development tree.
 
     This folder must be in the Windows filesystem, not the Linux
     filesystem inside WSL; see discussion [above](#the-plan).  From
     WSL, you can find your Windows local drives at paths under
     `/mnt/`: for example, `cd /mnt/c/` to navigate to the `C:\` drive.
 
-12. Clone the project into the chosen directory using
+12. Clone the project into the chosen directory using (at the WSL
+    prompt) the command:
 
     `git clone https://github.com/zulip/zulip-mobile`
 
     This will create the `zulip-mobile` subdirectory.
 
-13. Navigate into `zulip-mobile` and run `yarn install`.
+13. Inside WSL, navigate into `zulip-mobile` and run `yarn install`.
 
     ```
     cd zulip-mobile
@@ -220,8 +222,8 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
     closed the tab) under **Preparing the Android device** to set up the device
     you plan to use, whether virtual or physical.
 
-15. Navigate into the `android` directory and run the Gradle
-    installDebug script using the commands below.
+15. At your WSL prompt, navigate into the `android` directory and run
+    the Gradle `installDebug` task using the commands below.
 
     ```
     cd android
@@ -245,14 +247,16 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
     out how to do that, PRs welcome!  ... Better yet, find a way to
     make it happen automatically, like it does for other platforms.)
 
-17. Navigate up one level, back into the zulip-mobile folder, with `cd ..`.
-    (Unlike on Windows, the space after `cd` is required.) From here, run
+17. Back at the WSL prompt, navigate up one level, back into the
+    zulip-mobile folder, with `cd ..`.  (Unlike on Windows, the space
+    after `cd` is required.)  From here, run
 
     `react-native start`
 
-    When you see the message `Loading dependency graph, done.` open
-    the Zulip app on your device and the final app setup will
-    occur. When it has completed, you will see the Zulip login page.
+    When you see the message `Loading dependency graph, done.`, open
+    the Zulip app on your device and the final app setup will occur.
+    When it has completed, you will see the Zulip app's initial
+    screen.
 
 [chocolatey]: https://chocolatey.org/
 [getting-started]: https://facebook.github.io/react-native/docs/getting-started.html
