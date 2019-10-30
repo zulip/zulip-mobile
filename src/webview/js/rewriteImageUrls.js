@@ -32,11 +32,10 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document = document) =>
   imageTags.forEach(img => {
     // Get the raw `src` value from the DOM. (We can't easily use `img.src`,
     // since it's absolutized by the browser.)
-    /* $FlowFixMe (upstream 'getNamedItem' is mistyped) */
-    const actualSrc: string | null = img.attributes.getNamedItem('src')?.value;
+    const actualSrc = img.getAttribute('src');
 
     // Skip completely sourceless elements: they're someone else's problem.
-    if (actualSrc === null) {
+    if (actualSrc == null) {
       return;
     }
 

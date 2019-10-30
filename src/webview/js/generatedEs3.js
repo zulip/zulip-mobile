@@ -23,11 +23,9 @@ var compiledWebviewJs = (function (exports) {
     var realm = new URL(auth.realm);
     var imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
     imageTags.forEach(function (img) {
-      var _img$attributes$getNa;
+      var actualSrc = img.getAttribute('src');
 
-      var actualSrc = (_img$attributes$getNa = img.attributes.getNamedItem('src')) === null || _img$attributes$getNa === void 0 ? void 0 : _img$attributes$getNa.value;
-
-      if (actualSrc === null) {
+      if (actualSrc == null) {
         return;
       }
 
