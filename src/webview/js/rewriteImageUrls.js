@@ -20,7 +20,7 @@ const inlineApiRoutes: RegExp[] = ['^/user_uploads/', '^/thumbnail$', '^/avatar/
  */
 const rewriteImageUrls = (auth: Auth, element: Element | Document = document) => {
   // The realm, parsed.
-  const realm: URL = new URL(auth.realm);
+  const realm = new URL(auth.realm);
 
   // Extract all image tags including and/or beneath `element`.
   const imageTags: $ReadOnlyArray<HTMLImageElement> = [].concat(
@@ -40,7 +40,7 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document = document) =>
     }
 
     // Compute the absolute URL as though `auth.realm` were the basis.
-    const fixedSrc: URL = new URL(actualSrc, realm);
+    const fixedSrc = new URL(actualSrc, realm);
 
     // If the corrected URL is on this realm...
     if (fixedSrc.origin === realm.origin) {
