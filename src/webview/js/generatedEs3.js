@@ -14,18 +14,6 @@ export default `
 var compiledWebviewJs = (function (exports) {
   'use strict';
 
-  var origin = function origin(url) {
-    if (url.origin) {
-      return url.origin;
-    }
-
-    var href = url.href,
-        pathname = url.pathname,
-        search = url.search,
-        hash = url.hash;
-    return href.slice(0, href.length - pathname.length - search.length - hash.length);
-  };
-
   var inlineApiRoutes = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(function (r) {
     return new RegExp(r);
   });
@@ -45,7 +33,7 @@ var compiledWebviewJs = (function (exports) {
 
       var fixedSrc = new URL(actualSrc, realm);
 
-      if (origin(fixedSrc) === origin(realm)) {
+      if (fixedSrc.origin === realm.origin) {
         if (inlineApiRoutes.some(function (regexp) {
           return regexp.test(fixedSrc.pathname);
         })) {

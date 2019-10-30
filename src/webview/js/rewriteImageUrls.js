@@ -2,15 +2,6 @@
 
 import type { Auth } from '../../types';
 
-// Ponyfill for URL.origin (Chrome 52, Safari 10).
-const origin = (url: URL) => {
-  if (url.origin) {
-    return url.origin;
-  }
-  const { href, pathname, search, hash } = url;
-  return href.slice(0, href.length - pathname.length - search.length - hash.length);
-};
-
 /** List of routes which accept the API key appended as a GET parameter. */
 const inlineApiRoutes: RegExp[] = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(
   r => new RegExp(r),
@@ -53,7 +44,7 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document = document) =>
     const fixedSrc: URL = new URL(actualSrc, realm);
 
     // If the corrected URL is on this realm...
-    if (origin(fixedSrc) === origin(realm)) {
+    if (fixedSrc.origin === realm.origin) {
       // ... check to see if it's a route that needs the API key...
       if (inlineApiRoutes.some(regexp => regexp.test(fixedSrc.pathname))) {
         // ... and append it, if so.
