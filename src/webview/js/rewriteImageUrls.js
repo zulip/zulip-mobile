@@ -19,44 +19,41 @@ const inlineApiRoutes: RegExp[] = ['^/user_uploads/', '^/thumbnail$', '^/avatar/
  * entire document.
  */
 const rewriteImageUrls = (auth: Auth, element: Element | Document = document) => {
-  // The realm, parsed.
   const realm = new URL(auth.realm);
 
-  // Extract all image tags including and/or beneath `element`.
+  // Find the image elements to act on.
   const imageTags: $ReadOnlyArray<HTMLImageElement> = [].concat(
     element instanceof HTMLImageElement ? [element] : [],
     Array.from(element.getElementsByTagName('img')),
   );
 
-  // Process each image tag.
   imageTags.forEach(img => {
-    // Get the raw `src` value from the DOM. (We can't easily use `img.src`,
-    // since it's absolutized by the browser.)
+    // Not `img.src`, because that getter absolutizes relative URLs itself.
     const actualSrc = img.getAttribute('src');
 
-    // Skip completely sourceless elements: they're someone else's problem.
+    // A missing `src` is invalid per the HTML spec.
     if (actualSrc == null) {
       return;
     }
 
-    // Compute the absolute URL as though `auth.realm` were the basis.
+    // 1: Absolutize the URL appropriately.
     const fixedSrc = new URL(actualSrc, realm);
 
-    // If the corrected URL is on this realm...
+    // 2: Inject the API key where needed.
     if (fixedSrc.origin === realm.origin) {
-      // ... check to see if it's a route that needs the API key...
       if (inlineApiRoutes.some(regexp => regexp.test(fixedSrc.pathname))) {
-        // ... and append it, if so.
+        // Ideally we'd just use `searchParams`, but that was new in Chrome 51
+        // (and Safari 10).
         const delimiter = fixedSrc.search ? '&' : '';
         fixedSrc.search += `${delimiter}api_key=${auth.apiKey}`;
       }
     }
 
-    // Apply effective changes, if any.
+    // The condition is an optimization, in case setting `src` is slow.
     if (img.src !== fixedSrc.toString()) {
       img.src = fixedSrc.toString();
     }
-  }); /* for each img */
+  });
 };
 
 export default rewriteImageUrls;
