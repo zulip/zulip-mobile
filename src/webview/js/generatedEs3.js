@@ -26,15 +26,6 @@ var compiledWebviewJs = (function (exports) {
     return href.slice(0, href.length - pathname.length - search.length - hash.length);
   };
 
-  var splitUrl = function splitUrl(url) {
-    var head = origin(url);
-    var rest = url.href.slice(head.length);
-    return {
-      head: head,
-      rest: rest
-    };
-  };
-
   var inlineApiRoutes = ['/user_uploads/', '/thumbnail?', '/avatar/'];
 
   var rewriteImageUrls = function rewriteImageUrls(auth) {
@@ -52,13 +43,11 @@ var compiledWebviewJs = (function (exports) {
 
       var fixedSrc = new URL(actualSrc, realm);
 
-      var _splitUrl = splitUrl(fixedSrc),
-          fixedOrigin = _splitUrl.head,
-          fixedPath = _splitUrl.rest;
+      if (origin(fixedSrc) === origin(realm)) {
+        var fixedPathAndQuery = fixedSrc.pathname + fixedSrc.search;
 
-      if (fixedOrigin === origin(realm)) {
         if (inlineApiRoutes.some(function (route) {
-          return fixedPath.startsWith(route);
+          return fixedPathAndQuery.startsWith(route);
         })) {
           var delimiter = actualSrc.includes('?') ? '&' : '?';
           fixedSrc.search += "".concat(delimiter, "api_key=").concat(auth.apiKey);

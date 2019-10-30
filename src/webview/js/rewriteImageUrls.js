@@ -11,13 +11,6 @@ const origin = (url: URL) => {
   return href.slice(0, href.length - pathname.length - search.length - hash.length);
 };
 
-// Parse URL into origin and path-plus-search.
-const splitUrl = (url: URL): { head: string, rest: string } => {
-  const head = origin(url);
-  const rest = url.href.slice(head.length);
-  return { head, rest };
-};
-
 /** List of routes which accept the API key appended as a GET parameter. */
 const inlineApiRoutes: string[] = ['/user_uploads/', '/thumbnail?', '/avatar/'];
 
@@ -55,14 +48,13 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document = document) =>
     }
 
     // Compute the absolute URL as though `auth.realm` were the basis.
-    // Break it into `origin` and `path` components.
     const fixedSrc: URL = new URL(actualSrc, realm);
-    const { head: fixedOrigin, rest: fixedPath } = splitUrl(fixedSrc);
 
     // If the corrected URL is on this realm...
-    if (fixedOrigin === origin(realm)) {
+    if (origin(fixedSrc) === origin(realm)) {
       // ... check to see if it's a route that needs the API key...
-      if (inlineApiRoutes.some(route => fixedPath.startsWith(route))) {
+      const fixedPathAndQuery = fixedSrc.pathname + fixedSrc.search;
+      if (inlineApiRoutes.some(route => fixedPathAndQuery.startsWith(route))) {
         // ... and append it, if so.
         const delimiter = actualSrc.includes('?') ? '&' : '?';
         fixedSrc.search += `${delimiter}api_key=${auth.apiKey}`;
