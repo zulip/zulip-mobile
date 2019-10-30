@@ -8,14 +8,14 @@ const inlineApiRoutes: RegExp[] = ['^/user_uploads/', '^/thumbnail$', '^/avatar/
 );
 
 /**
- * Rewrite the source URLs of <img> tags beneath the specified parent element:
+ * Rewrite the source URLs of <img> elements under the given root, inclusive.
  *
  *   1. Make relative URLs absolute, with a path based on the Zulip realm rather
  *      than the document location.
  *   2. If the source URL names an endpoint known to require authentication,
  *      inject an API key into its query parameters.
  *
- * DEPRECATED: If no parent element is specified, transform every <img> in the
+ * DEPRECATED: If no root element is specified, transform every <img> in the
  * entire document.
  */
 const rewriteImageUrls = (auth: Auth, element: Element | Document = document) => {
