@@ -57,7 +57,7 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document = document) =>
       // ... check to see if it's a route that needs the API key...
       if (inlineApiRoutes.some(regexp => regexp.test(fixedSrc.pathname))) {
         // ... and append it, if so.
-        const delimiter = actualSrc.includes('?') ? '&' : '?';
+        const delimiter = fixedSrc.search ? '&' : '';
         fixedSrc.search += `${delimiter}api_key=${auth.apiKey}`;
       }
     }

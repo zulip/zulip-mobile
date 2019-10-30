@@ -49,7 +49,7 @@ var compiledWebviewJs = (function (exports) {
         if (inlineApiRoutes.some(function (regexp) {
           return regexp.test(fixedSrc.pathname);
         })) {
-          var delimiter = actualSrc.includes('?') ? '&' : '?';
+          var delimiter = fixedSrc.search ? '&' : '';
           fixedSrc.search += "".concat(delimiter, "api_key=").concat(auth.apiKey);
         }
       }
