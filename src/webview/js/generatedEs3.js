@@ -26,7 +26,9 @@ var compiledWebviewJs = (function (exports) {
     return href.slice(0, href.length - pathname.length - search.length - hash.length);
   };
 
-  var inlineApiRoutes = ['/user_uploads/', '/thumbnail?', '/avatar/'];
+  var inlineApiRoutes = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(function (r) {
+    return new RegExp(r);
+  });
 
   var rewriteImageUrls = function rewriteImageUrls(auth) {
     var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
@@ -44,10 +46,8 @@ var compiledWebviewJs = (function (exports) {
       var fixedSrc = new URL(actualSrc, realm);
 
       if (origin(fixedSrc) === origin(realm)) {
-        var fixedPathAndQuery = fixedSrc.pathname + fixedSrc.search;
-
         if (inlineApiRoutes.some(function (route) {
-          return fixedPathAndQuery.startsWith(route);
+          return route.test(fixedSrc.pathname);
         })) {
           var delimiter = actualSrc.includes('?') ? '&' : '?';
           fixedSrc.search += "".concat(delimiter, "api_key=").concat(auth.apiKey);

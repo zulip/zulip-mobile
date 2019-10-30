@@ -12,7 +12,9 @@ const origin = (url: URL) => {
 };
 
 /** List of routes which accept the API key appended as a GET parameter. */
-const inlineApiRoutes: string[] = ['/user_uploads/', '/thumbnail?', '/avatar/'];
+const inlineApiRoutes: RegExp[] = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(
+  r => new RegExp(r),
+);
 
 /**
  * Rewrite the source URLs of <img> tags beneath the specified parent element:
@@ -53,8 +55,7 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document = document) =>
     // If the corrected URL is on this realm...
     if (origin(fixedSrc) === origin(realm)) {
       // ... check to see if it's a route that needs the API key...
-      const fixedPathAndQuery = fixedSrc.pathname + fixedSrc.search;
-      if (inlineApiRoutes.some(route => fixedPathAndQuery.startsWith(route))) {
+      if (inlineApiRoutes.some(route => route.test(fixedSrc.pathname))) {
         // ... and append it, if so.
         const delimiter = actualSrc.includes('?') ? '&' : '?';
         fixedSrc.search += `${delimiter}api_key=${auth.apiKey}`;
