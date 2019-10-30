@@ -53,8 +53,8 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document = document) =>
     }
 
     // Apply effective changes, if any.
-    if (img.src !== fixedSrc.href) {
-      img.src = fixedSrc.href;
+    if (img.src !== fixedSrc.toString()) {
+      img.src = fixedSrc.toString();
     }
   }); /* for each img */
 };

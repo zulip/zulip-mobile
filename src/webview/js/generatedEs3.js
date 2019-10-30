@@ -40,8 +40,8 @@ var compiledWebviewJs = (function (exports) {
         }
       }
 
-      if (img.src !== fixedSrc.href) {
-        img.src = fixedSrc.href;
+      if (img.src !== fixedSrc.toString()) {
+        img.src = fixedSrc.toString();
       }
     });
   };
