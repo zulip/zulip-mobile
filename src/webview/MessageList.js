@@ -105,22 +105,34 @@ export type Props = {|
 |};
 
 /**
- * The path to the webview assets, represented as a `file:`-schema URL. Note
- * that the path may be relative (in which case the schema is implicit).
+ * The path to the webview assets, represented as a `file:`-scheme URL.
+ *
+ * This may be a relative URL, relative to whatever base URL a `WebView`
+ * component will use to interpret its own `source.baseUrl` prop.  (If
+ * relative, the scheme naturally is left implicit.)
  *
  * See the `tools/build-webview` script for more details.
  *
- * This value should not be used by components _within_ the webview: it will
- * probably yield incorrect results on iOS, since this value must be relative
- * there. Use './' instead.
+ * Because this URL may be relative, it shouldn't be used anywhere *other*
+ * than the `source.baseUrl` of a `WebView` component.  In particular, it
+ * shouldn't be used for URLs in the browser environment within the
+ * `WebView`; to reach the webview assets there, just use `./`.
  */
-// (The above is technically a lie. An absolute root directory would work fine
-// on iOS; it's just not fixed enough to be able to hardcode the way the Android
-// root directory is.
+// On iOS, a typical value to use here might be expressed like (in Swift)
+// `Bundle.main.resourceURL`.  But there's no convenient way to get that
+// from inside RN (and it doesn't seem worth linking something like
+// react-native-fs for); and unlike on Android, it's not fixed enough to be
+// able to just hardcode.
 //
-// We could still use something like `[[NSBundle mainbundle] bundleURL]` to get
-// an absolute URL on iOS -- but there's no convenient interface to that from
-// React, and it's not worth linking something like react-native-fs for.)
+// Fortunately, on iOS the `WebView` will accept a relative URL for this
+// value!  This behavior seems a bit mysterious -- it doesn't appear to be
+// documented -- but the mysterious base URL for the base URL takes a
+// convenient enough value we can just use that.  (The `WebView`
+// implementation on iOS passes `source.baseUrl` straight through to
+// `baseURL` here:
+//   https://developer.apple.com/documentation/webkit/wkwebview/1415004-loadhtmlstring
+// but there's no indication that that can be relative, or if so what it is
+// treated as relative to.)
 const assetsPath = Platform.OS === 'ios' ? './webview' : 'file:///android_asset/webview';
 
 class MessageList extends Component<Props> {
