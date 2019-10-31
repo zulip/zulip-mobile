@@ -105,35 +105,36 @@ export type Props = {|
 |};
 
 /**
- * The path to the webview assets, represented as a `file:`-scheme URL.
+ * A URL-like magic string denoting the webview-assets folder.
  *
- * This may be a relative URL, relative to whatever base URL a `WebView`
- * component will use to interpret its own `source.baseUrl` prop.  (If
- * relative, the scheme naturally is left implicit.)
- *
- * See the `tools/build-webview` script for more details.
- *
- * Because this URL may be relative, it shouldn't be used anywhere *other*
- * than the `source.baseUrl` of a `WebView` component.  In particular, it
- * shouldn't be used for URLs in the browser environment within the
- * `WebView`; to reach the webview assets there, just use `./`.
+ * Not suitable for reuse or export.
  */
-// On iOS, a typical value to use here might be expressed like (in Swift)
-// `Bundle.main.resourceURL`.  But there's no convenient way to get that
-// from inside RN (and it doesn't seem worth linking something like
-// react-native-fs for); and unlike on Android, it's not fixed enough to be
-// able to just hardcode.
-//
-// Fortunately, on iOS the `WebView` will accept a relative URL for this
-// value!  This behavior seems a bit mysterious -- it doesn't appear to be
-// documented -- but the mysterious base URL for the base URL takes a
-// convenient enough value we can just use that.  (The `WebView`
-// implementation on iOS passes `source.baseUrl` straight through to
-// `baseURL` here:
-//   https://developer.apple.com/documentation/webkit/wkwebview/1415004-loadhtmlstring
-// but there's no indication that that can be relative, or if so what it is
-// treated as relative to.)
 const assetsPath = Platform.OS === 'ios' ? './webview' : 'file:///android_asset/webview';
+// What the value above probably _should_ be, semantically, is an absolute
+// `file:`-scheme URL naming the path to the webview-assets folder. [1]
+//
+// * On Android, that's exactly what it is. Different apps' WebViews see
+//   different (virtual) root directories as `file:///`, and at runtime, the
+//   APK's `assets/` directory is mounted at `file:///android_asset/`. We can
+//   easily hardcode that, so we do.
+//
+// * On iOS, it's not: it's a relative path. (Or relative URL, if you prefer.)
+//   We can't make it absolute here, because neither React Native itself nor any
+//   of our current dependencies directly expose the Foundation API that would
+//   tell us the absolute path that our bundle is located at [2].
+//
+//   Instead, for now, we exploit the fact that (the iOS version of) React
+//   Native will resolve it with respect to the bundle's absolute path. [3] This
+//   fact is not known to be documented, however, and should not be taken for
+//   granted indefinitely.
+//
+// [1] See `tools/build-webview` for more information on what folder that is.
+//
+// [2] Specifically, `Bundle.main.bundleURL` (aka `[[NSBundle mainbundle]
+//     bundleURL]`). Alternatively, the value of `resourceURL` is (believed to
+//     be) equivalent in this context.
+//
+// [3] https://github.com/facebook/react-native/blob/0.59-stable/React/Base/RCTConvert.m#L85
 
 class MessageList extends Component<Props> {
   context: Context;
