@@ -273,10 +273,14 @@ class MessageList extends Component<Props> {
       };
     })();
 
-    // Note: neither `originWhitelist` nor `onShouldStartLoadWithRequest` are
-    // significant security barriers; they're checked only against the URL of
-    // the document itself. They cannot be used to validate the URL of any
-    // resource the WebView loads.
+    // The `originWhitelist` and `onShouldStartLoadWithRequest` props are
+    // meant to mitigate possible XSS bugs, by interrupting an attempted
+    // exploit if it tries to navigate to a new URL by e.g. setting
+    // `window.location`.
+    //
+    // Note that neither of them is a hard security barrier; they're checked
+    // only against the URL of the document itself.  They cannot be used to
+    // validate the URL of other resources the WebView loads.
     //
     // Worse, the `originWhitelist` parameter is completely broken. See:
     // https://github.com/react-native-community/react-native-webview/pull/697
