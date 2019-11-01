@@ -15,7 +15,7 @@ import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
 import { getFullUrl } from '../utils/url';
 import { extractApiKey } from '../utils/encoding';
-import { generateOtp, openBrowser, closeBrowser } from './webAuth';
+import * as webAuth from './webAuth';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 
 /**
@@ -135,12 +135,12 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   beginWebAuth = async (url: string) => {
-    otp = await generateOtp();
-    openBrowser(`${this.props.realm}/${url}`, otp);
+    otp = await webAuth.generateOtp();
+    webAuth.openBrowser(`${this.props.realm}/${url}`, otp);
   };
 
   endWebAuth = (event: LinkingEvent) => {
-    closeBrowser();
+    webAuth.closeBrowser();
 
     const { dispatch, realm } = this.props;
     const url = parseURL(event.url, true);
