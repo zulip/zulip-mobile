@@ -18,53 +18,64 @@ import { extractApiKey } from '../utils/encoding';
 import { generateOtp, openBrowser, closeBrowser } from './oauth';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 
+/**
+ * Describes a method for authenticating to the server.
+ *
+ * Different servers and orgs/realms accept different sets of auth methods,
+ * described in the /server_settings response; see api.getServerSettings
+ * and https://zulipchat.com/api/server-settings .
+ */
 type AuthenticationMethodDetails = {|
-  method: string,
+  /** An identifier-style name used in the /server_settings API. */
   name: string,
+
+  /** A name to show in the UI. */
+  displayName: string,
+
   Icon: IconType,
   handler: string,
 |};
 
 const authentications: AuthenticationMethodDetails[] = [
   {
-    method: 'dev',
-    name: 'dev account',
+    name: 'dev',
+    displayName: 'dev account',
     Icon: IconTerminal,
     handler: 'handleDevAuth',
   },
   {
-    method: 'password',
     name: 'password',
+    displayName: 'password',
     Icon: IconPrivate,
     handler: 'handlePassword',
   },
   {
-    method: 'ldap',
-    name: 'password',
+    name: 'ldap',
+    displayName: 'password',
     Icon: IconPrivate,
     handler: 'handlePassword',
   },
   {
-    method: 'google',
-    name: 'Google',
+    name: 'google',
+    displayName: 'Google',
     Icon: IconGoogle,
     handler: 'handleGoogle',
   },
   {
-    method: 'github',
-    name: 'GitHub',
+    name: 'github',
+    displayName: 'GitHub',
     Icon: IconGitHub,
     handler: 'handleGitHub',
   },
   {
-    method: 'azuread',
-    name: 'Azure AD',
+    name: 'azuread',
+    displayName: 'Azure AD',
     Icon: IconWindows,
     handler: 'handleAzureAD',
   },
   {
-    method: 'remoteuser',
-    name: 'SSO',
+    name: 'remoteuser',
+    displayName: 'SSO',
     Icon: IconPrivate,
     handler: 'handleSso',
   },
@@ -76,8 +87,7 @@ export const activeAuthentications = (
 ): AuthenticationMethodDetails[] =>
   authentications.filter(
     auth =>
-      authenticationMethods[auth.method]
-      && (auth.method !== 'ldap' || !authenticationMethods.password),
+      authenticationMethods[auth.name] && (auth.name !== 'ldap' || !authenticationMethods.password),
   );
 
 type Props = $ReadOnly<{|
@@ -187,10 +197,10 @@ class AuthScreen extends PureComponent<Props> {
           />
           {activeAuthentications(serverSettings.authentication_methods).map(auth => (
             <ZulipButton
-              key={auth.method}
+              key={auth.name}
               style={styles.halfMarginTop}
               secondary
-              text={`Log in with ${auth.name}`}
+              text={`Log in with ${auth.displayName}`}
               Icon={auth.Icon}
               onPress={
                 // $FlowFixMe
