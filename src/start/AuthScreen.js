@@ -33,7 +33,7 @@ type AuthenticationMethodDetails = {|
   displayName: string,
 
   Icon: IconType,
-  handler: string,
+  action: 'dev' | 'password' | {| url: string |},
 |};
 
 const authentications: AuthenticationMethodDetails[] = [
@@ -41,43 +41,46 @@ const authentications: AuthenticationMethodDetails[] = [
     name: 'dev',
     displayName: 'dev account',
     Icon: IconTerminal,
-    handler: 'handleDevAuth',
+    action: 'dev',
   },
   {
     name: 'password',
     displayName: 'password',
     Icon: IconPrivate,
-    handler: 'handlePassword',
+    action: 'password',
   },
   {
     name: 'ldap',
     displayName: 'password',
     Icon: IconPrivate,
-    handler: 'handlePassword',
+    action: 'password',
   },
   {
     name: 'google',
     displayName: 'Google',
     Icon: IconGoogle,
-    handler: 'handleGoogle',
+    // Server versions through 2.0 accept only this URL for Google auth.
+    // Since server commit 2.0.0-2478-ga43b231f9 , both this URL and the new
+    // accounts/login/social/google are accepted; see zulip/zulip#13081 .
+    action: { url: 'accounts/login/google/' },
   },
   {
     name: 'github',
     displayName: 'GitHub',
     Icon: IconGitHub,
-    handler: 'handleGitHub',
+    action: { url: 'accounts/login/social/github' },
   },
   {
     name: 'azuread',
     displayName: 'Azure AD',
     Icon: IconWindows,
-    handler: 'handleAzureAD',
+    action: { url: '/accounts/login/social/azuread-oauth2' },
   },
   {
     name: 'remoteuser',
     displayName: 'SSO',
     Icon: IconPrivate,
-    handler: 'handleSso',
+    action: { url: 'accounts/login/sso/' },
   },
 ];
 
@@ -165,28 +168,15 @@ class AuthScreen extends PureComponent<Props> {
     this.props.dispatch(navigateToPassword(serverSettings.require_email_format_usernames));
   };
 
-  handleGoogle = () => {
-    // Server versions through 2.0 accept only this URL for Google auth.
-    // Since server commit 2.0.0-2478-ga43b231f9 , both this URL and the new
-    // accounts/login/social/google are accepted; see zulip/zulip#13081 .
-    this.beginOAuth('accounts/login/google/');
-  };
-
-  handleGitHub = () => {
-    this.beginOAuth('accounts/login/social/github');
-  };
-
-  handleAzureAD = () => {
-    this.beginOAuth('/accounts/login/social/azuread-oauth2');
-  };
-
-  handleSso = () => {
-    this.beginOAuth('accounts/login/sso/');
-  };
-
   handleAuth = (method: AuthenticationMethodDetails) => {
-    // $FlowFixMe
-    this[method.handler]();
+    const { action } = method;
+    if (action === 'dev') {
+      this.handleDevAuth();
+    } else if (action === 'password') {
+      this.handlePassword();
+    } else {
+      this.beginOAuth(action.url);
+    }
   };
 
   render() {
