@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react';
 import { Linking } from 'react-native';
-import parseURL from 'url-parse';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { AuthenticationMethods, Dispatch, ApiResponseServerSettings } from '../types';
@@ -142,19 +141,9 @@ class AuthScreen extends PureComponent<Props> {
     webAuth.closeBrowser();
 
     const { dispatch, realm } = this.props;
-    const url = parseURL(event.url, true);
-
-    // callback format expected: zulip://login?realm={}&email={}&otp_encrypted_api_key={}
-    if (
-      url.host === 'login'
-      && url.query.realm === realm
-      && otp
-      && url.query.email
-      && url.query.otp_encrypted_api_key
-      && url.query.otp_encrypted_api_key.length === otp.length
-    ) {
-      const apiKey = webAuth.extractApiKey(url.query.otp_encrypted_api_key, otp);
-      dispatch(loginSuccess(realm, url.query.email, apiKey));
+    const auth = webAuth.authFromCallbackUrl(event.url, otp, realm);
+    if (auth) {
+      dispatch(loginSuccess(auth.realm, auth.email, auth.apiKey));
     }
   };
 

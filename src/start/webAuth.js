@@ -1,7 +1,9 @@
 /* @flow strict-local */
 import { NativeModules, Platform } from 'react-native';
 import SafariView from 'react-native-safari-view';
+import parseURL from 'url-parse';
 
+import type { Auth } from '../types';
 import openLink from '../utils/openLink';
 import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
 
@@ -57,5 +59,27 @@ export const closeBrowser = () => {
  *
  * Corresponds to `otp_decrypt_api_key` on the server.
  */
-export const extractApiKey = (encoded: string, otp: string) =>
-  hexToAscii(xorHexStrings(encoded, otp));
+const extractApiKey = (encoded: string, otp: string) => hexToAscii(xorHexStrings(encoded, otp));
+
+export const authFromCallbackUrl = (
+  callbackUrl: string,
+  otp: string,
+  realm: string,
+): Auth | null => {
+  const url = parseURL(callbackUrl, true);
+
+  // callback format expected: zulip://login?realm={}&email={}&otp_encrypted_api_key={}
+  if (
+    url.host === 'login'
+    && url.query.realm === realm
+    && otp
+    && url.query.email
+    && url.query.otp_encrypted_api_key
+    && url.query.otp_encrypted_api_key.length === otp.length
+  ) {
+    const apiKey = extractApiKey(url.query.otp_encrypted_api_key, otp);
+    return { realm, email: url.query.email, apiKey };
+  }
+
+  return null;
+};
