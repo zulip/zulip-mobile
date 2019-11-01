@@ -123,8 +123,7 @@ class AuthScreen extends PureComponent<Props> {
       this.props.navigation.state.params.serverSettings.authentication_methods,
     );
     if (authList.length === 1) {
-      // $FlowFixMe
-      this[authList[0].handler]();
+      this.handleAuth(authList[0]);
     }
   };
 
@@ -185,6 +184,11 @@ class AuthScreen extends PureComponent<Props> {
     this.beginOAuth('accounts/login/sso/');
   };
 
+  handleAuth = (method: AuthenticationMethodDetails) => {
+    // $FlowFixMe
+    this[method.handler]();
+  };
+
   render() {
     const { serverSettings } = this.props.navigation.state.params;
 
@@ -202,10 +206,7 @@ class AuthScreen extends PureComponent<Props> {
               secondary
               text={`Log in with ${auth.displayName}`}
               Icon={auth.Icon}
-              onPress={
-                // $FlowFixMe
-                this[auth.handler]
-              }
+              onPress={() => this.handleAuth(auth)}
             />
           ))}
         </Centerer>
