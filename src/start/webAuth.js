@@ -5,6 +5,23 @@ import SafariView from 'react-native-safari-view';
 import openLink from '../utils/openLink';
 import { base64ToHex } from '../utils/encoding';
 
+/*
+  Logic for authenticating the user to Zulip through a browser.
+
+  Specifically, this handles auth flows we don't know the specifics of
+  here in the app's code.
+
+  To handle that, we send the user to some URL in a browser, so they can go
+  through whatever flow the server (or an auth provider it redirects them to
+  in turn) wants to take them through.
+
+  To close the loop when the authentication is complete, there's a
+  particular protocol we carry out with the Zulip server, involving
+  `zulip://` URLs and XOR-ing with a one-time pad named `mobile_flow_otp`.
+  No docs on this protocol seem to exist; see the implementations here
+  and in the server.
+ */
+
 // Generate a one time pad (OTP) which the server XORs the API key with
 // in its response to protect against credentials intercept
 export const generateOtp = async () => {

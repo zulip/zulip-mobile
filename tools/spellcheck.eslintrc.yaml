@@ -108,7 +108,6 @@ rules:
     - nonexisting
     - notif
     - num
-    - oauth
     - ok
     - otp
     - overlayed

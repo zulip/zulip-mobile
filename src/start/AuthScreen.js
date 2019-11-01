@@ -15,7 +15,7 @@ import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
 import { getFullUrl } from '../utils/url';
 import { extractApiKey } from '../utils/encoding';
-import { generateOtp, openBrowser, closeBrowser } from './oauth';
+import { generateOtp, openBrowser, closeBrowser } from './webAuth';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 
 /**
@@ -115,10 +115,10 @@ type LinkingEvent = {
 
 class AuthScreen extends PureComponent<Props> {
   componentDidMount = () => {
-    Linking.addEventListener('url', this.endOAuth);
+    Linking.addEventListener('url', this.endWebAuth);
     Linking.getInitialURL().then((initialUrl: ?string) => {
       if (initialUrl !== null && initialUrl !== undefined) {
-        this.endOAuth({ url: initialUrl });
+        this.endWebAuth({ url: initialUrl });
       }
     });
 
@@ -131,15 +131,15 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   componentWillUnmount = () => {
-    Linking.removeEventListener('url', this.endOAuth);
+    Linking.removeEventListener('url', this.endWebAuth);
   };
 
-  beginOAuth = async (url: string) => {
+  beginWebAuth = async (url: string) => {
     otp = await generateOtp();
     openBrowser(`${this.props.realm}/${url}`, otp);
   };
 
-  endOAuth = (event: LinkingEvent) => {
+  endWebAuth = (event: LinkingEvent) => {
     closeBrowser();
 
     const { dispatch, realm } = this.props;
@@ -175,7 +175,7 @@ class AuthScreen extends PureComponent<Props> {
     } else if (action === 'password') {
       this.handlePassword();
     } else {
-      this.beginOAuth(action.url);
+      this.beginWebAuth(action.url);
     }
   };
 
