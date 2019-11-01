@@ -3,7 +3,7 @@ import { NativeModules, Platform } from 'react-native';
 import SafariView from 'react-native-safari-view';
 
 import openLink from '../utils/openLink';
-import { base64ToHex } from '../utils/encoding';
+import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
 
 /*
   Logic for authenticating the user to Zulip through a browser.
@@ -51,3 +51,11 @@ export const closeBrowser = () => {
     SafariView.dismiss();
   }
 };
+
+/**
+ * Decode an API key from the Zulip mobile-auth-via-web protocol.
+ *
+ * Corresponds to `otp_decrypt_api_key` on the server.
+ */
+export const extractApiKey = (encoded: string, otp: string) =>
+  hexToAscii(xorHexStrings(encoded, otp));

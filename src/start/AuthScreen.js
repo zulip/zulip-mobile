@@ -14,7 +14,6 @@ import { Centerer, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
 import { getFullUrl } from '../utils/url';
-import { extractApiKey } from '../utils/encoding';
 import * as webAuth from './webAuth';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 
@@ -154,7 +153,7 @@ class AuthScreen extends PureComponent<Props> {
       && url.query.otp_encrypted_api_key
       && url.query.otp_encrypted_api_key.length === otp.length
     ) {
-      const apiKey = extractApiKey(url.query.otp_encrypted_api_key, otp);
+      const apiKey = webAuth.extractApiKey(url.query.otp_encrypted_api_key, otp);
       dispatch(loginSuccess(realm, url.query.email, apiKey));
     }
   };

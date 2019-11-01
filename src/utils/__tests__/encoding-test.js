@@ -7,7 +7,6 @@ import {
   asciiToHex,
   xorHexStrings,
   base64Utf8Encode,
-  extractApiKey,
 } from '../encoding';
 
 describe('base64ToHex', () => {
@@ -76,13 +75,5 @@ describe('base64Utf8Encode', () => {
     const expected = '8J+Yh/CfmIg=';
     const result = base64Utf8Encode(text);
     expect(result).toBe(expected);
-  });
-});
-describe('extractApiKey', () => {
-  test('correctly extracts an API key that has been XORed with a OTP', () => {
-    const key = 'testing';
-    const otp = 'A8348A93A83493';
-    const encoded = xorHexStrings(asciiToHex(key), otp);
-    expect(extractApiKey(encoded, otp)).toBe(key);
   });
 });

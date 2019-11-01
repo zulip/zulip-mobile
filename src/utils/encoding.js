@@ -53,8 +53,3 @@ export const base64Utf8Encode = (text: string): string =>
   // We use `base64.encode` because `btoa` is unavailable in the JS
   // environment provided by RN on iOS.
   base64.encode(unescape(encodeURIComponent(text)));
-
-// Extract an API key encoded as a hex string XOR'ed with a one time pad (OTP)
-// (this is used during the auth-via-browser flow)
-export const extractApiKey = (encoded: string, otp: string) =>
-  hexToAscii(xorHexStrings(encoded, otp));
