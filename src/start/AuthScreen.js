@@ -7,10 +7,10 @@ import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Dispatch, ApiResponseServerSettings } from '../types';
 import { connect } from '../react-redux';
-import { Centerer, Screen } from '../common';
+import styles from '../styles';
+import { Centerer, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
-import AuthButton from './AuthButton';
 import { getFullUrl } from '../utils/url';
 import { extractApiKey } from '../utils/encoding';
 import { generateOtp, openBrowser, closeBrowser } from './oauth';
@@ -123,9 +123,11 @@ class AuthScreen extends PureComponent<Props> {
             iconUrl={getFullUrl(serverSettings.realm_icon, this.props.realm)}
           />
           {activeAuthentications(serverSettings.authentication_methods).map(auth => (
-            <AuthButton
+            <ZulipButton
               key={auth.method}
-              name={auth.name}
+              style={styles.halfMarginTop}
+              secondary
+              text={`Log in with ${auth.name}`}
               Icon={auth.Icon}
               onPress={
                 // $FlowFixMe
