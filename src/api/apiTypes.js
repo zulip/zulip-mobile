@@ -5,7 +5,4 @@ export type * from './modelTypes';
 export type * from './eventTypes';
 export type * from './initialDataTypes';
 
-export type {
-  AuthenticationMethods,
-  ApiResponseServerSettings,
-} from './settings/getServerSettings';
+export type * from './settings/getServerSettings';

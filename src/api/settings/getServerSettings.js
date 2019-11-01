@@ -14,9 +14,19 @@ export type AuthenticationMethods = {
   ...
 };
 
+export type ExternalAuthenticationMethod = {|
+  name: string,
+  display_name: string,
+  display_icon: string | null,
+  login_url: string,
+  signup_url: string,
+|};
+
 export type ApiResponseServerSettings = {|
   ...ApiResponseSuccess,
   authentication_methods: AuthenticationMethods,
+  // external_authentication_methods added for server v2.1
+  external_authentication_methods?: ExternalAuthenticationMethod[],
   email_auth_enabled: boolean,
   push_notifications_enabled: boolean,
   realm_description: string,
