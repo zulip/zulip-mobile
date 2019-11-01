@@ -5,7 +5,9 @@ import { Linking } from 'react-native';
 import parseURL from 'url-parse';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, ApiResponseServerSettings } from '../types';
+import type { AuthenticationMethods, Dispatch, ApiResponseServerSettings } from '../types';
+import { IconPrivate, IconGoogle, IconGitHub, IconWindows, IconTerminal } from '../common/Icons';
+import type { IconType } from '../common/Icons';
 import { connect } from '../react-redux';
 import styles from '../styles';
 import { Centerer, Screen, ZulipButton } from '../common';
@@ -14,8 +16,69 @@ import RealmInfo from './RealmInfo';
 import { getFullUrl } from '../utils/url';
 import { extractApiKey } from '../utils/encoding';
 import { generateOtp, openBrowser, closeBrowser } from './oauth';
-import { activeAuthentications } from './authentications';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
+
+type AuthenticationMethodDetails = {|
+  method: string,
+  name: string,
+  Icon: IconType,
+  handler: string,
+|};
+
+const authentications: AuthenticationMethodDetails[] = [
+  {
+    method: 'dev',
+    name: 'dev account',
+    Icon: IconTerminal,
+    handler: 'handleDevAuth',
+  },
+  {
+    method: 'password',
+    name: 'password',
+    Icon: IconPrivate,
+    handler: 'handlePassword',
+  },
+  {
+    method: 'ldap',
+    name: 'password',
+    Icon: IconPrivate,
+    handler: 'handlePassword',
+  },
+  {
+    method: 'google',
+    name: 'Google',
+    Icon: IconGoogle,
+    handler: 'handleGoogle',
+  },
+  {
+    method: 'github',
+    name: 'GitHub',
+    Icon: IconGitHub,
+    handler: 'handleGitHub',
+  },
+  {
+    method: 'azuread',
+    name: 'Azure AD',
+    Icon: IconWindows,
+    handler: 'handleAzureAD',
+  },
+  {
+    method: 'remoteuser',
+    name: 'SSO',
+    Icon: IconPrivate,
+    handler: 'handleSso',
+  },
+];
+
+/** Exported for tests only. */
+export const activeAuthentications = (
+  authenticationMethods: AuthenticationMethods,
+): AuthenticationMethodDetails[] =>
+  authentications.filter(
+    auth =>
+      authenticationMethods[auth.method]
+      && (auth.method !== 'ldap' || !authenticationMethods.password),
+  );
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,

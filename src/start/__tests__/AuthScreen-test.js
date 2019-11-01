@@ -1,4 +1,4 @@
-import { activeAuthentications } from '../authentications';
+import { activeAuthentications } from '../AuthScreen';
 
 describe('activeAuthentications', () => {
   test('empty auth methods object result in no available authentications', () => {
