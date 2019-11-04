@@ -1733,7 +1733,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ $SDKROOT == *\"iPhoneSimulator\"* ]]; then\necho [Bundle React Native code and images] Skipping sentry\n../node_modules/react-native/scripts/react-native-xcode.sh\nelse\nexport SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\nfi\n";
+			shellScript = "if [[ $CONFIGURATION == \"Release\" && ! `git describe --tags` =~ '-g' ]]; then\n  export SENTRY_PROPERTIES=sentry.properties\n  export NODE_BINARY=node\n  ../node_modules/@sentry/cli/bin/sentry-cli react-native xcode \\\n    ../node_modules/react-native/scripts/react-native-xcode.sh\nelse\n  echo [Bundle React Native code and images] Skipping sentry\n  ../node_modules/react-native/scripts/react-native-xcode.sh\nfi\n";
 		};
 		6FD412E618344A7FB938E4AC /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1747,7 +1747,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ $SDKROOT == *\"iPhoneSimulator\"* ]]; then\necho [Upload Debug Symbols to Sentry] Skipping sentry\nelse\nexport SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\nfi\n";
+			shellScript = "if [[ $CONFIGURATION == \"Release\" && ! `git describe --tags` =~ '-g' ]]; then\n  export SENTRY_PROPERTIES=sentry.properties\n  ../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\nelse\n  echo [Upload Debug Symbols to Sentry] Skipping sentry\nfi\n";
 		};
 		CF6CFE0C1E7DC27200F687C7 /* Run Script: tools/build-webview */ = {
 			isa = PBXShellScriptBuildPhase;
