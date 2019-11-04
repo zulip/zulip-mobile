@@ -85,11 +85,21 @@ const authentications: AuthenticationMethodDetails[] = [
 /** Exported for tests only. */
 export const activeAuthentications = (
   authenticationMethods: AuthenticationMethods,
-): AuthenticationMethodDetails[] =>
-  authentications.filter(
-    auth =>
-      authenticationMethods[auth.name] && (auth.name !== 'ldap' || !authenticationMethods.password),
-  );
+): AuthenticationMethodDetails[] => {
+  const result = [];
+  authentications.forEach(auth => {
+    if (!authenticationMethods[auth.name]) {
+      return;
+    }
+    if (auth.name === 'ldap' && authenticationMethods.password) {
+      // For either of these, we show a button that looks and behaves
+      // exactly the same.  When both are enabled, dedupe them.
+      return;
+    }
+    result.push(auth);
+  });
+  return result;
+};
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
