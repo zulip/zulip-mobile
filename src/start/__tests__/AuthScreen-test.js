@@ -1,3 +1,5 @@
+/* @flow strict-local */
+
 import { activeAuthentications } from '../AuthScreen';
 
 describe('activeAuthentications', () => {

@@ -91,7 +91,7 @@ export const activeAuthentications = (
     if (!authenticationMethods[auth.name]) {
       return;
     }
-    if (auth.name === 'ldap' && authenticationMethods.password) {
+    if (auth.name === 'ldap' && authenticationMethods.password === true) {
       // For either of these, we show a button that looks and behaves
       // exactly the same.  When both are enabled, dedupe them.
       return;
