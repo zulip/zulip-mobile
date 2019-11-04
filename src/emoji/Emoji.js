@@ -5,7 +5,7 @@ import type { ImageEmojiType, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import UnicodeEmoji from './UnicodeEmoji';
 import ImageEmoji from './ImageEmoji';
-import { getActiveImageEmojiByName } from './emojiSelectors';
+import { getAllImageEmojiByName } from './emojiSelectors';
 
 type SelectorProps = {|
   imageEmoji: ImageEmojiType | void,
@@ -29,5 +29,5 @@ class Emoji extends PureComponent<Props> {
 }
 
 export default connect((state, props): SelectorProps => ({
-  imageEmoji: getActiveImageEmojiByName(state)[props.name],
+  imageEmoji: getAllImageEmojiByName(state)[props.name],
 }))(Emoji);
