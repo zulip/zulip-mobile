@@ -4,7 +4,12 @@ import React, { PureComponent } from 'react';
 import { Linking } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { AuthenticationMethods, Dispatch, ApiResponseServerSettings } from '../types';
+import type {
+  AuthenticationMethods,
+  Dispatch,
+  ExternalAuthenticationMethod,
+  ApiResponseServerSettings,
+} from '../types';
 import { IconPrivate, IconGoogle, IconGitHub, IconWindows, IconTerminal } from '../common/Icons';
 import type { IconType } from '../common/Icons';
 import { connect } from '../react-redux';
@@ -90,9 +95,16 @@ const availableExternalMethods: AuthenticationMethodDetails[] = [
   },
 ];
 
+const externalMethodIcons = new Map([
+  ['google', IconGoogle],
+  ['github', IconGitHub],
+  ['azuread', IconWindows],
+]);
+
 /** Exported for tests only. */
 export const activeAuthentications = (
   authenticationMethods: AuthenticationMethods,
+  externalAuthenticationMethods: ExternalAuthenticationMethod[] | void,
 ): AuthenticationMethodDetails[] => {
   const result = [];
 
@@ -108,11 +120,35 @@ export const activeAuthentications = (
     result.push(auth);
   });
 
-  availableExternalMethods.forEach(auth => {
-    if (authenticationMethods[auth.name]) {
-      result.push(auth);
-    }
-  });
+  if (!externalAuthenticationMethods) {
+    // Server doesn't speak new API; get these methods from the old one.
+    availableExternalMethods.forEach(auth => {
+      if (authenticationMethods[auth.name]) {
+        result.push(auth);
+      }
+    });
+  } else {
+    // We have info from new API; ignore old one for these methods.
+    externalAuthenticationMethods.forEach(method => {
+      if (result.some(({ name }) => name === method.name)) {
+        // Ignore duplicate.
+        return;
+      }
+
+      // The server provides icons as image URLs; but we have our own built
+      // in, which we don't have to load and can color to match the button.
+      // TODO perhaps switch to server's, for the sake of SAML where ours is
+      //   generic and the server may have a more specific one.
+      const Icon = externalMethodIcons.get(method.name) ?? IconPrivate;
+
+      result.push({
+        name: method.name,
+        displayName: method.display_name,
+        Icon,
+        action: { url: method.login_url },
+      });
+    });
+  }
 
   return result;
 };
@@ -146,8 +182,10 @@ class AuthScreen extends PureComponent<Props> {
       }
     });
 
+    const { serverSettings } = this.props.navigation.state.params;
     const authList = activeAuthentications(
-      this.props.navigation.state.params.serverSettings.authentication_methods,
+      serverSettings.authentication_methods,
+      serverSettings.external_authentication_methods,
     );
     if (authList.length === 1) {
       this.handleAuth(authList[0]);
@@ -203,7 +241,10 @@ class AuthScreen extends PureComponent<Props> {
             name={serverSettings.realm_name}
             iconUrl={getFullUrl(serverSettings.realm_icon, this.props.realm)}
           />
-          {activeAuthentications(serverSettings.authentication_methods).map(auth => (
+          {activeAuthentications(
+            serverSettings.authentication_methods,
+            serverSettings.external_authentication_methods,
+          ).map(auth => (
             <ZulipButton
               key={auth.name}
               style={styles.halfMarginTop}
