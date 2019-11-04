@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { Sentry, SentrySeverity } from 'react-native-sentry';
+import Sentry, { Severity as SentrySeverity } from '@sentry/react-native';
 import config from '../config';
 
 // Notes on the behavior of `console.error`, `console.warn`, `console.log`:
