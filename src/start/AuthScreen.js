@@ -34,7 +34,8 @@ type AuthenticationMethodDetails = {|
   action: 'dev' | 'password' | {| url: string |},
 |};
 
-const authentications: AuthenticationMethodDetails[] = [
+// Methods that don't show up in external_authentication_methods.
+const availableDirectMethods: AuthenticationMethodDetails[] = [
   {
     name: 'dev',
     displayName: 'dev account',
@@ -53,6 +54,19 @@ const authentications: AuthenticationMethodDetails[] = [
     Icon: IconPrivate,
     action: 'password',
   },
+  {
+    // This one might move to external_authentication_methods in the future.
+    name: 'remoteuser',
+    displayName: 'SSO',
+    Icon: IconPrivate,
+    action: { url: 'accounts/login/sso/' },
+  },
+];
+
+// Methods that are covered in external_authentication_methods by servers
+// which have that key (Zulip Server v2.1+).  We refer to this array for
+// servers that don't.
+const availableExternalMethods: AuthenticationMethodDetails[] = [
   {
     name: 'google',
     displayName: 'Google',
@@ -74,12 +88,6 @@ const authentications: AuthenticationMethodDetails[] = [
     Icon: IconWindows,
     action: { url: '/accounts/login/social/azuread-oauth2' },
   },
-  {
-    name: 'remoteuser',
-    displayName: 'SSO',
-    Icon: IconPrivate,
-    action: { url: 'accounts/login/sso/' },
-  },
 ];
 
 /** Exported for tests only. */
@@ -87,7 +95,8 @@ export const activeAuthentications = (
   authenticationMethods: AuthenticationMethods,
 ): AuthenticationMethodDetails[] => {
   const result = [];
-  authentications.forEach(auth => {
+
+  availableDirectMethods.forEach(auth => {
     if (!authenticationMethods[auth.name]) {
       return;
     }
@@ -98,6 +107,13 @@ export const activeAuthentications = (
     }
     result.push(auth);
   });
+
+  availableExternalMethods.forEach(auth => {
+    if (authenticationMethods[auth.name]) {
+      result.push(auth);
+    }
+  });
+
   return result;
 };
 
