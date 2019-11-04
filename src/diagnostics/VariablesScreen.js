@@ -11,7 +11,6 @@ export default class VariablesScreen extends PureComponent<{||}> {
     const variables = {
       enableReduxLogging: config.enableReduxLogging,
       enableReduxSlowReducerWarnings: config.enableReduxSlowReducerWarnings,
-      enableSentry: config.enableSentry,
       'process.env.NODE_ENV': process.env.NODE_ENV,
       'global.btoa': !!global.btoa,
     };

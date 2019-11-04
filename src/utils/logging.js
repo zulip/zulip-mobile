@@ -38,7 +38,7 @@ import config from '../config';
  *  * `logging.warn` for logging at lower severity
  */
 export const error = (err: string | Error) => {
-  if (config.enableSentry) {
+  if (config.sentryKey !== null) {
     // If `err` is a string, this will dispatch to captureMessage and
     // synthesize a stack trace.
     Sentry.captureException(err, {
@@ -68,7 +68,7 @@ export const error = (err: string | Error) => {
  *  * `logging.error` for logging at higher severity
  */
 export const warn = (event: string | Error) => {
-  if (config.enableSentry) {
+  if (config.sentryKey !== null) {
     // See comment in `error` about behavior of `Sentry.captureException`.
     Sentry.captureException(event, {
       level: SentrySeverity.Warning,

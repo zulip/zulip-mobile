@@ -3,7 +3,7 @@ import { Sentry } from 'react-native-sentry';
 
 import config from './config';
 
-if (config.enableSentry) {
+if (config.sentryKey !== null) {
   Sentry.config(config.sentryKey, {
     deactivateStacktraceMerging: true,
     ignoreErrors: ['Network request failed'],
