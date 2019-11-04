@@ -1,3 +1,22 @@
+// Modules in `node_modules` which are published in uncompiled form, and
+// therefore need to be compiled by Babel before Jest can use them.
+//
+// These will be used as regexp fragments.
+const uncompiledModules = [
+  'react-native',
+  '@expo/react-native-action-sheet',
+  'react-navigation',
+  '@zulip/',
+];
+
+// The rest of `node_modules`, however, should not be transformed. We express this
+// with a negative-lookahead suffix, as suggested in the Jest docs:
+//
+//   https://jestjs.io/docs/en/tutorial-react-native#transformignorepatterns-customization
+//
+// (This value is correctly a string, not a RegExp.)
+const transformIgnorePattern = `node_modules/(?!${uncompiledModules.join('|')})`;
+
 module.exports = {
   preset: 'react-native',
 
@@ -14,11 +33,7 @@ module.exports = {
   transform: {
     '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
   },
-  transformIgnorePatterns: [
-    // Transform everything *but* most things in node_modules... but do
-    // transform those covered by the pattern inside the `(?!)`.
-    'node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation|@zulip/)',
-  ],
+  transformIgnorePatterns: [transformIgnorePattern],
 
   // The runtime test environment.
   globals: {
