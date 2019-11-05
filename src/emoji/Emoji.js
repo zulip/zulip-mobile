@@ -12,19 +12,6 @@ import { getAllImageEmojiByName } from './emojiSelectors';
   `glyphMap` may be either `number` or `string`. */
 const UnicodeEmoji = createIconSet(nameToEmojiMap, 'AppleColorEmoji');
 
-class ImageEmoji extends PureComponent<{|
-  emoji: ImageEmojiType,
-|}> {
-  styles = StyleSheet.create({
-    image: { width: 20, height: 20 },
-  });
-
-  render() {
-    const { emoji } = this.props;
-    return <Image style={this.styles.image} source={{ uri: emoji.source_url }} />;
-  }
-}
-
 type SelectorProps = {|
   imageEmoji: ImageEmojiType | void,
 |};
@@ -36,13 +23,19 @@ type Props = {|
   ...SelectorProps,
 |};
 
+// TODO: this only handles Unicode emoji (shipped with the app)
+// and realm emoji, but not Zulip extra emoji.  See our issue #2846.
 class Emoji extends PureComponent<Props> {
+  styles = StyleSheet.create({
+    image: { width: 20, height: 20 },
+  });
+
   render() {
     const { name, imageEmoji } = this.props;
-
-    // TODO: this only handles Unicode emoji (shipped with the app)
-    // and realm emoji, but not Zulip extra emoji.  See our issue #2846.
-    return imageEmoji ? <ImageEmoji emoji={imageEmoji} /> : <UnicodeEmoji name={name} size={20} />;
+    if (imageEmoji) {
+      return <Image style={this.styles.image} source={{ uri: imageEmoji.source_url }} />;
+    }
+    return <UnicodeEmoji name={name} size={20} />;
   }
 }
 
