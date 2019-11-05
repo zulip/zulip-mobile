@@ -36,10 +36,29 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* When the app hasn't been able to reach the server, the
+  PM-conversations tab now shows cached data like most of the app,
+  rather than a loading spinner.
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Bumped minimum Android version to Android 5 Lollipop, API 21;
+  dropped support for Android 4.4 KitKat.  (b3eced058)
+
+* Resolved issues: #3602, #3241
+
 
 ## 26.12.135 (2019-10-22)
 
 ### Highlights for users
+
+(The last release supporting Android 4.4 KitKat.)
 
 Fixes and improvements for your Zulip experience.
 
