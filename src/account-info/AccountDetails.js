@@ -39,7 +39,7 @@ type Props = {|
   ...SelectorProps,
 |};
 
-class AccountDetails extends PureComponent<Props, void> {
+class AccountDetails extends PureComponent<Props> {
   render() {
     const { realm, user, userStatusText } = this.props;
 
