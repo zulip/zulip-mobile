@@ -14,7 +14,6 @@ import caughtUp from '../caughtup/caughtUpReducer';
 import drafts from '../drafts/draftsReducer';
 import fetching from '../chat/fetchingReducer';
 import flags from '../chat/flagsReducer';
-import loading from '../loading/loadingReducer';
 import narrows from '../chat/narrowsReducer';
 import messages from '../message/messagesReducer';
 import mute from '../mute/muteReducer';
@@ -44,7 +43,6 @@ const reducers = {
   drafts,
   fetching,
   flags,
-  loading,
   messages,
   narrows,
   mute,

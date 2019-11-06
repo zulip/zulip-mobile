@@ -10,6 +10,7 @@ import {
   REALM_INIT,
   INIT_SAFE_AREA_INSETS,
   INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_START,
   APP_ORIENTATION,
   APP_STATE,
   CANCEL_EDIT_MESSAGE,
@@ -36,6 +37,7 @@ export type SessionState = {|
   isActive: boolean,
   isHydrated: boolean,
   lastNarrow: ?Narrow,
+  loading: boolean,
   needsInitialFetch: boolean,
   orientation: Orientation,
   outboxSending: boolean,
@@ -67,6 +69,7 @@ const initialState: SessionState = {
   isActive: true,
   isHydrated: false,
   lastNarrow: null,
+  loading: false,
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
@@ -99,6 +102,12 @@ const rehydrate = (state, action) => {
 export default (state: SessionState = initialState, action: Action): SessionState => {
   switch (action.type) {
     case DEAD_QUEUE:
+      return {
+        ...state,
+        needsInitialFetch: true,
+        loading: false,
+      };
+
     case LOGIN_SUCCESS:
       return {
         ...state,
@@ -110,6 +119,7 @@ export default (state: SessionState = initialState, action: Action): SessionStat
         ...state,
         lastNarrow: null,
         needsInitialFetch: false,
+        loading: false,
       };
 
     case ACCOUNT_SWITCH:
@@ -117,6 +127,7 @@ export default (state: SessionState = initialState, action: Action): SessionStat
         ...state,
         lastNarrow: null,
         needsInitialFetch: true,
+        loading: false,
       };
 
     case REHYDRATE:
@@ -146,9 +157,16 @@ export default (state: SessionState = initialState, action: Action): SessionStat
         isActive: action.isActive,
       };
 
+    case INITIAL_FETCH_START:
+      return {
+        ...state,
+        loading: true,
+      };
+
     case INITIAL_FETCH_COMPLETE:
       return {
         ...state,
+        loading: false,
         needsInitialFetch: false,
       };
 

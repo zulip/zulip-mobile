@@ -20,7 +20,7 @@ import createMigration from '../redux-persist-migrate/index';
  */
 // prettier-ignore
 export const discardKeys: Array<$Keys<GlobalState>> = [
-  'alertWords', 'caughtUp', 'fetching', 'loading',
+  'alertWords', 'caughtUp', 'fetching',
   'nav', 'presence', 'session', 'topics', 'typing', 'userStatus',
 ];
 

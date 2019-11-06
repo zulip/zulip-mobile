@@ -4,7 +4,6 @@ import type {
   DraftsState,
   FetchingState,
   FlagsState,
-  LoadingState,
   MessagesState,
   MuteState,
   NarrowsState,
@@ -43,7 +42,7 @@ export const getCanCreateStreams = (state: GlobalState): boolean => state.realm.
 
 export const getDrafts = (state: GlobalState): DraftsState => state.drafts;
 
-export const getLoading = (state: GlobalState): LoadingState => state.loading;
+export const getLoading = (state: GlobalState): boolean => state.session.loading;
 
 export const getMessages = (state: GlobalState): MessagesState => state.messages;
 

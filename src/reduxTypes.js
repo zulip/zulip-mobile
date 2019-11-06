@@ -97,10 +97,6 @@ export type FlagsState = {|
 
 export type FlagName = $Keys<FlagsState>;
 
-export type LoadingState = {|
-  unread: boolean,
-|};
-
 /**
  * A map with all messages we've stored locally, indexed by ID.
  *
@@ -292,7 +288,6 @@ export type GlobalState = {|
   drafts: DraftsState,
   fetching: FetchingState,
   flags: FlagsState,
-  loading: LoadingState,
   messages: MessagesState,
   migrations: MigrationsState,
   mute: MuteState,

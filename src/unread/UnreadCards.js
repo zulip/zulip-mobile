@@ -96,7 +96,7 @@ class UnreadCards extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  isLoading: getLoading(state).unread,
+  isLoading: getLoading(state),
   conversations: getUnreadConversations(state),
   usersByEmail: getAllUsersByEmail(state),
   unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),

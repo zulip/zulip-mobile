@@ -15,6 +15,7 @@ import {
   GOT_PUSH_TOKEN,
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
+  INITIAL_FETCH_START,
 } from '../../actionConstants';
 import sessionReducer from '../sessionReducer';
 import * as eg from '../../__tests__/exampleData';
@@ -24,9 +25,19 @@ describe('sessionReducer', () => {
   const baseState = eg.baseReduxState.session;
 
   test('ACCOUNT_SWITCH', () => {
-    const state = deepFreeze({ ...baseState, lastNarrow: [], needsInitialFetch: false });
+    const state = deepFreeze({
+      ...baseState,
+      lastNarrow: [],
+      needsInitialFetch: false,
+      loading: true,
+    });
     const newState = sessionReducer(state, eg.action.account_switch);
-    expect(newState).toEqual({ ...baseState, lastNarrow: null, needsInitialFetch: true });
+    expect(newState).toEqual({
+      ...baseState,
+      lastNarrow: null,
+      needsInitialFetch: true,
+      loading: false,
+    });
   });
 
   test('START_EDIT_MESSAGE', () => {
@@ -56,15 +67,25 @@ describe('sessionReducer', () => {
   });
 
   test('DEAD_QUEUE', () => {
-    const state = deepFreeze({ ...baseState, needsInitialFetch: false });
+    const state = deepFreeze({ ...baseState, needsInitialFetch: false, loading: true });
     const newState = sessionReducer(state, deepFreeze({ type: DEAD_QUEUE }));
-    expect(newState).toEqual({ ...baseState, needsInitialFetch: true });
+    expect(newState).toEqual({ ...baseState, needsInitialFetch: true, loading: false });
   });
 
   test('LOGOUT', () => {
-    const state = deepFreeze({ ...baseState, lastNarrow: [], needsInitialFetch: true });
+    const state = deepFreeze({
+      ...baseState,
+      lastNarrow: [],
+      needsInitialFetch: true,
+      loading: true,
+    });
     const newState = sessionReducer(state, deepFreeze({ type: LOGOUT }));
-    expect(newState).toEqual({ ...baseState, lastNarrow: null, needsInitialFetch: false });
+    expect(newState).toEqual({
+      ...baseState,
+      lastNarrow: null,
+      needsInitialFetch: false,
+      loading: false,
+    });
   });
 
   test('REALM_INIT', () => {
@@ -98,9 +119,15 @@ describe('sessionReducer', () => {
   });
 
   test('INITIAL_FETCH_COMPLETE', () => {
-    const state = deepFreeze({ ...baseState, needsInitialFetch: true });
+    const state = deepFreeze({ ...baseState, needsInitialFetch: true, loading: true });
     const newState = sessionReducer(state, deepFreeze({ type: INITIAL_FETCH_COMPLETE }));
-    expect(newState).toEqual({ ...baseState, needsInitialFetch: false });
+    expect(newState).toEqual({ ...baseState, needsInitialFetch: false, loading: false });
+  });
+
+  test('INITIAL_FETCH_START', () => {
+    const state = deepFreeze({ ...baseState, loading: false });
+    const newState = sessionReducer(state, deepFreeze({ type: INITIAL_FETCH_START }));
+    expect(newState).toEqual({ ...baseState, loading: true });
   });
 
   test('INIT_SAFE_AREA_INSETS', () => {
