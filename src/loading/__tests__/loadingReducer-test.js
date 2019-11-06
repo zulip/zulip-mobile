@@ -9,7 +9,6 @@ describe('loadingReducer', () => {
     test('resets state to nothing is loading', () => {
       const initialState = deepFreeze({
         unread: true,
-        users: true,
       });
 
       const action = deepFreeze({
@@ -19,7 +18,6 @@ describe('loadingReducer', () => {
 
       const expectedState = {
         unread: false,
-        users: false,
       };
 
       const actualState = loadingReducer(initialState, action);

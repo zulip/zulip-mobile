@@ -99,7 +99,6 @@ export type FlagName = $Keys<FlagsState>;
 
 export type LoadingState = {|
   unread: boolean,
-  users: boolean,
 |};
 
 /**

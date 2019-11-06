@@ -10,7 +10,6 @@ import {
 
 const initialState: LoadingState = {
   unread: false,
-  users: false,
 };
 
 export default (state: LoadingState = initialState, action: Action): LoadingState => {
@@ -21,10 +20,10 @@ export default (state: LoadingState = initialState, action: Action): LoadingStat
       return initialState;
 
     case INITIAL_FETCH_START:
-      return { unread: true, users: true };
+      return { unread: true };
 
     case INITIAL_FETCH_COMPLETE:
-      return { unread: false, users: false };
+      return { unread: false };
 
     default:
       return state;
