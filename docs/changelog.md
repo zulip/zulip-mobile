@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.13.136 (2019-11-05)
+
 ### Highlights for users
 
 * When the app hasn't been able to reach the server, the
