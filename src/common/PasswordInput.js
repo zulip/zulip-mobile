@@ -24,10 +24,10 @@ const styles = StyleSheet.create({
 
 // Prettier wants a ", >" here, which is silly.
 // prettier-ignore
-type Props = $Diff<InputProps,
+type Props = $ReadOnly<$Diff<InputProps,
   // "mixed" here is a way of spelling "no matter *what* type
   // `InputProps` allows for these, don't allow them here."
-  { secureTextEntry: mixed, autoCorrect: mixed, autoCapitalize: mixed }>;
+  { secureTextEntry: mixed, autoCorrect: mixed, autoCapitalize: mixed }>>;
 
 type State = {|
   isHidden: boolean,

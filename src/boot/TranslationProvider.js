@@ -53,9 +53,9 @@ const makeGetText = (intl: IntlShape): GetText => {
  * See https://reactjs.org/docs/context.html
  * vs. https://reactjs.org/docs/legacy-context.html .
  */
-class TranslationContextTranslator extends PureComponent<{
-  children: React$Node,
-}> {
+class TranslationContextTranslator extends PureComponent<{|
+  +children: React$Node,
+|}> {
   context: { intl: IntlShape };
 
   static contextTypes = {

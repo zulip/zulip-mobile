@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SetStatusButton extends PureComponent<{| dispatch: Dispatch |}> {
+class SetStatusButton extends PureComponent<{| +dispatch: Dispatch |}> {
   onPress = () => {
     const { dispatch } = this.props;
     dispatch(navigateToUserStatus());
@@ -39,7 +39,7 @@ class SetStatusButton extends PureComponent<{| dispatch: Dispatch |}> {
   }
 }
 
-class SwitchAccountButton extends PureComponent<{| dispatch: Dispatch |}> {
+class SwitchAccountButton extends PureComponent<{| +dispatch: Dispatch |}> {
   onPress = () => {
     this.props.dispatch(navigateToAccountPicker());
   };
@@ -51,7 +51,7 @@ class SwitchAccountButton extends PureComponent<{| dispatch: Dispatch |}> {
   }
 }
 
-class LogoutButton extends PureComponent<{| dispatch: Dispatch |}> {
+class LogoutButton extends PureComponent<{| +dispatch: Dispatch |}> {
   onPress = () => {
     const { dispatch } = this.props;
     dispatch(tryStopNotifications());
