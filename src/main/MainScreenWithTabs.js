@@ -7,7 +7,7 @@ import { OfflineNotice, ZulipStatusBar } from '../common';
 import MainTabs from './MainTabs';
 import styles from '../styles';
 
-export default class MainScreenWithTabs extends PureComponent<{}> {
+export default class MainScreenWithTabs extends PureComponent<{||}> {
   context: Context;
 
   static contextTypes = {

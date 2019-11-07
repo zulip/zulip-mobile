@@ -44,7 +44,7 @@ const GooglePlayBadge = () => (
   <Image style={styles.googlePlayBadge} source={googlePlayBadgePNG} resizeMode="contain" />
 );
 
-export default class CompatibilityScreen extends PureComponent<{}> {
+export default class CompatibilityScreen extends PureComponent<{||}> {
   storeURL =
     Platform.OS === 'ios'
       ? 'https://itunes.apple.com/app/zulip/id1203036395'

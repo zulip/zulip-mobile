@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class SectionSeparator extends PureComponent<{}> {
+export default class SectionSeparator extends PureComponent<{||}> {
   render() {
     return <View style={styles.separator} />;
   }

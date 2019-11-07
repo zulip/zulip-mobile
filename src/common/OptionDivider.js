@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import type { ThemeColors } from '../styles';
 import { ThemeContext } from '../styles';
 
-export default class OptionDivider extends PureComponent<{}> {
+export default class OptionDivider extends PureComponent<{||}> {
   static contextType = ThemeContext;
   context: ThemeColors;
 

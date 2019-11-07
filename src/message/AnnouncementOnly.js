@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import { Label } from '../common';
 import styles from '../styles';
 
-class AnnouncementOnly extends PureComponent<{}> {
+class AnnouncementOnly extends PureComponent<{||}> {
   render() {
     return (
       <View style={styles.disabledComposeBox}>

@@ -6,7 +6,7 @@ import { Screen } from '../common';
 import TimeItem from './TimeItem';
 import timing from '../utils/timing';
 
-export default class TimingScreen extends PureComponent<{}> {
+export default class TimingScreen extends PureComponent<{||}> {
   render() {
     return (
       <Screen title="Timing" scrollEnabled={false}>

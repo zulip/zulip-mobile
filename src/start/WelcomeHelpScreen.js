@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class WelcomeHelpScreen extends PureComponent<{}> {
+export default class WelcomeHelpScreen extends PureComponent<{||}> {
   render() {
     return (
       <Screen title="Help" centerContent padding>
