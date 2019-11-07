@@ -37,9 +37,6 @@ import rewriteImageUrls from './rewriteImageUrls';
  *   about our version-support strategy.
  */
 
-/** Like RN's `Platform.OS`. */
-const platformOS = window.navigator.userAgent.match(/iPhone|iPad|iPod/) ? 'ios' : 'android';
-
 /* eslint-disable no-extend-native */
 
 /* Polyfill Array.from. Native in Chrome 45 and at least Safari 13.

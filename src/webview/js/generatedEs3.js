@@ -71,8 +71,6 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  var platformOS = window.navigator.userAgent.match(/iPhone|iPad|iPod/) ? 'ios' : 'android';
-
   if (!Array.from) {
     Array.from = function from(arr) {
       return Array.prototype.slice.call(arr);
