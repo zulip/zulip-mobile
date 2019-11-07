@@ -7,9 +7,9 @@ import { connect } from '../react-redux';
 import { Screen, ViewPlaceholder, ZulipButton } from '../common';
 import { navigateToRealmScreen, navigateToWelcomeHelp } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
-|};
+|}>;
 
 class WelcomeScreen extends PureComponent<Props> {
   render() {

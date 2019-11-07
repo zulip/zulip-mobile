@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 type PseudoSubscription = Subscription | { ...Stream, subscribed: boolean, pin_to_top?: void };
 
-type Props = {|
+type Props = $ReadOnly<{|
   showDescriptions: boolean,
   showSwitch: boolean,
   selected: boolean | string, // TODO type: pick one
@@ -24,7 +24,7 @@ type Props = {|
   unreadByStream: number[],
   onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,
-|};
+|}>;
 
 export default class StreamList extends PureComponent<Props> {
   static defaultProps = {

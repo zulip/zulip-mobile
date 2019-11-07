@@ -5,7 +5,7 @@ import { Animated } from 'react-native';
 import type { Node as React$Node } from 'react';
 import type { Style } from '../types';
 
-type Props = {|
+type Props = $ReadOnly<{|
   style: Style,
   children: React$Node,
   from: number,
@@ -14,7 +14,7 @@ type Props = {|
   movement: 'in' | 'out',
   duration: number,
   easing?: (value: number) => number,
-|};
+|}>;
 
 type State = {|
   animationIndex: Animated.Value,

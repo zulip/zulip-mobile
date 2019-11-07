@@ -11,12 +11,12 @@ import { LAST_MESSAGE_ANCHOR } from '../constants';
 import { connect } from '../react-redux';
 import { getAuth } from '../account/accountsSelectors';
 
-type Props = {|
+type Props = $ReadOnly<{|
   auth: Auth,
   dispatch: Dispatch,
   // Warning: do not add new props without considering their effect on the
   // behavior of this component's non-React internal state. See comment below.
-|};
+|}>;
 
 type State = {|
   /** The list of messages returned for the latest query, or `null` if there is

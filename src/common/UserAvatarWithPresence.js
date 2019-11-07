@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   avatarUrl: ?string,
   email: string,
@@ -26,7 +26,7 @@ type Props = {|
   realm: string,
   shape: 'rounded' | 'square',
   onPress?: () => void,
-|};
+|}>;
 
 /**
  * Renders a user avatar with a PresenceStatusIndicator in the corner

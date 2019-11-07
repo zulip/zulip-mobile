@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   style?: ViewStyleProp,
   progress: boolean,
   disabled: boolean,
@@ -67,7 +67,7 @@ type Props = {|
   text: string,
   secondary: boolean,
   onPress: () => void | Promise<void>,
-|};
+|}>;
 
 /**
  * A button component that is provides consistent look and feel

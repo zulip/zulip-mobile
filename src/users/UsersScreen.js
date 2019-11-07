@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { Screen } from '../common';
 import UsersCard from './UsersCard';
 
-type Props = {||};
+type Props = $ReadOnly<{||}>;
 
 type State = {|
   filter: string,

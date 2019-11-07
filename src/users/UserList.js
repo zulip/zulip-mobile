@@ -13,14 +13,14 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   style?: Style,
   filter: string,
   users: User[],
   selected: User[],
   presences: PresenceState,
   onPress: (email: string) => void,
-|};
+|}>;
 
 export default class UserList extends PureComponent<Props> {
   static defaultProps = {

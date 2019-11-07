@@ -52,12 +52,12 @@ type SelectorProps = {|
   noMessages: boolean,
 |};
 
-type Props = {|
+type Props = $ReadOnly<{|
   narrow: Narrow,
 
   dispatch: Dispatch,
   ...SelectorProps,
-|};
+|}>;
 
 class NoMessages extends PureComponent<Props> {
   render() {

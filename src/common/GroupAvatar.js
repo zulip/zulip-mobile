@@ -17,13 +17,13 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   names: string,
   size: number,
   shape: 'rounded' | 'square',
   children?: React$Node,
   onPress?: () => void,
-|};
+|}>;
 
 /**
  * Renders a text avatar based on a single or multiple user's

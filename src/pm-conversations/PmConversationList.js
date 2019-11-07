@@ -15,11 +15,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   conversations: PmConversationData[],
   usersByEmail: Map<string, UserOrBot>,
-|};
+|}>;
 
 /**
  * A list describing all PM conversations.

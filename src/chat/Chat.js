@@ -17,13 +17,13 @@ type SelectorProps = {|
   canSend: boolean,
 |};
 
-type Props = {|
+type Props = $ReadOnly<{|
   /* $FlowFixMe: probably this shouldn't be optional */
   narrow?: Narrow,
 
   dispatch: Dispatch,
   ...SelectorProps,
-|};
+|}>;
 
 const componentStyles = StyleSheet.create({
   /** A workaround for #3089, by letting us put MessageList first. */

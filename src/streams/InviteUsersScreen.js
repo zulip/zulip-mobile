@@ -9,11 +9,11 @@ import * as api from '../api';
 import { getAuth, getStreamForId } from '../selectors';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   auth: Auth,
   stream: Stream,
-|};
+|}>;
 
 type State = {|
   filter: string,

@@ -9,10 +9,10 @@ import { Screen } from '../common';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   navigation: NavigationScreenProp<{ params: {| recipients: UserOrBot[] |} }>,
   dispatch: Dispatch,
-|};
+|}>;
 
 class GroupDetailsScreen extends PureComponent<Props> {
   handlePress = (email: string) => {

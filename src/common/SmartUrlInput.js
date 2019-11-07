@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   defaultValue: string,
   /**
    * The protocol which will be used if the user doesn't specify one.
@@ -49,7 +49,7 @@ type Props = {|
   onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
   enablesReturnKeyAutomatically: boolean,
-|};
+|}>;
 
 type State = {|
   /**

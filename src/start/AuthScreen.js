@@ -17,11 +17,11 @@ import { generateOtp, openBrowser, closeBrowser } from './oauth';
 import { activeAuthentications } from './authentications';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   realm: string,
   navigation: NavigationScreenProp<{ params: {| serverSettings: ApiResponseServerSettings |} }>,
-|};
+|}>;
 
 let otp = '';
 

@@ -7,11 +7,11 @@ import { connect } from '../react-redux';
 import NavButton from '../nav/NavButton';
 import { navigateToAccountDetails } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   narrow: Narrow,
   color: string,
-|};
+|}>;
 
 class InfoNavButtonPrivate extends PureComponent<Props> {
   handlePress = () => {

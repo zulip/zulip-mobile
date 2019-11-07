@@ -4,13 +4,13 @@ import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 
 import { IconMute, IconStream, IconPrivate } from '../common/Icons';
 
-type Props = {|
+type Props = $ReadOnly<{|
   color?: string,
   isPrivate: boolean,
   isMuted: boolean,
   size: number,
   style?: TextStyleProp,
-|};
+|}>;
 
 export default ({ color, style, isPrivate = false, isMuted = false, size }: Props) => {
   const StreamIcon = isMuted ? IconMute : isPrivate ? IconPrivate : IconStream;

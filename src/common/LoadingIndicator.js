@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   color: string,
   showLogo: boolean,
   size: number,
-|};
+|}>;
 
 /**
  * Renders a loading indicator - light circle and a darker

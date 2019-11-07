@@ -91,7 +91,7 @@ type SelectorProps = {|
 |};
 
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
-export type Props = {|
+export type Props = $ReadOnly<{|
   narrow: Narrow,
 
   dispatch: Dispatch,
@@ -102,7 +102,7 @@ export type Props = {|
 
   // From `withGetText`.
   _: GetText,
-|};
+|}>;
 
 /**
  * A URL-like magic string denoting the webview-assets folder.

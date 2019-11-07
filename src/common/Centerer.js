@@ -19,11 +19,11 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   style?: ViewStyleProp,
   children: React$Node,
   padding: boolean,
-|};
+|}>;
 
 /**
  * A layout component that centers wrapped components

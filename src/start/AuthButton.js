@@ -5,11 +5,11 @@ import { ZulipButton } from '../common';
 import type { IconType } from '../common/Icons';
 import styles from '../styles';
 
-type Props = {|
+type Props = $ReadOnly<{|
   name: string,
   Icon: IconType,
   onPress: () => void,
-|};
+|}>;
 
 export default class AuthButton extends PureComponent<Props> {
   render() {

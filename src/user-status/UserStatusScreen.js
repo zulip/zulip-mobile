@@ -24,10 +24,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   userStatusText: string,
-|};
+|}>;
 
 type State = {|
   statusText: string,

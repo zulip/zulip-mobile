@@ -30,7 +30,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   centerContent: boolean,
   +children: React$Node,
@@ -46,7 +46,7 @@ type Props = {|
 
   canGoBack: boolean,
   +title: LocalizableText,
-|};
+|}>;
 
 /**
  * Wrapper component for each screen of the app, for consistent look-and-feel.

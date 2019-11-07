@@ -7,12 +7,12 @@ import { getCurrentRealm, getSelfUserDetail } from '../selectors';
 import UserAvatar from './UserAvatar';
 import { getAvatarFromUser } from '../utils/avatar';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   user: User,
   size: number,
   realm: string,
-|};
+|}>;
 
 /**
  * Renders an image of the current user's avatar

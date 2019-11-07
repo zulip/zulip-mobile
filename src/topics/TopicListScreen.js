@@ -11,11 +11,11 @@ import { getStreamForId } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 import { fetchTopics, doNarrow } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   stream: Stream,
   topics: TopicExtended[],
-|};
+|}>;
 
 type State = {|
   filter: string,

@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   auth: Auth,
   canCreateStreams: boolean,
   streams: Stream[],
   subscriptions: Subscription[],
-|};
+|}>;
 
 class StreamListCard extends PureComponent<Props> {
   handleSwitchChange = (streamName: string, switchValue: boolean) => {

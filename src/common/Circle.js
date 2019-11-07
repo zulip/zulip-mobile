@@ -2,11 +2,11 @@
 import React from 'react';
 import { ART } from 'react-native';
 
-type Props = {|
+type Props = $ReadOnly<{|
   color: string,
   size: number,
   thickness: number,
-|};
+|}>;
 
 /**
  * Renders a circle using the ART library.

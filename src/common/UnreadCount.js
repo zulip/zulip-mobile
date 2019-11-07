@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   style?: ViewStyleProp,
   borderRadius: number,
   color: string,
@@ -39,7 +39,7 @@ type Props = {|
   isMuted: boolean,
   inverse: boolean,
   limited: boolean,
-|};
+|}>;
 
 /**
  * Unified way to display unread counts.

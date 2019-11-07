@@ -13,12 +13,12 @@ import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStream';
 import TitlePlain from './TitlePlain';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   narrow: Narrow,
   editMessage: ?EditMessage,
   color: string,
-|};
+|}>;
 
 class Title extends PureComponent<Props> {
   render() {

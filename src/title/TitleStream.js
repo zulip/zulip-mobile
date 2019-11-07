@@ -14,13 +14,13 @@ type SelectorProps = {|
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
 |};
 
-type Props = {|
+type Props = $ReadOnly<{|
   narrow: Narrow,
   color: string,
 
   dispatch: Dispatch,
   ...SelectorProps,
-|};
+|}>;
 
 class TitleStream extends PureComponent<Props> {
   styles = StyleSheet.create({

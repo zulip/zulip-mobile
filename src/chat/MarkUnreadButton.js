@@ -19,12 +19,12 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   auth: Auth,
   narrow: Narrow,
   streams: Stream[],
-|};
+|}>;
 
 class MarkUnreadButton extends PureComponent<Props> {
   markAllAsRead = () => {

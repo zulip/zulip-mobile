@@ -7,10 +7,10 @@ import { OptionRow } from '../common';
 import { getSelfUserAwayStatus } from '../selectors';
 import { updateUserAwayStatus } from '../user-status/userStatusActions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   awayStatus: boolean,
   dispatch: Dispatch,
-|};
+|}>;
 
 /**
  * This is a stand-alone component that:

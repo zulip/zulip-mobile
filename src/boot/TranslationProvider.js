@@ -73,11 +73,11 @@ class TranslationContextTranslator extends PureComponent<{
   }
 }
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   locale: string,
   children: React$Node,
-|};
+|}>;
 
 class TranslationProvider extends PureComponent<Props> {
   render() {

@@ -16,10 +16,10 @@ const calculateKeyStorageSizes = obj =>
     }))
     .sort((a, b) => b.size - a.size);
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   state: GlobalState,
-|};
+|}>;
 
 class StorageScreen extends PureComponent<Props> {
   render() {

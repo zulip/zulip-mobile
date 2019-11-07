@@ -17,9 +17,9 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   text: string,
-|};
+|}>;
 
 export default class SearchEmptyState extends PureComponent<Props> {
   render() {

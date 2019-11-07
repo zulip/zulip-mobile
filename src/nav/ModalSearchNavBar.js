@@ -8,11 +8,11 @@ import SearchInput from '../common/SearchInput';
 import NavButton from './NavButton';
 import { navigateBack } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   autoFocus: boolean,
   searchBarOnChange: (text: string) => void,
-|};
+|}>;
 
 class ModalSearchNavBar extends PureComponent<Props> {
   context: Context;

@@ -6,11 +6,11 @@ import type { AccountStatus } from './accountsSelectors';
 import { ViewPlaceholder } from '../common';
 import AccountItem from './AccountItem';
 
-type Props = {|
+type Props = $ReadOnly<{|
   accounts: AccountStatus[],
   onAccountSelect: number => void,
   onAccountRemove: number => void,
-|};
+|}>;
 
 export default class AccountList extends PureComponent<Props> {
   render() {

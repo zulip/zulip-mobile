@@ -15,12 +15,12 @@ const prefixToComponent = {
   '@': PeopleAutocomplete,
 };
 
-type Props = {|
+type Props = $ReadOnly<{|
   isFocused: boolean,
   text: string,
   selection: InputSelection,
   onAutocomplete: (input: string) => void,
-|};
+|}>;
 
 export default class AutocompleteView extends PureComponent<Props> {
   handleAutocomplete = (autocomplete: string) => {

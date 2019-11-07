@@ -11,11 +11,11 @@ import { getAllUsersByEmail } from '../users/userSelectors';
 import styles from '../styles';
 import { navigateToAccountDetails } from '../nav/navActions';
 
-type Props = {
+type Props = $ReadOnly<{
   dispatch: Dispatch,
   user: UserOrBot,
   color: string,
-};
+}>;
 
 class TitlePrivate extends PureComponent<Props> {
   handlePress = () => {

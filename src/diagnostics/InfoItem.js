@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   label: string,
   value: mixed,
-|};
+|}>;
 
 export default class InfoItem extends PureComponent<Props> {
   render() {

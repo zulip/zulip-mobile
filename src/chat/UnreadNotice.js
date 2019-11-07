@@ -38,12 +38,12 @@ type SelectorProps = {|
   unreadCount: number,
 |};
 
-type Props = {|
+type Props = $ReadOnly<{|
   narrow: Narrow,
 
   dispatch: Dispatch,
   ...SelectorProps,
-|};
+|}>;
 
 class UnreadNotice extends PureComponent<Props> {
   render() {

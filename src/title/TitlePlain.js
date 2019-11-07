@@ -4,10 +4,10 @@ import { Text } from 'react-native';
 
 import styles from '../styles';
 
-type Props = {|
+type Props = $ReadOnly<{|
   text: string,
   color: string,
-|};
+|}>;
 
 export default class TitlePlain extends PureComponent<Props> {
   render() {

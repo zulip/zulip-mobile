@@ -63,10 +63,10 @@ class LogoutButton extends PureComponent<{| dispatch: Dispatch |}> {
   }
 }
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   selfUserDetail: User,
-|};
+|}>;
 
 /**
  * This is similar to `AccountDetails` but used to show the current users account.

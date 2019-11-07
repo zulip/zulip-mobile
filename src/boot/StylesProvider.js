@@ -10,11 +10,11 @@ import { stylesFromTheme, themeColors, ThemeContext } from '../styles/theme';
 
 const Dummy = props => props.children;
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   theme: ThemeName,
   children: React$Node,
-|};
+|}>;
 
 class StyleProvider extends PureComponent<Props> {
   static childContextTypes = {

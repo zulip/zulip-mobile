@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   topics: ?(TopicExtended[]),
   onPress: (stream: string, topic: string) => void,
-|};
+|}>;
 
 export default class TopicList extends PureComponent<Props> {
   render() {

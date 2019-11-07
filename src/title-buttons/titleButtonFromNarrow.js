@@ -17,7 +17,7 @@ import InfoNavButtonGroup from './InfoNavButtonGroup';
 import ExtraNavButtonStream from './ExtraNavButtonStream';
 import ExtraNavButtonTopic from './ExtraNavButtonTopic';
 
-type Props = {| color: string, narrow: Narrow |};
+type Props = $ReadOnly<{| color: string, narrow: Narrow |}>;
 type NarrowNavButton = ComponentType<Props>;
 type NarrowNavButtonCandidate = {|
   isFunc: Narrow => boolean,

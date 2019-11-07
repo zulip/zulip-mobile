@@ -10,11 +10,11 @@ import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common'
 import AccountList from './AccountList';
 import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   accounts: AccountStatus[],
   dispatch: Dispatch,
   hasAuth: boolean,
-|};
+|}>;
 
 class AccountPickScreen extends PureComponent<Props> {
   handleAccountSelect = (index: number) => {

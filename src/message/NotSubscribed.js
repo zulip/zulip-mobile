@@ -10,11 +10,11 @@ import { ZulipButton, Label } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
-type Props = {
+type Props = $ReadOnly<{
   dispatch: Dispatch,
   auth: Auth,
   stream: { ...Stream },
-};
+}>;
 
 class NotSubscribed extends PureComponent<Props> {
   subscribeToStream = () => {

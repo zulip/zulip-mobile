@@ -6,12 +6,12 @@ import { FormattedMessage } from 'react-intl';
 import type { Context, LocalizableText } from '../types';
 import { HALF_COLOR, BORDER_COLOR } from '../styles';
 
-export type Props = {|
+export type Props = $ReadOnly<{|
   ...$PropertyType<TextInput, 'props'>,
   placeholder: LocalizableText,
   onChangeText?: (text: string) => void,
   textInputRef?: (component: ?TextInput) => void,
-|};
+|}>;
 
 type State = {|
   isFocused: boolean,

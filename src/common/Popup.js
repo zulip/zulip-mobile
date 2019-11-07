@@ -17,9 +17,9 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   children: React$Node,
-|};
+|}>;
 
 export default class Popup extends PureComponent<Props> {
   context: Context;

@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   messages: Message[] | null,
   isFetching: boolean,
-|};
+|}>;
 
 export default class SearchMessagesCard extends PureComponent<Props> {
   static NOT_FETCHING = { older: false, newer: false };

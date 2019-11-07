@@ -25,13 +25,13 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   locale: string,
   name: string,
   nativeName: string,
   selected: boolean,
   onValueChange: (locale: string) => void,
-|};
+|}>;
 
 export default class LanguagePickerItem extends PureComponent<Props> {
   render() {

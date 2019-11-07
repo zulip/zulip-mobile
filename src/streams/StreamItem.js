@@ -26,7 +26,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   name: string,
   description?: string,
   iconSize: number,
@@ -40,7 +40,7 @@ type Props = {|
   unreadCount?: number,
   onPress: (name: string) => void,
   onSwitch?: (name: string, newValue: boolean) => void,
-|};
+|}>;
 
 export default class StreamItem extends PureComponent<Props> {
   context: Context;

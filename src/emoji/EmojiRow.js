@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   name: string,
   onPress: (name: string) => void,
-|};
+|}>;
 
 export default class EmojiRow extends PureComponent<Props> {
   handlePress = () => {

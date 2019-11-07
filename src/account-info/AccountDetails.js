@@ -32,12 +32,12 @@ type SelectorProps = {|
   userStatusText: string | void,
 |};
 
-type Props = {|
+type Props = $ReadOnly<{|
   user: User,
 
   dispatch: Dispatch,
   ...SelectorProps,
-|};
+|}>;
 
 class AccountDetails extends PureComponent<Props> {
   render() {

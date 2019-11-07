@@ -6,9 +6,9 @@ import type { Node as React$Node } from 'react';
 import store, { restore } from './store';
 import timing from '../utils/timing';
 
-type Props = {|
+type Props = $ReadOnly<{|
   children: React$Node,
-|};
+|}>;
 
 export default class StoreHydrator extends PureComponent<Props> {
   componentDidMount() {

@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   user: User,
   dispatch: Dispatch,
-|};
+|}>;
 
 class AccountDetailsScreen extends PureComponent<Props> {
   handleChatPress = () => {

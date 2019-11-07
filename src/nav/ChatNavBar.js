@@ -17,12 +17,12 @@ type SelectorProps = {|
   backgroundColor: string,
 |};
 
-type Props = {|
+type Props = $ReadOnly<{|
   narrow: Narrow,
 
   dispatch: Dispatch,
   ...SelectorProps,
-|};
+|}>;
 
 class ChatNavBar extends PureComponent<Props> {
   render() {

@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   auth: Auth,
   dispatch: Dispatch,
   src: string,
   message: Message,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
-|};
+|}>;
 
 type State = {|
   movement: 'in' | 'out',

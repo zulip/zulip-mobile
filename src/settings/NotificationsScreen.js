@@ -9,13 +9,13 @@ import { OptionRow, Screen } from '../common';
 import * as api from '../api';
 import { settingsChange } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   auth: Auth,
   dispatch: Dispatch,
   offlineNotification: boolean,
   onlineNotification: boolean,
   streamNotification: boolean,
-|};
+|}>;
 
 class NotificationsScreen extends PureComponent<Props> {
   handleOfflineNotificationChange = () => {

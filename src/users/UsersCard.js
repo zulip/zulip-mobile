@@ -9,12 +9,12 @@ import UserList from './UserList';
 import { getUsers, getPresence } from '../selectors';
 import { navigateBack, doNarrow } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   users: User[],
   filter: string,
   presences: PresenceState,
-|};
+|}>;
 
 class UsersCard extends PureComponent<Props> {
   handleUserNarrow = (email: string) => {

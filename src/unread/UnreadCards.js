@@ -18,13 +18,13 @@ import {
 } from '../selectors';
 import { doNarrow } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   conversations: PmConversationData[],
   dispatch: Dispatch,
   isLoading: boolean,
   usersByEmail: Map<string, UserOrBot>,
   unreadStreamsAndTopics: UnreadStreamItem[],
-|};
+|}>;
 
 class UnreadCards extends PureComponent<Props> {
   handleStreamPress = (stream: string) => {

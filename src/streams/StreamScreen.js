@@ -18,12 +18,12 @@ import {
 } from '../actions';
 import styles from '../styles';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   isAdmin: boolean,
   stream: Stream,
   subscription: Subscription,
-|};
+|}>;
 
 class StreamScreen extends PureComponent<Props> {
   handleTogglePinStream = (newValue: boolean) => {

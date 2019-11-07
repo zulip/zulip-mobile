@@ -6,10 +6,10 @@ import AnimatedRotateComponent from '../animation/AnimatedRotateComponent';
 import spinningProgressImg from '../../static/img/spinning-progress.png';
 import spinningProgressBlackImg from '../../static/img/spinning-progress-black.png';
 
-type Props = {|
+type Props = $ReadOnly<{|
   color: string,
   size: number,
-|};
+|}>;
 
 /**
  * Renders a progress indicator - light circle and a darker

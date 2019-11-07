@@ -11,11 +11,11 @@ import * as api from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
 import styles from '../styles';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   navigation: NavigationScreenProp<mixed>,
   initialRealm: string,
-|};
+|}>;
 
 type State = {|
   realm: string,

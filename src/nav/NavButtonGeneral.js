@@ -6,10 +6,10 @@ import type { Node as React$Node } from 'react';
 import { NAVBAR_SIZE } from '../styles';
 import { Touchable } from '../common';
 
-type Props = {|
+type Props = $ReadOnly<{|
   children: React$Node,
   onPress: () => void,
-|};
+|}>;
 
 export default class NavButtonGeneral extends PureComponent<Props> {
   styles = StyleSheet.create({

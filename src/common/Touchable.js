@@ -11,13 +11,13 @@ const androidBackground =
     ? TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR)
     : TouchableNativeFeedback.SelectableBackground();
 
-type Props = {|
+type Props = $ReadOnly<{|
   accessibilityLabel?: string,
   style?: ViewStyleProp,
   children: React$Node,
   onPress?: () => void | Promise<void>,
   onLongPress?: () => void,
-|};
+|}>;
 
 /**
  * Make a child component respond properly to touches, on both platforms.

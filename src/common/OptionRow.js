@@ -9,13 +9,13 @@ import ZulipSwitch from './ZulipSwitch';
 import type { ThemeColors } from '../styles';
 import styles, { ThemeContext } from '../styles';
 
-type Props = {|
+type Props = $ReadOnly<{|
   Icon?: IconType,
   label: string,
   value: boolean,
   style?: ViewStyleProp,
   onValueChange: (newValue: boolean) => void,
-|};
+|}>;
 
 export default class OptionRow extends PureComponent<Props> {
   static contextType = ThemeContext;

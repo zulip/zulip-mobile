@@ -3,11 +3,11 @@ import React, { PureComponent } from 'react';
 import { Switch } from 'react-native';
 import { BRAND_COLOR } from '../styles';
 
-type Props = {|
+type Props = $ReadOnly<{|
   disabled: boolean,
   value: boolean,
   onValueChange: (arg: boolean) => void,
-|};
+|}>;
 
 /**
  * An on/off component, provides consistent styling of the

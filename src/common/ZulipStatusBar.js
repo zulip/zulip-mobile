@@ -24,14 +24,14 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     ? 'light-content'
     : 'dark-content';
 
-type Props = {
+type Props = $ReadOnly<{
   dispatch: Dispatch,
   hidden: boolean,
   theme: ThemeName,
   backgroundColor: string,
   safeAreaInsets: Dimensions,
   orientation: Orientation,
-};
+}>;
 
 /**
  * Controls the status bar settings depending on platform

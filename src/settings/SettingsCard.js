@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   theme: string,
   dispatch: Dispatch,
-|};
+|}>;
 
 class SettingsCard extends PureComponent<Props> {
   handleThemeChange = () => {

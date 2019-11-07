@@ -9,11 +9,11 @@ import type { IconType } from './Icons';
 import type { ThemeColors } from '../styles';
 import styles, { ThemeContext } from '../styles';
 
-type Props = {|
+type Props = $ReadOnly<{|
   Icon?: IconType,
   label: string,
   onPress: () => void,
-|};
+|}>;
 
 export default class OptionButton extends PureComponent<Props> {
   static contextType = ThemeContext;

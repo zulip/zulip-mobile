@@ -26,10 +26,10 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   partialAuth: Auth,
   dispatch: Dispatch,
-|};
+|}>;
 
 type State = {|
   progress: boolean,

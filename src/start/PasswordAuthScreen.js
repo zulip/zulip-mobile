@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   partialAuth: Auth,
   dispatch: Dispatch,
   navigation: NavigationScreenProp<{ params: {| requireEmailFormat: boolean |} }>,
-|};
+|}>;
 
 type State = {|
   email: string,

@@ -8,12 +8,12 @@ import { Icon } from '../common/Icons';
 import type { IconNames } from '../common/Icons';
 import NavButtonGeneral from './NavButtonGeneral';
 
-type Props = {|
+type Props = $ReadOnly<{|
   color: string,
   style?: TextStyleProp,
   name: IconNames,
   onPress: () => void,
-|};
+|}>;
 
 export default class NavButton extends PureComponent<Props> {
   static defaultProps = {

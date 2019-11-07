@@ -20,11 +20,11 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   name: string,
   description: string,
   onPress: (name: string) => void,
-|};
+|}>;
 
 export default class UserGroupItem extends PureComponent<Props> {
   static contextType = ThemeContext;

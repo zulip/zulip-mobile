@@ -9,10 +9,10 @@ import LanguagePicker from './LanguagePicker';
 import { getSettings } from '../selectors';
 import { settingsChange } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   locale: string,
-|};
+|}>;
 
 type State = {|
   filter: string,

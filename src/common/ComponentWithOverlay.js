@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   children: React$Node,
   overlay: React$Node,
   showOverlay: boolean,
@@ -40,7 +40,7 @@ type Props = {|
   overlayColor: string,
   overlayPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
   style?: ViewStyleProp,
-|};
+|}>;
 
 /**
  * Place an overlay, with a colored-disk background, on another component.

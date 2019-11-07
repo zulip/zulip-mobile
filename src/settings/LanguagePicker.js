@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   value: string,
   onValueChange: (locale: string) => void,
   filter: string,
-|};
+|}>;
 
 export default class LanguagePicker extends PureComponent<Props> {
   static contextType = TranslationContext;

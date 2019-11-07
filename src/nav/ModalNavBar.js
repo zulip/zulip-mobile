@@ -10,11 +10,11 @@ import Label from '../common/Label';
 import NavButton from './NavButton';
 import { navigateBack } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   canGoBack: boolean,
   title: LocalizableText,
-|};
+|}>;
 
 class ModalNavBar extends PureComponent<Props> {
   context: Context;

@@ -5,11 +5,11 @@ import { Animated, Easing } from 'react-native';
 
 import type { Style } from '../types';
 
-type Props = {|
+type Props = $ReadOnly<{|
   children: React$Node,
   visible: boolean,
   style?: Style,
-|};
+|}>;
 
 type State = {|
   visible: boolean,

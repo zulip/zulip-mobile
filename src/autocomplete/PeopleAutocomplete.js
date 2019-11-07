@@ -14,14 +14,14 @@ import { Popup } from '../common';
 import UserItem from '../users/UserItem';
 import UserGroupItem from '../user-groups/UserGroupItem';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   filter: string,
   onAutocomplete: (name: string) => void,
   ownEmail: string,
   users: User[],
   userGroups: UserGroup[],
-|};
+|}>;
 
 class PeopleAutocomplete extends PureComponent<Props> {
   handleUserGroupItemAutocomplete = (name: string): void => {

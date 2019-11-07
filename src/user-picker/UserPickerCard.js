@@ -26,14 +26,14 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   users: User[],
   usersByEmail: Map<string, User>,
   presences: PresenceState,
   filter: string,
   onComplete: (selected: User[]) => void,
-|};
+|}>;
 
 type State = {|
   selected: User[],

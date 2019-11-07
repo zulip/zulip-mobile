@@ -11,12 +11,12 @@ import openLink from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
 import { BRAND_COLOR } from '../styles';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   label: string,
   href: string,
   realm: string,
-|};
+|}>;
 
 /**
  * A button styled like a web link.

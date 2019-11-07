@@ -8,12 +8,12 @@ import { getStreams } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToStream } from '../actions';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   narrow: Narrow,
   color: string,
   streams: Stream[],
-|};
+|}>;
 
 class InfoNavButtonStream extends PureComponent<Props> {
   handlePress = () => {

@@ -1,10 +1,10 @@
 /* @flow strict-local */
 import { BRAND_COLOR } from './constants';
 
-type Props = {|
+type Props = $ReadOnly<{|
   showLabel: boolean,
   showIcon: boolean,
-|};
+|}>;
 
 export default ({ showLabel, showIcon }: Props) => ({
   swipeEnabled: false,

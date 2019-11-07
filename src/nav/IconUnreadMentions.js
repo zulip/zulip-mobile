@@ -9,11 +9,11 @@ import { getUnreadMentionsTotal } from '../selectors';
 import { IconMention } from '../common/Icons';
 import { CountOverlay } from '../common';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   unreadMentionsTotal: number,
   color: string,
-|};
+|}>;
 
 class IconUnreadMentions extends PureComponent<Props> {
   render() {

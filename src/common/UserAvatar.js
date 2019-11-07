@@ -5,13 +5,13 @@ import { ImageBackground, View } from 'react-native';
 import type { Node as React$Node } from 'react';
 import Touchable from './Touchable';
 
-type Props = {|
+type Props = $ReadOnly<{|
   avatarUrl: string,
   size: number,
   shape: 'rounded' | 'square',
   children?: React$Node,
   onPress?: () => void,
-|};
+|}>;
 
 /**
  * Renders an image of the user's avatar.

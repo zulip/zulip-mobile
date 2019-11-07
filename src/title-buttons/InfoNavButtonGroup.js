@@ -12,13 +12,13 @@ type SelectorProps = {|
   recipients: UserOrBot[],
 |};
 
-type Props = {|
+type Props = $ReadOnly<{|
   color: string,
   narrow: Narrow,
 
   dispatch: Dispatch,
   ...SelectorProps,
-|};
+|}>;
 
 class InfoNavButtonGroup extends PureComponent<Props> {
   handlePress = () => {

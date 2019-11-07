@@ -12,10 +12,10 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   children: React$Node,
   unreadCount: number,
-|};
+|}>;
 
 export default class CountOverlay extends PureComponent<Props> {
   render() {

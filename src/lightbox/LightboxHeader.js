@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   senderName: string,
   timestamp: number,
   avatarUrl: string,
   onPressBack: () => void,
-|};
+|}>;
 
 export default class LightboxHeader extends PureComponent<Props> {
   render() {

@@ -5,7 +5,7 @@ import { Animated, Easing } from 'react-native';
 
 import type { Style } from '../types';
 
-type Props = {|
+type Props = $ReadOnly<{|
   stylePropertyName: string,
   fullValue: number,
   children: React$Node,
@@ -13,7 +13,7 @@ type Props = {|
   visible: boolean,
   useNativeDriver: boolean,
   delay: number,
-|};
+|}>;
 
 export default class AnimatedComponent extends PureComponent<Props> {
   static defaultProps = {

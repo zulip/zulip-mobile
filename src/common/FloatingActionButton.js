@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   style?: ViewStyleProp,
   disabled: boolean,
   size: number,
   Icon: IconType,
   onPress: () => void,
-|};
+|}>;
 
 /**
  * A button component implementing a popular 'action button'

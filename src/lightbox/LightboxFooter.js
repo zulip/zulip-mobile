@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   style?: ViewStyleProp,
   displayMessage: string,
   onOptionsPress: () => void,
-|};
+|}>;
 
 export default class LightboxFooter extends PureComponent<Props> {
   render() {

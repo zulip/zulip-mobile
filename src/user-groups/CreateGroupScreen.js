@@ -8,9 +8,9 @@ import { doNarrow, navigateBack } from '../actions';
 import { groupNarrow } from '../utils/narrow';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
-|};
+|}>;
 
 type State = {|
   filter: string,

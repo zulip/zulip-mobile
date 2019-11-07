@@ -15,12 +15,12 @@ import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 
-type Props = {|
+type Props = $ReadOnly<{|
   activeImageEmojiByName: RealmEmojiById,
   auth: Auth,
   dispatch: Dispatch,
   navigation: NavigationScreenProp<{ params: {| messageId: number |} }>,
-|};
+|}>;
 
 type State = {|
   filter: string,

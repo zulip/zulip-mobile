@@ -9,12 +9,12 @@ import { getUnreadPmsTotal, getUnreadHuddlesTotal } from '../selectors';
 import { IconPeople } from '../common/Icons';
 import { CountOverlay } from '../common';
 
-type Props = {|
+type Props = $ReadOnly<{|
   dispatch: Dispatch,
   unreadHuddlesTotal: number,
   unreadPmsTotal: number,
   color: string,
-|};
+|}>;
 
 class IconUnreadConversations extends PureComponent<Props> {
   render() {

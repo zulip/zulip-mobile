@@ -5,9 +5,9 @@ import type { Node as React$Node } from 'react';
 import * as api from '../api';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 
-type Props = {|
+type Props = $ReadOnly<{|
   children: React$Node,
-|};
+|}>;
 
 type State = {|
   compatibilityCheckFail: boolean,

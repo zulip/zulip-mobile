@@ -62,12 +62,12 @@ type SelectorProps = {|
   lastMessageTopic: string,
 |};
 
-type Props = {|
+type Props = $ReadOnly<{|
   narrow: Narrow,
 
   dispatch: Dispatch,
   ...SelectorProps,
-|};
+|}>;
 
 type State = {|
   isMessageFocused: boolean,

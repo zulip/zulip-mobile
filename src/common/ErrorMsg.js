@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {|
+type Props = $ReadOnly<{|
   error: string,
-|};
+|}>;
 
 /**
  * Displays a styled error message.

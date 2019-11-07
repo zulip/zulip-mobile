@@ -15,13 +15,13 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
+type Props = $ReadOnly<{
   dispatch: Dispatch,
   isFocused: boolean,
   text: string,
   topics: string[],
   onAutocomplete: (name: string) => void,
-};
+}>;
 
 class TopicAutocomplete extends PureComponent<Props> {
   render() {
