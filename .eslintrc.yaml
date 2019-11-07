@@ -103,6 +103,7 @@ rules:
   flowtype/no-types-missing-file-annotation: error
   ################# flowtype/no-weak-types: error
   # flowtype/require-parameter-type: error
+  flowtype/require-readonly-react-props: error
   # flowtype/require-return-type: [error, always, {annotateUndefined: never}]
   flowtype/require-valid-file-annotation: error
   flowtype/semi: [error, always]
