@@ -36,6 +36,16 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (iOS) Fixed an issue affecting certain models of iPad, which caused
+  messages not to promptly appear.
+
+
+### Highlights for developers
+
+* Resolved issues: #3657
+
 
 ## 26.13.136 (2019-11-05)
 
