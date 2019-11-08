@@ -36,18 +36,23 @@ class UnreadCards extends PureComponent<Props> {
   };
 
   render() {
-    const { isLoading, conversations, unreadStreamsAndTopics, ...restProps } = this.props;
+    const { isLoading, conversations, usersByEmail, unreadStreamsAndTopics } = this.props;
     type Card =
       | UnreadStreamItem
-      | { key: 'private', data: Array<$PropertyType<PmConversationList, 'props'>> };
+      | {
+          key: 'private',
+          data: Array<{|
+            conversations: PmConversationData[],
+            usersByEmail: Map<string, UserOrBot>,
+          |}>,
+        };
     const unreadCards: Array<Card> = [
       {
         key: 'private',
-        data: [{ conversations, ...restProps }],
+        data: [{ conversations, usersByEmail }],
       },
       ...unreadStreamsAndTopics,
     ];
-
     if (unreadStreamsAndTopics.length === 0 && conversations.length === 0) {
       return isLoading ? (
         <LoadingIndicator size={40} />
