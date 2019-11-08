@@ -14,9 +14,12 @@ ${smoothScroll}
 ${matchesPolyfill}
 window.enableWebViewErrorDisplay = ${config.enableWebViewErrorDisplay.toString()};
 document.addEventListener('DOMContentLoaded', function() {
-  var platformOS = ${JSON.stringify(Platform.OS)};
   ${compiledWebviewJs}
-  compiledWebviewJs.handleInitialLoad(${anchor}, ${JSON.stringify(auth)});
+  compiledWebviewJs.handleInitialLoad(
+    ${JSON.stringify(Platform.OS)},
+    ${anchor},
+    ${JSON.stringify(auth)},
+  );
 });
 </script>
 `;

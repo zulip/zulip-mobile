@@ -508,7 +508,17 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
 };
 
 // We call this when the webview's content first loads.
-export const handleInitialLoad = /* eslint-disable-line */ (anchor: number, auth: Auth) => {
+export const handleInitialLoad = (platformOS: string, anchor: number, auth: Auth) => {
+  // Since its version 5.x, the `react-native-webview` library dispatches our
+  // `message` events at `window` on iOS but `document` on Android.
+  if (platformOS === 'ios') {
+    /* eslint-disable-next-line no-use-before-define */
+    window.addEventListener('message', handleMessageEvent);
+  } else {
+    /* eslint-disable-next-line no-use-before-define */
+    document.addEventListener('message', handleMessageEvent);
+  }
+
   scrollToAnchor(anchor);
   rewriteImageUrls(auth);
   sendScrollMessageIfListShort();
@@ -564,6 +574,7 @@ const eventUpdateHandlers = {
   read: handleUpdateEventMessagesRead,
 };
 
+// See `handleInitialLoad` for how this gets subscribed to events.
 const handleMessageEvent = e => {
   scrollEventsDisabled = true;
   // $FlowFixMe
@@ -575,14 +586,6 @@ const handleMessageEvent = e => {
   });
   scrollEventsDisabled = false;
 };
-
-// Since its version 5.x, the `react-native-webview` library dispatches our
-// `message` events at `window` on iOS but `document` on Android.
-if (platformOS === 'ios') {
-  window.addEventListener('message', handleMessageEvent);
-} else {
-  document.addEventListener('message', handleMessageEvent);
-}
 
 /*
  *

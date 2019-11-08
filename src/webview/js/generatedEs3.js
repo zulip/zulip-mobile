@@ -438,7 +438,13 @@ var compiledWebviewJs = (function (exports) {
     sendScrollMessageIfListShort();
   };
 
-  var handleInitialLoad = function handleInitialLoad(anchor, auth) {
+  var handleInitialLoad = function handleInitialLoad(platformOS, anchor, auth) {
+    if (platformOS === 'ios') {
+      window.addEventListener('message', handleMessageEvent);
+    } else {
+      document.addEventListener('message', handleMessageEvent);
+    }
+
     scrollToAnchor(anchor);
     rewriteImageUrls(auth);
     sendScrollMessageIfListShort();
@@ -499,12 +505,6 @@ var compiledWebviewJs = (function (exports) {
     });
     scrollEventsDisabled = false;
   };
-
-  if (platformOS === 'ios') {
-    window.addEventListener('message', handleMessageEvent);
-  } else {
-    document.addEventListener('message', handleMessageEvent);
-  }
 
   var requireAttribute = function requireAttribute(e, name) {
     var value = e.getAttribute(name);
