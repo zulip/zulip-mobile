@@ -36,9 +36,14 @@ It doesn't include
 
 ## Unreleased
 
+
+## (iOS) 26.14.137 (2019-11-07)
+
 ### Highlights for users
 
-* (iOS) Fixed an issue affecting certain models of iPad, which caused
+(iOS-only release.)
+
+* Fixed an issue affecting certain models of iPad, which caused
   messages not to promptly appear.
 
 
@@ -48,6 +53,9 @@ It doesn't include
 
 
 ## 26.13.136 (2019-11-05)
+
+(This release went to prod on Android but on iOS only to beta.)
+
 
 ### Highlights for users
 
