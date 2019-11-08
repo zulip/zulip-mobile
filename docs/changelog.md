@@ -72,7 +72,7 @@ experience.
 * Bumped minimum Android version to Android 5 Lollipop, API 21;
   dropped support for Android 4.4 KitKat.  (b3eced058)
 
-* Resolved issues: #3602, #3241
+* Resolved issues: #3602, #3242
 
 
 ## 26.12.135 (2019-10-22)
