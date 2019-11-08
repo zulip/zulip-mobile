@@ -3,13 +3,15 @@ import * as Sentry from '@sentry/react-native';
 
 import config from './config';
 
-if (config.enableSentry) {
-  Sentry.init({
-    dsn: config.sentryKey,
-    deactivateStacktraceMerging: true,
-    ignoreErrors: ['Network request failed'],
-  });
-} else {
+Sentry.init({
+  dsn: config.sentryKey,
+  deactivateStacktraceMerging: true,
+  ignoreErrors: ['Network request failed'],
+});
+
+// This is normal behavior when running locally; only buiSlds shipped to the
+// storefronts will have a Sentry key.
+if (config.sentryKey === null) {
   // eslint-disable-next-line no-console
-  console.log('skipping Sentry initialization');
+  console.log('no Sentry key provided; null init performed');
 }
