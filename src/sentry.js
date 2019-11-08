@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/react-native';
 
 import config from './config';
 
-if (config.sentryKey.startsWith('https')) {
+if (config.enableSentry) {
   Sentry.init({
     dsn: config.sentryKey,
     deactivateStacktraceMerging: true,

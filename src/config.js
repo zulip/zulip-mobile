@@ -1,11 +1,16 @@
 /* @flow strict-local */
+import { NativeModules } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+
 const isDevelopment = process.env.NODE_ENV === 'development';
+const isEmulator = NativeModules.RNDeviceInfo ? DeviceInfo.isEmulator() : false;
 
 type Config = {|
   messagesPerRequest: number,
   messageListThreshold: number,
   enableReduxLogging: boolean,
   enableReduxSlowReducerWarnings: boolean,
+  enableSentry: boolean,
   enableWebViewErrorDisplay: boolean,
   slowReducersThreshold: number,
   sentryKey: string,
@@ -18,6 +23,7 @@ const config: Config = {
   messageListThreshold: 4000,
   enableReduxLogging: isDevelopment && !!global.btoa,
   enableReduxSlowReducerWarnings: isDevelopment && !!global.btoa,
+  enableSentry: !isDevelopment && !isEmulator,
   enableWebViewErrorDisplay: isDevelopment,
   slowReducersThreshold: 5,
   sentryKey: 'ADD-DSN-HERE',
