@@ -133,6 +133,11 @@ if (( check_path_name )); then
     fi
 fi  # if $check_path_name
 
+
+################################################################################
+# (Build and) sync
+################################################################################
+
 # Set $staging. This is our local staging directory; once it's compiled, it will
 # be synced over to $dest.
 readonly staging="$root/src/webview/static"
@@ -141,35 +146,9 @@ if [ ! -d "$staging" ]; then
 fi
 
 
-################################################################################
-# Pre-sync: additional build steps
-################################################################################
-
-# Currently none, but this is where they'll go.
-#
-# TODO: Use something like `make -f src/webview/static.Makefile`, to ensure that
-#   complicated build steps are not run unconditionally.
-#
-# TODO: split assets into build-time-generated and build-time-static?
-#   - rsync can sync from multiple directories, but has no collision-detection
-#   - might be too many layers of abstraction
-
-
-################################################################################
-# Sync
-################################################################################
-
 # Sync the directory structure, preserving metadata. (We ignore any files named
 # 'README.md'; these should be strictly informative.)
 #
 # We use `rsync` here, as it will skip unchanged files.
 mkdir -p "$dest"
 rsync -a --no-D --delete --delete-excluded --exclude=README.md "$staging/." "$dest"
-
-
-
-################################################################################
-# Post-sync: additional build steps
-################################################################################
-
-# None yet.
