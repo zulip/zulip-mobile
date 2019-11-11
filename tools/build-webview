@@ -138,11 +138,28 @@ fi  # if $check_path_name
 # (Build and) sync
 ################################################################################
 
-# Sync the directory structure, preserving metadata. (We ignore any files named
-# 'README.md'; these should be strictly informative.)
+# Sync files from src to dest, reading rsync filter rules from stdin.
 #
-# We use `rsync` here, as it will skip unchanged files.
-mkdir -p "$dest"
-rsync -a --no-D --delete --delete-excluded \
-      --exclude=README.md \
-      "$root/src/webview/static/." "$dest"
+# Both src and dest should be directories.
+#
+# Files in dest not mentioned will be deleted by default.  A rule
+# like `-,r /foo` will override this to leave `foo` in place.
+#
+# For documentation on rsync filter rules, see `man rsync` or:
+#   https://dyn.manpages.debian.org/testing/rsync/rsync.1.en.html#FILTER_RULES
+sync() {
+    # "_dest" because bash's `readonly` means can't shadow with `local`
+    local src="$1" _dest="$2"
+    mkdir -p "${_dest}"
+    rsync -aR --no-D --delete --delete-excluded \
+          "${src}/./" "${_dest}/." \
+          --filter='. /dev/stdin'
+}
+
+# Sync the directory structure, preserving metadata.
+sync "${root}/src/webview/static" "${dest}" <<EOF
+# Ignore files that won't be needed at runtime.
+- README.md
+
++ *
+EOF
