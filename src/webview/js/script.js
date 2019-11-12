@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
   compiledWebviewJs.handleInitialLoad(
     ${JSON.stringify(Platform.OS)},
     ${anchor},
-    ${JSON.stringify(auth)},
+    ${JSON.stringify(auth)}
   );
 });
 </script>
