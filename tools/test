@@ -64,6 +64,10 @@ cd "$rootdir"
 
 PATH=node_modules/.bin:"$PATH"
 
+# Intersect $files with the set of our JS files in src/.
+#
+# Prints a list of newline-terminated paths; either files, or
+# directories meaning their whole subtrees.
 files_js() {
     case "$files" in
         full)
@@ -80,20 +84,24 @@ files_js() {
     esac
 }
 
-run_android() {
-    # Unlike some others, this inspects "$files" for itself.
+# True just if $files intersects the given set of paths.
+files_check() {
     case "$files" in
         full)
             ;;
         branch)
-            git diff --quiet "$(tools/info base-commit)" android/ \
-                && return
+            ! git diff --quiet "$(tools/info base-commit)" "$@"
             ;;
         diff:*)
-            git diff --quiet "${files#diff:}" android/ \
-                && return
+            ! git diff --quiet "${files#diff:}" "$@"
             ;;
     esac
+}
+
+run_android() {
+    files_check android/ \
+        || return 0
+
     (
         cd android
 
