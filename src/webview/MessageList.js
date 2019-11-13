@@ -104,38 +104,6 @@ export type Props = {|
   _: GetText,
 |};
 
-/**
- * A URL-like magic string denoting the webview-assets folder.
- *
- * Not suitable for reuse or export.
- */
-const assetsPath = Platform.OS === 'ios' ? './webview' : 'file:///android_asset/webview';
-// What the value above probably _should_ be, semantically, is an absolute
-// `file:`-scheme URL naming the path to the webview-assets folder. [1]
-//
-// * On Android, that's exactly what it is. Different apps' WebViews see
-//   different (virtual) root directories as `file:///`, and at runtime, the
-//   APK's `assets/` directory is mounted at `file:///android_asset/`. We can
-//   easily hardcode that, so we do.
-//
-// * On iOS, it's not: it's a relative path. (Or relative URL, if you prefer.)
-//   We can't make it absolute here, because neither React Native itself nor any
-//   of our current dependencies directly expose the Foundation API that would
-//   tell us the absolute path that our bundle is located at [2].
-//
-//   Instead, for now, we exploit the fact that (the iOS version of) React
-//   Native will resolve it with respect to the bundle's absolute path. [3] This
-//   fact is not known to be documented, however, and should not be taken for
-//   granted indefinitely.
-//
-// [1] See `tools/build-webview` for more information on what folder that is.
-//
-// [2] Specifically, `Bundle.main.bundleURL` (aka `[[NSBundle mainbundle]
-//     bundleURL]`). Alternatively, the value of `resourceURL` is (believed to
-//     be) equivalent in this context.
-//
-// [3] https://github.com/facebook/react-native/blob/0.59-stable/React/Base/RCTConvert.m#L85
-
 class MessageList extends Component<Props> {
   context: Context;
   webview: ?WebView;
@@ -218,6 +186,13 @@ class MessageList extends Component<Props> {
     });
 
     /**
+     * A very magic string.
+     *
+     * Not suitable for reuse in any other context.
+     */
+    const assetsUrl = Platform.OS === 'ios' ? './webview' : 'file:///android_asset/webview';
+
+    /**
      * Effective URL of the MessageList webview.
      *
      * We provide all HTML at creation (or refresh) time; the document named
@@ -225,7 +200,7 @@ class MessageList extends Component<Props> {
      * placeholder, so that relative URLs and cross-domain security restrictions
      * have somewhere to believe that this document originates from.
      */
-    const baseUrl = `${assetsPath}/index.html`;
+    const baseUrl = `${assetsUrl}/index.html`;
 
     // Paranoia^WSecurity: only load `baseUrl`, and only load it once. Any other
     // requests should be handed off to the OS, not loaded inside the WebView.
