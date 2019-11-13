@@ -117,6 +117,7 @@
     "redux-mock-store": "^1.5.1",
     "rollup": "^1.23.1",
     "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-node-resolve": "^5.2.0"
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "yarn-deduplicate": "^1.1.1"
   }
 }
