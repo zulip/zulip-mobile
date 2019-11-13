@@ -29,6 +29,7 @@ Suites:
   lint
   jest
   prettier
+  deps
   spell
 
 By default, all suites but \`spell\` are run.
@@ -46,14 +47,14 @@ while (( $# )); do
         --diff) shift; files=diff:"$1"; shift;;
         --full) files=full; shift;;
         --fix) fix=1; shift;;
-        android|flow|lint|jest|prettier|spell)
+        android|flow|lint|jest|prettier|deps|spell)
             suites+=("$1"); shift;;
         *) usage;;
     esac
 done
 
 if [ -z "$suites" ]; then
-    suites=(android flow lint jest prettier)
+    suites=(android flow lint jest prettier deps)
 fi
 
 
@@ -170,6 +171,22 @@ run_prettier() {
       "${patterns[@]}"
 }
 
+run_deps() {
+    files_check package.json yarn.lock \
+        || return 0
+
+    if ! yarn-deduplicate --fail --list; then
+        cat >&2 <<EOF
+
+Found duplicate dependencies in yarn.lock which could be dedup'd.
+Run:
+
+  yarn yarn-deduplicate && yarn
+EOF
+        return 1
+    fi
+}
+
 run_spell() {
     (( $# )) || return 0
     eslint --no-eslintrc -c tools/spellcheck.eslintrc.yaml "$@"
@@ -193,6 +210,9 @@ for suite in "${suites[@]}"; do
             ;;
         prettier)
             run_prettier $(files_js)
+            ;;
+        deps)
+            run_deps
             ;;
         spell)
             run_spell $(files_js)
