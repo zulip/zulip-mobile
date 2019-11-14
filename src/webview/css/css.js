@@ -48,6 +48,23 @@ const katexScrollStyle = `<style id="katex-mobile-scroll">
 .zulip-katex-inner .katex-display { margin: 0.5em 0.25em; }
 </style>`;
 
+/**
+ * Fix KaTeX frac-line elements disappearing.
+ *
+ * This is a hack, but it's probably better than not having fraction lines on
+ * low-resolution phones. It's only known to be useful under Chrome and Android,
+ * so we only include it there.
+ *
+ * See, among others:
+ *   https://github.com/KaTeX/KaTeX/issues/824
+ *   https://github.com/KaTeX/KaTeX/issues/916
+ *   https://github.com/KaTeX/KaTeX/pull/1249
+ *   https://github.com/KaTeX/KaTeX/issues/1775
+ */
+const katexFraclineHackStyle = `<style id="katex-frac-line-hack">
+.katex .mfrac .frac-line { border-bottom-width: 1px !important; }
+</style>`;
+
 export default (theme: ThemeName) => `
 <link rel='stylesheet' type='text/css' href='./base.css'>
 <link rel='stylesheet' type='text/css' href='./katex/katex.css'>
@@ -63,5 +80,6 @@ ${cssEmojis}
 }
 </style>
 ${katexScrollStyle}
+${Platform.OS === 'android' ? katexFraclineHackStyle : '<!-- Safari -->'}
 <style id="generated-styles"></style>
 `;
