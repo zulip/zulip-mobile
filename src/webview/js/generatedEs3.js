@@ -37,8 +37,7 @@ var compiledWebviewJs = (function (exports) {
 
   var inlineApiRoutes = ['/user_uploads/', '/thumbnail?', '/avatar/'];
 
-  var rewriteImageUrls = function rewriteImageUrls(auth) {
-    var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
+  var rewriteImageUrls = function rewriteImageUrls(auth, element) {
     var realm = new URL(auth.realm);
     var imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
     imageTags.forEach(function (img) {
@@ -421,14 +420,15 @@ var compiledWebviewJs = (function (exports) {
     window.scrollBy(0, newBoundRect.top - prevBoundTop);
   };
 
-  var processIncomingHtml = function processIncomingHtml(root) {
+  var processIncomingHtml = function processIncomingHtml(auth, root) {
+    rewriteImageUrls(auth, root);
     fixupKatex(root);
   };
 
   var handleUpdateEventContent = function handleUpdateEventContent(uevent) {
     var contentNode = document.createElement('div');
     contentNode.innerHTML = uevent.content;
-    processIncomingHtml(contentNode);
+    processIncomingHtml(uevent.auth, contentNode);
     var target;
 
     if (uevent.updateStrategy === 'replace') {
@@ -449,7 +449,6 @@ var compiledWebviewJs = (function (exports) {
     }
 
     documentBody.innerHTML = contentNode.innerHTML;
-    rewriteImageUrls(uevent.auth);
 
     if (target.type === 'bottom') {
       scrollToBottom();
@@ -469,11 +468,10 @@ var compiledWebviewJs = (function (exports) {
       document.addEventListener('message', handleMessageEvent);
     }
 
+    processIncomingHtml(auth, documentBody);
     scrollToAnchor(anchor);
-    rewriteImageUrls(auth);
     sendScrollMessageIfListShort();
     scrollEventsDisabled = false;
-    processIncomingHtml(documentBody);
   };
 
   var handleUpdateEventFetching = function handleUpdateEventFetching(uevent) {

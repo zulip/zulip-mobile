@@ -482,7 +482,8 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
  *
  * The root itself must not need fixups.
  */
-const processIncomingHtml = (root: Element) => {
+const processIncomingHtml = (auth: Auth, root: Element) => {
+  rewriteImageUrls(auth, root);
   fixupKatex(root);
 };
 
@@ -490,7 +491,7 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
   // Perform preprocessing on the webview content.
   const contentNode: HTMLDivElement = document.createElement('div');
   contentNode.innerHTML = uevent.content;
-  processIncomingHtml(contentNode);
+  processIncomingHtml(uevent.auth, contentNode);
 
   let target: ScrollTarget;
   if (uevent.updateStrategy === 'replace') {
@@ -512,8 +513,6 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
   //     documentBody.replaceChild(oldContentNode, contentNode)
   // (which currently breaks our touch event handling).
   documentBody.innerHTML = contentNode.innerHTML;
-
-  rewriteImageUrls(uevent.auth);
 
   if (target.type === 'bottom') {
     scrollToBottom();
@@ -538,12 +537,10 @@ export const handleInitialLoad = (platformOS: string, anchor: number, auth: Auth
     document.addEventListener('message', handleMessageEvent);
   }
 
+  processIncomingHtml(auth, documentBody);
   scrollToAnchor(anchor);
-  rewriteImageUrls(auth);
   sendScrollMessageIfListShort();
   scrollEventsDisabled = false;
-
-  processIncomingHtml(documentBody);
 };
 
 /*
