@@ -12,6 +12,7 @@ import type {
 import type { MessageListEvent } from '../webViewEventHandlers';
 
 import rewriteImageUrls from './rewriteImageUrls';
+import fixupKatex from './fixup-katex';
 
 /*
  * Supported platforms:
@@ -475,7 +476,21 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
+/**
+ * Fix up supplied HTML as needed for display.
+ *
+ * The root itself must not need fixups.
+ */
+const processIncomingHtml = (root: Element) => {
+  fixupKatex(root);
+};
+
 const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
+  // Perform preprocessing on the webview content.
+  const contentNode: HTMLDivElement = document.createElement('div');
+  contentNode.innerHTML = uevent.content;
+  processIncomingHtml(contentNode);
+
   let target: ScrollTarget;
   if (uevent.updateStrategy === 'replace') {
     target = { type: 'none' };
@@ -491,7 +506,11 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
     target = findPreserveTarget();
   }
 
-  documentBody.innerHTML = uevent.content;
+  // TODO: eliminate the needless reserialization and deserialization
+  // step here, via something along the lines of
+  //     documentBody.replaceChild(oldContentNode, contentNode)
+  // (which currently breaks our touch event handling).
+  documentBody.innerHTML = contentNode.innerHTML;
 
   rewriteImageUrls(uevent.auth);
 
@@ -526,6 +545,8 @@ export const handleInitialLoad = (
   rewriteImageUrls(auth);
   sendScrollMessageIfListShort();
   scrollEventsDisabled = false;
+
+  processIncomingHtml(documentBody);
 };
 
 /*
