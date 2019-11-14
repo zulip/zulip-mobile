@@ -15,7 +15,7 @@ ${RSYNC} --delete --delete-excluded --filter='. /dev/stdin' \
     "${SRC}/" "${DEST}" \
 <<EOF
 # Include these two files.
-+/ katex.css
++/ katex.min.css
 +/ katex.min.js
 
 # Include the fonts/ directory, and specifically those files within it

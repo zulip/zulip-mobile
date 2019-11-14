@@ -67,7 +67,7 @@ const katexFraclineHackStyle = `<style id="katex-frac-line-hack">
 
 export default (theme: ThemeName) => `
 <link rel='stylesheet' type='text/css' href='./base.css'>
-<link rel='stylesheet' type='text/css' href='./katex/katex.css'>
+<link rel='stylesheet' type='text/css' href='./katex/katex.min.css'>
 <script defer src="./katex/katex.min.js"></script>
 <style>
 ${theme === 'night' ? cssNight : ''}
