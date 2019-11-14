@@ -37,6 +37,7 @@ err() {
 
 # Chdir to the current git repo's root.
 root="$(git rev-parse --show-toplevel)"
+readonly root
 cd "$root"
 
 # Ensure that we have access to a functional, modern `readlink`.
@@ -72,6 +73,8 @@ fi
 # Make $dest absolute, if it isn't already.
 dest=$(readlink -m "$dest")
 
+# Argument parsing has concluded; argument variables are no longer mutable.
+readonly target dest sanity_checks
 
 if (( sanity_checks )); then
     case "$target" in
@@ -116,7 +119,7 @@ fi  # if $sanity_checks
 
 # Set $staging. This is our local staging directory; once it's compiled, it will
 # be synced over to $dest.
-staging=src/webview/static
+readonly staging=src/webview/static
 if [ ! -d "$staging" ]; then
     err "cannot find asset staging directory '$staging'";
 fi
