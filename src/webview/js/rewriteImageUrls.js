@@ -14,11 +14,8 @@ const inlineApiRoutes: RegExp[] = ['^/user_uploads/', '^/thumbnail$', '^/avatar/
  *      than the document location.
  *   2. If the source URL names an endpoint known to require authentication,
  *      inject an API key into its query parameters.
- *
- * DEPRECATED: If no root element is specified, transform every <img> in the
- * entire document.
  */
-const rewriteImageUrls = (auth: Auth, element: Element | Document = document) => {
+const rewriteImageUrls = (auth: Auth, element: Element) => {
   const realm = new URL(auth.realm);
 
   // Find the image elements to act on.
