@@ -6,14 +6,23 @@ SRC=${ROOT}/node_modules/katex/dist
 DEST="${BUILD}/katex"
 
 mkdir -p "${DEST}"
-${RSYNC} "${SRC}/katex.css" "${SRC}/katex.min.js" "${DEST}"
 
 # KaTeX provides three versions of each of their font files: TrueType, WOFF,
 # and WOFF2. WOFF2 support is available as of (iOS) Safari 10 and Chrome 36.
 KATEX_FONT_TYPE=woff2
 
-# See https://unix.stackexchange.com/a/2503 for an explanation of the rsync
-# include/exclude option list.
-${RSYNC} --delete --delete-excluded \
-    --include="*.${KATEX_FONT_TYPE}" --include='*/' --exclude='*' \
-    "${SRC}/fonts" "${DEST}/."
+${RSYNC} --delete --delete-excluded --filter='. /dev/stdin' \
+    "${SRC}/" "${DEST}" \
+<<EOF
+# Include these two files.
++/ katex.css
++/ katex.min.js
+
+# Include the fonts/ directory, and specifically those files within it
+# with the right extension.
++/ fonts/
++/ fonts/*.${KATEX_FONT_TYPE}
+
+# Exclude every file and directory not heretofore explicitly included.
+-, *
+EOF
