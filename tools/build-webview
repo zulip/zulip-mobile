@@ -45,6 +45,7 @@ cd "$ROOT"
 # Parse arguments. Sloppy, but sufficient for now.
 unset TARGET
 unset DEST
+SANITY_CHECKS=1
 while (( $# )); do
     case "$1" in
         --help|-h|help)
@@ -55,6 +56,9 @@ while (( $# )); do
         --destination)
             # note: this doesn't permit an equals sign after `--destination`
             shift; DEST="$1"; shift;;
+        --no-sanity-checks)
+            # disables target-directory sanity checks, for testing's sake
+            shift; SANITY_CHECKS=0;;
         *) usage; exit 2;;
     esac
 done
@@ -68,45 +72,47 @@ fi
 # Make $DEST absolute, if it isn't already.
 DEST=$(readlink -m "$DEST")
 
-# Sanity-check DEST and TARGET.
-case "$TARGET" in
-    ios)
-        if [ "$(uname)" != "Darwin" ]; then
-            err "iOS builds only supported on macOS";
-        fi
 
-        # $DEST should be copied to `${bundle_root}/webview`.
-        #
-        # $DEST itself must be specified twice in Xcode: once in the invocation
-        # of this script, and once in the "Copy Bundle Resources" step. If you
-        # change it, you'll need to change it in both places. (And here, of
-        # course.)
-        if [[ "$DEST" != "$ROOT/ios/"* ]]; then
-            err "unexpected destination directory '$DEST' (expected target in iOS build dir)"
-        fi
-    ;;
-    android)
-        # $DEST should be copied to `file:///android_asset/webview`.
-        #
-        # Gradle -- more precisely, the Android Gradle plugin -- is already
-        # configured to copy some directory from `build/` into the APK. We
-        # determine which directory that is in Gradle, and pass it here.
-        if [[ "$DEST" != "$ROOT/android/app/build/"* ]]; then
-            err "unexpected destination directory '$DEST' (expected target in Android build dir)"
-        fi
-    ;;
-    *) err "impossible target $TARGET";;
-esac
+if (( SANITY_CHECKS )); then
+    case "$TARGET" in
+        ios)
+            if [ "$(uname)" != "Darwin" ]; then
+                err "iOS builds only supported on macOS";
+            fi
 
-# As implied above, the ultimate destination of these files should be a
-# directory named `./webview` (relative to the platform-dependent asset
-# root directory).
-#
-# The target directory basename should therefore be 'webview': both build
-# systems will preserve the name they're given here.
-if [[ "$DEST" != *"/webview" ]]; then
-    err "unexpected destination directory '$DEST'"
-fi
+            # $DEST should be copied to `${bundle_root}/webview`.
+            #
+            # $DEST itself must be specified twice in Xcode: once in the invocation
+            # of this script, and once in the "Copy Bundle Resources" step. If you
+            # change it, you'll need to change it in both places. (And here, of
+            # course.)
+            if [[ "$DEST" != "$ROOT/ios/"* ]]; then
+                err "unexpected destination directory '$DEST' (expected target in iOS build dir)"
+            fi
+        ;;
+        android)
+            # $DEST should be copied to `file:///android_asset/webview`.
+            #
+            # Gradle -- more precisely, the Android Gradle plugin -- is already
+            # configured to copy some directory from `build/` into the APK. We
+            # determine which directory that is in Gradle, and pass it here.
+            if [[ "$DEST" != "$ROOT/android/app/build/"* ]]; then
+                err "unexpected destination directory '$DEST' (expected target in Android build dir)"
+            fi
+        ;;
+        *) err "impossible target $TARGET";;
+    esac
+
+    # As implied above, the ultimate destination of these files should be a
+    # directory named `./webview` (relative to the platform-dependent asset
+    # root directory).
+    #
+    # The target directory basename should therefore be 'webview': both build
+    # systems will preserve the name they're given here.
+    if [[ "$DEST" != *"/webview" ]]; then
+        err "unexpected destination directory '$DEST'"
+    fi
+fi  # if SANITY_CHECKS
 
 # Set STAGING. This is our local staging directory; once it's compiled, it will be
 # synced over to DEST.
