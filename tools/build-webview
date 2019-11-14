@@ -31,6 +31,25 @@ err() {
     exit 1;
 }
 
+# Common rsync invocation. Exported for use by auxiliary scripts.
+#
+# Filter rules are expected to be passed in via stdin; this is most easily
+# accomplished with a heredoc, or `</dev/null` if unneeded.
+#
+# The last argument supplied must be the destination directory. (This wrapper
+# does not support mixing positional and named arguments; positionals must come
+# last.)
+z_rsync() {
+    # Create the destination directory. (rsync won't generally do this.)
+    mkdir -p "${@: -1}"
+    # Invoke rsync with the standard rules and exclusions, as well as whatever
+    # other rules were specified by our invoker.
+    rsync -a --no-D --delete --delete-excluded --exclude=README.md \
+        --filter='. /dev/stdin' \
+        "$@"
+}
+export -f z_rsync
+
 ################################################################################
 # Environment
 ################################################################################
@@ -155,13 +174,8 @@ fi
 # Sync
 ################################################################################
 
-# Sync the directory structure, preserving metadata. (We ignore any files named
-# 'README.md'; these should be strictly informative.)
-#
-# We use `rsync` here, as it will skip unchanged files.
-mkdir -p "$dest"
-rsync -a --no-D --delete --delete-excluded --exclude=README.md "$staging/." "$dest"
-
+# Sync the directory structure, preserving metadata.
+z_rsync "$staging/." "$dest" </dev/null
 
 
 ################################################################################
