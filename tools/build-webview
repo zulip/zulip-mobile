@@ -131,12 +131,14 @@ fi
 # Sync
 ################################################################################
 
-# Sync the directory structure, preserving metadata. (We ignore any files named
-# 'README.md'; these should be strictly informative.)
+# Sync the directory structure, preserving metadata. (We ignore certain files
+# whose names imply they won't be needed at runtime.)
 #
 # We use `rsync` here, as it will skip unchanged files.
 mkdir -p "$DEST"
-rsync -a --no-D --delete --delete-excluded --exclude=README.md "$SRC/." "$DEST"
+rsync -a --no-D --delete --delete-excluded \
+    --exclude=README.md --exclude=.gitignore \
+    "$SRC/." "$DEST"
 
 
 
