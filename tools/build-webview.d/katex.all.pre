@@ -2,7 +2,7 @@
 set -eu
 
 SRC=${ROOT}/node_modules/katex/dist
-DEST="${BUILD}/katex"
+DEST="${STAGING}/katex"
 
 # KaTeX provides three versions of each of their font files: TrueType, WOFF,
 # and WOFF2. WOFF2 support is available as of (iOS) Safari 10 and Chrome 36.
