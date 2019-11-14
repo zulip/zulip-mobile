@@ -63,6 +63,7 @@ export -f z_rsync
 
 # Chdir to the current git repo's root.
 root="$(git rev-parse --show-toplevel)"
+readonly root
 cd "$root"
 
 # Ensure that we have access to a functional `readlink -f`.
@@ -97,6 +98,9 @@ fi
 
 # Make $dest absolute, if it isn't already.
 dest=$(readlink -m "$dest")
+
+# Argument parsing has concluded; argument variables are no longer mutable.
+readonly target dest sanity_checks
 
 # Sanity-check $dest and $target, if not explicitly disabled.
 if (( sanity_checks )); then
@@ -142,13 +146,13 @@ fi  # if sanity_checks
 
 # Set $staging. This is our local staging directory; once it's assembled, it'll
 # be synced over to $dest.
-staging=src/webview/static
+readonly staging=src/webview/static
 if [ ! -d "$staging" ]; then
     err "cannot find asset staging directory '$staging'";
 fi
 
 # The auxiliary build script directory.
-aux_script_dir="$root"/tools/build-webview.d
+readonly aux_script_dir="$root"/tools/build-webview.d
 
 ################################################################################
 # Pre-sync: additional build steps
