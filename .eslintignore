@@ -1,2 +1,6 @@
 **/flow-typed/**
 **/__flow-tests__/**
+
+# Third-party minified code. (Also, this is a staging directory, and is
+# untracked by git.)
+src/webview/static/katex
