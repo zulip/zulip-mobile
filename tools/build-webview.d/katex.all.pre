@@ -1,19 +1,14 @@
 #!/usr/bin/env bash
 set -eu
 
-RSYNC="rsync -a --no-D"
 SRC=${ROOT}/node_modules/katex/dist
 DEST="${BUILD}/katex"
-
-mkdir -p "${DEST}"
 
 # KaTeX provides three versions of each of their font files: TrueType, WOFF,
 # and WOFF2. WOFF2 support is available as of (iOS) Safari 10 and Chrome 36.
 KATEX_FONT_TYPE=woff2
 
-${RSYNC} --delete --delete-excluded --filter='. /dev/stdin' \
-    "${SRC}/" "${DEST}" \
-<<EOF
+z_rsync "${SRC}/" "${DEST}" <<EOF
 # Include these two files.
 +/ katex.min.css
 +/ katex.min.js
