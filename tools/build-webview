@@ -105,10 +105,10 @@ if [[ "$DEST" != *"/webview" ]]; then
     err "unexpected destination directory '$DEST'"
 fi
 
-# Set SRC.
-SRC=src/webview/static
-if [ ! -d "$SRC" ]; then
-    err "cannot find asset source directory '$SRC'";
+# Set STAGING.
+STAGING=src/webview/static
+if [ ! -d "$STAGING" ]; then
+    err "cannot find asset staging directory '$STAGING'";
 fi
 
 
@@ -136,7 +136,7 @@ fi
 #
 # We use `rsync` here, as it will skip unchanged files.
 mkdir -p "$DEST"
-rsync -a --no-D --delete --delete-excluded --exclude=README.md "$SRC/." "$DEST"
+rsync -a --no-D --delete --delete-excluded --exclude=README.md "$STAGING/." "$DEST"
 
 
 
