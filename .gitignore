@@ -77,6 +77,7 @@ npm-debug.log
 /android/release-keystore.properties
 
 # Intermediate directories for webview assets
+src/webview/static/katex
 /ios/webview
 # /android/app/build/... is already covered above
 
