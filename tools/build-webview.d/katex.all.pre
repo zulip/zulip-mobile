@@ -9,9 +9,8 @@ readonly dest="${STAGING}/katex"
 readonly katex_font_type=woff2
 
 z_rsync "${src}/" "${dest}" <<EOF
-# Include these two files.
+# Include the KaTeX CSS.
 +/ katex.min.css
-+/ katex.min.js
 
 # Include the fonts/ directory, and specifically those files within it
 # with the right extension.
