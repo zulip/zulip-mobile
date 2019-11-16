@@ -294,6 +294,7 @@ class ComposeBox extends PureComponent<Props, State> {
     composeText: {
       flex: 1,
       paddingVertical: 8,
+      justifyContent: 'flex-end',
     },
     composeSendButton: {
       padding: 8,
