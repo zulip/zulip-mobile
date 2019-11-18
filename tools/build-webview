@@ -58,7 +58,7 @@ z_rsync() {
 export -f z_rsync
 
 ################################################################################
-# Parameters and environment
+# Environment and globals
 ################################################################################
 
 # Chdir to the current git repo's root.
@@ -66,8 +66,25 @@ root="$(git rev-parse --show-toplevel)"
 readonly root
 cd "$root"
 
-# Ensure that we have access to a functional `readlink -f`.
+# This is our local staging directory; once it's assembled, it'll be synced over
+# to $dest.
+readonly staging=src/webview/static
+if [ ! -d "$staging" ]; then
+    err "cannot find asset staging directory '$staging'";
+fi
+
+# The auxiliary build script directory may contain both pre- and post-sync
+# scripts.
+readonly aux_script_dir="$root"/tools/build-webview.d
+
+
+# Before continuing, ensure that we have access to a functional, modern
+# `readlink`.
 . "$root"/tools/lib/ensure-coreutils.sh
+
+################################################################################
+# Parameters
+################################################################################
 
 # Parse arguments. Sloppy, but sufficient for now.
 unset target
@@ -90,6 +107,7 @@ while (( $# )); do
     esac
 done
 
+# All arguments are required; complain if any were omitted.
 if  [ -z "${target-}" ]; then
     usage; exit 2
 elif [ -z "${dest-}" ]; then
@@ -144,15 +162,6 @@ if (( sanity_checks )); then
     fi
 fi  # if sanity_checks
 
-# Set $staging. This is our local staging directory; once it's assembled, it'll
-# be synced over to $dest.
-readonly staging=src/webview/static
-if [ ! -d "$staging" ]; then
-    err "cannot find asset staging directory '$staging'";
-fi
-
-# The auxiliary build script directory.
-readonly aux_script_dir="$root"/tools/build-webview.d
 
 ################################################################################
 # Pre-sync: additional build steps
@@ -173,7 +182,6 @@ for script in "${aux_script_dir}"/*.{all,"${target}"}.pre; do
     [ -f "$script" ] || continue
     ROOT="$root" TARGET="$target" STAGING="$staging" "$script"
 done
-
 
 
 ################################################################################
