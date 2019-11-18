@@ -61,14 +61,14 @@ export -f z_rsync
 # Environment and globals
 ################################################################################
 
-# Chdir to the current git repo's root.
+# The project root (or at least the current git repo's root), for absolutizing
+# paths.
 root="$(git rev-parse --show-toplevel)"
 readonly root
-cd "$root"
 
 # This is our local staging directory; once it's assembled, it'll be synced over
 # to $dest.
-readonly staging=src/webview/static
+readonly staging="$root"/src/webview/static
 if [ ! -d "$staging" ]; then
     err "cannot find asset staging directory '$staging'";
 fi
@@ -167,13 +167,19 @@ fi  # if sanity_checks
 # Pre-sync: additional build steps
 ################################################################################
 
+# Move to the project root.
+#
+# (Ideally, neither this script nor any of its callees should depend on the CWD
+# being anything in particular, but it's an easy thing to depend on without
+# realizing it.)
+cd "$root"
+
 # TODO: Use something like `make -f src/webview/static.Makefile`, to ensure that
 #   complicated build steps are not run unconditionally.
 #
 # TODO: split assets into build-time-generated and build-time-static?
 #   - rsync can sync from multiple directories, but has no collision-detection
 #   - might be too many layers of abstraction
-
 
 # Run each pre-sync auxiliary script.
 #
