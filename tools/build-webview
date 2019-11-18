@@ -32,7 +32,7 @@ err() {
 }
 
 ################################################################################
-# Parameters and environment
+# Environment
 ################################################################################
 
 # Chdir to the current git repo's root.
@@ -40,8 +40,14 @@ root="$(git rev-parse --show-toplevel)"
 readonly root
 cd "$root"
 
-# Ensure that we have access to a functional, modern `readlink`.
+
+# Before continuing, ensure that we have access to a functional, modern
+# `readlink`.
 . "$root"/tools/lib/ensure-coreutils.sh
+
+################################################################################
+# Parameters
+################################################################################
 
 # Parse arguments. Sloppy, but sufficient for now.
 unset target
@@ -64,6 +70,7 @@ while (( $# )); do
     esac
 done
 
+# All arguments are required; complain if any were omitted.
 if  [ -z "${target-}" ]; then
     usage; exit 2
 elif [ -z "${dest-}" ]; then
@@ -137,7 +144,6 @@ fi
 # TODO: split assets into build-time-generated and build-time-static?
 #   - rsync can sync from multiple directories, but has no collision-detection
 #   - might be too many layers of abstraction
-
 
 
 ################################################################################
