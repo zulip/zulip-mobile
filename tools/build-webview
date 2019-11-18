@@ -35,10 +35,10 @@ err() {
 # Environment
 ################################################################################
 
-# Chdir to the current git repo's root.
+# The project root (or at least the current git repo's root), for absolutizing
+# paths.
 root="$(git rev-parse --show-toplevel)"
 readonly root
-cd "$root"
 
 
 # Before continuing, ensure that we have access to a functional, modern
@@ -126,7 +126,7 @@ fi  # if $sanity_checks
 
 # Set $staging. This is our local staging directory; once it's compiled, it will
 # be synced over to $dest.
-readonly staging=src/webview/static
+readonly staging="$root/src/webview/static"
 if [ ! -d "$staging" ]; then
     err "cannot find asset staging directory '$staging'";
 fi
