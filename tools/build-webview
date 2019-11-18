@@ -69,6 +69,9 @@ root="$(cd "$(dirname "${BASH_SOURCE[0]}")"/../ && pwd)"
 root="$(readlink -m "$root")"
 readonly root
 
+# The auxiliary build script directory.
+readonly aux_script_dir="$root"/tools/build-webview.d
+
 ################################################################################
 # Parameters
 ################################################################################
@@ -160,14 +163,29 @@ fi
 # Pre-sync: additional build steps
 ################################################################################
 
-# Currently none, but this is where they'll go.
+# Move to the project root.
 #
+# (Ideally, neither this script nor any of its callees should depend on the CWD
+# being anything in particular, but it's an easy thing to depend on without
+# realizing it.)
+cd "$root"
+
+
 # TODO: Use something like `make -f src/webview/static.Makefile`, to ensure that
 #   complicated build steps are not run unconditionally.
 #
 # TODO: split assets into build-time-generated and build-time-static?
 #   - rsync can sync from multiple directories, but has no collision-detection
 #   - might be too many layers of abstraction
+
+# Run each pre-sync auxiliary script.
+#
+# Each script gets a few selected parameters as environment variables.
+for script in "${aux_script_dir}"/*.{all,"${target}"}.pre; do
+    [ -f "$script" ] || continue
+    ROOT="$root" TARGET="$target" STAGING="$staging" \
+        "$script"
+done
 
 
 ################################################################################
