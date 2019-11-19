@@ -3,6 +3,7 @@ package com.zulipmobile;
 import android.app.Application;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
+                    new AsyncStoragePackage(),
                     new NetInfoPackage(),
                     new DocumentPickerPackage(),
                     new RNCWebViewPackage(),
