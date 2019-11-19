@@ -4,6 +4,8 @@
 // These will be used as regexp fragments.
 const uncompiledModules = [
   'react-native',
+  // @rnc/async-storage itself is precompiled, but its mock-helper is not
+  '@react-native-community/async-storage',
   '@expo/react-native-action-sheet',
   'react-navigation',
   '@sentry/react-native',

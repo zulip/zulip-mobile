@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import { AsyncStorage, NativeModules } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { NativeModules } from 'react-native';
 import * as logging from '../utils/logging';
 
 export default class ZulipAsyncStorage {
