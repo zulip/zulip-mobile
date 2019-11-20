@@ -113,6 +113,7 @@ describe('accountsReducer', () => {
 
       const expectedState = [
         {
+          ackedPushToken: null,
           apiKey: '123',
           email: 'johndoe@example.com',
           realm: 'http://realm.com',
@@ -182,6 +183,7 @@ describe('accountsReducer', () => {
 
       const expectedState = [
         {
+          ackedPushToken: null,
           apiKey: '789',
           realm: 'http://realm2.com',
           email: 'two@example.com',
@@ -200,7 +202,7 @@ describe('accountsReducer', () => {
   });
 
   describe('LOGOUT', () => {
-    test('on logout, remove apiKey from active account, keep other information intact', () => {
+    test('on logout, clear just apiKey and ackedPushToken from active account', () => {
       const prevState = deepFreeze([
         {
           apiKey: '123',
@@ -218,6 +220,7 @@ describe('accountsReducer', () => {
 
       const expectedState = [
         {
+          ackedPushToken: null,
           apiKey: '',
           realm: 'http://realm1.com',
           email: 'one@example.com',

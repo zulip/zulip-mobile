@@ -107,6 +107,17 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
 
   // $FlowMigrationFudge
   '8': dropCache,
+
+  // Forget any acked push tokens, so we send them again.  This is part of
+  // fixing #3695, taking care of any users who were affected before they
+  // got the version with the fix.
+  '9': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({
+      ...a,
+      ackedPushToken: null,
+    })),
+  }),
 };
 
 const reduxPersistConfig: Config = {
