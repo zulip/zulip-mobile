@@ -37,6 +37,24 @@ It doesn't include
 ## Unreleased
 
 
+## 26.15.138 (2019-11-19)
+
+### Highlights for users
+
+* Fixed an issue that affected notifications if you reset your API key.
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+This is a bugfix release atop 26.14.137, with small cherry-picked
+changes.
+
+* Resolved issues: #3695, 7caa4d08e
+
+
 ## (iOS) 26.14.137 (2019-11-07)
 
 ### Highlights for users
