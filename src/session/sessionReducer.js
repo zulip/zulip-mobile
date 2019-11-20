@@ -109,6 +109,7 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         lastNarrow: null,
+        needsInitialFetch: false,
       };
 
     case ACCOUNT_SWITCH:
