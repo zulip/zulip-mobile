@@ -156,6 +156,15 @@ export const handleInitialNotification = async (dispatch: Dispatch) => {
 };
 
 /**
+ * From rn-notifications@1.5.0's RNNotifications.m.
+ */
+type NotificationRegistrationFailedEvent = {|
+  domain: string, // e.g. 'NSCocoaErrorDomain'
+  code: number,
+  localizedDescription: string,
+|};
+
+/**
  * Listens for notification-related events.
  *
  * An instance of this doesn't affect the subscriptions of any other
@@ -200,14 +209,17 @@ export class NotificationListener {
     await this.dispatch(sendAllPushToken());
   };
 
+  /** Private. */
+  handleRegistrationFailure = (err: NotificationRegistrationFailedEvent) => {
+    logging.warn(`Failed to register iOS push token: ${JSON.stringify(err)}`);
+  };
+
   /** Start listening.  Don't call twice without intervening `stop`. */
   start() {
     this.listen('notificationOpened', this.handleNotificationOpen);
     this.listen('remoteNotificationsRegistered', this.handleDeviceToken);
     if (Platform.OS === 'ios') {
-      this.listen('remoteNotificationsRegistrationFailed', (errMsg: string) => {
-        logging.warn(`Failed to register iOS push token: ${errMsg}`);
-      });
+      this.listen('remoteNotificationsRegistrationFailed', this.handleRegistrationFailure);
     }
   }
 
