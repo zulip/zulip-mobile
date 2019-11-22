@@ -12,10 +12,10 @@ type ApiResponseWithPresence = {|
 /** See https://zulip.readthedocs.io/en/latest/subsystems/presence.html . */
 export default (
   auth: Auth,
-  hasFocus: boolean = true,
+  isActive: boolean = true,
   newUserInput: boolean = false,
 ): Promise<ApiResponseWithPresence> =>
   apiPost(auth, 'users/me/presence', {
-    status: hasFocus ? 'active' : 'idle',
+    status: isActive ? 'active' : 'idle',
     new_user_input: newUserInput,
   });

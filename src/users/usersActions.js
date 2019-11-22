@@ -11,7 +11,7 @@ import { getAllUsersByEmail } from './userSelectors';
 
 let lastReportPresence = new Date(0);
 
-export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean = false) => async (
+export const reportPresence = (isActive: boolean = true, newUserInput: boolean = false) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
@@ -27,7 +27,7 @@ export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean =
   }
   lastReportPresence = now;
 
-  const response = await api.reportPresence(auth, hasFocus, newUserInput);
+  const response = await api.reportPresence(auth, isActive, newUserInput);
   dispatch({
     type: PRESENCE_RESPONSE,
     presence: response.presences,
