@@ -8,7 +8,7 @@ import AccountItem from './AccountItem';
 
 type Props = $ReadOnly<{|
   accounts: AccountStatus[],
-  onAccountSelect: number => void,
+  onAccountSelect: number => Promise<void>,
   onAccountRemove: number => void,
 |}>;
 
