@@ -36,6 +36,27 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+Fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+(Some important fixes were backported for a cherry-pick release
+26.15.138, and are described there.)
+
+* We tried upgrading Sentry from v0.x to v1.x, but reverted the
+  upgrade for now.  See issue #3585, PR #3676, and commit 57e08f789.
+
+* New convention and lint rule: props types for our React components
+  are read-only.  See 821aa44fd^..760cfa9cf, aka PR #3682.
+
+* New (tiny) test suite: `tools/test deps`, which runs
+  `yarn-deduplicate`.  See 8b155e92b.
+
+* Resolved issues: #3689
+
 
 ## 26.15.138 (2019-11-19)
 
