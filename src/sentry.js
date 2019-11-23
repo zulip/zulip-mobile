@@ -1,15 +1,11 @@
 /* @flow strict-local */
-import * as Sentry from '@sentry/react-native';
+import { Sentry } from 'react-native-sentry';
 
 import config from './config';
 
 if (config.enableSentry) {
-  Sentry.init({
-    dsn: config.sentryKey,
+  Sentry.config(config.sentryKey, {
     deactivateStacktraceMerging: true,
     ignoreErrors: ['Network request failed'],
-  });
-} else {
-  // eslint-disable-next-line no-console
-  console.log('skipping Sentry initialization');
+  }).install();
 }

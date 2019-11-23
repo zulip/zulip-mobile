@@ -6,7 +6,6 @@ const uncompiledModules = [
   'react-native',
   '@expo/react-native-action-sheet',
   'react-navigation',
-  '@sentry/react-native',
   '@zulip/',
 ];
 

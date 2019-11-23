@@ -45,7 +45,7 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNTextInputResetPackage(),
                     new ImagePickerPackage(),
                     new OrientationPackage(),
-                    new RNSentryPackage(),
+                    new RNSentryPackage(MainApplication.this),
                     new PhotoViewPackage(),
                     new RCTToastPackage(),
                     new RNFetchBlobPackage(),

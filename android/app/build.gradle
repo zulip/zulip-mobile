@@ -84,7 +84,7 @@ apply from: "../../node_modules/react-native/react.gradle"
 
 if (hasProperty('sentry')) {
     // Conditionally enable Sentry, because it requires an auth key.
-    apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
+    apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 }
 
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
@@ -190,13 +190,13 @@ repositories {
 }
 
 dependencies {
-    implementation project(':@sentry_react-native')
     implementation project(':@react-native-community_netinfo')
     implementation project(':react-native-document-picker')
     implementation project(':react-native-webview')
     implementation project(':react-native-text-input-reset')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-orientation')
+    implementation project(':react-native-sentry')
     implementation project(':@remobile_react-native-toast')
     implementation project(':react-native-photo-view')
     implementation project(':rn-fetch-blob')

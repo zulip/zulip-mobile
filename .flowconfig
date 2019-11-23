@@ -26,7 +26,6 @@
 .*/node_modules/react-navigation-redux-helpers/.*
 .*/node_modules/react-native-safe-area/.*
 .*/node_modules/flow-coverage-report/.*
-.*/node_modules/@snyk/.*
 
 
 [include]
