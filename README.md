@@ -18,7 +18,7 @@ Release versions of the app are available here:
     from the official build we post on GitHub.
 
 You can also help out by [running beta versions](#using-the-beta) of
-the app, and reporting bugs!
+the app, and reporting any bugs you find!
 
 ## Contributing
 
@@ -26,8 +26,9 @@ the app, and reporting bugs!
 
 To get involved in Zulip Mobile development, please join us on
 [the Zulip community Zulip server][czo-doc], in the
-[#mobile][czo-mobile] stream.  Come say hello, discuss areas to
-work on, and ask and answer questions.
+[#mobile][czo-mobile] stream.  Come say hello, discuss areas 
+that need to be worked on, help answer questions and if you need
+any help feel free to ask questions.
 
 [czo-mobile]: https://chat.zulip.org/#narrow/stream/mobile
 [czo-doc]: https://zulip.readthedocs.io/en/latest/contributing/chat-zulip-org.html
@@ -35,7 +36,7 @@ work on, and ask and answer questions.
 ### Using the beta
 
 One important way to contribute is to run beta versions of the app, and report
-bugs!  To get the beta:
+any bugs you find!  To get the beta:
 
 * Android: install the app, then just
   [join the testing program](https://play.google.com/apps/testing/com.zulipmobile/)
