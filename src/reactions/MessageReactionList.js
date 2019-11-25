@@ -56,10 +56,6 @@ const getReactionsTabs = (
   });
 };
 
-type NavigationsProps = $ReadOnly<{|
-  navigation: NavigationScreenProp<{ params: {| messageId: number |} }>,
-|}>;
-
 type SelectorProps = $ReadOnly<{|
   message: Message,
   ownUserId: number,
@@ -67,8 +63,9 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
+  navigation: NavigationScreenProp<{ params: {| messageId: number |} }>,
+
   dispatch: Dispatch,
-  ...NavigationsProps,
   ...SelectorProps,
 |}>;
 
