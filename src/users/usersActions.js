@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import differenceInSeconds from 'date-fns/difference_in_seconds';
 import * as typing_status from '@zulip/shared/js/typing_status';
 
 import type { Dispatch, GetState, Narrow } from '../types';
@@ -9,8 +8,6 @@ import { getAuth, tryGetAuth } from '../selectors';
 import { isPrivateOrGroupNarrow, caseNarrowPartial } from '../utils/narrow';
 import { getAllUsersByEmail } from './userSelectors';
 
-let lastReportPresence = new Date(0);
-
 export const reportPresence = (isActive: boolean = true, newUserInput: boolean = false) => async (
   dispatch: Dispatch,
   getState: GetState,
@@ -19,13 +16,6 @@ export const reportPresence = (isActive: boolean = true, newUserInput: boolean =
   if (!auth) {
     return; // not logged in
   }
-
-  const now = new Date();
-  if (differenceInSeconds(now, lastReportPresence) < 60) {
-    // TODO throttle properly; probably fold setInterval logic in here
-    return;
-  }
-  lastReportPresence = now;
 
   const response = await api.reportPresence(auth, isActive, newUserInput);
   dispatch({
