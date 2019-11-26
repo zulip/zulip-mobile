@@ -20,7 +20,7 @@ import { objectFromEntries } from '../jsBackport';
 // reactions on the message.
 const getReactionsTabs = (
   aggregatedReactions: $ReadOnlyArray<AggregatedReaction>,
-  usersById: Map<number, UserOrBot>,
+  allUsersById: Map<number, UserOrBot>,
 ) => {
   // Each tab corresponds to an aggregated reaction, and has a user list.
   const reactionsTabs = objectFromEntries(
@@ -28,7 +28,7 @@ const getReactionsTabs = (
       aggregatedReaction.name,
       {
         screen: () => (
-          <ReactionUserList reactedUserIds={aggregatedReaction.users} users={usersById} />
+          <ReactionUserList reactedUserIds={aggregatedReaction.users} allUsersById={allUsersById} />
         ),
         navigationOptions: {
           tabBarLabel: () => (
@@ -59,7 +59,7 @@ const getReactionsTabs = (
 type SelectorProps = $ReadOnly<{|
   message: Message,
   ownUserId: number,
-  usersById: Map<number, UserOrBot>,
+  allUsersById: Map<number, UserOrBot>,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -71,7 +71,7 @@ type Props = $ReadOnly<{|
 
 class MessageReactionList extends PureComponent<Props> {
   render() {
-    const { message, ownUserId, usersById } = this.props;
+    const { message, ownUserId, allUsersById } = this.props;
     const { reactions } = message;
 
     // useful when user is on this screen and reactions are revoked
@@ -87,7 +87,7 @@ class MessageReactionList extends PureComponent<Props> {
 
     const aggregatedReactions = aggregateReactions(reactions, ownUserId);
 
-    const TabView = getReactionsTabs(aggregatedReactions, usersById);
+    const TabView = getReactionsTabs(aggregatedReactions, allUsersById);
 
     return (
       <Screen title="Reactions" scrollEnabled={false}>
@@ -102,5 +102,5 @@ class MessageReactionList extends PureComponent<Props> {
 export default connect((state, props): SelectorProps => ({
   message: state.messages[props.navigation.state.params.messageId],
   ownUserId: getOwnUser(state).user_id,
-  usersById: getAllUsersById(state),
+  allUsersById: getAllUsersById(state),
 }))(MessageReactionList);

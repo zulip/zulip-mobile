@@ -10,7 +10,7 @@ import { navigateToAccountDetails } from '../actions';
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
   reactedUserIds: $ReadOnlyArray<number>,
-  users: Map<number, UserOrBot>,
+  allUsersById: Map<number, UserOrBot>,
 |}>;
 
 class ReactionUserList extends PureComponent<Props> {
@@ -20,14 +20,14 @@ class ReactionUserList extends PureComponent<Props> {
   };
 
   render() {
-    const { reactedUserIds, users } = this.props;
+    const { reactedUserIds, allUsersById } = this.props;
 
     return (
       <FlatList
         data={reactedUserIds}
         keyExtractor={userId => `${userId}`}
         renderItem={({ item }) => {
-          const user = users.get(item);
+          const user = allUsersById.get(item);
           if (!user) {
             return null;
           }
