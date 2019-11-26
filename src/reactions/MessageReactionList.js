@@ -47,9 +47,8 @@ const getReactionsTabs = (
   return createMaterialTopTabNavigator(reactionsTabs, {
     backBehavior: 'none',
 
-    // there can be cases where reaction have been removed by the time user see this screen
-    // or on re-render
-    // so confirm reaction `reactionName` still exists
+    // The user may have originally navigated here to look at a reaction
+    // that's since been removed.  Ignore the nav hint in that case.
     ...(reactionName !== undefined && reactionsTabs[reactionName]
       ? { initialRouteName: reactionName }
       : {}),
@@ -77,6 +76,12 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
+/**
+ * A screen showing who made what reaction on a given message.
+ *
+ * The `reactionName` nav-prop controls what reaction is focused when the
+ * screen first appears.
+ */
 class MessageReactionList extends PureComponent<Props> {
   render() {
     const { message, navigation, ownUserId, allUsersById } = this.props;

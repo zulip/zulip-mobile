@@ -13,6 +13,11 @@ type Props = $ReadOnly<{|
   allUsersById: Map<number, UserOrBot>,
 |}>;
 
+/**
+ * Component showing who made a given reaction on a given message.
+ *
+ * Used within `MessageReactionList`.
+ */
 class ReactionUserList extends PureComponent<Props> {
   handlePress = (email: string) => {
     const { dispatch } = this.props;
