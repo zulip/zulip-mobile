@@ -11,13 +11,8 @@ import type { Dispatch, Orientation as OrientationT } from '../types';
 import { connect } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
-import {
-  appOnline,
-  appOrientation,
-  appState,
-  initSafeAreaInsets,
-  reportPresence,
-} from '../actions';
+import { appOnline, appOrientation, appState, initSafeAreaInsets } from '../actions';
+import PresenceHeartbeat from '../presence/PresenceHeartbeat';
 
 /**
  * Part of the interface from react-native-netinfo.
@@ -90,7 +85,6 @@ class AppEventHandlers extends PureComponent<Props> {
   /** For the type, see docs: https://facebook.github.io/react-native/docs/appstate */
   handleAppStateChange = (state: 'active' | 'background' | 'inactive') => {
     const { dispatch, unreadCount } = this.props;
-    dispatch(reportPresence(state === 'active'));
     dispatch(appState(state === 'active'));
     if (state === 'background' && Platform.OS === 'android') {
       NativeModules.BadgeCountUpdaterModule.setBadgeCount(unreadCount);
@@ -131,7 +125,12 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 
   render() {
-    return <View style={styles.wrapper}>{this.props.children}</View>;
+    return (
+      <>
+        <PresenceHeartbeat />
+        <View style={styles.wrapper}>{this.props.children}</View>
+      </>
+    );
   }
 }
 

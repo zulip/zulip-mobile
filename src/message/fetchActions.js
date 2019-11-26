@@ -32,7 +32,6 @@ import { tryUntilSuccessful } from '../utils/async';
 import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
-import { reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 
@@ -222,9 +221,6 @@ const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) 
  * we want to do when starting up, or regaining a network connection.
  */
 export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
-  dispatch(reportPresence());
-  setInterval(() => dispatch(reportPresence()), 60 * 1000);
-
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
 
