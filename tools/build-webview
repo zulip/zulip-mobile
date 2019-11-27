@@ -2,6 +2,8 @@
 set -eu
 unset CDPATH
 
+# tools/build-webview: WebView assets collection script.
+
 # CAVEAT EMENDATOR: Neither of the build systems have any visibility into this
 # script's dependencies -- it is run unconditionally, and must ensure on its own
 # that it performs as few actions as possible when nothing has changed.
@@ -33,10 +35,11 @@ err() {
 # Parameters and environment
 ################################################################################
 
-# chdir to the current git repo's root
+# Chdir to the current git repo's root.
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
 
+# Ensure that we have access to a functional, modern `readlink`.
 . "$ROOT"/tools/lib/ensure-coreutils.sh
 
 # Parse arguments. Sloppy, but sufficient for now.
@@ -105,7 +108,8 @@ if [[ "$DEST" != *"/webview" ]]; then
     err "unexpected destination directory '$DEST'"
 fi
 
-# Set STAGING.
+# Set STAGING. This is our local staging directory; once it's compiled, it will be
+# synced over to DEST.
 STAGING=src/webview/static
 if [ ! -d "$STAGING" ]; then
     err "cannot find asset staging directory '$STAGING'";
@@ -113,7 +117,7 @@ fi
 
 
 ################################################################################
-# Pre-sync: platform-agnostic build steps
+# Pre-sync: additional build steps
 ################################################################################
 
 # Currently none, but this is where they'll go.
@@ -141,7 +145,7 @@ rsync -a --no-D --delete --delete-excluded --exclude=README.md "$STAGING/." "$DE
 
 
 ################################################################################
-# Post-sync: platform-specific build steps
+# Post-sync: additional build steps
 ################################################################################
 
 # None yet.
