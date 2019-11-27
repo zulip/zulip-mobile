@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import { TabNavigator, TabBarTop } from 'react-navigation';
+import { createMaterialTopTabNavigator } from 'react-navigation';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import ReactionUserList from './ReactionUserList';
@@ -42,10 +42,8 @@ const getReactionsTabs = (
     ]),
   );
 
-  return TabNavigator(reactionsTabs, {
+  return createMaterialTopTabNavigator(reactionsTabs, {
     backBehavior: 'none',
-    tabBarComponent: TabBarTop,
-    tabBarPosition: 'top',
     ...tabsOptions({
       showLabel: true,
       showIcon: false,
