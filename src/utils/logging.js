@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { Sentry, SentrySeverity } from 'react-native-sentry';
 import config from '../config';
 
 // Notes on the behavior of `console.error`, `console.warn`, `console.log`:
@@ -38,14 +37,7 @@ import config from '../config';
  *  * `logging.warn` for logging at lower severity
  */
 export const error = (err: string | Error) => {
-  if (config.sentryKey !== null) {
-    // If `err` is a string, this will dispatch to captureMessage and
-    // synthesize a stack trace.
-    Sentry.captureException(err, {
-      level: SentrySeverity.Error,
-      trimHeadFrames: 1, // mark this frame as non-app code
-    });
-  }
+  /* TODO: replace Sentry logging */
   if (config.enableErrorConsoleLogging) {
     // See toplevel comment about behavior of `console` methods.
     console.error(err); // eslint-disable-line
@@ -68,13 +60,7 @@ export const error = (err: string | Error) => {
  *  * `logging.error` for logging at higher severity
  */
 export const warn = (event: string | Error) => {
-  if (config.sentryKey !== null) {
-    // See comment in `error` about behavior of `Sentry.captureException`.
-    Sentry.captureException(event, {
-      level: SentrySeverity.Warning,
-      trimHeadFrames: 1,
-    });
-  }
+  /* TODO: replace Sentry logging */
   if (config.enableErrorConsoleLogging) {
     // See toplevel comment about behavior of `console` methods.
     console.warn(event); // eslint-disable-line
