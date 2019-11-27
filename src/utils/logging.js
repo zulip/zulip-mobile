@@ -1,4 +1,7 @@
 /* @flow strict-local */
+import type { SeverityType, EventHint } from '@sentry/react-native';
+import { getCurrentHub, Severity } from '@sentry/react-native';
+
 import config from '../config';
 
 // Notes on the behavior of `console.error`, `console.warn`, `console.log`:
@@ -22,11 +25,50 @@ import config from '../config';
 //     single source location where it was created, no stack trace.
 
 /**
+ * Log an event (a string or Error) at some arbitrary severity.
+ *
+ * The error will be logged to Sentry, including a stack trace. The stack trace
+ * is taken from `err` if an `Error` object, and otherwise synthesized from the
+ * call site.
+ *
+ * Returns a Sentry event_id, although this is not expected to be useful.
+ */
+const logToSentry = (event: string | Error, level: SeverityType): string => {
+  let message: string;
+  let hint: EventHint;
+
+  if (event instanceof Error) {
+    // eslint-disable-next-line prefer-destructuring
+    message = event.message;
+    hint = { originalException: event };
+  } else {
+    // Synthesize the event's stack trace. (The static API does this for us, at
+    // least sometimes; but we're calling in at one level lower.)
+    message = event;
+    try {
+      throw new Error(event);
+    } catch (err) {
+      hint = { syntheticException: err };
+    }
+  }
+
+  // The static API's `captureException` doesn't allow passing strings, and its
+  // counterpart `captureMessage` doesn't allow passing stacktraces.
+  // Fortunately, the quasi-internal "Hub" API exists, and is reasonably
+  // well-documented:
+  //
+  // https://docs.sentry.io/development/sdk-dev/unified-api/#hub
+  //
+  // (There is a `captureEvent` method that allows both explicitly; but it also
+  // expects a great deal of other information which we would have to
+  // synthesize, and which has no user-facing documentation.)
+  return getCurrentHub().captureMessage(message, level, hint);
+};
+
+/**
  * Log an error at "error" severity.
  *
- * The error will be logged to Sentry and/or the console as appropriate,
- * including a stack trace.  The stack trace is taken from `err` if an
- * `Error` object, and otherwise from the call site.
+ * The error will be logged to Sentry and/or the console as appropriate.
  *
  * In a debug build, this pops up the RN error red-screen.  This is
  * appropriate when the condition should never happen and definitely
@@ -35,9 +77,11 @@ import config from '../config';
  *
  * See also:
  *  * `logging.warn` for logging at lower severity
+ *  * `logging.logToSentry` for logging at a custom severity
  */
 export const error = (err: string | Error) => {
-  /* TODO: replace Sentry logging */
+  logToSentry(err, Severity.Error);
+
   if (config.enableErrorConsoleLogging) {
     // See toplevel comment about behavior of `console` methods.
     console.error(err); // eslint-disable-line
@@ -47,9 +91,7 @@ export const error = (err: string | Error) => {
 /**
  * Log an event at "warning" severity.
  *
- * The event will be logged to Sentry and/or the console as appropriate,
- * including a stack trace.  The stack trace is taken from `event` if an
- * `Error` object, and otherwise from the call site.
+ * The event will be logged to Sentry and/or the console as appropriate.
  *
  * In the JS debugging console, this produces a yellow-highlighted warning,
  * but no popup interruption.  This makes it appropriate for conditions
@@ -58,9 +100,11 @@ export const error = (err: string | Error) => {
  *
  * See also:
  *  * `logging.error` for logging at higher severity
+ *  * `logging.logToSentry` for logging at a custom severity
  */
 export const warn = (event: string | Error) => {
-  /* TODO: replace Sentry logging */
+  logToSentry(event, Severity.Warning);
+
   if (config.enableErrorConsoleLogging) {
     // See toplevel comment about behavior of `console` methods.
     console.warn(event); // eslint-disable-line
