@@ -5,6 +5,7 @@
 The units of measurement in UI layout are a bit complicated.  When doing any
 UI work, it's important to understand them anyway.
 
+
 ### Display size; logical pixels
 
 Dimensions in React Native are written without explicit units, and are
@@ -42,6 +43,7 @@ pixels on the display.  As a result, our code should basically never know
 about this scaling factor.  Where it is important to know is for us humans,
 inspecting and debugging layouts.
 
+
 ### Font/text size
 
 Separately, the user can adjust the size of text.  This is also in system
@@ -55,6 +57,12 @@ measured in `sp` while the rest of a layout is in `dp`.
 
 On iOS, the term for this is "Dynamic Type".  Details would be good to add
 here.
+
+
+### In the WebView
+
+See [webview.md](webview.md).
+
 
 ### Further reading
 

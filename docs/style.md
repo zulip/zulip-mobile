@@ -2,6 +2,7 @@
 
 (This is not at all complete.)
 
+
 ## Git: commits, commit messages
 
 ### See also
@@ -74,3 +75,36 @@ basically amounts to an @-mention!  Other common lines include
     Tested-by:
 
 and there's no fixed list; people invent others.
+
+
+## WebView: HTML, CSS, JS
+
+### Styling/CSS
+
+**Use `px`, sometimes `rem`, no `em`:** For CSS lengths in the
+webview, we use `rem` for text and `px` for everything else.
+We do not use `em`.
+
+We use these units like so:
+
+* All values for `margin` or `padding`, and most `width`, `height`,
+  and other lengths, are in `px`.
+
+* Lengths for *the size of text* are in `rem`.  This includes almost
+  all values for `font-size`.  In a few cases another length property,
+  like `width` or `height`, is describing something that functions as
+  text -- e.g., an emoji -- and this includes those cases.
+
+Put another way: the following scale with the font size:
+* text, and
+* a few text-like elements like emoji,
+
+while everything else is independent of font size, including:
+* avatars,
+* UI icons, and
+* all padding and margin, including padding around text.
+
+We do this because it implements in the webview the same behavior
+that's standard for native mobile apps, and because it's important for
+accessibility.  For detailed background and rationale, see
+[docs/background/webview.md](background/webview.md#styling).
