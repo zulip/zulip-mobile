@@ -9,8 +9,10 @@ describe('sessionReducer', () => {
   const baseState = eg.baseReduxState.session;
 
   test('ACCOUNT_SWITCH', () => {
-    const newState = sessionReducer(baseState, eg.action.account_switch);
-    expect(newState).toEqual({ ...baseState, needsInitialFetch: true });
+    const state = deepFreeze({ ...baseState, lastNarrow: [], needsInitialFetch: false });
+    const newState = sessionReducer(state, eg.action.account_switch);
+
+    expect(newState).toEqual({ ...baseState, lastNarrow: null, needsInitialFetch: true });
   });
 
   test('START_EDIT_MESSAGE', () => {
