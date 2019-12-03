@@ -46,8 +46,8 @@ var compiledWebviewJs = (function (exports) {
       var fixedSrc = new URL(actualSrc, realm);
 
       if (origin(fixedSrc) === origin(realm)) {
-        if (inlineApiRoutes.some(function (route) {
-          return route.test(fixedSrc.pathname);
+        if (inlineApiRoutes.some(function (regexp) {
+          return regexp.test(fixedSrc.pathname);
         })) {
           var delimiter = actualSrc.includes('?') ? '&' : '?';
           fixedSrc.search += "".concat(delimiter, "api_key=").concat(auth.apiKey);
