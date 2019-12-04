@@ -2,6 +2,8 @@
 set -eu
 unset CDPATH
 
+# tools/build-webview: WebView assets collection script.
+
 # CAVEAT EMENDATOR: Neither of the build systems have any visibility into this
 # script's dependencies -- it is run unconditionally, and must ensure on its own
 # that it performs as few actions as possible when nothing has changed.
@@ -30,90 +32,108 @@ err() {
 }
 
 ################################################################################
-# Parameters and environment
+# Environment
 ################################################################################
 
-# chdir to the current git repo's root
-ROOT="$(git rev-parse --show-toplevel)"
-cd "$ROOT"
+# The project root (or at least the current git repo's root), for absolutizing
+# paths.
+root="$(git rev-parse --show-toplevel)"
+readonly root
 
-. "$ROOT"/tools/lib/ensure-coreutils.sh
+
+# Before continuing, ensure that we have access to a functional, modern
+# `readlink`.
+. "$root"/tools/lib/ensure-coreutils.sh
+
+################################################################################
+# Parameters
+################################################################################
 
 # Parse arguments. Sloppy, but sufficient for now.
-unset TARGET
-unset DEST
+unset target
+unset dest
+sanity_checks=1
 while (( $# )); do
     case "$1" in
         --help|-h|help)
             usage; exit 0;;
         android|ios)
             # no check for multiple nouns; oh well
-            TARGET="$1"; shift;;
+            target="$1"; shift;;
         --destination)
             # note: this doesn't permit an equals sign after `--destination`
-            shift; DEST="$1"; shift;;
+            shift; dest="$1"; shift;;
+        --no-sanity-checks)
+            # disables target-directory sanity checks, for testing's sake
+            shift; sanity_checks=0;;
         *) usage; exit 2;;
     esac
 done
 
-if  [ -z "${TARGET-}" ]; then
+# All arguments are required; complain if any were omitted.
+if  [ -z "${target-}" ]; then
     usage; exit 2
-elif [ -z "${DEST-}" ]; then
+elif [ -z "${dest-}" ]; then
     usage; exit 2
 fi
 
-# Make $DEST absolute, if it isn't already.
-DEST=$(readlink -m "$DEST")
+# Make $dest absolute, if it isn't already.
+dest=$(readlink -m "$dest")
 
-# Sanity-check DEST and TARGET.
-case "$TARGET" in
-    ios)
-        if [ "$(uname)" != "Darwin" ]; then
-            err "iOS builds only supported on macOS";
-        fi
+# Argument parsing has concluded; argument variables are no longer mutable.
+readonly target dest sanity_checks
 
-        # $DEST should be copied to `${bundle_root}/webview`.
-        #
-        # $DEST itself must be specified twice in Xcode: once in the invocation
-        # of this script, and once in the "Copy Bundle Resources" step. If you
-        # change it, you'll need to change it in both places. (And here, of
-        # course.)
-        if [[ "$DEST" != "$ROOT/ios/"* ]]; then
-            err "unexpected destination directory '$DEST' (expected target in iOS build dir)"
-        fi
-    ;;
-    android)
-        # $DEST should be copied to `file:///android_asset/webview`.
-        #
-        # Gradle -- more precisely, the Android Gradle plugin -- is already
-        # configured to copy some directory from `build/` into the APK. We
-        # determine which directory that is in Gradle, and pass it here.
-        if [[ "$DEST" != "$ROOT/android/app/build/"* ]]; then
-            err "unexpected destination directory '$DEST' (expected target in Android build dir)"
-        fi
-    ;;
-    *) err "impossible target $TARGET";;
-esac
+if (( sanity_checks )); then
+    case "$target" in
+        ios)
+            if [ "$(uname)" != "Darwin" ]; then
+                err "iOS builds only supported on macOS";
+            fi
 
-# As implied above, the ultimate destination of these files should be a
-# directory named `./webview` (relative to the platform-dependent asset
-# root directory).
-#
-# The target directory basename should therefore be 'webview': both build
-# systems will preserve the name they're given here.
-if [[ "$DEST" != *"/webview" ]]; then
-    err "unexpected destination directory '$DEST'"
-fi
+            # $dest should be copied to `${bundle_root}/webview`.
+            #
+            # $dest itself must be specified twice in Xcode: once in the invocation
+            # of this script, and once in the "Copy Bundle Resources" step. If you
+            # change it, you'll need to change it in both places. (And here, of
+            # course.)
+            if [[ "$dest" != "$root/ios/"* ]]; then
+                err "unexpected destination directory '$dest' (expected target in iOS build dir)"
+            fi
+        ;;
+        android)
+            # $dest should be copied to `file:///android_asset/webview`.
+            #
+            # Gradle -- more precisely, the Android Gradle plugin -- is already
+            # configured to copy some directory from `build/` into the APK. We
+            # determine which directory that is in Gradle, and pass it here.
+            if [[ "$dest" != "$root/android/app/build/"* ]]; then
+                err "unexpected destination directory '$dest' (expected target in Android build dir)"
+            fi
+        ;;
+        *) err "impossible target $target";;
+    esac
 
-# Set SRC.
-SRC=src/webview/static
-if [ ! -d "$SRC" ]; then
-    err "cannot find asset source directory '$SRC'";
+    # As implied above, the ultimate destination of these files should be a
+    # directory named `./webview` (relative to the platform-dependent asset
+    # root directory).
+    #
+    # The target directory basename should therefore be 'webview': both build
+    # systems will preserve the name they're given here.
+    if [[ "$dest" != *"/webview" ]]; then
+        err "unexpected destination directory '$dest'"
+    fi
+fi  # if $sanity_checks
+
+# Set $staging. This is our local staging directory; once it's compiled, it will
+# be synced over to $dest.
+readonly staging="$root/src/webview/static"
+if [ ! -d "$staging" ]; then
+    err "cannot find asset staging directory '$staging'";
 fi
 
 
 ################################################################################
-# Pre-sync: platform-agnostic build steps
+# Pre-sync: additional build steps
 ################################################################################
 
 # Currently none, but this is where they'll go.
@@ -126,7 +146,6 @@ fi
 #   - might be too many layers of abstraction
 
 
-
 ################################################################################
 # Sync
 ################################################################################
@@ -135,13 +154,13 @@ fi
 # 'README.md'; these should be strictly informative.)
 #
 # We use `rsync` here, as it will skip unchanged files.
-mkdir -p "$DEST"
-rsync -a --no-D --delete --delete-excluded --exclude=README.md "$SRC/." "$DEST"
+mkdir -p "$dest"
+rsync -a --no-D --delete --delete-excluded --exclude=README.md "$staging/." "$dest"
 
 
 
 ################################################################################
-# Post-sync: platform-specific build steps
+# Post-sync: additional build steps
 ################################################################################
 
 # None yet.
