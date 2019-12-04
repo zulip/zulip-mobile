@@ -36,6 +36,22 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* You can now see who left emoji reactions on a message!  Just
+  long-press on the message or reaction.
+
+* If your Zulip server uses SAML authentication, the app now supports
+  it.
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Resolved issues: #2252, #3670, e438f82b2
+
 
 ## 26.16.139 (2019-11-22)
 
