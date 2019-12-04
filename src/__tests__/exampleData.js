@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 import { createStore } from 'redux';
 
 import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
-import type { GlobalState, RealmState } from '../reduxTypes';
+import type { Action, GlobalState, RealmState } from '../reduxTypes';
 import type { Auth, Account } from '../types';
 import { ACCOUNT_SWITCH, LOGIN_SUCCESS, REALM_INIT } from '../actionConstants';
 import rootReducer from '../boot/reducers';
@@ -323,3 +323,9 @@ export const action = deepFreeze({
     },
   },
 });
+
+// Ensure every `eg.action.foo` is some well-typed action.  (We don't simply
+// annotate `action` itself, because we want to keep the information of
+// which one has which specific type.)
+/* eslint-disable-next-line no-unused-expressions */
+(action: { [string]: Action });
