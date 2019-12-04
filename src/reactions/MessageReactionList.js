@@ -43,8 +43,17 @@ const getReactionsTabs = (
     ]),
   );
 
-  let navigatorConfig = {
+  // prettier-ignore
+  return createMaterialTopTabNavigator(reactionsTabs, {
     backBehavior: 'none',
+
+    // there can be cases where reaction have been removed by the time user see this screen
+    // or on re-render
+    // so confirm reaction `reactionName` still exists
+    ...(reactionName !== undefined && reactionsTabs[reactionName]
+      ? { initialRouteName: reactionName }
+      : {}),
+
     ...tabsOptions({
       showLabel: true,
       showIcon: false,
@@ -52,16 +61,7 @@ const getReactionsTabs = (
         borderWidth: 0.15,
       },
     }),
-  };
-
-  // there can be cases where reaction have been removed by the time user see this screen
-  // or on re-render
-  // so confirm reaction `reactionName` still exists
-  if (reactionName !== undefined && reactionsTabs[reactionName]) {
-    navigatorConfig = { ...navigatorConfig, initialRouteName: reactionName };
-  }
-
-  return createMaterialTopTabNavigator(reactionsTabs, navigatorConfig);
+  });
 };
 
 type SelectorProps = $ReadOnly<{|
