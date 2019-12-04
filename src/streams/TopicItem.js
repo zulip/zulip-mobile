@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import styles, { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
+import { showToast } from '../utils/info';
 
 const componentStyles = StyleSheet.create({
   selectedRow: {
@@ -42,11 +43,16 @@ export default class TopicItem extends PureComponent<Props> {
     onPress(stream, name);
   };
 
+  handleLongPress = () => {
+    const { name } = this.props;
+    showToast(name);
+  };
+
   render() {
     const { name, isMuted, isSelected, unreadCount } = this.props;
 
     return (
-      <Touchable onPress={this.handlePress}>
+      <Touchable onPress={this.handlePress} onLongPress={this.handleLongPress}>
         <View
           style={[
             styles.listItem,
