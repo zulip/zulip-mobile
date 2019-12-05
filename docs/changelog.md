@@ -36,6 +36,17 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+Fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+* Upgraded Sentry from v0.x to v1.x, take 2.
+
+* Resolved issues: #3585
+
 
 ## 26.17.140 (2019-12-04)
 
