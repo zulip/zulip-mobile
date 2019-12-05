@@ -116,6 +116,7 @@ describe('Heartbeat', () => {
     expect(heartbeat.callback).toBe(callback);
 
     callback.mockClear();
+
     lolex.runOnlyPendingTimers();
     expect(callback).not.toHaveBeenCalled();
 
@@ -143,28 +144,52 @@ describe('Heartbeat', () => {
     expectRunning(heartbeat, callback);
 
     heartbeat.stop();
-    expect(callback).toHaveBeenCalled();
-    expect(callback).toHaveBeenLastCalledWith(false);
+    expect(callback).not.toHaveBeenCalled();
 
     expectNotRunning(heartbeat, callback);
   });
 
-  test('can be turned on and off repeatedly', () => {
+  test('can be turned on and off repeatedly without signal', () => {
     const { heartbeat, callback } = setup();
 
-    expect(callback).not.toHaveBeenCalled();
+    heartbeat.start();
 
     for (let i = 0; i < 10; ++i) {
       callback.mockClear();
-      heartbeat.start();
-      expect(callback).toHaveBeenCalled();
-      expect(callback).toHaveBeenLastCalledWith(true);
+      heartbeat.stop();
+      expect(callback).not.toHaveBeenCalled();
 
       callback.mockClear();
-      heartbeat.stop();
-      expect(callback).toHaveBeenCalled();
-      expect(callback).toHaveBeenLastCalledWith(false);
+      heartbeat.start();
+      expect(callback).not.toHaveBeenCalled();
     }
+
+    heartbeat.stop();
+  });
+
+  test('can be turned on and off repeatedly _with_ signal', () => {
+    const { heartbeat, callback } = setup();
+
+    heartbeat.start();
+
+    for (let i = 0; i < 10; ++i) {
+      callback.mockClear();
+      heartbeat.stop();
+      expect(callback).not.toHaveBeenCalled();
+
+      // delay past HEARTBEAT_TIME
+      callback.mockClear();
+      lolex.advanceTimersByTime(HEARTBEAT_TIME * 1.1);
+      expect(callback).not.toHaveBeenCalled();
+
+      callback.mockClear();
+      heartbeat.start();
+      expect(callback).toHaveBeenCalled();
+      expect(callback).toHaveBeenCalledTimes(1);
+      expect(callback).toHaveBeenLastCalledWith(true);
+    }
+
+    heartbeat.stop();
   });
 
   test('takes about the right amount of time', () => {
@@ -184,6 +209,7 @@ describe('Heartbeat', () => {
     }
 
     heartbeat.stop();
+    expect(callback).not.toHaveBeenCalled();
   });
 
   test('has idempotent stop()', () => {
@@ -211,7 +237,7 @@ describe('Heartbeat', () => {
     lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.25);
     expect(callback).not.toHaveBeenCalled();
     heartbeat.start();
-    expect(callback).not.toHaveBeenCalled(); // sic! deliberate exception
+    expect(callback).not.toHaveBeenCalled(); // sic!
 
     lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.76);
     expect(callback).toHaveBeenCalled();
