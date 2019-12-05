@@ -9,29 +9,11 @@ let lolex: Lolex;
 type CallbackType = JestMockFn<$ReadOnlyArray<boolean>, void>;
 
 describe('Heartbeat', () => {
+  // ===================================================================
+  // Constants and conveniences
+
   // arbitrarily, one full hour between heartbeats
   const HEARTBEAT_TIME = 60 * 60 * 1000;
-
-  // before running tests: set up fake timer API
-  beforeAll(() => {
-    // jest.useFakeTimers();
-    lolex = new Lolex();
-  });
-
-  afterAll(() => {
-    // jest.useRealTimers();
-    lolex.dispose();
-  });
-
-  // before each test: reset fake-timers state
-  beforeEach(() => {
-    lolex.clearAllTimers();
-  });
-
-  // after each test: confirm that all timers have been stopped
-  afterEach(() => {
-    expect(lolex.getTimerCount()).toBe(0);
-  });
 
   /**
    * Wrapper class for Heartbeat.
@@ -41,16 +23,20 @@ describe('Heartbeat', () => {
    * Heartbeat's callback. This wrapper provides fully-typed access to the
    * callback.
    *
-   * (In future revisions it will also log Heartbeat state toggles, to assist in
-   * asserting that certain operational predicates are valid.)
+   * As a convenience, we also keep track of the current set of Heartbeats used
+   * by test cases.
    */
   class JestHeartbeatHelper {
     callback: CallbackType;
     heartbeat: Heartbeat;
 
+    static _currentHeartbeats: Array<JestHeartbeatHelper> = [];
+
     constructor() {
       this.callback = jest.fn();
       this.heartbeat = new Heartbeat(this.callback, HEARTBEAT_TIME);
+      // eslint-disable-next-line no-underscore-dangle
+      JestHeartbeatHelper._currentHeartbeats.push(this);
     }
 
     start() {
@@ -61,6 +47,13 @@ describe('Heartbeat', () => {
     }
     isActive(): boolean {
       return this.heartbeat.isActive();
+    }
+
+    static getExtant(): $ReadOnlyArray<JestHeartbeatHelper> {
+      return this._currentHeartbeats;
+    }
+    static clearExtant() {
+      this._currentHeartbeats = [];
     }
   }
 
@@ -94,12 +87,59 @@ describe('Heartbeat', () => {
     const { callback } = heartbeat;
 
     callback.mockClear();
+
     lolex.runOnlyPendingTimers();
     expect(callback).not.toHaveBeenCalled();
 
     lolex.advanceTimersByTime(HEARTBEAT_TIME * 10);
     expect(callback).not.toHaveBeenCalled();
   };
+
+  // ===================================================================
+  // Jest hooks
+
+  // before running tests: set up fake timer API
+  beforeAll(() => {
+    // jest.useFakeTimers();
+    lolex = new Lolex();
+  });
+
+  afterAll(() => {
+    // jest.useRealTimers();
+    lolex.dispose();
+    JestHeartbeatHelper.clearExtant();
+  });
+
+  // before each test: reset common state
+  beforeEach(() => {
+    lolex.clearAllTimers();
+    JestHeartbeatHelper.clearExtant();
+  });
+
+  // after each test: confirm common properties
+  afterEach(() => {
+    const heartbeats = JestHeartbeatHelper.getExtant();
+
+    for (const heartbeat of heartbeats) {
+      // Tests should stop all their Heartbeats.
+      expect(heartbeat.isActive()).toBeFalse();
+      heartbeat.callback.mockClear();
+    }
+
+    // Stopped heartbeats may have timers running, but those timers should not
+    // persist beyond their next firing...
+    lolex.runOnlyPendingTimers();
+    expect(lolex.getTimerCount()).toBe(0);
+
+    // ... and none of those _timer_ firings should result in a _callback_
+    // firing.
+    for (const heartbeat of heartbeats) {
+      expect(heartbeat.callback).not.toHaveBeenCalled();
+    }
+  });
+
+  // ===================================================================
+  // Test cases
 
   test('starts inactive', () => {
     const { heartbeat, callback } = setup();
@@ -121,28 +161,52 @@ describe('Heartbeat', () => {
     expectRunning(heartbeat);
 
     heartbeat.stop();
-    expect(callback).toHaveBeenCalled();
-    expect(callback).toHaveBeenLastCalledWith(false);
+    expect(callback).not.toHaveBeenCalled();
 
     expectNotRunning(heartbeat);
   });
 
-  test('can be turned on and off repeatedly', () => {
+  test('can be turned on and off repeatedly without signal', () => {
     const { heartbeat, callback } = setup();
 
-    expect(callback).not.toHaveBeenCalled();
+    heartbeat.start();
 
     for (let i = 0; i < 10; ++i) {
       callback.mockClear();
-      heartbeat.start();
-      expect(callback).toHaveBeenCalled();
-      expect(callback).toHaveBeenLastCalledWith(true);
+      heartbeat.stop();
+      expect(callback).not.toHaveBeenCalled();
 
       callback.mockClear();
-      heartbeat.stop();
-      expect(callback).toHaveBeenCalled();
-      expect(callback).toHaveBeenLastCalledWith(false);
+      heartbeat.start();
+      expect(callback).not.toHaveBeenCalled();
     }
+
+    heartbeat.stop();
+  });
+
+  test('can be turned on and off repeatedly _with_ signal', () => {
+    const { heartbeat, callback } = setup();
+
+    heartbeat.start();
+
+    for (let i = 0; i < 10; ++i) {
+      callback.mockClear();
+      heartbeat.stop();
+      expect(callback).not.toHaveBeenCalled();
+
+      // delay past HEARTBEAT_TIME
+      callback.mockClear();
+      lolex.advanceTimersByTime(HEARTBEAT_TIME * 1.1);
+      expect(callback).not.toHaveBeenCalled();
+
+      callback.mockClear();
+      heartbeat.start();
+      expect(callback).toHaveBeenCalled();
+      expect(callback).toHaveBeenCalledTimes(1);
+      expect(callback).toHaveBeenLastCalledWith(true);
+    }
+
+    heartbeat.stop();
   });
 
   test('takes about the right amount of time', () => {
@@ -162,6 +226,7 @@ describe('Heartbeat', () => {
     }
 
     heartbeat.stop();
+    expect(callback).not.toHaveBeenCalled();
   });
 
   test('has idempotent stop()', () => {
@@ -189,7 +254,7 @@ describe('Heartbeat', () => {
     lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.25);
     expect(callback).not.toHaveBeenCalled();
     heartbeat.start();
-    expect(callback).not.toHaveBeenCalled(); // sic! deliberate exception
+    expect(callback).not.toHaveBeenCalled(); // sic!
 
     lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.76);
     expect(callback).toHaveBeenCalled();
