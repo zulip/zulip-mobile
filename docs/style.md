@@ -64,6 +64,31 @@ your change:
   config file, etc.)
 
 
+### Commit messages, comments, code
+
+**Update commit messages when you update a branch.**
+The commit message is a key part of the content of a commit.
+So when you revise in response to code review feedback, be sure
+to edit the commit message as needed to match.
+
+
+**Commit messages vs. comments.**
+In general:
+
+* Use the commit message for information that's specific to the change
+  between this commit and its parent.  In particular, for information
+  about why the new version is better than, or not worse than, the old
+  version.
+
+* Use comments, or the code itself, for information that's relevant to
+  the new version of the code on its own -- for understanding the new
+  code from scratch as it is.
+
+  * Where possible, it's best to use names and types to make the
+    information clear in the code itself.  Many kinds of information
+    don't fit there; for those, use comments.
+
+
 ### Mentioning people
 
 **No GitHub @-mentions:** GitHub makes it tempting to refer to people
