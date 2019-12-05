@@ -64,6 +64,49 @@ your change:
   config file, etc.)
 
 
+### Squashing and not-squashing commits
+
+Here again, see also the Zulip guide to [clear and coherent
+commits][].
+
+
+**When in doubt, leave as separate commits.**
+It's easy to squash commits that are separate, and can be more work to
+separate changes that were squashed.  So when in doubt about whether
+to squash some changes, send the PR with them unsquashed, and ask the
+reviewer.
+
+(This is in the "clear and coherent commits" guide, but bears
+repeating next to any advice about squashing commits.)
+
+
+**Move code in one commit, rather than add + delete in two.**
+Whenever code is being moved, it's usually best to make the move in
+one commit rather than separately add and delete.  For an example,
+see #3310.
+
+This makes it self-contained to see that the old and new code match up
+and to understand where the new code comes from (in particular, that
+it wasn't newly made up.)
+
+Sometimes in complex cases it's a better tradeoff to do them
+separately for other reasons.  When doing so, be sure to be more
+explicit about what's going on to help the reader make up for it.
+
+
+**Squash small commits when they're easier to understand together.**
+This often applies to a change that produces some data and another
+that consumes it.  For an example, see [the merge of #3263][].
+
+On the other hand if either change is large or complex, then it's
+often a better tradeoff to do them separately.  Just be explicit about
+what's going on: in particular, in the earlier commit message make
+clear that the other side is coming soon, and in the later one mention
+that the other side was just added.
+
+[the merge of #3263]: https://github.com/zulip/zulip-mobile/pull/3263#issuecomment-460918886
+
+
 ### Commit messages, comments, code
 
 **Update commit messages when you update a branch.**
