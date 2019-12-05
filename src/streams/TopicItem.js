@@ -29,7 +29,7 @@ type Props = $ReadOnly<{|
   onPress: (topic: string, stream: string) => void,
 |}>;
 
-export default class StreamItem extends PureComponent<Props> {
+export default class TopicItem extends PureComponent<Props> {
   static defaultProps = {
     stream: '',
     isMuted: false,

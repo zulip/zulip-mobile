@@ -10,7 +10,7 @@ type Props = $ReadOnly<{|
   children: React$Node,
 |}>;
 
-export default class StoreHydrator extends PureComponent<Props> {
+export default class StoreProvider extends PureComponent<Props> {
   componentDidMount() {
     timing.start('Store hydration');
     restore(() => {

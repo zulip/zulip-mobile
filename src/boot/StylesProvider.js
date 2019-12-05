@@ -16,7 +16,7 @@ type Props = $ReadOnly<{|
   children: React$Node,
 |}>;
 
-class StyleProvider extends PureComponent<Props> {
+class StylesProvider extends PureComponent<Props> {
   static childContextTypes = {
     styles: () => {},
   };
@@ -44,4 +44,4 @@ class StyleProvider extends PureComponent<Props> {
 
 export default connect(state => ({
   theme: getSettings(state).theme,
-}))(StyleProvider);
+}))(StylesProvider);
