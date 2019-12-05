@@ -77,6 +77,74 @@ basically amounts to an @-mention!  Other common lines include
 and there's no fixed list; people invent others.
 
 
+## GitHub: PRs, issues
+
+**Mention all related issues in PR or new issue.**
+When you submit a PR, mention in the PR description any issue it's
+intended to fix; or intended to help with; or could make worse; etc.
+
+Similarly, when you file an issue, mention any issue you're aware of
+that it's similar to, or might interact with, etc.
+
+These cause GitHub to automatically link back from the other issue to
+the new PR or issue.  The cross-references in both directions are
+essential for:
+* finding previous discussions rather than repeat them;
+* getting context on the PR by seeing the issue discussion;
+* finding what happened to an issue by seeing the PR.
+
+Be sure to use the PR (or issue) description, not the title: for
+whatever reason, GitHub doesn't count links in PR titles for creating
+automatic backlinks.
+
+
+**Mention a fixed issue in both PR and commit message.**
+When you submit a fix for an issue, please refer to it *both*
+* in the PR description, and
+* in the commit message of the main commit that fixes it.
+
+The commit message is important because the commits in Git become our
+primary record of what we did: people will read the commit message and
+want to be able to look at the issue for context.
+
+The reference in the PR description is important for the sake of the
+GitHub website, for the reasons mentioned above.  When the reference
+is only in a commit message, GitHub doesn't use that information as
+usefully.
+
+You might find that a reference in a commit message causes GitHub to
+show a noisy list of backlinks in the issue thread, after you make
+revisions to the branch and push new versions of the commits.  Please
+include the reference anyway, despite that UI bug in GitHub.  We'll
+live with a little noise on the issue threads, and the references are
+extremely helpful when [reading the Git log](howto/git.md).
+
+
+**Write `Fixes: #1234` when fixing an issue.**
+When a commit fixes an issue, use a line like `Fixes: #1234` at the
+end of the commit message.
+
+If there are any `Reported-by:` or similar lines (as discussed above),
+put it next to them.  See for example 58028d6d1:
+
+    Author: Greg Price <greg@zulipchat.com>
+
+        android notif: On open when app in background, emit the event.
+
+        When the user has opened the app and then moved on to something else,
+        [... more details ...]
+
+        Fixes: #3582
+        Reported-by: Vishwesh Jainkuniya <gitvishwesh@gmail.com>
+        Debugged-by: Vishwesh Jainkuniya <gitvishwesh@gmail.com>
+
+GitHub accepts a range of [other magic words][gh-close-issue-keywords]
+that have the same effect.  Please stick with "Fixes"; it's helpful to
+pick just one, and that's the one we use.
+
+[gh-close-issue-keywords]: https://help.github.com/en/github/managing-your-work-on-github/closing-issues-using-keywords
+
+
 ## WebView: HTML, CSS, JS
 
 ### Styling/CSS
