@@ -25,9 +25,9 @@ type Props = $ReadOnly<{|
 // changed -- which is exactly what we want.)
 class PresenceHeartbeat extends PureComponent<Props> {
   /** Callback for Heartbeat object. */
-  onHeartbeat = (state: boolean) => {
+  onHeartbeat = () => {
     if (this.props.auth) {
-      this.props.dispatch(reportPresence(state));
+      this.props.dispatch(reportPresence(true));
     }
   };
 
