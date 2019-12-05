@@ -21,6 +21,49 @@ major reason we keep high standards for commit clarity.  These tips
 will help you get a lot of value from reading Git history too.
 
 
+### Communicating in the commit message
+
+**See also:** The Zulip guide to [clear and coherent commits][] (same
+link as above.)
+
+
+**Answer in the branch the reviewer's questions.**
+Any time a reviewer asks a "why" question about a PR, we'll want the
+answer to make it into the actual commits.  Or if they find something
+confusing, we'll want it to be clear in the actual commits: ideally
+the code itself makes it clear, or if not then comments or the commit
+messages explain it.
+
+
+**Answer questions the reviewer *should* ask.**
+The reviewer will be trying to understand your change: what it does,
+and why.  Help them out before they even see the branch, by answering
+their questions in the code, comments, and commit messages.
+
+Here are some particularly important questions the reviewer may be
+asking -- at least in their head -- when they look at each piece of
+your change:
+
+* Hmm, was that change intentional?  (E.g.: the commit message said
+  the point is to implement feature A, but this also changes how
+  feature B looks.)
+
+* Is this part something we should have been doing all along?  Or is
+  it newly needed because of the other changes you're making?
+
+* (If the old code had something wrong with it:) What were the
+  consequences of the problem; did it have any effects on what the
+  user saw?
+
+* What source were you relying on to understand [this API / these
+  guidelines / this upgrade process / this platform feature]?  (A
+  link or two can be very helpful.)
+
+* How did you generate the new [foo] -- what kind of input did you
+  provide to [foo-making tool]?  (Where "foo" is an icon, an Xcode
+  config file, etc.)
+
+
 ### Mentioning people
 
 **No GitHub @-mentions:** GitHub makes it tempting to refer to people
