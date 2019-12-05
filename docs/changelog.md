@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.18.141 (2019-12-05)
+
 ### Highlights for users
 
 Fixes and improvements for your Zulip experience.
