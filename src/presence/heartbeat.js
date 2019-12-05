@@ -13,23 +13,21 @@
  * (Despite the generic-looking definition, this class is closely tailored to
  * user-presence reporting.)
  */
-// At present, this class never calls `callback` with `false`, despite
-// `callback` taking a boolean argument.
 class Heartbeat {
   intervalId: IntervalID | null = null;
 
-  callback: (state: boolean) => void;
+  callback: () => void;
   milliseconds: number;
   previousTime: number = -Infinity;
 
-  constructor(callback: (state: boolean) => void, milliseconds: number) {
+  constructor(callback: () => void, milliseconds: number) {
     this.callback = callback;
     this.milliseconds = milliseconds;
   }
 
-  doCallback = (value: boolean) => {
+  doCallback = () => {
     this.previousTime = Date.now();
-    this.callback(value);
+    this.callback();
   };
 
   /** PRIVATE. Exposed only for tests. */
@@ -43,9 +41,9 @@ class Heartbeat {
       return;
     }
     if (this.previousTime + this.milliseconds <= Date.now()) {
-      this.doCallback(true);
+      this.doCallback();
     }
-    this.intervalId = setInterval(this.doCallback, this.milliseconds, true);
+    this.intervalId = setInterval(this.doCallback, this.milliseconds);
   }
 
   /** Stop the heartbeat. Idempotent. */

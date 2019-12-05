@@ -55,7 +55,7 @@ class Lolex {
 let lolex: Lolex;
 
 // type alias for Jest callback functions of type (boolean) => void
-type CallbackType = JestMockFn<$ReadOnlyArray<boolean>, void>;
+type CallbackType = JestMockFn<$ReadOnlyArray<void>, void>;
 
 describe('Heartbeat', () => {
   // arbitrarily, one full hour between heartbeats
@@ -106,7 +106,6 @@ describe('Heartbeat', () => {
       callback.mockClear();
       lolex.runOnlyPendingTimers();
       expect(callback).toHaveBeenCalled();
-      expect(callback).toHaveBeenLastCalledWith(true);
     }
     callback.mockClear();
   };
@@ -139,7 +138,6 @@ describe('Heartbeat', () => {
     expect(callback).not.toHaveBeenCalled();
     heartbeat.start();
     expect(callback).toHaveBeenCalled();
-    expect(callback).toHaveBeenLastCalledWith(true);
 
     expectRunning(heartbeat, callback);
 
@@ -186,7 +184,6 @@ describe('Heartbeat', () => {
       heartbeat.start();
       expect(callback).toHaveBeenCalled();
       expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenLastCalledWith(true);
     }
 
     heartbeat.stop();
@@ -204,7 +201,6 @@ describe('Heartbeat', () => {
       lolex.advanceTimersByTime(HEARTBEAT_TIME * 1.001);
       expect(callback).toHaveBeenCalled();
       expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenLastCalledWith(true);
       callback.mockClear();
     }
 

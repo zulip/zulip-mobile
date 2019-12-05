@@ -22,14 +22,14 @@ type Props = $ReadOnly<{|
 // the props haven't changed.
 class PresenceHeartbeat extends PureComponent<Props> {
   /** Callback for Heartbeat object. */
-  onHeartbeat = (state: boolean) => {
+  onHeartbeat = () => {
     // N.B.: If `auth` changes, we do not send out a final `false` presence
     // status for the previous `auth`. It's the responsibility of our logout
     // handler to determine whether that's necessary.
     //
     // (TODO: ensure that our logout handlers actually do that.)
     if (this.props.auth) {
-      this.props.dispatch(reportPresence(state));
+      this.props.dispatch(reportPresence(true));
     }
   };
 
