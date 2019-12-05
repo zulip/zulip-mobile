@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import Toast from '@remobile/react-native-toast';
 
 export const showToast = (message: string) => {
-  Toast.show(message, Toast.SHORT);
+  Toast.show(message);
 };
 
 export const showErrorAlert = (message: string, title: string) =>
