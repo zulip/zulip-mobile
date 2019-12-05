@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.17.140 (2019-12-04)
+
 ### Highlights for users
 
 * You can now see who left emoji reactions on a message!  Just
