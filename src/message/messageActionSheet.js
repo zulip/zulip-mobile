@@ -232,6 +232,7 @@ export const showActionSheet = (
   const optionCodes = isHeader
     ? constructHeaderActionButtons(params)
     : constructMessageActionButtons(params);
+  const topic = isHeader ? params.message.subject : '';
   const callback = buttonIndex => {
     allButtons[optionCodes[buttonIndex]]({
       dispatch,
@@ -244,6 +245,7 @@ export const showActionSheet = (
   };
   showActionSheetWithOptions(
     {
+      title: topic,
       options: optionCodes.map(code => _(allButtons[code].title)),
       cancelButtonIndex: optionCodes.length - 1,
     },
