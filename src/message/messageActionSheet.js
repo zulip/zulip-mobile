@@ -244,6 +244,11 @@ export const showActionSheet = (
   };
   showActionSheetWithOptions(
     {
+      ...(isHeader
+        ? {
+            title: `#${params.message.display_recipient} > ${params.message.subject}`,
+          }
+        : {}),
       options: optionCodes.map(code => _(allButtons[code].title)),
       cancelButtonIndex: optionCodes.length - 1,
     },
