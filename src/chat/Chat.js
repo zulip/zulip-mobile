@@ -31,6 +31,9 @@ const componentStyles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column-reverse',
   },
+  composeBox: {
+    maxHeight: '60%',
+  },
 });
 
 class Chat extends PureComponent<Props> {
@@ -45,7 +48,9 @@ class Chat extends PureComponent<Props> {
             <NoMessages narrow={narrow} />
             <UnreadNotice narrow={narrow} />
           </View>
-          {canSend && <ComposeBox narrow={narrow} />}
+          <View style={componentStyles.composeBox}>
+            {canSend && <ComposeBox narrow={narrow} />}
+          </View>
         </View>
       </KeyboardAvoider>
     );

@@ -301,7 +301,9 @@ class ComposeBox extends PureComponent<Props, State> {
     topicInput: {
       borderWidth: 0,
       borderRadius: 5,
-      marginBottom: 8,
+      position: 'absolute',
+      top: 8,
+      width: '100%',
       ...this.inputMarginPadding,
       ...this.context.styles.backgroundColor,
     },
@@ -339,6 +341,13 @@ class ComposeBox extends PureComponent<Props, State> {
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
     };
 
+    const showTopicInput = this.getCanSelectTopic();
+
+    // topic input have absolute position, make room for it
+    if (showTopicInput) {
+      this.styles.composeTextInput = { ...this.styles.composeTextInput, marginTop: 38 };
+    }
+
     return (
       <View>
         <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
@@ -362,7 +371,7 @@ class ComposeBox extends PureComponent<Props, State> {
             onExpandContract={this.handleComposeMenuToggle}
           />
           <View style={this.styles.composeText}>
-            {this.getCanSelectTopic() && (
+            {showTopicInput && (
               <Input
                 style={this.styles.topicInput}
                 underlineColorAndroid="transparent"
