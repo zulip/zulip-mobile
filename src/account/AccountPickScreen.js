@@ -12,7 +12,6 @@ import AccountList from './AccountList';
 import { navigateToRealmScreen, switchAccount, removeAccount, navigateToAuth } from '../actions';
 import * as api from '../api';
 import { showErrorAlert } from '../utils/info';
-import LoadingIndicator from '../common/LoadingIndicator';
 
 type Props = $ReadOnly<{|
   accounts: AccountStatus[],
