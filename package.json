@@ -30,7 +30,7 @@
     "update-libdefs": "yarn install && rm -rf flow-typed/npm/ && flow-typed update"
   },
   "dependencies": {
-    "@expo/react-native-action-sheet": "^1.1.0",
+    "@expo/react-native-action-sheet": "^3.4.0",
     "@react-native-community/async-storage": "^1.6.3",
     "@react-native-community/netinfo": "^3.2.1",
     "@remobile/react-native-toast": "^1.0.7",
