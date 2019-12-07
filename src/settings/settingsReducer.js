@@ -5,6 +5,7 @@ import {
   REALM_INIT,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
 } from '../actionConstants';
+import { ensureUnreachable } from '../types';
 
 const initialState: SettingsState = {
   locale: 'en',
@@ -39,6 +40,7 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
         case 'enable_stream_push_notifications':
           return { ...state, streamNotification: action.setting };
         default:
+          ensureUnreachable(action.notification_name);
           return state;
       }
 
