@@ -40,7 +40,7 @@ type Props = $ReadOnly<{|
   index: number,
   email: string,
   realm: string,
-  onSelect: (index: number) => void | Promise<void>,
+  onSelect: (index: number) => Promise<void>,
   onRemove: (index: number) => void,
   showDoneIcon: boolean,
 |}>;

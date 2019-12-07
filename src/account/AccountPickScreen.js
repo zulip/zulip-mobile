@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { Alert } from 'react-native';
+
 import type { Dispatch, ApiResponseServerSettings } from '../types';
 
 import { connect } from '../react-redux';
@@ -11,6 +11,8 @@ import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common'
 import AccountList from './AccountList';
 import { navigateToRealmScreen, switchAccount, removeAccount, navigateToAuth } from '../actions';
 import * as api from '../api';
+import { showErrorAlert } from '../utils/info';
+import LoadingIndicator from '../common/LoadingIndicator';
 
 type Props = $ReadOnly<{|
   accounts: AccountStatus[],
@@ -30,8 +32,8 @@ class AccountPickScreen extends PureComponent<Props> {
       try {
         const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
         dispatch(navigateToAuth(serverSettings));
-      } catch (err) {
-        Alert.alert('Cannot connect to server', '', [{ text: 'OK' }]);
+      } catch (error) {
+        showErrorAlert(error.message, 'Failed to connect server');
       }
     }
   };
