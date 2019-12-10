@@ -62,6 +62,9 @@ npm-debug.log
 /coverage/
 /flow-coverage/
 
+# Test files
+/pirlo-cli
+
 # Transifex, for a maintainer syncing translations up and down
 /.transifexrc
 

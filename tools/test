@@ -30,9 +30,10 @@ Suites:
   jest
   prettier
   deps
-  spell
+  functional  (skipped by default)
+  spell       (skipped by default)
 
-By default, all suites but \`spell\` are run.
+By default, all suites are run except those identified as skipped above.
 EOF
     exit 2
 }
@@ -47,7 +48,7 @@ while (( $# )); do
         --diff) shift; files=diff:"$1"; shift;;
         --full) files=full; shift;;
         --fix) fix=1; shift;;
-        android|flow|lint|jest|prettier|deps|spell|functional)
+        android|flow|lint|jest|prettier|deps|functional|spell)
             suites+=("$1"); shift;;
         *) usage;;
     esac
@@ -187,15 +188,14 @@ EOF
     fi
 }
 
+run_functional() {
+    yarn run build:android-nokeys
+    ./tools/pirlo-tests.sh
+}
+
 run_spell() {
     (( $# )) || return 0
     eslint --no-eslintrc -c tools/spellcheck.eslintrc.yaml "$@"
-}
-
-run_functional() {
-
-    yarn run build:android-nokeys
-    ./tools/pirlo-tests.sh
 }
 
 failed=()
@@ -220,12 +220,11 @@ for suite in "${suites[@]}"; do
         deps)
             run_deps
             ;;
-        spell)
-            run_spell $(files_js)
-            ;;
-
         functional)
             run_functional
+            ;;
+        spell)
+            run_spell $(files_js)
             ;;
     esac || failed+=($suite)
 done
