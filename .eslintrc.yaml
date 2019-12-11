@@ -32,6 +32,15 @@ rules:
   # Formatting and naming
   camelcase: off
 
+  # Permit dangling underscores in class property names, to denote "private"
+  # fields. (These should be replaced with true private fields per the TC39
+  # class fields proposal [1], once that's available to us.)
+  #
+  # [1]: https://github.com/tc39/proposal-class-fields
+  no-underscore-dangle: ["error", { allowAfterThis: true } ]
+  # Disallow double underscores and trailing underscores.
+  id-match: ["error", "^_?([a-zA-Z0-9$]+_?)*$", { "properties": true }]
+
   # Disable a bunch of rules that should be taken care of by prettier.
   arrow-parens: off
   comma-dangle: off
