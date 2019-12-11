@@ -30,8 +30,8 @@ Suites:
   jest
   prettier
   deps
-  functional  (skipped by default)
-  spell       (skipped by default)
+  pirlo    (skipped by default)
+  spell    (skipped by default)
 
 By default, all suites are run except those identified as skipped above.
 EOF
@@ -48,7 +48,7 @@ while (( $# )); do
         --diff) shift; files=diff:"$1"; shift;;
         --full) files=full; shift;;
         --fix) fix=1; shift;;
-        android|flow|lint|jest|prettier|deps|functional|spell)
+        android|flow|lint|jest|prettier|deps|pirlo|spell)
             suites+=("$1"); shift;;
         *) usage;;
     esac
@@ -188,7 +188,8 @@ EOF
     fi
 }
 
-run_functional() {
+# End-to-end Android tests.
+run_pirlo() {
     yarn run build:android-nokeys
     tools/pirlo
 }
@@ -220,8 +221,8 @@ for suite in "${suites[@]}"; do
         deps)
             run_deps
             ;;
-        functional)
-            run_functional
+        pirlo)
+            run_pirlo
             ;;
         spell)
             run_spell $(files_js)
