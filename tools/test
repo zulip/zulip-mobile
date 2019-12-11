@@ -190,7 +190,7 @@ EOF
 
 run_functional() {
     yarn run build:android-nokeys
-    ./tools/pirlo-tests.sh
+    tools/pirlo
 }
 
 run_spell() {
