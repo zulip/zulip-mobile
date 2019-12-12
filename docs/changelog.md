@@ -37,6 +37,21 @@ It doesn't include
 ## Unreleased
 
 
+## (iOS) 26.19.142 (2019-12-11)
+
+### Highlights for users
+
+(iOS-only release.)
+
+Fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+This is a cherry-pick release atop 26.17.140, with selected small
+changes.
+
+
 ## 26.17.140 (2019-12-04)
 
 ### Highlights for users
