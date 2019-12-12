@@ -47,16 +47,39 @@ experience.
 
 ### Highlights for developers
 
+This is a regular release from the master branch following 26.18.141.
+In addition to the changes mentioned here, it includes the changes
+that were cherry-picked for 26.19.142.
+
 * New test suite `pirlo`, which runs an end-to-end smoketest of an
   Android release build in the cloud using pirlo.io.
 
 * Resolved issues: #3570, #3711, #3715, #3669;
-  #3707 resolved part of #3631; 30018d7d7 (on welcome-help text)
+  #3707 resolved part of #3631
 
 
-## 26.18.141 (2019-12-05)
+## (iOS) 26.19.142 (2019-12-11)
 
 ### Highlights for users
+
+(iOS-only release.)
+
+Fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+This is a cherry-pick release atop 26.17.140, with selected small
+changes.  It does not include the changes made in 26.18.141.
+
+* Resolved issues: 30018d7d7 (on welcome-help text)
+
+
+## (Android) 26.18.141 (2019-12-05)
+
+### Highlights for users
+
+(Android-only release.)
 
 Fixes and improvements for your Zulip experience.
 
