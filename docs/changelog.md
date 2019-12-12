@@ -36,6 +36,23 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* When a topic's name is too long to fit in the UI, you can long-press
+  the topic to show it in full.
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* New test suite `pirlo`, which runs an end-to-end smoketest of an
+  Android release build in the cloud using pirlo.io.
+
+* Resolved issues: #3570, #3711, #3715, #3669;
+  #3707 resolved part of #3631; 30018d7d7 (on welcome-help text)
+
 
 ## 26.18.141 (2019-12-05)
 
