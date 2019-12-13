@@ -27,8 +27,7 @@
     "prettier-full": "tools/fmt --all",
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
     "test:flow-todo": "eslint --no-eslintrc -c tools/flow-todo.eslintrc.yaml src/",
-    "update-libdefs": "yarn install && rm -rf flow-typed/npm/ && flow-typed update",
-    "reinstall": "rm -rf node_modules && yarn cache clean && yarn install"
+    "update-libdefs": "yarn install && rm -rf flow-typed/npm/ && flow-typed update"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.1.0",

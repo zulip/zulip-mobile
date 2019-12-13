@@ -286,11 +286,18 @@ installed by running the command `node --version`.
 
 ### Other issues
 
-If you are having issues running the code on your machine, either for the first time or after updating an outdated code with the latest, please run:
+If you are having issues running the code on your machine, either for
+the first time or after updating an outdated code with the latest,
+in some cases it can help to delete the installed dependencies and
+install them again from scratch:
 
 ```
-yarn reinstall
+rm -rf node_modules
+yarn cache clean
+yarn install
 ```
+
+and then retry building and running.
 
 Optionally, reset iOS simulator:
 
