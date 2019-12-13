@@ -156,19 +156,16 @@ overrides:
 
     # [1]: https://github.com/airbnb/javascript/issues/1103
     # [2]: https://github.com/airbnb/javascript/blob/dee4f17/packages/eslint-config-airbnb-base/rules/style.js#L334
-    no-restricted-syntax: [
-      'error',
-      {
-        selector: 'ForInStatement',
-        message: 'for..in loops iterate over the entire prototype chain, which
+    no-restricted-syntax:
+    - error
+    - selector: ForInStatement
+      message: 'for..in loops iterate over the entire prototype chain, which
         is virtually never what you want. Use Object.{keys,values,entries}, and
         iterate over the resulting array.'
         # They're also slightly buggy in JSC [1], on which react-native is
         # built... and, surprisingly, their semantics weren't fully nailed down
         # until as late as 2019-12 [2]. But the above is reason enough.
-
         # [1]: https://bugs.webkit.org/show_bug.cgi?id=38970
         # [2]: https://github.com/tc39/proposals/commit/cb9c6e50
-      },
-    ]
+
     no-with: error
