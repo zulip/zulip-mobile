@@ -16,7 +16,7 @@ declare module '@sentry/react-native' {
 
     /* This field is declared as optional in TypeScript, but it's not: the iOS
        implementation will redbox if it's omitted from the `init()` call. The
-       underlying issue has been filed as sentry/sentry-cocoa#347.
+       underlying issue has been filed as getsentry/sentry-cocoa#347.
 
        In the meantime, { dsn: 'https://none@localhost:0/_/_' } may have the
        same effect. */
@@ -99,6 +99,23 @@ declare module '@sentry/react-native' {
     captureMessage(message: string, level?: SeverityType, eventHint?: EventHint): string,
   };
 
+  // Taken from @sentry/{minimal,types}/src/scope.ts.
+  // More methods are available.
+  declare export class Scope {
+    /**
+     * Set key:value that will be sent as extra data with the event.
+     * @param key String of extra
+     * @param extra Any kind of data. This data will be normalized.
+     */
+    setExtra(key: string, extra: any): this;
+
+    /**
+     * Set an object that will be merged sent as extra data with the event.
+     * @param extras Extras object to merge into current context.
+     */
+    setExtras(extras: { [key: string]: any }): this;
+  }
+
   // Adapted from @sentry/types/src/client.ts, with some specialization.
   declare export type Client = {
     getOptions(): Options,
@@ -117,4 +134,17 @@ declare module '@sentry/react-native' {
   declare export function captureException(exception: mixed): string;
   declare export function captureMessage(message: string, level?: $Values<typeof Severity>): string;
   declare export function addBreadcrumb(breadcrumb: Breadcrumb): void;
+
+  /* Modifies the current scope. Avoid in favor of `withScope` wherever
+     possible. */
+  declare export function configureScope(callback: (scope: Scope) => void): void;
+
+  /**
+   * Performs actions in a new subscope.
+   *
+   * Note that an exception which escapes this scope will not necessarily have
+   * the relevant scope-changes applied to its Sentry event! This scope is only
+   * consulted when the event is finally captured for logging.
+   */
+  declare export function withScope(callback: (scope: Scope) => void): void;
 }
