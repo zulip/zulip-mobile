@@ -77,7 +77,6 @@ const logToSentry = (event: string | Error, level: SeverityType): string => {
  *
  * See also:
  *  * `logging.warn` for logging at lower severity
- *  * `logging.logToSentry` for logging at a custom severity
  */
 export const error = (err: string | Error) => {
   logToSentry(err, Severity.Error);
@@ -100,7 +99,6 @@ export const error = (err: string | Error) => {
  *
  * See also:
  *  * `logging.error` for logging at higher severity
- *  * `logging.logToSentry` for logging at a custom severity
  */
 export const warn = (event: string | Error) => {
   logToSentry(event, Severity.Warning);
