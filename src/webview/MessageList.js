@@ -267,8 +267,10 @@ class MessageList extends Component<Props> {
       return (event: WebViewNavigation) => {
         const ok = urlTester(event.url);
         if (!ok) {
-          logging.warn(`webview: rejected navigation event: ${JSON.stringify({ ...event })};
-    expected base URL = ${baseUrl}`);
+          logging.warn('webview: rejected navigation event', {
+            navigation_event: { ...event },
+            expected_url: baseUrl,
+          });
         }
         return ok;
       };

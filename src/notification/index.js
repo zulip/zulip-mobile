@@ -65,6 +65,7 @@ export const getAccountFromNotificationData = (
       urlMatches.push(i);
     }
   });
+
   if (urlMatches.length === 0) {
     // No match.  Either we logged out of this account and didn't
     // successfully tell the server to stop sending notifications (possibly
@@ -72,9 +73,10 @@ export const getAccountFromNotificationData = (
     // there's some confusion where the realm_uri we have is different from
     // the one the server sends in notifications.
     const knownUrls = identities.map(({ realm }) => realm);
-    logging.warn(
-      `notif realm_uri not found: ${realm_uri}, known values are ${JSON.stringify(knownUrls)}`,
-    );
+    logging.warn('notification realm_uri not found in accounts', {
+      realm_uri,
+      known_urls: knownUrls,
+    });
     return null;
   }
 
@@ -83,7 +85,10 @@ export const getAccountFromNotificationData = (
     // be able to tell the right one using the notification's `user_id`...
     // except we don't store user IDs in `accounts`, only emails.  Until we
     // fix that, just ignore the information.
-    logging.warn(`notif realm_uri ambiguous: ${urlMatches.length} matches for ${realm_uri}`);
+    logging.warn('notification realm_uri ambiguous; multiple matches found', {
+      realm_uri,
+      match_count: urlMatches.length,
+    });
     // TODO get user_id into accounts data, and use that
     return null;
   }
@@ -211,7 +216,9 @@ export class NotificationListener {
 
   /** Private. */
   handleRegistrationFailure = (err: NotificationRegistrationFailedEvent) => {
-    logging.warn(`Failed to register iOS push token: ${JSON.stringify(err)}`);
+    logging.warn(`Failed to register iOS push token: ${err.domain}:#${err.code}`, {
+      raw_error: err,
+    });
   };
 
   /** Start listening.  Don't call twice without intervening `stop`. */
