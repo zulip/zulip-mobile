@@ -3,6 +3,21 @@ import * as Sentry from '@sentry/react-native';
 import DeviceInfo from 'react-native-device-info';
 import config from './config';
 
+export const isSentryActive = (): boolean => {
+  // Hub#getClient() is documented as possibly returning undefined, but the
+  // significance of `undefined` is not. In practice, it appears to be
+  // `undefined` exactly when `Sentry.init()` has not yet been called.
+  const client = Sentry.getCurrentHub().getClient();
+
+  /* The `enabled` option in getOptions() is theoretically togglable at runtime:
+     https://github.com/getsentry/sentry-javascript/issues/2039#issuecomment-486674574
+     We avoid this, however, as it will only toggle the JavaScript SDK and not
+     the lower-level native-code SDKs. */
+  // return (client && client.getOptions().enabled) ?? false;
+
+  return !!client;
+};
+
 const preventNoise = (): void => {
   /* Sentry should not normally be used in debug mode. (For one thing, the
      debug-mode build process doesn't ordinarily create bundles or .map files,

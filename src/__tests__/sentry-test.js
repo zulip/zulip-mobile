@@ -1,19 +1,22 @@
 // @flow
 
 import * as Sentry from '@sentry/react-native';
+import { isSentryActive } from '../sentry';
 
 describe('sentry', () => {
   describe('is usable without initialization', () => {
-    const expectSentryUninitialized = () => {
-      // Hub#getClient() is documented as possibly returning undefined, but the
-      // significance of `undefined` is not. In practice, it appears to be
-      // `undefined` exactly when `Sentry.init()` has not yet been called.
-      expect(Sentry.getCurrentHub().getClient()).toBeUndefined();
-    };
+    // Sentry shouldn't be active at all in debug mode -- certainly not while
+    // we're specifically testing that its entry points can be used while it's
+    // uninitialized.
+    beforeEach(() => {
+      expect(isSentryActive()).toBeFalse();
+    });
+
+    afterEach(() => {
+      expect(isSentryActive()).toBeFalse();
+    });
 
     test('breadcrumbs', () => {
-      expectSentryUninitialized();
-
       Sentry.addBreadcrumb({
         message: 'test message',
         level: Sentry.Severity.Debug,
@@ -21,8 +24,6 @@ describe('sentry', () => {
     });
 
     test('exception reporting', () => {
-      expectSentryUninitialized();
-
       // The text here is intended to prevent some hypothetical future reader of
       // Sentry event logs dismissing the error as harmless expected noise, in
       // case Sentry is somehow actually initialized at this point.
