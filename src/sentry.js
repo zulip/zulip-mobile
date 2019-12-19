@@ -30,7 +30,7 @@ const preventNoise = (): void => {
 };
 
 /** Initialize Sentry into its default configuration. */
-const initSentry = () => {
+export const initializeSentry = () => {
   // Check to make sure it's safe to run Sentry. Abort if not.
   preventNoise();
 
@@ -57,5 +57,3 @@ const initSentry = () => {
     console.log('no Sentry key provided; skipping initialization');
   }
 };
-
-initSentry();

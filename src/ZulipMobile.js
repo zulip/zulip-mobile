@@ -12,7 +12,9 @@ import BackNavigationHandler from './nav/BackNavigationHandler';
 import AppWithNavigation from './nav/AppWithNavigation';
 
 import './i18n/locale';
-import './sentry';
+import { initializeSentry } from './sentry';
+
+initializeSentry();
 
 // $FlowFixMe
 console.disableYellowBox = true; // eslint-disable-line
