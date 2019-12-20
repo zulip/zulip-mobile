@@ -250,11 +250,16 @@ hr {
     hsla(0, 0%, 50%, 0.5) 100%
   );
   background-size: 200% 200%;
+  -webkit-animation: gradient-scroll 1s linear infinite;
   animation: gradient-scroll 1s linear infinite;
 
   border-radius: 10px;
   height: 8px;
   margin-bottom: 10px;
+}
+@-webkit-keyframes gradient-scroll {
+  0% { background-position: 100% 50% }
+  100% { background-position: 0 50% }
 }
 @keyframes gradient-scroll {
   0% { background-position: 100% 50% }
@@ -271,6 +276,10 @@ hr {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+@-webkit-keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 .loading-spinner, .outbox-spinner {
   width: 32px;
   height: 32px;
@@ -279,6 +288,7 @@ hr {
   font-size: 10px;
   border: 3px solid hsla(170, 48%, 54%, 0.25);
   border-left: 3px solid hsla(170, 48%, 54%, 0.75);
+  -webkit-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
 }
 .outbox-spinner {
@@ -404,14 +414,27 @@ blockquote {
   height: 0.5rem;
   border-radius: 100%;
   margin-right: 5px;
+  -webkit-animation: bob 2s infinite;
   animation: bob 2s infinite;
 }
 #typing span:nth-child(2) {
+  -webkit-animation-delay: 0.15s;
   animation-delay: 0.15s;
 }
 #typing span:nth-child(3) {
+  -webkit-animation-delay: 0.3s;
   animation-delay: 0.3s;
   margin-right: 0;
+}
+@-webkit-keyframes bob {
+  10% {
+    transform: translateY(-10px);
+    background-color: hsl(253, 3%, 63%);
+  }
+  50% {
+    transform: translateY(0);
+    background-color: hsl(253, 3%, 72%);
+  }
 }
 @keyframes bob {
   10% {
