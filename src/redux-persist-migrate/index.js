@@ -30,6 +30,7 @@ export default function createMigration(
       if (['undefined', 'object'].indexOf(typeof state[reducerKey]) === -1) {
         logging.error(
           'redux-persist-migrate: state for versionSetter key must be an object or undefined',
+          { version, reducerKey, 'actual-state': state[reducerKey] },
         );
         return state;
       }
