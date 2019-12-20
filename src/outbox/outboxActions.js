@@ -52,15 +52,14 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
   try {
     outboxToSend.forEach(async item => {
-      await api.sendMessage(
-        auth,
-        item.type,
-        isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
-        item.subject,
-        item.markdownContent,
-        item.timestamp,
-        state.session.eventQueueId,
-      );
+      await api.sendMessage(auth, {
+        type: item.type,
+        to: isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
+        subject: item.subject,
+        content: item.markdownContent,
+        localId: item.timestamp,
+        eventQueueId: state.session.eventQueueId,
+      });
       dispatch(messageSendComplete(item.timestamp));
     });
     return true;

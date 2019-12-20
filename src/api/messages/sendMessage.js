@@ -6,18 +6,20 @@ import { apiPost } from '../apiFetch';
 /** See https://zulipchat.com/api/send-message */
 export default async (
   auth: Auth,
-  type: 'private' | 'stream',
-  to: string,
-  subject: string,
-  content: string,
-  localId: number,
-  eventQueueId: number,
+  params: {|
+    type: 'private' | 'stream',
+    to: string,
+    subject: string,
+    content: string,
+    localId: number,
+    eventQueueId: number,
+  |},
 ): Promise<ApiResponse> =>
   apiPost(auth, 'messages', {
-    type,
-    to,
-    subject,
-    content,
-    local_id: localId,
-    queue_id: eventQueueId,
+    type: params.type,
+    to: params.to,
+    subject: params.subject,
+    content: params.content,
+    local_id: params.localId,
+    queue_id: params.eventQueueId,
   });
