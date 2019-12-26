@@ -18,9 +18,39 @@ describe('nothing', () => {
 /** Return an integer 0 <= N < end, roughly uniformly at random. */
 const randInt = (end: number) => Math.floor(Math.random() * end);
 
+/**
+ * Return a factory for unique integers 0 <= N < end.
+ *
+ * The factory will throw if it ever runs out of integers in its set. Both
+ * initialization and use should be O(1).
+ */
+const makeUniqueRandInt = (itemsType: string, end: number): (() => number) => {
+  // Sparse array. Pretends to be initialized to iota.
+  const deck = new Array(end);
+
+  return () => {
+    if (deck.length === 0) {
+      throw new Error(`ran out of ${itemsType}`);
+    }
+    // Perform a single step of the Fisher-Yates shuffle...
+    const leftIndex = randInt(deck.length);
+    const rightIndex = deck.length - 1;
+    const leftValue = deck[leftIndex] ?? leftIndex;
+    const rightValue = deck[rightIndex] ?? rightIndex;
+    deck[leftIndex] = rightValue;
+    /* deck[rightIndex] = leftValue; */
+
+    // ... but, instead of storing the new final value, "pop" it off the end and
+    // return it.
+    --deck.length;
+    return leftValue;
+  };
+};
+
 /** Return a string that's almost surely different every time. */
 const randString = () => randInt(2 ** 54).toString(36);
 
+const randUserId: () => number = makeUniqueRandInt('user IDs', 10000);
 const userOrBotProperties = ({ name: _name }) => {
   const name = _name !== undefined ? _name : randString();
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
@@ -35,7 +65,7 @@ const userOrBotProperties = ({ name: _name }) => {
     full_name: `${capsName} User`,
     is_admin: false,
     timezone: 'UTC',
-    user_id: randInt(10000),
+    user_id: randUserId(),
   });
 };
 
@@ -76,12 +106,13 @@ export const otherUser: User = makeUser({ name: 'other' });
 
 export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
 
+const randStreamId: () => number = makeUniqueRandInt('stream IDs', 1000);
 export const makeStream = (args: { name?: string, description?: string } = {}): Stream => {
   const name = args.name !== undefined ? args.name : randString();
   const description =
     args.description !== undefined ? args.description : `On the ${randString()} of ${name}`;
   return deepFreeze({
-    stream_id: randInt(1000),
+    stream_id: randStreamId(),
     name,
     description,
     invite_only: false,
