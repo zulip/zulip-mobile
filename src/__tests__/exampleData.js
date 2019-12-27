@@ -69,7 +69,7 @@ const userOrBotProperties = ({ name: _name }) => {
   });
 };
 
-/** Caveat emptor!  These values may not be representative. */
+/** Beware! These values may not be representative. */
 export const makeUser = (args: { name?: string } = {}): User =>
   deepFreeze({
     ...userOrBotProperties(args),
@@ -83,7 +83,7 @@ export const makeUser = (args: { name?: string } = {}): User =>
     // profile_data omitted
   });
 
-/** Caveat emptor!  These values may not be representative. */
+/** Beware! These values may not be representative. */
 export const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot =>
   deepFreeze({
     ...userOrBotProperties(args),
@@ -176,7 +176,7 @@ const messagePropertiesFromSender = (user: User) => {
   });
 };
 
-/** Caveat emptor!  These values may not be representative. */
+/** Beware! These values may not be representative. */
 export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
   const baseMessage: Message = {
     ...messagePropertiesBase,
@@ -205,7 +205,7 @@ const messagePropertiesFromStream = (stream1: Stream) => {
   });
 };
 
-/** Caveat emptor!  These values may not be representative. */
+/** Beware! These values may not be representative. */
 export const streamMessage = (extra?: $Rest<Message, {}>): Message => {
   const baseMessage: Message = {
     ...messagePropertiesBase,
