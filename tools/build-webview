@@ -79,6 +79,7 @@ readonly aux_script_dir="$root"/tools/build-webview.d
 # Parse arguments. Sloppy, but sufficient for now.
 unset target
 unset dest
+staging="$root/staging/"
 sanity_checks=1
 while (( $# )); do
     case "$1" in
@@ -87,6 +88,9 @@ while (( $# )); do
         android|ios)
             # no check for multiple nouns; oh well
             target="$1"; shift;;
+        --staging)
+            # note: this doesn't permit an equals sign after `--staging`
+            shift; dest="$1"; shift;;
         --destination)
             # note: this doesn't permit an equals sign after `--destination`
             shift; dest="$1"; shift;;
@@ -97,7 +101,7 @@ while (( $# )); do
     esac
 done
 
-# All arguments are required; complain if any were omitted.
+# Complain if any of the required arguments were omitted.
 if  [ -z "${target-}" ]; then
     usage; exit 2
 elif [ -z "${dest-}" ]; then
@@ -108,7 +112,7 @@ fi
 dest=$(readlink -m "$dest")
 
 # Argument parsing has concluded; argument variables are no longer mutable.
-readonly target dest sanity_checks
+readonly target dest staging sanity_checks
 
 if (( sanity_checks )); then
     case "$target" in
@@ -151,13 +155,6 @@ if (( sanity_checks )); then
     fi
 fi  # if $sanity_checks
 
-# Set $staging. This is our local staging directory; once it's compiled, it will
-# be synced over to $dest.
-readonly staging="$root/src/webview/static"
-if [ ! -d "$staging" ]; then
-    err "cannot find asset staging directory '$staging'";
-fi
-
 
 ################################################################################
 # Pre-sync: additional build steps
@@ -173,10 +170,6 @@ cd "$root"
 
 # TODO: Use something like `make -f src/webview/static.Makefile`, to ensure that
 #   complicated build steps are not run unconditionally.
-#
-# TODO: split assets into build-time-generated and build-time-static?
-#   - rsync can sync from multiple directories, but has no collision-detection
-#   - might be too many layers of abstraction
 
 # Run each pre-sync auxiliary script.
 #

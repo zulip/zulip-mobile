@@ -77,9 +77,9 @@ npm-debug.log
 /android/release-keystore.properties
 
 # Intermediate directories for webview assets
-src/webview/static/katex
 /ios/webview
 # /android/app/build/... is already covered above
+/staging
 
 # fastlane
 # See: https://docs.fastlane.tools/best-practices/source-control/

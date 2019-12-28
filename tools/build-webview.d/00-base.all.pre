@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -eu
+
+readonly src="${ROOT}/src/webview/static"
+readonly dest="${STAGING}"
+
+z_rsync "${src}/" "${dest}" <<EOF
+# Copy only and exactly these files.
++/ index.html
++/ base.css
+
+# Exclude anything else.
+-, *
+EOF
