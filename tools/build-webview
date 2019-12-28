@@ -76,11 +76,23 @@ readonly aux_script_dir="$root"/tools/build-webview.d
 # Parameters
 ################################################################################
 
-# Parse arguments. Sloppy, but sufficient for now.
+# The target platform. Will be one of `ios` or `android`.
 unset target
+
+# The destination directory. Our caller expects this to contain exactly and only
+# the files which will be copied into the app's local `webview` directory.
 unset dest
+
+# The temporary staging directory. Files will be copied here by our auxiliary
+# scripts before being moved to $dest.
 staging="$root/staging/"
+
+# Whether to perform sanity checks on the other arguments. Enabled by default,
+# in case one of the build systems changes its behavior without our noticing,
+# but can be disabled for manual testing.
 sanity_checks=1
+
+# Parse arguments. Sloppy, but sufficient for now.
 while (( $# )); do
     case "$1" in
         --help|-h|help)
