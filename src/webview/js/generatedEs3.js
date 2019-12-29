@@ -597,6 +597,25 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
+  var passiveIfSupported = function () {
+    var checkPassive = false;
+
+    try {
+      var opts = Object.defineProperty({}, 'passive', {
+        get: function get() {
+          checkPassive = true;
+          return;
+        }
+      });
+      window.addEventListener('testPassive', null, opts);
+      window.removeEventListener('testPassive', null, opts);
+    } catch (e) {}
+
+    return checkPassive ? {
+      passive: true
+    } : false;
+  }();
+
   documentBody.addEventListener('touchstart', function (e) {
     var target = e.target;
 
@@ -611,7 +630,7 @@ var compiledWebviewJs = (function (exports) {
     longPressTimeout = setTimeout(function () {
       return handleLongPress(target);
     }, 500);
-  });
+  }, passiveIfSupported);
 
   var isNearPositions = function isNearPositions() {
     var x1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
@@ -631,7 +650,7 @@ var compiledWebviewJs = (function (exports) {
   });
   documentBody.addEventListener('touchmove', function (e) {
     clearTimeout(longPressTimeout);
-  });
+  }, passiveIfSupported);
   documentBody.addEventListener('drag', function (e) {
     clearTimeout(longPressTimeout);
   });

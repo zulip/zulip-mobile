@@ -719,18 +719,54 @@ const handleLongPress = (target: Element) => {
   });
 };
 
-documentBody.addEventListener('touchstart', (e: TouchEvent) => {
-  const { target } = e;
-  if (e.changedTouches[0].pageX < 20 || !(target instanceof Element)) {
-    return;
+/**
+ * Feature-detection for passive event listeners, to improve scrolling
+ * performance.
+ *
+ * The method addEventListener() can accept an optional boolean flag, passive,
+ * which if true, indicates that the function specified by listener will never
+ * call preventDefault(), which can improve scroll performance in some cases.
+ * See https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener.
+ *
+ * Not all events gain performance benifits from this. Lighthouse, the Chrome
+ * performance audit tool, has identified the following events that can benefit
+ * from this flag : wheel, mousewheel, touchstart, and touchmove. See
+ * https://developers.google.com/web/tools/lighthouse/audits/passive-event-listeners#recommendations.
+ */
+const passiveIfSupported: EventListenerOptionsOrUseCapture = (() => {
+  let checkPassive = false;
+  try {
+    // $FlowFixMe (https://github.com/facebook/flow/issues/285)
+    const opts = Object.defineProperty({}, 'passive', {
+      get() {
+        checkPassive = true;
+        return;
+      },
+    });
+    window.addEventListener('testPassive', null, opts);
+    window.removeEventListener('testPassive', null, opts);
+  } catch (e) {
+    // no manipulation required for the caught exception.
   }
+  return checkPassive ? { passive: true } : false;
+})();
 
-  lastTouchPositionX = e.changedTouches[0].pageX;
-  lastTouchPositionY = e.changedTouches[0].pageY;
-  hasLongPressed = false;
-  clearTimeout(longPressTimeout);
-  longPressTimeout = setTimeout(() => handleLongPress(target), 500);
-});
+documentBody.addEventListener(
+  'touchstart',
+  (e: TouchEvent) => {
+    const { target } = e;
+    if (e.changedTouches[0].pageX < 20 || !(target instanceof Element)) {
+      return;
+    }
+
+    lastTouchPositionX = e.changedTouches[0].pageX;
+    lastTouchPositionY = e.changedTouches[0].pageY;
+    hasLongPressed = false;
+    clearTimeout(longPressTimeout);
+    longPressTimeout = setTimeout(() => handleLongPress(target), 500);
+  },
+  passiveIfSupported,
+);
 
 const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
   Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
@@ -752,9 +788,13 @@ documentBody.addEventListener('touchcancel', (e: TouchEvent) => {
   clearTimeout(longPressTimeout);
 });
 
-documentBody.addEventListener('touchmove', (e: TouchEvent) => {
-  clearTimeout(longPressTimeout);
-});
+documentBody.addEventListener(
+  'touchmove',
+  (e: TouchEvent) => {
+    clearTimeout(longPressTimeout);
+  },
+  passiveIfSupported,
+);
 
 documentBody.addEventListener('drag', (e: DragEvent) => {
   clearTimeout(longPressTimeout);
