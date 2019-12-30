@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -eu
+
+usage() {
+cat <<EOF -
+Usage:
+    $(basename "$0") <PR number> [<remote name>]
+
+Fetches the named PR from GitHub (e.g., #1234) into an appropriately named
+branch (e.g. pr/1234).
+
+This will clobber any existing branch of that name. Check the reflog to compare
+against the old branch, if desired.
+
+The remote name defaults to "upstream" if not provided.
+EOF
+}
+
+request_id=$1
+if [[ $request_id =~ ^-h|--help$ ]]; then
+    usage; exit 0;
+fi
+if ! [[ $request_id =~ ^[0-9]+$ ]]; then
+    usage; exit 1;
+fi
+
+remote=${2:-upstream}
+
+git fetch "$remote" "pull/$request_id/head"
+git branch -f "pr/$request_id" FETCH_HEAD
