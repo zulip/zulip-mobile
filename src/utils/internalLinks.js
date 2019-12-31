@@ -61,9 +61,11 @@ export const getLinkType = (url: string, realm: string): LinkType => {
   return 'home';
 };
 
-/** PRIVATE -- exported only for tests. */
-export const transformToEncodedURI = (string: string): string =>
-  string.replace(/\.\d/g, (match, p1, p2, offset, str) => `%${match[1]}`);
+/** Decode a dot-encoded string. */
+// The Zulip webapp uses this encoding in narrow-links:
+// https://github.com/zulip/zulip/blob/1577662a6/static/js/hash_util.js#L18-L25
+export const decodeHashComponent = (string: string): string =>
+  decodeURIComponent(string.replace(/\./g, '%'));
 
 /** Parse the operand of a `stream` operator, returning a stream name. */
 const parseStreamOperand = (operand, streamsById): string => {
@@ -78,11 +80,11 @@ const parseStreamOperand = (operand, streamsById): string => {
 
   // Old format: just stream name.  This case is relevant indefinitely,
   // so that links in old conversations continue to work.
-  return decodeURIComponent(transformToEncodedURI(operand));
+  return decodeHashComponent(operand);
 };
 
 /** Parse the operand of a `topic` or `subject` operator. */
-const parseTopicOperand = operand => decodeURIComponent(transformToEncodedURI(operand));
+const parseTopicOperand = operand => decodeHashComponent(operand);
 
 /** Parse the operand of a `pm-with` operator. */
 const parsePmOperand = (operand, usersById) => {

@@ -8,7 +8,7 @@ import {
   getLinkType,
   getNarrowFromLink,
   getMessageIdFromLink,
-  transformToEncodedURI,
+  decodeHashComponent,
 } from '../internalLinks';
 import * as eg from '../../__tests__/exampleData';
 
@@ -128,7 +128,7 @@ describe('getLinkType', () => {
     ).toBe('pm');
     expect(
       getLinkType(
-        'https://example.com/#narrow/pm-with/a.40b.2Ecom.c.d.2Ecom/near/3',
+        'https://example.com/#narrow/pm-with/a.40b.2Ecom.2Ec.2Ed.2Ecom/near/3',
         'https://example.com',
       ),
     ).toBe('pm');
@@ -157,10 +157,22 @@ describe('getLinkType', () => {
   });
 });
 
-describe('transformToEncodedURI', () => {
-  test('if dot is part of encoding, i.e followed by digit then replace it with "%"', () => {
-    expect(transformToEncodedURI('some.text')).toEqual('some.text');
-    expect(transformToEncodedURI('some.20text')).toEqual('some%20text');
+describe('decodeHashComponent', () => {
+  test('correctly decode MediaWiki-style dot-encoded strings', () => {
+    expect(decodeHashComponent('some_text')).toEqual('some_text');
+    expect(decodeHashComponent('some.20text')).toEqual('some text');
+    expect(decodeHashComponent('some.2Etext')).toEqual('some.text');
+
+    expect(decodeHashComponent('na.C3.AFvet.C3.A9')).toEqual('naïveté');
+    expect(decodeHashComponent('.C2.AF.5C_(.E3.83.84)_.2F.C2.AF')).toEqual('¯\\_(ツ)_/¯');
+
+    // malformed dot-encoding
+    expect(() => decodeHashComponent('some.text')).toThrow();
+    expect(() => decodeHashComponent('some.2gtext')).toThrow();
+    expect(() => decodeHashComponent('some.arbitrary_text')).toThrow();
+
+    // malformed UTF-8
+    expect(() => decodeHashComponent('.88.99.AA.BB')).toThrow();
   });
 });
 
@@ -237,9 +249,13 @@ describe('getNarrowFromLink', () => {
       expect(get('https://example.com/#narrow/stream/bot.20testing')).toEqual(
         streamNarrow('bot testing'),
       );
-      expect(get('https://example.com/#narrow/stream/jest.API')).toEqual(streamNarrow('jest.API'));
+      expect(get('https://example.com/#narrow/stream/jest.2EAPI')).toEqual(
+        streamNarrow('jest.API'),
+      );
       expect(get('https://example.com/#narrow/stream/stream')).toEqual(streamNarrow('stream'));
       expect(get('https://example.com/#narrow/stream/topic')).toEqual(streamNarrow('topic'));
+
+      expect(() => get('https://example.com/#narrow/stream/jest.API')).toThrow();
     });
 
     test('on old stream link, without realm info', () => {
@@ -264,9 +280,11 @@ describe('getNarrowFromLink', () => {
         topicNarrow('jest', '(no topic)'),
       );
 
-      expect(get('https://example.com/#narrow/stream/jest/topic/google.com')).toEqual(
+      expect(get('https://example.com/#narrow/stream/jest/topic/google.2Ecom')).toEqual(
         topicNarrow('jest', 'google.com'),
       );
+
+      expect(() => get('https://example.com/#narrow/stream/jest/topic/google.com')).toThrow();
 
       expect(get('https://example.com/#narrow/stream/topic/topic/topic.20name')).toEqual(
         topicNarrow('topic', 'topic name'),
