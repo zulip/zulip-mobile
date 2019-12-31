@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import { addBreadcrumb } from '@sentry/react-native';
 import type { Narrow, Stream, User } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { isUrlOnRealm } from './url';
@@ -64,8 +65,20 @@ export const getLinkType = (url: string, realm: string): LinkType => {
 /** Decode a dot-encoded string. */
 // The Zulip webapp uses this encoding in narrow-links:
 // https://github.com/zulip/zulip/blob/1577662a6/static/js/hash_util.js#L18-L25
-export const decodeHashComponent = (string: string): string =>
-  decodeURIComponent(string.replace(/\./g, '%'));
+export const decodeHashComponent = (string: string): string => {
+  try {
+    return decodeURIComponent(string.replace(/\./g, '%'));
+  } catch (err) {
+    // `decodeURIComponent` throws strikingly uninformative errors
+    addBreadcrumb({
+      level: 'info',
+      type: 'decoding',
+      message: 'decodeHashComponent error',
+      data: { input: string },
+    });
+    throw err;
+  }
+};
 
 /** Parse the operand of a `stream` operator, returning a stream name. */
 const parseStreamOperand = (operand, streamsById): string => {
