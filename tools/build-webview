@@ -44,7 +44,7 @@ z_rsync() {
     mkdir -p "${@: -1}"
     # Invoke rsync with the standard rules and exclusions, as well as whatever
     # other rules were specified by our invoker.
-    rsync -a --no-D --delete --delete-excluded --exclude=README.md \
+    rsync -a --no-D --delete --exclude=README.md \
         --filter='. /dev/stdin' \
         "$@"
 }
@@ -186,7 +186,7 @@ done
 ################################################################################
 
 # Sync the directory structure, preserving metadata.
-z_rsync "$staging/." "$dest" </dev/null
+z_rsync --delete-excluded "$staging/." "$dest" </dev/null
 
 
 ################################################################################
