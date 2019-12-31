@@ -23,8 +23,6 @@ type Props = $ReadOnly<{|
   navigation: NavigationScreenProp<{ params: {| serverSettings: ApiResponseServerSettings |} }>,
 |}>;
 
-
-
 let otp = '';
 
 /**
