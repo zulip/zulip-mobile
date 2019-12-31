@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import { Modal } from 'react-native';
 
 import type { Dispatch, ApiResponseServerSettings } from '../types';
 
@@ -12,6 +13,7 @@ import AccountList from './AccountList';
 import { navigateToRealmScreen, switchAccount, removeAccount, navigateToAuth } from '../actions';
 import * as api from '../api';
 import { showErrorAlert } from '../utils/info';
+import LoadingIndicator from '../common/LoadingIndicator';
 
 type Props = $ReadOnly<{|
   accounts: AccountStatus[],
@@ -19,8 +21,17 @@ type Props = $ReadOnly<{|
   hasAuth: boolean,
 |}>;
 
-class AccountPickScreen extends PureComponent<Props> {
+type State = {
+  progress: boolean,
+};
+
+class AccountPickScreen extends PureComponent<Props, State> {
+  state = {
+    progress: false,
+  };
+
   handleAccountSelect = async (index: number) => {
+    this.setState({ progress: true });
     const { accounts, dispatch } = this.props;
     const { realm, isLoggedIn } = accounts[index];
     if (isLoggedIn) {
@@ -31,6 +42,7 @@ class AccountPickScreen extends PureComponent<Props> {
       try {
         const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
         dispatch(navigateToAuth(serverSettings));
+        this.setState({ progress: false });
       } catch (error) {
         showErrorAlert(error.message, 'Failed to connect server');
       }
@@ -59,6 +71,11 @@ class AccountPickScreen extends PureComponent<Props> {
     return (
       <Screen title="Pick account" centerContent padding canGoBack={this.canGoBack}>
         <Centerer>
+          {this.state.progress ? (
+            <Modal transparent={false}>
+              <LoadingIndicator />
+            </Modal>
+          ) : null}
           {accounts.length === 0 && <Logo />}
           <AccountList
             accounts={accounts}
