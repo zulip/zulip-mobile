@@ -282,6 +282,9 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   styles = {
+    wrapper: {
+      flexShrink: 1,
+    },
     autocompleteWrapper: {
       position: 'absolute',
       bottom: 0,
@@ -290,6 +293,7 @@ class ComposeBox extends PureComponent<Props, State> {
     composeBox: {
       flexDirection: 'row',
       alignItems: 'flex-end',
+      flexShrink: 1,
     },
     composeText: {
       flex: 1,
@@ -309,6 +313,7 @@ class ComposeBox extends PureComponent<Props, State> {
       borderWidth: 0,
       borderRadius: 5,
       fontSize: 15,
+      flexShrink: 1,
       ...this.inputMarginPadding,
       ...this.context.styles.backgroundColor,
     },
@@ -340,7 +345,7 @@ class ComposeBox extends PureComponent<Props, State> {
     };
 
     return (
-      <View>
+      <View style={this.styles.wrapper}>
         <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
           <TopicAutocomplete
             isFocused={isTopicFocused}
