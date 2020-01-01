@@ -397,7 +397,7 @@ class ComposeBox extends PureComponent<Props, State> {
             style={this.styles.composeSendButton}
             Icon={editMessage === null ? IconSend : IconDone}
             size={32}
-            disabled={message.trim().length === 0}
+            disabled={message.trim().length === 0 || topic.trim().length === 0}
             onPress={editMessage === null ? this.handleSend : this.handleEdit}
           />
         </View>
