@@ -248,7 +248,7 @@ export type NarrowOperator =
 
 export type NarrowElement = $ReadOnly<{|
   operand: string,
-  operator?: NarrowOperator, // TODO type: this shouldn't be absent.
+  operator: NarrowOperator,
 |}>;
 
 export type Narrow = $ReadOnlyArray<NarrowElement>;
