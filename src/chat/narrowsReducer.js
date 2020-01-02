@@ -68,7 +68,7 @@ const updateFlagNarrow = (state, narrowStr, operation, messageIds): NarrowsState
     case 'add':
       return {
         ...state,
-        [narrowStr]: [...state[narrowStr], ...messageIds].sort(),
+        [narrowStr]: [...state[narrowStr], ...messageIds].sort((a, b) => a - b),
       };
     case 'remove': {
       const messageIdSet = new Set(messageIds);
