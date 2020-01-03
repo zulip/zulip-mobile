@@ -27,53 +27,53 @@ import com.zulipmobile.notifications.FCMPushNotifications;
 import com.zulipmobile.notifications.NotificationsPackage;
 
 public class MainApplication extends Application implements ReactApplication {
-    private ConversationMap conversations;
-    public ConversationMap getConversations() { return conversations; }
+  private ConversationMap conversations;
+  public ConversationMap getConversations() { return conversations; }
 
-    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-        @Override
-        public boolean getUseDeveloperSupport() {
-            return BuildConfig.DEBUG;
-        }
-
-        @Override
-        protected List<ReactPackage> getPackages() {
-            return Arrays.asList(
-                    new MainReactPackage(),
-                    new AsyncStoragePackage(),
-                    new NetInfoPackage(),
-                    new DocumentPickerPackage(),
-                    new RNCWebViewPackage(),
-                    new RNTextInputResetPackage(),
-                    new ImagePickerPackage(),
-                    new OrientationPackage(),
-                    new RNSentryPackage(),
-                    new PhotoViewPackage(),
-                    new RCTToastPackage(),
-                    new RNFetchBlobPackage(),
-                    new RNSoundPackage(),
-                    new RNDeviceInfo(),
-                    new ZulipNativePackage(),
-                    new NotificationsPackage()
-            );
-        }
-
-        @Override
-        protected String getJSMainModuleName() {
-            return "index";
-        }
-    };
-
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
-    public ReactNativeHost getReactNativeHost() {
-        return mReactNativeHost;
+    public boolean getUseDeveloperSupport() {
+      return BuildConfig.DEBUG;
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        FCMPushNotifications.createNotificationChannel(this);
-        SoLoader.init(this, /* native exopackage */ false);
-        conversations = new ConversationMap();
+    protected List<ReactPackage> getPackages() {
+      return Arrays.asList(
+          new MainReactPackage(),
+          new AsyncStoragePackage(),
+          new NetInfoPackage(),
+          new DocumentPickerPackage(),
+          new RNCWebViewPackage(),
+          new RNTextInputResetPackage(),
+          new ImagePickerPackage(),
+          new OrientationPackage(),
+          new RNSentryPackage(),
+          new PhotoViewPackage(),
+          new RCTToastPackage(),
+          new RNFetchBlobPackage(),
+          new RNSoundPackage(),
+          new RNDeviceInfo(),
+          new ZulipNativePackage(),
+          new NotificationsPackage()
+      );
     }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
+    }
+  };
+
+  @Override
+  public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    FCMPushNotifications.createNotificationChannel(this);
+    SoLoader.init(this, /* native exopackage */ false);
+    conversations = new ConversationMap();
+  }
 }
