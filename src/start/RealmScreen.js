@@ -16,6 +16,7 @@ type Props = $ReadOnly<{|
   navigation: NavigationScreenProp<{
     params: ?{|
       realm: string | void,
+      initial?: boolean,
     |},
   }>,
   initialRealm: string,
@@ -76,7 +77,13 @@ class RealmScreen extends PureComponent<Props, State> {
     const { progress, error, realm } = this.state;
 
     return (
-      <Screen title="Welcome" padding centerContent keyboardShouldPersistTaps="always">
+      <Screen
+        title="Welcome"
+        canGoBack={!this.props.navigation.state.params?.initial}
+        padding
+        centerContent
+        keyboardShouldPersistTaps="always"
+      >
         <Label text="Organization URL" />
         <SmartUrlInput
           style={styles.marginVertical}
