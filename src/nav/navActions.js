@@ -17,7 +17,7 @@ export const navigateBack = () => (dispatch: Dispatch, getState: GetState): Navi
 
 // Other stack routes reached through `navReducer`:
 //    StackActions.push({ routeName: 'loading' });
-//    StackActions.push({ routeName: 'welcome' });
+//    StackActions.push({ routeName: 'realm' });
 //    StackActions.push({ routeName: 'account' });
 //    StackActions.push({ routeName: 'main' });
 
@@ -64,9 +64,6 @@ export const navigateToCreateGroup = (): NavigationAction =>
 
 export const navigateToDiagnostics = (): NavigationAction =>
   StackActions.push({ routeName: 'diagnostics' });
-
-export const navigateToWelcomeHelp = (): NavigationAction =>
-  StackActions.push({ routeName: 'welcome-help' });
 
 export const navigateToVariables = (): NavigationAction =>
   StackActions.push({ routeName: 'variables' });

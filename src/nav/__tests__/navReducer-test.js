@@ -78,7 +78,7 @@ describe('navReducer', () => {
       expect(nav.routes[0].routeName).toEqual('main');
     });
 
-    test('if not logged in, and no previous accounts, show welcome screen', () => {
+    test('if not logged in, and no previous accounts, show login screen', () => {
       const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
@@ -93,7 +93,7 @@ describe('navReducer', () => {
       const nav = navReducer(initialState, action);
 
       expect(nav.routes).toHaveLength(1);
-      expect(nav.routes[0].routeName).toEqual('welcome');
+      expect(nav.routes[0].routeName).toEqual('realm');
     });
 
     test('if more than one account and no active account, display account list', () => {
@@ -114,7 +114,7 @@ describe('navReducer', () => {
       expect(nav.routes[0].routeName).toEqual('account');
     });
 
-    test('when only a single account and no other properties, redirect to welcome screen', () => {
+    test('when only a single account and no other properties, redirect to login screen', () => {
       const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
@@ -129,7 +129,7 @@ describe('navReducer', () => {
       const nav = navReducer(initialState, action);
 
       expect(nav.routes).toHaveLength(1);
-      expect(nav.routes[0].routeName).toEqual('welcome');
+      expect(nav.routes[0].routeName).toEqual('realm');
     });
 
     test('when multiple accounts and default one has realm and email, show account list', () => {
@@ -153,7 +153,7 @@ describe('navReducer', () => {
       expect(nav.routes[0].routeName).toEqual('account');
     });
 
-    test('when default account has server and email set, redirect to welcome screen', () => {
+    test('when default account has server and email set, redirect to login screen', () => {
       const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
@@ -168,7 +168,7 @@ describe('navReducer', () => {
       const nav = navReducer(initialState, action);
 
       expect(nav.routes).toHaveLength(1);
-      expect(nav.routes[0].routeName).toEqual('welcome');
+      expect(nav.routes[0].routeName).toEqual('realm');
     });
   });
 });

@@ -28,8 +28,6 @@ import CreateStreamScreen from '../streams/CreateStreamScreen';
 import EditStreamScreen from '../streams/EditStreamScreen';
 import NotificationsScreen from '../settings/NotificationsScreen';
 import TopicListScreen from '../topics/TopicListScreen';
-import WelcomeHelpScreen from '../start/WelcomeHelpScreen';
-import WelcomeScreen from '../start/WelcomeScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 import UserStatusScreen from '../user-status/UserStatusScreen';
@@ -65,8 +63,6 @@ export default createStackNavigator(
     'stream-create': { screen: CreateStreamScreen },
     topics: { screen: TopicListScreen },
     notifications: { screen: NotificationsScreen },
-    'welcome-help': { screen: WelcomeHelpScreen },
-    welcome: { screen: WelcomeScreen },
     legal: { screen: LegalScreen },
     'user-status': { screen: UserStatusScreen },
   },
