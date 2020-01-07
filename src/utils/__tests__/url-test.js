@@ -251,8 +251,7 @@ describe('autocompleteRealm', () => {
 
   test('do not use any other protocol than http and https', () => {
     const result = autocompleteRealm('ftp://example', zulipData);
-    const isAsExpected = result.startsWith('https://ftp://');
-    expect(isAsExpected).toBeTruthy();
+    expect(result).toStartWith('https://ftp://');
   });
 
   test('if the hostname contains a dot, consider it complete', () => {

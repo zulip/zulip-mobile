@@ -7,7 +7,8 @@ describe('sleep', () => {
     const start = Date.now();
     await sleep(expectedMs);
     const durationMs = Date.now() - start;
-    expect(expectedMs <= durationMs && durationMs < 10 * expectedMs).toBeTruthy();
+    expect(expectedMs).toBeLessThanOrEqual(durationMs);
+    expect(durationMs).toBeLessThan(10 * expectedMs);
   });
 });
 
