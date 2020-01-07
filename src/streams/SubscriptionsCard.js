@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import type { Dispatch, Subscription } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import StreamList from './StreamList';
 import { streamNarrow } from '../utils/narrow';
 import { getUnreadByStream } from '../selectors';
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 type SelectorProps = $ReadOnly<{|
   subscriptions: Subscription[],
-  unreadByStream: number[],
+  unreadByStream: $ReadOnly<{ [number]: number }>,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -48,7 +48,7 @@ class SubscriptionsCard extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   subscriptions: getSubscribedStreams(state),
   unreadByStream: getUnreadByStream(state),
 }))(SubscriptionsCard);
