@@ -76,7 +76,8 @@ class RealmScreen extends PureComponent<Props, State> {
     const { progress, error, realm } = this.state;
 
     const styles = {
-      input: { marginVertical: 16 },
+      input: { marginTop: 16, marginBottom: 8 },
+      hintText: { paddingLeft: 2, fontSize: 12 },
       button: { marginTop: 8 },
     };
 
@@ -100,7 +101,11 @@ class RealmScreen extends PureComponent<Props, State> {
           onSubmitEditing={this.tryRealm}
           enablesReturnKeyAutomatically
         />
-        {error !== null && <ErrorMsg error={error} />}
+        {error !== null ? (
+          <ErrorMsg error={error} />
+        ) : (
+          <Label text="e.g. zulip.example.com" style={styles.hintText} />
+        )}
         <ZulipButton
           style={styles.button}
           text="Enter"
