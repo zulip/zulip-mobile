@@ -84,7 +84,7 @@ class RealmScreen extends PureComponent<Props, State> {
         centerContent
         keyboardShouldPersistTaps="always"
       >
-        <Label text="Organization URL" />
+        <Label text="Enter your Zulip server URL:" />
         <SmartUrlInput
           style={styles.marginVertical}
           navigation={navigation}
