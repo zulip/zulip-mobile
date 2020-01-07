@@ -233,6 +233,9 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
         apply_markdown: true,
         include_subscribers: false,
         client_gravatar: true,
+        client_capabilities: {
+          notification_settings_null: true,
+        },
       }),
     );
   } catch (e) {

@@ -218,7 +218,7 @@ export type Subscription = {|
   desktop_notifications: boolean,
   email_address: string,
   is_old_stream: boolean,
-  push_notifications: boolean,
+  push_notifications: null | boolean,
   stream_weekly_traffic: number,
 |};
 

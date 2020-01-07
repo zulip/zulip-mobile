@@ -12,8 +12,15 @@ type RegisterForEventsParams = {|
   include_subscribers?: boolean,
   narrow?: Narrow,
   queue_lifespan_secs?: number,
+  client_capabilities?: {|
+    notification_settings_null: boolean,
+  |},
 |};
 
 /** See https://zulipchat.com/api/register-queue */
 export default (auth: Auth, params: RegisterForEventsParams) =>
-  apiPost(auth, 'register', objectToParams(params));
+  apiPost(
+    auth,
+    'register',
+    objectToParams({ ...params, client_capabilities: JSON.stringify(params.client_capabilities) }),
+  );
