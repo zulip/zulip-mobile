@@ -9,7 +9,10 @@ env:
     - COVERALLS_REPO_TOKEN=4eYQDtWoBJlDz2QkxoQ2UcnmJFcOB7zkv
   jobs:
     - TEST_SUITE=''
-    - TEST_SUITE=pirlo
+
+    # Pirlo suite disabled until we adjust the test script to match
+    # some changes in the onboarding flow; see #3762.
+    # - TEST_SUITE=pirlo
 
 android:
   components:
