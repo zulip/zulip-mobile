@@ -4,7 +4,7 @@ import { ScrollView, Keyboard } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { ApiResponseServerSettings, Dispatch } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { isValidUrl } from '../utils/url';
 import * as api from '../api';
@@ -13,7 +13,11 @@ import styles from '../styles';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-  navigation: NavigationScreenProp<mixed>,
+  navigation: NavigationScreenProp<{
+    params: ?{|
+      realm: string | void,
+    |},
+  }>,
   initialRealm: string,
 |}>;
 
@@ -98,8 +102,6 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
-  initialRealm:
-    (props.navigation && props.navigation.state.params && props.navigation.state.params.realm)
-    || '',
+export default connect((state, props) => ({
+  initialRealm: props.navigation.state.params?.realm ?? '',
 }))(RealmScreen);
