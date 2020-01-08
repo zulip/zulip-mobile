@@ -44,37 +44,29 @@ class AccountDetails extends PureComponent<Props> {
     const { realm, user, userStatusText } = this.props;
 
     return (
-      <View>
-        <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
+      <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
+        <View>
+          <UserAvatar avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)} size={AVATAR_SIZE} />
+        </View>
+        <View style={componentStyles.statusWrapper}>
+          <RawLabel style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
+          <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
+        </View>
+        {userStatusText !== undefined && (
+          <RawLabel style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
+        )}
+        <View>
+          <ActivityText style={styles.largerText} user={user} />
+        </View>
+        {user.timezone ? (
           <View>
-            <UserAvatar
-              avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)}
-              size={AVATAR_SIZE}
-            />
-          </View>
-          <View style={componentStyles.statusWrapper}>
-            <RawLabel style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
-            <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
-          </View>
-          {userStatusText !== undefined && (
             <RawLabel
-              style={[styles.largerText, componentStyles.statusText]}
-              text={userStatusText}
+              style={styles.largerText}
+              text={`${nowInTimeZone(user.timezone)} Local time`}
             />
-          )}
-          <View>
-            <ActivityText style={styles.largerText} user={user} />
           </View>
-          {user.timezone ? (
-            <View>
-              <RawLabel
-                style={styles.largerText}
-                text={`${nowInTimeZone(user.timezone)} Local time`}
-              />
-            </View>
-          ) : null}
-        </ComponentList>
-      </View>
+        ) : null}
+      </ComponentList>
     );
   }
 }
