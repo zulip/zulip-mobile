@@ -60,9 +60,17 @@ cmd_notes() {
     echo '```'; show_hash; echo '```'
 }
 
+# Print release notes suitable for posting on chat.zulip.org.
+cmd_czo() {
+    # Converts #1234 to #M1234, matching a linkifier we have on czo.
+    cmd_unwrap \
+        | perl -pe 's<\# (?= \d{2,8} )>
+                     <#M>xg'
+}
+
 usage() {
     cat >&2 <<EOF
-usage: ${BASH_SOURCE[0]} { unwrap | user | notes }
+usage: ${BASH_SOURCE[0]} { unwrap | user | notes | czo }
 EOF
 }
 
@@ -70,5 +78,6 @@ case "$1" in
     unwrap) shift; cmd_unwrap "$@";;
     user) shift; cmd_user "$@";;
     notes) shift; cmd_notes "$@";;
+    czo) shift; cmd_czo "$@";;
     *) usage;;
 esac
