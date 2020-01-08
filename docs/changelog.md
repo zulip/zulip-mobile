@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.20.143 (2020-01-07)
+
 ### Highlights for users
 
 * When a topic's name is too long to fit in the UI, you can long-press
