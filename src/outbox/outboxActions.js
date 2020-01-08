@@ -50,8 +50,20 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
   const state = getState();
   const auth = getAuth(state);
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
+  const oneWeekAgoTimestamp = Date.now() / 1000 - 60 * 60 * 24 * 7;
   try {
     outboxToSend.forEach(async item => {
+      // If a message has spent over a week in the outbox, it's probably too
+      // stale to try sending it.
+      //
+      // TODO: instead of just throwing these away, create an "unsendable" state
+      // (including a reason for unsendability), and transition old messages to
+      // that instead.
+      if (item.timestamp < oneWeekAgoTimestamp) {
+        dispatch(deleteOutboxMessage(item.id));
+        return; // i.e., continue
+      }
+
       await api.sendMessage(auth, {
         type: item.type,
         to: isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
