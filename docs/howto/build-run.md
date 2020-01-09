@@ -2,28 +2,60 @@
 
 This guide describes how to build and run the app so you can develop it.
 
-## Main steps
 
-(First, if using **macOS**: Upgrade to the latest version of the OS and then to
-the latest Xcode.  In particular, Xcode versions before 9.0 are known to
-definitely not work.  You'll also need [GNU coreutils][] installed, e.g.
-with `brew install coreutils`.)
+## Per-platform notes
+
+A few points will differ depending on your development platform.
+
+
+**Linux**:
+The instructions below should work fine on Linux, with no additional
+details to worry about.
+
+
+**macOS**:
+
+* Before starting, upgrade to the latest version of the OS and then to
+  the latest Xcode.  It's common for older versions of Xcode, even
+  recent ones, to become unable to build.
+
+  <!-- For example, by 2018-05, versions older than Xcode 9 no longer
+       worked; that version was then just 8 months old, having been
+       released 2017-09-19.  See commits 536718578 and 6bfced281. -->
+
+* You'll need [GNU coreutils][] installed, e.g.  with `brew install
+  coreutils`.
 
 [GNU coreutils]: https://www.gnu.org/software/coreutils/
 
-(If using **Windows**: If you'd like a richer command-line environment and are
-up for trying a beta install process, we have [a draft guide](windows.md) for
-setting up Zulip app development to use the WSL `bash` command line.)
+
+**Windows**:
+
+* After installing Git, you'll also need to [install
+  `rsync`][install-rsync].
+
+[install-rsync]: https://serverfault.com/a/872557
+
+* The build currently doesn't work from the Windows Command Prompt.
+  (See issue [#3776][].)  Instead, when running `react-native
+  run-android` or any other build commands, use the Git Bash prompt.
+
+[#3776]: https://github.com/zulip/zulip-mobile/issues/3776
+
+* If you'd like a richer command-line environment and are up for
+  trying a beta install process, you can do your Zulip app development
+  through the WSL `bash` command line.  To do that: instead of using
+  the instructions below, see our [draft guide for using
+  WSL](windows.md).
+
+
+## Main steps
 
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/en/download/package-manager/),
   latest 10.x (LTS) version
 * [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
-
-**Windows** users may also need to [install `rsync`][install-rsync].
-
-[install-rsync]: https://serverfault.com/a/872557
 
 Then, run the commands below in your terminal:
 ```
@@ -47,16 +79,12 @@ with either `react-native run-android` or `react-native run-ios`.
 You'll want to be able to use both an emulator and a physical device; but
 for starting out, just get either one working so you can play with the app.
 
-(**Windows** users will need to run these from within Git Bash, rather than from
-the usual command prompt -- [at least for now][issue-3776].)
-
-[issue-3776]: https://github.com/zulip/zulip-mobile/issues/3776
-
 Once you have it running, look at our [debugging tips](debugging.md)
 to help see what's happening in the code.  On your first sitting, just
 get as far as using the Chrome Developer Tools, which is easy to set
 up and powerful for working on most areas of the app.  Later, you
 might look through the other tools and try some more of them out.
+
 
 ## Android tips
 
@@ -85,9 +113,11 @@ might look through the other tools and try some more of them out.
 [rn-getting-started]: https://facebook.github.io/react-native/docs/getting-started.html
 [android-emu-cmd-line]: https://developer.android.com/studio/run/emulator-commandline.html
 
+
 ## iOS tips
 
 More wrinkles are involved; see our separate doc on [iOS tips](ios-tips.md).
+
 
 ## Using a dev version of the server
 
