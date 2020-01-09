@@ -97,7 +97,7 @@ if (( sanity_checks )); then
             # change it, you'll need to change it in both places. (And here, of
             # course.)
             if [[ "$dest" != "$root/ios/"* ]]; then
-                err "unexpected destination directory '$dest' (expected target in iOS build dir)"
+                err "unexpected destination directory '$dest' (expected target in $root/ios/)"
             fi
         ;;
         android)
@@ -107,7 +107,7 @@ if (( sanity_checks )); then
             # configured to copy some directory from `build/` into the APK. We
             # determine which directory that is in Gradle, and pass it here.
             if [[ "$dest" != "$root/android/app/build/"* ]]; then
-                err "unexpected destination directory '$dest' (expected target in Android build dir)"
+                err "unexpected destination directory '$dest' (expected target in $root/android/app/build/)"
             fi
         ;;
         *) err "impossible target $target";;
@@ -120,7 +120,7 @@ if (( sanity_checks )); then
     # The target directory basename should therefore be 'webview': both build
     # systems will preserve the name they're given here.
     if [[ "$dest" != *"/webview" ]]; then
-        err "unexpected destination directory '$dest'"
+        err "unexpected destination directory '$dest' (expected basename \"webview\")"
     fi
 fi  # if $sanity_checks
 
