@@ -44,3 +44,27 @@ more include:
 * [WebView-specific](background/webview.md)
 * ... and browse through this whole `docs/` subtree to see what else
   is here. ;-)
+
+
+## Searching the documentation
+
+To search through the documentation, you can use the search feature
+here on GitHub.  Here's an [example search for "redux"][gh-search];
+start from there and replace "redux" with whatever you'd like to
+search for.
+
+[gh-search]: https://github.com/search?q=repo%3Azulip%2Fzulip-mobile+language%3AMarkdown+redux&type=Code
+
+Alternatively, search the docs inside your own clone of the repo.
+Try a command like one of these:
+```
+$ git grep -C2 -i redux docs/
+
+$ rg -C2 -i redux docs/
+```
+(For extra search features, see docs: [`git grep`][man-git-grep],
+[`rg`][man-rg].)  Or use your favorite alternate search tool, or a
+search in your IDE.
+
+[man-git-grep]: https://manpages.debian.org/testing/git-man/git-grep.1.en.html
+[man-rg]: https://manpages.debian.org/testing/ripgrep/rg.1.en.html
