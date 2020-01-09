@@ -23,6 +23,10 @@ Before starting, install these dependencies if you don't have them:
   latest 10.x (LTS) version
 * [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
 
+**Windows** users may also need to [install `rsync`][install-rsync].
+
+[install-rsync]: https://serverfault.com/a/872557
+
 Then, run the commands below in your terminal:
 ```
 git clone https://github.com/zulip/zulip-mobile
