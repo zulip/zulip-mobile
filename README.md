@@ -6,6 +6,7 @@
 Zulip Mobile is the official mobile Zulip client, supporting both iOS
 and Android.
 
+
 ## Get the app
 
 Release versions of the app are available here:
@@ -20,6 +21,7 @@ Release versions of the app are available here:
 You can also help out by [running beta versions](#using-the-beta) of
 the app, and reporting bugs!
 
+
 ## Contributing
 
 ### Discussion
@@ -31,6 +33,7 @@ work on, and ask and answer questions.
 
 [czo-mobile]: https://chat.zulip.org/#narrow/stream/mobile
 [czo-doc]: https://zulip.readthedocs.io/en/latest/contributing/chat-zulip-org.html
+
 
 ### Using the beta
 
@@ -50,6 +53,7 @@ bugs!  To get the beta:
 Bug reports are welcome either in [the #mobile stream](#discussion) or
 on this GitHub repo.
 
+
 ### Development
 
 Zulip Mobile is written in JavaScript with React Native.  To get
@@ -62,13 +66,8 @@ hello in [the #mobile stream](#discussion).  Issues tagged
 **[help wanted](https://github.com/zulip/zulip-mobile/labels/help%20wanted)**
 are a great starting point for PRs.
 
-Further reading:
+For more reading, take a look at our [developer docs](docs/).
 
-* [Architecture](docs/architecture.md)
-* [Testing](docs/howto/testing.md)
-* [Glossary](docs/glossary.md)
-* [Recommended Reading](docs/background/recommended-reading.md)
-* [WebView-specific](docs/background/webview.md)
 
 ### History
 
@@ -76,6 +75,7 @@ Zulip Mobile supersedes two legacy Zulip apps,
 [zulip-ios](https://github.com/zulip/zulip-ios-legacy) and
 [zulip-android](https://github.com/zulip/zulip-android)
 ([more history](https://github.com/zulip/zulip-android/blob/master/android-strategy.md)).
+
 
 ## License
 
