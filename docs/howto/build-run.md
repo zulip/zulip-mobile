@@ -53,8 +53,8 @@ details to worry about.
 
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/en/download/package-manager/),
-  latest 10.x (LTS) version
+* [Node.js](https://nodejs.org/en/download/package-manager/): use the
+  **latest 10.x** version, not 12.x or later
 * [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
 
 Then, run the commands below in your terminal:
