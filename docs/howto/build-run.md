@@ -11,11 +11,9 @@ with `brew install coreutils`.)
 
 [GNU coreutils]: https://www.gnu.org/software/coreutils/
 
-(If using **Windows**: The step-by-step instructions below should work
-fine on Windows.  Alternatively if you'd like a richer command-line
-environment and are up for trying a beta install process, we have
-[a draft guide](windows.md) for setting up Zulip app development to
-use the WSL `bash` command line.)
+(If using **Windows**: If you'd like a richer command-line environment and are
+up for trying a beta install process, we have [a draft guide](windows.md) for
+setting up Zulip app development to use the WSL `bash` command line.)
 
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
@@ -48,6 +46,11 @@ Continue those instructions until you can run the Zulip Mobile app
 with either `react-native run-android` or `react-native run-ios`.
 You'll want to be able to use both an emulator and a physical device; but
 for starting out, just get either one working so you can play with the app.
+
+(**Windows** users will need to run these from within Git Bash, rather than from
+the usual command prompt -- [at least for now][issue-3776].)
+
+[issue-3776]: https://github.com/zulip/zulip-mobile/issues/3776
 
 Once you have it running, look at our [debugging tips](debugging.md)
 to help see what's happening in the code.  On your first sitting, just
