@@ -3,8 +3,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Dispatch, UserOrBot } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import type { Dispatch, UserOrBot, Narrow } from '../types';
+import { connect } from '../react-redux';
 import { UserAvatarWithPresence } from '../common';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
@@ -15,6 +15,8 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
+  narrow: Narrow,
+
   dispatch: Dispatch,
   ...SelectorProps,
 |}>;
@@ -51,6 +53,6 @@ class TitleGroup extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   recipients: getRecipientsInGroupNarrow(state, props.narrow),
 }))(TitleGroup);
