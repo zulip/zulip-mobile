@@ -35,19 +35,20 @@ err() {
 # Environment
 ################################################################################
 
-# The project root, for absolutizing paths. (Assumed to be one directory up from
-# the script's own location.)
+# The project root, for absolutizing paths and accessing auxiliary scripts.
+# (Assumed to be one directory up from the script's own location.)
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")"/../ && pwd)"
+
+# Ensure that we have access to a functional, modern `readlink`.
+. "$root"/tools/lib/ensure-coreutils.sh
+
+# Normalize and absolutize $root.
 #
 # This must return a name for the project root directory which coincides with
 # the one Gradle/Xcode will provide. This is unlikely to be a problem on Linux
 # or macOS, but has caused isues on Windows; see GitHub issue #3777.)
-root="$(readlink -m "$(dirname "${BASH_SOURCE[0]}")"/../)"
+root="$(readlink -m "$root")"
 readonly root
-
-
-# Before continuing, ensure that we have access to a functional, modern
-# `readlink`.
-. "$root"/tools/lib/ensure-coreutils.sh
 
 ################################################################################
 # Parameters
