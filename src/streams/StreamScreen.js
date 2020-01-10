@@ -1,9 +1,10 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Dispatch, Stream, Subscription } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton } from '../common';
 import { getIsAdmin, getStreamForId, getSubscriptionForId } from '../selectors';
@@ -25,6 +26,7 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
   dispatch: Dispatch,
 
   ...SelectorProps,
@@ -103,7 +105,7 @@ class StreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connect((state, props) => ({
   isAdmin: getIsAdmin(state),
   stream: getStreamForId(state, props.navigation.state.params.streamId),
   subscription: getSubscriptionForId(state, props.navigation.state.params.streamId),
