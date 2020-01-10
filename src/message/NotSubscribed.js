@@ -3,8 +3,8 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Auth, Stream, Dispatch } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import type { Auth, Stream, Dispatch, Narrow } from '../types';
+import { connect } from '../react-redux';
 import * as api from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
@@ -16,6 +16,8 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
+  narrow: Narrow,
+
   dispatch: Dispatch,
   ...SelectorProps,
 |}>;
@@ -44,7 +46,7 @@ class NotSubscribed extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   auth: getAuth(state),
   stream: getStreamInNarrow(props.narrow)(state),
 }))(NotSubscribed);
