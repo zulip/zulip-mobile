@@ -71,7 +71,7 @@ if (!Element.prototype.closest) {
    Taken (with minor edits) from the relevant MDN page. */
 if (!String.prototype.startsWith) {
   // $FlowFixMe (polyfill)
-  String.prototype.startsWith = function startsWith(search, rawPos) {
+  String.prototype.startsWith = function startsWith(search: string, rawPos: number) {
     const pos = rawPos > 0 ? rawPos | 0 : 0;
     return this.substring(pos, pos + search.length) === search;
   };
@@ -82,7 +82,7 @@ if (!String.prototype.startsWith) {
      https://tc39.es/ecma262/#sec-string.prototype.includes */
 if (!String.prototype.includes) {
   // $FlowFixMe (polyfill)
-  String.prototype.includes = function includes(search, start = 0) {
+  String.prototype.includes = function includes(search: string, start: number = 0) {
     /* required by the spec, but not worth the trouble */
     // if (search instanceof RegExp) { throw new TypeError('...'); }
     return this.indexOf(search, start) !== -1;
@@ -108,7 +108,7 @@ const sendMessage = (msg: MessageListEvent) => {
   window.ReactNativeWebView.postMessage(JSON.stringify(msg));
 };
 
-window.onerror = (message, source, line, column, error) => {
+window.onerror = (message: string, source: string, line: number, column: number, error: Error) => {
   if (window.enableWebViewErrorDisplay) {
     const elementJsError = document.getElementById('js-error-detailed');
     if (elementJsError) {

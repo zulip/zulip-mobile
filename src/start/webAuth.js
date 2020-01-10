@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { NativeModules, Platform } from 'react-native';
 import SafariView from 'react-native-safari-view';
-import parseURL from 'url-parse';
+import parseURL, { type Url } from 'url-parse';
 
 import type { Auth } from '../types';
 import openLink from '../utils/openLink';
@@ -69,7 +69,7 @@ export const authFromCallbackUrl = (
   otp: string,
   realm: string,
 ): Auth | null => {
-  const url = parseURL(callbackUrl, true);
+  const url: Url = parseURL(callbackUrl, true);
 
   // callback format expected: zulip://login?realm={}&email={}&otp_encrypted_api_key={}
   if (
