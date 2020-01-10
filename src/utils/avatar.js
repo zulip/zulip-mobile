@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import md5 from 'blueimp-md5';
 
-import type { Message, Outbox, User } from '../types';
+import type { Message, Outbox, UserOrBot } from '../types';
 import { getFullUrl } from './url';
 
 /**
@@ -37,7 +37,7 @@ export const getAvatarUrl = (
   return size > 100 ? getMediumAvatar(fullUrl) : fullUrl;
 };
 
-export const getAvatarFromUser = (user: User, realm: string, size?: number): string =>
+export const getAvatarFromUser = (user: UserOrBot, realm: string, size?: number): string =>
   getAvatarUrl(user.avatar_url, user.email, realm, size);
 
 export const getAvatarFromMessage = (
