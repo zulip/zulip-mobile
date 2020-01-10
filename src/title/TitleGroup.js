@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 
 import type { Dispatch, UserOrBot } from '../types';
 import { connectFlowFixMe } from '../react-redux';
@@ -29,10 +29,12 @@ class TitleGroup extends PureComponent<Props> {
 
   render() {
     const { recipients } = this.props;
+    const { width, height } = Dimensions.get('window');
+    const numOfAvatar = Math.ceil(Math.max(width, height) / (32 + 16)); // ImgSize: 32, margin: 16
 
     return (
       <View style={styles.navWrapper}>
-        {recipients.map((user, index) => (
+        {recipients.slice(0, numOfAvatar).map((user, index) => (
           <View key={user.email} style={this.styles.titleAvatar}>
             <UserAvatarWithPresence
               onPress={() => this.handlePress(user)}

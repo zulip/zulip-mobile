@@ -8,6 +8,7 @@ export const statics = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    overflow: 'hidden',
   },
   navSubtitle: {
     fontSize: 13,
