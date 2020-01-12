@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-    subscriptions: Subscription[],
-      unreadByStream: number[],
+  subscriptions: Subscription[],
+  unreadByStream: number[],
 |}>;
 
 class SubscriptionsCard extends PureComponent<Props> {
