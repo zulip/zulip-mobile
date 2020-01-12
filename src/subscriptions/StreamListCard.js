@@ -24,10 +24,10 @@ const styles = StyleSheet.create({
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-  auth: Auth,
-  canCreateStreams: boolean,
-  streams: Stream[],
-  subscriptions: Subscription[],
+    auth: Auth,
+      canCreateStreams: boolean,
+        streams: Stream[],
+          subscriptions: Subscription[],
 |}>;
 
 class StreamListCard extends PureComponent<Props> {
