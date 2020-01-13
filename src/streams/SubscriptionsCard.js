@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native';
 
 import type { Dispatch, Subscription, GlobalState } from '../types';
 import { connectFlowFixMe } from '../react-redux';
-import StreamList from './StreamList';
+import SubscriptionsList from './SubscriptionsList';
 import { streamNarrow } from '../utils/narrow';
 import { getUnreadByStream } from '../selectors';
 import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
@@ -34,7 +34,7 @@ class SubscriptionsCard extends PureComponent<Props> {
 
     return (
       <View style={styles.container}>
-        <StreamList
+        <SubscriptionsList
           streams={subscriptions}
           unreadByStream={unreadByStream}
           onPress={this.handleNarrow}

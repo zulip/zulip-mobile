@@ -19,29 +19,23 @@ type PseudoSubscription = Subscription | { ...Stream, subscribed: boolean, pin_t
 type Props = $ReadOnly<{|
   showDescriptions: boolean,
   showSwitch: boolean,
-  selected: boolean | string, // TODO type: pick one
   streams: $ReadOnlyArray<PseudoSubscription>,
-  unreadByStream: number[],
   onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,
 |}>;
 
-export default class StreamList extends PureComponent<Props> {
+export default class AllStreamList extends PureComponent<Props> {
   static defaultProps = {
     showDescriptions: false,
     showSwitch: false,
-    selected: false,
     streams: [],
-    unreadByStream: [],
   };
 
   render() {
     const {
       streams,
-      selected,
       showDescriptions,
       showSwitch,
-      unreadByStream,
       onPress,
       onSwitch,
     } = this.props;
@@ -68,7 +62,6 @@ export default class StreamList extends PureComponent<Props> {
       <SectionList
         style={styles.list}
         sections={sections}
-        extraData={unreadByStream}
         initialNumToRender={20}
         keyExtractor={item => item.stream_id}
         renderItem={({ item }) => (
@@ -77,9 +70,6 @@ export default class StreamList extends PureComponent<Props> {
             iconSize={16}
             isPrivate={item.invite_only}
             description={showDescriptions ? item.description : ''}
-            color={item.color}
-            unreadCount={unreadByStream[item.stream_id]}
-            isSelected={item.name === selected}
             isMuted={item.in_home_view === false} // if 'undefined' is not muted
             showSwitch={showSwitch}
             isSwitchedOn={item.subscribed}
