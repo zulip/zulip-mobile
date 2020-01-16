@@ -132,6 +132,15 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
       },
     };
   },
+
+  // Fixes #3567 for users with cached realm urls with multiple trailing slashes.
+  '11': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({
+      ...a,
+      realm: a.realm.replace(/\/+$/, ''),
+    })),
+  }),
 };
 
 const reduxPersistConfig: Config = {
