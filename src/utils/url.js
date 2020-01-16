@@ -84,7 +84,7 @@ export const fixRealmUrl = (url: string = '') => {
   }
   const trimmedUrl = url
     .replace(/\s/g, '') // strip any spaces, internal or otherwise
-    .replace(/\/$/g, ''); // eliminate trailing slash
+    .replace(/\/+$/, ''); // eliminate trailing slash(es)
 
   return hasProtocol(trimmedUrl) ? trimmedUrl : `https://${trimmedUrl}`;
 };

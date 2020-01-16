@@ -139,6 +139,10 @@ describe('fixRealmUrl', () => {
     expect(fixRealmUrl('https://example.com/')).toEqual('https://example.com');
   });
 
+  test('when a realm url has two trailing "/" remove them', () => {
+    expect(fixRealmUrl('https://example.com//')).toEqual('https://example.com');
+  });
+
   test('when input url is correct, do not change it', () => {
     expect(fixRealmUrl('https://example.com')).toEqual('https://example.com');
   });
