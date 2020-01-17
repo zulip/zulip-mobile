@@ -56,7 +56,6 @@ export type Protocol = 'https://' | 'http://';
 
 const protocolRegex = /^\s*((?:http|https):\/\/)(.*)$/;
 
-/** DEPRECATED */
 const hasProtocol = (url: string = '') => url.search(protocolRegex) !== -1;
 
 // Split a (possible) URL into protocol and non-protocol parts.
@@ -79,7 +78,6 @@ export const parseProtocol = (value: string): [Protocol | null, string] => {
   return [null, value];
 };
 
-/** DEPRECATED */
 export const fixRealmUrl = (url: string = '') => {
   if (url === '') {
     return '';
