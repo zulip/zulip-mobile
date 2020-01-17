@@ -337,6 +337,10 @@ class ComposeBox extends PureComponent<Props, State> {
       paddingBottom: safeAreaInsets.bottom,
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
     };
+    const hasTopic: boolean = this.getCanSelectTopic();
+    // Empty messages are never sendable. Messages with empty topics are
+    // sendable only if there shouldn't be a topic anyway.
+    const isSendable: boolean = !!(message.trim() && (topic.trim() || !hasTopic));
 
     return (
       <View>
@@ -361,7 +365,7 @@ class ComposeBox extends PureComponent<Props, State> {
             onExpandContract={this.handleComposeMenuToggle}
           />
           <ScrollView contentContainerStyle={this.styles.composeText}>
-            {this.getCanSelectTopic() && (
+            {hasTopic && (
               <Input
                 style={this.styles.topicInput}
                 underlineColorAndroid="transparent"
@@ -397,7 +401,7 @@ class ComposeBox extends PureComponent<Props, State> {
             style={this.styles.composeSendButton}
             Icon={editMessage === null ? IconSend : IconDone}
             size={32}
-            disabled={message.trim().length === 0 || topic.trim().length === 0}
+            disabled={!isSendable}
             onPress={editMessage === null ? this.handleSend : this.handleEdit}
           />
         </View>
