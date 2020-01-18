@@ -45,7 +45,7 @@ export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
 
   // Server has responded, but the response is not a valid error-object.
   // (This should never happen, even on old versions of the Zulip server.)
-  logging.warn(`Bad response from server: ${JSON.stringify(data)}`);
+  logging.warn(`Bad response from server: ${JSON.stringify(data) ?? 'undefined'}`);
   return new Error('Server responded with invalid message');
 };
 
