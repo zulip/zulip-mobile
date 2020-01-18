@@ -44,7 +44,7 @@ class UserPickerCard extends PureComponent<Props, State> {
     selected: [],
   };
 
-  listRef: ?FlatList<*>;
+  listRef: ?FlatList<User>;
 
   handleUserSelect = (email: string) => {
     const { usersByEmail } = this.props;

@@ -126,7 +126,7 @@ const reduxPersistConfig: Config = {
   storage: ZulipAsyncStorage,
 };
 
-const store: Store<*, Action> = createStore(
+const store: Store<GlobalState, Action> = createStore(
   rootReducer,
   undefined,
   compose(
