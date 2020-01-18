@@ -11,7 +11,7 @@ import config from '../config';
 // `jsonable.js`.)
 type Extras = { +[key: string]: JSONable };
 
-// Wrapper for `Sentry.withScope`, allowing callbacks to return values.
+/** Wrapper for `Sentry.withScope`, allowing callbacks to return values. */
 function withScope<R>(callback: Scope => R): R {
   let ret: R;
   withScopeImpl(scope => {
