@@ -2,9 +2,14 @@
 import type { Scope, SeverityType, EventHint } from '@sentry/react-native';
 import { getCurrentHub, Severity, withScope as withScopeImpl } from '@sentry/react-native';
 
+import type { JSONable } from './jsonable';
+import objectEntries from './objectEntries';
 import config from '../config';
 
-type Extras = { [key: string]: mixed };
+/** Type of "extras" intended for Sentry. */
+// This type should be exact, but cannot be until Flow v0.111.0. (See note in
+// `jsonable.js`.)
+type Extras = { +[key: string]: JSONable };
 
 // Wrapper for `Sentry.withScope`, allowing callbacks to return values.
 function withScope<R>(callback: Scope => R): R {
@@ -76,7 +81,7 @@ const makeLogFunction = ({ consoleMethod, severity }: LogParams): LogFunction =>
     if (config.enableErrorConsoleLogging) {
       toConsole(event);
 
-      const data = Object.entries(extras)
+      const data = objectEntries(extras)
         .map(([key, value]) => `    ${key}: ${JSON.stringify(value)}`)
         .join('\n');
 

@@ -113,7 +113,7 @@ declare module '@sentry/react-native' {
      * Set an object that will be merged sent as extra data with the event.
      * @param extras Extras object to merge into current context.
      */
-    setExtras(extras: { [key: string]: any }): this;
+    setExtras(extras: { +[key: string]: any }): this;
   }
 
   // Adapted from @sentry/types/src/client.ts, with some specialization.
