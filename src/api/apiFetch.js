@@ -24,7 +24,7 @@ export const objectToParams = (obj: {}) => {
   return newObj;
 };
 
-export const getFetchParams = (auth: Auth, params: {} = {}) => {
+export const getFetchParams = (auth: Auth, params: { ... } = {}): { ... } => {
   // $FlowFixMe This is purely a no-op, and Flow even knows that. :-/
   const { body } = (params: { body?: mixed });
   const contentType =

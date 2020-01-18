@@ -5,7 +5,7 @@ type Props = $ReadOnly<{|
   showLabel: boolean,
   showIcon: boolean,
   //  react-navigation tabNavigation also treat styles as {}, so match the same type here too
-  style?: {},
+  style?: { ... },
 |}>;
 
 export default ({ showLabel, showIcon, style }: Props) => ({

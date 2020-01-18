@@ -435,7 +435,7 @@ type EventUserGroupUpdateAction = {|
   type: typeof EVENT_USER_GROUP_UPDATE,
   op: 'update',
   group_id: number,
-  data: { description?: string, name?: string },
+  data: {| description?: string, name?: string |},
 |};
 
 type EventUserGroupAddMembersAction = {|
