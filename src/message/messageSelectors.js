@@ -13,6 +13,7 @@ import * as logging from '../utils/logging';
 import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import renderMessages from './renderMessages';
 import { findAnchor } from '../utils/message';
+import type { JSONable } from '../utils/jsonable';
 import { ALL_PRIVATE_NARROW_STR } from '../utils/narrow';
 import { NULL_ARRAY } from '../nullObjects';
 
@@ -21,7 +22,7 @@ import { NULL_ARRAY } from '../nullObjects';
  * Returns something which may or may not be an array, but is at least JSONable
  * and human-readable.
  */
-function truncateForLogging<T>(arr: Array<T>, len = 10) {
+function truncateForLogging<T: JSONable>(arr: Array<T>, len = 10): JSONable {
   if (arr.length <= 2 * len) {
     return arr;
   }
