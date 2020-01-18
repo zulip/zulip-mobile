@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import { StackActions } from 'react-navigation';
+import { cancelEditMessage } from '../session/sessionActions';
 
 import type {
   Dispatch,
@@ -10,10 +11,24 @@ import type {
   UserOrBot,
   ApiResponseServerSettings,
 } from '../types';
+
+import type { Action } from '../actionTypes';
 import { getSameRoutesCount } from '../selectors';
 
-export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigationAction =>
-  dispatch(StackActions.pop({ n: getSameRoutesCount(getState()) }));
+export const navigateBack = () => (
+  dispatch: Dispatch,
+  getState: GetState,
+): NavigationAction | Action => {
+  /**
+   * If a message is currently being edited, cancel the edit. Otherwise,
+   * navigate back.
+   */
+  if (getState().session.editMessage) {
+    return dispatch(cancelEditMessage());
+  } else {
+    return dispatch(StackActions.pop({ n: getSameRoutesCount(getState()) }));
+  }
+};
 
 // Other stack routes reached through `navReducer`:
 //    StackActions.push({ routeName: 'loading' });
