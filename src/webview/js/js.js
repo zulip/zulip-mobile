@@ -216,7 +216,7 @@ function midMessagePeer(top: number, bottom: number): ?Element {
   }
 
   // $FlowFixMe: doesn't know about Document#elementsFromPoint
-  const midElements: Array<Element> = document.elementsFromPoint(0, midY);
+  const midElements: Array<HTMLElement> = document.elementsFromPoint(0, midY);
   if (midElements.length < 3) {
     // Just [body, html].
     return null;
