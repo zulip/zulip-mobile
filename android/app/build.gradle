@@ -210,7 +210,7 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:17.3.4"
     implementation "me.leolin:ShortcutBadger:1.1.16@aar"
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'com.facebook.fresco:animated-gif:1.3.0' // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:1.10.0' // For animated GIF support
     implementation "com.android.support:customtabs:${rootProject.ext.supportLibVersion}"
 
     testImplementation 'junit:junit:4.12'
