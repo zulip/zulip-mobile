@@ -21,6 +21,7 @@ export const statics = {
     marginLeft: 8,
     marginRight: 16,
   },
+  actionSheet: { borderTopLeftRadius: 15, borderTopRightRadius: 15 },
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',

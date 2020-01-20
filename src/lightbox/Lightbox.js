@@ -14,11 +14,11 @@ import { SlideAnimationView } from '../common';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
-import { NAVBAR_SIZE } from '../styles';
+import styles, { NAVBAR_SIZE } from '../styles';
 import { getAvatarFromMessage } from '../utils/avatar';
 import { navigateBack } from '../actions';
 
-const styles = StyleSheet.create({
+const lightboxStyles = StyleSheet.create({
   img: {
     height: 300,
     flex: 1,
@@ -67,6 +67,7 @@ class Lightbox extends PureComponent<Props, State> {
       {
         options,
         cancelButtonIndex,
+        containerStyle: styles.actionSheet,
       },
       buttonIndex => {
         executeActionSheetAction({
@@ -97,16 +98,16 @@ class Lightbox extends PureComponent<Props, State> {
     const { width, height } = Dimensions.get('window');
 
     return (
-      <View style={styles.container}>
+      <View style={lightboxStyles.container}>
         <PhotoView
           source={resource}
-          style={[styles.img, { width }]}
+          style={[lightboxStyles.img, { width }]}
           resizeMode="contain"
           onTap={this.handleImagePress}
         />
         <SlideAnimationView
           property="translateY"
-          style={[styles.overlay, styles.header, { width }]}
+          style={[lightboxStyles.overlay, lightboxStyles.header, { width }]}
           from={-NAVBAR_SIZE}
           to={0}
           {...this.getAnimationProps()}
@@ -120,7 +121,7 @@ class Lightbox extends PureComponent<Props, State> {
         </SlideAnimationView>
         <SlideAnimationView
           property="translateY"
-          style={[styles.overlay, { width, bottom: height - 44 }]}
+          style={[lightboxStyles.overlay, { width, bottom: height - 44 }]}
           from={height}
           to={height - 44}
           {...this.getAnimationProps()}

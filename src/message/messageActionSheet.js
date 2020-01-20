@@ -14,6 +14,7 @@ import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
+import styles from '../styles';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -257,6 +258,7 @@ export const showActionSheet = (
         : {}),
       options: optionCodes.map(code => _(allButtons[code].title)),
       cancelButtonIndex: optionCodes.length - 1,
+      containerStyle: styles.actionSheet,
     },
     callback,
   );
