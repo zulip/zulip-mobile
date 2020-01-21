@@ -54,6 +54,7 @@ import { getUpdateEvents } from './webViewHandleUpdates';
 import { handleMessageListEvent } from './webViewEventHandlers';
 import { base64Utf8Encode } from '../utils/encoding';
 import * as logging from '../utils/logging';
+import { getIsActiveStreamAnnouncementOnly } from '../subscriptions/subscriptionSelectors';
 
 // ESLint doesn't notice how `this.props` escapes, and complains about some
 // props not being used here.
@@ -73,6 +74,7 @@ export type BackgroundData = $ReadOnly<{
   mute: MuteState,
   ownEmail: string,
   ownUserId: number,
+  isAdmin: boolean,
   allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
   twentyFourHourTime: boolean,
   subscriptions: Subscription[],
@@ -87,6 +89,7 @@ type SelectorProps = {|
   showMessagePlaceholders: boolean,
   theme: ThemeName,
   typingUsers: $ReadOnlyArray<User>,
+  isAnnouncementOnly: boolean,
 |};
 
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
@@ -340,6 +343,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
     mute: getMute(state),
     ownEmail: getOwnEmail(state),
     ownUserId: getOwnUser(state).user_id,
+    isAdmin: getOwnUser(state).is_admin,
     allImageEmojiById: getAllImageEmojiById(state),
     subscriptions: getSubscriptions(state),
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
@@ -357,5 +361,6 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
         : getShowMessagePlaceholders(props.narrow)(state),
     theme: getSettings(state).theme,
     typingUsers: props.typingUsers || getCurrentTypingUsers(state, props.narrow),
+    isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));
