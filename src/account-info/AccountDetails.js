@@ -43,6 +43,15 @@ class AccountDetails extends PureComponent<Props> {
   render() {
     const { realm, user, userStatusText } = this.props;
 
+    // The set of timezone names in the tz database is subject to change over
+    // time. Handle unrecognized timezones by quietly discarding them.
+    let localTime: string | null;
+    try {
+      localTime = `${nowInTimeZone(user.timezone)} Local time`;
+    } catch (err) {
+      localTime = null;
+    }
+
     return (
       <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
         <View>
@@ -60,10 +69,7 @@ class AccountDetails extends PureComponent<Props> {
         </View>
         {user.timezone ? (
           <View>
-            <RawLabel
-              style={styles.largerText}
-              text={`${nowInTimeZone(user.timezone)} Local time`}
-            />
+            {localTime !== null && <RawLabel style={styles.largerText} text={localTime} />}
           </View>
         ) : null}
       </ComponentList>
