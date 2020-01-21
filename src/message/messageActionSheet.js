@@ -5,7 +5,7 @@ import type { BackgroundData } from '../webview/MessageList';
 import {
   getNarrowFromMessage,
   isHomeNarrow,
-  isPrivateNarrow,
+  isPrivateOrGroupNarrow,
   isSpecialNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
@@ -226,7 +226,7 @@ export const constructMessageActionButtons = ({
   if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
     buttons.push('addReaction');
   }
-  if (!isAnOutboxMessage(message) && !isTopicNarrow(narrow) && !isPrivateNarrow(narrow)) {
+  if (!isAnOutboxMessage(message) && !isTopicNarrow(narrow) && !isPrivateOrGroupNarrow(narrow)) {
     if (isAnnouncementOnly && !isAdmin) {
       buttons.push('narrowToTopic');
     } else {
