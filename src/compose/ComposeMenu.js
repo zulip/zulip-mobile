@@ -2,8 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
-// $FlowFixMe
-import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'react-native-image-picker';
 
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
@@ -57,14 +56,16 @@ class ComposeMenu extends PureComponent<Props> {
     dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
   };
 
-  handleImagePickerResponse = (response: {
-    didCancel: boolean,
-    // Upstream docs are vague:
-    // https://github.com/react-native-community/react-native-image-picker/blob/master/docs/Reference.md
-    error?: string | void | null | false,
-    uri: string,
-    fileName: string,
-  }) => {
+  handleImagePickerResponse = (
+    response: $ReadOnly<{
+      didCancel: boolean,
+      // Upstream docs are vague:
+      // https://github.com/react-native-community/react-native-image-picker/blob/master/docs/Reference.md
+      error?: string | void | null | false,
+      uri: string,
+      fileName: string | void,
+    }>,
+  ) => {
     if (response.didCancel) {
       return;
     }
