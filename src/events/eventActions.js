@@ -86,14 +86,14 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
         break;
       }
 
-      // protection from inadvertent DDOS
-      await backoffMachine.wait();
-
       if (e instanceof ApiError && e.code === 'BAD_EVENT_QUEUE_ID') {
         // The event queue is too old or has been garbage collected.
         dispatch(deadQueue());
         break;
       }
+
+      // protection from inadvertent DOS
+      await backoffMachine.wait();
     }
   }
 };
