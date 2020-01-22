@@ -107,6 +107,8 @@ class ComposeBox extends PureComponent<Props, State> {
   messageInput: ?TextInput = null;
   topicInput: ?TextInput = null;
 
+  inputBlurTimeoutId: ?TimeoutID = null;
+
   static contextTypes = {
     styles: () => null,
   };
@@ -121,6 +123,11 @@ class ComposeBox extends PureComponent<Props, State> {
     message: this.props.draft,
     selection: { start: 0, end: 0 },
   };
+
+  componentWillUnmount() {
+    clearTimeout(this.inputBlurTimeoutId);
+    this.inputBlurTimeoutId = null;
+  }
 
   updateIsFocused = () => {
     this.setState(state => ({
@@ -201,7 +208,9 @@ class ComposeBox extends PureComponent<Props, State> {
       isMessageFocused: false,
       isMenuExpanded: false,
     });
-    setTimeout(this.updateIsFocused, 200); // give a chance to the topic input to get the focus
+    // give a chance to the topic input to get the focus
+    clearTimeout(this.inputBlurTimeoutId);
+    this.inputBlurTimeoutId = setTimeout(this.updateIsFocused, 200);
   };
 
   handleTopicFocus = () => {
@@ -219,7 +228,9 @@ class ComposeBox extends PureComponent<Props, State> {
       isTopicFocused: false,
       isMenuExpanded: false,
     });
-    setTimeout(this.updateIsFocused, 200); // give a chance to the message input to get the focus
+    // give a chance to the message input to get the focus
+    clearTimeout(this.inputBlurTimeoutId);
+    this.inputBlurTimeoutId = setTimeout(this.updateIsFocused, 200);
   };
 
   handleInputTouchStart = () => {
