@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { batchActions } from 'redux-batched-actions';
 
-import type { Action, Dispatch, GeneralEvent, GetState, GlobalState } from '../types';
+import type { Auth, Action, Dispatch, GeneralEvent, GetState, GlobalState } from '../types';
 import * as api from '../api';
 import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
@@ -11,6 +11,7 @@ import { tryGetAuth } from '../selectors';
 import actionCreator from '../actionCreator';
 import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
+import { authEquivalent } from '../account/accountMisc';
 
 /** Convert an `/events` response into a sequence of our Redux actions. */
 export const responseToActions = (
@@ -44,12 +45,13 @@ export const dispatchOrBatch = (dispatch: Dispatch, actions: $ReadOnlyArray<Acti
 };
 
 /**
- * Poll an event queue on the Zulip server for updates, in a loop.
+ * Poll an event queue on the Zulip server for updates, in a loop, as long as
+ * the user remains logged into the same account.
  *
  * This is part of our use of the Zulip events system; see `doInitialFetch`
  * for discussion.
  */
-export const startEventPolling = (queueId: number, eventId: number) => async (
+export const startEventPolling = (auth: Auth, queueId: number, eventId: number) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
@@ -59,17 +61,19 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const auth = tryGetAuth(getState());
-    if (!auth) {
-      // User switched accounts or logged out
+    if (!authEquivalent(auth, tryGetAuth(getState()))) {
+      // The user logged out or switched accounts during progressiveTimeout
+      // called from see catch block, below. (If tryGetAuth returns undefined,
+      // the user is not logged in.)
       break;
     }
 
     try {
       const { events } = await api.pollForEvents(auth, queueId, lastEventId);
 
-      // User switched accounts or logged out
-      if (queueId !== getState().session.eventQueueId) {
+      if (!authEquivalent(auth, tryGetAuth(getState()))) {
+        // The user logged out or switched accounts while api.pollForEvents was in progress.
+        // (If tryGetAuth returns undefined, the user is not logged in.)
         break;
       }
 

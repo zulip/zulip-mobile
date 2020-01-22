@@ -12,6 +12,7 @@ import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
 import {
   getAuth,
+  tryGetAuth,
   getSession,
   getFirstMessageId,
   getLastMessageId,
@@ -252,7 +253,19 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
   dispatch(realmInit(initData, serverSettings.zulip_version));
   dispatch(fetchTopMostNarrow());
   dispatch(initialFetchComplete());
-  dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
+
+  const authNow = tryGetAuth(getState());
+  if (authNow !== undefined) {
+    // The user may have logged out while api.registerForEvents was in progress.
+    // If so, don't start polling events.
+
+    // TODO: If the user did log out during that time, other actions that are dispatched
+    // here (in doInitialFetch, after api.registerForEvents) will throw an error,
+    // which may be a cause of #3706! These include the calls to fetchTopMostNarrow,
+    // fetchPrivateMessages, and fetchMessagesInNarrow, because they all dispatch
+    // fetchMessages, which calls getAuth, which throws with 'Active account not logged in'.
+    dispatch(startEventPolling(authNow, initData.queue_id, initData.last_event_id));
+  }
 
   dispatch(fetchPrivateMessages());
 
