@@ -86,14 +86,21 @@ export class BackoffMachine {
  * handled further up in the call stack.
  */
 export async function tryUntilSuccessful<T>(func: () => Promise<T>): Promise<T> {
-  try {
-    return await func();
-  } catch (e) {
-    if (isClientError(e)) {
-      // do not retry if error is 4xx (Client Error)
-      throw e;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    try {
+      return await func();
+    } catch (e) {
+      if (isClientError(e)) {
+        throw e;
+      }
+      await progressiveTimeout();
     }
-    await progressiveTimeout();
   }
-  return tryUntilSuccessful(func);
+
+  // Without this, Flow 0.92.1 does not know this code is unreachable,
+  // and it incorrectly thinks Promise<undefined> could be returned,
+  // which is inconsistent with the stated Promise<T> return type.
+  // eslint-disable-next-line no-unreachable
+  throw new Error();
 }
