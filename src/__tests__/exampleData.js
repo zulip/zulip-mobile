@@ -92,6 +92,8 @@ export const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot =
 
 export const realm = 'https://zulip.example.org';
 
+export const zulipVersion = '2.1.0-234-g7c3acf4';
+
 export const makeAccount = (
   args: {
     user?: User,
@@ -372,6 +374,7 @@ export const action = deepFreeze({
       },
       user_status: {},
     },
+    zulipVersion,
   },
 });
 

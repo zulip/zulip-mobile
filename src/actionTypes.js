@@ -181,6 +181,7 @@ type LogoutAction = {|
 type RealmInitAction = {|
   type: typeof REALM_INIT,
   data: InitialData,
+  zulipVersion: string,
 |};
 
 /** We learned the device token from the system.  See `SessionState`. */
