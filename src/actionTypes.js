@@ -160,6 +160,7 @@ type AccountSwitchAction = {|
 type RealmAddAction = {|
   type: typeof REALM_ADD,
   realm: string,
+  zulipVersion: string,
 |};
 
 type AccountRemoveAction = {|

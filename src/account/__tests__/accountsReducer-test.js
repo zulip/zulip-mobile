@@ -30,6 +30,7 @@ describe('accountsReducer', () => {
       const action = deepFreeze({
         type: REALM_ADD,
         realm: newAccount.realm,
+        zulipVersion: eg.zulipVersion,
       });
 
       const expectedState = [newAccount, account1, account2];
@@ -50,6 +51,7 @@ describe('accountsReducer', () => {
       const action = deepFreeze({
         type: REALM_ADD,
         realm: newAccount.realm,
+        zulipVersion: eg.zulipVersion,
       });
 
       const expectedState = [account2, account1];

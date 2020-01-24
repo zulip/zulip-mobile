@@ -54,7 +54,7 @@ class RealmScreen extends PureComponent<Props, State> {
 
     try {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
-      dispatch(realmAdd(realm));
+      dispatch(realmAdd(realm, serverSettings.zulip_version));
       dispatch(navigateToAuth(serverSettings));
       Keyboard.dismiss();
     } catch (err) {

@@ -13,9 +13,10 @@ export const switchAccount = (index: number): Action => ({
   index,
 });
 
-export const realmAdd = (realm: string): Action => ({
+export const realmAdd = (realm: string, zulipVersion: string): Action => ({
   type: REALM_ADD,
   realm,
+  zulipVersion,
 });
 
 export const removeAccount = (index: number): Action => ({
