@@ -36,7 +36,7 @@ describe('getFilteredEmojiNames', () => {
   });
 
   test('returns a sorted list of emojis starting with query', () => {
-    const list = getFilteredEmojiNames('go', []);
+    const list = getFilteredEmojiNames('go', {});
     expect(list).toEqual([
       'go',
       'goal',
