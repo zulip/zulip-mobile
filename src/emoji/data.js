@@ -25,10 +25,24 @@ export const codeToEmojiMap = objectFromEntries<string, string>(
   }),
 );
 
+const sortEmojiByQueryName = (
+  emoji: Array<string>,
+  query: string
+): string[] => emoji.sort(
+  (a, b) => {
+    if (a.indexOf(query) !== b.indexOf(query)) {
+       return a.indexOf(query) - b.indexOf(query);
+    } else { return (a > b ? 1 : -1); }
+  }
+);
+
 export const getFilteredEmojiNames = (
   query: string,
   activeRealmEmojiByName: $ReadOnly<{ [string]: ImageEmojiType }>,
 ): string[] => {
   const names = [...unicodeEmojiNames, ...Object.keys(activeRealmEmojiByName)];
-  return Array.from(new Set([...names.filter(x => x.includes(query)).sort()]));
+  const emoji = Array.from(new Set(
+    [...names.filter(x => x.includes(query))])
+  );
+  return sortEmojiByQueryName(emoji, query);
 };
