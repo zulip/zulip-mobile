@@ -32,6 +32,6 @@ class ExtraNavButtonTopic extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connect(state => ({
   streams: getStreams(state),
 }))(ExtraNavButtonTopic);
