@@ -320,7 +320,7 @@ type OuterProps = {|
   typingUsers?: User[],
 |};
 
-export default connect((state, props: OuterProps): SelectorProps => {
+export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
   // TODO Ideally this ought to be a caching selector that doesn't change
   // when the inputs don't.  Doesn't matter in a practical way here, because
   // we have a `shouldComponentUpdate` that doesn't look at this prop... but

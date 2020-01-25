@@ -123,6 +123,6 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   initialRealm: props.navigation.state.params?.realm ?? '',
 }))(RealmScreen);
