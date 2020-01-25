@@ -10,15 +10,20 @@ import { isValidUrl } from '../utils/url';
 import * as api from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
 
+type SelectorProps = {|
+  +initialRealm: string,
+|};
+
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   navigation: NavigationScreenProp<{
     params: ?{|
       realm: string | void,
       initial?: boolean,
     |},
   }>,
-  initialRealm: string,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
 type State = {|
@@ -118,6 +123,6 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state, props) => ({
+export default connect((state, props): SelectorProps => ({
   initialRealm: props.navigation.state.params?.realm ?? '',
 }))(RealmScreen);
