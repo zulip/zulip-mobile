@@ -412,7 +412,7 @@ class ComposeBox extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   auth: getAuth(state),
   ownEmail: getOwnEmail(state),
   usersByEmail: getActiveUsersByEmail(state),

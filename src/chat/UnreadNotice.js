@@ -66,6 +66,6 @@ class UnreadNotice extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   unreadCount: getUnreadCountForNarrow(state, props.narrow),
 }))(UnreadNotice);

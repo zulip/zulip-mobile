@@ -113,7 +113,7 @@ class MessageReactionList extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   message: state.messages[props.navigation.state.params.messageId],
   ownUserId: getOwnUser(state).user_id,
   allUsersById: getAllUsersById(state),
