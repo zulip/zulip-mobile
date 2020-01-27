@@ -84,19 +84,19 @@ See also [in the "Troubleshooting" section below](#debug-remotely-never-loads).
 
 <div id="react-devtools">
 
-## React Devtools
+## React DevTools
 
-The standalone version of React DevTools, which is an electron app, can be used
-to debug  the react-native component hierarchy. Refer to
-[the docs][react-devtools-docs] for instructions on usage with React Native.
+The standalone version of the React Developer Tools, an Electron app,
+can be used to debug the React component hierarchy in our app.  See
+[RN's docs][rn-react-devtools] on how to use it with RN.
 
-As of 2020-01, the latest version of react-devtools (v4) does not support any
-released version of React Native, and v3 needs to be installed. This can be
-done using the command `yarn global add react-devtools@3`. See
-[this blog post][reactjs-blog-post] for complete compatibility information.
+As of 2020-01, the latest version (v4) of React DevTools does not
+support any released version of React Native; see [its release
+notes][react-devtools-v4].  Instead, install v3 with the command
+`yarn global add react-devtools@3`.
 
-[react-devtools-docs]: https://facebook.github.io/react-native/docs/debugging.html#react-developer-tools
-[reactjs-blog-post]: https://reactjs.org/blog/2019/08/15/new-react-devtools.html#which-versions-of-react-are-supported
+[rn-react-devtools]: https://facebook.github.io/react-native/docs/debugging.html#react-developer-tools
+[react-devtools-v4]: https://reactjs.org/blog/2019/08/15/new-react-devtools.html
 
 
 <div id="reactotron" />
