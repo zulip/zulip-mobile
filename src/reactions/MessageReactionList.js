@@ -6,7 +6,14 @@ import type { NavigationScreenProp } from 'react-navigation';
 
 import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';
-import type { AggregatedReaction, Dispatch, Message, UserOrBot } from '../types';
+import type {
+  AggregatedReaction,
+  Dispatch,
+  EmojiType,
+  Message,
+  ReactionType,
+  UserOrBot,
+} from '../types';
 import { Screen, Label, RawLabel } from '../common';
 import { getOwnUser } from '../selectors';
 import aggregateReactions from './aggregateReactions';
@@ -15,6 +22,13 @@ import { getAllUsersById } from '../users/userSelectors';
 import tabsOptions from '../styles/tabs';
 import Emoji from '../emoji/Emoji';
 import { objectFromEntries } from '../jsBackport';
+
+const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType => {
+  if (reactionType === 'unicode_emoji') {
+    return 'unicode';
+  }
+  return 'image';
+};
 
 // Generate tabs for the reaction list.  The tabs depend on the distinct
 // reactions on the message.
@@ -34,7 +48,10 @@ const getReactionsTabs = (
         navigationOptions: {
           tabBarLabel: () => (
             <View style={styles.row}>
-              <Emoji name={aggregatedReaction.name} />
+              <Emoji
+                code={aggregatedReaction.code}
+                type={emojiTypeFromReactionType(aggregatedReaction.type)}
+              />
               <RawLabel style={styles.paddingLeft} text={`${aggregatedReaction.count}`} />
             </View>
           ),

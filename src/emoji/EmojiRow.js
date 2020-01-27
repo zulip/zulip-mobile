@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { EmojiType } from '../types';
 import { RawLabel, Touchable } from '../common';
 import Emoji from './Emoji';
 
@@ -17,6 +18,8 @@ const styles = StyleSheet.create({
 });
 
 type Props = $ReadOnly<{|
+  type: EmojiType,
+  code: string,
   name: string,
   onPress: (name: string) => void,
 |}>;
@@ -28,12 +31,12 @@ export default class EmojiRow extends PureComponent<Props> {
   };
 
   render() {
-    const { name } = this.props;
+    const { code, name, type } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.emojiRow}>
-          <Emoji name={name} />
+          <Emoji code={code} type={type} />
           <RawLabel style={styles.text} text={name} />
         </View>
       </Touchable>

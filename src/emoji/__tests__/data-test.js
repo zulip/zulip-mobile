@@ -1,29 +1,29 @@
 /* @flow strict-local */
-import { getFilteredEmojis, nameToEmojiMap } from '../data';
+import { codeToEmojiMap, getFilteredEmojis } from '../data';
 
 // Prettier disabled in .prettierignore ; it misparses this file, apparently
 // because of the emoji.  (Even if they're tucked away in comments, it still
 // gets it wrong.)
 
 /* eslint-disable no-multi-spaces, spellcheck/spell-checker */
-describe('nameToEmojiMap', () => {
+describe('codeToEmojiMap', () => {
   const check = (name, string1, string2) => {
     expect(string1).toEqual(string2);
-    expect(nameToEmojiMap[name]).toEqual(string1);
+    expect(codeToEmojiMap[name]).toEqual(string1);
   };
 
   test('works for some single-codepoint emoji', () => {
-    check('thumbs_up', '👍', '\u{1f44d}');
-    check('pride',     '🌈', '\u{1f308}');
-    check('rainbow',   '🌈', '\u{1f308}');
+    check('1f44d', '👍', '\u{1f44d}');
+    check('1f308', '🌈', '\u{1f308}');
+    check('1f308', '🌈', '\u{1f308}');
   });
-
   test('works for some multi-codepoint emoji', () => {
-    check('0',        '0⃣', '0\u{20e3}');
-    check('asterisk', '*⃣', '*\u{20e3}');
-    check('hash',     '#⃣', '#\u{20e3}');
+    check('0030-20e3', '0⃣', '0\u{20e3}');
+    check('002a-20e3', '*⃣', '*\u{20e3}');
+    check('0023-20e3', '#⃣', '#\u{20e3}');
   });
 });
+
 
 describe('getFilteredEmojis', () => {
   test('empty query returns all emojis', () => {

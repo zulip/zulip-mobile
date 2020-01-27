@@ -37,9 +37,9 @@ export const getActiveImageEmojiById: Selector<RealmEmojiById> = createSelector(
   },
 );
 
-export const getAllImageEmojiByName: Selector<{ [string]: ImageEmojiType }> = createSelector(
+export const getAllImageEmojiByCode: Selector<{ [string]: ImageEmojiType }> = createSelector(
   getAllImageEmojiById,
-  emojis => objectFromEntries(Object.keys(emojis).map(id => [emojis[id].name, emojis[id]])),
+  emojis => objectFromEntries(Object.keys(emojis).map(id => [emojis[id].code, emojis[id]])),
 );
 
 export const getActiveImageEmojiByName: Selector<{ [string]: ImageEmojiType }> = createSelector(
