@@ -90,16 +90,37 @@ export const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot =
     is_bot: true,
   });
 
-const makeAccount = (user: User): Account =>
-  deepFreeze({
-    realm: 'https://zulip.example.org',
-    email: user.email,
-    apiKey: randString() + randString(),
-    ackedPushToken: null,
+export const realm = 'https://zulip.example.org';
+
+export const makeAccount = (
+  args: {
+    user?: User,
+    email?: string,
+    realm?: string,
+    apiKey?: string,
+    ackedPushToken?: string | null,
+  } = {},
+): Account => {
+  const {
+    user = makeUser({ name: randString() }),
+    email = user.email,
+    realm: realmInner = realm,
+    apiKey = randString() + randString(),
+    ackedPushToken = null,
+  } = args;
+  return deepFreeze({
+    realm: realmInner,
+    email,
+    apiKey,
+    ackedPushToken,
   });
+};
 
 export const selfUser: User = makeUser({ name: 'self' });
-export const selfAccount: Account = makeAccount(selfUser);
+export const selfAccount: Account = makeAccount({
+  user: selfUser,
+  realm,
+});
 export const selfAuth: Auth = deepFreeze(authOfAccount(selfAccount));
 
 export const otherUser: User = makeUser({ name: 'other' });
