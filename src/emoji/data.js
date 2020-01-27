@@ -30,5 +30,7 @@ export const getFilteredEmojiNames = (
   activeRealmEmojiByName: $ReadOnly<{ [string]: ImageEmojiType }>,
 ): string[] => {
   const names = [...unicodeEmojiNames, ...Object.keys(activeRealmEmojiByName)];
-  return Array.from(new Set([...names.filter(x => x.indexOf(query) === 0).sort()]));
+  const matchFromStart = Array.from(new Set([...names.filter(x => x.indexOf(query) === 0).sort()]));
+  const matchAfterStart = Array.from(new Set([...names.filter(x => x.indexOf(query) > 0).sort()]));
+  return [...matchFromStart, ...matchAfterStart];
 };
