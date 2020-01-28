@@ -46,7 +46,7 @@ details to worry about.
   trying a beta install process, you can do your Zulip app development
   through the WSL `bash` command line.  To do that: instead of using
   the instructions below, see our [draft guide for using
-  WSL](windows.md).
+  WSL](windows-wsl.md).
 
 
 ## Main steps

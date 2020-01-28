@@ -3,7 +3,7 @@
 This is a guide on doing Zulip Mobile development on a Windows machine
 using WSL.
 
-Using WSL is not a requirement for working on Zulip Mobile. If you
+Using WSL is *not* a requirement for working on Zulip Mobile. If you
 follow our step-by-step [main install instructions](build-run.md) on
 Windows, they should work just fine.  You'll use the basic Windows
 "Command Prompt", aka `cmd.exe`, for your command line.
