@@ -17,12 +17,12 @@ type Props = $ReadOnly<{|
 class LegalScreen extends PureComponent<Props> {
   openTermsOfService = () => {
     const { realm } = this.props;
-    openLink(getFullUrl('/terms/', realm));
+    openLink(getFullUrl('/terms/?nav=no', realm));
   };
 
   openPrivacyPolicy = () => {
     const { realm } = this.props;
-    openLink(getFullUrl('/privacy/', realm));
+    openLink(getFullUrl('/privacy/?nav=no', realm));
   };
 
   render() {
