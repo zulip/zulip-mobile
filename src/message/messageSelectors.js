@@ -55,7 +55,7 @@ export const getPrivateMessages: Selector<Message[]> = createSelector(
     if (unknownIds.length > 0) {
       logging.error('narrow IDs not found in state.messages', {
         all_ids: truncateForLogging(pmIds),
-        unknown_ids: unknownIds,
+        unknown_ids: truncateForLogging(unknownIds),
       });
     }
     return privateMessages;
