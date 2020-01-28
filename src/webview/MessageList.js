@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import type { WebViewNavigation } from 'react-native-webview';
 
@@ -199,6 +199,15 @@ class MessageList extends Component<Props> {
     return false;
   };
 
+  renderLoading = () => {
+    const style = {
+      backgroundColor: 'transparent',
+      width: '100%',
+      height: '100%',
+    };
+    return <View style={style} />;
+  };
+
   render() {
     const { styles: contextStyles } = this.context;
     const {
@@ -290,6 +299,8 @@ class MessageList extends Component<Props> {
     return (
       <WebView
         useWebKit
+        startInLoadingState
+        renderLoading={this.renderLoading}
         source={{ baseUrl, html }}
         originWhitelist={['file://']}
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
