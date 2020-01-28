@@ -5,20 +5,28 @@ import { StyleSheet } from 'react-native';
 import type { Dispatch, GlobalState, User } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { getAccountDetailsUserForEmail } from '../selectors';
-import { Screen, ZulipButton } from '../common';
+import { Screen, ZulipButton, Label } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
 import AccountDetails from './AccountDetails';
 import { doNarrow } from '../actions';
+import { getUserIsActive } from '../users/userSelectors';
 
 const styles = StyleSheet.create({
   pmButton: {
     marginHorizontal: 16,
   },
+  deactivatedText: {
+    textAlign: 'center',
+    paddingBottom: 20,
+    fontStyle: 'italic',
+    fontSize: 18,
+  },
 });
 
 type Props = $ReadOnly<{|
   user: User,
+  isActive: boolean,
   dispatch: Dispatch,
 |}>;
 
@@ -29,7 +37,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
   };
 
   render() {
-    const { user } = this.props;
+    const { user, isActive } = this.props;
     const title = {
       text: '{_}',
       values: {
@@ -41,9 +49,12 @@ class AccountDetailsScreen extends PureComponent<Props> {
     return (
       <Screen title={title}>
         <AccountDetails user={user} />
+        {!isActive && (
+          <Label style={styles.deactivatedText} text="(This user has been deactivated)" />
+        )}
         <ZulipButton
           style={styles.pmButton}
-          text="Send private message"
+          text={isActive ? 'Send private message' : 'View private messages'}
           onPress={this.handleChatPress}
           Icon={IconPrivateChat}
         />
@@ -54,4 +65,5 @@ class AccountDetailsScreen extends PureComponent<Props> {
 
 export default connectFlowFixMe((state: GlobalState, props) => ({
   user: getAccountDetailsUserForEmail(state, props.navigation.state.params.email),
+  isActive: getUserIsActive(state, props.navigation.state.params.email),
 }))(AccountDetailsScreen);
