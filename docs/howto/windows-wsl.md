@@ -110,7 +110,7 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
     `Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux`
 
 2. Install [Chocolatey][chocolatey]. After installing Chocolatey, use
-   it to install the JAVA SE Development Kit with, at a Windows
+   it to install the Java SE Development Kit with, at a Windows
    command prompt:
 
    `choco install -y jdk8`
