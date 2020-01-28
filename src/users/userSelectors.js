@@ -173,3 +173,19 @@ export const getAccountDetailsUserForEmail: Selector<UserOrBot, string> = create
     );
   },
 );
+
+/**
+ * The activation status of a user - whether or not a user/bot has
+ * been deactivated (`is_active` in the Zulip API).
+ */
+export const getUserIsActive: Selector<boolean, string> = createSelector(
+  (state, email) => email,
+  state => getActiveUsersByEmail(state),
+  (email, usersByEmail) => {
+    if (!email) {
+      return false;
+    } else {
+      return usersByEmail.has(email);
+    }
+  },
+);
