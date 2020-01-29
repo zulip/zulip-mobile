@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Platform, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import type { WebViewNavigation } from 'react-native-webview';
-
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
@@ -46,7 +45,6 @@ import {
   getRealm,
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
-
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { WebViewUpdateEvent } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
