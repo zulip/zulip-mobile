@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, GlobalState, Stream, Subscription } from '../types';
+import type { Dispatch, Stream, Subscription } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton } from '../common';
@@ -18,11 +18,16 @@ import {
 } from '../actions';
 import styles from '../styles';
 
-type Props = $ReadOnly<{|
-  dispatch: Dispatch,
+type SelectorProps = $ReadOnly<{|
   isAdmin: boolean,
   stream: Stream,
   subscription: Subscription,
+|}>;
+
+type Props = $ReadOnly<{|
+  dispatch: Dispatch,
+
+  ...SelectorProps,
 |}>;
 
 class StreamScreen extends PureComponent<Props> {
@@ -98,7 +103,7 @@ class StreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state: GlobalState, props) => ({
+export default connectFlowFixMe((state, props) => ({
   isAdmin: getIsAdmin(state),
   stream: getStreamForId(state, props.navigation.state.params.streamId),
   subscription: getSubscriptionForId(state, props.navigation.state.params.streamId),
