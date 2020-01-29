@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
+import type { NavigationScreenProp } from 'react-navigation';
 import type { Auth, Dispatch, Stream, User } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
 import * as api from '../api';
@@ -15,6 +16,8 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+
   dispatch: Dispatch,
   ...SelectorProps,
 |}>;
@@ -48,7 +51,7 @@ class InviteUsersScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   auth: getAuth(state),
   stream: getStreamForId(state, props.navigation.state.params.streamId),
 }))(InviteUsersScreen);
