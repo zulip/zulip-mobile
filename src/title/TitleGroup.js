@@ -10,10 +10,14 @@ import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
 import { navigateToAccountDetails } from '../nav/navActions';
 
-type Props = $ReadOnly<{
-  dispatch: Dispatch,
+type SelectorProps = $ReadOnly<{|
   recipients: UserOrBot[],
-}>;
+|}>;
+
+type Props = $ReadOnly<{|
+  dispatch: Dispatch,
+  ...SelectorProps,
+|}>;
 
 class TitleGroup extends PureComponent<Props> {
   handlePress = (user: UserOrBot) => {

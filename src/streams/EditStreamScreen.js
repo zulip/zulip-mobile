@@ -1,16 +1,20 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, GlobalState, Stream } from '../types';
+import type { Dispatch, Stream } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamForId } from '../selectors';
 import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
+type SelectorProps = $ReadOnly<{|
+  stream: Stream,
+|}>;
+
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-  stream: Stream,
+  ...SelectorProps,
 |}>;
 
 class EditStreamScreen extends PureComponent<Props> {
@@ -36,6 +40,6 @@ class EditStreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state: GlobalState, props) => ({
+export default connectFlowFixMe((state, props) => ({
   stream: getStreamForId(state, props.navigation.state.params.streamId),
 }))(EditStreamScreen);

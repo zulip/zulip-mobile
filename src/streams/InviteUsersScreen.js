@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { Auth, Dispatch, GlobalState, Stream, User } from '../types';
+import type { Auth, Dispatch, Stream, User } from '../types';
 import { connectFlowFixMe } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
@@ -9,10 +9,14 @@ import * as api from '../api';
 import { getAuth, getStreamForId } from '../selectors';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
-type Props = $ReadOnly<{|
-  dispatch: Dispatch,
+type SelectorProps = $ReadOnly<{|
   auth: Auth,
   stream: Stream,
+|}>;
+
+type Props = $ReadOnly<{|
+  dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
 type State = {|
@@ -44,7 +48,7 @@ class InviteUsersScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectFlowFixMe((state: GlobalState, props) => ({
+export default connectFlowFixMe((state, props) => ({
   auth: getAuth(state),
   stream: getStreamForId(state, props.navigation.state.params.streamId),
 }))(InviteUsersScreen);

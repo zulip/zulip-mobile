@@ -9,12 +9,17 @@ import { getPresence, getUserStatus } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
 
-type Props = $ReadOnly<{
-  dispatch: Dispatch,
+type SelectorProps = $ReadOnly<{|
   presence: UserPresence,
-  style: TextStyleProp,
   userStatus: UserStatus,
-}>;
+|}>;
+
+type Props = $ReadOnly<{|
+  style: TextStyleProp,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
+|}>;
 
 class ActivityText extends PureComponent<Props> {
   render() {
