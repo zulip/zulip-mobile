@@ -88,8 +88,4 @@ export default ({ color, backgroundColor }: ThemeColors) => ({
     // alignItems: 'stretch',
     backgroundColor,
   },
-  webview: {
-    borderWidth: 0,
-    backgroundColor,
-  },
 });

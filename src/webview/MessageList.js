@@ -9,7 +9,6 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 import type {
   AlertWordsState,
   Auth,
-  Context,
   Debug,
   Dispatch,
   Fetching,
@@ -25,6 +24,8 @@ import type {
   ThemeName,
   User,
 } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext } from '../styles';
 import { connect } from '../react-redux';
 import {
   getAuth,
@@ -137,15 +138,12 @@ const assetsPath = Platform.OS === 'ios' ? './webview' : 'file:///android_asset/
 // [3] https://github.com/facebook/react-native/blob/0.59-stable/React/Base/RCTConvert.m#L85
 
 class MessageList extends Component<Props> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
+
   webview: ?WebView;
   sendUpdateEventsIsReady: boolean;
   unsentUpdateEvents: WebViewUpdateEvent[] = [];
-
-  static contextTypes = {
-    styles: () => null,
-    theme: () => null,
-  };
 
   componentDidMount() {
     this.setupSendUpdateEvents();
@@ -209,7 +207,6 @@ class MessageList extends Component<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const {
       backgroundData,
       renderedMessages,
@@ -304,7 +301,8 @@ class MessageList extends Component<Props> {
         source={{ baseUrl, html }}
         originWhitelist={['file://']}
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-        style={contextStyles.webview}
+        /* eslint-disable react-native/no-inline-styles */
+        style={{ backgroundColor: this.context.backgroundColor, borderWidth: 0 }}
         ref={webview => {
           this.webview = webview;
         }}
