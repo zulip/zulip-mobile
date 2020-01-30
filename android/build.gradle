@@ -21,8 +21,6 @@ buildscript {
         //   https://developer.android.com/studio/releases/platforms
         // Do edit .travis.yml when updating this.
         compileSdkVersion = 29
-
-        supportLibVersion = "28.0.0"
     }
     repositories {
         google()

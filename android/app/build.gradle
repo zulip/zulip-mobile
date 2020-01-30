@@ -207,12 +207,12 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation "com.google.firebase:firebase-messaging:17.3.4"
     implementation "me.leolin:ShortcutBadger:1.1.16@aar"
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.facebook.fresco:animated-gif:1.10.0' // For animated GIF support
-    implementation "com.android.support:customtabs:${rootProject.ext.supportLibVersion}"
+    implementation 'androidx.browser:browser:1.0.0'
     addUnimodulesDependencies()
 
     testImplementation 'junit:junit:4.12'

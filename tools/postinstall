@@ -21,6 +21,12 @@ EOF
     pod install --project-directory="$ROOT_DIR/ios"
 }
 
+jetify() {
+    node_modules/.bin/jetify
+}
+
 pod_install
+
+jetify
 
 echo "tools/postinstall finished with no errors!"
