@@ -23,8 +23,6 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-// TODO: this only handles Unicode emoji (shipped with the app)
-// and realm emoji, but not Zulip extra emoji.  See our issue #2846.
 class Emoji extends PureComponent<Props> {
   styles = StyleSheet.create({
     image: { width: 20, height: 20 },
