@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.21.144 (2020-01-31)
+
 ### Highlights for users
 
 * Animated GIFs now animate, even when shown full-screen.
