@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import 'string.fromcodepoint'; // eslint-disable-line spellcheck/spell-checker
 
-import type { ImageEmojiType } from '../types';
+import type { ImageEmojiType, EmojiType } from '../types';
 import { objectFromEntries } from '../jsBackport';
 import { unicodeCodeByName, override } from './codePointMap';
 
@@ -28,10 +28,10 @@ export const codeToEmojiMap = objectFromEntries<string, string>(
 /**
  * Names of all emoji matching the query, in an order to offer to the user.
  */
-export const getFilteredEmojiNames = (
+export const getFilteredEmojis = (
   query: string,
   activeImageEmojiByName: $ReadOnly<{ [string]: ImageEmojiType }>,
-): string[] => {
+): $ReadOnlyArray<{| emoji_type: EmojiType, name: string, code: string |}> => {
   // Map from emoji names to 0 for prefix matches, 1 for others.
   // (Nonmatching names are excluded.)
   const nameMap: Map<string, number> = new Map(
@@ -47,5 +47,12 @@ export const getFilteredEmojiNames = (
     return n !== 0 ? n : a < b ? -1 : 1;
   });
 
-  return emoji;
+  return emoji.map(emojiName => {
+    const isImageEmoji = activeImageEmojiByName[emojiName] !== undefined;
+    return {
+      name: emojiName,
+      emoji_type: isImageEmoji ? 'image' : 'unicode',
+      code: isImageEmoji ? activeImageEmojiByName[emojiName].code : unicodeCodeByName[emojiName],
+    };
+  });
 };

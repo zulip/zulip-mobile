@@ -110,6 +110,8 @@ export type Account = {|
  */
 export type Identity = $Diff<Auth, { apiKey: string }>;
 
+export type EmojiType = 'image' | 'unicode';
+
 /** An aggregate of all the reactions with one emoji to one message. */
 export type AggregatedReaction = {|
   code: string,

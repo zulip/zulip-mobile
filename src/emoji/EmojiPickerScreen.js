@@ -8,7 +8,7 @@ import * as api from '../api';
 import { unicodeCodeByName } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
-import { getFilteredEmojiNames } from './data';
+import { getFilteredEmojis } from './data';
 import type { RealmEmojiById, Auth, Dispatch, ReactionType } from '../types';
 import { connect } from '../react-redux';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
@@ -64,7 +64,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     const { activeImageEmojiByName } = this.props;
     const { filter } = this.state;
 
-    const emojiNames = getFilteredEmojiNames(filter, activeImageEmojiByName);
+    const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
 
     return (
       <Screen search scrollEnabled={false} searchBarOnChange={this.handleInputChange}>
@@ -72,8 +72,8 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
           keyboardShouldPersistTaps="always"
           initialNumToRender={20}
           data={emojiNames}
-          keyExtractor={item => item}
-          renderItem={({ item: name }) => <EmojiRow name={name} onPress={this.addReaction} />}
+          keyExtractor={item => item.name}
+          renderItem={({ item }) => <EmojiRow name={item.name} onPress={this.addReaction} />}
         />
       </Screen>
     );
