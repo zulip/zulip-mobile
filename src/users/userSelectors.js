@@ -18,8 +18,11 @@ import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelecto
  * and doesn't erase them from history.
  *
  * In contexts that are about offering *new* interactions -- like choosing a
- * user to send a PM to -- deactivated users should be left out.  See
- * `getActiveUsersByEmail`.
+ * user to send a PM to -- deactivated users should be left out.
+ *
+ * See:
+ *  * `getActiveUsersByEmail` for leaving out deactivated users
+ *  * `User` for details on properties, and links to docs.
  */
 const getAllUsers: Selector<UserOrBot[]> = createSelector(
   getUsers,
@@ -84,8 +87,8 @@ export const getSortedUsers: Selector<User[]> = createSelector(
  *
  * See also `getOwnEmail` and `getOwnUser`.
  */
-//   TODO  we can switch `getOwnUser` and other uses of `getOwnEmail` to use
-//   user IDs instead!
+// Not currently used, but should replace uses of `getOwnEmail` (e.g. inside
+// `getOwnUser`).  See #3764.
 export const getOwnUserId = (state: GlobalState): number => {
   const { user_id } = state.realm;
   if (user_id === undefined) {
@@ -132,6 +135,8 @@ export const getOwnUser = (state: GlobalState): User => {
 /**
  * DEPRECATED; don't add new uses.  Generally, use `getOwnUser` instead.
  *
+ * PRs to eliminate the remaining uses of this are welcome.
+ *
  * For discussion, see `nullObjects.js`.
  */
 export const getSelfUserDetail = (state: GlobalState): User =>
@@ -156,6 +161,15 @@ export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSel
     new Map([...users, ...crossRealmBots].map(user => [user.email, user])),
 );
 
+/**
+ * DEPRECATED; don't add new uses.  Generally, use `getAllUsersByEmail` instead.
+ *
+ * (Better yet, use `getAllUsersById`; see #3764.)
+ *
+ * PRs to eliminate the remaining use of this are welcome.
+ *
+ * For discussion, see `nullObjects.js`.
+ */
 export const getAccountDetailsUserForEmail: Selector<UserOrBot, string> = createSelector(
   (state, email) => email,
   state => getAllUsersByEmail(state),
@@ -175,9 +189,18 @@ export const getAccountDetailsUserForEmail: Selector<UserOrBot, string> = create
 );
 
 /**
- * The activation status of a user - whether or not a user/bot has
- * been deactivated (`is_active` in the Zulip API).
+ * The value of `is_active` for the given user.
+ *
+ * For a normal user, this is true unless the user or an admin has
+ * deactivated their account.  The name comes from Django; this property
+ * isn't related to presence or to whether the user has recently used Zulip.
+ *
+ * (Conceptually this should be a property on the `User` object; the reason
+ * it isn't is just that the Zulip API presents this information in a funny
+ * other way.)
  */
+// To understand this implementation, see the comment about `is_active` in
+// the `User` type definition.
 export const getUserIsActive: Selector<boolean, string> = createSelector(
   (state, email) => email,
   state => getActiveUsersByEmail(state),
