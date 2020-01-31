@@ -36,6 +36,32 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Animated GIFs now animate, even when shown full-screen.
+* When you type a very long message, the input box no longer overflows
+  the screen.
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Resolved issues, user-facing:
+  * #3497: animated GIFs in lightbox
+  * #3551: show in user profile when user is deactivated
+  * #3760: UI glitch in "create stream" flow
+  * #3614: keep compose box appropriately sized when message is long
+  * #3528: drop "Reply" in message action sheet for PM or topic narrow
+
+* Resolved issues, developer-facing:
+  * #3768: Flow bug affecting `connect`
+  * #3801: document how to use React DevTools
+  * #3827: type fixes for upcoming Flow upgrade
+  * #3783: build failure on macOS
+  * #3777: build failure on Windows
+
 
 ## 26.20.143 (2020-01-07)
 
