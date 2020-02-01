@@ -140,11 +140,17 @@ class MessageList extends Component<Props> {
   context: ThemeColors;
 
   webview: ?WebView;
+  readyRetryInterval: IntervalID | void;
   sendUpdateEventsIsReady: boolean;
   unsentUpdateEvents: WebViewUpdateEvent[] = [];
 
   componentDidMount() {
     this.setupSendUpdateEvents();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.readyRetryInterval);
+    this.readyRetryInterval = undefined;
   }
 
   handleError = (event: mixed) => {
@@ -155,11 +161,13 @@ class MessageList extends Component<Props> {
    * Initiate round-trip handshakes with the WebView, until one succeeds.
    */
   setupSendUpdateEvents = (): void => {
-    const intervalId = setInterval(() => {
+    clearInterval(this.readyRetryInterval);
+    this.readyRetryInterval = setInterval(() => {
       if (!this.sendUpdateEventsIsReady) {
         this.sendUpdateEvents([{ type: 'ready' }]);
       } else {
-        clearInterval(intervalId);
+        clearInterval(this.readyRetryInterval);
+        this.readyRetryInterval = undefined;
       }
     }, 30);
   };
