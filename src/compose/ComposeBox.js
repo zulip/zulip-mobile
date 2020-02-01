@@ -228,7 +228,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
   getDestinationNarrow = (): Narrow => {
     const { narrow } = this.props;
-    const { topic } = this.state;
+    const topic = this.state.topic.trim();
     return isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, topic || '(no topic)') : narrow;
   };
 
