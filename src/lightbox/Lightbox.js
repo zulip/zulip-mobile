@@ -10,7 +10,7 @@ import { connect } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
-import { SlideAnimationView } from '../common';
+import { SlideAnimationView, LoadingIndicator } from '../common';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
@@ -21,6 +21,12 @@ import { navigateBack } from '../actions';
 const styles = StyleSheet.create({
   img: {
     height: 300,
+    flex: 1,
+  },
+  hidden: {
+    display: 'none',
+  },
+  spinner: {
     flex: 1,
   },
   header: {},
@@ -46,16 +52,19 @@ type Props = $ReadOnly<{|
 
 type State = {|
   movement: 'in' | 'out',
+  isLoading: boolean,
 |};
 
 class Lightbox extends PureComponent<Props, State> {
   state = {
     movement: 'out',
+    isLoading: true,
   };
 
   handleImagePress = () => {
-    this.setState(({ movement }, props) => ({
+    this.setState(({ movement, isLoading }, props) => ({
       movement: movement === 'out' ? 'in' : 'out',
+      isLoading,
     }));
   };
 
@@ -98,10 +107,14 @@ class Lightbox extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
+        <View style={this.state.isLoading ? styles.spinner : styles.hidden}>
+          <LoadingIndicator />
+        </View>
         <PhotoView
           source={resource}
-          style={[styles.img, { width }]}
+          style={this.state.isLoading ? styles.hidden : [styles.img, { width }]}
           resizeMode="contain"
+          onLoadEnd={() => this.setState(state => ({ ...state, isLoading: false }))}
           onTap={this.handleImagePress}
         />
         <SlideAnimationView
