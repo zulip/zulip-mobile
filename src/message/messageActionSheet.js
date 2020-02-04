@@ -52,12 +52,6 @@ const reply = ({ message, dispatch, ownEmail }) => {
 reply.title = 'Reply';
 reply.errorMessage = 'Failed to reply';
 
-const narrowToTopic = ({ message, dispatch, ownEmail }) => {
-  dispatch(doNarrow(getNarrowFromMessage(message, ownEmail), message.id));
-};
-narrowToTopic.title = 'Narrow to topic';
-narrowToTopic.errorMessage = 'Failed to narrow to topic';
-
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
@@ -154,7 +148,6 @@ const allButtonsRaw = {
   // For messages
   addReaction,
   reply,
-  narrowToTopic,
   copyToClipboard,
   shareMessage,
   editMessage,
@@ -185,7 +178,6 @@ type ConstructSheetParams = {|
   backgroundData: BackgroundData,
   message: Message | Outbox,
   narrow: Narrow,
-  isAnnouncementOnly: boolean,
 |};
 
 export const constructHeaderActionButtons = ({
@@ -214,10 +206,9 @@ const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = ({
-  backgroundData: { ownEmail, flags, isAdmin },
+  backgroundData: { ownEmail, flags },
   message,
   narrow,
-  isAnnouncementOnly,
 }: ConstructSheetParams): ButtonCode[] => {
   const buttons = [];
   if (message.reactions.length > 0) {
@@ -227,11 +218,7 @@ export const constructMessageActionButtons = ({
     buttons.push('addReaction');
   }
   if (!isAnOutboxMessage(message) && !isTopicNarrow(narrow) && !isPrivateOrGroupNarrow(narrow)) {
-    if (isAnnouncementOnly && !isAdmin) {
-      buttons.push('narrowToTopic');
-    } else {
-      buttons.push('reply');
-    }
+    buttons.push('reply');
   }
   if (messageNotDeleted(message)) {
     buttons.push('copyToClipboard');

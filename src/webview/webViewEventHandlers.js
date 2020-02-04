@@ -127,7 +127,6 @@ type Props = $ReadOnly<{
   messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
-  isAnnouncementOnly: boolean,
 }>;
 
 const fetchMore = (props: Props, event: MessageListEventScroll) => {
@@ -181,18 +180,11 @@ const handleLongPress = (
   if (!message) {
     return;
   }
-  const {
-    dispatch,
-    showActionSheetWithOptions,
-    backgroundData,
-    narrow,
-    isAnnouncementOnly,
-  } = props;
+  const { dispatch, showActionSheetWithOptions, backgroundData, narrow } = props;
   showActionSheet(target === 'header', dispatch, showActionSheetWithOptions, _, {
     backgroundData,
     message,
     narrow,
-    isAnnouncementOnly,
   });
 };
 
