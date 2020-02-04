@@ -63,6 +63,10 @@ import * as logging from '../utils/logging';
  *
  * This data is all independent of the specific narrow or specific messages
  * we're displaying; data about those goes elsewhere.
+ *
+ * We pass this object down to a variety of lower layers and helper
+ * functions, where it saves us from individually wiring through all the
+ * overlapping subsets of this data they respectively need.
  */
 export type BackgroundData = $ReadOnly<{
   alertWords: AlertWordsState,
@@ -78,7 +82,12 @@ export type BackgroundData = $ReadOnly<{
 }>;
 
 type SelectorProps = {|
+  // Data independent of the particular narrow or messages we're displaying.
   backgroundData: BackgroundData,
+
+  // The remaining props contain data specific to the particular narrow or
+  // particular messages we're displaying.  Data that's independent of those
+  // should go in `BackgroundData`, above.
   anchor: number,
   fetching: Fetching,
   messages: $ReadOnlyArray<Message | Outbox>,
