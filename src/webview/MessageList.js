@@ -67,15 +67,15 @@ import * as logging from '../utils/logging';
  */
 export type BackgroundData = $ReadOnly<{
   alertWords: AlertWordsState,
+  allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
   auth: Auth,
   debug: Debug,
   flags: FlagsState,
   mute: MuteState,
   ownEmail: string,
   ownUserId: number,
-  allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
-  twentyFourHourTime: boolean,
   subscriptions: Subscription[],
+  twentyFourHourTime: boolean,
 }>;
 
 type SelectorProps = {|
@@ -342,13 +342,13 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
   // it'd be better to set an example of the right general pattern.
   const backgroundData: BackgroundData = {
     alertWords: state.alertWords,
+    allImageEmojiById: getAllImageEmojiById(state),
     auth: getAuth(state),
     debug: getDebug(state),
     flags: getFlags(state),
     mute: getMute(state),
     ownEmail: getOwnEmail(state),
     ownUserId: getOwnUser(state).user_id,
-    allImageEmojiById: getAllImageEmojiById(state),
     subscriptions: getSubscriptions(state),
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
   };
