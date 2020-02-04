@@ -327,16 +327,6 @@ describe('getNarrowForReply', () => {
     expect(actualNarrow).toEqual(expectedNarrow);
   });
 
-  test('for stream message with empty topic, returns a stream narrow', () => {
-    // TODO this behavior seems pretty dubious
-    const message = eg.streamMessage({ subject: '' });
-    const expectedNarrow = streamNarrow(eg.stream.name);
-
-    const actualNarrow = getNarrowForReply(message, eg.selfUser);
-
-    expect(actualNarrow).toEqual(expectedNarrow);
-  });
-
   test('for stream message with nonempty topic, returns a topic narrow', () => {
     const message = eg.streamMessage();
     const expectedNarrow = topicNarrow(eg.stream.name, message.subject);
