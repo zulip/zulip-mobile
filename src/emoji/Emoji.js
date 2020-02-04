@@ -10,7 +10,7 @@ import { getAllImageEmojiByName } from './emojiSelectors';
 
 /* $FlowFixMe: `nameToEmojiMap` is mistyped upstream; elements of
   `glyphMap` may be either `number` or `string`. */
-const UnicodeEmoji = createIconSet(nameToEmojiMap, 'AppleColorEmoji');
+const UnicodeEmoji = createIconSet(nameToEmojiMap);
 
 type SelectorProps = {|
   imageEmoji: ImageEmojiType | void,
