@@ -73,6 +73,7 @@ export type BackgroundData = $ReadOnly<{
   mute: MuteState,
   ownUser: User,
   subscriptions: Subscription[],
+  theme: ThemeName,
   twentyFourHourTime: boolean,
 }>;
 
@@ -83,7 +84,6 @@ type SelectorProps = {|
   messages: $ReadOnlyArray<Message | Outbox>,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
-  theme: ThemeName,
   typingUsers: $ReadOnlyArray<User>,
 |};
 
@@ -216,11 +216,10 @@ class MessageList extends Component<Props> {
       renderedMessages,
       anchor,
       narrow,
-      theme,
       showMessagePlaceholders,
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
-    const { auth } = backgroundData;
+    const { auth, theme } = backgroundData;
     const html = getHtml(messagesHtml, theme, {
       anchor,
       auth,
@@ -347,6 +346,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
     mute: getMute(state),
     ownUser: getOwnUser(state),
     subscriptions: getSubscriptions(state),
+    theme: getSettings(state).theme,
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
   };
 
@@ -360,7 +360,6 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
       props.showMessagePlaceholders !== undefined
         ? props.showMessagePlaceholders
         : getShowMessagePlaceholders(props.narrow)(state),
-    theme: getSettings(state).theme,
     typingUsers: props.typingUsers || getCurrentTypingUsers(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));
