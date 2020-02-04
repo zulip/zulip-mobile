@@ -206,7 +206,7 @@ const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = ({
-  backgroundData: { ownEmail, flags },
+  backgroundData: { ownUser, flags },
   message,
   narrow,
 }: ConstructSheetParams): ButtonCode[] => {
@@ -226,13 +226,13 @@ export const constructMessageActionButtons = ({
   }
   if (
     !isAnOutboxMessage(message)
-    && message.sender_email === ownEmail
+    && message.sender_email === ownUser.email
     && !isHomeNarrow(narrow)
     && !isSpecialNarrow(narrow)
   ) {
     buttons.push('editMessage');
   }
-  if (message.sender_email === ownEmail && messageNotDeleted(message)) {
+  if (message.sender_email === ownUser.email && messageNotDeleted(message)) {
     buttons.push('deleteMessage');
   }
   if (!isAnOutboxMessage(message)) {
@@ -265,7 +265,7 @@ export const showActionSheet = (
           dispatch,
           subscriptions: params.backgroundData.subscriptions,
           auth: params.backgroundData.auth,
-          ownEmail: params.backgroundData.ownEmail,
+          ownEmail: params.backgroundData.ownUser.email,
           _,
           ...params,
         });

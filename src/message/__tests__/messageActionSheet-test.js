@@ -15,6 +15,7 @@ const baseBackgroundData = deepFreeze({
       2: true,
     },
   },
+  ownUser: { email: 'Zoe@zulip.com' },
 });
 
 describe('constructActionButtons', () => {
