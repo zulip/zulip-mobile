@@ -68,7 +68,7 @@ import * as logging from '../utils/logging';
  * functions, where it saves us from individually wiring through all the
  * overlapping subsets of this data they respectively need.
  */
-export type BackgroundData = $ReadOnly<{
+export type BackgroundData = $ReadOnly<{|
   alertWords: AlertWordsState,
   allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
   auth: Auth,
@@ -79,7 +79,7 @@ export type BackgroundData = $ReadOnly<{
   subscriptions: Subscription[],
   theme: ThemeName,
   twentyFourHourTime: boolean,
-}>;
+|}>;
 
 type SelectorProps = {|
   // Data independent of the particular narrow or messages we're displaying.
