@@ -19,7 +19,7 @@ const renderSubject = item =>
     : template`${item.subject}`;
 
 export default (
-  { ownEmail, subscriptions }: BackgroundData,
+  { ownUser, subscriptions }: BackgroundData,
   narrow: Narrow,
   item: Message | Outbox | {||},
 ) => {
@@ -88,9 +88,9 @@ export default (
 
   if (item.type === 'private' && headerStyle === 'full') {
     const recipients =
-      item.display_recipient.length === 1 && item.display_recipient[0].email === ownEmail
+      item.display_recipient.length === 1 && item.display_recipient[0].email === ownUser.email
         ? item.display_recipient
-        : item.display_recipient.filter(r => r.email !== ownEmail);
+        : item.display_recipient.filter(r => r.email !== ownUser.email);
 
     const narrowObj =
       recipients.length === 1
