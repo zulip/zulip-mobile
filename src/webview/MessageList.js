@@ -73,7 +73,7 @@ export type BackgroundData = $ReadOnly<{
   flags: FlagsState,
   mute: MuteState,
   ownEmail: string,
-  ownUserId: number,
+  ownUser: User,
   subscriptions: Subscription[],
   twentyFourHourTime: boolean,
 }>;
@@ -348,7 +348,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
     flags: getFlags(state),
     mute: getMute(state),
     ownEmail: getOwnEmail(state),
-    ownUserId: getOwnUser(state).user_id,
+    ownUser: getOwnUser(state),
     subscriptions: getSubscriptions(state),
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
   };

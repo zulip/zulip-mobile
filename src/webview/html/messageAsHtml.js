@@ -56,7 +56,7 @@ const messageReactionListAsHtml = (
 };
 
 const messageBody = (
-  { alertWords, flags, ownUserId, allImageEmojiById }: BackgroundData,
+  { alertWords, flags, ownUser, allImageEmojiById }: BackgroundData,
   message: Message | Outbox,
 ) => {
   const { id, isOutbox, last_edit_timestamp, reactions } = message;
@@ -65,7 +65,7 @@ const messageBody = (
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
-$!${messageReactionListAsHtml(reactions, ownUserId, allImageEmojiById)}
+$!${messageReactionListAsHtml(reactions, ownUser.user_id, allImageEmojiById)}
 `;
 };
 
