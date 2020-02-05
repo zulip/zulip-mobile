@@ -4,7 +4,7 @@ import deepFreeze from 'deep-freeze';
 import type { User } from '../../api/modelTypes';
 import type { JSONableDict } from '../../utils/jsonable';
 import { getNarrowFromNotificationData } from '..';
-import { topicNarrow, pmNarrowFromEmail, groupNarrow } from '../../utils/narrow';
+import { topicNarrow, pmNarrowFromEmail, pmNarrowFromEmails } from '../../utils/narrow';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { fromAPNsImpl as extractIosNotificationData } from '../extract';
@@ -49,7 +49,7 @@ describe('getNarrowFromNotificationData', () => {
       pm_users: users.map(u => u.user_id).join(','),
     };
 
-    const expectedNarrow = groupNarrow(users.slice(1).map(u => u.email));
+    const expectedNarrow = pmNarrowFromEmails(users.slice(1).map(u => u.email));
 
     const narrow = getNarrowFromNotificationData(notification, usersById, ownUserId);
 

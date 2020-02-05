@@ -7,7 +7,7 @@ import {
   HOME_NARROW_STR,
   pmNarrowFromEmail,
   ALL_PRIVATE_NARROW_STR,
-  groupNarrow,
+  pmNarrowFromEmails,
   streamNarrow,
   topicNarrow,
   STARRED_NARROW_STR,
@@ -23,7 +23,9 @@ import * as eg from '../../__tests__/lib/exampleData';
 
 describe('narrowsReducer', () => {
   const privateNarrowStr = JSON.stringify(pmNarrowFromEmail(eg.otherUser.email));
-  const groupNarrowStr = JSON.stringify(groupNarrow([eg.otherUser.email, eg.thirdUser.email]));
+  const groupNarrowStr = JSON.stringify(
+    pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]),
+  );
   const streamNarrowStr = JSON.stringify(streamNarrow(eg.stream.name));
   const egTopic = eg.streamMessage().subject;
   const topicNarrowStr = JSON.stringify(topicNarrow(eg.stream.name, egTopic));

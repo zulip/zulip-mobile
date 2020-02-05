@@ -1,7 +1,12 @@
 import deepFreeze from 'deep-freeze';
 
 import getComposeInputPlaceholder from '../getComposeInputPlaceholder';
-import { pmNarrowFromEmail, streamNarrow, topicNarrow, groupNarrow } from '../../utils/narrow';
+import {
+  pmNarrowFromEmail,
+  streamNarrow,
+  topicNarrow,
+  pmNarrowFromEmails,
+} from '../../utils/narrow';
 
 describe('getComposeInputPlaceholder', () => {
   test('returns "Message @ThisPerson" object for person narrow', () => {
@@ -58,7 +63,7 @@ describe('getComposeInputPlaceholder', () => {
   });
 
   test('returns "Message group" object for group narrow', () => {
-    const narrow = deepFreeze(groupNarrow(['abc@zulip.com, xyz@zulip.com']));
+    const narrow = deepFreeze(pmNarrowFromEmails(['abc@zulip.com, xyz@zulip.com']));
 
     const placeholder = getComposeInputPlaceholder(narrow);
     expect(placeholder).toEqual({ text: 'Message group' });

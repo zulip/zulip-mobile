@@ -5,7 +5,7 @@ import {
   isHomeNarrow,
   pmNarrowFromEmail,
   isPrivateNarrow,
-  groupNarrow,
+  pmNarrowFromEmails,
   isGroupNarrow,
   specialNarrow,
   isSpecialNarrow,
@@ -62,9 +62,9 @@ describe('pmNarrowFromEmail', () => {
   });
 });
 
-describe('groupNarrow', () => {
+describe('pmNarrowFromEmails', () => {
   test('returns a narrow with specified recipients', () => {
-    expect(groupNarrow(['bob@example.com', 'john@example.com'])).toEqual([
+    expect(pmNarrowFromEmails(['bob@example.com', 'john@example.com'])).toEqual([
       {
         operator: 'pm-with',
         operand: 'bob@example.com,john@example.com',
@@ -75,7 +75,7 @@ describe('groupNarrow', () => {
   test('a group narrow is only private chat with more than one recipients', () => {
     expect(isGroupNarrow(HOME_NARROW)).toBe(false);
     expect(isGroupNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(false);
-    expect(isGroupNarrow(groupNarrow(['bob@example.com', 'john@example.com']))).toBe(true);
+    expect(isGroupNarrow(pmNarrowFromEmails(['bob@example.com', 'john@example.com']))).toBe(true);
     expect(
       isGroupNarrow([
         {
@@ -100,7 +100,9 @@ describe('isPrivateOrGroupNarrow', () => {
     expect(isPrivateOrGroupNarrow(undefined)).toBe(false);
     expect(isPrivateOrGroupNarrow(HOME_NARROW)).toBe(false);
     expect(isPrivateOrGroupNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(true);
-    expect(isPrivateOrGroupNarrow(groupNarrow(['bob@example.com', 'john@example.com']))).toBe(true);
+    expect(
+      isPrivateOrGroupNarrow(pmNarrowFromEmails(['bob@example.com', 'john@example.com'])),
+    ).toBe(true);
     expect(
       isPrivateOrGroupNarrow([
         {
@@ -127,9 +129,9 @@ describe('isStreamOrTopicNarrow', () => {
     expect(isStreamOrTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
     expect(isStreamOrTopicNarrow(HOME_NARROW)).toBe(false);
     expect(isStreamOrTopicNarrow(pmNarrowFromEmail('a@a.com'))).toBe(false);
-    expect(isStreamOrTopicNarrow(groupNarrow(['john@example.com', 'mark@example.com']))).toBe(
-      false,
-    );
+    expect(
+      isStreamOrTopicNarrow(pmNarrowFromEmails(['john@example.com', 'mark@example.com'])),
+    ).toBe(false);
     expect(isStreamOrTopicNarrow(STARRED_NARROW)).toBe(false);
   });
 });
@@ -254,7 +256,7 @@ describe('isMessageInNarrow', () => {
       ['group-PM, outbound', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['stream message', false, eg.streamMessage()],
     ]],
-    ['group-PM conversation', groupNarrow([eg.otherUser.email, eg.thirdUser.email]), [
+    ['group-PM conversation', pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]), [
       ['matching group-PM, inbound', true, eg.pmMessage({ recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['matching group-PM, outbound', true, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['1:1 within group, inbound', false, eg.pmMessage()],
@@ -262,7 +264,7 @@ describe('isMessageInNarrow', () => {
       ['self-1:1 message', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
       ['stream message', false, eg.streamMessage()],
     ]],
-    ['group-PM conversation, including self', groupNarrow([eg.selfUser.email, eg.otherUser.email, eg.thirdUser.email]), [
+    ['group-PM conversation, including self', pmNarrowFromEmails([eg.selfUser.email, eg.otherUser.email, eg.thirdUser.email]), [
       ['matching group-PM, inbound', true, eg.pmMessage({ recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['matching group-PM, outbound', true, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['1:1 within group, inbound', false, eg.pmMessage()],
@@ -320,7 +322,7 @@ describe('getNarrowFromMessage', () => {
     const message = eg.pmMessage({
       recipients: [eg.selfUser, eg.otherUser, eg.thirdUser],
     });
-    const expectedNarrow = groupNarrow([eg.otherUser.email, eg.thirdUser.email]);
+    const expectedNarrow = pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]);
 
     const actualNarrow = getNarrowFromMessage(message, eg.selfUser);
 

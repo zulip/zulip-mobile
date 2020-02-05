@@ -7,7 +7,7 @@ import type { Dispatch, User } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { doNarrow, navigateBack } from '../actions';
-import { groupNarrow } from '../utils/narrow';
+import { pmNarrowFromEmails } from '../utils/narrow';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = $ReadOnly<{|
@@ -36,7 +36,7 @@ class CreateGroupScreen extends PureComponent<Props, State> {
 
     const recipients = selected.map(user => user.email);
     NavigationService.dispatch(navigateBack());
-    dispatch(doNarrow(groupNarrow(recipients)));
+    dispatch(doNarrow(pmNarrowFromEmails(recipients)));
   };
 
   render() {

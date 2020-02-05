@@ -23,7 +23,7 @@ export const HOME_NARROW_STR: string = '[]';
  * A PM narrow -- either 1:1 or group.
  *
  * Private to this module because the input format is kind of odd.
- * Use `pmNarrowFromEmail` or `groupNarrow` instead.
+ * Use `pmNarrowFromEmail` or `pmNarrowFromEmails` instead.
  *
  * For the quirks of the underlying format in the Zulip API, see:
  *   https://zulipchat.com/api/construct-narrow
@@ -78,7 +78,7 @@ export const pmNarrowFromEmail = (email: string): Narrow => pmNarrowByString(ema
 //      notification's pm_users, which is sorted.
 //  * Good: messageHeaderAsHtml: comes from pmKeyRecipientsFromMessage,
 //      which filters and sorts by ID
-export const groupNarrow = (emails: string[]): Narrow => pmNarrowByString(emails.join());
+export const pmNarrowFromEmails = (emails: string[]): Narrow => pmNarrowByString(emails.join());
 
 export const specialNarrow = (operand: string): Narrow => [
   {
@@ -328,7 +328,7 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
 // TODO: do that, or just make this a private local helper of its one caller
 export const getNarrowFromMessage = (message: Message | Outbox, ownUser: User) => {
   if (message.type === 'private') {
-    return groupNarrow(pmKeyRecipientsFromMessage(message, ownUser).map(x => x.email));
+    return pmNarrowFromEmails(pmKeyRecipientsFromMessage(message, ownUser).map(x => x.email));
   } else {
     const streamName = streamNameOfStreamMessage(message);
     const topic = message.subject;

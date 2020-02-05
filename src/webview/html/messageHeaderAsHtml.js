@@ -6,7 +6,7 @@ import {
   streamNarrow,
   topicNarrow,
   pmNarrowFromEmail,
-  groupNarrow,
+  pmNarrowFromEmails,
   caseNarrow,
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
@@ -95,7 +95,7 @@ export default (
     const narrowObj =
       keyRecipients.length === 1
         ? pmNarrowFromEmail(keyRecipients[0].email)
-        : groupNarrow(keyRecipients.map(r => r.email));
+        : pmNarrowFromEmails(keyRecipients.map(r => r.email));
     const privateNarrowStr = JSON.stringify(narrowObj);
 
     const uiRecipients = pmUiRecipientsFromMessage(item, ownUser);
