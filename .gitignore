@@ -65,6 +65,9 @@ npm-debug.log
 # Test files
 /pirlo-cli
 
+# CocoaPods (not currently used)
+/ios/Pods
+
 # Transifex, for a maintainer syncing translations up and down
 /.transifexrc
 
