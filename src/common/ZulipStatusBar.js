@@ -4,8 +4,8 @@ import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
+import { connect } from 'react-redux';
 import type { Dimensions, GlobalState, Narrow, Orientation, ThemeName, Dispatch } from '../types';
-import { connectFlowFixMe } from '../react-redux';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
@@ -24,14 +24,25 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     ? 'light-content'
     : 'dark-content';
 
-type Props = $ReadOnly<{
-  dispatch: Dispatch,
-  hidden: boolean,
+type SelectorProps = {|
   theme: ThemeName,
-  backgroundColor: string,
   safeAreaInsets: Dimensions,
   orientation: Orientation,
-}>;
+  backgroundColor: string,
+  hidden: boolean,
+|};
+
+type RawProps = $ReadOnly<{|
+  backgroundColor?: string,
+  hidden?: boolean,
+  narrow?: Narrow,
+|}>;
+
+type Props = $ReadOnly<{|
+  dispatch: Dispatch,
+  ...RawProps,
+  ...SelectorProps,
+|}>;
 
 /**
  * Controls the status bar settings depending on platform
@@ -42,9 +53,9 @@ type Props = $ReadOnly<{
  * @prop [narrow] - Currently active narrow.
  */
 class ZulipStatusBar extends PureComponent<Props> {
-  static defaultProps = {
+  /* static defaultProps = {
     hidden: false,
-  };
+  }; */
 
   render() {
     const { theme, backgroundColor, hidden, safeAreaInsets, orientation } = this.props;
@@ -66,14 +77,23 @@ class ZulipStatusBar extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe(
-  (state: GlobalState, props: { backgroundColor?: string, narrow?: Narrow }) => ({
-    safeAreaInsets: getSession(state).safeAreaInsets,
-    theme: getSettings(state).theme,
-    backgroundColor:
-      props.backgroundColor !== undefined
-        ? props.backgroundColor
-        : getTitleBackgroundColor(props.narrow)(state),
-    orientation: getSession(state).orientation,
-  }),
-)(ZulipStatusBar);
+/** mapStateToProps: map state and props to props. */
+const mapStateToProps = (state: GlobalState, props: RawProps): SelectorProps => ({
+  safeAreaInsets: getSession(state).safeAreaInsets,
+  theme: getSettings(state).theme,
+  backgroundColor:
+    props.backgroundColor !== undefined
+      ? props.backgroundColor
+      : getTitleBackgroundColor(props.narrow)(state),
+  orientation: getSession(state).orientation,
+  hidden: props.hidden ?? false,
+});
+
+// We use the underlying Redux-provided Flow type wrapper here, as our own can't
+// currently handle the redefinition of `backgroundColor`.
+//
+// As noted in the docstrings of our react-redux wrapper, there are situations
+// in which this is unsafe. It is believed that these are ruled out by
+// explicitly specifying both a) the argument and return types of
+// `mapStateToProps`, and b) the first three generic parameters below.
+export default connect<Props, RawProps, SelectorProps, _, _, _>(mapStateToProps)(ZulipStatusBar);
