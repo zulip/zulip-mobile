@@ -43,16 +43,15 @@ class AccountDetails extends PureComponent<Props> {
   render() {
     const { realm, user, userStatusText } = this.props;
 
-    // The set of timezone names in the tz database is subject to change over
-    // time. Handle unrecognized timezones by quietly discarding them.
-    let localTime: string | null;
-    try {
-      localTime =
-        user.timezone !== undefined && user.timezone !== ''
-          ? `${nowInTimeZone(user.timezone)} Local time`
-          : null;
-    } catch (err) {
-      localTime = null;
+    let localTime: string | null = null;
+    // See comments at CrossRealmBot and User at src/api/modelTypes.js.
+    if (user.timezone !== '' && user.timezone !== undefined) {
+      try {
+        localTime = `${nowInTimeZone(user.timezone)} Local time`;
+      } catch (err) {
+        // The set of timezone names in the tz database is subject to change over
+        // time. Handle unrecognized timezones by quietly discarding them.
+      }
     }
 
     return (
@@ -70,11 +69,11 @@ class AccountDetails extends PureComponent<Props> {
         <View>
           <ActivityText style={styles.largerText} user={user} />
         </View>
-        {user.timezone !== '' && user.timezone !== undefined ? (
+        {localTime !== null && (
           <View>
-            {localTime !== null && <RawLabel style={styles.largerText} text={localTime} />}
+            <RawLabel style={styles.largerText} text={localTime} />
           </View>
-        ) : null}
+        )}
       </ComponentList>
     );
   }
