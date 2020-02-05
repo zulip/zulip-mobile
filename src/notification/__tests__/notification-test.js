@@ -4,7 +4,7 @@ import deepFreeze from 'deep-freeze';
 import type { User } from '../../api/modelTypes';
 import type { JSONableDict } from '../../utils/jsonable';
 import { getNarrowFromNotificationData } from '..';
-import { topicNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
+import { topicNarrow, pmNarrowFromEmail, groupNarrow } from '../../utils/narrow';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { fromAPNsImpl as extractIosNotificationData } from '../extract';
@@ -37,7 +37,7 @@ describe('getNarrowFromNotificationData', () => {
       sender_email: 'mark@example.com',
     };
     const narrow = getNarrowFromNotificationData(notification, DEFAULT_MAP, ownUserId);
-    expect(narrow).toEqual(privateNarrow('mark@example.com'));
+    expect(narrow).toEqual(pmNarrowFromEmail('mark@example.com'));
   });
 
   test('on notification for a group message returns a group narrow', () => {

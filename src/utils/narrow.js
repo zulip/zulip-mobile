@@ -23,7 +23,7 @@ export const HOME_NARROW_STR: string = '[]';
  * A PM narrow -- either 1:1 or group.
  *
  * Private to this module because the input format is kind of odd.
- * Use `privateNarrow` or `groupNarrow` instead.
+ * Use `pmNarrowFromEmail` or `groupNarrow` instead.
  *
  * For the quirks of the underlying format in the Zulip API, see:
  *   https://zulipchat.com/api/construct-narrow
@@ -36,7 +36,7 @@ const pmNarrowByString = (emails: string): Narrow => [
   },
 ];
 
-export const privateNarrow = (email: string): Narrow => pmNarrowByString(email);
+export const pmNarrowFromEmail = (email: string): Narrow => pmNarrowByString(email);
 
 /**
  * A group PM narrow.

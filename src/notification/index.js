@@ -4,7 +4,7 @@ import NotificationsIOS from 'react-native-notifications';
 
 import type { Notification } from './types';
 import type { Auth, Dispatch, Identity, Narrow, User } from '../types';
-import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
+import { topicNarrow, pmNarrowFromEmail, groupNarrow } from '../utils/narrow';
 import type { JSONable, JSONableDict } from '../utils/jsonable';
 import * as api from '../api';
 import * as logging from '../utils/logging';
@@ -102,7 +102,7 @@ export const getNarrowFromNotificationData = (
   }
 
   if (data.pm_users === undefined) {
-    return privateNarrow(data.sender_email);
+    return pmNarrowFromEmail(data.sender_email);
   }
 
   const ids = data.pm_users.split(',').map(s => parseInt(s, 10));

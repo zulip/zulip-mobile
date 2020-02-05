@@ -5,7 +5,7 @@ import type { BackgroundData } from '../MessageList';
 import {
   streamNarrow,
   topicNarrow,
-  privateNarrow,
+  pmNarrowFromEmail,
   groupNarrow,
   caseNarrow,
 } from '../../utils/narrow';
@@ -94,7 +94,7 @@ export default (
     const keyRecipients = pmKeyRecipientsFromMessage(item, ownUser);
     const narrowObj =
       keyRecipients.length === 1
-        ? privateNarrow(keyRecipients[0].email)
+        ? pmNarrowFromEmail(keyRecipients[0].email)
         : groupNarrow(keyRecipients.map(r => r.email));
     const privateNarrowStr = JSON.stringify(narrowObj);
 

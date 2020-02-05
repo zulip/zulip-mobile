@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../titleSelectors';
-import { groupNarrow, streamNarrow, privateNarrow } from '../../utils/narrow';
+import { groupNarrow, streamNarrow, pmNarrowFromEmail } from '../../utils/narrow';
 
 const subscriptions = [{ name: 'all', color: '#fff' }, { name: 'announce', color: '#000' }];
 
@@ -35,7 +35,7 @@ describe('getTitleBackgroundColor', () => {
       subscriptions,
     });
 
-    expect(getTitleBackgroundColor(state, privateNarrow('abc@zulip.com'))).toEqual(
+    expect(getTitleBackgroundColor(state, pmNarrowFromEmail('abc@zulip.com'))).toEqual(
       DEFAULT_TITLE_BACKGROUND_COLOR,
     );
     expect(getTitleBackgroundColor(state, groupNarrow(['abc@zulip.com', 'def@zulip.com']))).toEqual(

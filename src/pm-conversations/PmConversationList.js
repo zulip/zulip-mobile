@@ -4,7 +4,7 @@ import { FlatList } from 'react-native';
 
 import type { Dispatch, PmConversationData, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
-import { privateNarrow, groupNarrow } from '../utils/narrow';
+import { pmNarrowFromEmail, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import GroupPmConversationItem from './GroupPmConversationItem';
 import { doNarrow } from '../actions';
@@ -27,7 +27,7 @@ type Props = $ReadOnly<{|
  * */
 export default class PmConversationList extends PureComponent<Props> {
   handleUserNarrow = (user: UserOrBot) => {
-    this.props.dispatch(doNarrow(privateNarrow(user.email)));
+    this.props.dispatch(doNarrow(pmNarrowFromEmail(user.email)));
   };
 
   handleGroupNarrow = (email: string) => {

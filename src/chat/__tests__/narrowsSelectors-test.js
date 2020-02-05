@@ -9,7 +9,7 @@ import {
 import {
   HOME_NARROW,
   HOME_NARROW_STR,
-  privateNarrow,
+  pmNarrowFromEmail,
   streamNarrow,
   topicNarrow,
   STARRED_NARROW,
@@ -78,14 +78,14 @@ describe('getMessagesForNarrow', () => {
   test('do not combine messages and outbox in different narrow', () => {
     const state = eg.reduxState({
       narrows: {
-        [JSON.stringify(privateNarrow('john@example.com'))]: [123],
+        [JSON.stringify(pmNarrowFromEmail('john@example.com'))]: [123],
       },
       messages,
       outbox: [outboxMessage],
       realm: eg.realmState({ email: eg.selfUser.email }),
     });
 
-    const result = getMessagesForNarrow(state, privateNarrow('john@example.com'));
+    const result = getMessagesForNarrow(state, pmNarrowFromEmail('john@example.com'));
 
     expect(result).toEqual([message]);
   });
@@ -190,7 +190,7 @@ describe('getStreamInNarrow', () => {
   });
 
   test('return NULL_SUBSCRIPTION is narrow is not topic or stream', () => {
-    expect(getStreamInNarrow(state, privateNarrow('abc@zulip.com'))).toEqual(NULL_SUBSCRIPTION);
+    expect(getStreamInNarrow(state, pmNarrowFromEmail('abc@zulip.com'))).toEqual(NULL_SUBSCRIPTION);
     expect(getStreamInNarrow(state, topicNarrow(stream4.name, 'topic'))).toEqual(NULL_SUBSCRIPTION);
   });
 });
@@ -253,7 +253,7 @@ describe('isNarrowValid', () => {
       streams: [],
       users: [user],
     });
-    const narrow = privateNarrow(user.email);
+    const narrow = pmNarrowFromEmail(user.email);
 
     const result = isNarrowValid(state, narrow);
 
@@ -271,7 +271,7 @@ describe('isNarrowValid', () => {
       streams: [],
       users: [],
     });
-    const narrow = privateNarrow(user.email);
+    const narrow = pmNarrowFromEmail(user.email);
 
     const result = isNarrowValid(state, narrow);
 
@@ -326,7 +326,7 @@ describe('isNarrowValid', () => {
       streams: [],
       users: [],
     });
-    const narrow = privateNarrow(bot.email);
+    const narrow = pmNarrowFromEmail(bot.email);
 
     const result = isNarrowValid(state, narrow);
 
@@ -344,7 +344,7 @@ describe('isNarrowValid', () => {
       streams: [],
       users: [],
     });
-    const narrow = privateNarrow(notActiveUser.email);
+    const narrow = pmNarrowFromEmail(notActiveUser.email);
 
     const result = isNarrowValid(state, narrow);
 

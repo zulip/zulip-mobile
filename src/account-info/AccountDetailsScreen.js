@@ -7,7 +7,7 @@ import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { Screen, ZulipButton, Label } from '../common';
 import { IconPrivateChat } from '../common/Icons';
-import { privateNarrow } from '../utils/narrow';
+import { pmNarrowFromEmail } from '../utils/narrow';
 import AccountDetails from './AccountDetails';
 import { doNarrow } from '../actions';
 import { getUserIsActive, getUserForId } from '../users/userSelectors';
@@ -43,7 +43,7 @@ type Props = $ReadOnly<{|
 class AccountDetailsScreen extends PureComponent<Props> {
   handleChatPress = () => {
     const { user, dispatch } = this.props;
-    dispatch(doNarrow(privateNarrow(user.email)));
+    dispatch(doNarrow(pmNarrowFromEmail(user.email)));
   };
 
   render() {

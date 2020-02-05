@@ -1,11 +1,11 @@
 import deepFreeze from 'deep-freeze';
 
 import getComposeInputPlaceholder from '../getComposeInputPlaceholder';
-import { privateNarrow, streamNarrow, topicNarrow, groupNarrow } from '../../utils/narrow';
+import { pmNarrowFromEmail, streamNarrow, topicNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('getComposeInputPlaceholder', () => {
   test('returns "Message @ThisPerson" object for person narrow', () => {
-    const narrow = deepFreeze(privateNarrow('abc@zulip.com'));
+    const narrow = deepFreeze(pmNarrowFromEmail('abc@zulip.com'));
 
     const ownEmail = 'hamlet@zulip.com';
 
@@ -33,7 +33,7 @@ describe('getComposeInputPlaceholder', () => {
   });
 
   test('returns "Jot down something" object for self narrow', () => {
-    const narrow = deepFreeze(privateNarrow('abc@zulip.com'));
+    const narrow = deepFreeze(pmNarrowFromEmail('abc@zulip.com'));
 
     const ownEmail = 'abc@zulip.com';
 
