@@ -19,12 +19,24 @@ export const HOME_NARROW: Narrow = [];
 
 export const HOME_NARROW_STR: string = '[]';
 
-export const privateNarrow = (email: string): Narrow => [
+/**
+ * A PM narrow -- either 1:1 or group.
+ *
+ * Private to this module because the input format is kind of odd.
+ * Use `privateNarrow` or `groupNarrow` instead.
+ *
+ * For the quirks of the underlying format in the Zulip API, see:
+ *   https://zulipchat.com/api/construct-narrow
+ *   https://github.com/zulip/zulip/issues/13167
+ */
+const pmNarrowByString = (emails: string): Narrow => [
   {
     operator: 'pm-with',
-    operand: email,
+    operand: emails,
   },
 ];
+
+export const privateNarrow = (email: string): Narrow => pmNarrowByString(email);
 
 /**
  * A group PM narrow.
@@ -66,12 +78,7 @@ export const privateNarrow = (email: string): Narrow => [
 //      notification's pm_users, which is sorted.
 //  * Good: messageHeaderAsHtml: comes from pmKeyRecipientsFromMessage,
 //      which filters and sorts by ID
-export const groupNarrow = (emails: string[]): Narrow => [
-  {
-    operator: 'pm-with',
-    operand: emails.join(),
-  },
-];
+export const groupNarrow = (emails: string[]): Narrow => pmNarrowByString(emails.join());
 
 export const specialNarrow = (operand: string): Narrow => [
   {
