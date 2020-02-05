@@ -36,8 +36,6 @@ const pmNarrowByString = (emails: string): Narrow => [
   },
 ];
 
-export const pmNarrowFromEmail = (email: string): Narrow => pmNarrowByString(email);
-
 /**
  * A group PM narrow.
  *
@@ -79,6 +77,9 @@ export const pmNarrowFromEmail = (email: string): Narrow => pmNarrowByString(ema
 //  * Good: messageHeaderAsHtml: comes from pmKeyRecipientsFromMessage,
 //      which filters and sorts by ID
 export const pmNarrowFromEmails = (emails: string[]): Narrow => pmNarrowByString(emails.join());
+
+/** Convenience wrapper for `pmNarrowFromEmails`. */
+export const pmNarrowFromEmail = (email: string): Narrow => pmNarrowFromEmails([email]);
 
 export const specialNarrow = (operand: string): Narrow => [
   {
