@@ -17,20 +17,13 @@ const styles = StyleSheet.create({
 type PseudoSubscription = Subscription | { ...Stream, subscribed: boolean, pin_to_top?: void };
 
 type Props = $ReadOnly<{|
-  showDescriptions: boolean,
-  showSwitch: boolean,
-  selected: boolean | string, // TODO type: pick one
   streams: $ReadOnlyArray<PseudoSubscription>,
   unreadByStream: number[],
   onPress: (streamName: string) => void,
-  onSwitch?: (streamName: string, newValue: boolean) => void,
 |}>;
 
-export default class StreamList extends PureComponent<Props> {
+export default class SubscriptionsList extends PureComponent<Props> {
   static defaultProps = {
-    showDescriptions: false,
-    showSwitch: false,
-    selected: false,
     streams: [],
     unreadByStream: [],
   };
@@ -38,12 +31,8 @@ export default class StreamList extends PureComponent<Props> {
   render() {
     const {
       streams,
-      selected,
-      showDescriptions,
-      showSwitch,
       unreadByStream,
       onPress,
-      onSwitch,
     } = this.props;
 
     if (streams.length === 0) {
@@ -76,15 +65,10 @@ export default class StreamList extends PureComponent<Props> {
             name={item.name}
             iconSize={16}
             isPrivate={item.invite_only}
-            description={showDescriptions ? item.description : ''}
             color={item.color}
             unreadCount={unreadByStream[item.stream_id]}
-            isSelected={item.name === selected}
             isMuted={item.in_home_view === false} // if 'undefined' is not muted
-            showSwitch={showSwitch}
-            isSwitchedOn={item.subscribed}
             onPress={onPress}
-            onSwitch={onSwitch}
           />
         )}
         SectionSeparatorComponent={SectionSeparatorBetween}

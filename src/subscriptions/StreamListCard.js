@@ -9,7 +9,7 @@ import { ZulipButton } from '../common';
 import * as api from '../api';
 import { delay } from '../utils/async';
 import { streamNarrow } from '../utils/narrow';
-import StreamList from '../streams/StreamList';
+import AllStreamList from '../streams/AllStreamList';
 import { getAuth, getCanCreateStreams, getStreams, getSubscriptions } from '../selectors';
 import { doNarrow, navigateToCreateStream } from '../actions';
 
@@ -67,7 +67,7 @@ class StreamListCard extends PureComponent<Props> {
             }
           />
         )}
-        <StreamList
+        <AllStreamList
           streams={subsAndStreams}
           showSwitch
           showDescriptions
