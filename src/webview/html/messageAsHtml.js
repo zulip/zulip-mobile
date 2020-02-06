@@ -5,6 +5,7 @@ import type {
   AggregatedReaction,
   FlagsState,
   Message,
+  MessageLike,
   Outbox,
   Reaction,
   ImageEmojiType,
@@ -59,7 +60,7 @@ const messageBody = (
   { alertWords, flags, ownUser, allImageEmojiById }: BackgroundData,
   message: Message | Outbox,
 ) => {
-  const { id, isOutbox, last_edit_timestamp, reactions } = message;
+  const { id, isOutbox, last_edit_timestamp, reactions } = (message: MessageLike);
   const content = message.match_content !== undefined ? message.match_content : message.content;
   return template`
 $!${processAlertWords(content, id, alertWords, flags)}
