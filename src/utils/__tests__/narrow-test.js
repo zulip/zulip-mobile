@@ -16,7 +16,7 @@ import {
   isTopicNarrow,
   SEARCH_NARROW,
   isSearchNarrow,
-  isPrivateOrGroupNarrow,
+  isPmNarrow,
   isMessageInNarrow,
   isSameNarrow,
   isStreamOrTopicNarrow,
@@ -95,16 +95,14 @@ describe('pmNarrowFromEmails', () => {
   });
 });
 
-describe('isPrivateOrGroupNarrow', () => {
+describe('isPmNarrow', () => {
   test('a private or group narrow is any "pm-with" narrow', () => {
-    expect(isPrivateOrGroupNarrow(undefined)).toBe(false);
-    expect(isPrivateOrGroupNarrow(HOME_NARROW)).toBe(false);
-    expect(isPrivateOrGroupNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(true);
+    expect(isPmNarrow(undefined)).toBe(false);
+    expect(isPmNarrow(HOME_NARROW)).toBe(false);
+    expect(isPmNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(true);
+    expect(isPmNarrow(pmNarrowFromEmails(['bob@example.com', 'john@example.com']))).toBe(true);
     expect(
-      isPrivateOrGroupNarrow(pmNarrowFromEmails(['bob@example.com', 'john@example.com'])),
-    ).toBe(true);
-    expect(
-      isPrivateOrGroupNarrow([
+      isPmNarrow([
         {
           operator: 'pm-with',
           operand: 'bob@example.com',
@@ -112,7 +110,7 @@ describe('isPrivateOrGroupNarrow', () => {
       ]),
     ).toBe(true);
     expect(
-      isPrivateOrGroupNarrow([
+      isPmNarrow([
         {
           operator: 'pm-with',
           operand: 'bob@example.com,john@example.com',

@@ -5,7 +5,7 @@ import type { Auth, Dispatch, GetState, GlobalState, Narrow } from '../types';
 import * as api from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth, tryGetAuth, getServerVersion } from '../selectors';
-import { isPrivateOrGroupNarrow, caseNarrowPartial } from '../utils/narrow';
+import { isPmNarrow, caseNarrowPartial } from '../utils/narrow';
 import { getAllUsersByEmail, getUserForId } from './userSelectors';
 import { ZulipVersion } from '../utils/zulipVersion';
 
@@ -60,7 +60,7 @@ export const sendTypingStart = (narrow: Narrow) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  if (!isPrivateOrGroupNarrow(narrow)) {
+  if (!isPmNarrow(narrow)) {
     return;
   }
 
@@ -84,7 +84,7 @@ export const sendTypingStop = (narrow: Narrow) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  if (!isPrivateOrGroupNarrow(narrow)) {
+  if (!isPmNarrow(narrow)) {
     return;
   }
 

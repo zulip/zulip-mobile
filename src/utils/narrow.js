@@ -235,7 +235,7 @@ export const isGroupPmNarrow = (narrow?: Narrow): boolean =>
 export const emailsOfGroupNarrow = (narrow: Narrow): string[] =>
   caseNarrowPartial(narrow, { groupPm: emails => emails });
 
-export const isPrivateOrGroupNarrow = (narrow?: Narrow): boolean =>
+export const isPmNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { pm: () => true, groupPm: () => true }, () => false);
 
 export const isSpecialNarrow = (narrow?: Narrow): boolean =>

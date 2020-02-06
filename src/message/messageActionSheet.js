@@ -17,7 +17,7 @@ import type {
 import type { BackgroundData } from '../webview/MessageList';
 import {
   getNarrowFromMessage,
-  isPrivateOrGroupNarrow,
+  isPmNarrow,
   isStreamOrTopicNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
@@ -299,7 +299,7 @@ export const constructMessageActionButtons = ({
   if (message.reactions.length > 0) {
     buttons.push('showReactions');
   }
-  if (!isTopicNarrow(narrow) && !isPrivateOrGroupNarrow(narrow)) {
+  if (!isTopicNarrow(narrow) && !isPmNarrow(narrow)) {
     buttons.push('reply');
   }
   if (messageNotDeleted(message)) {
@@ -309,7 +309,7 @@ export const constructMessageActionButtons = ({
   if (
     message.sender_email === ownUser.email
     // Our "edit message" UI only works in certain kinds of narrows.
-    && (isStreamOrTopicNarrow(narrow) || isPrivateOrGroupNarrow(narrow))
+    && (isStreamOrTopicNarrow(narrow) || isPmNarrow(narrow))
   ) {
     buttons.push('editMessage');
   }

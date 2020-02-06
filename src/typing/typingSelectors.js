@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { Narrow, Selector, UserOrBot } from '../types';
 import { getTyping } from '../directSelectors';
-import { isPrivateOrGroupNarrow } from '../utils/narrow';
+import { isPmNarrow } from '../utils/narrow';
 import { normalizeRecipientsAsUserIds } from '../utils/recipient';
 import { NULL_ARRAY, NULL_USER } from '../nullObjects';
 import { getAllUsersById, getAllUsersByEmail } from '../users/userSelectors';
@@ -14,7 +14,7 @@ export const getCurrentTypingUsers: Selector<$ReadOnlyArray<UserOrBot>, Narrow> 
   state => getAllUsersById(state),
   state => getAllUsersByEmail(state),
   (narrow, typing, allUsersById, allUsersByEmail): UserOrBot[] => {
-    if (!isPrivateOrGroupNarrow(narrow)) {
+    if (!isPmNarrow(narrow)) {
       return NULL_ARRAY;
     }
 
