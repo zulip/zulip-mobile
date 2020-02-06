@@ -4,9 +4,8 @@ import type { Auth, Dispatch, GetText, Message, Narrow, Outbox, Subscription } f
 import type { BackgroundData } from '../webview/MessageList';
 import {
   getNarrowFromMessage,
-  isHomeNarrow,
   isPrivateOrGroupNarrow,
-  isSpecialNarrow,
+  isStreamOrTopicNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
@@ -227,8 +226,8 @@ export const constructMessageActionButtons = ({
   if (
     !isAnOutboxMessage(message)
     && message.sender_email === ownUser.email
-    && !isHomeNarrow(narrow)
-    && !isSpecialNarrow(narrow)
+    // Our "edit message" UI only works in certain kinds of narrows.
+    && (isStreamOrTopicNarrow(narrow) || isPrivateOrGroupNarrow(narrow))
   ) {
     buttons.push('editMessage');
   }
