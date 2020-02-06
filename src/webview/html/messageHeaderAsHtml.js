@@ -34,7 +34,6 @@ export default (
     topic: () => 'none',
 
     pm: () => 'none',
-    groupPm: () => 'none',
 
     home: () => 'full',
     starred: () => 'full',

@@ -66,8 +66,7 @@ export const sendTypingStart = (narrow: Narrow) => async (
 
   const usersByEmail = getAllUsersByEmail(getState());
   const recipientIds = caseNarrowPartial(narrow, {
-    pm: email => [email],
-    groupPm: emails => emails,
+    pm: emails => emails,
   }).map(email => {
     const user = usersByEmail.get(email);
     if (!user) {

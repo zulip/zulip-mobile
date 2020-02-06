@@ -30,8 +30,12 @@ export default class Title extends PureComponent<Props> {
       allPrivate: () => <TitleSpecial code="private" color={color} />,
       stream: () => <TitleStream narrow={narrow} color={color} />,
       topic: () => <TitleStream narrow={narrow} color={color} />,
-      pm: email => <TitlePrivate email={email} color={color} />,
-      groupPm: () => <TitleGroup narrow={narrow} />,
+      pm: emails =>
+        emails.length === 1 ? (
+          <TitlePrivate email={emails[0]} color={color} />
+        ) : (
+          <TitleGroup narrow={narrow} />
+        ),
       search: () => null,
     });
   }

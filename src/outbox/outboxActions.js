@@ -122,15 +122,13 @@ const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
   allUsersByEmail: Map<string, UserOrBot>,
   ownUser: UserOrBot,
-): DataFromNarrow => {
-  const forPm = emails => ({
-    type: 'private',
-    display_recipient: mapEmailsToUsers(emails, allUsersByEmail, ownUser),
-    subject: '',
-  });
-  return caseNarrowPartial(narrow, {
-    pm: email => forPm([email]),
-    groupPm: forPm,
+): DataFromNarrow =>
+  caseNarrowPartial(narrow, {
+    pm: emails => ({
+      type: 'private',
+      display_recipient: mapEmailsToUsers(emails, allUsersByEmail, ownUser),
+      subject: '',
+    }),
 
     // TODO: we shouldn't ever be passing a whole-stream narrow here;
     //   ensure we don't, then remove this case
@@ -142,7 +140,6 @@ const extractTypeToAndSubjectFromNarrow = (
       subject: topic,
     }),
   });
-};
 
 const getContentPreview = (content: string, state: GlobalState): string => {
   try {
