@@ -256,12 +256,8 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
       }
 
       return unreadStreams
-        .filter(x => x.stream_id === stream.stream_id)
-        .reduce(
-          (sum, x) =>
-            sum + (isTopicMuted(stream.name, x.topic, mute) ? 0 : x.unread_message_ids.length),
-          0,
-        );
+        .filter(x => x.stream_id === stream.stream_id && !isTopicMuted(stream.name, x.topic, mute))
+        .reduce((sum, x) => sum + x.unread_message_ids.length, 0);
     }
 
     if (isTopicNarrow(narrow)) {
