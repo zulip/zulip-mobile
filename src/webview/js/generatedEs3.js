@@ -538,6 +538,14 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
 
+    if (target.matches('.user-mention')) {
+      sendMessage({
+        type: 'mention',
+        userId: requireNumericAttribute(target, 'data-user-id')
+      });
+      return;
+    }
+
     var inlineImageLink = target.closest('.message_inline_image a');
 
     if (inlineImageLink && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
