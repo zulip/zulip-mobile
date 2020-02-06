@@ -1,17 +1,17 @@
 /* @flow strict-local */
 import type { Narrow, UserOrBot, LocalizableText } from '../types';
-import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../utils/narrow';
+import { isStreamNarrow, isTopicNarrow, isGroupPmNarrow, is1to1PmNarrow } from '../utils/narrow';
 
 export default (
   narrow: Narrow,
   ownEmail: string,
   usersByEmail: Map<string, UserOrBot>,
 ): LocalizableText => {
-  if (isGroupNarrow(narrow)) {
+  if (isGroupPmNarrow(narrow)) {
     return { text: 'Message group' };
   }
 
-  if (isPrivateNarrow(narrow)) {
+  if (is1to1PmNarrow(narrow)) {
     if (ownEmail && narrow[0].operand === ownEmail) {
       return { text: 'Jot down something' };
     }

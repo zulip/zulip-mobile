@@ -9,8 +9,8 @@ import { Label } from '../common';
 
 import {
   isHomeNarrow,
-  isPrivateNarrow,
-  isGroupNarrow,
+  is1to1PmNarrow,
+  isGroupPmNarrow,
   isSpecialNarrow,
   isStreamNarrow,
   isTopicNarrow,
@@ -41,8 +41,8 @@ const messages: EmptyMessage[] = [
   { isFunc: isSpecialNarrow, text: 'No messages' },
   { isFunc: isStreamNarrow, text: 'No messages in stream' },
   { isFunc: isTopicNarrow, text: 'No messages with this topic' },
-  { isFunc: isPrivateNarrow, text: 'No messages with this person' },
-  { isFunc: isGroupNarrow, text: 'No messages in this group' },
+  { isFunc: is1to1PmNarrow, text: 'No messages with this person' },
+  { isFunc: isGroupPmNarrow, text: 'No messages in this group' },
   { isFunc: isSearchNarrow, text: 'No messages' },
 ];
 

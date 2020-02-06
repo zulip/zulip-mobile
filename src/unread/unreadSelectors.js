@@ -18,8 +18,8 @@ import {
   isHomeNarrow,
   isStreamNarrow,
   isTopicNarrow,
-  isGroupNarrow,
-  isPrivateNarrow,
+  isGroupPmNarrow,
+  is1to1PmNarrow,
 } from '../utils/narrow';
 import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
 
@@ -276,7 +276,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         .reduce((sum, x) => sum + x.unread_message_ids.length, 0);
     }
 
-    if (isGroupNarrow(narrow)) {
+    if (isGroupPmNarrow(narrow)) {
       const userIds = [...narrow[0].operand.split(','), ownEmail]
         .map(email => (usersByEmail.get(email) || NULL_USER).user_id)
         .sort((a, b) => a - b)
@@ -285,7 +285,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
       return unread ? unread.unread_message_ids.length : 0;
     }
 
-    if (isPrivateNarrow(narrow)) {
+    if (is1to1PmNarrow(narrow)) {
       const sender = usersByEmail.get(narrow[0].operand);
       if (!sender) {
         return 0;

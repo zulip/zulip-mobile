@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import type { Auth, Stream, Dispatch, Narrow, UserOrBot, Subscription, GetText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { getActiveUsersById, getAuth } from '../selectors';
-import { isPrivateNarrow } from '../utils/narrow';
+import { is1to1PmNarrow } from '../utils/narrow';
 import * as api from '../api';
 import { showToast } from '../utils/info';
 
@@ -94,7 +94,7 @@ class MentionWarnings extends PureComponent<Props, State> {
     const { narrow, auth, stream } = this.props;
     const { unsubscribedMentions } = this.state;
 
-    if (isPrivateNarrow(narrow)) {
+    if (is1to1PmNarrow(narrow)) {
       return;
     }
     const mentionedUser = this.getUserFromMention(completion);
@@ -139,7 +139,7 @@ class MentionWarnings extends PureComponent<Props, State> {
     const { unsubscribedMentions } = this.state;
     const { stream, narrow, usersById } = this.props;
 
-    if (isPrivateNarrow(narrow)) {
+    if (is1to1PmNarrow(narrow)) {
       return null;
     }
 

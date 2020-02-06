@@ -220,10 +220,10 @@ export function caseNarrowDefault<T>(
 export const isHomeNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { home: () => true }, () => false);
 
-export const isPrivateNarrow = (narrow?: Narrow): boolean =>
+export const is1to1PmNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { pm: () => true }, () => false);
 
-export const isGroupNarrow = (narrow?: Narrow): boolean =>
+export const isGroupPmNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { groupPm: () => true }, () => false);
 
 /**

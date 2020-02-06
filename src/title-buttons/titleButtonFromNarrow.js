@@ -5,8 +5,8 @@ import type { ComponentType } from 'react';
 import type { Narrow } from '../types';
 import {
   isHomeNarrow,
-  isPrivateNarrow,
-  isGroupNarrow,
+  is1to1PmNarrow,
+  isGroupPmNarrow,
   isSpecialNarrow,
   isStreamNarrow,
   isTopicNarrow,
@@ -29,8 +29,8 @@ const infoButtonHandlers: NarrowNavButtonCandidate[] = [
   { isFunc: isSpecialNarrow, ButtonComponent: null },
   { isFunc: isStreamNarrow, ButtonComponent: InfoNavButtonStream },
   { isFunc: isTopicNarrow, ButtonComponent: InfoNavButtonStream },
-  { isFunc: isPrivateNarrow, ButtonComponent: InfoNavButtonPrivate },
-  { isFunc: isGroupNarrow, ButtonComponent: InfoNavButtonGroup },
+  { isFunc: is1to1PmNarrow, ButtonComponent: InfoNavButtonPrivate },
+  { isFunc: isGroupPmNarrow, ButtonComponent: InfoNavButtonGroup },
 ];
 
 const extraButtonHandlers: NarrowNavButtonCandidate[] = [
@@ -38,8 +38,8 @@ const extraButtonHandlers: NarrowNavButtonCandidate[] = [
   { isFunc: isSpecialNarrow, ButtonComponent: null },
   { isFunc: isStreamNarrow, ButtonComponent: ExtraNavButtonStream },
   { isFunc: isTopicNarrow, ButtonComponent: ExtraNavButtonTopic },
-  { isFunc: isPrivateNarrow, ButtonComponent: null },
-  { isFunc: isGroupNarrow, ButtonComponent: null },
+  { isFunc: is1to1PmNarrow, ButtonComponent: null },
+  { isFunc: isGroupPmNarrow, ButtonComponent: null },
 ];
 
 const makeButton = (handlers): NarrowNavButton => props => {

@@ -4,9 +4,9 @@ import {
   HOME_NARROW,
   isHomeNarrow,
   pmNarrowFromEmail,
-  isPrivateNarrow,
+  is1to1PmNarrow,
   pmNarrowFromEmails,
-  isGroupNarrow,
+  isGroupPmNarrow,
   specialNarrow,
   isSpecialNarrow,
   ALL_PRIVATE_NARROW,
@@ -49,10 +49,10 @@ describe('pmNarrowFromEmail', () => {
   });
 
   test('if operator is "pm-with" and only one email, then it is a private narrow', () => {
-    expect(isPrivateNarrow(HOME_NARROW)).toBe(false);
-    expect(isPrivateNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(true);
+    expect(is1to1PmNarrow(HOME_NARROW)).toBe(false);
+    expect(is1to1PmNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(true);
     expect(
-      isPrivateNarrow([
+      is1to1PmNarrow([
         {
           operator: 'pm-with',
           operand: 'bob@example.com',
@@ -73,11 +73,11 @@ describe('pmNarrowFromEmails', () => {
   });
 
   test('a group narrow is only private chat with more than one recipients', () => {
-    expect(isGroupNarrow(HOME_NARROW)).toBe(false);
-    expect(isGroupNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(false);
-    expect(isGroupNarrow(pmNarrowFromEmails(['bob@example.com', 'john@example.com']))).toBe(true);
+    expect(isGroupPmNarrow(HOME_NARROW)).toBe(false);
+    expect(isGroupPmNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(false);
+    expect(isGroupPmNarrow(pmNarrowFromEmails(['bob@example.com', 'john@example.com']))).toBe(true);
     expect(
-      isGroupNarrow([
+      isGroupPmNarrow([
         {
           operator: 'pm-with',
           operand: 'bob@example.com',
@@ -85,7 +85,7 @@ describe('pmNarrowFromEmails', () => {
       ]),
     ).toBe(false);
     expect(
-      isGroupNarrow([
+      isGroupPmNarrow([
         {
           operator: 'pm-with',
           operand: 'bob@example.com,john@example.com',
