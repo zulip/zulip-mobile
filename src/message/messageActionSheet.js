@@ -186,11 +186,11 @@ export const constructMessageActionButtons = ({
   narrow,
 }: ConstructSheetParams): ButtonCode[] => {
   const buttons = [];
-  if (message.reactions.length > 0) {
-    buttons.push('showReactions');
-  }
   if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
     buttons.push('addReaction');
+  }
+  if (message.reactions.length > 0) {
+    buttons.push('showReactions');
   }
   if (!isAnOutboxMessage(message)) {
     buttons.push('reply');
