@@ -30,7 +30,7 @@ type Props = $ReadOnly<{|
   isSelected: boolean,
   showEmail: boolean,
   unreadCount?: number,
-  onPress: (email: string) => void,
+  onPress: UserOrBot => void,
 |}>;
 
 export default class UserItem extends PureComponent<Props> {
@@ -44,7 +44,7 @@ export default class UserItem extends PureComponent<Props> {
     // TODO cut this `user.email` condition -- it should never trigger, and
     //   looks like a fudge for the possibility of data coming from NULL_USER
     if (user.email && onPress) {
-      onPress(user.email);
+      onPress(user);
     }
   };
 

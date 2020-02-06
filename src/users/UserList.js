@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { PresenceState, User } from '../types';
+import type { PresenceState, User, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
 import { SectionHeader, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
@@ -19,7 +19,7 @@ type Props = $ReadOnly<{|
   users: User[],
   selected: User[],
   presences: PresenceState,
-  onPress: (email: string) => void,
+  onPress: (user: UserOrBot) => void,
 |}>;
 
 export default class UserList extends PureComponent<Props> {

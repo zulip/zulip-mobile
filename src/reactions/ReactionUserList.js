@@ -19,9 +19,9 @@ type Props = $ReadOnly<{|
  * Used within `MessageReactionList`.
  */
 class ReactionUserList extends PureComponent<Props> {
-  handlePress = (userId: number) => {
+  handlePress = (user: UserOrBot) => {
     const { dispatch } = this.props;
-    dispatch(navigateToAccountDetails(userId));
+    dispatch(navigateToAccountDetails(user.user_id));
   };
 
   render() {
@@ -36,15 +36,7 @@ class ReactionUserList extends PureComponent<Props> {
           if (!user) {
             return null;
           }
-          return (
-            <UserItem
-              key={user.user_id}
-              user={user}
-              onPress={() => {
-                this.handlePress(user.user_id);
-              }}
-            />
-          );
+          return <UserItem key={user.user_id} user={user} onPress={this.handlePress} />;
         }}
       />
     );
