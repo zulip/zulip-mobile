@@ -16,4 +16,4 @@ export const FIRST_UNREAD_ANCHOR = 0;
  * want to retrieve the newest messages for a narrow, without actually
  * knowing their IDs.
  */
-export const LAST_MESSAGE_ANCHOR = Number.MAX_SAFE_INTEGER;
+export const LAST_MESSAGE_ANCHOR = 10000000000000000; // sixteen zeroes
