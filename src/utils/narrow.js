@@ -232,7 +232,7 @@ export const isGroupPmNarrow = (narrow?: Narrow): boolean =>
  * Any use of this probably means something higher up should be refactored
  * to use caseNarrow.
  */
-export const emailsOfGroupNarrow = (narrow: Narrow): string[] =>
+export const emailsOfGroupPmNarrow = (narrow: Narrow): string[] =>
   caseNarrowPartial(narrow, { groupPm: emails => emails });
 
 export const isPmNarrow = (narrow?: Narrow): boolean =>

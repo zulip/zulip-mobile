@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import NavigationService from '../nav/NavigationService';
 import type { Dispatch, Narrow, UserOrBot } from '../types';
 import { connect } from '../react-redux';
-import { getRecipientsInGroupNarrow } from '../selectors';
+import { getRecipientsInGroupPmNarrow } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToGroupDetails } from '../actions';
 
@@ -35,5 +35,5 @@ class InfoNavButtonGroup extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  recipients: getRecipientsInGroupNarrow(state, props.narrow),
+  recipients: getRecipientsInGroupPmNarrow(state, props.narrow),
 }))(InfoNavButtonGroup);

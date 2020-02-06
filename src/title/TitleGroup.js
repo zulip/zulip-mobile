@@ -8,7 +8,7 @@ import type { Dispatch, UserOrBot, Narrow } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { UserAvatarWithPresence } from '../common';
-import { getRecipientsInGroupNarrow } from '../selectors';
+import { getRecipientsInGroupPmNarrow } from '../selectors';
 import { navigateToAccountDetails } from '../nav/navActions';
 
 type SelectorProps = $ReadOnly<{|
@@ -54,5 +54,5 @@ class TitleGroup extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  recipients: getRecipientsInGroupNarrow(state, props.narrow),
+  recipients: getRecipientsInGroupPmNarrow(state, props.narrow),
 }))(TitleGroup);

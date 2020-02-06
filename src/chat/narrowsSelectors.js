@@ -25,7 +25,7 @@ import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
 import { getAllUsersByEmail, getOwnEmail } from '../users/userSelectors';
 import {
   isStreamOrTopicNarrow,
-  emailsOfGroupNarrow,
+  emailsOfGroupPmNarrow,
   isMessageInNarrow,
   caseNarrowDefault,
 } from '../utils/narrow';
@@ -102,11 +102,11 @@ export const getLastMessageId = (state: GlobalState, narrow: Narrow): number | v
   return ids.length > 0 ? ids[ids.length - 1] : undefined;
 };
 
-export const getRecipientsInGroupNarrow: Selector<UserOrBot[], Narrow> = createSelector(
+export const getRecipientsInGroupPmNarrow: Selector<UserOrBot[], Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getAllUsersByEmail(state),
   (narrow, allUsersByEmail) =>
-    emailsOfGroupNarrow(narrow).map(r => {
+    emailsOfGroupPmNarrow(narrow).map(r => {
       const user = allUsersByEmail.get(r);
       invariant(user, 'missing user: %s', r);
       return user;
