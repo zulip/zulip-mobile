@@ -278,7 +278,7 @@ describe('isNarrowValid', () => {
     expect(result).toBe(false);
   });
 
-  test('narrowing to a group chat with non-existing user is not valid', () => {
+  test('narrowing to a group chat with existing users is valid', () => {
     const john = eg.makeUser({ name: 'john' });
     const mark = eg.makeUser({ name: 'mark' });
 
@@ -298,7 +298,9 @@ describe('isNarrowValid', () => {
     expect(result).toBe(true);
   });
 
-  test('narrowing to a group chat with non-existing users is also valid', () => {
+  test('narrowing to a group chat with non-existing users is not valid', () => {
+    const john = eg.makeUser({ name: 'john' });
+    const mark = eg.makeUser({ name: 'mark' });
     const state = eg.reduxState({
       realm: {
         ...eg.realmState(),
@@ -306,13 +308,13 @@ describe('isNarrowValid', () => {
         nonActiveUsers: [],
       },
       streams: [],
-      users: [],
+      users: [john],
     });
-    const narrow = pmNarrowFromEmails(['john@example.com', 'mark@example.com']);
+    const narrow = pmNarrowFromEmails([john.email, mark.email]);
 
     const result = isNarrowValid(state, narrow);
 
-    expect(result).toBe(true);
+    expect(result).toBe(false);
   });
 
   test('narrowing to a PM with bots is valid', () => {
