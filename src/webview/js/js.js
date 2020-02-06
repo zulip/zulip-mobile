@@ -656,6 +656,14 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
+  if (target.matches('.user-mention')) {
+    sendMessage({
+      type: 'mention',
+      userId: requireNumericAttribute(target, 'data-user-id'),
+    });
+    return;
+  }
+
   /* Should we pull up the lightbox?  For comparison, see the web app's
    * static/js/lightbox.js , starting at the `#main_div` click handler. */
   const inlineImageLink = target.closest('.message_inline_image a');

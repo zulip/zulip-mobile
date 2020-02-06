@@ -108,6 +108,11 @@ type MessageListEventReactionDetails = {|
   reactionName: string,
 |};
 
+type MessageListEventMention = {|
+  type: 'mention',
+  userId: number,
+|};
+
 export type MessageListEvent =
   | MessageListEventReady
   | MessageListEventScroll
@@ -119,7 +124,8 @@ export type MessageListEvent =
   | MessageListEventLongPress
   | MessageListEventReactionDetails
   | MessageListEventDebug
-  | MessageListEventError;
+  | MessageListEventError
+  | MessageListEventMention;
 
 type Props = $ReadOnly<{
   backgroundData: BackgroundData,
@@ -243,6 +249,12 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
         dispatch(navigateToMessageReactionScreen(messageId, reactionName));
       }
       break;
+
+    case 'mention': {
+      const { dispatch } = props;
+      dispatch(navigateToAccountDetails(event.userId));
+      break;
+    }
 
     case 'debug':
       console.debug(props, event); // eslint-disable-line
