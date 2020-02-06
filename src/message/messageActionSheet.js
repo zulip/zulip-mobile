@@ -1,6 +1,15 @@
 /* @flow strict-local */
 import { Clipboard, Share, Alert } from 'react-native';
-import type { Auth, Dispatch, GetText, Message, Narrow, Outbox, Subscription } from '../types';
+import type {
+  Auth,
+  Dispatch,
+  GetText,
+  Message,
+  Narrow,
+  Outbox,
+  Stream,
+  Subscription,
+} from '../types';
 import type { BackgroundData } from '../webview/MessageList';
 import {
   getNarrowFromMessage,
@@ -45,6 +54,12 @@ const isAnOutboxMessage = (message: Message | Outbox): boolean => message.isOutb
 //
 // Options for the action sheet go below: ...
 //
+
+const narrowToTopic = ({ message, dispatch, ownEmail }) => {
+  dispatch(doNarrow(getNarrowFromMessage(message, ownEmail), message.id));
+};
+narrowToTopic.title = 'Narrow to topic';
+narrowToTopic.errorMessage = 'Failed to narrow to topic';
 
 const reply = ({ message, dispatch, ownEmail }) => {
   dispatch(doNarrow(getNarrowFromMessage(message, ownEmail), message.id));
@@ -147,6 +162,7 @@ cancel.errorMessage = 'Failed to hide menu';
 const allButtonsRaw = {
   // For messages
   addReaction,
+  narrowToTopic,
   reply,
   copyToClipboard,
   shareMessage,
@@ -206,7 +222,7 @@ const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = ({
-  backgroundData: { ownUser, flags },
+  backgroundData: { ownUser, flags, streams },
   message,
   narrow,
 }: ConstructSheetParams): ButtonCode[] => {
@@ -217,9 +233,23 @@ export const constructMessageActionButtons = ({
   if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
     buttons.push('addReaction');
   }
-  if (!isAnOutboxMessage(message) && !isTopicNarrow(narrow) && !isPrivateOrGroupNarrow(narrow)) {
-    buttons.push('reply');
+  if (!isTopicNarrow(narrow) && !isPrivateOrGroupNarrow(narrow)) {
+    const messageNarrow: Narrow = getNarrowFromMessage(message, ownUser.email);
+    const messageStream: Stream | void = streams.find(
+      (stream: Stream) => messageNarrow[0].operand === stream.name,
+    );
+    if (messageStream) {
+      if (messageStream.is_announcement_only && !ownUser.is_admin) {
+        buttons.push('narrowToTopic');
+      } else {
+        buttons.push('reply');
+      }
+    } else if (Array.isArray(message.display_recipient)) {
+      // This means the message is a Private Message.
+      buttons.push('reply');
+    }
   }
+
   if (messageNotDeleted(message)) {
     buttons.push('copyToClipboard');
     buttons.push('shareMessage');
@@ -264,6 +294,7 @@ export const showActionSheet = (
         await pressedButton({
           dispatch,
           subscriptions: params.backgroundData.subscriptions,
+          streams: params.backgroundData.streams,
           auth: params.backgroundData.auth,
           ownEmail: params.backgroundData.ownUser.email,
           _,

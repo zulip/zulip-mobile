@@ -19,6 +19,7 @@ import type {
   Outbox,
   ImageEmojiType,
   RenderedSectionDescriptor,
+  Stream,
   Subscription,
   ThemeName,
   User,
@@ -53,6 +54,7 @@ import { getUpdateEvents } from './webViewHandleUpdates';
 import { handleMessageListEvent } from './webViewEventHandlers';
 import { base64Utf8Encode } from '../utils/encoding';
 import * as logging from '../utils/logging';
+import { getStreams } from '../directSelectors';
 
 // ESLint doesn't notice how `this.props` escapes, and complains about some
 // props not being used here.
@@ -76,6 +78,7 @@ export type BackgroundData = $ReadOnly<{|
   flags: FlagsState,
   mute: MuteState,
   ownUser: User,
+  streams: Stream[],
   subscriptions: Subscription[],
   theme: ThemeName,
   twentyFourHourTime: boolean,
@@ -354,6 +357,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
     flags: getFlags(state),
     mute: getMute(state),
     ownUser: getOwnUser(state),
+    streams: getStreams(state),
     subscriptions: getSubscriptions(state),
     theme: getSettings(state).theme,
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
