@@ -11,6 +11,6 @@ describe('reducers', () => {
   test('every reducer is listed in config as "discard", "store" or "cache"', () => {
     const configKeys = [...discardKeys, ...storeKeys, ...cacheKeys];
     expect(configKeys).toHaveLength(ALL_KEYS.length);
-    expect(configKeys.every(key => ALL_KEYS.includes(key))).toBeTruthy();
+    expect(configKeys).toSatisfyAll(key => ALL_KEYS.includes(key));
   });
 });

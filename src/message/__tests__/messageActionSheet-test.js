@@ -2,24 +2,24 @@ import deepFreeze from 'deep-freeze';
 
 import { constructMessageActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
 
-describe('constructActionButtons', () => {
-  const auth = deepFreeze({
+const baseBackgroundData = deepFreeze({
+  auth: {
     realm: '',
     email: 'Zoe@zulip.com',
-  });
-
-  const subscriptions = deepFreeze([]);
-
-  const mute = deepFreeze([]);
-
-  const narrow = deepFreeze([]);
-
-  const flags = deepFreeze({
+  },
+  subscriptions: [],
+  mute: [],
+  flags: {
     starred: {
       1: true,
       2: true,
     },
-  });
+  },
+  ownUser: { email: 'Zoe@zulip.com' },
+});
+
+describe('constructActionButtons', () => {
+  const narrow = deepFreeze([]);
 
   test('show star message option if message is not starred', () => {
     const message = deepFreeze({
@@ -28,7 +28,7 @@ describe('constructActionButtons', () => {
     });
 
     const buttons = constructMessageActionButtons({
-      backgroundData: { auth, flags, mute, subscriptions },
+      backgroundData: baseBackgroundData,
       message,
       narrow,
     });
@@ -43,7 +43,7 @@ describe('constructActionButtons', () => {
     });
 
     const buttons = constructMessageActionButtons({
-      backgroundData: { auth, flags, mute, subscriptions },
+      backgroundData: baseBackgroundData,
       message,
       narrow,
     });
@@ -58,7 +58,7 @@ describe('constructActionButtons', () => {
     });
 
     const buttons = constructMessageActionButtons({
-      backgroundData: { auth, flags, mute, subscriptions },
+      backgroundData: baseBackgroundData,
       message,
       narrow,
     });

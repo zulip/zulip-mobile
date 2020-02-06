@@ -18,7 +18,17 @@ import { hasAuth } from '../account/accountsSelectors';
  * Private; exported only for tests.
  */
 export const getStateForRoute = (route: string): NavigationState => {
-  const action = AppNavigator.router.getActionForPathAndParams(route);
+  // TODO: this is kind of a hack!  Refactor to a better way.
+  //  * Perhaps pass `initial: true` unconditionally in this initialization
+  //    code, to all routes?  Then that'd just be part of the interface of
+  //    making a screen work as an initial screen.
+  //  * Alternatively, we could replace the whole system of `ModalNavBar`,
+  //    `canGoBack`, etc., with our own "navigation view" that would be more
+  //    directly integrated into the navigation framework:
+  //      https://reactnavigation.org/docs/en/2.x/navigation-views.html
+  const params = route === 'realm' ? { initial: true } : undefined;
+
+  const action = AppNavigator.router.getActionForPathAndParams(route, params);
   if (!action) {
     // The argument should be a constant string that is a genuine nav route;
     // so this condition can only happen if we've gotten that wrong.
@@ -32,9 +42,9 @@ export const getStateForRoute = (route: string): NavigationState => {
 };
 
 const rehydrate = (state, action) => {
-  // If there's no data to rehydrate, or no account data, show welcome screen.
+  // If there's no data to rehydrate, or no account data, show login screen.
   if (!action.payload || !action.payload.accounts) {
-    return getStateForRoute('welcome');
+    return getStateForRoute('realm');
   }
 
   // If there are accounts but the active account is not logged in,
@@ -42,7 +52,7 @@ const rehydrate = (state, action) => {
   const rehydratedState = action.payload;
   if (!hasAuth(rehydratedState)) {
     const { accounts } = rehydratedState;
-    return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
+    return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'realm');
   }
 
   // If there's an active, logged-in account but no server data, then behave

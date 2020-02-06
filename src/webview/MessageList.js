@@ -1,15 +1,13 @@
 /* @flow strict-local */
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import type { WebViewNavigation } from 'react-native-webview';
-
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
   AlertWordsState,
   Auth,
-  Context,
   Debug,
   Dispatch,
   Fetching,
@@ -25,6 +23,8 @@ import type {
   ThemeName,
   User,
 } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext } from '../styles';
 import { connect } from '../react-redux';
 import {
   getAuth,
@@ -36,7 +36,6 @@ import {
   getAnchorForNarrow,
   getFetchingForNarrow,
   getMute,
-  getOwnEmail,
   getOwnUser,
   getSettings,
   getSubscriptions,
@@ -45,7 +44,6 @@ import {
   getRealm,
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
-
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { WebViewUpdateEvent } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
@@ -65,28 +63,36 @@ import * as logging from '../utils/logging';
  *
  * This data is all independent of the specific narrow or specific messages
  * we're displaying; data about those goes elsewhere.
+ *
+ * We pass this object down to a variety of lower layers and helper
+ * functions, where it saves us from individually wiring through all the
+ * overlapping subsets of this data they respectively need.
  */
-export type BackgroundData = $ReadOnly<{
+export type BackgroundData = $ReadOnly<{|
   alertWords: AlertWordsState,
+  allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
   auth: Auth,
   debug: Debug,
   flags: FlagsState,
   mute: MuteState,
-  ownEmail: string,
-  ownUserId: number,
-  allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
-  twentyFourHourTime: boolean,
+  ownUser: User,
   subscriptions: Subscription[],
-}>;
+  theme: ThemeName,
+  twentyFourHourTime: boolean,
+|}>;
 
 type SelectorProps = {|
+  // Data independent of the particular narrow or messages we're displaying.
   backgroundData: BackgroundData,
+
+  // The remaining props contain data specific to the particular narrow or
+  // particular messages we're displaying.  Data that's independent of those
+  // should go in `BackgroundData`, above.
   anchor: number,
   fetching: Fetching,
   messages: $ReadOnlyArray<Message | Outbox>,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
-  theme: ThemeName,
   typingUsers: $ReadOnlyArray<User>,
 |};
 
@@ -137,18 +143,21 @@ const assetsPath = Platform.OS === 'ios' ? './webview' : 'file:///android_asset/
 // [3] https://github.com/facebook/react-native/blob/0.59-stable/React/Base/RCTConvert.m#L85
 
 class MessageList extends Component<Props> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
+
   webview: ?WebView;
+  readyRetryInterval: IntervalID | void;
   sendUpdateEventsIsReady: boolean;
   unsentUpdateEvents: WebViewUpdateEvent[] = [];
 
-  static contextTypes = {
-    styles: () => null,
-    theme: () => null,
-  };
-
   componentDidMount() {
     this.setupSendUpdateEvents();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.readyRetryInterval);
+    this.readyRetryInterval = undefined;
   }
 
   handleError = (event: mixed) => {
@@ -159,11 +168,13 @@ class MessageList extends Component<Props> {
    * Initiate round-trip handshakes with the WebView, until one succeeds.
    */
   setupSendUpdateEvents = (): void => {
-    const intervalId = setInterval(() => {
+    clearInterval(this.readyRetryInterval);
+    this.readyRetryInterval = setInterval(() => {
       if (!this.sendUpdateEventsIsReady) {
         this.sendUpdateEvents([{ type: 'ready' }]);
       } else {
-        clearInterval(intervalId);
+        clearInterval(this.readyRetryInterval);
+        this.readyRetryInterval = undefined;
       }
     }, 30);
   };
@@ -199,18 +210,25 @@ class MessageList extends Component<Props> {
     return false;
   };
 
+  renderLoading = () => {
+    const style = {
+      backgroundColor: 'transparent',
+      width: '100%',
+      height: '100%',
+    };
+    return <View style={style} />;
+  };
+
   render() {
-    const { styles: contextStyles } = this.context;
     const {
       backgroundData,
       renderedMessages,
       anchor,
       narrow,
-      theme,
       showMessagePlaceholders,
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
-    const { auth } = backgroundData;
+    const { auth, theme } = backgroundData;
     const html = getHtml(messagesHtml, theme, {
       anchor,
       auth,
@@ -290,10 +308,13 @@ class MessageList extends Component<Props> {
     return (
       <WebView
         useWebKit
+        startInLoadingState
+        renderLoading={this.renderLoading}
         source={{ baseUrl, html }}
         originWhitelist={['file://']}
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-        style={contextStyles.webview}
+        /* eslint-disable react-native/no-inline-styles */
+        style={{ backgroundColor: this.context.backgroundColor }}
         ref={webview => {
           this.webview = webview;
         }}
@@ -320,21 +341,21 @@ type OuterProps = {|
   typingUsers?: User[],
 |};
 
-export default connect((state, props: OuterProps): SelectorProps => {
+export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
   // TODO Ideally this ought to be a caching selector that doesn't change
   // when the inputs don't.  Doesn't matter in a practical way here, because
   // we have a `shouldComponentUpdate` that doesn't look at this prop... but
   // it'd be better to set an example of the right general pattern.
   const backgroundData: BackgroundData = {
     alertWords: state.alertWords,
+    allImageEmojiById: getAllImageEmojiById(state),
     auth: getAuth(state),
     debug: getDebug(state),
     flags: getFlags(state),
     mute: getMute(state),
-    ownEmail: getOwnEmail(state),
-    ownUserId: getOwnUser(state).user_id,
-    allImageEmojiById: getAllImageEmojiById(state),
+    ownUser: getOwnUser(state),
     subscriptions: getSubscriptions(state),
+    theme: getSettings(state).theme,
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
   };
 
@@ -348,7 +369,6 @@ export default connect((state, props: OuterProps): SelectorProps => {
       props.showMessagePlaceholders !== undefined
         ? props.showMessagePlaceholders
         : getShowMessagePlaceholders(props.narrow)(state),
-    theme: getSettings(state).theme,
     typingUsers: props.typingUsers || getCurrentTypingUsers(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));

@@ -2,8 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
-// $FlowFixMe
-import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'react-native-image-picker';
 
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
@@ -32,10 +31,10 @@ type Props = $ReadOnly<{|
  * actual format.  The clue we get in the image-picker response is the extension
  * found in `uri`.
  *
- * Also if `fileName` is undefined, default to the last component of `uri`.
+ * Also if `fileName` is null or undefined, default to the last component of `uri`.
  */
-export const chooseUploadImageFilename = (uri: string, fileName: string | void): string => {
-  const name = fileName !== undefined ? fileName : uri.replace(/.*\//, '');
+export const chooseUploadImageFilename = (uri: string, fileName: ?string): string => {
+  const name = fileName ?? uri.replace(/.*\//, '');
 
   /*
    * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
@@ -52,19 +51,24 @@ export const chooseUploadImageFilename = (uri: string, fileName: string | void):
 };
 
 class ComposeMenu extends PureComponent<Props> {
-  uploadFile = (uri: string, fileName: string | void) => {
+  uploadFile = (uri: string, fileName: ?string) => {
     const { dispatch, destinationNarrow } = this.props;
     dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
   };
 
-  handleImagePickerResponse = (response: {
-    didCancel: boolean,
-    // Upstream docs are vague:
-    // https://github.com/react-native-community/react-native-image-picker/blob/master/docs/Reference.md
-    error?: string | void | null | false,
-    uri: string,
-    fileName: string,
-  }) => {
+  handleImagePickerResponse = (
+    response: $ReadOnly<{
+      didCancel: boolean,
+      // Upstream docs are vague:
+      // https://github.com/react-native-community/react-native-image-picker/blob/master/docs/Reference.md
+      error?: string | void | null | false,
+      uri: string,
+      // Upstream docs are wrong (fileName may indeed be null, at least on iOS);
+      // surfaced in https://github.com/zulip/zulip-mobile/issues/3813:
+      // https://github.com/react-native-community/react-native-image-picker/issues/1271
+      fileName: ?string,
+    }>,
+  ) => {
     if (response.didCancel) {
       return;
     }

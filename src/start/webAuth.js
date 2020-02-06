@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { NativeModules, Platform } from 'react-native';
 import SafariView from 'react-native-safari-view';
-import parseURL from 'url-parse';
+import parseURL, { type Url } from 'url-parse';
 
 import type { Auth } from '../types';
 import openLink from '../utils/openLink';
@@ -20,8 +20,11 @@ import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
   To close the loop when the authentication is complete, there's a
   particular protocol we carry out with the Zulip server, involving
   `zulip://` URLs and XOR-ing with a one-time pad named `mobile_flow_otp`.
-  No docs on this protocol seem to exist; see the implementations here
-  and in the server.
+
+  No docs on this protocol seem to exist.  But see:
+   * the implementations here and in the server
+   * this 2019 chat message with a nice list of the steps:
+       https://chat.zulip.org/#narrow/stream/16-desktop/topic/desktop.20app.20OAuth/near/803919
  */
 
 // Generate a one time pad (OTP) which the server XORs the API key with
@@ -66,7 +69,7 @@ export const authFromCallbackUrl = (
   otp: string,
   realm: string,
 ): Auth | null => {
-  const url = parseURL(callbackUrl, true);
+  const url: Url = parseURL(callbackUrl, true);
 
   // callback format expected: zulip://login?realm={}&email={}&otp_encrypted_api_key={}
   if (

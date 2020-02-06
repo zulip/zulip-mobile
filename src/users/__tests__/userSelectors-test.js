@@ -6,6 +6,7 @@ import {
   getAllUsersById,
   getUsersById,
   getUsersSansMe,
+  getUserIsActive,
 } from '../userSelectors';
 import * as eg from '../../__tests__/exampleData';
 
@@ -122,5 +123,27 @@ describe('getUsersSansMe', () => {
       realm: eg.realmState({ email: eg.selfUser.email }),
     });
     expect(getUsersSansMe(state)).toEqual([eg.otherUser]);
+  });
+});
+
+describe('getUserIsActive', () => {
+  const state = eg.reduxState({
+    users: [eg.selfUser],
+    realm: {
+      ...eg.baseReduxState.realm,
+      crossRealmBots: [eg.crossRealmBot],
+      nonActiveUsers: [eg.makeUser(), eg.makeUser()],
+    },
+  });
+  test('returns false for a user that has been deactivated', () => {
+    expect(getUserIsActive(state, state.realm.nonActiveUsers[0].email)).toBeFalse();
+  });
+
+  test('returns true for a user that has not been deactivated', () => {
+    expect(getUserIsActive(state, state.users[0].email)).toBeTrue();
+  });
+
+  test('returns true for a cross realm bot', () => {
+    expect(getUserIsActive(state, state.realm.crossRealmBots[0].email)).toBeTrue();
   });
 });

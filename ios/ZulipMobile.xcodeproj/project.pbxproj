@@ -47,7 +47,6 @@
 		A14EA8771EACE522009D9E83 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14EA85B1EACE4CF009D9E83 /* libRCTAnimation.a */; };
 		A155C0061DD8E7A800A8B695 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A155BFEC1DD8E54100A8B695 /* libRCTCameraRoll.a */; };
 		A83E9861943143E6A10A689E /* libSafariViewManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E518466F398E458DA2C685AF /* libSafariViewManager.a */; };
-		A9D63FEB69844C47ADA3B14A /* libLRDRCTSimpleToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1013EA9DAA5C4F618516419E /* libLRDRCTSimpleToast.a */; };
 		ADE3B79538D54689B14FEB10 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F7E19951E64FC7B6BBE612 /* libRNFetchBlob.a */; };
 		C2FB87564E22416A9EDEABD3 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEF58326BC25479294083E9C /* EvilIcons.ttf */; };
 		C478B42A63D649EFA2CFD12D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E53FD60A6D0409A8E58DCB5 /* SimpleLineIcons.ttf */; };
@@ -153,13 +152,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
 			remoteInfo = RNImagePicker;
-		};
-		0AE8C1771F1B39AB00E5534E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BBB8896EA77146E19DF4FF88 /* LRDRCTSimpleToast.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 15209BEF1D250F63000D0F44;
-			remoteInfo = LRDRCTSimpleToast;
 		};
 		0AF170A41F87C13400E55B36 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -519,7 +511,6 @@
 		03CBDFCF298745C49268F40D /* libRNCAsyncStorage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCAsyncStorage.a; sourceTree = "<group>"; };
 		06D71A26F8704D96B8C2D342 /* RNPhotoView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNPhotoView.xcodeproj; path = "../node_modules/react-native-photo-view/ios/RNPhotoView.xcodeproj"; sourceTree = "<group>"; };
 		09AC2386C1724D5BA93B51E9 /* libRNPhotoView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNPhotoView.a; sourceTree = "<group>"; };
-		1013EA9DAA5C4F618516419E /* libLRDRCTSimpleToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLRDRCTSimpleToast.a; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ZulipMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZulipMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -569,7 +560,6 @@
 		B2BC2F95A8684C44BAFA7B11 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B83DDAD2507A4F0EB47660BD /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
 		BB41D085CB4A4C4580BA1877 /* libRNCWebView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCWebView.a; sourceTree = "<group>"; };
-		BBB8896EA77146E19DF4FF88 /* LRDRCTSimpleToast.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LRDRCTSimpleToast.xcodeproj; path = "../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast.xcodeproj"; sourceTree = "<group>"; };
 		C2F7E19951E64FC7B6BBE612 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		C55E1DCEC66D48FDA2F409BC /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
 		C787C43F73EB496F95BBAD9A /* libRNCNetInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCNetInfo.a; sourceTree = "<group>"; };
@@ -625,7 +615,6 @@
 				ADE3B79538D54689B14FEB10 /* libRNFetchBlob.a in Frameworks */,
 				2318BF63A79049CA9F97E2E0 /* libRNSentry.a in Frameworks */,
 				840D44FCCBB14F97B77D9443 /* libz.tbd in Frameworks */,
-				A9D63FEB69844C47ADA3B14A /* libLRDRCTSimpleToast.a in Frameworks */,
 				4CD3C48024294A3A816F4CA9 /* libRNPhotoView.a in Frameworks */,
 				C866080E83494D1C8B535591 /* libRNSafeArea.a in Frameworks */,
 				C9F58827F1CF47999850925A /* libRCTOrientation.a in Frameworks */,
@@ -710,14 +699,6 @@
 			isa = PBXGroup;
 			children = (
 				0A955E381FACB50000801C8D /* libRNImagePicker.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		0AE8C1741F1B39AA00E5534E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0AE8C1781F1B39AB00E5534E /* libLRDRCTSimpleToast.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -895,7 +876,6 @@
 				6922647B10C64653A76BF3E5 /* RCTToast.xcodeproj */,
 				FC7EC6A752C243FB9F1B8442 /* RNFetchBlob.xcodeproj */,
 				2E8422FF1CBA4192B7E14D56 /* RNSentry.xcodeproj */,
-				BBB8896EA77146E19DF4FF88 /* LRDRCTSimpleToast.xcodeproj */,
 				06D71A26F8704D96B8C2D342 /* RNPhotoView.xcodeproj */,
 				8B355454DEEB4F28A5B4F8CA /* RNSafeArea.xcodeproj */,
 				713A523038564C27B0D2C2F7 /* RCTOrientation.xcodeproj */,
@@ -1014,7 +994,6 @@
 				2CFB39BBD9094475BB03A3E4 /* libRCTToast.a */,
 				C2F7E19951E64FC7B6BBE612 /* libRNFetchBlob.a */,
 				B83DDAD2507A4F0EB47660BD /* libRNSentry.a */,
-				1013EA9DAA5C4F618516419E /* libLRDRCTSimpleToast.a */,
 				09AC2386C1724D5BA93B51E9 /* libRNPhotoView.a */,
 				1AED53B5E6AA4E0AA52DB0C1 /* libRNSafeArea.a */,
 				5597847AA2A04FEE894C9C9E /* libRCTOrientation.a */,
@@ -1153,10 +1132,6 @@
 				{
 					ProductGroup = A1E053B11FDB490D002A87B7 /* Products */;
 					ProjectRef = A1E053B01FDB490D002A87B7 /* ART.xcodeproj */;
-				},
-				{
-					ProductGroup = 0AE8C1741F1B39AA00E5534E /* Products */;
-					ProjectRef = BBB8896EA77146E19DF4FF88 /* LRDRCTSimpleToast.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -1366,13 +1341,6 @@
 			fileType = archive.ar;
 			path = libRNImagePicker.a;
 			remoteRef = 0A955E371FACB50000801C8D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		0AE8C1781F1B39AB00E5534E /* libLRDRCTSimpleToast.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libLRDRCTSimpleToast.a;
-			remoteRef = 0AE8C1771F1B39AB00E5534E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0AF170A51F87C13400E55B36 /* libRNPhotoView.a */ = {
@@ -1858,7 +1826,6 @@
 					"$(SRCROOT)/../node_modules/react-native-safari-view",
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-safe-area/ios/RNSafeArea",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
@@ -1900,7 +1867,6 @@
 					"$(SRCROOT)/../node_modules/react-native-safari-view",
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-safe-area/ios/RNSafeArea",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
@@ -1947,7 +1913,6 @@
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-notifications/**",
-					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-safe-area/ios/RNSafeArea",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
@@ -1995,7 +1960,6 @@
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-notifications/**",
-					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-safe-area/ios/RNSafeArea",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",

@@ -38,9 +38,14 @@ export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
     }
   }
 
+  // HTTP 5xx errors aren't generally expected to come with JSON data.
+  if (httpStatus >= 500 && httpStatus <= 599) {
+    return new Error(`Network request failed: HTTP error ${httpStatus}`);
+  }
+
   // Server has responded, but the response is not a valid error-object.
   // (This should never happen, even on old versions of the Zulip server.)
-  logging.warn(`Bad response from server: ${JSON.stringify(data)}`);
+  logging.warn(`Bad response from server: ${JSON.stringify(data) ?? 'undefined'}`);
   return new Error('Server responded with invalid message');
 };
 

@@ -50,22 +50,20 @@ class UnreadNotice extends PureComponent<Props> {
     const { narrow, unreadCount } = this.props;
 
     return (
-      <AnimatedScaleComponent visible={unreadCount > 0}>
-        <View style={styles.unreadContainer}>
-          <View style={styles.unreadTextWrapper}>
-            <RawLabel style={styles.unreadNumber} text={unreadCount.toString()} />
-            <Label
-              style={styles.unreadText}
-              text={unreadCount === 1 ? 'unread message' : 'unread messages'}
-            />
-          </View>
-          <MarkUnreadButton narrow={narrow} />
+      <AnimatedScaleComponent visible={unreadCount > 0} style={styles.unreadContainer}>
+        <View style={styles.unreadTextWrapper}>
+          <RawLabel style={styles.unreadNumber} text={unreadCount.toString()} />
+          <Label
+            style={styles.unreadText}
+            text={unreadCount === 1 ? 'unread message' : 'unread messages'}
+          />
         </View>
+        <MarkUnreadButton narrow={narrow} />
       </AnimatedScaleComponent>
     );
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   unreadCount: getUnreadCountForNarrow(state, props.narrow),
 }))(UnreadNotice);

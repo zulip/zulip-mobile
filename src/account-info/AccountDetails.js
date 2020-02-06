@@ -43,43 +43,41 @@ class AccountDetails extends PureComponent<Props> {
   render() {
     const { realm, user, userStatusText } = this.props;
 
+    // The set of timezone names in the tz database is subject to change over
+    // time. Handle unrecognized timezones by quietly discarding them.
+    let localTime: string | null;
+    try {
+      localTime = `${nowInTimeZone(user.timezone)} Local time`;
+    } catch (err) {
+      localTime = null;
+    }
+
     return (
-      <View>
-        <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
+      <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
+        <View>
+          <UserAvatar avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)} size={AVATAR_SIZE} />
+        </View>
+        <View style={componentStyles.statusWrapper}>
+          <RawLabel style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
+          <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
+        </View>
+        {userStatusText !== undefined && (
+          <RawLabel style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
+        )}
+        <View>
+          <ActivityText style={styles.largerText} user={user} />
+        </View>
+        {user.timezone ? (
           <View>
-            <UserAvatar
-              avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)}
-              size={AVATAR_SIZE}
-            />
+            {localTime !== null && <RawLabel style={styles.largerText} text={localTime} />}
           </View>
-          <View style={componentStyles.statusWrapper}>
-            <RawLabel style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
-            <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
-          </View>
-          {userStatusText !== undefined && (
-            <RawLabel
-              style={[styles.largerText, componentStyles.statusText]}
-              text={userStatusText}
-            />
-          )}
-          <View>
-            <ActivityText style={styles.largerText} user={user} />
-          </View>
-          {user.timezone ? (
-            <View>
-              <RawLabel
-                style={styles.largerText}
-                text={`${nowInTimeZone(user.timezone)} Local time`}
-              />
-            </View>
-          ) : null}
-        </ComponentList>
-      </View>
+        ) : null}
+      </ComponentList>
     );
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   realm: getCurrentRealm(state),
   userStatusText: getUserStatusTextForUser(state, props.user.user_id),
 }))(AccountDetails);

@@ -228,7 +228,32 @@ simple terminology for the process we follow with both.
   * The build will go into "Beta App Review".  This typically comes back the
     next morning, California time.  If successful, the app is out in beta!
 
+  * Also submit for App Store review, to save latency in the prod rollout:
+
+    * In App Store Connect for the app, [go to the "App Store" tab][asc-main], and
+      hit the "+ Version" button at the bottom of the left sidebar.  Enter the
+      version number.  This creates a new draft listing.
+
+    * In the draft listing, scroll down to the "Build" section and hit the "+"
+      icon next to the "Build" heading.  Select the desired build.
+
+    * Fill in the "What's New in This Version" input at the top.  Optionally,
+      update the previews/screenshots, and the description and other text.
+
+    * Toward the bottom, choose the manual-release option rather than
+      the option to go live as soon as it passes review.
+
+    * At the top of the draft listing, hit "Save" and then "Submit for Review".
+
+    * For the "Advertising Identifier (IDFA)" question, select No.
+
+    * The draft listing should enter state "Waiting for Review".  From
+      here, it typically takes a day or so to get a result from the
+      Apple review process; if it passes review, we can push one more
+      button to roll it out.
+
 [asc-external-builds]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/testflight?section=group&subsection=builds&id=1bf18c25-da12-4bad-8384-9dd872ce447f
+[asc-main]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395
 
 
 ### Release to production
@@ -255,25 +280,14 @@ seem to be bad regressions.
 
 * iOS via App Store:
 
-  * In App Store Connect for the app, [go to the "App Store" tab][asc-main], and
-    hit the "+ Version" button at the bottom of the left sidebar.  Enter the
-    version number.  This creates a new draft listing.
+  * (This assumes the new version was submitted for App Store review
+    at the time of the beta rollout, and accepted.  See beta steps
+    above for how to submit it.)
 
-  * In the draft listing, scroll down to the "Build" section and hit the "+"
-    icon next to the "Build" heading.  Select the desired build.
+  * In App Store Connect for the app, [go to the "App Store"
+    tab][asc-main], and select the draft release.
 
-  * Fill in the "What's New in This Version" input at the top.  Optionally,
-    update the previews/screenshots, and the description and other text.
-
-  * At the top of the draft listing, hit "Save" and then "Submit for Review".
-
-  * For the "Advertising Identifier (IDFA)" question, select No.
-
-  * The draft listing should enter state "Waiting for Review".  From here,
-    it typically takes a day or so to get a result from the Apple review
-    process; if it passes review, the app will go live.
-
-[asc-main]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395
+  * Hit the big blue button at top right to release to the App Store.
 
 
 ## Security releases

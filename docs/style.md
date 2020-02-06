@@ -135,8 +135,8 @@ In general:
 ### Mentioning people
 
 **No GitHub @-mentions:** GitHub makes it tempting to refer to people
-by an @-mention of their GitHub username, like `@gnprice`.
-Unfortunately this is a misfeature:
+by an @-mention of their GitHub username, like `@gnprice`. Unfortunately
+this is a misfeature in commit messages:
 
 * GitHub will turn this into a notification for the person every time
   a version of the commit is rebased and pushed somewhere, which is
@@ -153,7 +153,7 @@ Unfortunately this is a misfeature:
   long-lived project may not be its home forever.
 
 If you want to send someone a notification about a change, @-mention
-them in the PR thread.
+them in the PR thread, not in a commit message.
 
 To refer to them in a commit message, use one of the conventions
 below.

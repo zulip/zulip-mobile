@@ -4,17 +4,26 @@ import { ScrollView, Keyboard } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { ApiResponseServerSettings, Dispatch } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import { connect } from '../react-redux';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { isValidUrl } from '../utils/url';
 import * as api from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
-import styles from '../styles';
+
+type SelectorProps = {|
+  +initialRealm: string,
+|};
 
 type Props = $ReadOnly<{|
+  navigation: NavigationScreenProp<{
+    params: ?{|
+      realm: string | void,
+      initial?: boolean,
+    |},
+  }>,
+
   dispatch: Dispatch,
-  navigation: NavigationScreenProp<mixed>,
-  initialRealm: string,
+  ...SelectorProps,
 |}>;
 
 type State = {|
@@ -71,11 +80,23 @@ class RealmScreen extends PureComponent<Props, State> {
     const { initialRealm, navigation } = this.props;
     const { progress, error, realm } = this.state;
 
+    const styles = {
+      input: { marginTop: 16, marginBottom: 8 },
+      hintText: { paddingLeft: 2, fontSize: 12 },
+      button: { marginTop: 8 },
+    };
+
     return (
-      <Screen title="Welcome" padding centerContent keyboardShouldPersistTaps="always">
-        <Label text="Organization URL" />
+      <Screen
+        title="Welcome"
+        canGoBack={!this.props.navigation.state.params?.initial}
+        padding
+        centerContent
+        keyboardShouldPersistTaps="always"
+      >
+        <Label text="Enter your Zulip server URL:" />
         <SmartUrlInput
-          style={styles.marginVertical}
+          style={styles.input}
           navigation={navigation}
           defaultProtocol="https://"
           defaultOrganization="your-org"
@@ -85,9 +106,13 @@ class RealmScreen extends PureComponent<Props, State> {
           onSubmitEditing={this.tryRealm}
           enablesReturnKeyAutomatically
         />
-        {error !== null && <ErrorMsg error={error} />}
+        {error !== null ? (
+          <ErrorMsg error={error} />
+        ) : (
+          <Label text="e.g. zulip.example.com" style={styles.hintText} />
+        )}
         <ZulipButton
-          style={styles.halfMarginTop}
+          style={styles.button}
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}
@@ -98,8 +123,6 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectFlowFixMe((state, props) => ({
-  initialRealm:
-    (props.navigation && props.navigation.state.params && props.navigation.state.params.realm)
-    || '',
+export default connect<SelectorProps, _, _>((state, props) => ({
+  initialRealm: props.navigation.state.params?.realm ?? '',
 }))(RealmScreen);

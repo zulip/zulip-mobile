@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Platform, View, TextInput, findNodeHandle, ScrollView } from 'react-native';
+import { Platform, View, TextInput, findNodeHandle } from 'react-native';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
 
@@ -228,7 +228,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
   getDestinationNarrow = (): Narrow => {
     const { narrow } = this.props;
-    const { topic } = this.state;
+    const topic = this.state.topic.trim();
     return isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, topic || '(no topic)') : narrow;
   };
 
@@ -282,6 +282,9 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   styles = {
+    wrapper: {
+      flexShrink: 1,
+    },
     autocompleteWrapper: {
       position: 'absolute',
       bottom: 0,
@@ -290,8 +293,10 @@ class ComposeBox extends PureComponent<Props, State> {
     composeBox: {
       flexDirection: 'row',
       alignItems: 'flex-end',
+      flexShrink: 1,
     },
     composeText: {
+      flex: 1,
       paddingVertical: 8,
     },
     composeSendButton: {
@@ -308,6 +313,7 @@ class ComposeBox extends PureComponent<Props, State> {
       borderWidth: 0,
       borderRadius: 5,
       fontSize: 15,
+      flexShrink: 1,
       ...this.inputMarginPadding,
       ...this.context.styles.backgroundColor,
     },
@@ -339,7 +345,7 @@ class ComposeBox extends PureComponent<Props, State> {
     };
 
     return (
-      <View>
+      <View style={this.styles.wrapper}>
         <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
           <TopicAutocomplete
             isFocused={isTopicFocused}
@@ -360,7 +366,7 @@ class ComposeBox extends PureComponent<Props, State> {
             expanded={isMenuExpanded}
             onExpandContract={this.handleComposeMenuToggle}
           />
-          <ScrollView contentContainerStyle={this.styles.composeText}>
+          <View style={this.styles.composeText}>
             {this.getCanSelectTopic() && (
               <Input
                 style={this.styles.topicInput}
@@ -392,7 +398,7 @@ class ComposeBox extends PureComponent<Props, State> {
               onSelectionChange={this.handleMessageSelectionChange}
               onTouchStart={this.handleInputTouchStart}
             />
-          </ScrollView>
+          </View>
           <FloatingActionButton
             style={this.styles.composeSendButton}
             Icon={editMessage === null ? IconSend : IconDone}
@@ -406,7 +412,7 @@ class ComposeBox extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state, props): SelectorProps => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   auth: getAuth(state),
   ownEmail: getOwnEmail(state),
   usersByEmail: getActiveUsersByEmail(state),

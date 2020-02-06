@@ -1,8 +1,14 @@
 /* @flow strict-local */
-import { Clipboard, Share } from 'react-native';
+import { Clipboard, Share, Alert } from 'react-native';
 import type { Auth, Dispatch, GetText, Message, Narrow, Outbox, Subscription } from '../types';
 import type { BackgroundData } from '../webview/MessageList';
-import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
+import {
+  getNarrowFromMessage,
+  isHomeNarrow,
+  isPrivateOrGroupNarrow,
+  isSpecialNarrow,
+  isTopicNarrow,
+} from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 import * as api from '../api';
 import { showToast } from '../utils/info';
@@ -27,6 +33,11 @@ type ButtonDescription = {
     _: GetText,
   }): void | Promise<void>,
   title: string,
+
+  /** The title of the alert-box that will be displayed if the callback throws. */
+  // Required even when the callback can't throw (e.g., "Cancel"), since we can't
+  // otherwise ensure that everything that _can_ throw has one.
+  errorMessage: string,
 };
 
 const isAnOutboxMessage = (message: Message | Outbox): boolean => message.isOutbox;
@@ -39,6 +50,7 @@ const reply = ({ message, dispatch, ownEmail }) => {
   dispatch(doNarrow(getNarrowFromMessage(message, ownEmail), message.id));
 };
 reply.title = 'Reply';
+reply.errorMessage = 'Failed to reply';
 
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
@@ -48,56 +60,65 @@ const copyToClipboard = async ({ _, auth, message }) => {
   showToast(_('Message copied'));
 };
 copyToClipboard.title = 'Copy to clipboard';
+copyToClipboard.errorMessage = 'Failed to copy message to clipboard';
 
 const editMessage = async ({ message, dispatch }) => {
   dispatch(startEditMessage(message.id, message.subject));
 };
 editMessage.title = 'Edit message';
+editMessage.errorMessage = 'Failed to edit message';
 
 const deleteMessage = async ({ auth, message, dispatch }) => {
   if (isAnOutboxMessage(message)) {
     dispatch(deleteOutboxMessage(message.timestamp));
   } else {
-    api.deleteMessage(auth, message.id);
+    await api.deleteMessage(auth, message.id);
   }
 };
 deleteMessage.title = 'Delete message';
+deleteMessage.errorMessage = 'Failed to delete message';
 
-const unmuteTopic = ({ auth, message }) => {
-  api.unmuteTopic(auth, message.display_recipient, message.subject);
+const unmuteTopic = async ({ auth, message }) => {
+  await api.unmuteTopic(auth, message.display_recipient, message.subject);
 };
 unmuteTopic.title = 'Unmute topic';
+unmuteTopic.errorMessage = 'Failed to unmute topic';
 
-const muteTopic = ({ auth, message }) => {
-  api.muteTopic(auth, message.display_recipient, message.subject);
+const muteTopic = async ({ auth, message }) => {
+  await api.muteTopic(auth, message.display_recipient, message.subject);
 };
 muteTopic.title = 'Mute topic';
+muteTopic.errorMessage = 'Failed to mute topic';
 
-const unmuteStream = ({ auth, message, subscriptions }) => {
+const unmuteStream = async ({ auth, message, subscriptions }) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
-    api.toggleMuteStream(auth, sub.stream_id, false);
+    await api.toggleMuteStream(auth, sub.stream_id, false);
   }
 };
 unmuteStream.title = 'Unmute stream';
+unmuteStream.errorMessage = 'Failed to unmute stream';
 
-const muteStream = ({ auth, message, subscriptions }) => {
+const muteStream = async ({ auth, message, subscriptions }) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
-    api.toggleMuteStream(auth, sub.stream_id, true);
+    await api.toggleMuteStream(auth, sub.stream_id, true);
   }
 };
 muteStream.title = 'Mute stream';
+muteStream.errorMessage = 'Failed to mute stream';
 
-const starMessage = ({ auth, message }) => {
-  api.toggleMessageStarred(auth, [message.id], true);
+const starMessage = async ({ auth, message }) => {
+  await api.toggleMessageStarred(auth, [message.id], true);
 };
 starMessage.title = 'Star message';
+starMessage.errorMessage = 'Failed to star message';
 
-const unstarMessage = ({ auth, message }) => {
-  api.toggleMessageStarred(auth, [message.id], false);
+const unstarMessage = async ({ auth, message }) => {
+  await api.toggleMessageStarred(auth, [message.id], false);
 };
 unstarMessage.title = 'Unstar message';
+unstarMessage.errorMessage = 'Failed to unstar message';
 
 const shareMessage = ({ message }) => {
   Share.share({
@@ -105,19 +126,23 @@ const shareMessage = ({ message }) => {
   });
 };
 shareMessage.title = 'Share';
+shareMessage.errorMessage = 'Failed to share message';
 
 const addReaction = ({ message, dispatch }) => {
   dispatch(navigateToEmojiPicker(message.id));
 };
 addReaction.title = 'Add a reaction';
+addReaction.errorMessage = 'Failed to add reaction';
 
 const showReactions = ({ message, dispatch }) => {
   dispatch(navigateToMessageReactionScreen(message.id));
 };
 showReactions.title = 'See who reacted';
+showReactions.errorMessage = 'Failed to show reactions';
 
 const cancel = params => {};
 cancel.title = 'Cancel';
+cancel.errorMessage = 'Failed to hide menu';
 
 const allButtonsRaw = {
   // For messages
@@ -181,7 +206,7 @@ const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = ({
-  backgroundData: { ownEmail, flags },
+  backgroundData: { ownUser, flags },
   message,
   narrow,
 }: ConstructSheetParams): ButtonCode[] => {
@@ -189,10 +214,14 @@ export const constructMessageActionButtons = ({
   if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
     buttons.push('addReaction');
   }
+<<<<<<< HEAD
   if (message.reactions.length > 0) {
     buttons.push('showReactions');
   }
   if (!isAnOutboxMessage(message)) {
+=======
+  if (!isAnOutboxMessage(message) && !isTopicNarrow(narrow) && !isPrivateOrGroupNarrow(narrow)) {
+>>>>>>> master
     buttons.push('reply');
   }
   if (messageNotDeleted(message)) {
@@ -201,13 +230,13 @@ export const constructMessageActionButtons = ({
   }
   if (
     !isAnOutboxMessage(message)
-    && message.sender_email === ownEmail
+    && message.sender_email === ownUser.email
     && !isHomeNarrow(narrow)
     && !isSpecialNarrow(narrow)
   ) {
     buttons.push('editMessage');
   }
-  if (message.sender_email === ownEmail && messageNotDeleted(message)) {
+  if (message.sender_email === ownUser.email && messageNotDeleted(message)) {
     buttons.push('deleteMessage');
   }
   if (!isAnOutboxMessage(message)) {
@@ -233,14 +262,21 @@ export const showActionSheet = (
     ? constructHeaderActionButtons(params)
     : constructMessageActionButtons(params);
   const callback = buttonIndex => {
-    allButtons[optionCodes[buttonIndex]]({
-      dispatch,
-      subscriptions: params.backgroundData.subscriptions,
-      auth: params.backgroundData.auth,
-      ownEmail: params.backgroundData.ownEmail,
-      _,
-      ...params,
-    });
+    (async () => {
+      const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];
+      try {
+        await pressedButton({
+          dispatch,
+          subscriptions: params.backgroundData.subscriptions,
+          auth: params.backgroundData.auth,
+          ownEmail: params.backgroundData.ownUser.email,
+          _,
+          ...params,
+        });
+      } catch (err) {
+        Alert.alert(_(pressedButton.errorMessage), err.message);
+      }
+    })();
   };
   showActionSheetWithOptions(
     {

@@ -92,11 +92,17 @@ const mapEmailsToUsers = (usersByEmail, narrow, selfDetail) =>
     .concat({ email: selfDetail.email, id: selfDetail.user_id, full_name: selfDetail.full_name });
 
 // TODO type: `string | NamedUser[]` is a bit confusing.
+type DataFromNarrow = {|
+  type: 'private' | 'stream',
+  display_recipient: string | NamedUser[],
+  subject: string,
+|};
+
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
   usersByEmail: Map<string, User>,
   selfDetail: { email: string, user_id: number, full_name: string },
-): { type: 'private' | 'stream', display_recipient: string | NamedUser[], subject: string } => {
+): DataFromNarrow => {
   if (isPrivateOrGroupNarrow(narrow)) {
     return {
       type: 'private',

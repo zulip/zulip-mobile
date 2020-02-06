@@ -189,8 +189,9 @@ development basically infeasible.
 
 For making a throwaway alpha build like this approach calls for, you
 may find something like the following command helpful.  It sets the
-[iOS build number][] (which we normally leave set to 1) to a new value
-so the new build can coexist on TestFlight with previous builds:
+[iOS build number][], aka `CFBundleVersion` (which we normally leave
+set to 1) to a new value so the new build can coexist on TestFlight
+with previous builds:
 
     $ set-buildno () {
         version="$1" perl -i -0pe '
@@ -202,7 +203,25 @@ so the new build can coexist on TestFlight with previous builds:
     $ set-buildno 2
 
 This is similar to the job of `tools/bump-version`, which operates on
-the user-facing [version number][].
+the user-facing [version number][], aka `CFBundleShortVersionString`.
+
+More specifically, the rule appears to be:
+
+ * The user-facing version number must be strictly greater than the
+   last one published to the App Store.
+
+ * The user-facing version number can stay the same across a series of
+   alpha and/or beta releases, but the build number must strictly
+   increase.
+
+So if the last version in master is already in the App Store (and not
+still in alpha or beta), then we'll want to:
+
+ * Increment the user-facing version number.
+
+ * To avoid confusion when we next release, use a build number
+   starting with "0." -- so e.g. `set-buildno 0.0.1` or `set-buildno
+   0.20200204.1`.
 
 [iOS build number]: https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
 [version number]: https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleshortversionstring

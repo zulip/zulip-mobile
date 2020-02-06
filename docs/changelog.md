@@ -36,10 +36,44 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.21.144 (2020-01-31)
+
+### Highlights for users
+
+* Animated GIFs now animate, even when shown full-screen.
+* When you type a very long message, the input box no longer overflows
+  the screen.
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Resolved issues, user-facing:
+  * #3497: animated GIFs in lightbox
+  * #3551: show in user profile when user is deactivated
+  * #3760: UI glitch in "create stream" flow
+  * #3614: keep compose box appropriately sized when message is long
+  * #3528: drop "Reply" in message action sheet for PM or topic narrow
+
+* Resolved issues, developer-facing:
+  * #3768: Flow bug affecting `connect`
+  * #3801: document how to use React DevTools
+  * #3827: type fixes for upcoming Flow upgrade
+  * #3783: build failure on macOS
+  * #3777: build failure on Windows
+
+
+## 26.20.143 (2020-01-07)
+
 ### Highlights for users
 
 * When a topic's name is too long to fit in the UI, you can long-press
   the topic to show it in full.
+* Links to conversations now work correctly for streams and topics
+  with names that go beyond ASCII characters.
 
 Plus, like every release, other fixes and improvements for your Zulip
 experience.
@@ -51,11 +85,17 @@ This is a regular release from the master branch following 26.18.141.
 In addition to the changes mentioned here, it includes the changes
 that were cherry-picked for 26.19.142.
 
-* New test suite `pirlo`, which runs an end-to-end smoketest of an
-  Android release build in the cloud using pirlo.io.
+* New test suite `pirlo` (#3669), which runs an end-to-end smoketest
+  of an Android release build in the cloud using pirlo.io.
 
-* Resolved issues: #3570, #3711, #3715, #3669;
-  #3707 resolved part of #3631
+* Improvements to Sentry logging (#3733): instead of interpolating
+  details of an event into the message string, we now typically use
+  the Sentry "extras" mechanism to attach the data, and leave the
+  message string constant.  This causes Sentry to keep the events
+  grouped as a single issue even when the data varies.
+
+* Resolved issues: #3570, #3711, #3715, #3631 (showing long topic
+  names), #3752, #3739 (decoding non-ASCII in narrow-links)
 
 
 ## (iOS) 26.19.142 (2019-12-11)

@@ -7,7 +7,7 @@ import AvatarItem from './AvatarItem';
 
 type Props = $ReadOnly<{|
   users: User[],
-  listRef: (component: FlatList<*> | null) => void,
+  listRef: (component: FlatList<User> | null) => void,
   onPress: (email: string) => void,
 |}>;
 

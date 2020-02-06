@@ -3,6 +3,7 @@ import urlRegex from 'url-regex';
 
 import type { Auth } from '../types';
 import { getAuthHeaders } from '../api/transport';
+import objectEntries from './objectEntries';
 
 /**
  * An object `encodeParamsForUrl` can flatten.
@@ -10,17 +11,24 @@ import { getAuthHeaders } from '../api/transport';
  * In principle the values should be strings; but we include some other
  * primitive types for which `toString` is just as good as `JSON.stringify`.
  */
-export type UrlParams = $ReadOnly<{ [string]: string | boolean | number }>;
+export type UrlParamValue = string | boolean | number;
+export type UrlParams = $ReadOnly<{ [string]: UrlParamValue | void }>;
 
-/** Encode parameters as if for the URL query-part submitting an HTML form. */
+/**
+ * Encode parameters as if for the URL query-part submitting an HTML form.
+ *
+ * Following the pattern of JSON.stringify, drop (rather than encoding in any
+ * fashion) parameters whose provided value is `undefined`.
+ */
 export const encodeParamsForUrl = (params: UrlParams): string =>
-  Object.keys(params)
-    // An `undefined` can sneak in because `JSON.stringify(undefined)` is
-    // `undefined`, but its signature lies that it returns just `string`.
-    .filter((key: string) => params[key] !== undefined)
-    .map(
-      (key: string) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key].toString())}`,
-    )
+  objectEntries(params)
+    /* Filter out entries with `undefined` values, with type-level recognition.
+       (Flow's core definitions treat `.filter(Boolean)` as a special case. See
+       https://github.com/facebook/flow/issues/1414 for more information.) */
+    .map(([key, value]): ?[string, UrlParamValue] => (value === undefined ? null : [key, value]))
+    .filter(Boolean)
+    /* Encode. */
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`)
     .join('&');
 
 export const getFullUrl = (url: string = '', realm: string): string =>

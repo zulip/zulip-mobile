@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { RawLabel } from '../common';
+import type { JSONable } from '../utils/jsonable';
 
 const styles = StyleSheet.create({
   item: {
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
 
 type Props = $ReadOnly<{|
   label: string,
-  value: mixed,
+  value: JSONable,
 |}>;
 
 export default class InfoItem extends PureComponent<Props> {

@@ -11,6 +11,7 @@ A variety of tools are available to help us do that.
   especially React and Redux
   * ... [with the Chrome Developer Tools](#chrome-devtools) /
     "Debug JS remotely"
+  * ... [with React DevTools](#react-devtools)
   * ... [with Reactotron](#reactotron)
   * ... [with redux-logger](#redux-logger)
 * [Debugging the message list](#webview) in its WebView
@@ -79,6 +80,23 @@ See discussion of `redux-logger` below.
 See also [in the "Troubleshooting" section below](#debug-remotely-never-loads).
 
 [chrome-devtools-device]: https://facebook.github.io/react-native/docs/debugging.html#debugging-on-a-device-with-chrome-developer-tools
+
+
+<div id="react-devtools">
+
+## React DevTools
+
+The standalone version of the React Developer Tools, an Electron app,
+can be used to debug the React component hierarchy in our app.  See
+[RN's docs][rn-react-devtools] on how to use it with RN.
+
+As of 2020-01, the latest version (v4) of React DevTools does not
+support any released version of React Native; see [its release
+notes][react-devtools-v4].  Instead, install v3 with the command
+`yarn global add react-devtools@3`.
+
+[rn-react-devtools]: https://facebook.github.io/react-native/docs/debugging.html#react-developer-tools
+[react-devtools-v4]: https://reactjs.org/blog/2019/08/15/new-react-devtools.html
 
 
 <div id="reactotron" />

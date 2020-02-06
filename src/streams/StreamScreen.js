@@ -1,11 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, GlobalState, Stream, Subscription } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import type { Dispatch, Stream, Subscription } from '../types';
+import { connect } from '../react-redux';
 import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton } from '../common';
+import { getSettings } from '../directSelectors';
 import { getIsAdmin, getStreamForId, getSubscriptionForId } from '../selectors';
 import StreamCard from './StreamCard';
 import { IconPin, IconMute, IconNotifications, IconEdit, IconPlusSquare } from '../common/Icons';
@@ -18,11 +20,18 @@ import {
 } from '../actions';
 import styles from '../styles';
 
-type Props = $ReadOnly<{|
-  dispatch: Dispatch,
+type SelectorProps = $ReadOnly<{|
   isAdmin: boolean,
   stream: Stream,
   subscription: Subscription,
+  userSettingStreamNotification: boolean,
+|}>;
+
+type Props = $ReadOnly<{|
+  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+  dispatch: Dispatch,
+
+  ...SelectorProps,
 |}>;
 
 class StreamScreen extends PureComponent<Props> {
@@ -47,12 +56,13 @@ class StreamScreen extends PureComponent<Props> {
   };
 
   toggleStreamPushNotification = () => {
-    const { dispatch, subscription, stream } = this.props;
-    dispatch(toggleStreamNotification(stream.stream_id, !subscription.push_notifications));
+    const { dispatch, subscription, stream, userSettingStreamNotification } = this.props;
+    const currentValue = subscription.push_notifications ?? userSettingStreamNotification;
+    dispatch(toggleStreamNotification(stream.stream_id, !currentValue));
   };
 
   render() {
-    const { isAdmin, stream, subscription } = this.props;
+    const { isAdmin, stream, subscription, userSettingStreamNotification } = this.props;
 
     return (
       <Screen title="Stream">
@@ -72,7 +82,7 @@ class StreamScreen extends PureComponent<Props> {
         <OptionRow
           Icon={IconNotifications}
           label="Notifications"
-          value={subscription.push_notifications}
+          value={subscription.push_notifications ?? userSettingStreamNotification}
           onValueChange={this.toggleStreamPushNotification}
         />
         <View style={styles.padding}>
@@ -98,8 +108,9 @@ class StreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state: GlobalState, props) => ({
+export default connect((state, props) => ({
   isAdmin: getIsAdmin(state),
   stream: getStreamForId(state, props.navigation.state.params.streamId),
   subscription: getSubscriptionForId(state, props.navigation.state.params.streamId),
+  userSettingStreamNotification: getSettings(state).streamNotification,
 }))(StreamScreen);

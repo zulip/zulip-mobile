@@ -8050,11 +8050,6 @@ react-native-screens@^1.0.0-alpha.11, react-native-screens@^1.0.0-alpha.23:
   dependencies:
     debounce "^1.2.0"
 
-react-native-simple-toast@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.0.8.tgz#513f4add8d30e4c5109e536bfc6ea5825fea5d83"
-  integrity sha512-qfhHsAtZuMV7llF74WjAHCjAQhfyDDRVrE9nmczCZSHZ5JRZ3XkqnZ8IyNnNUQMsGQodyV+0QEf5uPiWBICnUA==
-
 react-native-sound@^0.10.9:
   version "0.10.12"
   resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.12.tgz#f912d6f9d6e9e2b42b391e0226787628d940f01a"

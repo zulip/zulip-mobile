@@ -6,7 +6,7 @@ import { enableBatching } from 'redux-batched-actions';
 import config from '../config';
 import { logSlowReducers } from '../utils/redux';
 import { NULL_OBJECT } from '../nullObjects';
-import type { Action, GlobalState, MigrationsState } from '../types';
+import type { Action, GlobalState, MigrationsState, UnreadState } from '../types';
 
 import accounts from '../account/accountsReducer';
 import alertWords from '../alertWords/alertWordsReducer';
@@ -61,7 +61,7 @@ const reducers = {
     pms: unreadPms,
     huddles: unreadHuddles,
     mentions: unreadMentions,
-  }): Reducer<*, Action>),
+  }): Reducer<UnreadState, Action>),
   userGroups,
   userStatus,
   users,

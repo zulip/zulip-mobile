@@ -58,7 +58,10 @@ export const initializeSentry = () => {
 
     Sentry.init({
       dsn: key,
-      ignoreErrors: ['Network request failed'],
+      ignoreErrors: [
+        // RN's fetch implementation can raise these; we sometimes mimic it
+        'Network request failed',
+      ],
     });
   } else {
     // This is normal behavior when running locally; only published release
