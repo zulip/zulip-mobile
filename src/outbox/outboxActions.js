@@ -163,7 +163,6 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   const localTime = Math.round(new Date().getTime() / 1000);
   dispatch(
     messageSendStart({
-      narrow,
       isSent: false,
       ...extractTypeToAndSubjectFromNarrow(narrow, getUsersByEmail(state), userDetail),
       markdownContent: content,

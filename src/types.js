@@ -2,7 +2,7 @@
 import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Auth, Topic, Message, Reaction, ReactionType, Narrow } from './api/apiTypes';
+import type { Auth, Topic, Message, Reaction, ReactionType } from './api/apiTypes';
 import type { ZulipVersion } from './utils/zulipVersion';
 
 export type * from './generics';
@@ -171,10 +171,9 @@ export type Outbox = {|
    */
   isSent: boolean,
 
-  // These fields don't exist in `Message`.
-  // They're used for sending the message to the server.
+  // `markdownContent` doesn't exist in `Message`.
+  // It's used for sending the message to the server.
   markdownContent: string,
-  narrow: Narrow,
 
   // These fields are modeled on `Message`.
   avatar_url: string | null,
