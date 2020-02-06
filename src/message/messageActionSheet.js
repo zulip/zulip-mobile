@@ -1,6 +1,15 @@
 /* @flow strict-local */
 import { Clipboard, Share, Alert } from 'react-native';
-import type { Auth, Dispatch, GetText, Message, Narrow, Outbox, Subscription } from '../types';
+import type {
+  Auth,
+  Dispatch,
+  GetText,
+  Message,
+  Narrow,
+  Outbox,
+  Subscription,
+  User,
+} from '../types';
 import type { BackgroundData } from '../webview/MessageList';
 import {
   getNarrowFromMessage,
@@ -13,6 +22,7 @@ import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
+import filteredRecipientsForPM from '../pm-conversations/filteredRecipientsForPM';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -245,6 +255,19 @@ export const constructMessageActionButtons = ({
   return buttons;
 };
 
+/** Returns the title for the action sheet. */
+const getActionSheetTitle = (message: Message | Outbox, ownUser: User): string => {
+  if (message.type === 'private') {
+    const recipients = filteredRecipientsForPM(message, ownUser);
+    return recipients
+      .map(r => r.full_name)
+      .sort()
+      .join(', ');
+  } else {
+    return `#${message.display_recipient} > ${message.subject}`;
+  }
+};
+
 /** Invoke the given callback to show an appropriate action sheet. */
 export const showActionSheet = (
   isHeader: boolean,
@@ -277,7 +300,7 @@ export const showActionSheet = (
     {
       ...(isHeader
         ? {
-            title: `#${params.message.display_recipient} > ${params.message.subject}`,
+            title: getActionSheetTitle(params.message, params.backgroundData.ownUser),
           }
         : {}),
       options: optionCodes.map(code => _(allButtons[code].title)),
