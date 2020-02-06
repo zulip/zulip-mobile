@@ -101,3 +101,19 @@ jest.mock('react-native-image-picker', () => ({
   launchCamera: jest.fn(),
   launchImageLibrary: jest.fn(),
 }));
+
+// Set up our `logging` module with mocks, which tests can use as desired.
+//
+// This global version just passes the calls right through to the real
+// implementations.  To suppress logging in a specific test, make a call
+// like `logging.warn.mockReturnValue()`.  For more, see:
+//   https://jestjs.io/docs/en/mock-function-api
+// or search our code for `logging.warn.` for examples.
+jest.mock('../src/utils/logging', () => {
+  const logging = jest.requireActual('../src/utils/logging');
+  return {
+    __esModule: true, // eslint-disable-line id-match
+    error: jest.fn().mockImplementation(logging.error),
+    warn: jest.fn().mockImplementation(logging.warn),
+  };
+});
