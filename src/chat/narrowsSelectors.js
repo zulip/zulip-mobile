@@ -26,7 +26,7 @@ import {
   isPrivateNarrow,
   isStreamOrTopicNarrow,
   emailsOfGroupNarrow,
-  narrowContains,
+  narrowContainsOutbox,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
@@ -39,7 +39,7 @@ export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelecto
     if (!caughtUp.newer) {
       return NULL_ARRAY;
     }
-    const filtered = outboxMessages.filter(item => narrowContains(narrow, item.narrow));
+    const filtered = outboxMessages.filter(item => narrowContainsOutbox(narrow, item));
     return isEqual(filtered, outboxMessages) ? outboxMessages : filtered;
   },
 );

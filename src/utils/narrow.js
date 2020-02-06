@@ -248,19 +248,24 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
     search: () => false,
   });
 
-/** True just if `haystack` contains all possible messages in `needle`. */
-export const narrowContains = (haystack: Narrow, needle: Narrow): boolean => {
-  if (isHomeNarrow(haystack)) {
-    return true;
-  }
-  if (isAllPrivateNarrow(haystack) && isPrivateOrGroupNarrow(needle)) {
-    return true;
-  }
-  if (isStreamNarrow(haystack) && needle[0].operand === haystack[0].operand) {
-    return true;
-  }
-  return JSON.stringify(needle) === JSON.stringify(haystack);
-};
+export const narrowContainsOutbox = (haystack: Narrow, needle: Outbox): boolean =>
+  caseNarrowPartial(haystack, {
+    stream: name => needle.type === 'stream' && needle.display_recipient === name,
+    topic: (streamName, topic) =>
+      needle.type === 'stream'
+      && needle.display_recipient === streamName
+      && needle.subject === topic,
+    pm: emails => emails === needle.display_recipient.map(r => r.email).join(','),
+
+    home: () => true,
+    allPrivate: () => needle.type === 'private',
+    starred: () => false,
+
+    // These two are uncommon cases it'd take some work to get right; just
+    // leave the outbox messages out.
+    mentioned: () => false,
+    search: () => false,
+  });
 
 export const getNarrowFromMessage = (message: Message | Outbox, ownEmail: string) => {
   if (Array.isArray(message.display_recipient)) {
