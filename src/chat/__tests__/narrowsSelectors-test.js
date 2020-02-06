@@ -81,7 +81,7 @@ describe('getMessagesForNarrow', () => {
         [JSON.stringify(privateNarrow('john@example.com'))]: [123],
       },
       messages,
-      outbox: [{ ...outboxMessage, narrow: streamNarrow('denmark') }],
+      outbox: [outboxMessage],
       realm: eg.realmState({ email: eg.selfUser.email }),
     });
 
