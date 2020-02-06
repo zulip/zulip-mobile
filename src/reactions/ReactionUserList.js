@@ -39,9 +39,7 @@ class ReactionUserList extends PureComponent<Props> {
           return (
             <UserItem
               key={user.user_id}
-              fullName={user.full_name}
-              avatarUrl={user.avatar_url}
-              email={user.email}
+              user={user}
               onPress={() => {
                 this.handlePress(user.user_id);
               }}

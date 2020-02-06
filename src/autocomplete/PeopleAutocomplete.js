@@ -70,9 +70,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
         renderItem: ({ item }) => (
           <UserItem
             key={item.user_id}
-            fullName={item.full_name}
-            avatarUrl={item.avatar_url}
-            email={item.email}
+            user={item}
             showEmail
             onPress={this.handleUserItemAutocomplete}
           />

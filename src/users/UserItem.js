@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
+import type { UserOrBot } from '../types';
 import { UserAvatarWithPresence, RawLabel, Touchable, UnreadCount } from '../common';
 import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
 
@@ -25,9 +26,7 @@ const componentStyles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  email: string,
-  fullName: string,
-  avatarUrl: ?string,
+  user: UserOrBot,
   isSelected: boolean,
   showEmail: boolean,
   unreadCount?: number,
@@ -41,28 +40,30 @@ export default class UserItem extends PureComponent<Props> {
   };
 
   handlePress = () => {
-    const { email, onPress } = this.props;
-    if (email && onPress) {
-      onPress(email);
+    const { user, onPress } = this.props;
+    // TODO cut this `user.email` condition -- it should never trigger, and
+    //   looks like a fudge for the possibility of data coming from NULL_USER
+    if (user.email && onPress) {
+      onPress(user.email);
     }
   };
 
   render() {
-    const { fullName, avatarUrl, isSelected, unreadCount, showEmail, email } = this.props;
+    const { user, isSelected, unreadCount, showEmail } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
           <UserAvatarWithPresence
             size={48}
-            avatarUrl={avatarUrl}
-            email={email}
+            avatarUrl={user.avatar_url}
+            email={user.email}
             onPress={this.handlePress}
           />
           <View style={componentStyles.textWrapper}>
             <RawLabel
               style={[componentStyles.text, isSelected && componentStyles.selectedText]}
-              text={fullName}
+              text={user.full_name}
               numberOfLines={1}
               ellipsizeMode="tail"
             />
@@ -73,7 +74,7 @@ export default class UserItem extends PureComponent<Props> {
                   componentStyles.textEmail,
                   isSelected && componentStyles.selectedText,
                 ]}
-                text={email}
+                text={user.email}
                 numberOfLines={1}
                 ellipsizeMode="tail"
               />

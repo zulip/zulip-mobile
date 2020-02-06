@@ -52,13 +52,7 @@ export default class PmConversationList extends PureComponent<Props> {
             }
 
             return (
-              <UserItem
-                email={user.email}
-                fullName={user.full_name}
-                avatarUrl={user.avatar_url}
-                unreadCount={item.unread}
-                onPress={this.handleUserNarrow}
-              />
+              <UserItem user={user} unreadCount={item.unread} onPress={this.handleUserNarrow} />
             );
           }
 
