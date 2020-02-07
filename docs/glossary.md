@@ -7,6 +7,24 @@ Some are about the Zulip app as users experience it; some our
 codebase; some our workflows.
 
 
+## Where else to look
+
+* Find one of the relevant types, and read the jsdoc at that type's
+  definition.  That's often where our discussion of a general concept
+  appears.
+
+  * See especially [src/api/modelTypes.js](../src/api/modelTypes.js)
+    and [src/reduxTypes.js](../src/reduxTypes.js).
+
+* For concepts that appear in the user experience, look in Zulip's
+  user-facing docs at https://zulipchat.com/help/ .
+
+* For concepts that appear in the Zulip server API, look in the Zulip
+  API docs at https://zulipchat.com/api/ .
+
+
+## Terms
+
 ### alpha
 
 As in making an alpha release, or sending a release to alpha.
@@ -28,6 +46,17 @@ their own guidelines.  See either of those docs for discussion.
 
 As in sending a new version/release to beta.
 See [docs](howto/release.md#terminology).
+
+
+### caught up
+
+Refers to metadata about how completely we know various parts of the
+message history.  We keep this data in the `caughtUp` subtree of our
+Redux state; see jsdoc on the `CaughtUpState` type in
+[`src/reduxTypes.js`](../src/reduxTypes.js).
+
+See also our [realtime.md](architecture/realtime.md) for background
+and context.
 
 
 ### compose box
@@ -125,6 +154,13 @@ The term was introduced in the LLVM community: [docs][nfc-docs],
 
 [nfc-docs]: http://lists.llvm.org/pipermail/llvm-commits/Week-of-Mon-20140901/233938.html
 [nfc-tweet]: https://twitter.com/clattner_llvm/status/1045548372134846464
+
+
+### outbox message
+
+A message we're in the process of sending, represented by a value of
+type `Outbox`.  See jsdoc on that type, in
+[`src/types.js`](../src/types.js).
 
 
 ### prod
