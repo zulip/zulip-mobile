@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import messagesReducer from '../messagesReducer';
-import { FIRST_UNREAD_ANCHOR } from '../../constants';
+import { FIRST_UNREAD_ANCHOR } from '../../anchor';
 import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,

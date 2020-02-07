@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import caughtUpReducer from '../caughtUpReducer';
 import { MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
-import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../constants';
+import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../anchor';
 import {
   HOME_NARROW,
   HOME_NARROW_STR,

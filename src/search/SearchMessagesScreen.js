@@ -7,7 +7,7 @@ import { Screen } from '../common';
 import SearchMessagesCard from './SearchMessagesCard';
 import styles from '../styles';
 import { SEARCH_NARROW } from '../utils/narrow';
-import { LAST_MESSAGE_ANCHOR } from '../constants';
+import { LAST_MESSAGE_ANCHOR } from '../anchor';
 import { connect } from '../react-redux';
 import { getAuth } from '../account/accountsSelectors';
 
