@@ -424,7 +424,7 @@ window.addEventListener('scroll', handleScrollEvent);
 type ScrollTarget =
   | { type: 'none' }
   | { type: 'bottom' }
-  | { type: 'anchor', anchor: number }
+  | { type: 'anchor', anchor: number | null }
   | { type: 'preserve', msgId: number, prevBoundTop: number };
 
 const scrollToBottom = () => {
@@ -440,9 +440,8 @@ const scrollToBottomIfNearEnd = () => {
   }
 };
 
-const scrollToAnchor = (anchor: number) => {
-  const anchorNode = document.getElementById(`msg-${anchor}`);
-
+const scrollToAnchor = (anchor: number | null) => {
+  const anchorNode = anchor !== null ? document.getElementById(`msg-${anchor}`) : null;
   if (anchorNode) {
     anchorNode.scrollIntoView({ block: 'start' });
   } else {
@@ -508,7 +507,7 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
 };
 
 // We call this when the webview's content first loads.
-export const handleInitialLoad = (platformOS: string, anchor: number, auth: Auth) => {
+export const handleInitialLoad = (platformOS: string, anchor: number | null, auth: Auth) => {
   // Since its version 5.x, the `react-native-webview` library dispatches our
   // `message` events at `window` on iOS but `document` on Android.
   if (platformOS === 'ios') {

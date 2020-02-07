@@ -11,7 +11,7 @@ import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/
 
 export type WebViewUpdateEventContent = {|
   type: 'content',
-  anchor: number,
+  anchor: number | null,
   auth: Auth,
   content: string,
   updateStrategy: UpdateStrategy,

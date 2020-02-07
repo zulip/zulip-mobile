@@ -336,7 +336,7 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var scrollToAnchor = function scrollToAnchor(anchor) {
-    var anchorNode = document.getElementById("msg-".concat(anchor));
+    var anchorNode = anchor !== null ? document.getElementById("msg-".concat(anchor)) : null;
 
     if (anchorNode) {
       anchorNode.scrollIntoView({

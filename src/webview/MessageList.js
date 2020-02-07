@@ -88,7 +88,7 @@ type SelectorProps = {|
   // The remaining props contain data specific to the particular narrow or
   // particular messages we're displaying.  Data that's independent of those
   // should go in `BackgroundData`, above.
-  anchor: number,
+  anchor: number | null,
   fetching: Fetching,
   messages: $ReadOnlyArray<Message | Outbox>,
   renderedMessages: RenderedSectionDescriptor[],
@@ -341,7 +341,7 @@ type OuterProps = {|
 
   messages?: Message[],
   renderedMessages?: RenderedSectionDescriptor[],
-  anchor?: number,
+  anchor?: number | null,
 
   /* Passing these three from the parent is kind of a hack; search uses it
      to hard-code some behavior. */

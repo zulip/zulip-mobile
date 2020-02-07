@@ -68,11 +68,11 @@ export const getRenderedMessages = (narrow: Narrow): Selector<RenderedSectionDes
     messages => renderMessages(messages, narrow),
   );
 
-export const getFirstUnreadIdInNarrow: Selector<number, Narrow> = createSelector(
+export const getFirstUnreadIdInNarrow: Selector<number | null, Narrow> = createSelector(
   (state, narrow) => getShownMessagesForNarrow(state, narrow),
   getFlags,
   getSubscriptions,
   getMute,
   (messages, flags, subscriptions, mute) =>
-    findFirstUnread(messages, flags, subscriptions, mute)?.id ?? 0,
+    findFirstUnread(messages, flags, subscriptions, mute)?.id ?? null,
 );

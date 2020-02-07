@@ -6,7 +6,7 @@ import htmlBody from './htmlBody';
 import script from '../js/script';
 
 type InitOptionsType = {|
-  anchor: number,
+  anchor: number | null,
   auth: Auth,
   showMessagePlaceholders: boolean,
 |};
