@@ -42,13 +42,3 @@ export const findFirstUnread = (
   subscriptions: Subscription[],
   mute: MuteState,
 ) => messages.find(msg => !isMessageRead(msg, flags, subscriptions, mute));
-
-export const findAnchor = (
-  messages: $ReadOnlyArray<Message | Outbox>,
-  flags: FlagsState,
-  subscriptions: Subscription[],
-  mute: MuteState,
-) => {
-  const firstUnreadMessage = findFirstUnread(messages, flags, subscriptions, mute);
-  return firstUnreadMessage ? firstUnreadMessage.id : 0;
-};
