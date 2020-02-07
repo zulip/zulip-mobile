@@ -33,8 +33,8 @@ import {
   getDebug,
   getRenderedMessages,
   getFlags,
-  getAnchorForNarrow,
   getFetchingForNarrow,
+  getFirstUnreadIdInNarrow,
   getMute,
   getOwnUser,
   getSettings,
@@ -370,7 +370,8 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
 
   return {
     backgroundData,
-    anchor: props.anchor !== undefined ? props.anchor : getAnchorForNarrow(props.narrow)(state),
+    anchor:
+      props.anchor !== undefined ? props.anchor : getFirstUnreadIdInNarrow(props.narrow)(state),
     fetching: props.fetching || getFetchingForNarrow(props.narrow)(state),
     messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),

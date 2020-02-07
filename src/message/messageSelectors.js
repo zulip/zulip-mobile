@@ -68,7 +68,7 @@ export const getRenderedMessages = (narrow: Narrow): Selector<RenderedSectionDes
     messages => renderMessages(messages, narrow),
   );
 
-export const getAnchorForNarrow = (narrow: Narrow): Selector<number> =>
+export const getFirstUnreadIdInNarrow = (narrow: Narrow): Selector<number> =>
   createSelector(
     state => getShownMessagesForNarrow(state, narrow),
     getFlags,
