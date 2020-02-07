@@ -59,8 +59,8 @@ export const fetchMessages = (
   anchor: number,
   numBefore: number,
   numAfter: number,
-  useFirstUnread: boolean = false,
 ) => async (dispatch: Dispatch, getState: GetState) => {
+  const useFirstUnread = anchor === FIRST_UNREAD_ANCHOR;
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
   const { messages, found_newest, found_oldest } = await api.getMessages(
     getAuth(getState()),
@@ -143,13 +143,7 @@ export const fetchMessagesInNarrow = (
     return;
   }
   dispatch(
-    fetchMessages(
-      narrow,
-      anchor,
-      config.messagesPerRequest / 2,
-      config.messagesPerRequest / 2,
-      anchor === FIRST_UNREAD_ANCHOR,
-    ),
+    fetchMessages(narrow, anchor, config.messagesPerRequest / 2, config.messagesPerRequest / 2),
   );
 };
 
