@@ -50,7 +50,7 @@ export default class SearchMessagesCard extends PureComponent<Props> {
       <View style={styles.results}>
         <ActionSheetProvider>
           <MessageList
-            anchor={messages[0].id}
+            initialScrollMessageId={messages[0].id}
             messages={messages}
             narrow={HOME_NARROW}
             renderedMessages={renderedMessages}

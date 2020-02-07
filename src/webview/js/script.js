@@ -7,7 +7,7 @@ import matchesPolyfill from './matchesPolyfill';
 import compiledWebviewJs from './generatedEs3';
 import config from '../../config';
 
-export default (anchor: number | null, auth: Auth): string => `
+export default (scrollMessageId: number | null, auth: Auth): string => `
 <script>
 window.__forceSmoothScrollPolyfill__ = true;
 ${smoothScroll}
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
   ${compiledWebviewJs}
   compiledWebviewJs.handleInitialLoad(
     ${JSON.stringify(Platform.OS)},
-    ${JSON.stringify(anchor)},
+    ${JSON.stringify(scrollMessageId)},
     ${JSON.stringify(auth)}
   );
 });

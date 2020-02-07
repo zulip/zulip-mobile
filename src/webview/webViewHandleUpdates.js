@@ -11,7 +11,7 @@ import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/
 
 export type WebViewUpdateEventContent = {|
   type: 'content',
-  anchor: number | null,
+  scrollMessageId: number | null,
   auth: Auth,
   content: string,
   updateStrategy: UpdateStrategy,
@@ -55,7 +55,7 @@ const updateContent = (prevProps: Props, nextProps: Props): WebViewUpdateEventCo
 
   return {
     type: 'content',
-    anchor: nextProps.anchor,
+    scrollMessageId: nextProps.initialScrollMessageId,
     auth: nextProps.backgroundData.auth,
     content,
     updateStrategy,

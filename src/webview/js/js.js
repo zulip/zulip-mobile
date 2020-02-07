@@ -424,7 +424,7 @@ window.addEventListener('scroll', handleScrollEvent);
 type ScrollTarget =
   | { type: 'none' }
   | { type: 'bottom' }
-  | { type: 'anchor', anchor: number | null }
+  | { type: 'anchor', messageId: number | null }
   | { type: 'preserve', msgId: number, prevBoundTop: number };
 
 const scrollToBottom = () => {
@@ -440,10 +440,10 @@ const scrollToBottomIfNearEnd = () => {
   }
 };
 
-const scrollToAnchor = (anchor: number | null) => {
-  const anchorNode = anchor !== null ? document.getElementById(`msg-${anchor}`) : null;
-  if (anchorNode) {
-    anchorNode.scrollIntoView({ block: 'start' });
+const scrollToMessage = (messageId: number | null) => {
+  const targetNode = messageId !== null ? document.getElementById(`msg-${messageId}`) : null;
+  if (targetNode) {
+    targetNode.scrollIntoView({ block: 'start' });
   } else {
     window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
   }
@@ -480,7 +480,7 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
   if (uevent.updateStrategy === 'replace') {
     target = { type: 'none' };
   } else if (uevent.updateStrategy === 'scroll-to-anchor') {
-    target = { type: 'anchor', anchor: uevent.anchor };
+    target = { type: 'anchor', messageId: uevent.scrollMessageId };
   } else if (
     uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom'
     && isNearBottom() /* align */
@@ -498,7 +498,7 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
   if (target.type === 'bottom') {
     scrollToBottom();
   } else if (target.type === 'anchor') {
-    scrollToAnchor(target.anchor);
+    scrollToMessage(target.messageId);
   } else if (target.type === 'preserve') {
     scrollToPreserve(target.msgId, target.prevBoundTop);
   }
@@ -507,7 +507,11 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
 };
 
 // We call this when the webview's content first loads.
-export const handleInitialLoad = (platformOS: string, anchor: number | null, auth: Auth) => {
+export const handleInitialLoad = (
+  platformOS: string,
+  scrollMessageId: number | null,
+  auth: Auth,
+) => {
   // Since its version 5.x, the `react-native-webview` library dispatches our
   // `message` events at `window` on iOS but `document` on Android.
   if (platformOS === 'ios') {
@@ -518,7 +522,7 @@ export const handleInitialLoad = (platformOS: string, anchor: number | null, aut
     document.addEventListener('message', handleMessageEvent);
   }
 
-  scrollToAnchor(anchor);
+  scrollToMessage(scrollMessageId);
   rewriteImageUrls(auth);
   sendScrollMessageIfListShort();
   scrollEventsDisabled = false;

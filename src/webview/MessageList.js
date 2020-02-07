@@ -88,7 +88,7 @@ type SelectorProps = {|
   // The remaining props contain data specific to the particular narrow or
   // particular messages we're displaying.  Data that's independent of those
   // should go in `BackgroundData`, above.
-  anchor: number | null,
+  initialScrollMessageId: number | null,
   fetching: Fetching,
   messages: $ReadOnlyArray<Message | Outbox>,
   renderedMessages: RenderedSectionDescriptor[],
@@ -232,14 +232,14 @@ class MessageList extends Component<Props> {
     const {
       backgroundData,
       renderedMessages,
-      anchor,
+      initialScrollMessageId,
       narrow,
       showMessagePlaceholders,
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
     const { auth, theme } = backgroundData;
     const html = getHtml(messagesHtml, theme, {
-      anchor,
+      scrollMessageId: initialScrollMessageId,
       auth,
       showMessagePlaceholders,
     });
@@ -341,7 +341,7 @@ type OuterProps = {|
 
   messages?: Message[],
   renderedMessages?: RenderedSectionDescriptor[],
-  anchor?: number | null,
+  initialScrollMessageId?: number | null,
 
   /* Passing these three from the parent is kind of a hack; search uses it
      to hard-code some behavior. */
@@ -370,8 +370,10 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
 
   return {
     backgroundData,
-    anchor:
-      props.anchor !== undefined ? props.anchor : getFirstUnreadIdInNarrow(state, props.narrow),
+    initialScrollMessageId:
+      props.initialScrollMessageId !== undefined
+        ? props.initialScrollMessageId
+        : getFirstUnreadIdInNarrow(state, props.narrow),
     fetching: props.fetching || getFetchingForNarrow(props.narrow)(state),
     messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),

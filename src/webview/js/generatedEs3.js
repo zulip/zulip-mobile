@@ -335,11 +335,11 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var scrollToAnchor = function scrollToAnchor(anchor) {
-    var anchorNode = anchor !== null ? document.getElementById("msg-".concat(anchor)) : null;
+  var scrollToMessage = function scrollToMessage(messageId) {
+    var targetNode = messageId !== null ? document.getElementById("msg-".concat(messageId)) : null;
 
-    if (anchorNode) {
-      anchorNode.scrollIntoView({
+    if (targetNode) {
+      targetNode.scrollIntoView({
         block: 'start'
       });
     } else {
@@ -389,7 +389,7 @@ var compiledWebviewJs = (function (exports) {
     } else if (uevent.updateStrategy === 'scroll-to-anchor') {
       target = {
         type: 'anchor',
-        anchor: uevent.anchor
+        messageId: uevent.scrollMessageId
       };
     } else if (uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom' && isNearBottom()) {
         target = {
@@ -405,7 +405,7 @@ var compiledWebviewJs = (function (exports) {
     if (target.type === 'bottom') {
       scrollToBottom();
     } else if (target.type === 'anchor') {
-      scrollToAnchor(target.anchor);
+      scrollToMessage(target.messageId);
     } else if (target.type === 'preserve') {
       scrollToPreserve(target.msgId, target.prevBoundTop);
     }
@@ -413,14 +413,14 @@ var compiledWebviewJs = (function (exports) {
     sendScrollMessageIfListShort();
   };
 
-  var handleInitialLoad = function handleInitialLoad(platformOS, anchor, auth) {
+  var handleInitialLoad = function handleInitialLoad(platformOS, scrollMessageId, auth) {
     if (platformOS === 'ios') {
       window.addEventListener('message', handleMessageEvent);
     } else {
       document.addEventListener('message', handleMessageEvent);
     }
 
-    scrollToAnchor(anchor);
+    scrollToMessage(scrollMessageId);
     rewriteImageUrls(auth);
     sendScrollMessageIfListShort();
     scrollEventsDisabled = false;
