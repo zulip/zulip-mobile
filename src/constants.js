@@ -16,4 +16,6 @@ export const FIRST_UNREAD_ANCHOR = 0;
  * want to retrieve the newest messages for a narrow, without actually
  * knowing their IDs.
  */
+// This special value is understood by the server, corresponding to
+// LARGER_THAN_MAX_MESSAGE_ID there.  See #3654.
 export const LAST_MESSAGE_ANCHOR = 10000000000000000; // sixteen zeroes
