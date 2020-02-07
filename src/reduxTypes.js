@@ -54,8 +54,11 @@ export type CaughtUp = {|
 |};
 
 /**
- * Info about how completely we know the messages in each narrow of
- * `MessagesState`.
+ * Info about how completely we know the messages in each narrow.
+ *
+ * The keys correspond to the keys in `MessagesState`.
+ *
+ * See `CaughtUp` for details on what each value means.
  */
 export type CaughtUpState = {|
   [narrow: string]: CaughtUp,
