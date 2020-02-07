@@ -149,12 +149,39 @@ export type Context = {|
 /**
  * A message we're in the process of sending.
  *
- * See also `Message`.
+ * We use these objects for two purposes:
+ *
+ * (a) They make up the queue of messages the user has asked us to send, and
+ *     which we'll retry sending if initial attempts fail.  See
+ *     `trySendMessages`.
+ *
+ * (b) We show them immediately in the message list, even before we've
+ *     successfully gotten them to the server (but with an activity
+ *     indicator to show we're still working on them.)
+ *
+ * Even after (a) is complete for a given message, we still need the
+ * `Outbox` object for the sake of (b), until we hear an `EVENT_NEW_MESSAGE`
+ * event from the server that lets us replace it with the corresponding
+ * `Message` object.
+ *
+ * This type most often appears in the union `Message | Outbox`, and so its
+ * properties are deliberately similar to those of `Message`.
  */
 export type Outbox = {|
+  /** Used for distinguishing from a `Message` object. */
   isOutbox: true,
+
+  /**
+   * False until we successfully send the message, then true.
+   *
+   * As described in the type's jsdoc (above), once we've sent the message
+   * we still keep the `Outbox` object around for a (usually short) time
+   * until we can replace it with a `Message` object.
+   */
   isSent: boolean,
 
+  // These fields don't exist in `Message`.
+  // They're used for sending the message to the server.
   markdownContent: string,
   narrow: Narrow,
 
