@@ -1,12 +1,17 @@
 /* @flow strict-local */
 
 /**
- * Pointer to the oldest message in a narrow.
+ * A special value we internally take to mean "first unread message".
  *
- * Usually, an anchor is a message ID. This constant can be used when we
- * want to retrieve the oldest messages for a narrow, without actually
- * knowing their IDs.
+ * In particular this is interpreted by the `fetchMessages*` functions in
+ * `fetchActions.js` as meaning the underlying API request should set
+ * `use_first_unread_anchor: true`.  (Which causes the actual `anchor` value
+ * to be ignored.)
  */
+// Awkwardly, this is a very different convention from the one understood by
+// the Zulip server!  The latter takes `anchor: 0` literally -- and because
+// no message has ID less than 0, it effectively means "the very first
+// messages".
 export const FIRST_UNREAD_ANCHOR = 0;
 
 /**
