@@ -371,7 +371,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
   return {
     backgroundData,
     anchor:
-      props.anchor !== undefined ? props.anchor : getFirstUnreadIdInNarrow(props.narrow)(state),
+      props.anchor !== undefined ? props.anchor : getFirstUnreadIdInNarrow(state, props.narrow),
     fetching: props.fetching || getFetchingForNarrow(props.narrow)(state),
     messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
