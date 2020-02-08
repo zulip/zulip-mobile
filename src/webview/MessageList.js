@@ -109,6 +109,20 @@ const assetsUrl =
  */
 const webviewAssetsUrl = new URL('webview/', assetsUrl);
 
+/**
+ * Effective URL of the MessageList webview.
+ *
+ * It points to `index.html` in the webview-assets folder, which
+ * doesn't exist.
+ *
+ * It doesn't need to exist because we provide all HTML at
+ * creation (or refresh) time. This serves only as a placeholder,
+ * so that relative URLs (e.g., to `base.css`, which does exist)
+ * and cross-domain security restrictions have somewhere to
+ * believe that this document originates from.
+ */
+const baseUrl = new URL('index.html', webviewAssetsUrl);
+
 class MessageListInner extends React.Component<Props> {
   webviewRef = React.createRef<React$ElementRef<typeof WebView>>();
   sendInboundEventsIsReady: boolean;
@@ -181,20 +195,6 @@ class MessageListInner extends React.Component<Props> {
       },
       backgroundData.serverEmojiData,
     );
-
-    /**
-     * Effective URL of the MessageList webview.
-     *
-     * It points to `index.html` in the webview-assets folder, which
-     * doesn't exist.
-     *
-     * It doesn't need to exist because we provide all HTML at
-     * creation (or refresh) time. This serves only as a placeholder,
-     * so that relative URLs (e.g., to `base.css`, which does exist)
-     * and cross-domain security restrictions have somewhere to
-     * believe that this document originates from.
-     */
-    const baseUrl = new URL('index.html', webviewAssetsUrl);
 
     // Paranoia^WSecurity: only load `baseUrl`, and only load it once. Any other
     // requests should be handed off to the OS, not loaded inside the WebView.
