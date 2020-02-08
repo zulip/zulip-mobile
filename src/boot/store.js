@@ -101,7 +101,7 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
       ...a,
       // but in the case of `ackedPushToken` let's be a bit more precise,
       // and avoid clobbering it if present.
-      ackedPushToken: a.ackedPushToken !== undefined ? a.ackedPushToken : null,
+      ackedPushToken: a.ackedPushToken ?? null,
     })),
   }),
 

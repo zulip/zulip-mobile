@@ -81,10 +81,7 @@ class ZulipStatusBar extends PureComponent<Props> {
 const mapStateToProps = (state: GlobalState, props: RawProps): SelectorProps => ({
   safeAreaInsets: getSession(state).safeAreaInsets,
   theme: getSettings(state).theme,
-  backgroundColor:
-    props.backgroundColor !== undefined
-      ? props.backgroundColor
-      : getTitleBackgroundColor(props.narrow)(state),
+  backgroundColor: props.backgroundColor ?? getTitleBackgroundColor(props.narrow)(state),
   orientation: getSession(state).orientation,
   hidden: props.hidden ?? false,
 });

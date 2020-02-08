@@ -370,9 +370,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
   return {
     backgroundData,
     initialScrollMessageId:
-      props.initialScrollMessageId !== undefined
-        ? props.initialScrollMessageId
-        : getFirstUnreadIdInNarrow(state, props.narrow),
+      props.initialScrollMessageId ?? getFirstUnreadIdInNarrow(state, props.narrow),
     fetching: props.fetching || getFetchingForNarrow(state, props.narrow),
     messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
