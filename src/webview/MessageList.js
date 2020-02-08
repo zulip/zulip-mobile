@@ -33,11 +33,10 @@ import messageListElementHtml from './html/messageListElementHtml';
 import generateInboundEvents from './generateInboundEvents';
 import { handleWebViewOutboundEvent } from './handleOutboundEvents';
 import { base64Utf8Encode } from '../utils/encoding';
-import * as logging from '../utils/logging';
-import { tryParseUrl } from '../utils/url';
 import { caseNarrow, isConversationNarrow } from '../utils/narrow';
 import { type BackgroundData, getBackgroundData } from './backgroundData';
 import { ensureUnreachable } from '../generics';
+import { renderSinglePageWebView } from './SinglePageWebView';
 
 type OuterProps = $ReadOnly<{|
   narrow: Narrow,
@@ -196,66 +195,13 @@ class MessageListInner extends React.Component<Props> {
       backgroundData.serverEmojiData,
     );
 
-    // Paranoia^WSecurity: only load `baseUrl`, and only load it once. Any other
-    // requests should be handed off to the OS, not loaded inside the WebView.
-    const onShouldStartLoadWithRequest = (() => {
-      // Inner closure to actually test the URL.
-      const urlTester: (url: string) => boolean = (() => {
-        // On Android this function is documented to be skipped on first load:
-        // therefore, simply never return true.
-        if (Platform.OS === 'android') {
-          return (url: string) => false;
-        }
-
-        // Otherwise (for iOS), return a closure that evaluates to `true` _exactly
-        // once_, and even then only if the URL looks like what we're expecting.
-        let loaded_once = false;
-        return (url: string) => {
-          const parsedUrl = tryParseUrl(url);
-          if (!loaded_once && parsedUrl && parsedUrl.toString() === baseUrl.toString()) {
-            loaded_once = true;
-            return true;
-          }
-          return false;
-        };
-      })();
-
-      // Outer closure to perform logging.
-      return event => {
-        const ok = urlTester(event.url);
-        if (!ok) {
-          logging.warn('webview: rejected navigation event', {
-            navigation_event: { ...event },
-            expected_url: baseUrl.toString(),
-          });
-        }
-        return ok;
-      };
-    })();
-
-    // The `originWhitelist` and `onShouldStartLoadWithRequest` props are
-    // meant to mitigate possible XSS bugs, by interrupting an attempted
-    // exploit if it tries to navigate to a new URL by e.g. setting
-    // `window.location`.
-    //
-    // Note that neither of them is a hard security barrier; they're checked
-    // only against the URL of the document itself.  They cannot be used to
-    // validate the URL of other resources the WebView loads.
-    //
-    // Worse, the `originWhitelist` parameter is completely broken. See:
-    // https://github.com/react-native-community/react-native-webview/pull/697
-    return (
-      <WebView
-        source={{ baseUrl: (baseUrl.toString(): string), html }}
-        originWhitelist={['file://']}
-        onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-        decelerationRate="normal"
-        style={{ backgroundColor: 'transparent' }}
-        ref={this.webviewRef}
-        onMessage={this.handleMessage}
-        onError={this.handleError}
-      />
-    );
+    return renderSinglePageWebView(html, baseUrl, {
+      decelerationRate: 'normal',
+      style: { backgroundColor: 'transparent' },
+      ref: this.webviewRef,
+      onMessage: this.handleMessage,
+      onError: this.handleError,
+    });
   }
 }
 
