@@ -45,7 +45,7 @@ export type DevUser = {|
 |};
 
 /**
- * A Zulip user.
+ * A Zulip user, which might be a human or a bot, as found in one realm.
  *
  * This is a user object as found in properties `realm_users` and
  * `realm_non_active_users` of a `/register` response.
@@ -66,6 +66,11 @@ export type DevUser = {|
  * Properties are listed below in the order they appear on `UserProfile`,
  * because that's the most logically-organized and also the most helpful
  * of the references above.
+ *
+ * See also:
+ *  * `CrossRealmBot` for another type of bot user, found in a
+ *    different part of a `/register` response
+ *  * `UserOrBot` for a convenience union of the two
  */
 export type User = {|
   user_id: number,
@@ -87,6 +92,10 @@ export type User = {|
   // there's no such concept, so effectively it's implicitly false.
   is_guest?: boolean,
 
+  // For background on the "*bot*" fields, see user docs on bots:
+  //   https://zulipchat.com/help/add-a-bot-or-integration
+  // Note that certain bots are represented by a different type entirely,
+  // namely `CrossRealmBot`.
   is_bot: boolean,
   bot_type?: number,
   bot_owner?: string,
@@ -102,6 +111,18 @@ export type User = {|
   profile_data?: empty, // TODO describe actual type
 |};
 
+/**
+ * A "cross-realm bot", a bot user shared across the realms on a Zulip server.
+ *
+ * Cross-realm bots are used for a handful of bots defined in the Zulip
+ * server code, like Welcome Bot.  They're found in the `cross_realm_bots`
+ * property of a `/register` response, represented with this type.
+ *
+ * See also:
+ *  * `User` and its property `is_bot`.  Bot users that appear in a single
+ *    realm are, like human users, represented by a `User` value.
+ *  * `UserOrBot`, a convenience union
+ */
 export type CrossRealmBot = {|
   // avatar_url included since commit 58ee3fa8c (in 1.9.0)
   // TODO(crunchy): convert missing -> null
@@ -119,6 +140,11 @@ export type CrossRealmBot = {|
   // timezone included since commit 58ee3fa8c (in 1.9.0)
   timezone?: string,
 |};
+
+/**
+ * A Zulip user/account, which might be a cross-realm bot.
+ */
+export type UserOrBot = User | CrossRealmBot;
 
 export type UserGroup = {|
   description: string,

@@ -2,16 +2,7 @@
 import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type {
-  Auth,
-  Topic,
-  Message,
-  Reaction,
-  ReactionType,
-  Narrow,
-  CrossRealmBot,
-  User,
-} from './api/apiTypes';
+import type { Auth, Topic, Message, Reaction, ReactionType, Narrow } from './api/apiTypes';
 import type { AppStyles } from './styles/theme';
 
 export type * from './reduxTypes';
@@ -110,11 +101,6 @@ export type Account = {|
  * you have an `Auth` or `Account`.
  */
 export type Identity = $Diff<Auth, { apiKey: string }>;
-
-/**
- * A Zulip user/account, which might be a cross-realm bot.
- */
-export type UserOrBot = User | CrossRealmBot;
 
 /** An aggregate of all the reactions with one emoji to one message. */
 export type AggregatedReaction = {|
