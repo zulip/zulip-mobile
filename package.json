@@ -107,6 +107,7 @@
     "jest-environment-jsdom": "^24.9.0",
     "jest-environment-jsdom-global": "^1.2.0",
     "jest-extended": "^0.11.2",
+    "lolex": "^5.1.1",
     "metro-react-native-babel-preset": "^0.54.1",
     "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0",

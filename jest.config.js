@@ -25,7 +25,7 @@ module.exports = {
 
   // Finding and transforming source code.
 
-  testPathIgnorePatterns: ['/node_modules/'],
+  testPathIgnorePatterns: ['/node_modules/', '/src/__tests__/aux/'],
 
   // When some source file foo.js says `import 'bar'`, Jest looks in the
   // directories above foo.js for a directory like `node_modules` to find
