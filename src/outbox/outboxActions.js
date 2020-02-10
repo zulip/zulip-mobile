@@ -64,17 +64,13 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
         return; // i.e., continue
       }
 
-      const to = ((): string => {
-        const { narrow } = item;
-        // TODO: can this test be `if (item.type === private)`?
-        if (isPrivateOrGroupNarrow(narrow)) {
-          return narrow[0].operand;
-        } else {
-          // HACK: the server attempts to interpret this argument as JSON, then
-          // CSV, then a literal. To avoid misparsing, always use JSON.
-          return JSON.stringify([item.display_recipient]);
-        }
-      })();
+      // prettier-ignore
+      const to =
+        item.type === 'private'
+          ? item.narrow[0].operand
+            // HACK: the server attempts to interpret this argument as JSON, then
+            // CSV, then a literal. To avoid misparsing, always use JSON.
+          : JSON.stringify([item.display_recipient]);
 
       await api.sendMessage(auth, {
         type: item.type,
