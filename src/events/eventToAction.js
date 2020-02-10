@@ -33,31 +33,31 @@ import {
 } from '../actionConstants';
 import { getOwnEmail } from '../users/userSelectors';
 
-const opToActionUser = {
+const opToActionUser = Object.freeze({
   add: EVENT_USER_ADD,
   remove: EVENT_USER_REMOVE,
   update: EVENT_USER_UPDATE,
-};
+});
 
-const opToActionUserGroup = {
+const opToActionUserGroup = Object.freeze({
   add: EVENT_USER_GROUP_ADD,
   remove: EVENT_USER_GROUP_REMOVE,
   update: EVENT_USER_GROUP_UPDATE,
   add_members: EVENT_USER_GROUP_ADD_MEMBERS,
   remove_members: EVENT_USER_GROUP_REMOVE_MEMBERS,
-};
+});
 
-const opToActionReaction = {
+const opToActionReaction = Object.freeze({
   add: EVENT_REACTION_ADD,
   remove: EVENT_REACTION_REMOVE,
-};
+});
 
-const opToActionTyping = {
+const opToActionTyping = Object.freeze({
   start: EVENT_TYPING_START,
   stop: EVENT_TYPING_STOP,
-};
+});
 
-const actionTypeOfEventType = {
+const actionTypeOfEventType = Object.freeze({
   update_message: EVENT_UPDATE_MESSAGE,
   subscription: EVENT_SUBSCRIPTION,
   presence: EVENT_PRESENCE,
@@ -68,7 +68,7 @@ const actionTypeOfEventType = {
   update_global_notifications: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   update_display_settings: EVENT_UPDATE_DISPLAY_SETTINGS,
   user_status: EVENT_USER_STATUS_UPDATE,
-};
+});
 
 // This FlowFixMe is because this function encodes a large number of
 // assumptions about the events the server sends, and doesn't check them.
