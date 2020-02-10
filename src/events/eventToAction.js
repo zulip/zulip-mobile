@@ -73,6 +73,14 @@ const actionTypeOfEventType = Object.freeze({
 // This FlowFixMe is because this function encodes a large number of
 // assumptions about the events the server sends, and doesn't check them.
 export default (state: GlobalState, event: $FlowFixMe): EventAction => {
+  // simple case: conversion by lookup-table
+  const actionType: $Values<typeof actionTypeOfEventType> | void =
+    actionTypeOfEventType[event.type];
+  if (actionType !== undefined) {
+    return { ...event, type: actionType };
+  }
+
+  // complicated case: additional event translation needed
   switch (event.type) {
     case 'alert_words':
       return {
@@ -98,21 +106,6 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
       return {
         type: EVENT,
         event,
-      };
-
-    case 'update_message':
-    case 'subscription':
-    case 'presence':
-    case 'muted_topics':
-    case 'realm_emoji':
-    case 'realm_filters':
-    case 'submessage':
-    case 'update_global_notifications':
-    case 'update_display_settings':
-    case 'user_status':
-      return {
-        ...event,
-        type: actionTypeOfEventType[event.type],
       };
 
     case 'realm_user':
