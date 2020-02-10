@@ -124,14 +124,14 @@ const makeLogFunction = ({ consoleMethod, severity }: LogParams): LogFunction =>
  * represents a bug.  For conditions that can happen without a bug (e.g. a
  * failure to reach the server), consider `logging.warn`.
  *
+ * See also:
+ *  * `logging.warn` for logging at lower severity
+ *
  * @param event A string describing the nature of the event to be logged, or an
  *   exception whose `.message` is such a string. Related events should have
  *   identical such strings, when feasible.
  * @param extras Diagnostic data which may differ between separate occurrences
  *   of the event.
- *
- * See also:
- *  * `logging.warn` for logging at lower severity
  */
 export const error: (event: string | Error, extras?: Extras) => void = makeLogFunction({
   consoleMethod: console.error,
@@ -148,14 +148,14 @@ export const error: (event: string | Error, extras?: Extras) => void = makeLogFu
  * which have an inevitable background rate.  For conditions which
  * definitely represent a bug in the app, consider `logging.error` instead.
  *
+ * See also:
+ *  * `logging.error` for logging at higher severity
+ *
  * @param event A string describing the nature of the event to be logged, or an
  *   exception whose `.message` is such a string. Related events should have
  *   identical such strings, when feasible.
  * @param extras Diagnostic data which may differ between separate occurrences
  *   of the event.
- *
- * See also:
- *  * `logging.error` for logging at higher severity
  */
 export const warn: (event: string | Error, extras?: Extras) => void = makeLogFunction({
   consoleMethod: console.warn,
