@@ -1,8 +1,44 @@
 /* @flow strict-local */
 import { sleep, tryUntilSuccessful } from '../async';
+import { Lolex } from '../../__tests__/aux/lolex';
 
-describe('sleep', () => {
-  test('waits for a given time in milliseconds', async () => {
+describe('sleep (ideal)', () => {
+  const lolex: Lolex = new Lolex();
+
+  afterAll(() => {
+    lolex.dispose();
+  });
+
+  afterEach(() => {
+    // clear any unset timers
+    lolex.clearAllTimers();
+  });
+
+  const sleepMeasure = async (expectedMs: number) => {
+    const start = Date.now();
+    await sleep(expectedMs);
+    const actualMs = Date.now() - start;
+
+    return actualMs;
+  };
+
+  test('waits for exactly the right number of milliseconds', async () => {
+    const expectedMs = 1000;
+    const sleepPromise: Promise<number> = sleepMeasure(expectedMs);
+
+    lolex.runOnlyPendingTimers();
+
+    // If `sleepPromise` hasn't resolved already, it never will; this await will
+    // hang. In this case, Jest will eventually time out and report failure.
+    // https://jestjs.io/docs/en/jest-object.html#jestsettimeouttimeout
+    const actualMs = await sleepPromise;
+
+    expect(actualMs).toEqual(expectedMs);
+  });
+});
+
+describe('sleep (real)', () => {
+  test('waits for approximately the right number of milliseconds', async () => {
     const expectedMs = 1000;
 
     const start = Date.now();
