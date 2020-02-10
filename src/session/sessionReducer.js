@@ -108,6 +108,8 @@ const rehydrate = (state, action) => {
   };
 };
 
+// TODO: refactor, probably by breaking up SessionState
+// eslint-disable-next-line complexity
 export default (state: SessionState = initialState, action: Action): SessionState => {
   switch (action.type) {
     case DEAD_QUEUE:

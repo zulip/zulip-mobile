@@ -65,7 +65,7 @@ rules:
   no-plusplus: off
   no-nested-ternary: off
 
-  complexity: ["error", {max: 20}]
+  complexity: ["error", {max: 15}]
 
   # We also partly repeal AirBnB's forbidden-syntax subrules. (This must be done
   # in the `overrides:` section.)

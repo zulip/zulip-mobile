@@ -25,6 +25,8 @@ export type UpdateStrategy =
   | 'scroll-to-anchor'
   | 'scroll-to-bottom-if-near-bottom';
 
+// (the complexity here is mostly illusory, but consider refactoring anyway)
+// eslint-disable-next-line complexity
 export const getMessageTransitionProps = (prevProps: Props, nextProps: Props): TransitionProps => {
   const sameNarrow = isEqual(prevProps.narrow, nextProps.narrow);
   const noMessages = nextProps.messages.length === 0;

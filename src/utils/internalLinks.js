@@ -29,6 +29,8 @@ export const isMessageLink = (url: string, realm: string): boolean =>
 
 type LinkType = 'external' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
+// TODO: refactor
+// eslint-disable-next-line complexity
 export const getLinkType = (url: string, realm: string): LinkType => {
   if (!isInternalLink(url, realm)) {
     return 'external';

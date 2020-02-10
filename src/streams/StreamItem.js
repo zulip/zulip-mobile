@@ -66,6 +66,8 @@ export default class StreamItem extends PureComponent<Props> {
     }
   };
 
+  // TODO: refactor
+  // eslint-disable-next-line complexity
   render() {
     const { styles: contextStyles } = this.context;
     const {
