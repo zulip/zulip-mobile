@@ -67,7 +67,10 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
       // prettier-ignore
       const to =
         item.type === 'private'
-          ? item.narrow[0].operand
+            // This will include the self user, possibly twice.  That's
+            // fine; on send, the server (since at least 2013) drops dupes
+            // and normalizes whether to include the sender.
+          ? item.display_recipient.map(r => r.email).join(',')
             // HACK: the server attempts to interpret this argument as JSON, then
             // CSV, then a literal. To avoid misparsing, always use JSON.
           : JSON.stringify([item.display_recipient]);
