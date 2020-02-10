@@ -66,7 +66,7 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
       // prettier-ignore
       const to =
         item.type === 'private'
-          ? item.narrow[0].operand
+          ? item.display_recipient.map(r => r.email).join(',')
             // HACK: the server attempts to interpret this argument as JSON, then
             // CSV, then a literal. To avoid misparsing, always use JSON.
           : JSON.stringify([item.display_recipient]);
