@@ -100,6 +100,8 @@ export const makeAccount = (
     email?: string,
     realm?: string,
     apiKey?: string,
+    shouldHaveZulipVersion?: boolean,
+    zulipVersion?: string,
     ackedPushToken?: string | null,
   } = {},
 ): Account => {
@@ -108,12 +110,15 @@ export const makeAccount = (
     email = user.email,
     realm: realmInner = realm,
     apiKey = randString() + randString(),
+    shouldHaveZulipVersion = false, // Will be true in the next commit
+    zulipVersion: zulipVersionInner = zulipVersion,
     ackedPushToken = null,
   } = args;
   return deepFreeze({
     realm: realmInner,
     email,
     apiKey,
+    zulipVersion: shouldHaveZulipVersion ? zulipVersionInner : undefined,
     ackedPushToken,
   });
 };
@@ -122,6 +127,7 @@ export const selfUser: User = makeUser({ name: 'self' });
 export const selfAccount: Account = makeAccount({
   user: selfUser,
   realm,
+  shouldHaveZulipVersion: true,
 });
 export const selfAuth: Auth = deepFreeze(authOfAccount(selfAccount));
 
