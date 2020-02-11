@@ -168,7 +168,10 @@ let viewportHeight = documentBody.clientHeight;
 
 window.addEventListener('resize', event => {
   const difference = viewportHeight - documentBody.clientHeight;
-  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
+  if (
+    Math.abs(difference) > 100 // do not consider resize when unread notice pops in and out
+    && documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight
+  ) {
     window.scrollBy({ left: 0, top: difference });
   }
   viewportHeight = documentBody.clientHeight;
