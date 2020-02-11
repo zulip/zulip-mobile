@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import {
   REALM_ADD,
+  REALM_INIT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   ACK_PUSH_TOKEN,
@@ -36,6 +37,14 @@ const realmAdd = (state, action) => {
     ...state,
   ];
 };
+
+const realmInit = (state, action) => [
+  {
+    ...state[0],
+    zulipVersion: action.zulipVersion,
+  },
+  ...state.slice(1),
+];
 
 const accountSwitch = (state, action) => {
   if (action.index === 0) {
@@ -101,6 +110,9 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
   switch (action.type) {
     case REALM_ADD:
       return realmAdd(state, action);
+
+    case REALM_INIT:
+      return realmInit(state, action);
 
     case ACCOUNT_SWITCH:
       return accountSwitch(state, action);

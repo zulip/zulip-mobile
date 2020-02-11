@@ -70,6 +70,40 @@ describe('accountsReducer', () => {
     });
   });
 
+  describe('REALM_INIT', () => {
+    const account1 = eg.makeAccount();
+    const account2 = eg.makeAccount();
+    const account3 = eg.makeAccount();
+
+    test('records zulipVersion on active account', () => {
+      const prevState = deepFreeze([account1, account2, account3]);
+      const newZulipVersion = '2.0.0';
+      const action = deepFreeze({ ...eg.action.realm_init, zulipVersion: newZulipVersion });
+
+      const expectedState = [{ ...account1, zulipVersion: newZulipVersion }, account2, account3];
+
+      const newState = accountsReducer(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(prevState);
+    });
+
+    test('records undefined for zulipVersion on active account if not present in action', () => {
+      const prevState = deepFreeze([account1, account2, account3]);
+      const action = deepFreeze({
+        ...eg.action.realm_init,
+        zulipVersion: undefined,
+      });
+
+      const expectedState = [{ ...account1, zulipVersion: undefined }, account2, account3];
+
+      const newState = accountsReducer(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(prevState);
+    });
+  });
+
   describe('ACCOUNT_SWITCH', () => {
     const account1 = eg.makeAccount();
     const account2 = eg.makeAccount();
