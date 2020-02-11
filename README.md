@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/zulip/zulip-mobile.svg?branch=master)](https://travis-ci.org/zulip/zulip-mobile)
 [![Zulip chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://chat.zulip.org/#narrow/stream/mobile)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/zulip/zulip-mobile/blob/master/CONTRIBUTING.md)
 
 Zulip Mobile is the official mobile Zulip client, supporting both iOS
 and Android.
@@ -23,6 +24,10 @@ the app, and reporting bugs!
 
 
 ## Contributing
+
+Everyone is welcome to contribute. We gladly accept patches, pull requests,
+bug reports, or any other improvements. Read below to see how you can get
+started.
 
 ### Discussion
 
