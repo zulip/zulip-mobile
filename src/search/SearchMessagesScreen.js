@@ -80,25 +80,19 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
 
     this.setState({ isFetching: true });
     let messages: Message[];
-    {
-      // if the promise's construction fails, we let the exception
-      // propagate immediately
-      const networkPromise = this.fetchSearchMessages(query);
-
-      try {
-        messages = await networkPromise;
-      } finally {
-        // Updating `isFetching` is the same for success or failure.
-        if (id > this.lastIdReceived) {
-          this.lastIdReceived = id;
-          if (this.lastIdReceived === this.lastIdSent) {
-            this.setState({ isFetching: false });
-          }
+    try {
+      messages = await this.fetchSearchMessages(query);
+    } finally {
+      // Updating `isFetching` is the same for success or failure.
+      if (id > this.lastIdReceived) {
+        this.lastIdReceived = id;
+        if (this.lastIdReceived === this.lastIdSent) {
+          this.setState({ isFetching: false });
         }
       }
-      /* TODO: if an error makes it through the filter above,
-         should we arrange to display something to the user? */
     }
+    /* TODO: if an error makes it through the filter above,
+       should we arrange to display something to the user? */
     // N.B.: `messages` is now set
 
     // Update `state.messages` if this is our new latest result.
