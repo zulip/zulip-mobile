@@ -79,9 +79,14 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
     }
 
     this.setState({ isFetching: true });
-    let messages: Message[];
     try {
-      messages = await this.fetchSearchMessages(query);
+      const messages = await this.fetchSearchMessages(query);
+
+      // Update `state.messages` if this is our new latest result.
+      if (id > this.lastIdSuccess) {
+        this.lastIdSuccess = id;
+        this.setState({ messages });
+      }
     } finally {
       // Updating `isFetching` is the same for success or failure.
       if (id > this.lastIdReceived) {
@@ -93,13 +98,6 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
     }
     /* TODO: if an error makes it through the filter above,
        should we arrange to display something to the user? */
-    // N.B.: `messages` is now set
-
-    // Update `state.messages` if this is our new latest result.
-    if (id > this.lastIdSuccess) {
-      this.lastIdSuccess = id;
-      this.setState({ messages });
-    }
   };
 
   // The real work to be done on a query is async.  This wrapper exists
