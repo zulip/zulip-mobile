@@ -53,8 +53,10 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
   };
 
   // Non-React state. See comment following.
-  lastIdSent: number = 1000;
+  // Invariant: lastIdSuccess <= lastIdReceived <= lastIdSent.
+  lastIdSuccess: number = 1000;
   lastIdReceived: number = 1000;
+  lastIdSent: number = 1000;
 
   // This component is less pure than it should be. The correct behavior here is
   // probably that, when props change, all outstanding asynchronous requests
@@ -71,6 +73,7 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
     if (query === '') {
       // The empty query can be resolved without a network call.
       this.lastIdReceived = id;
+      this.lastIdSuccess = id;
       this.setState({ messages: null, isFetching: false });
       return;
     }
@@ -85,24 +88,24 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
       try {
         messages = await networkPromise;
       } finally {
-        /* Succeed or fail, we update our request-state. We discard late
-           results _even if they are errors_. */
-        if (this.lastIdReceived > id) {
-          // eslint-disable-next-line no-unsafe-finally
-          return;
+        // Updating `isFetching` is the same for success or failure.
+        if (id > this.lastIdReceived) {
+          this.lastIdReceived = id;
+          if (this.lastIdReceived === this.lastIdSent) {
+            this.setState({ isFetching: false });
+          }
         }
-        this.lastIdReceived = id;
       }
       /* TODO: if an error makes it through the filter above,
          should we arrange to display something to the user? */
     }
     // N.B.: `messages` is now set
 
-    // A query is concluded. Report the message-list.
-    this.setState({
-      messages,
-      isFetching: this.lastIdSent !== this.lastIdReceived,
-    });
+    // Update `state.messages` if this is our new latest result.
+    if (id > this.lastIdSuccess) {
+      this.lastIdSuccess = id;
+      this.setState({ messages });
+    }
   };
 
   // The real work to be done on a query is async.  This wrapper exists
