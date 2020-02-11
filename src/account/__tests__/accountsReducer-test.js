@@ -25,6 +25,7 @@ describe('accountsReducer', () => {
         email: '',
         apiKey: '',
         realm: 'https://new.realm.org',
+        shouldHaveZulipVersion: false, // Will be removed in the next commit (so, defaulting to true)
       });
 
       const action = deepFreeze({
@@ -46,6 +47,7 @@ describe('accountsReducer', () => {
         email: '',
         realm: account2.realm,
         apiKey: '',
+        shouldHaveZulipVersion: false, // Will be removed in the next commit (so, defaulting to true)
       });
 
       const action = deepFreeze({
@@ -102,9 +104,10 @@ describe('accountsReducer', () => {
 
     const prevState = deepFreeze([account1, account2]);
 
-    test('on login, update initial account with auth information', () => {
+    test('on login, update initial account with auth information, without clobbering zulipVersion', () => {
       const newAccount = eg.makeAccount({
         realm: account1.realm,
+        shouldHaveZulipVersion: false,
       });
 
       const action = deepFreeze({
@@ -114,7 +117,7 @@ describe('accountsReducer', () => {
         realm: newAccount.realm,
       });
 
-      const expectedState = [newAccount, account2];
+      const expectedState = [{ ...newAccount, zulipVersion: account1.zulipVersion }, account2];
 
       const newState = accountsReducer(prevState, action);
 
@@ -125,6 +128,7 @@ describe('accountsReducer', () => {
       const newAccount = eg.makeAccount({
         email: 'newaccount@example.com',
         realm: 'https://new.realm.org',
+        shouldHaveZulipVersion: false,
       });
 
       const action = deepFreeze({
@@ -141,10 +145,11 @@ describe('accountsReducer', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test('on login, if account does exist, merge new data, move to top', () => {
+    test('on login, if account does exist, merge new data, move to top, without clobbering zulipVersion', () => {
       const newAccount = eg.makeAccount({
         email: account2.email,
         realm: account2.realm,
+        shouldHaveZulipVersion: false,
       });
       const action = deepFreeze({
         type: LOGIN_SUCCESS,
@@ -153,7 +158,7 @@ describe('accountsReducer', () => {
         email: newAccount.email,
       });
 
-      const expectedState = [newAccount, account1];
+      const expectedState = [{ ...newAccount, zulipVersion: account2.zulipVersion }, account1];
 
       const newState = accountsReducer(prevState, action);
 

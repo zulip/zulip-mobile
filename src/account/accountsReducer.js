@@ -54,7 +54,7 @@ const loginSuccess = (state, action) => {
     return [{ realm, email, apiKey, ackedPushToken: null }, ...state];
   }
   return [
-    { realm, email, apiKey, ackedPushToken: null },
+    { ...state[accountIndex], email, apiKey, ackedPushToken: null },
     ...state.slice(0, accountIndex),
     ...state.slice(accountIndex + 1),
   ];
@@ -110,8 +110,7 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
       return unackPushToken(state, action);
 
     case LOGOUT: {
-      const { realm, email } = state[0];
-      return [{ realm, email, apiKey: '', ackedPushToken: null }, ...state.slice(1)];
+      return [{ ...state[0], apiKey: '', ackedPushToken: null }, ...state.slice(1)];
     }
 
     case ACCOUNT_REMOVE:
