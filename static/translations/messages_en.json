@@ -103,6 +103,8 @@
   "Topic": "Topic",
   "Type a message": "Type a message",
   "Message group": "Message group",
+  "You can't post a message because the recipient's account has been deactivated.": "You can't post a message because the recipient's account has been deactivated",
+  "You can't post a message because one or more recipients' accounts have been deactivated": "You can't post a message because one or more recipients' accounts have been deactivated",
   "starred": "starred",
   "Enable notifications": "Enable notifications",
   "Jot down something": "Jot down something",
