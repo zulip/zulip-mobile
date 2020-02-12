@@ -36,23 +36,34 @@ const languages: $ReadOnlyArray<Language> = [
   { locale: 'bg', name: 'Bulgarian', nativeName: 'Български' },
   { locale: 'ca', name: 'Catalan', nativeName: 'Català' },
   { locale: 'zh', name: 'Chinese (Simplified)', nativeName: '中文 (简体)' },
+  // TODO: migrate `zh` to `zh-Hans`, and add `zh-Hant`
   { locale: 'cs', name: 'Czech', nativeName: 'Čeština' },
   { locale: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
+  // TODO: add `en_GB` -- it's "100% translated", though that just means
+  //   the one string mentioning "organization" has s/z/s/ in that word
+  { locale: 'fi', name: 'Finnish', nativeName: 'Suomi' },
   { locale: 'fr', name: 'French', nativeName: 'Français' },
+  { locale: 'gl', name: 'Galician', nativeName: 'Galego' },
   { locale: 'de', name: 'German', nativeName: 'Deutsch' },
   { locale: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
   { locale: 'hu', name: 'Hungarian', nativeName: 'Magyar' },
   { locale: 'id', name: 'Indonesian', nativeName: 'Bahasa Indonesia' },
   { locale: 'it', name: 'Italian', nativeName: 'Italiano' },
   { locale: 'ja', name: 'Japanese', nativeName: '日本語' },
+  { locale: 'ko', name: 'Korean', nativeName: '한국어' },
+  { locale: 'lt', name: 'Lithuanian', nativeName: 'Lietuvių' },
   { locale: 'ml', name: 'Malayalam', nativeName: 'മലയാളം' },
+  { locale: 'fa', name: 'Persian', nativeName: 'فارسی' },
   { locale: 'pl', name: 'Polish', nativeName: 'Polski' },
   { locale: 'pt', name: 'Portuguese', nativeName: 'Português' },
+  { locale: 'ro', name: 'Romanian', nativeName: 'Română' },
   { locale: 'ru', name: 'Russian', nativeName: 'Русский' },
   { locale: 'sr', name: 'Serbian', nativeName: 'Српски' },
   { locale: 'es', name: 'Spanish', nativeName: 'Español' },
+  { locale: 'sv', name: 'Swedish', nativeName: 'Svenska' },
   { locale: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
   { locale: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
+  { locale: 'uk', name: 'Ukrainian', nativeName: 'Українська' },
 ];
 
 export default languages;
