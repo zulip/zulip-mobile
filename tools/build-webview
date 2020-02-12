@@ -46,7 +46,7 @@ root="$(cd "$(dirname "${BASH_SOURCE[0]}")"/../ && pwd)"
 #
 # This must return a name for the project root directory which coincides with
 # the one Gradle/Xcode will provide. This is unlikely to be a problem on Linux
-# or macOS, but has caused isues on Windows; see GitHub issue #3777.)
+# or macOS, but has caused issues on Windows; see GitHub issue #3777.)
 root="$(readlink -m "$root")"
 readonly root
 
