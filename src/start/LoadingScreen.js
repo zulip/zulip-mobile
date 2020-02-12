@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
-import { LoadingIndicator } from '../common';
+import { LoadingIndicator, ZulipStatusBar } from '../common';
 
 const styles = StyleSheet.create({
   center: {
@@ -18,6 +18,7 @@ export default class LoadingScreen extends PureComponent<{||}> {
   render() {
     return (
       <View style={styles.center}>
+        <ZulipStatusBar backgroundColor={BRAND_COLOR} />
         <LoadingIndicator color="0, 0, 0" size={80} showLogo />
       </View>
     );
