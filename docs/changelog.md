@@ -36,6 +36,38 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* A bug in the PM conversations screen caused it not to show
+  certain conversations when they first started.
+* (iOS) In dark mode, when moving from one screen to another the app
+  would show a white flash.
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Resolved issues, user-facing:
+  * #3871: put "Add a reaction" always as first option on long-press
+  * #3729: couldn't send to stream with a comma in its name
+  * #3654: PMs from new sources weren't immediately shown in PMs list
+  * #3857: unread notice had slight overlap with a very tall compose box
+  * #3743: strip leading/trailing whitespace from topic on send
+  * #3816: crash at user profile when user's timezone unrecognized
+  * #2914: screen flashed white at navigation on iOS, in dark mode
+  * #3788: show error message when deleting a message fails
+  * #3813: crash on trying to use camera when iOS permission denied
+  * #3449: stream notification settings reflect user's global choice
+           of default
+
+* Resolved issues, developer-facing:
+  * #3888: log malformed APNs device tokens
+  * 60807bde2: document CrossRealmBot
+  * 1eb4ae068^..f254f45f8: document Outbox, and "caught up"
+  * ba8928209^..7a3a84547: correct jsdoc on FIRST_UNREAD_ANCHOR
+
 
 ## 26.21.144 (2020-01-31)
 
