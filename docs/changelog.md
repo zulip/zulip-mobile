@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.22.145 (2020-02-11)
+
 ### Highlights for users
 
 * A bug in the PM conversations screen caused it not to show
