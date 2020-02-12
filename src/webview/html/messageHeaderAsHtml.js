@@ -11,6 +11,7 @@ import {
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 import { humanDate } from '../../utils/date';
+import filteredRecipientsForPM from '../../pm-conversations/filteredRecipientsForPM';
 
 const renderSubject = item =>
   // TODO: pin down if '' happens, and what its proper semantics are.
@@ -87,11 +88,7 @@ export default (
   }
 
   if (item.type === 'private' && headerStyle === 'full') {
-    const recipients =
-      item.display_recipient.length === 1 && item.display_recipient[0].email === ownUser.email
-        ? item.display_recipient
-        : item.display_recipient.filter(r => r.email !== ownUser.email);
-
+    const recipients = filteredRecipientsForPM(item, ownUser);
     const narrowObj =
       recipients.length === 1
         ? privateNarrow(recipients[0].email)
