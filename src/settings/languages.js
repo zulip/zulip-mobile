@@ -7,6 +7,30 @@ export type Language = {
   nativeName: string,
 };
 
+/**
+ * The set of languages we offer in the language settings screen.
+ *
+ * The translation data files in `static/translations/` include all the
+ * languages we have open on Transifex for people to translate.  This means
+ * all the languages that someone's expressed interest in translating Zulip
+ * into, and there are usually some that aren't yet much translated at all.
+ *
+ * To avoid offering users a translation into their language when it won't
+ * actually do anything, we maintain this separate list of languages that
+ * are translated to an adequate level.
+ *
+ * The Zulip webapp offers a language in the UI when it's over 5%
+ * translated.  (Search for `percent_translated` in the server code.)
+ * To see translation percentages, consult Transifex:
+ *   https://www.transifex.com/zulip/zulip/mobile/
+ *
+ * For the values of `nativeName`, consult Wikipedia:
+ *   https://meta.wikimedia.org/wiki/List_of_Wikipedias
+ * or better yet, Wikipedia's own mobile UIs.  Wikipedia is a very
+ * conscientiously international and intercultural project with a lot of
+ * effort going into it by speakers of many languages, which makes it a
+ * useful gold standard for this.
+ */
 const languages: $ReadOnlyArray<Language> = [
   { locale: 'en', name: 'English', nativeName: 'English' },
   { locale: 'bg', name: 'Bulgarian', nativeName: 'Български' },
