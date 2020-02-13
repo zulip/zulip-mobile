@@ -73,6 +73,11 @@ export type Fetching = {|
   newer: boolean,
 |};
 
+/**
+ * Info about which narrows we're actively fetching more messages from.
+ *
+ * See also: `CaughtUpState`, `NarrowsState`.
+ */
 export type FetchingState = {
   [narrow: string]: Fetching,
 };
@@ -155,10 +160,12 @@ export type MuteState = MuteTuple[];
  * Keys are `JSON.stringify`-encoded `Narrow` objects.
  * Values are sorted lists of message IDs.
  *
- * See also `MessagesState`, which stores the message data indexed by ID.
- * See also `CaughtUpState` for information about where this data *is*
- * complete for a given narrow, and `FetchingState` for information about
- * which narrows we're actively fetching more messages from.
+ * See also:
+ *  * `MessagesState`, which stores the message data indexed by ID;
+ *  * `CaughtUpState` for information about where this data *is*
+ *    complete for a given narrow;
+ *  * `FetchingState` for information about which narrows we're actively
+ *    fetching more messages from.
  */
 export type NarrowsState = {
   [narrow: string]: number[],
