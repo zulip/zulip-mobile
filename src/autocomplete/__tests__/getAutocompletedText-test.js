@@ -3,6 +3,7 @@ import getAutocompletedText from '../getAutocompletedText';
 
 describe('getAutocompletedText', () => {
   let selection = { start: 3, end: 3 };
+
   test('can autocomplete users', () => {
     expect(getAutocompletedText('@ab', '**abcd**', selection)).toEqual('@**abcd** ');
   });

@@ -3,6 +3,7 @@ import getAutocompleteFilter from '../getAutocompleteFilter';
 
 describe('getAutocompleteFilter', () => {
   let selection = { start: 0, end: 0 };
+
   test('get empty object for empty text', () => {
     expect(getAutocompleteFilter('', selection)).toEqual({ filter: '', lastWordPrefix: '' });
   });
