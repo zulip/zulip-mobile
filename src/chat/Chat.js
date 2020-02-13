@@ -16,7 +16,7 @@ import { getShownMessagesForNarrow } from './narrowsSelectors';
 
 type SelectorProps = {|
   fetching: Fetching,
-  noMessages: boolean,
+  haveNoMessages: boolean,
 |};
 
 type Props = $ReadOnly<{|
@@ -37,16 +37,17 @@ const componentStyles = StyleSheet.create({
 
 class Chat extends PureComponent<Props> {
   render() {
-    const { fetching, noMessages, narrow } = this.props;
+    const { fetching, haveNoMessages, narrow } = this.props;
 
-    const showMessagePlaceholders = (fetching.older || fetching.newer) && noMessages;
+    const showMessagePlaceholders = (fetching.older || fetching.newer) && haveNoMessages;
+    const sayNoMessages = haveNoMessages && !showMessagePlaceholders;
     const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <View style={styles.flexed}>
           <View style={componentStyles.reverse}>
             <MessageList narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
-            {noMessages && !showMessagePlaceholders && <NoMessages narrow={narrow} />}
+            {sayNoMessages && <NoMessages narrow={narrow} />}
             <UnreadNotice narrow={narrow} />
           </View>
           {showComposeBox && <ComposeBox narrow={narrow} />}
@@ -58,5 +59,5 @@ class Chat extends PureComponent<Props> {
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   fetching: getFetchingForNarrow(state, props.narrow),
-  noMessages: getShownMessagesForNarrow(state, props.narrow).length === 0,
+  haveNoMessages: getShownMessagesForNarrow(state, props.narrow).length === 0,
 }))(Chat);
