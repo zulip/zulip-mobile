@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import thunk from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import createActionBuffer from 'redux-action-buffer';
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
@@ -10,7 +10,7 @@ import { getNav } from '../selectors';
 
 const reactNavigationMiddleware = createReactNavigationReduxMiddleware('root', getNav);
 
-const middleware = [reactNavigationMiddleware, createActionBuffer(REHYDRATE), thunk];
+const middleware = [reactNavigationMiddleware, createActionBuffer(REHYDRATE), thunkMiddleware];
 
 if (config.enableReduxLogging) {
   middleware.push(
