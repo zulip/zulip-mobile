@@ -19,7 +19,7 @@ export default class LoadingScreen extends PureComponent<{||}> {
     return (
       <View style={styles.center}>
         <ZulipStatusBar backgroundColor={BRAND_COLOR} />
-        <LoadingIndicator color="0, 0, 0" size={80} showLogo />
+        <LoadingIndicator color="black" size={80} showLogo />
       </View>
     );
   }
