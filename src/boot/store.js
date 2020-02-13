@@ -190,20 +190,39 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
  */
 function listMiddleware() {
   const result = [
+    // Allow us to cause navigation by dispatching Redux actions.
+    // See docs: https://github.com/react-navigation/redux-helpers
     createReactNavigationReduxMiddleware('root', getNav),
+
+    // Delay ("buffer") actions until a REHYDRATE action comes through.
+    // After dispatching the latter, this will go back and dispatch
+    // all the buffered actions.  See docs:
+    //   https://github.com/rt2zz/redux-action-buffer
     createActionBuffer(REHYDRATE),
+
+    // Handle the fancy "thunk" actions we often use, i.e. async
+    // functions of `dispatch` and `state`.  See docs:
+    //   https://github.com/reduxjs/redux-thunk
     thunkMiddleware,
   ];
+
   if (config.enableReduxLogging) {
     result.push(
+      // Log each action to the console -- often handy in development.
+      // See upstream docs:
+      //   https://github.com/LogRocket/redux-logger
+      // and ours:
+      //   https://github.com/zulip/zulip-mobile/blob/master/docs/howto/debugging.md#redux-logger
       createLogger({
         duration: true,
-        // See docs/howto/debugging.md.
-        // diff: true,
-        // predicate: (getState, action) => action.type === 'MESSAGE_FETCH_COMPLETE',
+        // Example options to add for more focused information, depending on
+        // what you're investigating; see docs/howto/debugging.md (link above).
+        //   diff: true,
+        //   predicate: (getState, action) => action.type === 'MESSAGE_FETCH_COMPLETE',
       }),
     );
   }
+
   return result;
 }
 
@@ -219,8 +238,16 @@ const store: Store<GlobalState, Action> = createStore(
   rootReducer,
   undefined,
   compose(
+    // Invoke redux-persist-migrate with our migrations.
     createMigration(migrations, 'migrations'),
+
+    // Various middleware; see `listMiddleware`.
     applyMiddleware(...listMiddleware()),
+
+    // Handle all the boring parts of a REHYDRATE action from redux-persist,
+    // where the live state just gets filled in with the corresponding parts
+    // of the just-loaded state from disk.  See upstream docs:
+    //   https://github.com/rt2zz/redux-persist/tree/v4.10.2#autorehydrateconfig
     autoRehydrate(),
   ),
 );
@@ -256,7 +283,12 @@ const customReviver = (key, value, defaultReviver) => {
 const { stringify, parse } = Serialize.immutable(Immutable, null, customReplacer, customReviver);
 
 const reduxPersistConfig: Config = {
+  // The parts of our state for redux-persist to persist,
+  // as keys on the top-level state.
   whitelist: [...storeKeys, ...cacheKeys],
+
+  // Store data through our own wrapper for AsyncStorage, in particular
+  // to get compression.
   // $FlowFixMe: https://github.com/rt2zz/redux-persist/issues/823
   storage: ZulipAsyncStorage,
   serialize: stringify,
