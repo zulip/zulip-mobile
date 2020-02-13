@@ -12,7 +12,7 @@ import UnreadNotice from './UnreadNotice';
 import styles from '../styles';
 import { canSendToNarrow } from '../utils/narrow';
 import { getFetchingForNarrow } from './fetchingSelectors';
-import { getIfNoMessages } from './narrowsSelectors';
+import { getShownMessagesForNarrow } from './narrowsSelectors';
 
 type SelectorProps = {|
   fetching: Fetching,
@@ -62,5 +62,5 @@ class Chat extends PureComponent<Props> {
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   fetching: getFetchingForNarrow(state, props.narrow),
-  noMessages: getIfNoMessages(props.narrow)(state),
+  noMessages: getShownMessagesForNarrow(state, props.narrow).length === 0,
 }))(Chat);

@@ -132,9 +132,6 @@ export const getStreamInNarrow = (
     },
   );
 
-export const getIfNoMessages = (narrow: Narrow) => (state: GlobalState): boolean =>
-  getShownMessagesForNarrow(state, narrow).length === 0;
-
 export const isNarrowValid = (narrow: Narrow): Selector<boolean> =>
   createSelector(
     getStreams,
