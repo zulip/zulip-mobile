@@ -177,6 +177,24 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
 };
 
 /**
+ * The Redux store.  We store nearly all application data here.
+ *
+ * For discussion, see:
+ *  * docs/architecture.md
+ *  * docs/architecture/realtime.md
+ *  * docs/background/recommended-reading.md
+ */
+const store: Store<GlobalState, Action> = createStore(
+  rootReducer,
+  undefined,
+  compose(
+    createMigration(migrations, 'migrations'),
+    applyMiddleware(...middleware),
+    autoRehydrate(),
+  ),
+);
+
+/**
  * A special identifier used by `remotedev-serialize`.
  *
  * Use this in the custom replacer and reviver, below, to make it
@@ -213,24 +231,6 @@ const reduxPersistConfig: Config = {
   serialize: stringify,
   deserialize: parse,
 };
-
-/**
- * The Redux store.  We store nearly all application data here.
- *
- * For discussion, see:
- *  * docs/architecture.md
- *  * docs/architecture/realtime.md
- *  * docs/background/recommended-reading.md
- */
-const store: Store<GlobalState, Action> = createStore(
-  rootReducer,
-  undefined,
-  compose(
-    createMigration(migrations, 'migrations'),
-    applyMiddleware(...middleware),
-    autoRehydrate(),
-  ),
-);
 
 /** Invoke redux-persist.  We do this once at launch. */
 export const restore = (onFinished?: () => void) =>
