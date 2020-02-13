@@ -133,18 +133,13 @@ export const getStreamInNarrow = (
     },
   );
 
-export const getIfNoMessages = (narrow: Narrow): Selector<boolean> =>
-  createSelector(
-    state => getShownMessagesForNarrow(state, narrow),
-    messages => messages.length === 0,
-  );
+export const getIfNoMessages = (narrow: Narrow) => (state: GlobalState): boolean =>
+  getShownMessagesForNarrow(state, narrow).length === 0;
 
-export const getShowMessagePlaceholders = (narrow: Narrow): Selector<boolean> =>
-  createSelector(
-    getIfNoMessages(narrow),
-    getFetchingForNarrow(narrow),
-    (noMessages, fetching) => (fetching.older || fetching.newer) && noMessages,
-  );
+export const getShowMessagePlaceholders = (narrow: Narrow) => (state: GlobalState): boolean => {
+  const fetching = getFetchingForNarrow(narrow)(state);
+  return (fetching.older || fetching.newer) && getIfNoMessages(narrow)(state);
+};
 
 export const isNarrowValid = (narrow: Narrow): Selector<boolean> =>
   createSelector(
