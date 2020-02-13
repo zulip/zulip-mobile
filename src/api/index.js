@@ -18,6 +18,7 @@ import markAllAsRead from './mark_as_read/markAllAsRead';
 import markStreamAsRead from './mark_as_read/markStreamAsRead';
 import markTopicAsRead from './mark_as_read/markTopicAsRead';
 import deleteMessage from './messages/deleteMessage';
+import deleteTopic from './messages/deleteTopic';
 import getRawMessageContent from './messages/getRawMessageContent';
 import getMessages from './messages/getMessages';
 import getMessageHistory from './messages/getMessageHistory';
@@ -72,6 +73,7 @@ export {
   markStreamAsRead,
   markTopicAsRead,
   deleteMessage,
+  deleteTopic,
   getRawMessageContent,
   getMessages,
   getMessageHistory,
