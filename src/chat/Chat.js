@@ -39,8 +39,9 @@ class Chat extends PureComponent<Props> {
   render() {
     const { fetching, haveNoMessages, narrow } = this.props;
 
-    const showMessagePlaceholders = (fetching.older || fetching.newer) && haveNoMessages;
-    const sayNoMessages = haveNoMessages && !showMessagePlaceholders;
+    const isFetching = fetching.older || fetching.newer;
+    const showMessagePlaceholders = haveNoMessages && isFetching;
+    const sayNoMessages = haveNoMessages && !isFetching;
     const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
