@@ -2,7 +2,6 @@
 import { createSelector } from 'reselect';
 
 import type { GlobalState, Narrow, Selector, Stream, Subscription } from '../types';
-import { NULL_SUBSCRIPTION } from '../nullObjects';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
 import { getSubscriptions, getStreams } from '../directSelectors';
 
@@ -67,13 +66,6 @@ export const getStreamForId = (state: GlobalState, streamId: number): Stream => 
   }
   return stream;
 };
-
-export const getSubscriptionForId: Selector<Subscription, number> = createSelector(
-  (state, streamId) => streamId,
-  state => getSubscriptions(state),
-  (streamId, subscriptions) =>
-    subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION,
-);
 
 export const getIsActiveStreamAnnouncementOnly: Selector<boolean, Narrow> = createSelector(
   (state, narrow) => narrow,
