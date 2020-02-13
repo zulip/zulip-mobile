@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Narrow, Dispatch } from '../types';
+import type { Fetching, Narrow, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { KeyboardAvoider } from '../common';
 import MessageList from '../webview/MessageList';
@@ -11,10 +11,12 @@ import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 import styles from '../styles';
 import { canSendToNarrow } from '../utils/narrow';
-import { getShowMessagePlaceholders } from '../selectors';
+import { getFetchingForNarrow } from './fetchingSelectors';
+import { getIfNoMessages } from './narrowsSelectors';
 
 type SelectorProps = {|
-  showMessagePlaceholders: boolean,
+  fetching: Fetching,
+  noMessages: boolean,
 |};
 
 type Props = $ReadOnly<{|
@@ -35,8 +37,9 @@ const componentStyles = StyleSheet.create({
 
 class Chat extends PureComponent<Props> {
   render() {
-    const { showMessagePlaceholders, narrow } = this.props;
+    const { fetching, noMessages, narrow } = this.props;
 
+    const showMessagePlaceholders = (fetching.older || fetching.newer) && noMessages;
     const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
@@ -54,5 +57,6 @@ class Chat extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  showMessagePlaceholders: getShowMessagePlaceholders(props.narrow)(state),
+  fetching: getFetchingForNarrow(state, props.narrow),
+  noMessages: getIfNoMessages(props.narrow)(state),
 }))(Chat);

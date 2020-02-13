@@ -22,7 +22,6 @@ import {
 } from '../directSelectors';
 import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
 import { getAllUsersByEmail } from '../users/userSelectors';
-import { getFetchingForNarrow } from './fetchingSelectors';
 import {
   isPrivateNarrow,
   isStreamOrTopicNarrow,
@@ -135,11 +134,6 @@ export const getStreamInNarrow = (
 
 export const getIfNoMessages = (narrow: Narrow) => (state: GlobalState): boolean =>
   getShownMessagesForNarrow(state, narrow).length === 0;
-
-export const getShowMessagePlaceholders = (narrow: Narrow) => (state: GlobalState): boolean => {
-  const fetching = getFetchingForNarrow(state, narrow);
-  return (fetching.older || fetching.newer) && getIfNoMessages(narrow)(state);
-};
 
 export const isNarrowValid = (narrow: Narrow): Selector<boolean> =>
   createSelector(
