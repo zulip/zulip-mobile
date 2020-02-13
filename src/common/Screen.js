@@ -64,6 +64,7 @@ type Props = $ReadOnly<{|
  * @prop [search] - If 'true' show a search box in place of the title.
  * @prop [autoFocus] - If search bar enabled, should it be focused initially.
  * @prop [searchBarOnChange] - Event called on search query change.
+
  * @prop [canGoBack] - If true (the default), show UI for "navigate back".
  * @prop [title] - Text shown as the title of the screen.
  *                 Required unless `search` is true.
