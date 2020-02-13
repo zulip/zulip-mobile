@@ -93,6 +93,7 @@ class RealmScreen extends PureComponent<Props, State> {
         padding
         centerContent
         keyboardShouldPersistTaps="always"
+        shouldShowLoadingBanner={false}
       >
         <Label text="Enter your Zulip server URL:" />
         <SmartUrlInput

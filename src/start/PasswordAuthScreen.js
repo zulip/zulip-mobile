@@ -91,7 +91,13 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
       || (requireEmailFormat && !isValidEmailFormat(email));
 
     return (
-      <Screen title="Log in" centerContent padding keyboardShouldPersistTaps="always">
+      <Screen
+        title="Log in"
+        centerContent
+        padding
+        keyboardShouldPersistTaps="always"
+        shouldShowLoadingBanner={false}
+      >
         <Input
           autoFocus={email.length === 0}
           autoCapitalize="none"

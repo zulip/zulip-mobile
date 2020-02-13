@@ -9,6 +9,7 @@ import type { Context, Dimensions, LocalizableText, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
+import LoadingBanner from './LoadingBanner';
 import ZulipStatusBar from './ZulipStatusBar';
 import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
@@ -43,6 +44,7 @@ type Props = $ReadOnly<{|
   search: boolean,
   autoFocus: boolean,
   searchBarOnChange: (text: string) => void,
+  shouldShowLoadingBanner: boolean,
 
   canGoBack: boolean,
   +title: LocalizableText,
@@ -85,6 +87,7 @@ class Screen extends PureComponent<Props> {
     search: false,
     autoFocus: false,
     searchBarOnChange: (text: string) => {},
+    shouldShowLoadingBanner: true,
 
     canGoBack: true,
     title: '',
@@ -104,6 +107,7 @@ class Screen extends PureComponent<Props> {
       searchBarOnChange,
       style,
       title,
+      shouldShowLoadingBanner,
     } = this.props;
     const { styles: contextStyles } = this.context;
 
@@ -116,6 +120,7 @@ class Screen extends PureComponent<Props> {
           <ModalNavBar canGoBack={canGoBack} title={title} />
         )}
         <OfflineNotice />
+        {shouldShowLoadingBanner && <LoadingBanner />}
         <KeyboardAvoider
           behavior="padding"
           style={[componentStyles.wrapper, padding && styles.padding]}
