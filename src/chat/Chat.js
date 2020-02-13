@@ -14,7 +14,7 @@ import { canSendToNarrow } from '../utils/narrow';
 import { getShowMessagePlaceholders } from '../selectors';
 
 type SelectorProps = {|
-  canSend: boolean,
+  showMessagePlaceholders: boolean,
 |};
 
 type Props = $ReadOnly<{|
@@ -35,8 +35,9 @@ const componentStyles = StyleSheet.create({
 
 class Chat extends PureComponent<Props> {
   render() {
-    const { canSend, narrow } = this.props;
+    const { showMessagePlaceholders, narrow } = this.props;
 
+    const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <View style={styles.flexed}>
@@ -45,7 +46,7 @@ class Chat extends PureComponent<Props> {
             <NoMessages narrow={narrow} />
             <UnreadNotice narrow={narrow} />
           </View>
-          {canSend && <ComposeBox narrow={narrow} />}
+          {showComposeBox && <ComposeBox narrow={narrow} />}
         </View>
       </KeyboardAvoider>
     );
@@ -53,5 +54,5 @@ class Chat extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  canSend: canSendToNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
+  showMessagePlaceholders: getShowMessagePlaceholders(props.narrow)(state),
 }))(Chat);
