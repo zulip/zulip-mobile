@@ -1,6 +1,9 @@
 /* @flow strict-local */
 /* eslint-disable spellcheck/spell-checker */
 
+import translations from '../i18n/messages';
+import { partition } from '../utils/misc';
+
 export type Language = {
   locale: string,
   name: string,
@@ -66,4 +69,18 @@ const languages: $ReadOnlyArray<Language> = [
   { locale: 'uk', name: 'Ukrainian', nativeName: 'Українська' },
 ];
 
-export default languages;
+const [knownLanguages, unknownLanguages] = partition<Language>(
+  languages,
+  ({ locale }) => locale in translations,
+);
+
+/* Red-box and shows in the debugger at import time. */
+if (unknownLanguages.length !== 0) {
+  // eslint-disable-next-line no-console
+  console.error(
+    'Unknown locales in language-selection screen:\n   ',
+    JSON.stringify(unknownLanguages),
+  );
+}
+
+export default knownLanguages;
