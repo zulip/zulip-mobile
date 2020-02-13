@@ -23,6 +23,7 @@ import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { pmUiRecipientsFromMessage } from '../utils/recipient';
+import { deleteMessagesForTopic } from '../topics/topicActions';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -99,6 +100,45 @@ const muteTopic = async ({ auth, message }) => {
 muteTopic.title = 'Mute topic';
 muteTopic.errorMessage = 'Failed to mute topic';
 
+const deleteTopic = async ({ auth, message, dispatch, ownEmail, _ }) => {
+  const alertTitle = _.intl.formatMessage(
+    {
+      id: "Are you sure you want to delete the topic '{topic}'?",
+      defaultMessage: "Are you sure you want to delete the topic '{topic}'?",
+    },
+    { topic: message.subject },
+  );
+  const AsyncAlert = async (): Promise<boolean> =>
+    new Promise((resolve, reject) => {
+      Alert.alert(
+        alertTitle,
+        _('This will also delete all messages in the topic.'),
+        [
+          {
+            text: _('Delete topic'),
+            onPress: () => {
+              resolve(true);
+            },
+            style: 'destructive',
+          },
+          {
+            text: _('Cancel'),
+            onPress: () => {
+              resolve(false);
+            },
+            style: 'cancel',
+          },
+        ],
+        { cancelable: true },
+      );
+    });
+  if (await AsyncAlert()) {
+    await dispatch(deleteMessagesForTopic(getNarrowFromMessage(message, ownEmail), message));
+  }
+};
+deleteTopic.title = 'Delete topic';
+deleteTopic.errorMessage = 'Failed to delete topic';
+
 const unmuteStream = async ({ auth, message, subscriptions }) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
@@ -168,6 +208,7 @@ const allButtonsRaw = {
   // For headers
   unmuteTopic,
   muteTopic,
+  deleteTopic,
   muteStream,
   unmuteStream,
 
@@ -190,11 +231,14 @@ type ConstructSheetParams = {|
 |};
 
 export const constructHeaderActionButtons = ({
-  backgroundData: { mute, subscriptions },
+  backgroundData: { mute, subscriptions, ownUser },
   message,
 }: ConstructSheetParams): ButtonCode[] => {
   const buttons: ButtonCode[] = [];
   if (message.type === 'stream') {
+    if (ownUser.is_admin) {
+      buttons.push('deleteTopic');
+    }
     if (isTopicMuted(message.display_recipient, message.subject, mute)) {
       buttons.push('unmuteTopic');
     } else {

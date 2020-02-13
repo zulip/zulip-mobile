@@ -187,4 +187,32 @@ describe('constructHeaderActionButtons', () => {
 
     expect(buttons).toContain('muteStream');
   });
+
+  test('show delete topic option if current user is an admin', () => {
+    const backgroundData = deepFreeze({
+      ...baseBackgroundData,
+      ownUser: {
+        ...baseBackgroundData.ownUser,
+        is_admin: true,
+      },
+    });
+
+    const buttons = constructHeaderActionButtons({
+      backgroundData,
+      message: eg.streamMessage(),
+      narrow,
+    });
+
+    expect(buttons).toContain('deleteTopic');
+  });
+
+  test('do not show delete topic option if current user is not an admin', () => {
+    const buttons = constructHeaderActionButtons({
+      backgroundData: baseBackgroundData,
+      message: eg.streamMessage(),
+      narrow,
+    });
+
+    expect(buttons).not.toContain('deleteTopic');
+  });
 });
