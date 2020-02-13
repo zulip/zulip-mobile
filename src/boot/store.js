@@ -282,6 +282,16 @@ const customReviver = (key, value, defaultReviver) => {
 
 const { stringify, parse } = Serialize.immutable(Immutable, null, customReplacer, customReviver);
 
+/**
+ * The config options to pass to redux-persist.
+ *
+ * See upstream docs:
+ *   https://github.com/rt2zz/redux-persist/tree/v4.10.2
+ *
+ * (Why v4?  We studied v5 and determined it doesn't make sense for us to
+ * use because its design choices on migrations don't support some important
+ * kinds of migrations. See e5409c578.)
+ */
 const reduxPersistConfig: Config = {
   // The parts of our state for redux-persist to persist,
   // as keys on the top-level state.
