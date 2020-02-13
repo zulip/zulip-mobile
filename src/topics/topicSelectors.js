@@ -5,8 +5,10 @@ import type {
   MuteState,
   Narrow,
   Selector,
+  Stream,
   StreamsState,
   StreamUnreadItem,
+  Topic,
   TopicExtended,
   TopicsState,
 } from '../types';
@@ -35,20 +37,16 @@ export const getTopicsForNarrow = (narrow: Narrow): Selector<string[]> =>
   );
 
 export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSelector(
-  (state, streamId) => streamId,
-  state => getTopics(state),
+  (state, streamId) => getTopics(state)[streamId],
   state => getMute(state),
-  state => getStreamsById(state),
+  (state, streamId) => getStreamsById(state).get(streamId),
   state => getUnreadStreams(state),
   (
-    streamId: number,
-    topics: TopicsState,
+    topicList: Topic[],
     mute: MuteState,
-    streamsById,
+    stream: Stream | void,
     unreadStreams: StreamUnreadItem[],
   ) => {
-    const topicList = topics[streamId];
-    const stream = streamsById.get(streamId);
     if (!topicList || !stream) {
       return undefined;
     }
