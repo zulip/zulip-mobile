@@ -60,7 +60,6 @@ type Props = $ReadOnly<{|
  * @prop [keyboardShouldPersistTaps] - Passed through to ScrollView.
  * @prop [padding] - Should padding be added to the contents of the screen.
  * @prop [scrollEnabled] - Passed through to ScrollView.
- * @prop [verticalScrollIndicatorEnabled] - Passed through to ScrollView
  * @prop [style] - Additional style for the ScrollView.
  *
  * @prop [search] - If 'true' show a search box in place of the title.
@@ -83,7 +82,6 @@ class Screen extends PureComponent<Props> {
     keyboardShouldPersistTaps: 'handled',
     padding: false,
     scrollEnabled: true,
-    verticalScrollIndicatorEnabled: true,
 
     search: false,
     autoFocus: false,
@@ -103,7 +101,6 @@ class Screen extends PureComponent<Props> {
       padding,
       safeAreaInsets,
       scrollEnabled,
-      verticalScrollIndicatorEnabled,
       search,
       searchBarOnChange,
       style,
@@ -130,7 +127,6 @@ class Screen extends PureComponent<Props> {
             style={componentStyles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
             scrollEnabled={scrollEnabled}
-            showsVerticalScrollIndicator={verticalScrollIndicatorEnabled}
           >
             {children}
           </ScrollView>

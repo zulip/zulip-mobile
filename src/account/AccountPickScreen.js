@@ -49,13 +49,7 @@ class AccountPickScreen extends PureComponent<Props> {
     const { accounts, dispatch } = this.props;
 
     return (
-      <Screen
-        title="Pick account"
-        centerContent
-        padding
-        canGoBack={this.canGoBack}
-        verticalScrollIndicatorEnabled={false}
-      >
+      <Screen title="Pick account" centerContent padding canGoBack={this.canGoBack}>
         <Centerer>
           {accounts.length === 0 && <Logo />}
           <AccountList
