@@ -137,7 +137,7 @@ export const getIfNoMessages = (narrow: Narrow) => (state: GlobalState): boolean
   getShownMessagesForNarrow(state, narrow).length === 0;
 
 export const getShowMessagePlaceholders = (narrow: Narrow) => (state: GlobalState): boolean => {
-  const fetching = getFetchingForNarrow(narrow)(state);
+  const fetching = getFetchingForNarrow(state, narrow);
   return (fetching.older || fetching.newer) && getIfNoMessages(narrow)(state);
 };
 

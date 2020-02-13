@@ -10,7 +10,7 @@ describe('getFetchingForNarrow', () => {
     });
     const expectedResult = { older: false, newer: false };
 
-    const actualResult = getFetchingForNarrow(HOME_NARROW)(state);
+    const actualResult = getFetchingForNarrow(state, HOME_NARROW);
 
     expect(actualResult).toEqual(expectedResult);
   });
@@ -23,7 +23,7 @@ describe('getFetchingForNarrow', () => {
     });
     const expectedResult = { older: true, newer: true };
 
-    const actualResult = getFetchingForNarrow(HOME_NARROW)(state);
+    const actualResult = getFetchingForNarrow(state, HOME_NARROW);
 
     expect(actualResult).toEqual(expectedResult);
   });

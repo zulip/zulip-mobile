@@ -79,7 +79,7 @@ export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   const state = getState();
   const firstMessageId = getFirstMessageId(state, narrow);
   const caughtUp = getCaughtUpForNarrow(state, narrow);
-  const fetching = getFetchingForNarrow(narrow)(state);
+  const fetching = getFetchingForNarrow(state, narrow);
   const { needsInitialFetch } = getSession(state);
 
   if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId !== undefined) {
@@ -91,7 +91,7 @@ export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   const state = getState();
   const lastMessageId = getLastMessageId(state, narrow);
   const caughtUp = getCaughtUpForNarrow(state, narrow);
-  const fetching = getFetchingForNarrow(narrow)(state);
+  const fetching = getFetchingForNarrow(state, narrow);
   const { needsInitialFetch } = getSession(state);
 
   if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId !== undefined) {
