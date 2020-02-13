@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { connect } from '../react-redux';
-import { ZulipButton } from '../common';
+import { ZulipButton, LoadingBanner } from '../common';
 import * as api from '../api';
 import { delay } from '../utils/async';
 import { streamNarrow } from '../utils/narrow';
@@ -55,6 +55,7 @@ class StreamListCard extends PureComponent<Props> {
 
     return (
       <View style={styles.wrapper}>
+        <LoadingBanner />
         {canCreateStreams && (
           <ZulipButton
             style={styles.button}

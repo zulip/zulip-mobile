@@ -6,6 +6,7 @@ import { View, StyleSheet } from 'react-native';
 import type { Dispatch, Subscription } from '../types';
 import { connect } from '../react-redux';
 import StreamList from './StreamList';
+import { LoadingBanner } from '../common';
 import { streamNarrow } from '../utils/narrow';
 import { getUnreadByStream } from '../selectors';
 import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
@@ -38,6 +39,7 @@ class SubscriptionsCard extends PureComponent<Props> {
 
     return (
       <View style={styles.container}>
+        <LoadingBanner />
         <StreamList
           streams={subscriptions}
           unreadByStream={unreadByStream}

@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Dispatch, Narrow } from '../types';
+import { LoadingBanner } from '../common';
 import { connect } from '../react-redux';
 import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import Title from '../title/Title';
@@ -30,6 +31,10 @@ class ChatNavBar extends PureComponent<Props> {
     const color =
       backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
         ? BRAND_COLOR
+        : foregroundColorFromBackground(backgroundColor);
+    const spinnerColor =
+      backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
+        ? 'default'
         : foregroundColorFromBackground(backgroundColor);
 
     return (
@@ -60,6 +65,11 @@ class ChatNavBar extends PureComponent<Props> {
           <ExtraButton color={color} narrow={narrow} />
           <InfoButton color={color} narrow={narrow} />
         </View>
+        <LoadingBanner
+          spinnerColor={spinnerColor}
+          backgroundColor={backgroundColor}
+          textColor={color}
+        />
       </View>
     );
   }
