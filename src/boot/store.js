@@ -118,6 +118,20 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
       ackedPushToken: null,
     })),
   }),
+
+  // Convert old locale names to new, more-specific locale names.
+  '10': state => {
+    const newLocaleNames = { zh: 'zh-Hans', id: 'id-ID' };
+    const { locale } = state.settings;
+    const newLocale = newLocaleNames[locale] ?? locale;
+    return {
+      ...state,
+      settings: {
+        ...state.settings,
+        locale: newLocale,
+      },
+    };
+  },
 };
 
 const reduxPersistConfig: Config = {

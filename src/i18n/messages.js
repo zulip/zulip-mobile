@@ -1,5 +1,5 @@
-/* eslint-disable spellcheck/spell-checker */
 /* @flow strict-local */
+/* eslint-disable spellcheck/spell-checker */
 
 import ar from '../../static/translations/messages_ar.json';
 import bg from '../../static/translations/messages_bg.json';
@@ -17,7 +17,7 @@ import gl from '../../static/translations/messages_gl.json';
 import hi from '../../static/translations/messages_hi.json';
 import hr from '../../static/translations/messages_hr.json';
 import hu from '../../static/translations/messages_hu.json';
-import id from '../../static/translations/messages_id_ID.json';
+import id_ID from '../../static/translations/messages_id_ID.json';
 import it from '../../static/translations/messages_it.json';
 import ja from '../../static/translations/messages_ja.json';
 import ko from '../../static/translations/messages_ko.json';
@@ -35,7 +35,7 @@ import tr from '../../static/translations/messages_tr.json';
 import uk from '../../static/translations/messages_uk.json';
 import uz from '../../static/translations/messages_uz.json';
 import vi from '../../static/translations/messages_vi.json';
-import zh from '../../static/translations/messages_zh-Hans.json';
+import zh_Hans from '../../static/translations/messages_zh-Hans.json';
 
 export default {
   ar,
@@ -54,7 +54,7 @@ export default {
   hi,
   hr,
   hu,
-  id,
+  'id-ID': id_ID,
   it,
   ja,
   ko,
@@ -72,5 +72,5 @@ export default {
   uk,
   uz,
   vi,
-  zh,
+  'zh-Hans': zh_Hans,
 };
