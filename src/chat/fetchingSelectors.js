@@ -12,9 +12,3 @@ export const getFetchingForNarrow = (narrow: Narrow): Selector<Fetching> =>
     getFetching,
     fetching => fetching[JSON.stringify(narrow)] || DEFAULT_FETCHING,
   );
-
-export const getIsFetching = (narrow: Narrow): Selector<boolean> =>
-  createSelector(
-    getFetchingForNarrow(narrow),
-    (fetching: Fetching): boolean => fetching.older || fetching.newer,
-  );
