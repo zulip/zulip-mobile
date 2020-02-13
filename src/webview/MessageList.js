@@ -39,7 +39,6 @@ import {
   getOwnUser,
   getSettings,
   getSubscriptions,
-  getShowMessagePlaceholders,
   getShownMessagesForNarrow,
   getRealm,
 } from '../selectors';
@@ -92,13 +91,13 @@ type SelectorProps = {|
   fetching: Fetching,
   messages: $ReadOnlyArray<Message | Outbox>,
   renderedMessages: RenderedSectionDescriptor[],
-  showMessagePlaceholders: boolean,
   typingUsers: $ReadOnlyArray<User>,
 |};
 
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
 export type Props = $ReadOnly<{|
   narrow: Narrow,
+  showMessagePlaceholders: boolean,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -336,6 +335,7 @@ class MessageList extends Component<Props> {
 
 type OuterProps = {|
   narrow: Narrow,
+  showMessagePlaceholders: boolean,
 
   /* Remaining props are derived from `narrow` by default. */
 
@@ -346,7 +346,6 @@ type OuterProps = {|
   /* Passing these three from the parent is kind of a hack; search uses it
      to hard-code some behavior. */
   fetching?: Fetching,
-  showMessagePlaceholders?: boolean,
   typingUsers?: User[],
 |};
 
@@ -377,10 +376,6 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
     fetching: props.fetching || getFetchingForNarrow(props.narrow)(state),
     messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
-    showMessagePlaceholders:
-      props.showMessagePlaceholders !== undefined
-        ? props.showMessagePlaceholders
-        : getShowMessagePlaceholders(props.narrow)(state),
     typingUsers: props.typingUsers || getCurrentTypingUsers(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));

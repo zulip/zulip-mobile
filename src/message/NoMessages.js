@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Narrow, Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { getIfNoMessages, getShowMessagePlaceholders } from '../selectors';
+import { getIfNoMessages } from '../selectors';
 import { Label } from '../common';
 
 import {
@@ -48,12 +48,12 @@ const messages: EmptyMessage[] = [
 ];
 
 type SelectorProps = {|
-  showMessagePlaceholders: boolean,
   noMessages: boolean,
 |};
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
+  showMessagePlaceholders: boolean,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -79,6 +79,5 @@ class NoMessages extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  showMessagePlaceholders: getShowMessagePlaceholders(props.narrow)(state),
   noMessages: getIfNoMessages(props.narrow)(state),
 }))(NoMessages);

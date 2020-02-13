@@ -42,8 +42,8 @@ class Chat extends PureComponent<Props> {
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <View style={styles.flexed}>
           <View style={componentStyles.reverse}>
-            <MessageList narrow={narrow} />
-            <NoMessages narrow={narrow} />
+            <MessageList narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
+            <NoMessages narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
             <UnreadNotice narrow={narrow} />
           </View>
           {showComposeBox && <ComposeBox narrow={narrow} />}
