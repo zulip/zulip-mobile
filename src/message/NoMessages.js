@@ -47,17 +47,11 @@ const messages: EmptyMessage[] = [
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
-  noMessages: boolean,
-  showMessagePlaceholders: boolean,
 |}>;
 
 export default class NoMessages extends PureComponent<Props> {
   render() {
-    const { noMessages, showMessagePlaceholders, narrow } = this.props;
-
-    if (!noMessages || showMessagePlaceholders) {
-      return null;
-    }
+    const { narrow } = this.props;
 
     const message = messages.find(x => x.isFunc(narrow)) || {};
 
