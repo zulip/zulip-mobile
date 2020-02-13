@@ -18,7 +18,7 @@ import { doNarrow } from '../message/messagesActions';
 import { switchAccount } from '../account/accountActions';
 import { getIdentities } from '../account/accountsSelectors';
 
-export const gotPushToken = (pushToken: string): Action => ({
+export const gotPushToken = (pushToken: string | null): Action => ({
   type: GOT_PUSH_TOKEN,
   pushToken,
 });

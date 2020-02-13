@@ -188,7 +188,7 @@ type RealmInitAction = {|
 /** We learned the device token from the system.  See `SessionState`. */
 type GotPushTokenAction = {|
   type: typeof GOT_PUSH_TOKEN,
-  pushToken: string,
+  pushToken: null | string,
 |};
 
 /** We're about to tell the server to forget our device token. */

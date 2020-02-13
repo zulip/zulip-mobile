@@ -210,14 +210,25 @@ export class NotificationListener {
     this.dispatch(narrowToNotification(data));
   };
 
-  /** Private. */
+  /**
+   * Private.
+   *
+   * @param deviceToken This should be a `?string`, but there's no typechecking
+   *   at the registration site to allow us to ensure it. As we've been burned
+   *   by unexpected types here before, we do the validation explicitly.
+   */
   handleDeviceToken = async (deviceToken: mixed) => {
-    // A device token should be some (platform-dependent and largely
+    // Null device tokens are known to occur (at least) on Android emulators
+    // without Google Play services, and have been reported in other scenarios.
+    // See https://stackoverflow.com/q/37517860 for relevant discussion.
+    //
+    // Otherwise, a device token should be some (platform-dependent and largely
     // unspecified) flavor of string.
-    if (typeof deviceToken !== 'string') {
+    if (deviceToken !== null && typeof deviceToken !== 'string') {
       // $FlowFixMe: deviceToken probably _is_ JSONable, but we can only hope
       const token: JSONable = deviceToken;
       logging.error('Received invalid device token', { token });
+      // Take no further action.
       return;
     }
 
