@@ -46,7 +46,11 @@ class Chat extends PureComponent<Props> {
         <View style={styles.flexed}>
           <View style={componentStyles.reverse}>
             <MessageList narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
-            <NoMessages narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
+            <NoMessages
+              narrow={narrow}
+              noMessages={noMessages}
+              showMessagePlaceholders={showMessagePlaceholders}
+            />
             <UnreadNotice narrow={narrow} />
           </View>
           {showComposeBox && <ComposeBox narrow={narrow} />}

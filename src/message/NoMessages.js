@@ -3,9 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Narrow, Dispatch } from '../types';
-import { connect } from '../react-redux';
-import { getIfNoMessages } from '../selectors';
+import type { Narrow } from '../types';
 import { Label } from '../common';
 
 import {
@@ -47,19 +45,13 @@ const messages: EmptyMessage[] = [
   { isFunc: isSearchNarrow, text: 'No messages' },
 ];
 
-type SelectorProps = {|
-  noMessages: boolean,
-|};
-
 type Props = $ReadOnly<{|
   narrow: Narrow,
+  noMessages: boolean,
   showMessagePlaceholders: boolean,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-class NoMessages extends PureComponent<Props> {
+export default class NoMessages extends PureComponent<Props> {
   render() {
     const { noMessages, showMessagePlaceholders, narrow } = this.props;
 
@@ -77,7 +69,3 @@ class NoMessages extends PureComponent<Props> {
     );
   }
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  noMessages: getIfNoMessages(props.narrow)(state),
-}))(NoMessages);
