@@ -189,9 +189,10 @@ export class NotificationListener {
     if (Platform.OS === 'ios') {
       NotificationsIOS.addEventListener(name, handler);
       this.unsubs.push(() => NotificationsIOS.removeEventListener(name, handler));
+    } else {
+      const subscription = DeviceEventEmitter.addListener(name, handler);
+      this.unsubs.push(() => subscription.remove());
     }
-    const subscription = DeviceEventEmitter.addListener(name, handler);
-    this.unsubs.push(() => subscription.remove());
   }
 
   /** Private. */
