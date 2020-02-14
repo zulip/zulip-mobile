@@ -203,11 +203,8 @@ export class NotificationListener {
   }
 
   /** Private. */
-  handleNotificationOpen = (notification: NotificationMuddle) => {
-    const data: Notification =
-      // $FlowFixMe clarify notification types
-      Platform.OS === 'ios' ? extractNotificationData(notification) : notification;
-    this.dispatch(narrowToNotification(data));
+  handleNotificationOpen = (notification: Notification) => {
+    this.dispatch(narrowToNotification(notification));
   };
 
   /**
@@ -245,8 +242,23 @@ export class NotificationListener {
 
   /** Start listening.  Don't call twice without intervening `stop`. */
   start() {
-    this.listen('notificationOpened', this.handleNotificationOpen);
+    if (Platform.OS === 'android') {
+      // On Android, the object passed to the handler is constructed in
+      // FcmMessage.kt, and will always be a Notification.
+      this.listen('notificationOpened', this.handleNotificationOpen);
+    } else {
+      // On iOS, `note` should be an IOSNotifications object. The notification
+      // data it returns from `getData` is unvalidated -- it comes almost
+      // straight off the wire from the server.
+      this.listen('notificationOpened', (note: NotificationMuddle) => {
+        const data = extractNotificationData(note);
+        // $FlowFixMe
+        this.handleNotificationOpen(data);
+      });
+    }
+
     this.listen('remoteNotificationsRegistered', this.handleDeviceToken);
+
     if (Platform.OS === 'ios') {
       this.listen('remoteNotificationsRegistrationFailed', this.handleRegistrationFailure);
     }
