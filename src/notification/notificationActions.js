@@ -8,7 +8,7 @@ import {
   getNarrowFromNotificationData,
   getAccountFromNotificationData,
 } from '.';
-import type { Notification } from '.';
+import type { Notification } from './types';
 import { getAuth, getActiveAccount } from '../selectors';
 import { getSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
