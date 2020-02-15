@@ -1,10 +1,17 @@
+// @flow strict-local
 import { getNarrowFromNotificationData, extractNotificationData } from '..';
 import { topicNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
+import type { User } from '../../api/modelTypes';
+import * as eg from '../../__tests__/exampleData';
+
 describe('getNarrowFromNotificationData', () => {
+  const DEFAULT_MAP = new Map<number, User>();
+
   test('unknown notification data returns null', () => {
-    const notification = {};
-    const narrow = getNarrowFromNotificationData(notification, {});
+    // $FlowFixMe: actually validate APNs messages
+    const notification: Notification = {};
+    const narrow = getNarrowFromNotificationData(notification, DEFAULT_MAP);
     expect(narrow).toBe(null);
   });
 
@@ -14,7 +21,7 @@ describe('getNarrowFromNotificationData', () => {
       stream: 'some stream',
       topic: 'some topic',
     };
-    const narrow = getNarrowFromNotificationData(notification, {});
+    const narrow = getNarrowFromNotificationData(notification, DEFAULT_MAP);
     expect(narrow).toEqual(topicNarrow('some stream', 'some topic'));
   });
 
@@ -23,21 +30,20 @@ describe('getNarrowFromNotificationData', () => {
       recipient_type: 'private',
       sender_email: 'mark@example.com',
     };
-    const narrow = getNarrowFromNotificationData(notification, {});
+    const narrow = getNarrowFromNotificationData(notification, DEFAULT_MAP);
     expect(narrow).toEqual(privateNarrow('mark@example.com'));
   });
 
   test('on notification for a group message returns a group narrow', () => {
+    const users = [eg.makeUser(), eg.makeUser(), eg.makeUser(), eg.makeUser()];
+    const usersById: Map<number, User> = new Map(users.map(u => [u.user_id, u]));
+
     const notification = {
       recipient_type: 'private',
-      pm_users: '1,2,4',
+      pm_users: users.map(u => u.user_id).join(','),
     };
-    const usersById = new Map([
-      [1, { email: 'me@example.com' }],
-      [2, { email: 'mark@example.com' }],
-      [4, { email: 'john@example.com' }],
-    ]);
-    const expectedNarrow = groupNarrow(['me@example.com', 'mark@example.com', 'john@example.com']);
+
+    const expectedNarrow = groupNarrow(users.map(u => u.email));
 
     const narrow = getNarrowFromNotificationData(notification, usersById);
 
@@ -60,13 +66,17 @@ describe('getNarrowFromNotificationData', () => {
 describe('extractNotificationData', () => {
   test('if input value is not as expected, returns null', () => {
     expect(extractNotificationData()).toBe(null);
+    // $FlowFixMe
     expect(extractNotificationData({})).toBe(null);
+    // $FlowFixMe
     expect(extractNotificationData({ getData: undefined })).toBe(null);
   });
 
   test('if some data is passed, returns it', () => {
     const data = {};
+    // $FlowFixMe
     expect(extractNotificationData({ getData: () => data })).toBe(data);
+    // $FlowFixMe
     expect(extractNotificationData({ getData: () => ({ zulip: data }) })).toBe(data);
   });
 });
