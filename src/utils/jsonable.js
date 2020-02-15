@@ -1,4 +1,5 @@
 /* @flow strict */
+/* eslint-disable flowtype/type-id-match */
 
 /**
  * Type of a round-trip-capable JSONable object.
@@ -11,16 +12,23 @@
  *
  * which of course will not be equal to the original object after parsing.
  */
-// eslint-disable-next-line flowtype/type-id-match
 export type JSONable =
   | null
   | string
   | number
   | boolean
-  | { +[string]: JSONable } /* [α] */
+  | { +[string]: JSONable } // [α]
   | $ReadOnlyArray<JSONable>;
+// [α] This should just be `JSONableDict`, but Flow doesn't handle
+//     mutually-recursive types very well.
 
-// [α]: This should really be an exact type, `{| +[string]: JSONable |}`.
+/**
+ * Type of a round-trip-capable JSONable dictionary.
+ *
+ * See documentation of `JSONable` for caveats.
+ */
+export type JSONableDict = { +[string]: JSONable };
+// This should really be an exact type, `{| +[string]: JSONable |}`.
 // Unfortunately, it can't yet be.
 //
 // Prior to Flow v0.111.0 (i.e., prior to React Native v0.62.0), exact object
