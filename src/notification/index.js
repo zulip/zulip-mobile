@@ -127,9 +127,20 @@ const getInitialNotification = async (): Promise<Notification | null> => {
     const { Notifications } = NativeModules;
     return Notifications.getInitialNotification();
   }
-  const notification = await PushNotificationIOS.getInitialNotification();
-  // $FlowFixMe Upstream's libdef for getInitialNotification has `Object` types.
-  return extractNotificationData(notification);
+
+  const notification: ?PushNotificationIOS = await PushNotificationIOS.getInitialNotification();
+  if (!notification) {
+    return null;
+  }
+
+  // This is actually typed as ?Object (and so effectively `any`); but if
+  // present, it must be a JSONable dictionary. (See PushNotificationIOS.js and
+  // RCTPushNotificationManager.m in Libraries/PushNotificationIOS.)
+  const data: ?JSONableDict = notification.getData();
+  if (!data) {
+    return null;
+  }
+  return fromAPNs(data) || null;
 };
 
 export const handleInitialNotification = async (dispatch: Dispatch) => {
