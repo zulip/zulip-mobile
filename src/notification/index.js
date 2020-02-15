@@ -5,7 +5,7 @@ import NotificationsIOS from 'react-native-notifications';
 import type { Notification } from './types';
 import type { Auth, Dispatch, Identity, Narrow, User } from '../types';
 import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
-import type { JSONable } from '../utils/jsonable';
+import type { JSONable, JSONableDict } from '../utils/jsonable';
 import * as api from '../api';
 import * as logging from '../utils/logging';
 import {
@@ -15,6 +15,7 @@ import {
   narrowToNotification,
 } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
+import { fromAPNs } from './extract';
 
 /**
  * Identify the account the notification is for, if possible.
@@ -225,8 +226,8 @@ export class NotificationListener {
       // On iOS, `note` should be an IOSNotifications object. The notification
       // data it returns from `getData` is unvalidated -- it comes almost
       // straight off the wire from the server.
-      this.listen('notificationOpened', (note: NotificationMuddle) => {
-        const data = extractNotificationData(note);
+      this.listen('notificationOpened', (note: { getData(): JSONableDict }) => {
+        const data = fromAPNs(note.getData());
         if (data) {
           this.handleNotificationOpen(data);
         }
