@@ -106,22 +106,6 @@ export const getNarrowFromNotificationData = (
   return groupNarrow(emails);
 };
 
-type NotificationMuddle =
-  | Notification
-  | null
-  | void
-  | { getData: () => Notification | { zulip: Notification } };
-
-/** Extract the actual notification data from the wix library's wrapping (iOS only). */
-// exported for tests
-export const extractNotificationData = (notification: NotificationMuddle): Notification | null => {
-  if (!notification || !notification.getData) {
-    return null;
-  }
-  const data = notification.getData();
-  return data && data.zulip ? data.zulip : data;
-};
-
 const getInitialNotification = async (): Promise<Notification | null> => {
   if (Platform.OS === 'android') {
     const { Notifications } = NativeModules;

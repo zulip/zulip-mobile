@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import type { User } from '../../api/modelTypes';
 import type { JSONableDict } from '../../utils/jsonable';
-import { getNarrowFromNotificationData, extractNotificationData } from '..';
+import { getNarrowFromNotificationData } from '..';
 import { topicNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
 import * as eg from '../../__tests__/exampleData';
@@ -65,24 +65,6 @@ describe('getNarrowFromNotificationData', () => {
     const narrow = getNarrowFromNotificationData(notification, usersById);
 
     expect(narrow).toBe(null);
-  });
-});
-
-describe('extractNotificationData', () => {
-  test('if input value is not as expected, returns null', () => {
-    expect(extractNotificationData()).toBe(null);
-    // $FlowFixMe
-    expect(extractNotificationData({})).toBe(null);
-    // $FlowFixMe
-    expect(extractNotificationData({ getData: undefined })).toBe(null);
-  });
-
-  test('if some data is passed, returns it', () => {
-    const data = {};
-    // $FlowFixMe
-    expect(extractNotificationData({ getData: () => data })).toBe(data);
-    // $FlowFixMe
-    expect(extractNotificationData({ getData: () => ({ zulip: data }) })).toBe(data);
   });
 });
 
