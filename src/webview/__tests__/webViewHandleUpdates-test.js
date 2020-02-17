@@ -81,11 +81,11 @@ describe('generateInboundEvents', () => {
   test('when rendered messages are the same return empty result', () => {
     const prevProps = {
       ...baseProps,
-      renderedMessages: [],
+      htmlPieceDescriptors: [],
     };
     const nextProps = {
       ...baseProps,
-      renderedMessages: [],
+      htmlPieceDescriptors: [],
     };
 
     const messages = generateInboundEvents(prevProps, nextProps);
@@ -103,7 +103,7 @@ describe('generateInboundEvents', () => {
       },
       narrow: HOME_NARROW,
       messages: [],
-      renderedMessages: [{ key: 0, data: [], message: {} }],
+      htmlPieceDescriptors: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
       backgroundData: {
@@ -114,7 +114,7 @@ describe('generateInboundEvents', () => {
       },
       narrow: HOME_NARROW,
       messages: [],
-      renderedMessages: [
+      htmlPieceDescriptors: [
         {
           key: 0,
           data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
@@ -162,7 +162,7 @@ describe('generateInboundEvents', () => {
       fetching: { older: false, newer: false },
       typingUsers: [],
       messages: [],
-      renderedMessages: [{ key: 0, data: [], message: {} }],
+      htmlPieceDescriptors: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
       backgroundData: {
@@ -175,7 +175,7 @@ describe('generateInboundEvents', () => {
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
       messages: [],
-      renderedMessages: [
+      htmlPieceDescriptors: [
         {
           key: 0,
           data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],

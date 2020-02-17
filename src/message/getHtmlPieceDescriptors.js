@@ -1,13 +1,10 @@
 /* @flow strict-local */
-import type { Message, Narrow, Outbox, RenderedSectionDescriptor } from '../types';
+import type { Message, Narrow, Outbox, PieceDescriptor } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/recipient';
 import { isSameDay } from '../utils/date';
 
-export default (
-  messages: $ReadOnlyArray<Message | Outbox>,
-  narrow: Narrow,
-): RenderedSectionDescriptor[] => {
+export default (messages: $ReadOnlyArray<Message | Outbox>, narrow: Narrow): PieceDescriptor[] => {
   const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
 
   let prevItem;

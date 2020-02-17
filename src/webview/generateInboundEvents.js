@@ -47,7 +47,11 @@ export type WebViewInboundEvent =
 
 const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
   const content = htmlBody(
-    renderMessagesAsHtml(nextProps.backgroundData, nextProps.narrow, nextProps.renderedMessages),
+    renderMessagesAsHtml(
+      nextProps.backgroundData,
+      nextProps.narrow,
+      nextProps.htmlPieceDescriptors,
+    ),
     nextProps.showMessagePlaceholders,
   );
   const transitionProps = getMessageTransitionProps(prevProps, nextProps);
@@ -92,7 +96,7 @@ const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): 
 
 export default (prevProps: Props, nextProps: Props): WebViewInboundEvent[] => {
   if (
-    !isEqual(prevProps.renderedMessages, nextProps.renderedMessages)
+    !isEqual(prevProps.htmlPieceDescriptors, nextProps.htmlPieceDescriptors)
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
   ) {
     return [updateContent(prevProps, nextProps)];

@@ -8,7 +8,7 @@ import type { Message } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW } from '../utils/narrow';
 import MessageList from '../webview/MessageList';
-import renderMessages from '../message/renderMessages';
+import getHtmlPieceDescriptors from '../message/getHtmlPieceDescriptors';
 import { NULL_ARRAY } from '../nullObjects';
 
 const styles = StyleSheet.create({
@@ -44,7 +44,7 @@ export default class SearchMessagesCard extends PureComponent<Props> {
       return <SearchEmptyState text="No results" />;
     }
 
-    const renderedMessages = renderMessages(messages, []);
+    const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, []);
 
     return (
       <View style={styles.results}>
@@ -53,7 +53,7 @@ export default class SearchMessagesCard extends PureComponent<Props> {
             initialScrollMessageId={messages[0].id}
             messages={messages}
             narrow={HOME_NARROW}
-            renderedMessages={renderedMessages}
+            htmlPieceDescriptors={htmlPieceDescriptors}
             fetching={SearchMessagesCard.NOT_FETCHING}
             showMessagePlaceholders={false}
             typingUsers={NULL_ARRAY}

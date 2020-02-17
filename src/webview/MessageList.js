@@ -18,7 +18,7 @@ import type {
   Narrow,
   Outbox,
   ImageEmojiType,
-  RenderedSectionDescriptor,
+  PieceDescriptor,
   Subscription,
   ThemeName,
   User,
@@ -31,7 +31,7 @@ import {
   getAllImageEmojiById,
   getCurrentTypingUsers,
   getDebug,
-  getRenderedMessages,
+  getShownPieceDescriptorsForNarrow,
   getFlags,
   getFetchingForNarrow,
   getFirstUnreadIdInNarrow,
@@ -90,7 +90,7 @@ type SelectorProps = {|
   initialScrollMessageId: number | null,
   fetching: Fetching,
   messages: $ReadOnlyArray<Message | Outbox>,
-  renderedMessages: RenderedSectionDescriptor[],
+  htmlPieceDescriptors: PieceDescriptor[],
   typingUsers: $ReadOnlyArray<User>,
 |};
 
@@ -230,12 +230,12 @@ class MessageList extends Component<Props> {
   render() {
     const {
       backgroundData,
-      renderedMessages,
+      htmlPieceDescriptors,
       initialScrollMessageId,
       narrow,
       showMessagePlaceholders,
     } = this.props;
-    const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
+    const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, htmlPieceDescriptors);
     const { auth, theme } = backgroundData;
     const html = getHtml(messagesHtml, theme, {
       scrollMessageId: initialScrollMessageId,
@@ -339,7 +339,7 @@ type OuterProps = {|
   /* Remaining props are derived from `narrow` by default. */
 
   messages?: Message[],
-  renderedMessages?: RenderedSectionDescriptor[],
+  htmlPieceDescriptors?: PieceDescriptor[],
   initialScrollMessageId?: number | null,
 
   /* Passing these three from the parent is kind of a hack; search uses it
@@ -374,7 +374,8 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
         : getFirstUnreadIdInNarrow(state, props.narrow),
     fetching: props.fetching || getFetchingForNarrow(state, props.narrow),
     messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
-    renderedMessages: props.renderedMessages || getRenderedMessages(state, props.narrow),
+    htmlPieceDescriptors:
+      props.htmlPieceDescriptors || getShownPieceDescriptorsForNarrow(state, props.narrow),
     typingUsers: props.typingUsers || getCurrentTypingUsers(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));

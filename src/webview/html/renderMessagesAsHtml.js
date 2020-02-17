@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Narrow, RenderedSectionDescriptor } from '../../types';
+import type { Narrow, PieceDescriptor } from '../../types';
 import type { BackgroundData } from '../MessageList';
 
 import messageAsHtml from './messageAsHtml';
@@ -9,10 +9,10 @@ import timeRowAsHtml from './timeRowAsHtml';
 export default (
   backgroundData: BackgroundData,
   narrow: Narrow,
-  renderedMessages: RenderedSectionDescriptor[],
+  pieceDescriptors: PieceDescriptor[],
 ): string => {
   const pieces = [];
-  renderedMessages.forEach(section => {
+  pieceDescriptors.forEach(section => {
     pieces.push(messageHeaderAsHtml(backgroundData, narrow, section.message));
     section.data.forEach(item => {
       if (item.type === 'time') {
