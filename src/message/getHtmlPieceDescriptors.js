@@ -7,42 +7,42 @@ import { isSameDay } from '../utils/date';
 export default (messages: $ReadOnlyArray<Message | Outbox>, narrow: Narrow): PieceDescriptor[] => {
   const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
 
-  let prevMessage;
-  const sections = [{ key: 0, data: [], message: {} }];
-  messages.forEach(message => {
+  const pieces = [];
+
+  messages.forEach((message, i) => {
+    const prevMessage = messages[i - 1];
     const diffDays =
-      prevMessage
+      prevMessage !== undefined
       && !isSameDay(new Date(prevMessage.timestamp * 1000), new Date(message.timestamp * 1000));
-    if (!prevMessage || diffDays) {
-      sections[sections.length - 1].data.push({
-        key: `time${message.timestamp}`,
-        type: 'time',
-        timestamp: message.timestamp,
-        subsequentMessage: message,
-      });
-    }
     const diffRecipient = !isSameRecipient(prevMessage, message);
-    if (showHeader && diffRecipient) {
-      sections.push({
-        key: `header${message.id}`,
-        message,
-        data: [],
-      });
-    }
     const shouldGroupWithPrev =
       !diffRecipient
       && !diffDays
       && prevMessage
       && prevMessage.sender_full_name === message.sender_full_name;
 
-    sections[sections.length - 1].data.push({
+    if (prevMessage === undefined || diffDays) {
+      pieces.push({
+        key: `time${message.timestamp}`,
+        type: 'time',
+        timestamp: message.timestamp,
+        subsequentMessage: message,
+      });
+    }
+    if (showHeader && diffRecipient) {
+      pieces.push({
+        key: `header${message.id}`,
+        type: 'header',
+        subsequentMessage: message,
+      });
+    }
+
+    pieces.push({
       key: message.id,
       type: 'message',
       isBrief: shouldGroupWithPrev,
       message,
     });
-
-    prevMessage = message;
   });
-  return sections;
+  return pieces;
 };

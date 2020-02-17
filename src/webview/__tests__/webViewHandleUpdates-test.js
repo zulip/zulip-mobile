@@ -93,42 +93,6 @@ describe('generateInboundEvents', () => {
     expect(messages).toEqual([]);
   });
 
-  test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
-    const prevProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
-      messages: [],
-      htmlPieceDescriptors: [{ key: 0, data: [], message: {} }],
-    };
-    const nextProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
-      messages: [],
-      htmlPieceDescriptors: [
-        {
-          key: 0,
-          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
-          message: {},
-        },
-      ],
-    };
-
-    const messages = generateInboundEvents(prevProps, nextProps);
-
-    expect(messages).toHaveLength(1);
-    expect(messages[0].type).toEqual('content');
-  });
-
   test('WUUT there are several diffs return several messages', () => {
     const prevProps = {
       ...baseProps,
@@ -148,46 +112,6 @@ describe('generateInboundEvents', () => {
     expect(messages).toHaveLength(2);
     expect(messages[0].type).toEqual('fetching');
     expect(messages[1].type).toEqual('typing');
-  });
-
-  test('when there are several diffs but messages differ too return only a single "content" message', () => {
-    const prevProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
-      fetching: { older: false, newer: false },
-      typingUsers: [],
-      messages: [],
-      htmlPieceDescriptors: [{ key: 0, data: [], message: {} }],
-    };
-    const nextProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
-      fetching: { older: false, newer: true },
-      typingUsers: [{ id: 10 }],
-      messages: [],
-      htmlPieceDescriptors: [
-        {
-          key: 0,
-          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
-          message: {},
-        },
-      ],
-    };
-
-    const messages = generateInboundEvents(prevProps, nextProps);
-
-    expect(messages).toHaveLength(1);
-    expect(messages[0].type).toEqual('content');
   });
 
   test('if a new message is read send a "read" update', () => {

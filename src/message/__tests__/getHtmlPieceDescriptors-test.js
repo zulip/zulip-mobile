@@ -6,9 +6,9 @@ import getHtmlPieceDescriptors from '../getHtmlPieceDescriptors';
 describe('getHtmlPieceDescriptors', () => {
   const narrow = deepFreeze([]);
 
-  test('empty messages results in a single empty section', () => {
+  test('empty messages results in empty messageList', () => {
     const messageList = getHtmlPieceDescriptors([], HOME_NARROW);
-    expect(messageList).toEqual([{ key: 0, message: {}, data: [] }]);
+    expect(messageList).toEqual([]);
   });
 
   test('renders time, header and message for a single input', () => {
@@ -22,9 +22,11 @@ describe('getHtmlPieceDescriptors', () => {
 
     const messageList = getHtmlPieceDescriptors(messages, narrow);
 
-    expect(messageList).toHaveLength(2);
-    expect(messageList[0].data[0].key).toEqual('time123');
-    expect(messageList[1].data[0].key).toEqual(12345);
+    expect(messageList).toMatchObject([
+      { type: 'time', key: 'time123' },
+      { type: 'header' },
+      { type: 'message', key: 12345 },
+    ]);
   });
 
   test('several messages in same stream, from same person result in time row, header for the stream, three messages, only first of which is full detail', () => {
@@ -60,10 +62,13 @@ describe('getHtmlPieceDescriptors', () => {
 
     const messageList = getHtmlPieceDescriptors(messages, narrow);
 
-    const messageKeys = messageList[1].data.map(x => x.key);
-    const messageBriefs = messageList[1].data.map(x => x.isBrief);
-    expect(messageKeys).toEqual([1, 2, 3]);
-    expect(messageBriefs).toEqual([false, true, true]);
+    expect(messageList).toMatchObject([
+      { type: 'time' },
+      { type: 'header' },
+      { type: 'message', isBrief: false },
+      { type: 'message', isBrief: true },
+      { type: 'message', isBrief: true },
+    ]);
   });
 
   test('several messages in same stream, from different people result in time row, header for the stream, three messages, only all full detail', () => {
@@ -99,10 +104,13 @@ describe('getHtmlPieceDescriptors', () => {
 
     const messageList = getHtmlPieceDescriptors(messages, narrow);
 
-    const messageKeys = messageList[1].data.map(x => x.key);
-    const messageBriefs = messageList[1].data.map(x => x.isBrief);
-    expect(messageKeys).toEqual([1, 2, 3]);
-    expect(messageBriefs).toEqual([false, false, false]);
+    expect(messageList).toMatchObject([
+      { type: 'time' },
+      { type: 'header' },
+      { type: 'message', key: 1, isBrief: false },
+      { type: 'message', key: 2, isBrief: false },
+      { type: 'message', key: 3, isBrief: false },
+    ]);
   });
 
   test('private messages between two people, results in time row, header and two full messages', () => {
@@ -127,9 +135,11 @@ describe('getHtmlPieceDescriptors', () => {
 
     const messageList = getHtmlPieceDescriptors(messages, narrow);
 
-    const messageKeys = messageList[1].data.map(x => x.key);
-    const messageBriefs = messageList[1].data.map(x => x.isBrief);
-    expect(messageKeys).toEqual([1, 2]);
-    expect(messageBriefs).toEqual([false, false]);
+    expect(messageList).toMatchObject([
+      { type: 'time' },
+      { type: 'header' },
+      { type: 'message', key: 1 },
+      { type: 'message', key: 2 },
+    ]);
   });
 });

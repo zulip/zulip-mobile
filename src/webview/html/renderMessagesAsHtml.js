@@ -9,18 +9,19 @@ import timeRowAsHtml from './timeRowAsHtml';
 export default (
   backgroundData: BackgroundData,
   narrow: Narrow,
-  pieceDescriptors: PieceDescriptor[],
-): string => {
-  const pieces = [];
-  pieceDescriptors.forEach(section => {
-    pieces.push(messageHeaderAsHtml(backgroundData, narrow, section.message));
-    section.data.forEach(item => {
-      if (item.type === 'time') {
-        pieces.push(timeRowAsHtml(item.timestamp, item.subsequentMessage));
-      } else {
-        pieces.push(messageAsHtml(backgroundData, item.message, item.isBrief));
+  renderedMessages: PieceDescriptor[],
+): string =>
+  renderedMessages
+    .map(pieceDescriptor => {
+      switch (pieceDescriptor.type) {
+        case 'time':
+          return timeRowAsHtml(pieceDescriptor.timestamp, pieceDescriptor.subsequentMessage);
+        case 'header':
+          return messageHeaderAsHtml(backgroundData, narrow, pieceDescriptor.subsequentMessage);
+        case 'message':
+          return messageAsHtml(backgroundData, pieceDescriptor.message, pieceDescriptor.isBrief);
+        default:
+          throw new Error(`Unidentified pieceDescriptor.type: '${pieceDescriptor.type}'`);
       }
-    });
-  });
-  return pieces.join('');
-};
+    })
+    .join('');
