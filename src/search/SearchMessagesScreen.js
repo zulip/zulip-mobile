@@ -94,10 +94,11 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
         if (this.lastIdReceived === this.lastIdSent) {
           this.setState({ isFetching: false });
         }
+
+        // TODO: if the request failed, should we arrange to display
+        // something to the user?
       }
     }
-    /* TODO: if an error makes it through the filter above,
-       should we arrange to display something to the user? */
   };
 
   // The real work to be done on a query is async.  This wrapper exists
