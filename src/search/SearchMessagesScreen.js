@@ -65,7 +65,7 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
   // reconstructed anyway. However, addition of any new props which need to
   // invalidate outstanding requests on change will require more work.
 
-  handleQueryChangeInner = async (query: string) => {
+  handleQueryChange = async (query: string) => {
     const id = ++this.lastIdSent;
 
     if (query === '') {
@@ -106,17 +106,22 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
   };
 
   // The real work to be done on a query is async.  This wrapper exists
-  // just to fire off `handleQueryChangeInner` without waiting for it.
+  // just to fire off `handleQueryChange` without waiting for it.
   // TODO do we even need this wrapper?
-  handleQueryChange = (query: string) => {
-    this.handleQueryChangeInner(query);
+  handleQueryChangeWrapper = (query: string) => {
+    this.handleQueryChange(query);
   };
 
   render() {
     const { messages, isFetching } = this.state;
 
     return (
-      <Screen search autoFocus searchBarOnChange={this.handleQueryChange} style={styles.flexed}>
+      <Screen
+        search
+        autoFocus
+        searchBarOnChange={this.handleQueryChangeWrapper}
+        style={styles.flexed}
+      >
         <SearchMessagesCard messages={messages} isFetching={isFetching} />
       </Screen>
     );
