@@ -33,11 +33,13 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
     isFetching: false,
   };
 
-  /** PRIVATE
-   *  Performs a network request associated with a query. Does not
-   *  update or access internal state (except `auth`).
+  /**
+   * PRIVATE.  Send search query to server, fetching message results.
+   *
+   * Does not update any state, or read any of the component's data except
+   * `props.auth`.
    */
-  performQueryRaw = async (query: string): Promise<Message[]> => {
+  fetchSearchMessages = async (query: string): Promise<Message[]> => {
     const { auth } = this.props;
     const { messages } = await api.getMessages(
       auth,
@@ -82,7 +84,7 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
     {
       // if the promise's construction fails, we let the exception
       // propagate immediately
-      const networkPromise = this.performQueryRaw(query);
+      const networkPromise = this.fetchSearchMessages(query);
 
       try {
         messages = await networkPromise;
