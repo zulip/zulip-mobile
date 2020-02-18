@@ -11,7 +11,7 @@ describe('getHtmlPieceDescriptors', () => {
     expect(messageList).toEqual([]);
   });
 
-  test('renders time, header and message for a single input', () => {
+  test('renders time, header and message, in that order, for a single input', () => {
     const messages = deepFreeze([
       {
         timestamp: 123,

@@ -9,6 +9,8 @@ export default (messages: $ReadOnlyArray<Message | Outbox>, narrow: Narrow): Pie
 
   const pieces = [];
 
+  // src/webview/generateEditSequenceEvent depends on these being in a
+  // particular order. The order we're using is 'time', 'header', 'message'.
   messages.forEach((message, i) => {
     const prevMessage = messages[i - 1];
     const diffDays =

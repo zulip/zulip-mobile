@@ -4,10 +4,16 @@ import isEqual from 'lodash.isequal';
 import type { Auth, FlagsState } from '../types';
 import type { Props } from './MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
+import type { EditSequence } from './generateEditSequenceEvent';
 import htmlBody from './html/htmlBody';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
 import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
+
+export type WebViewInboundEventEditSequence = {|
+  type: 'edit-sequence',
+  sequence: EditSequence,
+|};
 
 export type WebViewInboundEventContent = {|
   type: 'content',
@@ -40,6 +46,7 @@ export type WebViewInboundEventMessagesRead = {
 
 export type WebViewInboundEvent =
   | WebViewInboundEventContent
+  | WebViewInboundEventEditSequence
   | WebViewInboundEventFetching
   | WebViewInboundEventTyping
   | WebViewInboundEventReady
@@ -100,6 +107,18 @@ export default (prevProps: Props, nextProps: Props): WebViewInboundEvent[] => {
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
   ) {
     return [updateContent(prevProps, nextProps)];
+    // return generateEditSequenceEvent(
+    //   {
+    //     backgroundData: prevProps.backgroundData,
+    //     narrow: prevProps.narrow,
+    //     pieceDescriptors: prevProps.htmlPieceDescriptors,
+    //   },
+    //   {
+    //     backgroundData: nextProps.backgroundData,
+    //     narrow: nextProps.narrow,
+    //     pieceDescriptors: nextProps.htmlPieceDescriptors,
+    //   },
+    // );
   }
 
   const uevents = [];
