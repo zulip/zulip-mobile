@@ -379,7 +379,7 @@ var compiledWebviewJs = (function (exports) {
     window.scrollBy(0, newBoundRect.top - prevBoundTop);
   };
 
-  var handleUpdateEventContent = function handleUpdateEventContent(uevent) {
+  var handleInboundEventContent = function handleInboundEventContent(uevent) {
     var target;
 
     if (uevent.updateStrategy === 'replace') {
@@ -426,13 +426,13 @@ var compiledWebviewJs = (function (exports) {
     scrollEventsDisabled = false;
   };
 
-  var handleUpdateEventFetching = function handleUpdateEventFetching(uevent) {
+  var handleInboundEventFetching = function handleInboundEventFetching(uevent) {
     showHideElement('message-loading', uevent.showMessagePlaceholders);
     showHideElement('spinner-older', uevent.fetchingOlder);
     showHideElement('spinner-newer', uevent.fetchingNewer);
   };
 
-  var handleUpdateEventTyping = function handleUpdateEventTyping(uevent) {
+  var handleInboundEventTyping = function handleInboundEventTyping(uevent) {
     var elementTyping = document.getElementById('typing');
 
     if (elementTyping) {
@@ -443,13 +443,13 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var handleUpdateEventReady = function handleUpdateEventReady(uevent) {
+  var handleInboundEventReady = function handleInboundEventReady(uevent) {
     sendMessage({
       type: 'ready'
     });
   };
 
-  var handleUpdateEventMessagesRead = function handleUpdateEventMessagesRead(uevent) {
+  var handleInboundEventMessagesRead = function handleInboundEventMessagesRead(uevent) {
     if (uevent.messageIds.length === 0) {
       return;
     }
@@ -464,18 +464,18 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var eventUpdateHandlers = {
-    content: handleUpdateEventContent,
-    fetching: handleUpdateEventFetching,
-    typing: handleUpdateEventTyping,
-    ready: handleUpdateEventReady,
-    read: handleUpdateEventMessagesRead
+    content: handleInboundEventContent,
+    fetching: handleInboundEventFetching,
+    typing: handleInboundEventTyping,
+    ready: handleInboundEventReady,
+    read: handleInboundEventMessagesRead
   };
 
   var handleMessageEvent = function handleMessageEvent(e) {
     scrollEventsDisabled = true;
     var decodedData = decodeURIComponent(escape(window.atob(e.data)));
-    var updateEvents = JSON.parse(decodedData);
-    updateEvents.forEach(function (uevent) {
+    var inboundEvents = JSON.parse(decodedData);
+    inboundEvents.forEach(function (uevent) {
       eventUpdateHandlers[uevent.type](uevent);
     });
     scrollEventsDisabled = false;

@@ -2,14 +2,14 @@
 /* eslint-disable no-useless-return */
 import type { Auth } from '../../types';
 import type {
-  WebViewUpdateEvent,
-  WebViewUpdateEventContent,
-  WebViewUpdateEventFetching,
-  WebViewUpdateEventTyping,
-  WebViewUpdateEventReady,
-  WebViewUpdateEventMessagesRead,
-} from '../webViewHandleUpdates';
-import type { MessageListEvent } from '../webViewEventHandlers';
+  WebViewInboundEvent,
+  WebViewInboundEventContent,
+  WebViewInboundEventFetching,
+  WebViewInboundEventTyping,
+  WebViewInboundEventReady,
+  WebViewInboundEventMessagesRead,
+} from '../generateInboundEvents';
+import type { WebViewOutboundEvent } from '../handleOutboundEvents';
 
 import rewriteImageUrls from './rewriteImageUrls';
 
@@ -104,7 +104,7 @@ const escapeHtml = (text: string): string => {
   return element.innerHTML;
 };
 
-const sendMessage = (msg: MessageListEvent) => {
+const sendMessage = (msg: WebViewOutboundEvent) => {
   window.ReactNativeWebView.postMessage(JSON.stringify(msg));
 };
 
@@ -368,7 +368,7 @@ const sendScrollMessage = () => {
   };
   sendMessage({
     type: 'scroll',
-    // See MessageListEventScroll for the meanings of these properties.
+    // See WebViewOutboundEventScroll for the meanings of these properties.
     offsetHeight: documentBody.offsetHeight,
     innerHeight: window.innerHeight,
     scrollY: window.scrollY,
@@ -475,7 +475,7 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
-const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
+const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
   let target: ScrollTarget;
   if (uevent.updateStrategy === 'replace') {
     target = { type: 'none' };
@@ -534,13 +534,13 @@ export const handleInitialLoad = (
  *
  */
 
-const handleUpdateEventFetching = (uevent: WebViewUpdateEventFetching) => {
+const handleInboundEventFetching = (uevent: WebViewInboundEventFetching) => {
   showHideElement('message-loading', uevent.showMessagePlaceholders);
   showHideElement('spinner-older', uevent.fetchingOlder);
   showHideElement('spinner-newer', uevent.fetchingNewer);
 };
 
-const handleUpdateEventTyping = (uevent: WebViewUpdateEventTyping) => {
+const handleInboundEventTyping = (uevent: WebViewInboundEventTyping) => {
   const elementTyping = document.getElementById('typing');
   if (elementTyping) {
     elementTyping.innerHTML = uevent.content;
@@ -551,14 +551,14 @@ const handleUpdateEventTyping = (uevent: WebViewUpdateEventTyping) => {
 /**
  * Echo back the handshake message, confirming the channel is ready.
  */
-const handleUpdateEventReady = (uevent: WebViewUpdateEventReady) => {
+const handleInboundEventReady = (uevent: WebViewInboundEventReady) => {
   sendMessage({ type: 'ready' });
 };
 
 /**
  * Handles messages that have been read outside of the WebView
  */
-const handleUpdateEventMessagesRead = (uevent: WebViewUpdateEventMessagesRead) => {
+const handleInboundEventMessagesRead = (uevent: WebViewInboundEventMessagesRead) => {
   if (uevent.messageIds.length === 0) {
     return;
   }
@@ -570,11 +570,11 @@ const handleUpdateEventMessagesRead = (uevent: WebViewUpdateEventMessagesRead) =
 };
 
 const eventUpdateHandlers = {
-  content: handleUpdateEventContent,
-  fetching: handleUpdateEventFetching,
-  typing: handleUpdateEventTyping,
-  ready: handleUpdateEventReady,
-  read: handleUpdateEventMessagesRead,
+  content: handleInboundEventContent,
+  fetching: handleInboundEventFetching,
+  typing: handleInboundEventTyping,
+  ready: handleInboundEventReady,
+  read: handleInboundEventMessagesRead,
 };
 
 // See `handleInitialLoad` for how this gets subscribed to events.
@@ -582,8 +582,8 @@ const handleMessageEvent = e => {
   scrollEventsDisabled = true;
   // $FlowFixMe
   const decodedData = decodeURIComponent(escape(window.atob(e.data)));
-  const updateEvents: WebViewUpdateEvent[] = JSON.parse(decodedData);
-  updateEvents.forEach((uevent: WebViewUpdateEvent) => {
+  const inboundEvents: WebViewInboundEvent[] = JSON.parse(decodedData);
+  inboundEvents.forEach((uevent: WebViewInboundEvent) => {
     // $FlowFixMe
     eventUpdateHandlers[uevent.type](uevent);
   });

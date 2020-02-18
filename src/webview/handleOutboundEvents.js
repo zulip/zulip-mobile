@@ -22,13 +22,13 @@ import {
 import { showActionSheet } from '../message/messageActionSheet';
 import { ensureUnreachable } from '../types';
 
-type MessageListEventReady = {|
+type WebViewOutboundEventReady = {|
   type: 'ready',
 |};
 
 // The user scrolled in the message list, or we pretended they did.  We may
 // need to fetch more messages, or mark some messages as read.
-type MessageListEventScroll = {|
+type WebViewOutboundEventScroll = {|
   type: 'scroll',
 
   // The height (in logical pixels?) of the entire message list document
@@ -49,23 +49,23 @@ type MessageListEventScroll = {|
   endMessageId: number,
 |};
 
-type MessageListEventAvatar = {|
+type WebViewOutboundEventAvatar = {|
   type: 'avatar',
   fromUserId: number,
 |};
 
-type MessageListEventNarrow = {|
+type WebViewOutboundEventNarrow = {|
   type: 'narrow',
   narrow: string,
 |};
 
-type MessageListEventImage = {|
+type WebViewOutboundEventImage = {|
   type: 'image',
   src: string,
   messageId: number,
 |};
 
-type MessageListEventReaction = {|
+type WebViewOutboundEventReaction = {|
   type: 'reaction',
   messageId: number,
   name: string,
@@ -74,24 +74,24 @@ type MessageListEventReaction = {|
   voted: boolean,
 |};
 
-type MessageListEventUrl = {|
+type WebViewOutboundEventUrl = {|
   type: 'url',
   href: string,
   messageId: number,
 |};
 
-type MessageListEventLongPress = {|
+type WebViewOutboundEventLongPress = {|
   type: 'longPress',
   target: 'message' | 'header' | 'link',
   messageId: number,
   href: string | null,
 |};
 
-type MessageListEventDebug = {|
+type WebViewOutboundEventDebug = {|
   type: 'debug',
 |};
 
-type MessageListEventError = {|
+type WebViewOutboundEventError = {|
   type: 'error',
   details: {
     message: string,
@@ -102,30 +102,30 @@ type MessageListEventError = {|
   },
 |};
 
-type MessageListEventReactionDetails = {|
+type WebViewOutboundEventReactionDetails = {|
   type: 'reactionDetails',
   messageId: number,
   reactionName: string,
 |};
 
-type MessageListEventMention = {|
+type WebViewOutboundEventMention = {|
   type: 'mention',
   userId: number,
 |};
 
-export type MessageListEvent =
-  | MessageListEventReady
-  | MessageListEventScroll
-  | MessageListEventAvatar
-  | MessageListEventNarrow
-  | MessageListEventImage
-  | MessageListEventReaction
-  | MessageListEventUrl
-  | MessageListEventLongPress
-  | MessageListEventReactionDetails
-  | MessageListEventDebug
-  | MessageListEventError
-  | MessageListEventMention;
+export type WebViewOutboundEvent =
+  | WebViewOutboundEventReady
+  | WebViewOutboundEventScroll
+  | WebViewOutboundEventAvatar
+  | WebViewOutboundEventNarrow
+  | WebViewOutboundEventImage
+  | WebViewOutboundEventReaction
+  | WebViewOutboundEventUrl
+  | WebViewOutboundEventLongPress
+  | WebViewOutboundEventReactionDetails
+  | WebViewOutboundEventDebug
+  | WebViewOutboundEventError
+  | WebViewOutboundEventMention;
 
 type Props = $ReadOnly<{
   backgroundData: BackgroundData,
@@ -135,7 +135,7 @@ type Props = $ReadOnly<{
   showActionSheetWithOptions: ShowActionSheetWithOptions,
 }>;
 
-const fetchMore = (props: Props, event: MessageListEventScroll) => {
+const fetchMore = (props: Props, event: WebViewOutboundEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
   const { dispatch, narrow } = props;
   if (scrollY < config.messageListThreshold) {
@@ -146,7 +146,7 @@ const fetchMore = (props: Props, event: MessageListEventScroll) => {
   }
 };
 
-const markRead = (props: Props, event: MessageListEventScroll) => {
+const markRead = (props: Props, event: WebViewOutboundEventScroll) => {
   const { debug, flags, auth } = props.backgroundData;
   if (debug.doNotMarkMessagesAsRead) {
     return;
@@ -194,7 +194,11 @@ const handleLongPress = (
   });
 };
 
-export const handleMessageListEvent = (props: Props, _: GetText, event: MessageListEvent) => {
+export const handleWebViewOutboundEvent = (
+  props: Props,
+  _: GetText,
+  event: WebViewOutboundEvent,
+) => {
   switch (event.type) {
     case 'ready':
       // handled by caller
