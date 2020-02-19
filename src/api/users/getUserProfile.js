@@ -10,9 +10,9 @@ type ApiResponseUserProfile = {|
   is_admin: boolean,
   is_bot: boolean,
   max_message_id: number,
-  pointer: number,
   short_name: string,
   user_id: number,
+  // pointer: number, /* deprecated 2020-02; see zulip/zulip#8994 */
 |};
 
 /** See https://zulipchat.com/api/get-profile */
