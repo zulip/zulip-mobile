@@ -6,6 +6,7 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   LOGOUT,
+  LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
 } from '../actionConstants';
 import { deeperMerge } from '../utils/misc';
@@ -100,6 +101,7 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
   switch (action.type) {
     case REALM_INIT:
     case LOGOUT:
+    case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
 
