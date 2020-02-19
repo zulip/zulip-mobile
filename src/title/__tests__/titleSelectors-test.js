@@ -13,7 +13,7 @@ describe('getTitleBackgroundColor', () => {
       subscriptions,
     });
 
-    expect(getTitleBackgroundColor(undefined)(state)).toEqual(DEFAULT_TITLE_BACKGROUND_COLOR);
+    expect(getTitleBackgroundColor(state, undefined)).toEqual(DEFAULT_TITLE_BACKGROUND_COLOR);
   });
 
   test('return stream color for stream and topic narrow', () => {
@@ -22,7 +22,7 @@ describe('getTitleBackgroundColor', () => {
       subscriptions,
     });
 
-    expect(getTitleBackgroundColor(streamNarrow('all'))(state)).toEqual('#fff');
+    expect(getTitleBackgroundColor(state, streamNarrow('all'))).toEqual('#fff');
   });
 
   test('return null stream color for invalid stream or unknown subscriptions', () => {
@@ -31,7 +31,7 @@ describe('getTitleBackgroundColor', () => {
       subscriptions,
     });
 
-    expect(getTitleBackgroundColor(streamNarrow('feedback'))(state)).toEqual('gray');
+    expect(getTitleBackgroundColor(state, streamNarrow('feedback'))).toEqual('gray');
   });
 
   test('return default for non topic/stream narrow', () => {
@@ -40,10 +40,10 @@ describe('getTitleBackgroundColor', () => {
       subscriptions,
     });
 
-    expect(getTitleBackgroundColor(privateNarrow('abc@zulip.com'))(state)).toEqual(
+    expect(getTitleBackgroundColor(state, privateNarrow('abc@zulip.com'))).toEqual(
       DEFAULT_TITLE_BACKGROUND_COLOR,
     );
-    expect(getTitleBackgroundColor(groupNarrow(['abc@zulip.com', 'def@zulip.com']))(state)).toEqual(
+    expect(getTitleBackgroundColor(state, groupNarrow(['abc@zulip.com', 'def@zulip.com']))).toEqual(
       DEFAULT_TITLE_BACKGROUND_COLOR,
     );
   });

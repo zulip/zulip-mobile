@@ -73,7 +73,7 @@ export default connectFlowFixMe(
     backgroundColor:
       props.backgroundColor !== undefined
         ? props.backgroundColor
-        : getTitleBackgroundColor(props.narrow)(state),
+        : getTitleBackgroundColor(state, props.narrow),
     orientation: getSession(state).orientation,
   }),
 )(ZulipStatusBar);

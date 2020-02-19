@@ -50,5 +50,5 @@ class ChatNavBar extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  backgroundColor: getTitleBackgroundColor(props.narrow)(state),
+  backgroundColor: getTitleBackgroundColor(state, props.narrow),
 }))(ChatNavBar);
