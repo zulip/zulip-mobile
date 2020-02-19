@@ -47,6 +47,31 @@ export class Lolex {
 
   constructor() {
     this._clock = LolexModule.install();
+
+    // Wrap Lolex's setTimeout and setInterval with additional checks.
+    //
+    // In Node.js, where Jest runs, a timeout or interval of greater than
+    // INT32_MAX is reduced to exactly 1. (In browsers, and probably in React
+    // Native, it is instead truncated to an int32 value.)
+    //
+    // This can lead to subtle bugs. Rather than risk this, cause any test which
+    // would hit this check to fail immediately.
+    const maxTimer = 2 ** 31 - 1;
+    const wrapTimerFunction = fn => {
+      const wrapped = (_cb, delay: number, ...rest) => {
+        // do not refactor this conditional without considering NaN
+        if (!(delay <= maxTimer)) {
+          throw new Error(`timer too large (${delay}; max ${maxTimer})`);
+        }
+        // eslint-disable-next-line prefer-rest-params
+        return fn.apply(this, [_cb, delay, ...rest]);
+      };
+      return wrapped;
+    };
+
+    const clock = this._clock;
+    clock.setTimeout = wrapTimerFunction(clock.setTimeout);
+    clock.setInterval = wrapTimerFunction(clock.setInterval);
   }
 
   clearAllTimers(): void {

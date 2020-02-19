@@ -1,6 +1,7 @@
 /** @jest-environment jest-environment-jsdom-global */
 // @flow strict-local
 import { Lolex } from './aux/lolex';
+import objectEntries from '../utils/objectEntries';
 
 /**
  * This file should not test any part of the application. It exists to test that
@@ -174,5 +175,31 @@ describe('Lolex', () => {
     expect(lolex.getTimerCount()).toBe(1);
     // ... and it has been fired appropriately many times.
     expect(count).toBeCloseTo((end - start) / interval, 1);
+  });
+
+  describe('timers fail on overflow', () => {
+    /** Helper function: return delayed do-nothing invocation of the supplied function. */
+    const invoke = (
+      fn: typeof setTimeout | typeof setInterval,
+      time: number,
+    ): (() => void) => () => {
+      fn(() => {}, time);
+    };
+
+    for (const [name, fn] of objectEntries({ setTimeout, setInterval })) {
+      test(name, () => {
+        expect(invoke(fn, 0)).not.toThrow();
+        expect(invoke(fn, 1)).not.toThrow();
+        expect(invoke(fn, 123456789)).not.toThrow();
+        expect(invoke(fn, 2 ** 31 - 1)).not.toThrow();
+
+        expect(invoke(fn, 2 ** 31)).toThrow();
+        expect(invoke(fn, 10e10)).toThrow();
+        expect(invoke(fn, Infinity)).toThrow();
+        expect(invoke(fn, NaN)).toThrow();
+
+        lolex.clearAllTimers();
+      });
+    }
   });
 });
