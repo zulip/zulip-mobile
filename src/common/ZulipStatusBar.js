@@ -4,8 +4,8 @@ import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
-import type { Dimensions, GlobalState, Narrow, Orientation, ThemeName, Dispatch } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import type { Dimensions, Narrow, Orientation, ThemeName, Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
@@ -27,7 +27,7 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
 type SelectorProps = $ReadOnly<{|
   safeAreaInsets: Dimensions,
   theme: ThemeName,
-  backgroundColor: string,
+  narrowTitleBackgroundColor: string,
   orientation: Orientation,
 |}>;
 
@@ -54,7 +54,8 @@ class ZulipStatusBar extends PureComponent<Props> {
   };
 
   render() {
-    const { theme, backgroundColor, hidden, safeAreaInsets, orientation } = this.props;
+    const { theme, hidden, safeAreaInsets, orientation } = this.props;
+    const backgroundColor = this.props.backgroundColor ?? this.props.narrowTitleBackgroundColor;
     const style = { height: hidden ? 0 : safeAreaInsets.top, backgroundColor };
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
@@ -73,14 +74,9 @@ class ZulipStatusBar extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe(
-  (state: GlobalState, props: { backgroundColor?: string, narrow?: Narrow }): SelectorProps => ({
-    safeAreaInsets: getSession(state).safeAreaInsets,
-    theme: getSettings(state).theme,
-    backgroundColor:
-      props.backgroundColor !== undefined
-        ? props.backgroundColor
-        : getTitleBackgroundColor(state, props.narrow),
-    orientation: getSession(state).orientation,
-  }),
-)(ZulipStatusBar);
+export default connect<SelectorProps, _, _>((state, props) => ({
+  safeAreaInsets: getSession(state).safeAreaInsets,
+  theme: getSettings(state).theme,
+  narrowTitleBackgroundColor: getTitleBackgroundColor(state, props.narrow),
+  orientation: getSession(state).orientation,
+}))(ZulipStatusBar);
