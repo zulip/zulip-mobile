@@ -24,13 +24,20 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     ? 'light-content'
     : 'dark-content';
 
-type Props = $ReadOnly<{
-  dispatch: Dispatch,
-  hidden: boolean,
+type SelectorProps = $ReadOnly<{|
+  safeAreaInsets: Dimensions,
   theme: ThemeName,
   backgroundColor: string,
-  safeAreaInsets: Dimensions,
   orientation: Orientation,
+|}>;
+
+type Props = $ReadOnly<{
+  backgroundColor?: string,
+  narrow?: Narrow,
+  hidden: boolean,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 }>;
 
 /**
@@ -67,7 +74,7 @@ class ZulipStatusBar extends PureComponent<Props> {
 }
 
 export default connectFlowFixMe(
-  (state: GlobalState, props: { backgroundColor?: string, narrow?: Narrow }) => ({
+  (state: GlobalState, props: { backgroundColor?: string, narrow?: Narrow }): SelectorProps => ({
     safeAreaInsets: getSession(state).safeAreaInsets,
     theme: getSettings(state).theme,
     backgroundColor:
