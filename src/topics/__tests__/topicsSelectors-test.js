@@ -32,7 +32,7 @@ describe('getLastMessageTopic', () => {
       narrows: {},
     });
 
-    const topic = getLastMessageTopic(HOME_NARROW)(state);
+    const topic = getLastMessageTopic(state, HOME_NARROW);
 
     expect(topic).toEqual('');
   });
@@ -52,7 +52,7 @@ describe('getLastMessageTopic', () => {
       },
     });
 
-    const topic = getLastMessageTopic(narrow)(state);
+    const topic = getLastMessageTopic(state, narrow);
 
     expect(topic).toEqual('some topic');
   });

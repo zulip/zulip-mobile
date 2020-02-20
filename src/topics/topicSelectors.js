@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import type {
   MuteState,
   Narrow,
+  GlobalState,
   Selector,
   Stream,
   StreamsState,
@@ -66,8 +67,7 @@ export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSe
   },
 );
 
-export const getLastMessageTopic = (narrow: Narrow): Selector<string> =>
-  createSelector(
-    state => getShownMessagesForNarrow(state, narrow),
-    messages => (messages.length === 0 ? '' : messages[messages.length - 1].subject),
-  );
+export const getLastMessageTopic = (state: GlobalState, narrow: Narrow): string => {
+  const messages = getShownMessagesForNarrow(state, narrow);
+  return messages.length === 0 ? '' : messages[messages.length - 1].subject;
+};

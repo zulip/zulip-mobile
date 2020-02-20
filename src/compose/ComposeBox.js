@@ -433,5 +433,5 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
   editMessage: getSession(state).editMessage,
   draft: getDraftForNarrow(props.narrow)(state),
-  lastMessageTopic: getLastMessageTopic(props.narrow)(state),
+  lastMessageTopic: getLastMessageTopic(state, props.narrow),
 }))(ComposeBox);
