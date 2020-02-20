@@ -228,6 +228,7 @@ export const constructMessageActionButtons = ({
     && message.sender_email === ownUser.email
     // Our "edit message" UI only works in certain kinds of narrows.
     && (isStreamOrTopicNarrow(narrow) || isPrivateOrGroupNarrow(narrow))
+    && messageNotDeleted(message)
   ) {
     buttons.push('editMessage');
   }
