@@ -252,8 +252,9 @@ export class NotificationListener {
       // straight off the wire from the server.
       this.listen('notificationOpened', (note: NotificationMuddle) => {
         const data = extractNotificationData(note);
-        // $FlowFixMe
-        this.handleNotificationOpen(data);
+        if (data) {
+          this.handleNotificationOpen(data);
+        }
       });
     }
 
