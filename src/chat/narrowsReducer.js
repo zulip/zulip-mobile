@@ -14,12 +14,21 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../anchor';
-import { isMessageInNarrow, MENTIONED_NARROW_STR, STARRED_NARROW_STR } from '../utils/narrow';
+import {
+  isMessageInNarrow,
+  MENTIONED_NARROW_STR,
+  STARRED_NARROW_STR,
+  isSearchNarrow,
+} from '../utils/narrow';
 import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: NarrowsState = NULL_OBJECT;
 
 const messageFetchComplete = (state, action) => {
+  // We don't want to accumulate old searches that we'll never need again.
+  if (isSearchNarrow(action.narrow)) {
+    return state;
+  }
   const key = JSON.stringify(action.narrow);
   const fetchedMessageIds = action.messages.map(message => message.id);
   const replaceExisting =
@@ -101,8 +110,9 @@ export default (state: NarrowsState = initialState, action: Action): NarrowsStat
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case MESSAGE_FETCH_COMPLETE:
+    case MESSAGE_FETCH_COMPLETE: {
       return messageFetchComplete(state, action);
+    }
 
     case EVENT_NEW_MESSAGE:
       return eventNewMessage(state, action);

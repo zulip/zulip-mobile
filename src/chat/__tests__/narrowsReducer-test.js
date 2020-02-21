@@ -17,6 +17,7 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../anchor';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('narrowsReducer', () => {
   const privateNarrowStr = JSON.stringify(privateNarrow('mark@example.com'));
@@ -452,6 +453,21 @@ describe('narrowsReducer', () => {
       const newState = narrowsReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
+    });
+
+    test('if fetched messages are from a search narrow, ignore them', () => {
+      const initialState = deepFreeze({
+        [HOME_NARROW_STR]: [1, 2],
+      });
+
+      const action = deepFreeze({
+        ...eg.action.message_fetch_complete,
+        narrow: [{ operator: 'search', operand: 'some query' }],
+      });
+
+      const newState = narrowsReducer(initialState, action);
+
+      expect(newState).toEqual(initialState);
     });
   });
 
