@@ -10,6 +10,7 @@ import {
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../anchor';
 import { NULL_OBJECT } from '../nullObjects';
 import { DEFAULT_CAUGHTUP } from './caughtUpSelectors';
+import { isSearchNarrow } from '../utils/narrow';
 
 const initialState: CaughtUpState = NULL_OBJECT;
 
@@ -63,6 +64,10 @@ export default (state: CaughtUpState = initialState, action: Action): CaughtUpSt
       return initialState;
 
     case MESSAGE_FETCH_COMPLETE: {
+      // We don't want to accumulate old searches that we'll never need again.
+      if (isSearchNarrow(action.narrow)) {
+        return state;
+      }
       const key = JSON.stringify(action.narrow);
       let caughtUp;
       if (action.foundNewest !== undefined && action.foundOldest !== undefined) {

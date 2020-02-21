@@ -63,6 +63,24 @@ describe('caughtUpReducer', () => {
 
       expect(newState).toEqual(expectedState);
     });
+
+    test('if fetched messages are from a search narrow, ignore them', () => {
+      const initialState = deepFreeze({
+        [HOME_NARROW_STR]: {
+          older: false,
+          newer: false,
+        },
+      });
+
+      const action = deepFreeze({
+        ...eg.action.message_fetch_complete,
+        narrow: [{ operator: 'search', operand: 'some query' }],
+      });
+
+      const newState = caughtUpReducer(initialState, action);
+
+      expect(newState).toEqual(initialState);
+    });
   });
 
   test('if messages received are requested amount we consider it not yet caught up', () => {
