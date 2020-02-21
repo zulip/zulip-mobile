@@ -45,7 +45,7 @@ describe('getNarrowFromNotificationData', () => {
 
     const notification = {
       recipient_type: 'private',
-      pm_users: users.map(u => u.user_id).join(','),
+      pm_users: users.map(u => u.user_id).join(', '),
     };
 
     const expectedNarrow = groupNarrow(users.map(u => u.email));
@@ -58,7 +58,7 @@ describe('getNarrowFromNotificationData', () => {
   test('do not throw when users are not found; return null', () => {
     const notification = {
       recipient_type: 'private',
-      pm_users: '1,2,4',
+      pm_users: '1, 2, 4',
     };
     const usersById = new Map();
 
