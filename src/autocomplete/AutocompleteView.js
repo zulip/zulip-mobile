@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import { StyleSheet } from 'react-native';
 
 import type { InputSelection } from '../types';
 import getAutocompletedText from './getAutocompletedText';
@@ -22,6 +23,12 @@ type Props = $ReadOnly<{|
   onAutocomplete: (input: string) => void,
 |}>;
 
+const styles = StyleSheet.create({
+  animatedScaleComponent: {
+    zIndex: 1,
+  },
+});
+
 export default class AutocompleteView extends PureComponent<Props> {
   handleAutocomplete = (autocomplete: string) => {
     const { text, onAutocomplete, selection } = this.props;
@@ -36,7 +43,7 @@ export default class AutocompleteView extends PureComponent<Props> {
     const shouldShow = isFocused && !!AutocompleteComponent && filter.length > 0;
 
     return (
-      <AnimatedScaleComponent visible={shouldShow}>
+      <AnimatedScaleComponent visible={shouldShow} style={styles.animatedScaleComponent}>
         {shouldShow && (
           <AutocompleteComponent filter={filter} onAutocomplete={this.handleAutocomplete} />
         )}
