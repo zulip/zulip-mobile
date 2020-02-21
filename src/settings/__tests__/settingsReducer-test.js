@@ -1,71 +1,91 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
 import { SETTINGS_CHANGE, EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS } from '../../actionConstants';
 import settingsReducer from '../settingsReducer';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('settingsReducer', () => {
+  const baseState = eg.baseReduxState.settings;
+
   describe('SETTINGS_CHANGE', () => {
-    test('sets a key if it does not exist', () => {
-      const prevState = deepFreeze({});
-
+    test('changes value of a key', () => {
       const action = deepFreeze({
         type: SETTINGS_CHANGE,
-        update: { theme: 'default' },
+        update: { theme: 'night' },
       });
 
       const expectedState = {
-        theme: 'default',
-      };
-
-      const actualState = settingsReducer(prevState, action);
-
-      expect(actualState).toEqual(expectedState);
-    });
-
-    test('changes value of an existing key', () => {
-      const prevState = deepFreeze({
+        ...baseState,
         theme: 'night',
-      });
-
-      const action = deepFreeze({
-        type: SETTINGS_CHANGE,
-        update: { theme: 'default' },
-      });
-
-      const expectedState = {
-        theme: 'default',
       };
 
-      const actualState = settingsReducer(prevState, action);
+      const actualState = settingsReducer(baseState, action);
 
       expect(actualState).toEqual(expectedState);
     });
   });
 
   describe('EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS', () => {
-    test('changes the notification settings', () => {
+    test('changes offline notification setting', () => {
       const prevState = deepFreeze({
-        locale: 'en',
-        theme: 'default',
-        offlineNotification: true,
-        onlineNotification: true,
+        ...baseState,
+        offlineNotification: false,
       });
-
       const action = deepFreeze({
         type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
-        eventId: 0,
         id: 0,
         notification_name: 'enable_offline_push_notifications',
-        setting: false,
-        timestamp: 1498530886.862562,
-        user: 'example@zulip.com',
+        setting: true,
       });
 
       const expectedState = {
-        locale: 'en',
-        theme: 'default',
+        ...baseState,
+        offlineNotification: true,
+      };
+
+      const actualState = settingsReducer(prevState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('changes online notification setting', () => {
+      const prevState = deepFreeze({
+        ...baseState,
+        onlineNotification: false,
+      });
+      const action = deepFreeze({
+        type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+        id: 0,
+        notification_name: 'enable_online_push_notifications',
+        setting: true,
+      });
+
+      const expectedState = {
+        ...baseState,
         onlineNotification: true,
-        offlineNotification: false,
+      };
+
+      const actualState = settingsReducer(prevState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('changes stream notification setting', () => {
+      const prevState = deepFreeze({
+        ...baseState,
+        streamNotification: false,
+      });
+      const action = deepFreeze({
+        type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+        id: 0,
+        notification_name: 'enable_stream_push_notifications',
+        setting: true,
+      });
+
+      const expectedState = {
+        ...baseState,
+        streamNotification: true,
       };
 
       const actualState = settingsReducer(prevState, action);
