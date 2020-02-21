@@ -8,6 +8,35 @@ import * as eg from '../../__tests__/lib/exampleData';
 describe('settingsReducer', () => {
   const baseState = eg.baseReduxState.settings;
 
+  describe('REALM_INIT', () => {
+    test('changes value of all notification settings', () => {
+      const prevState = deepFreeze({
+        ...baseState,
+        offlineNotification: false,
+        onlineNotification: false,
+        streamNotification: false,
+      });
+
+      const action = deepFreeze({
+        ...eg.action.realm_init,
+        data: {
+          ...eg.action.realm_init.data,
+          enable_offline_push_notifications: true,
+          enable_online_push_notifications: true,
+          enable_stream_push_notifications: true,
+        },
+      });
+
+      const actualState = settingsReducer(prevState, action);
+
+      expect(actualState).toMatchObject({
+        offlineNotification: true,
+        onlineNotification: true,
+        streamNotification: true,
+      });
+    });
+  });
+
   describe('SETTINGS_CHANGE', () => {
     test('changes value of a key', () => {
       const action = deepFreeze({
