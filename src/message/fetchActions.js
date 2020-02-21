@@ -43,7 +43,7 @@ const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number):
   numAfter,
 });
 
-const messageFetchComplete = (
+export const messageFetchComplete = (args: {|
   messages: Message[],
   narrow: Narrow,
   anchor: number,
@@ -51,16 +51,19 @@ const messageFetchComplete = (
   numAfter: number,
   foundNewest?: boolean,
   foundOldest?: boolean,
-): Action => ({
-  type: MESSAGE_FETCH_COMPLETE,
-  messages,
-  narrow,
-  anchor,
-  numBefore,
-  numAfter,
-  foundNewest,
-  foundOldest,
-});
+|}): Action => {
+  const { messages, narrow, anchor, numBefore, numAfter, foundNewest, foundOldest } = args;
+  return {
+    type: MESSAGE_FETCH_COMPLETE,
+    messages,
+    narrow,
+    anchor,
+    numBefore,
+    numAfter,
+    foundNewest,
+    foundOldest,
+  };
+};
 
 /** PRIVATE: exported for tests only. */
 export const fetchMessages = (
@@ -80,7 +83,15 @@ export const fetchMessages = (
     useFirstUnread,
   );
   dispatch(
-    messageFetchComplete(messages, narrow, anchor, numBefore, numAfter, found_newest, found_oldest),
+    messageFetchComplete({
+      messages,
+      narrow,
+      anchor,
+      numBefore,
+      numAfter,
+      foundNewest: found_newest,
+      foundOldest: found_oldest,
+    }),
   );
 };
 
@@ -172,15 +183,15 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
     api.getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
   );
   dispatch(
-    messageFetchComplete(
+    messageFetchComplete({
       messages,
-      ALL_PRIVATE_NARROW,
-      LAST_MESSAGE_ANCHOR,
-      100,
-      0,
-      found_newest,
-      found_oldest,
-    ),
+      narrow: ALL_PRIVATE_NARROW,
+      anchor: LAST_MESSAGE_ANCHOR,
+      numBefore: 100,
+      numAfter: 0,
+      foundNewest: found_newest,
+      foundOldest: found_oldest,
+    }),
   );
 };
 
