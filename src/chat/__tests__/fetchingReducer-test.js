@@ -1,9 +1,10 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
+import * as eg from '../../__tests__/lib/exampleData';
 import fetchingReducer from '../fetchingReducer';
 import { HOME_NARROW_STR, streamNarrow } from '../../utils/narrow';
-import { DO_NARROW, MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
+import { DO_NARROW, MESSAGE_FETCH_START } from '../../actionConstants';
 
 describe('fetchingReducer', () => {
   describe('DO_NARROW', () => {
@@ -76,17 +77,12 @@ describe('fetchingReducer', () => {
         [HOME_NARROW_STR]: { older: true, newer: true },
       });
 
-      const action = deepFreeze({
-        type: MESSAGE_FETCH_COMPLETE,
+      const action = {
+        ...eg.action.message_fetch_complete,
         narrow: [],
-        // $FlowFixMe bogus messages in action
-        messages: [{ id: 1 }],
-        anchor: 0,
         numBefore: 10,
         numAfter: 0,
-        foundNewest: undefined,
-        foundOldest: undefined,
-      });
+      };
 
       const expectedState = {
         [HOME_NARROW_STR]: { older: false, newer: true },
@@ -96,5 +92,20 @@ describe('fetchingReducer', () => {
 
       expect(newState).toEqual(expectedState);
     });
+  });
+
+  test('if fetched messages are from a search narrow, ignore them', () => {
+    const initialState = deepFreeze({
+      [HOME_NARROW_STR]: { older: true, newer: true },
+    });
+
+    const action = deepFreeze({
+      ...eg.action.message_fetch_complete,
+      narrow: [{ operator: 'search', operand: 'some query' }],
+    });
+
+    const newState = fetchingReducer(initialState, action);
+
+    expect(newState).toEqual(initialState);
   });
 });
