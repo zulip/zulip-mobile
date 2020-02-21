@@ -41,14 +41,13 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
    */
   fetchSearchMessages = async (query: string): Promise<Message[]> => {
     const { auth } = this.props;
-    const { messages } = await api.getMessages(
-      auth,
-      SEARCH_NARROW(query),
-      LAST_MESSAGE_ANCHOR,
-      20,
-      0,
-      false,
-    );
+    const { messages } = await api.getMessages(auth, {
+      narrow: SEARCH_NARROW(query),
+      anchor: LAST_MESSAGE_ANCHOR,
+      numBefore: 20,
+      numAfter: 0,
+      useFirstUnread: false,
+    });
     return messages;
   };
 

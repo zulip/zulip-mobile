@@ -74,14 +74,13 @@ export const fetchMessages = (
 ) => async (dispatch: Dispatch, getState: GetState) => {
   const useFirstUnread = anchor === FIRST_UNREAD_ANCHOR;
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
-  const { messages, found_newest, found_oldest } = await api.getMessages(
-    getAuth(getState()),
+  const { messages, found_newest, found_oldest } = await api.getMessages(getAuth(getState()), {
     narrow,
     anchor,
     numBefore,
     numAfter,
     useFirstUnread,
-  );
+  });
   dispatch(
     messageFetchComplete({
       messages,
@@ -180,7 +179,12 @@ export const fetchMessagesInNarrow = (
 const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const { messages, found_newest, found_oldest } = await tryUntilSuccessful(() =>
-    api.getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
+    api.getMessages(auth, {
+      narrow: ALL_PRIVATE_NARROW,
+      anchor: LAST_MESSAGE_ANCHOR,
+      numBefore: 100,
+      numAfter: 0,
+    }),
   );
   dispatch(
     messageFetchComplete({

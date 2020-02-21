@@ -74,12 +74,15 @@ const migrateResponse = response => {
  */
 export default async (
   auth: Auth,
-  narrow: Narrow,
-  anchor: number,
-  numBefore: number,
-  numAfter: number,
-  useFirstUnread: boolean = false,
+  args: {|
+    narrow: Narrow,
+    anchor: number,
+    numBefore: number,
+    numAfter: number,
+    useFirstUnread?: boolean,
+  |},
 ): Promise<ApiResponseMessages> => {
+  const { narrow, anchor, numBefore, numAfter, useFirstUnread = false } = args;
   const response: ServerApiResponseMessages = await apiGet(auth, 'messages', {
     narrow: JSON.stringify(narrow),
     anchor,
