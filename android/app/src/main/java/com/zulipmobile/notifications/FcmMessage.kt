@@ -51,7 +51,7 @@ sealed class Recipient {
      * pmUsers: the user IDs of all users in the conversation.
      */
     data class GroupPm(val pmUsers: Set<Int>) : Recipient() {
-        fun getPmUsersString() = pmUsers.sorted().joinToString { toString() }
+        fun getPmUsersString() = pmUsers.sorted().joinToString { it.toString() }
     }
 
     /** A stream message. */
