@@ -45,14 +45,18 @@ export type SessionState = {|
   /**
    * Our actual device token, as most recently learned from the system.
    *
-   * With FCM/GCM this is the "registration token"; with APNs the "device token".
+   * With FCM/GCM this is the "registration token"; with APNs the "device
+   * token".
    *
-   * This is `null` before we've gotten a token.
+   * This is `null` before we've gotten a token. On Android, we may also receive
+   * an explicit `null` token if the device can't or won't give us a real one.
    *
    * See upstream docs:
    *   https://firebase.google.com/docs/cloud-messaging/android/client#sample-register
    *   https://developers.google.com/cloud-messaging/android/client
    *   https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns
+   *
+   * See also discussion at https://stackoverflow.com/q/37517860.
    */
   pushToken: string | null,
 
