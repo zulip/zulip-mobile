@@ -97,7 +97,8 @@ export const getNarrowFromNotificationData = (
   const emails = [];
   const idStrs = data.pm_users.split(',');
   for (let i = 0; i < idStrs.length; ++i) {
-    const user = usersById.get(+idStrs[i]);
+    const id = parseInt(idStrs[i], 10);
+    const user = usersById.get(id);
     if (!user) {
       return null;
     }
