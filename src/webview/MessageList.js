@@ -339,6 +339,13 @@ type OuterProps = {|
 
   /* Remaining props are derived from `narrow` by default. */
 
+  // `messages` and `renderedMessages` SHOULD correspond to the same set of
+  // messages, but `messages` MUST be a subset of `renderedMessages`, or
+  // scrolling will wrongly mark out-of-view messages as read! `startMessageId`
+  // and `endMessageId` in MessageListEventScroll are derived from
+  // `renderedMessages`, but are used as bounds on `messages`; see markRead in
+  // webViewEventHandlers.js. For the same reason, both arrays MUST be ordered
+  // by messageId.
   messages?: Message[],
   renderedMessages?: RenderedSectionDescriptor[],
   initialScrollMessageId?: number | null,
