@@ -20,6 +20,32 @@ const updateSubscription = (state, event) =>
     sub.stream_id === event.stream_id ? { ...sub, [event.property]: event.value } : sub,
   );
 
+const eventSubscription = (state, action) => {
+  switch (action.op) {
+    case 'add':
+      return state.concat(
+        action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)),
+      );
+    case 'remove':
+      return filterArray(
+        state,
+        x => !action.subscriptions.find(y => x && y && x.stream_id === y.stream_id),
+      );
+
+    case 'update':
+      return updateSubscription(state, action);
+
+    case 'peer_add':
+    case 'peer_remove':
+      // we currently do not track subscribers
+      return state;
+
+    default:
+      ensureUnreachable(action);
+      return state;
+  }
+};
+
 export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {
   switch (action.type) {
     case LOGOUT:
@@ -31,29 +57,7 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
       return action.data.subscriptions || initialState;
 
     case EVENT_SUBSCRIPTION:
-      switch (action.op) {
-        case 'add':
-          return state.concat(
-            action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)),
-          );
-        case 'remove':
-          return filterArray(
-            state,
-            x => !action.subscriptions.find(y => x && y && x.stream_id === y.stream_id),
-          );
-
-        case 'update':
-          return updateSubscription(state, action);
-
-        case 'peer_add':
-        case 'peer_remove':
-          // we currently do not track subscribers
-          return state;
-
-        default:
-          ensureUnreachable(action);
-          return state;
-      }
+      return eventSubscription(state, action);
 
     case EVENT: {
       const { event } = action;
