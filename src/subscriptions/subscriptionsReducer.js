@@ -46,6 +46,35 @@ const eventSubscription = (state, action) => {
   }
 };
 
+// the systematic name for this handler would unfortunately be "event"
+const eventEvent = (state, action) => {
+  const { event } = action;
+  switch (event.type) {
+    case EventTypes.stream:
+      switch (event.op) {
+        case 'update':
+          return updateSubscription(state, event);
+
+        case 'delete':
+          return filterArray(
+            state,
+            sub => !event.streams.find(stream => sub.stream_id === stream.stream_id),
+          );
+
+        case 'create':
+        case 'occupy':
+        case 'vacate':
+          return state;
+
+        default:
+          ensureUnreachable(event);
+          return state;
+      }
+    default:
+      return state;
+  }
+};
+
 export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {
   switch (action.type) {
     case LOGOUT:
@@ -59,33 +88,9 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
     case EVENT_SUBSCRIPTION:
       return eventSubscription(state, action);
 
-    case EVENT: {
-      const { event } = action;
-      switch (event.type) {
-        case EventTypes.stream:
-          switch (event.op) {
-            case 'update':
-              return updateSubscription(state, event);
+    case EVENT:
+      return eventEvent(state, action);
 
-            case 'delete':
-              return filterArray(
-                state,
-                sub => !event.streams.find(stream => sub.stream_id === stream.stream_id),
-              );
-
-            case 'create':
-            case 'occupy':
-            case 'vacate':
-              return state;
-
-            default:
-              ensureUnreachable(event);
-              return state;
-          }
-        default:
-          return state;
-      }
-    }
     default:
       return state;
   }
