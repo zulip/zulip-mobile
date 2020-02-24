@@ -163,6 +163,18 @@ dependencies (`fsevents`) isn't yet compatible with.
 
 To fix the problem, use Node 10.x instead.
 
+The same problem has also been observed when using Node 10 on commits that were
+made when we were using Node 8, prior to Greg's recommendation to switch to Node
+10 in 4e5e31ac2. To fix the problem in that case, use Node 8.
+
+
+### `yarn install` failure about "Detox"
+
+These errors are probably not critical, as mentioned in [PR
+#3504](https://github.com/zulip/zulip-mobile/pull/3504), which removed Detox
+from the project. Try continuing without a fix, but if further issues can be
+traced to Detox, try applying the changes in that PR.
+
 
 ### Bundling failure: Unable to resolve module ...
 
@@ -268,6 +280,17 @@ If you've run `react-native link`, you can discard the edits it made
 (along with any other edits you've made) by running `git reset --hard`.
 
 
+### Build failure: missing `/node_modules/react-native/third-party/double-conversion-1.1.6/src/fast-dtoa.cc`
+
+When trying to build the iOS app, if you get an error like
+
+```
+error: Build input file cannot be found: '/Users/jappleseed/dev/zulip-mobile/node_modules/react-native/third-party/double-conversion-1.1.6/src/bignum.cc' (in target 'double-conversion' from project 'React')
+```
+
+then try restarting Xcode.
+
+
 ### App shows a blank white screen
 
 If you're developing on a Linux machine, and when you start the dev version of
@@ -278,6 +301,21 @@ increase this limit with the following commands:
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p
 ```
+
+
+### Red error banner about method -[RCTAppState getCurrentAppState:error:]
+
+When trying to run the iOS app, if you get this error:
+
+```
+Unknown argument type '__attribute__' in method -[RCTAppState getCurrentAppState:error:]. Extend RCTConvert to support this type.
+```
+
+then apply [this
+diff](https://github.com/facebook/react-native/pull/25146/commits/61b8b9e69d8609fecaaaa7d2c9e32808bc5e98cb)
+to node_modules/react-native/React/Base/RCTModuleMethod.mm. This comes from a
+[React Native PR](https://github.com/facebook/react-native/pull/25146) that
+addresses some unexpected behavior in Xcode 11.
 
 
 ### Test failure: `SyntaxError: Unexpected token`
