@@ -4,11 +4,23 @@ import { sleep, tryUntilSuccessful } from '../async';
 describe('sleep', () => {
   test('waits for a given time in milliseconds', async () => {
     const expectedMs = 1000;
+
     const start = Date.now();
     await sleep(expectedMs);
-    const durationMs = Date.now() - start;
-    expect(expectedMs).toBeLessThanOrEqual(durationMs);
-    expect(durationMs).toBeLessThan(10 * expectedMs);
+    const actualMs = Date.now() - start;
+
+    // `sleep` should sleep for the specified number of milliseconds (and not,
+    // for example, that many seconds or microseconds).
+    expect(expectedMs).toBeLessThanOrEqual(actualMs);
+    expect(actualMs).toBeLessThan(10 * expectedMs); // [α]
+
+    // [α] In theory, we can't be sure of this test; the time between the
+    // specified timeout expiring and a timeslice actually becoming available
+    // may be arbitrarily long.
+    //
+    // In practice, 10x really is enough of a padding factor that it's never
+    // been an issue, even with real-world timers on shared CI hardware with
+    // unpredictable loads.
   });
 });
 
