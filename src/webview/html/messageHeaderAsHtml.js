@@ -11,7 +11,7 @@ import {
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 import { humanDate } from '../../utils/date';
-import filteredRecipientsForPM from '../../pm-conversations/filteredRecipientsForPM';
+import { filteredRecipientsForPM } from '../../utils/recipient';
 
 const renderSubject = item =>
   // TODO: pin down if '' happens, and what its proper semantics are.

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { PmRecipientUser, Message, Outbox } from '../types';
+import type { PmRecipientUser, Message, Outbox, User } from '../types';
 
 // TODO types: this union is confusing
 export const normalizeRecipients = (recipients: $ReadOnlyArray<{ email: string }> | string) =>
@@ -18,6 +18,20 @@ export const normalizeRecipientsSansMe = (
   recipients.length === 1
     ? recipients[0].email
     : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
+
+/**
+ * Returns a filtered array of recipients for a private message.
+ * If the message is a self PM, returns an array containing a single
+ * element - the current user. Otherwise, returns all recipients
+ * except the current user.
+ */
+export const filteredRecipientsForPM = (
+  message: Message | Outbox,
+  ownUser: User,
+): PmRecipientUser[] =>
+  message.display_recipient.length === 1 && message.display_recipient[0].email === ownUser.email
+    ? message.display_recipient
+    : message.display_recipient.filter(r => r.email !== ownUser.email);
 
 export const getRecipientsIds = (recipients: PmRecipientUser[], ownEmail?: string): string =>
   recipients.length === 2
