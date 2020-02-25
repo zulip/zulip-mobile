@@ -75,7 +75,7 @@ describe('jsdom-global', () => {
   });
 });
 
-describe('lolex', () => {
+describe('Lolex', () => {
   const lolex: Lolex = new Lolex();
 
   afterAll(() => {
