@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import { StyleSheet } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -9,6 +10,12 @@ import type { AccountStatus } from './accountsSelectors';
 import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
 import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
+
+const styles = StyleSheet.create({
+  accountList: {
+    flex: 0,
+  },
+});
 
 type Props = $ReadOnly<{|
   accounts: AccountStatus[],
@@ -49,7 +56,13 @@ class AccountPickScreen extends PureComponent<Props> {
     const { accounts, dispatch } = this.props;
 
     return (
-      <Screen title="Pick account" centerContent padding canGoBack={this.canGoBack}>
+      <Screen
+        title="Pick account"
+        centerContent
+        padding
+        canGoBack={this.canGoBack}
+        style={styles.accountList}
+      >
         <Centerer>
           {accounts.length === 0 && <Logo />}
           <AccountList
