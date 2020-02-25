@@ -25,6 +25,17 @@ codebase; some our workflows.
 
 ## Terms
 
+### account
+
+In our code, specifically refers to an object of type `Account` (see
+[`src/types.js`](../src/types.js)).  In particular this includes an
+[identity](#identity) plus a secret, the API key, which can be used to
+make requests to the server on the person's behalf.
+
+Compare [user](#user), which includes other people (and bots) that
+exist in the same Zulip organization -- and, naturally, no API key.
+
+
 ### alpha
 
 As in making an alpha release, or sending a release to alpha.
@@ -40,6 +51,14 @@ their own guidelines.  See either of those docs for discussion.
 
 [material-app-bar]: https://material.io/components/app-bars-top/
 ["navigation bar"]: https://developer.apple.com/design/human-interface-guidelines/ios/bars/navigation-bars/
+
+
+### avatar
+
+A user's [profile picture][help-profile-picture].  The Zulip codebase
+and API use the term "avatar".
+
+[help-profile-picture]: https://zulipchat.com/help/set-your-profile-picture
 
 
 ### beta
@@ -76,6 +95,21 @@ the "compose area".
 ### crunchy shell, soft center
 
 See our [crunchy-shell.md](architecture/crunchy-shell.md).
+
+
+### identity
+
+In our code, specifically refers to an identity that the person using
+the app controls in some Zulip [organization](#organization).
+Represented by the `Identity` type in
+[`src/types.js`](../src/types.js).
+
+Closely related to an [account](#account), but for us an "account"
+value includes the person's API key; an "identity" doesn't, and so is
+safer.
+
+Compare [user](#user), which includes other people (and bots) that
+exist in the same Zulip organization.
 
 
 ### local echo
@@ -156,6 +190,17 @@ The term was introduced in the LLVM community: [docs][nfc-docs],
 [nfc-tweet]: https://twitter.com/clattner_llvm/status/1045548372134846464
 
 
+### org
+
+Abbreviates [organization](#organization).
+
+
+### organization
+
+See [realm](#realm).  This is the user-facing term for the same
+concept.
+
+
 ### outbox message
 
 A message we're in the process of sending, represented by a value of
@@ -204,3 +249,20 @@ See the Zulip project's [Git style guide][style-commit-messages] for
 discussion of how to write a good summary line.
 
 [style-commit-messages]: https://zulip.readthedocs.io/en/latest/contributing/version-control.html#commit-messages
+
+
+### user
+
+A Zulip user, which might be a human or a bot.  Described by objects
+of type `UserOrBot` (sometimes `User`); see
+[`src/api/modelTypes.js`](../src/api/modelTypes.js).  (This set of
+types and their names can probably be improved.)
+
+A user object includes a variety of information about the user --
+everything we might use to present them in the UI or to interact with
+them on the server.  Generally the app maintains one of these for each
+user that exists in the current [realm](#realm).
+
+Contrasts with [identity](#identity) and [account](#account), which
+for us refer specifically to identities/accounts controlled by the
+person using the app, potentially across several different realms.
