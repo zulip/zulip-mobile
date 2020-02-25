@@ -37,7 +37,15 @@ export type SessionState = {|
   isActive: boolean,
   isHydrated: boolean,
   lastNarrow: ?Narrow,
+
+  /**
+   * Whether the /register request is in progress.
+   *
+   * This happens on startup, or on re-init following a dead event
+   * queue after 10 minutes of inactivity.
+   */
   loading: boolean,
+
   needsInitialFetch: boolean,
   orientation: Orientation,
   outboxSending: boolean,
