@@ -22,7 +22,7 @@ import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
-import filteredRecipientsForPM from '../pm-conversations/filteredRecipientsForPM';
+import { filteredRecipientsForPM } from '../utils/recipient';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
