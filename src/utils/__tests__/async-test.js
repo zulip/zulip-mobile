@@ -2,6 +2,14 @@
 import { sleep, tryUntilSuccessful } from '../async';
 import { Lolex } from '../../__tests__/aux/lolex';
 
+const sleepMeasure = async (expectedMs: number) => {
+  const start = Date.now();
+  await sleep(expectedMs);
+  const actualMs = Date.now() - start;
+
+  return actualMs;
+};
+
 describe('sleep (ideal)', () => {
   const lolex: Lolex = new Lolex();
 
@@ -13,14 +21,6 @@ describe('sleep (ideal)', () => {
     // clear any unset timers
     lolex.clearAllTimers();
   });
-
-  const sleepMeasure = async (expectedMs: number) => {
-    const start = Date.now();
-    await sleep(expectedMs);
-    const actualMs = Date.now() - start;
-
-    return actualMs;
-  };
 
   test('waits for exactly the right number of milliseconds', async () => {
     const expectedMs = 1000;
@@ -40,10 +40,7 @@ describe('sleep (ideal)', () => {
 describe('sleep (real)', () => {
   test('waits for approximately the right number of milliseconds', async () => {
     const expectedMs = 1000;
-
-    const start = Date.now();
-    await sleep(expectedMs);
-    const actualMs = Date.now() - start;
+    const actualMs = await sleepMeasure(expectedMs);
 
     // `sleep` should sleep for the specified number of milliseconds (and not,
     // for example, that many seconds or microseconds).
