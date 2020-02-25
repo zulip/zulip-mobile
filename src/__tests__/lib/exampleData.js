@@ -11,9 +11,11 @@ import {
   LOGIN_SUCCESS,
   REALM_INIT,
   EVENT_NEW_MESSAGE,
+  MESSAGE_FETCH_COMPLETE,
 } from '../../actionConstants';
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
+import { HOME_NARROW } from '../../utils/narrow';
 
 /* ========================================================================
  * Utilities
@@ -459,6 +461,16 @@ export const action = deepFreeze({
       user_status: {},
     },
     zulipVersion,
+  },
+  message_fetch_complete: {
+    type: MESSAGE_FETCH_COMPLETE,
+    messages: [],
+    narrow: HOME_NARROW,
+    anchor: 0,
+    numBefore: 50,
+    numAfter: 50,
+    foundNewest: undefined,
+    foundOldest: undefined,
   },
 });
 
