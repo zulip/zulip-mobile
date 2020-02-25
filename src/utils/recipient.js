@@ -29,6 +29,9 @@ export const filteredRecipientsForPM = (
   message: Message | Outbox,
   ownUser: User,
 ): PmRecipientUser[] => {
+  if (message.type !== 'private') {
+    throw new Error('filteredRecipientsForPM: expected PM, got stream message');
+  }
   const { display_recipient } = message;
   return display_recipient.length === 1
     ? display_recipient
