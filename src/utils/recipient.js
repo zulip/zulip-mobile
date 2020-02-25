@@ -28,10 +28,12 @@ export const normalizeRecipientsSansMe = (
 export const filteredRecipientsForPM = (
   message: Message | Outbox,
   ownUser: User,
-): PmRecipientUser[] =>
-  message.display_recipient.length === 1 && message.display_recipient[0].email === ownUser.email
-    ? message.display_recipient
-    : message.display_recipient.filter(r => r.email !== ownUser.email);
+): PmRecipientUser[] => {
+  const { display_recipient } = message;
+  return display_recipient.length === 1
+    ? display_recipient
+    : display_recipient.filter(r => r.email !== ownUser.email);
+};
 
 export const getRecipientsIds = (recipients: PmRecipientUser[], ownEmail?: string): string =>
   recipients.length === 2
