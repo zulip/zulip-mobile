@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
   accountList: {
     flex: 0,
   },
+  addAccountButton: {
+    margin: 5,
+  },
 });
 
 type Props = $ReadOnly<{|
@@ -76,6 +79,7 @@ class AccountPickScreen extends PureComponent<Props> {
             onPress={() => {
               dispatch(navigateToRealmScreen());
             }}
+            style={styles.addAccountButton}
           />
         </Centerer>
       </Screen>
