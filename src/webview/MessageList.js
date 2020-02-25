@@ -321,7 +321,6 @@ class MessageList extends Component<Props> {
         source={{ baseUrl, html }}
         originWhitelist={['file://']}
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-        /* eslint-disable react-native/no-inline-styles */
         style={{ backgroundColor: this.context.backgroundColor }}
         ref={webview => {
           this.webview = webview;
