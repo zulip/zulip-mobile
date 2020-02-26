@@ -1,6 +1,12 @@
 /* @flow strict-local */
 import type { PmRecipientUser, Message, Outbox, User } from '../types';
 
+// Filter a list of PM recipients in the quirky way that we do.
+//
+// This is a module-private helper.  See caller for jsdoc.
+const filterRecipients = (recipients: PmRecipientUser[], ownUserId: number): PmRecipientUser[] =>
+  recipients.length === 1 ? recipients : recipients.filter(r => r.id !== ownUserId);
+
 // TODO types: this union is confusing
 export const normalizeRecipients = (recipients: $ReadOnlyArray<{ email: string }> | string) =>
   !Array.isArray(recipients)
@@ -32,10 +38,7 @@ export const filteredRecipientsForPM = (
   if (message.type !== 'private') {
     throw new Error('filteredRecipientsForPM: expected PM, got stream message');
   }
-  const { display_recipient } = message;
-  return display_recipient.length === 1
-    ? display_recipient
-    : display_recipient.filter(r => r.id !== ownUser.user_id);
+  return filterRecipients(message.display_recipient, ownUser.user_id);
 };
 
 export const getRecipientsIds = (recipients: PmRecipientUser[], ownEmail?: string): string =>
