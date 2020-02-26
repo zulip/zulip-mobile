@@ -372,11 +372,13 @@ export type MessageEdit = $ReadOnly<{|
 
 /** A user, as seen in the `display_recipient` of a PM `Message`. */
 export type PmRecipientUser = {|
+  // These five fields (id, email, full_name, short_name, is_mirror_dummy)
+  // have all been present since server commit 6b13f4a3c, in 2014.
+  id: number,
   email: string,
   full_name: string,
-  id: number,
-  is_mirror_dummy: boolean,
   short_name: string,
+  is_mirror_dummy: boolean,
 |};
 
 /**
