@@ -15,6 +15,7 @@ export { default as KeyboardAvoider } from './KeyboardAvoider';
 export { default as Label } from './Label';
 export { default as LineSeparator } from './LineSeparator';
 export { default as LoadingIndicator } from './LoadingIndicator';
+export { default as LoadingBanner } from './LoadingBanner';
 export { default as Logo } from './Logo';
 export { default as OfflineNotice } from './OfflineNotice';
 export { default as OptionButton } from './OptionButton';
