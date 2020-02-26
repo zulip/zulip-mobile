@@ -22,7 +22,7 @@ import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
-import { filteredRecipientsForPM } from '../utils/recipient';
+import { pmUiRecipientsFromMessage } from '../utils/recipient';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -258,7 +258,7 @@ export const constructMessageActionButtons = ({
 /** Returns the title for the action sheet. */
 const getActionSheetTitle = (message: Message | Outbox, ownUser: User): string => {
   if (message.type === 'private') {
-    const recipients = filteredRecipientsForPM(message, ownUser);
+    const recipients = pmUiRecipientsFromMessage(message, ownUser);
     return recipients
       .map(r => r.full_name)
       .sort()

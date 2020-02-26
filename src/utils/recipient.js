@@ -3,7 +3,12 @@ import type { PmRecipientUser, Message, Outbox, User } from '../types';
 
 // Filter a list of PM recipients in the quirky way that we do.
 //
-// This is a module-private helper.  See caller for jsdoc.
+// Specifically: all users, except the self-user, except if it's the
+// self-1:1 thread then include the self-user after all.
+//
+// This is a module-private helper.  See callers for what this set of
+// conditions *means* -- two different things, in fact, that have the same
+// behavior by coincidence.
 const filterRecipients = (recipients: PmRecipientUser[], ownUserId: number): PmRecipientUser[] =>
   recipients.length === 1 ? recipients : recipients.filter(r => r.id !== ownUserId);
 
@@ -26,17 +31,51 @@ export const normalizeRecipientsSansMe = (
     : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
 
 /**
- * Returns a filtered array of recipients for a private message.
- * If the message is a self PM, returns an array containing a single
- * element - the current user. Otherwise, returns all recipients
- * except the current user.
+ * The set of users to show in the UI to identify a PM conversation.
+ *
+ * See also:
+ *  * `pmKeyRecipientsFromMessage`, which should be used when a consistent,
+ *    unique key is needed for identifying different PM conversations in our
+ *    data structures.
  */
-export const filteredRecipientsForPM = (
+export const pmUiRecipientsFromMessage = (
   message: Message | Outbox,
   ownUser: User,
 ): PmRecipientUser[] => {
   if (message.type !== 'private') {
-    throw new Error('filteredRecipientsForPM: expected PM, got stream message');
+    throw new Error('pmUiRecipientsFromMessage: expected PM, got stream message');
+  }
+  return filterRecipients(message.display_recipient, ownUser.user_id);
+};
+
+/**
+ * The set of users to identify a PM conversation by in our data structures.
+ *
+ * Typically we go on to take either the emails or user IDs in the result,
+ * stringify them, and join with `,` to produce a string key.  IDs are
+ * preferred; see #3764.
+ *
+ * See also:
+ *  * `pmUiRecipientsFromMessage`, which gives a set of users to show in the
+ *    UI.
+ *
+ *  * The `Narrow` type and its constructors in `narrow.js`, which with
+ *    `JSON.stringify` we use to make keys to identify narrows in general,
+ *    including stream and topic narrows.
+ *
+ *  * `normalizeRecipients`, `normalizeRecipientsSansMe`, and
+ *    `getRecipientsIds`, which do the same job as this function with slight
+ *    variations, and which we variously use in different places in the app.
+ *
+ *    It would be great to unify on a single version, as the variation is a
+ *    possible source of bugs.
+ */
+export const pmKeyRecipientsFromMessage = (
+  message: Message | Outbox,
+  ownUser: User,
+): PmRecipientUser[] => {
+  if (message.type !== 'private') {
+    throw new Error('pmKeyRecipientsFromMessage: expected PM, got stream message');
   }
   return filterRecipients(message.display_recipient, ownUser.user_id);
 };
