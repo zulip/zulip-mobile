@@ -119,24 +119,22 @@ export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: number): s
   if (message.type !== 'private') {
     throw new Error('pmUnreadsKeyFromMessage: expected PM, got stream message');
   }
-  // This includes all users in the thread; see `Message#display_recipient`.
   const recipients: PmRecipientUser[] = message.display_recipient;
+  // This includes all users in the thread; see `Message#display_recipient`.
+  const userIds = recipients.map(r => r.id);
 
-  if (recipients.length === 1) {
+  if (userIds.length === 1) {
     // Self-PM.
-    return recipients[0].id.toString();
-  } else if (recipients.length === 2) {
+    return userIds[0].toString();
+  } else if (userIds.length === 2) {
     // Non-self 1:1 PM.  Unlike display_recipient, leave out the self user.
     if (ownUserId === undefined) {
       throw new Error('getRecipientsIds: got 1:1 PM, but ownUserId omitted');
     }
-    return recipients.filter(r => r.id !== ownUserId)[0].id.toString();
+    return userIds.filter(userId => userId !== ownUserId)[0].toString();
   } else {
     // Group PM.
-    return recipients
-      .map(s => s.id)
-      .sort((a, b) => a - b)
-      .join(',');
+    return userIds.sort((a, b) => a - b).join(',');
   }
 };
 
