@@ -34,27 +34,32 @@ class ChatNavBar extends PureComponent<Props> {
 
     return (
       <View
-        style={[
-          {
-            borderColor: 'hsla(0, 0%, 50%, 0.25)',
-            flexDirection: 'row',
-            height: NAVBAR_SIZE,
-            alignItems: 'center',
-            borderBottomWidth: 1,
-          },
-          { backgroundColor },
-        ]}
+        style={{
+          borderColor: 'hsla(0, 0%, 50%, 0.25)',
+          borderBottomWidth: 1,
+        }}
       >
-        <NavButton
-          name="arrow-left"
-          color={color}
-          onPress={() => {
-            dispatch(navigateBack());
-          }}
-        />
-        <Title color={color} narrow={narrow} />
-        <ExtraButton color={color} narrow={narrow} />
-        <InfoButton color={color} narrow={narrow} />
+        <View
+          style={[
+            {
+              flexDirection: 'row',
+              height: NAVBAR_SIZE,
+              alignItems: 'center',
+            },
+            { backgroundColor },
+          ]}
+        >
+          <NavButton
+            name="arrow-left"
+            color={color}
+            onPress={() => {
+              dispatch(navigateBack());
+            }}
+          />
+          <Title color={color} narrow={narrow} />
+          <ExtraButton color={color} narrow={narrow} />
+          <InfoButton color={color} narrow={narrow} />
+        </View>
       </View>
     );
   }
