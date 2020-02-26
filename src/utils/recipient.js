@@ -80,13 +80,18 @@ export const pmKeyRecipientsFromMessage = (
   return filterRecipients(message.display_recipient, ownUser.user_id);
 };
 
-export const getRecipientsIds = (recipients: PmRecipientUser[], ownEmail?: string): string =>
-  recipients.length === 2
+export const getRecipientsIds = (message: Message, ownEmail?: string): string => {
+  if (message.type !== 'private') {
+    throw new Error('getRecipientsIds: expected PM, got stream message');
+  }
+  const recipients = message.display_recipient;
+  return recipients.length === 2
     ? recipients.filter(r => r.email !== ownEmail)[0].id.toString()
     : recipients
         .map(s => s.id)
         .sort((a, b) => a - b)
         .join(',');
+};
 
 export const isSameRecipient = (
   message1: Message | Outbox,
