@@ -85,12 +85,17 @@ export const getRecipientsIds = (message: Message, ownEmail?: string): string =>
     throw new Error('getRecipientsIds: expected PM, got stream message');
   }
   const recipients = message.display_recipient;
-  return recipients.length === 2
-    ? recipients.filter(r => r.email !== ownEmail)[0].id.toString()
-    : recipients
-        .map(s => s.id)
-        .sort((a, b) => a - b)
-        .join(',');
+  if (recipients.length === 2) {
+    if (ownEmail === undefined) {
+      throw new Error('getRecipientsIds: got 1:1 PM, but ownEmail omitted');
+    }
+    return recipients.filter(r => r.email !== ownEmail)[0].id.toString();
+  } else {
+    return recipients
+      .map(s => s.id)
+      .sort((a, b) => a - b)
+      .join(',');
+  }
 };
 
 export const isSameRecipient = (
