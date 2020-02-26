@@ -12,13 +12,15 @@ import AccountList from './AccountList';
 import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
 
 const styles = StyleSheet.create({
-  accountList: {
-    flex: 0,
-  },
-  addAccountButton: {
+  button: {
     margin: 5,
   },
 });
+/**
+ * styles
+ * [button] - Style passed to "Add new account" button
+ *             Required to resolove overlap from scroller
+ */
 
 type Props = $ReadOnly<{|
   accounts: AccountStatus[],
@@ -59,13 +61,7 @@ class AccountPickScreen extends PureComponent<Props> {
     const { accounts, dispatch } = this.props;
 
     return (
-      <Screen
-        title="Pick account"
-        centerContent
-        padding
-        canGoBack={this.canGoBack}
-        style={styles.accountList}
-      >
+      <Screen title="Pick account" centerContent padding canGoBack={this.canGoBack}>
         <Centerer>
           {accounts.length === 0 && <Logo />}
           <AccountList
@@ -79,7 +75,7 @@ class AccountPickScreen extends PureComponent<Props> {
             onPress={() => {
               dispatch(navigateToRealmScreen());
             }}
-            style={styles.addAccountButton}
+            style={styles.button}
           />
         </Centerer>
       </Screen>
