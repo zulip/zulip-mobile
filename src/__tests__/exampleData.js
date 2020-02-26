@@ -48,7 +48,7 @@ const makeUniqueRandInt = (itemsType: string, end: number): (() => number) => {
 };
 
 /** Return a string that's almost surely different every time. */
-const randString = () => randInt(2 ** 54).toString(36);
+export const randString = () => randInt(2 ** 54).toString(36);
 
 const randUserId: () => number = makeUniqueRandInt('user IDs', 10000);
 const userOrBotProperties = ({ name: _name }) => {
