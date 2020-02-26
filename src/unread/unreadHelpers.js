@@ -7,19 +7,12 @@ type SomeUnreadItem = { unread_message_ids: number[] };
 export function removeItemsDeeply<T: SomeUnreadItem>(objArray: T[], messageIds: number[]): T[] {
   let changed = false;
   const objWithAddedUnreadIds = objArray.map(obj => {
-    const newIds = removeItemsFromArray(obj.unread_message_ids, messageIds);
-    if (newIds.length === obj.unread_message_ids) {
-      return obj;
-    }
-
     const filteredIds = removeItemsFromArray(obj.unread_message_ids, messageIds);
-
     if (filteredIds.length === obj.unread_message_ids.length) {
       return obj;
     }
 
     changed = true;
-
     return {
       ...obj,
       unread_message_ids: filteredIds,
