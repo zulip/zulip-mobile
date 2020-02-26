@@ -8,7 +8,7 @@ export function removeItemsDeeply<T: SomeUnreadItem>(objArray: T[], messageIds: 
   let changed = false;
   const objWithAddedUnreadIds = objArray.map(obj => {
     const filteredIds = removeItemsFromArray(obj.unread_message_ids, messageIds);
-    if (filteredIds.length === obj.unread_message_ids.length) {
+    if (filteredIds === obj.unread_message_ids) {
       return obj;
     }
 
