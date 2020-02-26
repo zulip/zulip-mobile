@@ -19,7 +19,7 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
     unreadHuddles: { [string]: number },
   ): PmConversationData[] => {
     const recipients = messages.map(msg => ({
-      ids: pmUnreadsKeyFromMessage(msg, ownUser.email),
+      ids: pmUnreadsKeyFromMessage(msg, ownUser.user_id),
       emails: normalizeRecipientsSansMe(msg.display_recipient, ownUser.email),
       msgId: msg.id,
     }));
