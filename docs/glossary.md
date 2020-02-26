@@ -32,8 +32,20 @@ In our code, specifically refers to an object of type `Account` (see
 [identity](#identity) plus a secret, the API key, which can be used to
 make requests to the server on the person's behalf.
 
+Most of the app requires an [active](#active-account),
+[logged-in](#logged-in) account, and operates exclusively on that.
+
 Compare [user](#user), which includes other people (and bots) that
 exist in the same Zulip organization -- and, naturally, no API key.
+
+
+### active account
+
+The [account](#account) currently foregrounded in the UI, if any.  For
+all the normal-use screens of the app, which assume there is an
+active, [logged-in](#logged-in) account, this is the account whose
+data they display.  See jsdoc on the selectors in
+[`accountsSelectors.js`](../src/account/accountsSelectors.js).
 
 
 ### alpha
@@ -126,6 +138,27 @@ To see our implementation of this in the mobile app, search for the
 
 [mosh]: https://mosh.org
 [rtd-local-echo]: https://zulip.readthedocs.io/en/latest/subsystems/sending-messages.html#local-echo
+
+
+### logged in
+
+In general, a person is "logged into" a system when they've already
+authenticated, and are able to access their private data without
+going through any further authentication.
+
+In the Zulip mobile app, this corresponds to the app having an API
+key.  We say an [account](#account) is "logged-in" if we have an API
+key for it, i.e. if the API key on the `Account` object is not blank.
+
+(If we have an API key but it's invalid, e.g. if the user has changed
+their API key, then we're not "logged in" in the more abstract
+sense... but the mismatch is brief, because as soon as we try to use
+the invalid key we'll discover the problem and drop the key.)
+
+All the normal-use screens of the app, which show information from the
+server like messages, other users, etc., assume there is an [active
+account](#active-account) and it's logged in.  See the selectors in
+[`accountsSelectors.js`](../src/account/accountsSelectors.js).
 
 
 ### message list
