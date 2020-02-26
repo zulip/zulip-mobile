@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
-import styles, { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
@@ -33,7 +33,18 @@ class ChatNavBar extends PureComponent<Props> {
         : foregroundColorFromBackground(backgroundColor);
 
     return (
-      <View style={[styles.navBar, { backgroundColor }]}>
+      <View
+        style={[
+          {
+            borderColor: 'hsla(0, 0%, 50%, 0.25)',
+            flexDirection: 'row',
+            height: NAVBAR_SIZE,
+            alignItems: 'center',
+            borderBottomWidth: 1,
+          },
+          { backgroundColor },
+        ]}
+      >
         <NavButton
           name="arrow-left"
           color={color}

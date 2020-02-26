@@ -32,7 +32,18 @@ class ModalNavBar extends PureComponent<Props> {
     ];
 
     return (
-      <View style={[contextStyles.navBar]}>
+      <View
+        style={[
+          {
+            borderColor: 'hsla(0, 0%, 50%, 0.25)',
+            flexDirection: 'row',
+            height: NAVBAR_SIZE,
+            alignItems: 'center',
+            borderBottomWidth: 1,
+            backgroundColor: contextStyles.backgroundColor.backgroundColor,
+          },
+        ]}
+      >
         {canGoBack && (
           <NavButton
             name="arrow-left"
