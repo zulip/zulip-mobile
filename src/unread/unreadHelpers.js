@@ -33,7 +33,6 @@ function addItemsDeeply<T: SomeUnreadItem>(input: T[], itemsToAdd: number[], ind
   const item = input[index];
 
   const unreadMessageIds = addItemsToArray(item.unread_message_ids, itemsToAdd);
-
   if (item.unread_message_ids === unreadMessageIds) {
     return input;
   }
@@ -42,7 +41,7 @@ function addItemsDeeply<T: SomeUnreadItem>(input: T[], itemsToAdd: number[], ind
     ...input.slice(0, index),
     {
       ...item,
-      unread_message_ids: addItemsToArray(item.unread_message_ids, itemsToAdd),
+      unread_message_ids: unreadMessageIds,
     },
     ...input.slice(index + 1),
   ];
