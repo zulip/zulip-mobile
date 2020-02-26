@@ -1,31 +1,59 @@
+// @flow strict-local
 import deepFreeze from 'deep-freeze';
-
+import * as eg from '../../__tests__/exampleData';
 import { constructMessageActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
 
 const baseBackgroundData = deepFreeze({
-  auth: {
-    realm: '',
-    email: 'Zoe@zulip.com',
+  alertWords: [],
+  allImageEmojiById: eg.action.realm_init.data.realm_emoji,
+  auth: eg.selfAuth,
+  debug: {
+    doNotMarkMessagesAsRead: false,
   },
-  subscriptions: [],
-  mute: [],
   flags: {
+    read: {},
     starred: {
+      // Key has to be number according to the type declaration. $FlowFixMe.
       1: true,
+      // Key has to be number according to the type declaration. $FlowFixMe.
       2: true,
     },
+    collapsed: {},
+    mentioned: {},
+    wildcard_mentioned: {},
+    summarize_in_home: {},
+    summarize_in_stream: {},
+    force_expand: {},
+    force_collapse: {},
+    has_alert_word: {},
+    historical: {},
+    is_me_message: {},
   },
-  ownUser: { email: 'Zoe@zulip.com' },
+  mute: [['announce', 'stream events']],
+  ownUser: eg.selfUser,
+  subscriptions: [
+    {
+      ...eg.makeStream(),
+      color: '#ffffff',
+      in_home_view: false,
+      pin_to_top: false,
+      audible_notifications: false,
+      desktop_notifications: false,
+      email_address: 'stream@email.com',
+      is_old_stream: false,
+      push_notifications: true,
+      stream_weekly_traffic: 2,
+    },
+  ],
+  theme: 'default',
+  twentyFourHourTime: false,
 });
 
 describe('constructActionButtons', () => {
   const narrow = deepFreeze([]);
 
   test('show star message option if message is not starred', () => {
-    const message = deepFreeze({
-      id: 3,
-      reactions: [],
-    });
+    const message = eg.streamMessage({ id: 3 });
 
     const buttons = constructMessageActionButtons({
       backgroundData: baseBackgroundData,
@@ -37,10 +65,7 @@ describe('constructActionButtons', () => {
   });
 
   test('show unstar message option if message is starred', () => {
-    const message = deepFreeze({
-      id: 1,
-      reactions: [],
-    });
+    const message = eg.streamMessage({ id: 1 });
 
     const buttons = constructMessageActionButtons({
       backgroundData: baseBackgroundData,
@@ -52,9 +77,15 @@ describe('constructActionButtons', () => {
   });
 
   test('show reactions option if message is has at least one reaction', () => {
-    const message = deepFreeze({
-      id: 1,
-      reactions: [{}],
+    const message = eg.streamMessage({
+      reactions: [
+        {
+          user_id: 12345,
+          emoji_name: 'haha',
+          reaction_type: 'unicode_emoji',
+          emoji_code: '',
+        },
+      ],
     });
 
     const buttons = constructMessageActionButtons({
@@ -68,88 +99,90 @@ describe('constructActionButtons', () => {
 });
 
 describe('constructHeaderActionButtons', () => {
-  test('show Unmute topic option if topic is muted', () => {
-    const subscriptions = deepFreeze([
-      { name: 'denmark', in_home_view: true },
-      { name: 'donald', in_home_view: false },
-    ]);
+  const narrow = deepFreeze([]);
 
-    const message = deepFreeze({
-      type: 'stream',
+  test('show Unmute topic option if topic is muted', () => {
+    const mute = deepFreeze([['electron issues', 'issue #556']]);
+
+    const backgroundData = deepFreeze({ ...baseBackgroundData, mute });
+
+    const message = eg.streamMessage({
       display_recipient: 'electron issues',
       subject: 'issue #556',
     });
 
-    const mute = deepFreeze([['electron issues', 'issue #556']]);
-
     const buttons = constructHeaderActionButtons({
-      backgroundData: { mute, subscriptions },
+      backgroundData,
       message,
+      narrow,
     });
 
     expect(buttons).toContain('unmuteTopic');
   });
 
   test('show mute topic option if topic is not muted', () => {
-    const message = deepFreeze({
-      type: 'stream',
-      display_recipient: 'electron issues',
-      subject: 'PR #558',
-    });
-
-    const subscriptions = deepFreeze([
-      { name: 'denmark', in_home_view: true },
-      { name: 'donald', in_home_view: false },
-    ]);
-
     const mute = deepFreeze([]);
 
+    const backgroundData = deepFreeze({ ...baseBackgroundData, mute });
+
     const buttons = constructHeaderActionButtons({
-      backgroundData: { mute, subscriptions },
-      message,
+      backgroundData,
+      message: eg.streamMessage(),
+      narrow,
     });
 
     expect(buttons).toContain('muteTopic');
   });
 
   test('show Unmute stream option if stream is not in home view', () => {
-    const message = deepFreeze({
-      type: 'stream',
+    const message = eg.streamMessage({
       display_recipient: 'electron issues',
     });
 
     const subscriptions = deepFreeze([
       {
+        ...baseBackgroundData.subscriptions[0],
         name: 'electron issues',
         in_home_view: false,
       },
     ]);
 
-    const mute = deepFreeze([]);
+    const backgroundData = deepFreeze({
+      ...baseBackgroundData,
+      subscriptions,
+    });
 
     const buttons = constructHeaderActionButtons({
-      backgroundData: { mute, subscriptions },
+      backgroundData,
       message,
+      narrow,
     });
 
     expect(buttons).toContain('unmuteStream');
   });
 
   test('show mute stream option if stream is in home view', () => {
-    const message = deepFreeze({
-      type: 'stream',
+    const message = eg.streamMessage({
+      display_recipient: 'electron issues',
     });
 
     const subscriptions = deepFreeze([
-      { name: 'denmark', in_home_view: true },
-      { name: 'donald', in_home_view: false },
+      {
+        ...baseBackgroundData.subscriptions[0],
+        name: 'electron issues',
+        in_home_view: true,
+      },
     ]);
 
-    const mute = deepFreeze([]);
+    const backgroundData = deepFreeze({
+      ...baseBackgroundData,
+      subscriptions,
+    });
 
     const buttons = constructHeaderActionButtons({
-      backgroundData: { mute, subscriptions },
+      backgroundData,
       message,
+      narrow,
     });
 
     expect(buttons).toContain('muteStream');
