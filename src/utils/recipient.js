@@ -108,29 +108,29 @@ export const pmKeyRecipientsFromMessage = (
  *  * `UnreadState`, the type of `state.unread`, which is the data structure
  *    these keys appear in.
  *
- * @param ownEmail - Required if the message could be a 1:1 PM; optional if
+ * @param ownUserId - Required if the message could be a 1:1 PM; optional if
  *   it is definitely a group PM.
  */
 // Specifically, this includes all user IDs for group PMs and self-PMs,
 // and just the other user ID for non-self 1:1s; and in each case the list
 // is sorted numerically and encoded in ASCII-decimal, comma-separated.
 // See the `unread_msgs` data structure in `src/api/initialDataTypes.js`.
-export const pmUnreadsKeyFromMessage = (message: Message, ownEmail?: string): string => {
+export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: number): string => {
   if (message.type !== 'private') {
     throw new Error('pmUnreadsKeyFromMessage: expected PM, got stream message');
   }
   // This includes all users in the thread; see `Message#display_recipient`.
-  const recipients = message.display_recipient;
+  const recipients: PmRecipientUser[] = message.display_recipient;
 
   if (recipients.length === 1) {
     // Self-PM.
     return recipients[0].id.toString();
   } else if (recipients.length === 2) {
     // Non-self 1:1 PM.  Unlike display_recipient, leave out the self user.
-    if (ownEmail === undefined) {
-      throw new Error('getRecipientsIds: got 1:1 PM, but ownEmail omitted');
+    if (ownUserId === undefined) {
+      throw new Error('getRecipientsIds: got 1:1 PM, but ownUserId omitted');
     }
-    return recipients.filter(r => r.email !== ownEmail)[0].id.toString();
+    return recipients.filter(r => r.id !== ownUserId)[0].id.toString();
   } else {
     // Group PM.
     return recipients
