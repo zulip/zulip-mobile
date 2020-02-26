@@ -52,7 +52,8 @@ type Props = $ReadOnly<{|
  * Wrapper component for each screen of the app, for consistent look-and-feel.
  *
  * Provides a nav bar, colors the status bar, can center the contents, etc.
- * The `children` are ultimately wrapped in a `ScrollView` from upstream.
+ * The `children` are  wrapped in a `ScrollView` if no internal scrolling from upstream.
+ * The `children` which has internal scrolling wrapped in `View`
  *
  * @prop [centerContent] - Should the contents be centered.
  * @prop children - Components to render inside the screen.
@@ -121,14 +122,17 @@ class Screen extends PureComponent<Props> {
           style={[componentStyles.wrapper, padding && styles.padding]}
           contentContainerStyle={[padding && styles.padding]}
         >
-          <ScrollView
-            contentContainerStyle={[styles.flexed, centerContent && componentStyles.content, style]}
-            style={componentStyles.childrenWrapper}
-            keyboardShouldPersistTaps={keyboardShouldPersistTaps}
-            scrollEnabled={scrollEnabled}
-          >
-            {children}
-          </ScrollView>
+          {scrollEnabled ? (
+            <ScrollView
+              contentContainerStyle={[centerContent && componentStyles.content, style]}
+              style={componentStyles.childrenWrapper}
+              keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+            >
+              {children}
+            </ScrollView>
+          ) : (
+            <View style={componentStyles.childrenWrapper}>{children}</View>
+          )}
         </KeyboardAvoider>
       </View>
     );

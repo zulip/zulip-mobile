@@ -27,6 +27,7 @@ class GroupDetailsScreen extends PureComponent<Props> {
           initialNumToRender={10}
           data={recipients}
           keyExtractor={item => item.email}
+          keyboardShouldPersistTaps="always"
           renderItem={({ item }) => (
             <UserItem
               key={item.email}
