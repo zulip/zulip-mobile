@@ -18,7 +18,11 @@ const realmAdd = (state, action) => {
   const accountIndex = state.findIndex(account => account.realm === action.realm);
 
   if (accountIndex !== -1) {
-    return [state[accountIndex], ...state.slice(0, accountIndex), ...state.slice(accountIndex + 1)];
+    const newAccount = {
+      ...state[accountIndex],
+      zulipVersion: action.zulipVersion,
+    };
+    return [newAccount, ...state.slice(0, accountIndex), ...state.slice(accountIndex + 1)];
   }
 
   return [
@@ -27,6 +31,7 @@ const realmAdd = (state, action) => {
       apiKey: '',
       email: '',
       ackedPushToken: null,
+      zulipVersion: action.zulipVersion,
     },
     ...state,
   ];

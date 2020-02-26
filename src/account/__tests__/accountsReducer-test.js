@@ -15,17 +15,22 @@ import * as eg from '../../__tests__/exampleData';
 
 describe('accountsReducer', () => {
   describe('REALM_ADD', () => {
-    const account1 = eg.makeAccount({ apiKey: '', realm: 'https://realm.one.org' });
-    const account2 = eg.makeAccount({ apiKey: '', realm: 'https://realm.two.org' });
-
-    const prevState = deepFreeze([account1, account2]);
+    const accountWithZulipVersion = eg.makeAccount({
+      apiKey: '',
+      realm: 'https://realm.one.org',
+    });
+    const accountWithoutZulipVersion = eg.makeAccount({
+      apiKey: '',
+      shouldHaveZulipVersion: false,
+      realm: 'https://realm.two.org',
+    });
+    const prevState = deepFreeze([accountWithZulipVersion, accountWithoutZulipVersion]);
 
     test('if no account with this realm exists, prepend new one, with empty email/apiKey', () => {
       const newAccount = eg.makeAccount({
         email: '',
         apiKey: '',
         realm: 'https://new.realm.org',
-        shouldHaveZulipVersion: false, // Will be removed in the next commit (so, defaulting to true)
       });
 
       const action = deepFreeze({
@@ -34,7 +39,7 @@ describe('accountsReducer', () => {
         zulipVersion: eg.zulipVersion,
       });
 
-      const expectedState = [newAccount, account1, account2];
+      const expectedState = [newAccount, accountWithZulipVersion, accountWithoutZulipVersion];
 
       const newState = accountsReducer(prevState, action);
 
@@ -44,10 +49,10 @@ describe('accountsReducer', () => {
 
     test('if account with this realm exists, move to front of list', () => {
       const newAccount = eg.makeAccount({
-        email: '',
-        realm: account2.realm,
+        email: accountWithoutZulipVersion.email,
+        realm: accountWithoutZulipVersion.realm,
         apiKey: '',
-        shouldHaveZulipVersion: false, // Will be removed in the next commit (so, defaulting to true)
+        zulipVersion: eg.zulipVersion,
       });
 
       const action = deepFreeze({
@@ -56,7 +61,7 @@ describe('accountsReducer', () => {
         zulipVersion: eg.zulipVersion,
       });
 
-      const expectedState = [account2, account1];
+      const expectedState = [newAccount, accountWithZulipVersion];
 
       const newState = accountsReducer(prevState, action);
 
