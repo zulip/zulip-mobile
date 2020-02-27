@@ -32,6 +32,8 @@ rules:
   # Formatting and naming
   camelcase: off
 
+  no-await-in-loop: off # Promise.all is not always desirable
+
   # Permit dangling underscores in class property names, to denote "private"
   # fields. (These should be replaced with true private fields per the TC39
   # class fields proposal [1], once that's available to us.)
