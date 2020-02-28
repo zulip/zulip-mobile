@@ -3,7 +3,6 @@ export const REHYDRATE: 'persist/REHYDRATE' = 'persist/REHYDRATE';
 
 export const APP_ONLINE: 'APP_ONLINE' = 'APP_ONLINE';
 export const APP_ORIENTATION: 'APP_ORIENTATION' = 'APP_ORIENTATION';
-export const APP_STATE: 'APP_STATE' = 'APP_STATE';
 export const DEAD_QUEUE: 'DEAD_QUEUE' = 'DEAD_QUEUE';
 
 export const REALM_ADD: 'REALM_ADD' = 'REALM_ADD';

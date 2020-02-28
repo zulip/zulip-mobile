@@ -8,7 +8,6 @@ import {
   LOGOUT,
   DO_NARROW,
   APP_ONLINE,
-  APP_STATE,
   INITIAL_FETCH_COMPLETE,
   INIT_SAFE_AREA_INSETS,
   APP_ORIENTATION,
@@ -109,13 +108,6 @@ describe('sessionReducer', () => {
     const action = deepFreeze({ type: APP_ONLINE, isOnline: true });
     const newState = sessionReducer(state, action);
     expect(newState).toEqual({ ...baseState, isOnline: true });
-  });
-
-  test('APP_STATE', () => {
-    const state = deepFreeze({ ...baseState, isActive: false });
-    const action = deepFreeze({ type: APP_STATE, isActive: true });
-    const newState = sessionReducer(state, action);
-    expect(newState).toEqual({ ...baseState, isActive: true });
   });
 
   test('INITIAL_FETCH_COMPLETE', () => {

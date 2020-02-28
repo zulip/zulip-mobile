@@ -33,7 +33,6 @@ export const getAccounts = (state: GlobalState): Account[] => state.accounts;
 
 export const getSession = (state: GlobalState): SessionState => state.session;
 
-export const getIsActive = (state: GlobalState): boolean => state.session.isActive;
 export const getIsOnline = (state: GlobalState): boolean => state.session.isOnline;
 export const getDebug = (state: GlobalState): Debug => state.session.debug;
 export const getIsHydrated = (state: GlobalState): boolean => state.session.isHydrated;

@@ -2,7 +2,6 @@
 import {
   REHYDRATE,
   APP_ONLINE,
-  APP_STATE,
   DEAD_QUEUE,
   INIT_SAFE_AREA_INSETS,
   APP_ORIENTATION,
@@ -114,11 +113,6 @@ type RehydrateAction = {|
 type AppOnlineAction = {|
   type: typeof APP_ONLINE,
   isOnline: boolean,
-|};
-
-type AppStateAction = {|
-  type: typeof APP_STATE,
-  isActive: boolean,
 |};
 
 type DeadQueueAction = {|
@@ -596,7 +590,6 @@ type RealmAction = RealmInitAction | UnackPushTokenAction | AckPushTokenAction;
 
 type SessionAction =
   | RehydrateAction
-  | AppStateAction
   | AppOnlineAction
   | InitSafeAreaInsetsAction
   | AppOrientationAction

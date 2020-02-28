@@ -3,7 +3,6 @@ import type { Action, Dimensions, Dispatch, GetState, Orientation } from '../typ
 import {
   APP_ONLINE,
   APP_ORIENTATION,
-  APP_STATE,
   DEAD_QUEUE,
   DEBUG_FLAG_TOGGLE,
   INIT_SAFE_AREA_INSETS,
@@ -16,11 +15,6 @@ import { getAuth } from '../selectors';
 export const appOnline = (isOnline: boolean): Action => ({
   type: APP_ONLINE,
   isOnline,
-});
-
-export const appState = (isActive: boolean): Action => ({
-  type: APP_STATE,
-  isActive,
 });
 
 export const deadQueue = (): Action => ({

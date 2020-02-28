@@ -15,7 +15,7 @@ import {
   NotificationListener,
   notificationOnAppActive,
 } from '../notification';
-import { appOnline, appOrientation, appState, initSafeAreaInsets } from '../actions';
+import { appOnline, appOrientation, initSafeAreaInsets } from '../actions';
 import PresenceHeartbeat from '../presence/PresenceHeartbeat';
 
 /**
@@ -88,8 +88,7 @@ class AppEventHandlers extends PureComponent<Props> {
 
   /** For the type, see docs: https://facebook.github.io/react-native/docs/appstate */
   handleAppStateChange = (state: 'active' | 'background' | 'inactive') => {
-    const { dispatch, unreadCount } = this.props;
-    dispatch(appState(state === 'active'));
+    const { unreadCount } = this.props;
     if (state === 'background' && Platform.OS === 'android') {
       NativeModules.BadgeCountUpdaterModule.setBadgeCount(unreadCount);
     }

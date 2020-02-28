@@ -12,7 +12,6 @@ import {
   INITIAL_FETCH_COMPLETE,
   INITIAL_FETCH_START,
   APP_ORIENTATION,
-  APP_STATE,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
   TOGGLE_OUTBOX_SENDING,
@@ -34,7 +33,6 @@ export type SessionState = {|
   eventQueueId: number,
   editMessage: ?EditMessage,
   isOnline: boolean,
-  isActive: boolean,
   isHydrated: boolean,
   lastNarrow: ?Narrow,
 
@@ -78,7 +76,6 @@ const initialState: SessionState = {
   eventQueueId: -1,
   editMessage: null,
   isOnline: true,
-  isActive: true,
   isHydrated: false,
   lastNarrow: null,
   loading: false,
@@ -161,12 +158,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         isOnline: action.isOnline,
-      };
-
-    case APP_STATE:
-      return {
-        ...state,
-        isActive: action.isActive,
       };
 
     case INITIAL_FETCH_START:
