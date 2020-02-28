@@ -13,21 +13,18 @@ export default (state: GlobalState, event_: GeneralEvent) => {
       // $FlowFixMe This expresses our unchecked assumptions about `message` events.
       const event = (event_: MessageEvent);
 
-      // move `flags` key from `event` to `event.message` for consistency, and
-      // default to an empty array if event.flags is not set.
+      // Move `flags` key from `event` to `event.message` for consistency, and
+      // default to an empty array if `event.flags` is not set.
+      const flags = event.message.flags ?? event.flags ?? NULL_ARRAY;
       if (!event.message.flags) {
-        // $FlowFixMe Message is readonly to serve our use of it in Redux.
-        event.message.flags = event.flags || NULL_ARRAY;
+        // $FlowFixMe: Message is readonly to serve our use of it in Redux.
+        event.message.flags = flags;
         delete event.flags;
       }
 
       const isActive = getIsActive(state);
       const isPrivateMessage = Array.isArray(event.message.display_recipient);
 
-      const { flags } = event.message;
-      if (!flags) {
-        throw new Error('event.message.flags should be defined');
-      }
       const isMentioned = flags.includes('mentioned') || flags.includes('wildcard_mentioned');
       if (!isActive || !(isPrivateMessage || isMentioned)) {
         break;
