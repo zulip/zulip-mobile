@@ -1,9 +1,10 @@
 /* @flow strict-local */
 // import { Vibration } from 'react-native';
 
+import { AppState } from 'react-native';
 import type { GeneralEvent, GlobalState, MessageEvent } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
-import { getActiveAccount, getChatScreenParams, getOwnEmail, getIsActive } from '../selectors';
+import { getActiveAccount, getChatScreenParams, getOwnEmail } from '../selectors';
 import { playMessageSound } from '../utils/sound';
 import { NULL_ARRAY } from '../nullObjects';
 
@@ -23,8 +24,7 @@ const messageEvent = (state: GlobalState, event: MessageEvent): void => {
     delete event.flags;
   }
 
-  const isActive = getIsActive(state);
-  if (!isActive) {
+  if (AppState.currentState !== 'active') {
     return;
   }
 
