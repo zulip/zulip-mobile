@@ -23,10 +23,13 @@ export default (state: GlobalState, event_: GeneralEvent) => {
       }
 
       const isActive = getIsActive(state);
-      const isPrivateMessage = Array.isArray(event.message.display_recipient);
+      if (!isActive) {
+        break;
+      }
 
+      const isPrivateMessage = Array.isArray(event.message.display_recipient);
       const isMentioned = flags.includes('mentioned') || flags.includes('wildcard_mentioned');
-      if (!isActive || !(isPrivateMessage || isMentioned)) {
+      if (!(isPrivateMessage || isMentioned)) {
         break;
       }
 
