@@ -23,6 +23,7 @@ import {
 } from '../utils/narrow';
 import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
 
+/** The number of unreads in each stream, excluding muted topics, by stream ID. */
 export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
   getUnreadStreams,
   getSubscriptionsById,
@@ -44,11 +45,22 @@ export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
   },
 );
 
+/** Total number of unread stream messages -- ??? treatment of muting. */
+// TODO: it looks like this excludes muted topics, but *includes* muted streams.
 export const getUnreadStreamTotal: Selector<number> = createSelector(
   getUnreadByStream,
   unreadByStream => Object.values(unreadByStream).reduce((total, x) => +x + total, 0),
 );
 
+/**
+ * The number of unreads in each 1:1 PM thread, by user ID.
+ *
+ * Just as in the `unread_msgs` data structure, the user used in the key is
+ *  * for the self-PM thread, the self user;
+ *  * for other 1:1 PM threads, the other user in the thread.
+ *
+ * See also `getUnreadByHuddles`, for group PM threads.
+ */
 export const getUnreadByPms: Selector<{ [number]: number }> = createSelector(
   getUnreadPms,
   unreadPms => {
@@ -60,11 +72,25 @@ export const getUnreadByPms: Selector<{ [number]: number }> = createSelector(
   },
 );
 
+/**
+ * Total number of unread 1:1 PMs.
+ *
+ * See also `getUnreadHuddlesTotal`, for group PMs.
+ */
 export const getUnreadPmsTotal: Selector<number> = createSelector(
   getUnreadPms,
   unreadPms => unreadPms.reduce((total, pm) => total + pm.unread_message_ids.length, 0),
 );
 
+/**
+ * The number of unreads in each group PM thread.
+ *
+ * The keys correspond to `user_ids_string` in the `unread_msgs` data
+ * structure; see `src/api/initialDataTypes.js`.  In particular they include
+ * all users in the thread, including the self user.
+ *
+ * See also `getUnreadByPms`, for 1:1 PM threads.
+ */
 export const getUnreadByHuddles: Selector<{ [string]: number }> = createSelector(
   getUnreadHuddles,
   unreadHuddles => {
@@ -77,17 +103,28 @@ export const getUnreadByHuddles: Selector<{ [string]: number }> = createSelector
   },
 );
 
+/**
+ * Total number of unread group PMs.
+ *
+ * See also `getUnreadPmsTotal`, for 1:1 PMs.
+ */
 export const getUnreadHuddlesTotal: Selector<number> = createSelector(
   getUnreadHuddles,
   unreadHuddles =>
     unreadHuddles.reduce((total, huddle) => total + huddle.unread_message_ids.length, 0),
 );
 
+/** Total number of unread @-mentions. */
 export const getUnreadMentionsTotal: Selector<number> = createSelector(
   getUnreadMentions,
   unreadMentions => unreadMentions.length,
 );
 
+/** Total number of unreads, with ??? caveats. */
+// TODO: This appears to double-count @-mentions.  Why not just use `count`
+//   from the `unread_msgs` data structure?
+// TODO: This seems to include muted streams, though not muted topics;
+//   see `getUnreadStreamTotal`.  Looks like this causes #3589.
 export const getUnreadTotal: Selector<number> = createSelector(
   getUnreadStreamTotal,
   getUnreadPmsTotal,
@@ -97,6 +134,7 @@ export const getUnreadTotal: Selector<number> = createSelector(
     unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal + mentionsTotal,
 );
 
+/** Helper for getUnreadStreamsAndTopicsSansMuted; see there. */
 export const getUnreadStreamsAndTopics: Selector<UnreadStreamItem[]> = createSelector(
   getSubscriptionsById,
   getUnreadStreams,
@@ -148,6 +186,16 @@ export const getUnreadStreamsAndTopics: Selector<UnreadStreamItem[]> = createSel
   },
 );
 
+/**
+ * Summary of unread unmuted stream messages, to feed to the unreads screen.
+ *
+ * The exact collection of data included here is just an assortment of what
+ * the unreads screen happens to need.
+ *
+ * Each stream with unmuted unreads appears as an element of the array, and
+ * contains in `.data` an array with an element for each unmuted topic that
+ * has unreads.
+ */
 export const getUnreadStreamsAndTopicsSansMuted: Selector<UnreadStreamItem[]> = createSelector(
   getUnreadStreamsAndTopics,
   unreadStreamsAndTopics =>
@@ -159,6 +207,8 @@ export const getUnreadStreamsAndTopicsSansMuted: Selector<UnreadStreamItem[]> = 
       .filter(stream => !stream.isMuted && stream.data.length > 0),
 );
 
+/** Total number of a certain subset of unreads, plus ??? double-counting. */
+// TODO: This appears to double-count @-mentions.
 export const getUnreadByHuddlesMentionsAndPMs: Selector<number> = createSelector(
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
@@ -166,6 +216,13 @@ export const getUnreadByHuddlesMentionsAndPMs: Selector<number> = createSelector
   (unreadPms, unreadHuddles, unreadMentions) => unreadPms + unreadHuddles + unreadMentions,
 );
 
+/**
+ * Total number of unreads in the given narrow... mostly.
+ *
+ * For the @-mention narrow and search narrows, just returns 0.
+ *
+ * For the all-messages narrow, the caveats on `getUnreadTotal` apply.
+ */
 export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getStreams(state),
@@ -236,6 +293,14 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
       const unread = unreadPms.find(x => x.sender_id === sender.user_id);
       return unread ? unread.unread_message_ids.length : 0;
     }
+
+    // Unread starred messages are impossible, so 0 is correct for the
+    // starred-messages narrow.
+    // TODO: fact-check that.
+
+    // TODO: give a correct answer for the @-mentions narrow.
+
+    // For search narrows, shrug, a bogus answer of 0 is fine.
 
     return 0;
   },
