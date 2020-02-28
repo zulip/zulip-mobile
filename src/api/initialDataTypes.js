@@ -157,27 +157,82 @@ export type InitialDataUpdateGlobalNotifications = {|
 export type StreamUnreadItem = {|
   stream_id: number,
   topic: string,
+
+  // Sorted.
   unread_message_ids: number[],
+
+  /** All distinct senders of these messages; sorted. */
+  sender_ids: number[],
 |};
 
 export type HuddlesUnreadItem = {|
+  /** All users, including self; numerically sorted, comma-separated. */
   user_ids_string: string,
+
+  // Sorted.
   unread_message_ids: number[],
 |};
 
 export type PmsUnreadItem = {|
   sender_id: number,
+
+  // Sorted.
   unread_message_ids: number[],
 |};
 
 /** Initial data for `update_message_flags` events. */
 export type InitialDataUpdateMessageFlags = {|
+  /**
+   * A summary of (almost) all unread messages, even those we don't have.
+   *
+   * This data structure contains a variety of sets of message IDs, all of
+   * them unread messages: it has (almost) all unread messages' IDs, broken
+   * out by conversation (stream + topic, or PM thread), plus unread
+   * @-mentions.
+   *
+   * The valuable thing this gives us is that, at `/register` time, the
+   * server looks deep into the user's message history to give us this data
+   * on far more messages, if applicable, than we'd want to actually fetch
+   * up front in full.  (Thanks to the handy PostgreSQL feature of "partial
+   * indexes", it can have the database answer this question quite
+   * efficiently.)
+   *
+   * The "almost" caveat is that there is an upper bound on this summary.
+   * But it's giant -- starting with server commit 1.9.0-rc1~206, the
+   * latest 50000 unread messages are included.
+   *
+   * This whole feature was new in Zulip 1.7.0.
+   */
+  // This is computed by `aggregate_unread_data` and its helper
+  // `aggregate_message_dict`, consuming data supplied by
+  // `get_raw_unread_data`, all found in `zerver/lib/message.py`.
   unread_msgs: {
+    /**
+     * Unread stream messages.
+     *
+     * NB this includes messages to muted streams and topics.
+     */
     streams: StreamUnreadItem[],
+
+    /** Unread group PM messages, i.e. with >=3 participants. */
+    // "huddle" is the server's internal term for a group PM conversation.
     huddles: HuddlesUnreadItem[],
-    count: number,
+
+    /** Unread 1:1 PM messages. */
     pms: PmsUnreadItem[],
+
+    /** Unread @-mentions. */
+    // Unlike other lists of message IDs here, `mentions` is *not* sorted.
     mentions: number[],
+
+    /**
+     * Total *unmuted* unreads.
+     *
+     * NB this may be much less than the total number of message IDs in the
+     * `streams`, `huddles`, and `pms` fields, because it excludes stream
+     * messages that are muted.
+     */
+    count: number,
   },
 |};
 

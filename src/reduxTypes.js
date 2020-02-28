@@ -286,25 +286,9 @@ export type UnreadMentionsState = number[];
 /**
  * A summary of (almost) all unread messages, even those we don't have.
  *
- * This data structure contains a variety of sets of message IDs, all of
- * them unread messages: it has (almost) all unread messages' IDs, broken
- * out by conversation (stream + topic, or PM thread), plus unread
- * @-mentions.
- *
- * The valuable thing this gives us is that, at `/register` time (aka at
- * initial fetch), the server looks deep into the user's message history to
- * give us this data on far more messages, if applicable, than we'd want to
- * actually fetch up front in full.  (Thanks to the handy PostgreSQL feature
- * of "partial indexes", it can have the database answer this question quite
- * efficiently.)
- *
- * The "almost" caveat is that there is an upper bound on this summary.  But
- * it's giant -- starting with server commit 1.9.0-rc1~206, the latest 50000
- * unread messages are included.
- *
  * The initial version the server gives us for this data is `unread_msgs` in
  * the `/register` initial state, and we largely follow the structure of
- * that.
+ * that.  See there (in `src/api/initialDataTypes.js`) for details.
  */
 export type UnreadState = {|
   streams: UnreadStreamsState,
