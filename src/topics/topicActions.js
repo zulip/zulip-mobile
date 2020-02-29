@@ -44,7 +44,11 @@ export const deleteMessagesForTopic = (streamName: string, topic: string) => asy
   const state = getState();
   const outbox = getOutbox(state);
   outbox.forEach((outboxMessage: Outbox) => {
-    if (outboxMessage.display_recipient === streamName && outboxMessage.subject === topic) {
+    if (
+      outboxMessage.type === 'stream'
+      && outboxMessage.display_recipient === streamName
+      && outboxMessage.subject === topic
+    ) {
       dispatch(deleteOutboxMessage(outboxMessage.id));
     }
   });
