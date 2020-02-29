@@ -1,3 +1,4 @@
+/* @flow strict-local */
 import { getFilteredEmojiNames, nameToEmojiMap } from '../data';
 
 // Prettier disabled in .prettierignore ; it misparses this file, apparently
@@ -65,11 +66,24 @@ describe('getFilteredEmojiNames', () => {
   });
 
   test('search in realm emojis as well', () => {
-    expect(getFilteredEmojiNames('qwerty', { qwerty: {} })).toEqual(['qwerty']);
+    expect(
+      getFilteredEmojiNames('qwerty', {
+        qwerty: { code: '654', deactivated: false, name: 'qwerty', source_url: 'url' },
+      }),
+    ).toEqual(['qwerty']);
   });
 
   test('remove duplicates', () => {
     expect(getFilteredEmojiNames('dog', {})).toEqual(['dog', 'dogi', 'hotdog']);
-    expect(getFilteredEmojiNames('dog', { dog: {} })).toEqual(['dog', 'dogi', 'hotdog']);
+    expect(
+      getFilteredEmojiNames('dog', {
+        dog: {
+          code: '345',
+          deactivated: false,
+          name: 'dog',
+          source_url: 'url',
+        },
+      }),
+    ).toEqual(['dog', 'dogi', 'hotdog']);
   });
 });
