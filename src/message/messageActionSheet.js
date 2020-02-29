@@ -133,7 +133,7 @@ const deleteTopic = async ({ auth, message, dispatch, ownEmail, _ }) => {
       );
     });
   if (await AsyncAlert()) {
-    await dispatch(deleteMessagesForTopic(getNarrowFromMessage(message, ownEmail), message));
+    await dispatch(deleteMessagesForTopic(message.display_recipient, message.subject));
   }
 };
 deleteTopic.title = 'Delete topic';
