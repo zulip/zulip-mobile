@@ -170,6 +170,85 @@ idiosyncratic capitalization shown.
 
 ### Current workaround
 
+This workaround means using a development server. If that won't work
+for you, you'll have to try the second workaround, below.
+
+You can tell your development server to talk to Apple's APNs "sandbox"
+server, instead of its server meant for production, but you'll need a
+certificate signed by Apple authorizing you to do so. Some background
+on that is
+[here](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns/#2947606).
+
+1. First, generate a Certificate Signing Request (CSR). Apple
+   Developer's instructions are
+   [here](https://help.apple.com/developer-account/#/devbfa00fef7).
+   You can use something like "John Appleseed APNs Sandbox" for the
+   "Common Name."
+
+2. Greg is authorized in Apple Developer to upload the CSR and obtain
+   the actual certificate, so you should send it to him and ask him to
+   do that. He'll follow something like [these
+   instructions](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/establishing_a_certificate-based_connection_to_apns)
+   to upload your CSR and obtain an APNs SSL (Sandbox) certificate
+   (not Sandbox & Production). Greg will send you the certificate.
+   Open the file, so Keychain Access will import it into your
+   keychain.
+
+   (Note: When you created the CSR, Keychain Access also created a
+   private key. The CSR itself is not the private key, so it doesn't
+   require extra care to send over the Internet. As of 2020-03-02, the
+   APNs certificate doc incorrectly conflates the CSR and the private
+   key. The CSR file contains only the public key and a signed hash of
+   the request itself; this can be confirmed by extracting its
+   contents with OpenSSL:
+
+   `openssl asn1parse -i -in CertificateSigningRequest.certSigningRequest`
+
+   `openssl req -in CertificateSigningRequest.certSigningRequest -text -noout`
+
+   .)
+
+3. Keychain Access will recognize that the certificate corresponds to
+   your private key. Select them both and choose to export them to a
+   single .p12 (PKCS #12 format) file.
+
+4. Move the .p12 file into your zulip.git clone, in /zproject. Then
+   ssh into the Vagrant container (`vagrant ssh`) and convert the .p12
+   file into a .pem file, with
+
+   `openssl pkcs12 -in Certificates.p12 -out apns-sandbox.pem -nodes`
+
+   (replacing Certificates.p12 with whatever your filename is). If
+   openssl isn't installed, run `sudo apt install openssl`. Then
+   delete the .p12 file; you won't need it anymore.
+
+5. The .pem file contains your private key, so be sure you don't push
+   it to GitHub! One way this could be done is with the .gitignore
+   file, but .gitignore is itself version-controlled, and other people
+   probably don't have a .pem file with the same name. The
+   .git/info/exclude file lets you tell Git what to ignore, but it
+   isn't in version control, so other people won't be confused by its
+   contents. Add a line with "zproject/apns-sandbox.pem" (or whatever
+   the path is for you). Confirm that the .pem file isn't being
+   tracked by Git; it should not show up at all when you run `git
+   status`.
+
+6. Add a line with `APNS_CERT_FILE = "zproject/apns-sandbox.pem"` to
+   zproject/dev_settings.py. This lets Python use the certificate to
+   communicate with the APNs sandbox server.
+
+Now, restart the server, and you should be receiving notifications on
+your iOS development build! Be sure mobile notification settings are
+on, using the web app's settings interface. (You're all set to do this
+if your branch is up-to-date with a version of `master` from 2020-03
+or later; if not, you'll need the changes in [this
+commit](https://github.com/zulip/zulip/commit/23ba2b63c5c10f43b02a2bb2c470cc6ff597d839)).
+If it's not working, please say so in
+[#mobile](https://chat.zulip.org/#narrow/stream/48-mobile) on
+chat.zulip.org, so we can debug.
+
+### Another workaround (if the first doesn't work)
+
 Make a release build of the app, and upload it [as an alpha][].
 Update your device to the alpha from TestFlight, and test there.
 
@@ -236,8 +315,9 @@ Apple's sandbox instance of APNs.
 Open questions include how to teach the Zulip server and/or bouncer to
 talk to the sandbox APNs.
 
-* A good first step would be to do so from a development server,
-  without involving the bouncer.
+* ~~A good first step would be to do so from a development server,
+  without involving the bouncer.~~ (This step is done; it's the current
+  workaround, described above.)
 
 * To make the development experience as good as it is on Android,
   though, it should be possible to get notifications from
