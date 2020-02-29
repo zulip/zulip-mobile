@@ -328,7 +328,16 @@ export type UsersState = User[];
 /**
  * Our complete Redux state tree.
  *
- * Each property is a subtree maintained by its own reducer function.
+ * Each property is a subtree maintained by its own reducer function.  These
+ * are named in a regular pattern; see also `src/boot/reducers.js`.
+ *
+ * We use `redux-persist` to write parts of this state tree to persistent
+ * device storage that survives when the app is closed, and to read it back
+ * ("rehydrate" it) from that storage at launch time.  See `src/boot/store.js`.
+ * Other parts of the state tree are not persisted.
+ *
+ * See in particular `discardKeys`, `storeKeys`, and `cacheKeys`, which
+ * identify which subtrees are persisted and which are not.
  */
 export type GlobalState = {|
   accounts: AccountsState,
