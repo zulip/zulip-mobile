@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { GetState, Dispatch, Message, Narrow, Topic, Action, Outbox, Stream } from '../types';
+import type { GetState, Dispatch, Narrow, Topic, Action, Outbox, Stream } from '../types';
 import * as api from '../api';
 import { INIT_TOPICS } from '../actionConstants';
 import { isStreamNarrow } from '../utils/narrow';
@@ -37,24 +37,21 @@ export const fetchTopicsForActiveStream = (narrow: Narrow) => async (
   dispatch(fetchTopics(stream.stream_id));
 };
 
-export const deleteMessagesForTopic = (narrow: Narrow, message: Message | Outbox) => async (
+export const deleteMessagesForTopic = (streamName: string, topic: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
   const state = getState();
   const outbox = getOutbox(state);
   outbox.forEach((outboxMessage: Outbox) => {
-    if (
-      outboxMessage.display_recipient === narrow[0].operand
-      && outboxMessage.subject === narrow[1].operand
-    ) {
+    if (outboxMessage.display_recipient === streamName && outboxMessage.subject === topic) {
       dispatch(deleteOutboxMessage(outboxMessage.id));
     }
   });
   const currentStream: Stream | void = getStreams(state).find(
-    (stream: Stream) => stream.name === message.display_recipient,
+    (stream: Stream) => stream.name === streamName,
   );
   if (currentStream) {
-    await api.deleteTopic(getAuth(state), currentStream.stream_id, narrow[1].operand);
+    await api.deleteTopic(getAuth(state), currentStream.stream_id, topic);
   }
 };
