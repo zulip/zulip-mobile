@@ -227,7 +227,7 @@ describe('flagsStateToStringList', () => {
     },
     mentions: {},
     // ...
-    // the actual store keeps track of many more flags
+    // the actual state keeps track of many more flags
   };
 
   test("returns a string list of flags for some message, given some FlagsState and the message's id", () => {

@@ -100,8 +100,8 @@ export type { NavigationAction } from 'react-navigation';
  *
  * @prop payload A version of the global Redux state, as persisted by the
  *     app's previous runs.  This will be empty on first startup or if the
- *     persisted store is just missing keys, and will have `null` at each
- *     key where an error was encountered in reading the persisted store.
+ *     persisted state is just missing keys, and will have `null` at each
+ *     key where an error was encountered in reading the persisted state.
  *     In any case it will only contain the keys we configure to be persisted.
  * @prop error
  */
