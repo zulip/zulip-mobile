@@ -20,20 +20,7 @@ const baseBackgroundData = deepFreeze({
   },
   mute: [],
   ownUser: eg.selfUser,
-  subscriptions: [
-    {
-      ...eg.makeStream(),
-      color: '#ffffff',
-      in_home_view: false,
-      pin_to_top: false,
-      audible_notifications: false,
-      desktop_notifications: false,
-      email_address: 'stream@email.com',
-      is_old_stream: false,
-      push_notifications: true,
-      stream_weekly_traffic: 2,
-    },
-  ],
+  subscriptions: [],
   theme: 'default',
   twentyFourHourTime: false,
 });
@@ -130,7 +117,7 @@ describe('constructHeaderActionButtons', () => {
 
     const subscriptions = deepFreeze([
       {
-        ...baseBackgroundData.subscriptions[0],
+        ...eg.subscription,
         name: 'electron issues',
         in_home_view: false,
       },
@@ -157,7 +144,7 @@ describe('constructHeaderActionButtons', () => {
 
     const subscriptions = deepFreeze([
       {
-        ...baseBackgroundData.subscriptions[0],
+        ...eg.subscription,
         name: 'electron issues',
         in_home_view: true,
       },

@@ -2,7 +2,14 @@
 import deepFreeze from 'deep-freeze';
 import { createStore } from 'redux';
 
-import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../../api/modelTypes';
+import type {
+  CrossRealmBot,
+  Message,
+  PmRecipientUser,
+  Stream,
+  Subscription,
+  User,
+} from '../../api/modelTypes';
 import type { Action, GlobalState, RealmState } from '../../reduxTypes';
 import type { Auth, Account, Outbox } from '../../types';
 import { ZulipVersion } from '../../utils/zulipVersion';
@@ -156,7 +163,7 @@ export const otherUser: User = makeUser({ name: 'other' });
 export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
 
 /* ========================================================================
- * Streams
+ * Streams and subscriptions
  */
 
 const randStreamId: () => number = makeUniqueRandInt('stream IDs', 1000);
@@ -177,6 +184,24 @@ export const stream: Stream = makeStream({
   name: 'a stream',
   description: 'An example stream.',
 });
+
+export const makeSubscription = (args: { stream?: Stream } = {}): Subscription => {
+  const { stream: streamInner = stream } = args;
+  return deepFreeze({
+    ...streamInner,
+    color: '#123456',
+    in_home_view: true,
+    pin_to_top: false,
+    audible_notifications: false,
+    desktop_notifications: false,
+    email_address: '??? make this value representative before using in a test :)',
+    is_old_stream: true,
+    push_notifications: null,
+    stream_weekly_traffic: 84,
+  });
+};
+
+export const subscription: Subscription = makeSubscription();
 
 /* ========================================================================
  * Messages
