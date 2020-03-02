@@ -30,7 +30,7 @@ const baseBackgroundData = deepFreeze({
     historical: {},
     is_me_message: {},
   },
-  mute: [['announce', 'stream events']],
+  mute: [],
   ownUser: eg.selfUser,
   subscriptions: [
     {
