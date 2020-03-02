@@ -6,6 +6,7 @@ import type {
   CrossRealmBot,
   Message,
   PmRecipientUser,
+  Reaction,
   Stream,
   Subscription,
   User,
@@ -206,6 +207,13 @@ export const subscription: Subscription = makeSubscription();
 /* ========================================================================
  * Messages
  */
+
+export const unicodeEmojiReaction: Reaction = deepFreeze({
+  user_id: randUserId(),
+  reaction_type: 'unicode_emoji',
+  emoji_code: '1f44d',
+  emoji_name: 'thumbs_up',
+});
 
 const displayRecipientFromUser = (user: User): PmRecipientUser => {
   const { email, full_name, user_id: id } = user;

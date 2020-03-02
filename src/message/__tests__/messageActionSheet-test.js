@@ -48,14 +48,7 @@ describe('constructActionButtons', () => {
 
   test('show reactions option if message is has at least one reaction', () => {
     const message = eg.streamMessage({
-      reactions: [
-        {
-          user_id: 12345,
-          emoji_name: 'haha',
-          reaction_type: 'unicode_emoji',
-          emoji_code: '',
-        },
-      ],
+      reactions: [eg.unicodeEmojiReaction],
     });
 
     const buttons = constructMessageActionButtons({
