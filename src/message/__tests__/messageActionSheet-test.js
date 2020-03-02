@@ -21,10 +21,8 @@ describe('constructActionButtons', () => {
   const narrow = deepFreeze([]);
 
   test('show star message option if message is not starred', () => {
-    const message = eg.streamMessage({ id: 3 });
-    // https://github.com/facebook/flow/issues/380
-    // eslint-disable-next-line no-useless-computed-key
-    const flags = { ...baseBackgroundData.flags, starred: { [1]: true, [2]: true } };
+    const message = eg.streamMessage();
+    const flags = { ...baseBackgroundData.flags, starred: {} };
 
     const buttons = constructMessageActionButtons({
       backgroundData: { ...baseBackgroundData, flags },
@@ -36,10 +34,8 @@ describe('constructActionButtons', () => {
   });
 
   test('show unstar message option if message is starred', () => {
-    const message = eg.streamMessage({ id: 1 });
-    // https://github.com/facebook/flow/issues/380
-    // eslint-disable-next-line no-useless-computed-key
-    const flags = { ...baseBackgroundData.flags, starred: { [1]: true, [2]: true } };
+    const message = eg.streamMessage();
+    const flags = { ...baseBackgroundData.flags, starred: { [message.id]: true } };
 
     const buttons = constructMessageActionButtons({
       backgroundData: { ...baseBackgroundData, flags },

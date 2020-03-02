@@ -257,6 +257,8 @@ const messagePropertiesFromSender = (user: User) => {
   });
 };
 
+const randMessageId: () => number = makeUniqueRandInt('message ID', 10000000);
+
 /** Beware! These values may not be representative. */
 export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
   const baseMessage: Message = {
@@ -266,7 +268,7 @@ export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
     content: 'This is an example PM message.',
     content_type: 'text/markdown',
     display_recipient: [displayRecipientFromUser(selfUser)],
-    id: 1234567,
+    id: randMessageId(),
     recipient_id: 2342,
     stream_id: -1,
     subject: '',
@@ -295,7 +297,7 @@ export const streamMessage = (extra?: $Rest<Message, {}>): Message => {
 
     content: 'This is an example stream message.',
     content_type: 'text/markdown',
-    id: 1234789,
+    id: randMessageId(),
     subject: 'example topic',
     timestamp: 1556579727,
     type: 'stream',
