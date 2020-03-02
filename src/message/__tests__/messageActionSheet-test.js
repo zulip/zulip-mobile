@@ -9,15 +9,7 @@ const baseBackgroundData = deepFreeze({
   allImageEmojiById: eg.action.realm_init.data.realm_emoji,
   auth: eg.selfAuth,
   debug: eg.baseReduxState.session.debug,
-  flags: {
-    ...eg.baseReduxState.flags,
-    starred: {
-      // Key has to be number according to the type declaration. $FlowFixMe.
-      1: true,
-      // Key has to be number according to the type declaration. $FlowFixMe.
-      2: true,
-    },
-  },
+  flags: eg.baseReduxState.flags,
   mute: [],
   ownUser: eg.selfUser,
   subscriptions: [],
@@ -30,9 +22,12 @@ describe('constructActionButtons', () => {
 
   test('show star message option if message is not starred', () => {
     const message = eg.streamMessage({ id: 3 });
+    // https://github.com/facebook/flow/issues/380
+    // eslint-disable-next-line no-useless-computed-key
+    const flags = { ...baseBackgroundData.flags, starred: { [1]: true, [2]: true } };
 
     const buttons = constructMessageActionButtons({
-      backgroundData: baseBackgroundData,
+      backgroundData: { ...baseBackgroundData, flags },
       message,
       narrow,
     });
@@ -42,9 +37,12 @@ describe('constructActionButtons', () => {
 
   test('show unstar message option if message is starred', () => {
     const message = eg.streamMessage({ id: 1 });
+    // https://github.com/facebook/flow/issues/380
+    // eslint-disable-next-line no-useless-computed-key
+    const flags = { ...baseBackgroundData.flags, starred: { [1]: true, [2]: true } };
 
     const buttons = constructMessageActionButtons({
-      backgroundData: baseBackgroundData,
+      backgroundData: { ...baseBackgroundData, flags },
       message,
       narrow,
     });
