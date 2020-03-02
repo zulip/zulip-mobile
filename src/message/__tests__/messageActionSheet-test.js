@@ -8,27 +8,15 @@ const baseBackgroundData = deepFreeze({
   alertWords: [],
   allImageEmojiById: eg.action.realm_init.data.realm_emoji,
   auth: eg.selfAuth,
-  debug: {
-    doNotMarkMessagesAsRead: false,
-  },
+  debug: eg.baseReduxState.session.debug,
   flags: {
-    read: {},
+    ...eg.baseReduxState.flags,
     starred: {
       // Key has to be number according to the type declaration. $FlowFixMe.
       1: true,
       // Key has to be number according to the type declaration. $FlowFixMe.
       2: true,
     },
-    collapsed: {},
-    mentioned: {},
-    wildcard_mentioned: {},
-    summarize_in_home: {},
-    summarize_in_stream: {},
-    force_expand: {},
-    force_collapse: {},
-    has_alert_word: {},
-    historical: {},
-    is_me_message: {},
   },
   mute: [],
   ownUser: eg.selfUser,
