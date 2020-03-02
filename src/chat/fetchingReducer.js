@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import type { FetchingState, Action } from '../types';
 import {
-  DEAD_QUEUE,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -42,7 +41,6 @@ const messageFetchComplete = (state, action) => {
 
 export default (state: FetchingState = initialState, action: Action): FetchingState => {
   switch (action.type) {
-    case DEAD_QUEUE:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case DO_NARROW:

@@ -2,8 +2,9 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Dispatch, GlobalState, User } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import type { NavigationScreenProp } from 'react-navigation';
+import type { Dispatch, UserOrBot } from '../types';
+import { connect } from '../react-redux';
 import { getAccountDetailsUserForEmail } from '../selectors';
 import { Screen, ZulipButton, Label } from '../common';
 import { IconPrivateChat } from '../common/Icons';
@@ -24,10 +25,16 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = $ReadOnly<{|
-  user: User,
+type SelectorProps = $ReadOnly<{|
   isActive: boolean,
+  user: UserOrBot,
+|}>;
+
+type Props = $ReadOnly<{|
+  navigation: NavigationScreenProp<{ params: {| email: string |} }>,
+
   dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
 class AccountDetailsScreen extends PureComponent<Props> {
@@ -63,7 +70,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state: GlobalState, props) => ({
+export default connect<SelectorProps, _, _>((state, props) => ({
   user: getAccountDetailsUserForEmail(state, props.navigation.state.params.email),
   isActive: getUserIsActive(state, props.navigation.state.params.email),
 }))(AccountDetailsScreen);

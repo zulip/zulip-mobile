@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Narrow, Dispatch } from '../types';
+import type { Fetching, Narrow, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { KeyboardAvoider } from '../common';
 import MessageList from '../webview/MessageList';
@@ -11,10 +11,14 @@ import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 import styles from '../styles';
 import { canSendToNarrow } from '../utils/narrow';
-import { getShowMessagePlaceholders } from '../selectors';
+import { getLoading } from '../directSelectors';
+import { getFetchingForNarrow } from './fetchingSelectors';
+import { getShownMessagesForNarrow } from './narrowsSelectors';
 
 type SelectorProps = {|
-  canSend: boolean,
+  loading: boolean,
+  fetching: Fetching,
+  haveNoMessages: boolean,
 |};
 
 type Props = $ReadOnly<{|
@@ -35,17 +39,21 @@ const componentStyles = StyleSheet.create({
 
 class Chat extends PureComponent<Props> {
   render() {
-    const { canSend, narrow } = this.props;
+    const { fetching, loading, haveNoMessages, narrow } = this.props;
 
+    const isFetching = fetching.older || fetching.newer || loading;
+    const showMessagePlaceholders = haveNoMessages && isFetching;
+    const sayNoMessages = haveNoMessages && !isFetching;
+    const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <View style={styles.flexed}>
           <View style={componentStyles.reverse}>
-            <MessageList narrow={narrow} />
-            <NoMessages narrow={narrow} />
+            <MessageList narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
+            {sayNoMessages && <NoMessages narrow={narrow} />}
             <UnreadNotice narrow={narrow} />
           </View>
-          {canSend && <ComposeBox narrow={narrow} />}
+          {showComposeBox && <ComposeBox narrow={narrow} />}
         </View>
       </KeyboardAvoider>
     );
@@ -53,5 +61,7 @@ class Chat extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  canSend: canSendToNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
+  loading: getLoading(state),
+  fetching: getFetchingForNarrow(state, props.narrow),
+  haveNoMessages: getShownMessagesForNarrow(state, props.narrow).length === 0,
 }))(Chat);

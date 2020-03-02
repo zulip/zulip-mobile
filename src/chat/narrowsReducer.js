@@ -4,7 +4,7 @@ import union from 'lodash.union';
 import type { NarrowsState, Action } from '../types';
 import { ensureUnreachable } from '../types';
 import {
-  DEAD_QUEUE,
+  REALM_INIT,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -95,7 +95,7 @@ const eventUpdateMessageFlags = (state, action) => {
 
 export default (state: NarrowsState = initialState, action: Action): NarrowsState => {
   switch (action.type) {
-    case DEAD_QUEUE:
+    case REALM_INIT:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:

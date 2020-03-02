@@ -4,6 +4,7 @@ import NotificationsIOS from 'react-native-notifications';
 
 import type { Auth, Dispatch, Identity, Narrow, User } from '../types';
 import { topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
+import type { JSONable } from '../utils/jsonable';
 import * as api from '../api';
 import * as logging from '../utils/logging';
 import {
@@ -188,9 +189,10 @@ export class NotificationListener {
     if (Platform.OS === 'ios') {
       NotificationsIOS.addEventListener(name, handler);
       this.unsubs.push(() => NotificationsIOS.removeEventListener(name, handler));
+    } else {
+      const subscription = DeviceEventEmitter.addListener(name, handler);
+      this.unsubs.push(() => subscription.remove());
     }
-    const subscription = DeviceEventEmitter.addListener(name, handler);
-    this.unsubs.push(() => subscription.remove());
   }
 
   /** Private. */
@@ -209,7 +211,16 @@ export class NotificationListener {
   };
 
   /** Private. */
-  handleDeviceToken = async (deviceToken: string) => {
+  handleDeviceToken = async (deviceToken: mixed) => {
+    // A device token should normally be a string of hex digits. Sometimes,
+    // however, we appear to receive objects here. Log this. (See issue #3672.)
+    if (typeof deviceToken !== 'string' || deviceToken === '[Object object]') {
+      // $FlowFixMe: deviceToken probably _is_ JSONable, but we can only hope
+      const token: JSONable = deviceToken;
+      logging.error('Received invalid device token', { token });
+      return;
+    }
+
     this.dispatch(gotPushToken(deviceToken));
     await this.dispatch(sendAllPushToken());
   };

@@ -3,7 +3,7 @@ import omit from 'lodash.omit';
 
 import type { MessagesState, Action } from '../types';
 import {
-  DEAD_QUEUE,
+  REALM_INIT,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -139,7 +139,7 @@ const eventUpdateMessage = (state, action) => {
 
 export default (state: MessagesState = initialState, action: Action): MessagesState => {
   switch (action.type) {
-    case DEAD_QUEUE:
+    case REALM_INIT:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:

@@ -27,7 +27,7 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
 ) => {
   const state = getState();
 
-  if (!isNarrowValid(narrow)(state) || !getIsHydrated(state)) {
+  if (!isNarrowValid(state, narrow) || !getIsHydrated(state)) {
     return;
   }
 

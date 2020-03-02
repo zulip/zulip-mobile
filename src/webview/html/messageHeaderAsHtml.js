@@ -11,6 +11,7 @@ import {
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 import { humanDate } from '../../utils/date';
+import { pmUiRecipientsFromMessage, pmKeyRecipientsFromMessage } from '../../utils/recipient';
 
 const renderSubject = item =>
   // TODO: pin down if '' happens, and what its proper semantics are.
@@ -87,22 +88,19 @@ export default (
   }
 
   if (item.type === 'private' && headerStyle === 'full') {
-    const recipients =
-      item.display_recipient.length === 1 && item.display_recipient[0].email === ownUser.email
-        ? item.display_recipient
-        : item.display_recipient.filter(r => r.email !== ownUser.email);
-
+    const keyRecipients = pmKeyRecipientsFromMessage(item, ownUser);
     const narrowObj =
-      recipients.length === 1
-        ? privateNarrow(recipients[0].email)
-        : groupNarrow(recipients.map(r => r.email));
+      keyRecipients.length === 1
+        ? privateNarrow(keyRecipients[0].email)
+        : groupNarrow(keyRecipients.map(r => r.email));
     const privateNarrowStr = JSON.stringify(narrowObj);
 
+    const uiRecipients = pmUiRecipientsFromMessage(item, ownUser);
     return template`
 <div class="header-wrapper private-header header"
      data-narrow="${privateNarrowStr}"
      data-msg-id="${item.id}">
-  ${recipients
+  ${uiRecipients
     .map(r => r.full_name)
     .sort()
     .join(', ')}

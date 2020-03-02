@@ -52,7 +52,7 @@ const randString = () => randInt(2 ** 54).toString(36);
 
 const randUserId: () => number = makeUniqueRandInt('user IDs', 10000);
 const userOrBotProperties = ({ name: _name }) => {
-  const name = _name !== undefined ? _name : randString();
+  const name = _name ?? randString();
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
   return deepFreeze({
     avatar_url: `https://zulip.example.org/yo/avatar-${name}.png`,
@@ -108,9 +108,8 @@ export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
 
 const randStreamId: () => number = makeUniqueRandInt('stream IDs', 1000);
 export const makeStream = (args: { name?: string, description?: string } = {}): Stream => {
-  const name = args.name !== undefined ? args.name : randString();
-  const description =
-    args.description !== undefined ? args.description : `On the ${randString()} of ${name}`;
+  const name = args.name ?? randString();
+  const description = args.description ?? `On the ${randString()} of ${name}`;
   return deepFreeze({
     stream_id: randStreamId(),
     name,

@@ -34,7 +34,7 @@ class Title extends PureComponent<Props> {
       stream: () => <TitleStream narrow={narrow} color={color} />,
       topic: () => <TitleStream narrow={narrow} color={color} />,
       pm: email => <TitlePrivate email={email} color={color} />,
-      groupPm: () => <TitleGroup narrow={narrow} color={color} />,
+      groupPm: () => <TitleGroup narrow={narrow} />,
       search: () => null,
     });
   }

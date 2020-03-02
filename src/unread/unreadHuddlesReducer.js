@@ -27,11 +27,7 @@ const eventNewMessage = (state, action) => {
     return state;
   }
 
-  return addItemsToHuddleArray(
-    state,
-    [action.message.id],
-    getRecipientsIds(action.message.display_recipient),
-  );
+  return addItemsToHuddleArray(state, [action.message.id], getRecipientsIds(action.message));
 };
 
 const eventUpdateMessageFlags = (state, action) => {

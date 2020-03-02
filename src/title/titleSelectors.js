@@ -1,10 +1,7 @@
 /* @flow strict-local */
-import { createSelector } from 'reselect';
-
-import type { Narrow, Selector } from '../types';
-import { getSubscriptions } from '../directSelectors';
+import type { Narrow, GlobalState } from '../types';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
-import { NULL_SUBSCRIPTION } from '../nullObjects';
+import { getSubscriptionsByName } from '../subscriptions/subscriptionSelectors';
 
 export const DEFAULT_TITLE_BACKGROUND_COLOR = 'transparent';
 
@@ -14,14 +11,11 @@ export const DEFAULT_TITLE_BACKGROUND_COLOR = 'transparent';
  * If `narrow` is a stream or topic narrow, this is based on the stream color.
  * Otherwise, it takes a default value.
  */
-export const getTitleBackgroundColor = (narrow?: Narrow): Selector<string> =>
-  createSelector(
-    getSubscriptions,
-    subscriptions => {
-      if (!narrow || !isStreamOrTopicNarrow(narrow)) {
-        return DEFAULT_TITLE_BACKGROUND_COLOR;
-      }
-      const streamName = narrow[0].operand;
-      return (subscriptions.find(sub => streamName === sub.name) || NULL_SUBSCRIPTION).color;
-    },
-  );
+export const getTitleBackgroundColor = (state: GlobalState, narrow?: Narrow) => {
+  const subscriptionsByName = getSubscriptionsByName(state);
+  if (!narrow || !isStreamOrTopicNarrow(narrow)) {
+    return DEFAULT_TITLE_BACKGROUND_COLOR;
+  }
+  const streamName = narrow[0].operand;
+  return subscriptionsByName.get(streamName)?.color ?? 'gray';
+};

@@ -6,13 +6,13 @@ import messagesFlags from './messages/messagesFlags';
 const debouncePeriodMs = 2000;
 
 let unsentMessageIds = [];
-let lastSentTime = 0;
+let lastSentTime = -Infinity;
 let timeout = null;
 
 /** Private; exported only for tests. */
 export const resetAll = () => {
   unsentMessageIds = [];
-  lastSentTime = 0;
+  lastSentTime = -Infinity;
   timeout = null;
 };
 

@@ -3,8 +3,8 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { GlobalState, Dispatch } from '../types';
-import { connectFlowFixMe } from '../react-redux';
+import type { Dispatch, Narrow } from '../types';
+import { connect } from '../react-redux';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
@@ -15,13 +15,19 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = $ReadOnly<{
-  dispatch: Dispatch,
+type SelectorProps = $ReadOnly<{|
+  topics: string[],
+|}>;
+
+type Props = $ReadOnly<{|
+  narrow: Narrow,
   isFocused: boolean,
   text: string,
-  topics: string[],
   onAutocomplete: (name: string) => void,
-}>;
+
+  dispatch: Dispatch,
+  ...SelectorProps,
+|}>;
 
 class TopicAutocomplete extends PureComponent<Props> {
   render() {
@@ -55,6 +61,6 @@ class TopicAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connectFlowFixMe((state: GlobalState, props) => ({
-  topics: getTopicsForNarrow(props.narrow)(state),
+export default connect<SelectorProps, _, _>((state, props) => ({
+  topics: getTopicsForNarrow(state, props.narrow),
 }))(TopicAutocomplete);

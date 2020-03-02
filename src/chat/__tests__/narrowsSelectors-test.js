@@ -207,25 +207,25 @@ describe('getStreamInNarrow', () => {
   test('return subscription if stream in narrow is subscribed', () => {
     const narrow = streamNarrow('stream');
 
-    expect(getStreamInNarrow(narrow)(state)).toEqual({ name: 'stream', in_home_view: false });
+    expect(getStreamInNarrow(state, narrow)).toEqual({ name: 'stream', in_home_view: false });
   });
 
   test('return stream if stream in narrow is not subscribed', () => {
     const narrow = streamNarrow('stream3');
 
-    expect(getStreamInNarrow(narrow)(state)).toEqual({ name: 'stream3', in_home_view: true });
+    expect(getStreamInNarrow(state, narrow)).toEqual({ name: 'stream3', in_home_view: true });
   });
 
   test('return NULL_SUBSCRIPTION if stream in narrow is not valid', () => {
     const narrow = streamNarrow('stream4');
 
-    expect(getStreamInNarrow(narrow)(state)).toEqual(NULL_SUBSCRIPTION);
+    expect(getStreamInNarrow(state, narrow)).toEqual(NULL_SUBSCRIPTION);
   });
 
   test('return NULL_SUBSCRIPTION is narrow is not topic or stream', () => {
-    expect(getStreamInNarrow(undefined)(state)).toEqual(NULL_SUBSCRIPTION);
-    expect(getStreamInNarrow(privateNarrow('abc@zulip.com'))(state)).toEqual(NULL_SUBSCRIPTION);
-    expect(getStreamInNarrow(topicNarrow('stream4', 'topic'))(state)).toEqual(NULL_SUBSCRIPTION);
+    expect(getStreamInNarrow(state, undefined)).toEqual(NULL_SUBSCRIPTION);
+    expect(getStreamInNarrow(state, privateNarrow('abc@zulip.com'))).toEqual(NULL_SUBSCRIPTION);
+    expect(getStreamInNarrow(state, topicNarrow('stream4', 'topic'))).toEqual(NULL_SUBSCRIPTION);
   });
 });
 
@@ -236,7 +236,7 @@ describe('isNarrowValid', () => {
     };
     const narrow = STARRED_NARROW;
 
-    const result = isNarrowValid(narrow)(state);
+    const result = isNarrowValid(state, narrow);
 
     expect(result).toBe(true);
   });
@@ -248,7 +248,7 @@ describe('isNarrowValid', () => {
     };
     const narrow = streamNarrow('some stream');
 
-    const result = isNarrowValid(narrow)(state);
+    const result = isNarrowValid(state, narrow);
 
     expect(result).toBe(true);
   });
@@ -260,7 +260,7 @@ describe('isNarrowValid', () => {
     };
     const narrow = streamNarrow('nonexisting');
 
-    const result = isNarrowValid(narrow)(state);
+    const result = isNarrowValid(state, narrow);
 
     expect(result).toBe(false);
   });
@@ -272,7 +272,7 @@ describe('isNarrowValid', () => {
     };
     const narrow = topicNarrow('some stream', 'topic does not matter');
 
-    const result = isNarrowValid(narrow)(state);
+    const result = isNarrowValid(state, narrow);
 
     expect(result).toBe(true);
   });
@@ -288,7 +288,7 @@ describe('isNarrowValid', () => {
     };
     const narrow = privateNarrow('bob@example.com');
 
-    const result = isNarrowValid(narrow)(state);
+    const result = isNarrowValid(state, narrow);
 
     expect(result).toBe(true);
   });
@@ -304,7 +304,7 @@ describe('isNarrowValid', () => {
     };
     const narrow = privateNarrow('bob@example.com');
 
-    const result = isNarrowValid(narrow)(state);
+    const result = isNarrowValid(state, narrow);
 
     expect(result).toBe(false);
   });
@@ -320,7 +320,7 @@ describe('isNarrowValid', () => {
     };
     const narrow = groupNarrow(['john@example.com', 'mark@example.com']);
 
-    const result = isNarrowValid(narrow)(state);
+    const result = isNarrowValid(state, narrow);
 
     expect(result).toBe(true);
   });
@@ -336,7 +336,7 @@ describe('isNarrowValid', () => {
     };
     const narrow = groupNarrow(['john@example.com', 'mark@example.com']);
 
-    const result = isNarrowValid(narrow)(state);
+    const result = isNarrowValid(state, narrow);
 
     expect(result).toBe(true);
   });
@@ -352,7 +352,7 @@ describe('isNarrowValid', () => {
     };
     const narrow = privateNarrow('some-bot@example.com');
 
-    const result = isNarrowValid(narrow)(state);
+    const result = isNarrowValid(state, narrow);
 
     expect(result).toBe(true);
   });
@@ -368,7 +368,7 @@ describe('isNarrowValid', () => {
     };
     const narrow = privateNarrow('not-active@example.com');
 
-    const result = isNarrowValid(narrow)(state);
+    const result = isNarrowValid(state, narrow);
 
     expect(result).toBe(true);
   });

@@ -22,7 +22,6 @@ import {
 } from '../directSelectors';
 import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
 import { getAllUsersByEmail } from '../users/userSelectors';
-import { getIsFetching } from './fetchingSelectors';
 import {
   isPrivateNarrow,
   isStreamOrTopicNarrow,
@@ -104,61 +103,48 @@ export const getRecipientsInGroupNarrow: Selector<UserOrBot[], Narrow> = createS
     }),
 );
 
+// Prettier mishandles this Flow syntax.
+// prettier-ignore
 // TODO: clean up what this returns.
-export const getStreamInNarrow = (
-  narrow: Narrow,
-): Selector<Subscription | {| ...Stream, in_home_view: boolean |}> =>
-  createSelector(
-    getSubscriptions,
-    getStreams,
-    (subscriptions, streams) => {
-      if (!isStreamOrTopicNarrow(narrow)) {
-        return NULL_SUBSCRIPTION;
-      }
-
-      const subscription = subscriptions.find(x => x.name === narrow[0].operand);
-      if (subscription) {
-        return subscription;
-      }
-
-      const stream = streams.find(x => x.name === narrow[0].operand);
-      if (stream) {
-        return {
-          ...stream,
-          in_home_view: true,
-        };
-      }
-
+export const getStreamInNarrow: Selector<Subscription | {| ...Stream, in_home_view: boolean |}, Narrow> = createSelector(
+  (state, narrow) => narrow,
+  state => getSubscriptions(state),
+  state => getStreams(state),
+  (narrow, subscriptions, streams) => {
+    if (!isStreamOrTopicNarrow(narrow)) {
       return NULL_SUBSCRIPTION;
-    },
-  );
+    }
 
-export const getIfNoMessages = (narrow: Narrow): Selector<boolean> =>
-  createSelector(
-    state => getShownMessagesForNarrow(state, narrow),
-    messages => messages.length === 0,
-  );
+    const subscription = subscriptions.find(x => x.name === narrow[0].operand);
+    if (subscription) {
+      return subscription;
+    }
 
-export const getShowMessagePlaceholders = (narrow: Narrow): Selector<boolean> =>
-  createSelector(
-    getIfNoMessages(narrow),
-    getIsFetching(narrow),
-    (noMessages, isFetching) => isFetching && noMessages,
-  );
+    const stream = streams.find(x => x.name === narrow[0].operand);
+    if (stream) {
+      return {
+        ...stream,
+        in_home_view: true,
+      };
+    }
 
-export const isNarrowValid = (narrow: Narrow): Selector<boolean> =>
-  createSelector(
-    getStreams,
-    getAllUsersByEmail,
-    (streams, allUsersByEmail) => {
-      if (isStreamOrTopicNarrow(narrow)) {
-        return streams.find(s => s.name === narrow[0].operand) !== undefined;
-      }
+    return NULL_SUBSCRIPTION;
+  },
+);
 
-      if (isPrivateNarrow(narrow)) {
-        return allUsersByEmail.get(narrow[0].operand) !== undefined;
-      }
+export const isNarrowValid: Selector<boolean, Narrow> = createSelector(
+  (state, narrow) => narrow,
+  state => getStreams(state),
+  state => getAllUsersByEmail(state),
+  (narrow, streams, allUsersByEmail) => {
+    if (isStreamOrTopicNarrow(narrow)) {
+      return streams.find(s => s.name === narrow[0].operand) !== undefined;
+    }
 
-      return true;
-    },
-  );
+    if (isPrivateNarrow(narrow)) {
+      return allUsersByEmail.get(narrow[0].operand) !== undefined;
+    }
+
+    return true;
+  },
+);

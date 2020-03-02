@@ -35,6 +35,20 @@ import type { SessionState } from './session/sessionReducer';
 
 export type * from './actionTypes';
 
+/**
+ * The list of known accounts, with the active account first.
+ *
+ * Some accounts in the list may have a blank API key (if the user hasn't
+ * yet completed login, or has logged out) or even a blank email (if the
+ * user hasn't completed login.)
+ *
+ * See:
+ *  * "active account" in `docs/glossary.md`.
+ *  * `getIdentity`, `getAuth`, and related selectors, for getting
+ *    information about the active account as needed in most codepaths of
+ *    the app.
+ *  * `Account` for details on the properties of each account object.
+ */
 export type AccountsState = Account[];
 
 export type AlertWordsState = string[];
@@ -73,6 +87,11 @@ export type Fetching = {|
   newer: boolean,
 |};
 
+/**
+ * Info about which narrows we're actively fetching more messages from.
+ *
+ * See also: `CaughtUpState`, `NarrowsState`.
+ */
 export type FetchingState = {
   [narrow: string]: Fetching,
 };
@@ -155,10 +174,12 @@ export type MuteState = MuteTuple[];
  * Keys are `JSON.stringify`-encoded `Narrow` objects.
  * Values are sorted lists of message IDs.
  *
- * See also `MessagesState`, which stores the message data indexed by ID.
- * See also `CaughtUpState` for information about where this data *is*
- * complete for a given narrow, and `FetchingState` for information about
- * which narrows we're actively fetching more messages from.
+ * See also:
+ *  * `MessagesState`, which stores the message data indexed by ID;
+ *  * `CaughtUpState` for information about where this data *is*
+ *    complete for a given narrow;
+ *  * `FetchingState` for information about which narrows we're actively
+ *    fetching more messages from.
  */
 export type NarrowsState = {
   [narrow: string]: number[],
@@ -256,10 +277,35 @@ export type TypingState = {|
   },
 |};
 
+// These four are fragments of UnreadState; see below.
 export type UnreadStreamsState = StreamUnreadItem[];
 export type UnreadHuddlesState = HuddlesUnreadItem[];
 export type UnreadPmsState = PmsUnreadItem[];
 export type UnreadMentionsState = number[];
+
+/**
+ * A summary of (almost) all unread messages, even those we don't have.
+ *
+ * This data structure contains a variety of sets of message IDs, all of
+ * them unread messages: it has (almost) all unread messages' IDs, broken
+ * out by conversation (stream + topic, or PM thread), plus unread
+ * @-mentions.
+ *
+ * The valuable thing this gives us is that, at `/register` time (aka at
+ * initial fetch), the server looks deep into the user's message history to
+ * give us this data on far more messages, if applicable, than we'd want to
+ * actually fetch up front in full.  (Thanks to the handy PostgreSQL feature
+ * of "partial indexes", it can have the database answer this question quite
+ * efficiently.)
+ *
+ * The "almost" caveat is that there is an upper bound on this summary.  But
+ * it's giant -- starting with server commit 1.9.0-rc1~206, the latest 50000
+ * unread messages are included.
+ *
+ * The initial version the server gives us for this data is `unread_msgs` in
+ * the `/register` initial state, and we largely follow the structure of
+ * that.
+ */
 export type UnreadState = {|
   streams: UnreadStreamsState,
   huddles: UnreadHuddlesState,
@@ -282,7 +328,16 @@ export type UsersState = User[];
 /**
  * Our complete Redux state tree.
  *
- * Each property is a subtree maintained by its own reducer function.
+ * Each property is a subtree maintained by its own reducer function.  These
+ * are named in a regular pattern; see also `src/boot/reducers.js`.
+ *
+ * We use `redux-persist` to write parts of this state tree to persistent
+ * device storage that survives when the app is closed, and to read it back
+ * ("rehydrate" it) from that storage at launch time.  See `src/boot/store.js`.
+ * Other parts of the state tree are not persisted.
+ *
+ * See in particular `discardKeys`, `storeKeys`, and `cacheKeys`, which
+ * identify which subtrees are persisted and which are not.
  */
 export type GlobalState = {|
   accounts: AccountsState,

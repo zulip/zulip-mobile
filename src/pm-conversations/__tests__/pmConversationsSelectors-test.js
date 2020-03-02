@@ -30,6 +30,7 @@ describe('getRecentConversations', () => {
       messages: {
         1: {
           id: 1,
+          type: 'private',
           display_recipient: [
             { id: 0, email: 'me@example.com' },
             { id: 1, email: 'john@example.com' },
@@ -37,6 +38,7 @@ describe('getRecentConversations', () => {
         },
         2: {
           id: 2,
+          type: 'private',
           display_recipient: [
             { id: 0, email: 'me@example.com' },
             { id: 2, email: 'mark@example.com' },
@@ -44,6 +46,7 @@ describe('getRecentConversations', () => {
         },
         3: {
           id: 3,
+          type: 'private',
           display_recipient: [
             { id: 0, email: 'me@example.com' },
             { id: 1, email: 'john@example.com' },
@@ -51,10 +54,12 @@ describe('getRecentConversations', () => {
         },
         4: {
           id: 4,
+          type: 'private',
           display_recipient: [{ id: 0, email: 'me@example.com' }],
         },
         0: {
           id: 0,
+          type: 'private',
           display_recipient: [
             { id: 0, email: 'me@example.com' },
             { id: 1, email: 'john@example.com' },
@@ -127,6 +132,7 @@ describe('getRecentConversations', () => {
       messages: {
         2: {
           id: 2,
+          type: 'private',
           display_recipient: [
             { id: 0, email: 'me@example.com' },
             { id: 1, email: 'john@example.com' },
@@ -134,6 +140,7 @@ describe('getRecentConversations', () => {
         },
         1: {
           id: 1,
+          type: 'private',
           display_recipient: [
             { id: 0, email: 'me@example.com' },
             { id: 2, email: 'mark@example.com' },
@@ -141,6 +148,7 @@ describe('getRecentConversations', () => {
         },
         4: {
           id: 4,
+          type: 'private',
           display_recipient: [
             { id: 0, email: 'me@example.com' },
             { id: 1, email: 'john@example.com' },
@@ -148,6 +156,7 @@ describe('getRecentConversations', () => {
         },
         3: {
           id: 3,
+          type: 'private',
           display_recipient: [
             { id: 0, email: 'me@example.com' },
             { id: 2, email: 'mark@example.com' },
@@ -155,6 +164,7 @@ describe('getRecentConversations', () => {
         },
         5: {
           id: 5,
+          type: 'private',
           display_recipient: [
             { id: 0, email: 'me@example.com' },
             { id: 1, email: 'john@example.com' },
@@ -163,6 +173,7 @@ describe('getRecentConversations', () => {
         },
         6: {
           id: 6,
+          type: 'private',
           display_recipient: [{ id: 0, email: 'me@example.com' }],
         },
       },

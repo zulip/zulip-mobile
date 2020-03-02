@@ -62,11 +62,11 @@ export const getPrivateMessages: Selector<Message[]> = createSelector(
   },
 );
 
-export const getRenderedMessages = (narrow: Narrow): Selector<RenderedSectionDescriptor[]> =>
-  createSelector(
-    state => getShownMessagesForNarrow(state, narrow),
-    messages => renderMessages(messages, narrow),
-  );
+export const getRenderedMessages: Selector<RenderedSectionDescriptor[], Narrow> = createSelector(
+  (state, narrow) => narrow,
+  getShownMessagesForNarrow,
+  (narrow, messages) => renderMessages(messages, narrow),
+);
 
 export const getFirstUnreadIdInNarrow: Selector<number | null, Narrow> = createSelector(
   (state, narrow) => getShownMessagesForNarrow(state, narrow),

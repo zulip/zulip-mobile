@@ -176,10 +176,10 @@ a physical device via a browser's developer tools.
 
 1. Enable debugging on the device
 
+   For iOS Simulator you can skip this step, as it is already enabled.
+
    To debug on your physical iOS device, go to `Settings > Safari >
    Advanced` and make sure `Web Inspector` is on.
-
-   For iOS Simulator you can skip this step, as it is already enabled.
 
 2. Connect to the device
 
@@ -204,14 +204,14 @@ a physical device via a browser's developer tools.
 
 1. Enable debugging on the device
 
+   For the Android emulator you can skip this step, as it is already
+   enabled.
+
    To debug on your physical Android device, go to `Settings > About
    phone`.  Next, tap the `Build number` panel seven times. You will
    get a notice that now you are a developer. Go back to the main
    Settings screen. Go to the new `Developer` options menu and enable
    the `USB debugging` checkbox.
-
-   For the Android emulator you can skip this step, as it is already
-   enabled.
 
 2. Connect to the device
 

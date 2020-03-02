@@ -8,7 +8,7 @@ import { connect } from '../react-redux';
 import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton } from '../common';
 import { getSettings } from '../directSelectors';
-import { getIsAdmin, getStreamForId, getSubscriptionForId } from '../selectors';
+import { getIsAdmin, getStreamForId } from '../selectors';
 import StreamCard from './StreamCard';
 import { IconPin, IconMute, IconNotifications, IconEdit, IconPlusSquare } from '../common/Icons';
 import {
@@ -19,6 +19,8 @@ import {
   navigateToStreamSubscribers,
 } from '../actions';
 import styles from '../styles';
+import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
+import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 type SelectorProps = $ReadOnly<{|
   isAdmin: boolean,
@@ -111,6 +113,7 @@ class StreamScreen extends PureComponent<Props> {
 export default connect((state, props) => ({
   isAdmin: getIsAdmin(state),
   stream: getStreamForId(state, props.navigation.state.params.streamId),
-  subscription: getSubscriptionForId(state, props.navigation.state.params.streamId),
+  subscription:
+    getSubscriptionsById(state).get(props.navigation.state.params.streamId) || NULL_SUBSCRIPTION,
   userSettingStreamNotification: getSettings(state).streamNotification,
 }))(StreamScreen);

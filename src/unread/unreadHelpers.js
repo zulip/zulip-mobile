@@ -7,19 +7,12 @@ type SomeUnreadItem = { unread_message_ids: number[] };
 export function removeItemsDeeply<T: SomeUnreadItem>(objArray: T[], messageIds: number[]): T[] {
   let changed = false;
   const objWithAddedUnreadIds = objArray.map(obj => {
-    const newIds = removeItemsFromArray(obj.unread_message_ids, messageIds);
-    if (newIds.length === obj.unread_message_ids) {
-      return obj;
-    }
-
     const filteredIds = removeItemsFromArray(obj.unread_message_ids, messageIds);
-
-    if (filteredIds.length === obj.unread_message_ids.length) {
+    if (filteredIds === obj.unread_message_ids) {
       return obj;
     }
 
     changed = true;
-
     return {
       ...obj,
       unread_message_ids: filteredIds,
@@ -40,7 +33,6 @@ function addItemsDeeply<T: SomeUnreadItem>(input: T[], itemsToAdd: number[], ind
   const item = input[index];
 
   const unreadMessageIds = addItemsToArray(item.unread_message_ids, itemsToAdd);
-
   if (item.unread_message_ids === unreadMessageIds) {
     return input;
   }
@@ -49,7 +41,7 @@ function addItemsDeeply<T: SomeUnreadItem>(input: T[], itemsToAdd: number[], ind
     ...input.slice(0, index),
     {
       ...item,
-      unread_message_ids: addItemsToArray(item.unread_message_ids, itemsToAdd),
+      unread_message_ids: unreadMessageIds,
     },
     ...input.slice(index + 1),
   ];

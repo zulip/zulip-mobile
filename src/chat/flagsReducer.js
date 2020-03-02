@@ -1,11 +1,12 @@
 /* @flow strict-local */
 import type { Action, FlagsState, Message } from '../types';
 import {
-  DEAD_QUEUE,
+  REALM_INIT,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   LOGOUT,
+  LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
 } from '../actionConstants';
 import { deeperMerge } from '../utils/misc';
@@ -98,8 +99,9 @@ const eventUpdateMessageFlags = (state, action) => {
 
 export default (state: FlagsState = initialState, action: Action): FlagsState => {
   switch (action.type) {
-    case DEAD_QUEUE:
+    case REALM_INIT:
     case LOGOUT:
+    case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
 

@@ -12,7 +12,7 @@ describe('getDraftForNarrow', () => {
       },
     });
 
-    const draft = getDraftForNarrow(narrow)(state);
+    const draft = getDraftForNarrow(state, narrow);
 
     expect(draft).toEqual('content');
   });
@@ -25,7 +25,7 @@ describe('getDraftForNarrow', () => {
       },
     });
 
-    const draft = getDraftForNarrow(topicNarrow('stream', 'topic1'))(state);
+    const draft = getDraftForNarrow(state, topicNarrow('stream', 'topic1'));
 
     expect(draft).toEqual('');
   });

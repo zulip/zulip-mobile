@@ -13,10 +13,10 @@ import createMigration from '../redux-persist-migrate/index';
 // AsyncStorage.clear(); // use to reset storage during development
 
 /**
- * Properties on the global store which we explicitly choose not to persist.
+ * Properties on the global state which we explicitly choose not to persist.
  *
- * All properties on the global store should appear either here or in the
- * lists of properties we do persist, below.
+ * All properties on the global Redux state should appear either here or in
+ * the lists of properties we do persist, below.
  */
 // prettier-ignore
 export const discardKeys: Array<$Keys<GlobalState>> = [
@@ -25,7 +25,7 @@ export const discardKeys: Array<$Keys<GlobalState>> = [
 ];
 
 /**
- * Properties on the global store which we persist because they are local.
+ * Properties on the global state which we persist because they are local.
  *
  * These represent information that belongs to this device (and this
  * install of the app), where things wouldn't work right if we didn't
@@ -37,7 +37,7 @@ export const storeKeys: Array<$Keys<GlobalState>> = [
 ];
 
 /**
- * Properties on the global store which we persist for caching's sake.
+ * Properties on the global state which we persist for caching's sake.
  *
  * These represent information for which the ground truth is on the
  * server, but which we persist locally so that we have it cached and
