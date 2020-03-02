@@ -1,5 +1,6 @@
 // @flow strict-local
 import deepFreeze from 'deep-freeze';
+
 import * as eg from '../../__tests__/lib/exampleData';
 import { constructMessageActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
 
