@@ -10,7 +10,11 @@ import type { Node as React$Node } from 'react';
 import type { Dispatch, Orientation as OrientationT } from '../types';
 import { connect } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
-import { handleInitialNotification, NotificationListener } from '../notification';
+import {
+  handleInitialNotification,
+  NotificationListener,
+  notificationOnAppActive,
+} from '../notification';
 import { appOnline, appOrientation, appState, initSafeAreaInsets } from '../actions';
 import PresenceHeartbeat from '../presence/PresenceHeartbeat';
 
@@ -88,6 +92,9 @@ class AppEventHandlers extends PureComponent<Props> {
     dispatch(appState(state === 'active'));
     if (state === 'background' && Platform.OS === 'android') {
       NativeModules.BadgeCountUpdaterModule.setBadgeCount(unreadCount);
+    }
+    if (state === 'active') {
+      notificationOnAppActive();
     }
   };
 

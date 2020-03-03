@@ -132,6 +132,29 @@ export const handleInitialNotification = async (dispatch: Dispatch) => {
   dispatch(narrowToNotification(data));
 };
 
+export const notificationOnAppActive = () => {
+  if (Platform.OS === 'ios') {
+    try {
+      // Allow 'notificationOpened' events to be emitted when pressing
+      // a notification when the app is in the background.
+      //
+      // TODO: This API is deprecated in react-native-notifications release
+      // 2.0.6-snapshot.8; see #3647.
+      //
+      // We don't know the behavior if this is called before
+      // NotificationsIOS.requestPermissions(), so, catch any errors
+      // silently. Ray's investigation shows that it *shouldn't*
+      // throw, but may (https://github.com/zulip/zulip-mobile/pull/3947#discussion_r389192513).
+      NotificationsIOS.consumeBackgroundQueue();
+    } catch (e) {
+      logging.warn(e, {
+        message:
+          'Call to NotificationsIOS.consumeBackgroundQueue failed; pressed notification failed to navigate',
+      });
+    }
+  }
+};
+
 /**
  * From rn-notifications@1.5.0's RNNotifications.m.
  */
