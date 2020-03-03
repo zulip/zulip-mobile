@@ -297,11 +297,20 @@ const messagePropertiesFromStream = (stream1: Stream) => {
 };
 
 /** Beware! These values may not be representative. */
-export const streamMessage = (extra?: $Rest<Message, {}>): Message => {
+export const streamMessage = (args?: {| ...$Rest<Message, {}>, stream?: Stream |}): Message => {
+  let streamInner: Stream;
+  let extra: $Rest<Message, {}>;
+
+  if (args) {
+    ({ stream: streamInner = stream, ...extra } = args);
+  } else {
+    streamInner = stream;
+  }
+
   const baseMessage: Message = {
     ...messagePropertiesBase,
     ...messagePropertiesFromSender(otherUser),
-    ...messagePropertiesFromStream(stream),
+    ...messagePropertiesFromStream(streamInner),
 
     content: 'This is an example stream message.',
     content_type: 'text/markdown',
