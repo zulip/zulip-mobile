@@ -186,6 +186,7 @@ export const stream: Stream = makeStream({
   description: 'An example stream.',
 });
 
+/** A subscription, by default to eg.stream. */
 export const makeSubscription = (args: { stream?: Stream } = {}): Subscription => {
   const { stream: streamInner = stream } = args;
   return deepFreeze({
@@ -202,6 +203,7 @@ export const makeSubscription = (args: { stream?: Stream } = {}): Subscription =
   });
 };
 
+/** A subscription to eg.stream. */
 export const subscription: Subscription = makeSubscription();
 
 /* ========================================================================
@@ -267,7 +269,11 @@ const messagePropertiesFromSender = (user: User) => {
 
 const randMessageId: () => number = makeUniqueRandInt('message ID', 10000000);
 
-/** Beware! These values may not be representative. */
+/**
+ * A PM, by default a 1:1 from eg.otherUser to eg.selfUser.
+ *
+ * Beware! These values may not be representative.
+ */
 export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
   const baseMessage: Message = {
     ...messagePropertiesBase,
@@ -296,7 +302,11 @@ const messagePropertiesFromStream = (stream1: Stream) => {
   });
 };
 
-/** Beware! These values may not be representative. */
+/**
+ * A stream message, by default in eg.stream sent by eg.otherUser.
+ *
+ * Beware! These values may not be representative.
+ */
 export const streamMessage = (args?: {| ...$Rest<Message, {}>, stream?: Stream |}): Message => {
   let streamInner: Stream;
   let extra: $Rest<Message, {}>;
@@ -371,6 +381,7 @@ export const makeOutboxMessage = (data: $Shape<$Diff<Outbox, {| id: mixed |}>>):
 
 const privateReduxStore = createStore(rootReducer);
 
+/** The global Redux state, at its initial value. */
 export const baseReduxState: GlobalState = deepFreeze(privateReduxStore.getState());
 
 export const reduxState = (extra?: $Rest<GlobalState, {}>): GlobalState =>
