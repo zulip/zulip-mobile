@@ -98,17 +98,7 @@ describe('constructHeaderActionButtons', () => {
   });
 
   test('show Unmute stream option if stream is not in home view', () => {
-    const message = eg.streamMessage({
-      display_recipient: 'electron issues',
-    });
-
-    const subscriptions = deepFreeze([
-      {
-        ...eg.subscription,
-        name: 'electron issues',
-        in_home_view: false,
-      },
-    ]);
+    const subscriptions = [{ ...eg.subscription, in_home_view: false }];
 
     const backgroundData = deepFreeze({
       ...baseBackgroundData,
@@ -117,7 +107,7 @@ describe('constructHeaderActionButtons', () => {
 
     const buttons = constructHeaderActionButtons({
       backgroundData,
-      message,
+      message: eg.streamMessage(),
       narrow,
     });
 
@@ -125,17 +115,7 @@ describe('constructHeaderActionButtons', () => {
   });
 
   test('show mute stream option if stream is in home view', () => {
-    const message = eg.streamMessage({
-      display_recipient: 'electron issues',
-    });
-
-    const subscriptions = deepFreeze([
-      {
-        ...eg.subscription,
-        name: 'electron issues',
-        in_home_view: true,
-      },
-    ]);
+    const subscriptions = [{ ...eg.subscription, in_home_view: true }];
 
     const backgroundData = deepFreeze({
       ...baseBackgroundData,
@@ -144,7 +124,7 @@ describe('constructHeaderActionButtons', () => {
 
     const buttons = constructHeaderActionButtons({
       backgroundData,
-      message,
+      message: eg.streamMessage(),
       narrow,
     });
 
