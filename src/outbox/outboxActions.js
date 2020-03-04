@@ -23,7 +23,7 @@ import * as api from '../api';
 import { getSelfUserDetail, getUsersByEmail } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
-import progressiveTimeout from '../utils/progressiveTimeout';
+import { BackoffMachine } from '../utils/async';
 import { NULL_USER } from '../nullObjects';
 
 export const messageSendStart = (outbox: Outbox): Action => ({
@@ -99,8 +99,9 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
     return;
   }
   dispatch(toggleOutboxSending(true));
+  const backoffMachine = new BackoffMachine();
   while (!trySendMessages(dispatch, getState)) {
-    await progressiveTimeout(); // eslint-disable-line no-await-in-loop
+    await backoffMachine.wait(); // eslint-disable-line no-await-in-loop
   }
   dispatch(toggleOutboxSending(false));
 };

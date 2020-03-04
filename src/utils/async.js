@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import progressiveTimeout from './progressiveTimeout';
 import { isClientError } from '../api/apiErrors';
 
 /** Like setTimeout(..., 0), but returns a Promise of the result. */
@@ -86,6 +85,7 @@ export class BackoffMachine {
  * handled further up in the call stack.
  */
 export async function tryUntilSuccessful<T>(func: () => Promise<T>): Promise<T> {
+  const backoffMachine = new BackoffMachine();
   // eslint-disable-next-line no-constant-condition
   while (true) {
     try {
@@ -94,7 +94,7 @@ export async function tryUntilSuccessful<T>(func: () => Promise<T>): Promise<T> 
       if (isClientError(e)) {
         throw e;
       }
-      await progressiveTimeout();
+      await backoffMachine.wait();
     }
   }
 

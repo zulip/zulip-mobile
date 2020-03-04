@@ -9,7 +9,7 @@ import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
 import { tryGetAuth } from '../selectors';
 import actionCreator from '../actionCreator';
-import progressiveTimeout from '../utils/progressiveTimeout';
+import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
 
 /** Convert an `/events` response into a sequence of our Redux actions. */
@@ -55,6 +55,8 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
 ) => {
   let lastEventId = eventId;
 
+  const backoffMachine = new BackoffMachine();
+
   /* eslint-disable no-await-in-loop */
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -86,7 +88,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       }
 
       // protection from inadvertent DDOS
-      await progressiveTimeout();
+      await backoffMachine.wait();
 
       if (e instanceof ApiError && e.code === 'BAD_EVENT_QUEUE_ID') {
         // The event queue is too old or has been garbage collected.
