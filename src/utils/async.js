@@ -44,22 +44,34 @@ export class BackoffMachine {
   /**
    * Promise to resolve after the appropriate duration.
    *
-   * Until a ceiling is reached, the duration grows exponentially with the number
-   * of sleeps completed, with a base of 2. E.g., if firstDuration is 100 and
-   * durationCeiling is 10 * 1000 = 10000, the sequence is
+   * The popular exponential backoff strategy is to increase the duration
+   * exponentially with the number of sleeps completed, with a base of 2, until  a
+   * ceiling is reached. E.g., if firstDuration is 100 and durationCeiling is 10 *
+   * 1000 = 10000, the sequence is
    *
    * 100, 200, 400, 800, 1600, 3200, 6400, 10000, 10000, 10000, ...
+   *
+   * Instead of using this strategy directly, we also apply "jitter". We use
+   * capped exponential backoff for the *upper bound* on a random duration, where
+   * the lower bound is always zero. Mitigating "bursts" is the goal of any
+   * "jitter" strategy, and the larger the range of randomness, the smoother the
+   * bursts. Keeping the lower bound at zero maximizes the range while preserving
+   * a capped exponential shape on the expected value. Greg discusses this in more
+   * detail in #3841.
    */
   wait = async (): Promise<void> => {
     if (this._startTime === undefined) {
       this._startTime = Date.now();
     }
 
-    const duration = Math.min(
-      // Should not exceed durationCeiling
-      this._durationCeiling,
-      this._firstDuration * this._base ** this._waitsCompleted,
-    );
+    const duration =
+      Math.random() // "Jitter"
+      * Math.min(
+        // Upper bound of random duration should not exceed durationCeiling
+        this._durationCeiling,
+        this._firstDuration * this._base ** this._waitsCompleted,
+      );
+
     await sleep(duration);
 
     this._waitsCompleted++;
