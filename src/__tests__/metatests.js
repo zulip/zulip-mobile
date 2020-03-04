@@ -1,6 +1,6 @@
 /** @jest-environment jest-environment-jsdom-global */
 // @flow strict-local
-import { Lolex } from './aux/lolex';
+import { Lolex } from './auxiliary/lolex';
 import objectEntries from '../utils/objectEntries';
 
 /**
