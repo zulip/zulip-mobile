@@ -39,7 +39,6 @@ import forgetPushToken from './notifications/forgetPushToken';
 import getServerSettings from './settings/getServerSettings';
 import toggleMobilePushSettings from './settings/toggleMobilePushSettings';
 import createStream from './streams/createStream';
-import deleteStream from './streams/deleteStream';
 import getStreams from './streams/getStreams';
 import updateStream from './streams/updateStream';
 import getSubscriptions from './subscriptions/getSubscriptions';
@@ -90,7 +89,6 @@ export {
   getServerSettings,
   toggleMobilePushSettings,
   createStream,
-  deleteStream,
   getStreams,
   updateStream,
   getSubscriptions,
