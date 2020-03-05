@@ -10,10 +10,9 @@ import type {
   UserOrBot,
   ApiResponseServerSettings,
 } from '../types';
-import { getSameRoutesCount } from '../selectors';
 
 export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigationAction =>
-  dispatch(StackActions.pop({ n: getSameRoutesCount(getState()) }));
+  dispatch(StackActions.pop({}));
 
 // Other stack routes reached through `navReducer`:
 //    StackActions.push({ routeName: 'loading' });
@@ -24,6 +23,8 @@ export const navigateBack = () => (dispatch: Dispatch, getState: GetState): Navi
 /** Only call this via `doNarrow`.  See there for details. */
 export const navigateToChat = (narrow: Narrow): NavigationAction =>
   StackActions.push({ routeName: 'chat', params: { narrow } });
+
+export const navigatePopToTop = (): NavigationAction => StackActions.popToTop({});
 
 export const navigateToUsersScreen = (): NavigationAction =>
   StackActions.push({ routeName: 'users' });

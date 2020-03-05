@@ -6,7 +6,7 @@ import type { Dispatch, Narrow, Stream } from '../types';
 import { connect } from '../react-redux';
 import { getStreams } from '../selectors';
 import NavButton from '../nav/NavButton';
-import { navigateToStream } from '../actions';
+import { navigateToTopicList } from '../actions';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
@@ -20,14 +20,14 @@ class InfoNavButtonStream extends PureComponent<Props> {
     const { dispatch, narrow, streams } = this.props;
     const stream = streams.find(x => x.name === narrow[0].operand);
     if (stream) {
-      dispatch(navigateToStream(stream.stream_id));
+      dispatch(navigateToTopicList(stream.stream_id));
     }
   };
 
   render() {
     const { color } = this.props;
 
-    return <NavButton name="info" color={color} onPress={this.handlePress} />;
+    return <NavButton name="list" color={color} onPress={this.handlePress} />;
   }
 }
 

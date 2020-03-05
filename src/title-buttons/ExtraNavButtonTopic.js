@@ -5,9 +5,8 @@ import React, { PureComponent } from 'react';
 import type { Dispatch, Narrow, Stream } from '../types';
 import { connect } from '../react-redux';
 import { getStreams } from '../selectors';
-import { streamNarrow } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
-import { doNarrow } from '../actions';
+import { navigatePopToTop } from '../nav/navActions';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
@@ -18,17 +17,13 @@ type Props = $ReadOnly<{|
 
 class ExtraNavButtonTopic extends PureComponent<Props> {
   handlePress = () => {
-    const { dispatch, narrow, streams } = this.props;
-    const stream = streams.find(x => x.name === narrow[0].operand);
-    if (stream) {
-      dispatch(doNarrow(streamNarrow(stream.name)));
-    }
+    this.props.dispatch(navigatePopToTop());
   };
 
   render() {
     const { color } = this.props;
 
-    return <NavButton name="arrow-up" color={color} onPress={this.handlePress} />;
+    return <NavButton name="home" color={color} onPress={this.handlePress} />;
   }
 }
 

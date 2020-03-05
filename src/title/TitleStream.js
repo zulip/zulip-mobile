@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 
 import type { Narrow, Stream, Subscription, Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -10,6 +10,7 @@ import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 import { showToast } from '../utils/info';
+import { navigateToStream } from '../actions';
 
 type SelectorProps = {|
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
@@ -37,11 +38,18 @@ class TitleStream extends PureComponent<Props> {
     },
   });
 
+  handlePress = () => {
+    const { dispatch, stream } = this.props;
+    if (stream) {
+      dispatch(navigateToStream(stream.stream_id));
+    }
+  };
+
   render() {
     const { narrow, stream, color } = this.props;
 
     return (
-      <View style={this.styles.outer}>
+      <TouchableOpacity onPress={this.handlePress} style={this.styles.outer}>
         <View style={this.styles.streamRow}>
           <StreamIcon
             style={styles.halfMarginRight}
@@ -65,7 +73,7 @@ class TitleStream extends PureComponent<Props> {
             </Text>
           </TouchableWithoutFeedback>
         )}
-      </View>
+      </TouchableOpacity>
     );
   }
 }
