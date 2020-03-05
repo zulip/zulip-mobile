@@ -170,10 +170,13 @@ made when we were using Node 8, prior to Greg's recommendation to switch to Node
 
 ### `yarn install` failure about "Detox"
 
-These errors are probably not critical, as mentioned in [PR
-#3504](https://github.com/zulip/zulip-mobile/pull/3504), which removed Detox
-from the project. Try continuing without a fix, but if further issues can be
-traced to Detox, try applying the changes in that PR.
+This should only happen when building old versions of the app, from
+before [PR #3504](https://github.com/zulip/zulip-mobile/pull/3504).
+
+As mentioned there, these errors aren't critical.  This is a testing
+framework which was never in our main build and test workflows, as we
+never wrote more than a very small smoke-test for it.  Ignore the
+error and carry on.
 
 
 ### Bundling failure: Unable to resolve module ...
