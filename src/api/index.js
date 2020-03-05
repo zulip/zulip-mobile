@@ -37,7 +37,6 @@ import updateMessage from './messages/updateMessage';
 import savePushToken from './notifications/savePushToken';
 import forgetPushToken from './notifications/forgetPushToken';
 import getRealmEmojis from './realm/getRealmEmojis';
-import getRealmFilters from './realm/getRealmFilters';
 import getServerSettings from './settings/getServerSettings';
 import toggleMobilePushSettings from './settings/toggleMobilePushSettings';
 import createStream from './streams/createStream';
@@ -90,7 +89,6 @@ export {
   savePushToken,
   forgetPushToken,
   getRealmEmojis,
-  getRealmFilters,
   getServerSettings,
   toggleMobilePushSettings,
   createStream,
