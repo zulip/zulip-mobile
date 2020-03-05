@@ -283,12 +283,15 @@ If you've run `react-native link`, you can discard the edits it made
 (along with any other edits you've made) by running `git reset --hard`.
 
 
-### Build failure: missing `/node_modules/react-native/third-party/double-conversion-1.1.6/src/fast-dtoa.cc`
+### Build failure: "input file cannot be found", on `.../react-native/third-party/...`
 
-When trying to build the iOS app, if you get an error like
+When trying to build the iOS app, if you get an Xcode error like this
+(edited slightly for readability):
 
 ```
-error: Build input file cannot be found: '/Users/jappleseed/dev/zulip-mobile/node_modules/react-native/third-party/double-conversion-1.1.6/src/bignum.cc' (in target 'double-conversion' from project 'React')
+error: Build input file cannot be found:
+  '[...]/zulip-mobile/node_modules/react-native/third-party/double-conversion-1.1.6/src/bignum.cc'
+  (in target 'double-conversion' from project 'React')
 ```
 
 then try restarting Xcode.
@@ -306,18 +309,22 @@ sudo sysctl -p
 ```
 
 
-### Red error banner about method -[RCTAppState getCurrentAppState:error:]
+### Red error banner about method `-[RCTAppState getCurrentAppState:error:]`
 
-When trying to run the iOS app, if you get this error:
+When trying to run the iOS app, if you get a red error screen with
+this error message (edited slightly for readability):
 
 ```
-Unknown argument type '__attribute__' in method -[RCTAppState getCurrentAppState:error:]. Extend RCTConvert to support this type.
+Unknown argument type '__attribute__' in method
+  -[RCTAppState getCurrentAppState:error:].
+  Extend RCTConvert to support this type.
 ```
 
 then apply [this
 diff](https://github.com/facebook/react-native/pull/25146/commits/61b8b9e69d8609fecaaaa7d2c9e32808bc5e98cb)
-to node_modules/react-native/React/Base/RCTModuleMethod.mm. This comes from a
-[React Native PR](https://github.com/facebook/react-native/pull/25146) that
+to node_modules/react-native/React/Base/RCTModuleMethod.mm. This comes
+from a [React Native
+PR](https://github.com/facebook/react-native/pull/25146) that
 addresses some unexpected behavior in Xcode 11.
 
 
