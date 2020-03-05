@@ -17,7 +17,6 @@ import reportPresence from './reportPresence';
 import getTopics from './getTopics';
 import toggleMessageStarred from './messages/toggleMessageStarred';
 import typing from './typing';
-import getAlertWords from './alert_words/getAlertWords';
 import pollForEvents from './pollForEvents';
 import registerForEvents from './registerForEvents';
 import uploadFile from './uploadFile';
@@ -67,7 +66,6 @@ export {
   getTopics,
   toggleMessageStarred,
   typing,
-  getAlertWords,
   pollForEvents,
   registerForEvents,
   uploadFile,
