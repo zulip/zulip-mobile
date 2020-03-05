@@ -311,21 +311,24 @@ sudo sysctl -p
 
 ### Red error banner about method `-[RCTAppState getCurrentAppState:error:]`
 
+This should only happen when building old versions of the app, from
+before we upgraded to React Native 0.59.10 in commit dfbdd971b in
+2019-07.
+
 When trying to run the iOS app, if you get a red error screen with
 this error message (edited slightly for readability):
-
 ```
 Unknown argument type '__attribute__' in method
   -[RCTAppState getCurrentAppState:error:].
   Extend RCTConvert to support this type.
 ```
+then you've encountered an incompatibility between Xcode 11 and older
+versions of React Native.
 
-then apply [this
-diff](https://github.com/facebook/react-native/pull/25146/commits/61b8b9e69d8609fecaaaa7d2c9e32808bc5e98cb)
-to node_modules/react-native/React/Base/RCTModuleMethod.mm. This comes
-from a [React Native
-PR](https://github.com/facebook/react-native/pull/25146) that
-addresses some unexpected behavior in Xcode 11.
+To fix this, take a look at the [upstream
+commit](https://github.com/facebook/react-native/commit/46c7ada535f8d87f325ccbd96c24993dd522165d)
+that fixed the issue, and apply that one-line diff directly to the
+file `node_modules/react-native/React/Base/RCTModuleMethod.mm`.
 
 
 ### Test failure: `SyntaxError: Unexpected token`
