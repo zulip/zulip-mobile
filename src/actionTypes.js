@@ -86,6 +86,7 @@ import type {
   AlertWordsState,
   UserStatusEvent,
 } from './types';
+import type { ZulipVersion } from './utils/zulipVersion';
 
 export type { NavigationAction } from 'react-navigation';
 
@@ -154,7 +155,7 @@ type AccountSwitchAction = {|
 type RealmAddAction = {|
   type: typeof REALM_ADD,
   realm: string,
-  zulipVersion: string,
+  zulipVersion: ZulipVersion,
 |};
 
 type AccountRemoveAction = {|
@@ -176,7 +177,7 @@ type LogoutAction = {|
 type RealmInitAction = {|
   type: typeof REALM_INIT,
   data: InitialData,
-  zulipVersion: string,
+  zulipVersion: ZulipVersion,
 |};
 
 /** We learned the device token from the system.  See `SessionState`. */

@@ -10,6 +10,7 @@ import {
   ACCOUNT_REMOVE,
 } from '../../actionConstants';
 import accountsReducer from '../accountsReducer';
+import { ZulipVersion } from '../../utils/zulipVersion';
 
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -77,7 +78,7 @@ describe('accountsReducer', () => {
 
     test('records zulipVersion on active account', () => {
       const prevState = deepFreeze([account1, account2, account3]);
-      const newZulipVersion = '2.0.0';
+      const newZulipVersion = new ZulipVersion('2.0.0');
       const action = deepFreeze({ ...eg.action.realm_init, zulipVersion: newZulipVersion });
 
       const expectedState = [{ ...account1, zulipVersion: newZulipVersion }, account2, account3];

@@ -34,6 +34,7 @@ import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
+import { ZulipVersion } from '../utils/zulipVersion';
 
 const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
@@ -249,7 +250,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
     return;
   }
 
-  dispatch(realmInit(initData, serverSettings.zulip_version));
+  dispatch(realmInit(initData, new ZulipVersion(serverSettings.zulip_version)));
   dispatch(fetchTopMostNarrow());
   dispatch(initialFetchComplete());
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));

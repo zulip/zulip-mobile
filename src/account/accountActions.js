@@ -7,13 +7,14 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from '../actionConstants';
+import type { ZulipVersion } from '../utils/zulipVersion';
 
 export const switchAccount = (index: number): Action => ({
   type: ACCOUNT_SWITCH,
   index,
 });
 
-export const realmAdd = (realm: string, zulipVersion: string): Action => ({
+export const realmAdd = (realm: string, zulipVersion: ZulipVersion): Action => ({
   type: REALM_ADD,
   realm,
   zulipVersion,

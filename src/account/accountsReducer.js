@@ -10,10 +10,52 @@ import {
   ACCOUNT_REMOVE,
 } from '../actionConstants';
 
-import type { AccountsState, Identity, Action } from '../types';
+import type { JSONable } from '../utils/jsonable';
+import type { AccountsState, Account, Identity, Action } from '../types';
 import { NULL_ARRAY } from '../nullObjects';
+import { ZulipVersion } from '../utils/zulipVersion';
 
 const initialState = NULL_ARRAY;
+
+type PersistedAccount = {|
+  ...Account,
+  zulipVersion: string | null,
+|};
+
+/**
+ * The JSONable representation of the Accounts state.
+ */
+export type PersistedAccountsState = PersistedAccount[];
+
+// Assert that PersistedAccountsState is JSONable.
+/* eslint-disable-next-line no-unused-expressions */
+(x: PersistedAccountsState): JSONable => x;
+
+/**
+ * Replace zulipVersion with a serializable representation to be saved by `redux-persist`.
+ */
+export const accountsTransformSave = (state: AccountsState): PersistedAccountsState =>
+  // Each property is spelled out because of a Flow bug with
+  // spreading, which we hope will be fixed with RN v0.62; see #3782.
+  state.map(account => ({
+    ackedPushToken: account.ackedPushToken,
+    apiKey: account.apiKey,
+    email: account.email,
+    realm: account.realm,
+    zulipVersion: account.zulipVersion !== null ? account.zulipVersion.raw() : null,
+  }));
+
+/**
+ * "Revive" `redux-persist`ed zulipVersion so we can use ZulipVersion's methods.
+ */
+export const accountsTransformLoad = (state: PersistedAccountsState): AccountsState =>
+  state.map(account => ({
+    ackedPushToken: account.ackedPushToken,
+    apiKey: account.apiKey,
+    email: account.email,
+    realm: account.realm,
+    zulipVersion: account.zulipVersion !== null ? new ZulipVersion(account.zulipVersion) : null,
+  }));
 
 const realmAdd = (state, action) => {
   const accountIndex = state.findIndex(account => account.realm === action.realm);

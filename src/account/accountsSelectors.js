@@ -162,5 +162,5 @@ export const getServerVersion = (state: GlobalState): ZulipVersion | null => {
   if (activeAccount.zulipVersion === null) {
     return null;
   }
-  return new ZulipVersion(activeAccount.zulipVersion);
+  return activeAccount.zulipVersion;
 };

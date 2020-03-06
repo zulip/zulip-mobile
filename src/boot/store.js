@@ -1,10 +1,13 @@
 /* @flow strict-local */
 import { applyMiddleware, compose, createStore } from 'redux';
 import type { Store } from 'redux';
-import { persistStore, autoRehydrate } from 'redux-persist';
+import { persistStore, autoRehydrate, createTransform } from 'redux-persist';
 import type { Config } from 'redux-persist';
 
-import type { Action, GlobalState } from '../types';
+import type { JSONable } from '../utils/jsonable';
+import type { PersistedAccountsState } from '../account/accountsReducer';
+import { accountsTransformSave, accountsTransformLoad } from '../account/accountsReducer';
+import type { Action, AccountsState, GlobalState } from '../types';
 import rootReducer from './reducers';
 import middleware from './middleware';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
@@ -143,10 +146,38 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
   }),
 };
 
+/**
+ * Make serializable before saving to storage, and "revive" after load.
+ */
+const transform = createTransform(
+  (savingState: mixed, key): JSONable => {
+    switch (key) {
+      case 'accounts':
+        // $FlowFixMe: We know savingState for 'accounts' is AccountsState.
+        return accountsTransformSave((savingState: AccountsState));
+      default:
+        // $FlowFixMe: Other parts of the stsavingState are already JSONable.
+        return savingState;
+    }
+  },
+  (loadingState: JSONable, key): mixed => {
+    switch (key) {
+      case 'accounts':
+        // $FlowFixMe: We know loadingState for 'accounts' is PersistedAccountState
+        return accountsTransformLoad((loadingState: PersistedAccountsState));
+      default:
+        return loadingState;
+    }
+  },
+);
+
+const transforms = [transform];
+
 const reduxPersistConfig: Config = {
   whitelist: [...storeKeys, ...cacheKeys],
   // $FlowFixMe: https://github.com/rt2zz/redux-persist/issues/823
   storage: ZulipAsyncStorage,
+  transforms,
 };
 
 const store: Store<GlobalState, Action> = createStore(
