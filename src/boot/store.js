@@ -141,6 +141,15 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
       realm: a.realm.replace(/\/+$/, ''),
     })),
   }),
+
+  // Accounts.zulipVersion is now string | null
+  '12': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({
+      ...a,
+      zulipVersion: a.zulipVersion !== undefined ? a.zulipVersion : null,
+    })),
+  }),
 };
 
 const reduxPersistConfig: Config = {

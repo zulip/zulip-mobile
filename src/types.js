@@ -92,7 +92,7 @@ export type Account = {|
    *    "crunchy shell" pattern (see docs/architecture/crunchy-shell.md);
    *  * context data in Sentry reports.
    */
-  zulipVersion?: string,
+  zulipVersion: string | null,
 
   /**
    * The last device token value the server has definitely heard from us.

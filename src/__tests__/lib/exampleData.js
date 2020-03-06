@@ -120,8 +120,7 @@ export const makeAccount = (
     email?: string,
     realm?: string,
     apiKey?: string,
-    shouldHaveZulipVersion?: boolean,
-    zulipVersion?: string,
+    zulipVersion?: string | null,
     ackedPushToken?: string | null,
   } = {},
 ): Account => {
@@ -130,7 +129,6 @@ export const makeAccount = (
     email = user.email,
     realm: realmInner = realm,
     apiKey = randString() + randString(),
-    shouldHaveZulipVersion = true,
     zulipVersion: zulipVersionInner = zulipVersion,
     ackedPushToken = null,
   } = args;
@@ -138,7 +136,7 @@ export const makeAccount = (
     realm: realmInner,
     email,
     apiKey,
-    zulipVersion: shouldHaveZulipVersion ? zulipVersionInner : undefined,
+    zulipVersion: zulipVersionInner,
     ackedPushToken,
   });
 };

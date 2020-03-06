@@ -21,7 +21,7 @@ describe('accountsReducer', () => {
     });
     const accountWithoutZulipVersion = eg.makeAccount({
       apiKey: '',
-      shouldHaveZulipVersion: false,
+      zulipVersion: null,
       realm: 'https://realm.two.org',
     });
     const prevState = deepFreeze([accountWithZulipVersion, accountWithoutZulipVersion]);
@@ -146,7 +146,7 @@ describe('accountsReducer', () => {
     test('on login, update initial account with auth information, without clobbering zulipVersion', () => {
       const newAccount = eg.makeAccount({
         realm: account1.realm,
-        shouldHaveZulipVersion: false,
+        zulipVersion: null,
       });
 
       const action = deepFreeze({
@@ -167,7 +167,7 @@ describe('accountsReducer', () => {
       const newAccount = eg.makeAccount({
         email: 'newaccount@example.com',
         realm: 'https://new.realm.org',
-        shouldHaveZulipVersion: false,
+        zulipVersion: null,
       });
 
       const action = deepFreeze({
@@ -188,7 +188,7 @@ describe('accountsReducer', () => {
       const newAccount = eg.makeAccount({
         email: account2.email,
         realm: account2.realm,
-        shouldHaveZulipVersion: false,
+        zulipVersion: null,
       });
       const action = deepFreeze({
         type: LOGIN_SUCCESS,

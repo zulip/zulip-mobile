@@ -159,7 +159,7 @@ export const getIdentity: Selector<Identity> = createSelector(
  */
 export const getServerVersion = (state: GlobalState): ZulipVersion | void => {
   const activeAccount: Account = getActiveAccount(state);
-  if (activeAccount.zulipVersion === undefined) {
+  if (activeAccount.zulipVersion === null) {
     return undefined;
   }
   return new ZulipVersion(activeAccount.zulipVersion);
