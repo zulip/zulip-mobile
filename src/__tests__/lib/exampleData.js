@@ -112,7 +112,7 @@ export const makeAccount = (
     realm: realmInner,
     email,
     apiKey,
-    zulipVersion: shouldHaveZulipVersion ? zulipVersionInner : undefined,
+    zulipVersion: shouldHaveZulipVersion ? zulipVersionInner : null,
     ackedPushToken,
   });
 };

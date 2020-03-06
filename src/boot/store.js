@@ -132,6 +132,15 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
       },
     };
   },
+
+  // Accounts.zulipVersion is now string | null
+  '11': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({
+      ...a,
+      zulipVersion: a.zulipVersion !== undefined ? a.zulipVersion : null,
+    })),
+  }),
 };
 
 const reduxPersistConfig: Config = {
