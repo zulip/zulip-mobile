@@ -212,9 +212,9 @@ export class NotificationListener {
 
   /** Private. */
   handleDeviceToken = async (deviceToken: mixed) => {
-    // A device token should normally be a string of hex digits. Sometimes,
-    // however, we appear to receive objects here. Log this. (See issue #3672.)
-    if (typeof deviceToken !== 'string' || deviceToken === '[Object object]') {
+    // A device token should be some (platform-dependent and largely
+    // unspecified) flavor of string.
+    if (typeof deviceToken !== 'string') {
       // $FlowFixMe: deviceToken probably _is_ JSONable, but we can only hope
       const token: JSONable = deviceToken;
       logging.error('Received invalid device token', { token });
