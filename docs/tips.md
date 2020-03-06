@@ -12,6 +12,58 @@ file is for when the relevant system is maintained by other people and
 we can't just add to its docs :-)
 
 
+## Flow's `empty` means a magical shapeshifter
+
+Sometimes `empty` appears as the type Flow has inferred for something.
+
+This is usually a bad sign.  The type Flow calls `empty` is a subtype
+of every possible type: in other words, a value of that type is a
+magical shapeshifter value that can be whatever you need it to be.
+
+In real life, of course, there is no value that can be used correctly
+both as type `null`, say, and `number`.  That means there is no value
+of type `empty` -- the set of values of that type is the empty set,
+hence the name.
+
+To understand this from the other direction, you could start by
+defining `empty` as the type that contains no values at all.  Then if
+you take something of type `empty` and, say, pass it to a function,
+any function at all that accepts an argument, then Flow will accept
+that as valid.  After all, because there *are no* values of type
+`empty`, it's a true fact that *every* value of type `empty` is a
+valid value of whatever type it is that the function expected.  In
+other words, `empty` by this definition is indeed a subtype of every
+type.
+
+The net result is that if a value is supposed to have type `empty`, it
+had better be true that the value really can't exist, i.e. that
+whatever code thinks it has such a value is in fact unreachable.
+
+Sometimes this is useful, for explicitly saying exactly that.  This is
+what our `ensureUnreachable` function does.
+
+When unexpected, it's a sign of trouble, and often causes type errors
+elsewhere to be covered up:
+
+* Many bugs in Flow have had as a symptom that some type gets inferred
+  as `empty`.  See for example our commit e6868d833.
+
+* When a libdef for some library API is a step or two less vague than
+  calling everything `any`, it will sometimes give things a type of
+  `empty`.
+
+  See for example our commit 36ae1b91e: Flow would accept a call to
+  `Array.prototype.slice` on a non-`Array` (like an
+  `HTMLCollection`)... but thought that would return an array of
+  magical shapeshifters, i.e. `Array<empty>`.
+
+Further reading:
+* Flow docs... unfortunately don't seem to actually define
+  `empty`. :'-( It's mentioned in passing in a couple of spots:
+  [here](https://flow.org/en/docs/cli/coverage/#design-space-) and
+  [here](https://flow.org/en/docs/react/redux/#typing-redux-reducers-).
+
+
 ## React + Flow: Props in `defaultProps` get to be non-optional in `Props`
 
 When a value for a prop is supplied in `defaultProps`, that prop
