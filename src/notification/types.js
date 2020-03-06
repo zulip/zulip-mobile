@@ -3,15 +3,15 @@
 /**
  * The data we need in JS/React code for acting on a notification.
  *
- * Currently:
- *  * On iOS, these objects are reconstructed in React Native from the APNs
- *    payload; the exactness of these type definitions is checked by Flow. (See
- *    `fromAPNs` in `src/notifications/extract.js`.)
+ * On iOS, these objects are constructed by our JS code from the data the
+ * Zulip server sends in the APNs payload.  See `fromAPNs` in
+ * `src/notifications/extract.js`.
  *
- *  * On Android, these objects are constructed by casting JSON objects from our
- *    platform-native code; they are exact iff that code is kept in sync. (See
- *    `MessageFcmMessage#dataForOpen` in `FcmMessage.kt`.)
+ * On Android, these objects are sent to JS from our platform-native code,
+ * constructed there by `MessageFcmMessage#dataForOpen` in `FcmMessage.kt`.
+ * The correspondence of that code with this type isn't type-checked.
  */
+// NOTE: Keep the Android-side code in sync with this type definition.
 export type Notification =
   | {| recipient_type: 'stream', stream: string, topic: string, realm_uri?: string |}
   // Group PM messages have `pm_users`, which is comma-separated IDs.
