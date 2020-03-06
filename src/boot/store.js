@@ -6,8 +6,8 @@ import * as Serialize from 'remotedev-serialize';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
-import type { Action, GlobalState } from '../types';
 import { ZulipVersion } from '../utils/zulipVersion';
+import type { Action, GlobalState } from '../types';
 import rootReducer from './reducers';
 import middleware from './middleware';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
@@ -151,6 +151,16 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     accounts: state.accounts.map(a => ({
       ...a,
       zulipVersion: a.zulipVersion !== undefined ? a.zulipVersion : null,
+    })),
+  }),
+
+  // Accounts.zulipVersion is now ZulipVersion | null
+  '13': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({
+      ...a,
+      zulipVersion:
+        typeof a.zulipVersion === 'string' ? new ZulipVersion(a.zulipVersion) : a.zulipVersion,
     })),
   }),
 };

@@ -5,6 +5,7 @@ import { createStore } from 'redux';
 import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../../api/modelTypes';
 import type { Action, GlobalState, RealmState } from '../../reduxTypes';
 import type { Auth, Account, Outbox } from '../../types';
+import { ZulipVersion } from '../../utils/zulipVersion';
 import {
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
@@ -112,7 +113,7 @@ export const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot =
 
 export const realm = 'https://zulip.example.org';
 
-export const zulipVersion = '2.1.0-234-g7c3acf4';
+export const zulipVersion = new ZulipVersion('2.1.0-234-g7c3acf4');
 
 export const makeAccount = (
   args: {
@@ -120,7 +121,7 @@ export const makeAccount = (
     email?: string,
     realm?: string,
     apiKey?: string,
-    zulipVersion?: string | null,
+    zulipVersion?: ZulipVersion | null,
     ackedPushToken?: string | null,
   } = {},
 ): Account => {

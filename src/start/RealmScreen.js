@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
+import { ZulipVersion } from '../utils/zulipVersion';
 import type { ApiResponseServerSettings, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
@@ -54,7 +55,7 @@ class RealmScreen extends PureComponent<Props, State> {
 
     try {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
-      dispatch(realmAdd(realm, serverSettings.zulip_version));
+      dispatch(realmAdd(realm, new ZulipVersion(serverSettings.zulip_version)));
       dispatch(navigateToAuth(serverSettings));
       Keyboard.dismiss();
     } catch (err) {

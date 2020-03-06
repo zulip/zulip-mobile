@@ -4,6 +4,7 @@ import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/Style
 
 import type { Auth, Topic, Message, Reaction, ReactionType, Narrow } from './api/apiTypes';
 import type { AppStyles } from './styles/theme';
+import type { ZulipVersion } from './utils/zulipVersion';
 
 export type * from './reduxTypes';
 export type * from './api/apiTypes';
@@ -92,7 +93,7 @@ export type Account = {|
    *    "crunchy shell" pattern (see docs/architecture/crunchy-shell.md);
    *  * context data in Sentry reports.
    */
-  zulipVersion: string | null,
+  zulipVersion: ZulipVersion | null,
 
   /**
    * The last device token value the server has definitely heard from us.
