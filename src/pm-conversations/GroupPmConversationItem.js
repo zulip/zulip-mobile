@@ -41,7 +41,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
     }
 
     // $FlowFixMe Flow doesn't see the `every` check above.
-    const allNames = allUsers.map(user => user.full_name).join(', ');
+    const allNames = allUsers.map(user => user.full_name);
 
     return (
       <Touchable onPress={this.handlePress}>
@@ -51,7 +51,7 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
             style={componentStyles.text}
             numberOfLines={2}
             ellipsizeMode="tail"
-            text={allNames}
+            text={allNames.join(', ')}
           />
           <UnreadCount count={unreadCount} />
         </View>
