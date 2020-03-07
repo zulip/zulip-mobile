@@ -36,6 +36,56 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+(not yet written; see user-facing issues below)
+
+
+### Highlights for developers
+
+* Resolved issues, user-facing:
+  * #3699: app could report presence when in background
+  * #3806: support "delete topic"
+  * #3874: garbled title in long-press UI in certain circumstances
+  * #3802: don't say "No messages" when in fact we're loading messages
+  * #3860: (Android) on loading screen, status bar was gray, not green
+  * 3799aed94 long-overdue translation sync: complete new translation
+    for Persian, and updates for Arabic, Bulgarian, Catalan, Czech,
+    German, Spanish, Finnish, French, Hungarian, Indonesian, Italian,
+    Korean, Lithuanian, Norwegian (Bokmål), Portuguese, Russian,
+    Swedish, Turkish, Ukrainian, Chinese (Simplified), and Chinese
+    (Traditional).
+
+* Resolved issues, developer-facing:
+  * Docs:
+    * 49e253dd3: archeological results on Zulip's APNs payloads
+    * f3694dce2^..368bbfc0b: some tips, in experimental new format
+    * 0a1f00107^..2fed12775: more build/run troubleshooting,
+      especially for old versions of the app
+    * 664ee092e: some docs on `GlobalState` and redux-persist
+    * c4c06fc34: docs on `unread` state
+    * b5ce1e91b^..b1a0e85e9: partial docs on the various notions of
+      "recipients"
+    * 930a55bb6^..8bf489397: docs on "account", "user", and friends
+    * 6775b4f44, 756a7c268: expand docs on translation infra
+
+  * Tests:
+    * 6d1d1df89^..6dea1330d, 79fc8a1af^..16c1687f0: add Lolex, to mock
+      the clock in tests
+    * 87042c30e: well-type notification-test.js
+    * 4b5b76231: well-type accountsReducer-test.js
+    * 4670210f8: well-type messageActionSheet-test.js
+
+  * #3910: cleanly parse notification data, especially in iOS case
+  * 33562dab1^..2e2355cde: several JSONable-related types
+  * db7c42f73: better solution for running dev notification code on iOS
+  * PR #3839: store Zulip server version in Redux, and parse it
+  * #3015: all `createSelector` caches now actually cache
+  * #3451: fix all type errors hidden by connectFlowFixMe!
+
+* Resolved issues, server-facing:
+  * #3672: (iOS) extraneous nonsense push tokens were sent to server
+
 
 ## 26.22.145 (2020-02-11)
 
@@ -99,6 +149,7 @@ experience.
   * #3827: type fixes for upcoming Flow upgrade
   * #3783: build failure on macOS
   * #3777: build failure on Windows
+  * 555721cf4: new type JSONable, for JSON-clean values
 
 
 ## 26.20.143 (2020-01-07)
