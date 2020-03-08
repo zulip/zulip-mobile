@@ -148,7 +148,11 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
     case MESSAGE_FETCH_COMPLETE:
       return {
         ...state,
-        ...groupItemsById(action.messages.map(message => omit(message, 'flags'))),
+        ...groupItemsById(
+          action.messages.map(message =>
+            omit(message, ['flags', 'match_content', 'match_subject']),
+          ),
+        ),
       };
 
     case EVENT_REACTION_ADD:
