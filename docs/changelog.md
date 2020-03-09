@@ -38,12 +38,21 @@ It doesn't include
 
 ### Highlights for users
 
-(not yet written; see user-facing issues below)
+* The app is now much clearer about when data is still being updated
+  from the server. (#3802, #3025, #3387)
+* (iOS) Opening a notification didn't take you to the conversation if
+  the app was already running but in the background. (#3647)
+* New complete translation for Persian, and updates for 21 other
+  languages.
 
 
 ### Highlights for developers
 
 * Resolved issues, user-facing:
+  * #3647: (iOS) opening a notification when in background didn't work
+  * #3387, #3025: loading banner across the app when data stale
+  * PR #3897, PR #3959: offer full set of translated languages in
+    settings
   * #3699: app could report presence when in background
   * #3806: support "delete topic"
   * #3874: garbled title in long-press UI in certain circumstances
@@ -58,6 +67,7 @@ It doesn't include
 
 * Resolved issues, developer-facing:
   * Docs:
+    * 21c415123: jsdoc on state.session.loading
     * 49e253dd3: archeological results on Zulip's APNs payloads
     * f3694dce2^..368bbfc0b: some tips, in experimental new format
     * 0a1f00107^..2fed12775: more build/run troubleshooting,
@@ -67,7 +77,7 @@ It doesn't include
     * b5ce1e91b^..b1a0e85e9: partial docs on the various notions of
       "recipients"
     * 930a55bb6^..8bf489397: docs on "account", "user", and friends
-    * 6775b4f44, 756a7c268: expand docs on translation infra
+    * 6775b4f44, 756a7c268, 1d05c703a: expand docs on translation infra
 
   * Tests:
     * 6d1d1df89^..6dea1330d, 79fc8a1af^..16c1687f0: add Lolex, to mock
@@ -76,6 +86,7 @@ It doesn't include
     * 4b5b76231: well-type accountsReducer-test.js
     * 4670210f8: well-type messageActionSheet-test.js
 
+  * abc043253: embrace inline styles, disable lint rule against them
   * #3910: cleanly parse notification data, especially in iOS case
   * 33562dab1^..2e2355cde: several JSONable-related types
   * db7c42f73: better solution for running dev notification code on iOS
