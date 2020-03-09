@@ -234,17 +234,21 @@ simple terminology for the process we follow with both.
       hit the "+ Version" button at the bottom of the left sidebar.  Enter the
       version number.  This creates a new draft listing.
 
-    * In the draft listing, scroll down to the "Build" section and hit the "+"
-      icon next to the "Build" heading.  Select the desired build.
+    * In the draft listing:
 
-    * Fill in the "What's New in This Version" input at the top.  Optionally,
-      update the previews/screenshots, and the description and other text.
+      * At the top, fill in "What's New in This Version".
 
-    * Under "Version Release" near the bottom, make sure "Manually
-      release this version" is selected (vs. "Automatically release
-      this version").
+      * Optionally, update the previews/screenshots, and the
+        description and other text.
 
-    * At the top of the draft listing, hit "Save" and then "Submit for Review".
+      * In the "Build" section, hit the "+" icon next to the "Build"
+        heading.  Select the desired build.
+
+      * Under "Version Release" near the bottom, make sure "Manually
+        release this version" is selected (vs. "Automatically release
+        this version").
+
+      * Back at the top, hit "Save" and then "Submit for Review".
 
     * For the "Advertising Identifier (IDFA)" question, select No.
 
