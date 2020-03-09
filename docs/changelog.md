@@ -48,6 +48,9 @@ It doesn't include
 * New complete translation for Persian, and updates for 21 other
   languages.
 
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
 
 ### Highlights for developers
 
