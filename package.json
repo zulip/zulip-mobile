@@ -97,7 +97,6 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.2",
-    "eslint-plugin-react-native": "^3.7.0",
     "eslint-plugin-spellcheck": "0.0.14",
     "flow-bin": "^0.92.0",
     "flow-coverage-report": "^0.6.0",
