@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.23.146 (2020-03-09)
+
 ### Highlights for users
 
 * The app is now much clearer about when data is still being updated
