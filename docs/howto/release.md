@@ -240,8 +240,9 @@ simple terminology for the process we follow with both.
     * Fill in the "What's New in This Version" input at the top.  Optionally,
       update the previews/screenshots, and the description and other text.
 
-    * Toward the bottom, choose the manual-release option rather than
-      the option to go live as soon as it passes review.
+    * Under "Version Release" near the bottom, make sure "Manually
+      release this version" is selected (vs. "Automatically release
+      this version").
 
     * At the top of the draft listing, hit "Save" and then "Submit for Review".
 
