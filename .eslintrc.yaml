@@ -6,7 +6,7 @@ extends:
   - ./tools/formatting.eslintrc.yaml
 
 plugins:
- - react-native
+# - react-native
  - jest
  - flowtype
 
