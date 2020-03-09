@@ -36,6 +36,7 @@ const languages: $ReadOnlyArray<Language> = [
   { locale: 'bg', name: 'Bulgarian', nativeName: 'Български' },
   { locale: 'ca', name: 'Catalan', nativeName: 'Català' },
   { locale: 'zh-Hans', name: 'Chinese (Simplified)', nativeName: '中文（简体）' },
+  { locale: 'zh-Hant', name: 'Chinese (Traditional)', nativeName: '中文 (繁体)' },
   { locale: 'cs', name: 'Czech', nativeName: 'Čeština' },
   { locale: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
   // TODO: add `en_GB` -- it's "100% translated", though that just means

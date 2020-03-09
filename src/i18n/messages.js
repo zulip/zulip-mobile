@@ -36,6 +36,7 @@ import uk from '../../static/translations/messages_uk.json';
 import uz from '../../static/translations/messages_uz.json';
 import vi from '../../static/translations/messages_vi.json';
 import zh_Hans from '../../static/translations/messages_zh-Hans.json';
+import zh_Hant from '../../static/translations/messages_zh-Hant.json';
 
 export default {
   ar,
@@ -73,4 +74,5 @@ export default {
   uz,
   vi,
   'zh-Hans': zh_Hans,
+  'zh-Hant': zh_Hant,
 };
