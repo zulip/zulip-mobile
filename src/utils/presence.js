@@ -5,6 +5,7 @@ import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
 import type { ClientPresence, UserPresence, PresenceStatus, UserStatus } from '../types';
 import { ensureUnreachable } from '../types';
+import objectEntries from './objectEntries';
 
 /** The relation `>=`, where `active` > `idle` > `offline`. */
 const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {
@@ -30,7 +31,7 @@ const OFFLINE_THRESHOLD_SECS = 140;
  * This logic should match `status_from_timestamp` in the web app's
  * `static/js/presence.js` at 1ae07b93d^.
  */
-export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
+export const getAggregatedPresence = (presence: UserPresence): ClientPresence => {
   /* Out of the ClientPresence objects found in `presence`, we consider only
    * those with a timestamp newer than OFFLINE_THRESHOLD_SECS; then of
    * those, return the one that has the greatest PresenceStatus, where
@@ -39,20 +40,28 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
    * If there are several ClientPresence objects with the greatest
    * PresenceStatus, an arbitrary one is chosen.
    */
-  Object.keys(presence)
-    .filter((client: string) => client !== 'aggregated')
-    .reduce(
-      (aggregated, client: string) => {
-        const { status, timestamp } = presence[client];
-        if (Date.now() / 1000 - timestamp < OFFLINE_THRESHOLD_SECS) {
-          if (presenceStatusGeq(status, aggregated.status)) {
-            return { client, status, timestamp };
-          }
-        }
-        return aggregated;
-      },
-      { client: '', status: 'offline', timestamp: 0 },
-    );
+
+  let status = 'offline';
+  let client = '';
+  let timestamp = 0;
+
+  for (const [device, devicePresence] of objectEntries(presence)) {
+    if (device === 'aggregated') {
+      continue;
+    }
+
+    const age = Date.now() / 1000 - devicePresence.timestamp;
+    if (age < OFFLINE_THRESHOLD_SECS) {
+      if (presenceStatusGeq(devicePresence.status, status)) {
+        client = device;
+        status = devicePresence.status;
+        timestamp = devicePresence.timestamp;
+      }
+    }
+  }
+
+  return { client, status, timestamp };
+};
 
 export const presenceToHumanTime = (presence: UserPresence, status?: UserStatus): string => {
   if (!presence || !presence.aggregated) {
