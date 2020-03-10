@@ -23,7 +23,7 @@ describe('getAggregatedPresence', () => {
     const expectedResult = {
       client: 'zulipMobile',
       status: 'active',
-      timestamp: currentTimestamp - 120,
+      timestamp: currentTimestamp - 100,
     };
 
     expect(getAggregatedPresence(presence)).toEqual(expectedResult);
@@ -68,7 +68,7 @@ describe('getAggregatedPresence', () => {
 
     const expectedResult = {
       client: '',
-      timestamp: 0,
+      timestamp: currentTimestamp - 200,
       status: 'offline',
     };
 

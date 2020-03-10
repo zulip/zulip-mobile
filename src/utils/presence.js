@@ -32,13 +32,22 @@ const OFFLINE_THRESHOLD_SECS = 140;
  * `static/js/presence.js` at 1ae07b93d^.
  */
 export const getAggregatedPresence = (presence: UserPresence): ClientPresence => {
-  /* Out of the ClientPresence objects found in `presence`, we consider only
-   * those with a timestamp newer than OFFLINE_THRESHOLD_SECS; then of
-   * those, return the one that has the greatest PresenceStatus, where
-   * `active` > `idle` > `offline`.
+  /* Gives an artificial ClientPresence object where
+   * - `timestamp` is the latest `timestamp` of all ClientPresence
+   *   objects in the input, and
+   * - `status` is the greatest `status` of all *recent* ClientPresence
+   *   objects, where `active` > `idle` > `offline`. If there are no
+   *   recent ClientPresence objects (i.e., they are all at least as
+   *   old as OFFLINE_THRESHOLD_SECS), `status` is 'offline'. If there
+   *   are several ClientPresence objects with the greatest
+   *   PresenceStatus, an arbitrary one is chosen.
+   * - `client` is the `client` of the ClientPresence object from the
+   *   calculation of `status` (see previous), or empty string if
+   *   there wasn't one.
    *
-   * If there are several ClientPresence objects with the greatest
-   * PresenceStatus, an arbitrary one is chosen.
+   * It may not be entirely correct, but the `timestamp`'s
+   * ClientPresence object may be a different one than what `status`
+   * and `client` were drawn from.
    */
 
   let status = 'offline';
@@ -51,11 +60,13 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
     }
 
     const age = Date.now() / 1000 - devicePresence.timestamp;
+    if (timestamp < devicePresence.timestamp) {
+      timestamp = devicePresence.timestamp;
+    }
     if (age < OFFLINE_THRESHOLD_SECS) {
       if (presenceStatusGeq(devicePresence.status, status)) {
         client = device;
         status = devicePresence.status;
-        timestamp = devicePresence.timestamp;
       }
     }
   }
