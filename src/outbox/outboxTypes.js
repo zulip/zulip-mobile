@@ -60,7 +60,7 @@ export type Outbox = {|
  * Flow reasonably dispermits certain classes of access on union types. In
  * particular,
  * ```
- * const { sender_id } = (message: Message | Outbox);  // error
+ *   const { sender_id } = (message: Message | Outbox);  // error
  * ```
  * is not allowed. However, as long as you're prepared to handle values of
  * `undefined`, it's both JavaScript-legal to do so and occasionally convenient.
@@ -69,7 +69,7 @@ export type Outbox = {|
  * subtype of `Message | Outbox`, but which Flow will permit us to directly (and
  * soundly) destructure certain `Message`-only fields from:
  * ```
- * const { sender_id } = (message: MessageLike);  // ok!
+ *   const { sender_id } = (message: MessageLike);  // ok!
  * ```
  *
  * * Note: `MessageLike` <: `Message | Outbox`, but the converse does not hold.
