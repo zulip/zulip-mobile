@@ -88,45 +88,6 @@ describe('isMessageRead', () => {
 
     expect(result).toEqual(true);
   });
-
-  test('a message in a muted stream is considered read', () => {
-    const message = {
-      id: 0,
-      display_recipient: 'muted stream',
-      subject: 'topic',
-    };
-    const flags = { read: {} };
-    const subscriptions = [
-      {
-        name: 'muted stream',
-        in_home_view: false,
-      },
-    ];
-
-    const result = isMessageRead(message, flags, subscriptions);
-
-    expect(result).toEqual(true);
-  });
-
-  test('a message in a muted topic is considered read', () => {
-    const message = {
-      id: 0,
-      display_recipient: 'stream',
-      subject: 'muted topic',
-    };
-    const flags = { read: {} };
-    const subscriptions = [
-      {
-        name: 'stream',
-        in_home_view: false,
-      },
-    ];
-    const mute = [['stream', 'muted topic']];
-
-    const result = isMessageRead(message, flags, subscriptions, mute);
-
-    expect(result).toEqual(true);
-  });
 });
 
 describe('findFirstUnread', () => {
@@ -171,38 +132,5 @@ describe('findFirstUnread', () => {
     const result = findFirstUnread(messages);
 
     expect(result).toEqual(undefined);
-  });
-
-  test('a message in muted stream or topic is considered read', () => {
-    const messageInMutedStream = {
-      id: 0,
-      display_recipient: 'muted stream',
-      subject: 'topic',
-      type: 'stream',
-    };
-    const messageInMutedTopic = {
-      id: 1,
-      display_recipient: 'stream',
-      subject: 'muted topic',
-      type: 'stream',
-    };
-    const unreadMessage = { id: 2, display_recipient: 'stream', type: 'stream' };
-    const flags = { read: {} };
-    const messages = [messageInMutedStream, messageInMutedTopic, unreadMessage];
-    const subscriptions = [
-      {
-        name: 'stream',
-        in_home_view: true,
-      },
-      {
-        name: 'muted stream',
-        in_home_view: false,
-      },
-    ];
-    const mute = [['stream', 'muted topic']];
-
-    const result = findFirstUnread(messages, flags, subscriptions, mute);
-
-    expect(result).toEqual(unreadMessage);
   });
 });
