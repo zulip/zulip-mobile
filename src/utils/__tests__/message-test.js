@@ -1,4 +1,4 @@
-import { shouldBeMuted, findFirstUnread } from '../message';
+import { shouldBeMuted } from '../message';
 import { HOME_NARROW, topicNarrow } from '../narrow';
 
 describe('shouldBeMuted', () => {
@@ -66,50 +66,5 @@ describe('shouldBeMuted', () => {
     const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions, mutes);
 
     expect(isMuted).toBe(true);
-  });
-});
-
-describe('findFirstUnread', () => {
-  test('returns first message not flagged "read"', () => {
-    const messages = [
-      { id: 0, display_recipient: 'testStream', type: 'stream' },
-      { id: 1, display_recipient: 'testStream', type: 'stream' },
-      { id: 2, display_recipient: 'testStream', type: 'stream' },
-      { id: 3, display_recipient: 'testStream', type: 'stream' },
-    ];
-    const flags = {
-      read: {
-        0: true,
-        1: true,
-      },
-    };
-    const subscriptions = [{ name: 'testStream', in_home_view: true }];
-
-    const result = findFirstUnread(messages, flags, subscriptions);
-
-    expect(result).toEqual(messages[2]);
-  });
-
-  test('if all are read return undefined', () => {
-    const messages = [{ id: 0 }, { id: 1 }, { id: 2 }];
-    const flags = {
-      read: {
-        0: true,
-        1: true,
-        2: true,
-      },
-    };
-
-    const result = findFirstUnread(messages, flags);
-
-    expect(result).toEqual(undefined);
-  });
-
-  test('if no messages returns undefined', () => {
-    const messages = [];
-
-    const result = findFirstUnread(messages);
-
-    expect(result).toEqual(undefined);
   });
 });

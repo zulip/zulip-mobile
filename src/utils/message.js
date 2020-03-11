@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { FlagsState, Narrow, Message, MuteState, Outbox, Subscription } from '../types';
+import type { Narrow, Message, MuteState, Outbox, Subscription } from '../types';
 import { isTopicNarrow } from './narrow';
 
 export const isTopicMuted = (stream: string, topic: string, mute: MuteState = []): boolean =>
@@ -28,10 +28,3 @@ export const shouldBeMuted = (
 
   return mutes.some(x => x[0] === message.display_recipient && x[1] === message.subject);
 };
-
-export const findFirstUnread = (
-  messages: $ReadOnlyArray<Message | Outbox>,
-  flags: FlagsState,
-  subscriptions: Subscription[],
-  mute: MuteState,
-) => messages.find(msg => !flags.read[msg.id]);
