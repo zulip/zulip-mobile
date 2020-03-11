@@ -29,16 +29,9 @@ export const shouldBeMuted = (
   return mutes.some(x => x[0] === message.display_recipient && x[1] === message.subject);
 };
 
-export const isMessageRead = (
-  message: Message | Outbox,
-  flags: FlagsState,
-  subscriptions: Subscription[],
-  mute: MuteState,
-): boolean => !!flags.read[message.id];
-
 export const findFirstUnread = (
   messages: $ReadOnlyArray<Message | Outbox>,
   flags: FlagsState,
   subscriptions: Subscription[],
   mute: MuteState,
-) => messages.find(msg => !isMessageRead(msg, flags, subscriptions, mute));
+) => messages.find(msg => !flags.read[msg.id]);

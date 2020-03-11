@@ -1,4 +1,4 @@
-import { shouldBeMuted, isMessageRead, findFirstUnread } from '../message';
+import { shouldBeMuted, findFirstUnread } from '../message';
 import { HOME_NARROW, topicNarrow } from '../narrow';
 
 describe('shouldBeMuted', () => {
@@ -66,27 +66,6 @@ describe('shouldBeMuted', () => {
     const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions, mutes);
 
     expect(isMuted).toBe(true);
-  });
-});
-
-describe('isMessageRead', () => {
-  test('message with no flags entry is considered not read', () => {
-    const message = { id: 0, display_recipient: 'testStream', type: 'stream' };
-    const flags = { read: {} };
-    const subscriptions = [{ name: 'testStream', in_home_view: true }];
-
-    const result = isMessageRead(message, flags, subscriptions);
-
-    expect(result).toEqual(false);
-  });
-
-  test('message with flags entry is considered read', () => {
-    const message = { id: 123 };
-    const flags = { read: { 123: true } };
-
-    const result = isMessageRead(message, flags);
-
-    expect(result).toEqual(true);
   });
 });
 
