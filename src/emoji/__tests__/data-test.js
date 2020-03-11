@@ -50,6 +50,17 @@ describe('getFilteredEmojiNames', () => {
       'gooooooooal',
       'gorilla',
       'got_it',
+      'agony',
+      'dango',
+      'dragon',
+      'dragon_face',
+      'virgo',
+      'all_good',
+      'octagonal_sign',
+      'synagogue',
+      'merry_go_round',
+      'heart_of_gold',
+      'easy_come_easy_go',
     ]);
   });
 
@@ -58,7 +69,7 @@ describe('getFilteredEmojiNames', () => {
   });
 
   test('remove duplicates', () => {
-    expect(getFilteredEmojiNames('dog', {})).toEqual(['dog', 'dogi']);
-    expect(getFilteredEmojiNames('dog', { dog: {} })).toEqual(['dog', 'dogi']);
+    expect(getFilteredEmojiNames('dog', {})).toEqual(['dog', 'dogi', 'hotdog']);
+    expect(getFilteredEmojiNames('dog', { dog: {} })).toEqual(['dog', 'dogi', 'hotdog']);
   });
 });
