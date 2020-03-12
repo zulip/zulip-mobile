@@ -21,7 +21,7 @@ export default (
         key: `time${message.timestamp}`,
         type: 'time',
         timestamp: message.timestamp,
-        firstMessage: message,
+        subsequentMessage: message,
       });
     }
 

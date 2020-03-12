@@ -16,7 +16,7 @@ export default (
     pieces.push(messageHeaderAsHtml(backgroundData, narrow, section.message));
     section.data.forEach(item => {
       if (item.type === 'time') {
-        pieces.push(timeRowAsHtml(item.timestamp, item.firstMessage));
+        pieces.push(timeRowAsHtml(item.timestamp, item.subsequentMessage));
       } else {
         pieces.push(messageAsHtml(backgroundData, item.message, item.isBrief));
       }
