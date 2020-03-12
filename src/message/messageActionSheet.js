@@ -224,16 +224,16 @@ type ButtonCode = $Keys<typeof allButtonsRaw>;
 
 const allButtons: { [ButtonCode]: ButtonDescription } = allButtonsRaw;
 
-type ConstructSheetParams = {|
+type ConstructSheetParams<MsgType: Message | Outbox = Message | Outbox> = {|
   backgroundData: BackgroundData,
-  message: Message | Outbox,
+  message: MsgType,
   narrow: Narrow,
 |};
 
 export const constructHeaderActionButtons = ({
   backgroundData: { mute, subscriptions, ownUser },
   message,
-}: ConstructSheetParams): ButtonCode[] => {
+}: ConstructSheetParams<>): ButtonCode[] => {
   const buttons: ButtonCode[] = [];
   if (message.type === 'stream') {
     if (ownUser.is_admin) {
@@ -262,7 +262,7 @@ export const constructMessageActionButtons = ({
   backgroundData: { ownUser, flags },
   message,
   narrow,
-}: ConstructSheetParams): ButtonCode[] => {
+}: ConstructSheetParams<>): ButtonCode[] => {
   const buttons = [];
   if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
     buttons.push('addReaction');
@@ -318,7 +318,7 @@ export const showActionSheet = (
   dispatch: Dispatch,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   _: GetText,
-  params: ConstructSheetParams,
+  params: ConstructSheetParams<>,
 ): void => {
   const optionCodes = isHeader
     ? constructHeaderActionButtons(params)
