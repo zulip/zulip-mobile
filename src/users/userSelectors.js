@@ -201,14 +201,9 @@ export const getAccountDetailsUserForEmail: Selector<UserOrBot, string> = create
  */
 // To understand this implementation, see the comment about `is_active` in
 // the `User` type definition.
-export const getUserIsActive: Selector<boolean, string> = createSelector(
-  (state, email) => email,
-  state => getActiveUsersByEmail(state),
-  (email, usersByEmail) => {
-    if (!email) {
-      return false;
-    } else {
-      return usersByEmail.has(email);
-    }
-  },
-);
+export const getUserIsActive = (state: GlobalState, email: string): boolean => {
+  if (!email) {
+    return false;
+  }
+  return getActiveUsersByEmail(state).has(email);
+};
