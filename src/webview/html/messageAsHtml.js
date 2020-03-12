@@ -116,7 +116,8 @@ $!${divOpenHtml}
 `;
   }
 
-  const { sender_full_name, sender_email } = message;
+  const { sender_full_name } = message;
+  const sender_id = message.isOutbox ? backgroundData.ownUser.user_id : message.sender_id;
   const avatarUrl = getAvatarFromMessage(message, backgroundData.auth.realm);
   const subheaderHtml = template`
 <div class="subheader">
@@ -130,7 +131,7 @@ $!${divOpenHtml}
   return template`
 $!${divOpenHtml}
   <div class="avatar">
-    <img src="${avatarUrl}" alt="${sender_full_name}" class="avatar-img" data-email="${sender_email}">
+    <img src="${avatarUrl}" alt="${sender_full_name}" class="avatar-img" data-sender-id="${sender_id}">
   </div>
   <div class="content">
     $!${subheaderHtml}

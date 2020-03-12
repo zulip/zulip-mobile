@@ -30,7 +30,7 @@ class TitlePrivate extends PureComponent<Props> {
     if (!user) {
       return;
     }
-    dispatch(navigateToAccountDetails(user.email));
+    dispatch(navigateToAccountDetails(user.user_id));
   };
 
   styles = StyleSheet.create({

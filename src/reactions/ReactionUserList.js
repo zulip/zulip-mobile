@@ -19,9 +19,9 @@ type Props = $ReadOnly<{|
  * Used within `MessageReactionList`.
  */
 class ReactionUserList extends PureComponent<Props> {
-  handlePress = (email: string) => {
+  handlePress = (userId: number) => {
     const { dispatch } = this.props;
-    dispatch(navigateToAccountDetails(email));
+    dispatch(navigateToAccountDetails(userId));
   };
 
   render() {
@@ -43,7 +43,9 @@ class ReactionUserList extends PureComponent<Props> {
               avatarUrl={user.avatar_url}
               email={user.email}
               showEmail
-              onPress={this.handlePress}
+              onPress={() => {
+                this.handlePress(user.user_id);
+              }}
             />
           );
         }}

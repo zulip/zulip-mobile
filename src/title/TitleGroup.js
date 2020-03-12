@@ -24,7 +24,7 @@ type Props = $ReadOnly<{|
 class TitleGroup extends PureComponent<Props> {
   handlePress = (user: UserOrBot) => {
     const { dispatch } = this.props;
-    dispatch(navigateToAccountDetails(user.email));
+    dispatch(navigateToAccountDetails(user.user_id));
   };
 
   styles = StyleSheet.create({

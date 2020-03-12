@@ -514,7 +514,7 @@ var compiledWebviewJs = (function (exports) {
     if (target.matches('.avatar-img')) {
       sendMessage({
         type: 'avatar',
-        fromEmail: requireAttribute(target, 'data-email')
+        fromUserId: requireAttribute(target, 'data-sender-id')
       });
       return;
     }

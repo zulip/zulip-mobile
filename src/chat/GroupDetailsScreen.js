@@ -15,8 +15,8 @@ type Props = $ReadOnly<{|
 |}>;
 
 class GroupDetailsScreen extends PureComponent<Props> {
-  handlePress = (email: string) => {
-    this.props.dispatch(navigateToAccountDetails(email));
+  handlePress = (userId: number) => {
+    this.props.dispatch(navigateToAccountDetails(userId));
   };
 
   render() {
@@ -34,7 +34,9 @@ class GroupDetailsScreen extends PureComponent<Props> {
               avatarUrl={item.avatar_url}
               email={item.email}
               showEmail
-              onPress={this.handlePress}
+              onPress={() => {
+                this.handlePress(item.user_id);
+              }}
             />
           )}
         />

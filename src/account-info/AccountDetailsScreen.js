@@ -5,13 +5,12 @@ import { StyleSheet } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 import type { Dispatch, UserOrBot } from '../types';
 import { connect } from '../react-redux';
-import { getUserForEmail } from '../selectors';
 import { Screen, ZulipButton, Label } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
 import AccountDetails from './AccountDetails';
 import { doNarrow } from '../actions';
-import { getUserIsActive } from '../users/userSelectors';
+import { getUserIsActive, getUserForId } from '../users/userSelectors';
 
 const styles = StyleSheet.create({
   pmButton: {
@@ -31,7 +30,7 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
-  navigation: NavigationScreenProp<{ params: {| email: string |} }>,
+  navigation: NavigationScreenProp<{ params: {| userId: number |} }>,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -70,7 +69,9 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect<SelectorProps, _, _>((state, props) => ({
-  user: getUserForEmail(state, props.navigation.state.params.email),
-  isActive: getUserIsActive(state, props.navigation.state.params.email),
-}))(AccountDetailsScreen);
+export default connect<SelectorProps, _, _>((state, props) => {
+  const { userId } = props.navigation.state.params;
+  const user: UserOrBot = getUserForId(state, userId);
+  const isActive: boolean = getUserIsActive(state, user.email);
+  return { user, isActive };
+})(AccountDetailsScreen);

@@ -44,8 +44,8 @@ export const navigateToPassword = (requireEmailFormat: boolean): NavigationActio
 export const navigateToAccountPicker = (): NavigationAction =>
   StackActions.push({ routeName: 'account' });
 
-export const navigateToAccountDetails = (email: string): NavigationAction =>
-  StackActions.push({ routeName: 'account-details', params: { email } });
+export const navigateToAccountDetails = (userId: number): NavigationAction =>
+  StackActions.push({ routeName: 'account-details', params: { userId } });
 
 export const navigateToGroupDetails = (recipients: UserOrBot[]): NavigationAction =>
   StackActions.push({ routeName: 'group-details', params: { recipients } });
