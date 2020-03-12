@@ -102,6 +102,7 @@
     "flow-bin": "^0.92.0",
     "flow-coverage-report": "^0.6.0",
     "flow-typed": "^2.4.0",
+    "ignore": "^5.1.4",
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
     "jest-environment-jsdom": "^24.9.0",

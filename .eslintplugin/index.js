@@ -1,3 +1,5 @@
 module.exports = {
-  rules: {},
+  rules: {
+    'zulip-disallow-imports': require('./zulip-disallow-imports'),
+  },
 };
