@@ -273,7 +273,7 @@ export type RenderedTimeDescriptor = {|
   type: 'time',
   key: number | string,
   timestamp: number,
-  firstMessage: Message | Outbox,
+  subsequentMessage: Message | Outbox,
 |};
 
 export type RenderedMessageDescriptor = {|

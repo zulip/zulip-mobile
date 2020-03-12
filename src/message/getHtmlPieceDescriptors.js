@@ -18,7 +18,7 @@ export default (messages: $ReadOnlyArray<Message | Outbox>, narrow: Narrow): Pie
         key: `time${message.timestamp}`,
         type: 'time',
         timestamp: message.timestamp,
-        firstMessage: message,
+        subsequentMessage: message,
       });
     }
     const diffRecipient = !isSameRecipient(prevMessage, message);
