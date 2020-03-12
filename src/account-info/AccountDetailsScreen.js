@@ -69,9 +69,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect<SelectorProps, _, _>((state, props) => {
-  const { userId } = props.navigation.state.params;
-  const user: UserOrBot = getUserForId(state, userId);
-  const isActive: boolean = getUserIsActive(state, user.email);
-  return { user, isActive };
-})(AccountDetailsScreen);
+export default connect<SelectorProps, _, _>((state, props) => ({
+  user: getUserForId(state, props.navigation.state.params.userId),
+  isActive: getUserIsActive(state, props.navigation.state.params.userId),
+}))(AccountDetailsScreen);

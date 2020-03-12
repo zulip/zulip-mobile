@@ -214,9 +214,5 @@ export const getUserForEmail = (state: GlobalState, email: string): UserOrBot =>
  */
 // To understand this implementation, see the comment about `is_active` in
 // the `User` type definition.
-export const getUserIsActive = (state: GlobalState, email: string): boolean => {
-  if (!email) {
-    return false;
-  }
-  return getActiveUsersByEmail(state).has(email);
-};
+export const getUserIsActive = (state: GlobalState, userId: number): boolean =>
+  !!getActiveUsersById(state).get(userId);

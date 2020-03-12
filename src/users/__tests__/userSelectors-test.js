@@ -170,14 +170,14 @@ describe('getUserIsActive', () => {
   });
 
   test('returns false for a user that has been deactivated', () => {
-    expect(getUserIsActive(state, state.realm.nonActiveUsers[0].email)).toBeFalse();
+    expect(getUserIsActive(state, state.realm.nonActiveUsers[0].user_id)).toBeFalse();
   });
 
   test('returns true for a user that has not been deactivated', () => {
-    expect(getUserIsActive(state, state.users[0].email)).toBeTrue();
+    expect(getUserIsActive(state, state.users[0].user_id)).toBeTrue();
   });
 
   test('returns true for a cross realm bot', () => {
-    expect(getUserIsActive(state, state.realm.crossRealmBots[0].email)).toBeTrue();
+    expect(getUserIsActive(state, state.realm.crossRealmBots[0].user_id)).toBeTrue();
   });
 });
