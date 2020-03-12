@@ -9,6 +9,7 @@ plugins:
  - jest
  - flowtype
  # - react-native  # see commented-out rules config below
+ - local
 
 env:
   browser: true
@@ -81,9 +82,11 @@ rules:
   import/no-extraneous-dependencies:
   - error
   - devDependencies: ['**/__tests__/**/*.js', tools/**]
-  no-restricted-imports:
+  local/zulip-disallow-imports:
   - error
   - patterns: ['**/__tests__/**']
+    importerWhitelist: ['**/__tests__/**']
+    # message: "non-test files can't import test files"
   import/no-cycle: off  # This would be nice to fix; but isn't easy.
 
   # Jest
@@ -179,8 +182,3 @@ overrides:
         # [2]: https://github.com/tc39/proposals/commit/cb9c6e50
 
     no-with: error
-
-# Test file overrides
-- files: ['**/__tests__/**']
-  rules:
-    no-restricted-imports: off
