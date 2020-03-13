@@ -57,6 +57,20 @@ describe('getFilteredEmojiNames', () => {
     expect(getFilteredEmojiNames('qwerty', { qwerty: {} })).toEqual(['qwerty']);
   });
 
+  test('returns the emoji name for a literal single-codepoint emoji search', () => {
+    const list = getFilteredEmojiNames('🤔', {});
+    expect(list).toEqual([
+      'thinking',
+    ]);
+  });
+
+  test('returns the emoji name for a literal multi-codepoint emoji search', () => {
+    const list = getFilteredEmojiNames('#️⃣', {});
+    expect(list).toEqual([
+      'hash',
+    ]);
+  });
+
   test('remove duplicates', () => {
     expect(getFilteredEmojiNames('dog', {})).toEqual(['dog', 'dogi']);
     expect(getFilteredEmojiNames('dog', { dog: {} })).toEqual(['dog', 'dogi']);
