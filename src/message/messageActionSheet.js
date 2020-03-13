@@ -50,8 +50,6 @@ type ButtonDescription = {
   errorMessage: string,
 };
 
-const isAnOutboxMessage = (message: Message | Outbox): boolean => message.isOutbox;
-
 //
 // Options for the action sheet go below: ...
 //
@@ -63,7 +61,7 @@ reply.title = 'Reply';
 reply.errorMessage = 'Failed to reply';
 
 const copyToClipboard = async ({ _, auth, message }) => {
-  const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
+  const rawMessage = message.isOutbox
     ? message.markdownContent
     : (await api.getRawMessageContent(auth, message.id)).raw_content;
   Clipboard.setString(rawMessage);
@@ -79,7 +77,7 @@ editMessage.title = 'Edit message';
 editMessage.errorMessage = 'Failed to edit message';
 
 const deleteMessage = async ({ auth, message, dispatch }) => {
-  if (isAnOutboxMessage(message)) {
+  if (message.isOutbox) {
     dispatch(deleteOutboxMessage(message.timestamp));
   } else {
     await api.deleteMessage(auth, message.id);
