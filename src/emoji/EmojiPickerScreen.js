@@ -33,7 +33,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
 
   handleInputChange = (text: string) => {
     this.setState({
-      filter: text.toLowerCase(),
+      filter: text.toLowerCase().trim(),
     });
   };
 
