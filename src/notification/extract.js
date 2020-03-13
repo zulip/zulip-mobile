@@ -161,40 +161,59 @@ export const fromAPNsImpl = (rawData: JSONableDict): Notification | void => {
   if (realm_uri !== undefined && typeof realm_uri !== 'string') {
     throw err('invalid');
   }
-  const realm_uri_obj = Object.freeze(realm_uri === undefined ? {} : { realm_uri });
+  const realm_uri_obj: {| realm_uri?: string |} =
+    realm_uri === undefined ? Object.freeze({}) : { realm_uri };
 
   if (recipient_type === 'stream') {
-    const { stream, topic } = zulip;
-    if (typeof stream !== 'string' || typeof topic !== 'string') {
-      throw err('invalid');
-    }
-    return {
-      recipient_type: 'stream',
-      stream,
-      topic,
-      ...realm_uri_obj,
-    };
+    // eslint-disable-next-line no-use-before-define
+    return extractStreamNotification(zulip, err, realm_uri_obj);
   } else {
     /* recipient_type === 'private' */
-    const { sender_email, pm_users } = zulip;
-
-    if (pm_users !== undefined) {
-      if (typeof pm_users !== 'string') {
-        throw err('invalid');
-      }
-      if (pm_users.split(',').some(s => Number.isNaN(parseInt(s, 10)))) {
-        throw err('invalid');
-      }
-      return { recipient_type: 'private', pm_users, ...realm_uri_obj };
-    }
-
-    if (typeof sender_email !== 'string') {
-      throw err('invalid');
-    }
-    return { recipient_type: 'private', sender_email, ...realm_uri_obj };
+    // eslint-disable-next-line no-use-before-define
+    return extractPmNotification(zulip, err, realm_uri_obj);
   }
 
   /* unreachable */
+};
+
+const extractStreamNotification = (
+  zulip: JSONableInputDict,
+  err: string => Error,
+  realm_uri_obj: {| realm_uri?: string |},
+): Notification => {
+  const { stream, topic } = zulip;
+  if (typeof stream !== 'string' || typeof topic !== 'string') {
+    throw err('invalid');
+  }
+  return {
+    recipient_type: 'stream',
+    stream,
+    topic,
+    ...realm_uri_obj,
+  };
+};
+
+const extractPmNotification = (
+  zulip: JSONableInputDict,
+  err: string => Error,
+  realm_uri_obj: {| realm_uri?: string |},
+): Notification => {
+  const { sender_email, pm_users } = zulip;
+
+  if (pm_users !== undefined) {
+    if (typeof pm_users !== 'string') {
+      throw err('invalid');
+    }
+    if (pm_users.split(',').some(s => Number.isNaN(parseInt(s, 10)))) {
+      throw err('invalid');
+    }
+    return { recipient_type: 'private', pm_users, ...realm_uri_obj };
+  }
+
+  if (typeof sender_email !== 'string') {
+    throw err('invalid');
+  }
+  return { recipient_type: 'private', sender_email, ...realm_uri_obj };
 };
 
 /**
