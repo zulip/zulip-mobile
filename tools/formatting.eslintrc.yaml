@@ -5,7 +5,7 @@
 parser: babel-eslint
 
 plugins:
- - flowtype
+  - flowtype
 
 rules:
   # Disallow tucking a condition or loop body in at the end of a line, like
@@ -17,16 +17,16 @@ rules:
   # at the start of a line, not the end.  This makes it much more
   # conspicuous whether we're using e.g. `&&` or `||`.
   operator-linebreak:
-  - error
-  - before
-  - overrides:
-      # Assignment operators are a very different beast, which it would make
-      # no sense to format this way.
-      "=": after
-      "+=": after
-      "-=": after
-      # ... There are 10 other assignment operators in JavaScript;
-      # if they come up, add them.
+    - error
+    - before
+    - overrides:
+        # Assignment operators are a very different beast, which it would make
+        # no sense to format this way.
+        "=": after
+        "+=": after
+        "-=": after
+        # ... There are 10 other assignment operators in JavaScript;
+        # if they come up, add them.
 
   # This *would* overrule Prettier, and in particular run roughshod over
   # line-length limits.  Let Prettier take care of it.

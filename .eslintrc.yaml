@@ -6,9 +6,9 @@ extends:
   - ./tools/formatting.eslintrc.yaml
 
 plugins:
- - jest
- - flowtype
- # - react-native  # see commented-out rules config below
+  - jest
+  - flowtype
+  # - react-native  # see commented-out rules config below
 
 env:
   browser: true
@@ -64,48 +64,48 @@ rules:
 
   # Enforce `static` class property syntax.
   react/static-property-placement:
-  - error
-  - static public field
+    - error
+    - static public field
 
   # Enforce state initialization style (never in constructor)
   react/state-in-constructor:
-  - error
-  - never
+    - error
+    - never
 
   # Airbnb uses four selectors under 'no-restricted-syntax':
   #
   # ForInStatement, ForOfStatement, LabeledStatement, WithStatement.
   # https://github.com/airbnb/javascript/blob/dee4f17/packages/eslint-config-airbnb-base/rules/style.js#L334.
   no-restricted-syntax:
-  - error
+    - error
 
-  # ForInStatement: We agree to forbid 'for..in' loops.
-  - selector: ForInStatement
-    message: 'for..in loops iterate over the entire prototype chain, which
-      is virtually never what you want. Use Object.{keys,values,entries}, and
-      iterate over the resulting array.'
-      # Further to Airbnb's explanation: They're also slightly buggy
-      # in JSC [1], on which react-native is built... and,
-      # surprisingly, their semantics weren't fully nailed down until
-      # as late as 2019-12 [2]. But the above is reason enough.
-      # [1]: https://bugs.webkit.org/show_bug.cgi?id=38970
-      # [2]: https://github.com/tc39/proposals/commit/cb9c6e50
+    # ForInStatement: We agree to forbid 'for..in' loops.
+    - selector: ForInStatement
+      message: 'for..in loops iterate over the entire prototype chain, which
+        is virtually never what you want. Use Object.{keys,values,entries}, and
+        iterate over the resulting array.'
+        # Further to Airbnb's explanation: They're also slightly buggy
+        # in JSC [1], on which react-native is built... and,
+        # surprisingly, their semantics weren't fully nailed down until
+        # as late as 2019-12 [2]. But the above is reason enough.
+        # [1]: https://bugs.webkit.org/show_bug.cgi?id=38970
+        # [2]: https://github.com/tc39/proposals/commit/cb9c6e50
 
-  # ForOfStatement: We don't agree to forbid 'for..of' loops.
-  #
-  # Airbnb's style guide discourages language-level loops in favor of
-  # array iterations. We don't share this controversial view; see it
-  # expressed at https://github.com/airbnb/javascript/issues/1103.
+    # ForOfStatement: We don't agree to forbid 'for..of' loops.
+    #
+    # Airbnb's style guide discourages language-level loops in favor of
+    # array iterations. We don't share this controversial view; see it
+    # expressed at https://github.com/airbnb/javascript/issues/1103.
 
-  # LabeledStatement: We don't agree to forbid labeled statements.
-  #
-  # We don't really use them, but Airbnb's reasoning flows from their
-  # anti-loop position, mentioned above, which we don't share.
+    # LabeledStatement: We don't agree to forbid labeled statements.
+    #
+    # We don't really use them, but Airbnb's reasoning flows from their
+    # anti-loop position, mentioned above, which we don't share.
 
-  # WithStatement: Agree to forbid with statements, but not this way.
-  #
-  # ESLint provides a built-in `no-with` rule with the same effect,
-  # which we choose, instead of this circumlocution.
+    # WithStatement: Agree to forbid with statements, but not this way.
+    # Instead, ...
+
+  # ... use ESLint's built-in `no-with` rule to do the same thing more simply.
   no-with: error
 
 
@@ -156,8 +156,8 @@ rules:
   no-else-return: off
   no-await-in-loop: off # Promise.all is not always desirable
   prefer-destructuring:
-  - error
-  - AssignmentExpression: {array: false, object: false}
+    - error
+    - AssignmentExpression: {array: false, object: false}
 
   # Likely-wrong code
   no-unused-vars: [warn, {vars: local, args: none}]
@@ -174,11 +174,11 @@ rules:
   import/prefer-default-export: off
 
   import/no-extraneous-dependencies:
-  - error
-  - devDependencies: ['**/__tests__/**/*.js', tools/**]
+    - error
+    - devDependencies: ['**/__tests__/**/*.js', tools/**]
   no-restricted-imports:
-  - error
-  - patterns: ['**/__tests__/**']
+    - error
+    - patterns: ['**/__tests__/**']
 
   import/no-cycle: off  # This would be nice to fix; but isn't easy.
   import/export: off  # This is redundant with Flow, and buggy.
@@ -287,45 +287,45 @@ rules:
 
 overrides:
 
-# Test file overrides
-- files: ['**/__tests__/**']
-  rules:
-    no-restricted-imports: off
+  # Test file overrides
+  - files: ['**/__tests__/**']
+    rules:
+      no-restricted-imports: off
 
-# Maintain code style of redux-persist as we received it.
-- files: ['src/third/redux-persist/**']
-  rules:
-    semi: off # semicolons are omitted
-    curly: off # one-line `if`s and `else`s without semicolons
-    nonblock-statement-body-position: off # same reason as `curly`
-    space-before-function-paren: off # `function myFunc (arg1) { ... }`
-    arrow-body-style: off # `() => { return 1; }` used over `() => 1`
-    object-curly-spacing: off # `{foo: 'bar'}` used over { foo: 'bar' }
-    no-underscore-dangle: off # various identifiers beginning with '_'
-    import/order: off # imports not ordered a particular way
-    func-names: off # anonymous non-arrow functions sometimes used
-    object-shorthand: off # ES6 object method syntax not used
+  # Maintain code style of redux-persist as we received it.
+  - files: ['src/third/redux-persist/**']
+    rules:
+      semi: off # semicolons are omitted
+      curly: off # one-line `if`s and `else`s without semicolons
+      nonblock-statement-body-position: off # same reason as `curly`
+      space-before-function-paren: off # `function myFunc (arg1) { ... }`
+      arrow-body-style: off # `() => { return 1; }` used over `() => 1`
+      object-curly-spacing: off # `{foo: 'bar'}` used over { foo: 'bar' }
+      no-underscore-dangle: off # various identifiers beginning with '_'
+      import/order: off # imports not ordered a particular way
+      func-names: off # anonymous non-arrow functions sometimes used
+      object-shorthand: off # ES6 object method syntax not used
 
-    # function declarations are made (we favor function expressions
-    # with `const`), so these functions may be used above the
-    # declaration because they are hoisted. Don't change them to our
-    # style without addressing this!
-    no-use-before-define: off
+      # function declarations are made (we favor function expressions
+      # with `const`), so these functions may be used above the
+      # declaration because they are hoisted. Don't change them to our
+      # style without addressing this!
+      no-use-before-define: off
 
-    no-console: off
-    prefer-const: off # `let` is sometimes used unnecessarily
-    consistent-return: off # defense against accidental `undefined` return
-    no-unused-expressions: off # `myFn && myFn()` used
-    no-var: off # var is rarely, but sometimes, used (avoid new uses)
+      no-console: off
+      prefer-const: off # `let` is sometimes used unnecessarily
+      consistent-return: off # defense against accidental `undefined` return
+      no-unused-expressions: off # `myFn && myFn()` used
+      no-var: off # var is rarely, but sometimes, used (avoid new uses)
 
-    # a few `var`s not *quite* at the top of function scope (they're
-    # very near to it); no bugs known to result from this
-    vars-on-top: off
+      # a few `var`s not *quite* at the top of function scope (they're
+      # very near to it); no bugs known to result from this
+      vars-on-top: off
 
-    # a few variables already declared in upper scope; no bugs known
-    # to result from this
-    no-shadow: off
+      # a few variables already declared in upper scope; no bugs known
+      # to result from this
+      no-shadow: off
 
-    # foo.hasOwnProperty("bar") used instead of
-    # Object.prototype.hasOwnProperty.call(foo, "bar")
-    no-prototype-builtins: off
+      # foo.hasOwnProperty("bar") used instead of
+      # Object.prototype.hasOwnProperty.call(foo, "bar")
+      no-prototype-builtins: off
