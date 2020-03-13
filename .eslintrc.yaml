@@ -28,10 +28,12 @@ settings:
     node:
       extensions: [.js, .ios.js, .android.js, .json]
 
+
 rules:
 
   #
-  # Airbnb rule repeals / adjustments
+  # ================================================================
+  # Airbnb rule repeals / adjustments.
   #
   # Our settings for a rule supersede Airbnb's, so we duplicate some
   # of Airbnb's settings where we don't want a full repeal.
@@ -106,20 +108,11 @@ rules:
   # which we choose, instead of this circumlocution.
   no-with: error
 
-  #
-  # Formatting and naming
-  #
 
-  camelcase: off
-
-  # Permit dangling underscores in class property names, to denote "private"
-  # fields. (These should be replaced with true private fields per the TC39
-  # class fields proposal [1], once that's available to us.)
   #
-  # [1]: https://github.com/tc39/proposal-class-fields
-  no-underscore-dangle: ["error", { allowAfterThis: true } ]
-  # Disallow double underscores and trailing underscores.
-  id-match: ["error", "^_?([a-zA-Z0-9$]+_?)*$", { "properties": true }]
+  # ================================================================
+  # Formatting.
+  #
 
   # Disable a bunch of rules that should be taken care of by prettier.
   arrow-parens: off
@@ -133,6 +126,30 @@ rules:
   quote-props: off
 
   # For more formatting rules, see tools/formatting.eslintrc.yaml .
+
+
+  #
+  # ================================================================
+  # Naming.
+  #
+
+  camelcase: off
+
+  # Permit dangling underscores in class property names, to denote "private"
+  # fields. (These should be replaced with true private fields per the TC39
+  # class fields proposal [1], once that's available to us.)
+  #
+  # [1]: https://github.com/tc39/proposal-class-fields
+  no-underscore-dangle: ["error", { allowAfterThis: true } ]
+
+  # Disallow double underscores and trailing underscores.
+  id-match: ["error", "^_?([a-zA-Z0-9$]+_?)*$", { "properties": true }]
+
+
+  #
+  # ================================================================
+  # Language syntax, operators, control flow.
+  #
 
   # Repeal some rather absurd rules that make some code impossible to write in
   # the most reasonable way.
@@ -148,18 +165,30 @@ rules:
   # of Array#reduce.  Too noisy.
   no-param-reassign: off
 
-  # Imports
+
+  #
+  # ================================================================
+  # Imports; plugin `import`.
+  #
+
   import/prefer-default-export: off
+
   import/no-extraneous-dependencies:
   - error
   - devDependencies: ['**/__tests__/**/*.js', tools/**]
   no-restricted-imports:
   - error
   - patterns: ['**/__tests__/**']
+
   import/no-cycle: off  # This would be nice to fix; but isn't easy.
   import/export: off  # This is redundant with Flow, and buggy.
 
-  # Jest
+
+  #
+  # ================================================================
+  # Jest; plugin `jest`.
+  #
+
   # This rule could be useful if it fired only on new instances; but we
   # don't have a way to do that, and it doesn't make sense to keep these
   # out of the repo.
@@ -189,31 +218,51 @@ rules:
   # [2] https://github.com/zulip/zulip-mobile/pull/4235#discussion_r489984717
   jest/no-standalone-expect: off
 
-  # React
+
+  #
+  # ================================================================
+  # React; plugin `react`.
+  #
+
   react/jsx-filename-extension: off  # Like RN upstream, we call the files *.js.
+
   react/destructuring-assignment: off  # The opposite is often much cleaner.
   react/no-multi-comp: off  # This often just forces making code worse.
   react/no-unused-prop-types: off  # This can be perfectly appropriate.
+
   react/default-props-match-prop-types: off  # We handle this better with types.
   react/prop-types: off  # We handle this better with types.
   react/require-default-props: off  # We handle this better with types.
+
   # These two could be good to fix.
   react/prefer-stateless-function: off
   react/sort-comp: off
 
-  # React Native.
+
   #
+  # ================================================================
+  # React Native; plugin `react-native`.
+  #
+
   # This plugin isn't included in the airbnb config, and it doesn't
   # itself enable any rules by default, so this config is it.
-  #
+
   # (From the docs as of 2020-03, these are the rules we'd like to use.
   # Plugin disabled only because the rules are; bring it back when
   # reviving either of them.)
-  #
-  # react-native/no-unused-styles: error  # This is buggy on the `this.styles` pattern.
-  # react-native/no-color-literals: error  # TODO eliminate these and enable.
 
-  # Flow
+  # This is buggy on the `this.styles` pattern.
+  # react-native/no-unused-styles: error
+
+  # TODO eliminate these and enable.
+  # react-native/no-color-literals: error
+
+
+  #
+  # ================================================================
+  # Flow; plugin `flowtype`.
+  #
+
   flowtype/boolean-style: [error, boolean]
   flowtype/define-flow-type: warn
   flowtype/delimiter-dangle: off
@@ -234,6 +283,7 @@ rules:
   flowtype/union-intersection-spacing: [error, always]
   flowtype/use-flow-type: warn
   flowtype/valid-syntax: warn
+
 
 overrides:
 
