@@ -6,9 +6,9 @@ extends:
   - ./tools/formatting.eslintrc.yaml
 
 plugins:
-# - react-native
  - jest
  - flowtype
+ # - react-native  # see commented-out rules config below
 
 env:
   browser: true
@@ -104,8 +104,15 @@ rules:
   react/prefer-stateless-function: off
   react/sort-comp: off
 
-  # React Native.  This plugin isn't included in the airbnb config, and
-  # nothing is enabled by default, so we enable its rules.
+  # React Native.
+  #
+  # This plugin isn't included in the airbnb config, and it doesn't
+  # itself enable any rules by default, so this config is it.
+  #
+  # (From the docs as of 2020-03, these are the rules we'd like to use.
+  # Plugin disabled only because the rules are; bring it back when
+  # reviving either of them.)
+  #
   # react-native/no-unused-styles: error  # This is buggy on the `this.styles` pattern.
   # react-native/no-color-literals: error  # TODO eliminate these and enable.
 
