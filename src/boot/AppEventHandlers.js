@@ -51,16 +51,11 @@ class AppEventHandlers extends PureComponent<Props> {
 
   notificationListener = new NotificationListener(this.props.dispatch);
 
-  handleMemoryWarning = () => {
-    // Release memory here
-  };
-
   componentDidMount() {
     const { dispatch } = this.props;
     handleInitialNotification(dispatch);
 
     AppState.addEventListener('change', this.handleAppStateChange);
-    AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     SafeArea.getSafeAreaInsetsForRootView().then(params =>
       dispatch(initSafeAreaInsets(params.safeAreaInsets)),
     );
@@ -71,7 +66,6 @@ class AppEventHandlers extends PureComponent<Props> {
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this.handleAppStateChange);
-    AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
     // $FlowFixMe: libdef wrongly says callback's parameter is optional
     Orientation.removeOrientationListener(this.handleOrientationChange);
     this.notificationListener.stop();
