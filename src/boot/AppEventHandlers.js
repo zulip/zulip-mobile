@@ -3,10 +3,10 @@
 import React, { PureComponent } from 'react';
 import { AppState, View, StyleSheet, Platform, NativeModules } from 'react-native';
 import SafeArea from 'react-native-safe-area';
-import Orientation from 'react-native-orientation';
+import Orientation, { type Orientations } from 'react-native-orientation';
 
 import type { Node as React$Node } from 'react';
-import type { Dispatch, Orientation as OrientationT } from '../types';
+import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import {
@@ -33,9 +33,24 @@ type Props = $ReadOnly<{|
 |}>;
 
 class AppEventHandlers extends PureComponent<Props> {
-  handleOrientationChange = (orientation: OrientationT) => {
+  // The libdef says that this parameter is optional. The docs disagree.
+  handleOrientationChange = (orientation?: Orientations) => {
+    if (!orientation) {
+      return;
+    }
+
+    // Lookup table. More elaborate than a simple 'orientation !== LANDSCAPE'
+    // test to ensure robustness against future additions to the enumeration.
+    const converter = {
+      LANDSCAPE: 'LANDSCAPE',
+      PORTRAIT: 'PORTRAIT',
+      PORTRAITUPSIDEDOWN: 'PORTRAIT',
+      UNKNOWN: 'PORTRAIT',
+    };
+    const converted = converter[orientation];
+
     const { dispatch } = this.props;
-    dispatch(appOrientation(orientation));
+    dispatch(appOrientation(converted));
   };
 
   /** For the type, see docs: https://facebook.github.io/react-native/docs/appstate */
@@ -59,14 +74,12 @@ class AppEventHandlers extends PureComponent<Props> {
     SafeArea.getSafeAreaInsetsForRootView().then(params =>
       dispatch(initSafeAreaInsets(params.safeAreaInsets)),
     );
-    // $FlowFixMe: libdef wrongly says callback's parameter is optional
     Orientation.addOrientationListener(this.handleOrientationChange);
     this.notificationListener.start();
   }
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this.handleAppStateChange);
-    // $FlowFixMe: libdef wrongly says callback's parameter is optional
     Orientation.removeOrientationListener(this.handleOrientationChange);
     this.notificationListener.stop();
   }
