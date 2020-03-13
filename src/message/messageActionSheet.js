@@ -255,6 +255,19 @@ export const constructHeaderActionButtons = ({
   return buttons;
 };
 
+export const constructOutboxActionButtons = ({
+  backgroundData,
+  message,
+  narrow,
+}: ConstructSheetParams<Outbox>): ButtonCode[] => {
+  const buttons = [];
+  buttons.push('copyToClipboard');
+  buttons.push('shareMessage');
+  buttons.push('deleteMessage');
+  buttons.push('cancel');
+  return buttons;
+};
+
 const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
@@ -262,15 +275,15 @@ export const constructMessageActionButtons = ({
   backgroundData: { ownUser, flags },
   message,
   narrow,
-}: ConstructSheetParams<>): ButtonCode[] => {
+}: ConstructSheetParams<Message>): ButtonCode[] => {
   const buttons = [];
-  if (!isAnOutboxMessage(message) && messageNotDeleted(message)) {
+  if (messageNotDeleted(message)) {
     buttons.push('addReaction');
   }
   if (message.reactions.length > 0) {
     buttons.push('showReactions');
   }
-  if (!isAnOutboxMessage(message) && !isTopicNarrow(narrow) && !isPrivateOrGroupNarrow(narrow)) {
+  if (!isTopicNarrow(narrow) && !isPrivateOrGroupNarrow(narrow)) {
     buttons.push('reply');
   }
   if (messageNotDeleted(message)) {
@@ -278,8 +291,7 @@ export const constructMessageActionButtons = ({
     buttons.push('shareMessage');
   }
   if (
-    !isAnOutboxMessage(message)
-    && message.sender_email === ownUser.email
+    message.sender_email === ownUser.email
     // Our "edit message" UI only works in certain kinds of narrows.
     && (isStreamOrTopicNarrow(narrow) || isPrivateOrGroupNarrow(narrow))
   ) {
@@ -288,15 +300,25 @@ export const constructMessageActionButtons = ({
   if (message.sender_email === ownUser.email && messageNotDeleted(message)) {
     buttons.push('deleteMessage');
   }
-  if (!isAnOutboxMessage(message)) {
-    if (message.id in flags.starred) {
-      buttons.push('unstarMessage');
-    } else {
-      buttons.push('starMessage');
-    }
+  if (message.id in flags.starred) {
+    buttons.push('unstarMessage');
+  } else {
+    buttons.push('starMessage');
   }
   buttons.push('cancel');
   return buttons;
+};
+
+export const constructNonHeaderActionButtons = ({
+  backgroundData,
+  message,
+  narrow,
+}: ConstructSheetParams<>): ButtonCode[] => {
+  if (message.isOutbox) {
+    return constructOutboxActionButtons({ backgroundData, message, narrow });
+  } else {
+    return constructMessageActionButtons({ backgroundData, message, narrow });
+  }
 };
 
 /** Returns the title for the action sheet. */
@@ -322,7 +344,7 @@ export const showActionSheet = (
 ): void => {
   const optionCodes = isHeader
     ? constructHeaderActionButtons(params)
-    : constructMessageActionButtons(params);
+    : constructNonHeaderActionButtons(params);
   const callback = buttonIndex => {
     (async () => {
       const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];
