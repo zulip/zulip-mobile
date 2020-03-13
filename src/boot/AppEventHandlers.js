@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react';
 import { AppState, View, StyleSheet, Platform, NativeModules } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
@@ -15,45 +14,9 @@ import {
   NotificationListener,
   notificationOnAppActive,
 } from '../notification';
-import { appOnline, appOrientation, initSafeAreaInsets } from '../actions';
+import { appOrientation, initSafeAreaInsets } from '../actions';
 import PresenceHeartbeat from '../presence/PresenceHeartbeat';
-
-/**
- * Part of the interface from react-native-netinfo.
- * https://github.com/react-native-community/react-native-netinfo/tree/v3.2.1
- */
-// TODO: upgrade to 4.x.x so that we can use the `flow-typed` versions.
-// Requires RN 0.60+.
-type NetInfoStateType =
-  | 'unknown'
-  | 'none'
-  | 'cellular'
-  | 'wifi'
-  | 'bluetooth'
-  | 'ethernet'
-  | 'wimax'
-  | 'vpn'
-  | 'other';
-
-type NetInfoConnectedDetails = {
-  isConnectionExpensive: boolean,
-};
-
-type NetInfoState = {
-  /** The type of the current connection. */
-  type: NetInfoStateType,
-
-  /** Whether there is an active network connection. Note that this DOES NOT
-      mean that the Internet is reachable. */
-  isConnected: boolean,
-
-  /**
-   * This actually has a more complicated type whose exact shape is dependent on
-   * the value of `type`, above. (Flow could describe it, but we don't have a
-   * use for it yet.)
-   */
-  details: null | NetInfoConnectedDetails,
-};
+import NetworkStateHandler from './event-handlers/NetworkStateHandler';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -70,20 +33,9 @@ type Props = $ReadOnly<{|
 |}>;
 
 class AppEventHandlers extends PureComponent<Props> {
-  /** NetInfo disconnection callback. */
-  netInfoDisconnectCallback: (() => void) | null = null;
-
   handleOrientationChange = (orientation: OrientationT) => {
     const { dispatch } = this.props;
     dispatch(appOrientation(orientation));
-  };
-
-  // https://github.com/react-native-community/react-native-netinfo/tree/v3.2.1
-  handleConnectivityChange = (netInfoState: NetInfoState) => {
-    const { dispatch } = this.props;
-    const { type: connectionType } = netInfoState;
-    const isConnected = connectionType !== 'none' && connectionType !== 'unknown';
-    dispatch(appOnline(isConnected));
   };
 
   /** For the type, see docs: https://facebook.github.io/react-native/docs/appstate */
@@ -107,7 +59,6 @@ class AppEventHandlers extends PureComponent<Props> {
     const { dispatch } = this.props;
     handleInitialNotification(dispatch);
 
-    this.netInfoDisconnectCallback = NetInfo.addEventListener(this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     SafeArea.getSafeAreaInsetsForRootView().then(params =>
@@ -119,10 +70,6 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 
   componentWillUnmount() {
-    if (this.netInfoDisconnectCallback) {
-      this.netInfoDisconnectCallback();
-      this.netInfoDisconnectCallback = null;
-    }
     AppState.removeEventListener('change', this.handleAppStateChange);
     AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
     // $FlowFixMe: libdef wrongly says callback's parameter is optional
@@ -133,6 +80,7 @@ class AppEventHandlers extends PureComponent<Props> {
   render() {
     return (
       <>
+        <NetworkStateHandler />
         <PresenceHeartbeat />
         <View style={styles.wrapper}>{this.props.children}</View>
       </>
