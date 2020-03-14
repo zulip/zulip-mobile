@@ -6,8 +6,8 @@
  * While active, calls `callback` every `milliseconds` milliseconds. While
  * inactive, does nothing.
  *
- * When transitioning from active to inactive, performs one additional edge-
- * triggered callback iff fewer than `milliseconds` milliseconds have elapsed
+ * When transitioning to active from inactive, performs one additional edge-
+ * triggered callback iff at least `milliseconds` milliseconds have elapsed
  * since the previous callback.
  *
  * (Despite the generic-looking definition, this class is closely tailored to
