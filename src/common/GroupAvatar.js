@@ -4,7 +4,7 @@ import { Text, StyleSheet, View } from 'react-native';
 
 import type { Node as React$Node } from 'react';
 import Touchable from './Touchable';
-import { colorHashFromString } from '../utils/color';
+import { colorHashFromString, foregroundColorFromBackground } from '../utils/color';
 import { initialsFromString } from '../utils/misc';
 
 const styles = StyleSheet.create({
@@ -52,6 +52,7 @@ export default class GroupAvatar extends PureComponent<Props> {
     };
     const textSize = {
       fontSize: size / 3,
+      color: foregroundColorFromBackground(frameSize.backgroundColor),
     };
 
     return (
