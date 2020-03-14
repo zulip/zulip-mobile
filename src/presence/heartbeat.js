@@ -14,6 +14,28 @@
  * user-presence reporting.)
  */
 class Heartbeat {
+  // There are three possible states -- off, on, and zombie:
+  //
+  //                   "off"      "zombie"       "on"
+  //   _active         false       false         true
+  //   _intervalId      null      non-null     non-null
+  //
+  // The state machine is (omitting no-op transitions):
+  //
+  //  --init---> off ----start()---------\
+  //              ^                       \
+  //              |                       |
+  //         doCallback()                 |
+  //              |                       |
+  //              |  /---start()--\       |
+  //              | /              v      /
+  //           zombie <--stop()--- on <--/
+  //
+  // The "zombie" state has a visible difference from "off" if we end
+  // up calling start() again before the interval next fires: it's how
+  // we make sure to call the callback on the original regular schedule,
+  // rather than another full interval after the new start() call.
+
   _callback: () => void;
   _milliseconds: number;
 

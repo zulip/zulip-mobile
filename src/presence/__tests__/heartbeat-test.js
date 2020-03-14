@@ -206,6 +206,27 @@ describe('Heartbeat', () => {
     heartbeat.stop();
   });
 
+  test('can be turned off and on without delaying the signal', () => {
+    const { heartbeat, callback } = setup();
+
+    heartbeat.start();
+    callback.mockClear();
+
+    // Late in interval, stop and start again.
+    lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.8);
+    heartbeat.stop();
+    lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.1);
+    heartbeat.start();
+
+    // No signal yet...
+    expect(callback).not.toHaveBeenCalled();
+    // ... but signal promptly at end of original interval.
+    lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.101);
+    expect(callback).toHaveBeenCalled();
+
+    heartbeat.stop();
+  });
+
   test('takes about the right amount of time', () => {
     const { heartbeat, callback } = setup();
 
