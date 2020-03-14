@@ -3,12 +3,12 @@
 /**
  * Heartbeat: Perform callbacks at regular intervals.
  *
- * While active, calls `callback` every `milliseconds` milliseconds. While
- * inactive, does nothing.
+ * While active, calls `callback` every `milliseconds` milliseconds.
+ * While inactive, does nothing.
  *
- * When transitioning to active from inactive, performs one additional edge-
- * triggered callback iff at least `milliseconds` milliseconds have elapsed
- * since the previous callback.
+ * On becoming active, the first call to `callback` comes immediately,
+ * or one full period after the last call made when previously active,
+ * whichever is later.
  *
  * (Despite the generic-looking definition, this class is closely tailored to
  * user-presence reporting.)
@@ -41,7 +41,6 @@ class Heartbeat {
 
   _active: boolean = false;
   _intervalId: IntervalID | null = null;
-  _previousTime: number = -Infinity;
 
   constructor(callback: () => void, milliseconds: number) {
     this._callback = callback;
@@ -55,7 +54,6 @@ class Heartbeat {
       return;
     }
 
-    this._previousTime = Date.now();
     this._callback();
   };
 
@@ -72,11 +70,8 @@ class Heartbeat {
 
     this._active = true;
 
-    if (this._previousTime + this._milliseconds <= Date.now()) {
-      this.doCallback();
-    }
-
     if (this._intervalId === null) {
+      this.doCallback();
       this._intervalId = setInterval(this.doCallback, this._milliseconds);
     }
   }
