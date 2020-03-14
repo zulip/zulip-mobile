@@ -34,8 +34,8 @@ class PresenceHeartbeat extends PureComponent<Props> {
   heartbeat: Heartbeat = new Heartbeat(this.onHeartbeat, 1000 * 60);
 
   componentDidMount() {
-    this.updateHeartbeatState(); // conditional start
     AppState.addEventListener('change', this.updateHeartbeatState);
+    this.updateHeartbeatState(); // conditional start
   }
 
   componentWillUnmount() {
