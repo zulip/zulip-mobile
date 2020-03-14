@@ -55,7 +55,7 @@ class Heartbeat {
     }
 
     if (this._intervalId === null) {
-      this._intervalId = setInterval(this.doCallback, this._milliseconds, true);
+      this._intervalId = setInterval(this.doCallback, this._milliseconds);
     }
   }
 
