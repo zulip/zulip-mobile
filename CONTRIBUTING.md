@@ -14,10 +14,11 @@ have a look at our [commit message style guidelines][doc-commit-style].
 And please make sure to format the whole code using the command `tools/fmt`.
 This will format the code using our Prettier setup.
 
-* **Issues**. Before working on an issue make sure to claim it. To do so comment
-the following in the issues section: `**@zulipbot** claim`. **zulipbot** will
-assign you to the issue and label it as **in progress**. Learn more about zulipbot at [**zulipbot @ GitHub**](https://github.com/zulip/zulipbot).
-
+* **Issues**. Before working on an issue make sure to claim it.  To do
+  so, leave a comment on the GitHub issue thread like "I'm working on
+  this issue and would like to claim it."  Conversely, if someone else
+  is working on an issue then try looking for a different issue to
+  work on instead.
 
 [open-issues]: https://github.com/zulip/zulip-mobile/issues
 [commit-discipline]: https://zulip.readthedocs.io/en/latest/contributing/code-style.html
