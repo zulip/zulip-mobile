@@ -148,6 +148,25 @@ var compiledWebviewJs = (function (exports) {
 
     viewportHeight = documentBody.clientHeight;
   });
+  var hasDoneInitialScroll = false;
+
+  var maybeDoInitialScroll = function maybeDoInitialScroll(messageId) {
+    if (!hasDoneInitialScroll && messageId !== null) {
+      var targetNode = messageId !== null ? document.getElementById("msg-".concat(messageId)) : null;
+
+      if (targetNode) {
+        targetNode.scrollIntoView({
+          block: 'start'
+        });
+        hasDoneInitialScroll = true;
+      } else {
+        window.scroll({
+          left: 0,
+          top: documentBody.scrollHeight + 200
+        });
+      }
+    }
+  };
 
   function midMessagePeer(top, bottom) {
     var midY = (bottom + top) / 2;
@@ -335,21 +354,6 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var scrollToMessage = function scrollToMessage(messageId) {
-    var targetNode = messageId !== null ? document.getElementById("msg-".concat(messageId)) : null;
-
-    if (targetNode) {
-      targetNode.scrollIntoView({
-        block: 'start'
-      });
-    } else {
-      window.scroll({
-        left: 0,
-        top: documentBody.scrollHeight + 200
-      });
-    }
-  };
-
   var insertPiece = function insertPiece(insertEdit) {
     var html = insertEdit.html,
         index = insertEdit.index;
@@ -402,7 +406,8 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var handleInboundEventEditSequence = function handleInboundEventEditSequence(uevent) {
-    var sequence = uevent.sequence;
+    var sequence = uevent.sequence,
+        initialScrollMessageId = uevent.initialScrollMessageId;
     sequence.forEach(function (edit) {
       switch (edit.type) {
         case 'insert':
@@ -421,6 +426,7 @@ var compiledWebviewJs = (function (exports) {
           throw new Error("Unexpected edit type ".concat(edit.type));
       }
     });
+    maybeDoInitialScroll(initialScrollMessageId);
   };
 
   var handleInitialLoad = function handleInitialLoad(platformOS, scrollMessageId, auth) {
@@ -430,7 +436,7 @@ var compiledWebviewJs = (function (exports) {
       document.addEventListener('message', handleMessageEvent);
     }
 
-    scrollToMessage(scrollMessageId);
+    maybeDoInitialScroll(scrollMessageId);
     rewriteImageUrls(auth);
     sendScrollMessageIfListShort();
     scrollEventsDisabled = false;

@@ -176,6 +176,20 @@ window.addEventListener('resize', event => {
   viewportHeight = documentBody.clientHeight;
 });
 
+let hasDoneInitialScroll = false;
+
+const maybeDoInitialScroll = (messageId: number | null) => {
+  if (!hasDoneInitialScroll && messageId !== null) {
+    const targetNode = messageId !== null ? document.getElementById(`msg-${messageId}`) : null;
+    if (targetNode) {
+      targetNode.scrollIntoView({ block: 'start' });
+      hasDoneInitialScroll = true;
+    } else {
+      window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
+    }
+  }
+};
+
 /*
  *
  * Identifying visible messages
@@ -442,15 +456,6 @@ const scrollToBottomIfNearEnd = () => {
   }
 };
 
-const scrollToMessage = (messageId: number | null) => {
-  const targetNode = messageId !== null ? document.getElementById(`msg-${messageId}`) : null;
-  if (targetNode) {
-    targetNode.scrollIntoView({ block: 'start' });
-  } else {
-    window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
-  }
-};
-
 // Try to identify a message on screen and its location, so we can
 // scroll the corresponding message to the same place afterward.
 /* eslint-disable-next-line no-unused-vars */
@@ -521,7 +526,7 @@ const replacePiece = (replaceEdit: Replace) => {
 };
 
 const handleInboundEventEditSequence = (uevent: WebViewInboundEventEditSequence) => {
-  const { sequence } = uevent;
+  const { sequence, initialScrollMessageId } = uevent;
   sequence.forEach(edit => {
     switch (edit.type) {
       case 'insert':
@@ -537,6 +542,7 @@ const handleInboundEventEditSequence = (uevent: WebViewInboundEventEditSequence)
         throw new Error(`Unexpected edit type ${edit.type}`);
     }
   });
+  maybeDoInitialScroll(initialScrollMessageId);
 };
 
 // We call this when the webview's content first loads.
@@ -555,7 +561,7 @@ export const handleInitialLoad = (
     document.addEventListener('message', handleMessageEvent);
   }
 
-  scrollToMessage(scrollMessageId);
+  maybeDoInitialScroll(scrollMessageId);
   rewriteImageUrls(auth);
   sendScrollMessageIfListShort();
   scrollEventsDisabled = false;

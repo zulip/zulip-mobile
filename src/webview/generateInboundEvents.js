@@ -11,6 +11,7 @@ import generateEditSequenceEvent from './generateEditSequenceEvent';
 export type WebViewInboundEventEditSequence = {|
   type: 'edit-sequence',
   sequence: EditSequence,
+  initialScrollMessageId: number | null,
 |};
 
 export type WebViewInboundEventContent = {|
@@ -97,6 +98,7 @@ export default (prevProps: Props, nextProps: Props): WebViewInboundEvent[] => {
           narrow: nextProps.narrow,
           pieceDescriptors: nextProps.htmlPieceDescriptors,
         },
+        nextProps.initialScrollMessageId,
       ),
     );
   }

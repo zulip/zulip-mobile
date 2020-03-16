@@ -165,10 +165,12 @@ export default (
     narrow: Narrow,
     pieceDescriptors: PieceDescriptor[],
   },
+  initialScrollMessageId: number | null,
 ): WebViewInboundEventEditSequence => {
   const [oldHtmlItems, newHtmlItems] = [prevArgs, currArgs].map(getHtmlItemsFromPieceDescriptors);
   return {
     type: 'edit-sequence',
     sequence: getEditSequence(oldHtmlItems, newHtmlItems),
+    initialScrollMessageId,
   };
 };
