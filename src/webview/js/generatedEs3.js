@@ -350,67 +350,77 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var findPreserveTarget = function findPreserveTarget() {
-    var message = someVisibleMessage(0, viewportHeight);
+  var insertPiece = function insertPiece(insertEdit) {
+    var html = insertEdit.html,
+        index = insertEdit.index;
+    var orderedPiecesElement = document.getElementById('ordered-pieces');
 
-    if (!message) {
-      return {
-        type: 'none'
-      };
-    }
-
-    var messageId = idFromMessage(message);
-    var prevBoundRect = message.getBoundingClientRect();
-    return {
-      type: 'preserve',
-      msgId: messageId,
-      prevBoundTop: prevBoundRect.top
-    };
-  };
-
-  var scrollToPreserve = function scrollToPreserve(msgId, prevBoundTop) {
-    var newElement = document.getElementById("msg-".concat(msgId));
-
-    if (!newElement) {
+    if (orderedPiecesElement === null) {
       return;
     }
 
-    var newBoundRect = newElement.getBoundingClientRect();
-    window.scrollBy(0, newBoundRect.top - prevBoundTop);
+    var orderedPiecesChildren = orderedPiecesElement.children;
+    var referenceElement = orderedPiecesChildren.item(index);
+    var newElement = document.createElement('div');
+    orderedPiecesElement.insertBefore(newElement, referenceElement);
+    newElement.outerHTML = html;
   };
 
-  var handleInboundEventContent = function handleInboundEventContent(uevent) {
-    var target;
+  var deletePiece = function deletePiece(deleteEdit) {
+    var index = deleteEdit.index;
+    var orderedPiecesElement = document.getElementById('ordered-pieces');
 
-    if (uevent.updateStrategy === 'replace') {
-      target = {
-        type: 'none'
-      };
-    } else if (uevent.updateStrategy === 'scroll-to-anchor') {
-      target = {
-        type: 'anchor',
-        messageId: uevent.scrollMessageId
-      };
-    } else if (uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom' && isNearBottom()) {
-        target = {
-          type: 'bottom'
-        };
-      } else {
-      target = findPreserveTarget();
+    if (orderedPiecesElement === null) {
+      return;
     }
 
-    documentBody.innerHTML = uevent.content;
-    rewriteImageUrls(uevent.auth);
+    var element = orderedPiecesElement.children.item(index);
 
-    if (target.type === 'bottom') {
-      scrollToBottom();
-    } else if (target.type === 'anchor') {
-      scrollToMessage(target.messageId);
-    } else if (target.type === 'preserve') {
-      scrollToPreserve(target.msgId, target.prevBoundTop);
+    if (element === null) {
+      return;
     }
 
-    sendScrollMessageIfListShort();
+    orderedPiecesElement.removeChild(element);
+  };
+
+  var replacePiece = function replacePiece(replaceEdit) {
+    var html = replaceEdit.html,
+        index = replaceEdit.index;
+    var orderedPiecesElement = document.getElementById('ordered-pieces');
+
+    if (orderedPiecesElement === null) {
+      return;
+    }
+
+    var element = orderedPiecesElement.children.item(index);
+
+    if (element === null) {
+      return;
+    }
+
+    element.outerHTML = html;
+  };
+
+  var handleInboundEventEditSequence = function handleInboundEventEditSequence(uevent) {
+    var sequence = uevent.sequence;
+    sequence.forEach(function (edit) {
+      switch (edit.type) {
+        case 'insert':
+          insertPiece(edit);
+          break;
+
+        case 'delete':
+          deletePiece(edit);
+          break;
+
+        case 'replace':
+          replacePiece(edit);
+          break;
+
+        default:
+          throw new Error("Unexpected edit type ".concat(edit.type));
+      }
+    });
   };
 
   var handleInitialLoad = function handleInitialLoad(platformOS, scrollMessageId, auth) {
@@ -464,11 +474,11 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var eventUpdateHandlers = {
-    content: handleInboundEventContent,
     fetching: handleInboundEventFetching,
     typing: handleInboundEventTyping,
     ready: handleInboundEventReady,
-    read: handleInboundEventMessagesRead
+    read: handleInboundEventMessagesRead,
+    'edit-sequence': handleInboundEventEditSequence
   };
 
   var handleMessageEvent = function handleMessageEvent(e) {

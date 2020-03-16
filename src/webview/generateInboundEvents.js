@@ -9,6 +9,7 @@ import htmlBody from './html/htmlBody';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
 import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
+import generateEditSequenceEvent from './generateEditSequenceEvent';
 
 export type WebViewInboundEventEditSequence = {|
   type: 'edit-sequence',
@@ -52,6 +53,7 @@ export type WebViewInboundEvent =
   | WebViewInboundEventReady
   | WebViewInboundEventMessagesRead;
 
+/* eslint-disable-next-line no-unused-vars */
 const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
   const content = htmlBody(
     renderMessagesAsHtml(
@@ -108,21 +110,20 @@ export default (prevProps: Props, nextProps: Props): WebViewInboundEvent[] => {
     !isEqual(prevProps.htmlPieceDescriptors, nextProps.htmlPieceDescriptors)
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
   ) {
-    uevents.push(updateContent(prevProps, nextProps));
-    // uevents.push(
-    //   generateEditSequenceEvent(
-    //     {
-    //       backgroundData: prevProps.backgroundData,
-    //       narrow: prevProps.narrow,
-    //       pieceDescriptors: prevProps.htmlPieceDescriptors,
-    //     },
-    //     {
-    //       backgroundData: nextProps.backgroundData,
-    //       narrow: nextProps.narrow,
-    //       pieceDescriptors: nextProps.htmlPieceDescriptors,
-    //     },
-    //   ),
-    // );
+    uevents.push(
+      generateEditSequenceEvent(
+        {
+          backgroundData: prevProps.backgroundData,
+          narrow: prevProps.narrow,
+          pieceDescriptors: prevProps.htmlPieceDescriptors,
+        },
+        {
+          backgroundData: nextProps.backgroundData,
+          narrow: nextProps.narrow,
+          pieceDescriptors: nextProps.htmlPieceDescriptors,
+        },
+      ),
+    );
   }
 
   if (prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read) {

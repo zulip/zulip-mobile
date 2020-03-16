@@ -8,7 +8,10 @@ import type {
   WebViewInboundEventTyping,
   WebViewInboundEventReady,
   WebViewInboundEventMessagesRead,
+  WebViewInboundEventEditSequence,
 } from '../generateInboundEvents';
+import type { Insert, Delete, Replace } from '../generateEditSequenceEvent';
+
 import type { WebViewOutboundEvent } from '../handleOutboundEvents';
 
 import rewriteImageUrls from './rewriteImageUrls';
@@ -465,6 +468,7 @@ const findPreserveTarget = (): ScrollTarget => {
 };
 
 // Scroll the given message to the same height it was at before.
+/* eslint-disable-next-line no-unused-vars */
 const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   const newElement = document.getElementById(`msg-${msgId}`);
   if (!newElement) {
@@ -475,6 +479,7 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
+/* eslint-disable-next-line no-unused-vars */
 const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
   let target: ScrollTarget;
   if (uevent.updateStrategy === 'replace') {
@@ -504,6 +509,66 @@ const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
   }
 
   sendScrollMessageIfListShort();
+};
+
+const insertPiece = (insertEdit: Insert) => {
+  const { html, index } = insertEdit;
+  const orderedPiecesElement = document.getElementById('ordered-pieces');
+  if (orderedPiecesElement === null) {
+    return;
+  }
+  const orderedPiecesChildren = orderedPiecesElement.children;
+  const referenceElement = orderedPiecesChildren.item(index);
+  const newElement = document.createElement('div');
+  orderedPiecesElement.insertBefore(newElement, referenceElement);
+  newElement.outerHTML = html;
+};
+
+const deletePiece = (deleteEdit: Delete) => {
+  const { index } = deleteEdit;
+  const orderedPiecesElement = document.getElementById('ordered-pieces');
+  if (orderedPiecesElement === null) {
+    return;
+  }
+
+  const element = orderedPiecesElement.children.item(index);
+  if (element === null) {
+    return;
+  }
+  orderedPiecesElement.removeChild(element);
+};
+
+const replacePiece = (replaceEdit: Replace) => {
+  const { html, index } = replaceEdit;
+  const orderedPiecesElement = document.getElementById('ordered-pieces');
+  if (orderedPiecesElement === null) {
+    return;
+  }
+
+  const element = orderedPiecesElement.children.item(index);
+  if (element === null) {
+    return;
+  }
+  element.outerHTML = html;
+};
+
+const handleInboundEventEditSequence = (uevent: WebViewInboundEventEditSequence) => {
+  const { sequence } = uevent;
+  sequence.forEach(edit => {
+    switch (edit.type) {
+      case 'insert':
+        insertPiece(edit);
+        break;
+      case 'delete':
+        deletePiece(edit);
+        break;
+      case 'replace':
+        replacePiece(edit);
+        break;
+      default:
+        throw new Error(`Unexpected edit type ${edit.type}`);
+    }
+  });
 };
 
 // We call this when the webview's content first loads.
@@ -570,11 +635,11 @@ const handleInboundEventMessagesRead = (uevent: WebViewInboundEventMessagesRead)
 };
 
 const eventUpdateHandlers = {
-  content: handleInboundEventContent,
   fetching: handleInboundEventFetching,
   typing: handleInboundEventTyping,
   ready: handleInboundEventReady,
   read: handleInboundEventMessagesRead,
+  'edit-sequence': handleInboundEventEditSequence,
 };
 
 // See `handleInitialLoad` for how this gets subscribed to events.

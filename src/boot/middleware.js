@@ -17,7 +17,7 @@ if (config.enableReduxLogging) {
     createLogger({
       duration: true,
       // See docs/howto/debugging.md.
-      // collapsed: true,
+      collapsed: true,
       // diff: true,
       // predicate: (getState, action) => action.type === 'MESSAGE_FETCH_COMPLETE',
     }),
