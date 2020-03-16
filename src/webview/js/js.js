@@ -3,7 +3,6 @@
 import type { Auth } from '../../types';
 import type {
   WebViewInboundEvent,
-  WebViewInboundEventContent,
   WebViewInboundEventFetching,
   WebViewInboundEventTyping,
   WebViewInboundEventReady,
@@ -454,6 +453,7 @@ const scrollToMessage = (messageId: number | null) => {
 
 // Try to identify a message on screen and its location, so we can
 // scroll the corresponding message to the same place afterward.
+/* eslint-disable-next-line no-unused-vars */
 const findPreserveTarget = (): ScrollTarget => {
   const message = someVisibleMessage(0, viewportHeight);
   if (!message) {
@@ -477,38 +477,6 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   }
   const newBoundRect = newElement.getBoundingClientRect();
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
-};
-
-/* eslint-disable-next-line no-unused-vars */
-const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
-  let target: ScrollTarget;
-  if (uevent.updateStrategy === 'replace') {
-    target = { type: 'none' };
-  } else if (uevent.updateStrategy === 'scroll-to-anchor') {
-    target = { type: 'anchor', messageId: uevent.scrollMessageId };
-  } else if (
-    uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom'
-    && isNearBottom() /* align */
-  ) {
-    target = { type: 'bottom' };
-  } else {
-    // including 'default' and 'preserve-position'
-    target = findPreserveTarget();
-  }
-
-  documentBody.innerHTML = uevent.content;
-
-  rewriteImageUrls(uevent.auth);
-
-  if (target.type === 'bottom') {
-    scrollToBottom();
-  } else if (target.type === 'anchor') {
-    scrollToMessage(target.messageId);
-  } else if (target.type === 'preserve') {
-    scrollToPreserve(target.msgId, target.prevBoundTop);
-  }
-
-  sendScrollMessageIfListShort();
 };
 
 const insertPiece = (insertEdit: Insert) => {

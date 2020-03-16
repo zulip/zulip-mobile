@@ -5,10 +5,7 @@ import type { Auth, FlagsState } from '../types';
 import type { Props } from './MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
 import type { EditSequence } from './generateEditSequenceEvent';
-import htmlBody from './html/htmlBody';
-import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
-import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
 import generateEditSequenceEvent from './generateEditSequenceEvent';
 
 export type WebViewInboundEventEditSequence = {|
@@ -52,28 +49,6 @@ export type WebViewInboundEvent =
   | WebViewInboundEventTyping
   | WebViewInboundEventReady
   | WebViewInboundEventMessagesRead;
-
-/* eslint-disable-next-line no-unused-vars */
-const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
-  const content = htmlBody(
-    renderMessagesAsHtml(
-      nextProps.backgroundData,
-      nextProps.narrow,
-      nextProps.htmlPieceDescriptors,
-    ),
-    nextProps.showMessagePlaceholders,
-  );
-  const transitionProps = getMessageTransitionProps(prevProps, nextProps);
-  const updateStrategy = getMessageUpdateStrategy(transitionProps);
-
-  return {
-    type: 'content',
-    scrollMessageId: nextProps.initialScrollMessageId,
-    auth: nextProps.backgroundData.auth,
-    content,
-    updateStrategy,
-  };
-};
 
 const updateFetching = (prevProps: Props, nextProps: Props): WebViewInboundEventFetching => ({
   type: 'fetching',
