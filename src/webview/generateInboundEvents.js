@@ -12,6 +12,7 @@ export type WebViewInboundEventEditSequence = {|
   type: 'edit-sequence',
   sequence: EditSequence,
   initialScrollMessageId: number | null,
+  auth: Auth,
 |};
 
 export type WebViewInboundEventContent = {|

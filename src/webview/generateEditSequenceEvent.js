@@ -170,6 +170,7 @@ export default (
   const [oldHtmlItems, newHtmlItems] = [prevArgs, currArgs].map(getHtmlItemsFromPieceDescriptors);
   return {
     type: 'edit-sequence',
+    auth: currArgs.backgroundData.auth,
     sequence: getEditSequence(oldHtmlItems, newHtmlItems),
     initialScrollMessageId,
   };

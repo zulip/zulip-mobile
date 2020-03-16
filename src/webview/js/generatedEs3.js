@@ -354,7 +354,7 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var insertPiece = function insertPiece(insertEdit) {
+  var insertPiece = function insertPiece(insertEdit, auth) {
     var html = insertEdit.html,
         index = insertEdit.index;
     var orderedPiecesElement = document.getElementById('ordered-pieces');
@@ -368,6 +368,7 @@ var compiledWebviewJs = (function (exports) {
     var newElement = document.createElement('div');
     orderedPiecesElement.insertBefore(newElement, referenceElement);
     newElement.outerHTML = html;
+    rewriteImageUrls(auth, newElement);
   };
 
   var deletePiece = function deletePiece(deleteEdit) {
@@ -387,7 +388,7 @@ var compiledWebviewJs = (function (exports) {
     orderedPiecesElement.removeChild(element);
   };
 
-  var replacePiece = function replacePiece(replaceEdit) {
+  var replacePiece = function replacePiece(replaceEdit, auth) {
     var html = replaceEdit.html,
         index = replaceEdit.index;
     var orderedPiecesElement = document.getElementById('ordered-pieces');
@@ -403,15 +404,17 @@ var compiledWebviewJs = (function (exports) {
     }
 
     element.outerHTML = html;
+    rewriteImageUrls(auth, element);
   };
 
   var handleInboundEventEditSequence = function handleInboundEventEditSequence(uevent) {
     var sequence = uevent.sequence,
-        initialScrollMessageId = uevent.initialScrollMessageId;
+        initialScrollMessageId = uevent.initialScrollMessageId,
+        auth = uevent.auth;
     sequence.forEach(function (edit) {
       switch (edit.type) {
         case 'insert':
-          insertPiece(edit);
+          insertPiece(edit, auth);
           break;
 
         case 'delete':
@@ -419,7 +422,7 @@ var compiledWebviewJs = (function (exports) {
           break;
 
         case 'replace':
-          replacePiece(edit);
+          replacePiece(edit, auth);
           break;
 
         default:

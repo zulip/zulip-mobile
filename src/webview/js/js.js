@@ -484,7 +484,7 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
-const insertPiece = (insertEdit: Insert) => {
+const insertPiece = (insertEdit: Insert, auth: Auth) => {
   const { html, index } = insertEdit;
   const orderedPiecesElement = document.getElementById('ordered-pieces');
   if (orderedPiecesElement === null) {
@@ -495,6 +495,7 @@ const insertPiece = (insertEdit: Insert) => {
   const newElement = document.createElement('div');
   orderedPiecesElement.insertBefore(newElement, referenceElement);
   newElement.outerHTML = html;
+  rewriteImageUrls(auth, newElement);
 };
 
 const deletePiece = (deleteEdit: Delete) => {
@@ -511,7 +512,7 @@ const deletePiece = (deleteEdit: Delete) => {
   orderedPiecesElement.removeChild(element);
 };
 
-const replacePiece = (replaceEdit: Replace) => {
+const replacePiece = (replaceEdit: Replace, auth: Auth) => {
   const { html, index } = replaceEdit;
   const orderedPiecesElement = document.getElementById('ordered-pieces');
   if (orderedPiecesElement === null) {
@@ -523,20 +524,21 @@ const replacePiece = (replaceEdit: Replace) => {
     return;
   }
   element.outerHTML = html;
+  rewriteImageUrls(auth, element);
 };
 
 const handleInboundEventEditSequence = (uevent: WebViewInboundEventEditSequence) => {
-  const { sequence, initialScrollMessageId } = uevent;
+  const { sequence, initialScrollMessageId, auth } = uevent;
   sequence.forEach(edit => {
     switch (edit.type) {
       case 'insert':
-        insertPiece(edit);
+        insertPiece(edit, auth);
         break;
       case 'delete':
         deletePiece(edit);
         break;
       case 'replace':
-        replacePiece(edit);
+        replacePiece(edit, auth);
         break;
       default:
         throw new Error(`Unexpected edit type ${edit.type}`);
