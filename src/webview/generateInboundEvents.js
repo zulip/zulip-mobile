@@ -102,26 +102,28 @@ const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): 
 };
 
 export default (prevProps: Props, nextProps: Props): WebViewInboundEvent[] => {
+  const uevents = [];
+
   if (
     !isEqual(prevProps.htmlPieceDescriptors, nextProps.htmlPieceDescriptors)
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
   ) {
-    return [updateContent(prevProps, nextProps)];
-    // return generateEditSequenceEvent(
-    //   {
-    //     backgroundData: prevProps.backgroundData,
-    //     narrow: prevProps.narrow,
-    //     pieceDescriptors: prevProps.htmlPieceDescriptors,
-    //   },
-    //   {
-    //     backgroundData: nextProps.backgroundData,
-    //     narrow: nextProps.narrow,
-    //     pieceDescriptors: nextProps.htmlPieceDescriptors,
-    //   },
+    uevents.push(updateContent(prevProps, nextProps));
+    // uevents.push(
+    //   generateEditSequenceEvent(
+    //     {
+    //       backgroundData: prevProps.backgroundData,
+    //       narrow: prevProps.narrow,
+    //       pieceDescriptors: prevProps.htmlPieceDescriptors,
+    //     },
+    //     {
+    //       backgroundData: nextProps.backgroundData,
+    //       narrow: nextProps.narrow,
+    //       pieceDescriptors: nextProps.htmlPieceDescriptors,
+    //     },
+    //   ),
     // );
   }
-
-  const uevents = [];
 
   if (prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read) {
     const messageIds = Object.keys(nextProps.backgroundData.flags.read)
