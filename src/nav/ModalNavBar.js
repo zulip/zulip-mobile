@@ -3,9 +3,11 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, Context, LocalizableText } from '../types';
+import type { Dispatch, LocalizableText } from '../types';
+import type { ThemeColors } from '../styles';
+import styles, { ThemeContext, NAVBAR_SIZE } from '../styles';
 import { connect } from '../react-redux';
-import styles, { NAVBAR_SIZE } from '../styles';
+
 import Label from '../common/Label';
 import NavButton from './NavButton';
 import { navigateBack } from '../actions';
@@ -17,14 +19,10 @@ type Props = $ReadOnly<{|
 |}>;
 
 class ModalNavBar extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { dispatch, canGoBack, title } = this.props;
     const textStyle = [
       styles.navTitle,
@@ -32,7 +30,18 @@ class ModalNavBar extends PureComponent<Props> {
     ];
 
     return (
-      <View style={[contextStyles.navBar]}>
+      <View
+        style={[
+          {
+            borderColor: 'hsla(0, 0%, 50%, 0.25)',
+            flexDirection: 'row',
+            height: NAVBAR_SIZE,
+            alignItems: 'center',
+            borderBottomWidth: 1,
+            backgroundColor: this.context.backgroundColor,
+          },
+        ]}
+      >
         {canGoBack && (
           <NavButton
             name="arrow-left"

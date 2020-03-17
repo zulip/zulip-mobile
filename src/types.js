@@ -79,6 +79,14 @@ export type Account = {|
   ...Auth,
 
   /**
+   * Use this to affect how we make some API requests, keeping the logic
+   * isolated to the edge, where we communicate with the server, to keep with
+   * the "crunchy shell" pattern (see docs/architecture/crunchy-shell.md), and
+   * for Sentry reports.
+   */
+  zulipVersion?: string,
+
+  /**
    * The last device token value the server has definitely heard from us.
    *
    * This is `null` until we make a successful request to the server to

@@ -1,6 +1,6 @@
 {
   "printWidth": 100,
-  "parser": "flow",
+  "parser": "babel-flow",
   "singleQuote": true,
   "trailingComma": "all",
 }

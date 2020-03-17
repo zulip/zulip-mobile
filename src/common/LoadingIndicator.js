@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
 });
 
 type Props = $ReadOnly<{|
-  color: string,
+  color: 'default' | 'black' | 'white',
   showLogo: boolean,
   size: number,
 |}>;
 
 /**
- * Renders a loading indicator - light circle and a darker
+ * Renders a loading indicator - a faint circle and a bold
  * quarter of a circle spinning around it. Optionally,
  * a Zulip logo in the center.
  *
@@ -37,7 +37,7 @@ type Props = $ReadOnly<{|
  */
 export default class LoadingIndicator extends PureComponent<Props> {
   static defaultProps = {
-    color: '82, 194, 175',
+    color: 'default',
     showLogo: false,
     size: 40,
   };

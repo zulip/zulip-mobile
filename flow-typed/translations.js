@@ -32,6 +32,18 @@ declare module '../../static/translations/messages_de.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_el_GR.json' {
+  declare export default {| [string]: string |};
+}
+
+declare module '../../static/translations/messages_el.json' {
+  declare export default {| [string]: string |};
+}
+
+declare module '../../static/translations/messages_en_GB.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_en.json' {
   declare export default {| [string]: string |};
 }
@@ -84,7 +96,15 @@ declare module '../../static/translations/messages_ko.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_lt.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_ml.json' {
+  declare export default {| [string]: string |};
+}
+
+declare module '../../static/translations/messages_nb_NO.json' {
   declare export default {| [string]: string |};
 }
 
@@ -132,10 +152,18 @@ declare module '../../static/translations/messages_uz.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_vi.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_zh-Hans.json' {
   declare export default {| [string]: string |};
 }
 
 declare module '../../static/translations/messages_zh-Hant.json' {
+  declare export default {| [string]: string |};
+}
+
+declare module '../../static/translations/messages_zh_TW.json' {
   declare export default {| [string]: string |};
 }

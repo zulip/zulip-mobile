@@ -163,6 +163,21 @@ dependencies (`fsevents`) isn't yet compatible with.
 
 To fix the problem, use Node 10.x instead.
 
+The same problem has also been observed when using Node 10 on commits that were
+made when we were using Node 8, prior to Greg's recommendation to switch to Node
+10 in 4e5e31ac2. To fix the problem in that case, use Node 8.
+
+
+### `yarn install` failure about "Detox"
+
+This should only happen when building old versions of the app, from
+before [PR #3504](https://github.com/zulip/zulip-mobile/pull/3504).
+
+As mentioned there, these errors aren't critical.  This is a testing
+framework which was never in our main build and test workflows, as we
+never wrote more than a very small smoke-test for it.  Ignore the
+error and carry on.
+
 
 ### Bundling failure: Unable to resolve module ...
 
@@ -268,6 +283,20 @@ If you've run `react-native link`, you can discard the edits it made
 (along with any other edits you've made) by running `git reset --hard`.
 
 
+### Build failure: "input file cannot be found", on `.../react-native/third-party/...`
+
+When trying to build the iOS app, if you get an Xcode error like this
+(edited slightly for readability):
+
+```
+error: Build input file cannot be found:
+  '[...]/zulip-mobile/node_modules/react-native/third-party/double-conversion-1.1.6/src/bignum.cc'
+  (in target 'double-conversion' from project 'React')
+```
+
+then try restarting Xcode.
+
+
 ### App shows a blank white screen
 
 If you're developing on a Linux machine, and when you start the dev version of
@@ -278,6 +307,28 @@ increase this limit with the following commands:
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p
 ```
+
+
+### Red error banner about method `-[RCTAppState getCurrentAppState:error:]`
+
+This should only happen when building old versions of the app, from
+before we upgraded to React Native 0.59.10 in commit dfbdd971b in
+2019-07.
+
+When trying to run the iOS app, if you get a red error screen with
+this error message (edited slightly for readability):
+```
+Unknown argument type '__attribute__' in method
+  -[RCTAppState getCurrentAppState:error:].
+  Extend RCTConvert to support this type.
+```
+then you've encountered an incompatibility between Xcode 11 and older
+versions of React Native.
+
+To fix this, take a look at the [upstream
+commit](https://github.com/facebook/react-native/commit/46c7ada535f8d87f325ccbd96c24993dd522165d)
+that fixed the issue, and apply that one-line diff directly to the
+file `node_modules/react-native/React/Base/RCTModuleMethod.mm`.
 
 
 ### Test failure: `SyntaxError: Unexpected token`

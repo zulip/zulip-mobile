@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native';
 
 import type { Context, Dispatch, PmConversationData, UserOrBot } from '../types';
 import { connect } from '../react-redux';
-import { Label, ZulipButton } from '../common';
+import { Label, ZulipButton, LoadingBanner } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
 import { getRecentConversations, getAllUsersByEmail } from '../selectors';
@@ -72,6 +72,7 @@ class PmConversationsCard extends PureComponent<Props> {
             }}
           />
         </View>
+        <LoadingBanner />
         {conversations.length === 0 ? (
           <Label style={styles.emptySlate} text="No recent conversations" />
         ) : (

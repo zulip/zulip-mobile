@@ -12,6 +12,7 @@ import UnreadCards from '../unread/UnreadCards';
 import { doNarrow, navigateToSearch } from '../actions';
 import IconUnreadMentions from '../nav/IconUnreadMentions';
 import { BRAND_COLOR } from '../styles';
+import { LoadingBanner } from '../common';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -61,6 +62,7 @@ class HomeTab extends PureComponent<Props> {
             }}
           />
         </View>
+        <LoadingBanner />
         <UnreadCards />
       </View>
     );

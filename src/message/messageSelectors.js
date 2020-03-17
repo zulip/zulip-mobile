@@ -12,7 +12,6 @@ import {
 import * as logging from '../utils/logging';
 import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import renderMessages from './renderMessages';
-import { findFirstUnread } from '../utils/message';
 import type { JSONable } from '../utils/jsonable';
 import { ALL_PRIVATE_NARROW_STR } from '../utils/narrow';
 import { NULL_ARRAY } from '../nullObjects';
@@ -73,6 +72,8 @@ export const getFirstUnreadIdInNarrow: Selector<number | null, Narrow> = createS
   getFlags,
   getSubscriptions,
   getMute,
-  (messages, flags, subscriptions, mute) =>
-    findFirstUnread(messages, flags, subscriptions, mute)?.id ?? null,
+  (messages, flags, subscriptions, mute) => {
+    const firstUnread = messages.find(msg => !flags.read[msg.id]);
+    return firstUnread?.id ?? null;
+  },
 );

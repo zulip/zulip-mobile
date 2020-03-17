@@ -319,6 +319,7 @@ describe('isMessageInNarrow', () => {
     };
     expect(isMessageInNarrow(message, STARRED_NARROW)).toBe(true);
   });
+
   test('message without flag "starred" is not in is:starred narrow', () => {
     const message = {
       flags: [],

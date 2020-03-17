@@ -135,6 +135,7 @@ describe('getUserIsActive', () => {
       nonActiveUsers: [eg.makeUser(), eg.makeUser()],
     },
   });
+
   test('returns false for a user that has been deactivated', () => {
     expect(getUserIsActive(state, state.realm.nonActiveUsers[0].email)).toBeFalse();
   });

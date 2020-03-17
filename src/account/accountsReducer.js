@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import {
   REALM_ADD,
+  REALM_INIT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   ACK_PUSH_TOKEN,
@@ -18,7 +19,11 @@ const realmAdd = (state, action) => {
   const accountIndex = state.findIndex(account => account.realm === action.realm);
 
   if (accountIndex !== -1) {
-    return [state[accountIndex], ...state.slice(0, accountIndex), ...state.slice(accountIndex + 1)];
+    const newAccount = {
+      ...state[accountIndex],
+      zulipVersion: action.zulipVersion,
+    };
+    return [newAccount, ...state.slice(0, accountIndex), ...state.slice(accountIndex + 1)];
   }
 
   return [
@@ -27,10 +32,19 @@ const realmAdd = (state, action) => {
       apiKey: '',
       email: '',
       ackedPushToken: null,
+      zulipVersion: action.zulipVersion,
     },
     ...state,
   ];
 };
+
+const realmInit = (state, action) => [
+  {
+    ...state[0],
+    zulipVersion: action.zulipVersion,
+  },
+  ...state.slice(1),
+];
 
 const accountSwitch = (state, action) => {
   if (action.index === 0) {
@@ -54,7 +68,7 @@ const loginSuccess = (state, action) => {
     return [{ realm, email, apiKey, ackedPushToken: null }, ...state];
   }
   return [
-    { realm, email, apiKey, ackedPushToken: null },
+    { ...state[accountIndex], email, apiKey, ackedPushToken: null },
     ...state.slice(0, accountIndex),
     ...state.slice(accountIndex + 1),
   ];
@@ -97,6 +111,9 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
     case REALM_ADD:
       return realmAdd(state, action);
 
+    case REALM_INIT:
+      return realmInit(state, action);
+
     case ACCOUNT_SWITCH:
       return accountSwitch(state, action);
 
@@ -110,8 +127,7 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
       return unackPushToken(state, action);
 
     case LOGOUT: {
-      const { realm, email } = state[0];
-      return [{ realm, email, apiKey: '', ackedPushToken: null }, ...state.slice(1)];
+      return [{ ...state[0], apiKey: '', ackedPushToken: null }, ...state.slice(1)];
     }
 
     case ACCOUNT_REMOVE:

@@ -4,7 +4,6 @@ import type { Context } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { ThemeName } from '../types';
-import navStyles from './navStyles';
 import miscStyles from './miscStyles';
 
 export type ThemeColors = {|
@@ -15,7 +14,6 @@ export type ThemeColors = {|
 |};
 
 export type AppStyles = $ReadOnly<{|
-  ...$Call<typeof navStyles, ThemeColors>,
   ...$Call<typeof miscStyles, ThemeColors>,
 |}>;
 
@@ -44,7 +42,6 @@ export const ThemeContext: Context<ThemeColors> = React.createContext(themeColor
 export const stylesFromTheme = (name: ThemeName) => {
   const colors = themeColors[name];
   return StyleSheet.create({
-    ...navStyles(colors),
     ...miscStyles(colors),
   });
 };

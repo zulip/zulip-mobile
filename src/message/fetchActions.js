@@ -1,5 +1,14 @@
 /* @flow strict-local */
-import type { Narrow, Dispatch, GetState, GlobalState, Message, Action } from '../types';
+import type {
+  Narrow,
+  Dispatch,
+  GetState,
+  GlobalState,
+  Message,
+  Action,
+  ApiResponseServerSettings,
+} from '../types';
+import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
 import {
   getAuth,
@@ -23,7 +32,6 @@ import { tryUntilSuccessful } from '../utils/async';
 import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
-import { reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 
@@ -213,25 +221,27 @@ const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) 
  * we want to do when starting up, or regaining a network connection.
  */
 export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
-  dispatch(reportPresence());
-  setInterval(() => dispatch(reportPresence()), 60 * 1000);
-
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
 
-  let initData;
+  let initData: InitialData;
+  let serverSettings: ApiResponseServerSettings;
+
   try {
-    initData = await tryUntilSuccessful(() =>
-      api.registerForEvents(auth, {
-        fetch_event_types: config.serverDataOnStartup,
-        apply_markdown: true,
-        include_subscribers: false,
-        client_gravatar: true,
-        client_capabilities: {
-          notification_settings_null: true,
-        },
-      }),
-    );
+    [initData, serverSettings] = await Promise.all([
+      tryUntilSuccessful(() =>
+        api.registerForEvents(auth, {
+          fetch_event_types: config.serverDataOnStartup,
+          apply_markdown: true,
+          include_subscribers: false,
+          client_gravatar: true,
+          client_capabilities: {
+            notification_settings_null: true,
+          },
+        }),
+      ),
+      tryUntilSuccessful(() => api.getServerSettings(auth.realm)),
+    ]);
   } catch (e) {
     // This should only happen on a 4xx HTTP status, which should only
     // happen when `auth` is no longer valid.  No use retrying; just log out.
@@ -239,7 +249,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
     return;
   }
 
-  dispatch(realmInit(initData));
+  dispatch(realmInit(initData, serverSettings.zulip_version));
   dispatch(fetchTopMostNarrow());
   dispatch(initialFetchComplete());
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));

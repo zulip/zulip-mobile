@@ -107,7 +107,7 @@ data class MessageFcmMessage(
      * All the data our React code needs on opening the notification.
      *
      * For the corresponding type definition on the JS side, see `Notification`
-     * in `notification/index.js`.
+     * in `src/notification/types.js`.
      */
     fun dataForOpen(): Bundle = Bundle().apply {
         // NOTE: Keep the JS-side type definition in sync with this code.

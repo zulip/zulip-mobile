@@ -2,7 +2,7 @@
 import Color from 'color';
 import type { ColorValue } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-export const foregroundColorFromBackground = (color: ColorValue): string =>
+export const foregroundColorFromBackground = (color: ColorValue): 'black' | 'white' =>
   Color(color).luminosity() > 0.4 ? 'black' : 'white';
 
 export const colorHashFromString = (name: string): string => {

@@ -203,3 +203,10 @@ identified in step 2.  (Be sure to type the `http://`.)
 
 This should get you the login screen!  Unless you're working on the login
 flow itself, tap "Log in with dev account"; then pick any user to log in as.
+
+If you need to work more closely with authentication systems, or if you need
+to use the [Zulip REST API][rest-api], which requires an API key, this
+[detailed doc][authentication-dev-server] will help you get started.
+
+[rest-api]: https://zulipchat.com/api/rest
+[authentication-dev-server]: https://zulip.readthedocs.io/en/latest/development/authentication.html

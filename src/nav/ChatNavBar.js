@@ -4,8 +4,9 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Dispatch, Narrow } from '../types';
+import { LoadingBanner } from '../common';
 import { connect } from '../react-redux';
-import styles, { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
@@ -31,19 +32,44 @@ class ChatNavBar extends PureComponent<Props> {
       backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
         ? BRAND_COLOR
         : foregroundColorFromBackground(backgroundColor);
+    const spinnerColor =
+      backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
+        ? 'default'
+        : foregroundColorFromBackground(backgroundColor);
 
     return (
-      <View style={[styles.navBar, { backgroundColor }]}>
-        <NavButton
-          name="arrow-left"
-          color={color}
-          onPress={() => {
-            dispatch(navigateBack());
-          }}
+      <View
+        style={{
+          borderColor: 'hsla(0, 0%, 50%, 0.25)',
+          borderBottomWidth: 1,
+        }}
+      >
+        <View
+          style={[
+            {
+              flexDirection: 'row',
+              height: NAVBAR_SIZE,
+              alignItems: 'center',
+            },
+            { backgroundColor },
+          ]}
+        >
+          <NavButton
+            name="arrow-left"
+            color={color}
+            onPress={() => {
+              dispatch(navigateBack());
+            }}
+          />
+          <Title color={color} narrow={narrow} />
+          <ExtraButton color={color} narrow={narrow} />
+          <InfoButton color={color} narrow={narrow} />
+        </View>
+        <LoadingBanner
+          spinnerColor={spinnerColor}
+          backgroundColor={backgroundColor}
+          textColor={color}
         />
-        <Title color={color} narrow={narrow} />
-        <ExtraButton color={color} narrow={narrow} />
-        <InfoButton color={color} narrow={narrow} />
       </View>
     );
   }

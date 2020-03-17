@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import type { InitialData } from './initialDataTypes';
 import type { Auth } from './transportTypes';
 import type { Narrow } from './apiTypes';
 import { apiPost, objectToParams } from './apiFetch';
@@ -18,7 +19,7 @@ type RegisterForEventsParams = {|
 |};
 
 /** See https://zulipchat.com/api/register-queue */
-export default (auth: Auth, params: RegisterForEventsParams) =>
+export default async (auth: Auth, params: RegisterForEventsParams): Promise<InitialData> =>
   apiPost(
     auth,
     'register',

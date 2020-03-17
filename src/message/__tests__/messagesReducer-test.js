@@ -95,6 +95,7 @@ describe('messagesReducer', () => {
       const newState = messagesReducer(initialState, action);
       expect(newState).toEqual(initialState);
     });
+
     test('if a message exists it is deleted', () => {
       const initialState = deepFreeze({ 1: { id: 1 }, 2: { id: 2 } });
 

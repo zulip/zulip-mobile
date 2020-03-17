@@ -5,13 +5,12 @@ import { SectionList } from 'react-native';
 
 import type { Dispatch, PmConversationData, UnreadStreamItem, UserOrBot } from '../types';
 import { connect } from '../react-redux';
-import { LoadingIndicator, SearchEmptyState } from '../common';
+import { SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
 import {
-  getLoading,
   getUnreadConversations,
   getAllUsersByEmail,
   getUnreadStreamsAndTopicsSansMuted,
@@ -21,7 +20,6 @@ import { doNarrow } from '../actions';
 type Props = $ReadOnly<{|
   conversations: PmConversationData[],
   dispatch: Dispatch,
-  isLoading: boolean,
   usersByEmail: Map<string, UserOrBot>,
   unreadStreamsAndTopics: UnreadStreamItem[],
 |}>;
@@ -36,7 +34,7 @@ class UnreadCards extends PureComponent<Props> {
   };
 
   render() {
-    const { isLoading, conversations, unreadStreamsAndTopics, ...restProps } = this.props;
+    const { conversations, unreadStreamsAndTopics, ...restProps } = this.props;
     type Card =
       | UnreadStreamItem
       | { key: 'private', data: Array<$PropertyType<PmConversationList, 'props'>> };
@@ -49,11 +47,7 @@ class UnreadCards extends PureComponent<Props> {
     ];
 
     if (unreadStreamsAndTopics.length === 0 && conversations.length === 0) {
-      return isLoading ? (
-        <LoadingIndicator size={40} />
-      ) : (
-        <SearchEmptyState text="No unread messages" />
-      );
+      return <SearchEmptyState text="No unread messages" />;
     }
 
     return (
@@ -96,7 +90,6 @@ class UnreadCards extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  isLoading: getLoading(state),
   conversations: getUnreadConversations(state),
   usersByEmail: getAllUsersByEmail(state),
   unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),

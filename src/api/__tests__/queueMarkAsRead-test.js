@@ -2,7 +2,7 @@
 import queueMarkAsRead, { resetAll } from '../queueMarkAsRead';
 import * as messagesFlags from '../messages/messagesFlags';
 import * as eg from '../../__tests__/exampleData';
-import { Lolex } from '../../__tests__/aux/lolex';
+import { Lolex } from '../../__tests__/auxiliary/lolex';
 
 // $FlowFixMe Make flow understand about mocking
 messagesFlags.default = jest.fn(() => {});

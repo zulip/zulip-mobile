@@ -2,7 +2,9 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, Context } from '../types';
+import type { Dispatch } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext, NAVBAR_SIZE } from '../styles';
 import { connect } from '../react-redux';
 import SearchInput from '../common/SearchInput';
 import NavButton from './NavButton';
@@ -15,17 +17,22 @@ type Props = $ReadOnly<{|
 |}>;
 
 class ModalSearchNavBar extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { dispatch, autoFocus, searchBarOnChange } = this.props;
     return (
-      <View style={contextStyles.navBar}>
+      <View
+        style={{
+          borderColor: 'hsla(0, 0%, 50%, 0.25)',
+          flexDirection: 'row',
+          height: NAVBAR_SIZE,
+          alignItems: 'center',
+          borderBottomWidth: 1,
+          backgroundColor: this.context.backgroundColor,
+        }}
+      >
         <NavButton
           name="arrow-left"
           onPress={() => {

@@ -5,9 +5,10 @@ import { Image } from 'react-native';
 import AnimatedRotateComponent from '../animation/AnimatedRotateComponent';
 import spinningProgressImg from '../../static/img/spinning-progress.png';
 import spinningProgressBlackImg from '../../static/img/spinning-progress-black.png';
+import spinningProgressWhiteImg from '../../static/img/spinning-progress-white.png';
 
 type Props = $ReadOnly<{|
-  color: string,
+  color: 'default' | 'black' | 'white',
   size: number,
 |}>;
 
@@ -17,14 +18,23 @@ type Props = $ReadOnly<{|
  *
  * This is a temporary replacement of the ART-based SpinningProgress.
  *
- * @prop color - The color of the circle. Works only for 'black' and 'default'.
+ * @prop color - The color of the circle.
  * @prop size - Diameter of the circle in pixels.
  */
 export default class SpinningProgress extends React.PureComponent<Props> {
   render() {
     const { color, size } = this.props;
     const style = { width: size, height: size };
-    const source = color === '0, 0, 0' ? spinningProgressBlackImg : spinningProgressImg;
+    const source = (() => {
+      switch (color) {
+        case 'white':
+          return spinningProgressWhiteImg;
+        case 'black':
+          return spinningProgressBlackImg;
+        default:
+          return spinningProgressImg;
+      }
+    })();
 
     return (
       <AnimatedRotateComponent>
