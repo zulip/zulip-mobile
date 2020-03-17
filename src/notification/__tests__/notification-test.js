@@ -143,17 +143,20 @@ describe('extract iOS notification data', () => {
     });
 
     test('optional data is typechecked', () => {
+      // arbitrary; any of the three will do
+      const base = barebones.stream;
+
       expect(
         make({
+          ...base,
           realm_uri: null,
-          ...barebones.stream,
         }),
       ).toThrow(/invalid/);
 
       expect(
         make({
+          ...base,
           realm_uri: ['array', 'of', 'string'],
-          ...barebones['group PM'],
         }),
       ).toThrow(/invalid/);
     });
