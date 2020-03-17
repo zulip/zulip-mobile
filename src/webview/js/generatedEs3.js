@@ -173,16 +173,16 @@ var compiledWebviewJs = (function (exports) {
 
     if (document.elementsFromPoint === undefined) {
       var element = document.elementFromPoint(0, midY);
-      return element && element.closest('body > *');
+      return element && element.closest('body > ordered-pieces > *');
     }
 
     var midElements = document.elementsFromPoint(0, midY);
 
-    if (midElements.length < 3) {
+    if (midElements.length < 4) {
       return null;
     }
 
-    return midElements[midElements.length - 3];
+    return midElements[midElements.length - 4];
   }
 
   function walkToMessage(start, step) {

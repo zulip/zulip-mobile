@@ -214,7 +214,7 @@ function midMessagePeer(top: number, bottom: number): ?Element {
   // the sequence is:
   //   [ ...(random widgets, if any),
   //     ...(descendants of message-peer), message-peer,
-  //     body, html ]
+  //     div.ordered-pieces, body, html ]
   //
   // On ancient browsers (missing Document#elementsFromPoint), we make a
   // stronger assumption: at the vertical middle of the screen, we don't
@@ -228,16 +228,16 @@ function midMessagePeer(top: number, bottom: number): ?Element {
   // $FlowFixMe: doesn't know about Document#elementsFromPoint
   if (document.elementsFromPoint === undefined) {
     const element = document.elementFromPoint(0, midY);
-    return element && element.closest('body > *');
+    return element && element.closest('body > ordered-pieces > *');
   }
 
   // $FlowFixMe: doesn't know about Document#elementsFromPoint
   const midElements: Array<HTMLElement> = document.elementsFromPoint(0, midY);
-  if (midElements.length < 3) {
-    // Just [body, html].
+  if (midElements.length < 4) {
+    // Just [div.ordered-pieces, body, html].
     return null;
   }
-  return midElements[midElements.length - 3];
+  return midElements[midElements.length - 4];
 }
 
 function walkToMessage(
