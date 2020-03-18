@@ -13,6 +13,7 @@ import {
   IconNight,
   IconLanguage,
   IconMoreHorizontal,
+  IconWarning,
 } from '../common/Icons';
 import ModalNavBar from '../nav/ModalNavBar';
 import {
@@ -21,6 +22,7 @@ import {
   navigateToLanguage,
   navigateToDiagnostics,
   navigateToLegal,
+  navigateToAlertWord,
 } from '../actions';
 
 const styles = StyleSheet.create({
@@ -78,6 +80,13 @@ class SettingsCard extends PureComponent<Props> {
           label="Legal"
           onPress={() => {
             dispatch(navigateToLegal());
+          }}
+        />
+        <OptionButton
+          Icon={IconWarning}
+          label="Alert Words"
+          onPress={() => {
+            dispatch(navigateToAlertWord());
           }}
         />
       </ScrollView>
