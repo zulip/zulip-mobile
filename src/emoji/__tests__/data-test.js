@@ -51,16 +51,16 @@ describe('getFilteredEmojiNames', () => {
       'gorilla',
       'got_it',
       'agony',
+      'all_good',
       'dango',
       'dragon',
       'dragon_face',
-      'virgo',
-      'all_good',
+      'easy_come_easy_go',
+      'heart_of_gold',
+      'merry_go_round',
       'octagonal_sign',
       'synagogue',
-      'merry_go_round',
-      'heart_of_gold',
-      'easy_come_easy_go',
+      'virgo',
     ]);
   });
 
