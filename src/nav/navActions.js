@@ -103,3 +103,6 @@ export const navigateToLegal = (): NavigationAction => StackActions.push({ route
 
 export const navigateToUserStatus = (): NavigationAction =>
   StackActions.push({ routeName: 'user-status' });
+
+export const navigateToAlertWords = (): NavigationAction =>
+  StackActions.push({ routeName: 'alert-words' });
