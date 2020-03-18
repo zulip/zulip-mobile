@@ -32,6 +32,10 @@ type Props = $ReadOnly<{|
   unreadCount: number,
 |}>;
 
+// TODO: After upgrading or replacing our iOS notifications library, look into
+//   organizing NotificationListener and the notification-related components of
+//   this file into another event-handler component.
+
 class AppEventHandlers extends PureComponent<Props> {
   /** For the type, see docs: https://facebook.github.io/react-native/docs/appstate */
   handleAppStateChange = (state: 'active' | 'background' | 'inactive') => {
