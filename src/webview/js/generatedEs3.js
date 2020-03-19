@@ -137,6 +137,11 @@ var compiledWebviewJs = (function (exports) {
 
   var viewportHeight = documentBody.clientHeight;
   window.addEventListener('resize', function (event) {
+    if (viewportHeight === 0) {
+      viewportHeight = documentBody.clientHeight;
+      return;
+    }
+
     var difference = viewportHeight - documentBody.clientHeight;
 
     if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
@@ -151,15 +156,37 @@ var compiledWebviewJs = (function (exports) {
   var hasDoneInitialScroll = false;
 
   var maybeDoInitialScroll = function maybeDoInitialScroll(messageId) {
+    sendMessage({
+      type: 'debug',
+      note: 'maybeDoInitialScroll called',
+      hasDoneInitialScroll: hasDoneInitialScroll,
+      messageId: messageId,
+      viewportHeight: viewportHeight
+    });
+
     if (!hasDoneInitialScroll && messageId !== null) {
       var targetNode = messageId !== null ? document.getElementById("msg-".concat(messageId)) : null;
 
       if (targetNode) {
-        targetNode.scrollIntoView({
-          block: 'start'
+        sendMessage({
+          type: 'debug',
+          note: 'Doing initial scroll',
+          targetNode: targetNode,
+          messageId: messageId,
+          viewportHeight: viewportHeight
+        });
+        window.scrollTo({
+          top: targetNode.offsetTop,
+          left: 0
         });
         hasDoneInitialScroll = true;
       } else {
+        sendMessage({
+          type: 'debug',
+          note: 'Not doing initial scroll',
+          targetNode: targetNode,
+          messageId: messageId
+        });
         window.scroll({
           left: 0,
           top: documentBody.scrollHeight + 200
@@ -428,6 +455,10 @@ var compiledWebviewJs = (function (exports) {
         default:
           throw new Error("Unexpected edit type ".concat(edit.type));
       }
+    });
+    sendMessage({
+      type: 'debug',
+      note: 'Just handled edit seq event'
     });
     maybeDoInitialScroll(initialScrollMessageId);
   };

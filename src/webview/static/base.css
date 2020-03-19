@@ -13,6 +13,8 @@ body {
   width: 100%;
   max-width: 100%;
 }
+div#ordered-pieces {
+}
 a {
   color: hsl(200, 100%, 40%);
 }

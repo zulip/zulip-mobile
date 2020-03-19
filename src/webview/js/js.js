@@ -169,6 +169,10 @@ const showHideElement = (elementId: string, show: boolean) => {
 let viewportHeight = documentBody.clientHeight;
 
 window.addEventListener('resize', event => {
+  if (viewportHeight === 0) {
+    viewportHeight = documentBody.clientHeight;
+    return;
+  }
   const difference = viewportHeight - documentBody.clientHeight;
   if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
     window.scrollBy({ left: 0, top: difference });
@@ -179,12 +183,37 @@ window.addEventListener('resize', event => {
 let hasDoneInitialScroll = false;
 
 const maybeDoInitialScroll = (messageId: number | null) => {
+  sendMessage({
+    type: 'debug',
+    note: 'maybeDoInitialScroll called',
+    hasDoneInitialScroll,
+    messageId,
+    viewportHeight,
+  });
   if (!hasDoneInitialScroll && messageId !== null) {
     const targetNode = messageId !== null ? document.getElementById(`msg-${messageId}`) : null;
     if (targetNode) {
-      targetNode.scrollIntoView({ block: 'start' });
+      sendMessage({
+        type: 'debug',
+        note: 'Doing initial scroll',
+        targetNode,
+        messageId,
+        viewportHeight,
+      });
+      window.scrollTo({
+        top: targetNode.offsetTop,
+        left: 0,
+        // behavior: 'smooth',
+      });
+      // targetNode.scrollIntoView({ block: 'start', behavior: 'auto' });
       hasDoneInitialScroll = true;
     } else {
+      sendMessage({
+        type: 'debug',
+        note: 'Not doing initial scroll',
+        targetNode,
+        messageId,
+      });
       window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
     }
   }
@@ -543,6 +572,10 @@ const handleInboundEventEditSequence = (uevent: WebViewInboundEventEditSequence)
       default:
         throw new Error(`Unexpected edit type ${edit.type}`);
     }
+  });
+  sendMessage({
+    type: 'debug',
+    note: 'Just handled edit seq event',
   });
   maybeDoInitialScroll(initialScrollMessageId);
 };

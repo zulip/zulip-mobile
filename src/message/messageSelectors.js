@@ -77,7 +77,7 @@ export const getFirstUnreadIdInNarrow: Selector<number | null, Narrow> = createS
   getSubscriptions,
   getMute,
   (messages, flags, subscriptions, mute) => {
-    const firstUnread = messages.find(msg => !flags.read[msg.id]);
+    const firstUnread = messages.find(msg => !flags.read[msg.id]) || messages[messages.length - 1];
     return firstUnread?.id ?? null;
   },
 );
