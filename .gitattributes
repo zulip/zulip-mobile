@@ -3,6 +3,7 @@
 # Suppress noisy generated files in diffs.
 yarn.lock -diff
 src/webview/js/generatedEs3.js -diff
+ios/Podfile.lock -diff
 
 # The flow-typed files that aren't pure generated noise have names with at
 # least a major version number -- like `redux_v4.x.x.js`.

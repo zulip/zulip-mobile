@@ -74,6 +74,10 @@ Native upstream on
 You want the tab "React Native CLI Quickstart"; the "Expo CLI Quickstart" does
 not apply.
 
+If you're starting with iOS development, be sure to install CocoaPods,
+as the guide instructs. After you've done that, run
+`cd ios && pod install && cd ..`.
+
 Continue those instructions until you can run the Zulip Mobile app
 with either `react-native run-android` or `react-native run-ios`.
 You'll want to be able to use both an emulator and a physical device; but
@@ -239,7 +243,7 @@ android` there, may give clearer error messages for debugging.
 [rn-installation]: https://facebook.github.io/react-native/docs/getting-started.html
 
 
-### Build failure in `react-native-screens` or at `new RNNotificationsPackage()`
+### Build failure after running `react-native link`
 
 When trying to build the Android app, if you get an error like this:
 
@@ -268,6 +272,15 @@ or like this:
 [...]
 ```
 
+or, when trying to build the iOS app, if you get several errors like
+this:
+
+```
+Multiple commands produce '/Users/jappleseed/Library/Developer/Xcode/DerivedData/ZulipMobile-gdifomwwvfiwepckshlwoludvdct/Build/Products/Debug-iphonesimulator/ZulipMobile.app/Fontisto.ttf':
+1) Target 'ZulipMobile' (project 'ZulipMobile') has copy command from '/Users/jappleseed/dev/zulip-mobile/node_modules/react-native-vector-icons/Fonts/Fontisto.ttf' to '/Users/jappleseed/Library/Developer/Xcode/DerivedData/ZulipMobile-gdifomwwvfiwepckshlwoludvdct/Build/Products/Debug-iphonesimulator/ZulipMobile.app/Fontisto.ttf'
+2) That command depends on command in Target 'ZulipMobile' (project 'ZulipMobile'): script phase “[CP] Copy Pods Resources”
+```
+
 then check that `git status` shows you're running unmodified code from
 our repo.  These errors can be caused by the modifications made if you
 run the command `react-native link`.
@@ -280,7 +293,8 @@ the project's version-control repo -- and not a build step.  We don't
 use it as a build step.
 
 If you've run `react-native link`, you can discard the edits it made
-(along with any other edits you've made) by running `git reset --hard`.
+(along with any other edits you've made!) by running
+`git reset --hard`.
 
 
 ### Build failure in `:app:buildDebugStaticWebviewAssets`

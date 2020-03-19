@@ -1,0 +1,55 @@
+# This should match the iOS Deployment Target
+# (project > ZulipMobile > Info in Xcode)
+platform :ios, '10.3'
+
+# This list will need to change for RN >= v0.60. If you're changing it
+# for any other reason, first look at the example Podfile for v0.59 at
+# https://github.com/facebook/react-native-website/blob/ded79d2cf/docs/integration-with-existing-apps.md#configuring-cocoapods-dependencies.
+target 'ZulipMobile' do
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'Core',
+    'CxxBridge',
+    'DevSupport',
+    'RCTText',
+    'RCTNetwork',
+    'RCTWebSocket',
+    'RCTAnimation',
+    'RCTImage',
+    'RCTPushNotification',
+    'ART',
+    'RCTAnimation',
+    'RCTCameraRoll',
+    'RCTActionSheet',
+    'RCTGeolocation',
+    'RCTLinkingIOS', # RCTLinking?
+    'RCTSettings',
+    'RCTVibration',
+  ]
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+
+  # Pods we need that depend on React Native
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+  pod 'react-native-notifications', :path => '../node_modules/react-native-notifications'
+  pod 'RNSound', :path => '../node_modules/react-native-sound'
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
+  pod 'react-native-photo-view', :path => '../node_modules/react-native-photo-view'
+  pod 'react-native-safe-area', path: '../node_modules/react-native-safe-area'
+  pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
+  pod 'react-native-safari-view', :path => '../node_modules/react-native-safari-view'
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+  pod 'react-native-simple-toast', :path => '../node_modules/react-native-simple-toast'
+
+  target 'ZulipMobileTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

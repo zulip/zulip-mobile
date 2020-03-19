@@ -13,6 +13,9 @@ this tab.
 
 ## Other commands
 
+* `cd ios && pod install && cd ..` - if you've already run `yarn`,
+  installs native iOS dependencies to match the Podfile.lock
+
 * `yarn ios-min` - runs in an iOS simulator in the minimally supported device
 (currently iPhone 5S)
 
@@ -42,15 +45,16 @@ and choose it as your `Signing > Team` for both ZulipMobile and ZulipMobileTests
 ### Tips when running on your iOS device
 When you change the BundleIdentifier and Team (required in order to run on a device),
 it **will** modify your `.pbxproj` file, which you do **not** want unless you intend
-to. For instance, if you linking a new dependency, your `.pbxproj` will be modified to
-reflect the new changes.
+to.
 
-If you are simply testing it on the iOS device, simply do not stage the said file to
-be committed. On the other hand, if you are also adding a dependency, it is recommended
-that you first `git commit` the dependency link modification itself, and then start
-developing. This way, when you stage your intended changes, you can do a `git reset
-path/to/.pbxproj` to discard any changes relating to the modification of the BundleIdentifier
-and Team, and then continue to commit the rest of the files. When you prepare to push your
-changes, you can just squash the initial commit with your later commits to retain a clean
-commit history. This way, you won't have to deal with any merge conflicts or manual
-deletion of the lines in your `.pbxproj` when you submit your code for a review.
+If you are simply testing it on the iOS device, simply do not stage
+the said file to be committed.
+
+If other changes to the `.pbxproj` file are needed (and they shouldn't
+usually be, especially after we started managing our iOS dependencies
+with CocoaPods), it's recommended that you put them in their own
+commit, first, and leave the BundleIdentifier and Team changes
+unstaged. Later, you can always [squash that commit with other
+commits][fixing-commits], if appropriate.
+
+[fixing-commits]: https://zulip.readthedocs.io/en/latest/git/fixing-commits.html
