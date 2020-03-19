@@ -1,27 +1,24 @@
+// @flow strict-local
 import deepFreeze from 'deep-freeze';
 
 import outboxReducer from '../outboxReducer';
-import {
-  INITIAL_FETCH_COMPLETE,
-  MESSAGE_SEND_START,
-  EVENT_NEW_MESSAGE,
-} from '../../actionConstants';
-import { streamNarrow } from '../../utils/narrow';
+import { INITIAL_FETCH_COMPLETE, MESSAGE_SEND_START } from '../../actionConstants';
+
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('outboxReducer', () => {
   describe('INITIAL_FETCH_COMPLETE', () => {
     test('filters out isSent', () => {
-      const initialState = deepFreeze([
-        { content: 'New one' },
-        { content: 'Another one' },
-        { content: 'Message already sent', isSent: true },
-      ]);
+      const message1 = eg.makeOutboxMessage({ content: 'New one' });
+      const message2 = eg.makeOutboxMessage({ content: 'Another one' });
+      const message3 = eg.makeOutboxMessage({ content: 'Message already sent', isSent: true });
+      const initialState = deepFreeze([message1, message2, message3]);
 
       const action = deepFreeze({
         type: INITIAL_FETCH_COMPLETE,
       });
 
-      const expectedState = [{ content: 'New one' }, { content: 'Another one' }];
+      const expectedState = [message1, message2];
 
       const actualState = outboxReducer(initialState, action);
 
@@ -30,49 +27,32 @@ describe('outboxReducer', () => {
   });
 
   describe('MESSAGE_SEND_START', () => {
-    test('add a new message to outbox', () => {
+    test('add a new message to the outbox', () => {
+      const message = eg.makeOutboxMessage({ content: 'New one' });
+
       const initialState = deepFreeze([]);
 
       const action = deepFreeze({
         type: MESSAGE_SEND_START,
-        outbox: {
-          content: 'New one',
-          email: 'john@example.com',
-          narrow: streamNarrow('denmark'),
-          parsedContent: '<p>New one</p>',
-          sender_full_name: 'john',
-          timestamp: 546,
-        },
+        outbox: message,
       });
 
-      const expectedState = [
-        {
-          content: 'New one',
-          email: 'john@example.com',
-          narrow: streamNarrow('denmark'),
-          parsedContent: '<p>New one</p>',
-          sender_full_name: 'john',
-          timestamp: 546,
-        },
-      ];
+      const expectedState = [message];
 
       const actualState = outboxReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
-    test('add a same timestamp message to outbox', () => {
-      const initialState = deepFreeze([{ timestamp: 123, content: 'hello' }]);
+    test('do not add a message with a duplicate timestamp to the outbox', () => {
+      const message1 = eg.makeOutboxMessage({ content: 'hello', timestamp: 123 });
+      const message2 = eg.makeOutboxMessage({ content: 'hello twice', timestamp: 123 });
+
+      const initialState = deepFreeze([message1]);
 
       const action = deepFreeze({
         type: MESSAGE_SEND_START,
-        outbox: {
-          email: 'john@example.com',
-          narrow: streamNarrow('denmark'),
-          parsedContent: '<p>New one</p>',
-          sender_full_name: 'john',
-          timestamp: 123,
-        },
+        outbox: message2,
       });
 
       const actualState = outboxReducer(initialState, action);
@@ -83,59 +63,48 @@ describe('outboxReducer', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('do not mutate state if a message is not removed', () => {
-      const initialState = deepFreeze([
-        {
-          content: 'New one',
-          email: 'john@example.com',
-          narrow: streamNarrow('denmark'),
-          parsedContent: '<p>New one</p>',
-          sender_full_name: 'john',
-          timestamp: 546,
-        },
-      ]);
+      const initialState = deepFreeze([eg.makeOutboxMessage({ timestamp: 546 })]);
+
+      const message = eg.streamMessage({ local_message_id: 123 });
 
       const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        timestamp: 123,
+        ...eg.eventNewMessageActionBase,
+        message,
       });
+
       const actualState = outboxReducer(initialState, action);
       expect(actualState).toBe(initialState);
     });
 
-    test('Remove if local message same', () => {
-      const initialState = deepFreeze([
-        { timestamp: 546 },
-        { timestamp: 150238512430 },
-        { timestamp: 150238594540 },
-      ]);
+    test('remove message if local_message_id matches', () => {
+      const message1 = eg.makeOutboxMessage({ timestamp: 546 });
+      const message2 = eg.makeOutboxMessage({ timestamp: 150238512430 });
+      const message3 = eg.makeOutboxMessage({ timestamp: 150238594540 });
+      const initialState = deepFreeze([message1, message2, message3]);
 
       const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
+        ...eg.eventNewMessageActionBase,
+        message: eg.streamMessage(),
         local_message_id: 546,
       });
 
-      const expectedState = [{ timestamp: 150238512430 }, { timestamp: 150238594540 }];
+      const expectedState = [message2, message3];
 
       const actualState = outboxReducer(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
-    test('Not to remove if local message not same', () => {
-      const initialState = deepFreeze([
-        {
-          content: 'New one',
-          email: 'john@example.com',
-          narrow: streamNarrow('denmark'),
-          parsedContent: '<p>New one</p>',
-          sender_full_name: 'john',
-          timestamp: 546,
-        },
-      ]);
+    test("remove nothing if local_message_id doesn't match", () => {
+      const message1 = eg.makeOutboxMessage({ timestamp: 546 });
+      const message2 = eg.makeOutboxMessage({ timestamp: 150238512430 });
+      const message3 = eg.makeOutboxMessage({ timestamp: 150238594540 });
+      const initialState = deepFreeze([message1, message2, message3]);
 
       const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        timestamp: 15023859,
+        ...eg.eventNewMessageActionBase,
+        message: eg.streamMessage(),
+        local_message_id: 15023859,
       });
 
       const actualState = outboxReducer(initialState, action);
