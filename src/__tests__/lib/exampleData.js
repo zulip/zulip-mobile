@@ -9,12 +9,6 @@ import { ACCOUNT_SWITCH, LOGIN_SUCCESS, REALM_INIT } from '../../actionConstants
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
 
-// TODO either fix Jest test-discovery patterns, or rename this file,
-// so this dummy test isn't required.
-describe('nothing', () => {
-  test('nothing', () => {});
-});
-
 /** Return an integer 0 <= N < end, roughly uniformly at random. */
 const randInt = (end: number) => Math.floor(Math.random() * end);
 
