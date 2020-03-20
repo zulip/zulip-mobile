@@ -6,7 +6,7 @@ import type { JSONableDict } from '../../utils/jsonable';
 import { getNarrowFromNotificationData } from '..';
 import { topicNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
-import * as eg from '../../__tests__/exampleData';
+import * as eg from '../../__tests__/lib/exampleData';
 import { fromAPNsImpl as extractIosNotificationData } from '../extract';
 import objectEntries from '../../utils/objectEntries';
 

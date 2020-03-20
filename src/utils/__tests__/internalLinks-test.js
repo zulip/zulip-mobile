@@ -10,7 +10,7 @@ import {
   getMessageIdFromLink,
   decodeHashComponent,
 } from '../internalLinks';
-import * as eg from '../../__tests__/exampleData';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('isInternalLink', () => {
   test('when link is external, return false', () => {
