@@ -11,7 +11,7 @@ import {
 } from '../../actionConstants';
 import accountsReducer from '../accountsReducer';
 
-import * as eg from '../../__tests__/exampleData';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('accountsReducer', () => {
   describe('REALM_ADD', () => {

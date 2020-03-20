@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import * as eg from '../../../__tests__/exampleData';
+import * as eg from '../../../__tests__/lib/exampleData';
 import { streamNarrow } from '../../../utils/narrow';
 import messageHeaderAsHtml from '../messageHeaderAsHtml';
 import type { BackgroundData } from '../../MessageList';

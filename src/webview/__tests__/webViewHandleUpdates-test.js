@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 import { getUpdateEvents } from '../webViewHandleUpdates';
 import { flagsStateToStringList } from '../html/messageAsHtml';
 import { HOME_NARROW } from '../../utils/narrow';
-import * as eg from '../../__tests__/exampleData';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getUpdateEvents', () => {
   const emptyFlags = eg.baseReduxState.flags;

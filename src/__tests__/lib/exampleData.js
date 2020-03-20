@@ -2,12 +2,12 @@
 import deepFreeze from 'deep-freeze';
 import { createStore } from 'redux';
 
-import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../api/modelTypes';
-import type { Action, GlobalState, RealmState } from '../reduxTypes';
-import type { Auth, Account } from '../types';
-import { ACCOUNT_SWITCH, LOGIN_SUCCESS, REALM_INIT } from '../actionConstants';
-import rootReducer from '../boot/reducers';
-import { authOfAccount } from '../account/accountMisc';
+import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../../api/modelTypes';
+import type { Action, GlobalState, RealmState } from '../../reduxTypes';
+import type { Auth, Account } from '../../types';
+import { ACCOUNT_SWITCH, LOGIN_SUCCESS, REALM_INIT } from '../../actionConstants';
+import rootReducer from '../../boot/reducers';
+import { authOfAccount } from '../../account/accountMisc';
 
 // TODO either fix Jest test-discovery patterns, or rename this file,
 // so this dummy test isn't required.

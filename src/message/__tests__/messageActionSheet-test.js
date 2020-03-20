@@ -1,6 +1,6 @@
 // @flow strict-local
 import deepFreeze from 'deep-freeze';
-import * as eg from '../../__tests__/exampleData';
+import * as eg from '../../__tests__/lib/exampleData';
 import { constructMessageActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
 
 const baseBackgroundData = deepFreeze({

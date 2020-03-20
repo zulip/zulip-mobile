@@ -9,7 +9,7 @@ import {
   getUserForEmail,
   getUserIsActive,
 } from '../userSelectors';
-import * as eg from '../../__tests__/exampleData';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getActiveUsers', () => {
   test('return users, bots, map by email and do not include inactive users', () => {
