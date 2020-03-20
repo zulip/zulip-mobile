@@ -8,7 +8,14 @@ import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR } from '../styles';
-import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera, IconFile } from '../common/Icons';
+import {
+  IconPlusCircle,
+  IconLeft,
+  IconPeople,
+  IconImage,
+  IconCamera,
+  IconFile,
+} from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadFile } from '../actions';
 
@@ -183,7 +190,7 @@ class ComposeMenu extends PureComponent<Props> {
           </View>
         </AnimatedComponent>
         {!expanded && (
-          <IconPlus style={this.styles.expandButton} size={24} onPress={onExpandContract} />
+          <IconPlusCircle style={this.styles.expandButton} size={24} onPress={onExpandContract} />
         )}
         {expanded && (
           <IconLeft style={this.styles.expandButton} size={24} onPress={onExpandContract} />

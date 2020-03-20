@@ -59,7 +59,7 @@ export const IconLanguage: IconType = props => <Feather name="globe" {...props} 
 export const IconNight: IconType = props => <Feather name="moon" {...props} />;
 export const IconSettings: IconType = props => <Feather name="settings" {...props} />;
 export const IconRight: IconType = props => <Feather name="chevron-right" {...props} />;
-export const IconPlus: IconType = props => <Feather name="plus-circle" {...props} />;
+export const IconPlusCircle: IconType = props => <Feather name="plus-circle" {...props} />;
 export const IconLeft: IconType = props => <Feather name="chevron-left" {...props} />;
 export const IconPeople: IconType = props => <Feather name="users" {...props} />;
 export const IconImage: IconType = props => <Feather name="image" {...props} />;
@@ -69,3 +69,4 @@ export const IconTerminal: IconType = props => <Feather name="terminal" {...prop
 export const IconMoreHorizontal: IconType = props => <Feather name="more-horizontal" {...props} />;
 export const IconEdit: IconType = props => <Feather name="edit" {...props} />;
 export const IconPlusSquare: IconType = props => <Feather name="plus-square" {...props} />;
+export const IconPlus: IconType = props => <Feather name="plus" {...props} />;
