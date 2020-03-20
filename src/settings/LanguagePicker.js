@@ -1,20 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList } from 'react-native';
 
 import type { GetText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
-
+import { OptionDivider } from '../common';
 import languages from './languages';
 import type { Language } from './languages';
 import LanguagePickerItem from './LanguagePickerItem';
-
-const styles = StyleSheet.create({
-  separator: {
-    height: 1,
-    backgroundColor: 'hsla(0, 0%, 0%, 0.1)',
-  },
-});
 
 type Props = $ReadOnly<{|
   value: string,
@@ -57,7 +50,7 @@ export default class LanguagePicker extends PureComponent<Props> {
 
     return (
       <FlatList
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={OptionDivider}
         initialNumToRender={languages.length}
         data={data}
         keyboardShouldPersistTaps="always"
