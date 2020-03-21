@@ -17,13 +17,21 @@ describe('foregroundColorFromBackground', () => {
 
 describe('colorHashFromString', () => {
   test('returns a 6 digit hex number to use as a color ', () => {
-    const hash = colorHashFromString('John Doe');
-    expect(hash).toHaveLength(7);
+    expect(colorHashFromString('')).toHaveLength(7);
+    expect(colorHashFromString('😃')).toHaveLength(7);
+    expect(colorHashFromString('John Doe')).toHaveLength(7);
+    expect(colorHashFromString('abcdefghijklmnopqrstuvwxyz'.repeat(50))).toHaveLength(7);
   });
 
   test('produces the same output for the same input', () => {
     const hash1 = colorHashFromString('John Doe');
     const hash2 = colorHashFromString('John Doe');
     expect(hash1).toEqual(hash2);
+  });
+
+  test('produces different output for similar inputs', () => {
+    const hash1 = colorHashFromString('John Doe, Juan Pérez');
+    const hash2 = colorHashFromString('John Doe, Jean Dupont');
+    expect(hash1).not.toEqual(hash2);
   });
 });
