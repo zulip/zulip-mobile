@@ -8,11 +8,9 @@ export const foregroundColorFromBackground = (color: ColorValue): 'black' | 'whi
 export const colorHashFromString = (name: string): string => {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
-    hash = hash * 31 + name.charCodeAt(1);
+    hash = hash * 31 + name.charCodeAt(i);
+    hash %= 0x1000000;
   }
-  let colorHash = hash % 0xffffff;
-  if (colorHash < 0x100000) {
-    colorHash += 0x100000;
-  }
-  return `#${colorHash.toString(16)}`;
+
+  return `#${hash.toString(16).padStart(6, '0')}`;
 };
