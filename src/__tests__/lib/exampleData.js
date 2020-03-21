@@ -9,6 +9,12 @@ import { ACCOUNT_SWITCH, LOGIN_SUCCESS, REALM_INIT } from '../../actionConstants
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
 
+/* ========================================================================
+ * Utilities
+ *
+ * Generators for primitive data types.
+ */
+
 /**
  * Generate a new (nonzero) timestamp, suitable for many uninteresting purposes.
  *
@@ -54,6 +60,10 @@ const makeUniqueRandInt = (itemsType: string, end: number): (() => number) => {
 
 /** Return a string that's almost surely different every time. */
 export const randString = () => randInt(2 ** 54).toString(36);
+
+/* ========================================================================
+ * Users and bots
+ */
 
 const randUserId: () => number = makeUniqueRandInt('user IDs', 10000);
 const userOrBotProperties = ({ name: _name }) => {
@@ -139,6 +149,10 @@ export const otherUser: User = makeUser({ name: 'other' });
 
 export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
 
+/* ========================================================================
+ * Streams
+ */
+
 const randStreamId: () => number = makeUniqueRandInt('stream IDs', 1000);
 export const makeStream = (args: { name?: string, description?: string } = {}): Stream => {
   const name = args.name ?? randString();
@@ -157,6 +171,10 @@ export const stream: Stream = makeStream({
   name: 'a stream',
   description: 'An example stream.',
 });
+
+/* ========================================================================
+ * Messages
+ */
 
 const displayRecipientFromUser = (user: User): PmRecipientUser => {
   const { email, full_name, user_id: id } = user;
@@ -255,6 +273,12 @@ export const streamMessage = (extra?: $Rest<Message, {}>): Message => {
   return deepFreeze({ ...baseMessage, ...extra });
 };
 
+/* ========================================================================
+ * Outbox messages
+ *
+ * (Only stream messages for now. Feel free to add PMs, if you need them.)
+ */
+
 /** An outbox message with no interesting data. */
 const outboxMessageBase: $Diff<Outbox, {| id: mixed, timestamp: mixed |}> = deepFreeze({
   isOutbox: true,
@@ -291,6 +315,10 @@ export const makeOutboxMessage = (data: $Shape<$Diff<Outbox, {| id: mixed |}>>):
   });
 };
 
+/* ========================================================================
+ * Redux state
+ */
+
 const privateReduxStore = createStore(rootReducer);
 
 export const baseReduxState: GlobalState = deepFreeze(privateReduxStore.getState());
@@ -306,6 +334,12 @@ export const realmState = (extra?: $Rest<RealmState, {}>): RealmState =>
     ...baseReduxState.realm,
     ...extra,
   });
+
+/* ========================================================================
+ * Actions
+ *
+ * Complete actions which need no further data.
+ */
 
 export const action = deepFreeze({
   account_switch: {
