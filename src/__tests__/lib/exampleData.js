@@ -4,10 +4,21 @@ import { createStore } from 'redux';
 
 import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../../api/modelTypes';
 import type { Action, GlobalState, RealmState } from '../../reduxTypes';
-import type { Auth, Account } from '../../types';
+import type { Auth, Account, Outbox } from '../../types';
 import { ACCOUNT_SWITCH, LOGIN_SUCCESS, REALM_INIT } from '../../actionConstants';
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
+
+/**
+ * Generate a new (nonzero) timestamp, suitable for many uninteresting purposes.
+ *
+ * Counts up approximately forever in increments of 1000.
+ */
+const makeTime: () => number = (() => {
+  const startTime = 10 ** 13; // 2286-11-20
+  let calls = 0;
+  return () => startTime + 1000 * ++calls;
+})();
 
 /** Return an integer 0 <= N < end, roughly uniformly at random. */
 const randInt = (end: number) => Math.floor(Math.random() * end);
@@ -242,6 +253,42 @@ export const streamMessage = (extra?: $Rest<Message, {}>): Message => {
   };
 
   return deepFreeze({ ...baseMessage, ...extra });
+};
+
+/** An outbox message with no interesting data. */
+const outboxMessageBase: $Diff<Outbox, {| id: mixed, timestamp: mixed |}> = deepFreeze({
+  isOutbox: true,
+  isSent: false,
+
+  avatar_url: selfUser.avatar_url,
+  content: '<p>Test.</p>',
+  display_recipient: 'test',
+  // id: ...,
+  markdownContent: 'Test.',
+  narrow: [{ operator: 'stream', operand: 'test' }],
+  reactions: [],
+  sender_email: selfUser.email,
+  sender_full_name: selfUser.full_name,
+  subject: 'test topic',
+  // timestamp: ...,
+  type: 'stream',
+});
+
+/**
+ * Create an outbox message from an interesting subset of its data.
+ *
+ * `.id` is always identical to `.timestamp` and should not be supplied.
+ */
+export const makeOutboxMessage = (data: $Shape<$Diff<Outbox, {| id: mixed |}>>): Outbox => {
+  const { timestamp } = data;
+
+  const outputTimestamp = timestamp ?? makeTime() / 1000;
+  return deepFreeze({
+    ...outboxMessageBase,
+    ...data,
+    id: outputTimestamp,
+    timestamp: outputTimestamp,
+  });
 };
 
 const privateReduxStore = createStore(rootReducer);
