@@ -5,7 +5,12 @@ import { createStore } from 'redux';
 import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../../api/modelTypes';
 import type { Action, GlobalState, RealmState } from '../../reduxTypes';
 import type { Auth, Account, Outbox } from '../../types';
-import { ACCOUNT_SWITCH, LOGIN_SUCCESS, REALM_INIT } from '../../actionConstants';
+import {
+  ACCOUNT_SWITCH,
+  LOGIN_SUCCESS,
+  REALM_INIT,
+  EVENT_NEW_MESSAGE,
+} from '../../actionConstants';
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
 
@@ -463,3 +468,17 @@ export const action = deepFreeze({
 // which one has which specific type.)
 /* eslint-disable-next-line no-unused-expressions */
 (action: { [string]: Action });
+
+/* ========================================================================
+ * Action fragments
+ *
+ * Partial actions, for those action types whose interior will almost always
+ * need to be filled in with more data.
+ */
+
+export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| message: Message |}> */ = {
+  type: EVENT_NEW_MESSAGE,
+  id: 1001,
+  caughtUp: {},
+  ownEmail: selfAccount.email,
+};
