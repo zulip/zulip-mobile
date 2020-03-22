@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, Clipboard } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch, Stream, Subscription } from '../types';
+import type { Dispatch, Stream, Subscription, GetText } from '../types';
 import { connect } from '../react-redux';
 import { delay } from '../utils/async';
-import { OptionRow, Screen, ZulipButton } from '../common';
+import { OptionRow, Screen, ZulipButton, Label, Touchable } from '../common';
 import { getSettings } from '../directSelectors';
 import { getIsAdmin, getStreamForId } from '../selectors';
 import StreamCard from './StreamCard';
@@ -18,9 +18,11 @@ import {
   toggleStreamNotification,
   navigateToStreamSubscribers,
 } from '../actions';
-import styles from '../styles';
+import styles, { BRAND_COLOR } from '../styles';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
+import { showToast } from '../utils/info';
+import { TranslationContext } from '../boot/TranslationProvider';
 
 type SelectorProps = $ReadOnly<{|
   isAdmin: boolean,
@@ -37,6 +39,9 @@ type Props = $ReadOnly<{|
 |}>;
 
 class StreamScreen extends PureComponent<Props> {
+  static contextType = TranslationContext;
+  context: GetText;
+
   handleTogglePinStream = (newValue: boolean) => {
     const { dispatch, stream } = this.props;
     dispatch(togglePinStream(stream.stream_id, newValue));
@@ -61,6 +66,12 @@ class StreamScreen extends PureComponent<Props> {
     const { dispatch, subscription, stream, userSettingStreamNotification } = this.props;
     const currentValue = subscription.push_notifications ?? userSettingStreamNotification;
     dispatch(toggleStreamNotification(stream.stream_id, !currentValue));
+  };
+
+  handleCopy = async emailAddress => {
+    const _ = this.context;
+    await Clipboard.setString(emailAddress);
+    showToast(_('Copied email address'));
   };
 
   render() {
@@ -104,6 +115,17 @@ class StreamScreen extends PureComponent<Props> {
             secondary
             onPress={() => delay(this.handleEditSubscribers)}
           />
+          <View style={styles.padding}>
+            <Label style={[styles.marginTop, { fontSize: 16 }]} text="Email Address" />
+          </View>
+          <Touchable onPress={() => this.handleCopy(subscription.email_address)}>
+            <Label
+              style={[
+                { borderColor: BRAND_COLOR, borderWidth: 1.5, borderRadius: 20, padding: 16 },
+              ]}
+              text={subscription.email_address}
+            />
+          </Touchable>
         </View>
       </Screen>
     );
