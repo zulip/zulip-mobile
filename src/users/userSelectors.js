@@ -161,6 +161,14 @@ export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSel
     new Map([...users, ...crossRealmBots].map(user => [user.email, user])),
 );
 
+/** Excludes deactivated users.  See `getAllUsers` for discussion. */
+export const getActiveUsersById: Selector<Map<number, UserOrBot>> = createSelector(
+  getUsers,
+  getCrossRealmBots,
+  (users = [], crossRealmBots = []) =>
+    new Map([...users, ...crossRealmBots].map(user => [user.user_id, user])),
+);
+
 /**
  * The user with the given user ID.
  *
