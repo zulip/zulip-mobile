@@ -206,6 +206,23 @@ export const getUserForId = (state: GlobalState, userId: number): UserOrBot => {
 };
 
 /**
+ * The user with the given email.
+ *
+ * In particular, returns the user for:
+ * * i) cross-realm bots
+ * * ii) deactivated users (`is_active` false; see `User` and the linked docs)
+ *
+ * Throws if none exists for the given email.
+ */
+export const getUserForEmail = (state: GlobalState, email: string): UserOrBot => {
+  const user = getAllUsersByEmail(state).get(email);
+  if (!user) {
+    throw new Error(`getUserForEmail: missing user: email ${email}`);
+  }
+  return user;
+};
+
+/**
  * The value of `is_active` for the given user.
  *
  * For a normal user, this is true unless the user or an admin has
