@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 import type { Dispatch, UserOrBot } from '../types';
 import { connect } from '../react-redux';
-import { getAccountDetailsUserForEmail } from '../selectors';
+import { getUserForEmail } from '../selectors';
 import { Screen, ZulipButton, Label } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
@@ -71,6 +71,6 @@ class AccountDetailsScreen extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  user: getAccountDetailsUserForEmail(state, props.navigation.state.params.email),
+  user: getUserForEmail(state, props.navigation.state.params.email),
   isActive: getUserIsActive(state, props.navigation.state.params.email),
 }))(AccountDetailsScreen);
