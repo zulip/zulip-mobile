@@ -41,7 +41,12 @@ export const getAllUsersById: Selector<Map<number, UserOrBot>> = createSelector(
   allUsers => new Map(allUsers.map(user => [user.user_id, user])),
 );
 
-/** See `getAllUsers` for discussion. */
+/**
+ * See `getAllUsers` for discussion.
+ *
+ * Prefer `getAllUsersById`; see #3764.
+ *
+ */
 export const getAllUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(
   getAllUsers,
   allUsers => new Map(allUsers.map(user => [user.email, user])),
@@ -59,6 +64,8 @@ export const getUsersById: Selector<Map<number, User>> = createSelector(
 
 /**
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
+ *
+ * Prefer `getUsersById`; see #3764.
  *
  * See `getAllUsersByEmail`, and `getAllUsers` for discussion.
  */
@@ -102,7 +109,7 @@ export const getOwnUserId = (state: GlobalState): number => {
  *
  * Throws if we have no data from the server.
  *
- * See also `getOwnUserId` and `getOwnUser`.
+ * Prefer using `getOwnUserId` or `getOwnUser`; see #3764.
  */
 export const getOwnEmail = (state: GlobalState): string => {
   const { email } = state.realm;
@@ -153,7 +160,11 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
   (users, ownEmail) => users.filter(user => user.email !== ownEmail),
 );
 
-/** Excludes deactivated users.  See `getAllUsers` for discussion. */
+/**
+ * Excludes deactivated users.  See `getAllUsers` for discussion.
+ *
+ * Prefer `getActiveUsersById`; see #3764.
+ */
 export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(
   getUsers,
   getCrossRealmBots,
@@ -187,6 +198,8 @@ export const getUserForId = (state: GlobalState, userId: number): UserOrBot => {
 
 /**
  * The user with the given email.
+ *
+ * Prefer `getUserForId` where a user ID is available; see #3764.
  *
  * This works for any user in this Zulip org/realm, including deactivated
  * users and cross-realm bots.  See `getAllUsers` for details.
