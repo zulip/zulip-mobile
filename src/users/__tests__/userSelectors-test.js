@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import {
-  getAccountDetailsUserForEmail,
   getActiveUsersByEmail,
   getAllUsersByEmail,
   getAllUsersById,
@@ -11,28 +10,6 @@ import {
   getUserIsActive,
 } from '../userSelectors';
 import * as eg from '../../__tests__/exampleData';
-
-describe('getAccountDetailsUserForEmail', () => {
-  test('return user for the account details screen', () => {
-    const state = eg.reduxState({
-      users: [eg.selfUser, eg.otherUser],
-    });
-    expect(getAccountDetailsUserForEmail(state, eg.otherUser.email)).toEqual(eg.otherUser);
-  });
-
-  test('if user does not exist return a user with the same email and no details', () => {
-    const state = eg.reduxState();
-    expect(getAccountDetailsUserForEmail(state, 'b@a.com')).toEqual({
-      email: 'b@a.com',
-      full_name: 'b@a.com',
-      avatar_url: '',
-      timezone: '',
-      user_id: -1,
-      is_admin: false,
-      is_bot: false,
-    });
-  });
-});
 
 describe('getActiveUsers', () => {
   test('return users, bots, map by email and do not include inactive users', () => {

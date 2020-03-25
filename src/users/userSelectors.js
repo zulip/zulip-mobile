@@ -162,33 +162,6 @@ export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSel
 );
 
 /**
- * DEPRECATED; don't add new uses.  Generally, use `getAllUsersByEmail` instead.
- *
- * (Better yet, use `getAllUsersById`; see #3764.)
- *
- * PRs to eliminate the remaining use of this are welcome.
- *
- * For discussion, see `nullObjects.js`.
- */
-export const getAccountDetailsUserForEmail: Selector<UserOrBot, string> = createSelector(
-  (state, email) => email,
-  state => getAllUsersByEmail(state),
-  (email, allUsersByEmail) => {
-    if (!email) {
-      return NULL_USER;
-    }
-
-    return (
-      allUsersByEmail.get(email) || {
-        ...NULL_USER,
-        email,
-        full_name: email,
-      }
-    );
-  },
-);
-
-/**
  * The user with the given user ID.
  *
  * This works for any user in this Zulip org/realm, including deactivated
