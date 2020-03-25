@@ -189,13 +189,12 @@ export const getAccountDetailsUserForEmail: Selector<UserOrBot, string> = create
 );
 
 /**
- * The user with the given user Id.
+ * The user with the given user ID.
  *
- * In particular, returns the user for:
- * * i) cross-realm bots
- * * ii) deactivated users (`is_active` false; see `User` and the linked docs)
+ * This works for any user in this Zulip org/realm, including deactivated
+ * users and cross-realm bots.  See `getAllUsers` for details.
  *
- * Throws if none exists for the given ID.
+ * Throws if no such user exists.
  */
 export const getUserForId = (state: GlobalState, userId: number): UserOrBot => {
   const user = getAllUsersById(state).get(userId);
@@ -208,11 +207,10 @@ export const getUserForId = (state: GlobalState, userId: number): UserOrBot => {
 /**
  * The user with the given email.
  *
- * In particular, returns the user for:
- * * i) cross-realm bots
- * * ii) deactivated users (`is_active` false; see `User` and the linked docs)
+ * This works for any user in this Zulip org/realm, including deactivated
+ * users and cross-realm bots.  See `getAllUsers` for details.
  *
- * Throws if none exists for the given email.
+ * Throws if no such user exists.
  */
 export const getUserForEmail = (state: GlobalState, email: string): UserOrBot => {
   const user = getAllUsersByEmail(state).get(email);
