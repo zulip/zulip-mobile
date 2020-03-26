@@ -58,6 +58,7 @@
 		DBC5C3186FE64F94BD3CDC19 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2070A88714C43ED8AF708C3 /* MaterialCommunityIcons.ttf */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		FAE95F3F80EF41D5B47C398D /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 03CBDFCF298745C49268F40D /* libRNCAsyncStorage.a */; };
+		FD4D4D74C6B3463FAD06EDAA /* libLRDRCTSimpleToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC751239FBB487099FD7700 /* libLRDRCTSimpleToast.a */; };
 		FF359794CBFF4ABF92423426 /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CFB39BBD9094475BB03A3E4 /* libRCTToast.a */; };
 /* End PBXBuildFile section */
 
@@ -328,6 +329,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		8B52817C242D771900B87AC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 15797F7C979B46D49FC9D67F /* LRDRCTSimpleToast.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 15209BEF1D250F63000D0F44;
+			remoteInfo = LRDRCTSimpleToast;
+		};
 		A1198F061DD517CE007C3837 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6DA76D9085EA458BB979ED8D /* RNVectorIcons.xcodeproj */;
@@ -521,6 +529,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ZulipMobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ZulipMobile/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		15797F7C979B46D49FC9D67F /* LRDRCTSimpleToast.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LRDRCTSimpleToast.xcodeproj; path = "../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast.xcodeproj"; sourceTree = "<group>"; };
 		1AED53B5E6AA4E0AA52DB0C1 /* libRNSafeArea.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSafeArea.a; sourceTree = "<group>"; };
 		27B3E49AB1EC4327B23863C1 /* RNCNetInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCNetInfo.xcodeproj; path = "../node_modules/@react-native-community/netinfo/ios/RNCNetInfo.xcodeproj"; sourceTree = "<group>"; };
 		2CFB39BBD9094475BB03A3E4 /* libRCTToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTToast.a; sourceTree = "<group>"; };
@@ -557,6 +566,7 @@
 		ACCD980949044096B1BAD249 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		AEF58326BC25479294083E9C /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		AF03F5DAC0924A13BDD49574 /* RNSound.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
+		AFC751239FBB487099FD7700 /* libLRDRCTSimpleToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLRDRCTSimpleToast.a; sourceTree = "<group>"; };
 		B2BC2F95A8684C44BAFA7B11 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B83DDAD2507A4F0EB47660BD /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
 		BB41D085CB4A4C4580BA1877 /* libRNCWebView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCWebView.a; sourceTree = "<group>"; };
@@ -622,6 +632,7 @@
 				39BAF54680504277B9E1F111 /* libRNCWebView.a in Frameworks */,
 				06CB1A5AAF614165BC921075 /* libRNCNetInfo.a in Frameworks */,
 				FAE95F3F80EF41D5B47C398D /* libRNCAsyncStorage.a in Frameworks */,
+				FD4D4D74C6B3463FAD06EDAA /* libLRDRCTSimpleToast.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -883,6 +894,7 @@
 				C55E1DCEC66D48FDA2F409BC /* RNCWebView.xcodeproj */,
 				27B3E49AB1EC4327B23863C1 /* RNCNetInfo.xcodeproj */,
 				3EADC445690943F7A03EBACE /* RNCAsyncStorage.xcodeproj */,
+				15797F7C979B46D49FC9D67F /* LRDRCTSimpleToast.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -919,6 +931,14 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* ZulipMobile.app */,
 				00E356EE1AD99517003FC87E /* ZulipMobileTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8B528179242D771900B87AC7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8B52817D242D771900B87AC7 /* libLRDRCTSimpleToast.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1001,6 +1021,7 @@
 				BB41D085CB4A4C4580BA1877 /* libRNCWebView.a */,
 				C787C43F73EB496F95BBAD9A /* libRNCNetInfo.a */,
 				03CBDFCF298745C49268F40D /* libRNCAsyncStorage.a */,
+				AFC751239FBB487099FD7700 /* libLRDRCTSimpleToast.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1132,6 +1153,10 @@
 				{
 					ProductGroup = A1E053B11FDB490D002A87B7 /* Products */;
 					ProjectRef = A1E053B01FDB490D002A87B7 /* ART.xcodeproj */;
+				},
+				{
+					ProductGroup = 8B528179242D771900B87AC7 /* Products */;
+					ProjectRef = 15797F7C979B46D49FC9D67F /* LRDRCTSimpleToast.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -1518,6 +1543,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		8B52817D242D771900B87AC7 /* libLRDRCTSimpleToast.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLRDRCTSimpleToast.a;
+			remoteRef = 8B52817C242D771900B87AC7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		A1198F071DD517CE007C3837 /* libRNVectorIcons.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1834,12 +1866,14 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/@sentry/react-native/ios/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
+					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 				);
 				INFOPLIST_FILE = ZulipMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1875,12 +1909,14 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/@sentry/react-native/ios/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
+					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 				);
 				INFOPLIST_FILE = ZulipMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1921,6 +1957,7 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/@sentry/react-native/ios/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
+					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 				);
 				INFOPLIST_FILE = ZulipMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1968,6 +2005,7 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/@sentry/react-native/ios/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
+					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 				);
 				INFOPLIST_FILE = ZulipMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;

@@ -17,3 +17,13 @@ jest.mock('Linking', () => ({
 jest.mock('rn-fetch-blob', () => ({
   DocumentDir: () => {},
 }));
+
+jest.mock('react-native-simple-toast', () => ({
+  SHORT: 2.0,
+  LONG: 3.5,
+  TOP: 3,
+  BOTTOM: 1,
+  CENTER: 2,
+  show: jest.fn(),
+  showWithGravity: jest.fn(),
+}));
