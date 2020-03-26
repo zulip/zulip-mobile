@@ -163,13 +163,18 @@ const showHideElement = (elementId: string, show: boolean) => {
   }
 };
 
+const isNearBottom = (): boolean =>
+  documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
+
 /* Cached to avoid re-looking it up all the time. */
 let viewportHeight = documentBody.clientHeight;
 
 window.addEventListener('resize', event => {
   const difference = viewportHeight - documentBody.clientHeight;
   if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
-    window.scrollBy({ left: 0, top: difference });
+    if ((isNearBottom() && difference > 0) || !isNearBottom()) {
+      window.scrollBy({ left: 0, top: difference });
+    }
   }
   viewportHeight = documentBody.clientHeight;
 });
@@ -430,9 +435,6 @@ type ScrollTarget =
 const scrollToBottom = () => {
   window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
 };
-
-const isNearBottom = (): boolean =>
-  documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
 
 const scrollToBottomIfNearEnd = () => {
   if (isNearBottom()) {

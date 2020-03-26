@@ -135,15 +135,21 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
+  var isNearBottom = function isNearBottom() {
+    return documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
+  };
+
   var viewportHeight = documentBody.clientHeight;
   window.addEventListener('resize', function (event) {
     var difference = viewportHeight - documentBody.clientHeight;
 
     if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
-      window.scrollBy({
-        left: 0,
-        top: difference
-      });
+      if (isNearBottom() && difference > 0 || !isNearBottom()) {
+        window.scrollBy({
+          left: 0,
+          top: difference
+        });
+      }
     }
 
     viewportHeight = documentBody.clientHeight;
@@ -323,10 +329,6 @@ var compiledWebviewJs = (function (exports) {
       top: documentBody.scrollHeight,
       behavior: 'smooth'
     });
-  };
-
-  var isNearBottom = function isNearBottom() {
-    return documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
   };
 
   var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
