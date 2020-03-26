@@ -156,8 +156,27 @@ sync() {
           --filter='. /dev/stdin'
 }
 
-# Sync the directory structure, preserving metadata.
+# Copy over files from KaTeX.
+sync "${root}/node_modules/katex/dist" "${dest}/katex" <<EOF
++ /katex.min.css
+
+# The KaTeX JS renders LaTeX code into HTML and MathML.
+# Our webview already has HTML and MathML, and just needs to style it.
+#+ /katex.min.js
+
+# The woff2 font format is preferred for browsers that support it,
+# which include Chrome 36+ and Mobile Safari 10+.  So that's all we need.
++ /fonts/
++ /fonts/*.woff2
+
+- *
+EOF
+
+# Copy over our own files.
 sync "${root}/src/webview/static" "${dest}" <<EOF
+# Leave alone the katex directory we just made.
+-,r /katex
+
 + /index.html
 + /base.css
 - *

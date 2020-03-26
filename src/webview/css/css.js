@@ -6,6 +6,7 @@ import cssNight from './cssNight';
 
 export default (theme: ThemeName) => `
 <link rel='stylesheet' type='text/css' href='./base.css'>
+<link rel='stylesheet' type='text/css' href='./katex/katex.min.css'>
 <style>
 ${theme === 'night' ? cssNight : ''}
 ${cssPygments(theme === 'night')}
