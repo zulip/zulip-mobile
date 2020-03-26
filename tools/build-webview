@@ -15,13 +15,18 @@ unset CDPATH
 # print usage message; do not die
 usage() {
     cat >&2 <<EOF
-usage: $0 [ios | android] --destination DEST
+usage: $0 [ios | android] --destination DEST [--check-path-name]
 
-Builds a platform-local intermediate directory containing files used by the
-message-list WebView. The target platform (either \`ios\` or \`android\`) must
-be specified, along with the expected destination directory.
+Build our webview assets, into directory DEST.
 
-(This script is usually run automatically by the build system.)
+This script is mainly for internal use by our build scripts.  They
+go on to use the contents of DEST as the webview-assets folder,
+which our message-list WebView relies on for its static assets.
+See src/webview/MessageList.js for details.
+
+With --check-path-name, make some defensive checks that DEST has
+the form expected from the actual build scripts.
+
 EOF
 }
 
@@ -69,8 +74,6 @@ while (( $# )); do
             # note: this doesn't permit an equals sign after `--destination`
             shift; dest="$1"; shift;;
         --check-path-name)
-            # enable persnickety checks of our caller's choice of paths,
-            # on the assumption it's the actual app build script
             shift; check_path_name=1;;
         *) usage; exit 2;;
     esac
