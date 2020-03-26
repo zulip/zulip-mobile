@@ -66,6 +66,9 @@ gradle.projectsEvaluated {
         // of what went wrong when it changed out from under us.
         def assetsDir = "${buildDir}/intermediates/merged_assets/${variant.name}/out"
 
+        // See above note on Windows compatibility.
+        def destDir = normalizePath(relativizePath("${assetsDir}/webview", repoDir))
+
         def variantTask = tasks.create(
             name: "build${variant.name.capitalize()}StaticWebviewAssets",
             type: Exec
@@ -74,9 +77,7 @@ gradle.projectsEvaluated {
             workingDir repoDir
             executable "bash"
             args "./tools/build-webview",
-                "android", "--destination",
-                // See above note on Windows compatibility.
-                normalizePath(relativizePath("${assetsDir}/webview", repoDir))
+                "android", "--destination", destDir
         }
 
         // Run this task as part of assets merging for this variant.
