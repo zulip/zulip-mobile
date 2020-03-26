@@ -76,8 +76,8 @@ gradle.projectsEvaluated {
             // All arguments to our script must be relative to `workingDir`.
             workingDir repoDir
             executable "bash"
-            args "./tools/build-webview",
-                "android", "--destination", destDir
+            args "./tools/build-webview", "android", "--check-path-name",
+                "--destination", destDir
         }
 
         // Run this task as part of assets merging for this variant.

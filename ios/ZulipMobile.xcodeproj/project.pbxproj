@@ -1761,7 +1761,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "exec $SRCROOT/../tools/build-webview ios --destination $SRCROOT/webview\n# See this script, or src/webview/static/README.md, for more information.\n";
+			shellScript = "exec $SRCROOT/../tools/build-webview ios --check-path-name --destination $SRCROOT/webview\n# See this script, or src/webview/static/README.md, for more information.\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
