@@ -283,6 +283,29 @@ If you've run `react-native link`, you can discard the edits it made
 (along with any other edits you've made) by running `git reset --hard`.
 
 
+### Build failure in `:app:buildDebugStaticWebviewAssets`
+
+When trying to build or run the app on Windows, you may see this
+error:
+
+```
+> Task :app:buildDebugStaticWebviewAssets FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:buildDebugStaticWebviewAssets'.
+> A problem occurred starting process 'command 'bash''
+```
+
+This is caused by issue [#3776][], which is a bug in our build system
+that specifically affects the Windows Command Prompt.  To avoid the
+issue, run commands like `react-native run-android` from the Git Bash
+prompt instead of the Command Prompt.
+
+[#3776]: https://github.com/zulip/zulip-mobile/issues/3776
+
+
 ### Build failure: "input file cannot be found", on `.../react-native/third-party/...`
 
 When trying to build the iOS app, if you get an Xcode error like this
