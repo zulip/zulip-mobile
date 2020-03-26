@@ -295,6 +295,7 @@ class ComposeBox extends PureComponent<Props, State> {
   styles = {
     wrapper: {
       flexShrink: 1,
+      maxHeight: '60%',
     },
     autocompleteWrapper: {
       position: 'absolute',
