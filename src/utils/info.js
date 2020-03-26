@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { Alert } from 'react-native';
-import Toast from '@remobile/react-native-toast';
+import Toast from 'react-native-simple-toast';
 
 export const showToast = (message: string) => {
   Toast.show(message);

@@ -198,7 +198,6 @@ dependencies {
     implementation project(':react-native-text-input-reset')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-orientation')
-    implementation project(':@remobile_react-native-toast')
     implementation project(':react-native-photo-view')
     implementation project(':rn-fetch-blob')
     implementation project(':react-native-sound')

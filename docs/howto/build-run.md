@@ -204,7 +204,7 @@ might need to restart Metro / `react-native start` after doing so.
 When trying to build the Android app, you may see this error:
 
 ```
-A problem occurred evaluating project ':@remobile/react-native-toast'.
+A problem occurred evaluating project ':@react-native-community_async-storage'.
 > java.lang.UnsupportedClassVersionError: com/android/build/gradle/LibraryPlugin : Unsupported major.minor version 52.0
 ```
 
