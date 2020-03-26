@@ -604,6 +604,20 @@ const requireAttribute = (e: Element, name: string): string => {
   return value;
 };
 
+/**
+ * Returns the integer parsed value of a DOM element attribute.
+ *
+ * Throws if parsing fails.
+ */
+const requireNumericAttribute = (e: Element, name: string): number => {
+  const value = requireAttribute(e, name);
+  const parsedValue = parseInt(value, 10);
+  if (Number.isNaN(parsedValue)) {
+    throw new Error(`Could not parse attribute ${name} value '${value}' as integer`);
+  }
+  return parsedValue;
+};
+
 documentBody.addEventListener('click', (e: MouseEvent) => {
   e.preventDefault();
   clearTimeout(longPressTimeout);
@@ -629,7 +643,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromUserId: requireAttribute(target, 'data-sender-id'),
+      fromUserId: requireNumericAttribute(target, 'data-sender-id'),
     });
     return;
   }

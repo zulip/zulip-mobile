@@ -491,6 +491,17 @@ var compiledWebviewJs = (function (exports) {
     return value;
   };
 
+  var requireNumericAttribute = function requireNumericAttribute(e, name) {
+    var value = requireAttribute(e, name);
+    var parsedValue = parseInt(value, 10);
+
+    if (Number.isNaN(parsedValue)) {
+      throw new Error("Could not parse attribute ".concat(name, " value '").concat(value, "' as integer"));
+    }
+
+    return parsedValue;
+  };
+
   documentBody.addEventListener('click', function (e) {
     e.preventDefault();
     clearTimeout(longPressTimeout);
@@ -514,7 +525,7 @@ var compiledWebviewJs = (function (exports) {
     if (target.matches('.avatar-img')) {
       sendMessage({
         type: 'avatar',
-        fromUserId: requireAttribute(target, 'data-sender-id')
+        fromUserId: requireNumericAttribute(target, 'data-sender-id')
       });
       return;
     }

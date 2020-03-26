@@ -51,7 +51,7 @@ type MessageListEventScroll = {|
 
 type MessageListEventAvatar = {|
   type: 'avatar',
-  fromUserId: string,
+  fromUserId: number,
 |};
 
 type MessageListEventNarrow = {|
@@ -200,11 +200,7 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
       break;
 
     case 'avatar': {
-      const userId = parseInt(event.fromUserId, 10);
-      if (Number.isNaN(userId)) {
-        throw new Error(`Failed to parse fromUserId string '${event.fromUserId}' to integer`);
-      }
-      props.dispatch(navigateToAccountDetails(userId));
+      props.dispatch(navigateToAccountDetails(event.fromUserId));
       break;
     }
 
