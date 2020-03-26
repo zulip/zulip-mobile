@@ -158,8 +158,7 @@ sync() {
 
 # Sync the directory structure, preserving metadata.
 sync "${root}/src/webview/static" "${dest}" <<EOF
-# Ignore files that won't be needed at runtime.
-- README.md
-
-+ *
++ /index.html
++ /base.css
+- *
 EOF
