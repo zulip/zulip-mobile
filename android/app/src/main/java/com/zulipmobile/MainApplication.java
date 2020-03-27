@@ -20,12 +20,17 @@ import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
 import io.sentry.RNSentryPackage;
 import java.util.Arrays;
 import java.util.List;
+import org.unimodules.adapters.react.ModuleRegistryAdapter;
+import org.unimodules.adapters.react.ReactModuleRegistryProvider;
 
+import com.zulipmobile.generated.BasePackageList;
 import com.zulipmobile.notifications.ConversationMap;
 import com.zulipmobile.notifications.FCMPushNotifications;
 import com.zulipmobile.notifications.NotificationsPackage;
 
 public class MainApplication extends Application implements ReactApplication {
+    private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(new BasePackageList().getPackageList(), null);
+
     private ConversationMap conversations;
     public ConversationMap getConversations() { return conversations; }
 
@@ -52,7 +57,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNSoundPackage(),
                     new RNDeviceInfo(),
                     new ZulipNativePackage(),
-                    new NotificationsPackage()
+                    new NotificationsPackage(),
+                    new ModuleRegistryAdapter(mModuleRegistryProvider)
             );
         }
 

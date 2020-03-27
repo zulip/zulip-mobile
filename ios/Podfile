@@ -2,6 +2,8 @@
 # (project > ZulipMobile > Info in Xcode)
 platform :ios, '10.3'
 
+require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
+
 # This list will need to change for RN >= v0.60. If you're changing it
 # for any other reason, first look at the example Podfile for v0.59 at
 # https://github.com/facebook/react-native-website/blob/ded79d2cf/docs/integration-with-existing-apps.md#configuring-cocoapods-dependencies.
@@ -46,6 +48,9 @@ target 'ZulipMobile' do
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
   pod 'react-native-simple-toast', :path => '../node_modules/react-native-simple-toast'
+
+  # unimodules provides Expo packages individually.
+  use_unimodules!
 
   target 'ZulipMobileTests' do
     inherit! :search_paths
