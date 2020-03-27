@@ -36,6 +36,33 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Where someone was @-mentioned in a message, you can tap to see their
+  profile. (#3879)
+* Searching for emoji now looks for your query in the middle of each
+  emoji's name, as well as at the start. (#3948)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Resolved issues, user-facing:
+  * #3879: show a user's profile on tapping an @-mention of them
+  * #3986: fix color contrast in language-picker screen in dark mode
+  * PR #3974: use contrasting color on group PM pseudo-avatars
+  * #3948: emoji autocomplete searches inside name, not just start
+  * PR #3967: fix initial scrolling on entering a muted stream
+
+* Resolved issues, developer-facing:
+  * Docs:
+    cdb850ffd: state machine for presence Heartbeat class
+
+  * 95d5e8278^..680489f85: more getUser* selectors, especially for
+    lookup by user ID; more jsdoc
+
 
 ## 26.23.146 (2020-03-09)
 
