@@ -63,14 +63,12 @@ class ChatScreen extends PureComponent<Props> {
       <ActionSheetProvider>
         <View style={[contextStyles.screen, componentStyles.reverse]}>
           <KeyboardAvoider style={styles.flexed} behavior="padding">
-            <View style={styles.flexed}>
-              <View style={componentStyles.reverse}>
-                <MessageList narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
-                {sayNoMessages && <NoMessages narrow={narrow} />}
-                <UnreadNotice narrow={narrow} />
-              </View>
-              {showComposeBox && <ComposeBox narrow={narrow} />}
+            <View style={componentStyles.reverse}>
+              <MessageList narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
+              {sayNoMessages && <NoMessages narrow={narrow} />}
+              <UnreadNotice narrow={narrow} />
             </View>
+            {showComposeBox && <ComposeBox narrow={narrow} />}
           </KeyboardAvoider>
           <OfflineNotice />
           <ChatNavBar narrow={narrow} />
