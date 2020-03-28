@@ -14,8 +14,6 @@ import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 
-import styles from '../styles';
-
 import { canSendToNarrow } from '../utils/narrow';
 import { getLoading } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
@@ -62,13 +60,11 @@ class ChatScreen extends PureComponent<Props> {
     return (
       <ActionSheetProvider>
         <View style={[contextStyles.screen, componentStyles.reverse]}>
-          <KeyboardAvoider style={styles.flexed} behavior="padding">
-            <View style={componentStyles.reverse}>
-              <MessageList narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
-              {sayNoMessages && <NoMessages narrow={narrow} />}
-              <UnreadNotice narrow={narrow} />
-            </View>
+          <KeyboardAvoider style={componentStyles.reverse} behavior="padding">
             {showComposeBox && <ComposeBox narrow={narrow} />}
+            <MessageList narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
+            {sayNoMessages && <NoMessages narrow={narrow} />}
+            <UnreadNotice narrow={narrow} />
           </KeyboardAvoider>
           <OfflineNotice />
           <ChatNavBar narrow={narrow} />
