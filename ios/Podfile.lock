@@ -22,8 +22,9 @@ PODS:
     - React
   - react-native-safe-area (0.4.4):
     - React
-  - react-native-simple-toast (0.1.1):
+  - react-native-simple-toast (1.0.0):
     - React
+    - Toast (~> 4.0.0)
   - react-native-webview (5.12.1):
     - React
   - React/ART (0.59.10):
@@ -105,6 +106,7 @@ PODS:
   - Sentry (4.4.3):
     - Sentry/Core (= 4.4.3)
   - Sentry/Core (4.4.3)
+  - Toast (4.0.0)
   - yoga (0.59.10.React)
 
 DEPENDENCIES:
@@ -148,6 +150,7 @@ SPEC REPOS:
   trunk:
     - boost-for-react-native
     - Sentry
+    - Toast
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -204,7 +207,7 @@ SPEC CHECKSUMS:
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-safari-view: 955d7160d159241b8e9395d12d10ea0ef863dcdd
   react-native-safe-area: 5fce5242419932bc05656f31bc5f0716e30be0f6
-  react-native-simple-toast: 1fc69d83c24279ed4f9624352551a5a3406678a2
+  react-native-simple-toast: 6c376bd79b1e255a4bee90a72ead6447f96ea10d
   react-native-webview: 5036ed4a973ad1deeeff118262d2df7b60b3419d
   rn-fetch-blob: 766f85cabd2992300dfa1be2bc9e4e258abc6f04
   RNCAsyncStorage: 3c304d1adfaea02ec732ac218801cb13897aa8c0
@@ -213,6 +216,7 @@ SPEC CHECKSUMS:
   RNSound: a1d01988e043aed5dbb476c2152b5ffb02446750
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
 PODFILE CHECKSUM: 882347e8d497f7575a47b2d21471f49b106eed82
