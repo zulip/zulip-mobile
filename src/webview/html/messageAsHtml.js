@@ -83,10 +83,13 @@ export const flagsStateToStringList = (flags: FlagsState, id: number): string[] 
 
 export default (backgroundData: BackgroundData, message: Message | Outbox, isBrief: boolean) => {
   const { id, timestamp } = message;
+
+  const isMyself = backgroundData.ownUser.user_id === message.sender_id;
   const flagStrings = flagsStateToStringList(backgroundData.flags, id);
   const divOpenHtml = template`
     <div
-     class="message ${isBrief ? 'message-brief' : 'message-full'}"
+     class="message ${isBrief ? (isMyself ? 'message-brief-left' : 'message-brief') : 'message-full'}"
+     style="padding-bottom: 4px;"
      id="msg-${id}"
      data-msg-id="${id}"
      $!${flagStrings.map(flag => template`data-${flag}="true" `).join('')}
@@ -107,28 +110,38 @@ export default (backgroundData: BackgroundData, message: Message | Outbox, isBri
 
   if (isBrief) {
     return template`
-$!${divOpenHtml}
-  <div class="content">
-    $!${timestampHtml(false)}
-    $!${bodyHtml}
-  </div>
-</div>
-`;
+    $!${divOpenHtml}
+      <div class="content">
+        $!${timestampHtml(false)}
+        $!${bodyHtml}
+      </div>
+    </div>
+    `;
   }
 
   const { sender_full_name } = message;
   const sender_id = message.isOutbox ? backgroundData.ownUser.user_id : message.sender_id;
   const avatarUrl = getAvatarFromMessage(message, backgroundData.auth.realm);
-  const subheaderHtml = template`
-<div class="subheader">
-  <div class="username">
-    ${sender_full_name}
-  </div>
+  const subheaderHtml =
+  template`
+  <div class="subheader">
   <div class="static-timestamp">${messageTime}</div>
-</div>
-`;
+  </div>
+  `;
 
-  return template`
+  const messageWebView = isMyself
+  ? template`
+  $!${divOpenHtml}
+  <div class="content">
+    $!${subheaderHtml}
+    $!${bodyHtml}
+  </div>
+    <div class="avatar" style="margin-right: 0px; margin-left: 16px;">
+      <img src="${avatarUrl}" alt="${sender_full_name}" class="avatar-img" data-sender-id="${sender_id}">
+    </div>
+  </div>
+  `
+: template`
 $!${divOpenHtml}
   <div class="avatar">
     <img src="${avatarUrl}" alt="${sender_full_name}" class="avatar-img" data-sender-id="${sender_id}">
@@ -139,4 +152,6 @@ $!${divOpenHtml}
   </div>
 </div>
 `;
+
+  return messageWebView;
 };
