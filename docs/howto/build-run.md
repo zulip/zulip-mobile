@@ -203,7 +203,7 @@ packages in `node_modules/` to match the current `package.json`.  You
 might need to restart Metro / `react-native start` after doing so.
 
 
-### Build failure: java.lang.UnsupportedClassVersionError
+### Build failure: java.lang.UnsupportedClassVersionError, "Unsupported major.minor version 52.0"
 
 When trying to build the Android app, you may see this error:
 
@@ -225,6 +225,76 @@ version number starts with "1.8", and with JDK 11, it starts with
 [openjdk-11-dl]: https://adoptopenjdk.net/?variant=openjdk11
 [jdk-lts-roadmap]: https://adoptopenjdk.net/support.html#roadmap
 
+
+### Build failure: java.lang.UnsupportedClassVersionError, "Unsupported class file major version 57"
+
+When trying to build the Android app, you may see this error:
+
+```
+* Where:
+Build file '/Users/jappleseed/dev/zulip-mobile/node_modules/@unimodules/react-native-adapter/android/build.gradle'
+
+* What went wrong:
+Could not compile build file '/Users/chrisbobbe/dev/zulip-mobile/node_modules/@unimodules/react-native-adapter/android/build.gradle'.
+> startup failed:
+  General error during semantic analysis: Unsupported class file major version 57
+
+  java.lang.IllegalArgumentException: Unsupported class file major version 57
+        at groovyjarjarasm.asm.ClassReader.<init>(ClassReader.java:184)
+        at groovyjarjarasm.asm.ClassReader.<init>(ClassReader.java:166)
+        at groovyjarjarasm.asm.ClassReader.<init>(ClassReader.java:152)
+        at groovyjarjarasm.asm.ClassReader.<init>(ClassReader.java:273)
+[...]
+```
+
+This can sometimes happen if you're using JDK 13 to invoke the build
+command (e.g., when calling `react-native run-android`, or
+`tools/test android`, or
+`android/gradlew -p android :app:assembleDebug`). You can check the
+version by running `java -version`. It seems that upgrading to
+macOS 10.15 Catalina automatically upgrades Java to 13.
+
+Somehow, JDK 8 is getting involved, and trying to use classfiles that
+it doesn't understand because they were created with JDK 13. We're not
+sure how JDK 8 is getting involved; it still seems to be involved
+after locating and killing some Gradle-related processes with
+`ps auxwww | grep gradle` that were using a JDK 8 installation that's
+bundled with Android Studio (yours, if you have one, might be at
+"/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home/jre/bin/java").
+
+A solution, if you can't find why JDK 8 is getting involved and
+prevent that, is to ensure those classfiles are also created with
+JDK 8. (JDK 11 might also work; we haven't tested this.)
+
+1. First, find a JDK installation. When you check a Java
+   version, note that the version number will start with "1.8" for
+   JDK 8.
+   - As noted above, you may have a JDK installation included in
+   Android Studio at a path like the one above. Check its version
+   by running, e.g.,
+   `"/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home/jre/bin/java" -version`.
+   - Otherwise, on Ubuntu or Debian, you can install it with
+   `sudo apt install openjdk-8-jdk`.
+   - In general, you can [download it from Oracle][jdk-8-oracle-dl].
+2. Find a path to that installation to set `JAVA_HOME` to. (This is
+   used by `gradlew` to find the `java` command to run Gradle under.)
+   - If you used the installation included in Android Studio, take
+     that path minus the "/jre/bin/java" at the end, e.g.,
+     "/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home".
+   - If you installed the Debian/Ubuntu package, then
+     `ls -l /usr/lib/jvm/` should list `java-8-openjdk-amd64` or
+     something similar to that.
+3. Using the path from step 2, prefix your build command with
+   `JAVA_HOME=[that path] ` (for example,
+   `JAVA_HOME=... android/gradlew ...`), and see if that works.
+4. If it does, you can run `export JAVA_HOME=[that path]` by itself,
+   so future build commands in the same terminal window will be able
+   to use it. You can also add that line to your `~/.bashrc` or
+   equivalent so you don't have to repeat it in new terminal windows.
+
+You can read the debugging conversation around [here](https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Android.20build.3A.20unimodules/near/844331).
+
+[jdk-8-oracle-dl]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
 ### Build failure: Task 'installDebug' not found in project ':app'
 
