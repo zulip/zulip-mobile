@@ -27,3 +27,7 @@ jest.mock('react-native-simple-toast', () => ({
   show: jest.fn(),
   showWithGravity: jest.fn(),
 }));
+
+jest.mock('expo-application', () => ({
+  nativeApplicationVersion: '26.23.146',
+}));

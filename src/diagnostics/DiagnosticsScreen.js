@@ -3,7 +3,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import DeviceInfo from 'react-native-device-info';
+import { nativeApplicationVersion } from 'expo-application';
+
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
@@ -31,7 +32,7 @@ class DiagnosticsScreen extends PureComponent<Props> {
 
     return (
       <Screen title="Diagnostics">
-        <RawLabel style={styles.versionLabel} text={`v${DeviceInfo.getVersion()}`} />
+        <RawLabel style={styles.versionLabel} text={`v${nativeApplicationVersion ?? '?.?.?'}`} />
         <OptionDivider />
         <OptionButton
           label="Variables"

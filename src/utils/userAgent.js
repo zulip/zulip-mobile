@@ -1,9 +1,10 @@
 /* @flow strict-local */
 import { NativeModules } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import { nativeApplicationVersion } from 'expo-application';
 
-const { getVersion, getSystemName, getSystemVersion } = DeviceInfo;
+const { getSystemName, getSystemVersion } = DeviceInfo;
 
 export default !NativeModules.RNDeviceInfo
   ? ''
-  : `ZulipMobile/${getVersion()} (${getSystemName()} ${getSystemVersion()})`;
+  : `ZulipMobile/${nativeApplicationVersion ?? '?.?.?'} (${getSystemName()} ${getSystemVersion()})`;

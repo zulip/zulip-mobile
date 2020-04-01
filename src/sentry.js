@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import * as Sentry from '@sentry/react-native';
-import DeviceInfo from 'react-native-device-info';
+import { nativeApplicationVersion } from 'expo-application';
+
 import config from './config';
 
 export const isSentryActive = (): boolean => {
@@ -29,7 +30,7 @@ const preventNoise = (): void => {
        normal version number -- preferably with your name and/or Github ID in
        it. This will allow events produced by these debug builds to be easily
        identified in the Sentry console. */
-    if (DeviceInfo.getVersion().match(/^\d+\.\d+\.\d+$/)) {
+    if (nativeApplicationVersion !== null && nativeApplicationVersion.match(/^\d+\.\d+\.\d+$/)) {
       throw new Error('Sentry should not be initialized in debug builds');
     }
   }
