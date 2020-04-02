@@ -14,8 +14,8 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 #import <asl.h>
-#import "RCTLog.h"
-#import "RNNotifications.h"
+#import <React/RCTLog.h>
+#import <RNNotifications.h>
 #import <React/RCTPushNotificationManager.h>
 
 @implementation AppDelegate
