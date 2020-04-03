@@ -37,7 +37,14 @@ It doesn't include
 ## Unreleased
 
 
-## 26.24.147 (2020-04-02)
+## 26.24.147 and 26.25.148 (2020-04-02)
+
+This version of the app was published as 26.24.147 for iOS
+and as 26.25.148 for Android.
+
+(On Android, the version number 26.24.147 was used in a broken build
+which was uploaded to Google Play but not published.)
+
 
 ### Highlights for users
 
