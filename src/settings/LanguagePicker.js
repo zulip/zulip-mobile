@@ -36,12 +36,11 @@ export default class LanguagePicker extends PureComponent<Props> {
       return list;
     }
 
-    return list.filter(item => {
-      const itemData = `${item.name.toUpperCase()} ${item.nativeName.toUpperCase()}`;
-      const filterData = filter.toUpperCase();
-
-      return itemData.includes(filterData);
-    });
+    return list.filter(
+      item =>
+        item.name.toLowerCase().indexOf(filter.toLowerCase()) === 0
+        || item.nativeName.toLowerCase().indexOf(filter.toLowerCase()) === 0,
+    );
   };
 
   render() {
