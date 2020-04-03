@@ -46,8 +46,9 @@ export default class LanguagePicker extends PureComponent<Props> {
     return list.filter(item => {
       const itemData = `${item.name.toUpperCase()} ${item.nativeName.toUpperCase()}`;
       const filterData = filter.toUpperCase();
+      const language = itemData.replace(/[()]/g, '').split(' ');
 
-      return itemData.includes(filterData);
+      return language.find(str => str.startsWith(filterData));
     });
   };
 
