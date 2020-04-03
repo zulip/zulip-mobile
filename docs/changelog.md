@@ -38,6 +38,8 @@ It doesn't include
 
 ### Highlights for users
 
+* You can now write math formulas using LaTeX, just like Zulip on the
+  web. (#2660)
 * Where someone was @-mentioned in a message, you can tap to see their
   profile. (#3879)
 * Searching for emoji now looks for your query in the middle of each
@@ -50,6 +52,10 @@ experience.
 ### Highlights for developers
 
 * Resolved issues, user-facing:
+  * #2660: support writing math with LaTeX
+  * #3716: some emoji didn't render in the "who reacted" list
+  * #3857: "N unreads" notice was half-visible when compose box tall
+  * #3977: keep open some of message view even when compose box tall
   * #3879: show a user's profile on tapping an @-mention of them
   * #3986: fix color contrast in language-picker screen in dark mode
   * PR #3974: use contrasting color on group PM pseudo-avatars
