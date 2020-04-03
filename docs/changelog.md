@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.24.147 (2020-04-02)
+
 ### Highlights for users
 
 * You can now write math formulas using LaTeX, just like Zulip on the
