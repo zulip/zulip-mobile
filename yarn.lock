@@ -3709,6 +3709,11 @@ expo-app-loader-provider@~7.0.0:
   resolved "https://registry.yarnpkg.com/expo-app-loader-provider/-/expo-app-loader-provider-7.0.0.tgz#9bfff831a204d0a8896e0120bce2209c4304ef03"
   integrity sha512-C+5zpZN2T7PCj7weLs/ZgAC+y9dvu0VdTXD00Jf9Wo7Pxu/lsLh6ljg9JL91c+2tYDzMEODPNmT+JOUIxAr5zQ==
 
+expo-apple-authentication@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/expo-apple-authentication/-/expo-apple-authentication-2.1.1.tgz#ecba053fb6ae688f6a83553a192403e968eef931"
+  integrity sha512-E3k0Poo53N3pXimRVYpmxXhF+0PutQWYlQpfNFzRzZX+TjsHVehrTKmtd1KOimFpIs+u39MhsDQIIoMas12/dw==
+
 expo-application@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-2.1.1.tgz#7cd61ccc53d7a0c85c8aac64b5ea59b20a1cb803"

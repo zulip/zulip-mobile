@@ -3,6 +3,7 @@
 //
 // These will be used as regexp fragments.
 const transformModulesWhitelist = [
+  'expo-apple-authentication',
   'react-native',
   // @rnc/async-storage itself is precompiled, but its mock-helper is not
   '@react-native-community/async-storage',

@@ -152,3 +152,43 @@ Flow and FlowTyped about not being able to import third-party types
 into one's own libdefs that haven't been resolved. [9]
 
 [9]: https://github.com/zulip/zulip-mobile/issues/3458#issuecomment-639859987
+
+## Expo packages (made available through Unimodules)
+
+We're starting to see a pattern developing with these, e.g.:
+
+- `expo-apple-authentication`
+- `expo-screen-orientation`
+
+Namely:
+
+1. See what `node_modules/expo-name-of-package/build/index.d.ts`
+   depends on; it's probably at least `'./NameOfPackage'` and
+   `'./NameOfPackage.types'`.
+
+   Assuming so, make a `declare module expo-name-of-package` block and
+   have it do what that `index.d.ts` does, maybe
+
+   ```javascript
+   declare module 'expo-name-of-package' {
+     declare export * from 'expo-name-of-package/build/NameOfPackage'
+     declare export * from 'expo-name-of-package/build/NameOfPackage.types'
+   }
+   ```
+
+2. Run `node_modules/expo-name-of-package/build/NameOfPackage.d.ts`
+   through Flowgen and paste the output into a
+   `declare module 'expo-name-of-package/build/NameOfPackage'`
+   block.
+2. Run `node_modules/expo-name-of-package/build/PackageName.types'`
+   through Flowgen and paste the output into a
+   `declare module 'expo-screen-orientation/build/ScreenOrientation.types'`
+   block.
+3. Make any necessary syntactic fixes based on error messages (in
+   particular, replacing `export` with `declare export` everywhere may
+   be necessary) or adjustments to imports. You may only import from
+   something that's been declared in that same file, with
+   `declare export` [1] [2].
+
+[1]: https://github.com/flow-typed/flow-typed/blob/master/CONTRIBUTING.md#dont-import-types-from-other-libdefs
+[2]: See discussion around https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/libdef.3A.20react-native-webview/near/896713.

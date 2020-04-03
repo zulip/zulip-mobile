@@ -47,6 +47,7 @@
     "immutable": "^4.0.0-rc.12",
     "json-stringify-safe": "^5.0.1",
     "katex": "^0.11.1",
+    "expo-apple-authentication": "^2.1.1",
     "lodash.escape": "^4.0.1",
     "lodash.isequal": "^4.4.0",
     "lodash.isplainobject": "^4.0.6",
