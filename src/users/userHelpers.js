@@ -74,6 +74,7 @@ export const sortUserList = (
   [...sortByPositionOfKeyword(users, filter)].sort(
     (x1, x2) => statusOrder(presences[x1.email]) - statusOrder(presences[x2.email]),
   );
+
 export const filterUserList = (users: User[], filter: string = '', ownEmail: ?string): User[] =>
   users.length > 0
     ? users.filter(
@@ -84,24 +85,6 @@ export const filterUserList = (users: User[], filter: string = '', ownEmail: ?st
             || user.email.toLowerCase().includes(filter.toLowerCase())),
       )
     : users;
-
-export const filterUserThatContains = (
-  users: User[],
-  filter: string = '',
-  ownEmail: string,
-): User[] =>
-  users.filter(
-    user => user.email !== ownEmail && user.full_name.toLowerCase().includes(filter.toLowerCase()),
-  );
-
-export const filterUserMatchesEmail = (
-  users: User[],
-  filter: string = '',
-  ownEmail: string,
-): User[] =>
-  users.filter(
-    user => user.email !== ownEmail && user.email.toLowerCase().includes(filter.toLowerCase()),
-  );
 
 export const getUsersAndWildcards = (users: User[]) => [
   { ...NULL_USER, full_name: 'all', email: '(Notify everyone)' },
@@ -118,11 +101,8 @@ export const getAutocompleteSuggestion = (
     return users;
   }
   const allAutocompleteOptions = getUsersAndWildcards(users);
-  const startWith = filterUserStartWith(allAutocompleteOptions, filter, ownEmail);
-  const initials = filterUserByInitials(allAutocompleteOptions, filter, ownEmail);
-  const contains = filterUserThatContains(allAutocompleteOptions, filter, ownEmail);
-  const matchesEmail = filterUserMatchesEmail(users, filter, ownEmail);
-  return getUniqueUsers([...startWith, ...initials, ...contains, ...matchesEmail]);
+  const filteredUserExcludeSelf = filterUserList(allAutocompleteOptions, filter, ownEmail);
+  return sortByPositionOfKeyword(filteredUserExcludeSelf, filter);
 };
 
 export const getAutocompleteUserGroupSuggestions = (
