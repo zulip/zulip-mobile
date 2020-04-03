@@ -37,13 +37,43 @@ const statusOrder = (presence: UserPresence): number => {
   }
 };
 
-export const sortUserList = (users: User[], presences: PresenceState): User[] =>
-  [...users].sort(
-    (x1, x2) =>
-      statusOrder(presences[x1.email]) - statusOrder(presences[x2.email])
-      || x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
+export const sortAlphabetically = (users: User[]): User[] =>
+  [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()));
+
+export const filterUserStartWith = (users: User[], filter: string = ''): User[] =>
+  users.filter(user => user.full_name.toLowerCase().startsWith(filter.toLowerCase()));
+
+export const filterUserEmailStartWith = (users: User[], filter: string = ''): User[] =>
+  users.filter(user => user.email.toLowerCase().startsWith(filter.toLowerCase()));
+
+export const filterUserByInitials = (users: User[], filter: string = ''): User[] =>
+  users.filter(user =>
+    user.full_name
+      .replace(/(\s|[a-z])/g, '')
+      .toLowerCase()
+      .startsWith(filter.toLowerCase()),
   );
 
+export const getUniqueUsers = (users: User[]): User[] => uniqby(users, 'email');
+
+export const sortByPositionOfKeyword = (users: User[], filter: string = ''): User[] => {
+  if (filter === '') {
+    return users;
+  }
+  const beginOfUserName = filterUserStartWith(users, filter);
+  const beginOfInitialName = filterUserByInitials(users, filter);
+  const beginOfEmail = filterUserEmailStartWith(users, filter);
+  return getUniqueUsers([...beginOfUserName, ...beginOfEmail, ...beginOfInitialName, ...users]);
+};
+
+export const sortUserList = (
+  users: User[],
+  presences: PresenceState,
+  filter: string = '',
+): User[] =>
+  [...sortByPositionOfKeyword(users, filter)].sort(
+    (x1, x2) => statusOrder(presences[x1.email]) - statusOrder(presences[x2.email]),
+  );
 export const filterUserList = (users: User[], filter: string = '', ownEmail: ?string): User[] =>
   users.length > 0
     ? users.filter(
@@ -54,29 +84,6 @@ export const filterUserList = (users: User[], filter: string = '', ownEmail: ?st
             || user.email.toLowerCase().includes(filter.toLowerCase())),
       )
     : users;
-
-export const sortAlphabetically = (users: User[]): User[] =>
-  [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()));
-
-export const filterUserStartWith = (users: User[], filter: string = '', ownEmail: string): User[] =>
-  users.filter(
-    user =>
-      user.email !== ownEmail && user.full_name.toLowerCase().startsWith(filter.toLowerCase()),
-  );
-
-export const filterUserByInitials = (
-  users: User[],
-  filter: string = '',
-  ownEmail: string,
-): User[] =>
-  users.filter(
-    user =>
-      user.email !== ownEmail
-      && user.full_name
-        .replace(/(\s|[a-z])/g, '')
-        .toLowerCase()
-        .startsWith(filter.toLowerCase()),
-  );
 
 export const filterUserThatContains = (
   users: User[],
@@ -95,8 +102,6 @@ export const filterUserMatchesEmail = (
   users.filter(
     user => user.email !== ownEmail && user.email.toLowerCase().includes(filter.toLowerCase()),
   );
-
-export const getUniqueUsers = (users: User[]): User[] => uniqby(users, 'email');
 
 export const getUsersAndWildcards = (users: User[]) => [
   { ...NULL_USER, full_name: 'all', email: '(Notify everyone)' },

@@ -29,7 +29,7 @@ export default class UserList extends PureComponent<Props> {
 
   render() {
     const { filter, style, users, presences, onPress, selected } = this.props;
-    const shownUsers = sortUserList(filterUserList(users, filter), presences);
+    const shownUsers = sortUserList(filterUserList(users, filter), presences, filter);
 
     if (shownUsers.length === 0) {
       return <SearchEmptyState text="No users found" />;
