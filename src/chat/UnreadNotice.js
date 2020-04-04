@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import Collapsible from 'react-native-collapsible';
 
 import type { Narrow, Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -50,16 +51,18 @@ class UnreadNotice extends PureComponent<Props> {
     const { narrow, unreadCount } = this.props;
 
     return (
-      <AnimatedScaleComponent visible={unreadCount > 0} style={styles.unreadContainer}>
-        <View style={styles.unreadTextWrapper}>
-          <RawLabel style={styles.unreadNumber} text={unreadCount.toString()} />
-          <Label
-            style={styles.unreadText}
-            text={unreadCount === 1 ? 'unread message' : 'unread messages'}
-          />
+      <Collapsible collapsed={!(unreadCount > 0)} duration={300}>
+        <View style={styles.unreadContainer}>
+          <View style={styles.unreadTextWrapper}>
+            <RawLabel style={styles.unreadNumber} text={unreadCount.toString()} />
+            <Label
+              style={styles.unreadText}
+              text={unreadCount === 1 ? 'unread message' : 'unread messages'}
+            />
+          </View>
+          <MarkUnreadButton narrow={narrow} />
         </View>
-        <MarkUnreadButton narrow={narrow} />
-      </AnimatedScaleComponent>
+      </Collapsible>
     );
   }
 }

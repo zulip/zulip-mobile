@@ -18,19 +18,17 @@ type State = {|
 export default class AnimatedScaleComponent extends PureComponent<Props, State> {
   state = {
     visible: this.props.visible,
+    animatedValue: new Animated.Value(this.props.visible ? 1 : 0),
   };
-
-  animatedValue = new Animated.Value(this.props.visible ? 1 : 0);
 
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.visible) {
       this.setState({ visible: true });
     }
-    Animated.timing(this.animatedValue, {
+    Animated.timing(this.state.animatedValue, {
       toValue: nextProps.visible ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-      easing: Easing.elastic(),
+      duration: 5000,
+      useNativeDriver: false,
     }).start(() => this.setState({ visible: nextProps.visible }));
   }
 
@@ -38,11 +36,20 @@ export default class AnimatedScaleComponent extends PureComponent<Props, State> 
     const { children, style } = this.props;
     const { visible } = this.state;
     const animatedStyle = {
-      transform: [{ scale: this.animatedValue }],
+      flex: this.animatedValue,
       opacity: this.animatedValue,
-      display: visible ? 'flex' : 'none',
     };
 
-    return <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>;
+    return (
+      <Animated.View
+        style={[
+          {
+            flex: this.state.animatedValue,
+          },
+          style,
+        ]}
+      >
+      </Animated.View>
+    );
   }
 }
