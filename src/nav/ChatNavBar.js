@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import Color from 'color';
 
 import type { Dispatch, Narrow } from '../types';
 import { LoadingBanner } from '../common';
@@ -40,7 +41,10 @@ class ChatNavBar extends PureComponent<Props> {
     return (
       <View
         style={{
-          borderColor: 'hsla(0, 0%, 50%, 0.25)',
+          borderColor:
+            backgroundColor === 'transparent'
+              ? 'hsla(0, 0%, 50%, 0.25)'
+              : Color(backgroundColor).darken(0.1),
           borderBottomWidth: 1,
         }}
       >
