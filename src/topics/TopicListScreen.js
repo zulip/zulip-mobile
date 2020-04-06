@@ -49,7 +49,14 @@ class TopicListScreen extends PureComponent<Props, State> {
     const { topics } = this.props;
     const { filter } = this.state;
     const filteredTopics =
-      topics && topics.filter(topic => topic.name.toLowerCase().includes(filter.toLowerCase()));
+      topics
+      && topics
+        .filter(topic => topic.name.toLowerCase().includes(filter.toLowerCase()))
+        .sort(
+          (x, y) =>
+            x.name.toLowerCase().indexOf(filter.toLowerCase())
+            - y.name.toLowerCase().indexOf(filter.toLowerCase()),
+        );
 
     return (
       <Screen title="Topics" centerContent search searchBarOnChange={this.handleFilterChange}>
