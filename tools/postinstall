@@ -1,0 +1,26 @@
+#!/bin/bash
+set -eu
+
+ROOT_DIR=$(git rev-parse --show-toplevel)
+
+pod_install() {
+    [[ "$OSTYPE" == "darwin"* ]] \
+        || return 0
+
+    if ! hash pod 2>/dev/null; then
+        cat >&2 <<EOF
+The Zulip mobile app requires CocoaPods for its iOS build. Please
+install it, following the instructions at
+https://guides.cocoapods.org/using/getting-started.html.
+
+Then, rerun yarn.
+EOF
+        exit 1
+    fi
+
+    pod install --project-directory="$ROOT_DIR/ios"
+}
+
+pod_install
+
+echo "tools/postinstall finished with no errors!"

@@ -41,7 +41,6 @@ archive_path="${rootdir}"/ios/build/ZulipMobile.xcarchive
 
 do_build() {
     yarn
-    pod install
     echo >&2
 
     mkdir -p build

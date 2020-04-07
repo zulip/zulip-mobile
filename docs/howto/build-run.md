@@ -74,9 +74,9 @@ Native upstream on
 You want the tab "React Native CLI Quickstart"; the "Expo CLI Quickstart" does
 not apply.
 
-If you're starting with iOS development, be sure to install CocoaPods,
-as the guide instructs. After you've done that, run
-`cd ios && pod install && cd ..`.
+If you're starting with iOS development, be sure to [install
+CocoaPods](https://guides.cocoapods.org/using/getting-started.html),
+as the guide instructs, then rerun `yarn`.
 
 Continue those instructions until you can run the Zulip Mobile app
 with either `react-native run-android` or `react-native run-ios`.

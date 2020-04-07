@@ -13,9 +13,6 @@ this tab.
 
 ## Other commands
 
-* `cd ios && pod install && cd ..` - if you've already run `yarn`,
-  installs native iOS dependencies to match the Podfile.lock
-
 * `yarn ios-min` - runs in an iOS simulator in the minimally supported device
 (currently iPhone 5S)
 
