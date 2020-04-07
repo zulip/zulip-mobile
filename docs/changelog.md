@@ -36,6 +36,22 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Fixed bug from previous release: you can again search for a person,
+  stream, or emoji when writing a message by typing "@", "#", or ":"
+  and starting to type the name. (#4019)
+
+
+### Highlights for developers
+
+User-facing:
+* #4019: auto-complete popup was hidden behind message list
+
+Developer-facing:
+* #3983, 954fbe5e2^..8b4b78443: use CocoaPods to manage iOS build
+    with RN and other dependencies; greatly clean up Xcode project.
+
 
 ## 26.24.147 and 26.25.148 (2020-04-02)
 
