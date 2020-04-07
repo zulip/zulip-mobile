@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.26.149 (2020-04-07)
+
 ### Highlights for users
 
 * Fixed bug from previous release: you can again search for a person,
