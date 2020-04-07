@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { sleep, tryUntilSuccessful } from '../async';
-import { Lolex } from '../../__tests__/auxiliary/lolex';
+import { Lolex } from '../../__tests__/lib/lolex';
 
 const sleepMeasure = async (expectedMs: number) => {
   const start = Date.now();

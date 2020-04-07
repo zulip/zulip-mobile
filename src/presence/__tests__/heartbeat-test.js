@@ -1,8 +1,8 @@
 // @flow strict-local
-import { Lolex } from '../../__tests__/auxiliary/lolex';
+import { Lolex } from '../../__tests__/lib/lolex';
 import Heartbeat from '../heartbeat';
 
-/** Fake clock implementation. See 'auxiliary/lolex' for more details. */
+/** Fake clock implementation. See 'lib/lolex' for more details. */
 let lolex: Lolex;
 
 // (hopefully) restrictive type alias for Jest's mock callback functions
