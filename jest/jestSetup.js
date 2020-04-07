@@ -31,3 +31,8 @@ jest.mock('react-native-simple-toast', () => ({
 jest.mock('expo-application', () => ({
   nativeApplicationVersion: '26.23.146',
 }));
+
+jest.mock('react-native-device-info', () => ({
+  getSystemName: jest.fn().mockReturnValue('ios'),
+  getSystemVersion: jest.fn().mockReturnValue('13.3.1'),
+}));
