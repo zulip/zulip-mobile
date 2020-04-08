@@ -57,3 +57,18 @@ unstaged. Later, you can always [squash that commit with other
 commits][fixing-commits], if appropriate.
 
 [fixing-commits]: https://zulip.readthedocs.io/en/latest/git/fixing-commits.html
+
+## Clearing the build folder
+
+If you get build failures on iOS and you haven't changed anything in
+the `ios` folder yourself, and you're on the latest version of Xcode,
+there might be residue from a previous build interfering with this
+one. So, try cleaning the build folder with `rm -rf`. A different
+folder is used for command-line builds and builds through Xcode.
+- If building from the command line with `react-native run-ios`, run
+  `rm -rf ios/build`.
+- If building in Xcode, the build folder is at a path like
+  `~/Library/Developer/Xcode/DerivedData/ZulipMobile-diuocloqwafvdpeozujwphdrhalf`
+  (the hash at the end will be different) by default, but if it's not
+  there, you can find it in Xcode at File > Workspace Settings > Build
+  Location.

@@ -505,3 +505,9 @@ Optionally, reset iOS simulator:
 ```
 iOS Menu > Simulator > Reset Content and Settings…
 ```
+
+If you get other iOS build failures and you haven't changed anything
+in the `ios` folder yourself, and you're on the latest version of
+Xcode, there might be residue from a previous build interfering in
+this one. So, try cleaning the build folder, following the
+instructions at [iOS tips](ios-tips.md#clearing-the-build-folder)
