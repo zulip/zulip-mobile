@@ -79,7 +79,13 @@ CocoaPods](https://guides.cocoapods.org/using/getting-started.html),
 as the guide instructs, then rerun `yarn`.
 
 Continue those instructions until you can run the Zulip Mobile app
-with either `react-native run-android` or `react-native run-ios`.
+with one of the following:
+
+- `react-native run-android`
+- `react-native run-ios`
+- in Xcode, if on macOS (see [iOS tips](ios-tips.md))
+- in Android Studio (see "Android tips", below)
+
 You'll want to be able to use both an emulator and a physical device; but
 for starting out, just get either one working so you can play with the app.
 
