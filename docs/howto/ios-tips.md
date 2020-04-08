@@ -24,7 +24,9 @@ device name in package.json
 
 ## Running on an iOS device
 1. Connect your iOS device
-2. Within the repo, `$ open ios/ZulipMobile.xcworkspace/` to open Xcode
+2. Within the repo, `$ open ios/ZulipMobile.xcworkspace/` to open
+   Xcode. Make sure you choose the one that ends in .xcworkspace,
+   not .xcodeproj.
 3. Change BundleIdentifier for both ZulipMobile and ZulipMobileTests to a
 unique string, e.g. `<username>ZulipMobile` in the 'General Tab' of your project.
 4. Select your device as the `build target` (from [this guide](https://facebook.github.io/react-native/docs/running-on-device.html))
