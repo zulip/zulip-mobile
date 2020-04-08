@@ -49,7 +49,7 @@ persisted data.
 
 In general most of the work will be inside of the `/src` directory. The only
 reason to touch the `/ios` or `/android` directories would be to add native
-modules (which we aren't using at the moment).
+modules.
 
 ### Top-level files
 * `package.json` - specifies `yarn` / NPM dependencies and scripts for the project
