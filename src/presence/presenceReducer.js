@@ -10,6 +10,7 @@ import {
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { getAggregatedPresence } from '../utils/presence';
+import objectEntries from '../utils/objectEntries';
 
 const initialState: PresenceState = NULL_OBJECT;
 
@@ -29,7 +30,15 @@ export default (state: PresenceState = initialState, action: Action): PresenceSt
         ...action.presence,
       };
 
-    case EVENT_PRESENCE:
+    case EVENT_PRESENCE: {
+      // A presence event should have either "active" or "idle" status
+      const isPresenceEventValid = !!objectEntries(action.presence).find(
+        ([device, devicePresence]) => ['active', 'idle'].includes(devicePresence.status),
+      );
+      if (!isPresenceEventValid) {
+        return state;
+      }
+
       return {
         ...state,
         [action.email]: {
@@ -38,7 +47,7 @@ export default (state: PresenceState = initialState, action: Action): PresenceSt
           aggregated: getAggregatedPresence({ ...state[action.email], ...action.presence }),
         },
       };
-
+    }
     default:
       return state;
   }
