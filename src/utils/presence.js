@@ -28,7 +28,7 @@ const OFFLINE_THRESHOLD_SECS = 140;
  *   https://zulip.readthedocs.io/en/latest/subsystems/presence.html
  *
  * This logic should match `status_from_timestamp` in the web app's
- * `static/js/presence.js`.
+ * `static/js/presence.js` at 1ae07b93d^.
  */
 export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
   /* Out of the ClientPresence objects found in `presence`, we consider only
