@@ -3627,10 +3627,10 @@ expo-app-loader-provider@~7.0.0:
   resolved "https://registry.yarnpkg.com/expo-app-loader-provider/-/expo-app-loader-provider-7.0.0.tgz#9bfff831a204d0a8896e0120bce2209c4304ef03"
   integrity sha512-C+5zpZN2T7PCj7weLs/ZgAC+y9dvu0VdTXD00Jf9Wo7Pxu/lsLh6ljg9JL91c+2tYDzMEODPNmT+JOUIxAr5zQ==
 
-expo-application@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-2.1.0.tgz#ce5b13f025643e26478e5f7e4a89f21e96b2f908"
-  integrity sha512-JuWpToRjx81mNwJCL80Rf7wbEcNgyapqcfB3Iz1kqDSK8mF7ZmLL05dmdvPrqfGdhJImbMlDS4MTZU9ArUTZuQ==
+expo-application@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-2.1.1.tgz#7cd61ccc53d7a0c85c8aac64b5ea59b20a1cb803"
+  integrity sha512-iq24Zgd4EmbFakHL2saVdA2zexhRX80RSbAtrWrp3BaVDd7yFNAtcwjW4r1Oyhm00YEREWp70sTaXrWs6jKHQA==
 
 expo-asset@~7.0.0:
   version "7.0.0"
