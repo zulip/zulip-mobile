@@ -56,9 +56,12 @@ rules:
 
   # For more formatting rules, see tools/formatting.eslintrc.yaml .
 
-  # Repeal a rather absurd rule that makes some code impossible to write in
+  # Repeal some rather absurd rules that make some code impossible to write in
   # the most reasonable way.
   no-else-return: off
+  prefer-destructuring:
+  - error
+  - AssignmentExpression: {array: false, object: false}
 
   # Tricky code.  We repeal several bans from the Airbnb style.
   no-bitwise: off
