@@ -54,12 +54,14 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
   let client = '';
   let timestamp = 0;
 
+  const dateNow = Date.now();
+
   for (const [device, devicePresence] of objectEntries(presence)) {
     if (device === 'aggregated') {
       continue;
     }
 
-    const age = Date.now() / 1000 - devicePresence.timestamp;
+    const age = dateNow / 1000 - devicePresence.timestamp;
     if (timestamp < devicePresence.timestamp) {
       timestamp = devicePresence.timestamp;
     }
