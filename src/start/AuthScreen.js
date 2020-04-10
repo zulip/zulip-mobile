@@ -1,26 +1,38 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 import { URL as WhatwgURL } from 'react-native-url-polyfill';
+import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
+import config from '../config';
 import type {
   AuthenticationMethods,
   Dispatch,
   ExternalAuthenticationMethod,
   ApiResponseServerSettings,
 } from '../types';
-import { IconPrivate, IconGoogle, IconGitHub, IconWindows, IconTerminal } from '../common/Icons';
+import {
+  IconApple,
+  IconPrivate,
+  IconGoogle,
+  IconGitHub,
+  IconWindows,
+  IconTerminal,
+} from '../common/Icons';
 import type { SpecificIconType } from '../common/Icons';
 import { connect } from '../react-redux';
 import styles from '../styles';
 import { Centerer, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
-import { getFullUrl } from '../utils/url';
+import { getFullUrl, encodeParamsForUrl } from '../utils/url';
 import * as webAuth from './webAuth';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
+import IosCompliantAppleAuthButton from './IosCompliantAppleAuthButton';
+import openLink from '../utils/openLink';
 
 /**
  * Describes a method for authenticating to the server.
@@ -100,6 +112,7 @@ const externalMethodIcons = new Map([
   ['google', IconGoogle],
   ['github', IconGitHub],
   ['azuread', IconWindows],
+  ['apple', IconApple],
 ]);
 
 /** Exported for tests only. */
@@ -227,12 +240,68 @@ class AuthScreen extends PureComponent<Props> {
     this.props.dispatch(navigateToPassword(serverSettings.require_email_format_usernames));
   };
 
-  handleAuth = (method: AuthenticationMethodDetails) => {
+  handleNativeAppleAuth = async () => {
+    const state = await webAuth.generateRandomToken();
+    const credential: AppleAuthenticationCredential = await AppleAuthentication.signInAsync({
+      state,
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+      ],
+    });
+    if (credential.state !== state) {
+      throw new Error('`state` mismatch');
+    }
+
+    otp = await webAuth.generateOtp();
+
+    const params = encodeParamsForUrl({
+      mobile_flow_otp: otp,
+      native_flow: true,
+      id_token: credential.identityToken,
+    });
+
+    openLink(`${this.props.realm}/complete/apple/?${params}`);
+
+    // Currently, the rest is handled with the `zulip://` redirect,
+    // same as in the web flow.
+    //
+    // TODO: Maybe have an endpoint we can just send a request to,
+    // with `fetch`, and get the API key right away, without ever
+    // having to open the browser.
+  };
+
+  canUseNativeAppleFlow = async () => {
+    if (Platform.OS === 'ios' && (await AppleAuthentication.isAvailableAsync())) {
+      let host: string | void;
+      try {
+        host = new WhatwgURL(this.props.realm).host;
+      } catch (e) {
+        // `this.props.realm` invalid.
+        // TODO: Check this much sooner.
+      }
+
+      // Check that the realm we're actually sending requests to,
+      // which is basically the URL the user entered on the first
+      // screen, is trusted by the official mobile app.
+      const isTrusted = config.appOwnDomains.some(
+        domain => host !== undefined && (host === domain || host.endsWith(`.${domain}`)),
+      );
+      return isTrusted;
+    }
+
+    return false;
+  };
+
+  handleAuth = async (method: AuthenticationMethodDetails) => {
     const { action } = method;
+
     if (action === 'dev') {
       this.handleDevAuth();
     } else if (action === 'password') {
       this.handlePassword();
+    } else if (method.name === 'apple' && (await this.canUseNativeAppleFlow())) {
+      this.handleNativeAppleAuth();
     } else {
       this.beginWebAuth(action.url);
     }
@@ -251,19 +320,27 @@ class AuthScreen extends PureComponent<Props> {
           {activeAuthentications(
             serverSettings.authentication_methods,
             serverSettings.external_authentication_methods,
-          ).map(auth => (
-            <ZulipButton
-              key={auth.name}
-              style={styles.halfMarginTop}
-              secondary
-              text={{
-                text: 'Sign in with {method}',
-                values: { method: auth.displayName },
-              }}
-              Icon={auth.Icon}
-              onPress={() => this.handleAuth(auth)}
-            />
-          ))}
+          ).map(auth =>
+            auth.name === 'apple' && Platform.OS === 'ios' ? (
+              <IosCompliantAppleAuthButton
+                key={auth.name}
+                style={styles.halfMarginTop}
+                onPress={() => this.handleAuth(auth)}
+              />
+            ) : (
+              <ZulipButton
+                key={auth.name}
+                style={styles.halfMarginTop}
+                secondary
+                text={{
+                  text: 'Sign in with {method}',
+                  values: { method: auth.displayName },
+                }}
+                Icon={auth.Icon}
+                onPress={() => this.handleAuth(auth)}
+              />
+            ),
+          )}
         </Centerer>
       </Screen>
     );

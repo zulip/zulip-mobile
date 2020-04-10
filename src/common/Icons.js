@@ -63,6 +63,7 @@ export const IconStream = makeIcon(Feather, 'hash');
 export const IconPin = makeIcon(SimpleLineIcons, 'pin');
 export const IconPrivate = makeIcon(Feather, 'lock');
 export const IconPrivateChat = makeIcon(Feather, 'mail');
+export const IconApple = makeIcon(IoniconsIcon, 'logo-apple');
 export const IconGoogle = makeIcon(IoniconsIcon, 'logo-google');
 export const IconGitHub = makeIcon(Feather, 'github');
 export const IconWindows = makeIcon(IoniconsIcon, 'logo-windows');
