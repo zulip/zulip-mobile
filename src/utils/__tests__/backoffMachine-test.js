@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { BackoffMachine } from '../async';
-import { Lolex } from '../../__tests__/aux/lolex';
+import { Lolex } from '../../__tests__/lib/lolex';
 
 // Since BackoffMachine is in async.js, these tests *should* be in
 // async-test.js. But doing that introduces some interference between these
