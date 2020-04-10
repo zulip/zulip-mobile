@@ -21,11 +21,13 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
     unreadHuddles: { [string]: number },
   ): PmConversationData[] =>
     recentPrivateConversations.map(conversation => {
+      // TODO make recipient.js handle this nastiness
       const conversationUserIdsIncludeMe = conversation.user_ids.slice();
       if (conversationUserIdsIncludeMe.length !== 1) {
         conversationUserIdsIncludeMe.push(ownUser.user_id);
       }
 
+      // TODO make recipient.js handle this nastiness too
       const emails = [];
       for (const userId of conversationUserIdsIncludeMe) {
         const user = allUsersById.get(userId);
