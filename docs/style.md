@@ -188,6 +188,25 @@ basically amounts to an @-mention!  Other common lines include
 and there's no fixed list; people invent others.
 
 
+### Mentioning commits
+
+**Use 9 hex digits to identify a commit.**
+To help make this convenient, you can tell Git to routinely print
+9-digit abbreviations for you by setting
+`git config --global core.abbrev 9`.
+
+Rationale: The full 40 hex digits is a lot, and generally doesn't flow
+well in prose.  On the other hand 7 hex digits, a common default, is
+short enough that there's a material risk of collisions: in zulip.git
+there are already a handful of commits that are ambiguous when
+identified by just 7 digits, and in a very large project like the
+Linux kernel such collisions can become routine.
+
+A 9-digit abbreviation is still short enough to fit well in running
+text; and it's long enough that it's extremely unlikely any given such
+abbreviation will ever be ambiguous.
+
+
 ## GitHub: PRs, issues
 
 **Mention all related issues in PR or new issue.**
