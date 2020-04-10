@@ -52,15 +52,6 @@ export const getAllUsersByEmail: Selector<Map<string, UserOrBot>> = createSelect
   allUsers => new Map(allUsers.map(user => [user.email, user])),
 );
 
-export const getAllUserEmails: Selector<$ReadOnly<{ [user_id: number]: string }>> = createSelector(
-  getAllUsers,
-  (users = []) =>
-    users.reduce((array, user) => {
-      array[user.user_id] = user.email;
-      return array;
-    }, {}),
-);
-
 /**
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
  *

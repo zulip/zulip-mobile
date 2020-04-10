@@ -3,19 +3,19 @@ import { createSelector } from 'reselect';
 
 import type { RecentPrivateConversation, PmConversationData, Selector, User } from '../types';
 import { getRecentPrivateConversations } from '../directSelectors';
-import { getOwnUser, getAllUserEmails } from '../users/userSelectors';
+import { getOwnUser, getAllUsersById } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
 import { normalizeRecipientsSansMe, sortIds } from '../utils/recipient';
 
 export const getRecentConversations: Selector<PmConversationData[]> = createSelector(
   getRecentPrivateConversations,
-  getAllUserEmails,
+  getAllUsersById,
   getOwnUser,
   getUnreadByPms,
   getUnreadByHuddles,
   (
     recentPrivateConversations: RecentPrivateConversation[],
-    emails: $ReadOnly<{ [user_id: number]: string }>,
+    allUsersById,
     ownUser: User,
     unreadPms: { [number]: number },
     unreadHuddles: { [string]: number },
@@ -25,12 +25,19 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
       if (conversationUserIdsIncludeMe.length !== 1) {
         conversationUserIdsIncludeMe.push(ownUser.user_id);
       }
+
+      const emails = [];
+      for (const userId of conversationUserIdsIncludeMe) {
+        const user = allUsersById.get(userId);
+        if (!user) {
+          throw new Error('getRecentConversations: unknown user id');
+        }
+        emails.push(user.email);
+      }
+
       return {
         ids: sortIds(conversationUserIdsIncludeMe),
-        recipients: normalizeRecipientsSansMe(
-          conversationUserIdsIncludeMe.map(id => ({ email: emails[id] })),
-          ownUser.email,
-        ),
+        recipients: normalizeRecipientsSansMe(emails.map(email => ({ email })), ownUser.email),
         msgId: conversation.max_message_id,
       };
     });
