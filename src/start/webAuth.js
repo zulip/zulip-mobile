@@ -29,7 +29,7 @@ import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
 
 // Generate a one time pad (OTP) which the server XORs the API key with
 // in its response to protect against credentials intercept
-export const generateOtp = async () => {
+export const generateOtp = async (): Promise<string> => {
   if (Platform.OS === 'android') {
     return new Promise((resolve, reject) => {
       NativeModules.RNSecureRandom.randomBase64(32, (err, result) => {
