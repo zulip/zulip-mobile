@@ -23,10 +23,10 @@ describe('getRecentConversations', () => {
     const state = deepFreeze({
       realm: { email: 'me@example.com' },
       recentPrivateConversations: [
+        { max_message_id: 4, user_ids: [] },
         { max_message_id: 3, user_ids: [1] },
         { max_message_id: 2, user_ids: [2] },
         { max_message_id: 0, user_ids: [1, 2] },
-        { max_message_id: 4, user_ids: [] },
       ],
       users: [
         { user_id: 0, email: 'me@example.com' },
@@ -93,10 +93,10 @@ describe('getRecentConversations', () => {
     const state = deepFreeze({
       realm: { email: 'me@example.com' },
       recentPrivateConversations: [
+        { max_message_id: 6, user_ids: [] },
+        { max_message_id: 5, user_ids: [1, 2] },
         { max_message_id: 4, user_ids: [1] },
         { max_message_id: 3, user_ids: [2] },
-        { max_message_id: 5, user_ids: [1, 2] },
-        { max_message_id: 6, user_ids: [] },
       ],
       users: [
         { user_id: 0, email: 'me@example.com' },

@@ -19,8 +19,8 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
     ownUser: User,
     unreadPms: { [number]: number },
     unreadHuddles: { [string]: number },
-  ): PmConversationData[] => {
-    const recipients = recentPrivateConversations.map(conversation => {
+  ): PmConversationData[] =>
+    recentPrivateConversations.map(conversation => {
       const conversationUserIdsIncludeMe = conversation.user_ids.slice();
       if (conversationUserIdsIncludeMe.length !== 1) {
         conversationUserIdsIncludeMe.push(ownUser.user_id);
@@ -35,27 +35,24 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
         emails.push(user.email);
       }
 
+      const userIdsString = sortIds(conversationUserIdsIncludeMe);
+
       return {
-        ids: sortIds(conversationUserIdsIncludeMe),
+        ids: userIdsString,
         recipients: normalizeRecipientsSansMe(emails.map(email => ({ email })), ownUser.email),
         msgId: conversation.max_message_id,
+        unread:
+          // This business of looking in one place and then the other is kind
+          // of messy.  Fortunately it always works, because the key spaces
+          // are disjoint: all `unreadHuddles` keys contain a comma, and all
+          // `unreadPms` keys don't.
+          /* $FlowFixMe: The keys of unreadPms are logically numbers, but
+             because it's an object they end up converted to strings, so
+             this access with string keys works.  We should probably use a
+             Map for this and similar maps. */
+          unreadPms[userIdsString] || unreadHuddles[userIdsString],
       };
-    });
-    const sortedByMostRecent = recipients.sort((a, b) => +b.msgId - +a.msgId);
-
-    return sortedByMostRecent.map(recipient => ({
-      ...recipient,
-      unread:
-        // This business of looking in one place and then the other is kind
-        // of messy.  Fortunately it always works, because the key spaces
-        // are disjoint: all `unreadHuddles` keys contain a comma, and all
-        // `unreadPms` keys don't.
-        /* $FlowFixMe: The keys of unreadPms are logically numbers, but because it's an object they
-         end up converted to strings, so this access with string keys works.  We should probably use
-         a Map for this and similar maps. */
-        unreadPms[recipient.ids] || unreadHuddles[recipient.ids],
-    }));
-  },
+    }),
 );
 
 export const getUnreadConversations: Selector<PmConversationData[]> = createSelector(
