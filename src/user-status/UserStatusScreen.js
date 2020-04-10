@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
+import { TranslationContext } from '../boot/TranslationProvider';
 
-import type { Dispatch } from '../types';
+import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { Input, OptionButton, Screen, ZulipButton } from '../common';
 import { getSelfUserStatusText } from '../selectors';
@@ -34,6 +35,9 @@ type State = {|
 |};
 
 class UserStatusScreen extends PureComponent<Props, State> {
+  static contextType = TranslationContext;
+  context: GetText;
+
   state = {
     statusText: this.props.userStatusText,
   };
@@ -62,6 +66,7 @@ class UserStatusScreen extends PureComponent<Props, State> {
 
   render() {
     const { statusText } = this.state;
+    const _ = this.context;
 
     return (
       <Screen title="User status">
@@ -82,7 +87,7 @@ class UserStatusScreen extends PureComponent<Props, State> {
               key={item}
               label={item}
               onPress={() => {
-                this.setStatusTextState(item);
+                this.setStatusTextState(_(item));
               }}
             />
           )}
