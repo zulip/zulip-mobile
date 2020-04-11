@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
-
 import type { Account, Auth, GlobalState, Identity, Selector } from '../types';
 import { getAccounts } from '../directSelectors';
 import { identityOfAccount, keyOfIdentity, identityOfAuth, authOfAccount } from './accountMisc';
+import { ZulipVersion } from '../utils/zulipVersion';
 
 /** See `getAccountStatuses`. */
 export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
@@ -148,3 +148,16 @@ export const getIdentity: Selector<Identity> = createSelector(
   getAuth,
   auth => identityOfAuth(auth),
 );
+
+/**
+ * The Zulip server version of the active account, in the parsed form
+ * as a ZulipVersion instance, or undefined if we do not know the server
+ * version.
+ */
+export const getServerVersion = (state: GlobalState): ZulipVersion | void => {
+  const activeAccount: Account = getActiveAccount(state);
+  if (activeAccount.zulipVersion === undefined) {
+    return undefined;
+  }
+  return new ZulipVersion(activeAccount.zulipVersion);
+};
