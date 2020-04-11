@@ -57,7 +57,6 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
 
   const backoffMachine = new BackoffMachine();
 
-  /* eslint-disable no-await-in-loop */
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const auth = tryGetAuth(getState());

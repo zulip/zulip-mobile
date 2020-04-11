@@ -7,7 +7,6 @@ import { getTyping } from '../directSelectors';
 
 export const clearTypingNotification = () => async (dispatch: Dispatch, getState: GetState) => {
   // loop to auto dismiss typing notifications after typingNotificationTimeout
-  /* eslint-disable no-await-in-loop */
   // eslint-disable-next-line no-constant-condition
   while (true) {
     await sleep(15000);

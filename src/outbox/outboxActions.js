@@ -101,7 +101,7 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
   dispatch(toggleOutboxSending(true));
   const backoffMachine = new BackoffMachine();
   while (!trySendMessages(dispatch, getState)) {
-    await backoffMachine.wait(); // eslint-disable-line no-await-in-loop
+    await backoffMachine.wait();
   }
   dispatch(toggleOutboxSending(false));
 };
