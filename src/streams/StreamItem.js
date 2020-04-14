@@ -98,20 +98,23 @@ export default class StreamItem extends PureComponent<Props> {
           );
     // Prettier bug on nested ternary
     /* prettier-ignore */
-    const textColorStyle = {
-      color: isSelected
-        ? 'white'
-        : backgroundColor !== undefined && backgroundColor !== ''
-          ? (foregroundColorFromBackground(backgroundColor): string)
-          : this.context.color,
-    };
+    const textColor = isSelected
+      ? 'white'
+      : backgroundColor !== undefined && backgroundColor !== ''
+        ? (foregroundColorFromBackground(backgroundColor): string)
+        : this.context.color;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={wrapperStyle}>
           <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
           <View style={componentStyles.text}>
-            <RawLabel numberOfLines={1} style={textColorStyle} text={name} ellipsizeMode="tail" />
+            <RawLabel
+              numberOfLines={1}
+              style={{ color: textColor }}
+              text={name}
+              ellipsizeMode="tail"
+            />
             {description !== undefined && description !== '' && (
               <RawLabel
                 numberOfLines={1}
