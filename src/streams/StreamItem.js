@@ -38,6 +38,22 @@ type Props = $ReadOnly<{|
   onSwitch?: (name: string, newValue: boolean) => void,
 |}>;
 
+/**
+ * A single-line list item to show a stream or stream subscription.
+ *
+ * @prop name - the stream's name
+ * @prop description - the stream's description
+ * @prop iconSize
+ * @prop isMuted - false for a Stream; !sub.in_home_view for Subscription
+ * @prop isPrivate - .invite_only for a Stream or a Subscription
+ * @prop showSwitch - whether to show a toggle switch (ZulipSwitch)
+ * @prop color - if provided, MUST be .color on a Subscription
+ * @prop backgroundColor - if provided, MUST be .color on a Subscription
+ * @prop isSwitchedOn - initial value of the toggle switch, if present
+ * @prop unreadCount - number of unread messages
+ * @prop onPress - press handler for the item; receives the stream name
+ * @prop onSwitch - if switch exists; receives stream name and new value
+ */
 export default class StreamItem extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeColors;
@@ -73,17 +89,14 @@ export default class StreamItem extends PureComponent<Props> {
     } = this.props;
 
     const wrapperStyle = [styles.listItem, { backgroundColor }, isMuted && componentStyles.muted];
-    // TODO: confirm these '' cases are irrelevant, and remove.
     const iconColor =
-      color !== undefined && color !== ''
+      color !== undefined
         ? color
         : foregroundColorFromBackground(
-            backgroundColor !== undefined && backgroundColor !== ''
-              ? backgroundColor
-              : this.context.backgroundColor,
+            backgroundColor !== undefined ? backgroundColor : this.context.backgroundColor,
           );
     const textColor =
-      backgroundColor !== undefined && backgroundColor !== ''
+      backgroundColor !== undefined
         ? (foregroundColorFromBackground(backgroundColor): string)
         : this.context.color;
 
