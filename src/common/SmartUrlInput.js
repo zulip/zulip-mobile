@@ -4,7 +4,8 @@ import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-nat
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import type { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
 
-import type { Context } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext } from '../styles';
 import { autocompleteRealmPieces, autocompleteRealm, fixRealmUrl } from '../utils/url';
 import type { Protocol } from '../utils/url';
 import RawLabel from './RawLabel';
@@ -60,16 +61,13 @@ type State = {|
 |};
 
 export default class SmartUrlInput extends PureComponent<Props, State> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
   state = {
     value: '',
   };
   textInputRef: ?TextInput;
   focusListener: void | NavigationEventSubscription;
-
-  static contextTypes = {
-    styles: () => null,
-  };
 
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
@@ -103,14 +101,13 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   renderPlaceholderPart = (text: string) => (
     <TouchableWithoutFeedback onPress={this.urlPress}>
       <RawLabel
-        style={[styles.realmInput, this.context.styles.color, styles.realmPlaceholder]}
+        style={[styles.realmInput, { color: this.context.color }, styles.realmPlaceholder]}
         text={text}
       />
     </TouchableWithoutFeedback>
   );
 
   render() {
-    const { styles: contextStyles } = this.context;
     const {
       defaultValue,
       defaultProtocol,
@@ -133,7 +130,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
         <TextInput
           style={[
             styles.realmInput,
-            contextStyles.color,
+            { color: this.context.color },
             value.length === 0 && styles.realmInputEmpty,
           ]}
           autoFocus
