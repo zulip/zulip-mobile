@@ -36,6 +36,18 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Fixed bug introduced in 26.24.147 that could cause the app to crash
+  on launch. (#4038)
+
+
+### Highlights for developers
+
+User-facing:
+* #4038: crash at launch involving group PMs
+* #3985: bad arithmetic in colorHashFromString; root cause of #4038
+
 
 ## 26.26.149 (2020-04-07)
 
