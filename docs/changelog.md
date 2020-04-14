@@ -36,6 +36,13 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.27.150 (2020-04-13)
+
+This is a stable release on top of 26.26.149, with one cherry-picked
+fix for a critical bug.
+
+
 ### Highlights for users
 
 * Fixed bug introduced in 26.24.147 that could cause the app to crash
