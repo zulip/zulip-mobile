@@ -170,6 +170,7 @@ export type PmsUnreadItem = {|
   unread_message_ids: number[],
 |};
 
+/** Initial data for `update_message_flags` events. */
 export type InitialDataUpdateMessageFlags = {|
   unread_msgs: {
     streams: StreamUnreadItem[],
@@ -188,7 +189,15 @@ export type InitialDataUserStatus = {|
   user_status?: UserStatusMapObject,
 |};
 
+// Initial data snapshot sent in response to a `/register` request.
 export type InitialData = {|
+  // The server sends different subsets of the full available data,
+  // depending on what event types the client subscribes to with the
+  // `fetch_event_types` field of the `/register` request. We name these
+  // subsets after the event types that cause them to be included.
+  //
+  // See zerver/lib/events.py in fetch_initial_state_data for the
+  // server-side implementation.
   ...InitialDataBase,
   ...InitialDataAlertWords,
   ...InitialDataMessage,
