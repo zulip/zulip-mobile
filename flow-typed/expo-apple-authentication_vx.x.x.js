@@ -40,7 +40,7 @@ declare module 'expo-apple-authentication/build/AppleAuthentication' {
 
 declare module 'expo-apple-authentication/build/AppleAuthentication.types' {
   declare export type AppleAuthenticationButtonProps = {
-    onPress: () => void,
+    onPress: () => void | Promise<void>,
     buttonType: $Values<typeof AppleAuthenticationButtonType>,
     buttonStyle: $Values<typeof AppleAuthenticationButtonStyle>,
     cornerRadius?: number,
