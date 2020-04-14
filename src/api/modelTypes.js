@@ -429,6 +429,9 @@ export type Submessage = $ReadOnly<{|
  *  * `MessageDict.wide_dict` and its helpers in zerver/lib/message.py;
  *    via `do_send_messages` in `zerver/lib/actions.py`, these supply most
  *    of the data ultimately handled by `process_message_event`
+ *  * `messages_for_ids` and its helpers in zerver/lib/message.py; via
+ *    `get_messages_backend`, these supply the data ultimately returned by
+ *    `/messages`
  *  * the `Message` and `AbstractMessage` models in zerver/models.py, but
  *    with caution; many fields are adjusted between the DB row and the event
  *  * empirical study looking at Redux events logged [to the
@@ -466,12 +469,44 @@ export type Message = $ReadOnly<{
    */
   flags?: $ReadOnlyArray<string>,
 
-  /** The rest are believed to really appear in `message` events. */
+  //
+  // The rest are believed to really appear in `message` events.
+
   avatar_url: string | null,
   client: string,
   content: string,
   content_type: 'text/html' | 'text/markdown',
+
+  // Notes from studying the server code:
+  //  * Notes are primarily from the server as of 2020-04 at cb85763c7, but
+  //    this logic is very stable; confirmed all points about behavior as of
+  //    1.8.0, too.
+  //
+  //  * This field is ultimately computed (for both events and /messages
+  //    results) in MessageDict.hydrate_recipient_info, with most of the
+  //    work done earlier, in bulk_fetch_display_recipients in
+  //    zerver/lib/display_recipient.py.
+  //
+  //  * Ordering of users in the list:
+  //    * For 1:1 PMs, sorted by email.  (Right in hydrate_recipient_info.)
+  //    * For group PMs, sorted by user ID.  (In bulk_get_huddle_user_ids,
+  //      invoked from bulk_fetch_display_recipients.)
+  //    * If we were to write down an API guarantee here, we'd surely make
+  //      it sorted by user ID; so, best not to assume current behavior.
+  //
+  /**
+   * The set of all users in the thread, for a PM; else the stream name.
+   *
+   * For a private message, this lists the sender as well as all (other)
+   * recipients, and it lists each user just once.  In particular the
+   * self-user is always included.
+   *
+   * The ordering is less well specified; if it matters, sort first.
+   *
+   * For stream messages, prefer `stream_id`; see #3918.
+   */
   display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
+
   edit_history: $ReadOnlyArray<MessageEdit>,
   gravatar_hash: string,
   id: number,
