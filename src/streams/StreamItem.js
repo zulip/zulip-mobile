@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Context } from '../types';
-import styles, { BRAND_COLOR } from '../styles';
+import type { ThemeColors } from '../styles';
+import styles, { ThemeContext, BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
@@ -43,11 +43,8 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class StreamItem extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
   static defaultProps = {
     isMuted: false,
@@ -67,7 +64,6 @@ export default class StreamItem extends PureComponent<Props> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const {
       name,
       description,
@@ -98,7 +94,7 @@ export default class StreamItem extends PureComponent<Props> {
         : foregroundColorFromBackground(
             backgroundColor !== undefined && backgroundColor !== ''
               ? backgroundColor
-              : (StyleSheet.flatten(contextStyles.backgroundColor) || {}).backgroundColor || null,
+              : this.context.backgroundColor,
           );
     // Prettier bug on nested ternary
     /* prettier-ignore */
@@ -106,7 +102,7 @@ export default class StreamItem extends PureComponent<Props> {
       ? { color: 'white' }
       : backgroundColor !== undefined && backgroundColor !== ''
         ? { color: (foregroundColorFromBackground(backgroundColor): string) }
-        : contextStyles.color;
+        : { color: this.context.color };
 
     return (
       <Touchable onPress={this.handlePress}>
