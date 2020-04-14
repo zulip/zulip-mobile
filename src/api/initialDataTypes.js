@@ -173,7 +173,17 @@ export type HuddlesUnreadItem = {|
   unread_message_ids: number[],
 |};
 
+/** The unreads in a 1:1 PM thread, as represented in `unread_msgs`. */
 export type PmsUnreadItem = {|
+  /**
+   * Misnamed; really the *other* user, or self for a self-PM.
+   *
+   * This is almost always the same as the message's sender.  The case where
+   * it isn't is where a (1:1) message you yourself sent is nevertheless
+   * unread.  That case can happen if you send it through the API (though
+   * the normal thing even then would be to make a bot user to send the
+   * messages as.)  See server commit ca74cd6e3.
+   */
   sender_id: number,
 
   // Sorted.
