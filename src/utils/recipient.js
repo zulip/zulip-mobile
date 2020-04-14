@@ -85,7 +85,9 @@ export const getRecipientsIds = (message: Message, ownEmail?: string): string =>
     throw new Error('getRecipientsIds: expected PM, got stream message');
   }
   const recipients = message.display_recipient;
-  if (recipients.length === 2) {
+  if (recipients.length === 1) {
+    return recipients[0].id.toString();
+  } else if (recipients.length === 2) {
     if (ownEmail === undefined) {
       throw new Error('getRecipientsIds: got 1:1 PM, but ownEmail omitted');
     }
