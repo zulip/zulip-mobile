@@ -476,6 +476,27 @@ export type Message = $ReadOnly<{
   client: string,
   content: string,
   content_type: 'text/html' | 'text/markdown',
+  edit_history: $ReadOnlyArray<MessageEdit>,
+  gravatar_hash: string,
+  id: number,
+  is_me_message: boolean,
+  last_edit_timestamp?: number,
+  reactions: $ReadOnlyArray<Reaction>,
+  sender_email: string,
+  sender_full_name: string,
+  sender_id: number,
+  sender_realm_str: string,
+  sender_short_name: string,
+
+  /** Older servers omit this; when omitted, equivalent to empty array. */
+  submessages?: $ReadOnlyArray<Submessage>,
+
+  timestamp: number,
+
+  //
+  // Properties that behave differently for stream vs. private messages.
+
+  type: 'stream' | 'private',
 
   // Notes from studying the server code:
   //  * Notes are primarily from the server as of 2020-04 at cb85763c7, but
@@ -507,25 +528,11 @@ export type Message = $ReadOnly<{
    */
   display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
 
-  edit_history: $ReadOnlyArray<MessageEdit>,
-  gravatar_hash: string,
-  id: number,
-  is_me_message: boolean,
-  last_edit_timestamp?: number,
-  reactions: $ReadOnlyArray<Reaction>,
+  /** Deprecated; a server implementation detail not useful in a client. */
   recipient_id: number,
-  sender_email: string,
-  sender_full_name: string,
-  sender_id: number,
-  sender_realm_str: string,
-  sender_short_name: string,
+
   stream_id: number, // FixMe: actually only for type `stream`, else absent.
+
   subject: string,
   subject_links: $ReadOnlyArray<string>,
-
-  /** Older servers omit this; when omitted, equivalent to empty array. */
-  submessages?: $ReadOnlyArray<Submessage>,
-
-  timestamp: number,
-  type: 'stream' | 'private',
 }>;
