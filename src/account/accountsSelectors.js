@@ -150,9 +150,12 @@ export const getIdentity: Selector<Identity> = createSelector(
 );
 
 /**
- * The Zulip server version of the active account, in the parsed form
- * as a ZulipVersion instance, or undefined if we do not know the server
- * version.
+ * The Zulip server version of the active account.
+ *
+ * Throws if no active account; undefined if server version not known.
+ *
+ * See the `zulipVersion` property of `Account` for details on how this
+ * information is kept up to date.
  */
 export const getServerVersion = (state: GlobalState): ZulipVersion | void => {
   const activeAccount: Account = getActiveAccount(state);

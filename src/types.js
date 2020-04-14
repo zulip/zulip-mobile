@@ -79,10 +79,18 @@ export type Account = {|
   ...Auth,
 
   /**
-   * Use this to affect how we make some API requests, keeping the logic
-   * isolated to the edge, where we communicate with the server, to keep with
-   * the "crunchy shell" pattern (see docs/architecture/crunchy-shell.md), and
-   * for Sentry reports.
+   * The version of the Zulip server.
+   *
+   * We learn the server's version from /server_settings at the start of the
+   * login process, and again from /register when setting up an event queue.
+   * Because a server deploy invalidates event queues, this means the value
+   * is always up to date for a server we have an active event queue on.
+   *
+   * For use in:
+   *  * how we make some API requests, in order to keep the logic isolated
+   *    to the edge, where we communicate with the server, to keep with the
+   *    "crunchy shell" pattern (see docs/architecture/crunchy-shell.md);
+   *  * context data in Sentry reports.
    */
   zulipVersion?: string,
 
