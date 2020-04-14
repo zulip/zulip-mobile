@@ -98,11 +98,13 @@ export default class StreamItem extends PureComponent<Props> {
           );
     // Prettier bug on nested ternary
     /* prettier-ignore */
-    const textColorStyle = isSelected
-      ? { color: 'white' }
-      : backgroundColor !== undefined && backgroundColor !== ''
-        ? { color: (foregroundColorFromBackground(backgroundColor): string) }
-        : { color: this.context.color };
+    const textColorStyle = {
+      color: isSelected
+        ? 'white'
+        : backgroundColor !== undefined && backgroundColor !== ''
+          ? (foregroundColorFromBackground(backgroundColor): string)
+          : this.context.color,
+    };
 
     return (
       <Touchable onPress={this.handlePress}>
