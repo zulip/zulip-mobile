@@ -139,8 +139,9 @@ var compiledWebviewJs = (function (exports) {
   window.addEventListener('resize', function (event) {
     var heightChange = documentBody.clientHeight - viewportHeight;
     viewportHeight = documentBody.clientHeight;
+    var maxScrollTop = documentBody.scrollHeight - documentBody.clientHeight;
 
-    if (documentBody.scrollHeight === documentBody.scrollTop + documentBody.clientHeight) {
+    if (documentBody.scrollTop === maxScrollTop) {
       return;
     }
 

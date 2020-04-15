@@ -183,7 +183,8 @@ window.addEventListener('resize', event => {
   // higher than we started.
   //
   // If that happened, we'll be at the very bottom now.
-  if (documentBody.scrollHeight === documentBody.scrollTop + documentBody.clientHeight) {
+  const maxScrollTop = documentBody.scrollHeight - documentBody.clientHeight;
+  if (documentBody.scrollTop === maxScrollTop) {
     // We're at the very bottom of the content.  Don't scroll.
     //
     // This does mean if you're near the bottom, and then the viewport grows
