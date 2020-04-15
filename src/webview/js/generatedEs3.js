@@ -138,6 +138,7 @@ var compiledWebviewJs = (function (exports) {
   var viewportHeight = documentBody.clientHeight;
   window.addEventListener('resize', function (event) {
     var heightChange = documentBody.clientHeight - viewportHeight;
+    viewportHeight = documentBody.clientHeight;
 
     if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
       window.scrollBy({
@@ -145,8 +146,6 @@ var compiledWebviewJs = (function (exports) {
         top: -heightChange
       });
     }
-
-    viewportHeight = documentBody.clientHeight;
   });
 
   function midMessagePeer(top, bottom) {

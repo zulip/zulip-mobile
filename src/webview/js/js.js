@@ -168,10 +168,18 @@ let viewportHeight = documentBody.clientHeight;
 
 window.addEventListener('resize', event => {
   const heightChange = documentBody.clientHeight - viewportHeight;
+  viewportHeight = documentBody.clientHeight;
+
+  // Now we try to scroll to keep the bottom edge of the viewport aligned to
+  // the same content it was before the resize.  We assume the browser tried
+  // to keep the top edge aligned instead.
+  //
+  // Mostly, that means if the viewport grew, then the bottom moved down, so
+  // we'll scroll back up by the same amount; and vice versa if it shrank.
+
   if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
     window.scrollBy({ left: 0, top: -heightChange });
   }
-  viewportHeight = documentBody.clientHeight;
 });
 
 /*
