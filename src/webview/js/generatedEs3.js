@@ -140,12 +140,14 @@ var compiledWebviewJs = (function (exports) {
     var heightChange = documentBody.clientHeight - viewportHeight;
     viewportHeight = documentBody.clientHeight;
 
-    if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
-      window.scrollBy({
-        left: 0,
-        top: -heightChange
-      });
+    if (documentBody.scrollHeight === documentBody.scrollTop + documentBody.clientHeight) {
+      return;
     }
+
+    window.scrollBy({
+      left: 0,
+      top: -heightChange
+    });
   });
 
   function midMessagePeer(top, bottom) {
