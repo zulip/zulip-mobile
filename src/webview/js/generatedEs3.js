@@ -137,12 +137,12 @@ var compiledWebviewJs = (function (exports) {
 
   var viewportHeight = documentBody.clientHeight;
   window.addEventListener('resize', function (event) {
-    var difference = viewportHeight - documentBody.clientHeight;
+    var heightChange = documentBody.clientHeight - viewportHeight;
 
     if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
       window.scrollBy({
         left: 0,
-        top: difference
+        top: -heightChange
       });
     }
 

@@ -167,9 +167,9 @@ const showHideElement = (elementId: string, show: boolean) => {
 let viewportHeight = documentBody.clientHeight;
 
 window.addEventListener('resize', event => {
-  const difference = viewportHeight - documentBody.clientHeight;
+  const heightChange = documentBody.clientHeight - viewportHeight;
   if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
-    window.scrollBy({ left: 0, top: difference });
+    window.scrollBy({ left: 0, top: -heightChange });
   }
   viewportHeight = documentBody.clientHeight;
 });
