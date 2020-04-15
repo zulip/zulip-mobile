@@ -141,7 +141,7 @@ var compiledWebviewJs = (function (exports) {
     viewportHeight = documentBody.clientHeight;
     var maxScrollTop = documentBody.scrollHeight - documentBody.clientHeight;
 
-    if (documentBody.scrollTop === maxScrollTop) {
+    if (documentBody.scrollTop >= maxScrollTop - 1) {
       return;
     }
 

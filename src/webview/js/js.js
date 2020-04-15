@@ -184,8 +184,9 @@ window.addEventListener('resize', event => {
   //
   // If that happened, we'll be at the very bottom now.
   const maxScrollTop = documentBody.scrollHeight - documentBody.clientHeight;
-  if (documentBody.scrollTop === maxScrollTop) {
-    // We're at the very bottom of the content.  Don't scroll.
+  if (documentBody.scrollTop >= maxScrollTop - 1) {
+    // We're at (or within a px of, or beyond) the very bottom of the
+    // content.  Don't scroll.
     //
     // This does mean if you're near the bottom, and then the viewport grows
     // by more than that distance, you'll wind up at the very bottom instead
