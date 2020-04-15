@@ -162,7 +162,7 @@ export type StreamUnreadItem = {|
   unread_message_ids: number[],
 
   /** All distinct senders of these messages; sorted. */
-  sender_ids: number[],
+  // sender_ids: number[],
 |};
 
 export type HuddlesUnreadItem = {|
