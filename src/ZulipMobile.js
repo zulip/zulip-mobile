@@ -5,7 +5,7 @@ import 'react-native-url-polyfill/auto';
 import '../vendor/intl/intl';
 import StoreProvider from './boot/StoreProvider';
 import TranslationProvider from './boot/TranslationProvider';
-import StylesProvider from './boot/StylesProvider';
+import ThemeProvider from './boot/ThemeProvider';
 import CompatibilityChecker from './boot/CompatibilityChecker';
 import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
@@ -26,11 +26,11 @@ export default (): React$Node => (
       <AppEventHandlers>
         <AppDataFetcher>
           <TranslationProvider>
-            <StylesProvider>
+            <ThemeProvider>
               <BackNavigationHandler>
                 <AppWithNavigation />
               </BackNavigationHandler>
-            </StylesProvider>
+            </ThemeProvider>
           </TranslationProvider>
         </AppDataFetcher>
       </AppEventHandlers>

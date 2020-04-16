@@ -102,38 +102,100 @@ long as the code adheres to core Redux principles:
 
 ### Context
 
-Our "Pure Component Principle" says `render` is a pure function of props,
-state, *and context*.  But `PureComponent` only checks for changes to props
-and state, and skips re-render when just those two are unchanged.  Doesn't
-that open up bugs if just `this.context` changes?
+We're on board with the current API where possible; there's a
+third-party library we use that isn't there yet.
 
-[Yes, it
-would](https://reactjs.org/docs/legacy-context.html#updating-context).  For
-this reason, when something provided in context is updated, we force the
-entire React component tree under that point (in our usage of `context`,
-this is nearly the entire tree) to re-render.  This means we use `context`
-sparingly -- only for things where its benefit for code readability is very
-large, and where updates are rare so we're OK with that global re-render.
+#### Current Context API
 
-In `StylesProvider`, for example, this is done with a `key`.
+We should use the [current Context
+API](https://reactjs.org/docs/context.html) instead of the [legacy
+one](https://reactjs.org/docs/legacy-context.html) wherever possible.
+The new API aggressively ensures consumers will be updated
+(re-`render`ed) on context changes, and the old one doesn't (see
+below). From the [new API's
+doc](https://reactjs.org/docs/context.html):
 
-Relatedly, the `this.context` API we use is a legacy API.  Recent React
-versions offer a [new context API](https://reactjs.org/docs/context.html)
-that works much more like Redux and `connect`, above.
+> All consumers that are descendants of a Provider will re-render
+> whenever the Provider’s `value` prop changes.
+
+It's so aggressive that there's a potential "gotcha" with the new API:
+context consumers are the first occurrence of the following that we're
+aware of (from the [doc on
+`shouldComponentUpdate`](https://reactjs.org/docs/react-component.html#shouldcomponentupdate)):
+
+> In the future React may treat `shouldComponentUpdate()` as a hint
+> rather than a strict directive, and returning `false` may still
+> result in a re-rendering of the component.
+
+We gather this from the following (in the [new API's
+doc](https://reactjs.org/docs/context.html)):
+
+> The propagation from Provider to its descendant consumers (including
+> [`.contextType`](https://reactjs.org/docs/context.html#classcontexttype)
+> [...])
+> is not subject to the shouldComponentUpdate method
+
+Concretely, this means that our `MessageList` component updates
+(re-`render`s) when the theme changes, since it's a `ThemeContext`
+consumer, *even though its `shouldComponentUpdate` always returns
+`false`*. So far, this hasn't been a problem because the UI doesn't
+allow changing the theme while a `MessageList` is in the navigation
+stack. If it were possible, it would be a concern: setting a short
+interval to automatically toggle the theme, we see that the message
+list's color scheme changes as we'd want it to, but we also see the
+bad effects that `shouldComponentUpdate` returning `false` is meant to
+prevent: losing the scroll position, mainly (but also, we expect,
+discarding the image cache, etc.).
+
+#### Legacy Context API
+
+The legacy Context API is
+[declared](https://reactjs.org/docs/legacy-context.html#updating-context)
+fundamentally broken because consumers could be blocked from receiving
+updates to the context, and not just by the consumer's own
+`shouldComponentUpdate`:
+
+> The problem is, if a context value provided by component changes,
+> descendants that use that value won’t update if an intermediate
+> parent returns `false` from `shouldComponentUpdate`. This is totally
+> out of control of the components using context, so there’s basically
+> no way to reliably update the context.
+
+We have to think about the legacy Context API in just one place. The
+`react-intl` library's `IntlProvider` uses it to provide the `intl`
+context. The only consumer of `intl` is
+`TranslationContextTranslator`, but we've made that a `PureComponent`,
+so it doesn't get updated when `intl` changes. Our workaround until
+now has been a "`key` hack":
+
+If `locale` changes, we make the entire React component tree at and
+below `IntlProvider` remount. (Not merely re-`render`: completely
+vanish and start over with `componentDidMount`; see the note at [this
+doc](https://5d4b5feba32acd0008d0df98--reactjs.netlify.app/docs/reconciliation.html)
+starting with "Keys should be stable, predictable, and unique".) We do
+this with the [`key`
+attribute](https://reactjs.org/docs/lists-and-keys.html), which isn't
+recommended for use except in lists.
+
+In the next commit, we stop using the `key` hack and instead make
+`TranslationContextTranslator` "speak" the old API better.
 
 ### The exception: `MessageList`
 
 We have one React component that we wrote (beyond `connect` calls) that
 deviates from the above design: `MessageList`.  This is the only
-component that extends plain `Component` rather than `PureComponent`, and
-the only component that implements `shouldComponentUpdate`.
+component that extends plain `Component` rather than `PureComponent`,
+and it's the only component in which we implement
+`shouldComponentUpdate`.
 
 In fact, `MessageList` does adhere to the Pure Component Principle -- its
 `render` method is a pure function of `this.props` and `this.context`.  So
 it could use `PureComponent`, but it doesn't -- instead we have a
 `shouldComponentUpdate` that always returns `false`, so even when `props`
 change quite materially (e.g., a new Zulip message arrives which should be
-displayed) we don't have React re-render the component.
+displayed) we don't have React re-render the component. (See the note
+on the current Context API, above, for a known case where our
+`shouldComponentUpdate` is ignored.)
 
 The specifics of why not, and what we do instead, deserve an architecture
 doc of their own.  In brief: `render` returns a single React element, a
