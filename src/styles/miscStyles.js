@@ -62,8 +62,4 @@ export default ({ color, backgroundColor }: ThemeColors) => ({
   background: {
     backgroundColor,
   },
-  label: {
-    color,
-    fontSize: 15,
-  },
 });
