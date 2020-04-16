@@ -1,10 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, Platform } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
-import type { Context, LocalizableText } from '../types';
-import { HALF_COLOR, BORDER_COLOR } from '../styles';
+import type { LocalizableText } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext, HALF_COLOR, BORDER_COLOR } from '../styles';
 
 export type Props = $ReadOnly<{|
   ...$PropertyType<TextInput, 'props'>,
@@ -32,15 +33,26 @@ type State = {|
  *   See upstream: https://reactnative.dev/docs/textinput
  */
 export default class Input extends PureComponent<Props, State> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
+
+  styles = {
+    input: {
+      ...Platform.select({
+        ios: {
+          borderWidth: 1,
+          borderColor: BORDER_COLOR,
+          borderRadius: 2,
+          padding: 8,
+        },
+      }),
+    },
+  };
+
   state = {
     isFocused: false,
   };
   textInput: ?TextInput;
-
-  static contextTypes = {
-    styles: () => null,
-  };
 
   handleClear = () => {
     const { onChangeText } = this.props;
@@ -65,7 +77,6 @@ export default class Input extends PureComponent<Props, State> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { style, placeholder, textInputRef, ...restProps } = this.props;
     const { isFocused } = this.state;
     const fullPlaceholder =
@@ -81,7 +92,7 @@ export default class Input extends PureComponent<Props, State> {
       >
         {(text: string) => (
           <TextInput
-            style={[contextStyles.input, style]}
+            style={[this.styles.input, { color: this.context.color }, style]}
             placeholder={text}
             placeholderTextColor={HALF_COLOR}
             underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
