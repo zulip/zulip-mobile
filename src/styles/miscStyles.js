@@ -58,9 +58,6 @@ export const statics = {
 };
 
 export default ({ color, backgroundColor }: ThemeColors) => ({
-  color: {
-    color,
-  },
   backgroundColor: {
     backgroundColor,
   },
