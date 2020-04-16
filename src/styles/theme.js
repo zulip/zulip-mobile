@@ -2,6 +2,8 @@
 import React from 'react';
 import type { Context } from 'react';
 
+import type { ThemeName } from '../reduxTypes';
+
 export type ThemeColors = {|
   color: string,
   backgroundColor: string,
@@ -9,7 +11,7 @@ export type ThemeColors = {|
   dividerColor: string,
 |};
 
-export const themeColors: { [string]: ThemeColors } = {
+export const themeColors: { [name: ThemeName | 'light']: ThemeColors } = {
   night: {
     color: 'hsl(210, 11%, 85%)',
     backgroundColor: 'hsl(212, 28%, 18%)',
