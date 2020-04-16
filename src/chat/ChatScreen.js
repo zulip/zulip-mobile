@@ -5,7 +5,9 @@ import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { connect } from '../react-redux';
-import type { Context, Dispatch, Fetching, Narrow, EditMessage } from '../types';
+import type { ThemeColors } from '../styles';
+import styles, { ThemeContext } from '../styles';
+import type { Dispatch, Fetching, Narrow, EditMessage } from '../types';
 import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import ChatNavBar from '../nav/ChatNavBar';
 
@@ -13,7 +15,6 @@ import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
-import styles from '../styles';
 import { canSendToNarrow } from '../utils/narrow';
 import { getLoading } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
@@ -37,14 +38,18 @@ type State = {|
 |};
 
 class ChatScreen extends PureComponent<Props, State> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
   state = {
     editMessage: null,
   };
 
-  static contextTypes = {
-    styles: () => null,
+  styles = {
+    screen: {
+      flex: 1,
+      flexDirection: 'column',
+    },
   };
 
   startEditMessage = (editMessage: EditMessage) => {
@@ -56,7 +61,6 @@ class ChatScreen extends PureComponent<Props, State> {
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { fetching, haveNoMessages, loading, navigation } = this.props;
     const { narrow } = navigation.state.params;
     const { editMessage } = this.state;
@@ -68,7 +72,7 @@ class ChatScreen extends PureComponent<Props, State> {
 
     return (
       <ActionSheetProvider>
-        <View style={contextStyles.screen}>
+        <View style={[this.styles.screen, { backgroundColor: this.context.backgroundColor }]}>
           <KeyboardAvoider style={styles.flexed} behavior="padding">
             <ZulipStatusBar narrow={narrow} />
             <ChatNavBar narrow={narrow} editMessage={editMessage} />
