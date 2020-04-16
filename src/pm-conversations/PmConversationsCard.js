@@ -3,7 +3,9 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Context, Dispatch, PmConversationData, UserOrBot } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext } from '../styles';
+import type { Dispatch, PmConversationData, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Label, ZulipButton, LoadingBanner } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
@@ -40,18 +42,14 @@ type Props = $ReadOnly<{|
  * The "PMs" page in the main tabs navigation.
  * */
 class PmConversationsCard extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { dispatch, conversations, usersByEmail } = this.props;
 
     return (
-      <View style={[styles.container, contextStyles.background]}>
+      <View style={[styles.container, { backgroundColor: this.context.backgroundColor }]}>
         <View style={styles.row}>
           <ZulipButton
             secondary

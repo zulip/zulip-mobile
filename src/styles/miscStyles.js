@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import type { ThemeColors } from './theme';
 import { CONTROL_SIZE } from './constants';
 
 export const statics = {
@@ -54,12 +53,3 @@ export const statics = {
     justifyContent: 'flex-end',
   },
 };
-
-export default ({ color, backgroundColor }: ThemeColors) => ({
-  backgroundColor: {
-    backgroundColor,
-  },
-  background: {
-    backgroundColor,
-  },
-});

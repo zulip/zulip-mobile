@@ -4,9 +4,10 @@ import { Platform, View, TextInput, findNodeHandle } from 'react-native';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
 
+import type { ThemeColors } from '../styles';
+import { ThemeContext } from '../styles';
 import type {
   Auth,
-  Context,
   Narrow,
   EditMessage,
   InputSelection,
@@ -102,16 +103,13 @@ export const updateTextInput = (textInput: ?TextInput, text: string): void => {
 };
 
 class ComposeBox extends PureComponent<Props, State> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
   messageInput: ?TextInput = null;
   topicInput: ?TextInput = null;
 
   inputBlurTimeoutId: ?TimeoutID = null;
-
-  static contextTypes = {
-    styles: () => null,
-  };
 
   state = {
     isMessageFocused: false,
@@ -322,7 +320,6 @@ class ComposeBox extends PureComponent<Props, State> {
       borderRadius: 5,
       marginBottom: 8,
       ...this.inputMarginPadding,
-      ...this.context.styles.backgroundColor,
     },
     composeTextInput: {
       borderWidth: 0,
@@ -330,7 +327,6 @@ class ComposeBox extends PureComponent<Props, State> {
       fontSize: 15,
       flexShrink: 1,
       ...this.inputMarginPadding,
-      ...this.context.styles.backgroundColor,
     },
   };
 
@@ -384,7 +380,7 @@ class ComposeBox extends PureComponent<Props, State> {
           <View style={this.styles.composeText}>
             {this.getCanSelectTopic() && (
               <Input
-                style={this.styles.topicInput}
+                style={[this.styles.topicInput, { backgroundColor: this.context.backgroundColor }]}
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
                 defaultValue={topic}
@@ -400,7 +396,10 @@ class ComposeBox extends PureComponent<Props, State> {
             )}
             <Input
               multiline={!isMenuExpanded}
-              style={this.styles.composeTextInput}
+              style={[
+                this.styles.composeTextInput,
+                { backgroundColor: this.context.backgroundColor },
+              ]}
               underlineColorAndroid="transparent"
               placeholder={placeholder}
               defaultValue={message}
