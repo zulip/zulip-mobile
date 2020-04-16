@@ -79,9 +79,4 @@ export default ({ color, backgroundColor }: ThemeColors) => ({
     color,
     fontSize: 15,
   },
-  screen: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor,
-  },
 });
