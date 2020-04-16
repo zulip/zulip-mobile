@@ -2,7 +2,8 @@
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 
-import type { Context } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
   ...$Exact<$PropertyType<Text, 'props'>>,
@@ -21,18 +22,20 @@ type Props = $ReadOnly<{|
  *   See upstream: https://reactnative.dev/docs/text
  */
 export default class RawLabel extends PureComponent<Props> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
-  static contextTypes = {
-    styles: () => null,
+  styles = {
+    label: {
+      fontSize: 15,
+    },
   };
 
   render() {
-    const styles = this.context.styles || {};
     const { text, style, ...restProps } = this.props;
 
     return (
-      <Text style={[styles.label, style]} {...restProps}>
+      <Text style={[this.styles.label, { color: this.context.color }, style]} {...restProps}>
         {text}
       </Text>
     );
