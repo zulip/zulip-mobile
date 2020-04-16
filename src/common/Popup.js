@@ -3,7 +3,8 @@ import React, { PureComponent } from 'react';
 import type { Node as React$Node } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Context } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext } from '../styles';
 
 const styles = StyleSheet.create({
   popup: {
@@ -22,15 +23,14 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class Popup extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
   render() {
     return (
-      <View style={[this.context.styles.backgroundColor, styles.popup]}>{this.props.children}</View>
+      <View style={[{ backgroundColor: this.context.backgroundColor }, styles.popup]}>
+        {this.props.children}
+      </View>
     );
   }
 }

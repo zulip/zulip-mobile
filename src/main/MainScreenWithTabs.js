@@ -2,23 +2,18 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Context } from '../types';
+import type { ThemeColors } from '../styles';
+import styles, { ThemeContext } from '../styles';
 import { OfflineNotice, ZulipStatusBar } from '../common';
 import MainTabs from './MainTabs';
-import styles from '../styles';
 
 export default class MainScreenWithTabs extends PureComponent<{||}> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
   render() {
-    const { styles: contextStyles } = this.context;
-
     return (
-      <View style={[styles.flexed, contextStyles.backgroundColor]}>
+      <View style={[styles.flexed, { backgroundColor: this.context.backgroundColor }]}>
         <ZulipStatusBar />
         <OfflineNotice />
         <MainTabs />
