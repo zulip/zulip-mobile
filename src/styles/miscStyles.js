@@ -1,8 +1,6 @@
 /* @flow strict-local */
-import { Platform } from 'react-native';
-
 import type { ThemeColors } from './theme';
-import { BORDER_COLOR, CONTROL_SIZE } from './constants';
+import { CONTROL_SIZE } from './constants';
 
 export const statics = {
   largerText: {
@@ -60,17 +58,6 @@ export const statics = {
 export default ({ color, backgroundColor }: ThemeColors) => ({
   backgroundColor: {
     backgroundColor,
-  },
-  input: {
-    color,
-    ...Platform.select({
-      ios: {
-        borderWidth: 1,
-        borderColor: BORDER_COLOR,
-        borderRadius: 2,
-        padding: 8,
-      },
-    }),
   },
   background: {
     backgroundColor,
