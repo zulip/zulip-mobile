@@ -3,7 +3,9 @@ import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 import TranslatedText from './TranslatedText';
 
-import type { Context, LocalizableText } from '../types';
+import type { ThemeColors } from '../styles';
+import { ThemeContext } from '../styles';
+import type { LocalizableText } from '../types';
 
 type Props = $ReadOnly<{|
   ...$Exact<$PropertyType<Text, 'props'>>,
@@ -23,18 +25,20 @@ type Props = $ReadOnly<{|
  *   See upstream: https://reactnative.dev/docs/text
  */
 export default class Label extends PureComponent<Props> {
-  context: Context;
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
-  static contextTypes = {
-    styles: () => null,
+  styles = {
+    label: {
+      fontSize: 15,
+    },
   };
 
   render() {
-    const { styles: contextStyles } = this.context;
     const { text, style, ...restProps } = this.props;
 
     return (
-      <Text style={[contextStyles.label, style]} {...restProps}>
+      <Text style={[this.styles.label, { color: this.context.color }, style]} {...restProps}>
         <TranslatedText text={text} />
       </Text>
     );
