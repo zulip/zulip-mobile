@@ -100,27 +100,6 @@ long as the code adheres to core Redux principles:
   Redux reducers and treating every `state` value (and hence all its
   elements' elements, etc.) as immutable.
 
-### Context
-
-Our "Pure Component Principle" says `render` is a pure function of props,
-state, *and context*.  But `PureComponent` only checks for changes to props
-and state, and skips re-render when just those two are unchanged.  Doesn't
-that open up bugs if just `this.context` changes?
-
-[Yes, it
-would](https://reactjs.org/docs/legacy-context.html#updating-context).  For
-this reason, when something provided in context is updated, we force the
-entire React component tree under that point (in our usage of `context`,
-this is nearly the entire tree) to re-render.  This means we use `context`
-sparingly -- only for things where its benefit for code readability is very
-large, and where updates are rare so we're OK with that global re-render.
-
-In `StylesProvider`, for example, this is done with a `key`.
-
-Relatedly, the `this.context` API we use is a legacy API.  Recent React
-versions offer a [new context API](https://reactjs.org/docs/context.html)
-that works much more like Redux and `connect`, above.
-
 ### The exception: `MessageList`
 
 We have one React component that we wrote (beyond `connect` calls) that

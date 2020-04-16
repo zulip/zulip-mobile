@@ -6,9 +6,7 @@ import type { Node as React$Node } from 'react';
 import type { ThemeName, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSettings } from '../directSelectors';
-import { stylesFromTheme, themeColors, ThemeContext } from '../styles/theme';
-
-const Dummy = props => props.children;
+import { themeColors, ThemeContext } from '../styles/theme';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
@@ -16,32 +14,17 @@ type Props = $ReadOnly<{|
   children: React$Node,
 |}>;
 
-class StylesProvider extends PureComponent<Props> {
-  static childContextTypes = {
-    styles: () => {},
-  };
-
+class ThemeProvider extends PureComponent<Props> {
   static defaultProps = {
     theme: 'default',
   };
 
-  getChildContext() {
-    const { theme } = this.props;
-    const styles = stylesFromTheme(theme);
-    return { styles };
-  }
-
   render() {
     const { children, theme } = this.props;
-
-    return (
-      <ThemeContext.Provider value={themeColors[theme]}>
-        <Dummy key={theme}>{children}</Dummy>
-      </ThemeContext.Provider>
-    );
+    return <ThemeContext.Provider value={themeColors[theme]}>{children}</ThemeContext.Provider>;
   }
 }
 
 export default connect(state => ({
   theme: getSettings(state).theme,
-}))(StylesProvider);
+}))(ThemeProvider);
