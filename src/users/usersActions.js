@@ -28,7 +28,7 @@ export const reportPresence = (isActive: boolean = true, newUserInput: boolean =
 
 const typingWorker = (state: GlobalState) => {
   const auth: Auth = getAuth(state);
-  const serverVersion: ZulipVersion | void = getServerVersion(state);
+  const serverVersion: ZulipVersion | null = getServerVersion(state);
 
   // User ID arrays are only supported in server versions >= 2.0.0-rc1
   // (zulip/zulip@2f634f8c0). For versions before this, email arrays
