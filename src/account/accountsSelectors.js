@@ -157,10 +157,5 @@ export const getIdentity: Selector<Identity> = createSelector(
  * See the `zulipVersion` property of `Account` for details on how this
  * information is kept up to date.
  */
-export const getServerVersion = (state: GlobalState): ZulipVersion | null => {
-  const activeAccount: Account = getActiveAccount(state);
-  if (activeAccount.zulipVersion === null) {
-    return null;
-  }
-  return activeAccount.zulipVersion;
-};
+export const getServerVersion = (state: GlobalState): ZulipVersion | null =>
+  getActiveAccount(state).zulipVersion;
