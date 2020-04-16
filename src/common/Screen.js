@@ -5,7 +5,9 @@ import type { Node as React$Node } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Context, Dimensions, LocalizableText, Dispatch } from '../types';
+import type { ThemeColors } from '../styles';
+import styles, { ThemeContext } from '../styles';
+import type { Dimensions, LocalizableText, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
@@ -14,9 +16,12 @@ import ZulipStatusBar from './ZulipStatusBar';
 import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
-import styles from '../styles';
 
 const componentStyles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   wrapper: {
     flex: 1,
     justifyContent: 'center',
@@ -72,11 +77,8 @@ type Props = $ReadOnly<{|
  *                 Required unless `search` is true.
  */
 class Screen extends PureComponent<Props> {
-  context: Context;
-
-  static contextTypes = {
-    styles: () => null,
-  };
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
   static defaultProps = {
     centerContent: false,
@@ -109,10 +111,15 @@ class Screen extends PureComponent<Props> {
       title,
       shouldShowLoadingBanner,
     } = this.props;
-    const { styles: contextStyles } = this.context;
 
     return (
-      <View style={[contextStyles.screen, { paddingBottom: safeAreaInsets.bottom }]}>
+      <View
+        style={[
+          componentStyles.screen,
+          { backgroundColor: this.context.backgroundColor },
+          { paddingBottom: safeAreaInsets.bottom },
+        ]}
+      >
         <ZulipStatusBar />
         {search ? (
           <ModalSearchNavBar
