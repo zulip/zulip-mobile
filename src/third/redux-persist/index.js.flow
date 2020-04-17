@@ -22,7 +22,8 @@ declare type Config = {
   storage?: Storage,
   transforms?: Array<Object>,
   debounce?: number,
-  serialize?: boolean,
+  serialize?: boolean | Function,
+  deserialize?: boolean | Function,
   keyPrefix?: string,
 }
 declare type Purge = (keys?: Array<string>) => void

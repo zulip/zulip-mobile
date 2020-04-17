@@ -5,8 +5,23 @@ import stringify from 'json-stringify-safe'
 
 export default function createPersistor (store, config) {
   // defaults
-  const serializer = config.serialize === false ? (data) => data : defaultSerializer
-  const deserializer = config.serialize === false ? (data) => data : defaultDeserializer
+  let serializer;
+  if (config.serialize === false) {
+    serializer = (data) => data
+  } else if (typeof config.serialize === 'function') {
+    serializer = config.serialize
+  } else {
+    serializer = defaultSerializer
+  }
+
+  let deserializer;
+  if (config.deserialize === false) {
+    deserializer = (data) => data
+  } else if (typeof config.deserialize === 'function') {
+    deserializer = config.deserialize
+  } else {
+    deserializer = defaultDeserializer
+  }
   const blacklist = config.blacklist || []
   const whitelist = config.whitelist || false
   const transforms = config.transforms || []

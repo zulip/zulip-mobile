@@ -3,7 +3,14 @@ import createAsyncLocalStorage from './defaults/asyncLocalStorage'
 
 export default function getStoredState (config, onComplete) {
   let storage = config.storage || createAsyncLocalStorage('local')
-  const deserializer = config.serialize === false ? (data) => data : defaultDeserializer
+  let deserializer;
+  if (config.deserialize === false) {
+    deserializer = (data) => data
+  } else if (typeof config.deserialize === 'function') {
+    deserializer = config.deserialize
+  } else {
+    deserializer = defaultDeserializer
+  }
   const blacklist = config.blacklist || []
   const whitelist = config.whitelist || false
   const transforms = config.transforms || []
