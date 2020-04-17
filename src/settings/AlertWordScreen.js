@@ -7,7 +7,7 @@ import type { Auth, AlertWordsState } from '../types';
 import { connect } from '../react-redux';
 import { Screen, Input } from '../common';
 import ZulipButton from '../common/ZulipButton';
-import { getAuth } from '../selectors';
+import { getAuth, getAlertWords } from '../selectors';
 import addAlertWords from '../api/alert_words/addAlertWords';
 import AlertWordList from './AlertWordList';
 import removeAlertWords from '../api/alert_words/removeAlertWords';
@@ -118,6 +118,6 @@ class AlertWordScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({ auth: getAuth(state), alertWords: state.alertWords }))(
+export default connect(state => ({ auth: getAuth(state), alertWords: getAlertWords(state) }))(
   AlertWordScreen,
 );

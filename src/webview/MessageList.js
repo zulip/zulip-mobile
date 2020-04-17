@@ -41,6 +41,7 @@ import {
   getSubscriptions,
   getShownMessagesForNarrow,
   getRealm,
+  getAlertWords,
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
@@ -354,7 +355,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
   // we have a `shouldComponentUpdate` that doesn't look at this prop... but
   // it'd be better to set an example of the right general pattern.
   const backgroundData: BackgroundData = {
-    alertWords: state.alertWords,
+    alertWords: getAlertWords(state),
     allImageEmojiById: getAllImageEmojiById(state),
     auth: getAuth(state),
     debug: getDebug(state),

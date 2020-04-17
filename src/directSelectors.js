@@ -26,6 +26,7 @@ import type {
   User,
   UserGroup,
   UserStatusState,
+  AlertWordsState,
 } from './types';
 import type { SessionState } from './session/sessionReducer';
 
@@ -105,3 +106,5 @@ export const getRawRealmEmoji = (state: GlobalState): RealmEmojiById => state.re
 export const getNonActiveUsers = (state: GlobalState): User[] => state.realm.nonActiveUsers;
 
 export const getIsAdmin = (state: GlobalState): boolean => state.realm.isAdmin;
+
+export const getAlertWords = (state: GlobalState): AlertWordsState => state.alertWords;
