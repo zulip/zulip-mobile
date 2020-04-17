@@ -18,7 +18,7 @@ declare module 'remotedev-serialize' {
     // This `any` is unavoidable; see
     // https://github.com/flow-typed/flow-typed/blob/master/CONTRIBUTING.md#dont-import-types-from-other-libdefs.
     immutable: any,
-    refs?: Refs,
+    refs?: Refs | null,
     customReplacer?: Replacer,
     customReviver?: Reviver,
   ): {
