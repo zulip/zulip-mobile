@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import { applyMiddleware, compose, createStore } from 'redux';
 import type { Store } from 'redux';
-import { persistStore, autoRehydrate } from 'redux-persist';
-import type { Config } from 'redux-persist';
+import { persistStore, autoRehydrate } from '../third/redux-persist';
+import type { Config } from '../third/redux-persist';
 
 import type { Action, GlobalState } from '../types';
 import rootReducer from './reducers';
