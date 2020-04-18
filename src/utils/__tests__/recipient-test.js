@@ -1,4 +1,10 @@
-import { normalizeRecipients, normalizeRecipientsSansMe, isSameRecipient } from '../recipient';
+import {
+  normalizeRecipients,
+  normalizeRecipientsAsUserIds,
+  normalizeRecipientsSansMe,
+  normalizeRecipientsAsUserIdsSansMe,
+  isSameRecipient,
+} from '../recipient';
 
 describe('normalizeRecipients', () => {
   test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
@@ -46,6 +52,60 @@ describe('normalizeRecipientsSansMe', () => {
     const expectedResult = 'abc@example.com,def@example.com';
 
     const normalized = normalizeRecipientsSansMe(recipients, ownEmail);
+
+    expect(normalized).toEqual(expectedResult);
+  });
+});
+
+describe('normalizeRecipientsAsUserIds', () => {
+  test('joins user IDs from recipients, sorted', () => {
+    const recipients = [
+      { user_id: 2 },
+      { user_id: 1 },
+      { user_id: 5 },
+      { user_id: 3 },
+      { user_id: 4 },
+    ];
+    const expectedResult = '1,2,3,4,5';
+
+    const normalized = normalizeRecipientsAsUserIds(recipients);
+
+    expect(normalized).toEqual(expectedResult);
+  });
+
+  test('for a single recipient, returns the user ID as string', () => {
+    const recipients = [{ user_id: 1 }];
+    const expectedResult = '1';
+
+    const normalized = normalizeRecipientsAsUserIds(recipients);
+
+    expect(normalized).toEqual(expectedResult);
+  });
+});
+
+describe('normalizeRecipientsAsUserIdsSansMe', () => {
+  test('if only self user ID provided return unmodified', () => {
+    const recipients = [{ user_id: 1 }];
+    const ownUserId = 1;
+    const expectedResult = '1';
+
+    const normalized = normalizeRecipientsAsUserIdsSansMe(recipients, ownUserId);
+
+    expect(normalized).toEqual(expectedResult);
+  });
+
+  test('when more than one user IDs normalize but filter out self user ID', () => {
+    const recipients = [
+      { user_id: 2 },
+      { user_id: 1 },
+      { user_id: 5 },
+      { user_id: 3 },
+      { user_id: 4 },
+    ];
+    const expectedResult = '2,3,4,5';
+    const ownUserId = 1;
+
+    const normalized = normalizeRecipientsAsUserIdsSansMe(recipients, ownUserId);
 
     expect(normalized).toEqual(expectedResult);
   });

@@ -30,6 +30,22 @@ export const normalizeRecipientsSansMe = (
     ? recipients[0].email
     : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
 
+export const normalizeRecipientsAsUserIds = (
+  recipients: $ReadOnlyArray<{ user_id: number, ... }>,
+) =>
+  recipients
+    .map(s => s.user_id)
+    .sort()
+    .join(',');
+
+export const normalizeRecipientsAsUserIdsSansMe = (
+  recipients: $ReadOnlyArray<{ user_id: number, ... }>,
+  ownUserId: number,
+) =>
+  recipients.length === 1
+    ? recipients[0].user_id.toString()
+    : normalizeRecipientsAsUserIds(recipients.filter(r => r.user_id !== ownUserId));
+
 /**
  * The set of users to show in the UI to identify a PM conversation.
  *
