@@ -9,18 +9,21 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
 } from '../actionConstants';
-import { normalizeRecipientsSansMe } from '../utils/recipient';
+import { normalizeRecipientsAsUserIdsSansMe } from '../utils/recipient';
 import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: TypingState = NULL_OBJECT;
 
 const eventTypingStart = (state, action) => {
-  if (action.sender.email === action.ownEmail) {
+  if (action.sender.user_id === action.ownUserId) {
     // don't change state when self is typing
     return state;
   }
 
-  const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.ownEmail);
+  const normalizedRecipients = normalizeRecipientsAsUserIdsSansMe(
+    action.recipients,
+    action.ownUserId,
+  );
   const previousTypingUsers = state[normalizedRecipients] || { userIds: [] };
 
   const isUserAlreadyTyping = previousTypingUsers.userIds.indexOf(action.sender.user_id);
@@ -44,7 +47,10 @@ const eventTypingStart = (state, action) => {
 };
 
 const eventTypingStop = (state, action) => {
-  const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.ownEmail);
+  const normalizedRecipients = normalizeRecipientsAsUserIdsSansMe(
+    action.recipients,
+    action.ownUserId,
+  );
   const previousTypingUsers = state[normalizedRecipients];
 
   if (!previousTypingUsers) {

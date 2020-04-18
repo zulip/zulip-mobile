@@ -354,7 +354,7 @@ type EventPresenceAction = {|
 
 type EventTypingCommon = {|
   ...ServerEvent,
-  ownEmail: string,
+  ownUserId: number,
   recipients: Array<{
     user_id: number,
     email: string,

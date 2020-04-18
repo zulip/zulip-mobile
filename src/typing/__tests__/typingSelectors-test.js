@@ -1,14 +1,15 @@
-import deepFreeze from 'deep-freeze';
+/* @flow strict-local */
 
+import type { GlobalState } from '../../types';
 import { getCurrentTypingUsers } from '../typingSelectors';
 import { HOME_NARROW, privateNarrow, groupNarrow } from '../../utils/narrow';
 import { NULL_ARRAY } from '../../nullObjects';
+import * as eg from '../../__tests__/lib/exampleData';
+import { normalizeRecipientsAsUserIds } from '../../utils/recipient';
 
 describe('getCurrentTypingUsers', () => {
   test('return NULL_ARRAY when current narrow is not private or group', () => {
-    const state = deepFreeze({
-      accounts: [{}],
-    });
+    const state: GlobalState = eg.reduxState({});
 
     const typingUsers = getCurrentTypingUsers(state, HOME_NARROW);
 
@@ -16,85 +17,75 @@ describe('getCurrentTypingUsers', () => {
   });
 
   test('when in private narrow and the same user is typing return details', () => {
-    const expectedUser = {
-      user_id: 1,
-      email: 'john@example.com',
-      avatar_url: 'http://example.com/avatar.png',
-      full_name: 'John Doe',
-    };
-    const state = deepFreeze({
-      accounts: [{ email: 'me@example.com' }],
+    const expectedUser = eg.makeUser();
+    const state = eg.reduxState({
       typing: {
-        'john@example.com': { userIds: [1] },
+        [expectedUser.user_id.toString()]: { userIds: [expectedUser.user_id] },
       },
       users: [expectedUser],
     });
 
-    const typingUsers = getCurrentTypingUsers(state, privateNarrow('john@example.com'));
+    const typingUsers = getCurrentTypingUsers(state, privateNarrow(expectedUser.email));
 
     expect(typingUsers).toEqual([expectedUser]);
   });
 
   test('when two people are typing, return details for all of them', () => {
-    const user1 = {
-      user_id: 1,
-      email: 'john@example.com',
-      avatar_url: 'http://example.com/avatar1.png',
-      full_name: 'John Doe',
-    };
-    const user2 = {
-      user_id: 2,
-      email: 'mark@example.com',
-      avatar_url: 'http://example.com/avatar2.png',
-      full_name: 'Mark Dark',
-    };
-    const state = deepFreeze({
-      accounts: [{ email: 'me@example.com' }],
+    const user1 = eg.makeUser();
+    const user2 = eg.makeUser();
+
+    const normalizedRecipients = normalizeRecipientsAsUserIds([
+      { user_id: user1.user_id },
+      { user_id: user2.user_id },
+    ]);
+
+    const state = eg.reduxState({
       typing: {
-        'john@example.com,mark@example.com': { userIds: [1, 2] },
+        [normalizedRecipients]: { userIds: [user1.user_id, user2.user_id] },
       },
       users: [user1, user2],
     });
 
-    const typingUsers = getCurrentTypingUsers(
-      state,
-      groupNarrow(['john@example.com', 'mark@example.com']),
-    );
+    const typingUsers = getCurrentTypingUsers(state, groupNarrow([user1.email, user2.email]));
 
     expect(typingUsers).toEqual([user1, user2]);
   });
 
   test('when in private narrow but different user is typing return NULL_ARRAY', () => {
-    const state = deepFreeze({
-      accounts: [{ email: 'me@example.com' }],
+    const user1 = eg.makeUser();
+    const user2 = eg.makeUser();
+    const normalizedRecipients = normalizeRecipientsAsUserIds([{ user_id: user1.user_id }]);
+
+    const state = eg.reduxState({
       typing: {
-        'john@example.com': { userIds: [1] },
+        [normalizedRecipients]: { userIds: [user1.user_id] },
       },
+      users: [user1, user2],
     });
 
-    const typingUsers = getCurrentTypingUsers(state, privateNarrow('mark@example.com'));
+    const typingUsers = getCurrentTypingUsers(state, privateNarrow(user2.email));
 
     expect(typingUsers).toEqual(NULL_ARRAY);
   });
 
   test('when in group narrow and someone is typing in that narrow return details', () => {
-    const expectedUser = {
-      user_id: 1,
-      email: 'john@example.com',
-      avatar_url: 'http://example.com/avatar.png',
-      full_name: 'John Doe',
-    };
-    const state = deepFreeze({
-      accounts: [{ email: 'me@example.com' }],
+    const expectedUser = eg.makeUser();
+    const anotherUser = eg.makeUser();
+
+    const normalizedRecipients = normalizeRecipientsAsUserIds([
+      { user_id: expectedUser.user_id },
+      { user_id: anotherUser.user_id },
+    ]);
+    const state = eg.reduxState({
       typing: {
-        'john@example.com,mark@example.com': { userIds: [1] },
+        [normalizedRecipients]: { userIds: [expectedUser.user_id] },
       },
-      users: [expectedUser],
+      users: [expectedUser, anotherUser],
     });
 
     const typingUsers = getCurrentTypingUsers(
       state,
-      groupNarrow(['mark@example.com', 'john@example.com']),
+      groupNarrow([expectedUser.email, anotherUser.email]),
     );
 
     expect(typingUsers).toEqual([expectedUser]);

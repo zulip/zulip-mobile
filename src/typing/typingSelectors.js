@@ -4,21 +4,28 @@ import { createSelector } from 'reselect';
 import type { Narrow, Selector, User } from '../types';
 import { getTyping } from '../directSelectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
-import { normalizeRecipients } from '../utils/recipient';
+import { normalizeRecipientsAsUserIds } from '../utils/recipient';
 import { NULL_ARRAY, NULL_USER } from '../nullObjects';
-import { getUsersById } from '../users/userSelectors';
+import { getUsersById, getUsersByEmail } from '../users/userSelectors';
 
 export const getCurrentTypingUsers: Selector<$ReadOnlyArray<User>, Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getTyping(state),
   state => getUsersById(state),
-  (narrow, typing, usersById): User[] => {
+  state => getUsersByEmail(state),
+  (narrow, typing, usersById, usersByEmail): User[] => {
     if (!isPrivateOrGroupNarrow(narrow)) {
       return NULL_ARRAY;
     }
 
-    const recipients = narrow[0].operand.split(',').map(email => ({ email }));
-    const normalizedRecipients = normalizeRecipients(recipients);
+    const recipients = narrow[0].operand.split(',').map(email => {
+      const userId = usersByEmail.get(email)?.user_id;
+      if (userId === undefined) {
+        throw new Error(`Narrow contains email '${email}' that does not map to any user.`);
+      }
+      return { user_id: userId };
+    });
+    const normalizedRecipients = normalizeRecipientsAsUserIds(recipients);
     const currentTyping = typing[normalizedRecipients];
 
     if (!currentTyping || !currentTyping.userIds) {

@@ -31,7 +31,7 @@ import {
   EVENT_SUBSCRIPTION,
   EVENT,
 } from '../actionConstants';
-import { getOwnEmail } from '../users/userSelectors';
+import { getOwnEmail, getOwnUserId } from '../users/userSelectors';
 
 const opToActionUser = {
   add: EVENT_USER_ADD,
@@ -151,7 +151,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
     case 'typing':
       return {
         ...event,
-        ownEmail: getOwnEmail(state),
+        ownUserId: getOwnUserId(state),
         type: opToActionTyping[event.op],
         time: new Date().getTime(),
       };
