@@ -4,10 +4,18 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { Input, Label, OptionRow, ZulipButton } from '../common';
+import { Input, Label, OptionRow, ZulipButton, SelectionList } from '../common';
 import styles from '../styles';
 import { IconPrivate } from '../common/Icons';
 import { getIsAdmin } from '../selectors';
+
+type StreamPostPolicy = $ReadOnly<{| key: number, value: string |}>;
+
+const STREAM_POST_POLICIES: StreamPostPolicy[] = [
+  { key: 1, value: 'All stream members' },
+  { key: 2, value: 'Only organization administrators' },
+  { key: 3, value: 'Only organization full members' },
+];
 
 const componentStyles = StyleSheet.create({
   optionRow: {
@@ -43,21 +51,28 @@ type State = {|
   name: string,
   description: string,
   isPrivate: boolean,
-  streamPostPolicy: number,
+  streamPostPolicyIndex: number,
 |};
 
 class EditStreamCard extends PureComponent<Props, State> {
-  state = {
-    name: this.props.initialValues.name,
-    description: this.props.initialValues.description,
-    isPrivate: this.props.initialValues.invite_only,
-    streamPostPolicy: this.props.initialValues.stream_post_policy,
-  };
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      name: this.props.initialValues.name,
+      description: this.props.initialValues.description,
+      isPrivate: this.props.initialValues.invite_only,
+      streamPostPolicyIndex:
+        STREAM_POST_POLICIES.findIndex(
+          policy => policy.key === this.props.initialValues.stream_post_policy,
+        ) || 0,
+    };
+  }
 
   handlePerformAction = () => {
     const { onComplete } = this.props;
-    const { name, description, isPrivate, streamPostPolicy } = this.state;
-    onComplete(name, description, isPrivate, streamPostPolicy);
+    const { name, description, isPrivate, streamPostPolicyIndex } = this.state;
+    onComplete(name, description, isPrivate, STREAM_POST_POLICIES[streamPostPolicyIndex].key);
   };
 
   handleNameChange = (name: string) => {
@@ -72,8 +87,8 @@ class EditStreamCard extends PureComponent<Props, State> {
     this.setState({ isPrivate });
   };
 
-  handleIsAnnouncementChange = (isAnnouncementOnly: boolean) => {
-    this.setState({ streamPostPolicy: isAnnouncementOnly ? 2 : 1 });
+  handleStreamPostPolicyChange = (index: number) => {
+    this.setState({ streamPostPolicyIndex: index });
   };
 
   render() {
@@ -105,11 +120,12 @@ class EditStreamCard extends PureComponent<Props, State> {
           onValueChange={this.handleIsPrivateChange}
         />
         {isAdmin && (
-          <OptionRow
-            style={componentStyles.optionRow}
-            label="Restrict posting to organization administrators"
-            value={this.state.streamPostPolicy === 2}
-            onValueChange={this.handleIsAnnouncementChange}
+          <SelectionList.Selector
+            style={[componentStyles.optionRow, styles.listItem]}
+            label="Who can post to the stream?"
+            options={STREAM_POST_POLICIES}
+            selectedIndex={this.state.streamPostPolicyIndex}
+            onOptionSelect={this.handleStreamPostPolicyChange}
           />
         )}
         <ZulipButton

@@ -212,5 +212,8 @@
   "🤒 Out sick": "🤒 Out sick",
   "🌴 Vacationing": "🌴 Vacationing",
   "🏠 Working remotely": "🏠 Working remotely",
-  "Restrict posting to organization administrators": "Restrict posting to organization administrators"
+  "Who can post to the stream?": "Who can post to the stream?",
+  "All stream members": "All stream members",
+  "Only organization administrators": "Only organization administrators",
+  "Only organization full members": "Only organization full members"
 }

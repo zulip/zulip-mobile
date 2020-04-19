@@ -103,3 +103,14 @@ export const navigateToLegal = (): NavigationAction => StackActions.push({ route
 
 export const navigateToUserStatus = (): NavigationAction =>
   StackActions.push({ routeName: 'user-status' });
+
+export const navigateToZulipPickerOptionsScreen = (
+  label: string,
+  options: $ReadOnlyArray<{| key: number, value: string |}>,
+  selectedIndex: number,
+  onOptionSelect: (value: number) => void,
+): NavigationAction =>
+  StackActions.push({
+    routeName: 'selection-list-options',
+    params: { label, options, selectedIndex, onOptionSelect },
+  });
