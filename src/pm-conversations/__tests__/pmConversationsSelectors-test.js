@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import Immutable from 'immutable';
+
 import { getRecentConversations } from '../pmConversationsSelectors';
 import { ALL_PRIVATE_NARROW_STR } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -11,9 +13,9 @@ describe('getRecentConversations', () => {
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
       users: [eg.selfUser],
-      narrows: {
+      narrows: Immutable.Map({
         [ALL_PRIVATE_NARROW_STR]: [],
-      },
+      }),
       unread: {
         ...eg.baseReduxState.unread,
         pms: [],
@@ -36,7 +38,7 @@ describe('getRecentConversations', () => {
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
       users: [eg.selfUser, userJohn, userMark],
-      narrows: {
+      narrows: Immutable.Map({
         [ALL_PRIVATE_NARROW_STR]: [
           meJohnAndMarkPm.id,
           meAndJohnPm1.id,
@@ -44,7 +46,7 @@ describe('getRecentConversations', () => {
           meAndJohnPm2.id,
           meOnlyPm.id,
         ],
-      },
+      }),
       messages: {
         [meAndJohnPm1.id]: meAndJohnPm1,
         [meAndMarkPm.id]: meAndMarkPm,
@@ -128,7 +130,7 @@ describe('getRecentConversations', () => {
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
       users: [eg.selfUser, userJohn, userMark],
-      narrows: {
+      narrows: Immutable.Map({
         [ALL_PRIVATE_NARROW_STR]: [
           meAndMarkPm1.id,
           meAndJohnPm1.id,
@@ -137,7 +139,7 @@ describe('getRecentConversations', () => {
           meJohnAndMarkPm.id,
           meOnlyPm.id,
         ],
-      },
+      }),
       messages: {
         [meAndJohnPm1.id]: meAndJohnPm1,
         [meAndMarkPm1.id]: meAndMarkPm1,

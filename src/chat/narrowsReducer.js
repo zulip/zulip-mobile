@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import union from 'lodash.union';
+import Immutable from 'immutable';
 
 import type { NarrowsState, Action } from '../types';
 import { ensureUnreachable } from '../types';
@@ -22,9 +23,8 @@ import {
   STARRED_NARROW_STR,
   isSearchNarrow,
 } from '../utils/narrow';
-import { NULL_OBJECT } from '../nullObjects';
 
-const initialState: NarrowsState = NULL_OBJECT;
+const initialState: NarrowsState = Immutable.Map();
 
 const messageFetchComplete = (state, action) => {
   // We don't want to accumulate old searches that we'll never need again.
@@ -35,62 +35,58 @@ const messageFetchComplete = (state, action) => {
   const fetchedMessageIds = action.messages.map(message => message.id);
   const replaceExisting =
     action.anchor === FIRST_UNREAD_ANCHOR || action.anchor === LAST_MESSAGE_ANCHOR;
-  return {
-    ...state,
-    [key]: replaceExisting
+  return state.set(
+    key,
+    replaceExisting
       ? fetchedMessageIds
-      : union(state[key], fetchedMessageIds).sort((a, b) => a - b),
-  };
+      : union(state.get(key), fetchedMessageIds).sort((a, b) => a - b),
+  );
 };
 
 const eventNewMessage = (state, action) => {
   let stateChange = false;
-  const newState: NarrowsState = {};
-  Object.keys(state).forEach(key => {
+  const newState = state.map((value, key) => {
     const { flags } = action.message;
     if (!flags) {
       throw new Error('EVENT_NEW_MESSAGE message missing flags');
     }
     const isInNarrow = isMessageInNarrow(action.message, flags, JSON.parse(key), action.ownEmail);
     const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
-    const messageDoesNotExist = state[key].find(id => action.message.id === id) === undefined;
+    const messageDoesNotExist = value.find(id => action.message.id === id) === undefined;
 
     if (isInNarrow && isCaughtUp && messageDoesNotExist) {
       stateChange = true;
-      newState[key] = [...state[key], action.message.id];
+      return [...value, action.message.id];
     } else {
-      newState[key] = state[key];
+      return value;
     }
   });
+
   return stateChange ? newState : state;
 };
 
 const eventMessageDelete = (state, action) => {
   let stateChange = false;
-  const newState: NarrowsState = {};
-  Object.keys(state).forEach(key => {
-    newState[key] = state[key].filter(id => !action.messageIds.includes(id));
-    stateChange = stateChange || newState[key].length < state[key].length;
+  const newState = state.map((value, key) => {
+    const result = value.filter(id => !action.messageIds.includes(id));
+    stateChange = stateChange || result.length < value.length;
+    return result;
   });
   return stateChange ? newState : state;
 };
 
 const updateFlagNarrow = (state, narrowStr, operation, messageIds): NarrowsState => {
-  if (!state[narrowStr]) {
+  const value = state.get(narrowStr);
+  if (!value) {
     return state;
   }
   switch (operation) {
-    case 'add':
-      return {
-        ...state,
-        [narrowStr]: [...state[narrowStr], ...messageIds].sort((a, b) => a - b),
-      };
+    case 'add': {
+      return state.set(narrowStr, [...value, ...messageIds].sort((a, b) => a - b));
+    }
     case 'remove': {
       const messageIdSet = new Set(messageIds);
-      return {
-        ...state,
-        [narrowStr]: state[narrowStr].filter(id => !messageIdSet.has(id)),
-      };
+      return state.set(narrowStr, value.filter(id => !messageIdSet.has(id)));
     }
     default:
       ensureUnreachable(operation);

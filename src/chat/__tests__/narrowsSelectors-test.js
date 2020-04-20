@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import Immutable from 'immutable';
+
 import {
   getFirstMessageId,
   getLastMessageId,
@@ -29,9 +31,9 @@ describe('getMessagesForNarrow', () => {
 
   test('if no outbox messages returns messages with no change', () => {
     const state = eg.reduxState({
-      narrows: {
+      narrows: Immutable.Map({
         '[]': [123],
-      },
+      }),
       messages,
       outbox: [],
       realm: eg.realmState({ email: eg.selfUser.email }),
@@ -44,9 +46,9 @@ describe('getMessagesForNarrow', () => {
 
   test('combine messages and outbox in same narrow', () => {
     const state = eg.reduxState({
-      narrows: {
+      narrows: Immutable.Map({
         '[]': [123],
-      },
+      }),
       messages,
       outbox: [outboxMessage],
       caughtUp: {
@@ -62,9 +64,9 @@ describe('getMessagesForNarrow', () => {
 
   test('do not combine messages and outbox if not caught up', () => {
     const state = eg.reduxState({
-      narrows: {
+      narrows: Immutable.Map({
         [HOME_NARROW_STR]: [123],
-      },
+      }),
       messages,
       outbox: [outboxMessage],
       realm: eg.realmState({ email: eg.selfUser.email }),
@@ -77,9 +79,9 @@ describe('getMessagesForNarrow', () => {
 
   test('do not combine messages and outbox in different narrow', () => {
     const state = eg.reduxState({
-      narrows: {
+      narrows: Immutable.Map({
         [JSON.stringify(pmNarrowFromEmail('john@example.com'))]: [123],
-      },
+      }),
       messages,
       outbox: [outboxMessage],
       realm: eg.realmState({ email: eg.selfUser.email }),
@@ -94,9 +96,9 @@ describe('getMessagesForNarrow', () => {
 describe('getFirstMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = eg.reduxState({
-      narrows: {
+      narrows: Immutable.Map({
         '[]': [],
-      },
+      }),
       outbox: [],
     });
 
@@ -107,9 +109,9 @@ describe('getFirstMessageId', () => {
 
   test('returns first message id', () => {
     const state = eg.reduxState({
-      narrows: {
+      narrows: Immutable.Map({
         '[]': [1, 2, 3],
-      },
+      }),
       messages: {
         [1]: eg.streamMessage({ id: 1 }) /* eslint-disable-line no-useless-computed-key */,
         [2]: eg.streamMessage({ id: 2 }) /* eslint-disable-line no-useless-computed-key */,
@@ -127,9 +129,9 @@ describe('getFirstMessageId', () => {
 describe('getLastMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = eg.reduxState({
-      narrows: {
+      narrows: Immutable.Map({
         '[]': [],
-      },
+      }),
       messages: {},
       outbox: [],
     });
@@ -141,9 +143,9 @@ describe('getLastMessageId', () => {
 
   test('returns last message id', () => {
     const state = eg.reduxState({
-      narrows: {
+      narrows: Immutable.Map({
         '[]': [1, 2, 3],
-      },
+      }),
       messages: {
         [1]: eg.streamMessage({ id: 1 }) /* eslint-disable-line no-useless-computed-key */,
         [2]: eg.streamMessage({ id: 2 }) /* eslint-disable-line no-useless-computed-key */,

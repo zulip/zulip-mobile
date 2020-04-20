@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import Immutable from 'immutable';
+
 import { getTopicsForNarrow, getLastMessageTopic, getTopicsForStream } from '../topicSelectors';
 import { HOME_NARROW, streamNarrow } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -30,7 +32,7 @@ describe('getTopicsForNarrow', () => {
 describe('getLastMessageTopic', () => {
   test('when no messages in narrow return an empty string', () => {
     const state = eg.reduxState({
-      narrows: {},
+      narrows: Immutable.Map({}),
       realm: eg.realmState({ email: eg.selfUser.email }),
     });
 
@@ -44,9 +46,9 @@ describe('getLastMessageTopic', () => {
     const message1 = eg.streamMessage({ id: 1 });
     const message2 = eg.streamMessage({ id: 2, subject: 'some topic' });
     const state = eg.reduxState({
-      narrows: {
+      narrows: Immutable.Map({
         [JSON.stringify(narrow)]: [1, 2],
-      },
+      }),
       messages: {
         [message1.id]: message1,
         [message2.id]: message2,

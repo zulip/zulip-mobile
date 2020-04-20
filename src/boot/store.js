@@ -199,6 +199,12 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     })),
   }),
 
+  // Convert `narrows` from object-as-map to `Immutable.Map`.
+  '16': state => ({
+    ...state,
+    narrows: Immutable.Map(state.narrows),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

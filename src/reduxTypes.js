@@ -7,7 +7,7 @@
  *
  * @flow strict-local
  */
-
+import type Immutable from 'immutable';
 import type { InputSelector } from 'reselect';
 
 import type { Account, Outbox } from './types';
@@ -185,9 +185,7 @@ export type MuteState = MuteTuple[];
  *  * `FetchingState` for information about which narrows we're actively
  *    fetching more messages from.
  */
-export type NarrowsState = {
-  [narrow: string]: number[],
-};
+export type NarrowsState = Immutable.Map<string, number[]>;
 
 export type NavigationRouteState = {
   key: string,

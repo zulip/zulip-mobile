@@ -3,6 +3,7 @@ import invariant from 'invariant';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import omit from 'lodash.omit';
+import Immutable from 'immutable';
 
 import type { GlobalState } from '../../reduxTypes';
 import type { Action } from '../../actionTypes';
@@ -41,9 +42,9 @@ describe('fetchActions', () => {
             older: true,
           },
         },
-        narrows: {
+        narrows: Immutable.Map({
           [streamNarrowStr]: [],
-        },
+        }),
         streams: [eg.makeStream({ name: 'some stream' })],
       });
 
@@ -63,9 +64,9 @@ describe('fetchActions', () => {
             older: false,
           },
         },
-        narrows: {
+        narrows: Immutable.Map({
           [streamNarrowStr]: [1],
-        },
+        }),
         messages: {
           [message1.id]: message1,
           [message2.id]: message2,
@@ -115,9 +116,9 @@ describe('fetchActions', () => {
 
     const baseState = eg.reduxState({
       accounts: [eg.makeAccount()],
-      narrows: {
+      narrows: Immutable.Map({
         [streamNarrowStr]: [message1.id],
-      },
+      }),
     });
 
     describe('success', () => {
@@ -293,9 +294,9 @@ describe('fetchActions', () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           accounts: [eg.selfAccount],
-          narrows: {
+          narrows: Immutable.Map({
             [streamNarrowStr]: [1],
-          },
+          }),
         }),
       );
 
@@ -318,9 +319,9 @@ describe('fetchActions', () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           accounts: [eg.selfAccount],
-          narrows: {
+          narrows: Immutable.Map({
             [streamNarrowStr]: [1],
-          },
+          }),
         }),
       );
 
@@ -342,9 +343,9 @@ describe('fetchActions', () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           accounts: [eg.selfAccount],
-          narrows: {
+          narrows: Immutable.Map({
             [streamNarrowStr]: [1],
-          },
+          }),
         }),
       );
 
@@ -369,11 +370,12 @@ describe('fetchActions', () => {
 
     const baseState = eg.reduxState({
       accounts: [eg.selfAccount],
-      narrows: {
-        ...eg.baseReduxState.narrows,
-        [streamNarrowStr]: [message2.id],
-        [HOME_NARROW_STR]: [message1.id, message2.id],
-      },
+      narrows: eg.baseReduxState.narrows.merge(
+        Immutable.Map({
+          [streamNarrowStr]: [message2.id],
+          [HOME_NARROW_STR]: [message1.id, message2.id],
+        }),
+      ),
       messages: {
         ...eg.baseReduxState.messages,
         [message1.id]: message1,
@@ -461,11 +463,12 @@ describe('fetchActions', () => {
 
     const baseState = eg.reduxState({
       accounts: [eg.selfAccount],
-      narrows: {
-        ...eg.baseReduxState.narrows,
-        [streamNarrowStr]: [message2.id],
-        [HOME_NARROW_STR]: [message1.id, message2.id],
-      },
+      narrows: eg.baseReduxState.narrows.merge(
+        Immutable.Map({
+          [streamNarrowStr]: [message2.id],
+          [HOME_NARROW_STR]: [message1.id, message2.id],
+        }),
+      ),
       messages: {
         ...eg.baseReduxState.messages,
         [message1.id]: message1,
