@@ -51,8 +51,13 @@ export class ZulipVersion {
   /**
    * True if this version is later than or equal to a given threshold.
    */
-  isAtLeast = (otherZulipVersion: ZulipVersion) => {
-    const otherComparisonArray = otherZulipVersion._comparisonArray;
+  isAtLeast = (otherZulipVersion: string | ZulipVersion) => {
+    const otherZulipVersionInstance =
+      otherZulipVersion instanceof ZulipVersion
+        ? otherZulipVersion
+        : new ZulipVersion(otherZulipVersion);
+
+    const otherComparisonArray = otherZulipVersionInstance._comparisonArray;
     const minLength = Math.min(this._comparisonArray.length, otherComparisonArray.length);
     for (let i = 0; i < minLength; i++) {
       if (this._comparisonArray[i] !== otherComparisonArray[i]) {
