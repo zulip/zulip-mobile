@@ -44,16 +44,20 @@ describe('sleep (real)', () => {
 
     // `sleep` should sleep for the specified number of milliseconds (and not,
     // for example, that many seconds or microseconds).
-    expect(expectedMs).toBeLessThanOrEqual(actualMs);
-    expect(actualMs).toBeLessThan(10 * expectedMs); // [α]
+    expect(expectedMs - 1).toBeLessThanOrEqual(actualMs); // [α]
+    expect(actualMs).toBeLessThan(10 * expectedMs); // [β]
 
-    // [α] In theory, we can't be sure of this test; the time between the
-    // specified timeout expiring and a timeslice actually becoming available
-    // may be arbitrarily long.
+    // [α] The fudge term of -1 in this test is a workaround for a Node.js
+    //     issue, https://github.com/nodejs/node/issues/26578. This has caused
+    //     actual test flakes; see our issue #4010 for examples.
     //
-    // In practice, 10x really is enough of a padding factor that it's never
-    // been an issue, even with real-world timers on shared CI hardware with
-    // unpredictable loads.
+    // [β] In theory, we can't be sure of this test; the time between the
+    //     specified timeout expiring and a timeslice actually becoming
+    //     available may be arbitrarily long.
+    //
+    //     In practice, 10x really is enough of a padding factor that it's never
+    //     been an issue, even with real-world timers on shared CI hardware with
+    //     unpredictable loads.
   });
 });
 
