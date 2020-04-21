@@ -270,12 +270,12 @@ export type TopicsState = {|
   [number]: Topic[],
 |};
 
-export type TypingState = {|
+export type TypingState = {
   [normalizedRecipients: string]: {
     time: number,
     userIds: number[],
   },
-|};
+};
 
 // These four are fragments of UnreadState; see below.
 export type UnreadStreamsState = StreamUnreadItem[];
