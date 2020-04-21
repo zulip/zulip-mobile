@@ -97,7 +97,7 @@ export const pmKeyRecipientsFromMessage = (
  */
 // Specifically, this includes all user IDs for group PMs and self-PMs,
 // and just the other user ID for non-self 1:1s; and in each case the list
-// is sorted and encoded in ASCII-decimal, comma-separated.
+// is sorted numerically and encoded in ASCII-decimal, comma-separated.
 // See the `unread_msgs` data structure in `src/api/initialDataTypes.js`.
 export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: number): string => {
   if (message.type !== 'private') {
