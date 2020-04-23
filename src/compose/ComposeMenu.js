@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View, PermissionsAndroid } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import * as ImagePicker from 'react-native-image-picker';
 
@@ -57,6 +57,13 @@ export const chooseUploadImageFilename = (uri: string, fileName: ?string): strin
   return name;
 };
 
+async function requestCameraPermission() {
+  await PermissionsAndroid.requestMultiple([
+    PermissionsAndroid.PERMISSIONS.CAMERA,
+    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+  ]);
+}
+
 class ComposeMenu extends PureComponent<Props> {
   uploadFile = (uri: string, fileName: ?string) => {
     const { dispatch, destinationNarrow } = this.props;
@@ -91,6 +98,7 @@ class ComposeMenu extends PureComponent<Props> {
   };
 
   handleImagePicker = () => {
+    requestCameraPermission();
     ImagePicker.launchImageLibrary(
       {
         quality: 1.0,
@@ -111,7 +119,7 @@ class ComposeMenu extends PureComponent<Props> {
         waitUntilSaved: true,
       },
     };
-
+    requestCameraPermission();
     ImagePicker.launchCamera(options, this.handleImagePickerResponse);
   };
 
