@@ -23,11 +23,11 @@ class StreamAutocomplete extends PureComponent<Props> {
 
   render() {
     const { filter, subscriptions } = this.props;
-    const streams = subscriptions.filter(x =>
+    const matchingSubscriptions = subscriptions.filter(x =>
       x.name.toLowerCase().startsWith(filter.toLowerCase()),
     );
 
-    if (streams.length === 0) {
+    if (matchingSubscriptions.length === 0) {
       return null;
     }
 
@@ -35,8 +35,8 @@ class StreamAutocomplete extends PureComponent<Props> {
       <Popup>
         <FlatList
           keyboardShouldPersistTaps="always"
-          initialNumToRender={streams.length}
-          data={streams}
+          initialNumToRender={matchingSubscriptions.length}
+          data={matchingSubscriptions}
           keyExtractor={item => item.stream_id.toString()}
           renderItem={({ item }) => (
             <StreamItem
