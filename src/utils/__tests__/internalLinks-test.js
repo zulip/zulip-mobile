@@ -9,6 +9,7 @@ import {
   getNarrowFromLink,
   getMessageIdFromLink,
   decodeHashComponent,
+  getLinkToMessage,
 } from '../internalLinks';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -361,5 +362,82 @@ describe('getMessageIdFromLink', () => {
         'https://example.com',
       ),
     ).toBe(1);
+  });
+});
+
+describe('getLinkToMessage', () => {
+  test('should return a stream link if message link copied from stream', () => {
+    const realm = 'https://zulip.com';
+    const message = eg.streamMessage({
+      stream_id: 12345,
+      display_recipient: 'stream',
+      subject: 'exampleTopic',
+    });
+
+    const result = getLinkToMessage(realm, message);
+    const expectedResult = `https://zulip.com/#narrow/stream/12345-stream/topic/exampleTopic/near/${message.id}`;
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  test('should return a group link if message link copied from pm with >= 3 people', () => {
+    const realm = 'https://zulip.com';
+
+    const message = eg.pmMessage({
+      display_recipient: [{ id: 11111 }, { id: 22222 }, { id: 33333 }],
+    });
+
+    const result = getLinkToMessage(realm, message);
+    const expectedResult = `https://zulip.com/#narrow/pm-with/11111,22222,33333-group/near/${message.id}`;
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  test('should return pm link for message link copied from pm with < 3 people', () => {
+    const realm = 'https://zulip.com';
+    const message = eg.pmMessage({
+      display_recipient: [{ id: 11111 }, { id: 22222 }],
+    });
+
+    const result = getLinkToMessage(realm, message);
+    const expectedResult = `https://zulip.com/#narrow/pm-with/11111,22222-pm/near/${message.id}`;
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  test('properly encodes topics with tricky characters', () => {
+    const { realm } = eg.selfAccount;
+    const message = eg.streamMessage({
+      stream_id: 123,
+      display_recipient: 'general',
+      subject: '.%%2E/#\ud83d\udc4b\u5927',
+    });
+    expect(getLinkToMessage(realm, message)).toEqual(
+      `${realm}/#narrow/stream/123-general/topic/.2E.25.252E.2F.23.F0.9F.91.8B.E5.A4.A7/near/${message.id}`,
+    );
+  });
+
+  test('properly encodes streams with tricky characters', () => {
+    const { realm } = eg.selfAccount;
+    const message = eg.streamMessage({
+      stream_id: 123,
+      display_recipient: '.%%2E/#\ud83d\udc4b\u5927',
+      subject: 'my topic',
+    });
+    expect(getLinkToMessage(realm, message)).toEqual(
+      `${realm}/#narrow/stream/123-.2E.25.252E.2F.23.F0.9F.91.8B.E5.A4.A7/topic/my.20topic/near/${message.id}`,
+    );
+  });
+
+  test('properly encodes empty string stream', () => {
+    const { realm } = eg.selfAccount;
+    const message = eg.streamMessage({
+      stream_id: 123,
+      display_recipient: '',
+      subject: 'my topic',
+    });
+    expect(getLinkToMessage(realm, message)).toEqual(
+      `${realm}/#narrow/stream/123-unknown/topic/my.20topic/near/${message.id}`,
+    );
   });
 });
