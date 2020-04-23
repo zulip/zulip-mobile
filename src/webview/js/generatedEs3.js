@@ -137,6 +137,11 @@ var compiledWebviewJs = (function (exports) {
 
   var viewportHeight = documentBody.clientHeight;
   window.addEventListener('resize', function (event) {
+    if (viewportHeight === 0) {
+      viewportHeight = documentBody.clientHeight;
+      return;
+    }
+
     var difference = viewportHeight - documentBody.clientHeight;
 
     if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
@@ -148,22 +153,63 @@ var compiledWebviewJs = (function (exports) {
 
     viewportHeight = documentBody.clientHeight;
   });
+  var hasDoneInitialScroll = false;
+
+  var maybeDoInitialScroll = function maybeDoInitialScroll(messageId) {
+    sendMessage({
+      type: 'debug',
+      note: 'maybeDoInitialScroll called',
+      hasDoneInitialScroll: hasDoneInitialScroll,
+      messageId: messageId,
+      viewportHeight: viewportHeight
+    });
+
+    if (!hasDoneInitialScroll && messageId !== null) {
+      var targetNode = messageId !== null ? document.getElementById("msg-".concat(messageId)) : null;
+
+      if (targetNode) {
+        sendMessage({
+          type: 'debug',
+          note: 'Doing initial scroll',
+          targetNode: targetNode,
+          messageId: messageId,
+          viewportHeight: viewportHeight
+        });
+        window.scrollTo({
+          top: targetNode.offsetTop,
+          left: 0
+        });
+        hasDoneInitialScroll = true;
+      } else {
+        sendMessage({
+          type: 'debug',
+          note: 'Not doing initial scroll',
+          targetNode: targetNode,
+          messageId: messageId
+        });
+        window.scroll({
+          left: 0,
+          top: documentBody.scrollHeight + 200
+        });
+      }
+    }
+  };
 
   function midMessagePeer(top, bottom) {
     var midY = (bottom + top) / 2;
 
     if (document.elementsFromPoint === undefined) {
       var element = document.elementFromPoint(0, midY);
-      return element && element.closest('body > *');
+      return element && element.closest('body > ordered-pieces > *');
     }
 
     var midElements = document.elementsFromPoint(0, midY);
 
-    if (midElements.length < 3) {
+    if (midElements.length < 4) {
       return null;
     }
 
-    return midElements[midElements.length - 3];
+    return midElements[midElements.length - 4];
   }
 
   function walkToMessage(start, step) {
@@ -335,82 +381,86 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var scrollToMessage = function scrollToMessage(messageId) {
-    var targetNode = messageId !== null ? document.getElementById("msg-".concat(messageId)) : null;
+  var insertPiece = function insertPiece(insertEdit, auth) {
+    var html = insertEdit.html,
+        index = insertEdit.index;
+    var orderedPiecesElement = document.getElementById('ordered-pieces');
 
-    if (targetNode) {
-      targetNode.scrollIntoView({
-        block: 'start'
-      });
-    } else {
-      window.scroll({
-        left: 0,
-        top: documentBody.scrollHeight + 200
-      });
-    }
-  };
-
-  var findPreserveTarget = function findPreserveTarget() {
-    var message = someVisibleMessage(0, viewportHeight);
-
-    if (!message) {
-      return {
-        type: 'none'
-      };
-    }
-
-    var messageId = idFromMessage(message);
-    var prevBoundRect = message.getBoundingClientRect();
-    return {
-      type: 'preserve',
-      msgId: messageId,
-      prevBoundTop: prevBoundRect.top
-    };
-  };
-
-  var scrollToPreserve = function scrollToPreserve(msgId, prevBoundTop) {
-    var newElement = document.getElementById("msg-".concat(msgId));
-
-    if (!newElement) {
+    if (orderedPiecesElement === null) {
       return;
     }
 
-    var newBoundRect = newElement.getBoundingClientRect();
-    window.scrollBy(0, newBoundRect.top - prevBoundTop);
+    var orderedPiecesChildren = orderedPiecesElement.children;
+    var referenceElement = orderedPiecesChildren.item(index);
+    var newElement = document.createElement('div');
+    orderedPiecesElement.insertBefore(newElement, referenceElement);
+    newElement.outerHTML = html;
+    rewriteImageUrls(auth, newElement);
   };
 
-  var handleUpdateEventContent = function handleUpdateEventContent(uevent) {
-    var target;
+  var deletePiece = function deletePiece(deleteEdit) {
+    var index = deleteEdit.index;
+    var orderedPiecesElement = document.getElementById('ordered-pieces');
 
-    if (uevent.updateStrategy === 'replace') {
-      target = {
-        type: 'none'
-      };
-    } else if (uevent.updateStrategy === 'scroll-to-anchor') {
-      target = {
-        type: 'anchor',
-        messageId: uevent.scrollMessageId
-      };
-    } else if (uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom' && isNearBottom()) {
-        target = {
-          type: 'bottom'
-        };
-      } else {
-      target = findPreserveTarget();
+    if (orderedPiecesElement === null) {
+      return;
     }
 
-    documentBody.innerHTML = uevent.content;
-    rewriteImageUrls(uevent.auth);
+    var element = orderedPiecesElement.children.item(index);
 
-    if (target.type === 'bottom') {
-      scrollToBottom();
-    } else if (target.type === 'anchor') {
-      scrollToMessage(target.messageId);
-    } else if (target.type === 'preserve') {
-      scrollToPreserve(target.msgId, target.prevBoundTop);
+    if (element === null) {
+      return;
     }
 
-    sendScrollMessageIfListShort();
+    orderedPiecesElement.removeChild(element);
+  };
+
+  var replacePiece = function replacePiece(replaceEdit, auth) {
+    var html = replaceEdit.html,
+        index = replaceEdit.index;
+    var orderedPiecesElement = document.getElementById('ordered-pieces');
+
+    if (orderedPiecesElement === null) {
+      return;
+    }
+
+    var element = orderedPiecesElement.children.item(index);
+
+    if (element === null) {
+      return;
+    }
+
+    element.outerHTML = html;
+    rewriteImageUrls(auth, element);
+  };
+
+  var handleInboundEventEditSequence = function handleInboundEventEditSequence(uevent) {
+    var sequence = uevent.sequence,
+        initialScrollMessageId = uevent.initialScrollMessageId,
+        auth = uevent.auth;
+    sequence.forEach(function (edit) {
+      switch (edit.type) {
+        case 'insert':
+          insertPiece(edit, auth);
+          break;
+
+        case 'delete':
+          deletePiece(edit);
+          break;
+
+        case 'replace':
+          replacePiece(edit, auth);
+          break;
+
+        default:
+          throw new Error("Unexpected edit type ".concat(edit.type));
+      }
+    });
+    sendMessage({
+      type: 'debug',
+      note: 'Just handled edit seq event'
+    });
+    maybeDoInitialScroll(initialScrollMessageId);
   };
 
   var handleInitialLoad = function handleInitialLoad(platformOS, scrollMessageId, auth) {
@@ -420,19 +470,19 @@ var compiledWebviewJs = (function (exports) {
       document.addEventListener('message', handleMessageEvent);
     }
 
-    scrollToMessage(scrollMessageId);
+    maybeDoInitialScroll(scrollMessageId);
     rewriteImageUrls(auth);
     sendScrollMessageIfListShort();
     scrollEventsDisabled = false;
   };
 
-  var handleUpdateEventFetching = function handleUpdateEventFetching(uevent) {
+  var handleInboundEventFetching = function handleInboundEventFetching(uevent) {
     showHideElement('message-loading', uevent.showMessagePlaceholders);
     showHideElement('spinner-older', uevent.fetchingOlder);
     showHideElement('spinner-newer', uevent.fetchingNewer);
   };
 
-  var handleUpdateEventTyping = function handleUpdateEventTyping(uevent) {
+  var handleInboundEventTyping = function handleInboundEventTyping(uevent) {
     var elementTyping = document.getElementById('typing');
 
     if (elementTyping) {
@@ -443,13 +493,13 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var handleUpdateEventReady = function handleUpdateEventReady(uevent) {
+  var handleInboundEventReady = function handleInboundEventReady(uevent) {
     sendMessage({
       type: 'ready'
     });
   };
 
-  var handleUpdateEventMessagesRead = function handleUpdateEventMessagesRead(uevent) {
+  var handleInboundEventMessagesRead = function handleInboundEventMessagesRead(uevent) {
     if (uevent.messageIds.length === 0) {
       return;
     }
@@ -464,18 +514,18 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var eventUpdateHandlers = {
-    content: handleUpdateEventContent,
-    fetching: handleUpdateEventFetching,
-    typing: handleUpdateEventTyping,
-    ready: handleUpdateEventReady,
-    read: handleUpdateEventMessagesRead
+    fetching: handleInboundEventFetching,
+    typing: handleInboundEventTyping,
+    ready: handleInboundEventReady,
+    read: handleInboundEventMessagesRead,
+    'edit-sequence': handleInboundEventEditSequence
   };
 
   var handleMessageEvent = function handleMessageEvent(e) {
     scrollEventsDisabled = true;
     var decodedData = decodeURIComponent(escape(window.atob(e.data)));
-    var updateEvents = JSON.parse(decodedData);
-    updateEvents.forEach(function (uevent) {
+    var inboundEvents = JSON.parse(decodedData);
+    inboundEvents.forEach(function (uevent) {
       eventUpdateHandlers[uevent.type](uevent);
     });
     scrollEventsDisabled = false;

@@ -277,25 +277,26 @@ export type UnreadStreamItem = {|
   |}>,
 |};
 
-export type RenderedTimeDescriptor = {|
+export type TimePieceDescriptor = {|
   type: 'time',
-  key: number | string,
+  key: string,
   timestamp: number,
-  firstMessage: Message | Outbox,
+  subsequentMessage: Message | Outbox,
 |};
 
-export type RenderedMessageDescriptor = {|
+export type HeaderPieceDescriptor = {|
+  type: 'header',
+  key: string,
+  subsequentMessage: Message | Outbox,
+|};
+
+export type MessagePieceDescriptor = {|
   type: 'message',
-  key: number | string,
+  key: number,
   message: Message | Outbox,
   isBrief: boolean,
 |};
-
-export type RenderedSectionDescriptor = {|
-  key: string | number,
-  message: Message | Outbox | {||},
-  data: $ReadOnlyArray<RenderedMessageDescriptor | RenderedTimeDescriptor>,
-|};
+export type PieceDescriptor = TimePieceDescriptor | HeaderPieceDescriptor | MessagePieceDescriptor;
 
 export type TimingItemType = {|
   text: string,

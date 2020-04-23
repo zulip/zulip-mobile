@@ -78,6 +78,7 @@ export const fetchMessages = (
     numAfter,
     useFirstUnread,
   );
+  await new Promise(resolve => setTimeout(resolve, 15000));
   dispatch(
     messageFetchComplete(messages, narrow, anchor, numBefore, numAfter, found_newest, found_oldest),
   );

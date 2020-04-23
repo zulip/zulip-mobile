@@ -2,14 +2,16 @@
 /* eslint-disable no-useless-return */
 import type { Auth } from '../../types';
 import type {
-  WebViewUpdateEvent,
-  WebViewUpdateEventContent,
-  WebViewUpdateEventFetching,
-  WebViewUpdateEventTyping,
-  WebViewUpdateEventReady,
-  WebViewUpdateEventMessagesRead,
-} from '../webViewHandleUpdates';
-import type { MessageListEvent } from '../webViewEventHandlers';
+  WebViewInboundEvent,
+  WebViewInboundEventFetching,
+  WebViewInboundEventTyping,
+  WebViewInboundEventReady,
+  WebViewInboundEventMessagesRead,
+  WebViewInboundEventEditSequence,
+} from '../generateInboundEvents';
+import type { Insert, Delete, Replace } from '../generateEditSequenceEvent';
+
+import type { WebViewOutboundEvent } from '../handleOutboundEvents';
 
 import rewriteImageUrls from './rewriteImageUrls';
 
@@ -104,7 +106,7 @@ const escapeHtml = (text: string): string => {
   return element.innerHTML;
 };
 
-const sendMessage = (msg: MessageListEvent) => {
+const sendMessage = (msg: WebViewOutboundEvent) => {
   window.ReactNativeWebView.postMessage(JSON.stringify(msg));
 };
 
@@ -167,12 +169,55 @@ const showHideElement = (elementId: string, show: boolean) => {
 let viewportHeight = documentBody.clientHeight;
 
 window.addEventListener('resize', event => {
+  if (viewportHeight === 0) {
+    viewportHeight = documentBody.clientHeight;
+    return;
+  }
   const difference = viewportHeight - documentBody.clientHeight;
   if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
     window.scrollBy({ left: 0, top: difference });
   }
   viewportHeight = documentBody.clientHeight;
 });
+
+let hasDoneInitialScroll = false;
+
+const maybeDoInitialScroll = (messageId: number | null) => {
+  sendMessage({
+    type: 'debug',
+    note: 'maybeDoInitialScroll called',
+    hasDoneInitialScroll,
+    messageId,
+    viewportHeight,
+  });
+  if (!hasDoneInitialScroll && messageId !== null) {
+    const targetNode = messageId !== null ? document.getElementById(`msg-${messageId}`) : null;
+    if (targetNode) {
+      sendMessage({
+        type: 'debug',
+        note: 'Doing initial scroll',
+        targetNode,
+        messageId,
+        viewportHeight,
+      });
+      window.scrollTo({
+        top: targetNode.offsetTop,
+        left: 0,
+        // behavior: 'smooth',
+      });
+      // targetNode.scrollIntoView({ block: 'start', behavior: 'auto' });
+      hasDoneInitialScroll = true;
+    } else {
+      sendMessage({
+        type: 'debug',
+        note: 'Not doing initial scroll',
+        targetNode,
+        messageId,
+      });
+      window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
+    }
+  }
+};
 
 /*
  *
@@ -198,7 +243,7 @@ function midMessagePeer(top: number, bottom: number): ?Element {
   // the sequence is:
   //   [ ...(random widgets, if any),
   //     ...(descendants of message-peer), message-peer,
-  //     body, html ]
+  //     div.ordered-pieces, body, html ]
   //
   // On ancient browsers (missing Document#elementsFromPoint), we make a
   // stronger assumption: at the vertical middle of the screen, we don't
@@ -212,16 +257,16 @@ function midMessagePeer(top: number, bottom: number): ?Element {
   // $FlowFixMe: doesn't know about Document#elementsFromPoint
   if (document.elementsFromPoint === undefined) {
     const element = document.elementFromPoint(0, midY);
-    return element && element.closest('body > *');
+    return element && element.closest('body > ordered-pieces > *');
   }
 
   // $FlowFixMe: doesn't know about Document#elementsFromPoint
   const midElements: Array<HTMLElement> = document.elementsFromPoint(0, midY);
-  if (midElements.length < 3) {
-    // Just [body, html].
+  if (midElements.length < 4) {
+    // Just [div.ordered-pieces, body, html].
     return null;
   }
-  return midElements[midElements.length - 3];
+  return midElements[midElements.length - 4];
 }
 
 function walkToMessage(
@@ -368,7 +413,7 @@ const sendScrollMessage = () => {
   };
   sendMessage({
     type: 'scroll',
-    // See MessageListEventScroll for the meanings of these properties.
+    // See WebViewOutboundEventScroll for the meanings of these properties.
     offsetHeight: documentBody.offsetHeight,
     innerHeight: window.innerHeight,
     scrollY: window.scrollY,
@@ -440,17 +485,9 @@ const scrollToBottomIfNearEnd = () => {
   }
 };
 
-const scrollToMessage = (messageId: number | null) => {
-  const targetNode = messageId !== null ? document.getElementById(`msg-${messageId}`) : null;
-  if (targetNode) {
-    targetNode.scrollIntoView({ block: 'start' });
-  } else {
-    window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
-  }
-};
-
 // Try to identify a message on screen and its location, so we can
 // scroll the corresponding message to the same place afterward.
+/* eslint-disable-next-line no-unused-vars */
 const findPreserveTarget = (): ScrollTarget => {
   const message = someVisibleMessage(0, viewportHeight);
   if (!message) {
@@ -465,6 +502,7 @@ const findPreserveTarget = (): ScrollTarget => {
 };
 
 // Scroll the given message to the same height it was at before.
+/* eslint-disable-next-line no-unused-vars */
 const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   const newElement = document.getElementById(`msg-${msgId}`);
   if (!newElement) {
@@ -475,35 +513,71 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
-const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
-  let target: ScrollTarget;
-  if (uevent.updateStrategy === 'replace') {
-    target = { type: 'none' };
-  } else if (uevent.updateStrategy === 'scroll-to-anchor') {
-    target = { type: 'anchor', messageId: uevent.scrollMessageId };
-  } else if (
-    uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom'
-    && isNearBottom() /* align */
-  ) {
-    target = { type: 'bottom' };
-  } else {
-    // including 'default' and 'preserve-position'
-    target = findPreserveTarget();
+const insertPiece = (insertEdit: Insert, auth: Auth) => {
+  const { html, index } = insertEdit;
+  const orderedPiecesElement = document.getElementById('ordered-pieces');
+  if (orderedPiecesElement === null) {
+    return;
+  }
+  const orderedPiecesChildren = orderedPiecesElement.children;
+  const referenceElement = orderedPiecesChildren.item(index);
+  const newElement = document.createElement('div');
+  orderedPiecesElement.insertBefore(newElement, referenceElement);
+  newElement.outerHTML = html;
+  rewriteImageUrls(auth, newElement);
+};
+
+const deletePiece = (deleteEdit: Delete) => {
+  const { index } = deleteEdit;
+  const orderedPiecesElement = document.getElementById('ordered-pieces');
+  if (orderedPiecesElement === null) {
+    return;
   }
 
-  documentBody.innerHTML = uevent.content;
+  const element = orderedPiecesElement.children.item(index);
+  if (element === null) {
+    return;
+  }
+  orderedPiecesElement.removeChild(element);
+};
 
-  rewriteImageUrls(uevent.auth);
-
-  if (target.type === 'bottom') {
-    scrollToBottom();
-  } else if (target.type === 'anchor') {
-    scrollToMessage(target.messageId);
-  } else if (target.type === 'preserve') {
-    scrollToPreserve(target.msgId, target.prevBoundTop);
+const replacePiece = (replaceEdit: Replace, auth: Auth) => {
+  const { html, index } = replaceEdit;
+  const orderedPiecesElement = document.getElementById('ordered-pieces');
+  if (orderedPiecesElement === null) {
+    return;
   }
 
-  sendScrollMessageIfListShort();
+  const element = orderedPiecesElement.children.item(index);
+  if (element === null) {
+    return;
+  }
+  element.outerHTML = html;
+  rewriteImageUrls(auth, element);
+};
+
+const handleInboundEventEditSequence = (uevent: WebViewInboundEventEditSequence) => {
+  const { sequence, initialScrollMessageId, auth } = uevent;
+  sequence.forEach(edit => {
+    switch (edit.type) {
+      case 'insert':
+        insertPiece(edit, auth);
+        break;
+      case 'delete':
+        deletePiece(edit);
+        break;
+      case 'replace':
+        replacePiece(edit, auth);
+        break;
+      default:
+        throw new Error(`Unexpected edit type ${edit.type}`);
+    }
+  });
+  sendMessage({
+    type: 'debug',
+    note: 'Just handled edit seq event',
+  });
+  maybeDoInitialScroll(initialScrollMessageId);
 };
 
 // We call this when the webview's content first loads.
@@ -522,7 +596,7 @@ export const handleInitialLoad = (
     document.addEventListener('message', handleMessageEvent);
   }
 
-  scrollToMessage(scrollMessageId);
+  maybeDoInitialScroll(scrollMessageId);
   rewriteImageUrls(auth);
   sendScrollMessageIfListShort();
   scrollEventsDisabled = false;
@@ -534,13 +608,13 @@ export const handleInitialLoad = (
  *
  */
 
-const handleUpdateEventFetching = (uevent: WebViewUpdateEventFetching) => {
+const handleInboundEventFetching = (uevent: WebViewInboundEventFetching) => {
   showHideElement('message-loading', uevent.showMessagePlaceholders);
   showHideElement('spinner-older', uevent.fetchingOlder);
   showHideElement('spinner-newer', uevent.fetchingNewer);
 };
 
-const handleUpdateEventTyping = (uevent: WebViewUpdateEventTyping) => {
+const handleInboundEventTyping = (uevent: WebViewInboundEventTyping) => {
   const elementTyping = document.getElementById('typing');
   if (elementTyping) {
     elementTyping.innerHTML = uevent.content;
@@ -551,14 +625,14 @@ const handleUpdateEventTyping = (uevent: WebViewUpdateEventTyping) => {
 /**
  * Echo back the handshake message, confirming the channel is ready.
  */
-const handleUpdateEventReady = (uevent: WebViewUpdateEventReady) => {
+const handleInboundEventReady = (uevent: WebViewInboundEventReady) => {
   sendMessage({ type: 'ready' });
 };
 
 /**
  * Handles messages that have been read outside of the WebView
  */
-const handleUpdateEventMessagesRead = (uevent: WebViewUpdateEventMessagesRead) => {
+const handleInboundEventMessagesRead = (uevent: WebViewInboundEventMessagesRead) => {
   if (uevent.messageIds.length === 0) {
     return;
   }
@@ -570,11 +644,11 @@ const handleUpdateEventMessagesRead = (uevent: WebViewUpdateEventMessagesRead) =
 };
 
 const eventUpdateHandlers = {
-  content: handleUpdateEventContent,
-  fetching: handleUpdateEventFetching,
-  typing: handleUpdateEventTyping,
-  ready: handleUpdateEventReady,
-  read: handleUpdateEventMessagesRead,
+  fetching: handleInboundEventFetching,
+  typing: handleInboundEventTyping,
+  ready: handleInboundEventReady,
+  read: handleInboundEventMessagesRead,
+  'edit-sequence': handleInboundEventEditSequence,
 };
 
 // See `handleInitialLoad` for how this gets subscribed to events.
@@ -582,8 +656,8 @@ const handleMessageEvent = e => {
   scrollEventsDisabled = true;
   // $FlowFixMe
   const decodedData = decodeURIComponent(escape(window.atob(e.data)));
-  const updateEvents: WebViewUpdateEvent[] = JSON.parse(decodedData);
-  updateEvents.forEach((uevent: WebViewUpdateEvent) => {
+  const inboundEvents: WebViewInboundEvent[] = JSON.parse(decodedData);
+  inboundEvents.forEach((uevent: WebViewInboundEvent) => {
     // $FlowFixMe
     eventUpdateHandlers[uevent.type](uevent);
   });

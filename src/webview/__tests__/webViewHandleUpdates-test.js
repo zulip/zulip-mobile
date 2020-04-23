@@ -1,11 +1,11 @@
 import deepFreeze from 'deep-freeze';
 
-import { getUpdateEvents } from '../webViewHandleUpdates';
+import generateInboundEvents from '../generateInboundEvents';
 import { flagsStateToStringList } from '../html/messageAsHtml';
 import { HOME_NARROW } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 
-describe('getUpdateEvents', () => {
+describe('generateInboundEvents', () => {
   const emptyFlags = eg.baseReduxState.flags;
 
   const baseBackgroundData = deepFreeze({
@@ -21,7 +21,7 @@ describe('getUpdateEvents', () => {
     const prevProps = baseProps;
     const nextProps = baseProps;
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toEqual([]);
   });
@@ -36,7 +36,7 @@ describe('getUpdateEvents', () => {
       fetching: { older: false, newer: true },
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toEqual([
       {
@@ -57,7 +57,7 @@ describe('getUpdateEvents', () => {
       fetching: { older: false, newer: false },
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toEqual([]);
   });
@@ -72,7 +72,7 @@ describe('getUpdateEvents', () => {
       typingUsers: [{ id: 10 }],
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('typing');
@@ -81,52 +81,16 @@ describe('getUpdateEvents', () => {
   test('when rendered messages are the same return empty result', () => {
     const prevProps = {
       ...baseProps,
-      renderedMessages: [],
+      htmlPieceDescriptors: [],
     };
     const nextProps = {
       ...baseProps,
-      renderedMessages: [],
+      htmlPieceDescriptors: [],
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toEqual([]);
-  });
-
-  test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
-    const prevProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
-      messages: [],
-      renderedMessages: [{ key: 0, data: [], message: {} }],
-    };
-    const nextProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
-      messages: [],
-      renderedMessages: [
-        {
-          key: 0,
-          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
-          message: {},
-        },
-      ],
-    };
-
-    const messages = getUpdateEvents(prevProps, nextProps);
-
-    expect(messages).toHaveLength(1);
-    expect(messages[0].type).toEqual('content');
   });
 
   test('WUUT there are several diffs return several messages', () => {
@@ -143,51 +107,11 @@ describe('getUpdateEvents', () => {
       typingUsers: [{ id: 10 }],
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toHaveLength(2);
     expect(messages[0].type).toEqual('fetching');
     expect(messages[1].type).toEqual('typing');
-  });
-
-  test('when there are several diffs but messages differ too return only a single "content" message', () => {
-    const prevProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
-      fetching: { older: false, newer: false },
-      typingUsers: [],
-      messages: [],
-      renderedMessages: [{ key: 0, data: [], message: {} }],
-    };
-    const nextProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
-      fetching: { older: false, newer: true },
-      typingUsers: [{ id: 10 }],
-      messages: [],
-      renderedMessages: [
-        {
-          key: 0,
-          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
-          message: {},
-        },
-      ],
-    };
-
-    const messages = getUpdateEvents(prevProps, nextProps);
-
-    expect(messages).toHaveLength(1);
-    expect(messages[0].type).toEqual('content');
   });
 
   test('if a new message is read send a "read" update', () => {
@@ -206,7 +130,7 @@ describe('getUpdateEvents', () => {
       },
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages[0]).toEqual({
       type: 'read',

@@ -4,12 +4,18 @@ import isEqual from 'lodash.isequal';
 import type { Auth, FlagsState } from '../types';
 import type { Props } from './MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
-import htmlBody from './html/htmlBody';
-import renderMessagesAsHtml from './html/renderMessagesAsHtml';
+import type { EditSequence } from './generateEditSequenceEvent';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
-import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
+import generateEditSequenceEvent from './generateEditSequenceEvent';
 
-export type WebViewUpdateEventContent = {|
+export type WebViewInboundEventEditSequence = {|
+  type: 'edit-sequence',
+  sequence: EditSequence,
+  initialScrollMessageId: number | null,
+  auth: Auth,
+|};
+
+export type WebViewInboundEventContent = {|
   type: 'content',
   scrollMessageId: number | null,
   auth: Auth,
@@ -17,59 +23,43 @@ export type WebViewUpdateEventContent = {|
   updateStrategy: UpdateStrategy,
 |};
 
-export type WebViewUpdateEventFetching = {|
+export type WebViewInboundEventFetching = {|
   type: 'fetching',
   showMessagePlaceholders: boolean,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
 |};
 
-export type WebViewUpdateEventTyping = {|
+export type WebViewInboundEventTyping = {|
   type: 'typing',
   content: string,
 |};
 
-export type WebViewUpdateEventReady = {|
+export type WebViewInboundEventReady = {|
   type: 'ready',
 |};
 
-export type WebViewUpdateEventMessagesRead = {
+export type WebViewInboundEventMessagesRead = {
   type: 'read',
   messageIds: number[],
 };
 
-export type WebViewUpdateEvent =
-  | WebViewUpdateEventContent
-  | WebViewUpdateEventFetching
-  | WebViewUpdateEventTyping
-  | WebViewUpdateEventReady
-  | WebViewUpdateEventMessagesRead;
+export type WebViewInboundEvent =
+  | WebViewInboundEventContent
+  | WebViewInboundEventEditSequence
+  | WebViewInboundEventFetching
+  | WebViewInboundEventTyping
+  | WebViewInboundEventReady
+  | WebViewInboundEventMessagesRead;
 
-const updateContent = (prevProps: Props, nextProps: Props): WebViewUpdateEventContent => {
-  const content = htmlBody(
-    renderMessagesAsHtml(nextProps.backgroundData, nextProps.narrow, nextProps.renderedMessages),
-    nextProps.showMessagePlaceholders,
-  );
-  const transitionProps = getMessageTransitionProps(prevProps, nextProps);
-  const updateStrategy = getMessageUpdateStrategy(transitionProps);
-
-  return {
-    type: 'content',
-    scrollMessageId: nextProps.initialScrollMessageId,
-    auth: nextProps.backgroundData.auth,
-    content,
-    updateStrategy,
-  };
-};
-
-const updateFetching = (prevProps: Props, nextProps: Props): WebViewUpdateEventFetching => ({
+const updateFetching = (prevProps: Props, nextProps: Props): WebViewInboundEventFetching => ({
   type: 'fetching',
   showMessagePlaceholders: nextProps.showMessagePlaceholders,
   fetchingOlder: nextProps.fetching.older && !nextProps.showMessagePlaceholders,
   fetchingNewer: nextProps.fetching.newer && !nextProps.showMessagePlaceholders,
 });
 
-const updateTyping = (prevProps: Props, nextProps: Props): WebViewUpdateEventTyping => ({
+const updateTyping = (prevProps: Props, nextProps: Props): WebViewInboundEventTyping => ({
   type: 'typing',
   content:
     nextProps.typingUsers.length > 0
@@ -90,15 +80,29 @@ const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): 
     .every(name => prevFlags[name] === nextFlags[name]);
 };
 
-export const getUpdateEvents = (prevProps: Props, nextProps: Props): WebViewUpdateEvent[] => {
+export default (prevProps: Props, nextProps: Props): WebViewInboundEvent[] => {
+  const uevents = [];
+
   if (
-    !isEqual(prevProps.renderedMessages, nextProps.renderedMessages)
+    !isEqual(prevProps.htmlPieceDescriptors, nextProps.htmlPieceDescriptors)
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
   ) {
-    return [updateContent(prevProps, nextProps)];
+    uevents.push(
+      generateEditSequenceEvent(
+        {
+          backgroundData: prevProps.backgroundData,
+          narrow: prevProps.narrow,
+          pieceDescriptors: prevProps.htmlPieceDescriptors,
+        },
+        {
+          backgroundData: nextProps.backgroundData,
+          narrow: nextProps.narrow,
+          pieceDescriptors: nextProps.htmlPieceDescriptors,
+        },
+        nextProps.initialScrollMessageId,
+      ),
+    );
   }
-
-  const uevents = [];
 
   if (prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read) {
     const messageIds = Object.keys(nextProps.backgroundData.flags.read)
