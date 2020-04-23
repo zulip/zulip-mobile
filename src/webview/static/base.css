@@ -98,6 +98,9 @@ hr {
 .message-brief {
   padding: 0 16px 16px 80px;
 }
+.message-brief-left {
+  padding: 0 80px 16px 16px;
+}
 .static-timestamp {
   color: hsl(0, 0%, 60%);
   font-size: 0.9rem;
