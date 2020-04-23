@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import { StyleSheet } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -9,6 +10,17 @@ import type { AccountStatus } from './accountsSelectors';
 import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
 import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
+
+const styles = StyleSheet.create({
+  button: {
+    margin: 5,
+  },
+});
+/**
+ * styles
+ * [button] - Style passed to "Add new account" button
+ *             Required to resolove overlap from scroller
+ */
 
 type Props = $ReadOnly<{|
   accounts: AccountStatus[],
@@ -69,6 +81,7 @@ class AccountPickScreen extends PureComponent<Props> {
             onPress={() => {
               dispatch(navigateToRealmScreen());
             }}
+            style={styles.button}
           />
         </Centerer>
       </Screen>
