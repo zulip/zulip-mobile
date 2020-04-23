@@ -12,12 +12,13 @@ export default class LineSeparator extends PureComponent<{||}> {
   styles = {
     lineSeparator: {
       height: 1,
-      backgroundColor: this.context.cardColor,
       margin: 4,
     },
   };
 
   render() {
-    return <View style={this.styles.lineSeparator} />;
+    return (
+      <View style={[this.styles.lineSeparator, { backgroundColor: this.context.cardColor }]} />
+    );
   }
 }

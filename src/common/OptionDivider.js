@@ -12,11 +12,10 @@ export default class OptionDivider extends PureComponent<{||}> {
   styles = {
     divider: {
       borderBottomWidth: 1,
-      borderBottomColor: this.context.dividerColor,
     },
   };
 
   render() {
-    return <View style={this.styles.divider} />;
+    return <View style={[this.styles.divider, { borderBottomColor: this.context.dividerColor }]} />;
   }
 }

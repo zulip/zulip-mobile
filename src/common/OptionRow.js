@@ -22,10 +22,7 @@ export default class OptionRow extends PureComponent<Props> {
   context: ThemeColors;
 
   styles = {
-    icon: {
-      ...styles.settingsIcon,
-      color: this.context.color,
-    },
+    icon: styles.settingsIcon,
   };
 
   render() {
@@ -33,7 +30,7 @@ export default class OptionRow extends PureComponent<Props> {
 
     return (
       <View style={[styles.listItem, style]}>
-        {!!Icon && <Icon size={18} style={this.styles.icon} />}
+        {!!Icon && <Icon size={18} style={[this.styles.icon, { color: this.context.color }]} />}
         <Label text={label} style={styles.flexed} />
         <View style={styles.rightItem}>
           <ZulipSwitch value={value} onValueChange={onValueChange} />
