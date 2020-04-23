@@ -20,10 +20,7 @@ export default class OptionButton extends PureComponent<Props> {
   context: ThemeColors;
 
   styles = {
-    icon: {
-      ...styles.settingsIcon,
-      color: this.context.color,
-    },
+    icon: styles.settingsIcon,
   };
 
   render() {
@@ -32,10 +29,10 @@ export default class OptionButton extends PureComponent<Props> {
     return (
       <Touchable onPress={onPress}>
         <View style={styles.listItem}>
-          {!!Icon && <Icon size={18} style={this.styles.icon} />}
+          {!!Icon && <Icon size={18} style={[this.styles.icon, { color: this.context.color }]} />}
           <Label text={label} />
           <View style={styles.rightItem}>
-            <IconRight size={18} style={this.styles.icon} />
+            <IconRight size={18} style={[this.styles.icon, { color: this.context.color }]} />
           </View>
         </View>
       </Touchable>
