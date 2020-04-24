@@ -148,7 +148,7 @@ export const getUnreadStreamsAndTopics: Selector<UnreadStreamItem[]> = createSel
       let total = totals.get(stream.stream_id);
       if (!total) {
         total = {
-          key: name,
+          key: `stream:${name}`,
           streamName: name,
           isMuted: !in_home_view,
           isPrivate: invite_only,
