@@ -44,7 +44,7 @@ describe('sleep (real)', () => {
 
     // `sleep` should sleep for the specified number of milliseconds (and not,
     // for example, that many seconds or microseconds).
-    expect(expectedMs - 1).toBeLessThanOrEqual(actualMs); // [α]
+    expect(actualMs).toBeGreaterThanOrEqual(expectedMs - 1); // [α]
     expect(actualMs).toBeLessThan(10 * expectedMs); // [β]
 
     // [α] The fudge term of -1 in this test is a workaround for a Node.js
