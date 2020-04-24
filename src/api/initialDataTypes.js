@@ -124,7 +124,18 @@ export type InitialDataStream = {|
 
 export type InitialDataSubscription = {|
   never_subscribed: NeverSubscribedStream[],
+
+  /**
+   * All servers, at least as far back as zulip/zulip@7a930af, in
+   * 2017-02-20 (that's server 1.6.0), send this, as long as you've
+   * specified `subscription` as a desired event type in the
+   * `/register` call, which we do.
+   *
+   * This investigation is reported at
+   * https://github.com/zulip/zulip-mobile/pull/4046#discussion_r414901766.
+   */
   subscriptions: Subscription[],
+
   unsubscribed: Subscription[],
 |};
 

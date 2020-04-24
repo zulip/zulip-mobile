@@ -49,24 +49,6 @@ describe('subscriptionsReducer', () => {
 
       expect(actualState).toEqual(expectedState);
     });
-
-    test('when no `subscriptions` data is given reset state', () => {
-      const initialState = deepFreeze([
-        {
-          name: 'some stream',
-          stream_id: 1,
-        },
-      ]);
-      const action = deepFreeze({
-        type: REALM_INIT,
-        data: {},
-      });
-      const expectedState = [];
-
-      const actualState = subscriptionsReducer(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
-    });
   });
 
   test('on unrecognized action, returns input state unchanged', () => {

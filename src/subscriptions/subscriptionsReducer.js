@@ -28,7 +28,7 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
       return initialState;
 
     case REALM_INIT:
-      return action.data.subscriptions || initialState;
+      return action.data.subscriptions;
 
     case EVENT_SUBSCRIPTION:
       switch (action.op) {
