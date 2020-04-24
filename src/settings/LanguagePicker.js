@@ -5,8 +5,7 @@ import { FlatList } from 'react-native';
 import type { GetText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { OptionDivider } from '../common';
-import languages from './languages';
-import type { Language } from './languages';
+import { type Language, languageData } from '../i18n/language_list';
 import LanguagePickerItem from './LanguagePickerItem';
 
 type Props = $ReadOnly<{|
@@ -14,6 +13,13 @@ type Props = $ReadOnly<{|
   onValueChange: (locale: string) => void,
   filter: string,
 |}>;
+
+const sortForDisplay = (arr: $ReadOnlyArray<Language>): $ReadOnlyArray<Language> =>
+  [...arr].sort((a, b) =>
+    a.locale === 'en' ? -1 : b.locale === 'en' ? +1 : a.name < b.name ? -1 : +1,
+  );
+
+const languages: $ReadOnlyArray<Language> = sortForDisplay(languageData);
 
 export default class LanguagePicker extends PureComponent<Props> {
   static contextType = TranslationContext;
