@@ -1,3 +1,4 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
 import {
@@ -13,6 +14,13 @@ import {
   getUniqueUsers,
   groupUsersByStatus,
 } from '../userHelpers';
+import * as eg from '../../__tests__/lib/exampleData';
+import type { ClientPresence, UserPresence } from '../../types';
+
+const makeUserPresence = ({ status, client, timestamp }: ClientPresence): UserPresence => ({
+  aggregated: { status, client, timestamp },
+  [client]: { status, client, timestamp },
+});
 
 describe('filterUserList', () => {
   test('empty input results in empty list', () => {
@@ -23,18 +31,25 @@ describe('filterUserList', () => {
   });
 
   test('returns same list if no filter', () => {
-    const users = deepFreeze([{ email: 'user1@example.com' }, { email: 'user2@example.com' }]);
+    const users = deepFreeze([
+      { full_name: 'user1 example', email: 'user1@example.com' },
+      { full_name: 'user 2', email: 'user2@example.com' },
+    ]);
 
-    const filteredUsers = filterUserList(users);
-    expect(filteredUsers).toEqual(users);
+    const filteredUsers = filterUserList(users.map(eg.makeUser));
+    expect(filteredUsers).toMatchObject(users);
   });
 
   test("filters out user's own entry", () => {
-    const users = deepFreeze([{ email: 'email@example.com' }, { email: 'my@example.com' }]);
+    const users = deepFreeze([
+      { full_name: 'example user', email: 'email@example.com' },
+      { full_name: 'mobile User', email: 'my@example.com' },
+    ]);
 
-    const shouldMatch = [{ email: 'email@example.com' }];
-    const filteredUsers = filterUserList(users, '', 'my@example.com');
-    expect(filteredUsers).toEqual(shouldMatch);
+    const shouldMatch = [{ email: 'email@example.com', full_name: 'example user' }];
+
+    const filteredUsers = filterUserList(users.map(eg.makeUser), '', 'my@example.com');
+    expect(filteredUsers).toMatchObject(shouldMatch);
   });
 
   test('searches in name, email and is case insensitive', () => {
@@ -52,8 +67,9 @@ describe('filterUserList', () => {
       { full_name: 'Case Insensitive MaTcH', email: 'any@example.com' },
       { full_name: 'Any Name', email: 'match@example.com' },
     ];
-    const filteredUsers = filterUserList(allUsers, 'match');
-    expect(filteredUsers).toEqual(shouldMatch);
+
+    const filteredUsers = filterUserList(allUsers.map(eg.makeUser), 'match');
+    expect(filteredUsers).toMatchObject(shouldMatch);
   });
 });
 
@@ -61,7 +77,7 @@ describe('getAutocompleteSuggestion', () => {
   test('empty input results in empty list', () => {
     const users = deepFreeze([]);
 
-    const filteredUsers = getAutocompleteSuggestion(users, 'some filter');
+    const filteredUsers = getAutocompleteSuggestion(users, 'some filter', '');
     expect(filteredUsers).toBe(users);
   });
 
@@ -75,16 +91,12 @@ describe('getAutocompleteSuggestion', () => {
       {
         full_name: 'all',
         email: '(Notify everyone)',
-        user_id: -1,
-        avatar_url: '',
-        timezone: '',
-        is_admin: false,
-        is_bot: false,
       },
       { email: 'email@example.com', full_name: 'Some Guy' },
     ];
-    const filteredUsers = getAutocompleteSuggestion(users, '', 'my@example.com');
-    expect(filteredUsers).toEqual(shouldMatch);
+
+    const filteredUsers = getAutocompleteSuggestion(users.map(eg.makeUser), '', 'my@example.com');
+    expect(filteredUsers).toMatchObject(shouldMatch);
   });
 
   test('searches in name, email and is case insensitive', () => {
@@ -94,6 +106,7 @@ describe('getAutocompleteSuggestion', () => {
       { full_name: 'MaTcH Case Insensitive', email: 'any3@example.com' },
       { full_name: 'some name', email: 'another@example.com' },
       { full_name: 'Example', email: 'match@example.com' },
+      { full_name: 'Self User', email: 'own@email.com' },
     ]);
 
     const shouldMatch = [
@@ -102,8 +115,13 @@ describe('getAutocompleteSuggestion', () => {
       { full_name: 'MaTcH Case Insensitive', email: 'any3@example.com' },
       { full_name: 'Example', email: 'match@example.com' },
     ];
-    const filteredUsers = getAutocompleteSuggestion(allUsers, 'match');
-    expect(filteredUsers).toEqual(shouldMatch);
+
+    const filteredUsers = getAutocompleteSuggestion(
+      allUsers.map(eg.makeUser),
+      'match',
+      'own@email.com',
+    );
+    expect(filteredUsers).toMatchObject(shouldMatch);
   });
 
   test('result should be in priority of startsWith, initials, contains in name, matches in email', () => {
@@ -119,6 +137,7 @@ describe('getAutocompleteSuggestion', () => {
       { full_name: 'Laptop', email: 'laptop@example.com' }, // random entry
       { full_name: 'Mobile App', email: 'any@match.com' }, // satisfy initials and email condition
       { full_name: 'Normal', email: 'match2@example.com' }, // satisfy contains in name and matches in email condition
+      { full_name: 'Self Match User', email: 'own@email.com' }, // does not match as user's own data
     ]);
 
     const shouldMatch = [
@@ -131,8 +150,13 @@ describe('getAutocompleteSuggestion', () => {
       { full_name: 'Normal', email: 'match2@example.com' }, // have priority because of 'ma' contains in name
       { full_name: 'Example', email: 'match@example.com' }, // email contains 'ma'
     ];
-    const filteredUsers = getAutocompleteSuggestion(allUsers, 'ma');
-    expect(filteredUsers).toEqual(shouldMatch);
+
+    const filteredUsers = getAutocompleteSuggestion(
+      allUsers.map(eg.makeUser),
+      'ma',
+      'own@email.com',
+    );
+    expect(filteredUsers).toMatchObject(shouldMatch);
   });
 });
 
@@ -141,8 +165,7 @@ describe('getAutocompleteUserGroupSuggestions', () => {
     const userGroups = deepFreeze([]);
 
     const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, 'some filter');
-
-    expect(filteredUserGroups).toEqual(userGroups);
+    expect(filteredUserGroups).toStrictEqual(userGroups);
   });
 
   test('searches in name and description, case-insensitive', () => {
@@ -151,26 +174,37 @@ describe('getAutocompleteUserGroupSuggestions', () => {
       { name: 'another one', description: '' },
       { name: 'last one', description: 'This is a Group' },
     ]);
+
     const shouldMatch = [
       { name: 'some user group', description: '' },
       { name: 'last one', description: 'This is a Group' },
     ];
 
-    const filteredUsers = getAutocompleteUserGroupSuggestions(userGroups, 'group');
-
-    expect(filteredUsers).toEqual(shouldMatch);
+    const filteredUsers = getAutocompleteUserGroupSuggestions(
+      userGroups.map(eg.makeGroup),
+      'group',
+    );
+    expect(filteredUsers).toMatchObject(shouldMatch);
   });
 });
 
 describe('sortUserList', () => {
   test('sorts list by name', () => {
-    const users = deepFreeze([{ full_name: 'abc' }, { full_name: 'xyz' }, { full_name: 'jkl' }]);
-    const presences = {};
-    const shouldMatch = [{ full_name: 'abc' }, { full_name: 'jkl' }, { full_name: 'xyz' }];
+    const users = deepFreeze([
+      { full_name: 'abc', email: 'abc@xyz.com' },
+      { full_name: 'xyz', email: 'xyz@abc.com' },
+      { full_name: 'jkl', email: 'jkl@abc.com' },
+    ]);
+    const presences = deepFreeze({});
 
-    const sortedUsers = sortUserList(users, presences);
+    const shouldMatch = [
+      { full_name: 'abc', email: 'abc@xyz.com' },
+      { full_name: 'jkl', email: 'jkl@abc.com' },
+      { full_name: 'xyz', email: 'xyz@abc.com' },
+    ];
 
-    expect(sortedUsers).toEqual(shouldMatch);
+    const sortedUsers = sortUserList(users.map(eg.makeUser), presences);
+    expect(sortedUsers).toMatchObject(shouldMatch);
   });
 
   test('prioritizes status', () => {
@@ -180,14 +214,30 @@ describe('sortUserList', () => {
       { full_name: 'Bob', email: 'bob@example.com' },
       { full_name: 'Rick', email: 'rick@example.com' },
     ]);
-    const presences = {
-      'mark@example.com': { aggregated: { status: 'offline' } },
-      'john@example.com': {
-        aggregated: { status: 'active', timestamp: Date.now() / 1000 - 120 * 60 },
-      },
-      'bob@example.com': { aggregated: { status: 'idle', timestamp: Date.now() / 1000 - 20 * 60 } },
-      'rick@example.com': { aggregated: { status: 'active', timestamp: Date.now() / 1000 } },
-    };
+
+    const presences = deepFreeze({
+      'mark@example.com': makeUserPresence({
+        status: 'offline',
+        client: 'ZulipMobile',
+        timestamp: Date.now(),
+      }),
+      'john@example.com': makeUserPresence({
+        status: 'active',
+        client: 'website',
+        timestamp: Date.now() / 1000 - 120 * 60,
+      }),
+      'bob@example.com': makeUserPresence({
+        status: 'idle',
+        client: 'ZulipMobile',
+        timestamp: Date.now() / 1000 - 20 * 60,
+      }),
+      'rick@example.com': makeUserPresence({
+        status: 'active',
+        client: 'ZulipMobile',
+        timestamp: Date.now() / 1000,
+      }),
+    });
+
     const shouldMatch = [
       { full_name: 'Rick', email: 'rick@example.com' },
       { full_name: 'Bob', email: 'bob@example.com' },
@@ -195,9 +245,8 @@ describe('sortUserList', () => {
       { full_name: 'Mark', email: 'mark@example.com' },
     ];
 
-    const sortedUsers = sortUserList(users, presences);
-
-    expect(sortedUsers).toEqual(shouldMatch);
+    const sortedUsers = sortUserList(users.map(eg.makeUser), presences);
+    expect(sortedUsers).toMatchObject(shouldMatch);
   });
 });
 
@@ -222,7 +271,9 @@ describe('sortAlphabetically', () => {
       { full_name: 'watch', email: 'see@example.com' },
       { full_name: 'zoe', email: 'allen@example.com' },
     ];
-    expect(sortAlphabetically(users)).toEqual(expectedUsers);
+
+    const sortedUsers = sortAlphabetically(users.map(eg.makeUser));
+    expect(sortedUsers).toMatchObject(expectedUsers);
   });
 });
 
@@ -241,7 +292,9 @@ describe('filterUserStartWith', () => {
       { full_name: 'Apple', email: 'a@example.com' },
       { full_name: 'app', email: 'p@p.com' },
     ];
-    expect(filterUserStartWith(users, 'app', 'own@example.com')).toEqual(expectedUsers);
+
+    const filteredUsers = filterUserStartWith(users.map(eg.makeUser), 'app', 'own@example.com');
+    expect(filteredUsers).toMatchObject(expectedUsers);
   });
 });
 
@@ -261,7 +314,9 @@ describe('filterUserByInitials', () => {
       { full_name: 'Mobile Application', email: 'p3@p.com' },
       { full_name: 'Mac App', email: 'p@p2.com' },
     ];
-    expect(filterUserByInitials(users, 'ma', 'own@example.com')).toEqual(expectedUsers);
+
+    const filteredUsers = filterUserByInitials(users.map(eg.makeUser), 'ma', 'own@example.com');
+    expect(filteredUsers).toMatchObject(expectedUsers);
   });
 });
 
@@ -271,7 +326,7 @@ describe('groupUsersByStatus', () => {
     const presence = deepFreeze({});
 
     const groupedUsers = groupUsersByStatus(users, presence);
-    expect(groupedUsers).toEqual({ active: [], idle: [], unavailable: [], offline: [] });
+    expect(groupedUsers).toStrictEqual({ active: [], idle: [], unavailable: [], offline: [] });
   });
 
   test('sort input by status, when no presence entry consider offline', () => {
@@ -281,11 +336,25 @@ describe('groupUsersByStatus', () => {
       { email: 'carter@example.com' },
       { email: 'dan@example.com' },
     ]);
-    const presence = {
-      'allen@example.com': { aggregated: { status: 'active' } },
-      'bob@example.com': { aggregated: { status: 'idle', timestamp: Date.now() / 1000 - 10 } },
-      'carter@example.com': { aggregated: { status: 'offline' } },
-    };
+
+    const presences = deepFreeze({
+      'allen@example.com': makeUserPresence({
+        status: 'active',
+        client: 'ZulipMobile',
+        timestamp: Date.now() / 1000,
+      }),
+      'bob@example.com': makeUserPresence({
+        status: 'idle',
+        client: 'website',
+        timestamp: Date.now() / 1000 - 10,
+      }),
+      'carter@example.com': makeUserPresence({
+        status: 'offline',
+        client: 'ZulipMobile',
+        timestamp: Date.now() / 10000,
+      }),
+    });
+
     const expectedResult = {
       active: [{ email: 'allen@example.com' }],
       idle: [{ email: 'bob@example.com' }],
@@ -293,8 +362,8 @@ describe('groupUsersByStatus', () => {
       unavailable: [],
     };
 
-    const groupedUsers = groupUsersByStatus(users, presence);
-    expect(groupedUsers).toEqual(expectedResult);
+    const groupedUsers = groupUsersByStatus(users.map(eg.makeUser), presences);
+    expect(groupedUsers).toMatchObject(expectedResult);
   });
 });
 
@@ -314,7 +383,9 @@ describe('filterUserThatContains', () => {
       { full_name: 'mam', email: 'f@app.com' },
       { full_name: 'Mac App', email: 'p@p2.com' },
     ];
-    expect(filterUserThatContains(users, 'ma', 'own@example.com')).toEqual(expectedUsers);
+
+    const filteredUsers = filterUserThatContains(users.map(eg.makeUser), 'ma', 'own@example.com');
+    expect(filteredUsers).toMatchObject(expectedUsers);
   });
 });
 
@@ -331,7 +402,13 @@ describe('filterUserMatchesEmail', () => {
     ]);
 
     const expectedUsers = [{ full_name: 'Apple', email: 'a@example.com' }];
-    expect(filterUserMatchesEmail(users, 'example', 'own@example.com')).toEqual(expectedUsers);
+
+    const filteredUsers = filterUserMatchesEmail(
+      users.map(eg.makeUser),
+      'example',
+      'own@example.com',
+    );
+    expect(filteredUsers).toMatchObject(expectedUsers);
   });
 });
 
@@ -354,6 +431,8 @@ describe('getUniqueUsers', () => {
       { full_name: 'Mac App', email: 'p@p2.com' },
       { full_name: 'app', email: 'own@example.com' },
     ];
-    expect(getUniqueUsers(users)).toEqual(expectedUsers);
+
+    const uniqueUsers = getUniqueUsers(users.map(eg.makeUser));
+    expect(uniqueUsers).toMatchObject(expectedUsers);
   });
 });
