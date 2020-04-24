@@ -2,7 +2,14 @@
 import deepFreeze from 'deep-freeze';
 import { createStore } from 'redux';
 
-import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../../api/modelTypes';
+import type {
+  CrossRealmBot,
+  Message,
+  PmRecipientUser,
+  Stream,
+  User,
+  UserGroup,
+} from '../../api/modelTypes';
 import type { Action, GlobalState, RealmState } from '../../reduxTypes';
 import type { Auth, Account } from '../../types';
 import { ACCOUNT_SWITCH, LOGIN_SUCCESS, REALM_INIT } from '../../actionConstants';
@@ -141,6 +148,25 @@ export const makeStream = (args: { name?: string, description?: string } = {}): 
     invite_only: false,
     is_announcement_only: false,
     history_public_to_subscribers: true,
+  });
+};
+
+const randGroupId: () => number = makeUniqueRandInt('group IDs', 1000);
+export const makeGroup = (args: { name?: string, description?: string } = {}): UserGroup => {
+  const name = args.name ?? randString();
+  const description = args.description ?? `This is a group for discussing ${randString()}`;
+  const members = [];
+  const totalMembers = randInt(10) + 1;
+
+  for (let i = 0; i < totalMembers; i++) {
+    members.push(randUserId());
+  }
+
+  return deepFreeze({
+    id: randGroupId(),
+    members,
+    name,
+    description,
   });
 };
 
