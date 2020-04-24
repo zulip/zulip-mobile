@@ -230,4 +230,10 @@ describe('messageFilter', () => {
     expect(messageFilter('<p>😄John <a></br>Doe</p>')).toEqual('😄John Doe');
     expect(messageFilter('1<div clas="a">2<p>3<a href="a" /></br>4</p>5')).toEqual('12345');
   });
+
+  test("'&amp;','&lt;' and '&gt' should be replaced with '&', '<' and '>'", () => {
+    expect(messageFilter('&lt;&gt;&amp;')).toEqual('<>&');
+    expect(messageFilter('&amp;&amp;amp;')).toEqual('&&amp;');
+    expect(messageFilter('<p>&lt;p&gt;</p>&amp;<a href="p" />')).toEqual('<p>&');
+  });
 });
