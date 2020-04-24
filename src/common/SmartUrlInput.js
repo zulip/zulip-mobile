@@ -4,7 +4,7 @@ import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-nat
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import type { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
 
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import { autocompleteRealmPieces, autocompleteRealm, fixRealmUrl } from '../utils/url';
 import type { Protocol } from '../utils/url';
@@ -62,7 +62,7 @@ type State = {|
 
 export default class SmartUrlInput extends PureComponent<Props, State> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
   state = {
     value: '',
   };

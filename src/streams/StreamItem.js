@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import styles, { ThemeContext } from '../styles';
 import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
@@ -61,7 +61,7 @@ type Props = $ReadOnly<{|
  */
 export default class StreamItem extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   static defaultProps = {
     isMuted: false,

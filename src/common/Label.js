@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 import TranslatedText from './TranslatedText';
 
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import type { LocalizableText } from '../types';
 
@@ -26,7 +26,7 @@ type Props = $ReadOnly<{|
  */
 export default class Label extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   styles = {
     label: {

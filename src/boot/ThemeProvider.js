@@ -6,7 +6,7 @@ import type { Node as React$Node } from 'react';
 import type { ThemeName, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSettings } from '../directSelectors';
-import { themeColors, ThemeContext } from '../styles/theme';
+import { themeData, ThemeContext } from '../styles/theme';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
@@ -21,7 +21,7 @@ class ThemeProvider extends PureComponent<Props> {
 
   render() {
     const { children, theme } = this.props;
-    return <ThemeContext.Provider value={themeColors[theme]}>{children}</ThemeContext.Provider>;
+    return <ThemeContext.Provider value={themeData[theme]}>{children}</ThemeContext.Provider>;
   }
 }
 

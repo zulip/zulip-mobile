@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Dispatch } from '../types';
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import { ThemeContext, NAVBAR_SIZE } from '../styles';
 import { connect } from '../react-redux';
 import SearchInput from '../common/SearchInput';
@@ -19,7 +19,7 @@ type Props = $ReadOnly<{|
 
 class ModalSearchNavBar extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   static defaultProps = {
     canGoBack: true,

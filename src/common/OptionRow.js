@@ -6,7 +6,7 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import type { SpecificIconType } from './Icons';
 import Label from './Label';
 import ZulipSwitch from './ZulipSwitch';
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import styles, { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
@@ -19,7 +19,7 @@ type Props = $ReadOnly<{|
 
 export default class OptionRow extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   styles = {
     icon: styles.settingsIcon,

@@ -25,7 +25,7 @@ import type {
   UserOrBot,
   EditMessage,
 } from '../types';
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import { connect } from '../react-redux';
 import {
@@ -144,7 +144,7 @@ const webviewAssetsUrl = new URL('webview/', assetsUrl);
 
 class MessageList extends Component<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   webview: ?WebView;
   readyRetryInterval: IntervalID | void;

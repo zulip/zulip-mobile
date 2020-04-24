@@ -4,14 +4,14 @@ import type { Context } from 'react';
 
 import type { ThemeName } from '../reduxTypes';
 
-export type ThemeColors = {|
+export type ThemeData = {|
   color: string,
   backgroundColor: string,
   cardColor: string,
   dividerColor: string,
 |};
 
-export const themeColors: { [name: ThemeName | 'light']: ThemeColors } = {
+export const themeData: { [name: ThemeName | 'light']: ThemeData } = {
   night: {
     color: 'hsl(210, 11%, 85%)',
     backgroundColor: 'hsl(212, 28%, 18%)',
@@ -29,6 +29,6 @@ export const themeColors: { [name: ThemeName | 'light']: ThemeColors } = {
     dividerColor: 'hsla(0, 0%, 0%, 0.12)',
   },
 };
-themeColors.default = themeColors.light;
+themeData.default = themeData.light;
 
-export const ThemeContext: Context<ThemeColors> = React.createContext(themeColors.default);
+export const ThemeContext: Context<ThemeData> = React.createContext(themeData.default);

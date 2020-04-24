@@ -6,7 +6,7 @@ import Label from './Label';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
 import type { SpecificIconType } from './Icons';
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import styles, { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
@@ -17,7 +17,7 @@ type Props = $ReadOnly<{|
 
 export default class OptionButton extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   styles = {
     icon: styles.settingsIcon,

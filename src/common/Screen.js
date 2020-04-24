@@ -5,7 +5,7 @@ import type { Node as React$Node } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import styles, { ThemeContext } from '../styles';
 import type { Dimensions, LocalizableText, Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -78,7 +78,7 @@ type Props = $ReadOnly<{|
  */
 class Screen extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   static defaultProps = {
     centerContent: false,
