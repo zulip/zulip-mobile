@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { IconPeople } from '../common/Icons';
 import { RawLabel, Touchable } from '../common';
 import styles, { ThemeContext } from '../styles';
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 
 const componentStyles = StyleSheet.create({
   text: {
@@ -28,7 +28,7 @@ type Props = $ReadOnly<{|
 
 export default class UserGroupItem extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   handlePress = () => {
     const { name, onPress } = this.props;

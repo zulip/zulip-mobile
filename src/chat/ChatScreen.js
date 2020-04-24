@@ -5,7 +5,7 @@ import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { connect } from '../react-redux';
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import styles, { ThemeContext } from '../styles';
 import type { Dispatch, Fetching, Narrow } from '../types';
 import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
@@ -36,7 +36,7 @@ type Props = $ReadOnly<{|
 
 class ChatScreen extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   styles = {
     screen: {

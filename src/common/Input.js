@@ -4,7 +4,7 @@ import { TextInput, Platform } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
 import type { LocalizableText } from '../types';
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import { ThemeContext, HALF_COLOR, BORDER_COLOR } from '../styles';
 
 export type Props = $ReadOnly<{|
@@ -34,7 +34,7 @@ type State = {|
  */
 export default class Input extends PureComponent<Props, State> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   styles = {
     input: {

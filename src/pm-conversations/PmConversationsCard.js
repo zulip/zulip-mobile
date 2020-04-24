@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import type { Dispatch, PmConversationData, UserOrBot } from '../types';
 import { connect } from '../react-redux';
@@ -43,7 +43,7 @@ type Props = $ReadOnly<{|
  * */
 class PmConversationsCard extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   render() {
     const { dispatch, conversations, usersByEmail } = this.props;

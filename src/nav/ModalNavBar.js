@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Dispatch, LocalizableText } from '../types';
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import styles, { ThemeContext, NAVBAR_SIZE } from '../styles';
 import { connect } from '../react-redux';
 
@@ -20,7 +20,7 @@ type Props = $ReadOnly<{|
 
 class ModalNavBar extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   render() {
     const { dispatch, canGoBack, title } = this.props;

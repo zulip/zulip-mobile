@@ -2,12 +2,12 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 
 export default class LineSeparator extends PureComponent<{||}> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   styles = {
     lineSeparator: {

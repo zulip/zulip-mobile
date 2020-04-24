@@ -23,7 +23,7 @@ import type {
   ThemeName,
   User,
 } from '../types';
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import { connect } from '../react-redux';
 import {
@@ -152,7 +152,7 @@ const assetsPath = Platform.OS === 'ios' ? './webview' : 'file:///android_asset/
 
 class MessageList extends Component<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   webview: ?WebView;
   readyRetryInterval: IntervalID | void;

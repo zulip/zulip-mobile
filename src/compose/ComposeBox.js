@@ -4,7 +4,7 @@ import { Platform, View, TextInput, findNodeHandle } from 'react-native';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
 
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import type {
   Auth,
@@ -104,7 +104,7 @@ export const updateTextInput = (textInput: ?TextInput, text: string): void => {
 
 class ComposeBox extends PureComponent<Props, State> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   messageInput: ?TextInput = null;
   topicInput: ?TextInput = null;

@@ -7,7 +7,7 @@ import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getLoading } from '../selectors';
 import { Label, LoadingIndicator } from '.';
-import type { ThemeColors } from '../styles';
+import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 
 const key = 'LoadingBanner';
@@ -40,7 +40,7 @@ type Props = $ReadOnly<{|
  */
 class LoadingBanner extends PureComponent<Props> {
   static contextType = ThemeContext;
-  context: ThemeColors;
+  context: ThemeData;
 
   render() {
     if (!this.props.loading) {
