@@ -15,8 +15,48 @@ import {
   NotificationListener,
   notificationOnAppActive,
 } from '../notification';
-import { appOnline, appOrientation, initSafeAreaInsets } from '../actions';
+import { appOnline, appOrientation, initSafeAreaInsets, settingsChange } from '../actions';
+import { sleep } from '../utils/async';
 import PresenceHeartbeat from '../presence/PresenceHeartbeat';
+
+class ThemeClockUC extends PureComponent<{| +dispatch: Dispatch |}> {
+  running = false;
+
+  async run() {
+    if (this.running) {
+      return;
+    }
+    try {
+      while (true) {
+        await sleep(2500);
+        if (this.running) {
+          break;
+        }
+        await this.props.dispatch(settingsChange({ theme: 'night' }));
+        await sleep(2500);
+        if (this.running) {
+          break;
+        }
+        await this.props.dispatch(settingsChange({ theme: 'default' }));
+      }
+    } finally {
+      this.running = false;
+    }
+  }
+
+  componentDidMount() {
+    this.run();
+  }
+  componentWillUnmount() {
+    this.running = false;
+  }
+
+  render() {
+    return null;
+  }
+}
+
+const ThemeClock = connect()(ThemeClockUC);
 
 /**
  * Part of the interface from react-native-netinfo.
@@ -134,6 +174,7 @@ class AppEventHandlers extends PureComponent<Props> {
     return (
       <>
         <PresenceHeartbeat />
+        <ThemeClock />
         <View style={styles.wrapper}>{this.props.children}</View>
       </>
     );
