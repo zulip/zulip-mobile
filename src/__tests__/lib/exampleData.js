@@ -45,7 +45,7 @@ const makeUniqueRandInt = (itemsType: string, end: number): (() => number) => {
 export const randString = () => randInt(2 ** 54).toString(36);
 
 const randUserId: () => number = makeUniqueRandInt('user IDs', 10000);
-const userOrBotProperties = ({ name: _name }) => {
+const userOrBotProperties = ({ name: _name, email }) => {
   const name = _name ?? randString();
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
   return deepFreeze({
@@ -55,7 +55,7 @@ const userOrBotProperties = ({ name: _name }) => {
       .toString()
       .padStart(2, '0')}`,
 
-    email: `${name}@example.org`,
+    email: email ?? `${name}@example.org`,
     full_name: `${capsName} User`,
     is_admin: false,
     timezone: 'UTC',
@@ -64,7 +64,7 @@ const userOrBotProperties = ({ name: _name }) => {
 };
 
 /** Beware! These values may not be representative. */
-export const makeUser = (args: { name?: string } = {}): User =>
+export const makeUser = (args: { name?: string, email?: string } = {}): User =>
   deepFreeze({
     ...userOrBotProperties(args),
 
@@ -78,7 +78,7 @@ export const makeUser = (args: { name?: string } = {}): User =>
   });
 
 /** Beware! These values may not be representative. */
-export const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot =>
+export const makeCrossRealmBot = (args: { name?: string, email?: string } = {}): CrossRealmBot =>
   deepFreeze({
     ...userOrBotProperties(args),
     is_bot: true,
