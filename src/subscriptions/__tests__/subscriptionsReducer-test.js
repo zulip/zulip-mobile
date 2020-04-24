@@ -30,6 +30,26 @@ describe('subscriptionsReducer', () => {
       ]);
     });
 
+    test('when `subscriptions` is an empty array, reset state', () => {
+      const initialState = deepFreeze([
+        {
+          name: 'some stream',
+          stream_id: 1,
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: REALM_INIT,
+        data: { subscriptions: [] },
+      });
+
+      const expectedState = [];
+
+      const actualState = subscriptionsReducer(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
     test('when no `subscriptions` data is given reset state', () => {
       const initialState = deepFreeze([
         {
