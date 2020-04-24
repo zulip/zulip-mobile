@@ -1,0 +1,74 @@
+# languages.yaml: Configuration database for internationalization.
+
+# The translation data files in `static/translations/` include all the languages
+# we have open on Transifex for people to translate. This means all the
+# languages that someone's expressed interest in translating Zulip into, and
+# there are usually some that aren't yet much translated at all.
+#
+# To avoid offering users a translation into their language when it won't
+# actually do anything, we maintain this separate list of languages that are
+# translated to an adequate level.
+#
+# The Zulip webapp offers a language in the UI when it's over 5% translated.
+# (Search for `percent_translated` in the server code.) The mobile app has no
+# formal policy, but historically has added new languages when they're about 10%
+# translated. The code-generation script that uses this file will complain if
+# there are languages that are 20% translated (more or less), but not included
+# in this list.
+#
+# We use a simple heuristic to determine the translation percentage locally; for
+# a more accurate figure, consult Transifex [0].
+#
+# For the native names of languages, consult Wikipedia [1], or better yet,
+# Wikipedia's own mobile UIs.  Wikipedia is a very conscientiously international
+# and intercultural project with a lot of effort going into it by speakers of
+# many languages, which makes it a useful gold standard for this.
+
+# [0]: https://www.transifex.com/zulip/zulip/mobile/
+# [1]: https://meta.wikimedia.org/wiki/List_of_Wikipedias
+
+
+# languages_used: The set of languages we offer in the Zulip mobile app.
+#
+# The keys of this map should match the Transifex identifiers. The order is not
+# algorithmically important, but should be sorted by key for the human reader's
+# sake.
+#
+# `generate-txn-import.js` will confirm that all of these languages are
+# available to be provided, and also check whether there are others we should
+# add.
+#
+languages_used:
+  bg: { english: Bulgarian, native: 'Български' }
+  ca: { english: Catalan, native: 'Català' }
+  cs: { english: Czech, native: 'Čeština' }
+  de: { english: German, native: 'Deutsch' }
+  en: { english: English, native: 'English' }
+  # TODO: add `en_GB` -- it's "100% translated", though that just means
+  #   the one string mentioning "organization" has s/z/s/ in that word
+  es: { english: Spanish, native: 'Español' }
+  fa: { english: Persian, native: 'فارسی' }
+  fi: { english: Finnish, native: 'Suomi' }
+  fr: { english: French, native: 'Français' }
+  gl: { english: Galician, native: 'Galego' }
+  hi: { english: Hindi, native: 'हिन्दी' }
+  hu: { english: Hungarian, native: 'Magyar' }
+  id_ID: { english: Indonesian, native: 'Bahasa Indonesia' }
+  it: { english: Italian, native: 'Italiano' }
+  ja: { english: Japanese, native: '日本語' }
+  ko: { english: Korean, native: '한국어' }
+  lt: { english: Lithuanian, native: 'Lietuvių' }
+  ml: { english: Malayalam, native: 'മലയാളം' }
+  nl: { english: Dutch, native: 'Nederlands' }
+  pl: { english: Polish, native: 'Polski' }
+  pt: { english: Portuguese, native: 'Português' }
+  ro: { english: Romanian, native: 'Română' }
+  ru: { english: Russian, native: 'Русский' }
+  sr: { english: Serbian, native: 'Српски' }
+  sv: { english: Swedish, native: 'Svenska' }
+  ta: { english: Tamil, native: 'தமிழ்' }
+  tr: { english: Turkish, native: 'Türkçe' }
+  uk: { english: Ukrainian, native: 'Українська' }
+  vi: { english: Vietnamese, native: 'Tiếng Việt' }
+  zh-Hans: { english: Chinese (Simplified), native: '中文 (简体)' }
+  zh-Hant: { english: Chinese (Traditional), native: '中文 (繁体)' }
