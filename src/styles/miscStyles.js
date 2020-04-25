@@ -82,7 +82,6 @@ export default ({ color, backgroundColor }: ThemeColors) => ({
   screen: {
     flex: 1,
     flexDirection: 'column',
-    // alignItems: 'stretch',
     backgroundColor,
   },
 });
