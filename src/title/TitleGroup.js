@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 
 import type { Dispatch, UserOrBot, Narrow } from '../types';
 import { connect } from '../react-redux';
@@ -38,16 +38,21 @@ class TitleGroup extends PureComponent<Props> {
 
     return (
       <View style={styles.navWrapper}>
-        {recipients.map((user, index) => (
-          <View key={user.email} style={this.styles.titleAvatar}>
-            <UserAvatarWithPresence
-              onPress={() => this.handlePress(user)}
-              size={32}
-              avatarUrl={user.avatar_url}
-              email={user.email}
-            />
-          </View>
-        ))}
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={recipients}
+          renderItem={({ item }) => (
+            <View key={item.email} style={this.styles.titleAvatar}>
+              <UserAvatarWithPresence
+                onPress={() => this.handlePress(item)}
+                size={32}
+                avatarUrl={item.avatar_url}
+                email={item.email}
+              />
+            </View>
+          )}
+        />
       </View>
     );
   }
