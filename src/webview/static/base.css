@@ -5,6 +5,7 @@ html {
   user-select: none; /* Standard syntax */
   -khtml-user-select: none;
   -webkit-touch-callout: none;
+  font: -apple-system-body;
 }
 body {
   font-family: sans-serif;
