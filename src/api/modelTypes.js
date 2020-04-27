@@ -155,6 +155,14 @@ export type CrossRealmBot = {|
  */
 export type UserOrBot = User | CrossRealmBot;
 
+/**
+ * For mentioning multiple users at once.
+ *
+ * When you mention a user group, everyone in the group is notified as
+ * though they were individually mentioned.
+ *
+ * This feature is not related to group PMs.
+ */
 export type UserGroup = {|
   description: string,
   id: number,

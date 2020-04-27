@@ -104,7 +104,10 @@ export type InitialDataRealmUser = {|
 |};
 
 export type InitialDataRealmUserGroups = {|
-  realm_user_groups: UserGroup[],
+  /**
+   * Absent in servers prior to v1.8.0-rc1~2711 (or thereabouts).
+   */
+  realm_user_groups?: UserGroup[],
 |};
 
 type NeverSubscribedStream = {|
