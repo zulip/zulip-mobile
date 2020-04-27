@@ -7,7 +7,6 @@ describe('getRecentConversations', () => {
   test('when no messages, return no conversations', () => {
     const state = deepFreeze({
       realm: { email: 'me@example.com' },
-      users: [{ user_id: 0, email: 'me@example.com' }],
       narrows: {
         [ALL_PRIVATE_NARROW_STR]: [],
       },
@@ -25,11 +24,6 @@ describe('getRecentConversations', () => {
   test('returns unique list of recipients, includes conversations with self', () => {
     const state = deepFreeze({
       realm: { email: 'me@example.com' },
-      users: [
-        { user_id: 0, email: 'me@example.com' },
-        { user_id: 1, email: 'john@example.com' },
-        { user_id: 2, email: 'mark@example.com' },
-      ],
       narrows: {
         [ALL_PRIVATE_NARROW_STR]: [0, 1, 2, 3, 4],
       },
@@ -132,11 +126,6 @@ describe('getRecentConversations', () => {
   test('returns recipients sorted by last activity', () => {
     const state = deepFreeze({
       realm: { email: 'me@example.com' },
-      users: [
-        { user_id: 0, email: 'me@example.com' },
-        { user_id: 1, email: 'john@example.com' },
-        { user_id: 2, email: 'mark@example.com' },
-      ],
       narrows: {
         [ALL_PRIVATE_NARROW_STR]: [1, 2, 3, 4, 5, 6],
       },

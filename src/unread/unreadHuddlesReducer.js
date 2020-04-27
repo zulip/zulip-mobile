@@ -8,7 +8,7 @@ import {
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
-import { pmUnreadsKeyFromMessage } from '../utils/recipient';
+import { getRecipientsIds } from '../utils/recipient';
 import { addItemsToHuddleArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
 
@@ -27,7 +27,7 @@ const eventNewMessage = (state, action) => {
     return state;
   }
 
-  return addItemsToHuddleArray(state, [action.message.id], pmUnreadsKeyFromMessage(action.message));
+  return addItemsToHuddleArray(state, [action.message.id], getRecipientsIds(action.message));
 };
 
 const eventUpdateMessageFlags = (state, action) => {
