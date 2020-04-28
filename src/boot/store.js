@@ -1,6 +1,8 @@
 /* @flow strict-local */
 import { applyMiddleware, compose, createStore } from 'redux';
 import type { Store } from 'redux';
+import Immutable from 'immutable';
+import * as Serialize from 'remotedev-serialize';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
@@ -152,10 +154,38 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
   }),
 };
 
+/**
+ * A special identifier used by `remotedev-serialize`.
+ *
+ * Use this in the custom replacer and reviver, below, to make it
+ * easier to be consistent between them and avoid costly typos.
+ */
+const SERIALIZED_TYPE_FIELD_NAME: '__serializedType__' = '__serializedType__';
+
+const customReplacer = (key, value, defaultReplacer) =>
+  // Scaffolding for the next commit, where we replace/revive ZulipVersion
+  defaultReplacer(key, value);
+
+const customReviver = (key, value, defaultReviver) => {
+  if (value !== null && typeof value === 'object' && SERIALIZED_TYPE_FIELD_NAME in value) {
+    // Scaffolding for the next commit, where we replace/revive ZulipVersion
+    const data = value.data; // eslint-disable-line no-unused-vars
+    switch (value[SERIALIZED_TYPE_FIELD_NAME]) {
+      default:
+      // Fall back to defaultReviver, below
+    }
+  }
+  return defaultReviver(key, value);
+};
+
+const { stringify, parse } = Serialize.immutable(Immutable, null, customReplacer, customReviver);
+
 const reduxPersistConfig: Config = {
   whitelist: [...storeKeys, ...cacheKeys],
   // $FlowFixMe: https://github.com/rt2zz/redux-persist/issues/823
   storage: ZulipAsyncStorage,
+  serialize: stringify,
+  deserialize: parse,
 };
 
 const store: Store<GlobalState, Action> = createStore(
