@@ -7,6 +7,7 @@ import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
 import type { Action, GlobalState } from '../types';
+import { ZulipVersion } from '../utils/zulipVersion';
 import rootReducer from './reducers';
 import middleware from './middleware';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
@@ -162,15 +163,19 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
  */
 const SERIALIZED_TYPE_FIELD_NAME: '__serializedType__' = '__serializedType__';
 
-const customReplacer = (key, value, defaultReplacer) =>
-  // Scaffolding for the next commit, where we replace/revive ZulipVersion
-  defaultReplacer(key, value);
+const customReplacer = (key, value, defaultReplacer) => {
+  if (value instanceof ZulipVersion) {
+    return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
+  }
+  return defaultReplacer(key, value);
+};
 
 const customReviver = (key, value, defaultReviver) => {
   if (value !== null && typeof value === 'object' && SERIALIZED_TYPE_FIELD_NAME in value) {
-    // Scaffolding for the next commit, where we replace/revive ZulipVersion
-    const data = value.data; // eslint-disable-line no-unused-vars
+    const data = value.data;
     switch (value[SERIALIZED_TYPE_FIELD_NAME]) {
+      case 'ZulipVersion':
+        return new ZulipVersion(data);
       default:
       // Fall back to defaultReviver, below
     }
