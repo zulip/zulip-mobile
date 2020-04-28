@@ -24,6 +24,7 @@ const componentStyles = StyleSheet.create({
   },
   statusText: {
     textAlign: 'center',
+    fontSize: 17,
   },
 });
 
@@ -60,7 +61,7 @@ class AccountDetails extends PureComponent<Props> {
     }
 
     return (
-      <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
+      <ComponentList outerSpacing spacing={12} itemStyle={componentStyles.componentListItem}>
         <View>
           <UserAvatar avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)} size={AVATAR_SIZE} />
         </View>
@@ -70,15 +71,15 @@ class AccountDetails extends PureComponent<Props> {
           <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
         </View>
         {userStatusText !== undefined && (
-          <RawLabel style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
+          <RawLabel style={componentStyles.statusText} text={userStatusText} />
         )}
-        <RawLabel style={[styles.largerText, componentStyles.statusText]} text={user.email} />
+        <RawLabel style={componentStyles.statusText} text={user.email} />
         <View>
-          <ActivityText style={styles.largerText} user={user} />
+          <ActivityText style={componentStyles.statusText} user={user} />
         </View>
         {localTime !== null && (
           <View>
-            <RawLabel style={styles.largerText} text={localTime} />
+            <RawLabel style={componentStyles.statusText} text={localTime} />
           </View>
         )}
       </ComponentList>
