@@ -30,7 +30,6 @@ Suites:
   jest
   prettier
   deps
-  pirlo    (skipped by default)
   spell    (skipped by default)
 
 By default, all suites are run except those identified as skipped above.
@@ -48,7 +47,7 @@ while (( $# )); do
         --diff) shift; files=diff:"$1"; shift;;
         --full) files=full; shift;;
         --fix) fix=1; shift;;
-        android|flow|lint|jest|prettier|deps|pirlo|spell)
+        android|flow|lint|jest|prettier|deps|spell)
             suites+=("$1"); shift;;
         *) usage;;
     esac
@@ -188,12 +187,6 @@ EOF
     fi
 }
 
-# End-to-end Android tests.
-run_pirlo() {
-    yarn run build:android-nokeys
-    tools/pirlo
-}
-
 run_spell() {
     (( $# )) || return 0
     eslint --no-eslintrc -c tools/spellcheck.eslintrc.yaml "$@"
@@ -220,9 +213,6 @@ for suite in "${suites[@]}"; do
             ;;
         deps)
             run_deps
-            ;;
-        pirlo)
-            run_pirlo
             ;;
         spell)
             run_spell $(files_js)

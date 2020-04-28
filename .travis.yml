@@ -7,12 +7,6 @@ jdk: oraclejdk8
 env:
   global:
     - COVERALLS_REPO_TOKEN=4eYQDtWoBJlDz2QkxoQ2UcnmJFcOB7zkv
-  jobs:
-    - TEST_SUITE=''
-
-    # Pirlo suite disabled until we adjust the test script to match
-    # changes in order to accomodate #3750.
-    # - TEST_SUITE=pirlo
 
 android:
   components:
@@ -48,5 +42,5 @@ install:
   - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
 script:
-  - TERM=dumb tools/test --full ${TEST_SUITE}
+  - TERM=dumb tools/test --full
   - tools/verify-webview-js
