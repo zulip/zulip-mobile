@@ -10,7 +10,9 @@ import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
 import { getAvatarFromUser } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
-import styles from '../styles';
+import { IconRobot } from '../common/Icons';
+import type { ThemeColors } from '../styles';
+import styles, { ThemeContext } from '../styles';
 
 const componentStyles = StyleSheet.create({
   componentListItem: {
@@ -40,6 +42,9 @@ type Props = $ReadOnly<{|
 |}>;
 
 class AccountDetails extends PureComponent<Props> {
+  static contextType = ThemeContext;
+  context: ThemeColors;
+
   render() {
     const { realm, user, userStatusText } = this.props;
 
@@ -61,11 +66,13 @@ class AccountDetails extends PureComponent<Props> {
         </View>
         <View style={componentStyles.statusWrapper}>
           <RawLabel style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
+          {user.is_bot && <IconRobot size={20} style={{ color: this.context.color }} />}
           <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
         </View>
         {userStatusText !== undefined && (
           <RawLabel style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
         )}
+        <RawLabel style={[styles.largerText, componentStyles.statusText]} text={user.email} />
         <View>
           <ActivityText style={styles.largerText} user={user} />
         </View>
