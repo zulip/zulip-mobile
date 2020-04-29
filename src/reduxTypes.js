@@ -233,6 +233,7 @@ export type PresenceState = {|
  *
  * About the user:
  * @prop email
+ * @prop user_id
  * @prop twentyFourHourTime
  * @prop canCreateStreams
  * @prop isAdmin

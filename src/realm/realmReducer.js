@@ -12,15 +12,17 @@ import {
 import { objectFromEntries } from '../jsBackport';
 
 const initialState = {
-  canCreateStreams: true,
   crossRealmBots: [],
+
+  nonActiveUsers: [],
+  filters: [],
+  emoji: {},
+
   email: undefined,
   user_id: undefined,
   twentyFourHourTime: false,
-  emoji: {},
-  filters: [],
+  canCreateStreams: true,
   isAdmin: false,
-  nonActiveUsers: [],
 };
 
 const convertRealmEmoji = (data): RealmEmojiById =>
@@ -35,15 +37,17 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
 
     case REALM_INIT: {
       return {
-        canCreateStreams: action.data.can_create_streams,
         crossRealmBots: action.data.cross_realm_bots,
+
+        nonActiveUsers: action.data.realm_non_active_users,
+        filters: action.data.realm_filters,
+        emoji: convertRealmEmoji(action.data.realm_emoji),
+
         email: action.data.email,
         user_id: action.data.user_id,
-        emoji: convertRealmEmoji(action.data.realm_emoji),
-        filters: action.data.realm_filters,
-        isAdmin: action.data.is_admin,
-        nonActiveUsers: action.data.realm_non_active_users,
         twentyFourHourTime: action.data.twenty_four_hour_time,
+        canCreateStreams: action.data.can_create_streams,
+        isAdmin: action.data.is_admin,
       };
     }
 
