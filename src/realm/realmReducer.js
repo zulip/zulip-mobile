@@ -35,7 +35,6 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
 
     case REALM_INIT: {
       return {
-        ...state,
         canCreateStreams: action.data.can_create_streams,
         crossRealmBots: action.data.cross_realm_bots,
         email: action.data.email,
