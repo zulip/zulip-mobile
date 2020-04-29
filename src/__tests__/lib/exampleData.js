@@ -127,6 +127,8 @@ export const realm = 'https://zulip.example.org';
 
 export const zulipVersion = new ZulipVersion('2.1.0-234-g7c3acf4');
 
+export const zulipFeatureLevel = 1;
+
 export const makeAccount = (
   args: {
     user?: User,

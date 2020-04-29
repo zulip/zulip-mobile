@@ -143,6 +143,7 @@ type AccountSwitchAction = {|
 type RealmAddAction = {|
   type: typeof REALM_ADD,
   realm: string,
+  zulipFeatureLevel: number,
   zulipVersion: ZulipVersion,
 |};
 

@@ -14,9 +14,14 @@ export const switchAccount = (index: number): Action => ({
   index,
 });
 
-export const realmAdd = (realm: string, zulipVersion: ZulipVersion): Action => ({
+export const realmAdd = (
+  realm: string,
+  zulipFeatureLevel: number,
+  zulipVersion: ZulipVersion,
+): Action => ({
   type: REALM_ADD,
   realm,
+  zulipFeatureLevel,
   zulipVersion,
 });
 

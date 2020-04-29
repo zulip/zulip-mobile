@@ -62,7 +62,13 @@ class RealmScreen extends PureComponent<Props, State> {
     });
     try {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
-      dispatch(realmAdd(realm, new ZulipVersion(serverSettings.zulip_version)));
+      dispatch(
+        realmAdd(
+          realm,
+          serverSettings.zulip_feature_level === undefined ? 0 : serverSettings.zulip_feature_level,
+          new ZulipVersion(serverSettings.zulip_version),
+        ),
+      );
       dispatch(navigateToAuth(serverSettings));
       Keyboard.dismiss();
     } catch (err) {

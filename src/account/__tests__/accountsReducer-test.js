@@ -36,6 +36,7 @@ describe('accountsReducer', () => {
       const action = deepFreeze({
         type: REALM_ADD,
         realm: newAccount.realm,
+        zulipFeatureLevel: eg.zulipFeatureLevel,
         zulipVersion: eg.zulipVersion,
       });
 
@@ -54,6 +55,7 @@ describe('accountsReducer', () => {
       const action = deepFreeze({
         type: REALM_ADD,
         realm: newAccount.realm,
+        zulipFeatureLevel: eg.zulipFeatureLevel,
         zulipVersion: eg.zulipVersion,
       });
 
@@ -73,6 +75,7 @@ describe('accountsReducer', () => {
       const action = deepFreeze({
         type: REALM_ADD,
         realm: newAccount.realm,
+        zulipFeatureLevel: eg.zulipFeatureLevel,
         zulipVersion: eg.zulipVersion,
       });
 
@@ -92,10 +95,51 @@ describe('accountsReducer', () => {
       const action = deepFreeze({
         type: REALM_ADD,
         realm: newAccount.realm,
+        zulipFeatureLevel: eg.zulipFeatureLevel,
         zulipVersion: eg.zulipVersion,
       });
 
       const expectedState = [account2, account1];
+
+      expect(accountsReducer(prevState, action)).toEqual(expectedState);
+    });
+
+    test('if no account with this realm exists and account has zulipFeatureLevel, prepend new one, with empty email/apiKey', () => {
+      const newAccount = eg.makeAccount({
+        email: '',
+        apiKey: '',
+        realm: 'https://new.realm.org',
+        zulipFeatureLevel: eg.zulipFeatureLevel,
+      });
+
+      const action = deepFreeze({
+        type: REALM_ADD,
+        realm: newAccount.realm,
+        zulipFeatureLevel: eg.zulipFeatureLevel,
+        zulipVersion: eg.zulipVersion,
+      });
+
+      const expectedState = [newAccount, account1, account2];
+
+      expect(accountsReducer(prevState, action)).toEqual(expectedState);
+    });
+
+    test('if account with this realm exists and account has zulipFeatureLevel, move to front of list', () => {
+      const newAccount = eg.makeAccount({
+        email: account2.email,
+        realm: account2.realm,
+        apiKey: '',
+        zulipFeatureLevel: eg.zulipFeatureLevel,
+      });
+
+      const action = deepFreeze({
+        type: REALM_ADD,
+        realm: newAccount.realm,
+        zulipFeatureLevel: eg.zulipFeatureLevel,
+        zulipVersion: eg.zulipVersion,
+      });
+
+      const expectedState = [newAccount, account1];
 
       expect(accountsReducer(prevState, action)).toEqual(expectedState);
     });
