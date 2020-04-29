@@ -11,7 +11,6 @@ import {
 } from '../actionConstants';
 import { objectFromEntries } from '../jsBackport';
 
-// Initial state
 const initialState = {
   canCreateStreams: true,
   crossRealmBots: [],
@@ -24,20 +23,6 @@ const initialState = {
   nonActiveUsers: [],
 };
 
-/**
- * A version of `initialState` with some made-up blank data.
- *
- * On `LOGIN_SUCCESS`, we go straight to showing the main app UI (see
- * `navReducer`) even though we're still loading the actual data from the
- * server.  So we need some fake data that the UI code will swallow.
- * TODO: Probably stop doing that.
- */
-const fakeBlankState = {
-  ...initialState,
-  email: '',
-  user_id: 0,
-};
-
 const convertRealmEmoji = (data): RealmEmojiById =>
   objectFromEntries(Object.keys(data).map(id => [id, { ...data[id], code: id.toString() }]));
 
@@ -46,7 +31,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
-      return fakeBlankState;
+      return initialState;
 
     case REALM_INIT: {
       return {
