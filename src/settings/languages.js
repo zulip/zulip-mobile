@@ -1,6 +1,9 @@
 /* @flow strict-local */
 /* eslint-disable spellcheck/spell-checker */
 
+import translations from '../i18n/messages';
+import { partition } from '../utils/misc';
+
 export type Language = {
   locale: string,
   name: string,
@@ -32,19 +35,18 @@ export type Language = {
  * useful gold standard for this.
  */
 const languages: $ReadOnlyArray<Language> = [
-  { locale: 'en', name: 'English', nativeName: 'English' },
   { locale: 'bg', name: 'Bulgarian', nativeName: 'Български' },
   { locale: 'ca', name: 'Catalan', nativeName: 'Català' },
-  { locale: 'zh-Hans', name: 'Chinese (Simplified)', nativeName: '中文（简体）' },
-  { locale: 'zh-Hant', name: 'Chinese (Traditional)', nativeName: '中文 (繁体)' },
   { locale: 'cs', name: 'Czech', nativeName: 'Čeština' },
-  { locale: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
+  { locale: 'de', name: 'German', nativeName: 'Deutsch' },
+  { locale: 'en', name: 'English', nativeName: 'English' },
   // TODO: add `en_GB` -- it's "100% translated", though that just means
   //   the one string mentioning "organization" has s/z/s/ in that word
+  { locale: 'es', name: 'Spanish', nativeName: 'Español' },
+  { locale: 'fa', name: 'Persian', nativeName: 'فارسی' },
   { locale: 'fi', name: 'Finnish', nativeName: 'Suomi' },
   { locale: 'fr', name: 'French', nativeName: 'Français' },
   { locale: 'gl', name: 'Galician', nativeName: 'Galego' },
-  { locale: 'de', name: 'German', nativeName: 'Deutsch' },
   { locale: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
   { locale: 'hu', name: 'Hungarian', nativeName: 'Magyar' },
   { locale: 'id-ID', name: 'Indonesian', nativeName: 'Bahasa Indonesia' },
@@ -53,17 +55,37 @@ const languages: $ReadOnlyArray<Language> = [
   { locale: 'ko', name: 'Korean', nativeName: '한국어' },
   { locale: 'lt', name: 'Lithuanian', nativeName: 'Lietuvių' },
   { locale: 'ml', name: 'Malayalam', nativeName: 'മലയാളം' },
-  { locale: 'fa', name: 'Persian', nativeName: 'فارسی' },
+  { locale: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
   { locale: 'pl', name: 'Polish', nativeName: 'Polski' },
   { locale: 'pt', name: 'Portuguese', nativeName: 'Português' },
   { locale: 'ro', name: 'Romanian', nativeName: 'Română' },
   { locale: 'ru', name: 'Russian', nativeName: 'Русский' },
   { locale: 'sr', name: 'Serbian', nativeName: 'Српски' },
-  { locale: 'es', name: 'Spanish', nativeName: 'Español' },
   { locale: 'sv', name: 'Swedish', nativeName: 'Svenska' },
   { locale: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
   { locale: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
   { locale: 'uk', name: 'Ukrainian', nativeName: 'Українська' },
+  { locale: 'zh-Hans', name: 'Chinese (Simplified)', nativeName: '中文 (简体)' },
+  { locale: 'zh-Hant', name: 'Chinese (Traditional)', nativeName: '中文 (繁体)' },
 ];
 
-export default languages;
+const sortForDisplay = (arr: $ReadOnlyArray<Language>): $ReadOnlyArray<Language> =>
+  [...arr].sort((a, b) =>
+    a.locale === 'en' ? -1 : b.locale === 'en' ? +1 : a.name < b.name ? -1 : +1,
+  );
+
+const [knownLanguages, unknownLanguages] = partition<Language>(
+  languages,
+  ({ locale }) => locale in translations,
+);
+
+/* Red-box and shows in the debugger at import time. */
+if (unknownLanguages.length !== 0) {
+  // eslint-disable-next-line no-console
+  console.error(
+    'Unknown locales in language-selection screen:\n   ',
+    JSON.stringify(unknownLanguages),
+  );
+}
+
+export default sortForDisplay(knownLanguages);

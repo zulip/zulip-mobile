@@ -32,3 +32,21 @@ export function groupItemsById<T: { +id: number }>(items: T[]): { [id: number]: 
 }
 
 export const isValidEmailFormat = (email: string = ''): boolean => /\S+@\S+\.\S+/.test(email);
+
+/**
+ * Partition an array into two other arrays, based on a predicate.
+ *
+ * In particular:
+ * - `partition(xs, f)[0]` is equivalent to `xs.filter(f)`
+ * - `partition(xs, f)[1]` is equivalent to `xs.filter(i => !f(i))`
+ */
+export const partition = <T>(
+  items: $ReadOnlyArray<T>,
+  predicate: T => boolean,
+): [Array<T>, Array<T>] => {
+  const ret = [[], []];
+  for (const item of items) {
+    ret[+!predicate(item)].push(item);
+  }
+  return ret;
+};
