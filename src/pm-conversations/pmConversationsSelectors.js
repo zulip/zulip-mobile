@@ -5,7 +5,7 @@ import type { Message, PmConversationData, Selector } from '../types';
 import { getPrivateMessages } from '../message/messageSelectors';
 import { getOwnEmail } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
-import { normalizeRecipientsSansMe, getRecipientsIds } from '../utils/recipient';
+import { normalizeRecipientsSansMe, pmUnreadsKeyFromMessage } from '../utils/recipient';
 
 export const getRecentConversations: Selector<PmConversationData[]> = createSelector(
   getOwnEmail,
@@ -19,7 +19,7 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
     unreadHuddles: { [string]: number },
   ): PmConversationData[] => {
     const recipients = messages.map(msg => ({
-      ids: getRecipientsIds(msg, ownEmail),
+      ids: pmUnreadsKeyFromMessage(msg, ownEmail),
       emails: normalizeRecipientsSansMe(msg.display_recipient, ownEmail),
       msgId: msg.id,
     }));
@@ -43,6 +43,10 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
     return sortedByMostRecent.map(recipient => ({
       ...recipient,
       unread:
+        // This business of looking in one place and then the other is kind
+        // of messy.  Fortunately it always works, because the key spaces
+        // are disjoint: all `unreadHuddles` keys contain a comma, and all
+        // `unreadPms` keys don't.
         /* $FlowFixMe: The keys of unreadPms are logically numbers, but because it's an object they
          end up converted to strings, so this access with string keys works.  We should probably use
          a Map for this and similar maps. */
