@@ -77,10 +77,8 @@ export default (state: NavigationState = initialState, action: Action): Navigati
       return rehydrate(state, action);
 
     case ACCOUNT_SWITCH:
-      return getStateForRoute('loading');
-
     case LOGIN_SUCCESS:
-      return getStateForRoute('main');
+      return getStateForRoute('loading');
 
     case INITIAL_FETCH_COMPLETE:
       return state.routes[0].routeName === 'main' ? state : getStateForRoute('main');

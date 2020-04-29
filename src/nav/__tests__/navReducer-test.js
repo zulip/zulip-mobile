@@ -6,7 +6,7 @@ import { NULL_OBJECT } from '../../nullObjects';
 
 describe('navReducer', () => {
   describe('LOGIN_SUCCESS', () => {
-    test('replaces the existing route stack with "main" on sign in', () => {
+    test('replaces the existing route stack with "loading" on sign in', () => {
       const prevState = deepFreeze({
         index: 2,
         routes: [{ key: 'one' }, { key: 'two' }, { key: 'password' }],
@@ -18,7 +18,7 @@ describe('navReducer', () => {
 
       const expectedState = {
         index: 0,
-        routes: [{ routeName: 'main' }],
+        routes: [{ routeName: 'loading' }],
       };
 
       const newState = navReducer(prevState, action);
