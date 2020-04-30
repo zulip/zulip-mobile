@@ -10,6 +10,12 @@ import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
 import { navigateToAccountDetails } from '../nav/navActions';
 
+const flatListStyles = StyleSheet.create({
+  separatorView: {
+    width: 16,
+  },
+});
+
 type SelectorProps = $ReadOnly<{|
   recipients: UserOrBot[],
 |}>;
@@ -27,12 +33,6 @@ class TitleGroup extends PureComponent<Props> {
     dispatch(navigateToAccountDetails(user.user_id));
   };
 
-  styles = StyleSheet.create({
-    titleAvatar: {
-      marginRight: 16,
-    },
-  });
-
   render() {
     const { recipients } = this.props;
 
@@ -41,9 +41,10 @@ class TitleGroup extends PureComponent<Props> {
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={flatListStyles.separatorView} />}
           data={recipients}
           renderItem={({ item }) => (
-            <View key={item.email} style={this.styles.titleAvatar}>
+            <View key={item.email}>
               <UserAvatarWithPresence
                 onPress={() => this.handlePress(item)}
                 size={32}
