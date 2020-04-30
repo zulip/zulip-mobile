@@ -156,10 +156,11 @@ export type CrossRealmBot = {|
 export type UserOrBot = User | CrossRealmBot;
 
 /**
- * For mentioning multiple users at once.
+ * For @-mentioning multiple users at once.
  *
- * When you mention a user group, everyone in the group is notified as
- * though they were individually mentioned.
+ * When you @-mention a user group, everyone in the group is notified as
+ * though they were individually mentioned.  See user-facing docs:
+ *   https://zulipchat.com/help/user-groups
  *
  * This feature is not related to group PMs.
  */
