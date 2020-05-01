@@ -26,14 +26,15 @@ const componentStyles = StyleSheet.create({
 type Props = $ReadOnly<{|
   name: string,
   description?: string,
-  iconSize: number,
   isMuted: boolean,
   isPrivate: boolean,
-  showSwitch: boolean,
   color?: string,
   backgroundColor?: string,
-  isSwitchedOn: boolean,
+
   unreadCount?: number,
+  iconSize: number,
+  showSwitch: boolean,
+  isSwitchedOn: boolean,
   onPress: (name: string) => void,
   onSwitch?: (name: string, newValue: boolean) => void,
 |}>;
@@ -41,16 +42,20 @@ type Props = $ReadOnly<{|
 /**
  * A single-line list item to show a stream or stream subscription.
  *
+ * Many of the props must correspond to certain properties of a Stream or
+ * Subscription.
+ *
  * @prop name - the stream's name
  * @prop description - the stream's description
- * @prop iconSize
  * @prop isMuted - false for a Stream; !sub.in_home_view for Subscription
  * @prop isPrivate - .invite_only for a Stream or a Subscription
- * @prop showSwitch - whether to show a toggle switch (ZulipSwitch)
  * @prop color - if provided, MUST be .color on a Subscription
  * @prop backgroundColor - if provided, MUST be .color on a Subscription
- * @prop isSwitchedOn - initial value of the toggle switch, if present
+ *
  * @prop unreadCount - number of unread messages
+ * @prop iconSize
+ * @prop showSwitch - whether to show a toggle switch (ZulipSwitch)
+ * @prop isSwitchedOn - initial value of the toggle switch, if present
  * @prop onPress - press handler for the item; receives the stream name
  * @prop onSwitch - if switch exists; receives stream name and new value
  */
