@@ -90,4 +90,30 @@ describe('getCurrentTypingUsers', () => {
 
     expect(typingUsers).toEqual([expectedUser]);
   });
+
+  test('when in a private narrow with a deactivated user, return valid data', () => {
+    const deactivatedUser = eg.makeUser();
+    const state = eg.reduxState({
+      typing: {},
+      realm: eg.realmState({ nonActiveUsers: [deactivatedUser] }),
+    });
+
+    const getTypingUsers = () => getCurrentTypingUsers(state, privateNarrow(deactivatedUser.email));
+
+    expect(getTypingUsers).not.toThrow();
+    expect(getTypingUsers()).toEqual([]);
+  });
+
+  test('when in a private narrow with a cross-realm bot, return valid data', () => {
+    const crossRealmBot = eg.makeCrossRealmBot();
+    const state = eg.reduxState({
+      typing: {},
+      realm: eg.realmState({ crossRealmBots: [crossRealmBot] }),
+    });
+
+    const getTypingUsers = () => getCurrentTypingUsers(state, privateNarrow(crossRealmBot.email));
+
+    expect(getTypingUsers).not.toThrow();
+    expect(getTypingUsers()).toEqual([]);
+  });
 });
