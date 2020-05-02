@@ -204,7 +204,10 @@ class AuthScreen extends PureComponent<Props> {
    */
   beginWebAuth = async (url: string) => {
     otp = await webAuth.generateOtp();
-    webAuth.openBrowser(`${this.props.realm}/${url}`, otp);
+    // TODO: Following #4081, use, e.g.,
+    //   `new URL(url, this.props.realm)`
+    const absoluteURL = `${this.props.realm}/${url.replace(/^\/+/, '')}`;
+    webAuth.openBrowser(absoluteURL, otp);
   };
 
   endWebAuth = (event: LinkingEvent) => {
