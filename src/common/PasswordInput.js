@@ -5,7 +5,7 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import Input from './Input';
 import type { Props as InputProps } from './Input';
 import { BRAND_COLOR } from '../styles';
-import Label from './Label';
+import { IconEye, IconEyeOff } from './Icons';
 import Touchable from './Touchable';
 
 const styles = StyleSheet.create({
@@ -16,8 +16,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
   },
-  showPasswordButtonText: {
-    margin: 8,
+  showPasswordButtonIcon: {
     color: BRAND_COLOR,
   },
 });
@@ -63,7 +62,11 @@ export default class PasswordInput extends PureComponent<Props, State> {
           autoCapitalize="none"
         />
         <Touchable style={styles.showPasswordButton} onPress={this.handleShow}>
-          <Label style={styles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
+          {isHidden ? (
+            <IconEye size={20} style={styles.showPasswordButtonIcon} />
+          ) : (
+            <IconEyeOff size={20} style={styles.showPasswordButtonIcon} />
+          )}
         </Touchable>
       </View>
     );
