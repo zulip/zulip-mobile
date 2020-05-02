@@ -196,6 +196,12 @@ class AuthScreen extends PureComponent<Props> {
     Linking.removeEventListener('url', this.endWebAuth);
   };
 
+  /**
+   * Hand control to the browser for an external auth method.
+   *
+   * @param url The `login_url` string, a relative URL, from an
+   * `external_authentication_method` object from `/server_settings`.
+   */
   beginWebAuth = async (url: string) => {
     otp = await webAuth.generateOtp();
     webAuth.openBrowser(`${this.props.realm}/${url}`, otp);
