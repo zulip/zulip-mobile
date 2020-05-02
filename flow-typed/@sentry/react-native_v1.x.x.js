@@ -37,6 +37,13 @@ declare module '@sentry/react-native' {
      * @returns A new event that will be sent | null.
      */
     beforeSend?: (event: Event, hint?: EventHint) => Promise<Event | null> | Event | null,
+
+    /**
+     * List of integrations that should be installed after SDK is initialized.
+     * Accepts either a list of integrations or a function that receives
+     * default integrations and returns a new, updated list.
+     */
+    integrations?: Integration[] | ((integrations: Integration[]) => Integration[]),
   |};
 
   // Adapted from @sentry/types/src/severity.ts.
@@ -161,4 +168,37 @@ declare module '@sentry/react-native' {
    * consulted when the event is finally captured for logging.
    */
   declare export function withScope(callback: (scope: Scope) => void): void;
+
+  /**
+   * Event processors are used to change the event before it is sent.
+   *
+   * It is strongly advised to make this function sync: returning a Promise
+   * should work just fine, but be sure you know what you're doing. Event
+   * processing will be deferred until your Promise is resolved.
+   */
+  // Taken from @sentry/types/src/eventprocessor.ts.
+  declare export type EventProcessor = (
+    event: Event,
+    hint?: EventHint,
+  ) => Promise<Event | null> | Event | null;
+
+  /** Integration interface */
+  // Taken from @sentry/types/src/integration.ts.
+  declare export interface Integration {
+    /**
+     * Returns {@link IntegrationClass.id}
+     */
+    name: string;
+
+    /**
+     * Sets the integration up. Called only once.
+     *
+     * This takes no options on purpose; any options should be passed in the
+     * integration's constructor.
+     */
+    setupOnce(
+      addGlobalEventProcessor: (callback: EventProcessor) => void,
+      getCurrentHub: () => Hub,
+    ): void;
+  }
 }
