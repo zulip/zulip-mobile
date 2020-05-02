@@ -22,6 +22,7 @@ import type {
   Subscription,
   ThemeName,
   User,
+  UserOrBot,
 } from '../types';
 import type { ThemeColors } from '../styles';
 import { ThemeContext } from '../styles';
@@ -91,7 +92,7 @@ type SelectorProps = {|
   fetching: Fetching,
   messages: $ReadOnlyArray<Message | Outbox>,
   renderedMessages: RenderedSectionDescriptor[],
-  typingUsers: $ReadOnlyArray<User>,
+  typingUsers: $ReadOnlyArray<UserOrBot>,
 |};
 
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
@@ -345,7 +346,7 @@ type OuterProps = {|
   /* Passing these three from the parent is kind of a hack; search uses it
      to hard-code some behavior. */
   fetching?: Fetching,
-  typingUsers?: User[],
+  typingUsers?: UserOrBot[],
 |};
 
 export default connect<SelectorProps, _, _>((state, props: OuterProps) => {

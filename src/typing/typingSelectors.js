@@ -1,19 +1,19 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Narrow, Selector, User } from '../types';
+import type { Narrow, Selector, UserOrBot } from '../types';
 import { getTyping } from '../directSelectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipientsAsUserIds } from '../utils/recipient';
 import { NULL_ARRAY, NULL_USER } from '../nullObjects';
-import { getUsersById, getAllUsersByEmail } from '../users/userSelectors';
+import { getAllUsersById, getAllUsersByEmail } from '../users/userSelectors';
 
-export const getCurrentTypingUsers: Selector<$ReadOnlyArray<User>, Narrow> = createSelector(
+export const getCurrentTypingUsers: Selector<$ReadOnlyArray<UserOrBot>, Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getTyping(state),
-  state => getUsersById(state),
+  state => getAllUsersById(state),
   state => getAllUsersByEmail(state),
-  (narrow, typing, usersById, allUsersByEmail): User[] => {
+  (narrow, typing, allUsersById, allUsersByEmail): UserOrBot[] => {
     if (!isPrivateOrGroupNarrow(narrow)) {
       return NULL_ARRAY;
     }
@@ -32,6 +32,6 @@ export const getCurrentTypingUsers: Selector<$ReadOnlyArray<User>, Narrow> = cre
       return NULL_ARRAY;
     }
 
-    return currentTyping.userIds.map(userId => usersById.get(userId) || NULL_USER);
+    return currentTyping.userIds.map(userId => allUsersById.get(userId) || NULL_USER);
   },
 );
