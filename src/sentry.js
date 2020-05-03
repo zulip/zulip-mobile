@@ -1,8 +1,10 @@
 /* @flow strict-local */
 import * as Sentry from '@sentry/react-native';
+import type { Event, EventHint } from '@sentry/react-native';
 import { nativeApplicationVersion } from 'expo-application';
 
 import config from './config';
+import { ApiError } from './api/apiErrors';
 
 export const isSentryActive = (): boolean => {
   // Hub#getClient() is documented as possibly returning undefined, but the
@@ -45,6 +47,29 @@ const preventNoise = (): void => {
   }
 };
 
+/**
+ * Ensure that ApiError's message is included as part of the event's
+ * fingerprint.
+ *
+ * See Sentry's documentation for more details:
+ * https://docs.sentry.io/data-management/event-grouping/sdk-fingerprinting/?platform=javascript#group-errors-more-granularly
+ */
+// (If you need to add more work to this function -- don't. Break this out into
+// a proper `Integration` object instead.)
+const beforeSend = (
+  event: Event,
+  hint?: EventHint = Object.freeze({}),
+): Promise<Event | null> | Event | null => {
+  const exception = hint.originalException;
+  if (exception instanceof ApiError) {
+    if (!event.fingerprint) {
+      event.fingerprint = ['{{ default }}'];
+    }
+    event.fingerprint.push(exception.code, exception.httpStatus.toString());
+  }
+  return event;
+};
+
 /** Initialize Sentry into its default configuration. */
 export const initializeSentry = () => {
   // Check to make sure it's safe to run Sentry. Abort if not.
@@ -59,6 +84,7 @@ export const initializeSentry = () => {
 
     Sentry.init({
       dsn: key,
+      beforeSend,
       ignoreErrors: [
         // RN's fetch implementation can raise these; we sometimes mimic it
         'Network request failed',
