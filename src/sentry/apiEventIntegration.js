@@ -27,6 +27,19 @@ const apiEventIntegration: Integration = {
     }
     event.fingerprint.push(exception.code, exception.httpStatus.toString());
 
+    // These are for humans, not for computers.
+    if (!event.extra) {
+      event.extra = {};
+    }
+    const extra = event.extra;
+    // The only significance to these keys is that Sentry displays "extra" data
+    // sorted by key.
+    extra['ApiError: 1) route'] = `${exception.call.method.toUpperCase()} /${exception.call.route}`;
+    extra['ApiError: 2) params'] = exception.call.params;
+    extra['ApiError: 3) status'] = exception.httpStatus;
+    extra['ApiError: 4) Zulip code'] = exception.code;
+    extra['ApiError: 5) return data'] = exception.data;
+
     return event;
   },
 
