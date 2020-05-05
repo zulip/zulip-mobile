@@ -58,13 +58,11 @@ export const apiCall = async (
     if (response.ok && json !== undefined) {
       return json;
     }
+
+    const logData = { route, params, httpStatus: response.status, json };
     // eslint-disable-next-line no-console
-    console.log({ route, params, httpStatus: response.status, json });
-    Sentry.addBreadcrumb({
-      category: 'api',
-      level: 'info',
-      data: { route, params, httpStatus: response.status, json },
-    });
+    console.log(logData);
+    Sentry.addBreadcrumb({ category: 'api', level: 'info', data: logData });
     throw makeErrorFromApi(response.status, json);
   } finally {
     networkActivityStop(isSilent);
