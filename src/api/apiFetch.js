@@ -8,13 +8,19 @@ import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
 import { makeErrorFromApi } from './apiErrors';
 
+/**
+ * Additional parameters passed through to `fetch()`.
+ *
+ * (This is therefore a strict subset of `RequestOptions`, the actual second
+ * argument type of `fetch()`.)
+ */
+type FetchParams = {| method: string, body?: string | FormData |};
+
 const apiVersion = 'api/v1';
 
-export const getFetchParams = (auth: Auth, params: { ... } = {}): { ... } => {
-  // $FlowFixMe This is purely a no-op, and Flow even knows that. :-/
-  const { body } = (params: { body?: mixed });
+export const getFetchParams = (auth: Auth, params: FetchParams): RequestOptions => {
   const contentType =
-    body instanceof FormData
+    params.body instanceof FormData
       ? 'multipart/form-data'
       : 'application/x-www-form-urlencoded; charset=utf-8';
 
@@ -28,7 +34,7 @@ export const getFetchParams = (auth: Auth, params: { ... } = {}): { ... } => {
   };
 };
 
-export const fetchWithAuth = async (auth: Auth, url: string, params: {} = {}) => {
+export const fetchWithAuth = async (auth: Auth, url: string, params: FetchParams) => {
   if (!isValidUrl(url)) {
     throw new Error(`Invalid url ${url}`);
   }
@@ -36,13 +42,13 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: {} = {}) =>
   return fetch(url, getFetchParams(auth, params));
 };
 
-export const apiFetch = async (auth: Auth, route: string, params: {} = {}) =>
+const apiFetch = async (auth: Auth, route: string, params: FetchParams) =>
   fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
 export const apiCall = async (
   auth: Auth,
   route: string,
-  params: {} = {},
+  params: FetchParams,
   isSilent: boolean = false,
 ) => {
   try {
