@@ -64,6 +64,7 @@ const languages: $ReadOnlyArray<Language> = [
   { locale: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
   { locale: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
   { locale: 'uk', name: 'Ukrainian', nativeName: 'Українська' },
+  { locale: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt' },
 ];
 
 export default languages;
