@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
+import * as eg from '../../__tests__/lib/exampleData';
 import caughtUpReducer from '../caughtUpReducer';
-import { MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
+import { MESSAGE_FETCH_START } from '../../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../anchor';
 import {
   HOME_NARROW,
@@ -43,15 +44,12 @@ describe('caughtUpReducer', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_COMPLETE,
-        narrow: [],
+        ...eg.action.message_fetch_complete,
         anchor: 1,
         // $FlowFixMe bogus messages in action
         messages: [{ id: 1 }, { id: 2 }, { id: 3 }],
         numBefore: 5,
         numAfter: 5,
-        foundNewest: undefined,
-        foundOldest: undefined,
       });
 
       const expectedState = {
@@ -76,8 +74,7 @@ describe('caughtUpReducer', () => {
     });
 
     const action = deepFreeze({
-      type: MESSAGE_FETCH_COMPLETE,
-      narrow: [],
+      ...eg.action.message_fetch_complete,
       anchor: 3,
       // $FlowFixMe bogus messages in action
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
@@ -108,15 +105,12 @@ describe('caughtUpReducer', () => {
     });
 
     const action = deepFreeze({
-      type: MESSAGE_FETCH_COMPLETE,
-      narrow: [],
+      ...eg.action.message_fetch_complete,
       anchor: 3,
       // $FlowFixMe bogus messages in action
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
       numBefore: 2,
       numAfter: 2,
-      foundNewest: undefined,
-      foundOldest: undefined,
     });
 
     const expectedState = {
@@ -135,8 +129,7 @@ describe('caughtUpReducer', () => {
     const initialState = deepFreeze({});
 
     const action = deepFreeze({
-      type: MESSAGE_FETCH_COMPLETE,
-      narrow: HOME_NARROW,
+      ...eg.action.message_fetch_complete,
       anchor: FIRST_UNREAD_ANCHOR,
       messages: [
         { id: 1, flags: ['read'] },
@@ -168,8 +161,7 @@ describe('caughtUpReducer', () => {
     const initialState = deepFreeze({});
 
     const action = deepFreeze({
-      type: MESSAGE_FETCH_COMPLETE,
-      narrow: HOME_NARROW,
+      ...eg.action.message_fetch_complete,
       anchor: FIRST_UNREAD_ANCHOR,
       messages: [
         { id: 1, flags: ['read'] },
@@ -200,8 +192,7 @@ describe('caughtUpReducer', () => {
     const initialState = deepFreeze({});
 
     const action = deepFreeze({
-      type: MESSAGE_FETCH_COMPLETE,
-      narrow: HOME_NARROW,
+      ...eg.action.message_fetch_complete,
       anchor: FIRST_UNREAD_ANCHOR,
       messages: [
         { id: 1, flags: ['read'] },
@@ -232,8 +223,7 @@ describe('caughtUpReducer', () => {
     const initialState = deepFreeze({});
 
     const action = deepFreeze({
-      type: MESSAGE_FETCH_COMPLETE,
-      narrow: HOME_NARROW,
+      ...eg.action.message_fetch_complete,
       anchor: FIRST_UNREAD_ANCHOR,
       messages: [
         { id: 1, flags: ['read'] },
@@ -263,15 +253,13 @@ describe('caughtUpReducer', () => {
     const initialState = deepFreeze({});
 
     const action = deepFreeze({
-      type: MESSAGE_FETCH_COMPLETE,
+      ...eg.action.message_fetch_complete,
       narrow: ALL_PRIVATE_NARROW,
       anchor: LAST_MESSAGE_ANCHOR,
       // $FlowFixMe bogus messages in action
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
       numBefore: 10,
       numAfter: 0,
-      foundNewest: undefined,
-      foundOldest: undefined,
     });
 
     const expectedState = {
@@ -293,8 +281,7 @@ describe('caughtUpReducer', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_COMPLETE,
-        narrow: [],
+        ...eg.action.message_fetch_complete,
         anchor: 6,
         messages: [
           { id: 1 },
@@ -331,8 +318,7 @@ describe('caughtUpReducer', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_COMPLETE,
-        narrow: [],
+        ...eg.action.message_fetch_complete,
         anchor: 5,
         messages: [
           { id: 0 },
@@ -369,8 +355,7 @@ describe('caughtUpReducer', () => {
     const initialState = deepFreeze({});
 
     const action = deepFreeze({
-      type: MESSAGE_FETCH_COMPLETE,
-      narrow: HOME_NARROW,
+      ...eg.action.message_fetch_complete,
       anchor: 3,
       messages: [],
       numBefore: 2,
