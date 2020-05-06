@@ -10,20 +10,6 @@ import { makeErrorFromApi } from './apiErrors';
 
 const apiVersion = 'api/v1';
 
-export const objectToParams = (obj: {}) => {
-  const newObj = {};
-  Object.keys(obj).forEach(key => {
-    if (Array.isArray(obj[key])) {
-      newObj[key] = JSON.stringify(obj[key]);
-    } else if (obj[key] === undefined) {
-      // do nothing, skip key
-    } else {
-      newObj[key] = obj[key];
-    }
-  });
-  return newObj;
-};
-
 export const getFetchParams = (auth: Auth, params: { ... } = {}): { ... } => {
   // $FlowFixMe This is purely a no-op, and Flow even knows that. :-/
   const { body } = (params: { body?: mixed });

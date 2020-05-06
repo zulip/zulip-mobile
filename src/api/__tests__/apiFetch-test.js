@@ -1,48 +1,6 @@
-import { objectToParams, getFetchParams } from '../apiFetch';
+import { getFetchParams } from '../apiFetch';
 
 global.FormData = jest.fn();
-
-describe('objectToParams', () => {
-  test('object consisting of numbers, strings or booleans is not changed', () => {
-    const obj = {
-      numKey: 123,
-      strKey: 'str',
-      boolKey: true,
-    };
-    const result = objectToParams(obj);
-    expect(result).toEqual(obj);
-  });
-
-  test('keys with values of "undefined" are skipped, "null" keys are left as-is', () => {
-    const obj = {
-      strKey: 'str',
-      nullKey: null,
-      undefinedKey: undefined,
-    };
-    const expected = {
-      strKey: 'str',
-      nullKey: null,
-    };
-    const result = objectToParams(obj);
-    expect(result).toEqual(expected);
-    expect(result).toHaveProperty('strKey');
-    expect(result).toHaveProperty('nullKey');
-    expect(result).not.toHaveProperty('undefinedKey');
-  });
-
-  test('arrays are JSON-stringified', () => {
-    const obj = {
-      numKey: 123,
-      arrKey: [1, 2, 3],
-    };
-    const expected = {
-      numKey: 123,
-      arrKey: '[1,2,3]',
-    };
-    const result = objectToParams(obj);
-    expect(result).toEqual(expected);
-  });
-});
 
 describe('getFetchParams', () => {
   test('creates a `header` key with authorization data', () => {
