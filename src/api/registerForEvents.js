@@ -2,7 +2,7 @@
 import type { InitialData } from './initialDataTypes';
 import type { Auth } from './transportTypes';
 import type { Narrow } from './apiTypes';
-import { apiPost, objectToParams } from './apiFetch';
+import { apiPost } from './apiFetch';
 
 type RegisterForEventsParams = {|
   apply_markdown?: boolean,
@@ -19,9 +19,15 @@ type RegisterForEventsParams = {|
 |};
 
 /** See https://zulipchat.com/api/register-queue */
-export default async (auth: Auth, params: RegisterForEventsParams): Promise<InitialData> =>
-  apiPost(
-    auth,
-    'register',
-    objectToParams({ ...params, client_capabilities: JSON.stringify(params.client_capabilities) }),
-  );
+export default async (auth: Auth, params: RegisterForEventsParams): Promise<InitialData> => {
+  // The use of `...rest` here (rather than just using `...params` below) is to
+  // work around a Flow object-spread bug fixed in v0.111.0.
+  const { narrow, event_types, fetch_event_types, client_capabilities, ...rest } = params;
+  return apiPost(auth, 'register', {
+    ...rest,
+    narrow: JSON.stringify(narrow),
+    event_types: JSON.stringify(event_types),
+    fetch_event_types: JSON.stringify(fetch_event_types),
+    client_capabilities: JSON.stringify(client_capabilities),
+  });
+};
