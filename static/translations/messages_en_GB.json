@@ -36,6 +36,7 @@
   "Chat": "Chat",
   "Log in with Google": "Log in with Google",
   "Log in with GitHub": "Log in with GitHub",
+  "Log in with GitLab": "Log in with GitLab",
   "Log in with password": "Log in with password",
   "Log in with dev account": "Log in with dev account",
   "Cannot connect to server": "Cannot connect to server",
@@ -199,5 +200,16 @@
   "Reactions": "Reactions",
   "No reactions": "No reactions",
   "See who reacted": "See who reacted",
-  "Only organization admins are allowed to post to this stream.": "Only organisation admins are allowed to post to this stream."
+  "Only organization admins are allowed to post to this stream.": "Only organisation admins are allowed to post to this stream.",
+  "Set a status": "Set a status",
+  "Connecting...": "Connecting...",
+  "User status": "User status",
+  "Muted": "Muted",
+  "No topics found": "No topics found",
+  "What's your status?": "What's your status?",
+  "📅 In a meeting": "📅 In a meeting",
+  "🚌 Commuting": "🚌 Commuting",
+  "🤒 Out sick": "🤒 Out sick",
+  "🌴 Vacationing": "🌴 Vacationing",
+  "🏠 Working remotely": "🏠 Working remotely"
 }

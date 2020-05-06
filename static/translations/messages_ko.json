@@ -36,6 +36,7 @@
   "Chat": "채팅",
   "Log in with Google": "Google로 로그인",
   "Log in with GitHub": "GitHub로 로그인",
+  "Log in with GitLab": "Log in with GitLab",
   "Log in with password": "비밀번호로 로그인",
   "Log in with dev account": "개발자 계정으로 로그인",
   "Cannot connect to server": "서버에 접속할 수 없음",
@@ -199,5 +200,16 @@
   "Reactions": "Reactions",
   "No reactions": "No reactions",
   "See who reacted": "See who reacted",
-  "Only organization admins are allowed to post to this stream.": "이 스트림에는 조직 관리자만 글을 게시할 수 있습니다."
+  "Only organization admins are allowed to post to this stream.": "이 스트림에는 조직 관리자만 글을 게시할 수 있습니다.",
+  "Set a status": "Set a status",
+  "Connecting...": "Connecting...",
+  "User status": "User status",
+  "Muted": "Muted",
+  "No topics found": "No topics found",
+  "What's your status?": "What's your status?",
+  "📅 In a meeting": "📅 In a meeting",
+  "🚌 Commuting": "🚌 Commuting",
+  "🤒 Out sick": "🤒 Out sick",
+  "🌴 Vacationing": "🌴 Vacationing",
+  "🏠 Working remotely": "🏠 Working remotely"
 }

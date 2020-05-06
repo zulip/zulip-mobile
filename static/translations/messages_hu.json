@@ -36,6 +36,7 @@
   "Chat": "Csevegés",
   "Log in with Google": "Bejelentekzés Google fiókkal",
   "Log in with GitHub": "Bejelentkezés GitHub fiókkal",
+  "Log in with GitLab": "Log in with GitLab",
   "Log in with password": "Bejelentkezés jelszóval",
   "Log in with dev account": "Bejelentkezés fejlesztői fiókkal",
   "Cannot connect to server": "Nem sikerült csatlakozni a szerverhez",
@@ -199,5 +200,16 @@
   "Reactions": "Reakciók",
   "No reactions": "Nincsenek reakciók",
   "See who reacted": "Visszajelzők megtekintése",
-  "Only organization admins are allowed to post to this stream.": "Erre az üzenetfolyamra csak szervezeti adminisztrátorok írhatnak!"
+  "Only organization admins are allowed to post to this stream.": "Erre az üzenetfolyamra csak szervezeti adminisztrátorok írhatnak!",
+  "Set a status": "Set a status",
+  "Connecting...": "Connecting...",
+  "User status": "User status",
+  "Muted": "Muted",
+  "No topics found": "No topics found",
+  "What's your status?": "What's your status?",
+  "📅 In a meeting": "📅 In a meeting",
+  "🚌 Commuting": "🚌 Commuting",
+  "🤒 Out sick": "🤒 Out sick",
+  "🌴 Vacationing": "🌴 Vacationing",
+  "🏠 Working remotely": "🏠 Working remotely"
 }

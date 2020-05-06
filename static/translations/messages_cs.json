@@ -36,6 +36,7 @@
   "Chat": "Rozhovor",
   "Log in with Google": "Přihlásit se pomocí Google",
   "Log in with GitHub": "Přihlásit se pomocí GitHub",
+  "Log in with GitLab": "Log in with GitLab",
   "Log in with password": "Přihlásit se pomocí hesla",
   "Log in with dev account": "Přihlásit se pomocí vývojářského účtu",
   "Cannot connect to server": "Nelze se připojit k serveru",
@@ -199,5 +200,16 @@
   "Reactions": "Reactions",
   "No reactions": "No reactions",
   "See who reacted": "See who reacted",
-  "Only organization admins are allowed to post to this stream.": "Pouze správci organizace mohou v tomto kanálu přidávat zprávy."
+  "Only organization admins are allowed to post to this stream.": "Pouze správci organizace mohou v tomto kanálu přidávat zprávy.",
+  "Set a status": "Set a status",
+  "Connecting...": "Connecting...",
+  "User status": "User status",
+  "Muted": "Muted",
+  "No topics found": "No topics found",
+  "What's your status?": "What's your status?",
+  "📅 In a meeting": "📅 In a meeting",
+  "🚌 Commuting": "🚌 Commuting",
+  "🤒 Out sick": "🤒 Out sick",
+  "🌴 Vacationing": "🌴 Vacationing",
+  "🏠 Working remotely": "🏠 Working remotely"
 }
