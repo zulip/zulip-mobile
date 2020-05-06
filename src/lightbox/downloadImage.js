@@ -4,7 +4,6 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 import type { Auth } from '../api/transportTypes';
 import { getAuthHeaders } from '../api/transport';
-import { objectToParams } from '../api/apiFetch';
 import { getFullUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 
@@ -54,13 +53,9 @@ export default async (src: string, auth: Auth): Promise<mixed> => {
       title: src.split('/').pop(),
       notification: true,
     },
-  }).fetch(
-    'GET',
-    absoluteUrl,
-    objectToParams({
-      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-      'User-Agent': userAgent,
-      ...getAuthHeaders(auth),
-    }),
-  );
+  }).fetch('GET', absoluteUrl, {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+    'User-Agent': userAgent,
+    ...getAuthHeaders(auth),
+  });
 };
