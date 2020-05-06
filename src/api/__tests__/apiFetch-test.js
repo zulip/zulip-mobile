@@ -1,8 +1,8 @@
-import { getFetchParams } from '../apiFetch';
+import { getFetchRequestOptions } from '../apiFetch';
 
 global.FormData = jest.fn();
 
-describe('getFetchParams', () => {
+describe('getFetchRequestOptions', () => {
   test('creates a `header` key with authorization data', () => {
     const auth = {
       email: 'john@example.com',
@@ -10,7 +10,7 @@ describe('getFetchParams', () => {
     };
     const params = {};
 
-    const actualResult = getFetchParams(auth, params);
+    const actualResult = getFetchRequestOptions(auth, params);
 
     expect(actualResult.headers).toBeTruthy();
     expect(actualResult.headers.Authorization).toBeTruthy();
@@ -25,7 +25,7 @@ describe('getFetchParams', () => {
       key: 'value',
     };
 
-    const actualResult = getFetchParams(auth, params);
+    const actualResult = getFetchRequestOptions(auth, params);
 
     expect(actualResult.key).toBe('value');
   });
@@ -37,7 +37,7 @@ describe('getFetchParams', () => {
     };
     const params = {};
 
-    const actualResult = getFetchParams(auth, params);
+    const actualResult = getFetchRequestOptions(auth, params);
 
     expect(actualResult.headers).toBeTruthy();
     expect(actualResult.headers.Authorization).toBeUndefined();

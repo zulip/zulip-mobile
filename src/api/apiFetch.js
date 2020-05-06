@@ -18,7 +18,7 @@ type FetchParams = {| method: string, body?: string | FormData |};
 
 const apiVersion = 'api/v1';
 
-export const getFetchParams = (auth: Auth, params: FetchParams): RequestOptions => {
+export const getFetchRequestOptions = (auth: Auth, params: FetchParams): RequestOptions => {
   const contentType =
     params.body instanceof FormData
       ? 'multipart/form-data'
@@ -39,7 +39,7 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: FetchParams
     throw new Error(`Invalid url ${url}`);
   }
 
-  return fetch(url, getFetchParams(auth, params));
+  return fetch(url, getFetchRequestOptions(auth, params));
 };
 
 const apiFetch = async (auth: Auth, route: string, params: FetchParams) =>
