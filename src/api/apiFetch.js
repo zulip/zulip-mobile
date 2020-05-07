@@ -87,7 +87,7 @@ export const apiCall = async (
     };
     // eslint-disable-next-line no-console
     console.log(logData);
-    Sentry.addBreadcrumb({ category: 'api', level: 'info', data: logData });
+    Sentry.addBreadcrumb({ category: 'api failure', level: 'info', data: logData });
     throw makeErrorFromApi(callData, response.status, json);
   } finally {
     networkActivityStop(isSilent);
