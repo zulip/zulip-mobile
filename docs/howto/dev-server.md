@@ -202,7 +202,7 @@ This will be `http://ADDRESS:9991`, where `ADDRESS` is the address you
 identified in step 2.  (Be sure to type the `http://`.)
 
 This should get you the login screen!  Unless you're working on the login
-flow itself, tap "Log in with dev account"; then pick any user to log in as.
+flow itself, tap "Sign in with dev account"; then pick any user to log in as.
 
 If you need to work more closely with authentication systems, or if you need
 to use the [Zulip REST API][rest-api], which requires an API key, this

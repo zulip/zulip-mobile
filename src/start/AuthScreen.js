@@ -257,7 +257,7 @@ class AuthScreen extends PureComponent<Props> {
               style={styles.halfMarginTop}
               secondary
               text={{
-                text: 'Log in with {method}',
+                text: 'Sign in with {method}',
                 values: { method: auth.displayName },
               }}
               Icon={auth.Icon}
