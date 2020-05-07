@@ -23,7 +23,7 @@ export const TranslationContext = React.createContext(undefined);
  * for the legacy context API.  When that isn't the case, simply saying
  * `context: TranslationContext` may be more convenient.
  */
-export function withGetText<P: { _: GetText }, C: ComponentType<P>>(
+export function withGetText<P: { +_: GetText }, C: ComponentType<P>>(
   WrappedComponent: C,
 ): ComponentType<$ReadOnly<$Diff<ElementConfig<C>, { _: GetText }>>> {
   return class extends React.Component<$Diff<ElementConfig<C>, { _: GetText }>> {
