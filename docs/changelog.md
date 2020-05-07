@@ -36,6 +36,26 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Fixed longstanding issue that caused the message list to scroll
+  slightly back from the end. (#3301)
+* Fixed issue causing profile icon to show as blank when first logging
+  into an account. (#4077)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+(With this version we return to shorter "highlights" summaries.
+For a complete list of changes, see `git log` as always.)
+
+* #3950, PR #4047: We now customize how our Redux state is serialized
+  for storage, which means we can begin to keep data structures of our
+  choice in Redux.
+
 
 ## 26.27.150 (2020-04-13)
 
