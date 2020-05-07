@@ -1,17 +1,23 @@
 /* @flow strict-local */
 import type { ApiErrorCode, ApiResponseErrorData } from './transportTypes';
 import * as logging from '../utils/logging';
+import type { UrlParams } from '../utils/url';
+
+/** An API call, preserved for logging purposes. */
+export type CallData = {| route: string, method: string, params: UrlParams |};
 
 /** Runtime class of custom API error types. */
 export class ApiError extends Error {
+  call: CallData;
   code: ApiErrorCode;
   data: $ReadOnly<{ ... }>;
   httpStatus: number;
 
-  constructor(httpStatus: number, data: $ReadOnly<ApiResponseErrorData>) {
+  constructor(call: CallData, httpStatus: number, data: $ReadOnly<ApiResponseErrorData>) {
     // eslint-disable-next-line no-unused-vars
     const { result, code, msg, ...rest } = data;
     super(msg);
+    this.call = call;
     this.data = rest;
     this.code = code;
     this.httpStatus = httpStatus;
@@ -26,14 +32,14 @@ export class ApiError extends Error {
  * returned error will be an {@link ApiError}; otherwise it will be a generic
  * Error.
  */
-export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
+export const makeErrorFromApi = (call: CallData, httpStatus: number, data: mixed): Error => {
   // Validate `data`, and construct the resultant error object.
   if (typeof data === 'object' && data !== null) {
     if (data.result === 'error' && typeof data.msg === 'string') {
       // If `code` is present, it must be a string.
       if (!('code' in data) || typeof data.code === 'string') {
         // Default to 'BAD_REQUEST' if `code` is not present.
-        return new ApiError(httpStatus, { code: 'BAD_REQUEST', ...data });
+        return new ApiError(call, httpStatus, { code: 'BAD_REQUEST', ...data });
       }
     }
   }
