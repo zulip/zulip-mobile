@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import * as Sentry from '@sentry/react-native';
 import type { UrlParams } from '../utils/url';
 import type { Auth } from './transportTypes';
 import { getAuthHeaders } from './transport';
@@ -79,15 +78,13 @@ export const apiCall = async (
     }
 
     const callData = { ...getCallData(), method: params.method };
-    const logData = {
+    // eslint-disable-next-line no-console
+    console.log({
       call: callData,
       route: params.route,
       httpStatus: response.status,
       json,
-    };
-    // eslint-disable-next-line no-console
-    console.log(logData);
-    Sentry.addBreadcrumb({ category: 'api failure', level: 'info', data: logData });
+    });
     throw makeErrorFromApi(callData, response.status, json);
   } finally {
     networkActivityStop(isSilent);
