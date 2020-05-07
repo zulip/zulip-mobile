@@ -22,11 +22,16 @@ const apiEventIntegration: Integration = {
       return event;
     }
 
+    // The route, with any strictly-numeric path-segments censored. (This isn't
+    // to protect PII -- it's just to ensure that routes with embedded numeric
+    // data are all bucketed together, even when that data is different.)
+    const deparameterizedRoute = exception.call.route.replace(/\/\d+(?=$|\/)/g, '/###');
+
     if (!event.fingerprint) {
       event.fingerprint = ['{{ default }}'];
     }
     event.fingerprint.push(
-      exception.call.route,
+      deparameterizedRoute,
       exception.call.method,
       exception.code,
       exception.httpStatus.toString(),
