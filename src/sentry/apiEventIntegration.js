@@ -25,7 +25,12 @@ const apiEventIntegration: Integration = {
     if (!event.fingerprint) {
       event.fingerprint = ['{{ default }}'];
     }
-    event.fingerprint.push(exception.code, exception.httpStatus.toString());
+    event.fingerprint.push(
+      exception.call.route,
+      exception.call.method,
+      exception.code,
+      exception.httpStatus.toString(),
+    );
 
     // These are for humans, not for computers.
     if (!event.extra) {
