@@ -2,7 +2,7 @@
 import * as Sentry from '@sentry/react-native';
 import { nativeApplicationVersion } from 'expo-application';
 
-import config from './config';
+import config from '../config';
 
 export const isSentryActive = (): boolean => {
   // Hub#getClient() is documented as possibly returning undefined, but the
