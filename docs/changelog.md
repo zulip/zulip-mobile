@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.28.151 (2020-05-06)
+
 ### Highlights for users
 
 * Fixed longstanding issue that caused the message list to scroll
