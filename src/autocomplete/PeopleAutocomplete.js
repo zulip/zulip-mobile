@@ -32,6 +32,14 @@ class PeopleAutocomplete extends PureComponent<Props> {
     const { users, onAutocomplete } = this.props;
     const user = users.find(x => x.email === email);
     if (user) {
+      // If another user with the same full name is found, we send the
+      // user ID as well, to ensure the mentioned user is uniquely identified.
+      if (users.find(x => x.full_name === user.full_name && x.user_id !== user.user_id)) {
+        // See the `get_mention_syntax` function in
+        // `static/js/people.js` in the webapp.
+        onAutocomplete(`**${user.full_name}|${user.user_id}**`);
+        return;
+      }
       onAutocomplete(`**${user.full_name}**`);
     }
   };
