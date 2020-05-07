@@ -80,12 +80,8 @@ export const apiCall = async (
 
     const callData = { ...getCallData(), method: params.method };
     const logData = {
+      call: callData,
       route: params.route,
-      params: {
-        method: params.method,
-        // `body: undefined` would probably be harmless, but avoid it anyway
-        ...(params.body !== undefined ? { body: params.body } : {}),
-      },
       httpStatus: response.status,
       json,
     };
