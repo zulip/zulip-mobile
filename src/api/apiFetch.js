@@ -42,24 +42,46 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: FetchParams
   return fetch(url, getFetchRequestOptions(auth, params));
 };
 
-const apiFetch = async (auth: Auth, route: string, params: FetchParams) =>
+type ApiFetchParams = {| auth: Auth, route: string, ...FetchParams |};
+
+/**
+ * Internal auxiliary function. Perform an API call.
+ *
+ * @param auth: The relevant {@link Auth}.
+ * @param route: The route, given as a URL relative to the API root.
+ * @param params: Any additional parameters will ultimately be forwarded to
+ *   `fetch()`.
+ */
+const apiFetch = async ({ auth, route, ...params }: ApiFetchParams) =>
   fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
-export const apiCall = async (
-  auth: Auth,
-  route: string,
-  params: FetchParams,
-  isSilent: boolean = false,
-) => {
+/**
+ * Internal auxiliary function. Perform an API call, handling failure with
+ * appropriate logging and exceptions.
+ *
+ * @param params: Parameters to be forwarded to {@link apiFetch}.
+ * @param isSilent: True if this fetch should not trigger the network activity
+ *    indicator on iOS. (Should be `true` only for long-polling API calls.)
+ */
+export const apiCall = async (params: ApiFetchParams, isSilent: boolean = false) => {
   try {
     networkActivityStart(isSilent);
-    const response = await apiFetch(auth, route, params);
+    const response = await apiFetch(params);
     const json = await response.json().catch(() => undefined);
     if (response.ok && json !== undefined) {
       return json;
     }
 
-    const logData = { route, params, httpStatus: response.status, json };
+    const logData = {
+      route: params.route,
+      params: {
+        method: params.method,
+        // `body: undefined` would probably be harmless, but avoid it anyway
+        ...(params.body !== undefined ? { body: params.body } : {}),
+      },
+      httpStatus: response.status,
+      json,
+    };
     // eslint-disable-next-line no-console
     console.log(logData);
     Sentry.addBreadcrumb({ category: 'api', level: 'info', data: logData });
@@ -76,45 +98,57 @@ export const apiGet = async (
   isSilent: boolean = false,
 ) =>
   apiCall(
-    auth,
-    `${route}?${encodeParamsForUrl(params)}`,
     {
+      auth,
+      route: `${route}?${encodeParamsForUrl(params)}`,
       method: 'get',
     },
     isSilent,
   );
 
 export const apiPost = async (auth: Auth, route: string, params: UrlParams = {}) =>
-  apiCall(auth, route, {
+  apiCall({
+    auth,
+    route,
     method: 'post',
     body: encodeParamsForUrl(params),
   });
 
 export const apiFile = async (auth: Auth, route: string, body: FormData) =>
-  apiCall(auth, route, {
+  apiCall({
+    auth,
+    route,
     method: 'post',
     body,
   });
 
 export const apiPut = async (auth: Auth, route: string, params: UrlParams = {}) =>
-  apiCall(auth, route, {
+  apiCall({
+    auth,
+    route,
     method: 'put',
     body: encodeParamsForUrl(params),
   });
 
 export const apiDelete = async (auth: Auth, route: string, params: UrlParams = {}) =>
-  apiCall(auth, route, {
+  apiCall({
+    auth,
+    route,
     method: 'delete',
     body: encodeParamsForUrl(params),
   });
 
 export const apiPatch = async (auth: Auth, route: string, params: UrlParams = {}) =>
-  apiCall(auth, route, {
+  apiCall({
+    auth,
+    route,
     method: 'patch',
     body: encodeParamsForUrl(params),
   });
 
 export const apiHead = async (auth: Auth, route: string, params: UrlParams = {}) =>
-  apiCall(auth, `${route}?${encodeParamsForUrl(params)}`, {
+  apiCall({
+    auth,
+    route: `${route}?${encodeParamsForUrl(params)}`,
     method: 'head',
   });
