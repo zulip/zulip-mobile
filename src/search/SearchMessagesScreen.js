@@ -10,6 +10,7 @@ import { SEARCH_NARROW } from '../utils/narrow';
 import { LAST_MESSAGE_ANCHOR } from '../anchor';
 import { connect } from '../react-redux';
 import { getAuth } from '../account/accountsSelectors';
+import { messageFetchComplete } from '../message/fetchActions';
 
 type Props = $ReadOnly<{|
   auth: Auth,
@@ -36,18 +37,29 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
   /**
    * PRIVATE.  Send search query to server, fetching message results.
    *
-   * Does not update any state, or read any of the component's data except
-   * `props.auth`.
+   * Stores the fetched messages in the Redux store via a
+   * `messageFetchComplete` dispatch. Does not read any of the component's
+   * data except `props.auth` and `props.dispatch`.
    */
   fetchSearchMessages = async (query: string): Promise<Message[]> => {
-    const { auth } = this.props;
-    const { messages } = await api.getMessages(auth, {
+    const { auth, dispatch } = this.props;
+    const fetchArgs = {
       narrow: SEARCH_NARROW(query),
       anchor: LAST_MESSAGE_ANCHOR,
       numBefore: 20,
       numAfter: 0,
-      useFirstUnread: false,
-    });
+    };
+    const { messages, found_newest, found_oldest } = await api.getMessages(auth, fetchArgs);
+
+    dispatch(
+      messageFetchComplete({
+        ...fetchArgs,
+        messages,
+        foundNewest: found_newest,
+        foundOldest: found_oldest,
+      }),
+    );
+
     return messages;
   };
 
