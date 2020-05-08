@@ -244,12 +244,34 @@ export type UserPresence = {|
 //
 //
 
+// See stream_post_policy at https://zulipchat.com/api/add-subscriptions
+export class StreamPostPolicies {
+  static everyone: 1 = 1;
+  static admins: 2 = 2;
+  static restrict_new_members: 3 = 3;
+}
+
+export type StreamPostPolicy =
+  | typeof StreamPostPolicies.everyone
+  | typeof StreamPostPolicies.admins
+  | typeof StreamPostPolicies.restrict_new_members;
+
 export type Stream = {|
   stream_id: number,
   description: string,
   name: string,
   invite_only: boolean,
   is_announcement_only: boolean,
+  /**
+   * Defines who can post to the stream.
+   * is_announcement_only is also one of the policy.
+   * But going forward there can be multiple post polices, see StreamPostPolicies.
+   * So it is suggested to use stream_post_policy instead of is_announcement_only,
+   * which might get removed in future
+   *
+   * This is available on Zulip server running >= 2.2
+   */
+  stream_post_policy?: StreamPostPolicy,
   history_public_to_subscribers: boolean,
 |};
 
