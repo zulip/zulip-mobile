@@ -20,7 +20,7 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
     unreadHuddles: { [string]: number },
     allUsersById,
   ): PmConversationData[] => {
-    const recipients = messages
+    const items = messages
       .map(msg => {
         // Note this can be a different set of users from those in `keyRecipients`.
         const unreadsKey = pmUnreadsKeyFromMessage(msg, ownUser.user_id);
@@ -29,22 +29,22 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
       })
       .filter(Boolean);
 
-    const latestByRecipient = new Map();
-    recipients.forEach(recipient => {
-      const prev = latestByRecipient.get(recipient.unreadsKey);
-      if (!prev || recipient.msgId > prev.msgId) {
-        latestByRecipient.set(recipient.unreadsKey, recipient);
+    const latestByRecipients = new Map();
+    items.forEach(item => {
+      const prev = latestByRecipients.get(item.unreadsKey);
+      if (!prev || item.msgId > prev.msgId) {
+        latestByRecipients.set(item.unreadsKey, item);
       }
     });
 
-    const sortedByMostRecent = Array.from(latestByRecipient.values()).sort(
+    const sortedByMostRecent = Array.from(latestByRecipients.values()).sort(
       (a, b) => +b.msgId - +a.msgId,
     );
 
-    return sortedByMostRecent.map(recipient => ({
-      key: recipient.unreadsKey,
-      keyRecipients: recipient.keyRecipients,
-      msgId: recipient.msgId,
+    return sortedByMostRecent.map(conversation => ({
+      key: conversation.unreadsKey,
+      keyRecipients: conversation.keyRecipients,
+      msgId: conversation.msgId,
       unread:
         // This business of looking in one place and then the other is kind
         // of messy.  Fortunately it always works, because the key spaces
@@ -53,7 +53,7 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
         /* $FlowFixMe: The keys of unreadPms are logically numbers, but because it's an object they
          end up converted to strings, so this access with string keys works.  We should probably use
          a Map for this and similar maps. */
-        unreadPms[recipient.unreadsKey] || unreadHuddles[recipient.unreadsKey],
+        unreadPms[conversation.unreadsKey] || unreadHuddles[conversation.unreadsKey],
     }));
   },
 );
