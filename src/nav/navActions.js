@@ -10,6 +10,7 @@ import type {
   UserOrBot,
   ApiResponseServerSettings,
 } from '../types';
+import type { SelectionOptions } from '../common/SelectionList';
 import { getSameRoutesCount } from '../selectors';
 
 export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigationAction =>
@@ -103,3 +104,14 @@ export const navigateToLegal = (): NavigationAction => StackActions.push({ route
 
 export const navigateToUserStatus = (): NavigationAction =>
   StackActions.push({ routeName: 'user-status' });
+
+export const navigateToSelectionListOptionsScreen = <K>(
+  label: string,
+  options: SelectionOptions<K>,
+  selectedKey: K,
+  onOptionSelect: (key: K) => void,
+): NavigationAction =>
+  StackActions.push({
+    routeName: 'selection-list-options',
+    params: { label, options, selectedKey, onOptionSelect },
+  });
