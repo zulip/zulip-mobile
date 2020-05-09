@@ -3,10 +3,14 @@
 import * as eg from '../../__tests__/lib/exampleData';
 import { getRecentConversations } from '../pmConversationsSelectors';
 import { ALL_PRIVATE_NARROW_STR } from '../../utils/narrow';
+import { ZulipVersion } from '../../utils/zulipVersion';
 
-describe('getRecentConversations', () => {
+describe('getRecentConversations: legacy', () => {
+  const zulipVersion = new ZulipVersion('2.0.0');
+
   test('when no messages, return no conversations', () => {
     const state = eg.reduxState({
+      accounts: [eg.makeAccount({ user: eg.selfUser, zulipVersion })],
       realm: eg.realmState({ email: eg.selfUser.email }),
       users: [eg.selfUser],
       narrows: {
@@ -30,6 +34,7 @@ describe('getRecentConversations', () => {
     const mark = eg.makeUser({ user_id: 2, name: 'mark' });
 
     const state = eg.reduxState({
+      accounts: [eg.makeAccount({ user: me, zulipVersion })],
       realm: eg.realmState({ email: me.email }),
       users: [me, john, mark],
       narrows: {
@@ -105,6 +110,7 @@ describe('getRecentConversations', () => {
     const mark = eg.makeUser({ user_id: 2, name: 'mark' });
 
     const state = eg.reduxState({
+      accounts: [eg.makeAccount({ user: me, zulipVersion })],
       realm: eg.realmState({ email: me.email }),
       users: [me, john, mark],
       narrows: {
