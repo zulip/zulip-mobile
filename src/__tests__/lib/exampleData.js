@@ -5,6 +5,7 @@ import { createStore } from 'redux';
 import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../../api/modelTypes';
 import type { Action, GlobalState, RealmState } from '../../reduxTypes';
 import type { Auth, Account, Outbox } from '../../types';
+import { StreamPostPolicies } from '../../api/modelTypes';
 import { ZulipVersion } from '../../utils/zulipVersion';
 import {
   ACCOUNT_SWITCH,
@@ -169,6 +170,7 @@ export const makeStream = (args: { name?: string, description?: string } = {}): 
     description,
     invite_only: false,
     is_announcement_only: false,
+    stream_post_policy: StreamPostPolicies.everyone,
     history_public_to_subscribers: true,
   });
 };

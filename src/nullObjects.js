@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type { User, Subscription } from './types';
+import { StreamPostPolicies } from './api/modelTypes';
 
 export const NULL_OBJECT = Object.freeze({});
 
@@ -57,4 +58,5 @@ export const NULL_SUBSCRIPTION: Subscription = {
   is_old_stream: false,
   is_announcement_only: false,
   history_public_to_subscribers: false,
+  stream_post_policy: StreamPostPolicies.everyone,
 };

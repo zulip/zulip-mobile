@@ -1,7 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { Dispatch } from '../types';
+import type { Dispatch, StreamPostPolicy } from '../types';
+import { StreamPostPolicies } from '../api/modelTypes';
 import { connect } from '../react-redux';
 import { createNewStream, navigateBack } from '../actions';
 import { getOwnEmail } from '../selectors';
@@ -14,10 +15,15 @@ type Props = $ReadOnly<{|
 |}>;
 
 class CreateStreamScreen extends PureComponent<Props> {
-  handleComplete = (name: string, description: string, isPrivate: boolean) => {
+  handleComplete = (
+    name: string,
+    description: string,
+    isPrivate: boolean,
+    streamPostPolicy: StreamPostPolicy,
+  ) => {
     const { dispatch, ownEmail } = this.props;
 
-    dispatch(createNewStream(name, description, [ownEmail], isPrivate));
+    dispatch(createNewStream(name, description, [ownEmail], isPrivate, streamPostPolicy));
     dispatch(navigateBack());
   };
 
@@ -26,7 +32,13 @@ class CreateStreamScreen extends PureComponent<Props> {
       <Screen title="Create new stream" padding>
         <EditStreamCard
           isNewStream
-          initialValues={{ name: '', description: '', invite_only: false }}
+          initialValues={{
+            name: '',
+            description: '',
+            invite_only: false,
+            is_announcement_only: false,
+            stream_post_policy: StreamPostPolicies.everyone,
+          }}
           onComplete={this.handleComplete}
         />
       </Screen>
