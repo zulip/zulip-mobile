@@ -18,21 +18,17 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
     unreadPms: { [number]: number },
     unreadHuddles: { [string]: number },
   ): PmConversationData[] => {
-    const recipients = messages.map(msg => ({
+    const items = messages.map(msg => ({
       ids: pmUnreadsKeyFromMessage(msg, ownUser.user_id),
-      emails: normalizeRecipientsSansMe(msg.display_recipient, ownUser.email),
+      recipients: normalizeRecipientsSansMe(msg.display_recipient, ownUser.email),
       msgId: msg.id,
     }));
 
     const latestByRecipient = new Map();
-    recipients.forEach(recipient => {
-      const prev = latestByRecipient.get(recipient.emails);
-      if (!prev || recipient.msgId > prev.msgId) {
-        latestByRecipient.set(recipient.emails, {
-          ids: recipient.ids,
-          recipients: recipient.emails,
-          msgId: recipient.msgId,
-        });
+    items.forEach(item => {
+      const prev = latestByRecipient.get(item.recipients);
+      if (!prev || item.msgId > prev.msgId) {
+        latestByRecipient.set(item.recipients, item);
       }
     });
 
