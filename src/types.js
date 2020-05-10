@@ -66,6 +66,20 @@ export type Account = {|
   zulipVersion: ZulipVersion | null,
 
   /**
+   * An integer indicating what features are available on the server.
+   *
+   * The feature level increases monotonically; a value of N means the
+   * server supports all API features introduced before feature level N.
+   * This is designed to provide a simple way for mobile apps to decide
+   * whether the server supports a given feature or API change.
+   *
+   * Like zulipVersion, we learn the feature level from /server_settings
+   * at the start of the login process, and again from /register when
+   * setting up an event queue.
+   */
+  zulipFeatureLevel: number | null,
+
+  /**
    * The last device token value the server has definitely heard from us.
    *
    * This is `null` until we make a successful request to the server to

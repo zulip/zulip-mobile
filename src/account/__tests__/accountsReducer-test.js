@@ -228,6 +228,7 @@ describe('accountsReducer', () => {
         email: 'newaccount@example.com',
         realm: 'https://new.realm.org',
         zulipVersion: null,
+        zulipFeatureLevel: null,
       });
 
       const action = deepFreeze({

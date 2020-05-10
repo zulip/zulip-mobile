@@ -135,6 +135,7 @@ export const makeAccount = (
     email?: string,
     realm?: string,
     apiKey?: string,
+    zulipFeatureLevel?: number | null,
     zulipVersion?: ZulipVersion | null,
     ackedPushToken?: string | null,
   } = {},
@@ -144,6 +145,7 @@ export const makeAccount = (
     email = user.email,
     realm: realmInner = realm,
     apiKey = randString() + randString(),
+    zulipFeatureLevel: zulipFeatureLevelInner = zulipFeatureLevel,
     zulipVersion: zulipVersionInner = zulipVersion,
     ackedPushToken = null,
   } = args;
@@ -151,6 +153,7 @@ export const makeAccount = (
     realm: realmInner,
     email,
     apiKey,
+    zulipFeatureLevel: zulipFeatureLevelInner,
     zulipVersion: zulipVersionInner,
     ackedPushToken,
   });

@@ -21,6 +21,7 @@ const realmAdd = (state, action) => {
   if (accountIndex !== -1) {
     const newAccount = {
       ...state[accountIndex],
+      zulipFeatureLevel: action.zulipFeatureLevel,
       zulipVersion: action.zulipVersion,
     };
     return [newAccount, ...state.slice(0, accountIndex), ...state.slice(accountIndex + 1)];
@@ -32,6 +33,7 @@ const realmAdd = (state, action) => {
       apiKey: '',
       email: '',
       ackedPushToken: null,
+      zulipFeatureLevel: action.zulipFeatureLevel,
       zulipVersion: action.zulipVersion,
     },
     ...state,
@@ -41,6 +43,7 @@ const realmAdd = (state, action) => {
 const realmInit = (state, action) => [
   {
     ...state[0],
+    zulipFeatureLevel: action.data.zulip_feature_level ?? 0,
     zulipVersion: action.zulipVersion,
   },
   ...state.slice(1),
@@ -65,7 +68,10 @@ const loginSuccess = (state, action) => {
   const { realm, email, apiKey } = action;
   const accountIndex = findAccount(state, { realm, email });
   if (accountIndex === -1) {
-    return [{ realm, email, apiKey, ackedPushToken: null, zulipVersion: null }, ...state];
+    return [
+      { realm, email, apiKey, ackedPushToken: null, zulipVersion: null, zulipFeatureLevel: null },
+      ...state,
+    ];
   }
   return [
     { ...state[accountIndex], email, apiKey, ackedPushToken: null },

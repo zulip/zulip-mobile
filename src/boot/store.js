@@ -178,6 +178,15 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     })),
   }),
 
+  // Added Accounts.zulipFeatureLevel as number | null
+  '14': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({
+      ...a,
+      zulipFeatureLevel: null,
+    })),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
