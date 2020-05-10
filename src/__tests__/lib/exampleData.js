@@ -473,6 +473,7 @@ export const action = deepFreeze({
       realm_uri: selfAccount.realm,
       realm_video_chat_provider: 1,
       realm_waiting_period_threshold: 3,
+      zulip_feature_level: 1,
       realm_emoji: {},
       realm_filters: [],
       avatar_source: 'G',

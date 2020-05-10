@@ -35,6 +35,10 @@ export type ApiResponseServerSettings = {|
   realm_uri: string,
   require_email_format_usernames: boolean,
   zulip_version: string,
+
+  // zulip_feature_level added for server v2.2, feature level 1
+  // See https://zulipchat.com/api/server-settings
+  zulip_feature_level?: number,
 |};
 
 /** See https://zulip.com/api/server-settings */

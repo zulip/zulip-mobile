@@ -83,6 +83,13 @@ export type InitialDataRealm = {|
   realm_uri: string,
   realm_video_chat_provider: number,
   realm_waiting_period_threshold: number,
+
+  /**
+   * Added in server version 2.2, feature level 1.
+   * Same meaning as in the server_settings response:
+   * https://zulipchat.com/api/server-settings
+   */
+  zulip_feature_level?: number,
 |};
 
 export type InitialDataRealmEmoji = {|
