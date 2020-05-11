@@ -4,29 +4,28 @@ platform :ios, '10.3'
 
 require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 
-# This list will need to change for RN >= v0.60. If you're changing it
-# for any other reason, first look at the example Podfile for v0.59 at
-# https://github.com/facebook/react-native-website/blob/ded79d2cf/docs/integration-with-existing-apps.md#configuring-cocoapods-dependencies.
 target 'ZulipMobile' do
-  pod 'React', :path => '../node_modules/react-native', :subspecs => [
-    'Core',
-    'CxxBridge',
-    'DevSupport',
-    'RCTText',
-    'RCTNetwork',
-    'RCTWebSocket',
-    'RCTAnimation',
-    'RCTImage',
-    'RCTPushNotification',
-    'ART',
-    'RCTAnimation',
-    'RCTCameraRoll',
-    'RCTActionSheet',
-    'RCTGeolocation',
-    'RCTLinkingIOS', # RCTLinking?
-    'RCTSettings',
-    'RCTVibration',
-  ]
+  # Pods from React Native
+  pod 'React', :path => '../node_modules/react-native/'
+  pod 'React-Core', :path => '../node_modules/react-native/React'
+  pod 'React-DevSupport', :path => '../node_modules/react-native/React'
+  pod 'React-RCTActionSheet', :path => '../node_modules/react-native/Libraries/ActionSheetIOS'
+  pod 'React-RCTAnimation', :path => '../node_modules/react-native/Libraries/NativeAnimation'
+  pod 'React-RCTBlob', :path => '../node_modules/react-native/Libraries/Blob'
+  pod 'React-RCTImage', :path => '../node_modules/react-native/Libraries/Image'
+  pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
+  pod 'React-RCTNetwork', :path => '../node_modules/react-native/Libraries/Network'
+  pod 'React-RCTSettings', :path => '../node_modules/react-native/Libraries/Settings'
+  pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text'
+  pod 'React-RCTVibration', :path => '../node_modules/react-native/Libraries/Vibration'
+  pod 'React-RCTWebSocket', :path => '../node_modules/react-native/Libraries/WebSocket'
+  pod 'React-cxxreact', :path => '../node_modules/react-native/ReactCommon/cxxreact'
+  pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
+  pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
+  pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
+  # This is deprecated upstream; removing it is #4115. See
+  # https://reactnative.dev/docs/pushnotificationios.html.
+  pod 'React-RCTPushNotification', :path => '../node_modules/react-native/Libraries/PushNotificationIOS'
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'

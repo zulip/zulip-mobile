@@ -134,4 +134,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 suppress_comment=\\(.\\|\n\\)*\\$FlowMigrationFudge
 
 [version]
-^0.92.0
+^0.98.0

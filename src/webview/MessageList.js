@@ -319,7 +319,6 @@ class MessageList extends Component<Props> {
     // https://github.com/react-native-community/react-native-webview/pull/697
     return (
       <WebView
-        useWebKit
         startInLoadingState
         renderLoading={this.renderLoading}
         source={{ baseUrl, html }}
