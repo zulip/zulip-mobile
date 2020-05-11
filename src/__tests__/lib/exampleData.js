@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 import { createStore } from 'redux';
 
 import type { CrossRealmBot, Message, PmRecipientUser, Stream, User } from '../../api/modelTypes';
-import type { Action, GlobalState, RealmState } from '../../reduxTypes';
+import type { Action, GlobalState, MessagesState, RealmState } from '../../reduxTypes';
 import type { Auth, Account, Outbox } from '../../types';
 import { ZulipVersion } from '../../utils/zulipVersion';
 import {
@@ -17,6 +17,7 @@ import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
 import { HOME_NARROW } from '../../utils/narrow';
 import { NULL_OBJECT } from '../../nullObjects';
+import { objectFromEntries } from '../../jsBackport';
 
 /* ========================================================================
  * Utilities
@@ -287,6 +288,13 @@ export const streamMessage = (extra?: $Rest<Message, {}>): Message => {
   };
 
   return deepFreeze({ ...baseMessage, ...extra });
+};
+
+/**  Construct a MessagesState from a list of messages. */
+export const makeMessagesState = (messages: Message[]): MessagesState => {
+  const state: { [id: number]: Message } = objectFromEntries(messages.map(m => [m.id, m]));
+  // exact object + indexer properties issue; fixed in v0.111.0
+  return (state: $FlowFixMe);
 };
 
 /* ========================================================================
