@@ -12,7 +12,7 @@ import type {
   User,
   UserGroup,
 } from '../../api/modelTypes';
-import type { Action, GlobalState, RealmState } from '../../reduxTypes';
+import type { Action, GlobalState, MessagesState, RealmState } from '../../reduxTypes';
 import type { Auth, Account, Outbox } from '../../types';
 import { UploadedAvatarURL } from '../../utils/avatar';
 import { ZulipVersion } from '../../utils/zulipVersion';
@@ -27,6 +27,7 @@ import {
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
 import { HOME_NARROW } from '../../utils/narrow';
+import { objectFromEntries } from '../../jsBackport';
 
 /* ========================================================================
  * Utilities
@@ -387,6 +388,10 @@ export const streamMessage = (args?: {|
 
   return deepFreeze({ ...baseMessage, ...extra });
 };
+
+/** Construct a MessagesState from a list of messages. */
+export const makeMessagesState = (messages: Message[]): MessagesState =>
+  objectFromEntries(messages.map(m => [m.id, m]));
 
 /* ========================================================================
  * Outbox messages
