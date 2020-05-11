@@ -106,6 +106,7 @@
   "Enable notifications": "Enable notifications",
   "Jot down something": "Jot down something",
   "Message {recipient}": "Message {recipient}",
+  "{username} will not be notified unless you subscribe them to this stream.": "{username} will not be notified unless you subscribe them to this stream.",
   "Send private message": "Send private message",
   "View private messages": "View private messages",
   "(This user has been deactivated)": "(This user has been deactivated)",
