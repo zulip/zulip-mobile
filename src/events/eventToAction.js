@@ -85,6 +85,8 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
         ...event,
         type: EVENT_NEW_MESSAGE,
         caughtUp: state.caughtUp,
+        ownId: getOwnUserId(state),
+        // deprecated; avoid adding new uses (#3764)
         ownEmail: getOwnEmail(state),
       };
 
