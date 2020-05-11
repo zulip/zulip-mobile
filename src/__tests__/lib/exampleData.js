@@ -188,16 +188,17 @@ export const stream: Stream = makeStream({
  * Messages
  */
 
-const displayRecipientFromUser = (user: User): PmRecipientUser => {
-  const { email, full_name, user_id: id } = user;
-  return deepFreeze({
-    email,
-    full_name,
-    id,
-    is_mirror_dummy: false,
-    short_name: '', // what is this, anyway?
+const displayRecipientFromUsers = (users: User[]): PmRecipientUser[] =>
+  users.map(user => {
+    const { email, full_name, user_id: id } = user;
+    return deepFreeze({
+      email,
+      full_name,
+      id,
+      is_mirror_dummy: false,
+      short_name: '', // what is this, anyway?
+    });
   });
-};
 
 /** Boring properties common to all example Message objects. */
 const messagePropertiesBase = deepFreeze({
@@ -239,14 +240,14 @@ const messagePropertiesFromSender = (user: User) => {
 };
 
 /** Beware! These values may not be representative. */
-export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
+export const pmMessageFromTo = (from: User, to: User[], extra?: $Rest<Message, {}>): Message => {
   const baseMessage: Message = {
     ...messagePropertiesBase,
-    ...messagePropertiesFromSender(otherUser),
+    ...messagePropertiesFromSender(from),
 
     content: 'This is an example PM message.',
     content_type: 'text/markdown',
-    display_recipient: [displayRecipientFromUser(selfUser)],
+    display_recipient: displayRecipientFromUsers([from, ...to]),
     id: 1234567,
     recipient_id: 2342,
     stream_id: -1,
@@ -257,6 +258,9 @@ export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
 
   return deepFreeze({ ...baseMessage, ...extra });
 };
+
+export const pmMessage = (extra?: $Rest<Message, {}>): Message =>
+  pmMessageFromTo(selfUser, [otherUser], extra);
 
 const messagePropertiesFromStream = (stream1: Stream) => {
   const { stream_id, name: display_recipient } = stream1;
