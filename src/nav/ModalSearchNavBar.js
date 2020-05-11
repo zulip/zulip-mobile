@@ -45,4 +45,4 @@ class ModalSearchNavBar extends PureComponent<Props> {
   }
 }
 
-export default connect()(ModalSearchNavBar);
+export default connect<{||}, _, _>()(ModalSearchNavBar);

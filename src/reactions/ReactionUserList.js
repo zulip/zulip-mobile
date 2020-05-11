@@ -54,4 +54,4 @@ class ReactionUserList extends PureComponent<Props> {
   }
 }
 
-export default connect()(ReactionUserList);
+export default connect<{||}, _, _>()(ReactionUserList);

@@ -69,4 +69,4 @@ class HomeTab extends PureComponent<Props> {
   }
 }
 
-export default connect()(HomeTab);
+export default connect<{||}, _, _>()(HomeTab);

@@ -200,4 +200,4 @@ class ComposeMenu extends PureComponent<Props> {
   }
 }
 
-export default connect()(ComposeMenu);
+export default connect<{||}, _, _>()(ComposeMenu);

@@ -45,4 +45,4 @@ class GroupDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect()(GroupDetailsScreen);
+export default connect<{||}, _, _>()(GroupDetailsScreen);

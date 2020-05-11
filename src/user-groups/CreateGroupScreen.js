@@ -41,4 +41,4 @@ class CreateGroupScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect()(CreateGroupScreen);
+export default connect<{||}, _, _>()(CreateGroupScreen);
