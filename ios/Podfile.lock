@@ -112,7 +112,7 @@ PODS:
     - React-Core (= 0.60.6)
   - React-RCTWebSocket (0.60.6):
     - React-Core (= 0.60.6)
-  - rn-fetch-blob (0.10.16):
+  - rn-fetch-blob (0.11.2):
     - React-Core
   - RNCAsyncStorage (1.6.3):
     - React
@@ -375,7 +375,7 @@ SPEC CHECKSUMS:
   React-RCTText: d91537e29e38dc69cf09cbca0875cf5dc7402da6
   React-RCTVibration: 7655d72dfb919dd6d8e135ca108a5a2bd9fcd7b4
   React-RCTWebSocket: 7cd2c8d0f8ddd680dc76404defba7ab1f56b83af
-  rn-fetch-blob: 651b8d076b43d0d7aa294a3d9ec16c00aab8bef9
+  rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
   RNCAsyncStorage: 3c304d1adfaea02ec732ac218801cb13897aa8c0
   RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
   RNSentry: 2803ba8c8129dcf26b79e9b4d8c80168be6e4390
