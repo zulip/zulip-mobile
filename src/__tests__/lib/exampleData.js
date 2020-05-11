@@ -346,6 +346,9 @@ export const pmMessage = (args?: {|
   return deepFreeze({ ...baseMessage, ...extra });
 };
 
+export const pmMessageFromTo = (from: User, to: User[], extra?: $Rest<Message, {}>): Message =>
+  pmMessage({ sender: from, recipients: [from, ...to], ...extra });
+
 const messagePropertiesFromStream = (stream1: Stream) => {
   const { stream_id, name: display_recipient } = stream1;
   return deepFreeze({
