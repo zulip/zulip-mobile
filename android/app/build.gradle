@@ -133,6 +133,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     signingConfigs {
+        // The RN v0.60 template app suggests configuring a debug
+        // keystore here. We don't; it's unnecessary (Android Studio
+        // gives you one automatically) and not an improvement.
         release {
             if (project.hasProperty('signed')) {
                 if (keystoreProperties == null) {
