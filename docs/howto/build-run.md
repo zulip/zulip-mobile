@@ -144,6 +144,11 @@ next person with a setup like yours.
 
 ## Troubleshooting
 
+Apart from the steps mentioned below, you may find the
+[React Native troubleshooting docs] to be helpful.
+
+[React Native troubleshooting docs]: https://reactnative.dev/docs/troubleshooting
+
 ### `yarn install` failure, at `fsevents`
 
 When running `yarn install` on initial setup, if you see an error like
@@ -494,6 +499,13 @@ yarn install
 ```
 
 and then retry building and running.
+
+Sometimes, the build cache from previous builds can cause issues, and cleaning
+it can help:
+
+```
+cd android && ./gradlew clean
+```
 
 Optionally, reset iOS simulator:
 
