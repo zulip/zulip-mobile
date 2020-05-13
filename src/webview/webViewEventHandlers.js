@@ -6,7 +6,7 @@ import type { Dispatch, GetText, Message, Narrow, Outbox } from '../types';
 import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { showToast } from '../utils/info';
-import { isUrlAnImage } from '../utils/url';
+import { isUrlAnImage, getFullUrl } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrowString } from '../utils/narrow';
@@ -177,7 +177,8 @@ const handleLongPress = (
   href: string | null,
 ) => {
   if (href !== null) {
-    Clipboard.setString(href);
+    const url = getFullUrl(href, props.backgroundData.auth.realm);
+    Clipboard.setString(url);
     showToast(_('Link copied to clipboard'));
     return;
   }
