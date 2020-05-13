@@ -103,6 +103,7 @@ class Lightbox extends PureComponent<Props, State> {
           style={[styles.img, { width }]}
           resizeMode="contain"
           onTap={this.handleImagePress}
+          onViewTap={this.handleImagePress}
         />
         <SlideAnimationView
           property="translateY"
