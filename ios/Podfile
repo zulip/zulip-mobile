@@ -49,6 +49,14 @@ target 'ZulipMobile' do
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
   pod 'react-native-simple-toast', :path => '../node_modules/react-native-simple-toast'
 
+  # RN-dependent Pods that we could include, but we've decided not to
+
+  # iOS file uploads aren't supported yet.
+  # pod 'react-native-document-picker', :path => '../node_modules/react-native-document-picker'
+
+  # We haven't enabled `react-native-screens` yet, that's #4111.
+  # pod 'RNScreens', :path => '../node_modules/react-native-screens'
+
   # unimodules provides Expo packages individually.
   use_unimodules!
 
