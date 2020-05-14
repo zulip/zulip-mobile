@@ -31,6 +31,13 @@ export const encodeParamsForUrl = (params: UrlParams): string =>
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`)
     .join('&');
 
+/**
+ * Turn a relative or absolute URL into an absolute URL.
+ *
+ * @param url an absolute URL, or a relative URL on the realm.
+ * @param realm the URL of the current realm.
+ */
+// Uses some crude heuristics. TODO: Revisit this after or during #4081.
 export const getFullUrl = (url: string = '', realm: string): string =>
   !url.startsWith('http') ? `${realm}${url.startsWith('/') ? '' : '/'}${url}` : url;
 
