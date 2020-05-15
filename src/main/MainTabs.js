@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
 import { Platform } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createBottomTabNavigator } from 'react-navigation';
 
 import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
@@ -15,8 +15,10 @@ import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileCard from '../account-info/ProfileCard';
 
 export default createBottomTabNavigator(
+  // We'll activate these fixmes in the next commit.
   {
     home: {
+      // £FlowFixMe `navigationOptions` property on component type
       screen: HomeTab,
       navigationOptions: {
         tabBarLabel: 'Home',
@@ -26,6 +28,8 @@ export default createBottomTabNavigator(
       },
     },
     streams: {
+      // No fixme needed; StreamTabs is a navigator from
+      // `createMaterialTopTabNavigator`.
       screen: StreamTabs,
       navigationOptions: {
         tabBarLabel: 'Streams',
@@ -35,6 +39,7 @@ export default createBottomTabNavigator(
       },
     },
     conversations: {
+      // £FlowFixMe `navigationOptions` property on component type
       screen: PmConversationsCard,
       navigationOptions: {
         tabBarLabel: 'Conversations',
@@ -44,6 +49,7 @@ export default createBottomTabNavigator(
       },
     },
     settings: {
+      // £FlowFixMe `navigationOptions` property on component type
       screen: SettingsCard,
       navigationOptions: {
         tabBarLabel: 'Settings',
@@ -53,6 +59,7 @@ export default createBottomTabNavigator(
       },
     },
     profile: {
+      // £FlowFixMe `navigationOptions` property on component type
       screen: ProfileCard,
       navigationOptions: {
         tabBarLabel: 'Profile',
