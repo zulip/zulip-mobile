@@ -37,11 +37,42 @@ const statusOrder = (presence: UserPresence): number => {
   }
 };
 
-export const sortUserList = (users: User[], presences: PresenceState): User[] =>
-  [...users].sort(
-    (x1, x2) =>
-      statusOrder(presences[x1.email]) - statusOrder(presences[x2.email])
-      || x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
+export const sortAlphabetically = (users: User[]): User[] =>
+  [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()));
+
+export const filterUserStartWith = (users: User[], filter: string = ''): User[] =>
+  users.filter(user => user.full_name.toLowerCase().startsWith(filter.toLowerCase()));
+
+export const filterUserEmailStartWith = (users: User[], filter: string = ''): User[] =>
+  users.filter(user => user.email.toLowerCase().startsWith(filter.toLowerCase()));
+
+export const filterUserByInitials = (users: User[], filter: string = ''): User[] =>
+  users.filter(user =>
+    user.full_name
+      .replace(/(\s|[a-z])/g, '')
+      .toLowerCase()
+      .startsWith(filter.toLowerCase()),
+  );
+
+export const getUniqueUsers = (users: User[]): User[] => uniqby(users, 'email');
+
+export const sortByPositionOfKeyword = (users: User[], filter: string = ''): User[] => {
+  if (filter === '') {
+    return users;
+  }
+  const beginOfUserName = filterUserStartWith(users, filter);
+  const beginOfInitialName = filterUserByInitials(users, filter);
+  const beginOfEmail = filterUserEmailStartWith(users, filter);
+  return getUniqueUsers([...beginOfUserName, ...beginOfEmail, ...beginOfInitialName, ...users]);
+};
+
+export const sortUserList = (
+  users: User[],
+  presences: PresenceState,
+  filter: string = '',
+): User[] =>
+  [...sortByPositionOfKeyword(users, filter)].sort(
+    (x1, x2) => statusOrder(presences[x1.email]) - statusOrder(presences[x2.email]),
   );
 
 export const filterUserList = (users: User[], filter: string = '', ownEmail: ?string): User[] =>
@@ -54,49 +85,6 @@ export const filterUserList = (users: User[], filter: string = '', ownEmail: ?st
             || user.email.toLowerCase().includes(filter.toLowerCase())),
       )
     : users;
-
-export const sortAlphabetically = (users: User[]): User[] =>
-  [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()));
-
-export const filterUserStartWith = (users: User[], filter: string = '', ownEmail: string): User[] =>
-  users.filter(
-    user =>
-      user.email !== ownEmail && user.full_name.toLowerCase().startsWith(filter.toLowerCase()),
-  );
-
-export const filterUserByInitials = (
-  users: User[],
-  filter: string = '',
-  ownEmail: string,
-): User[] =>
-  users.filter(
-    user =>
-      user.email !== ownEmail
-      && user.full_name
-        .replace(/(\s|[a-z])/g, '')
-        .toLowerCase()
-        .startsWith(filter.toLowerCase()),
-  );
-
-export const filterUserThatContains = (
-  users: User[],
-  filter: string = '',
-  ownEmail: string,
-): User[] =>
-  users.filter(
-    user => user.email !== ownEmail && user.full_name.toLowerCase().includes(filter.toLowerCase()),
-  );
-
-export const filterUserMatchesEmail = (
-  users: User[],
-  filter: string = '',
-  ownEmail: string,
-): User[] =>
-  users.filter(
-    user => user.email !== ownEmail && user.email.toLowerCase().includes(filter.toLowerCase()),
-  );
-
-export const getUniqueUsers = (users: User[]): User[] => uniqby(users, 'email');
 
 export const getUsersAndWildcards = (users: User[]) => [
   { ...NULL_USER, full_name: 'all', email: '(Notify everyone)' },
@@ -113,11 +101,8 @@ export const getAutocompleteSuggestion = (
     return users;
   }
   const allAutocompleteOptions = getUsersAndWildcards(users);
-  const startWith = filterUserStartWith(allAutocompleteOptions, filter, ownEmail);
-  const initials = filterUserByInitials(allAutocompleteOptions, filter, ownEmail);
-  const contains = filterUserThatContains(allAutocompleteOptions, filter, ownEmail);
-  const matchesEmail = filterUserMatchesEmail(users, filter, ownEmail);
-  return getUniqueUsers([...startWith, ...initials, ...contains, ...matchesEmail]);
+  const filteredUserExcludeSelf = filterUserList(allAutocompleteOptions, filter, ownEmail);
+  return sortByPositionOfKeyword(filteredUserExcludeSelf, filter);
 };
 
 export const getAutocompleteUserGroupSuggestions = (

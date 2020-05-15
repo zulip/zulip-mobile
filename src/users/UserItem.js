@@ -16,7 +16,7 @@ const componentStyles = StyleSheet.create({
     color: 'white',
   },
   textEmail: {
-    fontSize: 10,
+    fontSize: 14,
     color: 'hsl(0, 0%, 60%)',
   },
   textWrapper: {
