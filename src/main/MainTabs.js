@@ -15,10 +15,9 @@ import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileCard from '../account-info/ProfileCard';
 
 export default createBottomTabNavigator(
-  // We'll activate these fixmes in the next commit.
   {
     home: {
-      // £FlowFixMe `navigationOptions` property on component type
+      // $FlowFixMe `navigationOptions` property on component type
       screen: HomeTab,
       navigationOptions: {
         tabBarLabel: 'Home',
@@ -39,7 +38,7 @@ export default createBottomTabNavigator(
       },
     },
     conversations: {
-      // £FlowFixMe `navigationOptions` property on component type
+      // $FlowFixMe `navigationOptions` property on component type
       screen: PmConversationsCard,
       navigationOptions: {
         tabBarLabel: 'Conversations',
@@ -49,7 +48,7 @@ export default createBottomTabNavigator(
       },
     },
     settings: {
-      // £FlowFixMe `navigationOptions` property on component type
+      // $FlowFixMe `navigationOptions` property on component type
       screen: SettingsCard,
       navigationOptions: {
         tabBarLabel: 'Settings',
@@ -59,7 +58,7 @@ export default createBottomTabNavigator(
       },
     },
     profile: {
-      // £FlowFixMe `navigationOptions` property on component type
+      // $FlowFixMe `navigationOptions` property on component type
       screen: ProfileCard,
       navigationOptions: {
         tabBarLabel: 'Profile',

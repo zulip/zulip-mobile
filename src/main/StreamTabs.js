@@ -2,7 +2,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { FormattedMessage } from 'react-intl';
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import { createMaterialTopTabNavigator } from 'react-navigation';
 
 import type { TabNavigationOptionsPropsType } from '../types';
 import { createStyleSheet } from '../styles';
@@ -18,10 +18,9 @@ const styles = createStyleSheet({
 });
 
 export default createMaterialTopTabNavigator(
-  // We'll activate these fixmes in the next commit.
   {
     subscribed: {
-      // £FlowFixMe `navigationOptions` property on component type
+      // $FlowFixMe `navigationOptions` property on component type
       screen: SubscriptionsCard,
       navigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (
@@ -32,7 +31,7 @@ export default createMaterialTopTabNavigator(
       },
     },
     allStreams: {
-      // £FlowFixMe `navigationOptions` property on component type
+      // $FlowFixMe `navigationOptions` property on component type
       screen: StreamListCard,
       navigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (
