@@ -2,14 +2,14 @@
 import type { Narrow, Dispatch, GetState } from '../types';
 import { getAuth, getUsersById, isNarrowValid, getIsHydrated } from '../selectors';
 import { DO_NARROW } from '../actionConstants';
-import { getFullUrl } from '../utils/url';
 import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
 import openLink from '../utils/openLink';
 import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
-
+import tryGetFileDownloadUrl from '../api/tryGetFileDownloadUrl';
+import { isUrlOnRealm, getFullUrl } from '../utils/url';
 /**
  * Navigate to the given narrow, while fetching any data needed.
  *
@@ -36,7 +36,10 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   dispatch(navigateToChat(narrow));
 };
 
-export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {
+export const messageLinkPress = (href: string) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
   const state = getState();
   const auth = getAuth(state);
   const usersById = getUsersById(state);
@@ -45,7 +48,10 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
   if (narrow) {
     const anchor = getMessageIdFromLink(href, auth.realm);
     dispatch(doNarrow(narrow, anchor));
-    return;
+  } else if (!isUrlOnRealm(href, auth.realm)) {
+    openLink(href);
+  } else {
+    const url = (await tryGetFileDownloadUrl(href, auth)) ?? getFullUrl(href, auth.realm);
+    openLink(url);
   }
-  openLink(getFullUrl(href, auth.realm));
 };
