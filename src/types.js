@@ -2,7 +2,15 @@
 import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Auth, Topic, Message, Reaction, ReactionType, Narrow } from './api/apiTypes';
+import type {
+  Auth,
+  Topic,
+  Message,
+  Reaction,
+  ReactionType,
+  Narrow,
+  UserOrBot,
+} from './api/apiTypes';
 import type { AppStyles } from './styles/theme';
 import type { ZulipVersion } from './utils/zulipVersion';
 
@@ -341,4 +349,7 @@ export type PmConversationData = {|
 
   /** The count of unread messages in this conversation. */
   unread: number,
+
+  /** List of all recipients (including the self-user), sorted by user ID. */
+  users: UserOrBot[],
 |};

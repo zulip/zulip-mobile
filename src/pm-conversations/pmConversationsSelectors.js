@@ -1,26 +1,46 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Message, PmConversationData, Selector, User } from '../types';
+import type {
+  Message,
+  PmConversationData,
+  PmRecipientUser,
+  Selector,
+  User,
+  UserOrBot,
+} from '../types';
 import { getPrivateMessages } from '../message/messageSelectors';
-import { getOwnUser } from '../users/userSelectors';
+import { getOwnUser, getAllUsersById } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
 import { normalizeRecipientsSansMe, pmUnreadsKeyFromMessage } from '../utils/recipient';
 
 export const getRecentConversations: Selector<PmConversationData[]> = createSelector(
   getOwnUser,
   getPrivateMessages,
+  getAllUsersById,
   getUnreadByPms,
   getUnreadByHuddles,
   (
     ownUser: User,
     messages: Message[],
+    usersById: Map<number, UserOrBot>,
     unreadPms: { [number]: number },
     unreadHuddles: { [string]: number },
   ): PmConversationData[] => {
+    const getUser = (id: number): UserOrBot => {
+      const val = usersById.get(id);
+      if (val === undefined) {
+        throw new Error('getRecentConversations: unknown user ID');
+      }
+      return val;
+    };
+
     const items = messages.map(msg => ({
       ids: pmUnreadsKeyFromMessage(msg, ownUser.user_id),
       recipients: normalizeRecipientsSansMe(msg.display_recipient, ownUser.email),
+      users: (msg.display_recipient: PmRecipientUser[])
+        .map(s => getUser(s.id))
+        .sort((a, b) => a.user_id - b.user_id),
       msgId: msg.id,
     }));
 
