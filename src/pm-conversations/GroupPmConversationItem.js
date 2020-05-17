@@ -15,10 +15,9 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = $ReadOnly<{|
-  email: string,
-  usersByEmail: Map<string, UserOrBot>,
+  users: UserOrBot[],
   unreadCount: number,
-  onPress: (emails: string) => void,
+  onPress: (users: UserOrBot[]) => void,
 |}>;
 
 /**
@@ -26,22 +25,14 @@ type Props = $ReadOnly<{|
  * */
 export default class GroupPmConversationItem extends PureComponent<Props> {
   handlePress = () => {
-    const { email, onPress } = this.props;
-    onPress(email);
+    const { users, onPress } = this.props;
+    onPress(users);
   };
 
   render() {
-    const { email, usersByEmail, unreadCount } = this.props;
-    const allUsers = email.split(',').map(e => usersByEmail.get(e));
+    const { users, unreadCount } = this.props;
 
-    const allUsersFound = allUsers.every(user => user);
-
-    if (!allUsersFound) {
-      return null;
-    }
-
-    // $FlowFixMe Flow doesn't see the `every` check above.
-    const allNames = allUsers.map(user => user.full_name);
+    const allNames = users.map(user => user.full_name);
 
     return (
       <Touchable onPress={this.handlePress}>

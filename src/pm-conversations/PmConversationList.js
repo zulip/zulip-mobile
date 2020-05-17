@@ -3,12 +3,13 @@ import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import { connect } from '../react-redux';
-import type { Dispatch, PmConversationData, UserOrBot } from '../types';
+import type { Dispatch, PmConversationData, User, UserOrBot } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
-import { getAllUsersByEmail } from '../users/userSelectors';
+import { getOwnUser } from '../users/userSelectors';
 import GroupPmConversationItem from './GroupPmConversationItem';
 import { doNarrow } from '../actions';
+import { normalizeUsersSansMe } from '../utils/recipient';
 
 const styles = StyleSheet.create({
   list: {
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 type SelectorProps = $ReadOnly<{|
-  usersByEmail: Map<string, UserOrBot>,
+  ownUser: User,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -35,12 +36,17 @@ class PmConversationList extends PureComponent<Props> {
     this.props.dispatch(doNarrow(privateNarrow(email)));
   };
 
-  handleGroupNarrow = (email: string) => {
-    this.props.dispatch(doNarrow(groupNarrow(email.split(','))));
+  handleGroupNarrow = (users: UserOrBot[]) => {
+    const { dispatch, ownUser } = this.props;
+    const emails = users
+      .filter(u => u.user_id !== ownUser.user_id)
+      .map(u => u.email)
+      .sort();
+    dispatch(doNarrow(groupNarrow(emails)));
   };
 
   render() {
-    const { conversations, usersByEmail } = this.props;
+    const { conversations, ownUser } = this.props;
 
     return (
       <FlatList
@@ -49,8 +55,10 @@ class PmConversationList extends PureComponent<Props> {
         data={conversations}
         keyExtractor={item => item.recipients}
         renderItem={({ item }) => {
-          if (item.recipients.indexOf(',') === -1) {
-            const user = usersByEmail.get(item.recipients);
+          const users = normalizeUsersSansMe(item.users, ownUser.user_id);
+
+          if (users.length === 1) {
+            const user = users[0];
 
             if (!user) {
               return null;
@@ -69,9 +77,8 @@ class PmConversationList extends PureComponent<Props> {
 
           return (
             <GroupPmConversationItem
-              email={item.recipients}
+              users={users}
               unreadCount={item.unread}
-              usersByEmail={usersByEmail}
               onPress={this.handleGroupNarrow}
             />
           );
@@ -82,5 +89,5 @@ class PmConversationList extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>(state => ({
-  usersByEmail: getAllUsersByEmail(state),
+  ownUser: getOwnUser(state),
 }))(PmConversationList);
