@@ -53,7 +53,7 @@ class PmConversationList extends PureComponent<Props> {
         style={styles.list}
         initialNumToRender={20}
         data={conversations}
-        keyExtractor={item => item.recipients}
+        keyExtractor={item => item.users.map(s => s.user_id).join(',')}
         renderItem={({ item }) => {
           const users = normalizeUsersSansMe(item.users, ownUser.user_id);
 
