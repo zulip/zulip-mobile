@@ -21,6 +21,20 @@ export const privateNarrow = (email: string): Narrow => [
   },
 ];
 
+/**
+ * Create a group narrow.
+ *
+ * @param emails: A list of emails, sorted lexicographically. Must not contain
+ *   the self-user.
+ */
+// This is only used for huddles (PMs with 3+ users). Partly by chance, it will
+// often return a valid private narrow if used with appropriate arguments, but
+// this must not be relied upon.
+//
+// As of server commit 0f7628280f (1.9.0-rc3~285), Zulip servers should have no
+// issue with the self-user's presence in `pm-with:` narrows. Similarly, there's
+// no API requirement that the emails be sorted. However, there are local uses
+// of this data structure which expect both of these things.
 export const groupNarrow = (emails: string[]): Narrow => [
   {
     operator: 'pm-with',
