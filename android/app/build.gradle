@@ -81,6 +81,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
+    enableHermes: false, // clean and rebuild if changing
     // quasi-unstable: see commits 8f8a266af and 833d083a9
     jsBundleDirRelease: "$buildDir/intermediates/merged_assets/release/out"
 ]
@@ -119,6 +120,28 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 def shrinkResourcesInProguardBuilds = false
+
+/**
+  * The preferred build flavor of JavaScriptCore.
+  *
+  * For example, to use the international variant, you can use:
+  * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
+  *
+  * The international variant includes ICU i18n library and necessary data
+  * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
+  * give correct results when using with locales other than en-US.  Note that
+  * this variant is about 6MiB larger per architecture than default.
+ */
+def jscFlavor = 'org.webkit:android-jsc:+'
+
+/**
+ * Whether to enable the Hermes VM.
+ *
+ * This should be set on project.ext.react and mirrored here.  If it is not set
+ * on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
+ * and the benefits of using Hermes will therefore be sharply reduced.
+ */
+def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
     defaultConfig {
@@ -191,6 +214,15 @@ android {
             }
         }
     }
+
+    packagingOptions {
+        pickFirst '**/armeabi-v7a/libc++_shared.so'
+        pickFirst '**/x86/libc++_shared.so'
+        pickFirst '**/arm64-v8a/libc++_shared.so'
+        pickFirst '**/x86_64/libc++_shared.so'
+        pickFirst '**/x86/libjsc.so'
+        pickFirst '**/armeabi-v7a/libjsc.so'
+    }
 }
 
 repositories {
@@ -216,6 +248,15 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:17.3.4"
     implementation "me.leolin:ShortcutBadger:1.1.16@aar"
     implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    if (enableHermes) {
+      def hermesPath = "../../node_modules/hermesvm/android/";
+      debugImplementation files(hermesPath + "hermes-debug.aar")
+      releaseImplementation files(hermesPath + "hermes-release.aar")
+    } else {
+      implementation jscFlavor
+    }
+
     implementation 'com.facebook.fresco:animated-gif:1.10.0' // For animated GIF support
     implementation 'androidx.browser:browser:1.0.0'
     addUnimodulesDependencies()

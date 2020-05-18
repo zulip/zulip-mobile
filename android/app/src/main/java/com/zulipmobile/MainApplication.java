@@ -1,6 +1,10 @@
 package com.zulipmobile;
 
 import android.app.Application;
+import android.util.Log;
+
+import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
+import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
