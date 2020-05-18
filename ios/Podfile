@@ -2,6 +2,7 @@
 # (project > ZulipMobile > Info in Xcode)
 platform :ios, '10.3'
 
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 
 target 'ZulipMobile' do
@@ -31,30 +32,9 @@ target 'ZulipMobile' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  # Pods we need that depend on React Native
-  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
-  pod 'react-native-notifications', :path => '../node_modules/react-native-notifications'
-  pod 'RNSound', :path => '../node_modules/react-native-sound'
-  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
-  pod 'react-native-photo-view', :path => '../node_modules/react-native-photo-view'
-  pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
-  pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
-  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
-  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-  pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
-  pod 'react-native-safari-view', :path => '../node_modules/react-native-safari-view'
-  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
-  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
-  pod 'react-native-simple-toast', :path => '../node_modules/react-native-simple-toast'
-
-  # RN-dependent Pods that we could include, but we've decided not to
-
-  # iOS file uploads aren't supported yet.
-  # pod 'react-native-document-picker', :path => '../node_modules/react-native-document-picker'
-
-  # We haven't enabled `react-native-screens` yet, that's #4111.
-  # pod 'RNScreens', :path => '../node_modules/react-native-screens'
+  # "Autolinking": automatically link pods that depend on React
+  # Native, unless omitted in our own `react-native.config.js`.
+  use_native_modules!
 
   # unimodules provides Expo packages individually.
   use_unimodules!

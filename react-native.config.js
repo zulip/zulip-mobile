@@ -16,6 +16,12 @@ module.exports = {
    * https://github.com/react-native-community/cli/blob/master/docs/autolinking.md.
    */
   dependencies: {
+    'react-native-document-picker': {
+      platforms: {
+        // iOS file uploads aren't supported yet. See 250cde501.
+        ios: null,
+      },
+    },
     'react-native-notifications': {
       platforms: {
         // We don't use this Wix library in the Android build. See 01b33ad31.
@@ -25,8 +31,9 @@ module.exports = {
     'react-native-screens': {
       platforms: {
         // We haven't enabled `react-native-screens` yet, that's
-        // #4111.
+        // #4111. See 250cde501.
         android: null,
+        ios: null,
       },
     },
     'react-native-vector-icons': {
