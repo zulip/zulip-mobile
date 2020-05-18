@@ -69,29 +69,21 @@ describe('getRecentConversations', () => {
 
     const expectedResult = [
       {
-        ids: '0',
-        recipients: me.email,
         msgId: 4,
         users: [me],
         unread: 1,
       },
       {
-        ids: '1',
-        recipients: john.email,
         msgId: 3,
         users: [me, john],
         unread: 2,
       },
       {
-        ids: '2',
-        recipients: mark.email,
         users: [me, mark],
         msgId: 2,
         unread: 1,
       },
       {
-        ids: '0,1,2',
-        recipients: [john.email, mark.email].join(','),
         msgId: 0,
         users: [me, john, mark],
         unread: 1,
@@ -149,29 +141,21 @@ describe('getRecentConversations', () => {
 
     const expectedResult = [
       {
-        ids: '0',
-        recipients: me.email,
         msgId: 6,
         users: [me],
         unread: 1,
       },
       {
-        ids: '0,1,2',
-        recipients: [john.email, mark.email].join(','),
         msgId: 5,
         users: [me, john, mark],
         unread: 1,
       },
       {
-        ids: '1',
-        recipients: john.email,
         msgId: 4,
         users: [me, john],
         unread: 2,
       },
       {
-        ids: '2',
-        recipients: mark.email,
         msgId: 3,
         users: [me, mark],
         unread: 1,

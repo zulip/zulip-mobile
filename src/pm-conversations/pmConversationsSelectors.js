@@ -57,7 +57,8 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
     );
 
     return sortedByMostRecent.map(conversation => ({
-      ...conversation,
+      msgId: conversation.msgId,
+      users: conversation.users,
       unread:
         // This business of looking in one place and then the other is kind
         // of messy.  Fortunately it always works, because the key spaces
