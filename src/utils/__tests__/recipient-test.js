@@ -1,7 +1,7 @@
 import {
   normalizeRecipients,
   normalizeRecipientsAsUserIds,
-  normalizeRecipientsSansMe,
+  normalizeUsersSansMe,
   normalizeRecipientsAsUserIdsSansMe,
   isSameRecipient,
 } from '../recipient';
@@ -31,27 +31,23 @@ describe('normalizeRecipients', () => {
   });
 });
 
-describe('normalizeRecipientsSansMe', () => {
-  test('if only self email provided return unmodified', () => {
-    const recipients = [{ email: 'me@example.com' }];
-    const ownEmail = 'me@example.com';
-    const expectedResult = 'me@example.com';
+describe('normalizeUsersSansMe', () => {
+  test('if only self provided, return unmodified', () => {
+    const recipients = [{ user_id: 134 }];
+    const ownUserId = 134;
+    const expectedResult = [{ user_id: 134 }];
 
-    const normalized = normalizeRecipientsSansMe(recipients, ownEmail);
+    const normalized = normalizeUsersSansMe(recipients, ownUserId);
 
     expect(normalized).toEqual(expectedResult);
   });
 
-  test('when more than one emails normalize but filter out self email', () => {
-    const recipients = [
-      { email: 'abc@example.com' },
-      { email: 'me@example.com' },
-      { email: '  def@example.com  ' },
-    ];
-    const ownEmail = 'me@example.com';
-    const expectedResult = 'abc@example.com,def@example.com';
+  test('when more than one user, filter out self email', () => {
+    const recipients = [{ user_id: 227 }, { user_id: 134 }, { user_id: 997 }];
+    const ownUserId = 134;
+    const expectedResult = [{ user_id: 227 }, { user_id: 997 }];
 
-    const normalized = normalizeRecipientsSansMe(recipients, ownEmail);
+    const normalized = normalizeUsersSansMe(recipients, ownUserId);
 
     expect(normalized).toEqual(expectedResult);
   });

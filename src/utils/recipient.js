@@ -25,14 +25,6 @@ export const normalizeRecipients = (recipients: $ReadOnlyArray<{ email: string, 
 export const normalizeUsersSansMe = (recipients: UserOrBot[], ownUserId: number): UserOrBot[] =>
   recipients.length === 1 ? recipients : recipients.filter(r => r.user_id !== ownUserId);
 
-export const normalizeRecipientsSansMe = (
-  recipients: $ReadOnlyArray<{ email: string, ... }>,
-  ownEmail: string,
-) =>
-  recipients.length === 1
-    ? recipients[0].email
-    : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
-
 export const normalizeRecipientsAsUserIds = (
   recipients: $ReadOnlyArray<{ user_id: number, ... }>,
 ) =>
@@ -82,10 +74,9 @@ export const pmUiRecipientsFromMessage = (
  *    `JSON.stringify` we use to make keys to identify narrows in general,
  *    including stream and topic narrows.
  *
- *  * `normalizeRecipients`, `normalizeRecipientsSansMe`, and
- *    `pmUnreadsKeyFromMessage`, which do the same job as this function with
- *    slight variations, and which we variously use in different places in
- *    the app.
+ *  * `normalizeRecipients` and `pmUnreadsKeyFromMessage`, which do the same job
+ *    as this function with slight variations, and which we variously use in
+ *    different places in the app.
  *
  *    It would be great to unify on a single version, as the variation is a
  *    possible source of bugs.
