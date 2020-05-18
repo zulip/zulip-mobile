@@ -12,7 +12,7 @@ import type {
 import { getPrivateMessages } from '../message/messageSelectors';
 import { getOwnUser, getAllUsersById } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
-import { normalizeRecipientsSansMe, pmUnreadsKeyFromMessage } from '../utils/recipient';
+import { pmUnreadsKeyFromMessage } from '../utils/recipient';
 
 export const getRecentConversations: Selector<PmConversationData[]> = createSelector(
   getOwnUser,
@@ -37,7 +37,6 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
 
     const items = messages.map(msg => ({
       ids: pmUnreadsKeyFromMessage(msg, ownUser.user_id),
-      recipients: normalizeRecipientsSansMe(msg.display_recipient, ownUser.email),
       users: (msg.display_recipient: PmRecipientUser[])
         .map(s => getUser(s.id))
         .sort((a, b) => a.user_id - b.user_id),
@@ -46,9 +45,9 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
 
     const latestByRecipients = new Map();
     items.forEach(item => {
-      const prev = latestByRecipients.get(item.recipients);
+      const prev = latestByRecipients.get(item.ids);
       if (!prev || item.msgId > prev.msgId) {
-        latestByRecipients.set(item.recipients, item);
+        latestByRecipients.set(item.ids, item);
       }
     });
 
