@@ -20,15 +20,6 @@ describe('normalizeRecipients', () => {
 
     expect(normalized).toEqual(expectedResult);
   });
-
-  test('on a string input, returns same string', () => {
-    const recipients = 'abc@example.com';
-    const expectedResult = 'abc@example.com';
-
-    const normalized = normalizeRecipients(recipients);
-
-    expect(normalized).toEqual(expectedResult);
-  });
 });
 
 describe('normalizeRecipientsSansMe', () => {

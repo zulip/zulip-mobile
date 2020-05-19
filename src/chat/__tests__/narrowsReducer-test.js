@@ -175,6 +175,7 @@ describe('narrowsReducer', () => {
 
     const message = {
       id: 1,
+      type: 'private',
       display_recipient: [{ email: 'me@example.com' }],
       flags: [],
     };

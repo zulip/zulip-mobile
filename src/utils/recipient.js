@@ -12,15 +12,12 @@ import type { PmRecipientUser, Message, Outbox, User } from '../types';
 const filterRecipients = (recipients: PmRecipientUser[], ownUserId: number): PmRecipientUser[] =>
   recipients.length === 1 ? recipients : recipients.filter(r => r.id !== ownUserId);
 
-// TODO types: this union is confusing
-export const normalizeRecipients = (recipients: $ReadOnlyArray<{ email: string, ... }> | string) =>
-  !Array.isArray(recipients)
-    ? recipients
-    : recipients
-        .map(s => s.email.trim())
-        .filter(x => x.length > 0)
-        .sort()
-        .join(',');
+export const normalizeRecipients = (recipients: $ReadOnlyArray<{ email: string, ... }>): string =>
+  recipients
+    .map(s => s.email.trim())
+    .filter(x => x.length > 0)
+    .sort()
+    .join(',');
 
 export const normalizeRecipientsSansMe = (
   recipients: $ReadOnlyArray<{ email: string, ... }>,
