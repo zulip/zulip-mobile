@@ -230,18 +230,6 @@ repositories {
 }
 
 dependencies {
-    implementation project(':@react-native-community_async-storage')
-    implementation project(':@sentry_react-native')
-    implementation project(':@react-native-community_netinfo')
-    implementation project(':react-native-document-picker')
-    implementation project(':react-native-webview')
-    implementation project(':react-native-text-input-reset')
-    implementation project(':react-native-image-picker')
-    implementation project(':react-native-orientation')
-    implementation project(':react-native-photo-view')
-    implementation project(':rn-fetch-blob')
-    implementation project(':react-native-sound')
-    implementation project(':react-native-device-info')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.0'
@@ -279,3 +267,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         jvmTarget = "1.8"
     }
 }
+
+// Necessary for Autolinking; see facebook/react-native@261197d85
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle");
+applyNativeModulesAppBuildGradle(project)

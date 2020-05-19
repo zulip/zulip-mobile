@@ -3,29 +3,18 @@ package com.zulipmobile;
 import android.app.Application;
 import android.util.Log;
 
+import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
-import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.github.yamill.orientation.OrientationPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
-import com.reactnative.photoview.PhotoViewPackage;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
-import com.zmxv.RNSound.RNSoundPackage;
-import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
-import io.sentry.RNSentryPackage;
 import java.util.Arrays;
 import java.util.List;
 import org.unimodules.adapters.react.ModuleRegistryAdapter;
 import org.unimodules.adapters.react.ReactModuleRegistryProvider;
+import org.unimodules.core.interfaces.SingletonModule;
 
 import com.zulipmobile.generated.BasePackageList;
 import com.zulipmobile.notifications.ConversationMap;
@@ -47,25 +36,24 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-            return Arrays.asList(
-                    new MainReactPackage(),
-                    new AsyncStoragePackage(),
-                    new NetInfoPackage(),
-                    new DocumentPickerPackage(),
-                    new RNCWebViewPackage(),
-                    new RNTextInputResetPackage(),
-                    new ImagePickerPackage(),
-                    new OrientationPackage(),
-                    new RNSentryPackage(),
-                    new PhotoViewPackage(),
-                    new RNFetchBlobPackage(),
-                    new RNSoundPackage(),
-                    new RNDeviceInfo(),
-                    new ZulipNativePackage(),
-                    new NotificationsPackage(),
-                    new SharingPackage(),
-                    new ModuleRegistryAdapter(mModuleRegistryProvider)
-            );
+            // Autolinked packages.
+            //
+            // To check what's included, see the
+            // `getPackages` implementation, which is auto-generated
+            // (android/app/build/generated/rncli/src/main/java/com/facebook/react/PackageList.java):
+            @SuppressWarnings("UnnecessaryLocalVariable")
+            List<ReactPackage> packages = new PackageList(this).getPackages();
+            
+            // Packages that should be linked, but can't be with
+            // autolinking:
+            packages.add(new ZulipNativePackage());
+            packages.add(new NotificationsPackage());
+            packages.add(new SharingPackage());
+
+            // Unimodules:
+            packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
+
+            return packages;
         }
 
         @Override
