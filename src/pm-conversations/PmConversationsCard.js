@@ -7,12 +7,12 @@ import type { NavigationTabProp, NavigationStateRoute } from 'react-navigation-t
 import NavigationService from '../nav/NavigationService';
 import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
-import type { Dispatch, PmConversationData, UserOrBot } from '../types';
+import type { Dispatch, PmConversationData } from '../types';
 import { connect } from '../react-redux';
 import { Label, ZulipButton, LoadingBanner } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
-import { getRecentConversations, getAllUsersByEmail } from '../selectors';
+import { getRecentConversations } from '../selectors';
 import { navigateToCreateGroup, navigateToUsersScreen } from '../actions';
 
 const styles = createStyleSheet({
@@ -43,7 +43,6 @@ type Props = $ReadOnly<{|
 
   dispatch: Dispatch,
   conversations: PmConversationData[],
-  allUsersByEmail: Map<string, UserOrBot>,
 |}>;
 
 /**
@@ -54,7 +53,7 @@ class PmConversationsCard extends PureComponent<Props> {
   context: ThemeData;
 
   render() {
-    const { dispatch, conversations, allUsersByEmail } = this.props;
+    const { dispatch, conversations } = this.props;
 
     return (
       <View style={[styles.container, { backgroundColor: this.context.backgroundColor }]}>
@@ -82,11 +81,7 @@ class PmConversationsCard extends PureComponent<Props> {
         {conversations.length === 0 ? (
           <Label style={styles.emptySlate} text="No recent conversations" />
         ) : (
-          <PmConversationList
-            dispatch={dispatch}
-            conversations={conversations}
-            allUsersByEmail={allUsersByEmail}
-          />
+          <PmConversationList dispatch={dispatch} conversations={conversations} />
         )}
       </View>
     );
@@ -95,5 +90,4 @@ class PmConversationsCard extends PureComponent<Props> {
 
 export default connect(state => ({
   conversations: getRecentConversations(state),
-  allUsersByEmail: getAllUsersByEmail(state),
 }))(PmConversationsCard);

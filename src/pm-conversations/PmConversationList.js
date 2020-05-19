@@ -20,7 +20,6 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
   conversations: PmConversationData[],
-  allUsersByEmail: Map<string, UserOrBot>,
 |}>;
 
 /**

@@ -3,24 +3,19 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Dispatch, PmConversationData, UnreadStreamItem, UserOrBot } from '../types';
+import type { Dispatch, PmConversationData, UnreadStreamItem } from '../types';
 import { connect } from '../react-redux';
 import { SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
-import {
-  getUnreadConversations,
-  getAllUsersByEmail,
-  getUnreadStreamsAndTopicsSansMuted,
-} from '../selectors';
+import { getUnreadConversations, getUnreadStreamsAndTopicsSansMuted } from '../selectors';
 import { doNarrow } from '../actions';
 
 type Props = $ReadOnly<{|
   conversations: PmConversationData[],
   dispatch: Dispatch,
-  allUsersByEmail: Map<string, UserOrBot>,
   unreadStreamsAndTopics: UnreadStreamItem[],
 |}>;
 
@@ -34,14 +29,14 @@ class UnreadCards extends PureComponent<Props> {
   };
 
   render() {
-    const { conversations, unreadStreamsAndTopics, ...restProps } = this.props;
+    const { conversations, dispatch, unreadStreamsAndTopics } = this.props;
     type Card =
       | UnreadStreamItem
       | { key: 'private', data: Array<React$ElementConfig<typeof PmConversationList>> };
     const unreadCards: Array<Card> = [
       {
         key: 'private',
-        data: [{ conversations, ...restProps }],
+        data: [{ conversations, dispatch }],
       },
       ...unreadStreamsAndTopics,
     ];
@@ -91,6 +86,5 @@ class UnreadCards extends PureComponent<Props> {
 
 export default connect(state => ({
   conversations: getUnreadConversations(state),
-  allUsersByEmail: getAllUsersByEmail(state),
   unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),
 }))(UnreadCards);
