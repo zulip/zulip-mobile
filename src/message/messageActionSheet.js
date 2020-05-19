@@ -24,6 +24,7 @@ import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker 
 import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { pmUiRecipientsFromMessage } from '../utils/recipient';
 import { deleteMessagesForTopic } from '../topics/topicActions';
+import { themeColors } from '../styles/theme';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -369,6 +370,15 @@ export const showActionSheet = (
         : {}),
       options: optionCodes.map(code => _(allButtons[code].title)),
       cancelButtonIndex: optionCodes.length - 1,
+
+      //  Themes work only in android since 'react-native-action-sheet' supports it only for android.
+      //  See https://github.com/expo/react-native-action-sheet#androidweb-only-props
+      containerStyle: {
+        backgroundColor: themeColors[params.backgroundData.theme].backgroundColor,
+      },
+      textStyle: {
+        color: themeColors[params.backgroundData.theme].color,
+      },
     },
     callback,
   );

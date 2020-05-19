@@ -14,7 +14,8 @@ import { SlideAnimationView } from '../common';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
-import { NAVBAR_SIZE } from '../styles';
+import type { ThemeColors } from '../styles';
+import { NAVBAR_SIZE, ThemeContext } from '../styles';
 import { getAvatarFromMessage } from '../utils/avatar';
 import { navigateBack } from '../actions';
 
@@ -52,6 +53,8 @@ class Lightbox extends PureComponent<Props, State> {
   state = {
     movement: 'out',
   };
+  static contextType = ThemeContext;
+  context: ThemeColors;
 
   handleImagePress = () => {
     this.setState(({ movement }, props) => ({
@@ -67,6 +70,11 @@ class Lightbox extends PureComponent<Props, State> {
       {
         options,
         cancelButtonIndex,
+
+        //  Themes work only in android since 'react-native-action-sheet' supports it only for android.
+        //  See https://github.com/expo/react-native-action-sheet#androidweb-only-props
+        containerStyle: { backgroundColor: this.context.backgroundColor },
+        textStyle: { color: this.context.color },
       },
       buttonIndex => {
         executeActionSheetAction({
