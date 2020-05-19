@@ -2,9 +2,11 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
+import { connect } from '../react-redux';
 import type { Dispatch, PmConversationData, UserOrBot } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
+import { getAllUsersByEmail } from '../users/userSelectors';
 import GroupPmConversationItem from './GroupPmConversationItem';
 import { doNarrow } from '../actions';
 
@@ -15,16 +17,20 @@ const styles = StyleSheet.create({
   },
 });
 
+type SelectorProps = $ReadOnly<{|
+  usersByEmail: Map<string, UserOrBot>,
+|}>;
+
 type Props = $ReadOnly<{|
+  ...SelectorProps,
   dispatch: Dispatch,
   conversations: PmConversationData[],
-  usersByEmail: Map<string, UserOrBot>,
 |}>;
 
 /**
  * A list describing all PM conversations.
- * */
-export default class PmConversationList extends PureComponent<Props> {
+ */
+class PmConversationList extends PureComponent<Props> {
   handleUserNarrow = (email: string) => {
     this.props.dispatch(doNarrow(privateNarrow(email)));
   };
@@ -74,3 +80,7 @@ export default class PmConversationList extends PureComponent<Props> {
     );
   }
 }
+
+export default connect<SelectorProps, _, _>(state => ({
+  usersByEmail: getAllUsersByEmail(state),
+}))(PmConversationList);
