@@ -38,7 +38,7 @@ target 'ZulipMobile' do
   pod 'RNSound', :path => '../node_modules/react-native-sound'
   pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
   pod 'react-native-photo-view', :path => '../node_modules/react-native-photo-view'
-  pod 'react-native-safe-area', path: '../node_modules/react-native-safe-area'
+  pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
   pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
