@@ -233,7 +233,7 @@ const messagePropertiesFromSender = (user: User) => {
 };
 
 /** Beware! These values may not be representative. */
-export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
+export const pmMessage = (extra?: $Rest<$Exact<Message>, {}>): Message => {
   const baseMessage: Message = {
     ...messagePropertiesBase,
     ...messagePropertiesFromSender(otherUser),
@@ -262,7 +262,7 @@ const messagePropertiesFromStream = (stream1: Stream) => {
 };
 
 /** Beware! These values may not be representative. */
-export const streamMessage = (extra?: $Rest<Message, {}>): Message => {
+export const streamMessage = (extra?: $Rest<$Exact<Message>, {}>): Message => {
   const baseMessage: Message = {
     ...messagePropertiesBase,
     ...messagePropertiesFromSender(otherUser),

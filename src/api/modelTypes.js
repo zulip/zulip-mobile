@@ -544,4 +544,15 @@ export type Message = $ReadOnly<{
 
   subject: string,
   subject_links: $ReadOnlyArray<string>,
+
+  /*
+    This type is not exact. The server may have sent us arbitrary data, so it's
+    not safe to {...spread} objects of this type.
+
+    TODO: destructure and validate message data received from the Zulip server,
+    transforming it into a normalized, exact `Message` type strictly for app-
+    internal use. (See docs/architecture/crunchy-shell.md.)
+  */
+
+  ...
 }>;
