@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import type { NavigationScreenProp } from 'react-navigation';
-import type { Dispatch, Stream } from '../types';
+import type { Dispatch, Stream, StreamPostPolicy } from '../types';
 import { connect } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamForId } from '../selectors';
@@ -21,10 +21,22 @@ type Props = $ReadOnly<{|
 |}>;
 
 class EditStreamScreen extends PureComponent<Props> {
-  handleComplete = (name: string, description: string, isPrivate: boolean) => {
+  handleComplete = (
+    name: string,
+    description: string,
+    isPrivate: boolean,
+    streamPostPolicy: StreamPostPolicy,
+  ) => {
     const { dispatch, stream } = this.props;
 
-    dispatch(updateExistingStream(stream.stream_id, stream, { name, description, isPrivate }));
+    dispatch(
+      updateExistingStream(stream.stream_id, stream, {
+        name,
+        description,
+        isPrivate,
+        streamPostPolicy,
+      }),
+    );
     dispatch(navigateBack());
   };
 
