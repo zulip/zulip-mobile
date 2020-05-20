@@ -12,8 +12,22 @@ import type { PmRecipientUser, Message, Outbox, User } from '../types';
 const filterRecipients = (recipients: PmRecipientUser[], ownUserId: number): PmRecipientUser[] =>
   recipients.length === 1 ? recipients : recipients.filter(r => r.id !== ownUserId);
 
+/**
+ * "Hash" a set of recipients, represented as an unsorted list, into a string.
+ * (A "recipient" is usually either a `User` or a `PmRecipientUser`.)
+ *
+ * Considered as a map from sets of users to strings, this function is
+ * injective. Do not rely on any other property of its output.
+ */
+// Unfortunately we do exactly that in a lot of places.
+//
+// TODO: fix that. Then, possibly, make this function nontrivial to invert, so
+// that we can't accidentally do that again.
 export const normalizeRecipients = (recipients: $ReadOnlyArray<{ email: string, ... }>): string =>
   recipients
+    // The purpose of the `trim` and `filter` below are obscure; they've been
+    // present without explanation since antiquity (commit a2419662d4,
+    // 0.7.1~251). As of 2020-05, they're believed to be superfluous.
     .map(s => s.email.trim())
     .filter(x => x.length > 0)
     .sort()
