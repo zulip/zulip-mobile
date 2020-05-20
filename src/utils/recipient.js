@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { PmRecipientUser, Message, Outbox, User } from '../types';
+import type { PmRecipientUser, Message, Outbox, User, UserOrBot } from '../types';
 
 // Filter a list of PM recipients in the quirky way that we do.
 //
@@ -21,6 +21,9 @@ export const normalizeRecipients = (recipients: $ReadOnlyArray<{ email: string, 
         .filter(x => x.length > 0)
         .sort()
         .join(',');
+
+export const normalizeUsersSansMe = (recipients: UserOrBot[], ownUserId: number): UserOrBot[] =>
+  recipients.length === 1 ? recipients : recipients.filter(r => r.user_id !== ownUserId);
 
 export const normalizeRecipientsSansMe = (
   recipients: $ReadOnlyArray<{ email: string, ... }>,
