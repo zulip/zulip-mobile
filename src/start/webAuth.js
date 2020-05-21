@@ -27,9 +27,7 @@ import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
        https://chat.zulip.org/#narrow/stream/16-desktop/topic/desktop.20app.20OAuth/near/803919
  */
 
-// Generate a one time pad (OTP) which the server XORs the API key with
-// in its response to protect against credentials intercept
-export const generateOtp = async (): Promise<string> => {
+export const generateRandomToken = async (): Promise<string> => {
   if (Platform.OS === 'android') {
     return new Promise((resolve, reject) => {
       NativeModules.RNSecureRandom.randomBase64(32, (err, result) => {
@@ -44,6 +42,10 @@ export const generateOtp = async (): Promise<string> => {
     return base64ToHex(rand);
   }
 };
+
+// Generate a one time pad (OTP) which the server XORs the API key with
+// in its response to protect against credentials intercept
+export const generateOtp = async (): Promise<string> => generateRandomToken();
 
 export const openBrowser = (url: string, otp: string) => {
   openLink(`${url}?mobile_flow_otp=${otp}`);
