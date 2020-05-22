@@ -164,13 +164,13 @@ declare module 'expo-apple-authentication/build/AppleAuthentication.types' {
     /**
      * A JSON Web Token (JWT) that securely communicates information about the user to your app.
      */
-    identityToken: string | null,
+    identityToken: string,
 
     /**
      * A short-lived session token used by your app for proof of authorization when interacting with
      * the app's server counterpart. Unlike `user`, this is ephemeral and will change each session.
      */
-    authorizationCode: string | null,
+    authorizationCode: string,
     ...
   };
   /**
