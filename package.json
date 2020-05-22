@@ -74,7 +74,6 @@
     "react-navigation-redux-helpers": "^2.0.9",
     "react-navigation-tabs": "0.8.4",
     "react-redux": "^5.0.7",
-    "react-test-renderer": "16.8.3",
     "redux": "^4.0.0",
     "redux-action-buffer": "^1.2.0",
     "redux-batched-actions": "^0.3.0",
