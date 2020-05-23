@@ -8,13 +8,17 @@
 ; Ignore duplicate module providers
 ; For RN Apps installed via npm, "Libraries" folder is inside
 ; "node_modules/react-native" but in the source repo it is in the root
-.*/Libraries/react-native/React.js
+node_modules/react-native/Libraries/react-native/React.js
 
 ; Ignore polyfills
-.*/Libraries/polyfills/.*
+node_modules/react-native/Libraries/polyfills/.*
 
-; Ignore metro
-.*/node_modules/metro/.*
+; These should not be required directly
+; require from fbjs/lib instead: require('fbjs/lib/warning')
+node_modules/warning/.*
+
+; Flow doesn't support platforms
+.*/Libraries/Utilities/HMRLoadingView.js
 
 ; Custom ignores
 .*/ios/Pods/*
@@ -28,6 +32,8 @@
 .*/node_modules/flow-coverage-report/.*
 .*/node_modules/@snyk/.*
 
+[untyped]
+.*/node_modules/@react-native-community/cli/.*/.*
 
 [include]
 ; Effectively this line warns Flow that this path might be a symlink
@@ -51,19 +57,32 @@ flow-typed/@react-native-community/async-storage_v1.x.x.js
 [strict]
 ; These apply only to files where `@flow strict` is enabled.
 ; See https://flow.org/en/docs/strict/ .
+
+; from RN
+deprecated-type
 nonstrict-import
+sketchy-null
 unclear-type
 unsafe-getters-setters
 untyped-import
 untyped-type-import
-sketchy-null
-
 
 [lints]
+; from RN
+sketchy-null-number=warn
+sketchy-null-mixed=warn
+untyped-type-import=warn
+nonstrict-import=warn
+deprecated-type=warn
+unsafe-getters-setters=warn
+inexact-spread=warn
+unnecessary-invariant=warn
+signature-verification-failure=warn
+deprecated-utility=error
+
+; ours
 sketchy-number=error
 unnecessary-optional-chain=warn
-unnecessary-invariant=warn
-inexact-spread=warn
 
 
 [options]
@@ -87,8 +106,11 @@ module.system.haste.name_reducers='^\(.*\)\.android$' -> '\1'
 module.system.haste.name_reducers='^\(.*\)\.native$' -> '\1'
 module.system.haste.paths.blacklist=.*/__tests__/.*
 module.system.haste.paths.blacklist=.*/__mocks__/.*
-module.system.haste.paths.blacklist=<PROJECT_ROOT>/node_modules/react-native/Libraries/Animated/src/polyfills/.*
 module.system.haste.paths.whitelist=<PROJECT_ROOT>/node_modules/react-native/Libraries/.*
+module.system.haste.paths.whitelist=<PROJECT_ROOT>/node_modules/react-native/RNTester/.*
+module.system.haste.paths.whitelist=<PROJECT_ROOT>/node_modules/react-native/IntegrationTests/.*
+module.system.haste.paths.blacklist=<PROJECT_ROOT>/node_modules/react-native/Libraries/react-native/react-native-implementation.js
+module.system.haste.paths.blacklist=<PROJECT_ROOT>/node_modules/react-native/Libraries/Animated/src/polyfills/.*
 
 munge_underscores=true
 
@@ -100,13 +122,11 @@ suppress_type=$FlowFixMeProps
 suppress_type=$FlowFixMeState
 
 module.file_ext=.js
-module.file_ext=.jsx
 module.file_ext=.json
-module.file_ext=.native.js
 module.file_ext=.ios.js
 
-suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(<VERSION>\\)? *\\(site=[a-z,_]*react_native[a-z,_]*\\)?)\\)
-suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(<VERSION>\\)? *\\(site=[a-z,_]*react_native[a-z,_]*\\)?)\\)?:? #[0-9]+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(<VERSION>\\)? *\\(site=[a-z,_]*react_native\\(_ios\\)?_\\(oss\\|fb\\)[a-z,_]*\\)?)\\)
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(<VERSION>\\)? *\\(site=[a-z,_]*react_native\\(_ios\\)?_\\(oss\\|fb\\)[a-z,_]*\\)?)\\)?:? #[0-9]+
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 suppress_comment=\\(.\\|\n\\)*\\$FlowMigrationFudge
