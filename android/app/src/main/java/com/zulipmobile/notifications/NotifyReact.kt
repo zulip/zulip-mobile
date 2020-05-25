@@ -29,7 +29,7 @@ import com.zulipmobile.MainActivity
  * getReactInstanceManager it'll try to create one... which asserts we're
  * on the UI thread, which isn't true if e.g. we got here from a Service.
  */
-private fun ReactNativeHost.tryGetReactInstanceManager(): ReactInstanceManager? =
+fun ReactNativeHost.tryGetReactInstanceManager(): ReactInstanceManager? =
     if (this.hasInstance()) this.reactInstanceManager else null
 
 /**
@@ -37,7 +37,7 @@ private fun ReactNativeHost.tryGetReactInstanceManager(): ReactInstanceManager? 
  *
  * See ReactContext.getAppStatus().
  */
-private enum class ReactAppStatus {
+enum class ReactAppStatus {
     /**
      * The main activity has either never yet been in the foreground,
      * or never will again.  There might not be an active JS instance.
@@ -55,7 +55,7 @@ private enum class ReactAppStatus {
     FOREGROUND
 }
 
-private val ReactContext.appStatus: ReactAppStatus
+val ReactContext.appStatus: ReactAppStatus
     get() {
         if (!hasActiveCatalystInstance())
             return ReactAppStatus.NOT_RUNNING
@@ -98,13 +98,13 @@ internal fun notifyReact(application: ReactApplication, data: Bundle) {
     }
 }
 
-internal fun emit(reactContext: ReactContext, eventName: String, data: Any?) {
+fun emit(reactContext: ReactContext, eventName: String, data: Any?) {
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
         .emit(eventName, data)
 }
 
-private fun launchMainActivity(context: Context) {
+fun launchMainActivity(context: Context) {
     Log.d(TAG, "NotifyReact: launching main activity")
     val intent = Intent(context, MainActivity::class.java)
     // See these sections in the Android docs:
