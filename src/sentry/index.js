@@ -2,7 +2,8 @@
 import * as Sentry from '@sentry/react-native';
 import { nativeApplicationVersion } from 'expo-application';
 
-import config from './config';
+import config from '../config';
+import apiEventIntegration from './apiEventIntegration';
 
 export const isSentryActive = (): boolean => {
   // Hub#getClient() is documented as possibly returning undefined, but the
@@ -59,6 +60,7 @@ export const initializeSentry = () => {
 
     Sentry.init({
       dsn: key,
+      integrations: [apiEventIntegration],
       ignoreErrors: [
         // RN's fetch implementation can raise these; we sometimes mimic it
         'Network request failed',

@@ -92,6 +92,7 @@ if (hasProperty('sentry')) {
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 apply from: "./webviewAssets.gradle"
+apply from: "./versionSuffix.gradle"
 
 def keystorePropertiesFile = rootProject.file("release-keystore.properties")
 def keystoreProperties = new Properties()
@@ -124,6 +125,12 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 151
         versionName "26.28.151"
+
+        // Mark version names of Sentry-enabled builds not signed for release.
+        // (See `versionSuffix.gradle` for motivation.)
+        if (project.hasProperty('sentry') && !project.hasProperty('signed')) {
+            versionName += versionSuffix();
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

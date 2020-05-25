@@ -2,8 +2,10 @@
 import { isClientError, ApiError } from '../apiErrors';
 
 describe('isClientError', () => {
+  const callData = { route: '/register', method: 'get', params: {} };
+
   test('an API error with error code between 400 and 499 is a "client error"', () => {
-    const error = new ApiError(404, {
+    const error = new ApiError(callData, 404, {
       code: 'BAD_IMAGE',
       result: 'error',
       msg: 'File not found',
@@ -13,7 +15,7 @@ describe('isClientError', () => {
   });
 
   test('an API error with error code between 500 and 599 is not a "client error"', () => {
-    const error = new ApiError(500, {
+    const error = new ApiError(callData, 500, {
       code: 'BAD_REQUEST',
       result: 'error',
       msg: 'Internal server error',
