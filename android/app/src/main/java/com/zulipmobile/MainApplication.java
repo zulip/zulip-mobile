@@ -27,6 +27,7 @@ import com.zulipmobile.generated.BasePackageList;
 import com.zulipmobile.notifications.ConversationMap;
 import com.zulipmobile.notifications.FCMPushNotifications;
 import com.zulipmobile.notifications.NotificationsPackage;
+import com.zulipmobile.sharing.SharingPackage;
 
 public class MainApplication extends Application implements ReactApplication {
     private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(new BasePackageList().getPackageList(), null);
@@ -58,6 +59,7 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNDeviceInfo(),
                     new ZulipNativePackage(),
                     new NotificationsPackage(),
+                    new SharingPackage(),
                     new ModuleRegistryAdapter(mModuleRegistryProvider)
             );
         }

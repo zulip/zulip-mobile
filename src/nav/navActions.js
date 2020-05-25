@@ -9,6 +9,7 @@ import type {
   Narrow,
   UserOrBot,
   ApiResponseServerSettings,
+  SharedData,
 } from '../types';
 import { getSameRoutesCount } from '../selectors';
 
@@ -103,3 +104,6 @@ export const navigateToLegal = (): NavigationAction => StackActions.push({ route
 
 export const navigateToUserStatus = (): NavigationAction =>
   StackActions.push({ routeName: 'user-status' });
+
+export const navigateToSharing = (sharedData: SharedData): NavigationAction =>
+  StackActions.push({ routeName: 'sharing', params: { sharedData } });

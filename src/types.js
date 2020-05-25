@@ -324,3 +324,20 @@ export type PmConversationData = {|
   recipients: string,
   unread: number,
 |};
+
+export type SharedText = {|
+  type: 'text',
+  sharedText: string,
+|};
+
+export type SharedImage = {|
+  type: 'image',
+  sharedImageUri: string,
+|};
+
+export type SharedFile = {|
+  type: 'file',
+  sharedFileUri: string,
+|};
+
+export type SharedData = SharedText | SharedImage | SharedFile;

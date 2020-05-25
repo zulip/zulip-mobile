@@ -64,6 +64,11 @@ const rehydrate = (state, action) => {
     return getStateForRoute('loading');
   }
 
+  // Dont switch to main UI if sharing screen is on.
+  if (state.routes.find(route => route.routeName === 'sharing')) {
+    return state;
+  }
+
   // Great: we have an active, logged-in account, and server data for it.
   // Show the main UI.
   return getStateForRoute('main');
