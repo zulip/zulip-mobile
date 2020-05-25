@@ -9,10 +9,10 @@ export default async (
   params: {|
     type: 'private' | 'stream',
     to: string,
-    subject: string,
+    subject?: string,
     content: string,
-    localId: number,
-    eventQueueId: number,
+    localId?: number,
+    eventQueueId?: number,
   |},
 ): Promise<ApiResponse> =>
   apiPost(auth, 'messages', {
