@@ -324,3 +324,24 @@ export type PmConversationData = {|
   recipients: string,
   unread: number,
 |};
+
+export type SharedText = {|
+  type: 'text',
+  sharedText: string,
+|};
+
+export type SharedImage = {|
+  type: 'image',
+  sharedImageUrl: string,
+|};
+
+export type SharedFile = {|
+  type: 'file',
+  sharedFileUrl: string,
+|};
+
+/**
+ * The type of data that can be shared to this app from 3rd party apps - either
+ * plain text or an image or a file.
+ */
+export type SharedData = SharedText | SharedImage | SharedFile;

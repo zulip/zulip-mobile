@@ -31,6 +31,7 @@ import TopicListScreen from '../topics/TopicListScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 import UserStatusScreen from '../user-status/UserStatusScreen';
+import SharingScreen from '../sharing/SharingScreen';
 
 export default createStackNavigator(
   // $FlowFixMe react-navigation types :-/ -- see a36814e80
@@ -65,6 +66,7 @@ export default createStackNavigator(
     notifications: { screen: NotificationsScreen },
     legal: { screen: LegalScreen },
     'user-status': { screen: UserStatusScreen },
+    sharing: { screen: SharingScreen },
   },
   {
     initialRouteName: 'main',
