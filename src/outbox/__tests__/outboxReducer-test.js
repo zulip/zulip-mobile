@@ -65,11 +65,12 @@ describe('outboxReducer', () => {
     test('do not mutate state if a message is not removed', () => {
       const initialState = deepFreeze([eg.makeOutboxMessage({ timestamp: 546 })]);
 
-      const message = eg.streamMessage({ local_message_id: 123 });
+      const message = eg.streamMessage({ timestamp: 123 });
 
       const action = deepFreeze({
         ...eg.eventNewMessageActionBase,
         message,
+        local_message_id: message.timestamp,
       });
 
       const actualState = outboxReducer(initialState, action);

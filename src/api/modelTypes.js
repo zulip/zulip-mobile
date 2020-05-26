@@ -452,7 +452,7 @@ export type Submessage = $ReadOnly<{|
  * See also `MessagesState` for discussion of how we fetch and store message
  * data.
  */
-export type Message = $ReadOnly<{
+export type Message = $ReadOnly<{|
   /** Our own flag; if true, really type `Outbox`. */
   isOutbox: false,
 
@@ -544,4 +544,4 @@ export type Message = $ReadOnly<{
 
   subject: string,
   subject_links: $ReadOnlyArray<string>,
-}>;
+|}>;
