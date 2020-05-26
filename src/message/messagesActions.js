@@ -1,14 +1,16 @@
 /* @flow strict-local */
-import type { Narrow, Dispatch, GetState } from '../types';
-import { getAuth, getUsersById, isNarrowValid, getIsHydrated } from '../selectors';
+import type { Narrow, Dispatch, GetState, Message, Outbox } from '../types';
+import { getAuth, getUsersById, isNarrowValid, getIsHydrated, getUserForId } from '../selectors';
 import { DO_NARROW } from '../actionConstants';
 import { getFullUrl } from '../utils/url';
 import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
 import openLink from '../utils/openLink';
 import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
+import { draftUpdate } from '../drafts/draftsActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
+import { getDraftForNarrow } from '../drafts/draftsSelectors';
 
 /**
  * Navigate to the given narrow, while fetching any data needed.
@@ -48,4 +50,26 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
     return;
   }
   openLink(getFullUrl(href, auth.realm));
+};
+
+export const mentionAndReply = (message: Message | Outbox, narrow: Narrow) => (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  const state = getState();
+  const draft = getDraftForNarrow(state, narrow);
+  let replyWithUserId: boolean = false;
+  if (!message.isOutbox) {
+    const user = getUserForId(state, message.sender_id);
+    if (!user.is_bot) {
+      replyWithUserId = true;
+    }
+  }
+  const reply = `@**${message.sender_full_name}${
+    // Validity of message.sender_id is checked above. $FlowFixMe.
+    replyWithUserId ? `|${message.sender_id}` : ''
+  }**\n${draft}`;
+
+  dispatch(doNarrow(narrow));
+  dispatch(draftUpdate(narrow, reply));
 };
