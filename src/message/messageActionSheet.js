@@ -16,11 +16,18 @@ import {
   isPrivateOrGroupNarrow,
   isStreamOrTopicNarrow,
   isTopicNarrow,
+  isPrivateNarrow,
 } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 import * as api from '../api';
 import { showToast } from '../utils/info';
-import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
+import {
+  doNarrow,
+  startEditMessage,
+  deleteOutboxMessage,
+  navigateToEmojiPicker,
+  mentionAndReply,
+} from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { pmUiRecipientsFromMessage } from '../utils/recipient';
 import { deleteMessagesForTopic } from '../topics/topicActions';
@@ -53,6 +60,13 @@ type ButtonDescription = {
 //
 // Options for the action sheet go below: ...
 //
+
+const replyWithMention = ({ dispatch, message, ownEmail }) => {
+  const narrow = getNarrowFromMessage(message, ownEmail);
+  dispatch(mentionAndReply(message, narrow));
+};
+replyWithMention.title = 'Reply with mention';
+replyWithMention.errorMessage = 'Failed to reply with mention';
 
 const reply = ({ message, dispatch, ownEmail }) => {
   dispatch(doNarrow(getNarrowFromMessage(message, ownEmail), message.id));
@@ -194,6 +208,7 @@ cancel.errorMessage = 'Failed to hide menu';
 const allButtonsRaw = {
   // For messages
   addReaction,
+  replyWithMention,
   reply,
   copyToClipboard,
   shareMessage,
@@ -280,6 +295,9 @@ export const constructMessageActionButtons = ({
   }
   if (message.reactions.length > 0) {
     buttons.push('showReactions');
+  }
+  if (!isPrivateNarrow(narrow) && message.sender_email !== ownUser.email) {
+    buttons.push('replyWithMention');
   }
   if (!isTopicNarrow(narrow) && !isPrivateOrGroupNarrow(narrow)) {
     buttons.push('reply');
