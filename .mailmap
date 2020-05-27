@@ -1,0 +1,34 @@
+# This file teaches `git log` and friends the canonical names
+# and email addresses to use for our contributors.
+#
+# For details on the format, see:
+#   https://git.github.io/htmldocs/git-shortlog.html#_mapping_authors
+#
+# Handy commands for examining or adding to this file:
+#
+#     # shows all names/emails after mapping, sorted:
+#   $ git shortlog -es | sort -k2
+#
+#     # shows raw names/emails, filtered by mapped name:
+#   $ git log --format='%an %ae' --author=$NAME | uniq -c
+
+Alicja Raszkowska <malavarena@gmail.com>
+Alicja Raszkowska <malavarena@gmail.com> <trueskawka@users.noreply.github.com>
+Anirudh Jain <anirudh.jain@outlook.com>
+Aswin G <aswinganesh666@gmail.com>
+Brock Whittaker <brock@zulip.com> <brock@zulipchat.com>
+Chris Bobbe <cbobbe@zulip.com> <cbobbe@zulipchat.com>
+Chris Bobbe <cbobbe@zulip.com> <csbobbe@gmail.com>
+Greg Price <greg@zulip.com> <greg@zulipchat.com>
+Kunal Gupta <kunall.gupta17@gmail.com>
+Neeraj Wahi <neeraj.wahi@gmail.com> <nw@dropbox.com>
+Ray Kraesig <rkraesig@zulip.com> <rkraesig@zulipchat.com>
+Saket Kumar <saket.singh1410@gmail.com>
+Saket Kumar <saket.singh1410@gmail.com> <saketkumar95@users.noreply.github.com>
+Saumya Bhatnagar <saumya.bhatnagar.sb@gmail.com>
+Tomasz Kolek <tomasz-kolek@o2.pl> <tomasz-kolek@go2.pl>
+Vishwesh Jainkuniya <jainkuniya@gmail.com>
+Vishwesh Jainkuniya <jainkuniya@gmail.com> <15ucs161@lnmiit.ac.in>
+Vishwesh Jainkuniya <jainkuniya@gmail.com> <catchvishwesh@gmail.com>
+Vishwesh Jainkuniya <jainkuniya@gmail.com> <gitvishwesh@gmail.com>
+Vishwesh Jainkuniya <jainkuniya@gmail.com> <vishwesh03071998@gmail.com>
