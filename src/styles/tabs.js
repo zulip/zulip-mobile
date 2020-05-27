@@ -35,6 +35,7 @@ export default ({ showLabel, showIcon, style }: Props) => ({
       // github.com/zulip/zulip-mobile/issues/2065
       borderWidth: 0,
       elevation: 0,
+      /* flowlint-next-line inexact-spread:off */
       ...style,
     },
   },

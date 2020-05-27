@@ -10,7 +10,7 @@ import { makeErrorFromApi } from './apiErrors';
 
 const apiVersion = 'api/v1';
 
-export const getFetchParams = (auth: Auth, params: { ... } = {}): { ... } => {
+export const getFetchParams = <P>(auth: Auth, params: P): { headers: mixed, ...P } => {
   // $FlowFixMe This is purely a no-op, and Flow even knows that. :-/
   const { body } = (params: { body?: mixed });
   const contentType =

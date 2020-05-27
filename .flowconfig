@@ -63,6 +63,7 @@ sketchy-null
 sketchy-number=error
 unnecessary-optional-chain=warn
 unnecessary-invariant=warn
+inexact-spread=warn
 
 
 [options]
