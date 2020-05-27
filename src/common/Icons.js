@@ -70,3 +70,4 @@ export const IconMoreHorizontal: IconType = props => <Feather name="more-horizon
 export const IconEdit: IconType = props => <Feather name="edit" {...props} />;
 export const IconPlusSquare: IconType = props => <Feather name="plus-square" {...props} />;
 export const IconPlus: IconType = props => <Feather name="plus" {...props} />;
+export const IconBook: IconType = props => <Feather name="book" {...props} />;

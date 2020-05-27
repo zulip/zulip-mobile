@@ -13,6 +13,7 @@ import {
   IconNight,
   IconLanguage,
   IconMoreHorizontal,
+  IconBook,
 } from '../common/Icons';
 import ModalNavBar from '../nav/ModalNavBar';
 import {
@@ -21,6 +22,7 @@ import {
   navigateToLanguage,
   navigateToDiagnostics,
   navigateToLegal,
+  navigateToAlertWords,
 } from '../actions';
 
 const styles = StyleSheet.create({
@@ -57,6 +59,13 @@ class SettingsCard extends PureComponent<Props> {
           label="Notifications"
           onPress={() => {
             dispatch(navigateToNotifications());
+          }}
+        />
+        <OptionButton
+          Icon={IconBook}
+          label="Alert words"
+          onPress={() => {
+            dispatch(navigateToAlertWords());
           }}
         />
         <OptionButton

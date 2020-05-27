@@ -211,5 +211,11 @@
   "🚌 Commuting": "🚌 Commuting",
   "🤒 Out sick": "🤒 Out sick",
   "🌴 Vacationing": "🌴 Vacationing",
-  "🏠 Working remotely": "🏠 Working remotely"
+  "🏠 Working remotely": "🏠 Working remotely",
+  "Add": "Add",
+  "Alert words": "Alert words",
+  "Add an alert word": "Add an alert word",
+  "No alert words to show": "No alert words to show",
+  "This word is already present": "This word is already present",
+  "Created a new alert word": "Created a new alert word"
 }
