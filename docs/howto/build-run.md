@@ -36,13 +36,10 @@ details to worry about.
 
 [install-rsync]: https://serverfault.com/a/872557
 
-* The build currently doesn't work from the Windows Command Prompt.
-  (See issue [#3776][].)  Instead, when running `react-native
-  run-android` or any other build commands, use the Git Bash prompt.
+* For running `react-native run-android` or any other build commands,
+  use the Git Bash prompt.  The Windows Command Prompt isn't supported.
 
-[#3776]: https://github.com/zulip/zulip-mobile/issues/3776
-
-* If you'd like a richer command-line environment and are up for
+* Or, if you'd like a richer command-line environment and are up for
   trying a beta install process, you can do your Zulip app development
   through the WSL `bash` command line.  To do that: instead of using
   the instructions below, see our [draft guide for using
@@ -388,12 +385,10 @@ Execution failed for task ':app:buildDebugStaticWebviewAssets'.
 > A problem occurred starting process 'command 'bash''
 ```
 
-This is caused by issue [#3776][], which is a bug in our build system
-that specifically affects the Windows Command Prompt.  To avoid the
-issue, run commands like `react-native run-android` from the Git Bash
-prompt instead of the Command Prompt.
-
-[#3776]: https://github.com/zulip/zulip-mobile/issues/3776
+This happens if you try to run the build from the Windows Command
+Prompt.  Instead, when running any command that runs our code, like
+`react-native run-android` or `tools/test`, use the Git Bash prompt to
+run the command.
 
 
 ### Build failure: "input file cannot be found", on `.../react-native/third-party/...`
