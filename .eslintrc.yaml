@@ -30,42 +30,60 @@ settings:
 
 rules:
 
-  # Here we repeal several AirBnB subrules.
   #
-  # - The AirBnB rule disallowing labeled statements arises largely from their
-  #   controversial hardcore anti-loop position [1], which we don't share.
+  # Airbnb rule repeals / adjustments
   #
-  # - The AirBnB rule disallowing `for..of` statements is partly based on the
-  #   above. More reasonably, though, it cites the `regenerator-runtime`
-  #   library (which Babel uses to implement them) as being too heavyweight.
-  #   Unfortunately, we're already including `regenerator-runtime` for other
-  #   reasons, and there's no easy way to find out what. (In for a penny, in
-  #   for a pound.)
+  # Our settings for a rule supersede Airbnb's, so we duplicate some
+  # of Airbnb's settings where we don't want a full repeal.
   #
-  # - The AirBnB rule disallowing `with` statements has a shorter built-in
-  #   equivalent. (And the parser enforces it in strict mode, anyway.)
-  #
-  # Alas, ESLint does not allow these repeals to be done surgically; we must
-  # duplicate the entire acceptable portion of the rule. The original text
-  # thereof can be found at [2].
 
-  # [1]: https://github.com/airbnb/javascript/issues/1103
-  # [2]: https://github.com/airbnb/javascript/blob/dee4f17/packages/eslint-config-airbnb-base/rules/style.js#L334
+  # Tricky code.
+  no-bitwise: off
+  no-confusing-arrow: off
+  no-continue: off
+  no-plusplus: off
+  no-nested-ternary: off
+
+  # Airbnb uses four selectors under 'no-restricted-syntax':
+  #
+  # ForInStatement, ForOfStatement, LabeledStatement, WithStatement.
+  # https://github.com/airbnb/javascript/blob/dee4f17/packages/eslint-config-airbnb-base/rules/style.js#L334.
   no-restricted-syntax:
   - error
+
+  # ForInStatement: We agree to forbid 'for..in' loops.
   - selector: ForInStatement
     message: 'for..in loops iterate over the entire prototype chain, which
       is virtually never what you want. Use Object.{keys,values,entries}, and
       iterate over the resulting array.'
-      # They're also slightly buggy in JSC [1], on which react-native is
-      # built... and, surprisingly, their semantics weren't fully nailed down
-      # until as late as 2019-12 [2]. But the above is reason enough.
+      # Further to Airbnb's explanation: They're also slightly buggy
+      # in JSC [1], on which react-native is built... and,
+      # surprisingly, their semantics weren't fully nailed down until
+      # as late as 2019-12 [2]. But the above is reason enough.
       # [1]: https://bugs.webkit.org/show_bug.cgi?id=38970
       # [2]: https://github.com/tc39/proposals/commit/cb9c6e50
 
+  # ForOfStatement: We don't agree to forbid 'for..of' loops.
+  #
+  # Airbnb's style guide discourages language-level loops in favor of
+  # array iterations. We don't share this controversial view; see it
+  # expressed at https://github.com/airbnb/javascript/issues/1103.
+
+  # LabeledStatement: We don't agree to forbid labeled statements.
+  #
+  # We don't really use them, but Airbnb's reasoning flows from their
+  # anti-loop position, mentioned above, which we don't share.
+
+  # WithStatement: Agree to forbid with statements, but not this way.
+  #
+  # ESLint provides a built-in `no-with` rule with the same effect,
+  # which we choose, instead of this circumlocution.
   no-with: error
 
+  #
   # Formatting and naming
+  #
+
   camelcase: off
 
   no-await-in-loop: off # Promise.all is not always desirable
@@ -98,13 +116,6 @@ rules:
   prefer-destructuring:
   - error
   - AssignmentExpression: {array: false, object: false}
-
-  # Tricky code.  We repeal several bans from the Airbnb style.
-  no-bitwise: off
-  no-confusing-arrow: off
-  no-continue: off
-  no-plusplus: off
-  no-nested-ternary: off
 
   # Likely-wrong code
   no-unused-vars: [warn, {vars: local, args: none}]
