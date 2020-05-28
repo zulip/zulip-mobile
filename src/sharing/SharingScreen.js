@@ -412,14 +412,14 @@ type Props = $ReadOnly<{|
 |}>;
 
 class SharingScreen extends PureComponent<Props> {
-  Tabs;
+  SharingTopTabNavigator;
 
   constructor(props) {
     super(props);
     const { navigation } = this.props;
     const share: SharedData = navigation.state.params.sharedData;
 
-    this.Tabs = createMaterialTopTabNavigator(
+    this.SharingTopTabNavigator = createMaterialTopTabNavigator(
       {
         Stream: {
           screen: () => <ShareToStream share={share} />,
@@ -458,11 +458,11 @@ class SharingScreen extends PureComponent<Props> {
   }
 
   render() {
-    const { Tabs } = this;
+    const { SharingTopTabNavigator } = this;
 
     return (
       <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
-        <Tabs />
+        <SharingTopTabNavigator />
       </Screen>
     );
   }
