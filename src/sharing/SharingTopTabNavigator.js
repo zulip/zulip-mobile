@@ -183,6 +183,8 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
     const { stream, topic, message, isStreamFocused, isTopicFocused } = this.state;
     const narrow = streamNarrow(stream);
 
+    console.log('ShareToStreamComponent', { sharedData });
+
     return (
       <>
         <ScrollView style={styles.wrapper} keyboardShouldPersistTaps>
@@ -406,12 +408,12 @@ class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState>
 }
 
 const ShareToPm = connect(state => ({
-  auth: getAuth(state),
+  // auth: getAuth(state),
 }))(ShareToPmComponent);
 
 const ShareToStream = connect(state => ({
   subscriptions: getSubscriptionsById(state),
-  auth: getAuth(state),
+  // auth: getAuth(state),
 }))(ShareToStreamComponent);
 
 type Props = $ReadOnly<{|

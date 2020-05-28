@@ -10,7 +10,8 @@ export const handleReceivedData = async (data: SharedData, dispatch: Dispatch) =
 };
 
 export const handleInitialShare = async (dispatch: Dispatch) => {
-  const initialSharedData: SharedData | null = await Sharing.getInitialSharedContent();
+  const initialSharedData: SharedData | null = { type: 'file', sharedFileUri: 'asdfjkl;' };
+  // const initialSharedData: SharedData | null = await Sharing.getInitialSharedContent();
   if (initialSharedData !== null) {
     handleReceivedData(initialSharedData, dispatch);
   }
