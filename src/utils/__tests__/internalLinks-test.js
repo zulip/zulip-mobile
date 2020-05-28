@@ -1,5 +1,4 @@
 /* @flow strict-local */
-/* eslint-disable spellcheck/spell-checker */
 import type { User } from '../../api/modelTypes';
 import { streamNarrow, topicNarrow, groupNarrow, STARRED_NARROW } from '../narrow';
 import {

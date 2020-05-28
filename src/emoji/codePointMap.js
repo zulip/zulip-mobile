@@ -1,5 +1,4 @@
 /* @flow strict-local */
-/* eslint-disable spellcheck/spell-checker */
 
 /** Maps certain emoji to substitutes, for us to show instead. */
 export const override: { [code: string]: string } = {

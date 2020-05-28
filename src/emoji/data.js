@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import 'string.fromcodepoint'; // eslint-disable-line spellcheck/spell-checker
+import 'string.fromcodepoint';
 
 import type { ImageEmojiType, EmojiType } from '../types';
 import { objectFromEntries } from '../jsBackport';

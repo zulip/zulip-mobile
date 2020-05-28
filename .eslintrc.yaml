@@ -146,8 +146,6 @@ rules:
   flowtype/use-flow-type: warn
   flowtype/valid-syntax: warn
 
-  # spellcheck/spell-checker: see tools/spellcheck.eslintrc.yaml .
-
 overrides:
 
 # Global overrides

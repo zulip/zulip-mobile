@@ -5,7 +5,7 @@ import { codeToEmojiMap, getFilteredEmojis } from '../data';
 // because of the emoji.  (Even if they're tucked away in comments, it still
 // gets it wrong.)
 
-/* eslint-disable no-multi-spaces, spellcheck/spell-checker */
+/* eslint-disable no-multi-spaces */
 describe('codeToEmojiMap', () => {
   const check = (name, string1, string2) => {
     expect(string1).toEqual(string2);

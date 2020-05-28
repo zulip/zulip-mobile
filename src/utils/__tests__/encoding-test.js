@@ -1,5 +1,4 @@
 /* @flow strict-local */
-/* eslint-disable spellcheck/spell-checker */
 import {
   base64ToHex,
   hexToBase64,

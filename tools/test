@@ -30,7 +30,6 @@ Suites:
   jest
   prettier
   deps
-  spell    (skipped by default)
 
 By default, all suites are run except those identified as skipped above.
 EOF
@@ -47,7 +46,7 @@ while (( $# )); do
         --diff) shift; files=diff:"$1"; shift;;
         --full) files=full; shift;;
         --fix) fix=1; shift;;
-        android|flow|lint|jest|prettier|deps|spell)
+        android|flow|lint|jest|prettier|deps)
             suites+=("$1"); shift;;
         *) usage;;
     esac
@@ -187,11 +186,6 @@ EOF
     fi
 }
 
-run_spell() {
-    (( $# )) || return 0
-    eslint --no-eslintrc -c tools/spellcheck.eslintrc.yaml "$@"
-}
-
 failed=()
 for suite in "${suites[@]}"; do
     echo "Running $suite..."
@@ -213,9 +207,6 @@ for suite in "${suites[@]}"; do
             ;;
         deps)
             run_deps
-            ;;
-        spell)
-            run_spell $(files_js)
             ;;
     esac || failed+=($suite)
 done

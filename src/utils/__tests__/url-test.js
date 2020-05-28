@@ -1,4 +1,3 @@
-/* eslint-disable spellcheck/spell-checker */
 /* @flow strict-local */
 import base64 from 'base-64';
 import {

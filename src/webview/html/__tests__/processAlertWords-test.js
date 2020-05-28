@@ -1,6 +1,5 @@
 import processAlertWords from '../processAlertWords';
 
-/* eslint spellcheck/spell-checker: 0 */
 const alertWords = ['alertone', 'alerttwo', 'alertthree', 'al*rt.*s', '.+', 'emoji'];
 
 describe('processAlertWords', () => {
