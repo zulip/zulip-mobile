@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, Image, ScrollView, Modal, BackHandler } from 'react-native';
-import type { NavigationScreenProp } from 'react-navigation';
+import type { NavigationScreenProp, NavigationNavigatorProps } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation';
 import { BRAND_COLOR } from '../styles/constants';
 import type { Dispatch, SharedData, Subscription, User, Auth } from '../types';
@@ -68,6 +68,8 @@ type ShareToStreamProps = $ReadOnly<{|
   dispatch: Dispatch,
   subscriptions: Map<number, Subscription>,
   auth: Auth,
+
+  ...$Exact<NavigationNavigatorProps<{||}, {| params: {| sharedData: SharedData |} |}>>,
 |}>;
 
 type ShareToStreamState = $ReadOnly<{|
@@ -82,7 +84,7 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
   state = {
     stream: '',
     topic: '',
-    message: this.props.sharedData.sharedText || '',
+    message: this.props.navigation.state.params.sharedData.sharedText || '',
     isStreamFocused: false,
     isTopicFocused: false,
   };
@@ -138,7 +140,7 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
 
   isSendButtonEnabled = () => {
     const { stream, topic, message } = this.state;
-    const { sharedData } = this.props;
+    const { sharedData } = this.props.navigation.state.params;
 
     if (sharedData.type !== 'text') {
       return stream !== '' && topic !== '';
@@ -150,7 +152,8 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
   handleSend = async () => {
     const { topic, stream, message } = this.state;
     let messageToSend = message;
-    const { auth, sharedData } = this.props;
+    const { auth } = this.props;
+    const { sharedData } = this.props.navigation.state.params;
 
     try {
       showToast('Sending Message...');
@@ -176,7 +179,7 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
   };
 
   render() {
-    const { sharedData } = this.props;
+    const { sharedData } = this.props.navigation.state.params;
     const { stream, topic, message, isStreamFocused, isTopicFocused } = this.state;
     const narrow = streamNarrow(stream);
 
@@ -247,6 +250,8 @@ type ShareToPmProps = $ReadOnly<{|
   sharedData: SharedData,
   dispatch: Dispatch,
   auth: Auth,
+
+  ...$Exact<NavigationNavigatorProps<{||}, {| params: {| sharedData: SharedData |} |}>>,
 |}>;
 
 type ShareToPmState = $ReadOnly<{|
@@ -258,7 +263,7 @@ type ShareToPmState = $ReadOnly<{|
 class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState> {
   constructor(props) {
     super(props);
-    const { sharedData } = props;
+    const { sharedData } = this.props.navigation.state.params;
     this.state = {
       users: [],
       message: sharedData.type === 'text' ? sharedData.sharedText : '',
@@ -288,7 +293,7 @@ class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState>
 
   isSendButtonEnabled = () => {
     const { message, users } = this.state;
-    const { sharedData } = this.props;
+    const { sharedData } = this.props.navigation.state.params;
 
     if (sharedData.type === 'text') {
       return message !== '' && users.length > 0;
@@ -320,7 +325,8 @@ class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState>
   handleSend = async () => {
     const { users, message } = this.state;
     let messageToSend = message;
-    const { auth, sharedData } = this.props;
+    const { auth } = this.props;
+    const { sharedData } = this.props.navigation.state.params;
     const to = JSON.stringify(users.map(user => user.user_id));
 
     try {
@@ -346,6 +352,7 @@ class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState>
 
   render() {
     const { message, choosingRecipients } = this.state;
+    const { sharedData } = this.props.navigation.state.params;
 
     if (choosingRecipients) {
       return (
@@ -355,7 +362,6 @@ class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState>
       );
     }
 
-    const { sharedData } = this.props;
     let sharePreview = null;
     if (sharedData.type === 'image') {
       sharePreview = (
@@ -413,58 +419,48 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
 |}>;
 
+const SharingTopTabNavigator = createMaterialTopTabNavigator(
+  {
+    // $FlowFixMe
+    Stream: ShareToStream,
+    // $FlowFixMe
+    'Private Message': ShareToPm,
+  },
+  {
+    tabBarPosition: 'top',
+    animationEnabled: true,
+    tabBarOptions: {
+      upperCaseLabel: false,
+      pressColor: BRAND_COLOR,
+      activeTintColor: BRAND_COLOR,
+      inactiveTintColor: 'gray',
+      labelStyle: {
+        fontSize: 14,
+        margin: 0,
+        padding: 10,
+      },
+      indicatorStyle: {
+        backgroundColor: BRAND_COLOR,
+      },
+      tabStyle: {
+        flex: 1,
+      },
+      style: {
+        backgroundColor: 'transparent',
+        borderWidth: 0,
+        elevation: 0,
+      },
+    },
+  },
+);
+
 class SharingScreen extends PureComponent<Props> {
-  SharingTopTabNavigator;
-
-  constructor(props) {
-    super(props);
-    const { navigation } = this.props;
-    const sharedData: SharedData = navigation.state.params.sharedData;
-
-    this.SharingTopTabNavigator = createMaterialTopTabNavigator(
-      {
-        Stream: {
-          screen: () => <ShareToStream sharedData={sharedData} />,
-        },
-        'Private Message': {
-          screen: () => <ShareToPm sharedData={sharedData} />,
-        },
-      },
-      {
-        tabBarPosition: 'top',
-        animationEnabled: true,
-        tabBarOptions: {
-          upperCaseLabel: false,
-          pressColor: BRAND_COLOR,
-          activeTintColor: BRAND_COLOR,
-          inactiveTintColor: 'gray',
-          labelStyle: {
-            fontSize: 14,
-            margin: 0,
-            padding: 10,
-          },
-          indicatorStyle: {
-            backgroundColor: BRAND_COLOR,
-          },
-          tabStyle: {
-            flex: 1,
-          },
-          style: {
-            backgroundColor: 'transparent',
-            borderWidth: 0,
-            elevation: 0,
-          },
-        },
-      },
-    );
-  }
+  static router = SharingTopTabNavigator.router;
 
   render() {
-    const { SharingTopTabNavigator } = this;
-
     return (
       <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
-        <SharingTopTabNavigator />
+        <SharingTopTabNavigator navigation={this.props.navigation} />
       </Screen>
     );
   }
