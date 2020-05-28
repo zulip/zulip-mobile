@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 });
 
 type ShareToStreamProps = $ReadOnly<{|
-  share: SharedData,
+  sharedData: SharedData,
   dispatch: Dispatch,
   subscriptions: Map<number, Subscription>,
   auth: Auth,
@@ -82,7 +82,7 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
   state = {
     stream: '',
     topic: '',
-    message: this.props.share.sharedText || '',
+    message: this.props.sharedData.sharedText || '',
     isStreamFocused: false,
     isTopicFocused: false,
   };
@@ -138,9 +138,9 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
 
   isSendButtonEnabled = () => {
     const { stream, topic, message } = this.state;
-    const { share } = this.props;
+    const { sharedData } = this.props;
 
-    if (share.type !== 'text') {
+    if (sharedData.type !== 'text') {
       return stream !== '' && topic !== '';
     }
 
@@ -150,12 +150,13 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
   handleSend = async () => {
     const { topic, stream, message } = this.state;
     let messageToSend = message;
-    const { auth, share } = this.props;
+    const { auth, sharedData } = this.props;
 
     try {
       showToast('Sending Message...');
-      if (share.type !== 'text') {
-        const uri = share.type === 'image' ? share.sharedImageUri : share.sharedFileUri;
+      if (sharedData.type !== 'text') {
+        const uri =
+          sharedData.type === 'image' ? sharedData.sharedImageUri : sharedData.sharedFileUri;
         const fileName = uri.split('/').pop();
         const response = await uploadFile(auth, uri, fileName);
         messageToSend += `\n[${fileName}](${response.uri})`;
@@ -175,7 +176,7 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
   };
 
   render() {
-    const { share } = this.props;
+    const { sharedData } = this.props;
     const { stream, topic, message, isStreamFocused, isTopicFocused } = this.state;
     const narrow = streamNarrow(stream);
 
@@ -183,9 +184,9 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
       <>
         <ScrollView style={styles.wrapper} keyboardShouldPersistTaps>
           <View style={styles.container}>
-            {share.type === 'image' && (
+            {sharedData.type === 'image' && (
               <Image
-                source={{ uri: share.sharedImageUri }}
+                source={{ uri: sharedData.sharedImageUri }}
                 width={200}
                 height={200}
                 style={styles.imagePreview}
@@ -243,7 +244,7 @@ class ShareToStreamComponent extends React.Component<ShareToStreamProps, ShareTo
 }
 
 type ShareToPmProps = $ReadOnly<{|
-  share: SharedData,
+  sharedData: SharedData,
   dispatch: Dispatch,
   auth: Auth,
 |}>;
@@ -257,10 +258,10 @@ type ShareToPmState = $ReadOnly<{|
 class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState> {
   constructor(props) {
     super(props);
-    const { share } = props;
+    const { sharedData } = props;
     this.state = {
       users: [],
-      message: share.type === 'text' ? share.sharedText : '',
+      message: sharedData.type === 'text' ? sharedData.sharedText : '',
       choosingRecipients: false,
     };
   }
@@ -287,9 +288,9 @@ class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState>
 
   isSendButtonEnabled = () => {
     const { message, users } = this.state;
-    const { share } = this.props;
+    const { sharedData } = this.props;
 
-    if (share.type === 'text') {
+    if (sharedData.type === 'text') {
       return message !== '' && users.length > 0;
     }
 
@@ -300,7 +301,7 @@ class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState>
     const { users } = this.state;
 
     if (users.length === 0) {
-      return <Label text="Please choose recipients to share with" />;
+      return <Label text="Please choose recipients to sharedData with" />;
     }
     const preview = [];
     users.forEach((user: User) => {
@@ -319,14 +320,15 @@ class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState>
   handleSend = async () => {
     const { users, message } = this.state;
     let messageToSend = message;
-    const { auth, share } = this.props;
+    const { auth, sharedData } = this.props;
     const to = JSON.stringify(users.map(user => user.user_id));
 
     try {
       showToast('Sending Message...');
 
-      if (share.type === 'image' || share.type === 'file') {
-        const uri = share.type === 'image' ? share.sharedImageUri : share.sharedFileUri;
+      if (sharedData.type === 'image' || sharedData.type === 'file') {
+        const uri =
+          sharedData.type === 'image' ? sharedData.sharedImageUri : sharedData.sharedFileUri;
         const fileName = uri.split('/').pop();
         const response = await uploadFile(auth, uri, fileName);
         messageToSend += `\n[${fileName}](${response.uri})`;
@@ -353,12 +355,12 @@ class ShareToPmComponent extends React.Component<ShareToPmProps, ShareToPmState>
       );
     }
 
-    const { share } = this.props;
+    const { sharedData } = this.props;
     let sharePreview = null;
-    if (share.type === 'image') {
+    if (sharedData.type === 'image') {
       sharePreview = (
         <Image
-          source={{ uri: share.sharedImageUri }}
+          source={{ uri: sharedData.sharedImageUri }}
           width={200}
           height={200}
           style={styles.imagePreview}
@@ -417,15 +419,15 @@ class SharingScreen extends PureComponent<Props> {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
-    const share: SharedData = navigation.state.params.sharedData;
+    const sharedData: SharedData = navigation.state.params.sharedData;
 
     this.SharingTopTabNavigator = createMaterialTopTabNavigator(
       {
         Stream: {
-          screen: () => <ShareToStream share={share} />,
+          screen: () => <ShareToStream sharedData={sharedData} />,
         },
         'Private Message': {
-          screen: () => <ShareToPm share={share} />,
+          screen: () => <ShareToPm sharedData={sharedData} />,
         },
       },
       {
