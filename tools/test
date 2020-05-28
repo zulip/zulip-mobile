@@ -163,6 +163,8 @@ run_jest() {
 run_prettier() {
     (( $# )) || return 0
     patterns=( "${@/%\///**/*.js}" ) # replace trailing `/` with `/**/*.js`
+    # Workaround for https://github.com/prettier/prettier-eslint-cli/issues/205
+    patterns=( "${patterns[@]/#/$rootdir/}" )
     prettier-eslint \
        ${fix:+--write} \
       --list-different \
