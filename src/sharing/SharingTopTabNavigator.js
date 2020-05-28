@@ -454,16 +454,4 @@ const SharingTopTabNavigator = createMaterialTopTabNavigator(
   },
 );
 
-class SharingScreen extends PureComponent<Props> {
-  static router = SharingTopTabNavigator.router;
-
-  render() {
-    return (
-      <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
-        <SharingTopTabNavigator navigation={this.props.navigation} />
-      </Screen>
-    );
-  }
-}
-
-export default connect()(SharingScreen);
+export default SharingTopTabNavigator;
