@@ -44,6 +44,32 @@ rules:
   no-plusplus: off
   no-nested-ternary: off
 
+  # Allow multiple classes per file.
+  #
+  # It's best to have just one class per file, but there are cases
+  # where it's useful to have some tiny helper React components
+  # declared in the same file as a main component.
+  max-classes-per-file: off
+
+  # Don't forbid prop spreading (it works fine for us)
+  react/jsx-props-no-spreading: off
+
+  # Don't enforce linebreaks in curly braces in JSX
+  #
+  # The difference this would make is minor, and leaving this rule off
+  # better aligns with our practices in JS proper (not JSX).
+  react/jsx-curly-newline: off
+
+  # Enforce `static` class property syntax.
+  react/static-property-placement:
+  - error
+  - static public field
+
+  # Enforce state initialization style (never in constructor)
+  react/state-in-constructor:
+  - error
+  - never
+
   # Airbnb uses four selectors under 'no-restricted-syntax':
   #
   # ForInStatement, ForOfStatement, LabeledStatement, WithStatement.
