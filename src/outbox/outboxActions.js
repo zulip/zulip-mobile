@@ -16,6 +16,7 @@ import {
   MESSAGE_SEND_START,
   TOGGLE_OUTBOX_SENDING,
   DELETE_OUTBOX_MESSAGE,
+  UPDATE_OUTBOX_MESSAGE,
   MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
 import { getAuth } from '../selectors';
@@ -40,6 +41,22 @@ export const deleteOutboxMessage = (localMessageId: number): Action => ({
   local_message_id: localMessageId,
 });
 
+export const updateOutboxMessage = (args: {|
+  timestamp: number,
+  sendingDeferred: boolean,
+  markdownContent: string,
+  content: string,
+|}): Action => {
+  const { timestamp, sendingDeferred, content, markdownContent } = args;
+  return {
+    type: UPDATE_OUTBOX_MESSAGE,
+    timestamp,
+    sendingDeferred,
+    content,
+    markdownContent,
+  };
+};
+
 export const messageSendComplete = (localMessageId: number): Action => ({
   type: MESSAGE_SEND_COMPLETE,
   local_message_id: localMessageId,
@@ -60,6 +77,10 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
       // that instead.
       if (item.timestamp < oneWeekAgoTimestamp) {
         dispatch(deleteOutboxMessage(item.id));
+        return; // i.e., continue
+      }
+
+      if (item.sendingDeferred) {
         return; // i.e., continue
       }
 
@@ -168,18 +189,20 @@ const getContentPreview = (content: string, state: GlobalState): string => {
   }
 };
 
-export const addToOutbox = (narrow: Narrow, content: string) => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const addToOutbox = (
+  narrow: Narrow,
+  content: string,
+  sendingDeferred?: boolean = false,
+  timestamp?: number,
+) => async (dispatch: Dispatch, getState: GetState): Promise<number> => {
   const state = getState();
   const ownUser = getOwnUser(state);
 
-  const localTime = Math.round(new Date().getTime() / 1000);
+  const localTime = timestamp !== undefined ? timestamp : Math.round(new Date().getTime() / 1000);
   dispatch(
     messageSendStart({
       isSent: false,
-      sendingDeferred: false,
+      sendingDeferred,
       ...extractTypeToAndSubjectFromNarrow(narrow, getAllUsersByEmail(state), ownUser),
       markdownContent: content,
       content: getContentPreview(content, state),
@@ -191,6 +214,24 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
       avatar_url: ownUser.avatar_url,
       isOutbox: true,
       reactions: [],
+    }),
+  );
+  if (!sendingDeferred) {
+    dispatch(sendOutbox());
+  }
+  return localTime;
+};
+
+export const completeOutboxMessage = (timestamp: number, markdownContent: string) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  dispatch(
+    updateOutboxMessage({
+      timestamp,
+      sendingDeferred: false,
+      markdownContent,
+      content: getContentPreview(markdownContent, getState()),
     }),
   );
   dispatch(sendOutbox());

@@ -8,6 +8,7 @@ import {
   ACCOUNT_SWITCH,
   DELETE_OUTBOX_MESSAGE,
   MESSAGE_SEND_COMPLETE,
+  UPDATE_OUTBOX_MESSAGE,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
@@ -21,6 +22,18 @@ const messageSendStart = (state, action) => {
   }
   return [...state, { ...action.outbox }];
 };
+
+const updateOutboxMessage = (state, action) =>
+  state.map(item =>
+    item.timestamp === action.timestamp
+      ? {
+          ...item,
+          sendingDeferred: action.sendingDeferred,
+          markdownContent: action.markdownContent,
+          content: action.content,
+        }
+      : item,
+  );
 
 export default (state: OutboxState = initialState, action: Action): OutboxState => {
   switch (action.type) {
@@ -38,6 +51,9 @@ export default (state: OutboxState = initialState, action: Action): OutboxState 
     case DELETE_OUTBOX_MESSAGE:
     case EVENT_NEW_MESSAGE:
       return filterArray(state, item => item && item.timestamp !== +action.local_message_id);
+
+    case UPDATE_OUTBOX_MESSAGE:
+      return updateOutboxMessage(state, action);
 
     case ACCOUNT_SWITCH:
     case LOGOUT:

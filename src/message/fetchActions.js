@@ -27,7 +27,12 @@ import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
 import { initNotifications } from '../notification/notificationActions';
-import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
+import {
+  addToOutbox,
+  sendOutbox,
+  deleteOutboxMessage,
+  completeOutboxMessage,
+} from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
@@ -347,8 +352,16 @@ export const uploadFile = (narrow: Narrow, uri: string, name: string) => async (
   getState: GetState,
 ) => {
   const auth = getAuth(getState());
-  const response = await api.uploadFile(auth, uri, name);
-  const messageToSend = `[${name}](${response.uri})`;
 
-  dispatch(addToOutbox(narrow, messageToSend));
+  // @TODO translate the string 'Uploading file'.
+  const timestamp = await dispatch(addToOutbox(narrow, '[Uploading file...]', true));
+  let response;
+  try {
+    response = await api.uploadFile(auth, uri, name);
+  } catch (err) {
+    dispatch(deleteOutboxMessage(timestamp));
+    return;
+  }
+  const messageToSend = `[${name}](${response.uri})`;
+  dispatch(completeOutboxMessage(timestamp, messageToSend));
 };

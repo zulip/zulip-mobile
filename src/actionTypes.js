@@ -26,6 +26,7 @@ import {
   MESSAGE_SEND_START,
   MESSAGE_SEND_COMPLETE,
   DELETE_OUTBOX_MESSAGE,
+  UPDATE_OUTBOX_MESSAGE,
   TOGGLE_OUTBOX_SENDING,
   EVENT_MESSAGE_DELETE,
   EVENT_USER_GROUP_ADD,
@@ -566,6 +567,14 @@ type ToggleOutboxSendingAction = {|
   sending: boolean,
 |};
 
+type UpdateOutboxMessageAction = {|
+  type: typeof UPDATE_OUTBOX_MESSAGE,
+  timestamp: number,
+  sendingDeferred: boolean,
+  content: string,
+  markdownContent: string,
+|};
+
 type ClearTypingAction = {|
   type: typeof CLEAR_TYPING,
   outdatedNotifications: string[],
@@ -592,7 +601,11 @@ type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCom
 
 type MessageAction = MessageFetchStartAction | MessageFetchErrorAction | MessageFetchCompleteAction;
 
-type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
+type OutboxAction =
+  | MessageSendStartAction
+  | MessageSendCompleteAction
+  | DeleteOutboxMessageAction
+  | UpdateOutboxMessageAction;
 
 type RealmAction = RealmInitAction | UnackPushTokenAction | AckPushTokenAction;
 
