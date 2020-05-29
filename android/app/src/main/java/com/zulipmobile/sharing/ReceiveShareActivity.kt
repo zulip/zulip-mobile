@@ -37,9 +37,13 @@ class ReceiveShareActivity : ReactActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WebView.setWebContentsDebuggingEnabled(true)
+
         if (intent?.action == Intent.ACTION_SEND) {
             handleSend(intent)
         }
+        // TODO also handle ACTION_SEND_MULTIPLE?
+        //   See: https://developer.android.com/training/sharing/receive#receiving-data-activity
+
         finish()
     }
 
@@ -77,6 +81,8 @@ class ReceiveShareActivity : ReactActivity() {
     }
 
     private fun getParamsFromIntent(intent: Intent): WritableMap {
+        // For documentation of what fields to expect here, see:
+        //   https://developer.android.com/reference/android/content/Intent#ACTION_SEND
         val params = Arguments.createMap()
         when {
             "text/plain" == intent.type -> {
