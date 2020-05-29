@@ -14,13 +14,8 @@ class SharingPackage : ReactPackage {
         return emptyList()
     }
 
-    override fun createNativeModules(
-        reactContext: ReactApplicationContext): List<NativeModule> {
-        val modules = ArrayList<NativeModule>()
-
-        modules.add(SharingModule(reactContext))
-
-        return modules
+    override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
+        return arrayListOf(SharingModule(reactContext))
     }
 
 }
