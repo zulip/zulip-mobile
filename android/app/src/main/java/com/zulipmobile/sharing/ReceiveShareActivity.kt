@@ -55,6 +55,8 @@ class ReceiveShareActivity : ReactActivity() {
             return
         }
 
+        // TODO deduplicate this with notifyReact.
+        // Until then, keep in sync when changing.
         val appStatus = reactContext?.appStatus
         when (appStatus) {
             null, ReactAppStatus.NOT_RUNNING ->
