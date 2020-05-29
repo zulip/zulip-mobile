@@ -179,6 +179,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   dispatch(
     messageSendStart({
       isSent: false,
+      sendingDeferred: false,
       ...extractTypeToAndSubjectFromNarrow(narrow, getAllUsersByEmail(state), ownUser),
       markdownContent: content,
       content: getContentPreview(content, state),

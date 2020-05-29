@@ -366,6 +366,7 @@ export const streamMessage = (args?: {|
 const outboxMessageBase: $Diff<Outbox, {| id: mixed, timestamp: mixed |}> = deepFreeze({
   isOutbox: true,
   isSent: false,
+  sendingDeferred: false,
 
   avatar_url: selfUser.avatar_url,
   content: '<p>Test.</p>',

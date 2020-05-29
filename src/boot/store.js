@@ -203,6 +203,12 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     outbox: state.outbox.filter(o => o.sender_id !== undefined),
   }),
 
+  // Add Outbox[].sendingDeferred.
+  '17': state => ({
+    ...state,
+    outbox: state.outbox.map(o => ({ ...o, sendingDeferred: false })),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

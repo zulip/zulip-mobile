@@ -175,6 +175,15 @@ export type Outbox = {|
   // It's used for sending the message to the server.
   markdownContent: string,
 
+  /**
+   * As long as this is true, we don't send the message to the server.
+   *
+   * We sometimes let an outbox message sit with `sendingDeferred: true`
+   * until we learn something important that lets us make a change to
+   * the message, then we mark it as `false` so it gets sent.
+   */
+  sendingDeferred: boolean,
+
   // The remaining fields are modeled on `Message`.
 
   avatar_url: string | null,
