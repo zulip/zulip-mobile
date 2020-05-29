@@ -44,9 +44,6 @@ class ReceiveShareActivity : ReactActivity() {
     }
 
     private fun handleSend(intent: Intent) {
-        val application = application as ReactApplication
-        val host = application.reactNativeHost
-        val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
         val params: WritableMap
         try {
             params = getParamsFromIntent(intent)
@@ -57,17 +54,19 @@ class ReceiveShareActivity : ReactActivity() {
 
         // TODO deduplicate this with notifyReact.
         // Until then, keep in sync when changing.
+        val application = application as ReactApplication
+        val host = application.reactNativeHost
+        val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
         val appStatus = reactContext?.appStatus
+        Log.d(TAG, "app status is $appStatus")
         when (appStatus) {
             null, ReactAppStatus.NOT_RUNNING ->
-                // Either there's no JS environment running, or we haven't yet
-                // reached foreground.  Expect the app to check
-                // initialSharedData on launch.
+                // Either there's no JS environment running, or we haven't yet reached
+                // foreground.  Expect the app to check initialSharedData on launch.
                 SharingModule.initialSharedData = params
             ReactAppStatus.BACKGROUND, ReactAppStatus.FOREGROUND ->
-                // JS is running and has already reached foreground. It won't
-                // check initialSharedData again, but it will see a
-                // shareReceived event.
+                // JS is running and has already reached foreground. It won't check
+                // initialSharedData again, but it will see a shareReceived event.
                 sendEvent(reactContext, "shareReceived", params)
         }
         when (appStatus) {
