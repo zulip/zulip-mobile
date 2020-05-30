@@ -100,6 +100,10 @@ export type User = {|
   bot_type?: number,
   bot_owner?: string,
 
+  // bot_owner is replaced with bot_owner_id since commit 317a2fff2 (in 1.9.0-rc1)
+  // see also commit 06af15214
+  bot_owner_id?: number,
+
   // The ? is for future-proofing. Greg explains in 2020-02, at
   // https://github.com/zulip/zulip-mobile/pull/3789#discussion_r378554698, that
   // both human and bot Users will likely end up having a missing timezone

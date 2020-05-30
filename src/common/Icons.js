@@ -8,6 +8,7 @@ import type { FeatherGlyphs } from 'react-native-vector-icons/Feather';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 /*
  * This is a reimplementation of react-native-vector-icons (RVNI)'s own
@@ -70,3 +71,4 @@ export const IconMoreHorizontal: IconType = props => <Feather name="more-horizon
 export const IconEdit: IconType = props => <Feather name="edit" {...props} />;
 export const IconPlusSquare: IconType = props => <Feather name="plus-square" {...props} />;
 export const IconPlus: IconType = props => <Feather name="plus" {...props} />;
+export const IconRobot: IconType = props => <FontAwesome5 name="robot" {...props} />;
