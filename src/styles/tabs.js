@@ -28,6 +28,7 @@ export default ({ showLabel, showIcon, style }: Props) => ({
     tabStyle: {
       flex: 1,
     },
+    /* flowlint-next-line inexact-spread:off */
     style: {
       backgroundColor: 'transparent',
       // Setting a zero-width border (instead of none) works around an issue

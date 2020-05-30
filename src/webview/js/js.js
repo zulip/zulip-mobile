@@ -604,6 +604,10 @@ const eventUpdateHandlers = {
 };
 
 // See `handleInitialLoad` for how this gets subscribed to events.
+//
+// Flow 0.98.0 (in an upcoming commit) wants this to be
+// MessageEventListener, which isn't available in Flow 0.92.0.
+// Until then, $FlowFixMe
 const handleMessageEvent = e => {
   scrollEventsDisabled = true;
   // $FlowFixMe
