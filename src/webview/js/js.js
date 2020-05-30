@@ -235,13 +235,11 @@ function midMessagePeer(top: number, bottom: number): ?Element {
   const midY = (bottom + top) / 2;
 
   // Document#elementsFromPoint appears in iOS 10 and Chrome 43.
-  // $FlowFixMe: doesn't know about Document#elementsFromPoint
   if (document.elementsFromPoint === undefined) {
     const element = document.elementFromPoint(0, midY);
     return element && element.closest('body > *');
   }
 
-  // $FlowFixMe: doesn't know about Document#elementsFromPoint
   const midElements: Array<HTMLElement> = document.elementsFromPoint(0, midY);
   if (midElements.length < 3) {
     // Just [body, html].
@@ -604,13 +602,8 @@ const eventUpdateHandlers = {
 };
 
 // See `handleInitialLoad` for how this gets subscribed to events.
-//
-// Flow 0.98.0 (in an upcoming commit) wants this to be
-// MessageEventListener, which isn't available in Flow 0.92.0.
-// Until then, $FlowFixMe
-const handleMessageEvent = e => {
+const handleMessageEvent: MessageEventListener = e => {
   scrollEventsDisabled = true;
-  // $FlowFixMe
   const decodedData = decodeURIComponent(escape(window.atob(e.data)));
   const updateEvents: WebViewUpdateEvent[] = JSON.parse(decodedData);
   updateEvents.forEach((uevent: WebViewUpdateEvent) => {
