@@ -92,7 +92,9 @@ esproposal.optional_chaining=enable
 esproposal.nullish_coalescing=enable
 
 # The main warning is "Unused suppression comment".
-include_warnings=true
+# Temporarily disabled to smooth the RN upgrade.
+# include_warnings=true
+
 
 module.system=haste
 module.system.haste.use_name_reducers=true
