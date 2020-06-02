@@ -17,6 +17,8 @@ dependencies well-typed.
 
 -----
 
+## `remotedev-serialize`
+
 Some assembly was required for a libdef for `remotedev-serialize`, but
 it was important to get one working [1]. Here's a summary of what that
 was like.
@@ -91,3 +93,62 @@ was like.
 [6]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Android.20build.3A.20unimodules/near/845802
 [7]: https://flow.org/en/docs/libdefs/creation/
 [8]: https://github.com/flow-typed/flow-typed/blob/master/CONTRIBUTING.md#dont-import-types-from-other-libdefs
+
+## `react-native-webview` at v7.6
+
+The latest version FlowTyped has a libdef for is 6, unfortunately.
+
+Ah, well. I made a best effort at replicating the types at
+`react-native-community/react-native-webview@c4001338c`, tagged as
+v7.6.0, the latest 7.x.
+
+I used FlowType's `react-native-webview` v6 libdef as a starting
+point, to match any conventions that may have been established after
+the v5 libdef we were on before. Then, I ran the following in the
+`react-native-webview` repo, which I had cloned:
+
+```bash
+git diff v6.8.0..v7.6.0 -- src/WebViewTypes.ts
+```
+
+I then went through the diff and did my best to apply each change,
+blending in with the local style. The most prominent example of this
+blending in was using, e.g.,
+
+```javascript
+onHttpError?: WebViewHttpErrorEvent => mixed,
+```
+
+instead of
+
+```javascript
+onHttpError?: (event: WebViewHttpErrorEvent) => void,
+```
+
+which would be valid Flow but wouldn't blend in with similar event
+handlers.
+
+One choice that proved helpful was to *not* start at the top of the
+diff and work my way down, but to find changes to the major types
+that the Flow libdef needs to export, and start there, following
+through with any changes to auxiliary types that those changes
+depend on. There were many changes in the TypeScript that didn't
+affect anything that our libdef exports, and these were rightfully
+and automatically ignored with this approach, saving time.
+
+Like with v5, though, the v6 libdef was lacking most of the JSDocs,
+and several properties were needlessly in a different order than in
+the TypeScript, so once I was basically familiar with the changes I
+needed to take, I went through
+`react-native-community/react-native-webview@c4001338c` and fixed
+the ordering and copied over lots of comments.
+
+A big remaining problem with this libdef can't currently be solved,
+unfortunately. We can't import types from `react-native`, which we'd
+want to do, e.g., to correctly express that the `WebView` component
+can take all the props that the `View` component can. React Native has
+a convenient type, `ViewProps`, for that, but there are open issues in
+Flow and FlowTyped about not being able to import third-party types
+into one's own libdefs that haven't been resolved. [9]
+
+[9]: https://github.com/zulip/zulip-mobile/issues/3458#issuecomment-639859987

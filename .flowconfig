@@ -52,6 +52,7 @@ node_modules/react-native/flow/
 ; where the opposite behavior is exhibited!)
 flow-typed/@sentry/react-native_v1.x.x.js
 flow-typed/@react-native-community/async-storage_v1.x.x.js
+flow-typed/react-native-webview_v7.x.x.js
 
 
 [strict]

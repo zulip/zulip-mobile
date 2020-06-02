@@ -1,10 +1,7 @@
 /* @flow strict-local */
 import React, { Component } from 'react';
 import { Platform, View } from 'react-native';
-// A libdef for version 7 comes in an upcoming commit. In the
-// meantime, $FlowFixMe.
 import { WebView } from 'react-native-webview';
-// $FlowFixMe (same reason)
 import type { WebViewNavigation } from 'react-native-webview';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
