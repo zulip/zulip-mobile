@@ -69,7 +69,7 @@
     "react-native-text-input-reset": "^1.0.2",
     "react-native-unimodules": "0.6.0",
     "react-native-vector-icons": "^6.6.0",
-    "react-native-webview": "^7.6.0",
+    "react-native-webview": "8.0.4",
     "react-navigation": "^2.18.3",
     "react-navigation-redux-helpers": "^2.0.9",
     "react-navigation-tabs": "0.8.4",

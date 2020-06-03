@@ -85,7 +85,7 @@ PODS:
   - react-native-simple-toast (1.0.0):
     - React
     - Toast (~> 4.0.0)
-  - react-native-webview (7.6.0):
+  - react-native-webview (8.0.4):
     - React
   - React-RCTActionSheet (0.60.6):
     - React-Core (= 0.60.6)
@@ -363,7 +363,7 @@ SPEC CHECKSUMS:
   react-native-safari-view: 955d7160d159241b8e9395d12d10ea0ef863dcdd
   react-native-safe-area: 5fce5242419932bc05656f31bc5f0716e30be0f6
   react-native-simple-toast: 6c376bd79b1e255a4bee90a72ead6447f96ea10d
-  react-native-webview: db4682f1698ab4b17a5e88f951031d203ff8aea8
+  react-native-webview: 3f5aa91c3cb083ea4762e006b9653291a96a777a
   React-RCTActionSheet: 49f6a67a7efa6688f637296383d453b97ef13645
   React-RCTAnimation: e8047438b2927ebbe630bbf600c7309374075df3
   React-RCTBlob: 2c4b28daca5b3e6e356706d8e0c7436a0e8ef492
