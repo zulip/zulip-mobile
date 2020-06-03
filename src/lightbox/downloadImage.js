@@ -3,9 +3,6 @@ import { CameraRoll, Platform, PermissionsAndroid } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import type { Auth } from '../api/transportTypes';
-import { getAuthHeaders } from '../api/transport';
-import { getFullUrl } from '../utils/url';
-import userAgent from '../utils/userAgent';
 
 /**
  * Request permission WRITE_EXTERNAL_STORAGE, or throw if can't get it.
@@ -34,28 +31,27 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
   // result === GRANTED
 };
 
-export default async (src: string, auth: Auth): Promise<mixed> => {
-  const absoluteUrl = getFullUrl(src, auth.realm);
-
+/**
+ * Download a remote image to the device.
+ *
+ * @param url A URL to the image.  Should be a valid temporary URL generated
+ *     using `getTemporaryFileUrl`.
+ * @param auth Authentication info for the current user.
+ */
+export default async (url: string, auth: Auth): Promise<mixed> => {
   if (Platform.OS === 'ios') {
-    const delimiter = absoluteUrl.includes('?') ? '&' : '?';
-    const urlWithApiKey = `${absoluteUrl}${delimiter}api_key=${auth.apiKey}`;
-    return CameraRoll.saveToCameraRoll(urlWithApiKey);
+    return CameraRoll.saveToCameraRoll(url);
   }
 
   // Platform.OS === 'android'
   await androidEnsureStoragePermission();
   return RNFetchBlob.config({
     addAndroidDownloads: {
-      path: `${RNFetchBlob.fs.dirs.DownloadDir}/${src.split('/').pop()}`,
+      path: `${RNFetchBlob.fs.dirs.DownloadDir}/${url.split('/').pop()}`,
       useDownloadManager: true,
       mime: 'text/plain', // Android DownloadManager fails if the url is missing a file extension
-      title: src.split('/').pop(),
+      title: url.split('/').pop(),
       notification: true,
     },
-  }).fetch('GET', absoluteUrl, {
-    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-    'User-Agent': userAgent,
-    ...getAuthHeaders(auth),
-  });
+  }).fetch('GET', url);
 };
