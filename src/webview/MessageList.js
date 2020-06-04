@@ -238,7 +238,7 @@ class MessageList extends Component<Props> {
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
     const { auth, theme } = backgroundData;
-    const html = getHtml(messagesHtml, theme, {
+    const html: string = getHtml(messagesHtml, theme, {
       scrollMessageId: initialScrollMessageId,
       auth,
       showMessagePlaceholders,
