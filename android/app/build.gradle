@@ -210,7 +210,6 @@ dependencies {
     implementation project(':rn-fetch-blob')
     implementation project(':react-native-sound')
     implementation project(':react-native-device-info')
-    implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.0'
