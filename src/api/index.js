@@ -41,14 +41,13 @@ import createStream from './streams/createStream';
 import getStreams from './streams/getStreams';
 import updateStream from './streams/updateStream';
 import getSubscriptions from './subscriptions/getSubscriptions';
-import muteTopic from './subscriptions/muteTopic';
 import subscriptionAdd from './subscriptions/subscriptionAdd';
 import subscriptionRemove from './subscriptions/subscriptionRemove';
 import toggleMuteStream from './subscriptions/toggleMuteStream';
 import togglePinStream from './subscriptions/togglePinStream';
 import toggleStreamNotifications from './subscriptions/toggleStreamNotifications';
 import getSubscriptionToStream from './subscriptions/getSubscriptionToStream';
-import unmuteTopic from './subscriptions/unmuteTopic';
+import setTopicMute from './subscriptions/setTopicMute';
 import tryGetFileTemporaryUrl from './tryGetFileTemporaryUrl';
 import getUsers from './users/getUsers';
 import createUser from './users/createUser';
@@ -90,14 +89,13 @@ export {
   getStreams,
   updateStream,
   getSubscriptions,
-  muteTopic,
+  setTopicMute,
   subscriptionAdd,
   subscriptionRemove,
   getSubscriptionToStream,
   toggleMuteStream,
   togglePinStream,
   toggleStreamNotifications,
-  unmuteTopic,
   tryGetFileTemporaryUrl,
   getUsers,
   createUser,

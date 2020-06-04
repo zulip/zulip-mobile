@@ -3,9 +3,14 @@ import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPatch } from '../apiFetch';
 
 /** See https://zulip.com/api/mute-topic */
-export default async (auth: Auth, stream: string, topic: string): Promise<ApiResponse> =>
+export default async (
+  auth: Auth,
+  stream: string,
+  topic: string,
+  value: boolean,
+): Promise<ApiResponse> =>
   apiPatch(auth, 'users/me/subscriptions/muted_topics', {
     stream,
     topic,
-    op: 'add',
+    op: value ? 'add' : 'remove',
   });

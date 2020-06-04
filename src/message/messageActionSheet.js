@@ -119,13 +119,13 @@ deleteMessage.title = 'Delete message';
 deleteMessage.errorMessage = 'Failed to delete message';
 
 const unmuteTopic = async ({ auth, stream, topic }) => {
-  await api.unmuteTopic(auth, stream, topic);
+  await api.setTopicMute(auth, stream, topic, false);
 };
 unmuteTopic.title = 'Unmute topic';
 unmuteTopic.errorMessage = 'Failed to unmute topic';
 
 const muteTopic = async ({ auth, stream, topic }) => {
-  await api.muteTopic(auth, stream, topic);
+  await api.setTopicMute(auth, stream, topic, true);
 };
 muteTopic.title = 'Mute topic';
 muteTopic.errorMessage = 'Failed to mute topic';
