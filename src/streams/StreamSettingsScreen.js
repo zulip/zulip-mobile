@@ -14,10 +14,8 @@ import { getIsAdmin, getStreamForId } from '../selectors';
 import StreamCard from './StreamCard';
 import { IconPin, IconMute, IconNotifications, IconEdit, IconPlusSquare } from '../common/Icons';
 import {
-  toggleMuteStream,
-  togglePinStream,
+  setSubscriptionProperty,
   navigateToEditStream,
-  toggleStreamNotification,
   navigateToStreamSubscribers,
 } from '../actions';
 import styles from '../styles';
@@ -42,12 +40,12 @@ type Props = $ReadOnly<{|
 class StreamSettingsScreen extends PureComponent<Props> {
   handleTogglePinStream = (newValue: boolean) => {
     const { dispatch, stream } = this.props;
-    dispatch(togglePinStream(stream.stream_id, newValue));
+    dispatch(setSubscriptionProperty(stream.stream_id, 'pin_to_top', newValue));
   };
 
   handleToggleMuteStream = (newValue: boolean) => {
     const { dispatch, stream } = this.props;
-    dispatch(toggleMuteStream(stream.stream_id, newValue));
+    dispatch(setSubscriptionProperty(stream.stream_id, 'is_muted', newValue));
   };
 
   handleEdit = () => {
@@ -63,7 +61,7 @@ class StreamSettingsScreen extends PureComponent<Props> {
   toggleStreamPushNotification = () => {
     const { dispatch, subscription, stream, userSettingStreamNotification } = this.props;
     const currentValue = subscription.push_notifications ?? userSettingStreamNotification;
-    dispatch(toggleStreamNotification(stream.stream_id, !currentValue));
+    dispatch(setSubscriptionProperty(stream.stream_id, 'push_notifications', !currentValue));
   };
 
   render() {
