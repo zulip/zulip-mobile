@@ -3,6 +3,7 @@ import { CameraRoll, Platform, PermissionsAndroid } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import type { Auth } from '../api/transportTypes';
+import { getMimeTypeFromFileExtension } from '../utils/url';
 
 /**
  * Request permission WRITE_EXTERNAL_STORAGE, or throw if can't get it.
@@ -36,21 +37,24 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
  *
  * @param url A URL to the image.  Should be a valid temporary URL generated
  *     using `getTemporaryFileUrl`.
+ * @param fileName Name of the file to be downloaded. Should include the
+ *     extension.
  * @param auth Authentication info for the current user.
  */
-export default async (url: string, auth: Auth): Promise<mixed> => {
+export default async (url: string, fileName: string, auth: Auth): Promise<mixed> => {
   if (Platform.OS === 'ios') {
     return CameraRoll.saveToCameraRoll(url);
   }
 
   // Platform.OS === 'android'
+  const mime = getMimeTypeFromFileExtension(fileName.split('.').pop());
   await androidEnsureStoragePermission();
   return RNFetchBlob.config({
     addAndroidDownloads: {
-      path: `${RNFetchBlob.fs.dirs.DownloadDir}/${url.split('/').pop()}`,
+      path: `${RNFetchBlob.fs.dirs.DownloadDir}/${fileName}`,
       useDownloadManager: true,
-      mime: 'text/plain', // Android DownloadManager fails if the url is missing a file extension
-      title: url.split('/').pop(),
+      mime, // Android DownloadManager fails if the url is missing a file extension
+      title: fileName,
       notification: true,
     },
   }).fetch('GET', url);

@@ -18,12 +18,13 @@ export default async (url: string, auth: Auth) => {
     return;
   }
 
+  const fileName = url.split('/').pop();
   if (Platform.OS === 'android') {
-    const res: $FlowFixMe = await downloadImage(tempUrl, auth);
+    const res: $FlowFixMe = await downloadImage(tempUrl, fileName, auth);
     await ShareImageAndroid.shareImage(res.path());
   } else {
     try {
-      const uri = await downloadImage(tempUrl, auth);
+      const uri = await downloadImage(tempUrl, fileName, auth);
       try {
         await Share.share({ url: uri, message: url });
       } catch (error) {
