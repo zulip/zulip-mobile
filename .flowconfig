@@ -54,6 +54,7 @@ flow-typed/@sentry/react-native_v1.x.x.js
 flow-typed/@react-native-community/async-storage_v1.x.x.js
 flow-typed/react-native-webview_v7.x.x.js
 flow-typed/react-native-url-polyfill_vx.x.x.js
+flow-typed/expo-screen-orientation_vx.x.x.js
 
 
 [strict]

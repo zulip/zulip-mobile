@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { AppState, View, StyleSheet, Platform, NativeModules } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import SafeArea from 'react-native-safe-area';
-import Orientation from 'react-native-orientation';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 import type { Node as React$Node } from 'react';
 import type { Dispatch, Orientation as OrientationT } from '../types';
@@ -69,13 +69,28 @@ type Props = $ReadOnly<{|
   unreadCount: number,
 |}>;
 
+type OrientationLookup = {|
+  [expoKey: $Values<typeof ScreenOrientation.Orientation>]: OrientationT,
+|};
+
+const orientationLookup: OrientationLookup = {
+  [ScreenOrientation.Orientation.UNKNOWN]: 'PORTRAIT',
+  [ScreenOrientation.Orientation.PORTRAIT_UP]: 'PORTRAIT',
+  [ScreenOrientation.Orientation.PORTRAIT_DOWN]: 'PORTRAIT',
+  [ScreenOrientation.Orientation.LANDSCAPE_LEFT]: 'LANDSCAPE',
+  [ScreenOrientation.Orientation.LANDSCAPE_RIGHT]: 'LANDSCAPE',
+};
+
 class AppEventHandlers extends PureComponent<Props> {
   /** NetInfo disconnection callback. */
   netInfoDisconnectCallback: (() => void) | null = null;
 
-  handleOrientationChange = (orientation: OrientationT) => {
+  handleOrientationChange = (event: ScreenOrientation.OrientationChangeEvent) => {
     const { dispatch } = this.props;
-    dispatch(appOrientation(orientation));
+
+    const { orientation } = event.orientationInfo;
+
+    dispatch(appOrientation(orientationLookup[orientation]));
   };
 
   // https://github.com/react-native-community/react-native-netinfo/tree/v3.2.1
@@ -113,8 +128,7 @@ class AppEventHandlers extends PureComponent<Props> {
     SafeArea.getSafeAreaInsetsForRootView().then(params =>
       dispatch(initSafeAreaInsets(params.safeAreaInsets)),
     );
-    // $FlowFixMe: libdef wrongly says callback's parameter is optional
-    Orientation.addOrientationListener(this.handleOrientationChange);
+    ScreenOrientation.addOrientationChangeListener(this.handleOrientationChange);
     this.notificationListener.start();
   }
 
@@ -125,8 +139,7 @@ class AppEventHandlers extends PureComponent<Props> {
     }
     AppState.removeEventListener('change', this.handleAppStateChange);
     AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
-    // $FlowFixMe: libdef wrongly says callback's parameter is optional
-    Orientation.removeOrientationListener(this.handleOrientationChange);
+    ScreenOrientation.removeOrientationChangeListeners();
     this.notificationListener.stop();
   }
 

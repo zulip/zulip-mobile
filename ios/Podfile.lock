@@ -13,6 +13,9 @@ PODS:
   - EXPermissions (7.0.0):
     - UMCore
     - UMPermissionsInterface
+  - EXScreenOrientation (1.0.0):
+    - React-Core
+    - UMCore
   - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
@@ -156,6 +159,7 @@ DEPENDENCIES:
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
+  - EXScreenOrientation (from `../node_modules/expo-screen-orientation/ios`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - React (from `../node_modules/react-native/`)
@@ -229,6 +233,9 @@ EXTERNAL SOURCES:
   EXPermissions:
     :path: !ruby/object:Pathname
     path: "../node_modules/expo-permissions/ios"
+  EXScreenOrientation:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-screen-orientation/ios"
   Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
@@ -346,6 +353,7 @@ SPEC CHECKSUMS:
   EXConstants: 857aa7b1c84e2878f8402d712061860bca16a697
   EXFileSystem: 7e53a2c30a2eb6987ba6d5158ab908f947523228
   EXPermissions: df10ad83df2f6b647aec304619354f8ab48d5f63
+  EXScreenOrientation: 44d3cd3a99a86b9cb681e742697bc2c057d7fbd2
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   React: 68e7f8dfc27729eade18423072a143120f2f32ab
