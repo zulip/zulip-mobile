@@ -7961,11 +7961,6 @@ react-native-notifications@^1.2.0:
     core-js "^1.0.0"
     uuid "^2.0.3"
 
-react-native-orientation@^3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/react-native-orientation/-/react-native-orientation-3.1.3.tgz#d45803841fe94b6cce9acbe904fd5ca191a3711e"
-  integrity sha512-A0h0E+2f95X4avmhaBG1ZT8WDxBACA/q//JN2eF1E7kq8AJVxt5XDiavv+aSBkBlqFsfF3bIS+T/DB5mXmnxuA==
-
 react-native-photo-view@alwx/react-native-photo-view#c58fd6b30:
   version "1.5.2"
   resolved "https://codeload.github.com/alwx/react-native-photo-view/tar.gz/c58fd6b30d627fa23e39520d4fc3325ade8b0a51"

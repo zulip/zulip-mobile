@@ -77,8 +77,6 @@ PODS:
     - React
   - react-native-notifications (1.5.0):
     - React
-  - react-native-orientation (3.1.3):
-    - React
   - react-native-photo-view (1.5.2):
     - React
   - react-native-safari-view (1.0.0):
@@ -172,7 +170,6 @@ DEPENDENCIES:
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-notifications (from `../node_modules/react-native-notifications`)
-  - react-native-orientation (from `../node_modules/react-native-orientation`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-safari-view (from `../node_modules/react-native-safari-view`)
   - react-native-safe-area (from `../node_modules/react-native-safe-area`)
@@ -260,8 +257,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-notifications:
     :path: "../node_modules/react-native-notifications"
-  react-native-orientation:
-    :path: "../node_modules/react-native-orientation"
   react-native-photo-view:
     :path: "../node_modules/react-native-photo-view"
   react-native-safari-view:
@@ -366,7 +361,6 @@ SPEC CHECKSUMS:
   react-native-image-picker: 3693786b3d5958c8f71deed66ec068b323565e0d
   react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   react-native-notifications: ce37363008fe2d6a226da4e721eace23b6ae3ad9
-  react-native-orientation: f1caf84d65f1a4fd4511a18f2b924e634ad7a628
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-safari-view: 955d7160d159241b8e9395d12d10ea0ef863dcdd
   react-native-safe-area: 5fce5242419932bc05656f31bc5f0716e30be0f6
