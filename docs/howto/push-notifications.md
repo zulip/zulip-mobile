@@ -128,9 +128,9 @@ $ adb logcat -T 1000 ZulipNotif:V *:E
 V ZulipNotif: getPushNotification: Bundle[{sender_full_name=Greg 試し, pm_users=101712,101713,108224,
     sender_avatar_url=https://secure.gravatar.com/avatar/39da3be46238cf93b47a1f5af3df993f?d=identicon&version=1,
     server=zulipchat.com, realm_uri=https://kandra-test.zulipchat.com, realm_id=1230, content_truncated=false,
-    zulip_message_id=157914854, recipient_type=private, time=1549686858, user=greg+t2@zulipchat.com,
+    zulip_message_id=157914854, recipient_type=private, time=1549686858, user=greg+t2@zulip.com,
     sender_id=101712, alert=New private group message from Greg 試し, event=message, content=C,
-    sender_email=greg+t1@zulipchat.com}]
+    sender_email=greg+t1@zulip.com}]
 V ZulipNotif: java.lang.Throwable
 V ZulipNotif: 	at com.zulipmobile.notifications.FCMPushNotifications.logNotificationData(FCMPushNotifications.java:61)
 V ZulipNotif: 	at com.zulipmobile.notifications.FCMPushNotifications.onReceived(FCMPushNotifications.java:70)

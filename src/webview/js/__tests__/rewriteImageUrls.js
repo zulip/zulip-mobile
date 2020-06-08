@@ -11,7 +11,7 @@ describe('rewriteImageUrls', () => {
   const auth: Auth = {
     realm,
     apiKey: 'hMV41eMjVmr6dajvnyOA', // arbitrary random string
-    email: 'rosencrantz+guildenstern@zulipchat.com',
+    email: 'rosencrantz+guildenstern@zulip.com',
   };
 
   const rewrite = (src: string): { input: string, before: string, after: string } => {
