@@ -3,7 +3,7 @@ import type { ApiResponseSuccess, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
 /**
- * See https://zulipchat.com/api/create-user
+ * See https://zulip.com/api/create-user
  * Note: The requesting user must be an administrator.
  */
 export default (

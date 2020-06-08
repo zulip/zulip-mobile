@@ -208,5 +208,5 @@ If you need to work more closely with authentication systems, or if you need
 to use the [Zulip REST API][rest-api], which requires an API key, this
 [detailed doc][authentication-dev-server] will help you get started.
 
-[rest-api]: https://zulipchat.com/api/rest
+[rest-api]: https://zulip.com/api/rest
 [authentication-dev-server]: https://zulip.readthedocs.io/en/latest/development/authentication.html

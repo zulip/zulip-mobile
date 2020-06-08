@@ -8,5 +8,5 @@ type ApiResponseStreams = {|
   streams: Stream[],
 |};
 
-/** See https://zulipchat.com/api/get-all-streams */
+/** See https://zulip.com/api/get-all-streams */
 export default async (auth: Auth): Promise<ApiResponseStreams> => apiGet(auth, 'streams');

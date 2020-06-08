@@ -2,7 +2,7 @@
 import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPatch } from '../apiFetch';
 
-/** See https://zulipchat.com/api/update-message */
+/** See https://zulip.com/api/update-message */
 export default async (
   auth: Auth,
   params: $ReadOnly<{|

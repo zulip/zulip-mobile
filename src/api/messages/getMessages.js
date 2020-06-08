@@ -65,7 +65,7 @@ const migrateResponse = response => {
 };
 
 /**
- * See https://zulipchat.com/api/get-messages
+ * See https://zulip.com/api/get-messages
  *
  * These values exist only in Zulip 1.8 or newer:
  *   * found_anchor

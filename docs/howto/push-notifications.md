@@ -22,7 +22,7 @@ When testing Zulip's push notifications:
   Zulip settings!
 
   * Try also turning on [the "even while online"
-    setting](https://zulipchat.com/help/test-mobile-notifications) --
+    setting](https://zulip.com/help/test-mobile-notifications) --
     this is extremely helpful for testing notifications effectively,
     with basically the one exception of if you're specifically working
     on the "if online" aspect of the system.

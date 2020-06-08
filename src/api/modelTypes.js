@@ -51,7 +51,7 @@ export type DevUser = {|
  * `realm_non_active_users` of a `/register` response.
  *
  * For details on the properties, see the Zulip API docs on `/users`:
- *   https://zulipchat.com/api/get-all-users#response
+ *   https://zulip.com/api/get-all-users#response
  * which returns almost the same set of properties.
  *
  * See also the comments on `UserProfile` in the server (lineno is approx.):
@@ -93,7 +93,7 @@ export type User = {|
   is_guest?: boolean,
 
   // For background on the "*bot*" fields, see user docs on bots:
-  //   https://zulipchat.com/help/add-a-bot-or-integration
+  //   https://zulip.com/help/add-a-bot-or-integration
   // Note that certain bots are represented by a different type entirely,
   // namely `CrossRealmBot`.
   is_bot: boolean,
@@ -160,7 +160,7 @@ export type UserOrBot = User | CrossRealmBot;
  *
  * When you @-mention a user group, everyone in the group is notified as
  * though they were individually mentioned.  See user-facing docs:
- *   https://zulipchat.com/help/user-groups
+ *   https://zulip.com/help/user-groups
  *
  * This feature is not related to group PMs.
  */
@@ -226,7 +226,7 @@ export type ClientPresence = {|
  * A user's presence status, including all information from all their clients.
  *
  * The `aggregated` property equals one of the others.  For details, see:
- *   https://zulipchat.com/api/get-presence
+ *   https://zulip.com/api/get-presence
  *
  * See also the app's `getAggregatedPresence`, which reimplements a version
  * of the logic to compute `aggregated`.
@@ -343,7 +343,7 @@ export type Reaction = $ReadOnly<{|
 |}>;
 
 /**
- * "Snapshot" objects from https://zulipchat.com/api/get-message-history .
+ * "Snapshot" objects from https://zulip.com/api/get-message-history .
  *
  * See also `MessageEdit`.
  */
@@ -431,7 +431,7 @@ export type Submessage = $ReadOnly<{|
  *  * `messages: { [id]: Message }` in our global Redux state.
  *
  * References include:
- *  * the two example events at https://zulipchat.com/api/get-events-from-queue
+ *  * the two example events at https://zulip.com/api/get-events-from-queue
  *  * `process_message_event` in zerver/tornado/event_queue.py; the call
  *    `client.add_event(user_event)` makes the final determination of what
  *    goes into the event, so `message_dict` is the final value of `message`

@@ -37,6 +37,6 @@ export type ApiResponseServerSettings = {|
   zulip_version: string,
 |};
 
-/** See https://zulipchat.com/api/server-settings */
+/** See https://zulip.com/api/server-settings */
 export default async (realm: string): Promise<ApiResponseServerSettings> =>
   apiGet({ apiKey: '', email: '', realm }, 'server_settings');

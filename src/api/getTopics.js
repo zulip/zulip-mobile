@@ -8,6 +8,6 @@ type ApiResponseTopics = {|
   topics: Topic[],
 |};
 
-/** See https://zulipchat.com/api/get-stream-topics */
+/** See https://zulip.com/api/get-stream-topics */
 export default async (auth: Auth, streamId: number): Promise<ApiResponseTopics> =>
   apiGet(auth, `users/me/${streamId}/topics`);

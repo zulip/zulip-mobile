@@ -26,7 +26,7 @@ import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
  *
  * Different servers and orgs/realms accept different sets of auth methods,
  * described in the /server_settings response; see api.getServerSettings
- * and https://zulipchat.com/api/server-settings .
+ * and https://zulip.com/api/server-settings .
  */
 type AuthenticationMethodDetails = {|
   /** An identifier-style name used in the /server_settings API. */

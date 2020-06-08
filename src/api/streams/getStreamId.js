@@ -7,6 +7,6 @@ type ApiResponseStreamId = {|
   stream_id: number,
 |};
 
-/** See https://zulipchat.com/api/get-stream-id */
+/** See https://zulip.com/api/get-stream-id */
 export default async (auth: Auth, stream: string): Promise<ApiResponseStreamId> =>
   apiGet(auth, 'get_stream_id', { stream });

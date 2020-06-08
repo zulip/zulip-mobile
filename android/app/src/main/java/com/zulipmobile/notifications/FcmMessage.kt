@@ -20,7 +20,7 @@ data class Identity(
     /// The realm's own URL/URI.  This is a real, absolute URL which is
     /// the base for all URLs a client uses with this realm.  It corresponds
     /// to `realm_uri` in the `server_settings` API response:
-    ///   https://zulipchat.com/api/server-settings
+    ///   https://zulip.com/api/server-settings
     val realmUri: URL?,
 
     /// This user's ID within the server.  Useful mainly in the case where

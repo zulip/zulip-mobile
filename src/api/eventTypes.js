@@ -2,7 +2,7 @@
  * Types for events returned by the server.
  *
  * See server docs:
- *   https://zulipchat.com/api/real-time-events
+ *   https://zulip.com/api/real-time-events
  *   https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
  *
  * NB this is just a start -- far from complete.

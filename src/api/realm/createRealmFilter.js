@@ -7,7 +7,7 @@ type ApiResponseRealmCreateFilters = {|
   id: number,
 |};
 
-/** https://zulipchat.com/api/create-org-filters */
+/** https://zulip.com/api/create-org-filters */
 export default async (
   auth: Auth,
   pattern: string,

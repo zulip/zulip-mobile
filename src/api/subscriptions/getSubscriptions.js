@@ -8,6 +8,6 @@ type ApiResponseSubscriptions = {|
   subscriptions: Subscription[],
 |};
 
-/** See https://zulipchat.com/api/get-subscribed-streams */
+/** See https://zulip.com/api/get-subscribed-streams */
 export default (auth: Auth): Promise<ApiResponseSubscriptions> =>
   apiGet(auth, 'users/me/subscriptions');

@@ -18,7 +18,7 @@ type RegisterForEventsParams = {|
   |},
 |};
 
-/** See https://zulipchat.com/api/register-queue */
+/** See https://zulip.com/api/register-queue */
 export default async (auth: Auth, params: RegisterForEventsParams): Promise<InitialData> => {
   // The use of `...rest` here (rather than just using `...params` below) is to
   // work around a Flow object-spread bug fixed in v0.111.0.

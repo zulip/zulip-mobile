@@ -17,10 +17,10 @@ codebase; some our workflows.
     and [src/reduxTypes.js](../src/reduxTypes.js).
 
 * For concepts that appear in the user experience, look in Zulip's
-  user-facing docs at https://zulipchat.com/help/ .
+  user-facing docs at https://zulip.com/help/ .
 
 * For concepts that appear in the Zulip server API, look in the Zulip
-  API docs at https://zulipchat.com/api/ .
+  API docs at https://zulip.com/api/ .
 
 
 ## Terms
@@ -70,7 +70,7 @@ their own guidelines.  See either of those docs for discussion.
 A user's [profile picture][help-profile-picture].  The Zulip codebase
 and API use the term "avatar".
 
-[help-profile-picture]: https://zulipchat.com/help/set-your-profile-picture
+[help-profile-picture]: https://zulip.com/help/set-your-profile-picture
 
 
 ### beta

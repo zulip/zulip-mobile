@@ -2,7 +2,7 @@
 import type { ApiResponse, Auth } from '../transportTypes';
 import { apiDelete } from '../apiFetch';
 
-/** See https://zulipchat.com/api/remove-subscriptions */
+/** See https://zulip.com/api/remove-subscriptions */
 export default (auth: Auth, subscriptions: string[], principals?: string[]): Promise<ApiResponse> =>
   apiDelete(auth, 'users/me/subscriptions', {
     subscriptions: JSON.stringify(subscriptions),

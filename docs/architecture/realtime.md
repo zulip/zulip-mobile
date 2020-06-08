@@ -129,8 +129,8 @@ once we poll using the finger, get the event, and apply it to our
 local version of the state, we'll be back to 100% up to date with the
 state as seen by the server.
 
-[api-register]: https://zulipchat.com/api/register-queue
-[api-events]: https://zulipchat.com/api/get-events-from-queue
+[api-register]: https://zulip.com/api/register-queue
+[api-events]: https://zulip.com/api/get-events-from-queue
 [se-initial-fetch]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html#the-initial-data-fetch
 
 So, when the update machine gets that `/register` response, it moves

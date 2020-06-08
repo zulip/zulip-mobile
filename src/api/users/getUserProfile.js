@@ -15,6 +15,6 @@ type ApiResponseUserProfile = {|
   // pointer: number, /* deprecated 2020-02; see zulip/zulip#8994 */
 |};
 
-/** See https://zulipchat.com/api/get-profile */
+/** See https://zulip.com/api/get-profile */
 export default (auth: Auth, clientGravatar: boolean = true): Promise<ApiResponseUserProfile> =>
   apiGet(auth, 'users/me');
