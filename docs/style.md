@@ -275,6 +275,42 @@ pick just one, and that's the one we use.
 [gh-close-issue-keywords]: https://help.github.com/en/github/managing-your-work-on-github/closing-issues-using-keywords
 
 
+## Internal to our codebase
+
+### Zulip API bindings
+
+**Use `import * as api` and `api.doThing(…)`**: When invoking our
+binding for an endpoint of the Zulip server API, write the code like
+this:
+```js
+import * as api from '../api';
+
+// …
+
+    api.subscriptionAdd(auth, [{ name: stream.name }]);
+
+```
+
+rather than like this:
+
+```js
+// BAD
+import subscriptionAdd from '../api/subscriptions/subscriptionAdd';
+
+// …
+
+    // BAD
+    subscriptionAdd(auth, [{ name: stream.name }]);
+```
+
+We do this because a lot of the names in our API bindings are also
+quite natural names for other things in our code, like action
+creators.  Moreover, the API bindings tend to be imported into scope
+in exactly the same places as we're defining those other values.  The
+`api.*` naming gives a convenient, regular way to tell the API binding
+apart from related functions at different layers.
+
+
 ## WebView: HTML, CSS, JS
 
 ### Styling/CSS
