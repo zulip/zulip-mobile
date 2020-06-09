@@ -16,10 +16,10 @@ type ApiResponseTempFileUrl = {|
  * remains valid for 60 seconds. It can be used in various places in the app
  * where we open files in the browser, saving user's time.
  *
- * This endpoint is not documented, but the zulip.yaml[1] file describes it in
- * brief.
- *
- * [1] https://github.com/zulip/zulip/blob/master/zerver/openapi/zulip.yaml.
+ * This endpoint is not in the Zulip API docs on the web, but it is
+ * documented in our OpenAPI description:
+ *   https://github.com/zulip/zulip/blob/master/zerver/openapi/zulip.yaml
+ * under the name `get_file_temporary_url`.
  *
  * @param auth Authentication info of the current user.
  * @param filePath The partial location of the uploaded file, as provided

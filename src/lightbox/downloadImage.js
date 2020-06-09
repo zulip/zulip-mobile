@@ -36,7 +36,7 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
  * Download a remote image to the device.
  *
  * @param url A URL to the image.  Should be a valid temporary URL generated
- *     using `getTemporaryFileUrl`.
+ *     using `getFileTemporaryUrl`.
  * @param fileName Name of the file to be downloaded. Should include the
  *     extension.
  * @param auth Authentication info for the current user.
