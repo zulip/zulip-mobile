@@ -17,7 +17,6 @@ import type {
 import { connect } from '../react-redux';
 import {
   addToOutbox,
-  cancelEditMessage,
   draftUpdate,
   fetchTopicsForActiveStream,
   sendTypingStart,
@@ -57,13 +56,14 @@ type SelectorProps = {|
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
-  editMessage: ?EditMessage,
   draft: string,
   lastMessageTopic: string,
 |};
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
+  editMessage: EditMessage | null,
+  completeEditMessage: () => void,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -254,7 +254,7 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleEdit = () => {
-    const { auth, editMessage, dispatch } = this.props;
+    const { auth, editMessage, completeEditMessage } = this.props;
     if (!editMessage) {
       throw new Error('expected editMessage');
     }
@@ -266,7 +266,7 @@ class ComposeBox extends PureComponent<Props, State> {
         showErrorAlert(error.message, 'Failed to edit message');
       });
     }
-    dispatch(cancelEditMessage());
+    completeEditMessage();
   };
 
   componentWillReceiveProps(nextProps: Props) {
@@ -432,7 +432,6 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   isAdmin: getIsAdmin(state),
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
   isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
-  editMessage: getSession(state).editMessage,
   draft: getDraftForNarrow(state, props.narrow),
   lastMessageTopic: getLastMessageTopic(state, props.narrow),
 }))(ComposeBox);

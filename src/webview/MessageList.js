@@ -23,6 +23,7 @@ import type {
   ThemeName,
   User,
   UserOrBot,
+  EditMessage,
 } from '../types';
 import type { ThemeColors } from '../styles';
 import { ThemeContext } from '../styles';
@@ -99,6 +100,7 @@ type SelectorProps = {|
 export type Props = $ReadOnly<{|
   narrow: Narrow,
   showMessagePlaceholders: boolean,
+  startEditMessage: (editMessage: EditMessage) => void,
 
   dispatch: Dispatch,
   ...SelectorProps,

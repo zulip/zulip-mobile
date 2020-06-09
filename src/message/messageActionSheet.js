@@ -9,6 +9,7 @@ import type {
   Outbox,
   Subscription,
   User,
+  EditMessage,
 } from '../types';
 import type { BackgroundData } from '../webview/MessageList';
 import {
@@ -20,10 +21,11 @@ import {
 import { isTopicMuted } from '../utils/message';
 import * as api from '../api';
 import { showToast } from '../utils/info';
-import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
+import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { pmUiRecipientsFromMessage } from '../utils/recipient';
 import { deleteMessagesForTopic } from '../topics/topicActions';
+import * as logging from '../utils/logging';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -41,6 +43,7 @@ type ButtonDescription = {
     subscriptions: Subscription[],
     dispatch: Dispatch,
     _: GetText,
+    startEdit: (editMessage: EditMessage) => void,
   }): void | Promise<void>,
   title: string,
 
@@ -70,8 +73,18 @@ const copyToClipboard = async ({ _, auth, message }) => {
 copyToClipboard.title = 'Copy to clipboard';
 copyToClipboard.errorMessage = 'Failed to copy message to clipboard';
 
-const editMessage = async ({ message, dispatch }) => {
-  dispatch(startEditMessage(message.id, message.subject));
+const editMessage = async ({ message, dispatch, startEdit, auth }) => {
+  if (message.isOutbox) {
+    logging.warn('Attempted "Edit message" for outbox message');
+    return;
+  }
+
+  const { raw_content } = await api.getRawMessageContent(auth, message.id);
+  startEdit({
+    id: message.id,
+    content: raw_content,
+    topic: message.subject,
+  });
 };
 editMessage.title = 'Edit message';
 editMessage.errorMessage = 'Failed to edit message';
@@ -337,6 +350,7 @@ export const showActionSheet = (
   isHeader: boolean,
   dispatch: Dispatch,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
+  startEdit: (editMessage: EditMessage) => void,
   _: GetText,
   params: ConstructSheetParams<>,
 ): void => {
@@ -354,6 +368,7 @@ export const showActionSheet = (
           ownEmail: params.backgroundData.ownUser.email,
           _,
           ...params,
+          startEdit,
         });
       } catch (err) {
         Alert.alert(_(pressedButton.errorMessage), err.message);

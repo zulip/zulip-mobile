@@ -5,8 +5,6 @@ import {
   DEAD_QUEUE,
   INIT_SAFE_AREA_INSETS,
   APP_ORIENTATION,
-  START_EDIT_MESSAGE,
-  CANCEL_EDIT_MESSAGE,
   DEBUG_FLAG_TOGGLE,
   ACCOUNT_SWITCH,
   REALM_ADD,
@@ -128,17 +126,6 @@ type InitSafeAreaInsetsAction = {|
 type AppOrientationAction = {|
   type: typeof APP_ORIENTATION,
   orientation: Orientation,
-|};
-
-type StartEditMessageAction = {|
-  type: typeof START_EDIT_MESSAGE,
-  messageId: number,
-  message: string,
-  topic: string,
-|};
-
-type CancelEditMessageAction = {|
-  type: typeof CANCEL_EDIT_MESSAGE,
 |};
 
 type DebugFlagToggleAction = {|
@@ -596,8 +583,6 @@ type SessionAction =
   | AppOrientationAction
   | DoNarrowAction
   | GotPushTokenAction
-  | StartEditMessageAction
-  | CancelEditMessageAction
   | DebugFlagToggleAction
   | ToggleOutboxSendingAction;
 

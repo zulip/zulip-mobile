@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import Color from 'color';
 
-import type { Dispatch, Narrow } from '../types';
+import type { Dispatch, Narrow, EditMessage } from '../types';
 import { LoadingBanner } from '../common';
 import { connect } from '../react-redux';
 import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
@@ -21,6 +21,7 @@ type SelectorProps = {|
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
+  editMessage: EditMessage | null,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -28,7 +29,7 @@ type Props = $ReadOnly<{|
 
 class ChatNavBar extends PureComponent<Props> {
   render() {
-    const { dispatch, backgroundColor, narrow } = this.props;
+    const { dispatch, backgroundColor, narrow, editMessage } = this.props;
     const color =
       backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
         ? BRAND_COLOR
@@ -65,7 +66,7 @@ class ChatNavBar extends PureComponent<Props> {
               dispatch(navigateBack());
             }}
           />
-          <Title color={color} narrow={narrow} />
+          <Title color={color} narrow={narrow} editMessage={editMessage} />
           <ExtraButton color={color} narrow={narrow} />
           <InfoButton color={color} narrow={narrow} />
         </View>

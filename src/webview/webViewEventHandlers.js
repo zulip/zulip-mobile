@@ -2,7 +2,7 @@
 import { Clipboard } from 'react-native';
 import * as api from '../api';
 import config from '../config';
-import type { Dispatch, GetText, Message, Narrow, Outbox } from '../types';
+import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage } from '../types';
 import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { showToast } from '../utils/info';
@@ -133,6 +133,7 @@ type Props = $ReadOnly<{
   messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
+  startEditMessage: (editMessage: EditMessage) => void,
 }>;
 
 const fetchMore = (props: Props, event: MessageListEventScroll) => {
@@ -187,8 +188,8 @@ const handleLongPress = (
   if (!message) {
     return;
   }
-  const { dispatch, showActionSheetWithOptions, backgroundData, narrow } = props;
-  showActionSheet(target === 'header', dispatch, showActionSheetWithOptions, _, {
+  const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
+  showActionSheet(target === 'header', dispatch, showActionSheetWithOptions, startEditMessage, _, {
     backgroundData,
     message,
     narrow,

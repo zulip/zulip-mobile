@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Debug, Dimensions, EditMessage, Narrow, Orientation, Action } from '../types';
+import type { Debug, Dimensions, Narrow, Orientation, Action } from '../types';
 import {
   REHYDRATE,
   DEAD_QUEUE,
@@ -12,8 +12,6 @@ import {
   INITIAL_FETCH_COMPLETE,
   INITIAL_FETCH_START,
   APP_ORIENTATION,
-  CANCEL_EDIT_MESSAGE,
-  START_EDIT_MESSAGE,
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
   GOT_PUSH_TOKEN,
@@ -31,7 +29,6 @@ import { hasAuth } from '../account/accountsSelectors';
  */
 export type SessionState = {|
   eventQueueId: number,
-  editMessage: ?EditMessage,
   isOnline: boolean,
   isHydrated: boolean,
   lastNarrow: ?Narrow,
@@ -74,7 +71,6 @@ export type SessionState = {|
 
 const initialState: SessionState = {
   eventQueueId: -1,
-  editMessage: null,
   isOnline: true,
   isHydrated: false,
   lastNarrow: null,
@@ -189,22 +185,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         pushToken: action.pushToken,
-      };
-
-    case CANCEL_EDIT_MESSAGE:
-      return {
-        ...state,
-        editMessage: null,
-      };
-
-    case START_EDIT_MESSAGE:
-      return {
-        ...state,
-        editMessage: {
-          id: action.messageId,
-          content: action.message,
-          topic: action.topic,
-        },
       };
 
     case TOGGLE_OUTBOX_SENDING:

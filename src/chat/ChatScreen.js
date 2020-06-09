@@ -5,7 +5,7 @@ import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { connect } from '../react-redux';
-import type { Context, Dispatch, Fetching, Narrow } from '../types';
+import type { Context, Dispatch, Fetching, Narrow, EditMessage } from '../types';
 import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import ChatNavBar from '../nav/ChatNavBar';
 
@@ -32,17 +32,34 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-class ChatScreen extends PureComponent<Props> {
+type State = {|
+  editMessage: EditMessage | null,
+|};
+
+class ChatScreen extends PureComponent<Props, State> {
   context: Context;
+
+  state = {
+    editMessage: null,
+  };
 
   static contextTypes = {
     styles: () => null,
+  };
+
+  startEditMessage = (editMessage: EditMessage) => {
+    this.setState({ editMessage });
+  };
+
+  completeEditMessage = () => {
+    this.setState({ editMessage: null });
   };
 
   render() {
     const { styles: contextStyles } = this.context;
     const { fetching, haveNoMessages, loading, navigation } = this.props;
     const { narrow } = navigation.state.params;
+    const { editMessage } = this.state;
 
     const isFetching = fetching.older || fetching.newer || loading;
     const showMessagePlaceholders = haveNoMessages && isFetching;
@@ -54,15 +71,25 @@ class ChatScreen extends PureComponent<Props> {
         <View style={contextStyles.screen}>
           <KeyboardAvoider style={styles.flexed} behavior="padding">
             <ZulipStatusBar narrow={narrow} />
-            <ChatNavBar narrow={narrow} />
+            <ChatNavBar narrow={narrow} editMessage={editMessage} />
             <OfflineNotice />
             <UnreadNotice narrow={narrow} />
             {sayNoMessages ? (
               <NoMessages narrow={narrow} />
             ) : (
-              <MessageList narrow={narrow} showMessagePlaceholders={showMessagePlaceholders} />
+              <MessageList
+                narrow={narrow}
+                showMessagePlaceholders={showMessagePlaceholders}
+                startEditMessage={this.startEditMessage}
+              />
             )}
-            {showComposeBox && <ComposeBox narrow={narrow} />}
+            {showComposeBox && (
+              <ComposeBox
+                narrow={narrow}
+                editMessage={editMessage}
+                completeEditMessage={this.completeEditMessage}
+              />
+            )}
           </KeyboardAvoider>
         </View>
       </ActionSheetProvider>

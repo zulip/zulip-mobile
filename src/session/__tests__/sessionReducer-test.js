@@ -2,8 +2,6 @@
 import deepFreeze from 'deep-freeze';
 
 import {
-  CANCEL_EDIT_MESSAGE,
-  START_EDIT_MESSAGE,
   DEAD_QUEUE,
   LOGOUT,
   DO_NARROW,
@@ -37,27 +35,6 @@ describe('sessionReducer', () => {
       needsInitialFetch: true,
       loading: false,
     });
-  });
-
-  test('START_EDIT_MESSAGE', () => {
-    const action = deepFreeze({
-      type: START_EDIT_MESSAGE,
-      messageId: 12,
-      message: 'test',
-      topic: 'test topic',
-    });
-    expect(sessionReducer(baseState, action)).toEqual({
-      ...baseState,
-      editMessage: { id: 12, content: 'test', topic: 'test topic' },
-    });
-  });
-
-  test('CANCEL_EDIT_MESSAGE', () => {
-    const state = deepFreeze({
-      ...baseState,
-      editMessage: { id: 12, content: 'test', topic: 'test topic' },
-    });
-    expect(sessionReducer(state, deepFreeze({ type: CANCEL_EDIT_MESSAGE }))).toEqual(baseState);
   });
 
   test('LOGIN_SUCCESS', () => {

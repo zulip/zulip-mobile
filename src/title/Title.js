@@ -3,10 +3,8 @@
 import React, { PureComponent } from 'react';
 
 import { caseNarrow } from '../utils/narrow';
-import { getSession } from '../selectors';
 
-import type { EditMessage, Narrow, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import type { Narrow, EditMessage } from '../types';
 import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
@@ -14,13 +12,12 @@ import TitleStream from './TitleStream';
 import TitlePlain from './TitlePlain';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   narrow: Narrow,
-  editMessage: ?EditMessage,
   color: string,
+  editMessage: EditMessage | null,
 |}>;
 
-class Title extends PureComponent<Props> {
+export default class Title extends PureComponent<Props> {
   render() {
     const { narrow, color, editMessage } = this.props;
     if (editMessage != null) {
@@ -39,7 +36,3 @@ class Title extends PureComponent<Props> {
     });
   }
 }
-
-export default connect(state => ({
-  editMessage: getSession(state).editMessage,
-}))(Title);
