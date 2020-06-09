@@ -342,7 +342,7 @@ type OuterProps = {|
   renderedMessages?: RenderedSectionDescriptor[],
   initialScrollMessageId?: number | null,
 
-  /* Passing these three from the parent is kind of a hack; search uses it
+  /* Passing these two from the parent is kind of a hack; search uses it
      to hard-code some behavior. */
   fetching?: Fetching,
   typingUsers?: UserOrBot[],
