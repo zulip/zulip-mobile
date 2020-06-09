@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react';
 import { Linking } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
+import { URL as WhatwgURL } from 'react-native-url-polyfill';
 
 import type {
   AuthenticationMethods,
@@ -204,10 +205,7 @@ class AuthScreen extends PureComponent<Props> {
    */
   beginWebAuth = async (url: string) => {
     otp = await webAuth.generateOtp();
-    // TODO: Following #4081, use, e.g.,
-    //   `new URL(url, this.props.realm)`
-    const absoluteURL = `${this.props.realm}/${url.replace(/^\/+/, '')}`;
-    webAuth.openBrowser(absoluteURL, otp);
+    webAuth.openBrowser(new WhatwgURL(url, this.props.realm).toString(), otp);
   };
 
   endWebAuth = (event: LinkingEvent) => {
