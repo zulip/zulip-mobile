@@ -10,7 +10,7 @@ import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 
 export default async (url: string, auth: Auth) => {
-  const tempUrl = await api.tryGetFileDownloadUrl(url, auth);
+  const tempUrl = await api.tryGetFileTemporaryUrl(url, auth);
 
   if (tempUrl === null) {
     showToast('Please share the image from your browser');

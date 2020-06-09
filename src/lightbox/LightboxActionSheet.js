@@ -35,7 +35,7 @@ type ButtonType = {|
 |};
 
 const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
-  const tempUrl = await api.tryGetFileDownloadUrl(src, auth);
+  const tempUrl = await api.tryGetFileTemporaryUrl(src, auth);
   if (tempUrl === null) {
     showToast('Please download the image from your browser');
     openLink(getFullUrl(src, auth.realm));

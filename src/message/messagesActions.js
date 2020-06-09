@@ -51,7 +51,7 @@ export const messageLinkPress = (href: string) => async (
   } else if (!isUrlOnRealm(href, auth.realm)) {
     openLink(href);
   } else {
-    const url = (await api.tryGetFileDownloadUrl(href, auth)) ?? getFullUrl(href, auth.realm);
+    const url = (await api.tryGetFileTemporaryUrl(href, auth)) ?? getFullUrl(href, auth.realm);
     openLink(url);
   }
 };

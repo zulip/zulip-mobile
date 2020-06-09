@@ -43,7 +43,7 @@ import toggleMuteStream from './subscriptions/toggleMuteStream';
 import togglePinStream from './subscriptions/togglePinStream';
 import toggleStreamNotifications from './subscriptions/toggleStreamNotifications';
 import unmuteTopic from './subscriptions/unmuteTopic';
-import tryGetFileDownloadUrl from './tryGetFileDownloadUrl';
+import tryGetFileTemporaryUrl from './tryGetFileTemporaryUrl';
 import createUserGroup from './user_groups/createUserGroup';
 import deleteUserGroup from './user_groups/deleteUserGroup';
 import editUserGroup from './user_groups/editUserGroup';
@@ -101,7 +101,7 @@ export {
   togglePinStream,
   toggleStreamNotifications,
   unmuteTopic,
-  tryGetFileDownloadUrl,
+  tryGetFileTemporaryUrl,
   createUserGroup,
   deleteUserGroup,
   editUserGroup,
