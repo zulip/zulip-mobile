@@ -68,6 +68,7 @@
     "react-native-sound": "^0.11.0",
     "react-native-text-input-reset": "^1.0.2",
     "react-native-unimodules": "0.6.0",
+    "react-native-url-polyfill": "1.2.0-rc.0",
     "react-native-vector-icons": "^6.6.0",
     "react-native-webview": "8.0.4",
     "react-navigation": "^2.18.3",
