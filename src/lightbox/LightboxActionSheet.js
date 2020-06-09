@@ -5,7 +5,7 @@ import share from './share';
 import shareImage from './shareImage';
 import { showToast } from '../utils/info';
 import { getFullUrl } from '../utils/url';
-import tryGetFileDownloadUrl from '../api/tryGetFileDownloadUrl';
+import * as api from '../api';
 import openLink from '../utils/openLink';
 
 type DownloadImageType = {|
@@ -35,7 +35,7 @@ type ButtonType = {|
 |};
 
 const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
-  const tempUrl = await tryGetFileDownloadUrl(src, auth);
+  const tempUrl = await api.tryGetFileDownloadUrl(src, auth);
   if (tempUrl === null) {
     showToast('Please download the image from your browser');
     openLink(getFullUrl(src, auth.realm));

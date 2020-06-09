@@ -41,7 +41,9 @@ import subscriptionAdd from './subscriptions/subscriptionAdd';
 import subscriptionRemove from './subscriptions/subscriptionRemove';
 import toggleMuteStream from './subscriptions/toggleMuteStream';
 import togglePinStream from './subscriptions/togglePinStream';
+import toggleStreamNotifications from './subscriptions/toggleStreamNotifications';
 import unmuteTopic from './subscriptions/unmuteTopic';
+import tryGetFileDownloadUrl from './tryGetFileDownloadUrl';
 import createUserGroup from './user_groups/createUserGroup';
 import deleteUserGroup from './user_groups/deleteUserGroup';
 import editUserGroup from './user_groups/editUserGroup';
@@ -97,7 +99,9 @@ export {
   subscriptionRemove,
   toggleMuteStream,
   togglePinStream,
+  toggleStreamNotifications,
   unmuteTopic,
+  tryGetFileDownloadUrl,
   createUserGroup,
   deleteUserGroup,
   editUserGroup,

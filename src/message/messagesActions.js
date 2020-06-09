@@ -8,7 +8,7 @@ import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
-import tryGetFileDownloadUrl from '../api/tryGetFileDownloadUrl';
+import * as api from '../api';
 import { isUrlOnRealm, getFullUrl } from '../utils/url';
 /**
  * Navigate to the given narrow, while fetching any data needed.
@@ -51,7 +51,7 @@ export const messageLinkPress = (href: string) => async (
   } else if (!isUrlOnRealm(href, auth.realm)) {
     openLink(href);
   } else {
-    const url = (await tryGetFileDownloadUrl(href, auth)) ?? getFullUrl(href, auth.realm);
+    const url = (await api.tryGetFileDownloadUrl(href, auth)) ?? getFullUrl(href, auth.realm);
     openLink(url);
   }
 };
