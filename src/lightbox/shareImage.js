@@ -5,12 +5,12 @@ import downloadImage from './downloadImage';
 import type { Auth } from '../types';
 import ShareImageAndroid from '../nativeModules/ShareImageAndroid';
 import { showToast } from '../utils/info';
-import tryGetTemporaryFileUrl from '../api/tryGetFileDownloadUrl';
+import tryGetFileDownloadUrl from '../api/tryGetFileDownloadUrl';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 
 export default async (url: string, auth: Auth) => {
-  const tempUrl = await tryGetTemporaryFileUrl(url, auth);
+  const tempUrl = await tryGetFileDownloadUrl(url, auth);
 
   if (tempUrl === null) {
     showToast('Please share the image from your browser');
