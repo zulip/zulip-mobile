@@ -2,7 +2,6 @@ package com.zulipmobile.sharing
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -104,13 +103,6 @@ class ReceiveShareActivity : ReactActivity() {
             }
         }
         return params
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        val intent = Intent("onConfigurationChanged")
-        intent.putExtra("newConfig", newConfig)
-        this.sendBroadcast(intent)
     }
 }
 
