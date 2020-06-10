@@ -18,7 +18,6 @@ node_modules/react-native/Libraries/polyfills/.*
 node_modules/warning/.*
 
 ; Flow doesn't support platforms
-.*/Libraries/Utilities/HMRLoadingView.js
 .*/Libraries/Utilities/LoadingView.js
 
 ; Custom ignores
