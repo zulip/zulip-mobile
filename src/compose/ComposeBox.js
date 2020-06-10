@@ -267,6 +267,9 @@ class ComposeBox extends PureComponent<Props, State> {
       });
     }
     completeEditMessage();
+    if (this.messageInput) {
+      this.messageInput.blur();
+    }
   };
 
   componentWillReceiveProps(nextProps: Props) {
