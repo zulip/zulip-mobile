@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import { CameraRoll, Platform, PermissionsAndroid } from 'react-native';
+import { Platform, PermissionsAndroid } from 'react-native';
+import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import type { Auth } from '../api/transportTypes';
@@ -43,7 +44,7 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
  */
 export default async (url: string, fileName: string, auth: Auth): Promise<mixed> => {
   if (Platform.OS === 'ios') {
-    return CameraRoll.saveToCameraRoll(url);
+    return CameraRoll.save(url);
   }
 
   // Platform.OS === 'android'

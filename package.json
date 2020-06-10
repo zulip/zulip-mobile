@@ -33,6 +33,7 @@
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.4.0",
     "@react-native-community/async-storage": "^1.6.3",
+    "@react-native-community/cameraroll": "^1.7.2",
     "@react-native-community/netinfo": "^3.2.1",
     "@sentry/react-native": "^1.0.9",
     "@unimodules/core": "~4.0.0",

@@ -6,6 +6,7 @@ const transformModulesWhitelist = [
   'react-native',
   // @rnc/async-storage itself is precompiled, but its mock-helper is not
   '@react-native-community/async-storage',
+  '@react-native-community/cameraroll',
   '@expo/react-native-action-sheet',
   'react-navigation',
   '@sentry/react-native',

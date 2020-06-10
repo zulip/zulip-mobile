@@ -71,6 +71,8 @@ PODS:
     - React-cxxreact (= 0.60.6)
     - React-jsi (= 0.60.6)
   - React-jsinspector (0.60.6)
+  - react-native-cameraroll (1.7.2):
+    - React
   - react-native-image-picker (0.14.3):
     - React
   - react-native-netinfo (3.2.1):
@@ -167,6 +169,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-notifications (from `../node_modules/react-native-notifications`)
@@ -251,6 +254,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-community/cameraroll"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-netinfo:
@@ -358,6 +363,7 @@ SPEC CHECKSUMS:
   React-jsi: 1a4248256b96fa453536a8dafe11b784e24e789d
   React-jsiexecutor: 2279e559b921d02dfc6253ebef3dcb3a9dc6c07e
   React-jsinspector: a58b86545a0185f69768e78ac96ca9fe43fa3694
+  react-native-cameraroll: 06e60780a4e6e7bb9a588eca72506744cf6e133b
   react-native-image-picker: 3693786b3d5958c8f71deed66ec068b323565e0d
   react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   react-native-notifications: ce37363008fe2d6a226da4e721eace23b6ae3ad9
