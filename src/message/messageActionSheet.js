@@ -43,7 +43,7 @@ type ButtonDescription = {
     subscriptions: Subscription[],
     dispatch: Dispatch,
     _: GetText,
-    startEdit: (editMessage: EditMessage) => void,
+    startEditMessage: (editMessage: EditMessage) => void,
   }): void | Promise<void>,
   title: string,
 
@@ -73,14 +73,14 @@ const copyToClipboard = async ({ _, auth, message }) => {
 copyToClipboard.title = 'Copy to clipboard';
 copyToClipboard.errorMessage = 'Failed to copy message to clipboard';
 
-const editMessage = async ({ message, dispatch, startEdit, auth }) => {
+const editMessage = async ({ message, dispatch, startEditMessage, auth }) => {
   if (message.isOutbox) {
     logging.warn('Attempted "Edit message" for outbox message');
     return;
   }
 
   const { raw_content } = await api.getRawMessageContent(auth, message.id);
-  startEdit({
+  startEditMessage({
     id: message.id,
     content: raw_content,
     topic: message.subject,
@@ -348,10 +348,12 @@ const getActionSheetTitle = (message: Message | Outbox, ownUser: User): string =
 /** Invoke the given callback to show an appropriate action sheet. */
 export const showActionSheet = (
   isHeader: boolean,
-  dispatch: Dispatch,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
-  startEdit: (editMessage: EditMessage) => void,
-  _: GetText,
+  callbacks: {|
+    dispatch: Dispatch,
+    startEditMessage: (editMessage: EditMessage) => void,
+    _: GetText,
+  |},
   params: ConstructSheetParams<>,
 ): void => {
   const optionCodes = isHeader
@@ -362,16 +364,14 @@ export const showActionSheet = (
       const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];
       try {
         await pressedButton({
-          dispatch,
           subscriptions: params.backgroundData.subscriptions,
           auth: params.backgroundData.auth,
           ownEmail: params.backgroundData.ownUser.email,
-          _,
           ...params,
-          startEdit,
+          ...callbacks,
         });
       } catch (err) {
-        Alert.alert(_(pressedButton.errorMessage), err.message);
+        Alert.alert(callbacks._(pressedButton.errorMessage), err.message);
       }
     })();
   };
@@ -382,7 +382,7 @@ export const showActionSheet = (
             title: getActionSheetTitle(params.message, params.backgroundData.ownUser),
           }
         : {}),
-      options: optionCodes.map(code => _(allButtons[code].title)),
+      options: optionCodes.map(code => callbacks._(allButtons[code].title)),
       cancelButtonIndex: optionCodes.length - 1,
     },
     callback,

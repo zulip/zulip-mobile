@@ -189,11 +189,12 @@ const handleLongPress = (
     return;
   }
   const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
-  showActionSheet(target === 'header', dispatch, showActionSheetWithOptions, startEditMessage, _, {
-    backgroundData,
-    message,
-    narrow,
-  });
+  showActionSheet(
+    target === 'header',
+    showActionSheetWithOptions,
+    { dispatch, startEditMessage, _ },
+    { backgroundData, message, narrow },
+  );
 };
 
 export const handleMessageListEvent = (props: Props, _: GetText, event: MessageListEvent) => {
