@@ -80,10 +80,10 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js",
-    enableHermes: false, // clean and rebuild if changing
-    // quasi-unstable: see commits 8f8a266af and 833d083a9
-    jsBundleDirRelease: "$buildDir/intermediates/merged_assets/release/out"
+        entryFile         : "index.js",
+        enableHermes      : false, // clean and rebuild if changing
+        // quasi-unstable: see commits 8f8a266af and 833d083a9
+        jsBundleDirRelease: "$buildDir/intermediates/merged_assets/release/out"
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -122,15 +122,15 @@ def enableProguardInReleaseBuilds = false
 def shrinkResourcesInProguardBuilds = false
 
 /**
-  * The preferred build flavor of JavaScriptCore.
-  *
-  * For example, to use the international variant, you can use:
-  * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
-  *
-  * The international variant includes ICU i18n library and necessary data
-  * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
-  * give correct results when using with locales other than en-US.  Note that
-  * this variant is about 6MiB larger per architecture than default.
+ * The preferred build flavor of JavaScriptCore.
+ *
+ * For example, to use the international variant, you can use:
+ * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
+ *
+ * The international variant includes ICU i18n library and necessary data
+ * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
+ * give correct results when using with locales other than en-US.  Note that
+ * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
@@ -191,7 +191,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             // `minifyEnabled` is required for `shrinkResources`
-            shrinkResources (enableProguardInReleaseBuilds && shrinkResourcesInProguardBuilds)
+            shrinkResources(enableProguardInReleaseBuilds && shrinkResourcesInProguardBuilds)
 
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             if (project.hasProperty('signed')) {
@@ -238,11 +238,11 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     if (enableHermes) {
-      def hermesPath = "../../node_modules/hermesvm/android/";
-      debugImplementation files(hermesPath + "hermes-debug.aar")
-      releaseImplementation files(hermesPath + "hermes-release.aar")
+        def hermesPath = "../../node_modules/hermesvm/android/";
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
-      implementation jscFlavor
+        implementation jscFlavor
     }
 
     implementation 'com.facebook.fresco:animated-gif:1.10.0' // For animated GIF support
