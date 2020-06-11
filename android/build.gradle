@@ -56,12 +56,6 @@ project(":react-native-device-info").beforeEvaluate {
     ext.googlePlayServicesVersion = "16.1.0"
 }
 
-project(":unimodules-react-native-adapter").afterEvaluate {
-    it.dependencies {
-        implementation 'com.facebook.react:react-native:+'
-    }
-}
-
 subprojects {
     afterEvaluate {
         if (project.hasProperty("android")) {
