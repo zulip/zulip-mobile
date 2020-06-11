@@ -72,7 +72,7 @@
     "react-native-unimodules": "0.6.0",
     "react-native-url-polyfill": "1.2.0-rc.0",
     "react-native-vector-icons": "^6.6.0",
-    "react-native-webview": "8.0.4",
+    "react-native-webview": "~10.0.0",
     "react-navigation": "^2.18.3",
     "react-navigation-redux-helpers": "^2.0.9",
     "react-navigation-tabs": "0.8.4",

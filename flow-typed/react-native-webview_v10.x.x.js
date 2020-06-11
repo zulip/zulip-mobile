@@ -1,3 +1,8 @@
+// We have not transcribed the types corresponding to Windows and
+// macOS support, e.g., from
+// react-native-community/react-native-webview@ffee0d436 and
+// react-native-community/react-native-webview@1e572318e.
+
 /*
  * Types copied (completely or incompletely) from `react-native`; we
  * can't import them. See
@@ -59,6 +64,7 @@ declare module 'react-native-webview' {
   } from 'react-native-webview/@@react-native';
 
   declare export type MixedContentMode = 'never' | 'always' | 'compatibility';
+  declare export type FileDownload = { downloadUrl: string };
   declare export type DecelerationRateConstant = 'normal' | 'fast';
   declare export type OverScrollModeType = 'always' | 'content' | 'never';
 
@@ -154,6 +160,7 @@ declare module 'react-native-webview' {
 
   declare export type WebViewEvent = SyntheticEvent<WebViewNativeEvent>;
   declare export type WebViewNavigationEvent = SyntheticEvent<WebViewNavigation>;
+  declare export type FileDownloadEvent = NativeSyntheticEvent<FileDownload>;
   declare export type WebViewMessageEvent = SyntheticEvent<WebViewMessage>;
   declare export type WebViewErrorEvent = SyntheticEvent<WebViewError>;
   declare export type WebViewHttpErrorEvent = SyntheticEvent<WebViewHttpError>;
@@ -337,6 +344,38 @@ declare module 'react-native-webview' {
      * @platform ios
      */
     onContentProcessDidTerminate?: WebViewTerminatedEvent => mixed,
+
+    /**
+     * If `true` (default), loads the `injectedJavaScript` only into the main frame.
+     * If `false`, loads it into all frames (e.g. iframes).
+     * @platform ios
+     */
+    injectedJavaScriptForMainFrameOnly?: boolean,
+
+    /**
+     * If `true` (default), loads the `injectedJavaScriptBeforeContentLoaded` only into the main frame.
+     * If `false`, loads it into all frames (e.g. iframes).
+     * @platform ios
+     */
+    injectedJavaScriptBeforeContentLoadedForMainFrameOnly?: boolean,
+
+    /**
+     * Function that is invoked when the client needs to download a file.
+     *
+     * iOS 13+ only: If the webview navigates to a URL that results in an HTTP
+     * response with a Content-Disposition header 'attachment...', then
+     * this will be called.
+     *
+     * iOS 8+: If the MIME type indicates that the content is not renderable by the
+     * webview, that will also cause this to be called. On iOS versions before 13,
+     * this is the only condition that will cause this function to be called.
+     *
+     * The application will need to provide its own code to actually download
+     * the file.
+     *
+     * If not provided, the default is to let the webview try to render the file.
+     */
+    onFileDownload?: (event: FileDownloadEvent) => void,
   |};
 
   declare export type IOSWebViewProps = {| ...IOSOnlyWebViewProps, ...WebViewSharedProps |};
