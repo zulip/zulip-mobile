@@ -15,7 +15,7 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
   // See docs from Android for the underlying interaction with the user:
   //   https://developer.android.com/training/permissions/requesting
   // and from RN for the specific API that wraps it:
-  //   https://facebook.github.io/react-native/docs/permissionsandroid
+  //   https://reactnative.dev/docs/permissionsandroid
   const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
   const granted = await PermissionsAndroid.check(permission);
   if (granted) {

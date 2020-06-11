@@ -29,7 +29,7 @@ type State = {|
  * @prop [textInputRef] - Passed to TextInput in `ref`.  See upstream docs
  *   on refs: https://reactjs.org/docs/refs-and-the-dom.html
  * @prop ...all other TextInput props - Passed through verbatim to TextInput.
- *   See upstream: https://facebook.github.io/react-native/docs/textinput
+ *   See upstream: https://reactnative.dev/docs/textinput
  */
 export default class Input extends PureComponent<Props, State> {
   context: Context;

@@ -18,7 +18,7 @@ type Props = $ReadOnly<{|
  * @prop text - Contents for Text.
  * @prop [style] - Can override our default style for this component.
  * @prop ...all other Text props - Passed through verbatim to Text.
- *   See upstream: https://facebook.github.io/react-native/docs/text
+ *   See upstream: https://reactnative.dev/docs/text
  */
 export default class RawLabel extends PureComponent<Props> {
   context: Context;

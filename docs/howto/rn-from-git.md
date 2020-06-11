@@ -16,7 +16,7 @@ and fill in this section.
 ## Android
 
 There is [an upstream
-doc](https://facebook.github.io/react-native/docs/building-from-source.html)
+doc](https://reactnative.dev/docs/building-from-source.html)
 for this.  Ideally it would make these instructions unnecessary, but it's
 not very clear or complete.
 
@@ -44,7 +44,7 @@ will need some changes.
    0.57; this was updated to NDK r17b, the latest.)
 
    * Instead, download the appropriate zip file [linked
-     here](https://facebook.github.io/react-native/docs/building-from-source.html#download-links-for-android-ndk)
+     here](https://reactnative.dev/docs/building-from-source.html#download-links-for-android-ndk)
      and unzip it somewhere convenient.
 
    * If your Android SDK is at `~/Android/Sdk`, you might put the NDK at
@@ -78,7 +78,7 @@ will need some changes.
    c. Commit the result.
 
 4. Follow the various steps in [this
-   doc](https://facebook.github.io/react-native/docs/building-from-source.html#building-the-source)
+   doc](https://reactnative.dev/docs/building-from-source.html#building-the-source)
    that involve tweaking several Gradle files located under `android/` in
    the app.  Commit the result.
 

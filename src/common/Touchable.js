@@ -42,8 +42,8 @@ type Props = $ReadOnly<{|
  *   the child component is `children` verbatim.)
  *
  * For a few additional details, see upstream docs:
- *   https://facebook.github.io/react-native/docs/touchablehighlight
- *   https://facebook.github.io/react-native/docs/touchablenativefeedback
+ *   https://reactnative.dev/docs/touchablehighlight
+ *   https://reactnative.dev/docs/touchablenativefeedback
  * For much more detail, see `Touchable.js` in RN upstream, and its copious
  * jsdoc (which isn't rendered on the web, unfortunately.)
  *

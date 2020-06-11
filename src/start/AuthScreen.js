@@ -166,7 +166,7 @@ let otp = '';
  * An event emitted by `Linking`.
  *
  * Determined by reading the implementation source code, and documentation:
- *   https://facebook.github.io/react-native/docs/linking
+ *   https://reactnative.dev/docs/linking
  *
  * TODO move this to a libdef, and/or get an explicit type into upstream.
  */
