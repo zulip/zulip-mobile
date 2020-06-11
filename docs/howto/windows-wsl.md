@@ -122,7 +122,7 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
 
 3. Install and set up Android Studio.
 
-   React Native provides [instructions][getting-started] for this. You'll need
+   React Native provides [instructions][rn-setup] for this. You'll need
    to click the tab labeled **React Native CLI Quickstart**, and select the
    **Windows** and **Android** options when they become available (if they're
    not already selected).
@@ -218,7 +218,7 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
     into the `zulip-mobile` folder in the Windows Command Prompt, and run `yarn
     install` from the Windows side.
 
-14. Follow the React Native instructions ([here][getting-started], if you've
+14. Follow the React Native instructions ([here][rn-setup], if you've
     closed the tab) under **Preparing the Android device** to set up the device
     you plan to use, whether virtual or physical.
 
@@ -259,7 +259,7 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
     screen.
 
 [chocolatey]: https://chocolatey.org/
-[getting-started]: https://reactnative.dev/docs/getting-started
+[rn-setup]: https://reactnative.dev/docs/environment-setup
 
 
 ### Helpful to Know

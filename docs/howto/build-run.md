@@ -66,8 +66,7 @@ the host machine directly for development, instead of provisioning a VM.
 
 To install the React Native tools, and either Xcode or the Android SDK
 and Android Studio, follow the helpful instructions from React
-Native upstream on
-[Getting Started](https://reactnative.dev/docs/getting-started).
+Native upstream on [Setting up the development environment][rn-setup].
 You want the tab "React Native CLI Quickstart"; the "Expo CLI Quickstart" does
 not apply.
 
@@ -92,11 +91,13 @@ get as far as using the Chrome Developer Tools, which is easy to set
 up and powerful for working on most areas of the app.  Later, you
 might look through the other tools and try some more of them out.
 
+[rn-setup]: https://reactnative.dev/docs/environment-setup
+
 
 ## Android tips
 
 * To set up the Android emulator, follow the heading "Using a virtual device" in
-  the React Native [Getting Started][rn-getting-started] instructions. After you
+  the React Native [setup instructions][rn-setup]. After you
   set up the emulator in Android Studio, you can start it [from the command
   line][android-emu-cmd-line].
 * To build to a physical Android device, you may also need to install the
@@ -117,7 +118,6 @@ might look through the other tools and try some more of them out.
     token).  The output APK will be at
     `android/app/build/outputs/apk/release/app-release.apk`.
 
-[rn-getting-started]: https://reactnative.dev/docs/getting-started
 [android-emu-cmd-line]: https://developer.android.com/studio/run/emulator-commandline.html
 
 
@@ -315,10 +315,8 @@ Task 'installDebug' not found in project ':app'.
 
 This (somewhat misleading) error message can occur when the Android
 SDK is not fully configured.  Creating a new React Native project (per
-[the upstream docs][rn-installation]), and running `react-native
+[the upstream docs][rn-setup]), and running `react-native
 android` there, may give clearer error messages for debugging.
-
-[rn-installation]: https://reactnative.dev/docs/getting-started
 
 
 ### Build failure after running `react-native link`
