@@ -25,7 +25,7 @@ target 'ZulipMobile' do
   pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
   pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
   # This is deprecated upstream; removing it is #4115. See
-  # https://reactnative.dev/docs/pushnotificationios.html.
+  # https://reactnative.dev/docs/pushnotificationios.
   pod 'React-RCTPushNotification', :path => '../node_modules/react-native/Libraries/PushNotificationIOS'
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'

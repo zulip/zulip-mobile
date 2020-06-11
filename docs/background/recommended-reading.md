@@ -3,7 +3,7 @@
 ## React Native
 
 We recommend just official documentation of React Native - take a look at their
-[Getting started](https://reactnative.dev/docs/getting-started.html) section.
+[Getting started](https://reactnative.dev/docs/getting-started) section.
 
 
 ## Redux

@@ -67,7 +67,7 @@ the host machine directly for development, instead of provisioning a VM.
 To install the React Native tools, and either Xcode or the Android SDK
 and Android Studio, follow the helpful instructions from React
 Native upstream on
-[Getting Started](https://reactnative.dev/docs/getting-started.html).
+[Getting Started](https://reactnative.dev/docs/getting-started).
 You want the tab "React Native CLI Quickstart"; the "Expo CLI Quickstart" does
 not apply.
 
@@ -117,7 +117,7 @@ might look through the other tools and try some more of them out.
     token).  The output APK will be at
     `android/app/build/outputs/apk/release/app-release.apk`.
 
-[rn-getting-started]: https://reactnative.dev/docs/getting-started.html
+[rn-getting-started]: https://reactnative.dev/docs/getting-started
 [android-emu-cmd-line]: https://developer.android.com/studio/run/emulator-commandline.html
 
 
@@ -318,7 +318,7 @@ SDK is not fully configured.  Creating a new React Native project (per
 [the upstream docs][rn-installation]), and running `react-native
 android` there, may give clearer error messages for debugging.
 
-[rn-installation]: https://reactnative.dev/docs/getting-started.html
+[rn-installation]: https://reactnative.dev/docs/getting-started
 
 
 ### Build failure after running `react-native link`

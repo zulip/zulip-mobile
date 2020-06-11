@@ -259,7 +259,7 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
     screen.
 
 [chocolatey]: https://chocolatey.org/
-[getting-started]: https://reactnative.dev/docs/getting-started.html
+[getting-started]: https://reactnative.dev/docs/getting-started
 
 
 ### Helpful to Know

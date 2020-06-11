@@ -41,7 +41,7 @@ section here for details.
 
 Other advice on the page may be useful, but feel free to skim or skip.
 
-[rn-debugging]: https://reactnative.dev/docs/debugging.html
+[rn-debugging]: https://reactnative.dev/docs/debugging
 
 
 <div id="main-codebase" />
@@ -79,7 +79,7 @@ See discussion of `redux-logger` below.
 
 See also [in the "Troubleshooting" section below](#debug-remotely-never-loads).
 
-[chrome-devtools-device]: https://reactnative.dev/docs/debugging.html#debugging-on-a-device-with-chrome-developer-tools
+[chrome-devtools-device]: https://reactnative.dev/docs/debugging#debugging-on-a-device-with-chrome-developer-tools
 
 
 <div id="react-devtools">
@@ -95,7 +95,7 @@ support any released version of React Native; see [its release
 notes][react-devtools-v4].  Instead, install v3 with the command
 `yarn global add react-devtools@3`.
 
-[rn-react-devtools]: https://reactnative.dev/docs/debugging.html#react-developer-tools
+[rn-react-devtools]: https://reactnative.dev/docs/debugging#react-developer-tools
 [react-devtools-v4]: https://reactjs.org/blog/2019/08/15/new-react-devtools.html
 
 
@@ -309,4 +309,4 @@ Then, go to "Debug server host & port for device". Here, enter `localhost:8081`
 and click OK. Now, try to open http://localhost:8081/debugger-ui again and see
 if it works.
 
-[dev-menu]: https://reactnative.dev/docs/debugging.html#accessing-the-in-app-developer-menu
+[dev-menu]: https://reactnative.dev/docs/debugging#accessing-the-in-app-developer-menu

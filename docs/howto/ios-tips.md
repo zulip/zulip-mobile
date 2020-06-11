@@ -29,7 +29,7 @@ device name in package.json
    not .xcodeproj.
 3. Change BundleIdentifier for both ZulipMobile and ZulipMobileTests to a
 unique string, e.g. `<username>ZulipMobile` in the 'General Tab' of your project.
-4. Select your device as the `build target` (from [this guide](https://reactnative.dev/docs/running-on-device.html))
+4. Select your device as the `build target` (from [this guide](https://reactnative.dev/docs/running-on-device))
 5. Hit the `build and run` button (make sure your device is unlocked)
 6. If it's the first time you're running the app, you need to trust the
 developer and the app in `Settings > General > Device Management > Developer
