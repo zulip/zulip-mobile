@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Reducer, Store, Dispatch } from 'redux';
+import type { Dispatch, StoreEnhancer } from 'redux';
 
 import { REHYDRATE } from '../actionConstants';
 import type { Action, GlobalState as State } from '../types';
@@ -12,9 +12,6 @@ const processKey = key => {
   }
   return int;
 };
-
-type InnerStoreCreator<S, A, D> = (Reducer<S, A>, S | void) => Store<S, A, D>;
-type StoreEnhancer<S, A, D> = (InnerStoreCreator<S, A, D>) => InnerStoreCreator<S, A, D>;
 
 /* eslint-disable no-use-before-define */
 
