@@ -272,7 +272,7 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   };
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       const topic =
         isStreamNarrow(nextProps.narrow) && nextProps.editMessage

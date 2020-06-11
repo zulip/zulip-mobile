@@ -22,7 +22,7 @@ export default class AnimatedScaleComponent extends PureComponent<Props, State> 
 
   animatedValue = new Animated.Value(this.props.visible ? 1 : 0);
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.visible) {
       this.setState({ visible: true });
     }
