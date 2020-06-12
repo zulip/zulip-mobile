@@ -27,8 +27,8 @@ device name in package.json
 2. Within the repo, `$ open ios/ZulipMobile.xcworkspace/` to open
    Xcode. Make sure you choose the one that ends in .xcworkspace,
    not .xcodeproj.
-3. Change BundleIdentifier for both ZulipMobile and ZulipMobileTests to a
-unique string, e.g. `<username>ZulipMobile` in the 'General Tab' of your project.
+3. Change BundleIdentifier for ZulipMobile to a unique string, e.g.
+   `<username>ZulipMobile` in the 'General Tab' of your project.
 4. Select your device as the `build target` (from [this guide](https://reactnative.dev/docs/running-on-device))
 5. Hit the `build and run` button (make sure your device is unlocked)
 6. If it's the first time you're running the app, you need to trust the
@@ -39,7 +39,7 @@ mobile networks
 If it's your first time installing an app on an iOS device, you need to
 obtain Apple Developer credentials that will allow you to sign the app.
 Register at https://developer.apple.com. Then use your Apple ID in Xcode
-and choose it as your `Signing > Team` for both ZulipMobile and ZulipMobileTests.
+and choose it as your `Signing > Team` for ZulipMobile.
 
 ### Tips when running on your iOS device
 When you change the BundleIdentifier and Team (required in order to run on a device),

@@ -38,10 +38,4 @@ target 'ZulipMobile' do
 
   # unimodules provides Expo packages individually.
   use_unimodules!
-
-  target 'ZulipMobileTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
