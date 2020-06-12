@@ -2,7 +2,7 @@
 // therefore need to be compiled by Babel before Jest can use them.
 //
 // These will be used as regexp fragments.
-const uncompiledModules = [
+const transformModulesWhitelist = [
   'react-native',
   // @rnc/async-storage itself is precompiled, but its mock-helper is not
   '@react-native-community/async-storage',
@@ -18,7 +18,7 @@ const uncompiledModules = [
 //   https://jestjs.io/docs/en/tutorial-react-native#transformignorepatterns-customization
 //
 // (This value is correctly a string, not a RegExp.)
-const transformIgnorePattern = `node_modules/(?!${uncompiledModules.join('|')})`;
+const transformIgnorePattern = `node_modules/(?!${transformModulesWhitelist.join('|')})`;
 
 module.exports = {
   preset: 'react-native',
