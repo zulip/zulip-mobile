@@ -421,15 +421,15 @@ sudo sysctl -p
 ```
 
 
-### `react-native run-{android/ios}` launches the app, then crashes immediately
+### Debug app crashes with "Unable to load script" at startup
 
-After running `react-native run-{android/ios}`, if you see an error like this
-on the device:
-```
-Unable to load script.Make sure you are either running a Metro server
-(run 'react-native start') or that your bundle 'index.android.bundle' is
-packaged correctly for release.
-```
+After running `react-native run-android` or `react-native run-ios`, if
+you see an error like this on the device:
+
+> Unable to load script. Make sure you're either running a Metro
+> server (run 'react-native start') or that your bundle
+> 'index.android.bundle' is packaged correctly for release.
+
 then this means you are not running the Metro bundler.
 
 Starting from React Native 0.60, you need to launch the Metro bundler server
