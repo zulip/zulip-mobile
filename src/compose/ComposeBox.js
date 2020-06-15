@@ -16,6 +16,8 @@ import type {
   Dimensions,
   CaughtUp,
   GetText,
+  Subscription,
+  Stream,
 } from '../types';
 import { connect } from '../react-redux';
 import { withGetText } from '../boot/TranslationProvider';
@@ -35,6 +37,7 @@ import ComposeMenu from './ComposeMenu';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
 import AnnouncementOnly from '../message/AnnouncementOnly';
+import MentionWarnings from './MentionWarnings';
 
 import {
   getAuth,
@@ -43,6 +46,7 @@ import {
   getLastMessageTopic,
   getActiveUsersByEmail,
   getCaughtUpForNarrow,
+  getStreamInNarrow,
 } from '../selectors';
 import {
   getIsActiveStreamSubscribed,
@@ -64,6 +68,7 @@ type SelectorProps = {|
   draft: string,
   lastMessageTopic: string,
   caughtUp: CaughtUp,
+  stream: Subscription | {| ...Stream, in_home_view: boolean |},
 |};
 
 type Props = $ReadOnly<{|
@@ -116,7 +121,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
   messageInput: ?TextInput = null;
   topicInput: ?TextInput = null;
-
+  mentionWarnings: React$ElementRef<MentionWarnings> = React.createRef();
   inputBlurTimeoutId: ?TimeoutID = null;
 
   state = {
@@ -190,8 +195,15 @@ class ComposeBox extends PureComponent<Props, State> {
     dispatch(draftUpdate(narrow, message));
   };
 
-  handleMessageAutocomplete = (message: string) => {
+  // See JSDoc on 'onAutocomplete' in 'AutocompleteView.js'.
+  handleMessageAutocomplete = (message: string, completion: string, lastWordPrefix: string) => {
     this.setMessageInputValue(message);
+
+    if (lastWordPrefix === '@') {
+      if (this.mentionWarnings.current) {
+        this.mentionWarnings.current.getWrappedInstance().handleMentionSubscribedCheck(completion);
+      }
+    }
   };
 
   handleMessageSelectionChange = (event: { +nativeEvent: { +selection: InputSelection } }) => {
@@ -261,6 +273,11 @@ class ComposeBox extends PureComponent<Props, State> {
     dispatch(addToOutbox(this.getDestinationNarrow(), message));
 
     this.setMessageInputValue('');
+
+    if (this.mentionWarnings.current) {
+      this.mentionWarnings.current.getWrappedInstance().clearMentionWarnings();
+    }
+
     dispatch(sendTypingStop(narrow));
   };
 
@@ -354,6 +371,7 @@ class ComposeBox extends PureComponent<Props, State> {
       isAdmin,
       isAnnouncementOnly,
       isSubscribed,
+      stream,
     } = this.props;
 
     if (!isSubscribed) {
@@ -370,6 +388,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View style={this.styles.wrapper}>
+        <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
         <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
           <TopicAutocomplete
             isFocused={isTopicFocused}
@@ -450,4 +469,5 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   draft: getDraftForNarrow(state, props.narrow),
   lastMessageTopic: getLastMessageTopic(state, props.narrow),
   caughtUp: getCaughtUpForNarrow(state, props.narrow),
+  stream: getStreamInNarrow(state, props.narrow),
 }))(withGetText(ComposeBox));
