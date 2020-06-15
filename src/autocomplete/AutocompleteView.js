@@ -19,14 +19,24 @@ type Props = $ReadOnly<{|
   isFocused: boolean,
   text: string,
   selection: InputSelection,
-  onAutocomplete: (input: string) => void,
+
+  /**
+   * The callback that is called when the user taps on any of the suggested items.
+   *
+   * @param input The text entered by the user, modified to include the autocompletion.
+   * @param completion The suggestion selected by the user. Includes markdown formatting,
+      but not the prefix. Eg. **FullName**, **StreamName**.
+   * @param lastWordPrefix The type of the autocompletion - valid values are keys of 'prefixToComponent'.
+   */
+  onAutocomplete: (input: string, completion: string, lastWordPrefix: string) => void,
 |}>;
 
 export default class AutocompleteView extends PureComponent<Props> {
   handleAutocomplete = (autocomplete: string) => {
     const { text, onAutocomplete, selection } = this.props;
+    const { lastWordPrefix } = getAutocompleteFilter(text, selection);
     const newText = getAutocompletedText(text, autocomplete, selection);
-    onAutocomplete(newText);
+    onAutocomplete(newText, autocomplete, lastWordPrefix);
   };
 
   render() {
