@@ -216,6 +216,7 @@
   "Sending Message...": "Sending Message...",
   "Failed to send message": "Failed to send message",
   "Message sent": "Message sent",
+  "Couldn't load information about {fullName}": "Couldn't load information about {fullName}",
   "What's your status?": "What's your status?",
   "📅 In a meeting": "📅 In a meeting",
   "🚌 Commuting": "🚌 Commuting",
