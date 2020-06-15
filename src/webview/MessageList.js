@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { Component } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 import type { WebViewNavigation } from 'react-native-webview';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
@@ -221,15 +221,6 @@ class MessageList extends Component<Props> {
     return false;
   };
 
-  renderLoading = () => {
-    const style = {
-      backgroundColor: 'transparent',
-      width: '100%',
-      height: '100%',
-    };
-    return <View style={style} />;
-  };
-
   render() {
     const {
       backgroundData,
@@ -318,12 +309,10 @@ class MessageList extends Component<Props> {
     // https://github.com/react-native-community/react-native-webview/pull/697
     return (
       <WebView
-        startInLoadingState
-        renderLoading={this.renderLoading}
         source={{ baseUrl, html }}
         originWhitelist={['file://']}
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-        style={{ backgroundColor: this.context.backgroundColor }}
+        style={{ backgroundColor: 'transparent' }}
         ref={webview => {
           this.webview = webview;
         }}
