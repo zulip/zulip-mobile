@@ -202,14 +202,15 @@ export class NotificationListener {
   }
 
   /** Private. */
-  listen(name: string, handler: (...empty) => void | Promise<void>) {
-    if (Platform.OS === 'ios') {
-      NotificationsIOS.addEventListener(name, handler);
-      this.unsubs.push(() => NotificationsIOS.removeEventListener(name, handler));
-    } else {
-      const subscription = DeviceEventEmitter.addListener(name, handler);
-      this.unsubs.push(() => subscription.remove());
-    }
+  listenIOS(name: string, handler: (...empty) => void | Promise<void>) {
+    NotificationsIOS.addEventListener(name, handler);
+    this.unsubs.push(() => NotificationsIOS.removeEventListener(name, handler));
+  }
+
+  /** Private. */
+  listenAndroid(name: string, handler: (...empty) => void | Promise<void>) {
+    const subscription = DeviceEventEmitter.addListener(name, handler);
+    this.unsubs.push(() => subscription.remove());
   }
 
   /** Private. */
@@ -263,22 +264,20 @@ export class NotificationListener {
     if (Platform.OS === 'android') {
       // On Android, the object passed to the handler is constructed in
       // FcmMessage.kt, and will always be a Notification.
-      this.listen('notificationOpened', this.handleNotificationOpen);
+      this.listenAndroid('notificationOpened', this.handleNotificationOpen);
+      this.listenAndroid('remoteNotificationsRegistered', this.handleDeviceToken);
     } else {
       // On iOS, `note` should be an IOSNotifications object. The notification
       // data it returns from `getData` is unvalidated -- it comes almost
       // straight off the wire from the server.
-      this.listen('notificationOpened', (note: { getData(): JSONableDict, ... }) => {
+      this.listenIOS('notificationOpened', (note: { getData(): JSONableDict, ... }) => {
         const data = fromAPNs(note.getData());
         if (data) {
           this.handleNotificationOpen(data);
         }
       });
-    }
-
-    this.listen('remoteNotificationsRegistered', this.handleDeviceToken);
-    if (Platform.OS === 'ios') {
-      this.listen('remoteNotificationsRegistrationFailed', this.handleIOSRegistrationFailure);
+      this.listenIOS('remoteNotificationsRegistered', this.handleDeviceToken);
+      this.listenIOS('remoteNotificationsRegistrationFailed', this.handleIOSRegistrationFailure);
     }
 
     if (Platform.OS === 'android') {
