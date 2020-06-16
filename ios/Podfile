@@ -10,10 +10,6 @@ target 'ZulipMobile' do
   # Pods from React Native
   use_react_native!
 
-  # This is deprecated upstream; removing it is #4115. See
-  # https://reactnative.dev/docs/pushnotificationios.
-  pod 'React-RCTPushNotification', :path => '../node_modules/react-native/Libraries/PushNotificationIOS'
-
   # "Autolinking": automatically link pods that depend on React
   # Native, unless omitted in our own `react-native.config.js`.
   use_native_modules!

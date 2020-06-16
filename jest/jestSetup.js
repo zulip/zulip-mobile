@@ -93,6 +93,18 @@ jest.mock('react-native-reanimated', () => {
 
 jest.mock('@react-native-community/async-storage', () => mockAsyncStorage);
 
+// Without this, we get lots of these errors on importing the module:
+// `Invariant Violation: Native module cannot be null.`
+jest.mock('@react-native-community/push-notification-ios', () => ({
+  presentLocalNotification: jest.fn(),
+  scheduleLocalNotification: jest.fn(),
+  cancelAllLocalNotifications: jest.fn(),
+  removeAllDeliveredNotifications: jest.fn(),
+  getDeliveredNotifications: jest.fn(),
+  removeDeliveredNotifications: jest.fn(),
+  // etc. (incomplete)
+}));
+
 jest.mock('react-native-sound', () => () => ({
   play: jest.fn(),
 }));

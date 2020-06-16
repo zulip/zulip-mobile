@@ -6,4 +6,3 @@
 #import <React/RCTConvert.h>
 #import <React/RCTEventEmitter.h>
 #import <React/RCTBundleURLProvider.h>
-#import <React/RCTPushNotificationManager.h>

@@ -1,6 +1,7 @@
 /* @flow strict-local */
-import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
-import type { PushNotificationEventName } from 'react-native/Libraries/PushNotificationIOS/PushNotificationIOS';
+import { DeviceEventEmitter, NativeModules, Platform } from 'react-native';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import type { PushNotificationEventName } from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
 import type { Auth, Dispatch, Identity, Narrow, UserId, UserOrBot } from '../types';
@@ -196,7 +197,7 @@ export class NotificationListener {
     // 'register'          -> 'remoteNotificationsRegistered'
     // 'registrationError' -> 'remoteNotificationRegistrationError'
     PushNotificationIOS.addEventListener(name, handler);
-    this.unsubs.push(() => PushNotificationIOS.removeEventListener(name, handler));
+    this.unsubs.push(() => PushNotificationIOS.removeEventListener(name));
   }
 
   /** Private. */
@@ -306,53 +307,46 @@ export class NotificationListener {
 export const getNotificationToken = () => {
   if (Platform.OS === 'ios') {
     // This leads to a call in RNCPushNotificationIOS to this, to
-    // maybe prompt the user to grant permissions:
-    //   https://developer.apple.com/documentation/uikit/uiapplication/1622932-registerusernotificationsettings?language=objc
-    // (deprecated after iOS 10, yikes!).
+    // maybe prompt the user to grant authorization, with options for
+    // what things to authorize (badge, sound, alert, etc.):
+    //   https://developer.apple.com/documentation/usernotifications/unusernotificationcenter/1649527-requestauthorizationwithoptions
     //
-    // (Then, in case we're interested, the library ensures that the
-    // Promise we get will resolve with the user's notification
-    // settings for the app: whether they've enabled alerts, the badge
-    // count, and sound.)
+    // If authorization is granted, the library calls this, to have the
+    // application register for remote notifications:
+    //   https://developer.apple.com/documentation/appkit/nsapplication/2967172-registerforremotenotifications?language=occ
     //
-    // The above-mentioned `registerUserNotificationSettings` function
-    // reports the permissions-request result to the app;
-    // `AppDelegate`'s `didRegisterUserNotificationSettings` method
-    // gets called (it's also deprecated):
-    //   https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623022-application?language=objc
+    // (Then, in case we're interested, the library calls
+    //   https://developer.apple.com/documentation/usernotifications/unusernotificationcenter/1649524-getnotificationsettingswithcompl
+    // and sets the eventual result to be the resolution of the
+    // Promise we get, so we can know if the user has enabled
+    // alerts, the badge count, and sound.)
+    //
+    // The above-mentioned `registerForRemoteNotifications` function
+    // ends up sending the app a device token; the app receives it in
+    // our own code: `AppDelegate`'s
+    // `didRegisterForRemoteNotificationsWithDeviceToken` method:
+    //   https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application?language=objc.
     // Following the library's setup instructions, we've asked that
     // method to hand control back to the library.
     //
-    // If authorization is granted, the library calls this (not
-    // deprecated), to have the application register for remote
-    // notifications:
-    //   https://developer.apple.com/documentation/appkit/nsapplication/2967172-registerforremotenotifications?language=occ
-    // That function ends up sending the app a device token; the app
-    // receives it in our own code: `AppDelegate`'s
-    // `didRegisterForRemoteNotificationsWithDeviceToken` method:
-    //   https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application?language=objc
-    // (not deprecated). Following the library's setup instructions,
-    // we've asked that method to hand control back to the library.
-    //
     // It looks like the library then creates a notification, with the
     // magic-string name "RemoteNotificationsRegistered", using
-    // https://developer.apple.com/documentation/foundation/nsnotificationcenter/1415812-postnotificationname?language=objc
-    // (not deprecated).
+    //   https://developer.apple.com/documentation/foundation/nsnotificationcenter/1415812-postnotificationname?language=objc.
     // It listens for this notification with
     //   https://developer.apple.com/documentation/foundation/nsnotificationcenter/1415360-addobserver
-    // (not deprecated) and, upon receipt, sends a React Native event
-    // to the JavaScript part of the library. We can listen to this
-    // event, with `PushNotificationIOS.addEventListener`, under the
-    // alias 'register'. (We can also listen for registration failure
-    // under the alias 'registrationError'.)
+    // and, upon receipt, sends a React Native event to the JavaScript
+    // part of the library. We can listen to this event, with
+    // `PushNotificationIOS.addEventListener`, under the alias
+    // 'register'. (We can also listen for registration failure under
+    // the alias 'registrationError'.)
     //
     // In short, this kicks off a sequence:
-    //   permissions / register settings ->
+    //   authorization, with options ->
     //   register for remote notifications ->
     //   send event we already have a global listener for
     //
     // This satisfies the stern warnings in Apple's docs (at the above
-    // links) to request permissions before registering with the push
+    // links) to request authorization before registering with the push
     // notification service.
     PushNotificationIOS.requestPermissions();
   } else {
