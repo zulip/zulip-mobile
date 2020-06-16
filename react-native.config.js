@@ -22,12 +22,6 @@ module.exports = {
         ios: null,
       },
     },
-    'react-native-notifications': {
-      platforms: {
-        // We don't use this Wix library in the Android build. See 01b33ad31.
-        android: null,
-      },
-    },
     'react-native-screens': {
       platforms: {
         // We haven't enabled `react-native-screens` yet, that's

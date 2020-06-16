@@ -26,7 +26,6 @@ node_modules/warning/.*
 # resolved, or write our own libdef.
 .*/node_modules/react-native-image-picker/.*
 
-.*/node_modules/react-native-notifications/.*
 .*/node_modules/react-native-tab-view/.*
 .*/node_modules/react-native-safe-area/.*
 .*/node_modules/flow-coverage-report/.*

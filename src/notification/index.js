@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
-import NotificationsIOS from 'react-native-notifications';
+import type { PushNotificationEventName } from 'react-native/Libraries/PushNotificationIOS/PushNotificationIOS';
 
 import type { Notification } from './types';
 import type { Auth, Dispatch, Identity, Narrow, UserId, UserOrBot } from '../types';
@@ -155,36 +155,21 @@ export const handleInitialNotification = async (dispatch: Dispatch) => {
   dispatch(narrowToNotification(data));
 };
 
-export const notificationOnAppActive = () => {
-  if (Platform.OS === 'ios') {
-    try {
-      // Allow 'notificationOpened' events to be emitted when pressing
-      // a notification when the app is in the background.
-      //
-      // TODO: This API is deprecated in react-native-notifications release
-      // 2.0.6-snapshot.8; see #3647.
-      //
-      // We don't know the behavior if this is called before
-      // NotificationsIOS.requestPermissions(), so, catch any errors
-      // silently. Ray's investigation shows that it *shouldn't*
-      // throw, but may (https://github.com/zulip/zulip-mobile/pull/3947#discussion_r389192513).
-      NotificationsIOS.consumeBackgroundQueue();
-    } catch (e) {
-      logging.warn(e, {
-        message:
-          'Call to NotificationsIOS.consumeBackgroundQueue failed; pressed notification failed to navigate',
-      });
-    }
-  }
-};
-
 /**
- * From rn-notifications@1.5.0's RNNotifications.m.
+ * From ios/RNCPushNotificationIOS.m in @rnc/push-notification-ios at 1.2.2.
  */
 type NotificationRegistrationFailedEvent = {|
-  domain: string, // e.g. 'NSCocoaErrorDomain'
+  // NSError.localizedDescription, see
+  // https://developer.apple.com/documentation/foundation/nserror/1414418-localizeddescription
+  message: string,
+
+  // NSError.code, see
+  // https://developer.apple.com/documentation/foundation/nserror/1409165-code
   code: number,
-  localizedDescription: string,
+
+  // NSError.userInfo, see
+  // https://developer.apple.com/documentation/foundation/nserror/1411580-userinfo
+  details: JSONableDict,
 |};
 
 /**
@@ -202,9 +187,16 @@ export class NotificationListener {
   }
 
   /** Private. */
-  listenIOS(name: string, handler: (...empty) => void | Promise<void>) {
-    NotificationsIOS.addEventListener(name, handler);
-    this.unsubs.push(() => NotificationsIOS.removeEventListener(name, handler));
+  listenIOS(name: PushNotificationEventName, handler: (...empty) => void | Promise<void>) {
+    // In the native code, the PushNotificationEventName we pass here
+    // is mapped to something else (see implementation):
+    //
+    // 'notification'      -> 'remoteNotificationReceived'
+    // 'localNotification' -> 'localNotificationReceived'
+    // 'register'          -> 'remoteNotificationsRegistered'
+    // 'registrationError' -> 'remoteNotificationRegistrationError'
+    PushNotificationIOS.addEventListener(name, handler);
+    this.unsubs.push(() => PushNotificationIOS.removeEventListener(name, handler));
   }
 
   /** Private. */
@@ -254,7 +246,7 @@ export class NotificationListener {
 
   /** Private. */
   handleIOSRegistrationFailure = (err: NotificationRegistrationFailedEvent) => {
-    logging.warn(`Failed to register iOS push token: ${err.domain}:#${err.code}`, {
+    logging.warn(`Failed to register iOS push token: ${err.code}`, {
       raw_error: err,
     });
   };
@@ -267,17 +259,22 @@ export class NotificationListener {
       this.listenAndroid('notificationOpened', this.handleNotificationOpen);
       this.listenAndroid('remoteNotificationsRegistered', this.handleDeviceToken);
     } else {
-      // On iOS, `note` should be an IOSNotifications object. The notification
-      // data it returns from `getData` is unvalidated -- it comes almost
-      // straight off the wire from the server.
-      this.listenIOS('notificationOpened', (note: { getData(): JSONableDict, ... }) => {
-        const data = fromAPNs(note.getData());
-        if (data) {
-          this.handleNotificationOpen(data);
+      this.listenIOS('notification', (notification: PushNotificationIOS) => {
+        // This is actually typed as ?Object (and so effectively `any`); but
+        // if present, it must be a JSONable dictionary. It's giving us the
+        // notification data, which was passed over APNs as JSON.
+        const data: ?JSONableDict = notification.getData();
+        if (!data) {
+          return;
         }
+        const dataFromAPNs: Notification | void = fromAPNs(data);
+        if (!dataFromAPNs) {
+          return;
+        }
+        this.handleNotificationOpen(dataFromAPNs);
       });
-      this.listenIOS('remoteNotificationsRegistered', this.handleDeviceToken);
-      this.listenIOS('remoteNotificationsRegistrationFailed', this.handleIOSRegistrationFailure);
+      this.listenIOS('register', this.handleDeviceToken);
+      this.listenIOS('registrationError', this.handleIOSRegistrationFailure);
     }
 
     if (Platform.OS === 'android') {
@@ -301,29 +298,63 @@ export class NotificationListener {
   }
 }
 
-/** Try to cause a `remoteNotificationsRegistered` event. */
+/**
+ * Try to cause a `remoteNotificationsRegistered` event.
+ *
+ * Our 'register' listener will fire on that event.
+ */
 export const getNotificationToken = () => {
   if (Platform.OS === 'ios') {
-    // This leads to a call (in wix's, or RN upstream's, NotificationsIOS) to this:
-    //   https://developer.apple.com/documentation/uikit/uiapplication/1622932-registerusernotificationsettings
-    // (deprecated after iOS 10, yikes!); which after possibly prompting the
-    // user causes "the app" (i.e. the platform part) to call this, I think,
-    // though I haven't successfully traced all the steps there:
-    //   https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623022-application?language=objc
-    // which certainly in the wix case leads to a call to this:
-    //   https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications
-    // which "initiate[s] the registration process with [APNs]".  Then the
-    // methods that calls on success/failure in turn are implemented to send
-    // an event with name `remoteNotificationsRegistered` etc., in both the
-    // wix and RN-upstream case.  (Though NB in the *failure* case, the
-    // event names differ!  wix has s/Error/Failed/ vs. upstream; also
-    // upstream has singular for failure although plural for success, ouch.)
+    // This leads to a call in RNCPushNotificationIOS to this, to
+    // maybe prompt the user to grant permissions:
+    //   https://developer.apple.com/documentation/uikit/uiapplication/1622932-registerusernotificationsettings?language=objc
+    // (deprecated after iOS 10, yikes!).
     //
-    // In short, this kicks off a sequence: permissions -> "register" ->
-    // send event we already have a global listener for.  And the first two
-    // steps satisfy the stern warnings in Apple's docs (at the above links)
-    // to request permissions first, then "register".
-    NotificationsIOS.requestPermissions();
+    // (Then, in case we're interested, the library ensures that the
+    // Promise we get will resolve with the user's notification
+    // settings for the app: whether they've enabled alerts, the badge
+    // count, and sound.)
+    //
+    // The above-mentioned `registerUserNotificationSettings` function
+    // reports the permissions-request result to the app;
+    // `AppDelegate`'s `didRegisterUserNotificationSettings` method
+    // gets called (it's also deprecated):
+    //   https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623022-application?language=objc
+    // Following the library's setup instructions, we've asked that
+    // method to hand control back to the library.
+    //
+    // If authorization is granted, the library calls this (not
+    // deprecated), to have the application register for remote
+    // notifications:
+    //   https://developer.apple.com/documentation/appkit/nsapplication/2967172-registerforremotenotifications?language=occ
+    // That function ends up sending the app a device token; the app
+    // receives it in our own code: `AppDelegate`'s
+    // `didRegisterForRemoteNotificationsWithDeviceToken` method:
+    //   https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application?language=objc
+    // (not deprecated). Following the library's setup instructions,
+    // we've asked that method to hand control back to the library.
+    //
+    // It looks like the library then creates a notification, with the
+    // magic-string name "RemoteNotificationsRegistered", using
+    // https://developer.apple.com/documentation/foundation/nsnotificationcenter/1415812-postnotificationname?language=objc
+    // (not deprecated).
+    // It listens for this notification with
+    //   https://developer.apple.com/documentation/foundation/nsnotificationcenter/1415360-addobserver
+    // (not deprecated) and, upon receipt, sends a React Native event
+    // to the JavaScript part of the library. We can listen to this
+    // event, with `PushNotificationIOS.addEventListener`, under the
+    // alias 'register'. (We can also listen for registration failure
+    // under the alias 'registrationError'.)
+    //
+    // In short, this kicks off a sequence:
+    //   permissions / register settings ->
+    //   register for remote notifications ->
+    //   send event we already have a global listener for
+    //
+    // This satisfies the stern warnings in Apple's docs (at the above
+    // links) to request permissions before registering with the push
+    // notification service.
+    PushNotificationIOS.requestPermissions();
   } else {
     // On Android, we do this at application startup.
   }

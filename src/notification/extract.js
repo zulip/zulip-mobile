@@ -108,9 +108,9 @@ export const fromAPNsImpl = (rawData: JSONableDict): Notification | void => {
   // required, with a structure defined by Apple; all other entries are
   // available to the application.
   //
-  // The react-native-notifications library filters out `aps`, parses it, and
-  // hands us the rest as "data". Pretty much any iOS notifications library
-  // should do the same, but we don't rely on that.
+  // PushNotificationsIOS filters out `aps`, parses it, and hands us the rest
+  // as "data". Pretty much any iOS notifications library should do
+  // the same, but we don't rely on that.
 
   const data: JSONableInputDict = (() => {
     if ('aps' in rawData) {
