@@ -252,7 +252,7 @@ export class NotificationListener {
   };
 
   /** Private. */
-  handleRegistrationFailure = (err: NotificationRegistrationFailedEvent) => {
+  handleIOSRegistrationFailure = (err: NotificationRegistrationFailedEvent) => {
     logging.warn(`Failed to register iOS push token: ${err.domain}:#${err.code}`, {
       raw_error: err,
     });
@@ -278,7 +278,7 @@ export class NotificationListener {
 
     this.listen('remoteNotificationsRegistered', this.handleDeviceToken);
     if (Platform.OS === 'ios') {
-      this.listen('remoteNotificationsRegistrationFailed', this.handleRegistrationFailure);
+      this.listen('remoteNotificationsRegistrationFailed', this.handleIOSRegistrationFailure);
     }
 
     if (Platform.OS === 'android') {
