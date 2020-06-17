@@ -1,8 +1,10 @@
 import mockStore from 'redux-mock-store'; // eslint-disable-line
 
-import { fetchMessages, fetchOlder, fetchNewer } from '../fetchActions';
+import { Lolex } from '../../__tests__/lib/lolex';
+import { fetchMessages, fetchOlder, fetchNewer, tryFetch } from '../fetchActions';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
+import { ApiError } from '../../api/apiErrors';
 
 const narrow = streamNarrow('some stream');
 const streamNarrowStr = JSON.stringify(narrow);
@@ -12,6 +14,56 @@ global.FormData = class FormData {};
 describe('fetchActions', () => {
   afterEach(() => {
     fetch.reset();
+  });
+
+  describe('tryFetch', () => {
+    const lolex = new Lolex();
+    afterAll(() => {
+      lolex.dispose();
+    });
+
+    afterEach(() => {
+      // clear any unset timers
+      lolex.clearAllTimers();
+    });
+
+    test('retries a call, if there is an exception', async () => {
+      // fail on first call, succeed second time
+      let callCount = 0;
+      const thrower = () => {
+        callCount++;
+        if (callCount === 1) {
+          throw new Error('First run exception');
+        }
+        return 'hello';
+      };
+
+      const tryFetchPromise = tryFetch(async () => {
+        await new Promise(r => setTimeout(r, 10));
+        return thrower();
+      });
+      await lolex.runAllTimersAsync();
+      const result = await tryFetchPromise;
+
+      expect(result).toEqual('hello');
+    });
+
+    test('Rethrows a 4xx error without retrying', async () => {
+      const apiError = new ApiError(400, {
+        code: 'BAD_REQUEST',
+        msg: 'Bad Request',
+        result: 'error',
+      });
+
+      const func = jest.fn().mockImplementation(async () => {
+        throw apiError;
+      });
+      const tryFetchPromise = tryFetch(func);
+
+      await lolex.runAllTimersAsync();
+      expect(func).toHaveBeenCalledTimes(1);
+      return expect(tryFetchPromise).rejects.toThrow(apiError);
+    });
   });
 
   describe('fetchMessages', () => {

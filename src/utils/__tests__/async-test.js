@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { sleep, tryUntilSuccessful } from '../async';
+import { sleep } from '../async';
 import { Lolex } from '../../__tests__/lib/lolex';
 
 const sleepMeasure = async (expectedMs: number) => {
@@ -58,37 +58,5 @@ describe('sleep (real)', () => {
     //     In practice, 10x really is enough of a padding factor that it's never
     //     been an issue, even with real-world timers on shared CI hardware with
     //     unpredictable loads.
-  });
-});
-
-describe('tryUntilSuccessful', () => {
-  test('resolves any value when there is no exception', async () => {
-    const result = await tryUntilSuccessful(async () => 'hello');
-
-    expect(result).toEqual('hello');
-  });
-
-  test('resolves any promise, if there is no exception', async () => {
-    const result = await tryUntilSuccessful(
-      () => new Promise(resolve => setTimeout(() => resolve('hello'), 100)),
-    );
-
-    expect(result).toEqual('hello');
-  });
-
-  test('retries a call, if there is an exception', async () => {
-    // fail on first call, succeed second time
-    let callCount = 0;
-    const thrower = () => {
-      callCount++;
-      if (callCount === 1) {
-        throw new Error('First run exception');
-      }
-      return 'hello';
-    };
-
-    const result = await tryUntilSuccessful(async () => thrower());
-
-    expect(result).toEqual('hello');
   });
 });
