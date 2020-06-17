@@ -30,7 +30,8 @@ import {
 } from '../actionConstants';
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
-import { BackoffMachine } from '../utils/async';
+import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
+import * as logging from '../utils/logging';
 import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
@@ -128,8 +129,6 @@ const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
-// This will be used in an upcoming commit.
-/* eslint-disable-next-line no-unused-vars */
 const initialFetchAbort = (): Action => ({
   type: INITIAL_FETCH_ABORT,
 });
@@ -234,26 +233,46 @@ const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) 
  * If the function is an API call and the response has HTTP status code 4xx
  * the error is considered unrecoverable and the exception is rethrown, to be
  * handled further up in the call stack.
+ *
+ * After a certain duration, times out with a TimeoutError.
  */
 export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
+  const MAX_TIME_MS: number = 60000;
   const backoffMachine = new BackoffMachine();
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    try {
-      return await func();
-    } catch (e) {
-      if (isClientError(e)) {
-        throw e;
-      }
-      await backoffMachine.wait();
-    }
-  }
 
-  // Without this, Flow 0.92.1 does not know this code is unreachable,
-  // and it incorrectly thinks Promise<undefined> could be returned,
-  // which is inconsistent with the stated Promise<T> return type.
-  // eslint-disable-next-line no-unreachable
-  throw new Error();
+  // TODO: Use AbortController instead of this stateful flag; #4170
+  let timerHasExpired = false;
+
+  return promiseTimeout(
+    (async () => {
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        if (timerHasExpired) {
+          // No one is listening for this Promise's outcome, so stop
+          // doing more work.
+          throw new Error();
+        }
+        try {
+          return await func();
+        } catch (e) {
+          if (isClientError(e)) {
+            throw e;
+          }
+          await backoffMachine.wait();
+        }
+      }
+      // Without this, Flow 0.92.1 does not know this code is unreachable,
+      // and it incorrectly thinks Promise<undefined> could be returned,
+      // which is inconsistent with the stated Promise<T> return type.
+      // eslint-disable-next-line no-unreachable
+      throw new Error();
+    })(),
+    MAX_TIME_MS,
+    () => {
+      timerHasExpired = true;
+      throw new TimeoutError();
+    },
+  );
 }
 
 /**
@@ -294,9 +313,15 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
       tryFetch(() => api.getServerSettings(auth.realm)),
     ]);
   } catch (e) {
-    // This should only happen on a 4xx HTTP status, which should only
-    // happen when `auth` is no longer valid.  No use retrying; just log out.
-    dispatch(logout());
+    if (isClientError(e)) {
+      dispatch(logout());
+    } else if (e instanceof TimeoutError) {
+      dispatch(initialFetchAbort());
+    } else {
+      logging.warn(e, {
+        message: 'Unexpected error during initial fetch and serverSettings fetch.',
+      });
+    }
     return;
   }
 

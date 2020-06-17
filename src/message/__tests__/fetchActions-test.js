@@ -5,6 +5,7 @@ import { fetchMessages, fetchOlder, fetchNewer, tryFetch } from '../fetchActions
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
 import { ApiError } from '../../api/apiErrors';
+import { TimeoutError } from '../../utils/async';
 
 const narrow = streamNarrow('some stream');
 const streamNarrowStr = JSON.stringify(narrow);
@@ -63,6 +64,29 @@ describe('fetchActions', () => {
       await lolex.runAllTimersAsync();
       expect(func).toHaveBeenCalledTimes(1);
       return expect(tryFetchPromise).rejects.toThrow(apiError);
+    });
+
+    test('times out after many short-duration 5xx errors', async () => {
+      const tryFetchPromise = tryFetch(async () => {
+        await new Promise(r => setTimeout(r, 50));
+        throw new ApiError(500, {
+          code: 'SOME_ERROR_CODE',
+          msg: 'Internal Server Error',
+          result: 'error',
+        });
+      });
+
+      await lolex.runAllTimersAsync();
+      return expect(tryFetchPromise).rejects.toThrow(TimeoutError);
+    });
+
+    test('times out after hanging on one request', async () => {
+      const tryFetchPromise = tryFetch(async () => {
+        await new Promise((resolve, reject) => {});
+      });
+
+      await lolex.runAllTimersAsync();
+      return expect(tryFetchPromise).rejects.toThrow(TimeoutError);
     });
   });
 
