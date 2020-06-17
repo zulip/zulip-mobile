@@ -18,6 +18,7 @@ import {
   MESSAGE_FETCH_COMPLETE,
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_ABORT,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
   PRESENCE_RESPONSE,
@@ -233,6 +234,19 @@ type InitialFetchStartAction = {|
 
 type InitialFetchCompleteAction = {|
   type: typeof INITIAL_FETCH_COMPLETE,
+|};
+
+export type InitialFetchAbortReason = 'server' | 'network' | 'timeout' | 'unexpected';
+
+/**
+ * Notify Redux that we've given up on the initial fetch.
+ *
+ * Not for unrecoverable errors, like ApiErrors, which indicate that we
+ * tried and failed, not that we gave up trying.
+ */
+type InitialFetchAbortAction = {|
+  type: typeof INITIAL_FETCH_ABORT,
+  reason: InitialFetchAbortReason,
 |};
 
 type ServerEvent = {|
@@ -602,7 +616,11 @@ type InitTopicsAction = {|
 
 type AccountAction = AccountSwitchAction | AccountRemoveAction | LoginSuccessAction | LogoutAction;
 
-type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
+type LoadingAction =
+  | DeadQueueAction
+  | InitialFetchStartAction
+  | InitialFetchCompleteAction
+  | InitialFetchAbortAction;
 
 type MessageAction = MessageFetchStartAction | MessageFetchErrorAction | MessageFetchCompleteAction;
 

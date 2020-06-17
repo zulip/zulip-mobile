@@ -6,6 +6,7 @@ import {
   LOGOUT,
   APP_ONLINE,
   INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_ABORT,
   APP_ORIENTATION,
   GOT_PUSH_TOKEN,
   TOGGLE_OUTBOX_SENDING,
@@ -72,6 +73,15 @@ describe('sessionReducer', () => {
     const action = deepFreeze({ type: APP_ONLINE, isOnline: true });
     const newState = sessionReducer(state, action);
     expect(newState).toEqual({ ...baseState, isOnline: true });
+  });
+
+  test('INITIAL_FETCH_ABORT', () => {
+    const state = deepFreeze({ ...baseState, needsInitialFetch: true, loading: true });
+    const newState = sessionReducer(
+      state,
+      deepFreeze({ type: INITIAL_FETCH_ABORT, reason: 'server' }),
+    );
+    expect(newState).toEqual({ ...baseState, needsInitialFetch: false, loading: false });
   });
 
   test('INITIAL_FETCH_COMPLETE', () => {

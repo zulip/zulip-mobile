@@ -1,9 +1,13 @@
 /* @flow strict-local */
+import * as NavigationService from '../nav/NavigationService';
 import type { Narrow, Dispatch, GetState, GlobalState, Message, Action, UserId } from '../types';
+import { ensureUnreachable } from '../types';
+import type { InitialFetchAbortReason } from '../actionTypes';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
 import { ApiError } from '../api/apiErrors';
+import { resetToAccountPicker } from '../actions';
 import {
   getAuth,
   getSession,
@@ -11,16 +15,20 @@ import {
   getLastMessageId,
   getCaughtUpForNarrow,
   getFetchingForNarrow,
+  getIsAdmin,
+  getActiveAccount,
 } from '../selectors';
 import config from '../config';
 import {
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_ABORT,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
+import { showErrorAlert } from '../utils/info';
 import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
 import { initNotifications } from '../notification/notificationActions';
@@ -167,6 +175,47 @@ const initialFetchStart = (): Action => ({
 const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
+
+const initialFetchAbortPlain = (reason: InitialFetchAbortReason): Action => ({
+  type: INITIAL_FETCH_ABORT,
+  reason,
+});
+
+// This will be used in an upcoming commit.
+/* eslint-disable-next-line no-unused-vars */
+export const initialFetchAbort = (reason: InitialFetchAbortReason) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  showErrorAlert(
+    // TODO: Set up these user-facing strings for translation once
+    // `initialFetchAbort`'s callers all have access to a `GetText`
+    // function. As of adding the strings, the initial fetch is dispatched
+    // from `AppDataFetcher` which isn't a descendant of
+    // `TranslationProvider`.
+    'Connection failed',
+    (() => {
+      const realmStr = getActiveAccount(getState()).realm.toString();
+      switch (reason) {
+        case 'server':
+          return getIsAdmin(getState())
+            ? `Could not connect to ${realmStr} because the server encountered an error. Please check the server logs.`
+            : `Could not connect to ${realmStr} because the server encountered an error. Please ask an admin to check the server logs.`;
+        case 'network':
+          return `The network request to ${realmStr} failed.`;
+        case 'timeout':
+          return `Gave up trying to connect to ${realmStr} after waiting too long.`;
+        case 'unexpected':
+          return `Unexpected error while trying to connect to ${realmStr}.`;
+        default:
+          ensureUnreachable(reason);
+          return '';
+      }
+    })(),
+  );
+  NavigationService.dispatch(resetToAccountPicker());
+  dispatch(initialFetchAbortPlain(reason));
+};
 
 /** Private; exported only for tests. */
 export const isFetchNeededAtAnchor = (

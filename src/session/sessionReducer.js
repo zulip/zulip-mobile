@@ -8,6 +8,7 @@ import {
   ACCOUNT_SWITCH,
   REALM_INIT,
   INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_ABORT,
   INITIAL_FETCH_START,
   APP_ORIENTATION,
   TOGGLE_OUTBOX_SENDING,
@@ -166,6 +167,7 @@ export default (state: SessionState = initialState, action: Action): SessionStat
         loading: true,
       };
 
+    case INITIAL_FETCH_ABORT:
     case INITIAL_FETCH_COMPLETE:
       return {
         ...state,
