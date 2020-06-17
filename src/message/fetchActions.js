@@ -178,14 +178,12 @@ export const fetchMessagesInNarrow = (
  */
 const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
-  const { messages, found_newest, found_oldest } = await tryUntilSuccessful(() =>
-    api.getMessages(auth, {
-      narrow: ALL_PRIVATE_NARROW,
-      anchor: LAST_MESSAGE_ANCHOR,
-      numBefore: 100,
-      numAfter: 0,
-    }),
-  );
+  const { messages, found_newest, found_oldest } = await api.getMessages(auth, {
+    narrow: ALL_PRIVATE_NARROW,
+    anchor: LAST_MESSAGE_ANCHOR,
+    numBefore: 100,
+    numAfter: 0,
+  });
   dispatch(
     messageFetchComplete({
       messages,
