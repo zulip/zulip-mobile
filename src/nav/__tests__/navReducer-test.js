@@ -1,6 +1,11 @@
 import deepFreeze from 'deep-freeze';
 
-import { LOGIN_SUCCESS, INITIAL_FETCH_COMPLETE, REHYDRATE } from '../../actionConstants';
+import {
+  LOGIN_SUCCESS,
+  INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_ABORT,
+  REHYDRATE,
+} from '../../actionConstants';
 import navReducer, { getStateForRoute } from '../navReducer';
 import { NULL_OBJECT } from '../../nullObjects';
 
@@ -39,6 +44,26 @@ describe('navReducer', () => {
       const newState = navReducer(prevState, action);
 
       expect(newState).toBe(prevState);
+    });
+  });
+
+  describe('INITIAL_FETCH_ABORT', () => {
+    test('navigate to account screen', () => {
+      const prevState = getStateForRoute('main');
+
+      const action = deepFreeze({
+        type: INITIAL_FETCH_ABORT,
+      });
+
+      const expectedState = {
+        index: 0,
+        routes: [{ routeName: 'account' }],
+      };
+
+      const newState = navReducer(prevState, action);
+
+      expect(newState.index).toEqual(expectedState.index);
+      expect(newState.routes[0].routeName).toEqual(expectedState.routes[0].routeName);
     });
   });
 

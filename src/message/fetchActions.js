@@ -24,6 +24,7 @@ import config from '../config';
 import {
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_ABORT,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
@@ -125,6 +126,12 @@ const initialFetchStart = (): Action => ({
 
 const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
+});
+
+// This will be used in an upcoming commit.
+/* eslint-disable-next-line no-unused-vars */
+const initialFetchAbort = (): Action => ({
+  type: INITIAL_FETCH_ABORT,
 });
 
 const isFetchNeededAtAnchor = (state: GlobalState, narrow: Narrow, anchor: number): boolean => {

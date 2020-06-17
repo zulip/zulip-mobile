@@ -6,6 +6,7 @@ import AppNavigator from './AppNavigator';
 import {
   REHYDRATE,
   INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_ABORT,
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -83,6 +84,7 @@ export default (state: NavigationState = initialState, action: Action): Navigati
     case INITIAL_FETCH_COMPLETE:
       return state.routes[0].routeName === 'main' ? state : getStateForRoute('main');
 
+    case INITIAL_FETCH_ABORT:
     case LOGOUT:
       return getStateForRoute('account');
 

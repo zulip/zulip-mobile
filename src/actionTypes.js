@@ -19,6 +19,7 @@ import {
   MESSAGE_FETCH_COMPLETE,
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_ABORT,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
   DO_NARROW,
@@ -210,6 +211,10 @@ type InitialFetchStartAction = {|
 
 type InitialFetchCompleteAction = {|
   type: typeof INITIAL_FETCH_COMPLETE,
+|};
+
+type InitialFetchAbortAction = {|
+  type: typeof INITIAL_FETCH_ABORT,
 |};
 
 type ServerEvent = {|
@@ -568,7 +573,11 @@ type AccountAction =
   | LoginSuccessAction
   | LogoutAction;
 
-type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
+type LoadingAction =
+  | DeadQueueAction
+  | InitialFetchStartAction
+  | InitialFetchCompleteAction
+  | InitialFetchAbortAction;
 
 type MessageAction = MessageFetchStartAction | MessageFetchCompleteAction;
 
