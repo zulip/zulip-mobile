@@ -1,8 +1,10 @@
 /* @flow strict-local */
+import * as NavigationService from '../nav/NavigationService';
 import type { Narrow, Dispatch, GetState, GlobalState, Message, Action, UserId } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
+import { resetToAccountPicker } from '../actions';
 import { isClientError } from '../api/apiErrors';
 import {
   getAuth,
@@ -16,6 +18,7 @@ import config from '../config';
 import {
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_ABORT,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
@@ -167,6 +170,17 @@ const initialFetchStart = (): Action => ({
 const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
+
+const initialFetchAbortPlain = (): Action => ({
+  type: INITIAL_FETCH_ABORT,
+});
+
+// This will be used in an upcoming commit.
+/* eslint-disable-next-line no-unused-vars */
+export const initialFetchAbort = () => async (dispatch: Dispatch, getState: GetState) => {
+  NavigationService.dispatch(resetToAccountPicker());
+  dispatch(initialFetchAbortPlain());
+};
 
 /** Private; exported only for tests. */
 export const isFetchNeededAtAnchor = (

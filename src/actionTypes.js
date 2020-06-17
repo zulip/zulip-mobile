@@ -18,6 +18,7 @@ import {
   MESSAGE_FETCH_COMPLETE,
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
+  INITIAL_FETCH_ABORT,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
   PRESENCE_RESPONSE,
@@ -227,6 +228,16 @@ type InitialFetchStartAction = {|
 
 type InitialFetchCompleteAction = {|
   type: typeof INITIAL_FETCH_COMPLETE,
+|};
+
+/**
+ * Notify Redux that we've given up on the initial fetch.
+ *
+ * Not for unrecoverable errors like 4xx errors; those indicate
+ * failure, not aborting/giving up.
+ */
+type InitialFetchAbortAction = {|
+  type: typeof INITIAL_FETCH_ABORT,
 |};
 
 type ServerEvent = {|
@@ -596,7 +607,11 @@ type InitTopicsAction = {|
 
 type AccountAction = AccountSwitchAction | AccountRemoveAction | LoginSuccessAction | LogoutAction;
 
-type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
+type LoadingAction =
+  | DeadQueueAction
+  | InitialFetchStartAction
+  | InitialFetchCompleteAction
+  | InitialFetchAbortAction;
 
 type MessageAction = MessageFetchStartAction | MessageFetchErrorAction | MessageFetchCompleteAction;
 
