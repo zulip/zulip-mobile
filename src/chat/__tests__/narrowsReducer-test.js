@@ -323,7 +323,7 @@ describe('narrowsReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
-        messageId: 3,
+        messageIds: [3],
       });
 
       const newState = narrowsReducer(initialState, action);
@@ -338,10 +338,29 @@ describe('narrowsReducer', () => {
       });
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
-        messageId: 2,
+        messageIds: [2],
       });
       const expectedState = deepFreeze({
         [HOME_NARROW_STR]: [1, 3],
+        [privateNarrowStr]: [],
+      });
+
+      const newState = narrowsReducer(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test('if multiple messages indicated, delete the ones that exist', () => {
+      const initialState = deepFreeze({
+        [HOME_NARROW_STR]: [1, 2, 3],
+        [privateNarrowStr]: [2],
+      });
+      const action = deepFreeze({
+        type: EVENT_MESSAGE_DELETE,
+        messageIds: [2, 3, 4],
+      });
+      const expectedState = deepFreeze({
+        [HOME_NARROW_STR]: [1],
         [privateNarrowStr]: [],
       });
 

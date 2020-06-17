@@ -298,7 +298,7 @@ type EventSubmessageAction = {|
 
 type EventMessageDeleteAction = {|
   type: typeof EVENT_MESSAGE_DELETE,
-  messageId: number,
+  messageIds: number[],
 |};
 type EventUpdateMessageAction = {|
   ...ServerEvent,

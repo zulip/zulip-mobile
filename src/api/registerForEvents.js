@@ -15,6 +15,7 @@ type RegisterForEventsParams = {|
   queue_lifespan_secs?: number,
   client_capabilities?: {|
     notification_settings_null: boolean,
+    bulk_message_deletion: boolean,
   |},
 |};
 

@@ -88,10 +88,13 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
         ownEmail: getOwnEmail(state),
       };
 
+    // Before server feature level 13, or if we don't specify the
+    // `bulk_message_deletion` client capability (which we do) this
+    // event has `message_id` instead of `message_ids`.
     case 'delete_message':
       return {
         type: EVENT_MESSAGE_DELETE,
-        messageId: event.message_id,
+        messageIds: event.message_ids ?? [event.message_id],
       };
 
     case EventTypes.stream:

@@ -91,10 +91,10 @@ const eventSubmessage = (state, action) => {
 };
 
 const eventMessageDelete = (state, action) => {
-  if (!state[action.messageId]) {
+  if (action.messageIds.every(messageId => !state[messageId])) {
     return state;
   }
-  return omit(state, action.messageId);
+  return omit(state, action.messageIds);
 };
 
 const eventUpdateMessage = (state, action) => {

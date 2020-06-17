@@ -253,6 +253,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
           client_gravatar: true,
           client_capabilities: {
             notification_settings_null: true,
+            bulk_message_deletion: true,
           },
         }),
       ),

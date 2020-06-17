@@ -90,7 +90,7 @@ describe('messagesReducer', () => {
       const initialState = deepFreeze({ 1: { id: 1 } });
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
-        messageId: 2,
+        messageIds: [2],
       });
       const newState = messagesReducer(initialState, action);
       expect(newState).toEqual(initialState);
@@ -101,7 +101,19 @@ describe('messagesReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
-        messageId: 2,
+        messageIds: [2],
+      });
+      const expectedState = deepFreeze({ 1: { id: 1 } });
+      const newState = messagesReducer(initialState, action);
+      expect(newState).toEqual(expectedState);
+    });
+
+    test('if multiple messages indicated, delete the ones that exist', () => {
+      const initialState = deepFreeze({ 1: { id: 1 }, 2: { id: 2 }, 3: { id: 3 } });
+
+      const action = deepFreeze({
+        type: EVENT_MESSAGE_DELETE,
+        messageIds: [2, 3, 4],
       });
       const expectedState = deepFreeze({ 1: { id: 1 } });
       const newState = messagesReducer(initialState, action);

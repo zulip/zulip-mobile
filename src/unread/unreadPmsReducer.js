@@ -60,7 +60,7 @@ export default (state: UnreadPmsState = initialState, action: Action): UnreadPms
       return eventNewMessage(state, action);
 
     case EVENT_MESSAGE_DELETE:
-      return removeItemsDeeply(state, [action.messageId]);
+      return removeItemsDeeply(state, action.messageIds);
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
       return eventUpdateMessageFlags(state, action);

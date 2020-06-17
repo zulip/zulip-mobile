@@ -63,7 +63,7 @@ const eventMessageDelete = (state, action) => {
   let stateChange = false;
   const newState: NarrowsState = {};
   Object.keys(state).forEach(key => {
-    newState[key] = state[key].filter(id => id !== action.messageId);
+    newState[key] = state[key].filter(id => !action.messageIds.includes(id));
     stateChange = stateChange || newState[key].length < state[key].length;
   });
   return stateChange ? newState : state;

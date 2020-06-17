@@ -52,7 +52,7 @@ export default (state: UnreadMentionsState = initialState, action: Action): Unre
     }
 
     case EVENT_MESSAGE_DELETE:
-      return removeItemsFromArray(state, [action.messageId]);
+      return removeItemsFromArray(state, action.messageIds);
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
       return eventUpdateMessageFlags(state, action);
