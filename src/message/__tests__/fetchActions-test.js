@@ -20,7 +20,7 @@ import { GravatarURL } from '../../utils/avatar';
 import * as eg from '../../__tests__/lib/exampleData';
 import { ApiError } from '../../api/apiErrors';
 import { fakeSleep } from '../../__tests__/lib/fakeTimers';
-import { BackoffMachine } from '../../utils/async';
+import { TimeoutError, BackoffMachine } from '../../utils/async';
 
 const mockStore = configureStore([thunk]);
 
@@ -175,6 +175,30 @@ describe('fetchActions', () => {
       expect(func).toHaveBeenCalledTimes(1);
 
       jest.runAllTimers();
+    });
+
+    test('times out after many short-duration 5xx errors', async () => {
+      const func = jest.fn(async () => {
+        await fakeSleep(50);
+        throw new ApiError(500, {
+          code: 'SOME_ERROR_CODE',
+          msg: 'Internal Server Error',
+          result: 'error',
+        });
+      });
+
+      await expect(tryFetch(func)).rejects.toThrow(TimeoutError);
+
+      expect(func.mock.calls.length).toBeGreaterThan(50);
+    });
+
+    test('times out after hanging on one request', async () => {
+      const tryFetchPromise = tryFetch(async () => {
+        await new Promise((resolve, reject) => {});
+      });
+
+      await fakeSleep(60000);
+      return expect(tryFetchPromise).rejects.toThrow(TimeoutError);
     });
   });
 
