@@ -18,6 +18,7 @@ import type { ServerMessage } from '../../api/messages/getMessages';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR, keyFromNarrow } from '../../utils/narrow';
 import { GravatarURL } from '../../utils/avatar';
 import * as eg from '../../__tests__/lib/exampleData';
+import { ApiError } from '../../api/apiErrors';
 import { fakeSleep } from '../../__tests__/lib/fakeTimers';
 import { BackoffMachine } from '../../utils/async';
 
@@ -136,6 +137,23 @@ describe('fetchActions', () => {
       expect(tryFetchFunc).toHaveBeenCalledTimes(2);
       await expect(tryFetchFunc.mock.results[0].value).rejects.toThrow('First run exception');
       await expect(tryFetchFunc.mock.results[1].value).resolves.toBe('hello');
+
+      jest.runAllTimers();
+    });
+
+    test('Rethrows a 4xx error without retrying', async () => {
+      const apiError = new ApiError(400, {
+        code: 'BAD_REQUEST',
+        msg: 'Bad Request',
+        result: 'error',
+      });
+
+      const func = jest.fn(async () => {
+        throw apiError;
+      });
+
+      await expect(tryFetch(func)).rejects.toThrow(apiError);
+      expect(func).toHaveBeenCalledTimes(1);
 
       jest.runAllTimers();
     });
