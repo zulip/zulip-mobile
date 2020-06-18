@@ -46,7 +46,7 @@ export default class UserAvatarWithPresence extends PureComponent<Props> {
     const { avatarUrl, email, size, onPress, shape } = this.props;
 
     return (
-      <UserAvatar avatarUrl={avatarUrl} email={email} size={size} onPress={onPress} shape={shape}>
+      <UserAvatar avatarUrl={avatarUrl} size={size} onPress={onPress} shape={shape}>
         <PresenceStatusIndicator style={styles.status} email={email} hideIfOffline />
       </UserAvatar>
     );

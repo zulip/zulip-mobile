@@ -58,7 +58,7 @@ class AccountDetails extends PureComponent<Props> {
     return (
       <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
         <View>
-          <UserAvatar avatarUrl={user.avatar_url} email={user.email} size={200} />
+          <UserAvatar avatarUrl={user.avatar_url} size={200} />
         </View>
         <View style={componentStyles.statusWrapper}>
           <PresenceStatusIndicator

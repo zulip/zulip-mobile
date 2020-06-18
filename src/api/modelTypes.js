@@ -108,8 +108,22 @@ export type User = {|
   // instead of an empty string.
   timezone?: string,
 
-  // avatar_url is synthesized on the server by `get_avatar_field`.
-  avatar_url: string | null,
+  /**
+   * Present under EVENT_USER_ADD, EVENT_USER_UPDATE (if change
+   * indicated), under REALM_INIT, and in `state.users`, all as an
+   * AvatarURL, because we translate into that form at the edge.
+   *
+   * For how it appears at the edge (and how we translate) see
+   * AvatarURL.fromUserOrBotData.
+   */
+  avatar_url: AvatarURL,
+
+  // These properties appear in data from the server, but we ignore
+  // them. If we add these, we should try to avoid `avatar_url`
+  // falling out of sync with them.
+  // avatar_source: mixed,
+  // avatar_url_medium: mixed,
+  // avatar_version: mixed,
 
   // profile_data added in commit 02b845336 (in 1.8.0);
   // see also e3aed0f7b (in 2.0.0)
@@ -130,9 +144,10 @@ export type User = {|
  *  * `UserOrBot`, a convenience union
  */
 export type CrossRealmBot = {|
-  // avatar_url included since commit 58ee3fa8c (in 1.9.0)
-  // TODO(crunchy): convert missing -> null
-  avatar_url?: string | null,
+  /**
+   * See note for this property on User.
+   */
+  avatar_url: AvatarURL,
 
   // date_joined included since commit 58ee3fa8c (in 1.9.0)
   date_joined?: string,

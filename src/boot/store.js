@@ -221,6 +221,10 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
   // Convert messages[].avatar_url from `string | null` to `AvatarURL`.
   '17': dropCache,
 
+  // Convert `UserOrBot.avatar_url` from raw server data to
+  // `AvatarURL`.
+  '18': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

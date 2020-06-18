@@ -5,8 +5,12 @@ import { apiGet } from '../apiFetch';
 
 type ApiResponseUsers = {|
   ...ApiResponseSuccess,
-  members: User[],
+  members: $ReadOnlyArray<{| ...User, avatar_url: string | null |}>,
 |};
+
+// TODO: If we start to use this, we need to convert `.avatar_url` to
+// an AvatarURL instance, like we do in `registerForEvents` and
+// `EVENT_USER_ADD` and `EVENT_USER_UPDATE`.
 
 /** See https://zulip.com/api/get-all-users */
 export default (auth: Auth): Promise<ApiResponseUsers> =>

@@ -18,6 +18,7 @@ import { FIRST_UNREAD_ANCHOR } from '../../anchor';
 import type { Message } from '../../api/modelTypes';
 import type { ServerMessage } from '../../api/messages/getMessages';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
+import { GravatarURL } from '../../utils/avatar';
 import * as eg from '../../__tests__/lib/exampleData';
 
 const mockStore = configureStore([thunk]);
@@ -112,7 +113,12 @@ describe('fetchActions', () => {
   });
 
   describe('fetchMessages', () => {
-    const sender = eg.makeUser();
+    const email = 'abc123@example.com';
+    const sender = {
+      ...eg.makeUser(),
+      email,
+      avatar_url: GravatarURL.validateAndConstructInstance({ email }),
+    };
     const message1 = eg.streamMessage({ id: 1, sender });
 
     type CommonFields = $Diff<Message, { reactions: mixed, avatar_url: mixed }>;
@@ -125,12 +131,7 @@ describe('fetchActions', () => {
     const serverMessage1: ServerMessage = {
       ...(omit(message1, 'reactions', 'avatar_url'): CommonFields),
       reactions: [],
-      // `User.avatar_url` is still in its raw form, which is what we
-      // want for raw message data from the server. In the next
-      // commit, we won't be able to use `User.avatar_url` as raw data
-      // because it'll be an `AvatarURL` instance. We'll do something
-      // else to simulate raw data here.
-      avatar_url: sender.avatar_url,
+      avatar_url: null, // Null in server data will be transformed to a GravatarURL
     };
 
     const baseState = eg.reduxState({
@@ -188,7 +189,6 @@ describe('fetchActions', () => {
         // [2] https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M4156.20Message.20List.20placeholders/near/928778
 
         expect(actions[1].type).toBe('MESSAGE_FETCH_COMPLETE');
-
         expect(returnValue).toEqual([message1]);
       });
     });

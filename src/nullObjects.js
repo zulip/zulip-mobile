@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type { User, Subscription } from './types';
+import { GravatarURL } from './utils/avatar';
 
 export const NULL_OBJECT = Object.freeze({});
 
@@ -31,7 +32,7 @@ export const NULL_ARRAY = Object.freeze([]);
 
 /** DEPRECATED; don't add new uses.  See block comment above definition. */
 export const NULL_USER: User = {
-  avatar_url: '',
+  avatar_url: GravatarURL.validateAndConstructInstance({ email: '' }),
   email: '',
   full_name: '',
   is_admin: false,

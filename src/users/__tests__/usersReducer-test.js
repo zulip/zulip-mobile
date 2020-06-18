@@ -3,6 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import type { User } from '../../types';
+import { UploadedAvatarURL } from '../../utils/avatar';
 import { EVENT_USER_ADD, EVENT_USER_UPDATE, ACCOUNT_SWITCH } from '../../actionConstants';
 import usersReducer from '../usersReducer';
 
@@ -88,7 +89,10 @@ describe('usersReducer', () => {
 
     test('When a user changes their avatar.', () => {
       check({
-        avatar_url: eg.randString(),
+        avatar_url: UploadedAvatarURL.validateAndConstructInstance({
+          realm: new URL('https://zulip.example.org'),
+          absoluteOrRelativeUrl: `/yo/avatar-${eg.randString()}.png`,
+        }),
         // avatar_source: user1.avatar_source === 'G' ? 'U' : 'G',
         // avatar_url_medium: eg.randString(),
         // avatar_version: user1.avatar_version + 1,

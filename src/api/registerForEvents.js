@@ -4,6 +4,7 @@ import type { Auth } from './transportTypes';
 import type { Narrow } from './apiTypes';
 import type { CrossRealmBot, User } from './modelTypes';
 import { apiPost } from './apiFetch';
+import { AvatarURL } from '../utils/avatar';
 
 type RegisterForEventsParams = {|
   apply_markdown?: boolean,
@@ -20,18 +21,26 @@ type RegisterForEventsParams = {|
   |},
 |};
 
-const transformUser = (rawUser: {| ...User, avatar_url: string | null |}, realm: URL): User =>
-  // In an upcoming commit, we'll convert the raw-data `avatar_url`
-  // field to an AvatarURL instance.
-  rawUser;
+const transformUser = (rawUser: {| ...User, avatar_url: string | null |}, realm: URL): User => {
+  const { avatar_url: rawAvatarUrl, email } = rawUser;
+
+  return {
+    ...rawUser,
+    avatar_url: AvatarURL.fromUserOrBotData({ rawAvatarUrl, email, realm }),
+  };
+};
 
 const transformCrossRealmBot = (
   rawCrossRealmBot: {| ...CrossRealmBot, avatar_url: string | void | null |},
   realm: URL,
-): CrossRealmBot =>
-  // In an upcoming commit, we'll convert the raw-data `avatar_url`
-  // field to an AvatarURL instance.
-  rawCrossRealmBot;
+): CrossRealmBot => {
+  const { avatar_url: rawAvatarUrl, email } = rawCrossRealmBot;
+
+  return {
+    ...rawCrossRealmBot,
+    avatar_url: AvatarURL.fromUserOrBotData({ rawAvatarUrl, email, realm }),
+  };
+};
 
 const transform = (rawInitialData: RawInitialData, auth: Auth): InitialData => ({
   ...rawInitialData,

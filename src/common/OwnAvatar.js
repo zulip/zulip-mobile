@@ -20,7 +20,7 @@ type Props = $ReadOnly<{|
 class OwnAvatar extends PureComponent<Props> {
   render() {
     const { user, size } = this.props;
-    return <UserAvatar avatarUrl={user.avatar_url} email={user.email} size={size} />;
+    return <UserAvatar avatarUrl={user.avatar_url} size={size} />;
   }
 }
 

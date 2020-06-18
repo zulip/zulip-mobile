@@ -1,29 +1,18 @@
 /* @flow strict-local */
 import React, { PureComponent, type Node as React$Node } from 'react';
 import { ImageBackground, View, PixelRatio } from 'react-native';
-import { connect } from '../react-redux';
 
-import { getCurrentRealm } from '../selectors';
-import { getAvatarUrl, AvatarURL } from '../utils/avatar';
 import Touchable from './Touchable';
-import type { Dispatch, Message, User, CrossRealmBot } from '../types';
-
-type SelectorProps = {|
-  realm: URL,
-|};
+import type { Message, User, CrossRealmBot } from '../types';
 
 type Props = $ReadOnly<{|
   avatarUrl: | $PropertyType<Message, 'avatar_url'>
     | $PropertyType<User, 'avatar_url'>
     | $PropertyType<CrossRealmBot, 'avatar_url'>,
-  email: string,
   size: number,
   shape: 'rounded' | 'square',
   children?: React$Node,
   onPress?: () => void,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 /**
@@ -35,13 +24,13 @@ type Props = $ReadOnly<{|
  * @prop [children] - If provided, will render inside the component body.
  * @prop [onPress] - Event fired on pressing the component.
  */
-class UserAvatar extends PureComponent<Props> {
+export default class UserAvatar extends PureComponent<Props> {
   static defaultProps = {
     shape: 'rounded',
   };
 
   render() {
-    const { avatarUrl, email, realm, children, size, shape, onPress } = this.props;
+    const { avatarUrl, children, size, shape, onPress } = this.props;
     const borderRadius = shape === 'rounded' ? size / 8 : 0;
     const style = {
       height: size,
@@ -55,18 +44,7 @@ class UserAvatar extends PureComponent<Props> {
           <ImageBackground
             style={style}
             source={{
-              uri:
-                // If `avatarUrl` is from a Message, it will be an AvatarURL.
-                // Soon, it will also be an AvatarURL if it's from a UserOrBot,
-                // and we won't need the conditional.
-                avatarUrl instanceof AvatarURL
-                  ? avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString()
-                  : getAvatarUrl(
-                      avatarUrl,
-                      email,
-                      realm,
-                      PixelRatio.getPixelSizeForLayoutSize(size),
-                    ),
+              uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
             }}
             resizeMode="cover"
             /* ImageBackground seems to ignore `style.borderRadius`. */
@@ -79,7 +57,3 @@ class UserAvatar extends PureComponent<Props> {
     );
   }
 }
-
-export default connect(state => ({
-  realm: getCurrentRealm(state),
-}))(UserAvatar);
