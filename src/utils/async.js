@@ -1,5 +1,24 @@
 /* @flow strict-local */
 
+export class TimeoutError extends Error {
+  name = 'TimeoutError';
+}
+
+/**
+ * Time-out a Promise after `timeLimitMs` has passed.
+ *
+ * Returns a new Promise that rejects with a TimeoutError if the
+ * passed `promise` doesn't settle (resolve/reject) within the time
+ * limit specified by `timeLimitMs`; otherwise, it settles the way
+ * `promise` does.
+ */
+export async function promiseTimeout<T>(promise: Promise<T>, timeLimitMs: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new TimeoutError()), timeLimitMs)),
+  ]);
+}
+
 /** Like setTimeout(..., 0), but returns a Promise of the result. */
 export function delay<T>(callback: () => T): Promise<T> {
   return new Promise(resolve => resolve()).then(callback);
