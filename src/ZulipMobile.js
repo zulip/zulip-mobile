@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import 'react-native-url-polyfill/auto';
 
 import '../vendor/intl/intl';
 import StoreProvider from './boot/StoreProvider';

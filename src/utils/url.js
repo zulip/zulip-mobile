@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import urlRegex from 'url-regex';
-import { URL as WhatwgURL } from 'react-native-url-polyfill';
 
 import type { Auth } from '../types';
 import { getAuthHeaders } from '../api/transport';
@@ -32,10 +31,10 @@ export const encodeParamsForUrl = (params: UrlParams): string =>
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`)
     .join('&');
 
-/** Just like `new WhatwgURL`, but on error return undefined instead of throwing. */
-export const tryParseUrl = (url: string, base?: string | WhatwgURL): WhatwgURL | void => {
+/** Just like `new URL`, but on error return undefined instead of throwing. */
+export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
   try {
-    return new WhatwgURL(url, base);
+    return new URL(url, base);
   } catch (e) {
     return undefined;
   }

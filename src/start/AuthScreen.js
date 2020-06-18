@@ -3,7 +3,6 @@
 import React, { PureComponent } from 'react';
 import { Linking, Platform } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
-import { URL as WhatwgURL } from 'react-native-url-polyfill';
 import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
@@ -218,7 +217,7 @@ class AuthScreen extends PureComponent<Props> {
    */
   beginWebAuth = async (url: string) => {
     otp = await webAuth.generateOtp();
-    webAuth.openBrowser(new WhatwgURL(url, this.props.realm).toString(), otp);
+    webAuth.openBrowser(new URL(url, this.props.realm).toString(), otp);
   };
 
   endWebAuth = (event: LinkingEvent) => {
