@@ -1,5 +1,44 @@
 /* @flow strict-local */
 
+export class TimeoutError extends Error {
+  name = 'TimeoutError';
+}
+
+/**
+ * Time-out a Promise after `timeLimitMs` has passed.
+ *
+ * Returns a new Promise with the same outcome as `promise`, if
+ * `promise` completes in time.
+ *
+ * If `promise` does not complete before `timeLimitMs` has passed,
+ * `onTimeout` is called, and its outcome is used as the outcome of
+ * the returned Promise.
+ *
+ * If `onTimeout` is omitted, a timeout will cause the returned
+ * Promise to reject with a TimeoutError.
+ *
+ * Interface modeled after
+ * https://api.dart.dev/stable/2.8.4/dart-async/Future/timeout.html.
+ */
+export async function promiseTimeout<T>(
+  promise: Promise<T>,
+  timeLimitMs: number,
+  onTimeout?: () => T | Promise<T>,
+): Promise<T> {
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new TimeoutError()), timeLimitMs),
+  );
+  try {
+    return await Promise.race([promise, timeoutPromise]);
+  } catch (e) {
+    if (e instanceof TimeoutError && onTimeout !== undefined) {
+      return onTimeout();
+    } else {
+      throw e;
+    }
+  }
+}
+
 /** Like setTimeout(..., 0), but returns a Promise of the result. */
 export function delay<T>(callback: () => T): Promise<T> {
   return new Promise(resolve => resolve()).then(callback);
