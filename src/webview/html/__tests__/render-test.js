@@ -1,14 +1,16 @@
+/* @flow strict-local */
 import messageTypingAsHtml from '../messageTypingAsHtml';
+import * as eg from '../../../__tests__/lib/exampleData';
 
 describe('typing', () => {
-  it('escapes values', () => {
-    expect(
-      messageTypingAsHtml('&<r', [
-        {
-          avatar_url: '&<av',
-          email: '&<e',
-        },
-      ]),
-    ).not.toContain('&<');
+  it('escapes &< (e.g., in `avatar_url` and `email`', () => {
+    const name = '&<name';
+    const user = {
+      ...eg.makeUser({ name }),
+      avatar_url: `https://zulip.example.org/yo/avatar-${name}.png`,
+      email: `${name}@example.com`,
+    };
+
+    expect(messageTypingAsHtml('&<r', [user])).not.toContain('&<');
   });
 });
