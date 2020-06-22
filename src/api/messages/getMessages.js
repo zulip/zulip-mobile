@@ -19,7 +19,7 @@ type ApiResponseMessages = {|
  * Note that reaction events have a *different* variation; see their
  * handling in `eventToAction`.
  */
-type ServerReaction = $ReadOnly<{|
+export type ServerReaction = $ReadOnly<{|
   ...$Diff<Reaction, {| user_id: mixed |}>,
   user: $ReadOnly<{|
     email: string,
@@ -28,7 +28,7 @@ type ServerReaction = $ReadOnly<{|
   |}>,
 |}>;
 
-type ServerMessage = $ReadOnly<{|
+export type ServerMessage = $ReadOnly<{|
   ...$Exact<Message>,
   reactions: $ReadOnlyArray<ServerReaction>,
 |}>;
