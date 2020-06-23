@@ -14,38 +14,6 @@ export default `
 var compiledWebviewJs = (function (exports) {
   'use strict';
 
-  var inlineApiRoutes = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(function (r) {
-    return new RegExp(r);
-  });
-
-  var rewriteImageUrls = function rewriteImageUrls(auth) {
-    var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
-    var realm = new URL(auth.realm);
-    var imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
-    imageTags.forEach(function (img) {
-      var actualSrc = img.getAttribute('src');
-
-      if (actualSrc == null) {
-        return;
-      }
-
-      var fixedSrc = new URL(actualSrc, realm);
-
-      if (fixedSrc.origin === realm.origin) {
-        if (inlineApiRoutes.some(function (regexp) {
-          return regexp.test(fixedSrc.pathname);
-        })) {
-          var delimiter = fixedSrc.search ? '&' : '';
-          fixedSrc.search += "".concat(delimiter, "api_key=").concat(auth.apiKey);
-        }
-      }
-
-      if (img.src !== fixedSrc.toString()) {
-        img.src = fixedSrc.toString();
-      }
-    });
-  };
-
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -208,6 +176,42 @@ var compiledWebviewJs = (function (exports) {
 
     return InboundEventLogger;
   }();
+
+  var inlineApiRoutes = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(function (r) {
+    return new RegExp(r);
+  });
+
+  var rewriteImageUrls = function rewriteImageUrls(auth, element) {
+    var realm = new URL(auth.realm);
+    var imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
+    imageTags.forEach(function (img) {
+      var actualSrc = img.getAttribute('src');
+
+      if (actualSrc == null) {
+        return;
+      }
+
+      var fixedSrc = new URL(actualSrc, realm);
+
+      if (fixedSrc.origin === realm.origin) {
+        if (inlineApiRoutes.some(function (regexp) {
+          return regexp.test(fixedSrc.pathname);
+        })) {
+          var delimiter = fixedSrc.search ? '&' : '';
+          fixedSrc.search += "".concat(delimiter, "api_key=").concat(auth.apiKey);
+        }
+      }
+
+      if (img.src !== fixedSrc.toString()) {
+        img.src = fixedSrc.toString();
+      }
+    });
+  };
+
+  var rewriteHTML = function rewriteHTML(auth) {
+    var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
+    rewriteImageUrls(auth, element);
+  };
 
   if (!Array.from) {
     Array.from = function from(arr) {
@@ -574,7 +578,7 @@ var compiledWebviewJs = (function (exports) {
     }
 
     documentBody.innerHTML = uevent.content;
-    rewriteImageUrls(uevent.auth);
+    rewriteHTML(uevent.auth);
 
     if (target.type === 'bottom') {
       scrollToBottom();
@@ -595,7 +599,7 @@ var compiledWebviewJs = (function (exports) {
     }
 
     scrollToMessage(scrollMessageId);
-    rewriteImageUrls(auth);
+    rewriteHTML(auth);
     sendScrollMessageIfListShort();
     scrollEventsDisabled = false;
   };

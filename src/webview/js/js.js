@@ -10,9 +10,9 @@ import type {
   WebViewUpdateEventMessagesRead,
 } from '../webViewHandleUpdates';
 
-import rewriteImageUrls from './rewriteImageUrls';
 import InboundEventLogger from './InboundEventLogger';
 import sendMessage from './sendMessage';
+import rewriteHtml from './rewriteHtml';
 
 /*
  * Supported platforms:
@@ -528,7 +528,7 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
 
   documentBody.innerHTML = uevent.content;
 
-  rewriteImageUrls(uevent.auth);
+  rewriteHtml(uevent.auth);
 
   if (target.type === 'bottom') {
     scrollToBottom();
@@ -558,7 +558,7 @@ export const handleInitialLoad = (
   }
 
   scrollToMessage(scrollMessageId);
-  rewriteImageUrls(auth);
+  rewriteHtml(auth);
   sendScrollMessageIfListShort();
   scrollEventsDisabled = false;
 };

@@ -1,10 +1,10 @@
 /** @jest-environment jsdom-global */
 // @flow strict-local
 
-import rewriteImageUrls from '../rewriteImageUrls';
+import rewriteHtml from '../rewriteHtml';
 import type { Auth } from '../../../types';
 
-describe('rewriteImageUrls', () => {
+describe('rewriteHtml', () => {
   const realm = 'https://realm.example.com';
   global.jsdom.reconfigure({ url: 'file:///nowhere_land/index.html' });
 
@@ -18,7 +18,7 @@ describe('rewriteImageUrls', () => {
     const img = document.createElement('img');
     img.setAttribute('src', src);
     const before = img.src;
-    rewriteImageUrls(auth, img);
+    rewriteHtml(auth, img);
     const after = img.src;
     return { input: src, before, after };
   };
