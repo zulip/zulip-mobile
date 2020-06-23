@@ -1,6 +1,9 @@
+/* @flow strict-local */
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
+import type { GlobalState } from '../../reduxTypes';
+import type { Action } from '../../actionTypes';
 import { fetchMessages, fetchOlder, fetchNewer } from '../fetchActions';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
@@ -22,7 +25,7 @@ describe('fetchActions', () => {
     test('message fetch success action is dispatched after successful fetch', async () => {
       const message1 = eg.streamMessage({ id: 1 });
 
-      const store = mockStore(
+      const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           ...navStateWithNarrow(HOME_NARROW),
           accounts: [eg.makeAccount()],
@@ -52,7 +55,7 @@ describe('fetchActions', () => {
     });
 
     test('when messages to be fetched both before and after anchor, numBefore and numAfter are greater than zero', async () => {
-      const store = mockStore(
+      const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           ...navStateWithNarrow(HOME_NARROW),
           accounts: [eg.makeAccount()],
@@ -68,13 +71,16 @@ describe('fetchActions', () => {
       const actions = store.getActions();
 
       expect(actions.length).toBeGreaterThanOrEqual(1);
-      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
-      expect(actions[0].numBefore).toBeGreaterThan(0);
-      expect(actions[0].numAfter).toBeGreaterThan(0);
+      const [action] = actions;
+      expect(action.type).toBe('MESSAGE_FETCH_START');
+      if (action.type === 'MESSAGE_FETCH_START') {
+        expect(action.numBefore).toBeGreaterThan(0);
+        expect(action.numAfter).toBeGreaterThan(0);
+      }
     });
 
     test('when no messages to be fetched before the anchor, numBefore is not greater than zero', async () => {
-      const store = mockStore(
+      const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           ...navStateWithNarrow(HOME_NARROW),
           accounts: [eg.makeAccount()],
@@ -90,12 +96,15 @@ describe('fetchActions', () => {
       const actions = store.getActions();
 
       expect(actions.length).toBeGreaterThanOrEqual(1);
-      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
-      expect(actions[0].numBefore).not.toBeGreaterThan(0);
+      const [action] = actions;
+      expect(action.type).toBe('MESSAGE_FETCH_START');
+      if (action.type === 'MESSAGE_FETCH_START') {
+        expect(action.numBefore).not.toBeGreaterThan(0);
+      }
     });
 
     test('when no messages to be fetched after the anchor, numAfter is not greater than zero', async () => {
-      const store = mockStore(
+      const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           ...navStateWithNarrow(HOME_NARROW),
           accounts: [eg.makeAccount()],
@@ -111,8 +120,11 @@ describe('fetchActions', () => {
       const actions = store.getActions();
 
       expect(actions.length).toBeGreaterThanOrEqual(1);
-      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
-      expect(actions[0].numAfter).not.toBeGreaterThan(0);
+      const [action] = actions;
+      expect(action.type).toBe('MESSAGE_FETCH_START');
+      if (action.type === 'MESSAGE_FETCH_START') {
+        expect(action.numAfter).not.toBeGreaterThan(0);
+      }
     });
   });
 
@@ -132,7 +144,7 @@ describe('fetchActions', () => {
     });
 
     test('message fetch start action is dispatched with numBefore greater than zero', async () => {
-      const store = mockStore({
+      const store = mockStore<GlobalState, Action>({
         ...baseState,
         fetching: {
           ...baseState.fetching,
@@ -147,12 +159,15 @@ describe('fetchActions', () => {
       const actions = store.getActions();
 
       expect(actions).toHaveLength(1);
-      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
-      expect(actions[0].numBefore).toBeGreaterThan(0);
+      const [action] = actions;
+      expect(action.type).toBe('MESSAGE_FETCH_START');
+      if (action.type === 'MESSAGE_FETCH_START') {
+        expect(action.numBefore).toBeGreaterThan(0);
+      }
     });
 
     test('when caughtUp older is true, no action is dispatched', async () => {
-      const store = mockStore({
+      const store = mockStore<GlobalState, Action>({
         ...baseState,
         caughtUp: {
           ...baseState.caughtUp,
@@ -170,7 +185,7 @@ describe('fetchActions', () => {
     });
 
     test('when fetchingOlder older is true, no action is dispatched', async () => {
-      const store = mockStore({
+      const store = mockStore<GlobalState, Action>({
         ...baseState,
         fetching: {
           ...baseState.fetching,
@@ -188,7 +203,7 @@ describe('fetchActions', () => {
     });
 
     test('when needsInitialFetch is true, no action is dispatched', async () => {
-      const store = mockStore({
+      const store = mockStore<GlobalState, Action>({
         ...baseState,
         session: {
           ...baseState.session,
@@ -219,7 +234,7 @@ describe('fetchActions', () => {
     });
 
     test('message fetch start action is dispatched with numAfter greater than zero', async () => {
-      const store = mockStore({
+      const store = mockStore<GlobalState, Action>({
         ...baseState,
         fetching: {
           ...baseState.fetching,
@@ -234,12 +249,15 @@ describe('fetchActions', () => {
       const actions = store.getActions();
 
       expect(actions).toHaveLength(1);
-      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
-      expect(actions[0].numAfter).toBeGreaterThan(0);
+      const [action] = actions;
+      expect(action.type).toBe('MESSAGE_FETCH_START');
+      if (action.type === 'MESSAGE_FETCH_START') {
+        expect(action.numAfter).toBeGreaterThan(0);
+      }
     });
 
     test('when caughtUp newer is true, no action is dispatched', async () => {
-      const store = mockStore({
+      const store = mockStore<GlobalState, Action>({
         ...baseState,
         caughtUp: {
           ...baseState.caughtUp,
@@ -257,7 +275,7 @@ describe('fetchActions', () => {
     });
 
     test('when fetching.newer is true, no action is dispatched', async () => {
-      const store = mockStore({
+      const store = mockStore<GlobalState, Action>({
         ...baseState,
         fetching: {
           ...baseState.fetching,
@@ -275,7 +293,7 @@ describe('fetchActions', () => {
     });
 
     test('when needsInitialFetch is true, no action is dispatched', async () => {
-      const store = mockStore({
+      const store = mockStore<GlobalState, Action>({
         ...baseState,
         session: {
           ...baseState.session,
