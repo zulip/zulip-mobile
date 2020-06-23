@@ -60,7 +60,7 @@ const rehydrate = (state, action) => {
   // will have set `needsInitialFetch`, too, so we really will be loading.
   //
   // (Valid server data must have a user: the self user, at a minimum.)
-  if (rehydratedState.users === undefined) {
+  if (rehydratedState.users === undefined || rehydratedState.users.length === 0) {
     return getStateForRoute('loading');
   }
 
