@@ -258,8 +258,8 @@ export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
           if (isClientError(e)) {
             throw e;
           }
-          await backoffMachine.wait();
         }
+        await backoffMachine.wait();
       }
       // Without this, Flow 0.92.1 does not know this code is unreachable,
       // and it incorrectly thinks Promise<undefined> could be returned,
