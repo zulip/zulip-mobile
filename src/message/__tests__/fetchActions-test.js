@@ -44,7 +44,7 @@ describe('fetchActions', () => {
       expect(actions[1].type).toBe('MESSAGE_FETCH_COMPLETE');
     });
 
-    test('when messages to be fetched both before and after anchor, fetchingOlder and fetchingNewer is true', () => {
+    test('when messages to be fetched both before and after anchor, numBefore and numAfter are greater than zero', () => {
       const store = mockStore({
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
@@ -57,9 +57,11 @@ describe('fetchActions', () => {
 
       expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
+      expect(actions[0].numBefore).toBeGreaterThan(0);
+      expect(actions[0].numAfter).toBeGreaterThan(0);
     });
 
-    test('when no messages to be fetched before the anchor, fetchingOlder is false', () => {
+    test('when no messages to be fetched before the anchor, numBefore is not greater than zero', () => {
       const store = mockStore({
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
@@ -72,9 +74,10 @@ describe('fetchActions', () => {
 
       expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
+      expect(actions[0].numBefore).not.toBeGreaterThan(0);
     });
 
-    test('when no messages to be fetched after the anchor, fetchingNewer is false', () => {
+    test('when no messages to be fetched after the anchor, numAfter is not greater than zero', () => {
       const store = mockStore({
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
@@ -87,11 +90,12 @@ describe('fetchActions', () => {
 
       expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
+      expect(actions[0].numAfter).not.toBeGreaterThan(0);
     });
   });
 
   describe('fetchOlder', () => {
-    test('message fetch start action is dispatched with fetchingOlder true', () => {
+    test('message fetch start action is dispatched with numBefore greater than zero', () => {
       const store = mockStore({
         session: {
           needsInitialFetch: false,
@@ -118,6 +122,7 @@ describe('fetchActions', () => {
 
       expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
+      expect(actions[0].numBefore).toBeGreaterThan(0);
     });
 
     test('when caughtUp older is true, no action is dispatched', () => {
@@ -204,7 +209,7 @@ describe('fetchActions', () => {
   });
 
   describe('fetchNewer', () => {
-    test('message fetch start action is dispatched with fetchingNewer true', () => {
+    test('message fetch start action is dispatched with numAfter greater than zero', () => {
       const store = mockStore({
         session: {
           needsInitialFetch: false,
@@ -229,6 +234,7 @@ describe('fetchActions', () => {
 
       expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
+      expect(actions[0].numAfter).toBeGreaterThan(0);
     });
 
     test('when caughtUp newer is true, no action is dispatched', () => {
