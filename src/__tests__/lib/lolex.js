@@ -86,6 +86,18 @@ export class Lolex {
     this._clock.runToLast();
   }
 
+  async runOnlyPendingTimersAsync(): Promise<void> {
+    this._clock.runToLastAsync();
+  }
+
+  runAllTimers(): void {
+    this._clock.runAll();
+  }
+
+  async runAllTimersAsync(): Promise<void> {
+    this._clock.runAllAsync();
+  }
+
   advanceTimersByTime(msToRun: number): void {
     this._clock.tick(msToRun);
   }
