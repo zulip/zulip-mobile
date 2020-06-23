@@ -1,11 +1,20 @@
 /* @flow strict-local */
 import type { Narrow } from '../types';
+import type { NavigationState } from '../reduxTypes';
 
-export const navStateWithNarrow = (narrow: Narrow): {| nav: mixed |} => ({
+export const navStateWithNarrow = (narrow: Narrow): {| nav: NavigationState |} => ({
   nav: {
-    index: 0,
+    key: 'StackRouterRoot',
+    index: 1,
+    isTransitioning: false,
     routes: [
       {
+        key: 'id-1592948746166-1',
+        params: {},
+        routeName: 'main',
+      },
+      {
+        key: 'id-1592948746166-2',
         routeName: 'chat',
         params: {
           narrow,
