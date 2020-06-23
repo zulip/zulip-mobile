@@ -336,8 +336,8 @@ export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
             if (!(e instanceof Server5xxError || e instanceof NetworkError)) {
               throw e;
             }
-            await backoffMachine.wait();
           }
+          await backoffMachine.wait();
         }
       })(),
       config.requestLongTimeoutMs,
