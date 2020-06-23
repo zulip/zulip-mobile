@@ -275,15 +275,14 @@ describe('fetchActions', () => {
           2: { id: 2 },
         },
         fetching: {
-          HOME_NARROW: { older: false, newer: true },
+          [HOME_NARROW_STR]: { older: false, newer: true },
         },
       });
 
       store.dispatch(fetchNewer(HOME_NARROW));
       const actions = store.getActions();
 
-      expect(actions).toHaveLength(1);
-      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
+      expect(actions).toHaveLength(0);
     });
 
     test('when needsInitialFetch is true, no action is dispatched', () => {
