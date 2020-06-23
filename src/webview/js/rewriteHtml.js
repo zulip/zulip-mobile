@@ -87,6 +87,34 @@ const rewriteTime = (element: Element | Document) => {
 };
 
 /**
+ * Add missing elements to spoiler blocks under the given root, inclusive.
+ *
+ * 1. Adds 'Spoiler' header text if missing.
+ * 2. Adds the spoiler expanded arrow indicator. The arrow is rendered using CSS.
+ *
+ * Does what the web app does, only departing as appropriate to adapt
+ * to mobile. The corresponding code is in
+ * static/js/rendered_markdown.js, at the spot you find searching for
+ * "spoiler-header". That's lines 181-192 in zulip/zulip@c5dc9d386.
+ */
+const rewriteSpoilers = (element: Element | Document) => {
+  const spoilerHeaders: NodeList<HTMLElement> = element.querySelectorAll('div.spoiler-header');
+  spoilerHeaders.forEach(e => {
+    // Add the expand/collapse button to spoiler blocks
+    const toggle_button_html =
+      '<span class="spoiler-button" aria-expanded="false"><span class="spoiler-arrow"></span></span>';
+    if (e.innerText === '') {
+      // If a spoiler block has no header content, it should have a default header.
+      // We do this client side to allow for i18n by the client.
+      const header_html = '<p>Spoiler</p>'; // TODO: Localize this text.
+      e.innerHTML = toggle_button_html + header_html;
+    } else {
+      e.innerHTML = toggle_button_html + e.innerHTML;
+    }
+  });
+};
+
+/**
  * Modify relevant parts of the rendered DOM tree under the given root,
  * inclusive, to ensure functionality.
  *
@@ -95,6 +123,7 @@ const rewriteTime = (element: Element | Document) => {
 const rewriteHtml = (auth: Auth, element: Element | Document = document) => {
   rewriteImageUrls(auth, element);
   rewriteTime(element);
+  rewriteSpoilers(element);
 };
 
 export default rewriteHtml;

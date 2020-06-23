@@ -569,3 +569,77 @@ hr {
   border: 1px dashed hsla(0, 0%, 50%, 0.5);
   border-radius: 0.5rem;
 }
+
+/* Taken from the `.spoiler-block` section of the webapp's styles, as
+   of zulip/zulip@1cb040647, translated from SCSS to plain CSS. */
+.spoiler-block {
+  border: hsl(0, 0%, 50%) 1px solid;
+  padding: 2px 8px 2px 10px;
+  border-radius: 10px;
+  position: relative;
+  top: 1px;
+  display: block;
+  margin: 5px 0 15px 0;
+}
+.spoiler-block .spoiler-header {
+  padding: 5px;
+  font-weight: bold;
+}
+.spoiler-block .spoiler-content {
+  overflow: hidden;
+  border-top: hsla(0, 0%, 50%,1) 0px solid;
+  transition: height 0.4s ease-in-out, border-top 0.4s step-end, padding 0.4s step-end;
+  padding: 0px;
+  height: 0px;
+}
+.spoiler-block .spoiler-content.spoiler-content-open {
+  border-top: hsla(0, 0%, 50%,1) 1px solid;
+  transition: height 0.4s ease-in-out, border-top 0.4s step-start, padding 0.4s step-start;
+  padding: 5px;
+  height: auto;
+}
+.spoiler-block .spoiler-button {
+  float: right;
+  width: 25px;
+  height: 25px;
+}
+.spoiler-block .spoiler-button:hover .spoiler-arrow::before, .spoiler-block .spoiler-button:hover .spoiler-arrow::after {
+  background-color: hsl(0, 0%, 50%);
+}
+.spoiler-block .spoiler-arrow {
+  float: right;
+  width: 13px;
+  height: 13px;
+  position: relative;
+  bottom: -5px;
+  left: -10px;
+  cursor: pointer;
+  transition: 0.4s ease;
+  margin-top: 2px;
+  text-align: left;
+  transform: rotate(45deg);
+}
+.spoiler-block .spoiler-arrow::before, .spoiler-block .spoiler-arrow::after {
+  position: absolute;
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 3px;
+  background-color: hsl(0, 0%, 83%);
+  transition: 0.4s ease;
+}
+.spoiler-block .spoiler-arrow::after {
+  position: absolute;
+  transform: rotate(90deg);
+  top: -5px;
+  left: 5px;
+}
+.spoiler-block .spoiler-arrow.spoiler-button-open {
+  transform: rotate(45deg) translate(-5px, -5px);
+}
+.spoiler-block .spoiler-arrow.spoiler-button-open::before {
+  transform: translate(10px, 0);
+}
+.spoiler-block .spoiler-arrow.spoiler-button-open::after {
+  transform: rotate(90deg) translate(10px, 0);
+}

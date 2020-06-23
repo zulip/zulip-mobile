@@ -13,6 +13,7 @@ import type {
 import InboundEventLogger from './InboundEventLogger';
 import sendMessage from './sendMessage';
 import rewriteHtml from './rewriteHtml';
+import { toggleSpoiler } from './spoilers';
 
 /*
  * Supported platforms:
@@ -799,6 +800,12 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
       type: 'time',
       originalText,
     });
+  }
+
+  const spoilerHeader = target.closest('.spoiler-header');
+  if (spoilerHeader instanceof HTMLElement) {
+    toggleSpoiler(spoilerHeader);
+    return;
   }
 
   const messageElement = target.closest('.message-brief');
