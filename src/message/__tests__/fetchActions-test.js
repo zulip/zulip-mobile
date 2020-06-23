@@ -36,7 +36,7 @@ describe('fetchActions', () => {
       };
       fetch.mockResponseSuccess(JSON.stringify(response));
 
-      await store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1, true));
+      await store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(2);
@@ -52,7 +52,7 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1, true));
+      store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(1);
@@ -67,7 +67,7 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchMessages(HOME_NARROW, 0, -1, 1, true));
+      store.dispatch(fetchMessages(HOME_NARROW, 0, -1, 1));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(1);
@@ -82,7 +82,7 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchMessages(HOME_NARROW, 0, 1, -1, true));
+      store.dispatch(fetchMessages(HOME_NARROW, 0, 1, -1));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(1);
