@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import { fetchMessages, fetchOlder, fetchNewer } from '../fetchActions';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
+import * as eg from '../../__tests__/lib/exampleData';
 
 const mockStore = configureStore([thunk]);
 
@@ -19,19 +20,20 @@ describe('fetchActions', () => {
 
   describe('fetchMessages', () => {
     test('message fetch success action is dispatched after successful fetch', async () => {
-      const store = mockStore({
-        ...navStateWithNarrow(HOME_NARROW),
-        accounts: [
-          {
-            realm: 'https://example.com',
+      const message1 = eg.streamMessage({ id: 1 });
+
+      const store = mockStore(
+        eg.reduxState({
+          ...navStateWithNarrow(HOME_NARROW),
+          accounts: [eg.makeAccount()],
+          narrows: {
+            [streamNarrowStr]: [message1.id],
           },
-        ],
-        narrows: {
-          [streamNarrowStr]: [{ id: 1 }],
-        },
-      });
+        }),
+      );
+
       const response = {
-        messages: [{ id: 1, reactions: [] }, { id: 2, reactions: [] }, { id: 3, reactions: [] }],
+        messages: [message1, eg.streamMessage({ id: 2 }), eg.streamMessage({ id: 3 })],
         result: 'success',
       };
       fetch.mockResponseSuccess(JSON.stringify(response));
@@ -45,12 +47,14 @@ describe('fetchActions', () => {
     });
 
     test('when messages to be fetched both before and after anchor, numBefore and numAfter are greater than zero', () => {
-      const store = mockStore({
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [{ id: 1 }],
-        },
-      });
+      const store = mockStore(
+        eg.reduxState({
+          ...navStateWithNarrow(HOME_NARROW),
+          narrows: {
+            [streamNarrowStr]: [1],
+          },
+        }),
+      );
 
       store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1));
       const actions = store.getActions();
@@ -62,12 +66,14 @@ describe('fetchActions', () => {
     });
 
     test('when no messages to be fetched before the anchor, numBefore is not greater than zero', () => {
-      const store = mockStore({
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [{ id: 1 }],
-        },
-      });
+      const store = mockStore(
+        eg.reduxState({
+          ...navStateWithNarrow(HOME_NARROW),
+          narrows: {
+            [streamNarrowStr]: [1],
+          },
+        }),
+      );
 
       store.dispatch(fetchMessages(HOME_NARROW, 0, -1, 1));
       const actions = store.getActions();
@@ -78,12 +84,14 @@ describe('fetchActions', () => {
     });
 
     test('when no messages to be fetched after the anchor, numAfter is not greater than zero', () => {
-      const store = mockStore({
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [{ id: 1 }],
-        },
-      });
+      const store = mockStore(
+        eg.reduxState({
+          ...navStateWithNarrow(HOME_NARROW),
+          narrows: {
+            [streamNarrowStr]: [1],
+          },
+        }),
+      );
 
       store.dispatch(fetchMessages(HOME_NARROW, 0, 1, -1));
       const actions = store.getActions();
@@ -95,25 +103,29 @@ describe('fetchActions', () => {
   });
 
   describe('fetchOlder', () => {
+    const baseState = eg.reduxState({
+      ...navStateWithNarrow(HOME_NARROW),
+      narrows: {
+        ...eg.baseReduxState.narrows,
+        [streamNarrowStr]: [2],
+        [HOME_NARROW_STR]: [1, 2],
+      },
+      messages: {
+        ...eg.baseReduxState.messages,
+        '1': eg.streamMessage({ id: 1 }),
+        '2': eg.streamMessage({ id: 2 }),
+      },
+    });
+
     test('message fetch start action is dispatched with numBefore greater than zero', () => {
       const store = mockStore({
-        session: {
-          needsInitialFetch: false,
-        },
-        caughtUp: {
-          [HOME_NARROW_STR]: { older: false },
-        },
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [2],
-          [HOME_NARROW_STR]: [1, 2],
-        },
-        messages: {
-          1: { id: 1 },
-          2: { id: 2 },
-        },
+        ...baseState,
         fetching: {
-          [HOME_NARROW_STR]: { older: false, newer: false },
+          ...baseState.fetching,
+          [HOME_NARROW_STR]: {
+            older: false,
+            newer: false,
+          },
         },
       });
 
@@ -127,23 +139,13 @@ describe('fetchActions', () => {
 
     test('when caughtUp older is true, no action is dispatched', () => {
       const store = mockStore({
-        session: {
-          needsInitialFetch: false,
-        },
+        ...baseState,
         caughtUp: {
-          [HOME_NARROW_STR]: { older: true },
-        },
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [2],
-          [HOME_NARROW_STR]: [1, 2],
-        },
-        messages: {
-          1: { id: 1 },
-          2: { id: 2 },
-        },
-        fetching: {
-          [HOME_NARROW_STR]: { older: false, newer: false },
+          ...baseState.caughtUp,
+          [HOME_NARROW_STR]: {
+            older: true,
+            newer: true,
+          },
         },
       });
 
@@ -155,23 +157,13 @@ describe('fetchActions', () => {
 
     test('when fetchingOlder older is true, no action is dispatched', () => {
       const store = mockStore({
-        session: {
-          needsInitialFetch: false,
-        },
-        caughtUp: {
-          [HOME_NARROW_STR]: { older: false },
-        },
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [2],
-          [HOME_NARROW_STR]: [1, 2],
-        },
-        messages: {
-          1: { id: 1 },
-          2: { id: 2 },
-        },
+        ...baseState,
         fetching: {
-          [HOME_NARROW_STR]: { older: true, newer: false },
+          ...baseState.fetching,
+          [HOME_NARROW_STR]: {
+            older: true,
+            newer: true,
+          },
         },
       });
 
@@ -183,22 +175,11 @@ describe('fetchActions', () => {
 
     test('when needsInitialFetch is true, no action is dispatched', () => {
       const store = mockStore({
+        ...baseState,
         session: {
+          ...baseState.session,
           needsInitialFetch: true,
         },
-        caughtUp: {
-          [HOME_NARROW_STR]: { older: false },
-        },
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [2],
-          [HOME_NARROW_STR]: [1, 2],
-        },
-        messages: {
-          1: { id: 1 },
-          2: { id: 2 },
-        },
-        fetching: {},
       });
 
       store.dispatch(fetchOlder(HOME_NARROW));
@@ -209,24 +190,30 @@ describe('fetchActions', () => {
   });
 
   describe('fetchNewer', () => {
+    const baseState = eg.reduxState({
+      ...navStateWithNarrow(HOME_NARROW),
+      narrows: {
+        ...eg.baseReduxState.narrows,
+        [streamNarrowStr]: [2],
+        [HOME_NARROW_STR]: [1, 2],
+      },
+      messages: {
+        ...eg.baseReduxState.messages,
+        '1': eg.streamMessage({ id: 1 }),
+        '2': eg.streamMessage({ id: 2 }),
+      },
+    });
+
     test('message fetch start action is dispatched with numAfter greater than zero', () => {
       const store = mockStore({
-        session: {
-          needsInitialFetch: false,
+        ...baseState,
+        fetching: {
+          ...baseState.fetching,
+          [HOME_NARROW_STR]: {
+            older: false,
+            newer: false,
+          },
         },
-        caughtUp: {
-          [HOME_NARROW_STR]: { newer: false },
-        },
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [2],
-          [HOME_NARROW_STR]: [1, 2],
-        },
-        messages: {
-          1: { id: 1 },
-          2: { id: 2 },
-        },
-        fetching: {},
       });
 
       store.dispatch(fetchNewer(HOME_NARROW));
@@ -239,22 +226,14 @@ describe('fetchActions', () => {
 
     test('when caughtUp newer is true, no action is dispatched', () => {
       const store = mockStore({
-        session: {
-          needsInitialFetch: false,
-        },
+        ...baseState,
         caughtUp: {
-          [HOME_NARROW_STR]: { newer: true },
+          ...baseState.caughtUp,
+          [HOME_NARROW_STR]: {
+            older: true,
+            newer: true,
+          },
         },
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [2],
-          [HOME_NARROW_STR]: [1, 2],
-        },
-        messages: {
-          1: { id: 1 },
-          2: { id: 2 },
-        },
-        fetching: {},
       });
 
       store.dispatch(fetchNewer(HOME_NARROW));
@@ -265,23 +244,13 @@ describe('fetchActions', () => {
 
     test('when fetching.newer is true, no action is dispatched', () => {
       const store = mockStore({
-        session: {
-          needsInitialFetch: false,
-        },
-        caughtUp: {
-          [HOME_NARROW_STR]: { newer: false },
-        },
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [2],
-          [HOME_NARROW_STR]: [1, 2],
-        },
-        messages: {
-          1: { id: 1 },
-          2: { id: 2 },
-        },
+        ...baseState,
         fetching: {
-          [HOME_NARROW_STR]: { older: false, newer: true },
+          ...baseState.fetching,
+          [HOME_NARROW_STR]: {
+            older: false,
+            newer: true,
+          },
         },
       });
 
@@ -293,21 +262,10 @@ describe('fetchActions', () => {
 
     test('when needsInitialFetch is true, no action is dispatched', () => {
       const store = mockStore({
+        ...baseState,
         session: {
+          ...baseState.session,
           needsInitialFetch: true,
-        },
-        caughtUp: {
-          [HOME_NARROW_STR]: { newer: false },
-        },
-        fetching: {},
-        ...navStateWithNarrow(HOME_NARROW),
-        narrows: {
-          [streamNarrowStr]: [2],
-          [HOME_NARROW_STR]: [1, 2],
-        },
-        messages: {
-          1: { id: 1 },
-          2: { id: 2 },
         },
       });
 
