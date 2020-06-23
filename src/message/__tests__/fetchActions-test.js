@@ -1,8 +1,11 @@
-import mockStore from 'redux-mock-store'; // eslint-disable-line
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 import { fetchMessages, fetchOlder, fetchNewer } from '../fetchActions';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
+
+const mockStore = configureStore([thunk]);
 
 const narrow = streamNarrow('some stream');
 const streamNarrowStr = JSON.stringify(narrow);
