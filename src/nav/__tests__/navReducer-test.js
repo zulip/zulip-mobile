@@ -85,7 +85,7 @@ describe('navReducer', () => {
       expect(nav.routes).toHaveLength(1);
     });
 
-    test('if logged in, go to main screen', () => {
+    test('if logged in and users is empty, go to loading', () => {
       const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
@@ -93,6 +93,24 @@ describe('navReducer', () => {
         payload: {
           accounts: [{ apiKey: '123' }],
           users: [],
+          realm: {},
+        },
+      });
+
+      const nav = navReducer(initialState, action);
+
+      expect(nav.routes).toHaveLength(1);
+      expect(nav.routes[0].routeName).toEqual('loading');
+    });
+
+    test('if logged in and users is not empty, go to main', () => {
+      const initialState = NULL_OBJECT;
+
+      const action = deepFreeze({
+        type: REHYDRATE,
+        payload: {
+          accounts: [{ apiKey: '123' }],
+          users: [{ user_id: 123 }],
           realm: {},
         },
       });
