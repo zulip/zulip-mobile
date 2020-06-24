@@ -10,6 +10,7 @@ import type {
   Stream,
   Subscription,
   User,
+  UserGroup,
 } from '../../api/modelTypes';
 import type { Action, GlobalState, RealmState } from '../../reduxTypes';
 import type { Auth, Account, Outbox } from '../../types';
@@ -150,6 +151,18 @@ export const makeAccount = (
     zulipVersion: zulipVersionInner,
     ackedPushToken,
   });
+};
+
+const randUserGroupId: () => number = makeUniqueRandInt('user group IDs', 10000);
+export const makeUserGroup = (extra?: $Rest<UserGroup, {}>): UserGroup => {
+  const baseUserGroup = {
+    description: 'My favorite group',
+    id: randUserGroupId(),
+    members: [randUserId(), randUserId(), randUserId()],
+    name: 'Mobile app enthusiasts',
+  };
+
+  return deepFreeze({ ...baseUserGroup, ...extra });
 };
 
 export const selfUser: User = makeUser({ name: 'self' });
