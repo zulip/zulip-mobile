@@ -1,3 +1,4 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
 import {
@@ -61,7 +62,7 @@ describe('getAutocompleteSuggestion', () => {
   test('empty input results in empty list', () => {
     const users = deepFreeze([]);
 
-    const filteredUsers = getAutocompleteSuggestion(users, 'some filter');
+    const filteredUsers = getAutocompleteSuggestion(users, 'some filter', eg.selfUser.email);
     expect(filteredUsers).toBe(users);
   });
 
@@ -95,7 +96,7 @@ describe('getAutocompleteSuggestion', () => {
     const allUsers = deepFreeze([user1, user2, user3, user4, user5]);
 
     const shouldMatch = [user1, user2, user3, user5];
-    const filteredUsers = getAutocompleteSuggestion(allUsers, 'match');
+    const filteredUsers = getAutocompleteSuggestion(allUsers, 'match', eg.selfUser.email);
     expect(filteredUsers).toEqual(shouldMatch);
   });
 
@@ -135,7 +136,7 @@ describe('getAutocompleteSuggestion', () => {
       user11, // have priority because of 'ma' contains in name
       user4, // email contains 'ma'
     ];
-    const filteredUsers = getAutocompleteSuggestion(allUsers, 'ma');
+    const filteredUsers = getAutocompleteSuggestion(allUsers, 'ma', eg.selfUser.email);
     expect(filteredUsers).toEqual(shouldMatch);
   });
 });
@@ -184,12 +185,22 @@ describe('sortUserList', () => {
     const user4 = { ...eg.makeUser({ name: 'Rick' }), email: 'rick@example.com' };
     const users = deepFreeze([user1, user2, user3, user4]);
     const presences = {
-      [user1.email]: { aggregated: { status: 'offline' } },
-      [user2.email]: {
-        aggregated: { status: 'active', timestamp: Date.now() / 1000 - 120 * 60 },
+      [user1.email]: {
+        aggregated: { client: 'website', status: 'offline', timestamp: Date.now() / 1000 - 300 },
       },
-      [user3.email]: { aggregated: { status: 'idle', timestamp: Date.now() / 1000 - 20 * 60 } },
-      [user4.email]: { aggregated: { status: 'active', timestamp: Date.now() / 1000 } },
+      [user2.email]: {
+        aggregated: {
+          client: 'website',
+          status: 'active',
+          timestamp: Date.now() / 1000 - 120 * 60,
+        },
+      },
+      [user3.email]: {
+        aggregated: { client: 'website', status: 'idle', timestamp: Date.now() / 1000 - 20 * 60 },
+      },
+      [user4.email]: {
+        aggregated: { client: 'website', status: 'active', timestamp: Date.now() / 1000 },
+      },
     };
     const shouldMatch = [user4, user3, user2, user1];
 
@@ -263,9 +274,15 @@ describe('groupUsersByStatus', () => {
     const user4 = { ...eg.makeUser(), email: 'dan@example.com' };
     const users = deepFreeze([user1, user2, user3, user4]);
     const presence = {
-      [user1.email]: { aggregated: { status: 'active' } },
-      [user2.email]: { aggregated: { status: 'idle', timestamp: Date.now() / 1000 - 10 } },
-      [user3.email]: { aggregated: { status: 'offline' } },
+      [user1.email]: {
+        aggregated: { client: 'website', status: 'active', timestamp: Date.now() / 1000 },
+      },
+      [user2.email]: {
+        aggregated: { client: 'website', status: 'idle', timestamp: Date.now() / 1000 - 10 },
+      },
+      [user3.email]: {
+        aggregated: { client: 'website', status: 'offline', timestamp: Date.now() / 1000 - 150 },
+      },
     };
     const expectedResult = {
       active: [user1],
