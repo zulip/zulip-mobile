@@ -36,6 +36,30 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (Android) Fixed bug in downloading an image from a message. (#3124)
+* (Android) Fixed bug in viewing a file attached to a message. (#3303)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+(Note that although #3124 and #3303 are related, and the news on both
+is for Android users only, their status on iOS differs: with #3124 the
+bug was Android-only, but with #3303 a second bug #4136 still stands
+in the way on iOS.)
+
+* #3548: Upgraded to RN v0.60!
+* #4026: Started using RN's new "autolinking" feature.
+* PR #3852: Updated to use AndroidX.
+* #3809: Resumed uploading to Sentry the info it needs to interpret
+  stack traces.
+* #4081: Added a `URL` polyfill; prefer this over trying to handle
+  URLs as strings.
+
 
 ## 26.28.151 (2020-05-06)
 
