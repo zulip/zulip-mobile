@@ -30,6 +30,7 @@ import pl from 'react-intl/locale-data/pl';
 import pt from 'react-intl/locale-data/pt';
 import ro from 'react-intl/locale-data/ro';
 import ru from 'react-intl/locale-data/ru';
+import sk from 'react-intl/locale-data/sk';
 import sr from 'react-intl/locale-data/sr';
 import sv from 'react-intl/locale-data/sv';
 import ta from 'react-intl/locale-data/ta';
@@ -68,6 +69,7 @@ import zh from 'react-intl/locale-data/zh';
   pt,
   ro,
   ru,
+  sk,
   sr,
   sv,
   ta,

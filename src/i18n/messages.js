@@ -28,6 +28,7 @@ import pl from '../../static/translations/messages_pl.json';
 import pt from '../../static/translations/messages_pt.json';
 import ro from '../../static/translations/messages_ro.json';
 import ru from '../../static/translations/messages_ru.json';
+import sk from '../../static/translations/messages_sk.json';
 import sr from '../../static/translations/messages_sr.json';
 import sv from '../../static/translations/messages_sv.json';
 import ta from '../../static/translations/messages_ta.json';
@@ -66,6 +67,7 @@ export default {
   pt,
   ro,
   ru,
+  sk,
   sr,
   sv,
   ta,
