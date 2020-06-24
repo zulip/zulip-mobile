@@ -19,7 +19,7 @@ export const fetchTopics = (streamId: number) => async (dispatch: Dispatch, getS
   dispatch(initTopics(topics, streamId));
 };
 
-export const fetchTopicsForActiveStream = (narrow: Narrow) => async (
+export const fetchTopicsForStream = (narrow: Narrow) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {

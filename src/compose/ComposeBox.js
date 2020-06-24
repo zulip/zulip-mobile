@@ -18,7 +18,7 @@ import { connect } from '../react-redux';
 import {
   addToOutbox,
   draftUpdate,
-  fetchTopicsForActiveStream,
+  fetchTopicsForStream,
   sendTypingStart,
   sendTypingStop,
 } from '../actions';
@@ -220,7 +220,7 @@ class ComposeBox extends PureComponent<Props, State> {
       isFocused: true,
       isMenuExpanded: false,
     });
-    dispatch(fetchTopicsForActiveStream(narrow));
+    dispatch(fetchTopicsForStream(narrow));
   };
 
   handleTopicBlur = () => {
