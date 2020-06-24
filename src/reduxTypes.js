@@ -211,9 +211,9 @@ export type OutboxState = Outbox[];
  * @prop (email) - Indexes over all users for which the app has received a
  *   presence status.
  */
-export type PresenceState = {|
+export type PresenceState = {
   [email: string]: UserPresence,
-|};
+};
 
 /**
  * State with miscellaneous data from the server; our state subtree `realm`.
