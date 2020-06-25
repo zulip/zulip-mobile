@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.29.152 (2020-06-24)
+
 ### Highlights for users
 
 * (Android) Fixed bug in downloading an image from a message. (#3124)
