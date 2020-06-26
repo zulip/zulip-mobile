@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 
 import type { Dispatch, UserOrBot, Narrow } from '../types';
 import { connect } from '../react-redux';
@@ -9,6 +9,12 @@ import { UserAvatarWithPresence } from '../common';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import styles from '../styles';
 import { navigateToAccountDetails } from '../nav/navActions';
+
+const flatListStyles = StyleSheet.create({
+  separatorView: {
+    width: 16,
+  },
+});
 
 type SelectorProps = $ReadOnly<{|
   recipients: UserOrBot[],
@@ -27,27 +33,27 @@ class TitleGroup extends PureComponent<Props> {
     dispatch(navigateToAccountDetails(user.user_id));
   };
 
-  styles = StyleSheet.create({
-    titleAvatar: {
-      marginRight: 16,
-    },
-  });
-
   render() {
     const { recipients } = this.props;
 
     return (
       <View style={styles.navWrapper}>
-        {recipients.map((user, index) => (
-          <View key={user.email} style={this.styles.titleAvatar}>
-            <UserAvatarWithPresence
-              onPress={() => this.handlePress(user)}
-              size={32}
-              avatarUrl={user.avatar_url}
-              email={user.email}
-            />
-          </View>
-        ))}
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={flatListStyles.separatorView} />}
+          data={recipients}
+          renderItem={({ item }) => (
+            <View key={item.email}>
+              <UserAvatarWithPresence
+                onPress={() => this.handlePress(item)}
+                size={32}
+                avatarUrl={item.avatar_url}
+                email={item.email}
+              />
+            </View>
+          )}
+        />
       </View>
     );
   }
