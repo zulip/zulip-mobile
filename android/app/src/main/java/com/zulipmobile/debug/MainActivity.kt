@@ -1,4 +1,6 @@
-package com.zulipmobile.debug;
+package com.zulipmobile.debug
+
+import com.zulipmobile.MainActivity
 
 /**
  * Alias of our real MainActivity, for rn-cli's sake.
@@ -8,7 +10,5 @@ package com.zulipmobile.debug;
  * and tries to start app `com.zulipmobile` instead.
  *
  * See AndroidManifest.xml for more context.
- **/
-public class MainActivity extends com.zulipmobile.MainActivity {
-
-}
+ */
+class MainActivity : MainActivity()
