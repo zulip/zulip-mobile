@@ -11,6 +11,7 @@ type Config = {|
   sentryKey: string | null,
   enableErrorConsoleLogging: boolean,
   serverDataOnStartup: string[],
+  appOwnDomains: string[],
 |};
 
 const config: Config = {
@@ -39,6 +40,7 @@ const config: Config = {
     'update_message_flags',
     'user_status',
   ],
+  appOwnDomains: ['zulip.com', 'zulipchat.com', 'chat.zulip.org'],
 };
 
 export default config;
