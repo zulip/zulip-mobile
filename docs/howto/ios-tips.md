@@ -84,3 +84,87 @@ It seems like there's some caching strategy to avoid fetching
 `.podspec` files unnecessarily, potentially with network requests.
 (See
 [discussion](https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M3548.20RN.20v0.2E60.2E0.20upgrade/near/896746).)
+
+## Sign in with Apple
+
+To set up your [development server](./dev-server.md) to use Apple
+authentication ("Sign in with Apple"), you'll want to follow almost
+[these
+steps](https://zulip.readthedocs.io/en/latest/production/authentication-methods.html#sign-in-with-apple),
+but with a few things to keep in mind:
+
+- If you don't have your own Apple Developer account (there's an
+  annual fee), please ask Greg to set up test credentials and send
+  them to you.
+  These will be associated with the Kandra team, so
+  [please](https://chat.zulip.org/#narrow/stream/3-backend/topic/apple.20auth/near/915391)
+  let him know when you're finished with the credentials so he can
+  revoke them. Please don't abuse them with deliberate spam, as
+  that goes on our reputation.
+- Use the domain `zulipdev.com` where Apple asks for a domain;
+  [`localhost` won't
+  work](https://chat.zulip.org/#narrow/stream/3-backend/topic/Apple.20Auth/near/831533).
+  On the public Internet, `zulipdev.com` resolves to `127.0.0.1`.
+  - `127.0.0.1` (also what `localhost` points to) points to the
+    machine you're on. When you're on a physical device, that's the
+    device itself, not the device (your computer) that's running the
+    dev server. So you won't be able to connect using `zulipdev.com`
+    on a physical device.
+  - Empirically, there's no problem using the iOS simulator on the
+    computer running the dev server; it seems the iOS simulator shares
+    its network interface with the computer it's running on. To use
+    the native flow, you will be able to sign into the simulator at
+    the "device" level just as you would on a real device.
+  - Temporarily allow the app to access `http://zulipdev.com` as
+    described in the section on `NSAppTransportSecurity` exceptions,
+    below.
+
+To test the native flow, which uses an Apple ID you've authenticated
+with in System Preferences, go to the ZulipMobile target in the
+project and targets list, and, under General > Identity, set the
+Bundle Identifier field to your development App ID (a.k.a. Bundle ID).
+If you've already installed a build that used the canonical Bundle
+Identifier, you'll see two app icons on your home screen. Be sure to
+open the correct one; it might be easiest to delete them both and
+reinstall to prevent any doubt.
+
+You should now be able to enter `http://zulipdev.com:9991` (not
+`https://`), see the "Sign in with Apple" button, and use it
+successfully.
+
+## Adding `http://` exceptions to `NSAppTransportSecurity` in `Info.plist`
+
+If you need to connect to `http://zulipdev.com` or another host with
+the insecure `http://`, you'll need to tell the app to make an
+exception under iOS's "App Transport Security", either to allow access
+any host with `http://`, or just to specific domains.
+
+These exceptions should never be committed to master, as there aren't
+any insecure domains we want to connect to in production.
+
+To add an exception for the `zulipdev.com` domain, add the following
+in `ios/ZulipMobile/Info.plist`:
+
+```diff
+   <key>NSAppTransportSecurity</key>
+   <dict>
+     <key>NSExceptionDomains</key>
+     <dict>
+       <key>localhost</key>
+       <dict>
+         <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+         <true/>
+       </dict>
++      <key>zulipdev.com</key>
++      <dict>
++        <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
++        <true/>
++      </dict>
+     </dict>
+   </dict>
+```
+
+See
+[discussion](https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Apple.20ATS.20for.20debug/near/883318)
+for more convenient solutions if we find we have to allow this
+regularly.
