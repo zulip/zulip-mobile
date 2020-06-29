@@ -117,6 +117,9 @@ export const navigateToMessageReactionScreen = (
 ): NavigationAction =>
   StackActions.push({ routeName: 'message-reactions', params: { messageId, reactionName } });
 
+export const navigateToEditHistory = (messageId: number): NavigationAction =>
+  StackActions.push({ routeName: 'edit-history', params: { messageId } });
+
 export const navigateToLegal = (): NavigationAction => StackActions.push({ routeName: 'legal' });
 
 export const navigateToUserStatus = (): NavigationAction =>
