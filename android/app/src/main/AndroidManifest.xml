@@ -45,7 +45,7 @@
 
     <!-- Disabled while the feature is experimental.  See #117 and #4124.
       <activity
-        android:name=".sharing.ReceiveShareActivity"
+        android:name=".MainActivity"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
         android:label="@string/app_name"
         android:launchMode="singleTask"
