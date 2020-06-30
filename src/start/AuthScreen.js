@@ -256,7 +256,10 @@ class AuthScreen extends PureComponent<Props> {
               key={auth.name}
               style={styles.halfMarginTop}
               secondary
-              text={`Log in with ${auth.displayName}`}
+              text={{
+                text: 'Log in with {method}',
+                values: { method: auth.displayName },
+              }}
               Icon={auth.Icon}
               onPress={() => this.handleAuth(auth)}
             />
