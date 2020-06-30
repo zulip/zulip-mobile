@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import TranslatedText from './TranslatedText';
 
+import type { LocalizableText } from '../types';
 import type { SpecificIconType } from './Icons';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
@@ -64,7 +65,7 @@ type Props = $ReadOnly<{|
   progress: boolean,
   disabled: boolean,
   Icon?: SpecificIconType,
-  text: string,
+  text: LocalizableText,
   secondary: boolean,
   onPress: () => void | Promise<void>,
 |}>;
