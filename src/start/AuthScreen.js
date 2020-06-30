@@ -281,9 +281,13 @@ class AuthScreen extends PureComponent<Props> {
         // TODO: Check this much sooner.
       }
 
-      // Check that the realm we're actually sending requests to,
-      // which is basically the URL the user entered on the first
-      // screen, is trusted by the official mobile app.
+      // The native flow for Apple auth assumes that the app and the server
+      // are operated by the same organization, so that for a user to
+      // entrust private information to either one is the same as entrusting
+      // it to the other.  Check that this realm is on such a server.
+      //
+      // (For other realms, we'll simply fall back to the web flow, which
+      // handles things appropriately without relying on that assumption.)
       const isTrusted = config.appOwnDomains.some(
         domain => host !== undefined && (host === domain || host.endsWith(`.${domain}`)),
       );
