@@ -28,7 +28,7 @@ import styles from '../styles';
 import { Centerer, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
-import { getFullUrl, encodeParamsForUrl } from '../utils/url';
+import { getFullUrl, encodeParamsForUrl, tryParseUrl } from '../utils/url';
 import * as webAuth from './webAuth';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 import IosCompliantAppleAuthButton from './IosCompliantAppleAuthButton';
@@ -276,12 +276,11 @@ class AuthScreen extends PureComponent<Props> {
       return false;
     }
 
-    let host: string | void;
-    try {
-      host = new WhatwgURL(this.props.realm).host;
-    } catch (e) {
+    const host = tryParseUrl(this.props.realm)?.host;
+    if (host === undefined) {
       // `this.props.realm` invalid.
       // TODO: Check this much sooner.
+      return false;
     }
 
     // The native flow for Apple auth assumes that the app and the server
@@ -291,9 +290,7 @@ class AuthScreen extends PureComponent<Props> {
     //
     // (For other realms, we'll simply fall back to the web flow, which
     // handles things appropriately without relying on that assumption.)
-    return config.appOwnDomains.some(
-      domain => host !== undefined && (host === domain || host.endsWith(`.${domain}`)),
-    );
+    return config.appOwnDomains.some(domain => host === domain || host.endsWith(`.${domain}`));
   };
 
   handleAuth = async (method: AuthenticationMethodDetails) => {
