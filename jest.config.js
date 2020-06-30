@@ -10,6 +10,7 @@ const transformModulesWhitelist = [
   '@expo/react-native-action-sheet',
   'react-navigation',
   '@sentry/react-native',
+  '@unimodules/',
   '@zulip/',
 ];
 
