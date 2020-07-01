@@ -264,7 +264,7 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
       break;
 
     case 'error':
-      logging.error(`WebView exception: ${JSON.stringify(event.details)}`);
+      logging.error('WebView error', event.details);
       break;
 
     default:
