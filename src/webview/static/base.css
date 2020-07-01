@@ -475,3 +475,9 @@ blockquote {
   height: 32px;
   fill: hsla(0, 0%, 100%, 0.75);
 }
+time {
+  display: inline-block;
+  padding: 4px 6px;
+  background-color: hsla(0, 0%, 50%, 0.125);
+  border-radius: 8px;
+}

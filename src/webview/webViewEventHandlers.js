@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { Clipboard } from 'react-native';
+import { Clipboard, Alert } from 'react-native';
 import * as api from '../api';
 import config from '../config';
 import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage } from '../types';
@@ -119,6 +119,11 @@ type MessageListEventMention = {|
   userId: number,
 |};
 
+type MessageListEventTimeDetails = {|
+  type: 'time',
+  originalText: string,
+|};
+
 export type MessageListEvent =
   | MessageListEventReady
   | MessageListEventScroll
@@ -132,7 +137,8 @@ export type MessageListEvent =
   | MessageListEventDebug
   | MessageListEventWarn
   | MessageListEventError
-  | MessageListEventMention;
+  | MessageListEventMention
+  | MessageListEventTimeDetails;
 
 type Props = $ReadOnly<{
   backgroundData: BackgroundData,
@@ -263,6 +269,18 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
     case 'mention': {
       const { dispatch } = props;
       dispatch(navigateToAccountDetails(event.userId));
+      break;
+    }
+
+    case 'time': {
+      const alertText = _.intl.formatMessage(
+        {
+          id: "This time is in your timezone. Original text was '{originalText}'.",
+          defaultMessage: "This time is in your timezone. Original text was '{originalText}'.",
+        },
+        { originalText: event.originalText },
+      );
+      Alert.alert('', alertText);
       break;
     }
 

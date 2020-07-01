@@ -54,6 +54,39 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document) => {
 };
 
 /**
+ * Rewrite the 'time' elements under the given root, inclusive, to make them more readable.
+ *
+ * 1. Changes text to localized human readable date-time.
+ * 2. Adds 'original-text' attribrute, to show original text alert dialog on press.
+ */
+const rewriteTime = (element: Element | Document) => {
+  // Find the time elements to act on.
+  const timeElements = [].concat(
+    element instanceof HTMLTimeElement ? [element] : [],
+    Array.from(element.getElementsByTagName('time')),
+  );
+
+  timeElements.forEach(elem => {
+    // Present only because the Flow DOM libdef does not have a specific definition
+    // for `getElementsByTagName('time')`, so the typedef of `timeElements` is wider
+    // than it actually is. See https://github.com/facebook/flow/issues/8450.
+    if (!(elem instanceof HTMLTimeElement)) {
+      return;
+    }
+
+    const timeStamp = elem.dateTime;
+    const text = elem.innerText;
+
+    const d = new Date(timeStamp);
+    elem.setAttribute('original-text', text);
+    elem.innerText = `🕒  ${d.toLocaleString(undefined, {
+      dateStyle: 'full',
+      timeStyle: 'short',
+    })}`;
+  });
+};
+
+/**
  * Modify relevant parts of the rendered DOM tree under the given root,
  * inclusive, to ensure functionality.
  *
@@ -61,6 +94,7 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document) => {
  */
 const rewriteHTML = (auth: Auth, element: Element | Document = document) => {
   rewriteImageUrls(auth, element);
+  rewriteTime(element);
 };
 
 export default rewriteHTML;

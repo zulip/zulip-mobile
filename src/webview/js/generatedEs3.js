@@ -208,9 +208,28 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
+  var rewriteTime = function rewriteTime(element) {
+    var timeElements = [].concat(element instanceof HTMLTimeElement ? [element] : [], Array.from(element.getElementsByTagName('time')));
+    timeElements.forEach(function (elem) {
+      if (!(elem instanceof HTMLTimeElement)) {
+        return;
+      }
+
+      var timeStamp = elem.dateTime;
+      var text = elem.innerText;
+      var d = new Date(timeStamp);
+      elem.setAttribute('original-text', text);
+      elem.innerText = "\\uD83D\\uDD52  ".concat(d.toLocaleString(undefined, {
+        dateStyle: 'full',
+        timeStyle: 'short'
+      }));
+    });
+  };
+
   var rewriteHTML = function rewriteHTML(auth) {
     var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
     rewriteImageUrls(auth, element);
+    rewriteTime(element);
   };
 
   if (!Array.from) {
@@ -764,6 +783,14 @@ var compiledWebviewJs = (function (exports) {
         voted: target.classList.contains('self-voted')
       });
       return;
+    }
+
+    if (target.matches('time')) {
+      var originalText = requireAttribute(target, 'original-text');
+      sendMessage({
+        type: 'time',
+        originalText: originalText
+      });
     }
 
     var messageElement = target.closest('.message-brief');

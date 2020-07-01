@@ -746,6 +746,14 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
+  if (target.matches('time')) {
+    const originalText = requireAttribute(target, 'original-text');
+    sendMessage({
+      type: 'time',
+      originalText,
+    });
+  }
+
   const messageElement = target.closest('.message-brief');
   if (messageElement) {
     messageElement.getElementsByClassName('timestamp')[0].classList.toggle('show');
