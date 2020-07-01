@@ -179,10 +179,24 @@ class MessageList extends Component<Props> {
    * Initiate round-trip handshakes with the WebView, until one succeeds.
    */
   setupSendUpdateEvents = (): void => {
+    const timeAtSetup = Date.now();
+    let attempts: number = 0;
+    let hasLogged: boolean = false;
+
     clearInterval(this.readyRetryInterval);
     this.readyRetryInterval = setInterval(() => {
+      const timeElapsedMs: number = Date.now() - timeAtSetup;
+      if (timeElapsedMs > 1000 && hasLogged === false) {
+        logging.warn('Possible infinite loop in WebView "ready" setup', {
+          attempts,
+          timeElapsedMs,
+        });
+        hasLogged = true;
+      }
+
       if (!this.sendUpdateEventsIsReady) {
         this.sendUpdateEvents([{ type: 'ready' }]);
+        attempts++;
       } else {
         clearInterval(this.readyRetryInterval);
         this.readyRetryInterval = undefined;
