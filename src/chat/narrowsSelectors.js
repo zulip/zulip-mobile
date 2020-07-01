@@ -36,9 +36,6 @@ export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelecto
   getCaughtUpForNarrow,
   state => getOutbox(state),
   (narrow, caughtUp, outboxMessages) => {
-    if (!caughtUp.newer) {
-      return NULL_ARRAY;
-    }
     const filtered = outboxMessages.filter(item => narrowContains(narrow, item.narrow));
     return isEqual(filtered, outboxMessages) ? outboxMessages : filtered;
   },

@@ -75,7 +75,7 @@ describe('getMessagesForNarrow', () => {
     expect(anchor).toEqual(expectedState);
   });
 
-  test('do not combine messages and outbox if not caught up', () => {
+  test('combine messages and outbox if not caught up', () => {
     const state = deepFreeze({
       narrows: {
         [HOME_NARROW_STR]: [123],
@@ -94,7 +94,7 @@ describe('getMessagesForNarrow', () => {
       ],
     });
 
-    const expectedState = deepFreeze([state.messages[123]]);
+    const expectedState = deepFreeze([state.messages[123], ...state.outbox]);
 
     const anchor = getMessagesForNarrow(state, HOME_NARROW);
 

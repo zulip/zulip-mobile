@@ -30,6 +30,7 @@ describe('getLastMessageTopic', () => {
   test('when no messages in narrow return an empty string', () => {
     const state = deepFreeze({
       narrows: {},
+      outbox: [],
     });
 
     const topic = getLastMessageTopic(state, HOME_NARROW);
@@ -50,6 +51,7 @@ describe('getLastMessageTopic', () => {
         1: { id: 1 },
         2: { id: 2, subject: 'some topic' },
       },
+      outbox: [],
     });
 
     const topic = getLastMessageTopic(state, narrow);
