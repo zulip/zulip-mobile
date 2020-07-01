@@ -5,6 +5,7 @@ import config from '../config';
 import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage } from '../types';
 import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
 import { isUrlAnImage, getFullUrl } from '../utils/url';
 import * as logging from '../utils/logging';
@@ -91,6 +92,11 @@ type MessageListEventDebug = {|
   type: 'debug',
 |};
 
+type MessageListEventWarn = {|
+  type: 'warn',
+  details: JSONableDict,
+|};
+
 type MessageListEventError = {|
   type: 'error',
   details: {
@@ -124,6 +130,7 @@ export type MessageListEvent =
   | MessageListEventLongPress
   | MessageListEventReactionDetails
   | MessageListEventDebug
+  | MessageListEventWarn
   | MessageListEventError
   | MessageListEventMention;
 
@@ -261,6 +268,10 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
 
     case 'debug':
       console.debug(props, event); // eslint-disable-line
+      break;
+
+    case 'warn':
+      logging.warn('WebView warning', event.details);
       break;
 
     case 'error':
