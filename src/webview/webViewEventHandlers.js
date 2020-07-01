@@ -98,7 +98,7 @@ type MessageListEventError = {|
     source: string,
     line: number,
     column: number,
-    error: mixed,
+    error: Error,
   },
 |};
 
