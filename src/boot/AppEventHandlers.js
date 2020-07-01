@@ -15,7 +15,7 @@ import {
   NotificationListener,
   notificationOnAppActive,
 } from '../notification';
-import { appOnline, appOrientation, initSafeAreaInsets } from '../actions';
+import { appOnline, appOrientation, initSafeAreaInsets, sendOutbox } from '../actions';
 import PresenceHeartbeat from '../presence/PresenceHeartbeat';
 
 /**
@@ -99,6 +99,11 @@ class AppEventHandlers extends PureComponent<Props> {
     const { type: connectionType } = netInfoState;
     const isConnected = connectionType !== 'none' && connectionType !== 'unknown';
     dispatch(appOnline(isConnected));
+
+    // Start sending outbox messages now that we have connectivity.
+    if (isConnected) {
+      dispatch(sendOutbox());
+    }
   };
 
   /** For the type, see docs: https://reactnative.dev/docs/appstate */
