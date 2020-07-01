@@ -1,6 +1,7 @@
 /* @flow strict-local */
 /* eslint-disable no-useless-return */
 import type { Auth } from '../../types';
+import type { JSONable } from '../../utils/jsonable';
 import type {
   WebViewUpdateEvent,
   WebViewUpdateEventContent,
@@ -10,6 +11,7 @@ import type {
   WebViewUpdateEventMessagesRead,
 } from '../webViewHandleUpdates';
 import type { MessageListEvent } from '../webViewEventHandlers';
+import { ensureUnreachable } from '../../types';
 
 import rewriteImageUrls from './rewriteImageUrls';
 
@@ -155,6 +157,66 @@ window.onerror = (message: string, source: string, line: number, column: number,
 
   return true;
 };
+
+let isTrackingLongLoad = true;
+let eventsDuringLongLoad: Array<{ ...WebViewUpdateEvent, timestamp: number }> | null = [];
+
+const logLongLoad = () => {
+  if (eventsDuringLongLoad === null) {
+    throw new Error();
+  }
+  const loggableEvents: JSONable[] = eventsDuringLongLoad.map(eventWithTimestamp => {
+    const placeholdersDivTagFromContent = (content: string) => {
+      const match = new RegExp('<div id="message-loading" class="(?:hidden)?">').exec(content);
+      return match !== null ? match[0] : null;
+    };
+    // $FlowFixMe (some events don't have content or auth)
+    const { content, auth, ...rest } = eventWithTimestamp; /* eslint-disable-line no-unused-vars */
+    switch (eventWithTimestamp.type) {
+      case 'content': {
+        return {
+          ...rest,
+          auth: 'redacted',
+          content: placeholdersDivTagFromContent(eventWithTimestamp.content),
+        };
+      }
+      case 'read':
+      case 'ready':
+      case 'fetching':
+        return rest;
+      case 'typing': {
+        return {
+          ...rest,
+          content: placeholdersDivTagFromContent(eventWithTimestamp.content),
+        };
+      }
+      default:
+        ensureUnreachable(eventWithTimestamp);
+        return {
+          type: eventWithTimestamp.type,
+          timestamp: eventWithTimestamp.timestamp,
+        };
+    }
+  });
+
+  sendMessage({
+    type: 'warn',
+    details: {
+      loggableEvents,
+    },
+  });
+};
+
+const maybeLogLongLoad = () => {
+  const placeholdersDiv = document.getElementById('message-loading');
+  if (placeholdersDiv && !placeholdersDiv.classList.contains('hidden')) {
+    logLongLoad();
+  }
+  isTrackingLongLoad = false;
+  eventsDuringLongLoad = null;
+};
+
+setTimeout(maybeLogLongLoad, 10000);
 
 const showHideElement = (elementId: string, show: boolean) => {
   const element = document.getElementById(elementId);
@@ -609,6 +671,13 @@ const handleMessageEvent: MessageEventListener = e => {
   updateEvents.forEach((uevent: WebViewUpdateEvent) => {
     // $FlowFixMe
     eventUpdateHandlers[uevent.type](uevent);
+    if (isTrackingLongLoad && eventsDuringLongLoad !== null) {
+      // $FlowFixMe the spread seems to confuse Flow, but this is likely correct
+      eventsDuringLongLoad.push({
+        ...uevent,
+        timestamp: Date.now(),
+      });
+    }
   });
   scrollEventsDisabled = false;
 };

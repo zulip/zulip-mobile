@@ -14,6 +14,91 @@ export default `
 var compiledWebviewJs = (function (exports) {
   'use strict';
 
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(Object(source), true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(Object(source)).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
+  function _objectWithoutPropertiesLoose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      target[key] = source[key];
+    }
+
+    return target;
+  }
+
+  function _objectWithoutProperties(source, excluded) {
+    if (source == null) return {};
+
+    var target = _objectWithoutPropertiesLoose(source, excluded);
+
+    var key, i;
+
+    if (Object.getOwnPropertySymbols) {
+      var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+      for (i = 0; i < sourceSymbolKeys.length; i++) {
+        key = sourceSymbolKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+        target[key] = source[key];
+      }
+    }
+
+    return target;
+  }
+
   var inlineApiRoutes = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(function (r) {
     return new RegExp(r);
   });
@@ -126,6 +211,73 @@ var compiledWebviewJs = (function (exports) {
     });
     return true;
   };
+
+  var isTrackingLongLoad = true;
+  var eventsDuringLongLoad = [];
+
+  var logLongLoad = function logLongLoad() {
+    if (eventsDuringLongLoad === null) {
+      throw new Error();
+    }
+
+    var loggableEvents = eventsDuringLongLoad.map(function (eventWithTimestamp) {
+      var placeholdersDivTagFromContent = function placeholdersDivTagFromContent(content) {
+        var match = new RegExp('<div id="message-loading" class="(?:hidden)?">').exec(content);
+        return match !== null ? match[0] : null;
+      };
+
+      var content = eventWithTimestamp.content,
+          auth = eventWithTimestamp.auth,
+          rest = _objectWithoutProperties(eventWithTimestamp, ["content", "auth"]);
+
+      switch (eventWithTimestamp.type) {
+        case 'content':
+          {
+            return _objectSpread2({}, rest, {
+              auth: 'redacted',
+              content: placeholdersDivTagFromContent(eventWithTimestamp.content)
+            });
+          }
+
+        case 'read':
+        case 'ready':
+        case 'fetching':
+          return rest;
+
+        case 'typing':
+          {
+            return _objectSpread2({}, rest, {
+              content: placeholdersDivTagFromContent(eventWithTimestamp.content)
+            });
+          }
+
+        default:
+          return {
+            type: eventWithTimestamp.type,
+            timestamp: eventWithTimestamp.timestamp
+          };
+      }
+    });
+    sendMessage({
+      type: 'warn',
+      details: {
+        loggableEvents: loggableEvents
+      }
+    });
+  };
+
+  var maybeLogLongLoad = function maybeLogLongLoad() {
+    var placeholdersDiv = document.getElementById('message-loading');
+
+    if (placeholdersDiv && !placeholdersDiv.classList.contains('hidden')) {
+      logLongLoad();
+    }
+
+    isTrackingLongLoad = false;
+    eventsDuringLongLoad = null;
+  };
+
+  setTimeout(maybeLogLongLoad, 10000);
 
   var showHideElement = function showHideElement(elementId, show) {
     var element = document.getElementById(elementId);
@@ -479,6 +631,12 @@ var compiledWebviewJs = (function (exports) {
     var updateEvents = JSON.parse(decodedData);
     updateEvents.forEach(function (uevent) {
       eventUpdateHandlers[uevent.type](uevent);
+
+      if (isTrackingLongLoad && eventsDuringLongLoad !== null) {
+        eventsDuringLongLoad.push(_objectSpread2({}, uevent, {
+          timestamp: Date.now()
+        }));
+      }
     });
     scrollEventsDisabled = false;
   };
