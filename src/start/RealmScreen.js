@@ -7,7 +7,7 @@ import { ZulipVersion } from '../utils/zulipVersion';
 import type { ApiResponseServerSettings, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
-import { isValidUrl } from '../utils/url';
+import { isValidUrl, tryParseUrl } from '../utils/url';
 import * as api from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
 
@@ -45,13 +45,21 @@ class RealmScreen extends PureComponent<Props, State> {
   tryRealm = async () => {
     const { realm } = this.state;
 
+    const parsedRealm = tryParseUrl(realm);
+    if (!parsedRealm) {
+      this.setState({ error: 'Please enter a valid URL' });
+      return;
+    }
+    if (parsedRealm.username !== '') {
+      this.setState({ error: 'Please enter the server URL, not your email' });
+      return;
+    }
+
+    const { dispatch } = this.props;
     this.setState({
       progress: true,
       error: null,
     });
-
-    const { dispatch } = this.props;
-
     try {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
       dispatch(realmAdd(realm, new ZulipVersion(serverSettings.zulip_version)));
