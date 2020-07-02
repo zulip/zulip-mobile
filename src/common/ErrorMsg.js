@@ -2,13 +2,11 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { CONTROL_SIZE } from '../styles';
 import Label from './Label';
 
 const styles = StyleSheet.create({
   field: {
     flexDirection: 'row',
-    height: CONTROL_SIZE / 2,
     marginTop: 5,
     marginBottom: 5,
     justifyContent: 'center',
