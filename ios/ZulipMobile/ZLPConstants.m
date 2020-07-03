@@ -1,6 +1,6 @@
-#import "ZLPInfoProperties.h"
+#import "ZLPConstants.h"
 
-@implementation ZLPInfoProperties
+@implementation ZLPConstants
 
 RCT_EXPORT_MODULE()
 
@@ -13,10 +13,9 @@ RCT_EXPORT_MODULE()
 
 - (NSDictionary *)constantsToExport
 {
-  // Items from the Info.plist.
   return @{
-           // We've added a custom entry that gives us the App ID
-           // Prefix (a.k.a. the Team ID plus a dot). Access it.
+           // In the Info.plist, our custom entry for the App ID
+           // Prefix (a.k.a. the Team ID plus a dot).
            @"appIdentifierPrefix": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AppIdentifierPrefix"] ?: [NSNull null],
            };
 }
