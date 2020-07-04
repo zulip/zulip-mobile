@@ -9,6 +9,7 @@ export { default as FloatingActionButton } from './FloatingActionButton';
 export { default as UserAvatar } from './UserAvatar';
 export { default as Input } from './Input';
 export { default as InputWithClearButton } from './InputWithClearButton';
+export { default as ZulipWebView } from './ZulipWebView';
 export { default as KeyboardAvoider } from './KeyboardAvoider';
 export { default as Label } from './Label';
 export { default as LineSeparator } from './LineSeparator';
