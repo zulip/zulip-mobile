@@ -196,8 +196,12 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   // See JSDoc on 'onAutocomplete' in 'AutocompleteView.js'.
-  handleMessageAutocomplete = (message: string, completion: string, lastWordPrefix: string) => {
-    this.setMessageInputValue(message);
+  handleMessageAutocomplete = (
+    completedText: string,
+    completion: string,
+    lastWordPrefix: string,
+  ) => {
+    this.setMessageInputValue(completedText);
 
     if (lastWordPrefix === '@') {
       if (this.mentionWarnings.current) {
