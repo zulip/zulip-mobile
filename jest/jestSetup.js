@@ -23,12 +23,19 @@ import mockAsyncStorage from '@react-native-community/async-storage/jest/async-s
 //
 // [1] https://github.com/facebook/react-native/issues/26579#issuecomment-535244001
 // [2] https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M3781.20RN.20v0.2E61.20upgrade/near/931219
-jest.mock(
-  'react-native',
-  () =>
-    // Add stuff here
-    ReactNative,
-);
+jest.mock('react-native', () => {
+  ReactNative.NativeModules.ZLPConstants =
+    // Currently only available on iOS. We don't bother
+    // conditionalizing on the platform here; if we want to mock
+    // Platform.OS, we'll likely want to do so per-test. In that
+    // scenario, we'll need to figure out how to recompute this mock
+    // with Platform.OS set as desired.
+    {
+      resourceURL:
+        'file:///private/var/containers/Bundle/Application/4DCD4D2B-F745-4C70-AD74-8E5F690CF593/ZulipMobile.app/',
+    };
+  return ReactNative;
+});
 
 /**
  * Boring mocks
