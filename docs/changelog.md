@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 26.30.153 (2020-07-06)
+
 ### Highlights for users
 
 * You can now sign in with an Apple ID. (#3964)
