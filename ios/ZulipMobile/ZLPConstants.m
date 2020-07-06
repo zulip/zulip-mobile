@@ -14,9 +14,6 @@ RCT_EXPORT_MODULE()
 - (NSDictionary *)constantsToExport
 {
   return @{
-           // In the Info.plist, our custom entry for the App ID
-           // Prefix (a.k.a. the Team ID plus a dot).
-           @"appIdentifierPrefix": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AppIdentifierPrefix"] ?: [NSNull null],
            @"resourceURL": [[[NSBundle mainBundle] resourceURL] absoluteString]
            };
 }
