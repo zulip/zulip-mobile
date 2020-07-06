@@ -36,6 +36,19 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* You can now sign in with an Apple ID. (#3964)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* #4180: Added logging for the message-list WebView taking a long time
+  to load.
+
 
 ## 26.29.152 (2020-06-24)
 
