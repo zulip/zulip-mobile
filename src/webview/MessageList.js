@@ -244,12 +244,14 @@ class MessageList extends Component<Props> {
     /**
      * Effective URL of the MessageList webview.
      *
-     * It points to `index.html` in the webview-assets folder.
+     * It points to `index.html` in the webview-assets folder, which
+     * doesn't exist.
      *
-     * We provide all HTML at creation (or refresh) time; the document named
-     * here is not loaded, and doesn't even need to exist. It serves only as a
-     * placeholder, so that relative URLs and cross-domain security restrictions
-     * have somewhere to believe that this document originates from.
+     * It doesn't need to exist because we provide all HTML at
+     * creation (or refresh) time. This serves only as a placeholder,
+     * so that relative URLs (e.g., to `base.css`, which does exist)
+     * and cross-domain security restrictions have somewhere to
+     * believe that this document originates from.
      */
     const baseUrl = new WhatwgURL('index.html', webviewAssetsUrl);
 
