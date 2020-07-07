@@ -443,6 +443,43 @@ keyPassword=*****
 
 ## Troubleshooting
 
+### iOS build error: "Provisioning profile" lacks a capability/entitlement
+
+You might get an error like this from `tools/ios build` (reformatted
+slightly for readability):
+```
+error: Provisioning profile "iOS Team Provisioning Profile: org.zulip.Zulip"
+  doesn't support the Sign In with Apple capability.
+  (in target 'ZulipMobile' from project 'ZulipMobile')
+error: Provisioning profile "iOS Team Provisioning Profile: org.zulip.Zulip"
+  doesn't include the com.apple.developer.applesignin entitlement.
+  (in target 'ZulipMobile' from project 'ZulipMobile')
+```
+
+(Most likely with some other capability and/or entitlement -- you're
+unlikely to hit the issue with this same one in the future.)
+
+This happened when [first attempting a release build][] after merging
+changes (to the Xcode project file) that started asserting that
+capability.
+
+[first attempting a release build]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/ios.20build.3A.20apple.20auth/near/926523
+
+The fix has two parts:
+* Enable the capability in the Apple developer console, at
+  developer.apple.com in the UI for the appropriate App ID.
+  (This part, we'd done long before.)
+* Make Xcode aware of the newly-enabled capability.  As of Xcode 11.3.1:
+  * Go to Xcode > Preferences > Accounts.
+  * Select the appropriate Apple ID in the left pane (if it isn't
+    already).
+  * In the right pane, hit the button "Download Manual Profiles".
+    Give it a second or two; a spinner should appear and disappear.
+
+Expect the upload to fail too; see the "Create certificate" item
+below.
+
+
 ### iOS upload error "Create certificate"
 
 You might get an error like this from `tools/ios upload`:
