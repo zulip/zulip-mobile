@@ -183,7 +183,7 @@ simple terminology for the process we follow with both.
     available in alpha.
 
 [app-store-connect]: https://appstoreconnect.apple.com/
-[asc-builds]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/activity/ios/builds
+[asc-builds]: https://appstoreconnect.apple.com/apps/1203036395/recent/activity/ios/builds?m=
 
 
 ### Promote to beta
@@ -229,7 +229,7 @@ simple terminology for the process we follow with both.
 
   * After the build reaches alpha, you can add it to TestFlight so it
     goes to our beta users.  Go in App Store Connect to [TestFlight ->
-    Testers & Groups -> External Testers -> Builds][asc-external-builds],
+    Testers & Groups -> External Testers][asc-external],
     and hit the "+" icon at the top of the list of builds to enter a
     modal dialog.
 
@@ -243,9 +243,10 @@ simple terminology for the process we follow with both.
 
   * Also submit for App Store review, to save latency in the prod rollout:
 
-    * In App Store Connect for the app, [go to the "App Store" tab][asc-main], and
-      hit the "+ Version" button at the bottom of the left sidebar.  Enter the
-      version number.  This creates a new draft listing.
+    * In App Store Connect for the app, [go to the "App Store"
+      tab][asc-main], and hit the "+" button next to "iOS App" at the
+      top of the left sidebar.  Enter the version number.  This
+      creates a new draft listing.
 
     * In the draft listing:
 
@@ -261,17 +262,18 @@ simple terminology for the process we follow with both.
         release this version" is selected (vs. "Automatically release
         this version").
 
-      * Back at the top, hit "Save" and then "Submit for Review".
+      * At the bottom, for the "Advertising Identifier (IDFA)"
+        question, select "No, it doesn't".
 
-    * For the "Advertising Identifier (IDFA)" question, select No.
+      * Back at the top, hit "Save" and then "Submit for Review".
 
     * The draft listing should enter state "Waiting for Review".  From
       here, it typically takes a day or so to get a result from the
       Apple review process; if it passes review, we can push one more
       button to roll it out.
 
-[asc-external-builds]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/testflight?section=group&subsection=builds&id=1bf18c25-da12-4bad-8384-9dd872ce447f
-[asc-main]: https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395
+[asc-external]: https://appstoreconnect.apple.com/apps/1203036395/testflight/groups/1bf18c25-da12-4bad-8384-9dd872ce447f
+[asc-main]: https://appstoreconnect.apple.com/apps/1203036395/appstore/info
 
 
 ### Release to production
