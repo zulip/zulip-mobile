@@ -482,32 +482,68 @@ below.
 
 ### iOS upload error "Create certificate"
 
-You might get an error like this from `tools/ios upload`:
+You might get an error like this from `tools/ios upload` (reformatted for readability):
 ```
 error: exportArchive: Create certificate
 
-Error Domain=IDEProvisioningErrorDomain Code=18 "Create certificate" UserInfo={IDEProvisioningError_UserInfoKey_IDEProvisioningUserAction=<IDEProvisioningCreateTeamOwnedCertificateUserAction: 0x7fedcba98700>, NSLocalizedDescription=Create certificate, NSLocalizedRecoverySuggestion=Create a new iOS Distribution certificate for your team.}
+Error Domain=IDEProvisioningErrorDomain Code=19
+  "Create certificate"
+  UserInfo={IDEDistributionIssueSeverity=3,
+    IDEProvisioningError_UserInfoKey_IDEProvisioningUserAction=<
+      IDEProvisioningCreateTeamOwnedCertificateUserAction: 0x7f91a015d380>,
+    NSLocalizedRecoverySuggestion=Create a new Apple Distribution certificate for your team.,
+    NSLocalizedDescription=Create certificate}
+```
 
+followed perhaps by an error like this:
+```
+error: exportArchive: Provisioning profile
+  "iOS Team Store Provisioning Profile: org.zulip.Zulip"
+  doesn't support the Sign In with Apple capability.
+
+Error Domain=IDEProfileQualificationErrorDomain Code=7
+  "Provisioning profile "iOS Team Store Provisioning Profile: org.zulip.Zulip"
+    doesn't support the Sign In with Apple capability."
+  UserInfo={IDEProfileQualificationError_Profile=<
+    IDEEmbeddedProvisioningProfile ...
+[... and a bunch more details ...]
+```
+
+or like this:
+```
 error: exportArchive: No profiles for 'org.zulip.Zulip' were found
 
-Error Domain=IDEProfileLocatorErrorDomain Code=1 "No profiles for 'org.zulip.Zulip' were found" UserInfo={NSLocalizedDescription=No profiles for 'org.zulip.Zulip' were found, NSLocalizedRecoverySuggestion=Xcode couldn't find any iOS App Store provisioning profiles matching 'org.zulip.Zulip'.}
+Error Domain=IDEProfileLocatorErrorDomain Code=1
+  "No profiles for 'org.zulip.Zulip' were found"
+  UserInfo={
+    NSLocalizedDescription=No profiles for 'org.zulip.Zulip' were found,
+    NSLocalizedRecoverySuggestion=Xcode couldn't find any iOS App Store provisioning profiles matching 'org.zulip.Zulip'.}
 
 ** EXPORT FAILED **
 ```
 
-To resolve this, follow that first suggestion: "Create a new iOS
+To resolve this, follow that first suggestion: "Create a new Apple
 Distribution certificate for your team."
 
-To do that, at least as of Xcode 10.3:
+To do that, as of Xcode 11.3.1:
 * Go to Xcode -> Preferences -> Accounts.
 * With your Apple ID selected in the left pane, select
   "Kandra Labs, Inc." (that's the "your team" part) on the right.
 * Hit "Manage Certificates...".  You might see an entry under
-  "iOS Development Certificates" -- but probably there's no heading
-  "iOS Distribution Certificates".
-* Hit the "add" icon, and choose "iOS Distribution".
+  "Apple Development Certificates" -- but probably there's no heading
+  "Apple Distribution Certificates".
+* Hit the "add" icon, and choose "Apple Distribution".
   Now such a cert should appear; and now `tools/ios upload`
   should work again.
+
+Alternatively:
+* If you start from the Apple developer console at
+  https://developer.apple.com/account/resources/certificates/list ,
+  that offers an alternative route which appears to have the same
+  effect (but is a bit more cumbersome and manual.)
+* An "iOS Distribution Certificate" would probably also do.  The
+  s/iOS/Apple/ variety is new with Xcode 11, according to a bit
+  of UI in that web flow.
 
 
 ### App Store Connect webapp is buggy and slow
