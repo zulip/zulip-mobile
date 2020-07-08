@@ -53,6 +53,7 @@ import { getUpdateEvents } from './webViewHandleUpdates';
 import { handleMessageListEvent } from './webViewEventHandlers';
 import { base64Utf8Encode } from '../utils/encoding';
 import * as logging from '../utils/logging';
+import htmlBody from './html/htmlBody';
 
 // ESLint doesn't notice how `this.props` escapes, and complains about some
 // props not being used here.
@@ -203,11 +204,14 @@ class MessageList extends Component<Props> {
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
     const { auth, theme } = backgroundData;
-    const html: string = getHtml(messagesHtml, theme, {
-      scrollMessageId: initialScrollMessageId,
-      auth,
-      showMessagePlaceholders,
-    });
+    const html: string = getHtml(
+      theme,
+      {
+        scrollMessageId: initialScrollMessageId,
+        auth,
+      },
+      htmlBody(messagesHtml, showMessagePlaceholders),
+    );
 
     return (
       <ZulipWebView
