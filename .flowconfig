@@ -57,6 +57,10 @@ flow-typed/react-native-webview_v7.x.x.js
 flow-typed/react-native-url-polyfill_vx.x.x.js
 flow-typed/expo-screen-orientation_vx.x.x.js
 
+; Explicitly name these so that Flow sees them instead of their
+; counterparts in node_modules/react-native:
+flow-typed/npm/jest_v26.x.x.js
+
 
 [strict]
 ; These apply only to files where `@flow strict` is enabled.
