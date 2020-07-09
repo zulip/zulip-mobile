@@ -23,16 +23,28 @@ import mockAsyncStorage from '@react-native-community/async-storage/jest/async-s
 //
 // [1] https://github.com/facebook/react-native/issues/26579#issuecomment-535244001
 // [2] https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M3781.20RN.20v0.2E61.20upgrade/near/931219
-jest.mock('react-native', () => {
-  Object.assign(ReactNative.Linking, {
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    openURL: jest.fn(),
-    canOpenURL: jest.fn(),
-    getInitialURL: jest.fn(),
-  });
-  return ReactNative;
-});
+jest.mock(
+  'react-native',
+  () =>
+    // Add stuff here
+    ReactNative,
+);
+
+/**
+ * Boring mocks
+ *
+ * We aren't interested in any specific data in these mocks; they just
+ * make things not break. Usually it's because these JS modules depend
+ * on something being available on NativeModules, and we'd rather not
+ * mock that precisely, as it's an implementation detail that may
+ * change.
+ *
+ * If Jest complains about syntax errors in a module in node_modules,
+ * it's likely because the only code it finds for the module is modern
+ * JavaScript that needs to be transformed by Babel. In that case, try
+ * adding the module to `transformModulesWhitelist` in our Jest config
+ * before mocking it here.
+ */
 
 jest.mock('@react-native-community/async-storage', () => mockAsyncStorage);
 
