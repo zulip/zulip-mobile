@@ -25,11 +25,6 @@ describe('narrowsReducer', () => {
   const streamNarrowStr = JSON.stringify(streamNarrow('some stream'));
   const topicNarrowStr = JSON.stringify(topicNarrow('some stream', 'some topic'));
 
-  test('handles unknown action and no previous state by returning initial state', () => {
-    const newState = narrowsReducer(undefined, {});
-    expect(newState).toBeDefined();
-  });
-
   describe('EVENT_NEW_MESSAGE', () => {
     test('if not caught up in narrow, do not add message in home narrow', () => {
       const initialState = deepFreeze({
