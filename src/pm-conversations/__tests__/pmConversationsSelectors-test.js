@@ -1,17 +1,21 @@
-import deepFreeze from 'deep-freeze';
-
+/* @flow strict-local */
 import { getRecentConversations } from '../pmConversationsSelectors';
 import { ALL_PRIVATE_NARROW_STR } from '../../utils/narrow';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getRecentConversations', () => {
+  const userJohn = { ...eg.makeUser({ name: 'John' }), user_id: 1 };
+  const userMark = { ...eg.makeUser({ name: 'Mark' }), user_id: 2 };
+
   test('when no messages, return no conversations', () => {
-    const state = deepFreeze({
-      realm: { email: 'me@example.com' },
-      users: [{ user_id: 0, email: 'me@example.com' }],
+    const state = eg.reduxState({
+      realm: eg.realmState({ email: eg.selfUser.email }),
+      users: [eg.selfUser],
       narrows: {
         [ALL_PRIVATE_NARROW_STR]: [],
       },
       unread: {
+        ...eg.baseReduxState.unread,
         pms: [],
         huddles: [],
       },
@@ -23,75 +27,86 @@ describe('getRecentConversations', () => {
   });
 
   test('returns unique list of recipients, includes conversations with self', () => {
-    const state = deepFreeze({
-      realm: { email: 'me@example.com' },
-      users: [
-        { user_id: 0, email: 'me@example.com' },
-        { user_id: 1, email: 'john@example.com' },
-        { user_id: 2, email: 'mark@example.com' },
+    const meAndJohnPm1 = eg.pmMessage({
+      id: 1,
+      display_recipient: [
+        eg.displayRecipientFromUser(eg.selfUser),
+        eg.displayRecipientFromUser(userJohn),
       ],
+    });
+
+    const meAndMarkPm = eg.pmMessage({
+      id: 2,
+      display_recipient: [
+        eg.displayRecipientFromUser(eg.selfUser),
+        eg.displayRecipientFromUser(userMark),
+      ],
+    });
+
+    const meAndJohnPm2 = eg.pmMessage({
+      id: 3,
+      display_recipient: [
+        eg.displayRecipientFromUser(eg.selfUser),
+        eg.displayRecipientFromUser(userJohn),
+      ],
+    });
+
+    const meOnlyPm = eg.pmMessage({
+      id: 4,
+      display_recipient: [eg.displayRecipientFromUser(eg.selfUser)],
+    });
+
+    const meJohnAndMarkPm = eg.pmMessage({
+      id: 0,
+      display_recipient: [
+        eg.displayRecipientFromUser(eg.selfUser),
+        eg.displayRecipientFromUser(userMark),
+        eg.displayRecipientFromUser(userJohn),
+      ],
+    });
+
+    const state = eg.reduxState({
+      realm: eg.realmState({ email: eg.selfUser.email }),
+      users: [eg.selfUser, userJohn, userMark],
       narrows: {
-        [ALL_PRIVATE_NARROW_STR]: [0, 1, 2, 3, 4],
+        [ALL_PRIVATE_NARROW_STR]: [
+          meJohnAndMarkPm.id,
+          meAndJohnPm1.id,
+          meAndMarkPm.id,
+          meAndJohnPm2.id,
+          meOnlyPm.id,
+        ],
       },
       messages: {
-        1: {
-          id: 1,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-          ],
-        },
-        2: {
-          id: 2,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
-        3: {
-          id: 3,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-          ],
-        },
-        4: {
-          id: 4,
-          type: 'private',
-          display_recipient: [{ id: 0, email: 'me@example.com' }],
-        },
-        0: {
-          id: 0,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
+        [meAndJohnPm1.id]: meAndJohnPm1,
+        [meAndMarkPm.id]: meAndMarkPm,
+        [meAndJohnPm2.id]: meAndJohnPm2,
+        [meOnlyPm.id]: meOnlyPm,
+        [meJohnAndMarkPm.id]: meJohnAndMarkPm,
       },
       unread: {
+        ...eg.baseReduxState.unread,
         pms: [
           {
-            sender_id: 0,
-            unread_message_ids: [4],
+            sender_id: eg.selfUser.user_id,
+            unread_message_ids: [meOnlyPm.id],
           },
           {
-            sender_id: 1,
-            unread_message_ids: [1, 3],
+            sender_id: userJohn.user_id,
+            unread_message_ids: [meAndJohnPm1.id, meAndJohnPm2.id],
           },
           {
-            sender_id: 2,
-            unread_message_ids: [2],
+            sender_id: userMark.user_id,
+            unread_message_ids: [meAndMarkPm.id],
           },
         ],
         huddles: [
           {
-            user_ids_string: '0,1,2',
-            unread_message_ids: [5],
+            user_ids_string: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
+              .sort()
+              .map(String)
+              .join(','),
+            unread_message_ids: [5], // TODO: where does this come from???
           },
         ],
       },
@@ -99,27 +114,30 @@ describe('getRecentConversations', () => {
 
     const expectedResult = [
       {
-        ids: '0',
-        recipients: 'me@example.com',
-        msgId: 4,
+        ids: eg.selfUser.user_id.toString(),
+        recipients: eg.selfUser.email,
+        msgId: meOnlyPm.id,
         unread: 1,
       },
       {
-        ids: '1',
-        recipients: 'john@example.com',
-        msgId: 3,
+        ids: userJohn.user_id.toString(),
+        recipients: userJohn.email,
+        msgId: meAndJohnPm2.id,
         unread: 2,
       },
       {
-        ids: '2',
-        recipients: 'mark@example.com',
-        msgId: 2,
+        ids: userMark.user_id.toString(),
+        recipients: userMark.email,
+        msgId: meAndMarkPm.id,
         unread: 1,
       },
       {
-        ids: '0,1,2',
-        recipients: 'john@example.com,mark@example.com',
-        msgId: 0,
+        ids: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
+          .sort()
+          .map(String)
+          .join(','),
+        recipients: [userJohn.email, userMark.email].sort().join(','),
+        msgId: meJohnAndMarkPm.id,
         unread: 1,
       },
     ];
@@ -130,83 +148,99 @@ describe('getRecentConversations', () => {
   });
 
   test('returns recipients sorted by last activity', () => {
-    const state = deepFreeze({
-      realm: { email: 'me@example.com' },
-      users: [
-        { user_id: 0, email: 'me@example.com' },
-        { user_id: 1, email: 'john@example.com' },
-        { user_id: 2, email: 'mark@example.com' },
+    // Maybe we can share these definitions with the above test;
+    // first, we have to sort out why the IDs are different.
+
+    const meAndMarkPm1 = eg.pmMessage({
+      id: 1,
+      display_recipient: [
+        eg.displayRecipientFromUser(eg.selfUser),
+        eg.displayRecipientFromUser(userMark),
       ],
+    });
+
+    const meAndJohnPm1 = eg.pmMessage({
+      id: 2,
+      display_recipient: [
+        eg.displayRecipientFromUser(eg.selfUser),
+        eg.displayRecipientFromUser(userJohn),
+      ],
+    });
+
+    const meAndMarkPm2 = eg.pmMessage({
+      id: 3,
+      display_recipient: [
+        eg.displayRecipientFromUser(eg.selfUser),
+        eg.displayRecipientFromUser(userMark),
+      ],
+    });
+
+    const meAndJohnPm2 = eg.pmMessage({
+      id: 4,
+      display_recipient: [
+        eg.displayRecipientFromUser(eg.selfUser),
+        eg.displayRecipientFromUser(userJohn),
+      ],
+    });
+
+    const meJohnAndMarkPm = eg.pmMessage({
+      id: 5,
+      display_recipient: [
+        eg.displayRecipientFromUser(eg.selfUser),
+        eg.displayRecipientFromUser(userJohn),
+        eg.displayRecipientFromUser(userMark),
+      ],
+    });
+
+    const meOnlyPm = eg.pmMessage({
+      id: 6,
+      display_recipient: [eg.displayRecipientFromUser(eg.selfUser)],
+    });
+
+    const state = eg.reduxState({
+      realm: eg.realmState({ email: eg.selfUser.email }),
+      users: [eg.selfUser, userJohn, userMark],
       narrows: {
-        [ALL_PRIVATE_NARROW_STR]: [1, 2, 3, 4, 5, 6],
+        [ALL_PRIVATE_NARROW_STR]: [
+          meAndMarkPm1.id,
+          meAndJohnPm1.id,
+          meAndMarkPm2.id,
+          meAndJohnPm2.id,
+          meJohnAndMarkPm.id,
+          meOnlyPm.id,
+        ],
       },
       messages: {
-        2: {
-          id: 2,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-          ],
-        },
-        1: {
-          id: 1,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
-        4: {
-          id: 4,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-          ],
-        },
-        3: {
-          id: 3,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
-        5: {
-          id: 5,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
-        6: {
-          id: 6,
-          type: 'private',
-          display_recipient: [{ id: 0, email: 'me@example.com' }],
-        },
+        [meAndJohnPm1.id]: meAndJohnPm1,
+        [meAndMarkPm1.id]: meAndMarkPm1,
+        [meAndJohnPm2.id]: meAndJohnPm2,
+        [meAndMarkPm2.id]: meAndMarkPm2,
+        [meJohnAndMarkPm.id]: meJohnAndMarkPm,
+        [meOnlyPm.id]: meOnlyPm,
       },
       unread: {
+        ...eg.baseReduxState.unread,
         pms: [
           {
-            sender_id: 0,
-            unread_message_ids: [4],
+            sender_id: eg.selfUser.user_id,
+            unread_message_ids: [meAndJohnPm2.id],
           },
           {
-            sender_id: 1,
-            unread_message_ids: [1, 3],
+            sender_id: userJohn.user_id,
+            unread_message_ids: [meAndMarkPm1.id, meAndMarkPm2.id],
           },
           {
-            sender_id: 2,
-            unread_message_ids: [2],
+            sender_id: userMark.user_id,
+            unread_message_ids: [meAndJohnPm1.id],
           },
         ],
         huddles: [
           {
-            user_ids_string: '0,1,2',
-            unread_message_ids: [5],
+            user_ids_string: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
+              .sort()
+              .map(String)
+              .join(','),
+            unread_message_ids: [meJohnAndMarkPm.id],
           },
         ],
       },
@@ -214,27 +248,30 @@ describe('getRecentConversations', () => {
 
     const expectedResult = [
       {
-        ids: '0',
-        recipients: 'me@example.com',
-        msgId: 6,
+        ids: eg.selfUser.user_id.toString(),
+        recipients: eg.selfUser.email,
+        msgId: meOnlyPm.id,
         unread: 1,
       },
       {
-        ids: '0,1,2',
-        recipients: 'john@example.com,mark@example.com',
-        msgId: 5,
+        ids: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
+          .sort()
+          .map(String)
+          .join(','),
+        recipients: [userJohn.email, userMark.email].sort().join(','),
+        msgId: meJohnAndMarkPm.id,
         unread: 1,
       },
       {
-        ids: '1',
-        recipients: 'john@example.com',
-        msgId: 4,
+        ids: userJohn.user_id.toString(),
+        recipients: userJohn.email,
+        msgId: meAndJohnPm2.id,
         unread: 2,
       },
       {
-        ids: '2',
-        recipients: 'mark@example.com',
-        msgId: 3,
+        ids: userMark.user_id.toString(),
+        recipients: userMark.email,
+        msgId: meAndMarkPm2.id,
         unread: 1,
       },
     ];
