@@ -215,7 +215,6 @@ describe('getStreamInNarrow', () => {
   });
 
   test('return NULL_SUBSCRIPTION is narrow is not topic or stream', () => {
-    expect(getStreamInNarrow(state, undefined)).toEqual(NULL_SUBSCRIPTION);
     expect(getStreamInNarrow(state, privateNarrow('abc@zulip.com'))).toEqual(NULL_SUBSCRIPTION);
     expect(getStreamInNarrow(state, topicNarrow('stream4', 'topic'))).toEqual(NULL_SUBSCRIPTION);
   });
