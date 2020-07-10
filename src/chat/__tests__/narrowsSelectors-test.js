@@ -1,5 +1,4 @@
-import deepFreeze from 'deep-freeze';
-
+/* @flow strict-local */
 import {
   getFirstMessageId,
   getLastMessageId,
@@ -17,16 +16,25 @@ import {
   groupNarrow,
 } from '../../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../../nullObjects';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getMessagesForNarrow', () => {
+  const message = eg.streamMessage({ id: 123 });
+  const messages = {
+    // Flow doesn't like number literals as keys...but it also wants
+    // them to be numbers.
+    [123]: message /* eslint-disable-line no-useless-computed-key */,
+  };
+  const outboxMessage = eg.makeOutboxMessage({
+    narrow: HOME_NARROW,
+  });
+
   test('if no outbox messages returns messages with no change', () => {
-    const state = deepFreeze({
+    const state = eg.reduxState({
       narrows: {
         '[]': [123],
       },
-      messages: {
-        123: { id: 123 },
-      },
+      messages,
       outbox: [],
     });
 
@@ -36,22 +44,12 @@ describe('getMessagesForNarrow', () => {
   });
 
   test('combine messages and outbox in same narrow', () => {
-    const state = deepFreeze({
+    const state = eg.reduxState({
       narrows: {
         '[]': [123],
       },
-      messages: {
-        123: { id: 123 },
-      },
-      outbox: [
-        {
-          email: 'donald@zulip.com',
-          narrow: HOME_NARROW,
-          parsedContent: '<p>Hello</p>',
-          sender_full_name: 'donald',
-          timestamp: 12,
-        },
-      ],
+      messages,
+      outbox: [outboxMessage],
       caughtUp: {
         [HOME_NARROW_STR]: { older: false, newer: true },
       },
@@ -59,35 +57,16 @@ describe('getMessagesForNarrow', () => {
 
     const result = getMessagesForNarrow(state, HOME_NARROW);
 
-    expect(result).toEqual([
-      { id: 123 },
-      {
-        email: 'donald@zulip.com',
-        narrow: [],
-        parsedContent: '<p>Hello</p>',
-        sender_full_name: 'donald',
-        timestamp: 12,
-      },
-    ]);
+    expect(result).toEqual([message, outboxMessage]);
   });
 
   test('do not combine messages and outbox if not caught up', () => {
-    const state = deepFreeze({
+    const state = eg.reduxState({
       narrows: {
         [HOME_NARROW_STR]: [123],
       },
-      messages: {
-        123: { id: 123 },
-      },
-      outbox: [
-        {
-          email: 'donald@zulip.com',
-          narrow: HOME_NARROW,
-          parsedContent: '<p>Hello</p>',
-          sender_full_name: 'donald',
-          timestamp: 12,
-        },
-      ],
+      messages,
+      outbox: [outboxMessage],
     });
 
     const result = getMessagesForNarrow(state, HOME_NARROW);
@@ -96,33 +75,23 @@ describe('getMessagesForNarrow', () => {
   });
 
   test('do not combine messages and outbox in different narrow', () => {
-    const state = deepFreeze({
+    const state = eg.reduxState({
       narrows: {
         [JSON.stringify(privateNarrow('john@example.com'))]: [123],
       },
-      messages: {
-        123: { id: 123 },
-      },
-      outbox: [
-        {
-          email: 'donald@zulip.com',
-          narrow: streamNarrow('denmark', 'denmark'),
-          parsedContent: '<p>Hello</p>',
-          sender_full_name: 'donald',
-          timestamp: 12,
-        },
-      ],
+      messages,
+      outbox: [{ ...outboxMessage, narrow: streamNarrow('denmark') }],
     });
 
     const result = getMessagesForNarrow(state, privateNarrow('john@example.com'));
 
-    expect(result).toEqual([{ id: 123 }]);
+    expect(result).toEqual([message]);
   });
 });
 
 describe('getFirstMessageId', () => {
   test('return undefined when there are no messages', () => {
-    const state = deepFreeze({
+    const state = eg.reduxState({
       narrows: {
         '[]': [],
       },
@@ -135,14 +104,14 @@ describe('getFirstMessageId', () => {
   });
 
   test('returns first message id', () => {
-    const state = deepFreeze({
+    const state = eg.reduxState({
       narrows: {
         '[]': [1, 2, 3],
       },
       messages: {
-        1: { id: 1 },
-        2: { id: 2 },
-        3: { id: 3 },
+        [1]: eg.streamMessage({ id: 1 }) /* eslint-disable-line no-useless-computed-key */,
+        [2]: eg.streamMessage({ id: 2 }) /* eslint-disable-line no-useless-computed-key */,
+        [3]: eg.streamMessage({ id: 3 }) /* eslint-disable-line no-useless-computed-key */,
       },
       outbox: [],
     });
@@ -155,7 +124,7 @@ describe('getFirstMessageId', () => {
 
 describe('getLastMessageId', () => {
   test('return undefined when there are no messages', () => {
-    const state = deepFreeze({
+    const state = eg.reduxState({
       narrows: {
         '[]': [],
       },
@@ -169,14 +138,14 @@ describe('getLastMessageId', () => {
   });
 
   test('returns last message id', () => {
-    const state = deepFreeze({
+    const state = eg.reduxState({
       narrows: {
         '[]': [1, 2, 3],
       },
       messages: {
-        1: { id: 1 },
-        2: { id: 2 },
-        3: { id: 3 },
+        [1]: eg.streamMessage({ id: 1 }) /* eslint-disable-line no-useless-computed-key */,
+        [2]: eg.streamMessage({ id: 2 }) /* eslint-disable-line no-useless-computed-key */,
+        [3]: eg.streamMessage({ id: 3 }) /* eslint-disable-line no-useless-computed-key */,
       },
       outbox: [],
     });
@@ -188,43 +157,45 @@ describe('getLastMessageId', () => {
 });
 
 describe('getStreamInNarrow', () => {
-  const state = deepFreeze({
-    streams: [{ name: 'stream' }, { name: 'steam2' }, { name: 'stream3' }],
-    subscriptions: [
-      { name: 'stream', in_home_view: false },
-      { name: 'stream2', in_home_view: true },
-    ],
+  const stream1 = eg.makeStream({ name: 'stream' });
+  const stream2 = eg.makeStream({ name: 'stream2' });
+  const stream3 = eg.makeStream({ name: 'stream3' });
+  const stream4 = eg.makeStream({ name: 'stream4' });
+  const sub1 = { ...eg.makeSubscription({ stream: stream1 }), in_home_view: false };
+  const sub2 = { ...eg.makeSubscription({ stream: stream2 }), in_home_view: true };
+
+  const state = eg.reduxState({
+    streams: [stream1, stream2, stream3],
+    subscriptions: [sub1, sub2],
   });
 
   test('return subscription if stream in narrow is subscribed', () => {
-    const narrow = streamNarrow('stream');
+    const narrow = streamNarrow(stream1.name);
 
-    expect(getStreamInNarrow(state, narrow)).toEqual({ name: 'stream', in_home_view: false });
+    expect(getStreamInNarrow(state, narrow)).toEqual(sub1);
   });
 
   test('return stream if stream in narrow is not subscribed', () => {
-    const narrow = streamNarrow('stream3');
+    const narrow = streamNarrow(stream3.name);
 
-    expect(getStreamInNarrow(state, narrow)).toEqual({ name: 'stream3', in_home_view: true });
+    expect(getStreamInNarrow(state, narrow)).toEqual({ ...stream3, in_home_view: true });
   });
 
   test('return NULL_SUBSCRIPTION if stream in narrow is not valid', () => {
-    const narrow = streamNarrow('stream4');
+    const narrow = streamNarrow(stream4.name);
 
     expect(getStreamInNarrow(state, narrow)).toEqual(NULL_SUBSCRIPTION);
   });
 
   test('return NULL_SUBSCRIPTION is narrow is not topic or stream', () => {
     expect(getStreamInNarrow(state, privateNarrow('abc@zulip.com'))).toEqual(NULL_SUBSCRIPTION);
-    expect(getStreamInNarrow(state, topicNarrow('stream4', 'topic'))).toEqual(NULL_SUBSCRIPTION);
+    expect(getStreamInNarrow(state, topicNarrow(stream4.name, 'topic'))).toEqual(NULL_SUBSCRIPTION);
   });
 });
 
 describe('isNarrowValid', () => {
   test('narrowing to a special narrow is always valid', () => {
-    const state = {
-      realm: {},
-    };
+    const state = eg.reduxState();
     const narrow = STARRED_NARROW;
 
     const result = isNarrowValid(state, narrow);
@@ -233,11 +204,12 @@ describe('isNarrowValid', () => {
   });
 
   test('narrowing to an existing stream is valid', () => {
-    const state = {
-      realm: {},
-      streams: [{ name: 'some stream' }],
-    };
-    const narrow = streamNarrow('some stream');
+    const stream = eg.makeStream({ name: 'some stream' });
+
+    const state = eg.reduxState({
+      streams: [stream],
+    });
+    const narrow = streamNarrow(stream.name);
 
     const result = isNarrowValid(state, narrow);
 
@@ -245,10 +217,9 @@ describe('isNarrowValid', () => {
   });
 
   test('narrowing to a non-existing stream is invalid', () => {
-    const state = {
-      realm: {},
+    const state = eg.reduxState({
       streams: [],
-    };
+    });
     const narrow = streamNarrow('nonexisting');
 
     const result = isNarrowValid(state, narrow);
@@ -257,11 +228,12 @@ describe('isNarrowValid', () => {
   });
 
   test('narrowing to an existing stream is valid regardless of topic', () => {
-    const state = {
-      realm: {},
-      streams: [{ name: 'some stream' }],
-    };
-    const narrow = topicNarrow('some stream', 'topic does not matter');
+    const stream = eg.makeStream({ name: 'some stream' });
+
+    const state = eg.reduxState({
+      streams: [stream],
+    });
+    const narrow = topicNarrow(stream.name, 'topic does not matter');
 
     const result = isNarrowValid(state, narrow);
 
@@ -269,15 +241,17 @@ describe('isNarrowValid', () => {
   });
 
   test('narrowing to a PM with existing user is valid', () => {
-    const state = {
+    const user = eg.makeUser({ name: 'bob' });
+    const state = eg.reduxState({
       realm: {
+        ...eg.realmState(),
         crossRealmBots: [],
         nonActiveUsers: [],
       },
       streams: [],
-      users: [{ email: 'bob@example.com' }],
-    };
-    const narrow = privateNarrow('bob@example.com');
+      users: [user],
+    });
+    const narrow = privateNarrow(user.email);
 
     const result = isNarrowValid(state, narrow);
 
@@ -285,15 +259,17 @@ describe('isNarrowValid', () => {
   });
 
   test('narrowing to a PM with non-existing user is not valid', () => {
-    const state = {
+    const user = eg.makeUser({ name: 'bob' });
+    const state = eg.reduxState({
       realm: {
+        ...eg.realmState(),
         crossRealmBots: [],
         nonActiveUsers: [],
       },
       streams: [],
       users: [],
-    };
-    const narrow = privateNarrow('bob@example.com');
+    });
+    const narrow = privateNarrow(user.email);
 
     const result = isNarrowValid(state, narrow);
 
@@ -301,15 +277,19 @@ describe('isNarrowValid', () => {
   });
 
   test('narrowing to a group chat with non-existing user is not valid', () => {
-    const state = {
+    const john = eg.makeUser({ name: 'john' });
+    const mark = eg.makeUser({ name: 'mark' });
+
+    const state = eg.reduxState({
       realm: {
+        ...eg.realmState(),
         crossRealmBots: [],
         nonActiveUsers: [],
       },
       streams: [],
-      users: [{ email: 'john@example.com' }, { email: 'mark@example.com' }],
-    };
-    const narrow = groupNarrow(['john@example.com', 'mark@example.com']);
+      users: [john, mark],
+    });
+    const narrow = groupNarrow([john.email, mark.email]);
 
     const result = isNarrowValid(state, narrow);
 
@@ -317,14 +297,15 @@ describe('isNarrowValid', () => {
   });
 
   test('narrowing to a group chat with non-existing users is also valid', () => {
-    const state = {
+    const state = eg.reduxState({
       realm: {
+        ...eg.realmState(),
         crossRealmBots: [],
         nonActiveUsers: [],
       },
       streams: [],
       users: [],
-    };
+    });
     const narrow = groupNarrow(['john@example.com', 'mark@example.com']);
 
     const result = isNarrowValid(state, narrow);
@@ -333,15 +314,17 @@ describe('isNarrowValid', () => {
   });
 
   test('narrowing to a PM with bots is valid', () => {
-    const state = {
+    const bot = eg.makeCrossRealmBot({ name: 'some-bot' });
+    const state = eg.reduxState({
       realm: {
-        crossRealmBots: [{ email: 'some-bot@example.com' }],
+        ...eg.realmState(),
+        crossRealmBots: [bot],
         nonActiveUsers: [],
       },
       streams: [],
       users: [],
-    };
-    const narrow = privateNarrow('some-bot@example.com');
+    });
+    const narrow = privateNarrow(bot.email);
 
     const result = isNarrowValid(state, narrow);
 
@@ -349,15 +332,17 @@ describe('isNarrowValid', () => {
   });
 
   test('narrowing to non active users is valid', () => {
-    const state = {
+    const notActiveUser = eg.makeUser({ name: 'not active' });
+    const state = eg.reduxState({
       realm: {
+        ...eg.realmState(),
         crossRealmBots: [],
-        nonActiveUsers: [{ email: 'not-active@example.com' }],
+        nonActiveUsers: [notActiveUser],
       },
       streams: [],
       users: [],
-    };
-    const narrow = privateNarrow('not-active@example.com');
+    });
+    const narrow = privateNarrow(notActiveUser.email);
 
     const result = isNarrowValid(state, narrow);
 
