@@ -30,11 +30,9 @@ describe('getMessagesForNarrow', () => {
       outbox: [],
     });
 
-    const expectedState = deepFreeze([state.messages[123]]);
+    const result = getMessagesForNarrow(state, HOME_NARROW);
 
-    const anchor = getMessagesForNarrow(state, HOME_NARROW);
-
-    expect(anchor).toEqual(expectedState);
+    expect(result).toEqual([state.messages[123]]);
   });
 
   test('combine messages and outbox in same narrow', () => {
@@ -59,9 +57,9 @@ describe('getMessagesForNarrow', () => {
       },
     });
 
-    const anchor = getMessagesForNarrow(state, HOME_NARROW);
+    const result = getMessagesForNarrow(state, HOME_NARROW);
 
-    const expectedState = deepFreeze([
+    expect(result).toEqual([
       { id: 123 },
       {
         email: 'donald@zulip.com',
@@ -71,8 +69,6 @@ describe('getMessagesForNarrow', () => {
         timestamp: 12,
       },
     ]);
-
-    expect(anchor).toEqual(expectedState);
   });
 
   test('do not combine messages and outbox if not caught up', () => {
@@ -94,11 +90,9 @@ describe('getMessagesForNarrow', () => {
       ],
     });
 
-    const expectedState = deepFreeze([state.messages[123]]);
+    const result = getMessagesForNarrow(state, HOME_NARROW);
 
-    const anchor = getMessagesForNarrow(state, HOME_NARROW);
-
-    expect(anchor).toEqual(expectedState);
+    expect(result).toEqual([state.messages[123]]);
   });
 
   test('do not combine messages and outbox in different narrow', () => {
@@ -120,11 +114,9 @@ describe('getMessagesForNarrow', () => {
       ],
     });
 
-    const anchor = getMessagesForNarrow(state, privateNarrow('john@example.com'));
+    const result = getMessagesForNarrow(state, privateNarrow('john@example.com'));
 
-    const expectedState = deepFreeze([{ id: 123 }]);
-
-    expect(anchor).toEqual(expectedState);
+    expect(result).toEqual([{ id: 123 }]);
   });
 });
 
@@ -137,9 +129,9 @@ describe('getFirstMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getFirstMessageId(state, HOME_NARROW);
+    const result = getFirstMessageId(state, HOME_NARROW);
 
-    expect(anchor).toEqual(undefined);
+    expect(result).toEqual(undefined);
   });
 
   test('returns first message id', () => {
@@ -155,9 +147,9 @@ describe('getFirstMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getFirstMessageId(state, HOME_NARROW);
+    const result = getFirstMessageId(state, HOME_NARROW);
 
-    expect(anchor).toEqual(1);
+    expect(result).toEqual(1);
   });
 });
 
@@ -171,9 +163,9 @@ describe('getLastMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getLastMessageId(state, HOME_NARROW);
+    const result = getLastMessageId(state, HOME_NARROW);
 
-    expect(anchor).toEqual(undefined);
+    expect(result).toEqual(undefined);
   });
 
   test('returns last message id', () => {
@@ -189,9 +181,9 @@ describe('getLastMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getLastMessageId(state, HOME_NARROW);
+    const result = getLastMessageId(state, HOME_NARROW);
 
-    expect(anchor).toEqual(3);
+    expect(result).toEqual(3);
   });
 });
 
