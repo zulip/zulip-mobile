@@ -1,14 +1,7 @@
 /* @flow strict-local */
 import NavigationService from '../nav/NavigationService';
-import type {
-  Narrow,
-  Dispatch,
-  GetState,
-  GlobalState,
-  Message,
-  Action,
-  ApiResponseServerSettings,
-} from '../types';
+import type { Narrow, Dispatch, GetState, GlobalState, Message, Action } from '../types';
+import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
 import { resetToMainTabs } from '../actions';

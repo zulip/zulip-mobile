@@ -5,7 +5,8 @@ import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation
 
 import NavigationService from '../nav/NavigationService';
 import { ZulipVersion } from '../utils/zulipVersion';
-import type { ApiResponseServerSettings, Dispatch } from '../types';
+import type { Dispatch } from '../types';
+import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { connect } from '../react-redux';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { tryParseUrl } from '../utils/url';

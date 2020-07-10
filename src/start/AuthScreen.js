@@ -8,12 +8,12 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 
 import NavigationService from '../nav/NavigationService';
 import config from '../config';
+import type { Dispatch } from '../types';
 import type {
   AuthenticationMethods,
-  Dispatch,
   ExternalAuthenticationMethod,
   ApiResponseServerSettings,
-} from '../types';
+} from '../api/settings/getServerSettings';
 import {
   IconApple,
   IconPrivate,
