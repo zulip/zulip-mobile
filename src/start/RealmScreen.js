@@ -46,7 +46,6 @@ class RealmScreen extends PureComponent<Props, State> {
     const { realm } = this.state;
 
     this.setState({
-      realm,
       progress: true,
       error: null,
     });
