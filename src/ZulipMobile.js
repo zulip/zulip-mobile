@@ -19,7 +19,7 @@ initializeSentry();
 // $FlowFixMe
 console.disableYellowBox = true; // eslint-disable-line
 
-export default () => (
+export default (): React$Node => (
   <CompatibilityChecker>
     <StoreProvider>
       <AppEventHandlers>
