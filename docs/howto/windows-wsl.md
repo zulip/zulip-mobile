@@ -137,6 +137,11 @@ come and say hello [in #mobile on chat.zulip.org][czo]!
 
    `choco install -y AndroidStudio`
 
+   In step "1. Install Android Studio", follow the instructions for
+   when you are "already using Hyper-V".  WSL 2 uses Hyper-V.  This
+   means that instead of using "HAXM" for the Android emulator, you'll
+   have it use the newer "WHPX".
+
 5. Go to the Windows Store and type the name of the Linux distro you
    would like to use with WSL. These instructions have been tested to
    work on Ubuntu and Debian GNU/Linux. When the page for your selected
