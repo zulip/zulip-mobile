@@ -42,7 +42,6 @@ class ReactionUserList extends PureComponent<Props> {
               fullName={user.full_name}
               avatarUrl={user.avatar_url}
               email={user.email}
-              showEmail
               onPress={() => {
                 this.handlePress(user.user_id);
               }}
