@@ -101,6 +101,7 @@ export type Props = $ReadOnly<{|
   narrow: Narrow,
   showMessagePlaceholders: boolean,
   startEditMessage: (editMessage: EditMessage) => void,
+  replyWithMention: (fullName: string, senderId: number, topic?: string) => void,
 
   dispatch: Dispatch,
   ...SelectorProps,

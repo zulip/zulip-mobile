@@ -17,6 +17,7 @@ import {
   isPrivateOrGroupNarrow,
   isStreamOrTopicNarrow,
   isTopicNarrow,
+  isSameNarrow,
 } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 import * as api from '../api';
@@ -42,8 +43,10 @@ type ButtonDescription = {
     message: Message | Outbox,
     subscriptions: Subscription[],
     dispatch: Dispatch,
+    narrow: Narrow,
     _: GetText,
     startEditMessage: (editMessage: EditMessage) => void,
+    replyWithMention: (fullName: string, senderId: number, topic?: string) => void,
   }): void | Promise<void>,
   title: string,
 
@@ -62,6 +65,23 @@ const reply = ({ message, dispatch, ownEmail }) => {
 };
 reply.title = 'Reply';
 reply.errorMessage = 'Failed to reply';
+
+const mentionAndReply = ({ message, ownEmail, narrow, replyWithMention }) => {
+  if (message.isOutbox) {
+    logging.warn('Attempted "Reply with mention" for outbox message');
+    return;
+  }
+
+  const messageNarrow = getNarrowFromMessage(message, ownEmail);
+  if (!isSameNarrow(messageNarrow, narrow)) {
+    replyWithMention(message.sender_full_name, message.sender_id, message.subject);
+    return;
+  }
+
+  replyWithMention(message.sender_full_name, message.sender_id);
+};
+mentionAndReply.title = 'Reply with mention';
+mentionAndReply.errorMessage = 'Failed to reply with mention';
 
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = message.isOutbox
@@ -208,6 +228,7 @@ const allButtonsRaw = {
   // For messages
   addReaction,
   reply,
+  mentionAndReply,
   copyToClipboard,
   shareMessage,
   editMessage,
@@ -297,6 +318,9 @@ export const constructMessageActionButtons = ({
   if (!isTopicNarrow(narrow) && !isPrivateOrGroupNarrow(narrow)) {
     buttons.push('reply');
   }
+  if (isStreamOrTopicNarrow(narrow) || isPrivateOrGroupNarrow(narrow)) {
+    buttons.push('mentionAndReply');
+  }
   if (messageNotDeleted(message)) {
     buttons.push('copyToClipboard');
     buttons.push('shareMessage');
@@ -352,6 +376,8 @@ export const showActionSheet = (
   callbacks: {|
     dispatch: Dispatch,
     startEditMessage: (editMessage: EditMessage) => void,
+    replyWithMention: (fullName: string, senderId: number, topic?: string) => void,
+
     _: GetText,
   |},
   params: ConstructSheetParams<>,

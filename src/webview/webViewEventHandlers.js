@@ -141,6 +141,7 @@ type Props = $ReadOnly<{
   narrow: Narrow,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   startEditMessage: (editMessage: EditMessage) => void,
+  replyWithMention: (fullName: string, senderId: number, topic?: string) => void,
 }>;
 
 const fetchMore = (props: Props, event: MessageListEventScroll) => {
@@ -195,11 +196,18 @@ const handleLongPress = (
   if (!message) {
     return;
   }
-  const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
+  const {
+    dispatch,
+    showActionSheetWithOptions,
+    backgroundData,
+    narrow,
+    startEditMessage,
+    replyWithMention,
+  } = props;
   showActionSheet(
     target === 'header',
     showActionSheetWithOptions,
-    { dispatch, startEditMessage, _ },
+    { dispatch, startEditMessage, replyWithMention, _ },
     { backgroundData, message, narrow },
   );
 };
