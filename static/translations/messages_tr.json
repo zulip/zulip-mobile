@@ -34,7 +34,7 @@
   "Password": "Parola",
   "Why not start the conversation?": "Neden görüşmeyi başlat mıyorsunuz?",
   "Chat": "Sohbet",
-  "Sign in with {method}": "Sign in with {method}",
+  "Sign in with {method}": "{method} ile Giriş yap.",
   "Cannot connect to server": "Sunucuya bağlanılamadı",
   "Wrong email or password. Try again.": "Hatalı e-posta veya parola. Tekrar deneyin.",
   "Wrong username or password. Try again.": "Hatalı kullanıcı adı veya parola. Tekrar deneyin.",
