@@ -50,6 +50,7 @@ describe('fetchActions', () => {
       const store = mockStore(
         eg.reduxState({
           ...navStateWithNarrow(HOME_NARROW),
+          accounts: [eg.makeAccount()],
           narrows: {
             [streamNarrowStr]: [1],
           },
@@ -69,6 +70,7 @@ describe('fetchActions', () => {
       const store = mockStore(
         eg.reduxState({
           ...navStateWithNarrow(HOME_NARROW),
+          accounts: [eg.makeAccount()],
           narrows: {
             [streamNarrowStr]: [1],
           },
@@ -87,6 +89,7 @@ describe('fetchActions', () => {
       const store = mockStore(
         eg.reduxState({
           ...navStateWithNarrow(HOME_NARROW),
+          accounts: [eg.makeAccount()],
           narrows: {
             [streamNarrowStr]: [1],
           },
