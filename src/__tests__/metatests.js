@@ -1,7 +1,5 @@
 /** @jest-environment jest-environment-jsdom-global */
 // @flow strict-local
-import { Lolex } from './lib/lolex';
-import objectEntries from '../utils/objectEntries';
 
 /**
  * This file should not test any part of the application. It exists to test that
@@ -76,21 +74,19 @@ describe('jsdom-global', () => {
   });
 });
 
-describe('Lolex', () => {
-  const lolex: Lolex = new Lolex();
-
-  afterAll(() => {
-    lolex.dispose();
-  });
+describe('Jest modern fake timers', () => {
+  jest.useFakeTimers('modern');
+  // Will throw if not actually using the "modern" implementation
+  jest.getRealSystemTime();
 
   afterEach(() => {
     // clear any unset timers
-    lolex.clearAllTimers();
+    jest.clearAllTimers();
   });
 
-  test('Date.now() is mocked by Lolex', () => {
+  test('Date.now() is mocked', () => {
     const start = Date.now();
-    lolex.advanceTimersByTime(5.5e9); // ~63.66 days
+    jest.advanceTimersByTime(5.5e9); // ~63.66 days
     const end = Date.now();
 
     const apparentDuration = end - start;
@@ -99,18 +95,18 @@ describe('Lolex', () => {
     expect(apparentDuration).toBeLessThan(6e9);
   });
 
-  test('setInterval is triggered by Lolex', () => {
+  test('setInterval is triggered', () => {
     let count = 0;
     setInterval(() => {
       ++count;
     }, 1e9);
 
-    lolex.advanceTimersByTime(5.5e9);
+    jest.advanceTimersByTime(5.5e9);
 
     expect(count).toBe(5);
   });
 
-  test('setTimeout is triggered by Lolex', () => {
+  test('setTimeout is triggered', () => {
     let flag = false;
 
     setTimeout(() => {
@@ -120,20 +116,20 @@ describe('Lolex', () => {
       flag = false;
     }, 6e6);
 
-    lolex.advanceTimersByTime(4.5e6);
+    jest.advanceTimersByTime(4.5e6);
 
     expect(flag).toBe(true);
   });
 
   test('timer count is properly maintained', () => {
-    expect(lolex.getTimerCount()).toBe(0);
+    expect(jest.getTimerCount()).toBe(0);
     setInterval(() => {}, 10);
     setInterval(() => {}, 10);
     setInterval(() => {}, 10);
     setInterval(() => {}, 10);
     setInterval(() => {}, 10);
 
-    expect(lolex.getTimerCount()).toBe(5);
+    expect(jest.getTimerCount()).toBe(5);
 
     setTimeout(() => {}, 10);
     setTimeout(() => {}, 10);
@@ -141,13 +137,13 @@ describe('Lolex', () => {
     setTimeout(() => {}, 10);
     setTimeout(() => {}, 10);
 
-    expect(lolex.getTimerCount()).toBe(10);
+    expect(jest.getTimerCount()).toBe(10);
 
-    lolex.advanceTimersByTime(20);
-    expect(lolex.getTimerCount()).toBe(5);
+    jest.advanceTimersByTime(20);
+    expect(jest.getTimerCount()).toBe(5);
 
-    lolex.clearAllTimers();
-    expect(lolex.getTimerCount()).toBe(0);
+    jest.clearAllTimers();
+    expect(jest.getTimerCount()).toBe(0);
   });
 
   test('runOnlyPendingTimers runs timers as expected', () => {
@@ -166,40 +162,14 @@ describe('Lolex', () => {
       setTimeout(() => {}, ((k + 1) / timeOuts) * maxTime);
     }
 
-    lolex.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers();
     const end = Date.now();
 
     // A long time has passed...
     expect(end - start).toBeGreaterThanOrEqual(maxTime);
     // ... only the interval timer is still active...
-    expect(lolex.getTimerCount()).toBe(1);
+    expect(jest.getTimerCount()).toBe(1);
     // ... and it has been fired appropriately many times.
     expect(count).toBeCloseTo((end - start) / interval, 1);
-  });
-
-  describe('timers fail on overflow', () => {
-    /** Helper function: return delayed do-nothing invocation of the supplied function. */
-    const invoke = (
-      fn: typeof setTimeout | typeof setInterval,
-      time: number,
-    ): (() => void) => () => {
-      fn(() => {}, time);
-    };
-
-    for (const [name, fn] of objectEntries({ setTimeout, setInterval })) {
-      test(name, () => {
-        expect(invoke(fn, 0)).not.toThrow();
-        expect(invoke(fn, 1)).not.toThrow();
-        expect(invoke(fn, 123456789)).not.toThrow();
-        expect(invoke(fn, 2 ** 31 - 1)).not.toThrow();
-
-        expect(invoke(fn, 2 ** 31)).toThrow();
-        expect(invoke(fn, 10e10)).toThrow();
-        expect(invoke(fn, Infinity)).toThrow();
-        expect(invoke(fn, NaN)).toThrow();
-
-        lolex.clearAllTimers();
-      });
-    }
   });
 });
