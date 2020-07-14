@@ -46,6 +46,11 @@ describe('fetchActions', () => {
       expect(actions[1].type).toBe('MESSAGE_FETCH_COMPLETE');
     });
 
+    const BORING_RESPONSE = JSON.stringify({
+      messages: [],
+      result: 'success',
+    });
+
     test('when messages to be fetched both before and after anchor, numBefore and numAfter are greater than zero', () => {
       const store = mockStore(
         eg.reduxState({
@@ -57,10 +62,12 @@ describe('fetchActions', () => {
         }),
       );
 
+      fetch.mockResponseSuccess(BORING_RESPONSE);
+
       store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1));
       const actions = store.getActions();
 
-      expect(actions).toHaveLength(1);
+      expect(actions.length).toBeGreaterThanOrEqual(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
       expect(actions[0].numBefore).toBeGreaterThan(0);
       expect(actions[0].numAfter).toBeGreaterThan(0);
@@ -77,10 +84,12 @@ describe('fetchActions', () => {
         }),
       );
 
+      fetch.mockResponseSuccess(BORING_RESPONSE);
+
       store.dispatch(fetchMessages(HOME_NARROW, 0, -1, 1));
       const actions = store.getActions();
 
-      expect(actions).toHaveLength(1);
+      expect(actions.length).toBeGreaterThanOrEqual(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
       expect(actions[0].numBefore).not.toBeGreaterThan(0);
     });
@@ -96,10 +105,12 @@ describe('fetchActions', () => {
         }),
       );
 
+      fetch.mockResponseSuccess(BORING_RESPONSE);
+
       store.dispatch(fetchMessages(HOME_NARROW, 0, 1, -1));
       const actions = store.getActions();
 
-      expect(actions).toHaveLength(1);
+      expect(actions.length).toBeGreaterThanOrEqual(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
       expect(actions[0].numAfter).not.toBeGreaterThan(0);
     });
