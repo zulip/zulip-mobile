@@ -51,7 +51,7 @@ describe('fetchActions', () => {
       result: 'success',
     });
 
-    test('when messages to be fetched both before and after anchor, numBefore and numAfter are greater than zero', () => {
+    test('when messages to be fetched both before and after anchor, numBefore and numAfter are greater than zero', async () => {
       const store = mockStore(
         eg.reduxState({
           ...navStateWithNarrow(HOME_NARROW),
@@ -64,7 +64,7 @@ describe('fetchActions', () => {
 
       fetch.mockResponseSuccess(BORING_RESPONSE);
 
-      store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1));
+      await store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1));
       const actions = store.getActions();
 
       expect(actions.length).toBeGreaterThanOrEqual(1);
@@ -73,7 +73,7 @@ describe('fetchActions', () => {
       expect(actions[0].numAfter).toBeGreaterThan(0);
     });
 
-    test('when no messages to be fetched before the anchor, numBefore is not greater than zero', () => {
+    test('when no messages to be fetched before the anchor, numBefore is not greater than zero', async () => {
       const store = mockStore(
         eg.reduxState({
           ...navStateWithNarrow(HOME_NARROW),
@@ -86,7 +86,7 @@ describe('fetchActions', () => {
 
       fetch.mockResponseSuccess(BORING_RESPONSE);
 
-      store.dispatch(fetchMessages(HOME_NARROW, 0, -1, 1));
+      await store.dispatch(fetchMessages(HOME_NARROW, 0, -1, 1));
       const actions = store.getActions();
 
       expect(actions.length).toBeGreaterThanOrEqual(1);
@@ -94,7 +94,7 @@ describe('fetchActions', () => {
       expect(actions[0].numBefore).not.toBeGreaterThan(0);
     });
 
-    test('when no messages to be fetched after the anchor, numAfter is not greater than zero', () => {
+    test('when no messages to be fetched after the anchor, numAfter is not greater than zero', async () => {
       const store = mockStore(
         eg.reduxState({
           ...navStateWithNarrow(HOME_NARROW),
@@ -107,7 +107,7 @@ describe('fetchActions', () => {
 
       fetch.mockResponseSuccess(BORING_RESPONSE);
 
-      store.dispatch(fetchMessages(HOME_NARROW, 0, 1, -1));
+      await store.dispatch(fetchMessages(HOME_NARROW, 0, 1, -1));
       const actions = store.getActions();
 
       expect(actions.length).toBeGreaterThanOrEqual(1);
@@ -131,7 +131,7 @@ describe('fetchActions', () => {
       },
     });
 
-    test('message fetch start action is dispatched with numBefore greater than zero', () => {
+    test('message fetch start action is dispatched with numBefore greater than zero', async () => {
       const store = mockStore({
         ...baseState,
         fetching: {
@@ -143,7 +143,7 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchOlder(HOME_NARROW));
+      await store.dispatch(fetchOlder(HOME_NARROW));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(1);
@@ -151,7 +151,7 @@ describe('fetchActions', () => {
       expect(actions[0].numBefore).toBeGreaterThan(0);
     });
 
-    test('when caughtUp older is true, no action is dispatched', () => {
+    test('when caughtUp older is true, no action is dispatched', async () => {
       const store = mockStore({
         ...baseState,
         caughtUp: {
@@ -163,13 +163,13 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchOlder(HOME_NARROW));
+      await store.dispatch(fetchOlder(HOME_NARROW));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(0);
     });
 
-    test('when fetchingOlder older is true, no action is dispatched', () => {
+    test('when fetchingOlder older is true, no action is dispatched', async () => {
       const store = mockStore({
         ...baseState,
         fetching: {
@@ -181,13 +181,13 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchOlder(HOME_NARROW));
+      await store.dispatch(fetchOlder(HOME_NARROW));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(0);
     });
 
-    test('when needsInitialFetch is true, no action is dispatched', () => {
+    test('when needsInitialFetch is true, no action is dispatched', async () => {
       const store = mockStore({
         ...baseState,
         session: {
@@ -196,7 +196,7 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchOlder(HOME_NARROW));
+      await store.dispatch(fetchOlder(HOME_NARROW));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(0);
@@ -218,7 +218,7 @@ describe('fetchActions', () => {
       },
     });
 
-    test('message fetch start action is dispatched with numAfter greater than zero', () => {
+    test('message fetch start action is dispatched with numAfter greater than zero', async () => {
       const store = mockStore({
         ...baseState,
         fetching: {
@@ -230,7 +230,7 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchNewer(HOME_NARROW));
+      await store.dispatch(fetchNewer(HOME_NARROW));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(1);
@@ -238,7 +238,7 @@ describe('fetchActions', () => {
       expect(actions[0].numAfter).toBeGreaterThan(0);
     });
 
-    test('when caughtUp newer is true, no action is dispatched', () => {
+    test('when caughtUp newer is true, no action is dispatched', async () => {
       const store = mockStore({
         ...baseState,
         caughtUp: {
@@ -250,13 +250,13 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchNewer(HOME_NARROW));
+      await store.dispatch(fetchNewer(HOME_NARROW));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(0);
     });
 
-    test('when fetching.newer is true, no action is dispatched', () => {
+    test('when fetching.newer is true, no action is dispatched', async () => {
       const store = mockStore({
         ...baseState,
         fetching: {
@@ -268,13 +268,13 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchNewer(HOME_NARROW));
+      await store.dispatch(fetchNewer(HOME_NARROW));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(0);
     });
 
-    test('when needsInitialFetch is true, no action is dispatched', () => {
+    test('when needsInitialFetch is true, no action is dispatched', async () => {
       const store = mockStore({
         ...baseState,
         session: {
@@ -283,7 +283,7 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchNewer(HOME_NARROW));
+      await store.dispatch(fetchNewer(HOME_NARROW));
       const actions = store.getActions();
 
       expect(actions).toHaveLength(0);
