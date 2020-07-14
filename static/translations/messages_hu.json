@@ -36,6 +36,8 @@
   "Chat": "Csevegés",
   "Sign in with {method}": "Sign in with {method}",
   "Cannot connect to server": "Nem sikerült csatlakozni a szerverhez",
+  "Please enter a valid URL": "Please enter a valid URL",
+  "Please enter the server URL, not your email": "Please enter the server URL, not your email",
   "Wrong email or password. Try again.": "Hibás e-mail vagy jelszó. Próbáld újra!",
   "Wrong username or password. Try again.": "Hibás felhasználónév vagy jelszó. Próbáld újra!",
   "Enter a valid email address": "Írj be érvényes e-mail címet",

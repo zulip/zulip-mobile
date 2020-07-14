@@ -36,6 +36,8 @@
   "Chat": "बातचीत शुरू करें",
   "Sign in with {method}": "Sign in with {method}",
   "Cannot connect to server": "सर्वर से कनेक्ट नहीं हो पा रहा",
+  "Please enter a valid URL": "Please enter a valid URL",
+  "Please enter the server URL, not your email": "Please enter the server URL, not your email",
   "Wrong email or password. Try again.": "गलत ईमेल या पासवर्ड। पुनः प्रयास करें।",
   "Wrong username or password. Try again.": "उपयोगकर्ता का गलत नाम और पासवर्ड। पुनः प्रयास करें।",
   "Enter a valid email address": "कृपया एक वैध ई - मेल एड्रेस डालें",

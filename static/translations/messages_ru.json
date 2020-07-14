@@ -36,6 +36,8 @@
   "Chat": "Чат",
   "Sign in with {method}": "Войти через {method}",
   "Cannot connect to server": "Не могу подключиться к серверу",
+  "Please enter a valid URL": "Please enter a valid URL",
+  "Please enter the server URL, not your email": "Please enter the server URL, not your email",
   "Wrong email or password. Try again.": "Неверный адрес электронной почты или пароль. Попробуйте еще раз.",
   "Wrong username or password. Try again.": "Неверное имя или пароль. Попробуйте еще раз.",
   "Enter a valid email address": "Введите корректный адрес электронной почты",

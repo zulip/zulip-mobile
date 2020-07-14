@@ -36,6 +36,8 @@
   "Chat": "Czat",
   "Sign in with {method}": "Zaloguj się przez {metoda}",
   "Cannot connect to server": "Brak połączenia z serwerem",
+  "Please enter a valid URL": "Please enter a valid URL",
+  "Please enter the server URL, not your email": "Please enter the server URL, not your email",
   "Wrong email or password. Try again.": "Nieprawidłowy email lub hasło. Spróbuj ponownie",
   "Wrong username or password. Try again.": "Nieprawidłowa nazwa użytkownika lub hasło. Spróbuj ponownie.",
   "Enter a valid email address": "Wprowadź prawidłowy adres email",

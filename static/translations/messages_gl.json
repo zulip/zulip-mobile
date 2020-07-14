@@ -36,6 +36,8 @@
   "Chat": "Conversa",
   "Sign in with {method}": "Sign in with {method}",
   "Cannot connect to server": "Non se deu conectado co servidor",
+  "Please enter a valid URL": "Please enter a valid URL",
+  "Please enter the server URL, not your email": "Please enter the server URL, not your email",
   "Wrong email or password. Try again.": "Correo ou contrasinal equivocados. Proba de novo.",
   "Wrong username or password. Try again.": "Nome de usuario ou contrasinal equivocado. Proba de novo.",
   "Enter a valid email address": "Introduce un correo válido",

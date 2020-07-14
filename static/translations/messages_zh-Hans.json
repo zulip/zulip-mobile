@@ -36,6 +36,8 @@
   "Chat": "聊天",
   "Sign in with {method}": "Sign in with {method}",
   "Cannot connect to server": "无法连接服务器",
+  "Please enter a valid URL": "Please enter a valid URL",
+  "Please enter the server URL, not your email": "Please enter the server URL, not your email",
   "Wrong email or password. Try again.": "邮箱或密码错误，请重试。",
   "Wrong username or password. Try again.": "用户名或密码错误，请重试。",
   "Enter a valid email address": "请输入有效的邮箱地址",
