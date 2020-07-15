@@ -233,7 +233,7 @@ var compiledWebviewJs = (function (exports) {
       switch (eventWithTimestamp.type) {
         case 'content':
           {
-            return _objectSpread2({}, rest, {
+            return _objectSpread2(_objectSpread2({}, rest), {}, {
               auth: 'redacted',
               content: placeholdersDivTagFromContent(eventWithTimestamp.content)
             });
@@ -246,7 +246,7 @@ var compiledWebviewJs = (function (exports) {
 
         case 'typing':
           {
-            return _objectSpread2({}, rest, {
+            return _objectSpread2(_objectSpread2({}, rest), {}, {
               content: placeholdersDivTagFromContent(eventWithTimestamp.content)
             });
           }
@@ -633,7 +633,7 @@ var compiledWebviewJs = (function (exports) {
       eventUpdateHandlers[uevent.type](uevent);
 
       if (isTrackingLongLoad && eventsDuringLongLoad !== null) {
-        eventsDuringLongLoad.push(_objectSpread2({}, uevent, {
+        eventsDuringLongLoad.push(_objectSpread2(_objectSpread2({}, uevent), {}, {
           timestamp: Date.now()
         }));
       }
