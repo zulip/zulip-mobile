@@ -11,6 +11,7 @@ import type {
 } from '../webViewHandleUpdates';
 
 import rewriteImageUrls from './rewriteImageUrls';
+import InboundEventLogger from './InboundEventLogger';
 import sendMessage from './sendMessage';
 
 /*
@@ -151,6 +152,20 @@ window.onerror = (message: string, source: string, line: number, column: number,
 
   return true;
 };
+
+const eventLogger = new InboundEventLogger();
+eventLogger.startCapturing();
+// After 10 seconds, if the loading placeholders are *still* visible,
+// we want to know all the inbound events that were received in that
+// time (with sensitive info redacted, of course).
+setTimeout(() => {
+  const placeholdersDiv = document.getElementById('message-loading');
+  eventLogger.stopCapturing();
+  if (placeholdersDiv && !placeholdersDiv.classList.contains('hidden')) {
+    eventLogger.send();
+  }
+  eventLogger.reset();
+}, 10000);
 
 const showHideElement = (elementId: string, show: boolean) => {
   const element = document.getElementById(elementId);
@@ -603,6 +618,7 @@ const handleMessageEvent: MessageEventListener = e => {
   const decodedData = decodeURIComponent(escape(window.atob(e.data)));
   const updateEvents: WebViewUpdateEvent[] = JSON.parse(decodedData);
   updateEvents.forEach((uevent: WebViewUpdateEvent) => {
+    eventLogger.maybeCaptureInboundEvent(uevent);
     // $FlowFixMe
     eventUpdateHandlers[uevent.type](uevent);
   });

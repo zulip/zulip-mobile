@@ -46,9 +46,168 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+
   var sendMessage = (function (msg) {
     window.ReactNativeWebView.postMessage(JSON.stringify(msg));
   });
+
+  var placeholdersDivTagFromContent = function placeholdersDivTagFromContent(content) {
+    var match = new RegExp('<div id="message-loading" class="(?:hidden)?">').exec(content);
+    return match !== null ? match[0] : null;
+  };
+
+  var InboundEventLogger = function () {
+    _createClass(InboundEventLogger, null, [{
+      key: "scrubInboundEvent",
+      value: function scrubInboundEvent(event) {
+        switch (event.type) {
+          case 'content':
+            {
+              return {
+                type: event.type,
+                scrollMessageId: event.scrollMessageId,
+                auth: 'redacted',
+                content: placeholdersDivTagFromContent(event.content),
+                updateStrategy: event.updateStrategy
+              };
+            }
+
+          case 'fetching':
+            {
+              return {
+                type: event.type,
+                showMessagePlaceholders: event.showMessagePlaceholders,
+                fetchingOlder: event.fetchingOlder,
+                fetchingNewer: event.fetchingNewer
+              };
+            }
+
+          case 'typing':
+            {
+              return {
+                type: event.type,
+                content: event.content !== ''
+              };
+            }
+
+          case 'ready':
+            {
+              return {
+                type: event.type
+              };
+            }
+
+          case 'read':
+            {
+              return {
+                type: event.type,
+                messageIds: event.messageIds
+              };
+            }
+
+          default:
+            {
+              return {
+                type: event.type
+              };
+            }
+        }
+      }
+    }]);
+
+    function InboundEventLogger() {
+      _classCallCheck(this, InboundEventLogger);
+
+      this._isCapturing = false;
+      this._capturedInboundEventItems = [];
+    }
+
+    _createClass(InboundEventLogger, [{
+      key: "startCapturing",
+      value: function startCapturing() {
+        if (this._isCapturing) {
+          throw new Error('InboundEventLogger: Tried to call startCapturing while already capturing.');
+        } else if (this._capturedInboundEventItems.length > 0 || this._captureEndTime !== undefined) {
+          throw new Error('InboundEventLogger: Tried to call startCapturing before resetting.');
+        }
+
+        this._isCapturing = true;
+        this._captureStartTime = Date.now();
+      }
+    }, {
+      key: "stopCapturing",
+      value: function stopCapturing() {
+        if (!this._isCapturing) {
+          throw new Error('InboundEventLogger: Tried to call stopCapturing while not capturing.');
+        }
+
+        this._isCapturing = false;
+        this._captureEndTime = Date.now();
+      }
+    }, {
+      key: "send",
+      value: function send() {
+        var _this$_captureStartTi, _this$_captureEndTime;
+
+        if (this._isCapturing) {
+          throw new Error('InboundEventLogger: Tried to send captured events while still capturing.');
+        }
+
+        sendMessage({
+          type: 'warn',
+          details: {
+            startTime: (_this$_captureStartTi = this._captureStartTime) !== null && _this$_captureStartTi !== void 0 ? _this$_captureStartTi : null,
+            endTime: (_this$_captureEndTime = this._captureEndTime) !== null && _this$_captureEndTime !== void 0 ? _this$_captureEndTime : null,
+            inboundEventItems: this._capturedInboundEventItems
+          }
+        });
+      }
+    }, {
+      key: "reset",
+      value: function reset() {
+        this._captureStartTime = undefined;
+        this._captureEndTime = undefined;
+        this._capturedInboundEventItems = [];
+        this._isCapturing = false;
+      }
+    }, {
+      key: "maybeCaptureInboundEvent",
+      value: function maybeCaptureInboundEvent(event) {
+        if (this._isCapturing) {
+          var item = {
+            type: 'inbound',
+            timestamp: Date.now(),
+            scrubbedEvent: InboundEventLogger.scrubInboundEvent(event)
+          };
+
+          this._capturedInboundEventItems.push(item);
+        }
+      }
+    }]);
+
+    return InboundEventLogger;
+  }();
 
   if (!Array.from) {
     Array.from = function from(arr) {
@@ -126,6 +285,19 @@ var compiledWebviewJs = (function (exports) {
     });
     return true;
   };
+
+  var eventLogger = new InboundEventLogger();
+  eventLogger.startCapturing();
+  setTimeout(function () {
+    var placeholdersDiv = document.getElementById('message-loading');
+    eventLogger.stopCapturing();
+
+    if (placeholdersDiv && !placeholdersDiv.classList.contains('hidden')) {
+      eventLogger.send();
+    }
+
+    eventLogger.reset();
+  }, 10000);
 
   var showHideElement = function showHideElement(elementId, show) {
     var element = document.getElementById(elementId);
@@ -478,6 +650,7 @@ var compiledWebviewJs = (function (exports) {
     var decodedData = decodeURIComponent(escape(window.atob(e.data)));
     var updateEvents = JSON.parse(decodedData);
     updateEvents.forEach(function (uevent) {
+      eventLogger.maybeCaptureInboundEvent(uevent);
       eventUpdateHandlers[uevent.type](uevent);
     });
     scrollEventsDisabled = false;
