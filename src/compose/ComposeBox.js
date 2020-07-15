@@ -13,6 +13,7 @@ import type {
   UserOrBot,
   Dispatch,
   Dimensions,
+  GlobalState,
 } from '../types';
 import { connect } from '../react-redux';
 import {
@@ -26,11 +27,20 @@ import * as api from '../api';
 import { FloatingActionButton, Input } from '../common';
 import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
-import { isStreamNarrow, isStreamOrTopicNarrow, topicNarrow } from '../utils/narrow';
+import {
+  isStreamNarrow,
+  isStreamOrTopicNarrow,
+  topicNarrow,
+  isPrivateNarrow,
+  isGroupNarrow,
+  emailOfPrivateNarrow,
+} from '../utils/narrow';
 import ComposeMenu from './ComposeMenu';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
 import AnnouncementOnly from '../message/AnnouncementOnly';
+import PmRecipientDeactivated from '../message/PmRecipientDeactivated';
+import GroupPmRecipientDeactivated from '../message/GroupPmRecipientDeactivated';
 
 import {
   getAuth,
@@ -38,6 +48,8 @@ import {
   getSession,
   getLastMessageTopic,
   getActiveUsersByEmail,
+  getRecipientsInGroupNarrow,
+  getUserForEmail,
 } from '../selectors';
 import {
   getIsActiveStreamSubscribed,
@@ -46,7 +58,7 @@ import {
 import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
-import { getOwnEmail } from '../users/userSelectors';
+import { getOwnEmail, getUserIsActive } from '../users/userSelectors';
 
 type SelectorProps = {|
   auth: Auth,
@@ -58,6 +70,8 @@ type SelectorProps = {|
   isSubscribed: boolean,
   draft: string,
   lastMessageTopic: string,
+  isPmRecipientDeactivated: boolean,
+  isGroupPmRecipientDeactivated: boolean,
 |};
 
 type Props = $ReadOnly<{|
@@ -345,12 +359,18 @@ class ComposeBox extends PureComponent<Props, State> {
       isAdmin,
       isAnnouncementOnly,
       isSubscribed,
+      isPmRecipientDeactivated,
+      isGroupPmRecipientDeactivated,
     } = this.props;
 
     if (!isSubscribed) {
       return <NotSubscribed narrow={narrow} />;
     } else if (isAnnouncementOnly && !isAdmin) {
       return <AnnouncementOnly />;
+    } else if (isPmRecipientDeactivated) {
+      return <PmRecipientDeactivated />;
+    } else if (isGroupPmRecipientDeactivated) {
+      return <GroupPmRecipientDeactivated />;
     }
 
     const placeholder = getComposeInputPlaceholder(narrow, ownEmail, usersByEmail);
@@ -427,6 +447,25 @@ class ComposeBox extends PureComponent<Props, State> {
   }
 }
 
+const getPmRecipientIsDeactivated = (state: GlobalState, narrow: Narrow): boolean => {
+  if (!isPrivateNarrow(narrow)) {
+    return false;
+  }
+  const recipientEmail = emailOfPrivateNarrow(narrow);
+  const user = getUserForEmail(state, recipientEmail);
+  return !getUserIsActive(state, user.user_id);
+};
+
+const getGroupPmRecipientIsDeactivated = (state: GlobalState, narrow: Narrow): boolean => {
+  if (!isGroupNarrow(narrow)) {
+    return false;
+  }
+  const recipientIds: number[] = getRecipientsInGroupNarrow(state, narrow).map(
+    user => user.user_id,
+  );
+  return recipientIds.some(userId => !getUserIsActive(state, userId));
+};
+
 export default connect<SelectorProps, _, _>((state, props) => ({
   auth: getAuth(state),
   ownEmail: getOwnEmail(state),
@@ -437,4 +476,6 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
   draft: getDraftForNarrow(state, props.narrow),
   lastMessageTopic: getLastMessageTopic(state, props.narrow),
+  isPmRecipientDeactivated: getPmRecipientIsDeactivated(state, props.narrow),
+  isGroupPmRecipientDeactivated: getGroupPmRecipientIsDeactivated(state, props.narrow),
 }))(ComposeBox);
