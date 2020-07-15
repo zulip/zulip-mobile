@@ -73,6 +73,10 @@ jest.mock('react-native-simple-toast', () => ({
   showWithGravity: jest.fn(),
 }));
 
+jest.mock('expo-application', () => ({
+  nativeApplicationVersion: '26.23.146',
+}));
+
 jest.mock('react-native-device-info', () => ({
   getSystemName: jest.fn().mockReturnValue('ios'),
   getSystemVersion: jest.fn().mockReturnValue('13.3.1'),
@@ -88,4 +92,11 @@ jest.mock('react-native-image-picker', () => ({
   showImagePicker: jest.fn(),
   launchCamera: jest.fn(),
   launchImageLibrary: jest.fn(),
+}));
+
+jest.mock('expo-apple-authentication', () => ({
+  AppleAuthenticationButton: jest.fn(),
+  isAvailableAsync: jest.fn(),
+  signInAsync: jest.fn(),
+  // etc. (incomplete)
 }));

@@ -4,7 +4,6 @@
 // These will be used as regexp fragments.
 const transformModulesWhitelist = [
   'expo-apple-authentication',
-  'expo-application',
   'react-native',
   // @rnc/async-storage itself is precompiled, but its mock-helper is not
   '@react-native-community/async-storage',
@@ -25,7 +24,7 @@ const transformModulesWhitelist = [
 const transformIgnorePattern = `node_modules/(?!${transformModulesWhitelist.join('|')})`;
 
 module.exports = {
-  preset: 'jest-expo',
+  preset: 'react-native',
 
   // Finding and transforming source code.
 
