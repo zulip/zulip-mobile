@@ -1,9 +1,5 @@
 // @flow strict-local
-import { Lolex } from '../../__tests__/lib/lolex';
 import Heartbeat from '../heartbeat';
-
-/** Fake clock implementation. See 'lib/lolex' for more details. */
-let lolex: Lolex;
 
 // (hopefully) restrictive type alias for Jest's mock callback functions
 type CallbackType = JestMockFn<$ReadOnlyArray<void>, void>;
@@ -75,7 +71,7 @@ describe('Heartbeat', () => {
     const { callback } = heartbeat;
     for (let i = 0; i < count; ++i) {
       callback.mockClear();
-      lolex.runOnlyPendingTimers();
+      jest.runOnlyPendingTimers();
       expect(callback).toHaveBeenCalled();
     }
     callback.mockClear();
@@ -87,10 +83,10 @@ describe('Heartbeat', () => {
 
     callback.mockClear();
 
-    lolex.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers();
     expect(callback).not.toHaveBeenCalled();
 
-    lolex.advanceTimersByTime(HEARTBEAT_TIME * 10);
+    jest.advanceTimersByTime(HEARTBEAT_TIME * 10);
     expect(callback).not.toHaveBeenCalled();
   };
 
@@ -99,19 +95,16 @@ describe('Heartbeat', () => {
 
   // before running tests: set up fake timer API
   beforeAll(() => {
-    // jest.useFakeTimers();
-    lolex = new Lolex();
+    jest.useFakeTimers('modern');
   });
 
   afterAll(() => {
-    // jest.useRealTimers();
-    lolex.dispose();
     JestHeartbeatHelper.clearExtant();
   });
 
   // before each test: reset common state
   beforeEach(() => {
-    lolex.clearAllTimers();
+    jest.clearAllTimers();
     JestHeartbeatHelper.clearExtant();
   });
 
@@ -127,8 +120,8 @@ describe('Heartbeat', () => {
 
     // Stopped heartbeats may have timers running, but those timers should not
     // persist beyond their next firing...
-    lolex.runOnlyPendingTimers();
-    expect(lolex.getTimerCount()).toBe(0);
+    jest.runOnlyPendingTimers();
+    expect(jest.getTimerCount()).toBe(0);
 
     // ... and none of those _timer_ firings should result in a _callback_
     // firing.
@@ -194,7 +187,7 @@ describe('Heartbeat', () => {
 
       // delay past HEARTBEAT_TIME
       callback.mockClear();
-      lolex.advanceTimersByTime(HEARTBEAT_TIME * 1.1);
+      jest.advanceTimersByTime(HEARTBEAT_TIME * 1.1);
       expect(callback).not.toHaveBeenCalled();
 
       callback.mockClear();
@@ -213,15 +206,15 @@ describe('Heartbeat', () => {
     callback.mockClear();
 
     // Late in interval, stop and start again.
-    lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.8);
+    jest.advanceTimersByTime(HEARTBEAT_TIME * 0.8);
     heartbeat.stop();
-    lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.1);
+    jest.advanceTimersByTime(HEARTBEAT_TIME * 0.1);
     heartbeat.start();
 
     // No signal yet...
     expect(callback).not.toHaveBeenCalled();
     // ... but signal promptly at end of original interval.
-    lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.101);
+    jest.advanceTimersByTime(HEARTBEAT_TIME * 0.101);
     expect(callback).toHaveBeenCalled();
 
     heartbeat.stop();
@@ -236,7 +229,7 @@ describe('Heartbeat', () => {
     callback.mockClear();
 
     for (let i = 0; i < 10; ++i) {
-      lolex.advanceTimersByTime(HEARTBEAT_TIME * 1.001);
+      jest.advanceTimersByTime(HEARTBEAT_TIME * 1.001);
       expect(callback).toHaveBeenCalled();
       expect(callback).toHaveBeenCalledTimes(1);
       callback.mockClear();
@@ -268,12 +261,12 @@ describe('Heartbeat', () => {
     expect(callback).toHaveBeenCalled();
 
     expectRunning(heartbeat, 3);
-    lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.25);
+    jest.advanceTimersByTime(HEARTBEAT_TIME * 0.25);
     expect(callback).not.toHaveBeenCalled();
     heartbeat.start();
     expect(callback).not.toHaveBeenCalled(); // sic!
 
-    lolex.advanceTimersByTime(HEARTBEAT_TIME * 0.76);
+    jest.advanceTimersByTime(HEARTBEAT_TIME * 0.76);
     expect(callback).toHaveBeenCalled();
 
     heartbeat.stop();
