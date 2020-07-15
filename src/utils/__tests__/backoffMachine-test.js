@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import { BackoffMachine } from '../async';
-import { Lolex } from '../../__tests__/lib/lolex';
 
 // Since BackoffMachine is in async.js, these tests *should* be in
 // async-test.js. But doing that introduces some interference between these
@@ -10,20 +9,17 @@ import { Lolex } from '../../__tests__/lib/lolex';
 // (https://github.com/facebook/jest/pull/8897). But as of 2020-03, putting them
 // in a separate file is our workaround.
 
+jest.useFakeTimers('modern');
+
 describe('BackoffMachine', () => {
-  const lolex: Lolex = new Lolex();
-
   afterEach(() => {
-    lolex.clearAllTimers();
-  });
-
-  afterAll(() => {
-    lolex.dispose();
+    expect(jest.getTimerCount()).toBe(0);
+    jest.clearAllTimers();
   });
 
   const measureWait = async (promise: Promise<void>) => {
     const start = Date.now();
-    lolex.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers();
     await promise;
     return Date.now() - start;
   };
