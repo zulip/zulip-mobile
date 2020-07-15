@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import { sleep } from '../async';
-import { Lolex } from '../../__tests__/lib/lolex';
 
 const sleepMeasure = async (expectedMs: number) => {
   const start = Date.now();
@@ -11,22 +10,21 @@ const sleepMeasure = async (expectedMs: number) => {
 };
 
 describe('sleep (ideal)', () => {
-  const lolex: Lolex = new Lolex();
-
-  afterAll(() => {
-    lolex.dispose();
+  beforeAll(() => {
+    jest.useFakeTimers('modern');
   });
 
   afterEach(() => {
     // clear any unset timers
-    lolex.clearAllTimers();
+    expect(jest.getTimerCount()).toBe(0);
+    jest.clearAllTimers();
   });
 
   test('waits for exactly the right number of milliseconds', async () => {
     const expectedMs = 1000;
     const sleepPromise: Promise<number> = sleepMeasure(expectedMs);
 
-    lolex.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers();
 
     // If `sleepPromise` hasn't resolved already, it never will; this await will
     // hang. In this case, Jest will eventually time out and report failure.
@@ -38,6 +36,10 @@ describe('sleep (ideal)', () => {
 });
 
 describe('sleep (real)', () => {
+  beforeAll(() => {
+    jest.useRealTimers();
+  });
+
   test('waits for approximately the right number of milliseconds', async () => {
     const expectedMs = 1000;
     const actualMs = await sleepMeasure(expectedMs);
