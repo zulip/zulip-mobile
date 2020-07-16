@@ -38,7 +38,9 @@ export class BackoffMachine {
    * Use this to implement "give up" logic by breaking out of the loop after a
    * threshold number of waits.
    */
-  waitsCompleted = (): number => this._waitsCompleted;
+  waitsCompleted(): number {
+    return this._waitsCompleted;
+  }
 
   /**
    * Promise to resolve after the appropriate duration.
@@ -58,7 +60,7 @@ export class BackoffMachine {
    * a capped exponential shape on the expected value. Greg discusses this in more
    * detail in #3841.
    */
-  wait = async (): Promise<void> => {
+  async wait(): Promise<void> {
     if (this._startTime === undefined) {
       this._startTime = Date.now();
     }
@@ -74,7 +76,7 @@ export class BackoffMachine {
     await sleep(duration);
 
     this._waitsCompleted++;
-  };
+  }
 }
 
 /**
