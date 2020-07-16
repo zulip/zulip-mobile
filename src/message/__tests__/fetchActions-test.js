@@ -5,7 +5,13 @@ import omit from 'lodash.omit';
 
 import type { GlobalState } from '../../reduxTypes';
 import type { Action } from '../../actionTypes';
-import { isFetchNeededAtAnchor, fetchMessages, fetchOlder, fetchNewer } from '../fetchActions';
+import {
+  isFetchNeededAtAnchor,
+  fetchMessages,
+  fetchOlder,
+  fetchNewer,
+  tryFetch,
+} from '../fetchActions';
 import { FIRST_UNREAD_ANCHOR } from '../../anchor';
 import type { Message } from '../../api/modelTypes';
 import type { ServerMessage } from '../../api/messages/getMessages';
@@ -71,6 +77,38 @@ describe('fetchActions', () => {
 
       const result = isFetchNeededAtAnchor(state, narrow, FIRST_UNREAD_ANCHOR);
       expect(result).toBeTrue();
+    });
+  });
+
+  describe('tryFetch', () => {
+    test('resolves any value when there is no exception', async () => {
+      const result = await tryFetch(async () => 'hello');
+
+      expect(result).toEqual('hello');
+    });
+
+    test('resolves any promise, if there is no exception', async () => {
+      const result = await tryFetch(
+        () => new Promise(resolve => setTimeout(() => resolve('hello'), 100)),
+      );
+
+      expect(result).toEqual('hello');
+    });
+
+    test('retries a call, if there is an exception', async () => {
+      // fail on first call, succeed second time
+      let callCount = 0;
+      const thrower = () => {
+        callCount++;
+        if (callCount === 1) {
+          throw new Error('First run exception');
+        }
+        return 'hello';
+      };
+
+      const result = await tryFetch(async () => thrower());
+
+      expect(result).toEqual('hello');
     });
   });
 

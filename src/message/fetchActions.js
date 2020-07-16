@@ -10,6 +10,7 @@ import type {
 } from '../types';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
+import { isClientError } from '../api/apiErrors';
 import {
   getAuth,
   getSession,
@@ -28,7 +29,7 @@ import {
 } from '../actionConstants';
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
-import { tryUntilSuccessful } from '../utils/async';
+import { BackoffMachine } from '../utils/async';
 import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
@@ -241,6 +242,34 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
 };
 
 /**
+ * Calls an async function and if unsuccessful retries the call.
+ *
+ * If the function is an API call and the response has HTTP status code 4xx
+ * the error is considered unrecoverable and the exception is rethrown, to be
+ * handled further up in the call stack.
+ */
+export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
+  const backoffMachine = new BackoffMachine();
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    try {
+      return await func();
+    } catch (e) {
+      if (isClientError(e)) {
+        throw e;
+      }
+      await backoffMachine.wait();
+    }
+  }
+
+  // Without this, Flow 0.92.1 does not know this code is unreachable,
+  // and it incorrectly thinks Promise<undefined> could be returned,
+  // which is inconsistent with the stated Promise<T> return type.
+  // eslint-disable-next-line no-unreachable
+  throw new Error();
+}
+
+/**
  * Fetch lots of state from the server, and start an event queue.
  *
  * This is where we set up our use of the Zulip event system for real-time
@@ -270,7 +299,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
 
   try {
     [initData, serverSettings] = await Promise.all([
-      tryUntilSuccessful(() =>
+      tryFetch(() =>
         api.registerForEvents(auth, {
           fetch_event_types: config.serverDataOnStartup,
           apply_markdown: true,
@@ -282,7 +311,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
           },
         }),
       ),
-      tryUntilSuccessful(() => api.getServerSettings(auth.realm)),
+      tryFetch(() => api.getServerSettings(auth.realm)),
     ]);
   } catch (e) {
     // This should only happen on a 4xx HTTP status, which should only

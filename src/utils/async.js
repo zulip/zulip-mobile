@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { isClientError } from '../api/apiErrors';
 
 /** Like setTimeout(..., 0), but returns a Promise of the result. */
 export function delay<T>(callback: () => T): Promise<T> {
@@ -77,32 +76,4 @@ export class BackoffMachine {
 
     this._waitsCompleted++;
   }
-}
-
-/**
- * Calls an async function and if unsuccessful retries the call.
- *
- * If the function is an API call and the response has HTTP status code 4xx
- * the error is considered unrecoverable and the exception is rethrown, to be
- * handled further up in the call stack.
- */
-export async function tryUntilSuccessful<T>(func: () => Promise<T>): Promise<T> {
-  const backoffMachine = new BackoffMachine();
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    try {
-      return await func();
-    } catch (e) {
-      if (isClientError(e)) {
-        throw e;
-      }
-      await backoffMachine.wait();
-    }
-  }
-
-  // Without this, Flow 0.92.1 does not know this code is unreachable,
-  // and it incorrectly thinks Promise<undefined> could be returned,
-  // which is inconsistent with the stated Promise<T> return type.
-  // eslint-disable-next-line no-unreachable
-  throw new Error();
 }
