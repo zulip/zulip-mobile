@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
+import { Set } from 'immutable';
 
 import type { Dispatch, PmConversationData, UnreadStreamItem, UserOrBot } from '../types';
 import { connect } from '../react-redux';
@@ -22,6 +23,8 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
   usersByEmail: Map<string, UserOrBot>,
   unreadStreamsAndTopics: UnreadStreamItem[],
+  bulkSelection: Set<string> | null,
+  handleTopicSelect: (stream: string, topic: string) => void,
 |}>;
 
 class UnreadCards extends PureComponent<Props> {
@@ -30,11 +33,37 @@ class UnreadCards extends PureComponent<Props> {
   };
 
   handleTopicPress = (stream: string, topic: string) => {
-    setTimeout(() => this.props.dispatch(doNarrow(topicNarrow(stream, topic))));
+    const { bulkSelection, handleTopicSelect } = this.props;
+    if (bulkSelection === null) {
+      setTimeout(() => this.props.dispatch(doNarrow(topicNarrow(stream, topic))));
+    } else {
+      handleTopicSelect(stream, topic);
+    }
+  };
+
+  handleTopicLongPress = (stream: string, topic: string) => {
+    const { handleTopicSelect } = this.props;
+    handleTopicSelect(stream, topic);
+  };
+
+  getBulkSelectionStatus = (stream: string, topic: string): boolean => {
+    const { bulkSelection } = this.props;
+    if (bulkSelection === null) {
+      return false;
+    }
+    const narrow = JSON.stringify(topicNarrow(stream, topic));
+    return bulkSelection.includes(narrow);
   };
 
   render() {
-    const { conversations, unreadStreamsAndTopics, ...restProps } = this.props;
+    const {
+      conversations,
+      unreadStreamsAndTopics,
+      bulkSelection,
+      // eslint-disable-next-line no-unused-vars
+      handleTopicSelect,
+      ...restProps
+    } = this.props;
     type Card =
       | UnreadStreamItem
       | { key: 'private', data: Array<$PropertyType<PmConversationList, 'props'>> };
@@ -79,8 +108,11 @@ class UnreadCards extends PureComponent<Props> {
               stream={section.streamName || ''}
               isMuted={section.isMuted || item.isMuted}
               isSelected={false}
+              inBulkSelectionMode={bulkSelection !== null}
+              isBulkSelected={this.getBulkSelectionStatus(section.streamName, item.topic)}
               unreadCount={item.unread}
               onPress={this.handleTopicPress}
+              onLongPress={this.handleTopicLongPress}
             />
           )
         }

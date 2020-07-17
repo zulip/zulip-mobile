@@ -42,6 +42,7 @@ export default class TopicList extends PureComponent<Props> {
             isMuted={item.isMuted}
             unreadCount={item.unreadCount}
             onPress={onPress}
+            onLongPress={() => {}}
           />
         )}
       />
