@@ -46,6 +46,10 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
+  var sendMessage = (function (msg) {
+    window.ReactNativeWebView.postMessage(JSON.stringify(msg));
+  });
+
   if (!Array.from) {
     Array.from = function from(arr) {
       return Array.prototype.slice.call(arr);
@@ -88,10 +92,6 @@ var compiledWebviewJs = (function (exports) {
     var element = document.createElement('div');
     element.innerText = text;
     return element.innerHTML;
-  };
-
-  var sendMessage = function sendMessage(msg) {
-    window.ReactNativeWebView.postMessage(JSON.stringify(msg));
   };
 
   window.onerror = function (message, source, line, column, error) {

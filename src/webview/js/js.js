@@ -9,9 +9,9 @@ import type {
   WebViewUpdateEventReady,
   WebViewUpdateEventMessagesRead,
 } from '../webViewHandleUpdates';
-import type { MessageListEvent } from '../webViewEventHandlers';
 
 import rewriteImageUrls from './rewriteImageUrls';
+import sendMessage from './sendMessage';
 
 /*
  * Supported platforms:
@@ -102,10 +102,6 @@ const escapeHtml = (text: string): string => {
   const element = document.createElement('div');
   element.innerText = text;
   return element.innerHTML;
-};
-
-const sendMessage = (msg: MessageListEvent) => {
-  window.ReactNativeWebView.postMessage(JSON.stringify(msg));
 };
 
 window.onerror = (message: string, source: string, line: number, column: number, error: Error) => {
