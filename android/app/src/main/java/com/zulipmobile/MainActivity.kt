@@ -1,16 +1,13 @@
 package com.zulipmobile
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebView
-import androidx.annotation.Nullable
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.Arguments
-import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.WritableMap
 import com.zulipmobile.notifications.*
 import com.zulipmobile.sharing.SharingModule
@@ -24,13 +21,6 @@ open class MainActivity : ReactActivity() {
      */
     override fun getMainComponentName(): String {
         return "ZulipMobile"
-    }
-
-    private fun sendEvent(reactContext: ReactContext,
-                          eventName: String,
-                          @Nullable params: WritableMap) {
-        Log.d(TAG, "Sending event with shared data")
-        emit(reactContext, eventName, params)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,10 +57,12 @@ open class MainActivity : ReactActivity() {
                 SharingModule.initialSharedData = params
                 Log.d(TAG, "Sharing data as initialSharedData")
             }
-            ReactAppStatus.BACKGROUND, ReactAppStatus.FOREGROUND ->
+            ReactAppStatus.BACKGROUND, ReactAppStatus.FOREGROUND -> {
                 // JS is running and has already reached foreground. It won't check
                 // initialSharedData again, but it will see a shareReceived event.
-                sendEvent(reactContext, "shareReceived", params)
+                Log.d(TAG, "Sending event with shared data")
+                emit(reactContext, "shareReceived", params)
+            }
         }
     }
 
