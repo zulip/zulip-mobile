@@ -51,18 +51,14 @@ open class MainActivity : ReactActivity() {
         val appStatus = reactContext?.appStatus
         Log.d(TAG, "app status is $appStatus")
         when (appStatus) {
-            null, ReactAppStatus.NOT_RUNNING -> {
+            null, ReactAppStatus.NOT_RUNNING ->
                 // Either there's no JS environment running, or we haven't yet reached
                 // foreground.  Expect the app to check initialSharedData on launch.
                 SharingModule.initialSharedData = params
-                Log.d(TAG, "Sharing data as initialSharedData")
-            }
-            ReactAppStatus.BACKGROUND, ReactAppStatus.FOREGROUND -> {
+            ReactAppStatus.BACKGROUND, ReactAppStatus.FOREGROUND ->
                 // JS is running and has already reached foreground. It won't check
                 // initialSharedData again, but it will see a shareReceived event.
-                Log.d(TAG, "Sending event with shared data")
                 emit(reactContext, "shareReceived", params)
-            }
         }
     }
 
