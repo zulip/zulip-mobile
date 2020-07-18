@@ -35,9 +35,8 @@ open class MainActivity : ReactActivity() {
     }
 
     private fun handleSend(intent: Intent) {
-        val params: WritableMap
-        try {
-            params = getParamsFromIntent(intent)
+        val params: WritableMap = try {
+            getParamsFromIntent(intent)
         } catch (e: ShareParamsParseException) {
             Log.w(TAG, "Ignoring malformed share Intent: ${e.message}")
             return
