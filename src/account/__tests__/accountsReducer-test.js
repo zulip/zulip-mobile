@@ -88,21 +88,6 @@ describe('accountsReducer', () => {
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(prevState);
     });
-
-    test('records undefined for zulipVersion on active account if not present in action', () => {
-      const prevState = deepFreeze([account1, account2, account3]);
-      const action = deepFreeze({
-        ...eg.action.realm_init,
-        zulipVersion: undefined,
-      });
-
-      const expectedState = [{ ...account1, zulipVersion: undefined }, account2, account3];
-
-      const newState = accountsReducer(prevState, action);
-
-      expect(newState).toEqual(expectedState);
-      expect(newState).not.toBe(prevState);
-    });
   });
 
   describe('ACCOUNT_SWITCH', () => {
