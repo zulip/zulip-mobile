@@ -20,11 +20,11 @@ type Props = $ReadOnly<{|
 const SharingTopTabNavigator = createMaterialTopTabNavigator(
   {
     Stream: {
-      // Requires additional props that we dont need. $FlowFixMe.
+      // $FlowFixMe react-navigation types :-/ -- see a36814e80
       screen: ShareToStream,
     },
     'Private Message': {
-      // Requires additional props that we dont need. $FlowFixMe.
+      // $FlowFixMe react-navigation types :-/ -- see a36814e80
       screen: ShareToPm,
     },
   },
