@@ -341,7 +341,6 @@ export type SharedFile = {|
 |};
 
 /**
- * The type of data that can be shared to this app from 3rd party apps - either
- * plain text or an image or a file.
+ * The data we get when the user "shares" to Zulip from another app.
  */
 export type SharedData = SharedText | SharedImage | SharedFile;
