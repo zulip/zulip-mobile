@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { NativeModules, DeviceEventEmitter, Platform } from 'react-native';
-import type { Dispatch, SharedData } from '../types';
+import type { Dispatch, SharedData, GetState } from '../types';
 import { navigateToSharing } from '../actions';
 
 const Sharing = NativeModules.Sharing ?? {
@@ -9,10 +9,14 @@ const Sharing = NativeModules.Sharing ?? {
     null,
 };
 
+const goToSharing = (data: SharedData) => (dispatch: Dispatch, getState: GetState) => {
+  dispatch(navigateToSharing(data));
+};
+
 export const handleInitialShare = async (dispatch: Dispatch) => {
   const initialSharedData: SharedData | null = await Sharing.getInitialSharedContent();
   if (initialSharedData !== null) {
-    dispatch(navigateToSharing(initialSharedData));
+    dispatch(goToSharing(initialSharedData));
   }
 };
 
@@ -40,7 +44,7 @@ export class ShareReceivedListener {
   }
 
   handleShareReceived = (data: SharedData) => {
-    this.dispatch(navigateToSharing(data));
+    this.dispatch(goToSharing(data));
   };
 
   /** Start listening.  Don't call twice without intervening `stop`. */

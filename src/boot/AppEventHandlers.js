@@ -123,7 +123,7 @@ class AppEventHandlers extends PureComponent<Props> {
   componentDidMount() {
     const { dispatch } = this.props;
     handleInitialNotification(dispatch);
-    handleInitialShare(dispatch);
+    dispatch(handleInitialShare);
 
     this.netInfoDisconnectCallback = NetInfo.addEventListener(this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
