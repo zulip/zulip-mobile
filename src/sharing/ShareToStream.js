@@ -10,12 +10,11 @@ import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
-import { uploadFile, sendMessage } from '../api';
 import { streamNarrow } from '../utils/narrow';
 import { getAuth } from '../selectors';
-import { showToast } from '../utils/info';
 import { navigateBack } from '../nav/navActions';
 import { fetchTopicsForStream } from '../topics/topicActions';
+import { handleSend } from './send';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -116,34 +115,14 @@ class ShareToStream extends React.Component<Props, State> {
   };
 
   handleSend = async () => {
-    this.setSending();
     const _ = this.context;
-    const { topic, stream, message } = this.state;
-    let messageToSend = message;
     const { auth } = this.props;
+    const { topic, stream, message } = this.state;
     const { sharedData } = this.props.navigation.state.params;
+    const data = { stream, topic, message, sharedData, type: 'stream' };
 
-    try {
-      showToast(_('Sending Message...'));
-      if (sharedData.type !== 'text') {
-        const url =
-          sharedData.type === 'image' ? sharedData.sharedImageUrl : sharedData.sharedFileUrl;
-        const fileName = url.split('/').pop();
-        const response = await uploadFile(auth, url, fileName);
-        messageToSend += `\n[${fileName}](${response.uri})`;
-      }
-      await sendMessage(auth, {
-        content: messageToSend,
-        type: 'stream',
-        subject: topic,
-        to: stream,
-      });
-    } catch (err) {
-      showToast(_('Failed to send message'));
-      this.finishShare();
-      return;
-    }
-    showToast(_('Message sent'));
+    this.setSending();
+    await handleSend(data, auth, _);
     this.finishShare();
   };
 

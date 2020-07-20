@@ -8,11 +8,10 @@ import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
 import { ZulipButton, Input, Label } from '../common';
 import UserItem from '../users/UserItem';
-import { sendMessage, uploadFile } from '../api';
 import { getAuth } from '../selectors';
-import { showToast } from '../utils/info';
 import { navigateBack } from '../nav/navActions';
 import ChooseRecipientsScreen from './ChooseRecipientsScreen';
+import { handleSend } from './send';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -91,33 +90,14 @@ class ShareToPm extends React.Component<Props, State> {
   };
 
   handleSend = async () => {
-    this.setSending();
-
     const _ = this.context;
-    const { selectedRecipients, message } = this.state;
-    let messageToSend = message;
     const { auth } = this.props;
     const { sharedData } = this.props.navigation.state.params;
-    const to = JSON.stringify(selectedRecipients.map(user => user.user_id));
+    const { selectedRecipients, message } = this.state;
+    const data = { selectedRecipients, message, sharedData, type: 'pm' };
 
-    try {
-      showToast(_('Sending Message...'));
-
-      if (sharedData.type === 'image' || sharedData.type === 'file') {
-        const url =
-          sharedData.type === 'image' ? sharedData.sharedImageUrl : sharedData.sharedFileUrl;
-        const fileName = url.split('/').pop();
-        const response = await uploadFile(auth, url, fileName);
-        messageToSend += `\n[${fileName}](${response.uri})`;
-      }
-      await sendMessage(auth, { content: messageToSend, type: 'private', to });
-    } catch (err) {
-      showToast(_('Failed to send message'));
-      this.finishShare();
-      return;
-    }
-
-    showToast(_('Message sent'));
+    this.setSending();
+    await handleSend(data, auth, _);
     this.finishShare();
   };
 
