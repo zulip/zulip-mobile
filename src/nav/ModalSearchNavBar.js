@@ -14,14 +14,19 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
   autoFocus: boolean,
   searchBarOnChange: (text: string) => void,
+  canGoBack: boolean,
 |}>;
 
 class ModalSearchNavBar extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeColors;
 
+  static defaultProps = {
+    canGoBack: true,
+  };
+
   render() {
-    const { dispatch, autoFocus, searchBarOnChange } = this.props;
+    const { dispatch, autoFocus, searchBarOnChange, canGoBack } = this.props;
     return (
       <View
         style={{
@@ -33,12 +38,15 @@ class ModalSearchNavBar extends PureComponent<Props> {
           backgroundColor: this.context.backgroundColor,
         }}
       >
-        <NavButton
-          name="arrow-left"
-          onPress={() => {
-            dispatch(navigateBack());
-          }}
-        />
+        {canGoBack && (
+          <NavButton
+            name="arrow-left"
+            onPress={() => {
+              dispatch(navigateBack());
+            }}
+          />
+        )}
+
         <SearchInput autoFocus={autoFocus} onChangeText={searchBarOnChange} />
       </View>
     );

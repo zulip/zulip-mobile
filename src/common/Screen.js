@@ -115,7 +115,11 @@ class Screen extends PureComponent<Props> {
       <View style={[contextStyles.screen, { paddingBottom: safeAreaInsets.bottom }]}>
         <ZulipStatusBar />
         {search ? (
-          <ModalSearchNavBar autoFocus={autoFocus} searchBarOnChange={searchBarOnChange} />
+          <ModalSearchNavBar
+            autoFocus={autoFocus}
+            canGoBack={canGoBack}
+            searchBarOnChange={searchBarOnChange}
+          />
         ) : (
           <ModalNavBar canGoBack={canGoBack} title={title} />
         )}
