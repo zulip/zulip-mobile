@@ -1,9 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import { StyleSheet, Text } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
-import { createMaterialTopTabNavigator } from 'react-navigation';
-import { BRAND_COLOR } from '../styles/constants';
-import type { Dispatch, SharedData, Auth } from '../types';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import { FormattedMessage } from 'react-intl';
+import type { Dispatch, SharedData, Auth, TabNavigationOptionsPropsType } from '../types';
+import tabsOptions from '../styles/tabs';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { tryGetAuth } from '../selectors';
@@ -17,42 +19,41 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
 |}>;
 
+const styles = StyleSheet.create({
+  tab: {
+    padding: 8,
+    fontSize: 16,
+  },
+});
+
 const SharingTopTabNavigator = createMaterialTopTabNavigator(
   {
-    Stream: {
-      // $FlowFixMe react-navigation types :-/ -- see a36814e80
+    subscribed: {
       screen: ShareToStream,
+      navigationOptions: {
+        tabBarLabel: (props: TabNavigationOptionsPropsType) => (
+          <Text style={[styles.tab, { color: props.tintColor }]}>
+            <FormattedMessage id="Stream" defaultMessage="Stream" />
+          </Text>
+        ),
+      },
     },
-    'Private Message': {
-      // $FlowFixMe react-navigation types :-/ -- see a36814e80
+    allStreams: {
       screen: ShareToPm,
+      navigationOptions: {
+        tabBarLabel: (props: TabNavigationOptionsPropsType) => (
+          <Text style={[styles.tab, { color: props.tintColor }]}>
+            <FormattedMessage id="Private Message" defaultMessage="Private Message" />
+          </Text>
+        ),
+      },
     },
   },
   {
-    tabBarPosition: 'top',
-    animationEnabled: true,
-    tabBarOptions: {
-      upperCaseLabel: false,
-      pressColor: BRAND_COLOR,
-      activeTintColor: BRAND_COLOR,
-      inactiveTintColor: 'gray',
-      labelStyle: {
-        fontSize: 14,
-        margin: 0,
-        padding: 10,
-      },
-      indicatorStyle: {
-        backgroundColor: BRAND_COLOR,
-      },
-      tabStyle: {
-        flex: 1,
-      },
-      style: {
-        backgroundColor: 'transparent',
-        borderWidth: 0,
-        elevation: 0,
-      },
-    },
+    ...tabsOptions({
+      showLabel: true,
+      showIcon: false,
+    }),
   },
 );
 
@@ -60,7 +61,7 @@ class SharingScreen extends PureComponent<Props> {
   static router = SharingTopTabNavigator.router;
 
   render() {
-    const { navigation, auth, dispatch } = this.props;
+    const { auth, dispatch, navigation } = this.props;
 
     // If there is no active logged-in account, abandon the sharing attempt,
     // and present the account picker screen to the user.
