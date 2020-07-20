@@ -33,13 +33,11 @@
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="zulip" android:host="login" />
         </intent-filter>
-        <!-- Disabled while the feature is experimental.  See #117 and #4124.
         <intent-filter>
             <action android:name="android.intent.action.SEND" />
             <category android:name="android.intent.category.DEFAULT" />
             <data android:mimeType="*/*" />
         </intent-filter>
-        -->
       </activity>
 
       <service android:name=".notifications.NotificationIntentService" />
