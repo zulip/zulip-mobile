@@ -80,6 +80,10 @@ class ShareToPm extends React.Component<Props, State> {
     };
   }
 
+  handleModalClose = () => {
+    this.setState({ choosingRecipients: false });
+  };
+
   setSending = () => {
     this.setState({ sending: true });
   };
@@ -149,7 +153,7 @@ class ShareToPm extends React.Component<Props, State> {
 
     if (choosingRecipients) {
       return (
-        <Modal>
+        <Modal onRequestClose={this.handleModalClose}>
           <ChooseRecipientsScreen onComplete={this.handleChooseRecipients} />
         </Modal>
       );
