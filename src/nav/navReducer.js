@@ -69,7 +69,7 @@ const rehydrate = (state, action) => {
   return getStateForRoute('main');
 };
 
-const initialState = getStateForRoute('loading');
+export const initialState = getStateForRoute('loading');
 
 export default (state: NavigationState = initialState, action: Action): NavigationState => {
   switch (action.type) {

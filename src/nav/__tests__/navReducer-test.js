@@ -1,10 +1,14 @@
 import deepFreeze from 'deep-freeze';
 
 import { LOGIN_SUCCESS, INITIAL_FETCH_COMPLETE, REHYDRATE } from '../../actionConstants';
-import navReducer, { getStateForRoute } from '../navReducer';
-import { NULL_OBJECT } from '../../nullObjects';
+import navReducer, {
+  getStateForRoute,
+  initialState as initialNavigationState,
+} from '../navReducer';
 
 describe('navReducer', () => {
+  const initialState = deepFreeze(initialNavigationState);
+
   describe('LOGIN_SUCCESS', () => {
     test('replaces the existing route stack with "loading" on sign in', () => {
       const prevState = deepFreeze({
@@ -44,8 +48,6 @@ describe('navReducer', () => {
 
   describe('REHYDRATE', () => {
     test('when no previous navigation is given do not throw but return some result', () => {
-      const initialState = NULL_OBJECT;
-
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
@@ -61,8 +63,6 @@ describe('navReducer', () => {
     });
 
     test('if logged in, go to main screen', () => {
-      const initialState = NULL_OBJECT;
-
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
@@ -79,8 +79,6 @@ describe('navReducer', () => {
     });
 
     test('if not logged in, and no previous accounts, show login screen', () => {
-      const initialState = NULL_OBJECT;
-
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
@@ -97,8 +95,6 @@ describe('navReducer', () => {
     });
 
     test('if more than one account and no active account, display account list', () => {
-      const initialState = NULL_OBJECT;
-
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
@@ -115,8 +111,6 @@ describe('navReducer', () => {
     });
 
     test('when only a single account and no other properties, redirect to login screen', () => {
-      const initialState = NULL_OBJECT;
-
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
@@ -133,8 +127,6 @@ describe('navReducer', () => {
     });
 
     test('when multiple accounts and default one has realm and email, show account list', () => {
-      const initialState = NULL_OBJECT;
-
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
@@ -154,8 +146,6 @@ describe('navReducer', () => {
     });
 
     test('when default account has server and email set, redirect to login screen', () => {
-      const initialState = NULL_OBJECT;
-
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
