@@ -70,7 +70,11 @@ export const messageFetchComplete = (args: {|
 };
 
 /**
- * Get messages from the network, keeping Redux up-to-date.
+ * Get and return messages from the network, keeping Redux up-to-date.
+ *
+ * The returned Promise resolves with the messages, or rejects on a
+ * failed network request or any failure to process data and get it
+ * stored in Redux.
  *
  * PRIVATE: exported for tests only.
  */
@@ -79,7 +83,7 @@ export const fetchMessages = (fetchArgs: {
   anchor: number,
   numBefore: number,
   numAfter: number,
-}) => async (dispatch: Dispatch, getState: GetState) => {
+}) => async (dispatch: Dispatch, getState: GetState): Promise<Message[]> => {
   dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
   const { messages, found_newest, found_oldest } = await api.getMessages(getAuth(getState()), {
     ...fetchArgs,
@@ -93,6 +97,7 @@ export const fetchMessages = (fetchArgs: {
       foundOldest: found_oldest,
     }),
   );
+  return messages;
 };
 
 export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {

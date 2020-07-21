@@ -45,15 +45,133 @@ describe('fetchActions', () => {
 
       const store = mockStore<GlobalState, Action>(baseState);
 
-      test('message fetch success action is dispatched', async () => {
-        await store.dispatch(
+      test('message fetch success action is dispatched, messages are returned', async () => {
+        const returnValue = await store.dispatch(
           fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
         );
         const actions = store.getActions();
 
         expect(actions).toHaveLength(2);
         expect(actions[0].type).toBe('MESSAGE_FETCH_START');
+
+        // Expect MESSAGE_FETCH_COMPLETE to be dispatched.
+        //
+        // TODO: More directly test that an error tripped in a reducer
+        // handling MESSAGE_FETCH_COMPLETE (e.g., from malformed data
+        // returned by a successful fetch) propagates to the caller.
+        // redux-mock-store does not call any reducers; it's only
+        // meant to test actions [1].
+        //
+        // We test this indirectly, for now: in the success case,
+        // check that MESSAGE_FETCH_COMPLETE is dispatched before the
+        // return. In real-live code (not using redux-mock-store), all
+        // the reducers will run as part of the dispatch call (or, for
+        // async actions, during the Promise returned by the dispatch
+        // call), not scheduled to run later. So, as long as
+        // MESSAGE_FETCH_COMPLETE is dispatched before the return, any
+        // errors from the reducers will propagate. It's not an async
+        // action, so the implementation doesn't even have to await
+        // it.
+        //
+        // In an ideal crunchy-shell [2] world, we'll have validated
+        // and rebuilt all data at the edge, making errors in the
+        // reducers impossible -- so we won't have to handle errors at
+        // that site.
+        //
+        // [1] https://github.com/reduxjs/redux-mock-store/blob/b943c3ba0/README.md#redux-mock-store-
+        // [2] https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M4156.20Message.20List.20placeholders/near/928778
+
         expect(actions[1].type).toBe('MESSAGE_FETCH_COMPLETE');
+
+        expect(returnValue).toEqual([message1, message2, message3]);
+      });
+    });
+
+    describe('failure', () => {
+      test('rejects when user is not logged in', async () => {
+        const stateWithoutAccount = {
+          ...baseState,
+          accounts: [],
+        };
+        const store = mockStore<GlobalState, Action>(stateWithoutAccount);
+
+        const response = {
+          messages: [message1, eg.streamMessage({ id: 2 }), eg.streamMessage({ id: 3 })],
+          result: 'success',
+        };
+        fetch.mockResponseSuccess(JSON.stringify(response));
+
+        expect.assertions(1);
+        try {
+          await store.dispatch(
+            fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
+          );
+        } catch (e) {
+          // Update this with changes to the message string or error type.
+          expect(e.message).toBe('Active account not logged in');
+        }
+      });
+
+      test("rejects when validation-at-the-edge can't handle data", async () => {
+        // This validation is done in `migrateMessages`.
+        //
+        // TODO: See if we can mock `migrateMessages` to throw an
+        // error unconditionally. We don't want to care specifically
+        // how the data is malformed. Making this mock isn't
+        // straightforward, in part because Jest wants you to mock
+        // entire modules. `migrateMessages`'s caller is in the
+        // same file as `migrateMessages`; it doesn't import it. So we
+        // can't intercept such an import and have it give amock.
+        //
+        // For now, we simulate #4156, a real-life problem that a user
+        // at server commit 0af2f9d838 ran into [1], by having
+        // `user` be missing on reactions on a message.
+        //
+        // [1] https://github.com/zulip/zulip-mobile/issues/4156#issuecomment-655905093
+        const store = mockStore<GlobalState, Action>(baseState);
+
+        // Missing `user` (and `user_id`, for good measure), to
+        // simulate #4156.
+        const faultyReaction = {
+          reaction_type: 'unicode_emoji',
+          emoji_code: '1f44d',
+          emoji_name: 'thumbs_up',
+        };
+        const response = {
+          // Flow would complain at `faultyReaction` if it
+          // type-checked `response`, but we should ignore it if that
+          // day comes. It's badly shaped on purpose.
+          messages: [{ ...message1, reactions: [faultyReaction] }],
+          result: 'success',
+        };
+        fetch.mockResponseSuccess(JSON.stringify(response));
+
+        expect.assertions(1);
+        try {
+          await store.dispatch(
+            fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
+          );
+        } catch (e) {
+          // Update this with changes to the error type.
+          expect(e).toBeInstanceOf(TypeError);
+        }
+      });
+
+      test('rejects on fetch failure', async () => {
+        const store = mockStore<GlobalState, Action>(baseState);
+
+        const fetchError = new Error('Network request failed (or something)');
+
+        fetch.mockResponseFailure(fetchError);
+
+        expect.assertions(1);
+        try {
+          await store.dispatch(
+            fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
+          );
+        } catch (e) {
+          expect(e).toBe(fetchError);
+        }
       });
     });
 
