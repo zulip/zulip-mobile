@@ -308,14 +308,9 @@ const messagePropertiesFromStream = (stream1: Stream) => {
  * Beware! These values may not be representative.
  */
 export const streamMessage = (args?: {| ...$Rest<Message, {}>, stream?: Stream |}): Message => {
-  let streamInner: Stream;
-  let extra: $Rest<Message, {}>;
-
-  if (args) {
-    ({ stream: streamInner = stream, ...extra } = args);
-  } else {
-    streamInner = stream;
-  }
+  // The redundant `stream` in the ?? case avoids a Flow issue:
+  // https://github.com/facebook/flow/issues/2386
+  const { stream: streamInner = stream, ...extra } = args ?? { stream };
 
   const baseMessage: Message = {
     ...messagePropertiesBase,
