@@ -3,7 +3,11 @@ import { NativeModules, DeviceEventEmitter, Platform } from 'react-native';
 import type { Dispatch, SharedData } from '../types';
 import { navigateToSharing } from '../actions';
 
-const { Sharing } = NativeModules;
+const Sharing = NativeModules.Sharing ?? {
+  getInitialSharedContent: () =>
+    // TODO: Implement on iOS.
+    null,
+};
 
 export const handleInitialShare = async (dispatch: Dispatch) => {
   const initialSharedData: SharedData | null = await Sharing.getInitialSharedContent();
