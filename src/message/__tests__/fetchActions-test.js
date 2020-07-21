@@ -41,7 +41,9 @@ describe('fetchActions', () => {
       };
       fetch.mockResponseSuccess(JSON.stringify(response));
 
-      await store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1));
+      await store.dispatch(
+        fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
+      );
       const actions = store.getActions();
 
       expect(actions).toHaveLength(2);
@@ -67,7 +69,9 @@ describe('fetchActions', () => {
 
       fetch.mockResponseSuccess(BORING_RESPONSE);
 
-      await store.dispatch(fetchMessages(HOME_NARROW, 0, 1, 1));
+      await store.dispatch(
+        fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
+      );
       const actions = store.getActions();
 
       expect(actions.length).toBeGreaterThanOrEqual(1);
@@ -92,7 +96,9 @@ describe('fetchActions', () => {
 
       fetch.mockResponseSuccess(BORING_RESPONSE);
 
-      await store.dispatch(fetchMessages(HOME_NARROW, 0, -1, 1));
+      await store.dispatch(
+        fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: -1, numAfter: 1 }),
+      );
       const actions = store.getActions();
 
       expect(actions.length).toBeGreaterThanOrEqual(1);
@@ -116,7 +122,9 @@ describe('fetchActions', () => {
 
       fetch.mockResponseSuccess(BORING_RESPONSE);
 
-      await store.dispatch(fetchMessages(HOME_NARROW, 0, 1, -1));
+      await store.dispatch(
+        fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: -1 }),
+      );
       const actions = store.getActions();
 
       expect(actions.length).toBeGreaterThanOrEqual(1);

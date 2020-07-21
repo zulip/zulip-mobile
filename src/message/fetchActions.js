@@ -65,29 +65,26 @@ export const messageFetchComplete = (args: {|
   };
 };
 
-/** PRIVATE: exported for tests only. */
-export const fetchMessages = (
+/**
+ * Get messages from the network, keeping Redux up-to-date.
+ *
+ * PRIVATE: exported for tests only.
+ */
+export const fetchMessages = (fetchArgs: {
   narrow: Narrow,
   anchor: number,
   numBefore: number,
   numAfter: number,
-) => async (dispatch: Dispatch, getState: GetState) => {
-  const useFirstUnread = anchor === FIRST_UNREAD_ANCHOR;
-  dispatch(messageFetchStart(narrow, numBefore, numAfter));
+}) => async (dispatch: Dispatch, getState: GetState) => {
+  dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
   const { messages, found_newest, found_oldest } = await api.getMessages(getAuth(getState()), {
-    narrow,
-    anchor,
-    numBefore,
-    numAfter,
-    useFirstUnread,
+    ...fetchArgs,
+    useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
   });
   dispatch(
     messageFetchComplete({
+      ...fetchArgs,
       messages,
-      narrow,
-      anchor,
-      numBefore,
-      numAfter,
       foundNewest: found_newest,
       foundOldest: found_oldest,
     }),
@@ -102,7 +99,14 @@ export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   const { needsInitialFetch } = getSession(state);
 
   if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId !== undefined) {
-    dispatch(fetchMessages(narrow, firstMessageId, config.messagesPerRequest, 0));
+    dispatch(
+      fetchMessages({
+        narrow,
+        anchor: firstMessageId,
+        numBefore: config.messagesPerRequest,
+        numAfter: 0,
+      }),
+    );
   }
 };
 
@@ -114,7 +118,14 @@ export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   const { needsInitialFetch } = getSession(state);
 
   if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId !== undefined) {
-    dispatch(fetchMessages(narrow, lastMessageId, 0, config.messagesPerRequest));
+    dispatch(
+      fetchMessages({
+        narrow,
+        anchor: lastMessageId,
+        numBefore: 0,
+        numAfter: config.messagesPerRequest,
+      }),
+    );
   }
 };
 
@@ -162,7 +173,12 @@ export const fetchMessagesInNarrow = (
     return;
   }
   dispatch(
-    fetchMessages(narrow, anchor, config.messagesPerRequest / 2, config.messagesPerRequest / 2),
+    fetchMessages({
+      narrow,
+      anchor,
+      numBefore: config.messagesPerRequest / 2,
+      numAfter: config.messagesPerRequest / 2,
+    }),
   );
 };
 
