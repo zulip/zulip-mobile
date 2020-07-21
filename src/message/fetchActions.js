@@ -36,13 +36,17 @@ import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 import { ZulipVersion } from '../utils/zulipVersion';
 
-const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
+// We'll un-export this very soon, when SearchMessagesScreen imports
+// and uses `fetchMessages`.
+export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
   narrow,
   numBefore,
   numAfter,
 });
 
+// We'll un-export this very soon, when SearchMessagesScreen imports
+// and uses `fetchMessages`.
 export const messageFetchComplete = (args: {|
   messages: Message[],
   narrow: Narrow,

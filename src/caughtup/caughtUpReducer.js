@@ -5,6 +5,7 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
+  MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../anchor';
@@ -62,6 +63,18 @@ export default (state: CaughtUpState = initialState, action: Action): CaughtUpSt
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
+
+    case MESSAGE_FETCH_START: {
+      // We don't want to accumulate old searches that we'll never
+      // need again.
+      if (isSearchNarrow(action.narrow)) {
+        return state;
+      }
+      // Currently this whole case could be subsumed in `default`. But
+      // we don't want to add this case with something else in mind,
+      // later, and forget about the search-narrow check above.
+      return state;
+    }
 
     case MESSAGE_FETCH_COMPLETE: {
       // We don't want to accumulate old searches that we'll never need again.

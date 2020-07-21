@@ -15,6 +15,12 @@ import { isSearchNarrow } from '../utils/narrow';
 const initialState: FetchingState = NULL_OBJECT;
 
 const messageFetchStart = (state, action) => {
+  // We don't want to accumulate old searches that we'll never need
+  // again.
+  if (isSearchNarrow(action.narrow)) {
+    return state;
+  }
+
   const key = JSON.stringify(action.narrow);
   const currentValue = state[key] || DEFAULT_FETCHING;
 

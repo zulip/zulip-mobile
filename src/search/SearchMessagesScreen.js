@@ -7,10 +7,10 @@ import { Screen } from '../common';
 import SearchMessagesCard from './SearchMessagesCard';
 import styles from '../styles';
 import { SEARCH_NARROW } from '../utils/narrow';
-import { LAST_MESSAGE_ANCHOR } from '../anchor';
+import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
 import { connect } from '../react-redux';
 import { getAuth } from '../account/accountsSelectors';
-import { messageFetchComplete } from '../message/fetchActions';
+import { messageFetchStart, messageFetchComplete } from '../message/fetchActions';
 
 type Props = $ReadOnly<{|
   auth: Auth,
@@ -49,8 +49,11 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
       numBefore: 20,
       numAfter: 0,
     };
-    const { messages, found_newest, found_oldest } = await api.getMessages(auth, fetchArgs);
-
+    dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
+    const { messages, found_newest, found_oldest } = await api.getMessages(auth, {
+      ...fetchArgs,
+      useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
+    });
     dispatch(
       messageFetchComplete({
         ...fetchArgs,

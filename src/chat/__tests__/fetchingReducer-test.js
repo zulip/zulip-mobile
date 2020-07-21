@@ -69,6 +69,24 @@ describe('fetchingReducer', () => {
 
       expect(newState).toEqual(expectedState);
     });
+
+    test('if fetching for a search narrow, ignore', () => {
+      const initialState = deepFreeze({
+        [HOME_NARROW_STR]: {
+          older: false,
+          newer: false,
+        },
+      });
+
+      const action = deepFreeze({
+        ...eg.action.message_fetch_start,
+        narrow: [{ operator: 'search', operand: 'some query' }],
+      });
+
+      const newState = fetchingReducer(initialState, action);
+
+      expect(newState).toEqual(initialState);
+    });
   });
 
   describe('MESSAGE_FETCH_COMPLETE', () => {
