@@ -38,6 +38,7 @@ type State = {|
 
 class ChatScreen extends PureComponent<Props, State> {
   context: Context;
+  composeBox: React$ElementRef<typeof ComposeBox> = React.createRef();
 
   state = {
     editMessage: null,
@@ -53,6 +54,14 @@ class ChatScreen extends PureComponent<Props, State> {
 
   completeEditMessage = () => {
     this.setState({ editMessage: null });
+  };
+
+  replyWithMention = (fullName: string, senderId: number, topic?: string) => {
+    if (this.composeBox.current !== null) {
+      this.composeBox.current
+        .getWrappedInstance()
+        .handleReplyWithMention(fullName, senderId, topic);
+    }
   };
 
   render() {
@@ -81,6 +90,7 @@ class ChatScreen extends PureComponent<Props, State> {
                 narrow={narrow}
                 showMessagePlaceholders={showMessagePlaceholders}
                 startEditMessage={this.startEditMessage}
+                replyWithMention={this.replyWithMention}
               />
             )}
             {showComposeBox && (
@@ -88,6 +98,7 @@ class ChatScreen extends PureComponent<Props, State> {
                 narrow={narrow}
                 editMessage={editMessage}
                 completeEditMessage={this.completeEditMessage}
+                ref={this.composeBox}
               />
             )}
           </KeyboardAvoider>

@@ -4,6 +4,7 @@ import { Platform, View, TextInput, findNodeHandle } from 'react-native';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
 
+import { connect } from 'react-redux';
 import type {
   Auth,
   Context,
@@ -14,7 +15,6 @@ import type {
   Dispatch,
   Dimensions,
 } from '../types';
-import { connect } from '../react-redux';
 import {
   addToOutbox,
   draftUpdate,
@@ -272,6 +272,17 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   };
 
+  handleReplyWithMention = (fullName: string, senderId: number, topic?: string) => {
+    this.setState(state => ({
+      ...state,
+      message: `@**${fullName}|${senderId}** ${state.message}`,
+      topic: topic !== undefined ? topic : state.topic,
+    }));
+    if (this.messageInput) {
+      this.messageInput.focus();
+    }
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       const topic =
@@ -427,14 +438,20 @@ class ComposeBox extends PureComponent<Props, State> {
   }
 }
 
-export default connect<SelectorProps, _, _>((state, props) => ({
-  auth: getAuth(state),
-  ownEmail: getOwnEmail(state),
-  usersByEmail: getActiveUsersByEmail(state),
-  safeAreaInsets: getSession(state).safeAreaInsets,
-  isAdmin: getIsAdmin(state),
-  isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
-  isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
-  draft: getDraftForNarrow(state, props.narrow),
-  lastMessageTopic: getLastMessageTopic(state, props.narrow),
-}))(ComposeBox);
+// $FlowFixMe our connect wrapper does not yet support the 'withRef' option.
+export default connect<SelectorProps, _, _>(
+  (state, props) => ({
+    auth: getAuth(state),
+    ownEmail: getOwnEmail(state),
+    usersByEmail: getActiveUsersByEmail(state),
+    safeAreaInsets: getSession(state).safeAreaInsets,
+    isAdmin: getIsAdmin(state),
+    isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
+    isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
+    draft: getDraftForNarrow(state, props.narrow),
+    lastMessageTopic: getLastMessageTopic(state, props.narrow),
+  }),
+  null,
+  null,
+  { withRef: true },
+)(ComposeBox);
