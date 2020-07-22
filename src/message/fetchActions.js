@@ -36,18 +36,14 @@ import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 import { ZulipVersion } from '../utils/zulipVersion';
 
-// We'll un-export this very soon, when SearchMessagesScreen imports
-// and uses `fetchMessages`.
-export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
+const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
   narrow,
   numBefore,
   numAfter,
 });
 
-// We'll un-export this very soon, when SearchMessagesScreen imports
-// and uses `fetchMessages`.
-export const messageFetchComplete = (args: {|
+const messageFetchComplete = (args: {|
   messages: Message[],
   narrow: Narrow,
   anchor: number,
@@ -75,8 +71,6 @@ export const messageFetchComplete = (args: {|
  * The returned Promise resolves with the messages, or rejects on a
  * failed network request or any failure to process data and get it
  * stored in Redux.
- *
- * PRIVATE: exported for tests only.
  */
 export const fetchMessages = (fetchArgs: {
   narrow: Narrow,

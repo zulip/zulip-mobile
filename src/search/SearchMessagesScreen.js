@@ -1,16 +1,15 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import * as api from '../api';
 import type { Auth, Dispatch, Message } from '../types';
 import { Screen } from '../common';
 import SearchMessagesCard from './SearchMessagesCard';
 import styles from '../styles';
 import { SEARCH_NARROW } from '../utils/narrow';
-import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
+import { LAST_MESSAGE_ANCHOR } from '../anchor';
 import { connect } from '../react-redux';
 import { getAuth } from '../account/accountsSelectors';
-import { messageFetchStart, messageFetchComplete } from '../message/fetchActions';
+import { fetchMessages } from '../message/fetchActions';
 
 type Props = $ReadOnly<{|
   auth: Auth,
@@ -37,33 +36,18 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
   /**
    * PRIVATE.  Send search query to server, fetching message results.
    *
-   * Stores the fetched messages in the Redux store via a
-   * `messageFetchComplete` dispatch. Does not read any of the component's
-   * data except `props.auth` and `props.dispatch`.
+   * Stores the fetched messages in the Redux store. Does not read any
+   * of the component's data except `props.dispatch`.
    */
   fetchSearchMessages = async (query: string): Promise<Message[]> => {
-    const { auth, dispatch } = this.props;
     const fetchArgs = {
       narrow: SEARCH_NARROW(query),
       anchor: LAST_MESSAGE_ANCHOR,
       numBefore: 20,
       numAfter: 0,
     };
-    dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
-    const { messages, found_newest, found_oldest } = await api.getMessages(auth, {
-      ...fetchArgs,
-      useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
-    });
-    dispatch(
-      messageFetchComplete({
-        ...fetchArgs,
-        messages,
-        foundNewest: found_newest,
-        foundOldest: found_oldest,
-      }),
-    );
 
-    return messages;
+    return this.props.dispatch(fetchMessages(fetchArgs));
   };
 
   // Non-React state. See comment following.
