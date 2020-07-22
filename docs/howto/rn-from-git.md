@@ -98,10 +98,10 @@ will need some changes.
 
 ### Build and run
 
-Now `react-native run-android` in your app should work!
+Now `tools/run-android` in your app should work!
 
 And if you `cd node_modules/react-native`, then check out a different
-version or make an edit, and `cd` back, then `react-native run-android`
+version or make an edit, and `cd` back, then `tools/run-android`
 should again work and use the new version.
 
 ### Troubleshooting

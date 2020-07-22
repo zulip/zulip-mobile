@@ -11,7 +11,7 @@
     "ios-max": "react-native run-ios --simulator 'iPhone XS Max'",
     "ipad": "react-native run-ios --simulator 'iPad Air'",
     "ios-device": "react-native run-ios --device",
-    "android": "react-native run-android",
+    "android": "tools/run-android",
     "android-release": "react-native run-android --variant=release",
     "build:android": "cd android && ./gradlew :app:assembleRelease -Psigned -Psentry",
     "build:android-nokeys": "cd android && ./gradlew :app:assembleRelease",

@@ -111,7 +111,7 @@ Happily, this is straightforward: just edit, build, and run the app
 the same as for any other change.
 
 Typically you'll be editing Kotlin code (not only JS), so remember to
-rerun `react-native run-android`.
+rerun `tools/run-android`.
 
 ### Debugging tips (for Android client)
 

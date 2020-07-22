@@ -36,7 +36,7 @@ details to worry about.
 
 [install-rsync]: https://serverfault.com/a/872557
 
-* For running `react-native run-android` or any other build commands,
+* For running `tools/run-android` or any other build commands,
   use the Git Bash prompt.  The Windows Command Prompt isn't supported.
 
 * Or, if you'd like a richer command-line environment and are up for
@@ -77,7 +77,7 @@ as the guide instructs, then rerun `yarn`.
 Continue those instructions until you can run the Zulip Mobile app
 with one of the following:
 
-- `react-native run-android`
+- `tools/run-android`
 - `react-native run-ios`
 - in Xcode, if on macOS (see [iOS tips](ios-tips.md))
 - in Android Studio (see "Android tips", below)
@@ -107,7 +107,7 @@ might look through the other tools and try some more of them out.
 * When running on a physical device, if the device has Zulip installed
   from the Play Store, you may need to uninstall that version first.
 * Commands once you've set up:
-  * `react-native run-android` - build, then run on an active emulator
+  * `tools/run-android` - build, then run on an active emulator
     or USB-connected device.  This won't start the emulator automatically.
   * `yarn build:android-nokeys` - build an APK in release mode, just
     skipping Sentry setup (which requires an authentication token), and
@@ -257,7 +257,7 @@ Could not compile build file '/Users/chrisbobbe/dev/zulip-mobile/node_modules/@u
 ```
 
 This can sometimes happen if you're using JDK 13 to invoke the build
-command (e.g., when calling `react-native run-android`, or
+command (e.g., when calling `tools/run-android`, or
 `tools/test android`, or
 `android/gradlew -p android :app:assembleDebug`). You can check the
 version by running `java -version`. It seems that upgrading to
@@ -391,7 +391,7 @@ Execution failed for task ':app:buildDebugStaticWebviewAssets'.
 
 This happens if you try to run the build from the Windows Command
 Prompt.  Instead, when running any command that runs our code, like
-`react-native run-android` or `tools/test`, use the Git Bash prompt to
+`tools/run-android` or `tools/test`, use the Git Bash prompt to
 run the command.
 
 
@@ -423,7 +423,7 @@ sudo sysctl -p
 
 ### Debug app crashes with "Unable to load script" at startup
 
-After running `react-native run-android` or `react-native run-ios`, if
+After running `tools/run-android` or `react-native run-ios`, if
 you see an error like this on the device:
 
 > Unable to load script. Make sure you're either running a Metro
@@ -434,7 +434,7 @@ then this means you are not running the Metro bundler.
 
 Starting from React Native 0.60, you need to launch the Metro bundler server
 separately, using `react-native start`. Once the server starts up, run
-`react-native run-android` again, and the app should not crash.
+`tools/run-android` again, and the app should not crash.
 
 
 ### Red error banner about method `-[RCTAppState getCurrentAppState:error:]`
