@@ -103,7 +103,7 @@ describe('getRecentConversations', () => {
         huddles: [
           {
             user_ids_string: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
-              .sort()
+              .sort((a, b) => a - b)
               .map(String)
               .join(','),
             unread_message_ids: [5], // TODO: where does this come from???
@@ -133,7 +133,7 @@ describe('getRecentConversations', () => {
       },
       {
         ids: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
-          .sort()
+          .sort((a, b) => a - b)
           .map(String)
           .join(','),
         recipients: [userJohn.email, userMark.email].sort().join(','),
@@ -237,7 +237,7 @@ describe('getRecentConversations', () => {
         huddles: [
           {
             user_ids_string: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
-              .sort()
+              .sort((a, b) => a - b)
               .map(String)
               .join(','),
             unread_message_ids: [meJohnAndMarkPm.id],
@@ -255,7 +255,7 @@ describe('getRecentConversations', () => {
       },
       {
         ids: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
-          .sort()
+          .sort((a, b) => a - b)
           .map(String)
           .join(','),
         recipients: [userJohn.email, userMark.email].sort().join(','),
