@@ -20,6 +20,7 @@ import {
   LOGIN_SUCCESS,
   REALM_INIT,
   EVENT_NEW_MESSAGE,
+  MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
 } from '../../actionConstants';
 import rootReducer from '../../boot/reducers';
@@ -524,6 +525,12 @@ export const action = deepFreeze({
       user_status: {},
     },
     zulipVersion,
+  },
+  message_fetch_start: {
+    type: MESSAGE_FETCH_START,
+    narrow: HOME_NARROW,
+    numBefore: 0,
+    numAfter: 20,
   },
   message_fetch_complete: {
     type: MESSAGE_FETCH_COMPLETE,
