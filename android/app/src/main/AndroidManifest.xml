@@ -1,11 +1,3 @@
-<!--
- This line is here to get `react-native run-android` to work right:
-   package="com.zulipmobile.debug"
- It's not smart enough to find out what the actual application ID of
- the app it just built is, so it relies on a regex search of this file.
- That gives it the wrong answer for our debug builds... unless we
- exploit the same limitation by adding this comment. :-)
--->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zulipmobile">
@@ -49,13 +41,6 @@
         </intent-filter>
         -->
       </activity>
-
-      <!-- When `react-native run-android` learns from the decoy `package`
-           attribute in our comment above that the application ID is
-           `com.zulipmobile.debug`, it then tries to start an activity
-           `com.zulipmobile.debug.MainActivity`.  So provide that as an alias.
-      -->
-      <activity android:name=".debug.MainActivity" android:exported="true"/>
 
       <service android:name=".notifications.NotificationIntentService" />
 
