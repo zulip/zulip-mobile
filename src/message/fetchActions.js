@@ -17,7 +17,6 @@ import {
   getLastMessageId,
   getCaughtUpForNarrow,
   getFetchingForNarrow,
-  getTopMostNarrow,
 } from '../selectors';
 import config from '../config';
 import {
@@ -244,29 +243,6 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
 };
 
 /**
- * If we're navigated to a narrow, fetch messages for it.
- *
- * Specifically, fetch messages for the topmost narrow on the nav stack.
- *
- * We do this eagerly in `doInitialFetch`.  It's intended to ensure we get
- * messages appropriately if we're already narrowed when we do a fresh
- * initial fetch.
- *
- * See `fetchMessagesInNarrow` for further background.
- *
- * See also `doNarrow` which takes care of fetching messages for a narrow in
- * the common case, at the time the user narrows to it.
- */
-const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) => {
-  // only fetch messages if chat screen is at the top of stack
-  // get narrow of top most chat screen in the stack
-  const narrow = getTopMostNarrow(getState());
-  if (narrow) {
-    dispatch(fetchMessagesInNarrow(narrow));
-  }
-};
-
-/**
  * Fetch lots of state from the server, and start an event queue.
  *
  * This is where we set up our use of the Zulip event system for real-time
@@ -277,8 +253,15 @@ const fetchTopMostNarrow = () => async (dispatch: Dispatch, getState: GetState) 
  * and a mainly server-side perspective:
  *   https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
  *
- * Also fetch some messages eagerly, and do some miscellaneous other work
- * we want to do when starting up, or regaining a network connection.
+ * Also do some miscellaneous other work we want to do when starting
+ * up, or regaining a network connection. We fetch private messages
+ * here so that we can show something useful in the PM conversations
+ * screen, but we hope to stop doing this soon (see note at
+ * `fetchPrivateMessages`). We fetch messages in a few other places:
+ * to initially populate a message list (`ChatScreen`), to grab more
+ * messages on scrolling to the top or bottom of the message list
+ * (`fetchOlder` and `fetchNewer`), and to grab search results
+ * (`SearchMessagesScreen`).
  */
 export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
@@ -311,16 +294,10 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
   }
 
   dispatch(realmInit(initData, new ZulipVersion(serverSettings.zulip_version)));
-  dispatch(fetchTopMostNarrow());
   dispatch(initialFetchComplete());
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
 
   dispatch(fetchPrivateMessages());
-
-  const session = getSession(getState());
-  if (session.lastNarrow) {
-    dispatch(fetchMessagesInNarrow(session.lastNarrow));
-  }
 
   dispatch(sendOutbox());
   dispatch(initNotifications());

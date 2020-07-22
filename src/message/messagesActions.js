@@ -4,22 +4,23 @@ import { getAuth, getUsersById, isNarrowValid, getIsHydrated } from '../selector
 import { DO_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
 import openLink from '../utils/openLink';
-import { fetchMessagesInNarrow } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
 import { isUrlOnRealm, getFullUrl } from '../utils/url';
+
 /**
- * Navigate to the given narrow, while fetching any data needed.
+ * Navigate to the given narrow.
  *
- * Also does other things we should always do when navigating to a narrow.
+ * Also does other things we should always do when navigating to a
+ * narrow, if not handled in the UI state.
  *
  * If the narrow is invalid or narrowing is impossible, silently does nothing.
  *
- * See `MessagesState` for background about the fetching, including why this
- * is nearly the only navigation in the app where additional data fetching
- * is required.  See `fetchMessagesInNarrow` for more details.
+ * N.B.: Does not fetch messages. This is done by the component we're
+ * navigating to: the one in charge of showing the messages and any
+ * errors in fetching them.
  */
 export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
   dispatch: Dispatch,
@@ -32,7 +33,6 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   }
 
   dispatch({ type: DO_NARROW, narrow });
-  dispatch(fetchMessagesInNarrow(narrow, anchor));
   dispatch(navigateToChat(narrow));
 };
 
