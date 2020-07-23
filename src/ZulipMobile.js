@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import { useScreens } from 'react-native-screens';
 
 import '../vendor/intl/intl';
 import StoreProvider from './boot/StoreProvider';
@@ -15,6 +16,7 @@ import './i18n/locale';
 import { initializeSentry } from './sentry';
 
 initializeSentry();
+useScreens();
 
 // $FlowFixMe
 console.disableYellowBox = true; // eslint-disable-line
