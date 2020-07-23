@@ -26,12 +26,29 @@ open class MainActivity : ReactActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WebView.setWebContentsDebuggingEnabled(true)
+        maybeHandleIntent(intent)
+    }
 
+    override fun onNewIntent(intent: Intent?) {
+        if (maybeHandleIntent(intent)) {
+            return
+        }
+        super.onNewIntent(intent)
+    }
+
+    /* Returns true just if we did handle the intent. */
+    private fun maybeHandleIntent(intent: Intent?): Boolean {
+        // We handle intents from "sharing" something to Zulip.
         if (intent?.action == Intent.ACTION_SEND) {
             handleSend(intent)
+            return true
         }
         // TODO also handle ACTION_SEND_MULTIPLE?
         //   See: https://developer.android.com/training/sharing/receive#receiving-data-activity
+
+        // For other intents, let RN handle it.  In particular this is
+        // important for VIEW intents with zulip: URLs.
+        return false
     }
 
     private fun handleSend(intent: Intent) {
