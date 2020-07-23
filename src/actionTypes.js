@@ -16,6 +16,7 @@ import {
   UNACK_PUSH_TOKEN,
   ACK_PUSH_TOKEN,
   MESSAGE_FETCH_START,
+  MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
@@ -191,6 +192,30 @@ type MessageFetchStartAction = {|
   narrow: Narrow,
   numBefore: number,
   numAfter: number,
+|};
+
+/**
+ * Any unexpected failure in a message fetch.
+ *
+ * Includes internal server errors and any errors we throw when
+ * validating and reshaping the server data at the edge.
+ *
+ * In an ideal crunchy-shell world [1], none of these will be thrown
+ * from our Redux reducers: as part of the "soft center" of the app,
+ * the data should already be valid at that point. We're not yet in
+ * that world, so, we take care to catch those errors and dispatch
+ * this action there too. See discussion [2] for implementation notes.
+ *
+ * [1] https://github.com/zulip/zulip-mobile/blob/master/docs/architecture/crunchy-shell.md
+ * [2] https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M4156.20Message.20List.20placeholders/near/937480
+ */
+type MessageFetchErrorAction = {|
+  type: typeof MESSAGE_FETCH_ERROR,
+  narrow: Narrow,
+  // Before storing this in state, be sure to replace/revive Error
+  // instances so they aren't coerced into plain objects; see
+  // bfe794955 for an example.
+  error: Error,
 |};
 
 type MessageFetchCompleteAction = {|
@@ -570,7 +595,7 @@ type AccountAction =
 
 type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
 
-type MessageAction = MessageFetchStartAction | MessageFetchCompleteAction;
+type MessageAction = MessageFetchStartAction | MessageFetchErrorAction | MessageFetchCompleteAction;
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 

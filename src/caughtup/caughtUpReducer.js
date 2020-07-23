@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   MESSAGE_FETCH_START,
+  MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../anchor';
@@ -73,6 +74,13 @@ export default (state: CaughtUpState = initialState, action: Action): CaughtUpSt
       // Currently this whole case could be subsumed in `default`. But
       // we don't want to add this case with something else in mind,
       // later, and forget about the search-narrow check above.
+      return state;
+    }
+
+    /**
+     * The reverse of MESSAGE_FETCH_START, for cleanup.
+     */
+    case MESSAGE_FETCH_ERROR: {
       return state;
     }
 

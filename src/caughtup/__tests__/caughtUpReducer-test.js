@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import caughtUpReducer from '../caughtUpReducer';
-import { MESSAGE_FETCH_START } from '../../actionConstants';
+import { MESSAGE_FETCH_START, MESSAGE_FETCH_ERROR } from '../../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../anchor';
 import {
   HOME_NARROW,
@@ -49,6 +49,38 @@ describe('caughtUpReducer', () => {
       const newState = caughtUpReducer(initialState, action);
 
       expect(newState).toEqual(initialState);
+    });
+  });
+
+  describe('MESSAGE_FETCH_ERROR', () => {
+    test('reverses the effect of MESSAGE_FETCH_START as much as possible', () => {
+      // As of the addition of this test, it's fully possible:
+      // MESSAGE_FETCH_START applies the identity function to the
+      // state (i.e., it doesn't do anything to it). Reversing that
+      // effect is also done with the identity function.
+      const initialState = deepFreeze({
+        [HOME_NARROW_STR]: {
+          older: true,
+          newer: true,
+        },
+      });
+
+      const messageFetchStartAction = deepFreeze({
+        ...eg.action.message_fetch_start,
+        narrow: HOME_NARROW,
+      });
+
+      const state1 = caughtUpReducer(initialState, messageFetchStartAction);
+
+      const messageFetchErrorAction = deepFreeze({
+        type: MESSAGE_FETCH_ERROR,
+        narrow: HOME_NARROW,
+        error: new Error(),
+      });
+
+      const finalState = caughtUpReducer(state1, messageFetchErrorAction);
+
+      expect(finalState).toEqual(initialState);
     });
   });
 

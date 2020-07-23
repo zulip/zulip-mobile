@@ -3,6 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import narrowsReducer from '../narrowsReducer';
 import {
+  HOME_NARROW,
   HOME_NARROW_STR,
   privateNarrow,
   ALL_PRIVATE_NARROW_STR,
@@ -12,6 +13,7 @@ import {
   STARRED_NARROW_STR,
 } from '../../utils/narrow';
 import {
+  MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
@@ -381,6 +383,38 @@ describe('narrowsReducer', () => {
       const newState = narrowsReducer(initialState, action);
 
       expect(newState).toEqual(initialState);
+    });
+  });
+
+  describe('MESSAGE_FETCH_ERROR', () => {
+    test('reverses the effect of MESSAGE_FETCH_START as much as possible', () => {
+      // As of the addition of this test, it's fully possible:
+      // MESSAGE_FETCH_START applies the identity function to the
+      // state (i.e., it doesn't do anything to it). Reversing that
+      // effect is also done with the identity function.
+      const initialState = deepFreeze({
+        [HOME_NARROW_STR]: {
+          older: true,
+          newer: true,
+        },
+      });
+
+      const messageFetchStartAction = deepFreeze({
+        ...eg.action.message_fetch_start,
+        narrow: HOME_NARROW,
+      });
+
+      const state1 = narrowsReducer(initialState, messageFetchStartAction);
+
+      const messageFetchErrorAction = deepFreeze({
+        type: MESSAGE_FETCH_ERROR,
+        narrow: HOME_NARROW,
+        error: new Error(),
+      });
+
+      const finalState = narrowsReducer(state1, messageFetchErrorAction);
+
+      expect(finalState).toEqual(initialState);
     });
   });
 

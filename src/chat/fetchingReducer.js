@@ -6,6 +6,7 @@ import {
   ACCOUNT_SWITCH,
   DO_NARROW,
   MESSAGE_FETCH_START,
+  MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
@@ -30,6 +31,19 @@ const messageFetchStart = (state, action) => {
       older: currentValue.older || action.numBefore > 0,
       newer: currentValue.newer || action.numAfter > 0,
     },
+  };
+};
+
+const messageFetchError = (state, action) => {
+  const key = JSON.stringify(action.narrow);
+
+  if (isSearchNarrow(action.narrow)) {
+    return state;
+  }
+
+  return {
+    ...state,
+    [key]: DEFAULT_FETCHING,
   };
 };
 
@@ -60,6 +74,13 @@ export default (state: FetchingState = initialState, action: Action): FetchingSt
 
     case MESSAGE_FETCH_START:
       return messageFetchStart(state, action);
+
+    /**
+     * The reverse of MESSAGE_FETCH_START, for cleanup.
+     */
+    case MESSAGE_FETCH_ERROR: {
+      return messageFetchError(state, action);
+    }
 
     case MESSAGE_FETCH_COMPLETE:
       return messageFetchComplete(state, action);

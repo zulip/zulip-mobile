@@ -24,6 +24,7 @@ import {
   INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
   MESSAGE_FETCH_START,
+  MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
@@ -42,6 +43,16 @@ const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number):
   numBefore,
   numAfter,
 });
+
+/* eslint-disable-next-line no-unused-vars */
+const messageFetchError = (args: {| narrow: Narrow, error: Error |}): Action => {
+  const { narrow, error } = args;
+  return {
+    type: MESSAGE_FETCH_ERROR,
+    narrow,
+    error,
+  };
+};
 
 const messageFetchComplete = (args: {|
   messages: Message[],

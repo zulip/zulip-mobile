@@ -9,6 +9,7 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   MESSAGE_FETCH_START,
+  MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
@@ -119,6 +120,13 @@ export default (state: NarrowsState = initialState, action: Action): NarrowsStat
       // Currently this whole case could be subsumed in `default`. But
       // we don't want to add this case with something else in mind,
       // later, and forget about the search-narrow check above.
+      return state;
+    }
+
+    /**
+     * The reverse of MESSAGE_FETCH_START, for cleanup.
+     */
+    case MESSAGE_FETCH_ERROR: {
       return state;
     }
 
