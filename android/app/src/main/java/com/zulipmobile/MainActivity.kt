@@ -26,20 +26,12 @@ open class MainActivity : ReactActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WebView.setWebContentsDebuggingEnabled(true)
-        handleIntentForSharing(intent)
-    }
 
-    override fun onNewIntent(intent: Intent) {
-        handleIntentForSharing(intent)
-    }
-
-    private fun handleIntentForSharing(intent: Intent) {
         if (intent?.action == Intent.ACTION_SEND) {
             handleSend(intent)
         }
         // TODO also handle ACTION_SEND_MULTIPLE?
         //   See: https://developer.android.com/training/sharing/receive#receiving-data-activity
-
     }
 
     private fun handleSend(intent: Intent) {
