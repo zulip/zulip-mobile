@@ -88,7 +88,7 @@ describe('fetchActions', () => {
     });
 
     describe('failure', () => {
-      test('rejects when user is not logged in', async () => {
+      test('rejects when user is not logged in, dispatches MESSAGE_FETCH_ERROR', async () => {
         const stateWithoutAccount = {
           ...baseState,
           accounts: [],
@@ -101,7 +101,7 @@ describe('fetchActions', () => {
         };
         fetch.mockResponseSuccess(JSON.stringify(response));
 
-        expect.assertions(1);
+        expect.assertions(2);
         try {
           await store.dispatch(
             fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
@@ -110,9 +110,17 @@ describe('fetchActions', () => {
           // Update this with changes to the message string or error type.
           expect(e.message).toBe('Active account not logged in');
         }
+
+        const actions = store.getActions();
+
+        expect(actions[actions.length - 1]).toMatchObject({
+          type: 'MESSAGE_FETCH_ERROR',
+          // Update this with changes to the message string or error type.
+          error: new Error('Active account not logged in'),
+        });
       });
 
-      test("rejects when validation-at-the-edge can't handle data", async () => {
+      test("rejects when validation-at-the-edge can't handle data, dispatches MESSAGE_FETCH_ERROR", async () => {
         // This validation is done in `migrateMessages`.
         //
         // TODO: See if we can mock `migrateMessages` to throw an
@@ -146,7 +154,7 @@ describe('fetchActions', () => {
         };
         fetch.mockResponseSuccess(JSON.stringify(response));
 
-        expect.assertions(1);
+        expect.assertions(2);
         try {
           await store.dispatch(
             fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
@@ -155,6 +163,14 @@ describe('fetchActions', () => {
           // Update this with changes to the error type.
           expect(e).toBeInstanceOf(TypeError);
         }
+
+        const actions = store.getActions();
+
+        expect(actions[actions.length - 1]).toMatchObject({
+          type: 'MESSAGE_FETCH_ERROR',
+          // Update this with changes to the error type.
+          error: expect.any(TypeError),
+        });
       });
 
       test('rejects on fetch failure', async () => {

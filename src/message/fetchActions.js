@@ -44,7 +44,6 @@ const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number):
   numAfter,
 });
 
-/* eslint-disable-next-line no-unused-vars */
 const messageFetchError = (args: {| narrow: Narrow, error: Error |}): Action => {
   const { narrow, error } = args;
   return {
@@ -81,7 +80,7 @@ const messageFetchComplete = (args: {|
  *
  * The returned Promise resolves with the messages, or rejects on a
  * failed network request or any failure to process data and get it
- * stored in Redux.
+ * stored in Redux. If it rejects, it tells Redux about it.
  */
 export const fetchMessages = (fetchArgs: {
   narrow: Narrow,
@@ -90,19 +89,29 @@ export const fetchMessages = (fetchArgs: {
   numAfter: number,
 }) => async (dispatch: Dispatch, getState: GetState): Promise<Message[]> => {
   dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
-  const { messages, found_newest, found_oldest } = await api.getMessages(getAuth(getState()), {
-    ...fetchArgs,
-    useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
-  });
-  dispatch(
-    messageFetchComplete({
+  try {
+    const { messages, found_newest, found_oldest } = await api.getMessages(getAuth(getState()), {
       ...fetchArgs,
-      messages,
-      foundNewest: found_newest,
-      foundOldest: found_oldest,
-    }),
-  );
-  return messages;
+      useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
+    });
+    dispatch(
+      messageFetchComplete({
+        ...fetchArgs,
+        messages,
+        foundNewest: found_newest,
+        foundOldest: found_oldest,
+      }),
+    );
+    return messages;
+  } catch (e) {
+    dispatch(
+      messageFetchError({
+        narrow: fetchArgs.narrow,
+        error: e,
+      }),
+    );
+    throw e;
+  }
 };
 
 export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
