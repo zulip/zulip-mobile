@@ -6,7 +6,7 @@ import type { Dispatch, SharedData, GetState } from '../types';
 import { navigateToSharing } from '../actions';
 
 const Sharing = NativeModules.Sharing ?? {
-  getInitialSharedContent: () =>
+  readInitialSharedContent: () =>
     // TODO: Implement on iOS.
     null,
 };
@@ -16,7 +16,7 @@ const goToSharing = (data: SharedData) => (dispatch: Dispatch, getState: GetStat
 };
 
 export const handleInitialShare = async (dispatch: Dispatch) => {
-  const initialSharedData: SharedData | null = await Sharing.getInitialSharedContent();
+  const initialSharedData: SharedData | null = await Sharing.readInitialSharedContent();
   if (initialSharedData !== null) {
     dispatch(goToSharing(initialSharedData));
   }
