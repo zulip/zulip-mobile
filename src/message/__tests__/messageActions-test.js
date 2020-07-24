@@ -19,6 +19,7 @@ describe('messageActions', () => {
     test('when no messages in new narrow and caughtUp is false, actions to fetch messages and switch narrow are dispatched', () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
+          accounts: [eg.selfAccount],
           session: { ...eg.baseReduxState.session, isHydrated: true },
           caughtUp: {
             [streamNarrowStr]: {
@@ -79,6 +80,7 @@ describe('messageActions', () => {
     test('when messages in new narrow are too few and not caught up, fetch more messages', () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
+          accounts: [eg.selfAccount],
           session: { ...eg.baseReduxState.session, isHydrated: true },
           caughtUp: {},
           ...navStateWithNarrow(HOME_NARROW),
