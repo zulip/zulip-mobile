@@ -12,6 +12,7 @@ internal class SharingModule(reactContext: ReactApplicationContext)
     @ReactMethod
     fun getInitialSharedContent(promise: Promise) {
         promise.resolve(initialSharedData)
+        initialSharedData = null
     }
 
     companion object {
