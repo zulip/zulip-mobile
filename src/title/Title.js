@@ -4,25 +4,21 @@ import React, { PureComponent } from 'react';
 
 import { caseNarrow } from '../utils/narrow';
 
-import type { Narrow, EditMessage } from '../types';
+import type { Narrow } from '../types';
 import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStream';
-import TitlePlain from './TitlePlain';
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
   color: string,
-  editMessage: EditMessage | null,
 |}>;
 
 export default class Title extends PureComponent<Props> {
   render() {
-    const { narrow, color, editMessage } = this.props;
-    if (editMessage != null) {
-      return <TitlePlain text="Edit message" color={color} />;
-    }
+    const { narrow, color } = this.props;
+
     return caseNarrow(narrow, {
       home: () => <TitleSpecial code="home" color={color} />,
       starred: () => <TitleSpecial code="starred" color={color} />,

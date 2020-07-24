@@ -75,7 +75,7 @@ class ChatScreen extends PureComponent<Props, State> {
         <View style={[this.styles.screen, { backgroundColor: this.context.backgroundColor }]}>
           <KeyboardAvoider style={styles.flexed} behavior="padding">
             <ZulipStatusBar narrow={narrow} />
-            <ChatNavBar narrow={narrow} editMessage={editMessage} />
+            <ChatNavBar narrow={narrow} />
             <OfflineNotice />
             <UnreadNotice narrow={narrow} />
             {sayNoMessages ? (

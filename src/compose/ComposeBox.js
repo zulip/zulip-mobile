@@ -24,7 +24,7 @@ import {
   sendTypingStop,
 } from '../actions';
 import * as api from '../api';
-import { FloatingActionButton, Input } from '../common';
+import { FloatingActionButton, Input, Label, Touchable } from '../common';
 import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import { isStreamNarrow, isStreamOrTopicNarrow, topicNarrow } from '../utils/narrow';
@@ -32,6 +32,7 @@ import ComposeMenu from './ComposeMenu';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
 import AnnouncementOnly from '../message/AnnouncementOnly';
+import { BRAND_COLOR } from '../styles';
 
 import {
   getAuth,
@@ -270,6 +271,15 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   };
 
+  cancelEdit = () => {
+    const { completeEditMessage } = this.props;
+
+    completeEditMessage();
+    if (this.messageInput) {
+      this.messageInput.blur();
+    }
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       const topic =
@@ -312,6 +322,10 @@ class ComposeBox extends PureComponent<Props, State> {
       flex: 1,
       paddingVertical: 8,
     },
+    composeTextWhenEditing: {
+      flex: 1,
+      paddingBottom: 8,
+    },
     composeSendButton: {
       padding: 8,
     },
@@ -327,6 +341,19 @@ class ComposeBox extends PureComponent<Props, State> {
       fontSize: 15,
       flexShrink: 1,
       ...this.inputMarginPadding,
+    },
+    editingBanner: {
+      flexDirection: 'row',
+      backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
+    },
+    editStatus: {
+      flex: 1,
+      padding: 16,
+      fontWeight: 'bold',
+    },
+    editCancel: {
+      color: BRAND_COLOR,
+      padding: 16,
     },
   };
 
@@ -357,6 +384,14 @@ class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View style={this.styles.wrapper}>
+        {editMessage && (
+          <View style={this.styles.editingBanner}>
+            <Label text="Editing message" style={this.styles.editStatus} />
+            <Touchable onPress={this.cancelEdit}>
+              <Label text="Cancel" style={this.styles.editCancel} />
+            </Touchable>
+          </View>
+        )}
         <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
           <TopicAutocomplete
             isFocused={isTopicFocused}
@@ -377,7 +412,7 @@ class ComposeBox extends PureComponent<Props, State> {
             expanded={isMenuExpanded}
             onExpandContract={this.handleComposeMenuToggle}
           />
-          <View style={this.styles.composeText}>
+          <View style={editMessage ? this.styles.composeTextWhenEditing : this.styles.composeText}>
             {this.getCanSelectTopic() && (
               <Input
                 style={[this.styles.topicInput, { backgroundColor: this.context.backgroundColor }]}
