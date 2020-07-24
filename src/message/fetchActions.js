@@ -191,11 +191,11 @@ const isFetchNeededAtAnchor = (state: GlobalState, narrow: Narrow, anchor: numbe
 export const fetchMessagesInNarrow = (
   narrow: Narrow,
   anchor: number = FIRST_UNREAD_ANCHOR,
-) => async (dispatch: Dispatch, getState: GetState) => {
+) => async (dispatch: Dispatch, getState: GetState): Promise<Message[] | void> => {
   if (!isFetchNeededAtAnchor(getState(), narrow, anchor)) {
-    return;
+    return undefined;
   }
-  dispatch(
+  return dispatch(
     fetchMessages({
       narrow,
       anchor,
