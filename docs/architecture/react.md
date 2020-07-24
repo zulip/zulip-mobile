@@ -103,7 +103,8 @@ long as the code adheres to core Redux principles:
 ### Context
 
 We're on board with the current API where possible; there's a
-third-party library we use that isn't there yet.
+third-party library we use that isn't there yet, but we deal with that
+at the edge by "translating" the old API to the new one.
 
 #### Current Context API
 
@@ -164,29 +165,21 @@ updates to the context, and not just by the consumer's own
 We have to think about the legacy Context API in just one place. The
 `react-intl` library's `IntlProvider` uses it to provide the `intl`
 context. The only consumer of `intl` is
-`TranslationContextTranslator`, but we've made that a `PureComponent`,
-so it doesn't get updated when `intl` changes. Our workaround until
-now has been a "`key` hack":
-
-If `locale` changes, we make the entire React component tree at and
-below `IntlProvider` remount. (Not merely re-`render`: completely
-vanish and start over with `componentDidMount`; see the note at [this
-doc](https://5d4b5feba32acd0008d0df98--reactjs.netlify.app/docs/reconciliation.html)
-starting with "Keys should be stable, predictable, and unique".) We do
-this with the [`key`
-attribute](https://reactjs.org/docs/lists-and-keys.html), which isn't
-recommended for use except in lists.
-
-In the next commit, we stop using the `key` hack and instead make
-`TranslationContextTranslator` "speak" the old API better.
+`TranslationContextTranslator`, which "speaks" the old API by being
+the direct child of `IntlProvider` and by being a `Component`, not a
+`PureComponent` (whose under-the-hood `shouldComponentUpdate` would
+suppress updates on context changes)—all to make sure that it
+re-`render`s whenever `intl` changes. Then,
+`TranslationContextTranslator` is itself a provider, and it provides
+the same value, but it does so in the new Context API way. All its
+consumers are updated appropriately, which is what we want.
 
 ### The exception: `MessageList`
 
-We have one React component that we wrote (beyond `connect` calls) that
-deviates from the above design: `MessageList`.  This is the only
-component that extends plain `Component` rather than `PureComponent`,
-and it's the only component in which we implement
-`shouldComponentUpdate`.
+We have one React component that we wrote (beyond `connect` calls)
+that deviates from the above design: `MessageList`.  It extends plain
+`Component` rather than `PureComponent`, and it's the only component
+in which we implement `shouldComponentUpdate`.
 
 In fact, `MessageList` does adhere to the Pure Component Principle -- its
 `render` method is a pure function of `this.props` and `this.context`.  So
