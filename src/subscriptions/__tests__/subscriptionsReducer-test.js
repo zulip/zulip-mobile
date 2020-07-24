@@ -108,6 +108,7 @@ describe('subscriptionsReducer', () => {
         subscriptions: [
           {
             name: 'some stream',
+            color: 'red',
             stream_id: 1,
           },
           {
