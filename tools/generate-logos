@@ -1,0 +1,183 @@
+#!/usr/bin/env bash
+set -eu
+
+# This script isn't meant to be run routinely, so we let it be a bit
+# rough-and-ready in its interface.  But it should error early if it's
+# missing anything it needs.
+#
+# Much of the knowledge it encodes -- what contexts call for which
+# graphical variation of the logo, in what sizes and what format --
+# was compiled at https://github.com/zulip/zulip-mobile/issues/4200
+# before being turned into this executable form.
+
+# TIP: Everything in this script has the handy property that its
+# outputs are reproducible.  That means that if you run it and
+# `git status` shows that it's changed any of the files in the
+# tree... then either the source images, or something in the
+# script itself, has changed since the run reflected in your
+# current tree.
+
+this_dir=${BASH_SOURCE[0]%/*}
+. "${this_dir}"/lib/ensure-coreutils.sh
+root_dir=$(readlink -f "${this_dir}"/..)
+
+tmpdir=$(mktemp -d)
+
+die() {
+    echo >&2 "$1"
+    exit 1
+}
+
+inkscape --version >/dev/null 2>&1 \
+    || die "Need inkscape -- try 'apt install inkscape'."
+
+cwebp -version >/dev/null 2>&1 \
+    || die "Need cwebp -- try 'apt install webp'."
+
+jq --version >/dev/null 2>&1 \
+    || die "Need jq -- try 'apt install jq'."
+
+
+# This should point to a zulip.git worktree.
+zulip_root="${root_dir%/*}"/zulip
+
+# White Z in gradient-colored circle.
+src_icon_circle="${zulip_root}"/static/images/logo/zulip-icon-circle.svg
+
+# White Z in gradient-colored square, full-bleed.
+src_icon_square="${zulip_root}"/static/images/logo/zulip-icon-square.svg
+
+# White Z in gray circle.
+src_icon_circle_gray="${zulip_root}"/static/images/zulip-logo.svg
+
+# White Z on transparent background.
+src_icon_white_z=./z-white.svg
+
+[ -r "${src_icon_circle}" ] \
+    || die "Expected Zulip worktree at: ${zulip_root}"
+
+[ -r "${src_icon_white_z}" ] \
+    || die "Need z-white.svg as input, in current directory.  See: 
+  https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/new.20logo/near/951307"
+
+
+make_one_ios_app_icon() {
+    # SET BY CALLER: contents iconset
+    local size_pt="$1" scale="$2" idiom="$3"
+    local size_px="${4-$(( size_pt * scale ))}"
+
+    local output_basename=Icon-"${size_pt}x${size_pt}@${scale}x".png
+    local output="${iconset}"/"${output_basename}"
+    if [ ! -f "${output}" ]; then
+        inkscape "${src_icon_square}" -w "${size_px}" -e "${output}"
+    fi
+
+    printf >>"${contents}" \
+      '  { "size": "%s", "idiom": "%s", "filename": "%s", "scale": "%s" }\n' \
+      "${size_pt}x${size_pt}" "${idiom}" "${output_basename}" "${scale}x"
+}
+
+make_ios_app_icon() {
+    local iconset=ios/ZulipMobile/Images.xcassets/AppIcon.appiconset
+    rm -rf "${iconset}"
+    mkdir -p "${iconset}"
+
+    local contents="${tmpdir}"/Contents.json.in
+    rm -f "${contents}"
+
+    # Handy command for a compact view of what's in the contents:
+    #   $ jq '.images[] | "\(.size) \(.scale) \(.idiom)"' -r \
+    #       <"${iconset}"/Contents.json
+
+    # From "App Icon Sizes" at:
+    #   https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/app-icon/
+    make_one_ios_app_icon 60 3 iphone
+    make_one_ios_app_icon 60 2 iphone
+    make_one_ios_app_icon 83.5 2 ipad 167
+    make_one_ios_app_icon 76 2 ipad
+    make_one_ios_app_icon 1024 1 ios-marketing
+
+    # From "Spotlight, Settings, and Notification Icons"
+    # in the same iOS doc
+    make_one_ios_app_icon 40 3 iphone
+    make_one_ios_app_icon 40 2 iphone
+    make_one_ios_app_icon 40 2 ipad
+    make_one_ios_app_icon 29 3 iphone
+    make_one_ios_app_icon 29 2 iphone
+    make_one_ios_app_icon 29 2 ipad
+    make_one_ios_app_icon 20 3 iphone
+    make_one_ios_app_icon 20 2 iphone
+    make_one_ios_app_icon 20 2 ipad
+
+    jq <"${contents}" \
+       -s '{ "images": ., "info": { "version": 1, "author": "xcode" } }' \
+       >"${iconset}"/Contents.json
+}
+
+make_ios() {
+    make_ios_app_icon
+
+    # This seems to be used only in LaunchScreen.xib...
+    # which it isn't clear actually ever appears when using the app.
+    # TODO take it out?
+    inkscape "${src_icon_circle}" -w 512 -e ios/zulip-logo.png
+}
+
+
+make_webp() {
+    local input="$1" size="$2" output="$3"
+    inkscape "${input}" -w "${size}" -e "${tmpdir}"/tmp.png
+    # `cwebp -z 9` means lossless, and max/slowest compression
+    cwebp -z 9 "${tmpdir}"/tmp.png -o "${output}"
+}
+
+make_one_android_icon() {
+    local src="$1" restype="$2" name="$3" size_px="$4" density="$5"
+    local output=android/app/src/main/res/"${restype}"-"${density}"/"${name}".webp
+    mkdir -p "${output%/*}"
+    make_webp "${src}" "${size_px}" "${output}"
+}
+
+make_android_icon() {
+    local src="$1" size_dp="$2" restype="$3" name="$4"
+
+    rm -f android/app/src/main/res/*/"${name}".*
+
+    # Scale factors from:
+    #   https://developer.android.com/training/multiscreen/screendensities#TaskProvideAltBmp
+    make_one_android_icon "${src}" "${restype}" "${name}" \
+      "${size_dp}" mdpi
+    make_one_android_icon "${src}" "${restype}" "${name}" \
+      $(( size_dp * 3 / 2 )) hdpi
+    make_one_android_icon "${src}" "${restype}" "${name}" \
+      $(( size_dp * 2 )) xhdpi
+    make_one_android_icon "${src}" "${restype}" "${name}" \
+      $(( size_dp * 3 )) xxhdpi
+    make_one_android_icon "${src}" "${restype}" "${name}" \
+      $(( size_dp * 4 )) xxxhdpi
+}
+
+make_android() {
+    # https://developer.android.com/google-play/resources/icon-design-specifications
+    # This generated file we don't commit to the repo, because it isn't
+    # needed in the build.
+    inkscape "${src_icon_square}" -w 512 -e zulip-icon-google-play.png
+
+    # Launcher icon goes in a mipmap:
+    #   https://developer.android.com/training/multiscreen/screendensities#mipmap
+    make_android_icon "${src_icon_circle}" 48 mipmap ic_launcher
+
+    # TODO(low-priority): debug version of ic_launcher
+    #   (until then, we use the one based on the old logo)
+
+    # docs: https://developer.android.com/about/versions/android-5.0-changes#BehaviorNotifications
+    make_android_icon "${src_icon_white_z}" 24 drawable zulip_notification
+}
+
+inkscape "${src_icon_circle_gray}" -w 512 -e static/img/message-loading.png
+
+inkscape "${src_icon_circle}" -w 40 -e static/img/logo.png
+
+make_ios
+
+make_android
