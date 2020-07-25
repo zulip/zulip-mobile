@@ -36,6 +36,21 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Updated icons for the new Zulip logo. (#4200)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* #4151: Upgraded to RN v0.61!
+* PR #4204: New script tools/run-android to replace
+  `react-native run-android`, which turns out to have never quite
+  worked correctly (even with the hacks we'd had to try to help it.)
+
 
 ## 26.30.153 (2020-07-06)
 
