@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.154 (2020-07-24)
+
 ### Highlights for users
 
 * Updated icons for the new Zulip logo. (#4200)
