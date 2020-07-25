@@ -176,7 +176,8 @@ make_android() {
 
 inkscape "${src_icon_circle_gray}" -w 512 -e static/img/message-loading.png
 
-inkscape "${src_icon_circle}" -w 40 -e static/img/logo.png
+# Appears at 40px logical; 4x scale to correspond to Android's xxxhdpi
+inkscape "${src_icon_circle}" -w 160 -e static/img/logo.png
 
 make_ios
 
