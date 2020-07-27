@@ -96,6 +96,9 @@ rules:
   # don't have a way to do that, and it doesn't make sense to keep these
   # out of the repo.
   jest/no-disabled-tests: off
+  # Only using string literals for test names isn't obviously helpful;
+  # see jest-community/eslint-plugin-jest#203 (rule might be removed?)
+  jest/valid-describe: off
 
   # React
   react/jsx-filename-extension: off  # Like RN upstream, we call the files *.js.
