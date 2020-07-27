@@ -1,4 +1,6 @@
 [ignore]
+; ### From React Native's template app:
+
 ; We fork some components by platform
 .*/*[.]android.js
 
@@ -12,7 +14,8 @@ node_modules/warning/.*
 ; Flow doesn't support platforms
 .*/Libraries/Utilities/LoadingView.js
 
-; Custom ignores
+; ### Custom ignores
+
 .*/ios/Pods/*
 .*/node_modules/mitt/src/.*
 .*/node_modules/match-at/lib/.*
