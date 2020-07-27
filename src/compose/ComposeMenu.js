@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
-import * as ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker';
 
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';

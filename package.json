@@ -60,7 +60,7 @@
     "react-native": "0.61.5",
     "react-native-device-info": "^0.21.5",
     "react-native-document-picker": "^3.2.4",
-    "react-native-image-picker": "^0.26.10",
+    "react-native-image-picker": "^2.3.3",
     "react-native-notifications": "^1.2.0",
     "react-native-photo-view": "alwx/react-native-photo-view#c58fd6b30",
     "react-native-safari-view": "2.0.0",

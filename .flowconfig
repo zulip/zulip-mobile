@@ -20,6 +20,12 @@ node_modules/warning/.*
 .*/node_modules/mitt/src/.*
 .*/node_modules/match-at/lib/.*
 .*/node_modules/eslint-plugin-jsx-a11y/.*
+
+# TODO: Use a different library, wait for
+# react-native-community/react-native-image-picker#1207 to be
+# resolved, or write our own libdef.
+.*/node_modules/react-native-image-picker/.*
+
 .*/node_modules/react-native-notifications/.*
 .*/node_modules/react-native-tab-view/.*
 .*/node_modules/react-navigation-redux-helpers/.*

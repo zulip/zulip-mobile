@@ -77,3 +77,15 @@ jest.mock('react-native-device-info', () => ({
   getSystemName: jest.fn().mockReturnValue('ios'),
   getSystemVersion: jest.fn().mockReturnValue('13.3.1'),
 }));
+
+// Upstream says [1] to mock the native module. We could do that,
+// above, if we wanted to. But mocking the module's public interface
+// (the default export of `react-native-image-picker` ) is more robust
+// to changes in the native module. The method names on the native
+// module are all reflected in the public interface, so this is easy.
+// https://github.com/react-native-community/react-native-image-picker/blob/v2.3.2/src/internal/nativeInterface.ts#L23
+jest.mock('react-native-image-picker', () => ({
+  showImagePicker: jest.fn(),
+  launchCamera: jest.fn(),
+  launchImageLibrary: jest.fn(),
+}));
