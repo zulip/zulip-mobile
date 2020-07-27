@@ -214,7 +214,7 @@ PODS:
     - React
   - react-native-image-picker (0.14.3):
     - React
-  - react-native-netinfo (3.2.1):
+  - react-native-netinfo (5.9.5):
     - React
   - react-native-notifications (1.5.0):
     - React
@@ -526,7 +526,7 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-cameraroll: 06e60780a4e6e7bb9a588eca72506744cf6e133b
   react-native-image-picker: 3693786b3d5958c8f71deed66ec068b323565e0d
-  react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
+  react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
   react-native-notifications: ce37363008fe2d6a226da4e721eace23b6ae3ad9
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-safari-view: 955d7160d159241b8e9395d12d10ea0ef863dcdd

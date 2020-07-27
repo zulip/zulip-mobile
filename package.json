@@ -34,7 +34,7 @@
     "@expo/react-native-action-sheet": "^3.4.0",
     "@react-native-community/async-storage": "^1.6.3",
     "@react-native-community/cameraroll": "^1.7.2",
-    "@react-native-community/netinfo": "^3.2.1",
+    "@react-native-community/netinfo": "^5.9.5",
     "@sentry/react-native": "^1.0.9",
     "@unimodules/core": "~5.1.2",
     "@zulip/shared": "^0.0.2",
