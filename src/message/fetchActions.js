@@ -160,7 +160,12 @@ const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
-const isFetchNeededAtAnchor = (state: GlobalState, narrow: Narrow, anchor: number): boolean => {
+/** Private; exported only for tests. */
+export const isFetchNeededAtAnchor = (
+  state: GlobalState,
+  narrow: Narrow,
+  anchor: number,
+): boolean => {
   // Ideally this would detect whether, even if we don't have *all* the
   // messages in the narrow, we have enough of them around the anchor
   // to show a message list already.  For now it's simple and cautious.

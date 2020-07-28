@@ -4,7 +4,8 @@ import thunk from 'redux-thunk';
 
 import type { GlobalState } from '../../reduxTypes';
 import type { Action } from '../../actionTypes';
-import { fetchMessages, fetchOlder, fetchNewer } from '../fetchActions';
+import { isFetchNeededAtAnchor, fetchMessages, fetchOlder, fetchNewer } from '../fetchActions';
+import { FIRST_UNREAD_ANCHOR } from '../../anchor';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -19,6 +20,55 @@ global.FormData = class FormData {};
 describe('fetchActions', () => {
   afterEach(() => {
     fetch.reset();
+  });
+
+  describe('isFetchNeededAtAnchor', () => {
+    test("false if we're caught up, even if there are no messages", () => {
+      const state = eg.reduxState({
+        session: { ...eg.baseReduxState.session, isHydrated: true },
+        caughtUp: {
+          [streamNarrowStr]: {
+            newer: true,
+            older: true,
+          },
+        },
+        ...navStateWithNarrow(HOME_NARROW),
+        narrows: {
+          [streamNarrowStr]: [],
+        },
+        streams: [eg.makeStream({ name: 'some stream' })],
+      });
+
+      const result = isFetchNeededAtAnchor(state, narrow, FIRST_UNREAD_ANCHOR);
+      expect(result).toBeFalse();
+    });
+
+    test("true if we're not caught up, even if we have a few messages", () => {
+      const message1 = eg.streamMessage({ id: 1 });
+      const message2 = eg.streamMessage({ id: 2 });
+
+      const state = eg.reduxState({
+        session: { ...eg.baseReduxState.session, isHydrated: true },
+        caughtUp: {
+          [streamNarrowStr]: {
+            newer: false,
+            older: false,
+          },
+        },
+        ...navStateWithNarrow(HOME_NARROW),
+        narrows: {
+          [streamNarrowStr]: [1],
+        },
+        messages: {
+          [message1.id]: message1,
+          [message2.id]: message2,
+        },
+        streams: [eg.makeStream({ name: 'some stream' })],
+      });
+
+      const result = isFetchNeededAtAnchor(state, narrow, FIRST_UNREAD_ANCHOR);
+      expect(result).toBeTrue();
+    });
   });
 
   describe('fetchMessages', () => {

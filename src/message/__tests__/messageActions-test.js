@@ -16,7 +16,11 @@ const streamNarrowStr = JSON.stringify(streamNarrowObj);
 
 describe('messageActions', () => {
   describe('doNarrow', () => {
-    test('when no messages in new narrow and caughtUp is false, actions to fetch messages and switch narrow are dispatched', () => {
+    test('actions to switch narrow and push to nav dispatched; if fetch is needed, dispatch action actions to fetch messages', () => {
+      // Currently, "fetch is needed" means the state has no messages
+      // in the narrow, and `caughtUp` is false. In the next commit,
+      // `doNarrow` will not do a fetch anymore, so this part will
+      // disappear.
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           accounts: [eg.selfAccount],
@@ -29,67 +33,6 @@ describe('messageActions', () => {
           },
           ...navStateWithNarrow(HOME_NARROW),
           narrows: {},
-          streams: [eg.makeStream({ name: 'some stream' })],
-        }),
-      );
-
-      store.dispatch(doNarrow(streamNarrowObj));
-      const actions = store.getActions();
-
-      expect(actions).toHaveLength(3);
-      const [action0, action1, action2] = actions;
-      expect(action0.type).toBe('DO_NARROW');
-      expect(action1.type).toBe('MESSAGE_FETCH_START');
-      if (action1.type === 'MESSAGE_FETCH_START') {
-        expect(action1.narrow).toEqual(streamNarrowObj);
-      }
-      expect(action2.type).toBe('Navigation/PUSH');
-    });
-
-    test('when no messages in new narrow but caught up, only switch to narrow, do not fetch', () => {
-      const store = mockStore<GlobalState, Action>(
-        eg.reduxState({
-          session: { ...eg.baseReduxState.session, isHydrated: true },
-          caughtUp: {
-            [streamNarrowStr]: {
-              newer: true,
-              older: true,
-            },
-          },
-          ...navStateWithNarrow(HOME_NARROW),
-          narrows: {
-            [streamNarrowStr]: [],
-          },
-          streams: [eg.makeStream({ name: 'some stream' })],
-        }),
-      );
-
-      store.dispatch(doNarrow(streamNarrowObj));
-      const actions = store.getActions();
-
-      expect(actions).toEqual([
-        { type: 'DO_NARROW', narrow: streamNarrowObj },
-        {
-          type: 'Navigation/PUSH',
-          routeName: 'chat',
-          params: { narrow: streamNarrowObj },
-        },
-      ]);
-    });
-
-    test('when messages in new narrow are too few and not caught up, fetch more messages', () => {
-      const store = mockStore<GlobalState, Action>(
-        eg.reduxState({
-          accounts: [eg.selfAccount],
-          session: { ...eg.baseReduxState.session, isHydrated: true },
-          caughtUp: {},
-          ...navStateWithNarrow(HOME_NARROW),
-          narrows: {
-            [streamNarrowStr]: [1],
-          },
-          messages: {
-            [1]: eg.streamMessage() /* eslint-disable-line no-useless-computed-key */,
-          },
           streams: [eg.makeStream({ name: 'some stream' })],
         }),
       );
