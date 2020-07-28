@@ -22,21 +22,23 @@ describe('fetchActions', () => {
   });
 
   describe('fetchMessages', () => {
-    test('message fetch success action is dispatched after successful fetch', async () => {
-      const message1 = eg.streamMessage({ id: 1 });
+    const message1 = eg.streamMessage({ id: 1 });
+    const message2 = eg.streamMessage({ id: 2 });
+    const message3 = eg.streamMessage({ id: 3 });
 
-      const store = mockStore<GlobalState, Action>(
-        eg.reduxState({
-          ...navStateWithNarrow(HOME_NARROW),
-          accounts: [eg.makeAccount()],
-          narrows: {
-            [streamNarrowStr]: [message1.id],
-          },
-        }),
-      );
+    const baseState = eg.reduxState({
+      ...navStateWithNarrow(HOME_NARROW),
+      accounts: [eg.makeAccount()],
+      narrows: {
+        [streamNarrowStr]: [message1.id],
+      },
+    });
+
+    test('message fetch success action is dispatched after successful fetch', async () => {
+      const store = mockStore<GlobalState, Action>(baseState);
 
       const response = {
-        messages: [message1, eg.streamMessage({ id: 2 }), eg.streamMessage({ id: 3 })],
+        messages: [message1, message2, message3],
         result: 'success',
       };
       fetch.mockResponseSuccess(JSON.stringify(response));
