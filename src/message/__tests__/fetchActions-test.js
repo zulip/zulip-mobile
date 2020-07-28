@@ -34,23 +34,27 @@ describe('fetchActions', () => {
       },
     });
 
-    test('message fetch success action is dispatched after successful fetch', async () => {
+    describe('success', () => {
+      beforeEach(() => {
+        const response = {
+          messages: [message1, message2, message3],
+          result: 'success',
+        };
+        fetch.mockResponseSuccess(JSON.stringify(response));
+      });
+
       const store = mockStore<GlobalState, Action>(baseState);
 
-      const response = {
-        messages: [message1, message2, message3],
-        result: 'success',
-      };
-      fetch.mockResponseSuccess(JSON.stringify(response));
+      test('message fetch success action is dispatched', async () => {
+        await store.dispatch(
+          fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
+        );
+        const actions = store.getActions();
 
-      await store.dispatch(
-        fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
-      );
-      const actions = store.getActions();
-
-      expect(actions).toHaveLength(2);
-      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
-      expect(actions[1].type).toBe('MESSAGE_FETCH_COMPLETE');
+        expect(actions).toHaveLength(2);
+        expect(actions[0].type).toBe('MESSAGE_FETCH_START');
+        expect(actions[1].type).toBe('MESSAGE_FETCH_COMPLETE');
+      });
     });
 
     const BORING_RESPONSE = JSON.stringify({
