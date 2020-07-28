@@ -14,8 +14,11 @@ import type {
   UserOrBot,
   Dispatch,
   Dimensions,
+  CaughtUp,
+  GetText,
 } from '../types';
 import { connect } from '../react-redux';
+import { withGetText } from '../boot/TranslationProvider';
 import {
   addToOutbox,
   draftUpdate,
@@ -39,6 +42,7 @@ import {
   getSession,
   getLastMessageTopic,
   getActiveUsersByEmail,
+  getCaughtUpForNarrow,
 } from '../selectors';
 import {
   getIsActiveStreamSubscribed,
@@ -59,6 +63,7 @@ type SelectorProps = {|
   isSubscribed: boolean,
   draft: string,
   lastMessageTopic: string,
+  caughtUp: CaughtUp,
 |};
 
 type Props = $ReadOnly<{|
@@ -68,6 +73,9 @@ type Props = $ReadOnly<{|
 
   dispatch: Dispatch,
   ...SelectorProps,
+
+  // From 'withGetText'
+  _: GetText,
 |}>;
 
 type State = {|
@@ -242,8 +250,13 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleSend = () => {
-    const { dispatch, narrow } = this.props;
+    const { dispatch, narrow, caughtUp, _ } = this.props;
     const { message } = this.state;
+
+    if (!caughtUp.newer) {
+      showErrorAlert(_('Please try again after some time'), _('Failed to send message'));
+      return;
+    }
 
     dispatch(addToOutbox(this.getDestinationNarrow(), message));
 
@@ -436,4 +449,5 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
   draft: getDraftForNarrow(state, props.narrow),
   lastMessageTopic: getLastMessageTopic(state, props.narrow),
-}))(ComposeBox);
+  caughtUp: getCaughtUpForNarrow(state, props.narrow),
+}))(withGetText(ComposeBox));
