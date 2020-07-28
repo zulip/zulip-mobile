@@ -4,7 +4,6 @@ import { Platform, NativeModules } from 'react-native';
 import { WebView } from 'react-native-webview';
 import type { WebViewNavigation } from 'react-native-webview';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
-import { URL as WhatwgURL } from 'react-native-url-polyfill';
 
 import type {
   AlertWordsState,
@@ -133,15 +132,15 @@ export type Props = $ReadOnly<{|
  */
 const assetsUrl =
   Platform.OS === 'ios'
-    ? new WhatwgURL(NativeModules.ZLPConstants.resourceURL)
-    : new WhatwgURL('file:///android_asset/');
+    ? new URL(NativeModules.ZLPConstants.resourceURL)
+    : new URL('file:///android_asset/');
 
 /**
  * The URL of the webview-assets folder.
  *
  * This is the folder populated at build time by `tools/build-webview`.
  */
-const webviewAssetsUrl = new WhatwgURL('webview/', assetsUrl);
+const webviewAssetsUrl = new URL('webview/', assetsUrl);
 
 class MessageList extends Component<Props> {
   static contextType = ThemeContext;
@@ -253,7 +252,7 @@ class MessageList extends Component<Props> {
      * and cross-domain security restrictions have somewhere to
      * believe that this document originates from.
      */
-    const baseUrl = new WhatwgURL('index.html', webviewAssetsUrl);
+    const baseUrl = new URL('index.html', webviewAssetsUrl);
 
     // Paranoia^WSecurity: only load `baseUrl`, and only load it once. Any other
     // requests should be handed off to the OS, not loaded inside the WebView.
