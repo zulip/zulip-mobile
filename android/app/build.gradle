@@ -236,7 +236,7 @@ dependencies {
         implementation jscFlavor
     }
 
-    implementation 'com.facebook.fresco:animated-gif:1.10.0' // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:2.0.0' // For animated GIF support
     implementation 'androidx.browser:browser:1.0.0'
     addUnimodulesDependencies()
 
