@@ -1,20 +1,51 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
 import { getUpdateEvents } from '../webViewHandleUpdates';
 import { flagsStateToStringList } from '../html/messageAsHtml';
 import { HOME_NARROW } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
+import type { Props } from '../MessageList';
 
 describe('getUpdateEvents', () => {
-  const emptyFlags = eg.baseReduxState.flags;
-
   const baseBackgroundData = deepFreeze({
-    flags: emptyFlags,
-    auth: {},
+    alertWords: [],
+    allImageEmojiById: eg.action.realm_init.data.realm_emoji,
+    auth: eg.selfAuth,
+    debug: eg.baseReduxState.session.debug,
+    flags: eg.baseReduxState.flags,
+    mute: [],
+    ownUser: eg.selfUser,
+    subscriptions: [],
+    theme: 'default',
+    twentyFourHourTime: false,
   });
 
-  const baseProps = deepFreeze({
+  const baseSelectorProps = deepFreeze({
     backgroundData: baseBackgroundData,
+    initialScrollMessageId: null,
+    fetching: { older: false, newer: false },
+    messages: [],
+    renderedMessages: [],
+    typingUsers: [],
+  });
+
+  type FudgedProps = {|
+    ...Props,
+
+    // `intl` property is complicated and not worth testing
+    _: $FlowFixMe,
+  |};
+
+  const baseProps: FudgedProps = deepFreeze({
+    narrow: HOME_NARROW,
+    showMessagePlaceholders: false,
+    startEditMessage: jest.fn(),
+    dispatch: jest.fn(),
+    ...baseSelectorProps,
+    showActionSheetWithOptions: jest.fn(),
+
+    _: jest.fn(),
   });
 
   test('missing prev and next props returns no messages', () => {
@@ -41,6 +72,7 @@ describe('getUpdateEvents', () => {
     expect(messages).toEqual([
       {
         type: 'fetching',
+        showMessagePlaceholders: nextProps.showMessagePlaceholders,
         fetchingNewer: true,
         fetchingOlder: false,
       },
@@ -69,7 +101,7 @@ describe('getUpdateEvents', () => {
     };
     const nextProps = {
       ...baseProps,
-      typingUsers: [{ id: 10 }],
+      typingUsers: [eg.makeUser()],
     };
 
     const messages = getUpdateEvents(prevProps, nextProps);
@@ -95,29 +127,15 @@ describe('getUpdateEvents', () => {
 
   test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
     const prevProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
-      messages: [],
+      ...baseProps,
       renderedMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
-      messages: [],
+      ...baseProps,
       renderedMessages: [
         {
           key: 0,
-          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
+          data: [{ key: 123, type: 'message', isBrief: false, message: eg.streamMessage() }],
           message: {},
         },
       ],
@@ -140,7 +158,7 @@ describe('getUpdateEvents', () => {
       ...baseProps,
       narrow: HOME_NARROW,
       fetching: { older: false, newer: true },
-      typingUsers: [{ id: 10 }],
+      typingUsers: [eg.makeUser()],
     };
 
     const messages = getUpdateEvents(prevProps, nextProps);
@@ -152,33 +170,19 @@ describe('getUpdateEvents', () => {
 
   test('when there are several diffs but messages differ too return only a single "content" message', () => {
     const prevProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
+      ...baseProps,
       fetching: { older: false, newer: false },
       typingUsers: [],
-      messages: [],
       renderedMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
-      backgroundData: {
-        alertWords: {},
-        auth: { realm: '' },
-        flags: { starred: {}, has_alert_word: {} },
-        ownUser: { user_id: 1432 },
-      },
-      narrow: HOME_NARROW,
+      ...baseProps,
       fetching: { older: false, newer: true },
-      typingUsers: [{ id: 10 }],
-      messages: [],
+      typingUsers: [eg.makeUser()],
       renderedMessages: [
         {
           key: 0,
-          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0, reactions: [] } }],
+          data: [{ key: 123, type: 'message', isBrief: false, message: eg.streamMessage() }],
           message: {},
         },
       ],
@@ -191,18 +195,28 @@ describe('getUpdateEvents', () => {
   });
 
   test('if a new message is read send a "read" update', () => {
+    const message1 = eg.streamMessage({ id: 1 });
+    const message2 = eg.streamMessage({ id: 2 });
+    const message3 = eg.streamMessage({ id: 3 });
+
     const prevProps = {
-      auth: { realm: '' },
-      typingUsers: [],
+      ...baseProps,
       backgroundData: {
-        flags: { read: { 2: true } },
+        ...baseBackgroundData,
+        flags: {
+          ...baseBackgroundData.flags,
+          read: { [message2.id]: true },
+        },
       },
     };
     const nextProps = {
-      auth: { realm: '' },
-      typingUsers: [],
+      ...baseProps,
       backgroundData: {
-        flags: { read: { 1: true, 2: true, 3: true } },
+        ...baseBackgroundData,
+        flags: {
+          ...baseBackgroundData.flags,
+          read: { [message1.id]: true, [message2.id]: true, [message3.id]: true },
+        },
       },
     };
 
@@ -216,16 +230,21 @@ describe('getUpdateEvents', () => {
 });
 
 describe('flagsStateToStringList', () => {
+  const message1 = eg.streamMessage({ id: 1 });
+  const message2 = eg.streamMessage({ id: 2 });
+  const message3 = eg.streamMessage({ id: 3 });
+
   const flags = {
+    ...eg.baseReduxState.flags,
     read: {
-      1: true,
-      2: true,
+      [message1.id]: true,
+      [message2.id]: true,
     },
     starred: {
-      1: true,
-      3: true,
+      [message1.id]: true,
+      [message3.id]: true,
     },
-    mentions: {},
+    mentioned: {},
     // ...
     // the actual state keeps track of many more flags
   };
