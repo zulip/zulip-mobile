@@ -1,11 +1,14 @@
 /* @flow strict-local */
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import omit from 'lodash.omit';
 
 import type { GlobalState } from '../../reduxTypes';
 import type { Action } from '../../actionTypes';
 import { isFetchNeededAtAnchor, fetchMessages, fetchOlder, fetchNewer } from '../fetchActions';
 import { FIRST_UNREAD_ANCHOR } from '../../anchor';
+import type { Message } from '../../api/modelTypes';
+import type { ServerMessage } from '../../api/messages/getMessages';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -73,8 +76,6 @@ describe('fetchActions', () => {
 
   describe('fetchMessages', () => {
     const message1 = eg.streamMessage({ id: 1 });
-    const message2 = eg.streamMessage({ id: 2 });
-    const message3 = eg.streamMessage({ id: 3 });
 
     const baseState = eg.reduxState({
       ...navStateWithNarrow(HOME_NARROW),
@@ -86,8 +87,20 @@ describe('fetchActions', () => {
 
     describe('success', () => {
       beforeEach(() => {
+        type CommonFields = $Diff<Message, { reactions: mixed }>;
+
+        // A message exactly as we receive it from the server, before
+        // our own transformations.
+        //
+        // TODO: Deduplicate this logic with similar logic in
+        // migrateMessages-test.js.
+        const serverMessage1: ServerMessage = {
+          ...(omit(message1, 'reactions'): CommonFields),
+          reactions: [],
+        };
+
         const response = {
-          messages: [message1, message2, message3],
+          messages: [serverMessage1],
           result: 'success',
         };
         fetch.mockResponseSuccess(JSON.stringify(response));
@@ -133,7 +146,7 @@ describe('fetchActions', () => {
 
         expect(actions[1].type).toBe('MESSAGE_FETCH_COMPLETE');
 
-        expect(returnValue).toEqual([message1, message2, message3]);
+        expect(returnValue).toEqual([message1]);
       });
     });
 
