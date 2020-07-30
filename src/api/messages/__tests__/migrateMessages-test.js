@@ -20,11 +20,13 @@ describe('migrateMessages', () => {
     },
   };
 
+  type CommonFields = $Diff<Message, { reactions: mixed }>;
+
   const serverMessage: ServerMessage = {
     // The `omit` shouldn't be necessary with Flow v0.111: "Spreads
     // now overwrite properties instead of inferring unions"
     // (https://medium.com/flow-type/spreads-common-errors-fixes-9701012e9d58).
-    ...(omit(eg.streamMessage(), 'reactions'): $Diff<Message, { reactions: mixed }>),
+    ...(omit(eg.streamMessage(), 'reactions'): CommonFields),
     reactions: [serverReaction],
   };
 
@@ -33,7 +35,7 @@ describe('migrateMessages', () => {
   const expectedOutput: Message[] = [
     {
       // The `omit` shouldn't be necessary with Flow v0.111.
-      ...(omit(serverMessage, 'reactions'): $Diff<ServerMessage, { reactions: mixed }>),
+      ...(omit(serverMessage, 'reactions'): CommonFields),
       reactions: [
         {
           user_id: reactingUser.user_id,
