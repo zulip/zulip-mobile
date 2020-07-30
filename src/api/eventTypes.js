@@ -13,12 +13,26 @@
 import type { Message, Stream, UserPresence } from './modelTypes';
 
 export class EventTypes {
+  static alert_words: 'alert_words' = 'alert_words';
+  static delete_message: 'delete_message' = 'delete_message';
   static heartbeat: 'heartbeat' = 'heartbeat';
   static message: 'message' = 'message';
+  static muted_topics: 'muted_topics' = 'muted_topics';
   static presence: 'presence' = 'presence';
+  static reaction: 'reaction' = 'reaction';
+  static realm_bot: 'realm_bot' = 'realm_bot';
+  static realm_emoji: 'realm_emoji' = 'realm_emoji';
+  static realm_filters: 'realm_filters' = 'realm_filters';
+  static realm_user: 'realm_user' = 'realm_user';
   static stream: 'stream' = 'stream';
   static submessage: 'submessage' = 'submessage';
+  static subscription: 'subscription' = 'subscription';
+  static typing: 'typing' = 'typing';
+  static update_display_settings: 'update_display_settings' = 'update_display_settings';
+  static update_global_notifications: 'update_global_notifications' = 'update_global_notifications';
+  static update_message: 'update_message' = 'update_message';
   static update_message_flags: 'update_message_flags' = 'update_message_flags';
+  static user_group: 'user_group' = 'user_group';
   static user_status: 'user_status' = 'user_status';
 }
 
