@@ -1,8 +1,10 @@
 /* @flow strict-local */
 import type { Auth, ApiResponseSuccess } from '../transportTypes';
+import type { Identity } from '../../types';
 import type { Message, Narrow } from '../apiTypes';
 import type { Reaction } from '../modelTypes';
 import { apiGet } from '../apiFetch';
+import { identityOfAuth } from '../../account/accountMisc';
 
 type ApiResponseMessages = {|
   ...ApiResponseSuccess,
@@ -41,7 +43,7 @@ type ServerApiResponseMessages = {|
 |};
 
 /** Exported for tests only. */
-export const migrateMessages = (messages: ServerMessage[]): Message[] =>
+export const migrateMessages = (messages: ServerMessage[], identity: Identity): Message[] =>
   messages.map(message => {
     const { reactions, ...restMessage } = message;
     return {
@@ -56,11 +58,11 @@ export const migrateMessages = (messages: ServerMessage[]): Message[] =>
     };
   });
 
-const migrateResponse = response => {
+const migrateResponse = (response, identity: Identity) => {
   const { messages, ...restResponse } = response;
   return {
     ...restResponse,
-    messages: migrateMessages(messages),
+    messages: migrateMessages(messages, identity),
   };
 };
 
@@ -91,5 +93,5 @@ export default async (
     apply_markdown: true,
     use_first_unread_anchor: useFirstUnread,
   });
-  return migrateResponse(response);
+  return migrateResponse(response, identityOfAuth(auth));
 };

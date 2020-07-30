@@ -2,6 +2,7 @@
 import omit from 'lodash.omit';
 
 import { migrateMessages } from '../getMessages';
+import { identityOfAuth } from '../../../account/accountMisc';
 import * as eg from '../../../__tests__/lib/exampleData';
 import type { ServerMessage, ServerReaction } from '../getMessages';
 import type { Message } from '../../modelTypes';
@@ -47,7 +48,7 @@ describe('migrateMessages', () => {
     },
   ];
 
-  const actualOutput: Message[] = migrateMessages(input);
+  const actualOutput: Message[] = migrateMessages(input, identityOfAuth(eg.selfAuth));
 
   test('Replace user object with `user_id`', () => {
     expect(actualOutput.map(m => m.reactions)).toEqual(expectedOutput.map(m => m.reactions));
