@@ -6,5 +6,5 @@ export const showToast = (message: string) => {
   Toast.show(message);
 };
 
-export const showErrorAlert = (message?: string, title: string) =>
+export const showErrorAlert = (title: string, message?: string) =>
   Alert.alert(title, message, [{ text: 'OK', onPress: () => {} }], { cancelable: true });

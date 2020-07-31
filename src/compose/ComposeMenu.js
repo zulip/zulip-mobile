@@ -83,7 +83,7 @@ class ComposeMenu extends PureComponent<Props> {
     // $FlowFixMe sketchy falsiness check, because upstream API is unclear
     const error: string | null = response.error || null;
     if (error !== null) {
-      showErrorAlert(error, 'Error');
+      showErrorAlert('Error', error);
       return;
     }
 
@@ -127,7 +127,7 @@ class ComposeMenu extends PureComponent<Props> {
       }): DocumentPickerResponse);
     } catch (e) {
       if (!DocumentPicker.isCancel(e)) {
-        showErrorAlert(e, 'Error');
+        showErrorAlert('Error', e);
       }
       return;
     }

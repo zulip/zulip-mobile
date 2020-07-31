@@ -254,7 +254,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const { message } = this.state;
 
     if (!caughtUp.newer) {
-      showErrorAlert(undefined, _('Failed to send message'));
+      showErrorAlert(_('Failed to send message'));
       return;
     }
 
@@ -274,7 +274,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const subject = topic !== editMessage.topic ? topic : undefined;
     if ((content !== undefined && content !== '') || (subject !== undefined && subject !== '')) {
       api.updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
-        showErrorAlert(error.message, _('Failed to edit message'));
+        showErrorAlert(_('Failed to edit message'), error.message);
       });
     }
     completeEditMessage();
