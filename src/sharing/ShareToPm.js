@@ -69,16 +69,15 @@ class ShareToPm extends React.Component<Props, State> {
   static contextType = TranslationContext;
   context: GetText;
 
-  constructor(props) {
-    super(props);
+  state = (() => {
     const { sharedData } = this.props.navigation.state.params;
-    this.state = {
+    return {
       selectedRecipients: [],
       message: sharedData.type === 'text' ? sharedData.sharedText : '',
       choosingRecipients: false,
       sending: false,
     };
-  }
+  })();
 
   handleModalClose = () => {
     this.setState({ choosingRecipients: false });
