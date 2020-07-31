@@ -254,7 +254,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const { message } = this.state;
 
     if (!caughtUp.newer) {
-      showErrorAlert(_('Please try again after some time'), _('Failed to send message'));
+      showErrorAlert(undefined, _('Failed to send message'));
       return;
     }
 
