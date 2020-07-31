@@ -24,7 +24,6 @@ describe('codeToEmojiMap', () => {
   });
 });
 
-
 describe('getFilteredEmojis', () => {
   test('empty query returns all emojis', () => {
     const list = getFilteredEmojis('', {});
