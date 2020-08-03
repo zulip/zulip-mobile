@@ -80,7 +80,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
         // These side effects should not be moved to reducers, which
         // are explicitly not the place for side effects (see
         // https://redux.js.org/faq/actions).
-        doEventActionSideEffects(getState(), action);
+        dispatch(doEventActionSideEffects(action));
       });
 
       lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);

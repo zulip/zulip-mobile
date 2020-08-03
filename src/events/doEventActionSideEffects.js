@@ -2,7 +2,7 @@
 // import { Vibration } from 'react-native';
 
 import { AppState } from 'react-native';
-import type { GlobalState, Message } from '../types';
+import type { GlobalState, GetState, Dispatch, Message } from '../types';
 import type { EventAction } from '../actionTypes';
 import { EVENT_NEW_MESSAGE } from '../actionConstants';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
@@ -43,10 +43,10 @@ const messageEvent = (state: GlobalState, message: Message): void => {
 /**
  * React to actions dispatched for Zulip server events.
  *
- * To be run after the event actions are dispatched. Inputs are not
- * mutated.
+ * To be dispatched after the event actions are dispatched.
  */
-export default (state: GlobalState, action: EventAction) => {
+export default (action: EventAction) => async (dispatch: Dispatch, getState: GetState) => {
+  const state = getState();
   switch (action.type) {
     case EVENT_NEW_MESSAGE: {
       messageEvent(state, action.message);
