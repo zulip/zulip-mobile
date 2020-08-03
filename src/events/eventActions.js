@@ -14,7 +14,7 @@ import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
 
 /** Convert an `/events` response into a sequence of our Redux actions. */
-export const responseToActions = (
+export const eventsToActions = (
   state: GlobalState,
   events: $ReadOnlyArray<GeneralEvent>,
 ): EventAction[] =>
@@ -71,7 +71,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
         break;
       }
 
-      const actions = responseToActions(getState(), events);
+      const actions = eventsToActions(getState(), events);
 
       actionCreator(dispatch, actions, getState());
       dispatchOrBatch(dispatch, actions);
