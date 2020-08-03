@@ -84,7 +84,12 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
       return {
         type: EVENT_NEW_MESSAGE,
         id: event.id,
-        message: event.message,
+        message: {
+          ...event.message,
+          // Move `flags` key from `event` to `event.message` for consistency, and
+          // default to an empty array if `event.flags` is not set.
+          flags: event.message.flags ?? event.flags ?? [],
+        },
         local_message_id: event.local_message_id,
         caughtUp: state.caughtUp,
         ownEmail: getOwnEmail(state),
