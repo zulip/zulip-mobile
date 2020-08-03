@@ -82,8 +82,10 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
 
     case 'message':
       return {
-        ...event,
         type: EVENT_NEW_MESSAGE,
+        id: event.id,
+        message: event.message,
+        local_message_id: event.local_message_id,
         caughtUp: state.caughtUp,
         ownEmail: getOwnEmail(state),
       };
