@@ -251,13 +251,3 @@ export class UploadedAvatarURL extends AvatarURL {
     return result;
   }
 }
-
-export const getAvatarUrl = (
-  avatarUrl: ?string,
-  email: string,
-  realm: URL,
-  sizePhysicalPx: number,
-): string =>
-  AvatarURL.fromUserOrBotData({ rawAvatarUrl: avatarUrl, email, realm })
-    .get(sizePhysicalPx)
-    .toString();
