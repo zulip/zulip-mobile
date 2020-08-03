@@ -1,12 +1,13 @@
 /* @flow strict-local */
 import { batchActions } from 'redux-batched-actions';
 
+import type { EventAction } from '../actionTypes';
 import type { Action, Dispatch, GeneralEvent, GetState, GlobalState } from '../types';
 import * as api from '../api';
 import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
-import eventMiddleware from './eventMiddleware';
+import doEventActionSideEffects from './doEventActionSideEffects';
 import { tryGetAuth } from '../selectors';
 import actionCreator from '../actionCreator';
 import { BackoffMachine } from '../utils/async';
@@ -16,12 +17,9 @@ import { ApiError } from '../api/apiErrors';
 export const responseToActions = (
   state: GlobalState,
   events: $ReadOnlyArray<GeneralEvent>,
-): Action[] =>
+): EventAction[] =>
   events
-    .map(event => {
-      eventMiddleware(state, event);
-      return eventToAction(state, event);
-    })
+    .map(event => eventToAction(state, event))
     .filter(action => {
       if (action.type === 'ignore') {
         return false;
@@ -77,6 +75,13 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
 
       actionCreator(dispatch, actions, getState());
       dispatchOrBatch(dispatch, actions);
+
+      actions.forEach(action => {
+        // These side effects should not be moved to reducers, which
+        // are explicitly not the place for side effects (see
+        // https://redux.js.org/faq/actions).
+        doEventActionSideEffects(getState(), action);
+      });
 
       lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
     } catch (e) {
