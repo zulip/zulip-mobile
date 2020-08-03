@@ -27,8 +27,8 @@ export const responseToActions = (
         return false;
       }
 
-      if (!action || !action.type || action.type === 'unknown') {
-        console.log('Can not handle event', action.event); // eslint-disable-line
+      if (action.type === 'unknown') {
+        console.log('Cannot handle event', action.event); // eslint-disable-line
         return false;
       }
 
