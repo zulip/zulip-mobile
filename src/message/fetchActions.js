@@ -320,6 +320,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
           client_capabilities: {
             notification_settings_null: true,
             bulk_message_deletion: true,
+            user_avatar_url_field_optional: true,
           },
         }),
       ),

@@ -110,8 +110,8 @@ export type RawInitialDataRealmUser = {|
   enter_sends: boolean,
   full_name: string,
   is_admin: boolean,
-  realm_users: Array<{| ...User, avatar_url: string | null |}>,
-  realm_non_active_users: Array<{| ...User, avatar_url: string | null |}>,
+  realm_users: Array<{| ...User, avatar_url?: string | null |}>,
+  realm_non_active_users: Array<{| ...User, avatar_url?: string | null |}>,
   user_id: number,
 |};
 

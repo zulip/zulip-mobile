@@ -18,15 +18,25 @@ export class AvatarURL {
    */
   static fromUserOrBotData(args: {|
     rawAvatarUrl: string | void | null,
+    userId: number,
     email: string,
     realm: URL,
   |}): AvatarURL {
-    const { rawAvatarUrl, email, realm } = args;
+    const { rawAvatarUrl, userId, email, realm } = args;
     if (rawAvatarUrl === undefined) {
-      // `rawAvatarUrl` will be undefined for cross-realm bots from
-      // servers prior to 58ee3fa8c (1.9.0). Fall back to Gravatar for
-      // this case; it should be pretty rare.
-      return GravatarURL.validateAndConstructInstance({ email });
+      // New in Zulip 3.0, feature level 18, the field may be missing
+      // on user objects in the register response, at the server's
+      // discretion, if we announce the
+      // `user_avatar_url_field_optional` client capability, which we
+      // do. See the note about `user_avatar_url_field_optional` at
+      // https://zulipchat.com/api/register-queue.
+      //
+      // It will also be absent on cross-realm bots from servers prior
+      // to 58ee3fa8c (1.9.0). The effect of using FallbackAvatarURL for
+      // this case isn't thoroughly considered, but at worst, it means a
+      // 404. We could plumb through the server version and
+      // conditionalize on that.
+      return FallbackAvatarURL.validateAndConstructInstance({ realm, userId });
     } else if (rawAvatarUrl === null) {
       // If we announce `client_gravatar`, which we do, `rawAvatarUrl`
       // might be null. In that case, we take responsibility for
@@ -156,6 +166,84 @@ export class GravatarURL extends AvatarURL {
     const result: URL = new URL(this._standardUrl);
     result.searchParams.set('s', sizePhysicalPx.toString());
     return result;
+  }
+}
+
+/**
+ * The /avatar/{user_id} redirect.
+ *
+ * See the point on `user_avatar_url_field_optional` at
+ * https://zulipchat.com/api/register-queue.
+ *
+ * This endpoint does not currently support size customization.
+ */
+export class FallbackAvatarURL extends AvatarURL {
+  /**
+   * Serialize to a special string; reversible with `deserialize`.
+   */
+  static serialize(instance: FallbackAvatarURL): string {
+    return instance._standardUrl instanceof URL
+      ? instance._standardUrl.toString()
+      : instance._standardUrl;
+  }
+
+  /**
+   * Use a special string from `serialize` to make a new instance.
+   */
+  static deserialize(serialized: string): FallbackAvatarURL {
+    return new FallbackAvatarURL(serialized);
+  }
+
+  /**
+   * Construct from raw server data, or throw an error.
+   */
+  static validateAndConstructInstance(args: {| realm: URL, userId: number |}): FallbackAvatarURL {
+    const { realm, userId } = args;
+    return new FallbackAvatarURL(new URL(`/avatar/${userId.toString()}`, realm));
+  }
+
+  /**
+   * Standard URL from which to generate others. PRIVATE.
+   *
+   * May be a string if the instance was constructed at rehydrate
+   * time, when URL validation is unnecessary.
+   */
+  _standardUrl: string | URL;
+
+  /**
+   * PRIVATE: Make an instance from already-validated data.
+   *
+   * Not part of the public interface; use the static methods instead.
+   *
+   * It's private because we need a path to constructing an instance
+   * without constructing URL objects, which takes more time than is
+   * acceptable when we can avoid it, e.g., during rehydration.
+   * Constructing URL objects is a necessary part of validating data
+   * from the server, but we only need to validate the data once, when
+   * it's first received.
+   */
+  constructor(standardUrl: string | URL) {
+    super();
+    this._standardUrl = standardUrl;
+  }
+
+  /**
+   * Get a URL object for the given size.
+   *
+   * Size customization isn't currently supported for
+   * FallbackAvatarURLs.
+   *
+   * Still, we'll take `sizePhysicalPx` (it should be an integer), to
+   * make it easy to support in the future.
+   */
+  get(sizePhysicalPx: number): URL {
+    // `this._standardUrl` may have begun its life as a string, to
+    // avoid computing a URL object during rehydration
+    if (typeof this._standardUrl === 'string') {
+      this._standardUrl = new URL(this._standardUrl);
+    }
+
+    return this._standardUrl;
   }
 }
 

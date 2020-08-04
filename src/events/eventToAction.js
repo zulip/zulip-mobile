@@ -89,6 +89,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
           avatar_url: AvatarURL.fromUserOrBotData({
             rawAvatarUrl: event.message.avatar_url,
             email: event.message.sender_email,
+            userId: event.message.sender_id,
             realm: getCurrentRealm(state),
           }),
         },
@@ -132,7 +133,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
 
       switch (event.op) {
         case 'add': {
-          const { avatar_url: rawAvatarUrl, email } = event.person;
+          const { avatar_url: rawAvatarUrl, user_id: userId, email } = event.person;
           return {
             type: EVENT_USER_ADD,
             id: event.id,
@@ -141,6 +142,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
               ...event.person,
               avatar_url: AvatarURL.fromUserOrBotData({
                 rawAvatarUrl,
+                userId,
                 email,
                 realm,
               }),
@@ -149,14 +151,15 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
         }
 
         case 'update': {
-          const existingUser = getAllUsersById(state).get(event.person.user_id);
+          const { user_id: userId } = event.person;
+          const existingUser = getAllUsersById(state).get(userId);
           if (!existingUser) {
             // If we get one of these events and don't have
             // information on the user, there's nothing to do about
             // it. But it's probably a bug, so, tell Sentry.
             logging.warn(
               "`realm_user` event with op `update` received for a user we don't know about",
-              { userId: event.person.user_id },
+              { userId },
             );
             return { type: 'ignore' };
           }
@@ -164,7 +167,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
           return {
             type: EVENT_USER_UPDATE,
             id: event.id,
-            userId: event.person.user_id,
+            userId,
             // Just the fields we want to overwrite.
             person: {
               // Note: The `avatar_url` field will be out of sync with
@@ -175,6 +178,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
                 ? {
                     avatar_url: AvatarURL.fromUserOrBotData({
                       rawAvatarUrl: event.person.avatar_url,
+                      userId,
                       email: existingUser.email,
                       realm,
                     }),

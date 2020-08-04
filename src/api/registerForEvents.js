@@ -18,27 +18,33 @@ type RegisterForEventsParams = {|
   client_capabilities?: {|
     notification_settings_null: boolean,
     bulk_message_deletion: boolean,
+    user_avatar_url_field_optional: boolean,
   |},
 |};
 
-const transformUser = (rawUser: {| ...User, avatar_url: string | null |}, realm: URL): User => {
+const transformUser = (rawUser: {| ...User, avatar_url?: string | null |}, realm: URL): User => {
   const { avatar_url: rawAvatarUrl, email } = rawUser;
 
   return {
     ...rawUser,
-    avatar_url: AvatarURL.fromUserOrBotData({ rawAvatarUrl, email, realm }),
+    avatar_url: AvatarURL.fromUserOrBotData({
+      rawAvatarUrl,
+      email,
+      userId: rawUser.user_id,
+      realm,
+    }),
   };
 };
 
 const transformCrossRealmBot = (
-  rawCrossRealmBot: {| ...CrossRealmBot, avatar_url: string | void | null |},
+  rawCrossRealmBot: {| ...CrossRealmBot, avatar_url?: string | null |},
   realm: URL,
 ): CrossRealmBot => {
-  const { avatar_url: rawAvatarUrl, email } = rawCrossRealmBot;
+  const { avatar_url: rawAvatarUrl, user_id: userId, email } = rawCrossRealmBot;
 
   return {
     ...rawCrossRealmBot,
-    avatar_url: AvatarURL.fromUserOrBotData({ rawAvatarUrl, email, realm }),
+    avatar_url: AvatarURL.fromUserOrBotData({ rawAvatarUrl, userId, email, realm }),
   };
 };
 

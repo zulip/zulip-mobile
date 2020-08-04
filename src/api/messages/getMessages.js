@@ -54,6 +54,7 @@ export const migrateMessages = (messages: ServerMessage[], identity: Identity): 
       avatar_url: AvatarURL.fromUserOrBotData({
         rawAvatarUrl,
         email: message.sender_email,
+        userId: message.sender_id,
         realm: identity.realm,
       }),
       reactions: reactions.map(reaction => {
