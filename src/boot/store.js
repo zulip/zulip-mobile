@@ -10,6 +10,7 @@ import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
 import { ZulipVersion } from '../utils/zulipVersion';
+import { GravatarURL, UploadedAvatarURL } from '../utils/avatar';
 import type { Action, GlobalState } from '../types';
 import config from '../config';
 import { REHYDRATE } from '../actionConstants';
@@ -303,6 +304,13 @@ const customReplacer = (key, value, defaultReplacer) => {
     return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
   } else if (value instanceof URL) {
     return { data: value.toString(), [SERIALIZED_TYPE_FIELD_NAME]: 'URL' };
+  } else if (value instanceof GravatarURL) {
+    return { data: GravatarURL.serialize(value), [SERIALIZED_TYPE_FIELD_NAME]: 'GravatarURL' };
+  } else if (value instanceof UploadedAvatarURL) {
+    return {
+      data: UploadedAvatarURL.serialize(value),
+      [SERIALIZED_TYPE_FIELD_NAME]: 'UploadedAvatarURL',
+    };
   }
   return defaultReplacer(key, value);
 };
@@ -315,6 +323,10 @@ const customReviver = (key, value, defaultReviver) => {
         return new ZulipVersion(data);
       case 'URL':
         return new URL(data);
+      case 'GravatarURL':
+        return GravatarURL.deserialize(data);
+      case 'UploadedAvatarURL':
+        return UploadedAvatarURL.deserialize(data);
       default:
       // Fall back to defaultReviver, below
     }
