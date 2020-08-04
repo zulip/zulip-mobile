@@ -12,6 +12,8 @@
 //
 //
 
+import type { AvatarURL } from '../utils/avatar';
+
 export type ImageEmojiType = $ReadOnly<{|
   author?: $ReadOnly<{|
     email: string,
@@ -480,10 +482,18 @@ export type Message = $ReadOnly<{|
    */
   flags?: $ReadOnlyArray<string>,
 
-  //
+  /**
+   * Present under EVENT_NEW_MESSAGE and under MESSAGE_FETCH_COMPLETE,
+   * and in `state.messages`, all as an AvatarURL, because we
+   * translate into that form at the edge.
+   *
+   * For how it appears at the edge (and how we translate) see
+   * AvatarURL.fromUserOrBotData.
+   */
+  avatar_url: AvatarURL,
+
   // The rest are believed to really appear in `message` events.
 
-  avatar_url: string | null,
   client: string,
   content: string,
   content_type: 'text/html' | 'text/markdown',

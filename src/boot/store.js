@@ -218,6 +218,9 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     narrows: Immutable.Map(state.narrows),
   }),
 
+  // Convert messages[].avatar_url from `string | null` to `AvatarURL`.
+  '17': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

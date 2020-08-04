@@ -12,7 +12,6 @@ import type {
   ImageEmojiType,
 } from '../../types';
 import type { BackgroundData } from '../MessageList';
-import { getAvatarFromMessage } from '../../utils/avatar';
 import { shortTime } from '../../utils/date';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';
@@ -119,13 +118,13 @@ $!${divOpenHtml}
 
   const { sender_full_name } = message;
   const sender_id = message.isOutbox ? backgroundData.ownUser.user_id : message.sender_id;
-  const avatarUrl = getAvatarFromMessage(
-    message,
-    backgroundData.auth.realm,
-    // 48 logical pixels; see `.avatar` and `.avatar img` in
-    // src/webview/static/base.css.
-    PixelRatio.getPixelSizeForLayoutSize(48),
-  );
+  const avatarUrl = message.avatar_url
+    .get(
+      // 48 logical pixels; see `.avatar` and `.avatar img` in
+      // src/webview/static/base.css.
+      PixelRatio.getPixelSizeForLayoutSize(48),
+    )
+    .toString();
   const subheaderHtml = template`
 <div class="subheader">
   <div class="username">

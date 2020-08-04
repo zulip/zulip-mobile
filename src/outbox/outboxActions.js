@@ -15,6 +15,7 @@ import * as api from '../api';
 import { getAllUsersByEmail, getOwnUser } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
 import { caseNarrowPartial } from '../utils/narrow';
+import { AvatarURL } from '../utils/avatar';
 import { BackoffMachine } from '../utils/async';
 import { recipientsOfPrivateMessage, streamNameOfStreamMessage } from '../utils/recipient';
 
@@ -162,6 +163,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
 ) => {
   const state = getState();
   const ownUser = getOwnUser(state);
+  const auth = getAuth(state);
 
   const localTime = Math.round(new Date().getTime() / 1000);
   dispatch(
@@ -175,7 +177,15 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
       sender_full_name: ownUser.full_name,
       sender_email: ownUser.email,
       sender_id: ownUser.user_id,
-      avatar_url: ownUser.avatar_url,
+
+      // In the next commit, we'll just use `ownUser.avatar_url`,
+      // since it'll already be an `AvatarURL`.
+      avatar_url: AvatarURL.fromUserOrBotData({
+        rawAvatarUrl: ownUser.avatar_url,
+        email: ownUser.email,
+        realm: auth.realm,
+      }),
+
       isOutbox: true,
       reactions: [],
     }),

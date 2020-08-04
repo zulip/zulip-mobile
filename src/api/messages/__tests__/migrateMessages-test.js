@@ -4,6 +4,7 @@ import { identityOfAuth } from '../../../account/accountMisc';
 import * as eg from '../../../__tests__/lib/exampleData';
 import type { ServerMessage, ServerReaction } from '../getMessages';
 import type { Message } from '../../modelTypes';
+import { GravatarURL } from '../../../utils/avatar';
 
 describe('migrateMessages', () => {
   const reactingUser = eg.makeUser();
@@ -22,6 +23,7 @@ describe('migrateMessages', () => {
   const serverMessage: ServerMessage = {
     ...eg.streamMessage(),
     reactions: [serverReaction],
+    avatar_url: null,
   };
 
   const input: ServerMessage[] = [serverMessage];
@@ -37,12 +39,17 @@ describe('migrateMessages', () => {
           emoji_code: serverReaction.emoji_code,
         },
       ],
+      avatar_url: GravatarURL.validateAndConstructInstance({ email: serverMessage.sender_email }),
     },
   ];
 
   const actualOutput: Message[] = migrateMessages(input, identityOfAuth(eg.selfAuth));
 
-  test('Replace user object with `user_id`', () => {
+  test('In reactions, replace user object with `user_id`', () => {
     expect(actualOutput.map(m => m.reactions)).toEqual(expectedOutput.map(m => m.reactions));
+  });
+
+  test('Converts avatar_url correctly', () => {
+    expect(actualOutput.map(m => m.avatar_url)).toEqual(expectedOutput.map(m => m.avatar_url));
   });
 });

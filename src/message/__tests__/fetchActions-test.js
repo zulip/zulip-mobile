@@ -112,9 +112,10 @@ describe('fetchActions', () => {
   });
 
   describe('fetchMessages', () => {
-    const message1 = eg.streamMessage({ id: 1 });
+    const sender = eg.makeUser();
+    const message1 = eg.streamMessage({ id: 1, sender });
 
-    type CommonFields = $Diff<Message, { reactions: mixed }>;
+    type CommonFields = $Diff<Message, { reactions: mixed, avatar_url: mixed }>;
 
     // message1 exactly as we receive it from the server, before our
     // own transformations.
@@ -122,8 +123,14 @@ describe('fetchActions', () => {
     // TODO: Deduplicate this logic with similar logic in
     // migrateMessages-test.js.
     const serverMessage1: ServerMessage = {
-      ...(omit(message1, 'reactions'): CommonFields),
+      ...(omit(message1, 'reactions', 'avatar_url'): CommonFields),
       reactions: [],
+      // `User.avatar_url` is still in its raw form, which is what we
+      // want for raw message data from the server. In the next
+      // commit, we won't be able to use `User.avatar_url` as raw data
+      // because it'll be an `AvatarURL` instance. We'll do something
+      // else to simulate raw data here.
+      avatar_url: sender.avatar_url,
     };
 
     const baseState = eg.reduxState({
@@ -243,11 +250,12 @@ describe('fetchActions', () => {
           emoji_code: '1f44d',
           emoji_name: 'thumbs_up',
         };
+
         const response = {
           // Flow would complain at `faultyReaction` if it
           // type-checked `response`, but we should ignore it if that
           // day comes. It's badly shaped on purpose.
-          messages: [{ ...message1, reactions: [faultyReaction] }],
+          messages: [{ ...serverMessage1, reactions: [faultyReaction] }],
           result: 'success',
         };
         fetch.mockResponseSuccess(JSON.stringify(response));

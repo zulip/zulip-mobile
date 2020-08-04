@@ -33,6 +33,8 @@ import {
   EVENT,
 } from '../actionConstants';
 import { getOwnUser, getOwnUserId, getAllUsersById } from '../users/userSelectors';
+import { AvatarURL } from '../utils/avatar';
+import { getCurrentRealm } from '../account/accountsSelectors';
 
 const opToActionUserGroup = {
   add: EVENT_USER_GROUP_ADD,
@@ -84,6 +86,11 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
           // Move `flags` key from `event` to `event.message` for consistency, and
           // default to an empty array if `event.flags` is not set.
           flags: event.message.flags ?? event.flags ?? [],
+          avatar_url: AvatarURL.fromUserOrBotData({
+            rawAvatarUrl: event.message.avatar_url,
+            email: event.message.sender_email,
+            realm: getCurrentRealm(state),
+          }),
         },
         local_message_id: event.local_message_id,
         caughtUp: state.caughtUp,

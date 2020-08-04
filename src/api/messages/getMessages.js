@@ -5,6 +5,7 @@ import type { Message, Narrow } from '../apiTypes';
 import type { Reaction } from '../modelTypes';
 import { apiGet } from '../apiFetch';
 import { identityOfAuth } from '../../account/accountMisc';
+import { AvatarURL } from '../../utils/avatar';
 
 type ApiResponseMessages = {|
   ...ApiResponseSuccess,
@@ -32,6 +33,7 @@ export type ServerReaction = $ReadOnly<{|
 
 export type ServerMessage = $ReadOnly<{|
   ...$Exact<Message>,
+  avatar_url: string | null,
   reactions: $ReadOnlyArray<ServerReaction>,
 |}>;
 
@@ -45,9 +47,15 @@ type ServerApiResponseMessages = {|
 /** Exported for tests only. */
 export const migrateMessages = (messages: ServerMessage[], identity: Identity): Message[] =>
   messages.map(message => {
-    const { reactions, ...restMessage } = message;
+    const { reactions, avatar_url: rawAvatarUrl, ...restMessage } = message;
+
     return {
       ...restMessage,
+      avatar_url: AvatarURL.fromUserOrBotData({
+        rawAvatarUrl,
+        email: message.sender_email,
+        realm: identity.realm,
+      }),
       reactions: reactions.map(reaction => {
         const { user, ...restReaction } = reaction;
         return {

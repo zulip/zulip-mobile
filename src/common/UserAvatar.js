@@ -4,7 +4,7 @@ import { ImageBackground, View, PixelRatio } from 'react-native';
 import { connect } from '../react-redux';
 
 import { getCurrentRealm } from '../selectors';
-import { getAvatarUrl } from '../utils/avatar';
+import { getAvatarUrl, AvatarURL } from '../utils/avatar';
 import Touchable from './Touchable';
 import type { Dispatch, Message, User, CrossRealmBot } from '../types';
 
@@ -55,12 +55,18 @@ class UserAvatar extends PureComponent<Props> {
           <ImageBackground
             style={style}
             source={{
-              uri: getAvatarUrl(
-                avatarUrl,
-                email,
-                realm,
-                PixelRatio.getPixelSizeForLayoutSize(size),
-              ),
+              uri:
+                // If `avatarUrl` is from a Message, it will be an AvatarURL.
+                // Soon, it will also be an AvatarURL if it's from a UserOrBot,
+                // and we won't need the conditional.
+                avatarUrl instanceof AvatarURL
+                  ? avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString()
+                  : getAvatarUrl(
+                      avatarUrl,
+                      email,
+                      realm,
+                      PixelRatio.getPixelSizeForLayoutSize(size),
+                    ),
             }}
             resizeMode="cover"
             /* ImageBackground seems to ignore `style.borderRadius`. */

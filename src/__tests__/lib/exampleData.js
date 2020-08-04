@@ -15,6 +15,7 @@ import type {
 import type { Action, GlobalState, RealmState } from '../../reduxTypes';
 import type { Auth, Account, Outbox } from '../../types';
 import { ZulipVersion } from '../../utils/zulipVersion';
+import { AvatarURL } from '../../utils/avatar';
 import {
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
@@ -266,12 +267,18 @@ const messagePropertiesBase = deepFreeze({
 });
 
 const messagePropertiesFromSender = (user: User) => {
-  const { avatar_url, user_id: sender_id, email: sender_email, full_name: sender_full_name } = user;
+  const { user_id: sender_id, email: sender_email, full_name: sender_full_name } = user;
 
   return deepFreeze({
     sender_domain: '',
 
-    avatar_url,
+    // In the next commit, we'll just use `user.avatar_url`, since
+    // it'll already be an `AvatarURL`.
+    avatar_url: AvatarURL.fromUserOrBotData({
+      rawAvatarUrl: user.avatar_url,
+      email: user.email,
+      realm,
+    }),
     client: 'ExampleClient',
     gravatar_hash: 'd3adb33f',
     sender_email,
@@ -367,7 +374,13 @@ const outboxMessageBase: $Diff<Outbox, {| id: mixed, timestamp: mixed |}> = deep
   isOutbox: true,
   isSent: false,
 
-  avatar_url: selfUser.avatar_url,
+  // In the next commit, we'll just use `selfUser.avatar_url`, since
+  // it'll already be an `AvatarURL`.
+  avatar_url: AvatarURL.fromUserOrBotData({
+    rawAvatarUrl: selfUser.avatar_url,
+    email: selfUser.email,
+    realm,
+  }),
   content: '<p>Test.</p>',
   display_recipient: stream.name,
   // id: ...,
