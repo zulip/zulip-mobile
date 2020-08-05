@@ -13,6 +13,7 @@ type Props = $ReadOnly<{|
   style?: TextStyleProp,
   name: IconNames,
   onPress: () => void,
+  title?: string,
 |}>;
 
 export default class NavButton extends PureComponent<Props> {
@@ -28,10 +29,10 @@ export default class NavButton extends PureComponent<Props> {
   });
 
   render() {
-    const { name, style, color, onPress } = this.props;
+    const { name, style, color, onPress, title } = this.props;
 
     return (
-      <NavButtonGeneral onPress={onPress}>
+      <NavButtonGeneral onPress={onPress} title={title}>
         <Icon style={[this.styles.navButtonIcon, style]} color={color} name={name} />
       </NavButtonGeneral>
     );

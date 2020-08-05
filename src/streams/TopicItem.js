@@ -2,9 +2,9 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import styles, { BRAND_COLOR } from '../styles';
+import styles, { BRAND_COLOR, HALF_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
-import { showToast } from '../utils/info';
+import { IconCheckMarkCircle } from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
   selectedRow: {
@@ -19,6 +19,17 @@ const componentStyles = StyleSheet.create({
   muted: {
     opacity: 0.5,
   },
+  checkIcon: {
+    marginRight: 12,
+  },
+  emptyCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: HALF_COLOR,
+    marginRight: 12,
+  },
 });
 
 type Props = $ReadOnly<{|
@@ -26,8 +37,11 @@ type Props = $ReadOnly<{|
   name: string,
   isMuted: boolean,
   isSelected: boolean,
+  inBulkSelectionMode: boolean,
+  isBulkSelected: boolean,
   unreadCount: number,
   onPress: (topic: string, stream: string) => void,
+  onLongPress: (topic: string, stream: string) => void,
 |}>;
 
 export default class TopicItem extends PureComponent<Props> {
@@ -35,6 +49,8 @@ export default class TopicItem extends PureComponent<Props> {
     stream: '',
     isMuted: false,
     isSelected: false,
+    inBulkSelectionMode: false,
+    isBulkSelected: false,
     unreadCount: 0,
   };
 
@@ -44,8 +60,24 @@ export default class TopicItem extends PureComponent<Props> {
   };
 
   handleLongPress = () => {
-    const { name } = this.props;
-    showToast(name);
+    const { name, stream, onLongPress } = this.props;
+    onLongPress(stream, name);
+  };
+
+  renderBulkSelectionIcon = () => {
+    const { isBulkSelected, inBulkSelectionMode } = this.props;
+
+    if (isBulkSelected) {
+      return (
+        <IconCheckMarkCircle style={componentStyles.checkIcon} size={24} color={BRAND_COLOR} />
+      );
+    }
+
+    if (inBulkSelectionMode) {
+      return <View style={componentStyles.emptyCircle} />;
+    }
+
+    return null;
   };
 
   render() {
@@ -60,6 +92,7 @@ export default class TopicItem extends PureComponent<Props> {
             isMuted && componentStyles.muted,
           ]}
         >
+          {this.renderBulkSelectionIcon()}
           <RawLabel
             style={[componentStyles.label, isSelected && componentStyles.selectedText]}
             text={name}

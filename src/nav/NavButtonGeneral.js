@@ -5,10 +5,12 @@ import type { Node as React$Node } from 'react';
 
 import { NAVBAR_SIZE } from '../styles';
 import { Touchable } from '../common';
+import { showToast } from '../utils/info';
 
 type Props = $ReadOnly<{|
   children: React$Node,
   onPress: () => void,
+  title?: string,
 |}>;
 
 export default class NavButtonGeneral extends PureComponent<Props> {
@@ -21,11 +23,19 @@ export default class NavButtonGeneral extends PureComponent<Props> {
     },
   });
 
+  handleLongPress = () => {
+    const { title } = this.props;
+
+    if (title !== undefined) {
+      showToast(title);
+    }
+  };
+
   render() {
     const { children, onPress } = this.props;
 
     return (
-      <Touchable onPress={onPress}>
+      <Touchable onPress={onPress} onLongPress={this.handleLongPress}>
         <View style={this.styles.navButtonFrame}>{children}</View>
       </Touchable>
     );
