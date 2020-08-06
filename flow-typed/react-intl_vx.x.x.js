@@ -119,9 +119,9 @@ declare module 'react-intl' {
               props: any,
             ) => React.ReactElement<
               any,
-              string | any | ((props: any) => React.Component<any, any, any>),
+              string | any | ((props: any) => React$Component<any, any, any>),
             > | null)
-          | ((props: any) => React.Component<any, any, any>),
+          | ((props: any) => React$Component<any, any, any>),
         > | null,
         ...
       },
@@ -147,7 +147,7 @@ declare module 'react-intl' {
   }
   declare export var FormattedList: React.FC<
     IntlListFormatOptions & {
-      value: React.Node[],
+      value: React$Node[],
       ...
     },
   >;
@@ -200,7 +200,7 @@ declare module 'react-intl' {
       ...
     } & React.RefAttributes<any>,
   > & {
-    WrappedComponent: React.ComponentType<Props_2>,
+    WrappedComponent: React$ComponentType<Props_2>,
     ...
   };
   // changed `mixins` to `extends` in Flow to TS translation
@@ -237,9 +237,9 @@ declare module 'react-intl' {
               props: any,
             ) => React.ReactElement<
               any,
-              string | any | ((props: any) => React.Component<any, any, any>),
+              string | any | ((props: any) => React$Component<any, any, any>),
             > | null)
-          | ((props: any) => React.Component<any, any, any>),
+          | ((props: any) => React$Component<any, any, any>),
         > | null,
         ...
       },
@@ -274,23 +274,23 @@ declare module 'react-intl' {
   }
   declare type FormatXMLElementFn = (...args: any[]) => string | { [key: string]: any };
   declare export function injectIntl<IntlPropName: string, P: WrappedComponentProps<IntlPropName>>(
-    WrappedComponent: React.ComponentType<P>,
+    WrappedComponent: React$ComponentType<P>,
     options?: Opts<IntlPropName, false>,
   ): React.FC<WithIntlProps<P>> & {
-    WrappedComponent: React.ComponentType<P>,
+    WrappedComponent: React$ComponentType<P>,
     ...
   };
   declare export function injectIntl<
     IntlPropName: string,
     P: WrappedComponentProps<IntlPropName>,
-    T: React.ComponentType<P>,
+    T: React$ComponentType<P>,
   >(
-    WrappedComponent: React.ComponentType<P>,
+    WrappedComponent: React$ComponentType<P>,
     options?: Opts<IntlPropName, true>,
   ): React.ForwardRefExoticComponent<
     React.PropsWithoutRef<WithIntlProps<P>> & React.RefAttributes<T>,
   > & {
-    WrappedComponent: React.ComponentType<P>,
+    WrappedComponent: React$ComponentType<P>,
     ...
   };
   declare export interface IntlCache {
@@ -306,7 +306,7 @@ declare module 'react-intl' {
     locale: string;
     timeZone?: string;
     formats: CustomFormats;
-    textComponent?: React.ComponentType<> | $Keys<React.ReactHTML>;
+    textComponent?: React$ComponentType<> | $Keys<React.ReactHTML>;
     messages: { [key: string]: string, ... } | { [key: string]: MessageFormatElement[], ... };
     defaultLocale: string;
     defaultFormats: CustomFormats;
@@ -363,9 +363,9 @@ declare module 'react-intl' {
     formatHTMLMessage(
       descriptor: MessageDescriptor,
       values?: { [key: string]: PrimitiveType, ... },
-    ): React.Node,
+    ): React$Node,
     formatList(values: Array<string>, opts?: FormatListOptions): string,
-    formatList(values: Array<string | React.Node>, opts?: FormatListOptions): React.Node,
+    formatList(values: Array<string | React$Node>, opts?: FormatListOptions): React$Node,
     formatDisplayName(
       value: $ElementType<Parameters<$PropertyType<DisplayNames, 'of'>>, 0>,
       opts?: FormatDisplayNameOptions,
@@ -709,19 +709,19 @@ declare module 'react-intl' {
   declare type Props_2 = {
     value: number,
     intl: IntlShape,
-    other: React.Node,
-    zero?: React.Node,
-    one?: React.Node,
-    two?: React.Node,
-    few?: React.Node,
-    many?: React.Node,
-    children?: (value: React.Node) => React.ReactElement<> | null,
+    other: React$Node,
+    zero?: React$Node,
+    one?: React$Node,
+    two?: React$Node,
+    few?: React$Node,
+    many?: React$Node,
+    children?: (value: React$Node) => React.ReactElement<> | null,
     ...
   } & FormatPluralOptions;
-  declare type Props_3<V: { [key: string]: any, ... } = { [key: string]: React.Node, ... }> = {
+  declare type Props_3<V: { [key: string]: any, ... } = { [key: string]: React$Node, ... }> = {
     values?: V,
     tagName?: React.ElementType<any>,
-    children?: (...nodes: React.ReactNodeArray) => React.Node,
+    children?: (...nodes: React.ReactNodeArray) => React$Node,
     ...
   } & MessageDescriptor;
   declare export var RawIntlProvider: React.Provider<IntlShape>;
