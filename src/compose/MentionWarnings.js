@@ -10,7 +10,6 @@ import { isPrivateNarrow } from '../utils/narrow';
 import * as api from '../api';
 import { showToast } from '../utils/info';
 
-import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import MentionedUserNotSubscribed from '../message/MentionedUserNotSubscribed';
 
 type State = {|
@@ -162,11 +161,7 @@ class MentionWarnings extends PureComponent<Props, State> {
       );
     }
 
-    return (
-      <AnimatedScaleComponent visible={mentionWarnings.length !== 0}>
-        {mentionWarnings}
-      </AnimatedScaleComponent>
-    );
+    return mentionWarnings;
   }
 }
 
