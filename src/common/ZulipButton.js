@@ -10,12 +10,6 @@ import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 
 const styles = StyleSheet.create({
-  buttonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 44,
-  },
   frame: {
     height: 44,
     justifyContent: 'center',
@@ -29,16 +23,21 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: BRAND_COLOR,
   },
-  text: {
-    color: 'hsl(0, 0%, 100%)',
-    fontSize: 16,
+  disabledPrimaryFrame: {
+    backgroundColor: 'hsla(0, 0%, 50%, 0.4)',
   },
-  primaryText: {
-    color: 'white',
+  disabledSecondaryFrame: {
+    borderWidth: 1.5,
+    borderColor: 'hsla(0, 0%, 50%, 0.4)',
   },
-  secondaryText: {
-    color: BRAND_COLOR,
+
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
   },
+
   icon: {
     marginRight: 8,
   },
@@ -48,12 +47,16 @@ const styles = StyleSheet.create({
   secondaryIcon: {
     color: BRAND_COLOR,
   },
-  disabledPrimaryFrame: {
-    backgroundColor: 'hsla(0, 0%, 50%, 0.4)',
+
+  text: {
+    color: 'hsl(0, 0%, 100%)',
+    fontSize: 16,
   },
-  disabledSecondaryFrame: {
-    borderWidth: 1.5,
-    borderColor: 'hsla(0, 0%, 50%, 0.4)',
+  primaryText: {
+    color: 'white',
+  },
+  secondaryText: {
+    color: BRAND_COLOR,
   },
   disabledText: {
     color: 'hsla(0, 0%, 50%, 0.8)',
