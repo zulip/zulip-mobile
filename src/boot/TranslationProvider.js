@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent, Component } from 'react';
+import React, { PureComponent } from 'react';
 import type { ComponentType, ElementConfig, Node as React$Node } from 'react';
 import { Text } from 'react-native';
 import { IntlProvider } from 'react-intl';
@@ -51,37 +51,9 @@ const makeGetText = (intl: IntlShape): GetText => {
  * new API.
  *
  * See https://reactjs.org/docs/context.html
- * vs. https://reactjs.org/docs/legacy-context.html.
- *
- * Why do we need this? `IntlProvider` uses React's "legacy context
- * API", deprecated since React 16.3, of which the docs say:
- *
- *   ## Updating Context
- *
- *   Don't do it.
- *
- *   React has an API to update context, but it is fundamentally
- *   broken and you should not use it.
- *
- * It's broken because a consumer in the old way would never
- * re-`render` on changes to the context if they, or any of their
- * ancestors below the provider, implemented `shouldComponentUpdate`
- * in a way that blocked updates from the context. This meant that
- * neither the provider nor the consumer had the power to fix many
- * non-re-`render`ing bugs. A very common context-update-blocking
- * implementation of `shouldComponentUpdate` is the one
- * `PureComponent` uses, so the effect is widespread.
- *
- * In the new way, `shouldComponentUpdate`s (as implemented by hand or
- * by using `PureComponent`) in the hierarchy all the way down to the
- * consumer (inclusive) are ignored when the context updates.
- *
- * Consumers should consume `TranslationContext` as it's provided
- * here, so they don't have to worry about not updating when it
- * changes.
+ * vs. https://reactjs.org/docs/legacy-context.html .
  */
-// This component MUST NOT be a `PureComponent`; see above.
-class TranslationContextTranslator extends Component<{|
+class TranslationContextTranslator extends PureComponent<{|
   +children: React$Node,
 |}> {
   context: { intl: IntlShape };
@@ -90,9 +62,11 @@ class TranslationContextTranslator extends Component<{|
     intl: () => null,
   };
 
+  _ = makeGetText(this.context.intl);
+
   render() {
     return (
-      <TranslationContext.Provider value={makeGetText(this.context.intl)}>
+      <TranslationContext.Provider value={this._}>
         {this.props.children}
       </TranslationContext.Provider>
     );
@@ -110,7 +84,21 @@ class TranslationProvider extends PureComponent<Props> {
     const { locale, children } = this.props;
 
     return (
-      <IntlProvider locale={locale} textComponent={Text} messages={messages[locale]}>
+      /* `IntlProvider` uses React's "legacy context API", deprecated since
+       * React 16.3, of which the docs say:
+       *
+       *   ## Updating Context
+       *
+       *   Don't do it.
+       *
+       *   React has an API to update context, but it is fundamentally
+       *   broken and you should not use it.
+       *
+       * To work around that, we set `key={locale}` to force the whole tree
+       * to rerender if the locale changes.  Not cheap, but the locale
+       * changing is rare.
+       */
+      <IntlProvider key={locale} locale={locale} textComponent={Text} messages={messages[locale]}>
         <TranslationContextTranslator>{children}</TranslationContextTranslator>
       </IntlProvider>
     );
