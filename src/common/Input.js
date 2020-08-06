@@ -82,10 +82,10 @@ export default class Input extends PureComponent<Props, State> {
         defaultMessage={fullPlaceholder.text}
         values={fullPlaceholder.values}
       >
-        {(text: string) => (
+        {(chunks: string[]) => (
           <TextInput
             style={[this.styles.input, { color: this.context.color }, style]}
-            placeholder={text}
+            placeholder={chunks[0]}
             placeholderTextColor={HALF_COLOR}
             underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
             onFocus={this.handleFocus}
