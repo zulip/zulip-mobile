@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: 'hsl(0, 0%, 100%)',
     fontSize: 16,
   },
   primaryText: {
