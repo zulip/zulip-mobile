@@ -1,16 +1,16 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { Auth, Narrow, Stream, Dispatch } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
 import * as api from '../api';
 import { getAuth, getStreams } from '../selectors';
 import { isHomeNarrow, isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   button: {
     borderRadius: 16,
     height: 32,

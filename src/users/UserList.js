@@ -1,13 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, SectionList } from 'react-native';
+import { SectionList } from 'react-native';
 
 import type { PresenceState, Style, User } from '../types';
+import { createStyleSheet } from '../styles';
 import { SectionHeader, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByStatus } from './userHelpers';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   list: {
     flex: 1,
   },

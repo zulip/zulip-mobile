@@ -1,9 +1,10 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import InputWithClearButton from './InputWithClearButton';
+import { createStyleSheet } from '../styles';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     flex: 1,
     flexDirection: 'row',

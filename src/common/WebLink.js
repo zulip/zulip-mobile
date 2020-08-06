@@ -1,7 +1,6 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -9,7 +8,7 @@ import Label from './Label';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
@@ -31,7 +30,7 @@ class WebLink extends PureComponent<Props> {
     openLink(getFullUrl(href, realm));
   };
 
-  styles = StyleSheet.create({
+  styles = createStyleSheet({
     link: {
       marginTop: 10,
       fontSize: 15,

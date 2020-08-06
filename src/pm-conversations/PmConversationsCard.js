@@ -1,10 +1,10 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 import type { ThemeData } from '../styles';
-import { ThemeContext } from '../styles';
+import { ThemeContext, createStyleSheet } from '../styles';
 import type { Dispatch, PmConversationData, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Label, ZulipButton, LoadingBanner } from '../common';
@@ -13,7 +13,7 @@ import PmConversationList from './PmConversationList';
 import { getRecentConversations, getAllUsersByEmail } from '../selectors';
 import { navigateToCreateGroup, navigateToUsersScreen } from '../actions';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   container: {
     flex: 1,
   },

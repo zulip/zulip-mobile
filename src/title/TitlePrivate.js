@@ -1,14 +1,14 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import type { Dispatch, UserOrBot } from '../types';
+import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { Touchable, UserAvatarWithPresence, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
 import { getAllUsersByEmail } from '../users/userSelectors';
-import styles from '../styles';
 import { navigateToAccountDetails } from '../nav/navActions';
 import * as logging from '../utils/logging';
 
@@ -33,7 +33,7 @@ class TitlePrivate extends PureComponent<Props> {
     dispatch(navigateToAccountDetails(user.user_id));
   };
 
-  styles = StyleSheet.create({
+  styles = createStyleSheet({
     outer: { flex: 1 },
     inner: { flexDirection: 'row', alignItems: 'center' },
   });

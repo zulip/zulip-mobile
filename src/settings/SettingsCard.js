@@ -1,9 +1,10 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import type { Dispatch } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { getSettings } from '../selectors';
 import { OptionButton, OptionRow } from '../common';
@@ -23,7 +24,7 @@ import {
   navigateToLegal,
 } from '../actions';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   optionWrapper: {
     flex: 1,
   },

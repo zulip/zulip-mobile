@@ -1,14 +1,15 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 
 import type { Dispatch, PmConversationData, UserOrBot } from '../types';
+import { createStyleSheet } from '../styles';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import GroupPmConversationItem from './GroupPmConversationItem';
 import { doNarrow } from '../actions';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   list: {
     flex: 1,
     flexDirection: 'column',

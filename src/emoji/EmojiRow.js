@@ -1,12 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { EmojiType } from '../types';
+import { createStyleSheet } from '../styles';
 import { RawLabel, Touchable } from '../common';
 import Emoji from './Emoji';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   emojiRow: {
     flexDirection: 'row',
     padding: 8,

@@ -1,16 +1,17 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { PresenceState, User, UserStatusMapObject, Dispatch } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence, getUserStatus } from '../selectors';
 import { getUsersByEmail } from '../users/userSelectors';
 import { ensureUnreachable } from '../types';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   common: {
     width: 12,
     height: 12,

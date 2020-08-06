@@ -1,15 +1,15 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { Text, View, ActivityIndicator } from 'react-native';
 import type { TextStyleProp, ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import TranslatedText from './TranslatedText';
 
 import type { LocalizableText } from '../types';
 import type { SpecificIconType } from './Icons';
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import Touchable from './Touchable';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   frame: {
     height: 44,
     justifyContent: 'center',

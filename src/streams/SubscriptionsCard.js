@@ -1,9 +1,10 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 import type { Dispatch, Subscription } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import StreamList from './StreamList';
 import { LoadingBanner } from '../common';
@@ -12,7 +13,7 @@ import { getUnreadByStream } from '../selectors';
 import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
 import { doNarrow } from '../actions';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   container: {
     flex: 1,
     flexDirection: 'column',

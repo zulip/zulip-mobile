@@ -1,12 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import type { Node as React$Node } from 'react';
 import Touchable from './Touchable';
+import { createStyleSheet } from '../styles';
 import { colorHashFromString, foregroundColorFromBackground } from '../utils/color';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   frame: {
     justifyContent: 'center',
     alignItems: 'center',

@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import styles, { BRAND_COLOR } from '../styles';
+import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 import { showToast } from '../utils/info';
 
-const componentStyles = StyleSheet.create({
+const componentStyles = createStyleSheet({
   selectedRow: {
     backgroundColor: BRAND_COLOR,
   },

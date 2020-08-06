@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import type { Node as React$Node } from 'react';
 
-import { NAVBAR_SIZE } from '../styles';
+import { NAVBAR_SIZE, createStyleSheet } from '../styles';
 import { Touchable } from '../common';
 
 type Props = $ReadOnly<{|
@@ -12,7 +12,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class NavButtonGeneral extends PureComponent<Props> {
-  styles = StyleSheet.create({
+  styles = createStyleSheet({
     navButtonFrame: {
       width: NAVBAR_SIZE,
       height: NAVBAR_SIZE,

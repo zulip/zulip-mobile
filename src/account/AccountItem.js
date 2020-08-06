@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable } from '../common';
 import { IconDone, IconTrash } from '../common/Icons';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     justifyContent: 'space-between',
   },

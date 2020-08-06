@@ -1,16 +1,16 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { Dispatch } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { getCurrentRealm } from '../selectors';
 import UserAvatar from './UserAvatar';
 import { getAvatarUrl } from '../utils/avatar';
 import PresenceStatusIndicator from './PresenceStatusIndicator';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   status: {
     bottom: 0,
     right: 0,

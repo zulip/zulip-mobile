@@ -1,16 +1,17 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Narrow, Dispatch } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { getUnreadCountForNarrow } from '../selectors';
 import { Label, RawLabel } from '../common';
 import MarkUnreadButton from './MarkUnreadButton';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   unreadContainer: {
     paddingHorizontal: 8,
     paddingVertical: 4,

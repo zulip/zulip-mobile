@@ -1,12 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { shortTime, humanDate } from '../utils/date';
+import { createStyleSheet } from '../styles';
 import { UserAvatarWithPresence, Touchable } from '../common';
 import { Icon } from '../common/Icons';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   text: {
     flex: 1,
     justifyContent: 'space-between',

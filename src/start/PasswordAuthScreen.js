@@ -1,9 +1,10 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { Auth, Dispatch } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import * as api from '../api';
 import {
@@ -19,7 +20,7 @@ import { getPartialAuth } from '../selectors';
 import { isValidEmailFormat } from '../utils/misc';
 import { loginSuccess } from '../actions';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   linksTouchable: {
     alignItems: 'flex-end',
   },

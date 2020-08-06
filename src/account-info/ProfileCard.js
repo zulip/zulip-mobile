@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import type { Dispatch, User } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { getSelfUserDetail } from '../selectors';
 import { ZulipButton } from '../common';
@@ -15,7 +16,7 @@ import {
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   buttonRow: {
     flexDirection: 'row',
     marginHorizontal: 8,

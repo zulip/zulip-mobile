@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { NavigationScreenProp } from 'react-navigation';
 import type { Dispatch, UserOrBot } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { Screen, ZulipButton, Label } from '../common';
 import { IconPrivateChat } from '../common/Icons';
@@ -12,7 +12,7 @@ import AccountDetails from './AccountDetails';
 import { doNarrow } from '../actions';
 import { getUserIsActive, getUserForId } from '../users/userSelectors';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   pmButton: {
     marginHorizontal: 16,
   },

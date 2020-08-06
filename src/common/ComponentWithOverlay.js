@@ -1,11 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
-
 import type { Node as React$Node } from 'react';
 
-const styles = StyleSheet.create({
+import { createStyleSheet } from '../styles';
+
+const styles = createStyleSheet({
   wrapper: {
     justifyContent: 'center',
     alignItems: 'center',

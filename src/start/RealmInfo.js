@@ -1,10 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image } from 'react-native';
 
 import { RawLabel } from '../common';
+import { createStyleSheet } from '../styles';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   description: {
     flexDirection: 'row',
     justifyContent: 'center',

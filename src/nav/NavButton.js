@@ -1,9 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { Icon } from '../common/Icons';
 import type { IconNames } from '../common/Icons';
 import NavButtonGeneral from './NavButtonGeneral';
@@ -20,7 +19,7 @@ export default class NavButton extends PureComponent<Props> {
     color: BRAND_COLOR,
   };
 
-  styles = StyleSheet.create({
+  styles = createStyleSheet({
     navButtonIcon: {
       textAlign: 'center',
       fontSize: 26,

@@ -1,9 +1,10 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { ZulipButton, LoadingBanner } from '../common';
 import * as api from '../api';
@@ -13,7 +14,7 @@ import StreamList from '../streams/StreamList';
 import { getAuth, getCanCreateStreams, getStreams, getSubscriptions } from '../selectors';
 import { doNarrow, navigateToCreateStream } from '../actions';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     flex: 1,
   },

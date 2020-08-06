@@ -1,9 +1,10 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { Image } from 'react-native';
 import { createIconSet } from 'react-native-vector-icons';
 
 import type { ImageEmojiType, Dispatch, EmojiType } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { getAllImageEmojiByCode } from './emojiSelectors';
 import { codeToEmojiMap } from './data';
@@ -25,7 +26,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 class Emoji extends PureComponent<Props> {
-  styles = StyleSheet.create({
+  styles = createStyleSheet({
     image: { width: 20, height: 20 },
   });
 

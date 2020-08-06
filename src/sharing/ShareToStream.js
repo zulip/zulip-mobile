@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import React from 'react';
-import { View, StyleSheet, Image, ScrollView, BackHandler } from 'react-native';
+import { View, Image, ScrollView, BackHandler } from 'react-native';
 import { type NavigationNavigatorProps } from 'react-navigation';
 import type { Dispatch, SharedData, Subscription, Auth, GetText } from '../types';
+import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
 import { ZulipButton, Input } from '../common';
@@ -16,7 +17,7 @@ import { navigateBack } from '../nav/navActions';
 import { fetchTopicsForStream } from '../topics/topicActions';
 import { handleSend } from './send';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     flex: 1,
     padding: 10,

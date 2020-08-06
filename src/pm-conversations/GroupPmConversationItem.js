@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { UserOrBot } from '../types';
+import styles, { createStyleSheet } from '../styles';
 import { GroupAvatar, RawLabel, Touchable, UnreadCount } from '../common';
-import styles from '../styles';
 
-const componentStyles = StyleSheet.create({
+const componentStyles = createStyleSheet({
   text: {
     flex: 1,
     marginLeft: 16,

@@ -1,14 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { ThemeData } from '../styles';
-import styles, { ThemeContext } from '../styles';
+import styles, { createStyleSheet, ThemeContext } from '../styles';
 import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
 
-const componentStyles = StyleSheet.create({
+const componentStyles = createStyleSheet({
   description: {
     opacity: 0.75,
     fontSize: 12,

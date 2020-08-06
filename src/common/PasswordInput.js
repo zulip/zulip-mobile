@@ -1,14 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput } from 'react-native';
 
 import Input from './Input';
 import type { Props as InputProps } from './Input';
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import Label from './Label';
 import Touchable from './Touchable';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   showPasswordButton: {
     position: 'absolute',
     right: 0,

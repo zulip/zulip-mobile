@@ -1,9 +1,10 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import type { FlatList } from 'react-native';
 
 import type { User, PresenceState, Dispatch } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
@@ -12,7 +13,7 @@ import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import { getPresence, getUsersSansMe, getUsersByEmail } from '../selectors';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     flex: 1,
   },

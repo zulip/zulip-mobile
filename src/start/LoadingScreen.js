@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { LoadingIndicator, ZulipStatusBar } from '../common';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   center: {
     flex: 1,
     justifyContent: 'center',

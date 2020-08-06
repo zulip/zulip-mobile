@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import ImagePicker from 'react-native-image-picker';
 
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import {
   IconPlusCircle,
   IconLeft,
@@ -135,7 +135,7 @@ class ComposeMenu extends PureComponent<Props> {
     this.uploadFile(response.uri, response.name);
   };
 
-  styles = StyleSheet.create({
+  styles = createStyleSheet({
     composeMenu: {
       flexDirection: 'row',
       overflow: 'hidden',

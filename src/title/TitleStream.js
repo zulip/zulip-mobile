@@ -1,14 +1,14 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, TouchableWithoutFeedback } from 'react-native';
 
 import type { Narrow, Stream, Subscription, Dispatch } from '../types';
+import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
-import styles from '../styles';
 import { showToast } from '../utils/info';
 
 type SelectorProps = {|
@@ -24,7 +24,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 class TitleStream extends PureComponent<Props> {
-  styles = StyleSheet.create({
+  styles = createStyleSheet({
     outer: {
       flex: 1,
       flexDirection: 'column',

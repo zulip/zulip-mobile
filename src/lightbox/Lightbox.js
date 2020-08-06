@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Dimensions, Easing } from 'react-native';
+import { View, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
@@ -14,11 +14,11 @@ import { SlideAnimationView } from '../common';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
-import { NAVBAR_SIZE } from '../styles';
+import { NAVBAR_SIZE, createStyleSheet } from '../styles';
 import { getAvatarFromMessage } from '../utils/avatar';
 import { navigateBack } from '../actions';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   img: {
     height: 300,
     flex: 1,

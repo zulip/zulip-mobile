@@ -1,16 +1,16 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import type { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
 
 import type { ThemeData } from '../styles';
-import { ThemeContext } from '../styles';
+import { ThemeContext, createStyleSheet } from '../styles';
 import { autocompleteRealmPieces, autocompleteRealm, fixRealmUrl } from '../utils/url';
 import type { Protocol } from '../utils/url';
 import RawLabel from './RawLabel';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     flexDirection: 'row',
     opacity: 0.8,

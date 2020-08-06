@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -11,10 +11,10 @@ import NavButtonGeneral from '../nav/NavButtonGeneral';
 import UnreadCards from '../unread/UnreadCards';
 import { doNarrow, navigateToSearch } from '../actions';
 import IconUnreadMentions from '../nav/IconUnreadMentions';
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { LoadingBanner } from '../common';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     flex: 1,
     flexDirection: 'column',

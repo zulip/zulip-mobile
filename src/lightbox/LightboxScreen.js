@@ -1,14 +1,15 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { ZulipStatusBar } from '../common';
+import { createStyleSheet } from '../styles';
 import Lightbox from './Lightbox';
 import type { Message } from '../types';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   screen: {
     flex: 1,
     flexDirection: 'column',

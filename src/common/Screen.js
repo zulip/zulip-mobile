@@ -2,11 +2,11 @@
 
 import React, { PureComponent } from 'react';
 import type { Node as React$Node } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { ThemeData } from '../styles';
-import styles, { ThemeContext } from '../styles';
+import styles, { createStyleSheet, ThemeContext } from '../styles';
 import type { Dimensions, LocalizableText, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import KeyboardAvoider from './KeyboardAvoider';
@@ -17,7 +17,7 @@ import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
-const componentStyles = StyleSheet.create({
+const componentStyles = createStyleSheet({
   screen: {
     flex: 1,
     flexDirection: 'column',

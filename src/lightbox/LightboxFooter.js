@@ -1,11 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { Icon } from '../common/Icons';
+import { createStyleSheet } from '../styles';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     height: 44,
     flexDirection: 'row',

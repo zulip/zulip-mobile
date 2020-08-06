@@ -1,17 +1,17 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
+import { ActivityIndicator, View, FlatList } from 'react-native';
 
 import type { Auth, DevUser, Dispatch } from '../types';
+import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import * as api from '../api';
 import { getPartialAuth } from '../selectors';
 import { loginSuccess } from '../actions';
-import styles from '../styles';
 
-const componentStyles = StyleSheet.create({
+const componentStyles = createStyleSheet({
   accountItem: { height: 10 },
   heading: { flex: 0 },
   heading2: {

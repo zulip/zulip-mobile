@@ -1,18 +1,18 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getLoading } from '../selectors';
 import { Label, LoadingIndicator } from '.';
 import type { ThemeData } from '../styles';
-import { ThemeContext } from '../styles';
+import { ThemeContext, createStyleSheet } from '../styles';
 
 const key = 'LoadingBanner';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   block: {
     flexDirection: 'row',
     justifyContent: 'center',

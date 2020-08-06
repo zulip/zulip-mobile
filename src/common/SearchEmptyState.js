@@ -1,10 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import Label from './Label';
+import { createStyleSheet } from '../styles';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   container: {
     flex: 1,
     padding: 16,

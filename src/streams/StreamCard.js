@@ -1,14 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Stream, Subscription } from '../types';
+import styles, { createStyleSheet } from '../styles';
 import { RawLabel } from '../common';
 import StreamIcon from './StreamIcon';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
-import styles from '../styles';
 
-const componentStyles = StyleSheet.create({
+const componentStyles = createStyleSheet({
   streamRow: {
     flexDirection: 'row',
     alignItems: 'center',

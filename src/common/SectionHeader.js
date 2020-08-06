@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { ThemeData } from '../styles';
-import { ThemeContext } from '../styles';
+import { ThemeContext, createStyleSheet } from '../styles';
 import Label from './Label';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   header: {
     padding: 10,
     backgroundColor: 'hsla(0, 0%, 50%, 0.75)',

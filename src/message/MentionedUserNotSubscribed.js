@@ -1,9 +1,10 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 
 import type { Auth, Stream, Dispatch, UserOrBot, Subscription } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import * as api from '../api';
 import { ZulipButton, Label } from '../common';
@@ -22,7 +23,7 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   outer: {
     flexDirection: 'row',
     alignItems: 'center',

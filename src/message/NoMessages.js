@@ -1,9 +1,10 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Narrow } from '../types';
+import { createStyleSheet } from '../styles';
 import { Label } from '../common';
 
 import {
@@ -17,7 +18,7 @@ import {
   canSendToNarrow,
 } from '../utils/narrow';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   container: {
     flex: 1,
     alignItems: 'center',

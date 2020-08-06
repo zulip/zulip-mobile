@@ -1,13 +1,14 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { AppState, View, StyleSheet, Platform, NativeModules } from 'react-native';
+import { AppState, View, Platform, NativeModules } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import SafeArea from 'react-native-safe-area';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
 import type { Node as React$Node } from 'react';
 import type { Dispatch, Orientation as OrientationT } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import {
@@ -56,7 +57,7 @@ type NetInfoState = {
   details: null | NetInfoConnectedDetails,
 };
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     flex: 1,
     flexDirection: 'column',

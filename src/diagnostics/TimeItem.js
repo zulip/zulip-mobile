@@ -1,13 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import format from 'date-fns/format';
 import type { TimingItemType } from '../types';
+import { createStyleSheet } from '../styles';
 
 import { RawLabel } from '../common';
 import { numberWithSeparators } from '../utils/misc';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   item: {
     padding: 16,
     borderBottomWidth: 1,

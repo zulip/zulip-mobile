@@ -1,10 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Text } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { FormattedMessage } from 'react-intl';
 import type { Dispatch, SharedData, Auth, TabNavigationOptionsPropsType } from '../types';
+import { createStyleSheet } from '../styles';
 import tabsOptions from '../styles/tabs';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
@@ -19,7 +20,7 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
 |}>;
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   tab: {
     padding: 8,
     fontSize: 16,

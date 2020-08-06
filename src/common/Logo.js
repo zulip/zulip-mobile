@@ -1,10 +1,11 @@
 /* @flow strict-local */
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image } from 'react-native';
 
 import logoImg from '../../static/img/logo.png';
+import { createStyleSheet } from '../styles';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   logo: {
     width: 40,
     height: 40,

@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Input, Label, OptionRow, ZulipButton } from '../common';
-import styles from '../styles';
+import styles, { createStyleSheet } from '../styles';
 import { IconPrivate } from '../common/Icons';
 
-const componentStyles = StyleSheet.create({
+const componentStyles = createStyleSheet({
   optionRow: {
     paddingLeft: 8,
     paddingRight: 8,

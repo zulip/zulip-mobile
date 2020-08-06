@@ -1,7 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { TranslationContext } from '../boot/TranslationProvider';
+import { createStyleSheet } from '../styles';
 
 import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -12,7 +13,7 @@ import statusSuggestions from './userStatusTextSuggestions';
 import { updateUserStatusText } from './userStatusActions';
 import { navigateBack } from '../nav/navActions';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   statusTextInput: {
     margin: 16,
   },

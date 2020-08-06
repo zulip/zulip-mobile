@@ -1,12 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 
 import type { TopicExtended } from '../types';
+import { createStyleSheet } from '../styles';
 import TopicItem from '../streams/TopicItem';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   list: {
     flex: 1,
     flexDirection: 'column',

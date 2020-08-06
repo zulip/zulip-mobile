@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { SpecificIconType } from './Icons';
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import Touchable from './Touchable';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     justifyContent: 'center',
     alignItems: 'center',

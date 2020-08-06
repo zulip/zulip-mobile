@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { StyleSheet } from 'react-native';
 /* eslint-disable id-match */
 import type { ____Styles_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
@@ -44,7 +43,7 @@ export function createStyleSheet<+S: ____Styles_Internal>(obj: S): S {
   return Object.freeze(obj);
 }
 
-export default StyleSheet.create({
+export default createStyleSheet({
   ...composeBoxStyles,
   ...miscStyles,
   ...navStyles,

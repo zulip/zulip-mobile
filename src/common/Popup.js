@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { Node as React$Node } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 import type { ThemeData } from '../styles';
-import { ThemeContext } from '../styles';
+import { ThemeContext, createStyleSheet } from '../styles';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   popup: {
     marginHorizontal: 16,
     marginVertical: 8,

@@ -1,11 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, View } from 'react-native';
 
 import SpinningProgress from './SpinningProgress';
+import { createStyleSheet } from '../styles';
 import messageLoadingImg from '../../static/img/message-loading.png';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     flex: 1,
     padding: 4,

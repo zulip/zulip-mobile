@@ -1,11 +1,11 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import { nativeApplicationVersion } from 'expo-application';
 
 import type { Dispatch } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
 import {
@@ -15,7 +15,7 @@ import {
   navigateToVariables,
 } from '../actions';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   versionLabel: {
     textAlign: 'center',
     padding: 8,

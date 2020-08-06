@@ -1,17 +1,18 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Message } from '../types';
+import { createStyleSheet } from '../styles';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW } from '../utils/narrow';
 import MessageList from '../webview/MessageList';
 import renderMessages from '../message/renderMessages';
 import { NULL_ARRAY } from '../nullObjects';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   results: {
     flex: 1,
   },

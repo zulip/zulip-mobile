@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 import type { UserOrBot, Dispatch } from '../types';
+import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { UserAvatar, ComponentList, RawLabel } from '../common';
 import { getCurrentRealm, getUserStatusTextForUser } from '../selectors';
@@ -10,9 +11,8 @@ import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
 import { getAvatarFromUser } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
-import styles from '../styles';
 
-const componentStyles = StyleSheet.create({
+const componentStyles = createStyleSheet({
   componentListItem: {
     alignItems: 'center',
   },

@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput } from 'react-native';
 
 import Input from './Input';
 import type { Props as InputProps } from './Input';
-import styles, { BRAND_COLOR } from '../styles';
+import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
 import { Icon } from './Icons';
 
-const componentStyles = StyleSheet.create({
+const componentStyles = createStyleSheet({
   clearButtonIcon: {
     color: BRAND_COLOR,
     paddingRight: 16,

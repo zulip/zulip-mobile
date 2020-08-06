@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Image, Text, View, Platform, Linking } from 'react-native';
+import { Image, Text, View, Platform, Linking } from 'react-native';
 
 import { Touchable } from '../common';
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import appStoreBadgePNG from '../../static/img/app-store-badge.png';
 import googlePlayBadgePNG from '../../static/img/google-play-badge.png';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   appStoreBadge: {
     width: 180,
     height: 60,

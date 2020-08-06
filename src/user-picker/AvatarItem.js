@@ -1,11 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Animated, Easing, StyleSheet, View } from 'react-native';
+import { Animated, Easing, View } from 'react-native';
 
 import { UserAvatarWithPresence, ComponentWithOverlay, RawLabel, Touchable } from '../common';
+import { createStyleSheet } from '../styles';
 import { IconCancel } from '../common/Icons';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     flexDirection: 'column',
     marginLeft: 8,

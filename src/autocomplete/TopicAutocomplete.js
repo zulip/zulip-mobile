@@ -1,15 +1,16 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 
 import type { Dispatch, Narrow } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   topic: {
     padding: 10,
   },

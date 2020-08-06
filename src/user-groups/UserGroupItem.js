@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { IconPeople } from '../common/Icons';
 import { RawLabel, Touchable } from '../common';
-import styles, { ThemeContext } from '../styles';
+import styles, { createStyleSheet, ThemeContext } from '../styles';
 import type { ThemeData } from '../styles';
 
-const componentStyles = StyleSheet.create({
+const componentStyles = createStyleSheet({
   text: {
     marginLeft: 8,
   },

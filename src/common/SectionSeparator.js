@@ -1,8 +1,10 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-const styles = StyleSheet.create({
+import { createStyleSheet } from '../styles';
+
+const styles = createStyleSheet({
   separator: {
     height: 1,
     margin: 10,

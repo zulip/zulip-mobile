@@ -1,11 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { RawLabel } from '../common';
+import { createStyleSheet } from '../styles';
 import { numberWithSeparators } from '../utils/misc';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -1,11 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { RawLabel } from '../common';
+import { createStyleSheet } from '../styles';
 import type { JSONable } from '../utils/jsonable';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   item: {
     padding: 16,
     borderBottomWidth: 1,

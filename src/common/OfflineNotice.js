@@ -1,16 +1,17 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Dispatch } from '../types';
+import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { getSession } from '../selectors';
 import Label from './Label';
 
 const key = 'OfflineNotice';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   block: {
     flexDirection: 'row',
     justifyContent: 'center',

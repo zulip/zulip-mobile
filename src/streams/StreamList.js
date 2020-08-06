@@ -1,13 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { SectionList, StyleSheet } from 'react-native';
+import { SectionList } from 'react-native';
 
 import type { Stream, Subscription } from '../types';
+import { createStyleSheet } from '../styles';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
 import { SectionSeparatorBetween, SearchEmptyState } from '../common';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   list: {
     flex: 1,
     flexDirection: 'column',

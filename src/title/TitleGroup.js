@@ -1,13 +1,13 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Dispatch, UserOrBot, Narrow } from '../types';
+import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { UserAvatarWithPresence } from '../common';
 import { getRecipientsInGroupNarrow } from '../selectors';
-import styles from '../styles';
 import { navigateToAccountDetails } from '../nav/navActions';
 
 type SelectorProps = $ReadOnly<{|
@@ -27,7 +27,7 @@ class TitleGroup extends PureComponent<Props> {
     dispatch(navigateToAccountDetails(user.user_id));
   };
 
-  styles = StyleSheet.create({
+  styles = createStyleSheet({
     titleAvatar: {
       marginRight: 16,
     },

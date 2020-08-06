@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { foregroundColorFromBackground } from '../utils/color';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   frame: {
     paddingTop: 2,
     paddingRight: 4,

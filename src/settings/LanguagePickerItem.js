@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { RawLabel, Touchable } from '../common';
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { IconDone } from '../common/Icons';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   languageWrapper: {
     flex: 1,
     flexDirection: 'column',

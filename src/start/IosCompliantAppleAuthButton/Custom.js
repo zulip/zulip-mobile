@@ -1,14 +1,15 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { ThemeName } from '../../reduxTypes';
+import { createStyleSheet } from '../../styles';
 import TranslatedText from '../../common/TranslatedText';
 import appleLogoBlackImg from '../../../static/img/apple-logo-black.png';
 import appleLogoWhiteImg from '../../../static/img/apple-logo-white.png';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   buttonContent: {
     flexDirection: 'row',
     alignItems: 'center',

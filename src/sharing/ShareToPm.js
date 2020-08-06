@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import React from 'react';
-import { View, StyleSheet, Image, ScrollView, Modal, BackHandler } from 'react-native';
+import { View, Image, ScrollView, Modal, BackHandler } from 'react-native';
 import { type NavigationNavigatorProps } from 'react-navigation';
 import type { Dispatch, SharedData, User, Auth, GetText } from '../types';
+import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 
 import { connect } from '../react-redux';
@@ -13,7 +14,7 @@ import { navigateBack } from '../nav/navActions';
 import ChooseRecipientsScreen from './ChooseRecipientsScreen';
 import { handleSend } from './send';
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   wrapper: {
     flex: 1,
     padding: 10,
