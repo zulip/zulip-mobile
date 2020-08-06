@@ -109,10 +109,10 @@ third-party library we use that isn't there yet.
 
 We should use the [current Context
 API](https://reactjs.org/docs/context.html) instead of the [legacy
-one](https://reactjs.org/docs/legacy-context.html) wherever possible.
-The new API aggressively ensures consumers will be updated
-(re-`render`ed) on context changes, and the old one doesn't (see
-below). From the [new API's
+one](https://reactjs.org/docs/legacy-context.html) in our own code,
+and avoid libraries that haven't updated yet. The new API aggressively
+ensures consumers will be updated (re-`render`ed) on context changes,
+and the old one doesn't. From the [new API's
 doc](https://reactjs.org/docs/context.html):
 
 > All consumers that are descendants of a Provider will re-render
@@ -146,33 +146,6 @@ list's color scheme changes as we'd want it to, but we also see the
 bad effects that `shouldComponentUpdate` returning `false` is meant to
 prevent: losing the scroll position, mainly (but also, we expect,
 discarding the image cache, etc.).
-
-#### Legacy Context API
-
-The legacy Context API is
-[declared](https://reactjs.org/docs/legacy-context.html#updating-context)
-fundamentally broken because consumers could be blocked from receiving
-updates to the context, and not just by the consumer's own
-`shouldComponentUpdate`:
-
-> The problem is, if a context value provided by component changes,
-> descendants that use that value won’t update if an intermediate
-> parent returns `false` from `shouldComponentUpdate`. This is totally
-> out of control of the components using context, so there’s basically
-> no way to reliably update the context.
-
-We have to think about the legacy Context API because the `react-intl`
-library's `IntlProvider` uses it to provide the `intl` context. Our
-workaround is a "`key` hack":
-
-If `locale` changes, we make the entire React component tree at and
-below `IntlProvider` remount. (Not merely re-`render`: completely
-vanish and start over with `componentDidMount`; see the note at [this
-doc](https://5d4b5feba32acd0008d0df98--reactjs.netlify.app/docs/reconciliation.html)
-starting with "Keys should be stable, predictable, and unique".) We do
-this with the [`key`
-attribute](https://reactjs.org/docs/lists-and-keys.html), which isn't
-recommended for use except in lists.
 
 ### The exception: `MessageList`
 

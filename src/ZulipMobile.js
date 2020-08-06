@@ -2,7 +2,6 @@
 import React from 'react';
 import 'react-native-url-polyfill/auto';
 
-import '../vendor/intl/intl';
 import StoreProvider from './boot/StoreProvider';
 import TranslationProvider from './boot/TranslationProvider';
 import ThemeProvider from './boot/ThemeProvider';
@@ -14,7 +13,6 @@ import InitialNavigationDispatcher from './nav/InitialNavigationDispatcher';
 import AppWithNavigation from './nav/AppWithNavigation';
 import NavigationService from './nav/NavigationService';
 
-import './i18n/locale';
 import { initializeSentry } from './sentry';
 
 initializeSentry();

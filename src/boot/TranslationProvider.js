@@ -2,16 +2,13 @@
 import React, { PureComponent } from 'react';
 import type { ComponentType, ElementConfig, Node as React$Node } from 'react';
 import { Text } from 'react-native';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, IntlContext } from 'react-intl';
 import type { IntlShape } from 'react-intl';
 
 import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSettings } from '../selectors';
-import '../../vendor/intl/intl';
 import messages from '../i18n/messages';
-
-import '../i18n/locale';
 
 // $FlowFixMe could put a well-typed mock value here, to help write tests
 export const TranslationContext = React.createContext(undefined);
@@ -45,29 +42,19 @@ const makeGetText = (intl: IntlShape): GetText => {
 };
 
 /**
- * Consume the old-API context from IntlProvider, and provide a new-API context.
+ * Consume IntlProvider's context, and provide it in a different shape.
  *
- * This consumes the context provided by react-intl through React's
- * "legacy context API" from before 16.3, and provides a context through the
- * new API.
- *
- * See https://reactjs.org/docs/context.html
- * vs. https://reactjs.org/docs/legacy-context.html .
+ * See the `GetTypes` type for why we like the new shape.
  */
 class TranslationContextTranslator extends PureComponent<{|
   +children: React$Node,
 |}> {
-  context: { intl: IntlShape };
-
-  static contextTypes = {
-    intl: () => null,
-  };
-
-  _ = makeGetText(this.context.intl);
+  static contextType = IntlContext;
+  context: IntlShape;
 
   render() {
     return (
-      <TranslationContext.Provider value={this._}>
+      <TranslationContext.Provider value={makeGetText(this.context)}>
         {this.props.children}
       </TranslationContext.Provider>
     );
@@ -85,21 +72,7 @@ class TranslationProvider extends PureComponent<Props> {
     const { locale, children } = this.props;
 
     return (
-      /* `IntlProvider` uses React's "legacy context API", deprecated since
-       * React 16.3, of which the docs say:
-       *
-       *   ## Updating Context
-       *
-       *   Don't do it.
-       *
-       *   React has an API to update context, but it is fundamentally
-       *   broken and you should not use it.
-       *
-       * To work around that, we set `key={locale}` to force the whole tree
-       * to rerender if the locale changes.  Not cheap, but the locale
-       * changing is rare.
-       */
-      <IntlProvider key={locale} locale={locale} textComponent={Text} messages={messages[locale]}>
+      <IntlProvider locale={locale} textComponent={Text} messages={messages[locale]}>
         <TranslationContextTranslator>{children}</TranslationContextTranslator>
       </IntlProvider>
     );
