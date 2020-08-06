@@ -5,40 +5,11 @@ import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/Style
 import type { Auth, Topic, Message, Reaction, ReactionType, Narrow } from './api/apiTypes';
 import type { ZulipVersion } from './utils/zulipVersion';
 
+export type * from './generics';
 export type * from './reduxTypes';
 export type * from './api/apiTypes';
 
-/**
- * Assert a contradiction, statically.  Do nothing at runtime.
- *
- * The `empty` type is the type with no values.  So, apart from certain bugs
- * in Flow, the only way a call to this function can ever be valid is when
- * the type-checker can actually prove the call site is unreachable.
- *
- * Especially useful for statically asserting that a `switch` statement is
- * exhaustive:
- *
- *     type Foo =
- *       | {| type: 'frob', ... |}
- *       | {| type: 'twiddle', ... |};
- *
- *
- *     const foo: Foo = ...;
- *     switch (foo.type) {
- *       case 'frob': ...; break;
- *
- *       case 'twiddle': ...; break;
- *
- *       default:
- *         ensureUnreachable(foo); // Asserts no possible cases for `foo` remain.
- *         break;
- *     }
- *
- * In this example if by mistake a case is omitted, or if another case is
- * added to the type without a corresponding `case` statement here, then
- * Flow will report a type error at the `ensureUnreachable` call.
- */
-export function ensureUnreachable(x: empty) {}
+export { ensureUnreachable } from './generics';
 
 /*
  * TODO as the name suggests, this should be broken down more specifically.
