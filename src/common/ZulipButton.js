@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import type { TextStyleProp, ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import TranslatedText from './TranslatedText';
 
 import type { LocalizableText } from '../types';
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
 
 type Props = $ReadOnly<{|
   style?: ViewStyleProp,
+  textStyle?: TextStyleProp,
   progress: boolean,
   disabled: boolean,
   Icon?: SpecificIconType,
@@ -78,6 +79,7 @@ type Props = $ReadOnly<{|
  * have their `secondary` property set to `true`.
  *
  * @prop [style] - Style object applied to the outermost component.
+ * @prop [textStyle] - Style applied to the button text.
  * @prop [progress] - Shows a progress indicator in place of the button text.
  * @prop [disabled] - If set the button is not pressable and visually looks disabled.
  * @prop [Icon] - Icon component to display in front of the button text
@@ -110,6 +112,7 @@ export default class ZulipButton extends PureComponent<Props> {
     const textStyle = [
       styles.text,
       disabled ? styles.disabledText : secondary ? styles.secondaryText : styles.primaryText,
+      this.props.textStyle,
     ];
     const iconStyle = [styles.icon, secondary ? styles.secondaryIcon : styles.primaryIcon];
 
