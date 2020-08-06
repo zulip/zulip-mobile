@@ -23,7 +23,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 const styles = StyleSheet.create({
-  mentionedUserNotSubscribed: {
+  outer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -33,11 +33,11 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: 'orange',
   },
-  mentionedUserNotSubscribedText: {
+  text: {
     flex: 1,
     color: 'white',
   },
-  mentionedUserNotSubscribedButton: {
+  button: {
     backgroundColor: 'orange',
     padding: 6,
   },
@@ -60,19 +60,15 @@ class MentionedUserNotSubscribed extends PureComponent<Props> {
 
     return (
       <View>
-        <TouchableOpacity onPress={this.handleDismiss} style={styles.mentionedUserNotSubscribed}>
+        <TouchableOpacity onPress={this.handleDismiss} style={styles.outer}>
           <Label
             text={{
               text: '{username} will not be notified unless you subscribe them to this stream.',
               values: { username: user.full_name },
             }}
-            style={styles.mentionedUserNotSubscribedText}
+            style={styles.text}
           />
-          <ZulipButton
-            style={styles.mentionedUserNotSubscribedButton}
-            text="Subscribe"
-            onPress={this.subscribeToStream}
-          />
+          <ZulipButton style={styles.button} text="Subscribe" onPress={this.subscribeToStream} />
         </TouchableOpacity>
       </View>
     );
