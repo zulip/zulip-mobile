@@ -1,10 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Text, View, ActivityIndicator } from 'react-native';
-import type { TextStyleProp, ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import type { TextStyle, ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import TranslatedText from './TranslatedText';
 
 import type { LocalizableText } from '../types';
+import type { SubsetProperties } from '../generics';
 import type { SpecificIconType } from './Icons';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import Touchable from './Touchable';
@@ -63,8 +64,38 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  style?: ViewStyleProp,
-  textStyle?: TextStyleProp,
+  /* eslint-disable flowtype/generic-spacing */
+  style?: SubsetProperties<
+    ViewStyle,
+    {|
+      // The use of specific style properties for callers to micromanage the
+      // layout of the button is pretty chaotic and fragile, introducing
+      // implicit dependencies on details of the ZulipButton implementation.
+      // TODO: Assimilate those usages into a more coherent set of options
+      //   provided by the ZulipButton interface explicitly.
+      //
+      // Until then, by listing here the properties we do use, we at least
+      // make it possible when working on the ZulipButton implementation to
+      // know the scope of different ways that callers can mess with the
+      // styles.  If you need one not listed here and it's in the same
+      // spirit as others that are, feel free to add it.
+      margin?: mixed,
+      marginTop?: mixed,
+      marginBottom?: mixed,
+      marginHorizontal?: mixed,
+      // (... e.g., go ahead and add more variations on margin.)
+      padding?: mixed,
+      paddingLeft?: mixed,
+      paddingRight?: mixed,
+      height?: mixed,
+      width?: mixed,
+      borderRadius?: mixed,
+      flex?: mixed,
+      alignSelf?: mixed,
+      backgroundColor?: mixed,
+    |},
+  >,
+  textStyle?: SubsetProperties<TextStyle, {| color?: mixed |}>,
   progress: boolean,
   disabled: boolean,
   Icon?: SpecificIconType,
