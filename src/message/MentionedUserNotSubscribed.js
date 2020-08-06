@@ -35,11 +35,14 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    color: 'white',
+    color: 'black',
   },
   button: {
     backgroundColor: 'orange',
     padding: 6,
+  },
+  buttonText: {
+    color: 'black',
   },
 });
 
@@ -68,7 +71,12 @@ class MentionedUserNotSubscribed extends PureComponent<Props> {
             }}
             style={styles.text}
           />
-          <ZulipButton style={styles.button} text="Subscribe" onPress={this.subscribeToStream} />
+          <ZulipButton
+            style={styles.button}
+            textStyle={styles.buttonText}
+            text="Subscribe"
+            onPress={this.subscribeToStream}
+          />
         </TouchableOpacity>
       </View>
     );
