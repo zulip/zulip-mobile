@@ -34,13 +34,24 @@ const styles = createStyleSheet({
     borderTopWidth: 1,
     borderTopColor: 'orange',
   },
+
   text: {
     flex: 1,
     color: 'black',
   },
+
   button: {
     backgroundColor: 'orange',
-    padding: 6,
+
+    // Based on MarkUnreadButton.
+    // TODO make these less ad hoc.
+    // TODO also make the actual touch target taller, like 48px.
+    //   (Can extend beyond the visual representation of the button itself.)
+    borderWidth: 0,
+    borderRadius: 16,
+    height: 32,
+    paddingLeft: 12,
+    paddingRight: 12,
   },
   buttonText: {
     color: 'black',
