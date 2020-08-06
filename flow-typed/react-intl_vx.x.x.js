@@ -2,7 +2,7 @@
 // relevant-looking TypeScript .d.ts files, with minimal tweaks to
 // make it work.
 
-// Currently not very useful; anything at `React.` is `any`; see
+// Anything at `React.` is `any`; see
 // https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/libdef.3A.20react-native-webview/near/896571.
 // We should use Flow's builtin React type annotations, like
 // React$Node instead of React.Node.
@@ -158,7 +158,7 @@ declare module 'react-intl' {
       [key: string]: PrimitiveType | React.ReactElement<> | FormatXMLElementFn,
       ...,
     },
-  > extends React.Component<Props_3<V>> {
+  > extends React$Component<Props_3<V>> {
     static displayName: string;
     static defaultProps: {
       values: { ... },
@@ -312,7 +312,7 @@ declare module 'react-intl' {
     defaultFormats: CustomFormats;
     onError(err: string): void;
   }
-  declare export var IntlContext: React.Context<IntlShape>;
+  declare export var IntlContext: React$Context<IntlShape>;
   // Changed from `interface` to `type` in TS to Flow translation.
   declare export type IntlFormatters = {
     formatDate(
