@@ -10,8 +10,68 @@
  *
  * Gives an error unless `S` is a supertype of `T` -- i.e., a `T` can always
  * be used where an `S` is required.
+ *
+ * See also `typesEquivalent`, which can be more convenient when not already
+ * in the context of a type-level expression.
  */
 export type IsSupertype<+S, +T: S> = S; // eslint-disable-line no-unused-vars
+
+/**
+ * Gives a type error unless a T can be used as a U and vice versa.
+ *
+ * In other words this gives an error unless, in the preorder (*) where each
+ * type A is a "subtype" of B just if an A can be used as a B, the types T
+ * and U are equivalent.
+ *
+ * Handy when testing or debugging complex type expressions, to check that
+ * they come out to something equivalent to what you think they are.
+ *
+ * When two types are equivalent (and neither one involves an "unclear" type
+ * like `any`), they are interchangeable for any direct uses.
+ *
+ * Examples:
+ *
+ *   // These are two ways of spelling the same type.
+ *   typesEquivalent<$ReadOnly<{| x: number |}>, {| +x: number |}>();
+ *
+ *   // FlowExpectedError - These are different types :-)
+ *   typesEquivalent<number, number | void>(); // error
+ *
+ * Important caveat #1: When T or U is an "unclear type", i.e. one involving
+ *   `any` or its less-common friends `Object` or `Function`, this can give
+ *   misleading results.  In particular, `any` will be reported as
+ *   "equivalent" to *whatever* type you try, even types that are not
+ *   equivalent to each other.
+ *
+ *   This is because the subtype relation is only a preorder (*) when
+ *   unclear types are excluded.  The meaning of `any` is that any A can be
+ *   used as `any`, and `any` as any B, even when A can't be used as B; and
+ *   that makes the relation not transitive.  The "equivalent" terminology
+ *   really only makes sense in the context of a preorder.
+ *
+ *   Not 100% sure the subtype relation is entirely a preorder even without
+ *   `any` and friends -- Flow is unfortunately not well documented at this
+ *   conceptual level.
+ *
+ * Important caveat #2: Sometimes complex type operations like $Diff can
+ *   take types that are equivalent in this sense and produce inequivalent
+ *   results.  The only known examples of this involve types that probably
+ *   shouldn't be equivalent in the first place, namely object types where
+ *   the same property is optional on the one hand and required on the
+ *   other.  See test `test_typesEquivalent_$Diff_surprise`.
+ *
+ * (*) "Preorder" means the relation is reflexive (A subtype A, for all A)
+ *   and transitive (whenever A subtype B subtype C, then also A subtype C.)
+ *
+ * See also `IsSupertype`, which is suitable to use directly in type-level
+ * expressions.
+ */
+// eslint-disable-next-line no-unused-vars
+export function typesEquivalent<T, U: T, _InternalDoNotPass: U = T>() {}
+// Another formulation that's believed to give the same results:
+//   (x: T): U => x;
+//   (x: U): T => x;
+// Those together should be accepted exactly when typesEquivalent<T, U>() is.
 
 /**
  * An inverse of the operation `(A, B) => {| ...A, ...B |}`, with checking.
