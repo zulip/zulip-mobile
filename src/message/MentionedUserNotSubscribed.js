@@ -31,8 +31,6 @@ const styles = createStyleSheet({
     backgroundColor: 'hsl(40, 100%, 60%)', // Material warning-color
     paddingHorizontal: 16,
     paddingVertical: 8,
-    borderTopWidth: 1,
-    borderTopColor: 'orange',
   },
 
   text: {
