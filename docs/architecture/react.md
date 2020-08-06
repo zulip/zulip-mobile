@@ -161,12 +161,9 @@ updates to the context, and not just by the consumer's own
 > out of control of the components using context, so there’s basically
 > no way to reliably update the context.
 
-We have to think about the legacy Context API in just one place. The
-`react-intl` library's `IntlProvider` uses it to provide the `intl`
-context. The only consumer of `intl` is
-`TranslationContextTranslator`, but we've made that a `PureComponent`,
-so it doesn't get updated when `intl` changes. Our workaround until
-now has been a "`key` hack":
+We have to think about the legacy Context API because the `react-intl`
+library's `IntlProvider` uses it to provide the `intl` context. Our
+workaround is a "`key` hack":
 
 If `locale` changes, we make the entire React component tree at and
 below `IntlProvider` remount. (Not merely re-`render`: completely
@@ -176,9 +173,6 @@ starting with "Keys should be stable, predictable, and unique".) We do
 this with the [`key`
 attribute](https://reactjs.org/docs/lists-and-keys.html), which isn't
 recommended for use except in lists.
-
-In the next commit, we stop using the `key` hack and instead make
-`TranslationContextTranslator` "speak" the old API better.
 
 ### The exception: `MessageList`
 
