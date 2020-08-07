@@ -158,6 +158,7 @@ rules:
   - error
   - patterns: ['**/__tests__/**']
   import/no-cycle: off  # This would be nice to fix; but isn't easy.
+  import/export: off  # This is redundant with Flow, and buggy.
 
   # Jest
   # This rule could be useful if it fired only on new instances; but we
