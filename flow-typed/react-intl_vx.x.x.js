@@ -209,29 +209,29 @@ declare module 'react-intl' {
     time: { [key: string]: Intl.DateTimeFormatOptions, ... };
   }
   declare type FormattableUnit = Unit | Units;
-  declare export var FormattedDate: React_2.FC<
+  declare export var FormattedDate: React$StatelessFunctionalComponent<
     DateTimeFormatOptions &
       CustomFormatConfig & {
         value: string | number | Date | void,
         ...
       },
   >;
-  declare export var FormattedDateParts: React_2.FC<
+  declare export var FormattedDateParts: React$StatelessFunctionalComponent<
     FormatDateOptions & {
       value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
       children(val: Intl.DateTimeFormatPart[]): React_2.ReactElement<> | null,
       ...
     },
   >;
-  declare export var FormattedDisplayName: React_2.FC<
+  declare export var FormattedDisplayName: React$StatelessFunctionalComponent<
     DisplayNamesOptions & {
       value: string | number | { [key: string]: any },
       ...
     },
   >;
-  declare export var FormattedList: React_2.FC<
+  declare export var FormattedList: React$StatelessFunctionalComponent<
     IntlListFormatOptions & {
-      value: React_2.Node[],
+      value: React$Node[],
       ...
     },
   >;
@@ -240,33 +240,35 @@ declare module 'react-intl' {
       [key: string]:
         | PrimitiveType
         | React_2.ReactElement<>
-        | FormatXMLElementFn<React_2.Node, React_2.Node>,
+        | FormatXMLElementFn<React$Node, React$Node>,
       ...,
     },
-  > mixins React_2.Component<Props_3<V>> {
+    // Changed `mixins` to `extends` in TS to Flow translation
+  > extends React$Component<Props_3<V>> {
     static displayName: string;
     shouldComponentUpdate(nextProps: Props_3<V>): boolean;
     render(): React$Node;
   }
-  declare export var FormattedNumber: React_2.FC<
+  declare export var FormattedNumber: React$StatelessFunctionalComponent<
     NumberFormatOptions &
       CustomFormatConfig & {
         value: number,
         ...
       },
   >;
-  declare export var FormattedNumberParts: React_2.FC<
+  declare export var FormattedNumberParts: React$StatelessFunctionalComponent<
     $PropertyType<Formatter, 'formatNumber'> & {
       value: $ElementType<Parameters<$PropertyType<IntlShape, 'formatNumber'>>, 0>,
       children(val: Intl.NumberFormatPart[]): React_2.ReactElement<> | null,
       ...
     },
   >;
-  declare export var FormattedPlural: React_2.FC<WithIntlProps<Props_2>> & {
-    WrappedComponent: React_2.ComponentType<Props_2>,
+  declare export var FormattedPlural: React$StatelessFunctionalComponent<WithIntlProps<Props_2>> & {
+    WrappedComponent: React$ComponentType<Props_2>,
     ...
   };
-  declare export class FormattedRelativeTime mixins React_2.PureComponent<Props, State_2> {
+  // Changed `mixins` to `extends` in TS to Flow translation
+  declare export class FormattedRelativeTime extends React$PureComponent<Props, State_2> {
     _updateTimer: any;
     static displayName: string;
     static defaultProps: Pick<Props, 'unit' | 'value'>;
@@ -279,14 +281,14 @@ declare module 'react-intl' {
     static getDerivedStateFromProps(props: Props, state: State_2): $Rest<State_2, { ... }> | null;
     render(): React$Node;
   }
-  declare export var FormattedTime: React_2.FC<
+  declare export var FormattedTime: React$StatelessFunctionalComponent<
     DateTimeFormatOptions &
       CustomFormatConfig & {
         value: string | number | Date | void,
         ...
       },
   >;
-  declare export var FormattedTimeParts: React_2.FC<
+  declare export var FormattedTimeParts: React$StatelessFunctionalComponent<
     FormatDateOptions & {
       value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
       children(val: Intl.DateTimeFormatPart[]): React_2.ReactElement<> | null,
@@ -325,23 +327,23 @@ declare module 'react-intl' {
     parts: Array<string | T>,
   ) => R;
   declare export function injectIntl<IntlPropName: string, P: WrappedComponentProps<IntlPropName>>(
-    WrappedComponent: React_2.ComponentType<P>,
+    WrappedComponent: React$ComponentType<P>,
     options?: Opts<IntlPropName, false>,
-  ): React_2.FC<WithIntlProps<P>> & {
-    WrappedComponent: React_2.ComponentType<P>,
+  ): React$StatelessFunctionalComponent<WithIntlProps<P>> & {
+    WrappedComponent: React$ComponentType<P>,
     ...
   };
   declare export function injectIntl<
     IntlPropName: string,
     P: WrappedComponentProps<IntlPropName>,
-    T: React_2.ComponentType<P>,
+    T: React$ComponentType<P>,
   >(
-    WrappedComponent: React_2.ComponentType<P>,
+    WrappedComponent: React$ComponentType<P>,
     options?: Opts<IntlPropName, true>,
   ): React_2.ForwardRefExoticComponent<
     React_2.PropsWithoutRef<WithIntlProps<React_2.PropsWithChildren<P>>> & React_2.RefAttributes<T>,
   > & {
-    WrappedComponent: React_2.ComponentType<P>,
+    WrappedComponent: React$ComponentType<P>,
     ...
   };
   declare export interface IntlCache {
@@ -357,7 +359,7 @@ declare module 'react-intl' {
     locale: string;
     timeZone?: string;
     formats: CustomFormats;
-    textComponent?: React_2.ComponentType<> | $Keys<React_2.ReactHTML>;
+    textComponent?: React$ComponentType<> | $Keys<React_2.ReactHTML>;
     messages: { [key: string]: string, ... } | { [key: string]: MessageFormatElement[], ... };
     defaultLocale: string;
     defaultFormats: CustomFormats;
@@ -372,8 +374,8 @@ declare module 'react-intl' {
         | FormatError,
     ): void;
   }
-  declare export var IntlContext: React_2.Context<IntlShape>;
-  declare export interface IntlFormatters<T = React_2.Node, R = T> {
+  declare export var IntlContext: React$Context<IntlShape>;
+  declare export interface IntlFormatters<T = React$Node, R = T> {
     formatDate(
       value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
       opts?: FormatDateOptions,
@@ -417,10 +419,10 @@ declare module 'react-intl' {
       descriptor: MessageDescriptor,
       // The `+` was added to make the properties covariant rather
       // than invariant, something TypeScript can't do.
-      values?: { +[key: string]: PrimitiveType | React_2.Node | FormatXMLElementFn<T, R>, ... },
+      values?: { +[key: string]: PrimitiveType | React$Node | FormatXMLElementFn<T, R>, ... },
     ): React$Node;
     formatList(values: Array<string>, opts?: FormatListOptions): string;
-    formatList(values: Array<string | React_2.Node>, opts?: FormatListOptions): React_2.Node;
+    formatList(values: Array<string | React$Node>, opts?: FormatListOptions): React$Node;
     formatDisplayName(
       value: $ElementType<Parameters<$PropertyType<DisplayNames, 'of'>>, 0>,
       opts?: FormatDisplayNameOptions,
@@ -567,7 +569,8 @@ declare module 'react-intl' {
     };
   }
   declare export class IntlProvider
-    mixins React_2.PureComponent<React_2.PropsWithChildren<OptionalIntlConfig>, State> {
+    // Changed `mixins` to `extends` in TS to Flow translation
+    extends React$PureComponent<React_2.PropsWithChildren<OptionalIntlConfig>, State> {
     static displayName: string;
     static defaultProps: Pick<
       IntlConfig,
@@ -840,19 +843,19 @@ declare module 'react-intl' {
   declare type Props_2 = {
     value: number,
     intl: IntlShape,
-    other: React_2.Node,
-    zero?: React_2.Node,
-    one?: React_2.Node,
-    two?: React_2.Node,
-    few?: React_2.Node,
-    many?: React_2.Node,
-    children?: (value: React_2.Node) => React_2.ReactElement<> | null,
+    other: React$Node,
+    zero?: React$Node,
+    one?: React$Node,
+    two?: React$Node,
+    few?: React$Node,
+    many?: React$Node,
+    children?: (value: React$Node) => React_2.ReactElement<> | null,
     ...
   } & FormatPluralOptions;
-  declare type Props_3<V: { [key: string]: any, ... } = { [key: string]: React_2.Node, ... }> = {
+  declare type Props_3<V: { [key: string]: any, ... } = { [key: string]: React$Node, ... }> = {
     values?: V,
     tagName?: React_2.ElementType<any>,
-    children?: (...nodes: React_2.ReactNodeArray) => React_2.Node,
+    children?: (...nodes: React_2.ReactNodeArray) => React$Node,
     ...
   } & MessageDescriptor;
   declare export var RawIntlProvider: React_2.Provider<IntlShape>;
