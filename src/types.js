@@ -257,7 +257,7 @@ export type LocalizableText =
  * @prop intl - The full react-intl API, for more complex situations.
  */
 export type GetText = {
-  (string): string,
+  (message: string, values?: { [string]: IntlMessageFormatValue }): string,
   intl: IntlShape,
 };
 

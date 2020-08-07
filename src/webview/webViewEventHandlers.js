@@ -273,13 +273,9 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
     }
 
     case 'time': {
-      const alertText = _.intl.formatMessage(
-        {
-          id: "This time is in your timezone. Original text was '{originalText}'.",
-          defaultMessage: "This time is in your timezone. Original text was '{originalText}'.",
-        },
-        { originalText: event.originalText },
-      );
+      const alertText = _("This time is in your timezone. Original text was '{originalText}'.", {
+        originalText: event.originalText,
+      });
       Alert.alert('', alertText);
       break;
     }

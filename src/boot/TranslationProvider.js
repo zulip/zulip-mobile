@@ -38,7 +38,8 @@ export function withGetText<P: { +_: GetText, ... }, C: ComponentType<P>>(
 }
 
 const makeGetText = (intl: IntlShape): GetText => {
-  const _ = value => intl.formatMessage({ id: value });
+  const _ = (message, values) =>
+    intl.formatMessage({ id: message, defaultMessage: message }, values);
   _.intl = intl;
   return _;
 };
