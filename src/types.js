@@ -234,7 +234,12 @@ export type MessageLike =
       ...Outbox,
     }>;
 
-export type LocalizableText = string | { text: string, values?: { [string]: string } };
+// From docs: https://formatjs.io/docs/react-intl/api/#formatmessage
+type IntlMessageFormatValue = string | number | boolean | null | void;
+
+export type LocalizableText =
+  | string
+  | { text: string, values?: { [string]: IntlMessageFormatValue } };
 
 /**
  * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.
