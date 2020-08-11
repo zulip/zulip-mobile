@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { TextInput, Platform } from 'react-native';
-import { FormattedMessage } from 'react-intl';
 
-import type { LocalizableText } from '../types';
+import type { LocalizableText, GetText } from '../types';
 import type { ThemeData } from '../styles';
 import { ThemeContext, HALF_COLOR, BORDER_COLOR } from '../styles';
+import { withGetText } from '../boot/TranslationProvider';
 
 export type Props = $ReadOnly<{|
   // Should be fixed in RN v0.63 (#4245); see
@@ -15,6 +15,8 @@ export type Props = $ReadOnly<{|
   placeholder: LocalizableText,
   onChangeText?: (text: string) => void,
   textInputRef?: React$Ref<typeof TextInput>,
+
+  _: GetText,
 |}>;
 
 type State = {|
@@ -35,7 +37,7 @@ type State = {|
  * @prop ...all other TextInput props - Passed through verbatim to TextInput.
  *   See upstream: https://reactnative.dev/docs/textinput
  */
-export default class Input extends PureComponent<Props, State> {
+class Input extends PureComponent<Props, State> {
   static contextType = ThemeContext;
   context: ThemeData;
 
@@ -69,7 +71,7 @@ export default class Input extends PureComponent<Props, State> {
   };
 
   render() {
-    const { style, placeholder, textInputRef, ...restProps } = this.props;
+    const { style, placeholder, textInputRef, _, ...restProps } = this.props;
     const { isFocused } = this.state;
     const fullPlaceholder =
       typeof placeholder === 'object' /* force linebreak */
@@ -77,24 +79,18 @@ export default class Input extends PureComponent<Props, State> {
         : { text: placeholder, values: undefined };
 
     return (
-      <FormattedMessage
-        id={fullPlaceholder.text}
-        defaultMessage={fullPlaceholder.text}
-        values={fullPlaceholder.values}
-      >
-        {(chunks: string[]) => (
-          <TextInput
-            style={[this.styles.input, { color: this.context.color }, style]}
-            placeholder={chunks[0]}
-            placeholderTextColor={HALF_COLOR}
-            underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
-            onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
-            ref={textInputRef}
-            {...restProps}
-          />
-        )}
-      </FormattedMessage>
+      <TextInput
+        style={[this.styles.input, { color: this.context.color }, style]}
+        placeholder={_(fullPlaceholder.text, fullPlaceholder.values)}
+        placeholderTextColor={HALF_COLOR}
+        underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        ref={textInputRef}
+        {...restProps}
+      />
     );
   }
 }
+
+export default withGetText(Input);

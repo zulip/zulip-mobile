@@ -14,7 +14,7 @@ const componentStyles = createStyleSheet({
   },
 });
 
-type Props = $ReadOnly<$Diff<InputProps, { textInputRef: mixed, value: mixed }>>;
+type Props = $ReadOnly<$Diff<InputProps, { textInputRef: mixed, value: mixed, _: mixed }>>;
 
 type State = {|
   canBeCleared: boolean,

@@ -27,7 +27,7 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<$Diff<InputProps,
   // "mixed" here is a way of spelling "no matter *what* type
   // `InputProps` allows for these, don't allow them here."
-  { secureTextEntry: mixed, autoCorrect: mixed, autoCapitalize: mixed }>>;
+  { secureTextEntry: mixed, autoCorrect: mixed, autoCapitalize: mixed, _: mixed }>>;
 
 type State = {|
   isHidden: boolean,
