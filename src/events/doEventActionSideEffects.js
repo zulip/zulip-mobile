@@ -43,7 +43,7 @@ const messageEvent = (state: GlobalState, message: Message): void => {
 /**
  * React to actions dispatched for Zulip server events.
  *
- * To be dispatched after the event actions are dispatched.
+ * To be dispatched before the event actions are dispatched.
  */
 export default (action: EventAction) => async (dispatch: Dispatch, getState: GetState) => {
   const state = getState();

@@ -74,7 +74,6 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       const actions = eventsToActions(getState(), events);
 
       actionCreator(dispatch, actions, getState());
-      dispatchOrBatch(dispatch, actions);
 
       actions.forEach(action => {
         // These side effects should not be moved to reducers, which
@@ -82,6 +81,8 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
         // https://redux.js.org/faq/actions).
         dispatch(doEventActionSideEffects(action));
       });
+
+      dispatchOrBatch(dispatch, actions);
 
       lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
     } catch (e) {
