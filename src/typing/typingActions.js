@@ -9,7 +9,7 @@ export const clearTyping = (outdatedNotifications: string[]): Action => ({
   outdatedNotifications,
 });
 
-export const typingStatusExpiryLoop = () => async (dispatch: Dispatch, getState: GetState) => {
+const typingStatusExpiryLoop = () => async (dispatch: Dispatch, getState: GetState) => {
   // loop to auto dismiss typing notifications after typingNotificationTimeout
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -26,5 +26,16 @@ export const typingStatusExpiryLoop = () => async (dispatch: Dispatch, getState:
       }
     });
     dispatch(clearTyping(outdatedNotifications));
+  }
+};
+
+/** Start the typing-status expiry loop, if there isn't one already. */
+export const ensureTypingStatusExpiryLoop = () => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  const state = getState();
+  if (Object.keys(state.typing).length === 0) {
+    dispatch(typingStatusExpiryLoop());
   }
 };
