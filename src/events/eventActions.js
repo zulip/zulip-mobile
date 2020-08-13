@@ -9,7 +9,6 @@ import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import doEventActionSideEffects from './doEventActionSideEffects';
 import { tryGetAuth } from '../selectors';
-import actionCreator from '../actionCreator';
 import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
 
@@ -72,8 +71,6 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       }
 
       const actions = eventsToActions(getState(), events);
-
-      actionCreator(dispatch, actions, getState());
 
       actions.forEach(action => {
         // These side effects should not be moved to reducers, which

@@ -4,11 +4,12 @@
 import { AppState } from 'react-native';
 import type { GlobalState, GetState, Dispatch, Message } from '../types';
 import type { EventAction } from '../actionTypes';
-import { EVENT_NEW_MESSAGE } from '../actionConstants';
+import { EVENT_NEW_MESSAGE, EVENT_TYPING_START } from '../actionConstants';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
 import { getActiveAccount, getChatScreenParams, getOwnEmail } from '../selectors';
 import { playMessageSound } from '../utils/sound';
 import { NULL_ARRAY } from '../nullObjects';
+import { ensureTypingStatusExpiryLoop } from '../typing/typingActions';
 
 /**
  * React to incoming `MessageEvent`s.
@@ -52,6 +53,9 @@ export default (action: EventAction) => async (dispatch: Dispatch, getState: Get
       messageEvent(state, action.message);
       break;
     }
+    case EVENT_TYPING_START:
+      dispatch(ensureTypingStatusExpiryLoop());
+      break;
     default:
   }
 };
