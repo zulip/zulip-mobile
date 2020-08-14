@@ -114,6 +114,18 @@ describe('fetchActions', () => {
   describe('fetchMessages', () => {
     const message1 = eg.streamMessage({ id: 1 });
 
+    type CommonFields = $Diff<Message, { reactions: mixed }>;
+
+    // message1 exactly as we receive it from the server, before our
+    // own transformations.
+    //
+    // TODO: Deduplicate this logic with similar logic in
+    // migrateMessages-test.js.
+    const serverMessage1: ServerMessage = {
+      ...(omit(message1, 'reactions'): CommonFields),
+      reactions: [],
+    };
+
     const baseState = eg.reduxState({
       accounts: [eg.makeAccount()],
       narrows: Immutable.Map({
@@ -123,18 +135,6 @@ describe('fetchActions', () => {
 
     describe('success', () => {
       beforeEach(() => {
-        type CommonFields = $Diff<Message, { reactions: mixed }>;
-
-        // A message exactly as we receive it from the server, before
-        // our own transformations.
-        //
-        // TODO: Deduplicate this logic with similar logic in
-        // migrateMessages-test.js.
-        const serverMessage1: ServerMessage = {
-          ...(omit(message1, 'reactions'): CommonFields),
-          reactions: [],
-        };
-
         const response = {
           messages: [serverMessage1],
           result: 'success',
