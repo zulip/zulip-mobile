@@ -414,9 +414,11 @@ type EventUserRemoveAction = {|
 |};
 
 type EventUserUpdateAction = {|
+  ...ServerEvent,
   type: typeof EVENT_USER_UPDATE,
-  // In reality there's more -- but this will prevent accidentally using
-  // the type before going and adding those other properties here properly.
+  userId: number,
+  // Include only the fields that should be overwritten.
+  person: $Shape<User>,
 |};
 
 type EventMutedTopicsAction = {|

@@ -30,7 +30,9 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       return state; // TODO
 
     case EVENT_USER_UPDATE:
-      return state; // TODO
+      return state.map(user =>
+        user.user_id === action.userId ? { ...user, ...action.person } : user,
+      );
 
     default:
       return state;
