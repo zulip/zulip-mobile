@@ -28,16 +28,16 @@ export class AvatarURL {
       // this case; it should be pretty rare.
       return GravatarURL.validateAndConstructInstance({ email });
     } else if (rawAvatarUrl === null) {
-      // If we announce `client_gravatar`, which we sometimes do,
-      // `rawAvatarUrl` might be null. In that case, we take
-      // responsibility for computing a hash for the user's email and
-      // using it to form a URL for an avatar served by Gravatar.
+      // If we announce `client_gravatar`, which we do, `rawAvatarUrl`
+      // might be null. In that case, we take responsibility for
+      // computing a hash for the user's email and using it to form a
+      // URL for an avatar served by Gravatar.
       return GravatarURL.validateAndConstructInstance({ email });
     } else if (typeof rawAvatarUrl === 'string') {
-      // If we don't announce `client_gravatar` (which we sometimes
-      // do), or if the server doesn't have
-      // EMAIL_ADDRESS_VISIBILITY_EVERYONE set, then `rawAvatarUrl`
-      // will be the absolute Gravatar URL string.
+      // If we don't announce `client_gravatar` (which we do), or if
+      // the server doesn't have EMAIL_ADDRESS_VISIBILITY_EVERYONE
+      // set, then `rawAvatarUrl` will be the absolute Gravatar URL
+      // string.
       //
       // (In the latter case, we won't have real email addresses with
       // which to generate the correct hash; see

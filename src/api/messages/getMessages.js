@@ -100,6 +100,7 @@ export default async (
     num_after: numAfter,
     apply_markdown: true,
     use_first_unread_anchor: useFirstUnread,
+    client_gravatar: true,
   });
   return migrateResponse(response, identityOfAuth(auth));
 };
