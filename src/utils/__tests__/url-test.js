@@ -11,10 +11,11 @@ import {
 } from '../url';
 import type { Auth } from '../../types';
 import type { AutocompletionDefaults } from '../url';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getFullUrl', () => {
   test('when uri contains domain, do not change', () => {
-    const url = getFullUrl('https://example.com/img.gif', '');
+    const url = getFullUrl('https://example.com/img.gif', eg.realm);
     expect(url).toEqual('https://example.com/img.gif');
   });
 
@@ -32,7 +33,7 @@ describe('getFullUrl', () => {
 describe('getResource', () => {
   test('when uri contains domain, do not change, add auth headers', () => {
     const auth: Auth = {
-      realm: '',
+      realm: 'https://example.com/',
       apiKey: 'someApiKey',
       email: 'johndoe@example.com',
     };
