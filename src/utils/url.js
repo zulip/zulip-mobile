@@ -46,9 +46,9 @@ export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
  * @param url an absolute URL, or a relative URL on the realm.
  * @param realm the URL of the current realm.
  */
-// Uses some crude heuristics. TODO: Revisit this after or during #4081.
+// We'll be inlining this at all call sites very soon.
 export const getFullUrl = (url: string = '', realm: string): string =>
-  !url.startsWith('http') ? `${realm}${url.startsWith('/') ? '' : '/'}${url}` : url;
+  new URL(url, realm).toString();
 
 export const isUrlOnRealm = (url: string = '', realm: string): boolean =>
   url.startsWith('/') || url.startsWith(realm) || !/^(http|www.)/i.test(url);
