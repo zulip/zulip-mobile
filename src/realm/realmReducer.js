@@ -18,6 +18,8 @@ const initialState = {
   filters: [],
   emoji: {},
 
+  jitsiServerUrl: null,
+
   email: undefined,
   user_id: undefined,
   twentyFourHourTime: false,
@@ -42,6 +44,9 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         nonActiveUsers: action.data.realm_non_active_users,
         filters: action.data.realm_filters,
         emoji: convertRealmEmoji(action.data.realm_emoji),
+
+        jitsiServerUrl:
+          action.data.jitsi_server_url !== undefined ? action.data.jitsi_server_url : null,
 
         email: action.data.email,
         user_id: action.data.user_id,

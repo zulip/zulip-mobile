@@ -37,6 +37,7 @@ export type InitialDataPresence = {|
 |};
 
 export type InitialDataRealm = {|
+  jitsi_server_url?: string,
   max_icon_file_size: number,
   realm_add_emoji_by_admins_only: boolean,
   realm_allow_community_topic_editing: boolean,

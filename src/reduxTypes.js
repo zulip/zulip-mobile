@@ -232,6 +232,7 @@ export type PresenceState = {
  *   account.  See `User` and the linked documentation.
  * @prop filters
  * @prop emoji
+ * @prop jitsiServerUrl
  *
  * About the user:
  * @prop email
@@ -246,6 +247,7 @@ export type RealmState = {|
   nonActiveUsers: User[],
   filters: RealmFilter[],
   emoji: RealmEmojiById,
+  jitsiServerUrl: string | null,
 
   email: string | void,
   user_id: number | void,

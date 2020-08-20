@@ -25,6 +25,7 @@ describe('realmReducer', () => {
         user_id: undefined,
         isAdmin: false,
         twentyFourHourTime: false,
+        jitsiServerUrl: null,
         emoji: {},
         filters: [],
         nonActiveUsers: [],

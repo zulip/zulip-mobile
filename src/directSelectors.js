@@ -105,3 +105,5 @@ export const getRawRealmEmoji = (state: GlobalState): RealmEmojiById => state.re
 export const getNonActiveUsers = (state: GlobalState): User[] => state.realm.nonActiveUsers;
 
 export const getIsAdmin = (state: GlobalState): boolean => state.realm.isAdmin;
+
+export const getJitsiServerUrl = (state: GlobalState): string | null => state.realm.jitsiServerUrl;
