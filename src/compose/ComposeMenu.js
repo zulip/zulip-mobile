@@ -15,6 +15,7 @@ import {
   IconImage,
   IconCamera,
   IconFile,
+  IconVideo,
 } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadFile } from '../actions';
@@ -23,6 +24,7 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
   expanded: boolean,
   destinationNarrow: Narrow,
+  insertVideoCallLink: (() => void) | null,
   onExpandContract: () => void,
 |}>;
 
@@ -152,8 +154,10 @@ class ComposeMenu extends PureComponent<Props> {
   });
 
   render() {
-    const { dispatch, expanded, onExpandContract } = this.props;
-    const numIcons = Platform.OS === 'android' ? 4 : 3;
+    const { dispatch, expanded, insertVideoCallLink, onExpandContract } = this.props;
+    const numIcons =
+      3 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
+
     return (
       <View style={this.styles.composeMenu}>
         <AnimatedComponent
@@ -187,6 +191,13 @@ class ComposeMenu extends PureComponent<Props> {
               size={24}
               onPress={this.handleCameraCapture}
             />
+            {insertVideoCallLink !== null ? (
+              <IconVideo
+                style={this.styles.composeMenuButton}
+                size={24}
+                onPress={insertVideoCallLink}
+              />
+            ) : null}
           </View>
         </AnimatedComponent>
         {!expanded && (

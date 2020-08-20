@@ -47,6 +47,7 @@ import {
   getActiveUsersByEmail,
   getCaughtUpForNarrow,
   getStreamInNarrow,
+  getJitsiServerUrl,
 } from '../selectors';
 import {
   getIsActiveStreamSubscribed,
@@ -68,6 +69,7 @@ type SelectorProps = {|
   draft: string,
   lastMessageTopic: string,
   caughtUp: CaughtUp,
+  jitsiServerUrl: string | null,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
 |};
 
@@ -98,6 +100,10 @@ type State = {|
   height: number,
   selection: InputSelection,
 |};
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export const updateTextInput = (textInput: ?TextInput, text: string): void => {
   if (!textInput) {
@@ -166,6 +172,33 @@ class ComposeBox extends PureComponent<Props, State> {
   setTopicInputValue = (topic: string) => {
     updateTextInput(this.topicInput, topic);
     this.handleTopicChange(topic);
+  };
+
+  insertMessageTextAtCursorPosition = (text: string) => {
+    const { message, selection } = this.state;
+
+    this.setMessageInputValue(
+      message.slice(0, selection.start) + text + message.slice(selection.end, message.length),
+    );
+  };
+
+  insertVideoCallLink = (jitsiServerUrl: string) => {
+    const { _ } = this.props;
+
+    // This is meant to align with the way the webapp generates jitsi video call
+    // IDs. That logic can be found in the ".video_link" click handler in
+    // static/js/compose.js.
+    const videoCallId = randomInt(100000000000000, 999999999999999);
+
+    // The jitsi_server_url returned by the server can contain a trailing slash.
+    // When that occurs, the below method for constructing video call URLs will
+    // result in duplicate slashes between the server URL and the video call ID
+    // until the server is updated to remove the trailing slash.
+    const videoCallUrl = `${jitsiServerUrl}/${videoCallId}`;
+    const linkMessage = _('Click to join video call');
+    const linkText = `[${linkMessage}](${videoCallUrl})`;
+
+    this.insertMessageTextAtCursorPosition(linkText);
   };
 
   handleComposeMenuToggle = () => {
@@ -375,8 +408,12 @@ class ComposeBox extends PureComponent<Props, State> {
       isAdmin,
       isAnnouncementOnly,
       isSubscribed,
+      jitsiServerUrl,
       stream,
     } = this.props;
+
+    const insertVideoCallLink =
+      jitsiServerUrl !== null ? () => this.insertVideoCallLink(jitsiServerUrl) : null;
 
     if (!isSubscribed) {
       return <NotSubscribed narrow={narrow} />;
@@ -411,6 +448,7 @@ class ComposeBox extends PureComponent<Props, State> {
           <ComposeMenu
             destinationNarrow={this.getDestinationNarrow()}
             expanded={isMenuExpanded}
+            insertVideoCallLink={insertVideoCallLink}
             onExpandContract={this.handleComposeMenuToggle}
           />
           <View style={this.styles.composeText}>
@@ -473,5 +511,6 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   draft: getDraftForNarrow(state, props.narrow),
   lastMessageTopic: getLastMessageTopic(state, props.narrow),
   caughtUp: getCaughtUpForNarrow(state, props.narrow),
+  jitsiServerUrl: getJitsiServerUrl(state),
   stream: getStreamInNarrow(state, props.narrow),
 }))(withGetText(ComposeBox));
