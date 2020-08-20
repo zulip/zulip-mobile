@@ -27,7 +27,7 @@ import styles from '../styles';
 import { Centerer, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
-import { encodeParamsForUrl, tryParseUrl } from '../utils/url';
+import { encodeParamsForUrl } from '../utils/url';
 import * as webAuth from './webAuth';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 import IosCompliantAppleAuthButton from './IosCompliantAppleAuthButton';
@@ -168,7 +168,7 @@ export const activeAuthentications = (
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-  realm: string,
+  realm: URL,
   navigation: NavigationScreenProp<{ params: {| serverSettings: ApiResponseServerSettings |} }>,
 |}>;
 
@@ -260,7 +260,7 @@ class AuthScreen extends PureComponent<Props> {
       id_token: credential.identityToken,
     });
 
-    openLink(`${this.props.realm}/complete/apple/?${params}`);
+    openLink(`${this.props.realm.toString()}/complete/apple/?${params}`);
 
     // Currently, the rest is handled with the `zulip://` redirect,
     // same as in the web flow.
@@ -275,12 +275,7 @@ class AuthScreen extends PureComponent<Props> {
       return false;
     }
 
-    const host = tryParseUrl(this.props.realm)?.host;
-    if (host === undefined) {
-      // `this.props.realm` invalid.
-      // TODO: Check this much sooner.
-      return false;
-    }
+    const { host } = this.props.realm;
 
     // The native flow for Apple auth assumes that the app and the server
     // are operated by the same organization, so that for a user to
@@ -347,5 +342,5 @@ class AuthScreen extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  realm: getCurrentRealm(state).toString(),
+  realm: getCurrentRealm(state),
 }))(AuthScreen);

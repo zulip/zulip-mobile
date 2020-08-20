@@ -66,11 +66,7 @@ export const closeBrowser = () => {
  */
 const extractApiKey = (encoded: string, otp: string) => hexToAscii(xorHexStrings(encoded, otp));
 
-export const authFromCallbackUrl = (
-  callbackUrl: string,
-  otp: string,
-  realm: string,
-): Auth | null => {
+export const authFromCallbackUrl = (callbackUrl: string, otp: string, realm: URL): Auth | null => {
   // callback format expected: zulip://login?realm={}&email={}&otp_encrypted_api_key={}
   const url = tryParseUrl(callbackUrl);
   if (!url) {
@@ -82,8 +78,7 @@ export const authFromCallbackUrl = (
     return null;
   }
   const callbackRealm = tryParseUrl(callbackRealmStr);
-  // TODO: Check validity of `realm` much sooner
-  if (!callbackRealm || callbackRealm.origin !== new URL(realm).origin) {
+  if (!callbackRealm || callbackRealm.origin !== realm.origin) {
     return null;
   }
 
@@ -98,7 +93,7 @@ export const authFromCallbackUrl = (
     && otpEncryptedApiKey.length === otp.length
   ) {
     const apiKey = extractApiKey(otpEncryptedApiKey, otp);
-    return { realm: new URL(realm), email, apiKey };
+    return { realm, email, apiKey };
   }
 
   return null;
