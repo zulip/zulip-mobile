@@ -18,7 +18,7 @@ type SelectorProps = {|
 type Props = $ReadOnly<{|
   navigation: NavigationScreenProp<{
     params: ?{|
-      realm: string | void,
+      realm: URL | void,
       initial?: boolean,
     |},
   }>,
@@ -28,7 +28,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 type State = {|
-  realm: string,
+  realmInputValue: string,
   error: string | null,
   progress: boolean,
 |};
@@ -36,16 +36,16 @@ type State = {|
 class RealmScreen extends PureComponent<Props, State> {
   state = {
     progress: false,
-    realm: this.props.initialRealm,
+    realmInputValue: this.props.initialRealm,
     error: null,
   };
 
   scrollView: ScrollView;
 
   tryRealm = async () => {
-    const { realm } = this.state;
+    const { realmInputValue } = this.state;
 
-    const parsedRealm = tryParseUrl(realm);
+    const parsedRealm = tryParseUrl(realmInputValue);
     if (!parsedRealm) {
       this.setState({ error: 'Please enter a valid URL' });
       return;
@@ -61,10 +61,10 @@ class RealmScreen extends PureComponent<Props, State> {
       error: null,
     });
     try {
-      const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
+      const serverSettings: ApiResponseServerSettings = await api.getServerSettings(parsedRealm);
       dispatch(
         realmAdd(
-          realm,
+          realmInputValue,
           serverSettings.zulip_feature_level ?? 0,
           new ZulipVersion(serverSettings.zulip_version),
         ),
@@ -81,7 +81,7 @@ class RealmScreen extends PureComponent<Props, State> {
     }
   };
 
-  handleRealmChange = (value: string) => this.setState({ realm: value });
+  handleRealmChange = (value: string) => this.setState({ realmInputValue: value });
 
   componentDidMount() {
     const { initialRealm } = this.props;
@@ -92,7 +92,7 @@ class RealmScreen extends PureComponent<Props, State> {
 
   render() {
     const { initialRealm, navigation } = this.props;
-    const { progress, error, realm } = this.state;
+    const { progress, error, realmInputValue } = this.state;
 
     const styles = {
       input: { marginTop: 16, marginBottom: 8 },
@@ -131,7 +131,7 @@ class RealmScreen extends PureComponent<Props, State> {
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}
-          disabled={!isValidUrl(realm)}
+          disabled={!isValidUrl(realmInputValue)}
         />
       </Screen>
     );
@@ -139,5 +139,5 @@ class RealmScreen extends PureComponent<Props, State> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  initialRealm: props.navigation.state.params?.realm ?? '',
+  initialRealm: props.navigation.state.params?.realm?.toString() ?? '',
 }))(RealmScreen);
