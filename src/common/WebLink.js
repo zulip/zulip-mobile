@@ -13,7 +13,7 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
   label: string,
   href: string,
-  realm: string,
+  realm: URL,
 |}>;
 
 /**
@@ -44,5 +44,5 @@ class WebLink extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  realm: getCurrentRealm(state).toString(),
+  realm: getCurrentRealm(state),
 }))(WebLink);

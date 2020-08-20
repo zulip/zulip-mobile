@@ -10,7 +10,7 @@ import { getCurrentRealm } from '../selectors';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-  realm: string,
+  realm: URL,
 |}>;
 
 class LegalScreen extends PureComponent<Props> {
@@ -35,5 +35,5 @@ class LegalScreen extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  realm: getCurrentRealm(state).toString(),
+  realm: getCurrentRealm(state),
 }))(LegalScreen);

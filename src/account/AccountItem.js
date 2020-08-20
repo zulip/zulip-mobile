@@ -39,7 +39,7 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   index: number,
   email: string,
-  realm: string,
+  realm: URL,
   onSelect: (index: number) => void,
   onRemove: (index: number) => void,
   showDoneIcon: boolean,
@@ -58,7 +58,7 @@ export default class AccountItem extends PureComponent<Props> {
         <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
           <View style={styles.details}>
             <RawLabel style={styles.text} text={email} numberOfLines={1} />
-            <RawLabel style={styles.text} text={realm} numberOfLines={1} />
+            <RawLabel style={styles.text} text={realm.toString()} numberOfLines={1} />
           </View>
           {!showDoneIcon ? (
             <IconTrash style={styles.icon} size={24} color="crimson" onPress={this.handleRemove} />
