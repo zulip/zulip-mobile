@@ -1,10 +1,10 @@
 /* @flow strict-local */
 import { NativeModules, Platform } from 'react-native';
 import SafariView from 'react-native-safari-view';
-import parseURL, { type Url } from 'url-parse';
 
 import type { Auth } from '../types';
 import openLink from '../utils/openLink';
+import { tryParseUrl } from '../utils/url';
 import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
 
 /*
@@ -71,19 +71,34 @@ export const authFromCallbackUrl = (
   otp: string,
   realm: string,
 ): Auth | null => {
-  const url: Url = parseURL(callbackUrl, true);
-
   // callback format expected: zulip://login?realm={}&email={}&otp_encrypted_api_key={}
+  const url = tryParseUrl(callbackUrl);
+  if (!url) {
+    return null;
+  }
+
+  const callbackRealmStr = url.searchParams.get('realm');
+  if (callbackRealmStr === null) {
+    return null;
+  }
+  const callbackRealm = tryParseUrl(callbackRealmStr);
+  // TODO: Check validity of `realm` much sooner
+  if (!callbackRealm || callbackRealm.origin !== new URL(realm).origin) {
+    return null;
+  }
+
+  const email = url.searchParams.get('email');
+  const otpEncryptedApiKey = url.searchParams.get('otp_encrypted_api_key');
+
   if (
     url.host === 'login'
-    && url.query.realm === realm
     && otp
-    && url.query.email
-    && url.query.otp_encrypted_api_key
-    && url.query.otp_encrypted_api_key.length === otp.length
+    && email !== null
+    && otpEncryptedApiKey !== null
+    && otpEncryptedApiKey.length === otp.length
   ) {
-    const apiKey = extractApiKey(url.query.otp_encrypted_api_key, otp);
-    return { realm, email: url.query.email, apiKey };
+    const apiKey = extractApiKey(otpEncryptedApiKey, otp);
+    return { realm, email, apiKey };
   }
 
   return null;
