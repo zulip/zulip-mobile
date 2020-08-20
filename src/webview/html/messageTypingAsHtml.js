@@ -3,7 +3,7 @@ import template from './template';
 import type { UserOrBot } from '../../types';
 import { getAvatarFromUser } from '../../utils/avatar';
 
-const typingAvatar = (realm: string, user: UserOrBot): string => template`
+const typingAvatar = (realm: URL, user: UserOrBot): string => template`
 <div class="avatar">
   <img
     class="avatar-img"
@@ -12,7 +12,7 @@ const typingAvatar = (realm: string, user: UserOrBot): string => template`
 </div>
 `;
 
-export default (realm: string, users: $ReadOnlyArray<UserOrBot>): string => template`
+export default (realm: URL, users: $ReadOnlyArray<UserOrBot>): string => template`
   $!${users.map(user => typingAvatar(realm, user)).join('')}
   <div class="content">
     <span></span>

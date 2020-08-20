@@ -73,7 +73,7 @@ const updateTyping = (prevProps: Props, nextProps: Props): WebViewUpdateEventTyp
   type: 'typing',
   content:
     nextProps.typingUsers.length > 0
-      ? messageTypingAsHtml(nextProps.backgroundData.auth.realm.toString(), nextProps.typingUsers)
+      ? messageTypingAsHtml(nextProps.backgroundData.auth.realm, nextProps.typingUsers)
       : '',
 });
 

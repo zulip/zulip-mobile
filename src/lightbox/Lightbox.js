@@ -115,7 +115,7 @@ class Lightbox extends PureComponent<Props, State> {
           <LightboxHeader
             onPressBack={this.handlePressBack}
             timestamp={message.timestamp}
-            avatarUrl={getAvatarFromMessage(message, auth.realm.toString())}
+            avatarUrl={getAvatarFromMessage(message, auth.realm)}
             senderName={message.sender_full_name}
           />
         </SlideAnimationView>

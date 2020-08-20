@@ -23,7 +23,7 @@ type Props = $ReadOnly<{|
   avatarUrl: ?string,
   email: string,
   size: number,
-  realm: string,
+  realm: URL,
   shape: 'rounded' | 'square',
   onPress?: () => void,
 |}>;
@@ -43,7 +43,6 @@ class UserAvatarWithPresence extends PureComponent<Props> {
     avatarUrl: '',
     email: '',
     size: 32,
-    realm: '',
     shape: 'rounded',
   };
 
@@ -60,5 +59,5 @@ class UserAvatarWithPresence extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  realm: getCurrentRealm(state).toString(),
+  realm: getCurrentRealm(state),
 }))(UserAvatarWithPresence);

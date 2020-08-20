@@ -11,6 +11,6 @@ describe('typing', () => {
       email: `${name}@example.com`,
     };
 
-    expect(messageTypingAsHtml(eg.realm.toString(), [user])).not.toContain('&<');
+    expect(messageTypingAsHtml(eg.realm, [user])).not.toContain('&<');
   });
 });

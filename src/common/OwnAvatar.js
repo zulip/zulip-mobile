@@ -11,7 +11,7 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
   user: User,
   size: number,
-  realm: string,
+  realm: URL,
 |}>;
 
 /**
@@ -28,6 +28,6 @@ class OwnAvatar extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  realm: getCurrentRealm(state).toString(),
+  realm: getCurrentRealm(state),
   user: getSelfUserDetail(state),
 }))(OwnAvatar);

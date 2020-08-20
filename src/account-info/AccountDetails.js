@@ -28,7 +28,7 @@ const componentStyles = createStyleSheet({
 const AVATAR_SIZE = 200;
 
 type SelectorProps = {|
-  realm: string,
+  realm: URL,
   userStatusText: string | void,
 |};
 
@@ -80,6 +80,6 @@ class AccountDetails extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  realm: getCurrentRealm(state).toString(),
+  realm: getCurrentRealm(state),
   userStatusText: getUserStatusTextForUser(state, props.user.user_id),
 }))(AccountDetails);
