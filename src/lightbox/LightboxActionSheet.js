@@ -4,7 +4,6 @@ import downloadImage from './downloadImage';
 import share from './share';
 import shareImage from './shareImage';
 import { showToast } from '../utils/info';
-import { getFullUrl } from '../utils/url';
 import * as api from '../api';
 import openLink from '../utils/openLink';
 
@@ -38,7 +37,7 @@ const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
   const tempUrl = await api.tryGetFileTemporaryUrl(src, auth);
   if (tempUrl === null) {
     showToast('Please download the image from your browser');
-    openLink(getFullUrl(src, auth.realm));
+    openLink(new URL(src, auth.realm).toString());
     return;
   }
 
@@ -52,7 +51,7 @@ const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
 };
 
 const shareLink = ({ src, auth }: ShareLinkType) => {
-  share(getFullUrl(src, auth.realm));
+  share(new URL(src, auth.realm).toString());
 };
 
 const shareImageDirectly = ({ src, auth }: DownloadImageType) => {

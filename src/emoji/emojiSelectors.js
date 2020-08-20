@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 import type { Selector, RealmEmojiById, ImageEmojiType } from '../types';
 import { getRawRealmEmoji } from '../directSelectors';
 import { getIdentity } from '../account/accountsSelectors';
-import { getFullUrl } from '../utils/url';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 import { objectFromEntries } from '../jsBackport';
 
@@ -16,7 +15,7 @@ export const getAllImageEmojiById: Selector<RealmEmojiById> = createSelector(
       Object.keys(emojis).forEach(id => {
         result[id] = {
           ...emojis[id],
-          source_url: getFullUrl(emojis[id].source_url, identity.realm),
+          source_url: new URL(emojis[id].source_url, identity.realm).toString(),
         };
       });
     });

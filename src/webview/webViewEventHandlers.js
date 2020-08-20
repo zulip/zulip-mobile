@@ -7,7 +7,7 @@ import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
-import { isUrlAnImage, getFullUrl } from '../utils/url';
+import { isUrlAnImage } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrowString } from '../utils/narrow';
@@ -191,7 +191,7 @@ const handleLongPress = (
   href: string | null,
 ) => {
   if (href !== null) {
-    const url = getFullUrl(href, props.backgroundData.auth.realm);
+    const url = new URL(href, props.backgroundData.auth.realm).toString();
     Clipboard.setString(url);
     showToast(_('Link copied to clipboard'));
     return;

@@ -40,21 +40,11 @@ export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
   }
 };
 
-/**
- * Turn a relative or absolute URL into an absolute URL.
- *
- * @param url an absolute URL, or a relative URL on the realm.
- * @param realm the URL of the current realm.
- */
-// We'll be inlining this at all call sites very soon.
-export const getFullUrl = (url: string = '', realm: string): string =>
-  new URL(url, realm).toString();
-
 export const isUrlOnRealm = (url: string = '', realm: string): boolean =>
   url.startsWith('/') || url.startsWith(realm) || !/^(http|www.)/i.test(url);
 
 const getResourceWithAuth = (uri: string, auth: Auth) => ({
-  uri: getFullUrl(uri, auth.realm),
+  uri: new URL(uri, auth.realm).toString(),
   headers: getAuthHeaders(auth),
 });
 

@@ -27,7 +27,7 @@ import styles from '../styles';
 import { Centerer, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
-import { getFullUrl, encodeParamsForUrl, tryParseUrl } from '../utils/url';
+import { encodeParamsForUrl, tryParseUrl } from '../utils/url';
 import * as webAuth from './webAuth';
 import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 import IosCompliantAppleAuthButton from './IosCompliantAppleAuthButton';
@@ -314,7 +314,7 @@ class AuthScreen extends PureComponent<Props> {
         <Centerer>
           <RealmInfo
             name={serverSettings.realm_name}
-            iconUrl={getFullUrl(serverSettings.realm_icon, this.props.realm)}
+            iconUrl={new URL(serverSettings.realm_icon, this.props.realm).toString()}
           />
           {activeAuthentications(
             serverSettings.authentication_methods,

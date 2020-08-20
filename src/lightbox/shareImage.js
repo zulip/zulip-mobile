@@ -6,7 +6,6 @@ import type { Auth } from '../types';
 import ShareImageAndroid from '../nativeModules/ShareImageAndroid';
 import { showToast } from '../utils/info';
 import * as api from '../api';
-import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 
 export default async (url: string, auth: Auth) => {
@@ -14,7 +13,7 @@ export default async (url: string, auth: Auth) => {
 
   if (tempUrl === null) {
     showToast('Please share the image from your browser');
-    openLink(getFullUrl(url, auth.realm));
+    openLink(new URL(url, auth.realm).toString());
     return;
   }
 

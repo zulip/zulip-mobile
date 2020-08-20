@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import base64 from 'base-64';
 import {
-  getFullUrl,
   getResource,
   isUrlOnRealm,
   parseProtocol,
@@ -11,24 +10,6 @@ import {
 } from '../url';
 import type { Auth } from '../../types';
 import type { AutocompletionDefaults } from '../url';
-import * as eg from '../../__tests__/lib/exampleData';
-
-describe('getFullUrl', () => {
-  test('when uri contains domain, do not change', () => {
-    const url = getFullUrl('https://example.com/img.gif', eg.realm);
-    expect(url).toEqual('https://example.com/img.gif');
-  });
-
-  test('when uri does not contain domain, append realm', () => {
-    const url = getFullUrl('/img.gif', 'https://example.com');
-    expect(url).toEqual('https://example.com/img.gif');
-  });
-
-  test('recognize relative uris', () => {
-    const url = getFullUrl('#something', 'https://example.com');
-    expect(url).toEqual('https://example.com/#something');
-  });
-});
 
 describe('getResource', () => {
   test('when uri contains domain, do not change, add auth headers', () => {

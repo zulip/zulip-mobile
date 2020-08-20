@@ -6,7 +6,6 @@ import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { Screen, OptionButton } from '../common';
 import openLink from '../utils/openLink';
-import { getFullUrl } from '../utils/url';
 import { getCurrentRealm } from '../selectors';
 
 type Props = $ReadOnly<{|
@@ -17,12 +16,12 @@ type Props = $ReadOnly<{|
 class LegalScreen extends PureComponent<Props> {
   openTermsOfService = () => {
     const { realm } = this.props;
-    openLink(getFullUrl('/terms/?nav=no', realm));
+    openLink(new URL('/terms/?nav=no', realm).toString());
   };
 
   openPrivacyPolicy = () => {
     const { realm } = this.props;
-    openLink(getFullUrl('/privacy/?nav=no', realm));
+    openLink(new URL('/privacy/?nav=no', realm).toString());
   };
 
   render() {

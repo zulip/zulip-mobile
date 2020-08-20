@@ -8,7 +8,7 @@ import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
-import { isUrlOnRealm, getFullUrl } from '../utils/url';
+import { isUrlOnRealm } from '../utils/url';
 
 /**
  * Navigate to the given narrow.
@@ -51,7 +51,8 @@ export const messageLinkPress = (href: string) => async (
   } else if (!isUrlOnRealm(href, auth.realm)) {
     openLink(href);
   } else {
-    const url = (await api.tryGetFileTemporaryUrl(href, auth)) ?? getFullUrl(href, auth.realm);
+    const url =
+      (await api.tryGetFileTemporaryUrl(href, auth)) ?? new URL(href, auth.realm).toString();
     openLink(url);
   }
 };

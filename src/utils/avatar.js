@@ -2,7 +2,6 @@
 import md5 from 'blueimp-md5';
 
 import type { Message, Outbox, UserOrBot } from '../types';
-import { getFullUrl } from './url';
 
 /**
  * When selecting the size of a gravatar we can pick any arbitrary
@@ -32,7 +31,7 @@ export const getAvatarUrl = (
     return getGravatarFromEmail(email, size);
   }
 
-  const fullUrl = getFullUrl(avatarUrl, realm);
+  const fullUrl = new URL(avatarUrl, realm).toString();
 
   return size > 100 ? getMediumAvatar(fullUrl) : fullUrl;
 };
