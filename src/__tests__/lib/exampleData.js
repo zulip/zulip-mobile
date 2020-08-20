@@ -123,7 +123,7 @@ export const makeCrossRealmBot = (args: { name?: string } = {}): CrossRealmBot =
     is_bot: true,
   });
 
-export const realm = 'https://zulip.example.org';
+export const realm = new URL('https://zulip.example.org');
 
 export const zulipVersion = new ZulipVersion('2.1.0-234-g7c3acf4');
 
@@ -133,7 +133,7 @@ export const makeAccount = (
   args: {
     user?: User,
     email?: string,
-    realm?: string,
+    realm?: URL,
     apiKey?: string,
     zulipFeatureLevel?: number | null,
     zulipVersion?: ZulipVersion | null,
@@ -423,7 +423,7 @@ export const action = deepFreeze({
   },
   login_success: {
     type: LOGIN_SUCCESS,
-    realm: selfAccount.realm,
+    realm: selfAccount.realm.toString(),
     email: selfAccount.email,
     apiKey: selfAccount.apiKey,
   },
@@ -475,7 +475,7 @@ export const action = deepFreeze({
       realm_send_welcome_emails: true,
       realm_show_digest_email: true,
       realm_signup_notifications_stream_id: 3,
-      realm_uri: selfAccount.realm,
+      realm_uri: selfAccount.realm.toString(),
       realm_video_chat_provider: 1,
       realm_waiting_period_threshold: 3,
       zulip_feature_level: 1,

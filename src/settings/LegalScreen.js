@@ -35,5 +35,5 @@ class LegalScreen extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  realm: getCurrentRealm(state),
+  realm: getCurrentRealm(state).toString(),
 }))(LegalScreen);

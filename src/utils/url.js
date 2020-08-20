@@ -56,7 +56,9 @@ export const getResource = (
   uri: string,
   auth: Auth,
 ): {| uri: string, headers?: { [string]: string } |} =>
-  isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
+  isUrlOnRealm(uri, auth.realm.toString())
+    ? getResourceWithAuth(uri, auth)
+    : getResourceNoAuth(uri);
 
 export type Protocol = 'https://' | 'http://';
 

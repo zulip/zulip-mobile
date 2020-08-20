@@ -98,7 +98,7 @@ export const authFromCallbackUrl = (
     && otpEncryptedApiKey.length === otp.length
   ) {
     const apiKey = extractApiKey(otpEncryptedApiKey, otp);
-    return { realm, email, apiKey };
+    return { realm: new URL(realm), email, apiKey };
   }
 
   return null;

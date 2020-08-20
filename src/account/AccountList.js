@@ -20,14 +20,14 @@ export default class AccountList extends PureComponent<Props> {
       <View>
         <FlatList
           data={accounts}
-          keyExtractor={item => `${item.email}${item.realm}`}
+          keyExtractor={item => `${item.email}${item.realm.toString()}`}
           ItemSeparatorComponent={() => <ViewPlaceholder height={8} />}
           renderItem={({ item, index }) => (
             <AccountItem
               index={index}
               showDoneIcon={index === 0 && item.isLoggedIn}
               email={item.email}
-              realm={item.realm}
+              realm={item.realm.toString()}
               onSelect={onAccountSelect}
               onRemove={onAccountRemove}
             />

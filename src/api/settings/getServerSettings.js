@@ -43,4 +43,4 @@ export type ApiResponseServerSettings = {|
 
 /** See https://zulip.com/api/server-settings */
 export default async (realm: string): Promise<ApiResponseServerSettings> =>
-  apiGet({ apiKey: '', email: '', realm }, 'server_settings');
+  apiGet({ apiKey: '', email: '', realm: new URL(realm) }, 'server_settings');

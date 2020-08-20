@@ -16,7 +16,7 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState = NULL_ARRAY;
 
 const realmAdd = (state, action) => {
-  const accountIndex = state.findIndex(account => account.realm === action.realm);
+  const accountIndex = state.findIndex(account => account.realm.toString() === action.realm);
 
   if (accountIndex !== -1) {
     const newAccount = {
@@ -29,7 +29,7 @@ const realmAdd = (state, action) => {
 
   return [
     {
-      realm: action.realm,
+      realm: new URL(action.realm),
       apiKey: '',
       email: '',
       ackedPushToken: null,
@@ -60,16 +60,24 @@ const accountSwitch = (state, action) => {
 const findAccount = (state: AccountsState, identity: Identity): number => {
   const { realm, email } = identity;
   return state.findIndex(
-    account => account.realm === realm && (!account.email || account.email === email),
+    account =>
+      account.realm.toString() === realm.toString() && (!account.email || account.email === email),
   );
 };
 
 const loginSuccess = (state, action) => {
   const { realm, email, apiKey } = action;
-  const accountIndex = findAccount(state, { realm, email });
+  const accountIndex = findAccount(state, { realm: new URL(realm), email });
   if (accountIndex === -1) {
     return [
-      { realm, email, apiKey, ackedPushToken: null, zulipVersion: null, zulipFeatureLevel: null },
+      {
+        realm: new URL(realm),
+        email,
+        apiKey,
+        ackedPushToken: null,
+        zulipVersion: null,
+        zulipFeatureLevel: null,
+      },
       ...state,
     ];
   }

@@ -14,7 +14,7 @@ import type { AutocompletionDefaults } from '../url';
 describe('getResource', () => {
   test('when uri contains domain, do not change, add auth headers', () => {
     const auth: Auth = {
-      realm: 'https://example.com/',
+      realm: new URL('https://example.com/'),
       apiKey: 'someApiKey',
       email: 'johndoe@example.com',
     };
@@ -31,7 +31,7 @@ describe('getResource', () => {
   });
 
   const exampleAuth: Auth = {
-    realm: 'https://example.com',
+    realm: new URL('https://example.com'),
     email: 'nobody@example.org',
     apiKey: 'someApiKey',
   };

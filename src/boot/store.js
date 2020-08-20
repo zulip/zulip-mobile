@@ -156,6 +156,8 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     ...state,
     accounts: state.accounts.map(a => ({
       ...a,
+      // `a.realm` is a string until migration 15
+      // $FlowMigrationFudge
       realm: a.realm.replace(/\/+$/, ''),
     })),
   }),
@@ -184,6 +186,16 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     accounts: state.accounts.map(a => ({
       ...a,
       zulipFeatureLevel: null,
+    })),
+  }),
+
+  // Convert Accounts[].realm from `string` to `URL`
+  '15': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({
+      ...a,
+      // $FlowMigrationFudge - `a.realm` will be a string here
+      realm: new URL(a.realm),
     })),
   }),
 

@@ -25,7 +25,7 @@ class AccountPickScreen extends PureComponent<Props> {
         dispatch(switchAccount(index));
       });
     } else {
-      dispatch(navigateToRealmScreen(realm));
+      dispatch(navigateToRealmScreen(realm.toString()));
     }
   };
 

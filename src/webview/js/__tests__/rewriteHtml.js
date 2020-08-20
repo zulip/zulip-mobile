@@ -5,7 +5,7 @@ import rewriteHtml from '../rewriteHtml';
 import type { Auth } from '../../../types';
 
 describe('rewriteHtml', () => {
-  const realm = 'https://realm.example.com';
+  const realm = new URL('https://realm.example.com');
   global.jsdom.reconfigure({ url: 'file:///nowhere_land/index.html' });
 
   const auth: Auth = {
@@ -27,7 +27,7 @@ describe('rewriteHtml', () => {
   const prefixes = {
     relative: '',
     'root-relative': '/',
-    'absolute on-realm': realm,
+    'absolute on-realm': realm.toString(),
     'absolute off-realm': 'https://example.org',
   };
 

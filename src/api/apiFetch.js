@@ -46,7 +46,7 @@ export const apiFetch = async (
   auth: Auth,
   route: string,
   params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
-) => fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
+) => fetchWithAuth(auth, `${auth.realm.toString()}/${apiVersion}/${route}`, params);
 
 export const apiCall = async (
   auth: Auth,

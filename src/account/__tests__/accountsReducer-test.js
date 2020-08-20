@@ -17,8 +17,8 @@ import * as eg from '../../__tests__/lib/exampleData';
 describe('accountsReducer', () => {
   describe('REALM_ADD', () => {
     describe('on list of identities', () => {
-      const account1 = eg.makeAccount({ realm: 'https://realm.one.org', apiKey: '' });
-      const account2 = eg.makeAccount({ realm: 'https://realm.two.org', apiKey: '' });
+      const account1 = eg.makeAccount({ realm: new URL('https://realm.one.org'), apiKey: '' });
+      const account2 = eg.makeAccount({ realm: new URL('https://realm.two.org'), apiKey: '' });
       const prevState = deepFreeze([account1, account2]);
       const baseAction = deepFreeze({
         type: REALM_ADD,
@@ -27,8 +27,8 @@ describe('accountsReducer', () => {
       });
 
       test('if no account with this realm exists, prepend new one, with empty email/apiKey', () => {
-        const newRealm = 'https://new.realm.org';
-        const action = deepFreeze({ ...baseAction, realm: newRealm });
+        const newRealm = new URL('https://new.realm.org');
+        const action = deepFreeze({ ...baseAction, realm: newRealm.toString() });
         expect(accountsReducer(prevState, action)).toEqual([
           eg.makeAccount({ realm: newRealm, email: '', apiKey: '' }),
           account1,
@@ -37,7 +37,7 @@ describe('accountsReducer', () => {
       });
 
       test('if account with this realm exists, move to front of list', () => {
-        const action = deepFreeze({ ...baseAction, realm: account2.realm });
+        const action = deepFreeze({ ...baseAction, realm: account2.realm.toString() });
         expect(accountsReducer(prevState, action)).toEqual([account2, account1]);
       });
     });
@@ -46,7 +46,7 @@ describe('accountsReducer', () => {
       const existingAccountBase = eg.makeAccount({});
       const baseAction = deepFreeze({
         type: REALM_ADD,
-        realm: existingAccountBase.realm,
+        realm: existingAccountBase.realm.toString(),
         zulipFeatureLevel: eg.zulipFeatureLevel,
         zulipVersion: eg.zulipVersion,
       });
@@ -153,8 +153,8 @@ describe('accountsReducer', () => {
   });
 
   describe('LOGIN_SUCCESS', () => {
-    const account1 = eg.makeAccount({ email: '', realm: 'https://one.example.org' });
-    const account2 = eg.makeAccount({ realm: 'https://two.example.org' });
+    const account1 = eg.makeAccount({ email: '', realm: new URL('https://one.example.org') });
+    const account2 = eg.makeAccount({ realm: new URL('https://two.example.org') });
 
     const prevState = deepFreeze([account1, account2]);
 
@@ -168,7 +168,7 @@ describe('accountsReducer', () => {
         type: LOGIN_SUCCESS,
         apiKey: newAccount.apiKey,
         email: newAccount.email,
-        realm: newAccount.realm,
+        realm: newAccount.realm.toString(),
       });
 
       const expectedState = [{ ...newAccount, zulipVersion: account1.zulipVersion }, account2];
@@ -181,7 +181,7 @@ describe('accountsReducer', () => {
     test('on login, if account does not exist, add as first item', () => {
       const newAccount = eg.makeAccount({
         email: 'newaccount@example.com',
-        realm: 'https://new.realm.org',
+        realm: new URL('https://new.realm.org'),
         zulipVersion: null,
         zulipFeatureLevel: null,
       });
@@ -190,7 +190,7 @@ describe('accountsReducer', () => {
         type: LOGIN_SUCCESS,
         apiKey: newAccount.apiKey,
         email: newAccount.email,
-        realm: newAccount.realm,
+        realm: newAccount.realm.toString(),
       });
 
       const expectedState = [newAccount, account1, account2];
@@ -209,7 +209,7 @@ describe('accountsReducer', () => {
       const action = deepFreeze({
         type: LOGIN_SUCCESS,
         apiKey: newAccount.apiKey,
-        realm: newAccount.realm,
+        realm: newAccount.realm.toString(),
         email: newAccount.email,
       });
 

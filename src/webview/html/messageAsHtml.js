@@ -118,7 +118,7 @@ $!${divOpenHtml}
 
   const { sender_full_name } = message;
   const sender_id = message.isOutbox ? backgroundData.ownUser.user_id : message.sender_id;
-  const avatarUrl = getAvatarFromMessage(message, backgroundData.auth.realm);
+  const avatarUrl = getAvatarFromMessage(message, backgroundData.auth.realm.toString());
   const subheaderHtml = template`
 <div class="subheader">
   <div class="username">

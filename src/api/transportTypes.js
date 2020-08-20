@@ -16,7 +16,7 @@
  * an `Auth`.
  */
 export type Auth = {|
-  realm: string,
+  realm: URL,
   apiKey: string,
   email: string,
 |};

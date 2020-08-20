@@ -38,7 +38,7 @@ export const getAccountFromNotificationData = (
 
   const urlMatches = [];
   identities.forEach((account, i) => {
-    if (account.realm === realm_uri) {
+    if (account.realm.toString() === realm_uri) {
       urlMatches.push(i);
     }
   });
@@ -49,7 +49,7 @@ export const getAccountFromNotificationData = (
     // just a race -- this notification was sent before the logout); or
     // there's some confusion where the realm_uri we have is different from
     // the one the server sends in notifications.
-    const knownUrls = identities.map(({ realm }) => realm);
+    const knownUrls = identities.map(({ realm }) => realm.toString());
     logging.warn('notification realm_uri not found in accounts', {
       realm_uri,
       known_urls: knownUrls,

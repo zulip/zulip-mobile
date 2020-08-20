@@ -231,7 +231,7 @@ var compiledWebviewJs = (function (exports) {
   });
 
   var rewriteImageUrls = function rewriteImageUrls(auth, element) {
-    var realm = new URL(auth.realm);
+    var realm = auth.realm;
     var imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
     imageTags.forEach(function (img) {
       var actualSrc = img.getAttribute('src');
@@ -661,7 +661,7 @@ var compiledWebviewJs = (function (exports) {
 
   var handleInitialLoad = function handleInitialLoad(platformOS, scrollMessageId, rawAuth) {
     var auth = _objectSpread2(_objectSpread2({}, rawAuth), {}, {
-      realm: rawAuth.realm
+      realm: new URL(rawAuth.realm)
     });
 
     if (platformOS === 'ios') {

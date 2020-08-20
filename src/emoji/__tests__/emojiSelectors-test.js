@@ -11,7 +11,7 @@ describe('getActiveImageEmojiById', () => {
     const state = {
       accounts: [
         {
-          realm: 'https://example.com',
+          realm: new URL('https://example.com'),
         },
       ],
       realm: {
@@ -56,7 +56,7 @@ describe('getActiveImageEmojiById', () => {
 describe('getAllImageEmojiById', () => {
   test('get realm emojis with absolute url', () => {
     const state = {
-      accounts: [{ realm: 'https://example.com' }],
+      accounts: [{ realm: new URL('https://example.com') }],
       realm: {
         emoji: {
           1: {
@@ -87,7 +87,7 @@ describe('getAllImageEmojiById', () => {
 describe('getAllImageEmojiByCode', () => {
   test('get realm emoji object with emoji names as the keys', () => {
     const state = {
-      accounts: [{ realm: 'https://example.com' }],
+      accounts: [{ realm: new URL('https://example.com') }],
       realm: {
         emoji: {
           1: {
@@ -129,7 +129,7 @@ describe('getAllImageEmojiByCode', () => {
 describe('getActiveImageEmojiByName', () => {
   test('get realm emoji object with emoji names as the keys', () => {
     const state = {
-      accounts: [{ realm: 'https://example.com' }],
+      accounts: [{ realm: new URL('https://example.com') }],
       realm: {
         emoji: {
           1: {

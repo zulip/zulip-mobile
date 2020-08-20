@@ -311,7 +311,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
           },
         }),
       ),
-      tryFetch(() => api.getServerSettings(auth.realm)),
+      tryFetch(() => api.getServerSettings(auth.realm.toString())),
     ]);
   } catch (e) {
     // This should only happen on a 4xx HTTP status, which should only

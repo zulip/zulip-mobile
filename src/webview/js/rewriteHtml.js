@@ -16,7 +16,7 @@ const inlineApiRoutes: RegExp[] = ['^/user_uploads/', '^/thumbnail$', '^/avatar/
  *      inject an API key into its query parameters.
  */
 const rewriteImageUrls = (auth: Auth, element: Element | Document) => {
-  const realm = new URL(auth.realm);
+  const realm = auth.realm;
 
   // Find the image elements to act on.
   const imageTags: $ReadOnlyArray<HTMLImageElement> = [].concat(
