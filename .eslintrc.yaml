@@ -165,9 +165,18 @@ rules:
   # don't have a way to do that, and it doesn't make sense to keep these
   # out of the repo.
   jest/no-disabled-tests: off
-  # Only using string literals for test names isn't obviously helpful;
-  # see jest-community/eslint-plugin-jest#203 (rule might be removed?)
-  jest/valid-describe: off
+  
+  # Only using string literals for test names, under the heading
+  # `titleMustBeString`, [1] is silly and should probably not be a
+  # thing [2]. We wish we could get all of this rule except that part.
+  # In fact, it's possible to ignore it *for describe blocks
+  # only* [3], but there are no plans to allow turning it off for
+  # `test` blocks.
+  # 
+  # [1] https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/valid-title.md
+  # [2] https://github.com/jest-community/eslint-plugin-jest/issues/203.
+  # [3] https://github.com/jest-community/eslint-plugin-jest/issues/470
+  jest/valid-title: off
 
   # The docs for this rule [1] say that placing an `expect` call
   # outside a `test` or `it` block (e.g., in a `beforeEach` or
