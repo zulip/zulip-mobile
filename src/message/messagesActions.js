@@ -44,11 +44,11 @@ export const messageLinkPress = (href: string) => async (
   const auth = getAuth(state);
   const usersById = getUsersById(state);
   const streamsById = getStreamsById(state);
-  const narrow = getNarrowFromLink(href, auth.realm.toString(), usersById, streamsById);
+  const narrow = getNarrowFromLink(href, auth.realm, usersById, streamsById);
   if (narrow) {
-    const anchor = getMessageIdFromLink(href, auth.realm.toString());
+    const anchor = getMessageIdFromLink(href, auth.realm);
     dispatch(doNarrow(narrow, anchor));
-  } else if (!isUrlOnRealm(href, auth.realm.toString())) {
+  } else if (!isUrlOnRealm(href, auth.realm)) {
     openLink(href);
   } else {
     const url =

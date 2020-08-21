@@ -59,20 +59,20 @@ describe('getResource', () => {
 });
 
 describe('isUrlOnRealm', () => {
+  const realm = new URL('https://example.com');
+
   test('when link is on realm, return true', () => {
-    expect(isUrlOnRealm('/#narrow/stream/jest', 'https://example.com')).toBe(true);
+    expect(isUrlOnRealm('/#narrow/stream/jest', realm)).toBe(true);
 
-    expect(isUrlOnRealm('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
-      true,
-    );
+    expect(isUrlOnRealm('https://example.com/#narrow/stream/jest', realm)).toBe(true);
 
-    expect(isUrlOnRealm('#narrow/#near/1', 'https://example.com')).toBe(true);
+    expect(isUrlOnRealm('#narrow/#near/1', realm)).toBe(true);
   });
 
   test('when link is on not realm, return false', () => {
-    expect(isUrlOnRealm('https://demo.example.com', 'https://example.com')).toBe(false);
+    expect(isUrlOnRealm('https://demo.example.com', realm)).toBe(false);
 
-    expect(isUrlOnRealm('www.google.com', 'https://example.com')).toBe(false);
+    expect(isUrlOnRealm('www.google.com', realm)).toBe(false);
   });
 });
 

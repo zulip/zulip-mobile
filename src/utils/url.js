@@ -40,8 +40,10 @@ export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
   }
 };
 
-export const isUrlOnRealm = (url: string = '', realm: string): boolean =>
-  url.startsWith('/') || url.startsWith(realm) || !/^(http|www.)/i.test(url);
+// TODO: Work out what this does, write a jsdoc for its interface, and
+// reimplement using URL object (not just for the realm)
+export const isUrlOnRealm = (url: string = '', realm: URL): boolean =>
+  url.startsWith('/') || url.startsWith(realm.toString()) || !/^(http|www.)/i.test(url);
 
 const getResourceWithAuth = (uri: string, auth: Auth) => ({
   uri: new URL(uri, auth.realm).toString(),
@@ -56,9 +58,7 @@ export const getResource = (
   uri: string,
   auth: Auth,
 ): {| uri: string, headers?: { [string]: string } |} =>
-  isUrlOnRealm(uri, auth.realm.toString())
-    ? getResourceWithAuth(uri, auth)
-    : getResourceNoAuth(uri);
+  isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
 export type Protocol = 'https://' | 'http://';
 
