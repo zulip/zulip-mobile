@@ -423,7 +423,7 @@ export const action = deepFreeze({
   },
   login_success: {
     type: LOGIN_SUCCESS,
-    realm: selfAccount.realm.toString(),
+    realm: selfAccount.realm,
     email: selfAccount.email,
     apiKey: selfAccount.apiKey,
   },

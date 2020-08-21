@@ -226,7 +226,7 @@ class AuthScreen extends PureComponent<Props> {
     const { dispatch, realm } = this.props;
     const auth = webAuth.authFromCallbackUrl(event.url, otp, realm);
     if (auth) {
-      dispatch(loginSuccess(auth.realm.toString(), auth.email, auth.apiKey));
+      dispatch(loginSuccess(auth.realm, auth.email, auth.apiKey));
     }
   };
 

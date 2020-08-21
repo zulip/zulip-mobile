@@ -142,7 +142,7 @@ type AccountSwitchAction = {|
 
 type RealmAddAction = {|
   type: typeof REALM_ADD,
-  realm: string,
+  realm: URL,
   zulipFeatureLevel: number,
   zulipVersion: ZulipVersion,
 |};
@@ -154,7 +154,7 @@ type AccountRemoveAction = {|
 
 type LoginSuccessAction = {|
   type: typeof LOGIN_SUCCESS,
-  realm: string,
+  realm: URL,
   email: string,
   apiKey: string,
 |};

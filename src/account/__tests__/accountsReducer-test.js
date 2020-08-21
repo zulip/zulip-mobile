@@ -28,7 +28,7 @@ describe('accountsReducer', () => {
 
       test('if no account with this realm exists, prepend new one, with empty email/apiKey', () => {
         const newRealm = new URL('https://new.realm.org');
-        const action = deepFreeze({ ...baseAction, realm: newRealm.toString() });
+        const action = deepFreeze({ ...baseAction, realm: newRealm });
         expect(accountsReducer(prevState, action)).toEqual([
           eg.makeAccount({ realm: newRealm, email: '', apiKey: '' }),
           account1,
@@ -37,7 +37,7 @@ describe('accountsReducer', () => {
       });
 
       test('if account with this realm exists, move to front of list', () => {
-        const action = deepFreeze({ ...baseAction, realm: account2.realm.toString() });
+        const action = deepFreeze({ ...baseAction, realm: account2.realm });
         expect(accountsReducer(prevState, action)).toEqual([account2, account1]);
       });
     });
@@ -46,7 +46,7 @@ describe('accountsReducer', () => {
       const existingAccountBase = eg.makeAccount({});
       const baseAction = deepFreeze({
         type: REALM_ADD,
-        realm: existingAccountBase.realm.toString(),
+        realm: existingAccountBase.realm,
         zulipFeatureLevel: eg.zulipFeatureLevel,
         zulipVersion: eg.zulipVersion,
       });
@@ -168,7 +168,7 @@ describe('accountsReducer', () => {
         type: LOGIN_SUCCESS,
         apiKey: newAccount.apiKey,
         email: newAccount.email,
-        realm: newAccount.realm.toString(),
+        realm: newAccount.realm,
       });
 
       const expectedState = [{ ...newAccount, zulipVersion: account1.zulipVersion }, account2];
@@ -190,7 +190,7 @@ describe('accountsReducer', () => {
         type: LOGIN_SUCCESS,
         apiKey: newAccount.apiKey,
         email: newAccount.email,
-        realm: newAccount.realm.toString(),
+        realm: newAccount.realm,
       });
 
       const expectedState = [newAccount, account1, account2];
@@ -209,7 +209,7 @@ describe('accountsReducer', () => {
       const action = deepFreeze({
         type: LOGIN_SUCCESS,
         apiKey: newAccount.apiKey,
-        realm: newAccount.realm.toString(),
+        realm: newAccount.realm,
         email: newAccount.email,
       });
 

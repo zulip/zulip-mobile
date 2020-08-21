@@ -64,7 +64,7 @@ class RealmScreen extends PureComponent<Props, State> {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(parsedRealm);
       dispatch(
         realmAdd(
-          realmInputValue,
+          parsedRealm,
           serverSettings.zulip_feature_level ?? 0,
           new ZulipVersion(serverSettings.zulip_version),
         ),

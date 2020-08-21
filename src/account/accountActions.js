@@ -15,7 +15,7 @@ export const switchAccount = (index: number): Action => ({
 });
 
 export const realmAdd = (
-  realm: string,
+  realm: URL,
   zulipFeatureLevel: number,
   zulipVersion: ZulipVersion,
 ): Action => ({
@@ -30,7 +30,7 @@ export const removeAccount = (index: number): Action => ({
   index,
 });
 
-export const loginSuccess = (realm: string, email: string, apiKey: string): Action => ({
+export const loginSuccess = (realm: URL, email: string, apiKey: string): Action => ({
   type: LOGIN_SUCCESS,
   realm,
   email,
