@@ -11,7 +11,101 @@ provide a nice workflow for people to contribute translations, we use
 (along with the rest of the Zulip project) a service called Transifex.
 
 
+## Translators
+
+If you use a language other than English, we would be glad to have
+your help in translating Zulip!  See [Zulip's docs on
+translating][rtd-translating] for how to join us on Transifex and
+contribute.
+
+[rtd-translating]: https://zulip.readthedocs.io/en/latest/translating/translating.html
+
+
+## All code contributors: wiring our code for translations
+
+All text that appears in our UI should be translated.  This takes a
+few different forms in different contexts in our code:
+
+* When the text is passed to one of our own components as a prop, look
+  at the type of the prop.  If it's `LocalizableText` (which is a
+  supertype of `string`), then the component will take responsibility
+  for translating it before display.  Most of our components do this,
+  notably `Label` and `ZulipButton`.
+
+  * Conversely, if adding a new component which accepts as a prop some
+    text to show in the UI, generally the component should take the
+    prop as type `LocalizableText` and take responsibility for
+    translating it -- either by passing to another such component, or
+    with one of the other forms below.
+
+* Otherwise, use the `_` function: `_('Hello, world')` will return
+  `'Hello, world'` if the user's chosen language is English, `'Hola,
+  mundo'` if the user's chosen language is Spanish (well, it would if
+  we had that string in our translation database -- see below), and so
+  on.  This function has type `GetText`, and can be acquired from the
+  React context; see jsdoc on `GetText` for details.
+
+* If the message is not constant but requires interpolating some data,
+  then:
+  * If using `_`, use the following form: `_('Hello, {name}', { name })`.
+    Translators will translate the constant string `'Hello, {name}'`,
+    including the placeholder.
+  * If passing to something that accepts `LocalizableText`, then use
+    the same placeholder syntax in the message string, and see the
+    `LocalizableText` type definition for where to put the message
+    string and the data values.
+  * For the full syntax available in message strings, see upstream
+    docs from [React Intl][react-intl-formatmessage],
+    [Format.JS][formatjs-message-syntax], and
+    [ICU][icu-format-messages].
+
+* In all of the above cases, if you're adding a new message string or
+  editing an existing one, we'll want to get it into our translation
+  database so that translators can translate it.  To do this:
+
+  * In the same commit that adds or edits the message, update the file
+    `static/translations/messages_en.json` accordingly.  This is the
+    version-controlled source record of what message strings we need
+    translations for.
+
+  * When your changes are merged, a maintainer will run the steps
+    below to sync those changes up to Transifex.  This makes it
+    available for translators to translate there.
+
+  * From time to time, and in particular just before preparing a
+    release, a maintainer will run the steps below to sync
+    translations from Transifex back down into the other files
+    `static/translations/messages_*.json` in our tree.  This is the
+    copy of our translation database that gets built into the app and
+    used for finding translations.
+
+Important general background on providing strings for translation:
+
+* Never try to concatenate translated strings together, or do other
+  string manipulation on them.  Instead, all punctuation, sentence
+  structure, etc., should appear inside the constant message string.
+  To interpolate data that can vary, use the placeholder syntax
+  `'Hello, {name}'`.
+
+  This is important because different languages will put things in
+  different orders in a sentence, and use different punctuation and
+  spacing.
+
+  For further discussion, see [general Zulip docs on
+  internationalization][rtd-i18n].
+
+[react-intl-formatmessage]: https://formatjs.io/docs/react-intl/api/#formatmessage
+[formatjs-message-syntax]: https://formatjs.io/docs/core-concepts/icu-syntax/
+[icu-format-messages]: http://userguide.icu-project.org/formatparse/messages
+[rtd-i18n]: https://zulip.readthedocs.io/en/latest/translating/internationalization.html
+
+
 ## Maintainers: syncing to/from Transifex
+
+This section describes steps done by the maintainers of the Zulip
+mobile app, i.e. people who merge PRs into it.  For everyone else, see
+the sections above.
+
 
 ### Setup
 
