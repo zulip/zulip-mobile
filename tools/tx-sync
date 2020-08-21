@@ -1,0 +1,152 @@
+#!/bin/bash
+set -eu
+
+usage () {
+    cat >&2 <<EOF
+usage: $0
+
+Sync translations from and to Transifex, and commit.
+
+For background and setup instructions, see docs:
+  docs/howto/translations.md
+
+This script is only useful for maintainers of the app (people
+who merge PRs), with Transifex credentials set up.
+
+In addition to the changes seen in the local repo and worktree,
+this has an important side effect in Transifex: the local set of
+message strings to be translated is taken as authoritative and
+synced to Transifex.  This is how we provide new message strings
+to our translators; and it means this script should not be run on
+old or experimental versions of the app where the set of message
+strings may be different from what we currently want to request
+translations for.
+
+This makes up to two separate commits for different types of
+changes:
+ * new translations already present in Transifex
+ * default values in all languages for message strings
+   recently added
+
+A third type of change is left uncommitted (and a link to docs is
+provided) because some steps are not yet automated:
+ * new target languages
+
+EOF
+}
+
+err_echo () {
+    echo >&2 "$@"
+}
+
+die () {
+    err_echo "$@"
+    exit 1
+}
+
+run_visibly () {
+    set -x
+    "$@"
+    { set +x; } 2>&-
+}
+
+while (( $# )); do
+    case "$1" in
+        --help)
+            usage; exit 0;;
+        *)
+            usage; exit 2;;
+    esac
+done
+
+this_dir=${BASH_SOURCE[0]%/*}
+. "${this_dir}"/lib/ensure-coreutils.sh
+root_dir=$(readlink -f "${this_dir}"/..)
+
+# This should point to a zulip.git worktree.  Because this is a
+# maintainer script, we don't mind just requiring that convention.
+zulip_root="${root_dir%/*}"/zulip
+[ -r "${zulip_root}"/tools/lib/git-tools.bash ] \
+    || die "Expected Zulip worktree at: ${zulip_root}"
+. "${zulip_root}"/tools/lib/git-tools.bash
+
+# Ensure the index is up to date.  Important before `git diff-files`
+# and other index-using porcelain commands.
+git_update_index () {
+    # This incantation is borrowed from require_clean_work_tree.
+    git update-index -q --ignore-submodules --refresh
+}
+
+require_clean_work_tree 'sync translations'
+
+
+err_echo
+err_echo 'Step 1: Download translated strings...'
+
+run_visibly cd "${root_dir}"
+run_visibly tools/tx-pull
+
+git_update_index
+if ! git diff-files --quiet; then
+    git commit -a -m '
+i18n: Sync translations from Transifex
+
+Thanks as always to our kind volunteer translators.
+'
+    # I've (Greg) typed versions of that thanks many times, always
+    # previously by hand.  I feel slightly awkward having a script say
+    # it... but that falls out of automating the rest of the workflow,
+    # and the thanks remain real and I'd hardly want to stop saying them.
+
+    git diff --stat @^
+    cat >&2 <<EOF
+
+Has a new language made major progress?  See docs on updating
+the languages offered in the UI:
+  https://github.com/zulip/zulip-mobile/blob/master/docs/howto/translations.md
+EOF
+else
+    err_echo 'Step 1: ...none.'
+fi
+
+
+err_echo
+err_echo 'Step 2: Handle new languages...'
+
+git_update_index
+# This incantation checks if there are untracked files in the given directory.
+if git status -unormal --porcelain static/translations/ \
+        | grep -q .; then
+    cat >&2 <<EOF
+
+There is at least one new language:
+
+EOF
+    run_visibly git status -s static/translations/
+    cat >&2 <<EOF
+
+To finish adding it, see docs:
+  https://github.com/zulip/zulip-mobile/blob/master/docs/howto/translations.md
+
+Then rerun this script to complete the rest of the sync.
+EOF
+    exit 1
+else
+    err_echo 'Step 2: ...none.'
+fi
+
+
+err_echo
+err_echo 'Step 3: Upload strings to translate...'
+
+run_visibly tx --quiet push -s
+run_visibly tools/tx-pull
+
+git_update_index
+if ! git diff-files --quiet; then
+    git commit -a -m '
+i18n: Sync recently-added message strings across languages.
+'
+else
+    err_echo 'Step 3: ...none.'
+fi

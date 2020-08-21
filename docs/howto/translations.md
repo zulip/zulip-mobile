@@ -130,21 +130,19 @@ You'll want Transifex's CLI client, `tx`.
 [tx-docs-maintainers]: https://docs.transifex.com/teams/understanding-user-roles#project-maintainers
 
 
-### Uploading strings to translate
+### Regular operation
 
-Run `tx push -s`.
+To sync with Transifex, run `tools/tx-sync`.
 
-This uploads from `static/translations/messages_en.json` to the
-set of strings Transifex shows for contributors to translate.
-(See `.tx/config` for how that's configured.)
+This syncs in both directions, and makes local commits with any
+changes.  Review the results and then push to the central repo.
 
+The sync uploads from `static/translations/messages_en.json` to the
+set of strings Transifex shows for contributors to translate, and
+downloads translations to files `static/translations/messages_*.json`.
+(See `.tx/config` for how those paths are configured.)
 
-### Downloading translated strings
-
-Run `tools/tx-pull`.
-
-This writes to files `static/translations/messages_*.json`.
-(See `.tx/config` for how that's configured.)
+For more details, see the usage message: `tools/tx-sync --help`.
 
 Then look at the following sections to see if further updates are
 needed to take full advantage of the new or updated translations.
