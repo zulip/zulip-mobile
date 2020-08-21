@@ -271,6 +271,8 @@ const SERIALIZED_TYPE_FIELD_NAME: '__serializedType__' = '__serializedType__';
 const customReplacer = (key, value, defaultReplacer) => {
   if (value instanceof ZulipVersion) {
     return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
+  } else if (value instanceof URL) {
+    return { data: value.toString(), [SERIALIZED_TYPE_FIELD_NAME]: 'URL' };
   }
   return defaultReplacer(key, value);
 };
@@ -281,6 +283,8 @@ const customReviver = (key, value, defaultReviver) => {
     switch (value[SERIALIZED_TYPE_FIELD_NAME]) {
       case 'ZulipVersion':
         return new ZulipVersion(data);
+      case 'URL':
+        return new URL(data);
       default:
       // Fall back to defaultReviver, below
     }
