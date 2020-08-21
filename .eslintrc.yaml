@@ -169,6 +169,18 @@ rules:
   # see jest-community/eslint-plugin-jest#203 (rule might be removed?)
   jest/valid-describe: off
 
+  # The docs for this rule [1] say that placing an `expect` call
+  # outside a `test` or `it` block (e.g., in a `beforeEach` or
+  # `afterEach`) means that the assertion isn't executed. Empirically,
+  # this seems just wrong [2], and there are a few places where we
+  # want to call `expect` in a `beforeEach` or `afterEach` to assert
+  # that multiple tests in the same file aren't interfering with each
+  # other by leaving bits of state lying around.
+  #
+  # [1] https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/no-standalone-expect.md
+  # [2] https://github.com/zulip/zulip-mobile/pull/4235#discussion_r489984717
+  jest/no-standalone-expect: off
+
   # React
   react/jsx-filename-extension: off  # Like RN upstream, we call the files *.js.
   react/destructuring-assignment: off  # The opposite is often much cleaner.

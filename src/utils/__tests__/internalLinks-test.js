@@ -1,4 +1,5 @@
 /* @flow strict-local */
+
 import type { User } from '../../api/modelTypes';
 import { streamNarrow, topicNarrow, groupNarrow, STARRED_NARROW } from '../narrow';
 import {
@@ -198,6 +199,9 @@ describe('getNarrowFromLink', () => {
   });
 
   describe('on stream links', () => {
+    // Tell Jest to recognize `expectStream` as a helper function that
+    // runs assertions.
+    /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "expectStream"] }] */
     const expectStream = (operand, streams, expectedName: null | string) => {
       expect(get(`#narrow/stream/${operand}`, streams)).toEqual(
         expectedName === null ? null : streamNarrow(expectedName),

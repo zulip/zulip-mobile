@@ -202,15 +202,14 @@ describe('fetchActions', () => {
         };
         fetch.mockResponseSuccess(JSON.stringify(response));
 
-        expect.assertions(2);
-        try {
-          await store.dispatch(
+        await expect(
+          store.dispatch(
             fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
-          );
-        } catch (e) {
+          ),
+        ).rejects.toThrow(
           // Update this with changes to the message string or error type.
-          expect(e.message).toBe('Active account not logged in');
-        }
+          new Error('Active account not logged in'),
+        );
 
         const actions = store.getActions();
 
@@ -255,15 +254,14 @@ describe('fetchActions', () => {
         };
         fetch.mockResponseSuccess(JSON.stringify(response));
 
-        expect.assertions(2);
-        try {
-          await store.dispatch(
+        await expect(
+          store.dispatch(
             fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
-          );
-        } catch (e) {
+          ),
+        ).rejects.toThrow(
           // Update this with changes to the error type.
-          expect(e).toBeInstanceOf(TypeError);
-        }
+          TypeError,
+        );
 
         const actions = store.getActions();
 
@@ -281,14 +279,11 @@ describe('fetchActions', () => {
 
         fetch.mockResponseFailure(fetchError);
 
-        expect.assertions(1);
-        try {
-          await store.dispatch(
+        await expect(
+          store.dispatch(
             fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
-          );
-        } catch (e) {
-          expect(e).toBe(fetchError);
-        }
+          ),
+        ).rejects.toThrow(fetchError);
       });
     });
 
