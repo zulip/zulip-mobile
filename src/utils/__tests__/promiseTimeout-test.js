@@ -4,10 +4,6 @@ import { fakeSleep } from '../../__tests__/lib/fakeTimers';
 
 const ONE_MINUTE_MS: number = 1000 * 60;
 
-jest.useFakeTimers('modern');
-// Will throw if not actually using the "modern" implementation
-jest.getRealSystemTime();
-
 describe('promiseTimeout', () => {
   afterEach(() => {
     // clear any unset timers

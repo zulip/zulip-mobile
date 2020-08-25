@@ -9,8 +9,6 @@ import { BackoffMachine } from '../async';
 // (https://github.com/facebook/jest/pull/8897). But as of 2020-03, putting them
 // in a separate file is our workaround.
 
-jest.useFakeTimers('modern');
-
 describe('BackoffMachine', () => {
   afterEach(() => {
     expect(jest.getTimerCount()).toBe(0);

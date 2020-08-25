@@ -12,10 +12,6 @@ messagesFlags.default = jest.fn(
 );
 
 describe('queueMarkAsRead', () => {
-  jest.useFakeTimers('modern');
-  // Will throw if not actually using the "modern" implementation
-  jest.getRealSystemTime();
-
   afterEach(() => {
     jest.clearAllMocks();
     jest.clearAllTimers();

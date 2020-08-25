@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import { sleep } from '../async';
+import { assertUsingModernFakeTimers } from '../../__tests__/lib/fakeTimers';
 
 const sleepMeasure = async (expectedMs: number) => {
   const start = Date.now();
@@ -11,7 +12,7 @@ const sleepMeasure = async (expectedMs: number) => {
 
 describe('sleep (ideal)', () => {
   beforeAll(() => {
-    jest.useFakeTimers('modern');
+    assertUsingModernFakeTimers();
   });
 
   afterEach(() => {

@@ -1,6 +1,8 @@
 /** @jest-environment jest-environment-jsdom-global */
 // @flow strict-local
 
+import { assertUsingModernFakeTimers } from './lib/fakeTimers';
+
 /**
  * This file should not test any part of the application. It exists to test that
  * certain functionality is present in the development environment used to run
@@ -75,9 +77,7 @@ describe('jsdom-global', () => {
 });
 
 describe('Jest modern fake timers', () => {
-  jest.useFakeTimers('modern');
-  // Will throw if not actually using the "modern" implementation
-  jest.getRealSystemTime();
+  assertUsingModernFakeTimers();
 
   afterEach(() => {
     // clear any unset timers

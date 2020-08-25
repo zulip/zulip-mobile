@@ -50,6 +50,8 @@ const projectForPlatform = platform => {
     // 3) assign `global.Promise` back to what we saved in step 1
     preset: platform === 'ios' ? './jest/presetIos' : './jest/presetAndroid',
 
+    timers: 'modern',
+
     // Finding and transforming source code.
     testPathIgnorePatterns: ['/node_modules/', '/src/__tests__/lib/', '-testlib.js$'],
 
