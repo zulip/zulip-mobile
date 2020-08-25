@@ -87,8 +87,6 @@ describe('fetchActions', () => {
 
   describe('tryFetch', () => {
     beforeAll(() => {
-      jest.useFakeTimers('modern');
-
       // So we don't have to think about the (random, with jitter)
       // duration of these waits in these tests. `BackoffMachine` has
       // its own unit tests already, so we don't have to test that it

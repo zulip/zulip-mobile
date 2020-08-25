@@ -93,11 +93,6 @@ describe('Heartbeat', () => {
   // ===================================================================
   // Jest hooks
 
-  // before running tests: set up fake timer API
-  beforeAll(() => {
-    jest.useFakeTimers('modern');
-  });
-
   afterAll(() => {
     JestHeartbeatHelper.clearExtant();
   });

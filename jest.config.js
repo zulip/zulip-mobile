@@ -78,6 +78,7 @@ const projectForPlatform = platform => {
     globals: {
       __TEST__: true,
     },
+    timers: 'modern',
     globalSetup: './jest/globalSetup.js',
     setupFiles: [
       './jest/globalFetch.js',

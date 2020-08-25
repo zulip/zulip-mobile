@@ -339,7 +339,7 @@ overrides:
   #
   # ================================================================
   # Our test suite.
-  - files: ['**/__tests__/**']
+  - files: ['**/__tests__/**', 'jest/jestSetup.js']
     rules:
       no-restricted-imports: off
 
