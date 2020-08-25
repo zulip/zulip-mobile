@@ -92,8 +92,8 @@
     "zulip-markdown-parser": "^1.0.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.2",
-    "@babel/preset-env": "^7.6.3",
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
     "@babel/runtime": "^7.6.2",
     "@jest/source-map": "^26.1.0",
     "babel-eslint": "^10.0.3",
@@ -120,7 +120,7 @@
     "jest-extended": "^0.11.5",
     "jetifier": "^1.6.5",
     "lolex": "^5.1.1",
-    "metro-react-native-babel-preset": "^0.56.0",
+    "metro-react-native-babel-preset": "^0.63.0",
     "prettier": "^1.18.2",
     "prettier-eslint": "^11.0.0",
     "prettier-eslint-cli": "^5.0.0",
@@ -128,7 +128,7 @@
     "react-native-cli": "^2.0.1",
     "redux-mock-store": "^1.5.1",
     "rollup": "^1.23.1",
-    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "yarn-deduplicate": "^1.1.1"
   }
