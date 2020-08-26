@@ -2,8 +2,8 @@
 /* eslint-env node */
 
 const { rollup } = require('rollup');
-const rollupBabel = require('rollup-plugin-babel');
-const rollupResolve = require('rollup-plugin-node-resolve');
+const rollupBabel = require('@rollup/plugin-babel').default;
+const rollupNodeResolve = require('@rollup/plugin-node-resolve').default;
 
 const assert = require('assert');
 const fs = require('fs');
@@ -50,13 +50,18 @@ ${es3Code.replace(/\\/g, '\\\\')}
   const build = await rollup({
     input: sourceFilename,
     plugins: [
-      rollupResolve(),
+      rollupNodeResolve(),
       rollupBabel({
         exclude: 'node_modules/**',
         /* Our global config file applies React-Native-supplied and -targeted
            transforms. Those are somewhat counterproductive here. */
         configFile: false,
         babelrc: false,
+
+        // 'bundled' is the default, but it's recommended to set it
+        // explicitly; see
+        // https://github.com/rollup/plugins/tree/master/packages/babel#babelhelpers
+        babelHelpers: 'bundled',
 
         compact: false,
         comments: false,

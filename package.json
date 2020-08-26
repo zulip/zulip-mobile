@@ -96,6 +96,8 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/runtime": "^7.6.2",
     "@jest/source-map": "^26.1.0",
+    "@rollup/plugin-babel": "^5.2.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
     "babel-eslint": "^10.0.3",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "core-js": "^3.1.4",
@@ -127,9 +129,7 @@
     "prop-types": "^15.7.2",
     "react-native-cli": "^2.0.1",
     "redux-mock-store": "^1.5.1",
-    "rollup": "^1.23.1",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup": "^2.26.5",
     "yarn-deduplicate": "^1.1.1"
   }
 }
