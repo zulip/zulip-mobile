@@ -211,6 +211,33 @@ To fix the problem, run `yarn`, which will update your installed
 packages in `node_modules/` to match the current `package.json`.  You
 might need to restart Metro / `react-native start` after doing so.
 
+### Build failure: java.nio.file.NoSuchFileException: /Users/chrisbobbe/dev/zulip-mobile/android/app/build/intermediates/
+
+When trying to build the Android app, you may see this error:
+
+```
+java.nio.file.NoSuchFileException: /Users/chrisbobbe/dev/zulip-mobile/android/app/build/intermediates/external_file_lib_dex_archives/debug/out
+  at sun.nio.fs.UnixException.translateToIOException(UnixException.java:86)
+  at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:102)
+  at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:107)
+  at sun.nio.fs.UnixFileSystemProvider.newDirectoryStream(UnixFileSystemProvider.java:407)
+```
+
+Try removing `android/.gradle`, running `./gradlew clean` from
+`android/`, and building again.
+
+### Build failure: No file known for: classes.dex
+
+When trying to build the Android app, you may see this error:
+
+```
+Execution failed for task ':app:packageDebug'.
+> A failure occurred while executing com.android.build.gradle.internal.tasks.Workers$ActionFacade
+   > No file known for: classes.dex
+```
+
+Try removing `android/.gradle`, running `./gradlew clean` from
+`android/`, and building again.
 
 ### Build failure: java.lang.UnsupportedClassVersionError, "Unsupported major.minor version 52.0"
 
