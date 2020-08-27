@@ -51,6 +51,19 @@ When done, be sure to run `yarn unlink` to go back to letting the
 dependency information in `package.json` and `yarn.lock` control the
 version you get.
 
+The first step (plain `yarn link`, in the target directory) is only
+needed once per machine you do your work on, or if you move your
+zulip.git clone to a new path.
+
+Quick reference for the second and subsequent time you do it:
+```
+    # in your zulip-mobile clone
+$ yarn link @zulip/shared && yarn
+
+    # ... develop, test, etc. ...
+
+$ yarn unlink @zulip/shared && yarn install --force
+```
 
 ### Making our toolchain work
 
