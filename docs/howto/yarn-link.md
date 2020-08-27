@@ -31,7 +31,7 @@ See [upstream docs for `yarn link`][yarn-link].
 Example usage, for the `@zulip/shared` package:
 ```
 $ cd ~/z/zulip  # your zulip.git clone, wherever it is
-$ cd shared  # the root of the @zulip/shared package's source
+$ cd static/shared  # the root of the @zulip/shared package's source
 $ yarn link
 
 $ cd ~/z/mobile  # your zulip-mobile clone, wherever it is
@@ -44,7 +44,7 @@ $ readlink node_modules/@zulip/shared
 
     # ... to the worktree for the package source.
 $ readlink -f node_modules/@zulip/shared
-/home/greg/z/zulip/shared
+/home/greg/z/zulip/static/shared
 ```
 
 When done, be sure to run `yarn unlink` to go back to letting the
