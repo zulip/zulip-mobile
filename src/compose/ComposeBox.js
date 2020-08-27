@@ -1,9 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Platform, View, TextInput, findNodeHandle } from 'react-native';
+import { Platform, View, TextInput, findNodeHandle, NativeModules } from 'react-native';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
-import TextInputReset from 'react-native-text-input-reset';
-
 import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import type {
@@ -57,6 +55,8 @@ import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
 import { getOwnEmail } from '../users/userSelectors';
 
+const { TextReset } = NativeModules;
+
 type SelectorProps = {|
   auth: Auth,
   ownEmail: string,
@@ -108,10 +108,10 @@ export const updateTextInput = (textInput: ?TextInput, text: string): void => {
 
   textInput.setNativeProps({ text });
 
-  if (text.length === 0 && TextInputReset) {
-    // React Native has problems with some custom keyboards when clearing
-    // the input's contents.  Force reset to make sure it works.
-    TextInputReset.resetKeyboardInput(findNodeHandle(textInput));
+  if (text.length === 0 && TextReset) {
+    // Importing NativeMethod defined in zulip-mobile/android/app/src/main/java/com/zulipmobile/TextResetPackage.java
+
+    TextReset.resetKeyboardInput(findNodeHandle(textInput));
   }
 };
 

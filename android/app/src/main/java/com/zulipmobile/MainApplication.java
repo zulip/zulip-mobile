@@ -49,6 +49,7 @@ public class MainApplication extends Application implements ReactApplication {
             packages.add(new ZulipNativePackage());
             packages.add(new NotificationsPackage());
             packages.add(new SharingPackage());
+            packages.add(new TextResetPackage());
 
             // Unimodules:
             packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
