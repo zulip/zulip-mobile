@@ -41,6 +41,7 @@ node_modules/warning/.*
 ; (because the developer might be using `yarn link` to have this point into
 ; their zulip.git worktree), and it should watch/inotify at the target.
 node_modules/@zulip/shared/
+node_modules/zulip-markdown-parser/
 ; Add more as needed!  See also metro.config.js and docs/howto/yarn-link.md .
 
 

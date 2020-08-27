@@ -6,6 +6,7 @@ const path = require('path');
 // TODO compute what packages actually *are* under `yarn link` instead.
 const linkablePackages = [
   '@zulip/shared',
+  'zulip-markdown-parser',
   // Add more as needed!  See also .flowconfig and docs/howto/yarn-link.md .
 ];
 
