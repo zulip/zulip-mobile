@@ -7,6 +7,7 @@ begun taking the opportunity to share code between them.
 The shared code lives in the zulip/zulip repo under `static/shared/`.
 It's published to NPM as the package `@zulip/shared`.
 
+
 ## How to use a new shared feature
 
 * The code in question needs to be moved from `static/js/` to
@@ -40,9 +41,61 @@ It's published to NPM as the package `@zulip/shared`.
   both PRs and using `yarn link` themselves.
 
 * Once your changes in zulip/zulip are merged, publish a new
-  `@zulip/shared` version to NPM.  Tag the commit like `shared-0.0.N`;
-  see the history of `static/shared/package.json` for examples.
+  `@zulip/shared` version to NPM.  See section below.
 
 * Once the new `@zulip/shared` version is on NPM, you can update our
   `package.json` in your zulip-mobile PR to point to that version, and
   mark the PR as ready (non-draft).
+
+
+## Publishing `@zulip/shared` to NPM
+
+In order to use a new version of the shared code (beyond local
+development -- i.e., in order to *merge* a change to start using a new
+version of the shared code), we publish it to NPM.
+
+This looks something like:
+```
+$ cd ~/z/zulip  # your zulip.git clone, wherever it is
+$ cd static/shared  # the root of the @zulip/shared package's source
+$ git checkout master
+$ git pull --ff-only
+
+$ npm version patch --no-git-tag-version \
+    --message 'shared: Bump version to %s.'
+   # Suppose the new version is 0.0.3.  Then:
+$ git tag shared-0.0.3
+
+$ git log --stat -p upstream/master..  # check your work!
+$ git push upstream master shared-0.0.3
+
+$ npm publish --dry-run  # check your work!
+$ npm publish  # should prompt for an OTP, from your 2FA setup
+```
+
+Note the convention for the name of the Git tag.  Because we don't
+organize our version control around NPM and this package isn't the
+only thing in its Git repo, we use tags like `shared-0.0.3` instead of
+NPM's built-in behavior of `v0.0.3`.
+
+
+### Initial setup
+
+To get access to publish to `@zulip` on NPM, ask another maintainer to
+add you.  (This will only make sense if you're already a maintainer,
+i.e. you regularly merge PRs.)
+
+You'll want to make an account on npmjs.com if you haven't already.
+The Zulip project also requires that you [set up 2FA][npm-docs-2fa]
+before your account is given write access.
+
+[npm-docs-2fa]: https://docs.npmjs.com/configuring-two-factor-authentication
+
+To add you as a new maintainer on NPM, an existing maintainer will add
+you [here][npm-zulip-team] for access to everything in `@zulip`, and
+[here][npm-zulip-md-p-access] for access to the legacy
+`zulip-markdown-parser` package (until we eliminate it; see
+#4242.)
+
+[npm-zulip-team]: https://www.npmjs.com/settings/zulip/teams/team/developers/users
+[npm-zulip-md-p-access]: https://www.npmjs.com/package/zulip-markdown-parser/access
