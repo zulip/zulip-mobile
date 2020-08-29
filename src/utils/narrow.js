@@ -211,6 +211,9 @@ export const isSearchNarrow = (narrow?: Narrow): boolean =>
 /** (For search narrows, just returns false.) */
 export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: string): boolean => {
   const matchRecipients = (emails: string[]) => {
+    if (message.type !== 'private') {
+      return false;
+    }
     const normalizedRecipients = normalizeRecipients(message.display_recipient);
     const normalizedNarrow = [...emails, ownEmail].sort().join(',');
     return normalizedRecipients === ownEmail || normalizedRecipients === normalizedNarrow;

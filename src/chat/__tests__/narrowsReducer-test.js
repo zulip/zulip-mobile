@@ -184,6 +184,7 @@ describe('narrowsReducer', () => {
 
     const message = eg.pmMessage({
       id: 1,
+      type: 'private',
       display_recipient: [{ email: 'me@example.com' }],
       flags: [],
     });
