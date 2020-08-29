@@ -3,8 +3,8 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
 import type { NavigationScreenProp } from 'react-navigation';
-import * as logging from '../utils/logging';
 
+import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';
 import type {
