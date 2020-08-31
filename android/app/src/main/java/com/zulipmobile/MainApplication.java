@@ -26,7 +26,10 @@ public class MainApplication extends Application implements ReactApplication {
     private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(new BasePackageList().getPackageList(), null);
 
     private ConversationMap conversations;
-    public ConversationMap getConversations() { return conversations; }
+
+    public ConversationMap getConversations() {
+        return conversations;
+    }
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
@@ -43,7 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
             // (android/app/build/generated/rncli/src/main/java/com/facebook/react/PackageList.java):
             @SuppressWarnings("UnnecessaryLocalVariable")
             List<ReactPackage> packages = new PackageList(this).getPackages();
-            
+
             // Packages that should be linked, but can't be with
             // autolinking:
             packages.add(new ZulipNativePackage());
