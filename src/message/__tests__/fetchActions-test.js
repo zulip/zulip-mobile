@@ -378,18 +378,21 @@ describe('fetchActions', () => {
   });
 
   describe('fetchOlder', () => {
+    const message1 = eg.streamMessage({ id: 1 });
+    const message2 = eg.streamMessage({ id: 2 });
+
     const baseState = eg.reduxState({
       ...navStateWithNarrow(HOME_NARROW),
       accounts: [eg.selfAccount],
       narrows: {
         ...eg.baseReduxState.narrows,
-        [streamNarrowStr]: [2],
-        [HOME_NARROW_STR]: [1, 2],
+        [streamNarrowStr]: [message2.id],
+        [HOME_NARROW_STR]: [message1.id, message2.id],
       },
       messages: {
         ...eg.baseReduxState.messages,
-        '1': eg.streamMessage({ id: 1 }),
-        '2': eg.streamMessage({ id: 2 }),
+        [message1.id]: message1,
+        [message2.id]: message1,
       },
     });
 
@@ -469,18 +472,21 @@ describe('fetchActions', () => {
   });
 
   describe('fetchNewer', () => {
+    const message1 = eg.streamMessage({ id: 1 });
+    const message2 = eg.streamMessage({ id: 2 });
+
     const baseState = eg.reduxState({
       ...navStateWithNarrow(HOME_NARROW),
       accounts: [eg.selfAccount],
       narrows: {
         ...eg.baseReduxState.narrows,
-        [streamNarrowStr]: [2],
-        [HOME_NARROW_STR]: [1, 2],
+        [streamNarrowStr]: [message2.id],
+        [HOME_NARROW_STR]: [message1.id, message2.id],
       },
       messages: {
         ...eg.baseReduxState.messages,
-        '1': eg.streamMessage({ id: 1 }),
-        '2': eg.streamMessage({ id: 2 }),
+        [message1.id]: message1,
+        [message2.id]: message1,
       },
     });
 
