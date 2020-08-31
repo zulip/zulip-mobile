@@ -93,9 +93,9 @@ style.
 If instead it gets reformatted with lots of changes, for example like this:
 ```
 export {
-  default as Arc
+  default as Foo
 }
-from './Arc';
+from './Foo';
 ```
 this might be caused by additional extensions you have installed.
 
