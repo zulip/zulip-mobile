@@ -52,17 +52,6 @@ export default class Input extends PureComponent<Props, State> {
   state = {
     isFocused: false,
   };
-  textInput: ?TextInput;
-
-  handleClear = () => {
-    const { onChangeText } = this.props;
-    if (onChangeText) {
-      onChangeText('');
-    }
-    if (this.textInput) {
-      this.textInput.clear();
-    }
-  };
 
   handleFocus = () => {
     this.setState({
@@ -99,7 +88,6 @@ export default class Input extends PureComponent<Props, State> {
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
             ref={(component: ?TextInput) => {
-              this.textInput = component;
               if (textInputRef) {
                 textInputRef(component);
               }
