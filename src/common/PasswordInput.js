@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, TextInput } from 'react-native';
+import { View } from 'react-native';
 
 import Input from './Input';
 import type { Props as InputProps } from './Input';
@@ -43,7 +43,6 @@ export default class PasswordInput extends PureComponent<Props, State> {
   state = {
     isHidden: true,
   };
-  textInput: TextInput;
 
   handleShow = () => {
     this.setState(({ isHidden }) => ({
