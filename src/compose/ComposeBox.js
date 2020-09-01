@@ -185,15 +185,10 @@ class ComposeBox extends PureComponent<Props, State> {
   insertVideoCallLink = (jitsiServerUrl: string) => {
     const { _ } = this.props;
 
-    // This is meant to align with the way the webapp generates jitsi video call
-    // IDs. That logic can be found in the ".video_link" click handler in
-    // static/js/compose.js.
+    // This is meant to align with the way the webapp generates jitsi video
+    // call IDs. That logic can be found in the ".video_link" click handler
+    // in static/js/compose.js.
     const videoCallId = randomInt(100000000000000, 999999999999999);
-
-    // The jitsi_server_url returned by the server can contain a trailing slash.
-    // When that occurs, the below method for constructing video call URLs will
-    // result in duplicate slashes between the server URL and the video call ID
-    // until the server is updated to remove the trailing slash.
     const videoCallUrl = `${jitsiServerUrl}/${videoCallId}`;
     const linkMessage = _('Click to join video call');
     const linkText = `[${linkMessage}](${videoCallUrl})`;
