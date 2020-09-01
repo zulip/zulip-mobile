@@ -17,9 +17,6 @@ const styles = createStyleSheet({
   wrapper: {
     flex: 1,
   },
-  list: {
-    flex: 1,
-  },
   button: {
     position: 'absolute',
     bottom: 10,
@@ -106,7 +103,6 @@ class UserPickerCard extends PureComponent<Props, State> {
         </AnimatedScaleComponent>
         {selected.length > 0 && <LineSeparator />}
         <UserList
-          style={styles.list}
           filter={filter}
           users={users}
           presences={presences}

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { PresenceState, Style, User } from '../types';
+import type { PresenceState, User } from '../types';
 import { createStyleSheet } from '../styles';
 import { SectionHeader, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
@@ -15,7 +15,6 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  style?: Style,
   filter: string,
   users: User[],
   selected: User[],
@@ -29,7 +28,7 @@ export default class UserList extends PureComponent<Props> {
   };
 
   render() {
-    const { filter, style, users, presences, onPress, selected } = this.props;
+    const { filter, users, presences, onPress, selected } = this.props;
     const shownUsers = sortUserList(filterUserList(users, filter), presences);
 
     if (shownUsers.length === 0) {
@@ -44,7 +43,7 @@ export default class UserList extends PureComponent<Props> {
 
     return (
       <SectionList
-        style={[styles.list, style]}
+        style={styles.list}
         stickySectionHeadersEnabled
         keyboardShouldPersistTaps="always"
         initialNumToRender={20}
