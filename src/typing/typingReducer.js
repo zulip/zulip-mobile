@@ -20,7 +20,7 @@ const eventTypingStart = (state, action) => {
     return state;
   }
 
-  const normalizedRecipients = normalizeRecipientsAsUserIdsSansMe(
+  const normalizedRecipients: string = normalizeRecipientsAsUserIdsSansMe(
     action.recipients,
     action.ownUserId,
   );
@@ -47,7 +47,7 @@ const eventTypingStart = (state, action) => {
 };
 
 const eventTypingStop = (state, action) => {
-  const normalizedRecipients = normalizeRecipientsAsUserIdsSansMe(
+  const normalizedRecipients: string = normalizeRecipientsAsUserIdsSansMe(
     action.recipients,
     action.ownUserId,
   );
