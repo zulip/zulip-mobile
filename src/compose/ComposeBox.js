@@ -105,8 +105,8 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export const updateTextInput = (textInput: ?TextInput, text: string): void => {
-  if (!textInput) {
+export const updateTextInput = (textInput: TextInput | null, text: string): void => {
+  if (textInput === null) {
     // Depending on the lifecycle events this function is called from,
     // this might not be set yet.
     return;
@@ -125,8 +125,8 @@ class ComposeBox extends PureComponent<Props, State> {
   static contextType = ThemeContext;
   context: ThemeData;
 
-  messageInput: ?TextInput = null;
-  topicInput: ?TextInput = null;
+  messageInputRef = React.createRef<TextInput>();
+  topicInputRef = React.createRef<TextInput>();
   mentionWarnings: React$ElementRef<MentionWarnings> = React.createRef();
   inputBlurTimeoutId: ?TimeoutID = null;
 
@@ -165,12 +165,12 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   setMessageInputValue = (message: string) => {
-    updateTextInput(this.messageInput, message);
+    updateTextInput(this.messageInputRef.current, message);
     this.handleMessageChange(message);
   };
 
   setTopicInputValue = (topic: string) => {
-    updateTextInput(this.topicInput, topic);
+    updateTextInput(this.topicInputRef.current, topic);
     this.handleTopicChange(topic);
   };
 
@@ -327,8 +327,8 @@ class ComposeBox extends PureComponent<Props, State> {
       });
     }
     completeEditMessage();
-    if (this.messageInput) {
-      this.messageInput.blur();
+    if (this.messageInputRef.current !== null) {
+      this.messageInputRef.current.blur();
     }
   };
 
@@ -341,8 +341,8 @@ class ComposeBox extends PureComponent<Props, State> {
       const message = nextProps.editMessage ? nextProps.editMessage.content : '';
       this.setMessageInputValue(message);
       this.setTopicInputValue(topic);
-      if (this.messageInput) {
-        this.messageInput.focus();
+      if (this.messageInputRef.current !== null) {
+        this.messageInputRef.current.focus();
       }
     }
   }
@@ -454,9 +454,7 @@ class ComposeBox extends PureComponent<Props, State> {
                 placeholder="Topic"
                 defaultValue={topic}
                 selectTextOnFocus
-                textInputRef={component => {
-                  this.topicInput = component;
-                }}
+                textInputRef={this.topicInputRef}
                 onChangeText={this.handleTopicChange}
                 onFocus={this.handleTopicFocus}
                 onBlur={this.handleTopicBlur}
@@ -472,9 +470,7 @@ class ComposeBox extends PureComponent<Props, State> {
               underlineColorAndroid="transparent"
               placeholder={placeholder}
               defaultValue={message}
-              textInputRef={component => {
-                this.messageInput = component;
-              }}
+              textInputRef={this.messageInputRef}
               onBlur={this.handleMessageBlur}
               onChangeText={this.handleMessageChange}
               onFocus={this.handleMessageFocus}

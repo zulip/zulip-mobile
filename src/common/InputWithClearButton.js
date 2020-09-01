@@ -32,7 +32,7 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
     canBeCleared: false,
     text: '',
   };
-  textInput: ?TextInput;
+  textInputRef = React.createRef<TextInput>();
 
   handleChangeText = (text: string) => {
     this.setState({
@@ -46,8 +46,8 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
 
   handleClear = () => {
     this.handleChangeText('');
-    if (this.textInput) {
-      this.textInput.clear();
+    if (this.textInputRef.current) {
+      this.textInputRef.current.clear();
     }
   };
 
@@ -58,9 +58,7 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
       <View style={styles.row}>
         <Input
           {...this.props}
-          textInputRef={textInput => {
-            this.textInput = textInput;
-          }}
+          textInputRef={this.textInputRef}
           onChangeText={this.handleChangeText}
           value={text}
         />

@@ -11,7 +11,7 @@ export type Props = $ReadOnly<{|
   ...$PropertyType<TextInput, 'props'>,
   placeholder: LocalizableText,
   onChangeText?: (text: string) => void,
-  textInputRef?: (component: ?TextInput) => void,
+  textInputRef?: React$Ref<typeof TextInput>,
 |}>;
 
 type State = {|
@@ -87,11 +87,7 @@ export default class Input extends PureComponent<Props, State> {
             underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
-            ref={(component: ?TextInput) => {
-              if (textInputRef) {
-                textInputRef(component);
-              }
-            }}
+            ref={textInputRef}
             {...restProps}
           />
         )}

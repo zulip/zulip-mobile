@@ -66,13 +66,13 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   state = {
     value: '',
   };
-  textInputRef: ?TextInput;
+  textInputRef = React.createRef<TextInput>();
   focusListener: void | NavigationEventSubscription;
 
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
-      if (this.textInputRef) {
-        this.textInputRef.focus();
+      if (this.textInputRef.current) {
+        this.textInputRef.current.focus();
       }
     });
   }
@@ -92,9 +92,13 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
 
   urlPress = () => {
     const { textInputRef } = this;
-    if (textInputRef) {
-      textInputRef.blur();
-      setTimeout(() => textInputRef.focus(), 100);
+    if (textInputRef.current) {
+      textInputRef.current.blur();
+      setTimeout(() => {
+        if (textInputRef.current) {
+          textInputRef.current.focus();
+        }
+      }, 100);
     }
   };
 
@@ -144,9 +148,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
           underlineColorAndroid="transparent"
           onSubmitEditing={onSubmitEditing}
           enablesReturnKeyAutomatically={enablesReturnKeyAutomatically}
-          ref={(component: TextInput | null) => {
-            this.textInputRef = component;
-          }}
+          ref={this.textInputRef}
         />
         {!value && this.renderPlaceholderPart(defaultOrganization)}
         {suffix !== null && this.renderPlaceholderPart(suffix)}
