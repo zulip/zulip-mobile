@@ -32,10 +32,7 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
     canBeCleared: false,
     text: '',
   };
-  // TextInput's definition changes across the RN v0.61 -> v0.62
-  // upgrade; we'll handle that change after the upgrade.
-  // $FlowFixMe
-  textInputRef = React.createRef<TextInput>();
+  textInputRef = React.createRef<typeof TextInput>();
 
   handleChangeText = (text: string) => {
     this.setState({
@@ -50,6 +47,9 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
   handleClear = () => {
     this.handleChangeText('');
     if (this.textInputRef.current) {
+      // Should be fixed in RN v0.63 (#4245); see
+      // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
+      // $FlowFixMe
       this.textInputRef.current.clear();
     }
   };

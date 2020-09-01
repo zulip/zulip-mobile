@@ -106,16 +106,16 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// TextInput's definition changes across the RN v0.61 -> v0.62
-// upgrade; we'll handle that change after the upgrade.
-// $FlowFixMe
-export const updateTextInput = (textInput: TextInput | null, text: string): void => {
+export const updateTextInput = (textInput: typeof TextInput | null, text: string): void => {
   if (textInput === null) {
     // Depending on the lifecycle events this function is called from,
     // this might not be set yet.
     return;
   }
 
+  // Should be fixed in RN v0.63 (#4245); see
+  // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
+  // $FlowFixMe
   textInput.setNativeProps({ text });
 
   if (text.length === 0 && TextInputReset) {
@@ -129,12 +129,8 @@ class ComposeBox extends PureComponent<Props, State> {
   static contextType = ThemeContext;
   context: ThemeData;
 
-  // TextInput's definition changes across the RN v0.61 -> v0.62
-  // upgrade; we'll remove these fixmes after we take that upgrade.
-  // $FlowFixMe
-  messageInputRef = React.createRef<TextInput>();
-  // $FlowFixMe
-  topicInputRef = React.createRef<TextInput>();
+  messageInputRef = React.createRef<typeof TextInput>();
+  topicInputRef = React.createRef<typeof TextInput>();
 
   // TODO: Type-check this, once we've adjusted our `react-redux`
   // wrapper to do the right thing. It should be
@@ -350,6 +346,9 @@ class ComposeBox extends PureComponent<Props, State> {
     }
     completeEditMessage();
     if (this.messageInputRef.current !== null) {
+      // Should be fixed in RN v0.63 (#4245); see
+      // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
+      // $FlowFixMe
       this.messageInputRef.current.blur();
     }
   };
@@ -364,6 +363,9 @@ class ComposeBox extends PureComponent<Props, State> {
       this.setMessageInputValue(message);
       this.setTopicInputValue(topic);
       if (this.messageInputRef.current !== null) {
+        // Should be fixed in RN v0.63 (#4245); see
+        // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
+        // $FlowFixMe
         this.messageInputRef.current.focus();
       }
     }

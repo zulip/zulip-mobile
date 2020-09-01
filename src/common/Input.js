@@ -8,10 +8,10 @@ import type { ThemeData } from '../styles';
 import { ThemeContext, HALF_COLOR, BORDER_COLOR } from '../styles';
 
 export type Props = $ReadOnly<{|
-  // TextInput's definition changes across the RN v0.61 -> v0.62
-  // upgrade; we'll handle that change after the upgrade.
+  // Should be fixed in RN v0.63 (#4245); see
+  // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
   // $FlowFixMe
-  ...$PropertyType<TextInput, 'props'>,
+  ...$PropertyType<typeof TextInput, 'props'>,
   placeholder: LocalizableText,
   onChangeText?: (text: string) => void,
   textInputRef?: React$Ref<typeof TextInput>,

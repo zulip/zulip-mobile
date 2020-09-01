@@ -66,15 +66,15 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   state = {
     value: '',
   };
-  // TextInput's definition changes across the RN v0.61 -> v0.62
-  // upgrade; we'll handle that change after the upgrade.
-  // $FlowFixMe
-  textInputRef = React.createRef<TextInput>();
+  textInputRef = React.createRef<typeof TextInput>();
   focusListener: void | NavigationEventSubscription;
 
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
       if (this.textInputRef.current) {
+        // Should be fixed in RN v0.63 (#4245); see
+        // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
+        // $FlowFixMe
         this.textInputRef.current.focus();
       }
     });
@@ -96,9 +96,13 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   urlPress = () => {
     const { textInputRef } = this;
     if (textInputRef.current) {
+      // Should be fixed in RN v0.63 (#4245); see
+      // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
+      // $FlowFixMe
       textInputRef.current.blur();
       setTimeout(() => {
         if (textInputRef.current) {
+          // $FlowFixMe - same as above
           textInputRef.current.focus();
         }
       }, 100);
