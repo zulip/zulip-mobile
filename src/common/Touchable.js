@@ -6,11 +6,6 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import type { Node as React$Node } from 'react';
 import { HIGHLIGHT_COLOR } from '../styles';
 
-const androidBackground =
-  Platform.Version >= 21
-    ? TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR)
-    : TouchableNativeFeedback.SelectableBackground();
-
 type Props = $ReadOnly<{|
   accessibilityLabel?: string,
   style?: ViewStyleProp,
@@ -92,7 +87,11 @@ export default class Touchable extends PureComponent<Props> {
     return (
       <TouchableNativeFeedback
         accessibilityLabel={accessibilityLabel}
-        background={androidBackground}
+        background={
+          Platform.Version >= 21
+            ? TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR)
+            : TouchableNativeFeedback.SelectableBackground()
+        }
         onPress={onPress}
         onLongPress={onLongPress}
       >
