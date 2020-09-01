@@ -127,7 +127,16 @@ class ComposeBox extends PureComponent<Props, State> {
 
   messageInputRef = React.createRef<TextInput>();
   topicInputRef = React.createRef<TextInput>();
-  mentionWarnings: React$ElementRef<MentionWarnings> = React.createRef();
+
+  // TODO: Type-check this, once we've adjusted our `react-redux`
+  // wrapper to do the right thing. It should be
+  //
+  //   mentionWarnings = React.createRef<typeof MentionWarnings>()
+  //
+  // but we need our `react-redux` wrapper to be aware of
+  // `getWrappedInstance`, since we need to access that.
+  mentionWarnings = React.createRef();
+
   inputBlurTimeoutId: ?TimeoutID = null;
 
   state = {
