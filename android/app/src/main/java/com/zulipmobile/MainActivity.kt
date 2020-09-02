@@ -36,6 +36,13 @@ open class MainActivity : ReactActivity() {
         super.onNewIntent(intent)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (reactNativeHost.hasInstance()) {
+            reactNativeHost.clear()
+        }
+    }
+
     /* Returns true just if we did handle the intent. */
     private fun maybeHandleIntent(intent: Intent?): Boolean {
         // We handle intents from "sharing" something to Zulip.

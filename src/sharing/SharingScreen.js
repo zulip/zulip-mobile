@@ -72,7 +72,12 @@ class SharingScreen extends PureComponent<Props> {
     }
 
     return (
-      <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
+      <Screen
+        canGoBack={false}
+        title="Share on Zulip"
+        shouldShowLoadingBanner={false}
+        keyboardShouldPersistTaps="always"
+      >
         <SharingTopTabNavigator navigation={navigation} />
       </Screen>
     );
