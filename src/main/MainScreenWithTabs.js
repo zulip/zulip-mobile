@@ -1,13 +1,20 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
 import type { ThemeData } from '../styles';
 import styles, { ThemeContext } from '../styles';
 import { OfflineNotice, ZulipStatusBar } from '../common';
 import MainTabs from './MainTabs';
 
-export default class MainScreenWithTabs extends PureComponent<{||}> {
+type Props = $ReadOnly<{|
+  navigation: NavigationScreenProp<>,
+|}>;
+
+export default class MainScreenWithTabs extends PureComponent<Props> {
+  static router = MainTabs.router;
+
   static contextType = ThemeContext;
   context: ThemeData;
 
@@ -16,7 +23,7 @@ export default class MainScreenWithTabs extends PureComponent<{||}> {
       <View style={[styles.flexed, { backgroundColor: this.context.backgroundColor }]}>
         <ZulipStatusBar />
         <OfflineNotice />
-        <MainTabs />
+        <MainTabs navigation={this.props.navigation} />
       </View>
     );
   }
