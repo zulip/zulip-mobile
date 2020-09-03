@@ -71,8 +71,5 @@ export default createStackNavigator(
   {
     initialRouteName: 'main',
     headerMode: 'none',
-    cardStyle: {
-      backgroundColor: 'white',
-    },
   },
 );

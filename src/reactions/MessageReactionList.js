@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import { createNavigationContainer, createMaterialTopTabNavigator } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
 import type { NavigationScreenProp } from 'react-navigation';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
@@ -65,11 +66,19 @@ const getReactionsTabs = (
   // It's not feasible to set up our newly created tab navigator as
   // part of the entire app's navigation (see the note at
   // `getReactionsTabs`'s call site). Given that, it seems we can use
-  // `createNavigationContainer` (soon to be called
-  // `createAppContainer`) so our violation of the "only explicitly
-  // render one navigator" rule doesn't become a crashing error in
-  // `react-navigation` v3.
-  return createNavigationContainer(
+  // `createAppContainer` so our violation of the "only explicitly
+  // render one navigator" rule doesn't cause a crashing error. But
+  // the name `createAppContainer` is enough to suggest that we're
+  // definitely doing something wrong here.
+  return createAppContainer(
+    // TODO: Upgrade to react-navigation v4, so we don't get a red box
+    // (`console.error`) saying "navigation.emit only supports the
+    // 'refocus' event currently", on visiting the screen and
+    // switching tabs. I see no actual breakage of functionality, but
+    // the message is annoying.
+    //
+    // It may be related to
+    // https://twitter.com/reactnavigation/status/1245276770586288128.
     createMaterialTopTabNavigator(reactionsTabs, {
       backBehavior: 'none',
 

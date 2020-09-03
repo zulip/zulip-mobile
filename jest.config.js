@@ -45,6 +45,6 @@ module.exports = {
   globals: {
     __TEST__: true,
   },
-  setupFiles: ['./jest/globalFetch.js'],
+  setupFiles: ['./jest/globalFetch.js', './node_modules/react-native-gesture-handler/jestSetup.js'],
   setupFilesAfterEnv: ['./jest/jestSetup.js', 'jest-extended'],
 };

@@ -192,7 +192,7 @@ function listMiddleware() {
   const result = [
     // Allow us to cause navigation by dispatching Redux actions.
     // See docs: https://github.com/react-navigation/redux-helpers
-    createReactNavigationReduxMiddleware('root', getNav),
+    createReactNavigationReduxMiddleware(getNav, 'root'),
 
     // Delay ("buffer") actions until a REHYDRATE action comes through.
     // After dispatching the latter, this will go back and dispatch

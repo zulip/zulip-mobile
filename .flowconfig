@@ -28,7 +28,11 @@ node_modules/warning/.*
 
 .*/node_modules/react-native-notifications/.*
 .*/node_modules/react-native-tab-view/.*
-.*/node_modules/react-navigation-redux-helpers/.*
+
+# Some mistakes in these types got fixed in v2.4.1 of this library,
+# but we can't use that until we're on react-navigation v4 (#4248).
+.*/node_modules/react-navigation-tabs/.*
+
 .*/node_modules/react-native-safe-area/.*
 .*/node_modules/flow-coverage-report/.*
 .*/node_modules/@snyk/.*
