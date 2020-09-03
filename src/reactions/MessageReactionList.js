@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import { createMaterialTopTabNavigator } from 'react-navigation';
+import { createNavigationContainer, createMaterialTopTabNavigator } from 'react-navigation';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import * as logging from '../utils/logging';
@@ -62,23 +62,32 @@ const getReactionsTabs = (
     ]),
   );
 
-  return createMaterialTopTabNavigator(reactionsTabs, {
-    backBehavior: 'none',
+  // It's not feasible to set up our newly created tab navigator as
+  // part of the entire app's navigation (see the note at
+  // `getReactionsTabs`'s call site). Given that, it seems we can use
+  // `createNavigationContainer` (soon to be called
+  // `createAppContainer`) so our violation of the "only explicitly
+  // render one navigator" rule doesn't become a crashing error in
+  // `react-navigation` v3.
+  return createNavigationContainer(
+    createMaterialTopTabNavigator(reactionsTabs, {
+      backBehavior: 'none',
 
-    // The user may have originally navigated here to look at a reaction
-    // that's since been removed.  Ignore the nav hint in that case.
-    ...(reactionName !== undefined && reactionsTabs[reactionName]
-      ? { initialRouteName: reactionName }
-      : {}),
+      // The user may have originally navigated here to look at a reaction
+      // that's since been removed.  Ignore the nav hint in that case.
+      ...(reactionName !== undefined && reactionsTabs[reactionName]
+        ? { initialRouteName: reactionName }
+        : {}),
 
-    ...tabsOptions({
-      showLabel: true,
-      showIcon: false,
-      style: {
-        borderWidth: 0.15,
-      },
+      ...tabsOptions({
+        showLabel: true,
+        showIcon: false,
+        style: {
+          borderWidth: 0.15,
+        },
+      }),
     }),
-  });
+  );
 };
 
 type SelectorProps = $ReadOnly<{|
@@ -135,6 +144,10 @@ class MessageReactionList extends PureComponent<Props> {
         );
       } else {
         const aggregatedReactions = aggregateReactions(message.reactions, ownUserId);
+        // TODO: React Navigation doesn't want us to explicitly render
+        // more than one navigator in the app, and the recommended
+        // workaround isn't feasible; see discussion at
+        // https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Dynamic.20routes.20in.20react-navigation/near/1008268.
         const TabView = getReactionsTabs(aggregatedReactions, reactionName, allUsersById);
         return (
           <View style={styles.flexed}>
