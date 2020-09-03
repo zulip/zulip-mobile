@@ -275,6 +275,8 @@ PODS:
     - React
   - react-native-safe-area (0.4.4):
     - React
+  - react-native-safe-area-context (3.1.7):
+    - React
   - react-native-simple-toast (1.0.0):
     - React
     - Toast (~> 4.0.0)
@@ -321,9 +323,13 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.6.3):
     - React
+  - RNCMaskedView (0.1.10):
+    - React
   - RNDeviceInfo (0.21.5):
     - React
   - RNGestureHandler (1.8.0):
+    - React
+  - RNReanimated (1.13.0):
     - React
   - RNSentry (1.6.3):
     - React
@@ -410,6 +416,7 @@ DEPENDENCIES:
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-safari-view (from `../node_modules/react-native-safari-view`)
   - react-native-safe-area (from `../node_modules/react-native-safe-area`)
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -426,8 +433,10 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSound (from `../node_modules/react-native-sound`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -520,6 +529,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safari-view"
   react-native-safe-area:
     :path: "../node_modules/react-native-safe-area"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
   react-native-simple-toast:
     :path: "../node_modules/react-native-simple-toast"
   react-native-webview:
@@ -550,10 +561,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCMaskedView:
+    :path: "../node_modules/@react-native-community/masked-view"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNSentry:
     :path: "../node_modules/@sentry/react-native"
   RNSound:
@@ -629,6 +644,7 @@ SPEC CHECKSUMS:
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-safari-view: 955d7160d159241b8e9395d12d10ea0ef863dcdd
   react-native-safe-area: 5fce5242419932bc05656f31bc5f0716e30be0f6
+  react-native-safe-area-context: 955ecfce672683b495d9294d2f154a9ad1d9796b
   react-native-simple-toast: 6c376bd79b1e255a4bee90a72ead6447f96ea10d
   react-native-webview: 83d00afd3f3ebfbee7f02d149ce1bfa8494d55f3
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
@@ -644,8 +660,10 @@ SPEC CHECKSUMS:
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
   RNCAsyncStorage: 3c304d1adfaea02ec732ac218801cb13897aa8c0
+  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNSentry: ae1e005e4f2655775475445a9c49c1d343e8e3a7
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
