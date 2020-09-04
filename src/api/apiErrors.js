@@ -29,11 +29,17 @@ export class ApiError extends Error {
 export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
   // Validate `data`, and construct the resultant error object.
   if (typeof data === 'object' && data !== null) {
-    if (data.result === 'error' && typeof data.msg === 'string') {
+    const { result, msg, code } = data;
+    if (result === 'error' && typeof msg === 'string') {
       // If `code` is present, it must be a string.
-      if (!('code' in data) || typeof data.code === 'string') {
+      if (code === undefined || typeof code === 'string') {
         // Default to 'BAD_REQUEST' if `code` is not present.
-        return new ApiError(httpStatus, { code: 'BAD_REQUEST', ...data });
+        return new ApiError(httpStatus, {
+          ...data,
+          result,
+          msg,
+          code: code ?? 'BAD_REQUEST',
+        });
       }
     }
   }
