@@ -62,7 +62,6 @@ const getReactionsTabs = (
     ]),
   );
 
-  // prettier-ignore
   return createMaterialTopTabNavigator(reactionsTabs, {
     backBehavior: 'none',
 
