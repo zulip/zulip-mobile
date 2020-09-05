@@ -28,7 +28,7 @@ export const getFetchParams = <P>(auth: Auth, params: P): { headers: mixed, ...P
   };
 };
 
-export const fetchWithAuth = async (auth: Auth, url: string, params: {} = {}) => {
+export const fetchWithAuth = async (auth: Auth, url: string, params: {}) => {
   if (!isValidUrl(url)) {
     throw new Error(`Invalid url ${url}`);
   }
@@ -36,15 +36,10 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: {} = {}) =>
   return fetch(url, getFetchParams(auth, params));
 };
 
-export const apiFetch = async (auth: Auth, route: string, params: {} = {}) =>
+export const apiFetch = async (auth: Auth, route: string, params: {}) =>
   fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
-export const apiCall = async (
-  auth: Auth,
-  route: string,
-  params: {} = {},
-  isSilent: boolean = false,
-) => {
+export const apiCall = async (auth: Auth, route: string, params: {}, isSilent: boolean = false) => {
   try {
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
