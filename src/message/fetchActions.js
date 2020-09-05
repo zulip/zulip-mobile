@@ -82,12 +82,12 @@ const messageFetchComplete = (args: {|
  * failed network request or any failure to process data and get it
  * stored in Redux. If it rejects, it tells Redux about it.
  */
-export const fetchMessages = (fetchArgs: {
+export const fetchMessages = (fetchArgs: {|
   narrow: Narrow,
   anchor: number,
   numBefore: number,
   numAfter: number,
-}) => async (dispatch: Dispatch, getState: GetState): Promise<Message[]> => {
+|}) => async (dispatch: Dispatch, getState: GetState): Promise<Message[]> => {
   dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
   try {
     const { messages, found_newest, found_oldest } = await api.getMessages(getAuth(getState()), {
