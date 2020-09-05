@@ -10,9 +10,11 @@ import { makeErrorFromApi } from './apiErrors';
 
 const apiVersion = 'api/v1';
 
-export const getFetchParams = <P>(auth: Auth, params: P): { headers: mixed, ...P } => {
-  // $FlowFixMe This is purely a no-op, and Flow even knows that. :-/
-  const { body } = (params: { body?: mixed });
+export const getFetchParams = <P: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>>(
+  auth: Auth,
+  params: P,
+): RequestOptions => {
+  const { body } = params;
   const contentType =
     body instanceof FormData
       ? 'multipart/form-data'
@@ -28,7 +30,11 @@ export const getFetchParams = <P>(auth: Auth, params: P): { headers: mixed, ...P
   };
 };
 
-export const fetchWithAuth = async (auth: Auth, url: string, params: {}) => {
+export const fetchWithAuth = async (
+  auth: Auth,
+  url: string,
+  params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
+) => {
   if (!isValidUrl(url)) {
     throw new Error(`Invalid url ${url}`);
   }
@@ -36,10 +42,18 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: {}) => {
   return fetch(url, getFetchParams(auth, params));
 };
 
-export const apiFetch = async (auth: Auth, route: string, params: {}) =>
-  fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
+export const apiFetch = async (
+  auth: Auth,
+  route: string,
+  params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
+) => fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
-export const apiCall = async (auth: Auth, route: string, params: {}, isSilent: boolean = false) => {
+export const apiCall = async (
+  auth: Auth,
+  route: string,
+  params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
+  isSilent: boolean = false,
+) => {
   try {
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
