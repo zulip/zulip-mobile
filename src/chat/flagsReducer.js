@@ -35,7 +35,8 @@ const addFlagsForMessages = (
     return state;
   }
 
-  const newState = {};
+  // $FlowFixMe - #4252
+  const newState: FlagsState = {};
 
   flags.forEach(flag => {
     newState[flag] = { ...(state[flag] || {}) };
@@ -64,7 +65,8 @@ const removeFlagForMessages = (state: FlagsState, messages: number[], flag: stri
 
 const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsState => {
   let stateChanged = false;
-  const newState = {};
+  // $FlowFixMe - #4252
+  const newState: FlagsState = {};
   messages.forEach(msg => {
     (msg.flags || []).forEach(flag => {
       if (!state[flag] || !state[flag][msg.id]) {
