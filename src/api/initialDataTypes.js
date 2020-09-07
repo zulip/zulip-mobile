@@ -36,6 +36,10 @@ export type InitialDataPresence = {|
   presences: {| [email: string]: UserPresence |},
 |};
 
+export type AvailableVideoChatProviders = {
+  [providerName: string]: {| name: string, id: number |},
+};
+
 export type InitialDataRealm = {|
   jitsi_server_url?: string,
   max_icon_file_size: number,
@@ -45,7 +49,7 @@ export type InitialDataRealm = {|
   realm_allow_message_deleting: boolean,
   realm_allow_message_editing: boolean,
   realm_authentication_methods: { GitHub: true, Email: true, Google: true },
-  realm_available_video_chat_providers: string[],
+  realm_available_video_chat_providers: AvailableVideoChatProviders,
   realm_bot_creation_policy: number,
   realm_bot_domain: string,
   realm_create_stream_by_admins_only: boolean,
@@ -77,7 +81,7 @@ export type InitialDataRealm = {|
   realm_show_digest_email: boolean,
   realm_signup_notifications_stream_id: number,
   realm_uri: string,
-  realm_video_chat_provider: string,
+  realm_video_chat_provider: number,
   realm_waiting_period_threshold: number,
 |};
 
