@@ -18,6 +18,7 @@ import type {
   GetText,
   Subscription,
   Stream,
+  VideoChatProvider,
 } from '../types';
 import { connect } from '../react-redux';
 import { withGetText } from '../boot/TranslationProvider';
@@ -47,7 +48,7 @@ import {
   getActiveUsersByEmail,
   getCaughtUpForNarrow,
   getStreamInNarrow,
-  getJitsiServerUrl,
+  getVideoChatProvider,
 } from '../selectors';
 import {
   getIsActiveStreamSubscribed,
@@ -69,7 +70,7 @@ type SelectorProps = {|
   draft: string,
   lastMessageTopic: string,
   caughtUp: CaughtUp,
-  jitsiServerUrl: string | null,
+  videoChatProvider: VideoChatProvider | null,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
 |};
 
@@ -191,18 +192,23 @@ class ComposeBox extends PureComponent<Props, State> {
     );
   };
 
-  insertVideoCallLink = (jitsiServerUrl: string) => {
+  insertVideoCallLinkAtCursorPosition = (url: string) => {
     const { _ } = this.props;
-
-    // This is meant to align with the way the webapp generates jitsi video
-    // call IDs. That logic can be found in the ".video_link" click handler
-    // in static/js/compose.js.
-    const videoCallId = randomInt(100000000000000, 999999999999999);
-    const videoCallUrl = `${jitsiServerUrl}/${videoCallId}`;
     const linkMessage = _('Click to join video call');
-    const linkText = `[${linkMessage}](${videoCallUrl})`;
+    const linkText = `[${linkMessage}](${url})`;
 
     this.insertMessageTextAtCursorPosition(linkText);
+  };
+
+  insertVideoCallLink = (videoChatProvider: VideoChatProvider) => {
+    if (videoChatProvider.name === 'jitsi_meet') {
+      // This is meant to align with the way the webapp generates jitsi video
+      // call IDs. That logic can be found in the ".video_link" click handler
+      // in static/js/compose.js.
+      const videoCallId = randomInt(100000000000000, 999999999999999);
+      const videoCallUrl = `${videoChatProvider.jitsiServerUrl}/${videoCallId}`;
+      this.insertVideoCallLinkAtCursorPosition(videoCallUrl);
+    }
   };
 
   handleComposeMenuToggle = () => {
@@ -412,12 +418,17 @@ class ComposeBox extends PureComponent<Props, State> {
       isAdmin,
       isAnnouncementOnly,
       isSubscribed,
-      jitsiServerUrl,
       stream,
+      videoChatProvider,
     } = this.props;
 
+    // Flow is erroneously widening the type of the videoChatProvider's name
+    // field to also allow `string` types here. This is refined back down to the
+    // correct type by explicitly annotating
+    // `ComposeBox.prototype.insertVideoCallLink`, but be aware of that if you
+    // need to use this value outside of that method.
     const insertVideoCallLink =
-      jitsiServerUrl !== null ? () => this.insertVideoCallLink(jitsiServerUrl) : null;
+      videoChatProvider !== null ? () => this.insertVideoCallLink(videoChatProvider) : null;
 
     if (!isSubscribed) {
       return <NotSubscribed narrow={narrow} />;
@@ -511,6 +522,6 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   draft: getDraftForNarrow(state, props.narrow),
   lastMessageTopic: getLastMessageTopic(state, props.narrow),
   caughtUp: getCaughtUpForNarrow(state, props.narrow),
-  jitsiServerUrl: getJitsiServerUrl(state),
   stream: getStreamInNarrow(state, props.narrow),
+  videoChatProvider: getVideoChatProvider(state),
 }))(withGetText(ComposeBox));

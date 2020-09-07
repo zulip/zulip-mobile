@@ -21,6 +21,7 @@ import type {
   Account,
   Debug,
   Subscription,
+  VideoChatProvider,
   Stream,
   Outbox,
   User,
@@ -106,4 +107,5 @@ export const getNonActiveUsers = (state: GlobalState): User[] => state.realm.non
 
 export const getIsAdmin = (state: GlobalState): boolean => state.realm.isAdmin;
 
-export const getJitsiServerUrl = (state: GlobalState): string | null => state.realm.jitsiServerUrl;
+export const getVideoChatProvider = (state: GlobalState): VideoChatProvider | null =>
+  state.realm.videoChatProvider;

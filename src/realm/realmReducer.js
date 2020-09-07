@@ -1,5 +1,11 @@
 /* @flow strict-local */
-import type { RealmState, Action, RealmEmojiById } from '../types';
+import type {
+  AvailableVideoChatProviders,
+  RealmState,
+  Action,
+  RealmEmojiById,
+  VideoChatProvider,
+} from '../types';
 import {
   REALM_INIT,
   EVENT_REALM_EMOJI_UPDATE,
@@ -17,8 +23,7 @@ const initialState = {
   nonActiveUsers: [],
   filters: [],
   emoji: {},
-
-  jitsiServerUrl: null,
+  videoChatProvider: null,
 
   email: undefined,
   user_id: undefined,
@@ -29,6 +34,34 @@ const initialState = {
 
 const convertRealmEmoji = (data): RealmEmojiById =>
   objectFromEntries(Object.keys(data).map(id => [id, { ...data[id], code: id.toString() }]));
+
+/**
+ * The video chat provider configured by the server. If the server has
+ * configured a provider that is not currently supported by the mobile app, this
+ * function should return null.
+ *
+ * To implement additional providers, see the `VideoChatProvider` type in
+ * `src/reduxTypes.js`.
+ */
+function getVideoChatProvider({
+  availableProviders,
+  jitsiServerUrl,
+  providerId,
+}: {
+  availableProviders: AvailableVideoChatProviders,
+  jitsiServerUrl?: string,
+  providerId: number,
+}): VideoChatProvider | null {
+  if (
+    availableProviders.jitsi_meet
+    && availableProviders.jitsi_meet.id === providerId
+    && jitsiServerUrl !== undefined
+  ) {
+    return { name: 'jitsi_meet', jitsiServerUrl };
+  } else {
+    return null;
+  }
+}
 
 export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {
@@ -44,7 +77,11 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         nonActiveUsers: action.data.realm_non_active_users,
         filters: action.data.realm_filters,
         emoji: convertRealmEmoji(action.data.realm_emoji),
-        jitsiServerUrl: action.data.jitsi_server_url ?? null,
+        videoChatProvider: getVideoChatProvider({
+          availableProviders: action.data.realm_available_video_chat_providers,
+          jitsiServerUrl: action.data.jitsi_server_url,
+          providerId: action.data.realm_video_chat_provider,
+        }),
 
         email: action.data.email,
         user_id: action.data.user_id,
