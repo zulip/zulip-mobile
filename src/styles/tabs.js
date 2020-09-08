@@ -1,11 +1,12 @@
 /* @flow strict-local */
+import type { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
+
 import { BRAND_COLOR } from './constants';
 
 type Props = $ReadOnly<{|
   showLabel: boolean,
   showIcon: boolean,
-  //  react-navigation tabNavigation also treat styles as {}, so match the same type here too
-  style?: { ... },
+  style?: ViewStyle,
 |}>;
 
 export default ({ showLabel, showIcon, style }: Props) => ({
@@ -28,14 +29,15 @@ export default ({ showLabel, showIcon, style }: Props) => ({
     tabStyle: {
       flex: 1,
     },
-    /* flowlint-next-line inexact-spread:off */
     style: {
-      backgroundColor: 'transparent',
+      // Casting these properties will be unnecessary in the upcoming
+      // Flow v0.113 upgrade.
+      backgroundColor: ('transparent': $PropertyType<ViewStyle, 'backgroundColor'>),
       // Setting a zero-width border (instead of none) works around an issue
       // affecting react-navigation's TabNavigator.
       // github.com/zulip/zulip-mobile/issues/2065
-      borderWidth: 0,
-      elevation: 0,
+      borderWidth: (0: $PropertyType<ViewStyle, 'borderWidth'>),
+      elevation: (0: $PropertyType<ViewStyle, 'elevation'>),
       ...style,
     },
   },
