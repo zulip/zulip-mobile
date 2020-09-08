@@ -148,6 +148,7 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
     case MESSAGE_FETCH_COMPLETE:
       return {
         ...state,
+        // $FlowFixMe - Flow bug; should resolve in #4245
         ...groupItemsById(
           action.messages.map(message =>
             omit(message, ['flags', 'match_content', 'match_subject']),
