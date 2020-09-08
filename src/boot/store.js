@@ -123,7 +123,6 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     })),
   }),
 
-  // $FlowMigrationFudge
   '8': dropCache,
 
   // Forget any acked push tokens, so we send them again.  This is part of
