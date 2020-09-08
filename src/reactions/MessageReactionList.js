@@ -84,9 +84,13 @@ const getReactionsTabs = (
 
       // The user may have originally navigated here to look at a reaction
       // that's since been removed.  Ignore the nav hint in that case.
+      //
+      // The `Object.freeze` in the `:` case avoids an open Flow
+      // issue:
+      // https://github.com/facebook/flow/issues/2386#issuecomment-695064325
       ...(reactionName !== undefined && reactionsTabs[reactionName]
         ? { initialRouteName: reactionName }
-        : {}),
+        : Object.freeze({})),
 
       ...tabsOptions({
         showLabel: true,
