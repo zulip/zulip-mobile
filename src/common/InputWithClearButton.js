@@ -32,6 +32,9 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
     canBeCleared: false,
     text: '',
   };
+  // TextInput's definition changes across the RN v0.61 -> v0.62
+  // upgrade; we'll handle that change after the upgrade.
+  // $FlowFixMe
   textInputRef = React.createRef<TextInput>();
 
   handleChangeText = (text: string) => {

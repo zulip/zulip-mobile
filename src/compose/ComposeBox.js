@@ -106,6 +106,9 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// TextInput's definition changes across the RN v0.61 -> v0.62
+// upgrade; we'll handle that change after the upgrade.
+// $FlowFixMe
 export const updateTextInput = (textInput: TextInput | null, text: string): void => {
   if (textInput === null) {
     // Depending on the lifecycle events this function is called from,
@@ -126,7 +129,11 @@ class ComposeBox extends PureComponent<Props, State> {
   static contextType = ThemeContext;
   context: ThemeData;
 
+  // TextInput's definition changes across the RN v0.61 -> v0.62
+  // upgrade; we'll remove these fixmes after we take that upgrade.
+  // $FlowFixMe
   messageInputRef = React.createRef<TextInput>();
+  // $FlowFixMe
   topicInputRef = React.createRef<TextInput>();
 
   // TODO: Type-check this, once we've adjusted our `react-redux`

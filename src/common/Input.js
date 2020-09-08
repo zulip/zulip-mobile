@@ -8,6 +8,9 @@ import type { ThemeData } from '../styles';
 import { ThemeContext, HALF_COLOR, BORDER_COLOR } from '../styles';
 
 export type Props = $ReadOnly<{|
+  // TextInput's definition changes across the RN v0.61 -> v0.62
+  // upgrade; we'll handle that change after the upgrade.
+  // $FlowFixMe
   ...$PropertyType<TextInput, 'props'>,
   placeholder: LocalizableText,
   onChangeText?: (text: string) => void,
