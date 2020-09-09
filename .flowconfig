@@ -46,6 +46,7 @@ node_modules/zulip-markdown-parser/
 
 [libs]
 node_modules/react-native/Libraries/react-native/react-native-interface.js
+node_modules/react-native/interface.js
 node_modules/react-native/flow/
 
 ; If the following files are not explicitly named, Flow ignores them in favor of
