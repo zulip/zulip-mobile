@@ -23,6 +23,9 @@ PODS:
   - EXScreenOrientation (1.0.0):
     - React-Core
     - UMCore
+  - EXSplashScreen (0.5.0):
+    - React
+    - UMCore
   - FBLazyVector (0.62.2)
   - FBReactNativeSpec (0.62.2):
     - Folly (= 2018.10.22.00)
@@ -402,6 +405,7 @@ DEPENDENCIES:
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
   - EXScreenOrientation (from `../node_modules/expo-screen-orientation/ios`)
+  - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Flipper (~> 0.33.1)
@@ -516,6 +520,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-permissions/ios"
   EXScreenOrientation:
     :path: "../node_modules/expo-screen-orientation/ios"
+  EXSplashScreen:
+    :path: "../node_modules/expo-splash-screen/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
@@ -643,6 +649,7 @@ SPEC CHECKSUMS:
   EXImageLoader: 5ad6896fa1ef2ee814b551873cbf7a7baccc694a
   EXPermissions: 24b97f734ce9172d245a5be38ad9ccfcb6135964
   EXScreenOrientation: 44d3cd3a99a86b9cb681e742697bc2c057d7fbd2
+  EXSplashScreen: 9423d258b71afa5bf128a83dcb57b636d9900a74
   FBLazyVector: 4aab18c93cd9546e4bfed752b4084585eca8b245
   FBReactNativeSpec: 5465d51ccfeecb7faa12f9ae0024f2044ce4044e
   Flipper: 6c1f484f9a88d30ab3e272800d53688439e50f69
