@@ -78,6 +78,7 @@ public class MainApplication extends Application implements ReactApplication {
         super.onCreate();
         FCMPushNotifications.createNotificationChannel(this);
         SoLoader.init(this, /* native exopackage */ false);
+        initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
         conversations = new ConversationMap();
     }
 
