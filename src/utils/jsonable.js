@@ -31,15 +31,15 @@ export type JSONableDict = { +[string]: JSONable };
 // This should really be an exact type, `{| +[string]: JSONable |}`.
 // Unfortunately, it can't yet be.
 //
-// Prior to Flow v0.111.0 (i.e., prior to React Native v0.62.0), exact object
-// types with indexer properties are unusably broken. The following trivial
-// example fails to typecheck:
+// Prior to Flow v0.126.0, exact object types with indexer properties
+// are unusably broken. The following trivial example fails to
+// typecheck:
 //
 //    const val: {| [string]: number |} = { foo: 3 };
 //
 // On the other hand, inexact indexer-property types don't actually have their
 // properties typechecked at their point of use -- that is, the following passes
-// typechecking (even after v0.111.0):
+// typechecking (even after v0.126.0):
 //
 //    const val: { [string]: number } = { foo: 3, bar: 'baz' };
 //

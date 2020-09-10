@@ -7,7 +7,7 @@ import objectEntries from './objectEntries';
 import config from '../config';
 
 /** Type of "extras" intended for Sentry. */
-// This type should be exact, but cannot be until Flow v0.111.0. (See note in
+// This type should be exact, but cannot be until Flow v0.126.0. (See note in
 // `jsonable.js`.)
 type Extras = { +[key: string]: JSONable };
 

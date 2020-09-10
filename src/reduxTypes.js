@@ -154,7 +154,7 @@ export type FlagName = $Keys<FlagsState>;
  * messages belonging to a given narrow.
  */
 export type MessagesState = {
-  // MessagesState should be exact; we're waiting for Flow v0.111.0. See note
+  // MessagesState should be exact; we're waiting for Flow v0.126.0. See note
   // in src/utils/jsonable.js.
   [id: number]: $Exact<Message>,
 };

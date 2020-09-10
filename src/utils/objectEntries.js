@@ -25,7 +25,7 @@ export default objectEntries;
  *
  * To make this function sound, it is necessary that the input type be an
  * _exact_ type. However, the primary use case for this function is map-objects
- * declared with indexer properties; and, until Flow v0.111.0, exact types with
+ * declared with indexer properties; and, until Flow v0.126.0, exact types with
  * indexer properties are unusable. (See comments in ./jsonable.js for more
  * information.)
  */
