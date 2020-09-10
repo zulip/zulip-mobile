@@ -250,9 +250,9 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setMessageInputValue(completedText);
 
     if (lastWordPrefix === '@') {
-      if (this.mentionWarnings.current) {
-        this.mentionWarnings.current.getWrappedInstance().handleMentionSubscribedCheck(completion);
-      }
+      // https://github.com/eslint/eslint/issues/11045
+      // eslint-disable-next-line no-unused-expressions
+      this.mentionWarnings.current?.getWrappedInstance().handleMentionSubscribedCheck(completion);
     }
   };
 
