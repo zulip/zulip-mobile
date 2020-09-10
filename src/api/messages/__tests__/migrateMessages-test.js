@@ -1,6 +1,4 @@
 /* @flow strict-local */
-import omit from 'lodash.omit';
-
 import { migrateMessages } from '../getMessages';
 import { identityOfAuth } from '../../../account/accountMisc';
 import * as eg from '../../../__tests__/lib/exampleData';
@@ -21,13 +19,8 @@ describe('migrateMessages', () => {
     },
   };
 
-  type CommonFields = $Diff<Message, { reactions: mixed }>;
-
   const serverMessage: ServerMessage = {
-    // The `omit` shouldn't be necessary with Flow v0.111: "Spreads
-    // now overwrite properties instead of inferring unions"
-    // (https://medium.com/flow-type/spreads-common-errors-fixes-9701012e9d58).
-    ...(omit(eg.streamMessage(), 'reactions'): CommonFields),
+    ...eg.streamMessage(),
     reactions: [serverReaction],
   };
 
@@ -35,8 +28,7 @@ describe('migrateMessages', () => {
 
   const expectedOutput: Message[] = [
     {
-      // The `omit` shouldn't be necessary with Flow v0.111.
-      ...(omit(serverMessage, 'reactions'): CommonFields),
+      ...serverMessage,
       reactions: [
         {
           user_id: reactingUser.user_id,
