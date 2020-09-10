@@ -18,21 +18,7 @@ EOF
         exit 1
     fi
 
-    # We can't go back to `pod install --project-directory=ios` (thus
-    # avoiding state-changing `cd` commands) until RN v0.62.0, when we
-    # get the resolution of
-    # https://github.com/react-native-community/cli/issues/657.
-    #
-    # @react-native-community/cli@5724d29dc was released in v3.0.0-alpha.3
-    # facebook/react-native@e523302fb was released in v0.62.0-rc.0
-    #
-    # We tried the workaround at that issue (passing a "." argument to
-    # `use_native_modules!`) and got other errors that were not
-    # covered. So, `cd`.
-    (
-        cd "$ROOT_DIR/ios"
-        pod install
-    )
+    pod install --project-directory="$ROOT_DIR/ios"
 }
 
 jetify() {
