@@ -21,11 +21,9 @@ type RegisterForEventsParams = {|
 
 /** See https://zulip.com/api/register-queue */
 export default async (auth: Auth, params: RegisterForEventsParams): Promise<InitialData> => {
-  // The use of `...rest` here (rather than just using `...params` below) is to
-  // work around a Flow object-spread bug fixed in v0.111.0.
-  const { narrow, event_types, fetch_event_types, client_capabilities, ...rest } = params;
+  const { narrow, event_types, fetch_event_types, client_capabilities } = params;
   return apiPost(auth, 'register', {
-    ...rest,
+    ...params,
     narrow: JSON.stringify(narrow),
     event_types: JSON.stringify(event_types),
     fetch_event_types: JSON.stringify(fetch_event_types),
