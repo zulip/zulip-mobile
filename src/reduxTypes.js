@@ -226,7 +226,7 @@ export type PresenceState = {
  * To add additional providers, add a member here and update
  * `getVideoChatProvider` in `src/realm/reamReducer.js`.
  */
-export type VideoChatProvider = { name: 'jitsi_meet', jitsiServerUrl: string };
+export type VideoChatProvider = {| name: 'jitsi_meet', jitsiServerUrl: string |};
 
 /**
  * State with miscellaneous data from the server; our state subtree `realm`.
