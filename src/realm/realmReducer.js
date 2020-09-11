@@ -1,11 +1,5 @@
 /* @flow strict-local */
-import type {
-  AvailableVideoChatProviders,
-  RealmState,
-  Action,
-  RealmEmojiById,
-  VideoChatProvider,
-} from '../types';
+import type { RealmState, Action, RealmEmojiById, VideoChatProvider } from '../types';
 import {
   REALM_INIT,
   EVENT_REALM_EMOJI_UPDATE,
@@ -35,23 +29,13 @@ const initialState = {
 const convertRealmEmoji = (data): RealmEmojiById =>
   objectFromEntries(Object.keys(data).map(id => [id, { ...data[id], code: id.toString() }]));
 
-/**
- * The video chat provider configured by the server. If the server has
- * configured a provider that is not currently supported by the mobile app, this
- * function should return null.
- *
- * To implement additional providers, see the `VideoChatProvider` type in
- * `src/reduxTypes.js`.
- */
 function getVideoChatProvider({
   availableProviders,
   jitsiServerUrl,
   providerId,
-}: {
-  availableProviders: AvailableVideoChatProviders,
-  jitsiServerUrl?: string,
-  providerId: number,
 }): VideoChatProvider | null {
+  // This logic parallels logic in the webapp in static/js/compose.js
+  // for interpreting similar data from page_params.
   if (
     availableProviders.jitsi_meet
     && availableProviders.jitsi_meet.id === providerId

@@ -422,11 +422,6 @@ class ComposeBox extends PureComponent<Props, State> {
       videoChatProvider,
     } = this.props;
 
-    // Flow is erroneously widening the type of the videoChatProvider's name
-    // field to also allow `string` types here. This is refined back down to the
-    // correct type by explicitly annotating
-    // `ComposeBox.prototype.insertVideoCallLink`, but be aware of that if you
-    // need to use this value outside of that method.
     const insertVideoCallLink =
       videoChatProvider !== null ? () => this.insertVideoCallLink(videoChatProvider) : null;
 

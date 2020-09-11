@@ -216,16 +216,17 @@ export type PresenceState = {
 };
 
 /**
- * Configuration for video chat providers supported by the mobile app.
+ * Configuration for a video chat provider, as specified by the server.
  *
- * This type is a disjoint union tagged by the `name` property. Each member of
- * the union encapsulates the associated data for creating video call links for
- * a video chat provider. For example, the type for the "jitsi_meet" provider
- * contains a field for the jitsiServerUrl returned by the Zulip server.
+ * The `name` property identifies the selected provider.  Depending on the
+ * provider, other properties may provide other configuration details
+ * required.
  *
- * To add additional providers, add a member here and update
- * `getVideoChatProvider` in `src/realm/reamReducer.js`.
+ * See `src/realm/realmReducer.js` for where these values are produced based
+ * on information from the server.
  */
+// Right now there's just one branch here; if we add another provider, this
+// should become a disjoint union on `name`.
 export type VideoChatProvider = {| name: 'jitsi_meet', jitsiServerUrl: string |};
 
 /**
@@ -245,8 +246,9 @@ export type VideoChatProvider = {| name: 'jitsi_meet', jitsiServerUrl: string |}
  *   account.  See `User` and the linked documentation.
  * @prop filters
  * @prop emoji
- * @prop videoChatProvider - The video chat provider configured by the server.
- *   See the `VideoChatProvider` type for more information.
+ * @prop videoChatProvider - The video chat provider configured by the
+ *   server; null if none, or if the configured provider is one we don't
+ *   support.
  *
  * About the user:
  * @prop email
