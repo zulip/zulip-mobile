@@ -13,14 +13,22 @@ set -x
 
 android/gradlew -p android -q :app:installDebug
 
-# TODO: This is missing one sometimes-handy feature of
-#   `react-native run-android`, which is that if you have several
-#   devices connected, it will loop through them.
+devices=(
+    $(adb devices | perl -0ne 'print "$_\n" for (/^(\S+) \s+ device$/gmx)')
+)
 
-adb reverse tcp:8081 tcp:8081
+if ! (( ${#devices[@]} )); then
+    echo >&2 "No devices connected!"
+    exit 1
+fi
 
-# This is the part that `react-native run-android` doesn't have the
-# option to do correctly: even when you pass a --main-activity flag,
-# it appends that value to the app ID.  So it's impossible to specify
-# the correct activity when its name doesn't begin with the full app ID.
-adb shell am start -n com.zulipmobile.debug/com.zulipmobile.MainActivity
+for device in "${devices[@]}"; do
+    adb -s "${device}" reverse tcp:8081 tcp:8081
+
+    # This is the part that `react-native run-android` doesn't have the
+    # option to do correctly: even when you pass a --main-activity flag,
+    # it appends that value to the app ID.  So it's impossible to specify
+    # the correct activity when its name doesn't begin with the full app ID.
+    adb -s "${device}" shell \
+        am start -n com.zulipmobile.debug/com.zulipmobile.MainActivity
+done
