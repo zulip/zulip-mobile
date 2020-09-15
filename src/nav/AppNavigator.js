@@ -1,5 +1,17 @@
 /* @flow strict-local */
-import { createStackNavigator } from 'react-navigation-stack';
+import { Platform } from 'react-native';
+import {
+  createStackNavigator,
+  // The FlowTyped libdef skips v2; there's one for
+  // `react-navigation-stack` v1 (we're using that one), and there's
+  // one for `@react-navigation/stack` v5, which we'll use when we're
+  // on React Navigation v5. `TransitionPresets` is missing in the v1
+  // libdef. We could go add it in ourselves, but our use of it is
+  // small and isolated, so we might as well wait for the
+  // `@react-navigation/stack` libdef.
+  // $FlowFixMe
+  TransitionPresets,
+} from 'react-navigation-stack';
 
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
@@ -69,6 +81,12 @@ export default createStackNavigator(
     sharing: { screen: SharingScreen },
   },
   {
+    defaultNavigationOptions: {
+      ...Platform.select({
+        android: TransitionPresets.FadeFromBottomAndroid,
+        ios: TransitionPresets.DefaultTransition,
+      }),
+    },
     initialRouteName: 'main',
     headerMode: 'none',
   },
