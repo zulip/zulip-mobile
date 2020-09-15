@@ -45,5 +45,6 @@ export default createMaterialTopTabNavigator(
       showLabel: true,
       showIcon: false,
     }),
+    swipeEnabled: true,
   },
 );

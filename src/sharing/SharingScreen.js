@@ -55,6 +55,7 @@ const SharingTopTabNavigator = createMaterialTopTabNavigator(
       showLabel: true,
       showIcon: false,
     }),
+    swipeEnabled: true,
   },
 );
 

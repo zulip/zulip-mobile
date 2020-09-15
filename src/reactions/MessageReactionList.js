@@ -95,6 +95,7 @@ const getReactionsTabs = (
           borderWidth: 0.15,
         },
       }),
+      swipeEnabled: true,
     }),
   );
 };
