@@ -52,10 +52,6 @@ allprojects {
     }
 }
 
-project(":react-native-device-info").beforeEvaluate {
-    ext.googlePlayServicesVersion = "16.1.0"
-}
-
 subprojects {
     afterEvaluate {
         if (project.hasProperty("android")) {

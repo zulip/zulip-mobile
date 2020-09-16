@@ -9792,10 +9792,10 @@ react-native-cli@^2.0.1:
     prompt "^0.2.14"
     semver "^5.0.3"
 
-react-native-device-info@^0.21.5:
-  version "0.21.5"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.21.5.tgz#99478a2d68182e012297f2d63f2bd1b788106dee"
-  integrity sha512-Bvl7TyVMDbBH3wzvZx0xj3deMhWVRDHdOdjP1MjGVxVVH+bSlCi6oYDScaX2yz5rfi2OvevWWCg8jUqFKeepjA==
+react-native-device-info@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-6.0.2.tgz#03317893bd6336b9ed2fe7a78d424737a441553f"
+  integrity sha512-Kx6ozWKkiPPvRhZDIL5jQ8zEZLlRT8hTovTaV+NgDc0tM+slBEnuEIgn0FXArHudO0qq2r+VDs4pUwMf6csGPg==
 
 react-native-document-picker@^3.2.4:
   version "3.2.4"

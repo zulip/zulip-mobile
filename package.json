@@ -61,7 +61,7 @@
     "react": "16.11.0",
     "react-intl": "^2.4.0",
     "react-native": "0.62.2",
-    "react-native-device-info": "^0.21.5",
+    "react-native-device-info": "^6.0.2",
     "react-native-document-picker": "^3.2.4",
     "react-native-gesture-handler": "^1.0.12",
     "react-native-image-picker": "^2.3.3",
