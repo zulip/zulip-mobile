@@ -84,7 +84,7 @@
     "react-navigation-redux-helpers": "^3.0.8",
     "react-navigation-stack": "^2.8.2",
     "react-navigation-tabs": "^2.9.0",
-    "react-redux": "^6.0.1",
+    "react-redux": "^7.2.1",
     "redux": "^4.0.0",
     "redux-action-buffer": "^1.2.0",
     "redux-batched-actions": "^0.3.0",

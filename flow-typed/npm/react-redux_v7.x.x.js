@@ -1,5 +1,5 @@
-// flow-typed signature: a09118d2093dc5b4eee045cd2a7dbf5a
-// flow-typed version: c6154227d1/react-redux_v6.x.x/flow_>=v0.104.x
+// flow-typed signature: 8da1e134b3de1d6f6bf9ba1cc7e2dc7e
+// flow-typed version: 387a235736/react-redux_v7.x.x/flow_>=v0.104.x
 
 /**
 The order of type arguments for connect() is as follows:
@@ -27,6 +27,7 @@ Decrypting the abbreviations:
   RMP = Returned merge props
   CP = Props for returned component
   Com = React Component
+  SS = Selected state
   ST = Static properties of Com
   EFO = Extra factory options (used only in connectAdvanced)
 */
@@ -199,6 +200,19 @@ declare module "react-redux" {
   ): Connector<P, OP, P>;
 
   // ------------------------------------------------------------
+  // Typings for Hooks
+  // ------------------------------------------------------------
+
+  declare export function useDispatch<D>(): D;
+
+  declare export function useSelector<S, SS>(
+    selector: (state: S) => SS,
+    equalityFn?: (a: SS, b: SS) => boolean,
+  ): SS;
+
+  declare export function useStore<Store>(): Store;
+
+  // ------------------------------------------------------------
   // Typings for Provider
   // ------------------------------------------------------------
 
@@ -270,11 +284,17 @@ declare module "react-redux" {
     connectAdvancedOptions: ?(ConnectAdvancedOptions & EFO),
   ): (component: Com) => React$ComponentType<OP> & $Shape<ST>;
 
+  declare export function batch(() => void): void
+
   declare export default {
     Provider: typeof Provider,
     createProvider: typeof createProvider,
     connect: typeof connect,
     connectAdvanced: typeof connectAdvanced,
+    useDispatch: typeof useDispatch,
+    useSelector: typeof useSelector,
+    useStore: typeof useStore,
+    batch: typeof batch,
     ...
   };
 }
