@@ -404,14 +404,110 @@ body {
 
 /*
  Message contents.
+
+ For the body of a message, we use nearly the same HTML as the webapp does.
+ The styles therefore have a lot in common.  For the webapp's version of
+ these styles, compare static/styles/rendered_markdown.css .
  */
 
-a {
-  color: hsl(200, 100%, 40%);
-}
 p {
   margin: 0;
 }
+.message p + p {
+  margin-top: 16px;
+}
+.message ul {
+  padding-left: 20px;
+  margin: 4px 0 0 0;
+}
+.message ul + p {
+  margin-top: 16px;
+}
+
+blockquote {
+  padding-left: 8px;
+  margin: 8px 0 8px 0;
+  border-left: 3px solid hsla(0, 0%, 50%, 0.5);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+table, th, td {
+  border: 1px solid hsla(0, 0%, 50%, 0.25);
+}
+thead {
+  background: hsla(0, 0%, 50%, 0.1);
+}
+th, td {
+  align: center;
+  padding: 4px 8px;
+}
+
+.emoji {
+  display: inline-block;
+  height: 1.25rem;
+  width: 1.25rem;
+  white-space: nowrap;
+  color: transparent;
+  vertical-align: text-top;
+}
+.emoji:before {
+  color: white;
+}
+
+.user-group-mention,
+.user-mention {
+  white-space: nowrap;
+  background-color: hsla(0, 0%, 0%, 0.1);
+  border-radius: 3px;
+  padding: 0 2px;
+  margin: 0 1px;
+  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.2);
+}
+
+.alert-word {
+  background-color: hsla(102, 85%, 57%, 0.3);
+}
+
+time {
+  display: inline-block;
+  padding: 4px 6px;
+  background-color: hsla(0, 0%, 50%, 0.125);
+  border-radius: 8px;
+}
+
+.message_inline_image {
+  text-align: center;
+}
+.message_inline_image img,
+.message_inline_ref img,
+.twitter-image img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+}
+
+.twitter-tweet {
+  border: 2px solid hsla(203, 89%, 53%, 0.5);
+  background: hsla(203, 89%, 53%, 0.1);
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin: 8px 0;
+}
+.twitter-avatar {
+  border-radius: 3px;
+  margin: 8px 8px 4px 0;
+  float: left;
+  width: 2.2rem;
+  height: 2.2rem;
+}
+.twitter-image {
+  text-align: center;
+  margin: 8px auto;
+}
+
 code {
   font-size: .857rem;
   white-space: pre-wrap;
@@ -440,94 +536,24 @@ pre code {
   border: none;
   background: none;
 }
-table {
-  border-collapse: collapse;
-  width: 100%;
+
+.highlight {
+  background-color: hsl(51, 94%, 74%);
 }
-table, th, td {
-  border: 1px solid hsla(0, 0%, 50%, 0.25);
+
+/* `a`, which the webapp styles with Bootstrap. */
+a {
+  color: hsl(200, 100%, 40%);
 }
-thead {
-  background: hsla(0, 0%, 50%, 0.1);
-}
-th, td {
-  align: center;
-  padding: 4px 8px;
-}
+
+/* `hr`, not found in the webapp's rendered_markdown.css. */
 hr {
   margin: 16px 0;
   border: 0;
   border-top: 1px solid hsla(0, 0%, 50%, 0.5);
 }
-.alert-word {
-  background-color: hsla(102, 85%, 57%, 0.3);
-}
-.highlight {
-  background-color: hsl(51, 94%, 74%);
-}
-.message p + p {
-  margin-top: 16px;
-}
-.user-group-mention,
-.user-mention {
-  white-space: nowrap;
-  background-color: hsla(0, 0%, 0%, 0.1);
-  border-radius: 3px;
-  padding: 0 2px;
-  margin: 0 1px;
-  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.2);
-}
-.message_inline_image {
-  text-align: center;
-}
-.message_inline_image img,
-.message_inline_ref img,
-.twitter-image img {
-  width: 100%;
-  height: 160px;
-  object-fit: contain;
-}
-blockquote {
-  padding-left: 8px;
-  margin: 8px 0 8px 0;
-  border-left: 3px solid hsla(0, 0%, 50%, 0.5);
-}
-.message ul {
-  padding-left: 20px;
-  margin: 4px 0 0 0;
-}
-.message ul + p {
-  margin-top: 16px;
-}
-.twitter-tweet {
-  border: 2px solid hsla(203, 89%, 53%, 0.5);
-  background: hsla(203, 89%, 53%, 0.1);
-  border-radius: 6px;
-  padding: 8px 16px;
-  margin: 8px 0;
-}
-.twitter-avatar {
-  border-radius: 3px;
-  margin: 8px 8px 4px 0;
-  float: left;
-  width: 2.2rem;
-  height: 2.2rem;
-}
-.twitter-image {
-  text-align: center;
-  margin: 8px auto;
-}
-.emoji {
-  display: inline-block;
-  height: 1.25rem;
-  width: 1.25rem;
-  white-space: nowrap;
-  color: transparent;
-  vertical-align: text-top;
-}
-.emoji:before {
-  color: white;
-}
+
+/* Our own "sorry, unsupported" message for widgets. */
 .widget {
   display: flex;
   flex-direction: column;
@@ -537,10 +563,4 @@ blockquote {
   background: hsla(0, 0%, 50%, 0.1);
   border: 1px dashed hsla(0, 0%, 50%, 0.5);
   border-radius: 0.5rem;
-}
-time {
-  display: inline-block;
-  padding: 4px 6px;
-  background-color: hsla(0, 0%, 50%, 0.125);
-  border-radius: 8px;
 }
