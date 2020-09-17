@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
-import { Platform } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { Platform, Dimensions } from 'react-native';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
@@ -14,7 +14,7 @@ import { OwnAvatar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileCard from '../account-info/ProfileCard';
 
-export default createBottomTabNavigator(
+export default createMaterialTopTabNavigator(
   {
     home: {
       screen: HomeTab,
@@ -62,6 +62,8 @@ export default createBottomTabNavigator(
   },
   {
     backBehavior: 'none',
+    initialLayout: { width: Dimensions.get('window').width },
+    tabBarPosition: 'bottom',
     ...tabsOptions({
       showLabel: !!Platform.isPad,
       showIcon: true,
