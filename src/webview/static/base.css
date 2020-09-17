@@ -39,6 +39,15 @@ code, pre {
   background-color: hsla(0, 0%, 50%, 0.125);
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
+pre code {
+  /* Starting with Zulip Server 3.0, code blocks have `pre > code`.
+     Undo the stuff we have for `code` that isn't meant to apply there. */
+  font-size: inherit;
+  white-space: inherit;
+  padding: 0;
+  border: none;
+  background: none;
+}
 table {
   border-collapse: collapse;
   width: 100%;
