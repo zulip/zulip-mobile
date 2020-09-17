@@ -252,7 +252,7 @@ class ComposeBox extends PureComponent<Props, State> {
     if (lastWordPrefix === '@') {
       // https://github.com/eslint/eslint/issues/11045
       // eslint-disable-next-line no-unused-expressions
-      this.mentionWarnings.current?.getWrappedInstance().handleMentionSubscribedCheck(completion);
+      this.mentionWarnings.current?.handleMentionSubscribedCheck(completion);
     }
   };
 
@@ -448,6 +448,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View style={this.styles.wrapper}>
+        {/* $FlowFixMe - `MentionWarnings` should use a type-checked `connect` */}
         <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
         <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
           <TopicAutocomplete
