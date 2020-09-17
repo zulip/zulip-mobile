@@ -56,7 +56,14 @@ export default createStackNavigator(
     dev: { screen: DevAuthScreen },
     'emoji-picker': { screen: EmojiPickerScreen },
     loading: { screen: LoadingScreen },
-    main: { screen: MainScreenWithTabs },
+    main: {
+      screen: MainScreenWithTabs,
+      navigationOptions: {
+        // So we don't show a transition animation between 'loading'
+        // and 'main'.
+        animationEnabled: false,
+      },
+    },
     'message-reactions': { screen: MessageReactionList },
     password: { screen: PasswordAuthScreen },
     realm: { screen: RealmScreen },
