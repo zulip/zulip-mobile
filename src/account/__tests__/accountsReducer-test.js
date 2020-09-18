@@ -107,38 +107,26 @@ describe('accountsReducer', () => {
     const account3 = eg.makeAccount();
 
     test('records zulipVersion on active account', () => {
-      const prevState = deepFreeze([account1, account2, account3]);
       const newZulipVersion = new ZulipVersion('2.0.0');
-      const action = deepFreeze({ ...eg.action.realm_init, zulipVersion: newZulipVersion });
-
-      const expectedState = [{ ...account1, zulipVersion: newZulipVersion }, account2, account3];
-
-      const newState = accountsReducer(prevState, action);
-
-      expect(newState).toEqual(expectedState);
-      expect(newState).not.toBe(prevState);
+      expect(
+        accountsReducer(
+          deepFreeze([account1, account2, account3]),
+          deepFreeze({ ...eg.action.realm_init, zulipVersion: newZulipVersion }),
+        ),
+      ).toEqual([{ ...account1, zulipVersion: newZulipVersion }, account2, account3]);
     });
 
     test('records zulipFeatureLevel on active account', () => {
-      const prevState = deepFreeze([account1, account2, account3]);
       const newZulipFeatureLevel = 6;
-      const action = deepFreeze({
-        ...eg.action.realm_init,
-        data: {
-          ...eg.action.realm_init.data,
-          zulip_feature_level: newZulipFeatureLevel,
-        },
-      });
-
-      const expectedState = [
-        { ...account1, zulipFeatureLevel: newZulipFeatureLevel },
-        account2,
-        account3,
-      ];
-
-      const newState = accountsReducer(prevState, action);
-
-      expect(newState).toEqual(expectedState);
+      expect(
+        accountsReducer(
+          deepFreeze([account1, account2, account3]),
+          deepFreeze({
+            ...eg.action.realm_init,
+            data: { ...eg.action.realm_init.data, zulip_feature_level: newZulipFeatureLevel },
+          }),
+        ),
+      ).toEqual([{ ...account1, zulipFeatureLevel: newZulipFeatureLevel }, account2, account3]);
     });
   });
 
