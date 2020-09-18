@@ -118,7 +118,8 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     accounts: state.accounts.map(a => ({
       ...a,
       // but in the case of `ackedPushToken` let's be a bit more precise,
-      // and avoid clobbering it if present.
+      // and avoid clobbering it if present.  (Don't copy this pattern for a
+      // normal migration; this uncertainty is specific to recovering from #3553.)
       ackedPushToken: a.ackedPushToken !== undefined ? a.ackedPushToken : null,
     })),
   }),
@@ -159,26 +160,25 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     })),
   }),
 
-  // Accounts.zulipVersion is now string | null
+  // Add Accounts.zulipVersion, as string | null.
   '12': state => ({
     ...state,
     accounts: state.accounts.map(a => ({
       ...a,
-      zulipVersion: a.zulipVersion !== undefined ? a.zulipVersion : null,
+      zulipVersion: null,
     })),
   }),
 
-  // Accounts.zulipVersion is now ZulipVersion | null
+  // Convert Accounts.zulipVersion from `string | null` to `ZulipVersion | null`.
   '13': state => ({
     ...state,
     accounts: state.accounts.map(a => ({
       ...a,
-      zulipVersion:
-        typeof a.zulipVersion === 'string' ? new ZulipVersion(a.zulipVersion) : a.zulipVersion,
+      zulipVersion: typeof a.zulipVersion === 'string' ? new ZulipVersion(a.zulipVersion) : null,
     })),
   }),
 
-  // Added Accounts.zulipFeatureLevel as number | null
+  // Add Accounts.zulipFeatureLevel, as number | null.
   '14': state => ({
     ...state,
     accounts: state.accounts.map(a => ({
