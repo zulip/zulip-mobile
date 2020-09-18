@@ -162,6 +162,28 @@ describe('accountsReducer', () => {
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(prevState);
     });
+
+    test('records zulipFeatureLevel on active account', () => {
+      const prevState = deepFreeze([account1, account2, account3]);
+      const newZulipFeatureLevel = 6;
+      const action = deepFreeze({
+        ...eg.action.realm_init,
+        data: {
+          ...eg.action.realm_init.data,
+          zulip_feature_level: newZulipFeatureLevel,
+        },
+      });
+
+      const expectedState = [
+        { ...account1, zulipFeatureLevel: newZulipFeatureLevel },
+        account2,
+        account3,
+      ];
+
+      const newState = accountsReducer(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
   });
 
   describe('ACCOUNT_SWITCH', () => {
