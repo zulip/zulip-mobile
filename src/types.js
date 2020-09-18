@@ -57,6 +57,9 @@ export type Account = {|
    * Because a server deploy invalidates event queues, this means the value
    * is always up to date for a server we have an active event queue on.
    *
+   * This is `null` just when representing an account which was last used on
+   * a version of the app which didn't record this information.
+   *
    * For use in:
    *  * how we make some API requests, in order to keep the logic isolated
    *    to the edge, where we communicate with the server, to keep with the
@@ -72,6 +75,9 @@ export type Account = {|
    * server supports all API features introduced before feature level N.
    * This is designed to provide a simple way for mobile apps to decide
    * whether the server supports a given feature or API change.
+   *
+   * This is `null` just when representing an account which was last used on
+   * a version of the app which didn't record this information.
    *
    * Like zulipVersion, we learn the feature level from /server_settings
    * at the start of the login process, and again from /register when
