@@ -31,7 +31,7 @@ notifications:
     on_failure: always
 
 install:
-  - nvm install 10
+  - nvm install 12
   - node --version
   - npm i yarn -g
   - yarn
