@@ -65,7 +65,7 @@ class RealmScreen extends PureComponent<Props, State> {
       dispatch(
         realmAdd(
           realm,
-          serverSettings.zulip_feature_level === undefined ? 0 : serverSettings.zulip_feature_level,
+          serverSettings.zulip_feature_level ?? 0,
           new ZulipVersion(serverSettings.zulip_version),
         ),
       );
