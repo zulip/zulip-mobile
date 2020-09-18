@@ -64,84 +64,57 @@ describe('accountsReducer', () => {
       expect(accountsReducer(prevState, action)).toEqual(expectedState);
     });
 
-    test('if account with this realm exists and zulipVersion is non-null, move to front of list', () => {
-      const newAccount = eg.makeAccount({
-        email: account2.email,
-        realm: account2.realm,
-        apiKey: '',
-        zulipVersion: eg.zulipVersion,
+    describe('if an account with this realm exists', () => {
+      const existingAccountBase = eg.makeAccount({});
+
+      describe('update its zulipVersion', () => {
+        const newZulipVersion = new ZulipVersion('4.0.0');
+
+        const action = deepFreeze({
+          type: REALM_ADD,
+          realm: existingAccountBase.realm,
+          zulipFeatureLevel: eg.zulipFeatureLevel,
+          zulipVersion: newZulipVersion,
+        });
+
+        test('when its zulipVersion started out non-null', () => {
+          expect(
+            accountsReducer(
+              [{ ...existingAccountBase, zulipVersion: new ZulipVersion('3.0.0') }],
+              action,
+            ),
+          ).toEqual([{ ...existingAccountBase, zulipVersion: newZulipVersion }]);
+        });
+
+        test('when its zulipVersion started out null', () => {
+          expect(accountsReducer([{ ...existingAccountBase, zulipVersion: null }], action)).toEqual(
+            [{ ...existingAccountBase, zulipVersion: newZulipVersion }],
+          );
+        });
       });
 
-      const action = deepFreeze({
-        type: REALM_ADD,
-        realm: newAccount.realm,
-        zulipFeatureLevel: eg.zulipFeatureLevel,
-        zulipVersion: eg.zulipVersion,
+      describe('update its zulipFeatureLevel', () => {
+        const newZulipFeatureLevel = 6;
+
+        const action = deepFreeze({
+          type: REALM_ADD,
+          realm: existingAccountBase.realm,
+          zulipFeatureLevel: newZulipFeatureLevel,
+          zulipVersion: eg.zulipVersion,
+        });
+
+        test('when its zulipFeatureLevel started out non-null', () => {
+          expect(
+            accountsReducer([{ ...existingAccountBase, zulipFeatureLevel: 5 }], action),
+          ).toEqual([{ ...existingAccountBase, zulipFeatureLevel: newZulipFeatureLevel }]);
+        });
+
+        test('when its zulipVersion started out null', () => {
+          expect(
+            accountsReducer([{ ...existingAccountBase, zulipFeatureLevel: null }], action),
+          ).toEqual([{ ...existingAccountBase, zulipFeatureLevel: newZulipFeatureLevel }]);
+        });
       });
-
-      const expectedState = [newAccount, account1];
-
-      expect(accountsReducer(prevState, action)).toEqual(expectedState);
-    });
-
-    test('if account exists and zulipVersion is null, move to front of list and include zulipVersion', () => {
-      const newAccount = eg.makeAccount({
-        email: account2.email,
-        realm: account2.realm,
-        apiKey: '',
-        zulipVersion: null,
-      });
-
-      const action = deepFreeze({
-        type: REALM_ADD,
-        realm: newAccount.realm,
-        zulipFeatureLevel: eg.zulipFeatureLevel,
-        zulipVersion: eg.zulipVersion,
-      });
-
-      const expectedState = [account2, account1];
-
-      expect(accountsReducer(prevState, action)).toEqual(expectedState);
-    });
-
-    test('if no account with this realm exists and account has zulipFeatureLevel, prepend new one, with empty email/apiKey', () => {
-      const newAccount = eg.makeAccount({
-        email: '',
-        apiKey: '',
-        realm: 'https://new.realm.org',
-        zulipFeatureLevel: eg.zulipFeatureLevel,
-      });
-
-      const action = deepFreeze({
-        type: REALM_ADD,
-        realm: newAccount.realm,
-        zulipFeatureLevel: eg.zulipFeatureLevel,
-        zulipVersion: eg.zulipVersion,
-      });
-
-      const expectedState = [newAccount, account1, account2];
-
-      expect(accountsReducer(prevState, action)).toEqual(expectedState);
-    });
-
-    test('if account with this realm exists and account has zulipFeatureLevel, move to front of list', () => {
-      const newAccount = eg.makeAccount({
-        email: account2.email,
-        realm: account2.realm,
-        apiKey: '',
-        zulipFeatureLevel: eg.zulipFeatureLevel,
-      });
-
-      const action = deepFreeze({
-        type: REALM_ADD,
-        realm: newAccount.realm,
-        zulipFeatureLevel: eg.zulipFeatureLevel,
-        zulipVersion: eg.zulipVersion,
-      });
-
-      const expectedState = [newAccount, account1];
-
-      expect(accountsReducer(prevState, action)).toEqual(expectedState);
     });
   });
 
