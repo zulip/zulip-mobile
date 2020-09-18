@@ -141,6 +141,6 @@
     "redux-mock-store": "^1.5.1",
     "rollup": "^2.26.5",
     "typescript": "^3.9.7",
-    "yarn-deduplicate": "^1.1.1"
+    "yarn-deduplicate": "^3.0.0"
   }
 }
