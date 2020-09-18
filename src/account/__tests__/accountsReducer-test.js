@@ -26,33 +26,27 @@ describe('accountsReducer', () => {
     });
 
     test('if no account with this realm exists, prepend new one, with empty email/apiKey', () => {
-      const newAccount = eg.makeAccount({
-        realm: 'https://new.realm.org',
-        email: '',
-        apiKey: '',
-      });
+      const newRealm = 'https://new.realm.org';
 
       const action = deepFreeze({
         ...baseAction,
-        realm: newAccount.realm,
+        realm: newRealm,
       });
 
-      expect(accountsReducer(prevState, action)).toEqual([newAccount, account1, account2]);
+      expect(accountsReducer(prevState, action)).toEqual([
+        eg.makeAccount({ realm: newRealm, email: '', apiKey: '' }),
+        account1,
+        account2,
+      ]);
     });
 
     test('if account with this realm exists, move to front of list', () => {
-      const newAccount = eg.makeAccount({
-        realm: account2.realm,
-        email: account2.email,
-        apiKey: '',
-      });
-
       const action = deepFreeze({
         ...baseAction,
-        realm: newAccount.realm,
+        realm: account2.realm,
       });
 
-      expect(accountsReducer(prevState, action)).toEqual([newAccount, account1]);
+      expect(accountsReducer(prevState, action)).toEqual([account2, account1]);
     });
 
     describe('if an account with this realm exists', () => {
