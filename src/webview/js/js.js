@@ -544,8 +544,12 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
 export const handleInitialLoad = (
   platformOS: string,
   scrollMessageId: number | null,
-  auth: Auth,
+  // In an upcoming commit, the `realm` part of an `Auth` object will
+  // be a URL object. It'll be passed here in its stringified form.
+  rawAuth: {| ...$Diff<Auth, { realm: mixed }>, realm: string |},
 ) => {
+  const auth: Auth = { ...rawAuth, realm: rawAuth.realm };
+
   // Since its version 5.x, the `react-native-webview` library dispatches our
   // `message` events at `window` on iOS but `document` on Android.
   if (platformOS === 'ios') {
