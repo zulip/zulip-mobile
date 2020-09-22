@@ -260,6 +260,7 @@ class AuthScreen extends PureComponent<Props> {
       id_token: credential.identityToken,
     });
 
+    // TODO: Use a `URL` computation, for #4146.
     openLink(`${this.props.realm.toString()}/complete/apple/?${params}`);
 
     // Currently, the rest is handled with the `zulip://` redirect,
