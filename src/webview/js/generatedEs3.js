@@ -724,7 +724,14 @@ var compiledWebviewJs = (function (exports) {
   var handleMessageEvent = function handleMessageEvent(e) {
     scrollEventsDisabled = true;
     var decodedData = decodeURIComponent(escape(window.atob(e.data)));
-    var updateEvents = JSON.parse(decodedData);
+    var rawUpdateEvents = JSON.parse(decodedData);
+    var updateEvents = rawUpdateEvents.map(function (updateEvent) {
+      return _objectSpread2(_objectSpread2({}, updateEvent), updateEvent.auth ? {
+        auth: _objectSpread2(_objectSpread2({}, updateEvent.auth), {}, {
+          realm: new URL(updateEvent.auth.realm)
+        })
+      } : {});
+    });
     updateEvents.forEach(function (uevent) {
       eventLogger.maybeCaptureInboundEvent(uevent);
       eventUpdateHandlers[uevent.type](uevent);

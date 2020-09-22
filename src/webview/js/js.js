@@ -619,7 +619,16 @@ const eventUpdateHandlers = {
 const handleMessageEvent: MessageEventListener = e => {
   scrollEventsDisabled = true;
   const decodedData = decodeURIComponent(escape(window.atob(e.data)));
-  const updateEvents: WebViewUpdateEvent[] = JSON.parse(decodedData);
+  const rawUpdateEvents = JSON.parse(decodedData);
+  const updateEvents: WebViewUpdateEvent[] = rawUpdateEvents.map(updateEvent => ({
+    ...updateEvent,
+    // A URL object doesn't round-trip through JSON; we get the string
+    // representation. So, "revive" it back into a URL object.
+    ...(updateEvent.auth
+      ? { auth: { ...updateEvent.auth, realm: new URL(updateEvent.auth.realm) } }
+      : {}),
+  }));
+
   updateEvents.forEach((uevent: WebViewUpdateEvent) => {
     eventLogger.maybeCaptureInboundEvent(uevent);
     // $FlowFixMe
