@@ -88,20 +88,9 @@ simple terminology for the process we follow with both.
   tools/checkout-keystore
   ```
 
-* Make sure you don't have any dependencies set to local patched
-  versions with `yarn link`:
-
-  ```
-  for f in node_modules/* node_modules/@*/*; do [[ -L "$f" ]] && echo "FIX: $f"; done
-  ```
-
-  (A nice improvement would be to script that -- probably folded into
-  `tools/android`.)
-
 * Build the app:
 
   ```
-  yarn
   tools/android apk
   ```
 

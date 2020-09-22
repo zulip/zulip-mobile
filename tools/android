@@ -37,7 +37,33 @@ run_visibly () {
 rootdir=$(git rev-parse --show-toplevel)
 cd "${rootdir}"
 
+check_yarn_link() {
+    local linked_paths=()
+    for f in node_modules/* node_modules/@*/*; do
+        [[ -L "$f" ]] && linked_paths+=( "${f}" )
+    done
+
+    if (( ${#linked_paths[@]} )); then
+        cat >&2 <<EOF
+Error: There are dependencies set to local patched versions
+with \`yarn link\`.
+
+Consider the following to clean up:
+
+  $ rm -- ${linked_paths[*]@Q}
+  $ yarn install --force
+
+Then retry.
+EOF
+        exit 1
+    fi
+}
+
 do_apk() {
+    check_yarn_link
+
+    run_visibly yarn
+
     run_visibly android/gradlew -p android :app:assembleRelease -Psigned -Psentry
 }
 
