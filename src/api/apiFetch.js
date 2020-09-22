@@ -30,23 +30,19 @@ export const getFetchParams = <P: $Diff<$Exact<RequestOptions>, {| headers: mixe
   };
 };
 
-export const fetchWithAuth = async (
+export const apiFetch = async (
   auth: Auth,
-  url: string,
+  route: string,
   params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
 ) => {
+  const url = `${auth.realm.toString()}/${apiVersion}/${route}`;
+
   if (!isValidUrl(url)) {
     throw new Error(`Invalid url ${url}`);
   }
 
   return fetch(url, getFetchParams(auth, params));
 };
-
-export const apiFetch = async (
-  auth: Auth,
-  route: string,
-  params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
-) => fetchWithAuth(auth, `${auth.realm.toString()}/${apiVersion}/${route}`, params);
 
 export const apiCall = async (
   auth: Auth,
