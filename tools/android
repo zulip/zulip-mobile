@@ -6,16 +6,17 @@ set -e
 
 usage() {
     cat >&2 <<EOF
-usage: tools/android apk
+usage: tools/android {apk | aab}
 
-Build the app for release on Android.
+Build the app for release on Android, either as an APK or an
+Android App Bundle.
 EOF
     exit 2
 }
 
 action=
 case "${1}" in
-    apk) action="${1}"; shift;;
+    apk|aab) action="${1}"; shift;;
     *) usage;;
 esac
 if (( ${#} )); then
@@ -61,12 +62,19 @@ EOF
 
 do_apk() {
     check_yarn_link
-
     run_visibly yarn
 
     run_visibly android/gradlew -p android :app:assembleRelease -Psigned -Psentry
 }
 
+do_aab() {
+    check_yarn_link
+    run_visibly yarn
+
+    run_visibly android/gradlew -p android :app:bundleRelease -Psigned -Psentry
+}
+
 case "${action}" in
     apk) do_apk ;;
+    aab) do_aab ;;
 esac

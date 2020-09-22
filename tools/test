@@ -105,7 +105,8 @@ run_android() {
     (
         cd android
 
-        ./gradlew -q :app:assembleDebug :app:assembleDebugUnitTest || exit
+        ./gradlew -q :app:assembleDebug :app:assembleDebugUnitTest \
+            :app:bundleDebug || exit
 
         # The `-q` suppresses noise from warnings about obsolete build config
         # in our dependencies from the React Native ecosystem.

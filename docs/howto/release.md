@@ -88,7 +88,15 @@ simple terminology for the process we follow with both.
   tools/checkout-keystore
   ```
 
-* Build the app:
+* (experimental new way) Build the app:
+
+  ```
+  tools/android aab
+  ```
+
+  This produces an AAB at `android/app/build/outputs/bundle/release/app-release.aab`.
+
+* (old way) Build the app:
 
   ```
   tools/android apk
