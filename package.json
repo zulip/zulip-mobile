@@ -13,7 +13,7 @@
     "ios-device": "react-native run-ios --device",
     "android": "tools/run-android",
     "android-release": "react-native run-android --variant=release",
-    "build:android": "cd android && ./gradlew :app:assembleRelease -Psigned -Psentry",
+    "build:android": "tools/android apk",
     "build:android-nokeys": "cd android && ./gradlew :app:assembleRelease",
     "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "test": "tools/test",

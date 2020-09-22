@@ -95,14 +95,14 @@ simple terminology for the process we follow with both.
   for f in node_modules/* node_modules/@*/*; do [[ -L "$f" ]] && echo "FIX: $f"; done
   ```
 
-  (A nice improvement would be to script that -- probably folded with
-  `yarn build:android` into a new script in `tools/`.)
+  (A nice improvement would be to script that -- probably folded into
+  `tools/android`.)
 
 * Build the app:
 
   ```
   yarn
-  yarn build:android
+  tools/android apk
   ```
 
   This produces an APK at `android/app/build/outputs/apk/release/app-release.apk`.

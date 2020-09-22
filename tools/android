@@ -1,0 +1,46 @@
+#!/bin/bash
+set -e
+
+
+## CLI PARSING
+
+usage() {
+    cat >&2 <<EOF
+usage: tools/android apk
+
+Build the app for release on Android.
+EOF
+    exit 2
+}
+
+action=
+case "${1}" in
+    apk) action="${1}"; shift;;
+    *) usage;;
+esac
+if (( ${#} )); then
+    usage
+fi
+
+
+## MISC
+
+run_visibly () {
+    set -x
+    "$@"
+    { set +x; } 2>&-
+}
+
+
+## EXECUTION
+
+rootdir=$(git rev-parse --show-toplevel)
+cd "${rootdir}"
+
+do_apk() {
+    run_visibly android/gradlew -p android :app:assembleRelease -Psigned -Psentry
+}
+
+case "${action}" in
+    apk) do_apk ;;
+esac
