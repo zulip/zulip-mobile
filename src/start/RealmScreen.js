@@ -7,7 +7,7 @@ import { ZulipVersion } from '../utils/zulipVersion';
 import type { ApiResponseServerSettings, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
-import { isValidUrl, tryParseUrl } from '../utils/url';
+import { tryParseUrl } from '../utils/url';
 import * as api from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
 
@@ -131,7 +131,7 @@ class RealmScreen extends PureComponent<Props, State> {
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}
-          disabled={!isValidUrl(realmInputValue)}
+          disabled={tryParseUrl(realmInputValue) === undefined}
         />
       </Screen>
     );

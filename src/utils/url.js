@@ -1,6 +1,4 @@
 /* @flow strict-local */
-import urlRegex from 'url-regex';
-
 import type { Auth } from '../types';
 import { getAuthHeaders } from '../api/transport';
 import objectEntries from './objectEntries';
@@ -114,8 +112,6 @@ const mimes = {
 
 export const getMimeTypeFromFileExtension = (extension: string): string =>
   mimes[extension.toLowerCase()] || 'application/octet-stream';
-
-export const isValidUrl = (url: string): boolean => urlRegex({ exact: true }).test(url);
 
 export type AutocompletionDefaults = {|
   protocol: Protocol,
