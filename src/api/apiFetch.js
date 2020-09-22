@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/react-native';
 import type { UrlParams } from '../utils/url';
 import type { Auth } from './transportTypes';
 import { getAuthHeaders } from './transport';
-import { encodeParamsForUrl, isValidUrl } from '../utils/url';
+import { encodeParamsForUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
 import { makeErrorFromApi } from './apiErrors';
@@ -34,15 +34,7 @@ export const apiFetch = async (
   auth: Auth,
   route: string,
   params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
-) => {
-  const url = `${auth.realm.toString()}/${apiVersion}/${route}`;
-
-  if (!isValidUrl(url)) {
-    throw new Error(`Invalid url ${url}`);
-  }
-
-  return fetch(url, getFetchParams(auth, params));
-};
+) => fetch(new URL(`/${apiVersion}/${route}`, auth.realm).toString(), getFetchParams(auth, params));
 
 export const apiCall = async (
   auth: Auth,
