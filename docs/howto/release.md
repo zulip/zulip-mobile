@@ -70,7 +70,7 @@ simple terminology for the process we follow with both.
 * Run `tools/bump-version` to update the version number in the
   Android and iOS build metadata.
 
-* Tag the commit and push the tag.
+* Inspect the resulting commit and tag, and push.
 
 
 ### Build and upload alpha: Android

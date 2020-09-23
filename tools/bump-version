@@ -9,7 +9,7 @@ Updates the version number in our Android and iOS build configs,
 and in the changelog.
 
 Example:
-  bump-version 17.1.98
+  bump-version 27.155
 EOF
     exit 2
 }
@@ -19,6 +19,7 @@ shift || usage;
 shift && usage;
 
 version_code="${version_name##*.}"
+tag_name=v"${version_name}"
 date="$(date --iso)"
 
 had_uncommitted=
@@ -46,13 +47,29 @@ s/^\#\#\ Unreleased\n\K
 ' docs/changelog.md
 
 msg="version: Bump version to $version_name."
+
 if [ -n "$had_uncommitted" ]; then
     {
         echo "There were uncommitted changes.  To commit:"
         echo "  git commit -am ${msg@Q}"
         # NB if tempted to use the ${...@Q} feature: it's new in bash 4.4,
         # released 2016-09, found in stretch and bionic but not xenial.
+        echo
+        echo "Then tag the commit:"
+        echo "  git tag ${tag_name}"
+        echo "inspect the result, and push:"
+        echo "  git push upstream master ${tag_name}"
     } >&2
-else
-    git commit -am "$msg"
+    exit 1
 fi
+
+git commit -am "$msg"
+
+git tag "${tag_name}"
+
+{
+    echo
+    echo "Committed and tagged."
+    echo "Inspect the result, then push; for example:"
+    echo "  git push upstream master ${tag_name}"
+} >&2
