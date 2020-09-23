@@ -36,6 +36,23 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Added support for the new "timezone-aware times" in messages that
+  mention them. (#4162)
+* Animated GIFs work again (broken in last release.) (#4212)
+
+Plus, like every release, many other fixes and improvements for your
+Zulip experience.
+
+
+### Highlights for developers
+
+* #3782: Upgraded to RN v0.62!
+* #3649, #4248: Upgraded to react-navigation v4, from v2.
+* a0d838338: Experimental support for building an Android App Bundle
+  instead of a single APK.
+
 
 ## 27.154 (2020-07-24)
 
