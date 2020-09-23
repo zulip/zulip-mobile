@@ -5,10 +5,10 @@ import { View, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Auth, Dispatch, Message } from '../types';
+import type { Auth, Dispatch, Message, Dimensions as ZulipDimensions } from '../types';
 import { connect } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
-import { getAuth } from '../selectors';
+import { getAuth, getSession } from '../selectors';
 import { getResource } from '../utils/url';
 import { SlideAnimationView } from '../common';
 import LightboxHeader from './LightboxHeader';
@@ -38,6 +38,7 @@ const styles = createStyleSheet({
 
 type SelectorProps = $ReadOnly<{|
   auth: Auth,
+  safeAreaInsets: ZulipDimensions,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -95,7 +96,7 @@ class Lightbox extends PureComponent<Props, State> {
   });
 
   render() {
-    const { src, message, auth } = this.props;
+    const { src, message, auth, safeAreaInsets } = this.props;
     const footerMessage =
       message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
     const resource = getResource(src, auth);
@@ -113,7 +114,7 @@ class Lightbox extends PureComponent<Props, State> {
         <SlideAnimationView
           property="translateY"
           style={[styles.overlay, styles.header, { width }]}
-          from={-NAVBAR_SIZE}
+          from={-(NAVBAR_SIZE + safeAreaInsets.top)}
           to={0}
           {...this.getAnimationProps()}
         >
@@ -141,5 +142,6 @@ class Lightbox extends PureComponent<Props, State> {
 export default connectActionSheet(
   connect(state => ({
     auth: getAuth(state),
+    safeAreaInsets: getSession(state).safeAreaInsets,
   }))(Lightbox),
 );
