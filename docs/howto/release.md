@@ -59,20 +59,13 @@ simple terminology for the process we follow with both.
 
 ### Prepare the commit
 
-* Sync translations from Transifex: `tools/tx-pull && git commit -a`.
+* Sync translations with Transifex: `tools/tx-sync`.
 
-  * If any new language file appears, see
-    [howto/translations.md](translations.md) for additional updates to
-    make.
+  * This ensures we release with the latest translations provided by
+    our translation contributors.  See
+    [howto/translations.md](translations.md) for background.
 
-  * This is also a good reminder to upload recent strings and sync
-    across languages: `tx push -s && tools/tx-pull && git commit -a`,
-    to be done just after syncing translations as above.  (Though
-    ideally we do this immediately after merging any change to our
-    strings, i.e. to `messages_en.json`, in which case this is a
-    no-op.)
-
-* Check that tests pass: `tools/test`.
+* Check that tests pass: `tools/test --full`.
 
 * Run `tools/bump-version` to update the version number in the
   Android and iOS build metadata.
