@@ -36,12 +36,17 @@ const styles = createStyleSheet({
   },
 });
 
-type Props = $ReadOnly<{|
+type SelectorProps = $ReadOnly<{|
   auth: Auth,
-  dispatch: Dispatch,
+|}>;
+
+type Props = $ReadOnly<{|
   src: string,
   message: Message,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
 type State = {|
