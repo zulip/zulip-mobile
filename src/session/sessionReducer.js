@@ -1,9 +1,8 @@
 /* @flow strict-local */
-import type { Debug, Dimensions, Narrow, Orientation, Action } from '../types';
+import type { Debug, Dimensions, Orientation, Action } from '../types';
 import {
   REHYDRATE,
   DEAD_QUEUE,
-  DO_NARROW,
   LOGIN_SUCCESS,
   APP_ONLINE,
   ACCOUNT_SWITCH,
@@ -21,17 +20,11 @@ import { hasAuth } from '../account/accountsSelectors';
 
 /**
  * Miscellaneous non-persistent state about this run of the app.
- *
- * @prop lastNarrow - the last narrow we navigated to.  If the user is
- *   currently in a chat screen this will also be the "current" narrow,
- *   but they may also be on an associated info screen or have navigated
- *   away entirely.
  */
 export type SessionState = {|
   eventQueueId: number,
   isOnline: boolean,
   isHydrated: boolean,
-  lastNarrow: ?Narrow,
 
   /**
    * Whether the /register request is in progress.
@@ -73,7 +66,6 @@ const initialState: SessionState = {
   eventQueueId: -1,
   isOnline: true,
   isHydrated: false,
-  lastNarrow: null,
   loading: false,
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
@@ -122,7 +114,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case LOGOUT:
       return {
         ...state,
-        lastNarrow: null,
         needsInitialFetch: false,
         loading: false,
       };
@@ -130,7 +121,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case ACCOUNT_SWITCH:
       return {
         ...state,
-        lastNarrow: null,
         needsInitialFetch: true,
         loading: false,
       };
@@ -142,12 +132,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         eventQueueId: action.data.queue_id,
-      };
-
-    case DO_NARROW:
-      return {
-        ...state,
-        lastNarrow: action.narrow,
       };
 
     case APP_ONLINE:
