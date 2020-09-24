@@ -2,7 +2,9 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
+import { withNavigationFocus } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { compose } from 'redux';
 
 import { connect } from '../react-redux';
 import type { ThemeData } from '../styles';
@@ -19,7 +21,6 @@ import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 import { canSendToNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
-import { getTopMostNarrow } from '../nav/navSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow } from './narrowsSelectors';
 
@@ -28,13 +29,15 @@ type SelectorProps = {|
   haveNoMessages: boolean,
   loading: boolean,
   eventQueueId: number,
-  isLastNarrow: boolean,
-  isTopMostNarrow: boolean,
 |};
 
 type Props = $ReadOnly<{|
   navigation: NavigationScreenProp<{ params: {| narrow: Narrow |} }>,
   dispatch: Dispatch,
+
+  // From React Navigation's `withNavigationFocus` HOC. Type copied
+  // from the libdef.
+  isFocused: ?boolean,
 
   ...SelectorProps,
 |}>;
@@ -72,11 +75,11 @@ class ChatScreen extends PureComponent<Props, State> {
 
   /* eslint-disable react/no-did-update-set-state */
   componentDidUpdate(prevProps, prevState) {
-    const isFocused = this.props.isLastNarrow || this.props.isTopMostNarrow;
+    const { isFocused } = this.props;
 
     // When the event queue changes, fetch or schedule a fetch
     if (prevProps.eventQueueId !== this.props.eventQueueId) {
-      if (isFocused) {
+      if (isFocused === true) {
         this.fetch();
       } else {
         this.shouldFetchWhenNextFocused = true;
@@ -84,7 +87,7 @@ class ChatScreen extends PureComponent<Props, State> {
     }
 
     // Do a scheduled fetch, if it's time
-    if (this.shouldFetchWhenNextFocused && isFocused) {
+    if (this.shouldFetchWhenNextFocused && isFocused === true) {
       this.shouldFetchWhenNextFocused = false;
       this.fetch();
     }
@@ -167,12 +170,14 @@ class ChatScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect<SelectorProps, _, _>((state, props) => ({
-  loading: getLoading(state),
-  fetching: getFetchingForNarrow(state, props.navigation.state.params.narrow),
-  haveNoMessages:
-    getShownMessagesForNarrow(state, props.navigation.state.params.narrow).length === 0,
-  eventQueueId: getSession(state).eventQueueId,
-  isLastNarrow: getSession(state).lastNarrow === props.navigation.state.params.narrow,
-  isTopMostNarrow: getTopMostNarrow(state) === props.navigation.state.params.narrow,
-}))(ChatScreen);
+export default compose(
+  // https://reactnavigation.org/docs/4.x/function-after-focusing-screen/#triggering-an-action-with-the-withnavigationfocus-higher-order-component
+  withNavigationFocus,
+  connect<SelectorProps, _, _>((state, props) => ({
+    loading: getLoading(state),
+    fetching: getFetchingForNarrow(state, props.navigation.state.params.narrow),
+    haveNoMessages:
+      getShownMessagesForNarrow(state, props.navigation.state.params.narrow).length === 0,
+    eventQueueId: getSession(state).eventQueueId,
+  })),
+)(ChatScreen);
