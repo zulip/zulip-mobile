@@ -8,7 +8,7 @@ import { hasAuth, getAccountStatuses } from '../selectors';
 import type { AccountStatus } from './accountsSelectors';
 import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
-import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
+import { navigateToRealmScreen, accountSwitch, removeAccount } from '../actions';
 
 type Props = $ReadOnly<{|
   accounts: AccountStatus[],
@@ -22,7 +22,7 @@ class AccountPickScreen extends PureComponent<Props> {
     const { realm, isLoggedIn } = accounts[index];
     if (isLoggedIn) {
       setTimeout(() => {
-        dispatch(switchAccount(index));
+        dispatch(accountSwitch(index));
       });
     } else {
       dispatch(navigateToRealmScreen(realm));

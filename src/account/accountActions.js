@@ -9,7 +9,7 @@ import {
 } from '../actionConstants';
 import type { ZulipVersion } from '../utils/zulipVersion';
 
-export const switchAccount = (index: number): Action => ({
+export const accountSwitch = (index: number): Action => ({
   type: ACCOUNT_SWITCH,
   index,
 });

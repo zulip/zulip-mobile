@@ -15,7 +15,7 @@ import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConst
 import { identityOfAccount, authOfAccount } from '../account/accountMisc';
 import { getUsersById } from '../users/userSelectors';
 import { doNarrow } from '../message/messagesActions';
-import { switchAccount } from '../account/accountActions';
+import { accountSwitch } from '../account/accountActions';
 import { getIdentities } from '../account/accountsSelectors';
 
 export const gotPushToken = (pushToken: string | null): Action => ({
@@ -46,7 +46,7 @@ export const narrowToNotification = (data: ?Notification) => (
   const accountIndex = getAccountFromNotificationData(data, getIdentities(state));
   if (accountIndex !== null && accountIndex > 0) {
     // Notification is for a non-active account.  Switch there.
-    dispatch(switchAccount(accountIndex));
+    dispatch(accountSwitch(accountIndex));
     // TODO actually narrow to conversation.
     return;
   }
