@@ -36,8 +36,13 @@ It doesn't include
 
 ## Unreleased
 
+* Fixed crash in 27.155. (#4270)
 
-## 27.155 (2020-09-23)
+
+## (pre-alpha) 27.155 (2020-09-23)
+
+(This release was distributed as a pre-alpha only, due to #4270.)
+
 
 ### Highlights for users
 
