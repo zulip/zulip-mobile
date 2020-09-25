@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import React from 'react';
 import { View, Image, ScrollView, Modal, BackHandler } from 'react-native';
-import { type NavigationNavigatorProps } from 'react-navigation';
+import type { NavigationTabProp, NavigationStateRoute } from 'react-navigation-tabs';
+
 import type { Dispatch, SharedData, User, Auth, GetText } from '../types';
 import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
-
 import { connect } from '../react-redux';
 import { ZulipButton, Input, Label } from '../common';
 import UserItem from '../users/UserItem';
@@ -54,7 +54,15 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  ...$Exact<NavigationNavigatorProps<{||}, {| params: {| sharedData: SharedData |} |}>>,
+  // Since we've put this screen in a tab-nav route config, and we
+  // don't invoke it without type-checking anywhere else (in fact, we
+  // don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free, with the tab-nav shape.
+  navigation: NavigationTabProp<{|
+    ...NavigationStateRoute,
+    params: {| sharedData: SharedData |},
+  |}>,
+
   dispatch: Dispatch,
   auth: Auth,
 |}>;
