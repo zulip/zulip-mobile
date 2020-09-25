@@ -81,25 +81,19 @@ simple terminology for the process we follow with both.
   tools/checkout-keystore
   ```
 
-* (experimental new way) Build the app:
+* Build the app, as both a good old-fashioned APK and a fancy new AAB:
 
   ```
-  tools/android aab
+  tools/android aab && tools/android apk
   ```
 
-  This produces an AAB at `android/app/build/outputs/bundle/release/app-release.aab`.
+* This produces an AAB at `android/app/build/outputs/bundle/release/app-release.aab`
+  and an APK at `android/app/build/outputs/apk/release/app-release.apk`.
 
-* (old way) Build the app:
-
-  ```
-  tools/android apk
-  ```
-
-  This produces an APK at `android/app/build/outputs/apk/release/app-release.apk`.
-
-* Upload to Google Play via the "Create Release" button on the
+* Upload the AAB to Google Play via the "Create Release" button on the
   ["Internal test" track management][play-manage-internal] page
   (within [Release management -> App releases][play-manage-releases]).
+  (We'll use the APK when posting the release on GitHub, at beta stage.)
 
 [play-manage-releases]: https://play.google.com/apps/publish/#ManageReleasesPlace:p=com.zulipmobile&appid=4976350040864490411
 [play-manage-internal]: https://play.google.com/apps/publish/?account=8060868091387311598#ManageReleaseTrackPlace:p=com.zulipmobile&releaseTrackId=4699145961663258026
@@ -204,11 +198,19 @@ simple terminology for the process we follow with both.
 
 * Android via GitHub:
 
-  * Upload as a [GitHub release][gh-releases].
+  * Upload as a [GitHub release][gh-releases].  Include both the APK
+    and the AAB.
 
     This is useful for people who use Android without Google Play,
     e.g. out of privacy concerns or a desire to stick rigorously to
     free software.
+
+    (The AAB is more flexible and is the only version we use with
+    Google Play, but the APK is simpler and may be a bit easier for
+    people to work with.  As of 2020 it seems likely that some people
+    consuming these builds will prefer the APK, and it's not much
+    burden to build it at the same time, so we keep posting it
+    alongside the AAB.)
 
   * Check the box "This is a pre-release".
 
