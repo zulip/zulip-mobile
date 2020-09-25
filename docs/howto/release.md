@@ -95,8 +95,29 @@ simple terminology for the process we follow with both.
   (within [Release management -> App releases][play-manage-releases]).
   (We'll use the APK when posting the release on GitHub, at beta stage.)
 
+  * Alternatively, to distribute as a "pre-alpha", upload to Google
+    Play via ["Internal app sharing"][play-internal-app-sharing].
+
+    The one salient advantage of this channel is that it doesn't
+    occupy a place in the sequence of version numbers, which makes it
+    convenient to use when potentially experimenting with several
+    Google Play uploads in quick succession, e.g. when making
+    significant changes to the build process.
+
+    But the price of that flexibility is, in part, that these uploads
+    are completely separate from the alpha/beta/production track: in
+    order to roll out a pre-alpha to the alpha, beta, or production
+    channel, it has to be uploaded separately there, just the same as
+    if it had never been uploaded at all.  Moreover, a device won't
+    upgrade directly from an alpha/beta/production version to a
+    pre-alpha, or vice versa; switching between the tracks requires
+    uninstalling and reinstalling.  So for a typical release where the
+    first build we make is expected to be good with high probability,
+    this track costs more inconvenience than it saves.
+
 [play-manage-releases]: https://play.google.com/apps/publish/#ManageReleasesPlace:p=com.zulipmobile&appid=4976350040864490411
 [play-manage-internal]: https://play.google.com/apps/publish/?account=8060868091387311598#ManageReleaseTrackPlace:p=com.zulipmobile&releaseTrackId=4699145961663258026
+[play-internal-app-sharing]: https://play.google.com/apps/publish/internalappsharing/
 
 
 ### Build and upload alpha: iOS
