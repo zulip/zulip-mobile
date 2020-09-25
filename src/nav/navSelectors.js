@@ -1,33 +1,30 @@
 /* @flow strict-local */
-import type { GlobalState, NavigationRouteState, NavigationState } from '../types';
-import type { Narrow } from '../api/apiTypes';
+import type { NavigationState, NavigationRoute } from 'react-navigation';
 
-export const getNav = (state: GlobalState): NavigationState => state.nav;
+import NavigationService from './NavigationService';
 
-const getNavigationRoutes = (state: GlobalState): NavigationRouteState[] => state.nav.routes;
+export const getNavState = (): NavigationState => NavigationService.getState();
 
-const getNavigationIndex = (state: GlobalState): number => getNav(state).index;
+const getNavigationRoutes = () => getNavState().routes;
 
-const getCurrentRoute = (state: GlobalState): void | NavigationRouteState =>
-  getNavigationRoutes(state)[getNavigationIndex(state)];
+const getNavigationIndex = () => getNavState().index;
 
-export const getCurrentRouteName = (state: GlobalState): void | string =>
-  getCurrentRoute(state)?.routeName;
+const getCurrentRoute = (): void | NavigationRoute => getNavigationRoutes()[getNavigationIndex()];
 
-export const getCurrentRouteParams = (state: GlobalState): void | { narrow?: Narrow } =>
-  getCurrentRoute(state)?.params;
+export const getCurrentRouteName = () => getCurrentRoute()?.routeName;
 
-export const getChatScreenParams = (state: GlobalState): { narrow?: Narrow } =>
-  getCurrentRouteParams(state) ?? { narrow: undefined };
+export const getCurrentRouteParams = () => getCurrentRoute()?.params;
 
-export const getSameRoutesCount = (state: GlobalState): number => {
-  const nav = getNav(state);
-  let i = nav.routes.length - 1;
+export const getChatScreenParams = () => getCurrentRouteParams() ?? { narrow: undefined };
+
+export const getSameRoutesCount = () => {
+  const routes = getNavigationRoutes();
+  let i = routes.length - 1;
   while (i >= 0) {
-    if (nav.routes[i].routeName !== nav.routes[nav.routes.length - 1].routeName) {
+    if (routes[i].routeName !== routes[routes.length - 1].routeName) {
       break;
     }
     i--;
   }
-  return nav.routes.length - i - 1;
+  return routes.length - i - 1;
 };

@@ -14,7 +14,7 @@ import type {
 import { getSameRoutesCount } from '../selectors';
 
 export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigationAction =>
-  dispatch(StackActions.pop({ n: getSameRoutesCount(getState()) }));
+  dispatch(StackActions.pop({ n: getSameRoutesCount() }));
 
 // Other stack routes reached through `navReducer`:
 //    StackActions.push({ routeName: 'loading' });

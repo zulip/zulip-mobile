@@ -28,7 +28,9 @@ const messageEvent = (state: GlobalState, message: Message): void => {
   }
 
   const activeAccount = getActiveAccount(state);
-  const { narrow } = getChatScreenParams(state);
+  // Assume (unchecked) that `narrow` is `Narrow` if present
+  // $FlowFixMe
+  const narrow: Narrow | void = getChatScreenParams().narrow;
   const isUserInSameNarrow =
     activeAccount
     && narrow !== undefined // chat screen is not at top
