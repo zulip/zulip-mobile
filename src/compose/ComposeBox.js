@@ -138,7 +138,7 @@ class ComposeBox extends PureComponent<Props, State> {
   //   mentionWarnings = React.createRef<typeof MentionWarnings>()
   //
   // but we need our `react-redux` wrapper to be aware of
-  // `getWrappedInstance`, since we need to access that.
+  // `{ forwardRef: true }`, since we use that.
   mentionWarnings = React.createRef();
 
   inputBlurTimeoutId: ?TimeoutID = null;
@@ -325,7 +325,7 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setMessageInputValue('');
 
     if (this.mentionWarnings.current) {
-      this.mentionWarnings.current.getWrappedInstance().clearMentionWarnings();
+      this.mentionWarnings.current.clearMentionWarnings();
     }
 
     dispatch(sendTypingStop(narrow));
