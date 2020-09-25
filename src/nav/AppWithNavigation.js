@@ -2,10 +2,16 @@
 
 import { createReduxContainer } from 'react-navigation-redux-helpers';
 
-import { connect } from '../react-redux';
+import { connect } from 'react-redux';
 import { getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
 
-export default connect(state => ({
-  state: getNav(state),
-}))(createReduxContainer(AppNavigator, 'root'));
+// $FlowFixMe - should use a type-checked `connect`
+export default connect(
+  state => ({
+    state: getNav(state),
+  }),
+  null,
+  null,
+  { forwardRef: true },
+)((createReduxContainer(AppNavigator, 'root'): React$ComponentType<{||}>));

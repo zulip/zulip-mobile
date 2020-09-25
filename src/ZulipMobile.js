@@ -11,6 +11,7 @@ import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
 import BackNavigationHandler from './nav/BackNavigationHandler';
 import AppWithNavigation from './nav/AppWithNavigation';
+import NavigationService from './nav/NavigationService';
 
 import './i18n/locale';
 import { initializeSentry } from './sentry';
@@ -28,7 +29,7 @@ export default (): React$Node => (
           <TranslationProvider>
             <ThemeProvider>
               <BackNavigationHandler>
-                <AppWithNavigation />
+                <AppWithNavigation ref={NavigationService.reduxContainerRef} />
               </BackNavigationHandler>
             </ThemeProvider>
           </TranslationProvider>
