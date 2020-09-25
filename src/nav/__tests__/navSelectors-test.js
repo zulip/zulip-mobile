@@ -4,7 +4,6 @@ import {
   getCurrentRouteName,
   getCurrentRouteParams,
   getChatScreenParams,
-  getCanGoBack,
   getSameRoutesCount,
 } from '../navSelectors';
 
@@ -58,26 +57,6 @@ describe('getChatScreenParams', () => {
     const actualResult = getChatScreenParams(state);
 
     expect(actualResult).toBeDefined();
-  });
-});
-
-describe('getCanGoBack', () => {
-  test('return true if current route in the stack is not the only route', () => {
-    const state = deepFreeze({
-      nav: {
-        index: 1,
-      },
-    });
-    expect(getCanGoBack(state)).toBe(true);
-  });
-
-  test('return false if current route in the stack is the only route', () => {
-    const state = deepFreeze({
-      nav: {
-        index: 0,
-      },
-    });
-    expect(getCanGoBack(state)).toBe(false);
   });
 });
 

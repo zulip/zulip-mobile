@@ -6,7 +6,6 @@ import { BackHandler } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { getCanGoBack } from '../selectors';
 import { navigateBack } from '../actions';
 
 type Props = $ReadOnly<{|
@@ -38,5 +37,5 @@ class BackNavigationHandler extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  canGoBack: getCanGoBack(state),
+  canGoBack: state.nav.index > 0,
 }))(BackNavigationHandler);

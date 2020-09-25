@@ -20,8 +20,6 @@ export const getCurrentRouteParams = (state: GlobalState): void | { narrow?: Nar
 export const getChatScreenParams = (state: GlobalState): { narrow?: Narrow } =>
   getCurrentRouteParams(state) ?? { narrow: undefined };
 
-export const getCanGoBack = (state: GlobalState) => state.nav.index > 0;
-
 export const getSameRoutesCount = (state: GlobalState): number => {
   const nav = getNav(state);
   let i = nav.routes.length - 1;
