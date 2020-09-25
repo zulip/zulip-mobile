@@ -17,8 +17,11 @@ type SelectorProps = {|
 
 type Props = $ReadOnly<{|
   navigation: NavigationScreenProp<{
-    params: ?{|
+    params?: {|
       realm: URL | void,
+      // Currently passed as `true` in a hack in `navReducer.js`; see
+      //   https://github.com/zulip/zulip-mobile/pull/4273#discussion_r499114689.
+      // TODO: Stop using that hack.
       initial?: boolean,
     |},
   }>,
