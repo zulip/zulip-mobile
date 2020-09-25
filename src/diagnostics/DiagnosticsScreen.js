@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-
+import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 import { nativeApplicationVersion } from 'expo-application';
 
 import type { Dispatch } from '../types';
@@ -23,6 +23,12 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
+  // Since we've put this screen in a stack-nav route config, and we
+  // don't invoke it without type-checking anywhere else (in fact, we
+  // don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free, with the stack-nav shape.
+  navigation: NavigationStackProp<NavigationStateRoute>,
+
   dispatch: Dispatch,
 |}>;
 

@@ -1,9 +1,10 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
-import type { NavigationScreenProp } from 'react-navigation';
+import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { FormattedMessage } from 'react-intl';
+
 import type { Dispatch, SharedData, Auth, TabNavigationOptionsPropsType } from '../types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
@@ -15,7 +16,15 @@ import ShareToStream from './ShareToStream';
 import ShareToPm from './ShareToPm';
 
 type Props = $ReadOnly<{|
-  navigation: NavigationScreenProp<{ params: {| sharedData: SharedData |} }>,
+  // Since we've put this screen in a stack-nav route config, and we
+  // don't invoke it without type-checking anywhere else (in fact, we
+  // don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free, with the stack-nav shape.
+  navigation: NavigationStackProp<{|
+    ...NavigationStateRoute,
+    params: {| sharedData: SharedData |},
+  |}>,
+
   auth: Auth | void,
   dispatch: Dispatch,
 |}>;

@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { Linking, Platform } from 'react-native';
-import type { NavigationScreenProp } from 'react-navigation';
+import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
@@ -167,9 +167,17 @@ export const activeAuthentications = (
 };
 
 type Props = $ReadOnly<{|
+  // Since we've put this screen in a stack-nav route config, and we
+  // don't invoke it without type-checking anywhere else (in fact, we
+  // don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free, with the stack-nav shape.
+  navigation: NavigationStackProp<{|
+    ...NavigationStateRoute,
+    params: {| serverSettings: ApiResponseServerSettings |},
+  |}>,
+
   dispatch: Dispatch,
   realm: URL,
-  navigation: NavigationScreenProp<{ params: {| serverSettings: ApiResponseServerSettings |} }>,
 |}>;
 
 let otp = '';

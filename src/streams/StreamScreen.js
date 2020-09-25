@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import type { NavigationScreenProp } from 'react-navigation';
+import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
 import type { Dispatch, Stream, Subscription } from '../types';
 import { connect } from '../react-redux';
@@ -30,7 +30,14 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
-  navigation: NavigationScreenProp<{ params: {| streamId: number |} }>,
+  // Since we've put this screen in a stack-nav route config, and we
+  // don't invoke it without type-checking anywhere else (in fact, we
+  // don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free, with the stack-nav shape.
+  navigation: NavigationStackProp<{|
+    ...NavigationStateRoute,
+    params: {| streamId: number |},
+  |}>,
 
   dispatch: Dispatch,
   ...SelectorProps,
