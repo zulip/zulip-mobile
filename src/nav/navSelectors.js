@@ -8,15 +8,17 @@ export const getNav = (state: GlobalState): NavigationState => state.nav;
 
 const getNavigationRoutes = (state: GlobalState): NavigationRouteState[] => state.nav.routes;
 
-const getNavigationIndex = (state: GlobalState): number => state.nav.index;
+const getNavigationIndex = (state: GlobalState): number => getNav(state).index;
 
-export const getCurrentRouteName = (state: GlobalState): string =>
-  state.nav.routes[state.nav.index].routeName;
+const getCurrentRoute = (state: GlobalState): void | NavigationRouteState =>
+  getNavigationRoutes(state)[getNavigationIndex(state)];
+
+export const getCurrentRouteName = (state: GlobalState): void | string =>
+  getCurrentRoute(state)?.routeName;
 
 export const getCurrentRouteParams: Selector<void | { narrow?: Narrow }> = createSelector(
-  getNavigationRoutes,
-  getNavigationIndex,
-  (routes, index) => routes[index] && routes[index].params,
+  getCurrentRoute,
+  currentRoute => currentRoute?.params,
 );
 
 export const getChatScreenParams: Selector<{ narrow?: Narrow }> = createSelector(
