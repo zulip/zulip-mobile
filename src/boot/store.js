@@ -17,7 +17,6 @@ import { REHYDRATE } from '../actionConstants';
 import rootReducer from './reducers';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
-import { getNav } from '../nav/navSelectors';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
@@ -212,7 +211,7 @@ function listMiddleware() {
   const result = [
     // Allow us to cause navigation by dispatching Redux actions.
     // See docs: https://github.com/react-navigation/redux-helpers
-    createReactNavigationReduxMiddleware(getNav, 'root'),
+    createReactNavigationReduxMiddleware((state: GlobalState) => state.nav, 'root'),
 
     // Delay ("buffer") actions until a REHYDRATE action comes through.
     // After dispatching the latter, this will go back and dispatch
