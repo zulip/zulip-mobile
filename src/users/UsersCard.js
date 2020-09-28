@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, PresenceState, User, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { privateNarrow } from '../utils/narrow';
@@ -19,7 +20,7 @@ type Props = $ReadOnly<{|
 class UsersCard extends PureComponent<Props> {
   handleUserNarrow = (user: UserOrBot) => {
     const { dispatch } = this.props;
-    dispatch(navigateBack());
+    NavigationService.dispatch(navigateBack());
     dispatch(doNarrow(privateNarrow(user.email)));
   };
 

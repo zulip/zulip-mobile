@@ -3,17 +3,16 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, LocalizableText } from '../types';
+import NavigationService from './NavigationService';
+import type { LocalizableText } from '../types';
 import type { ThemeData } from '../styles';
 import styles, { ThemeContext, NAVBAR_SIZE } from '../styles';
-import { connect } from '../react-redux';
 
 import Label from '../common/Label';
 import NavButton from './NavButton';
 import { navigateBack } from '../actions';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   canGoBack: boolean,
   title: LocalizableText,
 |}>;
@@ -23,7 +22,7 @@ class ModalNavBar extends PureComponent<Props> {
   context: ThemeData;
 
   render() {
-    const { dispatch, canGoBack, title } = this.props;
+    const { canGoBack, title } = this.props;
     const textStyle = [
       styles.navTitle,
       canGoBack ? { marginRight: NAVBAR_SIZE } : { marginLeft: 16 },
@@ -46,7 +45,7 @@ class ModalNavBar extends PureComponent<Props> {
           <NavButton
             name="arrow-left"
             onPress={() => {
-              dispatch(navigateBack());
+              NavigationService.dispatch(navigateBack());
             }}
           />
         )}
@@ -58,4 +57,4 @@ class ModalNavBar extends PureComponent<Props> {
   }
 }
 
-export default connect<{||}, _, _>()(ModalNavBar);
+export default ModalNavBar;

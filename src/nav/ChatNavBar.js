@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import Color from 'color';
 
+import NavigationService from './NavigationService';
 import type { Dispatch, Narrow, EditMessage } from '../types';
 import { LoadingBanner } from '../common';
 import { connect } from '../react-redux';
@@ -29,7 +30,7 @@ type Props = $ReadOnly<{|
 
 class ChatNavBar extends PureComponent<Props> {
   render() {
-    const { dispatch, backgroundColor, narrow, editMessage } = this.props;
+    const { backgroundColor, narrow, editMessage } = this.props;
     const color =
       backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
         ? BRAND_COLOR
@@ -63,7 +64,7 @@ class ChatNavBar extends PureComponent<Props> {
             name="arrow-left"
             color={color}
             onPress={() => {
-              dispatch(navigateBack());
+              NavigationService.dispatch(navigateBack());
             }}
           />
           <Title color={color} narrow={narrow} editMessage={editMessage} />

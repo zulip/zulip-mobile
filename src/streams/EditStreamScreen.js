@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, Stream } from '../types';
 import { connect } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
@@ -32,7 +33,7 @@ class EditStreamScreen extends PureComponent<Props> {
     const { dispatch, stream } = this.props;
 
     dispatch(updateExistingStream(stream.stream_id, stream, { name, description, isPrivate }));
-    dispatch(navigateBack());
+    NavigationService.dispatch(navigateBack());
   };
 
   render() {

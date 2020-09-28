@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import { unicodeCodeByName } from './codePointMap';
 import { Screen } from '../common';
@@ -57,12 +58,12 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
   };
 
   addReaction = (emojiName: string) => {
-    const { auth, dispatch, navigation } = this.props;
+    const { auth, navigation } = this.props;
     const { messageId } = navigation.state.params;
 
     const { reactionType, emojiCode } = this.getReactionTypeAndCode(emojiName);
     api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName);
-    dispatch(navigateBack());
+    NavigationService.dispatch(navigateBack());
   };
 
   render() {

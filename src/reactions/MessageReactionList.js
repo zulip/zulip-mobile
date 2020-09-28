@@ -5,6 +5,7 @@ import { createAppContainer } from 'react-navigation';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
+import NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';
@@ -146,7 +147,7 @@ class MessageReactionList extends PureComponent<Props> {
     if (prevProps.message !== undefined && this.props.message === undefined) {
       // The message was present, but got purged (currently only caused by a
       // REALM_INIT following a dead event queue), so go back.
-      this.props.dispatch(navigateBack());
+      NavigationService.dispatch(navigateBack());
     }
   }
 

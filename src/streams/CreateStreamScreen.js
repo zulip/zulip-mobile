@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { createNewStream, navigateBack } from '../actions';
@@ -25,7 +26,7 @@ class CreateStreamScreen extends PureComponent<Props> {
     const { dispatch, ownEmail } = this.props;
 
     dispatch(createNewStream(name, description, [ownEmail], isPrivate));
-    dispatch(navigateBack());
+    NavigationService.dispatch(navigateBack());
   };
 
   render() {

@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, User } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
@@ -34,7 +35,7 @@ class CreateGroupScreen extends PureComponent<Props, State> {
     const { dispatch } = this.props;
 
     const recipients = selected.map(user => user.email);
-    dispatch(navigateBack());
+    NavigationService.dispatch(navigateBack());
     dispatch(doNarrow(groupNarrow(recipients)));
   };
 

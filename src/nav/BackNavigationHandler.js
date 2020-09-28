@@ -4,17 +4,13 @@ import { PureComponent } from 'react';
 import { BackHandler } from 'react-native';
 
 import NavigationService from './NavigationService';
-import type { Dispatch } from '../types';
-import { connect } from '../react-redux';
 import { navigateBack } from '../actions';
 
 type Props = $ReadOnly<{|
   children: React$Node,
-
-  dispatch: Dispatch,
 |}>;
 
-class BackNavigationHandler extends PureComponent<Props> {
+export default class BackNavigationHandler extends PureComponent<Props> {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
   }
@@ -24,10 +20,9 @@ class BackNavigationHandler extends PureComponent<Props> {
   }
 
   handleBackButtonPress = () => {
-    const { dispatch } = this.props;
     const canGoBack = NavigationService.getState().index > 0;
     if (canGoBack) {
-      dispatch(navigateBack());
+      NavigationService.dispatch(navigateBack());
     }
     return canGoBack;
   };
@@ -36,5 +31,3 @@ class BackNavigationHandler extends PureComponent<Props> {
     return this.props.children;
   }
 }
-
-export default connect(state => ({}))(BackNavigationHandler);
