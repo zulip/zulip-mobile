@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import NavigationService from '../nav/NavigationService';
 import type {
   Narrow,
   Dispatch,
@@ -173,7 +174,7 @@ export const initialFetchComplete = () => async (dispatch: Dispatch, getState: G
     // conditional accordingly, if we found out we're not depending on
     // the more general condition; see
     //   https://github.com/zulip/zulip-mobile/pull/4274#discussion_r505941875
-    dispatch(resetToMainTabs());
+    NavigationService.dispatch(resetToMainTabs());
   }
   dispatch(initialFetchCompletePlain());
 };

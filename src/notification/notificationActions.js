@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
+
 import type { Account, Dispatch, GetState, Identity, Action } from '../types';
 import * as api from '../api';
 import {

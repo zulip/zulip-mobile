@@ -6,6 +6,7 @@ import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation
 import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
+import NavigationService from '../nav/NavigationService';
 import config from '../config';
 import type {
   AuthenticationMethods,
@@ -239,12 +240,12 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   handleDevAuth = () => {
-    this.props.dispatch(navigateToDev());
+    NavigationService.dispatch(navigateToDev());
   };
 
   handlePassword = () => {
     const { serverSettings } = this.props.navigation.state.params;
-    this.props.dispatch(navigateToPassword(serverSettings.require_email_format_usernames));
+    NavigationService.dispatch(navigateToPassword(serverSettings.require_email_format_usernames));
   };
 
   handleNativeAppleAuth = async () => {

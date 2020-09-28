@@ -1,5 +1,7 @@
 /* @flow strict-local */
 import { NativeModules, DeviceEventEmitter, Platform } from 'react-native';
+
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, SharedData, GetState } from '../types';
 import { navigateToSharing } from '../actions';
 
@@ -10,7 +12,7 @@ const Sharing = NativeModules.Sharing ?? {
 };
 
 const goToSharing = (data: SharedData) => (dispatch: Dispatch, getState: GetState) => {
-  dispatch(navigateToSharing(data));
+  NavigationService.dispatch(navigateToSharing(data));
 };
 
 export const handleInitialShare = async (dispatch: Dispatch) => {

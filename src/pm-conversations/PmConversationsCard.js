@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { NavigationTabProp, NavigationStateRoute } from 'react-navigation-tabs';
 
+import NavigationService from '../nav/NavigationService';
 import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
 import type { Dispatch, PmConversationData, UserOrBot } from '../types';
@@ -64,7 +65,7 @@ class PmConversationsCard extends PureComponent<Props> {
             style={styles.button}
             text="Create group"
             onPress={() => {
-              setTimeout(() => dispatch(navigateToCreateGroup()));
+              setTimeout(() => NavigationService.dispatch(navigateToCreateGroup()));
             }}
           />
           <ZulipButton
@@ -73,7 +74,7 @@ class PmConversationsCard extends PureComponent<Props> {
             style={styles.button}
             text="Search"
             onPress={() => {
-              setTimeout(() => dispatch(navigateToUsersScreen()));
+              setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
             }}
           />
         </View>

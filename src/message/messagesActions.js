@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import NavigationService from '../nav/NavigationService';
 import type { Narrow, Dispatch, GetState } from '../types';
 import { getAuth, getUsersById } from '../selectors';
 import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
@@ -18,7 +19,7 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   getState: GetState,
 ) => {
   // TODO: Use `anchor` to open the message list to a particular message.
-  dispatch(navigateToChat(narrow));
+  NavigationService.dispatch(navigateToChat(narrow));
 };
 
 export const messageLinkPress = (href: string) => async (

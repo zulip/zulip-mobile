@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import NavigationService from '../nav/NavigationService';
 import type { Action, Dispatch, GetState } from '../types';
 import {
   ACCOUNT_SWITCH,
@@ -16,7 +17,7 @@ const accountSwitchPlain = (index: number): Action => ({
 });
 
 export const accountSwitch = (index: number) => (dispatch: Dispatch, getState: GetState) => {
-  dispatch(resetToLoading());
+  NavigationService.dispatch(resetToLoading());
   dispatch(accountSwitchPlain(index));
 };
 
@@ -47,7 +48,7 @@ export const loginSuccess = (realm: URL, email: string, apiKey: string) => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  dispatch(resetToLoading());
+  NavigationService.dispatch(resetToLoading());
   dispatch(loginSuccessPlain(realm, email, apiKey));
 };
 
@@ -56,6 +57,6 @@ const logoutPlain = (): Action => ({
 });
 
 export const logout = () => async (dispatch: Dispatch, getState: GetState) => {
-  dispatch(resetToAccountPicker());
+  NavigationService.dispatch(resetToAccountPicker());
   dispatch(logoutPlain());
 };

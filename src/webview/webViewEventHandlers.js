@@ -181,7 +181,7 @@ const markRead = (props: Props, event: MessageListEventScroll) => {
 const handleImage = (props: Props, src: string, messageId: number) => {
   const message = props.messages.find(x => x.id === messageId);
   if (message && !message.isOutbox) {
-    props.dispatch(navigateToLightbox(src, message));
+    NavigationService.dispatch(navigateToLightbox(src, message));
   }
 };
 
@@ -263,8 +263,7 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
     case 'reactionDetails':
       {
         const { messageId, reactionName } = event;
-        const { dispatch } = props;
-        dispatch(navigateToMessageReactionScreen(messageId, reactionName));
+        NavigationService.dispatch(navigateToMessageReactionScreen(messageId, reactionName));
       }
       break;
 
