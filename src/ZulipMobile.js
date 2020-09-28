@@ -10,7 +10,7 @@ import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
 import BackNavigationHandler from './nav/BackNavigationHandler';
 import InitialNavigationDispatcher from './nav/InitialNavigationDispatcher';
-import AppWithNavigation from './nav/AppWithNavigation';
+import AppContainer from './nav/AppContainer';
 import NavigationService from './nav/NavigationService';
 
 import { initializeSentry } from './sentry';
@@ -29,7 +29,7 @@ export default (): React$Node => (
             <ThemeProvider>
               <InitialNavigationDispatcher>
                 <BackNavigationHandler>
-                  <AppWithNavigation ref={NavigationService.reduxContainerRef} />
+                  <AppContainer ref={NavigationService.appContainerRef} />
                 </BackNavigationHandler>
               </InitialNavigationDispatcher>
             </ThemeProvider>

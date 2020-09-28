@@ -4,7 +4,6 @@ import type { Store } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import createActionBuffer from 'redux-action-buffer';
-import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 import Immutable from 'immutable';
 import * as Serialize from 'remotedev-serialize';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
@@ -29,7 +28,7 @@ import createMigration from '../redux-persist-migrate/index';
 // prettier-ignore
 export const discardKeys: Array<$Keys<GlobalState>> = [
   'alertWords', 'caughtUp', 'fetching',
-  'nav', 'presence', 'session', 'topics', 'typing', 'userStatus',
+  'presence', 'session', 'topics', 'typing', 'userStatus',
 ];
 
 /**
@@ -209,10 +208,6 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
  */
 function listMiddleware() {
   const result = [
-    // Allow us to cause navigation by dispatching Redux actions.
-    // See docs: https://github.com/react-navigation/redux-helpers
-    createReactNavigationReduxMiddleware((state: GlobalState) => state.nav, 'root'),
-
     // Delay ("buffer") actions until a REHYDRATE action comes through.
     // After dispatching the latter, this will go back and dispatch
     // all the buffered actions.  See docs:

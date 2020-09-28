@@ -198,13 +198,6 @@ export type NavigationRouteState = {
   },
 };
 
-export type NavigationState = {|
-  index: number,
-  isTransitioning: boolean,
-  key: string,
-  routes: NavigationRouteState[],
-|};
-
 export type OutboxState = Outbox[];
 
 /**
@@ -360,7 +353,6 @@ export type GlobalState = {|
   migrations: MigrationsState,
   mute: MuteState,
   narrows: NarrowsState,
-  nav: NavigationState,
   outbox: OutboxState,
   presence: PresenceState,
   realm: RealmState,

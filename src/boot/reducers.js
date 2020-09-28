@@ -17,7 +17,6 @@ import flags from '../chat/flagsReducer';
 import narrows from '../chat/narrowsReducer';
 import messages from '../message/messagesReducer';
 import mute from '../mute/muteReducer';
-import nav from '../nav/navReducer';
 import outbox from '../outbox/outboxReducer';
 import presence from '../presence/presenceReducer';
 import realm from '../realm/realmReducer';
@@ -46,7 +45,6 @@ const reducers = {
   messages,
   narrows,
   mute,
-  nav,
   outbox,
   presence,
   realm,
