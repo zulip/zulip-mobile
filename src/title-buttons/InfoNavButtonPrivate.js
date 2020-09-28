@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import NavButton from '../nav/NavButton';
@@ -21,8 +22,8 @@ type Props = $ReadOnly<{|
 
 class InfoNavButtonPrivate extends PureComponent<Props> {
   handlePress = () => {
-    const { dispatch, userId } = this.props;
-    dispatch(navigateToAccountDetails(userId));
+    const { userId } = this.props;
+    NavigationService.dispatch(navigateToAccountDetails(userId));
   };
 
   render() {

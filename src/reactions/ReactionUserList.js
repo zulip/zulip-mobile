@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from '../react-redux';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
@@ -20,8 +21,7 @@ type Props = $ReadOnly<{|
  */
 class ReactionUserList extends PureComponent<Props> {
   handlePress = (user: UserOrBot) => {
-    const { dispatch } = this.props;
-    dispatch(navigateToAccountDetails(user.user_id));
+    NavigationService.dispatch(navigateToAccountDetails(user.user_id));
   };
 
   render() {

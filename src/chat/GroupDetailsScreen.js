@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
@@ -24,7 +25,7 @@ type Props = $ReadOnly<{|
 
 class GroupDetailsScreen extends PureComponent<Props> {
   handlePress = (user: UserOrBot) => {
-    this.props.dispatch(navigateToAccountDetails(user.user_id));
+    NavigationService.dispatch(navigateToAccountDetails(user.user_id));
   };
 
   render() {
