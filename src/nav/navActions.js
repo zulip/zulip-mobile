@@ -2,9 +2,7 @@
 import { StackActions } from 'react-navigation';
 
 import type {
-  Dispatch,
   NavigationAction,
-  GetState,
   Message,
   Narrow,
   UserOrBot,
@@ -13,8 +11,7 @@ import type {
 } from '../types';
 import { getSameRoutesCount } from '../selectors';
 
-export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigationAction =>
-  dispatch(StackActions.pop({ n: getSameRoutesCount() }));
+export const navigateBack = (): NavigationAction => StackActions.pop({ n: getSameRoutesCount() });
 
 // Other stack routes reached through `navReducer`:
 //    StackActions.push({ routeName: 'loading' });
