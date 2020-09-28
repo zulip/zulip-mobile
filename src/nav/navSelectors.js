@@ -18,7 +18,7 @@ export const getCurrentRouteParams = (state: GlobalState): void | { narrow?: Nar
   getCurrentRoute(state)?.params;
 
 export const getChatScreenParams = (state: GlobalState): { narrow?: Narrow } =>
-  getCurrentRouteParams(state) || { narrow: undefined };
+  getCurrentRouteParams(state) ?? { narrow: undefined };
 
 export const getCanGoBack = (state: GlobalState) => state.nav.index > 0;
 
