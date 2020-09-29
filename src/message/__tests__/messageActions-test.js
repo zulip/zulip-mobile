@@ -16,7 +16,7 @@ const streamNarrowStr = JSON.stringify(streamNarrowObj);
 
 describe('messageActions', () => {
   describe('doNarrow', () => {
-    test('actions to switch narrow and push to nav dispatched', () => {
+    test('action to push to nav dispatched', () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           accounts: [eg.selfAccount],
@@ -29,10 +29,9 @@ describe('messageActions', () => {
       store.dispatch(doNarrow(streamNarrowObj));
       const actions = store.getActions();
 
-      expect(actions).toHaveLength(2);
-      const [action0, action1] = actions;
-      expect(action0.type).toBe('DO_NARROW');
-      expect(action1.type).toBe('Navigation/PUSH');
+      expect(actions).toHaveLength(1);
+      const [action0] = actions;
+      expect(action0.type).toBe('Navigation/PUSH');
     });
 
     test('if new narrow stream is not valid, do nothing', () => {

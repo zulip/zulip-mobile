@@ -4,29 +4,10 @@ import deepFreeze from 'deep-freeze';
 import * as eg from '../../__tests__/lib/exampleData';
 import fetchingReducer from '../fetchingReducer';
 import { HOME_NARROW, HOME_NARROW_STR, streamNarrow } from '../../utils/narrow';
-import { DO_NARROW, MESSAGE_FETCH_START, MESSAGE_FETCH_ERROR } from '../../actionConstants';
+import { MESSAGE_FETCH_START, MESSAGE_FETCH_ERROR } from '../../actionConstants';
 import { DEFAULT_FETCHING } from '../fetchingSelectors';
 
 describe('fetchingReducer', () => {
-  describe('DO_NARROW', () => {
-    test('resets state', () => {
-      const initialState = deepFreeze({
-        '[]': { older: true, newer: true },
-      });
-
-      const action = deepFreeze({
-        type: DO_NARROW,
-        narrow: streamNarrow('some stream'),
-      });
-
-      const expectedState = {};
-
-      const newState = fetchingReducer(initialState, action);
-
-      expect(newState).toEqual(expectedState);
-    });
-  });
-
   describe('MESSAGE_FETCH_START', () => {
     test('if messages are fetched before or after the corresponding flag is set', () => {
       const initialState = deepFreeze({

@@ -4,7 +4,6 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  DO_NARROW,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
@@ -68,7 +67,6 @@ export default (state: FetchingState = initialState, action: Action): FetchingSt
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:
-    case DO_NARROW:
     case ACCOUNT_SWITCH:
       return initialState;
 

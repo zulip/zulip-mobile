@@ -22,7 +22,6 @@ import {
   INITIAL_FETCH_COMPLETE,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
-  DO_NARROW,
   PRESENCE_RESPONSE,
   MESSAGE_SEND_START,
   MESSAGE_SEND_COMPLETE,
@@ -541,11 +540,6 @@ type DraftUpdateAction = {|
   content: string,
 |};
 
-type DoNarrowAction = {|
-  type: typeof DO_NARROW,
-  narrow: Narrow,
-|};
-
 type PresenceResponseAction = {|
   type: typeof PRESENCE_RESPONSE,
   presence: PresenceState,
@@ -607,7 +601,6 @@ type SessionAction =
   | AppOnlineAction
   | InitSafeAreaInsetsAction
   | AppOrientationAction
-  | DoNarrowAction
   | GotPushTokenAction
   | DebugFlagToggleAction
   | ToggleOutboxSendingAction;
