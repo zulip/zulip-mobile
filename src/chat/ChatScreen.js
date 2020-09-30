@@ -173,11 +173,13 @@ class ChatScreen extends PureComponent<Props, State> {
 export default compose(
   // https://reactnavigation.org/docs/4.x/function-after-focusing-screen/#triggering-an-action-with-the-withnavigationfocus-higher-order-component
   withNavigationFocus,
-  connect<SelectorProps, _, _>((state, props) => ({
-    loading: getLoading(state),
-    fetching: getFetchingForNarrow(state, props.navigation.state.params.narrow),
-    haveNoMessages:
-      getShownMessagesForNarrow(state, props.navigation.state.params.narrow).length === 0,
-    eventQueueId: getSession(state).eventQueueId,
-  })),
+  connect<SelectorProps, _, _>((state, props) => {
+    const { narrow } = props.navigation.state.params;
+    return {
+      loading: getLoading(state),
+      fetching: getFetchingForNarrow(state, narrow),
+      haveNoMessages: getShownMessagesForNarrow(state, narrow).length === 0,
+      eventQueueId: getSession(state).eventQueueId,
+    };
+  }),
 )(ChatScreen);
