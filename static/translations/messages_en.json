@@ -33,6 +33,7 @@
   "Username": "Username",
   "Password": "Password",
   "Why not start the conversation?": "Why not start the conversation?",
+  "That conversation doesn't seem to exist.": "That conversation doesn't seem to exist.",
   "Chat": "Chat",
   "Sign in with {method}": "Sign in with {method}",
   "Cannot connect to server": "Cannot connect to server",

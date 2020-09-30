@@ -16,15 +16,17 @@ import ChatNavBar from '../nav/ChatNavBar';
 import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
 import FetchError from './FetchError';
+import InvalidNarrow from './InvalidNarrow';
 import { fetchMessagesInNarrow } from '../message/fetchActions';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 import { canSendToNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
-import { getShownMessagesForNarrow } from './narrowsSelectors';
+import { getShownMessagesForNarrow, isNarrowValid } from './narrowsSelectors';
 
 type SelectorProps = {|
+  isNarrowValid: boolean,
   fetching: Fetching,
   haveNoMessages: boolean,
   loading: boolean,
@@ -142,7 +144,9 @@ class ChatScreen extends PureComponent<Props, State> {
             <OfflineNotice />
             <UnreadNotice narrow={narrow} />
             {(() => {
-              if (this.state.fetchError !== null) {
+              if (!this.props.isNarrowValid) {
+                return <InvalidNarrow narrow={narrow} />;
+              } else if (this.state.fetchError !== null) {
                 return <FetchError narrow={narrow} error={this.state.fetchError} />;
               } else if (sayNoMessages) {
                 return <NoMessages narrow={narrow} />;
@@ -176,6 +180,7 @@ export default compose(
   connect<SelectorProps, _, _>((state, props) => {
     const { narrow } = props.navigation.state.params;
     return {
+      isNarrowValid: isNarrowValid(state, narrow),
       loading: getLoading(state),
       fetching: getFetchingForNarrow(state, narrow),
       haveNoMessages: getShownMessagesForNarrow(state, narrow).length === 0,

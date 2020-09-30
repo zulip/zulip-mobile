@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Narrow, Dispatch, GetState } from '../types';
-import { getAuth, getUsersById, isNarrowValid, getIsHydrated } from '../selectors';
+import { getAuth, getUsersById, getIsHydrated } from '../selectors';
 import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
 import openLink from '../utils/openLink';
 import { navigateToChat } from '../nav/navActions';
@@ -12,7 +12,7 @@ import { isUrlOnRealm } from '../utils/url';
 /**
  * Navigate to the given narrow.
  *
- * If the narrow is invalid or narrowing is impossible, silently does nothing.
+ * If the store is not yet hydrated, silently does nothing.
  */
 export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
   dispatch: Dispatch,
@@ -20,7 +20,7 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
 ) => {
   const state = getState();
 
-  if (!isNarrowValid(state, narrow) || !getIsHydrated(state)) {
+  if (!getIsHydrated(state)) {
     return;
   }
 
