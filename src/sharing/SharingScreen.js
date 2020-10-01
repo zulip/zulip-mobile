@@ -6,7 +6,7 @@ import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { FormattedMessage } from 'react-intl';
 import type { Dispatch, SharedData, Auth, TabNavigationOptionsPropsType } from '../types';
 import { createStyleSheet } from '../styles';
-import tabsOptions from '../styles/tabs';
+import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { tryGetAuth } from '../selectors';
@@ -51,7 +51,7 @@ const SharingTopTabNavigator = createMaterialTopTabNavigator(
     },
   },
   {
-    ...tabsOptions({
+    ...materialTopTabNavigatorConfig({
       showLabel: true,
       showIcon: false,
     }),

@@ -21,7 +21,7 @@ import { getOwnUser } from '../selectors';
 import aggregateReactions from './aggregateReactions';
 import styles from '../styles';
 import { getAllUsersById } from '../users/userSelectors';
-import tabsOptions from '../styles/tabs';
+import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import Emoji from '../emoji/Emoji';
 import { objectFromEntries } from '../jsBackport';
 import { navigateBack } from '../nav/navActions';
@@ -92,7 +92,7 @@ const getReactionsTabs = (
         ? { initialRouteName: reactionName }
         : Object.freeze({})),
 
-      ...tabsOptions({
+      ...materialTopTabNavigatorConfig({
         showLabel: true,
         showIcon: false,
         style: {

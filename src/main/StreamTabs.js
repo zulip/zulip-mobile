@@ -6,7 +6,7 @@ import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import type { TabNavigationOptionsPropsType } from '../types';
 import { createStyleSheet } from '../styles';
-import tabsOptions from '../styles/tabs';
+import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import SubscriptionsCard from '../streams/SubscriptionsCard';
 import StreamListCard from '../subscriptions/StreamListCard';
 
@@ -41,7 +41,7 @@ export default createMaterialTopTabNavigator(
     },
   },
   {
-    ...tabsOptions({
+    ...materialTopTabNavigatorConfig({
       showLabel: true,
       showIcon: false,
     }),

@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import type { TabNavigationOptionsPropsType } from '../types';
-import tabsOptions from '../styles/tabs';
+import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeTab from './HomeTab';
 import StreamTabs from './StreamTabs';
 import PmConversationsCard from '../pm-conversations/PmConversationsCard';
@@ -62,7 +62,7 @@ export default createBottomTabNavigator(
   },
   {
     backBehavior: 'none',
-    ...tabsOptions({
+    ...bottomTabNavigatorConfig({
       showLabel: !!Platform.isPad,
       showIcon: true,
     }),
