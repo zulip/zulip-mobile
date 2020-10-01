@@ -30,6 +30,7 @@ const styles = createStyleSheet({
 const SharingTopTabNavigator = createMaterialTopTabNavigator(
   {
     subscribed: {
+      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: ShareToStream,
       navigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (
@@ -40,6 +41,7 @@ const SharingTopTabNavigator = createMaterialTopTabNavigator(
       },
     },
     allStreams: {
+      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: ShareToPm,
       navigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (
