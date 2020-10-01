@@ -10,8 +10,6 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default ({ showLabel, showIcon, style }: Props) => ({
-  swipeEnabled: false,
-  animationEnabled: false,
   tabBarOptions: {
     showLabel,
     showIcon,
