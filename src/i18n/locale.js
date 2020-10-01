@@ -25,6 +25,7 @@ import lt from 'react-intl/locale-data/lt';
 import ml from 'react-intl/locale-data/ml';
 import nb from 'react-intl/locale-data/nb';
 import nl from 'react-intl/locale-data/nl';
+import pa from 'react-intl/locale-data/pa';
 import pl from 'react-intl/locale-data/pl';
 import pt from 'react-intl/locale-data/pt';
 import ro from 'react-intl/locale-data/ro';
@@ -33,6 +34,7 @@ import sk from 'react-intl/locale-data/sk';
 import sr from 'react-intl/locale-data/sr';
 import sv from 'react-intl/locale-data/sv';
 import ta from 'react-intl/locale-data/ta';
+import te from 'react-intl/locale-data/te';
 import tr from 'react-intl/locale-data/tr';
 import uk from 'react-intl/locale-data/uk';
 import uz from 'react-intl/locale-data/uz';
@@ -64,6 +66,7 @@ import zh from 'react-intl/locale-data/zh';
   ml,
   nb,
   nl,
+  pa,
   pl,
   pt,
   ro,
@@ -72,6 +75,7 @@ import zh from 'react-intl/locale-data/zh';
   sr,
   sv,
   ta,
+  te,
   tr,
   uk,
   uz,
