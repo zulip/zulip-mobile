@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
-import type { NavigationScreenProp } from 'react-navigation';
+import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
 import { ZulipVersion } from '../utils/zulipVersion';
 import type { ApiResponseServerSettings, Dispatch } from '../types';
@@ -16,7 +16,12 @@ type SelectorProps = {|
 |};
 
 type Props = $ReadOnly<{|
-  navigation: NavigationScreenProp<{
+  // Since we've put this screen in a stack-nav route config, and we
+  // don't invoke it without type-checking anywhere else (in fact, we
+  // don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free.
+  navigation: NavigationStackProp<{|
+    ...NavigationStateRoute,
     params?: {|
       realm: URL | void,
       // Currently passed as `true` in a hack in `navReducer.js`; see
@@ -24,7 +29,7 @@ type Props = $ReadOnly<{|
       // TODO: Stop using that hack.
       initial?: boolean,
     |},
-  }>,
+  |}>,
 
   dispatch: Dispatch,
   ...SelectorProps,

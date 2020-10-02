@@ -2,7 +2,11 @@
 import React, { PureComponent } from 'react';
 import { TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
-import type { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
+import type {
+  NavigationEventSubscription,
+  NavigationScreenProp,
+  NavigationState,
+} from 'react-navigation';
 
 import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
@@ -45,7 +49,7 @@ type Props = $ReadOnly<{|
    * it appears not to contain an explicit domain.
    */
   defaultDomain: string,
-  navigation: NavigationScreenProp<mixed>,
+  navigation: NavigationScreenProp<NavigationState>,
   style?: ViewStyleProp,
   onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
