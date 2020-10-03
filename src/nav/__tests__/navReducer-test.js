@@ -1,14 +1,9 @@
 import deepFreeze from 'deep-freeze';
 
-import { LOGIN_SUCCESS, INITIAL_FETCH_COMPLETE, REHYDRATE } from '../../actionConstants';
-import navReducer, {
-  getStateForRoute,
-  initialState as initialNavigationState,
-} from '../navReducer';
+import { LOGIN_SUCCESS, INITIAL_FETCH_COMPLETE } from '../../actionConstants';
+import navReducer, { getStateForRoute } from '../navReducer';
 
 describe('navReducer', () => {
-  const initialState = deepFreeze(initialNavigationState);
-
   describe('LOGIN_SUCCESS', () => {
     test('replaces the existing route stack with "loading" on sign in', () => {
       const prevState = deepFreeze({
@@ -43,140 +38,6 @@ describe('navReducer', () => {
       const newState = navReducer(prevState, action);
 
       expect(newState).toBe(prevState);
-    });
-  });
-
-  describe('REHYDRATE', () => {
-    test('when no previous navigation is given do not throw but return some result', () => {
-      const action = deepFreeze({
-        type: REHYDRATE,
-        payload: {
-          accounts: [{ apiKey: '123' }],
-          users: [],
-          realm: {},
-        },
-      });
-
-      const nav = navReducer(initialState, action);
-
-      expect(nav.routes).toHaveLength(1);
-    });
-
-    test('if logged in and users is empty, go to loading', () => {
-      const action = deepFreeze({
-        type: REHYDRATE,
-        payload: {
-          accounts: [{ apiKey: '123' }],
-          users: [],
-          realm: {},
-        },
-      });
-
-      const nav = navReducer(initialState, action);
-
-      expect(nav.routes).toHaveLength(1);
-      expect(nav.routes[0].routeName).toEqual('loading');
-    });
-
-    test('if logged in and users is not empty, go to main', () => {
-      const action = deepFreeze({
-        type: REHYDRATE,
-        payload: {
-          accounts: [{ apiKey: '123' }],
-          users: [{ user_id: 123 }],
-          realm: {},
-        },
-      });
-
-      const nav = navReducer(initialState, action);
-
-      expect(nav.routes).toHaveLength(1);
-      expect(nav.routes[0].routeName).toEqual('main');
-    });
-
-    test('if not logged in, and no previous accounts, show login screen', () => {
-      const action = deepFreeze({
-        type: REHYDRATE,
-        payload: {
-          accounts: [],
-          users: [],
-          realm: {},
-        },
-      });
-
-      const nav = navReducer(initialState, action);
-
-      expect(nav.routes).toHaveLength(1);
-      expect(nav.routes[0].routeName).toEqual('realm');
-    });
-
-    test('if more than one account and no active account, display account list', () => {
-      const action = deepFreeze({
-        type: REHYDRATE,
-        payload: {
-          accounts: [{ apiKey: '' }, { apiKey: '' }],
-          users: [],
-          realm: {},
-        },
-      });
-
-      const nav = navReducer(initialState, action);
-
-      expect(nav.routes).toHaveLength(1);
-      expect(nav.routes[0].routeName).toEqual('account');
-    });
-
-    test('when only a single account and no other properties, redirect to login screen', () => {
-      const action = deepFreeze({
-        type: REHYDRATE,
-        payload: {
-          accounts: [{ apiKey: '', realm: new URL('https://example.com') }],
-          users: [],
-          realm: {},
-        },
-      });
-
-      const nav = navReducer(initialState, action);
-
-      expect(nav.routes).toHaveLength(1);
-      expect(nav.routes[0].routeName).toEqual('realm');
-    });
-
-    test('when multiple accounts and default one has realm and email, show account list', () => {
-      const action = deepFreeze({
-        type: REHYDRATE,
-        payload: {
-          accounts: [
-            { apiKey: '', realm: new URL('https://example.com'), email: 'johndoe@example.com' },
-            { apiKey: '', realm: new URL('https://example.com'), email: 'janedoe@example.com' },
-          ],
-          users: [],
-          realm: {},
-        },
-      });
-
-      const nav = navReducer(initialState, action);
-
-      expect(nav.routes).toHaveLength(1);
-      expect(nav.routes[0].routeName).toEqual('account');
-    });
-
-    test('when default account has server and email set, redirect to login screen', () => {
-      const action = deepFreeze({
-        type: REHYDRATE,
-        payload: {
-          accounts: [
-            { apiKey: '', realm: new URL('https://example.com'), email: 'johndoe@example.com' },
-          ],
-          users: [],
-          realm: {},
-        },
-      });
-
-      const nav = navReducer(initialState, action);
-
-      expect(nav.routes).toHaveLength(1);
-      expect(nav.routes[0].routeName).toEqual('realm');
     });
   });
 });

@@ -10,6 +10,7 @@ import CompatibilityChecker from './boot/CompatibilityChecker';
 import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
 import BackNavigationHandler from './nav/BackNavigationHandler';
+import InitialNavigationDispatcher from './nav/InitialNavigationDispatcher';
 import AppWithNavigation from './nav/AppWithNavigation';
 import NavigationService from './nav/NavigationService';
 
@@ -28,9 +29,11 @@ export default (): React$Node => (
         <AppDataFetcher>
           <TranslationProvider>
             <ThemeProvider>
-              <BackNavigationHandler>
-                <AppWithNavigation ref={NavigationService.reduxContainerRef} />
-              </BackNavigationHandler>
+              <InitialNavigationDispatcher>
+                <BackNavigationHandler>
+                  <AppWithNavigation ref={NavigationService.reduxContainerRef} />
+                </BackNavigationHandler>
+              </InitialNavigationDispatcher>
             </ThemeProvider>
           </TranslationProvider>
         </AppDataFetcher>

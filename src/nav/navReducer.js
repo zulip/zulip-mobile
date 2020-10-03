@@ -3,14 +3,7 @@ import type { NavigationAction } from 'react-navigation';
 
 import type { NavigationState, Action } from '../types';
 import AppNavigator from './AppNavigator';
-import {
-  REHYDRATE,
-  INITIAL_FETCH_COMPLETE,
-  ACCOUNT_SWITCH,
-  LOGIN_SUCCESS,
-  LOGOUT,
-} from '../actionConstants';
-import { hasAuth } from '../account/accountsSelectors';
+import { INITIAL_FETCH_COMPLETE, ACCOUNT_SWITCH, LOGIN_SUCCESS, LOGOUT } from '../actionConstants';
 
 /**
  * Get the initial state for the given route.
@@ -41,43 +34,10 @@ export const getStateForRoute = (route: string): NavigationState => {
   return state;
 };
 
-const rehydrate = (state, action) => {
-  // If there's no data to rehydrate, or no account data, show login screen.
-  if (!action.payload || !action.payload.accounts) {
-    return getStateForRoute('realm');
-  }
-
-  // If there are accounts but the active account is not logged in,
-  // show account screen.
-  const rehydratedState = action.payload;
-  if (!hasAuth(rehydratedState)) {
-    const { accounts } = rehydratedState;
-    return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'realm');
-  }
-
-  // If there's an active, logged-in account but no server data, then behave
-  // like `ACCOUNT_SWITCH`: show loading screen.  Crucially, `sessionReducer`
-  // will have set `needsInitialFetch`, too, so we really will be loading.
-  //
-  // (Valid server data must have a user: the self user, at a minimum.
-  // Compare getHaveServerData; this has an extra check because `users`
-  // may be missing entirely.)
-  if (rehydratedState.users === undefined || rehydratedState.users.length === 0) {
-    return getStateForRoute('loading');
-  }
-
-  // Great: we have an active, logged-in account, and server data for it.
-  // Show the main UI.
-  return getStateForRoute('main');
-};
-
 export const initialState = getStateForRoute('loading');
 
 export default (state: NavigationState = initialState, action: Action): NavigationState => {
   switch (action.type) {
-    case REHYDRATE:
-      return rehydrate(state, action);
-
     case ACCOUNT_SWITCH:
     case LOGIN_SUCCESS:
       return getStateForRoute('loading');

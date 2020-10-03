@@ -91,7 +91,8 @@ const rehydrate = (state, action) => {
     // On rehydration, do an initial fetch if we have access to an account
     // (indicated by the presence of an api key). Otherwise, the initial fetch
     // will be initiated on loginSuccess.
-    // NB navReducer's rehydrate logic depends intimately on this behavior.
+    // NB `InitialNavigationDispatcher`'s `doInitialNavigation`
+    // depends intimately on this behavior.
     needsInitialFetch: haveApiKey,
   };
 };
