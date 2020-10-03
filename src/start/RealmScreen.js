@@ -12,7 +12,7 @@ import * as api from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
 
 type SelectorProps = {|
-  +initialRealm: string,
+  +initialRealmInputValue: string,
 |};
 
 type Props = $ReadOnly<{|
@@ -44,7 +44,7 @@ type State = {|
 class RealmScreen extends PureComponent<Props, State> {
   state = {
     progress: false,
-    realmInputValue: this.props.initialRealm,
+    realmInputValue: this.props.initialRealmInputValue,
     error: null,
   };
 
@@ -92,14 +92,14 @@ class RealmScreen extends PureComponent<Props, State> {
   handleRealmChange = (value: string) => this.setState({ realmInputValue: value });
 
   componentDidMount() {
-    const { initialRealm } = this.props;
-    if (initialRealm && initialRealm.length > 0) {
+    const { initialRealmInputValue } = this.props;
+    if (initialRealmInputValue && initialRealmInputValue.length > 0) {
       this.tryRealm();
     }
   }
 
   render() {
-    const { initialRealm, navigation } = this.props;
+    const { initialRealmInputValue, navigation } = this.props;
     const { progress, error, realmInputValue } = this.state;
 
     const styles = {
@@ -124,7 +124,7 @@ class RealmScreen extends PureComponent<Props, State> {
           defaultProtocol="https://"
           defaultOrganization="your-org"
           defaultDomain="zulipchat.com"
-          defaultValue={initialRealm}
+          defaultValue={initialRealmInputValue}
           onChangeText={this.handleRealmChange}
           onSubmitEditing={this.tryRealm}
           enablesReturnKeyAutomatically
@@ -147,5 +147,5 @@ class RealmScreen extends PureComponent<Props, State> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  initialRealm: props.navigation.state.params?.realm?.toString() ?? '',
+  initialRealmInputValue: props.navigation.state.params?.realm?.toString() ?? '',
 }))(RealmScreen);
