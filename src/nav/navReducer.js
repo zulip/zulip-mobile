@@ -3,7 +3,7 @@ import type { NavigationAction } from 'react-navigation';
 
 import type { NavigationState, Action } from '../types';
 import AppNavigator from './AppNavigator';
-import { INITIAL_FETCH_COMPLETE, ACCOUNT_SWITCH, LOGIN_SUCCESS, LOGOUT } from '../actionConstants';
+import { INITIAL_FETCH_COMPLETE, ACCOUNT_SWITCH, LOGIN_SUCCESS } from '../actionConstants';
 
 /**
  * Get the initial state for the given route.
@@ -34,9 +34,6 @@ export default (state: NavigationState = initialState, action: Action): Navigati
 
     case INITIAL_FETCH_COMPLETE:
       return state.routes[0].routeName === 'main' ? state : getStateForRoute('main');
-
-    case LOGOUT:
-      return getStateForRoute('account');
 
     default: {
       // The `react-navigation` libdef says this only takes a NavigationAction,

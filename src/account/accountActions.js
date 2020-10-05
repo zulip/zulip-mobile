@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Action } from '../types';
+import type { Action, Dispatch, GetState } from '../types';
 import {
   ACCOUNT_SWITCH,
   REALM_ADD,
@@ -7,6 +7,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from '../actionConstants';
+import { resetToAccountPicker } from '../nav/navActions';
 import type { ZulipVersion } from '../utils/zulipVersion';
 
 export const accountSwitch = (index: number): Action => ({
@@ -37,6 +38,11 @@ export const loginSuccess = (realm: URL, email: string, apiKey: string): Action 
   apiKey,
 });
 
-export const logout = (): Action => ({
+const logoutPlain = (): Action => ({
   type: LOGOUT,
 });
+
+export const logout = () => async (dispatch: Dispatch, getState: GetState) => {
+  dispatch(resetToAccountPicker());
+  dispatch(logoutPlain());
+};
