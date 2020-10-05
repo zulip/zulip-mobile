@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { StackActions } from 'react-navigation';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 import type {
   NavigationAction,
@@ -13,11 +13,35 @@ import { getSameRoutesCount } from '../selectors';
 
 export const navigateBack = (): NavigationAction => StackActions.pop({ n: getSameRoutesCount() });
 
-// Other stack routes reached through `navReducer`:
-//    StackActions.push({ routeName: 'loading' });
-//    StackActions.push({ routeName: 'realm' });
-//    StackActions.push({ routeName: 'account' });
-//    StackActions.push({ routeName: 'main' });
+/*
+ * "Reset" actions, to explicitly prohibit back navigation.
+ */
+
+export const resetToLoading = (): NavigationAction =>
+  StackActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'loading' })] });
+
+export const resetToRealmScreen = (
+  args: { realm?: URL, initial?: boolean } = {},
+): NavigationAction =>
+  StackActions.reset({
+    index: 0,
+    actions: [
+      NavigationActions.navigate({
+        routeName: 'realm',
+        params: { realm: args.realm, initial: args.initial },
+      }),
+    ],
+  });
+
+export const resetToAccountPicker = (): NavigationAction =>
+  StackActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'account' })] });
+
+export const resetToMainTabs = (): NavigationAction =>
+  StackActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'main' })] });
+
+/*
+ * Ordinary "push" actions that will push to the stack.
+ */
 
 /** Only call this via `doNarrow`.  See there for details. */
 export const navigateToChat = (narrow: Narrow): NavigationAction =>
