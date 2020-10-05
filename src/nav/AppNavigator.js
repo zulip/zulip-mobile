@@ -94,7 +94,7 @@ export default createStackNavigator(
         ios: TransitionPresets.DefaultTransition,
       }),
     },
-    initialRouteName: 'main',
+    initialRouteName: 'loading',
     headerMode: 'none',
   },
 );
