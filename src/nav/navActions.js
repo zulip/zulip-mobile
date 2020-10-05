@@ -48,8 +48,8 @@ export const navigateToAccountDetails = (userId: number): NavigationAction =>
 export const navigateToGroupDetails = (recipients: UserOrBot[]): NavigationAction =>
   StackActions.push({ routeName: 'group-details', params: { recipients } });
 
-export const navigateToRealmScreen = (realm?: URL): NavigationAction =>
-  StackActions.push({ routeName: 'realm', params: { realm } });
+export const navigateToRealmScreen = (args: { realm?: URL } = {}): NavigationAction =>
+  StackActions.push({ routeName: 'realm', params: { realm: args.realm } });
 
 export const navigateToLightbox = (src: string, message: Message): NavigationAction =>
   StackActions.push({ routeName: 'lightbox', params: { src, message } });
