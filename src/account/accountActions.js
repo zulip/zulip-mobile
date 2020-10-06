@@ -36,12 +36,20 @@ export const removeAccount = (index: number): Action => ({
   index,
 });
 
-export const loginSuccess = (realm: URL, email: string, apiKey: string): Action => ({
+const loginSuccessPlain = (realm: URL, email: string, apiKey: string): Action => ({
   type: LOGIN_SUCCESS,
   realm,
   email,
   apiKey,
 });
+
+export const loginSuccess = (realm: URL, email: string, apiKey: string) => (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  dispatch(resetToLoading());
+  dispatch(loginSuccessPlain(realm, email, apiKey));
+};
 
 const logoutPlain = (): Action => ({
   type: LOGOUT,

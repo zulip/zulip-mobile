@@ -3,7 +3,7 @@ import type { NavigationAction } from 'react-navigation';
 
 import type { NavigationState, Action } from '../types';
 import AppNavigator from './AppNavigator';
-import { INITIAL_FETCH_COMPLETE, LOGIN_SUCCESS } from '../actionConstants';
+import { INITIAL_FETCH_COMPLETE } from '../actionConstants';
 
 /**
  * Get the initial state for the given route.
@@ -28,9 +28,6 @@ export const initialState = getStateForRoute('loading');
 
 export default (state: NavigationState = initialState, action: Action): NavigationState => {
   switch (action.type) {
-    case LOGIN_SUCCESS:
-      return getStateForRoute('loading');
-
     case INITIAL_FETCH_COMPLETE:
       return state.routes[0].routeName === 'main' ? state : getStateForRoute('main');
 
