@@ -10,6 +10,7 @@ import type {
 } from '../types';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
+import { resetToMainTabs } from '../actions';
 import { isClientError } from '../api/apiErrors';
 import {
   getAuth,
@@ -18,6 +19,7 @@ import {
   getLastMessageId,
   getCaughtUpForNarrow,
   getFetchingForNarrow,
+  getNavigationRoutes,
 } from '../selectors';
 import config from '../config';
 import {
@@ -156,9 +158,25 @@ const initialFetchStart = (): Action => ({
   type: INITIAL_FETCH_START,
 });
 
-const initialFetchComplete = (): Action => ({
+const initialFetchCompletePlain = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
+
+export const initialFetchComplete = () => async (dispatch: Dispatch, getState: GetState) => {
+  if (getNavigationRoutes()[0].routeName !== 'main') {
+    // If we're anywhere in the normal UI of the app, then remain
+    // where we are. Only reset the nav state if we're elsewhere,
+    // and in that case, go to the main screen.
+    //
+    // TODO: "elsewhere" is probably just a way of saying "on the
+    // loading screen", but we're not sure. We could adjust the
+    // conditional accordingly, if we found out we're not depending on
+    // the more general condition; see
+    //   https://github.com/zulip/zulip-mobile/pull/4274#discussion_r505941875
+    dispatch(resetToMainTabs());
+  }
+  dispatch(initialFetchCompletePlain());
+};
 
 /** Private; exported only for tests. */
 export const isFetchNeededAtAnchor = (
