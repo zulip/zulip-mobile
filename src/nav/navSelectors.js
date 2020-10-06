@@ -5,7 +5,7 @@ import NavigationService from './NavigationService';
 
 export const getNavState = (): NavigationState => NavigationService.getState();
 
-const getNavigationRoutes = () => getNavState().routes;
+export const getNavigationRoutes = () => getNavState().routes;
 
 const getNavigationIndex = () => getNavState().index;
 
