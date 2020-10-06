@@ -16,7 +16,6 @@ import { FIRST_UNREAD_ANCHOR } from '../../anchor';
 import type { Message } from '../../api/modelTypes';
 import type { ServerMessage } from '../../api/messages/getMessages';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
-import { navStateWithNarrow } from '../../utils/testHelpers';
 import * as eg from '../../__tests__/lib/exampleData';
 
 const mockStore = configureStore([thunk]);
@@ -41,7 +40,6 @@ describe('fetchActions', () => {
             older: true,
           },
         },
-        ...navStateWithNarrow(HOME_NARROW),
         narrows: {
           [streamNarrowStr]: [],
         },
@@ -64,7 +62,6 @@ describe('fetchActions', () => {
             older: false,
           },
         },
-        ...navStateWithNarrow(HOME_NARROW),
         narrows: {
           [streamNarrowStr]: [1],
         },
@@ -116,7 +113,6 @@ describe('fetchActions', () => {
     const message1 = eg.streamMessage({ id: 1 });
 
     const baseState = eg.reduxState({
-      ...navStateWithNarrow(HOME_NARROW),
       accounts: [eg.makeAccount()],
       narrows: {
         [streamNarrowStr]: [message1.id],
@@ -295,7 +291,6 @@ describe('fetchActions', () => {
     test('when messages to be fetched both before and after anchor, numBefore and numAfter are greater than zero', async () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
-          ...navStateWithNarrow(HOME_NARROW),
           accounts: [eg.selfAccount],
           narrows: {
             [streamNarrowStr]: [1],
@@ -322,7 +317,6 @@ describe('fetchActions', () => {
     test('when no messages to be fetched before the anchor, numBefore is not greater than zero', async () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
-          ...navStateWithNarrow(HOME_NARROW),
           accounts: [eg.selfAccount],
           narrows: {
             [streamNarrowStr]: [1],
@@ -348,7 +342,6 @@ describe('fetchActions', () => {
     test('when no messages to be fetched after the anchor, numAfter is not greater than zero', async () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
-          ...navStateWithNarrow(HOME_NARROW),
           accounts: [eg.selfAccount],
           narrows: {
             [streamNarrowStr]: [1],
@@ -377,7 +370,6 @@ describe('fetchActions', () => {
     const message2 = eg.streamMessage({ id: 2 });
 
     const baseState = eg.reduxState({
-      ...navStateWithNarrow(HOME_NARROW),
       accounts: [eg.selfAccount],
       narrows: {
         ...eg.baseReduxState.narrows,
@@ -471,7 +463,6 @@ describe('fetchActions', () => {
     const message2 = eg.streamMessage({ id: 2 });
 
     const baseState = eg.reduxState({
-      ...navStateWithNarrow(HOME_NARROW),
       accounts: [eg.selfAccount],
       narrows: {
         ...eg.baseReduxState.narrows,

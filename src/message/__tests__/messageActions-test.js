@@ -3,8 +3,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import { doNarrow } from '../messagesActions';
-import { streamNarrow, HOME_NARROW } from '../../utils/narrow';
-import { navStateWithNarrow } from '../../utils/testHelpers';
+import { streamNarrow } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 import type { GlobalState } from '../../reduxTypes';
 import type { Action } from '../../actionTypes';
@@ -20,7 +19,6 @@ describe('messageActions', () => {
         eg.reduxState({
           accounts: [eg.selfAccount],
           session: { ...eg.baseReduxState.session, isHydrated: true },
-          ...navStateWithNarrow(HOME_NARROW),
           streams: [eg.makeStream({ name: 'some stream' })],
         }),
       );
