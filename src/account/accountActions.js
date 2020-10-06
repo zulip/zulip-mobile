@@ -7,13 +7,18 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from '../actionConstants';
-import { resetToAccountPicker } from '../nav/navActions';
+import { resetToAccountPicker, resetToLoading } from '../nav/navActions';
 import type { ZulipVersion } from '../utils/zulipVersion';
 
-export const accountSwitch = (index: number): Action => ({
+const accountSwitchPlain = (index: number): Action => ({
   type: ACCOUNT_SWITCH,
   index,
 });
+
+export const accountSwitch = (index: number) => (dispatch: Dispatch, getState: GetState) => {
+  dispatch(resetToLoading());
+  dispatch(accountSwitchPlain(index));
+};
 
 export const realmAdd = (
   realm: URL,
