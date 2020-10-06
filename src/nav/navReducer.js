@@ -11,17 +11,7 @@ import { INITIAL_FETCH_COMPLETE, ACCOUNT_SWITCH, LOGIN_SUCCESS, LOGOUT } from '.
  * Private; exported only for tests.
  */
 export const getStateForRoute = (route: string): NavigationState => {
-  // TODO: this is kind of a hack!  Refactor to a better way.
-  //  * Perhaps pass `initial: true` unconditionally in this initialization
-  //    code, to all routes?  Then that'd just be part of the interface of
-  //    making a screen work as an initial screen.
-  //  * Alternatively, we could replace the whole system of `ModalNavBar`,
-  //    `canGoBack`, etc., with our own "navigation view" that would be more
-  //    directly integrated into the navigation framework:
-  //      https://reactnavigation.org/docs/en/2.x/navigation-views.html
-  const params = route === 'realm' ? { initial: true } : undefined;
-
-  const action = AppNavigator.router.getActionForPathAndParams(route, params);
+  const action = AppNavigator.router.getActionForPathAndParams(route);
   if (!action) {
     // The argument should be a constant string that is a genuine nav route;
     // so this condition can only happen if we've gotten that wrong.
