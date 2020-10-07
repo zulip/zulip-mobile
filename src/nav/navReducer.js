@@ -59,7 +59,9 @@ const rehydrate = (state, action) => {
   // like `ACCOUNT_SWITCH`: show loading screen.  Crucially, `sessionReducer`
   // will have set `needsInitialFetch`, too, so we really will be loading.
   //
-  // (Valid server data must have a user: the self user, at a minimum.)
+  // (Valid server data must have a user: the self user, at a minimum.
+  // Compare getHaveServerData; this has an extra check because `users`
+  // may be missing entirely.)
   if (rehydratedState.users === undefined || rehydratedState.users.length === 0) {
     return getStateForRoute('loading');
   }

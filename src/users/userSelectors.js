@@ -229,3 +229,10 @@ export const getUserForEmail = (state: GlobalState, email: string): UserOrBot =>
 // the `User` type definition.
 export const getUserIsActive = (state: GlobalState, userId: number): boolean =>
   !!getActiveUsersById(state).get(userId);
+
+/**
+ * Whether we have server data for the active account.
+ */
+// Valid server data must have a user: the self user, at a minimum.
+export const getHaveServerData = (state: GlobalState): boolean =>
+  getUsers(state).length > 0;
