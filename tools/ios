@@ -54,7 +54,8 @@ do_build() {
       -workspace ZulipMobile.xcworkspace \
       -scheme ZulipMobile \
       archive \
-      -archivePath "${archive_path}"
+      -archivePath "${archive_path}" \
+      USE_SENTRY=YES
 }
 
 do_upload() {
