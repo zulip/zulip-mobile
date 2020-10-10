@@ -234,5 +234,4 @@ export const getUserIsActive = (state: GlobalState, userId: number): boolean =>
  * Whether we have server data for the active account.
  */
 // Valid server data must have a user: the self user, at a minimum.
-export const getHaveServerData = (state: GlobalState): boolean =>
-  getUsers(state).length > 0;
+export const getHaveServerData = (state: GlobalState): boolean => getUsers(state).length > 0;
