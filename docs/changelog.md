@@ -36,7 +36,7 @@ It doesn't include
 
 ## Unreleased
 
-* Fixed crash in 27.155. (#4270)
+* Fixed crashes in 27.155. (#4270, #4275)
 
 
 ## (pre-alpha) 27.155 (2020-09-23)
