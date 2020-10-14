@@ -39,7 +39,7 @@ const styles = createStyleSheet({
 
 const SharingTopTabNavigator = createMaterialTopTabNavigator(
   {
-    subscribed: {
+    'share-to-stream': {
       // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: ShareToStream,
       navigationOptions: {
@@ -50,7 +50,7 @@ const SharingTopTabNavigator = createMaterialTopTabNavigator(
         ),
       },
     },
-    allStreams: {
+    'share-to-pm': {
       // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: ShareToPm,
       navigationOptions: {
