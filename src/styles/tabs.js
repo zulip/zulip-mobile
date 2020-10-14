@@ -1,9 +1,7 @@
 /* @flow strict-local */
 import type { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
-import type {
-  MaterialTopTabNavigatorConfig,
-  BottomTabNavigatorConfig,
-} from 'react-navigation-tabs';
+import type { ExtraMaterialTopTabNavigatorProps } from '@react-navigation/material-top-tabs';
+import type { ExtraBottomTabNavigatorProps } from '@react-navigation/bottom-tabs';
 
 import { BRAND_COLOR } from './constants';
 
@@ -31,10 +29,8 @@ const baseTabNavigatorConfig = (args: Props) => {
       style: {
         backgroundColor: 'transparent',
 
-        // Starting in React Navigation v5, if we set
-        // `backgroundColor` to 'transparent', the tab bar will look
-        // very odd on Android. It will look normal with this
-        // Android-only `elevation` attribute set to 0.
+        // Fix a bug introduced in React Navigation v5 that is exposed
+        // by setting `backgroundColor` to 'transparent', as we do.
         elevation: 0,
 
         ...style,
@@ -42,10 +38,10 @@ const baseTabNavigatorConfig = (args: Props) => {
     },
   };
 };
-export const bottomTabNavigatorConfig: Props => BottomTabNavigatorConfig = (args: Props) =>
+export const bottomTabNavigatorConfig: Props => ExtraBottomTabNavigatorProps = (args: Props) =>
   baseTabNavigatorConfig(args);
 
-export const materialTopTabNavigatorConfig: Props => MaterialTopTabNavigatorConfig = (
+export const materialTopTabNavigatorConfig: Props => ExtraMaterialTopTabNavigatorProps = (
   args: Props,
 ) => {
   const baseConfig = baseTabNavigatorConfig(args);
@@ -57,7 +53,20 @@ export const materialTopTabNavigatorConfig: Props => MaterialTopTabNavigatorConf
       indicatorStyle: {
         backgroundColor: BRAND_COLOR,
       },
-      upperCaseLabel: false,
+      // TODO: `upperCaseLabel` vanished in react-navigation v5. We
+      // used to use `false` for this, but it appears that the
+      // effective default value is `true`, at least for material top
+      // tab navigators:
+      // https://github.com/react-navigation/react-navigation/issues/7952
+      //
+      // The coercion into uppercase only happens when the tab-bar
+      // label (whether that comes directly from
+      // `options.tabBarLabel`, or from `options.title`) is a string,
+      // not a more complex React node. It also doesn't seem to happen
+      // on bottom tab navigators, just material top ones; this
+      // difference seems to align with Material Design choices (see
+      // Greg's comment at
+      // https://github.com/zulip/zulip-mobile/pull/4393#discussion_r556949209f).
       style: {
         ...baseConfig.tabBarOptions.style,
 

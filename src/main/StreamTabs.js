@@ -2,11 +2,12 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { FormattedMessage } from 'react-intl';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import {
-  createMaterialTopTabNavigator,
+  createCompatNavigatorFactory,
   type NavigationTabProp,
   type NavigationStateRoute,
-} from 'react-navigation-tabs';
+} from '@react-navigation/compat';
 
 import type { GlobalParamList } from '../nav/globalTypes';
 import { createStyleSheet } from '../styles';
@@ -20,7 +21,7 @@ export type StreamTabsNavigatorParamList = {|
 |};
 
 export type StreamTabsNavigationProp<
-  RouteName: $Keys<StreamTabsNavigatorParamList> = $Keys<StreamTabsNavigatorParamList>,
+  +RouteName: $Keys<StreamTabsNavigatorParamList> = $Keys<StreamTabsNavigatorParamList>,
 > = NavigationTabProp<{|
   ...NavigationStateRoute,
   params: $ElementType<GlobalParamList, RouteName>,
@@ -33,25 +34,23 @@ const styles = createStyleSheet({
   },
 });
 
-export default createMaterialTopTabNavigator(
+export default createCompatNavigatorFactory(createMaterialTopTabNavigator)(
   {
     subscribed: {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: SubscriptionsCard,
       navigationOptions: {
         tabBarLabel: props => (
-          <Text style={[styles.tab, { color: props.tintColor }]}>
+          <Text style={[styles.tab, { color: props.color }]}>
             <FormattedMessage id="Subscribed" defaultMessage="Subscribed" />
           </Text>
         ),
       },
     },
     allStreams: {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: StreamListCard,
       navigationOptions: {
         tabBarLabel: props => (
-          <Text style={[styles.tab, { color: props.tintColor }]}>
+          <Text style={[styles.tab, { color: props.color }]}>
             <FormattedMessage id="All streams" defaultMessage="All streams" />
           </Text>
         ),

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
 import { View } from 'react-native';
-import { withNavigationFocus } from 'react-navigation';
+import { withNavigationFocus } from '@react-navigation/compat';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { compose } from 'redux';
 

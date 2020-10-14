@@ -1,21 +1,13 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
-import type { NavigationParams } from 'react-navigation';
+import type { ScreenParams } from '@react-navigation/native';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import {
-  createStackNavigator,
+  createCompatNavigatorFactory,
   type NavigationNavigator,
-  // The FlowTyped libdef skips v2; there's one for
-  // `react-navigation-stack` v1 (we're using that one), and there's
-  // one for `@react-navigation/stack` v5, which we'll use when we're
-  // on React Navigation v5. `TransitionPresets` is missing in the v1
-  // libdef. We could go add it in ourselves, but our use of it is
-  // small and isolated, so we might as well wait for the
-  // `@react-navigation/stack` libdef.
-  // $FlowFixMe
-  TransitionPresets,
   type NavigationStackProp,
-  type NavigationStateRoute,
-} from 'react-navigation-stack';
+  NavigationStateRoute,
+} from '@react-navigation/compat';
 
 import type { Narrow, Message, SharedData } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
@@ -87,7 +79,7 @@ export type AppNavigatorParamList = {|
 |};
 
 export type AppNavigationProp<
-  RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
+  +RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
 > = NavigationStackProp<{|
   ...NavigationStateRoute,
   params: $ElementType<GlobalParamList, RouteName>,
@@ -95,11 +87,10 @@ export type AppNavigationProp<
 
 export const createAppNavigator = (args: {|
   initialRouteName: string,
-  initialRouteParams?: NavigationParams,
+  initialRouteParams?: ScreenParams,
   // flowlint-next-line deprecated-type:off
 |}): NavigationNavigator<*, *, *> =>
-  createStackNavigator(
-    // $FlowFixMe react-navigation types :-/ -- see a36814e80
+  createCompatNavigatorFactory(createStackNavigator)(
     {
       account: { screen: AccountPickScreen },
       'account-details': { screen: AccountDetailsScreen },

@@ -1,11 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import {
-  createAppContainer,
-  type NavigationState,
-  type NavigationContainerProps,
-  type NavigationContainer,
-} from 'react-navigation';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import type { NavigationNavigator } from '@react-navigation/compat';
 
 import { connect } from '../react-redux';
 import type { ThemeData } from '../styles';
@@ -42,35 +38,50 @@ class ZulipAppContainer extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
 
-  // (odd spacing choices)
-  // eslint-disable-next-line
-  AppContainer: NavigationContainer<
-    NavigationState,
-    { ... },
-    NavigationContainerProps<{ ... }, NavigationState>,
-  >;
+  // flowlint deprecated-type:off
+  AppNavigator: NavigationNavigator<*, *, *>;
 
   constructor(props: Props) {
     super(props);
     const { hasAuth, accounts, haveServerData } = this.props;
-    this.AppContainer = createAppContainer<NavigationState, { ... }>(
-      createAppNavigator(getInitialRouteInfo({ hasAuth, accounts, haveServerData })),
+    this.AppNavigator = createAppNavigator(
+      getInitialRouteInfo({ hasAuth, accounts, haveServerData }),
     );
   }
 
+  componentWillUnmount() {
+    NavigationService.isReadyRef.current = false;
+  }
+
   render() {
-    const { AppContainer } = this;
-    const { theme } = this.props;
+    const { AppNavigator } = this;
+
+    const { theme: themeName } = this.props;
+
+    const BaseTheme = themeName === 'night' ? DarkTheme : DefaultTheme;
+
+    const theme = {
+      ...BaseTheme,
+      dark: themeName === 'night',
+      colors: {
+        ...BaseTheme.colors,
+        primary: this.context.color,
+        background: this.context.backgroundColor,
+        card: this.context.cardColor,
+        border: this.context.dividerColor,
+      },
+    };
 
     return (
-      // The `theme` prop is documented, but apparently not included
-      // in the type we're using:
-      // https://reactnavigation.org/docs/4.x/themes/
-      // $FlowFixMe
-      <AppContainer
-        ref={NavigationService.appContainerRef}
-        theme={theme === 'default' ? 'light' : 'dark'}
-      />
+      <NavigationContainer
+        ref={NavigationService.navigationContainerRef}
+        onReady={() => {
+          NavigationService.isReadyRef.current = true;
+        }}
+        theme={theme}
+      >
+        <AppNavigator />
+      </NavigationContainer>
     );
   }
 }

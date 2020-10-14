@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import { StackActions, NavigationActions, type NavigationAction } from 'react-navigation';
+import { StackActions, type NavigationAction } from '@react-navigation/compat';
+import { CommonActions, type GenericNavigationAction } from '@react-navigation/native';
 
 import type { Message, Narrow, SharedData } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
@@ -11,14 +12,17 @@ export const navigateBack = (): NavigationAction => StackActions.pop({ n: getSam
  * "Reset" actions, to explicitly prohibit back navigation.
  */
 
-export const resetToLoading = (): NavigationAction =>
-  StackActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'loading' })] });
+export const resetToLoading = (): GenericNavigationAction =>
+  CommonActions.reset({
+    index: 0,
+    routes: [{ name: 'loading' }],
+  });
 
-export const resetToAccountPicker = (): NavigationAction =>
-  StackActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'account' })] });
+export const resetToAccountPicker = (): GenericNavigationAction =>
+  CommonActions.reset({ index: 0, routes: [{ name: 'account' }] });
 
-export const resetToMainTabs = (): NavigationAction =>
-  StackActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'main' })] });
+export const resetToMainTabs = (): GenericNavigationAction =>
+  CommonActions.reset({ index: 0, routes: [{ name: 'main' }] });
 
 /*
  * Ordinary "push" actions that will push to the stack.

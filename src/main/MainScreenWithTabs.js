@@ -19,8 +19,6 @@ type Props = $ReadOnly<{|
 |}>;
 
 class MainScreenWithTabs extends PureComponent<Props> {
-  static router = MainTabs.router;
-
   static contextType = ThemeContext;
   context: ThemeData;
 
@@ -40,7 +38,7 @@ class MainScreenWithTabs extends PureComponent<Props> {
       <View style={[styles.flexed, { backgroundColor: this.context.backgroundColor }]}>
         <ZulipStatusBar />
         <OfflineNotice />
-        <MainTabs navigation={this.props.navigation} />
+        <MainTabs />
       </View>
     );
   }

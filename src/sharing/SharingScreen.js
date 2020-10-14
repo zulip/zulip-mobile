@@ -1,11 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import {
-  createMaterialTopTabNavigator,
+  createCompatNavigatorFactory,
   type NavigationTabProp,
   type NavigationStateRoute,
-} from 'react-navigation-tabs';
+} from '@react-navigation/compat';
 import { FormattedMessage } from 'react-intl';
 
 import type { GlobalParamList } from '../nav/globalTypes';
@@ -27,7 +28,7 @@ export type SharingNavigatorParamList = {|
 |};
 
 export type SharingNavigationProp<
-  RouteName: $Keys<SharingNavigatorParamList> = $Keys<SharingNavigatorParamList>,
+  +RouteName: $Keys<SharingNavigatorParamList> = $Keys<SharingNavigatorParamList>,
 > = NavigationTabProp<{|
   ...NavigationStateRoute,
   params: $ElementType<GlobalParamList, RouteName>,
@@ -47,25 +48,23 @@ const styles = createStyleSheet({
   },
 });
 
-const SharingTopTabNavigator = createMaterialTopTabNavigator(
+const SharingTopTabNavigator = createCompatNavigatorFactory(createMaterialTopTabNavigator)(
   {
     'share-to-stream': {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: ShareToStream,
       navigationOptions: {
         tabBarLabel: props => (
-          <Text style={[styles.tab, { color: props.tintColor }]}>
+          <Text style={[styles.tab, { color: props.color }]}>
             <FormattedMessage id="Stream" defaultMessage="Stream" />
           </Text>
         ),
       },
     },
     'share-to-pm': {
-      // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: ShareToPm,
       navigationOptions: {
         tabBarLabel: props => (
-          <Text style={[styles.tab, { color: props.tintColor }]}>
+          <Text style={[styles.tab, { color: props.color }]}>
             <FormattedMessage id="Private Message" defaultMessage="Private Message" />
           </Text>
         ),

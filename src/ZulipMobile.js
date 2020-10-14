@@ -4,6 +4,7 @@ import 'react-native-url-polyfill/auto';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { BRAND_COLOR } from './styles';
+import ZulipNavigationContainer from './nav/ZulipNavigationContainer';
 import StoreProvider from './boot/StoreProvider';
 import HideIfNotHydrated from './boot/HideIfNotHydrated';
 import TranslationProvider from './boot/TranslationProvider';
@@ -12,7 +13,6 @@ import CompatibilityChecker from './boot/CompatibilityChecker';
 import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
 import BackNavigationHandler from './nav/BackNavigationHandler';
-import ZulipAppContainer from './nav/ZulipAppContainer';
 import { initializeSentry } from './sentry';
 import LoadingScreen from './start/LoadingScreen';
 
@@ -37,7 +37,7 @@ export default (): React$Node => (
               <TranslationProvider>
                 <ThemeProvider>
                   <BackNavigationHandler>
-                    <ZulipAppContainer />
+                    <ZulipNavigationContainer />
                   </BackNavigationHandler>
                 </ThemeProvider>
               </TranslationProvider>

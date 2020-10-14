@@ -14,8 +14,8 @@ describe('getCurrentRouteName', () => {
       deepFreeze({
         index: 1,
         routes: [
-          { routeName: 'first', params: { email: 'a@a.com' } },
-          { routeName: 'second', params: { email: 'b@a.com' } },
+          { name: 'first', params: { email: 'a@a.com' } },
+          { name: 'second', params: { email: 'b@a.com' } },
         ],
       }),
     );
@@ -34,8 +34,8 @@ describe('getCurrentRouteParams', () => {
       deepFreeze({
         index: 1,
         routes: [
-          { routeName: 'first', params: { email: 'a@a.com' } },
-          { routeName: 'second', params: { email: 'b@a.com' } },
+          { name: 'first', params: { email: 'a@a.com' } },
+          { name: 'second', params: { email: 'b@a.com' } },
         ],
       }),
     );
@@ -52,7 +52,7 @@ describe('getChatScreenParams', () => {
     NavigationService.getState = jest.fn().mockReturnValue(
       deepFreeze({
         index: 0,
-        routes: [{ routeName: 'chat' }],
+        routes: [{ name: 'chat' }],
       }),
     );
 
@@ -78,7 +78,7 @@ describe('getSameRoutesCount', () => {
   test('if last route differs from  routes the count of same routes is 0', () => {
     NavigationService.getState = jest.fn().mockReturnValue(
       deepFreeze({
-        routes: [{ routeName: 'main' }, { routeName: 'chat' }],
+        routes: [{ name: 'main' }, { name: 'chat' }],
       }),
     );
 
@@ -91,11 +91,11 @@ describe('getSameRoutesCount', () => {
     NavigationService.getState = jest.fn().mockReturnValue(
       deepFreeze({
         routes: [
-          { routeName: 'login' },
-          { routeName: 'main' },
-          { routeName: 'chat', params: { key: 'value' } },
-          { routeName: 'chat', params: { key: 'another value' } },
-          { routeName: 'chat', params: { anotherKey: 'some value' } },
+          { name: 'login' },
+          { name: 'main' },
+          { name: 'chat', params: { key: 'value' } },
+          { name: 'chat', params: { key: 'another value' } },
+          { name: 'chat', params: { anotherKey: 'some value' } },
         ],
       }),
     );

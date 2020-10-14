@@ -1,17 +1,17 @@
 /* @flow strict-local */
-import type { NavigationState, NavigationRoute } from 'react-navigation';
+import type { NavigationState, Route } from '@react-navigation/native';
 
 import * as NavigationService from './NavigationService';
 
 export const getNavState = (): NavigationState => NavigationService.getState();
 
-export const getNavigationRoutes = () => getNavState().routes;
+export const getNavigationRoutes = (): $ReadOnlyArray<Route<string>> => getNavState().routes;
 
 const getNavigationIndex = () => getNavState().index;
 
-const getCurrentRoute = (): void | NavigationRoute => getNavigationRoutes()[getNavigationIndex()];
+const getCurrentRoute = (): void | Route<string> => getNavigationRoutes()[getNavigationIndex()];
 
-export const getCurrentRouteName = () => getCurrentRoute()?.routeName;
+export const getCurrentRouteName = () => getCurrentRoute()?.name;
 
 export const getCurrentRouteParams = () => getCurrentRoute()?.params;
 
@@ -21,7 +21,7 @@ export const getSameRoutesCount = () => {
   const routes = getNavigationRoutes();
   let i = routes.length - 1;
   while (i >= 0) {
-    if (routes[i].routeName !== routes[routes.length - 1].routeName) {
+    if (routes[i].name !== routes[routes.length - 1].name) {
       break;
     }
     i--;

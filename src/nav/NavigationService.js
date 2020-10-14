@@ -1,32 +1,25 @@
 /* @flow strict-local */
 import React from 'react';
 import type {
-  NavigationAction,
+  GenericNavigationAction,
   NavigationState,
-  NavigationContainer,
-  NavigationContainerProps,
-} from 'react-navigation';
+  NavigationContainerType,
+} from '@react-navigation/native';
 
-/* prettier-ignore */
-export const appContainerRef = React.createRef<
-  React$ElementRef<
-    NavigationContainer<
-      NavigationState,
-      { ... },
-      NavigationContainerProps<{ ... }, NavigationState>>>
->();
+export const isReadyRef = React.createRef<boolean>();
+export const navigationContainerRef = React.createRef<React$ElementRef<NavigationContainerType>>();
 
 const getContainer = () => {
-  if (appContainerRef.current === null) {
-    throw new Error('Tried to use NavigationService before appContainerRef was set.');
+  if (navigationContainerRef.current === null) {
+    throw new Error('Tried to use NavigationService before `navigationContainerRef` was set.');
   }
-  return appContainerRef.current;
+  if (isReadyRef.current !== true) {
+    throw new Error('Tried to use NavigationService before `NavigationContainer` was ready.');
+  }
+  return navigationContainerRef.current;
 };
 
-export const getState = (): NavigationState =>
-  // https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/decouple.20nav.20from.20redux.20%28.23M3804%29/near/1056167
-  // $FlowFixMe
-  getContainer().state.nav;
+export const getState = (): NavigationState => getContainer().getRootState();
 
-export const dispatch = (navigationAction: NavigationAction): boolean =>
+export const dispatch = (navigationAction: GenericNavigationAction): void =>
   getContainer().dispatch(navigationAction);
