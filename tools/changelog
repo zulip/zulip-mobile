@@ -45,13 +45,19 @@ cmd_user() {
 }
 
 show_hash() {
-    apk_file="${root}"/android/app/build/outputs/apk/release/app-release.apk
-    output=$(sha256sum "${apk_file}")
-    hash=${output%% *}
-    basename="${apk_file##*/}"
-    echo "sha256sum -c <<EOF
-${hash}  ${basename}
-EOF"
+    local artifacts filename output hash basename
+    artifacts=(
+        "${root}"/android/app/build/outputs/apk/release/app-release.apk
+        "${root}"/android/app/build/outputs/bundle/release/app-release.aab
+    )
+    echo "sha256sum -c <<EOF"
+    for filename in "${artifacts[@]}"; do
+        output=$(sha256sum "${filename}")
+        hash=${output%% *}
+        basename="${filename##*/}"
+        echo "${hash}  ${basename}"
+    done
+    echo "EOF"
 }
 
 # Print release notes suitable for posting on e.g. GitHub.
