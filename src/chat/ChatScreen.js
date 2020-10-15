@@ -6,9 +6,9 @@ import { withNavigationFocus } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { compose } from 'redux';
 
-import { connect } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import styles, { ThemeContext, createStyleSheet } from '../styles';
-import type { Dispatch, Fetching, Narrow, EditMessage } from '../types';
+import type { Narrow, EditMessage } from '../types';
 import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import ChatNavBar from '../nav/ChatNavBar';
 import MessageList from '../webview/MessageList';
@@ -23,27 +23,16 @@ import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
 
-type SelectorProps = {|
-  isNarrowValid: boolean,
-  fetching: Fetching,
-  haveNoMessages: boolean,
-  loading: boolean,
-  eventQueueId: number,
-|};
-
 type Props = $ReadOnly<{|
   // Since we've put this screen in a stack-nav route config, and we
   // don't invoke it without type-checking anywhere else (in fact, we
   // don't invoke it anywhere else at all), we know it gets the
   // `navigation` prop for free, with the stack-nav shape.
   navigation: NavigationStackProp<{| ...NavigationStateRoute, params: {| narrow: Narrow |} |}>,
-  dispatch: Dispatch,
 
   // From React Navigation's `withNavigationFocus` HOC. Type copied
   // from the libdef.
   isFocused: ?boolean,
-
-  ...SelectorProps,
 |}>;
 
 const componentStyles = createStyleSheet({
@@ -63,9 +52,17 @@ const componentStyles = createStyleSheet({
  * whole process.
  */
 const useFetchMessages = args => {
-  const { dispatch, isFocused, narrow, loading, fetching, eventQueueId } = args;
+  const { isFocused, narrow } = args;
 
+  const dispatch = useDispatch();
+
+  const eventQueueId = useSelector(state => getSession(state).eventQueueId);
+  const loading = useSelector(getLoading);
+  const fetching = useSelector(state => getFetchingForNarrow(state, narrow));
   const isFetching = fetching.older || fetching.newer || loading;
+  const haveNoMessages = useSelector(
+    state => getShownMessagesForNarrow(state, narrow).length === 0,
+  );
 
   // This could live in state, but then we'd risk pointless rerenders;
   // we only use it in our `useEffect` callbacks. Using `useRef` is
@@ -104,7 +101,7 @@ const useFetchMessages = args => {
     // `eventQueueId` needed here because it affects `shouldFetchWhenNextFocused`.
   }, [isFocused, eventQueueId, fetch]);
 
-  return { fetchError, isFetching };
+  return { fetchError, isFetching, haveNoMessages };
 };
 
 function ChatScreen(props: Props) {
@@ -112,25 +109,14 @@ function ChatScreen(props: Props) {
 
   const [editMessage, setEditMessage] = React.useState<EditMessage | null>(null);
 
-  const {
-    dispatch,
-    navigation,
-    isFocused,
-    isNarrowValid,
-    loading,
-    fetching,
-    haveNoMessages,
-    eventQueueId,
-  } = props;
+  const { navigation, isFocused } = props;
   const { narrow } = navigation.state.params;
 
-  const { fetchError, isFetching } = useFetchMessages({
-    dispatch,
+  const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
+
+  const { fetchError, isFetching, haveNoMessages } = useFetchMessages({
     isFocused,
     narrow,
-    loading,
-    fetching,
-    eventQueueId,
   });
 
   const showMessagePlaceholders = haveNoMessages && isFetching;
@@ -178,14 +164,4 @@ function ChatScreen(props: Props) {
 export default compose(
   // https://reactnavigation.org/docs/4.x/function-after-focusing-screen/#triggering-an-action-with-the-withnavigationfocus-higher-order-component
   withNavigationFocus,
-  connect<SelectorProps, _, _>((state, props) => {
-    const { narrow } = props.navigation.state.params;
-    return {
-      isNarrowValid: getIsNarrowValid(state, narrow),
-      loading: getLoading(state),
-      fetching: getFetchingForNarrow(state, narrow),
-      haveNoMessages: getShownMessagesForNarrow(state, narrow).length === 0,
-      eventQueueId: getSession(state).eventQueueId,
-    };
-  }),
 )(ChatScreen);
