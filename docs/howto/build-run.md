@@ -436,6 +436,33 @@ error: Build input file cannot be found:
 then try restarting Xcode.
 
 
+### Build failure: 'No "iOS Development" signing certificate'
+
+When trying to build the iOS app, if you get an error like this (in
+e.g. the `tools/ios build` log file; edited slightly for readability):
+
+```
+error: No signing certificate "iOS Development" found:
+  No "iOS Development" signing certificate matching team ID "66KHCWMEYB"
+  with a private key was found. (in target 'ZulipMobile' from
+  project 'ZulipMobile')
+```
+
+then a possible root cause of the missing certificate is that the
+team's Apple Developer Program membership needs to be renewed.
+Once the membership is fixed, the certificate should be generated
+automatically when needed.
+
+To inspect what certificates exist, see Xcode > Settings > Accounts.
+When all is well, there should be a cert of type "Apple Development"
+in the list of certs associated with the team.  (The reference in the
+error message to "iOS Development" corresponds to an alternative type
+which was the normal one before ca. 2020 and is still accepted.)
+
+Despite the reference to development, this error can appear when
+attempting a build for release.
+
+
 ### App shows a blank white screen
 
 If you're developing on a Linux machine, and when you start the dev version of
