@@ -1,6 +1,6 @@
 # This should match the iOS Deployment Target
 # (project > ZulipMobile > Info in Xcode)
-platform :ios, '10.3'
+platform :ios, '11.0'
 
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 require_relative '../node_modules/react-native-unimodules/cocoapods.rb'

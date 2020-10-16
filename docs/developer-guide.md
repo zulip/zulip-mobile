@@ -1,7 +1,7 @@
 # Developer guide
 
 We target operating systems >= Android 5 Lollipop (API 21)
-and >= iOS 10.3.  (Details [here](architecture/platform-versions.md).)
+and >= iOS 11.0.  (Details [here](architecture/platform-versions.md).)
 
 ## Why React Native?
 

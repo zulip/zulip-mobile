@@ -88,6 +88,9 @@ History:
   discovered that we'd been mistaken in thinking since 2018 that its
   WebView browser got updated independently; in fact it's pinned at a
   version a couple of years older than any other browser we support.
+* We dropped iOS 10 support in 2020-10. It was 0.3% of iOS users who
+  tried Zulip, and we wanted to use a feature introduced in iOS 11,
+  called "named colors".
 
 [dropped-android-j]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/625585
 [dropped iOS 8 support]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/628412

@@ -17,8 +17,8 @@ import rewriteHtml from './rewriteHtml';
 /*
  * Supported platforms:
  *
- * * We support iOS 10.  So this code needs to work on Mobile Safari 10.
- *   Graceful degradation is acceptable below iOS 12 / Mobile Safari 12.
+ * * We support iOS 11.  So this code needs to work on Mobile Safari 11.
+ *   Graceful degradation is acceptable below iOS 13 / Mobile Safari 13.
  *
  * * For Android, core functionality needs to work on Chrome 44.
  *   Graceful degradation is acceptable below Chrome 58.
