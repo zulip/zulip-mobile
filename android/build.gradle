@@ -13,7 +13,7 @@ buildscript {
         // but some testing is required and code changes are often required.
         // See upstream for background and more discussion:
         //   https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
-        targetSdkVersion = 28
+        targetSdkVersion = 29
 
         // Should be the latest SDK version available.  See upstream recommendation:
         //   https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
