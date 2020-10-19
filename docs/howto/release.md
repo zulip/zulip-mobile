@@ -296,13 +296,21 @@ seem to be bad regressions.
 
 * Android via Play Store:
 
-  * In the Play Console, go to [Release Management -> App releases ->
-    Manage Beta][play-manage-beta].
+  * In the Play Console, go to [Release > Testing >
+    Open testing][play-open-testing].
 
-  * Hit "Release to Production".  Look at the "What's new" box at the bottom,
-    and check that the text is good.  Hit the button to confirm the release.
+  * Under "Releases", hit the "Promote release" dropdown, and choose
+    "Production".  Look at the "What's new" box at the bottom,
+    and check that the text is good.  Hit the button to proceed to the
+    next screen.
 
-[play-manage-beta]: https://play.google.com/apps/publish/?account=8060868091387311598#ManageReleaseTrackPlace:p=com.zulipmobile&releaseTrackId=4697711623380261182
+  * Under "Staged roll-out", consider the roll-out percentage.  If
+    it's less than 100% -- as the default may indeed be -- remember to
+    come back later to make a 100% rollout.
+
+  * Hit "Start rollout to Production" at the bottom.
+
+[play-open-testing]: https://play.google.com/console/u/0/developers/8060868091387311598/app/4976350040864490411/tracks/open-testing
 
 
 * Android via GitHub:
