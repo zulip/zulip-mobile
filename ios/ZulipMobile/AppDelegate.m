@@ -48,7 +48,9 @@
                                                       moduleName:@"ZulipMobile"
                                                initialProperties:nil];
 
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  UIView* loadingView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  loadingView.backgroundColor = [UIColor colorNamed:@"Brand"];
+  rootView.loadingView = loadingView;
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController =  [[EXScreenOrientationViewController alloc] initWithDefaultScreenOrientationMask:UIInterfaceOrientationMaskAll];
