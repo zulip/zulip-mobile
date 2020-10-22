@@ -26,6 +26,7 @@ export type Language = {|
  *
  * For the values of `selfname`, consult Wikipedia:
  *   https://meta.wikimedia.org/wiki/List_of_Wikipedias
+ *   https://en.wikipedia.org/wiki/Special:Preferences
  * or better yet, Wikipedia's own mobile UIs.  Wikipedia is a very
  * conscientiously international and intercultural project with a lot of
  * effort going into it by speakers of many languages, which makes it a
@@ -72,8 +73,8 @@ const languages: $ReadOnlyArray<Language> = [
   { tag: 'ta', name: 'Tamil', selfname: 'தமிழ்' },
   { tag: 'ml', name: 'Malayalam', selfname: 'മലയാളം' },
   { tag: 'ko', name: 'Korean', selfname: '한국어' },
-  { tag: 'zh-Hans', name: 'Chinese (Simplified)', selfname: '中文（简体）' },
-  { tag: 'zh-Hant', name: 'Chinese (Traditional)', selfname: '中文 (繁体)' },
+  { tag: 'zh-Hans', name: 'Chinese (China)', selfname: '简体中文（中国）' },
+  { tag: 'zh-TW', name: 'Chinese (Taiwan)', selfname: '繁體中文（台灣）' },
   { tag: 'ja', name: 'Japanese', selfname: '日本語' },
 ];
 

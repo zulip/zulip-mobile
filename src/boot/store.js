@@ -334,6 +334,15 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     };
   },
 
+  // Switch to zh-TW as a language option instead of zh-Hant.
+  '32': state => ({
+    ...state,
+    settings: {
+      ...state.settings,
+      language: state.settings.language === 'zh-Hant' ? 'zh-TW' : state.settings.language,
+    },
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

@@ -62,4 +62,5 @@ export default {
   vi: require('../../static/translations/messages_vi.json'),
   'zh-Hans': require('../../static/translations/messages_zh-Hans.json'),
   'zh-Hant': require('../../static/translations/messages_zh-Hant.json'),
+  'zh-TW': require('../../static/translations/messages_zh_TW.json'),
 };
