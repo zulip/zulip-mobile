@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { BRAND_COLOR } from './styles';
 import StoreProvider from './boot/StoreProvider';
+import HideIfNotHydrated from './boot/HideIfNotHydrated';
 import TranslationProvider from './boot/TranslationProvider';
 import ThemeProvider from './boot/ThemeProvider';
 import CompatibilityChecker from './boot/CompatibilityChecker';
@@ -15,6 +16,7 @@ import InitialNavigationDispatcher from './nav/InitialNavigationDispatcher';
 import AppContainer from './nav/AppContainer';
 import * as NavigationService from './nav/NavigationService';
 import { initializeSentry } from './sentry';
+import LoadingScreen from './start/LoadingScreen';
 
 initializeSentry();
 
@@ -31,19 +33,21 @@ export default (): React$Node => (
           backgroundColor: BRAND_COLOR,
         }}
       >
-        <AppEventHandlers>
-          <AppDataFetcher>
-            <TranslationProvider>
-              <ThemeProvider>
-                <InitialNavigationDispatcher>
-                  <BackNavigationHandler>
-                    <AppContainer ref={NavigationService.appContainerRef} />
-                  </BackNavigationHandler>
-                </InitialNavigationDispatcher>
-              </ThemeProvider>
-            </TranslationProvider>
-          </AppDataFetcher>
-        </AppEventHandlers>
+        <HideIfNotHydrated PlaceholderComponent={LoadingScreen}>
+          <AppEventHandlers>
+            <AppDataFetcher>
+              <TranslationProvider>
+                <ThemeProvider>
+                  <InitialNavigationDispatcher>
+                    <BackNavigationHandler>
+                      <AppContainer ref={NavigationService.appContainerRef} />
+                    </BackNavigationHandler>
+                  </InitialNavigationDispatcher>
+                </ThemeProvider>
+              </TranslationProvider>
+            </AppDataFetcher>
+          </AppEventHandlers>
+        </HideIfNotHydrated>
       </SafeAreaProvider>
     </StoreProvider>
   </CompatibilityChecker>
