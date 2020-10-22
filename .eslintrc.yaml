@@ -173,6 +173,7 @@ rules:
 
   import/prefer-default-export: off
 
+  # Compare these two rules with the override below.
   import/no-extraneous-dependencies:
     - error
     - devDependencies: ['**/__tests__/**/*.js', tools/**]
@@ -287,12 +288,18 @@ rules:
 
 overrides:
 
-  # Test file overrides
+  #
+  # ================================================================
+  # Our test suite.
   - files: ['**/__tests__/**']
     rules:
       no-restricted-imports: off
 
-  # Maintain code style of redux-persist as we received it.
+  #
+  # ================================================================
+  # Third-party code: redux-persist.
+  #
+  # We leave this code in the style we received it in.
   - files: ['src/third/redux-persist/**']
     rules:
       semi: off # semicolons are omitted
