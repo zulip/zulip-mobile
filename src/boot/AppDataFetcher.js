@@ -15,13 +15,13 @@ type Props = $ReadOnly<{|
 |}>;
 
 class AppDataFetcher extends PureComponent<Props> {
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     const { dispatch, needsInitialFetch } = this.props;
 
     if (needsInitialFetch) {
       dispatch(doInitialFetch());
     }
-  };
+  }
 
   componentDidMount() {
     const { dispatch, needsInitialFetch } = this.props;
