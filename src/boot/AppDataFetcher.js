@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import { PureComponent } from 'react';
+import React from 'react';
 
 import type { Node as React$Node } from 'react';
 import type { Dispatch } from '../types';
@@ -14,26 +14,16 @@ type Props = $ReadOnly<{|
   children: React$Node,
 |}>;
 
-class AppDataFetcher extends PureComponent<Props> {
-  componentDidUpdate() {
-    const { dispatch, needsInitialFetch } = this.props;
+function AppDataFetcher(props: Props) {
+  const { needsInitialFetch, dispatch } = props;
 
+  React.useEffect(() => {
     if (needsInitialFetch) {
       dispatch(doInitialFetch());
     }
-  }
+  }, [needsInitialFetch, dispatch]);
 
-  componentDidMount() {
-    const { dispatch, needsInitialFetch } = this.props;
-
-    if (needsInitialFetch) {
-      dispatch(doInitialFetch());
-    }
-  }
-
-  render() {
-    return this.props.children;
-  }
+  return props.children;
 }
 
 export default connect(state => ({
