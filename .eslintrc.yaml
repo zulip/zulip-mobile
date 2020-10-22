@@ -1,3 +1,25 @@
+# Our main ESLint config.
+
+# Tips for developing on this file:
+#
+#  * To see what config currently applies, try a command like:
+#
+#      $ npx eslint --print-config src/types.js | less
+#
+#    or for a specific rule:
+#
+#      $ npx eslint --print-config src/types.js | jq '.rules["no-continue"]'
+#
+#    Especially handy for seeing the default or base setting, when we don't
+#    configure a rule ourselves.
+#
+#  * A variation to canonicalize the config output for comparison:
+#
+#     $ npx eslint --print-config src/foo.js | jq . --sorted >/tmp/foo.json
+#     $ npx eslint --print-config src/bar.js | jq . --sorted >/tmp/bar.json
+#     $ git diff --no-index /tmp/{foo,bar}.json
+
+
 parser: babel-eslint
 
 extends:
