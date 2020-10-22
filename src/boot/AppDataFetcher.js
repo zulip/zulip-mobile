@@ -23,6 +23,14 @@ class AppDataFetcher extends PureComponent<Props> {
     }
   };
 
+  componentDidMount() {
+    const { dispatch, needsInitialFetch } = this.props;
+
+    if (needsInitialFetch) {
+      dispatch(doInitialFetch());
+    }
+  }
+
   render() {
     return this.props.children;
   }
