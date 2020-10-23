@@ -219,100 +219,58 @@ describe('SEARCH_NARROW', () => {
 describe('isMessageInNarrow', () => {
   const ownEmail = eg.selfUser.email;
 
-  test('any message is in "Home"', () => {
-    const message = eg.streamMessage({ flags: [] });
-    const narrow = HOME_NARROW;
-    expect(isMessageInNarrow(message, narrow, ownEmail)).toBe(true);
-  });
+  // prettier-ignore
+  for (const [narrowDescription, narrow, cases] of [
+    ['all-messages ("home") narrow', HOME_NARROW, [
+      ['a message', true, eg.streamMessage()],
+    ]],
 
-  test('message with type "private" is in private narrow if recipient matches', () => {
-    const message = eg.pmMessage({ flags: [] });
-    const narrow = privateNarrow(eg.otherUser.email);
-    expect(isMessageInNarrow(message, narrow, ownEmail)).toBe(true);
-  });
+    ['whole-stream narrow', streamNarrow(eg.stream.name), [
+      ['matching stream message', true, eg.streamMessage()],
+    ]],
+    ['stream conversation', topicNarrow(eg.stream.name, 'cabbages'), [
+      ['matching message', true, eg.streamMessage({ subject: 'cabbages' })],
+    ]],
 
-  test('message to self is in "private" narrow with self', () => {
-    const message = eg.pmMessage({
-      flags: [],
-      display_recipient: [eg.displayRecipientFromUser(eg.selfUser)],
+    ['1:1 PM conversation, non-self', privateNarrow(eg.otherUser.email), [
+      ['matching PM', true, eg.pmMessage()],
+    ]],
+    ['self-1:1 conversation', privateNarrow(eg.selfUser.email), [
+      ['self-1:1 message', true, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
+    ]],
+    ['group-PM conversation', groupNarrow([eg.otherUser.email, eg.thirdUser.email]), [
+      ['matching group-PM', true, eg.pmMessage({ recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
+    ]],
+    ['all-PMs narrow', ALL_PRIVATE_NARROW, [
+      ['a PM', true, eg.pmMessage()],
+    ]],
+
+    ['is:mentioned', MENTIONED_NARROW, [
+      ['w/ mentioned flag', true, eg.streamMessage({ flags: ['mentioned'] })],
+      ['w/ wildcard_mentioned flag', true, eg.streamMessage({ flags: ['wildcard_mentioned'] })],
+      ['w/o flags', false, eg.streamMessage()],
+    ]],
+    ['is:starred', STARRED_NARROW, [
+      ['w/ starred flag', true, eg.streamMessage({ flags: ['starred'] })],
+      ['w/o flags', false, eg.streamMessage()],
+    ]],
+  ]) {
+    describe(narrowDescription, () => {
+      for (const [messageDescription, expected, message] of cases) {
+        test(`${expected ? 'contains' : 'excludes'} ${messageDescription}`, () => {
+          expect(
+            isMessageInNarrow({ ...message, flags: message.flags ?? [] }, narrow, ownEmail),
+          ).toBe(expected);
+        });
+      }
     });
-    const narrow = privateNarrow(eg.selfUser.email);
-    expect(isMessageInNarrow(message, narrow, ownEmail)).toBe(true);
-  });
-
-  test('message with type "private" is in group narrow if all recipients match ', () => {
-    const message = eg.pmMessage({
-      flags: [],
-      display_recipient: [eg.selfUser, eg.otherUser, eg.thirdUser].map(eg.displayRecipientFromUser),
-    });
-    const narrow = groupNarrow([eg.otherUser.email, eg.thirdUser.email]);
-    expect(isMessageInNarrow(message, narrow, ownEmail)).toBe(true);
-  });
-
-  test('message with type "private" is always in "private messages" narrow', () => {
-    const message = eg.pmMessage({
-      flags: [],
-      display_recipient: [eg.selfUser, eg.otherUser].map(eg.displayRecipientFromUser),
-    });
-    expect(isMessageInNarrow(message, ALL_PRIVATE_NARROW, ownEmail)).toBe(true);
-  });
-
-  test('message with type "stream" is in narrow if recipient and current stream match', () => {
-    const message = eg.streamMessage({
-      flags: [],
-    });
-    const narrow = streamNarrow(eg.stream.name);
-    expect(isMessageInNarrow(message, narrow, ownEmail)).toBe(true);
-  });
+  }
 
   test('message with flags absent throws an error', () => {
     const message = eg.streamMessage({
       // no flags
     });
     expect(() => isMessageInNarrow(message, MENTIONED_NARROW, ownEmail)).toThrow();
-  });
-
-  test('message with flag "mentioned" is in is:mentioned narrow', () => {
-    const message = eg.streamMessage({
-      flags: ['mentioned'],
-    });
-    expect(isMessageInNarrow(message, MENTIONED_NARROW, ownEmail)).toBe(true);
-  });
-
-  test('message with flag "wildcard_mentioned" is in is:mentioned narrow', () => {
-    const message = eg.streamMessage({
-      flags: ['wildcard_mentioned'],
-    });
-    expect(isMessageInNarrow(message, MENTIONED_NARROW, ownEmail)).toBe(true);
-  });
-
-  test('message without flag "mentioned" or "wildcard_mentioned" is not in is:mentioned narrow', () => {
-    const message = eg.streamMessage({
-      flags: [],
-    });
-    expect(isMessageInNarrow(message, MENTIONED_NARROW, ownEmail)).toBe(false);
-  });
-
-  test('message with flag "starred" is in is:starred narrow', () => {
-    const message = eg.streamMessage({
-      flags: ['starred'],
-    });
-    expect(isMessageInNarrow(message, STARRED_NARROW, ownEmail)).toBe(true);
-  });
-
-  test('message without flag "starred" is not in is:starred narrow', () => {
-    const message = eg.streamMessage({
-      flags: [],
-    });
-    expect(isMessageInNarrow(message, STARRED_NARROW, ownEmail)).toBe(false);
-  });
-
-  test('message with type stream is in topic narrow if current stream and topic match with its own', () => {
-    const message = eg.streamMessage({
-      flags: [],
-    });
-    const narrow = topicNarrow(eg.stream.name, message.subject);
-    expect(isMessageInNarrow(message, narrow, ownEmail)).toBe(true);
   });
 });
 
