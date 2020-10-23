@@ -84,8 +84,6 @@ import type {
 } from './types';
 import type { ZulipVersion } from './utils/zulipVersion';
 
-export type { NavigationAction } from 'react-navigation';
-
 /**
  * Dispatched by redux-persist when the stored state is loaded.
  *

@@ -1,7 +1,7 @@
 /* @flow strict-local */
-import { StackActions, NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions, type NavigationAction } from 'react-navigation';
 
-import type { NavigationAction, Message, Narrow, SharedData } from '../types';
+import type { Message, Narrow, SharedData } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { getSameRoutesCount } from '../selectors';
 
