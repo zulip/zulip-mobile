@@ -7,7 +7,7 @@ import { ViewPlaceholder } from '../common';
 import AccountItem from './AccountItem';
 
 type Props = $ReadOnly<{|
-  accounts: AccountStatus[],
+  accounts: $ReadOnlyArray<AccountStatus>,
   onAccountSelect: number => void,
   onAccountRemove: number => void,
 |}>;

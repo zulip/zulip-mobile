@@ -19,7 +19,7 @@ type Props = $ReadOnly<{|
   // `navigation` prop for free, with the stack-nav shape.
   navigation: NavigationStackProp<NavigationStateRoute>,
 
-  accounts: AccountStatus[],
+  accounts: $ReadOnlyArray<AccountStatus>,
   dispatch: Dispatch,
   hasAuth: boolean,
 |}>;
