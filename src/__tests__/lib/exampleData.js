@@ -293,14 +293,22 @@ const randMessageId: () => number = makeUniqueRandInt('message ID', 10000000);
  *
  * Beware! These values may not be representative.
  */
-export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
+export const pmMessage = (args?: {|
+  ...$Rest<Message, {}>,
+  sender?: User,
+  recipients?: User[],
+|}): Message => {
+  // The `Object.freeze` is to work around a Flow issue:
+  //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
+  const { sender = otherUser, recipients = [selfUser], ...extra } = args ?? Object.freeze({});
+
   const baseMessage: Message = {
     ...messagePropertiesBase,
-    ...messagePropertiesFromSender(otherUser),
+    ...messagePropertiesFromSender(sender),
 
     content: 'This is an example PM message.',
     content_type: 'text/markdown',
-    display_recipient: [displayRecipientFromUser(selfUser)],
+    display_recipient: recipients.map(displayRecipientFromUser),
     id: randMessageId(),
     recipient_id: 2342,
     stream_id: -1,

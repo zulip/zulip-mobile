@@ -27,43 +27,11 @@ describe('getRecentConversations', () => {
   });
 
   test('returns unique list of recipients, includes conversations with self', () => {
-    const meAndJohnPm1 = eg.pmMessage({
-      id: 1,
-      display_recipient: [
-        eg.displayRecipientFromUser(eg.selfUser),
-        eg.displayRecipientFromUser(userJohn),
-      ],
-    });
-
-    const meAndMarkPm = eg.pmMessage({
-      id: 2,
-      display_recipient: [
-        eg.displayRecipientFromUser(eg.selfUser),
-        eg.displayRecipientFromUser(userMark),
-      ],
-    });
-
-    const meAndJohnPm2 = eg.pmMessage({
-      id: 3,
-      display_recipient: [
-        eg.displayRecipientFromUser(eg.selfUser),
-        eg.displayRecipientFromUser(userJohn),
-      ],
-    });
-
-    const meOnlyPm = eg.pmMessage({
-      id: 4,
-      display_recipient: [eg.displayRecipientFromUser(eg.selfUser)],
-    });
-
-    const meJohnAndMarkPm = eg.pmMessage({
-      id: 0,
-      display_recipient: [
-        eg.displayRecipientFromUser(eg.selfUser),
-        eg.displayRecipientFromUser(userMark),
-        eg.displayRecipientFromUser(userJohn),
-      ],
-    });
+    const meAndJohnPm1 = eg.pmMessage({ id: 1, recipients: [eg.selfUser, userJohn] });
+    const meAndMarkPm = eg.pmMessage({ id: 2, recipients: [eg.selfUser, userMark] });
+    const meAndJohnPm2 = eg.pmMessage({ id: 3, recipients: [eg.selfUser, userJohn] });
+    const meOnlyPm = eg.pmMessage({ id: 4, recipients: [eg.selfUser] });
+    const meJohnAndMarkPm = eg.pmMessage({ id: 0, recipients: [eg.selfUser, userMark, userJohn] });
 
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
@@ -150,52 +118,12 @@ describe('getRecentConversations', () => {
   test('returns recipients sorted by last activity', () => {
     // Maybe we can share these definitions with the above test;
     // first, we have to sort out why the IDs are different.
-
-    const meAndMarkPm1 = eg.pmMessage({
-      id: 1,
-      display_recipient: [
-        eg.displayRecipientFromUser(eg.selfUser),
-        eg.displayRecipientFromUser(userMark),
-      ],
-    });
-
-    const meAndJohnPm1 = eg.pmMessage({
-      id: 2,
-      display_recipient: [
-        eg.displayRecipientFromUser(eg.selfUser),
-        eg.displayRecipientFromUser(userJohn),
-      ],
-    });
-
-    const meAndMarkPm2 = eg.pmMessage({
-      id: 3,
-      display_recipient: [
-        eg.displayRecipientFromUser(eg.selfUser),
-        eg.displayRecipientFromUser(userMark),
-      ],
-    });
-
-    const meAndJohnPm2 = eg.pmMessage({
-      id: 4,
-      display_recipient: [
-        eg.displayRecipientFromUser(eg.selfUser),
-        eg.displayRecipientFromUser(userJohn),
-      ],
-    });
-
-    const meJohnAndMarkPm = eg.pmMessage({
-      id: 5,
-      display_recipient: [
-        eg.displayRecipientFromUser(eg.selfUser),
-        eg.displayRecipientFromUser(userJohn),
-        eg.displayRecipientFromUser(userMark),
-      ],
-    });
-
-    const meOnlyPm = eg.pmMessage({
-      id: 6,
-      display_recipient: [eg.displayRecipientFromUser(eg.selfUser)],
-    });
+    const meAndMarkPm1 = eg.pmMessage({ id: 1, recipients: [eg.selfUser, userMark] });
+    const meAndJohnPm1 = eg.pmMessage({ id: 2, recipients: [eg.selfUser, userJohn] });
+    const meAndMarkPm2 = eg.pmMessage({ id: 3, recipients: [eg.selfUser, userMark] });
+    const meAndJohnPm2 = eg.pmMessage({ id: 4, recipients: [eg.selfUser, userJohn] });
+    const meJohnAndMarkPm = eg.pmMessage({ id: 5, recipients: [eg.selfUser, userJohn, userMark] });
+    const meOnlyPm = eg.pmMessage({ id: 6, recipients: [eg.selfUser] });
 
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
