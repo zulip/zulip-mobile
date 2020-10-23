@@ -179,6 +179,7 @@ export const selfAccount: Account = makeAccount({
 export const selfAuth: Auth = deepFreeze(authOfAccount(selfAccount));
 
 export const otherUser: User = makeUser({ name: 'other' });
+export const thirdUser: User = makeUser({ name: 'third' });
 
 export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
 
