@@ -73,7 +73,7 @@ class MentionWarnings extends PureComponent<Props, State> {
   showSubscriptionStatusLoadError = (mentionedUser: UserOrBot) => {
     const _ = this.context;
 
-    const alertTitle = _("Couldn't load information about {fullName}", {
+    const alertTitle = _('Couldn’t load information about {fullName}', {
       fullName: mentionedUser.full_name,
     });
     showToast(alertTitle);

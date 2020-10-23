@@ -112,7 +112,7 @@ muteTopic.title = 'Mute topic';
 muteTopic.errorMessage = 'Failed to mute topic';
 
 const deleteTopic = async ({ auth, message, dispatch, ownEmail, _ }) => {
-  const alertTitle = _("Are you sure you want to delete the topic '{topic}'?", {
+  const alertTitle = _('Are you sure you want to delete the topic “{topic}”?', {
     topic: message.subject,
   });
   const AsyncAlert = async (): Promise<boolean> =>
