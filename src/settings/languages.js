@@ -25,45 +25,50 @@ export type Language = {
  *
  * For the values of `nativeName`, consult Wikipedia:
  *   https://meta.wikimedia.org/wiki/List_of_Wikipedias
+ *   https://en.wikipedia.org/wiki/Special:Preferences
  * or better yet, Wikipedia's own mobile UIs.  Wikipedia is a very
  * conscientiously international and intercultural project with a lot of
  * effort going into it by speakers of many languages, which makes it a
  * useful gold standard for this.
  */
 const languages: $ReadOnlyArray<Language> = [
-  { locale: 'en', name: 'English', nativeName: 'English' },
-  { locale: 'bg', name: 'Bulgarian', nativeName: 'Български' },
+  // Keep these sorted by nativeName.
+
+  { locale: 'id-ID', name: 'Indonesian', nativeName: 'Bahasa Indonesia' },
   { locale: 'ca', name: 'Catalan', nativeName: 'Català' },
-  { locale: 'zh-Hans', name: 'Chinese (Simplified)', nativeName: '中文（简体）' },
-  { locale: 'zh-Hant', name: 'Chinese (Traditional)', nativeName: '中文 (繁体)' },
   { locale: 'cs', name: 'Czech', nativeName: 'Čeština' },
-  { locale: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
+  { locale: 'de', name: 'German', nativeName: 'Deutsch' },
+  { locale: 'en', name: 'English', nativeName: 'English' },
   // TODO: add `en_GB` -- it's "100% translated", though that just means
   //   the one string mentioning "organization" has s/z/s/ in that word
-  { locale: 'fi', name: 'Finnish', nativeName: 'Suomi' },
+  { locale: 'es', name: 'Spanish', nativeName: 'Español' },
   { locale: 'fr', name: 'French', nativeName: 'Français' },
   { locale: 'gl', name: 'Galician', nativeName: 'Galego' },
-  { locale: 'de', name: 'German', nativeName: 'Deutsch' },
-  { locale: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
-  { locale: 'hu', name: 'Hungarian', nativeName: 'Magyar' },
-  { locale: 'id-ID', name: 'Indonesian', nativeName: 'Bahasa Indonesia' },
   { locale: 'it', name: 'Italian', nativeName: 'Italiano' },
-  { locale: 'ja', name: 'Japanese', nativeName: '日本語' },
-  { locale: 'ko', name: 'Korean', nativeName: '한국어' },
   { locale: 'lt', name: 'Lithuanian', nativeName: 'Lietuvių' },
-  { locale: 'ml', name: 'Malayalam', nativeName: 'മലയാളം' },
-  { locale: 'fa', name: 'Persian', nativeName: 'فارسی' },
+  { locale: 'hu', name: 'Hungarian', nativeName: 'Magyar' },
+  { locale: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
   { locale: 'pl', name: 'Polish', nativeName: 'Polski' },
   { locale: 'pt', name: 'Portuguese', nativeName: 'Português' },
   { locale: 'ro', name: 'Romanian', nativeName: 'Română' },
+  { locale: 'fi', name: 'Finnish', nativeName: 'Suomi' },
+  { locale: 'sv', name: 'Swedish', nativeName: 'Svenska' },
+  { locale: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt' },
+  { locale: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
+  { locale: 'bg', name: 'Bulgarian', nativeName: 'Български' },
   { locale: 'ru', name: 'Russian', nativeName: 'Русский' },
   { locale: 'sr', name: 'Serbian', nativeName: 'Српски' },
-  { locale: 'es', name: 'Spanish', nativeName: 'Español' },
-  { locale: 'sv', name: 'Swedish', nativeName: 'Svenska' },
-  { locale: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
-  { locale: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
   { locale: 'uk', name: 'Ukrainian', nativeName: 'Українська' },
-  { locale: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt' },
+  { locale: 'fa', name: 'Persian', nativeName: 'فارسی' },
+  { locale: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
+  { locale: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
+  { locale: 'ml', name: 'Malayalam', nativeName: 'മലയാളം' },
+  { locale: 'ko', name: 'Korean', nativeName: '한국어' },
+  // For the various zh* translations, we follow Wikipedia's naming, as seen
+  // in user preferences: https://en.wikipedia.org/wiki/Special:Preferences
+  { locale: 'zh_TW', name: 'Chinese (Taiwan)', nativeName: '中文（台灣）' },
+  { locale: 'zh-Hans', name: 'Chinese (Simplified)', nativeName: '中文（简体）' },
+  { locale: 'ja', name: 'Japanese', nativeName: '日本語' },
 ];
 
 export default languages;

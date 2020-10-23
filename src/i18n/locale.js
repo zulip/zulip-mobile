@@ -81,4 +81,12 @@ import zh from 'react-intl/locale-data/zh';
   uz,
   vi,
   zh,
+
+  // react-intl has zh-Hant and zh-Hant-HK, but no zh_TW or zh-Hant-TW.
+  // Presumably the idea is that zh-Hant serves as zh-Hant-TW aka zh_TW.
+  // We call it zh_TW because that's what Transifex calls it; so effectively
+  // make an alias with that name.  (Upstream does the exact same thing to
+  // make zh-Hans an alias of simply zh.)
+  [{ locale: 'zh_TW', parentLocale: 'zh-Hant' }],
+
 ].forEach(locale => addLocaleData(locale));
