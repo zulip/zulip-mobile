@@ -14,7 +14,7 @@
 // NOTE: Keep the Android-side code in sync with this type definition.
 export type Notification =
   | {| recipient_type: 'stream', stream: string, topic: string, realm_uri?: string |}
-  // Group PM messages have `pm_users`, which is comma-separated IDs.
+  // Group PM messages have `pm_users`, which is sorted, comma-separated IDs.
   | {| recipient_type: 'private', pm_users: string, realm_uri?: string |}
   // 1:1 PM messages lack `pm_users`.
   | {| recipient_type: 'private', sender_email: string, realm_uri?: string |};
