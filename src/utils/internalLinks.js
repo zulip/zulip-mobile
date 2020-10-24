@@ -138,6 +138,9 @@ export const getNarrowFromLink = (
       if (recipientEmails === null) {
         return null;
       }
+      // BUG: should normalize recipients; see comment on groupNarrow.
+      // (We're parsing a link someone wrote in a message, so the server
+      // gives us no guarantees here.)
       return groupNarrow(recipientEmails);
     }
     case 'topic':

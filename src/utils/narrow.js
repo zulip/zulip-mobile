@@ -21,6 +21,52 @@ export const privateNarrow = (email: string): Narrow => [
   },
 ];
 
+/**
+ * A group PM narrow.
+ *
+ * The users represented in `emails` should agree, as a (multi)set, with
+ * `pmKeyRecipientsFromMessage`.
+ *
+ * They might not have a consistent sorting.  (This would be good to fix.)
+ * Consumers of this data should sort for themselves when making comparisons.
+ */
+// Ideally, all callers should agree on how they're sorted, too.  Because
+// they don't, we have latent bugs (possibly a live one somewhere) where we
+// can wind up with several distinct narrows that are actually the same
+// group PM conversation.
+//
+// For example this happens if you have a group PM conversation where email
+// and ID sorting don't happen to coincide; visit a group PM conversation
+// from the main nav (either the unreads or PMs screen) -- which sorts by
+// email; and then visit the same conversation from a recipient bar on the
+// "all messages" narrow -- which sorts by ID.  The Redux logs in the
+// debugger will show two different entries in `state.narrows`.  This bug is
+// merely latent only because it doesn't (as far as we know) have any
+// user-visible effect.
+//
+// But we also have some callers that don't even ensure the set is the right
+// one, with the self-user properly there or not.  Known call stacks:
+//  * BUG #4293: getNarrowFromNotificationData: comes from notification's
+//      pm_users... which is sorted but not filtered.  This means if you
+//      follow a group PM notif, then get another message in that
+//      conversation, it won't appear.  (And if you send, it'll promptly
+//      disappear.)
+//  * BUG, ish: getNarrowFromLink doesn't ensure this precondition is met.
+//      And... there's basically a bug in the webapp, where the URL that
+//      appears in the location bar for a group PM conversation excludes
+//      self -- so it's unusable if you try to give someone else in it a
+//      link to a particular message, say.  But conversely I guess it means
+//      that the mobile app actually works just as well as the webapp on the
+//      links people generate from the webapp.
+//  * OK, perilously, unsorted: CreateGroupScreen: the self user isn't
+//      offered in the UI, so effectively the list is filtered; can call
+//      with just one email, but happily this works out the same as pmNarrow
+//  * OK, email: PmConversationList < PmConversationCard: the data comes
+//      from `getRecentConversations`, which filters and sorts by email
+//  * OK, email: PmConversationList < UnreadCards: ditto
+//  * OK, unsorted: getNarrowFromMessage
+//  * Good: messageHeaderAsHtml: comes from pmKeyRecipientsFromMessage,
+//      which filters and sorts by ID
 export const groupNarrow = (emails: string[]): Narrow => [
   {
     operator: 'pm-with',
