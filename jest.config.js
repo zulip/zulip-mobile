@@ -30,8 +30,25 @@ const projectForPlatform = platform => {
   }
   return {
     displayName: platform,
-    // See https://github.com/expo/expo/blob/master/packages/jest-expo/README.md#platforms.
-    preset: platform === 'ios' ? 'jest-expo/ios' : 'jest-expo/android',
+
+    // Ideally, these would simply be `jest-expo/ios` and
+    // `jest-expo/android`; see
+    // https://github.com/expo/expo/blob/master/packages/jest-expo/README.md#platforms.
+    // These custom presets are a workaround for a bug:
+    //
+    // `jest-expo`'s presets are based on `react-native`'s preset,
+    // which does something messy: it overwrites the global `Promise`.
+    // That's facebook/react-native#29303. Jest doesn't work well with
+    // that; that's facebook/jest#10221.
+    //
+    // So, until one of those is fixed, we use these custom presets to
+    // sandwich the code that replaces `global.Promise` with a fix:
+    //
+    // 1) save `global.Promise` to something else on `global`
+    // 2) let the `react-native` preset do its thing (like mocking RN
+    //    libraries)
+    // 3) assign `global.Promise` back to what we saved in step 1
+    preset: platform === 'ios' ? './jest/presetIos' : './jest/presetAndroid',
 
     // Finding and transforming source code.
     testPathIgnorePatterns: ['/node_modules/', '/src/__tests__/lib/', '-testlib.js$'],
