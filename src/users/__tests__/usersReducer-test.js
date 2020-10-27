@@ -4,24 +4,6 @@ import { REALM_INIT, EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstant
 import usersReducer from '../usersReducer';
 
 describe('usersReducer', () => {
-  test('handles unknown action and no state by returning initial state', () => {
-    const prevState = undefined;
-
-    const action = deepFreeze({});
-
-    const newState = usersReducer(prevState, action);
-    expect(newState).toBeDefined();
-  });
-
-  test('on unrecognized action, returns input state unchanged', () => {
-    const prevState = deepFreeze({ hello: 'world' });
-
-    const action = deepFreeze({});
-
-    const newState = usersReducer(prevState, action);
-    expect(newState).toBe(prevState);
-  });
-
   describe('REALM_INIT', () => {
     test('when `users` data is provided init state with it', () => {
       const prevState = deepFreeze([]);
