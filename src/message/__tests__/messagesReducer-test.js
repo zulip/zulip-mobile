@@ -20,7 +20,7 @@ describe('messagesReducer', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('appends message to state producing a copy of messages', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: { id: 1 },
         2: { id: 2 },
       });
@@ -33,15 +33,15 @@ describe('messagesReducer', () => {
         2: { id: 2 },
         3: { id: 3 },
       };
-      const newState = messagesReducer(initialState, action);
+      const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
-      expect(newState).not.toBe(initialState);
+      expect(newState).not.toBe(prevState);
     });
   });
 
   describe('EVENT_SUBMESSAGE', () => {
     test('if the message does not exist do not mutate the state', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: { id: 1 },
         2: { id: 2 },
       });
@@ -50,12 +50,12 @@ describe('messagesReducer', () => {
         message_id: 3,
         submessage_id: 2,
       });
-      const newState = messagesReducer(initialState, action);
-      expect(newState).toBe(initialState);
+      const newState = messagesReducer(prevState, action);
+      expect(newState).toBe(prevState);
     });
 
     test('if the message exists add the incoming data to `submessages`', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: { id: 1 },
         2: { id: 2, submessages: [{ id: 1 }] },
       });
@@ -79,51 +79,51 @@ describe('messagesReducer', () => {
           ],
         },
       };
-      const newState = messagesReducer(initialState, action);
+      const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
-      expect(newState).not.toBe(initialState);
+      expect(newState).not.toBe(prevState);
     });
   });
 
   describe('EVENT_MESSAGE_DELETE', () => {
     test('if a message does not exist no changes are made', () => {
-      const initialState = deepFreeze({ 1: { id: 1 } });
+      const prevState = deepFreeze({ 1: { id: 1 } });
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
         messageIds: [2],
       });
-      const newState = messagesReducer(initialState, action);
-      expect(newState).toEqual(initialState);
+      const newState = messagesReducer(prevState, action);
+      expect(newState).toEqual(prevState);
     });
 
     test('if a message exists it is deleted', () => {
-      const initialState = deepFreeze({ 1: { id: 1 }, 2: { id: 2 } });
+      const prevState = deepFreeze({ 1: { id: 1 }, 2: { id: 2 } });
 
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
         messageIds: [2],
       });
       const expectedState = deepFreeze({ 1: { id: 1 } });
-      const newState = messagesReducer(initialState, action);
+      const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
     });
 
     test('if multiple messages indicated, delete the ones that exist', () => {
-      const initialState = deepFreeze({ 1: { id: 1 }, 2: { id: 2 }, 3: { id: 3 } });
+      const prevState = deepFreeze({ 1: { id: 1 }, 2: { id: 2 }, 3: { id: 3 } });
 
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
         messageIds: [2, 3, 4],
       });
       const expectedState = deepFreeze({ 1: { id: 1 } });
-      const newState = messagesReducer(initialState, action);
+      const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
     });
   });
 
   describe('EVENT_UPDATE_MESSAGE', () => {
     test('if a message does not exist no changes are made', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: { id: 1 },
         2: { id: 2 },
       });
@@ -131,12 +131,12 @@ describe('messagesReducer', () => {
         type: EVENT_UPDATE_MESSAGE,
         messageId: 3,
       });
-      const newState = messagesReducer(initialState, action);
-      expect(newState).toBe(initialState);
+      const newState = messagesReducer(prevState, action);
+      expect(newState).toBe(prevState);
     });
 
     test('when a message exists in state, new state and new object is created with updated message in every key', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: { id: 1 },
         2: { id: 2 },
         3: { id: 3, content: 'Old content' },
@@ -167,13 +167,13 @@ describe('messagesReducer', () => {
           ],
         },
       };
-      const newState = messagesReducer(initialState, action);
-      expect(newState).not.toBe(initialState);
+      const newState = messagesReducer(prevState, action);
+      expect(newState).not.toBe(prevState);
       expect(newState).toEqual(expectedState);
     });
 
     test('when event contains a new subject but no new content only subject is updated', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: {
           id: 1,
           content: 'Old content',
@@ -210,14 +210,14 @@ describe('messagesReducer', () => {
         },
       };
 
-      const newState = messagesReducer(initialState, action);
+      const newState = messagesReducer(prevState, action);
 
-      expect(newState).not.toBe(initialState);
+      expect(newState).not.toBe(prevState);
       expect(newState).toEqual(expectedState);
     });
 
     test('when event contains a new subject and a new content, update both and update edit history object', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: {
           id: 1,
           content: 'Old content',
@@ -268,15 +268,15 @@ describe('messagesReducer', () => {
           ],
         },
       };
-      const newState = messagesReducer(initialState, action);
-      expect(newState).not.toBe(initialState);
+      const newState = messagesReducer(prevState, action);
+      expect(newState).not.toBe(prevState);
       expect(newState).toEqual(expectedState);
     });
   });
 
   describe('EVENT_REACTION_ADD', () => {
     test('on event received, add reaction to message with given id', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: { id: 1, reactions: [] },
         2: { id: 2, reactions: [] },
       });
@@ -290,14 +290,14 @@ describe('messagesReducer', () => {
         1: { id: 1, reactions: [] },
         2: { id: 2, reactions: [{ emoji_name: 'hello', user_id: 2 }] },
       };
-      const actualState = messagesReducer(initialState, action);
+      const actualState = messagesReducer(prevState, action);
       expect(actualState).toEqual(expectedState);
     });
   });
 
   describe('EVENT_REACTION_REMOVE', () => {
     test('if message does not contain reaction, no change is made', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: { id: 1, reactions: [] },
       });
       const action = deepFreeze({
@@ -309,12 +309,12 @@ describe('messagesReducer', () => {
       const expectedState = {
         1: { id: 1, reactions: [] },
       };
-      const actualState = messagesReducer(initialState, action);
+      const actualState = messagesReducer(prevState, action);
       expect(actualState).toEqual(expectedState);
     });
 
     test('reaction is removed only from specified message, only for given user', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: {
           id: 1,
           reactions: [
@@ -336,14 +336,14 @@ describe('messagesReducer', () => {
           reactions: [{ emoji_name: 'hello', user_id: 2 }, { emoji_name: 'goodbye', user_id: 1 }],
         },
       };
-      const actualState = messagesReducer(initialState, action);
+      const actualState = messagesReducer(prevState, action);
       expect(actualState).toEqual(expectedState);
     });
   });
 
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('fetched messages are added to the state', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: { id: 1 },
         2: { id: 2 },
         4: { id: 4 },
@@ -359,13 +359,13 @@ describe('messagesReducer', () => {
         4: { id: 4 },
         5: { id: 5 },
       };
-      const newState = messagesReducer(initialState, action);
+      const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
     });
 
     test('when anchor is FIRST_UNREAD_ANCHOR common messages are not replaced', () => {
       const commonMessages = { 2: { id: 2, timestamp: 4 }, 3: { id: 3, timestamp: 5 } };
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: { id: 1, timestamp: 3 },
         ...commonMessages,
       });
@@ -377,7 +377,7 @@ describe('messagesReducer', () => {
         messages: [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }],
       });
 
-      const newState = messagesReducer(initialState, action);
+      const newState = messagesReducer(prevState, action);
 
       expect(newState['2']).toEqual(commonMessages['2']);
       expect(newState['3']).toEqual(commonMessages['3']);
@@ -386,7 +386,7 @@ describe('messagesReducer', () => {
     test('when anchor is FIRST_UNREAD_ANCHOR deep equal is performed to separate common messages', () => {
       const commonMessages = { 2: { id: 2, timestamp: 4 }, 3: { id: 3, timestamp: 5 } };
       const changedMessages = { 4: { id: 4, timestamp: 6, subject: 'new topic' } };
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         1: { id: 1, timestamp: 3 },
         ...commonMessages,
         4: { id: 4, timestamp: 6, subject: 'some topic' },
@@ -404,7 +404,7 @@ describe('messagesReducer', () => {
         ...changedMessages,
       };
 
-      const newState = messagesReducer(initialState, action);
+      const newState = messagesReducer(prevState, action);
 
       expect(newState['2']).toEqual(expectedState['2']);
       expect(newState['3']).toEqual(expectedState['3']);

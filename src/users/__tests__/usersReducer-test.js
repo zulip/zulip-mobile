@@ -5,26 +5,26 @@ import usersReducer from '../usersReducer';
 
 describe('usersReducer', () => {
   test('handles unknown action and no state by returning initial state', () => {
-    const initialState = undefined;
+    const prevState = undefined;
 
     const action = deepFreeze({});
 
-    const newState = usersReducer(initialState, action);
+    const newState = usersReducer(prevState, action);
     expect(newState).toBeDefined();
   });
 
   test('on unrecognized action, returns input state unchanged', () => {
-    const initialState = deepFreeze({ hello: 'world' });
+    const prevState = deepFreeze({ hello: 'world' });
 
     const action = deepFreeze({});
 
-    const newState = usersReducer(initialState, action);
-    expect(newState).toBe(initialState);
+    const newState = usersReducer(prevState, action);
+    expect(newState).toBe(prevState);
   });
 
   describe('REALM_INIT', () => {
     test('when `users` data is provided init state with it', () => {
-      const initialState = deepFreeze([]);
+      const prevState = deepFreeze([]);
       const action = deepFreeze({
         type: REALM_INIT,
         data: {
@@ -38,7 +38,7 @@ describe('usersReducer', () => {
         },
       });
 
-      const actualState = usersReducer(initialState, action);
+      const actualState = usersReducer(prevState, action);
 
       expect(actualState).toEqual([
         {
@@ -50,7 +50,7 @@ describe('usersReducer', () => {
     });
 
     test('when no `users` data is given reset state', () => {
-      const initialState = deepFreeze([
+      const prevState = deepFreeze([
         {
           user_id: 1,
           email: 'john@example.com',
@@ -63,7 +63,7 @@ describe('usersReducer', () => {
       });
       const expectedState = [];
 
-      const actualState = usersReducer(initialState, action);
+      const actualState = usersReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -71,7 +71,7 @@ describe('usersReducer', () => {
 
   describe('EVENT_USER_ADD', () => {
     test('flags from all messages are extracted and stored by id', () => {
-      const initialState = deepFreeze([]);
+      const prevState = deepFreeze([]);
 
       const action = deepFreeze({
         type: EVENT_USER_ADD,
@@ -90,7 +90,7 @@ describe('usersReducer', () => {
         },
       ];
 
-      const actualState = usersReducer(initialState, action);
+      const actualState = usersReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -98,7 +98,7 @@ describe('usersReducer', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = deepFreeze([
+      const prevState = deepFreeze([
         {
           full_name: 'Some Guy',
           email: 'email@example.com',
@@ -112,7 +112,7 @@ describe('usersReducer', () => {
 
       const expectedState = [];
 
-      const actualState = usersReducer(initialState, action);
+      const actualState = usersReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
