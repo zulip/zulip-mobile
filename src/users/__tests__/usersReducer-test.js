@@ -30,25 +30,6 @@ describe('usersReducer', () => {
         },
       ]);
     });
-
-    test('when no `users` data is given reset state', () => {
-      const prevState = deepFreeze([
-        {
-          user_id: 1,
-          email: 'john@example.com',
-          full_name: 'John Doe',
-        },
-      ]);
-      const action = deepFreeze({
-        type: REALM_INIT,
-        data: {},
-      });
-      const expectedState = [];
-
-      const actualState = usersReducer(prevState, action);
-
-      expect(actualState).toEqual(expectedState);
-    });
   });
 
   describe('EVENT_USER_ADD', () => {
