@@ -2,8 +2,8 @@
 import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
 
-import type { Narrow, Message, Outbox } from '../types';
-import { normalizeRecipients } from './recipient';
+import type { Narrow, Message, Outbox, PmRecipientUser } from '../types';
+import { normalizeRecipientsSansMe } from './recipient';
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
@@ -256,10 +256,12 @@ export const isSearchNarrow = (narrow?: Narrow): boolean =>
 
 /** (For search narrows, just returns false.) */
 export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: string): boolean => {
-  const matchRecipients = (emails: string[]) => {
-    const normalizedRecipients = normalizeRecipients(message.display_recipient);
-    const normalizedNarrow = [...emails, ownEmail].sort().join(',');
-    return normalizedRecipients === ownEmail || normalizedRecipients === normalizedNarrow;
+  const matchPmRecipients = (emails: string[]) => {
+    if (message.type !== 'private') {
+      return false;
+    }
+    const recipients: PmRecipientUser[] = message.display_recipient;
+    return normalizeRecipientsSansMe(recipients, ownEmail) === emails.sort().join(',');
   };
 
   const { flags } = message;
@@ -272,8 +274,8 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: st
     stream: name => name === message.display_recipient,
     topic: (streamName, topic) =>
       streamName === message.display_recipient && topic === message.subject,
-    pm: email => matchRecipients([email]),
-    groupPm: matchRecipients,
+    pm: email => matchPmRecipients([email]),
+    groupPm: matchPmRecipients,
     starred: () => flags.includes('starred'),
     mentioned: () => flags.includes('mentioned') || flags.includes('wildcard_mentioned'),
     allPrivate: () => message.type === 'private',
