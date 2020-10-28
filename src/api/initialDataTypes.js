@@ -100,19 +100,26 @@ export type InitialDataRealmFilters = {|
   realm_filters: RealmFilter[],
 |};
 
-export type InitialDataRealmUser = {|
+export type RawInitialDataRealmUser = {|
   avatar_source: 'G',
   avatar_url: string | null,
   avatar_url_medium: string,
   can_create_streams: boolean,
-  cross_realm_bots: CrossRealmBot[],
+  cross_realm_bots: Array<{| ...CrossRealmBot, avatar_url?: string | null |}>,
   email: string,
   enter_sends: boolean,
   full_name: string,
   is_admin: boolean,
+  realm_users: Array<{| ...User, avatar_url: string | null |}>,
+  realm_non_active_users: Array<{| ...User, avatar_url: string | null |}>,
+  user_id: number,
+|};
+
+export type InitialDataRealmUser = {|
+  ...RawInitialDataRealmUser,
+  cross_realm_bots: CrossRealmBot[],
   realm_non_active_users: User[],
   realm_users: User[],
-  user_id: number,
 |};
 
 export type InitialDataRealmUserGroups = {|
@@ -280,7 +287,8 @@ export type InitialDataUserStatus = {|
   user_status?: UserStatusMapObject,
 |};
 
-// Initial data snapshot sent in response to a `/register` request.
+// Initial data snapshot sent in response to a `/register` request,
+// after validation and transformation.
 export type InitialData = {|
   // The server sends different subsets of the full available data,
   // depending on what event types the client subscribes to with the
@@ -305,4 +313,11 @@ export type InitialData = {|
   ...InitialDataUpdateGlobalNotifications,
   ...InitialDataUpdateMessageFlags,
   ...InitialDataUserStatus,
+|};
+
+// Initial data snapshot sent in response to a `/register` request,
+// before validation and transformation.
+export type RawInitialData = {|
+  ...InitialData,
+  ...RawInitialDataRealmUser,
 |};
