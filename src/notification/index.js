@@ -16,6 +16,7 @@ import {
 } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
 import { fromAPNs } from './extract';
+import { tryParseUrl } from '../utils/url';
 
 /**
  * Identify the account the notification is for, if possible.
@@ -36,9 +37,15 @@ export const getAccountFromNotificationData = (
     return null;
   }
 
+  const realmUrl = tryParseUrl(realm_uri);
+  if (realmUrl === undefined) {
+    logging.warn('notification realm_uri invalid as URL', { realm_uri });
+    return null;
+  }
+
   const urlMatches = [];
   identities.forEach((account, i) => {
-    if (account.realm.toString() === realm_uri) {
+    if (account.realm.href === realmUrl.href) {
       urlMatches.push(i);
     }
   });
@@ -49,9 +56,10 @@ export const getAccountFromNotificationData = (
     // just a race -- this notification was sent before the logout); or
     // there's some confusion where the realm_uri we have is different from
     // the one the server sends in notifications.
-    const knownUrls = identities.map(({ realm }) => realm.toString());
+    const knownUrls = identities.map(({ realm }) => realm.href);
     logging.warn('notification realm_uri not found in accounts', {
       realm_uri,
+      parsed_url: realmUrl,
       known_urls: knownUrls,
     });
     return null;
@@ -64,6 +72,7 @@ export const getAccountFromNotificationData = (
     // fix that, just ignore the information.
     logging.warn('notification realm_uri ambiguous; multiple matches found', {
       realm_uri,
+      parsed_url: realmUrl,
       match_count: urlMatches.length,
     });
     // TODO get user_id into accounts data, and use that
