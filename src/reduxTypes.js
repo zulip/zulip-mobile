@@ -74,13 +74,15 @@ export type CaughtUp = {|
  *
  * See `CaughtUp` for details on what each value means.
  */
-export type CaughtUpState = {|
+export type CaughtUpState = {
+  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
   [narrow: string]: CaughtUp,
-|};
+};
 
-export type DraftsState = {|
+export type DraftsState = {
+  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
   [narrow: string]: string,
-|};
+};
 
 export type Fetching = {|
   older: boolean,
@@ -93,6 +95,7 @@ export type Fetching = {|
  * See also: `CaughtUpState`, `NarrowsState`.
  */
 export type FetchingState = {
+  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
   [narrow: string]: Fetching,
 };
 
@@ -154,8 +157,7 @@ export type FlagName = $Keys<FlagsState>;
  * messages belonging to a given narrow.
  */
 export type MessagesState = {
-  // MessagesState should be exact; we're waiting for Flow v0.126.0. See note
-  // in src/utils/jsonable.js.
+  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
   [id: number]: $Exact<Message>,
 };
 
