@@ -300,7 +300,8 @@ export const pmMessage = (args?: {|
 |}): Message => {
   // The `Object.freeze` is to work around a Flow issue:
   //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
-  const { sender = otherUser, recipients = [selfUser], ...extra } = args ?? Object.freeze({});
+  const { sender = otherUser, recipients = [otherUser, selfUser], ...extra } =
+    args ?? Object.freeze({});
 
   const baseMessage: Message = {
     ...messagePropertiesBase,
