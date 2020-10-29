@@ -25,8 +25,8 @@ export const privateNarrow = (email: string): Narrow => [
  * A group PM narrow.
  *
  * The users represented in `emails` should agree, as a (multi)set, with
- * `pmKeyRecipientsFromMessage`.  But this isn't checked, and there may be
- * bugs where they don't; some consumers of this data re-normalize to be sure.
+ * `pmKeyRecipientsFromMessage`.  But this isn't checked, and we've had bugs
+ * where they don't; some consumers of this data re-normalize to be sure.
  *
  * They might not have a consistent sorting.  (This would be good to fix.)
  * Consumers of this data should sort for themselves when making comparisons.
@@ -45,21 +45,17 @@ export const privateNarrow = (email: string): Narrow => [
 // merely latent only because it doesn't (as far as we know) have any
 // user-visible effect.
 //
-// But we also have some callers that don't even ensure the set is the right
-// one, with the self-user properly there or not.  Known call stacks:
-//  * BUG, ish: getNarrowFromLink doesn't ensure this precondition is met.
-//      And... there's basically a bug in the webapp, where the URL that
-//      appears in the location bar for a group PM conversation excludes
-//      self -- so it's unusable if you try to give someone else in it a
-//      link to a particular message, say.  But conversely I guess it means
-//      that the mobile app actually works just as well as the webapp on the
-//      links people generate from the webapp.
+// Known call stacks:
 //  * OK, perilously, unsorted: CreateGroupScreen: the self user isn't
 //      offered in the UI, so effectively the list is filtered; can call
 //      with just one email, but happily this works out the same as pmNarrow
 //  * OK, email: PmConversationList < PmConversationCard: the data comes
 //      from `getRecentConversations`, which filters and sorts by email
 //  * OK, email: PmConversationList < UnreadCards: ditto
+//  * OK, unsorted: getNarrowFromLink.  Though there's basically a bug in
+//      the webapp, where the URL that appears in the location bar for a
+//      group PM conversation excludes self -- so it's unusable if you try
+//      to give someone else in it a link to a particular message, say.
 //  * OK, unsorted: getNarrowFromMessage
 //  * Good: getNarrowFromNotificationData: filters, and starts from
 //      notification's pm_users, which is sorted.

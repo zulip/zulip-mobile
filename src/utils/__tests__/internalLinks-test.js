@@ -124,8 +124,10 @@ describe('decodeHashComponent', () => {
 });
 
 describe('getNarrowFromLink', () => {
-  const [userA, userB, userC] = [eg.makeUser(), eg.makeUser(), eg.makeUser()];
-  const usersById: Map<number, User> = new Map([userA, userB, userC].map(u => [u.user_id, u]));
+  const [userB, userC] = [eg.makeUser(), eg.makeUser()];
+  const usersById: Map<number, User> = new Map(
+    [eg.selfUser, userB, userC].map(u => [u.user_id, u]),
+  );
 
   const streamGeneral = eg.makeStream({ name: 'general' });
 
@@ -135,6 +137,7 @@ describe('getNarrowFromLink', () => {
       new URL('https://example.com'),
       usersById,
       new Map(streams.map(s => [s.stream_id, s])),
+      eg.selfUser.user_id,
     );
 
   test('on link to realm domain but not narrow: return null', () => {
@@ -252,15 +255,23 @@ describe('getNarrowFromLink', () => {
   });
 
   test('on group PM link', () => {
-    const ids = `${userA.user_id},${userB.user_id},${userC.user_id}`;
+    const ids = `${userB.user_id},${userC.user_id}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(
-      groupNarrow([userA.email, userB.email, userC.email]),
+      groupNarrow([userB.email, userC.email]),
+    );
+  });
+
+  test('on group PM link including self', () => {
+    // The webapp doesn't generate these, but best to handle them anyway.
+    const ids = `${eg.selfUser.user_id},${userB.user_id},${userC.user_id}`;
+    expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(
+      groupNarrow([userB.email, userC.email]),
     );
   });
 
   test('if any of the user ids are not found: return null', () => {
     const otherId = 1 + Math.max(...usersById.keys());
-    const ids = `${userA.user_id},${userB.user_id},${otherId}`;
+    const ids = `${userB.user_id},${otherId}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(null);
   });
 
@@ -269,9 +280,9 @@ describe('getNarrowFromLink', () => {
   });
 
   test('on a message link', () => {
-    const ids = `${userA.user_id},${userC.user_id}`;
+    const ids = `${userB.user_id},${userC.user_id}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group/near/2`)).toEqual(
-      groupNarrow([userA.email, userC.email]),
+      groupNarrow([userB.email, userC.email]),
     );
 
     expect(get('https://example.com/#narrow/stream/jest/topic/test/near/1')).toEqual(

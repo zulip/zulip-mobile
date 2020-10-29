@@ -2,6 +2,7 @@
 import { addBreadcrumb } from '@sentry/react-native';
 import type { Narrow, Stream, User } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
+import { pmKeyRecipientsFromIds } from './recipient';
 import { isUrlOnRealm } from './url';
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
@@ -110,17 +111,9 @@ const parseStreamOperand = (operand, streamsById): string => {
 const parseTopicOperand = operand => decodeHashComponent(operand);
 
 /** Parse the operand of a `pm-with` operator. */
-const parsePmOperand = (operand, usersById) => {
-  const recipientIds = operand.split('-')[0].split(',');
-  const recipientEmails = [];
-  for (let i = 0; i < recipientIds.length; ++i) {
-    const user = usersById.get(parseInt(recipientIds[i], 10));
-    if (user === undefined) {
-      return null;
-    }
-    recipientEmails.push(user.email);
-  }
-  return recipientEmails;
+const parsePmOperand = (operand, usersById, ownUserId) => {
+  const idStrs = operand.split('-')[0].split(',');
+  return idStrs.map(s => parseInt(s, 10));
 };
 
 export const getNarrowFromLink = (
@@ -128,20 +121,16 @@ export const getNarrowFromLink = (
   realm: URL,
   usersById: Map<number, User>,
   streamsById: Map<number, Stream>,
+  ownUserId: number,
 ): Narrow | null => {
   const type = getLinkType(url, realm);
   const paths = getPathsFromUrl(url, realm);
 
   switch (type) {
     case 'pm': {
-      const recipientEmails = parsePmOperand(paths[1], usersById);
-      if (recipientEmails === null) {
-        return null;
-      }
-      // BUG: should normalize recipients; see comment on groupNarrow.
-      // (We're parsing a link someone wrote in a message, so the server
-      // gives us no guarantees here.)
-      return groupNarrow(recipientEmails);
+      const ids = parsePmOperand(paths[1], usersById, ownUserId);
+      const users = pmKeyRecipientsFromIds(ids, usersById, ownUserId);
+      return users && groupNarrow(users.map(u => u.email));
     }
     case 'topic':
       return topicNarrow(parseStreamOperand(paths[1], streamsById), parseTopicOperand(paths[3]));
