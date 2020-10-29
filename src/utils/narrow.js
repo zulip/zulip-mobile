@@ -47,8 +47,6 @@ export const privateNarrow = (email: string): Narrow => [
 //
 // But we also have some callers that don't even ensure the set is the right
 // one, with the self-user properly there or not.  Known call stacks:
-//  * BUG, at least latent: getNarrowFromNotificationData: comes from
-//      notification's pm_users... which is sorted but not filtered.
 //  * BUG, ish: getNarrowFromLink doesn't ensure this precondition is met.
 //      And... there's basically a bug in the webapp, where the URL that
 //      appears in the location bar for a group PM conversation excludes
@@ -63,6 +61,8 @@ export const privateNarrow = (email: string): Narrow => [
 //      from `getRecentConversations`, which filters and sorts by email
 //  * OK, email: PmConversationList < UnreadCards: ditto
 //  * OK, unsorted: getNarrowFromMessage
+//  * Good: getNarrowFromNotificationData: filters, and starts from
+//      notification's pm_users, which is sorted.
 //  * Good: messageHeaderAsHtml: comes from pmKeyRecipientsFromMessage,
 //      which filters and sorts by ID
 export const groupNarrow = (emails: string[]): Narrow => [

@@ -85,6 +85,7 @@ export const getAccountFromNotificationData = (
 export const getNarrowFromNotificationData = (
   data: Notification,
   usersById: Map<number, User>,
+  ownUserId: number,
 ): Narrow | null => {
   if (!data.recipient_type) {
     // This condition is impossible if the value is rightly-typed; but in
@@ -107,6 +108,10 @@ export const getNarrowFromNotificationData = (
   const idStrs = data.pm_users.split(',');
   for (let i = 0; i < idStrs.length; ++i) {
     const id = parseInt(idStrs[i], 10);
+    if (id === ownUserId) {
+      continue;
+    }
+
     const user = usersById.get(id);
     if (!user) {
       return null;
