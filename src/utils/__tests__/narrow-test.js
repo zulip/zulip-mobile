@@ -262,6 +262,14 @@ describe('isMessageInNarrow', () => {
       ['self-1:1 message', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
       ['stream message', false, eg.streamMessage()],
     ]],
+    ['group-PM conversation, including self', groupNarrow([eg.selfUser.email, eg.otherUser.email, eg.thirdUser.email]), [
+      ['matching group-PM, inbound', true, eg.pmMessage({ recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
+      ['matching group-PM, outbound', true, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
+      ['1:1 within group, inbound', false, eg.pmMessage()],
+      ['1:1 within group, outbound', false, eg.pmMessage({ sender: eg.selfUser })],
+      ['self-1:1 message', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
+      ['stream message', false, eg.streamMessage()],
+    ]],
     ['all-PMs narrow', ALL_PRIVATE_NARROW, [
       ['a PM', true, eg.pmMessage()],
       ['stream message', false, eg.streamMessage()],

@@ -25,7 +25,8 @@ export const privateNarrow = (email: string): Narrow => [
  * A group PM narrow.
  *
  * The users represented in `emails` should agree, as a (multi)set, with
- * `pmKeyRecipientsFromMessage`.
+ * `pmKeyRecipientsFromMessage`.  But this isn't checked, and there may be
+ * bugs where they don't; some consumers of this data re-normalize to be sure.
  *
  * They might not have a consistent sorting.  (This would be good to fix.)
  * Consumers of this data should sort for themselves when making comparisons.
@@ -46,11 +47,8 @@ export const privateNarrow = (email: string): Narrow => [
 //
 // But we also have some callers that don't even ensure the set is the right
 // one, with the self-user properly there or not.  Known call stacks:
-//  * BUG #4293: getNarrowFromNotificationData: comes from notification's
-//      pm_users... which is sorted but not filtered.  This means if you
-//      follow a group PM notif, then get another message in that
-//      conversation, it won't appear.  (And if you send, it'll promptly
-//      disappear.)
+//  * BUG, at least latent: getNarrowFromNotificationData: comes from
+//      notification's pm_users... which is sorted but not filtered.
 //  * BUG, ish: getNarrowFromLink doesn't ensure this precondition is met.
 //      And... there's basically a bug in the webapp, where the URL that
 //      appears in the location bar for a group PM conversation excludes
@@ -261,7 +259,11 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: st
       return false;
     }
     const recipients: PmRecipientUser[] = message.display_recipient;
-    return normalizeRecipientsSansMe(recipients, ownEmail) === emails.sort().join(',');
+    const narrowAsRecipients = emails.map(email => ({ email }));
+    return (
+      normalizeRecipientsSansMe(recipients, ownEmail)
+      === normalizeRecipientsSansMe(narrowAsRecipients, ownEmail)
+    );
   };
 
   const { flags } = message;
