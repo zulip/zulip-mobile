@@ -17,6 +17,7 @@ import {
 import { identityOfAuth } from '../account/accountMisc';
 import { fromAPNs } from './extract';
 import { tryParseUrl } from '../utils/url';
+import { pmKeyRecipientsFromIds } from '../utils/recipient';
 
 /**
  * Identify the account the notification is for, if possible.
@@ -104,21 +105,9 @@ export const getNarrowFromNotificationData = (
     return privateNarrow(data.sender_email);
   }
 
-  const emails = [];
-  const idStrs = data.pm_users.split(',');
-  for (let i = 0; i < idStrs.length; ++i) {
-    const id = parseInt(idStrs[i], 10);
-    if (id === ownUserId) {
-      continue;
-    }
-
-    const user = usersById.get(id);
-    if (!user) {
-      return null;
-    }
-    emails.push(user.email);
-  }
-  return groupNarrow(emails);
+  const ids = data.pm_users.split(',').map(s => parseInt(s, 10));
+  const users = pmKeyRecipientsFromIds(ids, usersById, ownUserId);
+  return users && groupNarrow(users.map(u => u.email));
 };
 
 const getInitialNotification = async (): Promise<Notification | null> => {

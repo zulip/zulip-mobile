@@ -119,6 +119,34 @@ export const pmKeyRecipientsFromMessage = (
 };
 
 /**
+ * The set of users to identify a PM conversation by in our data structures.
+ *
+ * This produces the same set of users as `pmKeyRecipientsFromMessage`, just
+ * from a different form of input.
+ *
+ * The input may either include or exclude self, without affecting the
+ * result.
+ */
+export const pmKeyRecipientsFromIds = (
+  userIds: number[],
+  usersById: Map<number, User>,
+  ownUserId: number,
+): User[] | null => {
+  const users = [];
+  for (const id of userIds) {
+    if (id === ownUserId && userIds.length > 1) {
+      continue;
+    }
+    const user = usersById.get(id);
+    if (!user) {
+      return null;
+    }
+    users.push(user);
+  }
+  return users;
+};
+
+/**
  * The key this PM is filed under in the "unread messages" data structure.
  *
  * Note this diverges slightly from pmKeyRecipientsFromMessage in its
