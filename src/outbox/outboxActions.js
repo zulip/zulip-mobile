@@ -106,9 +106,8 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
   dispatch(toggleOutboxSending(false));
 };
 
-const mapEmailsToUsers = (usersByEmail, narrow, selfDetail) =>
-  narrow[0].operand
-    .split(',')
+const mapEmailsToUsers = (emails, usersByEmail, selfDetail) =>
+  emails
     .map(item => {
       const user = usersByEmail.get(item) || NULL_USER;
       return { email: item, id: user.user_id, full_name: user.full_name };
@@ -130,7 +129,7 @@ const extractTypeToAndSubjectFromNarrow = (
   if (isPrivateOrGroupNarrow(narrow)) {
     return {
       type: 'private',
-      display_recipient: mapEmailsToUsers(usersByEmail, narrow, selfDetail),
+      display_recipient: mapEmailsToUsers(narrow[0].operand.split(','), usersByEmail, selfDetail),
       subject: '',
     };
   } else if (isStreamNarrow(narrow)) {
