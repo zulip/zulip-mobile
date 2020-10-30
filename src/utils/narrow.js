@@ -248,8 +248,23 @@ export const isStreamOrTopicNarrow = (narrow?: Narrow): boolean =>
 export const isSearchNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { search: () => true }, () => false);
 
-/** (For search narrows, just returns false.) */
-export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: string): boolean => {
+/**
+ * True just if the given message is part of the given narrow.
+ *
+ * This function does not support search narrows, and for them always
+ * returns false.
+ *
+ * The message's flags must be in `flags`; `message.flags` is ignored.  This
+ * makes it the caller's responsibility to deal with the ambiguity in our
+ * Message type of whether the message's flags live in a `flags` property or
+ * somewhere else.
+ */
+export const isMessageInNarrow = (
+  message: Message,
+  flags: $ReadOnlyArray<string>,
+  narrow: Narrow,
+  ownEmail: string,
+): boolean => {
   const matchPmRecipients = (emails: string[]) => {
     if (message.type !== 'private') {
       return false;
@@ -261,11 +276,6 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: st
       === normalizeRecipientsSansMe(narrowAsRecipients, ownEmail)
     );
   };
-
-  const { flags } = message;
-  if (!flags) {
-    throw new Error('`message.flags` should be defined.');
-  }
 
   return caseNarrow(narrow, {
     home: () => true,

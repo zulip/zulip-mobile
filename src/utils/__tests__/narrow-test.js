@@ -289,19 +289,12 @@ describe('isMessageInNarrow', () => {
       for (const [messageDescription, expected, message] of cases) {
         test(`${expected ? 'contains' : 'excludes'} ${messageDescription}`, () => {
           expect(
-            isMessageInNarrow({ ...message, flags: message.flags ?? [] }, narrow, ownEmail),
+            isMessageInNarrow(message, message.flags ?? [], narrow, ownEmail),
           ).toBe(expected);
         });
       }
     });
   }
-
-  test('message with flags absent throws an error', () => {
-    const message = eg.streamMessage({
-      // no flags
-    });
-    expect(() => isMessageInNarrow(message, MENTIONED_NARROW, ownEmail)).toThrow();
-  });
 });
 
 describe('getNarrowFromMessage', () => {
