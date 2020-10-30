@@ -260,7 +260,7 @@ export const isSearchNarrow = (narrow?: Narrow): boolean =>
  * somewhere else.
  */
 export const isMessageInNarrow = (
-  message: Message,
+  message: Message | Outbox,
   flags: $ReadOnlyArray<string>,
   narrow: Narrow,
   ownEmail: string,
@@ -303,20 +303,6 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
     allPrivate: () => false,
     search: () => false,
   });
-
-/** True just if `haystack` contains all possible messages in `needle`. */
-export const narrowContains = (haystack: Narrow, needle: Narrow): boolean => {
-  if (isHomeNarrow(haystack)) {
-    return true;
-  }
-  if (isAllPrivateNarrow(haystack) && isPrivateOrGroupNarrow(needle)) {
-    return true;
-  }
-  if (isStreamNarrow(haystack) && needle[0].operand === haystack[0].operand) {
-    return true;
-  }
-  return JSON.stringify(needle) === JSON.stringify(haystack);
-};
 
 export const getNarrowFromMessage = (message: Message | Outbox, ownEmail: string) => {
   if (Array.isArray(message.display_recipient)) {

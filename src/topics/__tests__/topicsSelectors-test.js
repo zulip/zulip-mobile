@@ -31,6 +31,7 @@ describe('getLastMessageTopic', () => {
   test('when no messages in narrow return an empty string', () => {
     const state = eg.reduxState({
       narrows: {},
+      realm: eg.realmState({ email: eg.selfUser.email }),
     });
 
     const topic = getLastMessageTopic(state, HOME_NARROW);
@@ -50,6 +51,7 @@ describe('getLastMessageTopic', () => {
         [message1.id]: message1,
         [message2.id]: message2,
       },
+      realm: eg.realmState({ email: eg.selfUser.email }),
     });
 
     const topic = getLastMessageTopic(state, narrow);

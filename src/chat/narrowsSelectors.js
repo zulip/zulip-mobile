@@ -21,12 +21,12 @@ import {
   getOutbox,
 } from '../directSelectors';
 import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
-import { getAllUsersByEmail } from '../users/userSelectors';
+import { getAllUsersByEmail, getOwnEmail } from '../users/userSelectors';
 import {
   isPrivateNarrow,
   isStreamOrTopicNarrow,
   emailsOfGroupNarrow,
-  narrowContains,
+  isMessageInNarrow,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
@@ -35,11 +35,22 @@ export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelecto
   (state, narrow) => narrow,
   getCaughtUpForNarrow,
   state => getOutbox(state),
-  (narrow, caughtUp, outboxMessages) => {
+  getOwnEmail,
+  (narrow, caughtUp, outboxMessages, ownEmail) => {
     if (!caughtUp.newer) {
       return NULL_ARRAY;
     }
-    const filtered = outboxMessages.filter(item => narrowContains(narrow, item.narrow));
+    // TODO?: Handle @-mention flags in outbox messages.  As is, if you
+    //   @-mention yourself (or a wildcard) and then go look at the
+    //   is:mentioned view while your message is still unsent, we wrongly
+    //   leave it out.  Pretty uncommon edge case, though.
+    //
+    // No other narrows rely on flags except the "starred" narrow.  Outbox
+    // messages can't be starred, so "no flags" gives that the right answer.
+    const fakeFlags = [];
+    const filtered = outboxMessages.filter(message =>
+      isMessageInNarrow(message, fakeFlags, narrow, ownEmail),
+    );
     return isEqual(filtered, outboxMessages) ? outboxMessages : filtered;
   },
 );

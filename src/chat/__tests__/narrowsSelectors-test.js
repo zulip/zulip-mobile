@@ -34,6 +34,7 @@ describe('getMessagesForNarrow', () => {
       },
       messages,
       outbox: [],
+      realm: eg.realmState({ email: eg.selfUser.email }),
     });
 
     const result = getMessagesForNarrow(state, HOME_NARROW);
@@ -51,6 +52,7 @@ describe('getMessagesForNarrow', () => {
       caughtUp: {
         [HOME_NARROW_STR]: { older: false, newer: true },
       },
+      realm: eg.realmState({ email: eg.selfUser.email }),
     });
 
     const result = getMessagesForNarrow(state, HOME_NARROW);
@@ -65,6 +67,7 @@ describe('getMessagesForNarrow', () => {
       },
       messages,
       outbox: [outboxMessage],
+      realm: eg.realmState({ email: eg.selfUser.email }),
     });
 
     const result = getMessagesForNarrow(state, HOME_NARROW);
@@ -79,6 +82,7 @@ describe('getMessagesForNarrow', () => {
       },
       messages,
       outbox: [{ ...outboxMessage, narrow: streamNarrow('denmark') }],
+      realm: eg.realmState({ email: eg.selfUser.email }),
     });
 
     const result = getMessagesForNarrow(state, privateNarrow('john@example.com'));
