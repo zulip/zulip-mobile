@@ -25,9 +25,7 @@ describe('getMessagesForNarrow', () => {
     // them to be numbers.
     [123]: message /* eslint-disable-line no-useless-computed-key */,
   };
-  const outboxMessage = eg.makeOutboxMessage({
-    narrow: HOME_NARROW,
-  });
+  const outboxMessage = eg.makeOutboxMessage({});
 
   test('if no outbox messages returns messages with no change', () => {
     const state = eg.reduxState({
