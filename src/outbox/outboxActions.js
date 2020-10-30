@@ -105,16 +105,21 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
   dispatch(toggleOutboxSending(false));
 };
 
-const mapEmailsToUsers = (emails, allUsersByEmail, ownUser) =>
-  emails
-    .map(item => {
-      const user = allUsersByEmail.get(item);
-      if (!user) {
-        throw new Error('outbox: missing user when preparing to send PM');
-      }
-      return { email: item, id: user.user_id, full_name: user.full_name };
-    })
-    .concat({ email: ownUser.email, id: ownUser.user_id, full_name: ownUser.full_name });
+// A valid display_recipient with all the thread's users, sorted by ID.
+const mapEmailsToUsers = (emails, allUsersByEmail, ownUser) => {
+  const result = emails.map(email => {
+    const user = allUsersByEmail.get(email);
+    if (!user) {
+      throw new Error('outbox: missing user when preparing to send PM');
+    }
+    return { email, id: user.user_id, full_name: user.full_name };
+  });
+  if (!result.some(r => r.id === ownUser.user_id)) {
+    result.push({ email: ownUser.email, id: ownUser.user_id, full_name: ownUser.full_name });
+  }
+  result.sort((r1, r2) => r1.id - r2.id);
+  return result;
+};
 
 // TODO type: `string | NamedUser[]` is a bit confusing.
 type DataFromNarrow = {|
