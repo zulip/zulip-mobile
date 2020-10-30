@@ -9,7 +9,7 @@ import type {
   NamedUser,
   Narrow,
   Outbox,
-  User,
+  UserOrBot,
   Action,
 } from '../types';
 import {
@@ -20,7 +20,7 @@ import {
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import * as api from '../api';
-import { getSelfUserDetail, getUsersByEmail } from '../users/userSelectors';
+import { getSelfUserDetail, getAllUsersByEmail } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
 import { caseNarrowPartial, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
@@ -106,10 +106,10 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
   dispatch(toggleOutboxSending(false));
 };
 
-const mapEmailsToUsers = (emails, usersByEmail, selfDetail) =>
+const mapEmailsToUsers = (emails, allUsersByEmail, selfDetail) =>
   emails
     .map(item => {
-      const user = usersByEmail.get(item) || NULL_USER;
+      const user = allUsersByEmail.get(item) || NULL_USER;
       return { email: item, id: user.user_id, full_name: user.full_name };
     })
     .concat({ email: selfDetail.email, id: selfDetail.user_id, full_name: selfDetail.full_name });
@@ -123,12 +123,12 @@ type DataFromNarrow = {|
 
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
-  usersByEmail: Map<string, User>,
+  allUsersByEmail: Map<string, UserOrBot>,
   selfDetail: { email: string, user_id: number, full_name: string },
 ): DataFromNarrow => {
   const forPm = emails => ({
     type: 'private',
-    display_recipient: mapEmailsToUsers(emails, usersByEmail, selfDetail),
+    display_recipient: mapEmailsToUsers(emails, allUsersByEmail, selfDetail),
     subject: '',
   });
   return caseNarrowPartial(narrow, {
@@ -174,7 +174,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
     messageSendStart({
       narrow,
       isSent: false,
-      ...extractTypeToAndSubjectFromNarrow(narrow, getUsersByEmail(state), userDetail),
+      ...extractTypeToAndSubjectFromNarrow(narrow, getAllUsersByEmail(state), userDetail),
       markdownContent: content,
       content: getContentPreview(content, state),
       timestamp: localTime,
