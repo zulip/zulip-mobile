@@ -24,7 +24,6 @@ import { getSelfUserDetail, getAllUsersByEmail } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
 import { caseNarrowPartial, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
-import { NULL_USER } from '../nullObjects';
 
 export const messageSendStart = (outbox: Outbox): Action => ({
   type: MESSAGE_SEND_START,
@@ -109,7 +108,10 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
 const mapEmailsToUsers = (emails, allUsersByEmail, selfDetail) =>
   emails
     .map(item => {
-      const user = allUsersByEmail.get(item) || NULL_USER;
+      const user = allUsersByEmail.get(item);
+      if (!user) {
+        throw new Error('outbox: missing user when preparing to send PM');
+      }
       return { email: item, id: user.user_id, full_name: user.full_name };
     })
     .concat({ email: selfDetail.email, id: selfDetail.user_id, full_name: selfDetail.full_name });
