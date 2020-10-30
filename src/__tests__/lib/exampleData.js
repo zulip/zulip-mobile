@@ -25,7 +25,7 @@ import {
 } from '../../actionConstants';
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
-import { HOME_NARROW } from '../../utils/narrow';
+import { HOME_NARROW, topicNarrow } from '../../utils/narrow';
 
 /* ========================================================================
  * Utilities
@@ -370,10 +370,10 @@ const outboxMessageBase: $Diff<Outbox, {| id: mixed, timestamp: mixed |}> = deep
 
   avatar_url: selfUser.avatar_url,
   content: '<p>Test.</p>',
-  display_recipient: 'test',
+  display_recipient: stream.name,
   // id: ...,
   markdownContent: 'Test.',
-  narrow: [{ operator: 'stream', operand: 'test' }],
+  narrow: topicNarrow(stream.name, 'test topic'),
   reactions: [],
   sender_email: selfUser.email,
   sender_full_name: selfUser.full_name,
