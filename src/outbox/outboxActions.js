@@ -20,7 +20,7 @@ import {
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import * as api from '../api';
-import { getSelfUserDetail, getAllUsersByEmail } from '../users/userSelectors';
+import { getAllUsersByEmail, getOwnUser } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
 import { caseNarrowPartial, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
@@ -105,7 +105,7 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
   dispatch(toggleOutboxSending(false));
 };
 
-const mapEmailsToUsers = (emails, allUsersByEmail, selfDetail) =>
+const mapEmailsToUsers = (emails, allUsersByEmail, ownUser) =>
   emails
     .map(item => {
       const user = allUsersByEmail.get(item);
@@ -114,7 +114,7 @@ const mapEmailsToUsers = (emails, allUsersByEmail, selfDetail) =>
       }
       return { email: item, id: user.user_id, full_name: user.full_name };
     })
-    .concat({ email: selfDetail.email, id: selfDetail.user_id, full_name: selfDetail.full_name });
+    .concat({ email: ownUser.email, id: ownUser.user_id, full_name: ownUser.full_name });
 
 // TODO type: `string | NamedUser[]` is a bit confusing.
 type DataFromNarrow = {|
@@ -126,11 +126,11 @@ type DataFromNarrow = {|
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
   allUsersByEmail: Map<string, UserOrBot>,
-  selfDetail: { email: string, user_id: number, full_name: string },
+  ownUser: UserOrBot,
 ): DataFromNarrow => {
   const forPm = emails => ({
     type: 'private',
-    display_recipient: mapEmailsToUsers(emails, allUsersByEmail, selfDetail),
+    display_recipient: mapEmailsToUsers(emails, allUsersByEmail, ownUser),
     subject: '',
   });
   return caseNarrowPartial(narrow, {
@@ -169,21 +169,21 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   getState: GetState,
 ) => {
   const state = getState();
-  const userDetail = getSelfUserDetail(state);
+  const ownUser = getOwnUser(state);
 
   const localTime = Math.round(new Date().getTime() / 1000);
   dispatch(
     messageSendStart({
       narrow,
       isSent: false,
-      ...extractTypeToAndSubjectFromNarrow(narrow, getAllUsersByEmail(state), userDetail),
+      ...extractTypeToAndSubjectFromNarrow(narrow, getAllUsersByEmail(state), ownUser),
       markdownContent: content,
       content: getContentPreview(content, state),
       timestamp: localTime,
       id: localTime,
-      sender_full_name: userDetail.full_name,
-      sender_email: userDetail.email,
-      avatar_url: userDetail.avatar_url,
+      sender_full_name: ownUser.full_name,
+      sender_email: ownUser.email,
+      avatar_url: ownUser.avatar_url,
       isOutbox: true,
       reactions: [],
     }),
