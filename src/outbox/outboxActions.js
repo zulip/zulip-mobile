@@ -22,7 +22,7 @@ import { getAuth } from '../selectors';
 import * as api from '../api';
 import { getSelfUserDetail, getUsersByEmail } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
-import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
+import { caseNarrowPartial, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
 import { NULL_USER } from '../nullObjects';
 
@@ -126,16 +126,25 @@ const extractTypeToAndSubjectFromNarrow = (
   usersByEmail: Map<string, User>,
   selfDetail: { email: string, user_id: number, full_name: string },
 ): DataFromNarrow => {
-  if (isPrivateOrGroupNarrow(narrow)) {
-    return {
-      type: 'private',
-      display_recipient: mapEmailsToUsers(narrow[0].operand.split(','), usersByEmail, selfDetail),
-      subject: '',
-    };
-  } else if (isStreamNarrow(narrow)) {
-    return { type: 'stream', display_recipient: narrow[0].operand, subject: '(no topic)' };
-  }
-  return { type: 'stream', display_recipient: narrow[0].operand, subject: narrow[1].operand };
+  const forPm = emails => ({
+    type: 'private',
+    display_recipient: mapEmailsToUsers(emails, usersByEmail, selfDetail),
+    subject: '',
+  });
+  return caseNarrowPartial(narrow, {
+    pm: email => forPm([email]),
+    groupPm: forPm,
+
+    // TODO: we shouldn't ever be passing a whole-stream narrow here;
+    //   ensure we don't, then remove this case
+    stream: name => ({ type: 'stream', display_recipient: name, subject: '(no topic)' }),
+
+    topic: (streamName, topic) => ({
+      type: 'stream',
+      display_recipient: streamName,
+      subject: topic,
+    }),
+  });
 };
 
 const getContentPreview = (content: string, state: GlobalState): string => {
