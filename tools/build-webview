@@ -86,8 +86,10 @@ elif [ -z "${dest-}" ]; then
     usage; exit 2
 fi
 
-# Make $dest absolute, if it isn't already.
-dest=$(readlink -m "$dest")
+# Interpret destination path based on current directory...
+dest=$(realpath -m --relative-to="$root" "$dest")
+# ... then cd to the root.
+cd "$root"
 
 # Argument parsing has concluded; argument variables are no longer mutable.
 readonly target dest check_path_name
@@ -105,8 +107,8 @@ if (( check_path_name )); then
             # of this script, and once in the "Copy Bundle Resources" step. If you
             # change it, you'll need to change it in both places. (And here, of
             # course.)
-            if [[ "$dest" != "$root/ios/"* ]]; then
-                err "unexpected destination directory '$dest' (expected target in $root/ios/)"
+            if [[ "$dest" != "ios/"* ]]; then
+                err "unexpected destination directory '$dest' (expected target in ios/)"
             fi
         ;;
         android)
@@ -115,8 +117,8 @@ if (( check_path_name )); then
             # Gradle -- more precisely, the Android Gradle plugin -- is already
             # configured to copy some directory from `build/` into the APK. We
             # determine which directory that is in Gradle, and pass it here.
-            if [[ "$dest" != "$root/android/app/build/"* ]]; then
-                err "unexpected destination directory '$dest' (expected target in $root/android/app/build/)"
+            if [[ "$dest" != "android/app/build/"* ]]; then
+                err "unexpected destination directory '$dest' (expected target in android/app/build/)"
             fi
         ;;
         *) err "impossible target $target";;
@@ -157,7 +159,7 @@ sync() {
 }
 
 # Copy over files from KaTeX.
-sync "${root}/node_modules/katex/dist" "${dest}/katex" <<EOF
+sync "node_modules/katex/dist" "${dest}/katex" <<EOF
 + /katex.min.css
 
 # The KaTeX JS renders LaTeX code into HTML and MathML.
@@ -173,7 +175,7 @@ sync "${root}/node_modules/katex/dist" "${dest}/katex" <<EOF
 EOF
 
 # Copy over our own files.
-sync "${root}/src/webview/static" "${dest}" <<EOF
+sync "src/webview/static" "${dest}" <<EOF
 # Leave alone the katex directory we just made.
 -,r /katex
 
