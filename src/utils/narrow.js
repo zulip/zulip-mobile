@@ -11,21 +11,10 @@ import {
   type PmKeyUsers,
 } from './recipient';
 
+/* eslint-disable no-use-before-define */
+
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
-
-/**
- * Parse a narrow previously encoded with keyFromNarrow.
- */
-export const parseNarrow = (narrowStr: string): Narrow => JSON.parse(narrowStr);
-
-/**
- * The key we use for this narrow in our Redux data structures.
- *
- * See in particular `NarrowsState`, `CaughtUpState`, `FetchingState`,
- * and `DraftsState`.
- */
-export const keyFromNarrow = (narrow: Narrow): string => JSON.stringify(narrow);
 
 export const HOME_NARROW: Narrow = [];
 
@@ -260,6 +249,21 @@ export function caseNarrowDefault<T>(
     ),
   );
 }
+
+/**
+ * The key we use for this narrow in our Redux data structures.
+ *
+ * See in particular `NarrowsState`, `CaughtUpState`, `FetchingState`,
+ * and `DraftsState`.
+ */
+export function keyFromNarrow(narrow: Narrow): string {
+  return JSON.stringify(narrow);
+}
+
+/**
+ * Parse a narrow previously encoded with keyFromNarrow.
+ */
+export const parseNarrow = (narrowStr: string): Narrow => JSON.parse(narrowStr);
 
 export const isHomeNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { home: () => true }, () => false);
