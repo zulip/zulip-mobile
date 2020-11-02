@@ -70,7 +70,7 @@ export type CaughtUp = {|
 /**
  * Info about how completely we know the messages in each narrow.
  *
- * The keys correspond to the keys in `MessagesState`.
+ * The keys correspond to the keys in `NarrowsState`.
  *
  * See `CaughtUp` for details on what each value means.
  */
@@ -79,6 +79,11 @@ export type CaughtUpState = {
   [narrow: string]: CaughtUp,
 };
 
+/**
+ * The user's draft message, if any, in each conversation.
+ *
+ * The keys correspond to the keys in `NarrowsState`.
+ */
 export type DraftsState = {
   // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
   [narrow: string]: string,
@@ -91,6 +96,8 @@ export type Fetching = {|
 
 /**
  * Info about which narrows we're actively fetching more messages from.
+ *
+ * The keys correspond to the keys in `NarrowsState`.
  *
  * See also: `CaughtUpState`, `NarrowsState`.
  */
