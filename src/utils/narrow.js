@@ -15,7 +15,10 @@ import {
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
 
-export const parseNarrowString = (narrowStr: string): Narrow => JSON.parse(unescape(narrowStr));
+/**
+ * Parse a narrow previously encoded with keyFromNarrow.
+ */
+export const parseNarrow = (narrowStr: string): Narrow => JSON.parse(unescape(narrowStr));
 
 /**
  * The key we use for this narrow in our Redux data structures.

@@ -21,7 +21,7 @@ import {
   isStreamOrTopicNarrow,
   getNarrowsForMessage,
   getNarrowForReply,
-  parseNarrowString,
+  parseNarrow,
   STARRED_NARROW,
   MENTIONED_NARROW,
 } from '../narrow';
@@ -418,11 +418,9 @@ describe('isSameNarrow', () => {
   });
 });
 
-describe('parseNarrowString', () => {
+describe('parseNarrow', () => {
   test('straightforward arrays are parsed', () => {
-    expect(parseNarrowString('[]')).toEqual([]);
-    expect(parseNarrowString('[{&quot;operator&quot;:&quot;hey&quot;}]')).toEqual([
-      { operator: 'hey' },
-    ]);
+    expect(parseNarrow('[]')).toEqual([]);
+    expect(parseNarrow('[{&quot;operator&quot;:&quot;hey&quot;}]')).toEqual([{ operator: 'hey' }]);
   });
 });

@@ -12,7 +12,7 @@ import { showToast } from '../utils/info';
 import { isUrlAnImage } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
-import { parseNarrowString } from '../utils/narrow';
+import { parseNarrow } from '../utils/narrow';
 import {
   fetchOlder,
   fetchNewer,
@@ -229,7 +229,7 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
     }
 
     case 'narrow':
-      props.dispatch(doNarrow(parseNarrowString(event.narrow)));
+      props.dispatch(doNarrow(parseNarrow(event.narrow)));
       break;
 
     case 'image':
