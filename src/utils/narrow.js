@@ -178,7 +178,7 @@ type NarrowCases<T> = {|
 /* prettier-ignore */
 export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
   const err = (): empty => {
-    throw new Error(`bad narrow: ${keyFromNarrow(narrow)}`);
+    throw new Error(`bad narrow: ${JSON.stringify(narrow)}`);
   };
 
   switch (narrow.length) {
@@ -257,13 +257,88 @@ export function caseNarrowDefault<T>(
  * and `DraftsState`.
  */
 export function keyFromNarrow(narrow: Narrow): string {
-  return JSON.stringify(narrow);
+  // The ":s" bit in several of these is to keep them disjoint, out of an
+  // abundance of caution, from future keys that use numeric IDs.
+  return caseNarrow(narrow, {
+    // NB if you're changing any of these: be sure to do a migration.
+    // Take a close look at migration 19 and any later related migrations.
+
+    stream: name => `stream:s:${name}`,
+    // '\x00' is the one character not allowed in Zulip stream names.
+    // (See `check_stream_name` in zulip.git:zerver/lib/streams.py.)
+    topic: (streamName, topic) => `topic:s:${streamName}\x00${topic}`,
+
+    pm: emails => `pm:s:${emails.join(',')}`,
+
+    home: () => 'all',
+    starred: () => 'starred',
+    mentioned: () => 'mentioned',
+    allPrivate: () => 'all-pm',
+    search: query => `search:${query}`,
+  });
 }
 
 /**
  * Parse a narrow previously encoded with keyFromNarrow.
  */
-export const parseNarrow = (narrowStr: string): Narrow => JSON.parse(narrowStr);
+export const parseNarrow = (narrowStr: string): Narrow => {
+  const makeError = () => new Error('parseNarrow: bad narrow');
+
+  const tag = /^.*?(?::|$)/.exec(narrowStr)?.[0] ?? '';
+  const rest = narrowStr.substr(tag.length);
+  // invariant: tag + rest === narrowStr
+  switch (tag) {
+    case 'stream:': {
+      if (!rest.startsWith('s:')) {
+        throw makeError();
+      }
+      const name = rest.substr('s:'.length);
+      return streamNarrow(name);
+    }
+
+    case 'topic:': {
+      // The `/s` regexp flag means the `.` patterns match absolutely
+      // anything.  By default they reject certain "newline" characters,
+      // which in principle could appear in stream names or topics.
+      // eslint-disable-next-line no-control-regex
+      const match = /^s:(.*?)\x00(.*)/s.exec(rest);
+      if (!match) {
+        throw makeError();
+      }
+      return topicNarrow(match[1], match[2]);
+    }
+
+    case 'pm:': {
+      if (!rest.startsWith('s:')) {
+        throw makeError();
+      }
+      const emails = rest.substr('s:'.length).split(',');
+      return pmNarrowFromEmails(emails);
+    }
+
+    case 'search:': {
+      return SEARCH_NARROW(rest);
+    }
+
+    default:
+      if (rest !== '') {
+        throw makeError();
+      }
+
+      switch (tag) {
+        case 'all':
+          return HOME_NARROW;
+        case 'starred':
+          return STARRED_NARROW;
+        case 'mentioned':
+          return MENTIONED_NARROW;
+        case 'all-pm':
+          return ALL_PRIVATE_NARROW;
+        default:
+          throw makeError();
+      }
+  }
+};
 
 export const isHomeNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { home: () => true }, () => false);

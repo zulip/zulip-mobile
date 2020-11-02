@@ -19,6 +19,8 @@ import ZulipAsyncStorage from './ZulipAsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
 import { provideLoggingContext } from './loggingContext';
 import { tryGetActiveAccount } from '../account/accountsSelectors';
+import { keyFromNarrow } from '../utils/narrow';
+import { objectFromEntries } from '../jsBackport';
 
 if (process.env.NODE_ENV === 'development') {
   // Chrome dev tools for Immutable.
@@ -224,6 +226,18 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
   // Convert `UserOrBot.avatar_url` from raw server data to
   // `AvatarURL`.
   '18': dropCache,
+
+  // Change format of keys representing narrows, from JSON to our format.
+  '19': state => ({
+    ...dropCache(state),
+    drafts: objectFromEntries(
+      // Note this will migrate straight to our current format, even after
+      // that changes from when this migration was written!  That saves us
+      // from duplicating `keyFromNarrow` here... but calls for care in
+      // migrations for future changes to `keyFromNarrow`.
+      Object.keys(state.drafts).map(key => [keyFromNarrow(JSON.parse(key)), state.drafts[key]]),
+    ),
+  }),
 
   // TIP: When adding a migration, consider just using `dropCache`.
 };
