@@ -335,9 +335,9 @@ const messagePropertiesFromStream = (stream1: Stream) => {
  * Beware! These values may not be representative.
  */
 export const streamMessage = (args?: {| ...$Rest<Message, {}>, stream?: Stream |}): Message => {
-  // The redundant `stream` in the ?? case avoids a Flow issue:
-  // https://github.com/facebook/flow/issues/2386
-  const { stream: streamInner = stream, ...extra } = args ?? { stream };
+  // The `Object.freeze` is to work around a Flow issue:
+  //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
+  const { stream: streamInner = stream, ...extra } = args ?? Object.freeze({});
 
   const baseMessage: Message = {
     ...messagePropertiesBase,
