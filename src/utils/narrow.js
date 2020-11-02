@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import isEqual from 'lodash.isequal';
-import unescape from 'lodash.unescape';
 
 import type { Narrow, Message, Outbox, User, UserOrBot } from '../types';
 import {
@@ -18,7 +17,7 @@ export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
 /**
  * Parse a narrow previously encoded with keyFromNarrow.
  */
-export const parseNarrow = (narrowStr: string): Narrow => JSON.parse(unescape(narrowStr));
+export const parseNarrow = (narrowStr: string): Narrow => JSON.parse(narrowStr);
 
 /**
  * The key we use for this narrow in our Redux data structures.

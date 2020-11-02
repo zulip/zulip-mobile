@@ -80,6 +80,23 @@ const makeUniqueRandInt = (itemsType: string, end: number): (() => number) => {
 /** Return a string that's almost surely different every time. */
 export const randString = () => randInt(2 ** 54).toString(36);
 
+const intRange = (start, len) => Array.from({ length: len }, (k, i) => i + start);
+
+/** A string with diverse characters to exercise encoding/decoding bugs. */
+/* eslint-disable prefer-template */
+export const diverseCharacters =
+  // The whole range of lowest code points, including control codes
+  // and ASCII punctuation like `"` and `&` used in various syntax...
+  String.fromCharCode(...intRange(0, 0x100))
+  // ... some characters from other scripts...
+  + 'いい文字🎇'
+  // ... some unpaired surrogates, which JS strings can have...
+  + String.fromCharCode(...intRange(0xdbf0, 0x20))
+  // ... some characters beyond the BMP (≥ U+10000)...
+  + '𐂷𠂢'
+  // ... and some code points at the very end of the Unicode range.
+  + String.fromCodePoint(...intRange(0x10fff0, 0x10));
+
 /* ========================================================================
  * Users and bots
  */

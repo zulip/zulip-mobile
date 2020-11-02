@@ -420,15 +420,8 @@ describe('isSameNarrow', () => {
   });
 });
 
-describe('parseNarrow', () => {
-  test('straightforward arrays are parsed', () => {
-    expect(parseNarrow('[]')).toEqual([]);
-    expect(parseNarrow('[{&quot;operator&quot;:&quot;hey&quot;}]')).toEqual([{ operator: 'hey' }]);
-  });
-});
-
 describe('keyFromNarrow+parseNarrow', () => {
-  const narrows = [
+  const baseNarrows = [
     ['whole stream', streamNarrow(eg.stream.name)],
     ['stream conversation', topicNarrow(eg.stream.name, 'a topic')],
     ['1:1 PM conversation, non-self', pm1to1NarrowFromUser(eg.otherUser)],
@@ -440,8 +433,30 @@ describe('keyFromNarrow+parseNarrow', () => {
     ['all-PMs', ALL_PRIVATE_NARROW],
     ['search narrow', SEARCH_NARROW('a query')],
   ];
+
+  // The only character not allowed in Zulip stream names is '\x00'.
+  // (See `check_stream_name` in zulip.git:zerver/lib/streams.py.)
+  // Try approximately everything else.
+  /* eslint-disable no-control-regex */
+  const diverseCharacters = eg.diverseCharacters.replace(/\x00/g, '');
+  const htmlEntities = 'h & t &amp; &lquo;ml&quot;';
+  const awkwardNarrows = [
+    ['whole stream about awkward characters', streamNarrow(diverseCharacters)],
+    ['whole stream about HTML entities', streamNarrow(htmlEntities)],
+    [
+      'stream conversation about awkward characters',
+      topicNarrow(diverseCharacters, `regarding ${diverseCharacters}`),
+    ],
+    [
+      'stream conversation about HTML entities',
+      topicNarrow(htmlEntities, `regarding ${htmlEntities}`),
+    ],
+    ['search narrow for awkward characters', SEARCH_NARROW(diverseCharacters)],
+    ['search narrow for HTML entities', SEARCH_NARROW(htmlEntities)],
+  ];
+
   describe('round-trips', () => {
-    for (const [description, narrow] of narrows) {
+    for (const [description, narrow] of [...baseNarrows, ...awkwardNarrows]) {
       test(description, () => {
         expect(parseNarrow(keyFromNarrow(narrow))).toEqual(narrow);
       });
