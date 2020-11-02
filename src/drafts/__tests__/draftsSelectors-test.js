@@ -1,14 +1,14 @@
 import deepFreeze from 'deep-freeze';
 
 import { getDraftForNarrow } from '../draftsSelectors';
-import { topicNarrow } from '../../utils/narrow';
+import { topicNarrow, keyFromNarrow } from '../../utils/narrow';
 
 describe('getDraftForNarrow', () => {
   test('return content of draft if exists', () => {
     const narrow = topicNarrow('stream', 'topic');
     const state = deepFreeze({
       drafts: {
-        [JSON.stringify(narrow)]: 'content',
+        [keyFromNarrow(narrow)]: 'content',
       },
     });
 
@@ -21,7 +21,7 @@ describe('getDraftForNarrow', () => {
     const narrow = topicNarrow('stream', 'topic');
     const state = deepFreeze({
       drafts: {
-        [JSON.stringify(narrow)]: 'content',
+        [keyFromNarrow(narrow)]: 'content',
       },
     });
 

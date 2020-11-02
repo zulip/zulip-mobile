@@ -10,7 +10,7 @@ import {
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { DEFAULT_FETCHING } from './fetchingSelectors';
-import { isSearchNarrow } from '../utils/narrow';
+import { isSearchNarrow, keyFromNarrow } from '../utils/narrow';
 
 const initialState: FetchingState = NULL_OBJECT;
 
@@ -21,7 +21,7 @@ const messageFetchStart = (state, action) => {
     return state;
   }
 
-  const key = JSON.stringify(action.narrow);
+  const key = keyFromNarrow(action.narrow);
   const currentValue = state[key] || DEFAULT_FETCHING;
 
   return {
@@ -34,7 +34,7 @@ const messageFetchStart = (state, action) => {
 };
 
 const messageFetchError = (state, action) => {
-  const key = JSON.stringify(action.narrow);
+  const key = keyFromNarrow(action.narrow);
 
   if (isSearchNarrow(action.narrow)) {
     return state;
@@ -51,7 +51,7 @@ const messageFetchComplete = (state, action) => {
   if (isSearchNarrow(action.narrow)) {
     return state;
   }
-  const key = JSON.stringify(action.narrow);
+  const key = keyFromNarrow(action.narrow);
   const currentValue = state[key] || DEFAULT_FETCHING;
 
   return {

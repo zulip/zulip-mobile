@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type { Narrow, GlobalState } from '../types';
+import { keyFromNarrow } from '../utils/narrow';
 
 export const getDraftForNarrow = (state: GlobalState, narrow: Narrow): string =>
-  state.drafts[JSON.stringify(narrow)] || '';
+  state.drafts[keyFromNarrow(narrow)] || '';

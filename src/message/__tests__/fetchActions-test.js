@@ -17,14 +17,14 @@ import {
 import { FIRST_UNREAD_ANCHOR } from '../../anchor';
 import type { Message } from '../../api/modelTypes';
 import type { ServerMessage } from '../../api/messages/getMessages';
-import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
+import { streamNarrow, HOME_NARROW, HOME_NARROW_STR, keyFromNarrow } from '../../utils/narrow';
 import { GravatarURL } from '../../utils/avatar';
 import * as eg from '../../__tests__/lib/exampleData';
 
 const mockStore = configureStore([thunk]);
 
 const narrow = streamNarrow('some stream');
-const streamNarrowStr = JSON.stringify(narrow);
+const streamNarrowStr = keyFromNarrow(narrow);
 
 global.FormData = class FormData {};
 

@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import fetchingReducer from '../fetchingReducer';
-import { HOME_NARROW, HOME_NARROW_STR, streamNarrow } from '../../utils/narrow';
+import { HOME_NARROW, HOME_NARROW_STR, streamNarrow, keyFromNarrow } from '../../utils/narrow';
 import { MESSAGE_FETCH_START, MESSAGE_FETCH_ERROR } from '../../actionConstants';
 import { DEFAULT_FETCHING } from '../fetchingSelectors';
 
@@ -44,7 +44,7 @@ describe('fetchingReducer', () => {
 
       const expectedState = {
         [HOME_NARROW_STR]: { older: false, newer: false },
-        [JSON.stringify(streamNarrow('some stream'))]: { older: true, newer: false },
+        [keyFromNarrow(streamNarrow('some stream'))]: { older: true, newer: false },
       };
 
       const newState = fetchingReducer(initialState, action);

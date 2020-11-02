@@ -12,7 +12,7 @@ import {
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../anchor';
 import { NULL_OBJECT } from '../nullObjects';
 import { DEFAULT_CAUGHTUP } from './caughtUpSelectors';
-import { isSearchNarrow } from '../utils/narrow';
+import { isSearchNarrow, keyFromNarrow } from '../utils/narrow';
 
 const initialState: CaughtUpState = NULL_OBJECT;
 
@@ -89,7 +89,7 @@ export default (state: CaughtUpState = initialState, action: Action): CaughtUpSt
       if (isSearchNarrow(action.narrow)) {
         return state;
       }
-      const key = JSON.stringify(action.narrow);
+      const key = keyFromNarrow(action.narrow);
       let caughtUp;
       if (action.foundNewest !== undefined && action.foundOldest !== undefined) {
         /* This should always be the case for Zulip Server v1.8 or newer. */

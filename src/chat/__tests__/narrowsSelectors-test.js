@@ -16,6 +16,7 @@ import {
   topicNarrow,
   STARRED_NARROW,
   pmNarrowFromUsersUnsafe,
+  keyFromNarrow,
 } from '../../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -80,7 +81,7 @@ describe('getMessagesForNarrow', () => {
   test('do not combine messages and outbox in different narrow', () => {
     const state = eg.reduxState({
       narrows: Immutable.Map({
-        [JSON.stringify(pmNarrowFromEmail('john@example.com'))]: [123],
+        [keyFromNarrow(pmNarrowFromEmail('john@example.com'))]: [123],
       }),
       messages,
       outbox: [outboxMessage],

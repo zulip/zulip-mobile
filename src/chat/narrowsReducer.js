@@ -22,6 +22,7 @@ import {
   MENTIONED_NARROW_STR,
   STARRED_NARROW_STR,
   isSearchNarrow,
+  keyFromNarrow,
 } from '../utils/narrow';
 
 const initialState: NarrowsState = Immutable.Map();
@@ -31,7 +32,7 @@ const messageFetchComplete = (state, action) => {
   if (isSearchNarrow(action.narrow)) {
     return state;
   }
-  const key = JSON.stringify(action.narrow);
+  const key = keyFromNarrow(action.narrow);
   const fetchedMessageIds = action.messages.map(message => message.id);
   const replaceExisting =
     action.anchor === FIRST_UNREAD_ANCHOR || action.anchor === LAST_MESSAGE_ANCHOR;
@@ -55,7 +56,7 @@ const eventNewMessage = (state, action) => {
     const narrowsForMessage = getNarrowsForMessage(message, action.ownUser, flags);
 
     narrowsForMessage.forEach(narrow => {
-      const key = JSON.stringify(narrow);
+      const key = keyFromNarrow(narrow);
       const value = stateMutable.get(key);
 
       if (!value) {

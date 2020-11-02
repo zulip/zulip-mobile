@@ -138,15 +138,15 @@ export const specialNarrow = (operand: string): Narrow => [
 
 export const STARRED_NARROW = specialNarrow('starred');
 
-export const STARRED_NARROW_STR = JSON.stringify(STARRED_NARROW);
+export const STARRED_NARROW_STR = keyFromNarrow(STARRED_NARROW);
 
 export const MENTIONED_NARROW = specialNarrow('mentioned');
 
-export const MENTIONED_NARROW_STR = JSON.stringify(MENTIONED_NARROW);
+export const MENTIONED_NARROW_STR = keyFromNarrow(MENTIONED_NARROW);
 
 export const ALL_PRIVATE_NARROW = specialNarrow('private');
 
-export const ALL_PRIVATE_NARROW_STR = JSON.stringify(ALL_PRIVATE_NARROW);
+export const ALL_PRIVATE_NARROW_STR = keyFromNarrow(ALL_PRIVATE_NARROW);
 
 export const streamNarrow = (stream: string): Narrow => [
   {
@@ -187,7 +187,7 @@ type NarrowCases<T> = {|
 /* prettier-ignore */
 export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
   const err = (): empty => {
-    throw new Error(`bad narrow: ${JSON.stringify(narrow)}`);
+    throw new Error(`bad narrow: ${keyFromNarrow(narrow)}`);
   };
 
   switch (narrow.length) {
@@ -216,7 +216,7 @@ export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
 
 export function caseNarrowPartial<T>(narrow: Narrow, cases: $Shape<NarrowCases<T>>): T {
   const err = (type: string) => (): empty => {
-    throw new Error(`unexpected ${type} narrow: ${JSON.stringify(narrow)}`);
+    throw new Error(`unexpected ${type} narrow: ${keyFromNarrow(narrow)}`);
   };
   return caseNarrow(
     narrow,

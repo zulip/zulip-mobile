@@ -2,7 +2,13 @@
 import template from './template';
 import type { Message, Narrow, Outbox } from '../../types';
 import type { BackgroundData } from '../MessageList';
-import { streamNarrow, topicNarrow, caseNarrow, pmNarrowFromRecipients } from '../../utils/narrow';
+import {
+  streamNarrow,
+  topicNarrow,
+  caseNarrow,
+  pmNarrowFromRecipients,
+  keyFromNarrow,
+} from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 import { humanDate } from '../../utils/date';
 import {
@@ -42,7 +48,7 @@ export default (
 
   if (item.type === 'stream' && headerStyle === 'topic+date') {
     const streamName = streamNameOfStreamMessage(item);
-    const topicNarrowStr = JSON.stringify(topicNarrow(streamName, item.subject));
+    const topicNarrowStr = keyFromNarrow(topicNarrow(streamName, item.subject));
     const topicHtml = renderSubject(item);
 
     return template`
@@ -63,8 +69,8 @@ export default (
 
     const backgroundColor = stream ? stream.color : 'hsl(0, 0%, 80%)';
     const textColor = foregroundColorFromBackground(backgroundColor);
-    const streamNarrowStr = JSON.stringify(streamNarrow(streamName));
-    const topicNarrowStr = JSON.stringify(topicNarrow(streamName, item.subject));
+    const streamNarrowStr = keyFromNarrow(streamNarrow(streamName));
+    const topicNarrowStr = keyFromNarrow(topicNarrow(streamName, item.subject));
     const topicHtml = renderSubject(item);
 
     return template`
@@ -86,7 +92,7 @@ export default (
   if (item.type === 'private' && headerStyle === 'full') {
     const keyRecipients = pmKeyRecipientsFromMessage(item, ownUser);
     const narrowObj = pmNarrowFromRecipients(keyRecipients);
-    const narrowStr = JSON.stringify(narrowObj);
+    const narrowStr = keyFromNarrow(narrowObj);
 
     const uiRecipients = pmUiRecipientsFromMessage(item, ownUser);
     return template`

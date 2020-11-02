@@ -12,6 +12,7 @@ import {
   streamNarrow,
   topicNarrow,
   STARRED_NARROW_STR,
+  keyFromNarrow,
 } from '../../utils/narrow';
 import {
   MESSAGE_FETCH_ERROR,
@@ -23,11 +24,11 @@ import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../anchor';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('narrowsReducer', () => {
-  const privateNarrowStr = JSON.stringify(pm1to1NarrowFromUser(eg.otherUser));
-  const groupNarrowStr = JSON.stringify(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]));
-  const streamNarrowStr = JSON.stringify(streamNarrow(eg.stream.name));
+  const privateNarrowStr = keyFromNarrow(pm1to1NarrowFromUser(eg.otherUser));
+  const groupNarrowStr = keyFromNarrow(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]));
+  const streamNarrowStr = keyFromNarrow(streamNarrow(eg.stream.name));
   const egTopic = eg.streamMessage().subject;
-  const topicNarrowStr = JSON.stringify(topicNarrow(eg.stream.name, egTopic));
+  const topicNarrowStr = keyFromNarrow(topicNarrow(eg.stream.name, egTopic));
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('if not caught up in narrow, do not add message in home narrow', () => {
@@ -145,7 +146,7 @@ describe('narrowsReducer', () => {
   });
 
   test('message sent to self is stored correctly', () => {
-    const narrowWithSelfStr = JSON.stringify(pm1to1NarrowFromUser(eg.selfUser));
+    const narrowWithSelfStr = keyFromNarrow(pm1to1NarrowFromUser(eg.selfUser));
     const initialState = Immutable.Map({
       [HOME_NARROW_STR]: [],
       [narrowWithSelfStr]: [],
@@ -381,7 +382,7 @@ describe('narrowsReducer', () => {
 
       const expectedState = Immutable.Map({
         [HOME_NARROW_STR]: [1, 2, 3],
-        [JSON.stringify(pm1to1NarrowFromUser(eg.otherUser))]: [],
+        [keyFromNarrow(pm1to1NarrowFromUser(eg.otherUser))]: [],
       });
 
       const newState = narrowsReducer(initialState, action);

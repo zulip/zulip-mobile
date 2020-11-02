@@ -2,7 +2,7 @@
 import Immutable from 'immutable';
 
 import { getTopicsForNarrow, getLastMessageTopic, getTopicsForStream } from '../topicSelectors';
-import { HOME_NARROW, streamNarrow } from '../../utils/narrow';
+import { HOME_NARROW, streamNarrow, keyFromNarrow } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getTopicsForNarrow', () => {
@@ -47,7 +47,7 @@ describe('getLastMessageTopic', () => {
     const message2 = eg.streamMessage({ id: 2, subject: 'some topic' });
     const state = eg.reduxState({
       narrows: Immutable.Map({
-        [JSON.stringify(narrow)]: [1, 2],
+        [keyFromNarrow(narrow)]: [1, 2],
       }),
       messages: {
         [message1.id]: message1,

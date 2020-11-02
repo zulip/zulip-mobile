@@ -28,6 +28,7 @@ import {
   emailsOfGroupPmNarrow,
   isMessageInNarrow,
   caseNarrowDefault,
+  keyFromNarrow,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
@@ -57,7 +58,7 @@ export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelecto
 );
 
 export const getFetchedMessageIdsForNarrow = (state: GlobalState, narrow: Narrow) =>
-  getAllNarrows(state).get(JSON.stringify(narrow)) || NULL_ARRAY;
+  getAllNarrows(state).get(keyFromNarrow(narrow)) || NULL_ARRAY;
 
 const getFetchedMessagesForNarrow: Selector<Message[], Narrow> = createSelector(
   getFetchedMessageIdsForNarrow,

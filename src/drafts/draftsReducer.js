@@ -2,11 +2,12 @@
 import type { DraftsState, Action } from '../types';
 import { DRAFT_UPDATE, LOGOUT, ACCOUNT_SWITCH } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
+import { keyFromNarrow } from '../utils/narrow';
 
 const initialState = NULL_OBJECT;
 
 const draftUpdate = (state, action) => {
-  const narrowStr = JSON.stringify(action.narrow);
+  const narrowStr = keyFromNarrow(action.narrow);
 
   if (action.content.trim().length === 0) {
     // New content is blank; delete the draft.
