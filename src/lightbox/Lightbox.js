@@ -16,7 +16,6 @@ import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_SIZE, createStyleSheet } from '../styles';
-import { getAvatarFromMessage } from '../utils/avatar';
 import { navigateBack } from '../actions';
 import { streamNameOfStreamMessage } from '../utils/recipient';
 
@@ -118,7 +117,7 @@ class Lightbox extends PureComponent<Props, State> {
           <LightboxHeader
             onPressBack={this.handlePressBack}
             timestamp={message.timestamp}
-            avatarUrl={getAvatarFromMessage(message, auth.realm)}
+            avatarUrl={message.avatar_url}
             senderName={message.sender_full_name}
           />
         </SlideAnimationView>

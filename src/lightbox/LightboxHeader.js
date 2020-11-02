@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 
+import type { Message, User, CrossRealmBot } from '../types';
 import { shortTime, humanDate } from '../utils/date';
 import { createStyleSheet } from '../styles';
 import { UserAvatarWithPresence, Touchable } from '../common';
@@ -41,10 +42,20 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   senderName: string,
   timestamp: number,
-  avatarUrl: string,
+  avatarUrl: | $PropertyType<Message, 'avatar_url'>
+    | $PropertyType<User, 'avatar_url'>
+    | $PropertyType<CrossRealmBot, 'avatar_url'>,
   onPressBack: () => void,
 |}>;
 
+/**
+ * Shows sender's name and date of photo being displayed.
+ *
+ * @prop [senderName] - The sender's full name.
+ * @prop [avatarUrl] - `.avatar_url` on a `Message` or a `UserOrBot`
+ * @prop [timestamp]
+ * @prop [onPressBack]
+ */
 export default class LightboxHeader extends PureComponent<Props> {
   render() {
     const { onPressBack, senderName, timestamp, avatarUrl } = this.props;

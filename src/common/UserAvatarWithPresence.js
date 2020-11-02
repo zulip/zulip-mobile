@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch } from '../types';
+import type { Dispatch, Message, User, CrossRealmBot } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { getCurrentRealm } from '../selectors';
@@ -20,7 +20,9 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-  avatarUrl: ?string,
+  avatarUrl: | $PropertyType<Message, 'avatar_url'>
+    | $PropertyType<User, 'avatar_url'>
+    | $PropertyType<CrossRealmBot, 'avatar_url'>,
   email: string,
   size: number,
   realm: URL,
@@ -31,7 +33,7 @@ type Props = $ReadOnly<{|
 /**
  * Renders a user avatar with a PresenceStatusIndicator in the corner
  *
- * @prop [avatarUrl] - Absolute or relative url to an avatar image.
+ * @prop [avatarUrl] - `.avatar_url` on a `Message` or a `UserOrBot`
  * @prop [email] - User's' email address, to calculate Gravatar URL if not given `avatarUrl`.
  * @prop [size] - Sets width and height in pixels.
  * @prop [realm] - Current realm url, used if avatarUrl is relative.
