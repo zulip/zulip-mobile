@@ -3,12 +3,10 @@ import React, { PureComponent, type Node as React$Node } from 'react';
 import { ImageBackground, View, PixelRatio } from 'react-native';
 
 import Touchable from './Touchable';
-import type { Message, User, CrossRealmBot } from '../types';
+import { AvatarURL } from '../utils/avatar';
 
 type Props = $ReadOnly<{|
-  avatarUrl: | $PropertyType<Message, 'avatar_url'>
-    | $PropertyType<User, 'avatar_url'>
-    | $PropertyType<CrossRealmBot, 'avatar_url'>,
+  avatarUrl: AvatarURL,
   size: number,
   shape: 'rounded' | 'square',
   children?: React$Node,
@@ -18,7 +16,7 @@ type Props = $ReadOnly<{|
 /**
  * Renders an image of the user's avatar.
  *
- * @prop avatarUrl - `.avatar_url` on a `Message` or a `UserOrBot`
+ * @prop avatarUrl
  * @prop size - Sets width and height in logical pixels.
  * @prop [shape] - 'rounded' (default) means a square with rounded corners.
  * @prop [children] - If provided, will render inside the component body.
