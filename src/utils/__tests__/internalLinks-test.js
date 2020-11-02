@@ -125,11 +125,7 @@ describe('decodeHashComponent', () => {
 
 describe('getNarrowFromLink', () => {
   const [userA, userB, userC] = [eg.makeUser(), eg.makeUser(), eg.makeUser()];
-  const usersById: Map<number, User> = new Map([
-    [userA.user_id, userA],
-    [userB.user_id, userB],
-    [userC.user_id, userC],
-  ]);
+  const usersById: Map<number, User> = new Map([userA, userB, userC].map(u => [u.user_id, u]));
 
   const streamGeneral = eg.makeStream({ name: 'general' });
 
@@ -263,7 +259,7 @@ describe('getNarrowFromLink', () => {
   });
 
   test('if any of the user ids are not found: return null', () => {
-    const otherId = 1 + Math.max(userA.user_id, userB.user_id, userC.user_id);
+    const otherId = 1 + Math.max(...usersById.keys());
     const ids = `${userA.user_id},${userB.user_id},${otherId}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(null);
   });
