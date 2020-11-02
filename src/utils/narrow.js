@@ -17,6 +17,14 @@ export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
 
 export const parseNarrowString = (narrowStr: string): Narrow => JSON.parse(unescape(narrowStr));
 
+/**
+ * The key we use for this narrow in our Redux data structures.
+ *
+ * See in particular `NarrowsState`, `CaughtUpState`, `FetchingState`,
+ * and `DraftsState`.
+ */
+export const keyFromNarrow = (narrow: Narrow): string => JSON.stringify(narrow);
+
 export const HOME_NARROW: Narrow = [];
 
 export const HOME_NARROW_STR: string = '[]';

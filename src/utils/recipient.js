@@ -198,9 +198,9 @@ export const pmUiRecipientsFromMessage = (
  *  * `pmUiRecipientsFromMessage`, which gives a set of users to show in the
  *    UI.
  *
- *  * The `Narrow` type and its constructors in `narrow.js`, which with
- *    `JSON.stringify` we use to make keys to identify narrows in general,
- *    including stream and topic narrows.
+ *  * The `Narrow` type and its constructors in `narrow.js`, which we use to
+ *    make keys to identify narrows in general, including stream and topic
+ *    narrows.
  *
  *  * `normalizeRecipients`, `normalizeRecipientsSansMe`, and
  *    `pmUnreadsKeyFromMessage`, which do the same job as this function with

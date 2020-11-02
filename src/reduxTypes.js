@@ -182,7 +182,7 @@ export type MuteState = MuteTuple[];
  * to; see `MessagesState` for more context.  The data here should
  * correspond exactly to the data in `MessagesState`.
  *
- * Keys are `JSON.stringify`-encoded `Narrow` objects.
+ * Keys are those given by `keyFromNarrow`.
  * Values are sorted lists of message IDs.
  *
  * See also:
