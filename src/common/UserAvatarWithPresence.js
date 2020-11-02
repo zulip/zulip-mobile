@@ -2,10 +2,10 @@
 
 import React, { PureComponent } from 'react';
 
-import type { Message, User, CrossRealmBot } from '../types';
 import { createStyleSheet } from '../styles';
 import UserAvatar from './UserAvatar';
 import PresenceStatusIndicator from './PresenceStatusIndicator';
+import { AvatarURL } from '../utils/avatar';
 
 const styles = createStyleSheet({
   status: {
@@ -16,9 +16,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  avatarUrl: | $PropertyType<Message, 'avatar_url'>
-    | $PropertyType<User, 'avatar_url'>
-    | $PropertyType<CrossRealmBot, 'avatar_url'>,
+  avatarUrl: AvatarURL,
   email: string,
   size: number,
   shape: 'rounded' | 'square',
@@ -28,7 +26,7 @@ type Props = $ReadOnly<{|
 /**
  * Renders a user avatar with a PresenceStatusIndicator in the corner
  *
- * @prop [avatarUrl] - `.avatar_url` on a `Message` or a `UserOrBot`
+ * @prop [avatarUrl]
  * @prop [email] - Sender's / user's email address, for the presence dot.
  * @prop [size] - Sets width and height in logical pixels.
  * @prop [shape] - 'rounded' (default) means a square with rounded corners.

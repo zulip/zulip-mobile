@@ -2,10 +2,10 @@
 import React, { PureComponent } from 'react';
 import { Animated, Easing, View } from 'react-native';
 
-import type { Message, User, CrossRealmBot } from '../types';
 import { UserAvatarWithPresence, ComponentWithOverlay, RawLabel, Touchable } from '../common';
 import { createStyleSheet } from '../styles';
 import { IconCancel } from '../common/Icons';
+import { AvatarURL } from '../utils/avatar';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -28,9 +28,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   email: string,
-  avatarUrl: | $PropertyType<Message, 'avatar_url'>
-    | $PropertyType<User, 'avatar_url'>
-    | $PropertyType<CrossRealmBot, 'avatar_url'>,
+  avatarUrl: AvatarURL,
   fullName: string,
   onPress: (email: string) => void,
 |}>;
@@ -39,7 +37,7 @@ type Props = $ReadOnly<{|
  * Pressable avatar for items in the user-picker card.
  *
  * @prop [email]
- * @prop [avatarUrl] - `.avatar_url` on a `Message` or a `UserOrBot`
+ * @prop [avatarUrl]
  * @prop [fullName]
  * @prop [onPress]
  */
