@@ -22,7 +22,12 @@ export default class BackNavigationHandler extends PureComponent<Props> {
   handleBackButtonPress = () => {
     const canGoBack = NavigationService.getState().index > 0;
     if (canGoBack) {
-      NavigationService.dispatch(navigateBack());
+      NavigationService.dispatch(
+        // Our custom "go-back" action. If this is changed to align
+        // with React Navigation's natural "go-back" behavior, this
+        // whole component can go away.
+        navigateBack(),
+      );
     }
     return canGoBack;
   };
