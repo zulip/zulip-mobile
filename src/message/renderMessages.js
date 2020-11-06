@@ -32,8 +32,10 @@ export default (
       });
     }
 
-    // TODO(#3764): Use sender_id, not sender_email.  Needs adding
-    //   a property Outbox#sender_id.
+    // TODO(#3764): Use sender_id, not sender_email.  Needs making
+    //   Outbox#sender_id required; which needs a migration to drop Outbox
+    //   values that lack it; which is fine once the release that adds it
+    //   has been out for a few weeks.
     const shouldGroupWithPrev =
       !diffRecipient && !diffDays && prevItem && prevItem.sender_email === item.sender_email;
 
