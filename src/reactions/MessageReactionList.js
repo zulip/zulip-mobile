@@ -72,14 +72,6 @@ const getReactionsTabs = (
   // the name `createAppContainer` is enough to suggest that we're
   // definitely doing something wrong here.
   return createAppContainer(
-    // TODO: Upgrade to react-navigation v4, so we don't get a red box
-    // (`console.error`) saying "navigation.emit only supports the
-    // 'refocus' event currently", on visiting the screen and
-    // switching tabs. I see no actual breakage of functionality, but
-    // the message is annoying.
-    //
-    // It may be related to
-    // https://twitter.com/reactnavigation/status/1245276770586288128.
     createMaterialTopTabNavigator(reactionsTabs, {
       backBehavior: 'none',
 
