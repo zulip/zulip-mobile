@@ -10,11 +10,13 @@ export default (
 ): RenderedSectionDescriptor[] => {
   const showHeader = !isPmNarrow(narrow) && !isTopicNarrow(narrow);
 
-  let prevItem;
+  // eslint-disable-next-line no-undef-init
+  let prevItem = undefined;
   const sections = [{ key: 0, data: [], message: {} }];
   messages.forEach(item => {
     const diffDays =
-      prevItem && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
+      !!prevItem
+      && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
     if (!prevItem || diffDays) {
       sections[sections.length - 1].data.push({
         key: `time${item.timestamp}`,
@@ -23,6 +25,7 @@ export default (
         firstMessage: item,
       });
     }
+
     const diffRecipient = !isSameRecipient(prevItem, item);
     if (showHeader && diffRecipient) {
       sections.push({
@@ -37,7 +40,7 @@ export default (
     //   values that lack it; which is fine once the release that adds it
     //   has been out for a few weeks.
     const shouldGroupWithPrev =
-      !diffRecipient && !diffDays && prevItem && prevItem.sender_email === item.sender_email;
+      !diffRecipient && !diffDays && !!prevItem && prevItem.sender_email === item.sender_email;
 
     sections[sections.length - 1].data.push({
       key: item.id,
