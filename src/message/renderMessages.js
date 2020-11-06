@@ -31,11 +31,11 @@ export default (
         data: [],
       });
     }
+
+    // TODO(#3764): Use sender_id, not sender_email.  Needs adding
+    //   a property Outbox#sender_id.
     const shouldGroupWithPrev =
-      !diffRecipient
-      && !diffDays
-      && prevItem
-      && prevItem.sender_full_name === item.sender_full_name;
+      !diffRecipient && !diffDays && prevItem && prevItem.sender_email === item.sender_email;
 
     sections[sections.length - 1].data.push({
       key: item.id,
