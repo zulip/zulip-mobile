@@ -1,8 +1,8 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { Auth, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
@@ -11,11 +11,12 @@ import * as api from '../api';
 import { settingsChange } from '../actions';
 
 type Props = $ReadOnly<{|
-  // Since we've put this screen in a stack-nav route config, and we
-  // don't invoke it without type-checking anywhere else (in fact, we
-  // don't invoke it anywhere else at all), we know it gets the
-  // `navigation` prop for free, with the stack-nav shape.
-  navigation: NavigationStackProp<NavigationStateRoute>,
+  // Since we've put this screen in AppNavigator's route config, and
+  // we don't invoke it without type-checking anywhere else (in fact,
+  // we don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free, with the particular shape for this
+  // route.
+  navigation: AppNavigationProp<'notifications'>,
 
   auth: Auth,
   dispatch: Dispatch,

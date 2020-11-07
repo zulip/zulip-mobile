@@ -1,14 +1,14 @@
 /* @flow strict-local */
 import React from 'react';
 import { View } from 'react-native';
-import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 import { withNavigationFocus } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { compose } from 'redux';
 
 import { useSelector, useDispatch } from '../react-redux';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import styles, { ThemeContext, createStyleSheet } from '../styles';
-import type { Narrow, EditMessage } from '../types';
+import type { EditMessage } from '../types';
 import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import ChatNavBar from '../nav/ChatNavBar';
 import MessageList from '../webview/MessageList';
@@ -24,11 +24,12 @@ import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
 
 type Props = $ReadOnly<{|
-  // Since we've put this screen in a stack-nav route config, and we
-  // don't invoke it without type-checking anywhere else (in fact, we
-  // don't invoke it anywhere else at all), we know it gets the
-  // `navigation` prop for free, with the stack-nav shape.
-  navigation: NavigationStackProp<{| ...NavigationStateRoute, params: {| narrow: Narrow |} |}>,
+  // Since we've put this screen in AppNavigator's route config, and
+  // we don't invoke it without type-checking anywhere else (in fact,
+  // we don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free, with the particular shape for this
+  // route.
+  navigation: AppNavigationProp<'chat'>,
 
   // From React Navigation's `withNavigationFocus` HOC. Type copied
   // from the libdef.

@@ -2,17 +2,16 @@
 
 import React, { PureComponent } from 'react';
 import { Linking, Platform } from 'react-native';
-import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import config from '../config';
 import type { Dispatch } from '../types';
 import type {
   AuthenticationMethods,
   ExternalAuthenticationMethod,
-  ApiResponseServerSettings,
 } from '../api/settings/getServerSettings';
 import {
   IconApple,
@@ -168,14 +167,12 @@ export const activeAuthentications = (
 };
 
 type Props = $ReadOnly<{|
-  // Since we've put this screen in a stack-nav route config, and we
-  // don't invoke it without type-checking anywhere else (in fact, we
-  // don't invoke it anywhere else at all), we know it gets the
-  // `navigation` prop for free, with the stack-nav shape.
-  navigation: NavigationStackProp<{|
-    ...NavigationStateRoute,
-    params: {| serverSettings: ApiResponseServerSettings |},
-  |}>,
+  // Since we've put this screen in AppNavigator's route config, and
+  // we don't invoke it without type-checking anywhere else (in fact,
+  // we don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free, with the particular shape for this
+  // route.
+  navigation: AppNavigationProp<'auth'>,
 
   dispatch: Dispatch,
   realm: URL,

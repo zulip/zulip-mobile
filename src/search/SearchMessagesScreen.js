@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { Auth, Dispatch, Message } from '../types';
 import { Screen } from '../common';
 import SearchMessagesCard from './SearchMessagesCard';
@@ -13,11 +13,12 @@ import { getAuth } from '../account/accountsSelectors';
 import { fetchMessages } from '../message/fetchActions';
 
 type Props = $ReadOnly<{|
-  // Since we've put this screen in a stack-nav route config, and we
-  // don't invoke it without type-checking anywhere else (in fact, we
-  // don't invoke it anywhere else at all), we know it gets the
-  // `navigation` prop for free, with the stack-nav shape.
-  navigation: NavigationStackProp<NavigationStateRoute>,
+  // Since we've put this screen in AppNavigator's route config, and
+  // we don't invoke it without type-checking anywhere else (in fact,
+  // we don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free, with the particular shape for this
+  // route.
+  navigation: AppNavigationProp<'search'>,
 
   auth: Auth,
   dispatch: Dispatch,

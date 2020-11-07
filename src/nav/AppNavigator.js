@@ -13,8 +13,13 @@ import {
   // `@react-navigation/stack` libdef.
   // $FlowFixMe
   TransitionPresets,
+  type NavigationStackProp,
+  type NavigationStateRoute,
 } from 'react-navigation-stack';
 
+import type { Narrow, Message, SharedData } from '../types';
+import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
+import type { GlobalParamList } from './globalTypes';
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
 import AuthScreen from '../start/AuthScreen';
@@ -46,6 +51,47 @@ import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 import UserStatusScreen from '../user-status/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
+
+export type AppNavigatorParamList = {|
+  account: void,
+  'account-details': {| userId: number |},
+  'group-details': {| recipients: $ReadOnlyArray<number> |},
+  auth: {| serverSettings: ApiResponseServerSettings |},
+  chat: {| narrow: Narrow |},
+  dev: void,
+  'emoji-picker': {| messageId: number |},
+  loading: void,
+  main: void,
+  'message-reactions': {| reactionName?: string, messageId: number |},
+  password: {| requireEmailFormat: boolean |},
+  realm: {| realm: URL | void, initial: boolean | void |},
+  search: void,
+  users: void,
+  language: void,
+  lightbox: {| src: string, message: Message |},
+  group: void,
+  'invite-users': {| streamId: number |},
+  diagnostics: void,
+  variables: void,
+  timing: void,
+  storage: void,
+  debug: void,
+  stream: {| streamId: number |},
+  'stream-edit': {| streamId: number |},
+  'stream-create': void,
+  topics: {| streamId: number |},
+  notifications: void,
+  legal: void,
+  'user-status': void,
+  sharing: {| sharedData: SharedData |},
+|};
+
+export type AppNavigationProp<
+  RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
+> = NavigationStackProp<{|
+  ...NavigationStateRoute,
+  params: $ElementType<GlobalParamList, RouteName>,
+|}>;
 
 export const createAppNavigator = (args: {|
   initialRouteName: string,

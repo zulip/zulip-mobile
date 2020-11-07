@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { LoadingIndicator, ZulipStatusBar } from '../common';
 
@@ -16,11 +16,11 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  // Since we've put this screen in a stack-nav route config, but we
-  // do invoke it from one other place (see ZulipMobile.js), it might
-  // or might not get the `navigation` prop (with the stack-nav shape)
-  // for free.
-  navigation?: NavigationStackProp<NavigationStateRoute>,
+  // Since we've put this screen in AppNavigator's route config, but
+  // we do invoke it from one other place, which is not a navigator
+  // (see ZulipMobile.js), it might or might not get the `navigation`
+  // prop (with the particular shape for this route) for free.
+  navigation?: AppNavigationProp<'loading'>,
 |}>;
 
 export default class LoadingScreen extends PureComponent<Props> {
