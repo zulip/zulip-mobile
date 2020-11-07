@@ -90,7 +90,7 @@ export default (state: CaughtUpState = initialState, action: Action): CaughtUpSt
         return state;
       }
       const key = keyFromNarrow(action.narrow);
-      let caughtUp;
+      let caughtUp = undefined;
       if (action.foundNewest !== undefined && action.foundOldest !== undefined) {
         /* This should always be the case for Zulip Server v1.8 or newer. */
         caughtUp = { older: action.foundOldest, newer: action.foundNewest };

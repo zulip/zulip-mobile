@@ -44,8 +44,8 @@ const getServerVersionTags = () => {
   const minor = elements.minor ?? UNKNOWN;
   const patch = elements.patch ?? UNKNOWN;
 
-  let coarseServerVersion;
-  let fineServerVersion;
+  let coarseServerVersion = undefined;
+  let fineServerVersion = undefined;
   // Effective with 3.0, we changed our numbering conventions; 3.x and
   // 4.x are each the same level of granularity as 2.1.x or 2.0.x.
   if (zulipVersion.isAtLeast('3.0')) {

@@ -123,7 +123,7 @@ class ComposeMenu extends PureComponent<Props> {
     // from this library when in the test environment.
     const DocumentPicker = (await import('react-native-document-picker')).default;
 
-    let response;
+    let response = undefined;
     try {
       response = (await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],

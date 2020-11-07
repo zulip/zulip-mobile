@@ -68,6 +68,18 @@ rules:
   no-plusplus: off
   no-nested-ternary: off
 
+  # We prefer `let foo = undefined;` over `let foo;`, not vice versa.
+  #
+  # Sadly there doesn't seem to be a rule to say what we want, but at least
+  # turn off the one that says the opposite.
+  #
+  # This rule is dubious to begin with, because explicit is better than
+  # implicit.  Then for us, the overriding reason we definitely don't
+  # want it is that plain `let foo;` can trigger a Flow bug:
+  #   https://github.com/facebook/flow/issues/8526
+  # while `let foo = undefined;` makes Flow handle the logic smoothly.
+  no-undef-init: off
+
   # Allow multiple classes per file.
   #
   # It's best to have just one class per file, but there are cases

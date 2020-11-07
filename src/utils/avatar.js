@@ -328,7 +328,7 @@ export class UploadedAvatarURL extends AvatarURL {
     // The URL constructor is too expensive; but we can do an exact
     // equivalent, given our assumptions on the kinds of URL strings
     // the server will send.
-    let absoluteUrl;
+    let absoluteUrl = undefined;
     if (isUrlAbsolute(absoluteOrRelativeUrl)) {
       // An absolute URL string.  Ignore the base URL.
       absoluteUrl = absoluteOrRelativeUrl;

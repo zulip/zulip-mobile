@@ -613,7 +613,7 @@ var compiledWebviewJs = (function (exports) {
 
   var scrollEventsDisabled = true;
   var hasLongPressed = false;
-  var longPressTimeout;
+  var longPressTimeout = undefined;
   var lastTouchPositionX = -1;
   var lastTouchPositionY = -1;
 

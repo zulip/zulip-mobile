@@ -441,7 +441,7 @@ const sendScrollMessageIfListShort = () => {
 let scrollEventsDisabled = true;
 
 let hasLongPressed = false;
-let longPressTimeout;
+let longPressTimeout = undefined;
 let lastTouchPositionX = -1;
 let lastTouchPositionY = -1;
 

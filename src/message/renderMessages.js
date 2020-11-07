@@ -10,7 +10,6 @@ export default (
 ): RenderedSectionDescriptor[] => {
   const showHeader = !isPmNarrow(narrow) && !isTopicNarrow(narrow);
 
-  // eslint-disable-next-line no-undef-init
   let prevItem = undefined;
   const sections = [{ key: 0, data: [], message: {} }];
   messages.forEach(item => {
