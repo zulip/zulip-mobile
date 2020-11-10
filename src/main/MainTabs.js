@@ -1,8 +1,13 @@
 /* @flow strict-local */
 import React from 'react';
 import { Platform } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import {
+  createBottomTabNavigator,
+  type NavigationTabProp,
+  type NavigationStateRoute,
+} from 'react-navigation-tabs';
 
+import type { GlobalParamList } from '../nav/globalTypes';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeTab from './HomeTab';
 import StreamTabs from './StreamTabs';
@@ -12,6 +17,21 @@ import { IconInbox, IconSettings, IconStream } from '../common/Icons';
 import { OwnAvatar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileCard from '../account-info/ProfileCard';
+
+export type MainTabsNavigatorParamList = {|
+  home: void,
+  streams: void,
+  conversations: void,
+  settings: void,
+  profile: void,
+|};
+
+export type MainTabsNavigationProp<
+  RouteName: $Keys<MainTabsNavigatorParamList> = $Keys<MainTabsNavigatorParamList>,
+> = NavigationTabProp<{|
+  ...NavigationStateRoute,
+  params: $ElementType<GlobalParamList, RouteName>,
+|}>;
 
 export default createBottomTabNavigator(
   {

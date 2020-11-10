@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { ScrollView, View } from 'react-native';
-import type { NavigationTabProp, NavigationStateRoute } from 'react-navigation-tabs';
 
+import type { MainTabsNavigationProp } from '../main/MainTabs';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, User } from '../types';
 import { createStyleSheet } from '../styles';
@@ -66,11 +66,12 @@ class LogoutButton extends PureComponent<{| +dispatch: Dispatch |}> {
 }
 
 type Props = $ReadOnly<{|
-  // Since we've put this screen in a tab-nav route config, and we
-  // don't invoke it without type-checking anywhere else (in fact, we
-  // don't invoke it anywhere else at all), we know it gets the
-  // `navigation` prop for free, with the tab-nav shape.
-  navigation: NavigationTabProp<NavigationStateRoute>,
+  // Since we've put this screen in MainTabs's route config, and
+  // we don't invoke it without type-checking anywhere else (in fact,
+  // we don't invoke it anywhere else at all), we know it gets the
+  // `navigation` prop for free, with the particular shape for this
+  // route.
+  navigation: MainTabsNavigationProp<'profile'>,
 
   dispatch: Dispatch,
   selfUserDetail: User,
