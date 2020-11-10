@@ -2,12 +2,12 @@
 
 import type { AppNavigatorParamList } from './AppNavigator';
 // import type { SharingNavigatorParamList } from '../sharing/SharingScreen';
-// import type { StreamTabsNavigatorParamList } from '../main/StreamTabs';
+import type { StreamTabsNavigatorParamList } from '../main/StreamTabs';
 import type { MainTabsNavigatorParamList } from '../main/MainTabs';
 
 export type GlobalParamList = {|
   ...AppNavigatorParamList,
   //   ...SharingNavigatorParamList,
-  //   ...StreamTabsNavigatorParamList,
+  ...StreamTabsNavigatorParamList,
   ...MainTabsNavigatorParamList,
 |};

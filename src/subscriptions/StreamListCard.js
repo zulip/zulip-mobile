@@ -2,8 +2,8 @@
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import type { NavigationTabProp, NavigationStateRoute } from 'react-navigation-tabs';
 
+import type { StreamTabsNavigationProp } from '../main/StreamTabs';
 import * as NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
@@ -26,11 +26,12 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  // Since we've put this screen in a tab-nav route config, and we
+  // Since we've put this screen in StreamTabs's route config, and we
   // don't invoke it without type-checking anywhere else (in fact, we
   // don't invoke it anywhere else at all), we know it gets the
-  // `navigation` prop for free, with the tab-nav shape.
-  navigation: NavigationTabProp<NavigationStateRoute>,
+  // `navigation` prop for free, with the particular shape for this
+  // route.
+  navigation: StreamTabsNavigationProp<'allStreams'>,
 
   dispatch: Dispatch,
   auth: Auth,
