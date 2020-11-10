@@ -1,12 +1,17 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import {
+  createMaterialTopTabNavigator,
+  type NavigationTabProp,
+  type NavigationStateRoute,
+} from 'react-navigation-tabs';
 import { FormattedMessage } from 'react-intl';
 
+import type { GlobalParamList } from '../nav/globalTypes';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, Auth } from '../types';
+import type { Dispatch, Auth, SharedData } from '../types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import { connect } from '../react-redux';
@@ -15,6 +20,18 @@ import { tryGetAuth } from '../selectors';
 import { navigateToAccountPicker } from '../nav/navActions';
 import ShareToStream from './ShareToStream';
 import ShareToPm from './ShareToPm';
+
+export type SharingNavigatorParamList = {|
+  'share-to-stream': {| sharedData: SharedData |},
+  'share-to-pm': {| sharedData: SharedData |},
+|};
+
+export type SharingNavigationProp<
+  RouteName: $Keys<SharingNavigatorParamList> = $Keys<SharingNavigatorParamList>,
+> = NavigationTabProp<{|
+  ...NavigationStateRoute,
+  params: $ElementType<GlobalParamList, RouteName>,
+|}>;
 
 type Props = $ReadOnly<{|
   // Since we've put this screen in AppNavigator's route config, and
