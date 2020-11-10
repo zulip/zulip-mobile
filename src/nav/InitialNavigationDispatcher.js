@@ -1,11 +1,12 @@
 /* @flow strict-local */
 import type { Node as React$Node } from 'react';
 import { PureComponent } from 'react';
+import { StackActions, NavigationActions } from 'react-navigation';
 
-import * as NavigationService from './NavigationService';
-import type { Dispatch, Account } from '../types';
-import { resetToAccountPicker, resetToRealmScreen, resetToMainTabs } from '../actions';
 import { connect } from '../react-redux';
+import * as NavigationService from './NavigationService';
+import getInitialRouteInfo from './getInitialRouteInfo';
+import type { Dispatch, Account } from '../types';
 import { getIsHydrated, hasAuth as getHasAuth, getHaveServerData } from '../selectors';
 
 type SelectorProps = $ReadOnly<{|
@@ -57,43 +58,29 @@ class InitialNavigationDispatcher extends PureComponent<Props> {
   doInitialNavigation = () => {
     const { hasAuth, accounts, haveServerData } = this.props;
 
-    // If the active account is not logged in, bring the user as close
-    // as we can to AuthScreen, the place where they can log in.
-    if (!hasAuth) {
-      if (accounts.length > 1) {
-        // We can't guess which account, of multiple, the user wants
-        // to use. Let them pick one.
-        NavigationService.dispatch(resetToAccountPicker());
-        return;
-      } else if (accounts.length === 1) {
-        // We already know the realm, so give that to the realm
-        // screen. If that screen finds that the realm is valid, it'll
-        // send the user along to AuthScreen for that realm right
-        // away. If this means you're on the AuthScreen when you don't
-        // want to be (i.e., you want to choose a different realm),
-        // you can always go back to RealmScreen.
-        NavigationService.dispatch(resetToRealmScreen({ initial: true, realm: accounts[0].realm }));
-        return;
-      } else {
-        // Just go to the realm screen and have the user type out the
-        // realm.
-        NavigationService.dispatch(resetToRealmScreen({ initial: true }));
-        return;
-      }
-    }
+    const { initialRouteName, initialRouteParams } = getInitialRouteInfo({
+      accounts,
+      hasAuth,
+      haveServerData,
+    });
 
-    // If there's an active, logged-in account but no server data, then behave
-    // like `ACCOUNT_SWITCH`: show loading screen.  Crucially, `sessionReducer`
-    // will have set `needsInitialFetch`, too, so we really will be loading.
-    if (!haveServerData) {
+    if (initialRouteName === 'loading') {
       // We're already on the loading screen -- see `initialRouteName`
       // in `AppNavigator`.
       return;
     }
 
-    // Great: we have an active, logged-in account, and server data for it.
-    // Show the main UI.
-    NavigationService.dispatch(resetToMainTabs());
+    NavigationService.dispatch(
+      StackActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({
+            routeName: initialRouteName,
+            params: initialRouteParams,
+          }),
+        ],
+      }),
+    );
   };
 
   render() {
