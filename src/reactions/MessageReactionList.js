@@ -34,63 +34,70 @@ const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType => {
   return 'image';
 };
 
-// Generate tabs for the reaction list.  The tabs depend on the distinct
-// reactions on the message.
-const getReactionsTabs = (
-  aggregatedReactions: $ReadOnlyArray<AggregatedReaction>,
-  reactionName?: string,
+/**
+ * Get the route config for a single aggregated reaction.
+ */
+const getRouteConfig = (
+  aggregatedReaction: AggregatedReaction,
   allUsersById: Map<number, UserOrBot>,
-) => {
-  // Each tab corresponds to an aggregated reaction, and has a user list.
-  const reactionsTabs = objectFromEntries(
+) => ({
+  screen: () => (
+    <ReactionUserList reactedUserIds={aggregatedReaction.users} allUsersById={allUsersById} />
+  ),
+  navigationOptions: {
+    tabBarLabel: () => (
+      <View style={styles.row}>
+        <Emoji
+          code={aggregatedReaction.code}
+          type={emojiTypeFromReactionType(aggregatedReaction.type)}
+        />
+        <RawLabel style={styles.paddingLeft} text={`${aggregatedReaction.count}`} />
+      </View>
+    ),
+  },
+});
+
+/**
+ * Generate route config for the reaction-tabs navigator.
+ *
+ * There is a tab, with a user list, for each of the message's
+ * distinct reactions.
+ */
+const getReactionTabsRoutes = (
+  aggregatedReactions: $ReadOnlyArray<AggregatedReaction>,
+  allUsersById: Map<number, UserOrBot>,
+) =>
+  objectFromEntries(
     aggregatedReactions.map(aggregatedReaction => [
       aggregatedReaction.name,
-      {
-        screen: () => (
-          <ReactionUserList reactedUserIds={aggregatedReaction.users} allUsersById={allUsersById} />
-        ),
-        navigationOptions: {
-          tabBarLabel: () => (
-            <View style={styles.row}>
-              <Emoji
-                code={aggregatedReaction.code}
-                type={emojiTypeFromReactionType(aggregatedReaction.type)}
-              />
-              <RawLabel style={styles.paddingLeft} text={`${aggregatedReaction.count}`} />
-            </View>
-          ),
-        },
-      },
+      getRouteConfig(aggregatedReaction, allUsersById),
     ]),
   );
 
-  // It's not feasible to set up our newly created tab navigator as
-  // part of the entire app's navigation (see the note at
-  // `getReactionsTabs`'s call site). Given that, it seems we can use
-  // `createAppContainer` so our violation of the "only explicitly
-  // render one navigator" rule doesn't cause a crashing error. But
-  // the name `createAppContainer` is enough to suggest that we're
-  // definitely doing something wrong here.
-  return createAppContainer(
-    createMaterialTopTabNavigator(reactionsTabs, {
-      backBehavior: 'none',
+/**
+ * Generate tab-navigator config for the reaction-tabs navigator.
+ */
+const getReactionTabsNavConfig = (
+  aggregatedReactions: $ReadOnlyArray<AggregatedReaction>,
+  reactionName?: string,
+) => ({
+  backBehavior: 'none',
 
-      // The user may have originally navigated here to look at a reaction
-      // that's since been removed.  Ignore the nav hint in that case.
-      initialRouteName:
-        reactionName !== undefined && reactionsTabs[reactionName] ? reactionName : undefined,
+  // The user may have originally navigated here to look at a reaction
+  // that's since been removed.  Ignore the nav hint in that case.
+  initialRouteName: aggregatedReactions.some(aR => aR.name === reactionName)
+    ? reactionName
+    : undefined,
 
-      ...materialTopTabNavigatorConfig({
-        showLabel: true,
-        showIcon: false,
-        style: {
-          borderWidth: 0.15,
-        },
-      }),
-      swipeEnabled: true,
-    }),
-  );
-};
+  ...materialTopTabNavigatorConfig({
+    showLabel: true,
+    showIcon: false,
+    style: {
+      borderWidth: 0.15,
+    },
+  }),
+  swipeEnabled: true,
+});
 
 type SelectorProps = $ReadOnly<{|
   message: Message | void,
@@ -155,7 +162,18 @@ class MessageReactionList extends PureComponent<Props> {
         // more than one navigator in the app, and the recommended
         // workaround isn't feasible; see discussion at
         // https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Dynamic.20routes.20in.20react-navigation/near/1008268.
-        const TabView = getReactionsTabs(aggregatedReactions, reactionName, allUsersById);
+        // Given that, it seems we can use `createAppContainer` so our
+        // violation of the "only explicitly render one navigator"
+        // rule doesn't cause a crashing error. But the name
+        // `createAppContainer` is enough to suggest that we're
+        // definitely doing something wrong here.
+        const TabView = createAppContainer(
+          createMaterialTopTabNavigator(
+            getReactionTabsRoutes(aggregatedReactions, allUsersById),
+            getReactionTabsNavConfig(aggregatedReactions, reactionName),
+          ),
+        );
+
         return (
           <View style={styles.flexed}>
             <TabView />
