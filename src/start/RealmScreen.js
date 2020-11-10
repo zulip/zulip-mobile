@@ -24,7 +24,7 @@ type Props = $ReadOnly<{|
   // `navigation` prop for free, with the stack-nav shape.
   navigation: NavigationStackProp<{|
     ...NavigationStateRoute,
-    params?: {|
+    params: {|
       realm: URL | void,
       initial?: boolean,
     |},
@@ -110,7 +110,7 @@ class RealmScreen extends PureComponent<Props, State> {
     return (
       <Screen
         title="Welcome"
-        canGoBack={!this.props.navigation.state.params?.initial}
+        canGoBack={!this.props.navigation.state.params.initial}
         padding
         centerContent
         keyboardShouldPersistTaps="always"
@@ -146,5 +146,5 @@ class RealmScreen extends PureComponent<Props, State> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  initialRealmInputValue: props.navigation.state.params?.realm?.toString() ?? '',
+  initialRealmInputValue: props.navigation.state.params.realm?.toString() ?? '',
 }))(RealmScreen);
