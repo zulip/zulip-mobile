@@ -1,9 +1,8 @@
 /* @flow strict-local */
 import React from 'react';
 import { View } from 'react-native';
-import { withNavigationFocus } from '@react-navigation/compat';
+import { useIsFocused } from '@react-navigation/native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { compose } from 'redux';
 
 import { useSelector, useDispatch } from '../react-redux';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -25,10 +24,6 @@ import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
-
-  // From React Navigation's `withNavigationFocus` HOC. Type copied
-  // from the libdef.
-  isFocused: ?boolean,
 |}>;
 
 const componentStyles = createStyleSheet({
@@ -48,9 +43,10 @@ const componentStyles = createStyleSheet({
  * whole process.
  */
 const useFetchMessages = args => {
-  const { isFocused, narrow } = args;
+  const { narrow } = args;
 
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
   const eventQueueId = useSelector(state => getSession(state).eventQueueId);
   const loading = useSelector(getLoading);
@@ -100,20 +96,16 @@ const useFetchMessages = args => {
   return { fetchError, isFetching, haveNoMessages };
 };
 
-function ChatScreen(props: Props) {
+export default function ChatScreen(props: Props) {
   const { backgroundColor } = React.useContext(ThemeContext);
 
   const [editMessage, setEditMessage] = React.useState<EditMessage | null>(null);
 
-  const { navigation, isFocused } = props;
-  const { narrow } = navigation.state.params;
+  const { narrow } = props.navigation.state.params;
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
 
-  const { fetchError, isFetching, haveNoMessages } = useFetchMessages({
-    isFocused,
-    narrow,
-  });
+  const { fetchError, isFetching, haveNoMessages } = useFetchMessages({ narrow });
 
   const showMessagePlaceholders = haveNoMessages && isFetching;
   const sayNoMessages = haveNoMessages && !isFetching;
@@ -156,8 +148,3 @@ function ChatScreen(props: Props) {
     </ActionSheetProvider>
   );
 }
-
-export default compose(
-  // https://reactnavigation.org/docs/4.x/function-after-focusing-screen/#triggering-an-action-with-the-withnavigationfocus-higher-order-component
-  withNavigationFocus,
-)(ChatScreen);
