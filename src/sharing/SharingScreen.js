@@ -6,7 +6,7 @@ import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { FormattedMessage } from 'react-intl';
 
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, SharedData, Auth, TabNavigationOptionsPropsType } from '../types';
+import type { Dispatch, SharedData, Auth } from '../types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import { connect } from '../react-redux';
@@ -43,7 +43,7 @@ const SharingTopTabNavigator = createMaterialTopTabNavigator(
       // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: ShareToStream,
       navigationOptions: {
-        tabBarLabel: (props: TabNavigationOptionsPropsType) => (
+        tabBarLabel: props => (
           <Text style={[styles.tab, { color: props.tintColor }]}>
             <FormattedMessage id="Stream" defaultMessage="Stream" />
           </Text>
@@ -54,7 +54,7 @@ const SharingTopTabNavigator = createMaterialTopTabNavigator(
       // $FlowFixMe react-navigation types are twisty and seem wrong
       screen: ShareToPm,
       navigationOptions: {
-        tabBarLabel: (props: TabNavigationOptionsPropsType) => (
+        tabBarLabel: props => (
           <Text style={[styles.tab, { color: props.tintColor }]}>
             <FormattedMessage id="Private Message" defaultMessage="Private Message" />
           </Text>

@@ -311,11 +311,6 @@ export type TimingItemType = {|
   endMs: number,
 |};
 
-export type TabNavigationOptionsPropsType = {|
-  isFocussed: boolean,
-  tintColor: string,
-|};
-
 /**
  * Summary of a PM conversation (either 1:1 or group PMs).
  */

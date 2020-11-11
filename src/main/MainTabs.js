@@ -3,7 +3,6 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
-import type { TabNavigationOptionsPropsType } from '../types';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeTab from './HomeTab';
 import StreamTabs from './StreamTabs';
@@ -21,18 +20,14 @@ export default createBottomTabNavigator(
       screen: HomeTab,
       navigationOptions: {
         tabBarLabel: 'Home',
-        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-          <IconInbox size={24} color={props.tintColor} />
-        ),
+        tabBarIcon: props => <IconInbox size={24} color={props.tintColor} />,
       },
     },
     streams: {
       screen: StreamTabs,
       navigationOptions: {
         tabBarLabel: 'Streams',
-        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-          <IconStream size={24} color={props.tintColor} />
-        ),
+        tabBarIcon: props => <IconStream size={24} color={props.tintColor} />,
       },
     },
     conversations: {
@@ -40,9 +35,7 @@ export default createBottomTabNavigator(
       screen: PmConversationsCard,
       navigationOptions: {
         tabBarLabel: 'Conversations',
-        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-          <IconUnreadConversations color={props.tintColor} />
-        ),
+        tabBarIcon: props => <IconUnreadConversations color={props.tintColor} />,
       },
     },
     settings: {
@@ -50,9 +43,7 @@ export default createBottomTabNavigator(
       screen: SettingsCard,
       navigationOptions: {
         tabBarLabel: 'Settings',
-        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-          <IconSettings size={24} color={props.tintColor} />
-        ),
+        tabBarIcon: props => <IconSettings size={24} color={props.tintColor} />,
       },
     },
     profile: {
@@ -60,7 +51,7 @@ export default createBottomTabNavigator(
       screen: ProfileCard,
       navigationOptions: {
         tabBarLabel: 'Profile',
-        tabBarIcon: (props: TabNavigationOptionsPropsType) => <OwnAvatar size={24} />,
+        tabBarIcon: props => <OwnAvatar size={24} />,
       },
     },
   },
