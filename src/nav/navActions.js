@@ -1,12 +1,15 @@
 /* @flow strict-local */
-import { StackActions, type NavigationAction } from '@react-navigation/compat';
-import { CommonActions, type GenericNavigationAction } from '@react-navigation/native';
+import {
+  StackActions,
+  CommonActions,
+  type GenericNavigationAction,
+} from '@react-navigation/native';
 
 import type { Message, Narrow, SharedData } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { getSameRoutesCount } from '../selectors';
 
-export const navigateBack = (): NavigationAction => StackActions.pop({ n: getSameRoutesCount() });
+export const navigateBack = (): GenericNavigationAction => StackActions.pop(getSameRoutesCount());
 
 /*
  * "Reset" actions, to explicitly prohibit back navigation.
@@ -29,89 +32,83 @@ export const resetToMainTabs = (): GenericNavigationAction =>
  */
 
 /** Only call this via `doNarrow`.  See there for details. */
-export const navigateToChat = (narrow: Narrow): NavigationAction =>
-  StackActions.push({ routeName: 'chat', params: { narrow } });
+export const navigateToChat = (narrow: Narrow): GenericNavigationAction =>
+  StackActions.push('chat', { narrow });
 
-export const navigateToUsersScreen = (): NavigationAction =>
-  StackActions.push({ routeName: 'users' });
+export const navigateToUsersScreen = (): GenericNavigationAction => StackActions.push('users');
 
-export const navigateToSearch = (): NavigationAction => StackActions.push({ routeName: 'search' });
+export const navigateToSearch = (): GenericNavigationAction => StackActions.push('search');
 
-export const navigateToEmojiPicker = (messageId: number): NavigationAction =>
-  StackActions.push({ routeName: 'emoji-picker', params: { messageId } });
+export const navigateToEmojiPicker = (messageId: number): GenericNavigationAction =>
+  StackActions.push('emoji-picker', { messageId });
 
-export const navigateToAuth = (serverSettings: ApiResponseServerSettings): NavigationAction =>
-  StackActions.push({ routeName: 'auth', params: { serverSettings } });
+export const navigateToAuth = (
+  serverSettings: ApiResponseServerSettings,
+): GenericNavigationAction => StackActions.push('auth', { serverSettings });
 
-export const navigateToDev = (): NavigationAction => StackActions.push({ routeName: 'dev' });
+export const navigateToDev = (): GenericNavigationAction => StackActions.push('dev');
 
-export const navigateToPassword = (requireEmailFormat: boolean): NavigationAction =>
-  StackActions.push({ routeName: 'password', params: { requireEmailFormat } });
+export const navigateToPassword = (requireEmailFormat: boolean): GenericNavigationAction =>
+  StackActions.push('password', { requireEmailFormat });
 
-export const navigateToAccountPicker = (): NavigationAction =>
-  StackActions.push({ routeName: 'account' });
+export const navigateToAccountPicker = (): GenericNavigationAction => StackActions.push('account');
 
-export const navigateToAccountDetails = (userId: number): NavigationAction =>
-  StackActions.push({ routeName: 'account-details', params: { userId } });
+export const navigateToAccountDetails = (userId: number): GenericNavigationAction =>
+  StackActions.push('account-details', { userId });
 
-export const navigateToGroupDetails = (recipients: $ReadOnlyArray<number>): NavigationAction =>
-  StackActions.push({ routeName: 'group-details', params: { recipients } });
+export const navigateToGroupDetails = (
+  recipients: $ReadOnlyArray<number>,
+): GenericNavigationAction => StackActions.push('group-details', { recipients });
 
 export const navigateToRealmScreen = (
   args: { realm?: URL, initial?: boolean } = {},
-): NavigationAction =>
-  StackActions.push({ routeName: 'realm', params: { realm: args.realm, initial: args.initial } });
+): GenericNavigationAction =>
+  StackActions.push('realm', { realm: args.realm, initial: args.initial });
 
-export const navigateToLightbox = (src: string, message: Message): NavigationAction =>
-  StackActions.push({ routeName: 'lightbox', params: { src, message } });
+export const navigateToLightbox = (src: string, message: Message): GenericNavigationAction =>
+  StackActions.push('lightbox', { src, message });
 
-export const navigateToLanguage = (): NavigationAction =>
-  StackActions.push({ routeName: 'language' });
+export const navigateToLanguage = (): GenericNavigationAction => StackActions.push('language');
 
-export const navigateToCreateGroup = (): NavigationAction =>
-  StackActions.push({ routeName: 'group' });
+export const navigateToCreateGroup = (): GenericNavigationAction => StackActions.push('group');
 
-export const navigateToDiagnostics = (): NavigationAction =>
-  StackActions.push({ routeName: 'diagnostics' });
+export const navigateToDiagnostics = (): GenericNavigationAction =>
+  StackActions.push('diagnostics');
 
-export const navigateToVariables = (): NavigationAction =>
-  StackActions.push({ routeName: 'variables' });
+export const navigateToVariables = (): GenericNavigationAction => StackActions.push('variables');
 
-export const navigateToTiming = (): NavigationAction => StackActions.push({ routeName: 'timing' });
+export const navigateToTiming = (): GenericNavigationAction => StackActions.push('timing');
 
-export const navigateToStorage = (): NavigationAction =>
-  StackActions.push({ routeName: 'storage' });
+export const navigateToStorage = (): GenericNavigationAction => StackActions.push('storage');
 
-export const navigateToDebug = (): NavigationAction => StackActions.push({ routeName: 'debug' });
+export const navigateToDebug = (): GenericNavigationAction => StackActions.push('debug');
 
-export const navigateToStream = (streamId: number): NavigationAction =>
-  StackActions.push({ routeName: 'stream', params: { streamId } });
+export const navigateToStream = (streamId: number): GenericNavigationAction =>
+  StackActions.push('stream', { streamId });
 
-export const navigateToTopicList = (streamId: number): NavigationAction =>
-  StackActions.push({ routeName: 'topics', params: { streamId } });
+export const navigateToTopicList = (streamId: number): GenericNavigationAction =>
+  StackActions.push('topics', { streamId });
 
-export const navigateToCreateStream = (): NavigationAction =>
-  StackActions.push({ routeName: 'stream-create' });
+export const navigateToCreateStream = (): GenericNavigationAction =>
+  StackActions.push('stream-create');
 
-export const navigateToEditStream = (streamId: number): NavigationAction =>
-  StackActions.push({ routeName: 'stream-edit', params: { streamId } });
+export const navigateToEditStream = (streamId: number): GenericNavigationAction =>
+  StackActions.push('stream-edit', { streamId });
 
-export const navigateToStreamSubscribers = (streamId: number): NavigationAction =>
-  StackActions.push({ routeName: 'invite-users', params: { streamId } });
+export const navigateToStreamSubscribers = (streamId: number): GenericNavigationAction =>
+  StackActions.push('invite-users', { streamId });
 
-export const navigateToNotifications = (): NavigationAction =>
-  StackActions.push({ routeName: 'notifications' });
+export const navigateToNotifications = (): GenericNavigationAction =>
+  StackActions.push('notifications');
 
 export const navigateToMessageReactionScreen = (
   messageId: number,
   reactionName?: string,
-): NavigationAction =>
-  StackActions.push({ routeName: 'message-reactions', params: { messageId, reactionName } });
+): GenericNavigationAction => StackActions.push('message-reactions', { messageId, reactionName });
 
-export const navigateToLegal = (): NavigationAction => StackActions.push({ routeName: 'legal' });
+export const navigateToLegal = (): GenericNavigationAction => StackActions.push('legal');
 
-export const navigateToUserStatus = (): NavigationAction =>
-  StackActions.push({ routeName: 'user-status' });
+export const navigateToUserStatus = (): GenericNavigationAction => StackActions.push('user-status');
 
-export const navigateToSharing = (sharedData: SharedData): NavigationAction =>
-  StackActions.push({ routeName: 'sharing', params: { sharedData } });
+export const navigateToSharing = (sharedData: SharedData): GenericNavigationAction =>
+  StackActions.push('sharing', { sharedData });
