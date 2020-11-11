@@ -11,7 +11,7 @@
 import type { InputSelector } from 'reselect';
 
 import type { Account, Outbox } from './types';
-import type { Action, NavigationAction } from './actionTypes';
+import type { Action } from './actionTypes';
 import type {
   Topic,
   HuddlesUnreadItem,
@@ -74,13 +74,15 @@ export type CaughtUp = {|
  *
  * See `CaughtUp` for details on what each value means.
  */
-export type CaughtUpState = {|
+export type CaughtUpState = {
+  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
   [narrow: string]: CaughtUp,
-|};
+};
 
-export type DraftsState = {|
+export type DraftsState = {
+  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
   [narrow: string]: string,
-|};
+};
 
 export type Fetching = {|
   older: boolean,
@@ -93,6 +95,7 @@ export type Fetching = {|
  * See also: `CaughtUpState`, `NarrowsState`.
  */
 export type FetchingState = {
+  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
   [narrow: string]: Fetching,
 };
 
@@ -154,8 +157,7 @@ export type FlagName = $Keys<FlagsState>;
  * messages belonging to a given narrow.
  */
 export type MessagesState = {
-  // MessagesState should be exact; we're waiting for Flow v0.126.0. See note
-  // in src/utils/jsonable.js.
+  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
   [id: number]: $Exact<Message>,
 };
 
@@ -195,13 +197,6 @@ export type NavigationRouteState = {
     narrow?: Narrow,
   },
 };
-
-export type NavigationState = {|
-  index: number,
-  isTransitioning: boolean,
-  key: string,
-  routes: NavigationRouteState[],
-|};
 
 export type OutboxState = Outbox[];
 
@@ -358,7 +353,6 @@ export type GlobalState = {|
   migrations: MigrationsState,
   mute: MuteState,
   narrows: NarrowsState,
-  nav: NavigationState,
   outbox: OutboxState,
   presence: PresenceState,
   realm: RealmState,
@@ -382,9 +376,9 @@ export type Selector<TResult, TParam = void> = InputSelector<GlobalState, TParam
 
 export type GetState = () => GlobalState;
 
-export type PlainDispatch = <A: Action | NavigationAction>(action: A) => A;
+export type PlainDispatch = <A: Action>(action: A) => A;
 
 export interface Dispatch {
-  <A: Action | NavigationAction>(action: A): A;
+  <A: Action>(action: A): A;
   <T>((Dispatch, GetState) => T): T;
 }

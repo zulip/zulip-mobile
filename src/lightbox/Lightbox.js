@@ -5,6 +5,7 @@ import { View, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
+import NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Message } from '../types';
 import { connect } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
@@ -79,8 +80,7 @@ class Lightbox extends PureComponent<Props, State> {
   };
 
   handlePressBack = () => {
-    const { dispatch } = this.props;
-    dispatch(navigateBack());
+    NavigationService.dispatch(navigateBack());
   };
 
   getAnimationProps = () => ({

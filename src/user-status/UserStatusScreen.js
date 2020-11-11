@@ -5,6 +5,7 @@ import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation
 import { TranslationContext } from '../boot/TranslationProvider';
 import { createStyleSheet } from '../styles';
 
+import NavigationService from '../nav/NavigationService';
 import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { Input, OptionButton, Screen, ZulipButton } from '../common';
@@ -59,7 +60,7 @@ class UserStatusScreen extends PureComponent<Props, State> {
   updateStatusText = (statusText: string) => {
     const { dispatch } = this.props;
     dispatch(updateUserStatusText(statusText));
-    dispatch(navigateBack());
+    NavigationService.dispatch(navigateBack());
   };
 
   handleStatusTextUpdate = () => {

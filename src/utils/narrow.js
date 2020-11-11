@@ -2,8 +2,8 @@
 import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
 
-import type { Narrow, Message, Outbox } from '../types';
-import { normalizeRecipients } from './recipient';
+import type { Narrow, Message, Outbox, PmRecipientUser } from '../types';
+import { normalizeRecipientsSansMe } from './recipient';
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
@@ -21,6 +21,46 @@ export const privateNarrow = (email: string): Narrow => [
   },
 ];
 
+/**
+ * A group PM narrow.
+ *
+ * The users represented in `emails` should agree, as a (multi)set, with
+ * `pmKeyRecipientsFromMessage`.  But this isn't checked, and we've had bugs
+ * where they don't; some consumers of this data re-normalize to be sure.
+ *
+ * They might not have a consistent sorting.  (This would be good to fix.)
+ * Consumers of this data should sort for themselves when making comparisons.
+ */
+// Ideally, all callers should agree on how they're sorted, too.  Because
+// they don't, we have latent bugs (possibly a live one somewhere) where we
+// can wind up with several distinct narrows that are actually the same
+// group PM conversation.
+//
+// For example this happens if you have a group PM conversation where email
+// and ID sorting don't happen to coincide; visit a group PM conversation
+// from the main nav (either the unreads or PMs screen) -- which sorts by
+// email; and then visit the same conversation from a recipient bar on the
+// "all messages" narrow -- which sorts by ID.  The Redux logs in the
+// debugger will show two different entries in `state.narrows`.  This bug is
+// merely latent only because it doesn't (as far as we know) have any
+// user-visible effect.
+//
+// Known call stacks:
+//  * OK, perilously, unsorted: CreateGroupScreen: the self user isn't
+//      offered in the UI, so effectively the list is filtered; can call
+//      with just one email, but happily this works out the same as pmNarrow
+//  * OK, email: PmConversationList < PmConversationCard: the data comes
+//      from `getRecentConversations`, which filters and sorts by email
+//  * OK, email: PmConversationList < UnreadCards: ditto
+//  * OK, unsorted: getNarrowFromLink.  Though there's basically a bug in
+//      the webapp, where the URL that appears in the location bar for a
+//      group PM conversation excludes self -- so it's unusable if you try
+//      to give someone else in it a link to a particular message, say.
+//  * OK, unsorted: getNarrowFromMessage
+//  * Good: getNarrowFromNotificationData: filters, and starts from
+//      notification's pm_users, which is sorted.
+//  * Good: messageHeaderAsHtml: comes from pmKeyRecipientsFromMessage,
+//      which filters and sorts by ID
 export const groupNarrow = (emails: string[]): Narrow => [
   {
     operator: 'pm-with',
@@ -208,26 +248,42 @@ export const isStreamOrTopicNarrow = (narrow?: Narrow): boolean =>
 export const isSearchNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { search: () => true }, () => false);
 
-/** (For search narrows, just returns false.) */
-export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: string): boolean => {
-  const matchRecipients = (emails: string[]) => {
-    const normalizedRecipients = normalizeRecipients(message.display_recipient);
-    const normalizedNarrow = [...emails, ownEmail].sort().join(',');
-    return normalizedRecipients === ownEmail || normalizedRecipients === normalizedNarrow;
+/**
+ * True just if the given message is part of the given narrow.
+ *
+ * This function does not support search narrows, and for them always
+ * returns false.
+ *
+ * The message's flags must be in `flags`; `message.flags` is ignored.  This
+ * makes it the caller's responsibility to deal with the ambiguity in our
+ * Message type of whether the message's flags live in a `flags` property or
+ * somewhere else.
+ */
+export const isMessageInNarrow = (
+  message: Message | Outbox,
+  flags: $ReadOnlyArray<string>,
+  narrow: Narrow,
+  ownEmail: string,
+): boolean => {
+  const matchPmRecipients = (emails: string[]) => {
+    if (message.type !== 'private') {
+      return false;
+    }
+    const recipients: PmRecipientUser[] = message.display_recipient;
+    const narrowAsRecipients = emails.map(email => ({ email }));
+    return (
+      normalizeRecipientsSansMe(recipients, ownEmail)
+      === normalizeRecipientsSansMe(narrowAsRecipients, ownEmail)
+    );
   };
-
-  const { flags } = message;
-  if (!flags) {
-    throw new Error('`message.flags` should be defined.');
-  }
 
   return caseNarrow(narrow, {
     home: () => true,
     stream: name => name === message.display_recipient,
     topic: (streamName, topic) =>
       streamName === message.display_recipient && topic === message.subject,
-    pm: email => matchRecipients([email]),
-    groupPm: matchRecipients,
+    pm: email => matchPmRecipients([email]),
+    groupPm: matchPmRecipients,
     starred: () => flags.includes('starred'),
     mentioned: () => flags.includes('mentioned') || flags.includes('wildcard_mentioned'),
     allPrivate: () => message.type === 'private',
@@ -247,20 +303,6 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
     allPrivate: () => false,
     search: () => false,
   });
-
-/** True just if `haystack` contains all possible messages in `needle`. */
-export const narrowContains = (haystack: Narrow, needle: Narrow): boolean => {
-  if (isHomeNarrow(haystack)) {
-    return true;
-  }
-  if (isAllPrivateNarrow(haystack) && isPrivateOrGroupNarrow(needle)) {
-    return true;
-  }
-  if (isStreamNarrow(haystack) && needle[0].operand === haystack[0].operand) {
-    return true;
-  }
-  return JSON.stringify(needle) === JSON.stringify(haystack);
-};
 
 export const getNarrowFromMessage = (message: Message | Outbox, ownEmail: string) => {
   if (Array.isArray(message.display_recipient)) {

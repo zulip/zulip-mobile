@@ -5,6 +5,7 @@ import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { FormattedMessage } from 'react-intl';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, SharedData, Auth, TabNavigationOptionsPropsType } from '../types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
@@ -74,12 +75,12 @@ class SharingScreen extends PureComponent<Props> {
   static router = SharingTopTabNavigator.router;
 
   render() {
-    const { auth, dispatch, navigation } = this.props;
+    const { auth, navigation } = this.props;
 
     // If there is no active logged-in account, abandon the sharing attempt,
     // and present the account picker screen to the user.
     if (auth === undefined) {
-      dispatch(navigateToAccountPicker());
+      NavigationService.dispatch(navigateToAccountPicker());
       return null;
     }
 

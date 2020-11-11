@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { ScrollView, View } from 'react-native';
 import type { NavigationTabProp, NavigationStateRoute } from 'react-navigation-tabs';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, User } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -28,10 +29,9 @@ const styles = createStyleSheet({
   },
 });
 
-class SetStatusButton extends PureComponent<{| +dispatch: Dispatch |}> {
+class SetStatusButton extends PureComponent<{||}> {
   onPress = () => {
-    const { dispatch } = this.props;
-    dispatch(navigateToUserStatus());
+    NavigationService.dispatch(navigateToUserStatus());
   };
 
   render() {
@@ -41,9 +41,9 @@ class SetStatusButton extends PureComponent<{| +dispatch: Dispatch |}> {
   }
 }
 
-class SwitchAccountButton extends PureComponent<{| +dispatch: Dispatch |}> {
+class SwitchAccountButton extends PureComponent<{||}> {
   onPress = () => {
-    this.props.dispatch(navigateToAccountPicker());
+    NavigationService.dispatch(navigateToAccountPicker());
   };
 
   render() {
@@ -91,10 +91,10 @@ class ProfileCard extends PureComponent<Props> {
         <AccountDetails user={selfUserDetail} />
         <AwayStatusSwitch />
         <View style={styles.buttonRow}>
-          <SetStatusButton dispatch={this.props.dispatch} />
+          <SetStatusButton />
         </View>
         <View style={styles.buttonRow}>
-          <SwitchAccountButton dispatch={this.props.dispatch} />
+          <SwitchAccountButton />
           <LogoutButton dispatch={this.props.dispatch} />
         </View>
       </ScrollView>

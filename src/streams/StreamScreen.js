@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, Stream, Subscription } from '../types';
 import { connect } from '../react-redux';
 import { delay } from '../utils/async';
@@ -55,13 +56,13 @@ class StreamScreen extends PureComponent<Props> {
   };
 
   handleEdit = () => {
-    const { dispatch, stream } = this.props;
-    dispatch(navigateToEditStream(stream.stream_id));
+    const { stream } = this.props;
+    NavigationService.dispatch(navigateToEditStream(stream.stream_id));
   };
 
   handleEditSubscribers = () => {
-    const { dispatch, stream } = this.props;
-    dispatch(navigateToStreamSubscribers(stream.stream_id));
+    const { stream } = this.props;
+    NavigationService.dispatch(navigateToStreamSubscribers(stream.stream_id));
   };
 
   toggleStreamPushNotification = () => {

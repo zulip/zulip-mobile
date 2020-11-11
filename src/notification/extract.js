@@ -182,10 +182,11 @@ export const fromAPNsImpl = (rawData: JSONableDict): Notification | void => {
       if (typeof pm_users !== 'string') {
         throw err('invalid');
       }
-      if (pm_users.split(',').some(s => Number.isNaN(parseInt(s, 10)))) {
+      const ids = pm_users.split(',').map(s => parseInt(s, 10));
+      if (ids.some(id => Number.isNaN(id))) {
         throw err('invalid');
       }
-      return { recipient_type: 'private', pm_users, ...realm_uri_obj };
+      return { recipient_type: 'private', pm_users: ids.sort().join(','), ...realm_uri_obj };
     }
 
     if (typeof sender_email !== 'string') {

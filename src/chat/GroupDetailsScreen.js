@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
@@ -23,8 +24,8 @@ type Props = $ReadOnly<{|
 |}>;
 
 class GroupDetailsScreen extends PureComponent<Props> {
-  handlePress = (userId: number) => {
-    this.props.dispatch(navigateToAccountDetails(userId));
+  handlePress = (user: UserOrBot) => {
+    NavigationService.dispatch(navigateToAccountDetails(user.user_id));
   };
 
   render() {
@@ -36,16 +37,7 @@ class GroupDetailsScreen extends PureComponent<Props> {
           data={recipients}
           keyExtractor={item => item.email}
           renderItem={({ item }) => (
-            <UserItem
-              key={item.email}
-              fullName={item.full_name}
-              avatarUrl={item.avatar_url}
-              email={item.email}
-              showEmail
-              onPress={() => {
-                this.handlePress(item.user_id);
-              }}
-            />
+            <UserItem key={item.user_id} user={item} showEmail onPress={this.handlePress} />
           )}
         />
       </Screen>

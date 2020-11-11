@@ -1,5 +1,7 @@
 /* @flow strict-local */
 import { Clipboard, Alert } from 'react-native';
+
+import NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import config from '../config';
 import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage } from '../types';
@@ -179,7 +181,7 @@ const markRead = (props: Props, event: MessageListEventScroll) => {
 const handleImage = (props: Props, src: string, messageId: number) => {
   const message = props.messages.find(x => x.id === messageId);
   if (message && !message.isOutbox) {
-    props.dispatch(navigateToLightbox(src, message));
+    NavigationService.dispatch(navigateToLightbox(src, message));
   }
 };
 
@@ -222,7 +224,7 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
       break;
 
     case 'avatar': {
-      props.dispatch(navigateToAccountDetails(event.fromUserId));
+      NavigationService.dispatch(navigateToAccountDetails(event.fromUserId));
       break;
     }
 
@@ -261,14 +263,12 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
     case 'reactionDetails':
       {
         const { messageId, reactionName } = event;
-        const { dispatch } = props;
-        dispatch(navigateToMessageReactionScreen(messageId, reactionName));
+        NavigationService.dispatch(navigateToMessageReactionScreen(messageId, reactionName));
       }
       break;
 
     case 'mention': {
-      const { dispatch } = props;
-      dispatch(navigateToAccountDetails(event.userId));
+      NavigationService.dispatch(navigateToAccountDetails(event.userId));
       break;
     }
 

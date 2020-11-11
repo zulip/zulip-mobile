@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot, Narrow } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -23,8 +24,7 @@ type Props = $ReadOnly<{|
 
 class TitleGroup extends PureComponent<Props> {
   handlePress = (user: UserOrBot) => {
-    const { dispatch } = this.props;
-    dispatch(navigateToAccountDetails(user.user_id));
+    NavigationService.dispatch(navigateToAccountDetails(user.user_id));
   };
 
   styles = createStyleSheet({

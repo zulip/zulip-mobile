@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Image, ScrollView, BackHandler } from 'react-native';
 import type { NavigationTabProp, NavigationStateRoute } from 'react-navigation-tabs';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, SharedData, Subscription, Auth, GetText } from '../types';
 import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -137,9 +138,7 @@ class ShareToStream extends React.Component<Props, State> {
   };
 
   finishShare = () => {
-    const { dispatch } = this.props;
-
-    dispatch(navigateBack());
+    NavigationService.dispatch(navigateBack());
     BackHandler.exitApp();
   };
 

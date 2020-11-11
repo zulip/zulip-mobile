@@ -2,53 +2,38 @@
 import React from 'react';
 import type {
   NavigationAction,
-  NavigationNavigatorProps,
   NavigationState,
-  NavigationDispatch,
-  SupportedThemes,
+  NavigationContainer,
+  NavigationContainerProps,
 } from 'react-navigation';
 
-type ReduxContainerProps = {
-  ...$Diff<NavigationNavigatorProps<{ ... }, NavigationState>, { navigation: mixed }>,
-  state: NavigationState,
-  dispatch: NavigationDispatch,
-  theme: SupportedThemes | 'no-preference',
-};
-
-// Should mimic return type of react-navigation-redux-helpers's
-// `createReduxContainer`.
-type ReduxContainer = React$Component<ReduxContainerProps>;
-
-// TODO: This will eventually be a ref to the component instance
-// created by React Navigation's `createAppContainer`, not
-// react-navigation-redux-helpers's `createReduxContainer`.
-const reduxContainerRef = React.createRef<ReduxContainer>();
+/* prettier-ignore */
+const appContainerRef = React.createRef<
+  React$ElementRef<
+    NavigationContainer<
+      NavigationState,
+      { ... },
+      NavigationContainerProps<{ ... }, NavigationState>>>
+>();
 
 const getState = (): NavigationState => {
-  if (reduxContainerRef.current === null) {
-    throw new Error('Tried to use NavigationService before reduxContainerRef was set.');
+  if (appContainerRef.current === null) {
+    throw new Error('Tried to use NavigationService before appContainerRef was set.');
   }
-  return (
-    reduxContainerRef.current
-      // $FlowFixMe - how to tell Flow about this method?
-      .getCurrentNavigation().state
-  );
+  // https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/decouple.20nav.20from.20redux.20%28.23M3804%29/near/1056167
+  // $FlowFixMe
+  return appContainerRef.current.state.nav;
 };
 
 const dispatch = (navigationAction: NavigationAction): boolean => {
-  if (reduxContainerRef.current === null) {
-    throw new Error('Tried to use NavigationService before reduxContainerRef was set.');
+  if (appContainerRef.current === null) {
+    throw new Error('Tried to use NavigationService before appContainerRef was set.');
   }
-  return (
-    reduxContainerRef.current
-      // $FlowFixMe - how to tell Flow about this method?
-      .getCurrentNavigation()
-      .dispatch(navigationAction)
-  );
+  return appContainerRef.current.dispatch(navigationAction);
 };
 
 export default {
   getState,
   dispatch,
-  reduxContainerRef,
+  appContainerRef,
 };

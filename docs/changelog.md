@@ -1348,6 +1348,95 @@ Many fixes and improvements, including:
 * (infra) Updated to React Native v0.57 (from v0.55). (#2789)
 
 
-## 19.2.102 and earlier
+## 19.2.102 (2018-10-30)
 
-TODO: backfill some of this information from notes in other places.
+* (Android) Critical issue with Chrome 70 update. (#3078, #3080)
+* (Android) Target SDK version updated to 26. No change in minimum SDK version. (#3075)
+* Translated to Ukrainian and Hungarian! Updates to others.
+* Unreads screen didn’t show PMs when there were no unread stream messages. (#2949)
+* Autocomplete popup was much taller than screen. (#2997)
+* Other fixes and improvements. (#2905, #2935, #3013, #3046)
+
+
+## (alpha) 19.1.101 (2018-10-25)
+
+This was an alpha-only release, superseded by 19.2.102.
+
+
+## (alpha) 19.0.100 (2018-10-24)
+
+This was an alpha-only release, superseded by 19.2.102.
+
+
+## 18.0.99 (2018-10-02)
+
+Many bugfixes, including:
+* Search terms found in topic are properly highlighted (#2845).
+* Opening embedded items like YouTube videos now works (#2895).
+* When you star a message, the message list updates to show that (#2676).
+
+
+## 17.1.98 (2018-09-21)
+
+Many bugfixes. Notable fixes include:
+* Sending a message with an `@all` mention now succeeds. 📣
+* Several bugs fixed in sharing and viewing images 📷, especially on iOS.
+* Subscribing / unsubscribing to a stream now works again.
+* Topic list now renders the first time you visit it, too.
+
+
+## (beta) 17.0.97 (2018-09-18)
+
+This was a beta-only release, superseded by 17.1.98.
+
+
+## 16.2.96 (2018-08-10)
+
+* New emoji picker screen lets you be the first to react to a
+  message. 🥇
+* More responsive when visiting a conversation from the main nav, and
+  in many other UI interactions.
+* (Android) Stored data is compressed for efficiency.
+* (Android in part) Friendlier error banner on certain failures; and
+  fixed main cause of the same errors.
+* Ready for server-side image thumbnailing, in upcoming versions of
+  the Zulip server.
+* (Android) Future-proof for new versions of the Zulip server to add
+  new notifications features.
+* (Android/iOS) New minimum OS version: Android 4.4 / iOS 9.
+* A number of other fixes and improvements.
+
+
+## (alpha) 15.1.95 (2018-08-10)
+
+This was an alpha-only release, superseded by 16.2.96.
+
+
+## (alpha) 16.1.94 (2018-08-02)
+
+This was an alpha-only release, superseded by 16.2.96.
+
+
+## (alpha) 16.0.93 (2018-08-01)
+
+This was an alpha-only release, superseded by 16.2.96.
+
+
+## 15.0.92 (2018-07-23)
+
+* Fixed #2800, the notorious "things stop updating" bug.
+* Lots of other fixes and improvements.
+
+
+## (beta) 14.1.91 (2018-06-29)
+
+(This was a beta-only release.)
+
+* Fixed #2589, where text inputs would get very slow as you typed more
+  than a couple of sentences.
+* Many other fixes and improvements.
+
+
+## 14.0.90 and earlier
+
+TODO?: backfill some of this information from notes in other places.

@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, User } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
@@ -41,11 +42,11 @@ class InviteUsersScreen extends PureComponent<Props, State> {
   handleFilterChange = (filter: string) => this.setState({ filter });
 
   handleInviteUsers = (selected: User[]) => {
-    const { auth, dispatch, stream } = this.props;
+    const { auth, stream } = this.props;
 
     const recipients = selected.map(user => user.email);
     api.subscriptionAdd(auth, [{ name: stream.name }], recipients);
-    dispatch(navigateBack());
+    NavigationService.dispatch(navigateBack());
   };
 
   render() {

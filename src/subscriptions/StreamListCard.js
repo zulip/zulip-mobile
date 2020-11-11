@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { NavigationTabProp, NavigationStateRoute } from 'react-navigation-tabs';
 
+import NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -55,7 +56,7 @@ class StreamListCard extends PureComponent<Props> {
   };
 
   render() {
-    const { dispatch, canCreateStreams, streams, subscriptions } = this.props;
+    const { canCreateStreams, streams, subscriptions } = this.props;
     const subsAndStreams = streams.map(x => ({
       ...x,
       subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
@@ -71,7 +72,7 @@ class StreamListCard extends PureComponent<Props> {
             text="Create new stream"
             onPress={() =>
               delay(() => {
-                dispatch(navigateToCreateStream());
+                NavigationService.dispatch(navigateToCreateStream());
               })
             }
           />

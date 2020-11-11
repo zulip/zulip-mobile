@@ -2,16 +2,14 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch } from '../types';
+import NavigationService from './NavigationService';
 import type { ThemeData } from '../styles';
 import { ThemeContext, NAVBAR_SIZE } from '../styles';
-import { connect } from '../react-redux';
 import SearchInput from '../common/SearchInput';
 import NavButton from './NavButton';
 import { navigateBack } from '../actions';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   autoFocus: boolean,
   searchBarOnChange: (text: string) => void,
   canGoBack: boolean,
@@ -26,7 +24,7 @@ class ModalSearchNavBar extends PureComponent<Props> {
   };
 
   render() {
-    const { dispatch, autoFocus, searchBarOnChange, canGoBack } = this.props;
+    const { autoFocus, searchBarOnChange, canGoBack } = this.props;
     return (
       <View
         style={{
@@ -42,7 +40,7 @@ class ModalSearchNavBar extends PureComponent<Props> {
           <NavButton
             name="arrow-left"
             onPress={() => {
-              dispatch(navigateBack());
+              NavigationService.dispatch(navigateBack());
             }}
           />
         )}
@@ -53,4 +51,4 @@ class ModalSearchNavBar extends PureComponent<Props> {
   }
 }
 
-export default connect<{||}, _, _>()(ModalSearchNavBar);
+export default ModalSearchNavBar;

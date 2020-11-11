@@ -35,7 +35,7 @@ const messageEvent = (state: GlobalState, message: Message): void => {
     activeAccount
     && narrow !== undefined // chat screen is not at top
     && !isHomeNarrow(narrow)
-    && isMessageInNarrow(message, narrow, activeAccount.email);
+    && isMessageInNarrow(message, flags, narrow, activeAccount.email);
   const isSenderSelf = getOwnEmail(state) === message.sender_email;
   if (!isUserInSameNarrow && !isSenderSelf) {
     playMessageSound();

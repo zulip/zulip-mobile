@@ -286,16 +286,19 @@ describe('narrowsReducer', () => {
       [groupNarrowStr]: [2, 4],
     });
 
-    const message = eg.pmMessage({ id: 5, flags: [] });
+    const message = eg.pmMessage({
+      id: 5,
+      flags: [],
+      sender: eg.selfUser,
+      display_recipient: [eg.displayRecipientFromUser(eg.selfUser), { email: 'mark@example.com' }],
+    });
 
     const action = deepFreeze({
       ...eg.eventNewMessageActionBase,
       message,
-      caughtUp: {
-        [HOME_NARROW_STR]: { older: false, newer: true },
-        [ALL_PRIVATE_NARROW_STR]: { older: false, newer: true },
-        [privateNarrowStr]: { older: false, newer: true },
-      },
+      caughtUp: Object.fromEntries(
+        Object.keys(initialState).map(key => [key, { older: false, newer: true }]),
+      ),
     });
 
     const expectedState = {

@@ -9,7 +9,7 @@ import type {
   NamedUser,
   Narrow,
   Outbox,
-  User,
+  UserOrBot,
   Action,
 } from '../types';
 import {
@@ -20,11 +20,10 @@ import {
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import * as api from '../api';
-import { getSelfUserDetail, getUsersByEmail } from '../users/userSelectors';
+import { getAllUsersByEmail, getOwnUser } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
-import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
+import { caseNarrowPartial } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
-import { NULL_USER } from '../nullObjects';
 
 export const messageSendStart = (outbox: Outbox): Action => ({
   type: MESSAGE_SEND_START,
@@ -64,17 +63,16 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
         return; // i.e., continue
       }
 
-      const to = ((): string => {
-        const { narrow } = item;
-        // TODO: can this test be `if (item.type === private)`?
-        if (isPrivateOrGroupNarrow(narrow)) {
-          return narrow[0].operand;
-        } else {
-          // HACK: the server attempts to interpret this argument as JSON, then
-          // CSV, then a literal. To avoid misparsing, always use JSON.
-          return JSON.stringify([item.display_recipient]);
-        }
-      })();
+      // prettier-ignore
+      const to =
+        item.type === 'private'
+            // TODO(server-2.0): switch to numeric user IDs, not emails.
+          ? item.display_recipient.map(r => r.email).join(',')
+            // TODO(server-2.0): switch to numeric stream IDs, not names.
+            //   (This will require wiring the stream ID through to here.)
+            // HACK: the server attempts to interpret this argument as JSON, then
+            //   CSV, then a literal. To avoid misparsing, always use JSON.
+          : JSON.stringify([item.display_recipient]);
 
       await api.sendMessage(auth, {
         type: item.type,
@@ -106,14 +104,21 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
   dispatch(toggleOutboxSending(false));
 };
 
-const mapEmailsToUsers = (usersByEmail, narrow, selfDetail) =>
-  narrow[0].operand
-    .split(',')
-    .map(item => {
-      const user = usersByEmail.get(item) || NULL_USER;
-      return { email: item, id: user.user_id, full_name: user.full_name };
-    })
-    .concat({ email: selfDetail.email, id: selfDetail.user_id, full_name: selfDetail.full_name });
+// A valid display_recipient with all the thread's users, sorted by ID.
+const mapEmailsToUsers = (emails, allUsersByEmail, ownUser) => {
+  const result = emails.map(email => {
+    const user = allUsersByEmail.get(email);
+    if (!user) {
+      throw new Error('outbox: missing user when preparing to send PM');
+    }
+    return { email, id: user.user_id, full_name: user.full_name };
+  });
+  if (!result.some(r => r.id === ownUser.user_id)) {
+    result.push({ email: ownUser.email, id: ownUser.user_id, full_name: ownUser.full_name });
+  }
+  result.sort((r1, r2) => r1.id - r2.id);
+  return result;
+};
 
 // TODO type: `string | NamedUser[]` is a bit confusing.
 type DataFromNarrow = {|
@@ -124,19 +129,28 @@ type DataFromNarrow = {|
 
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
-  usersByEmail: Map<string, User>,
-  selfDetail: { email: string, user_id: number, full_name: string },
+  allUsersByEmail: Map<string, UserOrBot>,
+  ownUser: UserOrBot,
 ): DataFromNarrow => {
-  if (isPrivateOrGroupNarrow(narrow)) {
-    return {
-      type: 'private',
-      display_recipient: mapEmailsToUsers(usersByEmail, narrow, selfDetail),
-      subject: '',
-    };
-  } else if (isStreamNarrow(narrow)) {
-    return { type: 'stream', display_recipient: narrow[0].operand, subject: '(no topic)' };
-  }
-  return { type: 'stream', display_recipient: narrow[0].operand, subject: narrow[1].operand };
+  const forPm = emails => ({
+    type: 'private',
+    display_recipient: mapEmailsToUsers(emails, allUsersByEmail, ownUser),
+    subject: '',
+  });
+  return caseNarrowPartial(narrow, {
+    pm: email => forPm([email]),
+    groupPm: forPm,
+
+    // TODO: we shouldn't ever be passing a whole-stream narrow here;
+    //   ensure we don't, then remove this case
+    stream: name => ({ type: 'stream', display_recipient: name, subject: '(no topic)' }),
+
+    topic: (streamName, topic) => ({
+      type: 'stream',
+      display_recipient: streamName,
+      subject: topic,
+    }),
+  });
 };
 
 const getContentPreview = (content: string, state: GlobalState): string => {
@@ -159,21 +173,20 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   getState: GetState,
 ) => {
   const state = getState();
-  const userDetail = getSelfUserDetail(state);
+  const ownUser = getOwnUser(state);
 
   const localTime = Math.round(new Date().getTime() / 1000);
   dispatch(
     messageSendStart({
-      narrow,
       isSent: false,
-      ...extractTypeToAndSubjectFromNarrow(narrow, getUsersByEmail(state), userDetail),
+      ...extractTypeToAndSubjectFromNarrow(narrow, getAllUsersByEmail(state), ownUser),
       markdownContent: content,
       content: getContentPreview(content, state),
       timestamp: localTime,
       id: localTime,
-      sender_full_name: userDetail.full_name,
-      sender_email: userDetail.email,
-      avatar_url: userDetail.avatar_url,
+      sender_full_name: ownUser.full_name,
+      sender_email: ownUser.email,
+      avatar_url: ownUser.avatar_url,
       isOutbox: true,
       reactions: [],
     }),

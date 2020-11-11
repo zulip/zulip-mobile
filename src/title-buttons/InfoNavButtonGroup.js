@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, Narrow, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { getRecipientsInGroupNarrow } from '../selectors';
@@ -22,8 +23,8 @@ type Props = $ReadOnly<{|
 
 class InfoNavButtonGroup extends PureComponent<Props> {
   handlePress = () => {
-    const { dispatch, recipients } = this.props;
-    dispatch(navigateToGroupDetails(recipients));
+    const { recipients } = this.props;
+    NavigationService.dispatch(navigateToGroupDetails(recipients));
   };
 
   render() {

@@ -26,8 +26,8 @@ type Props = $ReadOnly<{|
  * A list describing all PM conversations.
  * */
 export default class PmConversationList extends PureComponent<Props> {
-  handleUserNarrow = (email: string) => {
-    this.props.dispatch(doNarrow(privateNarrow(email)));
+  handleUserNarrow = (user: UserOrBot) => {
+    this.props.dispatch(doNarrow(privateNarrow(user.email)));
   };
 
   handleGroupNarrow = (email: string) => {
@@ -52,13 +52,7 @@ export default class PmConversationList extends PureComponent<Props> {
             }
 
             return (
-              <UserItem
-                email={user.email}
-                fullName={user.full_name}
-                avatarUrl={user.avatar_url}
-                unreadCount={item.unread}
-                onPress={this.handleUserNarrow}
-              />
+              <UserItem user={user} unreadCount={item.unread} onPress={this.handleUserNarrow} />
             );
           }
 

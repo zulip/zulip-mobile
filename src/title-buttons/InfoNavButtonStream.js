@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, Narrow, Stream } from '../types';
 import { connect } from '../react-redux';
 import { getStreams } from '../selectors';
@@ -17,10 +18,10 @@ type Props = $ReadOnly<{|
 
 class InfoNavButtonStream extends PureComponent<Props> {
   handlePress = () => {
-    const { dispatch, narrow, streams } = this.props;
+    const { narrow, streams } = this.props;
     const stream = streams.find(x => x.name === narrow[0].operand);
     if (stream) {
-      dispatch(navigateToStream(stream.stream_id));
+      NavigationService.dispatch(navigateToStream(stream.stream_id));
     }
   };
 

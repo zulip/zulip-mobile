@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import NavigationService from '../nav/NavigationService';
 import type { Narrow, Dispatch, GetState } from '../types';
 import { getAuth, getUsersById } from '../selectors';
 import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
@@ -8,6 +9,7 @@ import { FIRST_UNREAD_ANCHOR } from '../anchor';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
 import { isUrlOnRealm } from '../utils/url';
+import { getOwnUserId } from '../users/userSelectors';
 
 /**
  * Navigate to the given narrow.
@@ -17,7 +19,7 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   getState: GetState,
 ) => {
   // TODO: Use `anchor` to open the message list to a particular message.
-  dispatch(navigateToChat(narrow));
+  NavigationService.dispatch(navigateToChat(narrow));
 };
 
 export const messageLinkPress = (href: string) => async (
@@ -28,7 +30,8 @@ export const messageLinkPress = (href: string) => async (
   const auth = getAuth(state);
   const usersById = getUsersById(state);
   const streamsById = getStreamsById(state);
-  const narrow = getNarrowFromLink(href, auth.realm, usersById, streamsById);
+  const ownUserId = getOwnUserId(state);
+  const narrow = getNarrowFromLink(href, auth.realm, usersById, streamsById, ownUserId);
   if (narrow) {
     const anchor = getMessageIdFromLink(href, auth.realm);
     dispatch(doNarrow(narrow, anchor));

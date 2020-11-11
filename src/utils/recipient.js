@@ -22,6 +22,14 @@ export const normalizeRecipients = (recipients: $ReadOnlyArray<{ email: string, 
         .sort()
         .join(',');
 
+/**
+ * The same set of users as pmKeyRecipientsFromMessage, in quirkier form.
+ *
+ * Prefer normalizeRecipientsAsUserIdsSansMe over this; see #3764.
+ * See that function for further discussion.
+ *
+ * Users are sorted by email address.
+ */
 export const normalizeRecipientsSansMe = (
   recipients: $ReadOnlyArray<{ email: string, ... }>,
   ownEmail: string,
@@ -38,6 +46,15 @@ export const normalizeRecipientsAsUserIds = (
     .sort()
     .join(',');
 
+/**
+ * The same set of users as pmKeyRecipientsFromMessage, in quirkier form.
+ *
+ * Sorted by user ID.
+ */
+// Note that sorting by user ID is the same as the server does for group PMs
+// (see comment on Message#display_recipient).  Then for 1:1 PMs the
+// server's behavior is quirkier... but we keep only one user for those
+// anyway, so it doesn't matter.
 export const normalizeRecipientsAsUserIdsSansMe = (
   recipients: $ReadOnlyArray<{ user_id: number, ... }>,
   ownUserId: number,
@@ -87,6 +104,10 @@ export const pmUiRecipientsFromMessage = (
  *    It would be great to unify on a single version, as the variation is a
  *    possible source of bugs.
  */
+// The resulting users are sorted by user ID.  That's because:
+//  * For group PMs, the server provides them in that order; see comment
+//    on Message#display_recipient.
+//  * For 1:1 PMs, we only keep one user in the list.
 export const pmKeyRecipientsFromMessage = (
   message: Message | Outbox,
   ownUser: User,
@@ -95,6 +116,34 @@ export const pmKeyRecipientsFromMessage = (
     throw new Error('pmKeyRecipientsFromMessage: expected PM, got stream message');
   }
   return filterRecipients(message.display_recipient, ownUser.user_id);
+};
+
+/**
+ * The set of users to identify a PM conversation by in our data structures.
+ *
+ * This produces the same set of users as `pmKeyRecipientsFromMessage`, just
+ * from a different form of input.
+ *
+ * The input may either include or exclude self, without affecting the
+ * result.
+ */
+export const pmKeyRecipientsFromIds = (
+  userIds: number[],
+  usersById: Map<number, User>,
+  ownUserId: number,
+): User[] | null => {
+  const users = [];
+  for (const id of userIds) {
+    if (id === ownUserId && userIds.length > 1) {
+      continue;
+    }
+    const user = usersById.get(id);
+    if (!user) {
+      return null;
+    }
+    users.push(user);
+  }
+  return users;
 };
 
 /**

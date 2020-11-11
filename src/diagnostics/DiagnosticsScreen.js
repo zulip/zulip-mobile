@@ -4,9 +4,8 @@ import React, { PureComponent } from 'react';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 import { nativeApplicationVersion } from 'expo-application';
 
-import type { Dispatch } from '../types';
+import NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
 import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
 import {
   navigateToDebug,
@@ -28,14 +27,10 @@ type Props = $ReadOnly<{|
   // don't invoke it anywhere else at all), we know it gets the
   // `navigation` prop for free, with the stack-nav shape.
   navigation: NavigationStackProp<NavigationStateRoute>,
-
-  dispatch: Dispatch,
 |}>;
 
-class DiagnosticsScreen extends PureComponent<Props> {
+export default class DiagnosticsScreen extends PureComponent<Props> {
   render() {
-    const { dispatch } = this.props;
-
     return (
       <Screen title="Diagnostics">
         <RawLabel style={styles.versionLabel} text={`v${nativeApplicationVersion ?? '?.?.?'}`} />
@@ -43,30 +38,28 @@ class DiagnosticsScreen extends PureComponent<Props> {
         <OptionButton
           label="Variables"
           onPress={() => {
-            dispatch(navigateToVariables());
+            NavigationService.dispatch(navigateToVariables());
           }}
         />
         <OptionButton
           label="Timing"
           onPress={() => {
-            dispatch(navigateToTiming());
+            NavigationService.dispatch(navigateToTiming());
           }}
         />
         <OptionButton
           label="Storage"
           onPress={() => {
-            dispatch(navigateToStorage());
+            NavigationService.dispatch(navigateToStorage());
           }}
         />
         <OptionButton
           label="Debug"
           onPress={() => {
-            dispatch(navigateToDebug());
+            NavigationService.dispatch(navigateToDebug());
           }}
         />
       </Screen>
     );
   }
 }
-
-export default connect<{||}, _, _>()(DiagnosticsScreen);

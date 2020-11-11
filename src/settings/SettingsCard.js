@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { ScrollView } from 'react-native';
 import type { NavigationTabProp, NavigationStateRoute } from 'react-navigation-tabs';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -49,7 +50,7 @@ class SettingsCard extends PureComponent<Props> {
   };
 
   render() {
-    const { theme, dispatch } = this.props;
+    const { theme } = this.props;
 
     return (
       <ScrollView style={styles.optionWrapper}>
@@ -64,28 +65,28 @@ class SettingsCard extends PureComponent<Props> {
           Icon={IconNotifications}
           label="Notifications"
           onPress={() => {
-            dispatch(navigateToNotifications());
+            NavigationService.dispatch(navigateToNotifications());
           }}
         />
         <OptionButton
           Icon={IconLanguage}
           label="Language"
           onPress={() => {
-            dispatch(navigateToLanguage());
+            NavigationService.dispatch(navigateToLanguage());
           }}
         />
         <OptionButton
           Icon={IconDiagnostics}
           label="Diagnostics"
           onPress={() => {
-            dispatch(navigateToDiagnostics());
+            NavigationService.dispatch(navigateToDiagnostics());
           }}
         />
         <OptionButton
           Icon={IconMoreHorizontal}
           label="Legal"
           onPress={() => {
-            dispatch(navigateToLegal());
+            NavigationService.dispatch(navigateToLegal());
           }}
         />
       </ScrollView>

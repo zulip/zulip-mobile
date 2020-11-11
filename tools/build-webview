@@ -153,7 +153,7 @@ sync() {
     mkdir -p "${_dest}"
     rsync -aR --no-D --delete --delete-excluded \
           "${src}/./" "${_dest}/." \
-          --filter='. /dev/stdin'
+          --filter='. -'
 }
 
 # Copy over files from KaTeX.

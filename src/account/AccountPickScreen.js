@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { hasAuth, getAccountStatuses } from '../selectors';
@@ -32,7 +33,7 @@ class AccountPickScreen extends PureComponent<Props> {
         dispatch(accountSwitch(index));
       });
     } else {
-      dispatch(navigateToRealmScreen({ realm }));
+      NavigationService.dispatch(navigateToRealmScreen({ realm }));
     }
   };
 
@@ -53,7 +54,7 @@ class AccountPickScreen extends PureComponent<Props> {
   canGoBack = this.props.hasAuth;
 
   render() {
-    const { accounts, dispatch } = this.props;
+    const { accounts } = this.props;
 
     return (
       <Screen
@@ -74,7 +75,7 @@ class AccountPickScreen extends PureComponent<Props> {
           <ZulipButton
             text="Add new account"
             onPress={() => {
-              dispatch(navigateToRealmScreen());
+              NavigationService.dispatch(navigateToRealmScreen());
             }}
           />
         </Centerer>

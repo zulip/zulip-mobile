@@ -1,5 +1,7 @@
 /* @flow strict-local */
 import { Clipboard, Share, Alert } from 'react-native';
+
+import NavigationService from '../nav/NavigationService';
 import type {
   Auth,
   Dispatch,
@@ -185,13 +187,13 @@ shareMessage.title = 'Share';
 shareMessage.errorMessage = 'Failed to share message';
 
 const addReaction = ({ message, dispatch }) => {
-  dispatch(navigateToEmojiPicker(message.id));
+  NavigationService.dispatch(navigateToEmojiPicker(message.id));
 };
 addReaction.title = 'Add a reaction';
 addReaction.errorMessage = 'Failed to add reaction';
 
 const showReactions = ({ message, dispatch }) => {
-  dispatch(navigateToMessageReactionScreen(message.id));
+  NavigationService.dispatch(navigateToMessageReactionScreen(message.id));
 };
 showReactions.title = 'See who reacted';
 showReactions.errorMessage = 'Failed to show reactions';

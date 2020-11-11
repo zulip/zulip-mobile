@@ -47,7 +47,11 @@ const eventNewMessage = (state, action) => {
   let stateChange = false;
   const newState: NarrowsState = {};
   Object.keys(state).forEach(key => {
-    const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
+    const { flags } = action.message;
+    if (!flags) {
+      throw new Error('EVENT_NEW_MESSAGE message missing flags');
+    }
+    const isInNarrow = isMessageInNarrow(action.message, flags, JSON.parse(key), action.ownEmail);
     const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
     const messageDoesNotExist = state[key].find(id => action.message.id === id) === undefined;
 

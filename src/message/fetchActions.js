@@ -1,13 +1,7 @@
 /* @flow strict-local */
-import type {
-  Narrow,
-  Dispatch,
-  GetState,
-  GlobalState,
-  Message,
-  Action,
-  ApiResponseServerSettings,
-} from '../types';
+import NavigationService from '../nav/NavigationService';
+import type { Narrow, Dispatch, GetState, GlobalState, Message, Action } from '../types';
+import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
 import { resetToMainTabs } from '../actions';
@@ -173,7 +167,7 @@ export const initialFetchComplete = () => async (dispatch: Dispatch, getState: G
     // conditional accordingly, if we found out we're not depending on
     // the more general condition; see
     //   https://github.com/zulip/zulip-mobile/pull/4274#discussion_r505941875
-    dispatch(resetToMainTabs());
+    NavigationService.dispatch(resetToMainTabs());
   }
   dispatch(initialFetchCompletePlain());
 };

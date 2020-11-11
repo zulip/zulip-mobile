@@ -179,6 +179,7 @@ export const selfAccount: Account = makeAccount({
 export const selfAuth: Auth = deepFreeze(authOfAccount(selfAccount));
 
 export const otherUser: User = makeUser({ name: 'other' });
+export const thirdUser: User = makeUser({ name: 'third' });
 
 export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
 
@@ -293,14 +294,23 @@ const randMessageId: () => number = makeUniqueRandInt('message ID', 10000000);
  *
  * Beware! These values may not be representative.
  */
-export const pmMessage = (extra?: $Rest<Message, {}>): Message => {
+export const pmMessage = (args?: {|
+  ...$Rest<Message, {}>,
+  sender?: User,
+  recipients?: User[],
+|}): Message => {
+  // The `Object.freeze` is to work around a Flow issue:
+  //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
+  const { sender = otherUser, recipients = [otherUser, selfUser], ...extra } =
+    args ?? Object.freeze({});
+
   const baseMessage: Message = {
     ...messagePropertiesBase,
-    ...messagePropertiesFromSender(otherUser),
+    ...messagePropertiesFromSender(sender),
 
     content: 'This is an example PM message.',
     content_type: 'text/markdown',
-    display_recipient: [displayRecipientFromUser(selfUser)],
+    display_recipient: recipients.map(displayRecipientFromUser),
     id: randMessageId(),
     recipient_id: 2342,
     stream_id: -1,
@@ -327,9 +337,9 @@ const messagePropertiesFromStream = (stream1: Stream) => {
  * Beware! These values may not be representative.
  */
 export const streamMessage = (args?: {| ...$Rest<Message, {}>, stream?: Stream |}): Message => {
-  // The redundant `stream` in the ?? case avoids a Flow issue:
-  // https://github.com/facebook/flow/issues/2386
-  const { stream: streamInner = stream, ...extra } = args ?? { stream };
+  // The `Object.freeze` is to work around a Flow issue:
+  //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
+  const { stream: streamInner = stream, ...extra } = args ?? Object.freeze({});
 
   const baseMessage: Message = {
     ...messagePropertiesBase,
@@ -360,10 +370,9 @@ const outboxMessageBase: $Diff<Outbox, {| id: mixed, timestamp: mixed |}> = deep
 
   avatar_url: selfUser.avatar_url,
   content: '<p>Test.</p>',
-  display_recipient: 'test',
+  display_recipient: stream.name,
   // id: ...,
   markdownContent: 'Test.',
-  narrow: [{ operator: 'stream', operand: 'test' }],
   reactions: [],
   sender_email: selfUser.email,
   sender_full_name: selfUser.full_name,

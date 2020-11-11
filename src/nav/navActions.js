@@ -1,14 +1,8 @@
 /* @flow strict-local */
 import { StackActions, NavigationActions } from 'react-navigation';
 
-import type {
-  NavigationAction,
-  Message,
-  Narrow,
-  UserOrBot,
-  ApiResponseServerSettings,
-  SharedData,
-} from '../types';
+import type { NavigationAction, Message, Narrow, UserOrBot, SharedData } from '../types';
+import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { getSameRoutesCount } from '../selectors';
 
 export const navigateBack = (): NavigationAction => StackActions.pop({ n: getSameRoutesCount() });

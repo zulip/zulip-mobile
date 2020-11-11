@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from '../react-redux';
 
+import NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
@@ -19,9 +20,8 @@ type Props = $ReadOnly<{|
  * Used within `MessageReactionList`.
  */
 class ReactionUserList extends PureComponent<Props> {
-  handlePress = (userId: number) => {
-    const { dispatch } = this.props;
-    dispatch(navigateToAccountDetails(userId));
+  handlePress = (user: UserOrBot) => {
+    NavigationService.dispatch(navigateToAccountDetails(user.user_id));
   };
 
   render() {
@@ -36,17 +36,7 @@ class ReactionUserList extends PureComponent<Props> {
           if (!user) {
             return null;
           }
-          return (
-            <UserItem
-              key={user.user_id}
-              fullName={user.full_name}
-              avatarUrl={user.avatar_url}
-              email={user.email}
-              onPress={() => {
-                this.handlePress(user.user_id);
-              }}
-            />
-          );
+          return <UserItem key={user.user_id} user={user} onPress={this.handlePress} />;
         }}
       />
     );
