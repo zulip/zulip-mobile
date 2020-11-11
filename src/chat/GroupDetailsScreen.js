@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
 import { connect } from '../react-redux';
@@ -12,6 +12,7 @@ import { navigateToAccountDetails } from '../actions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'group-details'>,
+  route: AppNavigationRouteProp<'group-details'>,
 
   dispatch: Dispatch,
 |}>;
@@ -22,7 +23,7 @@ class GroupDetailsScreen extends PureComponent<Props> {
   };
 
   render() {
-    const { recipients } = this.props.navigation.state.params;
+    const { recipients } = this.props.route.params;
     return (
       <Screen title="Recipients" scrollEnabled={false}>
         <FlatList

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import type { Dispatch, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -31,6 +31,7 @@ type SelectorProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'account-details'>,
+  route: AppNavigationRouteProp<'account-details'>,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -70,6 +71,6 @@ class AccountDetailsScreen extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  user: getUserForId(state, props.navigation.state.params.userId),
-  isActive: getUserIsActive(state, props.navigation.state.params.userId),
+  user: getUserForId(state, props.route.params.userId),
+  isActive: getUserIsActive(state, props.route.params.userId),
 }))(AccountDetailsScreen);

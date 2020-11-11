@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import type { Dispatch, Stream, TopicExtended } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
@@ -19,6 +19,7 @@ type SelectorProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'topics'>,
+  route: AppNavigationRouteProp<'topics'>,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -60,6 +61,6 @@ class TopicListScreen extends PureComponent<Props, State> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  stream: getStreamForId(state, props.navigation.state.params.streamId),
-  topics: getTopicsForStream(state, props.navigation.state.params.streamId),
+  stream: getStreamForId(state, props.route.params.streamId),
+  topics: getTopicsForStream(state, props.route.params.streamId),
 }))(TopicListScreen);

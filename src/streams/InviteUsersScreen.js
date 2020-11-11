@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, User } from '../types';
 import { connect } from '../react-redux';
@@ -18,6 +18,7 @@ type SelectorProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'invite-users'>,
+  route: AppNavigationRouteProp<'invite-users'>,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -54,5 +55,5 @@ class InviteUsersScreen extends PureComponent<Props, State> {
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   auth: getAuth(state),
-  stream: getStreamForId(state, props.navigation.state.params.streamId),
+  stream: getStreamForId(state, props.route.params.streamId),
 }))(InviteUsersScreen);

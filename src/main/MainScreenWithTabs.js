@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getHaveServerData } from '../selectors';
@@ -13,6 +13,7 @@ import MainTabs from './MainTabs';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'main'>,
+  route: AppNavigationRouteProp<'main'>,
 
   dispatch: Dispatch,
   haveServerData: boolean,

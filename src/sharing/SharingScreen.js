@@ -10,7 +10,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 
 import type { GlobalParamList } from '../nav/globalTypes';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, Auth, SharedData } from '../types';
 import { createStyleSheet } from '../styles';
@@ -36,6 +36,7 @@ export type SharingNavigationProp<
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'sharing'>,
+  route: AppNavigationRouteProp<'sharing'>,
 
   auth: Auth | void,
   dispatch: Dispatch,

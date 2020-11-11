@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { ZulipVersion } from '../utils/zulipVersion';
 import type { Dispatch } from '../types';
@@ -19,6 +19,7 @@ type SelectorProps = {|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm'>,
+  route: AppNavigationRouteProp<'realm'>,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -100,7 +101,7 @@ class RealmScreen extends PureComponent<Props, State> {
     return (
       <Screen
         title="Welcome"
-        canGoBack={!this.props.navigation.state.params.initial}
+        canGoBack={!this.props.route.params.initial}
         padding
         centerContent
         keyboardShouldPersistTaps="always"
@@ -136,5 +137,5 @@ class RealmScreen extends PureComponent<Props, State> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  initialRealmInputValue: props.navigation.state.params.realm?.toString() ?? '',
+  initialRealmInputValue: props.route.params.realm?.toString() ?? '',
 }))(RealmScreen);

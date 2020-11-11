@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, Stream } from '../types';
 import { connect } from '../react-redux';
@@ -16,6 +16,7 @@ type SelectorProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'stream-edit'>,
+  route: AppNavigationRouteProp<'stream-edit'>,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -45,5 +46,5 @@ class EditStreamScreen extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  stream: getStreamForId(state, props.navigation.state.params.streamId),
+  stream: getStreamForId(state, props.route.params.streamId),
 }))(EditStreamScreen);

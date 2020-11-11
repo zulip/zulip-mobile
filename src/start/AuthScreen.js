@@ -5,7 +5,7 @@ import { Linking, Platform } from 'react-native';
 import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import config from '../config';
 import type { Dispatch } from '../types';
@@ -168,6 +168,7 @@ export const activeAuthentications = (
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'auth'>,
+  route: AppNavigationRouteProp<'auth'>,
 
   dispatch: Dispatch,
   realm: URL,
@@ -196,7 +197,7 @@ class AuthScreen extends PureComponent<Props> {
       }
     });
 
-    const { serverSettings } = this.props.navigation.state.params;
+    const { serverSettings } = this.props.route.params;
     const authList = activeAuthentications(
       serverSettings.authentication_methods,
       serverSettings.external_authentication_methods,
@@ -236,7 +237,7 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   handlePassword = () => {
-    const { serverSettings } = this.props.navigation.state.params;
+    const { serverSettings } = this.props.route.params;
     NavigationService.dispatch(navigateToPassword(serverSettings.require_email_format_usernames));
   };
 
@@ -303,7 +304,7 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   render() {
-    const { serverSettings } = this.props.navigation.state.params;
+    const { serverSettings } = this.props.route.params;
 
     return (
       <Screen title="Log in" centerContent padding shouldShowLoadingBanner={false}>

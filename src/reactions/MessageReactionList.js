@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
@@ -35,6 +35,7 @@ type SelectorProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'message-reactions'>,
+  route: AppNavigationRouteProp<'message-reactions'>,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -49,7 +50,7 @@ type Props = $ReadOnly<{|
 class MessageReactionList extends PureComponent<Props> {
   componentDidMount() {
     if (this.props.message === undefined) {
-      const { messageId } = this.props.navigation.state.params;
+      const { messageId } = this.props.route.params;
       logging.warn(
         'MessageReactionList unexpectedly created without props.message; '
           + 'message with messageId is missing in state.messages',
@@ -67,8 +68,8 @@ class MessageReactionList extends PureComponent<Props> {
   }
 
   render() {
-    const { message, navigation, ownUserId, allUsersById } = this.props;
-    const { reactionName } = navigation.state.params;
+    const { message, route, ownUserId, allUsersById } = this.props;
+    const { reactionName } = route.params;
 
     const content: React$Node = (() => {
       if (message === undefined) {
@@ -144,7 +145,7 @@ class MessageReactionList extends PureComponent<Props> {
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   // message *can* be undefined; see componentDidUpdate for explanation and handling.
-  message: (state.messages[props.navigation.state.params.messageId]: Message | void),
+  message: (state.messages[props.route.params.messageId]: Message | void),
   ownUserId: getOwnUser(state).user_id,
   allUsersById: getAllUsersById(state),
 }))(MessageReactionList);

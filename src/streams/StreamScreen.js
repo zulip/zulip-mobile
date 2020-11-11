@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, Stream, Subscription } from '../types';
 import { connect } from '../react-redux';
@@ -32,6 +32,7 @@ type SelectorProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'stream'>,
+  route: AppNavigationRouteProp<'stream'>,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -113,8 +114,7 @@ class StreamScreen extends PureComponent<Props> {
 
 export default connect((state, props) => ({
   isAdmin: getIsAdmin(state),
-  stream: getStreamForId(state, props.navigation.state.params.streamId),
-  subscription:
-    getSubscriptionsById(state).get(props.navigation.state.params.streamId) || NULL_SUBSCRIPTION,
+  stream: getStreamForId(state, props.route.params.streamId),
+  subscription: getSubscriptionsById(state).get(props.route.params.streamId) || NULL_SUBSCRIPTION,
   userSettingStreamNotification: getSettings(state).streamNotification,
 }))(StreamScreen);

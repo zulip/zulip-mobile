@@ -1,12 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import { Screen } from '../common';
 import UsersCard from './UsersCard';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'users'>,
+  route: AppNavigationRouteProp<'users'>,
 |}>;
 
 type State = {|

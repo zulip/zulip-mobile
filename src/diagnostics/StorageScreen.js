@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import type { GlobalState, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
@@ -19,6 +19,7 @@ const calculateKeyStorageSizes = obj =>
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'storage'>,
+  route: AppNavigationRouteProp<'storage'>,
 
   dispatch: Dispatch,
   state: GlobalState,

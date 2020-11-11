@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import type { Auth, Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -28,6 +28,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'password'>,
+  route: AppNavigationRouteProp<'password'>,
 
   partialAuth: Auth,
   dispatch: Dispatch,
@@ -49,8 +50,8 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   };
 
   tryPasswordLogin = async () => {
-    const { dispatch, partialAuth, navigation } = this.props;
-    const { requireEmailFormat } = navigation.state.params;
+    const { dispatch, partialAuth, route } = this.props;
+    const { requireEmailFormat } = route.params;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
@@ -70,7 +71,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   };
 
   validateForm = () => {
-    const { requireEmailFormat } = this.props.navigation.state.params;
+    const { requireEmailFormat } = this.props.route.params;
     const { email, password } = this.state;
 
     if (requireEmailFormat && !isValidEmailFormat(email)) {
@@ -85,7 +86,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   };
 
   render() {
-    const { requireEmailFormat } = this.props.navigation.state.params;
+    const { requireEmailFormat } = this.props.route.params;
     const { email, password, progress, error } = this.state;
     const isButtonDisabled =
       password.length === 0

@@ -5,7 +5,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { useSelector, useDispatch } from '../react-redux';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import styles, { ThemeContext, createStyleSheet } from '../styles';
 import type { EditMessage } from '../types';
 import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
@@ -24,6 +24,7 @@ import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
+  route: AppNavigationRouteProp<'chat'>,
 |}>;
 
 const componentStyles = createStyleSheet({
@@ -101,7 +102,7 @@ export default function ChatScreen(props: Props) {
 
   const [editMessage, setEditMessage] = React.useState<EditMessage | null>(null);
 
-  const { narrow } = props.navigation.state.params;
+  const { narrow } = props.route.params;
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
 

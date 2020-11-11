@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
@@ -12,6 +12,7 @@ import { settingsChange } from '../actions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'language'>,
+  route: AppNavigationRouteProp<'language'>,
 
   dispatch: Dispatch,
   locale: string,

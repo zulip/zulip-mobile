@@ -1,17 +1,17 @@
 /* @flow strict-local */
+import React from 'react';
 import { Platform } from 'react-native';
-import type { ScreenParams } from '@react-navigation/native';
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+import type { RouteProp } from '@react-navigation/native';
 import {
-  createCompatNavigatorFactory,
-  type NavigationNavigator,
-  type NavigationStackProp,
-  NavigationStateRoute,
-} from '@react-navigation/compat';
+  createStackNavigator,
+  type StackNavigationProp,
+  TransitionPresets,
+} from '@react-navigation/stack';
 
-import type { Narrow, Message, SharedData } from '../types';
-import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
+import getInitialRouteInfo from './getInitialRouteInfo';
 import type { GlobalParamList } from './globalTypes';
+import type { Account, Narrow, Message, SharedData } from '../types';
+import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
 import AuthScreen from '../start/AuthScreen';
@@ -80,66 +80,82 @@ export type AppNavigatorParamList = {|
 
 export type AppNavigationProp<
   +RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
-> = NavigationStackProp<{|
-  ...NavigationStateRoute,
-  params: $ElementType<GlobalParamList, RouteName>,
+> = StackNavigationProp<GlobalParamList, RouteName>;
+
+export type AppNavigationRouteProp<
+  RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
+> = RouteProp<GlobalParamList, RouteName>;
+
+const Stack = createStackNavigator<GlobalParamList, AppNavigatorParamList, AppNavigationProp<>>();
+
+type Props = $ReadOnly<{|
+  hasAuth: boolean,
+  accounts: Account[],
+  haveServerData: boolean,
 |}>;
 
-export const createAppNavigator = (args: {|
-  initialRouteName: string,
-  initialRouteParams?: ScreenParams,
-  // flowlint-next-line deprecated-type:off
-|}): NavigationNavigator<*, *, *> =>
-  createCompatNavigatorFactory(createStackNavigator)(
-    {
-      account: { screen: AccountPickScreen },
-      'account-details': { screen: AccountDetailsScreen },
-      'group-details': { screen: GroupDetailsScreen },
-      auth: { screen: AuthScreen },
-      chat: { screen: ChatScreen },
-      dev: { screen: DevAuthScreen },
-      'emoji-picker': { screen: EmojiPickerScreen },
-      loading: { screen: LoadingScreen },
-      main: {
-        screen: MainScreenWithTabs,
-        navigationOptions: {
-          // So we don't show a transition animation between 'loading'
-          // and 'main'.
-          animationEnabled: false,
-        },
-      },
-      'message-reactions': { screen: MessageReactionList },
-      password: { screen: PasswordAuthScreen },
-      realm: { screen: RealmScreen },
-      search: { screen: SearchMessagesScreen },
-      users: { screen: UsersScreen },
-      language: { screen: LanguageScreen },
-      lightbox: { screen: LightboxScreen },
-      group: { screen: CreateGroupScreen },
-      'invite-users': { screen: InviteUsersScreen },
-      diagnostics: { screen: DiagnosticsScreen },
-      variables: { screen: VariablesScreen },
-      timing: { screen: TimingScreen },
-      storage: { screen: StorageScreen },
-      debug: { screen: DebugScreen },
-      stream: { screen: StreamScreen },
-      'stream-edit': { screen: EditStreamScreen },
-      'stream-create': { screen: CreateStreamScreen },
-      topics: { screen: TopicListScreen },
-      notifications: { screen: NotificationsScreen },
-      legal: { screen: LegalScreen },
-      'user-status': { screen: UserStatusScreen },
-      sharing: { screen: SharingScreen },
-    },
-    {
-      defaultNavigationOptions: {
+export default function AppNavigator(props: Props) {
+  const { hasAuth, accounts, haveServerData } = props;
+  const { initialRouteName, initialRouteParams } = getInitialRouteInfo({
+    hasAuth,
+    accounts,
+    haveServerData,
+  });
+
+  return (
+    <Stack.Navigator
+      initialRouteName={initialRouteName}
+      headerMode="none"
+      screenOptions={{
         ...Platform.select({
           android: TransitionPresets.FadeFromBottomAndroid,
           ios: TransitionPresets.DefaultTransition,
         }),
-      },
-      initialRouteName: args.initialRouteName,
-      initialRouteParams: args.initialRouteParams,
-      headerMode: 'none',
-    },
+      }}
+    >
+      <Stack.Screen name="account" component={AccountPickScreen} />
+      <Stack.Screen name="account-details" component={AccountDetailsScreen} />
+      <Stack.Screen name="group-details" component={GroupDetailsScreen} />
+      <Stack.Screen name="auth" component={AuthScreen} />
+      <Stack.Screen name="chat" component={ChatScreen} />
+      <Stack.Screen name="dev" component={DevAuthScreen} />
+      <Stack.Screen name="emoji-picker" component={EmojiPickerScreen} />
+      <Stack.Screen name="loading" component={LoadingScreen} />
+      <Stack.Screen
+        name="main"
+        component={MainScreenWithTabs}
+        options={{
+          // So we don't show a transition animation between 'loading'
+          // and 'main'.
+          animationEnabled: false,
+        }}
+      />
+      <Stack.Screen name="message-reactions" component={MessageReactionList} />
+      <Stack.Screen name="password" component={PasswordAuthScreen} />
+      <Stack.Screen
+        name="realm"
+        component={RealmScreen}
+        initialParams={initialRouteName === 'realm' ? initialRouteParams : undefined}
+      />
+      <Stack.Screen name="search" component={SearchMessagesScreen} />
+      <Stack.Screen name="users" component={UsersScreen} />
+      <Stack.Screen name="language" component={LanguageScreen} />
+      <Stack.Screen name="lightbox" component={LightboxScreen} />
+      <Stack.Screen name="group" component={CreateGroupScreen} />
+      <Stack.Screen name="invite-users" component={InviteUsersScreen} />
+      <Stack.Screen name="diagnostics" component={DiagnosticsScreen} />
+      <Stack.Screen name="variables" component={VariablesScreen} />
+      <Stack.Screen name="timing" component={TimingScreen} />
+      <Stack.Screen name="storage" component={StorageScreen} />
+      <Stack.Screen name="debug" component={DebugScreen} />
+      <Stack.Screen name="stream" component={StreamScreen} />
+      <Stack.Screen name="stream-edit" component={EditStreamScreen} />
+      <Stack.Screen name="stream-create" component={CreateStreamScreen} />
+      <Stack.Screen name="topics" component={TopicListScreen} />
+      <Stack.Screen name="notifications" component={NotificationsScreen} />
+      <Stack.Screen name="legal" component={LegalScreen} />
+      <Stack.Screen name="user-status" component={UserStatusScreen} />
+      <Stack.Screen name="sharing" component={SharingScreen} />
+    </Stack.Navigator>
   );
+}

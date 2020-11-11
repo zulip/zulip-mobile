@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -14,6 +14,7 @@ import { navigateToRealmScreen, accountSwitch, removeAccount } from '../actions'
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'account'>,
+  route: AppNavigationRouteProp<'account'>,
 
   accounts: $ReadOnlyArray<AccountStatus>,
   dispatch: Dispatch,

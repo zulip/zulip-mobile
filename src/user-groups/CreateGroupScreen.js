@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, User } from '../types';
 import { connect } from '../react-redux';
@@ -18,6 +18,7 @@ type SelectorProps = {|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'group'>,
+  route: AppNavigationRouteProp<'group'>,
 
   dispatch: Dispatch,
   ...SelectorProps,

@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import { unicodeCodeByName } from './codePointMap';
@@ -18,6 +18,7 @@ import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'emoji-picker'>,
+  route: AppNavigationRouteProp<'emoji-picker'>,
 
   activeImageEmojiByName: RealmEmojiById,
   auth: Auth,
@@ -54,8 +55,8 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
   };
 
   addReaction = (emojiName: string) => {
-    const { auth, navigation } = this.props;
-    const { messageId } = navigation.state.params;
+    const { auth, route } = this.props;
+    const { messageId } = route.params;
 
     const { reactionType, emojiCode } = this.getReactionTypeAndCode(emojiName);
     api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName);

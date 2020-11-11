@@ -1,16 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import type { NavigationNavigator } from '@react-navigation/compat';
 
 import { connect } from '../react-redux';
 import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import * as NavigationService from './NavigationService';
-import getInitialRouteInfo from './getInitialRouteInfo';
 import type { Dispatch, Account, ThemeName } from '../types';
 import { hasAuth as getHasAuth, getAccounts, getHaveServerData, getSettings } from '../selectors';
-import { createAppNavigator } from './AppNavigator';
+import AppNavigator from './AppNavigator';
 
 type SelectorProps = $ReadOnly<{|
   theme: ThemeName,
@@ -38,25 +36,12 @@ class ZulipAppContainer extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
 
-  // flowlint deprecated-type:off
-  AppNavigator: NavigationNavigator<*, *, *>;
-
-  constructor(props: Props) {
-    super(props);
-    const { hasAuth, accounts, haveServerData } = this.props;
-    this.AppNavigator = createAppNavigator(
-      getInitialRouteInfo({ hasAuth, accounts, haveServerData }),
-    );
-  }
-
   componentWillUnmount() {
     NavigationService.isReadyRef.current = false;
   }
 
   render() {
-    const { AppNavigator } = this;
-
-    const { theme: themeName } = this.props;
+    const { theme: themeName, hasAuth, accounts, haveServerData } = this.props;
 
     const BaseTheme = themeName === 'night' ? DarkTheme : DefaultTheme;
 
@@ -80,7 +65,7 @@ class ZulipAppContainer extends PureComponent<Props> {
         }}
         theme={theme}
       >
-        <AppNavigator />
+        <AppNavigator {...{ hasAuth, accounts, haveServerData }} />
       </NavigationContainer>
     );
   }
