@@ -8,14 +8,7 @@ import * as NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';
-import type {
-  AggregatedReaction,
-  Dispatch,
-  EmojiType,
-  Message,
-  ReactionType,
-  UserOrBot,
-} from '../types';
+import type { Dispatch, EmojiType, Message, ReactionType, UserOrBot } from '../types';
 import { Screen, Label, RawLabel } from '../common';
 import { getOwnUser } from '../selectors';
 import aggregateReactions from './aggregateReactions';
@@ -23,7 +16,6 @@ import styles from '../styles';
 import { getAllUsersById } from '../users/userSelectors';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import Emoji from '../emoji/Emoji';
-import { objectFromEntries } from '../jsBackport';
 import { navigateBack } from '../nav/navActions';
 
 const Tab = createMaterialTopTabNavigator();
@@ -34,74 +26,6 @@ const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType => {
   }
   return 'image';
 };
-
-/**
- * Get the route config for a single aggregated reaction.
- */
-const getRouteConfig = (
-  aggregatedReaction: AggregatedReaction,
-  allUsersById: Map<number, UserOrBot>,
-) => ({
-  name: aggregatedReaction.name,
-  component: () => (
-    <ReactionUserList reactedUserIds={aggregatedReaction.users} allUsersById={allUsersById} />
-  ),
-  options: {
-    tabBarLabel: () => (
-      <View style={styles.row}>
-        <Emoji
-          code={aggregatedReaction.code}
-          type={emojiTypeFromReactionType(aggregatedReaction.type)}
-        />
-        <RawLabel style={styles.paddingLeft} text={`${aggregatedReaction.count}`} />
-      </View>
-    ),
-  },
-});
-
-/**
- * Generate route config for the reaction-tabs navigator.
- *
- * There is a tab, with a user list, for each of the message's
- * distinct reactions.
- */
-// We'll remove this unused function soon.
-// eslint-disable-next-line no-unused-vars
-const getReactionTabsRoutes = (
-  aggregatedReactions: $ReadOnlyArray<AggregatedReaction>,
-  allUsersById: Map<number, UserOrBot>,
-) =>
-  objectFromEntries(
-    aggregatedReactions.map(aggregatedReaction => [
-      aggregatedReaction.name,
-      getRouteConfig(aggregatedReaction, allUsersById),
-    ]),
-  );
-
-/**
- * Generate tab-navigator config for the reaction-tabs navigator.
- */
-const getReactionTabsNavConfig = (
-  aggregatedReactions: $ReadOnlyArray<AggregatedReaction>,
-  reactionName?: string,
-) => ({
-  backBehavior: 'none',
-
-  // The user may have originally navigated here to look at a reaction
-  // that's since been removed.  Ignore the nav hint in that case.
-  initialRouteName: aggregatedReactions.some(aR => aR.name === reactionName)
-    ? reactionName
-    : undefined,
-
-  ...materialTopTabNavigatorConfig({
-    showLabel: true,
-    showIcon: false,
-    style: {
-      borderWidth: 0.15,
-    },
-  }),
-  swipeEnabled: true,
-});
 
 type SelectorProps = $ReadOnly<{|
   message: Message | void,
@@ -160,7 +84,22 @@ class MessageReactionList extends PureComponent<Props> {
 
         return (
           <View style={styles.flexed}>
-            <Tab.Navigator {...getReactionTabsNavConfig(aggregatedReactions, reactionName)}>
+            <Tab.Navigator
+              backBehavior="none"
+              // The user may have originally navigated here to look at a reaction
+              // that's since been removed.  Ignore the nav hint in that case.
+              initialRouteName={
+                aggregatedReactions.some(aR => aR.name === reactionName) ? reactionName : undefined
+              }
+              {...materialTopTabNavigatorConfig({
+                showLabel: true,
+                showIcon: false,
+                style: {
+                  borderWidth: 0.15,
+                },
+              })}
+              swipeEnabled
+            >
               {
                 // Generate tabs for the reaction list. The tabs depend
                 // on the distinct reactions on the message.
@@ -169,7 +108,24 @@ class MessageReactionList extends PureComponent<Props> {
                 // Each tab corresponds to an aggregated reaction, and has a user list.
                 <Tab.Screen
                   key={aggregatedReaction.name}
-                  {...getRouteConfig(aggregatedReaction, allUsersById)}
+                  name={aggregatedReaction.name}
+                  component={() => (
+                    <ReactionUserList
+                      reactedUserIds={aggregatedReaction.users}
+                      allUsersById={allUsersById}
+                    />
+                  )}
+                  options={{
+                    tabBarLabel: () => (
+                      <View style={styles.row}>
+                        <Emoji
+                          code={aggregatedReaction.code}
+                          type={emojiTypeFromReactionType(aggregatedReaction.type)}
+                        />
+                        <RawLabel style={styles.paddingLeft} text={`${aggregatedReaction.count}`} />
+                      </View>
+                    ),
+                  }}
                 />
               ))}
             </Tab.Navigator>
