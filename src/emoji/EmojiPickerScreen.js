@@ -17,11 +17,6 @@ import { navigateBack } from '../nav/navActions';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 
 type Props = $ReadOnly<{|
-  // Since we've put this screen in AppNavigator's route config, and
-  // we don't invoke it without type-checking anywhere else (in fact,
-  // we don't invoke it anywhere else at all), we know it gets the
-  // `navigation` prop for free, with the particular shape for this
-  // route.
   navigation: AppNavigationProp<'emoji-picker'>,
 
   activeImageEmojiByName: RealmEmojiById,
