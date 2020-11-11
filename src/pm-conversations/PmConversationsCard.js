@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { MainTabsNavigationProp } from '../main/MainTabs';
+import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs';
 import * as NavigationService from '../nav/NavigationService';
 import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
@@ -36,6 +36,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'conversations'>,
+  route: MainTabsRouteProp<'conversations'>,
 
   dispatch: Dispatch,
   conversations: PmConversationData[],

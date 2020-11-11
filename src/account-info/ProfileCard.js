@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import type { MainTabsNavigationProp } from '../main/MainTabs';
+import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, User } from '../types';
 import { createStyleSheet } from '../styles';
@@ -67,6 +67,7 @@ class LogoutButton extends PureComponent<{| +dispatch: Dispatch |}> {
 
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'profile'>,
+  route: MainTabsRouteProp<'profile'>,
 
   dispatch: Dispatch,
   selfUserDetail: User,

@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { MainTabsNavigationProp } from './MainTabs';
+import type { MainTabsNavigationProp, MainTabsRouteProp } from './MainTabs';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -29,6 +29,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'home'>,
+  route: MainTabsRouteProp<'home'>,
 
   dispatch: Dispatch,
 |}>;
