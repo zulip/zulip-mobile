@@ -1,12 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import {
-  createCompatNavigatorFactory,
-  type NavigationTabProp,
-  type NavigationStateRoute,
-} from '@react-navigation/compat';
+  createMaterialTopTabNavigator,
+  type MaterialTopTabNavigationProp,
+} from '@react-navigation/material-top-tabs';
+import type { RouteProp } from '@react-navigation/native';
 import { FormattedMessage } from 'react-intl';
 
 import type { GlobalParamList } from '../nav/globalTypes';
@@ -29,10 +28,17 @@ export type SharingNavigatorParamList = {|
 
 export type SharingNavigationProp<
   +RouteName: $Keys<SharingNavigatorParamList> = $Keys<SharingNavigatorParamList>,
-> = NavigationTabProp<{|
-  ...NavigationStateRoute,
-  params: $ElementType<GlobalParamList, RouteName>,
-|}>;
+> = MaterialTopTabNavigationProp<GlobalParamList, RouteName>;
+
+export type SharingRouteProp<
+  RouteName: $Keys<SharingNavigatorParamList> = $Keys<SharingNavigatorParamList>,
+> = RouteProp<GlobalParamList, RouteName>;
+
+const Tab = createMaterialTopTabNavigator<
+  GlobalParamList,
+  SharingNavigatorParamList,
+  SharingNavigationProp<>,
+>();
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'sharing'>,
@@ -49,43 +55,9 @@ const styles = createStyleSheet({
   },
 });
 
-const SharingTopTabNavigator = createCompatNavigatorFactory(createMaterialTopTabNavigator)(
-  {
-    'share-to-stream': {
-      screen: ShareToStream,
-      navigationOptions: {
-        tabBarLabel: props => (
-          <Text style={[styles.tab, { color: props.color }]}>
-            <FormattedMessage id="Stream" defaultMessage="Stream" />
-          </Text>
-        ),
-      },
-    },
-    'share-to-pm': {
-      screen: ShareToPm,
-      navigationOptions: {
-        tabBarLabel: props => (
-          <Text style={[styles.tab, { color: props.color }]}>
-            <FormattedMessage id="Private Message" defaultMessage="Private Message" />
-          </Text>
-        ),
-      },
-    },
-  },
-  {
-    ...materialTopTabNavigatorConfig({
-      showLabel: true,
-      showIcon: false,
-    }),
-    swipeEnabled: true,
-  },
-);
-
 class SharingScreen extends PureComponent<Props> {
-  static router = SharingTopTabNavigator.router;
-
   render() {
-    const { auth, navigation } = this.props;
+    const { auth } = this.props;
 
     // If there is no active logged-in account, abandon the sharing attempt,
     // and present the account picker screen to the user.
@@ -96,7 +68,36 @@ class SharingScreen extends PureComponent<Props> {
 
     return (
       <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
-        <SharingTopTabNavigator navigation={navigation} />
+        <Tab.Navigator
+          {...materialTopTabNavigatorConfig({
+            showLabel: true,
+            showIcon: false,
+          })}
+          swipeEnabled
+        >
+          <Tab.Screen
+            name="share-to-stream"
+            component={ShareToStream}
+            options={{
+              tabBarLabel: ({ color }) => (
+                <Text style={[styles.tab, { color }]}>
+                  <FormattedMessage id="Stream" defaultMessage="Stream" />
+                </Text>
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="share-to-pm"
+            component={ShareToPm}
+            options={{
+              tabBarLabel: ({ color }) => (
+                <Text style={[styles.tab, { color }]}>
+                  <FormattedMessage id="Private Message" defaultMessage="Private Message" />
+                </Text>
+              ),
+            }}
+          />
+        </Tab.Navigator>
       </Screen>
     );
   }

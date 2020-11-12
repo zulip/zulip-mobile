@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Image, ScrollView, BackHandler } from 'react-native';
 
-import type { SharingNavigationProp } from './SharingScreen';
+import type { SharingNavigationProp, SharingRouteProp } from './SharingScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, Subscription, Auth, GetText } from '../types';
 import { createStyleSheet } from '../styles';
@@ -44,6 +44,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: SharingNavigationProp<'share-to-stream'>,
+  route: SharingRouteProp<'share-to-stream'>,
 
   dispatch: Dispatch,
   subscriptions: Map<number, Subscription>,
@@ -66,7 +67,7 @@ class ShareToStream extends React.Component<Props, State> {
   state = {
     stream: '',
     topic: '',
-    message: this.props.navigation.state.params.sharedData.sharedText || '',
+    message: this.props.route.params.sharedData.sharedText || '',
     isStreamFocused: false,
     isTopicFocused: false,
     sending: false,
@@ -122,7 +123,7 @@ class ShareToStream extends React.Component<Props, State> {
     const _ = this.context;
     const { auth } = this.props;
     const { topic, stream, message } = this.state;
-    const { sharedData } = this.props.navigation.state.params;
+    const { sharedData } = this.props.route.params;
     const data = { stream, topic, message, sharedData, type: 'stream' };
 
     this.setSending();
@@ -137,7 +138,7 @@ class ShareToStream extends React.Component<Props, State> {
 
   isSendButtonEnabled = () => {
     const { stream, topic, message } = this.state;
-    const { sharedData } = this.props.navigation.state.params;
+    const { sharedData } = this.props.route.params;
 
     if (sharedData.type !== 'text') {
       return stream !== '' && topic !== '';
@@ -147,7 +148,7 @@ class ShareToStream extends React.Component<Props, State> {
   };
 
   render() {
-    const { sharedData } = this.props.navigation.state.params;
+    const { sharedData } = this.props.route.params;
     const { stream, topic, message, isStreamFocused, isTopicFocused, sending } = this.state;
     const narrow = streamNarrow(stream);
 

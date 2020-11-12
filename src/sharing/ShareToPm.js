@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Image, ScrollView, Modal, BackHandler } from 'react-native';
 
-import type { SharingNavigationProp } from './SharingScreen';
+import type { SharingNavigationProp, SharingRouteProp } from './SharingScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, User, Auth, GetText } from '../types';
 import { createStyleSheet } from '../styles';
@@ -56,6 +56,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: SharingNavigationProp<'share-to-pm'>,
+  route: SharingRouteProp<'share-to-pm'>,
 
   dispatch: Dispatch,
   auth: Auth,
@@ -73,7 +74,7 @@ class ShareToPm extends React.Component<Props, State> {
   context: GetText;
 
   state = (() => {
-    const { sharedData } = this.props.navigation.state.params;
+    const { sharedData } = this.props.route.params;
     return {
       selectedRecipients: [],
       message: sharedData.type === 'text' ? sharedData.sharedText : '',
@@ -98,7 +99,7 @@ class ShareToPm extends React.Component<Props, State> {
   handleSend = async () => {
     const _ = this.context;
     const { auth } = this.props;
-    const { sharedData } = this.props.navigation.state.params;
+    const { sharedData } = this.props.route.params;
     const { selectedRecipients, message } = this.state;
     const data = { selectedRecipients, message, sharedData, type: 'pm' };
 
@@ -118,7 +119,7 @@ class ShareToPm extends React.Component<Props, State> {
 
   isSendButtonEnabled = () => {
     const { message, selectedRecipients } = this.state;
-    const { sharedData } = this.props.navigation.state.params;
+    const { sharedData } = this.props.route.params;
 
     if (sharedData.type === 'text') {
       return message !== '' && selectedRecipients.length > 0;
@@ -151,7 +152,7 @@ class ShareToPm extends React.Component<Props, State> {
       );
     }
 
-    const { sharedData } = this.props.navigation.state.params;
+    const { sharedData } = this.props.route.params;
     let sharePreview = null;
     if (sharedData.type === 'image') {
       sharePreview = (
