@@ -36,10 +36,31 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Fixed several bugs related to opening a notification. (#4290, #4293,
+  PR #3922)
+
+Plus, like every release, many other fixes and improvements for your
+Zulip experience.
+
+
+### Highlights for developers
+
+* We no longer tie in our navigation with Redux; we no longer use
+  react-navigation-redux-helpers. (#3804)
+* Bumped targetSdkVersion to 29, aka Android 10. (#3665)
+* Dropped iOS 10 support; now iOS 11+. (c953bc336)
+* Resolved issues (latest to earliest): #4303, #4298, #4301, #3804,
+  #4293, #3324, #4290, PR #3922, #3665, #2756 (at 78a62b249), #4281,
+  #4100.
+
 
 ## 27.156 (2020-10-10)
 
-* Fixed crashes in 27.155. (#4270, #4275)
+* Fixed crashes in the pre-alpha release 27.155. (#4270, #4275)
+
+For other changes since last production release, see 27.155.
 
 
 ## (pre-alpha) 27.155 (2020-09-23)
@@ -61,8 +82,8 @@ Zulip experience.
 
 * #3782: Upgraded to RN v0.62!
 * #3649, #4248: Upgraded to react-navigation v4, from v2.
-* a0d838338: Experimental support for building an Android App Bundle
-  instead of a single APK.
+* a0d838338, #3547: Experimental support for building an
+  Android App Bundle instead of a single APK.
 
 
 ## 27.154 (2020-07-24)
