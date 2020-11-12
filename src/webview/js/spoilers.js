@@ -7,12 +7,15 @@
  * does, only departing as appropriate to adapt to mobile.
  */
 const collapseSpoiler = (spoiler: HTMLElement) => {
-  const spoilerHeight = spoiler.scrollHeight;
+  // Translation of zulip/zulip@f3011d3b7 out of jQuery. We need
+  // `spoiler`'s computed content height, which excludes padding.
+  // Things like `clientHeight` and `offsetHeight` include padding.
+  const computedHeight = getComputedStyle(spoiler).height;
 
   // Set height to rendered height on next frame, then to zero on following
   // frame to allow CSS transition animation to work
   requestAnimationFrame(() => {
-    spoiler.style.height = `${spoilerHeight}px`;
+    spoiler.style.height = computedHeight;
     spoiler.classList.remove('spoiler-content-open');
 
     requestAnimationFrame(() => {

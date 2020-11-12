@@ -297,9 +297,9 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var collapseSpoiler = function collapseSpoiler(spoiler) {
-    var spoilerHeight = spoiler.scrollHeight;
+    var computedHeight = getComputedStyle(spoiler).height;
     requestAnimationFrame(function () {
-      spoiler.style.height = "".concat(spoilerHeight, "px");
+      spoiler.style.height = computedHeight;
       spoiler.classList.remove('spoiler-content-open');
       requestAnimationFrame(function () {
         spoiler.style.height = '0px';
