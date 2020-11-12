@@ -14,12 +14,14 @@ simple terminology for the process we follow with both.
 * **Alpha**: A release only to active developers of the app.  See
   [instructions](alpha.md) for joining.
 
-  * On Google Play this means an "Internal testing" release, and on
-    iOS it means a release in TestFlight to "App Store Connect Users".
+  * What this means on each platform:
+    * Google Play: release to "Internal testing"
+    * iOS: release in TestFlight to "App Store Connect Users"
+    * GitHub: a Git tag
 
-  * On both platforms, a new version in this channel is available for update
-    immediately on devices.  We use it for final manual QA before releasing
-    to beta or production.
+  * On both Google Play and TestFlight, a new version in this channel
+    is available for update immediately on devices.  We use it for
+    final manual QA before releasing to beta or production.
 
   * NB Google Play has its own feature it calls "Alpha" (aka "Closed
     track" or a "closed testing track"), which is sort of intermediate
@@ -31,18 +33,27 @@ simple terminology for the process we follow with both.
   [instructions](https://github.com/zulip/zulip-mobile#using-the-beta) for
   joining.
 
-  * On Google Play this means an "Open testing" release (aka "Beta track"
-    or "Open track"), and on iOS it means a release to all our
-    TestFlight users, through the "External Testers" group.
+  * What this means on each platform:
+    * Google Play: release to "Open testing"
+    * iOS: release to all our TestFlight users (through the
+      "External Testers" group)
+    * GitHub: a GitHub release with binaries and description,
+      marked as pre-release
 
   * We use this channel for wider testing of a release before sending to
     production: about 1 day for a typical (stable) release, 2-4 days for a
     new major release, or not at all for a security release.
 
+  * NB Google Play also calls this "Beta track" or "Open track", as
+    well as "Open testing".
+
 * **Production** (aka **prod**): A general release to all users.
 
-  * On Google Play this means a "Production" release, and on iOS an
-    App Store release.
+  * What this means on each platform:
+    * Google Play: release to "Production"
+    * iOS: release to the App Store
+    * GitHub: a GitHub release with binaries and description,
+      not marked pre-release
 
   * On iOS there is a gotcha we've occasionally fallen for in the past:
     because releasing to the App Store is mostly a separate process from
