@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.157 (2020-11-12)
+
 ### Highlights for users
 
 * Fixed several bugs related to opening a notification. (#4290, #4293,
