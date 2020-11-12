@@ -17,6 +17,8 @@ import rewriteHtml from './rewriteHtml';
 /*
  * Supported platforms:
  *
+ * * (When updating these, be sure to update tools/generate-webview-js too.)
+ *
  * * We support iOS 11.  So this code needs to work on Mobile Safari 11.
  *   Graceful degradation is acceptable below iOS 13 / Mobile Safari 13.
  *

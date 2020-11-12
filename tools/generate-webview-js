@@ -12,6 +12,40 @@ const util = require('util');
 const sourceFilename = 'src/webview/js/js.js';
 const outputFilename = 'src/webview/js/generatedEs3.js';
 
+/**
+ * The minimum browser versions we support for the WebView.
+ *
+ * These should agree with the block comment at the top of js.js.
+ * See also docs/architecture/platform-versions.md.
+ */
+/*
+  Fun tip for seeing which transforms will stop being needed on an upgrade:
+    $ jq -c '
+         to_entries | map(.value + { name: .key })
+         | sort_by(.chrome | tonumber)  # or (.ios // "999" | tonumber)
+         | .[] | { chrome, safari, ios, name }
+       ' node_modules/@babel/compat-data/data/plugins.json
+*/
+const targetPlatforms = {
+  // Babel doesn't distinguish Chrome for Android vs. other Chrome.
+  // See their data table, in node_modules/@babel/compat-data/data/plugins.json .
+  //
+  // Keep this at the Chrome version originally shipped with the oldest
+  // Android version we support.
+  chrome: 37,
+
+  // (Babel accepts an "android" key here too.  But that refers to the old
+  // Android System WebView, which Android 5 replaced with an auto-updating
+  // Chrome; see our b3eced058.  So there's no such thing as "android: 5" or
+  // later, and because we don't support older Android versions than that,
+  // we don't use the "android" key.)
+
+  // Babel does distinguish `safari` (meaning on macOS, I guess) from `ios`.
+  // Some features arrive in e.g. "safari 11.1" but "ios 11.3", or in
+  // 13.1 vs 13.4, so the distinction is still relevant.
+  ios: 11,
+};
+
 // Disable the default react-native transformations.
 // See `$ROOT/babel.config.js`.
 process.env.BABEL_ENV = 'webview';
@@ -72,13 +106,9 @@ ${es3Code.replace(/\\/g, '\\\\')}
           ['@babel/plugin-proposal-optional-chaining'],
         ],
 
-        /* See comments in src/webview/js/js.js for details about the target set
-           selected here.
-
-           See comments below about (the absence of) automatic polyfills via
-           `core-js`.
-        */
-        presets: [['@babel/preset-env', { targets: { android: '4.4', chrome: 30, safari: 10 } }]],
+        // See comments below about (the absence of) automatic polyfills via
+        // `core-js`.
+        presets: [['@babel/preset-env', { targets: targetPlatforms }]],
       }),
     ],
   });
