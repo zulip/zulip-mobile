@@ -14,25 +14,26 @@ simple terminology for the process we follow with both.
 * **Alpha**: A release only to active developers of the app.  See
   [instructions](alpha.md) for joining.
 
-  * On Google Play this means an "Internal test" release, and on iOS it
-    means a release in TestFlight to "App Store Connect Users".
+  * On Google Play this means an "Internal testing" release, and on
+    iOS it means a release in TestFlight to "App Store Connect Users".
 
   * On both platforms, a new version in this channel is available for update
     immediately on devices.  We use it for final manual QA before releasing
     to beta or production.
 
-  * NB Google Play has its own feature it calls "Alpha" (aka "Closed track"),
-    which is sort of intermediate between "Internal test" and "Beta".  We
-    don't use this feature.
+  * NB Google Play has its own feature it calls "Alpha" (aka "Closed
+    track" or a "closed testing track"), which is sort of intermediate
+    between "Internal testing" and "Open testing".  We don't use this
+    feature.
 
 * **Beta**: A release to users who have volunteered to get new versions
   early and give us feedback.  See
   [instructions](https://github.com/zulip/zulip-mobile#using-the-beta) for
   joining.
 
-  * On Google Play this means a "Beta" aka "Open track" release, and on iOS
-    it means a release to all our TestFlight users, through the "External
-    Testers" group.
+  * On Google Play this means an "Open testing" release (aka "Beta track"
+    or "Open track"), and on iOS it means a release to all our
+    TestFlight users, through the "External Testers" group.
 
   * We use this channel for wider testing of a release before sending to
     production: about 1 day for a typical (stable) release, 2-4 days for a
@@ -90,9 +91,9 @@ simple terminology for the process we follow with both.
 * This produces an AAB at `android/app/build/outputs/bundle/release/app-release.aab`
   and an APK at `android/app/build/outputs/apk/release/app-release.apk`.
 
-* Upload the AAB to Google Play via the "Create Release" button on the
-  ["Internal test" track management][play-manage-internal] page
-  (within [Release management -> App releases][play-manage-releases]).
+* Upload the AAB to Google Play via the "Create new release" button at
+  the top of the
+  [Release > Testing > Internal testing][play-internal-testing] page.
   (We'll use the APK when posting the release on GitHub, at beta stage.)
 
   * Alternatively, to distribute as a "pre-alpha", upload to Google
@@ -115,9 +116,8 @@ simple terminology for the process we follow with both.
     first build we make is expected to be good with high probability,
     this track costs more inconvenience than it saves.
 
-[play-manage-releases]: https://play.google.com/apps/publish/#ManageReleasesPlace:p=com.zulipmobile&appid=4976350040864490411
-[play-manage-internal]: https://play.google.com/apps/publish/?account=8060868091387311598#ManageReleaseTrackPlace:p=com.zulipmobile&releaseTrackId=4699145961663258026
-[play-internal-app-sharing]: https://play.google.com/apps/publish/internalappsharing/
+[play-internal-testing]: https://play.google.com/console/developers/8060868091387311598/app/4976350040864490411/tracks/internal-testing
+[play-internal-app-sharing]: https://play.google.com/console/internal-app-sharing
 
 
 ### Build and upload alpha: iOS
@@ -207,14 +207,14 @@ simple terminology for the process we follow with both.
 
 * Android via Play Store:
 
-  * Go to
-    [Release management -> App releases -> Internal test][play-manage-internal]
+  * Go to [Release > Testing > Internal testing][play-internal-testing]
     in the Google Play Console.  (If you just uploaded the alpha, that
     took you here already.)
 
-  * Use the "Release to beta" button there.
+  * Under the release you want to promote, choose "Promote release >
+    Open testing".
 
-[play-manage-internal]: https://play.google.com/apps/publish/?account=8060868091387311598#ManageReleaseTrackPlace:p=com.zulipmobile&releaseTrackId=4699145961663258026
+[play-internal-testing]: https://play.google.com/console/developers/8060868091387311598/app/4976350040864490411/tracks/internal-testing
 
 
 * Android via GitHub:
