@@ -275,7 +275,7 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  var rewriteHTML = function rewriteHTML(auth) {
+  var rewriteHtml = function rewriteHtml(auth) {
     var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
     rewriteImageUrls(auth, element);
     rewriteTime(element);
@@ -657,7 +657,7 @@ var compiledWebviewJs = (function (exports) {
     }
 
     documentBody.innerHTML = uevent.content;
-    rewriteHTML(uevent.auth);
+    rewriteHtml(uevent.auth);
     runAfterLayout(function () {
       if (target.type === 'bottom') {
         scrollToBottom();
@@ -683,7 +683,7 @@ var compiledWebviewJs = (function (exports) {
     }
 
     scrollToMessage(scrollMessageId);
-    rewriteHTML(auth);
+    rewriteHtml(auth);
     sendScrollMessageIfListShort();
     scrollEventsDisabled = false;
   };

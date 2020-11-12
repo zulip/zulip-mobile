@@ -92,9 +92,9 @@ const rewriteTime = (element: Element | Document) => {
  *
  * DEPRECATED: If no root element is specified, the entire document is considered.
  */
-const rewriteHTML = (auth: Auth, element: Element | Document = document) => {
+const rewriteHtml = (auth: Auth, element: Element | Document = document) => {
   rewriteImageUrls(auth, element);
   rewriteTime(element);
 };
 
-export default rewriteHTML;
+export default rewriteHtml;
