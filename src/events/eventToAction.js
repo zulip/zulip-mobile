@@ -33,12 +33,6 @@ import {
 } from '../actionConstants';
 import { getOwnEmail, getOwnUserId } from '../users/userSelectors';
 
-const opToActionUser = {
-  add: EVENT_USER_ADD,
-  remove: EVENT_USER_REMOVE,
-  update: EVENT_USER_UPDATE,
-};
-
 const opToActionUserGroup = {
   add: EVENT_USER_GROUP_ADD,
   remove: EVENT_USER_GROUP_REMOVE,
@@ -125,11 +119,33 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
         type: actionTypeOfEventType[event.type],
       };
 
-    case 'realm_user':
-      return {
-        ...event,
-        type: opToActionUser[event.op],
-      };
+    case 'realm_user': {
+      switch (event.op) {
+        case 'add':
+          return {
+            type: EVENT_USER_ADD,
+            id: event.id,
+            // TODO: Validate and rebuild `event.person`.
+            person: event.person,
+          };
+
+        case 'update':
+          // In an upcoming commit, we'll add `person`, with the
+          // fields we wish to update.
+          return {
+            type: EVENT_USER_UPDATE,
+          };
+
+        case 'remove':
+          // TODO: Handle this event and properly form this action.
+          return {
+            type: EVENT_USER_REMOVE,
+          };
+
+        default:
+          return { type: 'ignore' };
+      }
+    }
 
     case 'realm_bot':
       return { type: 'ignore' };

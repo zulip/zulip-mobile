@@ -12,7 +12,7 @@ import { NULL_OBJECT } from '../../nullObjects';
 describe('flagsReducer', () => {
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('flags from all messages are extracted and stored by id', () => {
-      const initialState = NULL_OBJECT;
+      const prevState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
@@ -25,13 +25,13 @@ describe('flagsReducer', () => {
         },
       };
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
     test('when flags for messages already exist in state, do not change state', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         read: {
           1: true,
         },
@@ -45,14 +45,14 @@ describe('flagsReducer', () => {
         messages: [{ id: 1, flags: ['read', 'starred'] }],
       });
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
-      expect(actualState).toBe(initialState);
+      expect(actualState).toBe(prevState);
     });
   });
 
   test('flags are added or replace existing flags', () => {
-    const initialState = deepFreeze({
+    const prevState = deepFreeze({
       read: {
         3: true,
       },
@@ -70,14 +70,14 @@ describe('flagsReducer', () => {
       },
     };
 
-    const actualState = flagsReducer(initialState, action);
+    const actualState = flagsReducer(prevState, action);
 
     expect(actualState).toEqual(expectedState);
   });
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('when no flags key is passed, do not fail, do nothing', () => {
-      const initialState = NULL_OBJECT;
+      const prevState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
@@ -86,13 +86,13 @@ describe('flagsReducer', () => {
 
       const expectedState = {};
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
     test('adds to store flags from new message', () => {
-      const initialState = NULL_OBJECT;
+      const prevState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
@@ -105,7 +105,7 @@ describe('flagsReducer', () => {
         },
       };
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -113,7 +113,7 @@ describe('flagsReducer', () => {
 
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
     test('when operation is "add", adds flag to an empty state', () => {
-      const initialState = NULL_OBJECT;
+      const prevState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
@@ -128,13 +128,13 @@ describe('flagsReducer', () => {
         },
       };
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
     test('if flag already exists, do not duplicate', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         starred: {
           1: true,
         },
@@ -153,13 +153,13 @@ describe('flagsReducer', () => {
         },
       };
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
     test('if other flags exist, adds new one to the list', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         starred: {
           1: true,
         },
@@ -181,13 +181,13 @@ describe('flagsReducer', () => {
         },
       };
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
     test('adds flags for multiple messages', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         read: {
           1: true,
         },
@@ -214,13 +214,13 @@ describe('flagsReducer', () => {
         },
       };
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
     test('when operation is "remove" removes a flag from message', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         read: {
           1: true,
         },
@@ -237,13 +237,13 @@ describe('flagsReducer', () => {
         read: {},
       };
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
     test('if flag does not exist, do nothing', () => {
-      const initialState = NULL_OBJECT;
+      const prevState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
@@ -256,13 +256,13 @@ describe('flagsReducer', () => {
         read: {},
       };
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
     test('removes flags from multiple messages', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         read: {
           1: true,
           3: true,
@@ -288,13 +288,13 @@ describe('flagsReducer', () => {
         starred: {},
       };
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
     test('when "all" is true all messages become read', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         read: {
           1: true,
           3: true,
@@ -324,7 +324,7 @@ describe('flagsReducer', () => {
         5: true,
       };
 
-      const actualState = flagsReducer(initialState, action);
+      const actualState = flagsReducer(prevState, action);
       expect(actualState.read).toEqual(expectedReadState);
     });
   });

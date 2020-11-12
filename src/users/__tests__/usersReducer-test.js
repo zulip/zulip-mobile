@@ -1,118 +1,65 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import { REALM_INIT, EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstants';
+import * as eg from '../../__tests__/lib/exampleData';
+import { EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstants';
 import usersReducer from '../usersReducer';
 
 describe('usersReducer', () => {
-  test('handles unknown action and no state by returning initial state', () => {
-    const initialState = undefined;
-
-    const action = deepFreeze({});
-
-    const newState = usersReducer(initialState, action);
-    expect(newState).toBeDefined();
-  });
-
-  test('on unrecognized action, returns input state unchanged', () => {
-    const initialState = deepFreeze({ hello: 'world' });
-
-    const action = deepFreeze({});
-
-    const newState = usersReducer(initialState, action);
-    expect(newState).toBe(initialState);
-  });
-
   describe('REALM_INIT', () => {
+    const user1 = eg.makeUser();
+
     test('when `users` data is provided init state with it', () => {
-      const initialState = deepFreeze([]);
+      const prevState = deepFreeze([]);
+
       const action = deepFreeze({
-        type: REALM_INIT,
+        ...eg.action.realm_init,
         data: {
-          realm_users: [
-            {
-              user_id: 1,
-              email: 'john@example.com',
-              full_name: 'John Doe',
-            },
-          ],
+          ...eg.action.realm_init.data,
+          realm_users: [user1],
         },
       });
 
-      const actualState = usersReducer(initialState, action);
+      const actualState = usersReducer(prevState, action);
 
-      expect(actualState).toEqual([
-        {
-          user_id: 1,
-          email: 'john@example.com',
-          full_name: 'John Doe',
-        },
-      ]);
-    });
-
-    test('when no `users` data is given reset state', () => {
-      const initialState = deepFreeze([
-        {
-          user_id: 1,
-          email: 'john@example.com',
-          full_name: 'John Doe',
-        },
-      ]);
-      const action = deepFreeze({
-        type: REALM_INIT,
-        data: {},
-      });
-      const expectedState = [];
-
-      const actualState = usersReducer(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
+      expect(actualState).toEqual([user1]);
     });
   });
 
   describe('EVENT_USER_ADD', () => {
+    const user1 = eg.makeUser();
+
     test('flags from all messages are extracted and stored by id', () => {
-      const initialState = deepFreeze([]);
+      const prevState = deepFreeze([]);
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_USER_ADD,
-        person: {
-          user_id: 1,
-          email: 'john@example.com',
-          full_name: 'John Doe',
-        },
+        person: user1,
       });
 
-      const expectedState = [
-        {
-          user_id: 1,
-          email: 'john@example.com',
-          full_name: 'John Doe',
-        },
-      ];
+      const expectedState = [user1];
 
-      const actualState = usersReducer(initialState, action);
+      const actualState = usersReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
   });
 
   describe('ACCOUNT_SWITCH', () => {
+    const user1 = eg.makeUser();
+
     test('resets state to initial state', () => {
-      const initialState = deepFreeze([
-        {
-          full_name: 'Some Guy',
-          email: 'email@example.com',
-          status: 'offline',
-        },
-      ]);
+      const prevState = deepFreeze([user1]);
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
+        index: 2,
       });
 
       const expectedState = [];
 
-      const actualState = usersReducer(initialState, action);
+      const actualState = usersReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });

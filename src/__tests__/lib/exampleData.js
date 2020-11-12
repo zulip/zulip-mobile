@@ -266,12 +266,7 @@ const messagePropertiesBase = deepFreeze({
 });
 
 const messagePropertiesFromSender = (user: User) => {
-  const {
-    avatar_url,
-    user_id: sender_id,
-    email: sender_email,
-    full_name: sender_full_name,
-  } = otherUser;
+  const { avatar_url, user_id: sender_id, email: sender_email, full_name: sender_full_name } = user;
 
   return deepFreeze({
     sender_domain: '',
@@ -336,14 +331,18 @@ const messagePropertiesFromStream = (stream1: Stream) => {
  *
  * Beware! These values may not be representative.
  */
-export const streamMessage = (args?: {| ...$Rest<Message, {}>, stream?: Stream |}): Message => {
+export const streamMessage = (args?: {|
+  ...$Rest<Message, {}>,
+  stream?: Stream,
+  sender?: User,
+|}): Message => {
   // The `Object.freeze` is to work around a Flow issue:
   //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
-  const { stream: streamInner = stream, ...extra } = args ?? Object.freeze({});
+  const { stream: streamInner = stream, sender = otherUser, ...extra } = args ?? Object.freeze({});
 
   const baseMessage: Message = {
     ...messagePropertiesBase,
-    ...messagePropertiesFromSender(otherUser),
+    ...messagePropertiesFromSender(sender),
     ...messagePropertiesFromStream(streamInner),
 
     content: 'This is an example stream message.',
