@@ -16,14 +16,17 @@ const componentStyles = createStyleSheet({
   componentListItem: {
     alignItems: 'center',
   },
+
   statusWrapper: {
     justifyContent: 'center',
     flexDirection: 'row',
   },
+
   statusSymbolWrapper: {
     marginTop: 5,
     marginRight: 5
   },
+
   statusText: {
     textAlign: 'center',
   },
