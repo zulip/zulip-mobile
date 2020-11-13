@@ -12,20 +12,20 @@ import PresenceStatusIndicator from './PresenceStatusIndicator';
 
 const styles = createStyleSheet({
   status: {
-    bottom: 0,
-    right: 0,
+    bottom: 2,
+    right: 2,
     position: 'absolute',
   },
 });
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-  avatarUrl: ?string,
-  email: string,
-  size: number,
-  realm: URL,
-  shape: 'rounded' | 'square',
-  onPress?: () => void,
+    avatarUrl: ?string,
+      email: string,
+        size: number,
+          realm: URL,
+            shape: 'rounded' | 'square',
+              onPress ?: () => void,
 |}>;
 
 /**
