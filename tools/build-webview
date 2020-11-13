@@ -82,6 +82,53 @@ elif [ -z "${dest-}" ]; then
     usage; exit 2
 fi
 
+# Make $dest absolute, if it isn't already.
+dest=$(readlink -m "$dest")
+
+# Argument parsing has concluded; argument variables are no longer mutable.
+readonly target dest check_path_name
+
+if (( check_path_name )); then
+    case "$target" in
+        ios)
+            if [ "$(uname)" != "Darwin" ]; then
+                err "iOS builds only supported on macOS";
+            fi
+
+            # $dest should be copied to `${bundle_root}/webview`.
+            #
+            # $dest itself must be specified twice in Xcode: once in the invocation
+            # of this script, and once in the "Copy Bundle Resources" step. If you
+            # change it, you'll need to change it in both places. (And here, of
+            # course.)
+            if [[ "$dest" != "$root/ios/"* ]]; then
+                err "unexpected destination directory '$dest' (expected target in $root/ios/)"
+            fi
+        ;;
+        android)
+            # $dest should be copied to `file:///android_asset/webview`.
+            #
+            # Gradle -- more precisely, the Android Gradle plugin -- is already
+            # configured to copy some directory from `build/` into the APK. We
+            # determine which directory that is in Gradle, and pass it here.
+            if [[ "$dest" != "$root/android/app/build/"* ]]; then
+                err "unexpected destination directory '$dest' (expected target in $root/android/app/build/)"
+            fi
+        ;;
+        *) err "impossible target $target";;
+    esac
+
+    # As implied above, the ultimate destination of these files should be a
+    # directory named `./webview` (relative to the platform-dependent asset
+    # root directory).
+    #
+    # The target directory basename should therefore be 'webview': both build
+    # systems will preserve the name they're given here.
+    if [[ "$dest" != *"/webview" ]]; then
+        err "unexpected destination directory '$dest' (expected basename \"webview\")"
+    fi
+fi  # if $check_path_name
+
 
 ################################################################################
 # (Build and) sync
@@ -106,7 +153,7 @@ sync() {
 }
 
 # Copy over files from KaTeX.
-sync "node_modules/katex/dist" "${dest}/katex" <<EOF
+sync "${root}/node_modules/katex/dist" "${dest}/katex" <<EOF
 + /katex.min.css
 # The KaTeX JS renders LaTeX code into HTML and MathML.
 # Our webview already has HTML and MathML, and just needs to style it.
@@ -119,7 +166,7 @@ sync "node_modules/katex/dist" "${dest}/katex" <<EOF
 EOF
 
 # Copy over our own files.
-sync "src/webview/static" "${dest}" <<EOF
+sync "${root}/src/webview/static" "${dest}" <<EOF
 # Leave alone the katex directory we just made.
 -,r /katex
 + /index.html
