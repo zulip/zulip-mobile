@@ -12,9 +12,18 @@ import { getUsersByEmail } from '../users/userSelectors';
 import { ensureUnreachable } from '../types';
 
 const styles = createStyleSheet({
+  commonbkg: {
+    width: 15,
+    height: 15,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    bottom: 0,
+    right: 0,
+    position: 'absolute',
+  },
   common: {
-    width: 12,
-    height: 12,
+    width: 10,
+    height: 10,
     borderRadius: 6,
   },
   active: {
@@ -50,37 +59,45 @@ const styles = createStyleSheet({
 });
 
 const PresenceStatusIndicatorActive = ({ style }: { style: ViewStyleProp }) => (
-  <View style={[styles.active, styles.common, style]} />
+  <View style={[styles.commonbkg]} >
+    <View style={[styles.active, styles.common, style]} />
+  </View>
 );
 
 const PresenceStatusIndicatorIdle = ({ style }: { style: ViewStyleProp }) => (
-  <View style={[styles.idleWrapper, styles.common, style]}>
-    <View style={styles.idleHalfCircle} />
+  <View style={[styles.commonbkg]} >
+    <View style={[styles.idleWrapper, styles.common, style]}>
+      <View style={styles.idleHalfCircle} />
+    </View>
   </View>
 );
 
 const PresenceStatusIndicatorOffline = ({ style }: { style: ViewStyleProp }) => (
-  <View style={[styles.offline, styles.common, style]} />
+  <View style={[styles.commonbkg]} >
+    <View style={[styles.offline, styles.common, style]} />
+  </View>
 );
 
 const PresenceStatusIndicatorUnavailable = ({ style }: { style: ViewStyleProp }) => (
-  <View style={[styles.unavailableWrapper, styles.common, style]}>
-    <View style={styles.unavailableLine} />
+  <View style={[styles.commonbkg]} >
+    <View style={[styles.unavailableWrapper, styles.common, style]}>
+      <View style={styles.unavailableLine} />
+    </View>
   </View>
 );
 
 type PropsFromConnect = {|
   dispatch: Dispatch,
-  presence: PresenceState,
-  usersByEmail: Map<string, User>,
-  userStatus: UserStatusMapObject,
+    presence: PresenceState,
+      usersByEmail: Map < string, User >,
+        userStatus: UserStatusMapObject,
 |};
 
 type Props = $ReadOnly<{|
   ...PropsFromConnect,
-  style?: ViewStyleProp,
+  style ?: ViewStyleProp,
   email: string,
-  hideIfOffline: boolean,
+    hideIfOffline: boolean,
 |}>;
 
 /**
