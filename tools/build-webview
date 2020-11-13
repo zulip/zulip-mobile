@@ -16,17 +16,13 @@ unset CDPATH
 usage() {
     cat >&2 <<EOF
 usage: $0 [ios | android] --destination DEST [--check-path-name]
-
 Build our webview assets, into directory DEST.
-
 This script is mainly for internal use by our build scripts.  They
 go on to use the contents of DEST as the webview-assets folder,
 which our message-list WebView relies on for its static assets.
 See src/webview/MessageList.js for details.
-
 With --check-path-name, make some defensive checks that DEST has
 the form expected from the actual build scripts.
-
 EOF
 }
 
@@ -159,16 +155,13 @@ sync() {
 # Copy over files from KaTeX.
 sync "${root}/node_modules/katex/dist" "${dest}/katex" <<EOF
 + /katex.min.css
-
 # The KaTeX JS renders LaTeX code into HTML and MathML.
 # Our webview already has HTML and MathML, and just needs to style it.
 #+ /katex.min.js
-
 # The woff2 font format is preferred for browsers that support it,
 # which include Chrome 36+ and Mobile Safari 10+.  So that's all we need.
 + /fonts/
 + /fonts/*.woff2
-
 - *
 EOF
 
@@ -176,7 +169,6 @@ EOF
 sync "${root}/src/webview/static" "${dest}" <<EOF
 # Leave alone the katex directory we just made.
 -,r /katex
-
 + /index.html
 + /base.css
 - *
