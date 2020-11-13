@@ -20,6 +20,10 @@ const componentStyles = createStyleSheet({
     justifyContent: 'center',
     flexDirection: 'row',
   },
+  statusSymbolWrapper: {
+    marginTop: 5,
+    marginRight: 5
+  },
   statusText: {
     textAlign: 'center',
   },
@@ -29,13 +33,13 @@ const AVATAR_SIZE = 200;
 
 type SelectorProps = {|
   realm: URL,
-  userStatusText: string | void,
+    userStatusText: string | void,
 |};
 
 type Props = $ReadOnly<{|
   user: UserOrBot,
 
-  dispatch: Dispatch,
+    dispatch: Dispatch,
   ...SelectorProps,
 |}>;
 
@@ -60,8 +64,10 @@ class AccountDetails extends PureComponent<Props> {
           <UserAvatar avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)} size={AVATAR_SIZE} />
         </View>
         <View style={componentStyles.statusWrapper}>
+          <View style={componentStyles.statusSymbolWrapper}>
+            <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
+          </View>
           <RawLabel style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
-          <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
         </View>
         {userStatusText !== undefined && (
           <RawLabel style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
