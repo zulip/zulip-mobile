@@ -375,6 +375,7 @@ const outboxMessageBase: $Diff<Outbox, {| id: mixed, timestamp: mixed |}> = deep
   reactions: [],
   sender_email: selfUser.email,
   sender_full_name: selfUser.full_name,
+  sender_id: selfUser.user_id,
   subject: 'test topic',
   // timestamp: ...,
   type: 'stream',
