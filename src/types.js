@@ -175,7 +175,8 @@ export type Outbox = {|
   // It's used for sending the message to the server.
   markdownContent: string,
 
-  // These fields are modeled on `Message`.
+  // The remaining fields are modeled on `Message`.
+
   avatar_url: string | null,
   content: string,
   display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
@@ -183,6 +184,13 @@ export type Outbox = {|
   reactions: Reaction[],
   sender_email: string,
   sender_full_name: string,
+
+  // TODO(#3764): Make sender_id required.  Needs a migration to drop Outbox
+  //   values that lack it; which is fine once the release that adds it has
+  //   been out for a few weeks.
+  //   (Also drop the hack line about it in MessageLike.)
+  sender_id?: number,
+
   subject: string,
   timestamp: number,
   type: 'stream' | 'private',
@@ -194,7 +202,7 @@ export type Outbox = {|
  * Flow reasonably dispermits certain classes of access on union types. In
  * particular,
  * ```
- * const { sender_id } = (message: Message | Outbox);  // error
+ * const { match_content } = (message: Message | Outbox);  // error
  * ```
  * is not allowed. However, as long as you're prepared to handle values of
  * `undefined`, it's both JavaScript-legal to do so and occasionally convenient.
@@ -203,7 +211,7 @@ export type Outbox = {|
  * subtype of `Message | Outbox`, but which Flow will permit us to directly (and
  * soundly) destructure certain `Message`-only fields from:
  * ```
- * const { sender_id } = (message: MessageLike);  // ok!
+ * const { match_content } = (message: MessageLike);  // ok!
  * ```
  *
  * * Note: `MessageLike` <: `Message | Outbox`, but the converse does not hold.
@@ -221,6 +229,7 @@ export type MessageLike =
   | $ReadOnly<{
       // $Shape<T> is unsound, per Flow docs, but $ReadOnly<$Shape<T>> is not
       ...$Shape<{ [$Keys<Message>]: void }>,
+      sender_id?: number, // TODO: Drop this once required in Outbox.
       ...Outbox,
     }>;
 

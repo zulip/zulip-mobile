@@ -186,6 +186,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
       id: localTime,
       sender_full_name: ownUser.full_name,
       sender_email: ownUser.email,
+      sender_id: ownUser.user_id,
       avatar_url: ownUser.avatar_url,
       isOutbox: true,
       reactions: [],
