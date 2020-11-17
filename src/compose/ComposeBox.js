@@ -3,7 +3,10 @@ import React, { PureComponent } from 'react';
 import { Platform, View, TextInput, findNodeHandle } from 'react-native';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
+import { type EdgeInsets } from 'react-native-safe-area-context';
+import { compose } from 'redux';
 
+import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import type {
@@ -13,7 +16,6 @@ import type {
   InputSelection,
   UserOrBot,
   Dispatch,
-  Dimensions,
   CaughtUp,
   GetText,
   Subscription,
@@ -42,7 +44,6 @@ import MentionWarnings from './MentionWarnings';
 import {
   getAuth,
   getIsAdmin,
-  getSession,
   getLastMessageTopic,
   getCaughtUpForNarrow,
   getStreamInNarrow,
@@ -61,7 +62,6 @@ type SelectorProps = {|
   auth: Auth,
   ownUserId: number,
   usersById: Map<number, UserOrBot>,
-  safeAreaInsets: Dimensions,
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
@@ -73,6 +73,8 @@ type SelectorProps = {|
 |};
 
 type Props = $ReadOnly<{|
+  insets: EdgeInsets,
+
   narrow: Narrow,
   editMessage: EditMessage | null,
   completeEditMessage: () => void,
@@ -423,7 +425,7 @@ class ComposeBox extends PureComponent<Props, State> {
       narrow,
       usersById,
       editMessage,
-      safeAreaInsets,
+      insets,
       isAdmin,
       isAnnouncementOnly,
       isSubscribed,
@@ -442,7 +444,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
     const placeholder = getComposeInputPlaceholder(narrow, ownUserId, usersById);
     const style = {
-      paddingBottom: safeAreaInsets.bottom,
+      paddingBottom: insets.bottom,
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
     };
 
@@ -516,17 +518,19 @@ class ComposeBox extends PureComponent<Props, State> {
   }
 }
 
-export default connect<SelectorProps, _, _>((state, props) => ({
-  auth: getAuth(state),
-  ownUserId: getOwnUserId(state),
-  usersById: getActiveUsersById(state),
-  safeAreaInsets: getSession(state).safeAreaInsets,
-  isAdmin: getIsAdmin(state),
-  isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
-  isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
-  draft: getDraftForNarrow(state, props.narrow),
-  lastMessageTopic: getLastMessageTopic(state, props.narrow),
-  caughtUp: getCaughtUpForNarrow(state, props.narrow),
-  stream: getStreamInNarrow(state, props.narrow),
-  videoChatProvider: getVideoChatProvider(state),
-}))(withGetText(ComposeBox));
+export default compose(
+  connect<SelectorProps, _, _>((state, props) => ({
+    auth: getAuth(state),
+    ownUserId: getOwnUserId(state),
+    usersById: getActiveUsersById(state),
+    isAdmin: getIsAdmin(state),
+    isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
+    isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
+    draft: getDraftForNarrow(state, props.narrow),
+    lastMessageTopic: getLastMessageTopic(state, props.narrow),
+    caughtUp: getCaughtUpForNarrow(state, props.narrow),
+    stream: getStreamInNarrow(state, props.narrow),
+    videoChatProvider: getVideoChatProvider(state),
+  })),
+  withSafeAreaInsets,
+)(withGetText(ComposeBox));

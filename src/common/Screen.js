@@ -4,16 +4,16 @@ import React, { PureComponent } from 'react';
 import type { Node as React$Node } from 'react';
 import { View, ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import { type EdgeInsets } from 'react-native-safe-area-context';
 
+import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import type { ThemeData } from '../styles';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
-import type { Dimensions, LocalizableText, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import type { LocalizableText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import LoadingBanner from './LoadingBanner';
 import ZulipStatusBar from './ZulipStatusBar';
-import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
@@ -37,10 +37,9 @@ const componentStyles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   centerContent: boolean,
   +children: React$Node,
-  safeAreaInsets: Dimensions,
+  insets: EdgeInsets,
   keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
   padding: boolean,
   scrollEnabled: boolean,
@@ -103,7 +102,7 @@ class Screen extends PureComponent<Props> {
       children,
       keyboardShouldPersistTaps,
       padding,
-      safeAreaInsets,
+      insets,
       scrollEnabled,
       search,
       searchBarOnChange,
@@ -117,7 +116,7 @@ class Screen extends PureComponent<Props> {
         style={[
           componentStyles.screen,
           { backgroundColor: this.context.backgroundColor },
-          { paddingBottom: safeAreaInsets.bottom },
+          { paddingBottom: insets.bottom },
         ]}
       >
         <ZulipStatusBar />
@@ -151,6 +150,4 @@ class Screen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
-  safeAreaInsets: getSession(state).safeAreaInsets,
-}))(Screen);
+export default withSafeAreaInsets(Screen);
