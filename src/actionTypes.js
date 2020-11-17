@@ -3,7 +3,6 @@ import {
   REHYDRATE,
   APP_ONLINE,
   DEAD_QUEUE,
-  INIT_SAFE_AREA_INSETS,
   APP_ORIENTATION,
   DEBUG_FLAG_TOGGLE,
   ACCOUNT_SWITCH,
@@ -61,7 +60,6 @@ import {
 import type { MessageEvent, PresenceEvent, StreamEvent, SubmessageEvent } from './api/eventTypes';
 
 import type {
-  Dimensions,
   Orientation,
   GlobalState,
   Message,
@@ -116,11 +114,6 @@ type AppOnlineAction = {|
 
 type DeadQueueAction = {|
   type: typeof DEAD_QUEUE,
-|};
-
-type InitSafeAreaInsetsAction = {|
-  type: typeof INIT_SAFE_AREA_INSETS,
-  safeAreaInsets: Dimensions,
 |};
 
 type AppOrientationAction = {|
@@ -601,7 +594,6 @@ type RealmAction = RealmInitAction | UnackPushTokenAction | AckPushTokenAction;
 type SessionAction =
   | RehydrateAction
   | AppOnlineAction
-  | InitSafeAreaInsetsAction
   | AppOrientationAction
   | GotPushTokenAction
   | DebugFlagToggleAction

@@ -6,7 +6,6 @@ import {
   LOGOUT,
   APP_ONLINE,
   INITIAL_FETCH_COMPLETE,
-  INIT_SAFE_AREA_INSETS,
   APP_ORIENTATION,
   GOT_PUSH_TOKEN,
   TOGGLE_OUTBOX_SENDING,
@@ -84,12 +83,6 @@ describe('sessionReducer', () => {
     const state = deepFreeze({ ...baseState, loading: false });
     const newState = sessionReducer(state, deepFreeze({ type: INITIAL_FETCH_START }));
     expect(newState).toEqual({ ...baseState, loading: true });
-  });
-
-  test('INIT_SAFE_AREA_INSETS', () => {
-    const safeAreaInsets = { top: 1, bottom: 2, right: 3, left: 0 };
-    const action = deepFreeze({ type: INIT_SAFE_AREA_INSETS, safeAreaInsets });
-    expect(sessionReducer(baseState, action)).toEqual({ ...baseState, safeAreaInsets });
   });
 
   test('APP_ORIENTATION', () => {

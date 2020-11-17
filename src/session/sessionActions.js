@@ -1,12 +1,6 @@
 /* @flow strict-local */
-import type { Action, Dimensions, Orientation } from '../types';
-import {
-  APP_ONLINE,
-  APP_ORIENTATION,
-  DEAD_QUEUE,
-  DEBUG_FLAG_TOGGLE,
-  INIT_SAFE_AREA_INSETS,
-} from '../actionConstants';
+import type { Action, Orientation } from '../types';
+import { APP_ONLINE, APP_ORIENTATION, DEAD_QUEUE, DEBUG_FLAG_TOGGLE } from '../actionConstants';
 
 export const appOnline = (isOnline: boolean): Action => ({
   type: APP_ONLINE,
@@ -15,11 +9,6 @@ export const appOnline = (isOnline: boolean): Action => ({
 
 export const deadQueue = (): Action => ({
   type: DEAD_QUEUE,
-});
-
-export const initSafeAreaInsets = (safeAreaInsets: Dimensions): Action => ({
-  type: INIT_SAFE_AREA_INSETS,
-  safeAreaInsets,
 });
 
 export const appOrientation = (orientation: Orientation): Action => ({
