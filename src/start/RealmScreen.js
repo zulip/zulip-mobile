@@ -26,7 +26,7 @@ type Props = $ReadOnly<{|
     ...NavigationStateRoute,
     params: {|
       realm: URL | void,
-      initial?: boolean,
+      initial: boolean | void,
     |},
   |}>,
 
