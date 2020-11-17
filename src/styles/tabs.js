@@ -30,6 +30,13 @@ const baseTabNavigatorConfig = (args: Props) => {
       },
       style: {
         backgroundColor: 'transparent',
+
+        // Starting in React Navigation v5, if we set
+        // `backgroundColor` to 'transparent', the tab bar will look
+        // very odd on Android. It will look normal with this
+        // Android-only `elevation` attribute set to 0.
+        elevation: 0,
+
         ...style,
       },
     },
