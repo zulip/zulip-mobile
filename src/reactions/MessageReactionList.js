@@ -5,7 +5,7 @@ import { createAppContainer } from 'react-navigation';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';

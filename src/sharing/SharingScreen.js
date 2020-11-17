@@ -5,7 +5,7 @@ import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { FormattedMessage } from 'react-intl';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, SharedData, Auth, TabNavigationOptionsPropsType } from '../types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';

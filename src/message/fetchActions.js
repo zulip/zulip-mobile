@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type { Narrow, Dispatch, GetState, GlobalState, Message, Action } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import type { InitialData } from '../api/initialDataTypes';

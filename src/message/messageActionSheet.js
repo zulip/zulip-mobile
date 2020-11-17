@@ -2,7 +2,7 @@
 import invariant from 'invariant';
 import { Clipboard, Share, Alert } from 'react-native';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type {
   Auth,
   Dispatch,

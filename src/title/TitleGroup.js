@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import styles, { createStyleSheet } from '../styles';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import { navigateToAccountDetails } from '../nav/navActions';

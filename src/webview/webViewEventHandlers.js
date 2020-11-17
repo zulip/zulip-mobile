@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { Clipboard, Alert } from 'react-native';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import config from '../config';
 import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage } from '../types';

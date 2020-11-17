@@ -6,7 +6,7 @@ import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation
 import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import config from '../config';
 import type { Dispatch } from '../types';
 import type {

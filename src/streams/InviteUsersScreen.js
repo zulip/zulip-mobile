@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, User } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';

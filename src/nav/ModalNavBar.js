@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import NavigationService from './NavigationService';
+import * as NavigationService from './NavigationService';
 import type { LocalizableText } from '../types';
 import type { ThemeData } from '../styles';
 import styles, { ThemeContext, NAVBAR_SIZE } from '../styles';

@@ -2,7 +2,7 @@
 import type { Node as React$Node } from 'react';
 import { PureComponent } from 'react';
 
-import NavigationService from './NavigationService';
+import * as NavigationService from './NavigationService';
 import type { Dispatch, Account } from '../types';
 import { resetToAccountPicker, resetToRealmScreen, resetToMainTabs } from '../actions';
 import { connect } from '../react-redux';

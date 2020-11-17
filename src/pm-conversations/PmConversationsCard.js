@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { NavigationTabProp, NavigationStateRoute } from 'react-navigation-tabs';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
 import type { Dispatch, PmConversationData } from '../types';

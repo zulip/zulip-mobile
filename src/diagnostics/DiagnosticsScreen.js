@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 import { nativeApplicationVersion } from 'expo-application';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
 import {

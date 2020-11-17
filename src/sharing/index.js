@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { NativeModules, DeviceEventEmitter, Platform } from 'react-native';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, SharedData, GetState } from '../types';
 import { navigateToSharing } from '../actions';
 

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type { Narrow, Dispatch, GetState } from '../types';
 import { getAuth, getAllUsersById } from '../selectors';
 import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';

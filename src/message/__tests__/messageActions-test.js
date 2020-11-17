@@ -3,7 +3,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import { navigateToChat } from '../../nav/navActions';
-import NavigationService from '../../nav/NavigationService';
+import * as NavigationService from '../../nav/NavigationService';
 import { doNarrow } from '../messagesActions';
 import { streamNarrow } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -17,6 +17,7 @@ const streamNarrowObj = streamNarrow('some stream');
 describe('messageActions', () => {
   describe('doNarrow', () => {
     test('action to push to nav dispatched', () => {
+      // $FlowFixMe - Flow says `dispatch` is not writeable
       NavigationService.dispatch = jest.fn();
 
       const store = mockStore<GlobalState, Action>(

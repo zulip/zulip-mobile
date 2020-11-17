@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import { ZulipVersion } from '../utils/zulipVersion';
 import type { Dispatch } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';

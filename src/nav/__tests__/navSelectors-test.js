@@ -6,7 +6,7 @@ import {
   getChatScreenParams,
   getSameRoutesCount,
 } from '../navSelectors';
-import NavigationService from '../NavigationService';
+import * as NavigationService from '../NavigationService';
 
 describe('getCurrentRouteName', () => {
   test('return name of the current route', () => {

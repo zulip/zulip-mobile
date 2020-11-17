@@ -13,7 +13,7 @@ import AppDataFetcher from './boot/AppDataFetcher';
 import BackNavigationHandler from './nav/BackNavigationHandler';
 import InitialNavigationDispatcher from './nav/InitialNavigationDispatcher';
 import AppContainer from './nav/AppContainer';
-import NavigationService from './nav/NavigationService';
+import * as NavigationService from './nav/NavigationService';
 import { initializeSentry } from './sentry';
 
 initializeSentry();

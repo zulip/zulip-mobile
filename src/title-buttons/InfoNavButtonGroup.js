@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import NavButton from '../nav/NavButton';
 import { navigateToGroupDetails } from '../actions';
 

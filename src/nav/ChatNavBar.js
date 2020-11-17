@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import Color from 'color';
 
-import NavigationService from './NavigationService';
+import * as NavigationService from './NavigationService';
 import type { Dispatch, Narrow, EditMessage } from '../types';
 import { LoadingBanner } from '../common';
 import { connect } from '../react-redux';

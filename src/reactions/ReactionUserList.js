@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from '../react-redux';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';

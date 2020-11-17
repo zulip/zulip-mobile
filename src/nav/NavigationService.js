@@ -8,7 +8,7 @@ import type {
 } from 'react-navigation';
 
 /* prettier-ignore */
-const appContainerRef = React.createRef<
+export const appContainerRef = React.createRef<
   React$ElementRef<
     NavigationContainer<
       NavigationState,
@@ -16,7 +16,7 @@ const appContainerRef = React.createRef<
       NavigationContainerProps<{ ... }, NavigationState>>>
 >();
 
-const getState = (): NavigationState => {
+export const getState = (): NavigationState => {
   if (appContainerRef.current === null) {
     throw new Error('Tried to use NavigationService before appContainerRef was set.');
   }
@@ -25,15 +25,9 @@ const getState = (): NavigationState => {
   return appContainerRef.current.state.nav;
 };
 
-const dispatch = (navigationAction: NavigationAction): boolean => {
+export const dispatch = (navigationAction: NavigationAction): boolean => {
   if (appContainerRef.current === null) {
     throw new Error('Tried to use NavigationService before appContainerRef was set.');
   }
   return appContainerRef.current.dispatch(navigationAction);
-};
-
-export default {
-  getState,
-  dispatch,
-  appContainerRef,
 };

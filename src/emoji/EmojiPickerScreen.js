@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation-stack';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import { unicodeCodeByName } from './codePointMap';
 import { Screen } from '../common';

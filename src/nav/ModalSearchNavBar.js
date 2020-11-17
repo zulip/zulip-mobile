@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import NavigationService from './NavigationService';
+import * as NavigationService from './NavigationService';
 import type { ThemeData } from '../styles';
 import { ThemeContext, NAVBAR_SIZE } from '../styles';
 import SearchInput from '../common/SearchInput';

@@ -3,7 +3,7 @@ import type { Node as React$Node } from 'react';
 import { PureComponent } from 'react';
 import { BackHandler } from 'react-native';
 
-import NavigationService from './NavigationService';
+import * as NavigationService from './NavigationService';
 import { navigateBack } from '../actions';
 
 type Props = $ReadOnly<{|

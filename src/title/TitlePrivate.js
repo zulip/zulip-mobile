@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';

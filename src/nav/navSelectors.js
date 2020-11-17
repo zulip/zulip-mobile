@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { NavigationState, NavigationRoute } from 'react-navigation';
 
-import NavigationService from './NavigationService';
+import * as NavigationService from './NavigationService';
 
 export const getNavState = (): NavigationState => NavigationService.getState();
 

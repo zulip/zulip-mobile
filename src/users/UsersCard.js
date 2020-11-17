@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, PresenceState, User, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { pm1to1NarrowFromUser } from '../utils/narrow';

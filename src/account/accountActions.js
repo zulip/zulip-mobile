@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import NavigationService from '../nav/NavigationService';
+import * as NavigationService from '../nav/NavigationService';
 import type { Action, Dispatch, GetState } from '../types';
 import {
   ACCOUNT_SWITCH,
