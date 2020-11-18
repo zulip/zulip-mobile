@@ -6154,6 +6154,11 @@ image-size@^0.6.0:
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.6.3.tgz#e7e5c65bb534bd7cdcedd6cb5166272a85f75fb2"
   integrity sha512-47xSUiQioGaB96nqtp5/q55m0aBQSQdyIloMOc/x+QVTDZLNmXE892IIDrJ0hM1A5vcNUDD5tDffkSP5lCaIIA==
 
+immutable-devtools@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/immutable-devtools/-/immutable-devtools-0.1.5.tgz#32a653c8ba8258bfed37680a860a3b5fa2675693"
+  integrity sha512-bgQP4q+RiD1Oolw8c0sfNrCpShQIEdqJIGmPPrcG6efyJrX00hNzzM1noe3FsQdDwj2eQqL8JEtukCrwFQbt/w==
+
 immutable@^4.0.0-rc.12:
   version "4.0.0-rc.12"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"

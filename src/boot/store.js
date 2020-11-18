@@ -19,6 +19,18 @@ import createMigration from '../redux-persist-migrate/index';
 import { provideLoggingContext } from './loggingContext';
 import { tryGetActiveAccount } from '../account/accountsSelectors';
 
+if (process.env.NODE_ENV === 'development') {
+  // Chrome dev tools for Immutable.
+  //
+  // To enable, press F1 from the Chrome dev tools to open the
+  // settings. In the "Console" section, check "Enable custom
+  // formatters".
+  //
+  // eslint-disable-next-line import/no-extraneous-dependencies, global-require
+  const installDevTools = require('immutable-devtools');
+  installDevTools(Immutable);
+}
+
 // AsyncStorage.clear(); // use to reset storage during development
 
 /**
