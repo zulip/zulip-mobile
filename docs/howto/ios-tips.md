@@ -136,14 +136,33 @@ successfully.
 
 If you need to connect to `http://zulipdev.com` or another host with
 the insecure `http://`, you'll need to tell the app to make an
-exception under iOS's "App Transport Security", either to allow access
-any host with `http://`, or just to specific domains.
+exception under iOS's "App Transport Security" (ATS), either to allow
+access any host with `http://`, or just to specific domains.
 
 These exceptions should never be committed to master, as there aren't
 any insecure domains we want to connect to in production.
 
-To add an exception for the `zulipdev.com` domain, add the following
-in `ios/ZulipMobile/Info.plist`:
+To disable ATS restrictions for all network connections, add the
+following in `ios/ZulipMobile/Info.plist`:
+
+```diff
+   <key>NSAppTransportSecurity</key>
++  <key>NSAllowsArbitraryLoads</key>
++  <true/>
+   <dict>
+     <key>NSExceptionDomains</key>
+     <dict>
+       <key>localhost</key>
+       <dict>
+         <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+         <true/>
+       </dict>
+     </dict>
+   </dict>
+```
+
+To add an exception for just the `zulipdev.com` domain, add the
+following in `ios/ZulipMobile/Info.plist`:
 
 ```diff
    <key>NSAppTransportSecurity</key>

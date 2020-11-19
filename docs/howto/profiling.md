@@ -47,21 +47,37 @@ Setup requires a few steps not documented in the tool's readme:
      commands can save you from having to mess with the IP address
      where you invoke the profiler in the app code.
 
+ * If using a physical iOS device, first make sure the device and your
+   computer are connected to the same local network. Then find your
+   computer's local IP address.
+
+   * You'll [need to use
+     this](https://github.com/Flagsmith/react-native-performance-monitor#connecting-to-a-real-device)
+     every time you invoke the profiler in the app code. (This means
+     passing it in calls to `withPerformanceMonitor`, if using, and
+     sending requests to it with `fetch` for not-React profiling in
+     the way described below.)
+
+   * If using an iOS simulator, you don't need your computer's local
+     IP address.
+
+ * iOS disallows plain `http:` requests in both debug and release
+   builds by default, with something Apple calls "App Transport
+   Security". We don't override that in either configuration, so
+   you'll need to do so temporarily because this tool tries to `fetch`
+   a plain-HTTP URL for the stats server. You can disable the ATS
+   restrictions entirely by flipping the `NSAllowsArbitraryLoads`
+   switch in the `Info.plist`, as described in the [iOS Tips
+   doc](https://github.com/zulip/zulip-mobile/blob/master/docs/howto/ios-tips.md#user-content-adding-http-exceptions-to-nsapptransportsecurity-in-infoplist).
+
  * For meaningful results, you should really be using a release build,
    not a debug build.  This requires a couple of additional steps to
    get working:
 
-   * Both Android and iOS disallow plain `http:` requests by default,
-     and at least on Android, RN's `fetch` implementation respects
-     that.  This tool tries to `fetch` a plain-HTTP URL for the stats
-     server, so it gets blocked by that policy.
-
-     * On Android, we re-enable plain HTTP for debug builds (because
-       the debug app needs it in order to reach the Metro server) with
-       an attribute in our manifest.  When profiling with this, we
-       just need to do the same for the release build we use.
-
-     * On iOS we haven't tested this yet.
+   * Android: Temporarly enable plain HTTP for release builds. (We
+     already enable it for debug builds so that the debug app can
+     reach the Metro server.) This tool needs to `fetch` a plain-HTTP
+     URL for the stats server.
 
    * The React Profiler API is disabled by default when React is in
      release mode.  React offers a third, "profiling" mode, which is
@@ -89,7 +105,7 @@ yarn
 
 The branch covers most of the setup:
  * installing the tool
- * enabling plain HTTP, at least on Android
+ * enabling plain HTTP on iOS and Android
  * enabling React.Profiler
 
 Add the `adb reverse` steps, if on Android:
