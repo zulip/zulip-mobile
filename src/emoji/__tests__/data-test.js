@@ -7,7 +7,7 @@ import { codeToEmojiMap, getFilteredEmojis } from '../data';
 
 /* eslint-disable no-multi-spaces */
 describe('codeToEmojiMap', () => {
-  // Tell Jest to recognize `check` as a helper function that runs
+  // Tell ESLint to recognize `check` as a helper function that runs
   // assertions.
   /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
   const check = (name, string1, string2) => {

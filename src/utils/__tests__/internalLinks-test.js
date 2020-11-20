@@ -145,7 +145,7 @@ describe('getNarrowFromLink', () => {
   });
 
   describe('on stream links', () => {
-    // Tell Jest to recognize `expectStream` as a helper function that
+    // Tell ESLint to recognize `expectStream` as a helper function that
     // runs assertions.
     /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "expectStream"] }] */
     const expectStream = (operand, streams, expectedName: null | string) => {
