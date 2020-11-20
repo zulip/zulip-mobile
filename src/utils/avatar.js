@@ -2,6 +2,8 @@
 import md5 from 'blueimp-md5';
 
 import type { Message, Outbox, UserOrBot } from '../types';
+import { tryParseUrl } from './url';
+import * as logging from './logging';
 
 /**
  * When selecting the size of a gravatar we can pick any arbitrary
@@ -28,7 +30,28 @@ export const getAvatarUrl = (
   sizePhysicalPx: number,
 ): string => {
   if (typeof avatarUrl !== 'string') {
+    // It's our job to compute the Gravatar hash.
     return getGravatarFromEmail(email, sizePhysicalPx);
+  }
+
+  // If we don't announce `client_gravatar` to the server (we
+  // sometimes don't), or if the server doesn't have
+  // `EMAIL_ADDRESS_VISIBILITY_EVERYONE` set, `avatarUrl` will be a
+  // Gravatar URL, and we should size it correctly with the `size`
+  // parameter.
+  const GRAVATAR_ORIGIN = 'https://secure.gravatar.com';
+  if (tryParseUrl(avatarUrl)?.origin === GRAVATAR_ORIGIN) {
+    const hashMatch = /[0-9a-fA-F]{32}$/.exec(new URL(avatarUrl).pathname);
+    if (hashMatch === null) {
+      const msg = 'Unexpected Gravatar URL shape from server.';
+      logging.error(msg, { value: avatarUrl });
+      throw new Error(msg);
+    }
+
+    const url = new URL(`/avatar/${hashMatch[0]}`, GRAVATAR_ORIGIN);
+    url.searchParams.set('d', 'identicon');
+    url.searchParams.set('s', sizePhysicalPx.toString());
+    return url.toString();
   }
 
   const fullUrl = new URL(avatarUrl, realm).toString();
