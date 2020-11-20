@@ -36,7 +36,8 @@ type Props = $ReadOnly<{|
  */
 export default class UserAvatarWithPresence extends PureComponent<Props> {
   static defaultProps = {
-    avatarUrl: '',
+    // TODO: An empty-string `email` is probably up to no good. Remove
+    // this default.
     email: '',
     shape: 'rounded',
   };
