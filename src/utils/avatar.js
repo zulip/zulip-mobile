@@ -18,26 +18,29 @@ export const getMediumAvatar = (avatarUrl: string): string => {
   return matches ? avatarUrl.replace(matches[0], `${matches[1]}-medium.png`) : avatarUrl;
 };
 
-export const getGravatarFromEmail = (email: string = '', size: number): string =>
-  `https://secure.gravatar.com/avatar/${md5(email.toLowerCase())}?d=identicon&s=${size}`;
+export const getGravatarFromEmail = (email: string = '', sizePhysicalPx: number): string =>
+  `https://secure.gravatar.com/avatar/${md5(email.toLowerCase())}?d=identicon&s=${sizePhysicalPx}`;
 
 export const getAvatarUrl = (
   avatarUrl: ?string,
   email: string,
   realm: URL,
-  size: number,
+  sizePhysicalPx: number,
 ): string => {
   if (typeof avatarUrl !== 'string') {
-    return getGravatarFromEmail(email, size);
+    return getGravatarFromEmail(email, sizePhysicalPx);
   }
 
   const fullUrl = new URL(avatarUrl, realm).toString();
 
-  return size > 100 ? getMediumAvatar(fullUrl) : fullUrl;
+  return sizePhysicalPx > 100 ? getMediumAvatar(fullUrl) : fullUrl;
 };
 
-export const getAvatarFromUser = (user: UserOrBot, realm: URL, size: number): string =>
-  getAvatarUrl(user.avatar_url, user.email, realm, size);
+export const getAvatarFromUser = (user: UserOrBot, realm: URL, sizePhysicalPx: number): string =>
+  getAvatarUrl(user.avatar_url, user.email, realm, sizePhysicalPx);
 
-export const getAvatarFromMessage = (message: Message | Outbox, realm: URL, size: number): string =>
-  getAvatarUrl(message.avatar_url, message.sender_email, realm, size);
+export const getAvatarFromMessage = (
+  message: Message | Outbox,
+  realm: URL,
+  sizePhysicalPx: number,
+): string => getAvatarUrl(message.avatar_url, message.sender_email, realm, sizePhysicalPx);

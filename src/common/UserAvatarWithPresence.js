@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import { PixelRatio } from 'react-native';
 
 import type { Dispatch, Message, User, CrossRealmBot } from '../types';
 import { createStyleSheet } from '../styles';
@@ -35,7 +36,7 @@ type Props = $ReadOnly<{|
  *
  * @prop [avatarUrl] - `.avatar_url` on a `Message` or a `UserOrBot`
  * @prop [email] - User's' email address, to calculate Gravatar URL if not given `avatarUrl`.
- * @prop [size] - Sets width and height in pixels.
+ * @prop [size] - Sets width and height in logical pixels.
  * @prop [realm] - Current realm url, used if avatarUrl is relative.
  * @prop [shape] - 'rounded' (default) means a square with rounded corners.
  * @prop [onPress] - Event fired on pressing the component.
@@ -49,7 +50,12 @@ class UserAvatarWithPresence extends PureComponent<Props> {
 
   render() {
     const { avatarUrl, email, size, onPress, realm, shape } = this.props;
-    const fullAvatarUrl = getAvatarUrl(avatarUrl, email, realm, 80);
+    const fullAvatarUrl = getAvatarUrl(
+      avatarUrl,
+      email,
+      realm,
+      PixelRatio.getPixelSizeForLayoutSize(size),
+    );
 
     return (
       <UserAvatar avatarUrl={fullAvatarUrl} size={size} onPress={onPress} shape={shape}>

@@ -17,7 +17,7 @@ type Props = $ReadOnly<{|
  * Renders an image of the user's avatar.
  *
  * @prop avatarUrl - Absolute or relative url to an avatar image.
- * @prop size - Sets width and height in pixels.
+ * @prop size - Sets width and height in logical pixels.
  * @prop [shape] - 'rounded' (default) means a square with rounded corners.
  * @prop [children] - If provided, will render inside the component body.
  * @prop [onPress] - Event fired on pressing the component.

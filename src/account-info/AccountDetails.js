@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, PixelRatio } from 'react-native';
 
 import type { UserOrBot, Dispatch } from '../types';
 import styles, { createStyleSheet } from '../styles';
@@ -62,7 +62,14 @@ class AccountDetails extends PureComponent<Props> {
     return (
       <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
         <View>
-          <UserAvatar avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)} size={AVATAR_SIZE} />
+          <UserAvatar
+            avatarUrl={getAvatarFromUser(
+              user,
+              realm,
+              PixelRatio.getPixelSizeForLayoutSize(AVATAR_SIZE),
+            )}
+            size={AVATAR_SIZE}
+          />
         </View>
         <View style={componentStyles.statusWrapper}>
           <PresenceStatusIndicator

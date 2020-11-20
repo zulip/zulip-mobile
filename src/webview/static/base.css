@@ -291,7 +291,12 @@ body {
   transition-timing-function: ease-out;
 }
 
-/* The sender's avatar. */
+/*
+ * The sender's avatar. If changing the size here, be sure to change
+ * the size we request for the avatar image file in the corresponding
+ * HTML-generating code (see messageTypingAsHtml.js and
+ * messageAsHtml.js).
+ */
 .avatar,
 .loading-avatar {
   min-width: 48px;

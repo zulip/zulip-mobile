@@ -42,7 +42,7 @@ export const initialsForGroupIcon = (names: string[]): string => {
  * We are currently using it only for group chats.
  *
  * @prop names - The name of one or more users, used to extract their initials.
- * @prop size - Sets width and height in pixels.
+ * @prop size - Sets width and height in logical pixels.
  * @prop [shape]
  * @prop children - If provided, will render inside the component body.
  * @prop onPress - Event fired on pressing the component.

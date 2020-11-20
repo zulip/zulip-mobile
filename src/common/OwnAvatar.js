@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import { PixelRatio } from 'react-native';
 
 import type { User, Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -17,12 +18,16 @@ type Props = $ReadOnly<{|
 /**
  * Renders an image of the current user's avatar
  *
- * @prop size - Sets width and height in pixels.
+ * @prop size - Sets width and height in logical pixels.
  */
 class OwnAvatar extends PureComponent<Props> {
   render() {
     const { user, size, realm } = this.props;
-    const fullAvatarUrl = getAvatarFromUser(user, realm, size);
+    const fullAvatarUrl = getAvatarFromUser(
+      user,
+      realm,
+      PixelRatio.getPixelSizeForLayoutSize(size),
+    );
     return <UserAvatar avatarUrl={fullAvatarUrl} size={size} />;
   }
 }
