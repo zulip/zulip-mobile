@@ -29,8 +29,6 @@ const componentStyles = createStyleSheet({
   },
 });
 
-const AVATAR_SIZE = 200;
-
 type SelectorProps = {|
   userStatusText: string | void,
 |};
@@ -60,7 +58,7 @@ class AccountDetails extends PureComponent<Props> {
     return (
       <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
         <View>
-          <UserAvatar avatarUrl={user.avatar_url} email={user.email} size={AVATAR_SIZE} />
+          <UserAvatar avatarUrl={user.avatar_url} email={user.email} size={200} />
         </View>
         <View style={componentStyles.statusWrapper}>
           <PresenceStatusIndicator
