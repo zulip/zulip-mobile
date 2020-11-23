@@ -44,7 +44,6 @@ class UserAvatarWithPresence extends PureComponent<Props> {
   static defaultProps = {
     avatarUrl: '',
     email: '',
-    size: 32,
     shape: 'rounded',
   };
 
