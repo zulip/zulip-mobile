@@ -8,7 +8,7 @@ const typingAvatar = (realm: URL, user: UserOrBot): string => template`
   <img
     class="avatar-img"
     data-sender-id="${user.user_id}"
-    src="${getAvatarFromUser(user, realm)}">
+    src="${getAvatarFromUser(user, realm, 80)}">
 </div>
 `;
 

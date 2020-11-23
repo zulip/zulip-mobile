@@ -49,7 +49,7 @@ class UserAvatarWithPresence extends PureComponent<Props> {
 
   render() {
     const { avatarUrl, email, size, onPress, realm, shape } = this.props;
-    const fullAvatarUrl = getAvatarUrl(avatarUrl, email, realm);
+    const fullAvatarUrl = getAvatarUrl(avatarUrl, email, realm, 80);
 
     return (
       <UserAvatar avatarUrl={fullAvatarUrl} size={size} onPress={onPress} shape={shape}>

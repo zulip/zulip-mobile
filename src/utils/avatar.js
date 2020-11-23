@@ -25,7 +25,7 @@ export const getAvatarUrl = (
   avatarUrl: ?string,
   email: string,
   realm: URL,
-  size: number = 80,
+  size: number,
 ): string => {
   if (typeof avatarUrl !== 'string') {
     return getGravatarFromEmail(email, size);
@@ -36,11 +36,8 @@ export const getAvatarUrl = (
   return size > 100 ? getMediumAvatar(fullUrl) : fullUrl;
 };
 
-export const getAvatarFromUser = (user: UserOrBot, realm: URL, size?: number): string =>
+export const getAvatarFromUser = (user: UserOrBot, realm: URL, size: number): string =>
   getAvatarUrl(user.avatar_url, user.email, realm, size);
 
-export const getAvatarFromMessage = (
-  message: Message | Outbox,
-  realm: URL,
-  size?: number,
-): string => getAvatarUrl(message.avatar_url, message.sender_email, realm, size);
+export const getAvatarFromMessage = (message: Message | Outbox, realm: URL, size: number): string =>
+  getAvatarUrl(message.avatar_url, message.sender_email, realm, size);
