@@ -20,6 +20,11 @@ const componentStyles = createStyleSheet({
     justifyContent: 'center',
     flexDirection: 'row',
   },
+  statusSymbol: {
+    position: 'relative',
+    top: 2,
+    marginRight: 5,
+  },
   statusText: {
     textAlign: 'center',
   },
@@ -60,8 +65,12 @@ class AccountDetails extends PureComponent<Props> {
           <UserAvatar avatarUrl={getAvatarFromUser(user, realm, AVATAR_SIZE)} size={AVATAR_SIZE} />
         </View>
         <View style={componentStyles.statusWrapper}>
+          <PresenceStatusIndicator
+            style={componentStyles.statusSymbol}
+            email={user.email}
+            hideIfOffline={false}
+          />
           <RawLabel style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
-          <PresenceStatusIndicator email={user.email} hideIfOffline={false} />
         </View>
         {userStatusText !== undefined && (
           <RawLabel style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
