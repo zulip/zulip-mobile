@@ -1,8 +1,6 @@
 /* @flow strict-local */
-import { batchActions } from 'redux-batched-actions';
-
 import type { EventAction } from '../actionTypes';
-import type { Action, Dispatch, GeneralEvent, GetState, GlobalState } from '../types';
+import type { Dispatch, GeneralEvent, GetState, GlobalState } from '../types';
 import * as api from '../api';
 import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
@@ -31,14 +29,6 @@ export const eventsToActions = (
 
       return true;
     });
-
-export const dispatchOrBatch = (dispatch: Dispatch, actions: $ReadOnlyArray<Action>) => {
-  if (actions.length > 1) {
-    dispatch(batchActions(actions));
-  } else if (actions.length === 1) {
-    dispatch(actions[0]);
-  }
-};
 
 /**
  * Poll an event queue on the Zulip server for updates, in a loop.
@@ -77,9 +67,8 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
         // are explicitly not the place for side effects (see
         // https://redux.js.org/faq/actions).
         dispatch(doEventActionSideEffects(action));
+        dispatch(action);
       });
-
-      dispatchOrBatch(dispatch, actions);
 
       lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
     } catch (e) {
