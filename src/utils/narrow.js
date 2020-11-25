@@ -316,6 +316,47 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
   });
 
 /**
+ * Answers the question, "What narrows do this message appear in?"
+ *
+ * This function does not support search narrows, and it always
+ * excludes them.
+ *
+ * The message's flags must be in `flags`; `message.flags` is ignored.  This
+ * makes it the caller's responsibility to deal with the ambiguity in our
+ * Message type of whether the message's flags live in a `flags` property or
+ * somewhere else.
+ */
+export const getNarrowsForMessage = (
+  message: Message | Outbox,
+  ownUser: User,
+  flags: $ReadOnlyArray<string>,
+): Narrow[] => {
+  const result: Narrow[] = [];
+
+  // All messages are in the home narrow.
+  result.push(HOME_NARROW);
+
+  if (message.type === 'private') {
+    result.push(ALL_PRIVATE_NARROW);
+    result.push(pmNarrowFromEmails(pmKeyRecipientsFromMessage(message, ownUser).map(x => x.email)));
+  } else {
+    const streamName = streamNameOfStreamMessage(message);
+    result.push(topicNarrow(streamName, message.subject));
+    result.push(streamNarrow(streamName));
+  }
+
+  if (flags.includes('mentioned') || flags.includes('wildcard_mentioned')) {
+    result.push(MENTIONED_NARROW);
+  }
+
+  if (flags.includes('starred')) {
+    result.push(STARRED_NARROW);
+  }
+
+  return result;
+};
+
+/**
  * Answers the question, "Where should my reply to a message go?"
  *
  * For stream messages, chooses a topic narrow over a stream narrow.

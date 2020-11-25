@@ -20,12 +20,13 @@ import {
   isMessageInNarrow,
   isSameNarrow,
   isStreamOrTopicNarrow,
+  getNarrowsForMessage,
   getNarrowForReply,
   parseNarrowString,
   STARRED_NARROW,
   MENTIONED_NARROW,
 } from '../narrow';
-
+import type { Narrow, Message } from '../../types';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('HOME_NARROW', () => {
@@ -295,6 +296,106 @@ describe('isMessageInNarrow', () => {
       }
     });
   }
+});
+
+describe('getNarrowsForMessage', () => {
+  /**
+   * Helper function that tests one Message.
+   *
+   * In addition to the expected output the case declares, also expect
+   * MENTIONED_NARROW or STARRED_NARROW if those flags are present.
+   */
+  // Tell ESLint to recognize `checkCase` as a helper function that
+  // runs assertions.
+  /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "checkCase"] }] */
+  const checkCase = (c: {| label: string, message: Message, expectedNarrows: Narrow[] |}) => {
+    test(`${c.label}; no flags`, () => {
+      expect(getNarrowsForMessage(c.message, eg.selfUser, [])).toIncludeSameMembers(
+        c.expectedNarrows,
+      );
+    });
+
+    test(`${c.label}; starred`, () => {
+      expect(getNarrowsForMessage(c.message, eg.selfUser, ['starred'])).toIncludeSameMembers([
+        ...c.expectedNarrows,
+        STARRED_NARROW,
+      ]);
+    });
+
+    test(`${c.label}; mentioned`, () => {
+      expect(getNarrowsForMessage(c.message, eg.selfUser, ['mentioned'])).toIncludeSameMembers([
+        ...c.expectedNarrows,
+        MENTIONED_NARROW,
+      ]);
+    });
+
+    test(`${c.label}; wildcard_mentioned`, () => {
+      expect(getNarrowsForMessage(c.message, eg.selfUser, ['mentioned'])).toIncludeSameMembers([
+        ...c.expectedNarrows,
+        MENTIONED_NARROW,
+      ]);
+    });
+
+    test(`${c.label}; starred, mentioned, and wildcard_mentioned`, () => {
+      expect(
+        getNarrowsForMessage(c.message, eg.selfUser, [
+          'starred',
+          'mentioned',
+          'wildcard_mentioned',
+        ]),
+      ).toIncludeSameMembers([...c.expectedNarrows, STARRED_NARROW, MENTIONED_NARROW]);
+    });
+  };
+
+  const cases = [
+    {
+      label: "Message in stream 'myStream' with topic 'myTopic'",
+      message: {
+        ...eg.streamMessage({ stream: eg.makeStream({ name: 'myStream' }) }),
+        subject: 'myTopic',
+      },
+      expectedNarrows: [HOME_NARROW, streamNarrow('myStream'), topicNarrow('myStream', 'myTopic')],
+    },
+    {
+      // If we find that `subject` is sometimes the empty string and
+      // that needs to be treated as a special case, this case should
+      // be edited.
+      //
+      // It's not currently clear that we'd ever get a stream message
+      // with the empty string for `subject` from the server.
+      //
+      // We don't store outbox messages with the empty string for
+      // `subject`; if the topic input is left blank, we put down
+      // '(no topic)' for `subject`.
+      label: "Message in stream 'myStream' with empty-string topic",
+      message: {
+        ...eg.streamMessage({ stream: eg.makeStream({ name: 'myStream' }) }),
+        subject: '',
+      },
+      expectedNarrows: [HOME_NARROW, streamNarrow('myStream'), topicNarrow('myStream', '')],
+    },
+    {
+      label: 'PM message with one person',
+      message: eg.pmMessage({ sender: eg.otherUser }),
+      expectedNarrows: [HOME_NARROW, ALL_PRIVATE_NARROW, pmNarrowFromEmail(eg.otherUser.email)],
+    },
+    {
+      label: 'Group PM message',
+      message: eg.pmMessage({
+        sender: eg.otherUser,
+        recipients: [eg.selfUser, eg.otherUser, eg.thirdUser],
+      }),
+      expectedNarrows: [
+        HOME_NARROW,
+        ALL_PRIVATE_NARROW,
+        pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]),
+      ],
+    },
+  ];
+
+  cases.forEach(c => {
+    checkCase(c);
+  });
 });
 
 describe('getNarrowForReply', () => {
