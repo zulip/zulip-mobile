@@ -20,7 +20,7 @@ import {
   isMessageInNarrow,
   isSameNarrow,
   isStreamOrTopicNarrow,
-  getNarrowFromMessage,
+  getNarrowForReply,
   parseNarrowString,
   STARRED_NARROW,
   MENTIONED_NARROW,
@@ -297,10 +297,10 @@ describe('isMessageInNarrow', () => {
   }
 });
 
-describe('getNarrowFromMessage', () => {
+describe('getNarrowForReply', () => {
   test('for self-PM, returns self-1:1 narrow', () => {
     expect(
-      getNarrowFromMessage(
+      getNarrowForReply(
         eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] }),
         eg.selfUser,
       ),
@@ -311,7 +311,7 @@ describe('getNarrowFromMessage', () => {
     const message = eg.pmMessage();
     const expectedNarrow = pmNarrowFromEmail(eg.otherUser.email);
 
-    const actualNarrow = getNarrowFromMessage(message, eg.selfUser);
+    const actualNarrow = getNarrowForReply(message, eg.selfUser);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -322,7 +322,7 @@ describe('getNarrowFromMessage', () => {
     });
     const expectedNarrow = pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]);
 
-    const actualNarrow = getNarrowFromMessage(message, eg.selfUser);
+    const actualNarrow = getNarrowForReply(message, eg.selfUser);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -332,7 +332,7 @@ describe('getNarrowFromMessage', () => {
     const message = eg.streamMessage({ subject: '' });
     const expectedNarrow = streamNarrow(eg.stream.name);
 
-    const actualNarrow = getNarrowFromMessage(message, eg.selfUser);
+    const actualNarrow = getNarrowForReply(message, eg.selfUser);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -341,7 +341,7 @@ describe('getNarrowFromMessage', () => {
     const message = eg.streamMessage();
     const expectedNarrow = topicNarrow(eg.stream.name, message.subject);
 
-    const actualNarrow = getNarrowFromMessage(message, eg.selfUser);
+    const actualNarrow = getNarrowForReply(message, eg.selfUser);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });

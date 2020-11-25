@@ -16,7 +16,7 @@ import type {
 } from '../types';
 import type { BackgroundData } from '../webview/MessageList';
 import {
-  getNarrowFromMessage,
+  getNarrowForReply,
   isPmNarrow,
   isStreamOrTopicNarrow,
   isTopicNarrow,
@@ -61,7 +61,7 @@ type ButtonDescription = {
 //
 
 const reply = ({ message, dispatch, ownUser }) => {
-  dispatch(doNarrow(getNarrowFromMessage(message, ownUser), message.id));
+  dispatch(doNarrow(getNarrowForReply(message, ownUser), message.id));
 };
 reply.title = 'Reply';
 reply.errorMessage = 'Failed to reply';

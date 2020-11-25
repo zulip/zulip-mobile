@@ -316,6 +316,8 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
   });
 
 /**
+ * Answers the question, "Where should my reply to a message go?"
+ *
  * Careful: quirky behavior on a stream message with empty topic.
  *
  * If you think you want to reuse this function: study carefully; maybe
@@ -323,7 +325,7 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
  * its quirky behavior.
  */
 // TODO: do that, or just make this a private local helper of its one caller
-export const getNarrowFromMessage = (message: Message | Outbox, ownUser: User) => {
+export const getNarrowForReply = (message: Message | Outbox, ownUser: User) => {
   if (message.type === 'private') {
     return pmNarrowFromEmails(pmKeyRecipientsFromMessage(message, ownUser).map(x => x.email));
   } else {
