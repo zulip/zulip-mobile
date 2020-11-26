@@ -1,10 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import type { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { connect } from '../../react-redux';
 
+import type { SubsetProperties } from '../../generics';
 import Custom from './Custom';
 import type { ThemeName } from '../../reduxTypes';
 import type { Dispatch } from '../../types';
@@ -15,7 +16,15 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
-  style?: ViewStyleProp,
+  // See `ZulipButton`'s `style` prop, where a comment discusses this
+  // idea.
+  /* eslint-disable flowtype/generic-spacing */
+  style?: SubsetProperties<
+    ViewStyle,
+    {|
+      marginTop?: mixed,
+    |},
+  >,
   onPress: () => void | Promise<void>,
 
   dispatch: Dispatch,
