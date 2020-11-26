@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import caughtUpReducer from '../caughtUpReducer';
-import { MESSAGE_FETCH_START, MESSAGE_FETCH_ERROR } from '../../actionConstants';
+import { MESSAGE_FETCH_ERROR } from '../../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../anchor';
 import {
   HOME_NARROW,
@@ -23,11 +23,10 @@ describe('caughtUpReducer', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_START,
+        ...eg.action.message_fetch_start,
         narrow: HOME_NARROW,
       });
 
-      // $FlowFixMe bogus action object
       const newState = caughtUpReducer(initialState, action);
 
       expect(newState).toBe(initialState);
@@ -96,8 +95,11 @@ describe('caughtUpReducer', () => {
       const action = deepFreeze({
         ...eg.action.message_fetch_complete,
         anchor: 1,
-        // $FlowFixMe bogus messages in action
-        messages: [{ id: 1 }, { id: 2 }, { id: 3 }],
+        messages: [
+          eg.streamMessage({ id: 1 }),
+          eg.streamMessage({ id: 2 }),
+          eg.streamMessage({ id: 3 }),
+        ],
         numBefore: 5,
         numAfter: 5,
       });
@@ -144,8 +146,13 @@ describe('caughtUpReducer', () => {
     const action = deepFreeze({
       ...eg.action.message_fetch_complete,
       anchor: 3,
-      // $FlowFixMe bogus messages in action
-      messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+      messages: [
+        eg.streamMessage({ id: 1 }),
+        eg.streamMessage({ id: 2 }),
+        eg.streamMessage({ id: 3 }),
+        eg.streamMessage({ id: 4 }),
+        eg.streamMessage({ id: 5 }),
+      ],
       numBefore: 2,
       numAfter: 2,
       foundNewest: undefined,
@@ -175,8 +182,13 @@ describe('caughtUpReducer', () => {
     const action = deepFreeze({
       ...eg.action.message_fetch_complete,
       anchor: 3,
-      // $FlowFixMe bogus messages in action
-      messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+      messages: [
+        eg.streamMessage({ id: 1 }),
+        eg.streamMessage({ id: 2 }),
+        eg.streamMessage({ id: 3 }),
+        eg.streamMessage({ id: 4 }),
+        eg.streamMessage({ id: 5 }),
+      ],
       numBefore: 2,
       numAfter: 2,
     });
@@ -200,13 +212,13 @@ describe('caughtUpReducer', () => {
       ...eg.action.message_fetch_complete,
       anchor: FIRST_UNREAD_ANCHOR,
       messages: [
-        { id: 1, flags: ['read'] },
-        { id: 2, flags: ['read'] },
-        { id: 3, flags: ['read'] },
-        { id: 4, flags: [] },
-        { id: 5, flags: [] },
-        { id: 6, flags: [] },
-        { id: 7, flags: [] },
+        eg.streamMessage({ id: 1, flags: ['read'] }),
+        eg.streamMessage({ id: 2, flags: ['read'] }),
+        eg.streamMessage({ id: 3, flags: ['read'] }),
+        eg.streamMessage({ id: 4, flags: [] }),
+        eg.streamMessage({ id: 5, flags: [] }),
+        eg.streamMessage({ id: 6, flags: [] }),
+        eg.streamMessage({ id: 7, flags: [] }),
       ],
       numBefore: 3,
       numAfter: 3,
@@ -219,7 +231,6 @@ describe('caughtUpReducer', () => {
       },
     };
 
-    // $FlowFixMe bogus messages in action
     const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
@@ -232,12 +243,12 @@ describe('caughtUpReducer', () => {
       ...eg.action.message_fetch_complete,
       anchor: FIRST_UNREAD_ANCHOR,
       messages: [
-        { id: 1, flags: ['read'] },
-        { id: 2, flags: ['read'] },
-        { id: 3, flags: [] },
-        { id: 4, flags: [] },
-        { id: 5, flags: [] },
-        { id: 6, flags: [] },
+        eg.streamMessage({ id: 1, flags: ['read'] }),
+        eg.streamMessage({ id: 2, flags: ['read'] }),
+        eg.streamMessage({ id: 3, flags: [] }),
+        eg.streamMessage({ id: 4, flags: [] }),
+        eg.streamMessage({ id: 5, flags: [] }),
+        eg.streamMessage({ id: 6, flags: [] }),
       ],
       numBefore: 3,
       numAfter: 4,
@@ -250,7 +261,6 @@ describe('caughtUpReducer', () => {
       },
     };
 
-    // $FlowFixMe bogus messages in action
     const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
@@ -263,12 +273,12 @@ describe('caughtUpReducer', () => {
       ...eg.action.message_fetch_complete,
       anchor: FIRST_UNREAD_ANCHOR,
       messages: [
-        { id: 1, flags: ['read'] },
-        { id: 2, flags: ['read'] },
-        { id: 3, flags: ['read'] },
-        { id: 4, flags: [] },
-        { id: 5, flags: [] },
-        { id: 6, flags: [] },
+        eg.streamMessage({ id: 1, flags: ['read'] }),
+        eg.streamMessage({ id: 2, flags: ['read'] }),
+        eg.streamMessage({ id: 3, flags: ['read'] }),
+        eg.streamMessage({ id: 4, flags: [] }),
+        eg.streamMessage({ id: 5, flags: [] }),
+        eg.streamMessage({ id: 6, flags: [] }),
       ],
       numBefore: 3,
       numAfter: 4,
@@ -281,7 +291,6 @@ describe('caughtUpReducer', () => {
       },
     };
 
-    // $FlowFixMe bogus messages in action
     const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
@@ -294,11 +303,11 @@ describe('caughtUpReducer', () => {
       ...eg.action.message_fetch_complete,
       anchor: FIRST_UNREAD_ANCHOR,
       messages: [
-        { id: 1, flags: ['read'] },
-        { id: 2, flags: ['read'] },
-        { id: 3, flags: [] },
-        { id: 4, flags: [] },
-        { id: 5, flags: [] },
+        eg.streamMessage({ id: 1, flags: ['read'] }),
+        eg.streamMessage({ id: 2, flags: ['read'] }),
+        eg.streamMessage({ id: 3, flags: [] }),
+        eg.streamMessage({ id: 4, flags: [] }),
+        eg.streamMessage({ id: 5, flags: [] }),
       ],
       numBefore: 3,
       numAfter: 4,
@@ -311,7 +320,6 @@ describe('caughtUpReducer', () => {
       },
     };
 
-    // $FlowFixMe bogus messages in action
     const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
@@ -324,8 +332,13 @@ describe('caughtUpReducer', () => {
       ...eg.action.message_fetch_complete,
       narrow: ALL_PRIVATE_NARROW,
       anchor: LAST_MESSAGE_ANCHOR,
-      // $FlowFixMe bogus messages in action
-      messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+      messages: [
+        eg.streamMessage({ id: 1 }),
+        eg.streamMessage({ id: 2 }),
+        eg.streamMessage({ id: 3 }),
+        eg.streamMessage({ id: 4 }),
+        eg.streamMessage({ id: 5 }),
+      ],
       numBefore: 10,
       numAfter: 0,
     });
@@ -352,16 +365,16 @@ describe('caughtUpReducer', () => {
         ...eg.action.message_fetch_complete,
         anchor: 6,
         messages: [
-          { id: 1 },
-          { id: 2 },
-          { id: 3 },
-          { id: 4 },
-          { id: 5 },
-          { id: 6 },
-          { id: 7 },
-          { id: 8 },
-          { id: 9 },
-          { id: 10 },
+          eg.streamMessage({ id: 1 }),
+          eg.streamMessage({ id: 2 }),
+          eg.streamMessage({ id: 3 }),
+          eg.streamMessage({ id: 4 }),
+          eg.streamMessage({ id: 5 }),
+          eg.streamMessage({ id: 6 }),
+          eg.streamMessage({ id: 7 }),
+          eg.streamMessage({ id: 8 }),
+          eg.streamMessage({ id: 9 }),
+          eg.streamMessage({ id: 10 }),
         ],
         numBefore: 5,
         numAfter: 5,
@@ -374,7 +387,6 @@ describe('caughtUpReducer', () => {
         },
       };
 
-      // $FlowFixMe bogus messages in action
       const newState = caughtUpReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
@@ -389,17 +401,17 @@ describe('caughtUpReducer', () => {
         ...eg.action.message_fetch_complete,
         anchor: 5,
         messages: [
-          { id: 0 },
-          { id: 1 },
-          { id: 2 },
-          { id: 3 },
-          { id: 4 },
-          { id: 5 },
-          { id: 6 },
-          { id: 7 },
-          { id: 8 },
-          { id: 9 },
-          { id: 10 },
+          eg.streamMessage({ id: 0 }),
+          eg.streamMessage({ id: 1 }),
+          eg.streamMessage({ id: 2 }),
+          eg.streamMessage({ id: 3 }),
+          eg.streamMessage({ id: 4 }),
+          eg.streamMessage({ id: 5 }),
+          eg.streamMessage({ id: 6 }),
+          eg.streamMessage({ id: 7 }),
+          eg.streamMessage({ id: 8 }),
+          eg.streamMessage({ id: 9 }),
+          eg.streamMessage({ id: 10 }),
         ],
         numBefore: 5,
         numAfter: 5,
@@ -412,7 +424,6 @@ describe('caughtUpReducer', () => {
         },
       };
 
-      // $FlowFixMe bogus messages in action
       const newState = caughtUpReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
