@@ -163,12 +163,7 @@ class ShareToStream extends React.Component<Props, State> {
         <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="always">
           <View style={styles.container}>
             {sharedData.type === 'image' && (
-              <Image
-                source={{ uri: sharedData.sharedImageUrl }}
-                width={200}
-                height={200}
-                style={styles.imagePreview}
-              />
+              <Image source={{ uri: sharedData.sharedImageUrl }} style={styles.imagePreview} />
             )}
             <AnimatedScaleComponent visible={isStreamFocused}>
               <StreamAutocomplete filter={stream} onAutocomplete={this.handleStreamAutoComplete} />

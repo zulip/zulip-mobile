@@ -162,12 +162,7 @@ class ShareToPm extends React.Component<Props, State> {
     let sharePreview = null;
     if (sharedData.type === 'image') {
       sharePreview = (
-        <Image
-          source={{ uri: sharedData.sharedImageUrl }}
-          width={200}
-          height={200}
-          style={styles.imagePreview}
-        />
+        <Image source={{ uri: sharedData.sharedImageUrl }} style={styles.imagePreview} />
       );
     }
 
