@@ -13,7 +13,7 @@
 #import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
 #import <EXScreenOrientation/EXScreenOrientationViewController.h>
 
-#if DEBUG
+#ifdef FB_SONARKIT_ENABLED
   #import <FlipperKit/FlipperClient.h>
   #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
   #import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
@@ -36,7 +36,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  #if DEBUG
+  #ifdef FB_SONARKIT_ENABLED
     InitializeFlipper(application);
   #endif
 
