@@ -9,10 +9,10 @@ require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 def add_flipper_pods!(versions = {})
   versions['Flipper'] ||= '~> 0.39.0'
   versions['DoubleConversion'] ||= '1.1.7'
-  versions['Flipper-Folly'] ||= '~> 2.1'
+  versions['Flipper-Folly'] ||= '~> 2.2'
   versions['Flipper-Glog'] ||= '0.3.6'
   versions['Flipper-PeerTalk'] ||= '~> 0.0.4'
-  versions['Flipper-RSocket'] ||= '~> 1.0'
+  versions['Flipper-RSocket'] ||= '~> 1.1'
 
   pod 'FlipperKit', versions['Flipper'], :configuration => 'Debug'
   pod 'FlipperKit/FlipperKitLayoutPlugin', versions['Flipper'], :configuration => 'Debug'
