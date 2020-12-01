@@ -7,7 +7,7 @@ require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 
 # Add Flipper Pods
 def add_flipper_pods!(versions = {}, configurations: ['Debug'])
-  versions['Flipper'] ||= '~> 0.41.1'
+  versions['Flipper'] ||= '~> 0.54.0'
   versions['Flipper-DoubleConversion'] ||= '1.1.7'
   versions['Flipper-Folly'] ||= '~> 2.2'
   versions['Flipper-Glog'] ||= '0.3.6'
