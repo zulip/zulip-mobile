@@ -57,6 +57,11 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+
+  // Define UNUserNotificationCenter
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  center.delegate = self;
+
   return YES;
 }
 
@@ -117,4 +122,16 @@
   [RNNotifications didReceiveLocalNotification:notification];
   [RCTPushNotificationManager didReceiveLocalNotification:notification];
 }
+
+// Called when a notification is delivered to a foreground app.
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center
+      willPresentNotification:(UNNotification *)notification
+        withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+{
+  // Update the badge count. Do not play sound or show an alert. For
+  // these options see
+  // https://developer.apple.com/documentation/usernotifications/unnotificationpresentationoptions?language=objc
+  completionHandler(UNNotificationPresentationOptionBadge);
+}
+
 @end
