@@ -2,9 +2,11 @@
 import type { Scope, SeverityType, EventHint } from '@sentry/react-native';
 import { getCurrentHub, Severity, withScope as withScopeImpl } from '@sentry/react-native';
 
+import store from '../boot/store';
 import type { JSONable } from './jsonable';
 import objectEntries from './objectEntries';
 import config from '../config';
+import { tryGetActiveAccount } from '../account/accountsSelectors';
 
 /** Type of "extras" intended for Sentry. */
 // This type should be exact, but cannot be until Flow v0.126.0. (See note in
@@ -20,6 +22,43 @@ function withScope<R>(callback: Scope => R): R {
   // Flow can't know that `ret` has actually been initialized
   return ((ret: $FlowFixMe): R);
 }
+
+/**
+ * Get server-version tags at various levels of granularity.
+ */
+const getServerVersionTags = () => {
+  const zulipVersion = tryGetActiveAccount(store.getState())?.zulipVersion;
+
+  // Why might we not have the server version? If there's no active
+  // account.
+  if (!zulipVersion) {
+    return {};
+  }
+
+  const raw = zulipVersion.raw();
+
+  const OMITTED = 'x';
+  const UNKNOWN = '?';
+
+  const elements = zulipVersion.elements();
+  const major = elements.major ?? UNKNOWN;
+  const minor = elements.minor ?? UNKNOWN;
+  const patch = elements.patch ?? UNKNOWN;
+
+  let coarseServerVersion;
+  let fineServerVersion;
+  // Effective with 3.0, we changed our numbering conventions; 3.x and
+  // 4.x are each the same level of granularity as 2.1.x or 2.0.x.
+  if (zulipVersion.isAtLeast('3.0')) {
+    coarseServerVersion = [major, OMITTED].join('.');
+    fineServerVersion = [major, minor].join('.');
+  } else {
+    coarseServerVersion = [major, minor, OMITTED].join('.');
+    fineServerVersion = [major, minor, patch].join('.');
+  }
+
+  return { rawServerVersion: raw, coarseServerVersion, fineServerVersion };
+};
 
 /**
  * Log an event (a string or Error) at some arbitrary severity.
@@ -49,8 +88,15 @@ const logToSentry = (event: string | Error, level: SeverityType, extras: Extras)
     }
   }
 
+  const tags = {
+    ...getServerVersionTags(),
+    // Other tags go here; they're useful for event aggregation. See
+    // https://docs.sentry.io/platforms/javascript/enriching-events/tags/.
+  };
+
   return withScope(scope => {
     scope.setExtras(extras);
+    scope.setTags(tags);
 
     // The static API's `captureException` doesn't allow passing strings, and its
     // counterpart `captureMessage` doesn't allow passing stacktraces.

@@ -103,6 +103,19 @@ declare module '@sentry/react-native' {
   // More methods are available.
   declare export class Scope {
     /**
+     * Set an object that will be merged sent as tags data with the event.
+     * @param tags Tags context object to merge into current context.
+     */
+    setTags(tags: {
+      [key: string]: string,
+    }): this;
+    /**
+     * Set key:value that will be sent as tags data with the event.
+     * @param key String key of tag
+     * @param value String value of tag
+     */
+    setTag(key: string, value: string): this;
+    /**
      * Set key:value that will be sent as extra data with the event.
      * @param key String of extra
      * @param extra Any kind of data. This data will be normalized.
