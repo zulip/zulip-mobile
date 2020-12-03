@@ -67,15 +67,29 @@ describe('ZulipVersion.prototype.raw()', () => {
   });
 });
 
-describe('ZulipVersion.prototype.loggingArray()', () => {
+describe('ZulipVersion.prototype.elements()', () => {
   const raw1 = '0.1.0';
-  test(`new ZulipVersion(${raw1}).loggingArray() === [0, 1, 0]`, () => {
-    expect(new ZulipVersion(raw1).loggingArray()).toStrictEqual([0, 1, 0]);
+  test(`new ZulipVersion(${raw1}).elements()`, () => {
+    expect(new ZulipVersion(raw1).elements()).toStrictEqual({
+      major: 0,
+      minor: 1,
+      patch: 0,
+      flag: undefined,
+      numCommits: undefined,
+      commitId: undefined,
+    });
   });
 
   const raw2 = '2.1.0-rc1-112-g35959d43c4';
 
-  test(`new ZulipVersion(${raw2}).loggingArray() === [2, 1, 0]`, () => {
-    expect(new ZulipVersion(raw2).loggingArray()).toStrictEqual([2, 1, 0]);
+  test(`new ZulipVersion(${raw2}).elements()`, () => {
+    expect(new ZulipVersion(raw2).elements()).toStrictEqual({
+      major: 2,
+      minor: 1,
+      patch: 0,
+      flag: ['rc', 1],
+      numCommits: 112,
+      commitId: '35959d43c4',
+    });
   });
 });
