@@ -856,7 +856,7 @@ var compiledWebviewJs = (function (exports) {
     var messageElement = target.closest('.message-brief');
 
     if (messageElement) {
-      messageElement.getElementsByClassName('timestamp')[0].classList.toggle('show');
+      messageElement.getElementsByClassName('msg-timestamp')[0].classList.toggle('show');
       return;
     }
   });

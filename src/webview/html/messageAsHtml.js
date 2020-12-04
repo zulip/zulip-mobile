@@ -95,7 +95,7 @@ export default (backgroundData: BackgroundData, message: Message | Outbox, isBri
 
   const timestampHtml = (showOnRender: boolean) => template`
 <div class="time-container">
-  <div class="timestamp ${showOnRender ? 'show' : ''}">
+  <div class="msg-timestamp ${showOnRender ? 'show' : ''}">
     ${messageTime}
   </div>
 </div>

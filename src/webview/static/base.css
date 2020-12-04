@@ -265,7 +265,7 @@ body {
   width: 10rem;
   background-color: hsla(0, 0%, 50%, 0.9);
 }
-.loading-subheader .timestamp {
+.loading-subheader .msg-timestamp {
   width: 5rem;
 }
 @keyframes spin {
@@ -332,7 +332,7 @@ body {
   overflow: hidden;
   pointer-events: none;
 }
-.timestamp {
+.msg-timestamp {
   position: absolute;
   right: 4px;
   transform: translateX(100%);
@@ -349,7 +349,7 @@ body {
       0px 2px 2px  0px hsla(0, 0%, 0%, 0.14),
       0px 1px 5px  0px hsla(0, 0%, 0%, 0.12);
 }
-.timestamp.show {
+.msg-timestamp.show {
   right: 8px;
   transform: none;
 }

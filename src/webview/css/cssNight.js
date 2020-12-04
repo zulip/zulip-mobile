@@ -8,7 +8,7 @@ body {
 .topic-header {
   background: hsl(212, 13%, 38%);
 }
-.timestamp {
+.msg-timestamp {
   background: hsl(212, 28%, 25%);
 }
 .highlight {

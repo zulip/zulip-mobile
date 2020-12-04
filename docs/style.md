@@ -313,6 +313,31 @@ apart from related functions at different layers.
 
 ## WebView: HTML, CSS, JS
 
+### HTML classes
+
+The set of HTML classes that can appear in the message-content HTML
+should be considered part of the Zulip API. To prevent unexpected
+interference, we should avoid using any of them in our own HTML that
+wraps and enhances the message-content HTML. This should be observed
+even for names that are no longer used in current Zulip Server
+versions -- not only because some servers will still be on old
+versions, but also because old messages generally aren't re-rendered
+into HTML even after the rendering logic changes.
+
+We could consider guarding against names that show up in future server
+versions, with a mildly annoying name-prefixing scheme. But in the
+status quo, problems have been infrequent, so we can consider that
+later.
+
+One observed problem was with our use of `timestamp` (now called
+`msg-timestamp`) as a class, for our timestamp pills. For just a few
+weeks, between zulip/zulip@648307ef3 and zulip/zulip@6ea3816fa, some
+messages were sent in which the `timestamp` class was present in the
+message-content HTML, and it caused the timestamp pills to display
+very weirdly. So we stopped using `timestamp` and renamed the existing
+occurrences to `msg-timestamp`, and those messages showed up
+correctly.
+
 ### Styling/CSS
 
 **Use `px`, sometimes `rem`, no `em`:** For CSS lengths in the
