@@ -31,8 +31,9 @@ export class ZulipVersion {
 
   constructor(raw: string) {
     this._raw = raw;
-    this._comparisonArray = this._getComparisonArray(raw);
-    this._elements = this._getElements(raw);
+    const elements = ZulipVersion._getElements(raw);
+    this._comparisonArray = ZulipVersion._getComparisonArray(elements);
+    this._elements = elements;
   }
 
   /**
@@ -70,7 +71,7 @@ export class ZulipVersion {
   /**
    * Parse the raw string into a VersionElements.
    */
-  _getElements = (raw: string): VersionElements => {
+  static _getElements = (raw: string): VersionElements => {
     const result: VersionElements = {
       major: undefined,
       minor: undefined,
@@ -114,8 +115,8 @@ export class ZulipVersion {
   /**
    * Compute a number[] to be used in .isAtLeast comparisons.
    */
-  _getComparisonArray = (raw: string): number[] => {
-    const { major, minor, patch, flag, numCommits } = this._getElements(raw);
+  static _getComparisonArray = (elements: VersionElements): number[] => {
+    const { major, minor, patch, flag, numCommits } = elements;
     const result: number[] = [];
 
     // Push major, minor, and patch first, then trim trailing zeroes.
