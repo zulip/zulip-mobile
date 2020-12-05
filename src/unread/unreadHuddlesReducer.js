@@ -8,7 +8,7 @@ import {
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
-import { pmUnreadsKeyFromMessage } from '../utils/recipient';
+import { pmUnreadsKeyFromMessage, recipientsOfPrivateMessage } from '../utils/recipient';
 import { addItemsToHuddleArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
 
@@ -19,7 +19,7 @@ const eventNewMessage = (state, action) => {
     return state;
   }
 
-  if (action.message.display_recipient.length < 3) {
+  if (recipientsOfPrivateMessage(action.message).length < 3) {
     return state;
   }
 

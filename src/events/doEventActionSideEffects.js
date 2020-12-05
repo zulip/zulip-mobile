@@ -21,9 +21,8 @@ const messageEvent = (state: GlobalState, message: Message): void => {
     return;
   }
 
-  const isPrivateMessage = Array.isArray(message.display_recipient);
   const isMentioned = flags.includes('mentioned') || flags.includes('wildcard_mentioned');
-  if (!(isPrivateMessage || isMentioned)) {
+  if (!(message.type === 'private' || isMentioned)) {
     return;
   }
 

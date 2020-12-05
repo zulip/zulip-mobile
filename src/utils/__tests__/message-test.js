@@ -28,6 +28,7 @@ describe('shouldBeMuted', () => {
 
   test('message in a stream is muted if stream is not in mute list', () => {
     const message = {
+      type: 'stream',
       display_recipient: 'stream',
     };
 
@@ -38,6 +39,7 @@ describe('shouldBeMuted', () => {
 
   test('message in a stream is muted if the stream is muted', () => {
     const message = {
+      type: 'stream',
       display_recipient: 'stream',
     };
     const subscriptions = [
@@ -53,6 +55,7 @@ describe('shouldBeMuted', () => {
 
   test('message in a stream is muted if the topic is muted and topic matches', () => {
     const message = {
+      type: 'stream',
       display_recipient: 'stream',
       subject: 'topic',
     };

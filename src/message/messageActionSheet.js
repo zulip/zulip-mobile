@@ -153,7 +153,8 @@ deleteTopic.title = 'Delete topic';
 deleteTopic.errorMessage = 'Failed to delete topic';
 
 const unmuteStream = async ({ auth, message, subscriptions }) => {
-  const sub = subscriptions.find(x => x.name === message.display_recipient);
+  invariant(message.type === 'stream', 'unmuteStream: got PM');
+  const sub = subscriptions.find(x => x.name === streamNameOfStreamMessage(message));
   if (sub) {
     await api.toggleMuteStream(auth, sub.stream_id, false);
   }
@@ -162,7 +163,8 @@ unmuteStream.title = 'Unmute stream';
 unmuteStream.errorMessage = 'Failed to unmute stream';
 
 const muteStream = async ({ auth, message, subscriptions }) => {
-  const sub = subscriptions.find(x => x.name === message.display_recipient);
+  invariant(message.type === 'stream', 'muteStream: got PM');
+  const sub = subscriptions.find(x => x.name === streamNameOfStreamMessage(message));
   if (sub) {
     await api.toggleMuteStream(auth, sub.stream_id, true);
   }

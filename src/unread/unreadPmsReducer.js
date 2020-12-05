@@ -10,6 +10,7 @@ import {
 } from '../actionConstants';
 import { addItemsToPmArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
+import { recipientsOfPrivateMessage } from '../utils/recipient';
 
 const initialState: UnreadPmsState = NULL_ARRAY;
 
@@ -18,7 +19,7 @@ const eventNewMessage = (state, action) => {
     return state;
   }
 
-  if (action.message.display_recipient.length !== 2) {
+  if (recipientsOfPrivateMessage(action.message).length !== 2) {
     return state;
   }
 

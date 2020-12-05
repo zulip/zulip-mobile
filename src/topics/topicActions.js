@@ -6,6 +6,7 @@ import { isStreamNarrow } from '../utils/narrow';
 import { getAuth, getStreams } from '../selectors';
 import { deleteOutboxMessage } from '../actions';
 import { getOutbox } from '../directSelectors';
+import { streamNameOfStreamMessage } from '../utils/recipient';
 
 export const initTopics = (topics: Topic[], streamId: number): Action => ({
   type: INIT_TOPICS,
@@ -46,7 +47,7 @@ export const deleteMessagesForTopic = (streamName: string, topic: string) => asy
   outbox.forEach((outboxMessage: Outbox) => {
     if (
       outboxMessage.type === 'stream'
-      && outboxMessage.display_recipient === streamName
+      && streamNameOfStreamMessage(outboxMessage) === streamName
       && outboxMessage.subject === topic
     ) {
       dispatch(deleteOutboxMessage(outboxMessage.id));

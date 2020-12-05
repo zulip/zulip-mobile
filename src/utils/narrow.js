@@ -3,7 +3,12 @@ import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
 
 import type { Narrow, Message, Outbox, User } from '../types';
-import { normalizeRecipientsSansMe, recipientsOfPrivateMessage } from './recipient';
+import {
+  normalizeRecipientsSansMe,
+  pmKeyRecipientsFromMessage,
+  recipientsOfPrivateMessage,
+  streamNameOfStreamMessage,
+} from './recipient';
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
@@ -279,9 +284,11 @@ export const isMessageInNarrow = (
 
   return caseNarrow(narrow, {
     home: () => true,
-    stream: name => name === message.display_recipient,
+    stream: name => message.type === 'stream' && name === streamNameOfStreamMessage(message),
     topic: (streamName, topic) =>
-      streamName === message.display_recipient && topic === message.subject,
+      message.type === 'stream'
+      && streamName === streamNameOfStreamMessage(message)
+      && topic === message.subject,
     pm: email => matchPmRecipients([email]),
     groupPm: matchPmRecipients,
     starred: () => flags.includes('starred'),
@@ -313,17 +320,14 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
  */
 // TODO: do that, or just make this a private local helper of its one caller
 export const getNarrowFromMessage = (message: Message | Outbox, ownUser: User) => {
-  if (Array.isArray(message.display_recipient)) {
-    const recipient =
-      message.display_recipient.length > 1
-        ? message.display_recipient.filter(x => x.id !== ownUser.user_id)
-        : message.display_recipient;
-    return groupNarrow(recipient.map(x => x.email));
+  if (message.type === 'private') {
+    return groupNarrow(pmKeyRecipientsFromMessage(message, ownUser).map(x => x.email));
+  } else {
+    const streamName = streamNameOfStreamMessage(message);
+    const topic = message.subject;
+    if (topic && topic.length) {
+      return topicNarrow(streamName, topic);
+    }
+    return streamNarrow(streamName);
   }
-
-  if (message.subject && message.subject.length) {
-    return topicNarrow(message.display_recipient, message.subject);
-  }
-
-  return streamNarrow(message.display_recipient);
 };
