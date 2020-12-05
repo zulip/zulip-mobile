@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import invariant from 'invariant';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import omit from 'lodash.omit';
@@ -308,10 +309,9 @@ describe('fetchActions', () => {
       expect(actions.length).toBeGreaterThanOrEqual(1);
       const [action] = actions;
       expect(action.type).toBe('MESSAGE_FETCH_START');
-      if (action.type === 'MESSAGE_FETCH_START') {
-        expect(action.numBefore).toBeGreaterThan(0);
-        expect(action.numAfter).toBeGreaterThan(0);
-      }
+      invariant(action.type === 'MESSAGE_FETCH_START', 'expect failed');
+      expect(action.numBefore).toBeGreaterThan(0);
+      expect(action.numAfter).toBeGreaterThan(0);
     });
 
     test('when no messages to be fetched before the anchor, numBefore is not greater than zero', async () => {
@@ -334,9 +334,8 @@ describe('fetchActions', () => {
       expect(actions.length).toBeGreaterThanOrEqual(1);
       const [action] = actions;
       expect(action.type).toBe('MESSAGE_FETCH_START');
-      if (action.type === 'MESSAGE_FETCH_START') {
-        expect(action.numBefore).not.toBeGreaterThan(0);
-      }
+      invariant(action.type === 'MESSAGE_FETCH_START', 'expect failed');
+      expect(action.numBefore).not.toBeGreaterThan(0);
     });
 
     test('when no messages to be fetched after the anchor, numAfter is not greater than zero', async () => {
@@ -359,9 +358,8 @@ describe('fetchActions', () => {
       expect(actions.length).toBeGreaterThanOrEqual(1);
       const [action] = actions;
       expect(action.type).toBe('MESSAGE_FETCH_START');
-      if (action.type === 'MESSAGE_FETCH_START') {
-        expect(action.numAfter).not.toBeGreaterThan(0);
-      }
+      invariant(action.type === 'MESSAGE_FETCH_START', 'expect failed');
+      expect(action.numAfter).not.toBeGreaterThan(0);
     });
   });
 
@@ -401,9 +399,8 @@ describe('fetchActions', () => {
       expect(actions).toHaveLength(1);
       const [action] = actions;
       expect(action.type).toBe('MESSAGE_FETCH_START');
-      if (action.type === 'MESSAGE_FETCH_START') {
-        expect(action.numBefore).toBeGreaterThan(0);
-      }
+      invariant(action.type === 'MESSAGE_FETCH_START', 'expect failed');
+      expect(action.numBefore).toBeGreaterThan(0);
     });
 
     test('when caughtUp older is true, no action is dispatched', async () => {
@@ -494,9 +491,8 @@ describe('fetchActions', () => {
       expect(actions).toHaveLength(1);
       const [action] = actions;
       expect(action.type).toBe('MESSAGE_FETCH_START');
-      if (action.type === 'MESSAGE_FETCH_START') {
-        expect(action.numAfter).toBeGreaterThan(0);
-      }
+      invariant(action.type === 'MESSAGE_FETCH_START', 'expect failed');
+      expect(action.numAfter).toBeGreaterThan(0);
     });
 
     test('when caughtUp newer is true, no action is dispatched', async () => {
