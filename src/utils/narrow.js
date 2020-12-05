@@ -2,7 +2,7 @@
 import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
 
-import type { Narrow, Message, Outbox } from '../types';
+import type { Narrow, Message, Outbox, User } from '../types';
 import { normalizeRecipientsSansMe, recipientsOfPrivateMessage } from './recipient';
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
@@ -304,11 +304,19 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
     search: () => false,
   });
 
-export const getNarrowFromMessage = (message: Message | Outbox, ownEmail: string) => {
+/**
+ * Careful: quirky behavior on a stream message with empty topic.
+ *
+ * If you think you want to reuse this function: study carefully; maybe
+ * refactor it to something cleaner first; if not, then definitely document
+ * its quirky behavior.
+ */
+// TODO: do that, or just make this a private local helper of its one caller
+export const getNarrowFromMessage = (message: Message | Outbox, ownUser: User) => {
   if (Array.isArray(message.display_recipient)) {
     const recipient =
       message.display_recipient.length > 1
-        ? message.display_recipient.filter(x => x.email !== ownEmail)
+        ? message.display_recipient.filter(x => x.id !== ownUser.user_id)
         : message.display_recipient;
     return groupNarrow(recipient.map(x => x.email));
   }

@@ -298,13 +298,11 @@ describe('isMessageInNarrow', () => {
 });
 
 describe('getNarrowFromMessage', () => {
-  const ownEmail = eg.selfUser.email;
-
   test('for self-PM, returns self-1:1 narrow', () => {
     expect(
       getNarrowFromMessage(
         eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] }),
-        ownEmail,
+        eg.selfUser,
       ),
     ).toEqual(privateNarrow(eg.selfUser.email));
   });
@@ -313,7 +311,7 @@ describe('getNarrowFromMessage', () => {
     const message = eg.pmMessage();
     const expectedNarrow = privateNarrow(eg.otherUser.email);
 
-    const actualNarrow = getNarrowFromMessage(message, ownEmail);
+    const actualNarrow = getNarrowFromMessage(message, eg.selfUser);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -324,7 +322,7 @@ describe('getNarrowFromMessage', () => {
     });
     const expectedNarrow = groupNarrow([eg.otherUser.email, eg.thirdUser.email]);
 
-    const actualNarrow = getNarrowFromMessage(message, ownEmail);
+    const actualNarrow = getNarrowFromMessage(message, eg.selfUser);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -334,7 +332,7 @@ describe('getNarrowFromMessage', () => {
     const message = eg.streamMessage({ subject: '' });
     const expectedNarrow = streamNarrow(eg.stream.name);
 
-    const actualNarrow = getNarrowFromMessage(message, ownEmail);
+    const actualNarrow = getNarrowFromMessage(message, eg.selfUser);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -343,7 +341,7 @@ describe('getNarrowFromMessage', () => {
     const message = eg.streamMessage();
     const expectedNarrow = topicNarrow(eg.stream.name, message.subject);
 
-    const actualNarrow = getNarrowFromMessage(message, ownEmail);
+    const actualNarrow = getNarrowFromMessage(message, eg.selfUser);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });

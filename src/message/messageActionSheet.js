@@ -41,7 +41,7 @@ type ButtonDescription = {
   /** The callback. */
   ({
     auth: Auth,
-    ownEmail: string,
+    ownUser: User,
     message: Message | Outbox,
     subscriptions: Subscription[],
     dispatch: Dispatch,
@@ -60,8 +60,8 @@ type ButtonDescription = {
 // Options for the action sheet go below: ...
 //
 
-const reply = ({ message, dispatch, ownEmail }) => {
-  dispatch(doNarrow(getNarrowFromMessage(message, ownEmail), message.id));
+const reply = ({ message, dispatch, ownUser }) => {
+  dispatch(doNarrow(getNarrowFromMessage(message, ownUser), message.id));
 };
 reply.title = 'Reply';
 reply.errorMessage = 'Failed to reply';
@@ -116,7 +116,7 @@ const muteTopic = async ({ auth, message }) => {
 muteTopic.title = 'Mute topic';
 muteTopic.errorMessage = 'Failed to mute topic';
 
-const deleteTopic = async ({ auth, message, dispatch, ownEmail, _ }) => {
+const deleteTopic = async ({ auth, message, dispatch, _ }) => {
   invariant(message.type === 'stream', 'deleteTopic: got PM');
   const alertTitle = _('Are you sure you want to delete the topic “{topic}”?', {
     topic: message.subject,
@@ -369,7 +369,7 @@ export const showActionSheet = (
         await pressedButton({
           subscriptions: params.backgroundData.subscriptions,
           auth: params.backgroundData.auth,
-          ownEmail: params.backgroundData.ownUser.email,
+          ownUser: params.backgroundData.ownUser,
           ...params,
           ...callbacks,
         });
