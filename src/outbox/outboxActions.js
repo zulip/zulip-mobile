@@ -2,16 +2,8 @@
 import parseMarkdown from 'zulip-markdown-parser';
 
 import * as logging from '../utils/logging';
-import type {
-  Dispatch,
-  GetState,
-  GlobalState,
-  NamedUser,
-  Narrow,
-  Outbox,
-  UserOrBot,
-  Action,
-} from '../types';
+import type { Dispatch, GetState, GlobalState, Narrow, Outbox, UserOrBot, Action } from '../types';
+import type { SubsetProperties } from '../generics';
 import {
   MESSAGE_SEND_START,
   TOGGLE_OUTBOX_SENDING,
@@ -121,12 +113,10 @@ const mapEmailsToUsers = (emails, allUsersByEmail, ownUser) => {
   return result;
 };
 
-// TODO type: `string | NamedUser[]` is a bit confusing.
-type DataFromNarrow = {|
-  type: 'private' | 'stream',
-  display_recipient: string | NamedUser[],
-  subject: string,
-|};
+type DataFromNarrow = SubsetProperties<
+  Outbox,
+  {| type: mixed, display_recipient: mixed, subject: mixed |},
+>;
 
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,

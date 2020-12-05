@@ -309,12 +309,6 @@ export type TimingItemType = {|
   endMs: number,
 |};
 
-export type NamedUser = {|
-  id: number,
-  email: string,
-  full_name: string,
-|};
-
 export type TabNavigationOptionsPropsType = {|
   isFocussed: boolean,
   tintColor: string,
