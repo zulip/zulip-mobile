@@ -294,7 +294,7 @@ definitely mean a bug within our own zulip-mobile codebase.
 [flow-invariant-pseudodocs]: https://github.com/facebook/flow/issues/6052
 
 
-## Internal to our codebase
+## Internal to Zulip and our codebase
 
 ### Zulip API bindings
 
@@ -328,6 +328,22 @@ creators.  Moreover, the API bindings tend to be imported into scope
 in exactly the same places as we're defining those other values.  The
 `api.*` naming gives a convenient, regular way to tell the API binding
 apart from related functions at different layers.
+
+
+### Zulip data model
+
+**Avoid using `display_recipient` directly**: When inspecting a
+`Message` object, or a relative like `Outbox`, never consume its
+`display_recipient` property directly.  Instead, always use one of the
+helper functions found in `src/utils/recipient.js`.
+
+One reason we do this is because the type and the semantics of that
+property, which we take directly from message objects provided by the
+Zulip server API, are complicated and have some legacy quirks; using
+the helper functions helps keep other code simpler and well-typed.
+Using the helper functions also helps us find all the places in the
+code where we're using a given aspect of the `display_recipient`
+semantics, which makes refactoring easier.
 
 
 ## WebView: HTML, CSS, JS
