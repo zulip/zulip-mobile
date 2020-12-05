@@ -300,10 +300,17 @@ describe('isMessageInNarrow', () => {
 describe('getNarrowFromMessage', () => {
   const ownEmail = eg.selfUser.email;
 
-  test('message with single recipient, returns a private narrow', () => {
-    const message = eg.pmMessage({
-      display_recipient: [eg.displayRecipientFromUser(eg.otherUser)],
-    });
+  test('for self-PM, returns self-1:1 narrow', () => {
+    expect(
+      getNarrowFromMessage(
+        eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] }),
+        ownEmail,
+      ),
+    ).toEqual(privateNarrow(eg.selfUser.email));
+  });
+
+  test('for 1:1 PM, returns a 1:1 PM narrow', () => {
+    const message = eg.pmMessage();
     const expectedNarrow = privateNarrow(eg.otherUser.email);
 
     const actualNarrow = getNarrowFromMessage(message, ownEmail);
@@ -311,9 +318,9 @@ describe('getNarrowFromMessage', () => {
     expect(actualNarrow).toEqual(expectedNarrow);
   });
 
-  test('for message with multiple recipients, return a group narrow', () => {
+  test('for group PM, returns a group PM narrow', () => {
     const message = eg.pmMessage({
-      display_recipient: [eg.otherUser, eg.thirdUser].map(eg.displayRecipientFromUser),
+      recipients: [eg.selfUser, eg.otherUser, eg.thirdUser],
     });
     const expectedNarrow = groupNarrow([eg.otherUser.email, eg.thirdUser.email]);
 
@@ -322,7 +329,8 @@ describe('getNarrowFromMessage', () => {
     expect(actualNarrow).toEqual(expectedNarrow);
   });
 
-  test('if recipient of a message is string, returns a stream narrow', () => {
+  test('for stream message with empty topic, returns a stream narrow', () => {
+    // TODO this behavior seems pretty dubious
     const message = eg.streamMessage({ subject: '' });
     const expectedNarrow = streamNarrow(eg.stream.name);
 
@@ -331,7 +339,7 @@ describe('getNarrowFromMessage', () => {
     expect(actualNarrow).toEqual(expectedNarrow);
   });
 
-  test('if recipient is a string and there is a subject returns a topic narrow', () => {
+  test('for stream message with nonempty topic, returns a topic narrow', () => {
     const message = eg.streamMessage();
     const expectedNarrow = topicNarrow(eg.stream.name, message.subject);
 
