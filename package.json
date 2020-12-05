@@ -48,6 +48,7 @@
     "expo-screen-orientation": "^1.0.0",
     "expo-splash-screen": "^0.5.0",
     "immutable": "^4.0.0-rc.12",
+    "invariant": "^2.2.4",
     "json-stringify-safe": "^5.0.1",
     "katex": "^0.11.1",
     "lodash.escape": "^4.0.1",

@@ -275,6 +275,25 @@ pick just one, and that's the one we use.
 [gh-close-issue-keywords]: https://help.github.com/en/github/managing-your-work-on-github/closing-issues-using-keywords
 
 
+## JavaScript and Flow
+
+**Use `invariant` for runtime assertions the type-checker can use**:
+If there's a fact you're sure is true at a certain point in the code,
+and you want the type-checker to know it so it will accept the code
+that comes after, then go ahead and assert that fact with the
+`invariant` function.
+
+Flow [has a feature][flow-invariant-pseudodocs] (albeit not well
+documented) where a call `invariant(foo, …)` is treated much like
+saying `if (!foo) { throw new Error(…); }`.  Meanwhile at runtime,
+that's essentially what the implementation of `invariant` does.
+
+Use `invariant` only for conditions which, if they ever failed, would
+definitely mean a bug within our own zulip-mobile codebase.
+
+[flow-invariant-pseudodocs]: https://github.com/facebook/flow/issues/6052
+
+
 ## Internal to our codebase
 
 ### Zulip API bindings

@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import invariant from 'invariant';
 import isEqual from 'lodash.isequal';
 import { createSelector } from 'reselect';
 
@@ -107,9 +108,7 @@ export const getRecipientsInGroupNarrow: Selector<UserOrBot[], Narrow> = createS
   (narrow, allUsersByEmail) =>
     emailsOfGroupNarrow(narrow).map(r => {
       const user = allUsersByEmail.get(r);
-      if (user === undefined) {
-        throw new Error(`missing user: ${r}`);
-      }
+      invariant(user, 'missing user: %s', r);
       return user;
     }),
 );
