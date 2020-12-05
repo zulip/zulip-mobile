@@ -15,7 +15,6 @@ import {
 import {
   MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
-  EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../../actionConstants';
@@ -23,10 +22,11 @@ import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../anchor';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('narrowsReducer', () => {
-  const privateNarrowStr = JSON.stringify(privateNarrow('mark@example.com'));
-  const groupNarrowStr = JSON.stringify(groupNarrow(['mark@example.com', 'john@example.com']));
-  const streamNarrowStr = JSON.stringify(streamNarrow('some stream'));
-  const topicNarrowStr = JSON.stringify(topicNarrow('some stream', 'some topic'));
+  const privateNarrowStr = JSON.stringify(privateNarrow(eg.otherUser.email));
+  const groupNarrowStr = JSON.stringify(groupNarrow([eg.otherUser.email, eg.thirdUser.email]));
+  const streamNarrowStr = JSON.stringify(streamNarrow(eg.stream.name));
+  const egTopic = eg.streamMessage().subject;
+  const topicNarrowStr = JSON.stringify(topicNarrow(eg.stream.name, egTopic));
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('if not caught up in narrow, do not add message in home narrow', () => {
@@ -34,18 +34,11 @@ describe('narrowsReducer', () => {
         [HOME_NARROW_STR]: [1, 2],
       });
 
-      const message = eg.streamMessage({
-        id: 3,
-        display_recipient: 'some stream',
-        subject: 'some topic',
-        flags: [],
-      });
+      const message = eg.streamMessage({ id: 3, flags: [] });
 
       const action = deepFreeze({
         ...eg.eventNewMessageActionBase,
-        type: EVENT_NEW_MESSAGE,
         message,
-        caughtUp: {},
       });
 
       const newState = narrowsReducer(initialState, action);
@@ -90,17 +83,11 @@ describe('narrowsReducer', () => {
         [topicNarrowStr]: [1, 2],
       });
 
-      const message = eg.streamMessage({
-        id: 3,
-        flags: [],
-        display_recipient: 'stream',
-        subject: 'topic',
-      });
+      const message = eg.streamMessage({ id: 3, flags: [], stream: eg.makeStream() });
 
       const action = deepFreeze({
         ...eg.eventNewMessageActionBase,
         message,
-        caughtUp: {},
       });
 
       const newState = narrowsReducer(initialState, action);
@@ -118,13 +105,12 @@ describe('narrowsReducer', () => {
     });
     const message = eg.pmMessage({
       id: 1,
-      display_recipient: [{ email: 'me@example.com' }, { email: 'a@a.com' }, { email: 'b@b.com' }],
+      recipients: [eg.selfUser, eg.otherUser, eg.thirdUser],
       flags: [],
     });
     const action = deepFreeze({
       ...eg.eventNewMessageActionBase,
       message,
-      ownEmail: 'me@example.com',
       caughtUp: {
         [ALL_PRIVATE_NARROW_STR]: { older: true, newer: true },
       },
@@ -144,12 +130,7 @@ describe('narrowsReducer', () => {
       [topicNarrowStr]: [2],
     });
 
-    const message = eg.streamMessage({
-      id: 3,
-      flags: [],
-      display_recipient: 'some stream',
-      subject: 'some topic',
-    });
+    const message = eg.streamMessage({ id: 3, flags: [] });
 
     const action = deepFreeze({
       ...eg.eventNewMessageActionBase,
@@ -176,7 +157,7 @@ describe('narrowsReducer', () => {
   });
 
   test('message sent to self is stored correctly', () => {
-    const narrowWithSelfStr = JSON.stringify(privateNarrow('me@example.com'));
+    const narrowWithSelfStr = JSON.stringify(privateNarrow(eg.selfUser.email));
     const initialState = deepFreeze({
       [HOME_NARROW_STR]: [],
       [narrowWithSelfStr]: [],
@@ -184,13 +165,13 @@ describe('narrowsReducer', () => {
 
     const message = eg.pmMessage({
       id: 1,
-      display_recipient: [{ email: 'me@example.com' }],
+      sender: eg.selfUser,
+      recipients: [eg.selfUser],
       flags: [],
     });
 
     const action = deepFreeze({
       ...eg.eventNewMessageActionBase,
-      ownEmail: 'me@example.com',
       message,
       caughtUp: {
         [HOME_NARROW_STR]: { older: false, newer: true },
@@ -219,12 +200,7 @@ describe('narrowsReducer', () => {
       [groupNarrowStr]: [2, 4],
     });
 
-    const message = eg.streamMessage({
-      id: 5,
-      flags: [],
-      display_recipient: 'some stream',
-      subject: 'some topic',
-    });
+    const message = eg.streamMessage({ id: 5, flags: [] });
 
     const action = deepFreeze({
       ...eg.eventNewMessageActionBase,
@@ -290,7 +266,7 @@ describe('narrowsReducer', () => {
       id: 5,
       flags: [],
       sender: eg.selfUser,
-      display_recipient: [eg.displayRecipientFromUser(eg.selfUser), { email: 'mark@example.com' }],
+      recipients: [eg.selfUser, eg.otherUser],
     });
 
     const action = deepFreeze({
@@ -430,7 +406,7 @@ describe('narrowsReducer', () => {
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
         anchor: 2,
-        narrow: privateNarrow('mark@example.com'),
+        narrow: privateNarrow(eg.otherUser.email),
         messages: [],
         numBefore: 100,
         numAfter: 100,
@@ -440,7 +416,7 @@ describe('narrowsReducer', () => {
 
       const expectedState = {
         [HOME_NARROW_STR]: [1, 2, 3],
-        [JSON.stringify(privateNarrow('mark@example.com'))]: [],
+        [JSON.stringify(privateNarrow(eg.otherUser.email))]: [],
       };
 
       const newState = narrowsReducer(initialState, action);
