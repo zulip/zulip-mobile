@@ -9,11 +9,14 @@ import type { PmRecipientUser, Message, Outbox, User } from '../types';
 // This is a module-private helper.  See callers for what this set of
 // conditions *means* -- two different things, in fact, that have the same
 // behavior by coincidence.
-const filterRecipients = (recipients: PmRecipientUser[], ownUserId: number): PmRecipientUser[] =>
+const filterRecipients = (
+  recipients: $ReadOnlyArray<PmRecipientUser>,
+  ownUserId: number,
+): $ReadOnlyArray<PmRecipientUser> =>
   recipients.length === 1 ? recipients : recipients.filter(r => r.id !== ownUserId);
 
 // TODO types: this union is confusing
-export const normalizeRecipients = (recipients: $ReadOnlyArray<{ email: string, ... }> | string) =>
+export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string, ... }> | string) =>
   !Array.isArray(recipients)
     ? recipients
     : recipients
@@ -31,7 +34,7 @@ export const normalizeRecipients = (recipients: $ReadOnlyArray<{ email: string, 
  * Users are sorted by email address.
  */
 export const normalizeRecipientsSansMe = (
-  recipients: $ReadOnlyArray<{ email: string, ... }>,
+  recipients: $ReadOnlyArray<{ +email: string, ... }>,
   ownEmail: string,
 ) =>
   recipients.length === 1
@@ -39,7 +42,7 @@ export const normalizeRecipientsSansMe = (
     : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
 
 export const normalizeRecipientsAsUserIds = (
-  recipients: $ReadOnlyArray<{ user_id: number, ... }>,
+  recipients: $ReadOnlyArray<{ +user_id: number, ... }>,
 ) =>
   recipients
     .map(s => s.user_id)
@@ -56,7 +59,7 @@ export const normalizeRecipientsAsUserIds = (
 // server's behavior is quirkier... but we keep only one user for those
 // anyway, so it doesn't matter.
 export const normalizeRecipientsAsUserIdsSansMe = (
-  recipients: $ReadOnlyArray<{ user_id: number, ... }>,
+  recipients: $ReadOnlyArray<{ +user_id: number, ... }>,
   ownUserId: number,
 ) =>
   recipients.length === 1
@@ -74,7 +77,7 @@ export const normalizeRecipientsAsUserIdsSansMe = (
 export const pmUiRecipientsFromMessage = (
   message: Message | Outbox,
   ownUser: User,
-): PmRecipientUser[] => {
+): $ReadOnlyArray<PmRecipientUser> => {
   if (message.type !== 'private') {
     throw new Error('pmUiRecipientsFromMessage: expected PM, got stream message');
   }
@@ -111,7 +114,7 @@ export const pmUiRecipientsFromMessage = (
 export const pmKeyRecipientsFromMessage = (
   message: Message | Outbox,
   ownUser: User,
-): PmRecipientUser[] => {
+): $ReadOnlyArray<PmRecipientUser> => {
   if (message.type !== 'private') {
     throw new Error('pmKeyRecipientsFromMessage: expected PM, got stream message');
   }
