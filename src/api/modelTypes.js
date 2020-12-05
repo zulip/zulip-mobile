@@ -380,15 +380,17 @@ export type MessageEdit = $ReadOnly<{|
 |}>;
 
 /** A user, as seen in the `display_recipient` of a PM `Message`. */
-export type PmRecipientUser = {|
+export type PmRecipientUser = $ReadOnly<{|
   // These five fields (id, email, full_name, short_name, is_mirror_dummy)
   // have all been present since server commit 6b13f4a3c, in 2014.
   id: number,
   email: string,
   full_name: string,
-  short_name: string,
-  is_mirror_dummy: boolean,
-|};
+  // We mark short_name and is_mirror_dummy optional so we can leave them
+  // out of Outbox values; we never rely on them anyway.
+  short_name?: string,
+  is_mirror_dummy?: boolean,
+|}>;
 
 /**
  * Submessages are items containing extra data that can be added to a
@@ -535,7 +537,7 @@ export type Message = $ReadOnly<{|
    *
    * For stream messages, prefer `stream_id`; see #3918.
    */
-  display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
+  display_recipient: string | $ReadOnlyArray<PmRecipientUser>, // `string` for type stream, else PmRecipientUser[]
 
   /** Deprecated; a server implementation detail not useful in a client. */
   recipient_id: number,

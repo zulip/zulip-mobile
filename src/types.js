@@ -2,7 +2,7 @@
 import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Auth, Topic, Message, Reaction, ReactionType } from './api/apiTypes';
+import type { Auth, Topic, Message, PmRecipientUser, Reaction, ReactionType } from './api/apiTypes';
 import type { ZulipVersion } from './utils/zulipVersion';
 
 export type * from './generics';
@@ -179,7 +179,7 @@ export type Outbox = {|
 
   avatar_url: string | null,
   content: string,
-  display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
+  display_recipient: string | $ReadOnlyArray<PmRecipientUser>, // `string` for type stream, else PmRecipientUser[]
   id: number,
   reactions: Reaction[],
   sender_email: string,
