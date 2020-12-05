@@ -313,30 +313,27 @@ apart from related functions at different layers.
 
 ## WebView: HTML, CSS, JS
 
-### HTML classes
+### HTML
 
-The set of HTML classes that can appear in the message-content HTML
-should be considered part of the Zulip API. To prevent unexpected
-interference, we should avoid using any of them in our own HTML that
-wraps and enhances the message-content HTML. This should be observed
-even for names that are no longer used in current Zulip Server
-versions -- not only because some servers will still be on old
+**Avoid classes that the server might use in messages:** In our own
+HTML in the webview, we avoid using any class names which appear in
+message content as rendered by the server.
+
+There isn't a single comprehensive list of these.  Most of them can be
+found in `static/styles/rendered_markdown.css` in zulip/zulip, which
+is where the webapp styles the message content.  In addition to names
+used in current Zulip Server versions, we need to avoid those used in
+the past -- not only because some servers will still be on old
 versions, but also because old messages generally aren't re-rendered
 into HTML even after the rendering logic changes.
 
-We could consider guarding against names that show up in future server
-versions, with a mildly annoying name-prefixing scheme. But in the
-status quo, problems have been infrequent, so we can consider that
-later.
+(In principle we should take steps to avoid future names, too.  We
+don't worry about that for now, because this hasn't often been a problem.)
 
-One observed problem was with our use of `timestamp` (now called
-`msg-timestamp`) as a class, for our timestamp pills. For just a few
-weeks, between zulip/zulip@648307ef3 and zulip/zulip@6ea3816fa, some
-messages were sent in which the `timestamp` class was present in the
-message-content HTML, and it caused the timestamp pills to display
-very weirdly. So we stopped using `timestamp` and renamed the existing
-occurrences to `msg-timestamp`, and those messages showed up
-correctly.
+See [chat discussion][class-conflict-chat] for further rationale.
+
+[class-conflict-chat]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/Weird.20timestamps/near/1075485
+
 
 ### Styling/CSS
 
