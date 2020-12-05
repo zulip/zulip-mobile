@@ -2,7 +2,8 @@
 import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Auth, Topic, Message, PmRecipientUser, Reaction, ReactionType } from './api/apiTypes';
+import type { SubsetProperties } from './generics';
+import type { Auth, Topic, Message, ReactionType } from './api/apiTypes';
 import type { ZulipVersion } from './utils/zulipVersion';
 
 export type * from './generics';
@@ -158,7 +159,7 @@ export type TopicExtended = {|
  * This type most often appears in the union `Message | Outbox`, and so its
  * properties are deliberately similar to those of `Message`.
  */
-export type Outbox = {|
+export type Outbox = $ReadOnly<{|
   /** Used for distinguishing from a `Message` object. */
   isOutbox: true,
 
@@ -177,24 +178,29 @@ export type Outbox = {|
 
   // The remaining fields are modeled on `Message`.
 
-  avatar_url: string | null,
-  content: string,
-  display_recipient: string | $ReadOnlyArray<PmRecipientUser>, // `string` for type stream, else PmRecipientUser[]
-  id: number,
-  reactions: Reaction[],
-  sender_email: string,
-  sender_full_name: string,
-
   // TODO(#3764): Make sender_id required.  Needs a migration to drop Outbox
   //   values that lack it; which is fine once the release that adds it has
   //   been out for a few weeks.
   //   (Also drop the hack line about it in MessageLike.)
   sender_id?: number,
 
-  subject: string,
-  timestamp: number,
-  type: 'stream' | 'private',
-|};
+  /* eslint-disable flowtype/generic-spacing */
+  ...SubsetProperties<
+    Message,
+    {|
+      avatar_url: mixed,
+      content: mixed,
+      display_recipient: mixed,
+      id: mixed,
+      reactions: mixed,
+      sender_email: mixed,
+      sender_full_name: mixed,
+      subject: mixed,
+      timestamp: mixed,
+      type: mixed,
+    |},
+  >,
+|}>;
 
 /**
  * MessageLike: Imprecise alternative to `Message | Outbox`.
