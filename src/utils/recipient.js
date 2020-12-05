@@ -39,15 +39,13 @@ const filterRecipients = (
 ): $ReadOnlyArray<PmRecipientUser> =>
   recipients.length === 1 ? recipients : recipients.filter(r => r.id !== ownUserId);
 
-// TODO types: this union is confusing
-export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string, ... }> | string) =>
-  !Array.isArray(recipients)
-    ? recipients
-    : recipients
-        .map(s => s.email.trim())
-        .filter(x => x.length > 0)
-        .sort()
-        .join(',');
+/** PRIVATE -- exported only for tests. */
+export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string, ... }>) =>
+  recipients
+    .map(s => s.email.trim())
+    .filter(x => x.length > 0)
+    .sort()
+    .join(',');
 
 /**
  * The same set of users as pmKeyRecipientsFromMessage, in quirkier form.
@@ -230,8 +228,8 @@ export const isSameRecipient = (
   switch (message1.type) {
     case 'private':
       return (
-        normalizeRecipients(message1.display_recipient).toLowerCase()
-        === normalizeRecipients(message2.display_recipient).toLowerCase()
+        normalizeRecipients(recipientsOfPrivateMessage(message1)).toLowerCase()
+        === normalizeRecipients(recipientsOfPrivateMessage(message2)).toLowerCase()
       );
     case 'stream':
       return (
