@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import invariant from 'invariant';
 import { Clipboard, Share, Alert } from 'react-native';
 
 import NavigationService from '../nav/NavigationService';
@@ -25,7 +26,7 @@ import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
-import { pmUiRecipientsFromMessage } from '../utils/recipient';
+import { pmUiRecipientsFromMessage, streamNameOfStreamMessage } from '../utils/recipient';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
 
@@ -102,18 +103,21 @@ deleteMessage.title = 'Delete message';
 deleteMessage.errorMessage = 'Failed to delete message';
 
 const unmuteTopic = async ({ auth, message }) => {
-  await api.unmuteTopic(auth, message.display_recipient, message.subject);
+  invariant(message.type === 'stream', 'unmuteTopic: got PM');
+  await api.unmuteTopic(auth, streamNameOfStreamMessage(message), message.subject);
 };
 unmuteTopic.title = 'Unmute topic';
 unmuteTopic.errorMessage = 'Failed to unmute topic';
 
 const muteTopic = async ({ auth, message }) => {
-  await api.muteTopic(auth, message.display_recipient, message.subject);
+  invariant(message.type === 'stream', 'muteTopic: got PM');
+  await api.muteTopic(auth, streamNameOfStreamMessage(message), message.subject);
 };
 muteTopic.title = 'Mute topic';
 muteTopic.errorMessage = 'Failed to mute topic';
 
 const deleteTopic = async ({ auth, message, dispatch, ownEmail, _ }) => {
+  invariant(message.type === 'stream', 'deleteTopic: got PM');
   const alertTitle = _('Are you sure you want to delete the topic “{topic}”?', {
     topic: message.subject,
   });
@@ -142,7 +146,7 @@ const deleteTopic = async ({ auth, message, dispatch, ownEmail, _ }) => {
       );
     });
   if (await AsyncAlert()) {
-    await dispatch(deleteMessagesForTopic(message.display_recipient, message.subject));
+    await dispatch(deleteMessagesForTopic(streamNameOfStreamMessage(message), message.subject));
   }
 };
 deleteTopic.title = 'Delete topic';
@@ -248,12 +252,13 @@ export const constructHeaderActionButtons = ({
     if (ownUser.is_admin) {
       buttons.push('deleteTopic');
     }
-    if (isTopicMuted(message.display_recipient, message.subject, mute)) {
+    const streamName = streamNameOfStreamMessage(message);
+    if (isTopicMuted(streamName, message.subject, mute)) {
       buttons.push('unmuteTopic');
     } else {
       buttons.push('muteTopic');
     }
-    const sub = subscriptions.find(x => x.name === message.display_recipient);
+    const sub = subscriptions.find(x => x.name === streamName);
     if (sub && !sub.in_home_view) {
       buttons.push('unmuteStream');
     } else {
@@ -339,7 +344,7 @@ const getActionSheetTitle = (message: Message | Outbox, ownUser: User): string =
       .sort()
       .join(', ');
   } else {
-    return `#${message.display_recipient} > ${message.subject}`;
+    return `#${streamNameOfStreamMessage(message)} > ${message.subject}`;
   }
 };
 

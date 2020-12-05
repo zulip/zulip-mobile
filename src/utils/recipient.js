@@ -1,5 +1,29 @@
 /* @flow strict-local */
+import invariant from 'invariant';
+
 import type { PmRecipientUser, Message, Outbox, User } from '../types';
+
+/** The stream name a stream message was sent to.  Throws if a PM. */
+export const streamNameOfStreamMessage = (message: Message | Outbox): string => {
+  if (message.type !== 'stream') {
+    throw new Error('streamNameOfStreamMessage: got PM');
+  }
+  const { display_recipient: streamName } = message;
+  invariant(typeof streamName === 'string', 'message type / display_recipient mismatch');
+  return streamName;
+};
+
+/** The recipients of a PM, in the form found on Message.  Throws if a stream message. */
+export const recipientsOfPrivateMessage = (
+  message: Message | Outbox,
+): $ReadOnlyArray<PmRecipientUser> => {
+  if (message.type !== 'private') {
+    throw new Error('recipientsOfPrivateMessage: got stream message');
+  }
+  const { display_recipient: recipients } = message;
+  invariant(typeof recipients === 'object', 'message type / display_recipient mismatch');
+  return recipients;
+};
 
 // Filter a list of PM recipients in the quirky way that we do.
 //
@@ -81,7 +105,7 @@ export const pmUiRecipientsFromMessage = (
   if (message.type !== 'private') {
     throw new Error('pmUiRecipientsFromMessage: expected PM, got stream message');
   }
-  return filterRecipients(message.display_recipient, ownUser.user_id);
+  return filterRecipients(recipientsOfPrivateMessage(message), ownUser.user_id);
 };
 
 /**
@@ -118,7 +142,7 @@ export const pmKeyRecipientsFromMessage = (
   if (message.type !== 'private') {
     throw new Error('pmKeyRecipientsFromMessage: expected PM, got stream message');
   }
-  return filterRecipients(message.display_recipient, ownUser.user_id);
+  return filterRecipients(recipientsOfPrivateMessage(message), ownUser.user_id);
 };
 
 /**
@@ -171,7 +195,8 @@ export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: number): s
   if (message.type !== 'private') {
     throw new Error('pmUnreadsKeyFromMessage: expected PM, got stream message');
   }
-  const recipients: PmRecipientUser[] = message.display_recipient;
+  const recipients = recipientsOfPrivateMessage(message);
+
   // This includes all users in the thread; see `Message#display_recipient`.
   const userIds = recipients.map(r => r.id);
 
@@ -210,7 +235,8 @@ export const isSameRecipient = (
       );
     case 'stream':
       return (
-        message1.display_recipient.toLowerCase() === message2.display_recipient.toLowerCase()
+        streamNameOfStreamMessage(message1).toLowerCase()
+          === streamNameOfStreamMessage(message2).toLowerCase()
         && message1.subject.toLowerCase() === message2.subject.toLowerCase()
       );
     default:

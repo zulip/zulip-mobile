@@ -18,6 +18,7 @@ import { constructActionSheetButtons, executeActionSheetAction } from './Lightbo
 import { NAVBAR_SIZE, createStyleSheet } from '../styles';
 import { getAvatarFromMessage } from '../utils/avatar';
 import { navigateBack } from '../actions';
+import { streamNameOfStreamMessage } from '../utils/recipient';
 
 const styles = createStyleSheet({
   img: {
@@ -92,7 +93,9 @@ class Lightbox extends PureComponent<Props, State> {
   render() {
     const { src, message, auth } = this.props;
     const footerMessage =
-      message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
+      message.type === 'stream'
+        ? `Shared in #${streamNameOfStreamMessage(message)}`
+        : 'Shared with you';
     const resource = getResource(src, auth);
     const { width, height } = Dimensions.get('window');
 

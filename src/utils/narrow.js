@@ -2,8 +2,8 @@
 import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
 
-import type { Narrow, Message, Outbox, PmRecipientUser } from '../types';
-import { normalizeRecipientsSansMe } from './recipient';
+import type { Narrow, Message, Outbox } from '../types';
+import { normalizeRecipientsSansMe, recipientsOfPrivateMessage } from './recipient';
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
@@ -269,7 +269,7 @@ export const isMessageInNarrow = (
     if (message.type !== 'private') {
       return false;
     }
-    const recipients: PmRecipientUser[] = message.display_recipient;
+    const recipients = recipientsOfPrivateMessage(message);
     const narrowAsRecipients = emails.map(email => ({ email }));
     return (
       normalizeRecipientsSansMe(recipients, ownEmail)

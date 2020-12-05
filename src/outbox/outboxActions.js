@@ -24,6 +24,7 @@ import { getAllUsersByEmail, getOwnUser } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
 import { caseNarrowPartial } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
+import { recipientsOfPrivateMessage, streamNameOfStreamMessage } from '../utils/recipient';
 
 export const messageSendStart = (outbox: Outbox): Action => ({
   type: MESSAGE_SEND_START,
@@ -67,12 +68,12 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
       const to =
         item.type === 'private'
             // TODO(server-2.0): switch to numeric user IDs, not emails.
-          ? item.display_recipient.map(r => r.email).join(',')
+          ? recipientsOfPrivateMessage(item).map(r => r.email).join(',')
             // TODO(server-2.0): switch to numeric stream IDs, not names.
             //   (This will require wiring the stream ID through to here.)
             // HACK: the server attempts to interpret this argument as JSON, then
             //   CSV, then a literal. To avoid misparsing, always use JSON.
-          : JSON.stringify([item.display_recipient]);
+          : JSON.stringify([streamNameOfStreamMessage(item)]);
 
       await api.sendMessage(auth, {
         type: item.type,

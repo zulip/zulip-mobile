@@ -11,7 +11,11 @@ import {
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 import { humanDate } from '../../utils/date';
-import { pmUiRecipientsFromMessage, pmKeyRecipientsFromMessage } from '../../utils/recipient';
+import {
+  pmUiRecipientsFromMessage,
+  pmKeyRecipientsFromMessage,
+  streamNameOfStreamMessage,
+} from '../../utils/recipient';
 
 const renderSubject = item =>
   // TODO: pin down if '' happens, and what its proper semantics are.
@@ -44,7 +48,8 @@ export default (
   }
 
   if (item.type === 'stream' && headerStyle === 'topic+date') {
-    const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
+    const streamName = streamNameOfStreamMessage(item);
+    const topicNarrowStr = JSON.stringify(topicNarrow(streamName, item.subject));
     const topicHtml = renderSubject(item);
 
     return template`
@@ -60,15 +65,13 @@ export default (
   }
 
   if (item.type === 'stream' && headerStyle === 'full') {
-    // Somehow, if `item.display_recipient` appears in the `find` callback,
-    // Flow worries that `item` will turn out to be a {||} after all.
-    const { display_recipient } = item;
-    const stream = subscriptions.find(x => x.name === display_recipient);
+    const streamName = streamNameOfStreamMessage(item);
+    const stream = subscriptions.find(x => x.name === streamName);
 
     const backgroundColor = stream ? stream.color : 'hsl(0, 0%, 80%)';
     const textColor = foregroundColorFromBackground(backgroundColor);
-    const streamNarrowStr = JSON.stringify(streamNarrow(item.display_recipient));
-    const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
+    const streamNarrowStr = JSON.stringify(streamNarrow(streamName));
+    const topicNarrowStr = JSON.stringify(topicNarrow(streamName, item.subject));
     const topicHtml = renderSubject(item);
 
     return template`
@@ -79,7 +82,7 @@ export default (
        style="color: ${textColor};
               background: ${backgroundColor}"
        data-narrow="${streamNarrowStr}">
-    # ${item.display_recipient}
+    # ${streamName}
   </div>
   <div class="topic-text">$!${topicHtml}</div>
   <div class="topic-date">${humanDate(new Date(item.timestamp * 1000))}</div>
