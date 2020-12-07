@@ -62,7 +62,7 @@ export const messageSendComplete = (localMessageId: number): Action => ({
   local_message_id: localMessageId,
 });
 
-export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean => {
+export const trySendMessages = () => (dispatch: Dispatch, getState: GetState): boolean => {
   const state = getState();
   const auth = getAuth(state);
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
@@ -119,7 +119,7 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
   }
   dispatch(toggleOutboxSending(true));
   const backoffMachine = new BackoffMachine();
-  while (!trySendMessages(dispatch, getState)) {
+  while (!dispatch(trySendMessages())) {
     await backoffMachine.wait();
   }
   dispatch(toggleOutboxSending(false));
