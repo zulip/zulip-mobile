@@ -184,12 +184,7 @@ export type Outbox = {|
   reactions: Reaction[],
   sender_email: string,
   sender_full_name: string,
-
-  // TODO(#3764): Make sender_id required.  Needs a migration to drop Outbox
-  //   values that lack it; which is fine once the release that adds it has
-  //   been out for a few weeks.
-  //   (Also drop the hack line about it in MessageLike.)
-  sender_id?: number,
+  sender_id: number,
 
   subject: string,
   timestamp: number,
@@ -229,7 +224,6 @@ export type MessageLike =
   | $ReadOnly<{
       // $Shape<T> is unsound, per Flow docs, but $ReadOnly<$Shape<T>> is not
       ...$Shape<{ [$Keys<Message>]: void }>,
-      sender_id?: number, // TODO: Drop this once required in Outbox.
       ...Outbox,
     }>;
 

@@ -197,6 +197,12 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     })),
   }),
 
+  // Make Outbox[].sender_id required.
+  '16': state => ({
+    ...state,
+    outbox: state.outbox.filter(o => o.sender_id !== undefined),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
