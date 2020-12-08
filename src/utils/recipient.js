@@ -26,6 +26,41 @@ export const recipientsOfPrivateMessage = (
   return recipients;
 };
 
+/**
+ * A set of users identifying a PM conversation, as per pmKeyRecipientsFromMessage.
+ *
+ * This is an "opaque type alias" for an array of plain old data.
+ * See Flow docs: https://flow.org/en/docs/types/opaque-types/
+ *
+ * That means:
+ *  * For code outside this module, it's some unknown subtype of the given
+ *    array type.
+ *  * Secretly, it actually is just that array type, and code inside this
+ *    module can see that.
+ *  * (In general, the public type bound and the secret underlying type can
+ *    be different, but in this case we've made them the same.)
+ *
+ * As a result:
+ *  * The only way to produce a value of this type is with code inside this
+ *    module.  (For code outside the module, the secret underlying type
+ *    could have any number of requirements it can't see; it could even be
+ *    `empty`, which has no values.)
+ *  * But code outside this module can still freely *consume* the data in a
+ *    value of this type, just like any other value of the given array type.
+ *
+ * Or to say the same things from a different angle:
+ *  * For code inside this module, this is just like a normal type alias,
+ *    to the secret/private underlying type.
+ *  * For code outside this module trying to produce a value of this type,
+ *    it's a brick wall -- it's effectively like the `empty` type.
+ *  * For code outside this module trying to consume a value of this type,
+ *    it's just like a normal type alias to the public type bound; which in
+ *    this case we've chosen to make the same as the private underlying type.
+ *
+ * See also `pmNarrowFromRecipients`, which requires a value of this type.
+ */
+export opaque type PmKeyRecipients: $ReadOnlyArray<PmRecipientUser> = $ReadOnlyArray<PmRecipientUser>;
+
 // Filter a list of PM recipients in the quirky way that we do.
 //
 // Specifically: all users, except the self-user, except if it's the
@@ -157,7 +192,7 @@ export const pmUiRecipientsFromMessage = (
 export const pmKeyRecipientsFromMessage = (
   message: Message | Outbox,
   ownUser: User,
-): $ReadOnlyArray<PmRecipientUser> => {
+): PmKeyRecipients => {
   if (message.type !== 'private') {
     throw new Error('pmKeyRecipientsFromMessage: expected PM, got stream message');
   }

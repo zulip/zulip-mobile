@@ -2,7 +2,7 @@
 import template from './template';
 import type { Message, Narrow, Outbox } from '../../types';
 import type { BackgroundData } from '../MessageList';
-import { streamNarrow, topicNarrow, caseNarrow, pmNarrowFromEmails } from '../../utils/narrow';
+import { streamNarrow, topicNarrow, caseNarrow, pmNarrowFromRecipients } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 import { humanDate } from '../../utils/date';
 import {
@@ -85,7 +85,7 @@ export default (
 
   if (item.type === 'private' && headerStyle === 'full') {
     const keyRecipients = pmKeyRecipientsFromMessage(item, ownUser);
-    const narrowObj = pmNarrowFromEmails(keyRecipients.map(r => r.email));
+    const narrowObj = pmNarrowFromRecipients(keyRecipients);
     const narrowStr = JSON.stringify(narrowObj);
 
     const uiRecipients = pmUiRecipientsFromMessage(item, ownUser);

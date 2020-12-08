@@ -8,6 +8,7 @@ import {
   pmKeyRecipientsFromMessage,
   recipientsOfPrivateMessage,
   streamNameOfStreamMessage,
+  type PmKeyRecipients,
 } from './recipient';
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
@@ -60,7 +61,7 @@ const pmNarrowByString = (emails: string): Narrow => [
 // merely latent only because it doesn't (as far as we know) have any
 // user-visible effect.
 //
-// Known call stacks:
+// Known call stacks not using the validating helpers:
 //  * OK, perilously, unsorted: CreateGroupScreen: the self user isn't
 //      offered in the UI, so effectively the list is filtered; can call
 //      with just one email, but happily this works out the same as pmNarrow
@@ -73,6 +74,9 @@ const pmNarrowByString = (emails: string): Narrow => [
 //      to give someone else in it a link to a particular message, say.
 //  * Good: getNarrowFromNotificationData: filters, and starts from
 //      notification's pm_users, which is sorted.
+//
+// Known call stacks using the validating helpers -- still listed here
+// because sorting can still vary, for now:
 //  * Good: messageHeaderAsHtml: comes from pmKeyRecipientsFromMessage,
 //      which filters and sorts by ID
 //  * Good: getNarrowForReply: also pmKeyRecipientsFromMessage
@@ -81,6 +85,16 @@ export const pmNarrowFromEmails = (emails: string[]): Narrow => pmNarrowByString
 
 /** Convenience wrapper for `pmNarrowFromEmails`. */
 export const pmNarrowFromEmail = (email: string): Narrow => pmNarrowFromEmails([email]);
+
+/**
+ * A PM narrow, either 1:1 or group.
+ *
+ * The argument's type guarantees that it comes from
+ * `pmKeyRecipientsFromMessage` or one of its related functions.  This
+ * ensures that we've properly either removed the self user, or not.
+ */
+export const pmNarrowFromRecipients = (recipients: PmKeyRecipients): Narrow =>
+  pmNarrowFromEmails(recipients.map(r => r.email));
 
 export const specialNarrow = (operand: string): Narrow => [
   {
@@ -346,7 +360,7 @@ export const getNarrowsForMessage = (
 
   if (message.type === 'private') {
     result.push(ALL_PRIVATE_NARROW);
-    result.push(pmNarrowFromEmails(pmKeyRecipientsFromMessage(message, ownUser).map(x => x.email)));
+    result.push(pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUser)));
   } else {
     const streamName = streamNameOfStreamMessage(message);
     result.push(topicNarrow(streamName, message.subject));
@@ -375,7 +389,7 @@ export const getNarrowsForMessage = (
 //   now that it's free of fiddly details from the Narrow data structure
 export const getNarrowForReply = (message: Message | Outbox, ownUser: User) => {
   if (message.type === 'private') {
-    return pmNarrowFromEmails(pmKeyRecipientsFromMessage(message, ownUser).map(x => x.email));
+    return pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUser));
   } else {
     const streamName = streamNameOfStreamMessage(message);
     return topicNarrow(streamName, message.subject);
