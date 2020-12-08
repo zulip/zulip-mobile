@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import NavigationService from '../nav/NavigationService';
 import type { Narrow, Dispatch, GetState } from '../types';
-import { getAuth, getUsersById } from '../selectors';
+import { getAuth, getAllUsersById } from '../selectors';
 import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
 import openLink from '../utils/openLink';
 import { navigateToChat } from '../nav/navActions';
@@ -28,10 +28,10 @@ export const messageLinkPress = (href: string) => async (
 ) => {
   const state = getState();
   const auth = getAuth(state);
-  const usersById = getUsersById(state);
+  const allUsersById = getAllUsersById(state);
   const streamsById = getStreamsById(state);
   const ownUserId = getOwnUserId(state);
-  const narrow = getNarrowFromLink(href, auth.realm, usersById, streamsById, ownUserId);
+  const narrow = getNarrowFromLink(href, auth.realm, allUsersById, streamsById, ownUserId);
   if (narrow) {
     const anchor = getMessageIdFromLink(href, auth.realm);
     dispatch(doNarrow(narrow, anchor));

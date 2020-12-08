@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import invariant from 'invariant';
 
-import type { PmRecipientUser, Message, Outbox, User } from '../types';
+import type { PmRecipientUser, Message, Outbox, User, UserOrBot } from '../types';
 import * as logging from './logging';
 
 /** The stream name a stream message was sent to.  Throws if a PM. */
@@ -175,15 +175,15 @@ export const pmKeyRecipientsFromMessage = (
  */
 export const pmKeyRecipientsFromIds = (
   userIds: number[],
-  usersById: Map<number, User>,
+  allUsersById: Map<number, UserOrBot>,
   ownUserId: number,
-): User[] | null => {
+): UserOrBot[] | null => {
   const users = [];
   for (const id of userIds) {
     if (id === ownUserId && userIds.length > 1) {
       continue;
     }
-    const user = usersById.get(id);
+    const user = allUsersById.get(id);
     if (!user) {
       return null;
     }

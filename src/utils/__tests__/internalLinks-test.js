@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import type { User } from '../../api/modelTypes';
+import type { UserOrBot } from '../../api/modelTypes';
 import { streamNarrow, topicNarrow, pmNarrowFromEmails, STARRED_NARROW } from '../narrow';
 import {
   isInternalLink,
@@ -125,7 +125,7 @@ describe('decodeHashComponent', () => {
 
 describe('getNarrowFromLink', () => {
   const [userB, userC] = [eg.makeUser(), eg.makeUser()];
-  const usersById: Map<number, User> = new Map(
+  const allUsersById: Map<number, UserOrBot> = new Map(
     [eg.selfUser, userB, userC].map(u => [u.user_id, u]),
   );
 
@@ -135,7 +135,7 @@ describe('getNarrowFromLink', () => {
     getNarrowFromLink(
       url,
       new URL('https://example.com'),
-      usersById,
+      allUsersById,
       new Map(streams.map(s => [s.stream_id, s])),
       eg.selfUser.user_id,
     );
@@ -270,7 +270,7 @@ describe('getNarrowFromLink', () => {
   });
 
   test('if any of the user ids are not found: return null', () => {
-    const otherId = 1 + Math.max(...usersById.keys());
+    const otherId = 1 + Math.max(...allUsersById.keys());
     const ids = `${userB.user_id},${otherId}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(null);
   });

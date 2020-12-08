@@ -1,7 +1,7 @@
 // @flow strict-local
 import deepFreeze from 'deep-freeze';
 
-import type { User } from '../../api/modelTypes';
+import type { UserOrBot } from '../../api/modelTypes';
 import type { JSONableDict } from '../../utils/jsonable';
 import { getNarrowFromNotificationData } from '..';
 import { topicNarrow, pmNarrowFromEmail, pmNarrowFromEmails } from '../../utils/narrow';
@@ -11,7 +11,7 @@ import { fromAPNsImpl as extractIosNotificationData } from '../extract';
 import objectEntries from '../../utils/objectEntries';
 
 describe('getNarrowFromNotificationData', () => {
-  const DEFAULT_MAP = new Map<number, User>();
+  const DEFAULT_MAP = new Map<number, UserOrBot>();
   const ownUserId = eg.selfUser.user_id;
 
   test('unknown notification data returns null', () => {
@@ -42,7 +42,7 @@ describe('getNarrowFromNotificationData', () => {
 
   test('on notification for a group message returns a group narrow', () => {
     const users = [eg.selfUser, eg.makeUser(), eg.makeUser(), eg.makeUser()];
-    const usersById: Map<number, User> = new Map(users.map(u => [u.user_id, u]));
+    const allUsersById: Map<number, UserOrBot> = new Map(users.map(u => [u.user_id, u]));
 
     const notification = {
       recipient_type: 'private',
@@ -51,7 +51,7 @@ describe('getNarrowFromNotificationData', () => {
 
     const expectedNarrow = pmNarrowFromEmails(users.slice(1).map(u => u.email));
 
-    const narrow = getNarrowFromNotificationData(notification, usersById, ownUserId);
+    const narrow = getNarrowFromNotificationData(notification, allUsersById, ownUserId);
 
     expect(narrow).toEqual(expectedNarrow);
   });
