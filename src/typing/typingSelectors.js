@@ -23,7 +23,7 @@ export const getCurrentTypingUsers: Selector<$ReadOnlyArray<UserOrBot>, Narrow> 
       if (userId === undefined) {
         throw new Error(`Narrow contains email '${email}' that does not map to any user.`);
       }
-      return { user_id: userId };
+      return userId;
     });
     const normalizedRecipients = normalizeRecipientsAsUserIds(recipients);
     const currentTyping = typing[normalizedRecipients];

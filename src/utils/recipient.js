@@ -40,12 +40,11 @@ const filterRecipients = (
 ): $ReadOnlyArray<PmRecipientUser> =>
   recipients.length === 1 ? recipients : recipients.filter(r => r.id !== ownUserId);
 
-// Like filterRecipients, but the property is called `user_id`.
-const filterRecipientsByUserId = <T: { +user_id: number, ... }>(
-  recipients: $ReadOnlyArray<T>,
+// Like filterRecipients, but on user IDs directly.
+const filterRecipientsAsUserIds = <T: $ReadOnlyArray<number>>(
+  recipients: T,
   ownUserId: number,
-): $ReadOnlyArray<T> =>
-  recipients.length === 1 ? recipients : recipients.filter(r => r.user_id !== ownUserId);
+): T => (recipients.length === 1 ? recipients : recipients.filter(r => r !== ownUserId));
 
 // Like filterRecipients, but identifying users by email address.
 // Prefer filterRecipients instead.
@@ -95,13 +94,8 @@ export const normalizeRecipientsSansMe = (
   ownEmail: string,
 ) => normalizeRecipients(filterRecipientsByEmail(recipients, ownEmail));
 
-export const normalizeRecipientsAsUserIds = (
-  recipients: $ReadOnlyArray<{ +user_id: number, ... }>,
-) =>
-  recipients
-    .map(s => s.user_id)
-    .sort((a, b) => a - b)
-    .join(',');
+export const normalizeRecipientsAsUserIds = (recipients: number[]) =>
+  recipients.sort((a, b) => a - b).join(',');
 
 /**
  * The same set of users as pmKeyRecipientsFromMessage, in quirkier form.
@@ -112,10 +106,8 @@ export const normalizeRecipientsAsUserIds = (
 // (see comment on Message#display_recipient).  Then for 1:1 PMs the
 // server's behavior is quirkier... but we keep only one user for those
 // anyway, so it doesn't matter.
-export const normalizeRecipientsAsUserIdsSansMe = (
-  recipients: $ReadOnlyArray<{ +user_id: number, ... }>,
-  ownUserId: number,
-) => normalizeRecipientsAsUserIds(filterRecipientsByUserId(recipients, ownUserId));
+export const normalizeRecipientsAsUserIdsSansMe = (recipients: number[], ownUserId: number) =>
+  normalizeRecipientsAsUserIds(filterRecipientsAsUserIds(recipients, ownUserId));
 
 /**
  * The set of users to show in the UI to identify a PM conversation.

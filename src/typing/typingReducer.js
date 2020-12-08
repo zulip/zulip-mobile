@@ -21,7 +21,7 @@ const eventTypingStart = (state, action) => {
   }
 
   const normalizedRecipients: string = normalizeRecipientsAsUserIdsSansMe(
-    action.recipients,
+    action.recipients.map(r => r.user_id),
     action.ownUserId,
   );
   const previousTypingUsers = state[normalizedRecipients] || { userIds: [] };
@@ -48,7 +48,7 @@ const eventTypingStart = (state, action) => {
 
 const eventTypingStop = (state, action) => {
   const normalizedRecipients: string = normalizeRecipientsAsUserIdsSansMe(
-    action.recipients,
+    action.recipients.map(r => r.user_id),
     action.ownUserId,
   );
   const previousTypingUsers = state[normalizedRecipients];

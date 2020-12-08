@@ -34,10 +34,7 @@ describe('getCurrentTypingUsers', () => {
     const user1 = eg.makeUser();
     const user2 = eg.makeUser();
 
-    const normalizedRecipients = normalizeRecipientsAsUserIds([
-      { user_id: user1.user_id },
-      { user_id: user2.user_id },
-    ]);
+    const normalizedRecipients = normalizeRecipientsAsUserIds([user1.user_id, user2.user_id]);
 
     const state = eg.reduxState({
       typing: {
@@ -57,7 +54,7 @@ describe('getCurrentTypingUsers', () => {
   test('when in private narrow but different user is typing return NULL_ARRAY', () => {
     const user1 = eg.makeUser();
     const user2 = eg.makeUser();
-    const normalizedRecipients = normalizeRecipientsAsUserIds([{ user_id: user1.user_id }]);
+    const normalizedRecipients = normalizeRecipientsAsUserIds([user1.user_id]);
 
     const state = eg.reduxState({
       typing: {
@@ -76,8 +73,8 @@ describe('getCurrentTypingUsers', () => {
     const anotherUser = eg.makeUser();
 
     const normalizedRecipients = normalizeRecipientsAsUserIds([
-      { user_id: expectedUser.user_id },
-      { user_id: anotherUser.user_id },
+      expectedUser.user_id,
+      anotherUser.user_id,
     ]);
     const state = eg.reduxState({
       typing: {
