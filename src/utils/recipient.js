@@ -40,6 +40,21 @@ const filterRecipients = (
 ): $ReadOnlyArray<PmRecipientUser> =>
   recipients.length === 1 ? recipients : recipients.filter(r => r.id !== ownUserId);
 
+// Like filterRecipients, but the property is called `user_id`.
+const filterRecipientsByUserId = <T: { +user_id: number, ... }>(
+  recipients: $ReadOnlyArray<T>,
+  ownUserId: number,
+): $ReadOnlyArray<T> =>
+  recipients.length === 1 ? recipients : recipients.filter(r => r.user_id !== ownUserId);
+
+// Like filterRecipients, but identifying users by email address.
+// Prefer filterRecipients instead.
+const filterRecipientsByEmail = <T: { +email: string, ... }>(
+  recipients: $ReadOnlyArray<T>,
+  ownEmail: string,
+): $ReadOnlyArray<T> =>
+  recipients.length === 1 ? recipients : recipients.filter(r => r.email !== ownEmail);
+
 /** PRIVATE -- exported only for tests. */
 export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string, ... }>) => {
   const emails = recipients.map(r => r.email);
@@ -78,10 +93,7 @@ export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string,
 export const normalizeRecipientsSansMe = (
   recipients: $ReadOnlyArray<{ +email: string, ... }>,
   ownEmail: string,
-) =>
-  recipients.length === 1
-    ? recipients[0].email
-    : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
+) => normalizeRecipients(filterRecipientsByEmail(recipients, ownEmail));
 
 export const normalizeRecipientsAsUserIds = (
   recipients: $ReadOnlyArray<{ +user_id: number, ... }>,
@@ -103,10 +115,7 @@ export const normalizeRecipientsAsUserIds = (
 export const normalizeRecipientsAsUserIdsSansMe = (
   recipients: $ReadOnlyArray<{ +user_id: number, ... }>,
   ownUserId: number,
-) =>
-  recipients.length === 1
-    ? recipients[0].user_id.toString()
-    : normalizeRecipientsAsUserIds(recipients.filter(r => r.user_id !== ownUserId));
+) => normalizeRecipientsAsUserIds(filterRecipientsByUserId(recipients, ownUserId));
 
 /**
  * The set of users to show in the UI to identify a PM conversation.
