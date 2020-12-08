@@ -272,6 +272,9 @@ export const isSearchNarrow = (narrow?: Narrow): boolean =>
  * makes it the caller's responsibility to deal with the ambiguity in our
  * Message type of whether the message's flags live in a `flags` property or
  * somewhere else.
+ *
+ * See also getNarrowsForMessage, which should list exactly the narrows this
+ * would return true for.
  */
 export const isMessageInNarrow = (
   message: Message | Outbox,
@@ -301,6 +304,7 @@ export const isMessageInNarrow = (
     mentioned: () => flags.includes('mentioned') || flags.includes('wildcard_mentioned'),
     allPrivate: () => message.type === 'private',
     search: () => false,
+    // Adding a case here?  Be sure to add to getNarrowsForMessage, too.
   });
 
 export const canSendToNarrow = (narrow: Narrow): boolean =>
@@ -316,7 +320,7 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
   });
 
 /**
- * Answers the question, "What narrows do this message appear in?"
+ * Answers the question, "What narrows does this message appear in?"
  *
  * This function does not support search narrows, and it always
  * excludes them.
@@ -325,13 +329,16 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
  * makes it the caller's responsibility to deal with the ambiguity in our
  * Message type of whether the message's flags live in a `flags` property or
  * somewhere else.
+ *
+ * See also isMessageInNarrow, which should return true for exactly the
+ * narrows this lists and no others.
  */
 export const getNarrowsForMessage = (
   message: Message | Outbox,
   ownUser: User,
   flags: $ReadOnlyArray<string>,
 ): Narrow[] => {
-  const result: Narrow[] = [];
+  const result = [];
 
   // All messages are in the home narrow.
   result.push(HOME_NARROW);
@@ -352,6 +359,8 @@ export const getNarrowsForMessage = (
   if (flags.includes('starred')) {
     result.push(STARRED_NARROW);
   }
+
+  // SEARCH_NARROW we always leave out
 
   return result;
 };
