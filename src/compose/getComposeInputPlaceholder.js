@@ -16,14 +16,14 @@ export default (
         }
         const email = emails[0];
 
-        if (ownEmail && email === ownEmail) {
+        if (email === ownEmail) {
           return { text: 'Jot down something' };
         }
 
-        if (!usersByEmail) {
+        const user = usersByEmail.get(email);
+        if (!user) {
           return { text: 'Type a message' };
         }
-        const user = usersByEmail.get(email) || {};
 
         return {
           text: 'Message {recipient}',
