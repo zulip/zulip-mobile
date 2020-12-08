@@ -88,7 +88,7 @@ export const normalizeRecipientsAsUserIds = (
 ) =>
   recipients
     .map(s => s.user_id)
-    .sort()
+    .sort((a, b) => a - b)
     .join(',');
 
 /**

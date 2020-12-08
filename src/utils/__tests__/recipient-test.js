@@ -60,13 +60,13 @@ describe('normalizeRecipientsSansMe', () => {
 describe('normalizeRecipientsAsUserIds', () => {
   test('joins user IDs from recipients, sorted', () => {
     const recipients = [
-      { user_id: 2 },
+      { user_id: 22 },
       { user_id: 1 },
       { user_id: 5 },
       { user_id: 3 },
       { user_id: 4 },
     ];
-    const expectedResult = '1,2,3,4,5';
+    const expectedResult = '1,3,4,5,22';
 
     const normalized = normalizeRecipientsAsUserIds(recipients);
 
@@ -96,13 +96,13 @@ describe('normalizeRecipientsAsUserIdsSansMe', () => {
 
   test('when more than one user IDs normalize but filter out self user ID', () => {
     const recipients = [
-      { user_id: 2 },
+      { user_id: 22 },
       { user_id: 1 },
       { user_id: 5 },
       { user_id: 3 },
       { user_id: 4 },
     ];
-    const expectedResult = '2,3,4,5';
+    const expectedResult = '3,4,5,22';
     const ownUserId = 1;
 
     const normalized = normalizeRecipientsAsUserIdsSansMe(recipients, ownUserId);
