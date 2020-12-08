@@ -61,6 +61,16 @@ export const recipientsOfPrivateMessage = (
  */
 export opaque type PmKeyRecipients: $ReadOnlyArray<PmRecipientUser> = $ReadOnlyArray<PmRecipientUser>;
 
+/**
+ * A set of users identifying a PM conversation, as per pmKeyRecipientsFromMessage.
+ *
+ * This is just like `PmKeyRecipients` but with a different selection of
+ * details about the users.  See there for discussion.
+ *
+ * See also `pmNarrowFromUsers`, which requires a value of this type.
+ */
+export opaque type PmKeyUsers: $ReadOnlyArray<UserOrBot> = $ReadOnlyArray<UserOrBot>;
+
 // Filter a list of PM recipients in the quirky way that we do.
 //
 // Specifically: all users, except the self-user, except if it's the
@@ -212,7 +222,7 @@ export const pmKeyRecipientsFromIds = (
   userIds: number[],
   allUsersById: Map<number, UserOrBot>,
   ownUserId: number,
-): UserOrBot[] | null => {
+): PmKeyUsers | null => {
   const users = [];
   for (const id of userIds) {
     if (id === ownUserId && userIds.length > 1) {

@@ -9,6 +9,7 @@ import {
   recipientsOfPrivateMessage,
   streamNameOfStreamMessage,
   type PmKeyRecipients,
+  type PmKeyUsers,
 } from './recipient';
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
@@ -68,15 +69,15 @@ const pmNarrowByString = (emails: string): Narrow => [
 //  * OK, email: PmConversationList < PmConversationCard: the data comes
 //      from `getRecentConversations`, which filters and sorts by email
 //  * OK, email: PmConversationList < UnreadCards: ditto
+//
+// Known call stacks using the validating helpers -- still listed here
+// because sorting can still vary, for now:
 //  * OK, unsorted: getNarrowFromLink.  Though there's basically a bug in
 //      the webapp, where the URL that appears in the location bar for a
 //      group PM conversation excludes self -- so it's unusable if you try
 //      to give someone else in it a link to a particular message, say.
 //  * Good: getNarrowFromNotificationData: filters, and starts from
 //      notification's pm_users, which is sorted.
-//
-// Known call stacks using the validating helpers -- still listed here
-// because sorting can still vary, for now:
 //  * Good: messageHeaderAsHtml: comes from pmKeyRecipientsFromMessage,
 //      which filters and sorts by ID
 //  * Good: getNarrowForReply: also pmKeyRecipientsFromMessage
@@ -92,8 +93,20 @@ export const pmNarrowFromEmail = (email: string): Narrow => pmNarrowFromEmails([
  * The argument's type guarantees that it comes from
  * `pmKeyRecipientsFromMessage` or one of its related functions.  This
  * ensures that we've properly either removed the self user, or not.
+ *
+ * See also `pmNarrowFromUsers`, which does the same thing with a slightly
+ * different form of input.
  */
 export const pmNarrowFromRecipients = (recipients: PmKeyRecipients): Narrow =>
+  pmNarrowFromEmails(recipients.map(r => r.email));
+
+/**
+ * A PM narrow, either 1:1 or group.
+ *
+ * This is just like `pmNarrowFromRecipients`, but taking a slightly
+ * different form of input.  Use whichever one is more convenient.
+ */
+export const pmNarrowFromUsers = (recipients: PmKeyUsers): Narrow =>
   pmNarrowFromEmails(recipients.map(r => r.email));
 
 export const specialNarrow = (operand: string): Narrow => [

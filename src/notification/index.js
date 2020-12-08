@@ -4,7 +4,7 @@ import NotificationsIOS from 'react-native-notifications';
 
 import type { Notification } from './types';
 import type { Auth, Dispatch, Identity, Narrow, UserOrBot } from '../types';
-import { topicNarrow, pmNarrowFromEmail, pmNarrowFromEmails } from '../utils/narrow';
+import { topicNarrow, pmNarrowFromEmail, pmNarrowFromUsers } from '../utils/narrow';
 import type { JSONable, JSONableDict } from '../utils/jsonable';
 import * as api from '../api';
 import * as logging from '../utils/logging';
@@ -107,7 +107,7 @@ export const getNarrowFromNotificationData = (
 
   const ids = data.pm_users.split(',').map(s => parseInt(s, 10));
   const users = pmKeyRecipientsFromIds(ids, allUsersById, ownUserId);
-  return users && pmNarrowFromEmails(users.map(u => u.email));
+  return users === null ? null : pmNarrowFromUsers(users);
 };
 
 const getInitialNotification = async (): Promise<Notification | null> => {

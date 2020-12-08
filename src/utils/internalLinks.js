@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { addBreadcrumb } from '@sentry/react-native';
 import type { Narrow, Stream, UserOrBot } from '../types';
-import { topicNarrow, streamNarrow, pmNarrowFromEmails, specialNarrow } from './narrow';
+import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromUsers } from './narrow';
 import { pmKeyRecipientsFromIds } from './recipient';
 import { isUrlOnRealm } from './url';
 
@@ -130,7 +130,7 @@ export const getNarrowFromLink = (
     case 'pm': {
       const ids = parsePmOperand(paths[1]);
       const users = pmKeyRecipientsFromIds(ids, allUsersById, ownUserId);
-      return users && pmNarrowFromEmails(users.map(u => u.email));
+      return users === null ? null : pmNarrowFromUsers(users);
     }
     case 'topic':
       return topicNarrow(parseStreamOperand(paths[1], streamsById), parseTopicOperand(paths[3]));
