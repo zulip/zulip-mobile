@@ -16,6 +16,8 @@ import { REHYDRATE } from '../actionConstants';
 import rootReducer from './reducers';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
+import { provideLoggingContext } from './loggingContext';
+import { tryGetActiveAccount } from '../account/accountsSelectors';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
@@ -265,6 +267,10 @@ const store: Store<GlobalState, Action> = createStore(
     autoRehydrate(),
   ),
 );
+
+provideLoggingContext(() => ({
+  serverVersion: tryGetActiveAccount(store.getState())?.zulipVersion ?? null,
+}));
 
 /**
  * A special identifier used by `remotedev-serialize`.

@@ -2,11 +2,10 @@
 import type { Scope, SeverityType, EventHint } from '@sentry/react-native';
 import { getCurrentHub, Severity, withScope as withScopeImpl } from '@sentry/react-native';
 
-import store from '../boot/store';
 import type { JSONable } from './jsonable';
 import objectEntries from './objectEntries';
 import config from '../config';
-import { tryGetActiveAccount } from '../account/accountsSelectors';
+import { getLoggingContext } from '../boot/loggingContext';
 
 /** Type of "extras" intended for Sentry. */
 // This type should be exact, but cannot be until Flow v0.126.0. (See note in
@@ -27,7 +26,7 @@ function withScope<R>(callback: Scope => R): R {
  * Get server-version tags at various levels of granularity.
  */
 const getServerVersionTags = () => {
-  const zulipVersion = tryGetActiveAccount(store.getState())?.zulipVersion;
+  const zulipVersion = getLoggingContext()?.serverVersion;
 
   // Why might we not have the server version? If there's no active
   // account.
