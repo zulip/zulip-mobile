@@ -2,6 +2,7 @@
 import invariant from 'invariant';
 
 import type { PmRecipientUser, Message, Outbox, User } from '../types';
+import * as logging from './logging';
 
 /** The stream name a stream message was sent to.  Throws if a PM. */
 export const streamNameOfStreamMessage = (message: Message | Outbox): string => {
@@ -40,12 +41,31 @@ const filterRecipients = (
   recipients.length === 1 ? recipients : recipients.filter(r => r.id !== ownUserId);
 
 /** PRIVATE -- exported only for tests. */
-export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string, ... }>) =>
-  recipients
-    .map(s => s.email.trim())
-    .filter(x => x.length > 0)
-    .sort()
-    .join(',');
+export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string, ... }>) => {
+  const emails = recipients.map(r => r.email);
+
+  if (emails.some(e => e.trim() !== e)) {
+    // This should never happen -- it makes the email address invalid.  If
+    // there's some user input that might be accepted like this, it should
+    // be turned into a valid email address long before this point.  We
+    // include this defensive logic only out of an abundance of caution
+    // because we had it, with no logging, for a long time.
+    logging.error('normalizeRecipients: got email with whitespace', { emails });
+  }
+  if (emails.some(e => !e)) {
+    // This should similarly never happen -- it means we got an
+    // unrecoverably bogus email address in here.  We carry on hoping, or
+    // pretending, that it just shouldn't have been in the list at all.
+    logging.error('normalizeRecipients: got empty email', { emails });
+  }
+  // Both of these fudge conditions should really go away.  We can do that
+  // after we've had a release out in the wild with the above logging for at
+  // least a few weeks, and seen no reports of them actually happening.
+  // Until then, conservatively keep fudging like we have for a long time.
+  const massagedEmails = emails.map(e => e.trim()).filter(Boolean);
+
+  return massagedEmails.sort().join(',');
+};
 
 /**
  * The same set of users as pmKeyRecipientsFromMessage, in quirkier form.

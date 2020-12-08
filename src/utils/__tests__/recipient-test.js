@@ -5,6 +5,7 @@ import {
   normalizeRecipientsAsUserIdsSansMe,
   isSameRecipient,
 } from '../recipient';
+import * as logging from '../logging';
 
 describe('normalizeRecipients', () => {
   test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
@@ -16,9 +17,13 @@ describe('normalizeRecipients', () => {
     ];
     const expectedResult = 'abc@example.com,def@example.com,xyz@example.com';
 
-    const normalized = normalizeRecipients(recipients);
+    logging.error.mockReturnValue();
 
+    const normalized = normalizeRecipients(recipients);
     expect(normalized).toEqual(expectedResult);
+
+    expect(logging.error.mock.calls).toHaveLength(2);
+    logging.error.mockReset();
   });
 });
 
@@ -42,9 +47,13 @@ describe('normalizeRecipientsSansMe', () => {
     const ownEmail = 'me@example.com';
     const expectedResult = 'abc@example.com,def@example.com';
 
-    const normalized = normalizeRecipientsSansMe(recipients, ownEmail);
+    logging.error.mockReturnValue();
 
+    const normalized = normalizeRecipientsSansMe(recipients, ownEmail);
     expect(normalized).toEqual(expectedResult);
+
+    expect(logging.error.mock.calls).toHaveLength(1);
+    logging.error.mockReset();
   });
 });
 
