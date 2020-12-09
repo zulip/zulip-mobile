@@ -20,7 +20,7 @@ export const HOME_NARROW: Narrow = [];
 export const HOME_NARROW_STR: string = '[]';
 
 /**
- * A PM narrow -- either 1:1 or group.
+ * A PM narrow, either 1:1 or group.
  *
  * Private to this module because the input format is kind of odd.
  * Use `pmNarrowFromEmail` or `pmNarrowFromEmails` instead.
@@ -37,7 +37,7 @@ const pmNarrowByString = (emails: string): Narrow => [
 ];
 
 /**
- * A group PM narrow.
+ * A PM narrow, either 1:1 or group.
  *
  * The users represented in `emails` should agree, as a (multi)set, with
  * `pmKeyRecipientsFromMessage`.  But this isn't checked, and we've had bugs
