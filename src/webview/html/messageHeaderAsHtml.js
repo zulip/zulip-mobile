@@ -2,13 +2,7 @@
 import template from './template';
 import type { Message, Narrow, Outbox } from '../../types';
 import type { BackgroundData } from '../MessageList';
-import {
-  streamNarrow,
-  topicNarrow,
-  pmNarrowFromEmail,
-  pmNarrowFromEmails,
-  caseNarrow,
-} from '../../utils/narrow';
+import { streamNarrow, topicNarrow, caseNarrow, pmNarrowFromEmails } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 import { humanDate } from '../../utils/date';
 import {
@@ -91,16 +85,13 @@ export default (
 
   if (item.type === 'private' && headerStyle === 'full') {
     const keyRecipients = pmKeyRecipientsFromMessage(item, ownUser);
-    const narrowObj =
-      keyRecipients.length === 1
-        ? pmNarrowFromEmail(keyRecipients[0].email)
-        : pmNarrowFromEmails(keyRecipients.map(r => r.email));
-    const privateNarrowStr = JSON.stringify(narrowObj);
+    const narrowObj = pmNarrowFromEmails(keyRecipients.map(r => r.email));
+    const narrowStr = JSON.stringify(narrowObj);
 
     const uiRecipients = pmUiRecipientsFromMessage(item, ownUser);
     return template`
 <div class="header-wrapper private-header header"
-     data-narrow="${privateNarrowStr}"
+     data-narrow="${narrowStr}"
      data-msg-id="${item.id}">
   ${uiRecipients
     .map(r => r.full_name)
