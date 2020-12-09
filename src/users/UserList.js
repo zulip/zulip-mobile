@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { PresenceState, User, UserOrBot } from '../types';
+import type { PresenceState, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
 import { SectionHeader, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
@@ -16,8 +16,8 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   filter: string,
-  users: User[],
-  selected: User[],
+  users: $ReadOnlyArray<UserOrBot>,
+  selected: $ReadOnlyArray<UserOrBot>,
   presences: PresenceState,
   onPress: (user: UserOrBot) => void,
 |}>;

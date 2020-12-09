@@ -1,19 +1,19 @@
 /* @flow strict-local */
 import uniqby from 'lodash.uniqby';
 
-import type { UserPresence, User, UserId, UserGroup, PresenceState } from '../types';
+import type { UserPresence, User, UserId, UserGroup, PresenceState, UserOrBot } from '../types';
 import { ensureUnreachable } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
 type UsersByStatus = {|
-  active: User[],
-  idle: User[],
-  offline: User[],
-  unavailable: User[],
+  active: UserOrBot[],
+  idle: UserOrBot[],
+  offline: UserOrBot[],
+  unavailable: UserOrBot[],
 |};
 
-export const groupUsersByStatus = (users: User[], presences: PresenceState): UsersByStatus => {
+export const groupUsersByStatus = (users: UserOrBot[], presences: PresenceState): UsersByStatus => {
   const groupedUsers = { active: [], idle: [], offline: [], unavailable: [] };
   users.forEach(user => {
     const status = statusFromPresence(presences[user.email]);
@@ -37,7 +37,7 @@ const statusOrder = (presence: UserPresence): number => {
   }
 };
 
-export const sortUserList = (users: User[], presences: PresenceState): User[] =>
+export const sortUserList = (users: UserOrBot[], presences: PresenceState): UserOrBot[] =>
   [...users].sort(
     (x1, x2) =>
       statusOrder(presences[x1.email]) - statusOrder(presences[x2.email])
@@ -45,10 +45,10 @@ export const sortUserList = (users: User[], presences: PresenceState): User[] =>
   );
 
 export const filterUserList = (
-  users: $ReadOnlyArray<User>,
+  users: $ReadOnlyArray<UserOrBot>,
   filter: string = '',
   ownUserId: ?UserId,
-): User[] =>
+): UserOrBot[] =>
   users.filter(
     user =>
       user.user_id !== ownUserId

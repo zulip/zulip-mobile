@@ -2,12 +2,12 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { User } from '../types';
+import type { UserOrBot } from '../types';
 import AvatarItem from './AvatarItem';
 
 type Props = $ReadOnly<{|
-  users: User[],
-  listRef: (component: FlatList<User> | null) => void,
+  users: UserOrBot[],
+  listRef: (component: FlatList<UserOrBot> | null) => void,
   onPress: (email: string) => void,
 |}>;
 
@@ -21,7 +21,7 @@ export default class AvatarList extends PureComponent<Props> {
         showsHorizontalScrollIndicator={false}
         initialNumToRender={20}
         data={users}
-        ref={(component: FlatList<User> | null) => {
+        ref={(component: FlatList<UserOrBot> | null) => {
           if (listRef) {
             listRef(component);
           }
