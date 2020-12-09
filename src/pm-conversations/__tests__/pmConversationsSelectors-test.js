@@ -70,7 +70,7 @@ describe('getRecentConversationsLegacy', () => {
   test('when no messages, return no conversations', () => {
     const state = eg.reduxState({
       accounts,
-      realm: eg.realmState({ email: eg.selfUser.email }),
+      realm: eg.realmState({ user_id: eg.selfUser.user_id }),
       users: [eg.selfUser],
       narrows: Immutable.Map({
         [ALL_PRIVATE_NARROW_STR]: [],
@@ -90,7 +90,7 @@ describe('getRecentConversationsLegacy', () => {
   test('returns unique list of recipients, includes conversations with self', () => {
     const state = eg.reduxState({
       accounts,
-      realm: eg.realmState({ email: eg.selfUser.email }),
+      realm: eg.realmState({ user_id: eg.selfUser.user_id }),
       users: [eg.selfUser, userJohn, userMark],
       narrows: Immutable.Map({
         [ALL_PRIVATE_NARROW_STR]: [0, 1, 2, 3, 4],
@@ -138,7 +138,7 @@ describe('getRecentConversationsLegacy', () => {
   test('returns recipients sorted by last activity', () => {
     const state = eg.reduxState({
       accounts,
-      realm: eg.realmState({ email: eg.selfUser.email }),
+      realm: eg.realmState({ user_id: eg.selfUser.user_id }),
       users: [eg.selfUser, userJohn, userMark],
       narrows: Immutable.Map({
         [ALL_PRIVATE_NARROW_STR]: [1, 2, 3, 4, 5, 6],
