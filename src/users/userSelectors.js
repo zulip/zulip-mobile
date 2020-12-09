@@ -53,6 +53,8 @@ export const getAllUsersByEmail: Selector<Map<string, UserOrBot>> = createSelect
 );
 
 /**
+ * PRIVATE; exported only for tests.
+ *
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
  *
  * See `getAllUsersById`, and `getAllUsers` for discussion.
@@ -60,18 +62,6 @@ export const getAllUsersByEmail: Selector<Map<string, UserOrBot>> = createSelect
 export const getUsersById: Selector<Map<UserId, User>> = createSelector(
   getUsers,
   (users = []) => new Map(users.map(user => [user.user_id, user])),
-);
-
-/**
- * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
- *
- * Prefer `getUsersById`; see #3764.
- *
- * See `getAllUsersByEmail`, and `getAllUsers` for discussion.
- */
-export const getUsersByEmail: Selector<Map<string, User>> = createSelector(
-  getUsers,
-  (users = []) => new Map(users.map(user => [user.email, user])),
 );
 
 /**
@@ -131,10 +121,9 @@ export const getOwnEmail = (state: GlobalState): string => {
  * See also `getOwnUserId` and `getOwnEmail`.
  */
 export const getOwnUser = (state: GlobalState): User => {
-  const ownEmail = getOwnEmail(state);
-  const ownUser = getUsersByEmail(state).get(ownEmail);
+  const ownUser = getUsersById(state).get(getOwnUserId(state));
   if (ownUser === undefined) {
-    throw new Error('Have ownEmail, but not found in user data');
+    throw new Error('Have ownUserId, but not found in user data');
   }
   return ownUser;
 };
@@ -147,7 +136,7 @@ export const getOwnUser = (state: GlobalState): User => {
  * For discussion, see `nullObjects.js`.
  */
 export const getSelfUserDetail = (state: GlobalState): User =>
-  getUsersByEmail(state).get(getOwnEmail(state)) || NULL_USER;
+  getUsersById(state).get(getOwnUserId(state)) || NULL_USER;
 
 /**
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
