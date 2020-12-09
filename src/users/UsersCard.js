@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import NavigationService from '../nav/NavigationService';
 import type { Dispatch, PresenceState, User, UserOrBot } from '../types';
 import { connect } from '../react-redux';
-import { pmNarrowFromEmail } from '../utils/narrow';
+import { pm1to1NarrowFromUser } from '../utils/narrow';
 import UserList from './UserList';
 import { getUsers, getPresence } from '../selectors';
 import { navigateBack, doNarrow } from '../actions';
@@ -21,7 +21,7 @@ class UsersCard extends PureComponent<Props> {
   handleUserNarrow = (user: UserOrBot) => {
     const { dispatch } = this.props;
     NavigationService.dispatch(navigateBack());
-    dispatch(doNarrow(pmNarrowFromEmail(user.email)));
+    dispatch(doNarrow(pm1to1NarrowFromUser(user)));
   };
 
   render() {

@@ -2,7 +2,7 @@
 import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
 
-import type { Narrow, Message, Outbox, User } from '../types';
+import type { Narrow, Message, Outbox, User, UserOrBot } from '../types';
 import {
   normalizeRecipientsSansMe,
   pmKeyRecipientsFromMessage,
@@ -84,7 +84,13 @@ const pmNarrowByString = (emails: string): Narrow => [
 //  * Good: getNarrowsForMessage: also pmKeyRecipientsFromMessage
 export const pmNarrowFromEmails = (emails: string[]): Narrow => pmNarrowByString(emails.join());
 
-/** Convenience wrapper for `pmNarrowFromEmails`. */
+/**
+ * DEPRECATED.  Convenience wrapper for `pmNarrowFromEmails`.
+ *
+ * This function is being replaced by `pm1to1NarrowFromUser`, as part of
+ * migrating from emails to user IDs to identify users.  Don't add new uses
+ * of this function; use that one instead.
+ */
 export const pmNarrowFromEmail = (email: string): Narrow => pmNarrowFromEmails([email]);
 
 /**
@@ -105,9 +111,21 @@ export const pmNarrowFromRecipients = (recipients: PmKeyRecipients): Narrow =>
  *
  * This is just like `pmNarrowFromRecipients`, but taking a slightly
  * different form of input.  Use whichever one is more convenient.
+ *
+ * See also `pm1to1NarrowFromUser`, which is more convenient when you have a
+ * single specific user.
  */
 export const pmNarrowFromUsers = (recipients: PmKeyUsers): Narrow =>
   pmNarrowFromEmails(recipients.map(r => r.email));
+
+/**
+ * A 1:1 PM narrow, possibly with self.
+ *
+ * This has the same effect as calling pmNarrowFromUsers, but for code that
+ * statically has just one other user it's a bit more convenient because it
+ * doesn't require going through our `recipient` helpers.
+ */
+export const pm1to1NarrowFromUser = (user: UserOrBot): Narrow => pmNarrowFromEmails([user.email]);
 
 export const specialNarrow = (operand: string): Narrow => [
   {
