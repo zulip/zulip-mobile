@@ -30,8 +30,8 @@ export default class PmConversationList extends PureComponent<Props> {
     this.props.dispatch(doNarrow(pm1to1NarrowFromUser(user)));
   };
 
-  handleGroupNarrow = (email: string) => {
-    this.props.dispatch(doNarrow(pmNarrowFromEmails(email.split(','))));
+  handleGroupNarrow = (users: $ReadOnlyArray<UserOrBot>) => {
+    this.props.dispatch(doNarrow(pmNarrowFromEmails(users.map(u => u.email))));
   };
 
   render() {
@@ -44,26 +44,28 @@ export default class PmConversationList extends PureComponent<Props> {
         data={conversations}
         keyExtractor={item => item.recipients}
         renderItem={({ item }) => {
-          if (item.recipients.indexOf(',') === -1) {
-            const user = allUsersByEmail.get(item.recipients);
-
+          const users = [];
+          for (const email of item.recipients.split(',')) {
+            const user = allUsersByEmail.get(email);
             if (!user) {
               return null;
             }
-
-            return (
-              <UserItem user={user} unreadCount={item.unread} onPress={this.handleUserNarrow} />
-            );
+            users.push(user);
           }
 
-          return (
-            <GroupPmConversationItem
-              email={item.recipients}
-              unreadCount={item.unread}
-              allUsersByEmail={allUsersByEmail}
-              onPress={this.handleGroupNarrow}
-            />
-          );
+          if (users.length === 1) {
+            return (
+              <UserItem user={users[0]} unreadCount={item.unread} onPress={this.handleUserNarrow} />
+            );
+          } else {
+            return (
+              <GroupPmConversationItem
+                users={users}
+                unreadCount={item.unread}
+                onPress={this.handleGroupNarrow}
+              />
+            );
+          }
         }}
       />
     );
