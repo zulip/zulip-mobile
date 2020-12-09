@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Auth, Dispatch, Stream, User } from '../types';
+import type { Auth, Dispatch, Stream, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
@@ -35,7 +35,7 @@ class InviteUsersScreen extends PureComponent<Props, State> {
 
   handleFilterChange = (filter: string) => this.setState({ filter });
 
-  handleInviteUsers = (selected: User[]) => {
+  handleInviteUsers = (selected: UserOrBot[]) => {
     const { auth, stream } = this.props;
 
     const recipients = selected.map(user => user.email);

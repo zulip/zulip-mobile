@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, User, UserId } from '../types';
+import type { Dispatch, UserId, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { doNarrow, navigateBack } from '../actions';
@@ -35,7 +35,7 @@ class CreateGroupScreen extends PureComponent<Props, State> {
 
   handleFilterChange = (filter: string) => this.setState({ filter });
 
-  handleCreateGroup = (selected: User[]) => {
+  handleCreateGroup = (selected: UserOrBot[]) => {
     const { dispatch, ownUserId } = this.props;
     NavigationService.dispatch(navigateBack());
     dispatch(doNarrow(pmNarrowFromUsers(pmKeyRecipientsFromUsers(selected, ownUserId))));
