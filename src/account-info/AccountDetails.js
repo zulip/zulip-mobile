@@ -20,7 +20,7 @@ const componentStyles = createStyleSheet({
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  statusSymbol: {
+  presenceStatusIndicator: {
     position: 'relative',
     top: 2,
     marginRight: 5,
@@ -66,7 +66,7 @@ class AccountDetails extends PureComponent<Props> {
         </View>
         <View style={componentStyles.statusWrapper}>
           <PresenceStatusIndicator
-            style={componentStyles.statusSymbol}
+            style={componentStyles.presenceStatusIndicator}
             email={user.email}
             hideIfOffline={false}
           />
