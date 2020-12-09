@@ -5,6 +5,7 @@ import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/Style
 import type { SubsetProperties } from './generics';
 import type { Auth, Topic, Message, ReactionType } from './api/apiTypes';
 import type { ZulipVersion } from './utils/zulipVersion';
+import type { PmKeyUsers } from './utils/recipient';
 
 export type * from './generics';
 export type * from './reduxTypes';
@@ -318,9 +319,9 @@ export type TabNavigationOptionsPropsType = {|
  * Summary of a PM conversation (either 1:1 or group PMs).
  */
 export type PmConversationData = {|
-  ids: string,
+  key: string,
+  keyRecipients: PmKeyUsers,
   msgId: number,
-  recipients: string,
   unread: number,
 |};
 

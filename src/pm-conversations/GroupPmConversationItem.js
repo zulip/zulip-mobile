@@ -14,16 +14,18 @@ const componentStyles = createStyleSheet({
   },
 });
 
-type Props = $ReadOnly<{|
-  users: $ReadOnlyArray<UserOrBot>,
+type Props<U> = $ReadOnly<{|
+  users: U,
   unreadCount: number,
-  onPress: (users: $ReadOnlyArray<UserOrBot>) => void,
+  onPress: (users: U) => void,
 |}>;
 
 /**
  * A list item describing one group PM conversation.
  * */
-export default class GroupPmConversationItem extends PureComponent<Props> {
+export default class GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>> extends PureComponent<
+  Props<U>,
+> {
   handlePress = () => {
     const { users, onPress } = this.props;
     onPress(users);

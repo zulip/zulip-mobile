@@ -48,29 +48,19 @@ const pmNarrowByString = (emails: string): Narrow => [
  * They might not have a consistent sorting.  (This would be good to fix.)
  * Consumers of this data should sort for themselves when making comparisons.
  */
-// Ideally, all callers should agree on how they're sorted, too.  Because
-// they don't, we have latent bugs (possibly a live one somewhere) where we
+// Ideally, all callers should agree on how they're sorted, too.  If not, we
 // can wind up with several distinct narrows that are actually the same
-// group PM conversation.
-//
-// For example this happens if you have a group PM conversation where email
-// and ID sorting don't happen to coincide; visit a group PM conversation
-// from the main nav (either the unreads or PMs screen) -- which sorts by
-// email; and then visit the same conversation from a recipient bar on the
-// "all messages" narrow -- which sorts by ID.  The Redux logs in the
-// debugger will show two different entries in `state.narrows`.  This bug is
-// merely latent only because it doesn't (as far as we know) have any
-// user-visible effect.
+// group PM conversation.  But it appears that we now do sort consistently,
+// by user ID.
 //
 // Known call stacks not using the validating helpers:
 //  * OK, perilously: CreateGroupScreen: the self user isn't offered in the
 //      UI, so effectively the list is filtered; does sort by ID
-//  * OK, email: PmConversationList < PmConversationCard: the data comes
-//      from `getRecentConversations`, which filters and sorts by email
-//  * OK, email: PmConversationList < UnreadCards: ditto
 //
 // Known call stacks using the validating helpers -- which guarantee not
 // only filtering but sorting by ID, hooray:
+//  * PmConversationList < PmConversationCard
+//  * PmConversationList < UnreadCards
 //  * getNarrowFromLink.  Though there's basically a bug in the webapp,
 //      where the URL that appears in the location bar for a group PM
 //      conversation excludes self -- so it's unusable if you try to give

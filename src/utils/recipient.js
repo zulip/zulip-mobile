@@ -246,6 +246,18 @@ export const pmKeyRecipientsFromIds = (
 };
 
 /**
+ * Just like pmKeyRecipientsFromMessage, but in a slightly different format.
+ */
+export const pmKeyRecipientUsersFromMessage = (
+  message: Message | Outbox,
+  allUsersById: Map<number, UserOrBot>,
+  ownUserId: number,
+): PmKeyUsers | null => {
+  const userIds = recipientsOfPrivateMessage(message).map(r => r.id);
+  return pmKeyRecipientsFromIds(userIds, allUsersById, ownUserId);
+};
+
+/**
  * The key this PM is filed under in the "unread messages" data structure.
  *
  * Note this diverges slightly from pmKeyRecipientsFromMessage in its

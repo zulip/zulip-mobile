@@ -33,7 +33,7 @@ describe('getRecentConversations', () => {
     const meAndMarkPm = eg.pmMessage({ id: 2, recipients: [eg.selfUser, userMark] });
     const meAndJohnPm2 = eg.pmMessage({ id: 3, recipients: [eg.selfUser, userJohn] });
     const meOnlyPm = eg.pmMessage({ id: 4, recipients: [eg.selfUser] });
-    const meJohnAndMarkPm = eg.pmMessage({ id: 0, recipients: [eg.selfUser, userMark, userJohn] });
+    const meJohnAndMarkPm = eg.pmMessage({ id: 0, recipients: [eg.selfUser, userJohn, userMark] });
 
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
@@ -84,29 +84,29 @@ describe('getRecentConversations', () => {
 
     const expectedResult = [
       {
-        ids: eg.selfUser.user_id.toString(),
-        recipients: eg.selfUser.email,
+        key: eg.selfUser.user_id.toString(),
+        keyRecipients: [eg.selfUser],
         msgId: meOnlyPm.id,
         unread: 1,
       },
       {
-        ids: userJohn.user_id.toString(),
-        recipients: userJohn.email,
+        key: userJohn.user_id.toString(),
+        keyRecipients: [userJohn],
         msgId: meAndJohnPm2.id,
         unread: 2,
       },
       {
-        ids: userMark.user_id.toString(),
-        recipients: userMark.email,
+        key: userMark.user_id.toString(),
+        keyRecipients: [userMark],
         msgId: meAndMarkPm.id,
         unread: 1,
       },
       {
-        ids: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
+        key: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
           .sort((a, b) => a - b)
           .map(String)
           .join(','),
-        recipients: [userJohn.email, userMark.email].sort().join(','),
+        keyRecipients: [userJohn, userMark].sort((a, b) => a.user_id - b.user_id),
         msgId: meJohnAndMarkPm.id,
         unread: 1,
       },
@@ -178,29 +178,29 @@ describe('getRecentConversations', () => {
 
     const expectedResult = [
       {
-        ids: eg.selfUser.user_id.toString(),
-        recipients: eg.selfUser.email,
+        key: eg.selfUser.user_id.toString(),
+        keyRecipients: [eg.selfUser],
         msgId: meOnlyPm.id,
         unread: 1,
       },
       {
-        ids: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
+        key: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
           .sort((a, b) => a - b)
           .map(String)
           .join(','),
-        recipients: [userJohn.email, userMark.email].sort().join(','),
+        keyRecipients: [userJohn, userMark].sort((a, b) => a.user_id - b.user_id),
         msgId: meJohnAndMarkPm.id,
         unread: 1,
       },
       {
-        ids: userJohn.user_id.toString(),
-        recipients: userJohn.email,
+        key: userJohn.user_id.toString(),
+        keyRecipients: [userJohn],
         msgId: meAndJohnPm2.id,
         unread: 2,
       },
       {
-        ids: userMark.user_id.toString(),
-        recipients: userMark.email,
+        key: userMark.user_id.toString(),
+        keyRecipients: [userMark],
         msgId: meAndMarkPm2.id,
         unread: 1,
       },
