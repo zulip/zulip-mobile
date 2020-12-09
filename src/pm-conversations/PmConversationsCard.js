@@ -43,7 +43,7 @@ type Props = $ReadOnly<{|
 
   dispatch: Dispatch,
   conversations: PmConversationData[],
-  usersByEmail: Map<string, UserOrBot>,
+  allUsersByEmail: Map<string, UserOrBot>,
 |}>;
 
 /**
@@ -54,7 +54,7 @@ class PmConversationsCard extends PureComponent<Props> {
   context: ThemeData;
 
   render() {
-    const { dispatch, conversations, usersByEmail } = this.props;
+    const { dispatch, conversations, allUsersByEmail } = this.props;
 
     return (
       <View style={[styles.container, { backgroundColor: this.context.backgroundColor }]}>
@@ -85,7 +85,7 @@ class PmConversationsCard extends PureComponent<Props> {
           <PmConversationList
             dispatch={dispatch}
             conversations={conversations}
-            usersByEmail={usersByEmail}
+            allUsersByEmail={allUsersByEmail}
           />
         )}
       </View>
@@ -95,5 +95,5 @@ class PmConversationsCard extends PureComponent<Props> {
 
 export default connect(state => ({
   conversations: getRecentConversations(state),
-  usersByEmail: getAllUsersByEmail(state),
+  allUsersByEmail: getAllUsersByEmail(state),
 }))(PmConversationsCard);

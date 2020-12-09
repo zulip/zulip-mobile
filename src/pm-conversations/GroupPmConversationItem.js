@@ -16,7 +16,7 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   email: string,
-  usersByEmail: Map<string, UserOrBot>,
+  allUsersByEmail: Map<string, UserOrBot>,
   unreadCount: number,
   onPress: (emails: string) => void,
 |}>;
@@ -31,8 +31,8 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
   };
 
   render() {
-    const { email, usersByEmail, unreadCount } = this.props;
-    const allUsers = email.split(',').map(e => usersByEmail.get(e));
+    const { email, allUsersByEmail, unreadCount } = this.props;
+    const allUsers = email.split(',').map(e => allUsersByEmail.get(e));
 
     const allUsersFound = allUsers.every(user => user);
 

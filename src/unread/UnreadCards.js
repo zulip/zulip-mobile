@@ -20,7 +20,7 @@ import { doNarrow } from '../actions';
 type Props = $ReadOnly<{|
   conversations: PmConversationData[],
   dispatch: Dispatch,
-  usersByEmail: Map<string, UserOrBot>,
+  allUsersByEmail: Map<string, UserOrBot>,
   unreadStreamsAndTopics: UnreadStreamItem[],
 |}>;
 
@@ -91,6 +91,6 @@ class UnreadCards extends PureComponent<Props> {
 
 export default connect(state => ({
   conversations: getUnreadConversations(state),
-  usersByEmail: getAllUsersByEmail(state),
+  allUsersByEmail: getAllUsersByEmail(state),
   unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),
 }))(UnreadCards);

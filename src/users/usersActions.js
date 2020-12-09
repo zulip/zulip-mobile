@@ -64,11 +64,11 @@ export const sendTypingStart = (narrow: Narrow) => async (
     return;
   }
 
-  const usersByEmail = getAllUsersByEmail(getState());
+  const allUsersByEmail = getAllUsersByEmail(getState());
   const recipientIds = caseNarrowPartial(narrow, {
     pm: emails => emails,
   }).map(email => {
-    const user = usersByEmail.get(email);
+    const user = allUsersByEmail.get(email);
     if (!user) {
       throw new Error('unknown user');
     }

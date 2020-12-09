@@ -61,9 +61,9 @@ describe('getNarrowFromNotificationData', () => {
       recipient_type: 'private',
       pm_users: '1,2,4',
     };
-    const usersById = new Map();
+    const allUsersById = new Map();
 
-    const narrow = getNarrowFromNotificationData(notification, usersById, ownUserId);
+    const narrow = getNarrowFromNotificationData(notification, allUsersById, ownUserId);
 
     expect(narrow).toBe(null);
   });

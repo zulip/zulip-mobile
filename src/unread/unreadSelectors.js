@@ -236,7 +236,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
   (
     narrow,
     streams,
-    usersByEmail,
+    allUsersByEmail,
     ownEmail,
     unreadTotal,
     unreadStreams,
@@ -278,7 +278,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
 
     if (isGroupPmNarrow(narrow)) {
       const userIds = [...narrow[0].operand.split(','), ownEmail]
-        .map(email => (usersByEmail.get(email) || NULL_USER).user_id)
+        .map(email => (allUsersByEmail.get(email) || NULL_USER).user_id)
         .sort((a, b) => a - b)
         .join(',');
       const unread = unreadHuddles.find(x => x.user_ids_string === userIds);
@@ -286,7 +286,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
     }
 
     if (is1to1PmNarrow(narrow)) {
-      const sender = usersByEmail.get(narrow[0].operand);
+      const sender = allUsersByEmail.get(narrow[0].operand);
       if (!sender) {
         return 0;
       }

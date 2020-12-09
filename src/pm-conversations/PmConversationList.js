@@ -19,7 +19,7 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
   conversations: PmConversationData[],
-  usersByEmail: Map<string, UserOrBot>,
+  allUsersByEmail: Map<string, UserOrBot>,
 |}>;
 
 /**
@@ -35,7 +35,7 @@ export default class PmConversationList extends PureComponent<Props> {
   };
 
   render() {
-    const { conversations, usersByEmail } = this.props;
+    const { conversations, allUsersByEmail } = this.props;
 
     return (
       <FlatList
@@ -45,7 +45,7 @@ export default class PmConversationList extends PureComponent<Props> {
         keyExtractor={item => item.recipients}
         renderItem={({ item }) => {
           if (item.recipients.indexOf(',') === -1) {
-            const user = usersByEmail.get(item.recipients);
+            const user = allUsersByEmail.get(item.recipients);
 
             if (!user) {
               return null;
@@ -60,7 +60,7 @@ export default class PmConversationList extends PureComponent<Props> {
             <GroupPmConversationItem
               email={item.recipients}
               unreadCount={item.unread}
-              usersByEmail={usersByEmail}
+              allUsersByEmail={allUsersByEmail}
               onPress={this.handleGroupNarrow}
             />
           );
