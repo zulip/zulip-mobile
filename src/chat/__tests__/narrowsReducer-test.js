@@ -6,7 +6,7 @@ import narrowsReducer from '../narrowsReducer';
 import {
   HOME_NARROW,
   HOME_NARROW_STR,
-  pmNarrowFromEmail,
+  pm1to1NarrowFromUser,
   ALL_PRIVATE_NARROW_STR,
   pmNarrowFromEmails,
   streamNarrow,
@@ -23,7 +23,7 @@ import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../anchor';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('narrowsReducer', () => {
-  const privateNarrowStr = JSON.stringify(pmNarrowFromEmail(eg.otherUser.email));
+  const privateNarrowStr = JSON.stringify(pm1to1NarrowFromUser(eg.otherUser));
   const groupNarrowStr = JSON.stringify(
     pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]),
   );
@@ -147,7 +147,7 @@ describe('narrowsReducer', () => {
   });
 
   test('message sent to self is stored correctly', () => {
-    const narrowWithSelfStr = JSON.stringify(pmNarrowFromEmail(eg.selfUser.email));
+    const narrowWithSelfStr = JSON.stringify(pm1to1NarrowFromUser(eg.selfUser));
     const initialState = Immutable.Map({
       [HOME_NARROW_STR]: [],
       [narrowWithSelfStr]: [],
@@ -373,7 +373,7 @@ describe('narrowsReducer', () => {
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
         anchor: 2,
-        narrow: pmNarrowFromEmail(eg.otherUser.email),
+        narrow: pm1to1NarrowFromUser(eg.otherUser),
         messages: [],
         numBefore: 100,
         numAfter: 100,
@@ -383,7 +383,7 @@ describe('narrowsReducer', () => {
 
       const expectedState = Immutable.Map({
         [HOME_NARROW_STR]: [1, 2, 3],
-        [JSON.stringify(pmNarrowFromEmail(eg.otherUser.email))]: [],
+        [JSON.stringify(pm1to1NarrowFromUser(eg.otherUser))]: [],
       });
 
       const newState = narrowsReducer(initialState, action);

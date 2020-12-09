@@ -2,7 +2,7 @@
 
 import type { GlobalState } from '../../types';
 import { getCurrentTypingUsers } from '../typingSelectors';
-import { HOME_NARROW, pmNarrowFromEmail, pmNarrowFromEmails } from '../../utils/narrow';
+import { HOME_NARROW, pm1to1NarrowFromUser, pmNarrowFromEmails } from '../../utils/narrow';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
 import { normalizeRecipientsAsUserIds } from '../../utils/recipient';
@@ -25,7 +25,7 @@ describe('getCurrentTypingUsers', () => {
       users: [expectedUser],
     });
 
-    const typingUsers = getCurrentTypingUsers(state, pmNarrowFromEmail(expectedUser.email));
+    const typingUsers = getCurrentTypingUsers(state, pm1to1NarrowFromUser(expectedUser));
 
     expect(typingUsers).toEqual([expectedUser]);
   });
@@ -63,7 +63,7 @@ describe('getCurrentTypingUsers', () => {
       users: [user1, user2],
     });
 
-    const typingUsers = getCurrentTypingUsers(state, pmNarrowFromEmail(user2.email));
+    const typingUsers = getCurrentTypingUsers(state, pm1to1NarrowFromUser(user2));
 
     expect(typingUsers).toEqual(NULL_ARRAY);
   });
@@ -99,7 +99,7 @@ describe('getCurrentTypingUsers', () => {
     });
 
     const getTypingUsers = () =>
-      getCurrentTypingUsers(state, pmNarrowFromEmail(deactivatedUser.email));
+      getCurrentTypingUsers(state, pm1to1NarrowFromUser(deactivatedUser));
 
     expect(getTypingUsers).not.toThrow();
     expect(getTypingUsers()).toEqual([]);
@@ -112,8 +112,7 @@ describe('getCurrentTypingUsers', () => {
       realm: eg.realmState({ crossRealmBots: [crossRealmBot] }),
     });
 
-    const getTypingUsers = () =>
-      getCurrentTypingUsers(state, pmNarrowFromEmail(crossRealmBot.email));
+    const getTypingUsers = () => getCurrentTypingUsers(state, pm1to1NarrowFromUser(crossRealmBot));
 
     expect(getTypingUsers).not.toThrow();
     expect(getTypingUsers()).toEqual([]);
