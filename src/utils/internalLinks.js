@@ -111,7 +111,7 @@ const parseStreamOperand = (operand, streamsById): string => {
 const parseTopicOperand = operand => decodeHashComponent(operand);
 
 /** Parse the operand of a `pm-with` operator. */
-const parsePmOperand = (operand, usersById, ownUserId) => {
+const parsePmOperand = operand => {
   const idStrs = operand.split('-')[0].split(',');
   return idStrs.map(s => parseInt(s, 10));
 };
@@ -128,7 +128,7 @@ export const getNarrowFromLink = (
 
   switch (type) {
     case 'pm': {
-      const ids = parsePmOperand(paths[1], usersById, ownUserId);
+      const ids = parsePmOperand(paths[1]);
       const users = pmKeyRecipientsFromIds(ids, usersById, ownUserId);
       return users && pmNarrowFromEmails(users.map(u => u.email));
     }
