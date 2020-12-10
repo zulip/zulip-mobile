@@ -6,7 +6,7 @@ import {
   pmNarrowFromEmail,
   streamNarrow,
   topicNarrow,
-  pmNarrowFromEmails,
+  pmNarrowFromUsersUnsafe,
 } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -42,7 +42,7 @@ describe('getComposeInputPlaceholder', () => {
   });
 
   test('returns "Message group" object for group narrow', () => {
-    const narrow = deepFreeze(pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]));
+    const narrow = deepFreeze(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]));
     const placeholder = getComposeInputPlaceholder(narrow, ownEmail, usersByEmail);
     expect(placeholder).toEqual({ text: 'Message group' });
   });

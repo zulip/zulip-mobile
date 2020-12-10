@@ -104,7 +104,7 @@ describe('isPmNarrow', () => {
     expect(isPmNarrow(undefined)).toBe(false);
     expect(isPmNarrow(HOME_NARROW)).toBe(false);
     expect(isPmNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(true);
-    expect(isPmNarrow(pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]))).toBe(true);
+    expect(isPmNarrow(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]))).toBe(true);
     expect(
       isPmNarrow([
         {
@@ -131,9 +131,9 @@ describe('isStreamOrTopicNarrow', () => {
     expect(isStreamOrTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
     expect(isStreamOrTopicNarrow(HOME_NARROW)).toBe(false);
     expect(isStreamOrTopicNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(false);
-    expect(
-      isStreamOrTopicNarrow(pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email])),
-    ).toBe(false);
+    expect(isStreamOrTopicNarrow(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]))).toBe(
+      false,
+    );
     expect(isStreamOrTopicNarrow(STARRED_NARROW)).toBe(false);
   });
 });
@@ -258,7 +258,7 @@ describe('isMessageInNarrow', () => {
       ['group-PM, outbound', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['stream message', false, eg.streamMessage()],
     ]],
-    ['group-PM conversation', pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]), [
+    ['group-PM conversation', pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]), [
       ['matching group-PM, inbound', true, eg.pmMessage({ recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['matching group-PM, outbound', true, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['1:1 within group, inbound', false, eg.pmMessage()],
@@ -266,7 +266,7 @@ describe('isMessageInNarrow', () => {
       ['self-1:1 message', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
       ['stream message', false, eg.streamMessage()],
     ]],
-    ['group-PM conversation, including self', pmNarrowFromEmails([eg.selfUser.email, eg.otherUser.email, eg.thirdUser.email]), [
+    ['group-PM conversation, including self', pmNarrowFromUsersUnsafe([eg.selfUser, eg.otherUser, eg.thirdUser]), [
       ['matching group-PM, inbound', true, eg.pmMessage({ recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['matching group-PM, outbound', true, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['1:1 within group, inbound', false, eg.pmMessage()],

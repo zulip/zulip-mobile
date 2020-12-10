@@ -2,7 +2,7 @@
 
 import type { GlobalState } from '../../types';
 import { getCurrentTypingUsers } from '../typingSelectors';
-import { HOME_NARROW, pm1to1NarrowFromUser, pmNarrowFromEmails } from '../../utils/narrow';
+import { HOME_NARROW, pm1to1NarrowFromUser, pmNarrowFromUsersUnsafe } from '../../utils/narrow';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
 import { normalizeRecipientsAsUserIds } from '../../utils/recipient';
@@ -43,10 +43,7 @@ describe('getCurrentTypingUsers', () => {
       users: [user1, user2],
     });
 
-    const typingUsers = getCurrentTypingUsers(
-      state,
-      pmNarrowFromEmails([user1.email, user2.email]),
-    );
+    const typingUsers = getCurrentTypingUsers(state, pmNarrowFromUsersUnsafe([user1, user2]));
 
     expect(typingUsers).toEqual([user1, user2]);
   });
@@ -85,7 +82,7 @@ describe('getCurrentTypingUsers', () => {
 
     const typingUsers = getCurrentTypingUsers(
       state,
-      pmNarrowFromEmails([expectedUser.email, anotherUser.email]),
+      pmNarrowFromUsersUnsafe([expectedUser, anotherUser]),
     );
 
     expect(typingUsers).toEqual([expectedUser]);

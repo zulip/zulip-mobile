@@ -15,7 +15,7 @@ import {
   streamNarrow,
   topicNarrow,
   STARRED_NARROW,
-  pmNarrowFromEmails,
+  pmNarrowFromUsersUnsafe,
 } from '../../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -293,7 +293,7 @@ describe('isNarrowValid', () => {
       streams: [],
       users: [john, mark],
     });
-    const narrow = pmNarrowFromEmails([john.email, mark.email]);
+    const narrow = pmNarrowFromUsersUnsafe([john, mark]);
 
     const result = isNarrowValid(state, narrow);
 
@@ -312,7 +312,7 @@ describe('isNarrowValid', () => {
       streams: [],
       users: [john],
     });
-    const narrow = pmNarrowFromEmails([john.email, mark.email]);
+    const narrow = pmNarrowFromUsersUnsafe([john, mark]);
 
     const result = isNarrowValid(state, narrow);
 

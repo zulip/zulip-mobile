@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../titleSelectors';
-import { pmNarrowFromEmails, streamNarrow, pmNarrowFromEmail } from '../../utils/narrow';
+import { pmNarrowFromUsersUnsafe, streamNarrow, pmNarrowFromEmail } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getTitleBackgroundColor', () => {
@@ -28,7 +28,7 @@ describe('getTitleBackgroundColor', () => {
       DEFAULT_TITLE_BACKGROUND_COLOR,
     );
     expect(
-      getTitleBackgroundColor(state, pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email])),
+      getTitleBackgroundColor(state, pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser])),
     ).toEqual(DEFAULT_TITLE_BACKGROUND_COLOR);
   });
 });
