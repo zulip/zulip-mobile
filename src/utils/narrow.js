@@ -119,6 +119,25 @@ export const pmNarrowFromUsers = (recipients: PmKeyUsers): Narrow =>
   pmNarrowFromEmails(recipients.map(r => r.email));
 
 /**
+ * FOR TESTS ONLY.  Like pmNarrowFromUsers, but without validation.
+ *
+ * This exists purely for convenience in tests. Unlike the other Narrow
+ * constructors, its type does not require the argument to have come from a
+ * function that applies our "maybe filter out self" convention.  The caller
+ * is still required to do so, but nothing checks this.
+ *
+ * Outside of tests, always use pmNarrowFromUsers instead.  Use
+ * pmKeyRecipientsFromUsers, along with an ownUserId value, to produce the
+ * needed input.
+ *
+ * This does take care of sorting the input as needed.
+ */
+// It'd be fine for test data to go through the usual filtering logic; the
+// annoying thing is just that that requires an ownUserId value.
+export const pmNarrowFromUsersUnsafe = (recipients: UserOrBot[]): Narrow =>
+  pmNarrowFromEmails(recipients.sort((a, b) => a.user_id - b.user_id).map(r => r.email));
+
+/**
  * A 1:1 PM narrow, possibly with self.
  *
  * This has the same effect as calling pmNarrowFromUsers, but for code that
