@@ -67,10 +67,18 @@ const eventNewMessage = (state, action) => {
       }
 
       if (!(action.caughtUp[key] && action.caughtUp[key].newer)) {
+        // Don't add a message to the end of the list unless we know
+        // it's the most recent message, i.e., unless we know we're
+        // currently looking at (caught up with) the newest messages in
+        // the narrow.
         return; // i.e., continue
       }
 
       if (!(value.find(id => action.message.id === id) === undefined)) {
+        // Don't add a message that's already been added. It's probably
+        // very rare for a message to have already been added when we
+        // get an EVENT_NEW_MESSAGE, and perhaps impossible. (TODO:
+        // investigate?)
         return; // i.e., continue
       }
 
