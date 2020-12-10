@@ -6,8 +6,8 @@ import { ALL_PRIVATE_NARROW_STR } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getRecentConversations', () => {
-  const userJohn = { ...eg.makeUser({ name: 'John' }), user_id: 1 };
-  const userMark = { ...eg.makeUser({ name: 'Mark' }), user_id: 2 };
+  const userJohn = eg.makeUser();
+  const userMark = eg.makeUser();
 
   test('when no messages, return no conversations', () => {
     const state = eg.reduxState({
