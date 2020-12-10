@@ -91,24 +91,6 @@ describe('unreadPmsReducer', () => {
       expect(actualState).toBe(initialState);
     });
 
-    test('if message is sent by self, do not mutate state', () => {
-      const initialState = deepFreeze([]);
-      const message1 = eg.pmMessage({
-        sender: eg.selfUser,
-        recipients: [eg.otherUser, eg.selfUser],
-      });
-
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message: message1,
-        ownEmail: eg.selfUser.email,
-      });
-
-      const actualState = unreadPmsReducer(initialState, action);
-
-      expect(actualState).toBe(initialState);
-    });
-
     test('if message is not private, return original state', () => {
       const message4 = eg.streamMessage({ id: 4 });
       const initialState = deepFreeze([
@@ -121,6 +103,24 @@ describe('unreadPmsReducer', () => {
       const action = deepFreeze({
         ...eg.eventNewMessageActionBase,
         message: message4,
+      });
+
+      const actualState = unreadPmsReducer(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+
+    test('if message is sent by self, do not mutate state', () => {
+      const initialState = deepFreeze([]);
+      const message1 = eg.pmMessage({
+        sender: eg.selfUser,
+        recipients: [eg.otherUser, eg.selfUser],
+      });
+
+      const action = deepFreeze({
+        ...eg.eventNewMessageActionBase,
+        message: message1,
+        ownEmail: eg.selfUser.email,
       });
 
       const actualState = unreadPmsReducer(initialState, action);
