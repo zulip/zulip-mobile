@@ -34,7 +34,7 @@ class CreateGroupScreen extends PureComponent<Props, State> {
   handleCreateGroup = (selected: User[]) => {
     const { dispatch } = this.props;
 
-    const recipients = selected.map(user => user.email);
+    const recipients = selected.sort((a, b) => a.user_id - b.user_id).map(user => user.email);
     NavigationService.dispatch(navigateBack());
     dispatch(doNarrow(pmNarrowFromEmails(recipients)));
   };

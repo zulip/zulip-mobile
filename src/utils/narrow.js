@@ -63,9 +63,8 @@ const pmNarrowByString = (emails: string): Narrow => [
 // user-visible effect.
 //
 // Known call stacks not using the validating helpers:
-//  * OK, perilously, unsorted: CreateGroupScreen: the self user isn't
-//      offered in the UI, so effectively the list is filtered; can call
-//      with just one email, but happily this works out the same as pmNarrow
+//  * OK, perilously: CreateGroupScreen: the self user isn't offered in the
+//      UI, so effectively the list is filtered; does sort by ID
 //  * OK, email: PmConversationList < PmConversationCard: the data comes
 //      from `getRecentConversations`, which filters and sorts by email
 //  * OK, email: PmConversationList < UnreadCards: ditto
