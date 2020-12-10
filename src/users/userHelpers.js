@@ -44,16 +44,18 @@ export const sortUserList = (users: User[], presences: PresenceState): User[] =>
       || x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
   );
 
-export const filterUserList = (users: User[], filter: string = '', ownUserId: ?UserId): User[] =>
-  users.length > 0
-    ? users.filter(
-        user =>
-          user.user_id !== ownUserId
-          && (filter === ''
-            || user.full_name.toLowerCase().includes(filter.toLowerCase())
-            || user.email.toLowerCase().includes(filter.toLowerCase())),
-      )
-    : users;
+export const filterUserList = (
+  users: $ReadOnlyArray<User>,
+  filter: string = '',
+  ownUserId: ?UserId,
+): User[] =>
+  users.filter(
+    user =>
+      user.user_id !== ownUserId
+      && (filter === ''
+        || user.full_name.toLowerCase().includes(filter.toLowerCase())
+        || user.email.toLowerCase().includes(filter.toLowerCase())),
+  );
 
 export const sortAlphabetically = (users: User[]): User[] =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()));

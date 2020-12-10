@@ -22,7 +22,7 @@ describe('filterUserList', () => {
     const users = deepFreeze([]);
 
     const filteredUsers = filterUserList(users, 'some filter');
-    expect(filteredUsers).toBe(users);
+    expect(filteredUsers).toEqual(users);
   });
 
   test('returns same list if no filter', () => {
