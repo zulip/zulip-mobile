@@ -1,13 +1,10 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
 import unreadPmsReducer from '../unreadPmsReducer';
-import {
-  REALM_INIT,
-  ACCOUNT_SWITCH,
-  EVENT_NEW_MESSAGE,
-  EVENT_UPDATE_MESSAGE_FLAGS,
-} from '../../actionConstants';
+import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('unreadPmsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -21,6 +18,7 @@ describe('unreadPmsReducer', () => {
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
+        index: 1,
       });
 
       const expectedState = [];
@@ -35,27 +33,35 @@ describe('unreadPmsReducer', () => {
     test('received data from "unread_msgs.pms" key replaces the current state ', () => {
       const initialState = deepFreeze([]);
 
+      const message1 = eg.pmMessage({ id: 1, sender_id: 1 });
+      const message2 = eg.pmMessage({ id: 2, sender_id: 1 });
+      const message3 = eg.pmMessage({ id: 3, sender_id: 1 });
+      const message4 = eg.pmMessage({ id: 4, sender_id: 1 });
+      const message5 = eg.pmMessage({ id: 5, sender_id: 1 });
+
       const action = deepFreeze({
-        type: REALM_INIT,
+        ...eg.action.realm_init,
         data: {
+          ...eg.action.realm_init.data,
           unread_msgs: {
-            streams: [{}, {}],
-            huddles: [{}, {}, {}],
+            ...eg.action.realm_init.data.unread_msgs,
+            streams: [],
+            huddles: [],
             pms: [
               {
-                sender_id: 1,
-                unread_message_ids: [1, 2, 4, 5],
+                sender_id: message1.sender_id,
+                unread_message_ids: [message1.id, message2.id, message4.id, message5.id],
               },
             ],
-            mentions: [1, 2, 3],
+            mentions: [message1.id, message2.id, message3.id],
           },
         },
       });
 
       const expectedState = [
         {
-          sender_id: 1,
-          unread_message_ids: [1, 2, 4, 5],
+          sender_id: message1.sender_id,
+          unread_message_ids: [message1.id, message2.id, message4.id, message5.id],
         },
       ];
 
@@ -67,18 +73,17 @@ describe('unreadPmsReducer', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('if message id already exists, do not mutate state', () => {
+      const message1 = eg.pmMessage({ sender_id: 1 });
       const initialState = deepFreeze([
         {
-          sender_id: 1,
-          unread_message_ids: [1, 2, 3],
+          sender_id: message1.sender_id,
+          unread_message_ids: [message1.id],
         },
       ]);
 
       const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 2,
-        },
+        ...eg.eventNewMessageActionBase,
+        message: message1,
       });
 
       const actualState = unreadPmsReducer(initialState, action);
@@ -88,17 +93,15 @@ describe('unreadPmsReducer', () => {
 
     test('if message is sent by self, do not mutate state', () => {
       const initialState = deepFreeze([]);
+      const message1 = eg.pmMessage({
+        sender: eg.selfUser,
+        recipients: [eg.otherUser, eg.selfUser],
+      });
 
       const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 2,
-          type: 'private',
-          sender_id: 1,
-          sender_email: 'me@example.com',
-          display_recipient: [{ email: 'john@example.com' }, { email: 'me@example.com' }],
-        },
-        ownEmail: 'me@example.com',
+        ...eg.eventNewMessageActionBase,
+        message: message1,
+        ownEmail: eg.selfUser.email,
       });
 
       const actualState = unreadPmsReducer(initialState, action);
@@ -107,6 +110,7 @@ describe('unreadPmsReducer', () => {
     });
 
     test('if message is not private, return original state', () => {
+      const message4 = eg.streamMessage({ id: 4 });
       const initialState = deepFreeze([
         {
           sender_id: 1,
@@ -115,12 +119,8 @@ describe('unreadPmsReducer', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 4,
-          type: 'stream',
-          sender_id: 1,
-        },
+        ...eg.eventNewMessageActionBase,
+        message: message4,
       });
 
       const actualState = unreadPmsReducer(initialState, action);
@@ -129,27 +129,27 @@ describe('unreadPmsReducer', () => {
     });
 
     test('if message id does not exist, append to state', () => {
+      const message1 = eg.pmMessage({ id: 1, sender_id: 1 });
+      const message2 = eg.pmMessage({ id: 2, sender_id: 1 });
+      const message3 = eg.pmMessage({ id: 3, sender_id: 1 });
+      const message4 = eg.pmMessage({ id: 4, sender_id: 1 });
+
       const initialState = deepFreeze([
         {
-          sender_id: 1,
-          unread_message_ids: [1, 2, 3],
+          sender_id: message4.sender_id,
+          unread_message_ids: [message1.id, message2.id, message3.id],
         },
       ]);
 
       const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 4,
-          type: 'private',
-          sender_id: 1,
-          display_recipient: [{ email: 'john@example.com' }, { email: 'me@example.com' }],
-        },
+        ...eg.eventNewMessageActionBase,
+        message: message4,
       });
 
       const expectedState = [
         {
-          sender_id: 1,
-          unread_message_ids: [1, 2, 3, 4],
+          sender_id: message4.sender_id,
+          unread_message_ids: [message1.id, message2.id, message3.id, message4.id],
         },
       ];
 
@@ -159,6 +159,7 @@ describe('unreadPmsReducer', () => {
     });
 
     test('if sender id does not exist, append to state as new sender', () => {
+      const message4 = eg.pmMessage({ id: 4, sender_id: 2 });
       const initialState = deepFreeze([
         {
           sender_id: 1,
@@ -167,13 +168,8 @@ describe('unreadPmsReducer', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 4,
-          type: 'private',
-          sender_id: 2,
-          display_recipient: [{ email: 'john@example.com' }, { email: 'me@example.com' }],
-        },
+        ...eg.eventNewMessageActionBase,
+        message: message4,
       });
 
       const expectedState = [
@@ -182,8 +178,8 @@ describe('unreadPmsReducer', () => {
           unread_message_ids: [1, 2, 3],
         },
         {
-          sender_id: 2,
-          unread_message_ids: [4],
+          sender_id: message4.sender_id,
+          unread_message_ids: [message4.id],
         },
       ];
 
@@ -198,7 +194,10 @@ describe('unreadPmsReducer', () => {
       const initialState = deepFreeze([]);
 
       const action = {
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: false,
+        allMessages: {},
         messages: [1, 2, 3],
         flag: 'star',
         operation: 'add',
@@ -222,7 +221,10 @@ describe('unreadPmsReducer', () => {
       ]);
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: false,
+        allMessages: {},
         messages: [6, 7],
         flag: 'read',
         operation: 'add',
@@ -246,7 +248,10 @@ describe('unreadPmsReducer', () => {
       ]);
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: false,
+        allMessages: {},
         messages: [3, 4, 5, 6],
         flag: 'read',
         operation: 'add',
@@ -273,7 +278,10 @@ describe('unreadPmsReducer', () => {
       ]);
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: false,
+        allMessages: {},
         messages: [1, 2],
         flag: 'read',
         operation: 'remove',
@@ -293,11 +301,13 @@ describe('unreadPmsReducer', () => {
       ]);
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: true,
+        allMessages: {},
         messages: [],
         flag: 'read',
         operation: 'add',
-        all: true,
       });
 
       const actualState = unreadPmsReducer(initialState, action);
