@@ -18,7 +18,7 @@ import {
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../anchor';
 import {
-  isMessageInNarrow,
+  getNarrowsForMessage,
   MENTIONED_NARROW_STR,
   STARRED_NARROW_STR,
   isSearchNarrow,
@@ -44,30 +44,39 @@ const messageFetchComplete = (state, action) => {
 };
 
 const eventNewMessage = (state, action) => {
-  let stateChange = false;
-  const newState = state.map((value, key) => {
-    const { flags } = action.message;
-    if (!flags) {
-      throw new Error('EVENT_NEW_MESSAGE message missing flags');
-    }
-    const isInNarrow = isMessageInNarrow(
-      action.message,
-      flags,
-      JSON.parse(key),
-      action.ownUser.email,
-    );
-    const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
-    const messageDoesNotExist = value.find(id => action.message.id === id) === undefined;
+  const { message } = action;
+  const { flags } = message;
 
-    if (isInNarrow && isCaughtUp && messageDoesNotExist) {
-      stateChange = true;
-      return [...value, action.message.id];
-    } else {
-      return value;
-    }
+  if (!flags) {
+    throw new Error('EVENT_NEW_MESSAGE message missing flags');
+  }
+
+  return state.withMutations(stateMutable => {
+    const narrowsForMessage = getNarrowsForMessage(message, action.ownUser, flags);
+
+    narrowsForMessage.forEach(narrow => {
+      const key = JSON.stringify(narrow);
+      const value = stateMutable.get(key);
+
+      if (!value) {
+        // We haven't loaded this narrow. The time to add a new key
+        // isn't now; we do that in MESSAGE_FETCH_COMPLETE, when we
+        // might have a reasonably long, contiguous list of messages
+        // to show.
+        return; // i.e., continue
+      }
+
+      if (!(action.caughtUp[key] && action.caughtUp[key].newer)) {
+        return; // i.e., continue
+      }
+
+      if (!(value.find(id => action.message.id === id) === undefined)) {
+        return; // i.e., continue
+      }
+
+      stateMutable.set(key, [...value, message.id]);
+    });
   });
-
-  return stateChange ? newState : state;
 };
 
 const eventMessageDelete = (state, action) => {
