@@ -576,5 +576,5 @@ export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| mes
   type: EVENT_NEW_MESSAGE,
   id: 1001,
   caughtUp: {},
-  ownEmail: selfAccount.email,
+  ownUser: selfUser,
 };

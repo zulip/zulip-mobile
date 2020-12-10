@@ -50,7 +50,12 @@ const eventNewMessage = (state, action) => {
     if (!flags) {
       throw new Error('EVENT_NEW_MESSAGE message missing flags');
     }
-    const isInNarrow = isMessageInNarrow(action.message, flags, JSON.parse(key), action.ownEmail);
+    const isInNarrow = isMessageInNarrow(
+      action.message,
+      flags,
+      JSON.parse(key),
+      action.ownUser.email,
+    );
     const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
     const messageDoesNotExist = value.find(id => action.message.id === id) === undefined;
 

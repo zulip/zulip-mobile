@@ -31,7 +31,7 @@ import {
   EVENT_SUBSCRIPTION,
   EVENT,
 } from '../actionConstants';
-import { getOwnEmail, getOwnUserId } from '../users/userSelectors';
+import { getOwnUser, getOwnUserId } from '../users/userSelectors';
 
 const opToActionUserGroup = {
   add: EVENT_USER_GROUP_ADD,
@@ -86,7 +86,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
         },
         local_message_id: event.local_message_id,
         caughtUp: state.caughtUp,
-        ownEmail: getOwnEmail(state),
+        ownUser: getOwnUser(state),
       };
 
     // Before server feature level 13, or if we don't specify the

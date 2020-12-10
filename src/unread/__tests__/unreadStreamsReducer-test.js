@@ -118,7 +118,7 @@ describe('unreadStreamsReducer', () => {
       const action = deepFreeze({
         ...eg.eventNewMessageActionBase,
         message: message1,
-        ownEmail: eg.selfUser.email,
+        ownUser: eg.selfUser,
       });
 
       const actualState = unreadStreamsReducer(initialState, action);

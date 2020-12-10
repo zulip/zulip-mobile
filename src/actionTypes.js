@@ -313,7 +313,7 @@ type EventNewMessageAction = {|
   ...$Diff<MessageEvent, { flags: mixed }>,
   type: typeof EVENT_NEW_MESSAGE,
   caughtUp: CaughtUpState,
-  ownEmail: string,
+  ownUser: User,
 |};
 
 type EventSubmessageAction = {|

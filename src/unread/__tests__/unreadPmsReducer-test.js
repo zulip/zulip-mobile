@@ -120,7 +120,7 @@ describe('unreadPmsReducer', () => {
       const action = deepFreeze({
         ...eg.eventNewMessageActionBase,
         message: message1,
-        ownEmail: eg.selfUser.email,
+        ownUser: eg.selfUser,
       });
 
       const actualState = unreadPmsReducer(initialState, action);

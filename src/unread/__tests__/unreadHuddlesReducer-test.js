@@ -133,7 +133,7 @@ describe('unreadHuddlesReducer', () => {
         type: EVENT_NEW_MESSAGE,
         ...eg.eventNewMessageActionBase,
         message: message2,
-        ownEmail: selfUser.email,
+        ownUser: selfUser,
       });
 
       const actualState = unreadHuddlesReducer(initialState, action);

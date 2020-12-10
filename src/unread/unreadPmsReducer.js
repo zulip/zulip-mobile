@@ -23,7 +23,7 @@ const eventNewMessage = (state, action) => {
     return state;
   }
 
-  if (action.ownEmail && action.ownEmail === action.message.sender_email) {
+  if (action.ownUser.email && action.ownUser.email === action.message.sender_email) {
     return state;
   }
 
