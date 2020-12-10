@@ -71,11 +71,12 @@ const pmNarrowByString = (emails: string): Narrow => [
 //      the webapp, where the URL that appears in the location bar for a
 //      group PM conversation excludes self -- so it's unusable if you try
 //      to give someone else in it a link to a particular message, say.
-//  * OK, unsorted: getNarrowForReply
 //  * Good: getNarrowFromNotificationData: filters, and starts from
 //      notification's pm_users, which is sorted.
 //  * Good: messageHeaderAsHtml: comes from pmKeyRecipientsFromMessage,
 //      which filters and sorts by ID
+//  * Good: getNarrowForReply: also pmKeyRecipientsFromMessage
+//  * Good: getNarrowsForMessage: also pmKeyRecipientsFromMessage
 export const pmNarrowFromEmails = (emails: string[]): Narrow => pmNarrowByString(emails.join());
 
 /** Convenience wrapper for `pmNarrowFromEmails`. */
