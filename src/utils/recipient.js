@@ -83,16 +83,22 @@ const filterRecipients = (
   recipients: $ReadOnlyArray<PmRecipientUser>,
   ownUserId: number,
 ): $ReadOnlyArray<PmRecipientUser> =>
-  recipients.length === 1 ? recipients : recipients.filter(r => r.id !== ownUserId);
+  recipients.length === 1
+    ? recipients
+    : recipients.filter(r => r.id !== ownUserId).sort((a, b) => a.id - b.id);
 
 // Like filterRecipients, but on user IDs directly.
 const filterRecipientsAsUserIds = <T: $ReadOnlyArray<number>>(
   recipients: T,
   ownUserId: number,
-): T => (recipients.length === 1 ? recipients : recipients.filter(r => r !== ownUserId));
+): T =>
+  recipients.length === 1
+    ? recipients
+    : recipients.filter(r => r !== ownUserId).sort((a, b) => a - b);
 
 // Like filterRecipients, but identifying users by email address.
 // Prefer filterRecipients instead.
+// No sort; caller must sort if needed.
 const filterRecipientsByEmail = <T: { +email: string, ... }>(
   recipients: $ReadOnlyArray<T>,
   ownEmail: string,

@@ -6,6 +6,7 @@ import {
   pmNarrowFromEmail,
   is1to1PmNarrow,
   pmNarrowFromEmails,
+  pmNarrowFromUsersUnsafe,
   isGroupPmNarrow,
   specialNarrow,
   isSpecialNarrow,
@@ -388,7 +389,7 @@ describe('getNarrowsForMessage', () => {
       expectedNarrows: [
         HOME_NARROW,
         ALL_PRIVATE_NARROW,
-        pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]),
+        pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]),
       ],
     },
   ];
@@ -421,7 +422,7 @@ describe('getNarrowForReply', () => {
     const message = eg.pmMessage({
       recipients: [eg.selfUser, eg.otherUser, eg.thirdUser],
     });
-    const expectedNarrow = pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]);
+    const expectedNarrow = pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]);
 
     const actualNarrow = getNarrowForReply(message, eg.selfUser);
 
