@@ -70,18 +70,16 @@ const pmNarrowByString = (emails: string): Narrow => [
 //      from `getRecentConversations`, which filters and sorts by email
 //  * OK, email: PmConversationList < UnreadCards: ditto
 //
-// Known call stacks using the validating helpers -- still listed here
-// because sorting can still vary, for now:
-//  * OK, unsorted: getNarrowFromLink.  Though there's basically a bug in
-//      the webapp, where the URL that appears in the location bar for a
-//      group PM conversation excludes self -- so it's unusable if you try
-//      to give someone else in it a link to a particular message, say.
-//  * Good: getNarrowFromNotificationData: filters, and starts from
-//      notification's pm_users, which is sorted.
-//  * Good: messageHeaderAsHtml: comes from pmKeyRecipientsFromMessage,
-//      which filters and sorts by ID
-//  * Good: getNarrowForReply: also pmKeyRecipientsFromMessage
-//  * Good: getNarrowsForMessage: also pmKeyRecipientsFromMessage
+// Known call stacks using the validating helpers -- which guarantee not
+// only filtering but sorting by ID, hooray:
+//  * getNarrowFromLink.  Though there's basically a bug in the webapp,
+//      where the URL that appears in the location bar for a group PM
+//      conversation excludes self -- so it's unusable if you try to give
+//      someone else in it a link to a particular message, say.
+//  * getNarrowFromNotificationData
+//  * messageHeaderAsHtml
+//  * getNarrowForReply
+//  * getNarrowsForMessage
 export const pmNarrowFromEmails = (emails: string[]): Narrow => pmNarrowByString(emails.join());
 
 /**

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import type { UserOrBot } from '../../api/modelTypes';
-import { streamNarrow, topicNarrow, pmNarrowFromEmails, STARRED_NARROW } from '../narrow';
+import { streamNarrow, topicNarrow, pmNarrowFromUsersUnsafe, STARRED_NARROW } from '../narrow';
 import {
   isInternalLink,
   isMessageLink,
@@ -257,7 +257,7 @@ describe('getNarrowFromLink', () => {
   test('on group PM link', () => {
     const ids = `${userB.user_id},${userC.user_id}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(
-      pmNarrowFromEmails([userB.email, userC.email]),
+      pmNarrowFromUsersUnsafe([userB, userC]),
     );
   });
 
@@ -265,7 +265,7 @@ describe('getNarrowFromLink', () => {
     // The webapp doesn't generate these, but best to handle them anyway.
     const ids = `${eg.selfUser.user_id},${userB.user_id},${userC.user_id}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(
-      pmNarrowFromEmails([userB.email, userC.email]),
+      pmNarrowFromUsersUnsafe([userB, userC]),
     );
   });
 
@@ -282,7 +282,7 @@ describe('getNarrowFromLink', () => {
   test('on a message link', () => {
     const ids = `${userB.user_id},${userC.user_id}`;
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group/near/2`)).toEqual(
-      pmNarrowFromEmails([userB.email, userC.email]),
+      pmNarrowFromUsersUnsafe([userB, userC]),
     );
 
     expect(get('https://example.com/#narrow/stream/jest/topic/test/near/1')).toEqual(

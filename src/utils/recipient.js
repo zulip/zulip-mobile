@@ -27,7 +27,7 @@ export const recipientsOfPrivateMessage = (
 };
 
 /**
- * A set of users identifying a PM conversation, as per pmKeyRecipientsFromMessage.
+ * A list of users identifying a PM conversation, as per pmKeyRecipientsFromMessage.
  *
  * This is an "opaque type alias" for an array of plain old data.
  * See Flow docs: https://flow.org/en/docs/types/opaque-types/
@@ -62,7 +62,7 @@ export const recipientsOfPrivateMessage = (
 export opaque type PmKeyRecipients: $ReadOnlyArray<PmRecipientUser> = $ReadOnlyArray<PmRecipientUser>;
 
 /**
- * A set of users identifying a PM conversation, as per pmKeyRecipientsFromMessage.
+ * A list of users identifying a PM conversation, as per pmKeyRecipientsFromMessage.
  *
  * This is just like `PmKeyRecipients` but with a different selection of
  * details about the users.  See there for discussion.
@@ -71,10 +71,10 @@ export opaque type PmKeyRecipients: $ReadOnlyArray<PmRecipientUser> = $ReadOnlyA
  */
 export opaque type PmKeyUsers: $ReadOnlyArray<UserOrBot> = $ReadOnlyArray<UserOrBot>;
 
-// Filter a list of PM recipients in the quirky way that we do.
+// Filter a list of PM recipients in the quirky way that we do, and sort.
 //
 // Specifically: all users, except the self-user, except if it's the
-// self-1:1 thread then include the self-user after all.
+// self-1:1 thread then include the self-user after all.  Then sort by ID.
 //
 // This is a module-private helper.  See callers for what this set of
 // conditions *means* -- two different things, in fact, that have the same
@@ -133,7 +133,7 @@ export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string,
 };
 
 /**
- * The same set of users as pmKeyRecipientsFromMessage, in quirkier form.
+ * The same list of users as pmKeyRecipientsFromMessage, in quirkier form.
  *
  * Prefer normalizeRecipientsAsUserIdsSansMe over this; see #3764.
  * See that function for further discussion.
@@ -149,9 +149,7 @@ export const normalizeRecipientsAsUserIds = (recipients: number[]) =>
   recipients.sort((a, b) => a - b).join(',');
 
 /**
- * The same set of users as pmKeyRecipientsFromMessage, in quirkier form.
- *
- * Sorted by user ID.
+ * The same list of users as pmKeyRecipientsFromMessage, in quirkier form.
  */
 // Note that sorting by user ID is the same as the server does for group PMs
 // (see comment on Message#display_recipient).  Then for 1:1 PMs the
@@ -179,7 +177,9 @@ export const pmUiRecipientsFromMessage = (
 };
 
 /**
- * The set of users to identify a PM conversation by in our data structures.
+ * The list of users to identify a PM conversation by in our data structures.
+ *
+ * This list is sorted by user ID.
  *
  * Typically we go on to take either the emails or user IDs in the result,
  * stringify them, and join with `,` to produce a string key.  IDs are
@@ -201,10 +201,12 @@ export const pmUiRecipientsFromMessage = (
  *    It would be great to unify on a single version, as the variation is a
  *    possible source of bugs.
  */
-// The resulting users are sorted by user ID.  That's because:
+// The list would actually be sorted even without explicit sorting, because:
 //  * For group PMs, the server provides them in that order; see comment
 //    on Message#display_recipient.
 //  * For 1:1 PMs, we only keep one user in the list.
+// But we also sort them ourselves, so as not to rely on that fact about
+// the server; it's easy enough to do.
 export const pmKeyRecipientsFromMessage = (
   message: Message | Outbox,
   ownUser: User,
@@ -216,9 +218,9 @@ export const pmKeyRecipientsFromMessage = (
 };
 
 /**
- * The set of users to identify a PM conversation by in our data structures.
+ * The list of users to identify a PM conversation by in our data structures.
  *
- * This produces the same set of users as `pmKeyRecipientsFromMessage`, just
+ * This produces the same list of users as `pmKeyRecipientsFromMessage`, just
  * from a different form of input.
  *
  * The input may either include or exclude self, without affecting the
@@ -240,7 +242,7 @@ export const pmKeyRecipientsFromIds = (
     }
     users.push(user);
   }
-  return users;
+  return users.sort((a, b) => a.user_id - b.user_id);
 };
 
 /**
