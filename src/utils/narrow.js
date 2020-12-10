@@ -54,11 +54,11 @@ const pmNarrowByString = (emails: string): Narrow => [
 // by user ID.
 //
 // Known call stacks not using the validating helpers:
-//  * OK, perilously: CreateGroupScreen: the self user isn't offered in the
-//      UI, so effectively the list is filtered; does sort by ID
+//  none!
 //
 // Known call stacks using the validating helpers -- which guarantee not
 // only filtering but sorting by ID, hooray:
+//  * CreateGroupScreen
 //  * PmConversationList < PmConversationCard
 //  * PmConversationList < UnreadCards
 //  * getNarrowFromLink.  Though there's basically a bug in the webapp,

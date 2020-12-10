@@ -7,8 +7,14 @@ import type { Dispatch, User } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { doNarrow, navigateBack } from '../actions';
-import { pmNarrowFromEmails } from '../utils/narrow';
+import { pmNarrowFromUsers } from '../utils/narrow';
+import { pmKeyRecipientsFromUsers } from '../utils/recipient';
 import UserPickerCard from '../user-picker/UserPickerCard';
+import { getOwnUserId } from '../users/userSelectors';
+
+type SelectorProps = {|
+  +ownUserId: number,
+|};
 
 type Props = $ReadOnly<{|
   // Since we've put this screen in a stack-nav route config, and we
@@ -18,6 +24,7 @@ type Props = $ReadOnly<{|
   navigation: NavigationStackProp<NavigationStateRoute>,
 
   dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
 type State = {|
@@ -32,11 +39,9 @@ class CreateGroupScreen extends PureComponent<Props, State> {
   handleFilterChange = (filter: string) => this.setState({ filter });
 
   handleCreateGroup = (selected: User[]) => {
-    const { dispatch } = this.props;
-
-    const recipients = selected.sort((a, b) => a.user_id - b.user_id).map(user => user.email);
+    const { dispatch, ownUserId } = this.props;
     NavigationService.dispatch(navigateBack());
-    dispatch(doNarrow(pmNarrowFromEmails(recipients)));
+    dispatch(doNarrow(pmNarrowFromUsers(pmKeyRecipientsFromUsers(selected, ownUserId))));
   };
 
   render() {
@@ -49,4 +54,6 @@ class CreateGroupScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect<{||}, _, _>()(CreateGroupScreen);
+export default connect<SelectorProps, _, _>(state => ({
+  ownUserId: getOwnUserId(state),
+}))(CreateGroupScreen);

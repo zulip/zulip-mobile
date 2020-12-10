@@ -87,6 +87,15 @@ const filterRecipients = (
     ? recipients
     : recipients.filter(r => r.id !== ownUserId).sort((a, b) => a.id - b.id);
 
+// Like filterRecipients, but on User objects.
+const filterRecipientUsers = (
+  recipients: $ReadOnlyArray<UserOrBot>,
+  ownUserId: number,
+): $ReadOnlyArray<UserOrBot> =>
+  recipients.length === 1
+    ? recipients
+    : recipients.filter(r => r.user_id !== ownUserId).sort((a, b) => a.user_id - b.user_id);
+
 // Like filterRecipients, but on user IDs directly.
 const filterRecipientsAsUserIds = <T: $ReadOnlyArray<number>>(
   recipients: T,
@@ -256,6 +265,14 @@ export const pmKeyRecipientUsersFromMessage = (
   const userIds = recipientsOfPrivateMessage(message).map(r => r.id);
   return pmKeyRecipientsFromIds(userIds, allUsersById, ownUserId);
 };
+
+/**
+ * Just like pmKeyRecipientsFromMessage, but with slightly different formats of data.
+ */
+export const pmKeyRecipientsFromUsers = (
+  users: $ReadOnlyArray<UserOrBot>,
+  ownUserId: number,
+): PmKeyUsers => filterRecipientUsers(users, ownUserId);
 
 /**
  * The key this PM is filed under in the "unread messages" data structure.
