@@ -1,13 +1,14 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
 import unreadHuddlesReducer from '../unreadHuddlesReducer';
 import {
-  REALM_INIT,
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('unreadHuddlesReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -21,6 +22,7 @@ describe('unreadHuddlesReducer', () => {
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
+        index: 1,
       });
 
       const expectedState = [];
@@ -36,17 +38,19 @@ describe('unreadHuddlesReducer', () => {
       const initialState = deepFreeze([]);
 
       const action = deepFreeze({
-        type: REALM_INIT,
+        ...eg.action.realm_init,
         data: {
+          ...eg.action.realm_init.data,
           unread_msgs: {
-            streams: [{}, {}],
+            ...eg.action.realm_init.data.unread_msgs,
+            streams: [],
             huddles: [
               {
                 user_ids_string: '0,1,2',
                 unread_message_ids: [1, 2, 4, 5],
               },
             ],
-            pms: [{}, {}],
+            pms: [],
             mentions: [1, 2, 3],
           },
         },
@@ -67,18 +71,25 @@ describe('unreadHuddlesReducer', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('if message id already exists, do not mutate state', () => {
+      const user1 = { ...eg.makeUser(), user_id: 1 };
+      const user2 = { ...eg.makeUser(), user_id: 2 };
+      const user3 = { ...eg.makeUser(), user_id: 3 };
+
+      const message1 = eg.pmMessage({ id: 1, recipients: [user1, user2, user3] });
+      const message2 = eg.pmMessage({ id: 2, recipients: [user1, user2, user3] });
+      const message3 = eg.pmMessage({ id: 3, recipients: [user1, user2, user3] });
+
       const initialState = deepFreeze([
         {
-          user_ids_string: '1,2,3',
-          unread_message_ids: [1, 2, 3],
+          user_ids_string: `${user1.user_id},${user2.user_id},${user3.user_id}`,
+          unread_message_ids: [message1.id, message2.id, message3.id],
         },
       ]);
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 2,
-        },
+        ...eg.eventNewMessageActionBase,
+        message: message2,
       });
 
       const actualState = unreadHuddlesReducer(initialState, action);
@@ -87,6 +98,7 @@ describe('unreadHuddlesReducer', () => {
     });
 
     test('if message is not group, return original state', () => {
+      const streamMessage = eg.streamMessage();
       const initialState = deepFreeze([
         {
           user_ids_string: '1,2,3',
@@ -96,15 +108,8 @@ describe('unreadHuddlesReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 4,
-          type: 'stream',
-          sender_id: 1,
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-          ],
-        },
+        ...eg.eventNewMessageActionBase,
+        message: streamMessage,
       });
 
       const actualState = unreadHuddlesReducer(initialState, action);
@@ -113,22 +118,22 @@ describe('unreadHuddlesReducer', () => {
     });
 
     test('if message is sent by self, do not mutate state', () => {
+      const selfUser = { ...eg.selfUser, user_id: 1 };
+      const user2 = { ...eg.otherUser, user_id: 2 };
+      const user3 = { ...eg.thirdUser, user_id: 3 };
+
       const initialState = deepFreeze([]);
+
+      const message2 = eg.pmMessage({
+        sender: selfUser,
+        recipients: [selfUser, user2, user3],
+      });
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 2,
-          type: 'private',
-          sender_id: 1,
-          sender_email: 'me@example.com',
-          display_recipient: [
-            { email: 'john@example.com' },
-            { email: 'mark@example.com' },
-            { email: 'me@example.com' },
-          ],
-        },
-        ownEmail: 'me@example.com',
+        ...eg.eventNewMessageActionBase,
+        message: message2,
+        ownEmail: selfUser.email,
       });
 
       const actualState = unreadHuddlesReducer(initialState, action);
@@ -137,29 +142,28 @@ describe('unreadHuddlesReducer', () => {
     });
 
     test('if message id does not exist, append to state', () => {
+      const selfUser = { ...eg.selfUser, user_id: 1 };
+      const user2 = { ...eg.otherUser, user_id: 2 };
+      const user3 = { ...eg.thirdUser, user_id: 3 };
+
+      const message4 = eg.pmMessage({ id: 4, recipients: [selfUser, user2, user3] });
+
       const initialState = deepFreeze([
         {
-          user_ids_string: '0,1,2',
+          user_ids_string: `${selfUser.user_id},${user2.user_id},${user3.user_id}`,
           unread_message_ids: [1, 2, 3],
         },
       ]);
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 4,
-          type: 'private',
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
+        ...eg.eventNewMessageActionBase,
+        message: message4,
       });
 
       const expectedState = [
         {
-          user_ids_string: '0,1,2',
+          user_ids_string: `${selfUser.user_id},${user2.user_id},${user3.user_id}`,
           unread_message_ids: [1, 2, 3, 4],
         },
       ];
@@ -169,7 +173,12 @@ describe('unreadHuddlesReducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('if sender id does not exist, append to state as new sender', () => {
+    test('if sender-ids string does not exist, append to state as new', () => {
+      const user1 = { ...eg.selfUser, user_id: 1 };
+      const user2 = { ...eg.otherUser, user_id: 2 };
+      const user3 = { ...eg.thirdUser, user_id: 3 };
+
+      const message4 = eg.pmMessage({ id: 4, recipients: [user1, user2, user3] });
       const initialState = deepFreeze([
         {
           user_ids_string: '0,3,4',
@@ -179,16 +188,8 @@ describe('unreadHuddlesReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 4,
-          type: 'private',
-          sender_id: 2,
-          display_recipient: [
-            { id: 0, email: 'me@example.com' },
-            { id: 1, email: 'john@example.com' },
-            { id: 2, email: 'mark@example.com' },
-          ],
-        },
+        ...eg.eventNewMessageActionBase,
+        message: message4,
       });
 
       const expectedState = [
@@ -197,7 +198,7 @@ describe('unreadHuddlesReducer', () => {
           unread_message_ids: [1, 2, 3],
         },
         {
-          user_ids_string: '0,1,2',
+          user_ids_string: `${user1.user_id},${user2.user_id},${user3.user_id}`,
           unread_message_ids: [4],
         },
       ];
@@ -213,7 +214,10 @@ describe('unreadHuddlesReducer', () => {
       const initialState = deepFreeze([]);
 
       const action = {
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: false,
+        allMessages: {},
         messages: [1, 2, 3],
         flag: 'star',
         operation: 'add',
@@ -237,7 +241,10 @@ describe('unreadHuddlesReducer', () => {
       ]);
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: false,
+        allMessages: {},
         messages: [6, 7],
         flag: 'read',
         operation: 'add',
@@ -261,7 +268,10 @@ describe('unreadHuddlesReducer', () => {
       ]);
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: false,
+        allMessages: {},
         messages: [3, 4, 5, 6],
         flag: 'read',
         operation: 'add',
@@ -288,7 +298,10 @@ describe('unreadHuddlesReducer', () => {
       ]);
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: false,
+        allMessages: {},
         messages: [1, 2],
         flag: 'read',
         operation: 'remove',
@@ -308,11 +321,13 @@ describe('unreadHuddlesReducer', () => {
       ]);
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: true,
+        allMessages: {},
         messages: [],
         flag: 'read',
         operation: 'add',
-        all: true,
       });
 
       const actualState = unreadHuddlesReducer(initialState, action);
