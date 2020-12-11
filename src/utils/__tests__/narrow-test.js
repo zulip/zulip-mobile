@@ -42,22 +42,22 @@ describe('HOME_NARROW', () => {
 
 describe('pmNarrowFromEmail', () => {
   test('produces an one item list, pm-with operator and single email', () => {
-    expect(pmNarrowFromEmail('bob@example.com')).toEqual([
+    expect(pmNarrowFromEmail(eg.otherUser.email)).toEqual([
       {
         operator: 'pm-with',
-        operand: 'bob@example.com',
+        operand: eg.otherUser.email,
       },
     ]);
   });
 
   test('if operator is "pm-with" and only one email, then it is a private narrow', () => {
     expect(is1to1PmNarrow(HOME_NARROW)).toBe(false);
-    expect(is1to1PmNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(true);
+    expect(is1to1PmNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(true);
     expect(
       is1to1PmNarrow([
         {
           operator: 'pm-with',
-          operand: 'bob@example.com',
+          operand: eg.otherUser.email,
         },
       ]),
     ).toBe(true);
@@ -66,23 +66,25 @@ describe('pmNarrowFromEmail', () => {
 
 describe('pmNarrowFromEmails', () => {
   test('returns a narrow with specified recipients', () => {
-    expect(pmNarrowFromEmails(['bob@example.com', 'john@example.com'])).toEqual([
+    expect(pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email])).toEqual([
       {
         operator: 'pm-with',
-        operand: 'bob@example.com,john@example.com',
+        operand: [eg.otherUser.email, eg.thirdUser.email].join(','),
       },
     ]);
   });
 
   test('a group narrow is only private chat with more than one recipients', () => {
     expect(isGroupPmNarrow(HOME_NARROW)).toBe(false);
-    expect(isGroupPmNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(false);
-    expect(isGroupPmNarrow(pmNarrowFromEmails(['bob@example.com', 'john@example.com']))).toBe(true);
+    expect(isGroupPmNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(false);
+    expect(isGroupPmNarrow(pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]))).toBe(
+      true,
+    );
     expect(
       isGroupPmNarrow([
         {
           operator: 'pm-with',
-          operand: 'bob@example.com',
+          operand: eg.otherUser.email,
         },
       ]),
     ).toBe(false);
@@ -90,7 +92,7 @@ describe('pmNarrowFromEmails', () => {
       isGroupPmNarrow([
         {
           operator: 'pm-with',
-          operand: 'bob@example.com,john@example.com',
+          operand: [eg.otherUser.email, eg.thirdUser.email].join(','),
         },
       ]),
     ).toBe(true);
@@ -101,13 +103,13 @@ describe('isPmNarrow', () => {
   test('a private or group narrow is any "pm-with" narrow', () => {
     expect(isPmNarrow(undefined)).toBe(false);
     expect(isPmNarrow(HOME_NARROW)).toBe(false);
-    expect(isPmNarrow(pmNarrowFromEmail('bob@example.com'))).toBe(true);
-    expect(isPmNarrow(pmNarrowFromEmails(['bob@example.com', 'john@example.com']))).toBe(true);
+    expect(isPmNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(true);
+    expect(isPmNarrow(pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]))).toBe(true);
     expect(
       isPmNarrow([
         {
           operator: 'pm-with',
-          operand: 'bob@example.com',
+          operand: eg.otherUser.email,
         },
       ]),
     ).toBe(true);
@@ -115,7 +117,7 @@ describe('isPmNarrow', () => {
       isPmNarrow([
         {
           operator: 'pm-with',
-          operand: 'bob@example.com,john@example.com',
+          operand: [eg.otherUser.email, eg.thirdUser.email].join(','),
         },
       ]),
     ).toBe(true);
@@ -128,9 +130,9 @@ describe('isStreamOrTopicNarrow', () => {
     expect(isStreamOrTopicNarrow(streamNarrow('some stream'))).toBe(true);
     expect(isStreamOrTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
     expect(isStreamOrTopicNarrow(HOME_NARROW)).toBe(false);
-    expect(isStreamOrTopicNarrow(pmNarrowFromEmail('a@a.com'))).toBe(false);
+    expect(isStreamOrTopicNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(false);
     expect(
-      isStreamOrTopicNarrow(pmNarrowFromEmails(['john@example.com', 'mark@example.com'])),
+      isStreamOrTopicNarrow(pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email])),
     ).toBe(false);
     expect(isStreamOrTopicNarrow(STARRED_NARROW)).toBe(false);
   });
