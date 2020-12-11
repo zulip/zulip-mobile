@@ -41,38 +41,26 @@ const pmNarrowByString = (emails: string): Narrow => [
 /**
  * A PM narrow, either 1:1 or group.
  *
- * The users represented in `emails` should agree, as a (multi)set, with
- * `pmKeyRecipientsFromMessage`.  But this isn't checked, and we've had bugs
- * where they don't; some consumers of this data re-normalize to be sure.
+ * The list of users represented in `emails` must agree with what
+ * `pmKeyRecipientsFromMessage` would return.  Effectively this means:
+ *  * it actually comes from `pmKeyRecipientsFromMessage`, or one of its
+ *    relatives in `src/utils/recipient.js`;
+ *  * or it's a singleton list, which those would always be a no-op on.
  *
- * They might not have a consistent sorting.  (This would be good to fix.)
- * Consumers of this data should sort for themselves when making comparisons.
+ * We enforce this by keeping this constructor private to this module, and
+ * only calling it from higher-level constructors whose input types enforce
+ * one of these conditions or the other.  (Well, and one more which is only
+ * to be used in test code.)
+ *
+ * In the past, before this was checked and before it was done consistently,
+ * we had quite a lot of bugs due to different parts of our code
+ * accidentally disagreeing on whether to include the self-user, or on how
+ * to sort the list (by user ID vs. email), or neglecting to sort it at all.
  */
-// Ideally, all callers should agree on how they're sorted, too.  If not, we
-// can wind up with several distinct narrows that are actually the same
-// group PM conversation.  But it appears that we now do sort consistently,
-// by user ID.
-//
-// Known call stacks not using the validating helpers:
-//  none!
-//
-// Known call stacks using the validating helpers -- which guarantee not
-// only filtering but sorting by ID, hooray:
-//  * CreateGroupScreen
-//  * PmConversationList < PmConversationCard
-//  * PmConversationList < UnreadCards
-//  * getNarrowFromLink.  Though there's basically a bug in the webapp,
-//      where the URL that appears in the location bar for a group PM
-//      conversation excludes self -- so it's unusable if you try to give
-//      someone else in it a link to a particular message, say.
-//  * getNarrowFromNotificationData
-//  * messageHeaderAsHtml
-//  * getNarrowForReply
-//  * getNarrowsForMessage
-export const pmNarrowFromEmails = (emails: string[]): Narrow => pmNarrowByString(emails.join());
+const pmNarrowFromEmails = (emails: string[]): Narrow => pmNarrowByString(emails.join());
 
 /**
- * DEPRECATED.  Convenience wrapper for `pmNarrowFromEmails`.
+ * DEPRECATED.  Use `pm1to1NarrowFromUser` instead.
  *
  * This function is being replaced by `pm1to1NarrowFromUser`, as part of
  * migrating from emails to user IDs to identify users.  Don't add new uses

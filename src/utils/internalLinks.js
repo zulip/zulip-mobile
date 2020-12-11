@@ -128,6 +128,11 @@ export const getNarrowFromLink = (
 
   switch (type) {
     case 'pm': {
+      // TODO: This case is pretty useless in practice, due to basically a
+      //   bug in the webapp: the URL that appears in the location bar for a
+      //   group PM conversation excludes self, so it's unusable for anyone
+      //   else.  In particular this will foil you if, say, you try to give
+      //   someone else in the conversation a link to a particular message.
       const ids = parsePmOperand(paths[1]);
       const users = pmKeyRecipientsFromIds(ids, allUsersById, ownUserId);
       return users === null ? null : pmNarrowFromUsers(users);

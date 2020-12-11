@@ -5,9 +5,7 @@ import {
   isHomeNarrow,
   pmNarrowFromEmail,
   is1to1PmNarrow,
-  pmNarrowFromEmails,
   pmNarrowFromUsersUnsafe,
-  isGroupPmNarrow,
   specialNarrow,
   isSpecialNarrow,
   ALL_PRIVATE_NARROW,
@@ -58,41 +56,6 @@ describe('pmNarrowFromEmail', () => {
         {
           operator: 'pm-with',
           operand: eg.otherUser.email,
-        },
-      ]),
-    ).toBe(true);
-  });
-});
-
-describe('pmNarrowFromEmails', () => {
-  test('returns a narrow with specified recipients', () => {
-    expect(pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email])).toEqual([
-      {
-        operator: 'pm-with',
-        operand: [eg.otherUser.email, eg.thirdUser.email].join(','),
-      },
-    ]);
-  });
-
-  test('a group narrow is only private chat with more than one recipients', () => {
-    expect(isGroupPmNarrow(HOME_NARROW)).toBe(false);
-    expect(isGroupPmNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(false);
-    expect(isGroupPmNarrow(pmNarrowFromEmails([eg.otherUser.email, eg.thirdUser.email]))).toBe(
-      true,
-    );
-    expect(
-      isGroupPmNarrow([
-        {
-          operator: 'pm-with',
-          operand: eg.otherUser.email,
-        },
-      ]),
-    ).toBe(false);
-    expect(
-      isGroupPmNarrow([
-        {
-          operator: 'pm-with',
-          operand: [eg.otherUser.email, eg.thirdUser.email].join(','),
         },
       ]),
     ).toBe(true);
