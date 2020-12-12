@@ -31,7 +31,7 @@ import {
  *  * `ApiNarrow` for the form we put a narrow in when talking to the
  *    server, and `apiNarrowOfNarrow` for converting to it.
  */
-export type Narrow = ApiNarrow;
+export opaque type Narrow = ApiNarrow;
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
