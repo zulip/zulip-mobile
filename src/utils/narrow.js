@@ -3,7 +3,7 @@ import invariant from 'invariant';
 
 import type { ApiNarrow, Message, Outbox, User, UserOrBot } from '../types';
 import {
-  normalizeRecipientsSansMe,
+  normalizeRecipientsAsUserIdsSansMe,
   pmKeyRecipientsFromMessage,
   recipientsOfPrivateMessage,
   streamNameOfStreamMessage,
@@ -477,15 +477,15 @@ export const isMessageInNarrow = (
       message.type === 'stream'
       && streamName === streamNameOfStreamMessage(message)
       && topic === message.subject,
-    pm: emails => {
+    pm: (emails, ids) => {
       if (message.type !== 'private') {
         return false;
       }
-      const recipients = recipientsOfPrivateMessage(message);
-      const narrowAsRecipients = emails.map(email => ({ email }));
+      const recipients = recipientsOfPrivateMessage(message).map(r => r.id);
+      const narrowAsRecipients = ids;
       return (
-        normalizeRecipientsSansMe(recipients, ownUser.email)
-        === normalizeRecipientsSansMe(narrowAsRecipients, ownUser.email)
+        normalizeRecipientsAsUserIdsSansMe(recipients, ownUser.user_id)
+        === normalizeRecipientsAsUserIdsSansMe(narrowAsRecipients, ownUser.user_id)
       );
     },
     starred: () => flags.includes('starred'),

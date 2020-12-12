@@ -97,12 +97,16 @@ const filterRecipientUsers = (
     : recipients.filter(r => r.user_id !== ownUserId).sort((a, b) => a.user_id - b.user_id);
 
 // Like filterRecipients, but on user IDs directly.
-const filterRecipientsAsUserIds = <T: $ReadOnlyArray<number>>(
-  recipients: T,
+const filterRecipientsAsUserIds = (
+  recipients: $ReadOnlyArray<number>,
   ownUserId: number,
-): T =>
+): number[] =>
+  // prettier-ignore
   recipients.length === 1
-    ? recipients
+    // The spread is so that we always return a fresh array.  This allows
+    // us to take $ReadOnlyArray and return a plain array, so the caller
+    // can go on to sort the result.
+    ? [...recipients]
     : recipients.filter(r => r !== ownUserId).sort((a, b) => a - b);
 
 // Like filterRecipients, but identifying users by email address.
@@ -150,7 +154,7 @@ export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string,
  * Users are sorted by email address.
  */
 export const normalizeRecipientsSansMe = (
-  recipients: $ReadOnlyArray<{ +email: string, ... }>,
+  recipients: $ReadOnlyArray<PmRecipientUser>,
   ownEmail: string,
 ) => normalizeRecipients(filterRecipientsByEmail(recipients, ownEmail));
 
@@ -164,8 +168,10 @@ export const normalizeRecipientsAsUserIds = (recipients: number[]) =>
 // (see comment on Message#display_recipient).  Then for 1:1 PMs the
 // server's behavior is quirkier... but we keep only one user for those
 // anyway, so it doesn't matter.
-export const normalizeRecipientsAsUserIdsSansMe = (recipients: number[], ownUserId: number) =>
-  normalizeRecipientsAsUserIds(filterRecipientsAsUserIds(recipients, ownUserId));
+export const normalizeRecipientsAsUserIdsSansMe = (
+  recipients: $ReadOnlyArray<number>,
+  ownUserId: number,
+) => normalizeRecipientsAsUserIds(filterRecipientsAsUserIds(recipients, ownUserId));
 
 /**
  * The set of users to show in the UI to identify a PM conversation.
