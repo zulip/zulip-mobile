@@ -32,7 +32,7 @@ import {
   EVENT_SUBSCRIPTION,
   EVENT,
 } from '../actionConstants';
-import { getOwnUser, getOwnUserId, tryGetUserForId } from '../users/userSelectors';
+import { getOwnUserId, tryGetUserForId } from '../users/userSelectors';
 import { AvatarURL } from '../utils/avatar';
 import { getCurrentRealm } from '../account/accountsSelectors';
 
@@ -95,7 +95,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
         },
         local_message_id: event.local_message_id,
         caughtUp: state.caughtUp,
-        ownUser: getOwnUser(state),
+        ownUserId: getOwnUserId(state),
       };
 
     // Before server feature level 13, or if we don't specify the

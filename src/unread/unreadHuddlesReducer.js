@@ -24,7 +24,7 @@ const eventNewMessage = (state, action) => {
     return state;
   }
 
-  if (action.ownUser.user_id === action.message.sender_id) {
+  if (action.ownUserId === action.message.sender_id) {
     return state;
   }
 

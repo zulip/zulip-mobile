@@ -306,7 +306,7 @@ type EventNewMessageAction = {|
   ...$Diff<MessageEvent, { flags: mixed }>,
   type: typeof EVENT_NEW_MESSAGE,
   caughtUp: CaughtUpState,
-  ownUser: User,
+  ownUserId: UserId,
 |};
 
 type EventSubmessageAction = {|
