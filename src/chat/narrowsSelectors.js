@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import invariant from 'invariant';
 import isEqual from 'lodash.isequal';
 import { createSelector } from 'reselect';
 
@@ -11,7 +10,6 @@ import type {
   Selector,
   Stream,
   Subscription,
-  UserOrBot,
 } from '../types';
 import {
   getAllNarrows,
@@ -25,7 +23,6 @@ import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
 import { getAllUsersByEmail, getAllUsersById, getOwnUser } from '../users/userSelectors';
 import {
   isStreamOrTopicNarrow,
-  emailsOfGroupPmNarrow,
   isMessageInNarrow,
   caseNarrowDefault,
   keyFromNarrow,
@@ -103,17 +100,6 @@ export const getLastMessageId = (state: GlobalState, narrow: Narrow): number | v
   const ids = getFetchedMessageIdsForNarrow(state, narrow);
   return ids.length > 0 ? ids[ids.length - 1] : undefined;
 };
-
-export const getRecipientsInGroupPmNarrow: Selector<UserOrBot[], Narrow> = createSelector(
-  (state, narrow) => narrow,
-  state => getAllUsersByEmail(state),
-  (narrow, allUsersByEmail) =>
-    emailsOfGroupPmNarrow(narrow).map(r => {
-      const user = allUsersByEmail.get(r);
-      invariant(user, 'missing user: %s', r);
-      return user;
-    }),
-);
 
 // Prettier mishandles this Flow syntax.
 // prettier-ignore

@@ -342,22 +342,6 @@ export const isGroupPmNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { pm: (emails, ids) => ids.length > 1 }, () => false);
 
 /**
- * The recipients' emails if a group PM narrow; else error.
- *
- * Any use of this probably means something higher up should be refactored
- * to use caseNarrow.
- */
-export const emailsOfGroupPmNarrow = (narrow: Narrow): $ReadOnlyArray<string> =>
-  caseNarrowPartial(narrow, {
-    pm: emails => {
-      if (emails.length === 1) {
-        throw new Error('emailsOfGroupPmNarrow: got 1:1 narrow');
-      }
-      return emails;
-    },
-  });
-
-/**
  * The "PM key recipients" emails for a PM narrow; else error.
  *
  * This is the same list of users that can appear in a `PmKeyRecipients` or
