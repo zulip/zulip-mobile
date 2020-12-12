@@ -3,12 +3,12 @@ import React from 'react';
 import { FlatList } from 'react-native';
 
 import * as NavigationService from '../nav/NavigationService';
-import type { UserOrBot } from '../types';
+import type { UserId, UserOrBot } from '../types';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 
 type Props = $ReadOnly<{|
-  reactedUserIds: $ReadOnlyArray<number>,
+  reactedUserIds: $ReadOnlyArray<UserId>,
 |}>;
 
 /**

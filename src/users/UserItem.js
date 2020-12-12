@@ -2,7 +2,7 @@
 import React, { type ComponentType, type ElementConfig, PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { UserOrBot } from '../types';
+import type { UserId, UserOrBot } from '../types';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
@@ -102,7 +102,7 @@ export const UserItemRaw = (UserItem: ComponentType<$Exact<ElementConfig<typeof 
 
 type OuterProps = $ReadOnly<{|
   ...$Exact<$Diff<ElementConfig<typeof UserItem>, { user: mixed }>>,
-  userId: number,
+  userId: UserId,
 |}>;
 
 /**

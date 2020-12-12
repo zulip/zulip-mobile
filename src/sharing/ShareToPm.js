@@ -4,7 +4,7 @@ import { View, Image, ScrollView, Modal, BackHandler } from 'react-native';
 
 import type { SharingNavigationProp, SharingRouteProp } from './SharingScreen';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, Auth, GetText } from '../types';
+import type { Dispatch, Auth, GetText, UserId } from '../types';
 import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
@@ -63,7 +63,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 type State = $ReadOnly<{|
-  selectedRecipients: $ReadOnlyArray<number>,
+  selectedRecipients: $ReadOnlyArray<UserId>,
   message: string,
   choosingRecipients: boolean,
   sending: boolean,

@@ -12,7 +12,7 @@ import { useSelector } from '../react-redux';
 import { hasAuth as getHasAuth, getAccounts, getHaveServerData } from '../selectors';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { GlobalParamList } from './globalTypes';
-import type { Narrow, Message, SharedData } from '../types';
+import type { Narrow, Message, SharedData, UserId } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
@@ -48,8 +48,8 @@ import SharingScreen from '../sharing/SharingScreen';
 
 export type AppNavigatorParamList = {|
   account: void,
-  'account-details': {| userId: number |},
-  'group-details': {| recipients: $ReadOnlyArray<number> |},
+  'account-details': {| userId: UserId |},
+  'group-details': {| recipients: $ReadOnlyArray<UserId> |},
   auth: {| serverSettings: ApiResponseServerSettings |},
   chat: {| narrow: Narrow |},
   dev: void,
