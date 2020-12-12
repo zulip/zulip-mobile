@@ -15,7 +15,6 @@ import {
   groupUsersByStatus,
 } from '../userHelpers';
 import * as eg from '../../__tests__/lib/exampleData';
-import { NULL_USER } from '../../nullObjects';
 
 describe('filterUserList', () => {
   test('empty input results in empty list', () => {
@@ -72,15 +71,7 @@ describe('getAutocompleteSuggestion', () => {
     const users = deepFreeze([someGuyUser, meUser]);
 
     const shouldMatch = [
-      {
-        full_name: 'all',
-        email: '(Notify everyone)',
-        user_id: -1,
-        avatar_url: NULL_USER.avatar_url,
-        timezone: '',
-        is_admin: false,
-        is_bot: false,
-      },
+      { user_id: -1, full_name: 'all', email: '(Notify everyone)' },
       someGuyUser,
     ];
     const filteredUsers = getAutocompleteSuggestion(users, '', meUser.user_id);

@@ -3,10 +3,11 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { User, UserId, UserGroup, UserOrBot, Dispatch } from '../types';
+import type { User, UserId, UserGroup, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSortedUsers, getUserGroups } from '../selectors';
 import {
+  type AutocompleteOption,
   getAutocompleteSuggestion,
   getAutocompleteUserGroupSuggestions,
 } from '../users/userHelpers';
@@ -29,7 +30,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
     this.props.onAutocomplete(`*${name}*`);
   };
 
-  handleUserItemAutocomplete = (user: UserOrBot): void => {
+  handleUserItemAutocomplete = (user: AutocompleteOption): void => {
     const { users, onAutocomplete } = this.props;
     // If another user with the same full name is found, we send the
     // user ID as well, to ensure the mentioned user is uniquely identified.
@@ -45,14 +46,18 @@ class PeopleAutocomplete extends PureComponent<Props> {
   render() {
     const { filter, ownUserId, users, userGroups } = this.props;
     const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, filter);
-    const filteredUsers: User[] = getAutocompleteSuggestion(users, filter, ownUserId);
+    const filteredUsers = getAutocompleteSuggestion(users, filter, ownUserId);
 
     if (filteredUserGroups.length + filteredUsers.length === 0) {
       return null;
     }
 
+    type Section<T> = {|
+      +data: $ReadOnlyArray<T>,
+      +renderItem: ({ item: T, ... }) => React$MixedElement,
+    |};
     const sections = [
-      {
+      ({
         data: filteredUserGroups,
         renderItem: ({ item }) => (
           <UserGroupItem
@@ -62,8 +67,8 @@ class PeopleAutocomplete extends PureComponent<Props> {
             onPress={this.handleUserGroupItemAutocomplete}
           />
         ),
-      },
-      {
+      }: Section<UserGroup>),
+      ({
         data: filteredUsers,
         renderItem: ({ item }) => (
           // "Raw" because some of our autocomplete suggestions are fake
@@ -77,11 +82,12 @@ class PeopleAutocomplete extends PureComponent<Props> {
             onPress={this.handleUserItemAutocomplete}
           />
         ),
-      },
+      }: Section<AutocompleteOption>),
     ];
 
     return (
       <Popup>
+        {/* $FlowFixMe SectionList type is confused; should take $ReadOnly objects. */}
         <SectionList
           keyboardShouldPersistTaps="always"
           initialNumToRender={10}

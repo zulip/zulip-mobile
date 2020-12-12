@@ -3,8 +3,8 @@ import uniqby from 'lodash.uniqby';
 
 import type { UserPresence, User, UserId, UserGroup, PresenceState, UserOrBot } from '../types';
 import { ensureUnreachable } from '../types';
-import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
+import { makeUserId } from '../api/idTypes';
 
 type UsersByStatus = {|
   active: UserOrBot[],
@@ -44,6 +44,8 @@ export const sortUserList = (users: UserOrBot[], presences: PresenceState): User
       || x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
   );
 
+export type AutocompleteOption = { user_id: UserId, email: string, full_name: string, ... };
+
 export const filterUserList = (
   users: $ReadOnlyArray<UserOrBot>,
   filter: string = '',
@@ -61,20 +63,20 @@ export const sortAlphabetically = (users: User[]): User[] =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()));
 
 export const filterUserStartWith = (
-  users: User[],
+  users: $ReadOnlyArray<AutocompleteOption>,
   filter: string = '',
   ownUserId: UserId,
-): User[] =>
+): $ReadOnlyArray<AutocompleteOption> =>
   users.filter(
     user =>
       user.user_id !== ownUserId && user.full_name.toLowerCase().startsWith(filter.toLowerCase()),
   );
 
 export const filterUserByInitials = (
-  users: User[],
+  users: $ReadOnlyArray<AutocompleteOption>,
   filter: string = '',
   ownUserId: UserId,
-): User[] =>
+): $ReadOnlyArray<AutocompleteOption> =>
   users.filter(
     user =>
       user.user_id !== ownUserId
@@ -85,37 +87,41 @@ export const filterUserByInitials = (
   );
 
 export const filterUserThatContains = (
-  users: User[],
+  users: $ReadOnlyArray<AutocompleteOption>,
   filter: string = '',
   ownUserId: UserId,
-): User[] =>
+): $ReadOnlyArray<AutocompleteOption> =>
   users.filter(
     user =>
       user.user_id !== ownUserId && user.full_name.toLowerCase().includes(filter.toLowerCase()),
   );
 
 export const filterUserMatchesEmail = (
-  users: User[],
+  users: $ReadOnlyArray<AutocompleteOption>,
   filter: string = '',
   ownUserId: UserId,
-): User[] =>
+): $ReadOnlyArray<AutocompleteOption> =>
   users.filter(
     user => user.user_id !== ownUserId && user.email.toLowerCase().includes(filter.toLowerCase()),
   );
 
-export const getUniqueUsers = (users: User[]): User[] => uniqby(users, 'email');
+export const getUniqueUsers = (
+  users: $ReadOnlyArray<AutocompleteOption>,
+): $ReadOnlyArray<AutocompleteOption> => uniqby(users, 'email');
 
-export const getUsersAndWildcards = (users: User[]) => [
-  { ...NULL_USER, full_name: 'all', email: '(Notify everyone)' },
-  { ...NULL_USER, full_name: 'everyone', email: '(Notify everyone)' },
+export const getUsersAndWildcards = (users: $ReadOnlyArray<AutocompleteOption>) => [
+  // TODO stop using makeUserId on these fake "user IDs"; have some
+  //   more-explicit UI logic instead of these pseudo-users.
+  { user_id: makeUserId(-1), full_name: 'all', email: '(Notify everyone)' },
+  { user_id: makeUserId(-2), full_name: 'everyone', email: '(Notify everyone)' },
   ...users,
 ];
 
 export const getAutocompleteSuggestion = (
-  users: User[],
+  users: $ReadOnlyArray<AutocompleteOption>,
   filter: string = '',
   ownUserId: UserId,
-): User[] => {
+): $ReadOnlyArray<AutocompleteOption> => {
   if (users.length === 0) {
     return users;
   }
