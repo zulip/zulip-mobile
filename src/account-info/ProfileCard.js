@@ -6,7 +6,6 @@ import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
-import { getSelfUserDetail } from '../selectors';
 import { ZulipButton } from '../common';
 import {
   logout,
@@ -16,6 +15,7 @@ import {
 } from '../actions';
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
+import { getOwnUser } from '../users/userSelectors';
 
 const styles = createStyleSheet({
   buttonRow: {
@@ -81,11 +81,11 @@ type Props = $ReadOnly<{|
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
  */
 export default function ProfileCard(props: Props) {
-  const selfUserDetail = useSelector(getSelfUserDetail);
+  const ownUser = useSelector(getOwnUser);
 
   return (
     <ScrollView>
-      <AccountDetails user={selfUserDetail} />
+      <AccountDetails user={ownUser} />
       <AwayStatusSwitch />
       <View style={styles.buttonRow}>
         <SetStatusButton />

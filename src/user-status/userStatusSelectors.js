@@ -1,8 +1,7 @@
 /* @flow strict-local */
 import type { GlobalState, Selector, UserId, UserStatus } from '../types';
 import { getUserStatus } from '../directSelectors';
-
-import { getSelfUserDetail } from '../users/userSelectors';
+import { getOwnUserId } from '../users/userSelectors';
 
 /**
  * Extract the user status object for the logged in user.
@@ -10,8 +9,7 @@ import { getSelfUserDetail } from '../users/userSelectors';
  */
 export const getSelfUserStatus: Selector<?UserStatus> = (state: GlobalState) => {
   const userStatus = getUserStatus(state);
-  const selfUserDetail = getSelfUserDetail(state);
-  return userStatus[selfUserDetail.user_id];
+  return userStatus[getOwnUserId(state)];
 };
 
 /**
