@@ -35,8 +35,8 @@ describe('HOME_NARROW', () => {
     expect(HOME_NARROW).toEqual([]);
   });
 
-  test('empty list is a home narrow', () => {
-    expect(isHomeNarrow([])).toBe(true);
+  test('is a home narrow', () => {
+    expect(isHomeNarrow(HOME_NARROW)).toBe(true);
   });
 });
 
@@ -53,14 +53,6 @@ describe('pmNarrowFromEmail', () => {
   test('if operator is "pm-with" and only one email, then it is a private narrow', () => {
     expect(is1to1PmNarrow(HOME_NARROW)).toBe(false);
     expect(is1to1PmNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(true);
-    expect(
-      is1to1PmNarrow([
-        {
-          operator: 'pm-with',
-          operand: eg.otherUser.email,
-        },
-      ]),
-    ).toBe(true);
   });
 });
 
@@ -70,22 +62,6 @@ describe('isPmNarrow', () => {
     expect(isPmNarrow(HOME_NARROW)).toBe(false);
     expect(isPmNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(true);
     expect(isPmNarrow(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]))).toBe(true);
-    expect(
-      isPmNarrow([
-        {
-          operator: 'pm-with',
-          operand: eg.otherUser.email,
-        },
-      ]),
-    ).toBe(true);
-    expect(
-      isPmNarrow([
-        {
-          operator: 'pm-with',
-          operand: [eg.otherUser.email, eg.thirdUser.email].join(','),
-        },
-      ]),
-    ).toBe(true);
   });
 });
 
@@ -118,8 +94,6 @@ describe('specialNarrow', () => {
     expect(isSpecialNarrow(HOME_NARROW)).toBe(false);
     expect(isSpecialNarrow(streamNarrow('some stream'))).toBe(false);
     expect(isSpecialNarrow(STARRED_NARROW)).toBe(true);
-    expect(isSpecialNarrow([{ operator: 'stream', operand: 'some stream' }])).toBe(false);
-    expect(isSpecialNarrow([{ operator: 'is', operand: 'starred' }])).toBe(true);
   });
 });
 
@@ -137,7 +111,6 @@ describe('streamNarrow', () => {
     expect(isStreamNarrow(undefined)).toBe(false);
     expect(isStreamNarrow(HOME_NARROW)).toBe(false);
     expect(isStreamNarrow(streamNarrow('some stream'))).toBe(true);
-    expect(isStreamNarrow([{ operator: 'stream', operand: 'some stream' }])).toBe(true);
   });
 });
 
@@ -153,18 +126,6 @@ describe('topicNarrow', () => {
     expect(isTopicNarrow(undefined)).toBe(false);
     expect(isTopicNarrow(HOME_NARROW)).toBe(false);
     expect(isTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
-    expect(
-      isTopicNarrow([
-        {
-          operator: 'stream',
-          operand: 'some stream',
-        },
-        {
-          operator: 'topic',
-          operand: 'some topic',
-        },
-      ]),
-    ).toBe(true);
   });
 });
 
