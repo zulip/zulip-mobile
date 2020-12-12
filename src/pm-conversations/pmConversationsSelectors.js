@@ -2,9 +2,9 @@
 import invariant from 'invariant';
 import { createSelector } from 'reselect';
 
-import type { GlobalState, Message, PmConversationData, Selector, User } from '../types';
+import type { GlobalState, Message, PmConversationData, Selector } from '../types';
 import { getPrivateMessages } from '../message/messageSelectors';
-import { getAllUsersById, getOwnUser, getOwnUserId } from '../users/userSelectors';
+import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
 import {
   pmUnreadsKeyFromMessage,
@@ -30,13 +30,13 @@ function unreadCount(unreadsKey, unreadPms, unreadHuddles): number {
 
 // TODO(server-2.1): Delete this, and simplify logic around it.
 export const getRecentConversationsLegacy: Selector<PmConversationData[]> = createSelector(
-  getOwnUser,
+  getOwnUserId,
   getPrivateMessages,
   getUnreadByPms,
   getUnreadByHuddles,
   getAllUsersById,
   (
-    ownUser: User,
+    ownUserId,
     messages: Message[],
     unreadPms: { [number]: number },
     unreadHuddles: { [string]: number },
@@ -45,8 +45,8 @@ export const getRecentConversationsLegacy: Selector<PmConversationData[]> = crea
     const items = messages
       .map(msg => {
         // Note this can be a different set of users from those in `keyRecipients`.
-        const unreadsKey = pmUnreadsKeyFromMessage(msg, ownUser.user_id);
-        const keyRecipients = pmKeyRecipientUsersFromMessage(msg, allUsersById, ownUser.user_id);
+        const unreadsKey = pmUnreadsKeyFromMessage(msg, ownUserId);
+        const keyRecipients = pmKeyRecipientUsersFromMessage(msg, allUsersById, ownUserId);
         return keyRecipients === null ? null : { unreadsKey, keyRecipients, msgId: msg.id };
       })
       .filter(Boolean);

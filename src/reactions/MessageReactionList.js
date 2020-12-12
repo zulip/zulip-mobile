@@ -10,7 +10,7 @@ import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';
 import type { Dispatch, EmojiType, Message, ReactionType, UserId } from '../types';
 import { Screen, Label, RawLabel } from '../common';
-import { getOwnUser } from '../selectors';
+import { getOwnUserId } from '../selectors';
 import aggregateReactions from './aggregateReactions';
 import styles from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
@@ -139,5 +139,5 @@ class MessageReactionList extends PureComponent<Props> {
 export default connect<SelectorProps, _, _>((state, props) => ({
   // message *can* be undefined; see componentDidUpdate for explanation and handling.
   message: state.messages.get(props.route.params.messageId),
-  ownUserId: getOwnUser(state).user_id,
+  ownUserId: getOwnUserId(state),
 }))(MessageReactionList);
