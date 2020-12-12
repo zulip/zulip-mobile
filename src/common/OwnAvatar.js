@@ -3,8 +3,8 @@ import React, { PureComponent } from 'react';
 
 import type { User, Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { getSelfUserDetail } from '../selectors';
 import UserAvatar from './UserAvatar';
+import { getOwnUser } from '../users/userSelectors';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
@@ -25,5 +25,5 @@ class OwnAvatar extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  user: getSelfUserDetail(state),
+  user: getOwnUser(state),
 }))(OwnAvatar);
