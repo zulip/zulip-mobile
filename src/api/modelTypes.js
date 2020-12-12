@@ -6,6 +6,8 @@
 
 import type { AvatarURL } from '../utils/avatar';
 
+export type * from './idTypes';
+
 //
 //
 //
