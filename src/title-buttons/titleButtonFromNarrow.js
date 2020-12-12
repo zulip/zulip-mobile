@@ -22,7 +22,7 @@ export const InfoButton: ComponentType<Props> = props =>
         ids.length === 1 ? (
           <InfoNavButtonPrivate userId={ids[0]} color={props.color} />
         ) : (
-          <InfoNavButtonGroup {...props} />
+          <InfoNavButtonGroup userIds={ids} color={props.color} />
         ),
     },
     () => false,
