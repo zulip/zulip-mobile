@@ -20,7 +20,7 @@ import {
   getOutbox,
 } from '../directSelectors';
 import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
-import { getAllUsersByEmail, getAllUsersById, getOwnUser } from '../users/userSelectors';
+import { getAllUsersById, getOwnUser } from '../users/userSelectors';
 import {
   isStreamOrTopicNarrow,
   isMessageInNarrow,
@@ -134,17 +134,14 @@ export const getStreamInNarrow: Selector<Subscription | {| ...Stream, in_home_vi
 export const isNarrowValid: Selector<boolean, Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getStreams(state),
-  state => getAllUsersByEmail(state),
   state => getAllUsersById(state),
-  (narrow, streams, allUsersByEmail, allUsersById) =>
+  (narrow, streams, allUsersById) =>
     caseNarrowDefault(
       narrow,
       {
         stream: streamName => streams.find(s => s.name === streamName) !== undefined,
         topic: streamName => streams.find(s => s.name === streamName) !== undefined,
-        pm: (emails, ids) =>
-          emails.every(email => allUsersByEmail.get(email) !== undefined)
-          && ids.every(id => allUsersById.get(id) !== undefined),
+        pm: (emails, ids) => ids.every(id => allUsersById.get(id) !== undefined),
       },
       () => true,
     ),
