@@ -63,15 +63,6 @@ export const HOME_NARROW_STR: string = keyFromNarrow(HOME_NARROW);
 const pmNarrowFromEmails = (emails: string[]): Narrow => Object.freeze({ type: 'pm', emails });
 
 /**
- * DEPRECATED.  Use `pm1to1NarrowFromUser` instead.
- *
- * This function is being replaced by `pm1to1NarrowFromUser`, as part of
- * migrating from emails to user IDs to identify users.  Don't add new uses
- * of this function; use that one instead.
- */
-export const pmNarrowFromEmail = (email: string): Narrow => pmNarrowFromEmails([email]);
-
-/**
  * A PM narrow, either 1:1 or group.
  *
  * The argument's type guarantees that it comes from
