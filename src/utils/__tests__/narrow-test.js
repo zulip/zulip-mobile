@@ -6,7 +6,6 @@ import {
   pmNarrowFromEmail,
   is1to1PmNarrow,
   pmNarrowFromUsersUnsafe,
-  specialNarrow,
   isSpecialNarrow,
   ALL_PRIVATE_NARROW,
   streamNarrow,
@@ -17,7 +16,6 @@ import {
   isSearchNarrow,
   isPmNarrow,
   isMessageInNarrow,
-  isSameNarrow,
   isStreamOrTopicNarrow,
   getNarrowsForMessage,
   getNarrowForReply,
@@ -339,20 +337,6 @@ describe('getNarrowForReply', () => {
     const actualNarrow = getNarrowForReply(message, eg.selfUser);
 
     expect(actualNarrow).toEqual(expectedNarrow);
-  });
-});
-
-describe('isSameNarrow', () => {
-  test('Return true if two narrows are same', () => {
-    expect(isSameNarrow(streamNarrow('stream'), streamNarrow('stream'))).toBe(true);
-    expect(isSameNarrow(streamNarrow('stream'), streamNarrow('stream1'))).toBe(false);
-    expect(isSameNarrow(streamNarrow('stream'), topicNarrow('stream', 'topic'))).toBe(false);
-    expect(isSameNarrow(topicNarrow('stream', 'topic'), topicNarrow('stream', 'topic'))).toBe(true);
-    expect(isSameNarrow(topicNarrow('stream', 'topic'), topicNarrow('stream', 'topic1'))).toBe(
-      false,
-    );
-    expect(isSameNarrow(HOME_NARROW, specialNarrow('private'))).toBe(false);
-    expect(isSameNarrow(HOME_NARROW, HOME_NARROW)).toBe(true);
   });
 });
 

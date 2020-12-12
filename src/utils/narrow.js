@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import invariant from 'invariant';
-import isEqual from 'lodash.isequal';
 
 import type { ApiNarrow, Message, Outbox, User, UserOrBot } from '../types';
 import {
@@ -32,9 +31,6 @@ import {
  *    server, and `apiNarrowOfNarrow` for converting to it.
  */
 export opaque type Narrow = ApiNarrow;
-
-export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
-  Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
 
 export const HOME_NARROW: Narrow = [];
 
