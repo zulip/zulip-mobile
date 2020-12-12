@@ -81,14 +81,14 @@ describe('getMessagesForNarrow', () => {
   test('do not combine messages and outbox in different narrow', () => {
     const state = eg.reduxState({
       narrows: Immutable.Map({
-        [keyFromNarrow(pmNarrowFromEmail('john@example.com'))]: [123],
+        [keyFromNarrow(pmNarrowFromEmail(eg.otherUser.email))]: [123],
       }),
       messages,
       outbox: [outboxMessage],
       realm: eg.realmState({ email: eg.selfUser.email }),
     });
 
-    const result = getMessagesForNarrow(state, pmNarrowFromEmail('john@example.com'));
+    const result = getMessagesForNarrow(state, pmNarrowFromEmail(eg.otherUser.email));
 
     expect(result).toEqual([message]);
   });
@@ -193,7 +193,9 @@ describe('getStreamInNarrow', () => {
   });
 
   test('return NULL_SUBSCRIPTION is narrow is not topic or stream', () => {
-    expect(getStreamInNarrow(state, pmNarrowFromEmail('abc@zulip.com'))).toEqual(NULL_SUBSCRIPTION);
+    expect(getStreamInNarrow(state, pmNarrowFromEmail(eg.otherUser.email))).toEqual(
+      NULL_SUBSCRIPTION,
+    );
     expect(getStreamInNarrow(state, topicNarrow(stream4.name, 'topic'))).toEqual(NULL_SUBSCRIPTION);
   });
 });

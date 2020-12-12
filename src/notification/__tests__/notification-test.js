@@ -34,10 +34,10 @@ describe('getNarrowFromNotificationData', () => {
   test('on notification for a private message returns a PM narrow', () => {
     const notification = {
       recipient_type: 'private',
-      sender_email: 'mark@example.com',
+      sender_email: eg.otherUser.email,
     };
     const narrow = getNarrowFromNotificationData(notification, DEFAULT_MAP, ownUserId);
-    expect(narrow).toEqual(pmNarrowFromEmail('mark@example.com'));
+    expect(narrow).toEqual(pmNarrowFromEmail(eg.otherUser.email));
   });
 
   test('on notification for a group message returns a group narrow', () => {
