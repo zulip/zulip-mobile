@@ -19,7 +19,11 @@ export const InfoButton: ComponentType<Props> = props =>
       stream: streamName => <InfoNavButtonStream {...props} />,
       topic: (streamName, topic) => <InfoNavButtonStream {...props} />,
       pm: (emails, ids) =>
-        ids.length === 1 ? <InfoNavButtonPrivate {...props} /> : <InfoNavButtonGroup {...props} />,
+        ids.length === 1 ? (
+          <InfoNavButtonPrivate userId={ids[0]} color={props.color} />
+        ) : (
+          <InfoNavButtonGroup {...props} />
+        ),
     },
     () => false,
   );
