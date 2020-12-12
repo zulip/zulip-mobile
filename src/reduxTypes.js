@@ -21,7 +21,6 @@ import type {
   CrossRealmBot,
   RealmEmojiById,
   RealmFilter,
-  Narrow,
   Stream,
   StreamUnreadItem,
   Subscription,
@@ -30,7 +29,7 @@ import type {
   UserPresence,
   UserStatusMapObject,
 } from './api/apiTypes';
-
+import type { Narrow } from './utils/narrow';
 import type { SessionState } from './session/sessionReducer';
 
 export type * from './actionTypes';

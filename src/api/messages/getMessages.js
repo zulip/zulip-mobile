@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import type { Identity } from '../../types';
-import type { Message, Narrow } from '../apiTypes';
+import type { Message, ApiNarrow } from '../apiTypes';
 import type { Reaction } from '../modelTypes';
 import { apiGet } from '../apiFetch';
 import { identityOfAuth } from '../../account/accountMisc';
@@ -86,7 +86,7 @@ const migrateResponse = (response, identity: Identity) => {
 export default async (
   auth: Auth,
   args: {|
-    narrow: Narrow,
+    narrow: ApiNarrow,
     anchor: number,
     numBefore: number,
     numAfter: number,

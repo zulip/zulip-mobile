@@ -10,6 +10,7 @@ import type { PmKeyUsers } from './utils/recipient';
 export type * from './generics';
 export type * from './reduxTypes';
 export type * from './api/apiTypes';
+export type { Narrow } from './utils/narrow';
 
 export { ensureUnreachable } from './generics';
 

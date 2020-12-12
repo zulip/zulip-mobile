@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { RawInitialData, InitialData } from './initialDataTypes';
 import type { Auth } from './transportTypes';
-import type { Narrow } from './apiTypes';
+import type { ApiNarrow } from './apiTypes';
 import type { CrossRealmBot, User } from './modelTypes';
 import { apiPost } from './apiFetch';
 import { AvatarURL } from '../utils/avatar';
@@ -13,7 +13,7 @@ type RegisterForEventsParams = {|
   event_types?: string[],
   fetch_event_types?: string[],
   include_subscribers?: boolean,
-  narrow?: Narrow,
+  narrow?: ApiNarrow,
   queue_lifespan_secs?: number,
   client_capabilities?: {|
     notification_settings_null: boolean,

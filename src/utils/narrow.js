@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import isEqual from 'lodash.isequal';
 
-import type { Narrow, Message, Outbox, User, UserOrBot } from '../types';
+import type { ApiNarrow, Message, Outbox, User, UserOrBot } from '../types';
 import {
   normalizeRecipientsSansMe,
   pmKeyRecipientsFromMessage,
@@ -12,6 +12,25 @@ import {
 } from './recipient';
 
 /* eslint-disable no-use-before-define */
+
+/**
+ * A narrow.
+ *
+ * A narrow is the navigational property that defines what to show in the
+ * message list UI: it's a subset of messages which might be a conversation,
+ * a whole stream, a search, or a few other varieties.
+ *
+ * Much of the data we fetch is to support the message list UI, and so we
+ * keep much of it in data structures indexed by narrow.
+ *
+ * See also:
+ *  * `keyFromNarrow`, for converting into a string key good for indexing
+ *    into a data structure;
+ *  * `caseNarrow` and its relatives, for pattern-matching or destructuring;
+ *  * `ApiNarrow` for the form we put a narrow in when talking to the
+ *    server.
+ */
+export type Narrow = ApiNarrow;
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);

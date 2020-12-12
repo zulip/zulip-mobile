@@ -312,7 +312,13 @@ export type NarrowElement = $ReadOnly<{|
   operator: NarrowOperator,
 |}>;
 
-export type Narrow = $ReadOnlyArray<NarrowElement>;
+/**
+ * A narrow, in the form used in the Zulip API at get-messages.
+ *
+ * See also `Narrow` in the non-API app code, which describes how we
+ * represent narrows within the app.
+ */
+export type ApiNarrow = $ReadOnlyArray<NarrowElement>;
 
 //
 //
