@@ -340,7 +340,7 @@ export const constructNonHeaderActionButtons = ({
 /** Returns the title for the action sheet. */
 const getActionSheetTitle = (message: Message | Outbox, ownUser: User): string => {
   if (message.type === 'private') {
-    const recipients = pmUiRecipientsFromMessage(message, ownUser);
+    const recipients = pmUiRecipientsFromMessage(message, ownUser.user_id);
     return recipients
       .map(r => r.full_name)
       .sort()

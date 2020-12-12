@@ -502,7 +502,7 @@ export const getNarrowsForMessage = (
 
   if (message.type === 'private') {
     result.push(ALL_PRIVATE_NARROW);
-    result.push(pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUser)));
+    result.push(pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUser.user_id)));
   } else {
     const streamName = streamNameOfStreamMessage(message);
     result.push(topicNarrow(streamName, message.subject));
@@ -531,7 +531,7 @@ export const getNarrowsForMessage = (
 //   now that it's free of fiddly details from the Narrow data structure
 export const getNarrowForReply = (message: Message | Outbox, ownUser: User) => {
   if (message.type === 'private') {
-    return pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUser));
+    return pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUser.user_id));
   } else {
     const streamName = streamNameOfStreamMessage(message);
     return topicNarrow(streamName, message.subject);
