@@ -33,7 +33,7 @@ import {
 export opaque type Narrow =
   | {| type: 'stream', streamName: string |}
   | {| type: 'topic', streamName: string, topic: string |}
-  | {| type: 'pm', emails: $ReadOnlyArray<string> |}
+  | {| type: 'pm', userIds: $ReadOnlyArray<number>, emails: $ReadOnlyArray<string> |}
   | {| type: 'search', query: string |}
   | {| type: 'all' | 'starred' | 'mentioned' | 'all-pm' |};
 
@@ -60,7 +60,8 @@ export const HOME_NARROW_STR: string = keyFromNarrow(HOME_NARROW);
  * accidentally disagreeing on whether to include the self-user, or on how
  * to sort the list (by user ID vs. email), or neglecting to sort it at all.
  */
-const pmNarrowFromEmails = (emails: string[]): Narrow => Object.freeze({ type: 'pm', emails });
+const pmNarrowInternal = (userIds: $ReadOnlyArray<number>, emails: string[]): Narrow =>
+  Object.freeze({ type: 'pm', userIds, emails });
 
 /**
  * A PM narrow, either 1:1 or group.
@@ -73,7 +74,7 @@ const pmNarrowFromEmails = (emails: string[]): Narrow => Object.freeze({ type: '
  * different form of input.
  */
 export const pmNarrowFromRecipients = (recipients: PmKeyRecipients): Narrow =>
-  pmNarrowFromEmails(recipients.map(r => r.email));
+  pmNarrowInternal(recipients.map(r => r.id), recipients.map(r => r.email));
 
 /**
  * A PM narrow, either 1:1 or group.
@@ -85,7 +86,7 @@ export const pmNarrowFromRecipients = (recipients: PmKeyRecipients): Narrow =>
  * single specific user.
  */
 export const pmNarrowFromUsers = (recipients: PmKeyUsers): Narrow =>
-  pmNarrowFromEmails(recipients.map(r => r.email));
+  pmNarrowInternal(recipients.map(r => r.user_id), recipients.map(r => r.email));
 
 /**
  * FOR TESTS ONLY.  Like pmNarrowFromUsers, but without validation.
@@ -103,8 +104,10 @@ export const pmNarrowFromUsers = (recipients: PmKeyUsers): Narrow =>
  */
 // It'd be fine for test data to go through the usual filtering logic; the
 // annoying thing is just that that requires an ownUserId value.
-export const pmNarrowFromUsersUnsafe = (recipients: UserOrBot[]): Narrow =>
-  pmNarrowFromEmails(recipients.sort((a, b) => a.user_id - b.user_id).map(r => r.email));
+export const pmNarrowFromUsersUnsafe = (recipients: UserOrBot[]): Narrow => {
+  recipients.sort((a, b) => a.user_id - b.user_id);
+  return pmNarrowInternal(recipients.map(r => r.user_id), recipients.map(r => r.email));
+};
 
 /**
  * A 1:1 PM narrow, possibly with self.
@@ -113,7 +116,8 @@ export const pmNarrowFromUsersUnsafe = (recipients: UserOrBot[]): Narrow =>
  * statically has just one other user it's a bit more convenient because it
  * doesn't require going through our `recipient` helpers.
  */
-export const pm1to1NarrowFromUser = (user: UserOrBot): Narrow => pmNarrowFromEmails([user.email]);
+export const pm1to1NarrowFromUser = (user: UserOrBot): Narrow =>
+  pmNarrowInternal([user.user_id], [user.email]);
 
 export const specialNarrow = (operand: string): Narrow => {
   if (operand === 'starred') {
@@ -150,7 +154,7 @@ export const SEARCH_NARROW = (query: string): Narrow => Object.freeze({ type: 's
 
 type NarrowCases<T> = {|
   home: () => T,
-  pm: (emails: $ReadOnlyArray<string>) => T,
+  pm: (emails: $ReadOnlyArray<string>, ids: $ReadOnlyArray<number>) => T,
   starred: () => T,
   mentioned: () => T,
   allPrivate: () => T,
@@ -168,7 +172,7 @@ export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
   switch (narrow.type) {
     case 'stream': return cases.stream(narrow.streamName);
     case 'topic': return cases.topic(narrow.streamName, narrow.topic);
-    case 'pm': return cases.pm(narrow.emails);
+    case 'pm': return cases.pm(narrow.emails, narrow.userIds);
     case 'search': return cases.search(narrow.query);
     case 'all': return cases.home();
     case 'starred': return cases.starred();
@@ -237,8 +241,10 @@ export function caseNarrowDefault<T>(
 // and (b) our use of `\x00` as a delimiter.  Also perhaps email addresses,
 // if it's possible for those to have exciting characters in them.
 export function keyFromNarrow(narrow: Narrow): string {
-  // The ":s" bit in several of these is to keep them disjoint, out of an
-  // abundance of caution, from future keys that use numeric IDs.
+  // The ":s" (for "string") in several of these is to keep them disjoint,
+  // out of an abundance of caution, from future keys that use numeric IDs.
+  //
+  // Similarly, ":d" ("dual") marks those with both numeric IDs and strings.
   return caseNarrow(narrow, {
     // NB if you're changing any of these: be sure to do a migration.
     // Take a close look at migration 19 and any later related migrations.
@@ -248,7 +254,8 @@ export function keyFromNarrow(narrow: Narrow): string {
     // (See `check_stream_name` in zulip.git:zerver/lib/streams.py.)
     topic: (streamName, topic) => `topic:s:${streamName}\x00${topic}`,
 
-    pm: emails => `pm:s:${emails.join(',')}`,
+    // An earlier version had `pm:s:`.
+    pm: (emails, ids) => `pm:d:${ids.join(',')}:${emails.join(',')}`,
 
     home: () => 'all',
     starred: () => 'starred',
@@ -289,11 +296,17 @@ export const parseNarrow = (narrowStr: string): Narrow => {
     }
 
     case 'pm:': {
-      if (!rest.startsWith('s:')) {
+      // The `/s` regexp flag means the `.` patterns match absolutely
+      // anything.  By default they reject certain "newline" characters,
+      // which might be impossible in email addresses but it's simplest
+      // not to have to care.
+      const match = /^d:(.*?):(.*)/s.exec(rest);
+      if (!match) {
         throw makeError();
       }
-      const emails = rest.substr('s:'.length).split(',');
-      return pmNarrowFromEmails(emails);
+      const ids = match[1].split(',').map(s => Number.parseInt(s, 10));
+      const emails = match[2].split(',');
+      return pmNarrowInternal(ids, emails);
     }
 
     case 'search:': {

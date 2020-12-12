@@ -239,6 +239,21 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     ),
   }),
 
+  // Change format of keys representing PM narrows, adding user IDs.
+  '20': state => ({
+    ...dropCache(state),
+    drafts: objectFromEntries(
+      Object.keys(state.drafts)
+        // Just drop any old-style, email-only PM keys.  Converting them
+        // would require using additional information to look up the IDs,
+        // which would make this more complex than any of our other
+        // migrations.  Drafts are inherently short-term, and are already
+        // discarded whenever switching between accounts.
+        .filter(key => !key.startsWith('pm:s:'))
+        .map(key => [key, state.drafts[key]]),
+    ),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
