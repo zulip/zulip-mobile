@@ -199,8 +199,8 @@ export function reducer(state: PmConversationsState = initialState, action: Acti
     }
 
     case EVENT_NEW_MESSAGE: {
-      const { message, ownUser } = action;
-      return insertMessage(state, message, ownUser.user_id);
+      const { message, ownUserId } = action;
+      return insertMessage(state, message, ownUserId);
     }
 
     default:
