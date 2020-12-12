@@ -3,7 +3,13 @@ import deepFreeze from 'deep-freeze';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import fetchingReducer from '../fetchingReducer';
-import { HOME_NARROW, HOME_NARROW_STR, streamNarrow, keyFromNarrow } from '../../utils/narrow';
+import {
+  HOME_NARROW,
+  HOME_NARROW_STR,
+  streamNarrow,
+  keyFromNarrow,
+  SEARCH_NARROW,
+} from '../../utils/narrow';
 import { MESSAGE_FETCH_START, MESSAGE_FETCH_ERROR } from '../../actionConstants';
 import { DEFAULT_FETCHING } from '../fetchingSelectors';
 
@@ -16,7 +22,7 @@ describe('fetchingReducer', () => {
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_START,
-        narrow: [],
+        narrow: HOME_NARROW,
         numBefore: 10,
         numAfter: 10,
       });
@@ -62,7 +68,7 @@ describe('fetchingReducer', () => {
 
       const action = deepFreeze({
         ...eg.action.message_fetch_start,
-        narrow: [{ operator: 'search', operand: 'some query' }],
+        narrow: SEARCH_NARROW('some query'),
       });
 
       const newState = fetchingReducer(initialState, action);
@@ -108,7 +114,7 @@ describe('fetchingReducer', () => {
 
       const action = {
         ...eg.action.message_fetch_complete,
-        narrow: [],
+        narrow: HOME_NARROW,
         numBefore: 10,
         numAfter: 0,
       };
@@ -130,7 +136,7 @@ describe('fetchingReducer', () => {
 
     const action = deepFreeze({
       ...eg.action.message_fetch_complete,
-      narrow: [{ operator: 'search', operand: 'some query' }],
+      narrow: SEARCH_NARROW('some query'),
     });
 
     const newState = fetchingReducer(initialState, action);

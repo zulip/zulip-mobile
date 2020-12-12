@@ -1,5 +1,6 @@
 // @flow strict-local
 import deepFreeze from 'deep-freeze';
+import { HOME_NARROW } from '../../utils/narrow';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { constructMessageActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
@@ -18,7 +19,7 @@ const baseBackgroundData = deepFreeze({
 });
 
 describe('constructActionButtons', () => {
-  const narrow = deepFreeze([]);
+  const narrow = deepFreeze(HOME_NARROW);
 
   test('show star message option if message is not starred', () => {
     const message = eg.streamMessage();
@@ -53,7 +54,7 @@ describe('constructActionButtons', () => {
 });
 
 describe('constructHeaderActionButtons', () => {
-  const narrow = deepFreeze([]);
+  const narrow = deepFreeze(HOME_NARROW);
 
   test('show Unmute topic option if topic is muted', () => {
     const mute = deepFreeze([['electron issues', 'issue #556']]);

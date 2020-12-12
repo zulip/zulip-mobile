@@ -10,6 +10,7 @@ import {
   HOME_NARROW_STR,
   ALL_PRIVATE_NARROW,
   ALL_PRIVATE_NARROW_STR,
+  SEARCH_NARROW,
 } from '../../utils/narrow';
 
 describe('caughtUpReducer', () => {
@@ -42,7 +43,7 @@ describe('caughtUpReducer', () => {
 
       const action = deepFreeze({
         ...eg.action.message_fetch_start,
-        narrow: [{ operator: 'search', operand: 'some query' }],
+        narrow: SEARCH_NARROW('some query'),
       });
 
       const newState = caughtUpReducer(initialState, action);
@@ -126,7 +127,7 @@ describe('caughtUpReducer', () => {
 
       const action = deepFreeze({
         ...eg.action.message_fetch_complete,
-        narrow: [{ operator: 'search', operand: 'some query' }],
+        narrow: SEARCH_NARROW('some query'),
       });
 
       const newState = caughtUpReducer(initialState, action);

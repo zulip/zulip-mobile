@@ -13,6 +13,7 @@ import {
   topicNarrow,
   STARRED_NARROW_STR,
   keyFromNarrow,
+  SEARCH_NARROW,
 } from '../../utils/narrow';
 import {
   MESSAGE_FETCH_ERROR,
@@ -324,7 +325,7 @@ describe('narrowsReducer', () => {
 
       const action = deepFreeze({
         ...eg.action.message_fetch_start,
-        narrow: [{ operator: 'search', operand: 'some query' }],
+        narrow: SEARCH_NARROW('some query'),
       });
 
       const newState = narrowsReducer(initialState, action);
@@ -396,7 +397,7 @@ describe('narrowsReducer', () => {
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
         anchor: 2,
-        narrow: [],
+        narrow: HOME_NARROW,
         messages: [
           eg.streamMessage({ id: 2 }),
           eg.streamMessage({ id: 3 }),
@@ -424,7 +425,7 @@ describe('narrowsReducer', () => {
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
         anchor: 2,
-        narrow: [],
+        narrow: HOME_NARROW,
         messages: [
           eg.streamMessage({ id: 3, timestamp: 2 }),
           eg.streamMessage({ id: 4, timestamp: 1 }),
@@ -451,7 +452,7 @@ describe('narrowsReducer', () => {
       const action = deepFreeze({
         anchor: FIRST_UNREAD_ANCHOR,
         type: MESSAGE_FETCH_COMPLETE,
-        narrow: [],
+        narrow: HOME_NARROW,
         messages: [
           eg.streamMessage({ id: 3, timestamp: 2 }),
           eg.streamMessage({ id: 4, timestamp: 1 }),
@@ -477,7 +478,7 @@ describe('narrowsReducer', () => {
       const action = deepFreeze({
         anchor: LAST_MESSAGE_ANCHOR,
         type: MESSAGE_FETCH_COMPLETE,
-        narrow: [],
+        narrow: HOME_NARROW,
         messages: [
           eg.streamMessage({ id: 3, timestamp: 2 }),
           eg.streamMessage({ id: 4, timestamp: 1 }),
@@ -502,7 +503,7 @@ describe('narrowsReducer', () => {
 
       const action = deepFreeze({
         ...eg.action.message_fetch_complete,
-        narrow: [{ operator: 'search', operand: 'some query' }],
+        narrow: SEARCH_NARROW('some query'),
       });
 
       const newState = narrowsReducer(initialState, action);
