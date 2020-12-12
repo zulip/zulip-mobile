@@ -23,8 +23,8 @@ type Props = $ReadOnly<{|
 |}>;
 
 class TitleGroup extends PureComponent<Props> {
-  handlePress = (user: UserOrBot) => {
-    NavigationService.dispatch(navigateToAccountDetails(user.user_id));
+  handlePress = (userId: number) => {
+    NavigationService.dispatch(navigateToAccountDetails(userId));
   };
 
   styles = createStyleSheet({
@@ -38,10 +38,10 @@ class TitleGroup extends PureComponent<Props> {
 
     return (
       <View style={styles.navWrapper}>
-        {recipients.map((user, index) => (
-          <View key={user.email} style={this.styles.titleAvatar}>
+        {recipients.map(user => (
+          <View key={user.user_id} style={this.styles.titleAvatar}>
             <UserAvatarWithPresenceById
-              onPress={() => this.handlePress(user)}
+              onPress={() => this.handlePress(user.user_id)}
               size={32}
               userId={user.user_id}
             />
