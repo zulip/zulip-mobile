@@ -80,6 +80,7 @@ import type {
   CaughtUpState,
   MuteState,
   AlertWordsState,
+  UserId,
   UserStatusEvent,
 } from './types';
 import type { ZulipVersion } from './utils/zulipVersion';
@@ -285,7 +286,7 @@ type EventSubscriptionPeerAddAction = {|
   type: typeof EVENT_SUBSCRIPTION,
   op: 'peer_add',
   subscriptions: string[],
-  user_id: number,
+  user_id: UserId,
 |};
 
 type EventSubscriptionPeerRemoveAction = {|
@@ -293,7 +294,7 @@ type EventSubscriptionPeerRemoveAction = {|
   type: typeof EVENT_SUBSCRIPTION,
   op: 'peer_remove',
   subscriptions: string[],
-  user_id: number,
+  user_id: UserId,
 |};
 
 type GenericEventAction = {|
@@ -345,7 +346,7 @@ type EventUpdateMessageAction = {|
   rendered_content: string,
   subject_links: string[],
   subject: string,
-  user_id: number,
+  user_id: UserId,
 |};
 
 type EventReactionCommon = {|
@@ -375,11 +376,11 @@ type EventTypingCommon = {|
   ...ServerEvent,
   ownUserId: number,
   recipients: $ReadOnlyArray<{
-    user_id: number,
+    user_id: UserId,
     email: string,
   }>,
   sender: {
-    user_id: number,
+    user_id: UserId,
     email: string,
   },
   time: number,
@@ -422,7 +423,7 @@ type EventUserRemoveAction = {|
 type EventUserUpdateAction = {|
   ...ServerEvent,
   type: typeof EVENT_USER_UPDATE,
-  userId: number,
+  userId: UserId,
   // Include only the fields that should be overwritten.
   person: $Shape<User>,
 |};
@@ -460,7 +461,7 @@ type EventUserGroupAddMembersAction = {|
   type: typeof EVENT_USER_GROUP_ADD_MEMBERS,
   op: 'add_members',
   group_id: number,
-  user_ids: number[],
+  user_ids: UserId[],
 |};
 
 type EventUserGroupRemoveMembersAction = {|
@@ -468,7 +469,7 @@ type EventUserGroupRemoveMembersAction = {|
   type: typeof EVENT_USER_GROUP_REMOVE_MEMBERS,
   op: 'remove_members',
   group_id: number,
-  user_ids: number[],
+  user_ids: UserId[],
 |};
 
 type EventRealmEmojiUpdateAction = {|

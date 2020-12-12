@@ -210,8 +210,8 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
         ...event,
 
         // Raw reaction events from the server have a variation on the
-        // properties of `Reaction`: instead of `user_id: number`, they have
-        // `user: {| email: string, full_name: string, user_id: number |}`.
+        // properties of `Reaction`: instead of `user_id: UserId`, they have
+        // `user: {| email: string, full_name: string, user_id: UserId |}`.
         // NB this is different from the reactions in a `/messages` response;
         // see `getMessages` to compare.
         user_id: event.user.user_id,

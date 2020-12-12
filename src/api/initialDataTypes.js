@@ -9,6 +9,7 @@ import type {
   Subscription,
   User,
   UserGroup,
+  UserId,
   UserPresence,
   UserStatusMapObject,
 } from './apiTypes';
@@ -113,7 +114,7 @@ export type RawInitialDataRealmUser = {|
   is_admin: boolean,
   realm_users: Array<{| ...User, avatar_url?: string | null |}>,
   realm_non_active_users: Array<{| ...User, avatar_url?: string | null |}>,
-  user_id: number,
+  user_id: UserId,
 |};
 
 export type InitialDataRealmUser = {|
@@ -204,7 +205,7 @@ export type StreamUnreadItem = {|
   unread_message_ids: number[],
 
   /** All distinct senders of these messages; sorted. */
-  // sender_ids: number[],
+  // sender_ids: UserId[],
 |};
 
 export type HuddlesUnreadItem = {|

@@ -5,6 +5,7 @@
  */
 
 import type { AvatarURL } from '../utils/avatar';
+import type { UserId } from './idTypes';
 
 export type * from './idTypes';
 
@@ -77,7 +78,7 @@ export type DevUser = {|
  *  * `UserOrBot` for a convenience union of the two
  */
 export type User = {|
-  user_id: number,
+  user_id: UserId,
   email: string,
 
   full_name: string,
@@ -158,7 +159,7 @@ export type CrossRealmBot = {|
   full_name: string,
   is_admin: boolean,
   is_bot: true,
-  user_id: number,
+  user_id: UserId,
 
   // The timezone field has been included since commit 58ee3fa8c (in 1.9.0). Tim
   // mentions in 2020-02, at
@@ -186,7 +187,7 @@ export type UserOrBot = User | CrossRealmBot;
 export type UserGroup = {|
   description: string,
   id: number,
-  members: number[],
+  members: UserId[],
   name: string,
 |};
 
@@ -353,7 +354,7 @@ export type ReactionType = 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji'
  * normalize it to this form.
  */
 export type Reaction = $ReadOnly<{|
-  user_id: number,
+  user_id: UserId,
 
   emoji_name: string,
   reaction_type: ReactionType,
@@ -374,7 +375,7 @@ export type Reaction = $ReadOnly<{|
  * See also `MessageEdit`.
  */
 export type MessageSnapshot = $ReadOnly<{|
-  user_id: number,
+  user_id: UserId,
   timestamp: number,
 
   /** Docs unclear but suggest absent if only content edited. */
@@ -402,7 +403,7 @@ export type MessageEdit = $ReadOnly<{|
   prev_rendered_content_version?: number,
   prev_subject?: string,
   timestamp: number,
-  user_id: number,
+  user_id: UserId,
 |}>;
 
 /** A user, as seen in the `display_recipient` of a PM `Message`. */
@@ -433,7 +434,7 @@ export type PmRecipientUser = $ReadOnly<{|
 export type Submessage = $ReadOnly<{|
   id: number,
   message_id: number,
-  sender_id: number,
+  sender_id: UserId,
   msg_type: 'widget', // only this type is currently available
   content: string, // JSON string
 |}>;
@@ -529,7 +530,7 @@ export type Message = $ReadOnly<{|
   reactions: $ReadOnlyArray<Reaction>,
   sender_email: string,
   sender_full_name: string,
-  sender_id: number,
+  sender_id: UserId,
   sender_realm_str: string,
   sender_short_name: string,
 
