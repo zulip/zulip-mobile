@@ -30,7 +30,7 @@ export default class Title extends PureComponent<Props> {
       allPrivate: () => <TitleSpecial code="private" color={color} />,
       stream: () => <TitleStream narrow={narrow} color={color} />,
       topic: () => <TitleStream narrow={narrow} color={color} />,
-      pm: (emails, ids) =>
+      pm: ids =>
         ids.length === 1 ? (
           <TitlePrivate userId={ids[0]} color={color} />
         ) : (

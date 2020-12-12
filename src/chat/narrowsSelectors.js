@@ -141,7 +141,7 @@ export const isNarrowValid: Selector<boolean, Narrow> = createSelector(
       {
         stream: streamName => streams.find(s => s.name === streamName) !== undefined,
         topic: streamName => streams.find(s => s.name === streamName) !== undefined,
-        pm: (emails, ids) => ids.every(id => allUsersById.get(id) !== undefined),
+        pm: ids => ids.every(id => allUsersById.get(id) !== undefined),
       },
       () => true,
     ),

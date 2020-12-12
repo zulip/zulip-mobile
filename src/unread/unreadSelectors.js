@@ -256,7 +256,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         );
       },
 
-      pm: (emails, ids) => {
+      pm: ids => {
         if (ids.length > 1) {
           const unreadsKey = pmUnreadsKeyFromPmKeyIds(ids, ownUserId);
           const unread = unreadHuddles.find(x => x.user_ids_string === unreadsKey);

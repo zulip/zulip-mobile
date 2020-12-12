@@ -10,7 +10,7 @@ export default (
   caseNarrowDefault(
     narrow,
     {
-      pm: (emails, ids) => {
+      pm: ids => {
         if (ids.length > 1) {
           return { text: 'Message group' };
         }

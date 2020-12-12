@@ -124,7 +124,7 @@ const extractTypeToAndSubjectFromNarrow = (
   ownUser: UserOrBot,
 ): DataFromNarrow =>
   caseNarrowPartial(narrow, {
-    pm: (emails, ids) => ({
+    pm: ids => ({
       type: 'private',
       display_recipient: recipientsFromIds(ids, allUsersById, ownUser),
       subject: '',

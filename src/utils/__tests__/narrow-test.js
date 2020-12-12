@@ -40,7 +40,7 @@ describe('pm1to1NarrowFromUser', () => {
   test('produces a 1:1 narrow', () => {
     const narrow = pm1to1NarrowFromUser(eg.otherUser);
     expect(is1to1PmNarrow(narrow)).toBeTrue();
-    expect(caseNarrowPartial(narrow, { pm: (emails, ids) => ids })).toEqual([eg.otherUser.user_id]);
+    expect(caseNarrowPartial(narrow, { pm: ids => ids })).toEqual([eg.otherUser.user_id]);
   });
 
   test('if operator is "pm-with" and only one email, then it is a private narrow', () => {

@@ -153,7 +153,7 @@ export const SEARCH_NARROW = (query: string): Narrow => Object.freeze({ type: 's
 
 type NarrowCases<T> = {|
   home: () => T,
-  pm: (emails: mixed, ids: $ReadOnlyArray<number>) => T,
+  pm: (ids: $ReadOnlyArray<number>) => T,
   starred: () => T,
   mentioned: () => T,
   allPrivate: () => T,
@@ -171,7 +171,7 @@ export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
   switch (narrow.type) {
     case 'stream': return cases.stream(narrow.streamName);
     case 'topic': return cases.topic(narrow.streamName, narrow.topic);
-    case 'pm': return cases.pm(undefined, narrow.userIds);
+    case 'pm': return cases.pm(narrow.userIds);
     case 'search': return cases.search(narrow.query);
     case 'all': return cases.home();
     case 'starred': return cases.starred();
@@ -254,7 +254,7 @@ export function keyFromNarrow(narrow: Narrow): string {
 
     // An earlier version had `pm:s:`.
     // Another had `pm:d:`.
-    pm: (emails, ids) => `pm:${ids.join(',')}`,
+    pm: ids => `pm:${ids.join(',')}`,
 
     home: () => 'all',
     starred: () => 'starred',
@@ -327,10 +327,10 @@ export const isHomeNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { home: () => true }, () => false);
 
 export const is1to1PmNarrow = (narrow?: Narrow): boolean =>
-  !!narrow && caseNarrowDefault(narrow, { pm: (emails, ids) => ids.length === 1 }, () => false);
+  !!narrow && caseNarrowDefault(narrow, { pm: ids => ids.length === 1 }, () => false);
 
 export const isGroupPmNarrow = (narrow?: Narrow): boolean =>
-  !!narrow && caseNarrowDefault(narrow, { pm: (emails, ids) => ids.length > 1 }, () => false);
+  !!narrow && caseNarrowDefault(narrow, { pm: ids => ids.length > 1 }, () => false);
 
 /**
  * The "PM key recipients" IDs for a PM narrow; else error.
@@ -339,7 +339,7 @@ export const isGroupPmNarrow = (narrow?: Narrow): boolean =>
  * `PmKeyUsers`, but contains only their user IDs.
  */
 export const userIdsOfPmNarrow = (narrow: Narrow): $ReadOnlyArray<number> =>
-  caseNarrowPartial(narrow, { pm: (emails, ids) => ids });
+  caseNarrowPartial(narrow, { pm: ids => ids });
 
 /**
  * The stream name for a stream or topic narrow; else error.
@@ -400,7 +400,7 @@ export const apiNarrowOfNarrow = (
       { operator: 'stream', operand: streamName },
       { operator: 'topic', operand: topic },
     ],
-    pm: (emails_, ids) => {
+    pm: ids => {
       const emails = [];
       for (const id of ids) {
         const email = allUsersById.get(id)?.email;
@@ -446,7 +446,7 @@ export const isMessageInNarrow = (
       message.type === 'stream'
       && streamName === streamNameOfStreamMessage(message)
       && topic === message.subject,
-    pm: (emails, ids) => {
+    pm: ids => {
       if (message.type !== 'private') {
         return false;
       }
