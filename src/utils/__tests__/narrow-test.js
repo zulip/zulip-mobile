@@ -26,28 +26,24 @@ import {
   MENTIONED_NARROW,
   pm1to1NarrowFromUser,
   keyFromNarrow,
+  streamNameOfNarrow,
+  topicOfNarrow,
+  emailOfPm1to1Narrow,
 } from '../narrow';
 import type { Narrow, Message } from '../../types';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('HOME_NARROW', () => {
-  test('produces an empty list', () => {
-    expect(HOME_NARROW).toEqual([]);
-  });
-
   test('is a home narrow', () => {
     expect(isHomeNarrow(HOME_NARROW)).toBe(true);
   });
 });
 
 describe('pmNarrowFromEmail', () => {
-  test('produces an one item list, pm-with operator and single email', () => {
-    expect(pmNarrowFromEmail(eg.otherUser.email)).toEqual([
-      {
-        operator: 'pm-with',
-        operand: eg.otherUser.email,
-      },
-    ]);
+  test('produces a 1:1 narrow', () => {
+    const narrow = pmNarrowFromEmail(eg.otherUser.email);
+    expect(is1to1PmNarrow(narrow)).toBeTrue();
+    expect(emailOfPm1to1Narrow(narrow)).toEqual(eg.otherUser.email);
   });
 
   test('if operator is "pm-with" and only one email, then it is a private narrow', () => {
@@ -80,15 +76,6 @@ describe('isStreamOrTopicNarrow', () => {
 });
 
 describe('specialNarrow', () => {
-  test('produces a narrow with "is" operator', () => {
-    expect(STARRED_NARROW).toEqual([
-      {
-        operator: 'is',
-        operand: 'starred',
-      },
-    ]);
-  });
-
   test('only narrowing with the "is" operator is special narrow', () => {
     expect(isSpecialNarrow(undefined)).toBe(false);
     expect(isSpecialNarrow(HOME_NARROW)).toBe(false);
@@ -99,12 +86,9 @@ describe('specialNarrow', () => {
 
 describe('streamNarrow', () => {
   test('narrows to messages from a specific stream', () => {
-    expect(streamNarrow('some stream')).toEqual([
-      {
-        operator: 'stream',
-        operand: 'some stream',
-      },
-    ]);
+    const narrow = streamNarrow('some stream');
+    expect(isStreamNarrow(narrow)).toBeTrue();
+    expect(streamNameOfNarrow(narrow)).toEqual('some stream');
   });
 
   test('only narrow with operator of "stream" is a stream narrow', () => {
@@ -116,10 +100,10 @@ describe('streamNarrow', () => {
 
 describe('topicNarrow', () => {
   test('narrows to a specific topic within a specified stream', () => {
-    expect(topicNarrow('some stream', 'some topic')).toEqual([
-      { operator: 'stream', operand: 'some stream' },
-      { operator: 'topic', operand: 'some topic' },
-    ]);
+    const narrow = topicNarrow('some stream', 'some topic');
+    expect(isTopicNarrow(narrow)).toBeTrue();
+    expect(streamNameOfNarrow(narrow)).toEqual('some stream');
+    expect(topicOfNarrow(narrow)).toEqual('some topic');
   });
 
   test('only narrow with two items, one for stream, one for topic is a topic narrow', () => {
@@ -130,15 +114,6 @@ describe('topicNarrow', () => {
 });
 
 describe('SEARCH_NARROW', () => {
-  test('produces a narrow for a search query', () => {
-    expect(SEARCH_NARROW('some query')).toEqual([
-      {
-        operator: 'search',
-        operand: 'some query',
-      },
-    ]);
-  });
-
   test('narrow with "search" operand is a search narrow', () => {
     expect(isSearchNarrow(undefined)).toBe(false);
     expect(isSearchNarrow(HOME_NARROW)).toBe(false);
