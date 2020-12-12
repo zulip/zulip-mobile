@@ -17,7 +17,7 @@ describe('getNarrowFromNotificationData', () => {
   test('unknown notification data returns null', () => {
     // $FlowFixMe: actually validate APNs messages
     const notification: Notification = {};
-    const narrow = getNarrowFromNotificationData(notification, DEFAULT_MAP, ownUserId);
+    const narrow = getNarrowFromNotificationData(notification, DEFAULT_MAP, new Map(), ownUserId);
     expect(narrow).toBe(null);
   });
 
@@ -27,22 +27,31 @@ describe('getNarrowFromNotificationData', () => {
       stream: 'some stream',
       topic: 'some topic',
     };
-    const narrow = getNarrowFromNotificationData(notification, DEFAULT_MAP, ownUserId);
+    const narrow = getNarrowFromNotificationData(notification, DEFAULT_MAP, new Map(), ownUserId);
     expect(narrow).toEqual(topicNarrow('some stream', 'some topic'));
   });
 
   test('on notification for a private message returns a PM narrow', () => {
+    const users = [eg.selfUser, eg.otherUser];
+    const allUsersById: Map<number, UserOrBot> = new Map(users.map(u => [u.user_id, u]));
+    const allUsersByEmail: Map<string, UserOrBot> = new Map(users.map(u => [u.email, u]));
     const notification = {
       recipient_type: 'private',
       sender_email: eg.otherUser.email,
     };
-    const narrow = getNarrowFromNotificationData(notification, DEFAULT_MAP, ownUserId);
+    const narrow = getNarrowFromNotificationData(
+      notification,
+      allUsersById,
+      allUsersByEmail,
+      ownUserId,
+    );
     expect(narrow).toEqual(pm1to1NarrowFromUser(eg.otherUser));
   });
 
   test('on notification for a group message returns a group narrow', () => {
     const users = [eg.selfUser, eg.makeUser(), eg.makeUser(), eg.makeUser()];
     const allUsersById: Map<number, UserOrBot> = new Map(users.map(u => [u.user_id, u]));
+    const allUsersByEmail: Map<string, UserOrBot> = new Map(users.map(u => [u.email, u]));
 
     const notification = {
       recipient_type: 'private',
@@ -51,7 +60,12 @@ describe('getNarrowFromNotificationData', () => {
 
     const expectedNarrow = pmNarrowFromUsersUnsafe(users.slice(1));
 
-    const narrow = getNarrowFromNotificationData(notification, allUsersById, ownUserId);
+    const narrow = getNarrowFromNotificationData(
+      notification,
+      allUsersById,
+      allUsersByEmail,
+      ownUserId,
+    );
 
     expect(narrow).toEqual(expectedNarrow);
   });
@@ -63,7 +77,7 @@ describe('getNarrowFromNotificationData', () => {
     };
     const allUsersById = new Map();
 
-    const narrow = getNarrowFromNotificationData(notification, allUsersById, ownUserId);
+    const narrow = getNarrowFromNotificationData(notification, allUsersById, new Map(), ownUserId);
 
     expect(narrow).toBe(null);
   });

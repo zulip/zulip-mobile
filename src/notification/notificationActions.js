@@ -14,7 +14,7 @@ import { getAuth, getActiveAccount } from '../selectors';
 import { getSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 import { identityOfAccount, authOfAccount } from '../account/accountMisc';
-import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
+import { getAllUsersByEmail, getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import { doNarrow } from '../message/messagesActions';
 import { accountSwitch } from '../account/accountActions';
 import { getIdentities } from '../account/accountsSelectors';
@@ -52,7 +52,12 @@ export const narrowToNotification = (data: ?Notification) => (
     return;
   }
 
-  const narrow = getNarrowFromNotificationData(data, getAllUsersById(state), getOwnUserId(state));
+  const narrow = getNarrowFromNotificationData(
+    data,
+    getAllUsersById(state),
+    getAllUsersByEmail(state),
+    getOwnUserId(state),
+  );
   if (narrow) {
     dispatch(doNarrow(narrow));
   }
