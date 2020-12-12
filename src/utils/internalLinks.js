@@ -142,7 +142,11 @@ export const getNarrowFromLink = (
     case 'stream':
       return streamNarrow(parseStreamOperand(paths[1], streamsById));
     case 'special':
-      return specialNarrow(paths[1]);
+      try {
+        return specialNarrow(paths[1]);
+      } catch (e) {
+        return null;
+      }
     default:
       return null;
   }

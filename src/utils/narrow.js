@@ -30,9 +30,14 @@ import {
  *  * `ApiNarrow` for the form we put a narrow in when talking to the
  *    server, and `apiNarrowOfNarrow` for converting to it.
  */
-export opaque type Narrow = ApiNarrow;
+export opaque type Narrow =
+  | {| type: 'stream', streamName: string |}
+  | {| type: 'topic', streamName: string, topic: string |}
+  | {| type: 'pm', joinedEmails: string |}
+  | {| type: 'search', query: string |}
+  | {| type: 'all' | 'starred' | 'mentioned' | 'all-pm' |};
 
-export const HOME_NARROW: Narrow = [];
+export const HOME_NARROW: Narrow = Object.freeze({ type: 'all' });
 
 export const HOME_NARROW_STR: string = keyFromNarrow(HOME_NARROW);
 
@@ -46,12 +51,8 @@ export const HOME_NARROW_STR: string = keyFromNarrow(HOME_NARROW);
  *   https://zulipchat.com/api/construct-narrow
  *   https://github.com/zulip/zulip/issues/13167
  */
-const pmNarrowByString = (emails: string): Narrow => [
-  {
-    operator: 'pm-with',
-    operand: emails,
-  },
-];
+const pmNarrowByString = (emails: string): Narrow =>
+  Object.freeze({ type: 'pm', joinedEmails: emails });
 
 /**
  * A PM narrow, either 1:1 or group.
@@ -136,12 +137,18 @@ export const pmNarrowFromUsersUnsafe = (recipients: UserOrBot[]): Narrow =>
  */
 export const pm1to1NarrowFromUser = (user: UserOrBot): Narrow => pmNarrowFromEmails([user.email]);
 
-export const specialNarrow = (operand: string): Narrow => [
-  {
-    operator: 'is',
-    operand,
-  },
-];
+export const specialNarrow = (operand: string): Narrow => {
+  if (operand === 'starred') {
+    return Object.freeze({ type: 'starred' });
+  }
+  if (operand === 'mentioned') {
+    return Object.freeze({ type: 'mentioned' });
+  }
+  if (operand === 'private') {
+    return Object.freeze({ type: 'all-pm' });
+  }
+  throw new Error(`specialNarrow: got unsupported operand: ${operand}`);
+};
 
 export const STARRED_NARROW = specialNarrow('starred');
 
@@ -155,30 +162,13 @@ export const ALL_PRIVATE_NARROW = specialNarrow('private');
 
 export const ALL_PRIVATE_NARROW_STR = keyFromNarrow(ALL_PRIVATE_NARROW);
 
-export const streamNarrow = (stream: string): Narrow => [
-  {
-    operator: 'stream',
-    operand: stream,
-  },
-];
+export const streamNarrow = (stream: string): Narrow =>
+  Object.freeze({ type: 'stream', streamName: stream });
 
-export const topicNarrow = (stream: string, topic: string): Narrow => [
-  {
-    operator: 'stream',
-    operand: stream,
-  },
-  {
-    operator: 'topic',
-    operand: topic,
-  },
-];
+export const topicNarrow = (stream: string, topic: string): Narrow =>
+  Object.freeze({ type: 'topic', streamName: stream, topic });
 
-export const SEARCH_NARROW = (query: string): Narrow => [
-  {
-    operator: 'search',
-    operand: query,
-  },
-];
+export const SEARCH_NARROW = (query: string): Narrow => Object.freeze({ type: 'search', query });
 
 type NarrowCases<T> = {|
   home: () => T,
@@ -197,26 +187,18 @@ export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
     throw new Error(`bad narrow: ${JSON.stringify(narrow)}`);
   };
 
-  switch (narrow.length) {
-    case 0: return cases.home();
-    case 1:
-      switch (narrow[0].operator) {
-        case 'pm-with': {
-            const emails = narrow[0].operand.split(',');
-            return cases.pm(emails);
-          }
-        case 'is':
-          switch (narrow[0].operand) {
-            case 'starred': return cases.starred();
-            case 'mentioned': return cases.mentioned();
-            case 'private': return cases.allPrivate();
-            default: return err();
-          }
-        case 'stream': return cases.stream(narrow[0].operand);
-        case 'search': return cases.search(narrow[0].operand);
-        default: return err();
-      }
-    case 2: return cases.topic(narrow[0].operand, narrow[1].operand);
+  switch (narrow.type) {
+    case 'stream': return cases.stream(narrow.streamName);
+    case 'topic': return cases.topic(narrow.streamName, narrow.topic);
+    case 'pm': {
+      const emails = narrow.joinedEmails.split(',');
+      return cases.pm(emails);
+    }
+    case 'search': return cases.search(narrow.query);
+    case 'all': return cases.home();
+    case 'starred': return cases.starred();
+    case 'mentioned': return cases.mentioned();
+    case 'all-pm': return cases.allPrivate();
     default: return err();
   }
 }
@@ -465,7 +447,20 @@ export const isSearchNarrow = (narrow?: Narrow): boolean =>
 /**
  * Convert the narrow into the form used in the Zulip API at get-messages.
  */
-export const apiNarrowOfNarrow = (narrow: Narrow): ApiNarrow => narrow;
+export const apiNarrowOfNarrow = (narrow: Narrow): ApiNarrow =>
+  caseNarrow(narrow, {
+    stream: streamName => [{ operator: 'stream', operand: streamName }],
+    topic: (streamName, topic) => [
+      { operator: 'stream', operand: streamName },
+      { operator: 'topic', operand: topic },
+    ],
+    pm: emails => [{ operator: 'pm-with', operand: emails.join(',') }],
+    search: query => [{ operator: 'search', operand: query }],
+    home: () => [],
+    starred: () => [{ operator: 'is', operand: 'starred' }],
+    mentioned: () => [{ operator: 'is', operand: 'mentioned' }],
+    allPrivate: () => [{ operator: 'is', operand: 'private' }],
+  });
 
 /**
  * True just if the given message is part of the given narrow.
