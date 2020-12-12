@@ -3,9 +3,9 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { User, UserGroup, UserOrBot, Dispatch } from '../types';
+import type { User, UserId, UserGroup, UserOrBot, Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { getOwnEmail, getSortedUsers, getUserGroups } from '../selectors';
+import { getSortedUsers, getUserGroups } from '../selectors';
 import {
   getAutocompleteSuggestion,
   getAutocompleteUserGroupSuggestions,
@@ -13,12 +13,13 @@ import {
 import { Popup } from '../common';
 import { UserItemRaw } from '../users/UserItem';
 import UserGroupItem from '../user-groups/UserGroupItem';
+import { getOwnUserId } from '../users/userSelectors';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
   filter: string,
   onAutocomplete: (name: string) => void,
-  ownEmail: string,
+  ownUserId: UserId,
   users: User[],
   userGroups: UserGroup[],
 |}>;
@@ -42,9 +43,9 @@ class PeopleAutocomplete extends PureComponent<Props> {
   };
 
   render() {
-    const { filter, ownEmail, users, userGroups } = this.props;
+    const { filter, ownUserId, users, userGroups } = this.props;
     const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, filter);
-    const filteredUsers: User[] = getAutocompleteSuggestion(users, filter, ownEmail);
+    const filteredUsers: User[] = getAutocompleteSuggestion(users, filter, ownUserId);
 
     if (filteredUserGroups.length + filteredUsers.length === 0) {
       return null;
@@ -92,7 +93,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  ownEmail: getOwnEmail(state),
+  ownUserId: getOwnUserId(state),
   users: getSortedUsers(state),
   userGroups: getUserGroups(state),
 }))(PeopleAutocomplete);
