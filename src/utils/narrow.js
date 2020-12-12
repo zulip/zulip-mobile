@@ -492,7 +492,7 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
  */
 export const getNarrowsForMessage = (
   message: Message | Outbox,
-  ownUser: User,
+  ownUserId: UserId,
   flags: $ReadOnlyArray<string>,
 ): Narrow[] => {
   const result = [];
@@ -502,7 +502,7 @@ export const getNarrowsForMessage = (
 
   if (message.type === 'private') {
     result.push(ALL_PRIVATE_NARROW);
-    result.push(pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUser.user_id)));
+    result.push(pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUserId)));
   } else {
     const streamName = streamNameOfStreamMessage(message);
     result.push(topicNarrow(streamName, message.subject));
@@ -529,9 +529,9 @@ export const getNarrowsForMessage = (
  */
 // TODO: probably make this a private local helper of its one caller,
 //   now that it's free of fiddly details from the Narrow data structure
-export const getNarrowForReply = (message: Message | Outbox, ownUser: User) => {
+export const getNarrowForReply = (message: Message | Outbox, ownUserId: UserId) => {
   if (message.type === 'private') {
-    return pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUser.user_id));
+    return pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUserId));
   } else {
     const streamName = streamNameOfStreamMessage(message);
     return topicNarrow(streamName, message.subject);

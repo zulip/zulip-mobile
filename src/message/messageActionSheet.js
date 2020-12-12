@@ -61,7 +61,7 @@ type ButtonDescription = {
 //
 
 const reply = ({ message, dispatch, ownUser }) => {
-  dispatch(doNarrow(getNarrowForReply(message, ownUser), message.id));
+  dispatch(doNarrow(getNarrowForReply(message, ownUser.user_id), message.id));
 };
 reply.title = 'Reply';
 reply.errorMessage = 'Failed to reply';

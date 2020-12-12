@@ -53,7 +53,7 @@ const eventNewMessage = (state, action) => {
   }
 
   return state.withMutations(stateMutable => {
-    const narrowsForMessage = getNarrowsForMessage(message, action.ownUser, flags);
+    const narrowsForMessage = getNarrowsForMessage(message, action.ownUser.user_id, flags);
 
     narrowsForMessage.forEach(narrow => {
       const key = keyFromNarrow(narrow);
