@@ -337,10 +337,10 @@ export const isHomeNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { home: () => true }, () => false);
 
 export const is1to1PmNarrow = (narrow?: Narrow): boolean =>
-  !!narrow && caseNarrowDefault(narrow, { pm: emails => emails.length === 1 }, () => false);
+  !!narrow && caseNarrowDefault(narrow, { pm: (emails, ids) => ids.length === 1 }, () => false);
 
 export const isGroupPmNarrow = (narrow?: Narrow): boolean =>
-  !!narrow && caseNarrowDefault(narrow, { pm: emails => emails.length > 1 }, () => false);
+  !!narrow && caseNarrowDefault(narrow, { pm: (emails, ids) => ids.length > 1 }, () => false);
 
 /**
  * The recipients' emails if a group PM narrow; else error.
