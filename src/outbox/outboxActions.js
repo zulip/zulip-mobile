@@ -12,7 +12,7 @@ import {
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import * as api from '../api';
-import { getAllUsersByEmail, getOwnUser } from '../users/userSelectors';
+import { getAllUsersById, getOwnUser } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
 import { caseNarrowPartial } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
@@ -98,13 +98,13 @@ export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) =
 };
 
 // A valid display_recipient with all the thread's users, sorted by ID.
-const mapEmailsToUsers = (emails, allUsersByEmail, ownUser) => {
-  const result = emails.map(email => {
-    const user = allUsersByEmail.get(email);
+const recipientsFromIds = (ids, allUsersById, ownUser) => {
+  const result = ids.map(id => {
+    const user = allUsersById.get(id);
     if (!user) {
       throw new Error('outbox: missing user when preparing to send PM');
     }
-    return { email, id: user.user_id, full_name: user.full_name };
+    return { id, email: user.email, full_name: user.full_name };
   });
   if (!result.some(r => r.id === ownUser.user_id)) {
     result.push({ email: ownUser.email, id: ownUser.user_id, full_name: ownUser.full_name });
@@ -120,13 +120,13 @@ type DataFromNarrow = SubsetProperties<
 
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
-  allUsersByEmail: Map<string, UserOrBot>,
+  allUsersById: Map<number, UserOrBot>,
   ownUser: UserOrBot,
 ): DataFromNarrow =>
   caseNarrowPartial(narrow, {
-    pm: emails => ({
+    pm: (emails, ids) => ({
       type: 'private',
-      display_recipient: mapEmailsToUsers(emails, allUsersByEmail, ownUser),
+      display_recipient: recipientsFromIds(ids, allUsersById, ownUser),
       subject: '',
     }),
 
@@ -167,7 +167,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   dispatch(
     messageSendStart({
       isSent: false,
-      ...extractTypeToAndSubjectFromNarrow(narrow, getAllUsersByEmail(state), ownUser),
+      ...extractTypeToAndSubjectFromNarrow(narrow, getAllUsersById(state), ownUser),
       markdownContent: content,
       content: getContentPreview(content, state),
       timestamp: localTime,
