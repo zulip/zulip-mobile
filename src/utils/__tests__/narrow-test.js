@@ -210,35 +210,32 @@ describe('getNarrowsForMessage', () => {
   /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "checkCase"] }] */
   const checkCase = (c: {| label: string, message: Message, expectedNarrows: Narrow[] |}) => {
     test(`${c.label}; no flags`, () => {
-      expect(getNarrowsForMessage(c.message, eg.selfUser, [])).toIncludeSameMembers(
+      expect(getNarrowsForMessage(c.message, eg.selfUser.user_id, [])).toIncludeSameMembers(
         c.expectedNarrows,
       );
     });
 
     test(`${c.label}; starred`, () => {
-      expect(getNarrowsForMessage(c.message, eg.selfUser, ['starred'])).toIncludeSameMembers([
-        ...c.expectedNarrows,
-        STARRED_NARROW,
-      ]);
+      expect(
+        getNarrowsForMessage(c.message, eg.selfUser.user_id, ['starred']),
+      ).toIncludeSameMembers([...c.expectedNarrows, STARRED_NARROW]);
     });
 
     test(`${c.label}; mentioned`, () => {
-      expect(getNarrowsForMessage(c.message, eg.selfUser, ['mentioned'])).toIncludeSameMembers([
-        ...c.expectedNarrows,
-        MENTIONED_NARROW,
-      ]);
+      expect(
+        getNarrowsForMessage(c.message, eg.selfUser.user_id, ['mentioned']),
+      ).toIncludeSameMembers([...c.expectedNarrows, MENTIONED_NARROW]);
     });
 
     test(`${c.label}; wildcard_mentioned`, () => {
-      expect(getNarrowsForMessage(c.message, eg.selfUser, ['mentioned'])).toIncludeSameMembers([
-        ...c.expectedNarrows,
-        MENTIONED_NARROW,
-      ]);
+      expect(
+        getNarrowsForMessage(c.message, eg.selfUser.user_id, ['mentioned']),
+      ).toIncludeSameMembers([...c.expectedNarrows, MENTIONED_NARROW]);
     });
 
     test(`${c.label}; starred, mentioned, and wildcard_mentioned`, () => {
       expect(
-        getNarrowsForMessage(c.message, eg.selfUser, [
+        getNarrowsForMessage(c.message, eg.selfUser.user_id, [
           'starred',
           'mentioned',
           'wildcard_mentioned',
@@ -297,7 +294,7 @@ describe('getNarrowsForMessage', () => {
 
 describe('getNarrowForReply', () => {
   test('for self-PM, returns self-1:1 narrow', () => {
-    expect(getNarrowForReply(eg.pmMessageFromTo(eg.selfUser, []), eg.selfUser)).toEqual(
+    expect(getNarrowForReply(eg.pmMessageFromTo(eg.selfUser, []), eg.selfUser.user_id)).toEqual(
       pm1to1NarrowFromUser(eg.selfUser),
     );
   });
@@ -306,7 +303,7 @@ describe('getNarrowForReply', () => {
     const message = eg.pmMessage();
     const expectedNarrow = pm1to1NarrowFromUser(eg.otherUser);
 
-    const actualNarrow = getNarrowForReply(message, eg.selfUser);
+    const actualNarrow = getNarrowForReply(message, eg.selfUser.user_id);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -315,7 +312,7 @@ describe('getNarrowForReply', () => {
     const message = eg.pmMessageFromTo(eg.otherUser, [eg.selfUser, eg.thirdUser]);
     const expectedNarrow = pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]);
 
-    const actualNarrow = getNarrowForReply(message, eg.selfUser);
+    const actualNarrow = getNarrowForReply(message, eg.selfUser.user_id);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -324,7 +321,7 @@ describe('getNarrowForReply', () => {
     const message = eg.streamMessage();
     const expectedNarrow = topicNarrow(eg.stream.name, message.subject);
 
-    const actualNarrow = getNarrowForReply(message, eg.selfUser);
+    const actualNarrow = getNarrowForReply(message, eg.selfUser.user_id);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
