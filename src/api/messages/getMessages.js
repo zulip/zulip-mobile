@@ -2,7 +2,7 @@
 import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import type { Identity } from '../../types';
 import type { Message, ApiNarrow } from '../apiTypes';
-import type { Reaction } from '../modelTypes';
+import type { Reaction, UserId } from '../modelTypes';
 import { apiGet } from '../apiFetch';
 import { identityOfAuth } from '../../account/accountMisc';
 import { AvatarURL } from '../../utils/avatar';
@@ -27,7 +27,7 @@ export type ServerReaction = $ReadOnly<{|
   user: $ReadOnly<{|
     email: string,
     full_name: string,
-    id: number,
+    id: UserId,
   |}>,
 |}>;
 

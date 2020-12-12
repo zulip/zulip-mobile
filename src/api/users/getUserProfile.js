@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type { Auth, ApiResponseSuccess } from '../transportTypes';
+import { type UserId } from '../idTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseUserProfile = {|
@@ -11,7 +12,7 @@ type ApiResponseUserProfile = {|
   is_bot: boolean,
   max_message_id: number,
   short_name: string,
-  user_id: number,
+  user_id: UserId,
   // pointer: number, /* deprecated 2020-02; see zulip/zulip#8994 */
 |};
 

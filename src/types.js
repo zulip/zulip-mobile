@@ -3,7 +3,7 @@ import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { SubsetProperties } from './generics';
-import type { Auth, Topic, Message, ReactionType } from './api/apiTypes';
+import type { Auth, Topic, Message, ReactionType, UserId } from './api/apiTypes';
 import type { ZulipVersion } from './utils/zulipVersion';
 import type { PmKeyUsers } from './utils/recipient';
 
@@ -121,7 +121,7 @@ export type AggregatedReaction = {|
   name: string,
   selfReacted: boolean,
   type: ReactionType,
-  users: $ReadOnlyArray<number>,
+  users: $ReadOnlyArray<UserId>,
 |};
 
 export type EditMessage = {|
@@ -184,7 +184,7 @@ export type Outbox = $ReadOnly<{|
   //   values that lack it; which is fine once the release that adds it has
   //   been out for a few weeks.
   //   (Also drop the hack line about it in MessageLike.)
-  sender_id?: number,
+  sender_id?: UserId,
 
   /* eslint-disable flowtype/generic-spacing */
   ...SubsetProperties<
@@ -237,7 +237,7 @@ export type MessageLike =
   | $ReadOnly<{
       // $Shape<T> is unsound, per Flow docs, but $ReadOnly<$Shape<T>> is not
       ...$Shape<{ [$Keys<Message>]: void }>,
-      sender_id?: number, // TODO: Drop this once required in Outbox.
+      sender_id?: UserId, // TODO: Drop this once required in Outbox.
       ...Outbox,
     }>;
 

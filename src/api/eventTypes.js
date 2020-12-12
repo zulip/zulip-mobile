@@ -10,7 +10,7 @@
  * @flow strict-local
  */
 
-import type { Message, Stream, UserPresence } from './modelTypes';
+import type { Message, Stream, UserId, UserPresence } from './modelTypes';
 
 export class EventTypes {
   static alert_words: 'alert_words' = 'alert_words';
@@ -75,7 +75,7 @@ export type SubmessageEvent = {|
   type: typeof EventTypes.submessage,
   submessage_id: number,
   message_id: number,
-  sender_id: number,
+  sender_id: UserId,
   msg_type: 'widget',
   content: string,
 |};

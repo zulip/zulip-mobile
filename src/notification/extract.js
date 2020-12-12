@@ -54,7 +54,7 @@ const asDict = (obj: JSONableInput | void): JSONableInputDict | void => {
 
         // added 1.7.0-1351-g98943a8333, release 1.8.0+
         sender_email: string,
-        sender_id: number,
+        sender_id: UserId,
         server: string,     // settings.EXTERNAL_HOST
         realm_id: number,   // server-internal realm identifier
 
@@ -62,7 +62,7 @@ const asDict = (obj: JSONableInput | void): JSONableInputDict | void => {
         realm_uri: string,  // as in `/server_settings` response
 
         // added 2.1-dev-540-g447a517e6f, release 2.1.0+
-        user_id: number,    // recipient id
+        user_id: UserId,    // recipient id
 
         ...(StreamData | PmData),
     } };

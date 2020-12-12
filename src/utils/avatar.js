@@ -4,7 +4,7 @@
 import md5 from 'blueimp-md5';
 
 import * as logging from './logging';
-import { ensureUnreachable } from '../types';
+import { ensureUnreachable, type UserId } from '../types';
 import { isUrlAbsolute, isUrlPathAbsolute } from './url';
 
 /**
@@ -18,7 +18,7 @@ export class AvatarURL {
    */
   static fromUserOrBotData(args: {|
     rawAvatarUrl: string | void | null,
-    userId: number,
+    userId: UserId,
     email: string,
     realm: URL,
   |}): AvatarURL {
@@ -240,7 +240,7 @@ export class FallbackAvatarURL extends AvatarURL {
   // very expensive, and their use in these pseudo-constructors (which
   // process data at the edge, just as it's received from the server)
   // used to slow down `api.registerForEvents` quite a lot.
-  static validateAndConstructInstance(args: {| realm: URL, userId: number |}): FallbackAvatarURL {
+  static validateAndConstructInstance(args: {| realm: URL, userId: UserId |}): FallbackAvatarURL {
     const { realm, userId } = args;
     // Thankfully, this string concatenation is quite safe: we know
     // enough about our inputs here to compose a properly formatted
