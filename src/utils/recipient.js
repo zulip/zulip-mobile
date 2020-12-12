@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal';
 
 import { mapOrNull } from '../collections';
 import * as logging from './logging';
-import type { PmRecipientUser, Message, Outbox, User, UserId, UserOrBot } from '../types';
+import type { PmRecipientUser, Message, Outbox, UserId, UserOrBot } from '../types';
 
 /** The stream name a stream message was sent to.  Throws if a PM. */
 export const streamNameOfStreamMessage = (message: Message | Outbox): string => {
@@ -136,12 +136,12 @@ export const normalizeRecipientsAsUserIdsSansMe = (
  */
 export const pmUiRecipientsFromMessage = (
   message: Message | Outbox,
-  ownUser: User,
+  ownUserId: UserId,
 ): $ReadOnlyArray<PmRecipientUser> => {
   if (message.type !== 'private') {
     throw new Error('pmUiRecipientsFromMessage: expected PM, got stream message');
   }
-  return filterRecipients(recipientsOfPrivateMessage(message), ownUser.user_id);
+  return filterRecipients(recipientsOfPrivateMessage(message), ownUserId);
 };
 
 /**
@@ -177,15 +177,12 @@ export const pmUiRecipientsFromMessage = (
 // the server; it's easy enough to do.
 export const pmKeyRecipientsFromMessage = (
   message: Message | Outbox,
-  ownUser: User,
+  ownUserId: UserId,
 ): PmKeyRecipients => {
   if (message.type !== 'private') {
     throw new Error('pmKeyRecipientsFromMessage: expected PM, got stream message');
   }
-  return filterRecipientsAsUserIds(
-    recipientsOfPrivateMessage(message).map(r => r.id),
-    ownUser.user_id,
-  );
+  return filterRecipientsAsUserIds(recipientsOfPrivateMessage(message).map(r => r.id), ownUserId);
 };
 
 /**

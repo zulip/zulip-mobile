@@ -87,11 +87,11 @@ export default (
   }
 
   if (item.type === 'private' && headerStyle === 'full') {
-    const keyRecipients = pmKeyRecipientsFromMessage(item, ownUser);
+    const keyRecipients = pmKeyRecipientsFromMessage(item, ownUser.user_id);
     const narrowObj = pmNarrowFromRecipients(keyRecipients);
     const narrowStr = keyFromNarrow(narrowObj);
 
-    const uiRecipients = pmUiRecipientsFromMessage(item, ownUser);
+    const uiRecipients = pmUiRecipientsFromMessage(item, ownUser.user_id);
     return template`
 <div class="header-wrapper private-header header"
      data-narrow="${base64Utf8Encode(narrowStr)}"
