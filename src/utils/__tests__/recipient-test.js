@@ -1,7 +1,6 @@
 import {
   normalizeRecipients,
   normalizeRecipientsAsUserIds,
-  normalizeRecipientsSansMe,
   normalizeRecipientsAsUserIdsSansMe,
   isSameRecipient,
 } from '../recipient';
@@ -23,36 +22,6 @@ describe('normalizeRecipients', () => {
     expect(normalized).toEqual(expectedResult);
 
     expect(logging.error.mock.calls).toHaveLength(2);
-    logging.error.mockReset();
-  });
-});
-
-describe('normalizeRecipientsSansMe', () => {
-  test('if only self email provided return unmodified', () => {
-    const recipients = [{ email: 'me@example.com' }];
-    const ownEmail = 'me@example.com';
-    const expectedResult = 'me@example.com';
-
-    const normalized = normalizeRecipientsSansMe(recipients, ownEmail);
-
-    expect(normalized).toEqual(expectedResult);
-  });
-
-  test('when more than one emails normalize but filter out self email', () => {
-    const recipients = [
-      { email: 'abc@example.com' },
-      { email: 'me@example.com' },
-      { email: '  def@example.com  ' },
-    ];
-    const ownEmail = 'me@example.com';
-    const expectedResult = 'abc@example.com,def@example.com';
-
-    logging.error.mockReturnValue();
-
-    const normalized = normalizeRecipientsSansMe(recipients, ownEmail);
-    expect(normalized).toEqual(expectedResult);
-
-    expect(logging.error.mock.calls).toHaveLength(1);
     logging.error.mockReset();
   });
 });

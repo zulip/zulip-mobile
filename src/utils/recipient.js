@@ -109,15 +109,6 @@ const filterRecipientsAsUserIds = (
     ? [...recipients]
     : recipients.filter(r => r !== ownUserId).sort((a, b) => a - b);
 
-// Like filterRecipients, but identifying users by email address.
-// Prefer filterRecipients instead.
-// No sort; caller must sort if needed.
-const filterRecipientsByEmail = <T: { +email: string, ... }>(
-  recipients: $ReadOnlyArray<T>,
-  ownEmail: string,
-): $ReadOnlyArray<T> =>
-  recipients.length === 1 ? recipients : recipients.filter(r => r.email !== ownEmail);
-
 /** PRIVATE -- exported only for tests. */
 export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string, ... }>) => {
   const emails = recipients.map(r => r.email);
@@ -144,19 +135,6 @@ export const normalizeRecipients = (recipients: $ReadOnlyArray<{ +email: string,
 
   return massagedEmails.sort().join(',');
 };
-
-/**
- * The same list of users as pmKeyRecipientsFromMessage, in quirkier form.
- *
- * Prefer normalizeRecipientsAsUserIdsSansMe over this; see #3764.
- * See that function for further discussion.
- *
- * Users are sorted by email address.
- */
-export const normalizeRecipientsSansMe = (
-  recipients: $ReadOnlyArray<PmRecipientUser>,
-  ownEmail: string,
-) => normalizeRecipients(filterRecipientsByEmail(recipients, ownEmail));
 
 export const normalizeRecipientsAsUserIds = (recipients: number[]) =>
   recipients.sort((a, b) => a - b).join(',');
