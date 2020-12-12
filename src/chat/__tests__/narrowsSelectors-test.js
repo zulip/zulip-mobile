@@ -33,7 +33,7 @@ describe('getMessagesForNarrow', () => {
   test('if no outbox messages returns messages with no change', () => {
     const state = eg.reduxState({
       narrows: Immutable.Map({
-        '[]': [123],
+        [HOME_NARROW_STR]: [123],
       }),
       messages,
       outbox: [],
@@ -48,7 +48,7 @@ describe('getMessagesForNarrow', () => {
   test('combine messages and outbox in same narrow', () => {
     const state = eg.reduxState({
       narrows: Immutable.Map({
-        '[]': [123],
+        [HOME_NARROW_STR]: [123],
       }),
       messages,
       outbox: [outboxMessage],
@@ -98,7 +98,7 @@ describe('getFirstMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = eg.reduxState({
       narrows: Immutable.Map({
-        '[]': [],
+        [HOME_NARROW_STR]: [],
       }),
       outbox: [],
     });
@@ -111,7 +111,7 @@ describe('getFirstMessageId', () => {
   test('returns first message id', () => {
     const state = eg.reduxState({
       narrows: Immutable.Map({
-        '[]': [1, 2, 3],
+        [HOME_NARROW_STR]: [1, 2, 3],
       }),
       messages: {
         [1]: eg.streamMessage({ id: 1 }) /* eslint-disable-line no-useless-computed-key */,
@@ -131,7 +131,7 @@ describe('getLastMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = eg.reduxState({
       narrows: Immutable.Map({
-        '[]': [],
+        [HOME_NARROW_STR]: [],
       }),
       messages: {},
       outbox: [],
@@ -145,7 +145,7 @@ describe('getLastMessageId', () => {
   test('returns last message id', () => {
     const state = eg.reduxState({
       narrows: Immutable.Map({
-        '[]': [1, 2, 3],
+        [HOME_NARROW_STR]: [1, 2, 3],
       }),
       messages: {
         [1]: eg.streamMessage({ id: 1 }) /* eslint-disable-line no-useless-computed-key */,

@@ -27,7 +27,7 @@ export const keyFromNarrow = (narrow: Narrow): string => JSON.stringify(narrow);
 
 export const HOME_NARROW: Narrow = [];
 
-export const HOME_NARROW_STR: string = '[]';
+export const HOME_NARROW_STR: string = keyFromNarrow(HOME_NARROW);
 
 /**
  * A PM narrow, either 1:1 or group.
