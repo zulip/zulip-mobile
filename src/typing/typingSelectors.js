@@ -5,7 +5,7 @@ import type { Narrow, Selector, UserOrBot } from '../types';
 import { getTyping } from '../directSelectors';
 import { userIdsOfPmNarrow, isPmNarrow } from '../utils/narrow';
 import { pmTypingKeyFromPmKeyIds } from '../utils/recipient';
-import { NULL_ARRAY, NULL_USER } from '../nullObjects';
+import { NULL_ARRAY } from '../nullObjects';
 import { getAllUsersById } from '../users/userSelectors';
 
 export const getCurrentTypingUsers: Selector<$ReadOnlyArray<UserOrBot>, Narrow> = createSelector(
@@ -24,6 +24,6 @@ export const getCurrentTypingUsers: Selector<$ReadOnlyArray<UserOrBot>, Narrow> 
       return NULL_ARRAY;
     }
 
-    return currentTyping.userIds.map(userId => allUsersById.get(userId) || NULL_USER);
+    return currentTyping.userIds.map(userId => allUsersById.get(userId)).filter(Boolean);
   },
 );
