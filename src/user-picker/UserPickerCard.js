@@ -43,28 +43,21 @@ class UserPickerCard extends PureComponent<Props, State> {
 
   listRef: ?FlatList<UserOrBot>;
 
-  handleUserSelect = (user: UserOrBot) => {
-    const { selected } = this.state;
-    this.setState({
-      selected: [...selected, user],
-    });
-  };
-
   handleUserPress = (user: UserOrBot) => {
-    const { selected } = this.state;
-    if (selected.find(x => x.email === user.email)) {
-      this.handleUserDeselect(user.email);
-    } else {
-      this.handleUserSelect(user);
-    }
+    this.setState(state => {
+      const { selected } = state;
+      if (selected.find(x => x.email === user.email)) {
+        return { selected: selected.filter(x => x.email !== user.email) };
+      } else {
+        return { selected: [...selected, user] };
+      }
+    });
   };
 
   handleUserDeselect = (email: string) => {
-    const { selected } = this.state;
-
-    this.setState({
-      selected: selected.filter(x => x.email !== email),
-    });
+    this.setState(state => ({
+      selected: state.selected.filter(x => x.email !== email),
+    }));
   };
 
   handleComplete = () => {
