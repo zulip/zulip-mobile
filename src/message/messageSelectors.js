@@ -41,7 +41,7 @@ export const getPrivateMessages: Selector<Message[]> = createSelector(
 
     const pmIds = narrows.get(ALL_PRIVATE_NARROW_STR) || NULL_ARRAY;
     pmIds.forEach(id => {
-      const msg = messages[id];
+      const msg = messages.get(id);
       if (msg !== undefined) {
         privateMessages.push(msg);
       } else {

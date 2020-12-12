@@ -161,10 +161,7 @@ export type FlagName = $Keys<FlagsState>;
  * See also `NarrowsState`, which is an index on this data that identifies
  * messages belonging to a given narrow.
  */
-export type MessagesState = {
-  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
-  [id: number]: Message,
-};
+export type MessagesState = Immutable.Map<number, Message>;
 
 export type MigrationsState = {|
   version?: string,

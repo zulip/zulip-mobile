@@ -39,7 +39,7 @@ describe('getMessagesForNarrow', () => {
 
     const result = getMessagesForNarrow(state, HOME_NARROW);
 
-    expect(result).toEqual([state.messages[123]]);
+    expect(result).toEqual([state.messages.get(123)]);
   });
 
   test('combine messages and outbox in same narrow', () => {
@@ -74,7 +74,7 @@ describe('getMessagesForNarrow', () => {
 
     const result = getMessagesForNarrow(state, HOME_NARROW);
 
-    expect(result).toEqual([state.messages[123]]);
+    expect(result).toEqual([state.messages.get(123)]);
   });
 
   test('do not combine messages and outbox in different narrow', () => {

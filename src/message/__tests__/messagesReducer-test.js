@@ -425,8 +425,8 @@ describe('messagesReducer', () => {
 
       const newState = messagesReducer(prevState, action);
 
-      expect(newState[message2.id]).toEqual(message2);
-      expect(newState[message3.id]).toEqual(message3);
+      expect(newState.get(message2.id)).toEqual(message2);
+      expect(newState.get(message3.id)).toEqual(message3);
     });
 
     test('when anchor is FIRST_UNREAD_ANCHOR deep equal is performed to separate common messages', () => {
@@ -449,9 +449,9 @@ describe('messagesReducer', () => {
         ownUserId: eg.selfUser.user_id,
       });
       const newState = messagesReducer(prevState, action);
-      expect(newState[message2.id]).toEqual(message2);
-      expect(newState[message3.id]).toEqual(message3);
-      expect(newState[message4New.id]).toEqual(message4New);
+      expect(newState.get(message2.id)).toEqual(message2);
+      expect(newState.get(message3.id)).toEqual(message3);
+      expect(newState.get(message4New.id)).toEqual(message4New);
     });
   });
 });

@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 import { createStore } from 'redux';
+import Immutable from 'immutable';
 
 import type {
   CrossRealmBot,
@@ -27,7 +28,6 @@ import {
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
 import { HOME_NARROW } from '../../utils/narrow';
-import { objectFromEntries } from '../../jsBackport';
 
 /* ========================================================================
  * Utilities
@@ -391,7 +391,7 @@ export const streamMessage = (args?: {|
 
 /** Construct a MessagesState from a list of messages. */
 export const makeMessagesState = (messages: Message[]): MessagesState =>
-  objectFromEntries(messages.map(m => [m.id, m]));
+  Immutable.Map(messages.map(m => [m.id, m]));
 
 /* ========================================================================
  * Outbox messages

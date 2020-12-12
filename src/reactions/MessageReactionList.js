@@ -145,7 +145,7 @@ class MessageReactionList extends PureComponent<Props> {
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   // message *can* be undefined; see componentDidUpdate for explanation and handling.
-  message: (state.messages[props.route.params.messageId]: Message | void),
+  message: state.messages.get(props.route.params.messageId),
   ownUserId: getOwnUser(state).user_id,
   allUsersById: getAllUsersById(state),
 }))(MessageReactionList);

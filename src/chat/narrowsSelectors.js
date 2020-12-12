@@ -64,7 +64,7 @@ const getFetchedMessagesForNarrow: Selector<Message[], Narrow> = createSelector(
   state => getMessages(state),
   (messageIds, messages) =>
     messageIds.map(id => {
-      const message = messages[id];
+      const message = messages.get(id);
       if (!message) {
         const msg = 'getFetchedMessagesForNarrow: message with id is missing in getMessages(state)';
         logging.error(msg, { id });

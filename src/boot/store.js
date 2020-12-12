@@ -248,6 +248,9 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     ),
   }),
 
+  // Convert `messages` from object-as-map to `Immutable.Map`.
+  '23': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
