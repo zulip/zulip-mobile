@@ -296,21 +296,11 @@ export type Topic = {|
 //
 //
 
-export type NarrowOperator =
-  | 'is'
-  | 'in'
-  | 'near'
-  | 'id'
-  | 'stream'
-  | 'topic'
-  | 'sender'
-  | 'pm-with'
-  | 'search';
-
-export type NarrowElement = $ReadOnly<{|
-  operand: string,
-  operator: NarrowOperator,
-|}>;
+// prettier-ignore
+export type NarrowElement = {|
+  +operator: 'is' | 'in' | 'near' | 'id' | 'stream' | 'topic' | 'sender' | 'pm-with' | 'search',
+  +operand: string,
+|};
 
 /**
  * A narrow, in the form used in the Zulip API at get-messages.
