@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Narrow, Message, MuteState, Outbox, Subscription } from '../types';
-import { isTopicNarrow } from './narrow';
+import { isHomeNarrow, isTopicNarrow } from './narrow';
 import { streamNameOfStreamMessage } from './recipient';
 
 export const isTopicMuted = (stream: string, topic: string, mute: MuteState = []): boolean =>
@@ -22,7 +22,7 @@ export const shouldBeMuted = (
 
   const streamName = streamNameOfStreamMessage(message);
 
-  if (narrow.length === 0) {
+  if (isHomeNarrow(narrow)) {
     const sub = subscriptions.find(x => x.name === streamName);
     if (!sub || !sub.in_home_view) {
       return true;

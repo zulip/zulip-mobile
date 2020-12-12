@@ -4,7 +4,7 @@ import { HOME_NARROW } from '../../utils/narrow';
 import renderMessages from '../renderMessages';
 
 describe('renderMessages', () => {
-  const narrow = deepFreeze([]);
+  const narrow = deepFreeze(HOME_NARROW);
 
   test('empty messages results in a single empty section', () => {
     const messageList = renderMessages([], HOME_NARROW);

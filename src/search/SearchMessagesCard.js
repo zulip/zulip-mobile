@@ -45,7 +45,7 @@ export default class SearchMessagesCard extends PureComponent<Props> {
       return <SearchEmptyState text="No results" />;
     }
 
-    const renderedMessages = renderMessages(messages, []);
+    const renderedMessages = renderMessages(messages, HOME_NARROW);
 
     return (
       <View style={styles.results}>
