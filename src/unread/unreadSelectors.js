@@ -11,11 +11,11 @@ import {
   getUnreadHuddles,
   getUnreadMentions,
 } from '../directSelectors';
-import { getOwnEmail, getAllUsersByEmail } from '../users/userSelectors';
+import { getOwnUserId } from '../users/userSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { isTopicMuted } from '../utils/message';
 import { caseNarrow } from '../utils/narrow';
-import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
+import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
 export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
@@ -221,24 +221,13 @@ export const getUnreadByHuddlesMentionsAndPMs: Selector<number> = createSelector
 export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getStreams(state),
-  state => getAllUsersByEmail(state),
-  state => getOwnEmail(state),
+  state => getOwnUserId(state),
   state => getUnreadTotal(state),
   state => getUnreadStreams(state),
   state => getUnreadHuddles(state),
   state => getUnreadPms(state),
   state => getMute(state),
-  (
-    narrow,
-    streams,
-    allUsersByEmail,
-    ownEmail,
-    unreadTotal,
-    unreadStreams,
-    unreadHuddles,
-    unreadPms,
-    mute,
-  ) => {
+  (narrow, streams, ownUserId, unreadTotal, unreadStreams, unreadHuddles, unreadPms, mute) => {
     const sumLengths = unreads => unreads.reduce((sum, x) => sum + x.unread_message_ids.length, 0);
 
     return caseNarrow(narrow, {
@@ -266,20 +255,15 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         );
       },
 
-      pm: emails => {
-        if (emails.length > 1) {
-          const userIds = [...emails, ownEmail]
-            .map(email => (allUsersByEmail.get(email) || NULL_USER).user_id)
-            .sort((a, b) => a - b)
-            .join(',');
+      pm: (emails, ids) => {
+        if (ids.length > 1) {
+          // TODO this should go somewhere central like recipient.js
+          const userIds = [...ids, ownUserId].sort((a, b) => a - b).join(',');
           const unread = unreadHuddles.find(x => x.user_ids_string === userIds);
           return unread ? unread.unread_message_ids.length : 0;
         } else {
-          const sender = allUsersByEmail.get(emails[0]);
-          if (!sender) {
-            return 0;
-          }
-          const unread = unreadPms.find(x => x.sender_id === sender.user_id);
+          const senderId = ids[0];
+          const unread = unreadPms.find(x => x.sender_id === senderId);
           return unread ? unread.unread_message_ids.length : 0;
         }
       },
