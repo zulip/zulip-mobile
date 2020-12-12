@@ -25,7 +25,7 @@ import {
   keyFromNarrow,
   streamNameOfNarrow,
   topicOfNarrow,
-  emailOfPm1to1Narrow,
+  caseNarrowPartial,
 } from '../narrow';
 import type { Narrow, Message } from '../../types';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -40,7 +40,7 @@ describe('pm1to1NarrowFromUser', () => {
   test('produces a 1:1 narrow', () => {
     const narrow = pm1to1NarrowFromUser(eg.otherUser);
     expect(is1to1PmNarrow(narrow)).toBeTrue();
-    expect(emailOfPm1to1Narrow(narrow)).toEqual(eg.otherUser.email);
+    expect(caseNarrowPartial(narrow, { pm: (emails, ids) => ids })).toEqual([eg.otherUser.user_id]);
   });
 
   test('if operator is "pm-with" and only one email, then it is a private narrow', () => {
