@@ -44,7 +44,6 @@ import {
   getIsAdmin,
   getSession,
   getLastMessageTopic,
-  getActiveUsersByEmail,
   getCaughtUpForNarrow,
   getStreamInNarrow,
   getVideoChatProvider,
@@ -56,12 +55,12 @@ import {
 import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
-import { getOwnEmail } from '../users/userSelectors';
+import { getActiveUsersById, getOwnUserId } from '../users/userSelectors';
 
 type SelectorProps = {|
   auth: Auth,
-  ownEmail: string,
-  usersByEmail: Map<string, UserOrBot>,
+  ownUserId: number,
+  usersById: Map<number, UserOrBot>,
   safeAreaInsets: Dimensions,
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
@@ -420,9 +419,9 @@ class ComposeBox extends PureComponent<Props, State> {
   render() {
     const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
     const {
-      ownEmail,
+      ownUserId,
       narrow,
-      usersByEmail,
+      usersById,
       editMessage,
       safeAreaInsets,
       isAdmin,
@@ -441,7 +440,7 @@ class ComposeBox extends PureComponent<Props, State> {
       return <AnnouncementOnly />;
     }
 
-    const placeholder = getComposeInputPlaceholder(narrow, ownEmail, usersByEmail);
+    const placeholder = getComposeInputPlaceholder(narrow, ownUserId, usersById);
     const style = {
       paddingBottom: safeAreaInsets.bottom,
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
@@ -519,8 +518,8 @@ class ComposeBox extends PureComponent<Props, State> {
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   auth: getAuth(state),
-  ownEmail: getOwnEmail(state),
-  usersByEmail: getActiveUsersByEmail(state),
+  ownUserId: getOwnUserId(state),
+  usersById: getActiveUsersById(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
   isAdmin: getIsAdmin(state),
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
