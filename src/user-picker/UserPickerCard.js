@@ -11,7 +11,7 @@ import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
-import { getPresence, getUsersSansMe, getAllUsersByEmail } from '../selectors';
+import { getPresence, getUsersSansMe } from '../selectors';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -27,7 +27,6 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
   users: User[],
-  allUsersByEmail: Map<string, UserOrBot>,
   presences: PresenceState,
   filter: string,
   onComplete: (selected: UserOrBot[]) => void,
@@ -44,16 +43,11 @@ class UserPickerCard extends PureComponent<Props, State> {
 
   listRef: ?FlatList<UserOrBot>;
 
-  handleUserSelect = (email: string) => {
-    const { allUsersByEmail } = this.props;
+  handleUserSelect = (user: UserOrBot) => {
     const { selected } = this.state;
-
-    const user = allUsersByEmail.get(email);
-    if (user) {
-      this.setState({
-        selected: [...selected, user],
-      });
-    }
+    this.setState({
+      selected: [...selected, user],
+    });
   };
 
   handleUserPress = (user: UserOrBot) => {
@@ -61,7 +55,7 @@ class UserPickerCard extends PureComponent<Props, State> {
     if (selected.find(x => x.email === user.email)) {
       this.handleUserDeselect(user.email);
     } else {
-      this.handleUserSelect(user.email);
+      this.handleUserSelect(user);
     }
   };
 
@@ -123,6 +117,5 @@ class UserPickerCard extends PureComponent<Props, State> {
 
 export default connect(state => ({
   users: getUsersSansMe(state),
-  allUsersByEmail: getAllUsersByEmail(state),
   presences: getPresence(state),
 }))(UserPickerCard);
