@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { type ComponentType, PureComponent } from 'react';
 
+import type { Dispatch, UserId } from '../types';
 import { createStyleSheet } from '../styles';
-import type { Dispatch } from '../types';
 import UserAvatar from './UserAvatar';
 import PresenceStatusIndicator from './PresenceStatusIndicator';
 import { AvatarURL } from '../utils/avatar';
@@ -83,6 +83,6 @@ export const UserAvatarWithPresenceById = connect<{| avatarUrl: AvatarURL, email
   // first place, but here we have to provide it explicitly.
   /* eslint-disable flowtype/generic-spacing */
   (UserAvatarWithPresence: ComponentType<
-    $ReadOnly<{| ...Props, dispatch: Dispatch, userId: number |}>,
+    $ReadOnly<{| ...Props, dispatch: Dispatch, userId: UserId |}>,
   >),
 );

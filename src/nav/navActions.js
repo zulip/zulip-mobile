@@ -5,7 +5,7 @@ import {
   type GenericNavigationAction,
 } from '@react-navigation/native';
 
-import type { Message, Narrow, SharedData } from '../types';
+import type { Message, Narrow, SharedData, UserId } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { getSameRoutesCount } from '../selectors';
 
@@ -53,11 +53,11 @@ export const navigateToPassword = (requireEmailFormat: boolean): GenericNavigati
 
 export const navigateToAccountPicker = (): GenericNavigationAction => StackActions.push('account');
 
-export const navigateToAccountDetails = (userId: number): GenericNavigationAction =>
+export const navigateToAccountDetails = (userId: UserId): GenericNavigationAction =>
   StackActions.push('account-details', { userId });
 
 export const navigateToGroupDetails = (
-  recipients: $ReadOnlyArray<number>,
+  recipients: $ReadOnlyArray<UserId>,
 ): GenericNavigationAction => StackActions.push('group-details', { recipients });
 
 export const navigateToRealmScreen = (

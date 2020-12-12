@@ -4,6 +4,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import * as NavigationService from '../nav/NavigationService';
+import type { UserId } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import { Touchable, ViewPlaceholder } from '../common';
@@ -13,7 +14,7 @@ import { getAllUsersById } from '../users/userSelectors';
 import { navigateToAccountDetails } from '../nav/navActions';
 
 type Props = $ReadOnly<{
-  userId: number,
+  userId: UserId,
   color: string,
 }>;
 

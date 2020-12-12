@@ -3,13 +3,14 @@
 import React from 'react';
 import { View } from 'react-native';
 
+import type { UserId } from '../types';
 import * as NavigationService from '../nav/NavigationService';
 import styles, { createStyleSheet } from '../styles';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import { navigateToAccountDetails } from '../nav/navActions';
 
 type Props = $ReadOnly<{|
-  userIds: $ReadOnlyArray<number>,
+  userIds: $ReadOnlyArray<UserId>,
 |}>;
 
 const componentStyles = createStyleSheet({

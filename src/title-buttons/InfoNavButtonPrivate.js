@@ -1,13 +1,14 @@
 /* @flow strict-local */
 import React from 'react';
 
+import type { UserId } from '../types';
 import * as NavigationService from '../nav/NavigationService';
 import NavButton from '../nav/NavButton';
 import { navigateToAccountDetails } from '../actions';
 
 type Props = $ReadOnly<{|
   color: string,
-  userId: number,
+  userId: UserId,
 |}>;
 
 export default function InfoNavButtonPrivate(props: Props) {

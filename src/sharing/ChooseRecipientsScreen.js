@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { User, Dispatch } from '../types';
+import type { User, Dispatch, UserId } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-  onComplete: ($ReadOnlyArray<number>) => void,
+  onComplete: ($ReadOnlyArray<UserId>) => void,
 |}>;
 
 type State = {|
