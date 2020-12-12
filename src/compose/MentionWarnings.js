@@ -14,7 +14,7 @@ import type {
   UserId,
 } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
-import { getActiveUsersById, getAuth } from '../selectors';
+import { getAllUsersById, getAuth } from '../selectors';
 import { is1to1PmNarrow } from '../utils/narrow';
 import * as api from '../api';
 import { showToast } from '../utils/info';
@@ -28,7 +28,7 @@ type State = {|
 
 type SelectorProps = {|
   auth: Auth,
-  usersById: Map<UserId, UserOrBot>,
+  allUsersById: Map<UserId, UserOrBot>,
 |};
 
 type Props = $ReadOnly<{|
@@ -54,7 +54,7 @@ class MentionWarnings extends PureComponent<Props, State> {
       See JSDoc for AutoCompleteView for details.
    */
   getUserFromMention = (completion: string): UserOrBot | void => {
-    const { usersById } = this.props;
+    const { allUsersById } = this.props;
 
     const unformattedMessage = completion.split('**')[1];
     const [userFullName, userIdRaw] = unformattedMessage.split('|');
@@ -68,10 +68,10 @@ class MentionWarnings extends PureComponent<Props, State> {
 
     if (userIdRaw !== undefined) {
       const userId = makeUserId(Number.parseInt(userIdRaw, 10));
-      return usersById.get(userId);
+      return allUsersById.get(userId);
     }
 
-    for (const user of usersById.values()) {
+    for (const user of allUsersById.values()) {
       if (user.full_name === userFullName) {
         return user;
       }
@@ -145,7 +145,7 @@ class MentionWarnings extends PureComponent<Props, State> {
 
   render() {
     const { unsubscribedMentions } = this.state;
-    const { stream, narrow, usersById } = this.props;
+    const { stream, narrow, allUsersById } = this.props;
 
     if (is1to1PmNarrow(narrow)) {
       return null;
@@ -153,7 +153,7 @@ class MentionWarnings extends PureComponent<Props, State> {
 
     const mentionWarnings = [];
     for (const userId of unsubscribedMentions) {
-      const user = usersById.get(userId);
+      const user = allUsersById.get(userId);
 
       if (user === undefined) {
         continue;
@@ -177,7 +177,7 @@ class MentionWarnings extends PureComponent<Props, State> {
 export default connect(
   state => ({
     auth: getAuth(state),
-    usersById: getActiveUsersById(state),
+    allUsersById: getAllUsersById(state),
   }),
   null,
   null,
