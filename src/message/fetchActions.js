@@ -24,7 +24,7 @@ import {
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
-import { ALL_PRIVATE_NARROW } from '../utils/narrow';
+import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
 import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
@@ -88,6 +88,7 @@ export const fetchMessages = (fetchArgs: {|
   try {
     const { messages, found_newest, found_oldest } = await api.getMessages(getAuth(getState()), {
       ...fetchArgs,
+      narrow: apiNarrowOfNarrow(fetchArgs.narrow),
       useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
     });
     dispatch(
@@ -235,7 +236,7 @@ export const fetchMessagesInNarrow = (
 const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const { messages, found_newest, found_oldest } = await api.getMessages(auth, {
-    narrow: ALL_PRIVATE_NARROW,
+    narrow: apiNarrowOfNarrow(ALL_PRIVATE_NARROW),
     anchor: LAST_MESSAGE_ANCHOR,
     numBefore: 100,
     numAfter: 0,

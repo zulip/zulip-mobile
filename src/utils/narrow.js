@@ -29,7 +29,7 @@ import {
  *    into a data structure;
  *  * `caseNarrow` and its relatives, for pattern-matching or destructuring;
  *  * `ApiNarrow` for the form we put a narrow in when talking to the
- *    server.
+ *    server, and `apiNarrowOfNarrow` for converting to it.
  */
 export type Narrow = ApiNarrow;
 
@@ -458,6 +458,11 @@ export const isStreamOrTopicNarrow = (narrow?: Narrow): boolean =>
 
 export const isSearchNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { search: () => true }, () => false);
+
+/**
+ * Convert the narrow into the form used in the Zulip API at get-messages.
+ */
+export const apiNarrowOfNarrow = (narrow: Narrow): ApiNarrow => narrow;
 
 /**
  * True just if the given message is part of the given narrow.
