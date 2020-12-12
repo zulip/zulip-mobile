@@ -138,14 +138,6 @@ export const getOwnUser = (state: GlobalState): User => {
 export const getSelfUserDetail = (state: GlobalState): User =>
   getUsersById(state).get(getOwnUserId(state)) || NULL_USER;
 
-/** Excludes deactivated users.  See `getAllUsers` for discussion. */
-export const getActiveUsersById: Selector<Map<UserId, UserOrBot>> = createSelector(
-  getUsers,
-  getCrossRealmBots,
-  (users = [], crossRealmBots = []) =>
-    new Map([...users, ...crossRealmBots].map(user => [user.user_id, user])),
-);
-
 /**
  * The user with the given user ID, or null if no such user is known.
  *
@@ -176,6 +168,23 @@ export const getUserForId = (state: GlobalState, userId: UserId): UserOrBot => {
   }
   return user;
 };
+
+/**
+ * DEPRECATED except as a cache private to this module.
+ *
+ * Excludes deactivated users.  See `getAllUsers` for discussion.
+ *
+ * Instead of this selector, use:
+ *  * `getAllUsersById` for data on an arbitrary user
+ *  * `getUserIsActive` for the specific information of whether a user is
+ *    deactivated.
+ */
+const getActiveUsersById: Selector<Map<UserId, UserOrBot>> = createSelector(
+  getUsers,
+  getCrossRealmBots,
+  (users = [], crossRealmBots = []) =>
+    new Map([...users, ...crossRealmBots].map(user => [user.user_id, user])),
+);
 
 /**
  * The value of `is_active` for the given user.
