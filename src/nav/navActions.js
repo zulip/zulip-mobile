@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { StackActions, NavigationActions } from 'react-navigation';
 
-import type { NavigationAction, Message, Narrow, UserOrBot, SharedData } from '../types';
+import type { NavigationAction, Message, Narrow, SharedData } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { getSameRoutesCount } from '../selectors';
 
@@ -63,7 +63,7 @@ export const navigateToAccountPicker = (): NavigationAction =>
 export const navigateToAccountDetails = (userId: number): NavigationAction =>
   StackActions.push({ routeName: 'account-details', params: { userId } });
 
-export const navigateToGroupDetails = (recipients: UserOrBot[]): NavigationAction =>
+export const navigateToGroupDetails = (recipients: $ReadOnlyArray<number>): NavigationAction =>
   StackActions.push({ routeName: 'group-details', params: { recipients } });
 
 export const navigateToRealmScreen = (

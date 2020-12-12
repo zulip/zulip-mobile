@@ -17,7 +17,7 @@ type Props = $ReadOnly<{|
   // `navigation` prop for free, with the stack-nav shape.
   navigation: NavigationStackProp<{|
     ...NavigationStateRoute,
-    params: {| recipients: UserOrBot[] |},
+    params: {| recipients: $ReadOnlyArray<number> |},
   |}>,
 
   dispatch: Dispatch,
@@ -35,14 +35,9 @@ class GroupDetailsScreen extends PureComponent<Props> {
         <FlatList
           initialNumToRender={10}
           data={recipients}
-          keyExtractor={item => String(item.user_id)}
+          keyExtractor={item => String(item)}
           renderItem={({ item }) => (
-            <UserItemById
-              key={item.user_id}
-              userId={item.user_id}
-              showEmail
-              onPress={this.handlePress}
-            />
+            <UserItemById key={item} userId={item} showEmail onPress={this.handlePress} />
           )}
         />
       </Screen>

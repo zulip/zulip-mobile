@@ -24,7 +24,7 @@ type Props = $ReadOnly<{|
 class InfoNavButtonGroup extends PureComponent<Props> {
   handlePress = () => {
     const { recipients } = this.props;
-    NavigationService.dispatch(navigateToGroupDetails(recipients));
+    NavigationService.dispatch(navigateToGroupDetails(recipients.map(u => u.user_id)));
   };
 
   render() {
