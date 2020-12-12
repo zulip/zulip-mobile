@@ -37,7 +37,8 @@ describe('getMessagesForNarrow', () => {
       }),
       messages,
       outbox: [],
-      realm: eg.realmState({ email: eg.selfUser.email }),
+      users: [eg.selfUser],
+      realm: eg.realmState({ user_id: eg.selfUser.user_id, email: eg.selfUser.email }),
     });
 
     const result = getMessagesForNarrow(state, HOME_NARROW);
@@ -55,7 +56,8 @@ describe('getMessagesForNarrow', () => {
       caughtUp: {
         [HOME_NARROW_STR]: { older: false, newer: true },
       },
-      realm: eg.realmState({ email: eg.selfUser.email }),
+      users: [eg.selfUser],
+      realm: eg.realmState({ user_id: eg.selfUser.user_id, email: eg.selfUser.email }),
     });
 
     const result = getMessagesForNarrow(state, HOME_NARROW);
@@ -70,7 +72,8 @@ describe('getMessagesForNarrow', () => {
       }),
       messages,
       outbox: [outboxMessage],
-      realm: eg.realmState({ email: eg.selfUser.email }),
+      users: [eg.selfUser],
+      realm: eg.realmState({ user_id: eg.selfUser.user_id, email: eg.selfUser.email }),
     });
 
     const result = getMessagesForNarrow(state, HOME_NARROW);
@@ -85,7 +88,8 @@ describe('getMessagesForNarrow', () => {
       }),
       messages,
       outbox: [outboxMessage],
-      realm: eg.realmState({ email: eg.selfUser.email }),
+      users: [eg.selfUser],
+      realm: eg.realmState({ user_id: eg.selfUser.user_id, email: eg.selfUser.email }),
     });
 
     const result = getMessagesForNarrow(state, pm1to1NarrowFromUser(eg.otherUser));

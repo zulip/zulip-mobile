@@ -468,7 +468,7 @@ export const isMessageInNarrow = (
   message: Message | Outbox,
   flags: $ReadOnlyArray<string>,
   narrow: Narrow,
-  ownEmail: string,
+  ownUser: User,
 ): boolean =>
   caseNarrow(narrow, {
     home: () => true,
@@ -484,8 +484,8 @@ export const isMessageInNarrow = (
       const recipients = recipientsOfPrivateMessage(message);
       const narrowAsRecipients = emails.map(email => ({ email }));
       return (
-        normalizeRecipientsSansMe(recipients, ownEmail)
-        === normalizeRecipientsSansMe(narrowAsRecipients, ownEmail)
+        normalizeRecipientsSansMe(recipients, ownUser.email)
+        === normalizeRecipientsSansMe(narrowAsRecipients, ownUser.email)
       );
     },
     starred: () => flags.includes('starred'),

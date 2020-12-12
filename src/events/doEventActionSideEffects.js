@@ -10,6 +10,7 @@ import { getActiveAccount, getChatScreenParams, getOwnEmail } from '../selectors
 import { playMessageSound } from '../utils/sound';
 import { NULL_ARRAY } from '../nullObjects';
 import { ensureTypingStatusExpiryLoop } from '../typing/typingActions';
+import { getOwnUser } from '../users/userSelectors';
 
 /**
  * React to incoming `MessageEvent`s.
@@ -34,7 +35,7 @@ const messageEvent = (state: GlobalState, message: Message): void => {
     activeAccount
     && narrow !== undefined // chat screen is not at top
     && !isHomeNarrow(narrow)
-    && isMessageInNarrow(message, flags, narrow, activeAccount.email);
+    && isMessageInNarrow(message, flags, narrow, getOwnUser(state));
   const isSenderSelf = getOwnEmail(state) === message.sender_email;
   if (!isUserInSameNarrow && !isSenderSelf) {
     playMessageSound();

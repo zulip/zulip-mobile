@@ -119,7 +119,6 @@ describe('SEARCH_NARROW', () => {
 });
 
 describe('isMessageInNarrow', () => {
-  const ownEmail = eg.selfUser.email;
   const otherStream = eg.makeStream();
 
   // prettier-ignore
@@ -191,7 +190,7 @@ describe('isMessageInNarrow', () => {
       for (const [messageDescription, expected, message] of cases) {
         test(`${expected ? 'contains' : 'excludes'} ${messageDescription}`, () => {
           expect(
-            isMessageInNarrow(message, message.flags ?? [], narrow, ownEmail),
+            isMessageInNarrow(message, message.flags ?? [], narrow, eg.selfUser),
           ).toBe(expected);
         });
       }

@@ -33,7 +33,8 @@ describe('getLastMessageTopic', () => {
   test('when no messages in narrow return an empty string', () => {
     const state = eg.reduxState({
       narrows: Immutable.Map({}),
-      realm: eg.realmState({ email: eg.selfUser.email }),
+      users: [eg.selfUser],
+      realm: eg.realmState({ user_id: eg.selfUser.user_id, email: eg.selfUser.email }),
     });
 
     const topic = getLastMessageTopic(state, HOME_NARROW);
@@ -53,7 +54,8 @@ describe('getLastMessageTopic', () => {
         [message1.id]: message1,
         [message2.id]: message2,
       },
-      realm: eg.realmState({ email: eg.selfUser.email }),
+      users: [eg.selfUser],
+      realm: eg.realmState({ user_id: eg.selfUser.user_id, email: eg.selfUser.email }),
     });
 
     const topic = getLastMessageTopic(state, narrow);

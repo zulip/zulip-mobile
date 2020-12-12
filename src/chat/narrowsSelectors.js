@@ -22,7 +22,7 @@ import {
   getOutbox,
 } from '../directSelectors';
 import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
-import { getAllUsersByEmail, getOwnEmail } from '../users/userSelectors';
+import { getAllUsersByEmail, getOwnUser } from '../users/userSelectors';
 import {
   isStreamOrTopicNarrow,
   emailsOfGroupPmNarrow,
@@ -38,8 +38,8 @@ export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelecto
   (state, narrow) => narrow,
   getCaughtUpForNarrow,
   state => getOutbox(state),
-  getOwnEmail,
-  (narrow, caughtUp, outboxMessages, ownEmail) => {
+  getOwnUser,
+  (narrow, caughtUp, outboxMessages, ownUser) => {
     if (!caughtUp.newer) {
       return NULL_ARRAY;
     }
@@ -52,7 +52,7 @@ export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelecto
     // messages can't be starred, so "no flags" gives that the right answer.
     const fakeFlags = [];
     const filtered = outboxMessages.filter(message =>
-      isMessageInNarrow(message, fakeFlags, narrow, ownEmail),
+      isMessageInNarrow(message, fakeFlags, narrow, ownUser),
     );
     return isEqual(filtered, outboxMessages) ? outboxMessages : filtered;
   },
