@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import getComposeInputPlaceholder from '../getComposeInputPlaceholder';
 import {
-  pmNarrowFromEmail,
+  pm1to1NarrowFromUser,
   streamNarrow,
   topicNarrow,
   pmNarrowFromUsersUnsafe,
@@ -15,7 +15,7 @@ describe('getComposeInputPlaceholder', () => {
   const ownEmail = eg.selfUser.email;
 
   test('returns "Message @ThisPerson" object for person narrow', () => {
-    const narrow = deepFreeze(pmNarrowFromEmail(eg.otherUser.email));
+    const narrow = deepFreeze(pm1to1NarrowFromUser(eg.otherUser));
     const placeholder = getComposeInputPlaceholder(narrow, ownEmail, usersByEmail);
     expect(placeholder).toEqual({
       text: 'Message {recipient}',
@@ -24,7 +24,7 @@ describe('getComposeInputPlaceholder', () => {
   });
 
   test('returns "Jot down something" object for self narrow', () => {
-    const narrow = deepFreeze(pmNarrowFromEmail(eg.selfUser.email));
+    const narrow = deepFreeze(pm1to1NarrowFromUser(eg.selfUser));
     const placeholder = getComposeInputPlaceholder(narrow, ownEmail, usersByEmail);
     expect(placeholder).toEqual({ text: 'Jot down something' });
   });

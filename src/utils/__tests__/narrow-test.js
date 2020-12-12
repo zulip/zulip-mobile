@@ -3,7 +3,7 @@
 import {
   HOME_NARROW,
   isHomeNarrow,
-  pmNarrowFromEmail,
+  pm1to1NarrowFromUser,
   is1to1PmNarrow,
   pmNarrowFromUsersUnsafe,
   isSpecialNarrow,
@@ -22,7 +22,6 @@ import {
   parseNarrow,
   STARRED_NARROW,
   MENTIONED_NARROW,
-  pm1to1NarrowFromUser,
   keyFromNarrow,
   streamNameOfNarrow,
   topicOfNarrow,
@@ -37,16 +36,16 @@ describe('HOME_NARROW', () => {
   });
 });
 
-describe('pmNarrowFromEmail', () => {
+describe('pm1to1NarrowFromUser', () => {
   test('produces a 1:1 narrow', () => {
-    const narrow = pmNarrowFromEmail(eg.otherUser.email);
+    const narrow = pm1to1NarrowFromUser(eg.otherUser);
     expect(is1to1PmNarrow(narrow)).toBeTrue();
     expect(emailOfPm1to1Narrow(narrow)).toEqual(eg.otherUser.email);
   });
 
   test('if operator is "pm-with" and only one email, then it is a private narrow', () => {
     expect(is1to1PmNarrow(HOME_NARROW)).toBe(false);
-    expect(is1to1PmNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(true);
+    expect(is1to1PmNarrow(pm1to1NarrowFromUser(eg.otherUser))).toBe(true);
   });
 });
 
@@ -54,7 +53,7 @@ describe('isPmNarrow', () => {
   test('a private or group narrow is any "pm-with" narrow', () => {
     expect(isPmNarrow(undefined)).toBe(false);
     expect(isPmNarrow(HOME_NARROW)).toBe(false);
-    expect(isPmNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(true);
+    expect(isPmNarrow(pm1to1NarrowFromUser(eg.otherUser))).toBe(true);
     expect(isPmNarrow(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]))).toBe(true);
   });
 });
@@ -65,7 +64,7 @@ describe('isStreamOrTopicNarrow', () => {
     expect(isStreamOrTopicNarrow(streamNarrow('some stream'))).toBe(true);
     expect(isStreamOrTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
     expect(isStreamOrTopicNarrow(HOME_NARROW)).toBe(false);
-    expect(isStreamOrTopicNarrow(pmNarrowFromEmail(eg.otherUser.email))).toBe(false);
+    expect(isStreamOrTopicNarrow(pm1to1NarrowFromUser(eg.otherUser))).toBe(false);
     expect(isStreamOrTopicNarrow(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]))).toBe(
       false,
     );
@@ -141,7 +140,7 @@ describe('isMessageInNarrow', () => {
       ['PM', false, eg.pmMessage()],
     ]],
 
-    ['1:1 PM conversation, non-self', pmNarrowFromEmail(eg.otherUser.email), [
+    ['1:1 PM conversation, non-self', pm1to1NarrowFromUser(eg.otherUser), [
       ['matching PM, inbound', true, eg.pmMessage()],
       ['matching PM, outbound', true, eg.pmMessage({ sender: eg.selfUser })],
       ['self-1:1 message', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
@@ -149,7 +148,7 @@ describe('isMessageInNarrow', () => {
       ['group-PM including this user, outbound', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
       ['stream message', false, eg.streamMessage()],
     ]],
-    ['self-1:1 conversation', pmNarrowFromEmail(eg.selfUser.email), [
+    ['self-1:1 conversation', pm1to1NarrowFromUser(eg.selfUser), [
       ['self-1:1 message', true, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
       ['other 1:1 message, inbound', false, eg.pmMessage()],
       ['other 1:1 message, outbound', false, eg.pmMessage({ sender: eg.selfUser })],
@@ -279,7 +278,7 @@ describe('getNarrowsForMessage', () => {
     {
       label: 'PM message with one person',
       message: eg.pmMessage({ sender: eg.otherUser }),
-      expectedNarrows: [HOME_NARROW, ALL_PRIVATE_NARROW, pmNarrowFromEmail(eg.otherUser.email)],
+      expectedNarrows: [HOME_NARROW, ALL_PRIVATE_NARROW, pm1to1NarrowFromUser(eg.otherUser)],
     },
     {
       label: 'Group PM message',
@@ -307,12 +306,12 @@ describe('getNarrowForReply', () => {
         eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] }),
         eg.selfUser,
       ),
-    ).toEqual(pmNarrowFromEmail(eg.selfUser.email));
+    ).toEqual(pm1to1NarrowFromUser(eg.selfUser));
   });
 
   test('for 1:1 PM, returns a 1:1 PM narrow', () => {
     const message = eg.pmMessage();
-    const expectedNarrow = pmNarrowFromEmail(eg.otherUser.email);
+    const expectedNarrow = pm1to1NarrowFromUser(eg.otherUser);
 
     const actualNarrow = getNarrowForReply(message, eg.selfUser);
 
