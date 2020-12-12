@@ -5,7 +5,7 @@ import { caseNarrowDefault } from '../utils/narrow';
 export default (
   narrow: Narrow,
   ownUserId: UserId,
-  usersById: Map<UserId, UserOrBot>,
+  allUsersById: Map<UserId, UserOrBot>,
 ): LocalizableText =>
   caseNarrowDefault(
     narrow,
@@ -20,7 +20,7 @@ export default (
           return { text: 'Jot down something' };
         }
 
-        const user = usersById.get(userId);
+        const user = allUsersById.get(userId);
         if (!user) {
           return { text: 'Type a message' };
         }

@@ -57,12 +57,12 @@ import {
 import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
-import { getActiveUsersById, getOwnUserId } from '../users/userSelectors';
+import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 
 type SelectorProps = {|
   auth: Auth,
   ownUserId: UserId,
-  usersById: Map<UserId, UserOrBot>,
+  allUsersById: Map<UserId, UserOrBot>,
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
@@ -422,7 +422,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const {
       ownUserId,
       narrow,
-      usersById,
+      allUsersById,
       editMessage,
       insets,
       isAdmin,
@@ -441,7 +441,7 @@ class ComposeBox extends PureComponent<Props, State> {
       return <AnnouncementOnly />;
     }
 
-    const placeholder = getComposeInputPlaceholder(narrow, ownUserId, usersById);
+    const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById);
     const style = {
       paddingBottom: insets.bottom,
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
@@ -522,7 +522,7 @@ export default compose(
   connect<SelectorProps, _, _>((state, props) => ({
     auth: getAuth(state),
     ownUserId: getOwnUserId(state),
-    usersById: getActiveUsersById(state),
+    allUsersById: getAllUsersById(state),
     isAdmin: getIsAdmin(state),
     isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
     isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
