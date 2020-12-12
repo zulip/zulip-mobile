@@ -33,26 +33,13 @@ import {
 export opaque type Narrow =
   | {| type: 'stream', streamName: string |}
   | {| type: 'topic', streamName: string, topic: string |}
-  | {| type: 'pm', joinedEmails: string |}
+  | {| type: 'pm', emails: $ReadOnlyArray<string> |}
   | {| type: 'search', query: string |}
   | {| type: 'all' | 'starred' | 'mentioned' | 'all-pm' |};
 
 export const HOME_NARROW: Narrow = Object.freeze({ type: 'all' });
 
 export const HOME_NARROW_STR: string = keyFromNarrow(HOME_NARROW);
-
-/**
- * A PM narrow, either 1:1 or group.
- *
- * Private to this module because the input format is kind of odd.
- * Use `pmNarrowFromEmail` or `pmNarrowFromEmails` instead.
- *
- * For the quirks of the underlying format in the Zulip API, see:
- *   https://zulipchat.com/api/construct-narrow
- *   https://github.com/zulip/zulip/issues/13167
- */
-const pmNarrowByString = (emails: string): Narrow =>
-  Object.freeze({ type: 'pm', joinedEmails: emails });
 
 /**
  * A PM narrow, either 1:1 or group.
@@ -73,7 +60,7 @@ const pmNarrowByString = (emails: string): Narrow =>
  * accidentally disagreeing on whether to include the self-user, or on how
  * to sort the list (by user ID vs. email), or neglecting to sort it at all.
  */
-const pmNarrowFromEmails = (emails: string[]): Narrow => pmNarrowByString(emails.join());
+const pmNarrowFromEmails = (emails: string[]): Narrow => Object.freeze({ type: 'pm', emails });
 
 /**
  * DEPRECATED.  Use `pm1to1NarrowFromUser` instead.
@@ -172,7 +159,7 @@ export const SEARCH_NARROW = (query: string): Narrow => Object.freeze({ type: 's
 
 type NarrowCases<T> = {|
   home: () => T,
-  pm: (emails: string[]) => T,
+  pm: (emails: $ReadOnlyArray<string>) => T,
   starred: () => T,
   mentioned: () => T,
   allPrivate: () => T,
@@ -190,10 +177,7 @@ export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
   switch (narrow.type) {
     case 'stream': return cases.stream(narrow.streamName);
     case 'topic': return cases.topic(narrow.streamName, narrow.topic);
-    case 'pm': {
-      const emails = narrow.joinedEmails.split(',');
-      return cases.pm(emails);
-    }
+    case 'pm': return cases.pm(narrow.emails);
     case 'search': return cases.search(narrow.query);
     case 'all': return cases.home();
     case 'starred': return cases.starred();
@@ -360,7 +344,7 @@ export const isGroupPmNarrow = (narrow?: Narrow): boolean =>
  * Any use of this probably means something higher up should be refactored
  * to use caseNarrow.
  */
-export const emailsOfGroupPmNarrow = (narrow: Narrow): string[] =>
+export const emailsOfGroupPmNarrow = (narrow: Narrow): $ReadOnlyArray<string> =>
   caseNarrowPartial(narrow, {
     pm: emails => {
       if (emails.length === 1) {
@@ -395,7 +379,7 @@ export const emailOfPm1to1Narrow = (narrow: Narrow): string =>
  * This is the same list of users that can appear in a `PmKeyRecipients` or
  * `PmKeyUsers`, but contains only their emails.
  */
-export const emailsOfPmNarrow = (narrow: Narrow): string[] =>
+export const emailsOfPmNarrow = (narrow: Narrow): $ReadOnlyArray<string> =>
   caseNarrowPartial(narrow, { pm: emails => emails });
 
 /**
