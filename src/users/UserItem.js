@@ -1,11 +1,13 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { type ComponentType, type ElementConfig, PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { UserOrBot } from '../types';
+import type { Dispatch, UserOrBot } from '../types';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
+import { connect } from '../react-redux';
+import { getUserForId } from './userSelectors';
 
 const componentStyles = createStyleSheet({
   selectedRow: {
@@ -34,7 +36,15 @@ type Props = $ReadOnly<{|
   onPress: UserOrBot => void,
 |}>;
 
-export default class UserItem extends PureComponent<Props> {
+/**
+ * A user represented with avatar and name, for use in a list.
+ *
+ * Prefer `UserItemById` over this component: it does the same thing but
+ * provides a more encapsulated interface.  Once all callers have migrated
+ * to that version, it'll replace this one.
+ */
+// See UserAvatarWithPresence for discussion of this inexact object type.
+class UserItem extends PureComponent<$ReadOnly<{ ...Props, ... }>> {
   static defaultProps = {
     isSelected: false,
     showEmail: false,
@@ -82,3 +92,24 @@ export default class UserItem extends PureComponent<Props> {
     );
   }
 }
+
+// Export the class with a tighter constraint on acceptable props, namely
+// that the type is an exact object type as usual.
+export default (UserItem: ComponentType<$Exact<ElementConfig<typeof UserItem>>>);
+
+type ByIdProps = $ReadOnly<{|
+  ...$Exact<ElementConfig<typeof UserItem>>,
+  userId: number,
+  dispatch: Dispatch,
+|}>;
+
+/**
+ * A user represented with avatar and name, for use in a list.
+ *
+ * Use this in preference to the default export `UserItem`.  We're migrating
+ * from that one to this in order to better encapsulate getting user data
+ * where it's needed.
+ */
+export const UserItemById = connect<{| user: UserOrBot |}, _, _>((state, props) => ({
+  user: getUserForId(state, props.userId),
+}))((UserItem: ComponentType<ByIdProps>));
