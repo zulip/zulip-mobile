@@ -307,13 +307,13 @@ export const constructMessageActionButtons = ({
     buttons.push('shareMessage');
   }
   if (
-    message.sender_email === ownUser.email
+    message.sender_id === ownUser.user_id
     // Our "edit message" UI only works in certain kinds of narrows.
     && (isStreamOrTopicNarrow(narrow) || isPmNarrow(narrow))
   ) {
     buttons.push('editMessage');
   }
-  if (message.sender_email === ownUser.email && messageNotDeleted(message)) {
+  if (message.sender_id === ownUser.user_id && messageNotDeleted(message)) {
     buttons.push('deleteMessage');
   }
   if (message.id in flags.starred) {

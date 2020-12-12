@@ -19,7 +19,7 @@ const eventNewMessage = (state, action) => {
     return state;
   }
 
-  if (action.ownUser.email && action.ownUser.email === action.message.sender_email) {
+  if (action.ownUser.user_id === action.message.sender_id) {
     return state;
   }
 
