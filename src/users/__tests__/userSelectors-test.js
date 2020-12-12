@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import {
-  getActiveUsersByEmail,
   getAllUsersByEmail,
   getAllUsersById,
   getUsersById,
@@ -10,22 +9,6 @@ import {
   getUserIsActive,
 } from '../userSelectors';
 import * as eg from '../../__tests__/lib/exampleData';
-
-describe('getActiveUsers', () => {
-  test('return users, bots, map by email and do not include inactive users', () => {
-    const state = eg.reduxState({
-      users: [eg.selfUser],
-      realm: {
-        ...eg.baseReduxState.realm,
-        crossRealmBots: [eg.crossRealmBot],
-        nonActiveUsers: [eg.otherUser],
-      },
-    });
-    expect(getActiveUsersByEmail(state)).toEqual(
-      new Map([[eg.selfUser.email, eg.selfUser], [eg.crossRealmBot.email, eg.crossRealmBot]]),
-    );
-  });
-});
 
 describe('getAllUsersByEmail', () => {
   test('return users mapped by their email', () => {

@@ -21,7 +21,7 @@ import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelecto
  * user to send a PM to -- deactivated users should be left out.
  *
  * See:
- *  * `getActiveUsersByEmail` for leaving out deactivated users
+ *  * `getActiveUsersById` for leaving out deactivated users
  *  * `User` for details on properties, and links to docs.
  */
 const getAllUsers: Selector<UserOrBot[]> = createSelector(
@@ -158,18 +158,6 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
   getUsers,
   getOwnEmail,
   (users, ownEmail) => users.filter(user => user.email !== ownEmail),
-);
-
-/**
- * Excludes deactivated users.  See `getAllUsers` for discussion.
- *
- * Prefer `getActiveUsersById`; see #3764.
- */
-export const getActiveUsersByEmail: Selector<Map<string, UserOrBot>> = createSelector(
-  getUsers,
-  getCrossRealmBots,
-  (users = [], crossRealmBots = []) =>
-    new Map([...users, ...crossRealmBots].map(user => [user.email, user])),
 );
 
 /** Excludes deactivated users.  See `getAllUsers` for discussion. */
