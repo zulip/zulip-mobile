@@ -32,7 +32,7 @@ import {
 export opaque type Narrow =
   | {| type: 'stream', streamName: string |}
   | {| type: 'topic', streamName: string, topic: string |}
-  | {| type: 'pm', userIds: $ReadOnlyArray<number>, emails: $ReadOnlyArray<string> |}
+  | {| type: 'pm', userIds: $ReadOnlyArray<number> |}
   | {| type: 'search', query: string |}
   | {| type: 'all' | 'starred' | 'mentioned' | 'all-pm' |};
 
@@ -59,8 +59,8 @@ export const HOME_NARROW_STR: string = keyFromNarrow(HOME_NARROW);
  * accidentally disagreeing on whether to include the self-user, or on how
  * to sort the list (by user ID vs. email), or neglecting to sort it at all.
  */
-const pmNarrowInternal = (userIds: $ReadOnlyArray<number>, emails: string[]): Narrow =>
-  Object.freeze({ type: 'pm', userIds, emails });
+const pmNarrowInternal = (userIds: $ReadOnlyArray<number>, emails?: string[]): Narrow =>
+  Object.freeze({ type: 'pm', userIds });
 
 /**
  * A PM narrow, either 1:1 or group.
@@ -153,7 +153,7 @@ export const SEARCH_NARROW = (query: string): Narrow => Object.freeze({ type: 's
 
 type NarrowCases<T> = {|
   home: () => T,
-  pm: (emails: $ReadOnlyArray<string>, ids: $ReadOnlyArray<number>) => T,
+  pm: (emails: mixed, ids: $ReadOnlyArray<number>) => T,
   starred: () => T,
   mentioned: () => T,
   allPrivate: () => T,
@@ -171,7 +171,7 @@ export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
   switch (narrow.type) {
     case 'stream': return cases.stream(narrow.streamName);
     case 'topic': return cases.topic(narrow.streamName, narrow.topic);
-    case 'pm': return cases.pm(narrow.emails, narrow.userIds);
+    case 'pm': return cases.pm(undefined, narrow.userIds);
     case 'search': return cases.search(narrow.query);
     case 'all': return cases.home();
     case 'starred': return cases.starred();
@@ -237,8 +237,7 @@ export function caseNarrowDefault<T>(
  * something like `base64Utf8Encode` to encode into the permitted subset.
  */
 // The arbitrary Unicode codepoints come from (a) stream names and topics,
-// and (b) our use of `\x00` as a delimiter.  Also perhaps email addresses,
-// if it's possible for those to have exciting characters in them.
+// and (b) our use of `\x00` as a delimiter.
 export function keyFromNarrow(narrow: Narrow): string {
   // The ":s" (for "string") in several of these is to keep them disjoint,
   // out of an abundance of caution, from future keys that use numeric IDs.
@@ -254,7 +253,8 @@ export function keyFromNarrow(narrow: Narrow): string {
     topic: (streamName, topic) => `topic:s:${streamName}\x00${topic}`,
 
     // An earlier version had `pm:s:`.
-    pm: (emails, ids) => `pm:d:${ids.join(',')}:${emails.join(',')}`,
+    // Another had `pm:d:`.
+    pm: (emails, ids) => `pm:${ids.join(',')}`,
 
     home: () => 'all',
     starred: () => 'starred',
@@ -295,17 +295,8 @@ export const parseNarrow = (narrowStr: string): Narrow => {
     }
 
     case 'pm:': {
-      // The `/s` regexp flag means the `.` patterns match absolutely
-      // anything.  By default they reject certain "newline" characters,
-      // which might be impossible in email addresses but it's simplest
-      // not to have to care.
-      const match = /^d:(.*?):(.*)/s.exec(rest);
-      if (!match) {
-        throw makeError();
-      }
-      const ids = match[1].split(',').map(s => Number.parseInt(s, 10));
-      const emails = match[2].split(',');
-      return pmNarrowInternal(ids, emails);
+      const ids = rest.split(',').map(s => Number.parseInt(s, 10));
+      return pmNarrowInternal(ids);
     }
 
     case 'search:': {

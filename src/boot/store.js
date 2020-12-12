@@ -18,6 +18,7 @@ import ZulipAsyncStorage from './ZulipAsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
 import { provideLoggingContext } from './loggingContext';
 import { tryGetActiveAccount } from '../account/accountsSelectors';
+import { objectFromEntries } from '../jsBackport';
 
 if (process.env.NODE_ENV === 'development') {
   // Chrome dev tools for Immutable.
@@ -235,6 +236,16 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     // and are already discarded whenever switching between accounts;
     // so we just drop them here.
     drafts: {},
+  }),
+
+  // Change format of keys representing PM narrows, dropping emails.
+  '22': state => ({
+    ...dropCache(state),
+    drafts: objectFromEntries(
+      Object.keys(state.drafts)
+        .map(key => key.replace(/^pm:d:(.*?):.*/s, 'pm:$1'))
+        .map(key => [key, state.drafts[key]]),
+    ),
   }),
 
   // TIP: When adding a migration, consider just using `dropCache`.
