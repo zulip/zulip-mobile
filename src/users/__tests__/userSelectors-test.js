@@ -3,7 +3,6 @@ import {
   getAllUsersByEmail,
   getAllUsersById,
   getUsersById,
-  getUsersSansMe,
   getUserForId,
   getUserIsActive,
 } from '../userSelectors';
@@ -74,16 +73,6 @@ describe('getUsersById', () => {
     const users = [eg.makeUser(), eg.makeUser(), eg.makeUser()];
     const state = eg.reduxState({ users });
     expect(getUsersById(state)).toEqual(new Map(users.map(u => [u.user_id, u])));
-  });
-});
-
-describe('getUsersSansMe', () => {
-  test('returns all users except current user', () => {
-    const state = eg.reduxState({
-      users: [eg.selfUser, eg.otherUser],
-      realm: eg.realmState({ email: eg.selfUser.email }),
-    });
-    expect(getUsersSansMe(state)).toEqual([eg.otherUser]);
   });
 });
 

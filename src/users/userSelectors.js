@@ -138,17 +138,6 @@ export const getOwnUser = (state: GlobalState): User => {
 export const getSelfUserDetail = (state: GlobalState): User =>
   getUsersById(state).get(getOwnUserId(state)) || NULL_USER;
 
-/**
- * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.
- *
- * See `getAllUsers`.
- */
-export const getUsersSansMe: Selector<User[]> = createSelector(
-  getUsers,
-  getOwnEmail,
-  (users, ownEmail) => users.filter(user => user.email !== ownEmail),
-);
-
 /** Excludes deactivated users.  See `getAllUsers` for discussion. */
 export const getActiveUsersById: Selector<Map<UserId, UserOrBot>> = createSelector(
   getUsers,

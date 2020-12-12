@@ -3,7 +3,8 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { FlatList } from 'react-native';
 
-import type { User, UserOrBot, PresenceState, Dispatch } from '../types';
+import { createSelector } from 'reselect';
+import type { User, UserOrBot, PresenceState, Selector, Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { FloatingActionButton, LineSeparator } from '../common';
@@ -11,7 +12,8 @@ import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
-import { getPresence, getUsersSansMe } from '../selectors';
+import { getUsers, getPresence } from '../selectors';
+import { getOwnEmail } from '../users/userSelectors';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -108,7 +110,15 @@ class UserPickerCard extends PureComponent<Props, State> {
   }
 }
 
+// The users we want to show in this particular UI.
+// We exclude (a) users with `is_active` false; (b) cross-realm bots; (c) self.
+const getUsersToShow: Selector<User[]> = createSelector(
+  getUsers,
+  getOwnEmail,
+  (users, ownEmail) => users.filter(user => user.email !== ownEmail),
+);
+
 export default connect(state => ({
-  users: getUsersSansMe(state),
+  users: getUsersToShow(state),
   presences: getPresence(state),
 }))(UserPickerCard);
