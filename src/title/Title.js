@@ -34,7 +34,7 @@ export default class Title extends PureComponent<Props> {
         ids.length === 1 ? (
           <TitlePrivate userId={ids[0]} color={color} />
         ) : (
-          <TitleGroup narrow={narrow} />
+          <TitleGroup userIds={ids} />
         ),
       search: () => null,
     });
