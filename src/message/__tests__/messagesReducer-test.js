@@ -13,11 +13,6 @@ import {
 } from '../../actionConstants';
 
 describe('messagesReducer', () => {
-  test('handles unknown action and no previous state by returning initial state', () => {
-    const newState = messagesReducer(undefined, {});
-    expect(newState).toBeDefined();
-  });
-
   describe('EVENT_NEW_MESSAGE', () => {
     test('appends message to state producing a copy of messages', () => {
       const prevState = deepFreeze({
