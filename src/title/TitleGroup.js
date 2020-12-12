@@ -7,7 +7,7 @@ import NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot, Narrow } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
-import { UserAvatarWithPresence } from '../common';
+import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import { getRecipientsInGroupPmNarrow } from '../selectors';
 import { navigateToAccountDetails } from '../nav/navActions';
 
@@ -40,11 +40,10 @@ class TitleGroup extends PureComponent<Props> {
       <View style={styles.navWrapper}>
         {recipients.map((user, index) => (
           <View key={user.email} style={this.styles.titleAvatar}>
-            <UserAvatarWithPresence
+            <UserAvatarWithPresenceById
               onPress={() => this.handlePress(user)}
               size={32}
-              avatarUrl={user.avatar_url}
-              email={user.email}
+              userId={user.user_id}
             />
           </View>
         ))}

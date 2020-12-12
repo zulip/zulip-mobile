@@ -9,7 +9,7 @@ import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { Touchable, UserAvatarWithPresence, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
-import { getAllUsersByEmail } from '../users/userSelectors';
+import { getAllUsersById } from '../users/userSelectors';
 import { navigateToAccountDetails } from '../nav/navActions';
 import * as logging from '../utils/logging';
 
@@ -18,7 +18,7 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{
-  email: string,
+  userId: number,
   color: string,
 
   dispatch: Dispatch,
@@ -70,6 +70,5 @@ class TitlePrivate extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  // TODO: use user_id, not email (https://github.com/zulip/zulip-mobile/issues/3764)
-  user: getAllUsersByEmail(state).get(props.email),
+  user: getAllUsersById(state).get(props.userId),
 }))(TitlePrivate);
