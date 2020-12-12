@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import uniqby from 'lodash.uniqby';
 
-import type { UserPresence, User, UserGroup, PresenceState } from '../types';
+import type { UserPresence, User, UserId, UserGroup, PresenceState } from '../types';
 import { ensureUnreachable } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
@@ -44,11 +44,11 @@ export const sortUserList = (users: User[], presences: PresenceState): User[] =>
       || x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
   );
 
-export const filterUserList = (users: User[], filter: string = '', ownEmail: ?string): User[] =>
+export const filterUserList = (users: User[], filter: string = '', ownUserId: ?UserId): User[] =>
   users.length > 0
     ? users.filter(
         user =>
-          user.email !== ownEmail
+          user.user_id !== ownUserId
           && (filter === ''
             || user.full_name.toLowerCase().includes(filter.toLowerCase())
             || user.email.toLowerCase().includes(filter.toLowerCase())),
@@ -58,20 +58,24 @@ export const filterUserList = (users: User[], filter: string = '', ownEmail: ?st
 export const sortAlphabetically = (users: User[]): User[] =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()));
 
-export const filterUserStartWith = (users: User[], filter: string = '', ownEmail: string): User[] =>
+export const filterUserStartWith = (
+  users: User[],
+  filter: string = '',
+  ownUserId: UserId,
+): User[] =>
   users.filter(
     user =>
-      user.email !== ownEmail && user.full_name.toLowerCase().startsWith(filter.toLowerCase()),
+      user.user_id !== ownUserId && user.full_name.toLowerCase().startsWith(filter.toLowerCase()),
   );
 
 export const filterUserByInitials = (
   users: User[],
   filter: string = '',
-  ownEmail: string,
+  ownUserId: UserId,
 ): User[] =>
   users.filter(
     user =>
-      user.email !== ownEmail
+      user.user_id !== ownUserId
       && user.full_name
         .replace(/(\s|[a-z])/g, '')
         .toLowerCase()
@@ -81,19 +85,20 @@ export const filterUserByInitials = (
 export const filterUserThatContains = (
   users: User[],
   filter: string = '',
-  ownEmail: string,
+  ownUserId: UserId,
 ): User[] =>
   users.filter(
-    user => user.email !== ownEmail && user.full_name.toLowerCase().includes(filter.toLowerCase()),
+    user =>
+      user.user_id !== ownUserId && user.full_name.toLowerCase().includes(filter.toLowerCase()),
   );
 
 export const filterUserMatchesEmail = (
   users: User[],
   filter: string = '',
-  ownEmail: string,
+  ownUserId: UserId,
 ): User[] =>
   users.filter(
-    user => user.email !== ownEmail && user.email.toLowerCase().includes(filter.toLowerCase()),
+    user => user.user_id !== ownUserId && user.email.toLowerCase().includes(filter.toLowerCase()),
   );
 
 export const getUniqueUsers = (users: User[]): User[] => uniqby(users, 'email');
@@ -107,16 +112,16 @@ export const getUsersAndWildcards = (users: User[]) => [
 export const getAutocompleteSuggestion = (
   users: User[],
   filter: string = '',
-  ownEmail: string,
+  ownUserId: UserId,
 ): User[] => {
   if (users.length === 0) {
     return users;
   }
   const allAutocompleteOptions = getUsersAndWildcards(users);
-  const startWith = filterUserStartWith(allAutocompleteOptions, filter, ownEmail);
-  const initials = filterUserByInitials(allAutocompleteOptions, filter, ownEmail);
-  const contains = filterUserThatContains(allAutocompleteOptions, filter, ownEmail);
-  const matchesEmail = filterUserMatchesEmail(users, filter, ownEmail);
+  const startWith = filterUserStartWith(allAutocompleteOptions, filter, ownUserId);
+  const initials = filterUserByInitials(allAutocompleteOptions, filter, ownUserId);
+  const contains = filterUserThatContains(allAutocompleteOptions, filter, ownUserId);
+  const matchesEmail = filterUserMatchesEmail(users, filter, ownUserId);
   return getUniqueUsers([...startWith, ...initials, ...contains, ...matchesEmail]);
 };
 

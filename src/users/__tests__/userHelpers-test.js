@@ -40,7 +40,7 @@ describe('filterUserList', () => {
     const users = deepFreeze([user1, user2]);
 
     const shouldMatch = [user1];
-    const filteredUsers = filterUserList(users, '', user2.email);
+    const filteredUsers = filterUserList(users, '', user2.user_id);
     expect(filteredUsers).toEqual(shouldMatch);
   });
 
@@ -62,7 +62,7 @@ describe('getAutocompleteSuggestion', () => {
   test('empty input results in empty list', () => {
     const users = deepFreeze([]);
 
-    const filteredUsers = getAutocompleteSuggestion(users, 'some filter', eg.selfUser.email);
+    const filteredUsers = getAutocompleteSuggestion(users, 'some filter', eg.selfUser.user_id);
     expect(filteredUsers).toBe(users);
   });
 
@@ -83,7 +83,7 @@ describe('getAutocompleteSuggestion', () => {
       },
       someGuyUser,
     ];
-    const filteredUsers = getAutocompleteSuggestion(users, '', meUser.email);
+    const filteredUsers = getAutocompleteSuggestion(users, '', meUser.user_id);
     expect(filteredUsers).toEqual(shouldMatch);
   });
 
@@ -96,7 +96,7 @@ describe('getAutocompleteSuggestion', () => {
     const allUsers = deepFreeze([user1, user2, user3, user4, user5]);
 
     const shouldMatch = [user1, user2, user3, user5];
-    const filteredUsers = getAutocompleteSuggestion(allUsers, 'match', eg.selfUser.email);
+    const filteredUsers = getAutocompleteSuggestion(allUsers, 'match', eg.selfUser.user_id);
     expect(filteredUsers).toEqual(shouldMatch);
   });
 
@@ -136,7 +136,7 @@ describe('getAutocompleteSuggestion', () => {
       user11, // have priority because of 'ma' contains in name
       user4, // email contains 'ma'
     ];
-    const filteredUsers = getAutocompleteSuggestion(allUsers, 'ma', eg.selfUser.email);
+    const filteredUsers = getAutocompleteSuggestion(allUsers, 'ma', eg.selfUser.user_id);
     expect(filteredUsers).toEqual(shouldMatch);
   });
 });
@@ -233,11 +233,11 @@ describe('filterUserStartWith', () => {
     const user3 = { ...eg.makeUser({ name: 'app' }), email: 'p@p.com' };
     const user4 = { ...eg.makeUser({ name: 'Mobile app' }), email: 'p3@p.com' };
     const user5 = { ...eg.makeUser({ name: 'Mac App' }), email: 'p@p2.com' };
-    const user6 = { ...eg.makeUser({ name: 'app' }), email: 'own@example.com' };
-    const users = deepFreeze([user1, user2, user3, user4, user5, user6]);
+    const selfUser = { ...eg.makeUser({ name: 'app' }), email: 'own@example.com' };
+    const users = deepFreeze([user1, user2, user3, user4, user5, selfUser]);
 
     const expectedUsers = [user1, user3];
-    expect(filterUserStartWith(users, 'app', 'own@example.com')).toEqual(expectedUsers);
+    expect(filterUserStartWith(users, 'app', selfUser.user_id)).toEqual(expectedUsers);
   });
 });
 
@@ -249,12 +249,12 @@ describe('filterUserByInitials', () => {
     const user4 = { ...eg.makeUser({ name: 'Mobile Application' }), email: 'p3@p.com' };
     const user5 = { ...eg.makeUser({ name: 'Mac App' }), email: 'p@p2.com' };
     const user6 = { ...eg.makeUser({ name: 'app' }), email: 'p@p.com' };
-    const user7 = { ...eg.makeUser({ name: 'app' }), email: 'own@example.com' };
+    const selfUser = { ...eg.makeUser({ name: 'app' }), email: 'own@example.com' };
 
-    const users = deepFreeze([user1, user2, user3, user4, user5, user6, user7]);
+    const users = deepFreeze([user1, user2, user3, user4, user5, user6, selfUser]);
 
     const expectedUsers = [user4, user5];
-    expect(filterUserByInitials(users, 'ma', 'own@example.com')).toEqual(expectedUsers);
+    expect(filterUserByInitials(users, 'ma', selfUser.user_id)).toEqual(expectedUsers);
   });
 });
 
@@ -304,12 +304,12 @@ describe('filterUserThatContains', () => {
     const user4 = { ...eg.makeUser({ name: 'Mobile app' }), email: 'p3@p.com' };
     const user5 = { ...eg.makeUser({ name: 'Mac App' }), email: 'p@p2.com' };
     const user6 = { ...eg.makeUser({ name: 'app' }), email: 'p@p.com' };
-    const user7 = { ...eg.makeUser({ name: 'app' }), email: 'own@example.com' };
+    const selfUser = { ...eg.makeUser({ name: 'app' }), email: 'own@example.com' };
 
-    const users = deepFreeze([user1, user2, user3, user4, user5, user6, user7]);
+    const users = deepFreeze([user1, user2, user3, user4, user5, user6, selfUser]);
 
     const expectedUsers = [user2, user5];
-    expect(filterUserThatContains(users, 'ma', 'own@example.com')).toEqual(expectedUsers);
+    expect(filterUserThatContains(users, 'ma', selfUser.user_id)).toEqual(expectedUsers);
   });
 });
 
@@ -321,11 +321,11 @@ describe('filterUserMatchesEmail', () => {
     const user4 = { ...eg.makeUser({ name: 'Mobile app' }), email: 'p3@p.com' };
     const user5 = { ...eg.makeUser({ name: 'Mac App' }), email: 'p@p2.com' };
     const user6 = { ...eg.makeUser({ name: 'app' }), email: 'p@p.com' };
-    const user7 = { ...eg.makeUser({ name: 'app' }), email: 'own@example.com' };
+    const selfUser = { ...eg.makeUser({ name: 'app' }), email: 'own@example.com' };
 
-    const users = deepFreeze([user1, user2, user3, user4, user5, user6, user7]);
+    const users = deepFreeze([user1, user2, user3, user4, user5, user6, selfUser]);
     const expectedUsers = [user1];
-    expect(filterUserMatchesEmail(users, 'example', 'own@example.com')).toEqual(expectedUsers);
+    expect(filterUserMatchesEmail(users, 'example', selfUser.user_id)).toEqual(expectedUsers);
   });
 });
 
