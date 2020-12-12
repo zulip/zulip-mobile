@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import { makeUserId } from '../api/idTypes';
-import type { ApiNarrow, Message, Outbox, User, UserId, UserOrBot } from '../types';
+import type { ApiNarrow, Message, Outbox, UserId, UserOrBot } from '../types';
 import {
   normalizeRecipientsAsUserIdsSansMe,
   pmKeyRecipientsFromMessage,
@@ -437,7 +437,7 @@ export const isMessageInNarrow = (
   message: Message | Outbox,
   flags: $ReadOnlyArray<string>,
   narrow: Narrow,
-  ownUser: User,
+  ownUserId: UserId,
 ): boolean =>
   caseNarrow(narrow, {
     home: () => true,
@@ -453,8 +453,8 @@ export const isMessageInNarrow = (
       const recipients = recipientsOfPrivateMessage(message).map(r => r.id);
       const narrowAsRecipients = ids;
       return (
-        normalizeRecipientsAsUserIdsSansMe(recipients, ownUser.user_id)
-        === normalizeRecipientsAsUserIdsSansMe(narrowAsRecipients, ownUser.user_id)
+        normalizeRecipientsAsUserIdsSansMe(recipients, ownUserId)
+        === normalizeRecipientsAsUserIdsSansMe(narrowAsRecipients, ownUserId)
       );
     },
     starred: () => flags.includes('starred'),

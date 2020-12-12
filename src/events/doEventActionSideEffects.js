@@ -10,7 +10,7 @@ import { getActiveAccount, getChatScreenParams } from '../selectors';
 import { playMessageSound } from '../utils/sound';
 import { NULL_ARRAY } from '../nullObjects';
 import { ensureTypingStatusExpiryLoop } from '../typing/typingActions';
-import { getOwnUser, getOwnUserId } from '../users/userSelectors';
+import { getOwnUserId } from '../users/userSelectors';
 
 /**
  * React to incoming `MessageEvent`s.
@@ -35,7 +35,7 @@ const messageEvent = (state: GlobalState, message: Message): void => {
     activeAccount
     && narrow !== undefined // chat screen is not at top
     && !isHomeNarrow(narrow)
-    && isMessageInNarrow(message, flags, narrow, getOwnUser(state));
+    && isMessageInNarrow(message, flags, narrow, getOwnUserId(state));
   const isSenderSelf = getOwnUserId(state) === message.sender_id;
   if (!isUserInSameNarrow && !isSenderSelf) {
     playMessageSound();

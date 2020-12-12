@@ -190,7 +190,7 @@ describe('isMessageInNarrow', () => {
       for (const [messageDescription, expected, message] of cases) {
         test(`${expected ? 'contains' : 'excludes'} ${messageDescription}`, () => {
           expect(
-            isMessageInNarrow(message, message.flags ?? [], narrow, eg.selfUser),
+            isMessageInNarrow(message, message.flags ?? [], narrow, eg.selfUser.user_id),
           ).toBe(expected);
         });
       }
