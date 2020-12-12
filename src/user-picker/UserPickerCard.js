@@ -13,7 +13,7 @@ import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import { getUsers, getPresence } from '../selectors';
-import { getOwnEmail } from '../users/userSelectors';
+import { getOwnUserId } from '../users/userSelectors';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -114,8 +114,8 @@ class UserPickerCard extends PureComponent<Props, State> {
 // We exclude (a) users with `is_active` false; (b) cross-realm bots; (c) self.
 const getUsersToShow: Selector<User[]> = createSelector(
   getUsers,
-  getOwnEmail,
-  (users, ownEmail) => users.filter(user => user.email !== ownEmail),
+  getOwnUserId,
+  (users, ownUserId) => users.filter(user => user.user_id !== ownUserId),
 );
 
 export default connect(state => ({
