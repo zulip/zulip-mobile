@@ -185,24 +185,6 @@ export const getUserForId = (state: GlobalState, userId: number): UserOrBot => {
 };
 
 /**
- * The user with the given email.
- *
- * Prefer `getUserForId` where a user ID is available; see #3764.
- *
- * This works for any user in this Zulip org/realm, including deactivated
- * users and cross-realm bots.  See `getAllUsers` for details.
- *
- * Throws if no such user exists.
- */
-export const getUserForEmail = (state: GlobalState, email: string): UserOrBot => {
-  const user = getAllUsersByEmail(state).get(email);
-  if (!user) {
-    throw new Error(`getUserForEmail: missing user: email ${email}`);
-  }
-  return user;
-};
-
-/**
  * The value of `is_active` for the given user.
  *
  * For a normal user, this is true unless the user or an admin has

@@ -5,7 +5,6 @@ import {
   getUsersById,
   getUsersSansMe,
   getUserForId,
-  getUserForEmail,
   getUserIsActive,
 } from '../userSelectors';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -110,33 +109,6 @@ describe('getUserForId', () => {
 
   test('returns the user if it is a cross realm bot', () => {
     expect(getUserForId(state, state.realm.crossRealmBots[0].user_id)).toEqual(
-      state.realm.crossRealmBots[0],
-    );
-  });
-});
-
-describe('getUserForEmail', () => {
-  const state = eg.reduxState({
-    users: [eg.selfUser],
-    realm: {
-      ...eg.baseReduxState.realm,
-      crossRealmBots: [eg.crossRealmBot],
-      nonActiveUsers: [eg.makeUser(), eg.makeUser()],
-    },
-  });
-
-  test('returns the user if it has not been deactivated', () => {
-    expect(getUserForEmail(state, state.users[0].email)).toEqual(state.users[0]);
-  });
-
-  test('returns the user if it has been deactivated', () => {
-    expect(getUserForEmail(state, state.realm.nonActiveUsers[0].email)).toEqual(
-      state.realm.nonActiveUsers[0],
-    );
-  });
-
-  test('returns the user if it is a cross realm bot', () => {
-    expect(getUserForEmail(state, state.realm.crossRealmBots[0].email)).toEqual(
       state.realm.crossRealmBots[0],
     );
   });
