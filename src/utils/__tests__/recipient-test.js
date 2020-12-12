@@ -1,30 +1,8 @@
 import {
-  normalizeRecipients,
   normalizeRecipientsAsUserIds,
   normalizeRecipientsAsUserIdsSansMe,
   isSameRecipient,
 } from '../recipient';
-import * as logging from '../logging';
-
-describe('normalizeRecipients', () => {
-  test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
-    const recipients = [
-      { email: '' },
-      { email: 'abc@example.com' },
-      { email: 'xyz@example.com' },
-      { email: '  def@example.com  ' },
-    ];
-    const expectedResult = 'abc@example.com,def@example.com,xyz@example.com';
-
-    logging.error.mockReturnValue();
-
-    const normalized = normalizeRecipients(recipients);
-    expect(normalized).toEqual(expectedResult);
-
-    expect(logging.error.mock.calls).toHaveLength(2);
-    logging.error.mockReset();
-  });
-});
 
 describe('normalizeRecipientsAsUserIds', () => {
   test('joins user IDs from recipients, sorted', () => {
