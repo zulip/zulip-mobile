@@ -29,6 +29,7 @@ import {
   isMessageInNarrow,
   caseNarrowDefault,
   keyFromNarrow,
+  streamNameOfNarrow,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
@@ -125,13 +126,14 @@ export const getStreamInNarrow: Selector<Subscription | {| ...Stream, in_home_vi
     if (!isStreamOrTopicNarrow(narrow)) {
       return NULL_SUBSCRIPTION;
     }
+    const streamName = streamNameOfNarrow(narrow);
 
-    const subscription = subscriptions.find(x => x.name === narrow[0].operand);
+    const subscription = subscriptions.find(x => x.name === streamName);
     if (subscription) {
       return subscription;
     }
 
-    const stream = streams.find(x => x.name === narrow[0].operand);
+    const stream = streams.find(x => x.name === streamName);
     if (stream) {
       return {
         ...stream,

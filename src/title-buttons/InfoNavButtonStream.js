@@ -8,6 +8,7 @@ import { connect } from '../react-redux';
 import { getStreams } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToStream } from '../actions';
+import { streamNameOfNarrow } from '../utils/narrow';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
@@ -19,7 +20,8 @@ type Props = $ReadOnly<{|
 class InfoNavButtonStream extends PureComponent<Props> {
   handlePress = () => {
     const { narrow, streams } = this.props;
-    const stream = streams.find(x => x.name === narrow[0].operand);
+    const streamName = streamNameOfNarrow(narrow);
+    const stream = streams.find(x => x.name === streamName);
     if (stream) {
       NavigationService.dispatch(navigateToStream(stream.stream_id));
     }

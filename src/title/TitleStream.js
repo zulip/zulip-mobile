@@ -7,7 +7,7 @@ import type { Narrow, Stream, Subscription, Dispatch } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import StreamIcon from '../streams/StreamIcon';
-import { isTopicNarrow } from '../utils/narrow';
+import { isTopicNarrow, topicOfNarrow } from '../utils/narrow';
 import { getStreamInNarrow } from '../selectors';
 import { showToast } from '../utils/info';
 
@@ -57,11 +57,11 @@ class TitleStream extends PureComponent<Props> {
         {isTopicNarrow(narrow) && (
           <TouchableWithoutFeedback
             onLongPress={() => {
-              showToast(narrow[1].operand);
+              showToast(topicOfNarrow(narrow));
             }}
           >
             <Text style={[styles.navSubtitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
-              {narrow[1].operand}
+              {topicOfNarrow(narrow)}
             </Text>
           </TouchableWithoutFeedback>
         )}

@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import type { Dispatch, Narrow, Stream } from '../types';
 import { connect } from '../react-redux';
 import { getStreams } from '../selectors';
-import { streamNarrow } from '../utils/narrow';
+import { streamNameOfNarrow, streamNarrow } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
 import { doNarrow } from '../actions';
 
@@ -19,7 +19,8 @@ type Props = $ReadOnly<{|
 class ExtraNavButtonTopic extends PureComponent<Props> {
   handlePress = () => {
     const { dispatch, narrow, streams } = this.props;
-    const stream = streams.find(x => x.name === narrow[0].operand);
+    const streamName = streamNameOfNarrow(narrow);
+    const stream = streams.find(x => x.name === streamName);
     if (stream) {
       dispatch(doNarrow(streamNarrow(stream.name)));
     }

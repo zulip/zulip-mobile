@@ -17,7 +17,7 @@ import { getMute, getStreams, getTopics, getUnreadStreams } from '../directSelec
 import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
-import { isStreamNarrow } from '../utils/narrow';
+import { isStreamNarrow, streamNameOfNarrow } from '../utils/narrow';
 
 export const getTopicsForNarrow: Selector<string[], Narrow> = createSelector(
   (state, narrow) => narrow,
@@ -27,8 +27,9 @@ export const getTopicsForNarrow: Selector<string[], Narrow> = createSelector(
     if (!isStreamNarrow(narrow)) {
       return NULL_ARRAY;
     }
-    const stream = streams.find(x => x.name === narrow[0].operand);
+    const streamName = streamNameOfNarrow(narrow);
 
+    const stream = streams.find(x => x.name === streamName);
     if (!stream || !topics[stream.stream_id]) {
       return NULL_ARRAY;
     }

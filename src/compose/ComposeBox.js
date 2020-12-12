@@ -33,7 +33,12 @@ import * as api from '../api';
 import { FloatingActionButton, Input } from '../common';
 import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
-import { isStreamNarrow, isStreamOrTopicNarrow, topicNarrow } from '../utils/narrow';
+import {
+  isStreamNarrow,
+  isStreamOrTopicNarrow,
+  streamNameOfNarrow,
+  topicNarrow,
+} from '../utils/narrow';
 import ComposeMenu from './ComposeMenu';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
@@ -307,8 +312,12 @@ class ComposeBox extends PureComponent<Props, State> {
 
   getDestinationNarrow = (): Narrow => {
     const { narrow } = this.props;
-    const topic = this.state.topic.trim();
-    return isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, topic || '(no topic)') : narrow;
+    if (isStreamNarrow(narrow)) {
+      const streamName = streamNameOfNarrow(narrow);
+      const topic = this.state.topic.trim();
+      return topicNarrow(streamName, topic || '(no topic)');
+    }
+    return narrow;
   };
 
   handleSend = () => {

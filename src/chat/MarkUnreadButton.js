@@ -8,7 +8,13 @@ import { connect } from '../react-redux';
 import { ZulipButton } from '../common';
 import * as api from '../api';
 import { getAuth, getStreams } from '../selectors';
-import { isHomeNarrow, isStreamNarrow, isTopicNarrow } from '../utils/narrow';
+import {
+  isHomeNarrow,
+  isStreamNarrow,
+  isTopicNarrow,
+  streamNameOfNarrow,
+  topicOfNarrow,
+} from '../utils/narrow';
 
 const styles = createStyleSheet({
   button: {
@@ -34,7 +40,8 @@ class MarkUnreadButton extends PureComponent<Props> {
 
   markStreamAsRead = () => {
     const { auth, narrow, streams } = this.props;
-    const stream = streams.find(s => s.name === narrow[0].operand);
+    const streamName = streamNameOfNarrow(narrow);
+    const stream = streams.find(s => s.name === streamName);
     if (stream) {
       api.markStreamAsRead(auth, stream.stream_id);
     }
@@ -42,9 +49,10 @@ class MarkUnreadButton extends PureComponent<Props> {
 
   markTopicAsRead = () => {
     const { auth, narrow, streams } = this.props;
-    const stream = streams.find(s => s.name === narrow[0].operand);
+    const streamName = streamNameOfNarrow(narrow);
+    const stream = streams.find(s => s.name === streamName);
     if (stream) {
-      api.markTopicAsRead(auth, stream.stream_id, narrow[1].operand);
+      api.markTopicAsRead(auth, stream.stream_id, topicOfNarrow(narrow));
     }
   };
 

@@ -393,6 +393,26 @@ export const emailsOfGroupPmNarrow = (narrow: Narrow): string[] =>
 export const emailsOfPmNarrow = (narrow: Narrow): string[] =>
   caseNarrowPartial(narrow, { pm: emails => emails });
 
+/**
+ * The stream name for a stream or topic narrow; else error.
+ *
+ * Most callers of this should probably be getting passed a stream name
+ * instead of a Narrow in the first place; or if they do handle other kinds
+ * of narrows, should be using `caseNarrow`.
+ */
+export const streamNameOfNarrow = (narrow: Narrow): string =>
+  caseNarrowPartial(narrow, { stream: name => name, topic: streamName => streamName });
+
+/**
+ * The topic for a topic narrow; else error.
+ *
+ * Most callers of this should probably be getting passed a topic (and a
+ * stream name) instead of a Narrow in the first place; or if they do handle
+ * other kinds of narrows, should be using `caseNarrow`.
+ */
+export const topicOfNarrow = (narrow: Narrow): string =>
+  caseNarrowPartial(narrow, { topic: (streamName, topic) => topic });
+
 export const isPmNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { pm: () => true }, () => false);
 

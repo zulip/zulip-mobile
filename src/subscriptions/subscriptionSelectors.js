@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import type { GlobalState, Narrow, Selector, Stream, Subscription } from '../types';
-import { isStreamOrTopicNarrow } from '../utils/narrow';
+import { isStreamOrTopicNarrow, streamNameOfNarrow } from '../utils/narrow';
 import { getSubscriptions, getStreams } from '../directSelectors';
 
 /**
@@ -39,8 +39,9 @@ export const getIsActiveStreamSubscribed: Selector<boolean, Narrow> = createSele
     if (!isStreamOrTopicNarrow(narrow)) {
       return true;
     }
+    const streamName = streamNameOfNarrow(narrow);
 
-    return subscriptions.find(sub => narrow[0].operand === sub.name) !== undefined;
+    return subscriptions.find(sub => streamName === sub.name) !== undefined;
   },
 );
 
@@ -79,7 +80,9 @@ export const getIsActiveStreamAnnouncementOnly: Selector<boolean, Narrow> = crea
     if (!isStreamOrTopicNarrow(narrow)) {
       return false;
     }
-    const stream = streams.find(stream_ => narrow[0].operand === stream_.name);
+    const streamName = streamNameOfNarrow(narrow);
+
+    const stream = streams.find(stream_ => streamName === stream_.name);
     return stream ? stream.is_announcement_only : false;
   },
 );
