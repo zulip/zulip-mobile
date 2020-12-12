@@ -296,11 +296,22 @@ export type Topic = {|
 //
 //
 
+// See docs: https://zulip.com/api/construct-narrow
 // prettier-ignore
-export type NarrowElement = {|
-  +operator: 'is' | 'in' | 'near' | 'id' | 'stream' | 'topic' | 'sender' | 'pm-with' | 'search',
-  +operand: string,
-|};
+/* eslint-disable semi-style */
+export type NarrowElement =
+ | {| +operator: 'is' | 'in' | 'topic' | 'search', +operand: string |}
+ // The server started accepting numeric user IDs and stream IDs in 2.1:
+ //  * `stream` since 2.1-dev-2302-g3680393b4
+ //  * `group-pm-with` since 2.1-dev-1813-gb338fd130
+ //  * `sender` since 2.1-dev-1812-gc067c155a
+ //  * `pm-with` since 2.1-dev-1350-gd7b4de234
+ | {| +operator: 'stream', +operand: string | number |} // stream ID
+ | {| +operator: 'pm-with', +operand: string | $ReadOnlyArray<number> |} // user IDs
+ | {| +operator: 'sender', +operand: string | number |} // user ID
+ | {| +operator: 'group-pm-with', +operand: string | number |} // user ID
+ | {| +operator: 'near' | 'id', +operand: number |} // message ID
+ ;
 
 /**
  * A narrow, in the form used in the Zulip API at get-messages.
