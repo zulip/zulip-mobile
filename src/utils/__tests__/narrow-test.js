@@ -24,6 +24,8 @@ import {
   parseNarrow,
   STARRED_NARROW,
   MENTIONED_NARROW,
+  pm1to1NarrowFromUser,
+  keyFromNarrow,
 } from '../narrow';
 import type { Narrow, Message } from '../../types';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -422,5 +424,27 @@ describe('parseNarrow', () => {
   test('straightforward arrays are parsed', () => {
     expect(parseNarrow('[]')).toEqual([]);
     expect(parseNarrow('[{&quot;operator&quot;:&quot;hey&quot;}]')).toEqual([{ operator: 'hey' }]);
+  });
+});
+
+describe('keyFromNarrow+parseNarrow', () => {
+  const narrows = [
+    ['whole stream', streamNarrow(eg.stream.name)],
+    ['stream conversation', topicNarrow(eg.stream.name, 'a topic')],
+    ['1:1 PM conversation, non-self', pm1to1NarrowFromUser(eg.otherUser)],
+    ['self-1:1 conversation', pm1to1NarrowFromUser(eg.selfUser)],
+    ['group-PM conversation', pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser])],
+    ['all-messages ("home")', HOME_NARROW],
+    ['is:starred', STARRED_NARROW],
+    ['is:mentioned', MENTIONED_NARROW],
+    ['all-PMs', ALL_PRIVATE_NARROW],
+    ['search narrow', SEARCH_NARROW('a query')],
+  ];
+  describe('round-trips', () => {
+    for (const [description, narrow] of narrows) {
+      test(description, () => {
+        expect(parseNarrow(keyFromNarrow(narrow))).toEqual(narrow);
+      });
+    }
   });
 });
