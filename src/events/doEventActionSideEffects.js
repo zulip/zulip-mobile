@@ -6,11 +6,11 @@ import type { GlobalState, GetState, Dispatch, Message } from '../types';
 import type { EventAction } from '../actionTypes';
 import { EVENT_NEW_MESSAGE, EVENT_TYPING_START } from '../actionConstants';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
-import { getActiveAccount, getChatScreenParams, getOwnEmail } from '../selectors';
+import { getActiveAccount, getChatScreenParams } from '../selectors';
 import { playMessageSound } from '../utils/sound';
 import { NULL_ARRAY } from '../nullObjects';
 import { ensureTypingStatusExpiryLoop } from '../typing/typingActions';
-import { getOwnUser } from '../users/userSelectors';
+import { getOwnUser, getOwnUserId } from '../users/userSelectors';
 
 /**
  * React to incoming `MessageEvent`s.
@@ -36,7 +36,7 @@ const messageEvent = (state: GlobalState, message: Message): void => {
     && narrow !== undefined // chat screen is not at top
     && !isHomeNarrow(narrow)
     && isMessageInNarrow(message, flags, narrow, getOwnUser(state));
-  const isSenderSelf = getOwnEmail(state) === message.sender_email;
+  const isSenderSelf = getOwnUserId(state) === message.sender_id;
   if (!isUserInSameNarrow && !isSenderSelf) {
     playMessageSound();
     // Vibration.vibrate();
