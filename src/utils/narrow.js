@@ -342,13 +342,13 @@ export const isGroupPmNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { pm: (emails, ids) => ids.length > 1 }, () => false);
 
 /**
- * The "PM key recipients" emails for a PM narrow; else error.
+ * The "PM key recipients" IDs for a PM narrow; else error.
  *
  * This is the same list of users that can appear in a `PmKeyRecipients` or
- * `PmKeyUsers`, but contains only their emails.
+ * `PmKeyUsers`, but contains only their user IDs.
  */
-export const emailsOfPmNarrow = (narrow: Narrow): $ReadOnlyArray<string> =>
-  caseNarrowPartial(narrow, { pm: emails => emails });
+export const userIdsOfPmNarrow = (narrow: Narrow): $ReadOnlyArray<number> =>
+  caseNarrowPartial(narrow, { pm: (emails, ids) => ids });
 
 /**
  * The stream name for a stream or topic narrow; else error.
