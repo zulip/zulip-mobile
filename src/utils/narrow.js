@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import invariant from 'invariant';
 import isEqual from 'lodash.isequal';
 
 import type { ApiNarrow, Message, Outbox, User, UserOrBot } from '../types';
@@ -381,6 +382,25 @@ export const emailsOfGroupPmNarrow = (narrow: Narrow): string[] =>
         throw new Error('emailsOfGroupPmNarrow: got 1:1 narrow');
       }
       return emails;
+    },
+  });
+
+/**
+ * The "other" user's email for a 1:1 PM narrow; else error.
+ *
+ * With "other" in scare-quotes because for the self-PM narrow, this is the
+ * self user.
+ *
+ * Any caller of this probably should be getting a whole user object instead
+ * of a Narrow in the first place.  And then that wrinkle about the self-PM
+ * narrow vs. other 1:1 narrows is a UI decision that can get made
+ * explicitly at the appropriate spot.
+ */
+export const emailOfPm1to1Narrow = (narrow: Narrow): string =>
+  caseNarrowPartial(narrow, {
+    pm: emails => {
+      invariant(emails.length === 1, 'emailOfPm1to1Narrow: got group-PM narrow');
+      return emails[0];
     },
   });
 
