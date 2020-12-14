@@ -21,6 +21,13 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState: MessagesState = Immutable.Map([]);
 
 const eventNewMessage = (state, action) => {
+  const { message } = action;
+  const { flags } = message;
+
+  if (!flags) {
+    throw new Error('EVENT_NEW_MESSAGE message missing flags');
+  }
+
   // TODO: Optimize -- Only update if the new message belongs to at least
   // one narrow that is caught up.
   if (state.get(action.message.id)) {
