@@ -30,6 +30,7 @@ import {
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
+import * as logging from '../utils/logging';
 
 export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelector(
   (state, narrow) => narrow,
@@ -61,7 +62,16 @@ export const getFetchedMessageIdsForNarrow = (state: GlobalState, narrow: Narrow
 const getFetchedMessagesForNarrow: Selector<Message[], Narrow> = createSelector(
   getFetchedMessageIdsForNarrow,
   state => getMessages(state),
-  (messageIds, messages) => messageIds.map(id => messages[id]),
+  (messageIds, messages) =>
+    messageIds.map(id => {
+      const message = messages[id];
+      if (!message) {
+        const msg = 'getFetchedMessagesForNarrow: message with id is missing in getMessages(state)';
+        logging.error(msg, { id });
+        throw new Error(msg);
+      }
+      return message;
+    }),
 );
 
 // Prettier mishandles this Flow syntax.
