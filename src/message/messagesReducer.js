@@ -17,11 +17,12 @@ import {
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
+import { getNarrowsForMessage, keyFromNarrow } from '../utils/narrow';
 
 const initialState: MessagesState = Immutable.Map([]);
 
 const eventNewMessage = (state, action) => {
-  const { message } = action;
+  const { message, caughtUp } = action;
   const { flags } = message;
 
   if (!flags) {
@@ -35,8 +36,29 @@ const eventNewMessage = (state, action) => {
   if (state.get(action.message.id)) {
     return state;
   }
-  // TODO: Optimize -- Only update if the new message belongs to at least
-  // one narrow that is caught up.
+
+  const narrowsForMessage = getNarrowsForMessage(message, action.ownUserId, flags);
+  const anyNarrowIsCaughtUp = narrowsForMessage.some(narrow => {
+    const key = keyFromNarrow(narrow);
+    // (No guarantee that `key` is in `action.caughtUp`)
+    // flowlint-next-line unnecessary-optional-chain:off
+    return caughtUp[key]?.newer;
+  });
+
+  // Don't bother adding the message to `state.messages` if it wasn't
+  // added to `state.narrows`. For why the message might not have been
+  // added to `state.narrows`, see the condition on `caughtUp` in
+  // narrowsReducer's handling of EVENT_NEW_MESSAGE.
+  if (!anyNarrowIsCaughtUp) {
+    return state;
+  }
+
+  // If changing or adding case where we ignore a message here:
+  // Careful! Every message in `state.narrows` must exist in
+  // `state.messages`. If we choose not to include a message in
+  // `state.messages`, then narrowsReducer MUST ALSO choose not to
+  // include it in `state.narrows`.
+
   return state.set(action.message.id, omit(action.message, 'flags'));
 };
 

@@ -77,6 +77,11 @@ const eventNewMessage = (state, action) => {
         // at the end of a message list if there might be messages
         // between the currently latest-shown message and this
         // message.
+        //
+        // See a corresponding condition in messagesReducer, where we
+        // don't bother to add to `state.messages` if this condition
+        // (after running on all of `narrowsForMessage`) means the new
+        // message wasn't added anywhere in `state.narrows`.
         return; // i.e., continue
       }
 
@@ -87,6 +92,12 @@ const eventNewMessage = (state, action) => {
         // investigate?)
         return; // i.e., continue
       }
+
+      // If changing or removing a case where we ignore a message
+      // here: Careful! Every message in `state.narrows` must exist in
+      // `state.messages`. If we choose to include a message in
+      // `state.narrows`, then messagesReducer MUST ALSO choose to
+      // include it in `state.messages`.
 
       stateMutable.set(key, [...value, message.id]);
     });

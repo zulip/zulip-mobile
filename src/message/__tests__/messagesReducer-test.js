@@ -13,22 +13,52 @@ import {
   EVENT_REACTION_REMOVE,
 } from '../../actionConstants';
 import * as eg from '../../__tests__/lib/exampleData';
-import { ALL_PRIVATE_NARROW, HOME_NARROW } from '../../utils/narrow';
+import { ALL_PRIVATE_NARROW, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { makeUserId } from '../../api/idTypes';
 
 describe('messagesReducer', () => {
   describe('EVENT_NEW_MESSAGE', () => {
-    test('appends message to state producing a copy of messages', () => {
+    test('appends message to state, if any narrow is caught up to newest', () => {
       const message1 = eg.streamMessage({ id: 1 });
       const message2 = eg.streamMessage({ id: 2 });
       const message3 = eg.streamMessage({ id: 3 });
 
       const prevState = eg.makeMessagesState([message1, message2]);
-      const action = deepFreeze({ ...eg.eventNewMessageActionBase, message: message3 });
+      const action = deepFreeze({
+        ...eg.eventNewMessageActionBase,
+        caughtUp: {
+          [HOME_NARROW_STR]: {
+            older: true,
+            newer: true,
+          },
+        },
+        // `flags` is present in EVENT_NEW_MESSAGE; see note at Message.
+        message: { ...message3, flags: [] },
+      });
       const expectedState = eg.makeMessagesState([message1, message2, message3]);
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(prevState);
+    });
+
+    test('does nothing, if no narrow is caught up to newest', () => {
+      const message1 = eg.streamMessage({ id: 1 });
+      const message2 = eg.streamMessage({ id: 2 });
+      const message3 = eg.streamMessage({ id: 3 });
+      const prevState = eg.makeMessagesState([message1, message2]);
+      const action = deepFreeze({
+        ...eg.eventNewMessageActionBase,
+        caughtUp: {
+          [HOME_NARROW_STR]: {
+            older: true,
+            newer: false,
+          },
+        },
+        // `flags` is present in EVENT_NEW_MESSAGE; see note at Message.
+        message: { ...message3, flags: [] },
+      });
+      const newState = messagesReducer(prevState, action);
+      expect(newState).toEqual(prevState);
     });
   });
 
