@@ -28,11 +28,15 @@ const eventNewMessage = (state, action) => {
     throw new Error('EVENT_NEW_MESSAGE message missing flags');
   }
 
-  // TODO: Optimize -- Only update if the new message belongs to at least
-  // one narrow that is caught up.
+  // Don't add a message that's already been added. It's probably
+  // very rare for a message to have already been added when we
+  // get an EVENT_NEW_MESSAGE, and perhaps impossible. (TODO:
+  // investigate?)
   if (state.get(action.message.id)) {
     return state;
   }
+  // TODO: Optimize -- Only update if the new message belongs to at least
+  // one narrow that is caught up.
   return state.set(action.message.id, omit(action.message, 'flags'));
 };
 
