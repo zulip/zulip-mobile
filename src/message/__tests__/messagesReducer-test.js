@@ -427,10 +427,10 @@ describe('messagesReducer', () => {
       const message1 = eg.streamMessage({ id: 1, timestamp: 3 });
       const message2 = eg.streamMessage({ id: 2, timestamp: 4 });
       const message3 = eg.streamMessage({ id: 3, timestamp: 5 });
-      const commonMessages = { [message2.id]: message2, [message3.id]: message3 };
       const prevState = deepFreeze({
         [message1.id]: message1,
-        ...commonMessages,
+        [message2.id]: message2,
+        [message3.id]: message3,
       });
 
       const action = deepFreeze({
@@ -447,26 +447,26 @@ describe('messagesReducer', () => {
 
       const newState = messagesReducer(prevState, action);
 
-      expect(newState[message2.id]).toEqual(commonMessages[message2.id]);
-      expect(newState[message3.id]).toEqual(commonMessages[message3.id]);
+      expect(newState[message2.id]).toEqual(message2);
+      expect(newState[message3.id]).toEqual(message3);
     });
 
     test('when anchor is FIRST_UNREAD_ANCHOR deep equal is performed to separate common messages', () => {
       const message1 = eg.streamMessage({ id: 1, timestamp: 3 });
       const message2 = eg.streamMessage({ id: 2, timestamp: 4 });
       const message3 = eg.streamMessage({ id: 3, timestamp: 5 });
-      const message4 = eg.streamMessage({ id: 4, timestamp: 6, subject: 'new topic' });
-      const commonMessages = { [message2.id]: message2, [message3.id]: message3 };
-      const changedMessages = { [message4.id]: message4 };
+      const message4Old = eg.streamMessage({ id: 4, timestamp: 6, subject: 'some topic' });
+      const message4New = { ...message4Old, subject: 'new topic' };
 
       const prevState = deepFreeze({
         [message1.id]: message1,
-        ...commonMessages,
-        [message4.id]: message4,
+        [message2.id]: message2,
+        [message3.id]: message3,
+        [message4Old.id]: message4Old,
       });
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
-        messages: [message2, message3, changedMessages[message4.id]],
+        messages: [message2, message3, message4New],
         narrow: HOME_NARROW,
         anchor: FIRST_UNREAD_ANCHOR,
         numBefore: 50,
@@ -475,14 +475,10 @@ describe('messagesReducer', () => {
         foundNewest: false,
         ownUserId: eg.selfUser.user_id,
       });
-      const expectedState = {
-        ...commonMessages,
-        ...changedMessages,
-      };
       const newState = messagesReducer(prevState, action);
-      expect(newState[message2.id]).toEqual(expectedState[message2.id]);
-      expect(newState[message3.id]).toEqual(expectedState[message3.id]);
-      expect(newState[message4.id]).toEqual(expectedState[message4.id]);
+      expect(newState[message2.id]).toEqual(message2);
+      expect(newState[message3.id]).toEqual(message3);
+      expect(newState[message4New.id]).toEqual(message4New);
     });
   });
 });
