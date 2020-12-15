@@ -46,7 +46,12 @@ class UserAvatarWithPresence extends PureComponent<$ReadOnly<{ ...Props, ... }>>
 
     return (
       <UserAvatar avatarUrl={avatarUrl} size={size} onPress={onPress}>
-        <PresenceStatusIndicator style={styles.status} email={email} hideIfOffline />
+        <PresenceStatusIndicator
+          style={styles.status}
+          email={email}
+          hideIfOffline
+          useOpaqueBackground
+        />
       </UserAvatar>
     );
   }

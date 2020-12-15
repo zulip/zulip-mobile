@@ -17,6 +17,20 @@ const styles = createStyleSheet({
     height: 12,
     borderRadius: 6,
   },
+  status: {
+    bottom: 1.5,
+    right: 1.5,
+    position: 'absolute',
+  },
+  opaqueBackground: {
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
+    backgroundColor: 'white',
+    bottom: 0,
+    right: 0,
+    position: 'absolute',
+  },
   active: {
     backgroundColor: 'hsl(106, 74%, 44%)',
   },
@@ -81,6 +95,7 @@ type Props = $ReadOnly<{|
   style?: ViewStyleProp,
   email: string,
   hideIfOffline: boolean,
+  useOpaqueBackground: boolean,
 |}>;
 
 /**
@@ -95,7 +110,15 @@ type Props = $ReadOnly<{|
  */
 class PresenceStatusIndicator extends PureComponent<Props> {
   render() {
-    const { email, presence, style, hideIfOffline, allUsersByEmail, userStatus } = this.props;
+    const {
+      email,
+      presence,
+      style,
+      hideIfOffline,
+      allUsersByEmail,
+      userStatus,
+      useOpaqueBackground,
+    } = this.props;
 
     const userPresence = presence[email];
     const user = allUsersByEmail.get(email);
@@ -112,15 +135,44 @@ class PresenceStatusIndicator extends PureComponent<Props> {
 
     switch (status) {
       case 'active':
+        if (useOpaqueBackground) {
+          return (
+            <View style={styles.opaqueBackground}>
+              <PresenceStatusIndicatorActive style={styles.status} />
+            </View>
+          );
+        }
+
         return <PresenceStatusIndicatorActive style={style} />;
 
       case 'idle':
+        if (useOpaqueBackground) {
+          return (
+            <View style={styles.opaqueBackground}>
+              <PresenceStatusIndicatorIdle style={styles.status} />
+            </View>
+          );
+        }
         return <PresenceStatusIndicatorIdle style={style} />;
 
       case 'offline':
+        if (useOpaqueBackground) {
+          return (
+            <View style={styles.opaqueBackground}>
+              <PresenceStatusIndicatorOffline style={styles.status} />
+            </View>
+          );
+        }
         return <PresenceStatusIndicatorOffline style={style} />;
 
       case 'unavailable':
+        if (useOpaqueBackground) {
+          return (
+            <View style={styles.opaqueBackground}>
+              <PresenceStatusIndicatorUnavailable style={styles.status} />
+            </View>
+          );
+        }
         return <PresenceStatusIndicatorUnavailable style={style} />;
 
       default:

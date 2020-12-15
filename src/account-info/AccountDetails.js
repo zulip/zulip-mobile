@@ -65,6 +65,7 @@ class AccountDetails extends PureComponent<Props> {
             style={componentStyles.presenceStatusIndicator}
             email={user.email}
             hideIfOffline={false}
+            useOpaqueBackground={false}
           />
           <RawLabel style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
         </View>
