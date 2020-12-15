@@ -244,6 +244,8 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
     unreadPms,
     mute,
   ) => {
+    const sumLengths = unreads => unreads.reduce((sum, x) => sum + x.unread_message_ids.length, 0);
+
     if (isHomeNarrow(narrow)) {
       return unreadTotal;
     }
@@ -255,9 +257,11 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         return 0;
       }
 
-      return unreadStreams
-        .filter(x => x.stream_id === stream.stream_id && !isTopicMuted(stream.name, x.topic, mute))
-        .reduce((sum, x) => sum + x.unread_message_ids.length, 0);
+      return sumLengths(
+        unreadStreams.filter(
+          x => x.stream_id === stream.stream_id && !isTopicMuted(stream.name, x.topic, mute),
+        ),
+      );
     }
 
     if (isTopicNarrow(narrow)) {
@@ -267,9 +271,11 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         return 0;
       }
 
-      return unreadStreams
-        .filter(x => x.stream_id === stream.stream_id && x.topic === narrow[1].operand)
-        .reduce((sum, x) => sum + x.unread_message_ids.length, 0);
+      return sumLengths(
+        unreadStreams.filter(
+          x => x.stream_id === stream.stream_id && x.topic === narrow[1].operand,
+        ),
+      );
     }
 
     if (isGroupPmNarrow(narrow)) {
