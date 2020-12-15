@@ -384,6 +384,15 @@ export const emailsOfGroupPmNarrow = (narrow: Narrow): string[] =>
     },
   });
 
+/**
+ * The "PM key recipients" emails for a PM narrow; else error.
+ *
+ * This is the same list of users that can appear in a `PmKeyRecipients` or
+ * `PmKeyUsers`, but contains only their emails.
+ */
+export const emailsOfPmNarrow = (narrow: Narrow): string[] =>
+  caseNarrowPartial(narrow, { pm: emails => emails });
+
 export const isPmNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { pm: () => true }, () => false);
 
