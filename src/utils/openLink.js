@@ -7,4 +7,3 @@ export default (url: string): void => {
   } else {
     NativeModules.CustomTabsAndroid.openURL(url);
   }
-};
