@@ -41,6 +41,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   senderName: string,
+  senderEmail: string,
   timestamp: number,
   avatarUrl: AvatarURL,
   onPressBack: () => void,
@@ -56,14 +57,14 @@ type Props = $ReadOnly<{|
  */
 export default class LightboxHeader extends PureComponent<Props> {
   render() {
-    const { onPressBack, senderName, timestamp, avatarUrl } = this.props;
+    const { onPressBack, senderName, senderEmail, timestamp, avatarUrl } = this.props;
     const displayDate = humanDate(new Date(timestamp * 1000));
     const time = shortTime(new Date(timestamp * 1000));
     const subheader = `${displayDate} at ${time}`;
 
     return (
       <View style={styles.wrapper}>
-        <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} />
+        <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} email={senderEmail} />
         <View style={styles.text}>
           <Text style={styles.name} numberOfLines={1}>
             {senderName}

@@ -119,6 +119,7 @@ class Lightbox extends PureComponent<Props, State> {
             timestamp={message.timestamp}
             avatarUrl={message.avatar_url}
             senderName={message.sender_full_name}
+            senderEmail={message.sender_email}
           />
         </SlideAnimationView>
         <SlideAnimationView
