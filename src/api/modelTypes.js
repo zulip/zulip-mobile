@@ -4,6 +4,8 @@
  * @flow strict-local
  */
 
+import type { AvatarURL } from '../utils/avatar';
+
 //
 //
 //
@@ -11,8 +13,6 @@
 // Data attached to the realm or the server.
 //
 //
-
-import type { AvatarURL } from '../utils/avatar';
 
 export type ImageEmojiType = $ReadOnly<{|
   author?: $ReadOnly<{|
