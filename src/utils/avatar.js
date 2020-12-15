@@ -195,18 +195,29 @@ export class FallbackAvatarURL extends AvatarURL {
   }
 
   /**
-   * Construct from raw server data, or throw an error.
+   * Construct from raw server data (the user ID), or throw an error.
+   *
+   * The `realm` must be already validated, e.g., by coming from the
+   * Redux state.
    */
+  // We should avoid doing unnecessary `new URL` calls here. They are
+  // very expensive, and their use in these pseudo-constructors (which
+  // process data at the edge, just as it's received from the server)
+  // used to slow down `api.registerForEvents` quite a lot.
   static validateAndConstructInstance(args: {| realm: URL, userId: number |}): FallbackAvatarURL {
     const { realm, userId } = args;
-    return new FallbackAvatarURL(new URL(`/avatar/${userId.toString()}`, realm));
+    // Thankfully, this string concatenation is quite safe: we know
+    // enough about our inputs here to compose a properly formatted
+    // URL with them, without using `new URL`. (In particular,
+    // `realm.origin` doesn't have a trailing slash.)
+    return new FallbackAvatarURL(`${realm.origin}/avatar/${userId.toString()}`);
   }
 
   /**
    * Standard URL from which to generate others. PRIVATE.
    *
-   * May be a string if the instance was constructed at rehydrate
-   * time, when URL validation is unnecessary.
+   * May start out as a string, and will be converted to a URL object
+   * in the first `.get()` call.
    */
   _standardUrl: string | URL;
 
@@ -214,13 +225,6 @@ export class FallbackAvatarURL extends AvatarURL {
    * PRIVATE: Make an instance from already-validated data.
    *
    * Not part of the public interface; use the static methods instead.
-   *
-   * It's private because we need a path to constructing an instance
-   * without constructing URL objects, which takes more time than is
-   * acceptable when we can avoid it, e.g., during rehydration.
-   * Constructing URL objects is a necessary part of validating data
-   * from the server, but we only need to validate the data once, when
-   * it's first received.
    */
   constructor(standardUrl: string | URL) {
     super();
@@ -238,7 +242,7 @@ export class FallbackAvatarURL extends AvatarURL {
    */
   get(sizePhysicalPx: number): URL {
     // `this._standardUrl` may have begun its life as a string, to
-    // avoid computing a URL object during rehydration
+    // avoid expensively calling the URL constructor
     if (typeof this._standardUrl === 'string') {
       this._standardUrl = new URL(this._standardUrl);
     }
