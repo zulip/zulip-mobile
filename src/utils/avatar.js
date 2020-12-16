@@ -3,7 +3,6 @@
 /* eslint-disable no-use-before-define */
 import md5 from 'blueimp-md5';
 
-import { tryParseUrl } from './url';
 import * as logging from './logging';
 import { ensureUnreachable } from '../types';
 
@@ -53,7 +52,16 @@ export class AvatarURL {
       // which to generate the correct hash; see
       // https://github.com/zulip/zulip/issues/15287. Implemented at
       // `do_events_register` in zerver/lib/events.py on the server.)
-      if (tryParseUrl(rawAvatarUrl)?.origin === GravatarURL.ORIGIN) {
+      if (
+        rawAvatarUrl.startsWith(
+          // Best not to use an expensive `new URL` call, when the
+          // following is equivalent (assuming `rawAvatarUrl` is also
+          // valid through its /pathname, ?query=params, and
+          // #fragment). The trailing slash ensures that we've
+          // examined the full origin in `rawAvatarUrl`.
+          `${GravatarURL.ORIGIN}/`,
+        )
+      ) {
         const hashMatch = /[0-9a-fA-F]{32}$/.exec(new URL(rawAvatarUrl).pathname);
         if (hashMatch === null) {
           const msg = 'Unexpected Gravatar URL shape from server.';
