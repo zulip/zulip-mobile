@@ -2,13 +2,11 @@
 import template from './template';
 import type { Auth, ThemeName } from '../../types';
 import css from '../css/css';
-import htmlBody from './htmlBody';
 import script from '../js/script';
 
 type InitOptionsType = {|
   scrollMessageId: number | null,
   auth: Auth,
-  showMessagePlaceholders: boolean,
 |};
 
 /**
@@ -39,13 +37,22 @@ type InitOptionsType = {|
  */
 const webkitBugWorkaround: string = '<script> </script>';
 
-export default (content: string, theme: ThemeName, initOptions: InitOptionsType) => template`
+/**
+ * A utility to generate the HTML for our webviews.
+ *
+ * Injects scripts, styles and meta tags along with the content to be rendered.
+ *
+ * @param theme The theme (default/night) of the webview.
+ * @param initOptions Data about the auth and initial scroll position.
+ * @param htmlBody The dynamic HTML content that is to be rendered in the webview.
+ */
+export default (theme: ThemeName, initOptions: InitOptionsType, htmlBody: string) => template`
 $!${script(initOptions.scrollMessageId, initOptions.auth)}
 $!${css(theme)}
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <body style="overflow-x: hidden;">
-$!${htmlBody(content, initOptions.showMessagePlaceholders)}
+$!${htmlBody}
 $!${webkitBugWorkaround}
 </body>
 `;

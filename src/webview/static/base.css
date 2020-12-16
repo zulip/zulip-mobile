@@ -569,3 +569,30 @@ hr {
   border: 1px dashed hsla(0, 0%, 50%, 0.5);
   border-radius: 0.5rem;
 }
+.edit-history-block{
+  padding:8px;
+  border-bottom:1px solid hsla(0, 0%, 50%, 0.25);
+}
+.edit-history-block .static-timestamp{
+  margin-top: 8px;
+  text-align: right;
+}
+.edit-history-content{
+  -webkit-user-select: text; /* Safari 3.1+ */
+  -moz-user-select: text; /* Firefox 2+ */
+  -ms-user-select: text; /* IE 10+ */
+  user-select: text; /* Standard syntax */
+  -khtml-user-select: text;
+  -webkit-touch-callout: text;
+  word-wrap: break-word;
+}
+.highlight_text_inserted {
+  color: #9effa1;
+  background-color: hsla(120,64%,95%,.3);
+}
+.highlight_text_deleted {
+  color: red;
+  background-color: #fcdcd8;
+  text-decoration: line-through;
+  word-break: break-all;
+}

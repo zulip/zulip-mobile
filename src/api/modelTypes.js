@@ -362,24 +362,28 @@ export type Reaction = $ReadOnly<{|
 /**
  * "Snapshot" objects from https://zulip.com/api/get-message-history .
  *
+ * As of writing this JSDoc, the docs are unclear when/if the content, topic and
+ * rendered_content fields will be sent. Empirically, it has been determined that
+ * these are always sent, but this may change. See discussion here [1].
+ *
+ * [1]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/get-message-history.20docs/near/921587
+ *
  * See also `MessageEdit`.
  */
 export type MessageSnapshot = $ReadOnly<{|
   user_id: number,
   timestamp: number,
+  topic: string,
+  content: string,
+  rendered_content: string,
 
-  /** Docs unclear but suggest absent if only content edited. */
-  topic?: string,
-
-  /**
-   * Docs unclear, but suggest these five absent if only topic edited.
-   * They definitely say "prev"/"diff" properties absent on the first snapshot.
-   */
-  content?: string,
-  rendered_content?: string,
+  // These are present just if the content was edited.
   prev_content?: string,
   prev_rendered_content?: string,
   content_html_diff?: string,
+
+  // Present just if the topic was edited.
+  prev_topic?: string,
 |}>;
 
 /**
