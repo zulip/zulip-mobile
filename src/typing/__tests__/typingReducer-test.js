@@ -7,10 +7,11 @@ import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../../actionConstants';
 import typingReducer from '../typingReducer';
 import { NULL_OBJECT } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
+import { makeUserId } from '../../api/idTypes';
 
 describe('typingReducer', () => {
-  const user1 = { ...eg.otherUser, user_id: 1 };
-  const user2 = { ...eg.thirdUser, user_id: 2 };
+  const user1 = { ...eg.otherUser, user_id: makeUserId(1) };
+  const user2 = { ...eg.thirdUser, user_id: makeUserId(2) };
 
   const egTypingAction = (args: {|
     op: 'start' | 'stop',

@@ -7,10 +7,11 @@ import {
   pmKeyRecipientsFromIds,
 } from '../recipient';
 import * as eg from '../../__tests__/lib/exampleData';
+import { makeUserId } from '../../api/idTypes';
 
 describe('normalizeRecipientsAsUserIds', () => {
   test('joins user IDs from recipients, sorted', () => {
-    const recipients = [22, 1, 5, 3, 4];
+    const recipients = [22, 1, 5, 3, 4].map(makeUserId);
     const expectedResult = '1,3,4,5,22';
 
     const normalized = normalizeRecipientsAsUserIds(recipients);
@@ -19,7 +20,7 @@ describe('normalizeRecipientsAsUserIds', () => {
   });
 
   test('for a single recipient, returns the user ID as string', () => {
-    const recipients = [1];
+    const recipients = [1].map(makeUserId);
     const expectedResult = '1';
 
     const normalized = normalizeRecipientsAsUserIds(recipients);
@@ -30,8 +31,8 @@ describe('normalizeRecipientsAsUserIds', () => {
 
 describe('normalizeRecipientsAsUserIdsSansMe', () => {
   test('if only self user ID provided return unmodified', () => {
-    const recipients = [1];
-    const ownUserId = 1;
+    const recipients = [1].map(makeUserId);
+    const ownUserId = makeUserId(1);
     const expectedResult = '1';
 
     const normalized = normalizeRecipientsAsUserIdsSansMe(recipients, ownUserId);
@@ -40,9 +41,9 @@ describe('normalizeRecipientsAsUserIdsSansMe', () => {
   });
 
   test('when more than one user IDs normalize but filter out self user ID', () => {
-    const recipients = [22, 1, 5, 3, 4];
+    const recipients = [22, 1, 5, 3, 4].map(makeUserId);
     const expectedResult = '3,4,5,22';
-    const ownUserId = 1;
+    const ownUserId = makeUserId(1);
 
     const normalized = normalizeRecipientsAsUserIdsSansMe(recipients, ownUserId);
 

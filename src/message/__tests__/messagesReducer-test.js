@@ -14,6 +14,7 @@ import {
 } from '../../actionConstants';
 import * as eg from '../../__tests__/lib/exampleData';
 import { ALL_PRIVATE_NARROW, HOME_NARROW } from '../../utils/narrow';
+import { makeUserId } from '../../api/idTypes';
 
 describe('messagesReducer', () => {
   describe('EVENT_NEW_MESSAGE', () => {
@@ -344,19 +345,19 @@ describe('messagesReducer', () => {
         ...eg.unicodeEmojiReaction,
         emoji_code: '1f44b',
         emoji_name: 'wave',
-        user_id: 1,
+        user_id: makeUserId(1),
       };
       const reaction2 = {
         ...eg.unicodeEmojiReaction,
         emoji_code: '1f44b',
         emoji_name: 'wave',
-        user_id: 2,
+        user_id: makeUserId(2),
       };
       const reaction3 = {
         ...eg.unicodeEmojiReaction,
         emoji_code: '1f6e0',
         emoji_name: 'working_on_it',
-        user_id: 1,
+        user_id: makeUserId(1),
       };
 
       const message1 = eg.streamMessage({ id: 1, reactions: [reaction1, reaction2, reaction3] });

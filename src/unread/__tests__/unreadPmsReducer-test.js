@@ -5,13 +5,14 @@ import unreadPmsReducer from '../unreadPmsReducer';
 import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
+import { makeUserId } from '../../api/idTypes';
 
 describe('unreadPmsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze([
         {
-          sender_id: 1,
+          sender_id: makeUserId(1),
           unread_message_ids: [1, 2, 3],
         },
       ]);
@@ -95,7 +96,7 @@ describe('unreadPmsReducer', () => {
       const message4 = eg.streamMessage({ id: 4 });
       const initialState = deepFreeze([
         {
-          sender_id: 1,
+          sender_id: makeUserId(1),
           unread_message_ids: [1, 2, 3],
         },
       ]);
@@ -162,7 +163,7 @@ describe('unreadPmsReducer', () => {
       const message4 = eg.pmMessage({ id: 4, sender_id: 2 });
       const initialState = deepFreeze([
         {
-          sender_id: 1,
+          sender_id: makeUserId(1),
           unread_message_ids: [1, 2, 3],
         },
       ]);
@@ -174,7 +175,7 @@ describe('unreadPmsReducer', () => {
 
       const expectedState = [
         {
-          sender_id: 1,
+          sender_id: makeUserId(1),
           unread_message_ids: [1, 2, 3],
         },
         {
@@ -211,11 +212,11 @@ describe('unreadPmsReducer', () => {
     test('if id does not exist do not mutate state', () => {
       const initialState = deepFreeze([
         {
-          sender_id: 1,
+          sender_id: makeUserId(1),
           unread_message_ids: [1, 2, 3, 4, 5],
         },
         {
-          sender_id: 2,
+          sender_id: makeUserId(2),
           unread_message_ids: [4, 5],
         },
       ]);
@@ -238,11 +239,11 @@ describe('unreadPmsReducer', () => {
     test('if ids are in state remove them', () => {
       const initialState = deepFreeze([
         {
-          sender_id: 1,
+          sender_id: makeUserId(1),
           unread_message_ids: [1, 2, 3],
         },
         {
-          sender_id: 2,
+          sender_id: makeUserId(2),
           unread_message_ids: [4, 5],
         },
       ]);
@@ -272,7 +273,7 @@ describe('unreadPmsReducer', () => {
     test('when operation is "remove" do nothing', () => {
       const initialState = deepFreeze([
         {
-          sender_id: 1,
+          sender_id: makeUserId(1),
           unread_message_ids: [1, 2, 3, 4, 5],
         },
       ]);
@@ -295,7 +296,7 @@ describe('unreadPmsReducer', () => {
     test('when "all" is true reset state', () => {
       const initialState = deepFreeze([
         {
-          sender_id: 1,
+          sender_id: makeUserId(1),
           unread_message_ids: [1, 2, 3, 4, 5],
         },
       ]);

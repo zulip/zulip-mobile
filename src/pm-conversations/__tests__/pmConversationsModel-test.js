@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 
 import { usersOfKey, keyOfExactUsers, reducer } from '../pmConversationsModel';
 import * as eg from '../../__tests__/lib/exampleData';
+import { makeUserId } from '../../api/idTypes';
 
 describe('usersOfKey', () => {
   for (const [desc, ids] of [
@@ -11,7 +12,7 @@ describe('usersOfKey', () => {
     ['group PM', [123, 345, 567]],
   ]) {
     test(desc, () => {
-      expect(usersOfKey(keyOfExactUsers(ids))).toEqual(ids);
+      expect(usersOfKey(keyOfExactUsers(ids.map(makeUserId)))).toEqual(ids);
     });
   }
 });
@@ -33,8 +34,8 @@ describe('reducer', () => {
       // Out of order.
       const recent_private_conversations = [
         { user_ids: [], max_message_id: 234 },
-        { user_ids: [1], max_message_id: 123 },
-        { user_ids: [2, 1], max_message_id: 345 }, // user_ids out of order
+        { user_ids: [makeUserId(1)], max_message_id: 123 },
+        { user_ids: [2, 1].map(makeUserId), max_message_id: 345 }, // user_ids out of order
       ];
       const expected = {
         map: Immutable.Map([['', 234], ['1', 123], ['1,2', 345]]),
