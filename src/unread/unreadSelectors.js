@@ -16,6 +16,7 @@ import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { isTopicMuted } from '../utils/message';
 import { caseNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
+import { pmUnreadsKeyFromPmKeyIds } from '../utils/recipient';
 
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
 export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
@@ -257,9 +258,8 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
 
       pm: (emails, ids) => {
         if (ids.length > 1) {
-          // TODO this should go somewhere central like recipient.js
-          const userIds = [...ids, ownUserId].sort((a, b) => a - b).join(',');
-          const unread = unreadHuddles.find(x => x.user_ids_string === userIds);
+          const unreadsKey = pmUnreadsKeyFromPmKeyIds(ids, ownUserId);
+          const unread = unreadHuddles.find(x => x.user_ids_string === unreadsKey);
           return unread ? unread.unread_message_ids.length : 0;
         } else {
           const senderId = ids[0];

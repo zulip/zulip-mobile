@@ -239,6 +239,8 @@ export const pmKeyRecipientsFromUsers = (
  *
  * See also:
  *  * `pmKeyRecipientsFromMessage`, which we use for other data structures.
+ *  * `pmUnreadsKeyFromPmKeyIds`, for getting one of these keys given what
+ *    we use for other data structures.
  *  * `UnreadState`, the type of `state.unread`, which is the data structure
  *    these keys appear in.
  *
@@ -270,6 +272,29 @@ export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: number): s
   } else {
     // Group PM.
     return userIds.sort((a, b) => a - b).join(',');
+  }
+};
+
+/**
+ * The key for a PM thread in "unreads" data, given the key we use elsewhere.
+ *
+ * This produces the same key string that `pmUnreadsKeyFromMessage` would
+ * give, given the list of users that `pmKeyRecipientsFromMessage` would
+ * give and which we use in most of our other data structures.
+ */
+// See comment on pmUnreadsKeyFromMessage for details on this form.
+export const pmUnreadsKeyFromPmKeyIds = (
+  userIds: $ReadOnlyArray<number>,
+  ownUserId: number,
+): string => {
+  if (userIds.length === 1) {
+    // A 1:1 PM.  Both forms include just one user: the other user if any,
+    //   and self for a self-1:1.
+    return userIds[0].toString();
+  } else {
+    // A group PM.  Our main "key" form includes just the other users;
+    //   this form includes all users.
+    return [...userIds, ownUserId].sort((a, b) => a - b).join(',');
   }
 };
 
