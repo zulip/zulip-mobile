@@ -9,6 +9,7 @@ import {
 } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
+import { makeUserId } from '../../api/idTypes';
 
 describe('unreadHuddlesReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -71,9 +72,9 @@ describe('unreadHuddlesReducer', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('if message id already exists, do not mutate state', () => {
-      const user1 = { ...eg.makeUser(), user_id: 1 };
-      const user2 = { ...eg.makeUser(), user_id: 2 };
-      const user3 = { ...eg.makeUser(), user_id: 3 };
+      const user1 = { ...eg.makeUser(), user_id: makeUserId(1) };
+      const user2 = { ...eg.makeUser(), user_id: makeUserId(2) };
+      const user3 = { ...eg.makeUser(), user_id: makeUserId(3) };
 
       const message1 = eg.pmMessage({ id: 1, recipients: [user1, user2, user3] });
       const message2 = eg.pmMessage({ id: 2, recipients: [user1, user2, user3] });
@@ -118,9 +119,9 @@ describe('unreadHuddlesReducer', () => {
     });
 
     test('if message is sent by self, do not mutate state', () => {
-      const selfUser = { ...eg.selfUser, user_id: 1 };
-      const user2 = { ...eg.otherUser, user_id: 2 };
-      const user3 = { ...eg.thirdUser, user_id: 3 };
+      const selfUser = { ...eg.selfUser, user_id: makeUserId(1) };
+      const user2 = { ...eg.otherUser, user_id: makeUserId(2) };
+      const user3 = { ...eg.thirdUser, user_id: makeUserId(3) };
 
       const initialState = deepFreeze([]);
 
@@ -142,9 +143,9 @@ describe('unreadHuddlesReducer', () => {
     });
 
     test('if message id does not exist, append to state', () => {
-      const selfUser = { ...eg.selfUser, user_id: 1 };
-      const user2 = { ...eg.otherUser, user_id: 2 };
-      const user3 = { ...eg.thirdUser, user_id: 3 };
+      const selfUser = { ...eg.selfUser, user_id: makeUserId(1) };
+      const user2 = { ...eg.otherUser, user_id: makeUserId(2) };
+      const user3 = { ...eg.thirdUser, user_id: makeUserId(3) };
 
       const message4 = eg.pmMessage({ id: 4, recipients: [selfUser, user2, user3] });
 
@@ -174,9 +175,9 @@ describe('unreadHuddlesReducer', () => {
     });
 
     test('if sender-ids string does not exist, append to state as new', () => {
-      const user1 = { ...eg.selfUser, user_id: 1 };
-      const user2 = { ...eg.otherUser, user_id: 2 };
-      const user3 = { ...eg.thirdUser, user_id: 3 };
+      const user1 = { ...eg.selfUser, user_id: makeUserId(1) };
+      const user2 = { ...eg.otherUser, user_id: makeUserId(2) };
+      const user3 = { ...eg.thirdUser, user_id: makeUserId(3) };
 
       const message4 = eg.pmMessage({ id: 4, recipients: [user1, user2, user3] });
       const initialState = deepFreeze([

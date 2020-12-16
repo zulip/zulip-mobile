@@ -8,6 +8,7 @@ import { FallbackAvatarURL, GravatarURL, UploadedAvatarURL } from '../../utils/a
 import { ZulipVersion } from '../../utils/zulipVersion';
 import { stringify, parse, SERIALIZED_TYPE_FIELD_NAME } from '../replaceRevive';
 import * as eg from '../../__tests__/lib/exampleData';
+import { makeUserId } from '../../api/idTypes';
 
 const data = {
   list: Immutable.List([1, 2, 'a', null]),
@@ -31,7 +32,7 @@ const data = {
   }),
   fallbackAvatarURL: FallbackAvatarURL.validateAndConstructInstance({
     realm: eg.realm,
-    userId: 1,
+    userId: makeUserId(1),
   }),
   plainObjectWithTypeKey: {
     a: 1,
