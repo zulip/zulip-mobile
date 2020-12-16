@@ -144,9 +144,12 @@ export class GravatarURL extends AvatarURL {
       // bonus.
       return new GravatarURL(urlFromServer);
     } else {
-      const standardSizeUrl = new URL(`/avatar/${md5(email.toLowerCase())}`, GravatarURL.ORIGIN);
-      standardSizeUrl.searchParams.set('d', 'identicon');
-      return new GravatarURL(standardSizeUrl);
+      return new GravatarURL(
+        // Thankfully, this string concatenation is quite safe: we
+        // know enough about our inputs here to compose a properly
+        // formatted URL with them, without using `new URL`.
+        `${GravatarURL.ORIGIN}/avatar/${md5(email.toLowerCase())}?d=identicon`,
+      );
     }
   }
 
