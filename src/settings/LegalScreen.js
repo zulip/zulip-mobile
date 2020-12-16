@@ -6,7 +6,7 @@ import type { NavigationStackProp, NavigationStateRoute } from 'react-navigation
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { Screen, OptionButton } from '../common';
-import openLink from '../utils/openLink';
+import openLinkEmbedded from '../utils/openLinkEmbedded';
 import { getCurrentRealm } from '../selectors';
 
 type Props = $ReadOnly<{|
@@ -23,12 +23,12 @@ type Props = $ReadOnly<{|
 class LegalScreen extends PureComponent<Props> {
   openTermsOfService = () => {
     const { realm } = this.props;
-    openLink(new URL('/terms/?nav=no', realm).toString());
+    openLinkEmbedded(new URL('/terms/?nav=no', realm).toString());
   };
 
   openPrivacyPolicy = () => {
     const { realm } = this.props;
-    openLink(new URL('/privacy/?nav=no', realm).toString());
+    openLinkEmbedded(new URL('/privacy/?nav=no', realm).toString());
   };
 
   render() {
