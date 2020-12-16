@@ -5,6 +5,7 @@ import md5 from 'blueimp-md5';
 
 import * as logging from './logging';
 import { ensureUnreachable } from '../types';
+import { isUrlAbsolute, isUrlPathAbsolute } from './url';
 
 /**
  * A way to get a standard avatar URL, or a sized one if available
@@ -311,24 +312,42 @@ export class UploadedAvatarURL extends AvatarURL {
   /**
    * Construct from raw server data, or throw an error.
    *
-   * Expects a relative URL plus the realm for a local upload;
-   * otherwise, an absolute URL of the avatar on the S3 backend.
+   * Expects a relative, path-absolute URL plus the realm for a local
+   * upload; otherwise, an absolute URL of the avatar on the S3 backend.
    */
   static validateAndConstructInstance(args: {|
     realm: URL,
     absoluteOrRelativeUrl: string,
   |}): UploadedAvatarURL {
     const { realm, absoluteOrRelativeUrl } = args;
-    // If `absoluteOrRelativeUrl` is absolute, the second argument
-    // is ignored.
-    return new UploadedAvatarURL(new URL(absoluteOrRelativeUrl, realm));
+
+    // Ideally, we'd say `new URL(absoluteOrRelativeUrl, realm)`.
+    // The URL constructor is too expensive; but we can do an exact
+    // equivalent, given our assumptions on the kinds of URL strings
+    // the server will send.
+    let absoluteUrl;
+    if (isUrlAbsolute(absoluteOrRelativeUrl)) {
+      // An absolute URL string.  Ignore the base URL.
+      absoluteUrl = absoluteOrRelativeUrl;
+    } else if (isUrlPathAbsolute(absoluteOrRelativeUrl)) {
+      // A path-absolute URL string, like `/avatar/…`.  We rely on our
+      // assumption that the realm URL equals its origin, modulo the latter
+      // having no trailing slash.
+      absoluteUrl = `${realm.origin}${absoluteOrRelativeUrl}`;
+    } else {
+      const msg = 'Unexpected form of avatar URL from server';
+      logging.error(msg, { avatarUrl: absoluteOrRelativeUrl });
+      throw new Error(msg);
+    }
+
+    return new UploadedAvatarURL(absoluteUrl);
   }
 
   /**
    * Standard URL from which to generate others. PRIVATE.
    *
-   * May be a string if the instance was constructed at rehydrate
-   * time, when URL validation is unnecessary.
+   * May start out as a string, and will be converted to a URL object
+   * in the first `.get()` call.
    */
   _standardUrl: string | URL;
 
@@ -336,13 +355,6 @@ export class UploadedAvatarURL extends AvatarURL {
    * PRIVATE: Make an instance from already-validated data.
    *
    * Not part of the public interface; use the static methods instead.
-   *
-   * It's private because we need a path to constructing an instance
-   * without constructing URL objects, which takes more time than is
-   * acceptable when we can avoid it, e.g., during rehydration.
-   * Constructing URL objects is a necessary part of validating data
-   * from the server, but we only need to validate the data once, when
-   * it's first received.
    */
   constructor(standardUrl: string | URL) {
     super();
@@ -356,7 +368,7 @@ export class UploadedAvatarURL extends AvatarURL {
    */
   get(sizePhysicalPx: number): URL {
     // `this._standardUrl` may have begun its life as a string, to
-    // avoid computing a URL object during rehydration
+    // avoid expensively calling the URL constructor
     if (typeof this._standardUrl === 'string') {
       this._standardUrl = new URL(this._standardUrl);
     }

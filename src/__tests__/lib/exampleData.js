@@ -106,10 +106,10 @@ const userOrBotProperties = ({ name: _name }) => {
   const name = _name ?? randString();
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
   return deepFreeze({
-    avatar_url: UploadedAvatarURL.validateAndConstructInstance({
-      realm: new URL('https://zulip.example.org'),
-      absoluteOrRelativeUrl: `/yo/avatar-${name}.png`,
-    }),
+    // Internally the UploadedAvatarURL mutates itself for memoization.
+    // That conflicts with the deepFreeze we do for tests; so construct it
+    // here with a full-blown URL object in the first place to prevent that.
+    avatar_url: new UploadedAvatarURL(new URL(`https://zulip.example.org/yo/avatar-${name}.png`)),
 
     date_joined: `2014-04-${randInt(30)
       .toString()
