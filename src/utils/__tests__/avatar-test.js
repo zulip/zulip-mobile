@@ -71,12 +71,22 @@ describe('GravatarURL', () => {
     });
   });
 
-  test('uses hash from server, if provided', () => {
+  test('uses URL from server, if provided', () => {
     const email = 'user13313@chat.zulip.org';
-    const hash = md5('cbobbe@zulip.com');
-    const instance = GravatarURL.validateAndConstructInstance({ email, hash });
+    const urlFromServer =
+      'https://secure.gravatar.com/avatar/de6685f1d3eb74439c1dcda84f92543e?d=identicon&version=1';
+    const instance = GravatarURL.validateAndConstructInstance({
+      email,
+      urlFromServer,
+    });
     SIZES_TO_TEST.forEach(size => {
-      expect(instance.get(size).toString()).toContain(hash);
+      const clonedUrlOfSize = new URL(instance.get(size).toString());
+      const clonedUrlFromServer = new URL(urlFromServer);
+      clonedUrlFromServer.searchParams.delete('s');
+      clonedUrlOfSize.searchParams.delete('s');
+      // `urlFromServer` should equal the result for this size, modulo
+      // the actual size param.
+      expect(clonedUrlOfSize.toString()).toEqual(clonedUrlFromServer.toString());
     });
   });
 

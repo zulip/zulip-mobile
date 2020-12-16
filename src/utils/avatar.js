@@ -62,13 +62,7 @@ export class AvatarURL {
           `${GravatarURL.ORIGIN}/`,
         )
       ) {
-        const hashMatch = /[0-9a-fA-F]{32}$/.exec(new URL(rawAvatarUrl).pathname);
-        if (hashMatch === null) {
-          const msg = 'Unexpected Gravatar URL shape from server.';
-          logging.error(msg, { value: rawAvatarUrl });
-          throw new Error(msg);
-        }
-        return GravatarURL.validateAndConstructInstance({ email, hash: hashMatch[0] });
+        return GravatarURL.validateAndConstructInstance({ email, urlFromServer: rawAvatarUrl });
       }
 
       // Otherwise, it's a realm-uploaded avatar, either absolute or
@@ -117,16 +111,43 @@ export class GravatarURL extends AvatarURL {
   /**
    * Construct from raw server data, or throw an error.
    *
-   * Pass the hash if the server provides it, to avoid computing it
-   * unnecessarily.
+   * Pass the Gravatar URL string from the server, if we've got it, to
+   * avoid doing an expensive `new URL` call.
    */
-  static validateAndConstructInstance(args: {| email: string, hash?: string |}): GravatarURL {
-    const { email, hash = md5(email.toLowerCase()) } = args;
+  // We should avoid doing unnecessary `new URL` calls here. They are
+  // very expensive, and their use in these pseudo-constructors (which
+  // process data at the edge, just as it's received from the server)
+  // used to slow down `api.registerForEvents` quite a lot.
+  //
+  // In the past, we've been more conservative about validating a URL
+  // string that comes to us from the server at this point: we'd parse
+  // it with the URL constructor, grab the Gravatar hash from the
+  // result, and construct another URL with that hash and exactly the
+  // things we wanted it to have (like `d=identicon`).
+  //
+  // With some loss of validation, we've removed those two `new URL`
+  // calls in the path where the server provides a Gravatar URL
+  // string. Still, we should be able to trust that the server gives
+  // us properly formatted URLs; if it didn't, it seems like the kind
+  // of bug that would be fixed quickly.
+  static validateAndConstructInstance(args: {|
+    email: string,
+    urlFromServer?: string,
+  |}): GravatarURL {
+    const { email, urlFromServer } = args;
 
-    const standardSizeUrl = new URL(`/avatar/${hash}`, GravatarURL.ORIGIN);
-    standardSizeUrl.searchParams.set('d', 'identicon');
-
-    return new GravatarURL(standardSizeUrl);
+    if (urlFromServer !== undefined) {
+      // This may not be *quite* the URL we would have generated
+      // ourselves. In the wild, I've seen one with a `version=1`, for
+      // example. But we trust the server to give us one that works,
+      // anyway -- and perhaps any extra things we get will be a good
+      // bonus.
+      return new GravatarURL(urlFromServer);
+    } else {
+      const standardSizeUrl = new URL(`/avatar/${md5(email.toLowerCase())}`, GravatarURL.ORIGIN);
+      standardSizeUrl.searchParams.set('d', 'identicon');
+      return new GravatarURL(standardSizeUrl);
+    }
   }
 
   static ORIGIN = 'https://secure.gravatar.com';
