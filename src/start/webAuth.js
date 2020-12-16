@@ -3,7 +3,7 @@ import { NativeModules, Platform } from 'react-native';
 import SafariView from 'react-native-safari-view';
 
 import type { Auth } from '../types';
-import openLink from '../utils/openLink';
+import openLinkEmbedded from '../utils/openLinkEmbedded';
 import { tryParseUrl } from '../utils/url';
 import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
 
@@ -48,7 +48,7 @@ export const generateRandomToken = async (): Promise<string> => {
 export const generateOtp = async (): Promise<string> => generateRandomToken();
 
 export const openBrowser = (url: string, otp: string) => {
-  openLink(`${url}?mobile_flow_otp=${otp}`);
+  openLinkEmbedded(`${url}?mobile_flow_otp=${otp}`);
 };
 
 export const closeBrowser = () => {
@@ -86,11 +86,11 @@ export const authFromCallbackUrl = (callbackUrl: string, otp: string, realm: URL
   const otpEncryptedApiKey = url.searchParams.get('otp_encrypted_api_key');
 
   if (
-    url.host === 'login'
-    && otp
-    && email !== null
-    && otpEncryptedApiKey !== null
-    && otpEncryptedApiKey.length === otp.length
+    url.host === 'login' &&
+    otp &&
+    email !== null &&
+    otpEncryptedApiKey !== null &&
+    otpEncryptedApiKey.length === otp.length
   ) {
     const apiKey = extractApiKey(otpEncryptedApiKey, otp);
     return { realm, email, apiKey };
