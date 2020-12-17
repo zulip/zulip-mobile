@@ -25,6 +25,17 @@ const getPathsFromUrl = (url: string = '', realm: URL) => {
 // reimplement using URL object (not just for the realm)
 /** PRIVATE -- exported only for tests. */
 export const isInternalLink = (url: string, realm: URL): boolean => {
+  // See the URL Standard for the definitions of quoted terms:
+  //   https://url.spec.whatwg.org/#url-writing
+
+  if (/^#narrow/i.test(url)) {
+    // A relative URL consisting of just a fragment (in the standard's
+    // terms: a "relative-URL-with-fragment string", of which the
+    // "relative-URL string" is empty); specifically one that looks like
+    // a link to a Zulip narrow.
+    return true;
+  }
+
   if (url.startsWith('/')) {
     return /^\/#narrow/i.test(url);
   }
@@ -36,7 +47,7 @@ export const isInternalLink = (url: string, realm: URL): boolean => {
     return /^(\/#narrow|#narrow)/i.test(url.substring(realmStr.length));
   }
 
-  return /^#narrow/i.test(url);
+  return false;
 };
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
