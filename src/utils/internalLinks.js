@@ -44,10 +44,10 @@ export const isInternalLink = (url: string, realm: URL): boolean => {
   }
 
   // Because this comes as the serialization of a URL object,
-  // it must be an absolute URL.
+  // it must be an absolute URL.  Moreover its path can't be empty.
   const realmStr = realm.toString();
   if (url.startsWith(realmStr)) {
-    return /^(\/#narrow|#narrow)/i.test(url.substring(realmStr.length));
+    return /^#narrow/i.test(url.substring(realmStr.length));
   }
 
   return false;

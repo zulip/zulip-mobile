@@ -30,6 +30,9 @@ describe('isInternalLink', () => {
     [true, 'path-absolute, with numeric IDs', '/#narrow/stream/123-jest'],
     [true, 'path-absolute, with numeric IDs', '/#narrow/pm-with/123-mark'],
 
+    [false, 'same domain, double slash', 'https://example.com//#narrow/stream/jest'],
+    [false, 'same domain, triple slash', 'https://example.com///#narrow/stream/jest'],
+
     // These examples may seem weird, but a previous version accepted most of them.
     [
       false,
