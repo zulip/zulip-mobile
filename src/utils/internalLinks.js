@@ -3,7 +3,6 @@ import { addBreadcrumb } from '@sentry/react-native';
 import type { Narrow, Stream, UserOrBot } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromUsers } from './narrow';
 import { pmKeyRecipientsFromIds } from './recipient';
-import { isUrlOnRealm } from './url';
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
@@ -25,10 +24,18 @@ const getPathsFromUrl = (url: string = '', realm: URL) => {
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
 /** PRIVATE -- exported only for tests. */
-export const isInternalLink = (url: string, realm: URL): boolean =>
-  isUrlOnRealm(url, realm)
-    ? /^(\/#narrow|#narrow)/i.test(url.split(realm.toString()).pop())
-    : false;
+export const isInternalLink = (url: string, realm: URL): boolean => {
+  if (url.startsWith('/')) {
+    return /^(\/#narrow|#narrow)/i.test(url.split(realm.toString()).pop());
+  }
+  if (url.startsWith(realm.toString())) {
+    return /^(\/#narrow|#narrow)/i.test(url.split(realm.toString()).pop());
+  }
+  if (!/^(http|www.)/i.test(url)) {
+    return /^(\/#narrow|#narrow)/i.test(url.split(realm.toString()).pop());
+  }
+  return false;
+};
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
