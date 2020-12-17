@@ -36,8 +36,11 @@ export const isInternalLink = (url: string, realm: URL): boolean => {
     return true;
   }
 
-  if (url.startsWith('/')) {
-    return /^\/#narrow/i.test(url);
+  if (/^\/#narrow/i.test(url)) {
+    // A "path-absolute URL string" with path `/`, followed by a fragment
+    // that looks like a link to a Zulip narrow.  This is another form of
+    // "relative-URL-with-fragment string".
+    return true;
   }
 
   // Because this comes as the serialization of a URL object,
