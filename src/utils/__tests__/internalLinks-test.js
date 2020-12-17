@@ -29,6 +29,36 @@ describe('isInternalLink', () => {
     [true, 'fragment-only, with numeric IDs', '#narrow/stream/123-jest/topic/topic1'],
     [true, 'path-absolute, with numeric IDs', '/#narrow/stream/123-jest'],
     [true, 'path-absolute, with numeric IDs', '/#narrow/pm-with/123-mark'],
+
+    // These examples may seem weird, but a previous version accepted most of them.
+    [
+      false,
+      'wrong domain, realm-like path, narrow-like fragment',
+      // This one, except possibly the fragment, is a 100% realistic link
+      // for innocent normal use.  The buggy old version narrowly avoided
+      // accepting it... but would accept all the variations below.
+      'https://web.archive.org/web/*/https://example.com/#narrow/stream/jest',
+    ],
+    [
+      false,
+      'odd scheme, wrong domain, realm-like path, narrow-like fragment',
+      'ftp://web.archive.org/web/*/https://example.com/#narrow/stream/jest',
+    ],
+    [
+      false,
+      'same domain, realm-like path, narrow-like fragment',
+      'https://example.com/web/*/https://example.com/#narrow/stream/jest',
+    ],
+    [
+      false,
+      'path-absolute, realm-like path, narrow-like fragment',
+      '/web/*/https://example.com/#narrow/stream/jest',
+    ],
+    [
+      false,
+      'path-relative, realm-like path, narrow-like fragment',
+      'web/*/https://example.com/#narrow/stream/jest',
+    ],
   ];
 
   for (const [expected, description, url] of cases) {

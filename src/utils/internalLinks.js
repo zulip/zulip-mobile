@@ -27,7 +27,7 @@ const getPathsFromUrl = (url: string = '', realm: URL) => {
 export const isInternalLink = (url: string, realm: URL): boolean => {
   const realmStr = realm.toString();
 
-  const restUrl = url.split(realmStr).pop();
+  const restUrl = url.startsWith(realmStr) ? url.substring(realmStr.length) : url;
 
   if (url.startsWith('/')) {
     return /^(\/#narrow|#narrow)/i.test(restUrl);
