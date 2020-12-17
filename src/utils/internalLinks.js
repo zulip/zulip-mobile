@@ -25,15 +25,22 @@ const getPathsFromUrl = (url: string = '', realm: URL) => {
 // reimplement using URL object (not just for the realm)
 /** PRIVATE -- exported only for tests. */
 export const isInternalLink = (url: string, realm: URL): boolean => {
+  const realmStr = realm.toString();
+
+  const restUrl = url.split(realmStr).pop();
+
   if (url.startsWith('/')) {
-    return /^(\/#narrow|#narrow)/i.test(url.split(realm.toString()).pop());
+    return /^(\/#narrow|#narrow)/i.test(restUrl);
   }
-  if (url.startsWith(realm.toString())) {
-    return /^(\/#narrow|#narrow)/i.test(url.split(realm.toString()).pop());
+
+  if (url.startsWith(realmStr)) {
+    return /^(\/#narrow|#narrow)/i.test(restUrl);
   }
+
   if (!/^(http|www.)/i.test(url)) {
-    return /^(\/#narrow|#narrow)/i.test(url.split(realm.toString()).pop());
+    return /^(\/#narrow|#narrow)/i.test(restUrl);
   }
+
   return false;
 };
 
