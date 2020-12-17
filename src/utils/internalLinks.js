@@ -46,10 +46,13 @@ export const isInternalLink = (url: string, realm: URL): boolean => {
   // Because this comes as the serialization of a URL object,
   // it must be an absolute URL.  Moreover its path can't be empty.
   const realmStr = realm.toString();
-  if (url.startsWith(realmStr)) {
-    return /^#narrow/i.test(url.substring(realmStr.length));
+  if (url.startsWith(realmStr) && /^#narrow/i.test(url.substring(realmStr.length))) {
+    // An absolute URL consisting of the realm's base URL, plus a fragment
+    // that looks like a link to a Zulip narrow.
+    return true;
   }
 
+  // Any other URL.
   return false;
 };
 
