@@ -21,14 +21,20 @@ const getPathsFromUrl = (url: string = '', realm: URL) => {
   return paths;
 };
 
-// TODO: Work out what this does, write a jsdoc for its interface, and
-// reimplement using URL object (not just for the realm)
-/** PRIVATE -- exported only for tests. */
+/**
+ * PRIVATE -- exported only for tests.
+ *
+ * Test for a link to a Zulip narrow on the given realm.
+ *
+ * True just if the given URL string appears to be a link, either absolute
+ * or relative, to a Zulip narrow on the given realm.
+ */
+// TODO: Reimplement to fully use URL objects.
 export const isInternalLink = (url: string, realm: URL): boolean => {
   // See the URL Standard for the definitions of quoted terms:
   //   https://url.spec.whatwg.org/#url-writing
 
-  if (/^#narrow/i.test(url)) {
+  if (/^#narrow\//i.test(url)) {
     // A relative URL consisting of just a fragment (in the standard's
     // terms: a "relative-URL-with-fragment string", of which the
     // "relative-URL string" is empty); specifically one that looks like
@@ -36,7 +42,7 @@ export const isInternalLink = (url: string, realm: URL): boolean => {
     return true;
   }
 
-  if (/^\/#narrow/i.test(url)) {
+  if (/^\/#narrow\//i.test(url)) {
     // A "path-absolute URL string" with path `/`, followed by a fragment
     // that looks like a link to a Zulip narrow.  This is another form of
     // "relative-URL-with-fragment string".
@@ -46,7 +52,7 @@ export const isInternalLink = (url: string, realm: URL): boolean => {
   // Because this comes as the serialization of a URL object,
   // it must be an absolute URL.  Moreover its path can't be empty.
   const realmStr = realm.toString();
-  if (url.startsWith(realmStr) && /^#narrow/i.test(url.substring(realmStr.length))) {
+  if (url.startsWith(realmStr) && /^#narrow\//i.test(url.substring(realmStr.length))) {
     // An absolute URL consisting of the realm's base URL, plus a fragment
     // that looks like a link to a Zulip narrow.
     return true;

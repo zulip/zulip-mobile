@@ -30,6 +30,10 @@ describe('isInternalLink', () => {
     [true, 'path-absolute, with numeric IDs', '/#narrow/stream/123-jest'],
     [true, 'path-absolute, with numeric IDs', '/#narrow/pm-with/123-mark'],
 
+    [false, 'fragment-only, #narrowly', '#narrowly/stream/jest'],
+    [false, 'path-absolute, #narrowly', '/#narrowly/stream/jest'],
+    [false, 'same domain, #narrowly', 'https://example.com/#narrowly/stream/jest'],
+
     [false, 'same domain, double slash', 'https://example.com//#narrow/stream/jest'],
     [false, 'same domain, triple slash', 'https://example.com///#narrow/stream/jest'],
 
