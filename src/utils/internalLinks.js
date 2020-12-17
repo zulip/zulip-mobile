@@ -30,18 +30,14 @@ export const isInternalLink = (url: string, realm: URL): boolean => {
   const realmStr = realm.toString();
 
   if (url.startsWith('/')) {
-    return /^(\/#narrow|#narrow)/i.test(url);
+    return /^\/#narrow/i.test(url);
   }
 
   if (url.startsWith(realmStr)) {
     return /^(\/#narrow|#narrow)/i.test(url.substring(realmStr.length));
   }
 
-  if (!/^(http|www.)/i.test(url)) {
-    return /^(\/#narrow|#narrow)/i.test(url);
-  }
-
-  return false;
+  return /^(\/#narrow|#narrow)/i.test(url);
 };
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
