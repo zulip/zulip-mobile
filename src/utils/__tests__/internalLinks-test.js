@@ -16,11 +16,16 @@ const realm = new URL('https://example.com');
 
 describe('isInternalLink', () => {
   const cases = [
-    [false, 'another domain', 'https://another.com'],
-    [false, 'same domain, nontrivial path', 'https://example.com/user_uploads'],
-    [true, 'same domain, to a narrow', 'https://example.com/#narrow/stream/jest'],
     [true, 'fragment-only, to a narrow', '#narrow/stream/jest/topic/topic1'],
+    [false, 'fragment-only, wrong fragment', '#nope'],
     [true, 'path-absolute, to a narrow', '/#narrow/stream/jest'],
+    [false, 'path-absolute, wrong fragment', '/#nope'],
+    [false, 'path-absolute, wrong path', '/user_uploads/#narrow/stream/jest'],
+    [true, 'same domain, to a narrow', 'https://example.com/#narrow/stream/jest'],
+    [false, 'same domain, wrong fragment', 'https://example.com/#nope'],
+    [false, 'same domain, wrong path', 'https://example.com/user_uploads/#narrow/stream/jest'],
+    [false, 'wrong domain', 'https://another.com/#narrow/stream/jest'],
+
     [true, 'fragment-only, with numeric IDs', '#narrow/stream/123-jest/topic/topic1'],
     [true, 'path-absolute, with numeric IDs', '/#narrow/stream/123-jest'],
     [true, 'path-absolute, with numeric IDs', '/#narrow/pm-with/123-mark'],
