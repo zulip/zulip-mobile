@@ -378,7 +378,7 @@ const replacer = function replacer(key, value) {
       [SERIALIZED_TYPE_FIELD_NAME]: 'FallbackAvatarURL',
     };
   } else if (Immutable.Map.isMap(origValue)) {
-    return { data: origValue.toObject(), [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
+    return { data: origValue.toJSON(), [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
   } else if (typeof value === 'object' && value !== null && SERIALIZED_TYPE_FIELD_NAME in value) {
     const copy = { ...value };
     delete copy[SERIALIZED_TYPE_FIELD_NAME];
