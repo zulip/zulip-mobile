@@ -407,7 +407,7 @@ const customReviver = (key, value, defaultReviver) => {
 // Recently inlined from
 // node_modules/remotedev-serialize/immutable/serialize.js; this will
 // change over the next few commits.
-const serialize = function serialize(_Immutable, refs, _customReplacer, _customReviver) {
+const serialize = function serialize(_Immutable, _customReplacer, _customReviver) {
   function replacer(key, value) {
     if (_Immutable.Map.isMap(value)) {
       return mark(value, 'ImmutableMap', 'toObject');
@@ -461,7 +461,7 @@ const serialize = function serialize(_Immutable, refs, _customReplacer, _customR
 export const stringify = function (data: mixed): string {
   return jsan.stringify(
     data,
-    serialize(Immutable, null, customReplacer, customReviver).replacer,
+    serialize(Immutable, customReplacer, customReviver).replacer,
     null,
     jsanOptions,
   );
@@ -472,7 +472,7 @@ export const stringify = function (data: mixed): string {
 // node_modules/remotedev-serialize/immutable/index.js; this will
 // change over the next few commits.
 export const parse = function (data: string): mixed {
-  return jsan.parse(data, serialize(Immutable, null, customReplacer, customReviver).reviver);
+  return jsan.parse(data, serialize(Immutable, customReplacer, customReviver).reviver);
 };
 
 /**
