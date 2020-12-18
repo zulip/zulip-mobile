@@ -4,23 +4,7 @@ exports[`Stringify fallbackAvatarURL 1`] = `"{\\"data\\":\\"https://zulip.exampl
 
 exports[`Stringify gravatarURL 1`] = `"{\\"data\\":\\"https://secure.gravatar.com/avatar/3b01d0f626dc6944ed45dbe6c86d3e30?d=identicon\\",\\"__serializedType__\\":\\"GravatarURL\\"}"`;
 
-exports[`Stringify list 1`] = `"{\\"data\\":[1,2,3,4,5,6,7,8,9,10],\\"__serializedType__\\":\\"ImmutableList\\"}"`;
-
 exports[`Stringify map 1`] = `"{\\"data\\":{\\"a\\":1,\\"b\\":2,\\"c\\":3,\\"d\\":4},\\"__serializedType__\\":\\"ImmutableMap\\"}"`;
-
-exports[`Stringify orderedMap 1`] = `"{\\"data\\":{\\"b\\":2,\\"a\\":1,\\"c\\":3,\\"d\\":4},\\"__serializedType__\\":\\"ImmutableOrderedMap\\"}"`;
-
-exports[`Stringify orderedSet 1`] = `"{\\"data\\":[10,9,8,7,6,5,4,3,2,1],\\"__serializedType__\\":\\"ImmutableOrderedSet\\"}"`;
-
-exports[`Stringify range 1`] = `"{\\"data\\":{\\"_start\\":0,\\"_end\\":7,\\"_step\\":1,\\"size\\":7},\\"__serializedType__\\":\\"ImmutableRange\\"}"`;
-
-exports[`Stringify repeat 1`] = `"{\\"data\\":{\\"_value\\":\\"hi\\",\\"size\\":100},\\"__serializedType__\\":\\"ImmutableRepeat\\"}"`;
-
-exports[`Stringify seq 1`] = `"{\\"data\\":[1,2,3,4,5,6,7,8],\\"__serializedType__\\":\\"ImmutableSeq\\"}"`;
-
-exports[`Stringify set 1`] = `"{\\"data\\":[1,2,3,4,5,6,7,8,9,10],\\"__serializedType__\\":\\"ImmutableSet\\"}"`;
-
-exports[`Stringify stack 1`] = `"{\\"data\\":[\\"a\\",\\"b\\",\\"c\\"],\\"__serializedType__\\":\\"ImmutableStack\\"}"`;
 
 exports[`Stringify uploadedAvatarURL 1`] = `"{\\"data\\":\\"https://zulip.example.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2\\",\\"__serializedType__\\":\\"UploadedAvatarURL\\"}"`;
 

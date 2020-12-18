@@ -11,14 +11,6 @@ import * as eg from '../../__tests__/lib/exampleData';
 
 const data = {
   map: Immutable.Map({ a: 1, b: 2, c: 3, d: 4 }),
-  orderedMap: Immutable.OrderedMap({ b: 2, a: 1, c: 3, d: 4 }),
-  list: Immutable.List([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-  range: Immutable.Range(0, 7),
-  repeat: Immutable.Repeat('hi', 100),
-  set: Immutable.Set([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]),
-  orderedSet: Immutable.OrderedSet([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]),
-  seq: Immutable.Seq.Indexed.of(1, 2, 3, 4, 5, 6, 7, 8),
-  stack: Immutable.Stack.of('a', 'b', 'c'),
   zulipVersion: new ZulipVersion('3.0.0'),
   url: new URL('https://chat.zulip.org'),
   gravatarURL: GravatarURL.validateAndConstructInstance({ email: eg.selfUser.email }),

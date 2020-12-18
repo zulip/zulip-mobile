@@ -15,7 +15,7 @@ import { createLogger } from 'redux-logger';
 import createActionBuffer from 'redux-action-buffer';
 import Immutable from 'immutable';
 import jsan from 'jsan';
-import { mark, extract, refer } from 'remotedev-serialize/helpers';
+import { mark } from 'remotedev-serialize/helpers';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
@@ -409,35 +409,8 @@ const customReviver = (key, value, defaultReviver) => {
 // change over the next few commits.
 const serialize = function serialize(_Immutable, refs, _customReplacer, _customReviver) {
   function replacer(key, value) {
-    if (value instanceof _Immutable.Record) {
-      return refer(value, 'ImmutableRecord', 'toObject', refs);
-    }
-    if (value instanceof _Immutable.Range) {
-      return extract(value, 'ImmutableRange');
-    }
-    if (value instanceof _Immutable.Repeat) {
-      return extract(value, 'ImmutableRepeat');
-    }
-    if (_Immutable.OrderedMap.isOrderedMap(value)) {
-      return mark(value, 'ImmutableOrderedMap', 'toObject');
-    }
     if (_Immutable.Map.isMap(value)) {
       return mark(value, 'ImmutableMap', 'toObject');
-    }
-    if (_Immutable.List.isList(value)) {
-      return mark(value, 'ImmutableList', 'toArray');
-    }
-    if (_Immutable.OrderedSet.isOrderedSet(value)) {
-      return mark(value, 'ImmutableOrderedSet', 'toArray');
-    }
-    if (_Immutable.Set.isSet(value)) {
-      return mark(value, 'ImmutableSet', 'toArray');
-    }
-    if (_Immutable.Seq.isSeq(value)) {
-      return mark(value, 'ImmutableSeq', 'toArray');
-    }
-    if (_Immutable.Stack.isStack(value)) {
-      return mark(value, 'ImmutableStack', 'toArray');
     }
     if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
       const copy = { ...value };
@@ -457,26 +430,6 @@ const serialize = function serialize(_Immutable, refs, _customReplacer, _customR
       switch (value.__serializedType__) {
         case 'ImmutableMap':
           return _Immutable.Map(data);
-        case 'ImmutableOrderedMap':
-          return _Immutable.OrderedMap(data);
-        case 'ImmutableList':
-          return _Immutable.List(data);
-        case 'ImmutableRange':
-          return _Immutable.Range(data._start, data._end, data._step);
-        case 'ImmutableRepeat':
-          return _Immutable.Repeat(data._value, data.size);
-        case 'ImmutableSet':
-          return _Immutable.Set(data);
-        case 'ImmutableOrderedSet':
-          return _Immutable.OrderedSet(data);
-        case 'ImmutableSeq':
-          return _Immutable.Seq(data);
-        case 'ImmutableStack':
-          return _Immutable.Stack(data);
-        case 'ImmutableRecord':
-          return refs && refs[value.__serializedRef__]
-            ? new refs[value.__serializedRef__](data)
-            : _Immutable.Map(data);
         case 'Object':
           return { ...data, __serializedType__: value.__serializedType__value };
         default:
