@@ -3,6 +3,7 @@
 // Switch off some rules for this file as we continue folding
 // remotedev-serialize into our code; we'll remove these soon.
 //
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable id-match */
 /* eslint-disable func-names */
 /* flowlint untyped-import:off */
@@ -14,7 +15,7 @@ import { createLogger } from 'redux-logger';
 import createActionBuffer from 'redux-action-buffer';
 import Immutable from 'immutable';
 import jsan from 'jsan';
-import serialize from 'remotedev-serialize/immutable/serialize';
+import { mark, extract, refer } from 'remotedev-serialize/helpers';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
@@ -401,6 +402,103 @@ const customReviver = (key, value, defaultReviver) => {
     }
   }
   return defaultReviver(key, value);
+};
+
+// Recently inlined from
+// node_modules/remotedev-serialize/immutable/serialize.js; this will
+// change over the next few commits.
+const serialize = function serialize(_Immutable, refs, _customReplacer, _customReviver) {
+  function replacer(key, value) {
+    if (value instanceof _Immutable.Record) {
+      return refer(value, 'ImmutableRecord', 'toObject', refs);
+    }
+    if (value instanceof _Immutable.Range) {
+      return extract(value, 'ImmutableRange');
+    }
+    if (value instanceof _Immutable.Repeat) {
+      return extract(value, 'ImmutableRepeat');
+    }
+    if (_Immutable.OrderedMap.isOrderedMap(value)) {
+      return mark(value, 'ImmutableOrderedMap', 'toObject');
+    }
+    if (_Immutable.Map.isMap(value)) {
+      return mark(value, 'ImmutableMap', 'toObject');
+    }
+    if (_Immutable.List.isList(value)) {
+      return mark(value, 'ImmutableList', 'toArray');
+    }
+    if (_Immutable.OrderedSet.isOrderedSet(value)) {
+      return mark(value, 'ImmutableOrderedSet', 'toArray');
+    }
+    if (_Immutable.Set.isSet(value)) {
+      return mark(value, 'ImmutableSet', 'toArray');
+    }
+    if (_Immutable.Seq.isSeq(value)) {
+      return mark(value, 'ImmutableSeq', 'toArray');
+    }
+    if (_Immutable.Stack.isStack(value)) {
+      return mark(value, 'ImmutableStack', 'toArray');
+    }
+    if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
+      const copy = { ...value };
+      delete copy.__serializedType__;
+      return {
+        __serializedType__: 'Object',
+        data: copy,
+        __serializedType__value: value.__serializedType__,
+      };
+    }
+    return value;
+  }
+
+  function reviver(key, value) {
+    if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
+      const data = value.data;
+      switch (value.__serializedType__) {
+        case 'ImmutableMap':
+          return _Immutable.Map(data);
+        case 'ImmutableOrderedMap':
+          return _Immutable.OrderedMap(data);
+        case 'ImmutableList':
+          return _Immutable.List(data);
+        case 'ImmutableRange':
+          return _Immutable.Range(data._start, data._end, data._step);
+        case 'ImmutableRepeat':
+          return _Immutable.Repeat(data._value, data.size);
+        case 'ImmutableSet':
+          return _Immutable.Set(data);
+        case 'ImmutableOrderedSet':
+          return _Immutable.OrderedSet(data);
+        case 'ImmutableSeq':
+          return _Immutable.Seq(data);
+        case 'ImmutableStack':
+          return _Immutable.Stack(data);
+        case 'ImmutableRecord':
+          return refs && refs[value.__serializedRef__]
+            ? new refs[value.__serializedRef__](data)
+            : _Immutable.Map(data);
+        case 'Object':
+          return { ...data, __serializedType__: value.__serializedType__value };
+        default:
+          return data;
+      }
+    }
+    return value;
+  }
+
+  return {
+    replacer: _customReplacer
+      ? function (key, value) {
+          return _customReplacer(key, value, replacer);
+        }
+      : replacer,
+    reviver: _customReviver
+      ? function (key, value) {
+          return _customReviver(key, value, reviver);
+        }
+      : reviver,
+    options: jsanOptions,
+  };
 };
 
 /** PRIVATE: Exported only for tests. */
