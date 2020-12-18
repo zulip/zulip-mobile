@@ -362,7 +362,23 @@ const jsanOptions = {
   infinity: true,
 };
 
-const customReplacer = (key, value, defaultReplacer) => {
+const defaultReplacer = function defaultReplacer(key, value) {
+  if (Immutable.Map.isMap(value)) {
+    return mark(value, 'ImmutableMap', 'toObject');
+  }
+  if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
+    const copy = { ...value };
+    delete copy.__serializedType__;
+    return {
+      __serializedType__: 'Object',
+      data: copy,
+      __serializedType__value: value.__serializedType__,
+    };
+  }
+  return value;
+};
+
+const customReplacer = (key, value) => {
   if (value instanceof ZulipVersion) {
     return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
   } else if (value instanceof URL) {
@@ -383,7 +399,22 @@ const customReplacer = (key, value, defaultReplacer) => {
   return defaultReplacer(key, value);
 };
 
-const customReviver = (key, value, defaultReviver) => {
+const defaultReviver = function defaultReviver(key, value) {
+  if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
+    const data = value.data;
+    switch (value.__serializedType__) {
+      case 'ImmutableMap':
+        return Immutable.Map(data);
+      case 'Object':
+        return { ...data, __serializedType__: value.__serializedType__value };
+      default:
+        return data;
+    }
+  }
+  return value;
+};
+
+const customReviver = (key, value) => {
   if (value !== null && typeof value === 'object' && SERIALIZED_TYPE_FIELD_NAME in value) {
     const data = value.data;
     switch (value[SERIALIZED_TYPE_FIELD_NAME]) {
@@ -408,43 +439,12 @@ const customReviver = (key, value, defaultReviver) => {
 // node_modules/remotedev-serialize/immutable/serialize.js; this will
 // change over the next few commits.
 const serialize = function serialize() {
-  function defaultReplacer(key, value) {
-    if (Immutable.Map.isMap(value)) {
-      return mark(value, 'ImmutableMap', 'toObject');
-    }
-    if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
-      const copy = { ...value };
-      delete copy.__serializedType__;
-      return {
-        __serializedType__: 'Object',
-        data: copy,
-        __serializedType__value: value.__serializedType__,
-      };
-    }
-    return value;
-  }
-
-  function defaultReviver(key, value) {
-    if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
-      const data = value.data;
-      switch (value.__serializedType__) {
-        case 'ImmutableMap':
-          return Immutable.Map(data);
-        case 'Object':
-          return { ...data, __serializedType__: value.__serializedType__value };
-        default:
-          return data;
-      }
-    }
-    return value;
-  }
-
   return {
     replacer(key, value) {
-      return customReplacer(key, value, defaultReplacer);
+      return customReplacer(key, value);
     },
     reviver(key, value) {
-      return customReviver(key, value, defaultReviver);
+      return customReviver(key, value);
     },
   };
 };
