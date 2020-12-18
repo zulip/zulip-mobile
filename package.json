@@ -89,7 +89,6 @@
     "redux-batched-actions": "^0.3.0",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.1.0",
-    "remotedev-serialize": "zulip/remotedev-serialize#5f9f759a4",
     "reselect": "^3.0.1",
     "rn-fetch-blob": "^0.11.0",
     "string.fromcodepoint": "^0.2.1",

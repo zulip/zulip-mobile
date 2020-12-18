@@ -1,8 +1,6 @@
 /* @flow strict-local */
 
-// Switch off some rules for this file as we continue folding
-// remotedev-serialize into our code; we'll remove these soon.
-//
+// We'll remove `jsan` very soon.
 /* flowlint untyped-import:off */
 
 import { applyMiddleware, compose, createStore } from 'redux';
@@ -428,17 +426,11 @@ const reviver = function reviver(key, value) {
 };
 
 /** PRIVATE: Exported only for tests. */
-// Recently inlined from
-// node_modules/remotedev-serialize/immutable/index.js; this will
-// change over the next few commits.
 export const stringify = function stringify(data: mixed): string {
   return jsan.stringify(data, replacer, null, jsanOptions);
 };
 
 /** PRIVATE: Exported only for tests. */
-// Recently inlined from
-// node_modules/remotedev-serialize/immutable/index.js; this will
-// change over the next few commits.
 export const parse = function parse(data: string): mixed {
   return jsan.parse(data, reviver);
 };

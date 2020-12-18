@@ -7669,7 +7669,7 @@ js-yaml@^3.13.0, js-yaml@^3.13.1:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
-jsan@3.1.13, jsan@^3.1.13:
+jsan@3.1.13:
   version "3.1.13"
   resolved "https://registry.yarnpkg.com/jsan/-/jsan-3.1.13.tgz#4de8c7bf8d1cfcd020c313d438f930cec4b91d86"
   integrity sha512-9kGpCsGHifmw6oJet+y8HaCl14y7qgAsxVdV3pCHDySNR3BfDC30zgkssd7x5LRVAT22dnpbe9JdzzmXZnq9/g==
@@ -10523,12 +10523,6 @@ regjsparser@^0.6.4:
   integrity sha512-64O87/dPDgfk8/RQqC4gkZoGyyWFIEUTTh80CU6CWuK5vkCGyekIx+oKcEIYtP/RAxSQltCZHCNu/mdd7fqlJw==
   dependencies:
     jsesc "~0.5.0"
-
-remotedev-serialize@zulip/remotedev-serialize#5f9f759a4:
-  version "0.1.8"
-  resolved "https://codeload.github.com/zulip/remotedev-serialize/tar.gz/5f9f759a4f82821aedfd23aea686e1f784750189"
-  dependencies:
-    jsan "^3.1.13"
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
