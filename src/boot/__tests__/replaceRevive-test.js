@@ -11,6 +11,13 @@ import * as eg from '../../__tests__/lib/exampleData';
 
 const data = {
   map: Immutable.Map({ a: 1, b: 2, c: 3, d: 4 }),
+  mapWithTypeKey: Immutable.Map({
+    a: 1,
+    [SERIALIZED_TYPE_FIELD_NAME]: {
+      b: [2],
+      [SERIALIZED_TYPE_FIELD_NAME]: { c: [3] },
+    },
+  }),
   zulipVersion: new ZulipVersion('3.0.0'),
   url: new URL('https://chat.zulip.org'),
   gravatarURL: GravatarURL.validateAndConstructInstance({ email: eg.selfUser.email }),
@@ -23,7 +30,7 @@ const data = {
     realm: eg.realm,
     userId: 1,
   }),
-  withTypeKey: {
+  plainObjectWithTypeKey: {
     a: 1,
     [SERIALIZED_TYPE_FIELD_NAME]: {
       b: [2],

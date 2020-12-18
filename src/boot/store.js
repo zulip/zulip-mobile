@@ -1,15 +1,10 @@
 /* @flow strict-local */
-
-// We'll remove `jsan` very soon.
-/* flowlint untyped-import:off */
-
 import { applyMiddleware, compose, createStore } from 'redux';
 import type { Store } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import createActionBuffer from 'redux-action-buffer';
 import Immutable from 'immutable';
-import jsan from 'jsan';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
@@ -349,28 +344,27 @@ export const SERIALIZED_TYPE_FIELD_NAME: '__serializedType__' = '__serializedTyp
  */
 const SERIALIZED_TYPE_FIELD_NAME_ESCAPED: '__serializedType__value' = '__serializedType__value';
 
-// Recently inlined from
-// node_modules/remotedev-serialize/constants/options.js; this will
-// change over the next few commits.
-const jsanOptions = {
-  refs: false, // references can't be resolved on the original Immutable structure
-  date: false,
-  function: false,
-  regex: false,
-  undefined: false,
-  error: false,
-  symbol: false,
-  map: false,
-  set: false,
-  nan: false,
-  infinity: false,
-};
-
+// Don't make this an arrow function -- we need `this` to be a special
+// value; see
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#The_replacer_parameter.
 const replacer = function replacer(key, value) {
+  // The value at the current path before JSON.stringify called its
+  // `toJSON` method, if present.
+  //
+  // When identifying what kind of thing we're working with, be sure
+  // to examine `origValue` instead of `value`, if calling `toJSON` on
+  // that kind of thing would remove its identifying features -- which
+  // is to say, if that kind of thing has a `toJSON` method.
+  //
+  // For things that have a `toJSON` method, it may be convenient to
+  // set `data` to `value`, if we trust that `toJSON` gives the output
+  // we want to store there. And it would mean we don't discard the
+  // work `JSON.stringify` did by calling `toJSON`.
+  const origValue = this[key];
   if (value instanceof ZulipVersion) {
     return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
-  } else if (value instanceof URL) {
-    return { data: value.toString(), [SERIALIZED_TYPE_FIELD_NAME]: 'URL' };
+  } else if (origValue instanceof URL) {
+    return { data: origValue.toString(), [SERIALIZED_TYPE_FIELD_NAME]: 'URL' };
   } else if (value instanceof GravatarURL) {
     return { data: GravatarURL.serialize(value), [SERIALIZED_TYPE_FIELD_NAME]: 'GravatarURL' };
   } else if (value instanceof UploadedAvatarURL) {
@@ -383,8 +377,8 @@ const replacer = function replacer(key, value) {
       data: FallbackAvatarURL.serialize(value),
       [SERIALIZED_TYPE_FIELD_NAME]: 'FallbackAvatarURL',
     };
-  } else if (Immutable.Map.isMap(value)) {
-    return { data: value.toObject(), [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
+  } else if (Immutable.Map.isMap(origValue)) {
+    return { data: origValue.toObject(), [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
   } else if (typeof value === 'object' && value !== null && SERIALIZED_TYPE_FIELD_NAME in value) {
     const copy = { ...value };
     delete copy[SERIALIZED_TYPE_FIELD_NAME];
@@ -424,15 +418,27 @@ const reviver = function reviver(key, value) {
   }
   return value;
 };
-
 /** PRIVATE: Exported only for tests. */
 export const stringify = function stringify(data: mixed): string {
-  return jsan.stringify(data, replacer, null, jsanOptions);
+  const result = JSON.stringify(data, replacer);
+  if (result === undefined) {
+    // Flow says that the output for JSON.stringify could be
+    // undefined. From MDN:
+    //
+    // `JSON.stringify()` can return `undefined` when passing in
+    // "pure" values like `JSON.stringify(function(){})` or
+    // `JSON.stringify(undefined)`.
+    //
+    // We don't expect any of those inputs, but we'd want to know if
+    // we get one, since it means something has gone quite wrong.
+    throw new Error('undefined result for stringify');
+  }
+  return result;
 };
 
 /** PRIVATE: Exported only for tests. */
 export const parse = function parse(data: string): mixed {
-  return jsan.parse(data, reviver);
+  return JSON.parse(data, reviver);
 };
 
 /**

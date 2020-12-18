@@ -6,10 +6,12 @@ exports[`Stringify gravatarURL 1`] = `"{\\"data\\":\\"https://secure.gravatar.co
 
 exports[`Stringify map 1`] = `"{\\"data\\":{\\"a\\":1,\\"b\\":2,\\"c\\":3,\\"d\\":4},\\"__serializedType__\\":\\"ImmutableMap\\"}"`;
 
+exports[`Stringify mapWithTypeKey 1`] = `"{\\"data\\":{\\"__serializedType__\\":\\"Object\\",\\"data\\":{\\"a\\":1},\\"__serializedType__value\\":{\\"__serializedType__\\":\\"Object\\",\\"data\\":{\\"b\\":[2]},\\"__serializedType__value\\":{\\"c\\":[3]}}},\\"__serializedType__\\":\\"ImmutableMap\\"}"`;
+
+exports[`Stringify plainObjectWithTypeKey 1`] = `"{\\"__serializedType__\\":\\"Object\\",\\"data\\":{\\"a\\":1},\\"__serializedType__value\\":{\\"__serializedType__\\":\\"Object\\",\\"data\\":{\\"b\\":[2]},\\"__serializedType__value\\":{\\"c\\":[3]}}}"`;
+
 exports[`Stringify uploadedAvatarURL 1`] = `"{\\"data\\":\\"https://zulip.example.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2\\",\\"__serializedType__\\":\\"UploadedAvatarURL\\"}"`;
 
 exports[`Stringify url 1`] = `"{\\"data\\":\\"https://chat.zulip.org/\\",\\"__serializedType__\\":\\"URL\\"}"`;
-
-exports[`Stringify withTypeKey 1`] = `"{\\"__serializedType__\\":\\"Object\\",\\"data\\":{\\"a\\":1},\\"__serializedType__value\\":{\\"__serializedType__\\":\\"Object\\",\\"data\\":{\\"b\\":[2]},\\"__serializedType__value\\":{\\"c\\":[3]}}}"`;
 
 exports[`Stringify zulipVersion 1`] = `"{\\"data\\":\\"3.0.0\\",\\"__serializedType__\\":\\"ZulipVersion\\"}"`;
