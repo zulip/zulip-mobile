@@ -407,9 +407,9 @@ const customReviver = (key, value, defaultReviver) => {
 // Recently inlined from
 // node_modules/remotedev-serialize/immutable/serialize.js; this will
 // change over the next few commits.
-const serialize = function serialize(_Immutable, _customReplacer, _customReviver) {
+const serialize = function serialize() {
   function replacer(key, value) {
-    if (_Immutable.Map.isMap(value)) {
+    if (Immutable.Map.isMap(value)) {
       return mark(value, 'ImmutableMap', 'toObject');
     }
     if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
@@ -429,7 +429,7 @@ const serialize = function serialize(_Immutable, _customReplacer, _customReviver
       const data = value.data;
       switch (value.__serializedType__) {
         case 'ImmutableMap':
-          return _Immutable.Map(data);
+          return Immutable.Map(data);
         case 'Object':
           return { ...data, __serializedType__: value.__serializedType__value };
         default:
@@ -441,10 +441,10 @@ const serialize = function serialize(_Immutable, _customReplacer, _customReviver
 
   return {
     replacer(key, value) {
-      return _customReplacer(key, value, replacer);
+      return customReplacer(key, value, replacer);
     },
     reviver(key, value) {
-      return _customReviver(key, value, reviver);
+      return customReviver(key, value, reviver);
     },
     options: jsanOptions,
   };
@@ -455,12 +455,7 @@ const serialize = function serialize(_Immutable, _customReplacer, _customReviver
 // node_modules/remotedev-serialize/immutable/index.js; this will
 // change over the next few commits.
 export const stringify = function (data: mixed): string {
-  return jsan.stringify(
-    data,
-    serialize(Immutable, customReplacer, customReviver).replacer,
-    null,
-    jsanOptions,
-  );
+  return jsan.stringify(data, serialize().replacer, null, jsanOptions);
 };
 
 /** PRIVATE: Exported only for tests. */
@@ -468,7 +463,7 @@ export const stringify = function (data: mixed): string {
 // node_modules/remotedev-serialize/immutable/index.js; this will
 // change over the next few commits.
 export const parse = function (data: string): mixed {
-  return jsan.parse(data, serialize(Immutable, customReplacer, customReviver).reviver);
+  return jsan.parse(data, serialize().reviver);
 };
 
 /**
