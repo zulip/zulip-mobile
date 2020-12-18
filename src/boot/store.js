@@ -1,11 +1,21 @@
 /* @flow strict-local */
+
+// Switch off some rules for this file as we continue folding
+// remotedev-serialize into our code; we'll remove these soon.
+//
+/* eslint-disable id-match */
+/* eslint-disable func-names */
+/* flowlint untyped-import:off */
+
 import { applyMiddleware, compose, createStore } from 'redux';
 import type { Store } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import createActionBuffer from 'redux-action-buffer';
 import Immutable from 'immutable';
-import * as Serialize from 'remotedev-serialize';
+import jsan from 'jsan';
+import serialize from 'remotedev-serialize/immutable/serialize';
+import options from 'remotedev-serialize/constants/options';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
@@ -377,7 +387,26 @@ const customReviver = (key, value, defaultReviver) => {
   return defaultReviver(key, value);
 };
 
-const { stringify, parse } = Serialize.immutable(Immutable, null, customReplacer, customReviver);
+/** PRIVATE: Exported only for tests. */
+// Recently inlined from
+// node_modules/remotedev-serialize/immutable/index.js; this will
+// change over the next few commits.
+export const stringify = function (data: mixed): string {
+  return jsan.stringify(
+    data,
+    serialize(Immutable, null, customReplacer, customReviver).replacer,
+    null,
+    options,
+  );
+};
+
+/** PRIVATE: Exported only for tests. */
+// Recently inlined from
+// node_modules/remotedev-serialize/immutable/index.js; this will
+// change over the next few commits.
+export const parse = function (data: string): mixed {
+  return jsan.parse(data, serialize(Immutable, null, customReplacer, customReviver).reviver);
+};
 
 /**
  * The config options to pass to redux-persist.
