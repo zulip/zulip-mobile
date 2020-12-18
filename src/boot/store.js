@@ -446,7 +446,6 @@ const serialize = function serialize() {
     reviver(key, value) {
       return customReviver(key, value, reviver);
     },
-    options: jsanOptions,
   };
 };
 
