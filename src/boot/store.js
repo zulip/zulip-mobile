@@ -345,6 +345,14 @@ provideLoggingContext(() => ({
  */
 export const SERIALIZED_TYPE_FIELD_NAME: '__serializedType__' = '__serializedType__';
 
+/**
+ * Like SERIALIZED_TYPE_FIELD_NAME, but with a distinguishing mark.
+ *
+ * Used in our strategy to ensure successful round-tripping when data
+ * has a key identical to SERIALIZED_TYPE_FIELD_NAME.
+ */
+const SERIALIZED_TYPE_FIELD_NAME_ESCAPED: '__serializedType__value' = '__serializedType__value';
+
 // Recently inlined from
 // node_modules/remotedev-serialize/constants/options.js; this will
 // change over the next few commits.
@@ -392,7 +400,7 @@ const replacer = function replacer(key, value) {
     return {
       [SERIALIZED_TYPE_FIELD_NAME]: 'Object',
       data: copy,
-      [`${SERIALIZED_TYPE_FIELD_NAME}value`]: value[SERIALIZED_TYPE_FIELD_NAME],
+      [SERIALIZED_TYPE_FIELD_NAME_ESCAPED]: value[SERIALIZED_TYPE_FIELD_NAME],
     };
   }
   return value;
@@ -427,7 +435,7 @@ const reviver = function reviver(key, value) {
       case 'Object':
         return {
           ...data,
-          [SERIALIZED_TYPE_FIELD_NAME]: value[`${SERIALIZED_TYPE_FIELD_NAME}value`],
+          [SERIALIZED_TYPE_FIELD_NAME]: value[SERIALIZED_TYPE_FIELD_NAME_ESCAPED],
         };
       default:
         return data;
