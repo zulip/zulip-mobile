@@ -15,7 +15,6 @@ import createActionBuffer from 'redux-action-buffer';
 import Immutable from 'immutable';
 import jsan from 'jsan';
 import serialize from 'remotedev-serialize/immutable/serialize';
-import options from 'remotedev-serialize/constants/options';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
@@ -345,6 +344,23 @@ provideLoggingContext(() => ({
  */
 const SERIALIZED_TYPE_FIELD_NAME: '__serializedType__' = '__serializedType__';
 
+// Recently inlined from
+// node_modules/remotedev-serialize/constants/options.js; this will
+// change over the next few commits.
+const jsanOptions = {
+  refs: false, // references can't be resolved on the original Immutable structure
+  date: true,
+  function: true,
+  regex: true,
+  undefined: true,
+  error: true,
+  symbol: true,
+  map: true,
+  set: true,
+  nan: true,
+  infinity: true,
+};
+
 const customReplacer = (key, value, defaultReplacer) => {
   if (value instanceof ZulipVersion) {
     return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
@@ -396,7 +412,7 @@ export const stringify = function (data: mixed): string {
     data,
     serialize(Immutable, null, customReplacer, customReviver).replacer,
     null,
-    options,
+    jsanOptions,
   );
 };
 
