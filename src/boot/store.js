@@ -408,7 +408,7 @@ const customReviver = (key, value, defaultReviver) => {
 // node_modules/remotedev-serialize/immutable/serialize.js; this will
 // change over the next few commits.
 const serialize = function serialize() {
-  function replacer(key, value) {
+  function defaultReplacer(key, value) {
     if (Immutable.Map.isMap(value)) {
       return mark(value, 'ImmutableMap', 'toObject');
     }
@@ -424,7 +424,7 @@ const serialize = function serialize() {
     return value;
   }
 
-  function reviver(key, value) {
+  function defaultReviver(key, value) {
     if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
       const data = value.data;
       switch (value.__serializedType__) {
@@ -441,10 +441,10 @@ const serialize = function serialize() {
 
   return {
     replacer(key, value) {
-      return customReplacer(key, value, replacer);
+      return customReplacer(key, value, defaultReplacer);
     },
     reviver(key, value) {
-      return customReviver(key, value, reviver);
+      return customReviver(key, value, defaultReviver);
     },
   };
 };
