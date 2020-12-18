@@ -28,48 +28,42 @@ const getPathsFromUrl = (url: string = '', realm: URL) => {
  *
  * True just if the given URL string appears to be a link, either absolute
  * or relative, to a Zulip narrow on the given realm.
+ *
+ * This performs a call to `new URL` and therefore may take a fraction of a
+ * millisecond.  Avoid using in a context where it might be called more than
+ * 10 or 100 times per user action.
  */
-// TODO: Reimplement to fully use URL objects.
 export const isInternalLink = (url: string, realm: URL): boolean => {
-  // See the URL Standard for the definitions of quoted terms:
-  //   https://url.spec.whatwg.org/#url-writing
-
-  if (/^#narrow\//i.test(url)) {
-    // A relative URL consisting of just a fragment (in the standard's
-    // terms: a "relative-URL-with-fragment string", of which the
-    // "relative-URL string" is empty); specifically one that looks like
-    // a link to a Zulip narrow.
-    return true;
-  }
-
-  if (/^\/#narrow\//i.test(url)) {
-    // A "path-absolute URL string" with path `/`, followed by a fragment
-    // that looks like a link to a Zulip narrow.  This is another form of
-    // "relative-URL-with-fragment string".
-    return true;
-  }
-
-  // Because this comes as the serialization of a URL object,
-  // it must be an absolute URL.  Moreover its path can't be empty.
-  const realmStr = realm.toString();
-  if (url.startsWith(realmStr) && /^#narrow\//i.test(url.substring(realmStr.length))) {
-    // An absolute URL consisting of the realm's base URL, plus a fragment
-    // that looks like a link to a Zulip narrow.
-    return true;
-  }
-
-  // Any other URL.
-  return false;
+  const resolved = new URL(url, realm);
+  return (
+    resolved.origin === realm.origin
+    && resolved.pathname === '/'
+    && resolved.search === ''
+    && /^#narrow\//i.test(resolved.hash)
+  );
 };
 
+/**
+ * PRIVATE -- exported only for tests.
+ *
+ * This performs a call to `new URL` and therefore may take a fraction of a
+ * millisecond.  Avoid using in a context where it might be called more than
+ * 10 or 100 times per user action.
+ */
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
-/** PRIVATE -- exported only for tests. */
 export const isMessageLink = (url: string, realm: URL): boolean =>
   isInternalLink(url, realm) && url.includes('near');
 
 type LinkType = 'external' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
+/**
+ * PRIVATE -- exported only for tests.
+ *
+ * This performs a call to `new URL` and therefore may take a fraction of a
+ * millisecond.  Avoid using in a context where it might be called more than
+ * 10 or 100 times per user action.
+ */
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
 export const getLinkType = (url: string, realm: URL): LinkType => {
@@ -148,6 +142,13 @@ const parsePmOperand = operand => {
   return idStrs.map(s => parseInt(s, 10));
 };
 
+/**
+ * TODO write jsdoc
+ *
+ * This performs a call to `new URL` and therefore may take a fraction of a
+ * millisecond.  Avoid using in a context where it might be called more than
+ * 10 or 100 times per user action.
+ */
 export const getNarrowFromLink = (
   url: string,
   realm: URL,
@@ -184,6 +185,13 @@ export const getNarrowFromLink = (
   }
 };
 
+/**
+ * TODO write jsdoc
+ *
+ * This performs a call to `new URL` and therefore may take a fraction of a
+ * millisecond.  Avoid using in a context where it might be called more than
+ * 10 or 100 times per user action.
+ */
 export const getMessageIdFromLink = (url: string, realm: URL): number => {
   const paths = getPathsFromUrl(url, realm);
 

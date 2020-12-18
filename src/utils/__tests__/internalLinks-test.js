@@ -15,7 +15,7 @@ import * as eg from '../../__tests__/lib/exampleData';
 const realm = new URL('https://example.com');
 
 describe('isInternalLink', () => {
-  const cases = [
+  const cases: $ReadOnlyArray<[boolean, string, string] | [boolean, string, string, URL]> = [
     [true, 'fragment-only, to a narrow', '#narrow/stream/jest/topic/topic1'],
     [false, 'fragment-only, wrong fragment', '#nope'],
     [true, 'path-absolute, to a narrow', '/#narrow/stream/jest'],
@@ -36,6 +36,96 @@ describe('isInternalLink', () => {
 
     [false, 'same domain, double slash', 'https://example.com//#narrow/stream/jest'],
     [false, 'same domain, triple slash', 'https://example.com///#narrow/stream/jest'],
+
+    // These examples may be odd-looking URLs, but are nevertheless valid.
+    [true, 'scheme-relative', '//example.com/#narrow/stream/jest'],
+    [true, 'path-relative, nop path', '.#narrow/stream/jest'],
+    [true, 'path-relative, nop path', './#narrow/stream/jest'],
+    [true, 'path-relative, nop path', '..#narrow/stream/jest'],
+    [true, 'path-relative, nop path', '../#narrow/stream/jest'],
+    [true, 'path-relative, nop path', 'foo/..#narrow/stream/jest'],
+    [true, 'path-relative, nop path', 'foo/../#narrow/stream/jest'],
+    [true, 'path-relative, nop path', 'foo/bar/../../../baz/.././#narrow/stream/jest'],
+    [true, 'path-absolute, nop path', '/.#narrow/stream/jest'],
+    [true, 'path-absolute, nop path', '/./#narrow/stream/jest'],
+    [true, 'path-absolute, nop path', '/..#narrow/stream/jest'],
+    [true, 'path-absolute, nop path', '/../#narrow/stream/jest'],
+    [true, 'path-absolute, nop path', '/foo/..#narrow/stream/jest'],
+    [true, 'path-absolute, nop path', '/foo/../#narrow/stream/jest'],
+    [true, 'path-absolute, nop path', '/foo/bar/../../../baz/.././#narrow/stream/jest'],
+    [true, 'same domain, nop path', 'https://example.com/.#narrow/stream/jest'],
+    [true, 'same domain, nop path', 'https://example.com/./#narrow/stream/jest'],
+    [true, 'same domain, nop path', 'https://example.com/..#narrow/stream/jest'],
+    [true, 'same domain, nop path', 'https://example.com/../#narrow/stream/jest'],
+    [true, 'same domain, nop path', 'https://example.com/foo/..#narrow/stream/jest'],
+    [true, 'same domain, nop path', 'https://example.com/foo/../#narrow/stream/jest'],
+    [
+      true,
+      'same domain, nop path',
+      'https://example.com/foo/bar/../../../baz/.././#narrow/stream/jest',
+    ],
+    [true, 'same domain, %-encoded host', 'https://%65xample%2ecom/#narrow/stream/jest'],
+    // This one fails because our polyfilled URL implementation has IDNA stripped out.
+    // [true, 'same domain, punycoded host', 'https://example.xn--h2brj9c/#narrow/stream/jest', new URL('https://example.भारत/'),], // FAILS
+    [
+      true,
+      'same domain, punycodable host',
+      'https://example.भारत/#narrow/stream/jest',
+      new URL('https://example.भारत/'),
+    ],
+    // This one fails because our polyfilled URL implementation has IDNA stripped out.
+    // [true, 'same domain, IDNA-mappable', 'https://ℯⅩªm🄿ₗℰ.ℭᴼⓂ/#narrow/stream/jest'], // FAILS
+    [
+      true,
+      'same IPv4 address, %-encoded',
+      'http://%31%39%32%2e168%2e0%2e1/#narrow/stream/jest',
+      new URL('http://192.168.0.1/'),
+    ],
+    // This one fails because our polyfilled URL implementation has IDNA stripped out.
+    // [true, 'same IPv4 address, IDNA-mappable', 'http://１𝟗𝟚。①⁶🯸．₀｡𝟭/#narrow/stream/jest', new URL('http://192.168.0.1/'),], // FAILS
+    [
+      true,
+      'same IPv4 address, suppressed zero octet',
+      'http://192.168.1/#narrow/stream/jest',
+      new URL('http://192.168.0.1/'),
+    ],
+    // TODO: Add tests for IPv6.
+    [true, 'same domain, empty port', 'https://example.com:/#narrow/stream/jest'],
+    [true, 'same domain, redundant port', 'https://example.com:443/#narrow/stream/jest'],
+    [
+      true,
+      'same domain, padded port',
+      'https://example.com:00000000444/#narrow/stream/jest',
+      new URL('https://example.com:444/'),
+    ],
+
+    // These examples are not "valid URL strings", but are nevertheless
+    // accepted by the URL parser.
+    [true, 'fragment-only, with whitespace', '    #\tnar\rr\now/stream/jest  '],
+    [true, 'path-absolute, with whitespace', '    /\t#\nnar\rrow/stream/jest   '],
+    [true, 'same domain, with whitespace', '  ht\ttp\ns\r://ex\nample.com/#\nnarrow/stream/jest'],
+    [true, 'scheme but path-relative', 'https:#narrow/stream/jest'],
+    [true, 'scheme but path-relative, nop path', 'https:./foo/../#narrow/stream/jest'],
+    [true, 'scheme but path-absolute', 'https:/#narrow/stream/jest'],
+    [true, 'scheme but path-absolute, nop path', 'https:/./foo/../#narrow/stream/jest'],
+    [
+      true,
+      'same IPv4 address, in hex and octal',
+      'http://0xc0.0250.0.1/#narrow/stream/jest',
+      new URL('http://192.168.0.1/'),
+    ],
+    [
+      true,
+      'same IPv4 address, with joined octets',
+      'http://192.11010049/#narrow/stream/jest',
+      new URL('http://192.168.0.1/'),
+    ],
+    [
+      true,
+      'same IPv4 address, with trailing dot',
+      'http://192.168.0.1./#narrow/stream/jest',
+      new URL('http://192.168.0.1/'),
+    ],
 
     // These examples may seem weird, but a previous version accepted most of them.
     [
@@ -68,9 +158,10 @@ describe('isInternalLink', () => {
     ],
   ];
 
-  for (const [expected, description, url] of cases) {
+  // $FlowFixMe realm_ is URL | void, but complains of out-of-bounds access
+  for (const [expected, description, url, realm_] of cases) {
     test(`${expected ? 'accept' : 'reject'} ${description}: ${url}`, () => {
-      expect(isInternalLink(url, realm)).toBe(expected);
+      expect(isInternalLink(url, realm_ ?? realm)).toBe(expected);
     });
   }
 });
