@@ -354,16 +354,16 @@ const SERIALIZED_TYPE_FIELD_NAME_ESCAPED: '__serializedType__value' = '__seriali
 // change over the next few commits.
 const jsanOptions = {
   refs: false, // references can't be resolved on the original Immutable structure
-  date: true,
-  function: true,
-  regex: true,
-  undefined: true,
-  error: true,
-  symbol: true,
-  map: true,
-  set: true,
-  nan: true,
-  infinity: true,
+  date: false,
+  function: false,
+  regex: false,
+  undefined: false,
+  error: false,
+  symbol: false,
+  map: false,
+  set: false,
+  nan: false,
+  infinity: false,
 };
 
 const replacer = function replacer(key, value) {
