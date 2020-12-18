@@ -378,7 +378,7 @@ const defaultReplacer = function defaultReplacer(key, value) {
   return value;
 };
 
-const customReplacer = (key, value) => {
+const customReplacer = function customReplacer(key, value) {
   if (value instanceof ZulipVersion) {
     return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
   } else if (value instanceof URL) {
@@ -418,7 +418,7 @@ const defaultReviver = function defaultReviver(key, value) {
   return value;
 };
 
-const customReviver = (key, value) => {
+const customReviver = function customReviver(key, value) {
   if (value !== null && typeof value === 'object' && SERIALIZED_TYPE_FIELD_NAME in value) {
     const data = value.data;
     switch (value[SERIALIZED_TYPE_FIELD_NAME]) {
