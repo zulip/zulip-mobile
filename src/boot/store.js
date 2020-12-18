@@ -440,16 +440,12 @@ const serialize = function serialize(_Immutable, _customReplacer, _customReviver
   }
 
   return {
-    replacer: _customReplacer
-      ? function (key, value) {
-          return _customReplacer(key, value, replacer);
-        }
-      : replacer,
-    reviver: _customReviver
-      ? function (key, value) {
-          return _customReviver(key, value, reviver);
-        }
-      : reviver,
+    replacer(key, value) {
+      return _customReplacer(key, value, replacer);
+    },
+    reviver(key, value) {
+      return _customReviver(key, value, reviver);
+    },
     options: jsanOptions,
   };
 };
