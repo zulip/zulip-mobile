@@ -6,7 +6,7 @@ import Immutable from 'immutable';
 
 import { FallbackAvatarURL, GravatarURL, UploadedAvatarURL } from '../../utils/avatar';
 import { ZulipVersion } from '../../utils/zulipVersion';
-import { stringify, parse } from '../store';
+import { stringify, parse, SERIALIZED_TYPE_FIELD_NAME } from '../store';
 import * as eg from '../../__tests__/lib/exampleData';
 
 const data = {
@@ -25,9 +25,9 @@ const data = {
   }),
   withTypeKey: {
     a: 1,
-    __serializedType__: {
+    [SERIALIZED_TYPE_FIELD_NAME]: {
       b: [2],
-      __serializedType__: { c: [3] },
+      [SERIALIZED_TYPE_FIELD_NAME]: { c: [3] },
     },
   },
 };

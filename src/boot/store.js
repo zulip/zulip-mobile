@@ -3,8 +3,6 @@
 // Switch off some rules for this file as we continue folding
 // remotedev-serialize into our code; we'll remove these soon.
 //
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable id-match */
 /* eslint-disable func-names */
 /* flowlint untyped-import:off */
 
@@ -338,12 +336,14 @@ provideLoggingContext(() => ({
 }));
 
 /**
- * A special identifier used by `remotedev-serialize`.
+ * PRIVATE: Exported only for tests.
  *
- * Use this in the custom replacer and reviver, below, to make it
- * easier to be consistent between them and avoid costly typos.
+ * A special identifier for the type of thing to be replaced/revived.
+ *
+ * Use this in the replacer and reviver, below, to make it easier to
+ * be consistent between them and avoid costly typos.
  */
-const SERIALIZED_TYPE_FIELD_NAME: '__serializedType__' = '__serializedType__';
+export const SERIALIZED_TYPE_FIELD_NAME: '__serializedType__' = '__serializedType__';
 
 // Recently inlined from
 // node_modules/remotedev-serialize/constants/options.js; this will
@@ -386,13 +386,13 @@ const replacer = function replacer(key, value) {
   if (Immutable.Map.isMap(value)) {
     return mark(value, 'ImmutableMap', 'toObject');
   }
-  if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
+  if (typeof value === 'object' && value !== null && SERIALIZED_TYPE_FIELD_NAME in value) {
     const copy = { ...value };
-    delete copy.__serializedType__;
+    delete copy[SERIALIZED_TYPE_FIELD_NAME];
     return {
-      __serializedType__: 'Object',
+      [SERIALIZED_TYPE_FIELD_NAME]: 'Object',
       data: copy,
-      __serializedType__value: value.__serializedType__,
+      [`${SERIALIZED_TYPE_FIELD_NAME}value`]: value[SERIALIZED_TYPE_FIELD_NAME],
     };
   }
   return value;
@@ -419,13 +419,16 @@ const reviver = function reviver(key, value) {
   }
 
   // defaultReviver, previously
-  if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
+  if (typeof value === 'object' && value !== null && SERIALIZED_TYPE_FIELD_NAME in value) {
     const data = value.data;
-    switch (value.__serializedType__) {
+    switch (value[SERIALIZED_TYPE_FIELD_NAME]) {
       case 'ImmutableMap':
         return Immutable.Map(data);
       case 'Object':
-        return { ...data, __serializedType__: value.__serializedType__value };
+        return {
+          ...data,
+          [SERIALIZED_TYPE_FIELD_NAME]: value[`${SERIALIZED_TYPE_FIELD_NAME}value`],
+        };
       default:
         return data;
     }
