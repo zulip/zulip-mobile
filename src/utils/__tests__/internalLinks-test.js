@@ -15,28 +15,22 @@ import * as eg from '../../__tests__/lib/exampleData';
 const realm = new URL('https://example.com');
 
 describe('isInternalLink', () => {
-  test('when link is external, return false', () => {
-    expect(isInternalLink('https://example.com', new URL('https://another.com'))).toBe(false);
-  });
+  const cases = [
+    [false, 'another domain', 'https://another.com'],
+    [false, 'same domain, nontrivial path', 'https://example.com/user_uploads'],
+    [true, 'same domain, to a narrow', 'https://example.com/#narrow/stream/jest'],
+    [true, 'fragment-only, to a narrow', '#narrow/stream/jest/topic/topic1'],
+    [true, 'path-absolute, to a narrow', '/#narrow/stream/jest'],
+    [true, 'fragment-only, with numeric IDs', '#narrow/stream/123-jest/topic/topic1'],
+    [true, 'path-absolute, with numeric IDs', '/#narrow/stream/123-jest'],
+    [true, 'path-absolute, with numeric IDs', '/#narrow/pm-with/123-mark'],
+  ];
 
-  test('when link is internal, but not in app, return false', () => {
-    expect(isInternalLink('https://example.com/user_uploads', realm)).toBe(false);
-  });
-
-  test('when link is internal and in app, return true', () => {
-    expect(isInternalLink('https://example.com/#narrow/stream/jest', realm)).toBe(true);
-  });
-
-  test('when link is relative and in app, return true', () => {
-    expect(isInternalLink('#narrow/stream/jest/topic/topic1', realm)).toBe(true);
-    expect(isInternalLink('/#narrow/stream/jest', realm)).toBe(true);
-  });
-
-  test('links including IDs are also recognized', () => {
-    expect(isInternalLink('#narrow/stream/123-jest/topic/topic1', realm)).toBe(true);
-    expect(isInternalLink('/#narrow/stream/123-jest', realm)).toBe(true);
-    expect(isInternalLink('/#narrow/pm-with/123-mark', realm)).toBe(true);
-  });
+  for (const [expected, description, url] of cases) {
+    test(`${expected ? 'accept' : 'reject'} ${description}: ${url}`, () => {
+      expect(isInternalLink(url, realm)).toBe(expected);
+    });
+  }
 });
 
 describe('isMessageLink', () => {
