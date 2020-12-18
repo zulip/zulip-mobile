@@ -13,7 +13,6 @@ import { createLogger } from 'redux-logger';
 import createActionBuffer from 'redux-action-buffer';
 import Immutable from 'immutable';
 import jsan from 'jsan';
-import { mark } from 'remotedev-serialize/helpers';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
@@ -388,7 +387,7 @@ const replacer = function replacer(key, value) {
       [SERIALIZED_TYPE_FIELD_NAME]: 'FallbackAvatarURL',
     };
   } else if (Immutable.Map.isMap(value)) {
-    return mark(value, 'ImmutableMap', 'toObject');
+    return { data: value.toObject(), [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
   } else if (typeof value === 'object' && value !== null && SERIALIZED_TYPE_FIELD_NAME in value) {
     const copy = { ...value };
     delete copy[SERIALIZED_TYPE_FIELD_NAME];
