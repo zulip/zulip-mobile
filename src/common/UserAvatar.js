@@ -8,7 +8,6 @@ import { AvatarURL } from '../utils/avatar';
 type Props = $ReadOnly<{|
   avatarUrl: AvatarURL,
   size: number,
-  shape: 'rounded' | 'square',
   children?: React$Node,
   onPress?: () => void,
 |}>;
@@ -18,18 +17,13 @@ type Props = $ReadOnly<{|
  *
  * @prop avatarUrl
  * @prop size - Sets width and height in logical pixels.
- * @prop [shape] - 'rounded' (default) means a square with rounded corners.
  * @prop [children] - If provided, will render inside the component body.
  * @prop [onPress] - Event fired on pressing the component.
  */
 export default class UserAvatar extends PureComponent<Props> {
-  static defaultProps = {
-    shape: 'rounded',
-  };
-
   render() {
-    const { avatarUrl, children, size, shape, onPress } = this.props;
-    const borderRadius = shape === 'rounded' ? size / 8 : 0;
+    const { avatarUrl, children, size, onPress } = this.props;
+    const borderRadius = size / 8;
     const style = {
       height: size,
       width: size,
