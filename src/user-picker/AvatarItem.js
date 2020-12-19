@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Animated, Easing, View } from 'react-native';
 
+import type { UserId } from '../types';
 import { UserAvatarWithPresence, ComponentWithOverlay, RawLabel, Touchable } from '../common';
 import { createStyleSheet } from '../styles';
 import { IconCancel } from '../common/Icons';
@@ -27,10 +28,11 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
+  userId: UserId,
   email: string,
   avatarUrl: AvatarURL,
   fullName: string,
-  onPress: (email: string) => void,
+  onPress: UserId => void,
 |}>;
 
 /**
@@ -54,13 +56,13 @@ export default class AvatarItem extends PureComponent<Props> {
   }
 
   handlePress = () => {
-    const { email, onPress } = this.props;
+    const { userId, onPress } = this.props;
     Animated.timing(this.animatedValue, {
       toValue: 0,
       duration: 300,
       useNativeDriver: true,
       easing: Easing.elastic(),
-    }).start(() => onPress(email));
+    }).start(() => onPress(userId));
   };
 
   render() {
