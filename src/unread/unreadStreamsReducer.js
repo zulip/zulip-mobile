@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Action } from '../types';
+import type { Action, GlobalState } from '../types';
 import type { UnreadStreamsState } from './unreadModelTypes';
 import {
   REALM_INIT,
@@ -11,15 +11,16 @@ import {
 } from '../actionConstants';
 import { addItemsToStreamArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
+import { getOwnUserId } from '../users/userSelectors';
 
 const initialState: UnreadStreamsState = NULL_ARRAY;
 
-const eventNewMessage = (state, action) => {
+const eventNewMessage = (state, action, globalState) => {
   if (action.message.type !== 'stream') {
     return state;
   }
 
-  if (action.ownUserId === action.message.sender_id) {
+  if (getOwnUserId(globalState) === action.message.sender_id) {
     return state;
   }
 
@@ -49,7 +50,11 @@ const eventUpdateMessageFlags = (state, action) => {
   return state;
 };
 
-export default (state: UnreadStreamsState = initialState, action: Action): UnreadStreamsState => {
+export default (
+  state: UnreadStreamsState = initialState,
+  action: Action,
+  globalState: GlobalState,
+): UnreadStreamsState => {
   switch (action.type) {
     case LOGOUT:
     case ACCOUNT_SWITCH:
@@ -59,7 +64,7 @@ export default (state: UnreadStreamsState = initialState, action: Action): Unrea
       return (action.data.unread_msgs && action.data.unread_msgs.streams) || initialState;
 
     case EVENT_NEW_MESSAGE:
-      return eventNewMessage(state, action);
+      return eventNewMessage(state, action, globalState);
 
     case EVENT_MESSAGE_DELETE:
       return removeItemsDeeply(state, action.messageIds);
