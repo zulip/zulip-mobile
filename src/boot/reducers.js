@@ -42,16 +42,17 @@ function maybeLogSlowReducer(action, key, startMs, endMs) {
 
 function applyReducer<Key: $Keys<GlobalState>, State>(
   key: Key,
-  reducer: (void | State, Action) => State,
+  reducer: (void | State, Action, void | GlobalState) => State,
   state: void | State,
   action: Action,
+  globalState: void | GlobalState,
 ): State {
   let startMs = undefined;
   if (enableReduxSlowReducerWarnings) {
     startMs = Date.now();
   }
 
-  const nextState = reducer(state, action);
+  const nextState = reducer(state, action, globalState);
 
   if (startMs !== undefined) {
     const endMs = Date.now();
@@ -65,30 +66,30 @@ function applyReducer<Key: $Keys<GlobalState>, State>(
 const combinedReducer = (state: void | GlobalState, action: Action): GlobalState => {
   // prettier-ignore
   const nextState = {
-    migrations: applyReducer('migrations', migrations, state?.migrations, action),
-    accounts: applyReducer('accounts', accounts, state?.accounts, action),
-    alertWords: applyReducer('alertWords', alertWords, state?.alertWords, action),
-    caughtUp: applyReducer('caughtUp', caughtUp, state?.caughtUp, action),
-    drafts: applyReducer('drafts', drafts, state?.drafts, action),
-    fetching: applyReducer('fetching', fetching, state?.fetching, action),
-    flags: applyReducer('flags', flags, state?.flags, action),
-    messages: applyReducer('messages', messages, state?.messages, action),
-    narrows: applyReducer('narrows', narrows, state?.narrows, action),
-    mute: applyReducer('mute', mute, state?.mute, action),
-    outbox: applyReducer('outbox', outbox, state?.outbox, action),
-    pmConversations: applyReducer('pmConversations', pmConversations, state?.pmConversations, action),
-    presence: applyReducer('presence', presence, state?.presence, action),
-    realm: applyReducer('realm', realm, state?.realm, action),
-    session: applyReducer('session', session, state?.session, action),
-    settings: applyReducer('settings', settings, state?.settings, action),
-    streams: applyReducer('streams', streams, state?.streams, action),
-    subscriptions: applyReducer('subscriptions', subscriptions, state?.subscriptions, action),
-    topics: applyReducer('topics', topics, state?.topics, action),
-    typing: applyReducer('typing', typing, state?.typing, action),
-    unread: applyReducer('unread', unread, state?.unread, action),
-    userGroups: applyReducer('userGroups', userGroups, state?.userGroups, action),
-    userStatus: applyReducer('userStatus', userStatus, state?.userStatus, action),
-    users: applyReducer('users', users, state?.users, action),
+    migrations: applyReducer('migrations', migrations, state?.migrations, action, state),
+    accounts: applyReducer('accounts', accounts, state?.accounts, action, state),
+    alertWords: applyReducer('alertWords', alertWords, state?.alertWords, action, state),
+    caughtUp: applyReducer('caughtUp', caughtUp, state?.caughtUp, action, state),
+    drafts: applyReducer('drafts', drafts, state?.drafts, action, state),
+    fetching: applyReducer('fetching', fetching, state?.fetching, action, state),
+    flags: applyReducer('flags', flags, state?.flags, action, state),
+    messages: applyReducer('messages', messages, state?.messages, action, state),
+    narrows: applyReducer('narrows', narrows, state?.narrows, action, state),
+    mute: applyReducer('mute', mute, state?.mute, action, state),
+    outbox: applyReducer('outbox', outbox, state?.outbox, action, state),
+    pmConversations: applyReducer('pmConversations', pmConversations, state?.pmConversations, action, state),
+    presence: applyReducer('presence', presence, state?.presence, action, state),
+    realm: applyReducer('realm', realm, state?.realm, action, state),
+    session: applyReducer('session', session, state?.session, action, state),
+    settings: applyReducer('settings', settings, state?.settings, action, state),
+    streams: applyReducer('streams', streams, state?.streams, action, state),
+    subscriptions: applyReducer('subscriptions', subscriptions, state?.subscriptions, action, state),
+    topics: applyReducer('topics', topics, state?.topics, action, state),
+    typing: applyReducer('typing', typing, state?.typing, action, state),
+    unread: applyReducer('unread', unread, state?.unread, action, state),
+    userGroups: applyReducer('userGroups', userGroups, state?.userGroups, action, state),
+    userStatus: applyReducer('userStatus', userStatus, state?.userStatus, action, state),
+    users: applyReducer('users', users, state?.users, action, state),
   };
 
   if (state && Object.keys(nextState).every(key => nextState[key] === state[key])) {
