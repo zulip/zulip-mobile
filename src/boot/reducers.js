@@ -63,29 +63,25 @@ const reducers = config.enableReduxSlowReducerWarnings
   : plainReducers;
 
 export const ALL_KEYS: string[] = Object.keys(reducers);
+const reducerKeys = Object.keys(reducers);
 
 // Inlined just now from Redux upstream.
 // We'll clean this up in the next few commits.
-/* eslint-disable no-shadow */
-const combinedReducer: CombinedReducer<GlobalState, Action> = (reducers => {
-  const reducerKeys = Object.keys(reducers);
-
-  return function combination(state = {}, action) {
-    let hasChanged = false;
-    const nextState = {};
-    for (let i = 0; i < reducerKeys.length; i++) {
-      const key = reducerKeys[i];
-      const reducer = reducers[key];
-      // $FlowFixMe
-      const previousStateForKey = state[key];
-      // $FlowFixMe
-      const nextStateForKey = reducer(previousStateForKey, action);
-      nextState[key] = nextStateForKey;
-      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
-    }
-    // $FlowFixMe -- errors from those empty object literals
-    return hasChanged ? nextState : state;
-  };
-})(reducers);
+const combinedReducer: CombinedReducer<GlobalState, Action> = (state = {}, action) => {
+  let hasChanged = false;
+  const nextState = {};
+  for (let i = 0; i < reducerKeys.length; i++) {
+    const key = reducerKeys[i];
+    const reducer = reducers[key];
+    // $FlowFixMe
+    const previousStateForKey = state[key];
+    // $FlowFixMe
+    const nextStateForKey = reducer(previousStateForKey, action);
+    nextState[key] = nextStateForKey;
+    hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+  }
+  // $FlowFixMe -- errors from those empty object literals
+  return hasChanged ? nextState : state;
+};
 
 export default enableBatching(combinedReducer);
