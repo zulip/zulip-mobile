@@ -26,16 +26,8 @@ export default class AvatarList extends PureComponent<Props> {
             listRef(component);
           }
         }}
-        keyExtractor={item => item.email}
-        renderItem={({ item }) => (
-          <AvatarItem
-            userId={item.user_id}
-            email={item.email}
-            avatarUrl={item.avatar_url}
-            fullName={item.full_name}
-            onPress={onPress}
-          />
-        )}
+        keyExtractor={user => String(user.user_id)}
+        renderItem={({ item: user }) => <AvatarItem user={user} onPress={onPress} />}
       />
     );
   }
