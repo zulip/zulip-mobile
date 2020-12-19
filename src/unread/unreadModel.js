@@ -28,7 +28,7 @@ export const reducer = (
   globalState: GlobalState,
 ): UnreadState => {
   const nextState = {
-    streams: unreadStreamsReducer(state?.streams, action),
+    streams: unreadStreamsReducer(state?.streams, action, globalState),
     pms: unreadPmsReducer(state?.pms, action),
     huddles: unreadHuddlesReducer(state?.huddles, action),
     mentions: unreadMentionsReducer(state?.mentions, action),
