@@ -453,14 +453,74 @@ export const makeOutboxMessage = (data: $Shape<$Diff<Outbox, {| id: mixed |}>>):
 
 const privateReduxStore = createStore(rootReducer);
 
-/** The global Redux state, at its initial value. */
+/**
+ * The global Redux state, at its initial value.
+ *
+ * See `plusReduxState` for a version of the state that incorporates
+ * `selfUser` and other standard example data.
+ */
 export const baseReduxState: GlobalState = deepFreeze(privateReduxStore.getState());
 
+/**
+ * A global Redux state, with `baseReduxState` plus the given data.
+ *
+ * See `reduxStatePlus` for a version that automatically includes `selfUser`
+ * and other standard example data.
+ */
 export const reduxState = (extra?: $Rest<GlobalState, {}>): GlobalState =>
   deepFreeze({
     ...baseReduxState,
     ...extra,
   });
+
+/**
+ * The global Redux state, reflecting standard example data like `selfUser`.
+ *
+ * This approximates what the state might look like at a time when the app
+ * is showing its main UI: so when the user has logged into some account and
+ * we have our usual server data for it.
+ *
+ * In particular:
+ *  * The self-user is `selfUser`.
+ *  * Users `otherUser` and `thirdUser` also exist.
+ *
+ * More generally, each object in the Zulip app model -- a user, a stream,
+ * etc. -- that this module exports as a constant value (rather than only as
+ * a function to make a value) will typically appear here.
+ *
+ * That set will grow over time, so a test should never rely on
+ * `plusReduxState` containing only the things it currently contains.  For
+ * example, it should not assume there are only three users, even if that
+ * happens to be true now.  If the test needs a user (or stream, etc.) that
+ * isn't in this state, it should create the user privately for itself, with
+ * a helper like `makeUser`.
+ *
+ * On the other hand, a test *can* rely on an item being here if it
+ * currently is here.  So for example a test which uses `plusReduxState` can
+ * assume it contains `otherUser`; it need not, and should not bother to,
+ * add `otherUser` to the state.
+ *
+ * See `baseReduxState` for a minimal version of the state.
+ */
+export const plusReduxState: GlobalState = reduxState({
+  // TODO add .accounts, reflecting selfAuth, zulipVersion, zulipFeatureLevel
+  realm: { ...baseReduxState.realm, user_id: selfUser.user_id, email: selfUser.email },
+  // TODO add crossRealmBot
+  users: [selfUser, otherUser, thirdUser],
+  // TODO add stream and subscription
+});
+
+/**
+ * A global Redux state, adding the given data to `plusReduxState`.
+ *
+ * This automatically includes standard example data like `selfUser` and
+ * `otherUser`, so that there's no need to add those explicitly.  See
+ * `plusReduxState` for details on what's included.
+ *
+ * See `reduxState` for a version starting from a minimal state.
+ */
+export const reduxStatePlus = (extra?: $Rest<GlobalState, {}>): GlobalState =>
+  deepFreeze({ ...plusReduxState, ...extra });
 
 export const realmState = (extra?: $Rest<RealmState, {}>): RealmState =>
   deepFreeze({
