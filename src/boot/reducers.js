@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import type { CombinedReducer } from 'redux';
 import { enableBatching } from 'redux-batched-actions';
 
 import config from '../config';
@@ -67,20 +66,19 @@ const reducerKeys = Object.keys(reducers);
 
 // Inlined just now from Redux upstream.
 // We'll clean this up in the next few commits.
-const combinedReducer: CombinedReducer<GlobalState, Action> = (state = {}, action) => {
+const combinedReducer = (state: void | GlobalState, action: Action): GlobalState => {
   let hasChanged = false;
   const nextState = {};
   for (let i = 0; i < reducerKeys.length; i++) {
     const key = reducerKeys[i];
     const reducer = reducers[key];
-    // $FlowFixMe
-    const previousStateForKey = state[key];
-    // $FlowFixMe
+    const previousStateForKey = state?.[key];
+    // $FlowFixMe -- works because reducer and previousStateForKey are from same key
     const nextStateForKey = reducer(previousStateForKey, action);
     nextState[key] = nextStateForKey;
     hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
   }
-  // $FlowFixMe -- errors from those empty object literals
+  // $FlowFixMe -- works because we didn't mix up keys above
   return hasChanged ? nextState : state;
 };
 
