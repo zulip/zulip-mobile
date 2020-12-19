@@ -31,7 +31,7 @@ import userGroups from '../user-groups/userGroupsReducer';
 import userStatus from '../user-status/userStatusReducer';
 import users from '../users/usersReducer';
 
-const reducers = {
+const plainReducers = {
   migrations: (state: MigrationsState = NULL_OBJECT) => state,
   accounts,
   alertWords,
@@ -58,6 +58,10 @@ const reducers = {
   users,
 };
 
+const reducers = config.enableReduxSlowReducerWarnings
+  ? logSlowReducers(plainReducers)
+  : plainReducers;
+
 export const ALL_KEYS: string[] = Object.keys(reducers);
 
 // Inlined just now from Redux upstream.
@@ -82,6 +86,6 @@ const combinedReducer: CombinedReducer<GlobalState, Action> = (reducers => {
     // $FlowFixMe -- errors from those empty object literals
     return hasChanged ? nextState : state;
   };
-})(config.enableReduxSlowReducerWarnings ? logSlowReducers(reducers) : reducers);
+})(reducers);
 
 export default enableBatching(combinedReducer);
