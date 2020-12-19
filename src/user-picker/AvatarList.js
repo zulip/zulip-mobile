@@ -2,13 +2,13 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { UserOrBot } from '../types';
+import type { UserId, UserOrBot } from '../types';
 import AvatarItem from './AvatarItem';
 
 type Props = $ReadOnly<{|
   users: UserOrBot[],
   listRef: (component: FlatList<UserOrBot> | null) => void,
-  onPress: (email: string) => void,
+  onPress: UserId => void,
 |}>;
 
 export default class AvatarList extends PureComponent<Props> {
@@ -29,6 +29,7 @@ export default class AvatarList extends PureComponent<Props> {
         keyExtractor={item => item.email}
         renderItem={({ item }) => (
           <AvatarItem
+            userId={item.user_id}
             email={item.email}
             avatarUrl={item.avatar_url}
             fullName={item.full_name}

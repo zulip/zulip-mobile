@@ -2,9 +2,9 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { FlatList } from 'react-native';
-
 import { createSelector } from 'reselect';
-import type { User, UserOrBot, PresenceState, Selector, Dispatch } from '../types';
+
+import type { User, UserId, UserOrBot, PresenceState, Selector, Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { FloatingActionButton, LineSeparator } from '../common';
@@ -56,9 +56,9 @@ class UserPickerCard extends PureComponent<Props, State> {
     });
   };
 
-  handleUserDeselect = (email: string) => {
+  handleUserDeselect = (userId: UserId) => {
     this.setState(state => ({
-      selected: state.selected.filter(x => x.email !== email),
+      selected: state.selected.filter(x => x.user_id !== userId),
     }));
   };
 
