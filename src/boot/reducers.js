@@ -62,30 +62,26 @@ export const ALL_KEYS: string[] = Object.keys(reducers);
 
 // Inlined just now from Redux upstream.
 // We'll clean this up in the next few commits.
-/* eslint-disable semi */
 /* eslint-disable no-shadow */
-// prettier-ignore
 const combinedReducer: CombinedReducer<GlobalState, Action> = (reducers => {
-  const reducerKeys = Object.keys(reducers)
+  const reducerKeys = Object.keys(reducers);
 
   return function combination(state = {}, action) {
-    let hasChanged = false
-    const nextState = {}
+    let hasChanged = false;
+    const nextState = {};
     for (let i = 0; i < reducerKeys.length; i++) {
-      const key = reducerKeys[i]
-      const reducer = reducers[key]
+      const key = reducerKeys[i];
+      const reducer = reducers[key];
       // $FlowFixMe
-      const previousStateForKey = state[key]
+      const previousStateForKey = state[key];
       // $FlowFixMe
-      const nextStateForKey = reducer(previousStateForKey, action)
-      nextState[key] = nextStateForKey
-      hasChanged = hasChanged || nextStateForKey !== previousStateForKey
+      const nextStateForKey = reducer(previousStateForKey, action);
+      nextState[key] = nextStateForKey;
+      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
     }
     // $FlowFixMe -- errors from those empty object literals
-    return hasChanged ? nextState : state
-  }
-})(
-  config.enableReduxSlowReducerWarnings ? logSlowReducers(reducers) : reducers,
-);
+    return hasChanged ? nextState : state;
+  };
+})(config.enableReduxSlowReducerWarnings ? logSlowReducers(reducers) : reducers);
 
 export default enableBatching(combinedReducer);
