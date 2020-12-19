@@ -2,11 +2,10 @@
 import React, { PureComponent } from 'react';
 import { Animated, Easing, View } from 'react-native';
 
-import type { UserId } from '../types';
+import type { UserId, UserOrBot } from '../types';
 import { UserAvatarWithPresence, ComponentWithOverlay, RawLabel, Touchable } from '../common';
 import { createStyleSheet } from '../styles';
 import { IconCancel } from '../common/Icons';
-import { AvatarURL } from '../utils/avatar';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -28,20 +27,12 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  userId: UserId,
-  email: string,
-  avatarUrl: AvatarURL,
-  fullName: string,
+  user: UserOrBot,
   onPress: UserId => void,
 |}>;
 
 /**
  * Pressable avatar for items in the user-picker card.
- *
- * @prop [email]
- * @prop [avatarUrl]
- * @prop [fullName]
- * @prop [onPress]
  */
 export default class AvatarItem extends PureComponent<Props> {
   animatedValue = new Animated.Value(0);
@@ -56,21 +47,21 @@ export default class AvatarItem extends PureComponent<Props> {
   }
 
   handlePress = () => {
-    const { userId, onPress } = this.props;
+    const { user, onPress } = this.props;
     Animated.timing(this.animatedValue, {
       toValue: 0,
       duration: 300,
       useNativeDriver: true,
       easing: Easing.elastic(),
-    }).start(() => onPress(userId));
+    }).start(() => onPress(user.user_id));
   };
 
   render() {
-    const { email, avatarUrl, fullName } = this.props;
+    const { user } = this.props;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
     };
-    const firstName = fullName.trim().split(' ')[0];
+    const firstName = user.full_name.trim().split(' ')[0];
 
     return (
       <Animated.View style={[styles.wrapper, animatedStyle]}>
@@ -81,7 +72,12 @@ export default class AvatarItem extends PureComponent<Props> {
             overlayPosition="bottom-right"
             overlay={<IconCancel color="gray" size={20} />}
           >
-            <UserAvatarWithPresence key={email} size={50} avatarUrl={avatarUrl} email={email} />
+            <UserAvatarWithPresence
+              key={user.user_id}
+              size={50}
+              avatarUrl={user.avatar_url}
+              email={user.email}
+            />
           </ComponentWithOverlay>
         </Touchable>
         <View style={styles.textFrame}>
