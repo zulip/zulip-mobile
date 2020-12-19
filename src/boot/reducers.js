@@ -61,8 +61,7 @@ function applyReducer<Key: $Keys<GlobalState>, State>(
   return nextState;
 }
 
-// Inlined just now from Redux upstream.
-// We'll clean this up in the next few commits.
+// Based on Redux upstream's combineReducers.
 const combinedReducer = (state: void | GlobalState, action: Action): GlobalState => {
   // prettier-ignore
   const nextState = {
