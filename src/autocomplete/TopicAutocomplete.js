@@ -9,6 +9,7 @@ import { connect } from '../react-redux';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
+import { fetchTopicsForStream } from '../topics/topicActions';
 
 const styles = createStyleSheet({
   topic: {
@@ -31,6 +32,11 @@ type Props = $ReadOnly<{|
 |}>;
 
 class TopicAutocomplete extends PureComponent<Props> {
+  componentDidMount() {
+    const { dispatch, narrow } = this.props;
+    dispatch(fetchTopicsForStream(narrow)); // state.topics is updated on EVENT_NEW_MESSAGE actions
+  }
+
   render() {
     const { isFocused, topics, text, onAutocomplete } = this.props;
 

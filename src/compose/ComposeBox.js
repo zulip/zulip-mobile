@@ -22,13 +22,7 @@ import type {
 } from '../types';
 import { connect } from '../react-redux';
 import { withGetText } from '../boot/TranslationProvider';
-import {
-  addToOutbox,
-  draftUpdate,
-  fetchTopicsForStream,
-  sendTypingStart,
-  sendTypingStop,
-} from '../actions';
+import { addToOutbox, draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
 import * as api from '../api';
 import { FloatingActionButton, Input } from '../common';
 import { showErrorAlert } from '../utils/info';
@@ -287,13 +281,11 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleTopicFocus = () => {
-    const { dispatch, narrow } = this.props;
     this.setState({
       isTopicFocused: true,
       isFocused: true,
       isMenuExpanded: false,
     });
-    dispatch(fetchTopicsForStream(narrow));
   };
 
   handleTopicBlur = () => {
