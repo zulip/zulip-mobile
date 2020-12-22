@@ -32,6 +32,7 @@ export const fetchTopicsForStream = (narrow: Narrow) => async (
   const streamName = streamNameOfNarrow(narrow);
 
   const streams = getStreams(state);
+  // TODO (#4333): Look for the stream by its ID, not its name.
   const stream = streams.find(sub => streamName === sub.name);
   if (!stream) {
     return;

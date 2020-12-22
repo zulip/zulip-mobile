@@ -29,6 +29,11 @@ export const getTopicsForNarrow: Selector<string[], Narrow> = createSelector(
     }
     const streamName = streamNameOfNarrow(narrow);
 
+    // TODO (#4333): Look for the stream by its ID, not its name. One
+    // expected consequence of the current code is that
+    // `TopicAutocomplete` would stop showing any topics, if someone
+    // changed the stream name while you were looking at
+    // `TopicAutocomplete`.
     const stream = streams.find(x => x.name === streamName);
     if (!stream || !topics[stream.stream_id]) {
       return NULL_ARRAY;
