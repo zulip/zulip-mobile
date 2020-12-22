@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 /* eslint-disable id-match */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jest/valid-expect */
@@ -31,20 +30,22 @@ const data = {
 };
 
 describe('Immutable', () => {
-  const stringified = {};
-  describe('Stringify', () => {
-    Object.keys(data).forEach(key => {
-      it(key, () => {
-        stringified[key] = stringify(data[key]);
-        expect(stringified[key]).toMatchSnapshot();
+  describe('Stringify / Parse', () => {
+    const stringified = {};
+    describe('Stringify', () => {
+      Object.keys(data).forEach(key => {
+        it(key, () => {
+          stringified[key] = stringify(data[key]);
+          expect(stringified[key]).toMatchSnapshot();
+        });
       });
     });
-  });
 
-  describe('Parse', () => {
-    Object.keys(data).forEach(key => {
-      it(key, () => {
-        expect(parse(stringified[key])).toEqual(data[key]);
+    describe('Parse', () => {
+      Object.keys(data).forEach(key => {
+        it(key, () => {
+          expect(parse(stringified[key])).toEqual(data[key]);
+        });
       });
     });
   });
@@ -53,18 +54,18 @@ describe('Immutable', () => {
     const ABRecord = Immutable.Record({ a: 1, b: 2 });
     const myRecord = new ABRecord({ b: 3 });
 
-    const serialize = Serialize(Immutable, [ABRecord]);
-    const stringify = serialize.stringify;
-    const parse = serialize.parse;
+    const serializeWithRefs = Serialize(Immutable, [ABRecord]);
+    const stringifyWithRefs = serializeWithRefs.stringify;
+    const parseWithRefs = serializeWithRefs.parse;
     let stringifiedRecord;
 
     it('stringify', () => {
-      stringifiedRecord = stringify(myRecord);
+      stringifiedRecord = stringifyWithRefs(myRecord);
       expect(stringifiedRecord).toMatchSnapshot();
     });
 
     it('parse', () => {
-      expect(parse(stringifiedRecord)).toEqual(myRecord);
+      expect(parseWithRefs(stringifiedRecord)).toEqual(myRecord);
     });
   });
 
@@ -75,18 +76,18 @@ describe('Immutable', () => {
     });
     const nestedData = Immutable.Set(ABRecord(), data.orderedSet, data.range);
 
-    const serialize = Serialize(Immutable, [ABRecord]);
-    const stringify = serialize.stringify;
-    const parse = serialize.parse;
+    const serializeWithRefs = Serialize(Immutable, [ABRecord]);
+    const stringifyWithRefs = serializeWithRefs.stringify;
+    const parseWithRefs = serializeWithRefs.parse;
     let stringifiedNested;
 
     it('stringify', () => {
-      stringifiedNested = stringify(nestedData);
+      stringifiedNested = stringifyWithRefs(nestedData);
       expect(stringifiedNested).toMatchSnapshot();
     });
 
     it('parse', () => {
-      expect(parse(stringifiedNested)).toEqual(nestedData);
+      expect(parseWithRefs(stringifiedNested)).toEqual(nestedData);
     });
   });
   describe('With references', () => {
