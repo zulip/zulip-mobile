@@ -6,7 +6,7 @@ test('true is true', () => {
 })
 
 // var Immutable = require('immutable');
-// var Serialize = require('../immutable');
+// var Serialize = require('remotedev-serialize').immutable;
 // var serialize = Serialize(Immutable);
 // var stringify = serialize.stringify;
 // var parse = serialize.parse;
