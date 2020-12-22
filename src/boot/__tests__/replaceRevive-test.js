@@ -4,9 +4,7 @@
 import Immutable from 'immutable';
 import { immutable as Serialize } from 'remotedev-serialize';
 
-const serialize = Serialize(Immutable);
-const stringify = serialize.stringify;
-const parse = serialize.parse;
+import { stringify, parse } from '../store';
 
 const data = {
   map: Immutable.Map({ a: 1, b: 2, c: 3, d: 4 }),
