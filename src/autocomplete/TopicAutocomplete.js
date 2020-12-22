@@ -34,7 +34,19 @@ type Props = $ReadOnly<{|
 class TopicAutocomplete extends PureComponent<Props> {
   componentDidMount() {
     const { dispatch, narrow } = this.props;
-    dispatch(fetchTopicsForStream(narrow)); // state.topics is updated on EVENT_NEW_MESSAGE actions
+    // The following should be sufficient to ensure we're up-to-date
+    // with the complete list of topics at all times that we need to
+    // be:
+    //
+    // - When we first expect to see the list, fetch all topics for
+    //   the stream.
+    //
+    // - Afterwards, update the list when a new message arrives, if it
+    //   introduces a new topic.
+    //
+    // The latter is already taken care of (see handling of
+    // EVENT_NEW_MESSAGE in topicsReducer). So, do the former here.
+    dispatch(fetchTopicsForStream(narrow));
   }
 
   render() {
