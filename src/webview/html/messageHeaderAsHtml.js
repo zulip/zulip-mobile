@@ -16,6 +16,7 @@ import {
   pmKeyRecipientsFromMessage,
   streamNameOfStreamMessage,
 } from '../../utils/recipient';
+import { base64Utf8Encode } from '../../utils/encoding';
 
 const renderSubject = item =>
   // TODO: pin down if '' happens, and what its proper semantics are.
@@ -54,7 +55,7 @@ export default (
     return template`
 <div
   class="header-wrapper header topic-header"
-  data-narrow="${topicNarrowStr}"
+  data-narrow="${base64Utf8Encode(topicNarrowStr)}"
   data-msg-id="${item.id}"
 >
   <div class="topic-text">$!${topicHtml}</div>
@@ -76,11 +77,11 @@ export default (
     return template`
 <div class="header-wrapper header stream-header topic-header"
     data-msg-id="${item.id}"
-    data-narrow="${topicNarrowStr}">
+    data-narrow="${base64Utf8Encode(topicNarrowStr)}">
   <div class="header stream-text"
        style="color: ${textColor};
               background: ${backgroundColor}"
-       data-narrow="${streamNarrowStr}">
+       data-narrow="${base64Utf8Encode(streamNarrowStr)}">
     # ${streamName}
   </div>
   <div class="topic-text">$!${topicHtml}</div>
@@ -97,7 +98,7 @@ export default (
     const uiRecipients = pmUiRecipientsFromMessage(item, ownUser);
     return template`
 <div class="header-wrapper private-header header"
-     data-narrow="${narrowStr}"
+     data-narrow="${base64Utf8Encode(narrowStr)}"
      data-msg-id="${item.id}">
   ${uiRecipients
     .map(r => r.full_name)

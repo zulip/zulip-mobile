@@ -24,6 +24,7 @@ import {
 } from '../actions';
 import { showActionSheet } from '../message/messageActionSheet';
 import { ensureUnreachable } from '../types';
+import { base64Utf8Decode } from '../utils/encoding';
 
 type MessageListEventReady = {|
   type: 'ready',
@@ -59,6 +60,8 @@ type MessageListEventAvatar = {|
 
 type MessageListEventNarrow = {|
   type: 'narrow',
+  // The result of `keyFromNarrow`, passed through `base64Utf8Encode`.
+  // Pass it through `base64UtfDecode` before using.
   narrow: string,
 |};
 
@@ -229,7 +232,7 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
     }
 
     case 'narrow':
-      props.dispatch(doNarrow(parseNarrow(event.narrow)));
+      props.dispatch(doNarrow(parseNarrow(base64Utf8Decode(event.narrow))));
       break;
 
     case 'image':
