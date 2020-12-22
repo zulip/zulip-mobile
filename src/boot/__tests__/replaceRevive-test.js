@@ -141,7 +141,7 @@ test('true is true', () => {
 //         var deserialized = serializeCustom.parse(stringified);
 //         expect(deserialized).toEqual(data[key]);
 //         if (key === 'map' || key === 'orderedMap') {
-//           deserializedDefault = parse(stringified);
+//           var deserializedDefault = parse(stringified);
 //           expect(deserializedDefault.get('a')).toEqual(customOneRepresentation);
 //         }
 //       });
