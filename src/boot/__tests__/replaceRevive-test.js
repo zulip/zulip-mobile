@@ -1,6 +1,5 @@
 /* eslint-disable id-match */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable jest/no-conditional-expect */
 
 import Immutable from 'immutable';
 import { immutable as Serialize } from 'remotedev-serialize';
@@ -141,9 +140,21 @@ describe('Immutable', () => {
       const stringified = serializeCustom.stringify(data[key]);
       it(key, () => {
         const deserialized = serializeCustom.parse(stringified);
+        // Make sure serializeCustom round-trips
         expect(deserialized).toEqual(data[key]);
         if (key === 'map' || key === 'orderedMap') {
           const deserializedDefault = parse(stringified);
+          // Make sure we actually stored `1` in the customReplacer's
+          // representation, 'one'.
+          //
+          // If we were going to keep this test, it would probably be
+          // wise to listen to `jest/no-conditional-expect` (see
+          // https://github.com/zulip/zulip-mobile/pull/4348#discussion_r548761362)
+          // -- but we're not; we'll remove this entire `describe`
+          // block soon, when we're no longer using the
+          // `Serialize.immutable` factory.
+          //
+          // eslint-disable-next-line jest/no-conditional-expect
           expect(deserializedDefault.get('a')).toEqual(customOneRepresentation);
         }
       });
