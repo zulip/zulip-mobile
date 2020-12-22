@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { TextInput, TouchableWithoutFeedback, View, Keyboard } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import type {
   NavigationEventSubscription,
@@ -74,6 +74,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   focusListener: void | NavigationEventSubscription;
 
   componentDidMount() {
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
       if (this.textInputRef.current) {
         // Should be fixed in RN v0.63 (#4245); see
@@ -85,6 +86,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
+    this.keyboardDidHideListener.remove();
     if (this.focusListener) {
       this.focusListener.remove();
     }
@@ -97,13 +99,19 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
     onChangeText(fixRealmUrl(autocompleteRealm(value, { protocol, domain })));
   };
 
+  _keyboardDidHide = () => {
+    const { textInputRef } = this;
+    if (textInputRef) {
+      textInputRef.current.blur();
+    }
+  };
+
   urlPress = () => {
     const { textInputRef } = this;
     if (textInputRef.current) {
       // Should be fixed in RN v0.63 (#4245); see
       // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
       // $FlowFixMe
-      textInputRef.current.blur();
       setTimeout(() => {
         if (textInputRef.current) {
           // $FlowFixMe - same as above
