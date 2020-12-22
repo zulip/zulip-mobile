@@ -3,3 +3,4 @@ src/emoji/__tests__/data-test.js
 
 # We're not allowing Prettier to touch some of our vendored code.
 src/third/redux-persist
+src/boot/__tests__/replaceRevive-test.js
