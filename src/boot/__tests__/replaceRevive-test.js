@@ -1,6 +1,5 @@
 /* eslint-disable id-match */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable jest/valid-expect */
 /* eslint-disable jest/no-conditional-expect */
 
 import Immutable from 'immutable';
@@ -111,7 +110,7 @@ describe('Immutable', () => {
       const scndProp = parsed.data.scnd.data.prop;
 
       expect(fstProp).toEqual(scndProp);
-      expect(Array.isArray(obj.get('fst').get('prop')));
+      expect(Array.isArray(obj.get('fst').get('prop'))).toBeTrue();
     });
   });
 
