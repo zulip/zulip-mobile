@@ -3,7 +3,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jest/valid-expect */
 /* eslint-disable jest/no-conditional-expect */
-/* eslint-disable new-cap */
 
 import Immutable from 'immutable';
 import { immutable as Serialize } from 'remotedev-serialize';
@@ -93,15 +92,15 @@ describe('Immutable', () => {
   describe('With references', () => {
     it('serializes and deserializes', () => {
       const sharedValue = [];
-      const record = Immutable.Record({
+      const Record = Immutable.Record({
         prop: sharedValue,
       });
 
-      const refs = [record];
+      const refs = [Record];
 
       const obj = Immutable.Map({
-        fst: new record(),
-        scnd: new record(),
+        fst: new Record(),
+        scnd: new Record(),
       });
 
       const serialized = stringify(obj, Serialize(Immutable, refs).replacer, null, true);
