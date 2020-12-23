@@ -276,12 +276,13 @@ export function caseNarrowDefault<T>(
  * See in particular `NarrowsState`, `CaughtUpState`, `FetchingState`,
  * and `DraftsState`.
  *
- * Doesn't round-trip through being stored as the value for the
- * `data-narrow` attribute in our WebView HTML; see note at `topic`.
- * Our way around this is to encode it with `base64Utf8Encode` on the
- * way into the WebView (in our HTML-generation functions) and decode
- * it with `base64Utf8Decode` on the way out.
+ * The key may contain arbitrary Unicode codepoints.  If passing through a
+ * channel (like an HTML attribute) that only allows certain codepoints, use
+ * something like `base64Utf8Encode` to encode into the permitted subset.
  */
+// The arbitrary Unicode codepoints come from (a) stream names and topics,
+// and (b) our use of `\x00` as a delimiter.  Also perhaps email addresses,
+// if it's possible for those to have exciting characters in them.
 export function keyFromNarrow(narrow: Narrow): string {
   // The ":s" bit in several of these is to keep them disjoint, out of an
   // abundance of caution, from future keys that use numeric IDs.
@@ -292,9 +293,6 @@ export function keyFromNarrow(narrow: Narrow): string {
     stream: name => `stream:s:${name}`,
     // '\x00' is the one character not allowed in Zulip stream names.
     // (See `check_stream_name` in zulip.git:zerver/lib/streams.py.)
-    //
-    // The `\x00` character doesn't round-trip through being stored in
-    // an HTML element attribute (see JSDoc).
     topic: (streamName, topic) => `topic:s:${streamName}\x00${topic}`,
 
     pm: emails => `pm:s:${emails.join(',')}`,

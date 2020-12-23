@@ -620,6 +620,7 @@ const eventUpdateHandlers = {
 // See `handleInitialLoad` for how this gets subscribed to events.
 const handleMessageEvent: MessageEventListener = e => {
   scrollEventsDisabled = true;
+  // This decoding inverts `base64Utf8Encode`.
   const decodedData = decodeURIComponent(escape(window.atob(e.data)));
   const rawUpdateEvents = JSON.parse(decodedData);
   const updateEvents: WebViewUpdateEvent[] = rawUpdateEvents.map(updateEvent => ({

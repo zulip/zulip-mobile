@@ -37,13 +37,10 @@ export const hexToBase64 = (hex: string) => base64.encode(hexToAscii(hex));
  *
  * This lets us pass an arbitrary string through a channel (like the
  * `postMessage` on RN's WebViews on Android) that tries to do something
- * like percent-decode it.
+ * like percent-decode it, or (like an HTML attribute) that forbids certain
+ * characters.
  *
- * It also lets us use the `\x00` character in our `Narrow` keys (see
- * `keyFromNarrow` in narrow.js). That character doesn't round-trip
- * through being stored as the `data-narrow` HTML attribute in our
- * WebView HTML, so we encode the narrow keys on the way in and decode
- * them on the way out.
+ * See also `base64Utf8Decode` for the inverse.
  */
 export const base64Utf8Encode = (text: string): string =>
   // References on reliably encoding strings to Base64:
