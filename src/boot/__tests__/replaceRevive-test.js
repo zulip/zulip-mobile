@@ -2,9 +2,11 @@
 /* eslint-disable no-underscore-dangle */
 
 import Immutable from 'immutable';
-import { immutable as Serialize } from 'remotedev-serialize';
 
+import { FallbackAvatarURL, GravatarURL, UploadedAvatarURL } from '../../utils/avatar';
+import { ZulipVersion } from '../../utils/zulipVersion';
 import { stringify, parse } from '../store';
+import * as eg from '../../__tests__/lib/exampleData';
 
 const data = {
   map: Immutable.Map({ a: 1, b: 2, c: 3, d: 4 }),
@@ -16,6 +18,18 @@ const data = {
   orderedSet: Immutable.OrderedSet([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]),
   seq: Immutable.Seq.Indexed.of(1, 2, 3, 4, 5, 6, 7, 8),
   stack: Immutable.Stack.of('a', 'b', 'c'),
+  zulipVersion: new ZulipVersion('3.0.0'),
+  url: new URL('https://chat.zulip.org'),
+  gravatarURL: GravatarURL.validateAndConstructInstance({ email: eg.selfUser.email }),
+  uploadedAvatarURL: UploadedAvatarURL.validateAndConstructInstance({
+    realm: eg.realm,
+    absoluteOrRelativeUrl:
+      '/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2',
+  }),
+  fallbackAvatarURL: FallbackAvatarURL.validateAndConstructInstance({
+    realm: eg.realm,
+    userId: 1,
+  }),
   withTypeKey: {
     a: 1,
     __serializedType__: {
@@ -42,54 +56,6 @@ describe('Immutable', () => {
         it(key, () => {
           expect(parse(stringified[key])).toEqual(data[key]);
         });
-      });
-    });
-  });
-
-  describe('Custom replacer and reviver functions', () => {
-    const customOneRepresentation = 'one';
-
-    function customReplacer(key, value, defaultReplacer) {
-      if (value === 1) {
-        return { data: customOneRepresentation, __serializedType__: 'number' };
-      }
-      return defaultReplacer(key, value);
-    }
-
-    function customReviver(key, value, defaultReviver) {
-      if (
-        typeof value === 'object'
-        && value.__serializedType__ === 'number'
-        && value.data === customOneRepresentation
-      ) {
-        return 1;
-      }
-      return defaultReviver(key, value);
-    }
-
-    const serializeCustom = Serialize(Immutable, null, customReplacer, customReviver);
-
-    Object.keys(data).forEach(key => {
-      const stringified = serializeCustom.stringify(data[key]);
-      it(key, () => {
-        const deserialized = serializeCustom.parse(stringified);
-        // Make sure serializeCustom round-trips
-        expect(deserialized).toEqual(data[key]);
-        if (key === 'map' || key === 'orderedMap') {
-          const deserializedDefault = parse(stringified);
-          // Make sure we actually stored `1` in the customReplacer's
-          // representation, 'one'.
-          //
-          // If we were going to keep this test, it would probably be
-          // wise to listen to `jest/no-conditional-expect` (see
-          // https://github.com/zulip/zulip-mobile/pull/4348#discussion_r548761362)
-          // -- but we're not; we'll remove this entire `describe`
-          // block soon, when we're no longer using the
-          // `Serialize.immutable` factory.
-          //
-          // eslint-disable-next-line jest/no-conditional-expect
-          expect(deserializedDefault.get('a')).toEqual(customOneRepresentation);
-        }
       });
     });
   });

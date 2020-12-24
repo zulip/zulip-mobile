@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Immutable Stringify / Parse Stringify fallbackAvatarURL 1`] = `"{\\"data\\":\\"https://zulip.example.org/avatar/1\\",\\"__serializedType__\\":\\"FallbackAvatarURL\\"}"`;
+
+exports[`Immutable Stringify / Parse Stringify gravatarURL 1`] = `"{\\"data\\":\\"https://secure.gravatar.com/avatar/3b01d0f626dc6944ed45dbe6c86d3e30?d=identicon\\",\\"__serializedType__\\":\\"GravatarURL\\"}"`;
+
 exports[`Immutable Stringify / Parse Stringify list 1`] = `"{\\"data\\":[1,2,3,4,5,6,7,8,9,10],\\"__serializedType__\\":\\"ImmutableList\\"}"`;
 
 exports[`Immutable Stringify / Parse Stringify map 1`] = `"{\\"data\\":{\\"a\\":1,\\"b\\":2,\\"c\\":3,\\"d\\":4},\\"__serializedType__\\":\\"ImmutableMap\\"}"`;
@@ -18,4 +22,10 @@ exports[`Immutable Stringify / Parse Stringify set 1`] = `"{\\"data\\":[1,2,3,4,
 
 exports[`Immutable Stringify / Parse Stringify stack 1`] = `"{\\"data\\":[\\"a\\",\\"b\\",\\"c\\"],\\"__serializedType__\\":\\"ImmutableStack\\"}"`;
 
+exports[`Immutable Stringify / Parse Stringify uploadedAvatarURL 1`] = `"{\\"data\\":\\"https://zulip.example.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2\\",\\"__serializedType__\\":\\"UploadedAvatarURL\\"}"`;
+
+exports[`Immutable Stringify / Parse Stringify url 1`] = `"{\\"data\\":\\"https://chat.zulip.org/\\",\\"__serializedType__\\":\\"URL\\"}"`;
+
 exports[`Immutable Stringify / Parse Stringify withTypeKey 1`] = `"{\\"__serializedType__\\":\\"Object\\",\\"data\\":{\\"a\\":1},\\"__serializedType__value\\":{\\"__serializedType__\\":\\"Object\\",\\"data\\":{\\"b\\":[2]},\\"__serializedType__value\\":{\\"c\\":[3]}}}"`;
+
+exports[`Immutable Stringify / Parse Stringify zulipVersion 1`] = `"{\\"data\\":\\"3.0.0\\",\\"__serializedType__\\":\\"ZulipVersion\\"}"`;
