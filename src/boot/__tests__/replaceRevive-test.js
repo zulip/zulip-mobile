@@ -1,3 +1,4 @@
+/* @flow strict-local */
 /* eslint-disable id-match */
 /* eslint-disable no-underscore-dangle */
 
