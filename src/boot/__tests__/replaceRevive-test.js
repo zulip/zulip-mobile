@@ -6,7 +6,7 @@ import Immutable from 'immutable';
 
 import { FallbackAvatarURL, GravatarURL, UploadedAvatarURL } from '../../utils/avatar';
 import { ZulipVersion } from '../../utils/zulipVersion';
-import { stringify, parse, SERIALIZED_TYPE_FIELD_NAME } from '../store';
+import { stringify, parse, SERIALIZED_TYPE_FIELD_NAME } from '../replaceRevive';
 import * as eg from '../../__tests__/lib/exampleData';
 
 const data = {
