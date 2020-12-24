@@ -47,6 +47,24 @@ describe('Stringify', () => {
       expect(stringified[key]).toMatchSnapshot();
     });
   });
+
+  test('catches an unexpectedly unhandled value with a `toJSON` method', () => {
+    expect(() => stringify(new Date())).toThrow();
+  });
+
+  test("catches a value that's definitely not serializable as-is", () => {
+    expect(() => stringify(() => 'foo')).toThrow();
+  });
+
+  test('catches an unexpectedly unhandled value of an interesting type', () => {
+    class Dog {
+      noise = 'woof';
+      makeNoise() {
+        console.log(this.noise); // eslint-disable-line no-console
+      }
+    }
+    expect(() => stringify(new Dog())).toThrow();
+  });
 });
 
 describe('Parse', () => {

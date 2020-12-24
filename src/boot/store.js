@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import invariant from 'invariant';
 import { applyMiddleware, compose, createStore } from 'redux';
 import type { Store } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -379,7 +380,30 @@ const replacer = function replacer(key, value) {
     };
   } else if (Immutable.Map.isMap(origValue)) {
     return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
-  } else if (typeof value === 'object' && value !== null && SERIALIZED_TYPE_FIELD_NAME in value) {
+  }
+
+  if (typeof origValue === 'object' && origValue !== null) {
+    // Don't forget to handle a value's `toJSON` method, if present, as
+    // described above.
+    invariant(typeof origValue.toJSON !== 'function', 'unexpected toJSON');
+
+    // If storing an interesting data type, don't forget to handle it
+    // here, and in `reviver`.
+    const origValuePrototype = Object.getPrototypeOf(origValue);
+    invariant(
+      origValuePrototype
+        // "property `prototype` is missing in  statics of `Object`"
+        // $FlowFixMe
+        === Object.prototype
+        || origValuePrototype
+          // "property `prototype` is missing in  statics of `Array`"
+          // $FlowFixMe
+          === Array.prototype,
+      'unexpected class',
+    );
+  }
+
+  if (typeof value === 'object' && value !== null && SERIALIZED_TYPE_FIELD_NAME in value) {
     const copy = { ...value };
     delete copy[SERIALIZED_TYPE_FIELD_NAME];
     return {
@@ -388,6 +412,7 @@ const replacer = function replacer(key, value) {
       [SERIALIZED_TYPE_FIELD_NAME_ESCAPED]: value[SERIALIZED_TYPE_FIELD_NAME],
     };
   }
+
   return value;
 };
 
