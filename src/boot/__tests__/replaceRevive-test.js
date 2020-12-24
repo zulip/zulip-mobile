@@ -40,24 +40,20 @@ const data = {
   },
 };
 
-describe('Immutable', () => {
-  describe('Stringify / Parse', () => {
-    const stringified = {};
-    describe('Stringify', () => {
-      Object.keys(data).forEach(key => {
-        it(key, () => {
-          stringified[key] = stringify(data[key]);
-          expect(stringified[key]).toMatchSnapshot();
-        });
-      });
+const stringified = {};
+describe('Stringify', () => {
+  Object.keys(data).forEach(key => {
+    it(key, () => {
+      stringified[key] = stringify(data[key]);
+      expect(stringified[key]).toMatchSnapshot();
     });
+  });
+});
 
-    describe('Parse', () => {
-      Object.keys(data).forEach(key => {
-        it(key, () => {
-          expect(parse(stringified[key])).toEqual(data[key]);
-        });
-      });
+describe('Parse', () => {
+  Object.keys(data).forEach(key => {
+    it(key, () => {
+      expect(parse(stringified[key])).toEqual(data[key]);
     });
   });
 });
