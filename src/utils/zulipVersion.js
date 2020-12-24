@@ -39,17 +39,21 @@ export class ZulipVersion {
   /**
    * The raw version string that was passed to the constructor.
    */
-  raw = () => this._raw;
+  raw() {
+    return this._raw;
+  }
 
   /**
    * Data to be sent to Sentry to help with event aggregation.
    */
-  elements = () => this._elements;
+  elements() {
+    return this._elements;
+  }
 
   /**
    * True if this version is later than or equal to a given threshold.
    */
-  isAtLeast = (otherZulipVersion: string | ZulipVersion) => {
+  isAtLeast(otherZulipVersion: string | ZulipVersion) {
     const otherZulipVersionInstance =
       otherZulipVersion instanceof ZulipVersion
         ? otherZulipVersion
@@ -66,12 +70,12 @@ export class ZulipVersion {
     // It's a tie so far, and one of the arrays has ended. The array with
     // further elements wins.
     return this._comparisonArray.length >= otherComparisonArray.length;
-  };
+  }
 
   /**
    * Parse the raw string into a VersionElements.
    */
-  static _getElements = (raw: string): VersionElements => {
+  static _getElements(raw: string): VersionElements {
     const result: VersionElements = {
       major: undefined,
       minor: undefined,
@@ -110,12 +114,12 @@ export class ZulipVersion {
     }
 
     return result;
-  };
+  }
 
   /**
    * Compute a number[] to be used in .isAtLeast comparisons.
    */
-  static _getComparisonArray = (elements: VersionElements): number[] => {
+  static _getComparisonArray(elements: VersionElements): number[] {
     const { major, minor, patch, flag, numCommits } = elements;
     const result: number[] = [];
 
@@ -149,5 +153,5 @@ export class ZulipVersion {
     }
 
     return result;
-  };
+  }
 }
