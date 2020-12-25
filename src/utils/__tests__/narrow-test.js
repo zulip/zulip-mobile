@@ -140,35 +140,35 @@ describe('isMessageInNarrow', () => {
     ]],
 
     ['1:1 PM conversation, non-self', pm1to1NarrowFromUser(eg.otherUser), [
-      ['matching PM, inbound', true, eg.pmMessage()],
-      ['matching PM, outbound', true, eg.pmMessage({ sender: eg.selfUser })],
-      ['self-1:1 message', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
-      ['group-PM including this user, inbound', false, eg.pmMessage({ recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
-      ['group-PM including this user, outbound', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
+      ['matching PM, inbound', true, eg.pmMessageFromTo(eg.otherUser, [eg.selfUser])],
+      ['matching PM, outbound', true, eg.pmMessageFromTo(eg.selfUser, [eg.otherUser])],
+      ['self-1:1 message', false, eg.pmMessageFromTo(eg.selfUser, [])],
+      ['group-PM including this user, inbound', false, eg.pmMessageFromTo(eg.otherUser, [eg.selfUser, eg.thirdUser])],
+      ['group-PM including this user, outbound', false, eg.pmMessageFromTo(eg.selfUser, [eg.otherUser, eg.thirdUser])],
       ['stream message', false, eg.streamMessage()],
     ]],
     ['self-1:1 conversation', pm1to1NarrowFromUser(eg.selfUser), [
-      ['self-1:1 message', true, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
-      ['other 1:1 message, inbound', false, eg.pmMessage()],
-      ['other 1:1 message, outbound', false, eg.pmMessage({ sender: eg.selfUser })],
-      ['group-PM, inbound', false, eg.pmMessage({ recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
-      ['group-PM, outbound', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
+      ['self-1:1 message', true, eg.pmMessageFromTo(eg.selfUser, [])],
+      ['other 1:1 message, inbound', false, eg.pmMessageFromTo(eg.otherUser, [eg.selfUser])],
+      ['other 1:1 message, outbound', false, eg.pmMessageFromTo(eg.selfUser, [eg.otherUser])],
+      ['group-PM, inbound', false, eg.pmMessageFromTo(eg.otherUser, [eg.selfUser, eg.thirdUser])],
+      ['group-PM, outbound', false, eg.pmMessageFromTo(eg.selfUser, [eg.otherUser, eg.thirdUser])],
       ['stream message', false, eg.streamMessage()],
     ]],
     ['group-PM conversation', pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]), [
-      ['matching group-PM, inbound', true, eg.pmMessage({ recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
-      ['matching group-PM, outbound', true, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
-      ['1:1 within group, inbound', false, eg.pmMessage()],
-      ['1:1 within group, outbound', false, eg.pmMessage({ sender: eg.selfUser })],
-      ['self-1:1 message', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
+      ['matching group-PM, inbound', true, eg.pmMessageFromTo(eg.otherUser, [eg.selfUser, eg.thirdUser])],
+      ['matching group-PM, outbound', true, eg.pmMessageFromTo(eg.selfUser, [eg.otherUser, eg.thirdUser])],
+      ['1:1 within group, inbound', false, eg.pmMessageFromTo(eg.otherUser, [eg.selfUser])],
+      ['1:1 within group, outbound', false, eg.pmMessageFromTo(eg.selfUser, [eg.otherUser])],
+      ['self-1:1 message', false, eg.pmMessageFromTo(eg.selfUser, [])],
       ['stream message', false, eg.streamMessage()],
     ]],
     ['group-PM conversation, including self', pmNarrowFromUsersUnsafe([eg.selfUser, eg.otherUser, eg.thirdUser]), [
-      ['matching group-PM, inbound', true, eg.pmMessage({ recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
-      ['matching group-PM, outbound', true, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser, eg.thirdUser] })],
-      ['1:1 within group, inbound', false, eg.pmMessage()],
-      ['1:1 within group, outbound', false, eg.pmMessage({ sender: eg.selfUser })],
-      ['self-1:1 message', false, eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] })],
+      ['matching group-PM, inbound', true, eg.pmMessageFromTo(eg.otherUser, [eg.selfUser, eg.thirdUser])],
+      ['matching group-PM, outbound', true, eg.pmMessageFromTo(eg.selfUser, [eg.otherUser, eg.thirdUser])],
+      ['1:1 within group, inbound', false, eg.pmMessageFromTo(eg.otherUser, [eg.selfUser])],
+      ['1:1 within group, outbound', false, eg.pmMessageFromTo(eg.selfUser, [eg.otherUser])],
+      ['self-1:1 message', false, eg.pmMessageFromTo(eg.selfUser, [])],
       ['stream message', false, eg.streamMessage()],
     ]],
     ['all-PMs narrow', ALL_PRIVATE_NARROW, [
@@ -276,15 +276,12 @@ describe('getNarrowsForMessage', () => {
     },
     {
       label: 'PM message with one person',
-      message: eg.pmMessage({ sender: eg.otherUser }),
+      message: eg.pmMessage(),
       expectedNarrows: [HOME_NARROW, ALL_PRIVATE_NARROW, pm1to1NarrowFromUser(eg.otherUser)],
     },
     {
       label: 'Group PM message',
-      message: eg.pmMessage({
-        sender: eg.otherUser,
-        recipients: [eg.selfUser, eg.otherUser, eg.thirdUser],
-      }),
+      message: eg.pmMessageFromTo(eg.otherUser, [eg.selfUser, eg.thirdUser]),
       expectedNarrows: [
         HOME_NARROW,
         ALL_PRIVATE_NARROW,
@@ -300,12 +297,9 @@ describe('getNarrowsForMessage', () => {
 
 describe('getNarrowForReply', () => {
   test('for self-PM, returns self-1:1 narrow', () => {
-    expect(
-      getNarrowForReply(
-        eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser] }),
-        eg.selfUser,
-      ),
-    ).toEqual(pm1to1NarrowFromUser(eg.selfUser));
+    expect(getNarrowForReply(eg.pmMessageFromTo(eg.selfUser, []), eg.selfUser)).toEqual(
+      pm1to1NarrowFromUser(eg.selfUser),
+    );
   });
 
   test('for 1:1 PM, returns a 1:1 PM narrow', () => {
@@ -318,9 +312,7 @@ describe('getNarrowForReply', () => {
   });
 
   test('for group PM, returns a group PM narrow', () => {
-    const message = eg.pmMessage({
-      recipients: [eg.selfUser, eg.otherUser, eg.thirdUser],
-    });
+    const message = eg.pmMessageFromTo(eg.otherUser, [eg.selfUser, eg.thirdUser]);
     const expectedNarrow = pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]);
 
     const actualNarrow = getNarrowForReply(message, eg.selfUser);
