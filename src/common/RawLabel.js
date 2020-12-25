@@ -6,7 +6,7 @@ import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
-  ...$Exact<$PropertyType<Text, 'props'>>,
+  ...$Exact<React$ElementConfig<typeof Text>>,
   text: string,
 |}>;
 

@@ -8,10 +8,7 @@ import { ThemeContext, HALF_COLOR, BORDER_COLOR } from '../styles';
 import { withGetText } from '../boot/TranslationProvider';
 
 export type Props = $ReadOnly<{|
-  // Should be fixed in RN v0.63 (#4245); see
-  // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
-  // $FlowFixMe
-  ...$PropertyType<typeof TextInput, 'props'>,
+  ...React$ElementConfig<typeof TextInput>,
   placeholder: LocalizableText,
   onChangeText?: (text: string) => void,
   textInputRef?: React$Ref<typeof TextInput>,

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
 import type { ComponentType } from 'react';
-import type { Text } from 'react-native';
+import { Text } from 'react-native';
 import type { Color, IconProps as IconPropsBusted } from 'react-native-vector-icons';
 import Feather from 'react-native-vector-icons/Feather';
 import type { FeatherGlyphs } from 'react-native-vector-icons/Feather';
@@ -24,7 +24,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
  *    it should be `allowFontScaling?: ?boolean`.
  */
 type IconProps<Glyphs: string> = {|
-  ...$Exact<$PropertyType<Text, 'props'>>,
+  ...$Exact<React$ElementConfig<typeof Text>>,
   size?: number,
   name: Glyphs,
   color?: Color,

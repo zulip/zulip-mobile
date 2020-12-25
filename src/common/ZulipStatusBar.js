@@ -10,7 +10,7 @@ import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../titl
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
 
-type BarStyle = $PropertyType<$PropertyType<StatusBar, 'props'>, 'barStyle'>;
+type BarStyle = $PropertyType<React$ElementConfig<typeof StatusBar>, 'barStyle'>;
 
 export const getStatusBarColor = (backgroundColor: string, theme: ThemeName): string =>
   backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR

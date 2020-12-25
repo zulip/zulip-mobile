@@ -8,7 +8,7 @@ import { ThemeContext } from '../styles';
 import type { LocalizableText } from '../types';
 
 type Props = $ReadOnly<{|
-  ...$Exact<$PropertyType<Text, 'props'>>,
+  ...$Exact<React$ElementConfig<typeof Text>>,
   text: LocalizableText,
 |}>;
 
