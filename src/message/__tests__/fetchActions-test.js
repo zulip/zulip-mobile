@@ -68,10 +68,7 @@ describe('fetchActions', () => {
         narrows: Immutable.Map({
           [streamNarrowStr]: [1],
         }),
-        messages: {
-          [message1.id]: message1,
-          [message2.id]: message2,
-        },
+        messages: eg.makeMessagesState([message1, message2]),
         streams: [eg.makeStream({ name: 'some stream' })],
       });
 
@@ -384,11 +381,7 @@ describe('fetchActions', () => {
           [HOME_NARROW_STR]: [message1.id, message2.id],
         }),
       ),
-      messages: {
-        ...eg.baseReduxState.messages,
-        [message1.id]: message1,
-        [message2.id]: message1,
-      },
+      messages: eg.makeMessagesState([message1, message2]),
     });
 
     test('message fetch start action is dispatched with numBefore greater than zero', async () => {
@@ -477,11 +470,7 @@ describe('fetchActions', () => {
           [HOME_NARROW_STR]: [message1.id, message2.id],
         }),
       ),
-      messages: {
-        ...eg.baseReduxState.messages,
-        [message1.id]: message1,
-        [message2.id]: message1,
-      },
+      messages: eg.makeMessagesState([message1, message2]),
     });
 
     test('message fetch start action is dispatched with numAfter greater than zero', async () => {

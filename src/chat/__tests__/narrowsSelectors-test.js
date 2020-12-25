@@ -117,11 +117,11 @@ describe('getFirstMessageId', () => {
       narrows: Immutable.Map({
         [HOME_NARROW_STR]: [1, 2, 3],
       }),
-      messages: {
-        [1]: eg.streamMessage({ id: 1 }) /* eslint-disable-line no-useless-computed-key */,
-        [2]: eg.streamMessage({ id: 2 }) /* eslint-disable-line no-useless-computed-key */,
-        [3]: eg.streamMessage({ id: 3 }) /* eslint-disable-line no-useless-computed-key */,
-      },
+      messages: eg.makeMessagesState([
+        eg.streamMessage({ id: 1 }),
+        eg.streamMessage({ id: 2 }),
+        eg.streamMessage({ id: 3 }),
+      ]),
       outbox: [],
     });
 
@@ -151,11 +151,11 @@ describe('getLastMessageId', () => {
       narrows: Immutable.Map({
         [HOME_NARROW_STR]: [1, 2, 3],
       }),
-      messages: {
-        [1]: eg.streamMessage({ id: 1 }) /* eslint-disable-line no-useless-computed-key */,
-        [2]: eg.streamMessage({ id: 2 }) /* eslint-disable-line no-useless-computed-key */,
-        [3]: eg.streamMessage({ id: 3 }) /* eslint-disable-line no-useless-computed-key */,
-      },
+      messages: eg.makeMessagesState([
+        eg.streamMessage({ id: 1 }),
+        eg.streamMessage({ id: 2 }),
+        eg.streamMessage({ id: 3 }),
+      ]),
       outbox: [],
     });
 
