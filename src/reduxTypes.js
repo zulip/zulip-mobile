@@ -164,7 +164,7 @@ export type FlagName = $Keys<FlagsState>;
  */
 export type MessagesState = {
   // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
-  [id: number]: $Exact<Message>,
+  [id: number]: Message,
 };
 
 export type MigrationsState = {|
