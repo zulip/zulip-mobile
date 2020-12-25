@@ -332,6 +332,8 @@ export const pmMessage = (args?: {|
 
     content: 'This is an example PM message.',
     content_type: 'text/markdown',
+    // We don't sort the recipients, because they're inconsistently sorted
+    // in real messages.  (See comments on the Message type.)
     display_recipient: recipients.map(displayRecipientFromUser),
     id: randMessageId(),
     recipient_id: 2342,
