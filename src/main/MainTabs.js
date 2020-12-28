@@ -65,10 +65,11 @@ export default createBottomTabNavigator(
     },
   },
   {
-    backBehavior: 'none',
     ...bottomTabNavigatorConfig({
       showLabel: !!Platform.isPad,
       showIcon: true,
     }),
+    initialRoute: 'home',
+    backBehavior: 'initialRoute',
   },
 );
