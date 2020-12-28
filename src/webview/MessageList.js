@@ -307,6 +307,7 @@ class MessageList extends Component<Props> {
         source={{ baseUrl: (baseUrl.toString(): string), html }}
         originWhitelist={['file://']}
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
+        decelerationRate="normal"
         style={{ backgroundColor: 'transparent' }}
         ref={webview => {
           this.webview = webview;
