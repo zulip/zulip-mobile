@@ -304,6 +304,8 @@ export const pmUnreadsKeyFromPmKeyIds = (
  * This produces the key string we use in `state.typing`, given the list of
  * users that `pmKeyRecipientsFromMessage` would provide and that we use in
  * most of our other data structures indexed on narrows.
+ *
+ * See also `pmTypingKeyFromRecipients`.
  */
 // That key string is: just the usual "PM key" list of users, stringified
 // and comma-separated.
@@ -313,6 +315,25 @@ export const pmUnreadsKeyFromPmKeyIds = (
 //   Narrow no longer contains emails.
 export const pmTypingKeyFromPmKeyIds = (userIds: $ReadOnlyArray<number>): string =>
   userIds.join(',');
+
+/**
+ * The key for a PM thread in typing-status data, given a recipients list.
+ *
+ * This produces the key string we use in `state.typing`, given the list of
+ * users that a typing-status event provides in `recipients`.
+ *
+ * See also `pmTypingKeyFromPmKeyIds`.
+ */
+// This implementation works because:
+//  * For all but self-PMs, we want the list of non-self users, which
+//    `filterRecipientsAsUserIds` will give regardless of whether self was
+//    in the input.  (So it doesn't matter what convention the server uses
+//    for these events.)
+//  * Self-PMs don't have typing-status events in the first place.
+export const pmTypingKeyFromRecipients = (
+  recipients: $ReadOnlyArray<number>,
+  ownUserId: number,
+): string => pmTypingKeyFromPmKeyIds(filterRecipientsAsUserIds(recipients, ownUserId));
 
 export const isSameRecipient = (
   message1: Message | Outbox,
