@@ -51,18 +51,9 @@ describe('getRecentConversations', () => {
       unread: {
         ...eg.baseReduxState.unread,
         pms: [
-          {
-            sender_id: eg.selfUser.user_id,
-            unread_message_ids: [4],
-          },
-          {
-            sender_id: userJohn.user_id,
-            unread_message_ids: [1, 3],
-          },
-          {
-            sender_id: userMark.user_id,
-            unread_message_ids: [2],
-          },
+          { sender_id: eg.selfUser.user_id, unread_message_ids: [4] },
+          { sender_id: userJohn.user_id, unread_message_ids: [1, 3] },
+          { sender_id: userMark.user_id, unread_message_ids: [2] },
         ],
         huddles: [
           {
@@ -74,24 +65,9 @@ describe('getRecentConversations', () => {
     });
 
     const expectedResult = [
-      {
-        key: eg.selfUser.user_id.toString(),
-        keyRecipients: [eg.selfUser],
-        msgId: 4,
-        unread: 1,
-      },
-      {
-        key: userJohn.user_id.toString(),
-        keyRecipients: [userJohn],
-        msgId: 3,
-        unread: 2,
-      },
-      {
-        key: userMark.user_id.toString(),
-        keyRecipients: [userMark],
-        msgId: 2,
-        unread: 1,
-      },
+      { key: eg.selfUser.user_id.toString(), keyRecipients: [eg.selfUser], msgId: 4, unread: 1 },
+      { key: userJohn.user_id.toString(), keyRecipients: [userJohn], msgId: 3, unread: 2 },
+      { key: userMark.user_id.toString(), keyRecipients: [userMark], msgId: 2, unread: 1 },
       {
         key: keyForUsers([eg.selfUser, userJohn, userMark]),
         keyRecipients: [userJohn, userMark].sort((a, b) => a.user_id - b.user_id),
@@ -123,18 +99,9 @@ describe('getRecentConversations', () => {
       unread: {
         ...eg.baseReduxState.unread,
         pms: [
-          {
-            sender_id: eg.selfUser.user_id,
-            unread_message_ids: [4],
-          },
-          {
-            sender_id: userJohn.user_id,
-            unread_message_ids: [1, 3],
-          },
-          {
-            sender_id: userMark.user_id,
-            unread_message_ids: [2],
-          },
+          { sender_id: eg.selfUser.user_id, unread_message_ids: [4] },
+          { sender_id: userJohn.user_id, unread_message_ids: [1, 3] },
+          { sender_id: userMark.user_id, unread_message_ids: [2] },
         ],
         huddles: [
           {
@@ -146,30 +113,15 @@ describe('getRecentConversations', () => {
     });
 
     const expectedResult = [
-      {
-        key: eg.selfUser.user_id.toString(),
-        keyRecipients: [eg.selfUser],
-        msgId: 6,
-        unread: 1,
-      },
+      { key: eg.selfUser.user_id.toString(), keyRecipients: [eg.selfUser], msgId: 6, unread: 1 },
       {
         key: keyForUsers([eg.selfUser, userJohn, userMark]),
         keyRecipients: [userJohn, userMark].sort((a, b) => a.user_id - b.user_id),
         msgId: 5,
         unread: 1,
       },
-      {
-        key: userJohn.user_id.toString(),
-        keyRecipients: [userJohn],
-        msgId: 4,
-        unread: 2,
-      },
-      {
-        key: userMark.user_id.toString(),
-        keyRecipients: [userMark],
-        msgId: 3,
-        unread: 1,
-      },
+      { key: userJohn.user_id.toString(), keyRecipients: [userJohn], msgId: 4, unread: 2 },
+      { key: userMark.user_id.toString(), keyRecipients: [userMark], msgId: 3, unread: 1 },
     ];
 
     const actual = getRecentConversations(state);
