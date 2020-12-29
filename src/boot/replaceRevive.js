@@ -77,11 +77,11 @@ const replacer = function replacer(key, value) {
     );
   }
 
-  if (
-    typeof origValue === 'object'
-    && origValue !== null
-    && SERIALIZED_TYPE_FIELD_NAME in origValue
-  ) {
+  if (typeof origValue !== 'object' || origValue === null) {
+    return origValue;
+  }
+
+  if (SERIALIZED_TYPE_FIELD_NAME in origValue) {
     const copy = { ...origValue };
     delete copy[SERIALIZED_TYPE_FIELD_NAME];
     return {
