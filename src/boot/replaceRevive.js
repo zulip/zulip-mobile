@@ -23,6 +23,13 @@ export const SERIALIZED_TYPE_FIELD_NAME: '__serializedType__' = '__serializedTyp
  */
 const SERIALIZED_TYPE_FIELD_NAME_ESCAPED: '__serializedType__value' = '__serializedType__value';
 
+/**
+ * Custom replacer for inventive data types JSON doesn't handle.
+ *
+ * To be passed to `JSON.stringify` as its second argument. New
+ * replacement logic must also appear in `reviver` so they stay in
+ * sync.
+ */
 // Don't make this an arrow function -- we need `this` to be a special
 // value; see
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#The_replacer_parameter.
@@ -43,6 +50,8 @@ const replacer = function replacer(key, value) {
   const origValue = this[key];
 
   if (typeof origValue !== 'object' || origValue === null) {
+    // `origValue` can't be one of our interesting data types, so,
+    // just return it.
     return origValue;
   }
 
@@ -87,6 +96,8 @@ const replacer = function replacer(key, value) {
     'unexpected class',
   );
 
+  // Ensure that objects with a [SERIALIZED_TYPE_FIELD_NAME] property
+  // round-trip.
   if (SERIALIZED_TYPE_FIELD_NAME in origValue) {
     const copy = { ...origValue };
     delete copy[SERIALIZED_TYPE_FIELD_NAME];
@@ -100,6 +111,13 @@ const replacer = function replacer(key, value) {
   return origValue;
 };
 
+/**
+ * Custom reviver for inventive data types JSON doesn't handle.
+ *
+ * To be passed to `JSON.parse` as its second argument. New
+ * reviving logic must also appear in `replacer` so they stay in
+ * sync.
+ */
 const reviver = function reviver(key, value) {
   if (value !== null && typeof value === 'object' && SERIALIZED_TYPE_FIELD_NAME in value) {
     const data = value.data;
