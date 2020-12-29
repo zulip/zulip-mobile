@@ -8,6 +8,12 @@ import * as eg from '../../__tests__/lib/exampleData';
 describe('getRecentConversations', () => {
   const userJohn = eg.makeUser();
   const userMark = eg.makeUser();
+  const keyForUsers = users =>
+    users
+      .map(u => u.user_id)
+      .sort((a, b) => a - b)
+      .map(String)
+      .join(',');
 
   test('when no messages, return no conversations', () => {
     const state = eg.reduxState({
@@ -60,10 +66,7 @@ describe('getRecentConversations', () => {
         ],
         huddles: [
           {
-            user_ids_string: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
-              .sort((a, b) => a - b)
-              .map(String)
-              .join(','),
+            user_ids_string: keyForUsers([eg.selfUser, userJohn, userMark]),
             unread_message_ids: [5], // TODO: where does this come from???
           },
         ],
@@ -90,10 +93,7 @@ describe('getRecentConversations', () => {
         unread: 1,
       },
       {
-        key: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
-          .sort((a, b) => a - b)
-          .map(String)
-          .join(','),
+        key: keyForUsers([eg.selfUser, userJohn, userMark]),
         keyRecipients: [userJohn, userMark].sort((a, b) => a.user_id - b.user_id),
         msgId: 0,
         unread: 1,
@@ -138,10 +138,7 @@ describe('getRecentConversations', () => {
         ],
         huddles: [
           {
-            user_ids_string: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
-              .sort((a, b) => a - b)
-              .map(String)
-              .join(','),
+            user_ids_string: keyForUsers([eg.selfUser, userJohn, userMark]),
             unread_message_ids: [5],
           },
         ],
@@ -156,10 +153,7 @@ describe('getRecentConversations', () => {
         unread: 1,
       },
       {
-        key: [eg.selfUser.user_id, userJohn.user_id, userMark.user_id]
-          .sort((a, b) => a - b)
-          .map(String)
-          .join(','),
+        key: keyForUsers([eg.selfUser, userJohn, userMark]),
         keyRecipients: [userJohn, userMark].sort((a, b) => a.user_id - b.user_id),
         msgId: 5,
         unread: 1,
