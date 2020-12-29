@@ -298,6 +298,22 @@ export const pmUnreadsKeyFromPmKeyIds = (
   }
 };
 
+/**
+ * The key for a PM thread in typing-status data, given the IDs we use generally.
+ *
+ * This produces the key string we use in `state.typing`, given the list of
+ * users that `pmKeyRecipientsFromMessage` would provide and that we use in
+ * most of our other data structures indexed on narrows.
+ */
+// That key string is: just the usual "PM key" list of users, stringified
+// and comma-separated.
+//
+// TODO: It'd be neat to have another opaque type like PmKeyIds, for this
+//   and pmUnreadsKeyFromPmKeyIds to consume.  Perhaps simplest to do after
+//   Narrow no longer contains emails.
+export const pmTypingKeyFromPmKeyIds = (userIds: $ReadOnlyArray<number>): string =>
+  userIds.join(',');
+
 export const isSameRecipient = (
   message1: Message | Outbox,
   message2: Message | Outbox,

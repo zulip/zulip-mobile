@@ -5,7 +5,7 @@ import { getCurrentTypingUsers } from '../typingSelectors';
 import { HOME_NARROW, pm1to1NarrowFromUser, pmNarrowFromUsersUnsafe } from '../../utils/narrow';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
-import { normalizeRecipientsAsUserIds } from '../../utils/recipient';
+import { pmTypingKeyFromPmKeyIds } from '../../utils/recipient';
 
 describe('getCurrentTypingUsers', () => {
   test('return NULL_ARRAY when current narrow is not private or group', () => {
@@ -33,25 +33,27 @@ describe('getCurrentTypingUsers', () => {
   test('when two people are typing, return details for all of them', () => {
     const user1 = eg.makeUser();
     const user2 = eg.makeUser();
+    const users = [user1, user2].sort((a, b) => a.user_id - b.user_id);
+    const userIds = users.map(u => u.user_id);
 
-    const normalizedRecipients = normalizeRecipientsAsUserIds([user1.user_id, user2.user_id]);
+    const normalizedRecipients = pmTypingKeyFromPmKeyIds(userIds);
 
     const state = eg.reduxState({
       typing: {
-        [normalizedRecipients]: { userIds: [user1.user_id, user2.user_id] },
+        [normalizedRecipients]: { userIds },
       },
       users: [user1, user2],
     });
 
-    const typingUsers = getCurrentTypingUsers(state, pmNarrowFromUsersUnsafe([user1, user2]));
+    const typingUsers = getCurrentTypingUsers(state, pmNarrowFromUsersUnsafe(users));
 
-    expect(typingUsers).toEqual([user1, user2]);
+    expect(typingUsers).toEqual(users);
   });
 
   test('when in private narrow but different user is typing return NULL_ARRAY', () => {
     const user1 = eg.makeUser();
     const user2 = eg.makeUser();
-    const normalizedRecipients = normalizeRecipientsAsUserIds([user1.user_id]);
+    const normalizedRecipients = pmTypingKeyFromPmKeyIds([user1.user_id]);
 
     const state = eg.reduxState({
       typing: {
@@ -68,11 +70,9 @@ describe('getCurrentTypingUsers', () => {
   test('when in group narrow and someone is typing in that narrow return details', () => {
     const expectedUser = eg.makeUser();
     const anotherUser = eg.makeUser();
+    const users = [expectedUser, anotherUser].sort((a, b) => a.user_id - b.user_id);
 
-    const normalizedRecipients = normalizeRecipientsAsUserIds([
-      expectedUser.user_id,
-      anotherUser.user_id,
-    ]);
+    const normalizedRecipients = pmTypingKeyFromPmKeyIds(users.map(u => u.user_id));
     const state = eg.reduxState({
       typing: {
         [normalizedRecipients]: { userIds: [expectedUser.user_id] },
@@ -80,10 +80,7 @@ describe('getCurrentTypingUsers', () => {
       users: [expectedUser, anotherUser],
     });
 
-    const typingUsers = getCurrentTypingUsers(
-      state,
-      pmNarrowFromUsersUnsafe([expectedUser, anotherUser]),
-    );
+    const typingUsers = getCurrentTypingUsers(state, pmNarrowFromUsersUnsafe(users));
 
     expect(typingUsers).toEqual([expectedUser]);
   });
