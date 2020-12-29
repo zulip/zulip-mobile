@@ -30,28 +30,29 @@ const replacer = function replacer(key, value) {
   // The value at the current path before JSON.stringify called its
   // `toJSON` method, if present.
   //
-  // When identifying what kind of thing we're working with, be sure
-  // to examine `origValue` instead of `value`, if calling `toJSON` on
-  // that kind of thing would remove its identifying features -- which
-  // is to say, if that kind of thing has a `toJSON` method.
+  // When identifying what kind of thing we're working with, it's good
+  // practice to examine `origValue` instead of `value`, just in case
+  // calling `toJSON` on that kind of thing would remove its
+  // identifying features -- which is to say, just in case that kind
+  // of thing has a `toJSON` method.
   //
   // For things that have a `toJSON` method, it may be convenient to
   // set `data` to `value`, if we trust that `toJSON` gives the output
   // we want to store there. And it would mean we don't discard the
   // work `JSON.stringify` did by calling `toJSON`.
   const origValue = this[key];
-  if (value instanceof ZulipVersion) {
+  if (origValue instanceof ZulipVersion) {
     return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
   } else if (origValue instanceof URL) {
     return { data: origValue.toString(), [SERIALIZED_TYPE_FIELD_NAME]: 'URL' };
-  } else if (value instanceof GravatarURL) {
+  } else if (origValue instanceof GravatarURL) {
     return { data: GravatarURL.serialize(value), [SERIALIZED_TYPE_FIELD_NAME]: 'GravatarURL' };
-  } else if (value instanceof UploadedAvatarURL) {
+  } else if (origValue instanceof UploadedAvatarURL) {
     return {
       data: UploadedAvatarURL.serialize(value),
       [SERIALIZED_TYPE_FIELD_NAME]: 'UploadedAvatarURL',
     };
-  } else if (value instanceof FallbackAvatarURL) {
+  } else if (origValue instanceof FallbackAvatarURL) {
     return {
       data: FallbackAvatarURL.serialize(value),
       [SERIALIZED_TYPE_FIELD_NAME]: 'FallbackAvatarURL',
