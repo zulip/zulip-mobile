@@ -3,7 +3,8 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { UserOrBot } from '../types';
-import { UserAvatarWithPresence, RawLabel, Touchable, UnreadCount } from '../common';
+import { RawLabel, Touchable, UnreadCount } from '../common';
+import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
 
 const componentStyles = createStyleSheet({
@@ -54,12 +55,7 @@ export default class UserItem extends PureComponent<Props> {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
-          <UserAvatarWithPresence
-            size={48}
-            avatarUrl={user.avatar_url}
-            email={user.email}
-            onPress={this.handlePress}
-          />
+          <UserAvatarWithPresenceById size={48} userId={user.user_id} onPress={this.handlePress} />
           <View style={componentStyles.textWrapper}>
             <RawLabel
               style={[componentStyles.text, isSelected && componentStyles.selectedText]}

@@ -7,7 +7,8 @@ import NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
-import { Touchable, UserAvatarWithPresence, ViewPlaceholder } from '../common';
+import { Touchable, ViewPlaceholder } from '../common';
+import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import ActivityText from './ActivityText';
 import { getAllUsersById } from '../users/userSelectors';
 import { navigateToAccountDetails } from '../nav/navActions';
@@ -55,7 +56,7 @@ class TitlePrivate extends PureComponent<Props> {
     return (
       <Touchable onPress={this.handlePress} style={this.styles.outer}>
         <View style={this.styles.inner}>
-          <UserAvatarWithPresence size={32} email={user.email} avatarUrl={user.avatar_url} />
+          <UserAvatarWithPresenceById size={32} userId={user.user_id} />
           <ViewPlaceholder width={8} />
           <View>
             <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
