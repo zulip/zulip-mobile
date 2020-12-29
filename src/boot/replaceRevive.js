@@ -41,6 +41,11 @@ const replacer = function replacer(key, value) {
   // we want to store there. And it would mean we don't discard the
   // work `JSON.stringify` did by calling `toJSON`.
   const origValue = this[key];
+
+  if (typeof origValue !== 'object' || origValue === null) {
+    return origValue;
+  }
+
   if (origValue instanceof ZulipVersion) {
     return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
   } else if (origValue instanceof URL) {
@@ -59,10 +64,6 @@ const replacer = function replacer(key, value) {
     };
   } else if (origValue instanceof Immutable.Map) {
     return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
-  }
-
-  if (typeof origValue !== 'object' || origValue === null) {
-    return origValue;
   }
 
   // Don't forget to handle a value's `toJSON` method, if present, as
