@@ -61,25 +61,23 @@ const replacer = function replacer(key, value) {
     return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
   }
 
-  if (typeof origValue === 'object' && origValue !== null) {
-    // Don't forget to handle a value's `toJSON` method, if present, as
-    // described above.
-    invariant(typeof origValue.toJSON !== 'function', 'unexpected toJSON');
-
-    // If storing an interesting data type, don't forget to handle it
-    // here, and in `reviver`.
-    const origValuePrototype = Object.getPrototypeOf(origValue);
-    invariant(
-      // Flow bug: https://github.com/facebook/flow/issues/6110
-      origValuePrototype === (Object.prototype: $FlowFixMe)
-        || origValuePrototype === (Array.prototype: $FlowFixMe),
-      'unexpected class',
-    );
-  }
-
   if (typeof origValue !== 'object' || origValue === null) {
     return origValue;
   }
+
+  // Don't forget to handle a value's `toJSON` method, if present, as
+  // described above.
+  invariant(typeof origValue.toJSON !== 'function', 'unexpected toJSON');
+
+  // If storing an interesting data type, don't forget to handle it
+  // here, and in `reviver`.
+  const origValuePrototype = Object.getPrototypeOf(origValue);
+  invariant(
+    // Flow bug: https://github.com/facebook/flow/issues/6110
+    origValuePrototype === (Object.prototype: $FlowFixMe)
+      || origValuePrototype === (Array.prototype: $FlowFixMe),
+    'unexpected class',
+  );
 
   if (SERIALIZED_TYPE_FIELD_NAME in origValue) {
     const copy = { ...origValue };
