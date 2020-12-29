@@ -69,14 +69,9 @@ const replacer = function replacer(key, value) {
     // here, and in `reviver`.
     const origValuePrototype = Object.getPrototypeOf(origValue);
     invariant(
-      origValuePrototype
-        // "property `prototype` is missing in  statics of `Object`"
-        // $FlowFixMe
-        === Object.prototype
-        || origValuePrototype
-          // "property `prototype` is missing in  statics of `Array`"
-          // $FlowFixMe
-          === Array.prototype,
+      // Flow bug: https://github.com/facebook/flow/issues/6110
+      origValuePrototype === (Object.prototype: $FlowFixMe)
+        || origValuePrototype === (Array.prototype: $FlowFixMe),
       'unexpected class',
     );
   }
