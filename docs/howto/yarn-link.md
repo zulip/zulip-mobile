@@ -45,6 +45,11 @@ $ readlink node_modules/@zulip/shared
     # ... to the worktree for the package source.
 $ readlink -f node_modules/@zulip/shared
 /home/greg/z/zulip/static/shared
+
+    # Restart Flow to make it notice the symlink.
+    # (Then it'll automatically notice edits, as usual.)
+$ npx flow stop && npx flow start
+
 ```
 
 When done, be sure to run `yarn unlink` to go back to letting the
@@ -59,10 +64,12 @@ Quick reference for the second and subsequent time you do it:
 ```
     # in your zulip-mobile clone
 $ yarn link @zulip/shared && yarn
+$ npx flow stop && npx flow start
 
     # ... develop, test, etc. ...
 
 $ yarn unlink @zulip/shared && yarn install --force
+    # no need to restart Flow in this direction
 ```
 
 ### Making our toolchain work
