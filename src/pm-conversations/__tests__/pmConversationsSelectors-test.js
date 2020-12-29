@@ -58,7 +58,7 @@ describe('getRecentConversations', () => {
         huddles: [
           {
             user_ids_string: keyForUsers([eg.selfUser, userJohn, userMark]),
-            unread_message_ids: [5], // TODO: where does this come from???
+            unread_message_ids: [0],
           },
         ],
       },
@@ -99,9 +99,9 @@ describe('getRecentConversations', () => {
       unread: {
         ...eg.baseReduxState.unread,
         pms: [
-          { sender_id: eg.selfUser.user_id, unread_message_ids: [4] },
-          { sender_id: userJohn.user_id, unread_message_ids: [1, 3] },
-          { sender_id: userMark.user_id, unread_message_ids: [2] },
+          { sender_id: eg.selfUser.user_id, unread_message_ids: [6] },
+          { sender_id: userJohn.user_id, unread_message_ids: [2, 4] },
+          { sender_id: userMark.user_id, unread_message_ids: [1, 3] },
         ],
         huddles: [
           {
@@ -121,7 +121,7 @@ describe('getRecentConversations', () => {
         unread: 1,
       },
       { key: userJohn.user_id.toString(), keyRecipients: [userJohn], msgId: 4, unread: 2 },
-      { key: userMark.user_id.toString(), keyRecipients: [userMark], msgId: 3, unread: 1 },
+      { key: userMark.user_id.toString(), keyRecipients: [userMark], msgId: 3, unread: 2 },
     ];
 
     const actual = getRecentConversations(state);
