@@ -56,7 +56,7 @@ const replacer = function replacer(key, value) {
       data: FallbackAvatarURL.serialize(value),
       [SERIALIZED_TYPE_FIELD_NAME]: 'FallbackAvatarURL',
     };
-  } else if (Immutable.Map.isMap(origValue)) {
+  } else if (origValue instanceof Immutable.Map) {
     return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
   }
 
