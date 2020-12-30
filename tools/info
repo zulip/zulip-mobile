@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Compute what remote name is being used for the upstream repo.
 upstream_remote_name() {

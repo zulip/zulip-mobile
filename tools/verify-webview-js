@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 oldjs=$(<./src/webview/js/generatedEs3.js)
 
 tools/generate-webview-js
