@@ -61,9 +61,10 @@ $ cd static/shared  # the root of the @zulip/shared package's source
 $ git checkout master
 $ git pull --ff-only
 
-$ npm version patch --no-git-tag-version \
-    --message 'shared: Bump version to %s.'
+   # (These steps can probably become a `version` NPM script.)
+$ npm version patch --no-git-tag-version
    # Suppose the new version is 0.0.3.  Then:
+$ git commit -am 'shared: Bump version to 0.0.3.'
 $ git tag shared-0.0.3
 
 $ git log --stat -p upstream/master..  # check your work!
