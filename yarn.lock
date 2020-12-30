@@ -2725,12 +2725,13 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@zulip/shared@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.2.tgz#14613950551c96d88f7b8929056ac1b640f15343"
-  integrity sha512-Thts/Mu/9ry4M0K4RjL4Gym8MTxkcnk7lkBuH8hiMkIEbWoK5CaHSRxvn96wCsUJJcQ7A99Sd+RVQLPMorRLAg==
+"@zulip/shared@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.4.tgz#147a939bd71a284ed6b890843f9e4a003466637e"
+  integrity sha512-qsSWfXSFUoaWDa8GeoIOKpQVGgs744DRZ2fspw52NeWa7Ac8GnhxIvu9EohBTmq6jApRIO5wg/8DkgnvsSqxyA==
   dependencies:
-    underscore "^1.9.1"
+    katex "^0.12.0"
+    lodash "^4.17.19"
 
 abab@^2.0.0, abab@^2.0.3:
   version "2.0.5"
@@ -7857,6 +7858,13 @@ katex@^0.11.1:
   dependencies:
     commander "^2.19.0"
 
+katex@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.12.0.tgz#2fb1c665dbd2b043edcf8a1f5c555f46beaa0cb9"
+  integrity sha512-y+8btoc/CK70XqcHqjxiGWBOeIL8upbS0peTPXTvgrh21n1RiWWcIpSWM+4uXq+IAgNh9YYQWdc7LVDPDAEEAg==
+  dependencies:
+    commander "^2.19.0"
+
 katex@^0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/katex/-/katex-0.7.1.tgz#06bb5298efad05e1e7228035ba8e1591f3061b8f"
@@ -11787,11 +11795,6 @@ ultron@1.0.x:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
   integrity sha1-rOEWq1V80Zc4ak6I9GhTeMiy5Po=
-
-underscore@^1.9.1:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.1.tgz#06dce34a0e68a7babc29b365b8e74b8925203961"
-  integrity sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
