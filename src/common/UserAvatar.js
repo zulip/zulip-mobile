@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent, type Node as React$Node } from 'react';
+import React, { type Node as React$Node } from 'react';
 import { ImageBackground, View, PixelRatio } from 'react-native';
 
 import Touchable from './Touchable';
@@ -20,32 +20,32 @@ type Props = $ReadOnly<{|
  * @prop [children] - If provided, will render inside the component body.
  * @prop [onPress] - Event fired on pressing the component.
  */
-export default class UserAvatar extends PureComponent<Props> {
-  render() {
-    const { avatarUrl, children, size, onPress } = this.props;
-    const borderRadius = size / 8;
-    const style = {
-      height: size,
-      width: size,
-      borderRadius,
-    };
+const UserAvatar = function UserAvatar(props: Props) {
+  const { avatarUrl, children, size, onPress } = props;
+  const borderRadius = size / 8;
+  const style = {
+    height: size,
+    width: size,
+    borderRadius,
+  };
 
-    return (
-      <View>
-        <Touchable onPress={onPress} style={style}>
-          <ImageBackground
-            style={style}
-            source={{
-              uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
-            }}
-            resizeMode="cover"
-            /* ImageBackground seems to ignore `style.borderRadius`. */
-            borderRadius={borderRadius}
-          >
-            {children}
-          </ImageBackground>
-        </Touchable>
-      </View>
-    );
-  }
-}
+  return (
+    <View>
+      <Touchable onPress={onPress} style={style}>
+        <ImageBackground
+          style={style}
+          source={{
+            uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
+          }}
+          resizeMode="cover"
+          /* ImageBackground seems to ignore `style.borderRadius`. */
+          borderRadius={borderRadius}
+        >
+          {children}
+        </ImageBackground>
+      </Touchable>
+    </View>
+  );
+};
+
+export default UserAvatar;
