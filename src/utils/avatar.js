@@ -208,6 +208,9 @@ export class GravatarURL extends AvatarURL {
  * See the point on `user_avatar_url_field_optional` at
  * https://zulipchat.com/api/register-queue.
  *
+ * Note that this endpoint needs authentication; we should send the
+ * auth headers (see src/api/transport) with the request.
+ *
  * This endpoint does not currently support size customization.
  */
 export class FallbackAvatarURL extends AvatarURL {

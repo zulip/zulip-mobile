@@ -1,7 +1,11 @@
 /* @flow strict-local */
 import React, { type Node as React$Node } from 'react';
 import { ImageBackground, View, PixelRatio } from 'react-native';
+import { useSelector } from 'react-redux';
 
+import { getAuthHeaders } from '../api/transport';
+import type { GlobalState } from '../types';
+import { getAuth } from '../selectors';
 import Touchable from './Touchable';
 import { AvatarURL } from '../utils/avatar';
 
@@ -29,6 +33,8 @@ const UserAvatar = function UserAvatar(props: Props) {
     borderRadius,
   };
 
+  const auth = useSelector((state: GlobalState) => getAuth(state));
+
   return (
     <View>
       <Touchable onPress={onPress} style={style}>
@@ -36,6 +42,8 @@ const UserAvatar = function UserAvatar(props: Props) {
           style={style}
           source={{
             uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
+            // For `FallbackAvatarURL`s.
+            headers: getAuthHeaders(auth),
           }}
           resizeMode="cover"
           /* ImageBackground seems to ignore `style.borderRadius`. */
