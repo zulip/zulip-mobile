@@ -46,11 +46,11 @@ const typingWorker = (state: GlobalState) => {
   return {
     get_current_time: () => new Date().getTime(),
 
-    notify_server_start: (user_ids_array: number[]) => {
+    notify_server_start: (user_ids_array: $ReadOnlyArray<number>) => {
       api.typing(auth, getRecipients(user_ids_array), 'start');
     },
 
-    notify_server_stop: (user_ids_array: number[]) => {
+    notify_server_stop: (user_ids_array: $ReadOnlyArray<number>) => {
       api.typing(auth, getRecipients(user_ids_array), 'stop');
     },
   };
