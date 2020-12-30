@@ -8,12 +8,11 @@ import * as NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';
-import type { Dispatch, EmojiType, Message, ReactionType, UserOrBot } from '../types';
+import type { Dispatch, EmojiType, Message, ReactionType } from '../types';
 import { Screen, Label, RawLabel } from '../common';
 import { getOwnUser } from '../selectors';
 import aggregateReactions from './aggregateReactions';
 import styles from '../styles';
-import { getAllUsersById } from '../users/userSelectors';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import Emoji from '../emoji/Emoji';
 import { navigateBack } from '../nav/navActions';
@@ -30,7 +29,6 @@ const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType => {
 type SelectorProps = $ReadOnly<{|
   message: Message | void,
   ownUserId: number,
-  allUsersById: Map<number, UserOrBot>,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -68,7 +66,7 @@ class MessageReactionList extends PureComponent<Props> {
   }
 
   render() {
-    const { message, route, ownUserId, allUsersById } = this.props;
+    const { message, route, ownUserId } = this.props;
     const { reactionName } = route.params;
 
     const content: React$Node = (() => {
@@ -110,12 +108,7 @@ class MessageReactionList extends PureComponent<Props> {
                 <Tab.Screen
                   key={aggregatedReaction.name}
                   name={aggregatedReaction.name}
-                  component={() => (
-                    <ReactionUserList
-                      reactedUserIds={aggregatedReaction.users}
-                      allUsersById={allUsersById}
-                    />
-                  )}
+                  component={() => <ReactionUserList reactedUserIds={aggregatedReaction.users} />}
                   options={{
                     tabBarLabel: () => (
                       <View style={styles.row}>
@@ -147,5 +140,4 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   // message *can* be undefined; see componentDidUpdate for explanation and handling.
   message: state.messages.get(props.route.params.messageId),
   ownUserId: getOwnUser(state).user_id,
-  allUsersById: getAllUsersById(state),
 }))(MessageReactionList);

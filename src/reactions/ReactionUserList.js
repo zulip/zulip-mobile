@@ -5,13 +5,12 @@ import { connect } from '../react-redux';
 
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
-import UserItem from '../users/UserItem';
+import { UserItemById } from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
   reactedUserIds: $ReadOnlyArray<number>,
-  allUsersById: Map<number, UserOrBot>,
 |}>;
 
 /**
@@ -25,19 +24,15 @@ class ReactionUserList extends PureComponent<Props> {
   };
 
   render() {
-    const { reactedUserIds, allUsersById } = this.props;
+    const { reactedUserIds } = this.props;
 
     return (
       <FlatList
         data={reactedUserIds}
         keyExtractor={userId => `${userId}`}
-        renderItem={({ item }) => {
-          const user = allUsersById.get(item);
-          if (!user) {
-            return null;
-          }
-          return <UserItem key={user.user_id} user={user} onPress={this.handlePress} />;
-        }}
+        renderItem={({ item }) => (
+          <UserItemById key={item} userId={item} onPress={this.handlePress} />
+        )}
       />
     );
   }
