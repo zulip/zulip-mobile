@@ -4,12 +4,12 @@ import { View, Image, ScrollView, Modal, BackHandler } from 'react-native';
 
 import type { SharingNavigationProp, SharingRouteProp } from './SharingScreen';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, User, Auth, GetText } from '../types';
+import type { Dispatch, Auth, GetText } from '../types';
 import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
 import { ZulipButton, Input, Label } from '../common';
-import UserItem from '../users/UserItem';
+import { UserItemById } from '../users/UserItem';
 import { getAuth } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 import ChooseRecipientsScreen from './ChooseRecipientsScreen';
@@ -63,7 +63,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 type State = $ReadOnly<{|
-  selectedRecipients: User[],
+  selectedRecipients: $ReadOnlyArray<number>,
   message: string,
   choosingRecipients: boolean,
   sending: boolean,
@@ -91,7 +91,7 @@ class ShareToPm extends React.Component<Props, State> {
     this.setState({ sending: true });
   };
 
-  handleChooseRecipients = (selectedRecipients: Array<User>) => {
+  handleChooseRecipients = selectedRecipients => {
     this.setState({ selectedRecipients });
     this.setState({ choosingRecipients: false });
   };
@@ -135,8 +135,8 @@ class ShareToPm extends React.Component<Props, State> {
       return <Label text="Please choose recipients to share with" />;
     }
     const preview = [];
-    selectedRecipients.forEach((user: User) => {
-      preview.push(<UserItem user={user} onPress={() => {}} key={user.user_id} />);
+    selectedRecipients.forEach(userId => {
+      preview.push(<UserItemById userId={userId} onPress={() => {}} key={userId} />);
     });
     return preview;
   };

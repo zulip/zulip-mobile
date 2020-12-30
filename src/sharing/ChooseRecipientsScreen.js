@@ -7,7 +7,7 @@ import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-  onComplete: (User[]) => void,
+  onComplete: ($ReadOnlyArray<number>) => void,
 |}>;
 
 type State = {|
@@ -23,7 +23,7 @@ class ChooseRecipientsScreen extends PureComponent<Props, State> {
 
   handleComplete = (selected: Array<User>) => {
     const { onComplete } = this.props;
-    onComplete(selected);
+    onComplete(selected.map(u => u.user_id));
   };
 
   render() {

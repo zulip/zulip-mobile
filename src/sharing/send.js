@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import type { SharedData, User, Auth, GetText } from '../types';
+import type { SharedData, Auth, GetText } from '../types';
 import { showToast } from '../utils/info';
 import { sendMessage, uploadFile } from '../api';
 
@@ -13,7 +13,7 @@ type SendStream = {|
 |};
 
 type SendPm = {|
-  selectedRecipients: Array<User>,
+  selectedRecipients: $ReadOnlyArray<number>,
   message: string,
   sharedData: SharedData,
   type: 'pm',
@@ -43,7 +43,7 @@ export const handleSend = async (data: SendStream | SendPm, auth: Auth, _: GetTe
       ? {
           content: messageToSend,
           type: 'private',
-          to: JSON.stringify(data.selectedRecipients.map(user => user.user_id)),
+          to: JSON.stringify(data.selectedRecipients),
         }
       : {
           content: messageToSend,
