@@ -206,6 +206,7 @@ class MessageList extends Component<Props> {
     if (eventData.type === 'ready') {
       this.sendUpdateEventsIsReady = true;
       this.sendUpdateEvents(this.unsentUpdateEvents);
+      this.unsentUpdateEvents = [];
     } else {
       const { _ } = this.props;
       handleMessageListEvent(this.props, _, eventData);
