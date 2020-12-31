@@ -632,9 +632,7 @@ var compiledWebviewJs = (function (exports) {
     }
 
     requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        fn();
-      });
+      fn();
     });
   };
 

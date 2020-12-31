@@ -528,7 +528,7 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
 const runAfterLayout = (fn: () => void) => {
   if (platformOS === 'android') {
     // On Android/Chrome, empirically the updates happen synchronously, so
-    // there's no need to delay (and a delay causes jank).  See discussion:
+    // there's no need to delay.  See discussion:
     //   https://github.com/zulip/zulip-mobile/pull/4370
     fn();
     return;
@@ -537,11 +537,8 @@ const runAfterLayout = (fn: () => void) => {
   // On iOS/Safari, we must wait.  See:
   //   https://macarthur.me/posts/when-dom-updates-appear-to-be-asynchronous
   requestAnimationFrame(() => {
-    // this runs before the next repaint
-    requestAnimationFrame(() => {
-      // this runs after the repaint
-      fn();
-    });
+    // this runs immediately before the next repaint
+    fn();
   });
 };
 
