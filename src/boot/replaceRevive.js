@@ -33,7 +33,7 @@ const SERIALIZED_TYPE_FIELD_NAME_ESCAPED: '__serializedType__value' = '__seriali
 // Don't make this an arrow function -- we need `this` to be a special
 // value; see
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#The_replacer_parameter.
-const replacer = function replacer(key, value) {
+function replacer(key, value) {
   // The value at the current path before JSON.stringify called its
   // `toJSON` method, if present.
   //
@@ -109,7 +109,7 @@ const replacer = function replacer(key, value) {
   }
 
   return origValue;
-};
+}
 
 /**
  * Custom reviver for inventive data types JSON doesn't handle.
@@ -118,7 +118,7 @@ const replacer = function replacer(key, value) {
  * reviving logic must also appear in `replacer` so they stay in
  * sync.
  */
-const reviver = function reviver(key, value) {
+function reviver(key, value) {
   if (value !== null && typeof value === 'object' && SERIALIZED_TYPE_FIELD_NAME in value) {
     const data = value.data;
     switch (value[SERIALIZED_TYPE_FIELD_NAME]) {
@@ -144,9 +144,9 @@ const reviver = function reviver(key, value) {
     }
   }
   return value;
-};
+}
 
-export const stringify = function stringify(data: mixed): string {
+export function stringify(data: mixed): string {
   const result = JSON.stringify(data, replacer);
   if (result === undefined) {
     // Flow says that the output for JSON.stringify could be
@@ -161,8 +161,8 @@ export const stringify = function stringify(data: mixed): string {
     throw new Error('undefined result for stringify');
   }
   return result;
-};
+}
 
-export const parse = function parse(data: string): mixed {
+export function parse(data: string): mixed {
   return JSON.parse(data, reviver);
-};
+}
