@@ -511,6 +511,19 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
+// Run a function after the next repaint. This is important if we have just set
+// innerHTML and need to read from the DOM, as the repaint happens asynchronously.
+// See: https://macarthur.me/posts/when-dom-updates-appear-to-be-asynchronous
+const runAfterRepaint = (fn: () => void) => {
+  requestAnimationFrame(() => {
+    // this runs before the next repaint
+    requestAnimationFrame(() => {
+      // this runs after the repaint
+      fn();
+    });
+  });
+};
+
 const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
   let target: ScrollTarget;
   if (uevent.updateStrategy === 'replace') {
@@ -531,15 +544,17 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
 
   rewriteHtml(uevent.auth);
 
-  if (target.type === 'bottom') {
-    scrollToBottom();
-  } else if (target.type === 'anchor') {
-    scrollToMessage(target.messageId);
-  } else if (target.type === 'preserve') {
-    scrollToPreserve(target.msgId, target.prevBoundTop);
-  }
+  runAfterRepaint(() => {
+    if (target.type === 'bottom') {
+      scrollToBottom();
+    } else if (target.type === 'anchor') {
+      scrollToMessage(target.messageId);
+    } else if (target.type === 'preserve') {
+      scrollToPreserve(target.msgId, target.prevBoundTop);
+    }
 
-  sendScrollMessageIfListShort();
+    sendScrollMessageIfListShort();
+  });
 };
 
 // We call this when the webview's content first loads.
@@ -584,7 +599,7 @@ const handleUpdateEventTyping = (uevent: WebViewUpdateEventTyping) => {
   const elementTyping = document.getElementById('typing');
   if (elementTyping) {
     elementTyping.innerHTML = uevent.content;
-    setTimeout(() => scrollToBottomIfNearEnd());
+    runAfterRepaint(() => scrollToBottomIfNearEnd());
   }
 };
 

@@ -625,6 +625,14 @@ var compiledWebviewJs = (function (exports) {
     window.scrollBy(0, newBoundRect.top - prevBoundTop);
   };
 
+  var runAfterRepaint = function runAfterRepaint(fn) {
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        fn();
+      });
+    });
+  };
+
   var handleUpdateEventContent = function handleUpdateEventContent(uevent) {
     var target;
 
@@ -647,16 +655,17 @@ var compiledWebviewJs = (function (exports) {
 
     documentBody.innerHTML = uevent.content;
     rewriteHTML(uevent.auth);
+    runAfterRepaint(function () {
+      if (target.type === 'bottom') {
+        scrollToBottom();
+      } else if (target.type === 'anchor') {
+        scrollToMessage(target.messageId);
+      } else if (target.type === 'preserve') {
+        scrollToPreserve(target.msgId, target.prevBoundTop);
+      }
 
-    if (target.type === 'bottom') {
-      scrollToBottom();
-    } else if (target.type === 'anchor') {
-      scrollToMessage(target.messageId);
-    } else if (target.type === 'preserve') {
-      scrollToPreserve(target.msgId, target.prevBoundTop);
-    }
-
-    sendScrollMessageIfListShort();
+      sendScrollMessageIfListShort();
+    });
   };
 
   var handleInitialLoad = function handleInitialLoad(platformOS, scrollMessageId, rawAuth) {
@@ -687,7 +696,7 @@ var compiledWebviewJs = (function (exports) {
 
     if (elementTyping) {
       elementTyping.innerHTML = uevent.content;
-      setTimeout(function () {
+      runAfterRepaint(function () {
         return scrollToBottomIfNearEnd();
       });
     }
