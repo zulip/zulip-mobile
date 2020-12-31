@@ -668,7 +668,7 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  var handleInitialLoad = function handleInitialLoad(platformOS, scrollMessageId, rawAuth) {
+  var handleInitialLoad = function handleInitialLoad(scrollMessageId, rawAuth) {
     var auth = _objectSpread2(_objectSpread2({}, rawAuth), {}, {
       realm: new URL(rawAuth.realm)
     });

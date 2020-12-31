@@ -40,6 +40,13 @@ import rewriteHtml from './rewriteHtml';
  *   about our version-support strategy.
  */
 
+/**
+ * A copy of RN's `Platform.OS`.
+ *
+ * Provided by the template in `script.js`.
+ */
+declare var platformOS: string;
+
 /* eslint-disable no-extend-native */
 
 /* Polyfill Array.from. Native in Chrome 45 and at least Safari 13.
@@ -559,7 +566,6 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
 
 // We call this when the webview's content first loads.
 export const handleInitialLoad = (
-  platformOS: string,
   scrollMessageId: number | null,
   // The `realm` part of an `Auth` object is a URL object. It's passed
   // in its stringified form.
