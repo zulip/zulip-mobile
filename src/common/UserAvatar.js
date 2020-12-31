@@ -1,10 +1,9 @@
 /* @flow strict-local */
 import React, { type Node as React$Node } from 'react';
 import { ImageBackground, View, PixelRatio } from 'react-native';
-import { useSelector } from 'react-redux';
 
+import { useSelector } from '../react-redux';
 import { getAuthHeaders } from '../api/transport';
-import type { GlobalState } from '../types';
 import { getAuth } from '../selectors';
 import Touchable from './Touchable';
 import { AvatarURL } from '../utils/avatar';
@@ -33,7 +32,7 @@ const UserAvatar = function UserAvatar(props: Props) {
     borderRadius,
   };
 
-  const auth = useSelector((state: GlobalState) => getAuth(state));
+  const auth = useSelector(state => getAuth(state));
 
   return (
     <View>
