@@ -625,7 +625,12 @@ var compiledWebviewJs = (function (exports) {
     window.scrollBy(0, newBoundRect.top - prevBoundTop);
   };
 
-  var runAfterRepaint = function runAfterRepaint(fn) {
+  var runAfterLayout = function runAfterLayout(fn) {
+    if (platformOS === 'android') {
+      fn();
+      return;
+    }
+
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         fn();
@@ -655,7 +660,7 @@ var compiledWebviewJs = (function (exports) {
 
     documentBody.innerHTML = uevent.content;
     rewriteHTML(uevent.auth);
-    runAfterRepaint(function () {
+    runAfterLayout(function () {
       if (target.type === 'bottom') {
         scrollToBottom();
       } else if (target.type === 'anchor') {
@@ -696,7 +701,7 @@ var compiledWebviewJs = (function (exports) {
 
     if (elementTyping) {
       elementTyping.innerHTML = uevent.content;
-      runAfterRepaint(function () {
+      runAfterLayout(function () {
         return scrollToBottomIfNearEnd();
       });
     }

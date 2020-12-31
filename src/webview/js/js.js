@@ -518,10 +518,24 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
-// Run a function after the next repaint. This is important if we have just set
-// innerHTML and need to read from the DOM, as the repaint happens asynchronously.
-// See: https://macarthur.me/posts/when-dom-updates-appear-to-be-asynchronous
-const runAfterRepaint = (fn: () => void) => {
+/**
+ * Run a function after layout properties have updated from DOM changes.
+ *
+ * This is important if we have just set innerHTML and need to read
+ * properties like `scrollHeight` from the DOM, as the re-layout may happen
+ * asynchronously.
+ */
+const runAfterLayout = (fn: () => void) => {
+  if (platformOS === 'android') {
+    // On Android/Chrome, empirically the updates happen synchronously, so
+    // there's no need to delay (and a delay causes jank).  See discussion:
+    //   https://github.com/zulip/zulip-mobile/pull/4370
+    fn();
+    return;
+  }
+
+  // On iOS/Safari, we must wait.  See:
+  //   https://macarthur.me/posts/when-dom-updates-appear-to-be-asynchronous
   requestAnimationFrame(() => {
     // this runs before the next repaint
     requestAnimationFrame(() => {
@@ -551,7 +565,7 @@ const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
 
   rewriteHtml(uevent.auth);
 
-  runAfterRepaint(() => {
+  runAfterLayout(() => {
     if (target.type === 'bottom') {
       scrollToBottom();
     } else if (target.type === 'anchor') {
@@ -605,7 +619,7 @@ const handleUpdateEventTyping = (uevent: WebViewUpdateEventTyping) => {
   const elementTyping = document.getElementById('typing');
   if (elementTyping) {
     elementTyping.innerHTML = uevent.content;
-    runAfterRepaint(() => scrollToBottomIfNearEnd());
+    runAfterLayout(() => scrollToBottomIfNearEnd());
   }
 };
 
