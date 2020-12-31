@@ -23,7 +23,7 @@ type Props = $ReadOnly<{|
  * @prop [children] - If provided, will render inside the component body.
  * @prop [onPress] - Event fired on pressing the component.
  */
-const UserAvatar = function UserAvatar(props: Props) {
+function UserAvatar(props: Props) {
   const { avatarUrl, children, size, onPress } = props;
   const borderRadius = size / 8;
   const style = {
@@ -53,6 +53,6 @@ const UserAvatar = function UserAvatar(props: Props) {
       </Touchable>
     </View>
   );
-};
+}
 
 export default UserAvatar;
