@@ -10,11 +10,14 @@ and Android.
 
 ## Get the app
 
+
 Release versions of the app are available here:
 * [Zulip for iOS](https://itunes.apple.com/app/zulip/id1203036395)
   on the iTunes App Store
+  
 * [Zulip for Android](https://play.google.com/store/apps/details?id=com.zulipmobile)
   on the Google Play Store
+  
   * Or if you don't use Google Play, you can [download an
     APK](https://github.com/zulip/zulip-mobile/releases/latest)
     from the official build we post on GitHub.
@@ -44,6 +47,7 @@ work on, and ask and answer questions.
 
 One important way to contribute is to run beta versions of the app, and report
 bugs!  To get the beta:
+
 
 * Android: install the app, then just
   [join the testing program](https://play.google.com/apps/testing/com.zulipmobile/)
@@ -76,6 +80,7 @@ For more reading, take a look at our [developer docs](docs/).
 
 ### History
 
+
 Zulip Mobile supersedes two legacy Zulip apps,
 [zulip-ios](https://github.com/zulip/zulip-ios-legacy) and
 [zulip-android](https://github.com/zulip/zulip-android)
@@ -91,6 +96,7 @@ you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
+
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
