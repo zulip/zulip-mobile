@@ -23,11 +23,7 @@ import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getMessagesForNarrow', () => {
   const message = eg.streamMessage({ id: 123 });
-  const messages = {
-    // Flow doesn't like number literals as keys...but it also wants
-    // them to be numbers.
-    [123]: message /* eslint-disable-line no-useless-computed-key */,
-  };
+  const messages = eg.makeMessagesState([message]);
   const outboxMessage = eg.makeOutboxMessage({});
 
   test('if no outbox messages returns messages with no change', () => {
@@ -137,7 +133,7 @@ describe('getLastMessageId', () => {
       narrows: Immutable.Map({
         [HOME_NARROW_STR]: [],
       }),
-      messages: {},
+      messages: eg.makeMessagesState([]),
       outbox: [],
     });
 
