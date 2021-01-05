@@ -24,8 +24,4 @@ export function deeperMerge<K, V>(obj1: { [K]: V }, obj2: { [K]: V }): { [K]: V 
   );
 }
 
-export function groupItemsById<T: { +id: number }>(items: T[]): { [id: number]: T } {
-  return objectFromEntries(items.map(item => [item.id, item]));
-}
-
 export const isValidEmailFormat = (email: string = ''): boolean => /\S+@\S+\.\S+/.test(email);
