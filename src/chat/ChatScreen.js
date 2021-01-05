@@ -12,7 +12,6 @@ import styles, { ThemeContext, createStyleSheet } from '../styles';
 import type { Dispatch, Fetching, Narrow, EditMessage } from '../types';
 import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import ChatNavBar from '../nav/ChatNavBar';
-
 import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
 import FetchError from './FetchError';
