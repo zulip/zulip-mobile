@@ -122,9 +122,10 @@ class ChatScreen extends PureComponent<Props, State> {
   };
 
   render() {
+    const { backgroundColor } = this.context;
     const { isNarrowValid, fetching, haveNoMessages, loading, navigation } = this.props;
     const { narrow } = navigation.state.params;
-    const { editMessage } = this.state;
+    const { editMessage, fetchError } = this.state;
 
     const isFetching = fetching.older || fetching.newer || loading;
     const showMessagePlaceholders = haveNoMessages && isFetching;
@@ -133,7 +134,7 @@ class ChatScreen extends PureComponent<Props, State> {
 
     return (
       <ActionSheetProvider>
-        <View style={[componentStyles.screen, { backgroundColor: this.context.backgroundColor }]}>
+        <View style={[componentStyles.screen, { backgroundColor }]}>
           <KeyboardAvoider style={styles.flexed} behavior="padding">
             <ZulipStatusBar narrow={narrow} />
             <ChatNavBar narrow={narrow} editMessage={editMessage} />
@@ -142,8 +143,8 @@ class ChatScreen extends PureComponent<Props, State> {
             {(() => {
               if (!isNarrowValid) {
                 return <InvalidNarrow narrow={narrow} />;
-              } else if (this.state.fetchError !== null) {
-                return <FetchError narrow={narrow} error={this.state.fetchError} />;
+              } else if (fetchError !== null) {
+                return <FetchError narrow={narrow} error={fetchError} />;
               } else if (sayNoMessages) {
                 return <NoMessages narrow={narrow} />;
               } else {
