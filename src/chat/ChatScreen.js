@@ -110,8 +110,9 @@ class ChatScreen extends PureComponent<Props, State> {
    */
   fetch = async () => {
     const { narrow } = this.props.navigation.state.params;
+    const { dispatch } = this.props;
     try {
-      await this.props.dispatch(fetchMessagesInNarrow(narrow));
+      await dispatch(fetchMessagesInNarrow(narrow));
     } catch (e) {
       this.setState({ fetchError: e });
     }
