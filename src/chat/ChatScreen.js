@@ -8,7 +8,7 @@ import { compose } from 'redux';
 
 import { connect } from '../react-redux';
 import type { ThemeData } from '../styles';
-import styles, { ThemeContext } from '../styles';
+import styles, { ThemeContext, createStyleSheet } from '../styles';
 import type { Dispatch, Fetching, Narrow, EditMessage } from '../types';
 import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import ChatNavBar from '../nav/ChatNavBar';
@@ -53,6 +53,13 @@ type State = {|
   fetchError: Error | null,
 |};
 
+const componentStyles = createStyleSheet({
+  screen: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+});
+
 class ChatScreen extends PureComponent<Props, State> {
   static contextType = ThemeContext;
   context: ThemeData;
@@ -60,13 +67,6 @@ class ChatScreen extends PureComponent<Props, State> {
   state = {
     editMessage: null,
     fetchError: null,
-  };
-
-  styles = {
-    screen: {
-      flex: 1,
-      flexDirection: 'column',
-    },
   };
 
   // This could live in `this.state`, but it isn't used in `render`.
@@ -138,7 +138,7 @@ class ChatScreen extends PureComponent<Props, State> {
 
     return (
       <ActionSheetProvider>
-        <View style={[this.styles.screen, { backgroundColor: this.context.backgroundColor }]}>
+        <View style={[componentStyles.screen, { backgroundColor: this.context.backgroundColor }]}>
           <KeyboardAvoider style={styles.flexed} behavior="padding">
             <ZulipStatusBar narrow={narrow} />
             <ChatNavBar narrow={narrow} editMessage={editMessage} />
