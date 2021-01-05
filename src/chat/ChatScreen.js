@@ -118,12 +118,8 @@ class ChatScreen extends PureComponent<Props, State> {
     }
   };
 
-  startEditMessage = (editMessage: EditMessage) => {
+  setEditMessage = (editMessage: EditMessage | null) => {
     this.setState({ editMessage });
-  };
-
-  completeEditMessage = () => {
-    this.setState({ editMessage: null });
   };
 
   render() {
@@ -156,7 +152,7 @@ class ChatScreen extends PureComponent<Props, State> {
                   <MessageList
                     narrow={narrow}
                     showMessagePlaceholders={showMessagePlaceholders}
-                    startEditMessage={this.startEditMessage}
+                    startEditMessage={this.setEditMessage}
                   />
                 );
               }
@@ -165,7 +161,7 @@ class ChatScreen extends PureComponent<Props, State> {
               <ComposeBox
                 narrow={narrow}
                 editMessage={editMessage}
-                completeEditMessage={this.completeEditMessage}
+                completeEditMessage={() => this.setEditMessage(null)}
               />
             )}
           </KeyboardAvoider>
