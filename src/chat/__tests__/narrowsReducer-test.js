@@ -518,13 +518,11 @@ describe('narrowsReducer', () => {
   });
 
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
-    const allMessages = {
-      // Flow doesn't like number literals as keys...but it also wants
-      // them to be numbers. See https://github.com/facebook/flow/issues/380.
-      [1]: eg.streamMessage({ id: 1 }) /* eslint-disable-line no-useless-computed-key */,
-      [2]: eg.streamMessage({ id: 2 }) /* eslint-disable-line no-useless-computed-key */,
-      [4]: eg.streamMessage({ id: 4 }) /* eslint-disable-line no-useless-computed-key */,
-    };
+    const allMessages = eg.makeMessagesState([
+      eg.streamMessage({ id: 1 }),
+      eg.streamMessage({ id: 2 }),
+      eg.streamMessage({ id: 4 }),
+    ]);
 
     test('Do nothing if the is:starred narrow has not been fetched', () => {
       const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2] });
