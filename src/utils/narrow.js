@@ -59,7 +59,7 @@ export const HOME_NARROW_STR: string = keyFromNarrow(HOME_NARROW);
  * accidentally disagreeing on whether to include the self-user, or on how
  * to sort the list (by user ID vs. email), or neglecting to sort it at all.
  */
-const pmNarrowInternal = (userIds: $ReadOnlyArray<number>, emails?: string[]): Narrow =>
+const pmNarrowInternal = (userIds: $ReadOnlyArray<number>): Narrow =>
   Object.freeze({ type: 'pm', userIds });
 
 /**
@@ -73,7 +73,7 @@ const pmNarrowInternal = (userIds: $ReadOnlyArray<number>, emails?: string[]): N
  * different form of input.
  */
 export const pmNarrowFromRecipients = (recipients: PmKeyRecipients): Narrow =>
-  pmNarrowInternal(recipients.map(r => r.id), recipients.map(r => r.email));
+  pmNarrowInternal(recipients.map(r => r.id));
 
 /**
  * A PM narrow, either 1:1 or group.
@@ -85,7 +85,7 @@ export const pmNarrowFromRecipients = (recipients: PmKeyRecipients): Narrow =>
  * single specific user.
  */
 export const pmNarrowFromUsers = (recipients: PmKeyUsers): Narrow =>
-  pmNarrowInternal(recipients.map(r => r.user_id), recipients.map(r => r.email));
+  pmNarrowInternal(recipients.map(r => r.user_id));
 
 /**
  * FOR TESTS ONLY.  Like pmNarrowFromUsers, but without validation.
@@ -105,7 +105,7 @@ export const pmNarrowFromUsers = (recipients: PmKeyUsers): Narrow =>
 // annoying thing is just that that requires an ownUserId value.
 export const pmNarrowFromUsersUnsafe = (recipients: UserOrBot[]): Narrow => {
   recipients.sort((a, b) => a.user_id - b.user_id);
-  return pmNarrowInternal(recipients.map(r => r.user_id), recipients.map(r => r.email));
+  return pmNarrowInternal(recipients.map(r => r.user_id));
 };
 
 /**
@@ -115,8 +115,7 @@ export const pmNarrowFromUsersUnsafe = (recipients: UserOrBot[]): Narrow => {
  * statically has just one other user it's a bit more convenient because it
  * doesn't require going through our `recipient` helpers.
  */
-export const pm1to1NarrowFromUser = (user: UserOrBot): Narrow =>
-  pmNarrowInternal([user.user_id], [user.email]);
+export const pm1to1NarrowFromUser = (user: UserOrBot): Narrow => pmNarrowInternal([user.user_id]);
 
 export const specialNarrow = (operand: string): Narrow => {
   if (operand === 'starred') {
