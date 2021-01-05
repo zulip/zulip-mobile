@@ -59,7 +59,7 @@ export const recipientsOfPrivateMessage = (
  *
  * See also `pmNarrowFromRecipients`, which requires a value of this type.
  */
-export opaque type PmKeyRecipients: $ReadOnlyArray<PmRecipientUser> = $ReadOnlyArray<PmRecipientUser>;
+export opaque type PmKeyRecipients: $ReadOnlyArray<number> = $ReadOnlyArray<number>;
 
 /**
  * A list of users identifying a PM conversation, as per pmKeyRecipientsFromMessage.
@@ -180,7 +180,10 @@ export const pmKeyRecipientsFromMessage = (
   if (message.type !== 'private') {
     throw new Error('pmKeyRecipientsFromMessage: expected PM, got stream message');
   }
-  return filterRecipients(recipientsOfPrivateMessage(message), ownUser.user_id);
+  return filterRecipientsAsUserIds(
+    recipientsOfPrivateMessage(message).map(r => r.id),
+    ownUser.user_id,
+  );
 };
 
 /**

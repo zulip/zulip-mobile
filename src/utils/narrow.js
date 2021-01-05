@@ -73,7 +73,7 @@ const pmNarrowInternal = (userIds: $ReadOnlyArray<number>): Narrow =>
  * different form of input.
  */
 export const pmNarrowFromRecipients = (recipients: PmKeyRecipients): Narrow =>
-  pmNarrowInternal(recipients.map(r => r.id));
+  pmNarrowInternal(recipients);
 
 /**
  * A PM narrow, either 1:1 or group.
