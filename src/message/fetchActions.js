@@ -32,6 +32,7 @@ import { realmInit } from '../realm/realmActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 import { ZulipVersion } from '../utils/zulipVersion';
+import { getAllUsersById } from '../users/userSelectors';
 
 const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
@@ -88,7 +89,7 @@ export const fetchMessages = (fetchArgs: {|
   try {
     const { messages, found_newest, found_oldest } = await api.getMessages(getAuth(getState()), {
       ...fetchArgs,
-      narrow: apiNarrowOfNarrow(fetchArgs.narrow),
+      narrow: apiNarrowOfNarrow(fetchArgs.narrow, getAllUsersById(getState())),
       useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
     });
     dispatch(
@@ -236,7 +237,7 @@ export const fetchMessagesInNarrow = (
 const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const { messages, found_newest, found_oldest } = await api.getMessages(auth, {
-    narrow: apiNarrowOfNarrow(ALL_PRIVATE_NARROW),
+    narrow: apiNarrowOfNarrow(ALL_PRIVATE_NARROW, getAllUsersById(getState())),
     anchor: LAST_MESSAGE_ANCHOR,
     numBefore: 100,
     numAfter: 0,

@@ -399,14 +399,28 @@ export const isSearchNarrow = (narrow?: Narrow): boolean =>
 /**
  * Convert the narrow into the form used in the Zulip API at get-messages.
  */
-export const apiNarrowOfNarrow = (narrow: Narrow): ApiNarrow =>
+export const apiNarrowOfNarrow = (
+  narrow: Narrow,
+  allUsersById: Map<number, UserOrBot>,
+): ApiNarrow =>
   caseNarrow(narrow, {
     stream: streamName => [{ operator: 'stream', operand: streamName }],
     topic: (streamName, topic) => [
       { operator: 'stream', operand: streamName },
       { operator: 'topic', operand: topic },
     ],
-    pm: emails => [{ operator: 'pm-with', operand: emails.join(',') }],
+    pm: (emails_, ids) => {
+      const emails = [];
+      for (const id of ids) {
+        const email = allUsersById.get(id)?.email;
+        if (email === undefined) {
+          throw new Error('apiNarrowOfNarrow: missing user');
+        }
+        emails.push(email);
+      }
+      // TODO(server-2.1): just send IDs instead
+      return [{ operator: 'pm-with', operand: emails.join(',') }];
+    },
     search: query => [{ operator: 'search', operand: query }],
     home: () => [],
     starred: () => [{ operator: 'is', operand: 'starred' }],
