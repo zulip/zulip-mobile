@@ -22,13 +22,9 @@ describe('messagesReducer', () => {
       const message2 = eg.streamMessage({ id: 2 });
       const message3 = eg.streamMessage({ id: 3 });
 
-      const prevState = deepFreeze({ [message1.id]: message1, [message2.id]: message2 });
+      const prevState = eg.makeMessagesState([message1, message2]);
       const action = deepFreeze({ ...eg.eventNewMessageActionBase, message: message3 });
-      const expectedState = {
-        [message1.id]: message1,
-        [message2.id]: message2,
-        [message3.id]: message3,
-      };
+      const expectedState = eg.makeMessagesState([message1, message2, message3]);
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(prevState);
@@ -40,7 +36,7 @@ describe('messagesReducer', () => {
       const message1 = eg.streamMessage({ id: 1 });
       const message2 = eg.streamMessage({ id: 2 });
 
-      const prevState = deepFreeze({ [message1.id]: message1, [message2.id]: message2 });
+      const prevState = eg.makeMessagesState([message1, message2]);
       const action = deepFreeze({
         id: 1,
         type: EVENT_SUBMESSAGE,
@@ -69,7 +65,7 @@ describe('messagesReducer', () => {
         ],
       });
 
-      const prevState = deepFreeze({ [message1.id]: message1, [message2.id]: message2 });
+      const prevState = eg.makeMessagesState([message1, message2]);
       const action = deepFreeze({
         id: 1,
         type: EVENT_SUBMESSAGE,
@@ -79,9 +75,9 @@ describe('messagesReducer', () => {
         msg_type: 'widget',
         content: '{hello: "world"}',
       });
-      const expectedState = {
-        [message1.id]: message1,
-        [message2.id]: {
+      const expectedState = eg.makeMessagesState([
+        message1,
+        {
           ...message2,
           submessages: [
             // We know message2 has `submessages`; we defined it that
@@ -97,7 +93,7 @@ describe('messagesReducer', () => {
             },
           ],
         },
-      };
+      ]);
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(prevState);
@@ -108,7 +104,7 @@ describe('messagesReducer', () => {
     test('if a message does not exist no changes are made', () => {
       const message1 = eg.streamMessage({ id: 1 });
 
-      const prevState = deepFreeze({ [message1.id]: message1 });
+      const prevState = eg.makeMessagesState([message1]);
       const action = deepFreeze({ type: EVENT_MESSAGE_DELETE, messageIds: [2] });
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(prevState);
@@ -118,9 +114,9 @@ describe('messagesReducer', () => {
       const message1 = eg.streamMessage({ id: 1 });
       const message2 = eg.streamMessage({ id: 2 });
 
-      const prevState = deepFreeze({ [message1.id]: message1, [message2.id]: message2 });
+      const prevState = eg.makeMessagesState([message1, message2]);
       const action = deepFreeze({ type: EVENT_MESSAGE_DELETE, messageIds: [message2.id] });
-      const expectedState = deepFreeze({ [message1.id]: message1 });
+      const expectedState = eg.makeMessagesState([message1]);
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
     });
@@ -130,16 +126,12 @@ describe('messagesReducer', () => {
       const message2 = eg.streamMessage({ id: 2 });
       const message3 = eg.streamMessage({ id: 3 });
 
-      const prevState = deepFreeze({
-        [message1.id]: message1,
-        [message2.id]: message2,
-        [message3.id]: message3,
-      });
+      const prevState = eg.makeMessagesState([message1, message2, message3]);
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
         messageIds: [message2.id, message3.id, 4],
       });
-      const expectedState = deepFreeze({ [message1.id]: message1 });
+      const expectedState = eg.makeMessagesState([message1]);
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
     });
@@ -151,7 +143,7 @@ describe('messagesReducer', () => {
       const message2 = eg.streamMessage({ id: 2 });
       const message3 = eg.streamMessage({ id: 3 });
 
-      const prevState = deepFreeze({ [message1.id]: message1, [message2.id]: message2 });
+      const prevState = eg.makeMessagesState([message1, message2]);
       const action = deepFreeze({
         id: 1,
         type: EVENT_UPDATE_MESSAGE,
@@ -187,11 +179,7 @@ describe('messagesReducer', () => {
         last_edit_timestamp: 123,
       };
 
-      const prevState = deepFreeze({
-        [message1.id]: message1,
-        [message2.id]: message2,
-        [message3Old.id]: message3Old,
-      });
+      const prevState = eg.makeMessagesState([message1, message2, message3Old]);
       const action = deepFreeze({
         id: 1,
         type: EVENT_UPDATE_MESSAGE,
@@ -205,11 +193,7 @@ describe('messagesReducer', () => {
         subject: message3New.subject,
         user_id: message3New.sender_id,
       });
-      const expectedState = {
-        [message1.id]: message1,
-        [message2.id]: message2,
-        [message3New.id]: message3New,
-      };
+      const expectedState = eg.makeMessagesState([message1, message2, message3New]);
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
     });
@@ -238,7 +222,7 @@ describe('messagesReducer', () => {
           },
         ],
       };
-      const prevState = deepFreeze({ [message1Old.id]: message1Old });
+      const prevState = eg.makeMessagesState([message1Old]);
       const action = deepFreeze({
         id: 1,
         type: EVENT_UPDATE_MESSAGE,
@@ -253,7 +237,7 @@ describe('messagesReducer', () => {
         subject: message1New.subject,
         user_id: message1Old.sender_id,
       });
-      const expectedState = { [message1New.id]: message1New };
+      const expectedState = eg.makeMessagesState([message1New]);
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
     });
@@ -291,7 +275,7 @@ describe('messagesReducer', () => {
         ],
       };
 
-      const prevState = deepFreeze({ [message1Old.id]: message1Old });
+      const prevState = eg.makeMessagesState([message1Old]);
       const action = deepFreeze({
         id: 1,
         type: EVENT_UPDATE_MESSAGE,
@@ -306,7 +290,7 @@ describe('messagesReducer', () => {
         user_id: message1New.sender_id,
         subject_links: [],
       });
-      const expectedState = { [message1New.id]: message1New };
+      const expectedState = eg.makeMessagesState([message1New]);
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
     });
@@ -318,20 +302,20 @@ describe('messagesReducer', () => {
       const message2 = eg.streamMessage({ id: 2, reactions: [] });
       const reaction = eg.unicodeEmojiReaction;
 
-      const prevState = deepFreeze({ [message1.id]: message1, [message2.id]: message2 });
+      const prevState = eg.makeMessagesState([message1, message2]);
       const action = deepFreeze({
         id: 1,
         type: EVENT_REACTION_ADD,
         message_id: message2.id,
         ...reaction,
       });
-      const expectedState = {
-        [message1.id]: message1,
-        [message2.id]: {
+      const expectedState = eg.makeMessagesState([
+        message1,
+        {
           ...message2,
           reactions: [reaction],
         },
-      };
+      ]);
       const actualState = messagesReducer(prevState, action);
       expect(actualState).toEqual(expectedState);
     });
@@ -342,14 +326,14 @@ describe('messagesReducer', () => {
       const message1 = eg.streamMessage({ id: 1, reactions: [] });
       const reaction = eg.unicodeEmojiReaction;
 
-      const prevState = deepFreeze({ [message1.id]: message1 });
+      const prevState = eg.makeMessagesState([message1]);
       const action = deepFreeze({
         id: 1,
         type: EVENT_REACTION_REMOVE,
         message_id: 1,
         ...reaction,
       });
-      const expectedState = { [message1.id]: message1 };
+      const expectedState = eg.makeMessagesState([message1]);
       const actualState = messagesReducer(prevState, action);
       expect(actualState).toEqual(expectedState);
     });
@@ -375,14 +359,16 @@ describe('messagesReducer', () => {
       };
 
       const message1 = eg.streamMessage({ id: 1, reactions: [reaction1, reaction2, reaction3] });
-      const prevState = deepFreeze({ [message1.id]: message1 });
+      const prevState = eg.makeMessagesState([message1]);
       const action = deepFreeze({
         id: 1,
         type: EVENT_REACTION_REMOVE,
         message_id: message1.id,
         ...reaction1,
       });
-      const expectedState = { [message1.id]: { ...message1, reactions: [reaction2, reaction3] } };
+      const expectedState = eg.makeMessagesState([
+        { ...message1, reactions: [reaction2, reaction3] },
+      ]);
       const actualState = messagesReducer(prevState, action);
       expect(actualState).toEqual(expectedState);
     });
@@ -396,11 +382,7 @@ describe('messagesReducer', () => {
       const message4 = eg.pmMessage({ id: 4 });
       const message5 = eg.pmMessage({ id: 5 });
 
-      const prevState = deepFreeze({
-        [message1.id]: message1,
-        [message2.id]: message2,
-        [message4.id]: message4,
-      });
+      const prevState = eg.makeMessagesState([message1, message2, message3]);
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
         messages: [message3, message4, message5],
@@ -412,13 +394,13 @@ describe('messagesReducer', () => {
         foundNewest: false,
         ownUserId: eg.selfUser.user_id,
       });
-      const expectedState = {
-        [message1.id]: message1,
-        [message2.id]: message2,
-        [message3.id]: message3,
-        [message4.id]: message4,
-        [message5.id]: message5,
-      };
+      const expectedState = eg.makeMessagesState([
+        message1,
+        message2,
+        message3,
+        message4,
+        message5,
+      ]);
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
     });
@@ -427,11 +409,7 @@ describe('messagesReducer', () => {
       const message1 = eg.streamMessage({ id: 1, timestamp: 3 });
       const message2 = eg.streamMessage({ id: 2, timestamp: 4 });
       const message3 = eg.streamMessage({ id: 3, timestamp: 5 });
-      const prevState = deepFreeze({
-        [message1.id]: message1,
-        [message2.id]: message2,
-        [message3.id]: message3,
-      });
+      const prevState = eg.makeMessagesState([message1, message2, message3]);
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
@@ -458,12 +436,7 @@ describe('messagesReducer', () => {
       const message4Old = eg.streamMessage({ id: 4, timestamp: 6, subject: 'some topic' });
       const message4New = { ...message4Old, subject: 'new topic' };
 
-      const prevState = deepFreeze({
-        [message1.id]: message1,
-        [message2.id]: message2,
-        [message3.id]: message3,
-        [message4Old.id]: message4Old,
-      });
+      const prevState = eg.makeMessagesState([message1, message2, message3, message4Old]);
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
         messages: [message2, message3, message4New],
