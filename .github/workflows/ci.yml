@@ -1,0 +1,39 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v2
+
+    - name: Set up Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '12'
+        check-latest: true
+
+    - name: Run yarn install
+      # Despite the name, this action sees the yarn.lock
+      # and runs yarn install with caching
+      uses: bahmutov/npm-install@v1
+
+    - name: Run tools/test
+      run: TERM=dumb tools/test --full
+
+    - run: tools/verify-webview-js
+
+# Note: if running a release build, this command is required:
+#   echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+# See the mention of `inotify` in docs/.  If we attempt assembleRelease,
+# then without this line the JS bundle step fails with a baffling ENOSPC
+# error, even though there's tons of free space on the filesystem.
