@@ -1,8 +1,11 @@
+/* @flow strict-local */
+
 import {
   normalizeRecipientsAsUserIds,
   normalizeRecipientsAsUserIdsSansMe,
   isSameRecipient,
 } from '../recipient';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('normalizeRecipientsAsUserIds', () => {
   test('joins user IDs from recipients, sorted', () => {
@@ -48,42 +51,26 @@ describe('normalizeRecipientsAsUserIdsSansMe', () => {
 
 describe('isSameRecipient', () => {
   test('passing undefined as any of parameters means recipients are not the same', () => {
-    expect(isSameRecipient(undefined, {})).toBe(false);
-    expect(isSameRecipient({}, undefined)).toBe(false);
+    expect(isSameRecipient(undefined, eg.pmMessage())).toBe(false);
+    expect(isSameRecipient(eg.streamMessage(), undefined)).toBe(false);
     expect(isSameRecipient(undefined, undefined)).toBe(false);
   });
 
   test('recipient types are compared first, if they differ then recipients differ', () => {
-    expect(isSameRecipient({ type: 'private' }, { type: 'stream' })).toBe(false);
+    expect(isSameRecipient(eg.pmMessage(), eg.streamMessage())).toBe(false);
   });
 
-  test('recipient of unknown types are never the same', () => {
-    expect(isSameRecipient({ type: 'someUnknown' }, { type: 'someUnknown' })).toBe(false);
-  });
-
-  test('recipients are same for private type if display_recipient match in any order', () => {
-    const msg1 = {
-      type: 'private',
-      display_recipient: [{ email: 'abc@example.com' }, { email: 'xyz@example.com' }],
-    };
-    const msg2 = {
-      type: 'private',
-      display_recipient: [{ email: 'xyz@example.com' }, { email: 'abc@example.com' }],
-    };
+  // Skipped because we don't currently support this.  See comment on implementation.
+  test.skip('recipients are same for private type if display_recipient match in any order', () => {
+    const msg1 = eg.pmMessageFromTo(eg.selfUser, [eg.otherUser, eg.thirdUser]);
+    const msg2 = eg.pmMessageFromTo(eg.selfUser, [eg.thirdUser, eg.otherUser]);
     expect(isSameRecipient(msg1, msg2)).toBe(true);
   });
 
   test('recipients are same for stream type if display_recipient and subject match', () => {
-    const msg1 = {
-      type: 'stream',
-      display_recipient: 'abc',
-      subject: 'def',
-    };
-    const msg2 = {
-      type: 'stream',
-      display_recipient: 'abc',
-      subject: 'def',
-    };
+    const topic = eg.randString();
+    const msg1 = eg.streamMessage({ stream: eg.stream, subject: topic, content: eg.randString() });
+    const msg2 = eg.streamMessage({ stream: eg.stream, subject: topic, content: eg.randString() });
     expect(isSameRecipient(msg1, msg2)).toBe(true);
   });
 });

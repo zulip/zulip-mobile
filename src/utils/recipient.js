@@ -352,6 +352,23 @@ export const isSameRecipient = (
 
   switch (message1.type) {
     case 'private':
+      // We rely on the recipients being listed in a consistent order
+      // between different messages in the same PM conversation.  The server
+      // is indeed consistent to that degree; see comments on the Message
+      // type.  But:
+      //
+      // TODO: This can wrongly return false if the recipients come in a
+      //   different order.  In particular this happens if there's a real
+      //   Message, then an Outbox message, to the same 1:1 PM thread (other
+      //   than self-1:1.)  The effect is that if you send a 1:1, then go
+      //   visit an interleaved narrow where it appears, you may see an
+      //   extraneous recipient header.
+      //
+      //   We could fix that by sorting, but this is in a hot loop where
+      //   we're already doing too much computation.  Instead, we should
+      //   store an unambiguous ===-comparable key on each message to
+      //   identify its conversation, and sort when computing that.  Until
+      //   then, we just tolerate this glitch in that edge case.
       return isEqual(
         recipientsOfPrivateMessage(message1).map(r => r.id),
         recipientsOfPrivateMessage(message2).map(r => r.id),
