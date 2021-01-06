@@ -4,6 +4,7 @@ import {
   normalizeRecipientsAsUserIds,
   normalizeRecipientsAsUserIdsSansMe,
   isSameRecipient,
+  pmKeyRecipientsFromIds,
 } from '../recipient';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -47,6 +48,28 @@ describe('normalizeRecipientsAsUserIdsSansMe', () => {
 
     expect(normalized).toEqual(expectedResult);
   });
+});
+
+describe('pmKeyRecipientsFromIds', () => {
+  const allUsersById = new Map([eg.selfUser, eg.otherUser, eg.thirdUser].map(u => [u.user_id, u]));
+  const [self, other, third] = [eg.selfUser, eg.otherUser, eg.thirdUser];
+  // prettier-ignore
+  /* eslint-disable no-multi-spaces */
+  /* eslint-disable array-bracket-spacing */
+  for (const [description, users, expectedSet] of [
+    ['self-1:1, self included',  [self],               [self]],
+    ['self-1:1, self omitted',   [    ],               [self]],
+    ['other 1:1, self included', [self, other],        [other]],
+    ['other 1:1, self included', [      other],        [other]],
+    ['group PM, self included',  [self, other, third], [other, third]],
+    ['group PM, self included',  [      other, third], [other, third]],
+  ]) {
+    test(`correct on ${description}`, () => {
+      expect(
+        pmKeyRecipientsFromIds(users.map(u => u.user_id), allUsersById, eg.selfUser.user_id),
+      ).toEqual(expectedSet.sort((a, b) => a.user_id - b.user_id));
+    });
+  }
 });
 
 describe('isSameRecipient', () => {

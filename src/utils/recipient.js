@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import invariant from 'invariant';
 import isEqual from 'lodash.isequal';
+import { mapOrNull } from '../collections';
 
 import type { PmRecipientUser, Message, Outbox, User, UserOrBot } from '../types';
 
@@ -200,16 +201,14 @@ export const pmKeyRecipientsFromIds = (
   allUsersById: Map<number, UserOrBot>,
   ownUserId: number,
 ): PmKeyUsers | null => {
-  const users = [];
-  for (const id of userIds) {
-    if (id === ownUserId && userIds.length > 1) {
-      continue;
-    }
-    const user = allUsersById.get(id);
-    if (!user) {
-      return null;
-    }
-    users.push(user);
+  const resultIds = userIds.filter(id => id !== ownUserId);
+  if (resultIds.length === 0) {
+    resultIds.push(ownUserId);
+  }
+
+  const users = mapOrNull(resultIds, id => allUsersById.get(id));
+  if (!users) {
+    return null;
   }
   return users.sort((a, b) => a.user_id - b.user_id);
 };
