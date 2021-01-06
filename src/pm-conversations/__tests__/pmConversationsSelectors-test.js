@@ -2,20 +2,70 @@
 import Immutable from 'immutable';
 
 import { getRecentConversations } from '../pmConversationsSelectors';
+import { keyOfExactUsers } from '../pmConversationsModel';
 import { ALL_PRIVATE_NARROW_STR } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 import { ZulipVersion } from '../../utils/zulipVersion';
+
+const keyForUsers = users =>
+  users
+    .map(u => u.user_id)
+    .sort((a, b) => a - b)
+    .map(String)
+    .join(',');
+
+describe('getRecentConversationsModern', () => {
+  const accounts = [{ ...eg.selfAccount, zulipVersion: new ZulipVersion('2.1') }];
+  const recentsKeyForUsers = users => keyOfExactUsers(users.map(u => u.user_id));
+
+  test('does its job', () => {
+    const state = eg.reduxState({
+      accounts,
+      realm: eg.realmState({ user_id: eg.selfUser.user_id }),
+      users: [eg.selfUser, eg.otherUser, eg.thirdUser],
+      unread: {
+        ...eg.baseReduxState.unread,
+        pms: [
+          { sender_id: eg.selfUser.user_id, unread_message_ids: [4] },
+          { sender_id: eg.otherUser.user_id, unread_message_ids: [1, 3] },
+        ],
+        huddles: [
+          {
+            user_ids_string: keyForUsers([eg.selfUser, eg.otherUser, eg.thirdUser]),
+            unread_message_ids: [2],
+          },
+        ],
+      },
+      pmConversations: {
+        // prettier-ignore
+        map: Immutable.Map([
+          [[], 4],
+          [[eg.otherUser], 3],
+          [[eg.otherUser, eg.thirdUser], 2],
+        ].map(([k, v]) => [recentsKeyForUsers(k), v])),
+        sorted: Immutable.List(
+          [[], [eg.otherUser], [eg.otherUser, eg.thirdUser]].map(recentsKeyForUsers),
+        ),
+      },
+    });
+
+    expect(getRecentConversations(state)).toEqual([
+      { key: eg.selfUser.user_id.toString(), keyRecipients: [eg.selfUser], msgId: 4, unread: 1 },
+      { key: eg.otherUser.user_id.toString(), keyRecipients: [eg.otherUser], msgId: 3, unread: 2 },
+      {
+        key: keyForUsers([eg.selfUser, eg.otherUser, eg.thirdUser]),
+        keyRecipients: [eg.otherUser, eg.thirdUser].sort((a, b) => a.user_id - b.user_id),
+        msgId: 2,
+        unread: 1,
+      },
+    ]);
+  });
+});
 
 describe('getRecentConversationsLegacy', () => {
   const accounts = [{ ...eg.selfAccount, zulipVersion: new ZulipVersion('2.0') }];
   const userJohn = eg.makeUser();
   const userMark = eg.makeUser();
-  const keyForUsers = users =>
-    users
-      .map(u => u.user_id)
-      .sort((a, b) => a - b)
-      .map(String)
-      .join(',');
 
   test('when no messages, return no conversations', () => {
     const state = eg.reduxState({

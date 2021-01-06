@@ -1,13 +1,20 @@
 /* @flow strict-local */
+import invariant from 'invariant';
 import { createSelector } from 'reselect';
 
 import type { GlobalState, Message, PmConversationData, Selector, User } from '../types';
 import { getPrivateMessages } from '../message/messageSelectors';
-import { getAllUsersById, getOwnUser } from '../users/userSelectors';
+import { getAllUsersById, getOwnUser, getOwnUserId } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
-import { pmUnreadsKeyFromMessage, pmKeyRecipientUsersFromMessage } from '../utils/recipient';
+import {
+  pmUnreadsKeyFromMessage,
+  pmKeyRecipientUsersFromMessage,
+  pmKeyRecipientsFromIds,
+  pmUnreadsKeyFromPmKeyIds,
+} from '../utils/recipient';
 import { getServerVersion } from '../account/accountsSelectors';
 import * as model from './pmConversationsModel';
+import { type PmConversationsState } from './pmConversationsModel';
 
 function unreadCount(unreadsKey, unreadPms, unreadHuddles): number {
   // This business of looking in one place and then the other is kind
@@ -65,9 +72,50 @@ export const getRecentConversationsLegacy: Selector<PmConversationData[]> = crea
   },
 );
 
-export const getRecentConversationsModern: Selector<PmConversationData[]> = state =>
-  // TODO implement for real
-  getRecentConversationsLegacy(state);
+export const getRecentConversationsModern: Selector<PmConversationData[]> = createSelector(
+  state => state.pmConversations,
+  getUnreadByPms,
+  getUnreadByHuddles,
+  getAllUsersById,
+  getOwnUserId,
+  // This is defined separately, just below.  When this is defined inline,
+  // if there's a type error in it, the message Flow gives is often pretty
+  // terrible: just highlighting the whole thing and pointing at something
+  // in the `reselect` libdef.  Defining it separately seems to help.
+  getRecentConversationsModernImpl, // eslint-disable-line no-use-before-define
+);
+
+function getRecentConversationsModernImpl(
+  { sorted, map }: PmConversationsState,
+  unreadPms,
+  unreadHuddles,
+  allUsersById,
+  ownUserId,
+): PmConversationData[] {
+  return sorted
+    .toSeq()
+    .map(recentsKey => {
+      const keyRecipients = pmKeyRecipientsFromIds(
+        model.usersOfKey(recentsKey),
+        allUsersById,
+        ownUserId,
+      );
+      if (keyRecipients === null) {
+        return null;
+      }
+
+      const unreadsKey = pmUnreadsKeyFromPmKeyIds(keyRecipients.map(r => r.user_id), ownUserId);
+
+      const msgId = map.get(recentsKey);
+      invariant(msgId !== undefined, 'pm-conversations: key in sorted should be in map');
+
+      const unread = unreadCount(unreadsKey, unreadPms, unreadHuddles);
+
+      return { key: unreadsKey, keyRecipients, msgId, unread };
+    })
+    .filter(Boolean)
+    .toArray();
+}
 
 const getServerIsOld: Selector<boolean> = createSelector(
   getServerVersion,
