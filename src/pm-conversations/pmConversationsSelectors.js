@@ -1,13 +1,16 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Message, PmConversationData, Selector, User } from '../types';
+import type { GlobalState, Message, PmConversationData, Selector, User } from '../types';
 import { getPrivateMessages } from '../message/messageSelectors';
 import { getAllUsersById, getOwnUser } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
 import { pmUnreadsKeyFromMessage, pmKeyRecipientUsersFromMessage } from '../utils/recipient';
+import { getServerVersion } from '../account/accountsSelectors';
+import * as model from './pmConversationsModel';
 
-export const getRecentConversations: Selector<PmConversationData[]> = createSelector(
+// TODO(server-2.1): Delete this, and simplify logic around it.
+export const getRecentConversationsLegacy: Selector<PmConversationData[]> = createSelector(
   getOwnUser,
   getPrivateMessages,
   getUnreadByPms,
@@ -57,6 +60,21 @@ export const getRecentConversations: Selector<PmConversationData[]> = createSele
     }));
   },
 );
+
+export const getRecentConversationsModern: Selector<PmConversationData[]> = state =>
+  // TODO implement for real
+  getRecentConversationsLegacy(state);
+
+const getServerIsOld: Selector<boolean> = createSelector(
+  getServerVersion,
+  version => !(version && version.isAtLeast(model.MIN_RECENTPMS_SERVER_VERSION)),
+);
+
+/**
+ * The most recent PM conversations, with unread count and latest message ID.
+ */
+export const getRecentConversations = (state: GlobalState): PmConversationData[] =>
+  getServerIsOld(state) ? getRecentConversationsLegacy(state) : getRecentConversationsModern(state);
 
 export const getUnreadConversations: Selector<PmConversationData[]> = createSelector(
   getRecentConversations,

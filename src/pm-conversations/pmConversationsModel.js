@@ -12,6 +12,14 @@ import {
 
 import type { Action, Message, Outbox } from '../types';
 import { recipientsOfPrivateMessage } from '../utils/recipient';
+import { ZulipVersion } from '../utils/zulipVersion';
+
+/** The minimum server version to expect this data to be available. */
+// Actually 2.1-dev-384-g4c3c669b41 according to our notes in src/api/;
+// but this is cleaner, and 2.1 is out long enough that few people, if any,
+// will be running a 2.1-dev version anymore (and nobody should be.)
+// TODO(server-2.1): Delete this and all code conditioned on older than it.
+export const MIN_RECENTPMS_SERVER_VERSION = new ZulipVersion('2.1');
 
 //
 //
