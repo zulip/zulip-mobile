@@ -31,6 +31,7 @@ import type {
 } from './api/apiTypes';
 import type { Narrow } from './utils/narrow';
 import type { SessionState } from './session/sessionReducer';
+import type { PmConversationsState } from './pm-conversations/pmConversationsModel';
 
 export type * from './actionTypes';
 
@@ -358,6 +359,7 @@ export type GlobalState = {|
   mute: MuteState,
   narrows: NarrowsState,
   outbox: OutboxState,
+  pmConversations: PmConversationsState,
   presence: PresenceState,
   realm: RealmState,
   session: SessionState,

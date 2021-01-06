@@ -18,6 +18,7 @@ import narrows from '../chat/narrowsReducer';
 import messages from '../message/messagesReducer';
 import mute from '../mute/muteReducer';
 import outbox from '../outbox/outboxReducer';
+import { reducer as pmConversations } from '../pm-conversations/pmConversationsModel';
 import presence from '../presence/presenceReducer';
 import realm from '../realm/realmReducer';
 import session from '../session/sessionReducer';
@@ -46,6 +47,7 @@ const reducers = {
   narrows,
   mute,
   outbox,
+  pmConversations,
   presence,
   realm,
   session,
