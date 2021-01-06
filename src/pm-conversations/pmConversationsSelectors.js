@@ -9,6 +9,18 @@ import { pmUnreadsKeyFromMessage, pmKeyRecipientUsersFromMessage } from '../util
 import { getServerVersion } from '../account/accountsSelectors';
 import * as model from './pmConversationsModel';
 
+function unreadCount(unreadsKey, unreadPms, unreadHuddles): number {
+  // This business of looking in one place and then the other is kind
+  // of messy.  Fortunately it always works, because the key spaces
+  // are disjoint: all `unreadHuddles` keys contain a comma, and all
+  // `unreadPms` keys don't.
+  /* $FlowFixMe: The keys of unreadPms are logically numbers... but because
+       it's an object, they end up converted to strings, so this access with
+       string keys works.  We should probably use a Map for this and similar
+       maps. */
+  return unreadPms[unreadsKey] || unreadHuddles[unreadsKey];
+}
+
 // TODO(server-2.1): Delete this, and simplify logic around it.
 export const getRecentConversationsLegacy: Selector<PmConversationData[]> = createSelector(
   getOwnUser,
@@ -48,15 +60,7 @@ export const getRecentConversationsLegacy: Selector<PmConversationData[]> = crea
       key: conversation.unreadsKey,
       keyRecipients: conversation.keyRecipients,
       msgId: conversation.msgId,
-      unread:
-        // This business of looking in one place and then the other is kind
-        // of messy.  Fortunately it always works, because the key spaces
-        // are disjoint: all `unreadHuddles` keys contain a comma, and all
-        // `unreadPms` keys don't.
-        /* $FlowFixMe: The keys of unreadPms are logically numbers, but because it's an object they
-         end up converted to strings, so this access with string keys works.  We should probably use
-         a Map for this and similar maps. */
-        unreadPms[conversation.unreadsKey] || unreadHuddles[conversation.unreadsKey],
+      unread: unreadCount(conversation.unreadsKey, unreadPms, unreadHuddles),
     }));
   },
 );
