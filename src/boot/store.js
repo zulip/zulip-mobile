@@ -18,8 +18,6 @@ import ZulipAsyncStorage from './ZulipAsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
 import { provideLoggingContext } from './loggingContext';
 import { tryGetActiveAccount } from '../account/accountsSelectors';
-import { keyFromNarrow } from '../utils/narrow';
-import { objectFromEntries } from '../jsBackport';
 
 if (process.env.NODE_ENV === 'development') {
   // Chrome dev tools for Immutable.
@@ -226,31 +224,17 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
   // `AvatarURL`.
   '18': dropCache,
 
-  // Change format of keys representing narrows, from JSON to our format.
-  '19': state => ({
+  // Change format of keys representing narrows: from JSON to our format,
+  // then for PM narrows adding user IDs.
+  '21': state => ({
     ...dropCache(state),
-    drafts: objectFromEntries(
-      // Note this will migrate straight to our current format, even after
-      // that changes from when this migration was written!  That saves us
-      // from duplicating `keyFromNarrow` here... but calls for care in
-      // migrations for future changes to `keyFromNarrow`.
-      Object.keys(state.drafts).map(key => [keyFromNarrow(JSON.parse(key)), state.drafts[key]]),
-    ),
-  }),
-
-  // Change format of keys representing PM narrows, adding user IDs.
-  '20': state => ({
-    ...dropCache(state),
-    drafts: objectFromEntries(
-      Object.keys(state.drafts)
-        // Just drop any old-style, email-only PM keys.  Converting them
-        // would require using additional information to look up the IDs,
-        // which would make this more complex than any of our other
-        // migrations.  Drafts are inherently short-term, and are already
-        // discarded whenever switching between accounts.
-        .filter(key => !key.startsWith('pm:s:'))
-        .map(key => [key, state.drafts[key]]),
-    ),
+    // The old format was a rather hairy format that we don't want to
+    // permanently keep around the code to parse.  For PMs, there's an
+    // extra wrinkle in that any conversion would require using additional
+    // information to look up the IDs.  Drafts are inherently short-term,
+    // and are already discarded whenever switching between accounts;
+    // so we just drop them here.
+    drafts: {},
   }),
 
   // TIP: When adding a migration, consider just using `dropCache`.
