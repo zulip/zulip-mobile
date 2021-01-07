@@ -36,6 +36,48 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (iOS) Viewing a conversation now takes you to the right point in the
+  history, including the first time. (#3457, #4357)
+* (iOS) Scrolling through lots of messages is now fast. (#3557)
+* Support the Zulip "spoilers" feature. (#4155)
+* People's avatars now show up crisply, without pixelation. (#4305)
+
+Plus, like every release, many other fixes and improvements for your
+Zulip experience.
+
+
+### Highlights for developers
+
+* The representation of narrows, and particularly of PM conversations,
+  has been greatly refactored.  It should now be much simpler to write
+  and understand code dealing with them, and especially to write it
+  without introducing subtle bugs. (PRs #4382, #4368, #4364, #4361,
+  #4356, #4346, #4342, #4339, #4335, #4332, #4330)
+  * A new Narrow type straightforwardly follows the structure of the
+    information we're representing, in place of the old data
+    structures which mirrored the wire format for the much more
+    complex get-messages API of the server. (PRs #4346, #4342, #4339)
+  * PM conversations are represented with the users' IDs, not
+    emails. (PR #4382, PR #4346)
+  * The `recipient` module offers a suite of functions for explicitly
+    translating between the remaining different ways that different
+    data structures encode PM conversations. (#4035, PR #4356,
+    PR #4335, PR #4332)
+
+* We now use GitHub Actions for our CI, instead of Travis CI.  This
+  should be a much more stable platform; it's faster (builds take
+  about 8-9 minutes, vs. 9-12 minutes on Travis); and it may also help
+  us make it run faster still and produce clearer output. (#4174)
+* Sentry error reports now include the Zulip server version. (#3745)
+* Developer scripts now support NixOS (by using `#!/usr/bin/env`.)
+  (PR #4366)
+
+* Resolved issues (latest to earliest): PR #4387, #4155, #4174,
+  PR #4373, #4357, #3457, PR #4367, PR #4366, PR #4350, #4035, #3557,
+  #2750, #4338, #4157, #4305, #4307, #3745.
+
 
 ## 27.157 (2020-11-12)
 
