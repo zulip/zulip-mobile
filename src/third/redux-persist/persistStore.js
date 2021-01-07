@@ -29,35 +29,62 @@ export default function persistStore (store, config = {}, onComplete) {
           else purgeKeys.forEach((key) => delete restoredState[key])
         }
         try {
+          // The version (in redux-persist-migrate's terms) that was
+          // current in the previous session.
+          //
+          // Caution: this same expression would give a different
+          // value if it were run after the `store.dispatch` line,
+          // because redux-persist-migrate's store enhancer
+          // `createMigration` mutates `migrations.version` in the
+          // action's payload (see `realVersionSetter` in
+          // redux-persist-migrate).
+          const prevVersion = restoredState.migrations?.version;
+
           store.dispatch(rehydrateAction(restoredState, err))
 
-          // Ensure the payload of `REHYDRATE` isn't persisted.
-          //
-          // The `REHYDRATE` payload contains exactly every useful
-          // piece of state; there's nothing useful in the existing
-          // state before it arrives that it has to merge with. Since
-          // the `REHYDRATE` payload comes from the disk, there's no
-          // reason we'd want go and save it *back* to the disk when
-          // `REHYDRATE` arrives.
-          //
-          // Part of the work for preventing that is already done;
-          // `.pause()` is called on `persistor` above, and
-          // `.resume()` is called after. This does mean that
-          // persisting `REHYDRATE`'s payload isn't triggered directly
-          // on `REHYDRATE`. And yet, it is triggered on a
-          // *subsequent* action, because, upon each action, the
-          // persistor compares a piece of `lastState` to the
-          // corresponding piece of `state` to check whether that
-          // piece needs to be persisted -- and, on an action just
-          // after `REHYDRATE`, `lastState` is stale, containing the
-          // pre-`REHYDRATE` state. That's because `lastState` doesn't
-          // naturally update when the persistor is paused.
-          //
-          // So, fix that by still resetting `lastState` with the
-          // result of `REHYDRATE` when the persistor is paused; we
-          // can do that because we've exposed `_resetLastState` on
-          // the persistor.
-          persistor._resetLastState()
+          // The version (in redux-persist-migrate's terms) that is
+          // current now, after rehydration.
+          const currentVersion = store.getState().migrations.version;
+
+          if (prevVersion !== undefined && prevVersion === currentVersion) {
+            // Don't persist `REHYDRATE`'s payload unnecessarily.
+            //
+            // The state in memory now (after `REHYDRATE` has fired)
+            // contains no useful information beyond what has already
+            // been saved to storage, so we can skip saving it back to
+            // storage. That's because:
+            //
+            // (a) The state in memory was empty before `REHYDRATE`
+            //     fired. There wasn't anything interesting there that
+            //     was merged with `REHYDRATE`'s payload. And,
+            //
+            // (b) The `REHYDRATE` payload itself came straight (via
+            //     our reviver) from what was saved to storage. It
+            //     would only have changed if at least one migration
+            //     had run, and it hasn't. In this conditional, we
+            //     know that it hasn't because the previous version
+            //     (in redux-persist-migrate's terms) is the same as
+            //     the current version.
+            //
+            // Part of the work for preventing the save is already
+            // done: `.pause()` is called on `persistor` above, and
+            // `.resume()` is called after. This does mean that
+            // persisting `REHYDRATE`'s payload isn't triggered
+            // directly on `REHYDRATE`. However, it is triggered on a
+            // *subsequent* action, because, upon each action, the
+            // persistor compares a piece of `lastState` to the
+            // corresponding piece of `state` to check whether that
+            // piece needs to be persisted -- and, on an action just
+            // after `REHYDRATE`, `lastState` is stale, containing the
+            // pre-`REHYDRATE` state. That's because `lastState`
+            // doesn't naturally update when the persistor is paused.
+            //
+            // So, fix that by still resetting `lastState` with the
+            // result of `REHYDRATE` when the persistor is paused; we
+            // can do that because we've exposed `_resetLastState` on
+            // the persistor.
+            persistor._resetLastState()
+          }
         } finally {
           complete(err, restoredState)
         }
