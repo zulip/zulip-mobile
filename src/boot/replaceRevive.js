@@ -75,8 +75,24 @@ function replacer(key, value) {
       };
     case (Immutable.List.prototype: $FlowFixMe):
       return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableList' };
-    case (Immutable.Map.prototype: $FlowFixMe):
-      return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
+    case (Immutable.Map.prototype: $FlowFixMe): {
+      const firstKey = origValue.keySeq().first();
+      return {
+        data: value,
+        // We assume that any `Immutable.Map` will have
+        //   - all string keys,
+        //   - all numeric keys, or
+        //   - no keys (be empty).
+        //
+        // We store string-keyed maps with `ImmutableMap`,
+        // number-keyed maps with `ImmutableMapNumKeys`, and empty
+        // maps with either one of those (chosen arbitrarily) because
+        // the reviver will give the same output for both of them
+        // (i.e., an empty `Immutable.Map`).
+        [SERIALIZED_TYPE_FIELD_NAME]:
+          firstKey && typeof firstKey === 'number' ? 'ImmutableMapNumKeys' : 'ImmutableMap',
+      };
+    }
     default: {
       // If the identity of the first item in the prototype chain
       // isn't good enough as a distinguishing mark, we can put some
@@ -138,6 +154,9 @@ function reviver(key, value) {
         return Immutable.List(data);
       case 'ImmutableMap':
         return Immutable.Map(data);
+      case 'ImmutableMapNumKeys': {
+        return Immutable.Map(Object.keys(data).map(k => [Number.parseInt(k, 10), data[k]]));
+      }
       case 'Object':
         return {
           ...data,
