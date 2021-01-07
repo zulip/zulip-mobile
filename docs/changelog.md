@@ -74,7 +74,7 @@ Zulip experience.
 * Developer scripts now support NixOS (by using `#!/usr/bin/env`.)
   (PR #4366)
 
-* Resolved issues (latest to earliest): PR #4387, #4155, #4174,
+* Resolved issues (latest to earliest): #4388, PR #4387, #4155, #4174,
   PR #4373, #4357, #3457, PR #4367, PR #4366, PR #4350, #4035, #3557,
   #2750, #4338, #4157, #4305, #4307, #3745.
 
