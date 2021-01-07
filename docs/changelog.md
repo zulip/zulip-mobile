@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.158 (2021-01-07)
+
 ### Highlights for users
 
 * (iOS) Viewing a conversation now takes you to the right point in the
