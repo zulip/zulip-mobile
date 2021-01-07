@@ -10,6 +10,7 @@ import { stringify, parse, SERIALIZED_TYPE_FIELD_NAME } from '../replaceRevive';
 import * as eg from '../../__tests__/lib/exampleData';
 
 const data = {
+  list: Immutable.List([1, 2, 'a', null]),
   map: Immutable.Map({ a: 1, b: 2, c: 3, d: 4 }),
   mapWithTypeKey: Immutable.Map({
     a: 1,

@@ -73,6 +73,8 @@ function replacer(key, value) {
         data: FallbackAvatarURL.serialize(value),
         [SERIALIZED_TYPE_FIELD_NAME]: 'FallbackAvatarURL',
       };
+    case (Immutable.List.prototype: $FlowFixMe):
+      return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableList' };
     case (Immutable.Map.prototype: $FlowFixMe):
       return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableMap' };
     default: {
@@ -132,6 +134,8 @@ function reviver(key, value) {
         return UploadedAvatarURL.deserialize(data);
       case 'FallbackAvatarURL':
         return FallbackAvatarURL.deserialize(data);
+      case 'ImmutableList':
+        return Immutable.List(data);
       case 'ImmutableMap':
         return Immutable.Map(data);
       case 'Object':

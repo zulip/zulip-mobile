@@ -4,6 +4,8 @@ exports[`Stringify fallbackAvatarURL 1`] = `"{\\"data\\":\\"https://zulip.exampl
 
 exports[`Stringify gravatarURL 1`] = `"{\\"data\\":\\"https://secure.gravatar.com/avatar/3b01d0f626dc6944ed45dbe6c86d3e30?d=identicon\\",\\"__serializedType__\\":\\"GravatarURL\\"}"`;
 
+exports[`Stringify list 1`] = `"{\\"data\\":[1,2,\\"a\\",null],\\"__serializedType__\\":\\"ImmutableList\\"}"`;
+
 exports[`Stringify map 1`] = `"{\\"data\\":{\\"a\\":1,\\"b\\":2,\\"c\\":3,\\"d\\":4},\\"__serializedType__\\":\\"ImmutableMap\\"}"`;
 
 exports[`Stringify mapWithTypeKey 1`] = `"{\\"data\\":{\\"__serializedType__\\":\\"Object\\",\\"data\\":{\\"a\\":1},\\"__serializedType__value\\":{\\"__serializedType__\\":\\"Object\\",\\"data\\":{\\"b\\":[2]},\\"__serializedType__value\\":{\\"c\\":[3]}}},\\"__serializedType__\\":\\"ImmutableMap\\"}"`;
