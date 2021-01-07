@@ -94,6 +94,24 @@ export default function persistStore (store, config = {}, onComplete) {
 
   function complete (err, restoredState) {
     persistor.resume()
+
+    // As mentioned in a comment above, the current strategy of using
+    // `.pause()` and `.resume()` means that the time at which the
+    // `REHYDRATE` payload is persisted (if we've asked it to be
+    // persisted; i.e., if a migration has been done) is not during
+    // the processing of `REHYDRATE` itself, but rather during the
+    // processing of the action that immediately follows it. Rather
+    // than postponing the important task of persisting a migration's
+    // results until some arbitrary next action fired somewhere in the
+    // app, fire a next action right here, right now.
+    //
+    // TODO: Find a cleaner way of handling this.
+    store.dispatch({
+      // Include a random string, to be sure no other action type
+      // matches this one. Like Redux does for the initial action.
+      type: `PERSIST_DUMMY/${Math.floor(Math.random() * 2 ** 54).toString(36)}`
+    });
+
     onComplete && onComplete(err, restoredState)
   }
 
