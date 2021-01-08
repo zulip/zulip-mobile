@@ -9,6 +9,7 @@ import { Touchable } from '../common';
 type Props = $ReadOnly<{|
   children: React$Node,
   onPress: () => void,
+  accessibilityLabel?: string,
 |}>;
 
 export default class NavButtonGeneral extends PureComponent<Props> {
@@ -22,10 +23,10 @@ export default class NavButtonGeneral extends PureComponent<Props> {
   });
 
   render() {
-    const { children, onPress } = this.props;
+    const { children, onPress, accessibilityLabel } = this.props;
 
     return (
-      <Touchable onPress={onPress}>
+      <Touchable onPress={onPress} accessibilityLabel={accessibilityLabel}>
         <View style={this.styles.navButtonFrame}>{children}</View>
       </Touchable>
     );
