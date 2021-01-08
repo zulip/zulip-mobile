@@ -592,6 +592,7 @@ export const action = deepFreeze({
     numAfter: 50,
     foundNewest: undefined,
     foundOldest: undefined,
+    ownUserId: selfUser.user_id,
   },
 });
 

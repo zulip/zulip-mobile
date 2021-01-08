@@ -133,6 +133,7 @@ describe('fetchActions', () => {
 
     const baseState = eg.reduxState({
       accounts: [eg.makeAccount()],
+      realm: { ...eg.baseReduxState.realm, user_id: eg.selfUser.user_id },
       narrows: Immutable.Map({
         [streamNarrowStr]: [message1.id],
       }),
@@ -299,6 +300,7 @@ describe('fetchActions', () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           accounts: [eg.selfAccount],
+          realm: { ...eg.baseReduxState.realm, user_id: eg.selfUser.user_id },
           narrows: Immutable.Map({
             [streamNarrowStr]: [1],
           }),
@@ -324,6 +326,7 @@ describe('fetchActions', () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           accounts: [eg.selfAccount],
+          realm: { ...eg.baseReduxState.realm, user_id: eg.selfUser.user_id },
           narrows: Immutable.Map({
             [streamNarrowStr]: [1],
           }),
@@ -348,6 +351,7 @@ describe('fetchActions', () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
           accounts: [eg.selfAccount],
+          realm: { ...eg.baseReduxState.realm, user_id: eg.selfUser.user_id },
           narrows: Immutable.Map({
             [streamNarrowStr]: [1],
           }),

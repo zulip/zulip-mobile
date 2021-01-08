@@ -32,7 +32,7 @@ import { realmInit } from '../realm/realmActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 import { ZulipVersion } from '../utils/zulipVersion';
-import { getAllUsersById } from '../users/userSelectors';
+import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 
 const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
@@ -58,8 +58,18 @@ const messageFetchComplete = (args: {|
   numAfter: number,
   foundNewest?: boolean,
   foundOldest?: boolean,
+  ownUserId: number,
 |}): Action => {
-  const { messages, narrow, anchor, numBefore, numAfter, foundNewest, foundOldest } = args;
+  const {
+    messages,
+    narrow,
+    anchor,
+    numBefore,
+    numAfter,
+    foundNewest,
+    foundOldest,
+    ownUserId,
+  } = args;
   return {
     type: MESSAGE_FETCH_COMPLETE,
     messages,
@@ -69,6 +79,7 @@ const messageFetchComplete = (args: {|
     numAfter,
     foundNewest,
     foundOldest,
+    ownUserId,
   };
 };
 
@@ -98,6 +109,7 @@ export const fetchMessages = (fetchArgs: {|
         messages,
         foundNewest: found_newest,
         foundOldest: found_oldest,
+        ownUserId: getOwnUserId(getState()),
       }),
     );
     return messages;
@@ -251,6 +263,7 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
       numAfter: 0,
       foundNewest: found_newest,
       foundOldest: found_oldest,
+      ownUserId: getOwnUserId(getState()),
     }),
   );
 };

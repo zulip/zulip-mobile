@@ -379,6 +379,7 @@ describe('narrowsReducer', () => {
         numAfter: 100,
         foundNewest: false,
         foundOldest: false,
+        ownUserId: eg.selfUser.user_id,
       });
 
       const expectedState = Immutable.Map({
@@ -407,6 +408,7 @@ describe('narrowsReducer', () => {
         numAfter: 100,
         foundNewest: false,
         foundOldest: false,
+        ownUserId: eg.selfUser.user_id,
       });
 
       const expectedState = Immutable.Map({
@@ -434,6 +436,7 @@ describe('narrowsReducer', () => {
         numAfter: 100,
         foundNewest: false,
         foundOldest: false,
+        ownUserId: eg.selfUser.user_id,
       });
 
       const expectedState = Immutable.Map({
@@ -461,6 +464,7 @@ describe('narrowsReducer', () => {
         numAfter: 100,
         foundNewest: false,
         foundOldest: false,
+        ownUserId: eg.selfUser.user_id,
       });
 
       const expectedState = Immutable.Map({
@@ -487,6 +491,7 @@ describe('narrowsReducer', () => {
         numAfter: 0,
         foundNewest: true,
         foundOldest: false,
+        ownUserId: eg.selfUser.user_id,
       });
 
       const expectedState = Immutable.Map({

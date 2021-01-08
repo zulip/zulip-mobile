@@ -220,6 +220,7 @@ type MessageFetchCompleteAction = {|
   numAfter: number,
   foundNewest: boolean | void,
   foundOldest: boolean | void,
+  ownUserId: number,
 |};
 
 type InitialFetchStartAction = {|
