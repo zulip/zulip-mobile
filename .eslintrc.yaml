@@ -25,6 +25,7 @@ parser: babel-eslint
 extends:
   - airbnb
   - plugin:jest/recommended
+  - plugin:react-hooks/recommended
   - ./tools/formatting.eslintrc.yaml
 
 plugins:
