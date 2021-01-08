@@ -14,19 +14,6 @@ export const navigateBack = (): NavigationAction => StackActions.pop({ n: getSam
 export const resetToLoading = (): NavigationAction =>
   StackActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'loading' })] });
 
-export const resetToRealmScreen = (
-  args: { realm?: URL, initial?: boolean } = {},
-): NavigationAction =>
-  StackActions.reset({
-    index: 0,
-    actions: [
-      NavigationActions.navigate({
-        routeName: 'realm',
-        params: { realm: args.realm, initial: args.initial },
-      }),
-    ],
-  });
-
 export const resetToAccountPicker = (): NavigationAction =>
   StackActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'account' })] });
 
