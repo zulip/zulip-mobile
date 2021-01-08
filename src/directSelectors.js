@@ -15,9 +15,6 @@ import type {
   SettingsState,
   StreamUnreadItem,
   TypingState,
-  UnreadHuddlesState,
-  UnreadMentionsState,
-  UnreadPmsState,
   Account,
   Debug,
   Subscription,
@@ -28,6 +25,11 @@ import type {
   UserGroup,
   UserStatusState,
 } from './types';
+import type {
+  UnreadHuddlesState,
+  UnreadMentionsState,
+  UnreadPmsState,
+} from './unread/unreadModelTypes';
 import type { SessionState } from './session/sessionReducer';
 
 export const getAccounts = (state: GlobalState): Account[] => state.accounts;

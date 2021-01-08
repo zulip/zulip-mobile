@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import type { UnreadMentionsState, Action } from '../types';
+import type { Action } from '../types';
+import type { UnreadMentionsState } from './unreadModelTypes';
 import {
   REALM_INIT,
   LOGOUT,

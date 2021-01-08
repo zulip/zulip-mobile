@@ -1,7 +1,8 @@
 /* @flow strict-local */
 import { combineReducers, type Reducer } from 'redux';
 
-import type { Action, UnreadState } from '../types';
+import type { Action } from '../actionTypes';
+import type { UnreadState } from './unreadModelTypes';
 import unreadStreamsReducer from './unreadStreamsReducer';
 import unreadPmsReducer from './unreadPmsReducer';
 import unreadHuddlesReducer from './unreadHuddlesReducer';
