@@ -195,6 +195,8 @@ export const pmKeyRecipientsFromMessage = (
  *
  * The input may either include or exclude self, without affecting the
  * result.
+ *
+ * Returns null when a user couldn't be found in the given `allUsersById`.
  */
 export const pmKeyRecipientsFromIds = (
   userIds: number[],
