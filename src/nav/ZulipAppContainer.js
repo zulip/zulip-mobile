@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Node as React$Node } from 'react';
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import {
   StackActions,
   NavigationActions,
@@ -86,6 +86,12 @@ export const InitialNavigationDispatcher = connect(state => ({
   haveServerData: getHaveServerData(state),
 }))(InitialNavigationDispatcherInner);
 
-export const AppContainer = createAppContainer<NavigationState, { ... }>(
+const AppContainer = createAppContainer<NavigationState, { ... }>(
   createAppNavigator({ initialRouteName: 'loading' }),
 );
+
+export class ZulipAppContainer extends PureComponent<{||}> {
+  render() {
+    return <AppContainer ref={NavigationService.appContainerRef} />;
+  }
+}
