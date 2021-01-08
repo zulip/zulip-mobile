@@ -33,6 +33,7 @@ import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 import { ZulipVersion } from '../utils/zulipVersion';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
+import { MIN_RECENTPMS_SERVER_VERSION } from '../pm-conversations/pmConversationsModel';
 
 const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
@@ -239,13 +240,14 @@ export const fetchMessagesInNarrow = (
 /**
  * Fetch the few most recent PMs.
  *
- * We do this eagerly in `doInitialFetch`, where it mainly serves to let us
- * show something useful in the PM conversations screen.  Recent server
- * versions have a custom-made API to help us do this better, which we hope
- * to use soon: see #3133.
+ * For old servers, we do this eagerly in `doInitialFetch`, in order to
+ * let us show something useful in the PM conversations screen.
+ * Zulip Server 2.1 added a custom-made API to help us do this better;
+ * see #3133.
  *
  * See `fetchMessagesInNarrow` for further background.
  */
+// TODO(server-2.1): Delete this.
 const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const { messages, found_newest, found_oldest } = await api.getMessages(auth, {
@@ -348,11 +350,14 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
     return;
   }
 
-  dispatch(realmInit(initData, new ZulipVersion(serverSettings.zulip_version)));
+  const serverVersion = new ZulipVersion(serverSettings.zulip_version);
+  dispatch(realmInit(initData, serverVersion));
   dispatch(initialFetchComplete());
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
 
-  dispatch(fetchPrivateMessages());
+  if (!serverVersion.isAtLeast(MIN_RECENTPMS_SERVER_VERSION)) {
+    dispatch(fetchPrivateMessages());
+  }
 
   dispatch(sendOutbox());
   dispatch(initNotifications());
