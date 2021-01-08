@@ -1,13 +1,19 @@
 /* @flow strict-local */
 import type { Node as React$Node } from 'react';
 import { PureComponent } from 'react';
-import { StackActions, NavigationActions } from 'react-navigation';
+import {
+  StackActions,
+  NavigationActions,
+  createAppContainer,
+  type NavigationState,
+} from 'react-navigation';
 
 import { connect } from '../react-redux';
 import * as NavigationService from './NavigationService';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { Dispatch, Account } from '../types';
 import { hasAuth as getHasAuth, getAccounts, getHaveServerData } from '../selectors';
+import AppNavigator from './AppNavigator';
 
 type SelectorProps = $ReadOnly<{|
   hasAuth: boolean,
@@ -22,7 +28,7 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-class InitialNavigationDispatcher extends PureComponent<Props> {
+class InitialNavigationDispatcherInner extends PureComponent<Props> {
   componentDidMount() {
     // `NavigationService` will be ready by the time this is run: a
     // `ref` is set in the `ref`fed component's
@@ -74,8 +80,10 @@ class InitialNavigationDispatcher extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export const InitialNavigationDispatcher = connect(state => ({
   hasAuth: getHasAuth(state),
   accounts: getAccounts(state),
   haveServerData: getHaveServerData(state),
-}))(InitialNavigationDispatcher);
+}))(InitialNavigationDispatcherInner);
+
+export const AppContainer = createAppContainer<NavigationState, { ... }>(AppNavigator);
