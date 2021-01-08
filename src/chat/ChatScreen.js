@@ -94,10 +94,6 @@ class ChatScreen extends PureComponent<Props, State> {
     }
   }
 
-  clearError = () => {
-    this.setState({ fetchError: null });
-  };
-
   /**
    * Fetch messages for this narrow.
    *
