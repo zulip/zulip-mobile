@@ -7,7 +7,7 @@ import { connect } from '../react-redux';
 import * as NavigationService from './NavigationService';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { Dispatch, Account } from '../types';
-import { hasAuth as getHasAuth, getHaveServerData } from '../selectors';
+import { hasAuth as getHasAuth, getAccounts, getHaveServerData } from '../selectors';
 
 type SelectorProps = $ReadOnly<{|
   hasAuth: boolean,
@@ -76,6 +76,6 @@ class InitialNavigationDispatcher extends PureComponent<Props> {
 
 export default connect(state => ({
   hasAuth: getHasAuth(state),
-  accounts: state.accounts,
+  accounts: getAccounts(state),
   haveServerData: getHaveServerData(state),
 }))(InitialNavigationDispatcher);
