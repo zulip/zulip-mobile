@@ -3,20 +3,14 @@ import { createSelector } from 'reselect';
 
 import type { Narrow, Selector, UnreadStreamItem } from '../types';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
-import {
-  getMute,
-  getStreams,
-  getUnreadStreams,
-  getUnreadPms,
-  getUnreadHuddles,
-  getUnreadMentions,
-} from '../directSelectors';
+import { getMute, getStreams } from '../directSelectors';
 import { getOwnUserId } from '../users/userSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { isTopicMuted } from '../utils/message';
 import { caseNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 import { pmUnreadsKeyFromPmKeyIds } from '../utils/recipient';
+import { getUnreadStreams, getUnreadPms, getUnreadHuddles, getUnreadMentions } from './unreadModel';
 
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
 export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(

@@ -13,7 +13,8 @@ import type {
   TopicExtended,
   TopicsState,
 } from '../types';
-import { getMute, getStreams, getTopics, getUnreadStreams } from '../directSelectors';
+import { getMute, getStreams, getTopics } from '../directSelectors';
+import { getUnreadStreams } from '../unread/unreadModel';
 import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
