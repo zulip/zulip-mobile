@@ -1,12 +1,10 @@
 /* @flow strict-local */
 import Immutable from 'immutable';
 
-import type { Message } from '../../types';
+import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 import { reducer } from '../unreadModel';
 import * as eg from '../../__tests__/lib/exampleData';
-import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
-
-const initialState = reducer(undefined, ({ type: eg.randString() }: $FlowFixMe));
+import { initialState, mkMessageAction } from './unread-testlib';
 
 // These are the tests corresponding to unreadStreamsReducer-test.js.
 // Ultimately we'll want to flip this way of organizing the tests, and
@@ -27,11 +25,6 @@ describe('stream substate', () => {
     }
     return result.asImmutable();
   };
-
-  const mkMessageAction = (message: Message) => ({
-    ...eg.eventNewMessageActionBase,
-    message: { ...message, flags: [] },
-  });
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
