@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import { combineReducers } from 'redux';
-import type { CombinedReducer, Reducer } from 'redux';
+import type { CombinedReducer } from 'redux';
 import { enableBatching } from 'redux-batched-actions';
 
 import config from '../config';
 import { logSlowReducers } from '../utils/redux';
 import { NULL_OBJECT } from '../nullObjects';
-import type { Action, GlobalState, MigrationsState, UnreadState } from '../types';
+import type { Action, GlobalState, MigrationsState } from '../types';
 
 import accounts from '../account/accountsReducer';
 import alertWords from '../alertWords/alertWordsReducer';
@@ -27,10 +27,7 @@ import streams from '../streams/streamsReducer';
 import subscriptions from '../subscriptions/subscriptionsReducer';
 import topics from '../topics/topicsReducer';
 import typing from '../typing/typingReducer';
-import unreadHuddles from '../unread/unreadHuddlesReducer';
-import unreadMentions from '../unread/unreadMentionsReducer';
-import unreadPms from '../unread/unreadPmsReducer';
-import unreadStreams from '../unread/unreadStreamsReducer';
+import { reducer as unread } from '../unread/unreadModel';
 import userGroups from '../user-groups/userGroupsReducer';
 import userStatus from '../user-status/userStatusReducer';
 import users from '../users/usersReducer';
@@ -56,12 +53,7 @@ const reducers = {
   subscriptions,
   topics,
   typing,
-  unread: (combineReducers({
-    streams: unreadStreams,
-    pms: unreadPms,
-    huddles: unreadHuddles,
-    mentions: unreadMentions,
-  }): Reducer<UnreadState, Action>),
+  unread,
   userGroups,
   userStatus,
   users,
