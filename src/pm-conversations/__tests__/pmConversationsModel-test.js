@@ -136,6 +136,15 @@ describe('reducer', () => {
       });
     });
 
+    test('existing newest conversation, newest message', () => {
+      const state = reducer(baseState, action(345, [user1]));
+      expect(state).toEqual({
+        map: Immutable.Map([['1', 345], ['1,2', 123]]),
+        sorted: Immutable.List(['1', '1,2']),
+      });
+      expect(state.sorted).toBe(baseState.sorted);
+    });
+
     test('existing conversation, not newest in conversation', () => {
       const state = reducer(baseState, action(102, [user1, user2]));
       expect(state).toBe(baseState);

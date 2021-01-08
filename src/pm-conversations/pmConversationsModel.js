@@ -144,11 +144,21 @@ function insert(
     // The conversation needs to be (a) updated in `map`...
     map = map.set(key, msgId);
 
-    // ... and (b) moved around in `sorted` to keep the list sorted.
+    // ... and (b) possibly moved around in `sorted` to keep the list sorted.
     const i = sorted.indexOf(key);
     invariant(i >= 0, 'pm-conversations: key in map should be in sorted');
-    sorted = sorted.delete(i); // linear time, ouch
-    return { map, sorted: insertSorted(sorted, map, key, msgId) };
+    if (i === 0) {
+      // The conversation was already the latest, so no reordering needed.
+      // (This is likely a common case in practice -- happens every time
+      // the user gets several PMs in a row in the same thread -- so good to
+      // optimize.)
+    } else {
+      // It wasn't the latest.  Just handle the general case.
+      sorted = sorted.delete(i); // linear time, ouch
+      sorted = insertSorted(sorted, map, key, msgId);
+    }
+
+    return { map, sorted };
   }
 }
 
