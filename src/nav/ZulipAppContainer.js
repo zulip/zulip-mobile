@@ -6,6 +6,8 @@ import {
   NavigationActions,
   createAppContainer,
   type NavigationState,
+  type NavigationContainerProps,
+  type NavigationContainer,
 } from 'react-navigation';
 
 import { connect } from '../react-redux';
@@ -85,13 +87,24 @@ export const InitialNavigationDispatcher = connect(state => ({
   accounts: getAccounts(state),
   haveServerData: getHaveServerData(state),
 }))(InitialNavigationDispatcherInner);
-
-const AppContainer = createAppContainer<NavigationState, { ... }>(
-  createAppNavigator({ initialRouteName: 'loading' }),
-);
-
 export class ZulipAppContainer extends PureComponent<{||}> {
+  // (odd spacing choices)
+  // eslint-disable-next-line
+  AppContainer: NavigationContainer<
+    NavigationState,
+    { ... },
+    NavigationContainerProps<{ ... }, NavigationState>,
+  >;
+
+  constructor(props: {||}) {
+    super(props);
+    this.AppContainer = createAppContainer<NavigationState, { ... }>(
+      createAppNavigator({ initialRouteName: 'loading' }),
+    );
+  }
+
   render() {
+    const { AppContainer } = this;
     return <AppContainer ref={NavigationService.appContainerRef} />;
   }
 }
