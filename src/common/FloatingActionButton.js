@@ -22,6 +22,7 @@ type Props = $ReadOnly<{|
   size: number,
   Icon: SpecificIconType,
   onPress: () => void,
+  accessibilityLabel?: string,
 |}>;
 
 /**
@@ -38,7 +39,7 @@ type Props = $ReadOnly<{|
  */
 export default class FloatingActionButton extends PureComponent<Props> {
   render() {
-    const { style, size, disabled, onPress, Icon } = this.props;
+    const { style, size, disabled, onPress, Icon, accessibilityLabel } = this.props;
     const iconSize = Math.trunc(size / 2);
     const customWrapperStyle = {
       width: size,
@@ -51,7 +52,11 @@ export default class FloatingActionButton extends PureComponent<Props> {
     };
 
     return (
-      <Touchable style={style} onPress={disabled ? undefined : onPress}>
+      <Touchable
+        style={style}
+        onPress={disabled ? undefined : onPress}
+        accessibilityLabel={accessibilityLabel}
+      >
         <View style={[styles.wrapper, customWrapperStyle]}>
           <Icon style={iconStyle} size={iconSize} color="white" />
         </View>
