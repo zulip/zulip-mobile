@@ -7,10 +7,9 @@ import { connect } from '../react-redux';
 import * as NavigationService from './NavigationService';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { Dispatch, Account } from '../types';
-import { getIsHydrated, hasAuth as getHasAuth, getHaveServerData } from '../selectors';
+import { hasAuth as getHasAuth, getHaveServerData } from '../selectors';
 
 type SelectorProps = $ReadOnly<{|
-  isHydrated: boolean,
   hasAuth: boolean,
   accounts: Account[],
   haveServerData: boolean,
@@ -25,27 +24,14 @@ type Props = $ReadOnly<{|
 
 class InitialNavigationDispatcher extends PureComponent<Props> {
   componentDidMount() {
-    if (this.props.isHydrated) {
-      // `NavigationService` will be ready by the time this is run: a
-      // `ref` is set in the `ref`fed component's
-      // `componentDidMount` [1], and a parent's `componentDidMount`
-      // is run after a child's `componentDidMount` [2].
-      //
-      // [1] https://reactjs.org/docs/refs-and-the-dom.html#adding-a-ref-to-a-dom-element
-      // [2] https://reactnavigation.org/docs/navigating-without-navigation-prop/#handling-initialization
-      this.doInitialNavigation();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!prevProps.isHydrated && this.props.isHydrated) {
-      // `NavigationService` will be ready here (as long as the
-      // `ref`fed component hasn't unmounted for some reason).
-      // `componentDidUpdate` won't run before `componentDidMount`,
-      // and we've established that it's ready by `componentDidMount`
-      // (see note there).
-      this.doInitialNavigation();
-    }
+    // `NavigationService` will be ready by the time this is run: a
+    // `ref` is set in the `ref`fed component's
+    // `componentDidMount` [1], and a parent's `componentDidMount`
+    // is run after a child's `componentDidMount` [2].
+    //
+    // [1] https://reactjs.org/docs/refs-and-the-dom.html#adding-a-ref-to-a-dom-element
+    // [2] https://reactnavigation.org/docs/navigating-without-navigation-prop/#handling-initialization
+    this.doInitialNavigation();
   }
 
   /**
@@ -92,5 +78,4 @@ export default connect(state => ({
   hasAuth: getHasAuth(state),
   accounts: state.accounts,
   haveServerData: getHaveServerData(state),
-  isHydrated: getIsHydrated(state),
 }))(InitialNavigationDispatcher);
