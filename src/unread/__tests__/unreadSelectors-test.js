@@ -34,22 +34,22 @@ const unreadStreamData = [
 const unreadPmsData = [
   {
     sender_id: 0,
-    unread_message_ids: [1, 2],
+    unread_message_ids: [11, 12],
   },
   {
     sender_id: 2,
-    unread_message_ids: [3, 4, 5],
+    unread_message_ids: [13, 14, 15],
   },
 ];
 
 const unreadHuddlesData = [
   {
     user_ids_string: '1,2,3',
-    unread_message_ids: [1, 2],
+    unread_message_ids: [21, 22],
   },
   {
-    user_ids_string: '4,5',
-    unread_message_ids: [3, 4, 5],
+    user_ids_string: '1,4,5',
+    unread_message_ids: [23, 24, 25],
   },
 ];
 
@@ -212,7 +212,7 @@ describe('getUnreadByHuddles', () => {
 
     const unreadByStream = getUnreadByHuddles(state);
 
-    expect(unreadByStream).toEqual({ '1,2,3': 2, '4,5': 3 });
+    expect(unreadByStream).toEqual({ '1,2,3': 2, '1,4,5': 3 });
   });
 });
 
