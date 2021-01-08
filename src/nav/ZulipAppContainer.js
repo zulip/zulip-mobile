@@ -13,7 +13,7 @@ import * as NavigationService from './NavigationService';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { Dispatch, Account } from '../types';
 import { hasAuth as getHasAuth, getAccounts, getHaveServerData } from '../selectors';
-import AppNavigator from './AppNavigator';
+import { createAppNavigator } from './AppNavigator';
 
 type SelectorProps = $ReadOnly<{|
   hasAuth: boolean,
@@ -86,4 +86,6 @@ export const InitialNavigationDispatcher = connect(state => ({
   haveServerData: getHaveServerData(state),
 }))(InitialNavigationDispatcherInner);
 
-export const AppContainer = createAppContainer<NavigationState, { ... }>(AppNavigator);
+export const AppContainer = createAppContainer<NavigationState, { ... }>(
+  createAppNavigator({ initialRouteName: 'loading' }),
+);

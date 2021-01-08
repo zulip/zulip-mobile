@@ -1,7 +1,9 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
+import type { NavigationParams } from 'react-navigation';
 import {
   createStackNavigator,
+  type NavigationNavigator,
   // The FlowTyped libdef skips v2; there's one for
   // `react-navigation-stack` v1 (we're using that one), and there's
   // one for `@react-navigation/stack` v5, which we'll use when we're
@@ -45,56 +47,62 @@ import LegalScreen from '../settings/LegalScreen';
 import UserStatusScreen from '../user-status/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
 
-export default createStackNavigator(
-  // $FlowFixMe react-navigation types :-/ -- see a36814e80
-  {
-    account: { screen: AccountPickScreen },
-    'account-details': { screen: AccountDetailsScreen },
-    'group-details': { screen: GroupDetailsScreen },
-    auth: { screen: AuthScreen },
-    chat: { screen: ChatScreen },
-    dev: { screen: DevAuthScreen },
-    'emoji-picker': { screen: EmojiPickerScreen },
-    loading: { screen: LoadingScreen },
-    main: {
-      screen: MainScreenWithTabs,
-      navigationOptions: {
-        // So we don't show a transition animation between 'loading'
-        // and 'main'.
-        animationEnabled: false,
+export const createAppNavigator = (args: {|
+  initialRouteName: string,
+  initialRouteParams?: NavigationParams,
+  // flowlint-next-line deprecated-type:off
+|}): NavigationNavigator<*, *, *> =>
+  createStackNavigator(
+    // $FlowFixMe react-navigation types :-/ -- see a36814e80
+    {
+      account: { screen: AccountPickScreen },
+      'account-details': { screen: AccountDetailsScreen },
+      'group-details': { screen: GroupDetailsScreen },
+      auth: { screen: AuthScreen },
+      chat: { screen: ChatScreen },
+      dev: { screen: DevAuthScreen },
+      'emoji-picker': { screen: EmojiPickerScreen },
+      loading: { screen: LoadingScreen },
+      main: {
+        screen: MainScreenWithTabs,
+        navigationOptions: {
+          // So we don't show a transition animation between 'loading'
+          // and 'main'.
+          animationEnabled: false,
+        },
       },
+      'message-reactions': { screen: MessageReactionList },
+      password: { screen: PasswordAuthScreen },
+      realm: { screen: RealmScreen },
+      search: { screen: SearchMessagesScreen },
+      users: { screen: UsersScreen },
+      language: { screen: LanguageScreen },
+      lightbox: { screen: LightboxScreen },
+      group: { screen: CreateGroupScreen },
+      'invite-users': { screen: InviteUsersScreen },
+      diagnostics: { screen: DiagnosticsScreen },
+      variables: { screen: VariablesScreen },
+      timing: { screen: TimingScreen },
+      storage: { screen: StorageScreen },
+      debug: { screen: DebugScreen },
+      stream: { screen: StreamScreen },
+      'stream-edit': { screen: EditStreamScreen },
+      'stream-create': { screen: CreateStreamScreen },
+      topics: { screen: TopicListScreen },
+      notifications: { screen: NotificationsScreen },
+      legal: { screen: LegalScreen },
+      'user-status': { screen: UserStatusScreen },
+      sharing: { screen: SharingScreen },
     },
-    'message-reactions': { screen: MessageReactionList },
-    password: { screen: PasswordAuthScreen },
-    realm: { screen: RealmScreen },
-    search: { screen: SearchMessagesScreen },
-    users: { screen: UsersScreen },
-    language: { screen: LanguageScreen },
-    lightbox: { screen: LightboxScreen },
-    group: { screen: CreateGroupScreen },
-    'invite-users': { screen: InviteUsersScreen },
-    diagnostics: { screen: DiagnosticsScreen },
-    variables: { screen: VariablesScreen },
-    timing: { screen: TimingScreen },
-    storage: { screen: StorageScreen },
-    debug: { screen: DebugScreen },
-    stream: { screen: StreamScreen },
-    'stream-edit': { screen: EditStreamScreen },
-    'stream-create': { screen: CreateStreamScreen },
-    topics: { screen: TopicListScreen },
-    notifications: { screen: NotificationsScreen },
-    legal: { screen: LegalScreen },
-    'user-status': { screen: UserStatusScreen },
-    sharing: { screen: SharingScreen },
-  },
-  {
-    defaultNavigationOptions: {
-      ...Platform.select({
-        android: TransitionPresets.FadeFromBottomAndroid,
-        ios: TransitionPresets.DefaultTransition,
-      }),
+    {
+      defaultNavigationOptions: {
+        ...Platform.select({
+          android: TransitionPresets.FadeFromBottomAndroid,
+          ios: TransitionPresets.DefaultTransition,
+        }),
+      },
+      initialRouteName: args.initialRouteName,
+      initialRouteParams: args.initialRouteParams,
+      headerMode: 'none',
     },
-    initialRouteName: 'loading',
-    headerMode: 'none',
-  },
-);
+  );
