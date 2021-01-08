@@ -32,7 +32,7 @@ export default (args: {|
     } else {
       // Just go to the realm screen and have the user type out the
       // realm.
-      return { initialRouteName: 'realm', initialRouteParams: { initial: true } };
+      return { initialRouteName: 'realm', initialRouteParams: { initial: true, realm: undefined } };
     }
   }
 
