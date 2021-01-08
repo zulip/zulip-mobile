@@ -39,6 +39,7 @@ class ModalSearchNavBar extends PureComponent<Props> {
         {canGoBack && (
           <NavButton
             name="arrow-left"
+            accessibilityLabel="Navigate up"
             onPress={() => {
               NavigationService.dispatch(navigateBack());
             }}

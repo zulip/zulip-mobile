@@ -62,6 +62,7 @@ class ChatNavBar extends PureComponent<Props> {
         >
           <NavButton
             name="arrow-left"
+            accessibilityLabel="Navigate up"
             color={color}
             onPress={() => {
               NavigationService.dispatch(navigateBack());
