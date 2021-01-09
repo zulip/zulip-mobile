@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import invariant from 'invariant';
 import isEqual from 'lodash.isequal';
-import { mapOrNull } from '../collections';
 
+import { mapOrNull } from '../collections';
+import * as logging from './logging';
 import type { PmRecipientUser, Message, Outbox, User, UserOrBot } from '../types';
 
 /** The stream name a stream message was sent to.  Throws if a PM. */
@@ -210,6 +211,7 @@ export const pmKeyRecipientsFromIds = (
 
   const users = mapOrNull(resultIds, id => allUsersById.get(id));
   if (!users) {
+    logging.warn('pmKeyRecipientsFromIds: missing data on user');
     return null;
   }
   return users.sort((a, b) => a.user_id - b.user_id);
