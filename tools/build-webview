@@ -36,6 +36,15 @@ err() {
     exit 1;
 }
 
+# If verbose, format and log message.  First arg is format string.
+verbose_printf() {
+    if ! (( verbose )); then
+        return
+    fi
+    # shellcheck disable=SC2059 # format string from parameter
+    printf >&2 "%s: $1\n" "$0" "${@:2}"
+}
+
 ################################################################################
 # Environment
 ################################################################################
@@ -63,6 +72,7 @@ readonly root
 unset target
 unset dest
 check_path_name=0
+verbose=0
 while (( $# )); do
     case "$1" in
         --help|-h|help)
@@ -75,6 +85,8 @@ while (( $# )); do
             shift; dest="$1"; shift;;
         --check-path-name)
             shift; check_path_name=1;;
+        --verbose|-v)
+            shift; verbose=1;;
         *) usage; exit 2;;
     esac
 done
@@ -92,7 +104,7 @@ dest=$(realpath -m --relative-to="$root" "$dest")
 cd "$root"
 
 # Argument parsing has concluded; argument variables are no longer mutable.
-readonly target dest check_path_name
+readonly target dest check_path_name verbose
 
 if (( check_path_name )); then
     case "$target" in
@@ -153,6 +165,7 @@ sync() {
     # "_dest" because bash's `readonly` means can't shadow with `local`
     local src="$1" _dest="$2"
     mkdir -p "${_dest}"
+    verbose_printf "RSYNC %q -> %q" "${src}" "${_dest}"
     rsync -aR --no-D --delete --delete-excluded \
           "${src}/./" "${_dest}/." \
           --filter='. -'
