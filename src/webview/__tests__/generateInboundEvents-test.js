@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import { generateInboundEvents } from '../generateInboundEvents';
+import generateInboundEvents from '../generateInboundEvents';
 import { flagsStateToStringList } from '../html/messageAsHtml';
 import { HOME_NARROW } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
