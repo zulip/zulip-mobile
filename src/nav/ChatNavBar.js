@@ -4,16 +4,14 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import Color from 'color';
 
-import * as NavigationService from './NavigationService';
 import type { Dispatch, Narrow, EditMessage } from '../types';
 import { LoadingBanner } from '../common';
 import { connect } from '../react-redux';
 import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import Title from '../title/Title';
-import NavButton from './NavButton';
+import NavBarBackButton from './NavBarBackButton';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
-import { navigateBack } from '../actions';
 import { ExtraButton, InfoButton } from '../title-buttons/titleButtonFromNarrow';
 
 type SelectorProps = {|
@@ -60,14 +58,7 @@ class ChatNavBar extends PureComponent<Props> {
             { backgroundColor },
           ]}
         >
-          <NavButton
-            name="arrow-left"
-            accessibilityLabel="Navigate up"
-            color={color}
-            onPress={() => {
-              NavigationService.dispatch(navigateBack());
-            }}
-          />
+          <NavBarBackButton color={color} />
           <Title color={color} narrow={narrow} editMessage={editMessage} />
           <ExtraButton color={color} narrow={narrow} />
           <InfoButton color={color} narrow={narrow} />

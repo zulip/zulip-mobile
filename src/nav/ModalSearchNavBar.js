@@ -2,12 +2,10 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import * as NavigationService from './NavigationService';
 import type { ThemeData } from '../styles';
 import { ThemeContext, NAVBAR_SIZE } from '../styles';
 import SearchInput from '../common/SearchInput';
-import NavButton from './NavButton';
-import { navigateBack } from '../actions';
+import NavBarBackButton from './NavBarBackButton';
 
 type Props = $ReadOnly<{|
   autoFocus: boolean,
@@ -36,16 +34,7 @@ class ModalSearchNavBar extends PureComponent<Props> {
           backgroundColor: this.context.backgroundColor,
         }}
       >
-        {canGoBack && (
-          <NavButton
-            name="arrow-left"
-            accessibilityLabel="Navigate up"
-            onPress={() => {
-              NavigationService.dispatch(navigateBack());
-            }}
-          />
-        )}
-
+        {canGoBack && <NavBarBackButton />}
         <SearchInput autoFocus={autoFocus} onChangeText={searchBarOnChange} />
       </View>
     );

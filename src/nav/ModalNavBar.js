@@ -3,14 +3,11 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import * as NavigationService from './NavigationService';
 import type { LocalizableText } from '../types';
 import type { ThemeData } from '../styles';
 import styles, { ThemeContext, NAVBAR_SIZE } from '../styles';
-
 import Label from '../common/Label';
-import NavButton from './NavButton';
-import { navigateBack } from '../actions';
+import NavBarBackButton from './NavBarBackButton';
 
 type Props = $ReadOnly<{|
   canGoBack: boolean,
@@ -41,15 +38,7 @@ class ModalNavBar extends PureComponent<Props> {
           },
         ]}
       >
-        {canGoBack && (
-          <NavButton
-            name="arrow-left"
-            accessibilityLabel="Navigate up"
-            onPress={() => {
-              NavigationService.dispatch(navigateBack());
-            }}
-          />
-        )}
+        {canGoBack && <NavBarBackButton />}
         <View style={styles.flexedLeftAlign}>
           <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
         </View>
