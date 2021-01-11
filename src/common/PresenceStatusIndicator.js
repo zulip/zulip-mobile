@@ -17,10 +17,9 @@ const styles = createStyleSheet({
     height: 12,
     borderRadius: 6,
   },
-  status: {
-    bottom: 1.5,
-    right: 1.5,
-    position: 'absolute',
+  maybeOpaqueBackgroundWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   opaqueBackground: {
     width: 15,
@@ -69,7 +68,9 @@ function MaybeOpaqueBackgroundWrapper(
 ) {
   const { useOpaqueBackground, style, children } = props;
   return useOpaqueBackground ? (
-    <View style={[styles.opaqueBackground, style]}>{children}</View>
+    <View style={[styles.maybeOpaqueBackgroundWrapper, styles.opaqueBackground, style]}>
+      {children}
+    </View>
   ) : (
     children
   );
@@ -149,30 +150,28 @@ class PresenceStatusIndicator extends PureComponent<Props> {
       case 'active':
         return (
           <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorActive style={useOpaqueBackground ? styles.status : style} />
+            <PresenceStatusIndicatorActive style={useOpaqueBackground ? undefined : style} />
           </MaybeOpaqueBackgroundWrapper>
         );
 
       case 'idle':
         return (
           <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorIdle style={useOpaqueBackground ? styles.status : style} />
+            <PresenceStatusIndicatorIdle style={useOpaqueBackground ? undefined : style} />
           </MaybeOpaqueBackgroundWrapper>
         );
 
       case 'offline':
         return (
           <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorOffline style={useOpaqueBackground ? styles.status : style} />
+            <PresenceStatusIndicatorOffline style={useOpaqueBackground ? undefined : style} />
           </MaybeOpaqueBackgroundWrapper>
         );
 
       case 'unavailable':
         return (
           <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorUnavailable
-              style={useOpaqueBackground ? styles.status : style}
-            />
+            <PresenceStatusIndicatorUnavailable style={useOpaqueBackground ? undefined : style} />
           </MaybeOpaqueBackgroundWrapper>
         );
 
