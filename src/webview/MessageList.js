@@ -46,12 +46,12 @@ import {
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
-import type { WebViewUpdateEvent } from './webViewHandleUpdates';
-import type { MessageListEvent } from './webViewEventHandlers';
+import type { WebViewInboundEvent } from './generateInboundEvents';
+import type { WebViewOutboundEvent } from './handleOutboundEvents';
 import getHtml from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
-import { getUpdateEvents } from './webViewHandleUpdates';
-import { handleMessageListEvent } from './webViewEventHandlers';
+import { generateInboundEvents } from './generateInboundEvents';
+import { handleWebViewOutboundEvent } from './handleOutboundEvents';
 import { base64Utf8Encode } from '../utils/encoding';
 import * as logging from '../utils/logging';
 import { tryParseUrl } from '../utils/url';
@@ -149,7 +149,7 @@ class MessageList extends Component<Props> {
   webview: ?WebView;
   readyRetryInterval: IntervalID | void;
   sendUpdateEventsIsReady: boolean;
-  unsentUpdateEvents: WebViewUpdateEvent[] = [];
+  unsentUpdateEvents: WebViewInboundEvent[] = [];
 
   componentDidMount() {
     this.setupSendUpdateEvents();
@@ -193,7 +193,7 @@ class MessageList extends Component<Props> {
     }, 30);
   };
 
-  sendUpdateEvents = (uevents: WebViewUpdateEvent[]): void => {
+  sendUpdateEvents = (uevents: WebViewInboundEvent[]): void => {
     if (this.webview && uevents.length > 0) {
       // $FlowFixMe This `postMessage` is undocumented; tracking as #3572.
       const secretWebView: { postMessage: (string, string) => void } = this.webview;
@@ -202,19 +202,19 @@ class MessageList extends Component<Props> {
   };
 
   handleMessage = (event: { +nativeEvent: { +data: string } }) => {
-    const eventData: MessageListEvent = JSON.parse(event.nativeEvent.data);
+    const eventData: WebViewOutboundEvent = JSON.parse(event.nativeEvent.data);
     if (eventData.type === 'ready') {
       this.sendUpdateEventsIsReady = true;
       this.sendUpdateEvents(this.unsentUpdateEvents);
       this.unsentUpdateEvents = [];
     } else {
       const { _ } = this.props;
-      handleMessageListEvent(this.props, _, eventData);
+      handleWebViewOutboundEvent(this.props, _, eventData);
     }
   };
 
   shouldComponentUpdate = (nextProps: Props) => {
-    const uevents = getUpdateEvents(this.props, nextProps);
+    const uevents = generateInboundEvents(this.props, nextProps);
 
     if (this.sendUpdateEventsIsReady) {
       this.sendUpdateEvents(uevents);

@@ -2,13 +2,13 @@
 /* eslint-disable no-useless-return */
 import type { Auth } from '../../types';
 import type {
-  WebViewUpdateEvent,
-  WebViewUpdateEventContent,
-  WebViewUpdateEventFetching,
-  WebViewUpdateEventTyping,
-  WebViewUpdateEventReady,
-  WebViewUpdateEventMessagesRead,
-} from '../webViewHandleUpdates';
+  WebViewInboundEvent,
+  WebViewInboundEventContent,
+  WebViewInboundEventFetching,
+  WebViewInboundEventTyping,
+  WebViewInboundEventReady,
+  WebViewInboundEventMessagesRead,
+} from '../generateInboundEvents';
 
 import InboundEventLogger from './InboundEventLogger';
 import sendMessage from './sendMessage';
@@ -412,7 +412,7 @@ const sendScrollMessage = () => {
   };
   sendMessage({
     type: 'scroll',
-    // See MessageListEventScroll for the meanings of these properties.
+    // See WebViewOutboundEventScroll for the meanings of these properties.
     offsetHeight: documentBody.offsetHeight,
     innerHeight: window.innerHeight,
     scrollY: window.scrollY,
@@ -543,7 +543,7 @@ const runAfterLayout = (fn: () => void) => {
   });
 };
 
-const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
+const handleUpdateEventContent = (uevent: WebViewInboundEventContent) => {
   let target: ScrollTarget;
   if (uevent.updateStrategy === 'replace') {
     target = { type: 'none' };
@@ -607,13 +607,13 @@ export const handleInitialLoad = (
  *
  */
 
-const handleUpdateEventFetching = (uevent: WebViewUpdateEventFetching) => {
+const handleUpdateEventFetching = (uevent: WebViewInboundEventFetching) => {
   showHideElement('message-loading', uevent.showMessagePlaceholders);
   showHideElement('spinner-older', uevent.fetchingOlder);
   showHideElement('spinner-newer', uevent.fetchingNewer);
 };
 
-const handleUpdateEventTyping = (uevent: WebViewUpdateEventTyping) => {
+const handleUpdateEventTyping = (uevent: WebViewInboundEventTyping) => {
   const elementTyping = document.getElementById('typing');
   if (elementTyping) {
     elementTyping.innerHTML = uevent.content;
@@ -624,14 +624,14 @@ const handleUpdateEventTyping = (uevent: WebViewUpdateEventTyping) => {
 /**
  * Echo back the handshake message, confirming the channel is ready.
  */
-const handleUpdateEventReady = (uevent: WebViewUpdateEventReady) => {
+const handleUpdateEventReady = (uevent: WebViewInboundEventReady) => {
   sendMessage({ type: 'ready' });
 };
 
 /**
  * Handles messages that have been read outside of the WebView
  */
-const handleUpdateEventMessagesRead = (uevent: WebViewUpdateEventMessagesRead) => {
+const handleUpdateEventMessagesRead = (uevent: WebViewInboundEventMessagesRead) => {
   if (uevent.messageIds.length === 0) {
     return;
   }
@@ -656,7 +656,7 @@ const handleMessageEvent: MessageEventListener = e => {
   // This decoding inverts `base64Utf8Encode`.
   const decodedData = decodeURIComponent(escape(window.atob(e.data)));
   const rawUpdateEvents = JSON.parse(decodedData);
-  const updateEvents: WebViewUpdateEvent[] = rawUpdateEvents.map(updateEvent => ({
+  const updateEvents: WebViewInboundEvent[] = rawUpdateEvents.map(updateEvent => ({
     ...updateEvent,
     // A URL object doesn't round-trip through JSON; we get the string
     // representation. So, "revive" it back into a URL object.
@@ -665,7 +665,7 @@ const handleMessageEvent: MessageEventListener = e => {
       : {}),
   }));
 
-  updateEvents.forEach((uevent: WebViewUpdateEvent) => {
+  updateEvents.forEach((uevent: WebViewInboundEvent) => {
     eventLogger.maybeCaptureInboundEvent(uevent);
     // $FlowFixMe
     eventUpdateHandlers[uevent.type](uevent);

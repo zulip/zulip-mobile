@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import type {
-  WebViewUpdateEvent as WebViewInboundEvent,
-  WebViewUpdateEventContent as WebViewInboundEventContent,
-  WebViewUpdateEventFetching as WebViewInboundEventFetching,
-  WebViewUpdateEventTyping as WebViewInboundEventTyping,
-  WebViewUpdateEventReady as WebViewInboundEventReady,
-  WebViewUpdateEventMessagesRead as WebViewInboundEventMessagesRead,
-} from '../webViewHandleUpdates';
+  WebViewInboundEvent,
+  WebViewInboundEventContent,
+  WebViewInboundEventFetching,
+  WebViewInboundEventTyping,
+  WebViewInboundEventReady,
+  WebViewInboundEventMessagesRead,
+} from '../generateInboundEvents';
 import type { JSONable } from '../../utils/jsonable';
 import sendMessage from './sendMessage';
 import { ensureUnreachable } from '../../types';
