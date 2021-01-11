@@ -67,31 +67,31 @@ function MaybeOpaqueBackgroundWrapper(
   |}>,
 ) {
   const { useOpaqueBackground, style, children } = props;
-  return useOpaqueBackground ? (
-    <View style={[styles.maybeOpaqueBackgroundWrapper, styles.opaqueBackground, style]}>
+  return (
+    <View
+      style={[
+        styles.maybeOpaqueBackgroundWrapper,
+        useOpaqueBackground ? styles.opaqueBackground : undefined,
+        style,
+      ]}
+    >
       {children}
     </View>
-  ) : (
-    children
   );
 }
 
-const PresenceStatusIndicatorActive = ({ style }: { style: ViewStyleProp }) => (
-  <View style={[styles.active, styles.common, style]} />
-);
+const PresenceStatusIndicatorActive = () => <View style={[styles.active, styles.common]} />;
 
-const PresenceStatusIndicatorIdle = ({ style }: { style: ViewStyleProp }) => (
-  <View style={[styles.idleWrapper, styles.common, style]}>
+const PresenceStatusIndicatorIdle = () => (
+  <View style={[styles.idleWrapper, styles.common]}>
     <View style={styles.idleHalfCircle} />
   </View>
 );
 
-const PresenceStatusIndicatorOffline = ({ style }: { style: ViewStyleProp }) => (
-  <View style={[styles.offline, styles.common, style]} />
-);
+const PresenceStatusIndicatorOffline = () => <View style={[styles.offline, styles.common]} />;
 
-const PresenceStatusIndicatorUnavailable = ({ style }: { style: ViewStyleProp }) => (
-  <View style={[styles.unavailableWrapper, styles.common, style]}>
+const PresenceStatusIndicatorUnavailable = () => (
+  <View style={[styles.unavailableWrapper, styles.common]}>
     <View style={styles.unavailableLine} />
   </View>
 );
@@ -150,28 +150,28 @@ class PresenceStatusIndicator extends PureComponent<Props> {
       case 'active':
         return (
           <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorActive style={useOpaqueBackground ? undefined : style} />
+            <PresenceStatusIndicatorActive />
           </MaybeOpaqueBackgroundWrapper>
         );
 
       case 'idle':
         return (
           <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorIdle style={useOpaqueBackground ? undefined : style} />
+            <PresenceStatusIndicatorIdle />
           </MaybeOpaqueBackgroundWrapper>
         );
 
       case 'offline':
         return (
           <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorOffline style={useOpaqueBackground ? undefined : style} />
+            <PresenceStatusIndicatorOffline />
           </MaybeOpaqueBackgroundWrapper>
         );
 
       case 'unavailable':
         return (
           <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorUnavailable style={useOpaqueBackground ? undefined : style} />
+            <PresenceStatusIndicatorUnavailable />
           </MaybeOpaqueBackgroundWrapper>
         );
 
