@@ -286,6 +286,8 @@ function listMiddleware() {
         // Example options to add for more focused information, depending on
         // what you're investigating; see docs/howto/debugging.md (link above).
         //   diff: true,
+        //   collapsed: true,
+        //   collapsed: (getState, action) => action.type !== 'MESSAGE_FETCH_COMPLETE',
         //   predicate: (getState, action) => action.type === 'MESSAGE_FETCH_COMPLETE',
       }),
     );
