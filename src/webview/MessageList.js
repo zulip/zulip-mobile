@@ -18,7 +18,7 @@ import type {
   Narrow,
   Outbox,
   ImageEmojiType,
-  RenderedSectionDescriptor,
+  HtmlPieceDescriptor,
   Subscription,
   ThemeName,
   User,
@@ -93,7 +93,7 @@ type SelectorProps = {|
   initialScrollMessageId: number | null,
   fetching: Fetching,
   messages: $ReadOnlyArray<Message | Outbox>,
-  renderedMessages: RenderedSectionDescriptor[],
+  renderedMessages: HtmlPieceDescriptor[],
   typingUsers: $ReadOnlyArray<UserOrBot>,
 |};
 
@@ -327,7 +327,7 @@ type OuterProps = {|
   /* Remaining props are derived from `narrow` by default. */
 
   messages?: Message[],
-  renderedMessages?: RenderedSectionDescriptor[],
+  renderedMessages?: HtmlPieceDescriptor[],
   initialScrollMessageId?: number | null,
 
   /* Passing these two from the parent is kind of a hack; search uses it
