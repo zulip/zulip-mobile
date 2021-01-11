@@ -299,7 +299,7 @@ export type RenderedMessageDescriptor = {|
   isBrief: boolean,
 |};
 
-export type RenderedSectionDescriptor = {|
+export type HtmlPieceDescriptor = {|
   key: string | number,
   message: Message | Outbox | {||},
   data: $ReadOnlyArray<RenderedMessageDescriptor | RenderedTimeDescriptor>,

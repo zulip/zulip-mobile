@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Message, Narrow, Outbox, RenderedSectionDescriptor } from '../types';
+import type { Message, Narrow, Outbox, HtmlPieceDescriptor } from '../types';
 import { isTopicNarrow, isPmNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/recipient';
 import { isSameDay } from '../utils/date';
@@ -7,7 +7,7 @@ import { isSameDay } from '../utils/date';
 export default (
   messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
-): RenderedSectionDescriptor[] => {
+): HtmlPieceDescriptor[] => {
   const showHeader = !isPmNarrow(narrow) && !isTopicNarrow(narrow);
 
   let prevItem = undefined;
