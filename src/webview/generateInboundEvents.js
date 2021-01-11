@@ -90,10 +90,10 @@ const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): 
     .every(name => prevFlags[name] === nextFlags[name]);
 };
 
-export const generateInboundEvents = (
+export default function generateInboundEvents(
   prevProps: Props,
   nextProps: Props,
-): WebViewInboundEvent[] => {
+): WebViewInboundEvent[] {
   if (
     !isEqual(prevProps.renderedMessages, nextProps.renderedMessages)
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
@@ -127,4 +127,4 @@ export const generateInboundEvents = (
   }
 
   return uevents;
-};
+}
