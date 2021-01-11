@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import { getUpdateEvents } from '../webViewHandleUpdates';
+import { generateInboundEvents } from '../generateInboundEvents';
 import { flagsStateToStringList } from '../html/messageAsHtml';
 import { HOME_NARROW } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 import type { Props } from '../MessageList';
 
-describe('getUpdateEvents', () => {
+describe('generateInboundEvents', () => {
   const baseBackgroundData = deepFreeze({
     alertWords: [],
     allImageEmojiById: eg.action.realm_init.data.realm_emoji,
@@ -52,7 +52,7 @@ describe('getUpdateEvents', () => {
     const prevProps = baseProps;
     const nextProps = baseProps;
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toEqual([]);
   });
@@ -67,7 +67,7 @@ describe('getUpdateEvents', () => {
       fetching: { older: false, newer: true },
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toEqual([
       {
@@ -89,7 +89,7 @@ describe('getUpdateEvents', () => {
       fetching: { older: false, newer: false },
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toEqual([]);
   });
@@ -104,7 +104,7 @@ describe('getUpdateEvents', () => {
       typingUsers: [eg.makeUser()],
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('typing');
@@ -120,7 +120,7 @@ describe('getUpdateEvents', () => {
       renderedMessages: [],
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toEqual([]);
   });
@@ -141,7 +141,7 @@ describe('getUpdateEvents', () => {
       ],
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('content');
@@ -161,7 +161,7 @@ describe('getUpdateEvents', () => {
       typingUsers: [eg.makeUser()],
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toHaveLength(2);
     expect(messages[0].type).toEqual('fetching');
@@ -188,7 +188,7 @@ describe('getUpdateEvents', () => {
       ],
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('content');
@@ -220,7 +220,7 @@ describe('getUpdateEvents', () => {
       },
     };
 
-    const messages = getUpdateEvents(prevProps, nextProps);
+    const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages[0]).toEqual({
       type: 'read',

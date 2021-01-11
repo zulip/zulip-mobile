@@ -1,6 +1,6 @@
 /* @flow strict-local */
-import type { MessageListEvent } from '../webViewEventHandlers';
+import type { WebViewOutboundEvent } from '../handleOutboundEvents';
 
-export default (msg: MessageListEvent) => {
+export default (msg: WebViewOutboundEvent) => {
   window.ReactNativeWebView.postMessage(JSON.stringify(msg));
 };
