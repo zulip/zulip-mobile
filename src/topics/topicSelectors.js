@@ -2,14 +2,10 @@
 import { createSelector } from 'reselect';
 
 import type {
-  MuteState,
   Narrow,
   GlobalState,
   Selector,
-  Stream,
   StreamsState,
-  StreamUnreadItem,
-  Topic,
   TopicExtended,
   TopicsState,
 } from '../types';
@@ -49,12 +45,7 @@ export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSe
   state => getMute(state),
   (state, streamId) => getStreamsById(state).get(streamId),
   state => getUnreadStreams(state),
-  (
-    topicList: Topic[],
-    mute: MuteState,
-    stream: Stream | void,
-    unreadStreams: StreamUnreadItem[],
-  ) => {
+  (topicList, mute, stream, unreadStreams) => {
     if (!topicList || !stream) {
       return undefined;
     }
