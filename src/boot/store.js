@@ -260,6 +260,9 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // See `purge` call in src/third/redux-persist/persistStore.js.
   '24': dropCache,
 
+  // Convert `unread.streams` from over-the-wire array to `Immutable.Map`.
+  '25': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
