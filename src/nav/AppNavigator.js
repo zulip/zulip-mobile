@@ -51,58 +51,76 @@ export const createAppNavigator = (args: {|
   initialRouteName: string,
   initialRouteParams?: NavigationParams,
   // flowlint-next-line deprecated-type:off
-|}): NavigationNavigator<*, *, *> =>
-  createStackNavigator(
-    // $FlowFixMe react-navigation types :-/ -- see a36814e80
-    {
-      account: { screen: AccountPickScreen },
-      'account-details': { screen: AccountDetailsScreen },
-      'group-details': { screen: GroupDetailsScreen },
-      auth: { screen: AuthScreen },
-      chat: { screen: ChatScreen },
-      dev: { screen: DevAuthScreen },
-      'emoji-picker': { screen: EmojiPickerScreen },
-      loading: { screen: LoadingScreen },
-      main: {
-        screen: MainScreenWithTabs,
-        navigationOptions: {
-          // So we don't show a transition animation between 'loading'
-          // and 'main'.
-          animationEnabled: false,
-        },
-      },
-      'message-reactions': { screen: MessageReactionList },
-      password: { screen: PasswordAuthScreen },
-      realm: { screen: RealmScreen },
-      search: { screen: SearchMessagesScreen },
-      users: { screen: UsersScreen },
-      language: { screen: LanguageScreen },
-      lightbox: { screen: LightboxScreen },
-      group: { screen: CreateGroupScreen },
-      'invite-users': { screen: InviteUsersScreen },
-      diagnostics: { screen: DiagnosticsScreen },
-      variables: { screen: VariablesScreen },
-      timing: { screen: TimingScreen },
-      storage: { screen: StorageScreen },
-      debug: { screen: DebugScreen },
-      stream: { screen: StreamScreen },
-      'stream-edit': { screen: EditStreamScreen },
-      'stream-create': { screen: CreateStreamScreen },
-      topics: { screen: TopicListScreen },
-      notifications: { screen: NotificationsScreen },
-      legal: { screen: LegalScreen },
-      'user-status': { screen: UserStatusScreen },
-      sharing: { screen: SharingScreen },
+|}): NavigationNavigator <*, *, *> =>
+createStackNavigator(
+  // $FlowFixMe react-navigation types :-/ -- see a36814e80
+  {
+    account: { screen: AccountPickScreen },
+    'account-details': { screen: AccountDetailsScreen },
+    'group-details': { screen: GroupDetailsScreen },
+    auth: { screen: AuthScreen },
+    chat: {
+      screen: ChatScreen,
+      navigationOptions: {
+        gestureEnabled: true,
+        gestureDirection: 'horizontal',
+        gestureResponseDistance: {
+          horizontal: 20
+        }
+      }
     },
-    {
-      defaultNavigationOptions: {
-        ...Platform.select({
-          android: TransitionPresets.FadeFromBottomAndroid,
-          ios: TransitionPresets.DefaultTransition,
-        }),
+    dev: { screen: DevAuthScreen },
+    'emoji-picker': { screen: EmojiPickerScreen },
+    loading: { screen: LoadingScreen },
+    main: {
+      screen: MainScreenWithTabs,
+      navigationOptions: {
+        // So we don't show a transition animation between 'loading'
+        // and 'main'.
+        animationEnabled: false,
       },
-      initialRouteName: args.initialRouteName,
-      initialRouteParams: args.initialRouteParams,
-      headerMode: 'none',
     },
-  );
+    'message-reactions': { screen: MessageReactionList },
+    password: { screen: PasswordAuthScreen },
+    realm: { screen: RealmScreen },
+    search: {
+      screen: SearchMessagesScreen,
+      navigationOptions: {
+        gestureEnabled: true,
+        gestureDirection: 'horizontal',
+        gestureResponseDistance: {
+          horizontal: 20
+        }
+      }
+    },
+    users: { screen: UsersScreen },
+    language: { screen: LanguageScreen },
+    lightbox: { screen: LightboxScreen },
+    group: { screen: CreateGroupScreen },
+    'invite-users': { screen: InviteUsersScreen },
+    diagnostics: { screen: DiagnosticsScreen },
+    variables: { screen: VariablesScreen },
+    timing: { screen: TimingScreen },
+    storage: { screen: StorageScreen },
+    debug: { screen: DebugScreen },
+    stream: { screen: StreamScreen },
+    'stream-edit': { screen: EditStreamScreen },
+    'stream-create': { screen: CreateStreamScreen },
+    topics: { screen: TopicListScreen },
+    notifications: { screen: NotificationsScreen },
+    legal: { screen: LegalScreen },
+    'user-status': { screen: UserStatusScreen },
+    sharing: { screen: SharingScreen },
+  },
+  {
+    defaultNavigationOptions: {
+      ...Platform.select({
+        android: TransitionPresets.FadeFromBottomAndroid,
+        ios: TransitionPresets.DefaultTransition,
+      }),
+    },
+    initialRouteName: args.initialRouteName,
+    initialRouteParams: args.initialRouteParams,
+    headerMode: 'none',
+  },
+);
