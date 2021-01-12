@@ -88,7 +88,7 @@ export const createAppNavigator = (args: {|
         gestureResponseDistance: {
           horizontal: 20
         }
-      }  },
+      } },
       users: { screen: UsersScreen },
       language: { screen: LanguageScreen },
       lightbox: { screen: LightboxScreen },
