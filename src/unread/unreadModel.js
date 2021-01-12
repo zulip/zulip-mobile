@@ -8,7 +8,6 @@ import type {
   UnreadPmsState,
   UnreadHuddlesState,
   UnreadMentionsState,
-  UnreadStreamsState,
 } from './unreadModelTypes';
 import type { GlobalState } from '../reduxTypes';
 import type { Selector } from '../types';
@@ -17,13 +16,10 @@ import unreadPmsReducer from './unreadPmsReducer';
 import unreadHuddlesReducer from './unreadHuddlesReducer';
 import unreadMentionsReducer from './unreadMentionsReducer';
 
-export const getUnreadStreamsLegacy = (state: GlobalState): UnreadStreamsState =>
-  state.unread.streams;
-
 export const getUnreadStreams: Selector<
   Immutable.Map<number, Immutable.Map<string, Immutable.List<number>>>,
 > = createSelector(
-  getUnreadStreamsLegacy,
+  state => state.unread.streams,
   data => {
     // prettier-ignore
     // This is an example of the style-guide rule "Always provide a type
