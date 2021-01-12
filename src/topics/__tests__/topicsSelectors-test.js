@@ -3,7 +3,9 @@ import Immutable from 'immutable';
 
 import { getTopicsForNarrow, getLastMessageTopic, getTopicsForStream } from '../topicSelectors';
 import { HOME_NARROW, streamNarrow, keyFromNarrow } from '../../utils/narrow';
+import { reducer as unreadReducer } from '../../unread/unreadModel';
 import * as eg from '../../__tests__/lib/exampleData';
+import { mkMessageAction } from '../../unread/__tests__/unread-testlib';
 
 describe('getTopicsForNarrow', () => {
   test('when no topics return an empty list', () => {
@@ -67,10 +69,6 @@ describe('getTopicsForStream', () => {
       streams: [],
       topics: {},
       mute: [],
-      unread: {
-        ...eg.baseReduxState.unread,
-        streams: [],
-      },
     });
 
     const topics = getTopicsForStream(state, 123);
@@ -86,10 +84,6 @@ describe('getTopicsForStream', () => {
         [stream.stream_id]: [{ name: 'topic', max_id: 456 }],
       },
       mute: [],
-      unread: {
-        ...eg.baseReduxState.unread,
-        streams: [],
-      },
     });
 
     const topics = getTopicsForStream(state, stream.stream_id);
@@ -112,21 +106,16 @@ describe('getTopicsForStream', () => {
         ],
       },
       mute: [['stream 1', 'topic 1'], ['stream 1', 'topic 3'], ['stream 2', 'topic 2']],
-      unread: {
-        ...eg.baseReduxState.unread,
-        streams: [
-          {
-            stream_id: 1,
-            topic: 'topic 2',
-            unread_message_ids: [1, 5, 6],
-          },
-          {
-            stream_id: 1,
-            topic: 'topic 4',
-            unread_message_ids: [7, 8],
-          },
-        ],
-      },
+      unread: [
+        eg.streamMessage({ stream_id: 1, subject: 'topic 2', id: 1 }),
+        eg.streamMessage({ stream_id: 1, subject: 'topic 2', id: 5 }),
+        eg.streamMessage({ stream_id: 1, subject: 'topic 2', id: 6 }),
+        eg.streamMessage({ stream_id: 1, subject: 'topic 4', id: 7 }),
+        eg.streamMessage({ stream_id: 1, subject: 'topic 4', id: 8 }),
+      ].reduce(
+        (st, message) => unreadReducer(st, mkMessageAction(message)),
+        eg.baseReduxState.unread,
+      ),
     });
     const expected = [
       { name: 'topic 1', max_id: 5, isMuted: true, unreadCount: 0 },
