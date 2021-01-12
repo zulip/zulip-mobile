@@ -10,7 +10,7 @@ import type {
   TopicsState,
 } from '../types';
 import { getMute, getStreams, getTopics } from '../directSelectors';
-import { getUnreadStreams } from '../unread/unreadModel';
+import { getUnreadStreamsLegacy } from '../unread/unreadModel';
 import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
@@ -44,7 +44,7 @@ export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSe
   (state, streamId) => getTopics(state)[streamId],
   state => getMute(state),
   (state, streamId) => getStreamsById(state).get(streamId),
-  state => getUnreadStreams(state),
+  state => getUnreadStreamsLegacy(state),
   (topicList, mute, stream, unreadStreams) => {
     if (!topicList || !stream) {
       return undefined;

@@ -10,11 +10,16 @@ import { isTopicMuted } from '../utils/message';
 import { caseNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 import { pmUnreadsKeyFromPmKeyIds } from '../utils/recipient';
-import { getUnreadStreams, getUnreadPms, getUnreadHuddles, getUnreadMentions } from './unreadModel';
+import {
+  getUnreadStreamsLegacy,
+  getUnreadPms,
+  getUnreadHuddles,
+  getUnreadMentions,
+} from './unreadModel';
 
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
 export const getUnreadByStream: Selector<{| [number]: number |}> = createSelector(
-  getUnreadStreams,
+  getUnreadStreamsLegacy,
   getSubscriptionsById,
   getMute,
   (unreadStreams, subscriptionsById, mute) => {
@@ -126,7 +131,7 @@ export const getUnreadTotal: Selector<number> = createSelector(
 /** Helper for getUnreadStreamsAndTopicsSansMuted; see there. */
 export const getUnreadStreamsAndTopics: Selector<UnreadStreamItem[]> = createSelector(
   getSubscriptionsById,
-  getUnreadStreams,
+  getUnreadStreamsLegacy,
   getMute,
   (subscriptionsById, unreadStreams, mute) => {
     const totals = new Map();
@@ -218,7 +223,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
   state => getStreams(state),
   state => getOwnUserId(state),
   state => getUnreadTotal(state),
-  state => getUnreadStreams(state),
+  state => getUnreadStreamsLegacy(state),
   state => getUnreadHuddles(state),
   state => getUnreadPms(state),
   state => getMute(state),

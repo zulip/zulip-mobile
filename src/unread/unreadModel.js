@@ -14,7 +14,8 @@ import unreadPmsReducer from './unreadPmsReducer';
 import unreadHuddlesReducer from './unreadHuddlesReducer';
 import unreadMentionsReducer from './unreadMentionsReducer';
 
-export const getUnreadStreams = (state: GlobalState): UnreadStreamsState => state.unread.streams;
+export const getUnreadStreamsLegacy = (state: GlobalState): UnreadStreamsState =>
+  state.unread.streams;
 
 export const getUnreadPms = (state: GlobalState): UnreadPmsState => state.unread.pms;
 
