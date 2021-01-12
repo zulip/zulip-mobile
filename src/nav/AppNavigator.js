@@ -59,7 +59,14 @@ export const createAppNavigator = (args: {|
       'account-details': { screen: AccountDetailsScreen },
       'group-details': { screen: GroupDetailsScreen },
       auth: { screen: AuthScreen },
-      chat: { screen: ChatScreen },
+      chat: { screen: ChatScreen,
+      navigationOptions:{
+        gestureEnabled:true,
+        gestureDirection:'horizontal',
+        gestureResponseDistance:{
+          horizontal:20
+        }
+      } },
       dev: { screen: DevAuthScreen },
       'emoji-picker': { screen: EmojiPickerScreen },
       loading: { screen: LoadingScreen },
@@ -74,7 +81,14 @@ export const createAppNavigator = (args: {|
       'message-reactions': { screen: MessageReactionList },
       password: { screen: PasswordAuthScreen },
       realm: { screen: RealmScreen },
-      search: { screen: SearchMessagesScreen },
+      search: { screen: SearchMessagesScreen,
+           navigationOptions:{
+        gestureEnabled:true,
+        gestureDirection:'horizontal',
+        gestureResponseDistance:{
+          horizontal:20
+        }
+      }  },
       users: { screen: UsersScreen },
       language: { screen: LanguageScreen },
       lightbox: { screen: LightboxScreen },
