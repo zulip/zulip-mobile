@@ -830,7 +830,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare export type NavigationProp<
     ParamList: ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     State: PossiblyStaleNavigationState = PossiblyStaleNavigationState,
     ScreenOptions: {...} = {...},
     EventMap: EventMapBase = EventMapCore<State>,
@@ -1261,7 +1261,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare type InexactStackNavigationProp<
     ParamList: ParamListBase = ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     Options: {...} = StackOptions,
     EventMap: EventMapBase = StackNavigationEventMap,
   > = {
@@ -1281,7 +1281,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare export type StackNavigationProp<
     ParamList: ParamListBase = ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     Options: {...} = StackOptions,
     EventMap: EventMapBase = StackNavigationEventMap,
   > = $Exact<InexactStackNavigationProp<
@@ -1357,7 +1357,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare type InexactTabNavigationProp<
     ParamList: ParamListBase,
-    RouteName: $Keys<ParamList>,
+    +RouteName: $Keys<ParamList>,
     Options: {...},
     EventMap: EventMapBase,
   > = {
@@ -1374,7 +1374,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare export type InexactBottomTabNavigationProp<
     ParamList: ParamListBase = ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     Options: {...} = BottomTabOptions,
     EventMap: EventMapBase = BottomTabNavigationEventMap,
   > = InexactTabNavigationProp<
@@ -1386,7 +1386,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare export type BottomTabNavigationProp<
     ParamList: ParamListBase = ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     Options: {...} = BottomTabOptions,
     EventMap: EventMapBase = BottomTabNavigationEventMap,
   > = $Exact<InexactBottomTabNavigationProp<
@@ -1480,7 +1480,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare export type InexactMaterialBottomTabNavigationProp<
     ParamList: ParamListBase = ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     Options: {...} = MaterialBottomTabOptions,
     EventMap: EventMapBase = MaterialBottomTabNavigationEventMap,
   > = InexactTabNavigationProp<
@@ -1492,7 +1492,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare export type MaterialBottomTabNavigationProp<
     ParamList: ParamListBase = ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     Options: {...} = MaterialBottomTabOptions,
     EventMap: EventMapBase = MaterialBottomTabNavigationEventMap,
   > = $Exact<InexactMaterialBottomTabNavigationProp<
@@ -1628,7 +1628,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare export type InexactMaterialTopTabNavigationProp<
     ParamList: ParamListBase = ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     Options: {...} = MaterialTopTabOptions,
     EventMap: EventMapBase = MaterialTopTabNavigationEventMap,
   > = InexactTabNavigationProp<
@@ -1640,7 +1640,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare export type MaterialTopTabNavigationProp<
     ParamList: ParamListBase = ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     Options: {...} = MaterialTopTabOptions,
     EventMap: EventMapBase = MaterialTopTabNavigationEventMap,
   > = $Exact<InexactMaterialTopTabNavigationProp<
@@ -1800,7 +1800,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare export type InexactDrawerNavigationProp<
     ParamList: ParamListBase = ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     Options: {...} = DrawerOptions,
     EventMap: EventMapBase = DrawerNavigationEventMap,
   > = {
@@ -1820,7 +1820,7 @@ declare module '@react-navigation/material-top-tabs' {
 
   declare export type DrawerNavigationProp<
     ParamList: ParamListBase = ParamListBase,
-    RouteName: $Keys<ParamList> = $Keys<ParamList>,
+    +RouteName: $Keys<ParamList> = $Keys<ParamList>,
     Options: {...} = DrawerOptions,
     EventMap: EventMapBase = DrawerNavigationEventMap,
   > = $Exact<InexactDrawerNavigationProp<
