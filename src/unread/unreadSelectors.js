@@ -10,13 +10,7 @@ import { isTopicMuted } from '../utils/message';
 import { caseNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 import { pmUnreadsKeyFromPmKeyIds } from '../utils/recipient';
-import {
-  getUnreadStreamsLegacy,
-  getUnreadPms,
-  getUnreadHuddles,
-  getUnreadMentions,
-  getUnreadStreams,
-} from './unreadModel';
+import { getUnreadPms, getUnreadHuddles, getUnreadMentions, getUnreadStreams } from './unreadModel';
 
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
 export const getUnreadByStream: Selector<{| [number]: number |}> = createSelector(
@@ -224,14 +218,12 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
   state => getStreams(state),
   state => getOwnUserId(state),
   state => getUnreadTotal(state),
-  state => getUnreadStreamsLegacy(state),
+  state => getUnreadStreams(state),
   state => getUnreadHuddles(state),
   state => getUnreadPms(state),
   state => getMute(state),
-  (narrow, streams, ownUserId, unreadTotal, unreadStreams, unreadHuddles, unreadPms, mute) => {
-    const sumLengths = unreads => unreads.reduce((sum, x) => sum + x.unread_message_ids.length, 0);
-
-    return caseNarrow(narrow, {
+  (narrow, streams, ownUserId, unreadTotal, unreadStreams, unreadHuddles, unreadPms, mute) =>
+    caseNarrow(narrow, {
       home: () => unreadTotal,
 
       stream: name => {
@@ -239,10 +231,15 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         if (!stream) {
           return 0;
         }
-        return sumLengths(
-          unreadStreams.filter(
-            x => x.stream_id === stream.stream_id && !isTopicMuted(name, x.topic, mute),
-          ),
+        // prettier-ignore
+        return (
+          unreadStreams
+            .get(stream.stream_id)
+            ?.entrySeq()
+            .filterNot(([topic, _]) => isTopicMuted(name, topic, mute))
+            .map(([_, msgIds]) => msgIds.size)
+            .reduce((s, x) => s + x, 0)
+            ?? 0
         );
       },
 
@@ -251,9 +248,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         if (!stream) {
           return 0;
         }
-        return sumLengths(
-          unreadStreams.filter(x => x.stream_id === stream.stream_id && x.topic === topic),
-        );
+        return unreadStreams.get(stream.stream_id)?.get(topic)?.size ?? 0;
       },
 
       pm: ids => {
@@ -283,6 +278,5 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
       // because we never use this selector for that narrow (because we
       // don't expose it as one you can narrow to in the UI.)
       allPrivate: () => 0,
-    });
-  },
+    }),
 );
