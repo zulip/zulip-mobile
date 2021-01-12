@@ -133,42 +133,41 @@ export const getUnreadTotal: Selector<number> = createSelector(
 /** Helper for getUnreadStreamsAndTopicsSansMuted; see there. */
 export const getUnreadStreamsAndTopics: Selector<UnreadStreamItem[]> = createSelector(
   getSubscriptionsById,
-  getUnreadStreamsLegacy,
+  getUnreadStreams,
   getMute,
   (subscriptionsById, unreadStreams, mute) => {
     const totals = new Map();
-    unreadStreams.forEach(stream => {
+    for (const [streamId, streamData] of unreadStreams.entries()) {
       const { name, color, in_home_view, invite_only, pin_to_top } =
-        subscriptionsById.get(stream.stream_id) || NULL_SUBSCRIPTION;
+        subscriptionsById.get(streamId) || NULL_SUBSCRIPTION;
 
-      let total = totals.get(stream.stream_id);
-      if (!total) {
-        total = {
-          key: `stream:${name}`,
-          streamName: name,
-          isMuted: !in_home_view,
-          isPrivate: invite_only,
-          isPinned: pin_to_top,
-          color,
-          unread: 0,
-          data: [],
-        };
-        totals.set(stream.stream_id, total);
+      const total = {
+        key: `stream:${name}`,
+        streamName: name,
+        isMuted: !in_home_view,
+        isPrivate: invite_only,
+        isPinned: pin_to_top,
+        color,
+        unread: 0,
+        data: [],
+      };
+      totals.set(streamId, total);
+
+      for (const [topic, msgIds] of streamData) {
+        const isMuted = !mute.every(x => x[0] !== name || x[1] !== topic);
+        if (!isMuted) {
+          total.unread += msgIds.size;
+        }
+
+        total.data.push({
+          key: topic,
+          topic,
+          unread: msgIds.size,
+          lastUnreadMsgId: msgIds.last(),
+          isMuted,
+        });
       }
-
-      const isMuted = !mute.every(x => x[0] !== name || x[1] !== stream.topic);
-      if (!isMuted) {
-        total.unread += stream.unread_message_ids.length;
-      }
-
-      total.data.push({
-        key: stream.topic,
-        topic: stream.topic,
-        unread: stream.unread_message_ids.length,
-        lastUnreadMsgId: stream.unread_message_ids[stream.unread_message_ids.length - 1],
-        isMuted,
-      });
-    });
+    }
 
     const sortedStreams = Array.from(totals.values())
       .sort((a, b) => caseInsensitiveCompareFunc(a.streamName, b.streamName))
