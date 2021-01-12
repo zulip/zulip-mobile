@@ -60,11 +60,11 @@ export const createAppNavigator = (args: {|
       'group-details': { screen: GroupDetailsScreen },
       auth: { screen: AuthScreen },
       chat: { screen: ChatScreen,
-      navigationOptions:{
-        gestureEnabled:true,
-        gestureDirection:'horizontal',
-        gestureResponseDistance:{
-          horizontal:20
+      navigationOptions: {
+        gestureEnabled: true,
+        gestureDirection: 'horizontal',
+        gestureResponseDistance: {
+          horizontal: 20
         }
       } },
       dev: { screen: DevAuthScreen },
@@ -82,11 +82,11 @@ export const createAppNavigator = (args: {|
       password: { screen: PasswordAuthScreen },
       realm: { screen: RealmScreen },
       search: { screen: SearchMessagesScreen,
-           navigationOptions:{
-        gestureEnabled:true,
-        gestureDirection:'horizontal',
-        gestureResponseDistance:{
-          horizontal:20
+           navigationOptions: {
+        gestureEnabled: true,
+        gestureDirection: 'horizontal',
+        gestureResponseDistance: {
+          horizontal: 20
         }
       }  },
       users: { screen: UsersScreen },
