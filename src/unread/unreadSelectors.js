@@ -15,26 +15,28 @@ import {
   getUnreadPms,
   getUnreadHuddles,
   getUnreadMentions,
+  getUnreadStreams,
 } from './unreadModel';
 
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
 export const getUnreadByStream: Selector<{| [number]: number |}> = createSelector(
-  getUnreadStreamsLegacy,
+  getUnreadStreams,
   getSubscriptionsById,
   getMute,
   (unreadStreams, subscriptionsById, mute) => {
     const totals = ({}: {| [number]: number |});
-    unreadStreams.forEach(stream => {
-      if (!totals[stream.stream_id]) {
-        totals[stream.stream_id] = 0;
+    for (const [streamId, streamData] of unreadStreams.entries()) {
+      let total = 0;
+      for (const [topic, msgIds] of streamData) {
+        const isMuted = isTopicMuted(
+          (subscriptionsById.get(streamId) || NULL_SUBSCRIPTION).name,
+          topic,
+          mute,
+        );
+        total += isMuted ? 0 : msgIds.size;
       }
-      const isMuted = isTopicMuted(
-        (subscriptionsById.get(stream.stream_id) || NULL_SUBSCRIPTION).name,
-        stream.topic,
-        mute,
-      );
-      totals[stream.stream_id] += isMuted ? 0 : stream.unread_message_ids.length;
-    });
+      totals[streamId] = total;
+    }
     return totals;
   },
 );
