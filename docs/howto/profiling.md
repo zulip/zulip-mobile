@@ -68,7 +68,7 @@ Setup requires a few steps not documented in the tool's readme:
    a plain-HTTP URL for the stats server. You can disable the ATS
    restrictions entirely by flipping the `NSAllowsArbitraryLoads`
    switch in the `Info.plist`, as described in the [iOS Tips
-   doc](https://github.com/zulip/zulip-mobile/blob/master/docs/howto/ios-tips.md#user-content-adding-http-exceptions-to-nsapptransportsecurity-in-infoplist).
+   doc](ios-tips.md#disable-ats).
 
  * For meaningful results, you should really be using a release build,
    not a debug build.  This requires a couple of additional steps to

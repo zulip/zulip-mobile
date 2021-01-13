@@ -132,6 +132,9 @@ You should now be able to enter `http://zulipdev.com:9991` (not
 `https://`), see the "Sign in with Apple" button, and use it
 successfully.
 
+
+<div id="disable-ats" />
+
 ## Adding `http://` exceptions to `NSAppTransportSecurity` in `Info.plist`
 
 If you need to connect to `http://zulipdev.com` or another host with
