@@ -1,4 +1,4 @@
-# Profiling
+# Profiling and benchmarking
 
 Here's some miscellaneous ideas on profiling and benchmarking.
 
@@ -18,8 +18,72 @@ React in particular has lots of checks that run only in debug builds,
 which can make profiles and benchmarks look very different from when
 those checks don't run.
 
+Similarly, both are best to do on a real physical device, not an
+emulator/simulator.  An emulated device runs on your desktop CPU,
+which can have quite different performance behavior from a mobile
+device's CPU.
+
+Even more so, both profiling and benchmarking are likely to give
+distorted results if done with JS debugging.  On top of requiring a
+debug build of the app, RN's [JS debugging](debugging.md#chrome-devtools)
+involves the JavaScript code actually running inside Chrome on your
+desktop -- which means not only a different CPU but a completely
+different JS engine from the one RN uses for the actual app.
+
 
 # Tools
+
+## `console.log` and manual timing
+
+For either benchmarking, or coarse-grained profiling, a simple
+approach by manually adding some timing code can work well.
+
+You can add `Date.now()` to measure times (or better,
+`performance.now()` once we're on RN v0.63+; see our #4245), and
+`console.log()` to print the results.
+
+See our [debugging guide](debugging.md#native) for how to view the
+output of `console.log`.  (As discussed above, you don't want to be
+using JS debugging for this -- which would mean running different code
+from the normal experience of the app, in a different JS engine, on a
+different class of CPU -- so you won't have the JS console.)
+
+For an example, see [this thread][] with code for measuring Redux
+`dispatch` timings with this technique, and some results.
+
+[this thread]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/data-structure.20performance/near/1068967
+
+The major limitation of this approach is that it can't be used for
+fine-grained exploration of the call graph: trying to run
+`console.log` more than perhaps once every few ms risks slowing things
+down and altering the results, and adding logging too voluminously
+would also just be a lot of manual work.
+
+Another limitation is that `Date.now()` provides times only to the
+nearest millisecond, so this can only measure relatively large chunks
+of time.  This one will go away when we upgrade to RN v0.63 (#4245)
+and can use `performance.now()` for finer resolution.
+
+
+## Chrome DevTools
+
+This approach means using a debug build of the app, and [remote JS
+debugging](debugging.md#chrome-devtools), in order to be able to use
+Chrome's Developer Tools, which have a well-developed profiling
+system.
+
+For the reasons mentioned above, this approach's results are likely to
+be seriously distorted from reality.  But where there are really big
+glaring inefficiencies, it may nevertheless be good enough to locate
+them.  Its big advantage is that it provides a sophisticated tool for
+recording detailed profiles and then exploring them.
+
+For an example session with this tool, see [thread here][].  See also
+[Chrome profiler documentation][].
+
+[thread here]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/data-structure.20performance/near/1069174
+[Chrome profiler documentation]: https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/reference
+
 
 ## react-native-performance-monitor
 
@@ -28,7 +92,7 @@ This is a small project whose author announced it in a 2020 blog post:
 
 It uses the React Profiler API to measure render times, and provides
 handy graphs and some ways to manage data from simple experiments.
-It can be useful for benchmarking changes that get exercised by
+It can be useful for **benchmarking** changes that get exercised by
 rendering some particular component.
 
 Setup requires a few steps not documented in the tool's readme:
