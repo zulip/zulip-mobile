@@ -11,7 +11,7 @@ import {
   getAutocompleteUserGroupSuggestions,
 } from '../users/userHelpers';
 import { Popup } from '../common';
-import UserItem from '../users/UserItem';
+import { UserItemRaw } from '../users/UserItem';
 import UserGroupItem from '../user-groups/UserGroupItem';
 
 type Props = $ReadOnly<{|
@@ -65,7 +65,11 @@ class PeopleAutocomplete extends PureComponent<Props> {
       {
         data: filteredUsers,
         renderItem: ({ item }) => (
-          <UserItem
+          // "Raw" because some of our autocomplete suggestions are fake
+          // synthetic "users" to represent @all and @everyone.
+          // TODO display those in a UI that makes more sense for them,
+          //   and drop the fake "users" and use the normal UserItemById.
+          <UserItemRaw
             key={item.user_id}
             user={item}
             showEmail

@@ -36,13 +36,6 @@ type Props = $ReadOnly<{|
   onPress: UserOrBot => void,
 |}>;
 
-/**
- * A user represented with avatar and name, for use in a list.
- *
- * Prefer `UserItemById` over this component: it does the same thing but
- * provides a more encapsulated interface.  Once all callers have migrated
- * to that version, it'll replace this one.
- */
 // See UserAvatarWithPresence for discussion of this inexact object type.
 class UserItem extends PureComponent<$ReadOnly<{ ...Props, ... }>> {
   static defaultProps = {
@@ -93,9 +86,19 @@ class UserItem extends PureComponent<$ReadOnly<{ ...Props, ... }>> {
   }
 }
 
+/**
+ * A user represented with avatar and name, for use in a list.
+ *
+ * Prefer `UserItemById` over this component: it does the same thing but
+ * provides a more encapsulated interface.
+ *
+ * This component is potentially appropriate if displaying a synthetic fake
+ * user, one that doesn't exist in the database.  (But anywhere we're doing
+ * that, there's probably a better UI anyway than showing a fake user.)
+ */
 // Export the class with a tighter constraint on acceptable props, namely
 // that the type is an exact object type as usual.
-export default (UserItem: ComponentType<$Exact<ElementConfig<typeof UserItem>>>);
+export const UserItemRaw = (UserItem: ComponentType<$Exact<ElementConfig<typeof UserItem>>>);
 
 type OuterProps = $ReadOnly<{|
   ...$Exact<$Diff<ElementConfig<typeof UserItem>, { user: mixed }>>,
@@ -105,9 +108,9 @@ type OuterProps = $ReadOnly<{|
 /**
  * A user represented with avatar and name, for use in a list.
  *
- * Use this in preference to the default export `UserItem`.  We're migrating
- * from that one to this in order to better encapsulate getting user data
- * where it's needed.
+ * Use this in preference to `UserItemRaw`.  We're migrating from that one
+ * to this in order to better encapsulate getting user data where it's
+ * needed.
  */
 export function UserItemById(props: OuterProps) {
   const user = useSelector(state => getUserForId(state, props.userId));
