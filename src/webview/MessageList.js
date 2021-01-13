@@ -233,13 +233,13 @@ class MessageList extends Component<Props> {
       narrow,
       showMessagePlaceholders,
     } = this.props;
-    const messagesHtml = contentHtmlFromPieceDescriptors(
+    const contentHtml = contentHtmlFromPieceDescriptors(
       backgroundData,
       narrow,
       htmlPieceDescriptorsForShownMessages,
     );
     const { auth, theme } = backgroundData;
-    const html: string = getHtml(messagesHtml, theme, {
+    const html: string = getHtml(contentHtml, theme, {
       scrollMessageId: initialScrollMessageId,
       auth,
       showMessagePlaceholders,
