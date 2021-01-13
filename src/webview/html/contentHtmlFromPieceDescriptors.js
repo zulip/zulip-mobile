@@ -1,6 +1,6 @@
 /* @flow strict-local */
-import invariant from 'invariant';
 import type { GetText, Narrow, HtmlPieceDescriptor } from '../../types';
+import { ensureUnreachable } from '../../generics';
 import type { BackgroundData } from '../MessageList';
 
 import messageAsHtml from './messageAsHtml';
@@ -17,20 +17,19 @@ export default ({
   narrow: Narrow,
   htmlPieceDescriptors: HtmlPieceDescriptor[],
   _: GetText,
-|}): string => {
-  const pieces = [];
-  htmlPieceDescriptors.forEach((section, index) => {
-    if (index > 0) {
-      invariant(section.message !== null, 'only first section has null `.message`');
-      pieces.push(messageHeaderAsHtml(backgroundData, narrow, section.message));
-    }
-    section.data.forEach(item => {
-      if (item.type === 'time') {
-        pieces.push(timeRowAsHtml(item.timestamp, item.subsequentMessage));
-      } else {
-        pieces.push(messageAsHtml(backgroundData, item.message, item.isBrief, _));
+|}): string =>
+  htmlPieceDescriptors
+    .map(pieceDescriptor => {
+      switch (pieceDescriptor.type) {
+        case 'time':
+          return timeRowAsHtml(pieceDescriptor.timestamp, pieceDescriptor.subsequentMessage);
+        case 'header':
+          return messageHeaderAsHtml(backgroundData, narrow, pieceDescriptor.subsequentMessage);
+        case 'message':
+          return messageAsHtml(backgroundData, pieceDescriptor.message, pieceDescriptor.isBrief, _);
+        default:
+          ensureUnreachable(pieceDescriptor);
+          throw new Error(`Unidentified pieceDescriptor.type: '${pieceDescriptor.type}'`);
       }
-    });
-  });
-  return pieces.join('');
-};
+    })
+    .join('');

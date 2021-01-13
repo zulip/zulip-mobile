@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
-import invariant from 'invariant';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { HOME_NARROW } from '../../utils/narrow';
@@ -9,9 +8,9 @@ import getHtmlPieceDescriptors from '../getHtmlPieceDescriptors';
 describe('getHtmlPieceDescriptors', () => {
   const narrow = deepFreeze(HOME_NARROW);
 
-  test('empty messages results in a single empty section', () => {
+  test('empty messages results in no pieces', () => {
     const htmlPieceDescriptors = getHtmlPieceDescriptors([], HOME_NARROW);
-    expect(htmlPieceDescriptors).toEqual([{ key: 0, message: null, data: [] }]);
+    expect(htmlPieceDescriptors).toEqual([]);
   });
 
   test('renders time, header and message for a single input', () => {
@@ -20,9 +19,11 @@ describe('getHtmlPieceDescriptors', () => {
 
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
-    expect(htmlPieceDescriptors).toHaveLength(2);
-    expect(htmlPieceDescriptors[0].data[0].key).toEqual('time123');
-    expect(htmlPieceDescriptors[1].data[0].key).toEqual(12345);
+    expect(htmlPieceDescriptors).toMatchObject([
+      { type: 'time', key: 'time123' },
+      { type: 'header', key: 'header12345' },
+      { type: 'message', key: 12345 },
+    ]);
   });
 
   test('several messages in same stream, from same person result in time row, header for the stream, three messages, only first of which is full detail', () => {
@@ -37,13 +38,13 @@ describe('getHtmlPieceDescriptors', () => {
 
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
-    const messageKeys = htmlPieceDescriptors[1].data.map(x => x.key);
-    const messageBriefs = htmlPieceDescriptors[1].data.map(x => {
-      invariant(x.type === 'message', 'expected message item');
-      return x.isBrief;
-    });
-    expect(messageKeys).toEqual([1, 2, 3]);
-    expect(messageBriefs).toEqual([false, true, true]);
+    expect(htmlPieceDescriptors).toMatchObject([
+      { type: 'time' },
+      { type: 'header' },
+      { type: 'message', key: 1, isBrief: false },
+      { type: 'message', key: 2, isBrief: true },
+      { type: 'message', key: 3, isBrief: true },
+    ]);
   });
 
   test('several messages in same stream, from different people result in time row, header for the stream, three messages, only all full detail', () => {
@@ -57,13 +58,13 @@ describe('getHtmlPieceDescriptors', () => {
 
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
-    const messageKeys = htmlPieceDescriptors[1].data.map(x => x.key);
-    const messageBriefs = htmlPieceDescriptors[1].data.map(x => {
-      invariant(x.type === 'message', 'expected message item');
-      return x.isBrief;
-    });
-    expect(messageKeys).toEqual([1, 2, 3]);
-    expect(messageBriefs).toEqual([false, false, false]);
+    expect(htmlPieceDescriptors).toMatchObject([
+      { type: 'time' },
+      { type: 'header' },
+      { type: 'message', key: 1, isBrief: false },
+      { type: 'message', key: 2, isBrief: false },
+      { type: 'message', key: 3, isBrief: false },
+    ]);
   });
 
   test('private messages between two people, results in time row, header and two full messages', () => {
@@ -74,12 +75,11 @@ describe('getHtmlPieceDescriptors', () => {
 
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
-    const messageKeys = htmlPieceDescriptors[1].data.map(x => x.key);
-    const messageBriefs = htmlPieceDescriptors[1].data.map(x => {
-      invariant(x.type === 'message', 'expected message item');
-      return x.isBrief;
-    });
-    expect(messageKeys).toEqual([1, 2]);
-    expect(messageBriefs).toEqual([false, false]);
+    expect(htmlPieceDescriptors).toMatchObject([
+      { type: 'time' },
+      { type: 'header' },
+      { type: 'message', key: 1, isBrief: false },
+      { type: 'message', key: 2, isBrief: false },
+    ]);
   });
 });

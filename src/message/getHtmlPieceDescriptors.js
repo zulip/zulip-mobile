@@ -11,7 +11,7 @@ export default (
   const showHeader = !isPmNarrow(narrow) && !isTopicNarrow(narrow);
 
   let prevMessage = undefined;
-  const sections = [{ key: 0, data: [], message: null }];
+  const pieces: HtmlPieceDescriptor[] = [];
   messages.forEach(message => {
     const diffDays =
       !!prevMessage
@@ -23,15 +23,15 @@ export default (
         timestamp: message.timestamp,
         subsequentMessage: message,
       };
-      sections[sections.length - 1].data.push(renderedTimeDescriptor);
+      pieces.push(renderedTimeDescriptor);
     }
 
     const diffRecipient = !isSameRecipient(prevMessage, message);
     if (showHeader && diffRecipient) {
-      sections.push({
+      pieces.push({
+        type: 'header',
         key: `header${message.id}`,
-        message,
-        data: [],
+        subsequentMessage: message,
       });
     }
 
@@ -44,9 +44,9 @@ export default (
       isBrief: shouldGroupWithPrev,
       message,
     };
-    sections[sections.length - 1].data.push(renderedMessageDescriptor);
+    pieces.push(renderedMessageDescriptor);
 
     prevMessage = message;
   });
-  return sections;
+  return pieces;
 };
