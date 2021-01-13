@@ -5,7 +5,7 @@ import { connect } from '../react-redux';
 
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
-import { UserItemById } from '../users/UserItem';
+import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 
 type Props = $ReadOnly<{|
@@ -30,9 +30,7 @@ class ReactionUserList extends PureComponent<Props> {
       <FlatList
         data={reactedUserIds}
         keyExtractor={userId => `${userId}`}
-        renderItem={({ item }) => (
-          <UserItemById key={item} userId={item} onPress={this.handlePress} />
-        )}
+        renderItem={({ item }) => <UserItem key={item} userId={item} onPress={this.handlePress} />}
       />
     );
   }

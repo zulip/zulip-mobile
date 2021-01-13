@@ -9,7 +9,7 @@ import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
 import { ZulipButton, Input, Label } from '../common';
-import { UserItemById } from '../users/UserItem';
+import UserItem from '../users/UserItem';
 import { getAuth } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 import ChooseRecipientsScreen from './ChooseRecipientsScreen';
@@ -136,7 +136,7 @@ class ShareToPm extends React.Component<Props, State> {
     }
     const preview = [];
     selectedRecipients.forEach(userId => {
-      preview.push(<UserItemById userId={userId} onPress={() => {}} key={userId} />);
+      preview.push(<UserItem userId={userId} onPress={() => {}} key={userId} />);
     });
     return preview;
   };

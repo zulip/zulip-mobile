@@ -6,7 +6,7 @@ import type { Dispatch, PmConversationData, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
 import { type PmKeyUsers } from '../utils/recipient';
 import { pm1to1NarrowFromUser, pmNarrowFromUsers } from '../utils/narrow';
-import { UserItemById } from '../users/UserItem';
+import UserItem from '../users/UserItem';
 import GroupPmConversationItem from './GroupPmConversationItem';
 import { doNarrow } from '../actions';
 
@@ -47,7 +47,7 @@ export default class PmConversationList extends PureComponent<Props> {
           const users = item.keyRecipients;
           if (users.length === 1) {
             return (
-              <UserItemById
+              <UserItem
                 userId={users[0].user_id}
                 unreadCount={item.unread}
                 onPress={this.handleUserNarrow}

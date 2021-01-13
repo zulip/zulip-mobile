@@ -5,7 +5,7 @@ import { SectionList } from 'react-native';
 import type { PresenceState, User, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
 import { SectionHeader, SearchEmptyState } from '../common';
-import { UserItemById } from './UserItem';
+import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByStatus } from './userHelpers';
 
 const styles = createStyleSheet({
@@ -50,7 +50,7 @@ export default class UserList extends PureComponent<Props> {
         sections={sections}
         keyExtractor={item => item}
         renderItem={({ item }) => (
-          <UserItemById
+          <UserItem
             key={item}
             userId={item}
             onPress={onPress}

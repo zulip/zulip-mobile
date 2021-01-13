@@ -7,7 +7,7 @@ import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
-import { UserItemById } from '../users/UserItem';
+import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 
 type Props = $ReadOnly<{|
@@ -31,7 +31,7 @@ class GroupDetailsScreen extends PureComponent<Props> {
           data={recipients}
           keyExtractor={item => String(item)}
           renderItem={({ item }) => (
-            <UserItemById key={item} userId={item} showEmail onPress={this.handlePress} />
+            <UserItem key={item} userId={item} showEmail onPress={this.handlePress} />
           )}
         />
       </Screen>

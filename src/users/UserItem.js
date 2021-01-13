@@ -89,8 +89,8 @@ class UserItem extends PureComponent<$ReadOnly<{ ...Props, ... }>> {
 /**
  * A user represented with avatar and name, for use in a list.
  *
- * Prefer `UserItemById` over this component: it does the same thing but
- * provides a more encapsulated interface.
+ * Prefer the default export `UserItem` over this component: it does the
+ * same thing but provides a more encapsulated interface.
  *
  * This component is potentially appropriate if displaying a synthetic fake
  * user, one that doesn't exist in the database.  (But anywhere we're doing
@@ -108,11 +108,11 @@ type OuterProps = $ReadOnly<{|
 /**
  * A user represented with avatar and name, for use in a list.
  *
- * Use this in preference to `UserItemRaw`.  We're migrating from that one
- * to this in order to better encapsulate getting user data where it's
- * needed.
+ * Use this in preference to `UserItemRaw`.  That helps us better
+ * encapsulate getting user data where it's needed.
  */
-export function UserItemById(props: OuterProps) {
+// eslint-disable-next-line func-names
+export default function (props: OuterProps) {
   const user = useSelector(state => getUserForId(state, props.userId));
   return <UserItem {...props} user={user} />;
 }
