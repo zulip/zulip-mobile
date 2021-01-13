@@ -328,14 +328,14 @@ export type UnreadStreamItem = {|
 
 export type RenderedTimeDescriptor = {|
   type: 'time',
-  key: number | string,
+  key: string,
   timestamp: number,
   subsequentMessage: Message | Outbox,
 |};
 
 export type RenderedMessageDescriptor = {|
   type: 'message',
-  key: number | string,
+  key: number,
   message: Message | Outbox,
   isBrief: boolean,
 |};
