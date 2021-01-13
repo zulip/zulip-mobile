@@ -29,7 +29,7 @@ describe('getUnreadByStream', () => {
     expect(unreadByStream).toEqual({});
   });
 
-  test('when there are unread stream messages, returns a list with counts per stream_id ', () => {
+  test('when there are unread stream messages, returns their counts', () => {
     const state = deepFreeze({
       subscriptions: [
         {
