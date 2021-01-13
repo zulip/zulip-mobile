@@ -7,8 +7,8 @@ describe('getHtmlPieceDescriptors', () => {
   const narrow = deepFreeze(HOME_NARROW);
 
   test('empty messages results in a single empty section', () => {
-    const messageList = getHtmlPieceDescriptors([], HOME_NARROW);
-    expect(messageList).toEqual([{ key: 0, message: {}, data: [] }]);
+    const htmlPieceDescriptors = getHtmlPieceDescriptors([], HOME_NARROW);
+    expect(htmlPieceDescriptors).toEqual([{ key: 0, message: {}, data: [] }]);
   });
 
   test('renders time, header and message for a single input', () => {
@@ -20,11 +20,11 @@ describe('getHtmlPieceDescriptors', () => {
       },
     ]);
 
-    const messageList = getHtmlPieceDescriptors(messages, narrow);
+    const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
-    expect(messageList).toHaveLength(2);
-    expect(messageList[0].data[0].key).toEqual('time123');
-    expect(messageList[1].data[0].key).toEqual(12345);
+    expect(htmlPieceDescriptors).toHaveLength(2);
+    expect(htmlPieceDescriptors[0].data[0].key).toEqual('time123');
+    expect(htmlPieceDescriptors[1].data[0].key).toEqual(12345);
   });
 
   test('several messages in same stream, from same person result in time row, header for the stream, three messages, only first of which is full detail', () => {
@@ -61,10 +61,10 @@ describe('getHtmlPieceDescriptors', () => {
       },
     ]);
 
-    const messageList = getHtmlPieceDescriptors(messages, narrow);
+    const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
-    const messageKeys = messageList[1].data.map(x => x.key);
-    const messageBriefs = messageList[1].data.map(x => x.isBrief);
+    const messageKeys = htmlPieceDescriptors[1].data.map(x => x.key);
+    const messageBriefs = htmlPieceDescriptors[1].data.map(x => x.isBrief);
     expect(messageKeys).toEqual([1, 2, 3]);
     expect(messageBriefs).toEqual([false, true, true]);
   });
@@ -103,10 +103,10 @@ describe('getHtmlPieceDescriptors', () => {
       },
     ]);
 
-    const messageList = getHtmlPieceDescriptors(messages, narrow);
+    const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
-    const messageKeys = messageList[1].data.map(x => x.key);
-    const messageBriefs = messageList[1].data.map(x => x.isBrief);
+    const messageKeys = htmlPieceDescriptors[1].data.map(x => x.key);
+    const messageBriefs = htmlPieceDescriptors[1].data.map(x => x.isBrief);
     expect(messageKeys).toEqual([1, 2, 3]);
     expect(messageBriefs).toEqual([false, false, false]);
   });
@@ -133,10 +133,10 @@ describe('getHtmlPieceDescriptors', () => {
       },
     ]);
 
-    const messageList = getHtmlPieceDescriptors(messages, narrow);
+    const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
-    const messageKeys = messageList[1].data.map(x => x.key);
-    const messageBriefs = messageList[1].data.map(x => x.isBrief);
+    const messageKeys = htmlPieceDescriptors[1].data.map(x => x.key);
+    const messageBriefs = htmlPieceDescriptors[1].data.map(x => x.isBrief);
     expect(messageKeys).toEqual([1, 2]);
     expect(messageBriefs).toEqual([false, false]);
   });

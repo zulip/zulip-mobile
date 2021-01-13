@@ -9,10 +9,10 @@ import timeRowAsHtml from './timeRowAsHtml';
 export default (
   backgroundData: BackgroundData,
   narrow: Narrow,
-  renderedMessages: HtmlPieceDescriptor[],
+  htmlPieceDescriptors: HtmlPieceDescriptor[],
 ): string => {
   const pieces = [];
-  renderedMessages.forEach(section => {
+  htmlPieceDescriptors.forEach(section => {
     pieces.push(messageHeaderAsHtml(backgroundData, narrow, section.message));
     section.data.forEach(item => {
       if (item.type === 'time') {
