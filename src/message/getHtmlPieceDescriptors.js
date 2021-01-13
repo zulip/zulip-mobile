@@ -17,12 +17,13 @@ export default (
       !!prevMessage
       && !isSameDay(new Date(prevMessage.timestamp * 1000), new Date(message.timestamp * 1000));
     if (!prevMessage || diffDays) {
-      sections[sections.length - 1].data.push({
+      const renderedTimeDescriptor = {
         key: `time${message.timestamp}`,
         type: 'time',
         timestamp: message.timestamp,
         subsequentMessage: message,
-      });
+      };
+      sections[sections.length - 1].data.push(renderedTimeDescriptor);
     }
 
     const diffRecipient = !isSameRecipient(prevMessage, message);
@@ -37,12 +38,13 @@ export default (
     const shouldGroupWithPrev =
       !diffRecipient && !diffDays && !!prevMessage && prevMessage.sender_id === message.sender_id;
 
-    sections[sections.length - 1].data.push({
+    const renderedMessageDescriptor = {
       key: message.id,
       type: 'message',
       isBrief: shouldGroupWithPrev,
       message,
-    });
+    };
+    sections[sections.length - 1].data.push(renderedMessageDescriptor);
 
     prevMessage = message;
   });
