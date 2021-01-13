@@ -2,11 +2,11 @@
 import React, { type ComponentType, type ElementConfig, PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, UserOrBot } from '../types';
+import type { UserOrBot } from '../types';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { getUserForId } from './userSelectors';
 
 const componentStyles = createStyleSheet({
@@ -97,10 +97,9 @@ class UserItem extends PureComponent<$ReadOnly<{ ...Props, ... }>> {
 // that the type is an exact object type as usual.
 export default (UserItem: ComponentType<$Exact<ElementConfig<typeof UserItem>>>);
 
-type ByIdProps = $ReadOnly<{|
-  ...$Exact<ElementConfig<typeof UserItem>>,
+type OuterProps = $ReadOnly<{|
+  ...$Exact<$Diff<ElementConfig<typeof UserItem>, { user: mixed }>>,
   userId: number,
-  dispatch: Dispatch,
 |}>;
 
 /**
@@ -110,6 +109,7 @@ type ByIdProps = $ReadOnly<{|
  * from that one to this in order to better encapsulate getting user data
  * where it's needed.
  */
-export const UserItemById = connect<{| user: UserOrBot |}, _, _>((state, props) => ({
-  user: getUserForId(state, props.userId),
-}))((UserItem: ComponentType<ByIdProps>));
+export function UserItemById(props: OuterProps) {
+  const user = useSelector(state => getUserForId(state, props.userId));
+  return <UserItem {...props} user={user} />;
+}
