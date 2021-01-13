@@ -294,6 +294,10 @@ export class FallbackAvatarURL extends AvatarURL {
  * 100, medium is chosen:
  *  * default: 100x100
  *  * medium: 500x500
+ *
+ * Don't send auth headers with requests to this type of avatar URL.
+ * The s3 backend doesn't want them; it gives a 400 with an
+ * "Unsupported Authorization Type" message.
  */
 export class UploadedAvatarURL extends AvatarURL {
   /**

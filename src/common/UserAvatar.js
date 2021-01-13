@@ -6,7 +6,7 @@ import { useSelector } from '../react-redux';
 import { getAuthHeaders } from '../api/transport';
 import { tryGetAuth } from '../account/accountsSelectors';
 import Touchable from './Touchable';
-import { AvatarURL } from '../utils/avatar';
+import { AvatarURL, FallbackAvatarURL } from '../utils/avatar';
 
 type Props = $ReadOnly<{|
   avatarUrl: AvatarURL,
@@ -51,8 +51,9 @@ function UserAvatar(props: Props) {
           style={style}
           source={{
             uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
-            // For `FallbackAvatarURL`s.
-            headers: getAuthHeaders(auth),
+            ...(avatarUrl instanceof FallbackAvatarURL
+              ? { headers: getAuthHeaders(auth) }
+              : undefined),
           }}
           resizeMode="cover"
           /* ImageBackground seems to ignore `style.borderRadius`. */
