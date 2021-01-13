@@ -8,7 +8,7 @@ describe('getHtmlPieceDescriptors', () => {
 
   test('empty messages results in a single empty section', () => {
     const htmlPieceDescriptors = getHtmlPieceDescriptors([], HOME_NARROW);
-    expect(htmlPieceDescriptors).toEqual([{ key: 0, message: {}, data: [] }]);
+    expect(htmlPieceDescriptors).toEqual([{ key: 0, message: null, data: [] }]);
   });
 
   test('renders time, header and message for a single input', () => {

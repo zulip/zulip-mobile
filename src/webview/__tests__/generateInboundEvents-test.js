@@ -128,7 +128,7 @@ describe('generateInboundEvents', () => {
   test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
     const prevProps = {
       ...baseProps,
-      htmlPieceDescriptorsForShownMessages: [{ key: 0, data: [], message: {} }],
+      htmlPieceDescriptorsForShownMessages: [{ key: 0, data: [], message: null }],
     };
     const nextProps = {
       ...baseProps,
@@ -136,7 +136,7 @@ describe('generateInboundEvents', () => {
         {
           key: 0,
           data: [{ key: 123, type: 'message', isBrief: false, message: eg.streamMessage() }],
-          message: {},
+          message: null,
         },
       ],
     };
@@ -173,7 +173,7 @@ describe('generateInboundEvents', () => {
       ...baseProps,
       fetching: { older: false, newer: false },
       typingUsers: [],
-      htmlPieceDescriptorsForShownMessages: [{ key: 0, data: [], message: {} }],
+      htmlPieceDescriptorsForShownMessages: [{ key: 0, data: [], message: null }],
     };
     const nextProps = {
       ...baseProps,
@@ -183,7 +183,7 @@ describe('generateInboundEvents', () => {
         {
           key: 0,
           data: [{ key: 123, type: 'message', isBrief: false, message: eg.streamMessage() }],
-          message: {},
+          message: null,
         },
       ],
     };
