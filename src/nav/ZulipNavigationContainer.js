@@ -6,15 +6,12 @@ import { connect } from '../react-redux';
 import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import * as NavigationService from './NavigationService';
-import type { Dispatch, Account, ThemeName } from '../types';
-import { hasAuth as getHasAuth, getAccounts, getHaveServerData, getSettings } from '../selectors';
+import type { Dispatch, ThemeName } from '../types';
+import { getSettings } from '../selectors';
 import AppNavigator from './AppNavigator';
 
 type SelectorProps = $ReadOnly<{|
   theme: ThemeName,
-  hasAuth: boolean,
-  accounts: Account[],
-  haveServerData: boolean,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -41,7 +38,7 @@ class ZulipAppContainer extends PureComponent<Props> {
   }
 
   render() {
-    const { theme: themeName, hasAuth, accounts, haveServerData } = this.props;
+    const { theme: themeName } = this.props;
 
     const BaseTheme = themeName === 'night' ? DarkTheme : DefaultTheme;
 
@@ -65,7 +62,7 @@ class ZulipAppContainer extends PureComponent<Props> {
         }}
         theme={theme}
       >
-        <AppNavigator {...{ hasAuth, accounts, haveServerData }} />
+        <AppNavigator />
       </NavigationContainer>
     );
   }
@@ -73,7 +70,4 @@ class ZulipAppContainer extends PureComponent<Props> {
 
 export default connect(state => ({
   theme: getSettings(state).theme,
-  hasAuth: getHasAuth(state),
-  accounts: getAccounts(state),
-  haveServerData: getHaveServerData(state),
 }))(ZulipAppContainer);

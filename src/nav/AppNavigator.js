@@ -8,9 +8,11 @@ import {
   TransitionPresets,
 } from '@react-navigation/stack';
 
+import { useSelector } from '../react-redux';
+import { hasAuth as getHasAuth, getAccounts, getHaveServerData } from '../selectors';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { GlobalParamList } from './globalTypes';
-import type { Account, Narrow, Message, SharedData } from '../types';
+import type { Narrow, Message, SharedData } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
@@ -88,14 +90,13 @@ export type AppNavigationRouteProp<
 
 const Stack = createStackNavigator<GlobalParamList, AppNavigatorParamList, AppNavigationProp<>>();
 
-type Props = $ReadOnly<{|
-  hasAuth: boolean,
-  accounts: Account[],
-  haveServerData: boolean,
-|}>;
+type Props = $ReadOnly<{||}>;
 
 export default function AppNavigator(props: Props) {
-  const { hasAuth, accounts, haveServerData } = props;
+  const hasAuth = useSelector(getHasAuth);
+  const accounts = useSelector(getAccounts);
+  const haveServerData = useSelector(getHaveServerData);
+
   const { initialRouteName, initialRouteParams } = getInitialRouteInfo({
     hasAuth,
     accounts,
