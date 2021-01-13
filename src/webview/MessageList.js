@@ -49,7 +49,7 @@ import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { WebViewInboundEvent } from './generateInboundEvents';
 import type { WebViewOutboundEvent } from './handleOutboundEvents';
 import getHtml from './html/html';
-import renderMessagesAsHtml from './html/renderMessagesAsHtml';
+import contentHtmlFromPieceDescriptors from './html/contentHtmlFromPieceDescriptors';
 import generateInboundEvents from './generateInboundEvents';
 import { handleWebViewOutboundEvent } from './handleOutboundEvents';
 import { base64Utf8Encode } from '../utils/encoding';
@@ -233,7 +233,7 @@ class MessageList extends Component<Props> {
       narrow,
       showMessagePlaceholders,
     } = this.props;
-    const messagesHtml = renderMessagesAsHtml(
+    const messagesHtml = contentHtmlFromPieceDescriptors(
       backgroundData,
       narrow,
       htmlPieceDescriptorsForShownMessages,
