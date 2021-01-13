@@ -13,7 +13,9 @@ export default (
 ): string => {
   const pieces = [];
   htmlPieceDescriptors.forEach(section => {
-    pieces.push(messageHeaderAsHtml(backgroundData, narrow, section.message));
+    pieces.push(
+      section.message === null ? '' : messageHeaderAsHtml(backgroundData, narrow, section.message),
+    );
     section.data.forEach(item => {
       if (item.type === 'time') {
         pieces.push(timeRowAsHtml(item.timestamp, item.subsequentMessage));

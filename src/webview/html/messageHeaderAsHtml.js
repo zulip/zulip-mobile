@@ -27,7 +27,7 @@ const renderSubject = item =>
 export default (
   { ownUser, subscriptions }: BackgroundData,
   narrow: Narrow,
-  item: Message | Outbox | null,
+  item: Message | Outbox,
 ) => {
   type HeaderStyle = 'none' | 'topic+date' | 'full';
   const headerStyle: HeaderStyle = caseNarrow(narrow, {
@@ -42,10 +42,6 @@ export default (
     allPrivate: () => 'full',
     search: () => 'full',
   });
-
-  if (item === null) {
-    return '';
-  }
 
   if (item.type === 'stream' && headerStyle === 'topic+date') {
     const streamName = streamNameOfStreamMessage(item);
