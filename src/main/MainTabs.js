@@ -56,7 +56,8 @@ export default createBottomTabNavigator(
     },
   },
   {
-    backBehavior: 'none',
+    initialRouteName: 'home',
+    backBehavior: 'initialRoute',
     ...bottomTabNavigatorConfig({
       showLabel: !!Platform.isPad,
       showIcon: true,
