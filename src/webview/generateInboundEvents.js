@@ -5,7 +5,7 @@ import type { Auth, FlagsState } from '../types';
 import type { Props } from './MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
 import htmlBody from './html/htmlBody';
-import renderMessagesAsHtml from './html/renderMessagesAsHtml';
+import contentHtmlFromPieceDescriptors from './html/contentHtmlFromPieceDescriptors';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
 import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
 
@@ -47,7 +47,7 @@ export type WebViewInboundEvent =
 
 const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
   const content = htmlBody(
-    renderMessagesAsHtml(
+    contentHtmlFromPieceDescriptors(
       nextProps.backgroundData,
       nextProps.narrow,
       nextProps.htmlPieceDescriptorsForShownMessages,
