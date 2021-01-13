@@ -20,21 +20,6 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: MessagesState = Immutable.Map([]);
 
-const eventReactionAdd = (state, action) =>
-  state.update(
-    action.message_id,
-    oldMessage =>
-      oldMessage && {
-        ...oldMessage,
-        reactions: oldMessage.reactions.concat({
-          emoji_name: action.emoji_name,
-          user_id: action.user_id,
-          reaction_type: action.reaction_type,
-          emoji_code: action.emoji_code,
-        }),
-      },
-  );
-
 const eventReactionRemove = (state, action) => {
   const oldMessage = state.get(action.message_id);
   if (!oldMessage) {
@@ -135,7 +120,19 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
       );
 
     case EVENT_REACTION_ADD:
-      return eventReactionAdd(state, action);
+      return state.update(
+        action.message_id,
+        oldMessage =>
+          oldMessage && {
+            ...oldMessage,
+            reactions: oldMessage.reactions.concat({
+              emoji_name: action.emoji_name,
+              user_id: action.user_id,
+              reaction_type: action.reaction_type,
+              emoji_code: action.emoji_code,
+            }),
+          },
+      );
 
     case EVENT_REACTION_REMOVE:
       return eventReactionRemove(state, action);
