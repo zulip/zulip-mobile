@@ -108,6 +108,7 @@ describe('messagesReducer', () => {
       const action = deepFreeze({ type: EVENT_MESSAGE_DELETE, messageIds: [2] });
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(prevState);
+      expect(newState).toBe(prevState);
     });
 
     test('if a message exists it is deleted', () => {

@@ -78,12 +78,7 @@ const eventSubmessage = (state, action) => {
   });
 };
 
-const eventMessageDelete = (state, action) => {
-  if (action.messageIds.every(messageId => !state.get(messageId))) {
-    return state;
-  }
-  return state.deleteAll(action.messageIds);
-};
+const eventMessageDelete = (state, action) => state.deleteAll(action.messageIds);
 
 const eventUpdateMessage = (state, action) => {
   const oldMessage = state.get(action.message_id);
