@@ -11,7 +11,7 @@ export default (
   const showHeader = !isPmNarrow(narrow) && !isTopicNarrow(narrow);
 
   let prevMessage = undefined;
-  const sections = [{ key: 0, data: [], message: {} }];
+  const sections = [{ key: 0, data: [], message: null }];
   messages.forEach(message => {
     const diffDays =
       !!prevMessage

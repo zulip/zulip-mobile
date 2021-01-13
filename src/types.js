@@ -301,7 +301,7 @@ export type RenderedMessageDescriptor = {|
 
 export type HtmlPieceDescriptor = {|
   key: string | number,
-  message: Message | Outbox | {||},
+  message: Message | Outbox | null,
   data: $ReadOnlyArray<RenderedMessageDescriptor | RenderedTimeDescriptor>,
 |};
 

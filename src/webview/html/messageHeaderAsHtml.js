@@ -27,7 +27,7 @@ const renderSubject = item =>
 export default (
   { ownUser, subscriptions }: BackgroundData,
   narrow: Narrow,
-  item: Message | Outbox | {||},
+  item: Message | Outbox | null,
 ) => {
   type HeaderStyle = 'none' | 'topic+date' | 'full';
   const headerStyle: HeaderStyle = caseNarrow(narrow, {
@@ -43,7 +43,7 @@ export default (
     search: () => 'full',
   });
 
-  if (!item.type) {
+  if (item === null) {
     return '';
   }
 
