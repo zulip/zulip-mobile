@@ -3,3 +3,8 @@ src/emoji/__tests__/data-test.js
 
 # We're not allowing Prettier to touch some of our vendored code.
 src/third/redux-persist
+
+# We'd like to keep the original formatting for some Flow libdefs from
+# FlowTyped, to make it easier to eventually make a PR back to
+# FlowTyped.
+flow-typed/@react-navigation
