@@ -275,7 +275,7 @@ pick just one, and that's the one we use.
 [gh-close-issue-keywords]: https://help.github.com/en/github/managing-your-work-on-github/closing-issues-using-keywords
 
 
-## JavaScript and Flow
+## JavaScript, Flow, JS libraries
 
 **Use `invariant` for runtime assertions the type-checker can use**:
 If there's a fact you're sure is true at a certain point in the code,
@@ -292,6 +292,21 @@ Use `invariant` only for conditions which, if they ever failed, would
 definitely mean a bug within our own zulip-mobile codebase.
 
 [flow-invariant-pseudodocs]: https://github.com/facebook/flow/issues/6052
+
+
+**Always provide a type when writing an empty `Immutable` value**:
+Whenever you create an empty `Immutable.Map`, `Immutable.List`, or
+so on, specify the intended type explicitly.  For example:
+```js
+const map: Immutable.Map<number, string> = Immutable.Map(); // good
+
+const map = Immutable.Map(); // BAD -- don't do
+```
+
+This is essential in order to get effective type-checking of the
+code that uses the new collection.  (It's not clear if this is a bug
+in Flow, or a design limitation of Flow, or an issue in the Flow types
+provided by Immutable.js, or some combination.)
 
 
 ## Internal to Zulip and our codebase
