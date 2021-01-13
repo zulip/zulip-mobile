@@ -10,26 +10,26 @@ export default (
 ): HtmlPieceDescriptor[] => {
   const showHeader = !isPmNarrow(narrow) && !isTopicNarrow(narrow);
 
-  let prevItem = undefined;
+  let prevMessage = undefined;
   const sections = [{ key: 0, data: [], message: {} }];
-  messages.forEach(item => {
+  messages.forEach(message => {
     const diffDays =
-      !!prevItem
-      && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
-    if (!prevItem || diffDays) {
+      !!prevMessage
+      && !isSameDay(new Date(prevMessage.timestamp * 1000), new Date(message.timestamp * 1000));
+    if (!prevMessage || diffDays) {
       sections[sections.length - 1].data.push({
-        key: `time${item.timestamp}`,
+        key: `time${message.timestamp}`,
         type: 'time',
-        timestamp: item.timestamp,
-        firstMessage: item,
+        timestamp: message.timestamp,
+        firstMessage: message,
       });
     }
 
-    const diffRecipient = !isSameRecipient(prevItem, item);
+    const diffRecipient = !isSameRecipient(prevMessage, message);
     if (showHeader && diffRecipient) {
       sections.push({
-        key: `header${item.id}`,
-        message: item,
+        key: `header${message.id}`,
+        message,
         data: [],
       });
     }
@@ -39,16 +39,19 @@ export default (
     //   values that lack it; which is fine once the release that adds it
     //   has been out for a few weeks.
     const shouldGroupWithPrev =
-      !diffRecipient && !diffDays && !!prevItem && prevItem.sender_email === item.sender_email;
+      !diffRecipient
+      && !diffDays
+      && !!prevMessage
+      && prevMessage.sender_email === message.sender_email;
 
     sections[sections.length - 1].data.push({
-      key: item.id,
+      key: message.id,
       type: 'message',
       isBrief: shouldGroupWithPrev,
-      message: item,
+      message,
     });
 
-    prevItem = item;
+    prevMessage = message;
   });
   return sections;
 };
