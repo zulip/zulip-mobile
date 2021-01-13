@@ -20,18 +20,6 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: MessagesState = Immutable.Map([]);
 
-const eventReactionRemove = (state, action) =>
-  state.update(
-    action.message_id,
-    oldMessage =>
-      oldMessage && {
-        ...oldMessage,
-        reactions: oldMessage.reactions.filter(
-          x => !(x.emoji_name === action.emoji_name && x.user_id === action.user_id),
-        ),
-      },
-  );
-
 const eventNewMessage = (state, action) => {
   // TODO: Optimize -- Only update if the new message belongs to at least
   // one narrow that is caught up.
@@ -40,62 +28,6 @@ const eventNewMessage = (state, action) => {
   }
   return state.set(action.message.id, omit(action.message, 'flags'));
 };
-
-const eventSubmessage = (state, action) =>
-  state.update(
-    action.message_id,
-    message =>
-      message && {
-        ...message,
-        submessages: [
-          ...(message.submessages || []),
-          {
-            id: action.submessage_id,
-            message_id: action.message_id,
-            sender_id: action.sender_id,
-            msg_type: action.msg_type,
-            content: action.content,
-          },
-        ],
-      },
-  );
-
-const eventMessageDelete = (state, action) => state.deleteAll(action.messageIds);
-
-const eventUpdateMessage = (state, action) => state.update(
-    action.message_id,
-    oldMessage =>
-      oldMessage && {
-        ...oldMessage,
-        content: action.rendered_content || oldMessage.content,
-        subject: action.subject || oldMessage.subject,
-        subject_links: action.subject_links || oldMessage.subject_links,
-        edit_history: [
-          action.orig_rendered_content
-            ? action.orig_subject
-              ? {
-                  prev_rendered_content: action.orig_rendered_content,
-                  prev_subject: oldMessage.subject,
-                  timestamp: action.edit_timestamp,
-                  prev_rendered_content_version: action.prev_rendered_content_version,
-                  user_id: action.user_id,
-                }
-              : {
-                  prev_rendered_content: action.orig_rendered_content,
-                  timestamp: action.edit_timestamp,
-                  prev_rendered_content_version: action.prev_rendered_content_version,
-                  user_id: action.user_id,
-                }
-            : {
-                prev_subject: oldMessage.subject,
-                timestamp: action.edit_timestamp,
-                user_id: action.user_id,
-              },
-          ...(oldMessage.edit_history || NULL_ARRAY),
-        ],
-        last_edit_timestamp: action.edit_timestamp,
-      },
-  );
 
 export default (state: MessagesState = initialState, action: Action): MessagesState => {
   switch (action.type) {
@@ -131,19 +63,77 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
       );
 
     case EVENT_REACTION_REMOVE:
-      return eventReactionRemove(state, action);
+      return state.update(
+        action.message_id,
+        oldMessage =>
+          oldMessage && {
+            ...oldMessage,
+            reactions: oldMessage.reactions.filter(
+              x => !(x.emoji_name === action.emoji_name && x.user_id === action.user_id),
+            ),
+          },
+      );
 
     case EVENT_NEW_MESSAGE:
       return eventNewMessage(state, action);
 
     case EVENT_SUBMESSAGE:
-      return eventSubmessage(state, action);
+      return state.update(
+        action.message_id,
+        message =>
+          message && {
+            ...message,
+            submessages: [
+              ...(message.submessages || []),
+              {
+                id: action.submessage_id,
+                message_id: action.message_id,
+                sender_id: action.sender_id,
+                msg_type: action.msg_type,
+                content: action.content,
+              },
+            ],
+          },
+      );
 
     case EVENT_MESSAGE_DELETE:
-      return eventMessageDelete(state, action);
+      return state.deleteAll(action.messageIds);
 
     case EVENT_UPDATE_MESSAGE:
-      return eventUpdateMessage(state, action);
+      return state.update(
+        action.message_id,
+        oldMessage =>
+          oldMessage && {
+            ...oldMessage,
+            content: action.rendered_content || oldMessage.content,
+            subject: action.subject || oldMessage.subject,
+            subject_links: action.subject_links || oldMessage.subject_links,
+            edit_history: [
+              action.orig_rendered_content
+                ? action.orig_subject
+                  ? {
+                      prev_rendered_content: action.orig_rendered_content,
+                      prev_subject: oldMessage.subject,
+                      timestamp: action.edit_timestamp,
+                      prev_rendered_content_version: action.prev_rendered_content_version,
+                      user_id: action.user_id,
+                    }
+                  : {
+                      prev_rendered_content: action.orig_rendered_content,
+                      timestamp: action.edit_timestamp,
+                      prev_rendered_content_version: action.prev_rendered_content_version,
+                      user_id: action.user_id,
+                    }
+                : {
+                    prev_subject: oldMessage.subject,
+                    timestamp: action.edit_timestamp,
+                    user_id: action.user_id,
+                  },
+              ...(oldMessage.edit_history || NULL_ARRAY),
+            ],
+            last_edit_timestamp: action.edit_timestamp,
+          },
+      );
 
     default:
       return state;
