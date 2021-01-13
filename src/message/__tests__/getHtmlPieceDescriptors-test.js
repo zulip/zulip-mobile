@@ -1,13 +1,13 @@
 import deepFreeze from 'deep-freeze';
 
 import { HOME_NARROW } from '../../utils/narrow';
-import renderMessages from '../renderMessages';
+import getHtmlPieceDescriptors from '../getHtmlPieceDescriptors';
 
-describe('renderMessages', () => {
+describe('getHtmlPieceDescriptors', () => {
   const narrow = deepFreeze(HOME_NARROW);
 
   test('empty messages results in a single empty section', () => {
-    const messageList = renderMessages([], HOME_NARROW);
+    const messageList = getHtmlPieceDescriptors([], HOME_NARROW);
     expect(messageList).toEqual([{ key: 0, message: {}, data: [] }]);
   });
 
@@ -20,7 +20,7 @@ describe('renderMessages', () => {
       },
     ]);
 
-    const messageList = renderMessages(messages, narrow);
+    const messageList = getHtmlPieceDescriptors(messages, narrow);
 
     expect(messageList).toHaveLength(2);
     expect(messageList[0].data[0].key).toEqual('time123');
@@ -61,7 +61,7 @@ describe('renderMessages', () => {
       },
     ]);
 
-    const messageList = renderMessages(messages, narrow);
+    const messageList = getHtmlPieceDescriptors(messages, narrow);
 
     const messageKeys = messageList[1].data.map(x => x.key);
     const messageBriefs = messageList[1].data.map(x => x.isBrief);
@@ -103,7 +103,7 @@ describe('renderMessages', () => {
       },
     ]);
 
-    const messageList = renderMessages(messages, narrow);
+    const messageList = getHtmlPieceDescriptors(messages, narrow);
 
     const messageKeys = messageList[1].data.map(x => x.key);
     const messageBriefs = messageList[1].data.map(x => x.isBrief);
@@ -133,7 +133,7 @@ describe('renderMessages', () => {
       },
     ]);
 
-    const messageList = renderMessages(messages, narrow);
+    const messageList = getHtmlPieceDescriptors(messages, narrow);
 
     const messageKeys = messageList[1].data.map(x => x.key);
     const messageBriefs = messageList[1].data.map(x => x.isBrief);
