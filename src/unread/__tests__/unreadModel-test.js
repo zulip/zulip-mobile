@@ -87,15 +87,6 @@ describe('stream substate', () => {
       ]));
     });
 
-    test('if message id already exists, do not mutate state', () => {
-      const state = reducer(
-        baseState,
-        action(eg.streamMessage({ id: 1, subject: 'some topic' })),
-        eg.plusReduxState,
-      );
-      expect(state).toBe(baseState);
-    });
-
     test('if message is not stream, return original state', () => {
       const state = reducer(baseState, action(eg.pmMessage({ id: 4 })), eg.plusReduxState);
       expect(state.streams).toBe(baseState.streams);
