@@ -1930,7 +1930,7 @@ declare module '@react-navigation/material-top-tabs' {
     >>,
     +setParams: (params: ScreenParams) => void,
     +resetRoot: (state?: ?PossiblyStaleNavigationState) => void,
-    +getRootState: () => PossiblyStaleNavigationState,
+    +getRootState: () => NavigationState,
   |};
 
   /**

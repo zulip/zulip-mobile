@@ -1930,7 +1930,7 @@ declare module '@react-navigation/drawer' {
     >>,
     +setParams: (params: ScreenParams) => void,
     +resetRoot: (state?: ?PossiblyStaleNavigationState) => void,
-    +getRootState: () => PossiblyStaleNavigationState,
+    +getRootState: () => NavigationState,
   |};
 
   /**
