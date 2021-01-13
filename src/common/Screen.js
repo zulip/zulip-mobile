@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import type { Node as React$Node } from 'react';
-import { View, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { type EdgeInsets } from 'react-native-safe-area-context';
 
@@ -112,7 +112,7 @@ class Screen extends PureComponent<Props> {
     } = this.props;
 
     return (
-      <View
+      <ScrollView
         style={[
           componentStyles.screen,
           { backgroundColor: this.context.backgroundColor },
@@ -145,7 +145,7 @@ class Screen extends PureComponent<Props> {
             {children}
           </ScrollView>
         </KeyboardAvoider>
-      </View>
+      </ScrollView>
     );
   }
 }
