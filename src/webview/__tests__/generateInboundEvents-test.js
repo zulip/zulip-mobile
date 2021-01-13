@@ -26,7 +26,7 @@ describe('generateInboundEvents', () => {
     initialScrollMessageId: null,
     fetching: { older: false, newer: false },
     messages: [],
-    renderedMessages: [],
+    htmlPieceDescriptorsForShownMessages: [],
     typingUsers: [],
   });
 
@@ -113,11 +113,11 @@ describe('generateInboundEvents', () => {
   test('when rendered messages are the same return empty result', () => {
     const prevProps = {
       ...baseProps,
-      renderedMessages: [],
+      htmlPieceDescriptorsForShownMessages: [],
     };
     const nextProps = {
       ...baseProps,
-      renderedMessages: [],
+      htmlPieceDescriptorsForShownMessages: [],
     };
 
     const messages = generateInboundEvents(prevProps, nextProps);
@@ -128,11 +128,11 @@ describe('generateInboundEvents', () => {
   test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
     const prevProps = {
       ...baseProps,
-      renderedMessages: [{ key: 0, data: [], message: {} }],
+      htmlPieceDescriptorsForShownMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
       ...baseProps,
-      renderedMessages: [
+      htmlPieceDescriptorsForShownMessages: [
         {
           key: 0,
           data: [{ key: 123, type: 'message', isBrief: false, message: eg.streamMessage() }],
@@ -173,13 +173,13 @@ describe('generateInboundEvents', () => {
       ...baseProps,
       fetching: { older: false, newer: false },
       typingUsers: [],
-      renderedMessages: [{ key: 0, data: [], message: {} }],
+      htmlPieceDescriptorsForShownMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
       ...baseProps,
       fetching: { older: false, newer: true },
       typingUsers: [eg.makeUser()],
-      renderedMessages: [
+      htmlPieceDescriptorsForShownMessages: [
         {
           key: 0,
           data: [{ key: 123, type: 'message', isBrief: false, message: eg.streamMessage() }],

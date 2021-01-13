@@ -47,7 +47,11 @@ export type WebViewInboundEvent =
 
 const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
   const content = htmlBody(
-    renderMessagesAsHtml(nextProps.backgroundData, nextProps.narrow, nextProps.renderedMessages),
+    renderMessagesAsHtml(
+      nextProps.backgroundData,
+      nextProps.narrow,
+      nextProps.htmlPieceDescriptorsForShownMessages,
+    ),
     nextProps.showMessagePlaceholders,
   );
   const transitionProps = getMessageTransitionProps(prevProps, nextProps);
@@ -95,7 +99,10 @@ export default function generateInboundEvents(
   nextProps: Props,
 ): WebViewInboundEvent[] {
   if (
-    !isEqual(prevProps.renderedMessages, nextProps.renderedMessages)
+    !isEqual(
+      prevProps.htmlPieceDescriptorsForShownMessages,
+      nextProps.htmlPieceDescriptorsForShownMessages,
+    )
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
   ) {
     return [updateContent(prevProps, nextProps)];

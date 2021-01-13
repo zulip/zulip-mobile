@@ -61,7 +61,10 @@ export const getPrivateMessages: Selector<Message[]> = createSelector(
   },
 );
 
-export const getRenderedMessages: Selector<HtmlPieceDescriptor[], Narrow> = createSelector(
+export const getHtmlPieceDescriptorsForShownMessages: Selector<
+  HtmlPieceDescriptor[],
+  Narrow,
+> = createSelector(
   (state, narrow) => narrow,
   getShownMessagesForNarrow,
   (narrow, messages) => getHtmlPieceDescriptors(messages, narrow),
