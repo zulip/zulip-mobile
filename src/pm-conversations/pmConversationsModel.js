@@ -33,12 +33,12 @@ export opaque type PmConversationKey = string;
 
 /** PRIVATE.  Exported only for tests. */
 // Input must have the exact right (multi-)set of users.  Needn't be sorted.
-export function keyOfExactUsers(ids: number[]): PmConversationKey {
+export function keyOfExactUsers(ids: UserId[]): PmConversationKey {
   return ids.sort((a, b) => a - b).join(',');
 }
 
 // Input may contain self or not, and needn't be sorted.
-function keyOfUsers(ids: number[], ownUserId: UserId): PmConversationKey {
+function keyOfUsers(ids: UserId[], ownUserId: UserId): PmConversationKey {
   return keyOfExactUsers(ids.filter(id => id !== ownUserId));
 }
 
