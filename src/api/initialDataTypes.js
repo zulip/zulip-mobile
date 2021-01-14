@@ -227,7 +227,7 @@ export type PmsUnreadItem = {|
    * the normal thing even then would be to make a bot user to send the
    * messages as.)  See server commit ca74cd6e3.
    */
-  sender_id: number,
+  sender_id: UserId,
 
   // Sorted.
   unread_message_ids: number[],
