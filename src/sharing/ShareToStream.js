@@ -2,9 +2,10 @@
 import React from 'react';
 import { View, Image, ScrollView, BackHandler } from 'react-native';
 
-import type { SharingNavigationProp, SharingRouteProp } from './SharingScreen';
+import type { SharingNavigationProp } from './SharingScreen';
+import type { RouteProp } from '../react-navigation';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, Subscription, Auth, GetText } from '../types';
+import type { Dispatch, Subscription, Auth, GetText, SharedData } from '../types';
 import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
@@ -44,7 +45,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: SharingNavigationProp<'share-to-stream'>,
-  route: SharingRouteProp<'share-to-stream'>,
+  route: RouteProp<'share-to-stream', {| sharedData: SharedData |}>,
 
   dispatch: Dispatch,
   subscriptions: Map<number, Subscription>,

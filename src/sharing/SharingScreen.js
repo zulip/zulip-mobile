@@ -5,13 +5,13 @@ import {
   createMaterialTopTabNavigator,
   type MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs';
-import type { RouteProp } from '@react-navigation/native';
 import { FormattedMessage } from 'react-intl';
 
 import type { GlobalParamList } from '../nav/globalTypes';
+import type { RouteParamsOf } from '../react-navigation';
 import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, Auth, SharedData } from '../types';
+import type { Dispatch, Auth } from '../types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import { connect } from '../react-redux';
@@ -22,17 +22,13 @@ import ShareToStream from './ShareToStream';
 import ShareToPm from './ShareToPm';
 
 export type SharingNavigatorParamList = {|
-  'share-to-stream': {| sharedData: SharedData |},
-  'share-to-pm': {| sharedData: SharedData |},
+  'share-to-stream': RouteParamsOf<typeof ShareToStream>,
+  'share-to-pm': RouteParamsOf<typeof ShareToPm>,
 |};
 
 export type SharingNavigationProp<
   +RouteName: $Keys<SharingNavigatorParamList> = $Keys<SharingNavigatorParamList>,
 > = MaterialTopTabNavigationProp<GlobalParamList, RouteName>;
-
-export type SharingRouteProp<
-  RouteName: $Keys<SharingNavigatorParamList> = $Keys<SharingNavigatorParamList>,
-> = RouteProp<GlobalParamList, RouteName>;
 
 const Tab = createMaterialTopTabNavigator<
   GlobalParamList,
