@@ -463,6 +463,26 @@ Despite the reference to development, this error can appear when
 attempting a build for release.
 
 
+### Startup failure: "ReferenceError: SHA-1 for file … is not computed"
+
+When trying to run the app (with e.g. `react-native run-ios`), if you
+get an error like this (reformatted for readability):
+
+```
+ReferenceError: SHA-1 for file
+  /usr/local/lib/node_modules/react-native/node_modules/metro/src/lib/polyfills/require.js
+  (/usr/local/lib/node_modules/react-native/node_modules/metro/src/lib/polyfills/require.js)
+  is not computed
+```
+
+then the cause may be that your `node_modules/` directory isn't
+correctly built.  This can happen if you try to use `npm` to install
+the dependencies.  We use Yarn, and you should always use `yarn` (or
+`yarn install`, which means the same thing) and not `npm`.
+
+To fix the error, run `rm -rf node_modules` and then `yarn`.
+
+
 ### App shows a blank white screen
 
 If you're developing on a Linux machine, and when you start the dev version of
