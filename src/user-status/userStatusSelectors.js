@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { GlobalState, Selector, UserStatus } from '../types';
+import type { GlobalState, Selector, UserId, UserStatus } from '../types';
 import { getUserStatus } from '../directSelectors';
 
 import { getSelfUserDetail } from '../users/userSelectors';
@@ -38,7 +38,7 @@ export const getSelfUserStatusText = (state: GlobalState): string => {
  * Returns the `status text` value of the user with the given userId.
  * We return `undefined` if no value is set.
  */
-export const getUserStatusTextForUser = (state: GlobalState, userId: number): string | void => {
+export const getUserStatusTextForUser = (state: GlobalState, userId: UserId): string | void => {
   const userStatus = getUserStatus(state);
   return userStatus[userId] && userStatus[userId].status_text;
 };
