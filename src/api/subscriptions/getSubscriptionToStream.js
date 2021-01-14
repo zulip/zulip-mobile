@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type { Auth, ApiResponseSuccess } from '../transportTypes';
+import { type UserId } from '../idTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseSubscriptionStatus = {|
@@ -15,7 +16,7 @@ type ApiResponseSubscriptionStatus = {|
  */
 export default (
   auth: Auth,
-  userId: number,
+  userId: UserId,
   streamId: number,
 ): Promise<ApiResponseSubscriptionStatus> =>
   apiGet(auth, `users/${userId}/subscriptions/${streamId}`);

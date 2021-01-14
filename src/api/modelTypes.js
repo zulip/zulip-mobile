@@ -315,9 +315,9 @@ export type NarrowElement =
  //  * `sender` since 2.1-dev-1812-gc067c155a
  //  * `pm-with` since 2.1-dev-1350-gd7b4de234
  | {| +operator: 'stream', +operand: string | number |} // stream ID
- | {| +operator: 'pm-with', +operand: string | $ReadOnlyArray<number> |} // user IDs
- | {| +operator: 'sender', +operand: string | number |} // user ID
- | {| +operator: 'group-pm-with', +operand: string | number |} // user ID
+ | {| +operator: 'pm-with', +operand: string | $ReadOnlyArray<UserId> |}
+ | {| +operator: 'sender', +operand: string | UserId |}
+ | {| +operator: 'group-pm-with', +operand: string | UserId |}
  | {| +operator: 'near' | 'id', +operand: number |} // message ID
  ;
 
