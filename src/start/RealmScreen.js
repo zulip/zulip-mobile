@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { ScrollView, Keyboard } from 'react-native';
+import { Keyboard } from 'react-native';
 
 import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
@@ -37,8 +37,6 @@ class RealmScreen extends PureComponent<Props, State> {
     realmInputValue: this.props.initialRealmInputValue,
     error: null,
   };
-
-  scrollView: ScrollView;
 
   tryRealm = async () => {
     const { realmInputValue } = this.state;
