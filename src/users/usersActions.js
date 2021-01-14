@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import * as typing_status from '@zulip/shared/js/typing_status';
 
-import type { Auth, Dispatch, GetState, GlobalState, Narrow } from '../types';
+import type { Auth, Dispatch, GetState, GlobalState, Narrow, UserId } from '../types';
 import * as api from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth, tryGetAuth, getServerVersion } from '../selectors';
@@ -46,11 +46,11 @@ const typingWorker = (state: GlobalState) => {
   return {
     get_current_time: () => new Date().getTime(),
 
-    notify_server_start: (user_ids_array: $ReadOnlyArray<number>) => {
+    notify_server_start: (user_ids_array: $ReadOnlyArray<UserId>) => {
       api.typing(auth, getRecipients(user_ids_array), 'start');
     },
 
-    notify_server_stop: (user_ids_array: $ReadOnlyArray<number>) => {
+    notify_server_stop: (user_ids_array: $ReadOnlyArray<UserId>) => {
       api.typing(auth, getRecipients(user_ids_array), 'stop');
     },
   };
