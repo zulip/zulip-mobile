@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import { makeUserId } from './api/idTypes';
 import type { User, Subscription } from './types';
 import { GravatarURL } from './utils/avatar';
 
@@ -38,7 +39,7 @@ export const NULL_USER: User = {
   is_admin: false,
   is_bot: false,
   timezone: '',
-  user_id: -1,
+  user_id: makeUserId(-1),
 };
 
 /** DEPRECATED; don't add new uses.  See block comment above definition. */
