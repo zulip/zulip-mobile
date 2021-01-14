@@ -324,8 +324,22 @@ type EventUpdateMessageAction = {|
   message_id: number,
   // TODO is it really right that just one of the orig_* is optional?
   orig_content: string,
-  // $FlowFixMe clarify orig_subject vs. other orig_*, and missing vs. empty
+
+  // TODO: The doc for this field isn't yet correct; it turns out that
+  // the question of whether `orig_subject` is present or not is
+  // complicated; see discussion at
+  // https://chat.zulip.org/#narrow/stream/206-zulip-terminal/topic/subject.20always.20present.20in.20event/near/1098954.
+  //
+  // We can be pretty sure of a few things, though:
+  // - it will not be present if the message doesn't have a topic
+  //   (i.e., if it's a private message)
+  // - it's guaranteed to be present if the topic did indeed change
+  // - it will never be an empty string, because the server doesn't
+  //   accept the empty string for a message's topic; it requires
+  //   clients to specify something like `(no topic)` if no topic is
+  //   desired.
   orig_subject?: string,
+
   orig_rendered_content: string,
   prev_rendered_content_version: number,
   rendered_content: string,

@@ -110,7 +110,7 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
             subject_links: action.subject_links || oldMessage.subject_links,
             edit_history: [
               action.orig_rendered_content
-                ? action.orig_subject
+                ? action.orig_subject !== undefined
                   ? {
                       prev_rendered_content: action.orig_rendered_content,
                       prev_subject: oldMessage.subject,
