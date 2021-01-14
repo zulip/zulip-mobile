@@ -12,7 +12,9 @@ import type {
   Subscription,
   User,
   UserGroup,
+  UserId,
 } from '../../api/modelTypes';
+import { makeUserId } from '../../api/idTypes';
 import type { Action, GlobalState, MessagesState, RealmState } from '../../reduxTypes';
 import type { Auth, Account, Outbox } from '../../types';
 import { UploadedAvatarURL } from '../../utils/avatar';
@@ -104,10 +106,12 @@ export const diverseCharacters =
 
 type UserOrBotPropertiesArgs = {|
   name?: string,
-  user_id?: number,
+  user_id?: number, // accept a plain number, for convenience in tests
 |};
 
-const randUserId: () => number = makeUniqueRandInt('user IDs', 10000);
+const randUserId: () => UserId = (mk => () => makeUserId(mk()))(
+  makeUniqueRandInt('user IDs', 10000),
+);
 const userOrBotProperties = ({ name: _name, user_id }: UserOrBotPropertiesArgs) => {
   const name = _name ?? randString();
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
@@ -125,7 +129,7 @@ const userOrBotProperties = ({ name: _name, user_id }: UserOrBotPropertiesArgs) 
     full_name: `${capsName} User`,
     is_admin: false,
     timezone: 'UTC',
-    user_id: user_id ?? randUserId(),
+    user_id: user_id != null ? makeUserId(user_id) : randUserId(),
   });
 };
 
@@ -321,11 +325,16 @@ export const pmMessage = (args?: {|
   ...$Rest<Message, {}>,
   sender?: User,
   recipients?: User[],
+  sender_id?: number, // accept a plain number, for convenience in tests
 |}): Message => {
   // The `Object.freeze` is to work around a Flow issue:
   //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
-  const { sender = otherUser, recipients = [otherUser, selfUser], ...extra } =
-    args ?? Object.freeze({});
+  const {
+    sender = otherUser,
+    recipients = [otherUser, selfUser],
+    sender_id = undefined,
+    ...extra
+  } = args ?? Object.freeze({});
 
   const baseMessage: Message = {
     ...messagePropertiesBase,
@@ -344,7 +353,11 @@ export const pmMessage = (args?: {|
     type: 'private',
   };
 
-  return deepFreeze({ ...baseMessage, ...extra });
+  return deepFreeze({
+    ...baseMessage,
+    ...(sender_id != null && { sender_id: makeUserId(sender_id) }),
+    ...extra,
+  });
 };
 
 export const pmMessageFromTo = (from: User, to: User[], extra?: $Rest<Message, {}>): Message =>
@@ -537,7 +550,7 @@ export const action = deepFreeze({
       is_admin: false,
       realm_non_active_users: [],
       realm_users: [],
-      user_id: 4,
+      user_id: makeUserId(4),
       realm_user_groups: [],
       recent_private_conversations: [],
       streams: [],
