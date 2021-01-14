@@ -85,6 +85,10 @@ var compiledWebviewJs = (function (exports) {
     return target;
   }
 
+  var makeUserId = function makeUserId(id) {
+    return id;
+  };
+
   var sendMessage = (function (msg) {
     window.ReactNativeWebView.postMessage(JSON.stringify(msg));
   });
@@ -863,7 +867,7 @@ var compiledWebviewJs = (function (exports) {
     if (target.matches('.avatar-img')) {
       sendMessage({
         type: 'avatar',
-        fromUserId: requireNumericAttribute(target, 'data-sender-id')
+        fromUserId: makeUserId(requireNumericAttribute(target, 'data-sender-id'))
       });
       return;
     }
@@ -879,7 +883,7 @@ var compiledWebviewJs = (function (exports) {
     if (target.matches('.user-mention')) {
       sendMessage({
         type: 'mention',
-        userId: requireNumericAttribute(target, 'data-user-id')
+        userId: makeUserId(requireNumericAttribute(target, 'data-user-id'))
       });
       return;
     }

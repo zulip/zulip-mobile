@@ -4,7 +4,7 @@ import { Clipboard, Alert } from 'react-native';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import config from '../config';
-import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage } from '../types';
+import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage, UserId } from '../types';
 import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { JSONableDict } from '../utils/jsonable';
@@ -55,7 +55,7 @@ type WebViewOutboundEventScroll = {|
 
 type WebViewOutboundEventAvatar = {|
   type: 'avatar',
-  fromUserId: number,
+  fromUserId: UserId,
 |};
 
 type WebViewOutboundEventNarrow = {|
@@ -121,7 +121,7 @@ type WebViewOutboundEventReactionDetails = {|
 
 type WebViewOutboundEventMention = {|
   type: 'mention',
-  userId: number,
+  userId: UserId,
 |};
 
 type WebViewOutboundEventTimeDetails = {|
