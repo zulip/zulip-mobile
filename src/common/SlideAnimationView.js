@@ -46,7 +46,7 @@ export default class SlideAnimationView extends PureComponent<Props, State> {
     const { property, from, to, movement, style } = this.props;
     const animationValue = this.state.animationIndex.interpolate({
       inputRange: [0, 1],
-      outputRange: movement === 'out' ? [from, to] : [to, from],
+      outputRange: ((movement === 'out' ? [from, to] : [to, from]): number[]),
     });
 
     const slideStyle = { transform: [{ [property]: animationValue }] };
