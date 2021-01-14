@@ -135,7 +135,7 @@ describe('stream substate', () => {
       return {
         id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        allMessages: {},
+        allMessages: eg.makeMessagesState([]),
         all,
         messages,
         flag,
