@@ -11,6 +11,7 @@ import * as api from '../api';
 import { showToast } from '../utils/info';
 
 import MentionedUserNotSubscribed from '../message/MentionedUserNotSubscribed';
+import { makeUserId } from '../api/idTypes';
 
 type State = {|
   unsubscribedMentions: Array<number>,
@@ -57,7 +58,7 @@ class MentionWarnings extends PureComponent<Props, State> {
     }
 
     if (userIdRaw !== undefined) {
-      const userId = Number.parseInt(userIdRaw, 10);
+      const userId = makeUserId(Number.parseInt(userIdRaw, 10));
       return usersById.get(userId);
     }
 

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import { addBreadcrumb } from '@sentry/react-native';
+import { makeUserId } from '../api/idTypes';
 import type { Narrow, Stream, UserOrBot } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromUsers } from './narrow';
 import { pmKeyRecipientsFromIds } from './recipient';
@@ -139,7 +140,7 @@ const parseTopicOperand = operand => decodeHashComponent(operand);
 /** Parse the operand of a `pm-with` operator. */
 const parsePmOperand = operand => {
   const idStrs = operand.split('-')[0].split(',');
-  return idStrs.map(s => parseInt(s, 10));
+  return idStrs.map(s => makeUserId(parseInt(s, 10)));
 };
 
 /**

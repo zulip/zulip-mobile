@@ -9,6 +9,7 @@ import type {
   WebViewInboundEventReady,
   WebViewInboundEventMessagesRead,
 } from '../generateInboundEvents';
+import { makeUserId } from '../../api/idTypes';
 
 import InboundEventLogger from './InboundEventLogger';
 import sendMessage from './sendMessage';
@@ -726,7 +727,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromUserId: requireNumericAttribute(target, 'data-sender-id'),
+      fromUserId: makeUserId(requireNumericAttribute(target, 'data-sender-id')),
     });
     return;
   }
@@ -742,7 +743,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (target.matches('.user-mention')) {
     sendMessage({
       type: 'mention',
-      userId: requireNumericAttribute(target, 'data-user-id'),
+      userId: makeUserId(requireNumericAttribute(target, 'data-user-id')),
     });
     return;
   }

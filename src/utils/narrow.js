@@ -1,5 +1,6 @@
 /* @flow strict-local */
 
+import { makeUserId } from '../api/idTypes';
 import type { ApiNarrow, Message, Outbox, User, UserOrBot } from '../types';
 import {
   normalizeRecipientsAsUserIdsSansMe,
@@ -294,7 +295,7 @@ export const parseNarrow = (narrowStr: string): Narrow => {
     }
 
     case 'pm:': {
-      const ids = rest.split(',').map(s => Number.parseInt(s, 10));
+      const ids = rest.split(',').map(s => makeUserId(Number.parseInt(s, 10)));
       return pmNarrowInternal(ids);
     }
 

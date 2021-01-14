@@ -9,8 +9,9 @@ import {
   MESSAGE_FETCH_COMPLETE,
   REALM_INIT,
 } from '../actionConstants';
+import { makeUserId } from '../api/idTypes';
 
-import type { Action, Message, Outbox } from '../types';
+import type { Action, Message, Outbox, UserId } from '../types';
 import { recipientsOfPrivateMessage } from '../utils/recipient';
 import { ZulipVersion } from '../utils/zulipVersion';
 
@@ -47,8 +48,8 @@ function keyOfPrivateMessage(msg: Message | Outbox, ownUserId: number): PmConver
 }
 
 /** The users in the conversation, other than self. */
-export function usersOfKey(key: PmConversationKey): number[] {
-  return key ? key.split(',').map(s => Number.parseInt(s, 10)) : [];
+export function usersOfKey(key: PmConversationKey): UserId[] {
+  return key ? key.split(',').map(s => makeUserId(Number.parseInt(s, 10))) : [];
 }
 
 //
