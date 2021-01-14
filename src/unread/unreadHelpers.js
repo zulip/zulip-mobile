@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { HuddlesUnreadItem, PmsUnreadItem, StreamUnreadItem } from '../types';
+import type { HuddlesUnreadItem, PmsUnreadItem, StreamUnreadItem, UserId } from '../types';
 import { addItemsToArray, removeItemsFromArray, filterArray } from '../utils/immutability';
 
 type SomeUnreadItem = { unread_message_ids: number[] };
@@ -50,7 +50,7 @@ function addItemsDeeply<T: SomeUnreadItem>(input: T[], itemsToAdd: number[], ind
 export const addItemsToPmArray = (
   input: PmsUnreadItem[],
   itemsToAdd: number[],
-  senderId: number,
+  senderId: UserId,
 ): PmsUnreadItem[] => {
   const index = input.findIndex(sender => sender.sender_id === senderId);
 
