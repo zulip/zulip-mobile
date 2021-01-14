@@ -103,7 +103,7 @@ export type PresenceEvent = {|
 export type UserStatusEvent = {|
   ...EventCommon,
   type: typeof EventTypes.user_status,
-  user_id: number,
+  user_id: UserId,
   away?: boolean,
   status_text?: string,
 |};
