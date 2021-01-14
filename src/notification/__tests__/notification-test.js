@@ -1,6 +1,7 @@
 // @flow strict-local
 import deepFreeze from 'deep-freeze';
 
+import type { Notification } from '../types';
 import type { UserOrBot } from '../../api/modelTypes';
 import type { JSONableDict } from '../../utils/jsonable';
 import { getNarrowFromNotificationData } from '..';
