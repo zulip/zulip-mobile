@@ -3,7 +3,16 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import type { Auth, Stream, Dispatch, Narrow, UserOrBot, Subscription, GetText } from '../types';
+import type {
+  Auth,
+  Stream,
+  Dispatch,
+  Narrow,
+  UserOrBot,
+  Subscription,
+  GetText,
+  UserId,
+} from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { getActiveUsersById, getAuth } from '../selectors';
 import { is1to1PmNarrow } from '../utils/narrow';
@@ -14,12 +23,12 @@ import MentionedUserNotSubscribed from '../message/MentionedUserNotSubscribed';
 import { makeUserId } from '../api/idTypes';
 
 type State = {|
-  unsubscribedMentions: Array<number>,
+  unsubscribedMentions: Array<UserId>,
 |};
 
 type SelectorProps = {|
   auth: Auth,
-  usersById: Map<number, UserOrBot>,
+  usersById: Map<UserId, UserOrBot>,
 |};
 
 type Props = $ReadOnly<{|
@@ -124,9 +133,7 @@ class MentionWarnings extends PureComponent<Props, State> {
 
   handleMentionWarningDismiss = (user: UserOrBot) => {
     this.setState(prevState => ({
-      unsubscribedMentions: prevState.unsubscribedMentions.filter(
-        (x: number) => x !== user.user_id,
-      ),
+      unsubscribedMentions: prevState.unsubscribedMentions.filter(x => x !== user.user_id),
     }));
   };
 
