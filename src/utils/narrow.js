@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import { makeUserId } from '../api/idTypes';
-import type { ApiNarrow, Message, Outbox, User, UserOrBot } from '../types';
+import type { ApiNarrow, Message, Outbox, User, UserId, UserOrBot } from '../types';
 import {
   normalizeRecipientsAsUserIdsSansMe,
   pmKeyRecipientsFromMessage,
@@ -33,7 +33,7 @@ import {
 export opaque type Narrow =
   | {| type: 'stream', streamName: string |}
   | {| type: 'topic', streamName: string, topic: string |}
-  | {| type: 'pm', userIds: $ReadOnlyArray<number> |}
+  | {| type: 'pm', userIds: $ReadOnlyArray<UserId> |}
   | {| type: 'search', query: string |}
   | {| type: 'all' | 'starred' | 'mentioned' | 'all-pm' |};
 
@@ -60,7 +60,7 @@ export const HOME_NARROW_STR: string = keyFromNarrow(HOME_NARROW);
  * accidentally disagreeing on whether to include the self-user, or on how
  * to sort the list (by user ID vs. email), or neglecting to sort it at all.
  */
-const pmNarrowInternal = (userIds: $ReadOnlyArray<number>): Narrow =>
+const pmNarrowInternal = (userIds: $ReadOnlyArray<UserId>): Narrow =>
   Object.freeze({ type: 'pm', userIds });
 
 /**
@@ -153,7 +153,7 @@ export const SEARCH_NARROW = (query: string): Narrow => Object.freeze({ type: 's
 
 type NarrowCases<T> = {|
   home: () => T,
-  pm: (ids: $ReadOnlyArray<number>) => T,
+  pm: (ids: $ReadOnlyArray<UserId>) => T,
   starred: () => T,
   mentioned: () => T,
   allPrivate: () => T,
@@ -338,7 +338,7 @@ export const isGroupPmNarrow = (narrow?: Narrow): boolean =>
  * This is the same list of users that can appear in a `PmKeyRecipients` or
  * `PmKeyUsers`, but contains only their user IDs.
  */
-export const userIdsOfPmNarrow = (narrow: Narrow): $ReadOnlyArray<number> =>
+export const userIdsOfPmNarrow = (narrow: Narrow): $ReadOnlyArray<UserId> =>
   caseNarrowPartial(narrow, { pm: ids => ids });
 
 /**

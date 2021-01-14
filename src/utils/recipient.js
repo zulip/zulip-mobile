@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal';
 
 import { mapOrNull } from '../collections';
 import * as logging from './logging';
-import type { PmRecipientUser, Message, Outbox, User, UserOrBot } from '../types';
+import type { PmRecipientUser, Message, Outbox, User, UserId, UserOrBot } from '../types';
 
 /** The stream name a stream message was sent to.  Throws if a PM. */
 export const streamNameOfStreamMessage = (message: Message | Outbox): string => {
@@ -61,7 +61,7 @@ export const recipientsOfPrivateMessage = (
  *
  * See also `pmNarrowFromRecipients`, which requires a value of this type.
  */
-export opaque type PmKeyRecipients: $ReadOnlyArray<number> = $ReadOnlyArray<number>;
+export opaque type PmKeyRecipients: $ReadOnlyArray<UserId> = $ReadOnlyArray<UserId>;
 
 /**
  * A list of users identifying a PM conversation, as per pmKeyRecipientsFromMessage.
@@ -100,9 +100,9 @@ const filterRecipientUsers = (
 
 // Like filterRecipients, but on user IDs directly.
 const filterRecipientsAsUserIds = (
-  recipients: $ReadOnlyArray<number>,
+  recipients: $ReadOnlyArray<UserId>,
   ownUserId: number,
-): number[] =>
+): UserId[] =>
   // prettier-ignore
   recipients.length === 1
     // The spread is so that we always return a fresh array.  This allows
@@ -111,7 +111,7 @@ const filterRecipientsAsUserIds = (
     ? [...recipients]
     : recipients.filter(r => r !== ownUserId).sort((a, b) => a - b);
 
-export const normalizeRecipientsAsUserIds = (recipients: number[]) =>
+export const normalizeRecipientsAsUserIds = (recipients: UserId[]) =>
   recipients.sort((a, b) => a - b).join(',');
 
 /**
@@ -122,7 +122,7 @@ export const normalizeRecipientsAsUserIds = (recipients: number[]) =>
 // server's behavior is quirkier... but we keep only one user for those
 // anyway, so it doesn't matter.
 export const normalizeRecipientsAsUserIdsSansMe = (
-  recipients: $ReadOnlyArray<number>,
+  recipients: $ReadOnlyArray<UserId>,
   ownUserId: number,
 ) => normalizeRecipientsAsUserIds(filterRecipientsAsUserIds(recipients, ownUserId));
 
@@ -290,7 +290,7 @@ export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: number): s
  */
 // See comment on pmUnreadsKeyFromMessage for details on this form.
 export const pmUnreadsKeyFromPmKeyIds = (
-  userIds: $ReadOnlyArray<number>,
+  userIds: $ReadOnlyArray<UserId>,
   ownUserId: number,
 ): string => {
   if (userIds.length === 1) {
@@ -319,7 +319,7 @@ export const pmUnreadsKeyFromPmKeyIds = (
 // TODO: It'd be neat to have another opaque type like PmKeyIds, for this
 //   and pmUnreadsKeyFromPmKeyIds to consume.  Perhaps simplest to do after
 //   Narrow no longer contains emails.
-export const pmTypingKeyFromPmKeyIds = (userIds: $ReadOnlyArray<number>): string =>
+export const pmTypingKeyFromPmKeyIds = (userIds: $ReadOnlyArray<UserId>): string =>
   userIds.join(',');
 
 /**
@@ -337,7 +337,7 @@ export const pmTypingKeyFromPmKeyIds = (userIds: $ReadOnlyArray<number>): string
 //    for these events.)
 //  * Self-PMs don't have typing-status events in the first place.
 export const pmTypingKeyFromRecipients = (
-  recipients: $ReadOnlyArray<number>,
+  recipients: $ReadOnlyArray<UserId>,
   ownUserId: number,
 ): string => pmTypingKeyFromPmKeyIds(filterRecipientsAsUserIds(recipients, ownUserId));
 

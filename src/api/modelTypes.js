@@ -410,7 +410,7 @@ export type MessageEdit = $ReadOnly<{|
 export type PmRecipientUser = $ReadOnly<{|
   // These five fields (id, email, full_name, short_name, is_mirror_dummy)
   // have all been present since server commit 6b13f4a3c, in 2014.
-  id: number,
+  id: UserId,
   email: string,
   full_name: string,
   // We mark short_name and is_mirror_dummy optional so we can leave them
