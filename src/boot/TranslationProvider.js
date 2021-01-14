@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, type Context } from 'react';
 import type { ComponentType, ElementConfig, Node as React$Node } from 'react';
 import { Text } from 'react-native';
 import { IntlProvider, IntlContext } from 'react-intl';
@@ -11,7 +11,7 @@ import { getSettings } from '../selectors';
 import messages from '../i18n/messages';
 
 // $FlowFixMe could put a well-typed mock value here, to help write tests
-export const TranslationContext = React.createContext(undefined);
+export const TranslationContext: Context<GetText> = React.createContext(undefined);
 
 /**
  * Provide `_` to the wrapped component, passing other props through.
