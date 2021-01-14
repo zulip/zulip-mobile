@@ -704,7 +704,7 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  var handleUpdateEventContent = function handleUpdateEventContent(uevent) {
+  var handleInboundEventContent = function handleInboundEventContent(uevent) {
     var target;
 
     if (uevent.updateStrategy === 'replace') {
@@ -756,13 +756,13 @@ var compiledWebviewJs = (function (exports) {
     scrollEventsDisabled = false;
   };
 
-  var handleUpdateEventFetching = function handleUpdateEventFetching(uevent) {
+  var handleInboundEventFetching = function handleInboundEventFetching(uevent) {
     showHideElement('message-loading', uevent.showMessagePlaceholders);
     showHideElement('spinner-older', uevent.fetchingOlder);
     showHideElement('spinner-newer', uevent.fetchingNewer);
   };
 
-  var handleUpdateEventTyping = function handleUpdateEventTyping(uevent) {
+  var handleInboundEventTyping = function handleInboundEventTyping(uevent) {
     var elementTyping = document.getElementById('typing');
 
     if (elementTyping) {
@@ -773,13 +773,13 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var handleUpdateEventReady = function handleUpdateEventReady(uevent) {
+  var handleInboundEventReady = function handleInboundEventReady(uevent) {
     sendMessage({
       type: 'ready'
     });
   };
 
-  var handleUpdateEventMessagesRead = function handleUpdateEventMessagesRead(uevent) {
+  var handleInboundEventMessagesRead = function handleInboundEventMessagesRead(uevent) {
     if (uevent.messageIds.length === 0) {
       return;
     }
@@ -793,28 +793,28 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  var eventUpdateHandlers = {
-    content: handleUpdateEventContent,
-    fetching: handleUpdateEventFetching,
-    typing: handleUpdateEventTyping,
-    ready: handleUpdateEventReady,
-    read: handleUpdateEventMessagesRead
+  var inboundEventHandlers = {
+    content: handleInboundEventContent,
+    fetching: handleInboundEventFetching,
+    typing: handleInboundEventTyping,
+    ready: handleInboundEventReady,
+    read: handleInboundEventMessagesRead
   };
 
   var handleMessageEvent = function handleMessageEvent(e) {
     scrollEventsDisabled = true;
     var decodedData = decodeURIComponent(escape(window.atob(e.data)));
-    var rawUpdateEvents = JSON.parse(decodedData);
-    var updateEvents = rawUpdateEvents.map(function (updateEvent) {
-      return _objectSpread2(_objectSpread2({}, updateEvent), updateEvent.auth ? {
-        auth: _objectSpread2(_objectSpread2({}, updateEvent.auth), {}, {
-          realm: new URL(updateEvent.auth.realm)
+    var rawInboundEvents = JSON.parse(decodedData);
+    var inboundEvents = rawInboundEvents.map(function (inboundEvent) {
+      return _objectSpread2(_objectSpread2({}, inboundEvent), inboundEvent.auth ? {
+        auth: _objectSpread2(_objectSpread2({}, inboundEvent.auth), {}, {
+          realm: new URL(inboundEvent.auth.realm)
         })
       } : {});
     });
-    updateEvents.forEach(function (uevent) {
+    inboundEvents.forEach(function (uevent) {
       eventLogger.maybeCaptureInboundEvent(uevent);
-      eventUpdateHandlers[uevent.type](uevent);
+      inboundEventHandlers[uevent.type](uevent);
     });
     scrollEventsDisabled = false;
   };

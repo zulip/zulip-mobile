@@ -148,11 +148,11 @@ class MessageList extends Component<Props> {
 
   webview: ?WebView;
   readyRetryInterval: IntervalID | void;
-  sendUpdateEventsIsReady: boolean;
-  unsentUpdateEvents: WebViewInboundEvent[] = [];
+  sendInboundEventsIsReady: boolean;
+  unsentInboundEvents: WebViewInboundEvent[] = [];
 
   componentDidMount() {
-    this.setupSendUpdateEvents();
+    this.setupSendInboundEvents();
   }
 
   componentWillUnmount() {
@@ -167,7 +167,7 @@ class MessageList extends Component<Props> {
   /**
    * Initiate round-trip handshakes with the WebView, until one succeeds.
    */
-  setupSendUpdateEvents = (): void => {
+  setupSendInboundEvents = (): void => {
     const timeAtSetup = Date.now();
     let attempts: number = 0;
     let hasLogged: boolean = false;
@@ -183,8 +183,8 @@ class MessageList extends Component<Props> {
         hasLogged = true;
       }
 
-      if (!this.sendUpdateEventsIsReady) {
-        this.sendUpdateEvents([{ type: 'ready' }]);
+      if (!this.sendInboundEventsIsReady) {
+        this.sendInboundEvents([{ type: 'ready' }]);
         attempts++;
       } else {
         clearInterval(this.readyRetryInterval);
@@ -193,7 +193,7 @@ class MessageList extends Component<Props> {
     }, 30);
   };
 
-  sendUpdateEvents = (uevents: WebViewInboundEvent[]): void => {
+  sendInboundEvents = (uevents: WebViewInboundEvent[]): void => {
     if (this.webview && uevents.length > 0) {
       // $FlowFixMe This `postMessage` is undocumented; tracking as #3572.
       const secretWebView: { postMessage: (string, string) => void } = this.webview;
@@ -204,9 +204,9 @@ class MessageList extends Component<Props> {
   handleMessage = (event: { +nativeEvent: { +data: string } }) => {
     const eventData: WebViewOutboundEvent = JSON.parse(event.nativeEvent.data);
     if (eventData.type === 'ready') {
-      this.sendUpdateEventsIsReady = true;
-      this.sendUpdateEvents(this.unsentUpdateEvents);
-      this.unsentUpdateEvents = [];
+      this.sendInboundEventsIsReady = true;
+      this.sendInboundEvents(this.unsentInboundEvents);
+      this.unsentInboundEvents = [];
     } else {
       const { _ } = this.props;
       handleWebViewOutboundEvent(this.props, _, eventData);
@@ -216,10 +216,10 @@ class MessageList extends Component<Props> {
   shouldComponentUpdate = (nextProps: Props) => {
     const uevents = generateInboundEvents(this.props, nextProps);
 
-    if (this.sendUpdateEventsIsReady) {
-      this.sendUpdateEvents(uevents);
+    if (this.sendInboundEventsIsReady) {
+      this.sendInboundEvents(uevents);
     } else {
-      this.unsentUpdateEvents.push(...uevents);
+      this.unsentInboundEvents.push(...uevents);
     }
 
     return false;
