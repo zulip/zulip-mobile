@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import * as NavigationService from '../nav/NavigationService';
 import NavButton from '../nav/NavButton';
@@ -10,18 +10,16 @@ type Props = $ReadOnly<{|
   userId: number,
 |}>;
 
-export default class InfoNavButtonPrivate extends PureComponent<Props> {
-  render() {
-    const { color } = this.props;
-    return (
-      <NavButton
-        name="info"
-        color={color}
-        onPress={() => {
-          const { userId } = this.props;
-          NavigationService.dispatch(navigateToAccountDetails(userId));
-        }}
-      />
-    );
-  }
+export default function InfoNavButtonPrivate(props: Props) {
+  const { color } = props;
+  return (
+    <NavButton
+      name="info"
+      color={color}
+      onPress={() => {
+        const { userId } = props;
+        NavigationService.dispatch(navigateToAccountDetails(userId));
+      }}
+    />
+  );
 }
