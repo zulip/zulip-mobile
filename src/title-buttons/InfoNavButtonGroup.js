@@ -12,14 +12,18 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class InfoNavButtonGroup extends PureComponent<Props> {
-  handlePress = () => {
-    const { userIds } = this.props;
-    NavigationService.dispatch(navigateToGroupDetails(userIds));
-  };
-
   render() {
     const { color } = this.props;
 
-    return <NavButton name="info" color={color} onPress={this.handlePress} />;
+    return (
+      <NavButton
+        name="info"
+        color={color}
+        onPress={() => {
+          const { userIds } = this.props;
+          NavigationService.dispatch(navigateToGroupDetails(userIds));
+        }}
+      />
+    );
   }
 }
