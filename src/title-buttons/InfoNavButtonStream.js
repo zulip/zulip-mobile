@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, Narrow, Stream } from '../types';
@@ -17,25 +17,23 @@ type Props = $ReadOnly<{|
   streams: Stream[],
 |}>;
 
-class InfoNavButtonStream extends PureComponent<Props> {
-  render() {
-    const { color } = this.props;
+function InfoNavButtonStream(props: Props) {
+  const { color } = props;
 
-    return (
-      <NavButton
-        name="info"
-        color={color}
-        onPress={() => {
-          const { narrow, streams } = this.props;
-          const streamName = streamNameOfNarrow(narrow);
-          const stream = streams.find(x => x.name === streamName);
-          if (stream) {
-            NavigationService.dispatch(navigateToStream(stream.stream_id));
-          }
-        }}
-      />
-    );
-  }
+  return (
+    <NavButton
+      name="info"
+      color={color}
+      onPress={() => {
+        const { narrow, streams } = props;
+        const streamName = streamNameOfNarrow(narrow);
+        const stream = streams.find(x => x.name === streamName);
+        if (stream) {
+          NavigationService.dispatch(navigateToStream(stream.stream_id));
+        }
+      }}
+    />
+  );
 }
 
 export default connect(state => ({
