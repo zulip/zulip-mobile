@@ -18,19 +18,23 @@ type Props = $ReadOnly<{|
 |}>;
 
 class InfoNavButtonStream extends PureComponent<Props> {
-  handlePress = () => {
-    const { narrow, streams } = this.props;
-    const streamName = streamNameOfNarrow(narrow);
-    const stream = streams.find(x => x.name === streamName);
-    if (stream) {
-      NavigationService.dispatch(navigateToStream(stream.stream_id));
-    }
-  };
-
   render() {
     const { color } = this.props;
 
-    return <NavButton name="info" color={color} onPress={this.handlePress} />;
+    return (
+      <NavButton
+        name="info"
+        color={color}
+        onPress={() => {
+          const { narrow, streams } = this.props;
+          const streamName = streamNameOfNarrow(narrow);
+          const stream = streams.find(x => x.name === streamName);
+          if (stream) {
+            NavigationService.dispatch(navigateToStream(stream.stream_id));
+          }
+        }}
+      />
+    );
   }
 }
 
