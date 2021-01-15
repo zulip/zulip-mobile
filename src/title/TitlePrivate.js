@@ -12,7 +12,6 @@ import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import ActivityText from './ActivityText';
 import { getAllUsersById } from '../users/userSelectors';
 import { navigateToAccountDetails } from '../nav/navActions';
-import * as logging from '../utils/logging';
 
 type SelectorProps = $ReadOnly<{|
   user: UserOrBot | void,
@@ -39,14 +38,6 @@ class TitlePrivate extends PureComponent<Props> {
     }
     NavigationService.dispatch(navigateToAccountDetails(user.user_id));
   };
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.user && !this.props.user) {
-      logging.warn('`user` prop disappeared in TitlePrivate.', {
-        email: prevProps.user.email.replace(/\w/g, 'x'),
-      });
-    }
-  }
 
   render() {
     const { user, color } = this.props;
