@@ -4,9 +4,9 @@ import { ScrollView, View } from 'react-native';
 
 import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, User } from '../types';
+import type { Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useDispatch, useSelector } from '../react-redux';
 import { getSelfUserDetail } from '../selectors';
 import { ZulipButton } from '../common';
 import {
@@ -73,9 +73,6 @@ function LogoutButton(props: {| +dispatch: Dispatch |}) {
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'profile'>,
   route: MainTabsRouteProp<'profile'>,
-
-  dispatch: Dispatch,
-  selfUserDetail: User,
 |}>;
 
 /**
@@ -84,8 +81,9 @@ type Props = $ReadOnly<{|
  *
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
  */
-function ProfileCard(props: Props) {
-  const { selfUserDetail } = props;
+export default function ProfileCard(props: Props) {
+  const dispatch = useDispatch();
+  const selfUserDetail = useSelector(getSelfUserDetail);
 
   return (
     <ScrollView>
@@ -96,12 +94,8 @@ function ProfileCard(props: Props) {
       </View>
       <View style={styles.buttonRow}>
         <SwitchAccountButton />
-        <LogoutButton dispatch={props.dispatch} />
+        <LogoutButton dispatch={dispatch} />
       </View>
     </ScrollView>
   );
 }
-
-export default connect(state => ({
-  selfUserDetail: getSelfUserDetail(state),
-}))(ProfileCard);
