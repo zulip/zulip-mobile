@@ -4,25 +4,17 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, UserOrBot } from '../types';
 import styles, { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { Touchable, ViewPlaceholder } from '../common';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import ActivityText from './ActivityText';
 import { getAllUsersById } from '../users/userSelectors';
 import { navigateToAccountDetails } from '../nav/navActions';
 
-type SelectorProps = $ReadOnly<{|
-  user: UserOrBot | void,
-|}>;
-
 type Props = $ReadOnly<{
   userId: number,
   color: string,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 }>;
 
 const componentStyles = createStyleSheet({
@@ -30,8 +22,10 @@ const componentStyles = createStyleSheet({
   inner: { flexDirection: 'row', alignItems: 'center' },
 });
 
-function TitlePrivate(props: Props) {
-  const { user, color } = props;
+export default function TitlePrivate(props: Props) {
+  const { userId, color } = props;
+  const user = useSelector(state => getAllUsersById(state).get(userId));
+
   if (!user) {
     return null;
   }
@@ -58,7 +52,3 @@ function TitlePrivate(props: Props) {
     </Touchable>
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  user: getAllUsersById(state).get(props.userId),
-}))(TitlePrivate);
