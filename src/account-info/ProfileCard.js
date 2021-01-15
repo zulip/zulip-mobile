@@ -30,38 +30,49 @@ const styles = createStyleSheet({
 });
 
 class SetStatusButton extends PureComponent<{||}> {
-  onPress = () => {
-    NavigationService.dispatch(navigateToUserStatus());
-  };
-
   render() {
     return (
-      <ZulipButton style={styles.button} secondary text="Set a status" onPress={this.onPress} />
+      <ZulipButton
+        style={styles.button}
+        secondary
+        text="Set a status"
+        onPress={() => {
+          NavigationService.dispatch(navigateToUserStatus());
+        }}
+      />
     );
   }
 }
 
 class SwitchAccountButton extends PureComponent<{||}> {
-  onPress = () => {
-    NavigationService.dispatch(navigateToAccountPicker());
-  };
-
   render() {
     return (
-      <ZulipButton style={styles.button} secondary text="Switch account" onPress={this.onPress} />
+      <ZulipButton
+        style={styles.button}
+        secondary
+        text="Switch account"
+        onPress={() => {
+          NavigationService.dispatch(navigateToAccountPicker());
+        }}
+      />
     );
   }
 }
 
 class LogoutButton extends PureComponent<{| +dispatch: Dispatch |}> {
-  onPress = () => {
-    const { dispatch } = this.props;
-    dispatch(tryStopNotifications());
-    dispatch(logout());
-  };
-
   render() {
-    return <ZulipButton style={styles.button} secondary text="Log out" onPress={this.onPress} />;
+    return (
+      <ZulipButton
+        style={styles.button}
+        secondary
+        text="Log out"
+        onPress={() => {
+          const { dispatch } = this.props;
+          dispatch(tryStopNotifications());
+          dispatch(logout());
+        }}
+      />
+    );
   }
 }
 
