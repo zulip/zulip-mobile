@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { FlatList } from 'react-native';
 
 import * as NavigationService from '../nav/NavigationService';
@@ -16,20 +16,22 @@ type Props = $ReadOnly<{|
  *
  * Used within `MessageReactionList`.
  */
-export default class ReactionUserList extends PureComponent<Props> {
-  handlePress = (user: UserOrBot) => {
-    NavigationService.dispatch(navigateToAccountDetails(user.user_id));
-  };
+export default function ReactionUserList(props: Props) {
+  const { reactedUserIds } = props;
 
-  render() {
-    const { reactedUserIds } = this.props;
-
-    return (
-      <FlatList
-        data={reactedUserIds}
-        keyExtractor={userId => `${userId}`}
-        renderItem={({ item }) => <UserItem key={item} userId={item} onPress={this.handlePress} />}
-      />
-    );
-  }
+  return (
+    <FlatList
+      data={reactedUserIds}
+      keyExtractor={userId => `${userId}`}
+      renderItem={({ item }) => (
+        <UserItem
+          key={item}
+          userId={item}
+          onPress={(user: UserOrBot) => {
+            NavigationService.dispatch(navigateToAccountDetails(user.user_id));
+          }}
+        />
+      )}
+    />
+  );
 }
