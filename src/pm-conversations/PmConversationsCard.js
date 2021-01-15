@@ -1,11 +1,10 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 
 import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs';
 import * as NavigationService from '../nav/NavigationService';
-import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
 import type { Dispatch, PmConversationData } from '../types';
 import { connect } from '../react-redux';
@@ -45,44 +44,40 @@ type Props = $ReadOnly<{|
 /**
  * The "PMs" page in the main tabs navigation.
  * */
-class PmConversationsCard extends PureComponent<Props> {
-  static contextType = ThemeContext;
-  context: ThemeData;
+function PmConversationsCard(props: Props) {
+  const { dispatch, conversations } = props;
+  const context = useContext(ThemeContext);
 
-  render() {
-    const { dispatch, conversations } = this.props;
-
-    return (
-      <View style={[styles.container, { backgroundColor: this.context.backgroundColor }]}>
-        <View style={styles.row}>
-          <ZulipButton
-            secondary
-            Icon={IconPeople}
-            style={styles.button}
-            text="Create group"
-            onPress={() => {
-              setTimeout(() => NavigationService.dispatch(navigateToCreateGroup()));
-            }}
-          />
-          <ZulipButton
-            secondary
-            Icon={IconSearch}
-            style={styles.button}
-            text="Search"
-            onPress={() => {
-              setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
-            }}
-          />
-        </View>
-        <LoadingBanner />
-        {conversations.length === 0 ? (
-          <Label style={styles.emptySlate} text="No recent conversations" />
-        ) : (
-          <PmConversationList dispatch={dispatch} conversations={conversations} />
-        )}
+  return (
+    <View style={[styles.container, { backgroundColor: context.backgroundColor }]}>
+      <View style={styles.row}>
+        <ZulipButton
+          secondary
+          Icon={IconPeople}
+          style={styles.button}
+          text="Create group"
+          onPress={() => {
+            setTimeout(() => NavigationService.dispatch(navigateToCreateGroup()));
+          }}
+        />
+        <ZulipButton
+          secondary
+          Icon={IconSearch}
+          style={styles.button}
+          text="Search"
+          onPress={() => {
+            setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
+          }}
+        />
       </View>
-    );
-  }
+      <LoadingBanner />
+      {conversations.length === 0 ? (
+        <Label style={styles.emptySlate} text="No recent conversations" />
+      ) : (
+        <PmConversationList dispatch={dispatch} conversations={conversations} />
+      )}
+    </View>
+  );
 }
 
 export default connect(state => ({
