@@ -12,23 +12,22 @@ type Props = $ReadOnly<{|
   userIds: $ReadOnlyArray<number>,
 |}>;
 
+const componentStyles = createStyleSheet({
+  titleAvatar: {
+    marginRight: 16,
+  },
+});
 export default class TitleGroup extends PureComponent<Props> {
   handlePress = (userId: number) => {
     NavigationService.dispatch(navigateToAccountDetails(userId));
   };
-
-  styles = createStyleSheet({
-    titleAvatar: {
-      marginRight: 16,
-    },
-  });
 
   render() {
     const { userIds } = this.props;
     return (
       <View style={styles.navWrapper}>
         {userIds.map(userId => (
-          <View key={userId} style={this.styles.titleAvatar}>
+          <View key={userId} style={componentStyles.titleAvatar}>
             <UserAvatarWithPresenceById
               onPress={() => this.handlePress(userId)}
               size={32}
