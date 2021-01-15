@@ -31,21 +31,21 @@ const componentStyles = createStyleSheet({
 });
 
 class TitlePrivate extends PureComponent<Props> {
-  handlePress = () => {
-    const { user } = this.props;
-    if (!user) {
-      return;
-    }
-    NavigationService.dispatch(navigateToAccountDetails(user.user_id));
-  };
-
   render() {
     const { user, color } = this.props;
     if (!user) {
       return null;
     }
     return (
-      <Touchable onPress={this.handlePress} style={componentStyles.outer}>
+      <Touchable
+        onPress={() => {
+          if (!user) {
+            return;
+          }
+          NavigationService.dispatch(navigateToAccountDetails(user.user_id));
+        }}
+        style={componentStyles.outer}
+      >
         <View style={componentStyles.inner}>
           <UserAvatarWithPresenceById size={32} userId={user.user_id} />
           <ViewPlaceholder width={8} />
