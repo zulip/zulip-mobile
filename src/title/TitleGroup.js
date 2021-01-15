@@ -18,10 +18,6 @@ const componentStyles = createStyleSheet({
   },
 });
 export default class TitleGroup extends PureComponent<Props> {
-  handlePress = (userId: number) => {
-    NavigationService.dispatch(navigateToAccountDetails(userId));
-  };
-
   render() {
     const { userIds } = this.props;
     return (
@@ -29,7 +25,9 @@ export default class TitleGroup extends PureComponent<Props> {
         {userIds.map(userId => (
           <View key={userId} style={componentStyles.titleAvatar}>
             <UserAvatarWithPresenceById
-              onPress={() => this.handlePress(userId)}
+              onPress={() => {
+                NavigationService.dispatch(navigateToAccountDetails(userId));
+              }}
               size={32}
               userId={userId}
             />
