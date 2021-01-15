@@ -6,8 +6,7 @@ import { View } from 'react-native';
 import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs';
 import * as NavigationService from '../nav/NavigationService';
 import { ThemeContext, createStyleSheet } from '../styles';
-import type { Dispatch, PmConversationData } from '../types';
-import { connect } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import { Label, ZulipButton, LoadingBanner } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
@@ -36,16 +35,14 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'conversations'>,
   route: MainTabsRouteProp<'conversations'>,
-
-  dispatch: Dispatch,
-  conversations: PmConversationData[],
 |}>;
 
 /**
  * The "PMs" page in the main tabs navigation.
  * */
-function PmConversationsCard(props: Props) {
-  const { dispatch, conversations } = props;
+export default function PmConversationsCard(props: Props) {
+  const conversations = useSelector(getRecentConversations);
+  const dispatch = useDispatch();
   const context = useContext(ThemeContext);
 
   return (
@@ -79,7 +76,3 @@ function PmConversationsCard(props: Props) {
     </View>
   );
 }
-
-export default connect(state => ({
-  conversations: getRecentConversations(state),
-}))(PmConversationsCard);
