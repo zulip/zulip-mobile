@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import * as NavigationService from '../nav/NavigationService';
 import NavButton from '../nav/NavButton';
@@ -11,19 +11,17 @@ type Props = $ReadOnly<{|
   userIds: $ReadOnlyArray<number>,
 |}>;
 
-export default class InfoNavButtonGroup extends PureComponent<Props> {
-  render() {
-    const { color } = this.props;
+export default function InfoNavButtonGroup(props: Props) {
+  const { color } = props;
 
-    return (
-      <NavButton
-        name="info"
-        color={color}
-        onPress={() => {
-          const { userIds } = this.props;
-          NavigationService.dispatch(navigateToGroupDetails(userIds));
-        }}
-      />
-    );
-  }
+  return (
+    <NavButton
+      name="info"
+      color={color}
+      onPress={() => {
+        const { userIds } = props;
+        NavigationService.dispatch(navigateToGroupDetails(userIds));
+      }}
+    />
+  );
 }
