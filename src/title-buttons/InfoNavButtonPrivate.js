@@ -11,13 +11,17 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class InfoNavButtonPrivate extends PureComponent<Props> {
-  handlePress = () => {
-    const { userId } = this.props;
-    NavigationService.dispatch(navigateToAccountDetails(userId));
-  };
-
   render() {
     const { color } = this.props;
-    return <NavButton name="info" color={color} onPress={this.handlePress} />;
+    return (
+      <NavButton
+        name="info"
+        color={color}
+        onPress={() => {
+          const { userId } = this.props;
+          NavigationService.dispatch(navigateToAccountDetails(userId));
+        }}
+      />
+    );
   }
 }
