@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 import * as NavigationService from '../nav/NavigationService';
@@ -17,23 +17,22 @@ const componentStyles = createStyleSheet({
     marginRight: 16,
   },
 });
-export default class TitleGroup extends PureComponent<Props> {
-  render() {
-    const { userIds } = this.props;
-    return (
-      <View style={styles.navWrapper}>
-        {userIds.map(userId => (
-          <View key={userId} style={componentStyles.titleAvatar}>
-            <UserAvatarWithPresenceById
-              onPress={() => {
-                NavigationService.dispatch(navigateToAccountDetails(userId));
-              }}
-              size={32}
-              userId={userId}
-            />
-          </View>
-        ))}
-      </View>
-    );
-  }
+
+export default function TitleGroup(props: Props) {
+  const { userIds } = props;
+  return (
+    <View style={styles.navWrapper}>
+      {userIds.map(userId => (
+        <View key={userId} style={componentStyles.titleAvatar}>
+          <UserAvatarWithPresenceById
+            onPress={() => {
+              NavigationService.dispatch(navigateToAccountDetails(userId));
+            }}
+            size={32}
+            userId={userId}
+          />
+        </View>
+      ))}
+    </View>
+  );
 }
