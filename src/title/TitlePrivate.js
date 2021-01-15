@@ -26,6 +26,11 @@ type Props = $ReadOnly<{
   ...SelectorProps,
 }>;
 
+const componentStyles = createStyleSheet({
+  outer: { flex: 1 },
+  inner: { flexDirection: 'row', alignItems: 'center' },
+});
+
 class TitlePrivate extends PureComponent<Props> {
   handlePress = () => {
     const { user } = this.props;
@@ -34,11 +39,6 @@ class TitlePrivate extends PureComponent<Props> {
     }
     NavigationService.dispatch(navigateToAccountDetails(user.user_id));
   };
-
-  styles = createStyleSheet({
-    outer: { flex: 1 },
-    inner: { flexDirection: 'row', alignItems: 'center' },
-  });
 
   componentDidUpdate(prevProps) {
     if (prevProps.user && !this.props.user) {
@@ -54,8 +54,8 @@ class TitlePrivate extends PureComponent<Props> {
       return null;
     }
     return (
-      <Touchable onPress={this.handlePress} style={this.styles.outer}>
-        <View style={this.styles.inner}>
+      <Touchable onPress={this.handlePress} style={componentStyles.outer}>
+        <View style={componentStyles.inner}>
           <UserAvatarWithPresenceById size={32} userId={user.user_id} />
           <ViewPlaceholder width={8} />
           <View>
