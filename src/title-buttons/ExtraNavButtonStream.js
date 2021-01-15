@@ -3,21 +3,20 @@
 import React from 'react';
 
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, Narrow, Stream } from '../types';
-import { connect } from '../react-redux';
+import type { Narrow } from '../types';
+import { useSelector } from '../react-redux';
 import { getStreams } from '../selectors';
 import NavButton from '../nav/NavButton';
 import { navigateToTopicList } from '../actions';
 import { streamNameOfNarrow } from '../utils/narrow';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   narrow: Narrow,
   color: string,
-  streams: Stream[],
 |}>;
 
-function ExtraNavButtonStream(props: Props) {
+export default function ExtraNavButtonStream(props: Props) {
+  const streams = useSelector(getStreams);
   const { color } = props;
 
   return (
@@ -25,7 +24,7 @@ function ExtraNavButtonStream(props: Props) {
       name="list"
       color={color}
       onPress={() => {
-        const { narrow, streams } = props;
+        const { narrow } = props;
         const streamName = streamNameOfNarrow(narrow);
         const stream = streams.find(x => x.name === streamName);
         if (stream) {
@@ -35,7 +34,3 @@ function ExtraNavButtonStream(props: Props) {
     />
   );
 }
-
-export default connect(state => ({
-  streams: getStreams(state),
-}))(ExtraNavButtonStream);
