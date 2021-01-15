@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { ScrollView, View } from 'react-native';
 
 import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs';
@@ -84,24 +84,22 @@ type Props = $ReadOnly<{|
  *
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
  */
-class ProfileCard extends PureComponent<Props> {
-  render() {
-    const { selfUserDetail } = this.props;
+function ProfileCard(props: Props) {
+  const { selfUserDetail } = props;
 
-    return (
-      <ScrollView>
-        <AccountDetails user={selfUserDetail} />
-        <AwayStatusSwitch />
-        <View style={styles.buttonRow}>
-          <SetStatusButton />
-        </View>
-        <View style={styles.buttonRow}>
-          <SwitchAccountButton />
-          <LogoutButton dispatch={this.props.dispatch} />
-        </View>
-      </ScrollView>
-    );
-  }
+  return (
+    <ScrollView>
+      <AccountDetails user={selfUserDetail} />
+      <AwayStatusSwitch />
+      <View style={styles.buttonRow}>
+        <SetStatusButton />
+      </View>
+      <View style={styles.buttonRow}>
+        <SwitchAccountButton />
+        <LogoutButton dispatch={props.dispatch} />
+      </View>
+    </ScrollView>
+  );
 }
 
 export default connect(state => ({
