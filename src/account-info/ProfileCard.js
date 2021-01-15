@@ -4,7 +4,6 @@ import { ScrollView, View } from 'react-native';
 
 import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
 import { getSelfUserDetail } from '../selectors';
@@ -55,14 +54,14 @@ function SwitchAccountButton(props: {||}) {
   );
 }
 
-function LogoutButton(props: {| +dispatch: Dispatch |}) {
+function LogoutButton(props: {||}) {
+  const dispatch = useDispatch();
   return (
     <ZulipButton
       style={styles.button}
       secondary
       text="Log out"
       onPress={() => {
-        const { dispatch } = props;
         dispatch(tryStopNotifications());
         dispatch(logout());
       }}
@@ -82,7 +81,6 @@ type Props = $ReadOnly<{|
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
  */
 export default function ProfileCard(props: Props) {
-  const dispatch = useDispatch();
   const selfUserDetail = useSelector(getSelfUserDetail);
 
   return (
@@ -94,7 +92,7 @@ export default function ProfileCard(props: Props) {
       </View>
       <View style={styles.buttonRow}>
         <SwitchAccountButton />
-        <LogoutButton dispatch={dispatch} />
+        <LogoutButton />
       </View>
     </ScrollView>
   );
