@@ -2066,7 +2066,9 @@ declare module '@react-navigation/native' {
   declare export var NavigationContext: React$Context<
     ?NavigationProp<ParamListBase>,
   >;
-  declare export function useNavigation(): NavigationProp<ParamListBase>;
+  declare export function useNavigation<
+    ParamList: ParamListBase = ParamListBase,
+  >(): NavigationProp<ParamList>;
 
   declare export var NavigationRouteContext: React$Context<?LeafRoute<>>;
   declare export function useRoute(): LeafRoute<>;
