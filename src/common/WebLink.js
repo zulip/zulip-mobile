@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import Label from './Label';
-import openLink from '../utils/openLink';
+import openLinkEmbedded from '../utils/openLinkEmbedded';
 import { getCurrentRealm } from '../selectors';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 
@@ -26,7 +26,7 @@ type Props = $ReadOnly<{|
 class WebLink extends PureComponent<Props> {
   handlePress = () => {
     const { realm, href } = this.props;
-    openLink(new URL(href, realm).toString());
+    openLinkEmbedded(new URL(href, realm).toString());
   };
 
   styles = createStyleSheet({

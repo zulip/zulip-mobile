@@ -1,11 +1,10 @@
 /* @flow strict-local */
-import { NativeModules, Platform } from 'react-native';
-import SafariView from 'react-native-safari-view';
+import { NativeModules, Platform, Linking } from 'react-native';
 
 export default (url: string): void => {
   if (Platform.OS === 'ios') {
-    SafariView.show({ url: encodeURI(url) });
+    Linking.openURL(url); //open url in the browser
   } else {
-    NativeModules.CustomTabsAndroid.openURL(url);
+    NativeModules.CustomTabsAndroid.openURL(url); //open url in the embedded webview
   }
 };
