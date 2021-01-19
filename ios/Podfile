@@ -6,50 +6,6 @@ require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 
-# Add Flipper Pods
-def add_flipper_pods!(versions = {}, configurations: ['Debug'])
-  versions['Flipper'] ||= '~> 0.54.0'
-  versions['Flipper-DoubleConversion'] ||= '1.1.7'
-  versions['Flipper-Folly'] ||= '~> 2.2'
-  versions['Flipper-Glog'] ||= '0.3.6'
-  versions['Flipper-PeerTalk'] ||= '~> 0.0.4'
-  versions['Flipper-RSocket'] ||= '~> 1.1'
-
-  pod 'FlipperKit', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/FlipperKitLayoutPlugin', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/SKIOSNetworkPlugin', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/FlipperKitUserDefaultsPlugin', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/FlipperKitReactPlugin', versions['Flipper'], :configurations => configurations
-
-  # List all transitive dependencies for FlipperKit pods
-  # to avoid them being linked in Release builds
-  pod 'Flipper', versions['Flipper'], :configurations => configurations
-  pod 'Flipper-DoubleConversion', versions['Flipper-DoubleConversion'], :configurations => configurations
-  pod 'Flipper-Folly', versions['Flipper-Folly'], :configurations => configurations
-  pod 'Flipper-Glog', versions['Flipper-Glog'], :configurations => configurations
-  pod 'Flipper-PeerTalk', versions['Flipper-PeerTalk'], :configurations => configurations
-  pod 'Flipper-RSocket', versions['Flipper-RSocket'], :configurations => configurations
-  pod 'FlipperKit/Core', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/CppBridge', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/FBCxxFollyDynamicConvert', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/FBDefines', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/FKPortForwarding', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/FlipperKitHighlightOverlay', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/FlipperKitLayoutTextSearchable', versions['Flipper'], :configurations => configurations
-  pod 'FlipperKit/FlipperKitNetworkPlugin', versions['Flipper'], :configurations => configurations
-end
-
-# Post Install processing for Flipper
-def flipper_post_install(installer)
-  installer.pods_project.targets.each do |target|
-    if target.name == 'YogaKit'
-      target.build_configurations.each do |config|
-        config.build_settings['SWIFT_VERSION'] = '4.1'
-      end
-    end
-  end
-end
-
 target 'ZulipMobile' do
   # Pods from React Native
   use_react_native!
@@ -66,7 +22,7 @@ target 'ZulipMobile' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  add_flipper_pods!
+  use_flipper!
   post_install do |installer|
     flipper_post_install(installer)
   end
