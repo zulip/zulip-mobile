@@ -27,7 +27,6 @@ export default (state: PresenceState = initialState, action: Action): PresenceSt
     case PRESENCE_RESPONSE:
       return {
         ...state,
-        // $FlowFixMe - Flow bug; should resolve in #4245
         ...action.presence,
       };
 
