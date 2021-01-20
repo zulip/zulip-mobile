@@ -200,7 +200,7 @@ export const pmKeyRecipientsFromMessage = (
  * Returns null when a user couldn't be found in the given `allUsersById`.
  */
 export const pmKeyRecipientsFromIds = (
-  userIds: $ReadOnlyArray<number>,
+  userIds: $ReadOnlyArray<UserId>,
   allUsersById: Map<number, UserOrBot>,
   ownUserId: UserId,
 ): PmKeyUsers | null => {
