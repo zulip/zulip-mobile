@@ -62,7 +62,7 @@ import { getActiveUsersById, getOwnUserId } from '../users/userSelectors';
 type SelectorProps = {|
   auth: Auth,
   ownUserId: UserId,
-  usersById: Map<number, UserOrBot>,
+  usersById: Map<UserId, UserOrBot>,
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,

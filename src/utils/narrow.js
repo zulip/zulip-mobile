@@ -392,7 +392,7 @@ export const isSearchNarrow = (narrow?: Narrow): boolean =>
  */
 export const apiNarrowOfNarrow = (
   narrow: Narrow,
-  allUsersById: Map<number, UserOrBot>,
+  allUsersById: Map<UserId, UserOrBot>,
 ): ApiNarrow =>
   caseNarrow(narrow, {
     stream: streamName => [{ operator: 'stream', operand: streamName }],

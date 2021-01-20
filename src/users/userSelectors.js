@@ -36,7 +36,7 @@ const getAllUsers: Selector<UserOrBot[]> = createSelector(
 );
 
 /** See `getAllUsers` for discussion. */
-export const getAllUsersById: Selector<Map<number, UserOrBot>> = createSelector(
+export const getAllUsersById: Selector<Map<UserId, UserOrBot>> = createSelector(
   getAllUsers,
   allUsers => new Map(allUsers.map(user => [user.user_id, user])),
 );
@@ -57,7 +57,7 @@ export const getAllUsersByEmail: Selector<Map<string, UserOrBot>> = createSelect
  *
  * See `getAllUsersById`, and `getAllUsers` for discussion.
  */
-export const getUsersById: Selector<Map<number, User>> = createSelector(
+export const getUsersById: Selector<Map<UserId, User>> = createSelector(
   getUsers,
   (users = []) => new Map(users.map(user => [user.user_id, user])),
 );
@@ -161,7 +161,7 @@ export const getUsersSansMe: Selector<User[]> = createSelector(
 );
 
 /** Excludes deactivated users.  See `getAllUsers` for discussion. */
-export const getActiveUsersById: Selector<Map<number, UserOrBot>> = createSelector(
+export const getActiveUsersById: Selector<Map<UserId, UserOrBot>> = createSelector(
   getUsers,
   getCrossRealmBots,
   (users = [], crossRealmBots = []) =>
