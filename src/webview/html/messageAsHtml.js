@@ -10,6 +10,7 @@ import type {
   Outbox,
   Reaction,
   ImageEmojiType,
+  UserId,
 } from '../../types';
 import type { BackgroundData } from '../MessageList';
 import { shortTime } from '../../utils/date';
@@ -44,7 +45,7 @@ const messageReactionAsHtml = (
 
 const messageReactionListAsHtml = (
   reactions: $ReadOnlyArray<Reaction>,
-  ownUserId: number,
+  ownUserId: UserId,
   allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
 ): string => {
   if (reactions.length === 0) {

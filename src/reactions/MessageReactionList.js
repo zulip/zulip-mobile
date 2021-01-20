@@ -8,7 +8,7 @@ import * as NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';
-import type { Dispatch, EmojiType, Message, ReactionType } from '../types';
+import type { Dispatch, EmojiType, Message, ReactionType, UserId } from '../types';
 import { Screen, Label, RawLabel } from '../common';
 import { getOwnUser } from '../selectors';
 import aggregateReactions from './aggregateReactions';
@@ -28,7 +28,7 @@ const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType => {
 
 type SelectorProps = $ReadOnly<{|
   message: Message | void,
-  ownUserId: number,
+  ownUserId: UserId,
 |}>;
 
 type Props = $ReadOnly<{|

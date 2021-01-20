@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { GlobalState, UserOrBot, Selector, User } from '../types';
+import type { GlobalState, UserOrBot, Selector, User, UserId } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 
@@ -96,7 +96,7 @@ export const getSortedUsers: Selector<User[]> = createSelector(
  */
 // Not currently used, but should replace uses of `getOwnEmail` (e.g. inside
 // `getOwnUser`).  See #3764.
-export const getOwnUserId = (state: GlobalState): number => {
+export const getOwnUserId = (state: GlobalState): UserId => {
   const { user_id } = state.realm;
   if (user_id === undefined) {
     throw new Error('No server data found');

@@ -3,7 +3,7 @@ import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from
 import NotificationsIOS from 'react-native-notifications';
 
 import type { Notification } from './types';
-import type { Auth, Dispatch, Identity, Narrow, UserOrBot } from '../types';
+import type { Auth, Dispatch, Identity, Narrow, UserId, UserOrBot } from '../types';
 import { topicNarrow, pmNarrowFromUsers, pm1to1NarrowFromUser } from '../utils/narrow';
 import type { JSONable, JSONableDict } from '../utils/jsonable';
 import * as api from '../api';
@@ -88,7 +88,7 @@ export const getNarrowFromNotificationData = (
   data: Notification,
   allUsersById: Map<number, UserOrBot>,
   allUsersByEmail: Map<string, UserOrBot>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): Narrow | null => {
   if (!data.recipient_type) {
     // This condition is impossible if the value is rightly-typed; but in

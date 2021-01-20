@@ -23,6 +23,7 @@ import type {
   Subscription,
   User,
   UserGroup,
+  UserId,
   UserPresence,
   UserStatusMapObject,
 } from './api/apiTypes';
@@ -261,7 +262,7 @@ export type RealmState = {|
   videoChatProvider: VideoChatProvider | null,
 
   email: string | void,
-  user_id: number | void,
+  user_id: UserId | void,
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
   isAdmin: boolean,

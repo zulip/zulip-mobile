@@ -1,9 +1,9 @@
 /* @flow strict-local */
-import type { Reaction, AggregatedReaction } from '../types';
+import type { Reaction, AggregatedReaction, UserId } from '../types';
 
 export default (
   reactions: $ReadOnlyArray<Reaction>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): $ReadOnlyArray<AggregatedReaction> => {
   const reactionMap = new Map();
   reactions.forEach(x => {
