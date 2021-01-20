@@ -45,12 +45,6 @@ import toggleStreamNotifications from './subscriptions/toggleStreamNotifications
 import getSubscriptionToStream from './subscriptions/getSubscriptionToStream';
 import unmuteTopic from './subscriptions/unmuteTopic';
 import tryGetFileTemporaryUrl from './tryGetFileTemporaryUrl';
-import createUserGroup from './user_groups/createUserGroup';
-import deleteUserGroup from './user_groups/deleteUserGroup';
-import editUserGroup from './user_groups/editUserGroup';
-import editUserGroupMembers from './user_groups/editUserGroupMembers';
-import getUserGroupById from './user_groups/getUserGroupById';
-import getUserGroups from './user_groups/getUserGroups';
 import getUsers from './users/getUsers';
 import createUser from './users/createUser';
 import getUserProfile from './users/getUserProfile';
@@ -104,12 +98,6 @@ export {
   toggleStreamNotifications,
   unmuteTopic,
   tryGetFileTemporaryUrl,
-  createUserGroup,
-  deleteUserGroup,
-  editUserGroup,
-  editUserGroupMembers,
-  getUserGroupById,
-  getUserGroups,
   getUsers,
   createUser,
   getUserProfile,
