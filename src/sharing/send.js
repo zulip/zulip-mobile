@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import type { SharedData, Auth, GetText } from '../types';
+import type { SharedData, Auth, GetText, UserId } from '../types';
 import { showToast } from '../utils/info';
 import { sendMessage, uploadFile } from '../api';
 
@@ -13,7 +13,7 @@ type SendStream = {|
 |};
 
 type SendPm = {|
-  selectedRecipients: $ReadOnlyArray<number>,
+  selectedRecipients: $ReadOnlyArray<UserId>,
   message: string,
   sharedData: SharedData,
   type: 'pm',
