@@ -31,14 +31,14 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'stream'>,
-  route: AppNavigationRouteProp<'stream'>,
+  navigation: AppNavigationProp<'stream-settings'>,
+  route: AppNavigationRouteProp<'stream-settings'>,
 
   dispatch: Dispatch,
   ...SelectorProps,
 |}>;
 
-class StreamScreen extends PureComponent<Props> {
+class StreamSettingsScreen extends PureComponent<Props> {
   handleTogglePinStream = (newValue: boolean) => {
     const { dispatch, stream } = this.props;
     dispatch(togglePinStream(stream.stream_id, newValue));
@@ -117,4 +117,4 @@ export default connect((state, props) => ({
   stream: getStreamForId(state, props.route.params.streamId),
   subscription: getSubscriptionsById(state).get(props.route.params.streamId) || NULL_SUBSCRIPTION,
   userSettingStreamNotification: getSettings(state).streamNotification,
-}))(StreamScreen);
+}))(StreamSettingsScreen);

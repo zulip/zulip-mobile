@@ -84,7 +84,7 @@ export const navigateToStorage = (): GenericNavigationAction => StackActions.pus
 export const navigateToDebug = (): GenericNavigationAction => StackActions.push('debug');
 
 export const navigateToStream = (streamId: number): GenericNavigationAction =>
-  StackActions.push('stream', { streamId });
+  StackActions.push('stream-settings', { streamId });
 
 export const navigateToTopicList = (streamId: number): GenericNavigationAction =>
   StackActions.push('topics', { streamId });
