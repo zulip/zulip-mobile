@@ -293,7 +293,7 @@ export type TopicsState = {|
 export type TypingState = {
   [normalizedRecipients: string]: {
     time: number,
-    userIds: number[],
+    userIds: UserId[],
   },
 };
 
