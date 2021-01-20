@@ -36,7 +36,7 @@ import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import CreateGroupScreen from '../user-groups/CreateGroupScreen';
 import InviteUsersScreen from '../streams/InviteUsersScreen';
-import StreamScreen from '../streams/StreamScreen';
+import StreamSettingsScreen from '../streams/StreamSettingsScreen';
 import CreateStreamScreen from '../streams/CreateStreamScreen';
 import EditStreamScreen from '../streams/EditStreamScreen';
 import NotificationsScreen from '../settings/NotificationsScreen';
@@ -70,7 +70,7 @@ export type AppNavigatorParamList = {|
   timing: void,
   storage: void,
   debug: void,
-  stream: {| streamId: number |},
+  'stream-settings': {| streamId: number |},
   'stream-edit': {| streamId: number |},
   'stream-create': void,
   topics: {| streamId: number |},
@@ -149,7 +149,7 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="timing" component={TimingScreen} />
       <Stack.Screen name="storage" component={StorageScreen} />
       <Stack.Screen name="debug" component={DebugScreen} />
-      <Stack.Screen name="stream" component={StreamScreen} />
+      <Stack.Screen name="stream-settings" component={StreamSettingsScreen} />
       <Stack.Screen name="stream-edit" component={EditStreamScreen} />
       <Stack.Screen name="stream-create" component={CreateStreamScreen} />
       <Stack.Screen name="topics" component={TopicListScreen} />
