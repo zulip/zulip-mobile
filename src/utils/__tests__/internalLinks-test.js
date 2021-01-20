@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import type { UserOrBot } from '../../api/modelTypes';
+import type { UserId, UserOrBot } from '../../types';
 import { streamNarrow, topicNarrow, pmNarrowFromUsersUnsafe, STARRED_NARROW } from '../narrow';
 import {
   isInternalLink,
@@ -252,7 +252,7 @@ describe('decodeHashComponent', () => {
 
 describe('getNarrowFromLink', () => {
   const [userB, userC] = [eg.makeUser(), eg.makeUser()];
-  const allUsersById: Map<number, UserOrBot> = new Map(
+  const allUsersById: Map<UserId, UserOrBot> = new Map(
     [eg.selfUser, userB, userC].map(u => [u.user_id, u]),
   );
 

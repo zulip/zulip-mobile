@@ -2,7 +2,16 @@
 import parseMarkdown from 'zulip-markdown-parser';
 
 import * as logging from '../utils/logging';
-import type { Dispatch, GetState, GlobalState, Narrow, Outbox, UserOrBot, Action } from '../types';
+import type {
+  Dispatch,
+  GetState,
+  GlobalState,
+  Narrow,
+  Outbox,
+  UserOrBot,
+  UserId,
+  Action,
+} from '../types';
 import type { SubsetProperties } from '../generics';
 import {
   MESSAGE_SEND_START,
@@ -120,7 +129,7 @@ type DataFromNarrow = SubsetProperties<
 
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
-  allUsersById: Map<number, UserOrBot>,
+  allUsersById: Map<UserId, UserOrBot>,
   ownUser: UserOrBot,
 ): DataFromNarrow =>
   caseNarrowPartial(narrow, {

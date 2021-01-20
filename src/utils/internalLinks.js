@@ -153,7 +153,7 @@ const parsePmOperand = operand => {
 export const getNarrowFromLink = (
   url: string,
   realm: URL,
-  allUsersById: Map<number, UserOrBot>,
+  allUsersById: Map<UserId, UserOrBot>,
   streamsById: Map<number, Stream>,
   ownUserId: UserId,
 ): Narrow | null => {

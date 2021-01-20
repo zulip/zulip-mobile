@@ -5,7 +5,7 @@ import { caseNarrowDefault } from '../utils/narrow';
 export default (
   narrow: Narrow,
   ownUserId: UserId,
-  usersById: Map<number, UserOrBot>,
+  usersById: Map<UserId, UserOrBot>,
 ): LocalizableText =>
   caseNarrowDefault(
     narrow,

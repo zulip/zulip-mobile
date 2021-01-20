@@ -201,7 +201,7 @@ export const pmKeyRecipientsFromMessage = (
  */
 export const pmKeyRecipientsFromIds = (
   userIds: $ReadOnlyArray<UserId>,
-  allUsersById: Map<number, UserOrBot>,
+  allUsersById: Map<UserId, UserOrBot>,
   ownUserId: UserId,
 ): PmKeyUsers | null => {
   const resultIds = userIds.filter(id => id !== ownUserId);
@@ -222,7 +222,7 @@ export const pmKeyRecipientsFromIds = (
  */
 export const pmKeyRecipientUsersFromMessage = (
   message: Message | Outbox,
-  allUsersById: Map<number, UserOrBot>,
+  allUsersById: Map<UserId, UserOrBot>,
   ownUserId: UserId,
 ): PmKeyUsers | null => {
   const userIds = recipientsOfPrivateMessage(message).map(r => r.id);

@@ -86,7 +86,7 @@ export const getAccountFromNotificationData = (
 
 export const getNarrowFromNotificationData = (
   data: Notification,
-  allUsersById: Map<number, UserOrBot>,
+  allUsersById: Map<UserId, UserOrBot>,
   allUsersByEmail: Map<string, UserOrBot>,
   ownUserId: UserId,
 ): Narrow | null => {
