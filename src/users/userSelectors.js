@@ -176,7 +176,7 @@ export const getActiveUsersById: Selector<Map<number, UserOrBot>> = createSelect
  *
  * Throws if no such user exists.
  */
-export const getUserForId = (state: GlobalState, userId: number): UserOrBot => {
+export const getUserForId = (state: GlobalState, userId: UserId): UserOrBot => {
   const user = getAllUsersById(state).get(userId);
   if (!user) {
     throw new Error(`getUserForId: missing user: id ${userId}`);
@@ -197,7 +197,7 @@ export const getUserForId = (state: GlobalState, userId: number): UserOrBot => {
  */
 // To understand this implementation, see the comment about `is_active` in
 // the `User` type definition.
-export const getUserIsActive = (state: GlobalState, userId: number): boolean =>
+export const getUserIsActive = (state: GlobalState, userId: UserId): boolean =>
   !!getActiveUsersById(state).get(userId);
 
 /**
