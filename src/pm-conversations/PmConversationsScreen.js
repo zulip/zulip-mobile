@@ -33,14 +33,14 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  navigation: MainTabsNavigationProp<'conversations'>,
-  route: MainTabsRouteProp<'conversations'>,
+  navigation: MainTabsNavigationProp<'pm-conversations'>,
+  route: MainTabsRouteProp<'pm-conversations'>,
 |}>;
 
 /**
  * The "PMs" page in the main tabs navigation.
  * */
-export default function PmConversationsCard(props: Props) {
+export default function PmConversationsScreen(props: Props) {
   const conversations = useSelector(getRecentConversations);
   const dispatch = useDispatch();
   const context = useContext(ThemeContext);

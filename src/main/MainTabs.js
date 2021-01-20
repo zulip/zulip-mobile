@@ -9,19 +9,19 @@ import type { RouteProp } from '@react-navigation/native';
 
 import type { GlobalParamList } from '../nav/globalTypes';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
-import HomeTab from './HomeTab';
-import StreamTabs from './StreamTabs';
-import PmConversationsCard from '../pm-conversations/PmConversationsCard';
-import SettingsCard from '../settings/SettingsCard';
+import HomeScreen from './HomeScreen';
+import StreamTabsScreen from './StreamTabsScreen';
+import PmConversationsScreen from '../pm-conversations/PmConversationsScreen';
+import SettingsScreen from '../settings/SettingsScreen';
 import { IconInbox, IconSettings, IconStream } from '../common/Icons';
 import { OwnAvatar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
-import ProfileCard from '../account-info/ProfileCard';
+import ProfileScreen from '../account-info/ProfileScreen';
 
 export type MainTabsNavigatorParamList = {|
   home: void,
-  streams: void,
-  conversations: void,
+  'stream-tabs': void,
+  'pm-conversations': void,
   settings: void,
   profile: void,
 |};
@@ -51,23 +51,23 @@ export default function MainTabs() {
     >
       <Tab.Screen
         name="home"
-        component={HomeTab}
+        component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: props => <IconInbox size={24} color={props.color} />,
         }}
       />
       <Tab.Screen
-        name="streams"
-        component={StreamTabs}
+        name="stream-tabs"
+        component={StreamTabsScreen}
         options={{
           tabBarLabel: 'Streams',
           tabBarIcon: props => <IconStream size={24} color={props.color} />,
         }}
       />
       <Tab.Screen
-        name="conversations"
-        component={PmConversationsCard}
+        name="pm-conversations"
+        component={PmConversationsScreen}
         options={{
           tabBarLabel: 'Conversations',
           tabBarIcon: props => <IconUnreadConversations color={props.color} />,
@@ -75,7 +75,7 @@ export default function MainTabs() {
       />
       <Tab.Screen
         name="settings"
-        component={SettingsCard}
+        component={SettingsScreen}
         options={{
           tabBarLabel: 'Settings',
           tabBarIcon: props => <IconSettings size={24} color={props.color} />,
@@ -83,7 +83,7 @@ export default function MainTabs() {
       />
       <Tab.Screen
         name="profile"
-        component={ProfileCard}
+        component={ProfileScreen}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: props => <OwnAvatar size={24} />,

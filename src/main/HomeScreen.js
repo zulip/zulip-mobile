@@ -34,7 +34,7 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
 |}>;
 
-class HomeTab extends PureComponent<Props> {
+class HomeScreen extends PureComponent<Props> {
   render() {
     const { dispatch } = this.props;
 
@@ -74,4 +74,4 @@ class HomeTab extends PureComponent<Props> {
   }
 }
 
-export default connect<{||}, _, _>()(HomeTab);
+export default connect<{||}, _, _>()(HomeScreen);

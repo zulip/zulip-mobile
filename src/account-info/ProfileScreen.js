@@ -80,7 +80,7 @@ type Props = $ReadOnly<{|
  *
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
  */
-export default function ProfileCard(props: Props) {
+export default function ProfileScreen(props: Props) {
   const ownUser = useSelector(getOwnUser);
 
   return (

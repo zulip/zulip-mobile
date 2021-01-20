@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { StreamTabsNavigationProp, StreamTabsRouteProp } from '../main/StreamTabs';
+import type { StreamTabsNavigationProp, StreamTabsRouteProp } from '../main/StreamTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
