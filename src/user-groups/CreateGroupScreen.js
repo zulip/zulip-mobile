@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, User } from '../types';
+import type { Dispatch, User, UserId } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import { doNarrow, navigateBack } from '../actions';
@@ -13,7 +13,7 @@ import UserPickerCard from '../user-picker/UserPickerCard';
 import { getOwnUserId } from '../users/userSelectors';
 
 type SelectorProps = {|
-  +ownUserId: number,
+  +ownUserId: UserId,
 |};
 
 type Props = $ReadOnly<{|

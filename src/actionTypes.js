@@ -219,7 +219,7 @@ type MessageFetchCompleteAction = {|
   numAfter: number,
   foundNewest: boolean | void,
   foundOldest: boolean | void,
-  ownUserId: number,
+  ownUserId: UserId,
 |};
 
 type InitialFetchStartAction = {|
@@ -374,7 +374,7 @@ type EventPresenceAction = {|
 
 type EventTypingCommon = {|
   ...ServerEvent,
-  ownUserId: number,
+  ownUserId: UserId,
   recipients: $ReadOnlyArray<{
     user_id: UserId,
     email: string,

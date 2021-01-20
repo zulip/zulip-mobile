@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { addBreadcrumb } from '@sentry/react-native';
 import { makeUserId } from '../api/idTypes';
-import type { Narrow, Stream, UserOrBot } from '../types';
+import type { Narrow, Stream, UserId, UserOrBot } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromUsers } from './narrow';
 import { pmKeyRecipientsFromIds } from './recipient';
 
@@ -155,7 +155,7 @@ export const getNarrowFromLink = (
   realm: URL,
   allUsersById: Map<number, UserOrBot>,
   streamsById: Map<number, Stream>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): Narrow | null => {
   const type = getLinkType(url, realm);
   const paths = getPathsFromUrl(url, realm);

@@ -38,12 +38,12 @@ export function keyOfExactUsers(ids: number[]): PmConversationKey {
 }
 
 // Input may contain self or not, and needn't be sorted.
-function keyOfUsers(ids: number[], ownUserId: number): PmConversationKey {
+function keyOfUsers(ids: number[], ownUserId: UserId): PmConversationKey {
   return keyOfExactUsers(ids.filter(id => id !== ownUserId));
 }
 
 // Input must indeed be a PM, else throws.
-function keyOfPrivateMessage(msg: Message | Outbox, ownUserId: number): PmConversationKey {
+function keyOfPrivateMessage(msg: Message | Outbox, ownUserId: UserId): PmConversationKey {
   return keyOfUsers(recipientsOfPrivateMessage(msg).map(r => r.id), ownUserId);
 }
 

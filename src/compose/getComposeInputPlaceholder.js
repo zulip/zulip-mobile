@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import type { Narrow, UserOrBot, LocalizableText } from '../types';
+import type { Narrow, UserId, UserOrBot, LocalizableText } from '../types';
 import { caseNarrowDefault } from '../utils/narrow';
 
 export default (
   narrow: Narrow,
-  ownUserId: number,
+  ownUserId: UserId,
   usersById: Map<number, UserOrBot>,
 ): LocalizableText =>
   caseNarrowDefault(

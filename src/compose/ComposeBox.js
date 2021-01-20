@@ -20,6 +20,7 @@ import type {
   GetText,
   Subscription,
   Stream,
+  UserId,
   VideoChatProvider,
 } from '../types';
 import { connect } from '../react-redux';
@@ -60,7 +61,7 @@ import { getActiveUsersById, getOwnUserId } from '../users/userSelectors';
 
 type SelectorProps = {|
   auth: Auth,
-  ownUserId: number,
+  ownUserId: UserId,
   usersById: Map<number, UserOrBot>,
   isAdmin: boolean,
   isAnnouncementOnly: boolean,

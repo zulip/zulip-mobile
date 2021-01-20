@@ -83,7 +83,7 @@ export opaque type PmKeyUsers: $ReadOnlyArray<UserOrBot> = $ReadOnlyArray<UserOr
 // behavior by coincidence.
 const filterRecipients = (
   recipients: $ReadOnlyArray<PmRecipientUser>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): $ReadOnlyArray<PmRecipientUser> =>
   recipients.length === 1
     ? recipients
@@ -92,7 +92,7 @@ const filterRecipients = (
 // Like filterRecipients, but on User objects.
 const filterRecipientUsers = (
   recipients: $ReadOnlyArray<UserOrBot>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): $ReadOnlyArray<UserOrBot> =>
   recipients.length === 1
     ? recipients
@@ -101,7 +101,7 @@ const filterRecipientUsers = (
 // Like filterRecipients, but on user IDs directly.
 const filterRecipientsAsUserIds = (
   recipients: $ReadOnlyArray<UserId>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): UserId[] =>
   // prettier-ignore
   recipients.length === 1
@@ -123,7 +123,7 @@ export const normalizeRecipientsAsUserIds = (recipients: UserId[]) =>
 // anyway, so it doesn't matter.
 export const normalizeRecipientsAsUserIdsSansMe = (
   recipients: $ReadOnlyArray<UserId>,
-  ownUserId: number,
+  ownUserId: UserId,
 ) => normalizeRecipientsAsUserIds(filterRecipientsAsUserIds(recipients, ownUserId));
 
 /**
@@ -202,7 +202,7 @@ export const pmKeyRecipientsFromMessage = (
 export const pmKeyRecipientsFromIds = (
   userIds: $ReadOnlyArray<number>,
   allUsersById: Map<number, UserOrBot>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): PmKeyUsers | null => {
   const resultIds = userIds.filter(id => id !== ownUserId);
   if (resultIds.length === 0) {
@@ -223,7 +223,7 @@ export const pmKeyRecipientsFromIds = (
 export const pmKeyRecipientUsersFromMessage = (
   message: Message | Outbox,
   allUsersById: Map<number, UserOrBot>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): PmKeyUsers | null => {
   const userIds = recipientsOfPrivateMessage(message).map(r => r.id);
   return pmKeyRecipientsFromIds(userIds, allUsersById, ownUserId);
@@ -234,7 +234,7 @@ export const pmKeyRecipientUsersFromMessage = (
  */
 export const pmKeyRecipientsFromUsers = (
   users: $ReadOnlyArray<UserOrBot>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): PmKeyUsers => filterRecipientUsers(users, ownUserId);
 
 /**
@@ -257,7 +257,7 @@ export const pmKeyRecipientsFromUsers = (
 // and just the other user ID for non-self 1:1s; and in each case the list
 // is sorted numerically and encoded in ASCII-decimal, comma-separated.
 // See the `unread_msgs` data structure in `src/api/initialDataTypes.js`.
-export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: number): string => {
+export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: UserId): string => {
   if (message.type !== 'private') {
     throw new Error('pmUnreadsKeyFromMessage: expected PM, got stream message');
   }
@@ -291,7 +291,7 @@ export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: number): s
 // See comment on pmUnreadsKeyFromMessage for details on this form.
 export const pmUnreadsKeyFromPmKeyIds = (
   userIds: $ReadOnlyArray<UserId>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): string => {
   if (userIds.length === 1) {
     // A 1:1 PM.  Both forms include just one user: the other user if any,
@@ -338,7 +338,7 @@ export const pmTypingKeyFromPmKeyIds = (userIds: $ReadOnlyArray<UserId>): string
 //  * Self-PMs don't have typing-status events in the first place.
 export const pmTypingKeyFromRecipients = (
   recipients: $ReadOnlyArray<UserId>,
-  ownUserId: number,
+  ownUserId: UserId,
 ): string => pmTypingKeyFromPmKeyIds(filterRecipientsAsUserIds(recipients, ownUserId));
 
 export const isSameRecipient = (
