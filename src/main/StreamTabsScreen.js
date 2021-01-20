@@ -42,11 +42,11 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  navigation: MainTabsNavigationProp<'streams'>,
-  route: MainTabsRouteProp<'streams'>,
+  navigation: MainTabsNavigationProp<'stream-tabs'>,
+  route: MainTabsRouteProp<'stream-tabs'>,
 |}>;
 
-export default function StreamTabs(props: Props) {
+export default function StreamTabsScreen(props: Props) {
   return (
     <Tab.Navigator
       {...materialTopTabNavigatorConfig({

@@ -40,7 +40,7 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
 |}>;
 
-class SettingsCard extends PureComponent<Props> {
+class SettingsScreen extends PureComponent<Props> {
   handleThemeChange = () => {
     const { dispatch, theme } = this.props;
     dispatch(settingsChange({ theme: theme === 'default' ? 'night' : 'default' }));
@@ -93,4 +93,4 @@ class SettingsCard extends PureComponent<Props> {
 
 export default connect(state => ({
   theme: getSettings(state).theme,
-}))(SettingsCard);
+}))(SettingsScreen);
