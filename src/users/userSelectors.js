@@ -169,15 +169,30 @@ export const getActiveUsersById: Selector<Map<UserId, UserOrBot>> = createSelect
 );
 
 /**
+ * The user with the given user ID, or null if no such user is known.
+ *
+ * This works for any user in this Zulip org/realm, including deactivated
+ * users and cross-realm bots.  See `getAllUsers` for details.
+ *
+ * See `getUserForId` for a version which only ever returns a real user,
+ * throwing if none.  That makes it a bit simpler to use in contexts where
+ * we assume the relevant user must exist, which is true of most of the app.
+ */
+export const tryGetUserForId = (state: GlobalState, userId: UserId): UserOrBot | null =>
+  getAllUsersById(state).get(userId) ?? null;
+
+/**
  * The user with the given user ID.
  *
  * This works for any user in this Zulip org/realm, including deactivated
  * users and cross-realm bots.  See `getAllUsers` for details.
  *
  * Throws if no such user exists.
+ *
+ * See `tryGetUserForId` for a non-throwing version.
  */
 export const getUserForId = (state: GlobalState, userId: UserId): UserOrBot => {
-  const user = getAllUsersById(state).get(userId);
+  const user = tryGetUserForId(state, userId);
   if (!user) {
     throw new Error(`getUserForId: missing user: id ${userId}`);
   }
