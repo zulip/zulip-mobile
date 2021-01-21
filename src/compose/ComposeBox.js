@@ -136,7 +136,7 @@ class ComposeBox extends PureComponent<Props, State> {
   // TODO: Type-check this, once we've adjusted our `react-redux`
   // wrapper to do the right thing. It should be
   //
-  //   mentionWarnings = React.createRef<typeof MentionWarnings>()
+  //   mentionWarnings = React.createRef<React$ElementRef<MentionWarnings>>()
   //
   // but we need our `react-redux` wrapper to be aware of
   // `{ forwardRef: true }`, since we use that.
