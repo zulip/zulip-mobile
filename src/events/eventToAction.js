@@ -32,7 +32,7 @@ import {
   EVENT_SUBSCRIPTION,
   EVENT,
 } from '../actionConstants';
-import { getOwnUser, getOwnUserId, getAllUsersById } from '../users/userSelectors';
+import { getOwnUser, getOwnUserId, tryGetUserForId } from '../users/userSelectors';
 import { AvatarURL } from '../utils/avatar';
 import { getCurrentRealm } from '../account/accountsSelectors';
 
@@ -152,7 +152,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
 
         case 'update': {
           const { user_id: userId } = event.person;
-          const existingUser = getAllUsersById(state).get(userId);
+          const existingUser = tryGetUserForId(state, userId);
           if (!existingUser) {
             // If we get one of these events and don't have
             // information on the user, there's nothing to do about

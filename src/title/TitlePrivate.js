@@ -10,7 +10,7 @@ import { useSelector } from '../react-redux';
 import { Touchable, ViewPlaceholder } from '../common';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import ActivityText from './ActivityText';
-import { getAllUsersById } from '../users/userSelectors';
+import { tryGetUserForId } from '../users/userSelectors';
 import { navigateToAccountDetails } from '../nav/navActions';
 
 type Props = $ReadOnly<{
@@ -25,11 +25,11 @@ const componentStyles = createStyleSheet({
 
 export default function TitlePrivate(props: Props) {
   const { userId, color } = props;
-  const user = useSelector(state => getAllUsersById(state).get(userId));
-
+  const user = useSelector(state => tryGetUserForId(state, userId));
   if (!user) {
     return null;
   }
+
   return (
     <Touchable
       onPress={() => {
