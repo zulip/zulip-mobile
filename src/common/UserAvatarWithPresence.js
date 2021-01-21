@@ -6,7 +6,7 @@ import { createStyleSheet } from '../styles';
 import UserAvatar from './UserAvatar';
 import PresenceStatusIndicator from './PresenceStatusIndicator';
 import { AvatarURL } from '../utils/avatar';
-import { getUserForId } from '../users/userSelectors';
+import { tryGetUserForId } from '../users/userSelectors';
 import { useSelector } from '../react-redux';
 
 const styles = createStyleSheet({
@@ -70,6 +70,14 @@ export function UserAvatarWithPresenceById(
   |}>,
 ) {
   const { userId, ...restProps } = props;
-  const user = useSelector(state => getUserForId(state, userId));
+
+  const user = useSelector(state => tryGetUserForId(state, userId));
+  if (!user) {
+    // This condition really does happen, because UserItem can be passed a fake
+    // pseudo-user by PeopleAutocomplete, to represent `@all` or `@everyone`.
+    // TODO eliminate that, and use plain `getUserForId` here.
+    return null;
+  }
+
   return <UserAvatarWithPresence {...restProps} avatarUrl={user.avatar_url} email={user.email} />;
 }
