@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { type ComponentType, type ElementConfig, PureComponent } from 'react';
+import React, { type ElementConfig, PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { UserId, UserOrBot } from '../types';
@@ -36,8 +36,17 @@ type Props = $ReadOnly<{|
   onPress: UserOrBot => void,
 |}>;
 
-// See UserAvatarWithPresence for discussion of this inexact object type.
-class UserItem extends PureComponent<$ReadOnly<{ ...Props, ... }>> {
+/**
+ * A user represented with avatar and name, for use in a list.
+ *
+ * Prefer the default export `UserItem` over this component: it does the
+ * same thing but provides a more encapsulated interface.
+ *
+ * This component is potentially appropriate if displaying a synthetic fake
+ * user, one that doesn't exist in the database.  (But anywhere we're doing
+ * that, there's probably a better UI anyway than showing a fake user.)
+ */
+export class UserItemRaw extends PureComponent<Props> {
   static defaultProps = {
     isSelected: false,
     showEmail: false,
@@ -86,22 +95,8 @@ class UserItem extends PureComponent<$ReadOnly<{ ...Props, ... }>> {
   }
 }
 
-/**
- * A user represented with avatar and name, for use in a list.
- *
- * Prefer the default export `UserItem` over this component: it does the
- * same thing but provides a more encapsulated interface.
- *
- * This component is potentially appropriate if displaying a synthetic fake
- * user, one that doesn't exist in the database.  (But anywhere we're doing
- * that, there's probably a better UI anyway than showing a fake user.)
- */
-// Export the class with a tighter constraint on acceptable props, namely
-// that the type is an exact object type as usual.
-export const UserItemRaw = (UserItem: ComponentType<$Exact<ElementConfig<typeof UserItem>>>);
-
 type OuterProps = $ReadOnly<{|
-  ...$Exact<$Diff<ElementConfig<typeof UserItem>, { user: mixed }>>,
+  ...$Exact<$Diff<ElementConfig<typeof UserItemRaw>, { user: mixed }>>,
   userId: UserId,
 |}>;
 
@@ -113,6 +108,7 @@ type OuterProps = $ReadOnly<{|
  */
 // eslint-disable-next-line func-names
 export default function (props: OuterProps) {
-  const user = useSelector(state => getUserForId(state, props.userId));
-  return <UserItem {...props} user={user} />;
+  const { userId, ...restProps } = props;
+  const user = useSelector(state => getUserForId(state, userId));
+  return <UserItemRaw {...restProps} user={user} />;
 }
