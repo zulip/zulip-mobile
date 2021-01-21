@@ -1,4 +1,13 @@
 /* @flow strict-local */
+
+/**
+ * The code here in src/api is like a self-contained, independent
+ * library that describes the server API. Therefore, it shouldn't
+ * import code from outside src/api. We've made a few exceptions to
+ * this rule -- we sometimes import functions from src/utils for
+ * convenience -- but we're generally pretty consistent about it.
+ */
+
 import queueMarkAsRead from './queueMarkAsRead';
 import checkCompatibility from './checkCompatibility';
 import devFetchApiKey from './devFetchApiKey';
