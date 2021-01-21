@@ -107,7 +107,7 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export const updateTextInput = (textInput: typeof TextInput | null, text: string): void => {
+const updateTextInput = (textInput, text) => {
   if (textInput === null) {
     // Depending on the lifecycle events this function is called from,
     // this might not be set yet.
