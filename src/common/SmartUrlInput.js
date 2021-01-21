@@ -69,15 +69,19 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   state = {
     value: '',
   };
-  textInputRef = React.createRef<typeof TextInput>();
+
+  // We should replace the fixme with
+  // `React$ElementRef<typeof TextInput>` when we can. Currently, that
+  // would make `.current` be `any(implicit)`, which we don't want;
+  // this is probably down to bugs in Flow's special support for React.
+  textInputRef = React.createRef<$FlowFixMe>();
+
   unsubscribeFocusListener: () => void;
 
   componentDidMount() {
     this.unsubscribeFocusListener = this.props.navigation.addListener('focus', () => {
       if (this.textInputRef.current) {
-        // Should be fixed in RN v0.63 (#4245); see
-        // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
-        // $FlowFixMe
+        // `.current` is not type-checked; see definition.
         this.textInputRef.current.focus();
       }
     });
@@ -99,13 +103,11 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   urlPress = () => {
     const { textInputRef } = this;
     if (textInputRef.current) {
-      // Should be fixed in RN v0.63 (#4245); see
-      // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
-      // $FlowFixMe
+      // `.current` is not type-checked; see definition.
       textInputRef.current.blur();
       setTimeout(() => {
         if (textInputRef.current) {
-          // $FlowFixMe - same as above
+          // `.current` is not type-checked; see definition.
           textInputRef.current.focus();
         }
       }, 100);
