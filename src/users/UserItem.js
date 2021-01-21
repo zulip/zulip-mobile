@@ -2,7 +2,7 @@
 import React, { type ElementConfig, PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { UserId, UserOrBot } from '../types';
+import type { UserId } from '../types';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
@@ -28,12 +28,12 @@ const componentStyles = createStyleSheet({
   },
 });
 
-type Props = $ReadOnly<{|
-  user: UserOrBot,
+type Props<UserT> = $ReadOnly<{|
+  user: UserT,
   isSelected: boolean,
   showEmail: boolean,
   unreadCount?: number,
-  onPress: UserOrBot => void,
+  onPress: UserT => void,
 |}>;
 
 /**
@@ -46,7 +46,9 @@ type Props = $ReadOnly<{|
  * user, one that doesn't exist in the database.  (But anywhere we're doing
  * that, there's probably a better UI anyway than showing a fake user.)
  */
-export class UserItemRaw extends PureComponent<Props> {
+export class UserItemRaw<
+  UserT: { user_id: UserId, email: string, full_name: string, ... },
+> extends PureComponent<Props<UserT>> {
   static defaultProps = {
     isSelected: false,
     showEmail: false,
