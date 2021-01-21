@@ -1,13 +1,13 @@
 /* @flow strict-local */
-import React, { type ComponentType, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 
-import type { Dispatch, UserId } from '../types';
+import type { UserId } from '../types';
 import { createStyleSheet } from '../styles';
 import UserAvatar from './UserAvatar';
 import PresenceStatusIndicator from './PresenceStatusIndicator';
 import { AvatarURL } from '../utils/avatar';
 import { getUserForId } from '../users/userSelectors';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 
 const styles = createStyleSheet({
   status: {
@@ -36,11 +36,7 @@ type Props = $ReadOnly<{|
  * @prop [size] - Sets width and height in logical pixels.
  * @prop [onPress] - Event fired on pressing the component.
  */
-// The underlying class gets an inexact Props type to express that it's fine
-// for it to be passed extra props by the implementation of …ById.
-// We don't export it with that type, because we want exact Props types to
-// get the most effective type-checking.
-class UserAvatarWithPresence extends PureComponent<$ReadOnly<{ ...Props, ... }>> {
+export default class UserAvatarWithPresence extends PureComponent<Props> {
   render() {
     const { avatarUrl, email, size, onPress } = this.props;
 
@@ -57,10 +53,6 @@ class UserAvatarWithPresence extends PureComponent<$ReadOnly<{ ...Props, ... }>>
   }
 }
 
-// Export the class with a tighter constraint on acceptable props, namely
-// that the type is an exact object type as usual.
-export default (UserAvatarWithPresence: ComponentType<Props>);
-
 /**
  * A user avatar with a PresenceStatusIndicator in the corner.
  *
@@ -71,18 +63,13 @@ export default (UserAvatarWithPresence: ComponentType<Props>);
  * @prop [size]
  * @prop [onPress]
  */
-export const UserAvatarWithPresenceById = connect<{| avatarUrl: AvatarURL, email: string |}, _, _>(
-  (state, props) => {
-    const user = getUserForId(state, props.userId);
-    return { avatarUrl: user.avatar_url, email: user.email };
-  },
-)(
-  // The type inference embedded in our `connect` type relies on seeing the
-  // exact Props type for the underlying component, complete with all the
-  // expected props.  Normally that's just how our Props types are in the
-  // first place, but here we have to provide it explicitly.
-  /* eslint-disable flowtype/generic-spacing */
-  (UserAvatarWithPresence: ComponentType<
-    $ReadOnly<{| ...Props, dispatch: Dispatch, userId: UserId |}>,
-  >),
-);
+export function UserAvatarWithPresenceById(
+  props: $ReadOnly<{|
+    ...$Diff<Props, {| avatarUrl: mixed, email: mixed |}>,
+    userId: UserId,
+  |}>,
+) {
+  const { userId, ...restProps } = props;
+  const user = useSelector(state => getUserForId(state, userId));
+  return <UserAvatarWithPresence {...restProps} avatarUrl={user.avatar_url} email={user.email} />;
+}
