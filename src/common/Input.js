@@ -11,7 +11,12 @@ export type Props = $ReadOnly<{|
   ...React$ElementConfig<typeof TextInput>,
   placeholder: LocalizableText,
   onChangeText?: (text: string) => void,
-  textInputRef?: React$Ref<typeof TextInput>,
+
+  // We should replace the fixme with
+  // `React$ElementRef<typeof TextInput>` when we can. Currently, that
+  // would make `.current` be `any(implicit)`, which we don't want;
+  // this is probably down to bugs in Flow's special support for React.
+  textInputRef?: React$Ref<$FlowFixMe>,
 
   _: GetText,
 |}>;

@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Platform, View, TextInput, findNodeHandle } from 'react-native';
+import { Platform, View, findNodeHandle } from 'react-native';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
 import { type EdgeInsets } from 'react-native-safe-area-context';
@@ -114,9 +114,7 @@ const updateTextInput = (textInput, text) => {
     return;
   }
 
-  // Should be fixed in RN v0.63 (#4245); see
-  // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
-  // $FlowFixMe
+  // `textInput` is untyped; see definition.
   textInput.setNativeProps({ text });
 
   if (text.length === 0 && TextInputReset) {
@@ -130,8 +128,12 @@ class ComposeBox extends PureComponent<Props, State> {
   static contextType = ThemeContext;
   context: ThemeData;
 
-  messageInputRef = React.createRef<typeof TextInput>();
-  topicInputRef = React.createRef<typeof TextInput>();
+  // We should replace the fixme with
+  // `React$ElementRef<typeof TextInput>` when we can. Currently, that
+  // would make `.current` be `any(implicit)`, which we don't want;
+  // this is probably down to bugs in Flow's special support for React.
+  messageInputRef = React.createRef<$FlowFixMe>();
+  topicInputRef = React.createRef<$FlowFixMe>();
 
   // TODO: Type-check this, once we've adjusted our `react-redux`
   // wrapper to do the right thing. It should be
@@ -349,9 +351,7 @@ class ComposeBox extends PureComponent<Props, State> {
     }
     completeEditMessage();
     if (this.messageInputRef.current !== null) {
-      // Should be fixed in RN v0.63 (#4245); see
-      // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
-      // $FlowFixMe
+      // `.current` is not type-checked; see definition.
       this.messageInputRef.current.blur();
     }
   };
@@ -366,9 +366,7 @@ class ComposeBox extends PureComponent<Props, State> {
       this.setMessageInputValue(message);
       this.setTopicInputValue(topic);
       if (this.messageInputRef.current !== null) {
-        // Should be fixed in RN v0.63 (#4245); see
-        // https://github.com/zulip/zulip-mobile/issues/4245#issuecomment-695104351.
-        // $FlowFixMe
+        // `.current` is not type-checked; see definition.
         this.messageInputRef.current.focus();
       }
     }
