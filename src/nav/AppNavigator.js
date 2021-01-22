@@ -15,7 +15,7 @@ import type { GlobalParamList } from './globalTypes';
 import type { Narrow, Message, SharedData, UserId } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import AccountPickScreen from '../account/AccountPickScreen';
-import RealmScreen from '../start/RealmScreen';
+import RealmInputScreen from '../start/RealmInputScreen';
 import AuthScreen from '../start/AuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
 import MainTabsScreen from '../main/MainTabsScreen';
@@ -58,7 +58,7 @@ export type AppNavigatorParamList = {|
   'main-tabs': void,
   'message-reactions': {| reactionName?: string, messageId: number |},
   'password-auth': {| requireEmailFormat: boolean |},
-  realm: {| realm: URL | void, initial: boolean | void |},
+  'realm-input': {| realm: URL | void, initial: boolean | void |},
   search: void,
   users: void,
   language: void,
@@ -134,9 +134,9 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="message-reactions" component={MessageReactionsScreen} />
       <Stack.Screen name="password-auth" component={PasswordAuthScreen} />
       <Stack.Screen
-        name="realm"
-        component={RealmScreen}
-        initialParams={initialRouteName === 'realm' ? initialRouteParams : undefined}
+        name="realm-input"
+        component={RealmInputScreen}
+        initialParams={initialRouteName === 'realm-input' ? initialRouteParams : undefined}
       />
       <Stack.Screen name="search" component={SearchMessagesScreen} />
       <Stack.Screen name="users" component={UsersScreen} />
