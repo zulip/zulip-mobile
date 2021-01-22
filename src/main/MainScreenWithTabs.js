@@ -3,8 +3,7 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 
 import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
-import type { Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { getHaveServerData } from '../selectors';
 import styles, { ThemeContext } from '../styles';
 import { OfflineNotice, ZulipStatusBar } from '../common';
@@ -13,15 +12,13 @@ import MainTabs from './MainTabs';
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'main'>,
   route: AppNavigationRouteProp<'main'>,
-
-  dispatch: Dispatch,
-  haveServerData: boolean,
 |}>;
 
-function MainScreenWithTabs(props: Props) {
+export default function MainScreenWithTabs(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
+  const haveServerData = useSelector(getHaveServerData);
 
-  if (!props.haveServerData) {
+  if (!haveServerData) {
     // This can happen if the user has just logged out; this screen
     // is still visible for the duration of the nav transition, and
     // it's legitimate for its `render` to get called again.
@@ -40,7 +37,3 @@ function MainScreenWithTabs(props: Props) {
     </View>
   );
 }
-
-export default connect(state => ({
-  haveServerData: getHaveServerData(state),
-}))(MainScreenWithTabs);
