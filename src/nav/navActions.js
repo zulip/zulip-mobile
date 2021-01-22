@@ -61,10 +61,10 @@ export const navigateToGroupDetails = (
   recipients: $ReadOnlyArray<UserId>,
 ): GenericNavigationAction => StackActions.push('group-details', { recipients });
 
-export const navigateToRealmScreen = (
+export const navigateToRealmInputScreen = (
   args: { realm?: URL, initial?: boolean } = {},
 ): GenericNavigationAction =>
-  StackActions.push('realm', { realm: args.realm, initial: args.initial });
+  StackActions.push('realm-input', { realm: args.realm, initial: args.initial });
 
 export const navigateToLightbox = (src: string, message: Message): GenericNavigationAction =>
   StackActions.push('lightbox', { src, message });

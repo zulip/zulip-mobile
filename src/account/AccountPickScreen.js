@@ -10,7 +10,7 @@ import { hasAuth, getAccountStatuses } from '../selectors';
 import type { AccountStatus } from './accountsSelectors';
 import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
-import { navigateToRealmScreen, accountSwitch, removeAccount } from '../actions';
+import { navigateToRealmInputScreen, accountSwitch, removeAccount } from '../actions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'account-pick'>,
@@ -30,7 +30,7 @@ class AccountPickScreen extends PureComponent<Props> {
         dispatch(accountSwitch(index));
       });
     } else {
-      NavigationService.dispatch(navigateToRealmScreen({ realm }));
+      NavigationService.dispatch(navigateToRealmInputScreen({ realm }));
     }
   };
 
@@ -72,7 +72,7 @@ class AccountPickScreen extends PureComponent<Props> {
           <ZulipButton
             text="Add new account"
             onPress={() => {
-              NavigationService.dispatch(navigateToRealmScreen());
+              NavigationService.dispatch(navigateToRealmInputScreen());
             }}
           />
         </Centerer>

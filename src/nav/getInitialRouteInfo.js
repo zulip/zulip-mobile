@@ -24,15 +24,18 @@ export default (args: {|
       // send the user along to AuthScreen for that realm right
       // away. If this means you're on the AuthScreen when you don't
       // want to be (i.e., you want to choose a different realm),
-      // you can always go back to RealmScreen.
+      // you can always go back to RealmInputScreen.
       return {
-        initialRouteName: 'realm',
+        initialRouteName: 'realm-input',
         initialRouteParams: { initial: true, realm: accounts[0].realm },
       };
     } else {
       // Just go to the realm screen and have the user type out the
       // realm.
-      return { initialRouteName: 'realm', initialRouteParams: { initial: true, realm: undefined } };
+      return {
+        initialRouteName: 'realm-input',
+        initialRouteParams: { initial: true, realm: undefined },
+      };
     }
   }
 

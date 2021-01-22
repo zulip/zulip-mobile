@@ -18,8 +18,8 @@ type SelectorProps = {|
 |};
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'realm'>,
-  route: AppNavigationRouteProp<'realm'>,
+  navigation: AppNavigationProp<'realm-input'>,
+  route: AppNavigationRouteProp<'realm-input'>,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -31,7 +31,7 @@ type State = {|
   progress: boolean,
 |};
 
-class RealmScreen extends PureComponent<Props, State> {
+class RealmInputScreen extends PureComponent<Props, State> {
   state = {
     progress: false,
     realmInputValue: this.props.initialRealmInputValue,
@@ -70,7 +70,7 @@ class RealmScreen extends PureComponent<Props, State> {
     } catch (err) {
       this.setState({ error: 'Cannot connect to server' });
       /* eslint-disable no-console */
-      console.warn('RealmScreen: failed to connect to server:', err);
+      console.warn('RealmInputScreen: failed to connect to server:', err);
       console.warn(err.stack);
     } finally {
       this.setState({ progress: false });
@@ -136,4 +136,4 @@ class RealmScreen extends PureComponent<Props, State> {
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   initialRealmInputValue: props.route.params.realm?.toString() ?? '',
-}))(RealmScreen);
+}))(RealmInputScreen);
