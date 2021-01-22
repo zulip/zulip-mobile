@@ -37,7 +37,7 @@ export const navigateToChat = (narrow: Narrow): GenericNavigationAction =>
 
 export const navigateToUsersScreen = (): GenericNavigationAction => StackActions.push('users');
 
-export const navigateToSearch = (): GenericNavigationAction => StackActions.push('search');
+export const navigateToSearch = (): GenericNavigationAction => StackActions.push('search-messages');
 
 export const navigateToEmojiPicker = (messageId: number): GenericNavigationAction =>
   StackActions.push('emoji-picker', { messageId });

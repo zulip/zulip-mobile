@@ -13,8 +13,8 @@ import { getAuth } from '../account/accountsSelectors';
 import { fetchMessages } from '../message/fetchActions';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'search'>,
-  route: AppNavigationRouteProp<'search'>,
+  navigation: AppNavigationProp<'search-messages'>,
+  route: AppNavigationRouteProp<'search-messages'>,
 
   auth: Auth,
   dispatch: Dispatch,

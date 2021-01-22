@@ -59,7 +59,7 @@ export type AppNavigatorParamList = {|
   'message-reactions': {| reactionName?: string, messageId: number |},
   'password-auth': {| requireEmailFormat: boolean |},
   'realm-input': {| realm: URL | void, initial: boolean | void |},
-  search: void,
+  'search-messages': void,
   users: void,
   language: void,
   lightbox: {| src: string, message: Message |},
@@ -138,7 +138,7 @@ export default function AppNavigator(props: Props) {
         component={RealmInputScreen}
         initialParams={initialRouteName === 'realm-input' ? initialRouteParams : undefined}
       />
-      <Stack.Screen name="search" component={SearchMessagesScreen} />
+      <Stack.Screen name="search-messages" component={SearchMessagesScreen} />
       <Stack.Screen name="users" component={UsersScreen} />
       <Stack.Screen name="language" component={LanguageScreen} />
       <Stack.Screen name="lightbox" component={LightboxScreen} />
