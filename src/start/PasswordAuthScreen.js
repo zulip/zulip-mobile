@@ -27,8 +27,8 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'password'>,
-  route: AppNavigationRouteProp<'password'>,
+  navigation: AppNavigationProp<'password-auth'>,
+  route: AppNavigationRouteProp<'password-auth'>,
 
   partialAuth: Auth,
   dispatch: Dispatch,

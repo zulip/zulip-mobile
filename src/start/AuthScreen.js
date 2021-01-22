@@ -29,7 +29,7 @@ import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
 import { encodeParamsForUrl } from '../utils/url';
 import * as webAuth from './webAuth';
-import { loginSuccess, navigateToDevAuth, navigateToPassword } from '../actions';
+import { loginSuccess, navigateToDevAuth, navigateToPasswordAuth } from '../actions';
 import IosCompliantAppleAuthButton from './IosCompliantAppleAuthButton';
 import openLink from '../utils/openLink';
 
@@ -238,7 +238,9 @@ class AuthScreen extends PureComponent<Props> {
 
   handlePassword = () => {
     const { serverSettings } = this.props.route.params;
-    NavigationService.dispatch(navigateToPassword(serverSettings.require_email_format_usernames));
+    NavigationService.dispatch(
+      navigateToPasswordAuth(serverSettings.require_email_format_usernames),
+    );
   };
 
   handleNativeAppleAuth = async () => {
