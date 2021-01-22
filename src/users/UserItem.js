@@ -33,7 +33,7 @@ type Props<UserT> = $ReadOnly<{|
   isSelected: boolean,
   showEmail: boolean,
   unreadCount?: number,
-  onPress: UserT => void,
+  onPress?: UserT => void,
 |}>;
 
 /**

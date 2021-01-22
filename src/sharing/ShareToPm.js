@@ -136,7 +136,7 @@ class ShareToPm extends React.Component<Props, State> {
     }
     const preview = [];
     selectedRecipients.forEach(userId => {
-      preview.push(<UserItem userId={userId} onPress={() => {}} key={userId} />);
+      preview.push(<UserItem userId={userId} key={userId} />);
     });
     return preview;
   };
