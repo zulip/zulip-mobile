@@ -18,7 +18,7 @@ import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
 import AuthScreen from '../start/AuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
-import MainScreenWithTabs from '../main/MainScreenWithTabs';
+import MainTabs from '../main/MainTabs';
 import MessageReactionList from '../reactions/MessageReactionList';
 import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
 import GroupDetailsScreen from '../chat/GroupDetailsScreen';
@@ -124,7 +124,7 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="loading" component={LoadingScreen} />
       <Stack.Screen
         name="main"
-        component={MainScreenWithTabs}
+        component={MainTabs}
         options={{
           // So we don't show a transition animation between 'loading'
           // and 'main'.
