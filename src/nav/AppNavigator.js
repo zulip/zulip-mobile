@@ -19,7 +19,7 @@ import RealmScreen from '../start/RealmScreen';
 import AuthScreen from '../start/AuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
 import MainTabs from '../main/MainTabs';
-import MessageReactionList from '../reactions/MessageReactionList';
+import MessageReactionsScreen from '../reactions/MessageReactionsScreen';
 import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
 import GroupDetailsScreen from '../chat/GroupDetailsScreen';
 import SearchMessagesScreen from '../search/SearchMessagesScreen';
@@ -131,7 +131,7 @@ export default function AppNavigator(props: Props) {
           animationEnabled: false,
         }}
       />
-      <Stack.Screen name="message-reactions" component={MessageReactionList} />
+      <Stack.Screen name="message-reactions" component={MessageReactionsScreen} />
       <Stack.Screen name="password" component={PasswordAuthScreen} />
       <Stack.Screen
         name="realm"

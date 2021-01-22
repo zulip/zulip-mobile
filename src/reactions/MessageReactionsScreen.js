@@ -45,12 +45,12 @@ type Props = $ReadOnly<{|
  * The `reactionName` nav-prop controls what reaction is focused when the
  * screen first appears.
  */
-class MessageReactionList extends PureComponent<Props> {
+class MessageReactionsScreen extends PureComponent<Props> {
   componentDidMount() {
     if (this.props.message === undefined) {
       const { messageId } = this.props.route.params;
       logging.warn(
-        'MessageReactionList unexpectedly created without props.message; '
+        'MessageReactionsScreen unexpectedly created without props.message; '
           + 'message with messageId is missing in state.messages',
         { messageId },
       );
@@ -140,4 +140,4 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   // message *can* be undefined; see componentDidUpdate for explanation and handling.
   message: state.messages.get(props.route.params.messageId),
   ownUserId: getOwnUserId(state),
-}))(MessageReactionList);
+}))(MessageReactionsScreen);

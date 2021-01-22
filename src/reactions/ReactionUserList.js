@@ -14,7 +14,7 @@ type Props = $ReadOnly<{|
 /**
  * Component showing who made a given reaction on a given message.
  *
- * Used within `MessageReactionList`.
+ * Used within `MessageReactionsScreen`.
  */
 export default function ReactionUserList(props: Props) {
   const { reactedUserIds } = props;
