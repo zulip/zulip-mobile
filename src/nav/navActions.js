@@ -22,7 +22,7 @@ export const resetToLoading = (): GenericNavigationAction =>
   });
 
 export const resetToAccountPicker = (): GenericNavigationAction =>
-  CommonActions.reset({ index: 0, routes: [{ name: 'account' }] });
+  CommonActions.reset({ index: 0, routes: [{ name: 'account-pick' }] });
 
 export const resetToMainTabs = (): GenericNavigationAction =>
   CommonActions.reset({ index: 0, routes: [{ name: 'main-tabs' }] });
@@ -51,7 +51,8 @@ export const navigateToDev = (): GenericNavigationAction => StackActions.push('d
 export const navigateToPassword = (requireEmailFormat: boolean): GenericNavigationAction =>
   StackActions.push('password', { requireEmailFormat });
 
-export const navigateToAccountPicker = (): GenericNavigationAction => StackActions.push('account');
+export const navigateToAccountPicker = (): GenericNavigationAction =>
+  StackActions.push('account-pick');
 
 export const navigateToAccountDetails = (userId: UserId): GenericNavigationAction =>
   StackActions.push('account-details', { userId });
