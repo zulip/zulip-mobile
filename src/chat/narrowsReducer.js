@@ -72,8 +72,11 @@ const eventNewMessage = (state, action) => {
       if (!action.caughtUp[key]?.newer) {
         // Don't add a message to the end of the list unless we know
         // it's the most recent message, i.e., unless we know we're
-        // currently looking at (caught up with) the newest messages in
-        // the narrow.
+        // currently looking at (caught up with) the newest messages
+        // in the narrow. We don't want to accidentally show a message
+        // at the end of a message list if there might be messages
+        // between the currently latest-shown message and this
+        // message.
         return; // i.e., continue
       }
 
