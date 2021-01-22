@@ -3,7 +3,7 @@
 import React, { useContext } from 'react';
 import { View } from 'react-native';
 
-import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs';
+import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { ThemeContext, createStyleSheet } from '../styles';
 import { useSelector, useDispatch } from '../react-redux';
