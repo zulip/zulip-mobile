@@ -48,8 +48,8 @@ export const navigateToAuth = (
 
 export const navigateToDevAuth = (): GenericNavigationAction => StackActions.push('dev-auth');
 
-export const navigateToPassword = (requireEmailFormat: boolean): GenericNavigationAction =>
-  StackActions.push('password', { requireEmailFormat });
+export const navigateToPasswordAuth = (requireEmailFormat: boolean): GenericNavigationAction =>
+  StackActions.push('password-auth', { requireEmailFormat });
 
 export const navigateToAccountPicker = (): GenericNavigationAction =>
   StackActions.push('account-pick');

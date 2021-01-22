@@ -57,7 +57,7 @@ export type AppNavigatorParamList = {|
   loading: void,
   'main-tabs': void,
   'message-reactions': {| reactionName?: string, messageId: number |},
-  password: {| requireEmailFormat: boolean |},
+  'password-auth': {| requireEmailFormat: boolean |},
   realm: {| realm: URL | void, initial: boolean | void |},
   search: void,
   users: void,
@@ -132,7 +132,7 @@ export default function AppNavigator(props: Props) {
         }}
       />
       <Stack.Screen name="message-reactions" component={MessageReactionsScreen} />
-      <Stack.Screen name="password" component={PasswordAuthScreen} />
+      <Stack.Screen name="password-auth" component={PasswordAuthScreen} />
       <Stack.Screen
         name="realm"
         component={RealmScreen}
