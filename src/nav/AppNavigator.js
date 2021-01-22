@@ -52,7 +52,7 @@ export type AppNavigatorParamList = {|
   'group-details': {| recipients: $ReadOnlyArray<UserId> |},
   auth: {| serverSettings: ApiResponseServerSettings |},
   chat: {| narrow: Narrow |},
-  dev: void,
+  'dev-auth': void,
   'emoji-picker': {| messageId: number |},
   loading: void,
   'main-tabs': void,
@@ -119,7 +119,7 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="group-details" component={GroupDetailsScreen} />
       <Stack.Screen name="auth" component={AuthScreen} />
       <Stack.Screen name="chat" component={ChatScreen} />
-      <Stack.Screen name="dev" component={DevAuthScreen} />
+      <Stack.Screen name="dev-auth" component={DevAuthScreen} />
       <Stack.Screen name="emoji-picker" component={EmojiPickerScreen} />
       <Stack.Screen name="loading" component={LoadingScreen} />
       <Stack.Screen

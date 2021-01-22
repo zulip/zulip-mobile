@@ -46,7 +46,7 @@ export const navigateToAuth = (
   serverSettings: ApiResponseServerSettings,
 ): GenericNavigationAction => StackActions.push('auth', { serverSettings });
 
-export const navigateToDev = (): GenericNavigationAction => StackActions.push('dev');
+export const navigateToDevAuth = (): GenericNavigationAction => StackActions.push('dev-auth');
 
 export const navigateToPassword = (requireEmailFormat: boolean): GenericNavigationAction =>
   StackActions.push('password', { requireEmailFormat });

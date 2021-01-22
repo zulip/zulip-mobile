@@ -29,7 +29,7 @@ import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
 import { encodeParamsForUrl } from '../utils/url';
 import * as webAuth from './webAuth';
-import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
+import { loginSuccess, navigateToDevAuth, navigateToPassword } from '../actions';
 import IosCompliantAppleAuthButton from './IosCompliantAppleAuthButton';
 import openLink from '../utils/openLink';
 
@@ -233,7 +233,7 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   handleDevAuth = () => {
-    NavigationService.dispatch(navigateToDev());
+    NavigationService.dispatch(navigateToDevAuth());
   };
 
   handlePassword = () => {
