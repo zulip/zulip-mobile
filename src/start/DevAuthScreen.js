@@ -28,8 +28,8 @@ const componentStyles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'dev'>,
-  route: AppNavigationRouteProp<'dev'>,
+  navigation: AppNavigationProp<'dev-auth'>,
+  route: AppNavigationRouteProp<'dev-auth'>,
 
   partialAuth: Auth,
   dispatch: Dispatch,
