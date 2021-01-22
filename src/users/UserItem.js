@@ -62,12 +62,16 @@ export class UserItemRaw<
   };
 
   render() {
-    const { user, isSelected, unreadCount, showEmail } = this.props;
+    const { user, isSelected, onPress, unreadCount, showEmail } = this.props;
 
     return (
-      <Touchable onPress={this.handlePress}>
+      <Touchable onPress={onPress && this.handlePress}>
         <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
-          <UserAvatarWithPresenceById size={48} userId={user.user_id} onPress={this.handlePress} />
+          <UserAvatarWithPresenceById
+            size={48}
+            userId={user.user_id}
+            onPress={onPress && this.handlePress}
+          />
           <View style={componentStyles.textWrapper}>
             <RawLabel
               style={[componentStyles.text, isSelected && componentStyles.selectedText]}
