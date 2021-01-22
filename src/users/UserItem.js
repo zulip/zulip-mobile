@@ -56,10 +56,7 @@ export class UserItemRaw<
 
   handlePress = () => {
     const { user, onPress } = this.props;
-    // TODO cut this `user.email` condition -- it should never trigger, and
-    //   looks like a fudge for the possibility of data coming from
-    //   the late NULL_USER
-    if (user.email && onPress) {
+    if (onPress) {
       onPress(user);
     }
   };
