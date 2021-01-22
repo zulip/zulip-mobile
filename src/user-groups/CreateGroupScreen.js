@@ -17,8 +17,8 @@ type SelectorProps = {|
 |};
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'group'>,
-  route: AppNavigationRouteProp<'group'>,
+  navigation: AppNavigationProp<'create-group'>,
+  route: AppNavigationRouteProp<'create-group'>,
 
   dispatch: Dispatch,
   ...SelectorProps,
