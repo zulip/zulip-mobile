@@ -11,8 +11,8 @@ import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'stream-create'>,
-  route: AppNavigationRouteProp<'stream-create'>,
+  navigation: AppNavigationProp<'create-stream'>,
+  route: AppNavigationRouteProp<'create-stream'>,
 
   dispatch: Dispatch,
   ownEmail: string,
