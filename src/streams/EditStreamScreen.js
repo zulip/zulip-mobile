@@ -15,8 +15,8 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'stream-edit'>,
-  route: AppNavigationRouteProp<'stream-edit'>,
+  navigation: AppNavigationProp<'edit-stream'>,
+  route: AppNavigationRouteProp<'edit-stream'>,
 
   dispatch: Dispatch,
   ...SelectorProps,

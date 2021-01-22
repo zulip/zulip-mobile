@@ -95,7 +95,7 @@ export const navigateToCreateStream = (): GenericNavigationAction =>
   StackActions.push('stream-create');
 
 export const navigateToEditStream = (streamId: number): GenericNavigationAction =>
-  StackActions.push('stream-edit', { streamId });
+  StackActions.push('edit-stream', { streamId });
 
 export const navigateToStreamSubscribers = (streamId: number): GenericNavigationAction =>
   StackActions.push('invite-users', { streamId });
