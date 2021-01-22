@@ -72,7 +72,7 @@ export type AppNavigatorParamList = {|
   debug: void,
   'stream-settings': {| streamId: number |},
   'edit-stream': {| streamId: number |},
-  'stream-create': void,
+  'create-stream': void,
   topics: {| streamId: number |},
   notifications: void,
   legal: void,
@@ -151,7 +151,7 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="debug" component={DebugScreen} />
       <Stack.Screen name="stream-settings" component={StreamSettingsScreen} />
       <Stack.Screen name="edit-stream" component={EditStreamScreen} />
-      <Stack.Screen name="stream-create" component={CreateStreamScreen} />
+      <Stack.Screen name="create-stream" component={CreateStreamScreen} />
       <Stack.Screen name="topics" component={TopicListScreen} />
       <Stack.Screen name="notifications" component={NotificationsScreen} />
       <Stack.Screen name="legal" component={LegalScreen} />
