@@ -71,7 +71,8 @@ export const navigateToLightbox = (src: string, message: Message): GenericNaviga
 
 export const navigateToLanguage = (): GenericNavigationAction => StackActions.push('language');
 
-export const navigateToCreateGroup = (): GenericNavigationAction => StackActions.push('group');
+export const navigateToCreateGroup = (): GenericNavigationAction =>
+  StackActions.push('create-group');
 
 export const navigateToDiagnostics = (): GenericNavigationAction =>
   StackActions.push('diagnostics');

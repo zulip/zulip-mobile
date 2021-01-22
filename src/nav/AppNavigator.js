@@ -63,7 +63,7 @@ export type AppNavigatorParamList = {|
   users: void,
   language: void,
   lightbox: {| src: string, message: Message |},
-  group: void,
+  'create-group': void,
   'invite-users': {| streamId: number |},
   diagnostics: void,
   variables: void,
@@ -142,7 +142,7 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="users" component={UsersScreen} />
       <Stack.Screen name="language" component={LanguageScreen} />
       <Stack.Screen name="lightbox" component={LightboxScreen} />
-      <Stack.Screen name="group" component={CreateGroupScreen} />
+      <Stack.Screen name="create-group" component={CreateGroupScreen} />
       <Stack.Screen name="invite-users" component={InviteUsersScreen} />
       <Stack.Screen name="diagnostics" component={DiagnosticsScreen} />
       <Stack.Screen name="variables" component={VariablesScreen} />
