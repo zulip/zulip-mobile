@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { MainTabsNavigationProp, MainTabsRouteProp } from './MainTabs';
+import type { MainTabsNavigationProp, MainTabsRouteProp } from './MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';

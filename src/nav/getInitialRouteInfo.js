@@ -45,5 +45,5 @@ export default (args: {|
 
   // Great: we have an active, logged-in account, and server data for it.
   // Show the main UI.
-  return { initialRouteName: 'main' };
+  return { initialRouteName: 'main-tabs' };
 };

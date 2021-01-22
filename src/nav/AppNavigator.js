@@ -18,7 +18,7 @@ import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
 import AuthScreen from '../start/AuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
-import MainTabs from '../main/MainTabs';
+import MainTabsScreen from '../main/MainTabsScreen';
 import MessageReactionsScreen from '../reactions/MessageReactionsScreen';
 import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
 import GroupDetailsScreen from '../chat/GroupDetailsScreen';
@@ -55,7 +55,7 @@ export type AppNavigatorParamList = {|
   dev: void,
   'emoji-picker': {| messageId: number |},
   loading: void,
-  main: void,
+  'main-tabs': void,
   'message-reactions': {| reactionName?: string, messageId: number |},
   password: {| requireEmailFormat: boolean |},
   realm: {| realm: URL | void, initial: boolean | void |},
@@ -123,8 +123,8 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="emoji-picker" component={EmojiPickerScreen} />
       <Stack.Screen name="loading" component={LoadingScreen} />
       <Stack.Screen
-        name="main"
-        component={MainTabs}
+        name="main-tabs"
+        component={MainTabsScreen}
         options={{
           // So we don't show a transition animation between 'loading'
           // and 'main'.

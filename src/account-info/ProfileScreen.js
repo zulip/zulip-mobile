@@ -2,7 +2,7 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
 
-import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs';
+import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';

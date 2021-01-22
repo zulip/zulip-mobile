@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { ScrollView } from 'react-native';
 
-import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabs';
+import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { createStyleSheet } from '../styles';

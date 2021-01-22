@@ -9,7 +9,7 @@ import {
 import type { RouteProp } from '@react-navigation/native';
 
 import { createStyleSheet } from '../styles';
-import type { MainTabsNavigationProp, MainTabsRouteProp } from './MainTabs';
+import type { MainTabsNavigationProp, MainTabsRouteProp } from './MainTabsScreen';
 import type { GlobalParamList } from '../nav/globalTypes';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import SubscriptionsCard from '../streams/SubscriptionsCard';

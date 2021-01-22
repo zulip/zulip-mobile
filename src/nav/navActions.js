@@ -25,7 +25,7 @@ export const resetToAccountPicker = (): GenericNavigationAction =>
   CommonActions.reset({ index: 0, routes: [{ name: 'account' }] });
 
 export const resetToMainTabs = (): GenericNavigationAction =>
-  CommonActions.reset({ index: 0, routes: [{ name: 'main' }] });
+  CommonActions.reset({ index: 0, routes: [{ name: 'main-tabs' }] });
 
 /*
  * Ordinary "push" actions that will push to the stack.

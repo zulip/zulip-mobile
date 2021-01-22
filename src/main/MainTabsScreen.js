@@ -45,11 +45,11 @@ const Tab = createBottomTabNavigator<
 >();
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'main'>,
-  route: AppNavigationRouteProp<'main'>,
+  navigation: AppNavigationProp<'main-tabs'>,
+  route: AppNavigationRouteProp<'main-tabs'>,
 |}>;
 
-export default function MainTabs(props: Props) {
+export default function MainTabsScreen(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
   const haveServerData = useSelector(getHaveServerData);
 
