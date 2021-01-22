@@ -13,8 +13,8 @@ import AccountList from './AccountList';
 import { navigateToRealmScreen, accountSwitch, removeAccount } from '../actions';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'account'>,
-  route: AppNavigationRouteProp<'account'>,
+  navigation: AppNavigationProp<'account-pick'>,
+  route: AppNavigationRouteProp<'account-pick'>,
 
   accounts: $ReadOnlyArray<AccountStatus>,
   dispatch: Dispatch,

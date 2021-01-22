@@ -17,7 +17,7 @@ export default (args: {|
     if (accounts.length > 1) {
       // We can't guess which account, of multiple, the user wants
       // to use. Let them pick one.
-      return { initialRouteName: 'account' };
+      return { initialRouteName: 'account-pick' };
     } else if (accounts.length === 1) {
       // We already know the realm, so give that to the realm
       // screen. If that screen finds that the realm is valid, it'll

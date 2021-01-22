@@ -47,7 +47,7 @@ import UserStatusScreen from '../user-status/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
 
 export type AppNavigatorParamList = {|
-  account: void,
+  'account-pick': void,
   'account-details': {| userId: UserId |},
   'group-details': {| recipients: $ReadOnlyArray<UserId> |},
   auth: {| serverSettings: ApiResponseServerSettings |},
@@ -114,7 +114,7 @@ export default function AppNavigator(props: Props) {
         }),
       }}
     >
-      <Stack.Screen name="account" component={AccountPickScreen} />
+      <Stack.Screen name="account-pick" component={AccountPickScreen} />
       <Stack.Screen name="account-details" component={AccountDetailsScreen} />
       <Stack.Screen name="group-details" component={GroupDetailsScreen} />
       <Stack.Screen name="auth" component={AuthScreen} />
