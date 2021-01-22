@@ -18,8 +18,8 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'topics'>,
-  route: AppNavigationRouteProp<'topics'>,
+  navigation: AppNavigationProp<'topic-list'>,
+  route: AppNavigationRouteProp<'topic-list'>,
 
   dispatch: Dispatch,
   ...SelectorProps,

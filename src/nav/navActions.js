@@ -89,7 +89,7 @@ export const navigateToStream = (streamId: number): GenericNavigationAction =>
   StackActions.push('stream-settings', { streamId });
 
 export const navigateToTopicList = (streamId: number): GenericNavigationAction =>
-  StackActions.push('topics', { streamId });
+  StackActions.push('topic-list', { streamId });
 
 export const navigateToCreateStream = (): GenericNavigationAction =>
   StackActions.push('create-stream');
