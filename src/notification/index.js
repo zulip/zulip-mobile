@@ -4,7 +4,7 @@ import NotificationsIOS from 'react-native-notifications';
 
 import type { Notification } from './types';
 import type { Auth, Dispatch, Identity, Narrow, UserId, UserOrBot } from '../types';
-import { topicNarrow, pmNarrowFromUsers, pm1to1NarrowFromUser } from '../utils/narrow';
+import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromRecipients } from '../utils/narrow';
 import type { JSONable, JSONableDict } from '../utils/jsonable';
 import * as api from '../api';
 import * as logging from '../utils/logging';
@@ -17,7 +17,7 @@ import {
 import { identityOfAuth } from '../account/accountMisc';
 import { fromAPNs } from './extract';
 import { tryParseUrl } from '../utils/url';
-import { pmKeyRecipientUsersFromIds } from '../utils/recipient';
+import { pmKeyRecipientsFromIds } from '../utils/recipient';
 import { makeUserId } from '../api/idTypes';
 
 /**
@@ -86,7 +86,6 @@ export const getAccountFromNotificationData = (
 
 export const getNarrowFromNotificationData = (
   data: Notification,
-  allUsersById: Map<UserId, UserOrBot>,
   allUsersByEmail: Map<string, UserOrBot>,
   ownUserId: UserId,
 ): Narrow | null => {
@@ -109,8 +108,7 @@ export const getNarrowFromNotificationData = (
   }
 
   const ids = data.pm_users.split(',').map(s => makeUserId(parseInt(s, 10)));
-  const users = pmKeyRecipientUsersFromIds(ids, allUsersById, ownUserId);
-  return users === null ? null : pmNarrowFromUsers(users);
+  return pmNarrowFromRecipients(pmKeyRecipientsFromIds(ids, ownUserId));
 };
 
 const getInitialNotification = async (): Promise<Notification | null> => {
