@@ -147,6 +147,17 @@ export const pmUiRecipientsFromMessage = (
 /**
  * The list of users to identify a PM conversation by in our data structures.
  *
+ * This produces the same list of users as `pmKeyRecipientsFromMessage`,
+ * just from a different form of input.  See there for more discussion.
+ */
+export const pmKeyRecipientsFromIds = (
+  userIds: $ReadOnlyArray<UserId>,
+  ownUserId: UserId,
+): PmKeyRecipients => filterRecipientsAsUserIds(userIds, ownUserId);
+
+/**
+ * The list of users to identify a PM conversation by in our data structures.
+ *
  * This list is sorted by user ID.
  *
  * Typically we go on to take either the emails or user IDs in the result,
@@ -161,10 +172,13 @@ export const pmUiRecipientsFromMessage = (
  *    make keys to identify narrows in general, including stream and topic
  *    narrows.
  *
- *  * `normalizeRecipients`, `normalizeRecipientsSansMe`, and
- *    `pmUnreadsKeyFromMessage`, which do the same job as this function with
- *    slight variations, and which we variously use in different places in
- *    the app.
+ *  * The other `pmKeyRecipients…` functions in this module, which do the
+ *    same computation but with different forms of input and output.
+ *
+ *  * `normalizeRecipientsAsUserIds`, `normalizeRecipientsAsUserIdsSansMe`,
+ *    and `pmUnreadsKeyFromMessage`, which do the same job as this function
+ *    with slight variations, and which we variously use in different places
+ *    in the app.
  *
  *    It would be great to unify on a single version, as the variation is a
  *    possible source of bugs.
@@ -182,7 +196,7 @@ export const pmKeyRecipientsFromMessage = (
   if (message.type !== 'private') {
     throw new Error('pmKeyRecipientsFromMessage: expected PM, got stream message');
   }
-  return filterRecipientsAsUserIds(recipientsOfPrivateMessage(message).map(r => r.id), ownUserId);
+  return pmKeyRecipientsFromIds(recipientsOfPrivateMessage(message).map(r => r.id), ownUserId);
 };
 
 /**
