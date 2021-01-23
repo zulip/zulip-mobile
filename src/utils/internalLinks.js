@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import { addBreadcrumb } from '@sentry/react-native';
 import { makeUserId } from '../api/idTypes';
-import type { Narrow, Stream, UserId, UserOrBot } from '../types';
-import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromUsers } from './narrow';
-import { pmKeyRecipientUsersFromIds } from './recipient';
+import type { Narrow, Stream, UserId } from '../types';
+import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromRecipients } from './narrow';
+import { pmKeyRecipientsFromIds } from './recipient';
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
@@ -153,7 +153,6 @@ const parsePmOperand = operand => {
 export const getNarrowFromLink = (
   url: string,
   realm: URL,
-  allUsersById: Map<UserId, UserOrBot>,
   streamsById: Map<number, Stream>,
   ownUserId: UserId,
 ): Narrow | null => {
@@ -168,8 +167,7 @@ export const getNarrowFromLink = (
       //   else.  In particular this will foil you if, say, you try to give
       //   someone else in the conversation a link to a particular message.
       const ids = parsePmOperand(paths[1]);
-      const users = pmKeyRecipientUsersFromIds(ids, allUsersById, ownUserId);
-      return users === null ? null : pmNarrowFromUsers(users);
+      return pmNarrowFromRecipients(pmKeyRecipientsFromIds(ids, ownUserId));
     }
     case 'topic':
       return topicNarrow(parseStreamOperand(paths[1], streamsById), parseTopicOperand(paths[3]));

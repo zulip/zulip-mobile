@@ -1,6 +1,5 @@
 /* @flow strict-local */
 
-import type { UserId, UserOrBot } from '../../types';
 import { streamNarrow, topicNarrow, pmNarrowFromUsersUnsafe, STARRED_NARROW } from '../narrow';
 import {
   isInternalLink,
@@ -252,9 +251,6 @@ describe('decodeHashComponent', () => {
 
 describe('getNarrowFromLink', () => {
   const [userB, userC] = [eg.makeUser(), eg.makeUser()];
-  const allUsersById: Map<UserId, UserOrBot> = new Map(
-    [eg.selfUser, userB, userC].map(u => [u.user_id, u]),
-  );
 
   const streamGeneral = eg.makeStream({ name: 'general' });
 
@@ -262,7 +258,6 @@ describe('getNarrowFromLink', () => {
     getNarrowFromLink(
       url,
       new URL('https://example.com'),
-      allUsersById,
       new Map(streams.map(s => [s.stream_id, s])),
       eg.selfUser.user_id,
     );
@@ -394,12 +389,6 @@ describe('getNarrowFromLink', () => {
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(
       pmNarrowFromUsersUnsafe([userB, userC]),
     );
-  });
-
-  test('if any of the user ids are not found: return null', () => {
-    const otherId = 1 + Math.max(...allUsersById.keys());
-    const ids = `${userB.user_id},${otherId}`;
-    expect(get(`https://example.com/#narrow/pm-with/${ids}-group`)).toEqual(null);
   });
 
   test('on a special link', () => {
