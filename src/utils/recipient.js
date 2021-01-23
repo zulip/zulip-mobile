@@ -196,7 +196,7 @@ export const pmKeyRecipientsFromMessage = (
  *
  * Returns null when a user couldn't be found in the given `allUsersById`.
  */
-export const pmKeyRecipientsFromIds = (
+export const pmKeyRecipientUsersFromIds = (
   userIds: $ReadOnlyArray<UserId>,
   allUsersById: Map<UserId, UserOrBot>,
   ownUserId: UserId,
@@ -208,7 +208,7 @@ export const pmKeyRecipientsFromIds = (
 
   const users = mapOrNull(resultIds, id => allUsersById.get(id));
   if (!users) {
-    logging.warn('pmKeyRecipientsFromIds: missing data on user');
+    logging.warn('pmKeyRecipientUsersFromIds: missing data on user');
     return null;
   }
   return users.sort((a, b) => a.user_id - b.user_id);
@@ -223,7 +223,7 @@ export const pmKeyRecipientUsersFromMessage = (
   ownUserId: UserId,
 ): PmKeyUsers | null => {
   const userIds = recipientsOfPrivateMessage(message).map(r => r.id);
-  return pmKeyRecipientsFromIds(userIds, allUsersById, ownUserId);
+  return pmKeyRecipientUsersFromIds(userIds, allUsersById, ownUserId);
 };
 
 /**
