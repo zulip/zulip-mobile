@@ -39,6 +39,7 @@ class RealmScreen extends PureComponent<Props, State> {
   };
 
   tryRealm = async () => {
+    Keyboard.dismiss();
     const { realmInputValue } = this.state;
 
     const parsedRealm = tryParseUrl(realmInputValue);
@@ -66,7 +67,6 @@ class RealmScreen extends PureComponent<Props, State> {
         ),
       );
       NavigationService.dispatch(navigateToAuth(serverSettings));
-      Keyboard.dismiss();
     } catch (err) {
       this.setState({ error: 'Cannot connect to server' });
       /* eslint-disable no-console */
