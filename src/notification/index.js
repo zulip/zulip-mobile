@@ -17,7 +17,7 @@ import {
 import { identityOfAuth } from '../account/accountMisc';
 import { fromAPNs } from './extract';
 import { tryParseUrl } from '../utils/url';
-import { pmKeyRecipientsFromIds } from '../utils/recipient';
+import { pmKeyRecipientUsersFromIds } from '../utils/recipient';
 import { makeUserId } from '../api/idTypes';
 
 /**
@@ -109,7 +109,7 @@ export const getNarrowFromNotificationData = (
   }
 
   const ids = data.pm_users.split(',').map(s => makeUserId(parseInt(s, 10)));
-  const users = pmKeyRecipientsFromIds(ids, allUsersById, ownUserId);
+  const users = pmKeyRecipientUsersFromIds(ids, allUsersById, ownUserId);
   return users === null ? null : pmNarrowFromUsers(users);
 };
 

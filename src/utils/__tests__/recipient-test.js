@@ -4,7 +4,7 @@ import {
   normalizeRecipientsAsUserIds,
   normalizeRecipientsAsUserIdsSansMe,
   isSameRecipient,
-  pmKeyRecipientsFromIds,
+  pmKeyRecipientUsersFromIds,
 } from '../recipient';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeUserId } from '../../api/idTypes';
@@ -51,7 +51,7 @@ describe('normalizeRecipientsAsUserIdsSansMe', () => {
   });
 });
 
-describe('pmKeyRecipientsFromIds', () => {
+describe('pmKeyRecipientUsersFromIds', () => {
   const allUsersById = new Map([eg.selfUser, eg.otherUser, eg.thirdUser].map(u => [u.user_id, u]));
   const [self, other, third] = [eg.selfUser, eg.otherUser, eg.thirdUser];
   // prettier-ignore
@@ -67,7 +67,7 @@ describe('pmKeyRecipientsFromIds', () => {
   ]) {
     test(`correct on ${description}`, () => {
       expect(
-        pmKeyRecipientsFromIds(users.map(u => u.user_id), allUsersById, eg.selfUser.user_id),
+        pmKeyRecipientUsersFromIds(users.map(u => u.user_id), allUsersById, eg.selfUser.user_id),
       ).toEqual(expectedSet.sort((a, b) => a.user_id - b.user_id));
     });
   }

@@ -9,7 +9,7 @@ import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
 import {
   pmUnreadsKeyFromMessage,
   pmKeyRecipientUsersFromMessage,
-  pmKeyRecipientsFromIds,
+  pmKeyRecipientUsersFromIds,
   pmUnreadsKeyFromPmKeyIds,
 } from '../utils/recipient';
 import { getServerVersion } from '../account/accountsSelectors';
@@ -95,7 +95,7 @@ function getRecentConversationsModernImpl(
   return sorted
     .toSeq()
     .map(recentsKey => {
-      const keyRecipients = pmKeyRecipientsFromIds(
+      const keyRecipients = pmKeyRecipientUsersFromIds(
         model.usersOfKey(recentsKey),
         allUsersById,
         ownUserId,

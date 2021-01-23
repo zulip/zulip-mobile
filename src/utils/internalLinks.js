@@ -3,7 +3,7 @@ import { addBreadcrumb } from '@sentry/react-native';
 import { makeUserId } from '../api/idTypes';
 import type { Narrow, Stream, UserId, UserOrBot } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromUsers } from './narrow';
-import { pmKeyRecipientsFromIds } from './recipient';
+import { pmKeyRecipientUsersFromIds } from './recipient';
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
@@ -168,7 +168,7 @@ export const getNarrowFromLink = (
       //   else.  In particular this will foil you if, say, you try to give
       //   someone else in the conversation a link to a particular message.
       const ids = parsePmOperand(paths[1]);
-      const users = pmKeyRecipientsFromIds(ids, allUsersById, ownUserId);
+      const users = pmKeyRecipientUsersFromIds(ids, allUsersById, ownUserId);
       return users === null ? null : pmNarrowFromUsers(users);
     }
     case 'topic':
