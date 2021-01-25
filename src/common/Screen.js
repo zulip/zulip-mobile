@@ -5,17 +5,20 @@ import type { Node as React$Node } from 'react';
 import { View, ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { type EdgeInsets } from 'react-native-safe-area-context';
+import { compose } from 'redux';
 
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
+import { connect } from '../react-redux';
 import type { ThemeData } from '../styles';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
-import type { LocalizableText } from '../types';
+import type { Dispatch, LocalizableText, Orientation } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import LoadingBanner from './LoadingBanner';
 import ZulipStatusBar from './ZulipStatusBar';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
+import { getSession } from '../directSelectors';
 
 const componentStyles = createStyleSheet({
   screen: {
@@ -36,6 +39,10 @@ const componentStyles = createStyleSheet({
   },
 });
 
+type SelectorProps = $ReadOnly<{|
+  orientation: Orientation,
+|}>;
+
 type Props = $ReadOnly<{|
   centerContent: boolean,
   +children: React$Node,
@@ -52,6 +59,9 @@ type Props = $ReadOnly<{|
 
   canGoBack: boolean,
   +title: LocalizableText,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
 /**
@@ -150,4 +160,9 @@ class Screen extends PureComponent<Props> {
   }
 }
 
-export default withSafeAreaInsets(Screen);
+export default compose(
+  connect<SelectorProps, _, _>((state, props) => ({
+    orientation: getSession(state).orientation,
+  })),
+  withSafeAreaInsets,
+)(Screen);
