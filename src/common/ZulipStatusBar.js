@@ -3,10 +3,7 @@
 import React, { PureComponent } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import Color from 'color';
-import { compose } from 'redux';
-import { EdgeInsets } from 'react-native-safe-area-context';
 
-import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import type { Orientation, ThemeName, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { DEFAULT_TITLE_BACKGROUND_COLOR } from '../title/titleSelectors';
@@ -33,8 +30,6 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{
-  insets: EdgeInsets,
-
   backgroundColor: string,
   hidden: boolean,
 
@@ -55,11 +50,8 @@ class ZulipStatusBar extends PureComponent<Props> {
   };
 
   render() {
-    const { theme, hidden, insets, orientation } = this.props;
+    const { theme, hidden, orientation } = this.props;
     const backgroundColor = this.props.backgroundColor;
-    // We'll remove this soon.
-    // eslint-disable-next-line no-unused-vars
-    const style = { height: hidden ? 0 : insets.top, backgroundColor };
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
       orientation === 'PORTRAIT' && (
@@ -75,10 +67,7 @@ class ZulipStatusBar extends PureComponent<Props> {
   }
 }
 
-export default compose(
-  connect<SelectorProps, _, _>((state, props) => ({
-    theme: getSettings(state).theme,
-    orientation: getSession(state).orientation,
-  })),
-  withSafeAreaInsets,
-)(ZulipStatusBar);
+export default connect<SelectorProps, _, _>((state, props) => ({
+  theme: getSettings(state).theme,
+  orientation: getSession(state).orientation,
+}))(ZulipStatusBar);
