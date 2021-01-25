@@ -22,7 +22,6 @@ import ProfileScreen from '../account-info/ProfileScreen';
 import { useSelector } from '../react-redux';
 import { getHaveServerData, getSession } from '../selectors';
 import styles, { ThemeContext } from '../styles';
-import { DEFAULT_TITLE_BACKGROUND_COLOR } from '../title/titleSelectors';
 
 export type MainTabsNavigatorParamList = {|
   home: RouteParamsOf<typeof HomeScreen>,
@@ -67,14 +66,7 @@ export default function MainTabsScreen(props: Props) {
 
   return (
     <View style={[styles.flexed, { backgroundColor }]}>
-      {orientation === 'PORTRAIT' && (
-        <View
-          style={{
-            height: insets.top,
-            backgroundColor: DEFAULT_TITLE_BACKGROUND_COLOR,
-          }}
-        />
-      )}
+      {orientation === 'PORTRAIT' && <View style={{ height: insets.top }} />}
       <ZulipStatusBar />
       <OfflineNotice />
       <Tab.Navigator

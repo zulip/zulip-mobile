@@ -19,7 +19,6 @@ import ZulipStatusBar from './ZulipStatusBar';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 import { getSession } from '../directSelectors';
-import { DEFAULT_TITLE_BACKGROUND_COLOR } from '../title/titleSelectors';
 
 const componentStyles = createStyleSheet({
   screen: {
@@ -131,14 +130,7 @@ class Screen extends PureComponent<Props> {
           { paddingBottom: insets.bottom },
         ]}
       >
-        {orientation === 'PORTRAIT' && (
-          <View
-            style={{
-              height: insets.top,
-              backgroundColor: DEFAULT_TITLE_BACKGROUND_COLOR,
-            }}
-          />
-        )}
+        {orientation === 'PORTRAIT' && <View style={{ height: insets.top }} />}
         <ZulipStatusBar />
         {search ? (
           <ModalSearchNavBar
