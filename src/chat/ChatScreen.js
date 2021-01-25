@@ -3,6 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSelector, useDispatch } from '../react-redux';
 import type { RouteProp } from '../react-navigation';
@@ -115,11 +116,23 @@ export default function ChatScreen(props: Props) {
   const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
 
   const titleBackgroundColor = useSelector(state => getTitleBackgroundColor(state, narrow));
+  const orientation = useSelector(state => getSession(state).orientation);
+  const insets = useSafeAreaInsets();
+  // This'll go away very soon, of course.
+  const statusBarHidden = false;
 
   return (
     <ActionSheetProvider>
       <View style={[componentStyles.screen, { backgroundColor }]}>
         <KeyboardAvoider style={styles.flexed} behavior="padding">
+          {orientation === 'PORTRAIT' && (
+            <View
+              style={{
+                height: statusBarHidden ? 0 : insets.top,
+                backgroundColor: titleBackgroundColor,
+              }}
+            />
+          )}
           <ZulipStatusBar backgroundColor={titleBackgroundColor} />
           <ChatNavBar narrow={narrow} editMessage={editMessage} />
           <OfflineNotice />

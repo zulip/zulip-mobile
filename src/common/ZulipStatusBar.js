@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { Platform, StatusBar, View } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
 import Color from 'color';
 import { compose } from 'redux';
 import { EdgeInsets } from 'react-native-safe-area-context';
@@ -44,6 +44,9 @@ type Props = $ReadOnly<{
 
 /**
  * Applies `hidden` and `backgroundColor` in platform-specific ways.
+ *
+ * Like `StatusBar`, which is the only thing it ever renders, this
+ * doesn't have any effect on the spatial layout of the UI.
  */
 class ZulipStatusBar extends PureComponent<Props> {
   static defaultProps = {
@@ -54,20 +57,19 @@ class ZulipStatusBar extends PureComponent<Props> {
   render() {
     const { theme, hidden, insets, orientation } = this.props;
     const backgroundColor = this.props.backgroundColor;
+    // We'll remove this soon.
+    // eslint-disable-next-line no-unused-vars
     const style = { height: hidden ? 0 : insets.top, backgroundColor };
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
       orientation === 'PORTRAIT' && (
-        <>
-          <View style={style} />
-          <StatusBar
-            animated
-            showHideTransition="slide"
-            hidden={hidden && Platform.OS !== 'android'}
-            backgroundColor={Color(statusBarColor).darken(0.1)}
-            barStyle={getStatusBarStyle(statusBarColor)}
-          />
-        </>
+        <StatusBar
+          animated
+          showHideTransition="slide"
+          hidden={hidden && Platform.OS !== 'android'}
+          backgroundColor={Color(statusBarColor).darken(0.1)}
+          barStyle={getStatusBarStyle(statusBarColor)}
+        />
       )
     );
   }

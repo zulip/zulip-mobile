@@ -5,11 +5,11 @@ import {
   createBottomTabNavigator,
   type BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { GlobalParamList } from '../nav/globalTypes';
-
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import StreamTabsScreen from './StreamTabsScreen';
@@ -20,8 +20,9 @@ import { OwnAvatar, OfflineNotice, ZulipStatusBar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileScreen from '../account-info/ProfileScreen';
 import { useSelector } from '../react-redux';
-import { getHaveServerData } from '../selectors';
+import { getHaveServerData, getSession } from '../selectors';
 import styles, { ThemeContext } from '../styles';
+import { DEFAULT_TITLE_BACKGROUND_COLOR } from '../title/titleSelectors';
 
 export type MainTabsNavigatorParamList = {|
   home: RouteParamsOf<typeof HomeScreen>,
@@ -50,6 +51,11 @@ export default function MainTabsScreen(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
   const haveServerData = useSelector(getHaveServerData);
 
+  const orientation = useSelector(state => getSession(state).orientation);
+  const insets = useSafeAreaInsets();
+  // This'll go away very soon, of course.
+  const statusBarHidden = false;
+
   if (!haveServerData) {
     // This can happen if the user has just logged out; this screen
     // is still visible for the duration of the nav transition, and
@@ -63,6 +69,14 @@ export default function MainTabsScreen(props: Props) {
 
   return (
     <View style={[styles.flexed, { backgroundColor }]}>
+      {orientation === 'PORTRAIT' && (
+        <View
+          style={{
+            height: statusBarHidden ? 0 : insets.top,
+            backgroundColor: DEFAULT_TITLE_BACKGROUND_COLOR,
+          }}
+        />
+      )}
       <ZulipStatusBar />
       <OfflineNotice />
       <Tab.Navigator

@@ -1,7 +1,10 @@
 /* @flow strict-local */
 import React from 'react';
 import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useSelector } from '../react-redux';
+import { getSession } from '../selectors';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
@@ -27,8 +30,21 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function LoadingScreen(props: Props) {
+  const orientation = useSelector(state => getSession(state).orientation);
+  const insets = useSafeAreaInsets();
+  // This'll go away very soon, of course.
+  const statusBarHidden = false;
+
   return (
     <View style={componentStyles.center}>
+      {orientation === 'PORTRAIT' && (
+        <View
+          style={{
+            height: statusBarHidden ? 0 : insets.top,
+            backgroundColor: BRAND_COLOR,
+          }}
+        />
+      )}
       <ZulipStatusBar backgroundColor={BRAND_COLOR} />
       <LoadingIndicator color="black" size={80} showLogo />
     </View>
