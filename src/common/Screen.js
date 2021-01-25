@@ -123,9 +123,6 @@ class Screen extends PureComponent<Props> {
       orientation,
     } = this.props;
 
-    // This'll go away very soon, of course.
-    const statusBarHidden = false;
-
     return (
       <View
         style={[
@@ -137,7 +134,7 @@ class Screen extends PureComponent<Props> {
         {orientation === 'PORTRAIT' && (
           <View
             style={{
-              height: statusBarHidden ? 0 : insets.top,
+              height: insets.top,
               backgroundColor: DEFAULT_TITLE_BACKGROUND_COLOR,
             }}
           />

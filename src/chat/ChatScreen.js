@@ -118,8 +118,6 @@ export default function ChatScreen(props: Props) {
   const titleBackgroundColor = useSelector(state => getTitleBackgroundColor(state, narrow));
   const orientation = useSelector(state => getSession(state).orientation);
   const insets = useSafeAreaInsets();
-  // This'll go away very soon, of course.
-  const statusBarHidden = false;
 
   return (
     <ActionSheetProvider>
@@ -128,7 +126,7 @@ export default function ChatScreen(props: Props) {
           {orientation === 'PORTRAIT' && (
             <View
               style={{
-                height: statusBarHidden ? 0 : insets.top,
+                height: insets.top,
                 backgroundColor: titleBackgroundColor,
               }}
             />

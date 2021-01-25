@@ -32,15 +32,13 @@ type Props = $ReadOnly<{|
 export default function LoadingScreen(props: Props) {
   const orientation = useSelector(state => getSession(state).orientation);
   const insets = useSafeAreaInsets();
-  // This'll go away very soon, of course.
-  const statusBarHidden = false;
 
   return (
     <View style={componentStyles.center}>
       {orientation === 'PORTRAIT' && (
         <View
           style={{
-            height: statusBarHidden ? 0 : insets.top,
+            height: insets.top,
             backgroundColor: BRAND_COLOR,
           }}
         />

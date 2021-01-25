@@ -53,8 +53,6 @@ export default function MainTabsScreen(props: Props) {
 
   const orientation = useSelector(state => getSession(state).orientation);
   const insets = useSafeAreaInsets();
-  // This'll go away very soon, of course.
-  const statusBarHidden = false;
 
   if (!haveServerData) {
     // This can happen if the user has just logged out; this screen
@@ -72,7 +70,7 @@ export default function MainTabsScreen(props: Props) {
       {orientation === 'PORTRAIT' && (
         <View
           style={{
-            height: statusBarHidden ? 0 : insets.top,
+            height: insets.top,
             backgroundColor: DEFAULT_TITLE_BACKGROUND_COLOR,
           }}
         />
