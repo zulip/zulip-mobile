@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
@@ -22,16 +22,14 @@ type Props = $ReadOnly<{|
   route: AppNavigationRouteProp<'lightbox'>,
 |}>;
 
-export default class LightboxScreen extends PureComponent<Props> {
-  render() {
-    const { src, message } = this.props.route.params;
-    return (
-      <View style={styles.screen}>
-        <ZulipStatusBar hidden backgroundColor="black" />
-        <ActionSheetProvider>
-          <Lightbox src={src} message={message} />
-        </ActionSheetProvider>
-      </View>
-    );
-  }
+export default function LightboxScreen(props: Props) {
+  const { src, message } = props.route.params;
+  return (
+    <View style={styles.screen}>
+      <ZulipStatusBar hidden backgroundColor="black" />
+      <ActionSheetProvider>
+        <Lightbox src={src} message={message} />
+      </ActionSheetProvider>
+    </View>
+  );
 }
