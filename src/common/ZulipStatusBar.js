@@ -35,7 +35,7 @@ type SelectorProps = $ReadOnly<{|
 type Props = $ReadOnly<{
   insets: EdgeInsets,
 
-  backgroundColor?: string,
+  backgroundColor: string,
   hidden: boolean,
 
   dispatch: Dispatch,
@@ -48,11 +48,12 @@ type Props = $ReadOnly<{
 class ZulipStatusBar extends PureComponent<Props> {
   static defaultProps = {
     hidden: false,
+    backgroundColor: DEFAULT_TITLE_BACKGROUND_COLOR,
   };
 
   render() {
     const { theme, hidden, insets, orientation } = this.props;
-    const backgroundColor = this.props.backgroundColor ?? DEFAULT_TITLE_BACKGROUND_COLOR;
+    const backgroundColor = this.props.backgroundColor;
     const style = { height: hidden ? 0 : insets.top, backgroundColor };
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
