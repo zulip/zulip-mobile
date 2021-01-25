@@ -10,10 +10,6 @@ describe('getTitleBackgroundColor', () => {
     subscriptions: [{ ...eg.makeSubscription({ stream: eg.stream }), color: exampleColor }],
   });
 
-  test('return default for screens other than chat, i.e narrow is undefined', () => {
-    expect(getTitleBackgroundColor(state, undefined)).toEqual(DEFAULT_TITLE_BACKGROUND_COLOR);
-  });
-
   test('return stream color for stream and topic narrow', () => {
     expect(getTitleBackgroundColor(state, streamNarrow(eg.stream.name))).toEqual(exampleColor);
   });
