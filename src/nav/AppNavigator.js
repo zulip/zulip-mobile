@@ -112,6 +112,12 @@ export default function AppNavigator(props: Props) {
           android: TransitionPresets.FadeFromBottomAndroid,
           ios: TransitionPresets.DefaultTransition,
         }),
+        ...Platform.select({
+          android: {
+            gestureEnabled: true,
+            gestureDirection: 'horizontal',
+          },
+        }),
       }}
     >
       <Stack.Screen name="account" component={AccountPickScreen} />
