@@ -157,7 +157,8 @@ describe('isInternalLink', () => {
     ],
   ];
 
-  // $FlowFixMe realm_ is URL | void, but complains of out-of-bounds access
+  /* $FlowFixMe[invalid-tuple-index]:
+     realm_ is URL | void, but complains of out-of-bounds access */
   for (const [expected, description, url, realm_] of cases) {
     test(`${expected ? 'accept' : 'reject'} ${description}: ${url}`, () => {
       expect(isInternalLink(url, realm_ ?? realm)).toBe(expected);

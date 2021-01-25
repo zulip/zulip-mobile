@@ -113,7 +113,7 @@ describe('messagesReducer', () => {
           submessages: [
             // We know message2 has `submessages`; we defined it that
             // way.
-            // $FlowFixMe
+            // $FlowFixMe[incompatible-cast]
             ...(message2.submessages: $ReadOnlyArray<Submessage>),
             {
               id: 2,

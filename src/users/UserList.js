@@ -59,7 +59,7 @@ export default class UserList extends PureComponent<Props> {
         )}
         renderSectionHeader={({ section }) =>
           section.data.length === 0 ? null : (
-            // $FlowFixMe
+            // $FlowFixMe[incompatible-type]
             <SectionHeader text={section.key} />
           )
         }

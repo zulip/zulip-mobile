@@ -14,7 +14,7 @@ import escape from 'lodash.escape';
  *   template`Hello $\!${&<world}` -> 'Hello $!&amp;&lt;world'
  */
 export default (strings: string[], ...values: Array<string | number>) => {
-  // $FlowFixMe github.com/facebook/flow/issues/2616
+  // $FlowFixMe[prop-missing] github.com/facebook/flow/issues/2616
   const raw: string[] = strings.raw; // eslint-disable-line prefer-destructuring
   const result = [];
   values.forEach((value, i) => {

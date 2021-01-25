@@ -29,7 +29,7 @@ const messageEvent = (state: GlobalState, message: Message): void => {
 
   const activeAccount = getActiveAccount(state);
   // Assume (unchecked) that `narrow` is `Narrow` if present
-  // $FlowFixMe
+  // $FlowFixMe[cannot-resolve-name]
   const narrow: Narrow | void = getChatScreenParams().narrow;
   const isUserInSameNarrow =
     activeAccount

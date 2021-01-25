@@ -21,10 +21,10 @@ function unreadCount(unreadsKey, unreadPms, unreadHuddles): number {
   // of messy.  Fortunately it always works, because the key spaces
   // are disjoint: all `unreadHuddles` keys contain a comma, and all
   // `unreadPms` keys don't.
-  /* $FlowFixMe: The keys of unreadPms are logically numbers... but because
-       it's an object, they end up converted to strings, so this access with
-       string keys works.  We should probably use a Map for this and similar
-       maps. */
+  /* $FlowFixMe[incompatible-type]: The keys of unreadPms are
+       logically numbers... but because it's an object, they end up
+       converted to strings, so this access with string keys works.
+       We should probably use a Map for this and similar maps. */
   return unreadPms[unreadsKey] || unreadHuddles[unreadsKey];
 }
 

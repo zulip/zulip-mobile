@@ -195,7 +195,8 @@ class MessageList extends Component<Props> {
 
   sendInboundEvents = (uevents: WebViewInboundEvent[]): void => {
     if (this.webview && uevents.length > 0) {
-      // $FlowFixMe This `postMessage` is undocumented; tracking as #3572.
+      /* $FlowFixMe[prop-missing]: This `postMessage` is undocumented;
+         tracking as #3572. */
       const secretWebView: { postMessage: (string, string) => void } = this.webview;
       secretWebView.postMessage(base64Utf8Encode(JSON.stringify(uevents)), '*');
     }

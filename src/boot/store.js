@@ -92,7 +92,8 @@ export const cacheKeys: Array<$Keys<GlobalState>> = [
 function dropCache(state: GlobalState): $Shape<GlobalState> {
   const result: $Shape<GlobalState> = {};
   storeKeys.forEach(key => {
-    // $FlowFixMe This is well-typed only because it's the same `key` twice.
+    /* $FlowFixMe[incompatible-type]: This is well-typed only because
+       it's the same `key` twice. */
     result[key] = state[key];
   });
   return result;
@@ -170,7 +171,7 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     accounts: state.accounts.map(a => ({
       ...a,
       // `a.realm` is a string until migration 15
-      // $FlowMigrationFudge
+      // $FlowMigrationFudge[prop-missing]
       realm: a.realm.replace(/\/+$/, ''),
     })),
   }),
@@ -207,7 +208,8 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     ...state,
     accounts: state.accounts.map(a => ({
       ...a,
-      // $FlowMigrationFudge - `a.realm` will be a string here
+      /* $FlowMigrationFudge[incompatible-call]: `a.realm` will be a
+         string here */
       realm: new URL(a.realm),
     })),
   }),
@@ -343,7 +345,8 @@ const reduxPersistConfig: Config = {
 
   // Store data through our own wrapper for AsyncStorage, in particular
   // to get compression.
-  // $FlowFixMe: https://github.com/rt2zz/redux-persist/issues/823
+  /* $FlowFixMe[incompatible-variance]:
+     https://github.com/rt2zz/redux-persist/issues/823 */
   storage: ZulipAsyncStorage,
   serialize: stringify,
   deserialize: parse,

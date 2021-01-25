@@ -15,7 +15,7 @@ describe('getNarrowFromNotificationData', () => {
   const ownUserId = eg.selfUser.user_id;
 
   test('unknown notification data returns null', () => {
-    // $FlowFixMe: actually validate APNs messages
+    // $FlowFixMe[incompatible-type]: actually validate APNs messages
     const notification: Notification = {};
     const narrow = getNarrowFromNotificationData(notification, new Map(), ownUserId);
     expect(narrow).toBe(null);

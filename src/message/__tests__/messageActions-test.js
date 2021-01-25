@@ -17,7 +17,7 @@ const streamNarrowObj = streamNarrow('some stream');
 describe('messageActions', () => {
   describe('doNarrow', () => {
     test('action to push to nav dispatched', () => {
-      // $FlowFixMe - Flow says `dispatch` is not writeable
+      // $FlowFixMe[cannot-write]
       NavigationService.dispatch = jest.fn();
 
       const store = mockStore<GlobalState, Action>(
