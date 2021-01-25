@@ -1,12 +1,12 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { LoadingIndicator, ZulipStatusBar } from '../common';
 
-const styles = createStyleSheet({
+const componentStyles = createStyleSheet({
   center: {
     flex: 1,
     justifyContent: 'center',
@@ -25,13 +25,11 @@ type Props = $ReadOnly<{|
   route?: AppNavigationRouteProp<'loading'>,
 |}>;
 
-export default class LoadingScreen extends PureComponent<Props> {
-  render() {
-    return (
-      <View style={styles.center}>
-        <ZulipStatusBar backgroundColor={BRAND_COLOR} />
-        <LoadingIndicator color="black" size={80} showLogo />
-      </View>
-    );
-  }
+export default function LoadingScreen(props: Props) {
+  return (
+    <View style={componentStyles.center}>
+      <ZulipStatusBar backgroundColor={BRAND_COLOR} />
+      <LoadingIndicator color="black" size={80} showLogo />
+    </View>
+  );
 }
