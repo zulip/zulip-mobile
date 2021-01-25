@@ -173,7 +173,7 @@ class MentionWarnings extends PureComponent<Props, State> {
   }
 }
 
-// $FlowFixMe. TODO: Use a type checked connect call.
+// $FlowFixMe[missing-annot]. TODO: Use a type checked connect call.
 export default connect(
   state => ({
     auth: getAuth(state),

@@ -46,7 +46,8 @@ class UnreadCards extends PureComponent<Props> {
     }
 
     return (
-      // $FlowFixMe SectionList libdef seems confused; should take $ReadOnly objects.
+      /* $FlowFixMe[prop-missing]: SectionList libdef seems confused;
+         should take $ReadOnly objects. */
       <SectionList
         stickySectionHeadersEnabled
         initialNumToRender={20}

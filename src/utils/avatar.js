@@ -194,8 +194,9 @@ export class GravatarURL extends AvatarURL {
       this._standardUrl = new URL(this._standardUrl);
     }
 
-    // Make a new URL to mutate
-    // $FlowFixMe - https://github.com/zulip/zulip-mobile/pull/4230#discussion_r512351202
+    /* $FlowFixMe[incompatible-call]: Make a new URL to mutate
+       https://github.com/zulip/zulip-mobile/pull/4230#discussion_r512351202
+       */
     const result: URL = new URL(this._standardUrl);
     result.searchParams.set('s', sizePhysicalPx.toString());
     return result;
@@ -382,8 +383,10 @@ export class UploadedAvatarURL extends AvatarURL {
 
     let result: URL = this._standardUrl;
     if (sizePhysicalPx > 100) {
-      // Make a new URL to mutate, instead of mutating this._standardUrl
-      // $FlowFixMe - https://github.com/zulip/zulip-mobile/pull/4230#discussion_r512351202
+      /* $FlowFixMe[incompatible-call]: Make a new URL to mutate,
+         instead of mutating this._standardUrl
+         https://github.com/zulip/zulip-mobile/pull/4230#discussion_r512351202
+         */
       result = new URL(this._standardUrl);
 
       const match = new RegExp(/(\w+)\.png/g).exec(result.pathname);

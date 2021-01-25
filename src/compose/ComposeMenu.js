@@ -83,7 +83,7 @@ class ComposeMenu extends PureComponent<Props> {
       return;
     }
 
-    // $FlowFixMe sketchy falsiness check, because upstream API is unclear
+    // $FlowFixMe[sketchy-null-bool]: Upstream API is unclear.
     const error: string | null = response.error || null;
     if (error !== null) {
       showErrorAlert('Error', error);

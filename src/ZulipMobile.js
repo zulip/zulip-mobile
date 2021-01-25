@@ -18,7 +18,7 @@ import LoadingScreen from './start/LoadingScreen';
 
 initializeSentry();
 
-// $FlowFixMe
+// $FlowFixMe[prop-missing]
 console.disableYellowBox = true; // eslint-disable-line
 
 export default (): React$Node => (

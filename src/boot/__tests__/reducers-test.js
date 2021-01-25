@@ -5,7 +5,7 @@ import * as eg from '../../__tests__/lib/exampleData';
 
 describe('reducers', () => {
   test('reducers return the default states on unknown action', () => {
-    // $FlowFixMe bogus action object
+    // $FlowFixMe[incompatible-call] bogus action object
     expect(() => reducers({}, { type: 'UNKNOWN_ACTION' })).not.toThrow();
   });
 

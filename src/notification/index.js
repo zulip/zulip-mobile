@@ -221,7 +221,8 @@ export class NotificationListener {
     // Otherwise, a device token should be some (platform-dependent and largely
     // unspecified) flavor of string.
     if (deviceToken !== null && typeof deviceToken !== 'string') {
-      // $FlowFixMe: deviceToken probably _is_ JSONable, but we can only hope
+      /* $FlowFixMe[incompatible-type]: `deviceToken` probably _is_
+         JSONable, but we can only hope. */
       const token: JSONable = deviceToken;
       logging.error('Received invalid device token', { token });
       // Take no further action.

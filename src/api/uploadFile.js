@@ -12,7 +12,7 @@ export default (auth: Auth, uri: string, name: string): Promise<ApiResponseUploa
   const formData = new FormData();
   const extension = getFileExtension(name);
   const type = getMimeTypeFromFileExtension(extension);
-  // $FlowFixMe
+  // $FlowFixMe[incompatible-call]
   formData.append('file', { uri, name, type, extension });
   return apiFile(auth, 'user_uploads', formData);
 };

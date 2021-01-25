@@ -9,8 +9,9 @@ import { connect } from '../react-redux';
 import { getAllImageEmojiByCode } from './emojiSelectors';
 import { codeToEmojiMap } from './data';
 
-/* $FlowFixMe: `createIconSet` is mistyped upstream; elements of
-  `glyphMap` may be either `number` or `string`. */
+/* $FlowFixMe[incompatible-call]: `createIconSet` is mistyped
+  upstream; elements of `glyphMap` may be either `number` or `string`.
+  */
 const UnicodeEmoji = createIconSet(codeToEmojiMap);
 
 type SelectorProps = {|

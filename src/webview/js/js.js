@@ -55,7 +55,7 @@ declare var platformOS: string;
    Leaves out some of the fancy features (see MDN). */
 type ArrayLike<T> = { [indexer: number]: T, length: number, ... };
 if (!Array.from) {
-  // $FlowFixMe (polyfill)
+  // $FlowFixMe[cannot-write] (polyfill)
   Array.from = function from<T>(arr: ArrayLike<T>): Array<T> {
     return Array.prototype.slice.call(arr);
   };
@@ -69,7 +69,8 @@ if (!Array.from) {
  * Uses Element#matches, which we have a separate polyfill for.
  */
 if (!Element.prototype.closest) {
-  // $FlowFixMe closest is not writable... except it's absent here.
+  /* $FlowFixMe[cannot-write]: closest is not writable... except it's
+     absent here. */
   Element.prototype.closest = function closest(selector) {
     let element = this;
     while (element && !element.matches(selector)) {
@@ -82,7 +83,7 @@ if (!Element.prototype.closest) {
 /* Polyfill String#startsWith. Native in Mobile Safari 9, Chrome 49.
    Taken (with minor edits) from the relevant MDN page. */
 if (!String.prototype.startsWith) {
-  // $FlowFixMe (polyfill)
+  // $FlowFixMe[cannot-write] (polyfill)
   String.prototype.startsWith = function startsWith(search: string, rawPos: number) {
     const pos = rawPos > 0 ? rawPos | 0 : 0;
     return this.substring(pos, pos + search.length) === search;
@@ -93,7 +94,7 @@ if (!String.prototype.startsWith) {
    Based directly on the current ECMAScript draft:
      https://tc39.es/ecma262/#sec-string.prototype.includes */
 if (!String.prototype.includes) {
-  // $FlowFixMe (polyfill)
+  // $FlowFixMe[cannot-write] (polyfill)
   String.prototype.includes = function includes(search: string, start: number = 0) {
     /* required by the spec, but not worth the trouble */
     // if (search instanceof RegExp) { throw new TypeError('...'); }
@@ -275,7 +276,7 @@ function walkToMessage(
 ): ?Element {
   let element: ?Element = start;
   while (element && !element.classList.contains('message')) {
-    // $FlowFixMe: doesn't use finite type of `step`
+    // $FlowFixMe[prop-missing]: doesn't use finite type of `step`
     element = element[step];
   }
   return element;
@@ -346,7 +347,7 @@ function visibleMessageIds(): { first: number, last: number } {
         first = Math.min(first, id);
         last = Math.max(last, id);
       }
-      // $FlowFixMe: doesn't use finite type of `step`
+      // $FlowFixMe[prop-missing]: doesn't use finite type of `step`
       element = element[step];
     }
   }
@@ -668,7 +669,7 @@ const handleMessageEvent: MessageEventListener = e => {
 
   inboundEvents.forEach((uevent: WebViewInboundEvent) => {
     eventLogger.maybeCaptureInboundEvent(uevent);
-    // $FlowFixMe
+    // $FlowFixMe[prop-missing]
     inboundEventHandlers[uevent.type](uevent);
   });
   scrollEventsDisabled = false;

@@ -35,7 +35,7 @@ const addFlagsForMessages = (
     return state;
   }
 
-  // $FlowFixMe - #4252
+  // $FlowFixMe[incompatible-exact] - #4252
   const newState: FlagsState = {};
 
   flags.forEach(flag => {
@@ -65,7 +65,7 @@ const removeFlagForMessages = (state: FlagsState, messages: number[], flag: stri
 
 const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsState => {
   let stateChanged = false;
-  // $FlowFixMe - #4252
+  // $FlowFixMe[incompatible-exact] - #4252
   const newState: FlagsState = {};
   messages.forEach(msg => {
     (msg.flags || []).forEach(flag => {
@@ -79,7 +79,8 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
     });
   });
 
-  // $FlowFixMe: Flow can't follow this objects-as-maps logic.
+  /* $FlowFixMe[incompatible-indexer]: Flow can't follow this
+     objects-as-maps logic. */
   return stateChanged ? deeperMerge(state, newState) : state;
 };
 
