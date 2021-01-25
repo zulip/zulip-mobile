@@ -7,9 +7,9 @@ import { compose } from 'redux';
 import { EdgeInsets } from 'react-native-safe-area-context';
 
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
-import type { Narrow, Orientation, ThemeName, Dispatch } from '../types';
+import type { Orientation, ThemeName, Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
+import { DEFAULT_TITLE_BACKGROUND_COLOR } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
 
@@ -29,7 +29,6 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
 
 type SelectorProps = $ReadOnly<{|
   theme: ThemeName,
-  narrowTitleBackgroundColor: string,
   orientation: Orientation,
 |}>;
 
@@ -37,7 +36,6 @@ type Props = $ReadOnly<{
   insets: EdgeInsets,
 
   backgroundColor?: string,
-  narrow?: Narrow,
   hidden: boolean,
 
   dispatch: Dispatch,
@@ -45,12 +43,7 @@ type Props = $ReadOnly<{
 }>;
 
 /**
- * Controls the status bar settings depending on platform
- * and current navigation position.
- * If narrowed to a stream or topic the color of the status bar
- * matches that of the stream.
- *
- * @prop [narrow] - Currently active narrow.
+ * Applies `hidden` and `backgroundColor` in platform-specific ways.
  */
 class ZulipStatusBar extends PureComponent<Props> {
   static defaultProps = {
@@ -59,7 +52,7 @@ class ZulipStatusBar extends PureComponent<Props> {
 
   render() {
     const { theme, hidden, insets, orientation } = this.props;
-    const backgroundColor = this.props.backgroundColor ?? this.props.narrowTitleBackgroundColor;
+    const backgroundColor = this.props.backgroundColor ?? DEFAULT_TITLE_BACKGROUND_COLOR;
     const style = { height: hidden ? 0 : insets.top, backgroundColor };
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
@@ -81,9 +74,6 @@ class ZulipStatusBar extends PureComponent<Props> {
 export default compose(
   connect<SelectorProps, _, _>((state, props) => ({
     theme: getSettings(state).theme,
-    narrowTitleBackgroundColor: props.narrow
-      ? getTitleBackgroundColor(state, props.narrow)
-      : DEFAULT_TITLE_BACKGROUND_COLOR,
     orientation: getSession(state).orientation,
   })),
   withSafeAreaInsets,

@@ -21,6 +21,7 @@ import { canSendToNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
+import { getTitleBackgroundColor } from '../title/titleSelectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -112,11 +113,13 @@ export default function ChatScreen(props: Props) {
   const sayNoMessages = haveNoMessages && !isFetching;
   const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
 
+  const titleBackgroundColor = useSelector(state => getTitleBackgroundColor(state, narrow));
+
   return (
     <ActionSheetProvider>
       <View style={[componentStyles.screen, { backgroundColor }]}>
         <KeyboardAvoider style={styles.flexed} behavior="padding">
-          <ZulipStatusBar narrow={narrow} />
+          <ZulipStatusBar backgroundColor={titleBackgroundColor} />
           <ChatNavBar narrow={narrow} editMessage={editMessage} />
           <OfflineNotice />
           <UnreadNotice narrow={narrow} />
