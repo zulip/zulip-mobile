@@ -60,10 +60,6 @@ class Lightbox extends PureComponent<Props, State> {
     }));
   };
 
-  handlePressBack = () => {
-    NavigationService.dispatch(navigateBack());
-  };
-
   render() {
     const { src, message, auth } = this.props;
     const footerMessage =
@@ -96,7 +92,9 @@ class Lightbox extends PureComponent<Props, State> {
           {...animationProps}
         >
           <LightboxHeader
-            onPressBack={this.handlePressBack}
+            onPressBack={() => {
+              NavigationService.dispatch(navigateBack());
+            }}
             timestamp={message.timestamp}
             avatarUrl={message.avatar_url}
             senderName={message.sender_full_name}
