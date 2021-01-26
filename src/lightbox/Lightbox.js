@@ -60,25 +60,6 @@ class Lightbox extends PureComponent<Props, State> {
     }));
   };
 
-  handleOptionsPress = () => {
-    const options = constructActionSheetButtons();
-    const cancelButtonIndex = options.length - 1;
-    const { showActionSheetWithOptions, src, auth } = this.props;
-    showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex,
-      },
-      buttonIndex => {
-        executeActionSheetAction({
-          title: options[buttonIndex],
-          src,
-          auth,
-        });
-      },
-    );
-  };
-
   handlePressBack = () => {
     NavigationService.dispatch(navigateBack());
   };
@@ -129,7 +110,27 @@ class Lightbox extends PureComponent<Props, State> {
           to={height - 44}
           {...animationProps}
         >
-          <LightboxFooter displayMessage={footerMessage} onOptionsPress={this.handleOptionsPress} />
+          <LightboxFooter
+            displayMessage={footerMessage}
+            onOptionsPress={() => {
+              const options = constructActionSheetButtons();
+              const cancelButtonIndex = options.length - 1;
+              const { showActionSheetWithOptions } = this.props;
+              showActionSheetWithOptions(
+                {
+                  options,
+                  cancelButtonIndex,
+                },
+                buttonIndex => {
+                  executeActionSheetAction({
+                    title: options[buttonIndex],
+                    src,
+                    auth,
+                  });
+                },
+              );
+            }}
+          />
         </SlideAnimationView>
       </View>
     );
