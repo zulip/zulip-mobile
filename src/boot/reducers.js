@@ -32,35 +32,6 @@ import timing from '../utils/timing';
 
 const migrations = (state: MigrationsState = NULL_OBJECT): MigrationsState => state;
 
-const reducers = {
-  migrations,
-  accounts,
-  alertWords,
-  caughtUp,
-  drafts,
-  fetching,
-  flags,
-  messages,
-  narrows,
-  mute,
-  outbox,
-  pmConversations,
-  presence,
-  realm,
-  session,
-  settings,
-  streams,
-  subscriptions,
-  topics,
-  typing,
-  unread,
-  userGroups,
-  userStatus,
-  users,
-};
-
-const reducerKeys = Object.keys(reducers);
-
 const { enableReduxSlowReducerWarnings, slowReducersThreshold } = config;
 
 function maybeLogSlowReducer(action, key, startMs, endMs) {
@@ -93,21 +64,39 @@ function applyReducer<Key: $Keys<GlobalState>, State>(
 // Inlined just now from Redux upstream.
 // We'll clean this up in the next few commits.
 const combinedReducer = (state: void | GlobalState, action: Action): GlobalState => {
-  let hasChanged = false;
-  const nextState = {};
-  for (let i = 0; i < reducerKeys.length; i++) {
-    const key = reducerKeys[i];
-    const reducer = reducers[key];
-    const previousStateForKey = state?.[key];
+  // prettier-ignore
+  const nextState = {
+    migrations: applyReducer('migrations', migrations, state?.migrations, action),
+    accounts: applyReducer('accounts', accounts, state?.accounts, action),
+    alertWords: applyReducer('alertWords', alertWords, state?.alertWords, action),
+    caughtUp: applyReducer('caughtUp', caughtUp, state?.caughtUp, action),
+    drafts: applyReducer('drafts', drafts, state?.drafts, action),
+    fetching: applyReducer('fetching', fetching, state?.fetching, action),
+    flags: applyReducer('flags', flags, state?.flags, action),
+    messages: applyReducer('messages', messages, state?.messages, action),
+    narrows: applyReducer('narrows', narrows, state?.narrows, action),
+    mute: applyReducer('mute', mute, state?.mute, action),
+    outbox: applyReducer('outbox', outbox, state?.outbox, action),
+    pmConversations: applyReducer('pmConversations', pmConversations, state?.pmConversations, action),
+    presence: applyReducer('presence', presence, state?.presence, action),
+    realm: applyReducer('realm', realm, state?.realm, action),
+    session: applyReducer('session', session, state?.session, action),
+    settings: applyReducer('settings', settings, state?.settings, action),
+    streams: applyReducer('streams', streams, state?.streams, action),
+    subscriptions: applyReducer('subscriptions', subscriptions, state?.subscriptions, action),
+    topics: applyReducer('topics', topics, state?.topics, action),
+    typing: applyReducer('typing', typing, state?.typing, action),
+    unread: applyReducer('unread', unread, state?.unread, action),
+    userGroups: applyReducer('userGroups', userGroups, state?.userGroups, action),
+    userStatus: applyReducer('userStatus', userStatus, state?.userStatus, action),
+    users: applyReducer('users', users, state?.users, action),
+  };
 
-    // $FlowFixMe -- works because reducer and previousStateForKey are from same key
-    const nextStateForKey = applyReducer(key, reducer, previousStateForKey, action);
-
-    nextState[key] = nextStateForKey;
-    hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+  if (state && Object.keys(nextState).every(key => nextState[key] === state[key])) {
+    return state;
   }
-  // $FlowFixMe -- works because we didn't mix up keys above
-  return hasChanged ? nextState : state;
+
+  return nextState;
 };
 
 export default enableBatching(combinedReducer);
