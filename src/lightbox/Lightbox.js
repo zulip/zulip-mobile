@@ -83,12 +83,6 @@ class Lightbox extends PureComponent<Props, State> {
     NavigationService.dispatch(navigateBack());
   };
 
-  getAnimationProps = () => ({
-    easing: Easing.bezier(0.075, 0.82, 0.165, 1),
-    duration: 300,
-    movement: this.state.movement,
-  });
-
   render() {
     const { src, message, auth } = this.props;
     const footerMessage =
@@ -97,6 +91,12 @@ class Lightbox extends PureComponent<Props, State> {
         : 'Shared with you';
     const resource = getResource(src, auth);
     const { width, height } = Dimensions.get('window');
+
+    const animationProps = {
+      easing: Easing.bezier(0.075, 0.82, 0.165, 1),
+      duration: 300,
+      movement: this.state.movement,
+    };
 
     return (
       <View style={styles.container}>
@@ -112,7 +112,7 @@ class Lightbox extends PureComponent<Props, State> {
           style={[styles.overlay, styles.header, { width }]}
           from={-NAVBAR_SIZE}
           to={0}
-          {...this.getAnimationProps()}
+          {...animationProps}
         >
           <LightboxHeader
             onPressBack={this.handlePressBack}
@@ -127,7 +127,7 @@ class Lightbox extends PureComponent<Props, State> {
           style={[styles.overlay, { width, bottom: height - 44 }]}
           from={height}
           to={height - 44}
-          {...this.getAnimationProps()}
+          {...animationProps}
         >
           <LightboxFooter displayMessage={footerMessage} onOptionsPress={this.handleOptionsPress} />
         </SlideAnimationView>
