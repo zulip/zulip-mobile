@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
@@ -45,94 +45,85 @@ type Props = $ReadOnly<{|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
 |}>;
 
-type State = {|
-  movement: 'in' | 'out',
-|};
+function Lightbox(props: Props) {
+  const [movement, setMovement] = useState<'in' | 'out'>('out');
 
-class Lightbox extends PureComponent<Props, State> {
-  state = {
-    movement: 'out',
+  // Pulled out here just because this function is used twice.
+  const handleImagePress = useCallback(() => {
+    setMovement(m => (m === 'out' ? 'in' : 'out'));
+  }, [setMovement]);
+
+  const { src, message, auth } = props;
+  const footerMessage =
+    message.type === 'stream'
+      ? `Shared in #${streamNameOfStreamMessage(message)}`
+      : 'Shared with you';
+  const resource = getResource(src, auth);
+  const { width, height } = Dimensions.get('window');
+
+  const animationProps = {
+    easing: Easing.bezier(0.075, 0.82, 0.165, 1),
+    duration: 300,
+    movement,
   };
 
-  handleImagePress = () => {
-    this.setState(({ movement }, props) => ({
-      movement: movement === 'out' ? 'in' : 'out',
-    }));
-  };
-
-  render() {
-    const { src, message, auth } = this.props;
-    const footerMessage =
-      message.type === 'stream'
-        ? `Shared in #${streamNameOfStreamMessage(message)}`
-        : 'Shared with you';
-    const resource = getResource(src, auth);
-    const { width, height } = Dimensions.get('window');
-
-    const animationProps = {
-      easing: Easing.bezier(0.075, 0.82, 0.165, 1),
-      duration: 300,
-      movement: this.state.movement,
-    };
-
-    return (
-      <View style={styles.container}>
-        <PhotoView
-          source={resource}
-          style={[styles.img, { width }]}
-          resizeMode="contain"
-          onTap={this.handleImagePress}
-          onViewTap={this.handleImagePress}
+  return (
+    <View style={styles.container}>
+      <PhotoView
+        source={resource}
+        style={[styles.img, { width }]}
+        resizeMode="contain"
+        onTap={handleImagePress}
+        onViewTap={handleImagePress}
+      />
+      <SlideAnimationView
+        property="translateY"
+        style={[styles.overlay, styles.header, { width }]}
+        from={-NAVBAR_SIZE}
+        to={0}
+        {...animationProps}
+      >
+        <LightboxHeader
+          onPressBack={() => {
+            NavigationService.dispatch(navigateBack());
+          }}
+          timestamp={message.timestamp}
+          avatarUrl={message.avatar_url}
+          senderName={message.sender_full_name}
+          senderEmail={message.sender_email}
         />
-        <SlideAnimationView
-          property="translateY"
-          style={[styles.overlay, styles.header, { width }]}
-          from={-NAVBAR_SIZE}
-          to={0}
-          {...animationProps}
-        >
-          <LightboxHeader
-            onPressBack={() => {
-              NavigationService.dispatch(navigateBack());
-            }}
-            timestamp={message.timestamp}
-            avatarUrl={message.avatar_url}
-            senderName={message.sender_full_name}
-            senderEmail={message.sender_email}
-          />
-        </SlideAnimationView>
-        <SlideAnimationView
-          property="translateY"
-          style={[styles.overlay, { width, bottom: height - 44 }]}
-          from={height}
-          to={height - 44}
-          {...animationProps}
-        >
-          <LightboxFooter
-            displayMessage={footerMessage}
-            onOptionsPress={() => {
-              const options = constructActionSheetButtons();
-              const cancelButtonIndex = options.length - 1;
-              const { showActionSheetWithOptions } = this.props;
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                },
-                buttonIndex => {
-                  executeActionSheetAction({
-                    title: options[buttonIndex],
-                    src,
-                    auth,
-                  });
-                },
-              );
-            }}
-          />
-        </SlideAnimationView>
-      </View>
-    );
-  }
+      </SlideAnimationView>
+      <SlideAnimationView
+        property="translateY"
+        style={[styles.overlay, { width, bottom: height - 44 }]}
+        from={height}
+        to={height - 44}
+        {...animationProps}
+      >
+        <LightboxFooter
+          displayMessage={footerMessage}
+          onOptionsPress={() => {
+            const options = constructActionSheetButtons();
+            const cancelButtonIndex = options.length - 1;
+            const { showActionSheetWithOptions } = props;
+            showActionSheetWithOptions(
+              {
+                options,
+                cancelButtonIndex,
+              },
+              buttonIndex => {
+                executeActionSheetAction({
+                  title: options[buttonIndex],
+                  src,
+                  auth,
+                });
+              },
+            );
+          }}
+        />
+      </SlideAnimationView>
+    </View>
+  );
 }
 
 export default connectActionSheet(
