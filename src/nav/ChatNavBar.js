@@ -35,41 +35,34 @@ export default function ChatNavBar(props: Props) {
   const insets = useSafeAreaInsets();
 
   return (
-    <>
+    <View
+      style={{
+        borderColor:
+          backgroundColor === 'transparent'
+            ? 'hsla(0, 0%, 50%, 0.25)'
+            : Color(backgroundColor).darken(0.1),
+        borderBottomWidth: 1,
+        backgroundColor,
+        paddingTop: insets.top,
+      }}
+    >
       <View
         style={{
-          height: insets.top,
-          backgroundColor,
-        }}
-      />
-      <View
-        style={{
-          borderColor:
-            backgroundColor === 'transparent'
-              ? 'hsla(0, 0%, 50%, 0.25)'
-              : Color(backgroundColor).darken(0.1),
-          borderBottomWidth: 1,
-          backgroundColor,
+          flexDirection: 'row',
+          height: NAVBAR_SIZE,
+          alignItems: 'center',
         }}
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            height: NAVBAR_SIZE,
-            alignItems: 'center',
-          }}
-        >
-          <NavBarBackButton color={color} />
-          <Title color={color} narrow={narrow} editMessage={editMessage} />
-          <ExtraButton color={color} narrow={narrow} />
-          <InfoButton color={color} narrow={narrow} />
-        </View>
-        <LoadingBanner
-          spinnerColor={spinnerColor}
-          backgroundColor={backgroundColor}
-          textColor={color}
-        />
+        <NavBarBackButton color={color} />
+        <Title color={color} narrow={narrow} editMessage={editMessage} />
+        <ExtraButton color={color} narrow={narrow} />
+        <InfoButton color={color} narrow={narrow} />
       </View>
-    </>
+      <LoadingBanner
+        spinnerColor={spinnerColor}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+    </View>
   );
 }
