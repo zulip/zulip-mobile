@@ -30,8 +30,10 @@ import userStatus from '../user-status/userStatusReducer';
 import users from '../users/usersReducer';
 import timing from '../utils/timing';
 
+const migrations = (state: MigrationsState = NULL_OBJECT): MigrationsState => state;
+
 const reducers = {
-  migrations: (state: MigrationsState = NULL_OBJECT): MigrationsState => state,
+  migrations,
   accounts,
   alertWords,
   caughtUp,
