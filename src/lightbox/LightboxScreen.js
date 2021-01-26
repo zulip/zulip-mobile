@@ -3,8 +3,6 @@ import React from 'react';
 import { View } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import { useSelector } from '../react-redux';
-import { getSession } from '../selectors';
 import type { Message } from '../types';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -29,18 +27,8 @@ type Props = $ReadOnly<{|
 export default function LightboxScreen(props: Props) {
   const { src, message } = props.route.params;
 
-  const orientation = useSelector(state => getSession(state).orientation);
-
   return (
     <View style={styles.screen}>
-      {orientation === 'PORTRAIT' && (
-        <View
-          style={{
-            height: 0,
-            backgroundColor: 'black',
-          }}
-        />
-      )}
       <ZulipStatusBar hidden backgroundColor="black" />
       <ActionSheetProvider>
         <Lightbox src={src} message={message} />
