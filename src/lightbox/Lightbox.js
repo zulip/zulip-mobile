@@ -3,11 +3,11 @@
 import React, { useState, useCallback } from 'react';
 import { View, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
-import { connectActionSheet } from '@expo/react-native-action-sheet';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import * as NavigationService from '../nav/NavigationService';
-import type { Auth, Dispatch, Message } from '../types';
-import { connect } from '../react-redux';
+import type { Message } from '../types';
+import { useSelector } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
@@ -38,22 +38,22 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  auth: Auth,
-  dispatch: Dispatch,
   src: string,
   message: Message,
-  showActionSheetWithOptions: ShowActionSheetWithOptions,
 |}>;
 
-function Lightbox(props: Props) {
+export default function Lightbox(props: Props) {
   const [movement, setMovement] = useState<'in' | 'out'>('out');
+  const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
+    .showActionSheetWithOptions;
+  const auth = useSelector(getAuth);
 
   // Pulled out here just because this function is used twice.
   const handleImagePress = useCallback(() => {
     setMovement(m => (m === 'out' ? 'in' : 'out'));
   }, [setMovement]);
 
-  const { src, message, auth } = props;
+  const { src, message } = props;
   const footerMessage =
     message.type === 'stream'
       ? `Shared in #${streamNameOfStreamMessage(message)}`
@@ -105,7 +105,6 @@ function Lightbox(props: Props) {
           onOptionsPress={() => {
             const options = constructActionSheetButtons();
             const cancelButtonIndex = options.length - 1;
-            const { showActionSheetWithOptions } = props;
             showActionSheetWithOptions(
               {
                 options,
@@ -125,9 +124,3 @@ function Lightbox(props: Props) {
     </View>
   );
 }
-
-export default connectActionSheet(
-  connect(state => ({
-    auth: getAuth(state),
-  }))(Lightbox),
-);
