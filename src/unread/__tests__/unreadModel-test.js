@@ -28,11 +28,11 @@ describe('stream substate', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const state = reducer(initialState, mkMessageAction(eg.streamMessage()));
+      const state = reducer(initialState, mkMessageAction(eg.streamMessage()), eg.plusReduxState);
       expect(state).not.toEqual(initialState);
 
       const action = { type: ACCOUNT_SWITCH, index: 1 };
-      expect(reducer(state, action)).toEqual(initialState);
+      expect(reducer(state, action, eg.plusReduxState)).toEqual(initialState);
     });
   });
 
@@ -61,7 +61,7 @@ describe('stream substate', () => {
       };
 
       // prettier-ignore
-      expect(summary(reducer(initialState, action))).toEqual(Immutable.Map([
+      expect(summary(reducer(initialState, action, eg.plusReduxState))).toEqual(Immutable.Map([
         [message1.stream_id, Immutable.Map([[message1.subject, [1, 2]]])],
       ]));
     });
@@ -72,7 +72,11 @@ describe('stream substate', () => {
 
     const baseState = (() => {
       let state = initialState;
-      state = reducer(state, action(eg.streamMessage({ id: 1, subject: 'some topic' })));
+      state = reducer(
+        state,
+        action(eg.streamMessage({ id: 1, subject: 'some topic' })),
+        eg.plusReduxState,
+      );
       return state;
     })();
 
@@ -84,22 +88,34 @@ describe('stream substate', () => {
     });
 
     test('if message id already exists, do not mutate state', () => {
-      const state = reducer(baseState, action(eg.streamMessage({ id: 1, subject: 'some topic' })));
+      const state = reducer(
+        baseState,
+        action(eg.streamMessage({ id: 1, subject: 'some topic' })),
+        eg.plusReduxState,
+      );
       expect(state).toBe(baseState);
     });
 
     test('if message is not stream, return original state', () => {
-      const state = reducer(baseState, action(eg.pmMessage({ id: 4 })));
+      const state = reducer(baseState, action(eg.pmMessage({ id: 4 })), eg.plusReduxState);
       expect(state.streams).toBe(baseState.streams);
     });
 
     test('if message is sent by self, do not mutate state', () => {
-      const state = reducer(baseState, action(eg.streamMessage({ sender: eg.selfUser })));
+      const state = reducer(
+        baseState,
+        action(eg.streamMessage({ sender: eg.selfUser })),
+        eg.plusReduxState,
+      );
       expect(state).toBe(baseState);
     });
 
     test('if message id does not exist, append to state', () => {
-      const state = reducer(baseState, action(eg.streamMessage({ id: 4, subject: 'some topic' })));
+      const state = reducer(
+        baseState,
+        action(eg.streamMessage({ id: 4, subject: 'some topic' })),
+        eg.plusReduxState,
+      );
       // prettier-ignore
       expect(summary(state)).toEqual(Immutable.Map([
         [eg.stream.stream_id, Immutable.Map([['some topic', [1, 4]]])],
@@ -108,7 +124,7 @@ describe('stream substate', () => {
 
     test('known stream, new topic', () => {
       const message = eg.streamMessage({ id: 4, subject: 'another topic' });
-      const state = reducer(baseState, action(message));
+      const state = reducer(baseState, action(message), eg.plusReduxState);
       // prettier-ignore
       expect(summary(state)).toEqual(Immutable.Map([
         [eg.stream.stream_id, Immutable.Map([
@@ -120,7 +136,7 @@ describe('stream substate', () => {
 
     test('if stream with topic does not exist, append to state', () => {
       const message = eg.streamMessage({ id: 4, stream_id: 2, subject: 'another topic' });
-      const state = reducer(baseState, action(message));
+      const state = reducer(baseState, action(message), eg.plusReduxState);
       // prettier-ignore
       expect(summary(state)).toEqual(Immutable.Map([
         [eg.stream.stream_id, Immutable.Map([['some topic', [1]]])],
@@ -145,12 +161,13 @@ describe('stream substate', () => {
 
     const baseState = (() => {
       const streamAction = args => mkMessageAction(eg.streamMessage(args));
+      const r = (state, action) => reducer(state, action, eg.plusReduxState);
       let state = initialState;
-      state = reducer(state, streamAction({ stream_id: 123, subject: 'foo', id: 1 }));
-      state = reducer(state, streamAction({ stream_id: 123, subject: 'foo', id: 2 }));
-      state = reducer(state, streamAction({ stream_id: 123, subject: 'foo', id: 3 }));
-      state = reducer(state, streamAction({ stream_id: 234, subject: 'bar', id: 4 }));
-      state = reducer(state, streamAction({ stream_id: 234, subject: 'bar', id: 5 }));
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 1 }));
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 2 }));
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 3 }));
+      state = r(state, streamAction({ stream_id: 234, subject: 'bar', id: 4 }));
+      state = r(state, streamAction({ stream_id: 234, subject: 'bar', id: 5 }));
       return state;
     })();
 
@@ -164,30 +181,30 @@ describe('stream substate', () => {
 
     test('when operation is "add" but flag is not "read" do not mutate state', () => {
       const action = mkAction({ messages: [1, 2, 3], flag: 'star' });
-      expect(reducer(initialState, action)).toBe(initialState);
+      expect(reducer(initialState, action, eg.plusReduxState)).toBe(initialState);
     });
 
     test('if id does not exist do not mutate state', () => {
       const action = mkAction({ messages: [6, 7] });
-      expect(reducer(baseState, action)).toBe(baseState);
+      expect(reducer(baseState, action, eg.plusReduxState)).toBe(baseState);
     });
 
     test('if ids are in state remove them', () => {
       const action = mkAction({ messages: [3, 4, 5, 6] });
       // prettier-ignore
-      expect(summary(reducer(baseState, action))).toEqual(Immutable.Map([
+      expect(summary(reducer(baseState, action, eg.plusReduxState))).toEqual(Immutable.Map([
         [123, Immutable.Map([['foo', [1, 2]]])],
       ]));
     });
 
     test('when operation is "remove" do nothing', () => {
       const action = mkAction({ messages: [1, 2], operation: 'remove' });
-      expect(reducer(baseState, action)).toBe(baseState);
+      expect(reducer(baseState, action, eg.plusReduxState)).toBe(baseState);
     });
 
     test('when "all" is true reset state', () => {
       const action = mkAction({ messages: [], all: true });
-      expect(reducer(baseState, action).streams).toBe(initialState.streams);
+      expect(reducer(baseState, action, eg.plusReduxState).streams).toBe(initialState.streams);
     });
   });
 });

@@ -94,7 +94,7 @@ describe('getTopicsForStream', () => {
   test('Return list of topic object with isMuted, unreadCount, topic name and max id in it.', () => {
     const stream = { ...eg.makeStream({ name: 'stream 1' }), stream_id: 1 };
 
-    const state = eg.reduxState({
+    const state = eg.reduxStatePlus({
       streams: [stream],
       topics: {
         [stream.stream_id]: [
@@ -113,8 +113,8 @@ describe('getTopicsForStream', () => {
         eg.streamMessage({ stream_id: 1, subject: 'topic 4', id: 7 }),
         eg.streamMessage({ stream_id: 1, subject: 'topic 4', id: 8 }),
       ].reduce(
-        (st, message) => unreadReducer(st, mkMessageAction(message)),
-        eg.baseReduxState.unread,
+        (st, message) => unreadReducer(st, mkMessageAction(message), eg.plusReduxState),
+        eg.plusReduxState.unread,
       ),
     });
     const expected = [
