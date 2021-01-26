@@ -434,7 +434,7 @@ describe('getUnreadStreamsAndTopics', () => {
   });
 
   test('streams are sorted alphabetically, case-insensitive, topics by last activity, pinned stream on top', () => {
-    const state = deepFreeze({
+    const state = eg.reduxStatePlus({
       subscriptions: [
         {
           stream_id: 2,
@@ -473,7 +473,10 @@ describe('getUnreadStreamsAndTopics', () => {
         eg.streamMessage({ stream_id: 2, subject: 'c topic', id: 8 }),
         eg.streamMessage({ stream_id: 1, subject: 'e topic', id: 10 }),
         eg.streamMessage({ stream_id: 1, subject: 'd topic', id: 9 }),
-      ].reduce((st, message) => reducer(st, mkMessageAction(message)), initialState),
+      ].reduce(
+        (st, message) => reducer(st, mkMessageAction(message), eg.plusReduxState),
+        eg.plusReduxState.unread,
+      ),
       mute: [['def stream', 'c topic']],
     });
 

@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import { type Reducer } from 'redux';
 
 import type { Action } from '../actionTypes';
 import type {
@@ -23,7 +22,11 @@ export const getUnreadHuddles = (state: GlobalState): UnreadHuddlesState => stat
 
 export const getUnreadMentions = (state: GlobalState): UnreadMentionsState => state.unread.mentions;
 
-export const reducer: Reducer<UnreadState, Action> = (state, action) => {
+export const reducer = (
+  state: void | UnreadState,
+  action: Action,
+  globalState: GlobalState,
+): UnreadState => {
   const nextState = {
     streams: unreadStreamsReducer(state?.streams, action),
     pms: unreadPmsReducer(state?.pms, action),
