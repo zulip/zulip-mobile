@@ -20,7 +20,7 @@ import { OwnAvatar, OfflineNotice, ZulipStatusBar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileScreen from '../account-info/ProfileScreen';
 import { useSelector } from '../react-redux';
-import { getHaveServerData, getSession } from '../selectors';
+import { getHaveServerData } from '../selectors';
 import styles, { ThemeContext } from '../styles';
 
 export type MainTabsNavigatorParamList = {|
@@ -50,7 +50,6 @@ export default function MainTabsScreen(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
   const haveServerData = useSelector(getHaveServerData);
 
-  const orientation = useSelector(state => getSession(state).orientation);
   const insets = useSafeAreaInsets();
 
   if (!haveServerData) {
@@ -66,7 +65,7 @@ export default function MainTabsScreen(props: Props) {
 
   return (
     <View style={[styles.flexed, { backgroundColor }]}>
-      {orientation === 'PORTRAIT' && <View style={{ height: insets.top }} />}
+      <View style={{ height: insets.top }} />
       <ZulipStatusBar />
       <OfflineNotice />
       <Tab.Navigator
