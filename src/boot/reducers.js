@@ -61,7 +61,6 @@ const reducers = config.enableReduxSlowReducerWarnings
   ? logSlowReducers(plainReducers)
   : plainReducers;
 
-export const ALL_KEYS: string[] = Object.keys(reducers);
 const reducerKeys = Object.keys(reducers);
 
 // Inlined just now from Redux upstream.
