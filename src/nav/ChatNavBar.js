@@ -49,17 +49,15 @@ export default function ChatNavBar(props: Props) {
               ? 'hsla(0, 0%, 50%, 0.25)'
               : Color(backgroundColor).darken(0.1),
           borderBottomWidth: 1,
+          backgroundColor,
         }}
       >
         <View
-          style={[
-            {
-              flexDirection: 'row',
-              height: NAVBAR_SIZE,
-              alignItems: 'center',
-            },
-            { backgroundColor },
-          ]}
+          style={{
+            flexDirection: 'row',
+            height: NAVBAR_SIZE,
+            alignItems: 'center',
+          }}
         >
           <NavBarBackButton color={color} />
           <Title color={color} narrow={narrow} editMessage={editMessage} />
