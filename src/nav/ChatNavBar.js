@@ -3,7 +3,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import Color from 'color';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Narrow, EditMessage } from '../types';
 import { LoadingBanner } from '../common';
@@ -32,10 +32,10 @@ export default function ChatNavBar(props: Props) {
       ? 'default'
       : foregroundColorFromBackground(backgroundColor);
 
-  const insets = useSafeAreaInsets();
-
   return (
-    <View
+    <SafeAreaView
+      mode="padding"
+      edges={['top']}
       style={{
         borderColor:
           backgroundColor === 'transparent'
@@ -43,7 +43,6 @@ export default function ChatNavBar(props: Props) {
             : Color(backgroundColor).darken(0.1),
         borderBottomWidth: 1,
         backgroundColor,
-        paddingTop: insets.top,
       }}
     >
       <View
@@ -63,6 +62,6 @@ export default function ChatNavBar(props: Props) {
         backgroundColor={backgroundColor}
         textColor={color}
       />
-    </View>
+    </SafeAreaView>
   );
 }
