@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { combineReducers, type Reducer } from 'redux';
+import { type Reducer } from 'redux';
 
 import type { Action } from '../actionTypes';
 import type {
@@ -23,9 +23,17 @@ export const getUnreadHuddles = (state: GlobalState): UnreadHuddlesState => stat
 
 export const getUnreadMentions = (state: GlobalState): UnreadMentionsState => state.unread.mentions;
 
-export const reducer: Reducer<UnreadState, Action> = combineReducers({
-  streams: unreadStreamsReducer,
-  pms: unreadPmsReducer,
-  huddles: unreadHuddlesReducer,
-  mentions: unreadMentionsReducer,
-});
+export const reducer: Reducer<UnreadState, Action> = (state, action) => {
+  const nextState = {
+    streams: unreadStreamsReducer(state?.streams, action),
+    pms: unreadPmsReducer(state?.pms, action),
+    huddles: unreadHuddlesReducer(state?.huddles, action),
+    mentions: unreadMentionsReducer(state?.mentions, action),
+  };
+
+  if (state && Object.keys(nextState).every(key => nextState[key] === state[key])) {
+    return state;
+  }
+
+  return nextState;
+};
