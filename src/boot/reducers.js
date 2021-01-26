@@ -31,7 +31,7 @@ import users from '../users/usersReducer';
 import timing from '../utils/timing';
 
 const reducers = {
-  migrations: (state: MigrationsState = NULL_OBJECT) => state,
+  migrations: (state: MigrationsState = NULL_OBJECT): MigrationsState => state,
   accounts,
   alertWords,
   caughtUp,
@@ -67,6 +67,27 @@ function maybeLogSlowReducer(action, key, startMs, endMs) {
   }
 }
 
+function applyReducer<Key: $Keys<GlobalState>, State>(
+  key: Key,
+  reducer: (void | State, Action) => State,
+  state: void | State,
+  action: Action,
+): State {
+  let startMs = undefined;
+  if (enableReduxSlowReducerWarnings) {
+    startMs = Date.now();
+  }
+
+  const nextState = reducer(state, action);
+
+  if (startMs !== undefined) {
+    const endMs = Date.now();
+    maybeLogSlowReducer(action, key, startMs, endMs);
+  }
+
+  return nextState;
+}
+
 // Inlined just now from Redux upstream.
 // We'll clean this up in the next few commits.
 const combinedReducer = (state: void | GlobalState, action: Action): GlobalState => {
@@ -77,18 +98,8 @@ const combinedReducer = (state: void | GlobalState, action: Action): GlobalState
     const reducer = reducers[key];
     const previousStateForKey = state?.[key];
 
-    let startMs = undefined;
-    if (enableReduxSlowReducerWarnings) {
-      startMs = Date.now();
-    }
-
     // $FlowFixMe -- works because reducer and previousStateForKey are from same key
-    const nextStateForKey = reducer(previousStateForKey, action);
-
-    if (startMs !== undefined) {
-      const endMs = Date.now();
-      maybeLogSlowReducer(action, key, startMs, endMs);
-    }
+    const nextStateForKey = applyReducer(key, reducer, previousStateForKey, action);
 
     nextState[key] = nextStateForKey;
     hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
