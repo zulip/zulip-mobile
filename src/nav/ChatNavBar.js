@@ -35,7 +35,7 @@ export default function ChatNavBar(props: Props) {
   return (
     <SafeAreaView
       mode="padding"
-      edges={['top']}
+      edges={['top', 'right', 'left']}
       style={{
         borderColor:
           backgroundColor === 'transparent'
