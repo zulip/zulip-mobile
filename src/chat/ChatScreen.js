@@ -122,13 +122,13 @@ export default function ChatScreen(props: Props) {
     <ActionSheetProvider>
       <View style={[componentStyles.screen, { backgroundColor }]}>
         <KeyboardAvoider style={styles.flexed} behavior="padding">
+          <ZulipStatusBar backgroundColor={titleBackgroundColor} />
           <View
             style={{
               height: insets.top,
               backgroundColor: titleBackgroundColor,
             }}
           />
-          <ZulipStatusBar backgroundColor={titleBackgroundColor} />
           <ChatNavBar narrow={narrow} editMessage={editMessage} />
           <OfflineNotice />
           <UnreadNotice narrow={narrow} />
