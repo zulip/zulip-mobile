@@ -2,7 +2,6 @@
 import { enableBatching } from 'redux-batched-actions';
 
 import config from '../config';
-import { logSlowReducers } from '../utils/redux';
 import { NULL_OBJECT } from '../nullObjects';
 import type { Action, GlobalState, MigrationsState } from '../types';
 
@@ -29,8 +28,9 @@ import { reducer as unread } from '../unread/unreadModel';
 import userGroups from '../user-groups/userGroupsReducer';
 import userStatus from '../user-status/userStatusReducer';
 import users from '../users/usersReducer';
+import timing from '../utils/timing';
 
-const plainReducers = {
+const reducers = {
   migrations: (state: MigrationsState = NULL_OBJECT) => state,
   accounts,
   alertWords,
@@ -57,11 +57,15 @@ const plainReducers = {
   users,
 };
 
-const reducers = config.enableReduxSlowReducerWarnings
-  ? logSlowReducers(plainReducers)
-  : plainReducers;
-
 const reducerKeys = Object.keys(reducers);
+
+const { enableReduxSlowReducerWarnings, slowReducersThreshold } = config;
+
+function maybeLogSlowReducer(action, key, startMs, endMs) {
+  if (endMs - startMs >= slowReducersThreshold) {
+    timing.add({ text: `${action.type} @ ${key}`, startMs, endMs });
+  }
+}
 
 // Inlined just now from Redux upstream.
 // We'll clean this up in the next few commits.
@@ -72,8 +76,20 @@ const combinedReducer = (state: void | GlobalState, action: Action): GlobalState
     const key = reducerKeys[i];
     const reducer = reducers[key];
     const previousStateForKey = state?.[key];
+
+    let startMs = undefined;
+    if (enableReduxSlowReducerWarnings) {
+      startMs = Date.now();
+    }
+
     // $FlowFixMe -- works because reducer and previousStateForKey are from same key
     const nextStateForKey = reducer(previousStateForKey, action);
+
+    if (startMs !== undefined) {
+      const endMs = Date.now();
+      maybeLogSlowReducer(action, key, startMs, endMs);
+    }
+
     nextState[key] = nextStateForKey;
     hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
   }
