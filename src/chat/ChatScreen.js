@@ -3,7 +3,6 @@ import React from 'react';
 import { View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSelector, useDispatch } from '../react-redux';
 import type { RouteProp } from '../react-navigation';
@@ -116,19 +115,12 @@ export default function ChatScreen(props: Props) {
   const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
 
   const titleBackgroundColor = useSelector(state => getTitleBackgroundColor(state, narrow));
-  const insets = useSafeAreaInsets();
 
   return (
     <ActionSheetProvider>
       <View style={[componentStyles.screen, { backgroundColor }]}>
         <KeyboardAvoider style={styles.flexed} behavior="padding">
           <ZulipStatusBar backgroundColor={titleBackgroundColor} />
-          <View
-            style={{
-              height: insets.top,
-              backgroundColor: titleBackgroundColor,
-            }}
-          />
           <ChatNavBar narrow={narrow} editMessage={editMessage} />
           <OfflineNotice />
           <UnreadNotice narrow={narrow} />

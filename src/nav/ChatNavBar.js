@@ -3,6 +3,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import Color from 'color';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { Narrow, EditMessage } from '../types';
 import { LoadingBanner } from '../common';
@@ -31,36 +32,46 @@ export default function ChatNavBar(props: Props) {
       ? 'default'
       : foregroundColorFromBackground(backgroundColor);
 
+  const insets = useSafeAreaInsets();
+
   return (
-    <View
-      style={{
-        borderColor:
-          backgroundColor === 'transparent'
-            ? 'hsla(0, 0%, 50%, 0.25)'
-            : Color(backgroundColor).darken(0.1),
-        borderBottomWidth: 1,
-      }}
-    >
+    <>
       <View
-        style={[
-          {
-            flexDirection: 'row',
-            height: NAVBAR_SIZE,
-            alignItems: 'center',
-          },
-          { backgroundColor },
-        ]}
-      >
-        <NavBarBackButton color={color} />
-        <Title color={color} narrow={narrow} editMessage={editMessage} />
-        <ExtraButton color={color} narrow={narrow} />
-        <InfoButton color={color} narrow={narrow} />
-      </View>
-      <LoadingBanner
-        spinnerColor={spinnerColor}
-        backgroundColor={backgroundColor}
-        textColor={color}
+        style={{
+          height: insets.top,
+          backgroundColor,
+        }}
       />
-    </View>
+      <View
+        style={{
+          borderColor:
+            backgroundColor === 'transparent'
+              ? 'hsla(0, 0%, 50%, 0.25)'
+              : Color(backgroundColor).darken(0.1),
+          borderBottomWidth: 1,
+        }}
+      >
+        <View
+          style={[
+            {
+              flexDirection: 'row',
+              height: NAVBAR_SIZE,
+              alignItems: 'center',
+            },
+            { backgroundColor },
+          ]}
+        >
+          <NavBarBackButton color={color} />
+          <Title color={color} narrow={narrow} editMessage={editMessage} />
+          <ExtraButton color={color} narrow={narrow} />
+          <InfoButton color={color} narrow={narrow} />
+        </View>
+        <LoadingBanner
+          spinnerColor={spinnerColor}
+          backgroundColor={backgroundColor}
+          textColor={color}
+        />
+      </View>
+    </>
   );
 }
