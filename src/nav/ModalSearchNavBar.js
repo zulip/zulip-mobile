@@ -18,20 +18,18 @@ export default function ModalSearchNavBar(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
   const insets = useSafeAreaInsets();
   return (
-    <>
-      <View style={{ height: insets.top }} />
-      <View
-        style={{
-          borderColor: 'hsla(0, 0%, 50%, 0.25)',
-          flexDirection: 'row',
-          alignItems: 'center',
-          borderBottomWidth: 1,
-          backgroundColor,
-        }}
-      >
-        {canGoBack && <NavBarBackButton />}
-        <SearchInput autoFocus={autoFocus} onChangeText={searchBarOnChange} />
-      </View>
-    </>
+    <View
+      style={{
+        borderColor: 'hsla(0, 0%, 50%, 0.25)',
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        backgroundColor,
+        paddingTop: insets.top,
+      }}
+    >
+      {canGoBack && <NavBarBackButton />}
+      <SearchInput autoFocus={autoFocus} onChangeText={searchBarOnChange} />
+    </View>
   );
 }
