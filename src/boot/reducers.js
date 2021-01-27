@@ -42,7 +42,7 @@ function maybeLogSlowReducer(action, key, startMs, endMs) {
 
 function applyReducer<Key: $Keys<GlobalState>, State>(
   key: Key,
-  reducer: (void | State, Action, void | GlobalState) => State,
+  reducer: (void | State, Action, GlobalState) => State,
   state: void | State,
   action: Action,
   globalState: void | GlobalState,
@@ -52,7 +52,22 @@ function applyReducer<Key: $Keys<GlobalState>, State>(
     startMs = Date.now();
   }
 
-  const nextState = reducer(state, action, globalState);
+  /* $FlowFixMe - We make a small lie about the type, pretending that
+     globalState is not void.
+
+     This is OK because it's only ever void at the initialization action,
+     and no reducer should do anything there other than return its initial
+     state, so in particular no reducer should even look at globalState.
+
+     Then on the other hand it's helpful because we want each reducer that
+     ever does use the globalState parameter to require it -- so that Flow
+     can help us be sure to pass it at the reducer's many other call sites,
+     in tests.  That means it has to be `globalState: GlobalState`, not
+     `globalState : void | GlobalState`.
+   */
+  const castGlobalState: GlobalState = globalState;
+
+  const nextState = reducer(state, action, castGlobalState);
 
   if (startMs !== undefined) {
     const endMs = Date.now();
