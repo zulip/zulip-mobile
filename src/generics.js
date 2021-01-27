@@ -80,10 +80,11 @@ export function typesEquivalent<T, U: T, _InternalDoNotPass: U = T>() {}
  * Also always subtracts a given property completely, even if its type on
  * `L` happens to be more specific than on `U`.
  *
- * Assumes both U and L are exact object types.  (If not, behavior unknown.)
- * Returns a solution, where possible, to the type equation
+ * Assumes both `U` and `L` are exact, read-only, object types.  (If not,
+ * behavior unknown.)  Returns a solution `D`, where possible, to the type
+ * equation
  *   `U == {| ...D, ...L |}`
- * with an (inexact) object type `D`.
+ * with an (exact) object type `D`.
  *
  * More generally, returns the most general solution `D` to the relation
  *   `{| ...D, ...L |}: U`  (read "subtype of")
@@ -96,6 +97,9 @@ export function typesEquivalent<T, U: T, _InternalDoNotPass: U = T>() {}
  *    (i.e., the property's values in `L` are valid for `U`).
  *  * `D` has exactly the properties in `U` that aren't in `L`.
  *  * Each property of `D` has the same type as in `U`.
+ *
+ * The resulting type `D` is not read-only, even though `U` and `L` should
+ * be.  This is due to Flow bug https://github.com/facebook/flow/issues/6225.
  */
 // Oddly, Flow accepts this declaration with <-U, -L> but also with <+U, +L>.
 export type BoundedDiff<-U, -L> = $Diff<

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { typesEquivalent } from '../generics';
+import { type BoundedDiff, typesEquivalent } from '../generics';
 import type { IsSupertype } from '../types';
 
 /* eslint-disable flowtype/space-after-type-colon */
@@ -188,5 +188,99 @@ function test_typesEquivalent_$Diff_surprise() {
       const d1: {| x?: mixed, y: mixed |} = { y: 3 };
       const d2: {| x: mixed, y: mixed |} = d1;
     }
+  }
+}
+
+// prettier-ignore
+function test_BoundedDiff() {
+  // Here we use functions, to avoid having to ever actually make a value of
+  // the various types.
+
+  // First, validate the test technique:
+  (x: number): number => x;
+  (x: number): mixed => x;
+  // $FlowExpectedError[incompatible-return]
+  (x: number): string => x;
+  // $FlowExpectedError[incompatible-return]
+  (x: number): empty => x;
+
+  // Basic happy use.
+  //
+  // There is one surprise here!  The resulting types' properties are
+  // invariant, even if the originals were read-only.  This behavior comes
+  // from $Diff and is a Flow bug:
+  //   https://github.com/facebook/flow/issues/6225
+  // (But with this test, we'll hopefully notice when it's fixed!)
+  typesEquivalent<BoundedDiff<{| +a: number, +b: number |}, {| +b: number |}>,
+                  {| a: number |}>();
+
+  // Here's a failing test of the desired behavior:
+  typesEquivalent<BoundedDiff<{| +a: number, +b: number |}, {| +b: number |}>,
+                  // $FlowIssue[incompatible-variance] #6225 -- see above
+                  {| +a: number |}>();
+
+  // Here's also a version of the happy case that doesn't involve specifying
+  // exactly what we think the resulting type will be.  This provides a
+  // helpful baseline for the test cases below where we'll be testing that
+  // BoundedDiff gives an error on even trying to instantiate it.
+  (x: BoundedDiff<{| +a: number, +b: number |}, {| +b: number |}>): number => x.a;
+
+  // No extraneous properties allowed.
+  // $FlowExpectedError[prop-missing]
+  (x: BoundedDiff<{| +a: number, +b: number |}, {| +c: number |}>): number => x.a;
+
+  // For a given property, must be subtracting with (non-strict) subtype.
+  (x: BoundedDiff<{| +a: number, +b: mixed |}, {| +b: number |}>): number => x.a;
+  // $FlowExpectedError[incompatible-type-arg]
+  (x: BoundedDiff<{| +a: number, +b: number |}, {| +b: mixed |}>): number => x.a;
+  // $FlowExpectedError[incompatible-type-arg]
+  (x: BoundedDiff<{| +a: number, +b: number |}, {| +b: mixed |}>): mixed => x.a;
+
+  // Property is removed even if subtracting with a proper subtype.
+  (x: BoundedDiff<{| +a: number, +b: mixed |}, {| +b: number |}>): {| +a: number |} => x;
+  typesEquivalent<BoundedDiff<{| +a: number, +b: mixed |}, {| +b: number |}>,
+                  {| a: number |}>();
+
+  {
+    // More notes on Flow and sharp edges for writing tests of types.
+
+    // Note if we don't actually use `x`, Flow doesn't dig into its type to
+    // find the contradiction there:
+    (x: BoundedDiff<{| +a: number, +b: number |}, {| +c: number |}>): number => 1;
+
+    // Similarly if we just use it where we only need a `mixed`:
+    (x: BoundedDiff<{| +a: number, +b: number |}, {| +c: number |}>): mixed => x;
+
+    // But a missing property is an error even when it's only going to be
+    // used as `mixed`:
+    // $FlowExpectedError[prop-missing]
+    (x: {| +a: number |}): mixed => x.c;
+    // $FlowExpectedError[prop-missing]
+    (x: BoundedDiff<{| +a: number, +b: number |}, {| +b: number |}>): mixed => x.c;
+
+    // So if we try to get a *property* of `x`, even to use as `mixed`, then
+    // Flow does want to check that `x` has that property at all.  Which
+    // means it has to examine its type, and it finds the contradiction:
+    // $FlowExpectedError[prop-missing]
+    (x: BoundedDiff<{| +a: number, +b: number |}, {| +c: number |}>): mixed => x.a;
+
+    // The basic principle here is that Flow is focused on tracking the,
+    // well, *flow* (the name is not a coincidence) of values from one place
+    // in the program (a variable, a function parameter, an object property,
+    // an expression, etc.) to another.  Type-level expressions are
+    // secondary, and their implications often only get worked through
+    // lazily, when some value-level flow makes it necessary to do so.
+    //
+    // That means if you're testing some type-level operator like
+    // BoundedDiff (or IsSupertype, as discussed in its tests above), you'll
+    // typically need to create some value-level flows to exercise it --
+    // even for cases where the intent is that some choices of type
+    // parameter result in an error of their own.
+    //
+    // Happily this isn't a warning -- there's no need to worry about
+    // getting anything wrong by forgetting it.  As long as you set out to
+    // write tests for the error case, if you forget this point then you'll
+    // see that your tests are failing to fail.  Rather, this is a tip for
+    // how to solve that problem if you run into it.
   }
 }
