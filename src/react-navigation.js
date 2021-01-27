@@ -31,7 +31,7 @@ import type { GlobalParamList } from './nav/globalTypes';
  *   by at the navigator.  (This is type-checked at the navigator.)
  * @param {RouteParams} - The type to use for `props.route.params`.
  */
-export type RouteProp<+RouteName: string, +RouteParams: ScreenParams> = {|
+export type RouteProp<+RouteName: string, +RouteParams: ScreenParams | void> = {|
   ...LeafRoute<RouteName>,
   +params: RouteParams,
 |};
