@@ -6,27 +6,23 @@ import {
   createMaterialTopTabNavigator,
   type MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs';
-import type { RouteProp } from '@react-navigation/native';
 
 import { createStyleSheet } from '../styles';
 import type { MainTabsNavigationProp, MainTabsRouteProp } from './MainTabsScreen';
+import type { RouteParamsOf } from '../react-navigation';
 import type { GlobalParamList } from '../nav/globalTypes';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import SubscriptionsCard from '../streams/SubscriptionsCard';
 import StreamListCard from '../subscriptions/StreamListCard';
 
 export type StreamTabsNavigatorParamList = {|
-  subscribed: void,
-  allStreams: void,
+  subscribed: RouteParamsOf<typeof SubscriptionsCard>,
+  allStreams: RouteParamsOf<typeof StreamListCard>,
 |};
 
 export type StreamTabsNavigationProp<
   +RouteName: $Keys<StreamTabsNavigatorParamList> = $Keys<StreamTabsNavigatorParamList>,
 > = MaterialTopTabNavigationProp<GlobalParamList, RouteName>;
-
-export type StreamTabsRouteProp<
-  RouteName: $Keys<StreamTabsNavigatorParamList> = $Keys<StreamTabsNavigatorParamList>,
-> = RouteProp<GlobalParamList, RouteName>;
 
 const Tab = createMaterialTopTabNavigator<
   GlobalParamList,

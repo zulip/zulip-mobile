@@ -3,7 +3,8 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { StreamTabsNavigationProp, StreamTabsRouteProp } from '../main/StreamTabsScreen';
+import type { RouteProp } from '../react-navigation';
+import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
@@ -27,7 +28,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: StreamTabsNavigationProp<'allStreams'>,
-  route: StreamTabsRouteProp<'allStreams'>,
+  route: RouteProp<'allStreams', void>,
 
   dispatch: Dispatch,
   auth: Auth,
