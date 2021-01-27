@@ -25,7 +25,7 @@ export default function ModalNavBar(props: Props) {
   return (
     <SafeAreaView
       mode="padding"
-      edges={['top']}
+      edges={['top', 'right', 'left']}
       style={[
         {
           borderColor: 'hsla(0, 0%, 50%, 0.25)',
