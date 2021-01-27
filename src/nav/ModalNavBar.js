@@ -24,24 +24,22 @@ export default function ModalNavBar(props: Props) {
   const insets = useSafeAreaInsets();
 
   return (
-    <>
-      <View style={{ height: insets.top }} />
-      <View
-        style={[
-          {
-            borderColor: 'hsla(0, 0%, 50%, 0.25)',
-            flexDirection: 'row',
-            alignItems: 'center',
-            borderBottomWidth: 1,
-            backgroundColor,
-          },
-        ]}
-      >
-        {canGoBack && <NavBarBackButton />}
-        <View style={styles.flexedLeftAlign}>
-          <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
-        </View>
+    <View
+      style={[
+        {
+          borderColor: 'hsla(0, 0%, 50%, 0.25)',
+          flexDirection: 'row',
+          alignItems: 'center',
+          borderBottomWidth: 1,
+          backgroundColor,
+          paddingTop: insets.top,
+        },
+      ]}
+    >
+      {canGoBack && <NavBarBackButton />}
+      <View style={styles.flexedLeftAlign}>
+        <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
       </View>
-    </>
+    </View>
   );
 }
