@@ -45,13 +45,13 @@ export default (state: PresenceState = initialState, action: Action): PresenceSt
           ...state[action.email],
           // Flow bug (unresolved):
           // https://github.com/facebook/flow/issues/8276
-          // $FlowFixMe
+          // $FlowIssue #8276
           ...action.presence,
           aggregated: getAggregatedPresence({
             ...state[action.email],
             // Flow bug (unresolved):
             // https://github.com/facebook/flow/issues/8276
-            // $FlowFixMe
+            // $FlowIssue #8276
             ...action.presence,
           }),
         },

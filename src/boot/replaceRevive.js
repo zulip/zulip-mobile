@@ -57,25 +57,25 @@ function replacer(key, value) {
 
   switch (Object.getPrototypeOf(origValue)) {
     // Flow bug: https://github.com/facebook/flow/issues/6110
-    case (ZulipVersion.prototype: $FlowFixMe):
+    case (ZulipVersion.prototype: $FlowIssue):
       return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
-    case (URL.prototype: $FlowFixMe):
+    case (URL.prototype: $FlowIssue):
       return { data: origValue.toString(), [SERIALIZED_TYPE_FIELD_NAME]: 'URL' };
-    case (GravatarURL.prototype: $FlowFixMe):
+    case (GravatarURL.prototype: $FlowIssue):
       return { data: GravatarURL.serialize(value), [SERIALIZED_TYPE_FIELD_NAME]: 'GravatarURL' };
-    case (UploadedAvatarURL.prototype: $FlowFixMe):
+    case (UploadedAvatarURL.prototype: $FlowIssue):
       return {
         data: UploadedAvatarURL.serialize(value),
         [SERIALIZED_TYPE_FIELD_NAME]: 'UploadedAvatarURL',
       };
-    case (FallbackAvatarURL.prototype: $FlowFixMe):
+    case (FallbackAvatarURL.prototype: $FlowIssue):
       return {
         data: FallbackAvatarURL.serialize(value),
         [SERIALIZED_TYPE_FIELD_NAME]: 'FallbackAvatarURL',
       };
-    case (Immutable.List.prototype: $FlowFixMe):
+    case (Immutable.List.prototype: $FlowIssue):
       return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'ImmutableList' };
-    case (Immutable.Map.prototype: $FlowFixMe): {
+    case (Immutable.Map.prototype: $FlowIssue): {
       const firstKey = origValue.keySeq().first();
       return {
         data: value,
@@ -109,8 +109,8 @@ function replacer(key, value) {
   const origValuePrototype = Object.getPrototypeOf(origValue);
   invariant(
     // Flow bug: https://github.com/facebook/flow/issues/6110
-    origValuePrototype === (Object.prototype: $FlowFixMe)
-      || origValuePrototype === (Array.prototype: $FlowFixMe),
+    origValuePrototype === (Object.prototype: $FlowIssue)
+      || origValuePrototype === (Array.prototype: $FlowIssue),
     'unexpected class',
   );
 
