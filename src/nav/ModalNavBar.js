@@ -2,7 +2,7 @@
 
 import React, { useContext } from 'react';
 import { View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { LocalizableText } from '../types';
 import styles, { ThemeContext, NAVBAR_SIZE } from '../styles';
@@ -21,10 +21,11 @@ export default function ModalNavBar(props: Props) {
     styles.navTitle,
     canGoBack ? { marginRight: NAVBAR_SIZE } : { marginLeft: 16 },
   ];
-  const insets = useSafeAreaInsets();
 
   return (
-    <View
+    <SafeAreaView
+      mode="padding"
+      edges={['top']}
       style={[
         {
           borderColor: 'hsla(0, 0%, 50%, 0.25)',
@@ -32,7 +33,6 @@ export default function ModalNavBar(props: Props) {
           alignItems: 'center',
           borderBottomWidth: 1,
           backgroundColor,
-          paddingTop: insets.top,
         },
       ]}
     >
@@ -40,6 +40,6 @@ export default function ModalNavBar(props: Props) {
       <View style={styles.flexedLeftAlign}>
         <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
