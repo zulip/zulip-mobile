@@ -119,8 +119,8 @@ class Screen extends PureComponent<Props> {
           { paddingBottom: insets.bottom },
         ]}
       >
-        <View style={{ height: insets.top }} />
         <ZulipStatusBar />
+        <View style={{ height: insets.top }} />
         {search ? (
           <ModalSearchNavBar
             autoFocus={autoFocus}
