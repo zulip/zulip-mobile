@@ -2,7 +2,8 @@
 import React, { PureComponent } from 'react';
 import { Keyboard } from 'react-native';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { ZulipVersion } from '../utils/zulipVersion';
 import type { Dispatch } from '../types';
@@ -19,7 +20,7 @@ type SelectorProps = {|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
-  route: AppNavigationRouteProp<'realm-input'>,
+  route: RouteProp<'realm-input', {| realm: URL | void, initial: boolean | void |}>,
 
   dispatch: Dispatch,
   ...SelectorProps,

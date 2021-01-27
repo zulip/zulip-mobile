@@ -2,7 +2,8 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { LoadingIndicator, ZulipStatusBar } from '../common';
 
@@ -22,7 +23,7 @@ type Props = $ReadOnly<{|
   // prop (with the particular shape for this route) and the `route`
   // prop for free.
   navigation?: AppNavigationProp<'loading'>,
-  route?: AppNavigationRouteProp<'loading'>,
+  route?: RouteProp<'loading', void>,
 |}>;
 
 export default function LoadingScreen(props: Props) {

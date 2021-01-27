@@ -3,7 +3,8 @@
 import React, { PureComponent } from 'react';
 import { nativeApplicationVersion } from 'expo-application';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
@@ -23,7 +24,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'diagnostics'>,
-  route: AppNavigationRouteProp<'diagnostics'>,
+  route: RouteProp<'diagnostics', void>,
 |}>;
 
 export default class DiagnosticsScreen extends PureComponent<Props> {

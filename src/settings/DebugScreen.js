@@ -2,7 +2,8 @@
 
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { Debug, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSession } from '../selectors';
@@ -11,7 +12,7 @@ import { debugFlagToggle } from '../actions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'debug'>,
-  route: AppNavigationRouteProp<'debug'>,
+  route: RouteProp<'debug', void>,
 
   debug: Debug,
   dispatch: Dispatch,

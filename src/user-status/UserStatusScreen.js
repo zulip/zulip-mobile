@@ -4,7 +4,8 @@ import { FlatList, View } from 'react-native';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { createStyleSheet } from '../styles';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -30,7 +31,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'user-status'>,
-  route: AppNavigationRouteProp<'user-status'>,
+  route: RouteProp<'user-status', void>,
 
   dispatch: Dispatch,
   userStatusText: string,

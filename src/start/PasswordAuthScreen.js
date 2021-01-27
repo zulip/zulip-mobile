@@ -2,7 +2,8 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { Auth, Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -28,7 +29,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'password-auth'>,
-  route: AppNavigationRouteProp<'password-auth'>,
+  route: RouteProp<'password-auth', {| requireEmailFormat: boolean |}>,
 
   partialAuth: Auth,
   dispatch: Dispatch,
