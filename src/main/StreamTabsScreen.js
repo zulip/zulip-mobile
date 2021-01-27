@@ -8,8 +8,8 @@ import {
 } from '@react-navigation/material-top-tabs';
 
 import { createStyleSheet } from '../styles';
-import type { MainTabsNavigationProp, MainTabsRouteProp } from './MainTabsScreen';
-import type { RouteParamsOf } from '../react-navigation';
+import type { RouteProp, RouteParamsOf } from '../react-navigation';
+import type { MainTabsNavigationProp } from './MainTabsScreen';
 import type { GlobalParamList } from '../nav/globalTypes';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import SubscriptionsCard from '../streams/SubscriptionsCard';
@@ -39,7 +39,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'stream-tabs'>,
-  route: MainTabsRouteProp<'stream-tabs'>,
+  route: RouteProp<'stream-tabs', void>,
 |}>;
 
 export default function StreamTabsScreen(props: Props) {

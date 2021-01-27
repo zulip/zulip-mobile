@@ -3,7 +3,8 @@
 import React, { useContext } from 'react';
 import { View } from 'react-native';
 
-import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabsScreen';
+import type { RouteProp } from '../react-navigation';
+import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { ThemeContext, createStyleSheet } from '../styles';
 import { useSelector, useDispatch } from '../react-redux';
@@ -34,7 +35,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'pm-conversations'>,
-  route: MainTabsRouteProp<'pm-conversations'>,
+  route: RouteProp<'pm-conversations', void>,
 |}>;
 
 /**
