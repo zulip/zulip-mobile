@@ -3,7 +3,8 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import { unicodeCodeByName } from './codePointMap';
@@ -18,7 +19,7 @@ import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'emoji-picker'>,
-  route: AppNavigationRouteProp<'emoji-picker'>,
+  route: RouteProp<'emoji-picker', {| messageId: number |}>,
 
   activeImageEmojiByName: RealmEmojiById,
   auth: Auth,

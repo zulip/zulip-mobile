@@ -5,14 +5,16 @@ import { Linking, Platform } from 'react-native';
 import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
-import config from '../config';
-import type { Dispatch } from '../types';
 import type {
+  ApiResponseServerSettings,
   AuthenticationMethods,
   ExternalAuthenticationMethod,
 } from '../api/settings/getServerSettings';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
+import * as NavigationService from '../nav/NavigationService';
+import config from '../config';
+import type { Dispatch } from '../types';
 import {
   IconApple,
   IconPrivate,
@@ -168,7 +170,7 @@ export const activeAuthentications = (
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'auth'>,
-  route: AppNavigationRouteProp<'auth'>,
+  route: RouteProp<'auth', {| serverSettings: ApiResponseServerSettings |}>,
 
   dispatch: Dispatch,
   realm: URL,

@@ -6,9 +6,10 @@ import {
   type BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp, RouteParamsOf } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { GlobalParamList } from '../nav/globalTypes';
-import type { RouteParamsOf } from '../react-navigation';
+
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import StreamTabsScreen from './StreamTabsScreen';
@@ -42,7 +43,7 @@ const Tab = createBottomTabNavigator<
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'main-tabs'>,
-  route: AppNavigationRouteProp<'main-tabs'>,
+  route: RouteProp<'main-tabs', void>,
 |}>;
 
 export default function MainTabsScreen(props: Props) {

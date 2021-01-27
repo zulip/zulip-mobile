@@ -1,19 +1,17 @@
 /* @flow strict-local */
 import React from 'react';
 import { Platform } from 'react-native';
-import type { RouteProp } from '@react-navigation/native';
 import {
   createStackNavigator,
   type StackNavigationProp,
   TransitionPresets,
 } from '@react-navigation/stack';
 
+import type { RouteParamsOf } from '../react-navigation';
 import { useSelector } from '../react-redux';
 import { hasAuth as getHasAuth, getAccounts, getHaveServerData } from '../selectors';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { GlobalParamList } from './globalTypes';
-import type { Narrow, Message, SharedData, UserId } from '../types';
-import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmInputScreen from '../start/RealmInputScreen';
 import AuthScreen from '../start/AuthScreen';
@@ -47,46 +45,46 @@ import UserStatusScreen from '../user-status/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
 
 export type AppNavigatorParamList = {|
-  'account-pick': void,
-  'account-details': {| userId: UserId |},
-  'group-details': {| recipients: $ReadOnlyArray<UserId> |},
-  auth: {| serverSettings: ApiResponseServerSettings |},
-  chat: {| narrow: Narrow |},
-  'dev-auth': void,
-  'emoji-picker': {| messageId: number |},
+  'account-pick': RouteParamsOf<typeof AccountPickScreen>,
+  'account-details': RouteParamsOf<typeof AccountDetailsScreen>,
+  'group-details': RouteParamsOf<typeof GroupDetailsScreen>,
+  auth: RouteParamsOf<typeof AuthScreen>,
+  chat: RouteParamsOf<typeof ChatScreen>,
+  'dev-auth': RouteParamsOf<typeof DevAuthScreen>,
+  'emoji-picker': RouteParamsOf<typeof EmojiPickerScreen>,
+
+  // Can't instantiate `RouteParamsOf` for `typeof LoadingScreen`
+  // because its `route` prop is optional.
   loading: void,
-  'main-tabs': void,
-  'message-reactions': {| reactionName?: string, messageId: number |},
-  'password-auth': {| requireEmailFormat: boolean |},
-  'realm-input': {| realm: URL | void, initial: boolean | void |},
-  'search-messages': void,
-  users: void,
-  language: void,
-  lightbox: {| src: string, message: Message |},
-  'create-group': void,
-  'invite-users': {| streamId: number |},
-  diagnostics: void,
-  variables: void,
-  timing: void,
-  storage: void,
-  debug: void,
-  'stream-settings': {| streamId: number |},
-  'edit-stream': {| streamId: number |},
-  'create-stream': void,
-  'topic-list': {| streamId: number |},
-  notifications: void,
-  legal: void,
-  'user-status': void,
-  sharing: {| sharedData: SharedData |},
+
+  'main-tabs': RouteParamsOf<typeof MainTabsScreen>,
+  'message-reactions': RouteParamsOf<typeof MessageReactionsScreen>,
+  'password-auth': RouteParamsOf<typeof PasswordAuthScreen>,
+  'realm-input': RouteParamsOf<typeof RealmInputScreen>,
+  'search-messages': RouteParamsOf<typeof SearchMessagesScreen>,
+  users: RouteParamsOf<typeof UsersScreen>,
+  language: RouteParamsOf<typeof LanguageScreen>,
+  lightbox: RouteParamsOf<typeof LightboxScreen>,
+  'create-group': RouteParamsOf<typeof CreateGroupScreen>,
+  'invite-users': RouteParamsOf<typeof InviteUsersScreen>,
+  diagnostics: RouteParamsOf<typeof DiagnosticsScreen>,
+  variables: RouteParamsOf<typeof VariablesScreen>,
+  timing: RouteParamsOf<typeof TimingScreen>,
+  storage: RouteParamsOf<typeof StorageScreen>,
+  debug: RouteParamsOf<typeof DebugScreen>,
+  'stream-settings': RouteParamsOf<typeof StreamSettingsScreen>,
+  'edit-stream': RouteParamsOf<typeof EditStreamScreen>,
+  'create-stream': RouteParamsOf<typeof CreateStreamScreen>,
+  'topic-list': RouteParamsOf<typeof TopicListScreen>,
+  notifications: RouteParamsOf<typeof NotificationsScreen>,
+  legal: RouteParamsOf<typeof LegalScreen>,
+  'user-status': RouteParamsOf<typeof UserStatusScreen>,
+  sharing: RouteParamsOf<typeof SharingScreen>,
 |};
 
 export type AppNavigationProp<
   +RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
 > = StackNavigationProp<GlobalParamList, RouteName>;
-
-export type AppNavigationRouteProp<
-  RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
-> = RouteProp<GlobalParamList, RouteName>;
 
 const Stack = createStackNavigator<GlobalParamList, AppNavigatorParamList, AppNavigationProp<>>();
 

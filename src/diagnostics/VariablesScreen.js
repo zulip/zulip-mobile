@@ -2,14 +2,15 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import config from '../config';
 import { Screen } from '../common';
 import InfoItem from './InfoItem';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'variables'>,
-  route: AppNavigationRouteProp<'variables'>,
+  route: RouteProp<'variables', void>,
 |}>;
 
 export default class VariablesScreen extends PureComponent<Props> {
