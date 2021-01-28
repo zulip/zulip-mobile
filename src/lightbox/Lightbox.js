@@ -79,6 +79,10 @@ export default function Lightbox(props: Props) {
         //   https://github.com/alwx/react-native-photo-view/issues/98
         // TODO: Figure out how to make it work.
         resizeMode="contain"
+        // Android already doesn't show any scrollbars; these two
+        // iOS-only props let us hide them on iOS.
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         onTap={handleImagePress}
         onViewTap={handleImagePress}
       />
