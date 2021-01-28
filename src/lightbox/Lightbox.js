@@ -74,6 +74,10 @@ export default function Lightbox(props: Props) {
       <PhotoView
         source={resource}
         style={[styles.img, { width: windowWidth }]}
+        // Doesn't seem to do anything on iOS:
+        //   https://github.com/alwx/react-native-photo-view/issues/62
+        //   https://github.com/alwx/react-native-photo-view/issues/98
+        // TODO: Figure out how to make it work.
         resizeMode="contain"
         onTap={handleImagePress}
         onViewTap={handleImagePress}
