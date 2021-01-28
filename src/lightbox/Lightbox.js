@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { useState, useCallback } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, LayoutAnimation } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
@@ -49,6 +49,10 @@ export default function Lightbox(props: Props) {
 
   // Pulled out here just because this function is used twice.
   const handleImagePress = useCallback(() => {
+    LayoutAnimation.configureNext({
+      ...LayoutAnimation.Presets.easeInEaseOut,
+      duration: 100, // from 300
+    });
     setMovement(m => (m === 'out' ? 'in' : 'out'));
   }, [setMovement]);
 
