@@ -25,7 +25,7 @@ const styles = createStyleSheet({
     fontSize: 12,
   },
   rightIcon: {
-    fontSize: 36,
+    fontSize: 28,
     alignSelf: 'center',
   },
   wrapper: {
