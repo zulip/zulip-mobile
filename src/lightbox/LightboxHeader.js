@@ -31,7 +31,6 @@ const styles = createStyleSheet({
   wrapper: {
     flex: 1,
     flexDirection: 'row',
-    flexWrap: 'wrap',
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
