@@ -42,7 +42,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function Lightbox(props: Props) {
-  const [movement, setMovement] = useState<'in' | 'out'>('out');
+  const [headerFooterVisible, setHeaderFooterVisible] = useState<boolean>(true);
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
     .showActionSheetWithOptions;
   const auth = useSelector(getAuth);
@@ -53,8 +53,8 @@ export default function Lightbox(props: Props) {
       ...LayoutAnimation.Presets.easeInEaseOut,
       duration: 100, // from 300
     });
-    setMovement(m => (m === 'out' ? 'in' : 'out'));
-  }, [setMovement]);
+    setHeaderFooterVisible(m => !m);
+  }, [setHeaderFooterVisible]);
 
   const { src, message } = props;
   const footerMessage =
@@ -83,7 +83,7 @@ export default function Lightbox(props: Props) {
           styles.overlay,
           styles.header,
           { width: windowWidth },
-          movement === 'out' ? { top: 0 } : { bottom: windowHeight },
+          headerFooterVisible ? { top: 0 } : { bottom: windowHeight },
         ]}
       >
         <LightboxHeader
@@ -100,7 +100,7 @@ export default function Lightbox(props: Props) {
         style={[
           styles.overlay,
           { width: windowWidth },
-          movement === 'out' ? { bottom: 0 } : { top: windowHeight },
+          headerFooterVisible ? { bottom: 0 } : { top: windowHeight },
         ]}
       >
         <LightboxFooter
