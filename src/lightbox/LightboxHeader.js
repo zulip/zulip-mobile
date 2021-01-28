@@ -29,12 +29,9 @@ const styles = createStyleSheet({
     alignSelf: 'center',
   },
   wrapper: {
-    backgroundColor: 'transparent',
-    borderBottomWidth: 0,
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
