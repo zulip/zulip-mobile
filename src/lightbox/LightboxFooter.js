@@ -9,11 +9,10 @@ import { createStyleSheet } from '../styles';
 
 const styles = createStyleSheet({
   wrapper: {
-    height: 44,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingLeft: 16,
-    paddingRight: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     flex: 1,
   },
   text: {
