@@ -59,7 +59,7 @@ export default function Lightbox(props: Props) {
       ? `Shared in #${streamNameOfStreamMessage(message)}`
       : 'Shared with you';
   const resource = getResource(src, auth);
-  const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
+  const { width: windowWidth } = Dimensions.get('window');
 
   const animationProps = {
     easing: Easing.bezier(0.075, 0.82, 0.165, 1),
@@ -95,9 +95,9 @@ export default function Lightbox(props: Props) {
       </SlideAnimationView>
       <SlideAnimationView
         property="translateY"
-        style={[styles.overlay, { width: windowWidth, bottom: windowHeight - 44 }]}
-        from={windowHeight}
-        to={windowHeight - 44}
+        style={[styles.overlay, { width: windowWidth, bottom: 0 }]}
+        from={44}
+        to={0}
         {...animationProps}
       >
         <LightboxFooter
