@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { useState, useCallback } from 'react';
-import { View, Dimensions, Easing } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
@@ -11,11 +11,10 @@ import { useSelector } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { getAuth, getSession } from '../selectors';
 import { getResource } from '../utils/url';
-import { SlideAnimationView } from '../common';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
-import { NAVBAR_SIZE, createStyleSheet } from '../styles';
+import { createStyleSheet } from '../styles';
 import { navigateBack } from '../actions';
 import { streamNameOfStreamMessage } from '../utils/recipient';
 
@@ -64,13 +63,7 @@ export default function Lightbox(props: Props) {
   // when the orientation changes. No need to store the value.
   useSelector(state => getSession(state).orientation);
 
-  const { width: windowWidth } = Dimensions.get('window');
-
-  const animationProps = {
-    easing: Easing.bezier(0.075, 0.82, 0.165, 1),
-    duration: 300,
-    movement,
-  };
+  const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
 
   return (
     <View style={styles.container}>
@@ -81,12 +74,13 @@ export default function Lightbox(props: Props) {
         onTap={handleImagePress}
         onViewTap={handleImagePress}
       />
-      <SlideAnimationView
-        property="translateY"
-        style={[styles.overlay, styles.header, { width: windowWidth }, { top: 0 }]}
-        from={-NAVBAR_SIZE}
-        to={0}
-        {...animationProps}
+      <View
+        style={[
+          styles.overlay,
+          styles.header,
+          { width: windowWidth },
+          movement === 'out' ? { top: 0 } : { bottom: windowHeight },
+        ]}
       >
         <LightboxHeader
           onPressBack={() => {
@@ -97,13 +91,13 @@ export default function Lightbox(props: Props) {
           senderName={message.sender_full_name}
           senderEmail={message.sender_email}
         />
-      </SlideAnimationView>
-      <SlideAnimationView
-        property="translateY"
-        style={[styles.overlay, { width: windowWidth }, { bottom: 0 }]}
-        from={44}
-        to={0}
-        {...animationProps}
+      </View>
+      <View
+        style={[
+          styles.overlay,
+          { width: windowWidth },
+          movement === 'out' ? { bottom: 0 } : { top: windowHeight },
+        ]}
       >
         <LightboxFooter
           displayMessage={footerMessage}
@@ -125,7 +119,7 @@ export default function Lightbox(props: Props) {
             );
           }}
         />
-      </SlideAnimationView>
+      </View>
     </View>
   );
 }
