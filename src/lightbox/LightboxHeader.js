@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { shortTime, humanDate } from '../utils/date';
 import { createStyleSheet } from '../styles';
@@ -63,20 +64,22 @@ export default class LightboxHeader extends PureComponent<Props> {
     const subheader = `${displayDate} at ${time}`;
 
     return (
-      <View style={styles.wrapper}>
-        <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} email={senderEmail} />
-        <View style={styles.text}>
-          <Text style={styles.name} numberOfLines={1}>
-            {senderName}
-          </Text>
-          <Text style={styles.subheader} numberOfLines={1}>
-            {subheader}
-          </Text>
+      <SafeAreaView mode="padding" edges={['top', 'right', 'left']}>
+        <View style={styles.wrapper}>
+          <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} email={senderEmail} />
+          <View style={styles.text}>
+            <Text style={styles.name} numberOfLines={1}>
+              {senderName}
+            </Text>
+            <Text style={styles.subheader} numberOfLines={1}>
+              {subheader}
+            </Text>
+          </View>
+          <Touchable onPress={onPressBack}>
+            <Icon style={styles.rightIcon} color="white" name="x" />
+          </Touchable>
         </View>
-        <Touchable onPress={onPressBack}>
-          <Icon style={styles.rightIcon} color="white" name="x" />
-        </Touchable>
-      </View>
+      </SafeAreaView>
     );
   }
 }

@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Icon } from '../common/Icons';
 import { createStyleSheet } from '../styles';
@@ -36,10 +37,12 @@ export default class LightboxFooter extends PureComponent<Props> {
   render() {
     const { displayMessage, onOptionsPress, style } = this.props;
     return (
-      <View style={[styles.wrapper, style]}>
-        <Text style={styles.text}>{displayMessage}</Text>
-        <Icon style={styles.icon} color="white" name="more-vertical" onPress={onOptionsPress} />
-      </View>
+      <SafeAreaView mode="padding" edges={['right', 'bottom', 'left']}>
+        <View style={[styles.wrapper, style]}>
+          <Text style={styles.text}>{displayMessage}</Text>
+          <Icon style={styles.icon} color="white" name="more-vertical" onPress={onOptionsPress} />
+        </View>
+      </SafeAreaView>
     );
   }
 }
