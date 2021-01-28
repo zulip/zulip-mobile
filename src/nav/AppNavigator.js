@@ -52,11 +52,7 @@ export type AppNavigatorParamList = {|
   chat: RouteParamsOf<typeof ChatScreen>,
   'dev-auth': RouteParamsOf<typeof DevAuthScreen>,
   'emoji-picker': RouteParamsOf<typeof EmojiPickerScreen>,
-
-  // Can't instantiate `RouteParamsOf` for `typeof LoadingScreen`
-  // because its `route` prop is optional.
-  loading: void,
-
+  loading: RouteParamsOf<typeof LoadingScreen>,
   'main-tabs': RouteParamsOf<typeof MainTabsScreen>,
   'message-reactions': RouteParamsOf<typeof MessageReactionsScreen>,
   'password-auth': RouteParamsOf<typeof PasswordAuthScreen>,
