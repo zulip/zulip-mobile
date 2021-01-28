@@ -9,7 +9,7 @@ import * as NavigationService from '../nav/NavigationService';
 import type { Message } from '../types';
 import { useSelector } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
-import { getAuth } from '../selectors';
+import { getAuth, getSession } from '../selectors';
 import { getResource } from '../utils/url';
 import { SlideAnimationView } from '../common';
 import LightboxHeader from './LightboxHeader';
@@ -59,6 +59,11 @@ export default function Lightbox(props: Props) {
       ? `Shared in #${streamNameOfStreamMessage(message)}`
       : 'Shared with you';
   const resource = getResource(src, auth);
+
+  // Since we're using `Dimensions.get` (below), we'll want a rerender
+  // when the orientation changes. No need to store the value.
+  useSelector(state => getSession(state).orientation);
+
   const { width: windowWidth } = Dimensions.get('window');
 
   const animationProps = {
