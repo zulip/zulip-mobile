@@ -78,7 +78,7 @@ export default function Lightbox(props: Props) {
       />
       <SlideAnimationView
         property="translateY"
-        style={[styles.overlay, styles.header, { width: windowWidth, top: 0 }]}
+        style={[styles.overlay, styles.header, { width: windowWidth }, { top: 0 }]}
         from={-NAVBAR_SIZE}
         to={0}
         {...animationProps}
@@ -95,7 +95,7 @@ export default function Lightbox(props: Props) {
       </SlideAnimationView>
       <SlideAnimationView
         property="translateY"
-        style={[styles.overlay, { width: windowWidth, bottom: 0 }]}
+        style={[styles.overlay, { width: windowWidth }, { bottom: 0 }]}
         from={44}
         to={0}
         {...animationProps}
