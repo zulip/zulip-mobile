@@ -3,7 +3,9 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch } from '../types';
+import type { Dispatch, GetText } from '../types';
+import { TranslationContext } from '../boot/TranslationProvider';
+
 import { connect } from '../react-redux';
 import { getUnreadMentionsTotal } from '../selectors';
 import { IconMention } from '../common/Icons';
@@ -16,11 +18,14 @@ type Props = $ReadOnly<{|
 |}>;
 
 class IconUnreadMentions extends PureComponent<Props> {
+  static contextType = TranslationContext;
+  context: GetText;
+
   render() {
     const { unreadMentionsTotal, color } = this.props;
-
+    const _ = this.context;
     return (
-      <View>
+      <View accessibilityLabel={_('Mentions ({count} unread)', { count: unreadMentionsTotal })}>
         <CountOverlay unreadCount={unreadMentionsTotal}>
           <IconMention size={24} color={color} />
         </CountOverlay>

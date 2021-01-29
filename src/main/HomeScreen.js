@@ -6,7 +6,9 @@ import { View } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch } from '../types';
+import type { Dispatch, GetText } from '../types';
+import { TranslationContext } from '../boot/TranslationProvider';
+
 import { connect } from '../react-redux';
 import { HOME_NARROW, MENTIONED_NARROW, STARRED_NARROW } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
@@ -36,20 +38,26 @@ type Props = $ReadOnly<{|
 |}>;
 
 class HomeScreen extends PureComponent<Props> {
+  static contextType = TranslationContext;
+  context: GetText;
+
   render() {
     const { dispatch } = this.props;
+    const _ = this.context;
 
     return (
       <View style={styles.wrapper}>
         <View style={styles.iconList}>
           <NavButton
             name="globe"
+            accessibilityLabel={_('All messages')}
             onPress={() => {
               dispatch(doNarrow(HOME_NARROW));
             }}
           />
           <NavButton
             name="star"
+            accessibilityLabel={_('Starred messages')}
             onPress={() => {
               dispatch(doNarrow(STARRED_NARROW));
             }}
@@ -63,6 +71,7 @@ class HomeScreen extends PureComponent<Props> {
           </NavButtonGeneral>
           <NavButton
             name="search"
+            accessibilityLabel={_('Search')}
             onPress={() => {
               NavigationService.dispatch(navigateToSearch());
             }}
