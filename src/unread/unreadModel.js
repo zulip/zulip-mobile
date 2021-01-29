@@ -210,13 +210,26 @@ function streamsReducer(
       // flowlint-next-line unnecessary-optional-chain:off
       const data = action.data.unread_msgs?.streams ?? [];
 
-      const st = initialStreamsState.asMutable();
+      // First, collect together all the data for a given stream, just in a
+      // plain old Array.
+      const byStream = new Map();
       for (const { stream_id, topic, unread_message_ids } of data) {
+        let perStream = byStream.get(stream_id);
+        if (!perStream) {
+          perStream = [];
+          byStream.set(stream_id, perStream);
+        }
         // unread_message_ids is already sorted; see comment at its
         // definition in src/api/initialDataTypes.js.
-        st.setIn([stream_id, topic], Immutable.List(unread_message_ids));
+        perStream.push([topic, Immutable.List(unread_message_ids)]);
       }
-      return st.asImmutable();
+
+      // Then, for each of those plain Arrays build an Immutable.Map from it
+      // all in one shot.  This is quite a bit faster than building the Maps
+      // incrementally.  For a user with lots of unreads in a busy org, we
+      // can be handling 50k message IDs here, across perhaps 2-5k threads
+      // in dozens of streams, so the effect is significant.
+      return Immutable.Map(Immutable.Seq.Keyed(byStream.entries()).map(Immutable.Map));
     }
 
     case MESSAGE_FETCH_COMPLETE:
