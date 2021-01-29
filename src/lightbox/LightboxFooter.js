@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Pressable } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -20,7 +20,7 @@ const styles = createStyleSheet({
     fontSize: 14,
     alignSelf: 'center',
   },
-  icon: {
+  iconTouchTarget: {
     alignSelf: 'center',
   },
 });
@@ -38,7 +38,11 @@ export default class LightboxFooter extends PureComponent<Props> {
       <SafeAreaView mode="padding" edges={['right', 'bottom', 'left']}>
         <View style={[styles.wrapper, style]}>
           <Text style={styles.text}>{displayMessage}</Text>
-          <Icon size={28} color="white" name="more-vertical" onPress={onOptionsPress} />
+          <Pressable style={styles.iconTouchTarget} onPress={onOptionsPress} hitSlop={10}>
+            {({ pressed }) => (
+              <Icon size={28} color={pressed ? 'gray' : 'white'} name="more-vertical" />
+            )}
+          </Pressable>
         </View>
       </SafeAreaView>
     );
