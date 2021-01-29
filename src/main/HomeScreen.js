@@ -3,7 +3,8 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { MainTabsNavigationProp, MainTabsRouteProp } from './MainTabsScreen';
+import type { RouteProp } from '../react-navigation';
+import type { MainTabsNavigationProp } from './MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -29,7 +30,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'home'>,
-  route: MainTabsRouteProp<'home'>,
+  route: RouteProp<'home', void>,
 
   dispatch: Dispatch,
 |}>;

@@ -24,6 +24,7 @@ const styles = createStyleSheet({
   },
 });
 
+
 export default function UserStatusScreen() {
   const _ = useContext(TranslationContext);
   const userStatusText = useSelector(state => getSelfUserStatusText(state));

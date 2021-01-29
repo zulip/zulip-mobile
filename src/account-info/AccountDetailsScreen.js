@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
-import type { Dispatch, UserOrBot } from '../types';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { Dispatch, UserOrBot, UserId } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { Screen, ZulipButton, Label } from '../common';
@@ -31,7 +32,7 @@ type SelectorProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'account-details'>,
-  route: AppNavigationRouteProp<'account-details'>,
+  route: RouteProp<'account-details', {| userId: UserId |}>,
 
   dispatch: Dispatch,
   ...SelectorProps,
