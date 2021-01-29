@@ -30,11 +30,11 @@ export default function UserStatusScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const setStatusTextState = statusText => {
+  const setStatusTextState = (statusText: string) => {
     setStatusText(statusText);
   };
 
-  const updateStatusText = statusText => {
+  const updateStatusText = (statusText: string) => {
     dispatch(updateUserStatusText(statusText));
     navigation.goBack();
   };
