@@ -23,7 +23,6 @@ const styles = createStyleSheet({
     margin: 8,
   },
 });
-
 export default function UserStatusScreen() {
   const _ = useContext(TranslationContext);
   const userStatusText = useSelector(state => getSelfUserStatusText(state));
@@ -31,11 +30,11 @@ export default function UserStatusScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const setStatusTextState = (statusText: string) => {
+  const setStatusTextState = statusText => {
     setStatusText(statusText);
   };
 
-  const updateStatusText = (statusText: string) => {
+  const updateStatusText = statusText => {
     dispatch(updateUserStatusText(statusText));
     navigation.goBack();
   };
