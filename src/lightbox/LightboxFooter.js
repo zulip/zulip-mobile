@@ -21,7 +21,6 @@ const styles = createStyleSheet({
     alignSelf: 'center',
   },
   icon: {
-    fontSize: 28,
     alignSelf: 'center',
   },
 });
@@ -39,7 +38,7 @@ export default class LightboxFooter extends PureComponent<Props> {
       <SafeAreaView mode="padding" edges={['right', 'bottom', 'left']}>
         <View style={[styles.wrapper, style]}>
           <Text style={styles.text}>{displayMessage}</Text>
-          <Icon style={styles.icon} color="white" name="more-vertical" onPress={onOptionsPress} />
+          <Icon size={28} color="white" name="more-vertical" onPress={onOptionsPress} />
         </View>
       </SafeAreaView>
     );
