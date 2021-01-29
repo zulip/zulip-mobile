@@ -3,7 +3,8 @@
 import React, { PureComponent } from 'react';
 import { ScrollView } from 'react-native';
 
-import type { MainTabsNavigationProp, MainTabsRouteProp } from '../main/MainTabsScreen';
+import type { RouteProp } from '../react-navigation';
+import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
@@ -34,7 +35,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'settings'>,
-  route: MainTabsRouteProp<'settings'>,
+  route: RouteProp<'settings', void>,
 
   theme: string,
   dispatch: Dispatch,

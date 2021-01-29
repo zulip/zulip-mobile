@@ -5,10 +5,11 @@ import {
   createBottomTabNavigator,
   type BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
-import type { RouteProp } from '@react-navigation/native';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp, RouteParamsOf } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { GlobalParamList } from '../nav/globalTypes';
+
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import StreamTabsScreen from './StreamTabsScreen';
@@ -23,20 +24,16 @@ import { getHaveServerData } from '../selectors';
 import styles, { ThemeContext } from '../styles';
 
 export type MainTabsNavigatorParamList = {|
-  home: void,
-  'stream-tabs': void,
-  'pm-conversations': void,
-  settings: void,
-  profile: void,
+  home: RouteParamsOf<typeof HomeScreen>,
+  'stream-tabs': RouteParamsOf<typeof StreamTabsScreen>,
+  'pm-conversations': RouteParamsOf<typeof PmConversationsScreen>,
+  settings: RouteParamsOf<typeof SettingsScreen>,
+  profile: RouteParamsOf<typeof ProfileScreen>,
 |};
 
 export type MainTabsNavigationProp<
   +RouteName: $Keys<MainTabsNavigatorParamList> = $Keys<MainTabsNavigatorParamList>,
 > = BottomTabNavigationProp<GlobalParamList, RouteName>;
-
-export type MainTabsRouteProp<
-  RouteName: $Keys<MainTabsNavigatorParamList> = $Keys<MainTabsNavigatorParamList>,
-> = RouteProp<GlobalParamList, RouteName>;
 
 const Tab = createBottomTabNavigator<
   GlobalParamList,
@@ -46,7 +43,7 @@ const Tab = createBottomTabNavigator<
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'main-tabs'>,
-  route: AppNavigationRouteProp<'main-tabs'>,
+  route: RouteProp<'main-tabs', void>,
 |}>;
 
 export default function MainTabsScreen(props: Props) {

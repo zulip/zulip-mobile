@@ -1,7 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -12,7 +13,7 @@ import EditStreamCard from './EditStreamCard';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'create-stream'>,
-  route: AppNavigationRouteProp<'create-stream'>,
+  route: RouteProp<'create-stream', void>,
 
   dispatch: Dispatch,
   ownEmail: string,
