@@ -5,9 +5,10 @@ import { useIsFocused } from '@react-navigation/native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { useSelector, useDispatch } from '../react-redux';
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import styles, { ThemeContext, createStyleSheet } from '../styles';
-import type { EditMessage } from '../types';
+import type { Narrow, EditMessage } from '../types';
 import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import ChatNavBar from '../nav/ChatNavBar';
 import MessageList from '../webview/MessageList';
@@ -25,7 +26,7 @@ import { getTitleBackgroundColor } from '../title/titleSelectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
-  route: AppNavigationRouteProp<'chat'>,
+  route: RouteProp<'chat', {| narrow: Narrow |}>,
 |}>;
 
 const componentStyles = createStyleSheet({

@@ -3,7 +3,8 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
@@ -33,7 +34,7 @@ type SelectorProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'message-reactions'>,
-  route: AppNavigationRouteProp<'message-reactions'>,
+  route: RouteProp<'message-reactions', {| reactionName?: string, messageId: number |}>,
 
   dispatch: Dispatch,
   ...SelectorProps,

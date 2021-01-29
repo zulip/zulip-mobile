@@ -1,7 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, UserOrBot } from '../types';
 import { connect } from '../react-redux';
@@ -18,7 +19,7 @@ type SelectorProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'invite-users'>,
-  route: AppNavigationRouteProp<'invite-users'>,
+  route: RouteProp<'invite-users', {| streamId: number |}>,
 
   dispatch: Dispatch,
   ...SelectorProps,

@@ -31,7 +31,7 @@ import type { GlobalParamList } from './nav/globalTypes';
  *   by at the navigator.  (This is type-checked at the navigator.)
  * @param {RouteParams} - The type to use for `props.route.params`.
  */
-export type RouteProp<+RouteName: string, +RouteParams: ScreenParams> = {|
+export type RouteProp<+RouteName: string, +RouteParams: ScreenParams | void> = {|
   ...LeafRoute<RouteName>,
   +params: RouteParams,
 |};
@@ -61,7 +61,21 @@ export type RouteProp<+RouteName: string, +RouteParams: ScreenParams> = {|
  * to simplify the `navigation` prop's type, to something like
  * `RootStackNavigationProp<'Profile'>`.)
  */
-export type RouteParamsOf<-C> = $PropertyType<$PropertyType<ElementConfig<C>, 'route'>, 'params'>;
+// The $NonMaybeType means that if `route` on the component is optional, we
+// ignore the optional-ness and just look at the type the `params` property
+// is expected to have when `route` is present at all.  This feels a bit
+// ad hoc, but should be perfectly correct as far as it goes: even if
+// `route` is optional, the navigator will always pass it, so as far as it's
+// concerned `route` might as well be required.
+//
+// (Similarly if `route` has a type that permits null or void, which
+// $NonMaybeType will also eliminate: the navigator will never be interested
+// in passing one of those values anyway, so as far as it's concerned the
+// type expected for `route` might as well exclude them.)
+export type RouteParamsOf<-C> = $PropertyType<
+  $NonMaybeType<$PropertyType<ElementConfig<C>, 'route'>>,
+  'params',
+>;
 
 /**
  * Exactly like `useNavigation` upstream, but more typed.

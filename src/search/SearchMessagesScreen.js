@@ -1,7 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { Auth, Dispatch, Message } from '../types';
 import { Screen } from '../common';
 import SearchMessagesCard from './SearchMessagesCard';
@@ -14,7 +15,7 @@ import { fetchMessages } from '../message/fetchActions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'search-messages'>,
-  route: AppNavigationRouteProp<'search-messages'>,
+  route: RouteProp<'search-messages', void>,
 
   auth: Auth,
   dispatch: Dispatch,

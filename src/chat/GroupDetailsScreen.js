@@ -2,9 +2,10 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, UserOrBot } from '../types';
+import type { Dispatch, UserOrBot, UserId } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
 import UserItem from '../users/UserItem';
@@ -12,7 +13,7 @@ import { navigateToAccountDetails } from '../actions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'group-details'>,
-  route: AppNavigationRouteProp<'group-details'>,
+  route: RouteProp<'group-details', {| recipients: $ReadOnlyArray<UserId> |}>,
 
   dispatch: Dispatch,
 |}>;
