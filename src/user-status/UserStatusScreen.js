@@ -3,7 +3,8 @@ import React, { useContext, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { createStyleSheet } from '../styles';
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
+import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { RouteProp } from '../react-navigation';
 import { Input, OptionButton, Screen, ZulipButton } from '../common';
 import { getSelfUserStatusText } from '../selectors';
 import { IconCancel, IconDone } from '../common/Icons';
@@ -27,7 +28,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'user-status'>,
-  route: AppNavigationRouteProp<'user-status'>,
+  route: RouteProp<'user-status', void>,
 |}>;
 
 export default function UserStatusScreen(props: Props) {
