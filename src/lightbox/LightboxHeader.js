@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { shortTime, humanDate } from '../utils/date';
 import { createStyleSheet } from '../styles';
-import { UserAvatarWithPresence, Touchable } from '../common';
+import { UserAvatarWithPresence } from '../common';
 import { Icon } from '../common/Icons';
 import { AvatarURL } from '../utils/avatar';
 
@@ -70,9 +70,9 @@ export default class LightboxHeader extends PureComponent<Props> {
               {subheader}
             </Text>
           </View>
-          <Touchable style={styles.rightIconTouchTarget} onPress={onPressBack}>
-            <Icon size={28} color="white" name="x" />
-          </Touchable>
+          <Pressable style={styles.rightIconTouchTarget} onPress={onPressBack} hitSlop={10}>
+            {({ pressed }) => <Icon size={28} color={pressed ? 'gray' : 'white'} name="x" />}
+          </Pressable>
         </View>
       </SafeAreaView>
     );
