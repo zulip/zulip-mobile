@@ -24,9 +24,11 @@ const styles = createStyleSheet({
     color: 'white',
     fontSize: 12,
   },
+  rightIconTouchTarget: {
+    alignSelf: 'center',
+  },
   rightIcon: {
     fontSize: 28,
-    alignSelf: 'center',
   },
   wrapper: {
     flex: 1,
@@ -71,7 +73,7 @@ export default class LightboxHeader extends PureComponent<Props> {
               {subheader}
             </Text>
           </View>
-          <Touchable onPress={onPressBack}>
+          <Touchable style={styles.rightIconTouchTarget} onPress={onPressBack}>
             <Icon style={styles.rightIcon} color="white" name="x" />
           </Touchable>
         </View>
