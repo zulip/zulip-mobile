@@ -74,6 +74,7 @@ export type AppNavigatorParamList = {|
   'topic-list': RouteParamsOf<typeof TopicListScreen>,
   notifications: RouteParamsOf<typeof NotificationsScreen>,
   legal: RouteParamsOf<typeof LegalScreen>,
+  'user-status': RouteParamsOf<typeof UserStatusScreen>,
   sharing: RouteParamsOf<typeof SharingScreen>,
 |};
 

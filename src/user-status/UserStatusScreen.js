@@ -23,19 +23,24 @@ const styles = createStyleSheet({
     margin: 8,
   },
 });
-export default function UserStatusScreen() {
+
+type Props = $ReadOnly<{|
+  route: AppNavigationRouteProp<'user-status'>,
+|}>;
+
+export default function UserStatusScreen(props: Props) {
   const _ = useContext(TranslationContext);
   const userStatusText = useSelector(state => getSelfUserStatusText(state));
   const [statusText, setStatusText] = useState(userStatusText);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const setStatusTextState = (statusText: string) => {
-    setStatusText(statusText);
+  const setStatusTextState = (text: string) => {
+    setStatusText(text);
   };
 
-  const updateStatusText = (statusText: string) => {
-    dispatch(updateUserStatusText(statusText));
+  const updateStatusText = (text: string) => {
+    dispatch(updateUserStatusText(text));
     navigation.goBack();
   };
 
