@@ -38,9 +38,9 @@ export default class LightboxFooter extends PureComponent<Props> {
       <SafeAreaView mode="padding" edges={['right', 'bottom', 'left']}>
         <View style={[styles.wrapper, style]}>
           <Text style={styles.text}>{displayMessage}</Text>
-          <Pressable style={styles.iconTouchTarget} onPress={onOptionsPress} hitSlop={10}>
+          <Pressable style={styles.iconTouchTarget} onPress={onOptionsPress} hitSlop={12}>
             {({ pressed }) => (
-              <Icon size={28} color={pressed ? 'gray' : 'white'} name="more-vertical" />
+              <Icon size={24} color={pressed ? 'gray' : 'white'} name="more-vertical" />
             )}
           </Pressable>
         </View>

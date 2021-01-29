@@ -70,8 +70,8 @@ export default class LightboxHeader extends PureComponent<Props> {
               {subheader}
             </Text>
           </View>
-          <Pressable style={styles.rightIconTouchTarget} onPress={onPressBack} hitSlop={10}>
-            {({ pressed }) => <Icon size={28} color={pressed ? 'gray' : 'white'} name="x" />}
+          <Pressable style={styles.rightIconTouchTarget} onPress={onPressBack} hitSlop={12}>
+            {({ pressed }) => <Icon size={24} color={pressed ? 'gray' : 'white'} name="x" />}
           </Pressable>
         </View>
       </SafeAreaView>
