@@ -1,19 +1,13 @@
 /* @flow strict-local */
-import React, { PureComponent, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { createStyleSheet } from '../styles';
-
-import type { AppNavigationProp, AppNavigationRouteProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
-import type { GetText, Dispatch } from '../types';
-import { connect } from '../react-redux';
 import { Input, OptionButton, Screen, ZulipButton } from '../common';
 import { getSelfUserStatusText } from '../selectors';
 import { IconCancel, IconDone } from '../common/Icons';
 import statusSuggestions from './userStatusTextSuggestions';
 import { updateUserStatusText } from './userStatusActions';
-import { navigateBack } from '../nav/navActions';
 import { useNavigation } from '../react-navigation';
 import { useSelector, useDispatch } from '../react-redux';
 
@@ -30,19 +24,11 @@ const styles = createStyleSheet({
   },
 });
 
-type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'user-status'>,
-  route: AppNavigationRouteProp<'user-status'>,
-
-  dispatch: Dispatch,
-  userStatusText: string,
-|}>;
-
 type State = {|
   statusText: string,
 |};
 
-export default function UserStatusScreen(props: Props) {
+export default function UserStatusScreen() {
   const _ = useContext(TranslationContext);
   const userStatusText = useSelector(state => getSelfUserStatusText(state));
   const [statusText, setStatusText] = useState<StatusText | userStatusText>(userStatusText);
