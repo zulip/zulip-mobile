@@ -1,20 +1,17 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useContext, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { createStyleSheet } from '../styles';
-
-import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
-import type { GetText, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import type { RouteProp } from '../react-navigation';
 import { Input, OptionButton, Screen, ZulipButton } from '../common';
 import { getSelfUserStatusText } from '../selectors';
 import { IconCancel, IconDone } from '../common/Icons';
 import statusSuggestions from './userStatusTextSuggestions';
 import { updateUserStatusText } from './userStatusActions';
-import { navigateBack } from '../nav/navActions';
+import { useNavigation } from '../react-navigation';
+import { useSelector, useDispatch } from '../react-redux';
 
 const styles = createStyleSheet({
   statusTextInput: {
@@ -32,93 +29,72 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'user-status'>,
   route: RouteProp<'user-status', void>,
-
-  dispatch: Dispatch,
-  userStatusText: string,
 |}>;
 
-type State = {|
-  statusText: string,
-|};
+export default function UserStatusScreen(props: Props) {
+  const _ = useContext(TranslationContext);
+  const userStatusText = useSelector(state => getSelfUserStatusText(state));
+  const [statusText, setStatusText] = useState(userStatusText);
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-class UserStatusScreen extends PureComponent<Props, State> {
-  static contextType = TranslationContext;
-  context: GetText;
-
-  state = {
-    statusText: this.props.userStatusText,
+  const setStatusTextState = (text: string) => {
+    setStatusText(text);
   };
 
-  setStatusTextState = (statusText: string) => {
-    this.setState({
-      statusText,
-    });
+  const updateStatusText = (text: string) => {
+    dispatch(updateUserStatusText(text));
+    navigation.goBack();
   };
 
-  updateStatusText = (statusText: string) => {
-    const { dispatch } = this.props;
-    dispatch(updateUserStatusText(statusText));
-    NavigationService.dispatch(navigateBack());
+  const handleStatusTextUpdate = () => {
+    updateStatusText(statusText);
   };
 
-  handleStatusTextUpdate = () => {
-    const { statusText } = this.state;
-    this.updateStatusText(statusText);
+  const handleStatusTextClear = () => {
+    setStatusTextState('');
+    updateStatusText('');
   };
 
-  handleStatusTextClear = () => {
-    this.setStatusTextState('');
-    this.updateStatusText('');
-  };
-
-  render() {
-    const { statusText } = this.state;
-    const _ = this.context;
-
-    return (
-      <Screen title="User status">
-        <Input
-          autoFocus
-          maxLength={60}
-          style={styles.statusTextInput}
-          placeholder="What’s your status?"
-          value={statusText}
-          onChangeText={this.setStatusTextState}
-        />
-        <FlatList
-          data={statusSuggestions}
-          keyboardShouldPersistTaps="always"
-          keyExtractor={item => item}
-          renderItem={({ item, index }) => (
-            <OptionButton
-              key={item}
-              label={item}
-              onPress={() => {
-                this.setStatusTextState(_(item));
-              }}
-            />
-          )}
-        />
-        <View style={styles.buttonsWrapper}>
-          <ZulipButton
-            style={styles.button}
-            secondary
-            text="Clear"
-            onPress={this.handleStatusTextClear}
-            Icon={IconCancel}
+  return (
+    <Screen title="User status">
+      <Input
+        autoFocus
+        maxLength={60}
+        style={styles.statusTextInput}
+        placeholder="What’s your status?"
+        value={statusText}
+        onChangeText={setStatusTextState}
+      />
+      <FlatList
+        data={statusSuggestions}
+        keyboardShouldPersistTaps="always"
+        keyExtractor={item => item}
+        renderItem={({ item, index }) => (
+          <OptionButton
+            key={item}
+            label={item}
+            onPress={() => {
+              setStatusTextState(_(item));
+            }}
           />
-          <ZulipButton
-            style={styles.button}
-            text="Update"
-            onPress={this.handleStatusTextUpdate}
-            Icon={IconDone}
-          />
-        </View>
-      </Screen>
-    );
-  }
+        )}
+      />
+      <View style={styles.buttonsWrapper}>
+        <ZulipButton
+          style={styles.button}
+          secondary
+          text="Clear"
+          onPress={handleStatusTextClear}
+          Icon={IconCancel}
+        />
+        <ZulipButton
+          style={styles.button}
+          text="Update"
+          onPress={handleStatusTextUpdate}
+          Icon={IconDone}
+        />
+      </View>
+    </Screen>
+  );
 }
-
-export default connect(state => ({
-  userStatusText: getSelfUserStatusText(state),
-}))(UserStatusScreen);
