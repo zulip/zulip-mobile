@@ -42,7 +42,8 @@ export default function ChatNavBar(props: Props) {
             ? 'hsla(0, 0%, 50%, 0.25)'
             : Color(backgroundColor).darken(0.1),
         borderBottomWidth: 1,
-        backgroundColor,
+        backgroundColor:
+          backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR ? undefined : backgroundColor,
       }}
     >
       <View
