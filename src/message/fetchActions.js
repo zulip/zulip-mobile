@@ -172,7 +172,7 @@ const initialFetchCompletePlain = (): Action => ({
 });
 
 export const initialFetchComplete = () => async (dispatch: Dispatch, getState: GetState) => {
-  if (!getNavigationRoutes().some(navigationRoute => navigationRoute.name === 'main')) {
+  if (!getNavigationRoutes().some(navigationRoute => navigationRoute.name === 'main-tabs')) {
     // If we're anywhere in the normal UI of the app, then remain
     // where we are. Only reset the nav state if we're elsewhere,
     // and in that case, go to the main screen.
