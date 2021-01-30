@@ -78,7 +78,7 @@ describe('getSameRoutesCount', () => {
   test('if last route differs from  routes the count of same routes is 0', () => {
     NavigationService.getState = jest.fn().mockReturnValue(
       deepFreeze({
-        routes: [{ name: 'main' }, { name: 'chat' }],
+        routes: [{ name: 'main-tabs' }, { name: 'chat' }],
       }),
     );
 
@@ -92,7 +92,7 @@ describe('getSameRoutesCount', () => {
       deepFreeze({
         routes: [
           { name: 'login' },
-          { name: 'main' },
+          { name: 'main-tabs' },
           { name: 'chat', params: { key: 'value' } },
           { name: 'chat', params: { key: 'another value' } },
           { name: 'chat', params: { anotherKey: 'some value' } },

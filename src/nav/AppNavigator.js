@@ -121,7 +121,7 @@ export default function AppNavigator(props: Props) {
         component={MainTabsScreen}
         options={{
           // So we don't show a transition animation between 'loading'
-          // and 'main'.
+          // and 'main-tabs'.
           animationEnabled: false,
         }}
       />
