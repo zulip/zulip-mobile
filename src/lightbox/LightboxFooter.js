@@ -22,6 +22,7 @@ const styles = createStyleSheet({
   },
   iconTouchTarget: {
     alignSelf: 'center',
+    marginVertical: 4,
   },
 });
 
