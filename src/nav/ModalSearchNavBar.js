@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ThemeContext, NAVBAR_SIZE } from '../styles';
+import { ThemeContext } from '../styles';
 import SearchInput from '../common/SearchInput';
 import NavBarBackButton from './NavBarBackButton';
 
@@ -24,7 +24,6 @@ export default function ModalSearchNavBar(props: Props) {
         style={{
           borderColor: 'hsla(0, 0%, 50%, 0.25)',
           flexDirection: 'row',
-          height: NAVBAR_SIZE,
           alignItems: 'center',
           borderBottomWidth: 1,
           backgroundColor,
