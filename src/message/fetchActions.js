@@ -172,16 +172,8 @@ const initialFetchCompletePlain = (): Action => ({
 });
 
 export const initialFetchComplete = () => async (dispatch: Dispatch, getState: GetState) => {
-  if (!getNavigationRoutes().some(navigationRoute => navigationRoute.name === 'main-tabs')) {
-    // If we're anywhere in the normal UI of the app, then remain
-    // where we are. Only reset the nav state if we're elsewhere,
-    // and in that case, go to the main screen.
-    //
-    // TODO: "elsewhere" is probably just a way of saying "on the
-    // loading screen", but we're not sure. We could adjust the
-    // conditional accordingly, if we found out we're not depending on
-    // the more general condition; see
-    //   https://github.com/zulip/zulip-mobile/pull/4274#discussion_r505941875
+  /* flowlint-next-line unnecessary-optional-chain:off */ // [0] may not exist
+  if (getNavigationRoutes()[0]?.name === 'loading') {
     NavigationService.dispatch(resetToMainTabs());
   }
   dispatch(initialFetchCompletePlain());
