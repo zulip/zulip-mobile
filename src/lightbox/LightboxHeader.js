@@ -26,6 +26,7 @@ const styles = createStyleSheet({
   },
   rightIconTouchTarget: {
     alignSelf: 'center',
+    marginVertical: 4,
   },
   wrapper: {
     flex: 1,
