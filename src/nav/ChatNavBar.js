@@ -38,7 +38,7 @@ export default function ChatNavBar(props: Props) {
       edges={['top', 'right', 'left']}
       style={{
         borderColor:
-          backgroundColor === 'transparent'
+          backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
             ? 'hsla(0, 0%, 50%, 0.25)'
             : Color(backgroundColor).darken(0.1),
         borderBottomWidth: 1,
