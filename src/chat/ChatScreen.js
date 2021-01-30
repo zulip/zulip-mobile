@@ -114,13 +114,13 @@ export default function ChatScreen(props: Props) {
   const sayNoMessages = haveNoMessages && !isFetching;
   const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
 
-  const titleBackgroundColor = useSelector(state => getStreamColorForNarrow(state, narrow));
+  const streamColor = useSelector(state => getStreamColorForNarrow(state, narrow));
 
   return (
     <ActionSheetProvider>
       <View style={[componentStyles.screen, { backgroundColor }]}>
         <KeyboardAvoider style={styles.flexed} behavior="padding">
-          <ZulipStatusBar backgroundColor={titleBackgroundColor} />
+          <ZulipStatusBar backgroundColor={streamColor} />
           <ChatNavBar narrow={narrow} editMessage={editMessage} />
           <OfflineNotice />
           <UnreadNotice narrow={narrow} />

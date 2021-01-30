@@ -22,11 +22,11 @@ type Props = $ReadOnly<{|
 
 export default function ChatNavBar(props: Props) {
   const { narrow, editMessage } = props;
-  const backgroundColor = useSelector(state => getStreamColorForNarrow(state, narrow));
+  const streamColor = useSelector(state => getStreamColorForNarrow(state, narrow));
   const color =
-    backgroundColor === undefined ? BRAND_COLOR : foregroundColorFromBackground(backgroundColor);
+    streamColor === undefined ? BRAND_COLOR : foregroundColorFromBackground(streamColor);
   const spinnerColor =
-    backgroundColor === undefined ? 'default' : foregroundColorFromBackground(backgroundColor);
+    streamColor === undefined ? 'default' : foregroundColorFromBackground(streamColor);
 
   return (
     <SafeAreaView
@@ -34,11 +34,9 @@ export default function ChatNavBar(props: Props) {
       edges={['top', 'right', 'left']}
       style={{
         borderColor:
-          backgroundColor === undefined
-            ? 'hsla(0, 0%, 50%, 0.25)'
-            : Color(backgroundColor).darken(0.1),
+          streamColor === undefined ? 'hsla(0, 0%, 50%, 0.25)' : Color(streamColor).darken(0.1),
         borderBottomWidth: 1,
-        backgroundColor,
+        backgroundColor: streamColor,
       }}
     >
       <View
@@ -53,11 +51,7 @@ export default function ChatNavBar(props: Props) {
         <ExtraButton color={color} narrow={narrow} />
         <InfoButton color={color} narrow={narrow} />
       </View>
-      <LoadingBanner
-        spinnerColor={spinnerColor}
-        backgroundColor={backgroundColor}
-        textColor={color}
-      />
+      <LoadingBanner spinnerColor={spinnerColor} backgroundColor={streamColor} textColor={color} />
     </SafeAreaView>
   );
 }
