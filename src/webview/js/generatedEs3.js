@@ -244,7 +244,14 @@ var compiledWebviewJs = (function (exports) {
         return;
       }
 
-      var fixedSrc = new URL(actualSrc, realm);
+      var fixedSrc;
+
+      try {
+        fixedSrc = new URL(actualSrc, realm);
+      } catch (_unused) {
+        img.src = 'about:blank';
+        return;
+      }
 
       if (fixedSrc.origin === realm.origin) {
         if (inlineApiRoutes.some(function (regexp) {

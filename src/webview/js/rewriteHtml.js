@@ -34,7 +34,17 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document) => {
     }
 
     // 1: Absolutize the URL appropriately.
-    const fixedSrc = new URL(actualSrc, realm);
+    let fixedSrc;
+    try {
+      fixedSrc = new URL(actualSrc, realm);
+    } catch {
+      // If the URL doesn't parse, there's nothing we can do for it.
+      // Just in case it doesn't parse as relative to `realm` but *would*
+      // parse as relative to the webview's base URL, though, rewrite it to
+      // something that definitely points nowhere.
+      img.src = 'about:blank';
+      return;
+    }
 
     // 2: Inject the API key where needed.
     if (fixedSrc.origin === realm.origin) {
