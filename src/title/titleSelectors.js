@@ -9,10 +9,11 @@ import { getSubscriptionsByName } from '../subscriptions/subscriptionSelectors';
  * Gives undefined for narrows that are not stream or topic narrows.
  */
 export const getStreamColorForNarrow = (state: GlobalState, narrow: Narrow) => {
-  const subscriptionsByName = getSubscriptionsByName(state);
   if (!isStreamOrTopicNarrow(narrow)) {
     return undefined;
   }
+
+  const subscriptionsByName = getSubscriptionsByName(state);
   const streamName = streamNameOfNarrow(narrow);
   return subscriptionsByName.get(streamName)?.color ?? 'gray';
 };
