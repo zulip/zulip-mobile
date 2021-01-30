@@ -1,28 +1,28 @@
 /* @flow strict-local */
 
-import { getTitleBackgroundColor } from '../titleSelectors';
+import { getStreamColorForNarrow } from '../titleSelectors';
 import { pmNarrowFromUsersUnsafe, streamNarrow, pm1to1NarrowFromUser } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 
-describe('getTitleBackgroundColor', () => {
+describe('getStreamColorForNarrow', () => {
   const exampleColor = '#fff';
   const state = eg.reduxState({
     subscriptions: [{ ...eg.makeSubscription({ stream: eg.stream }), color: exampleColor }],
   });
 
   test('return stream color for stream and topic narrow', () => {
-    expect(getTitleBackgroundColor(state, streamNarrow(eg.stream.name))).toEqual(exampleColor);
+    expect(getStreamColorForNarrow(state, streamNarrow(eg.stream.name))).toEqual(exampleColor);
   });
 
   test('return null stream color for invalid stream or unknown subscriptions', () => {
     const unknownStream = eg.makeStream();
-    expect(getTitleBackgroundColor(state, streamNarrow(unknownStream.name))).toEqual('gray');
+    expect(getStreamColorForNarrow(state, streamNarrow(unknownStream.name))).toEqual('gray');
   });
 
   test('return undefined for non topic/stream narrow', () => {
-    expect(getTitleBackgroundColor(state, pm1to1NarrowFromUser(eg.otherUser))).toEqual(undefined);
+    expect(getStreamColorForNarrow(state, pm1to1NarrowFromUser(eg.otherUser))).toEqual(undefined);
     expect(
-      getTitleBackgroundColor(state, pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser])),
+      getStreamColorForNarrow(state, pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser])),
     ).toEqual(undefined);
   });
 });

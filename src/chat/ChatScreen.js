@@ -22,7 +22,7 @@ import { canSendToNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
-import { getTitleBackgroundColor } from '../title/titleSelectors';
+import { getStreamColorForNarrow } from '../title/titleSelectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -114,7 +114,7 @@ export default function ChatScreen(props: Props) {
   const sayNoMessages = haveNoMessages && !isFetching;
   const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
 
-  const titleBackgroundColor = useSelector(state => getTitleBackgroundColor(state, narrow));
+  const titleBackgroundColor = useSelector(state => getStreamColorForNarrow(state, narrow));
 
   return (
     <ActionSheetProvider>

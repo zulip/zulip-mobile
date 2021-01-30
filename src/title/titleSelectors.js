@@ -4,12 +4,11 @@ import { isStreamOrTopicNarrow, streamNameOfNarrow } from '../utils/narrow';
 import { getSubscriptionsByName } from '../subscriptions/subscriptionSelectors';
 
 /**
- * Background color to use for the app bar in narrow `narrow`.
+ * The stream's color for the given stream or topic narrow.
  *
- * If `narrow` is a stream or topic narrow, this is based on the stream color.
- * Otherwise, it takes a default value.
+ * Gives undefined for narrows that are not stream or topic narrows.
  */
-export const getTitleBackgroundColor = (state: GlobalState, narrow: Narrow) => {
+export const getStreamColorForNarrow = (state: GlobalState, narrow: Narrow) => {
   const subscriptionsByName = getSubscriptionsByName(state);
   if (!isStreamOrTopicNarrow(narrow)) {
     return undefined;

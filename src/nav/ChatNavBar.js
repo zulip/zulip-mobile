@@ -11,7 +11,7 @@ import { useSelector } from '../react-redux';
 import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import Title from '../title/Title';
 import NavBarBackButton from './NavBarBackButton';
-import { getTitleBackgroundColor } from '../title/titleSelectors';
+import { getStreamColorForNarrow } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { ExtraButton, InfoButton } from '../title-buttons/titleButtonFromNarrow';
 
@@ -22,7 +22,7 @@ type Props = $ReadOnly<{|
 
 export default function ChatNavBar(props: Props) {
   const { narrow, editMessage } = props;
-  const backgroundColor = useSelector(state => getTitleBackgroundColor(state, narrow));
+  const backgroundColor = useSelector(state => getStreamColorForNarrow(state, narrow));
   const color =
     backgroundColor === undefined ? BRAND_COLOR : foregroundColorFromBackground(backgroundColor);
   const spinnerColor =
