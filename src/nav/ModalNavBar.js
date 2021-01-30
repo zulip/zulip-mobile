@@ -31,7 +31,6 @@ export default function ModalNavBar(props: Props) {
           {
             borderColor: 'hsla(0, 0%, 50%, 0.25)',
             flexDirection: 'row',
-            height: NAVBAR_SIZE,
             alignItems: 'center',
             borderBottomWidth: 1,
             backgroundColor,
