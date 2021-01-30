@@ -6,14 +6,13 @@ import Color from 'color';
 
 import type { Orientation, ThemeName, Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { DEFAULT_TITLE_BACKGROUND_COLOR } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
 
 type BarStyle = $PropertyType<React$ElementConfig<typeof StatusBar>, 'barStyle'>;
 
-export const getStatusBarColor = (backgroundColor: string, theme: ThemeName): string =>
-  backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
+export const getStatusBarColor = (backgroundColor: string | void, theme: ThemeName): string =>
+  backgroundColor === undefined
     ? theme === 'night'
       ? 'hsl(212, 28%, 18%)'
       : 'white'
@@ -30,7 +29,7 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{
-  backgroundColor: string,
+  backgroundColor: string | void,
   hidden: boolean,
 
   dispatch: Dispatch,
@@ -46,7 +45,7 @@ type Props = $ReadOnly<{
 class ZulipStatusBar extends PureComponent<Props> {
   static defaultProps = {
     hidden: false,
-    backgroundColor: DEFAULT_TITLE_BACKGROUND_COLOR,
+    backgroundColor: undefined,
   };
 
   render() {

@@ -11,7 +11,7 @@ import { useSelector } from '../react-redux';
 import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import Title from '../title/Title';
 import NavBarBackButton from './NavBarBackButton';
-import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
+import { getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { ExtraButton, InfoButton } from '../title-buttons/titleButtonFromNarrow';
 
@@ -24,13 +24,9 @@ export default function ChatNavBar(props: Props) {
   const { narrow, editMessage } = props;
   const backgroundColor = useSelector(state => getTitleBackgroundColor(state, narrow));
   const color =
-    backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
-      ? BRAND_COLOR
-      : foregroundColorFromBackground(backgroundColor);
+    backgroundColor === undefined ? BRAND_COLOR : foregroundColorFromBackground(backgroundColor);
   const spinnerColor =
-    backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
-      ? 'default'
-      : foregroundColorFromBackground(backgroundColor);
+    backgroundColor === undefined ? 'default' : foregroundColorFromBackground(backgroundColor);
 
   return (
     <SafeAreaView
@@ -38,12 +34,11 @@ export default function ChatNavBar(props: Props) {
       edges={['top', 'right', 'left']}
       style={{
         borderColor:
-          backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
+          backgroundColor === undefined
             ? 'hsla(0, 0%, 50%, 0.25)'
             : Color(backgroundColor).darken(0.1),
         borderBottomWidth: 1,
-        backgroundColor:
-          backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR ? undefined : backgroundColor,
+        backgroundColor: backgroundColor === undefined ? undefined : backgroundColor,
       }}
     >
       <View

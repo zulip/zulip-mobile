@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../titleSelectors';
+import { getTitleBackgroundColor } from '../titleSelectors';
 import { pmNarrowFromUsersUnsafe, streamNarrow, pm1to1NarrowFromUser } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -19,12 +19,10 @@ describe('getTitleBackgroundColor', () => {
     expect(getTitleBackgroundColor(state, streamNarrow(unknownStream.name))).toEqual('gray');
   });
 
-  test('return default for non topic/stream narrow', () => {
-    expect(getTitleBackgroundColor(state, pm1to1NarrowFromUser(eg.otherUser))).toEqual(
-      DEFAULT_TITLE_BACKGROUND_COLOR,
-    );
+  test('return undefined for non topic/stream narrow', () => {
+    expect(getTitleBackgroundColor(state, pm1to1NarrowFromUser(eg.otherUser))).toEqual(undefined);
     expect(
       getTitleBackgroundColor(state, pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser])),
-    ).toEqual(DEFAULT_TITLE_BACKGROUND_COLOR);
+    ).toEqual(undefined);
   });
 });
