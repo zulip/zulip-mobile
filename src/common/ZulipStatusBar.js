@@ -12,11 +12,7 @@ import { getSession, getSettings } from '../selectors';
 type BarStyle = $PropertyType<React$ElementConfig<typeof StatusBar>, 'barStyle'>;
 
 export const getStatusBarColor = (backgroundColor: string | void, theme: ThemeName): string =>
-  backgroundColor === undefined
-    ? theme === 'night'
-      ? 'hsl(212, 28%, 18%)'
-      : 'white'
-    : backgroundColor;
+  backgroundColor ?? (theme === 'night' ? 'hsl(212, 28%, 18%)' : 'white');
 
 export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
   foregroundColorFromBackground(statusBarColor) === 'white' /* force newline */
