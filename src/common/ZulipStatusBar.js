@@ -25,7 +25,7 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{
-  backgroundColor: string | void,
+  backgroundColor?: string | void,
   hidden: boolean,
 
   dispatch: Dispatch,
@@ -41,7 +41,6 @@ type Props = $ReadOnly<{
 class ZulipStatusBar extends PureComponent<Props> {
   static defaultProps = {
     hidden: false,
-    backgroundColor: undefined,
   };
 
   render() {
