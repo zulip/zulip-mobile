@@ -55,7 +55,7 @@ bugs!  To get the beta:
   then open [this public invitation link](https://testflight.apple.com/join/ZuzqwXGf)
   on your device.
 
-Bug reports are welcome either in [the #mobile stream](#discussion) or
+Bug reports are welcome either in the [#mobile][czo-mobile] stream or
 on this GitHub repo.
 
 
@@ -67,7 +67,7 @@ started with the code, follow this doc:
 * [Developer Guide](docs/developer-guide.md)
 
 Then see our [Contribution Guidelines](CONTRIBUTING.md), and come say
-hello in [the #mobile stream](#discussion).  Issues tagged
+hello in the [#mobile][czo-mobile] stream.  Issues tagged
 **[help wanted](https://github.com/zulip/zulip-mobile/labels/help%20wanted)**
 are a great starting point for PRs.
 
