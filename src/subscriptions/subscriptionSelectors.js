@@ -86,3 +86,18 @@ export const getIsActiveStreamAnnouncementOnly: Selector<boolean, Narrow> = crea
     return stream ? stream.is_announcement_only : false;
   },
 );
+
+/**
+ * The stream's color for the given stream or topic narrow.
+ *
+ * Gives undefined for narrows that are not stream or topic narrows.
+ */
+export const getStreamColorForNarrow = (state: GlobalState, narrow: Narrow) => {
+  if (!isStreamOrTopicNarrow(narrow)) {
+    return undefined;
+  }
+
+  const subscriptionsByName = getSubscriptionsByName(state);
+  const streamName = streamNameOfNarrow(narrow);
+  return subscriptionsByName.get(streamName)?.color ?? 'gray';
+};

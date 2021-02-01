@@ -11,7 +11,7 @@ import { useSelector } from '../react-redux';
 import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import Title from '../title/Title';
 import NavBarBackButton from './NavBarBackButton';
-import { getStreamColorForNarrow } from '../title/titleSelectors';
+import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { ExtraButton, InfoButton } from '../title-buttons/titleButtonFromNarrow';
 

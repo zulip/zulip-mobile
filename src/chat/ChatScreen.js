@@ -22,7 +22,7 @@ import { canSendToNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
-import { getStreamColorForNarrow } from '../title/titleSelectors';
+import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
