@@ -9,7 +9,7 @@ import {
 
 import type { RouteParamsOf } from '../react-navigation';
 import { useSelector } from '../react-redux';
-import { hasAuth as getHasAuth, getAccounts, getHaveServerData } from '../selectors';
+import { hasAuth as getHasAuth, getAccounts } from '../selectors';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { GlobalParamList } from './globalTypes';
 import AccountPickScreen from '../account/AccountPickScreen';
@@ -89,12 +89,10 @@ type Props = $ReadOnly<{||}>;
 export default function AppNavigator(props: Props) {
   const hasAuth = useSelector(getHasAuth);
   const accounts = useSelector(getAccounts);
-  const haveServerData = useSelector(getHaveServerData);
 
   const { initialRouteName, initialRouteParams } = getInitialRouteInfo({
     hasAuth,
     accounts,
-    haveServerData,
   });
 
   return (

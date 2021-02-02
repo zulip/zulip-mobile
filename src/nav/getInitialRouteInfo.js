@@ -7,7 +7,6 @@ import type { Account } from '../types';
 export default (args: {|
   hasAuth: boolean,
   accounts: Account[],
-  haveServerData: boolean,
 |}): {| initialRouteName: string, initialRouteParams?: ScreenParams |} => {
   const { hasAuth, accounts } = args;
 
