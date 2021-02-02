@@ -1,10 +1,8 @@
 /* @flow strict-local */
-import * as NavigationService from '../nav/NavigationService';
 import type { Narrow, Dispatch, GetState, GlobalState, Message, Action, UserId } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
-import { resetToMainTabs } from '../actions';
 import { isClientError } from '../api/apiErrors';
 import {
   getAuth,
@@ -13,7 +11,6 @@ import {
   getLastMessageId,
   getCaughtUpForNarrow,
   getFetchingForNarrow,
-  getNavigationRoutes,
 } from '../selectors';
 import config from '../config';
 import {
@@ -172,10 +169,6 @@ const initialFetchCompletePlain = (): Action => ({
 });
 
 export const initialFetchComplete = () => async (dispatch: Dispatch, getState: GetState) => {
-  /* flowlint-next-line unnecessary-optional-chain:off */ // [0] may not exist
-  if (getNavigationRoutes()[0]?.name === 'loading') {
-    NavigationService.dispatch(resetToMainTabs());
-  }
   dispatch(initialFetchCompletePlain());
 };
 
