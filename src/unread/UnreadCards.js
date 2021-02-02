@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { SectionList } from 'react-native';
 
 import type { Dispatch, PmConversationData, UnreadStreamItem } from '../types';
@@ -19,66 +19,64 @@ type Props = $ReadOnly<{|
   unreadStreamsAndTopics: UnreadStreamItem[],
 |}>;
 
-class UnreadCards extends PureComponent<Props> {
-  render() {
-    const { conversations, dispatch, unreadStreamsAndTopics } = this.props;
-    type Card =
-      | UnreadStreamItem
-      | { key: 'private', data: Array<React$ElementConfig<typeof PmConversationList>> };
-    const unreadCards: Array<Card> = [
-      {
-        key: 'private',
-        data: [{ conversations, dispatch }],
-      },
-      ...unreadStreamsAndTopics,
-    ];
+function UnreadCards(props: Props) {
+  const { conversations, dispatch, unreadStreamsAndTopics } = props;
+  type Card =
+    | UnreadStreamItem
+    | { key: 'private', data: Array<React$ElementConfig<typeof PmConversationList>> };
+  const unreadCards: Array<Card> = [
+    {
+      key: 'private',
+      data: [{ conversations, dispatch }],
+    },
+    ...unreadStreamsAndTopics,
+  ];
 
-    if (unreadStreamsAndTopics.length === 0 && conversations.length === 0) {
-      return <SearchEmptyState text="No unread messages" />;
-    }
-
-    return (
-      /* $FlowFixMe[prop-missing]: SectionList libdef seems confused;
-         should take $ReadOnly objects. */
-      <SectionList
-        stickySectionHeadersEnabled
-        initialNumToRender={20}
-        sections={unreadCards}
-        keyExtractor={item => item.key}
-        renderSectionHeader={({ section }) =>
-          section.key === 'private' ? null : (
-            <StreamItem
-              name={section.streamName}
-              iconSize={16}
-              isMuted={section.isMuted}
-              isPrivate={section.isPrivate}
-              backgroundColor={section.color}
-              unreadCount={section.unread}
-              onPress={(stream: string) => {
-                setTimeout(() => this.props.dispatch(doNarrow(streamNarrow(stream))));
-              }}
-            />
-          )
-        }
-        renderItem={({ item, section }) =>
-          section.key === 'private' ? (
-            <PmConversationList {...item} />
-          ) : (
-            <TopicItem
-              name={item.topic}
-              stream={section.streamName || ''}
-              isMuted={section.isMuted || item.isMuted}
-              isSelected={false}
-              unreadCount={item.unread}
-              onPress={(stream: string, topic: string) => {
-                setTimeout(() => this.props.dispatch(doNarrow(topicNarrow(stream, topic))));
-              }}
-            />
-          )
-        }
-      />
-    );
+  if (unreadStreamsAndTopics.length === 0 && conversations.length === 0) {
+    return <SearchEmptyState text="No unread messages" />;
   }
+
+  return (
+    /* $FlowFixMe[prop-missing]: SectionList libdef seems confused;
+         should take $ReadOnly objects. */
+    <SectionList
+      stickySectionHeadersEnabled
+      initialNumToRender={20}
+      sections={unreadCards}
+      keyExtractor={item => item.key}
+      renderSectionHeader={({ section }) =>
+        section.key === 'private' ? null : (
+          <StreamItem
+            name={section.streamName}
+            iconSize={16}
+            isMuted={section.isMuted}
+            isPrivate={section.isPrivate}
+            backgroundColor={section.color}
+            unreadCount={section.unread}
+            onPress={(stream: string) => {
+              setTimeout(() => props.dispatch(doNarrow(streamNarrow(stream))));
+            }}
+          />
+        )
+      }
+      renderItem={({ item, section }) =>
+        section.key === 'private' ? (
+          <PmConversationList {...item} />
+        ) : (
+          <TopicItem
+            name={item.topic}
+            stream={section.streamName || ''}
+            isMuted={section.isMuted || item.isMuted}
+            isSelected={false}
+            unreadCount={item.unread}
+            onPress={(stream: string, topic: string) => {
+              setTimeout(() => props.dispatch(doNarrow(topicNarrow(stream, topic))));
+            }}
+          />
+        )
+      }
+    />
+  );
 }
 
 export default connect(state => ({
