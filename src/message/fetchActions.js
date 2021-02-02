@@ -164,13 +164,9 @@ const initialFetchStart = (): Action => ({
   type: INITIAL_FETCH_START,
 });
 
-const initialFetchCompletePlain = (): Action => ({
+const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
-
-export const initialFetchComplete = () => async (dispatch: Dispatch, getState: GetState) => {
-  dispatch(initialFetchCompletePlain());
-};
 
 /** Private; exported only for tests. */
 export const isFetchNeededAtAnchor = (
