@@ -8,7 +8,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import styles, { ThemeContext, createStyleSheet } from '../styles';
 import type { Narrow, EditMessage } from '../types';
-import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
+import { KeyboardAvoider, OfflineNotice } from '../common';
 import ChatNavBar from '../nav/ChatNavBar';
 import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
@@ -21,7 +21,6 @@ import { canSendToNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
-import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -113,12 +112,9 @@ export default function ChatScreen(props: Props) {
   const sayNoMessages = haveNoMessages && !isFetching;
   const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
 
-  const streamColor = useSelector(state => getStreamColorForNarrow(state, narrow));
-
   return (
     <View style={[componentStyles.screen, { backgroundColor }]}>
       <KeyboardAvoider style={styles.flexed} behavior="padding">
-        <ZulipStatusBar backgroundColor={streamColor} />
         <ChatNavBar narrow={narrow} editMessage={editMessage} />
         <OfflineNotice />
         <UnreadNotice narrow={narrow} />
