@@ -3,8 +3,8 @@
 import React from 'react';
 import { SectionList } from 'react-native';
 
-import type { Dispatch, PmConversationData, UnreadStreamItem } from '../types';
-import { connect } from '../react-redux';
+import type { UnreadStreamItem } from '../types';
+import { useDispatch, useSelector } from '../react-redux';
 import { SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -13,14 +13,12 @@ import { streamNarrow, topicNarrow } from '../utils/narrow';
 import { getUnreadConversations, getUnreadStreamsAndTopicsSansMuted } from '../selectors';
 import { doNarrow } from '../actions';
 
-type Props = $ReadOnly<{|
-  conversations: PmConversationData[],
-  dispatch: Dispatch,
-  unreadStreamsAndTopics: UnreadStreamItem[],
-|}>;
+type Props = $ReadOnly<{||}>;
 
-function UnreadCards(props: Props) {
-  const { conversations, dispatch, unreadStreamsAndTopics } = props;
+export default function UnreadCards(props: Props) {
+  const dispatch = useDispatch();
+  const conversations = useSelector(getUnreadConversations);
+  const unreadStreamsAndTopics = useSelector(getUnreadStreamsAndTopicsSansMuted);
   type Card =
     | UnreadStreamItem
     | { key: 'private', data: Array<React$ElementConfig<typeof PmConversationList>> };
@@ -54,7 +52,7 @@ function UnreadCards(props: Props) {
             backgroundColor={section.color}
             unreadCount={section.unread}
             onPress={(stream: string) => {
-              setTimeout(() => props.dispatch(doNarrow(streamNarrow(stream))));
+              setTimeout(() => dispatch(doNarrow(streamNarrow(stream))));
             }}
           />
         )
@@ -70,7 +68,7 @@ function UnreadCards(props: Props) {
             isSelected={false}
             unreadCount={item.unread}
             onPress={(stream: string, topic: string) => {
-              setTimeout(() => props.dispatch(doNarrow(topicNarrow(stream, topic))));
+              setTimeout(() => dispatch(doNarrow(topicNarrow(stream, topic))));
             }}
           />
         )
@@ -78,8 +76,3 @@ function UnreadCards(props: Props) {
     />
   );
 }
-
-export default connect(state => ({
-  conversations: getUnreadConversations(state),
-  unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),
-}))(UnreadCards);
