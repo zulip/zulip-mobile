@@ -23,7 +23,6 @@ import GroupDetailsScreen from '../chat/GroupDetailsScreen';
 import SearchMessagesScreen from '../search/SearchMessagesScreen';
 import UsersScreen from '../users/UsersScreen';
 import ChatScreen from '../chat/ChatScreen';
-import LoadingScreen from '../start/LoadingScreen';
 import LanguageScreen from '../settings/LanguageScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import DebugScreen from '../settings/DebugScreen';
@@ -52,7 +51,6 @@ export type AppNavigatorParamList = {|
   chat: RouteParamsOf<typeof ChatScreen>,
   'dev-auth': RouteParamsOf<typeof DevAuthScreen>,
   'emoji-picker': RouteParamsOf<typeof EmojiPickerScreen>,
-  loading: RouteParamsOf<typeof LoadingScreen>,
   'main-tabs': RouteParamsOf<typeof MainTabsScreen>,
   'message-reactions': RouteParamsOf<typeof MessageReactionsScreen>,
   'password-auth': RouteParamsOf<typeof PasswordAuthScreen>,
@@ -113,7 +111,6 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="chat" component={ChatScreen} />
       <Stack.Screen name="dev-auth" component={DevAuthScreen} />
       <Stack.Screen name="emoji-picker" component={EmojiPickerScreen} />
-      <Stack.Screen name="loading" component={LoadingScreen} />
       <Stack.Screen name="main-tabs" component={MainTabsScreen} />
       <Stack.Screen name="message-reactions" component={MessageReactionsScreen} />
       <Stack.Screen name="password-auth" component={PasswordAuthScreen} />

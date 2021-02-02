@@ -15,7 +15,7 @@ import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
 import BackNavigationHandler from './nav/BackNavigationHandler';
 import { initializeSentry } from './sentry';
-import LoadingScreen from './start/LoadingScreen';
+import FullScreenLoading from './common/FullScreenLoading';
 
 initializeSentry();
 
@@ -44,7 +44,7 @@ export default (): React$Node => (
           backgroundColor: BRAND_COLOR,
         }}
       >
-        <HideIfNotHydrated PlaceholderComponent={LoadingScreen}>
+        <HideIfNotHydrated PlaceholderComponent={FullScreenLoading}>
           <AppEventHandlers>
             <AppDataFetcher>
               <TranslationProvider>

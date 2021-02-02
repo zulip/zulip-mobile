@@ -3,10 +3,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { LoadingIndicator, ZulipStatusBar } from '../common';
+import { LoadingIndicator, ZulipStatusBar } from '.';
 
 const componentStyles = createStyleSheet({
   center: {
@@ -17,17 +15,12 @@ const componentStyles = createStyleSheet({
   },
 });
 
-type Props = $ReadOnly<{|
-  // Since we've put this screen in AppNavigator's route config, but
-  // we do invoke it from one other place, which is not a navigator
-  // (see ZulipMobile.js), it might or might not get the `navigation`
-  // prop (with the particular shape for this route) and the `route`
-  // prop for free.
-  navigation?: AppNavigationProp<'loading'>,
-  route?: RouteProp<'loading', void>,
-|}>;
+type Props = $ReadOnly<{||}>;
 
-export default function LoadingScreen(props: Props) {
+/**
+ * Meant to be used to cover the whole screen.
+ */
+export default function FullScreenLoading(props: Props) {
   const insets = useSafeAreaInsets();
 
   return (
