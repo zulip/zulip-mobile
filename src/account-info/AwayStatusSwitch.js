@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -17,23 +17,19 @@ type Props = $ReadOnly<{|
  *  * retrieves the current user's `user status` data and presents it
  *  * allows by switching it to control the `away` status
  */
-class AwayStatusSwitch extends PureComponent<Props> {
-  handleUpdateAwayStatus = (away: boolean) => {
-    const { dispatch } = this.props;
-    dispatch(updateUserAwayStatus(away));
-  };
+function AwayStatusSwitch(props: Props) {
+  const { awayStatus } = props;
 
-  render() {
-    const { awayStatus } = this.props;
-
-    return (
-      <OptionRow
-        label="Set yourself to away"
-        value={awayStatus}
-        onValueChange={this.handleUpdateAwayStatus}
-      />
-    );
-  }
+  return (
+    <OptionRow
+      label="Set yourself to away"
+      value={awayStatus}
+      onValueChange={(away: boolean) => {
+        const { dispatch } = props;
+        dispatch(updateUserAwayStatus(away));
+      }}
+    />
+  );
 }
 
 export default connect(state => ({
