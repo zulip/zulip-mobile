@@ -8,7 +8,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from '../actionConstants';
-import { resetToAccountPicker, resetToLoading } from '../nav/navActions';
+import { resetToAccountPicker, resetToMainTabs } from '../nav/navActions';
 import type { ZulipVersion } from '../utils/zulipVersion';
 
 const accountSwitchPlain = (index: number): Action => ({
@@ -17,7 +17,7 @@ const accountSwitchPlain = (index: number): Action => ({
 });
 
 export const accountSwitch = (index: number) => (dispatch: Dispatch, getState: GetState) => {
-  NavigationService.dispatch(resetToLoading());
+  NavigationService.dispatch(resetToMainTabs());
   dispatch(accountSwitchPlain(index));
 };
 
@@ -48,7 +48,7 @@ export const loginSuccess = (realm: URL, email: string, apiKey: string) => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  NavigationService.dispatch(resetToLoading());
+  NavigationService.dispatch(resetToMainTabs());
   dispatch(loginSuccessPlain(realm, email, apiKey));
 };
 

@@ -62,13 +62,13 @@ function MainTabsScreen(props: Props) {
   const insets = useSafeAreaInsets();
 
   if (!haveServerData) {
-    // This can happen if the user has just logged out; this screen
-    // is still visible for the duration of the nav transition, and
-    // it's legitimate for its `render` to get called again.
-    // See our #4275.
+    // Show a full-screen loading indicator while waiting for the
+    // initial fetch to complete, if we don't have potentially stale
+    // data to show instead. Also show it for the duration of the nav
+    // transition just after the user logs out (see our #4275).
     //
-    // Avoid rendering any of our main UI in this case, to maintain
-    // the guarantee that it can all rely on server data existing.
+    // And avoid rendering any of our main UI, to maintain the
+    // guarantee that it can all rely on server data existing.
     return <LoadingScreen />;
   }
 

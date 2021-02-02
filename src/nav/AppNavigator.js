@@ -116,15 +116,7 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="dev-auth" component={DevAuthScreen} />
       <Stack.Screen name="emoji-picker" component={EmojiPickerScreen} />
       <Stack.Screen name="loading" component={LoadingScreen} />
-      <Stack.Screen
-        name="main-tabs"
-        component={MainTabsScreen}
-        options={{
-          // So we don't show a transition animation between 'loading'
-          // and 'main-tabs'.
-          animationEnabled: false,
-        }}
-      />
+      <Stack.Screen name="main-tabs" component={MainTabsScreen} />
       <Stack.Screen name="message-reactions" component={MessageReactionsScreen} />
       <Stack.Screen name="password-auth" component={PasswordAuthScreen} />
       <Stack.Screen

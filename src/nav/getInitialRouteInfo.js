@@ -9,7 +9,7 @@ export default (args: {|
   accounts: Account[],
   haveServerData: boolean,
 |}): {| initialRouteName: string, initialRouteParams?: ScreenParams |} => {
-  const { hasAuth, accounts, haveServerData } = args;
+  const { hasAuth, accounts } = args;
 
   // If the active account is not logged in, bring the user as close
   // as we can to AuthScreen, the place where they can log in.
@@ -39,14 +39,11 @@ export default (args: {|
     }
   }
 
-  // If there's an active, logged-in account but no server data, then behave
-  // like `ACCOUNT_SWITCH`: show loading screen.  Crucially, `sessionReducer`
-  // will have set `needsInitialFetch`, too, so we really will be loading.
-  if (!haveServerData) {
-    return { initialRouteName: 'loading' };
-  }
-
-  // Great: we have an active, logged-in account, and server data for it.
-  // Show the main UI.
+  // Show the main UI screen.
+  //
+  // If we don't have server data yet, that screen will show a loading
+  // indicator until the data is loaded. Crucially, `sessionReducer`
+  // will have set `needsInitialFetch`, too, so we really will be
+  // loading.
   return { initialRouteName: 'main-tabs' };
 };

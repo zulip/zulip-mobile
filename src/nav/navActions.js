@@ -15,12 +15,6 @@ export const navigateBack = (): GenericNavigationAction => StackActions.pop(getS
  * "Reset" actions, to explicitly prohibit back navigation.
  */
 
-export const resetToLoading = (): GenericNavigationAction =>
-  CommonActions.reset({
-    index: 0,
-    routes: [{ name: 'loading' }],
-  });
-
 export const resetToAccountPicker = (): GenericNavigationAction =>
   CommonActions.reset({ index: 0, routes: [{ name: 'account-pick' }] });
 
