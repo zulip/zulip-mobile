@@ -90,7 +90,7 @@ function replacer(key, value) {
         // the reviver will give the same output for both of them
         // (i.e., an empty `Immutable.Map`).
         [SERIALIZED_TYPE_FIELD_NAME]:
-          firstKey && typeof firstKey === 'number' ? 'ImmutableMapNumKeys' : 'ImmutableMap',
+          typeof firstKey === 'number' ? 'ImmutableMapNumKeys' : 'ImmutableMap',
       };
     }
     default: {
