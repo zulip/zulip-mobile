@@ -20,14 +20,6 @@ type Props = $ReadOnly<{|
 |}>;
 
 class UnreadCards extends PureComponent<Props> {
-  handleStreamPress = (stream: string) => {
-    setTimeout(() => this.props.dispatch(doNarrow(streamNarrow(stream))));
-  };
-
-  handleTopicPress = (stream: string, topic: string) => {
-    setTimeout(() => this.props.dispatch(doNarrow(topicNarrow(stream, topic))));
-  };
-
   render() {
     const { conversations, dispatch, unreadStreamsAndTopics } = this.props;
     type Card =
@@ -62,7 +54,9 @@ class UnreadCards extends PureComponent<Props> {
               isPrivate={section.isPrivate}
               backgroundColor={section.color}
               unreadCount={section.unread}
-              onPress={this.handleStreamPress}
+              onPress={(stream: string) => {
+                setTimeout(() => this.props.dispatch(doNarrow(streamNarrow(stream))));
+              }}
             />
           )
         }
@@ -76,7 +70,9 @@ class UnreadCards extends PureComponent<Props> {
               isMuted={section.isMuted || item.isMuted}
               isSelected={false}
               unreadCount={item.unread}
-              onPress={this.handleTopicPress}
+              onPress={(stream: string, topic: string) => {
+                setTimeout(() => this.props.dispatch(doNarrow(topicNarrow(stream, topic))));
+              }}
             />
           )
         }
