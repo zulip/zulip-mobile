@@ -8,6 +8,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
+import type { Dispatch } from '../types';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { GlobalParamList } from '../nav/globalTypes';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
@@ -19,7 +20,7 @@ import { IconInbox, IconSettings, IconStream } from '../common/Icons';
 import { OwnAvatar, OfflineNotice, ZulipStatusBar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileScreen from '../account-info/ProfileScreen';
-import { useSelector } from '../react-redux';
+import { connect } from '../react-redux';
 import { getHaveServerData } from '../selectors';
 import styles, { ThemeContext } from '../styles';
 
@@ -41,14 +42,21 @@ const Tab = createBottomTabNavigator<
   MainTabsNavigationProp<>,
 >();
 
+type SelectorProps = $ReadOnly<{|
+  haveServerData: boolean,
+|}>;
+
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'main-tabs'>,
   route: RouteProp<'main-tabs', void>,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
-export default function MainTabsScreen(props: Props) {
+function MainTabsScreen(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
-  const haveServerData = useSelector(getHaveServerData);
+  const { haveServerData } = props;
 
   const insets = useSafeAreaInsets();
 
@@ -119,3 +127,22 @@ export default function MainTabsScreen(props: Props) {
     </View>
   );
 }
+
+// `connect` does something useful for us that `useSelector` doesn't
+// do: it interposes a new `ReactReduxContext.Provider` component,
+// which proxies subscriptions so that the descendant components only
+// rerender if this one continues to say their subtree should be kept
+// around. See
+//   https://github.com/zulip/zulip-mobile/pull/4454#discussion_r578140524
+// and some discussion around
+//   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/converting.20to.20Hooks/near/1111970
+// where we describe some limits of our understanding.
+//
+// We found these things out while investigating an annoying crash: we
+// found that `mapStateToProps` on a descendant of `MainTabsScreen`
+// was running -- and throwing an uncaught error -- on logout, and
+// `MainTabsScreen`'s early return on `!haveServerData` wasn't
+// preventing that from happening.
+export default connect(state => ({
+  haveServerData: getHaveServerData(state),
+}))(MainTabsScreen);
