@@ -23,6 +23,7 @@ import ProfileScreen from '../account-info/ProfileScreen';
 import { connect } from '../react-redux';
 import { getHaveServerData } from '../selectors';
 import styles, { ThemeContext } from '../styles';
+import LoadingScreen from '../start/LoadingScreen';
 
 export type MainTabsNavigatorParamList = {|
   home: RouteParamsOf<typeof HomeScreen>,
@@ -68,7 +69,7 @@ function MainTabsScreen(props: Props) {
     //
     // Avoid rendering any of our main UI in this case, to maintain
     // the guarantee that it can all rely on server data existing.
-    return null;
+    return <LoadingScreen />;
   }
 
   return (
