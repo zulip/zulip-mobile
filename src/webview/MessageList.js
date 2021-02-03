@@ -302,6 +302,7 @@ type OuterProps = {|
   messages: $ReadOnlyArray<Message | Outbox>,
   initialScrollMessageId: number | null,
   showMessagePlaceholders: boolean,
+  startEditMessage: (editMessage: EditMessage) => void,
 |};
 
 export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
