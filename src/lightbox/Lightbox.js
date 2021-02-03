@@ -72,7 +72,7 @@ export default function Lightbox(props: Props) {
 
   return (
     <>
-      <ZulipStatusBar hidden backgroundColor="black" />
+      <ZulipStatusBar hidden={!headerFooterVisible} backgroundColor="black" />
       <View style={styles.container}>
         <PhotoView
           source={resource}
