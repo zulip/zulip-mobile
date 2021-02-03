@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { Platform, NativeModules } from 'react-native';
 import { WebView } from 'react-native-webview';
 import type { WebViewNavigation } from 'react-native-webview';
-import { connectActionSheet } from '@expo/react-native-action-sheet';
 
+import { connectActionSheet } from '../react-native-action-sheet';
 import type {
   AlertWordsState,
   Auth,
@@ -96,7 +96,6 @@ type SelectorProps = {|
   typingUsers: $ReadOnlyArray<UserOrBot>,
 |};
 
-// TODO get a type for `connectActionSheet` so this gets fully type-checked.
 export type Props = $ReadOnly<{|
   narrow: Narrow,
   messages: $ReadOnlyArray<Message | Outbox>,
