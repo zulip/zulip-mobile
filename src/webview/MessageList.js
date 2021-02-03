@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { Component } from 'react';
+import React, { Component, type ComponentType } from 'react';
 import { Platform, NativeModules } from 'react-native';
 import { WebView } from 'react-native-webview';
 import type { WebViewNavigation } from 'react-native-webview';
@@ -142,7 +142,7 @@ const assetsUrl =
  */
 const webviewAssetsUrl = new URL('webview/', assetsUrl);
 
-class MessageList extends Component<Props> {
+class MessageListInner extends Component<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
 
@@ -304,32 +304,36 @@ type OuterProps = {|
   startEditMessage: (editMessage: EditMessage) => void,
 |};
 
-export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
-  // TODO Ideally this ought to be a caching selector that doesn't change
-  // when the inputs don't.  Doesn't matter in a practical way here, because
-  // we have a `shouldComponentUpdate` that doesn't look at this prop... but
-  // it'd be better to set an example of the right general pattern.
-  const backgroundData: BackgroundData = {
-    alertWords: state.alertWords,
-    allImageEmojiById: getAllImageEmojiById(state),
-    auth: getAuth(state),
-    debug: getDebug(state),
-    flags: getFlags(state),
-    mute: getMute(state),
-    mutedUsers: getMutedUsers(state),
-    ownUser: getOwnUser(state),
-    subscriptions: getSubscriptions(state),
-    theme: getSettings(state).theme,
-    twentyFourHourTime: getRealm(state).twentyFourHourTime,
-  };
+const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
+  (state, props: OuterProps) => {
+    // TODO Ideally this ought to be a caching selector that doesn't change
+    // when the inputs don't.  Doesn't matter in a practical way here, because
+    // we have a `shouldComponentUpdate` that doesn't look at this prop... but
+    // it'd be better to set an example of the right general pattern.
+    const backgroundData: BackgroundData = {
+      alertWords: state.alertWords,
+      allImageEmojiById: getAllImageEmojiById(state),
+      auth: getAuth(state),
+      debug: getDebug(state),
+      flags: getFlags(state),
+      mute: getMute(state),
+      mutedUsers: getMutedUsers(state),
+      ownUser: getOwnUser(state),
+      subscriptions: getSubscriptions(state),
+      theme: getSettings(state).theme,
+      twentyFourHourTime: getRealm(state).twentyFourHourTime,
+    };
 
-  return {
-    backgroundData,
-    fetching: getFetchingForNarrow(state, props.narrow),
-    htmlPieceDescriptorsForShownMessages: getHtmlPieceDescriptorsForMessages(
-      props.messages,
-      props.narrow,
-    ),
-    typingUsers: getCurrentTypingUsers(state, props.narrow),
-  };
-})(connectActionSheet(withGetText(MessageList)));
+    return {
+      backgroundData,
+      fetching: getFetchingForNarrow(state, props.narrow),
+      htmlPieceDescriptorsForShownMessages: getHtmlPieceDescriptorsForMessages(
+        props.messages,
+        props.narrow,
+      ),
+      typingUsers: getCurrentTypingUsers(state, props.narrow),
+    };
+  },
+)(connectActionSheet(withGetText(MessageListInner)));
+
+export default MessageList;

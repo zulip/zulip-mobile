@@ -50,6 +50,9 @@ export default class SearchMessagesCard extends PureComponent<Props> {
           messages={messages}
           narrow={narrow}
           showMessagePlaceholders={false}
+          // TODO: handle editing a message from the search results,
+          // or make this prop optional
+          startEditMessage={() => undefined}
         />
       </View>
     );
