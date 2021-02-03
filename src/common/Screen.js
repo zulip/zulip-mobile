@@ -11,7 +11,6 @@ import type { LocalizableText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import LoadingBanner from './LoadingBanner';
-import ZulipStatusBar from './ZulipStatusBar';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
@@ -95,7 +94,6 @@ export default function Screen(props: Props) {
       edges={['bottom']}
       style={[componentStyles.screen, { backgroundColor }]}
     >
-      <ZulipStatusBar />
       {search ? (
         <ModalSearchNavBar
           autoFocus={autoFocus}
