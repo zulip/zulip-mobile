@@ -101,11 +101,9 @@ export default function ChatScreen(props: Props) {
   const { route, navigation } = props;
   const { backgroundColor } = React.useContext(ThemeContext);
 
-  const { editMessage } = route.params;
+  const { narrow, editMessage } = route.params;
   const setEditMessage = (value: EditMessage | null) =>
     navigation.setParams({ editMessage: value });
-
-  const { narrow } = props.route.params;
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
 
