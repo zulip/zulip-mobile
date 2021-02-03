@@ -20,6 +20,7 @@ import { canSendToNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
+import { getFirstUnreadIdInNarrow } from '../message/messageSelectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -42,7 +43,7 @@ const componentStyles = createStyleSheet({
  * more details, including how Redux is kept up-to-date during the
  * whole process.
  */
-const useFetchMessages = args => {
+const useMessagesWithFetch = args => {
   const { narrow } = args;
 
   const dispatch = useDispatch();
@@ -52,9 +53,9 @@ const useFetchMessages = args => {
   const loading = useSelector(getLoading);
   const fetching = useSelector(state => getFetchingForNarrow(state, narrow));
   const isFetching = fetching.older || fetching.newer || loading;
-  const haveNoMessages = useSelector(
-    state => getShownMessagesForNarrow(state, narrow).length === 0,
-  );
+  const messages = useSelector(state => getShownMessagesForNarrow(state, narrow));
+  const haveNoMessages = messages.length === 0;
+  const firstUnreadIdInNarrow = useSelector(state => getFirstUnreadIdInNarrow(state, narrow));
 
   // This could live in state, but then we'd risk pointless rerenders;
   // we only use it in our `useEffect` callbacks. Using `useRef` is
@@ -93,7 +94,7 @@ const useFetchMessages = args => {
     // `eventQueueId` needed here because it affects `shouldFetchWhenNextFocused`.
   }, [isFocused, eventQueueId, fetch]);
 
-  return { fetchError, isFetching, haveNoMessages };
+  return { fetchError, isFetching, messages, haveNoMessages, firstUnreadIdInNarrow };
 };
 
 export default function ChatScreen(props: Props) {
@@ -106,7 +107,13 @@ export default function ChatScreen(props: Props) {
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
 
-  const { fetchError, isFetching, haveNoMessages } = useFetchMessages({ narrow });
+  const {
+    fetchError,
+    isFetching,
+    messages,
+    haveNoMessages,
+    firstUnreadIdInNarrow,
+  } = useMessagesWithFetch({ narrow });
 
   const showMessagePlaceholders = haveNoMessages && isFetching;
   const sayNoMessages = haveNoMessages && !isFetching;
@@ -128,6 +135,8 @@ export default function ChatScreen(props: Props) {
           return (
             <MessageList
               narrow={narrow}
+              messages={messages}
+              initialScrollMessageId={firstUnreadIdInNarrow}
               showMessagePlaceholders={showMessagePlaceholders}
               startEditMessage={setEditMessage}
             />
