@@ -1,12 +1,11 @@
 /* @flow strict-local */
 import React from 'react';
-import { View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
 import { useSelector, useDispatch } from '../react-redux';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import styles, { ThemeContext, createStyleSheet } from '../styles';
+import { ThemeContext, createStyleSheet } from '../styles';
 import type { Narrow, EditMessage } from '../types';
 import { KeyboardAvoider, OfflineNotice } from '../common';
 import ChatNavBar from '../nav/ChatNavBar';
@@ -114,36 +113,34 @@ export default function ChatScreen(props: Props) {
   const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
 
   return (
-    <View style={[componentStyles.screen, { backgroundColor }]}>
-      <KeyboardAvoider style={styles.flexed} behavior="padding">
-        <ChatNavBar narrow={narrow} editMessage={editMessage} />
-        <OfflineNotice />
-        <UnreadNotice narrow={narrow} />
-        {(() => {
-          if (!isNarrowValid) {
-            return <InvalidNarrow narrow={narrow} />;
-          } else if (fetchError !== null) {
-            return <FetchError narrow={narrow} error={fetchError} />;
-          } else if (sayNoMessages) {
-            return <NoMessages narrow={narrow} />;
-          } else {
-            return (
-              <MessageList
-                narrow={narrow}
-                showMessagePlaceholders={showMessagePlaceholders}
-                startEditMessage={setEditMessage}
-              />
-            );
-          }
-        })()}
-        {showComposeBox && (
-          <ComposeBox
-            narrow={narrow}
-            editMessage={editMessage}
-            completeEditMessage={() => setEditMessage(null)}
-          />
-        )}
-      </KeyboardAvoider>
-    </View>
+    <KeyboardAvoider style={[componentStyles.screen, { backgroundColor }]} behavior="padding">
+      <ChatNavBar narrow={narrow} editMessage={editMessage} />
+      <OfflineNotice />
+      <UnreadNotice narrow={narrow} />
+      {(() => {
+        if (!isNarrowValid) {
+          return <InvalidNarrow narrow={narrow} />;
+        } else if (fetchError !== null) {
+          return <FetchError narrow={narrow} error={fetchError} />;
+        } else if (sayNoMessages) {
+          return <NoMessages narrow={narrow} />;
+        } else {
+          return (
+            <MessageList
+              narrow={narrow}
+              showMessagePlaceholders={showMessagePlaceholders}
+              startEditMessage={setEditMessage}
+            />
+          );
+        }
+      })()}
+      {showComposeBox && (
+        <ComposeBox
+          narrow={narrow}
+          editMessage={editMessage}
+          completeEditMessage={() => setEditMessage(null)}
+        />
+      )}
+    </KeyboardAvoider>
   );
 }
