@@ -24,7 +24,7 @@ import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
-  route: RouteProp<'chat', {| narrow: Narrow |}>,
+  route: RouteProp<'chat', {| narrow: Narrow, editMessage: EditMessage | null |}>,
 |}>;
 
 const componentStyles = createStyleSheet({
@@ -98,9 +98,12 @@ const useFetchMessages = args => {
 };
 
 export default function ChatScreen(props: Props) {
+  const { route, navigation } = props;
   const { backgroundColor } = React.useContext(ThemeContext);
 
-  const [editMessage, setEditMessage] = React.useState<EditMessage | null>(null);
+  const { editMessage } = route.params;
+  const setEditMessage = (value: EditMessage | null) =>
+    navigation.setParams({ editMessage: value });
 
   const { narrow } = props.route.params;
 

@@ -27,7 +27,7 @@ export const resetToMainTabs = (): GenericNavigationAction =>
 
 /** Only call this via `doNarrow`.  See there for details. */
 export const navigateToChat = (narrow: Narrow): GenericNavigationAction =>
-  StackActions.push('chat', { narrow });
+  StackActions.push('chat', { narrow, editMessage: null });
 
 export const navigateToUsersScreen = (): GenericNavigationAction => StackActions.push('users');
 
