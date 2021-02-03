@@ -37,13 +37,11 @@ import {
   getHtmlPieceDescriptorsForShownMessages,
   getFlags,
   getFetchingForNarrow,
-  getFirstUnreadIdInNarrow,
   getMute,
   getMutedUsers,
   getOwnUser,
   getSettings,
   getSubscriptions,
-  getShownMessagesForNarrow,
   getRealm,
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
@@ -93,9 +91,7 @@ type SelectorProps = {|
   // The remaining props contain data specific to the particular narrow or
   // particular messages we're displaying.  Data that's independent of those
   // should go in `BackgroundData`, above.
-  initialScrollMessageId: number | null,
   fetching: Fetching,
-  messages: $ReadOnlyArray<Message | Outbox>,
   htmlPieceDescriptorsForShownMessages: HtmlPieceDescriptor[],
   typingUsers: $ReadOnlyArray<UserOrBot>,
 |};
@@ -103,6 +99,8 @@ type SelectorProps = {|
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
 export type Props = $ReadOnly<{|
   narrow: Narrow,
+  messages: $ReadOnlyArray<Message | Outbox>,
+  initialScrollMessageId: number | null,
   showMessagePlaceholders: boolean,
   startEditMessage: (editMessage: EditMessage) => void,
 
@@ -301,13 +299,10 @@ class MessageList extends Component<Props> {
 
 type OuterProps = {|
   narrow: Narrow,
+  messages: $ReadOnlyArray<Message | Outbox>,
+  initialScrollMessageId: number | null,
   showMessagePlaceholders: boolean,
-
-  /* Remaining props are derived from `narrow` by default. */
-
-  messages?: Message[],
   htmlPieceDescriptorsForShownMessages?: HtmlPieceDescriptor[],
-  initialScrollMessageId?: number | null,
 |};
 
 export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
@@ -331,12 +326,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
 
   return {
     backgroundData,
-    initialScrollMessageId:
-      props.initialScrollMessageId !== undefined
-        ? props.initialScrollMessageId
-        : getFirstUnreadIdInNarrow(state, props.narrow),
     fetching: getFetchingForNarrow(state, props.narrow),
-    messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     htmlPieceDescriptorsForShownMessages:
       props.htmlPieceDescriptorsForShownMessages
       || getHtmlPieceDescriptorsForShownMessages(state, props.narrow),
