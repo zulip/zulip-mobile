@@ -124,6 +124,10 @@ export type AggregatedReaction = {|
   users: $ReadOnlyArray<UserId>,
 |};
 
+/**
+ * ID and original topic/content of an already-sent message that the
+ * user is currently editing.
+ */
 export type EditMessage = {|
   id: number,
   content: string,
