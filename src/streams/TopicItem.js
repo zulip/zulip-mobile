@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
@@ -22,50 +22,48 @@ const componentStyles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  stream: string,
+  stream?: string,
   name: string,
-  isMuted: boolean,
-  isSelected: boolean,
-  unreadCount: number,
+  isMuted?: boolean,
+  isSelected?: boolean,
+  unreadCount?: number,
   onPress: (topic: string, stream: string) => void,
 |}>;
 
-export default class TopicItem extends PureComponent<Props> {
-  static defaultProps = {
-    stream: '',
-    isMuted: false,
-    isSelected: false,
-    unreadCount: 0,
-  };
+export default function TopicItem(props: Props) {
+  const {
+    name,
+    stream = '',
+    isMuted = false,
+    isSelected = false,
+    unreadCount = 0,
+    onPress,
+  } = props;
 
-  render() {
-    const { name, stream, isMuted, isSelected, unreadCount, onPress } = this.props;
-
-    return (
-      <Touchable
-        onPress={() => {
-          onPress(stream, name);
-        }}
-        onLongPress={() => {
-          showToast(name);
-        }}
+  return (
+    <Touchable
+      onPress={() => {
+        onPress(stream, name);
+      }}
+      onLongPress={() => {
+        showToast(name);
+      }}
+    >
+      <View
+        style={[
+          styles.listItem,
+          isSelected && componentStyles.selectedRow,
+          isMuted && componentStyles.muted,
+        ]}
       >
-        <View
-          style={[
-            styles.listItem,
-            isSelected && componentStyles.selectedRow,
-            isMuted && componentStyles.muted,
-          ]}
-        >
-          <RawLabel
-            style={[componentStyles.label, isSelected && componentStyles.selectedText]}
-            text={name}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          />
-          <UnreadCount count={unreadCount} inverse={isSelected} />
-        </View>
-      </Touchable>
-    );
-  }
+        <RawLabel
+          style={[componentStyles.label, isSelected && componentStyles.selectedText]}
+          text={name}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        />
+        <UnreadCount count={unreadCount} inverse={isSelected} />
+      </View>
+    </Touchable>
+  );
 }
