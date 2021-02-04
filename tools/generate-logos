@@ -51,14 +51,10 @@ src_icon_square="${zulip_root}"/static/images/logo/zulip-icon-square.svg
 src_icon_circle_gray="${zulip_root}"/static/images/zulip-logo.svg
 
 # White Z on transparent background.
-src_icon_white_z=./z-white.svg
+src_icon_white_z="${root_dir}"/tools/z-white.svg
 
 [ -r "${src_icon_circle}" ] \
     || die "Expected Zulip worktree at: ${zulip_root}"
-
-[ -r "${src_icon_white_z}" ] \
-    || die "Need z-white.svg as input, in current directory.  See: 
-  https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/new.20logo/near/951307"
 
 
 make_one_ios_app_icon() {
