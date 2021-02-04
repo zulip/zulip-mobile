@@ -1,13 +1,12 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useContext } from 'react';
 import type { Node as React$Node } from 'react';
 import { View, ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { type EdgeInsets } from 'react-native-safe-area-context';
 
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
-import type { ThemeData } from '../styles';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
 import type { LocalizableText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
@@ -75,74 +74,64 @@ type Props = $ReadOnly<{|
  * @prop [title] - Text shown as the title of the screen.
  *                 Required unless `search` is true.
  */
-class Screen extends PureComponent<Props> {
-  static contextType = ThemeContext;
-  context: ThemeData;
+function Screen(props: Props) {
+  const { backgroundColor } = useContext(ThemeContext);
+  const {
+    autoFocus = false,
+    canGoBack = true,
+    centerContent = false,
+    children,
+    keyboardShouldPersistTaps = 'handled',
+    padding = false,
+    insets,
+    scrollEnabled = true,
+    search = false,
+    searchBarOnChange = (text: string) => {},
+    style,
+    title = '',
+    shouldShowLoadingBanner = true,
+  } = props;
 
-  render() {
-    const {
-      autoFocus = false,
-      canGoBack = true,
-      centerContent = false,
-      children,
-      keyboardShouldPersistTaps = 'handled',
-      padding = false,
-      insets,
-      scrollEnabled = true,
-      search = false,
-      searchBarOnChange = (text: string) => {},
-      style,
-      title = '',
-      shouldShowLoadingBanner = true,
-    } = this.props;
-
-    return (
-      <View
-        style={[
-          componentStyles.screen,
-          { backgroundColor: this.context.backgroundColor },
-          { paddingBottom: insets.bottom },
-        ]}
+  return (
+    <View style={[componentStyles.screen, { backgroundColor }, { paddingBottom: insets.bottom }]}>
+      <ZulipStatusBar />
+      {search ? (
+        <ModalSearchNavBar
+          autoFocus={autoFocus}
+          canGoBack={canGoBack}
+          searchBarOnChange={searchBarOnChange}
+        />
+      ) : (
+        <ModalNavBar canGoBack={canGoBack} title={title} />
+      )}
+      <OfflineNotice />
+      {shouldShowLoadingBanner && <LoadingBanner />}
+      <KeyboardAvoider
+        behavior="padding"
+        style={[componentStyles.wrapper, padding && styles.padding]}
+        contentContainerStyle={[padding && styles.padding]}
       >
-        <ZulipStatusBar />
-        {search ? (
-          <ModalSearchNavBar
-            autoFocus={autoFocus}
-            canGoBack={canGoBack}
-            searchBarOnChange={searchBarOnChange}
-          />
-        ) : (
-          <ModalNavBar canGoBack={canGoBack} title={title} />
-        )}
-        <OfflineNotice />
-        {shouldShowLoadingBanner && <LoadingBanner />}
-        <KeyboardAvoider
-          behavior="padding"
-          style={[componentStyles.wrapper, padding && styles.padding]}
-          contentContainerStyle={[padding && styles.padding]}
+        <ScrollView
+          contentContainerStyle={[
+            // If `Screen` is responsible for managing scrolling,
+            // keep its childrens' height unbounded. If not, set a
+            // bounded height on its children, e.g., as required for
+            // a child `FlatList` or `SectionList` to work (or even
+            // another `ScrollView`, but hopefully we don't nest too
+            // many of these!).
+            !scrollEnabled ? styles.flexed : null,
+            centerContent && componentStyles.content,
+            style,
+          ]}
+          style={componentStyles.childrenWrapper}
+          keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+          scrollEnabled={scrollEnabled}
         >
-          <ScrollView
-            contentContainerStyle={[
-              // If `Screen` is responsible for managing scrolling,
-              // keep its childrens' height unbounded. If not, set a
-              // bounded height on its children, e.g., as required for
-              // a child `FlatList` or `SectionList` to work (or even
-              // another `ScrollView`, but hopefully we don't nest too
-              // many of these!).
-              !scrollEnabled ? styles.flexed : null,
-              centerContent && componentStyles.content,
-              style,
-            ]}
-            style={componentStyles.childrenWrapper}
-            keyboardShouldPersistTaps={keyboardShouldPersistTaps}
-            scrollEnabled={scrollEnabled}
-          >
-            {children}
-          </ScrollView>
-        </KeyboardAvoider>
-      </View>
-    );
-  }
+          {children}
+        </ScrollView>
+      </KeyboardAvoider>
+    </View>
+  );
 }
 
 export default withSafeAreaInsets(Screen);
