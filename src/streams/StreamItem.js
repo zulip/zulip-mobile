@@ -70,15 +70,6 @@ export default class StreamItem extends PureComponent<Props> {
     isSwitchedOn: false,
   };
 
-  handlePress = () => this.props.onPress(this.props.name);
-
-  handleSwitch = (newValue: boolean) => {
-    const { name, onSwitch } = this.props;
-    if (onSwitch) {
-      onSwitch(name, newValue);
-    }
-  };
-
   render() {
     const {
       name,
@@ -91,6 +82,8 @@ export default class StreamItem extends PureComponent<Props> {
       showSwitch,
       isSwitchedOn,
       unreadCount,
+      onPress,
+      onSwitch,
     } = this.props;
 
     const wrapperStyle = [styles.listItem, { backgroundColor }, isMuted && componentStyles.muted];
@@ -106,7 +99,7 @@ export default class StreamItem extends PureComponent<Props> {
         : this.context.color;
 
     return (
-      <Touchable onPress={this.handlePress}>
+      <Touchable onPress={() => onPress(this.props.name)}>
         <View style={wrapperStyle}>
           <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
           <View style={componentStyles.text}>
@@ -129,7 +122,11 @@ export default class StreamItem extends PureComponent<Props> {
           {showSwitch && (
             <ZulipSwitch
               value={!!isSwitchedOn}
-              onValueChange={this.handleSwitch}
+              onValueChange={(newValue: boolean) => {
+                if (onSwitch) {
+                  onSwitch(name, newValue);
+                }
+              }}
               disabled={!isSwitchedOn && isPrivate}
             />
           )}
