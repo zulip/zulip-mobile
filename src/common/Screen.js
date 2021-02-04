@@ -2,11 +2,10 @@
 
 import React, { useContext } from 'react';
 import type { Node as React$Node } from 'react';
-import { View, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
-import { type EdgeInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
 import type { LocalizableText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
@@ -38,7 +37,6 @@ const componentStyles = createStyleSheet({
 type Props = $ReadOnly<{|
   centerContent?: boolean,
   +children: React$Node,
-  insets: EdgeInsets,
   keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
   padding?: boolean,
   scrollEnabled?: boolean,
@@ -74,7 +72,7 @@ type Props = $ReadOnly<{|
  * @prop [title] - Text shown as the title of the screen.
  *                 Required unless `search` is true.
  */
-function Screen(props: Props) {
+export default function Screen(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
   const {
     autoFocus = false,
@@ -83,7 +81,6 @@ function Screen(props: Props) {
     children,
     keyboardShouldPersistTaps = 'handled',
     padding = false,
-    insets,
     scrollEnabled = true,
     search = false,
     searchBarOnChange = (text: string) => {},
@@ -93,7 +90,11 @@ function Screen(props: Props) {
   } = props;
 
   return (
-    <View style={[componentStyles.screen, { backgroundColor }, { paddingBottom: insets.bottom }]}>
+    <SafeAreaView
+      mode="padding"
+      edges={['bottom']}
+      style={[componentStyles.screen, { backgroundColor }]}
+    >
       <ZulipStatusBar />
       {search ? (
         <ModalSearchNavBar
@@ -130,8 +131,6 @@ function Screen(props: Props) {
           {children}
         </ScrollView>
       </KeyboardAvoider>
-    </View>
+    </SafeAreaView>
   );
 }
-
-export default withSafeAreaInsets(Screen);
