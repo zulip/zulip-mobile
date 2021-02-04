@@ -8,6 +8,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
@@ -112,6 +113,7 @@ private fun getNotificationBuilder(
     } else {
         builder.setSmallIcon(R.drawable.zulip_notification)
     }
+    builder.setColor(Color.rgb(100, 146, 254))
 
     val nameList = extractNames(conversations)
 
