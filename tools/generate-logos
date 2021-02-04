@@ -69,7 +69,7 @@ make_one_ios_app_icon() {
     local output_basename=Icon-"${size_pt}x${size_pt}@${scale}x".png
     local output="${iconset}"/"${output_basename}"
     if [ ! -f "${output}" ]; then
-        inkscape "${src_icon_square}" -w "${size_px}" -e "${output}"
+        inkscape "${src_icon_square}" -w "${size_px}" --export-png="${output}"
     fi
 
     printf >>"${contents}" \
@@ -120,13 +120,13 @@ make_ios() {
     # This seems to be used only in LaunchScreen.xib...
     # which it isn't clear actually ever appears when using the app.
     # TODO take it out?
-    inkscape "${src_icon_circle}" -w 512 -e ios/zulip-logo.png
+    inkscape "${src_icon_circle}" -w 512 --export-png=ios/zulip-logo.png
 }
 
 
 make_webp() {
     local input="$1" size="$2" output="$3"
-    inkscape "${input}" -w "${size}" -e "${tmpdir}"/tmp.png
+    inkscape "${input}" -w "${size}" --export-png="${tmpdir}"/tmp.png
     # `cwebp -z 9` means lossless, and max/slowest compression
     cwebp -z 9 "${tmpdir}"/tmp.png -o "${output}"
 }
@@ -161,7 +161,7 @@ make_android() {
     # https://developer.android.com/google-play/resources/icon-design-specifications
     # This generated file we don't commit to the repo, because it isn't
     # needed in the build.
-    inkscape "${src_icon_square}" -w 512 -e zulip-icon-google-play.png
+    inkscape "${src_icon_square}" -w 512 --export-png=zulip-icon-google-play.png
 
     # Launcher icon goes in a mipmap:
     #   https://developer.android.com/training/multiscreen/screendensities#mipmap
@@ -174,10 +174,10 @@ make_android() {
     make_android_icon "${src_icon_white_z}" 24 drawable zulip_notification
 }
 
-inkscape "${src_icon_circle_gray}" -w 512 -e static/img/message-loading.png
+inkscape "${src_icon_circle_gray}" -w 512 --export-png=static/img/message-loading.png
 
 # Appears at 40px logical; 4x scale to correspond to Android's xxxhdpi
-inkscape "${src_icon_circle}" -w 160 -e static/img/logo.png
+inkscape "${src_icon_circle}" -w 160 --export-png=static/img/logo.png
 
 make_ios
 
