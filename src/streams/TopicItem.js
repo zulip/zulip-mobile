@@ -38,21 +38,18 @@ export default class TopicItem extends PureComponent<Props> {
     unreadCount: 0,
   };
 
-  handlePress = () => {
-    const { name, stream, onPress } = this.props;
-    onPress(stream, name);
-  };
-
-  handleLongPress = () => {
-    const { name } = this.props;
-    showToast(name);
-  };
-
   render() {
-    const { name, isMuted, isSelected, unreadCount } = this.props;
+    const { name, stream, isMuted, isSelected, unreadCount, onPress } = this.props;
 
     return (
-      <Touchable onPress={this.handlePress} onLongPress={this.handleLongPress}>
+      <Touchable
+        onPress={() => {
+          onPress(stream, name);
+        }}
+        onLongPress={() => {
+          showToast(name);
+        }}
+      >
         <View
           style={[
             styles.listItem,
