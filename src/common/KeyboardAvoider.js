@@ -9,6 +9,25 @@ type Props = $ReadOnly<{|
   children: React$Node,
   style?: ViewStyleProp,
   contentContainerStyle?: ViewStyleProp,
+
+  /** How much the top of `KeyboardAvoider`'s layout *parent* is
+   * displaced downward from the top of the screen.
+   *
+   * If this isn't set correctly, the keyboard will hide some of
+   * the bottom of the screen (an area whose height is what this
+   * value should have been set to).
+   *
+   * I think `KeyboardAvoidingView`'s implementation mistakes `x`
+   * and `y` from `View#onLayout` to be a `View`'s position
+   * relative to the top left of the screen. In reality, I'm
+   * pretty sure they represent a `View`'s position relative to
+   * its parent:
+   *   https://github.com/facebook/react-native-website/issues/2056#issuecomment-773618381
+   *
+   * But at least `KeyboardAvoidingView` exposes this prop, which
+   * we can use to balance the equation if we need to.
+   */
+  keyboardVerticalOffset?: number,
 |}>;
 
 /**
@@ -20,7 +39,7 @@ type Props = $ReadOnly<{|
  */
 export default class KeyboardAvoider extends PureComponent<Props> {
   render() {
-    const { behavior, children, style, contentContainerStyle } = this.props;
+    const { behavior, children, style, contentContainerStyle, keyboardVerticalOffset } = this.props;
 
     if (Platform.OS === 'android') {
       return <View style={style}>{children}</View>;
@@ -30,6 +49,8 @@ export default class KeyboardAvoider extends PureComponent<Props> {
       <KeyboardAvoidingView
         behavior={behavior}
         contentContainerStyle={contentContainerStyle}
+        // See comment on this prop in the jsdoc.
+        keyboardVerticalOffset={keyboardVerticalOffset}
         style={style}
       >
         {children}
