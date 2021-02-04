@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
 import { View } from 'react-native';
-import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Message } from '../types';
 import type { RouteProp } from '../react-navigation';
@@ -30,9 +29,7 @@ export default function LightboxScreen(props: Props) {
   return (
     <View style={styles.screen}>
       <ZulipStatusBar hidden backgroundColor="black" />
-      <ActionSheetProvider>
-        <Lightbox src={src} message={message} />
-      </ActionSheetProvider>
+      <Lightbox src={src} message={message} />
     </View>
   );
 }

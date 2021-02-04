@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Message } from '../types';
 import { createStyleSheet } from '../styles';
@@ -49,17 +48,15 @@ export default class SearchMessagesCard extends PureComponent<Props> {
 
     return (
       <View style={styles.results}>
-        <ActionSheetProvider>
-          <MessageList
-            initialScrollMessageId={messages[0].id}
-            messages={messages}
-            narrow={HOME_NARROW}
-            htmlPieceDescriptorsForShownMessages={htmlPieceDescriptors}
-            fetching={SearchMessagesCard.NOT_FETCHING}
-            showMessagePlaceholders={false}
-            typingUsers={NULL_ARRAY}
-          />
-        </ActionSheetProvider>
+        <MessageList
+          initialScrollMessageId={messages[0].id}
+          messages={messages}
+          narrow={HOME_NARROW}
+          htmlPieceDescriptorsForShownMessages={htmlPieceDescriptors}
+          fetching={SearchMessagesCard.NOT_FETCHING}
+          showMessagePlaceholders={false}
+          typingUsers={NULL_ARRAY}
+        />
       </View>
     );
   }
