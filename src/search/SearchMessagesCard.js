@@ -41,15 +41,19 @@ export default class SearchMessagesCard extends PureComponent<Props> {
       return <SearchEmptyState text="No results" />;
     }
 
-    const htmlPieceDescriptors = getHtmlPieceDescriptorsForMessages(messages, HOME_NARROW);
+    // TODO: This is kind of a hack.
+    const narrow = HOME_NARROW;
 
     return (
       <View style={styles.results}>
         <MessageList
           initialScrollMessageId={messages[0].id}
           messages={messages}
-          narrow={HOME_NARROW}
-          htmlPieceDescriptorsForShownMessages={htmlPieceDescriptors}
+          narrow={narrow}
+          htmlPieceDescriptorsForShownMessages={getHtmlPieceDescriptorsForMessages(
+            messages,
+            narrow,
+          )}
           showMessagePlaceholders={false}
         />
       </View>
