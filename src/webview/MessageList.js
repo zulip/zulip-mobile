@@ -34,7 +34,6 @@ import {
   getAllImageEmojiById,
   getCurrentTypingUsers,
   getDebug,
-  getHtmlPieceDescriptorsForShownMessages,
   getFlags,
   getFetchingForNarrow,
   getMute,
@@ -46,6 +45,7 @@ import {
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import { getHtmlPieceDescriptorsForMessages } from '../message/messageSelectors';
 import type { WebViewInboundEvent } from './generateInboundEvents';
 import type { WebViewOutboundEvent } from './handleOutboundEvents';
 import getHtml from './html/html';
@@ -329,7 +329,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
     fetching: getFetchingForNarrow(state, props.narrow),
     htmlPieceDescriptorsForShownMessages:
       props.htmlPieceDescriptorsForShownMessages
-      || getHtmlPieceDescriptorsForShownMessages(state, props.narrow),
+      || getHtmlPieceDescriptorsForMessages(props.messages, props.narrow),
     typingUsers: getCurrentTypingUsers(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));

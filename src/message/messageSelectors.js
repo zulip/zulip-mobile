@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { createSelector, defaultMemoize } from 'reselect';
 
-import type { Message, Outbox, Narrow, HtmlPieceDescriptor, Selector } from '../types';
+import type { Message, Outbox, Narrow, Selector } from '../types';
 import {
   getAllNarrows,
   getFlags,
@@ -59,15 +59,6 @@ export const getPrivateMessages: Selector<Message[]> = createSelector(
     }
     return privateMessages;
   },
-);
-
-export const getHtmlPieceDescriptorsForShownMessages: Selector<
-  HtmlPieceDescriptor[],
-  Narrow,
-> = createSelector(
-  (state, narrow) => narrow,
-  getShownMessagesForNarrow,
-  (narrow, messages) => getHtmlPieceDescriptors(messages, narrow),
 );
 
 export const getHtmlPieceDescriptorsForMessages = defaultMemoize(
