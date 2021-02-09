@@ -21,6 +21,7 @@ type Props = $ReadOnly<{
 const componentStyles = createStyleSheet({
   outer: { flex: 1 },
   inner: { flexDirection: 'row', alignItems: 'center' },
+  textWrapper: { flex: 1 },
 });
 
 export default function TitlePrivate(props: Props) {
@@ -43,7 +44,7 @@ export default function TitlePrivate(props: Props) {
       <View style={componentStyles.inner}>
         <UserAvatarWithPresenceById size={32} userId={user.user_id} />
         <ViewPlaceholder width={8} />
-        <View>
+        <View style={componentStyles.textWrapper}>
           <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {user.full_name}
           </Text>
