@@ -137,7 +137,17 @@ class Screen extends PureComponent<Props> {
           contentContainerStyle={[padding && styles.padding]}
         >
           <ScrollView
-            contentContainerStyle={[styles.flexed, centerContent && componentStyles.content, style]}
+            contentContainerStyle={[
+              // If `Screen` is responsible for managing scrolling,
+              // keep its childrens' height unbounded. If not, set a
+              // bounded height on its children, e.g., as required for
+              // a child `FlatList` or `SectionList` to work (or even
+              // another `ScrollView`, but hopefully we don't nest too
+              // many of these!).
+              !scrollEnabled ? styles.flexed : null,
+              centerContent && componentStyles.content,
+              style,
+            ]}
             style={componentStyles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
             scrollEnabled={scrollEnabled}
