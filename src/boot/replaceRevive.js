@@ -163,7 +163,12 @@ function reviver(key, value) {
           [SERIALIZED_TYPE_FIELD_NAME]: value[SERIALIZED_TYPE_FIELD_NAME_ESCAPED],
         };
       default:
-        return data;
+        // This should be impossible for data that came from our
+        // corresponding replacer, above.  If we do have a bug that leads to
+        // this case, there's nothing we can return that isn't likely to be
+        // a corrupt data structure that causes a crash somewhere else
+        // downstream; so just fail immediately.
+        throw new Error(`Unhandled serialized type: ${value[SERIALIZED_TYPE_FIELD_NAME]}`);
     }
   }
   return value;
