@@ -4,8 +4,9 @@ import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import ImagePicker from 'react-native-image-picker';
 
+import { TranslationContext } from '../boot/TranslationProvider';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, Narrow } from '../types';
+import type { Dispatch, Narrow, GetText } from '../types';
 import { connect } from '../react-redux';
 import * as logging from '../utils/logging';
 import { showErrorAlert } from '../utils/info';
@@ -62,9 +63,17 @@ export const chooseUploadImageFilename = (uri: string, fileName: ?string): strin
 };
 
 class ComposeMenu extends PureComponent<Props> {
-  uploadFile = (uri: string, fileName: ?string) => {
+  static contextType = TranslationContext;
+  context: GetText;
+
+  uploadFile = async (uri: string, fileName: ?string) => {
+    const _ = this.context;
     const { dispatch, destinationNarrow } = this.props;
-    dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
+    try {
+      await dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
+    } catch (e) {
+      showErrorAlert(_('Failed to send file'));
+    }
   };
 
   handleImagePickerResponse = (

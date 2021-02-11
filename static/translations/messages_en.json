@@ -214,6 +214,7 @@
   "Please choose recipients to share with.": "Please choose recipients to share with.",
   "Sending Message...": "Sending Message...",
   "Failed to send message": "Failed to send message",
+  "Failed to send file": "Failed to send file",
   "Message sent": "Message sent",
   "Couldn’t load information about {fullName}": "Couldn’t load information about {fullName}",
   "What’s your status?": "What’s your status?",
