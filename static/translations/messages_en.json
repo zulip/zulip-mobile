@@ -6,6 +6,8 @@
   "Starred": "Starred",
   "Mentions": "Mentions",
   "Mentions ({count} unread)":"Mentions ({count} unread)",
+  "Stream: {streamName}":"Stream: {streamName}",
+  "Stream: {streamName} ({unreadCount} unread messages)":"Stream: {streamName} ({unreadCount} unread messages)",
   "Starred messages":"Starred messages",
   "No recent conversations": "No recent conversations",
   "No results": "No results",
