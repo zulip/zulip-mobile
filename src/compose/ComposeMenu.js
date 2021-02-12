@@ -78,6 +78,7 @@ class ComposeMenu extends PureComponent<Props> {
       // https://github.com/react-native-community/react-native-image-picker/issues/1271
       fileName: ?string,
     }>,
+    source: 'camera' | 'library',
   ) => {
     if (response.didCancel) {
       return;
@@ -103,7 +104,7 @@ class ComposeMenu extends PureComponent<Props> {
           path: 'images',
         },
       },
-      this.handleImagePickerResponse,
+      response => this.handleImagePickerResponse(response, 'library'),
     );
   };
 
@@ -115,7 +116,9 @@ class ComposeMenu extends PureComponent<Props> {
       },
     };
 
-    ImagePicker.launchCamera(options, this.handleImagePickerResponse);
+    ImagePicker.launchCamera(options, response =>
+      this.handleImagePickerResponse(response, 'camera'),
+    );
   };
 
   handleFilePicker = async () => {
