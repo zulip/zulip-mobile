@@ -123,7 +123,7 @@ const parseStreamOperand = (operand, streamsById): string => {
   // "New" (2018) format: ${stream_id}-${stream_name} .
   const match = /^([\d]+)(-.*)?/.exec(operand);
   if (match) {
-    const stream = streamsById.get(parseInt(match[0], 10));
+    const stream = streamsById.get(parseInt(match[1], 10));
     if (stream) {
       return stream.name;
     }
