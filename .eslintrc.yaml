@@ -51,6 +51,19 @@ settings:
     node:
       extensions: [.js, .ios.js, .android.js, .json]
 
+  jest:
+    # Some Jest rules depend on the Jest version. In particular,
+    #   "jest/no-deprecated-functions". If we don't provide it here,
+    #   that rule will use `process.cwd()` to grab the Jest version
+    #   from node_modules. But our VSCode plugin for ESLint seems to
+    #   be changing the working directory in a way that interferes
+    #   with that, and I haven't found the right value for that
+    #   plugin's `eslint.workingDirectories` setting to fix the
+    #   problem. Even if I did, though, that'd be one more thing to
+    #   document as part of the dev setup, so we might as well fix the
+    #   problem here.
+    version: "26"
+
 
 rules:
 
