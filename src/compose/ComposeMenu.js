@@ -218,6 +218,7 @@ class ComposeMenu extends PureComponent<Props> {
       // See the comment on this option for the image-picker launch.
       quality: 0.7,
 
+      noData: true,
       storageOptions: {
         cameraRoll: true,
         waitUntilSaved: true,
