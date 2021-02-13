@@ -215,6 +215,9 @@ class ComposeMenu extends PureComponent<Props> {
 
   handleCameraCapture = () => {
     const options = {
+      // See the comment on this option for the image-picker launch.
+      quality: 0.7,
+
       storageOptions: {
         cameraRoll: true,
         waitUntilSaved: true,
