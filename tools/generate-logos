@@ -44,6 +44,10 @@ zulip_root="${root_dir%/*}"/zulip
 # White Z in gradient-colored circle.
 src_icon_circle="${zulip_root}"/static/images/logo/zulip-icon-circle.svg
 
+# White Z in gradient-colored circle with DEBUG banner.
+# Contains a link to the equivalent of ${src_icon_circle}.
+src_icon_debug="${root_dir}"/tools/zulip-icon-debug.svg
+
 # White Z in gradient-colored square, full-bleed.
 src_icon_square="${zulip_root}"/static/images/logo/zulip-icon-square.svg
 
@@ -128,28 +132,28 @@ make_webp() {
 }
 
 make_one_android_icon() {
-    local src="$1" restype="$2" name="$3" size_px="$4" density="$5"
-    local output=android/app/src/main/res/"${restype}"-"${density}"/"${name}".webp
+    local src="$1" sourceset="$2" restype="$3" name="$4" size_px="$5" density="$6"
+    local output=android/app/src/"${sourceset}"/res/"${restype}"-"${density}"/"${name}".webp
     mkdir -p "${output%/*}"
     make_webp "${src}" "${size_px}" "${output}"
 }
 
 make_android_icon() {
-    local src="$1" size_dp="$2" restype="$3" name="$4"
+    local src="$1" size_dp="$2" sourceset="$3" restype="$4" name="$5"
 
-    rm -f android/app/src/main/res/*/"${name}".*
+    rm -f android/app/src/"${sourceset}"/res/*/"${name}".*
 
     # Scale factors from:
     #   https://developer.android.com/training/multiscreen/screendensities#TaskProvideAltBmp
-    make_one_android_icon "${src}" "${restype}" "${name}" \
+    make_one_android_icon "${src}" "${sourceset}" "${restype}" "${name}" \
       "${size_dp}" mdpi
-    make_one_android_icon "${src}" "${restype}" "${name}" \
+    make_one_android_icon "${src}" "${sourceset}" "${restype}" "${name}" \
       $(( size_dp * 3 / 2 )) hdpi
-    make_one_android_icon "${src}" "${restype}" "${name}" \
+    make_one_android_icon "${src}" "${sourceset}" "${restype}" "${name}" \
       $(( size_dp * 2 )) xhdpi
-    make_one_android_icon "${src}" "${restype}" "${name}" \
+    make_one_android_icon "${src}" "${sourceset}" "${restype}" "${name}" \
       $(( size_dp * 3 )) xxhdpi
-    make_one_android_icon "${src}" "${restype}" "${name}" \
+    make_one_android_icon "${src}" "${sourceset}" "${restype}" "${name}" \
       $(( size_dp * 4 )) xxxhdpi
 }
 
@@ -161,13 +165,11 @@ make_android() {
 
     # Launcher icon goes in a mipmap:
     #   https://developer.android.com/training/multiscreen/screendensities#mipmap
-    make_android_icon "${src_icon_circle}" 48 mipmap ic_launcher
-
-    # TODO(low-priority): debug version of ic_launcher
-    #   (until then, we use the one based on the old logo)
+    make_android_icon "${src_icon_circle}" 48 main mipmap ic_launcher
+    make_android_icon "${src_icon_debug}" 48 debug mipmap ic_launcher
 
     # docs: https://developer.android.com/about/versions/android-5.0-changes#BehaviorNotifications
-    make_android_icon "${src_icon_white_z}" 24 drawable zulip_notification
+    make_android_icon "${src_icon_white_z}" 24 main drawable zulip_notification
 }
 
 inkscape "${src_icon_circle_gray}" -w 512 --export-png=static/img/message-loading.png
