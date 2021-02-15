@@ -50,6 +50,16 @@ export default function TopicItem(props: Props) {
     flags: getFlags(state),
   }));
 
+  const accessibilityLabel =
+    unreadCount === 0
+      ? _('Topic: {name}', {
+          name,
+        })
+      : _('Topic: {name} ({unreadCount} unread messages)', {
+          name,
+          unreadCount,
+        });
+
   return (
     <Touchable
       onPress={() => onPress(stream, name)}
@@ -62,6 +72,7 @@ export default function TopicItem(props: Props) {
           topic: name,
         });
       }}
+      accessibilityLabel={accessibilityLabel}
     >
       <View
         style={[
