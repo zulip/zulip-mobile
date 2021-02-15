@@ -3,13 +3,13 @@ import React from 'react';
 import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import { Screen } from '../common';
 import TimeItem from './TimeItem';
 import timing from '../utils/timing';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'timing'>,
+  navigation: MainStackNavigationProp<'timing'>,
   route: RouteProp<'timing', void>,
 |}>;
 

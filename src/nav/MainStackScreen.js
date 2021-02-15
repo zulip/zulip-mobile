@@ -44,7 +44,7 @@ import UserStatusScreen from '../user-status/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
 
-export type AppNavigatorParamList = {|
+export type MainStackNavigatorParamList = {|
   'account-pick': RouteParamsOf<typeof AccountPickScreen>,
   'account-details': RouteParamsOf<typeof AccountDetailsScreen>,
   'group-details': RouteParamsOf<typeof GroupDetailsScreen>,
@@ -77,15 +77,19 @@ export type AppNavigatorParamList = {|
   sharing: RouteParamsOf<typeof SharingScreen>,
 |};
 
-export type AppNavigationProp<
-  +RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
+export type MainStackNavigationProp<
+  +RouteName: $Keys<MainStackNavigatorParamList> = $Keys<MainStackNavigatorParamList>,
 > = StackNavigationProp<GlobalParamList, RouteName>;
 
-const Stack = createStackNavigator<GlobalParamList, AppNavigatorParamList, AppNavigationProp<>>();
+const Stack = createStackNavigator<
+  GlobalParamList,
+  MainStackNavigatorParamList,
+  MainStackNavigationProp<>,
+>();
 
 type Props = $ReadOnly<{||}>;
 
-export default function AppNavigator(props: Props) {
+export default function MainStackScreen(props: Props) {
   const hasAuth = useSelector(getHasAuth);
   const accounts = useSelector(getAccounts);
 

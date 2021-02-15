@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import type { Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -32,7 +32,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'password-auth'>,
+  navigation: MainStackNavigationProp<'password-auth'>,
   route: RouteProp<'password-auth', {| realm: URL, requireEmailFormat: boolean |}>,
 
   dispatch: Dispatch,

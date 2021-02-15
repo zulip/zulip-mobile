@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import * as NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
@@ -33,7 +33,7 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'message-reactions'>,
+  navigation: MainStackNavigationProp<'message-reactions'>,
   route: RouteProp<'message-reactions', {| reactionName?: string, messageId: number |}>,
 
   dispatch: Dispatch,

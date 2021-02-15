@@ -4,7 +4,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 import { useSelector, useDispatch } from '../react-redux';
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import { ThemeContext, createStyleSheet } from '../styles';
 import type { Narrow, EditMessage } from '../types';
 import { KeyboardAvoider, OfflineNotice } from '../common';
@@ -22,7 +22,7 @@ import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'chat'>,
+  navigation: MainStackNavigationProp<'chat'>,
   route: RouteProp<'chat', {| narrow: Narrow, editMessage: EditMessage | null |}>,
 |}>;
 

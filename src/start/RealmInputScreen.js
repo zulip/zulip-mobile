@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Keyboard } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
@@ -12,7 +12,7 @@ import * as api from '../api';
 import { navigateToAuth } from '../actions';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'realm-input'>,
+  navigation: MainStackNavigationProp<'realm-input'>,
   route: RouteProp<'realm-input', {| initial: boolean | void |}>,
 |}>;
 

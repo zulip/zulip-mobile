@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { Screen, OptionButton } from '../common';
@@ -11,7 +11,7 @@ import { openLinkEmbedded } from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'legal'>,
+  navigation: MainStackNavigationProp<'legal'>,
   route: RouteProp<'legal', void>,
 
   dispatch: Dispatch,

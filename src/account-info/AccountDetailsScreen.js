@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import type { Dispatch, UserOrBot, UserId } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -31,7 +31,7 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'account-details'>,
+  navigation: MainStackNavigationProp<'account-details'>,
   route: RouteProp<'account-details', {| userId: UserId |}>,
 
   dispatch: Dispatch,

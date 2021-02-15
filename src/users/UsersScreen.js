@@ -2,12 +2,12 @@
 import React, { PureComponent } from 'react';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import { Screen } from '../common';
 import UsersCard from './UsersCard';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'users'>,
+  navigation: MainStackNavigationProp<'users'>,
   route: RouteProp<'users', void>,
 |}>;
 

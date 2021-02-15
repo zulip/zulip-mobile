@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { connect } from '../react-redux';
@@ -31,7 +31,7 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'stream-settings'>,
+  navigation: MainStackNavigationProp<'stream-settings'>,
   route: RouteProp<'stream-settings', {| streamId: number |}>,
 
   dispatch: Dispatch,
