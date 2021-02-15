@@ -8,7 +8,7 @@ import { ThemeContext } from '../styles';
 import * as NavigationService from './NavigationService';
 import type { Dispatch, ThemeName } from '../types';
 import { getSettings } from '../selectors';
-import MainStackScreen from './MainStackScreen';
+import RootStackScreen from './RootStackScreen';
 
 type SelectorProps = $ReadOnly<{|
   theme: ThemeName,
@@ -62,7 +62,7 @@ class ZulipAppContainer extends PureComponent<Props> {
         }}
         theme={theme}
       >
-        <MainStackScreen />
+        <RootStackScreen />
       </NavigationContainer>
     );
   }

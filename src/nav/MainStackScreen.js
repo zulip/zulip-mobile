@@ -7,11 +7,12 @@ import {
   TransitionPresets,
 } from '@react-navigation/stack';
 
-import type { RouteParamsOf } from '../react-navigation';
+import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import { useSelector } from '../react-redux';
 import { hasAuth as getHasAuth, getAccounts } from '../selectors';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { GlobalParamList } from './globalTypes';
+import type { RootStackNavigationProp } from './RootStackScreen';
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmInputScreen from '../start/RealmInputScreen';
 import AuthScreen from '../start/AuthScreen';
@@ -87,7 +88,10 @@ const Stack = createStackNavigator<
   MainStackNavigationProp<>,
 >();
 
-type Props = $ReadOnly<{||}>;
+type Props = $ReadOnly<{|
+  navigation: RootStackNavigationProp<'main-stack'>,
+  route: RouteProp<'main-stack', void>,
+|}>;
 
 export default function MainStackScreen(props: Props) {
   const hasAuth = useSelector(getHasAuth);
