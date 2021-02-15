@@ -57,7 +57,6 @@ class MentionWarnings extends PureComponent<Props, State> {
     const { allUsersById } = this.props;
 
     const unformattedMessage = completion.split('**')[1];
-    const [userFullName, userIdRaw] = unformattedMessage.split('|');
 
     // We skip user groups, for which autocompletes are of the form
     // `*<user_group_name>*`, and therefore, message.split('**')[1]
@@ -65,6 +64,8 @@ class MentionWarnings extends PureComponent<Props, State> {
     if (unformattedMessage === undefined) {
       return undefined;
     }
+
+    const [userFullName, userIdRaw] = unformattedMessage.split('|');
 
     if (userIdRaw !== undefined) {
       const userId = makeUserId(Number.parseInt(userIdRaw, 10));
