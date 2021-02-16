@@ -49,6 +49,7 @@ import {
   getCaughtUpForNarrow,
   getStreamInNarrow,
   getVideoChatProvider,
+  getIsTopicMandatory,
 } from '../selectors';
 import {
   getIsActiveStreamSubscribed,
@@ -71,6 +72,7 @@ type SelectorProps = {|
   caughtUp: CaughtUp,
   videoChatProvider: VideoChatProvider | null,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
+  isTopicMandatory: boolean,
 |};
 
 type Props = $ReadOnly<{|
@@ -356,6 +358,15 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   };
 
+  shouldSendDisable = () => {
+    const { isTopicMandatory } = this.props;
+    const { message, topic } = this.state;
+    if (isTopicMandatory && topic.trim().length === 0) {
+      return true;
+    }
+    return message.trim().length === 0;
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       const topic =
@@ -512,7 +523,7 @@ class ComposeBox extends PureComponent<Props, State> {
             style={this.styles.composeSendButton}
             Icon={editMessage === null ? IconSend : IconDone}
             size={32}
-            disabled={message.trim().length === 0}
+            disabled={this.shouldSendDisable()}
             onPress={editMessage === null ? this.handleSend : this.handleEdit}
           />
         </View>
@@ -534,6 +545,7 @@ export default compose(
     caughtUp: getCaughtUpForNarrow(state, props.narrow),
     stream: getStreamInNarrow(state, props.narrow),
     videoChatProvider: getVideoChatProvider(state),
+    isTopicMandatory: getIsTopicMandatory(state),
   })),
   withSafeAreaInsets,
 )(withGetText(ComposeBox));

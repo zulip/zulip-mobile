@@ -97,3 +97,5 @@ export const getIsAdmin = (state: GlobalState): boolean => state.realm.isAdmin;
 
 export const getVideoChatProvider = (state: GlobalState): VideoChatProvider | null =>
   state.realm.videoChatProvider;
+
+export const getIsTopicMandatory = (state: GlobalState): boolean => state.realm.isTopicMandatory;
