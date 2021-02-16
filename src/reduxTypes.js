@@ -266,6 +266,7 @@ export type RealmState = {|
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
   isAdmin: boolean,
+  isTopicMandatory: boolean,
 |};
 
 // TODO: Stop using the 'default' name. Any 'default' semantics should

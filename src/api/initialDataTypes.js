@@ -114,6 +114,7 @@ export type RawInitialDataRealmUser = {|
   is_admin: boolean,
   realm_users: Array<{| ...User, avatar_url?: string | null |}>,
   realm_non_active_users: Array<{| ...User, avatar_url?: string | null |}>,
+  realm_mandatory_topics: boolean,
   user_id: UserId,
 |};
 
