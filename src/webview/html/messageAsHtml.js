@@ -64,10 +64,13 @@ const messageBody = (
   const { id, isOutbox, last_edit_timestamp, match_content, reactions } = (message: MessageLike);
   const content = match_content ?? message.content;
   return template`
-$!${processAlertWords(content, id, alertWords, flags)}
-$!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
-$!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
-$!${messageReactionListAsHtml(reactions, ownUser.user_id, allImageEmojiById)}
+<div dir='auto'>
+  $!${processAlertWords(content, id, alertWords, flags)}
+</div>
+  $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
+  $!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
+  $!${messageReactionListAsHtml(reactions, ownUser.user_id, allImageEmojiById)}
+
 `;
 };
 
