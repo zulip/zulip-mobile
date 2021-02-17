@@ -405,11 +405,13 @@ var compiledWebviewJs = (function (exports) {
   };
 
   window.onerror = function (message, source, line, column, error) {
+    var userAgent = window.navigator.userAgent;
+
     if (window.enableWebViewErrorDisplay) {
       var elementJsError = document.getElementById('js-error-detailed');
 
       if (elementJsError) {
-        elementJsError.innerHTML = ["Message: ".concat(message), "Source: ".concat(source), "Line: ".concat(line, ":").concat(column), "Error: ".concat(JSON.stringify(error)), ''].map(escapeHtml).join('<br>');
+        elementJsError.innerHTML = ["Message: ".concat(message), "Source: ".concat(source), "Line: ".concat(line, ":").concat(column), "UserAgent: ".concat(userAgent), "Error: ".concat(JSON.stringify(error)), ''].map(escapeHtml).join('<br>');
       }
     } else {
       var _elementJsError = document.getElementById('js-error-plain');
@@ -431,6 +433,7 @@ var compiledWebviewJs = (function (exports) {
         source: source,
         line: line,
         column: column,
+        userAgent: userAgent,
         error: error
       }
     });

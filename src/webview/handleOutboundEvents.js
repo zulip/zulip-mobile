@@ -109,6 +109,7 @@ type WebViewOutboundEventError = {|
     source: string,
     line: number,
     column: number,
+    userAgent: string,
     error: Error,
   },
 |};

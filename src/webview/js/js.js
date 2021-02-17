@@ -118,6 +118,7 @@ const escapeHtml = (text: string): string => {
 };
 
 window.onerror = (message: string, source: string, line: number, column: number, error: Error) => {
+  const userAgent = window.navigator.userAgent;
   if (window.enableWebViewErrorDisplay) {
     const elementJsError = document.getElementById('js-error-detailed');
     if (elementJsError) {
@@ -125,6 +126,7 @@ window.onerror = (message: string, source: string, line: number, column: number,
         `Message: ${message}`,
         `Source: ${source}`,
         `Line: ${line}:${column}`,
+        `UserAgent: ${userAgent}`,
         `Error: ${JSON.stringify(error)}`,
         '',
       ]
@@ -157,6 +159,7 @@ window.onerror = (message: string, source: string, line: number, column: number,
       source,
       line,
       column,
+      userAgent,
       error,
     },
   });
