@@ -59,6 +59,8 @@ export default class ZulipAsyncStorage {
     );
   }
 
+  static removeItem = AsyncStorage.removeItem;
+
   static getAllKeys = AsyncStorage.getAllKeys;
 
   static clear = AsyncStorage.clear;
