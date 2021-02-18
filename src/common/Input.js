@@ -82,7 +82,7 @@ class Input extends PureComponent<Props, State> {
 
     return (
       <TextInput
-        style={[this.styles.input, { color: this.context.color }, style]}
+        style={[this.styles.input, { color: this.context.textColor }, style]}
         placeholder={_(fullPlaceholder.text, fullPlaceholder.values)}
         placeholderTextColor={HALF_COLOR}
         underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
