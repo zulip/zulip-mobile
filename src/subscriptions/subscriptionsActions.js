@@ -6,18 +6,18 @@ import * as api from '../api';
 export const toggleStreamNotification = (streamId: number, value: boolean) => (
   dispatch: Dispatch,
   getState: GetState,
-) => api.toggleStreamNotifications(getAuth(getState()), streamId, value);
+) => api.setSubscriptionProperty(getAuth(getState()), streamId, 'push_notifications', value);
 
 export const togglePinStream = (streamId: number, value: boolean) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  await api.togglePinStream(getAuth(getState()), streamId, value);
+  await api.setSubscriptionProperty(getAuth(getState()), streamId, 'pin_to_top', value);
 };
 
 export const toggleMuteStream = (streamId: number, value: boolean) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  await api.toggleMuteStream(getAuth(getState()), streamId, value);
+  await api.setSubscriptionProperty(getAuth(getState()), streamId, 'is_muted', value);
 };

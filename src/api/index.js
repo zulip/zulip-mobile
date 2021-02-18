@@ -43,9 +43,7 @@ import updateStream from './streams/updateStream';
 import getSubscriptions from './subscriptions/getSubscriptions';
 import subscriptionAdd from './subscriptions/subscriptionAdd';
 import subscriptionRemove from './subscriptions/subscriptionRemove';
-import toggleMuteStream from './subscriptions/toggleMuteStream';
-import togglePinStream from './subscriptions/togglePinStream';
-import toggleStreamNotifications from './subscriptions/toggleStreamNotifications';
+import setSubscriptionProperty from './subscriptions/setSubscriptionProperty';
 import getSubscriptionToStream from './subscriptions/getSubscriptionToStream';
 import setTopicMute from './subscriptions/setTopicMute';
 import tryGetFileTemporaryUrl from './tryGetFileTemporaryUrl';
@@ -92,10 +90,8 @@ export {
   setTopicMute,
   subscriptionAdd,
   subscriptionRemove,
+  setSubscriptionProperty,
   getSubscriptionToStream,
-  toggleMuteStream,
-  togglePinStream,
-  toggleStreamNotifications,
   tryGetFileTemporaryUrl,
   getUsers,
   createUser,
