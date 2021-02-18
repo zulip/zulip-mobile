@@ -269,6 +269,10 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var rewriteTime = function rewriteTime(element) {
+    if (typeof HTMLTimeElement !== 'function') {
+      return;
+    }
+
     var timeElements = [].concat(element instanceof HTMLTimeElement ? [element] : [], Array.from(element.getElementsByTagName('time')));
     timeElements.forEach(function (elem) {
       if (!(elem instanceof HTMLTimeElement)) {

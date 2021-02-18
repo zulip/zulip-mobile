@@ -70,6 +70,10 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document) => {
  * 2. Adds 'original-text' attribrute, to show original text alert dialog on press.
  */
 const rewriteTime = (element: Element | Document) => {
+  // Terminate if HTMLTimeElement doesn't exist (for Chrome Versions < 62 and Safari Versions < 10)
+  if (typeof HTMLTimeElement !== 'function') {
+    return;
+  }
   // Find the time elements to act on.
   const timeElements = [].concat(
     element instanceof HTMLTimeElement ? [element] : [],
