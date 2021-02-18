@@ -5,9 +5,11 @@ import { createStackNavigator, type StackNavigationProp } from '@react-navigatio
 import type { RouteParamsOf } from '../react-navigation';
 import type { GlobalParamList } from './globalTypes';
 import MainStackScreen from './MainStackScreen';
+import LightboxScreen from '../lightbox/LightboxScreen';
 
 export type RootStackNavigatorParamList = {|
   'main-stack': RouteParamsOf<typeof MainStackScreen>,
+  lightbox: RouteParamsOf<typeof LightboxScreen>,
 |};
 
 export type RootStackNavigationProp<
@@ -28,6 +30,7 @@ export default function RootStackScreen(props: Props) {
       <Stack.Screen name="main-stack" component={MainStackScreen} />
 
       {/* Modal screens go here; see https://reactnavigation.org/docs/modal/. */}
+      <Stack.Screen name="lightbox" component={LightboxScreen} />
     </Stack.Navigator>
   );
 }
