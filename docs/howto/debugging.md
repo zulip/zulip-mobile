@@ -197,6 +197,10 @@ bugs inside it, you can debug with familiar tools.
 Debugging is available both for Android and iOS, and on an emulator or
 a physical device via a browser's developer tools.
 
+To debug code that runs during the initial load of the WebView, add
+`alert("pause"); debugger;` where you want a breakpoint. Then open the
+WebView and connect the debugger before clearing the alert.
+
 
 <div id="webview-safari" />
 
@@ -224,10 +228,6 @@ a physical device via a browser's developer tools.
    You now have access to the rich developer tools you might be
    familiar with.  You can inspect HTML elements, CSS styles and
    examine console.log output.
-
-To debug code that runs during the initial load of the WebView, add
-`alert("pause"); debugger;` where you want a breakpoint. Then open the
-WebView and connect the debugger before clearing the alert.
 
 
 <div id="webview-chrome" />
