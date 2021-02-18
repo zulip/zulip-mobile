@@ -254,6 +254,7 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
   '23': dropCache,
 
   // Dummy `dropCache` for #4458.
+  // See `purge` call in src/third/redux-persist/persistStore.js.
   '24': dropCache,
 
   // TIP: When adding a migration, consider just using `dropCache`.
