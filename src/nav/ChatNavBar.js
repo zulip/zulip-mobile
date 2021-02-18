@@ -34,7 +34,12 @@ export default function ChatNavBar(props: Props) {
       edges={['top', 'right', 'left']}
       style={{
         borderColor:
-          streamColor === undefined ? 'hsla(0, 0%, 50%, 0.25)' : Color(streamColor).darken(0.1),
+          streamColor === undefined
+            ? 'hsla(0, 0%, 50%, 0.25)'
+            : Color(streamColor)
+                .darken(0.1)
+                .hsl()
+                .string(),
         borderBottomWidth: 1,
         backgroundColor: streamColor,
       }}

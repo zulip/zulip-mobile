@@ -53,7 +53,10 @@ class ZulipStatusBar extends PureComponent<Props> {
           animated
           showHideTransition="slide"
           hidden={hidden && Platform.OS !== 'android'}
-          backgroundColor={Color(statusBarColor).darken(0.1)}
+          backgroundColor={Color(statusBarColor)
+            .darken(0.1)
+            .hsl()
+            .string()}
           barStyle={getStatusBarStyle(statusBarColor)}
         />
       )
