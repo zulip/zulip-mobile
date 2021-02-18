@@ -1,3 +1,5 @@
+import { cacheKeys } from '../../boot/store';
+
 import { REHYDRATE } from './constants'
 import getStoredState from './getStoredState'
 import createPersistor from './createPersistor'
@@ -18,7 +20,7 @@ export default function persistStore (store, config = {}, onComplete) {
   // restore
   if (shouldRestore) {
     setImmediate(() => {
-      getStoredState(config, (err, restoredState) => {
+      getStoredState(config, async (err, restoredState) => {
         if (err) {
           complete(err)
           return
@@ -39,6 +41,14 @@ export default function persistStore (store, config = {}, onComplete) {
           // action's payload (see `realVersionSetter` in
           // redux-persist-migrate).
           const prevVersion = restoredState.migrations?.version;
+
+          if (prevVersion == null || prevVersion < 24) {
+            // Super-powered `dropCache` to clear out corrupted
+            // (because not-fully-migrated) data from #4458. TODO: A
+            // proper, non-hacky fix, as Greg describes at
+            //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M4458.3A.20.22t.2Eget.20is.20not.20a.20function.22.20on.20state.2Enarrows.20at.20sta.2E.2E.2E/near/1119541.
+            await persistor.purge(cacheKeys);
+          }
 
           store.dispatch(rehydrateAction(restoredState, err))
 
