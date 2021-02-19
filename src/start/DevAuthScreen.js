@@ -5,12 +5,11 @@ import { ActivityIndicator, View, FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { Auth, DevUser, Dispatch } from '../types';
+import type { DevUser, Dispatch } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import * as api from '../api';
-import { getPartialAuth } from '../selectors';
 import { loginSuccess } from '../actions';
 
 const componentStyles = createStyleSheet({
@@ -32,7 +31,6 @@ type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'dev-auth'>,
   route: RouteProp<'dev-auth', {| realm: URL |}>,
 
-  partialAuth: Auth,
   dispatch: Dispatch,
 |}>;
 
@@ -52,12 +50,12 @@ class DevAuthScreen extends PureComponent<Props, State> {
   };
 
   componentDidMount = () => {
-    const { partialAuth } = this.props;
+    const realm = this.props.route.params.realm;
     this.setState({ progress: true, error: undefined });
 
     (async () => {
       try {
-        const response = await api.devListUsers(partialAuth);
+        const response = await api.devListUsers({ realm, apiKey: '', email: '' });
         this.setState({
           directAdmins: response.direct_admins,
           directUsers: response.direct_users,
@@ -72,13 +70,13 @@ class DevAuthScreen extends PureComponent<Props, State> {
   };
 
   tryDevLogin = async (email: string) => {
-    const { partialAuth } = this.props;
+    const realm = this.props.route.params.realm;
 
     this.setState({ progress: true, error: undefined });
 
     try {
-      const { api_key } = await api.devFetchApiKey(partialAuth, email);
-      this.props.dispatch(loginSuccess(partialAuth.realm, email, api_key));
+      const { api_key } = await api.devFetchApiKey({ realm, apiKey: '', email }, email);
+      this.props.dispatch(loginSuccess(realm, email, api_key));
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.data && err.data.msg });
@@ -127,6 +125,4 @@ class DevAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
-  partialAuth: getPartialAuth(state),
-}))(DevAuthScreen);
+export default connect<{||}, _, _>()(DevAuthScreen);
