@@ -27,7 +27,6 @@ import type { SpecificIconType } from '../common/Icons';
 import { connect } from '../react-redux';
 import styles from '../styles';
 import { Centerer, Screen, ZulipButton } from '../common';
-import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
 import { encodeParamsForUrl } from '../utils/url';
 import * as webAuth from './webAuth';
@@ -348,6 +347,8 @@ class AuthScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
-  realm: getCurrentRealm(state),
+export default connect((state, props) => ({
+  // Not from the Redux state, but it's convenient to validate the URL
+  // in one central place, like here.
+  realm: new URL(props.route.params.serverSettings.realm_uri),
 }))(AuthScreen);
