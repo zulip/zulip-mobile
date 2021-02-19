@@ -45,7 +45,7 @@ type State = {|
 class PasswordAuthScreen extends PureComponent<Props, State> {
   state = {
     progress: false,
-    email: this.props.partialAuth.email || '',
+    email: '',
     password: '',
     error: '',
   };
