@@ -44,9 +44,13 @@ export const navigateToDevAuth = (args: {| realm: URL |}): GenericNavigationActi
   StackActions.push('dev-auth', { realm: args.realm });
 
 export const navigateToPasswordAuth = (args: {|
+  realm: URL,
   requireEmailFormat: boolean,
 |}): GenericNavigationAction =>
-  StackActions.push('password-auth', { requireEmailFormat: args.requireEmailFormat });
+  StackActions.push('password-auth', {
+    realm: args.realm,
+    requireEmailFormat: args.requireEmailFormat,
+  });
 
 export const navigateToAccountPicker = (): GenericNavigationAction =>
   StackActions.push('account-pick');

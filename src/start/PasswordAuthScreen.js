@@ -29,7 +29,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'password-auth'>,
-  route: RouteProp<'password-auth', {| requireEmailFormat: boolean |}>,
+  route: RouteProp<'password-auth', {| realm: URL, requireEmailFormat: boolean |}>,
 
   partialAuth: Auth,
   dispatch: Dispatch,
