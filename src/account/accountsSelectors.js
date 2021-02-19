@@ -73,22 +73,6 @@ export const getActiveAccount = (state: GlobalState): Account => {
 export const getCurrentRealm = (state: GlobalState) => getActiveAccount(state).realm;
 
 /**
- * The auth object for the active account, even if not logged in; throws if none.
- *
- * For use in authentication flows, or other places that operate on an
- * active account which may not be logged in.
- *
- * See:
- *  * `tryGetAuth` for the meaning of "active" and "logged in".
- *  * `tryGetAuth` again, for use where there might not be an active account.
- *  * `getAuth` for use in the bulk of the app.
- */
-export const getPartialAuth: Selector<Auth> = createSelector(
-  getActiveAccount,
-  account => authOfAccount(account),
-);
-
-/**
  * The auth object for the active, logged-in account, or undefined if none.
  *
  * The "active" account is the one currently foregrounded in the UI, if any.
@@ -101,8 +85,6 @@ export const getPartialAuth: Selector<Auth> = createSelector(
  * See:
  *  * `getAuth` for use in the bulk of the app, operating on a logged-in
  *    active account.
- *  * `getPartialAuth` for use in authentication flows, where there is an
- *    active account but it may not be logged in.
  */
 export const tryGetAuth: Selector<Auth | void> = createSelector(
   tryGetActiveAccount,
