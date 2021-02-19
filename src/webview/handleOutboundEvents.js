@@ -152,6 +152,7 @@ type Props = $ReadOnly<{
   narrow: Narrow,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   startEditMessage: (editMessage: EditMessage) => void,
+  handleLongPressModal: () => {},
 }>;
 
 const fetchMore = (props: Props, event: WebViewOutboundEventScroll) => {
@@ -206,12 +207,20 @@ const handleLongPress = (
   if (!message) {
     return;
   }
-  const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
+  const {
+    dispatch,
+    showActionSheetWithOptions,
+    backgroundData,
+    narrow,
+    startEditMessage,
+    handleLongPressModal,
+  } = props;
   showActionSheet(
     target === 'header',
     showActionSheetWithOptions,
     { dispatch, startEditMessage, _ },
     { backgroundData, message, narrow },
+    handleLongPressModal,
   );
 };
 

@@ -102,6 +102,7 @@ export type Props = $ReadOnly<{|
   narrow: Narrow,
   showMessagePlaceholders: boolean,
   startEditMessage: (editMessage: EditMessage) => void,
+  handleLongPressModal: () => {},
 
   dispatch: Dispatch,
   ...SelectorProps,
