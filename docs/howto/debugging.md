@@ -12,7 +12,6 @@ A variety of tools are available to help us do that.
   * ... [with the Chrome Developer Tools](#chrome-devtools) /
     Remote JS Debugging
   * ... [with React DevTools](#react-devtools)
-  * ... [with Reactotron](#reactotron)
   * ... [with redux-logger](#redux-logger)
   * ... [with immutable-devtools](#immutable-devtools)
 * [Debugging the message list](#webview) in its WebView
@@ -98,32 +97,6 @@ notes][react-devtools-v4].  Instead, install v3 with the command
 
 [rn-react-devtools]: https://reactnative.dev/docs/debugging#react-developer-tools
 [react-devtools-v4]: https://reactjs.org/blog/2019/08/15/new-react-devtools.html
-
-
-<div id="reactotron" />
-
-## Reactotron
-
-**NOTE:** Reactotron is **removed** in master as a result of causing
-unpredictable problems in the basic functionality of debug versions of
-the app.  If you'd like to try it out, try `git revert 170ed2a32` to
-add it back; be sure to see `git log -n1 170ed2a32` for background on
-the removal.
-
-We have integrated [Reactotron](https://github.com/infinitered/reactotron) with the project.
-
-It can be used instead of together with the 'Chrome Developer Tools'.
-Some areas in which Reactotron is better are:
-
-* track Async Storage updates
-* show API requests & responses
-* subscribe to parts of your application state
-* dispatch custom Redux actions
-
-Note: Make sure to enable Remote JS Debugging with the "Debug" option
-from inside of your app.
-
-Refer to the [docs](https://github.com/infinitered/reactotron/blob/master/readme.md) for further details.
 
 
 <div id="redux-logger" />
