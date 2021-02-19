@@ -30,7 +30,7 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'dev-auth'>,
-  route: RouteProp<'dev-auth', void>,
+  route: RouteProp<'dev-auth', {| realm: URL |}>,
 
   partialAuth: Auth,
   dispatch: Dispatch,

@@ -235,7 +235,7 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   handleDevAuth = () => {
-    NavigationService.dispatch(navigateToDevAuth());
+    NavigationService.dispatch(navigateToDevAuth({ realm: this.props.realm }));
   };
 
   handlePassword = () => {
