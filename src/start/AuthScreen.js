@@ -241,7 +241,7 @@ class AuthScreen extends PureComponent<Props> {
   handlePassword = () => {
     const { serverSettings } = this.props.route.params;
     NavigationService.dispatch(
-      navigateToPasswordAuth(serverSettings.require_email_format_usernames),
+      navigateToPasswordAuth({ requireEmailFormat: serverSettings.require_email_format_usernames }),
     );
   };
 
