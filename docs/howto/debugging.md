@@ -63,11 +63,11 @@ much the same way you would a web app.  This provides you with prettily
 formatted debug messages and helpful additional information.
 
 To use it, start the app.  (Either in the emulator, or see
-[here][chrome-devtools-device] for additional instructions to do this on a
-physical device.)  Then, [open the Developer Menu][dev-menu].  Here, select
-"Debug JS Remotely".  This will open a new tab in your browser, at
-http://localhost:8081/debugger-ui .  Go to this tab and open the developer
-console.
+[here][chrome-devtools-device] for additional instructions to do this
+on a physical device.)  Then, [open the Developer Menu][dev-menu].
+Here, select "Debug JS Remotely".  This will open a new tab in your
+browser, at http://localhost:8081/debugger-ui .  Go to this tab and
+open the developer console.
 
 This console will show all console debug output from your app, which means
 that you can debug the app with statements like
