@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, LayoutAnimation } from 'react-native';
 
 import type { Auth, Stream, Dispatch, UserOrBot, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
@@ -15,6 +15,7 @@ type SelectorProps = {|
 |};
 
 type Props = $ReadOnly<{|
+  height: number,
   user: UserOrBot,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
   onDismiss: (user: UserOrBot) => void,
@@ -24,6 +25,11 @@ type Props = $ReadOnly<{|
 |}>;
 
 const styles = createStyleSheet({
+  wrapper: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+  },
   outer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -67,12 +73,17 @@ class MentionedUserNotSubscribed extends PureComponent<Props> {
     const { user, onDismiss } = this.props;
     onDismiss(user);
   };
-
+  componentDidMount() {
+    LayoutAnimation.configureNext({ ...LayoutAnimation.Presets.easeInEaseOut, duration: 100 });
+  }
+  componentWillUnmount() {
+    LayoutAnimation.configureNext({ ...LayoutAnimation.Presets.easeInEaseOut, duration: 100 });
+  }
   render() {
-    const { user } = this.props;
+    const { user, height } = this.props;
 
     return (
-      <View>
+      <View style={[styles.wrapper, { bottom: height }]}>
         <TouchableOpacity onPress={this.handleDismiss} style={styles.outer}>
           <Label
             text={{

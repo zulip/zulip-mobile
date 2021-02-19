@@ -32,6 +32,7 @@ type SelectorProps = {|
 |};
 
 type Props = $ReadOnly<{|
+  height: number,
   narrow: Narrow,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
 
@@ -146,7 +147,7 @@ class MentionWarnings extends PureComponent<Props, State> {
 
   render() {
     const { unsubscribedMentions } = this.state;
-    const { stream, narrow, allUsersById } = this.props;
+    const { stream, narrow, allUsersById, height } = this.props;
 
     if (is1to1PmNarrow(narrow)) {
       return null;
@@ -162,6 +163,7 @@ class MentionWarnings extends PureComponent<Props, State> {
 
       mentionWarnings.push(
         <MentionedUserNotSubscribed
+          height={height}
           stream={stream}
           user={user}
           onDismiss={this.handleMentionWarningDismiss}
