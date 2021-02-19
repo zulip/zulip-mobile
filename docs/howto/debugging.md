@@ -171,6 +171,11 @@ bugs inside it, you can debug with familiar tools.
 Debugging is available both for Android and iOS, and on an emulator or
 a physical device via a browser's developer tools.
 
+We've defined a function `sendMessage` that can send a message from
+within the WebView to React Native-land outside it. This can be used
+(with `type: 'debug'`) if you want to see WebView logs alongisde React
+Native logs.
+
 To debug code that runs during the initial load of the WebView, add
 `alert("pause"); debugger;` where you want a breakpoint. Then open the
 WebView and connect the debugger before clearing the alert.
