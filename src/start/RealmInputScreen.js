@@ -5,14 +5,13 @@ import { Keyboard } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import { ZulipVersion } from '../utils/zulipVersion';
 import type { Dispatch } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { connect } from '../react-redux';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { tryParseUrl } from '../utils/url';
 import * as api from '../api';
-import { realmAdd, navigateToAuth } from '../actions';
+import { navigateToAuth } from '../actions';
 
 type SelectorProps = {|
   +initialRealmInputValue: string,
@@ -52,20 +51,12 @@ class RealmInputScreen extends PureComponent<Props, State> {
       return;
     }
 
-    const { dispatch } = this.props;
     this.setState({
       progress: true,
       error: null,
     });
     try {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(parsedRealm);
-      dispatch(
-        realmAdd(
-          parsedRealm,
-          serverSettings.zulip_feature_level ?? 0,
-          new ZulipVersion(serverSettings.zulip_version),
-        ),
-      );
       NavigationService.dispatch(navigateToAuth(serverSettings));
       Keyboard.dismiss();
     } catch (err) {

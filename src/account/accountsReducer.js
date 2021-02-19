@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import {
-  REALM_ADD,
   REALM_INIT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -14,33 +13,6 @@ import type { AccountsState, Identity, Action } from '../types';
 import { NULL_ARRAY } from '../nullObjects';
 
 const initialState = NULL_ARRAY;
-
-const realmAdd = (state, action) => {
-  const accountIndex = state.findIndex(
-    account => account.realm.toString() === action.realm.toString(),
-  );
-
-  if (accountIndex !== -1) {
-    const newAccount = {
-      ...state[accountIndex],
-      zulipFeatureLevel: action.zulipFeatureLevel,
-      zulipVersion: action.zulipVersion,
-    };
-    return [newAccount, ...state.slice(0, accountIndex), ...state.slice(accountIndex + 1)];
-  }
-
-  return [
-    {
-      realm: action.realm,
-      apiKey: '',
-      email: '',
-      ackedPushToken: null,
-      zulipFeatureLevel: action.zulipFeatureLevel,
-      zulipVersion: action.zulipVersion,
-    },
-    ...state,
-  ];
-};
 
 const realmInit = (state, action) => [
   {
@@ -117,9 +89,6 @@ const accountRemove = (state, action) => {
 
 export default (state: AccountsState = initialState, action: Action): AccountsState => {
   switch (action.type) {
-    case REALM_ADD:
-      return realmAdd(state, action);
-
     case REALM_INIT:
       return realmInit(state, action);
 

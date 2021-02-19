@@ -2,94 +2,13 @@
 
 import deepFreeze from 'deep-freeze';
 
-import {
-  REALM_ADD,
-  ACCOUNT_SWITCH,
-  LOGIN_SUCCESS,
-  LOGOUT,
-  ACCOUNT_REMOVE,
-} from '../../actionConstants';
+import { ACCOUNT_SWITCH, LOGIN_SUCCESS, LOGOUT, ACCOUNT_REMOVE } from '../../actionConstants';
 import accountsReducer from '../accountsReducer';
 import { ZulipVersion } from '../../utils/zulipVersion';
 
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('accountsReducer', () => {
-  describe('REALM_ADD', () => {
-    describe('on list of identities', () => {
-      const account1 = eg.makeAccount({ realm: new URL('https://realm.one.org'), apiKey: '' });
-      const account2 = eg.makeAccount({ realm: new URL('https://realm.two.org'), apiKey: '' });
-      const prevState = deepFreeze([account1, account2]);
-      const baseAction = deepFreeze({
-        type: REALM_ADD,
-        zulipFeatureLevel: eg.zulipFeatureLevel,
-        zulipVersion: eg.zulipVersion,
-      });
-
-      test('if no account with this realm exists, prepend new one, with empty email/apiKey', () => {
-        const newRealm = new URL('https://new.realm.org');
-        const action = deepFreeze({ ...baseAction, realm: newRealm });
-        expect(accountsReducer(prevState, action)).toEqual([
-          eg.makeAccount({ realm: newRealm, email: '', apiKey: '' }),
-          account1,
-          account2,
-        ]);
-      });
-
-      test('if account with this realm exists, move to front of list', () => {
-        const action = deepFreeze({ ...baseAction, realm: account2.realm });
-        expect(accountsReducer(prevState, action)).toEqual([account2, account1]);
-      });
-    });
-
-    describe('if an account with this realm exists', () => {
-      const existingAccountBase = eg.makeAccount({});
-      const baseAction = deepFreeze({
-        type: REALM_ADD,
-        realm: existingAccountBase.realm,
-        zulipFeatureLevel: eg.zulipFeatureLevel,
-        zulipVersion: eg.zulipVersion,
-      });
-
-      describe('update its zulipVersion', () => {
-        const newZulipVersion = new ZulipVersion('4.0.0');
-        const action = deepFreeze({ ...baseAction, zulipVersion: newZulipVersion });
-
-        test('when its zulipVersion started out non-null', () => {
-          expect(
-            accountsReducer(
-              [{ ...existingAccountBase, zulipVersion: new ZulipVersion('3.0.0') }],
-              action,
-            ),
-          ).toEqual([{ ...existingAccountBase, zulipVersion: newZulipVersion }]);
-        });
-
-        test('when its zulipVersion started out null', () => {
-          expect(accountsReducer([{ ...existingAccountBase, zulipVersion: null }], action)).toEqual(
-            [{ ...existingAccountBase, zulipVersion: newZulipVersion }],
-          );
-        });
-      });
-
-      describe('update its zulipFeatureLevel', () => {
-        const newZulipFeatureLevel = 6;
-        const action = deepFreeze({ ...baseAction, zulipFeatureLevel: newZulipFeatureLevel });
-
-        test('when its zulipFeatureLevel started out non-null', () => {
-          expect(
-            accountsReducer([{ ...existingAccountBase, zulipFeatureLevel: 5 }], action),
-          ).toEqual([{ ...existingAccountBase, zulipFeatureLevel: newZulipFeatureLevel }]);
-        });
-
-        test('when its zulipVersion started out null', () => {
-          expect(
-            accountsReducer([{ ...existingAccountBase, zulipFeatureLevel: null }], action),
-          ).toEqual([{ ...existingAccountBase, zulipFeatureLevel: newZulipFeatureLevel }]);
-        });
-      });
-    });
-  });
-
   describe('REALM_INIT', () => {
     const account1 = eg.makeAccount();
     const account2 = eg.makeAccount();

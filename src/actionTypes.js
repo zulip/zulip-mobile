@@ -6,7 +6,6 @@ import {
   APP_ORIENTATION,
   DEBUG_FLAG_TOGGLE,
   ACCOUNT_SWITCH,
-  REALM_ADD,
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -129,13 +128,6 @@ type DebugFlagToggleAction = {|
 type AccountSwitchAction = {|
   type: typeof ACCOUNT_SWITCH,
   index: number,
-|};
-
-type RealmAddAction = {|
-  type: typeof REALM_ADD,
-  realm: URL,
-  zulipFeatureLevel: number,
-  zulipVersion: ZulipVersion,
 |};
 
 type AccountRemoveAction = {|
@@ -592,12 +584,7 @@ type InitTopicsAction = {|
 // The `Action` union type.
 //
 
-type AccountAction =
-  | AccountSwitchAction
-  | RealmAddAction
-  | AccountRemoveAction
-  | LoginSuccessAction
-  | LogoutAction;
+type AccountAction = AccountSwitchAction | AccountRemoveAction | LoginSuccessAction | LogoutAction;
 
 type LoadingAction = DeadQueueAction | InitialFetchStartAction | InitialFetchCompleteAction;
 
