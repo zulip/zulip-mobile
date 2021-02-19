@@ -10,7 +10,7 @@ A variety of tools are available to help us do that.
 * [Debugging our main app code](#main-codebase) in RN,
   especially React and Redux
   * ... [with the Chrome Developer Tools](#chrome-devtools) /
-    "Debug JS remotely"
+    Remote JS Debugging
   * ... [with React DevTools](#react-devtools)
   * ... [with Reactotron](#reactotron)
   * ... [with redux-logger](#redux-logger)
@@ -22,7 +22,7 @@ A variety of tools are available to help us do that.
 * [Debugging platform-native code](#native) (i.e. not JS)
   * ... on Android, [with `adb logcat`](#adb-logcat)
 * [Troubleshooting](#troubleshooting)
-  * ["Debug JS remotely" opens a webpage that never loads.](#debug-remotely-never-loads)
+  * [Remote JS Debugging opens a webpage that never loads.](#debug-remotely-never-loads)
 
 
 <div id="rn-upstream" />
@@ -56,7 +56,7 @@ debugging there, plus useful hooks specific to React and Redux.
 
 <div id="chrome-devtools" />
 
-## Chrome Developer Tools / "Debug JS remotely"
+## Chrome Developer Tools / Remote JS Debugging
 
 React Native supports debugging the app using Chrome's developer tools, in
 much the same way you would a web app.  This provides you with prettily
@@ -65,9 +65,9 @@ formatted debug messages and helpful additional information.
 To use it, start the app.  (Either in the emulator, or see
 [here][chrome-devtools-device] for additional instructions to do this
 on a physical device.)  Then, [open the Developer Menu][dev-menu].
-Here, select "Debug JS Remotely".  This will open a new tab in your
-browser, at http://localhost:8081/debugger-ui .  Go to this tab and
-open the developer console.
+Here, select "Debug" (formerly "Debug JS Remotely").  This will open a
+new tab in your browser, at http://localhost:8081/debugger-ui .  Go to
+this tab and open the developer console.
 
 This console will show all console debug output from your app, which means
 that you can debug the app with statements like
@@ -120,7 +120,8 @@ Some areas in which Reactotron is better are:
 * subscribe to parts of your application state
 * dispatch custom Redux actions
 
-Note: Make sure to enable the "Debug JS Remotely" option from inside of your app.
+Note: Make sure to enable Remote JS Debugging with the "Debug" option
+from inside of your app.
 
 Refer to the [docs](https://github.com/infinitered/reactotron/blob/master/readme.md) for further details.
 
@@ -326,7 +327,7 @@ Example useful command lines with `adb logcat`:
 
 <div id="debug-remotely-never-loads" />
 
-## "Debug JS remotely" opens a webpage that never loads.
+## Remote JS Debugging ("Debug") opens a webpage that never loads.
 
 For some reason, React Native may try to open a browser tab for you at
 http://10.0.2.2:8081/debugger-ui .
