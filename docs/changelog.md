@@ -36,8 +36,64 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users, vs v27.157 (last prod release)
+
+* Fixed crash which affected some users at startup. (#4453)
+* (iOS) Viewing a conversation now takes you to the right point in the
+  history, including the first time. (#3457, #4357)
+* (iOS) Scrolling through lots of messages is now fast. (#3557)
+* The PM-conversations tab now shows many more conversations. (#3133)
+* Support the Zulip "spoilers" feature. (#4155)
+* People's avatars now show up crisply, without pixelation. (#4305)
+
+Plus, like every release, many other fixes and improvements for your
+Zulip experience.
+
+
+### Highlights for users, vs v27.158 (last beta)
+
+* Fixed crashes which affected some users at startup. (#4453, #4458)
+* Fixed crash in previous version on certain @-mentions. (#4422)
+* The PM-conversations tab now shows many more conversations. (#3133)
+
+Plus, like every release, many other fixes and improvements for your
+Zulip experience.
+
+
+### Highlights for developers
+
+* Upgraded to React Native v0.63 -- the current latest version! (#4245)
+
+* We've significantly refactored how we handle navigation, aiming to
+  make it simpler and better support changes we want to make.  This
+  came in PRs #4443, #4441, #4440, #4428, #4430, following PR #4393
+  which upgraded us to React Navigation v5 (issue #4296).
+  More to come.
+
+* Improvements to our data structures continue:
+  * Most uses of emails to identify users have been switched to
+    user IDs. (PR #4424; mostly completes #3764)
+  * `state.messages` is an `Immutable.Map`. (#4390)
+  * Our various Redux sub-reducers now receive the global Redux state,
+    allowing us to optimize some algorithms and drop some hacks we'd
+    had for partial versions of the same thing. (PR #4437)
+  * User IDs have a distinct `UserId` type: simply `number` at
+    runtime, but the type-checker tracks the distinction. (PR #4421)
+
+* Development on Windows was broken, and works again. (#4297)
+
+* We have new, detailed instructions for profiling and benchmarking
+  the app. (PR #4314)
+
+* Resolved issues (latest to earliest): #4453, #4458, #4460, #4405,
+  #4469, PR #4467, #4449, #4267, #4083, #4245, #4422, #4369, #4296,
+  #4401, #4297, #4232, #4306, #3133, #4385.
+
 
 ## 27.158 (2021-01-07)
+
+(This was a beta-only release.)
+
 
 ### Highlights for users
 
