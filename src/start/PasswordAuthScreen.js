@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { Auth, Dispatch } from '../types';
+import type { Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import * as api from '../api';
@@ -17,7 +17,6 @@ import {
   ZulipButton,
   ViewPlaceholder,
 } from '../common';
-import { getPartialAuth } from '../selectors';
 import { isValidEmailFormat } from '../utils/misc';
 import { loginSuccess } from '../actions';
 
@@ -31,7 +30,6 @@ type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'password-auth'>,
   route: RouteProp<'password-auth', {| realm: URL, requireEmailFormat: boolean |}>,
 
-  partialAuth: Auth,
   dispatch: Dispatch,
 |}>;
 
@@ -51,16 +49,16 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   };
 
   tryPasswordLogin = async () => {
-    const { dispatch, partialAuth, route } = this.props;
-    const { requireEmailFormat } = route.params;
+    const { dispatch, route } = this.props;
+    const { requireEmailFormat, realm } = route.params;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
 
     try {
-      const fetchedKey = await api.fetchApiKey(partialAuth, email, password);
+      const fetchedKey = await api.fetchApiKey({ realm, apiKey: '', email }, email, password);
       this.setState({ progress: false });
-      dispatch(loginSuccess(partialAuth.realm, fetchedKey.email, fetchedKey.api_key));
+      dispatch(loginSuccess(realm, fetchedKey.email, fetchedKey.api_key));
     } catch (err) {
       this.setState({
         progress: false,
@@ -137,6 +135,4 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
-  partialAuth: getPartialAuth(state),
-}))(PasswordAuthScreen);
+export default connect<{||}, _, _>()(PasswordAuthScreen);
