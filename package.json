@@ -41,7 +41,7 @@
     "@react-navigation/material-top-tabs": "^5.2.19",
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "^5.9.3",
-    "@sentry/react-native": "^1.0.9",
+    "@sentry/react-native": "^2.2.1",
     "@unimodules/core": "~5.3.0",
     "@zulip/shared": "^0.0.4",
     "base-64": "^0.1.0",

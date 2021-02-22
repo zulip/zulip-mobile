@@ -1,4 +1,14 @@
 declare module '@sentry/react-native' {
+
+  declare type Primitive =
+    | number
+    | string
+    | boolean
+    // | bigint (not supported yet; facebook/flow#6639)
+    | symbol
+    | null
+    | typeof undefined;
+
   // Adapted from @sentry/types/src/options.ts et al.
   //
   // Despite being given as exact, many other options not listed here are
@@ -47,6 +57,7 @@ declare module '@sentry/react-native' {
     event_id?: string,
     message?: string,
     timestamp?: number,
+    start_timestamp?: number;
     level?: SeverityType,
     platform?: string,
     logger?: string,
@@ -63,18 +74,19 @@ declare module '@sentry/react-native' {
     // stacktrace?: Stacktrace,
     breadcrumbs?: Breadcrumb[],
     // contexts?: { [key: string]: object },
-    tags?: { [key: string]: string },
+    tags?: { [key: string]: Primitive },
     extra?: { [key: string]: any },
     // user?: User,
     type?: EventType,
   |};
 
   // Taken from @sentry/types/src/event.ts.
-  declare export type EventType = 'none';
+  declare export type EventType = 'transaction';
 
   // Taken from @sentry/types/src/event.ts.
   declare export type EventHint = {|
     event_id?: string,
+    captureContext?: CaptureContext;
     syntheticException?: Error | null,
     originalException?: Error | string | null,
     data?: mixed,
@@ -87,7 +99,9 @@ declare module '@sentry/react-native' {
     event_id?: string,
     category?: string,
     message?: string,
-    data?: any,
+    data?: {
+      [key: string]: mixed;
+  },
     timestamp?: number,
   |};
 
@@ -96,7 +110,7 @@ declare module '@sentry/react-native' {
     getClient(): Client | typeof undefined,
 
     captureException(exception: mixed, hint?: EventHint): string,
-    captureMessage(message: string, level?: SeverityType, eventHint?: EventHint): string,
+    captureMessage(message: string, level?: SeverityType, hint?: EventHint): string,
   };
 
   // Taken from @sentry/{minimal,types}/src/scope.ts.
@@ -107,14 +121,14 @@ declare module '@sentry/react-native' {
      * @param tags Tags context object to merge into current context.
      */
     setTags(tags: {
-      [key: string]: string,
+      +[key: string]: Primitive,
     }): this;
     /**
      * Set key:value that will be sent as tags data with the event.
      * @param key String key of tag
      * @param value String value of tag
      */
-    setTag(key: string, value: string): this;
+    setTag(key: string, value: Primitive): this;
     /**
      * Set key:value that will be sent as extra data with the event.
      * @param key String of extra
@@ -129,6 +143,8 @@ declare module '@sentry/react-native' {
     setExtras(extras: { +[key: string]: any }): this;
   }
 
+  declare export type CaptureContext = Scope | Partial<ScopeContext> | ((scope: Scope) => Scope);
+
   // Adapted from @sentry/types/src/client.ts, with some specialization.
   declare export type Client = {
     getOptions(): Options,
@@ -137,15 +153,15 @@ declare module '@sentry/react-native' {
   // Adapted from @sentry/react-native/src/sdk.ts.
   declare export function init(o: Options): void;
 
-  // Taken from @sentry/react-native/src/sdk.ts.
+  // Taken from @sentry/hub/src/hub.ts.
   declare export function getCurrentHub(): Hub;
 
   // A slice of the so-called "Static API":
   // https://docs.sentry.io/development/sdk-dev/unified-api/#static-api
   //
   // Taken from @sentry/minimal/src/index.ts.
-  declare export function captureException(exception: mixed): string;
-  declare export function captureMessage(message: string, level?: $Values<typeof Severity>): string;
+  declare export function captureException(exception: mixed, captureContext?: CaptureContext): string;
+  declare export function captureMessage(message: string, captureContext?: CaptureContext | SeverityType): string;
   declare export function addBreadcrumb(breadcrumb: Breadcrumb): void;
 
   /* Modifies the current scope. Avoid in favor of `withScope` wherever
