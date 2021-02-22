@@ -1,12 +1,16 @@
 /* @flow strict-local */
 import type { Scope, SeverityType, EventHint } from '@sentry/react-native';
-import { getCurrentHub, Severity, withScope as withScopeImpl } from '@sentry/react-native';
+import {
+  getCurrentHub,
+  configureScope,
+  Severity,
+  withScope as withScopeImpl,
+} from '@sentry/react-native';
 
 import type { ZulipVersion } from './zulipVersion';
 import type { JSONable } from './jsonable';
 import objectEntries from './objectEntries';
 import config from '../config';
-import { getLoggingContext } from '../boot/loggingContext';
 
 /** Type of "extras" intended for Sentry. */
 // This type should be exact, but cannot be until Flow v0.126.0. (See note in
@@ -71,6 +75,22 @@ const getServerVersionTags = (zulipVersion: ?ZulipVersion): ServerVersionTags =>
   return { rawServerVersion: raw, coarseServerVersion, fineServerVersion };
 };
 
+export function setTagsFromServerVersion(zulipVersion: ?ZulipVersion) {
+  configureScope(scope => {
+    // Set server version tags on Sentry's global scope, so
+    // all events will have them. See
+    // https://docs.sentry.io/platforms/javascript/enriching-events/tags/
+    // for more about Sentry tags.
+    //
+    // If `zulipVersion` is falsy, all values in the object
+    // passed to `setTags` will be undefined. This means the
+    // tags will be removed from the scope, though this is
+    // unofficial as a way to remove tags:
+    //   https://github.com/getsentry/sentry-javascript/pull/3108#issue-534072956
+    scope.setTags(getServerVersionTags(zulipVersion));
+  });
+}
+
 /**
  * Log an event (a string or Error) at some arbitrary severity.
  *
@@ -100,8 +120,7 @@ const logToSentry = (event: string | Error, level: SeverityType, extras: Extras)
   }
 
   const tags = {
-    ...getServerVersionTags(getLoggingContext()?.serverVersion),
-    // Other tags go here; they're useful for event aggregation. See
+    // Tags can go here; they're useful for event aggregation. See
     // https://docs.sentry.io/platforms/javascript/enriching-events/tags/.
   };
 
