@@ -2,6 +2,7 @@
 import type { Scope, SeverityType, EventHint } from '@sentry/react-native';
 import { getCurrentHub, Severity, withScope as withScopeImpl } from '@sentry/react-native';
 
+import type { ZulipVersion } from './zulipVersion';
 import type { JSONable } from './jsonable';
 import objectEntries from './objectEntries';
 import config from '../config';
@@ -31,12 +32,10 @@ type ServerVersionTags = {|
 /**
  * Get server-version tags at various levels of granularity.
  *
- * If the server version isn't found in the logging context, all the
- * tags will be `undefined`.
+ * If the passed server version is falsy, all the tags will be
+ * `undefined`.
  */
-const getServerVersionTags = (): ServerVersionTags => {
-  const zulipVersion = getLoggingContext()?.serverVersion;
-
+const getServerVersionTags = (zulipVersion: ?ZulipVersion): ServerVersionTags => {
   // Why might we not have the server version? If there's no active
   // account.
   if (!zulipVersion) {
@@ -101,7 +100,7 @@ const logToSentry = (event: string | Error, level: SeverityType, extras: Extras)
   }
 
   const tags = {
-    ...getServerVersionTags(),
+    ...getServerVersionTags(getLoggingContext()?.serverVersion),
     // Other tags go here; they're useful for event aggregation. See
     // https://docs.sentry.io/platforms/javascript/enriching-events/tags/.
   };
