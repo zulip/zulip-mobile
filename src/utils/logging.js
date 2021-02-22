@@ -22,16 +22,29 @@ function withScope<R>(callback: Scope => R): R {
   return ((ret: $FlowFixMe): R);
 }
 
+type ServerVersionTags = {|
+  rawServerVersion: string | void,
+  coarseServerVersion: string | void,
+  fineServerVersion: string | void,
+|};
+
 /**
  * Get server-version tags at various levels of granularity.
+ *
+ * If the server version isn't found in the logging context, all the
+ * tags will be `undefined`.
  */
-const getServerVersionTags = () => {
+const getServerVersionTags = (): ServerVersionTags => {
   const zulipVersion = getLoggingContext()?.serverVersion;
 
   // Why might we not have the server version? If there's no active
   // account.
   if (!zulipVersion) {
-    return {};
+    return {
+      rawServerVersion: undefined,
+      coarseServerVersion: undefined,
+      fineServerVersion: undefined,
+    };
   }
 
   const raw = zulipVersion.raw();
