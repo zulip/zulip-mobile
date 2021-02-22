@@ -119,14 +119,8 @@ const logToSentry = (event: string | Error, level: SeverityType, extras: Extras)
     }
   }
 
-  const tags = {
-    // Tags can go here; they're useful for event aggregation. See
-    // https://docs.sentry.io/platforms/javascript/enriching-events/tags/.
-  };
-
   return withScope(scope => {
     scope.setExtras(extras);
-    scope.setTags(tags);
 
     // The static API's `captureException` doesn't allow passing strings, and its
     // counterpart `captureMessage` doesn't allow passing stacktraces.
