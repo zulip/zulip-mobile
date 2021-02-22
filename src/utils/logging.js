@@ -41,7 +41,9 @@ type ServerVersionTags = {|
  */
 const getServerVersionTags = (zulipVersion: ?ZulipVersion): ServerVersionTags => {
   // Why might we not have the server version? If there's no active
-  // account.
+  // account. N.B: an account may be the active account but not
+  // logged in; see
+  // https://github.com/zulip/zulip-mobile/blob/v27.158/docs/glossary.md#active-account.
   if (!zulipVersion) {
     return {
       rawServerVersion: undefined,
