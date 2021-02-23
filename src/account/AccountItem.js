@@ -46,15 +46,13 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class AccountItem extends PureComponent<Props> {
-  handleSelect = () => this.props.onSelect(this.props.index);
-
   handleRemove = () => this.props.onRemove(this.props.index);
 
   render() {
     const { email, realm, showDoneIcon } = this.props;
 
     return (
-      <Touchable style={styles.wrapper} onPress={this.handleSelect}>
+      <Touchable style={styles.wrapper} onPress={() => this.props.onSelect(this.props.index)}>
         <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
           <View style={styles.details}>
             <RawLabel style={styles.text} text={email} numberOfLines={1} />
