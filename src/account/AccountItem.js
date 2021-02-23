@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
@@ -45,29 +45,27 @@ type Props = $ReadOnly<{|
   showDoneIcon: boolean,
 |}>;
 
-export default class AccountItem extends PureComponent<Props> {
-  render() {
-    const { email, realm, showDoneIcon } = this.props;
+export default function AccountItem(props: Props) {
+  const { email, realm, showDoneIcon } = props;
 
-    return (
-      <Touchable style={styles.wrapper} onPress={() => this.props.onSelect(this.props.index)}>
-        <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
-          <View style={styles.details}>
-            <RawLabel style={styles.text} text={email} numberOfLines={1} />
-            <RawLabel style={styles.text} text={realm.toString()} numberOfLines={1} />
-          </View>
-          {!showDoneIcon ? (
-            <IconTrash
-              style={styles.icon}
-              size={24}
-              color="crimson"
-              onPress={() => this.props.onRemove(this.props.index)}
-            />
-          ) : (
-            <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />
-          )}
+  return (
+    <Touchable style={styles.wrapper} onPress={() => props.onSelect(props.index)}>
+      <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
+        <View style={styles.details}>
+          <RawLabel style={styles.text} text={email} numberOfLines={1} />
+          <RawLabel style={styles.text} text={realm.toString()} numberOfLines={1} />
         </View>
-      </Touchable>
-    );
-  }
+        {!showDoneIcon ? (
+          <IconTrash
+            style={styles.icon}
+            size={24}
+            color="crimson"
+            onPress={() => props.onRemove(props.index)}
+          />
+        ) : (
+          <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />
+        )}
+      </View>
+    </Touchable>
+  );
 }
