@@ -46,8 +46,6 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class AccountItem extends PureComponent<Props> {
-  handleRemove = () => this.props.onRemove(this.props.index);
-
   render() {
     const { email, realm, showDoneIcon } = this.props;
 
@@ -59,7 +57,12 @@ export default class AccountItem extends PureComponent<Props> {
             <RawLabel style={styles.text} text={realm.toString()} numberOfLines={1} />
           </View>
           {!showDoneIcon ? (
-            <IconTrash style={styles.icon} size={24} color="crimson" onPress={this.handleRemove} />
+            <IconTrash
+              style={styles.icon}
+              size={24}
+              color="crimson"
+              onPress={() => this.props.onRemove(this.props.index)}
+            />
           ) : (
             <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />
           )}
