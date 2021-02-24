@@ -16,8 +16,6 @@ import { REHYDRATE } from '../actionConstants';
 import rootReducer from './reducers';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
-import { provideLoggingContext } from './loggingContext';
-import { tryGetActiveAccount } from '../account/accountsSelectors';
 import { objectFromEntries } from '../jsBackport';
 
 if (process.env.NODE_ENV === 'development') {
@@ -327,10 +325,6 @@ const store: Store<GlobalState, Action> = createStore(
     autoRehydrate(),
   ),
 );
-
-provideLoggingContext(() => ({
-  serverVersion: tryGetActiveAccount(store.getState())?.zulipVersion ?? null,
-}));
 
 /**
  * The config options to pass to redux-persist.
