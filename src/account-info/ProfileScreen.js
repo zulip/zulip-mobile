@@ -1,7 +1,8 @@
 /* @flow strict-local */
-import React from 'react';
-import { ScrollView, View } from 'react-native';
+import React, { useContext } from 'react';
+import { ScrollView, View, Alert } from 'react-native';
 
+import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
@@ -17,6 +18,7 @@ import {
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
 import { getOwnUser } from '../users/userSelectors';
+import { getActiveAccount } from '../account/accountsSelectors';
 
 const styles = createStyleSheet({
   buttonRow: {
@@ -57,14 +59,33 @@ function SwitchAccountButton(props: {||}) {
 
 function LogoutButton(props: {||}) {
   const dispatch = useDispatch();
+  const _ = useContext(TranslationContext);
+  const activeAccount = useSelector(getActiveAccount);
   return (
     <ZulipButton
       style={styles.button}
       secondary
       text="Log out"
       onPress={() => {
-        dispatch(tryStopNotifications());
-        dispatch(logout());
+        Alert.alert(
+          _('Log out?'),
+          _('This will log out {email} on {realmUrl} from the mobile app on this device.', {
+            email: activeAccount.email,
+            realmUrl: activeAccount.realm.toString(),
+          }),
+          [
+            { text: _('Cancel'), style: 'cancel' },
+            {
+              text: _('Log out'),
+              style: 'destructive',
+              onPress: () => {
+                dispatch(tryStopNotifications());
+                dispatch(logout());
+              },
+            },
+          ],
+          { cancelable: true },
+        );
       }}
     />
   );
