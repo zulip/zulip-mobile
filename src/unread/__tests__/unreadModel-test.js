@@ -135,12 +135,16 @@ describe('stream substate', () => {
     });
 
     test('if stream with topic does not exist, append to state', () => {
-      const message = eg.streamMessage({ id: 4, stream_id: 2, subject: 'another topic' });
-      const state = reducer(baseState, action(message), eg.plusReduxState);
+      const otherStream = eg.makeStream();
+      const state = reducer(
+        baseState,
+        action(eg.streamMessage({ id: 4, stream: otherStream, subject: 'another topic' })),
+        eg.plusReduxState,
+      );
       // prettier-ignore
       expect(summary(state)).toEqual(Immutable.Map([
         [eg.stream.stream_id, Immutable.Map([['some topic', [1]]])],
-        [message.stream_id, Immutable.Map([['another topic', [4]]])],
+        [otherStream.stream_id, Immutable.Map([['another topic', [4]]])],
       ]));
     });
   });
