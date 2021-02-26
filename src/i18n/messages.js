@@ -8,11 +8,14 @@ import da from '../../static/translations/messages_da.json';
 import de from '../../static/translations/messages_de.json';
 import el from '../../static/translations/messages_el.json';
 import en from '../../static/translations/messages_en.json';
+import eo from '../../static/translations/messages_eo.json';
 import es from '../../static/translations/messages_es.json';
 import fa from '../../static/translations/messages_fa.json';
 import fi from '../../static/translations/messages_fi.json';
 import fr from '../../static/translations/messages_fr.json';
+import fr_FR from '../../static/translations/messages_fr_FR.json';
 import gl from '../../static/translations/messages_gl.json';
+import gu from '../../static/translations/messages_gu.json';
 import hi from '../../static/translations/messages_hi.json';
 import hr from '../../static/translations/messages_hr.json';
 import hr_HR from '../../static/translations/messages_hr_HR.json';
@@ -27,6 +30,7 @@ import nl from '../../static/translations/messages_nl.json';
 import pa from '../../static/translations/messages_pa.json';
 import pl from '../../static/translations/messages_pl.json';
 import pt from '../../static/translations/messages_pt.json';
+import pt_PT from '../../static/translations/messages_pt_PT.json';
 import ro from '../../static/translations/messages_ro.json';
 import ru from '../../static/translations/messages_ru.json';
 import sk from '../../static/translations/messages_sk.json';
@@ -50,11 +54,14 @@ export default {
   de,
   el,
   en,
+  eo,
   es,
   fa,
   fi,
   fr,
+  'fr-FR': fr_FR,
   gl,
+  gu,
   hi,
   hr,
   'hr-HR': hr_HR,
@@ -69,6 +76,7 @@ export default {
   pa,
   pl,
   pt,
+  'pt-PT': pt_PT,
   ro,
   ru,
   sk,
