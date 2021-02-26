@@ -32,6 +32,7 @@ export type Language = {
  */
 const languages: $ReadOnlyArray<Language> = [
   { locale: 'en', name: 'English', nativeName: 'English' },
+  { locale: 'ar', name: 'Arabic', nativeName: 'العربية' },
   { locale: 'bg', name: 'Bulgarian', nativeName: 'Български' },
   { locale: 'ca', name: 'Catalan', nativeName: 'Català' },
   { locale: 'zh-Hans', name: 'Chinese (Simplified)', nativeName: '中文（简体）' },
