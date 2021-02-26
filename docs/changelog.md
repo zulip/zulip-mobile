@@ -80,14 +80,17 @@ Zulip experience.
   * User IDs have a distinct `UserId` type: simply `number` at
     runtime, but the type-checker tracks the distinction. (PR #4421)
 
+* Sentry error reports didn't include the Zulip server version in the
+  case of uncaught exceptions; now they do. (PR #4493)
+
 * Development on Windows was broken, and works again. (#4297)
 
 * We have new, detailed instructions for profiling and benchmarking
   the app. (PR #4314)
 
-* Resolved issues (latest to earliest): #4453, #4458, #4460, #4405,
-  #4469, PR #4467, #4449, #4267, #4083, #4245, #4422, #4369, #4296,
-  #4401, #4297, #4232, #4306, #3133, #4385.
+* Resolved issues (latest to earliest): PR #4485, PR #4493, #4453,
+  #4458, #4460, #4405, #4469, PR #4467, #4449, #4267, #4083, #4245,
+  #4422, #4369, #4296, #4401, #4297, #4232, #4306, #3133, #4385.
 
 
 ## 27.158 (2021-01-07)
