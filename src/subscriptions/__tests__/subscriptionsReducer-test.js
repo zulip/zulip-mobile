@@ -140,7 +140,6 @@ describe('subscriptionsReducer', () => {
         type: EVENT_SUBSCRIPTION,
         op: 'update',
         id: 2,
-        email: subNotInHomeView.email_address,
         stream_id: subNotInHomeView.stream_id,
         name: subNotInHomeView.name,
         property: 'in_home_view',

@@ -274,11 +274,12 @@ type EventSubscriptionUpdateAction = {|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'update',
-  email: string,
   name: string,
   property: string,
   stream_id: number,
   value: boolean | number | string,
+
+  // email: string, // gone in 4.0; was the user's own email, so never useful
 |};
 
 type EventSubscriptionPeerAddAction = {|
