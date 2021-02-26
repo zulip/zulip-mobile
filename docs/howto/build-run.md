@@ -192,6 +192,46 @@ never wrote more than a very small smoke-test for it.  Ignore the
 error and carry on.
 
 
+### "CocoaPods could not find compatible versions for pod"
+
+On macOS, when running `yarn install`, you may see an error like this
+(reformatted for readability):
+```
+[!] CocoaPods could not find compatible versions for pod "Sentry":
+  In snapshot (Podfile.lock):
+    Sentry (= 6.1.4)
+
+  In Podfile:
+    RNSentry (from `../node_modules/@sentry/react-native`) was resolved to 2.2.1, which depends on
+      Sentry (= 6.1.4)
+
+None of your spec sources contain a spec satisfying the dependencies:
+`Sentry (= 6.1.4), Sentry (= 6.1.4)`.
+
+You have either:
+ * out-of-date source repos which you can update with `pod repo update`
+   or with `pod install --repo-update`.
+ * mistyped the name or version.
+ * not added the source repo that hosts the Podspec to your Podfile.
+```
+
+(The error might involve the same pod "Sentry" as in this example, or
+some other pod.)
+
+To fix the problem, run `pod repo update`.  Then rerun `yarn install`.
+
+The cause of the issue is that CocoaPods needs to download some pods
+from the central "CocoaPods Trunk" repository; it caches locally some
+metadata about what package versions are available at that repository;
+and [those caches can get stale][] and it doesn't automatically
+notice.  When that happens, CocoaPods disbelieves that any newer
+versions exist.  Running `pod repo update` causes it to refresh those
+caches so that CocoaPods sees the newer package versions and can
+successfully download and install them.
+
+[those caches can get stale]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/cocoapods.20error/near/1124409
+
+
 ### Bundling failure: Unable to resolve module ...
 
 When running the app, you might see in the output of the Metro bundler
