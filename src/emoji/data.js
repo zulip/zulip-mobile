@@ -23,7 +23,15 @@ export const codeToEmojiMap = objectFromEntries<string, string>(
 );
 
 /**
- * Names of all emoji matching the query, in an order to offer to the user.
+ * A list of emoji matching the query, in an order to offer to the user.
+ *
+ * Note that the same emoji may appear multiple times under different names.
+ * This allows the user to choose which name to use; the chosen name is the
+ * one that e.g. is shown to other users on hovering on a reaction.
+ *
+ * For example, 🗽, the Unicode emoji with code '1f5fd', has the names
+ * :new_york:, :statue:, and :statue_of_liberty:, and a search like "statu"
+ * or "🗽" itself will return two or all three of those, respectively.
  */
 export const getFilteredEmojis = (
   query: string,

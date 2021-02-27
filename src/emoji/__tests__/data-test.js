@@ -74,13 +74,6 @@ describe('getFilteredEmojis', () => {
     ]);
   });
 
-  // This is sort of odd behaviour in some sense: the UI is showing the user
-  // multiple emojis, when they can only react with one of them (if they
-  // react twice with :+1: and :thumbs_up:, it'll only be stored as a single
-  // reaction). We could canonicalize the emoji name in cases where there
-  // are multiple aliases, but it seems somewhat useful to allow the user to
-  // discover that the aliases exist, and unlikely to confuse in practice
-  // (since people will likely just pick an arbitrary one and be done with it)
   test('returns multiple literal emoji', () => {
     const list = getFilteredEmojis('👍', {});
     expect(list).toEqual([
