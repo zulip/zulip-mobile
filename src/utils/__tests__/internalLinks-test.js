@@ -289,9 +289,7 @@ describe('getNarrowFromLink', () => {
     test('on malformed stream link: treat as old format', () => {
       const expectAsName = name => expectStream(name, [streamGeneral], name);
       expectAsName(`-${streamGeneral.stream_id}`);
-      // This case will come back when we take the fix in
-      //   zulip/zulip@d67cc2d08, soon.
-      // expectAsName(`${streamGeneral.stream_id}nonsense-general`);
+      expectAsName(`${streamGeneral.stream_id}nonsense-general`);
     });
 
     {

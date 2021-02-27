@@ -121,7 +121,7 @@ export const decodeHashComponent = (string: string): string => {
 /** Parse the operand of a `stream` operator, returning a stream name. */
 const parseStreamOperand = (operand, streamsById): string => {
   // "New" (2018) format: ${stream_id}-${stream_name} .
-  const match = /^([\d]+)(?:-.*)?/.exec(operand);
+  const match = /^([\d]+)(?:-.*)?$/.exec(operand);
   if (match) {
     const stream = streamsById.get(parseInt(match[1], 10));
     if (stream) {
