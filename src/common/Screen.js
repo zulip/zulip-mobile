@@ -37,21 +37,21 @@ const componentStyles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  centerContent: boolean,
+  centerContent?: boolean,
   +children: React$Node,
   insets: EdgeInsets,
-  keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
-  padding: boolean,
-  scrollEnabled: boolean,
+  keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
+  padding?: boolean,
+  scrollEnabled?: boolean,
   style?: ViewStyleProp,
 
-  search: boolean,
-  autoFocus: boolean,
-  searchBarOnChange: (text: string) => void,
-  shouldShowLoadingBanner: boolean,
+  search?: boolean,
+  autoFocus?: boolean,
+  searchBarOnChange?: (text: string) => void,
+  shouldShowLoadingBanner?: boolean,
 
-  canGoBack: boolean,
-  +title: LocalizableText,
+  canGoBack?: boolean,
+  +title?: LocalizableText,
 |}>;
 
 /**
@@ -79,36 +79,21 @@ class Screen extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
 
-  static defaultProps = {
-    centerContent: false,
-    keyboardShouldPersistTaps: 'handled',
-    padding: false,
-    scrollEnabled: true,
-
-    search: false,
-    autoFocus: false,
-    searchBarOnChange: (text: string) => {},
-    shouldShowLoadingBanner: true,
-
-    canGoBack: true,
-    title: '',
-  };
-
   render() {
     const {
-      autoFocus,
-      canGoBack,
-      centerContent,
+      autoFocus = false,
+      canGoBack = true,
+      centerContent = false,
       children,
-      keyboardShouldPersistTaps,
-      padding,
+      keyboardShouldPersistTaps = 'handled',
+      padding = false,
       insets,
-      scrollEnabled,
-      search,
-      searchBarOnChange,
+      scrollEnabled = true,
+      search = false,
+      searchBarOnChange = (text: string) => {},
       style,
-      title,
-      shouldShowLoadingBanner,
+      title = '',
+      shouldShowLoadingBanner = true,
     } = this.props;
 
     return (
