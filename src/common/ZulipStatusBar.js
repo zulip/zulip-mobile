@@ -33,10 +33,21 @@ type Props = $ReadOnly<{|
 |}>;
 
 /**
- * Applies `hidden` and `backgroundColor` in platform-specific ways.
+ * Renders an RN `StatusBar` with appropriate props, and nothing else.
  *
- * Like `StatusBar`, which is the only thing it ever renders, this
- * doesn't have any effect on the spatial layout of the UI.
+ * Specifically, it controls the status bar's hidden/visible state and
+ * its background color in platform-specific ways. Omitting `hidden`
+ * will make the status bar visible, and omitting `backgroundColor`
+ * will give a theme-appropriate default.
+ *
+ * `StatusBar` renders `null` every time. Therefore, don't look to
+ * `ZulipStatusBar`'s position in the hierarchy of `View`s to affect
+ * the layout in any way.
+ *
+ * That being said, hiding and un-hiding the status bar can change the
+ * size of the top inset. E.g., on an iPhone without the "notch", the
+ * top inset grows to accommodate a visible status bar, and shrinks to
+ * give more room to the app's content when the status bar is hidden.
  */
 class ZulipStatusBar extends PureComponent<Props> {
   static defaultProps = {
