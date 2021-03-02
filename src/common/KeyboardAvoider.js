@@ -11,6 +11,13 @@ type Props = $ReadOnly<{|
   contentContainerStyle?: ViewStyleProp,
 |}>;
 
+/**
+ * Renders RN's `KeyboardAvoidingView` on iOS, `View` on Android.
+ *
+ * This component's props that are named after
+ * `KeyboardAvoidingView`'s special props get passed straight through
+ * to that component.
+ */
 export default class KeyboardAvoider extends PureComponent<Props> {
   render() {
     const { behavior, children, style, contentContainerStyle } = this.props;
