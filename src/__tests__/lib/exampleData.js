@@ -331,7 +331,7 @@ export const pmMessage = (args?: {|
   //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
   const {
     sender_id = undefined,
-    sender = otherUser,
+    sender = sender_id != null ? makeUser({ user_id: sender_id }) : otherUser,
     recipients = [otherUser, selfUser],
     ...extra
   } = args ?? Object.freeze({});
@@ -355,7 +355,6 @@ export const pmMessage = (args?: {|
 
   return deepFreeze({
     ...baseMessage,
-    ...(sender_id != null && { sender_id: makeUserId(sender_id) }),
     ...extra,
   });
 };
