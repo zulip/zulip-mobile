@@ -7,6 +7,7 @@ import type {
   CrossRealmBot,
   Message,
   PmMessage,
+  StreamMessage,
   PmRecipientUser,
   Reaction,
   Stream,
@@ -381,15 +382,15 @@ const messagePropertiesFromStream = (stream1: Stream) => {
  * Beware! These values may not be representative.
  */
 export const streamMessage = (args?: {|
-  ...$Rest<Message, { ... }>,
+  ...$Rest<StreamMessage, { ... }>,
   stream?: Stream,
   sender?: User,
-|}): Message => {
+|}): StreamMessage => {
   // The `Object.freeze` is to work around a Flow issue:
   //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
   const { stream: streamInner = stream, sender = otherUser, ...extra } = args ?? Object.freeze({});
 
-  const baseMessage: Message = {
+  const baseMessage: StreamMessage = {
     ...messagePropertiesBase,
     ...messagePropertiesFromSender(sender),
     ...messagePropertiesFromStream(streamInner),
