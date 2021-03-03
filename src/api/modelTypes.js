@@ -543,6 +543,12 @@ export type PmMessage = $ReadOnly<{|
    */
   display_recipient: $ReadOnlyArray<PmRecipientUser>,
 
+  /**
+   * PMs have (as far as we know) always had the empty string at this
+   * field. Though the doc warns that this might change if Zulip adds
+   * support for topics in PMs; see
+   *   https://chat.zulip.org/#narrow/stream/19-documentation/topic/.60subject.60.20on.20messages/near/1125819.
+   */
   subject: '',
 |}>;
 
@@ -560,6 +566,14 @@ export type StreamMessage = $ReadOnly<{|
 
   stream_id: number,
 
+  /**
+   * The topic.
+   *
+   * No stream message can be stored (and thus arrive on our doorstep)
+   * with an empty-string subject:
+   *   https://chat.zulip.org/#narrow/stream/19-documentation/topic/.60orig_subject.60.20in.20.60update_message.60.20events/near/1112709
+   * (see point 4). We assume this has always been the case.
+   */
   subject: string,
   subject_links: $ReadOnlyArray<string>,
 |}>;
