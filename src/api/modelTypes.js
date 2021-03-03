@@ -545,7 +545,7 @@ export type Message = $ReadOnly<{|
   timestamp: number,
 
   /** Deprecated; a server implementation detail not useful in a client. */
-  recipient_id: number,
+  // recipient_id: number,
 
   //
   // Properties that behave differently for stream vs. private messages.

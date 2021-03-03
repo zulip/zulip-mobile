@@ -348,7 +348,6 @@ export const pmMessage = (args?: {|
     // in real messages.  (See comments on the Message type.)
     display_recipient: recipients.map(displayRecipientFromUser),
     id: randMessageId(),
-    recipient_id: 2342,
     stream_id: -1,
     subject: '',
     timestamp: 1556579160,
@@ -367,7 +366,6 @@ export const pmMessageFromTo = (from: User, to: User[], extra?: $Rest<Message, {
 const messagePropertiesFromStream = (stream1: Stream) => {
   const { stream_id, name: display_recipient } = stream1;
   return deepFreeze({
-    recipient_id: 2567,
     display_recipient,
     stream_id,
   });
