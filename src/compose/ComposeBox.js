@@ -361,7 +361,9 @@ class ComposeBox extends PureComponent<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
-      const topic = nextProps.editMessage ? nextProps.editMessage.topic : '';
+      const topic = nextProps.editMessage
+        ? nextProps.editMessage.topic
+        : nextProps.lastMessageTopic;
       const message = nextProps.editMessage ? nextProps.editMessage.content : '';
       this.setMessageInputValue(message);
       this.setTopicInputValue(topic);
