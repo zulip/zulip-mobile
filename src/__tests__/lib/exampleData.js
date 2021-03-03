@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 import type {
   CrossRealmBot,
   Message,
+  PmMessage,
   PmRecipientUser,
   Reaction,
   Stream,
@@ -324,11 +325,11 @@ const randMessageId: () => number = makeUniqueRandInt('message ID', 10000000);
  * Beware! These values may not be representative.
  */
 export const pmMessage = (args?: {|
-  ...$Rest<Message, { ... }>,
+  ...$Rest<PmMessage, { ... }>,
   sender?: User,
   recipients?: User[],
   sender_id?: number, // accept a plain number, for convenience in tests
-|}): Message => {
+|}): PmMessage => {
   // The `Object.freeze` is to work around a Flow issue:
   //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
   const {
@@ -338,7 +339,7 @@ export const pmMessage = (args?: {|
     ...extra
   } = args ?? Object.freeze({});
 
-  const baseMessage: Message = {
+  const baseMessage: PmMessage = {
     ...messagePropertiesBase,
     ...messagePropertiesFromSender(sender),
 
@@ -360,8 +361,11 @@ export const pmMessage = (args?: {|
   });
 };
 
-export const pmMessageFromTo = (from: User, to: User[], extra?: $Rest<Message, { ... }>): Message =>
-  pmMessage({ sender: from, recipients: [from, ...to], ...extra });
+export const pmMessageFromTo = (
+  from: User,
+  to: User[],
+  extra?: $Rest<PmMessage, { ... }>,
+): PmMessage => pmMessage({ sender: from, recipients: [from, ...to], ...extra });
 
 const messagePropertiesFromStream = (stream1: Stream) => {
   const { stream_id, name: display_recipient } = stream1;
