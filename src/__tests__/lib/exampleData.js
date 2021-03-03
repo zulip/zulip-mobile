@@ -330,9 +330,9 @@ export const pmMessage = (args?: {|
   // The `Object.freeze` is to work around a Flow issue:
   //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
   const {
+    sender_id = undefined,
     sender = otherUser,
     recipients = [otherUser, selfUser],
-    sender_id = undefined,
     ...extra
   } = args ?? Object.freeze({});
 
