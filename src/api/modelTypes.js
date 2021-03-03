@@ -445,48 +445,10 @@ export type Submessage = $ReadOnly<{|
 |}>;
 
 /**
- * A Zulip message.
- *
- * This type is mainly intended to represent the data the server sends as
- * the `message` property of an event of type `message`.  Caveat lector: we
- * pass these around to a lot of places, and do a lot of further munging, so
- * this type may not quite represent that.  Any differences should
- * definitely be commented, and perhaps refactored.
- *
- * The server's behavior here is undocumented and the source is very
- * complex; this is naturally a place where a large fraction of all the
- * features of Zulip have to appear.
- *
- * Major appearances of this type include
- *  * `message: Message` on a server event of type `message`, and our
- *    `EVENT_NEW_MESSAGE` Redux action for the event;
- *  * `messages: Message[]` in a `/messages` (our `getMessages`) response,
- *    and our resulting `MESSAGE_FETCH_COMPLETE` Redux action;
- *  * `messages: {| [id]: Message |}` in our global Redux state.
- *
- * References include:
- *  * the two example events at https://zulip.com/api/get-events-from-queue
- *  * `process_message_event` in zerver/tornado/event_queue.py; the call
- *    `client.add_event(user_event)` makes the final determination of what
- *    goes into the event, so `message_dict` is the final value of `message`
- *  * `MessageDict.wide_dict` and its helpers in zerver/lib/message.py;
- *    via `do_send_messages` in `zerver/lib/actions.py`, these supply most
- *    of the data ultimately handled by `process_message_event`
- *  * `messages_for_ids` and its helpers in zerver/lib/message.py; via
- *    `get_messages_backend`, these supply the data ultimately returned by
- *    `/messages`
- *  * the `Message` and `AbstractMessage` models in zerver/models.py, but
- *    with caution; many fields are adjusted between the DB row and the event
- *  * empirical study looking at Redux events logged [to the
- *    console](docs/howto/debugging.md).
- *
- * See also `Outbox`, which is deliberately similar so that we can use
- * the type `Message | Outbox` in many places.
- *
- * See also `MessagesState` for discussion of how we fetch and store message
- * data.
+ * Properties in common among the two different flavors of a
+ * `Message`: `PmMessage` and `StreamMessage`.
  */
-export type Message = $ReadOnly<{|
+type MessageBase = $ReadOnly<{|
   /** Our own flag; if true, really type `Outbox`. */
   isOutbox: false,
 
@@ -549,6 +511,7 @@ export type Message = $ReadOnly<{|
 
   //
   // Properties that behave differently for stream vs. private messages.
+  // TODO: Move all these to `PmMessage` and `StreamMessage`.
 
   type: 'stream' | 'private',
 
@@ -587,6 +550,62 @@ export type Message = $ReadOnly<{|
   subject: string,
   subject_links: $ReadOnlyArray<string>,
 |}>;
+
+export type PmMessage = $ReadOnly<{|
+  ...MessageBase,
+
+  // TODO: Put PM-message fields here.
+|}>;
+
+export type StreamMessage = $ReadOnly<{|
+  ...MessageBase,
+
+  // TODO: Put stream-message fields here.
+|}>;
+
+/**
+ * A Zulip message.
+ *
+ * This type is mainly intended to represent the data the server sends as
+ * the `message` property of an event of type `message`.  Caveat lector: we
+ * pass these around to a lot of places, and do a lot of further munging, so
+ * this type may not quite represent that.  Any differences should
+ * definitely be commented, and perhaps refactored.
+ *
+ * The server's behavior here is undocumented and the source is very
+ * complex; this is naturally a place where a large fraction of all the
+ * features of Zulip have to appear.
+ *
+ * Major appearances of this type include
+ *  * `message: Message` on a server event of type `message`, and our
+ *    `EVENT_NEW_MESSAGE` Redux action for the event;
+ *  * `messages: Message[]` in a `/messages` (our `getMessages`) response,
+ *    and our resulting `MESSAGE_FETCH_COMPLETE` Redux action;
+ *  * `messages: {| [id]: Message |}` in our global Redux state.
+ *
+ * References include:
+ *  * the two example events at https://zulip.com/api/get-events-from-queue
+ *  * `process_message_event` in zerver/tornado/event_queue.py; the call
+ *    `client.add_event(user_event)` makes the final determination of what
+ *    goes into the event, so `message_dict` is the final value of `message`
+ *  * `MessageDict.wide_dict` and its helpers in zerver/lib/message.py;
+ *    via `do_send_messages` in `zerver/lib/actions.py`, these supply most
+ *    of the data ultimately handled by `process_message_event`
+ *  * `messages_for_ids` and its helpers in zerver/lib/message.py; via
+ *    `get_messages_backend`, these supply the data ultimately returned by
+ *    `/messages`
+ *  * the `Message` and `AbstractMessage` models in zerver/models.py, but
+ *    with caution; many fields are adjusted between the DB row and the event
+ *  * empirical study looking at Redux events logged [to the
+ *    console](docs/howto/debugging.md).
+ *
+ * See also `Outbox`, which is deliberately similar so that we can use
+ * the type `Message | Outbox` in many places.
+ *
+ * See also `MessagesState` for discussion of how we fetch and store message
+ * data.
+ */
+export type Message = MessageBase;
 
 //
 //
