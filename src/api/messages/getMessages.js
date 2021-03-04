@@ -45,7 +45,10 @@ type ServerApiResponseMessages = {|
 |};
 
 /** Exported for tests only. */
-export const migrateMessages = (messages: ServerMessage[], identity: Identity): Message[] =>
+export const migrateMessages = (
+  messages: $ReadOnlyArray<ServerMessage>,
+  identity: Identity,
+): Message[] =>
   messages.map(message => ({
     ...message,
     avatar_url: AvatarURL.fromUserOrBotData({
