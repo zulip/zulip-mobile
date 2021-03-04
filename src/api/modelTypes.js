@@ -543,8 +543,6 @@ type MessageBase = $ReadOnly<{|
    */
   display_recipient: string | $ReadOnlyArray<PmRecipientUser>, // `string` for type stream, else PmRecipientUser[]
 
-  stream_id: number, // FixMe: actually only for type `stream`, else absent.
-
   subject: string,
   subject_links: $ReadOnlyArray<string>,
 |}>;
@@ -561,6 +559,8 @@ export type StreamMessage = $ReadOnly<{|
 
   // TODO: Put stream-message fields here.
   type: 'stream',
+
+  stream_id: number,
 |}>;
 
 /**

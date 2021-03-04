@@ -350,7 +350,6 @@ export const pmMessage = (args?: {|
     // in real messages.  (See comments on the Message type.)
     display_recipient: recipients.map(displayRecipientFromUser),
     id: randMessageId(),
-    stream_id: -1,
     subject: '',
     timestamp: 1556579160,
     type: 'private',
