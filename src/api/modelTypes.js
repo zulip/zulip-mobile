@@ -513,8 +513,6 @@ type MessageBase = $ReadOnly<{|
   // Properties that behave differently for stream vs. private messages.
   // TODO: Move all these to `PmMessage` and `StreamMessage`.
 
-  type: 'stream' | 'private',
-
   // Notes from studying the server code:
   //  * Notes are primarily from the server as of 2020-04 at cb85763c7, but
   //    this logic is very stable; confirmed all points about behavior as of
@@ -555,12 +553,14 @@ export type PmMessage = $ReadOnly<{|
   ...MessageBase,
 
   // TODO: Put PM-message fields here.
+  type: 'private',
 |}>;
 
 export type StreamMessage = $ReadOnly<{|
   ...MessageBase,
 
   // TODO: Put stream-message fields here.
+  type: 'stream',
 |}>;
 
 /**
