@@ -141,7 +141,6 @@ describe('subscriptionsReducer', () => {
         op: 'update',
         id: 2,
         stream_id: subNotInHomeView.stream_id,
-        name: subNotInHomeView.name,
         property: 'in_home_view',
         value: true,
       });

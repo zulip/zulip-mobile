@@ -274,10 +274,11 @@ type EventSubscriptionUpdateAction = {|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'update',
-  name: string,
-  property: string,
   stream_id: number,
+  property: string,
   value: boolean | number | string,
+
+  // name: string, // exists pre-4.0, but expected to be removed soon
 
   // email: string, // gone in 4.0; was the user's own email, so never useful
 |};
