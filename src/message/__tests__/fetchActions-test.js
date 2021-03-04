@@ -2,7 +2,6 @@
 import invariant from 'invariant';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import omit from 'lodash.omit';
 import Immutable from 'immutable';
 
 import type { GlobalState } from '../../reduxTypes';
@@ -15,7 +14,6 @@ import {
   tryFetch,
 } from '../fetchActions';
 import { FIRST_UNREAD_ANCHOR } from '../../anchor';
-import type { Message } from '../../api/modelTypes';
 import type { ServerMessage } from '../../api/messages/getMessages';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR, keyFromNarrow } from '../../utils/narrow';
 import { GravatarURL } from '../../utils/avatar';
@@ -118,15 +116,13 @@ describe('fetchActions', () => {
     };
     const message1 = eg.streamMessage({ id: 1, sender });
 
-    type CommonFields = $Diff<Message, {| reactions: mixed, avatar_url: mixed |}>;
-
     // message1 exactly as we receive it from the server, before our
     // own transformations.
     //
     // TODO: Deduplicate this logic with similar logic in
     // migrateMessages-test.js.
     const serverMessage1: ServerMessage = {
-      ...(omit(message1, 'reactions', 'avatar_url'): CommonFields),
+      ...message1,
       reactions: [],
       avatar_url: null, // Null in server data will be transformed to a GravatarURL
     };
