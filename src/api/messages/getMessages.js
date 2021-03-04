@@ -2,7 +2,7 @@
 import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import type { Identity } from '../../types';
 import type { Message, ApiNarrow } from '../apiTypes';
-import type { Reaction, UserId } from '../modelTypes';
+import type { PmMessage, StreamMessage, Reaction, UserId } from '../modelTypes';
 import { apiGet } from '../apiFetch';
 import { identityOfAuth } from '../../account/accountMisc';
 import { AvatarURL } from '../../utils/avatar';
@@ -31,11 +31,15 @@ export type ServerReaction = $ReadOnly<{|
   |}>,
 |}>;
 
-export type ServerMessage = $ReadOnly<{|
-  ...$Exact<Message>,
+// How `ServerMessage` relates to `Message`, in a way that applies
+// uniformly to `Message`'s subtypes.
+type ServerMessageOf<M: Message> = $ReadOnly<{|
+  ...$Exact<M>,
   avatar_url: string | null,
   reactions: $ReadOnlyArray<ServerReaction>,
 |}>;
+
+export type ServerMessage = ServerMessageOf<PmMessage> | ServerMessageOf<StreamMessage>;
 
 // The actual response from the server.  We convert the data from this to
 // `ApiResponseMessages` before returning it to application code.
@@ -49,7 +53,7 @@ export const migrateMessages = (
   messages: $ReadOnlyArray<ServerMessage>,
   identity: Identity,
 ): Message[] =>
-  messages.map(message => ({
+  messages.map(<M: Message>(message: ServerMessageOf<M>): M => ({
     ...message,
     avatar_url: AvatarURL.fromUserOrBotData({
       rawAvatarUrl: message.avatar_url,
