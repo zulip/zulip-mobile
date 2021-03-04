@@ -46,27 +46,22 @@ type ServerApiResponseMessages = {|
 
 /** Exported for tests only. */
 export const migrateMessages = (messages: ServerMessage[], identity: Identity): Message[] =>
-  messages.map(message => {
-    /* eslint-disable-next-line no-unused-vars */
-    const { reactions, avatar_url: rawAvatarUrl, ...restMessage } = message;
-
-    return {
-      ...message,
-      avatar_url: AvatarURL.fromUserOrBotData({
-        rawAvatarUrl: message.avatar_url,
-        email: message.sender_email,
-        userId: message.sender_id,
-        realm: identity.realm,
-      }),
-      reactions: message.reactions.map(reaction => {
-        const { user, ...restReaction } = reaction;
-        return {
-          ...restReaction,
-          user_id: user.id,
-        };
-      }),
-    };
-  });
+  messages.map(message => ({
+    ...message,
+    avatar_url: AvatarURL.fromUserOrBotData({
+      rawAvatarUrl: message.avatar_url,
+      email: message.sender_email,
+      userId: message.sender_id,
+      realm: identity.realm,
+    }),
+    reactions: message.reactions.map(reaction => {
+      const { user, ...restReaction } = reaction;
+      return {
+        ...restReaction,
+        user_id: user.id,
+      };
+    }),
+  }));
 
 const migrateResponse = (response, identity: Identity) => {
   const { messages, ...restResponse } = response;
