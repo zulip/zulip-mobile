@@ -513,6 +513,16 @@ type MessageBase = $ReadOnly<{|
   // Properties that behave differently for stream vs. private messages.
   // TODO: Move all these to `PmMessage` and `StreamMessage`.
 
+  subject: string,
+  subject_links: $ReadOnlyArray<string>,
+|}>;
+
+export type PmMessage = $ReadOnly<{|
+  ...MessageBase,
+
+  // TODO: Put PM-message fields here.
+  type: 'private',
+
   // Notes from studying the server code:
   //  * Notes are primarily from the server as of 2020-04 at cb85763c7, but
   //    this logic is very stable; confirmed all points about behavior as of
@@ -531,27 +541,15 @@ type MessageBase = $ReadOnly<{|
   //      it sorted by user ID; so, best not to assume current behavior.
   //
   /**
-   * The set of all users in the thread, for a PM; else the stream name.
+   * The set of all users in the thread.
    *
-   * For a private message, this lists the sender as well as all (other)
-   * recipients, and it lists each user just once.  In particular the
-   * self-user is always included.
+   * This lists the sender as well as all (other) recipients, and it
+   * lists each user just once.  In particular the self-user is always
+   * included.
    *
    * The ordering is less well specified; if it matters, sort first.
-   *
-   * For stream messages, prefer `stream_id`; see #3918.
    */
-  display_recipient: string | $ReadOnlyArray<PmRecipientUser>, // `string` for type stream, else PmRecipientUser[]
-
-  subject: string,
-  subject_links: $ReadOnlyArray<string>,
-|}>;
-
-export type PmMessage = $ReadOnly<{|
-  ...MessageBase,
-
-  // TODO: Put PM-message fields here.
-  type: 'private',
+  display_recipient: $ReadOnlyArray<PmRecipientUser>,
 |}>;
 
 export type StreamMessage = $ReadOnly<{|
@@ -559,6 +557,13 @@ export type StreamMessage = $ReadOnly<{|
 
   // TODO: Put stream-message fields here.
   type: 'stream',
+
+  /**
+   * The stream name.
+   *
+   * Prefer `stream_id`; see #3918.
+   */
+  display_recipient: string,
 
   stream_id: number,
 |}>;
