@@ -41,14 +41,7 @@ export default function TopicItem(props: Props) {
   } = props;
 
   return (
-    <Touchable
-      onPress={() => {
-        onPress(stream, name);
-      }}
-      onLongPress={() => {
-        showToast(name);
-      }}
-    >
+    <Touchable onPress={() => onPress(stream, name)} onLongPress={() => showToast(name)}>
       <View
         style={[
           styles.listItem,
