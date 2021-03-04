@@ -2,7 +2,7 @@
 import omit from 'lodash.omit';
 import Immutable from 'immutable';
 
-import type { MessagesState, Action } from '../types';
+import type { MessagesState, Message, Action } from '../types';
 import {
   REALM_INIT,
   LOGOUT,
@@ -83,9 +83,9 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
     case EVENT_REACTION_ADD:
       return state.update(
         action.message_id,
-        oldMessage =>
+        <M: Message>(oldMessage: M): M =>
           oldMessage && {
-            ...oldMessage,
+            ...(oldMessage: M),
             reactions: oldMessage.reactions.concat({
               emoji_name: action.emoji_name,
               user_id: action.user_id,
@@ -98,9 +98,9 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
     case EVENT_REACTION_REMOVE:
       return state.update(
         action.message_id,
-        oldMessage =>
+        <M: Message>(oldMessage: M): M =>
           oldMessage && {
-            ...oldMessage,
+            ...(oldMessage: M),
             reactions: oldMessage.reactions.filter(
               x => !(x.emoji_name === action.emoji_name && x.user_id === action.user_id),
             ),
@@ -113,9 +113,9 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
     case EVENT_SUBMESSAGE:
       return state.update(
         action.message_id,
-        message =>
+        <M: Message>(message: M): M =>
           message && {
-            ...message,
+            ...(message: M),
             submessages: [
               ...(message.submessages || []),
               {
@@ -135,9 +135,9 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
     case EVENT_UPDATE_MESSAGE:
       return state.update(
         action.message_id,
-        oldMessage =>
+        <M: Message>(oldMessage: M): M =>
           oldMessage && {
-            ...oldMessage,
+            ...(oldMessage: M),
             content: action.rendered_content || oldMessage.content,
             subject: action.subject || oldMessage.subject,
             subject_links: action.subject_links || oldMessage.subject_links,
