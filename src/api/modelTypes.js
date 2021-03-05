@@ -544,6 +544,9 @@ export type Message = $ReadOnly<{|
 
   timestamp: number,
 
+  /** Deprecated; a server implementation detail not useful in a client. */
+  recipient_id: number,
+
   //
   // Properties that behave differently for stream vs. private messages.
 
@@ -578,9 +581,6 @@ export type Message = $ReadOnly<{|
    * For stream messages, prefer `stream_id`; see #3918.
    */
   display_recipient: string | $ReadOnlyArray<PmRecipientUser>, // `string` for type stream, else PmRecipientUser[]
-
-  /** Deprecated; a server implementation detail not useful in a client. */
-  recipient_id: number,
 
   stream_id: number, // FixMe: actually only for type `stream`, else absent.
 
