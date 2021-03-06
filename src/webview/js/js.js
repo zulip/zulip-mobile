@@ -118,15 +118,14 @@ const escapeHtml = (text: string): string => {
 };
 
 window.onerror = (message: string, source: string, line: number, column: number, error: Error) => {
-  const userAgent = window.navigator.userAgent;
   if (window.enableWebViewErrorDisplay) {
+    // In development, show a detailed error banner for debugging.
     const elementJsError = document.getElementById('js-error-detailed');
     if (elementJsError) {
       elementJsError.innerHTML = [
         `Message: ${message}`,
         `Source: ${source}`,
         `Line: ${line}:${column}`,
-        `UserAgent: ${userAgent}`,
         `Error: ${JSON.stringify(error)}`,
         '',
       ]
@@ -134,6 +133,9 @@ window.onerror = (message: string, source: string, line: number, column: number,
         .join('<br>');
     }
   } else {
+    // In a release build published for normal use, just show a short,
+    // friendly, generic error message.  We'll report the error details
+    // via Sentry, below.
     const elementJsError = document.getElementById('js-error-plain');
     const elementSheetGenerated = document.getElementById('generated-styles');
     const elementSheetHide = document.getElementById('style-hide-js-error-plain');
@@ -152,6 +154,7 @@ window.onerror = (message: string, source: string, line: number, column: number,
     }
   }
 
+  const userAgent = window.navigator.userAgent;
   sendMessage({
     type: 'error',
     details: {
