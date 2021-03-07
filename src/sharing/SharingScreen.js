@@ -53,6 +53,7 @@ const styles = createStyleSheet({
 class SharingScreen extends PureComponent<Props> {
   render() {
     const { auth } = this.props;
+    const { params } = this.props.route;
 
     // If there is no active logged-in account, abandon the sharing attempt,
     // and present the account picker screen to the user.
@@ -73,6 +74,7 @@ class SharingScreen extends PureComponent<Props> {
           <Tab.Screen
             name="share-to-stream"
             component={ShareToStream}
+            initialParams={params}
             options={{
               tabBarLabel: ({ color }) => <Label style={[styles.tab, { color }]} text="Stream" />,
             }}
@@ -80,6 +82,7 @@ class SharingScreen extends PureComponent<Props> {
           <Tab.Screen
             name="share-to-pm"
             component={ShareToPm}
+            initialParams={params}
             options={{
               tabBarLabel: ({ color }) => (
                 <Label style={[styles.tab, { color }]} text="Private Message" />
