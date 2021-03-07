@@ -52,4 +52,9 @@ export const statics = {
     flexDirection: 'column',
     justifyContent: 'flex-end',
   },
+  bottomNav: {
+    fontSize: 10,
+    color: '#51c2af',
+    fontWeight: 'bold',
+  },
 };

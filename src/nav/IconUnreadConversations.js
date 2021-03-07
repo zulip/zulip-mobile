@@ -8,6 +8,7 @@ import { connect } from '../react-redux';
 import { getUnreadPmsTotal, getUnreadHuddlesTotal } from '../selectors';
 import { IconPeople } from '../common/Icons';
 import { CountOverlay } from '../common';
+import styles from '../styles';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
@@ -22,7 +23,7 @@ class IconUnreadConversations extends PureComponent<Props> {
     const unreadCount = unreadHuddlesTotal + unreadPmsTotal;
 
     return (
-      <View>
+      <View style={styles.center}>
         <CountOverlay unreadCount={unreadCount}>
           <IconPeople size={24} color={color} />
         </CountOverlay>
