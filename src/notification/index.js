@@ -1,5 +1,7 @@
 /* @flow strict-local */
-import { DeviceEventEmitter, NativeModules, Platform, PushNotificationIOS } from 'react-native';
+import { DeviceEventEmitter, NativeModules, Platform } from 'react-native';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+
 import NotificationsIOS from 'react-native-notifications';
 
 import type { Notification } from './types';

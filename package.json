@@ -36,6 +36,7 @@
     "@react-native-community/cameraroll": "chrisbobbe/react-native-cameraroll#c118e022e",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.9.5",
+    "@react-native-community/push-notification-ios": "^1.8.0",
     "@react-navigation/bottom-tabs": "^5.10.6",
     "@react-navigation/drawer": "^5.9.3",
     "@react-navigation/material-top-tabs": "^5.2.19",
