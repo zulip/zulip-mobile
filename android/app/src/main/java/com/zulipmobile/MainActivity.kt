@@ -64,7 +64,7 @@ open class MainActivity : ReactActivity() {
 
     private fun handleSend(intent: Intent) {
         // Intent is reused after quitting, skip it.
-        if ((getIntent().flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) {
+        if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) {
             return;
         }
 
