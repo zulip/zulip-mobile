@@ -35,6 +35,13 @@ node_modules/warning/.*
 [untyped]
 .*/node_modules/@react-native-community/cli/.*/.*
 
+; TODO: Remove this line when RN v0.64 upgrade is complete. We took
+; Flow from v0.122 to v0.125 before finishing the upgrade, to more
+; gradually handle the deprecation of `suppress_comment`. When we did
+; that mini Flow upgrade, one error in RN's code was flagged, and it
+; was in this module.
+.*/node_modules/react-native/Libraries/ReactNative/PaperUIManager.js
+
 [include]
 ; Effectively this line warns Flow that this path might be a symlink
 ; (because the developer might be using `yarn link` to have this point into
@@ -122,4 +129,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 suppress_comment=\\(.\\|\n\\)*\\$FlowMigrationFudge
 
 [version]
-^0.122.0
+^0.125.0

@@ -41,17 +41,17 @@ export default (state: PresenceState = initialState, action: Action): PresenceSt
 
       return {
         ...state,
+        // Flow bug (unresolved):
+        // https://github.com/facebook/flow/issues/8276
+        // $FlowIssue #8276
         [action.email]: {
           ...state[action.email],
+          ...action.presence,
           // Flow bug (unresolved):
           // https://github.com/facebook/flow/issues/8276
           // $FlowIssue #8276
-          ...action.presence,
           aggregated: getAggregatedPresence({
             ...state[action.email],
-            // Flow bug (unresolved):
-            // https://github.com/facebook/flow/issues/8276
-            // $FlowIssue #8276
             ...action.presence,
           }),
         },
