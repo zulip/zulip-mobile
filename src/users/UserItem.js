@@ -100,7 +100,7 @@ export class UserItemRaw<
 }
 
 type OuterProps = $ReadOnly<{|
-  ...$Exact<$Diff<ElementConfig<typeof UserItemRaw>, { user: mixed }>>,
+  ...$Exact<$Diff<ElementConfig<typeof UserItemRaw>, {| user: mixed |}>>,
   userId: UserId,
 |}>;
 

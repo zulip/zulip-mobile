@@ -118,7 +118,7 @@ describe('fetchActions', () => {
     };
     const message1 = eg.streamMessage({ id: 1, sender });
 
-    type CommonFields = $Diff<Message, { reactions: mixed, avatar_url: mixed }>;
+    type CommonFields = $Diff<Message, {| reactions: mixed, avatar_url: mixed |}>;
 
     // message1 exactly as we receive it from the server, before our
     // own transformations.

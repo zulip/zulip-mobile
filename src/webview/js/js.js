@@ -588,7 +588,7 @@ export const handleInitialLoad = (
   scrollMessageId: number | null,
   // The `realm` part of an `Auth` object is a URL object. It's passed
   // in its stringified form.
-  rawAuth: {| ...$Diff<Auth, { realm: mixed }>, realm: string |},
+  rawAuth: {| ...$Diff<Auth, {| realm: mixed |}>, realm: string |},
 ) => {
   const auth: Auth = { ...rawAuth, realm: new URL(rawAuth.realm) };
 

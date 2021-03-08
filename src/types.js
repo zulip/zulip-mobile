@@ -110,7 +110,7 @@ export type Account = {|
  * Use `identityOfAuth` or `identityOfAccount` to make one of these where
  * you have an `Auth` or `Account`.
  */
-export type Identity = $Diff<Auth, { apiKey: string }>;
+export type Identity = $Diff<Auth, {| apiKey: string |}>;
 
 export type EmojiType = 'image' | 'unicode';
 
