@@ -184,9 +184,17 @@ const unstarMessage = async ({ auth, message }) => {
 unstarMessage.title = 'Unstar message';
 unstarMessage.errorMessage = 'Failed to unstar message';
 
+/** Private; exported only for tests. */
+export const messageFilter = (messageContent: string): string =>
+  messageContent
+    .replace(/<(?:.|\n)*?>/gm, '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+
 const shareMessage = ({ message }) => {
   Share.share({
-    message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
+    message: messageFilter(message.content),
   });
 };
 shareMessage.title = 'Share';
