@@ -163,7 +163,7 @@ export const zulipVersion = new ZulipVersion('2.1.0-234-g7c3acf4');
 export const zulipFeatureLevel = 1;
 
 export const makeAccount = (
-  args: {
+  args: {|
     user?: User,
     email?: string,
     realm?: URL,
@@ -171,7 +171,7 @@ export const makeAccount = (
     zulipFeatureLevel?: number | null,
     zulipVersion?: ZulipVersion | null,
     ackedPushToken?: string | null,
-  } = {},
+  |} = Object.freeze({}),
 ): Account => {
   const {
     user = makeUser({ name: randString() }),
@@ -193,7 +193,7 @@ export const makeAccount = (
 };
 
 const randUserGroupId: () => number = makeUniqueRandInt('user group IDs', 10000);
-export const makeUserGroup = (extra?: $Rest<UserGroup, {}>): UserGroup => {
+export const makeUserGroup = (extra?: $Rest<UserGroup, { ... }>): UserGroup => {
   const baseUserGroup = {
     description: 'My favorite group',
     id: randUserGroupId(),
@@ -221,7 +221,9 @@ export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
  */
 
 const randStreamId: () => number = makeUniqueRandInt('stream IDs', 1000);
-export const makeStream = (args: { name?: string, description?: string } = {}): Stream => {
+export const makeStream = (
+  args: {| name?: string, description?: string |} = Object.freeze({}),
+): Stream => {
   const name = args.name ?? randString();
   const description = args.description ?? `On the ${randString()} of ${name}`;
   return deepFreeze({
@@ -240,7 +242,7 @@ export const stream: Stream = makeStream({
 });
 
 /** A subscription, by default to eg.stream. */
-export const makeSubscription = (args: { stream?: Stream } = {}): Subscription => {
+export const makeSubscription = (args: {| stream?: Stream |} = Object.freeze({})): Subscription => {
   const { stream: streamInner = stream } = args;
   return deepFreeze({
     ...streamInner,
@@ -322,7 +324,7 @@ const randMessageId: () => number = makeUniqueRandInt('message ID', 10000000);
  * Beware! These values may not be representative.
  */
 export const pmMessage = (args?: {|
-  ...$Rest<Message, {}>,
+  ...$Rest<Message, { ... }>,
   sender?: User,
   recipients?: User[],
   sender_id?: number, // accept a plain number, for convenience in tests
@@ -359,7 +361,7 @@ export const pmMessage = (args?: {|
   });
 };
 
-export const pmMessageFromTo = (from: User, to: User[], extra?: $Rest<Message, {}>): Message =>
+export const pmMessageFromTo = (from: User, to: User[], extra?: $Rest<Message, { ... }>): Message =>
   pmMessage({ sender: from, recipients: [from, ...to], ...extra });
 
 const messagePropertiesFromStream = (stream1: Stream) => {
@@ -377,7 +379,7 @@ const messagePropertiesFromStream = (stream1: Stream) => {
  * Beware! These values may not be representative.
  */
 export const streamMessage = (args?: {|
-  ...$Rest<Message, {}>,
+  ...$Rest<Message, { ... }>,
   stream?: Stream,
   sender?: User,
 |}): Message => {
@@ -466,7 +468,7 @@ export const baseReduxState: GlobalState = deepFreeze(privateReduxStore.getState
  * See `reduxStatePlus` for a version that automatically includes `selfUser`
  * and other standard example data.
  */
-export const reduxState = (extra?: $Rest<GlobalState, {}>): GlobalState =>
+export const reduxState = (extra?: $Rest<GlobalState, { ... }>): GlobalState =>
   deepFreeze({
     ...baseReduxState,
     ...extra,
@@ -518,10 +520,10 @@ export const plusReduxState: GlobalState = reduxState({
  *
  * See `reduxState` for a version starting from a minimal state.
  */
-export const reduxStatePlus = (extra?: $Rest<GlobalState, {}>): GlobalState =>
+export const reduxStatePlus = (extra?: $Rest<GlobalState, { ... }>): GlobalState =>
   deepFreeze({ ...plusReduxState, ...extra });
 
-export const realmState = (extra?: $Rest<RealmState, {}>): RealmState =>
+export const realmState = (extra?: $Rest<RealmState, { ... }>): RealmState =>
   deepFreeze({
     ...baseReduxState.realm,
     ...extra,
