@@ -168,8 +168,8 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     ...state,
     accounts: state.accounts.map(a => ({
       ...a,
-      // `a.realm` is a string until migration 15
-      // $FlowMigrationFudge[prop-missing]
+      /* $FlowFixMe[prop-missing]: `a.realm` is a string until
+         migration 15 */
       realm: a.realm.replace(/\/+$/, ''),
     })),
   }),
@@ -206,8 +206,8 @@ const migrations: { [string]: (GlobalState) => GlobalState } = {
     ...state,
     accounts: state.accounts.map(a => ({
       ...a,
-      /* $FlowMigrationFudge[incompatible-call]: `a.realm` will be a
-         string here */
+      /* $FlowFixMe[incompatible-call]: `a.realm` will be a string
+         here */
       realm: new URL(a.realm),
     })),
   }),
