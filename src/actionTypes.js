@@ -377,14 +377,14 @@ type EventPresenceAction = {|
 type EventTypingCommon = {|
   ...ServerEvent,
   ownUserId: UserId,
-  recipients: $ReadOnlyArray<{
+  recipients: $ReadOnlyArray<{|
     user_id: UserId,
     email: string,
-  }>,
-  sender: {
+  |}>,
+  sender: {|
     user_id: UserId,
     email: string,
-  },
+  |},
   time: number,
 |};
 

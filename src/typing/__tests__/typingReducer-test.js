@@ -20,7 +20,13 @@ describe('typingReducer', () => {
     time: number,
   |}): Action => {
     const { op, sender, recipients, time } = args;
-    const base = { id: 123, ownUserId: eg.selfUser.user_id, sender, recipients, time };
+    const base = {
+      id: 123,
+      ownUserId: eg.selfUser.user_id,
+      sender: { user_id: sender.user_id, email: sender.email },
+      recipients: recipients.map(r => ({ user_id: r.user_id, email: r.email })),
+      time,
+    };
     return op === 'start'
       ? { ...base, op: 'start', type: EVENT_TYPING_START }
       : { ...base, op: 'stop', type: EVENT_TYPING_STOP };
