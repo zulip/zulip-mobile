@@ -155,7 +155,7 @@ class ShareToStream extends React.Component<Props, State> {
 
     return (
       <>
-        <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="always">
+        <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="always" nestedScrollEnabled>
           <View style={styles.container}>
             {sharedData.type === 'image' && (
               <Image source={{ uri: sharedData.sharedImageUrl }} style={styles.imagePreview} />

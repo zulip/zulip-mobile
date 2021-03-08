@@ -34,6 +34,7 @@ class StreamAutocomplete extends PureComponent<Props> {
     return (
       <Popup>
         <FlatList
+          nestedScrollEnabled
           keyboardShouldPersistTaps="always"
           initialNumToRender={matchingSubscriptions.length}
           data={matchingSubscriptions}

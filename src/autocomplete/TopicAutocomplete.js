@@ -64,6 +64,7 @@ class TopicAutocomplete extends PureComponent<Props> {
       <AnimatedScaleComponent visible={topicsToSuggest.length > 0}>
         <Popup>
           <FlatList
+            nestedScrollEnabled
             keyboardShouldPersistTaps="always"
             initialNumToRender={10}
             data={topicsToSuggest}
