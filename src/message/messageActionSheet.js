@@ -1,6 +1,17 @@
 /* @flow strict-local */
 import invariant from 'invariant';
-import { Clipboard, Share, Alert } from 'react-native';
+import React from 'react';
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Share,
+  Clipboard,
+  FlatList,
+} from 'react-native';
 
 import * as NavigationService from '../nav/NavigationService';
 import type {
@@ -26,7 +37,7 @@ import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
-import { pmUiRecipientsFromMessage, streamNameOfStreamMessage } from '../utils/recipient';
+import { streamNameOfStreamMessage } from '../utils/recipient';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
 
@@ -54,6 +65,11 @@ type ButtonDescription = {
   // Required even when the callback can't throw (e.g., "Cancel"), since we can't
   // otherwise ensure that everything that _can_ throw has one.
   errorMessage: string,
+};
+
+type Props = {
+  modalVisible: boolean,
+  modalHandler: () => void,
 };
 
 //
@@ -337,17 +353,69 @@ export const constructNonHeaderActionButtons = ({
   }
 };
 
-/** Returns the title for the action sheet. */
-const getActionSheetTitle = (message: Message | Outbox, ownUser: User): string => {
-  if (message.type === 'private') {
-    const recipients = pmUiRecipientsFromMessage(message, ownUser.user_id);
-    return recipients
-      .map(r => r.full_name)
-      .sort()
-      .join(', ');
-  } else {
-    return `#${streamNameOfStreamMessage(message)} > ${message.subject}`;
-  }
+let finalOptions = [];
+let callback = index => {};
+
+const styles = StyleSheet.create({
+  centeredView: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: 'white',
+  },
+  modalView: {
+    backgroundColor: 'white',
+    padding: 20,
+  },
+  item: {
+    padding: 10,
+    fontSize: 15,
+    height: 50,
+    fontWeight: '800',
+  },
+});
+
+export const ActionSheetModalHandler = (props: Props) => {
+  const renderItem = ({ item, index }) => <Item title={item} index={index} />;
+
+  const Item = ({ title, index }) => (
+    <TouchableOpacity
+      onPress={() => {
+        props.modalHandler();
+        callback(index);
+      }}
+    >
+      <Text style={styles.item}>{title}</Text>
+    </TouchableOpacity>
+  );
+
+  const isModalTransparent = true;
+
+  return (
+    <View>
+      <Modal
+        animationType="slide"
+        transparent={isModalTransparent}
+        visible={props.modalVisible}
+        onRequestClose={() => {
+          props.modalHandler();
+        }}
+      >
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={() => {
+            props.modalHandler();
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <FlatList data={finalOptions} renderItem={renderItem} />
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    </View>
+  );
 };
 
 /** Invoke the given callback to show an appropriate action sheet. */
@@ -360,11 +428,12 @@ export const showActionSheet = (
     _: GetText,
   |},
   params: ConstructSheetParams<>,
+  handleLongPressModal: () => {},
 ): void => {
   const optionCodes = isHeader
     ? constructHeaderActionButtons(params)
     : constructNonHeaderActionButtons(params);
-  const callback = buttonIndex => {
+  callback = buttonIndex => {
     (async () => {
       const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];
       try {
@@ -380,16 +449,6 @@ export const showActionSheet = (
       }
     })();
   };
-  showActionSheetWithOptions(
-    {
-      ...(isHeader
-        ? {
-            title: getActionSheetTitle(params.message, params.backgroundData.ownUser),
-          }
-        : {}),
-      options: optionCodes.map(code => callbacks._(allButtons[code].title)),
-      cancelButtonIndex: optionCodes.length - 1,
-    },
-    callback,
-  );
+  finalOptions = optionCodes.map(code => callbacks._(allButtons[code].title));
+  handleLongPressModal();
 };

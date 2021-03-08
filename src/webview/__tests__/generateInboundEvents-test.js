@@ -44,6 +44,7 @@ describe('generateInboundEvents', () => {
     dispatch: jest.fn(),
     ...baseSelectorProps,
     showActionSheetWithOptions: jest.fn(),
+    handleLongPressModal: jest.fn(),
 
     _: jest.fn(),
   });
