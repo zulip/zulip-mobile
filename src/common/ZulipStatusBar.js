@@ -24,13 +24,13 @@ type SelectorProps = $ReadOnly<{|
   orientation: Orientation,
 |}>;
 
-type Props = $ReadOnly<{
+type Props = $ReadOnly<{|
   backgroundColor?: string | void,
   hidden: boolean,
 
   dispatch: Dispatch,
   ...SelectorProps,
-}>;
+|}>;
 
 /**
  * Applies `hidden` and `backgroundColor` in platform-specific ways.

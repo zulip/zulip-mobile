@@ -13,10 +13,10 @@ import ActivityText from './ActivityText';
 import { tryGetUserForId } from '../users/userSelectors';
 import { navigateToAccountDetails } from '../nav/navActions';
 
-type Props = $ReadOnly<{
+type Props = $ReadOnly<{|
   userId: UserId,
   color: string,
-}>;
+|}>;
 
 const componentStyles = createStyleSheet({
   outer: { flex: 1 },
