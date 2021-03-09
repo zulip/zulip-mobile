@@ -146,6 +146,8 @@ export type WebViewOutboundEvent =
   | WebViewOutboundEventMention
   | WebViewOutboundEventTimeDetails;
 
+// TODO: Consider completing this and making it exact, once
+// `MessageList`'s props are type-checked.
 type Props = $ReadOnly<{
   backgroundData: BackgroundData,
   dispatch: Dispatch,
@@ -153,6 +155,7 @@ type Props = $ReadOnly<{
   narrow: Narrow,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   startEditMessage: (editMessage: EditMessage) => void,
+  ...
 }>;
 
 const fetchMore = (props: Props, event: WebViewOutboundEventScroll) => {

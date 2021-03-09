@@ -2,9 +2,12 @@
 import isEqual from 'lodash.isequal';
 import type { Narrow } from '../types';
 
+// TODO: Consider completing this and making it exact, once
+// `MessageList`'s props are type-checked.
 type Props = $ReadOnly<{
   narrow: Narrow,
   messages: $ReadOnlyArray<$ReadOnly<{ id: number }>>,
+  ...
 }>;
 
 type TransitionProps = {|
