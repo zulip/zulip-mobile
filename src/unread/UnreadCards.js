@@ -35,8 +35,9 @@ export default function UnreadCards(props: Props) {
   }
 
   return (
-    /* $FlowFixMe[prop-missing]: SectionList libdef seems confused;
-         should take $ReadOnly objects. */
+    // $FlowFixMe[incompatible-type-arg]
+    /* $FlowFixMe[prop-missing]
+       SectionList libdef seems confused; should take $ReadOnly objects. */
     <SectionList
       stickySectionHeadersEnabled
       initialNumToRender={20}

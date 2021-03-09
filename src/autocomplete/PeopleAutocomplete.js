@@ -87,16 +87,18 @@ class PeopleAutocomplete extends PureComponent<Props> {
 
     return (
       <Popup>
-        {/*
-          $FlowFixMe[incompatible-variance]
-          $FlowFixMe[prop-missing]
-          SectionList type is confused; should take $ReadOnly objects.
-        */}
-        <SectionList
-          keyboardShouldPersistTaps="always"
-          initialNumToRender={10}
-          sections={sections}
-        />
+        {/* eslint-disable-next-line react/jsx-curly-brace-presence */}
+        {
+          // $FlowFixMe[incompatible-variance]
+          /* $FlowFixMe[prop-missing]
+             SectionList type is confused; should take $ReadOnly
+             objects. */
+          <SectionList
+            keyboardShouldPersistTaps="always"
+            initialNumToRender={10}
+            sections={sections}
+          />
+        }
       </Popup>
     );
   }

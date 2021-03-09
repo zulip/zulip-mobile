@@ -83,7 +83,9 @@ class ComposeMenu extends PureComponent<Props> {
       return;
     }
 
-    // $FlowFixMe[sketchy-null-bool]: Upstream API is unclear.
+    // $FlowFixMe[sketchy-null-string]
+    /* $FlowFixMe[sketchy-null-bool]
+       Upstream API is unclear. */
     const error: string | null = response.error || null;
     if (error !== null) {
       showErrorAlert('Error', error);

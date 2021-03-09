@@ -116,7 +116,7 @@
     "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "flow-bin": "^0.126.0",
+    "flow-bin": "^0.127.0",
     "flow-coverage-report": "^0.6.0",
     "flow-typed": "^2.4.0",
     "immutable-devtools": "^0.1.5",

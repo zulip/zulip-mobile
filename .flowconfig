@@ -123,4 +123,4 @@ module.file_ext=.json
 module.file_ext=.ios.js
 
 [version]
-^0.126.0
+^0.127.0

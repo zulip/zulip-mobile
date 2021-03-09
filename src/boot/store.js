@@ -90,8 +90,13 @@ export const cacheKeys: Array<$Keys<GlobalState>> = [
 function dropCache(state: GlobalState): $Shape<GlobalState> {
   const result: $Shape<GlobalState> = {};
   storeKeys.forEach(key => {
-    /* $FlowFixMe[incompatible-type]: This is well-typed only because
-       it's the same `key` twice. */
+    // $FlowFixMe[incompatible-indexer]
+    // $FlowFixMe[incompatible-exact]
+    // $FlowFixMe[prop-missing]
+    // $FlowFixMe[incompatible-variance]
+    // $FlowFixMe[incompatible-type-arg]
+    /* $FlowFixMe[incompatible-type]
+       This is well-typed only because it's the same `key` twice. */
     result[key] = state[key];
   });
   return result;

@@ -674,6 +674,7 @@ const handleMessageEvent: MessageEventListener = e => {
 
   inboundEvents.forEach((uevent: WebViewInboundEvent) => {
     eventLogger.maybeCaptureInboundEvent(uevent);
+    // $FlowFixMe[incompatible-type]
     // $FlowFixMe[prop-missing]
     inboundEventHandlers[uevent.type](uevent);
   });
