@@ -15,7 +15,7 @@ const styles = createStyleSheet({
   },
 });
 
-type PseudoSubscription = Subscription | { ...Stream, subscribed: boolean, pin_to_top?: void };
+type PseudoSubscription = Subscription | {| ...Stream, subscribed: boolean, pin_to_top?: void |};
 
 type Props = $ReadOnly<{|
   showDescriptions: boolean,
