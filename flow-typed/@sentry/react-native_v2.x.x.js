@@ -1,5 +1,4 @@
 declare module '@sentry/react-native' {
-
   declare type Primitive =
     | number
     | string
@@ -57,7 +56,7 @@ declare module '@sentry/react-native' {
     event_id?: string,
     message?: string,
     timestamp?: number,
-    start_timestamp?: number;
+    start_timestamp?: number,
     level?: SeverityType,
     platform?: string,
     logger?: string,
@@ -86,7 +85,7 @@ declare module '@sentry/react-native' {
   // Taken from @sentry/types/src/event.ts.
   declare export type EventHint = {|
     event_id?: string,
-    captureContext?: CaptureContext;
+    captureContext?: CaptureContext,
     syntheticException?: Error | null,
     originalException?: Error | string | null,
     data?: mixed,
@@ -100,8 +99,8 @@ declare module '@sentry/react-native' {
     category?: string,
     message?: string,
     data?: {
-      [key: string]: mixed;
-  },
+      [key: string]: mixed,
+    },
     timestamp?: number,
   |};
 
@@ -160,8 +159,14 @@ declare module '@sentry/react-native' {
   // https://docs.sentry.io/development/sdk-dev/unified-api/#static-api
   //
   // Taken from @sentry/minimal/src/index.ts.
-  declare export function captureException(exception: mixed, captureContext?: CaptureContext): string;
-  declare export function captureMessage(message: string, captureContext?: CaptureContext | SeverityType): string;
+  declare export function captureException(
+    exception: mixed,
+    captureContext?: CaptureContext,
+  ): string;
+  declare export function captureMessage(
+    message: string,
+    captureContext?: CaptureContext | SeverityType,
+  ): string;
   declare export function addBreadcrumb(breadcrumb: Breadcrumb): void;
 
   /* Modifies the current scope. Avoid in favor of `withScope` wherever
