@@ -18,11 +18,11 @@ export default async ({
   auth,
   opp,
   value,
-}: {
+}: {|
   auth: Auth,
   opp: string,
   value: boolean,
-}): Promise<ApiResponse> =>
+|}): Promise<ApiResponse> =>
   apiPatch(auth, 'settings/notifications', {
     ...getRequestBody(opp, value),
   });
