@@ -56,7 +56,9 @@ export const navigateToGroupDetails = (
 ): GenericNavigationAction => StackActions.push('group-details', { recipients });
 
 export const navigateToRealmInputScreen = (
-  args: { realm?: URL, initial?: boolean } = {},
+  // The `Object.freeze`` in the `:` case avoids a Flow issue:
+  // https://github.com/facebook/flow/issues/2386#issuecomment-695064325
+  args: {| realm?: URL, initial?: boolean |} = Object.freeze({}),
 ): GenericNavigationAction =>
   StackActions.push('realm-input', { realm: args.realm, initial: args.initial });
 
