@@ -75,9 +75,9 @@ export function createMigrationImpl(
       throw new Error('createMigration: bad arguments');
     }
     if (action.type === REHYDRATE) {
-      // $FlowFixMe[prop-missing]
-      // $FlowFixMe[incompatible-exact]
-      /* $FlowFixMe[incompatible-type]
+      // $FlowIgnore[prop-missing]
+      // $FlowIgnore[incompatible-exact]
+      /* $FlowIgnore[incompatible-type]
          this really is a lie -- and kind of central to migration */
       const incomingState: State = action.payload;
       const incomingVersion = parseInt(versionSelector(incomingState), 10);
