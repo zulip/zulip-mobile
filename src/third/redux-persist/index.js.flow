@@ -15,8 +15,9 @@ declare type Storage = {
   getItem: Function,
   removeItem: Function,
   getAllKeys: Function,
+  ...
 }
-declare type Config = {
+declare type Config = {|
   blacklist?: Blacklist,
   whitelist?: Whitelist,
   storage?: Storage,
@@ -25,30 +26,30 @@ declare type Config = {
   serialize?: boolean | Function,
   deserialize?: boolean | Function,
   keyPrefix?: string,
-}
+|}
 declare type Purge = (keys?: Array<string>) => void
-declare type Rehydrate = (incoming: Object, options: { serial: boolean }) => void
-declare type Persistor = {
+declare type Rehydrate = (incoming: Object, options: {| serial: boolean |}) => void
+declare type Persistor = {|
   purge: Purge,
   rehydrate: Rehydrate,
   pause: () => void,
   resume: () => void,
-}
+|}
 declare type OnComplete = (err?: any, result?: Object) => void
 
 declare type Transformer = (substate: any, key: string) => any
 declare type TransformConfig = {| whitelist?: Whitelist, blacklist?: Blacklist |}
-declare type Transform = {
+declare type Transform = {|
   in: Transformer,
   out: Transformer,
-}
+|}
 type StoredStateCallback = (state: Object, err: any) => void
 
 type StateReconciler = (prevState: any, inboundState: any, nextState: any, log: bool) => any
-type AutoRehydrateConfig = {
+type AutoRehydrateConfig = {|
   log?: boolean,
   stateReconciler?: StateReconciler,
-}
+|}
 
 declare function createPersistor(store: Store, config: Config): Persistor
 declare function createTransform(transformIn: Transformer, transformOut: Transformer, config?: TransformConfig): Transform
