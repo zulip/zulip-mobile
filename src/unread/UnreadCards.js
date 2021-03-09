@@ -21,7 +21,7 @@ export default function UnreadCards(props: Props) {
   const unreadStreamsAndTopics = useSelector(getUnreadStreamsAndTopicsSansMuted);
   type Card =
     | UnreadStreamItem
-    | { key: 'private', data: Array<React$ElementConfig<typeof PmConversationList>> };
+    | {| key: 'private', data: Array<React$ElementConfig<typeof PmConversationList>> |};
   const unreadCards: Array<Card> = [
     {
       key: 'private',
