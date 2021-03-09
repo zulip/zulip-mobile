@@ -15,11 +15,11 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   isNewStream: boolean,
-  initialValues: {
+  initialValues: {|
     name: string,
     description: string,
     invite_only: boolean,
-  },
+  |},
   onComplete: (name: string, description: string, isPrivate: boolean) => void,
 |}>;
 

@@ -38,7 +38,11 @@ class EditStreamScreen extends PureComponent<Props> {
       <Screen title="Edit stream" padding>
         <EditStreamCard
           isNewStream={false}
-          initialValues={stream}
+          initialValues={{
+            name: stream.name,
+            description: stream.description,
+            invite_only: stream.invite_only,
+          }}
           onComplete={this.handleComplete}
         />
       </Screen>
