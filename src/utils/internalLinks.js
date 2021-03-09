@@ -7,8 +7,8 @@ import { pmKeyRecipientsFromIds } from './recipient';
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
-const getPathsFromUrl = (url: string = '', realm: URL) => {
-  const paths = url
+const getPathsFromUrl = (url: URL, realm: URL) => {
+  const paths = url.hash
     .split(realm.toString())
     .pop()
     .split('#narrow/')
@@ -71,7 +71,7 @@ export const getLinkType = (url: string, realm: URL): LinkType => {
     return 'external';
   }
 
-  const paths = getPathsFromUrl(url, realm);
+  const paths = getPathsFromUrl(resolved, realm);
 
   if (
     (paths.length === 2 && paths[0] === 'pm-with')
@@ -155,8 +155,9 @@ export const getNarrowFromLink = (
   streamsById: Map<number, Stream>,
   ownUserId: UserId,
 ): Narrow | null => {
+  const resolved = new URL(url, realm);
   const type = getLinkType(url, realm);
-  const paths = getPathsFromUrl(url, realm);
+  const paths = getPathsFromUrl(resolved, realm);
 
   switch (type) {
     case 'pm': {
@@ -191,7 +192,8 @@ export const getNarrowFromLink = (
  * 10 or 100 times per user action.
  */
 export const getMessageIdFromLink = (url: string, realm: URL): number => {
-  const paths = getPathsFromUrl(url, realm);
+  const resolved = new URL(url, realm);
+  const paths = getPathsFromUrl(resolved, realm);
 
   return isMessageLink(url, realm) ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
 };
