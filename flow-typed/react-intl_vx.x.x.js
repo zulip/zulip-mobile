@@ -45,8 +45,7 @@ declare module 'react-intl' {
     dateStyle?: 'full' | 'long' | 'medium' | 'short',
     timeStyle?: 'full' | 'long' | 'medium' | 'short',
     fractionalSecondDigits?: number,
-    calendar?:
-      | 'buddhist'
+    calendar?: | 'buddhist'
       | 'chinese'
       | 'coptic'
       | 'ethiopia'
@@ -75,8 +74,7 @@ declare module 'react-intl' {
     | 'textComponent'
     | 'defaultLocale'
     | 'defaultFormats'
-    | 'onError',
-  >;
+    | 'onError', >;
   declare export function defineMessage<T>(msg: T): T;
   declare export function defineMessages<K: $Keys<any>, T, U: { [key: K]: T, ... }>(msgs: U): U;
   declare class DisplayNames {
@@ -200,8 +198,7 @@ declare module 'react-intl' {
     CustomFormatConfig;
   declare export type FormatRelativeTimeOptions = Exclude<
     IntlRelativeTimeFormatOptions,
-    'localeMatcher',
-  > &
+    'localeMatcher', > &
     CustomFormatConfig;
   declare interface Formats {
     number: { [key: string]: Intl.NumberFormatOptions, ... };
@@ -214,27 +211,23 @@ declare module 'react-intl' {
       CustomFormatConfig & {
         value: string | number | Date | void,
         ...
-      },
-  >;
+      }, >;
   declare export var FormattedDateParts: React$StatelessFunctionalComponent<
     FormatDateOptions & {
       value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
       children(val: Intl.DateTimeFormatPart[]): React_2.ReactElement<> | null,
       ...
-    },
-  >;
+    }, >;
   declare export var FormattedDisplayName: React$StatelessFunctionalComponent<
     DisplayNamesOptions & {
       value: string | number | { [key: string]: any },
       ...
-    },
-  >;
+    }, >;
   declare export var FormattedList: React$StatelessFunctionalComponent<
     IntlListFormatOptions & {
       value: React$Node[],
       ...
-    },
-  >;
+    }, >;
   declare export class FormattedMessage<
     V: { [key: string]: any, ... } = {
       [key: string]:
@@ -254,15 +247,13 @@ declare module 'react-intl' {
       CustomFormatConfig & {
         value: number,
         ...
-      },
-  >;
+      }, >;
   declare export var FormattedNumberParts: React$StatelessFunctionalComponent<
     $PropertyType<Formatter, 'formatNumber'> & {
       value: $ElementType<Parameters<$PropertyType<IntlShape, 'formatNumber'>>, 0>,
       children(val: Intl.NumberFormatPart[]): React_2.ReactElement<> | null,
       ...
-    },
-  >;
+    }, >;
   declare export var FormattedPlural: React$StatelessFunctionalComponent<WithIntlProps<Props_2>> & {
     WrappedComponent: React$ComponentType<Props_2>,
     ...
@@ -286,15 +277,13 @@ declare module 'react-intl' {
       CustomFormatConfig & {
         value: string | number | Date | void,
         ...
-      },
-  >;
+      }, >;
   declare export var FormattedTimeParts: React$StatelessFunctionalComponent<
     FormatDateOptions & {
       value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
       children(val: Intl.DateTimeFormatPart[]): React_2.ReactElement<> | null,
       ...
-    },
-  >;
+    }, >;
   declare type Formatter = {
     formatDate: FormatDateOptions,
     formatTime: FormatDateOptions,
@@ -341,8 +330,7 @@ declare module 'react-intl' {
     WrappedComponent: React$ComponentType<P>,
     options?: Opts<IntlPropName, true>,
   ): React_2.ForwardRefExoticComponent<
-    React_2.PropsWithoutRef<WithIntlProps<React_2.PropsWithChildren<P>>> & React_2.RefAttributes<T>,
-  > & {
+    React_2.PropsWithoutRef<WithIntlProps<React_2.PropsWithChildren<P>>> & React_2.RefAttributes<T>, > & {
     WrappedComponent: React$ComponentType<P>,
     ...
   };
@@ -365,8 +353,7 @@ declare module 'react-intl' {
     defaultFormats: CustomFormats;
     wrapRichTextChunksInFragment?: boolean;
     onError(
-      err:
-        | MissingTranslationError
+      err: | MissingTranslationError
         | MessageFormatError
         | MissingDataError
         | InvalidConfigError
@@ -464,8 +451,7 @@ declare module 'react-intl' {
     ): this;
     format: <T>(
       values?: {
-        [key: string]:
-          | string
+        [key: string]: | string
           | number
           | boolean
           | Date
@@ -478,8 +464,7 @@ declare module 'react-intl' {
     ) => string | T | (string | T)[];
     formatToParts: <T>(
       values?: {
-        [key: string]:
-          | string
+        [key: string]: | string
           | number
           | boolean
           | Date
@@ -568,9 +553,8 @@ declare module 'react-intl' {
       ...
     };
   }
-  declare export class IntlProvider
-    // Changed `mixins` to `extends` in TS to Flow translation
-    extends React$PureComponent<React_2.PropsWithChildren<OptionalIntlConfig>, State> {
+  declare export class IntlProvider extends // Changed `mixins` to `extends` in TS to Flow translation
+  React$PureComponent<React_2.PropsWithChildren<OptionalIntlConfig>, State> {
     static displayName: string;
     static defaultProps: Pick<
       IntlConfig,
@@ -580,8 +564,7 @@ declare module 'react-intl' {
       | 'messages'
       | 'textComponent'
       | 'defaultLocale'
-      | 'defaultFormats',
-    >;
+      | 'defaultFormats', >;
     state: State;
     static getDerivedStateFromProps(
       props: OptionalIntlConfig,
@@ -1041,7 +1024,6 @@ declare module 'react-intl' {
   };
   declare export type WrappedComponentProps<IntlPropName: string = 'intl'> = $ObjMapi<
     { [k: IntlPropName]: any },
-    <k>(k) => IntlShape,
-  >;
+    <k>(k) => IntlShape, >;
   declare export {};
 }
