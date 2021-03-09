@@ -27,7 +27,6 @@ import type {
   UserPresence,
   UserStatusMapObject,
 } from './api/apiTypes';
-import type { Narrow } from './utils/narrow';
 import type { SessionState } from './session/sessionReducer';
 import type { PmConversationsState } from './pm-conversations/pmConversationsModel';
 import type { UnreadState } from './unread/unreadModelTypes';
@@ -186,15 +185,6 @@ export type MuteState = MuteTuple[];
  *    fetching more messages from.
  */
 export type NarrowsState = Immutable.Map<string, number[]>;
-
-export type NavigationRouteState = {
-  key: string,
-  routeName: string,
-  /** The fields in `params` vary by route; see `navActions.js`. */
-  params?: {
-    narrow?: Narrow,
-  },
-};
 
 export type OutboxState = Outbox[];
 
