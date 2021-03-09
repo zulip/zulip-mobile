@@ -138,7 +138,7 @@ declare module 'react-native-webview' {
   declare export type WebViewSourceUri = {|
     uri?: string,
     method?: string,
-    headers?: { [string]: string },
+    headers?: {| [string]: string |},
     body?: string,
   |};
 

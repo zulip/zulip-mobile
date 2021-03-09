@@ -26,7 +26,7 @@ declare module '@react-navigation/stack' {
     | false
     | ''
     | $ReadOnlyArray<StyleObj>
-    | { [name: string]: any, ... };
+    | {| [name: string]: any |};
   declare type ViewStyleProp = StyleObj;
   declare type TextStyleProp = StyleObj;
   declare type AnimatedViewStyleProp = StyleObj;
@@ -425,7 +425,7 @@ declare module '@react-navigation/stack' {
    * Actions, state, etc.
    */
 
-  declare export type ScreenParams = { +[key: string]: mixed, ... };
+  declare export type ScreenParams = {| +[key: string]: mixed |};
 
   declare export type BackAction = {|
     +type: 'GO_BACK',
@@ -474,7 +474,7 @@ declare module '@react-navigation/stack' {
 
   declare export type GenericNavigationAction = {|
     +type: string,
-    +payload?: { +[key: string]: mixed, ... },
+    +payload?: {| +[key: string]: mixed |},
     +source?: string,
     +target?: string,
   |};
@@ -540,10 +540,9 @@ declare module '@react-navigation/stack' {
   declare type ActionCreators<
     State: NavigationState,
     Action: GenericNavigationAction,
-  > = {
+  > = {|
     +[key: string]: (...args: any) => (Action | State => Action),
-    ...
-  };
+  |};
 
   declare export type DefaultRouterOptions = {
     +initialRouteName?: string,
@@ -556,7 +555,7 @@ declare module '@react-navigation/stack' {
     RouterOptions: DefaultRouterOptions,
   > = (options: RouterOptions) => Router<State, Action>;
 
-  declare export type ParamListBase = { +[key: string]: ?ScreenParams, ... };
+  declare export type ParamListBase = {| +[key: string]: ?ScreenParams |};
 
   declare export type RouterConfigOptions = {|
     +routeNames: $ReadOnlyArray<string>,
@@ -714,13 +713,12 @@ declare module '@react-navigation/stack' {
    * Events
    */
 
-  declare export type EventMapBase = {
+  declare export type EventMapBase = {|
     +[name: string]: {|
       +data?: mixed,
       +canPreventDefault?: boolean,
     |},
-    ...
-  };
+  |};
   declare type EventPreventDefaultProperties<Test: boolean> = $If<
     Test,
     {| +defaultPrevented: boolean, +preventDefault: () => void |},
@@ -1910,7 +1908,7 @@ declare module '@react-navigation/stack' {
   declare export type ContainerEventMap = {|
     ...GlobalEventMap<PossiblyStaleNavigationState>,
     +options: {|
-      +data: {| +options: { +[key: string]: mixed, ... } |},
+      +data: {| +options: {| +[key: string]: mixed |} |},
       +canPreventDefault: false,
     |},
     +__unsafe_action__: {|

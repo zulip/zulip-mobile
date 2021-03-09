@@ -36,7 +36,7 @@ declare module 'react-intl' {
     format?: string;
   }
   declare export type CustomFormats = {
-    relative?: { [key: string]: IntlRelativeTimeFormatOptions, ... },
+    relative?: {| [key: string]: IntlRelativeTimeFormatOptions |},
     ...
   } & $Rest<Formats, { ... }>;
   declare type DateElement = SimpleFormatElement<typeof TYPE.date, DateTimeSkeleton>;
@@ -76,7 +76,7 @@ declare module 'react-intl' {
     | 'defaultFormats'
     | 'onError', >;
   declare export function defineMessage<T>(msg: T): T;
-  declare export function defineMessages<K: $Keys<any>, T, U: { [key: K]: T, ... }>(msgs: U): U;
+  declare export function defineMessages<K: $Keys<any>, T, U: {| [key: K]: T |}>(msgs: U): U;
   declare class DisplayNames {
     constructor(locales?: string | string[], options?: DisplayNamesOptions): this;
     static supportedLocalesOf(
@@ -84,9 +84,9 @@ declare module 'react-intl' {
       options?: Pick<DisplayNamesOptions, 'localeMatcher'>,
     ): string[];
     static __addLocaleData(...data: DisplayNamesLocaleData[]): void;
-    of(code: string | number | { [key: string]: any }): string | void;
+    of(code: string | number | {| [key: string]: any |}): string | void;
     resolvedOptions(): DisplayNamesResolvedOptions;
-    static localeData: { [key: string]: DisplayNamesData, ... };
+    static localeData: {| [key: string]: DisplayNamesData |};
     static +polyfilled: any; // true
   }
   declare interface DisplayNamesData {
@@ -99,27 +99,27 @@ declare module 'react-intl' {
        * Maps language subtag like `zh-CN` to their display names.
        */
       language: {
-        narrow: { [key: LanguageTag]: string, ... },
-        short: { [key: LanguageTag]: string, ... },
-        long: { [key: LanguageTag]: string, ... },
+        narrow: {| [key: LanguageTag]: string |},
+        short: {| [key: LanguageTag]: string |},
+        long: {| [key: LanguageTag]: string |},
         ...
       },
       region: {
-        narrow: { [key: RegionCode]: string, ... },
-        short: { [key: RegionCode]: string, ... },
-        long: { [key: RegionCode]: string, ... },
+        narrow: {| [key: RegionCode]: string |},
+        short: {| [key: RegionCode]: string |},
+        long: {| [key: RegionCode]: string |},
         ...
       },
       script: {
-        narrow: { [key: ScriptCode]: string, ... },
-        short: { [key: ScriptCode]: string, ... },
-        long: { [key: ScriptCode]: string, ... },
+        narrow: {| [key: ScriptCode]: string |},
+        short: {| [key: ScriptCode]: string |},
+        long: {| [key: ScriptCode]: string |},
         ...
       },
       currency: {
-        narrow: { [key: CurrencyCode]: string, ... },
-        short: { [key: CurrencyCode]: string, ... },
-        long: { [key: CurrencyCode]: string, ... },
+        narrow: {| [key: CurrencyCode]: string |},
+        short: {| [key: CurrencyCode]: string |},
+        long: {| [key: CurrencyCode]: string |},
         ...
       },
       ...
@@ -201,9 +201,9 @@ declare module 'react-intl' {
     'localeMatcher', > &
     CustomFormatConfig;
   declare interface Formats {
-    number: { [key: string]: Intl.NumberFormatOptions, ... };
-    date: { [key: string]: Intl.DateTimeFormatOptions, ... };
-    time: { [key: string]: Intl.DateTimeFormatOptions, ... };
+    number: {| [key: string]: Intl.NumberFormatOptions |};
+    date: {| [key: string]: Intl.DateTimeFormatOptions |};
+    time: {| [key: string]: Intl.DateTimeFormatOptions |};
   }
   declare type FormattableUnit = Unit | Units;
   declare export var FormattedDate: React$StatelessFunctionalComponent<
@@ -220,7 +220,7 @@ declare module 'react-intl' {
     }, >;
   declare export var FormattedDisplayName: React$StatelessFunctionalComponent<
     DisplayNamesOptions & {
-      value: string | number | { [key: string]: any },
+      value: string | number | {| [key: string]: any |},
       ...
     }, >;
   declare export var FormattedList: React$StatelessFunctionalComponent<
@@ -229,13 +229,12 @@ declare module 'react-intl' {
       ...
     }, >;
   declare export class FormattedMessage<
-    V: { [key: string]: any, ... } = {
+    V: {| [key: string]: any |} = {|
       [key: string]:
         | PrimitiveType
         | React_2.ReactElement<>
         | FormatXMLElementFn<React$Node, React$Node>,
-      ...,
-    },
+    |},
     // Changed `mixins` to `extends` in TS to Flow translation
   > extends React$Component<Props_3<V>> {
     static displayName: string;
@@ -335,20 +334,20 @@ declare module 'react-intl' {
     ...
   };
   declare export interface IntlCache {
-    dateTime: { [key: string]: Intl.DateTimeFormat, ... };
-    number: { [key: string]: Intl.NumberFormat, ... };
-    message: { [key: string]: IntlMessageFormat, ... };
-    relativeTime: { [key: string]: RelativeTimeFormat, ... };
-    pluralRules: { [key: string]: Intl.PluralRules, ... };
-    list: { [key: string]: ListFormat, ... };
-    displayNames: { [key: string]: DisplayNames, ... };
+    dateTime: {| [key: string]: Intl.DateTimeFormat |};
+    number: {| [key: string]: Intl.NumberFormat |};
+    message: {| [key: string]: IntlMessageFormat |};
+    relativeTime: {| [key: string]: RelativeTimeFormat |};
+    pluralRules: {| [key: string]: Intl.PluralRules |};
+    list: {| [key: string]: ListFormat |};
+    displayNames: {| [key: string]: DisplayNames |};
   }
   declare export interface IntlConfig {
     locale: string;
     timeZone?: string;
     formats: CustomFormats;
     textComponent?: React$ComponentType<> | $Keys<React_2.ReactHTML>;
-    messages: { [key: string]: string, ... } | { [key: string]: MessageFormatElement[], ... };
+    messages: {| [key: string]: string |} | {| [key: string]: MessageFormatElement[] |};
     defaultLocale: string;
     defaultFormats: CustomFormats;
     wrapRichTextChunksInFragment?: boolean;
@@ -400,13 +399,13 @@ declare module 'react-intl' {
       descriptor: MessageDescriptor,
       // The `+` was added to make the properties covariant rather
       // than invariant, something TypeScript can't do.
-      values?: { +[key: string]: PrimitiveType | FormatXMLElementFn<string, string>, ... },
+      values?: {| +[key: string]: PrimitiveType | FormatXMLElementFn<string, string> |},
     ): string;
     formatMessage(
       descriptor: MessageDescriptor,
       // The `+` was added to make the properties covariant rather
       // than invariant, something TypeScript can't do.
-      values?: { +[key: string]: PrimitiveType | React$Node | FormatXMLElementFn<T, R>, ... },
+      values?: {| +[key: string]: PrimitiveType | React$Node | FormatXMLElementFn<T, R> |},
     ): React$Node;
     formatList(values: Array<string>, opts?: FormatListOptions): string;
     formatList(values: Array<string | React$Node>, opts?: FormatListOptions): React$Node;
@@ -450,7 +449,7 @@ declare module 'react-intl' {
       opts?: Options,
     ): this;
     format: <T>(
-      values?: {
+      values?: {|
         [key: string]: | string
           | number
           | boolean
@@ -459,11 +458,10 @@ declare module 'react-intl' {
           | FormatXMLElementFn<T, string | (string | T)[]>
           | null
           | void,
-        ...,
-      } | void,
+      |} | void,
     ) => string | T | (string | T)[];
     formatToParts: <T>(
-      values?: {
+      values?: {|
         [key: string]: | string
           | number
           | boolean
@@ -472,8 +470,7 @@ declare module 'react-intl' {
           | FormatXMLElementFn<T, string | (string | T)[]>
           | null
           | void,
-        ...,
-      } | void,
+      |} | void,
     ) => MessageFormatPart<T>[];
     resolvedOptions: () => {
       locale: string,
@@ -553,8 +550,11 @@ declare module 'react-intl' {
       ...
     };
   }
-  declare export class IntlProvider extends // Changed `mixins` to `extends` in TS to Flow translation
-  React$PureComponent<React_2.PropsWithChildren<OptionalIntlConfig>, State> {
+  declare export class IntlProvider extends React$PureComponent<
+    // Changed `mixins` to `extends` in TS to Flow translation
+    React_2.PropsWithChildren<OptionalIntlConfig>,
+    State,
+  > {
     static displayName: string;
     static defaultProps: Pick<
       IntlConfig,
@@ -626,7 +626,7 @@ declare module 'react-intl' {
       options?: Pick<IntlListFormatOptions, 'localeMatcher'>,
     ): string[];
     static __addLocaleData(...data: ListPatternLocaleData[]): void;
-    static localeData: { [key: string]: ListPatternFieldsData, ... };
+    static localeData: {| [key: string]: ListPatternFieldsData |};
     static polyfilled: boolean;
   }
   declare interface ListPattern {
@@ -657,10 +657,12 @@ declare module 'react-intl' {
   }
   declare type Locale = string;
   declare interface LocaleData<T> {
-    data: { [key: Locale]: T, ... };
+    data: {| [key: Locale]: T |};
     availableLocales: string[];
   }
-  declare type LocaleFieldsData = $ObjMapi<{ [k: RelativeTimeField]: any }, <f>(f) => FieldData> & {
+  declare type LocaleFieldsData = $ObjMapi<
+    {| [k: RelativeTimeField]: any |},
+    <f>(f) => FieldData, > & {
     nu?: Array<string | null>,
     ...
   };
@@ -676,7 +678,7 @@ declare module 'react-intl' {
   // Changed from interface to type in TS to Flow translation
   declare export type MessageDescriptor = {
     id?: string | number,
-    description?: string | { [key: string]: any },
+    description?: string | {| [key: string]: any |},
     defaultMessage?: string,
   };
   declare type MessageFormatElement =
@@ -802,7 +804,7 @@ declare module 'react-intl' {
     +object: 1, // 1
   |};
   declare type PluralElement = {
-    options: { [key: ValidPluralRule]: PluralOrSelectOption, ... },
+    options: {| [key: ValidPluralRule]: PluralOrSelectOption |},
     offset: number,
     pluralType: $PropertyType<Intl.PluralRulesOptions, 'type'>,
     ...
@@ -835,7 +837,7 @@ declare module 'react-intl' {
     children?: (value: React$Node) => React_2.ReactElement<> | null,
     ...
   } & FormatPluralOptions;
-  declare type Props_3<V: { [key: string]: any, ... } = { [key: string]: React$Node, ... }> = {
+  declare type Props_3<V: {| [key: string]: any |} = {| [key: string]: React$Node |}> = {
     values?: V,
     tagName?: React_2.ElementType<any>,
     children?: (...nodes: React_2.ReactNodeArray) => React$Node,
@@ -856,7 +858,7 @@ declare module 'react-intl' {
     +MISSING_TRANSLATION: 'MISSING_TRANSLATION', // "MISSING_TRANSLATION"
   |};
   declare type RegionCode = string;
-  declare type RelativeTimeData = $ObjMapi<{ [k: LDMLPluralRule]: any }, <u>(u) => string>;
+  declare type RelativeTimeData = $ObjMapi<{| [k: LDMLPluralRule]: any |}, <u>(u) => string>;
   declare type RelativeTimeField =
     | 'second'
     | 'second-short'
@@ -892,7 +894,7 @@ declare module 'react-intl' {
       options?: Pick<IntlRelativeTimeFormatOptions, 'localeMatcher'>,
     ): string[];
     static __addLocaleData(...data: RelativeTimeLocaleData[]): void;
-    static localeData: { [key: string]: LocaleFieldsData, ... };
+    static localeData: {| [key: string]: LocaleFieldsData |};
     static polyfilled: boolean;
   }
   declare type RelativeTimeFormatNumberPart = {
@@ -947,7 +949,7 @@ declare module 'react-intl' {
   };
   declare type ScriptCode = string;
   declare type SelectElement = {
-    options: { [key: string]: PluralOrSelectOption, ... },
+    options: {| [key: string]: PluralOrSelectOption |},
     ...
   } & BaseElement<typeof TYPE.select>;
   declare type SimpleFormatElement<T: $Values<typeof TYPE>, S: Skeleton> = {
@@ -1023,7 +1025,7 @@ declare module 'react-intl' {
     ...
   };
   declare export type WrappedComponentProps<IntlPropName: string = 'intl'> = $ObjMapi<
-    { [k: IntlPropName]: any },
+    {| [k: IntlPropName]: any |},
     <k>(k) => IntlShape, >;
   declare export {};
 }

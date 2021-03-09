@@ -239,8 +239,8 @@ type DomTestingLibraryType = {
   toHaveAttribute(attr: string, value?: any): void,
   toHaveClass(...classNames: string[]): void,
   toHaveFocus(): void,
-  toHaveFormValues(expectedValues: { [name: string]: any, ... }): void,
-  toHaveStyle(css: string | { [name: string]: any, ... }): void,
+  toHaveFormValues(expectedValues: {| [name: string]: any |}): void,
+  toHaveStyle(css: string | {| [name: string]: any |}): void,
   toHaveTextContent(text: string | RegExp, options?: {| normalizeWhitespace: boolean |}): void,
   toHaveValue(value?: string | string[] | number): void,
 
@@ -262,7 +262,7 @@ type JestJQueryMatchersType = {
   toHaveText(text: string | RegExp): void,
   toHaveData(key: string, val?: any): void,
   toHaveValue(val: any): void,
-  toHaveCss(css: { [key: string]: any, ... }): void,
+  toHaveCss(css: {| [key: string]: any |}): void,
   toBeChecked(): void,
   toBeDisabled(): void,
   toBeEmpty(): void,
@@ -1141,7 +1141,7 @@ declare var expect: {
     JestExtendedMatchersType &
     SnapshotDiffType,
   /** Add additional Jasmine matchers to Jest's roster */
-  extend(matchers: { [name: string]: JestMatcher, ... }): void,
+  extend(matchers: {| [name: string]: JestMatcher |}): void,
   /** Add a module that formats application-specific data structures. */
   addSnapshotSerializer(pluginModule: JestPrettyFormatPlugin): void,
   assertions(expectedAssertions: number): void,
@@ -1184,7 +1184,7 @@ declare var jasmine: {
   createSpyObj(
     baseName: string,
     methodNames: Array<string>,
-  ): { [methodName: string]: JestSpyType, ... },
+  ): {| [methodName: string]: JestSpyType |},
   objectContaining(value: Object): Object,
   stringMatching(value: string): string,
   ...

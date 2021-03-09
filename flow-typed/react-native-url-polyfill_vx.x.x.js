@@ -28,7 +28,7 @@ declare module 'react-native-url-polyfill/js/URLSearchParams' {
   declare export class URLSearchParams {
     @@iterator(): Iterator<[string, string]>;
     constructor(
-      query?: string | URLSearchParams | Array<[string, string]> | { [string]: string },
+      query?: string | URLSearchParams | Array<[string, string]> | {| [string]: string |},
     ): void;
     append(name: string, value: string): void;
     delete(name: string): void;

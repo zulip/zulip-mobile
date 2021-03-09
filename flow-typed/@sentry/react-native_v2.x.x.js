@@ -67,14 +67,14 @@ declare module '@sentry/react-native' {
     // sdk?: SdkInfo,
     // request?: Request,
     transaction?: string,
-    modules?: { [key: string]: string },
+    modules?: {| [key: string]: string |},
     fingerprint?: string[],
     // exception?: { values?: Exception[], },
     // stacktrace?: Stacktrace,
     breadcrumbs?: Breadcrumb[],
-    // contexts?: { [key: string]: object },
-    tags?: { [key: string]: Primitive },
-    extra?: { [key: string]: any },
+    // contexts?: {| [key: string]: object |},
+    tags?: {| [key: string]: Primitive |},
+    extra?: {| [key: string]: any |},
     // user?: User,
     type?: EventType,
   |};
@@ -98,9 +98,9 @@ declare module '@sentry/react-native' {
     event_id?: string,
     category?: string,
     message?: string,
-    data?: {
+    data?: {|
       [key: string]: mixed,
-    },
+    |},
     timestamp?: number,
   |};
 
@@ -119,9 +119,9 @@ declare module '@sentry/react-native' {
      * Set an object that will be merged sent as tags data with the event.
      * @param tags Tags context object to merge into current context.
      */
-    setTags(tags: {
+    setTags(tags: {|
       +[key: string]: Primitive,
-    }): this;
+    |}): this;
     /**
      * Set key:value that will be sent as tags data with the event.
      * @param key String key of tag
@@ -139,7 +139,7 @@ declare module '@sentry/react-native' {
      * Set an object that will be merged sent as extra data with the event.
      * @param extras Extras object to merge into current context.
      */
-    setExtras(extras: { +[key: string]: any }): this;
+    setExtras(extras: {| +[key: string]: any |}): this;
   }
 
   declare export type CaptureContext = Scope | Partial<ScopeContext> | ((scope: Scope) => Scope);
