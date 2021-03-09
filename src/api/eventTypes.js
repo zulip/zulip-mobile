@@ -45,6 +45,7 @@ export type GeneralEvent = {
   ...EventCommon,
   type: string,
   // Note this is an inexact object type!  There will be more properties.
+  ...
 };
 
 export type HeartbeatEvent = {|
