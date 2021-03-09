@@ -27,7 +27,7 @@ type IconProps<Glyphs: string> = {|
   ...$Exact<React$ElementConfig<typeof Text>>,
   size?: number,
   name: Glyphs,
-  color?: Color,
+  color ?: Color,
 |};
 
 const fixIconType = <Glyphs: string>(
@@ -84,3 +84,4 @@ export const IconMoreHorizontal = makeIcon(Feather, 'more-horizontal');
 export const IconEdit = makeIcon(Feather, 'edit');
 export const IconPlusSquare = makeIcon(Feather, 'plus-square');
 export const IconVideo = makeIcon(Feather, 'video');
+export const IconServerColor = makeIcon(IoniconsIcon, "alert-circle-sharp")

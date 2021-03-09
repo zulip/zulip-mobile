@@ -7,7 +7,7 @@ import type { Account } from '../types';
 export default (args: {|
   hasAuth: boolean,
   accounts: Account[],
-|}): {| initialRouteName: string, initialRouteParams?: ScreenParams |} => {
+|}): {| initialRouteName: string, initialRouteParams ?: ScreenParams |} => {
   const { hasAuth, accounts } = args;
 
   // If the active account is not logged in, bring the user as close
@@ -26,7 +26,7 @@ export default (args: {|
       // you can always go back to RealmInputScreen.
       return {
         initialRouteName: 'realm-input',
-        initialRouteParams: { initial: true, realm: accounts[0].realm },
+        initialRouteParams: { initial: true, realm: accounts[0].realm, serverColor: accounts[0].serverColor },
       };
     } else {
       // Just go to the realm screen and have the user type out the

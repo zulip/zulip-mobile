@@ -17,7 +17,8 @@ const initialState = NULL_ARRAY;
 
 const realmAdd = (state, action) => {
   const accountIndex = state.findIndex(
-    account => account.realm.toString() === action.realm.toString(),
+    account => account.realm.toString() === action.realm.toString()
+      && (account.serverColor?.toString() === action.serverColor?.toString()),
   );
 
   if (accountIndex !== -1) {
@@ -34,6 +35,7 @@ const realmAdd = (state, action) => {
       realm: action.realm,
       apiKey: '',
       email: '',
+      serverColor: action.serverColor,
       ackedPushToken: null,
       zulipFeatureLevel: action.zulipFeatureLevel,
       zulipVersion: action.zulipVersion,

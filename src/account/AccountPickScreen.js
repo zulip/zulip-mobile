@@ -73,7 +73,7 @@ class AccountPickScreen extends PureComponent<Props> {
           <ZulipButton
             text="Add new account"
             onPress={() => {
-              NavigationService.dispatch(navigateToRealmInputScreen());
+              NavigationService.dispatch(navigateToRealmInputScreen({ existingColors: accounts.map((each) => each.serverColor) }));
             }}
           />
         </Centerer>

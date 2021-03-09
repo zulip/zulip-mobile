@@ -56,9 +56,9 @@ export const navigateToGroupDetails = (
 ): GenericNavigationAction => StackActions.push('group-details', { recipients });
 
 export const navigateToRealmInputScreen = (
-  args: { realm?: URL, initial?: boolean } = {},
+  args: { realm?: URL, initial?: boolean, existingColors?: Array } = {},
 ): GenericNavigationAction =>
-  StackActions.push('realm-input', { realm: args.realm, initial: args.initial });
+  StackActions.push('realm-input', { realm: args.realm, initial: args.initial, existingColors: args.existingColors });
 
 export const navigateToLightbox = (src: string, message: Message): GenericNavigationAction =>
   StackActions.push('lightbox', { src, message });

@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable } from '../common';
-import { IconDone, IconTrash } from '../common/Icons';
+import { IconDone, IconTrash, IconServerColor } from '../common/Icons';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -13,7 +13,7 @@ const styles = createStyleSheet({
   accountItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'hsla(177, 70%, 47%, 0.1)',
+    // backgroundColor: 'hsla(177, 70%, 47%, 0.1)',
     borderRadius: 4,
     height: 72,
   },
@@ -32,7 +32,10 @@ const styles = createStyleSheet({
   },
   icon: {
     padding: 12,
-    margin: 12,
+    margin: 6,
+  },
+  colorIcon: {
+    marginStart: 14
   },
 });
 
@@ -43,14 +46,16 @@ type Props = $ReadOnly<{|
   onSelect: (index: number) => void,
   onRemove: (index: number) => void,
   showDoneIcon: boolean,
+  serverColor: string,
 |}>;
 
 export default function AccountItem(props: Props) {
-  const { email, realm, showDoneIcon } = props;
+  const { email, realm, showDoneIcon, serverColor } = props;
 
   return (
     <Touchable style={styles.wrapper} onPress={() => props.onSelect(props.index)}>
       <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
+        <IconServerColor style={styles.colorIcon} size={32} color={serverColor} />
         <View style={styles.details}>
           <RawLabel style={styles.text} text={email} numberOfLines={1} />
           <RawLabel style={styles.text} text={realm.toString()} numberOfLines={1} />

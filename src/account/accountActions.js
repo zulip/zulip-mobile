@@ -23,10 +23,12 @@ export const accountSwitch = (index: number) => (dispatch: Dispatch, getState: G
 
 export const realmAdd = (
   realm: URL,
+  serverColor: string,
   zulipFeatureLevel: number,
   zulipVersion: ZulipVersion,
 ): Action => ({
   type: REALM_ADD,
+  serverColor,
   realm,
   zulipFeatureLevel,
   zulipVersion,

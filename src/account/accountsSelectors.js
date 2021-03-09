@@ -6,7 +6,7 @@ import { identityOfAccount, keyOfIdentity, identityOfAuth, authOfAccount } from 
 import { ZulipVersion } from '../utils/zulipVersion';
 
 /** See `getAccountStatuses`. */
-export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
+export type AccountStatus = {| ...Identity, isLoggedIn: boolean, serverColor: string |};
 
 /**
  * The list of known accounts, with a boolean for logged-in vs. not.
@@ -17,7 +17,7 @@ export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
 export const getAccountStatuses: Selector<$ReadOnlyArray<AccountStatus>> = createSelector(
   getAccounts,
   accounts =>
-    accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
+    accounts.map(({ realm, email, apiKey, serverColor }) => ({ realm, email, isLoggedIn: apiKey !== '', serverColor })),
 );
 
 /** The list of known accounts, reduced to `Identity`. */

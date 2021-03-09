@@ -27,6 +27,7 @@ export default function AccountList(props: Props) {
             showDoneIcon={index === 0 && item.isLoggedIn}
             email={item.email}
             realm={item.realm}
+            serverColor={item.serverColor}
             onSelect={onAccountSelect}
             onRemove={onAccountRemove}
           />

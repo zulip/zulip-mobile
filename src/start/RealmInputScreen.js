@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Keyboard } from 'react-native';
-
+import { Picker as CololPicker } from '@react-native-picker/picker';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
@@ -13,6 +13,8 @@ import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { tryParseUrl } from '../utils/url';
 import * as api from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
+import { ReadableColors } from '../utils/ReadableColors'
+
 
 type SelectorProps = {|
   +initialRealmInputValue: string,
@@ -37,11 +39,12 @@ class RealmInputScreen extends PureComponent<Props, State> {
     progress: false,
     realmInputValue: this.props.initialRealmInputValue,
     error: null,
+    colors: null,
+    selectedColor: this.props.serverColor,
   };
 
   tryRealm = async () => {
-    const { realmInputValue } = this.state;
-
+    const { realmInputValue, selectedColor } = this.state;
     const parsedRealm = tryParseUrl(realmInputValue);
     if (!parsedRealm) {
       this.setState({ error: 'Please enter a valid URL' });
@@ -59,9 +62,10 @@ class RealmInputScreen extends PureComponent<Props, State> {
     });
     try {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(parsedRealm);
-      dispatch(
+      await dispatch(
         realmAdd(
           parsedRealm,
+          selectedColor,
           serverSettings.zulip_feature_level ?? 0,
           new ZulipVersion(serverSettings.zulip_version),
         ),
@@ -80,8 +84,31 @@ class RealmInputScreen extends PureComponent<Props, State> {
 
   handleRealmChange = (value: string) => this.setState({ realmInputValue: value });
 
+
+  /*
+  Getting random colors from defined constant colors
+  Pushing to same existingColors so we don't have to check in both arrays
+  */
+  getArrayOf4Colors = () => {
+    let existingColors = this.props.route.params.existingColors ?? []
+    let colorItems = []
+
+    while (colorItems.length < 6) {
+      let rcolor = ReadableColors.random()
+      if (!existingColors.includes(rcolor.color)) {
+        colorItems.push(rcolor)
+        existingColors.push(rcolor.color)
+      }
+    }
+    this.setState({ selectedColor: colorItems[0]['color'], colors: colorItems })
+
+  }
+
   componentDidMount() {
-    const { initialRealmInputValue } = this.props;
+    const { initialRealmInputValue, serverColor } = this.props;
+
+    if (!serverColor) { this.getArrayOf4Colors(); }
+
     if (initialRealmInputValue && initialRealmInputValue.length > 0) {
       this.tryRealm();
     }
@@ -89,8 +116,7 @@ class RealmInputScreen extends PureComponent<Props, State> {
 
   render() {
     const { initialRealmInputValue, navigation } = this.props;
-    const { progress, error, realmInputValue } = this.state;
-
+    const { progress, error, realmInputValue, selectedColor, colors } = this.state;
     const styles = {
       input: { marginTop: 16, marginBottom: 8 },
       hintText: { paddingLeft: 2, fontSize: 12 },
@@ -121,8 +147,20 @@ class RealmInputScreen extends PureComponent<Props, State> {
         {error !== null ? (
           <ErrorMsg error={error} />
         ) : (
-          <Label text="e.g. zulip.example.com" style={styles.hintText} />
-        )}
+            <Label text="e.g. zulip.example.com" style={styles.hintText} />
+          )}
+        {colors &&
+          (<CololPicker
+            selectedValue={selectedColor}
+            onValueChange={(value) => { this.setState({ selectedColor: value }) }}
+            style={styles.input}
+          >
+            <CololPicker.Item label={colors[0].label} value={colors[0].color} color={colors[0].color} />
+            <CololPicker.Item label={colors[1].label} value={colors[1].color} color={colors[1].color} />
+            <CololPicker.Item label={colors[2].label} value={colors[2].color} color={colors[2].color} />
+            <CololPicker.Item label={colors[3].label} value={colors[3].color} color={colors[3].color} />
+          </CololPicker>)}
+
         <ZulipButton
           style={styles.button}
           text="Enter"
@@ -137,4 +175,5 @@ class RealmInputScreen extends PureComponent<Props, State> {
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   initialRealmInputValue: props.route.params.realm?.toString() ?? '',
+  serverColor: props.route.params.serverColor?.toString() ?? null,
 }))(RealmInputScreen);
