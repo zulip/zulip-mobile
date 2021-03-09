@@ -53,10 +53,9 @@ declare var platformOS: string;
 
 /* Polyfill Array.from. Native in Chrome 45 and at least Safari 13.
    Leaves out some of the fancy features (see MDN). */
-type ArrayLike<T> = { [indexer: number]: T, length: number, ... };
 if (!Array.from) {
   // $FlowFixMe[cannot-write] (polyfill)
-  Array.from = function from<T>(arr: ArrayLike<T>): Array<T> {
+  Array.from = function from<T>(arr: $ArrayLike<T>): Array<T> {
     return Array.prototype.slice.call(arr);
   };
 }
