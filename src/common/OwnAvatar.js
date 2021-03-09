@@ -33,7 +33,7 @@ export default function OwnAvatar(props: Props) {
   const activeAccount = useSelector(getActiveAccount)
   const user = useSelector(getOwnUser);
   return (
-    <TouchableOpacity activeOpacity={1} onLongPress={() => { showToast(`${activeAccount.realm}`) }} >
+    <TouchableOpacity activeOpacity={1} onLongPress={() => { showToast(` ${activeAccount.email} \n ${activeAccount.realm} `) }} >
       <View style={{ padding: 7 }}>
         <UserAvatar avatarUrl={user.avatar_url} size={size} />
         <View style={styles.selectedServerColorView}>
