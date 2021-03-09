@@ -1,14 +1,14 @@
 /* @flow strict-local */
 /* eslint-disable no-underscore-dangle */
 
-type VersionElements = {
+type VersionElements = {|
   major: number | void,
   minor: number | void,
   patch: number | void,
   flag: 'dev' | ['rc', number] | void,
   numCommits: number | void,
   commitId: string | void,
-};
+|};
 
 /**
  * Parsed form of a Zulip server version.
