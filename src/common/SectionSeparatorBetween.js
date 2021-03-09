@@ -7,8 +7,8 @@ import SectionSeparator from './SectionSeparator';
  * and just captures what we use.
  */
 type Props = $ReadOnly<{|
-  leadingItem: ?{},
-  leadingSection: ?{ data: { length: number } },
+  leadingItem: ?{ ... },
+  leadingSection: ?{ data: { length: number, ... }, ... },
 |}>;
 
 /** Can be passed to RN's `SectionList` as `SectionSeparatorComponent`. */
