@@ -2,7 +2,7 @@
 import type { HuddlesUnreadItem, PmsUnreadItem, StreamUnreadItem, UserId } from '../types';
 import { addItemsToArray, removeItemsFromArray, filterArray } from '../utils/immutability';
 
-type SomeUnreadItem = { unread_message_ids: number[] };
+type SomeUnreadItem = { unread_message_ids: number[], ... };
 
 export function removeItemsDeeply<T: SomeUnreadItem>(objArray: T[], messageIds: number[]): T[] {
   let changed = false;
