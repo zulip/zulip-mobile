@@ -22,7 +22,7 @@ function escape_user_regex(value) {
 /* Helper borrowed near-verbatim from webapp; see comment above. */
 // prettier-ignore
 const process_message = function (words: string[],
-                                  message: {alerted: boolean, content: string}) {
+                                  message: {| alerted: boolean, content: string |}) {
     // Parsing for alert words is expensive, so we rely on the host
     // to tell us there any alert words to even look for.
     if (!message.alerted) {
