@@ -17,7 +17,7 @@ export type JSONable =
   | string
   | number
   | boolean
-  | { +[string]: JSONable } // [α]
+  | {| +[string]: JSONable |} // [α]
   | $ReadOnlyArray<JSONable>;
 // [α] This should just be `JSONableDict`, but Flow doesn't handle
 //     mutually-recursive types very well.
@@ -27,24 +27,7 @@ export type JSONable =
  *
  * See documentation of `JSONable` for caveats.
  */
-export type JSONableDict = { +[string]: JSONable };
-// This should really be an exact type, `{| +[string]: JSONable |}`.
-// Unfortunately, it can't yet be.
-//
-// Prior to Flow v0.126.0, exact object types with indexer properties
-// are unusably broken. The following trivial example fails to
-// typecheck:
-//
-//    const val: {| [string]: number |} = { foo: 3 };
-//
-// On the other hand, inexact indexer-property types don't actually have their
-// properties typechecked at their point of use -- that is, the following passes
-// typechecking (even after v0.126.0):
-//
-//    const val: { [string]: number } = { foo: 3, bar: 'baz' };
-//
-// ... which is consistent with the definition of inexact types, if
-// inconvenient.
+export type JSONableDict = {| +[string]: JSONable |};
 
 /**
  * Approximate type of a JSONable value received as input.
@@ -54,7 +37,7 @@ export type JSONableDict = { +[string]: JSONable };
  * by-design soundness hole involving indexer elements:
  *
  * ```flow
- *   const obj: { [string]: string } = { a: "a" };
+ *   const obj: {| [string]: string |} = { a: "a" };
  *   const value: string = obj['b'];
  *   value.trim();  // kaboom!
  * ```
@@ -89,7 +72,7 @@ export type JSONableInput =
   | string
   | number
   | boolean
-  | { +[string]: JSONableInput | void }
+  | {| +[string]: JSONableInput | void |}
   | $ReadOnlyArray<JSONableInput>;
 
 /**
@@ -97,4 +80,4 @@ export type JSONableInput =
  *
  * See documentation of `JSONable` and `JSONableInput` for caveats.
  */
-export type JSONableInputDict = { +[string]: JSONableInput | void };
+export type JSONableInputDict = {| +[string]: JSONableInput | void |};

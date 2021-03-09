@@ -73,20 +73,18 @@ export type CaughtUp = {|
  *
  * See `CaughtUp` for details on what each value means.
  */
-export type CaughtUpState = {
-  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
+export type CaughtUpState = {|
   [narrow: string]: CaughtUp,
-};
+|};
 
 /**
  * The user's draft message, if any, in each conversation.
  *
  * The keys correspond to the keys in `NarrowsState`.
  */
-export type DraftsState = {
-  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
+export type DraftsState = {|
   [narrow: string]: string,
-};
+|};
 
 export type Fetching = {|
   older: boolean,
@@ -100,10 +98,9 @@ export type Fetching = {|
  *
  * See also: `CaughtUpState`, `NarrowsState`.
  */
-export type FetchingState = {
-  // TODO(flow-v0.126): Should be exact. See note in src/utils/jsonable.js.
+export type FetchingState = {|
   [narrow: string]: Fetching,
-};
+|};
 
 /**
  * The message flags corresponding to all the messages in `MessagesState`.
@@ -112,18 +109,18 @@ export type FetchingState = {
  * incomplete, always in exactly the same way that `MessagesState` is.
  */
 export type FlagsState = {|
-  read: { [messageId: number]: boolean },
-  starred: { [messageId: number]: boolean },
-  collapsed: { [messageId: number]: boolean },
-  mentioned: { [messageId: number]: boolean },
-  wildcard_mentioned: { [messageId: number]: boolean },
-  summarize_in_home: { [messageId: number]: boolean },
-  summarize_in_stream: { [messageId: number]: boolean },
-  force_expand: { [messageId: number]: boolean },
-  force_collapse: { [messageId: number]: boolean },
-  has_alert_word: { [messageId: number]: boolean },
-  historical: { [messageId: number]: boolean },
-  is_me_message: { [messageId: number]: boolean },
+  read: {| [messageId: number]: boolean |},
+  starred: {| [messageId: number]: boolean |},
+  collapsed: {| [messageId: number]: boolean |},
+  mentioned: {| [messageId: number]: boolean |},
+  wildcard_mentioned: {| [messageId: number]: boolean |},
+  summarize_in_home: {| [messageId: number]: boolean |},
+  summarize_in_stream: {| [messageId: number]: boolean |},
+  force_expand: {| [messageId: number]: boolean |},
+  force_collapse: {| [messageId: number]: boolean |},
+  has_alert_word: {| [messageId: number]: boolean |},
+  historical: {| [messageId: number]: boolean |},
+  is_me_message: {| [messageId: number]: boolean |},
 |};
 
 export type FlagName = $Keys<FlagsState>;
@@ -207,9 +204,9 @@ export type OutboxState = Outbox[];
  * @prop (email) - Indexes over all users for which the app has received a
  *   presence status.
  */
-export type PresenceState = {
+export type PresenceState = {|
   [email: string]: UserPresence,
-};
+|};
 
 /**
  * Configuration for a video chat provider, as specified by the server.
@@ -290,12 +287,12 @@ export type TopicsState = {|
   [number]: Topic[],
 |};
 
-export type TypingState = {
+export type TypingState = {|
   [normalizedRecipients: string]: {
     time: number,
     userIds: UserId[],
   },
-};
+|};
 
 export type UserGroupsState = UserGroup[];
 

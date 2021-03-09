@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { TimingItemType } from '../types';
 
-const startMsMap: { [string]: number } = {};
+const startMsMap: {| [string]: number |} = {};
 const log: TimingItemType[] = [];
 
 const add = (item: TimingItemType) => {

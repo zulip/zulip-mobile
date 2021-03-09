@@ -11,8 +11,7 @@ import type { JSONable } from '../../utils/jsonable';
 import sendMessage from './sendMessage';
 import { ensureUnreachable } from '../../types';
 
-// TODO: Make exact (see note in jsonable.js).
-type Scrub<E: WebViewInboundEvent> = { [key: $Keys<E>]: JSONable };
+type Scrub<E: WebViewInboundEvent> = {| [key: $Keys<E>]: JSONable |};
 
 type ScrubbedInboundEvent =
   | Scrub<WebViewInboundEventContent>

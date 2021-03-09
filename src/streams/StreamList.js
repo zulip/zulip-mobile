@@ -21,7 +21,7 @@ type Props = $ReadOnly<{|
   showDescriptions: boolean,
   showSwitch: boolean,
   streams: $ReadOnlyArray<PseudoSubscription>,
-  unreadByStream: $ReadOnly<{ [number]: number }>,
+  unreadByStream: $ReadOnly<{| [number]: number |}>,
   onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,
 |}>;

@@ -6,7 +6,7 @@ import type { ImageEmojiType } from '../types';
  * so that both emoji type can be handled in similiar way
  * thus id has no meaning here
  */
-const zulipExtraEmojiMap: { [id: string]: ImageEmojiType } = {
+const zulipExtraEmojiMap: {| [id: string]: ImageEmojiType |} = {
   zulip: {
     deactivated: false,
     code: 'zulip',

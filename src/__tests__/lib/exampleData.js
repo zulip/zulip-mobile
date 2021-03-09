@@ -674,7 +674,7 @@ export const action = deepFreeze({
 // annotate `action` itself, because we want to keep the information of
 // which one has which specific type.)
 /* eslint-disable-next-line no-unused-expressions */
-(action: { [string]: Action });
+(action: {| [string]: Action |});
 
 /* ========================================================================
  * Action fragments

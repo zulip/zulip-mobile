@@ -106,7 +106,7 @@ function dropCache(state: GlobalState): $Shape<GlobalState> {
  * a version number to track which migrations are already reflected in it,
  * so that each only has to be run once.
  */
-const migrations: { [string]: (GlobalState) => GlobalState } = {
+const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // The type is a lie, in several ways:
   //  * The actual object contains only the properties we persist:
   //    those in `storeKeys` and `cacheKeys`, but not `discardKeys`.

@@ -236,7 +236,7 @@ export type MessageLike =
   | $ReadOnly<Message>
   | $ReadOnly<{
       // $Shape<T> is unsound, per Flow docs, but $ReadOnly<$Shape<T>> is not
-      ...$Shape<{ [$Keys<Message>]: void }>,
+      ...$Shape<{| [$Keys<Message>]: void |}>,
       sender_id?: UserId, // TODO: Drop this once required in Outbox.
       ...Outbox,
     }>;
@@ -246,7 +246,7 @@ type IntlMessageFormatValue = string | number | boolean | null | void;
 
 export type LocalizableText =
   | string
-  | { text: string, values?: { [string]: IntlMessageFormatValue } };
+  | { text: string, values?: {| [string]: IntlMessageFormatValue |} };
 
 /**
  * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.
@@ -264,7 +264,7 @@ export type LocalizableText =
  * @prop intl - The full react-intl API, for more complex situations.
  */
 export type GetText = {
-  (message: string, values?: { [string]: IntlMessageFormatValue }): string,
+  (message: string, values?: {| [string]: IntlMessageFormatValue |}): string,
   intl: IntlShape,
 };
 

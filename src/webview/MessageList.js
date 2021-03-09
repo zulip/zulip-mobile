@@ -72,7 +72,7 @@ import { tryParseUrl } from '../utils/url';
  */
 export type BackgroundData = $ReadOnly<{|
   alertWords: AlertWordsState,
-  allImageEmojiById: $ReadOnly<{ [id: string]: ImageEmojiType }>,
+  allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmojiType |}>,
   auth: Auth,
   debug: Debug,
   flags: FlagsState,

@@ -30,9 +30,9 @@ export type ImageEmojiType = $ReadOnly<{|
   source_url: string,
 |}>;
 
-export type RealmEmojiById = $ReadOnly<{
+export type RealmEmojiById = $ReadOnly<{|
   [id: string]: ImageEmojiType,
-}>;
+|}>;
 
 export type RealmFilter = [string, string, number];
 
@@ -462,7 +462,7 @@ export type Submessage = $ReadOnly<{|
  *    `EVENT_NEW_MESSAGE` Redux action for the event;
  *  * `messages: Message[]` in a `/messages` (our `getMessages`) response,
  *    and our resulting `MESSAGE_FETCH_COMPLETE` Redux action;
- *  * `messages: { [id]: Message }` in our global Redux state.
+ *  * `messages: {| [id]: Message |}` in our global Redux state.
  *
  * References include:
  *  * the two example events at https://zulip.com/api/get-events-from-queue

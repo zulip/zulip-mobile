@@ -38,9 +38,9 @@ export type InitialDataPresence = {|
   presences: {| [email: string]: UserPresence |},
 |};
 
-export type AvailableVideoChatProviders = {
+export type AvailableVideoChatProviders = {|
   [providerName: string]: {| name: string, id: number |},
-};
+|};
 
 export type InitialDataRealm = {|
   jitsi_server_url?: string,
@@ -171,7 +171,7 @@ export type InitialDataSubscription = {|
 export type InitialDataUpdateDisplaySettings = {|
   default_language: string,
   emojiset: string,
-  emojiset_choices: { [string]: string },
+  emojiset_choices: {| [string]: string |},
   high_contrast_mode: boolean,
   left_side_userlist: boolean,
   night_mode: boolean,

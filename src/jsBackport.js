@@ -18,8 +18,8 @@
  * implement and is all we happened to need.  Would be nice to extend to
  * iterables.
  */
-export function objectFromEntries<+K, +V>(entries: $ReadOnlyArray<[K, V]>): { [K]: V } {
-  const obj = ({}: { [K]: V });
+export function objectFromEntries<+K, +V>(entries: $ReadOnlyArray<[K, V]>): {| [K]: V |} {
+  const obj = ({}: {| [K]: V |});
   entries.forEach(entry => {
     // ESLint bug?  I don't understand how this rule even applies to this line.
     // eslint-disable-next-line prefer-destructuring

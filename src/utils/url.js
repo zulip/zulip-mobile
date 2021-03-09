@@ -10,7 +10,7 @@ import objectEntries from './objectEntries';
  * primitive types for which `toString` is just as good as `JSON.stringify`.
  */
 export type UrlParamValue = string | boolean | number;
-export type UrlParams = $ReadOnly<{ [string]: UrlParamValue | void }>;
+export type UrlParams = $ReadOnly<{| [string]: UrlParamValue | void |}>;
 
 /**
  * Encode parameters as if for the URL query-part submitting an HTML form.
@@ -108,7 +108,7 @@ const getResourceNoAuth = (uri: string) => ({
 export const getResource = (
   uri: string,
   auth: Auth,
-): {| uri: string, headers?: { [string]: string } |} =>
+): {| uri: string, headers?: {| [string]: string |} |} =>
   isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
 export type Protocol = 'https://' | 'http://';

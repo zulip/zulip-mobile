@@ -237,7 +237,7 @@ const allButtonsRaw = {
 
 type ButtonCode = $Keys<typeof allButtonsRaw>;
 
-const allButtons: { [ButtonCode]: ButtonDescription } = allButtonsRaw;
+const allButtons: {| [ButtonCode]: ButtonDescription |} = allButtonsRaw;
 
 type ConstructSheetParams<MsgType: Message | Outbox = Message | Outbox> = {|
   backgroundData: BackgroundData,

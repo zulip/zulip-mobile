@@ -13,12 +13,12 @@ import { pmUnreadsKeyFromPmKeyIds } from '../utils/recipient';
 import { getUnreadStreams, getUnreadPms, getUnreadHuddles, getUnreadMentions } from './unreadModel';
 
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
-export const getUnreadByStream: Selector<{ [number]: number }> = createSelector(
+export const getUnreadByStream: Selector<{| [number]: number |}> = createSelector(
   getUnreadStreams,
   getSubscriptionsById,
   getMute,
   (unreadStreams, subscriptionsById, mute) => {
-    const totals = ({}: { [number]: number });
+    const totals = ({}: {| [number]: number |});
     unreadStreams.forEach(stream => {
       if (!totals[stream.stream_id]) {
         totals[stream.stream_id] = 0;
@@ -50,10 +50,10 @@ export const getUnreadStreamTotal: Selector<number> = createSelector(
  *
  * See also `getUnreadByHuddles`, for group PM threads.
  */
-export const getUnreadByPms: Selector<{ [number]: number }> = createSelector(
+export const getUnreadByPms: Selector<{| [number]: number |}> = createSelector(
   getUnreadPms,
   unreadPms => {
-    const totals = ({}: { [number]: number });
+    const totals = ({}: {| [number]: number |});
     unreadPms.forEach(pm => {
       totals[pm.sender_id] = totals[pm.sender_id] || 0 + pm.unread_message_ids.length;
     });
@@ -80,10 +80,10 @@ export const getUnreadPmsTotal: Selector<number> = createSelector(
  *
  * See also `getUnreadByPms`, for 1:1 PM threads.
  */
-export const getUnreadByHuddles: Selector<{ [string]: number }> = createSelector(
+export const getUnreadByHuddles: Selector<{| [string]: number |}> = createSelector(
   getUnreadHuddles,
   unreadHuddles => {
-    const totals = ({}: { [string]: number });
+    const totals = ({}: {| [string]: number |});
     unreadHuddles.forEach(huddle => {
       totals[huddle.user_ids_string] =
         totals[huddle.user_ids_string] || 0 + huddle.unread_message_ids.length;

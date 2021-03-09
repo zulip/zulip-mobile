@@ -38,8 +38,8 @@ export const getRecentConversationsLegacy: Selector<PmConversationData[]> = crea
   (
     ownUserId,
     messages: Message[],
-    unreadPms: { [number]: number },
-    unreadHuddles: { [string]: number },
+    unreadPms: {| [number]: number |},
+    unreadHuddles: {| [string]: number |},
     allUsersById,
   ): PmConversationData[] => {
     const items = messages

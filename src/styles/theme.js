@@ -11,7 +11,7 @@ export type ThemeData = {|
   dividerColor: string,
 |};
 
-export const themeData: { [name: ThemeName | 'light']: ThemeData } = {
+export const themeData: {| [name: ThemeName | 'light']: ThemeData |} = {
   night: {
     color: 'hsl(210, 11%, 85%)',
     backgroundColor: 'hsl(212, 28%, 18%)',
