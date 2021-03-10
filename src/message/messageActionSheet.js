@@ -32,7 +32,7 @@ import * as logging from '../utils/logging';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
-  { options: string[], cancelButtonIndex: number },
+  { options: string[], cancelButtonIndex: number, ... },
   (number) => void,
 ) => void;
 
@@ -47,6 +47,7 @@ type ButtonDescription = {
     dispatch: Dispatch,
     _: GetText,
     startEditMessage: (editMessage: EditMessage) => void,
+    ...
   }): void | Promise<void>,
   title: string,
 
@@ -54,6 +55,7 @@ type ButtonDescription = {
   // Required even when the callback can't throw (e.g., "Cancel"), since we can't
   // otherwise ensure that everything that _can_ throw has one.
   errorMessage: string,
+  ...
 };
 
 //
