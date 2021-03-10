@@ -38,6 +38,7 @@ type NetInfoStateType =
 
 type NetInfoConnectedDetails = {
   isConnectionExpensive: boolean,
+  ...
 };
 
 type NetInfoState = {
@@ -54,6 +55,7 @@ type NetInfoState = {
    * use for it yet.)
    */
   details: null | NetInfoConnectedDetails,
+  ...
 };
 
 const styles = createStyleSheet({
