@@ -79,6 +79,9 @@ npm-debug.log
 /ios/webview
 # /android/app/build/... is already covered above
 
+# Generated for uploading to the Play Store, separate from any app version
+/zulip-icon-google-play.png
+
 # fastlane
 # See: https://docs.fastlane.tools/best-practices/source-control/
 /fastlane/report.xml
