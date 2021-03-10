@@ -508,18 +508,11 @@ type MessageBase = $ReadOnly<{|
 
   /** Deprecated; a server implementation detail not useful in a client. */
   // recipient_id: number,
-
-  //
-  // Properties that behave differently for stream vs. private messages.
-  // TODO: Move all these to `PmMessage` and `StreamMessage`.
-
-  subject_links: $ReadOnlyArray<string>,
 |}>;
 
 export type PmMessage = $ReadOnly<{|
   ...MessageBase,
 
-  // TODO: Put PM-message fields here.
   type: 'private',
 
   // Notes from studying the server code:
@@ -556,7 +549,6 @@ export type PmMessage = $ReadOnly<{|
 export type StreamMessage = $ReadOnly<{|
   ...MessageBase,
 
-  // TODO: Put stream-message fields here.
   type: 'stream',
 
   /**
@@ -569,6 +561,7 @@ export type StreamMessage = $ReadOnly<{|
   stream_id: number,
 
   subject: string,
+  subject_links: $ReadOnlyArray<string>,
 |}>;
 
 /**

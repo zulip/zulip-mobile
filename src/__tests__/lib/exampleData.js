@@ -298,7 +298,6 @@ const messagePropertiesBase = deepFreeze({
   is_me_message: false,
   // last_edit_timestamp omitted
   reactions: [],
-  subject_links: [],
   submessages: [],
 });
 
@@ -398,6 +397,7 @@ export const streamMessage = (args?: {|
     content_type: 'text/markdown',
     id: randMessageId(),
     subject: 'example topic',
+    subject_links: [],
     timestamp: 1556579727,
     type: 'stream',
   };
