@@ -25,10 +25,10 @@ import { toggleSpoiler } from './spoilers';
  *   Graceful degradation is acceptable below iOS 13 / Mobile Safari 13.
  *
  * * For Android, core functionality needs to work on Chrome 44.
- *   Graceful degradation is acceptable below Chrome 58.
+ *   Graceful degradation is acceptable below Chrome 74.
  *
  *   * These versions are found in stock images for Android 6 Marshmallow
- *     and Android 8 Oreo, respectively, for convenient testing.
+ *     and Android 10, respectively, for convenient testing.
  *
  *   * (Note that Android's Chrome auto-updates independently of the OS, and
  *     the large majority of Android users have a fully-updated Chrome --

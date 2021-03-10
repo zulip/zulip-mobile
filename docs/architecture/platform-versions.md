@@ -192,6 +192,21 @@ General policy:
     emulator image for some past Android release, for practicality of
     testing.
 
+ * Further, we allow *graceful degradation* on all but recent versions
+   of each browser.  This means that although core functionality needs
+   to work, for fancier features of Zulip it's acceptable for them not
+   to be available on older browsers.
+
+   * Typically this will apply to versions older than those shipped in
+     about the last two years' OS releases.  Like the minimum support
+     thresholds, these are described in the block comment at the top of
+     `js.js`.
+
+   * (Implicitly we do much the same thing with old OS versions; we
+     just have less code that interacts with specific OS versions than
+     with browser versions, so we don't write down explicit threshold
+     versions there.)
+
 
 ### Data and commentary
 
@@ -223,6 +238,8 @@ Empirical details on Android Chrome versions found in WebViews:
   * Android versions 5 L, 6 M, 7 N, 8 O had originally shipped
     with Chrome versions 37, 44, 51, 58 respectively (based on
     looking at stock emulator images.)
+    * Later data: Android 9, 10, 11 ship with Chrome versions
+      69, 74, 83 respectively.
   * At that time about 17% of our Android users were on Android
     versions <=6 M -- far more than the 2% or so of Android users with
     Chrome versions older than what shipped with Android 7 N.
