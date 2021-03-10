@@ -113,7 +113,7 @@ export const getLastMessageId = (state: GlobalState, narrow: Narrow): number | v
 
 // Prettier mishandles this Flow syntax.
 // prettier-ignore
-// TODO: clean up what this returns.
+// TODO: clean up what this returns; possibly to just `Stream`
 export const getStreamInNarrow: Selector<Subscription | {| ...Stream, in_home_view: boolean |}, Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getSubscriptions(state),
