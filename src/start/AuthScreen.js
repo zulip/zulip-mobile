@@ -188,6 +188,7 @@ let otp = '';
  */
 type LinkingEvent = {
   url: string,
+  ...
 };
 
 class AuthScreen extends PureComponent<Props> {
