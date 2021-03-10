@@ -278,10 +278,10 @@ export type TopicsState = {|
 |};
 
 export type TypingState = {|
-  [normalizedRecipients: string]: {
+  [normalizedRecipients: string]: {|
     time: number,
     userIds: UserId[],
-  },
+  |},
 |};
 
 export type UserGroupsState = UserGroup[];
