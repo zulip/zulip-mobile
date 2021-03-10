@@ -605,7 +605,7 @@ export type StreamMessage = $ReadOnly<{|
  * See also `MessagesState` for discussion of how we fetch and store message
  * data.
  */
-export type Message = MessageBase;
+export type Message = PmMessage | StreamMessage;
 
 //
 //
