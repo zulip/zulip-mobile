@@ -104,14 +104,14 @@ type WebViewOutboundEventWarn = {|
 
 type WebViewOutboundEventError = {|
   type: 'error',
-  details: {
+  details: {|
     message: string,
     source: string,
     line: number,
     column: number,
     userAgent: string,
     error: Error,
-  },
+  |},
 |};
 
 type WebViewOutboundEventReactionDetails = {|
