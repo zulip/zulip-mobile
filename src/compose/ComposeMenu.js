@@ -77,6 +77,7 @@ class ComposeMenu extends PureComponent<Props> {
       // surfaced in https://github.com/zulip/zulip-mobile/issues/3813:
       // https://github.com/react-native-community/react-native-image-picker/issues/1271
       fileName: ?string,
+      ...
     }>,
   ) => {
     if (response.didCancel) {
