@@ -6,7 +6,7 @@ import type { Narrow } from '../types';
 // `MessageList`'s props are type-checked.
 type Props = $ReadOnly<{
   narrow: Narrow,
-  messages: $ReadOnlyArray<$ReadOnly<{ id: number }>>,
+  messages: $ReadOnlyArray<$ReadOnly<{ id: number, ... }>>,
   ...
 }>;
 
