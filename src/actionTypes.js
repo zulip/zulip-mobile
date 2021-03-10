@@ -264,10 +264,10 @@ type EventSubscriptionRemoveAction = {|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'remove',
-  subscriptions: Array<{
+  subscriptions: Array<{|
     name: string,
     stream_id: number,
-  }>,
+  |}>,
 |};
 
 type EventSubscriptionUpdateAction = {|

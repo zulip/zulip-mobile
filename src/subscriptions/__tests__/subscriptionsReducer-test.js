@@ -97,7 +97,10 @@ describe('subscriptionsReducer', () => {
         type: EVENT_SUBSCRIPTION,
         op: 'remove',
         id: 1,
-        subscriptions: [sub1, sub2],
+        subscriptions: [
+          { name: sub1.name, stream_id: sub1.stream_id },
+          { name: sub2.name, stream_id: sub2.stream_id },
+        ],
       });
 
       const expectedState = [sub3];
@@ -114,7 +117,10 @@ describe('subscriptionsReducer', () => {
         type: EVENT_SUBSCRIPTION,
         op: 'remove',
         id: 1,
-        subscriptions: [sub1, sub2],
+        subscriptions: [
+          { name: sub1.name, stream_id: sub1.stream_id },
+          { name: sub2.name, stream_id: sub2.stream_id },
+        ],
       });
 
       const expectedState = [];
