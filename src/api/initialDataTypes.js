@@ -259,7 +259,7 @@ export type InitialDataUpdateMessageFlags = {|
   // This is computed by `aggregate_unread_data` and its helper
   // `aggregate_message_dict`, consuming data supplied by
   // `get_raw_unread_data`, all found in `zerver/lib/message.py`.
-  unread_msgs: {
+  unread_msgs: {|
     /**
      * Unread stream messages.
      *
@@ -286,7 +286,7 @@ export type InitialDataUpdateMessageFlags = {|
      * messages that are muted.
      */
     count: number,
-  },
+  |},
 |};
 
 export type InitialDataUserStatus = {|
