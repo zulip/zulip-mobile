@@ -513,7 +513,6 @@ type MessageBase = $ReadOnly<{|
   // Properties that behave differently for stream vs. private messages.
   // TODO: Move all these to `PmMessage` and `StreamMessage`.
 
-  subject: string,
   subject_links: $ReadOnlyArray<string>,
 |}>;
 
@@ -550,6 +549,8 @@ export type PmMessage = $ReadOnly<{|
    * The ordering is less well specified; if it matters, sort first.
    */
   display_recipient: $ReadOnlyArray<PmRecipientUser>,
+
+  subject: '',
 |}>;
 
 export type StreamMessage = $ReadOnly<{|
@@ -566,6 +567,8 @@ export type StreamMessage = $ReadOnly<{|
   display_recipient: string,
 
   stream_id: number,
+
+  subject: string,
 |}>;
 
 /**

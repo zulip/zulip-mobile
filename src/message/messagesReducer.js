@@ -140,7 +140,6 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
         const messageWithNewCommonFields: M = {
           ...(oldMessage: M),
           content: action.rendered_content || oldMessage.content,
-          subject: action.subject || oldMessage.subject,
           subject_links: action.subject_links || oldMessage.subject_links,
           edit_history: [
             action.orig_rendered_content
@@ -171,11 +170,10 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
         return messageWithNewCommonFields.type === 'stream'
           ? {
               ...messageWithNewCommonFields,
-              // stream-message fields will go here
+              subject: action.subject || oldMessage.subject,
             }
           : {
               ...messageWithNewCommonFields,
-              // pm-message fields will go here
             };
       });
 
