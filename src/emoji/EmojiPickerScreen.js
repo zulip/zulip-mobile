@@ -43,7 +43,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
 
   getReactionTypeAndCode = (
     emojiName: string,
-  ): { reactionType: ReactionType, emojiCode: string } => {
+  ): {| reactionType: ReactionType, emojiCode: string |} => {
     const { activeImageEmojiByName } = this.props;
     const imageEmoji = activeImageEmojiByName[emojiName];
     if (imageEmoji) {
