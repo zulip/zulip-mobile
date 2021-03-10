@@ -1,10 +1,10 @@
 /* @flow strict-local */
 
-export type Language = {
+export type Language = {|
   locale: string,
   name: string,
   nativeName: string,
-};
+|};
 
 /**
  * The set of languages we offer in the language settings screen.
