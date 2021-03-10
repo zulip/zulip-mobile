@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -eu
 
-# This script isn't meant to be run routinely, so we let it be a bit
+# Generate the many different versions of our logo we need across the app.
+#
+# This script is not run as part of the build, in order to avoid introducing
+# its somewhat specialized dependencies as requirements for normal
+# development.  Instead, we keep its outputs checked into the repo.
+
+# Because this script isn't meant to be run routinely, we let it be a bit
 # rough-and-ready in its interface.  But it should error early if it's
 # missing anything it needs.
 #
@@ -180,3 +186,11 @@ inkscape "${src_icon_circle}" -w 160 --export-png=static/img/logo.png
 make_ios
 
 make_android
+
+cat <<'EOF'
+
+Done!
+
+If `git status` shows any changes in this script's outputs, be sure to
+commit those alongside your changes to the script itself.
+EOF
