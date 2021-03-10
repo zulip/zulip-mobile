@@ -138,7 +138,8 @@ make_webp() {
 }
 
 make_one_android_icon() {
-    local src="$1" sourceset="$2" restype="$3" name="$4" size_px="$5" density="$6"
+    # SET BY CALLER: src sourceset restype name
+    local size_px="$1" density="$2"
     local output=android/app/src/"${sourceset}"/res/"${restype}"-"${density}"/"${name}".webp
     mkdir -p "${output%/*}"
     make_webp "${src}" "${size_px}" "${output}"
@@ -151,16 +152,11 @@ make_android_icon() {
 
     # Scale factors from:
     #   https://developer.android.com/training/multiscreen/screendensities#TaskProvideAltBmp
-    make_one_android_icon "${src}" "${sourceset}" "${restype}" "${name}" \
-      "${size_dp}" mdpi
-    make_one_android_icon "${src}" "${sourceset}" "${restype}" "${name}" \
-      $(( size_dp * 3 / 2 )) hdpi
-    make_one_android_icon "${src}" "${sourceset}" "${restype}" "${name}" \
-      $(( size_dp * 2 )) xhdpi
-    make_one_android_icon "${src}" "${sourceset}" "${restype}" "${name}" \
-      $(( size_dp * 3 )) xxhdpi
-    make_one_android_icon "${src}" "${sourceset}" "${restype}" "${name}" \
-      $(( size_dp * 4 )) xxxhdpi
+    make_one_android_icon  "${size_dp}"          mdpi
+    make_one_android_icon $(( size_dp * 3 / 2 )) hdpi
+    make_one_android_icon $(( size_dp *   2   )) xhdpi
+    make_one_android_icon $(( size_dp *   3   )) xxhdpi
+    make_one_android_icon $(( size_dp *   4   )) xxxhdpi
 }
 
 make_android() {
