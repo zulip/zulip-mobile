@@ -78,7 +78,7 @@ make_one_ios_app_icon() {
 }
 
 make_ios_app_icon() {
-    local iconset=ios/ZulipMobile/Images.xcassets/AppIcon.appiconset
+    local iconset=ios/ZulipMobile/Assets.xcassets/AppIcon.appiconset
     rm -rf "${iconset}"
     mkdir -p "${iconset}"
 
