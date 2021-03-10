@@ -268,7 +268,7 @@ export class NotificationListener {
       // On iOS, `note` should be an IOSNotifications object. The notification
       // data it returns from `getData` is unvalidated -- it comes almost
       // straight off the wire from the server.
-      this.listen('notificationOpened', (note: { getData(): JSONableDict }) => {
+      this.listen('notificationOpened', (note: { getData(): JSONableDict, ... }) => {
         const data = fromAPNs(note.getData());
         if (data) {
           this.handleNotificationOpen(data);
