@@ -49,8 +49,6 @@ const styles = createStyleSheet({
 
     // Based on MarkUnreadButton.
     // TODO make these less ad hoc.
-    // TODO also make the actual touch target taller, like 48px.
-    //   (Can extend beyond the visual representation of the button itself.)
     borderWidth: 0,
     borderRadius: 16,
     height: 32,
@@ -81,6 +79,12 @@ class MentionedUserNotSubscribed extends PureComponent<Props> {
   }
   render() {
     const { user, height } = this.props;
+    const hitSlop = {
+      top: 6,
+      right: 0,
+      bottom: 6,
+      left: 0,
+    };
 
     return (
       <View style={[styles.wrapper, { bottom: height }]}>
@@ -97,6 +101,7 @@ class MentionedUserNotSubscribed extends PureComponent<Props> {
             textStyle={styles.buttonText}
             text="Subscribe"
             onPress={this.subscribeToStream}
+            hitSlop={hitSlop}
           />
         </TouchableOpacity>
       </View>
