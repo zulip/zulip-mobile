@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 import type { UserId } from '../types';
 import * as NavigationService from '../nav/NavigationService';
@@ -23,17 +23,19 @@ export default function TitleGroup(props: Props) {
   const { userIds } = props;
   return (
     <View style={styles.navWrapper}>
-      {userIds.map(userId => (
-        <View key={userId} style={componentStyles.titleAvatar}>
-          <UserAvatarWithPresenceById
-            onPress={() => {
-              NavigationService.dispatch(navigateToAccountDetails(userId));
-            }}
-            size={32}
-            userId={userId}
-          />
-        </View>
-      ))}
+      <ScrollView horizontal>
+        {userIds.map(userId => (
+          <View key={userId} style={componentStyles.titleAvatar}>
+            <UserAvatarWithPresenceById
+              onPress={() => {
+                NavigationService.dispatch(navigateToAccountDetails(userId));
+              }}
+              size={32}
+              userId={userId}
+            />
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
