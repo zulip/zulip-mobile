@@ -48,6 +48,17 @@ export type BoundedDiff<-U, -L> = $Diff<
 >;
 
 /**
+ * The object type `T` with its readonly annotation stripped.
+ */
+// The implementation relies on facebook/flow#6225, so it will
+// naturally have to change when that gets fixed.
+//
+// See discussion for an alternative, with `$ObjMap`, that seemed like
+// it was going to work, but didn't:
+//   https://github.com/zulip/zulip-mobile/pull/4520#discussion_r593394451.
+export type ReadWrite<T: $ReadOnly<{ ... }>> = $Diff<T, {||}>;
+
+/**
  * An object type with a subset of T's properties, namely those in U.
  *
  * Gives an error unless all properties of U also appear in T.  Each
