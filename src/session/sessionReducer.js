@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Debug, Orientation, Action } from '../types';
+import type { GlobalState, Debug, Orientation, Action } from '../types';
 import {
   REHYDRATE,
   DEAD_QUEUE,
@@ -93,7 +93,15 @@ const initialState: SessionState = {
 
 const rehydrate = (state, action) => {
   const { payload } = action;
-  const haveApiKey = !!(payload && payload.accounts && hasAuth(payload));
+  const haveApiKey = !!(
+    payload
+    && payload.accounts
+    && hasAuth(
+      /* $FlowFixMe: `payload` may have `null` at any of its
+         properties; see `RehydrateAction` type. */
+      (payload: GlobalState),
+    )
+  );
   return {
     ...state,
     isHydrated: true,

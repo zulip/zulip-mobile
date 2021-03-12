@@ -75,8 +75,6 @@ export function createMigrationImpl(
       throw new Error('createMigration: bad arguments');
     }
     if (action.type === REHYDRATE) {
-      // $FlowIgnore[prop-missing]
-      // $FlowIgnore[incompatible-exact]
       /* $FlowIgnore[incompatible-type]
          this really is a lie -- and kind of central to migration */
       const incomingState: State = action.payload;

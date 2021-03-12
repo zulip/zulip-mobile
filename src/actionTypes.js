@@ -110,7 +110,7 @@ import type { ZulipVersion } from './utils/zulipVersion';
  */
 type RehydrateAction = {|
   type: typeof REHYDRATE,
-  payload: GlobalState | { accounts: null } | {||} | void,
+  payload: $ReadOnly<$ObjMap<$Rest<GlobalState, { ... }>, <V>(V) => V | null>> | void,
   error: mixed,
 |};
 
