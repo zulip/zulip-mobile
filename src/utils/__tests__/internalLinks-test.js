@@ -288,7 +288,6 @@ describe('getNarrowFromLink', () => {
 
     test('on malformed stream link: treat as old format', () => {
       const expectAsName = name => expectStream(name, [streamGeneral], name);
-      expectAsName(`${streamGeneral.stream_id}`);
       expectAsName(`-${streamGeneral.stream_id}`);
       expectAsName(`${streamGeneral.stream_id}nonsense-general`);
     });
@@ -310,7 +309,7 @@ describe('getNarrowFromLink', () => {
 
       test('on ambiguous new- or old-style: new wins', () => {
         const collider = { ...eg.makeStream({ name: 'collider' }), stream_id: 311 };
-        expectStream('311', [numbers, collider], '311'); // malformed for new-style
+        expectStream('311', [numbers, collider], '311'); // will soon recognize this as the new style
         expectStream('311-', [numbersHyphen, collider], 'collider');
         expectStream('311-help', [numbersPlus, collider], 'collider');
       });
