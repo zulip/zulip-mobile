@@ -372,7 +372,7 @@ PODS:
     - RNSound/Core (= 0.11.0)
   - RNSound/Core (0.11.0):
     - React
-  - RNVectorIcons (7.1.0):
+  - RNVectorIcons (7.0.0):
     - React
   - Sentry (6.1.4):
     - Sentry/Core (= 6.1.4)
@@ -702,7 +702,7 @@ SPEC CHECKSUMS:
   RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNSentry: 7104cdfc1072ccb86015d9c8f210d81ae76806c1
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
-  RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
+  RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
   Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   UMAppLoader: 61049c8d55590b74e9ae1d5429bf68d96b4a2528
