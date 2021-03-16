@@ -32,9 +32,12 @@ details to worry about.
 **Windows**:
 
 * After installing Git, you'll also need to [install
-  `rsync`][install-rsync].
+  `rsync`][install-rsync].  (You may need to first [install
+  `zstd`][install-zstd-first] in order to unpack that `rsync`
+  package.)
 
 [install-rsync]: https://serverfault.com/a/872557
+[install-zstd-first]: https://serverfault.com/questions/310337/using-rsync-from-msysgit-for-binary-files/872557#comment1377770_872557
 
 * For running `tools/run-android` or any other build commands,
   use the Git Bash prompt.  The Windows Command Prompt isn't supported.
