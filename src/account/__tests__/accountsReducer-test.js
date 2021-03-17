@@ -72,12 +72,19 @@ describe('accountsReducer', () => {
   });
 
   describe('LOGIN_SUCCESS', () => {
-    const account1 = eg.makeAccount({ email: '', realm: new URL('https://one.example.org') });
-    const account2 = eg.makeAccount({ realm: new URL('https://two.example.org') });
+    const account1 = eg.makeAccount({
+      email: '',
+      realm: new URL('https://one.example.org'),
+      ackedPushToken: eg.randString(),
+    });
+    const account2 = eg.makeAccount({
+      realm: new URL('https://two.example.org'),
+      ackedPushToken: eg.randString(),
+    });
 
     const prevState = deepFreeze([account1, account2]);
 
-    test('on login, update initial account with auth information, without clobbering anything else', () => {
+    test("on login, update initial account with auth information, set ackedPushToken to null, don't clobber anything else", () => {
       const newApiKey = eg.randString();
 
       const action = deepFreeze({
@@ -87,7 +94,7 @@ describe('accountsReducer', () => {
         realm: account1.realm,
       });
 
-      const expectedState = [{ ...account1, apiKey: newApiKey }, account2];
+      const expectedState = [{ ...account1, apiKey: newApiKey, ackedPushToken: null }, account2];
 
       const newState = accountsReducer(prevState, action);
 
@@ -123,7 +130,7 @@ describe('accountsReducer', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test('on login, if account does exist, merge new data, move to top, without clobbering anything else', () => {
+    test("on login, if account does exist, move to top, update with auth information, set ackedPushToken to null, don't clobber anything else", () => {
       const newApiKey = eg.randString();
 
       const action = deepFreeze({
@@ -133,7 +140,7 @@ describe('accountsReducer', () => {
         email: account2.email,
       });
 
-      const expectedState = [{ ...account2, apiKey: newApiKey }, account1];
+      const expectedState = [{ ...account2, apiKey: newApiKey, ackedPushToken: null }, account1];
 
       const newState = accountsReducer(prevState, action);
 
