@@ -77,62 +77,63 @@ describe('accountsReducer', () => {
 
     const prevState = deepFreeze([account1, account2]);
 
-    test('on login, update initial account with auth information, without clobbering zulipVersion', () => {
-      const newAccount = eg.makeAccount({
+    test('on login, update initial account with auth information, without clobbering anything else', () => {
+      const newApiKey = eg.randString();
+
+      const action = deepFreeze({
+        type: LOGIN_SUCCESS,
+        apiKey: newApiKey,
+        email: account1.email,
         realm: account1.realm,
-        zulipVersion: null,
       });
 
-      const action = deepFreeze({
-        type: LOGIN_SUCCESS,
-        apiKey: newAccount.apiKey,
-        email: newAccount.email,
-        realm: newAccount.realm,
-      });
-
-      const expectedState = [{ ...newAccount, zulipVersion: account1.zulipVersion }, account2];
+      const expectedState = [{ ...account1, apiKey: newApiKey }, account2];
 
       const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
 
-    test('on login, if account does not exist, add as first item', () => {
-      const newAccount = eg.makeAccount({
-        email: 'newaccount@example.com',
-        realm: new URL('https://new.realm.org'),
-        zulipVersion: null,
-        zulipFeatureLevel: null,
-      });
+    test('on login, if account does not exist, add as first item, with null zulipVersion, zulipFeatureLevel', () => {
+      const newApiKey = eg.randString();
+      const newEmail = 'newaccount@example.com';
+      const newRealm = new URL('https://new.realm.org');
 
       const action = deepFreeze({
         type: LOGIN_SUCCESS,
-        apiKey: newAccount.apiKey,
-        email: newAccount.email,
-        realm: newAccount.realm,
+        apiKey: newApiKey,
+        email: newEmail,
+        realm: newRealm,
       });
 
-      const expectedState = [newAccount, account1, account2];
+      const expectedState = [
+        eg.makeAccount({
+          realm: newRealm,
+          email: newEmail,
+          apiKey: newApiKey,
+          zulipVersion: null,
+          zulipFeatureLevel: null,
+        }),
+        account1,
+        account2,
+      ];
 
       const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
 
-    test('on login, if account does exist, merge new data, move to top, without clobbering zulipVersion', () => {
-      const newAccount = eg.makeAccount({
-        email: account2.email,
+    test('on login, if account does exist, merge new data, move to top, without clobbering anything else', () => {
+      const newApiKey = eg.randString();
+
+      const action = deepFreeze({
+        type: LOGIN_SUCCESS,
+        apiKey: newApiKey,
         realm: account2.realm,
-        zulipVersion: null,
-      });
-      const action = deepFreeze({
-        type: LOGIN_SUCCESS,
-        apiKey: newAccount.apiKey,
-        realm: newAccount.realm,
-        email: newAccount.email,
+        email: account2.email,
       });
 
-      const expectedState = [{ ...newAccount, zulipVersion: account2.zulipVersion }, account1];
+      const expectedState = [{ ...account2, apiKey: newApiKey }, account1];
 
       const newState = accountsReducer(prevState, action);
 
