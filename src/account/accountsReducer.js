@@ -34,8 +34,7 @@ const accountSwitch = (state, action) => {
 const findAccount = (state: AccountsState, identity: Identity): number => {
   const { realm, email } = identity;
   return state.findIndex(
-    account =>
-      account.realm.toString() === realm.toString() && (!account.email || account.email === email),
+    account => account.realm.toString() === realm.toString() && account.email === email,
   );
 };
 

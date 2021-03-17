@@ -73,7 +73,6 @@ describe('accountsReducer', () => {
 
   describe('LOGIN_SUCCESS', () => {
     const account1 = eg.makeAccount({
-      email: '',
       realm: new URL('https://one.example.org'),
       ackedPushToken: eg.randString(),
     });
