@@ -71,7 +71,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
 
     return (
-      <Screen search scrollEnabled={false} searchBarOnChange={this.handleInputChange}>
+      <Screen search autoFocus scrollEnabled={false} searchBarOnChange={this.handleInputChange}>
         <FlatList
           keyboardShouldPersistTaps="always"
           initialNumToRender={20}
