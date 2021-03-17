@@ -113,7 +113,7 @@ describe('accountsReducer', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test("on login, if account does exist, move to top, update with auth information, set ackedPushToken to null, don't clobber anything else", () => {
+    test("on login, if account does exist, move to top, update with apiKey, set ackedPushToken to null, don't clobber anything else", () => {
       const newApiKey = eg.randString();
 
       const action = deepFreeze({
