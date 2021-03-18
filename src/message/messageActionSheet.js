@@ -37,27 +37,34 @@ export type ShowActionSheetWithOptions = (
   (number) => void,
 ) => void;
 
-/** Description of a possible option for the action sheet. */
-type ButtonDescription = {
-  /** The callback. */
-  ({
-    auth: Auth,
-    ownUser: User,
-    message: Message | Outbox,
-    subscriptions: Subscription[],
-    dispatch: Dispatch,
-    _: GetText,
-    startEditMessage: (editMessage: EditMessage) => void,
-    ...
-  }): void | Promise<void>,
+type HeaderArgs = {
+  auth: Auth,
+  message: Message | Outbox,
+  subscriptions: Subscription[],
+  dispatch: Dispatch,
+  _: GetText,
+  ...
+};
+
+type MessageArgs = {
+  auth: Auth,
+  ownUser: User,
+  message: Message | Outbox,
+  dispatch: Dispatch,
+  _: GetText,
+  startEditMessage: (editMessage: EditMessage) => void,
+  ...
+};
+
+type Button<Args: HeaderArgs | MessageArgs> = {|
+  (Args): void | Promise<void>,
   title: string,
 
   /** The title of the alert-box that will be displayed if the callback throws. */
   // Required even when the callback can't throw (e.g., "Cancel"), since we can't
   // otherwise ensure that everything that _can_ throw has one.
   errorMessage: string,
-  ...
-};
+|};
 
 //
 // Options for the action sheet go below: ...
@@ -222,7 +229,7 @@ export const constructHeaderActionButtons = ({
     ...
   }>,
   message: Message | Outbox,
-|}): ButtonDescription[] => {
+|}): Button<HeaderArgs>[] => {
   const buttons = [];
   if (message.type === 'stream') {
     if (ownUser.is_admin) {
@@ -245,7 +252,7 @@ export const constructHeaderActionButtons = ({
   return buttons;
 };
 
-export const constructOutboxActionButtons = (): ButtonDescription[] => {
+export const constructOutboxActionButtons = (): Button<MessageArgs>[] => {
   const buttons = [];
   buttons.push(copyToClipboard);
   buttons.push(shareMessage);
@@ -268,7 +275,7 @@ export const constructMessageActionButtons = ({
   }>,
   message: Message,
   narrow: Narrow,
-}): ButtonDescription[] => {
+}): Button<MessageArgs>[] => {
   const buttons = [];
   if (messageNotDeleted(message)) {
     buttons.push(addReaction);
@@ -314,7 +321,7 @@ export const constructNonHeaderActionButtons = ({
   }>,
   message: Message | Outbox,
   narrow: Narrow,
-|}): ButtonDescription[] => {
+|}): Button<MessageArgs>[] => {
   if (message.isOutbox) {
     return constructOutboxActionButtons();
   } else {
@@ -360,7 +367,7 @@ export const showMessageActionSheet = ({
   const buttonList = constructNonHeaderActionButtons({ backgroundData, message, narrow });
   const callback = buttonIndex => {
     (async () => {
-      const pressedButton: ButtonDescription = buttonList[buttonIndex];
+      const pressedButton: Button<MessageArgs> = buttonList[buttonIndex];
       try {
         await pressedButton({
           ...backgroundData,
@@ -406,7 +413,7 @@ export const showHeaderActionSheet = ({
   const buttonList = constructHeaderActionButtons({ backgroundData, message });
   const callback = buttonIndex => {
     (async () => {
-      const pressedButton: ButtonDescription = buttonList[buttonIndex];
+      const pressedButton: Button<HeaderArgs> = buttonList[buttonIndex];
       try {
         await pressedButton({
           ...backgroundData,
