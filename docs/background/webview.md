@@ -1,8 +1,8 @@
 # WebView
 
 We show the message list inside a browser environment, in a `WebView`
-component.
-
+component. For an overview of why we use a WebView for this, see
+[this CZO thread](https://chat.zulip.org/#narrow/stream/48-mobile/topic/Message.20List.20History/near/809351).
 
 ## Styling
 
