@@ -6,10 +6,19 @@
 ### Index:
 
 * [Git: commits, commit messages](#git)
+  * [Communicating in the commit message](#commit-message)
+  * [Squashing and not-squashing commits](#commit-series)
+  * [Commit messages, comments, code](#commit-messages-code)
+  * [Mentioning people](#mentioning-people)
+  * [Mentioning commits](#mentioning-commits)
 * [GitHub: PRs, issues](#github)
 * [JavaScript, Flow, JS libraries](#js)
 * [Internal to Zulip and our codebase](#zulip)
+  * [Zulip API bindings](#zulip-api-bindings)
+  * [Zulip data model](#zulip-data-model)
 * [WebView: HTML, CSS, JS](#webview)
+  * [HTML](#webview-html)
+  * [Styling/CSS](#webview-styling)
 
 
 <div id="git" />
@@ -31,6 +40,8 @@ Zulip maintainers spend a lot of time reading Git commits, which is a
 major reason we keep high standards for commit clarity.  These tips
 will help you get a lot of value from reading Git history too.
 
+
+<div id="commit-message" />
 
 ### Communicating in the commit message
 
@@ -75,6 +86,8 @@ your change:
   config file, etc.)
 
 
+<div id="commit-series" />
+
 ### Squashing and not-squashing commits
 
 Here again, see also the Zulip guide to [clear and coherent
@@ -118,6 +131,8 @@ that the other side was just added.
 [the merge of #3263]: https://github.com/zulip/zulip-mobile/pull/3263#issuecomment-460918886
 
 
+<div id="commit-messages-code" />
+
 ### Commit messages, comments, code
 
 **Update commit messages when you update a branch.**
@@ -142,6 +157,8 @@ In general:
     information clear in the code itself.  Many kinds of information
     don't fit there; for those, use comments.
 
+
+<div id="mentioning-people" />
 
 ### Mentioning people
 
@@ -198,6 +215,8 @@ basically amounts to an @-mention!  Other common lines include
 
 and there's no fixed list; people invent others.
 
+
+<div id="mentioning-commits" />
 
 ### Mentioning commits
 
@@ -328,6 +347,9 @@ provided by Immutable.js, or some combination.)
 
 ## Internal to Zulip and our codebase
 
+
+<div id="zulip-api-bindings" />
+
 ### Zulip API bindings
 
 **Use `import * as api` and `api.doThing(…)`**: When invoking our
@@ -362,6 +384,8 @@ in exactly the same places as we're defining those other values.  The
 apart from related functions at different layers.
 
 
+<div id="zulip-data-model" />
+
 ### Zulip data model
 
 **Avoid using `display_recipient` directly**: When inspecting a
@@ -381,6 +405,8 @@ semantics, which makes refactoring easier.
 <div id="webview" />
 
 ## WebView: HTML, CSS, JS
+
+<div id="webview-html" />
 
 ### HTML
 
@@ -403,6 +429,8 @@ See [chat discussion][class-conflict-chat] for further rationale.
 
 [class-conflict-chat]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/Weird.20timestamps/near/1075485
 
+
+<div id="webview-styling" />
 
 ### Styling/CSS
 
