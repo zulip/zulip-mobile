@@ -24,6 +24,7 @@ const initialState = {
   twentyFourHourTime: false,
   canCreateStreams: true,
   isAdmin: false,
+  isTopicMandatory: false,
 };
 
 const convertRealmEmoji = (data): RealmEmojiById =>
@@ -66,6 +67,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
           jitsiServerUrl: action.data.jitsi_server_url,
           providerId: action.data.realm_video_chat_provider,
         }),
+        isTopicMandatory: action.data.realm_mandatory_topics,
 
         email: action.data.email,
         user_id: action.data.user_id,

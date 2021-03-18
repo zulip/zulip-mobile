@@ -45,6 +45,7 @@ import MentionWarnings from './MentionWarnings';
 import {
   getAuth,
   getIsAdmin,
+  getIsTopicMandatory,
   getLastMessageTopic,
   getCaughtUpForNarrow,
   getStreamInNarrow,
@@ -64,6 +65,7 @@ type SelectorProps = {|
   ownUserId: UserId,
   allUsersById: Map<UserId, UserOrBot>,
   isAdmin: boolean,
+  isTopicMandatory: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
   draft: string,
@@ -320,14 +322,17 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleSend = () => {
-    const { dispatch, narrow, caughtUp, _ } = this.props;
-    const { message } = this.state;
+    const { dispatch, narrow, caughtUp, _, isTopicMandatory } = this.props;
+    const { message, topic } = this.state;
 
     if (!caughtUp.newer) {
       showErrorAlert(_('Failed to send message'));
       return;
     }
-
+    if (isTopicMandatory && topic === '') {
+      showErrorAlert(_('Please specify a topic'));
+      return;
+    }
     dispatch(addToOutbox(this.getDestinationNarrow(), message));
 
     this.setMessageInputValue('');
@@ -529,6 +534,7 @@ export default compose(
     ownUserId: getOwnUserId(state),
     allUsersById: getAllUsersById(state),
     isAdmin: getIsAdmin(state),
+    isTopicMandatory: getIsTopicMandatory(state),
     isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
     isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
     draft: getDraftForNarrow(state, props.narrow),

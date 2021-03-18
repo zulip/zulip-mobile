@@ -282,6 +282,8 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     ...state,
     accounts: state.accounts.filter(a => a.email !== ''),
   }),
+  // Add `isTopicMandatory` to `state.realm`.
+  '28': dropCache,
 
   // TIP: When adding a migration, consider just using `dropCache`.
 };
