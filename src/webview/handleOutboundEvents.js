@@ -9,7 +9,7 @@ import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
-import { pmUiRecipientsFromMessage } from '../utils/recipient';
+import { streamNameOfStreamMessage, pmUiRecipientsFromMessage } from '../utils/recipient';
 import { isUrlAnImage } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -218,7 +218,8 @@ const handleLongPress = (
         showActionSheetWithOptions,
         callbacks: { dispatch, startEditMessage, _ },
         backgroundData,
-        message,
+        stream: streamNameOfStreamMessage(message),
+        topic: message.subject,
       });
     } else if (message.type === 'private') {
       const label = pmUiRecipientsFromMessage(message, backgroundData.ownUser.user_id)

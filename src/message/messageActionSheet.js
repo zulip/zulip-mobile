@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import invariant from 'invariant';
 import { Clipboard, Share, Alert } from 'react-native';
 
 import * as NavigationService from '../nav/NavigationService';
@@ -27,7 +26,6 @@ import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
-import { streamNameOfStreamMessage } from '../utils/recipient';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
 
@@ -373,7 +371,8 @@ export const showHeaderActionSheet = ({
   showActionSheetWithOptions,
   callbacks,
   backgroundData,
-  message,
+  topic,
+  stream,
 }: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
@@ -388,13 +387,13 @@ export const showHeaderActionSheet = ({
     ownUser: User,
     flags: FlagsState,
   }>,
-  message: Message | Outbox,
+  stream: string,
+  topic: string,
 |}): void => {
-  invariant(message.type === 'stream', 'showHeaderActionSheet: got PM');
   const buttonList = constructHeaderActionButtons({
     backgroundData,
-    stream: streamNameOfStreamMessage(message),
-    topic: message.subject,
+    stream,
+    topic,
   });
   const callback = buttonIndex => {
     (async () => {
@@ -403,8 +402,8 @@ export const showHeaderActionSheet = ({
         await pressedButton({
           ...backgroundData,
           ...callbacks,
-          stream: streamNameOfStreamMessage(message),
-          topic: message.subject,
+          stream,
+          topic,
         });
       } catch (err) {
         Alert.alert(callbacks._(pressedButton.errorMessage), err.message);
@@ -413,7 +412,7 @@ export const showHeaderActionSheet = ({
   };
   showActionSheetWithOptions(
     {
-      title: `#${streamNameOfStreamMessage(message)} > ${message.subject}`,
+      title: `#${stream} > ${topic}`,
       options: buttonList.map(button => callbacks._(button.title)),
       cancelButtonIndex: buttonList.length - 1,
     },
