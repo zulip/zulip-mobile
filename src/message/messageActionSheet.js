@@ -39,7 +39,8 @@ export type ShowActionSheetWithOptions = (
 
 type HeaderArgs = {
   auth: Auth,
-  message: Message | Outbox,
+  stream: string,
+  topic: string,
   subscriptions: Subscription[],
   dispatch: Dispatch,
   _: GetText,
@@ -112,25 +113,20 @@ const deleteMessage = async ({ auth, message, dispatch }) => {
 deleteMessage.title = 'Delete message';
 deleteMessage.errorMessage = 'Failed to delete message';
 
-const unmuteTopic = async ({ auth, message }) => {
-  invariant(message.type === 'stream', 'unmuteTopic: got PM');
-  await api.unmuteTopic(auth, streamNameOfStreamMessage(message), message.subject);
+const unmuteTopic = async ({ auth, stream, topic }) => {
+  await api.unmuteTopic(auth, stream, topic);
 };
 unmuteTopic.title = 'Unmute topic';
 unmuteTopic.errorMessage = 'Failed to unmute topic';
 
-const muteTopic = async ({ auth, message }) => {
-  invariant(message.type === 'stream', 'muteTopic: got PM');
-  await api.muteTopic(auth, streamNameOfStreamMessage(message), message.subject);
+const muteTopic = async ({ auth, stream, topic }) => {
+  await api.muteTopic(auth, stream, topic);
 };
 muteTopic.title = 'Mute topic';
 muteTopic.errorMessage = 'Failed to mute topic';
 
-const deleteTopic = async ({ auth, message, dispatch, _ }) => {
-  invariant(message.type === 'stream', 'deleteTopic: got PM');
-  const alertTitle = _('Are you sure you want to delete the topic “{topic}”?', {
-    topic: message.subject,
-  });
+const deleteTopic = async ({ auth, stream, topic, dispatch, _ }) => {
+  const alertTitle = _('Are you sure you want to delete the topic “{topic}”?', { topic });
   const AsyncAlert = async (): Promise<boolean> =>
     new Promise((resolve, reject) => {
       Alert.alert(
@@ -156,15 +152,14 @@ const deleteTopic = async ({ auth, message, dispatch, _ }) => {
       );
     });
   if (await AsyncAlert()) {
-    await dispatch(deleteMessagesForTopic(streamNameOfStreamMessage(message), message.subject));
+    await dispatch(deleteMessagesForTopic(stream, topic));
   }
 };
 deleteTopic.title = 'Delete topic';
 deleteTopic.errorMessage = 'Failed to delete topic';
 
-const unmuteStream = async ({ auth, message, subscriptions }) => {
-  invariant(message.type === 'stream', 'unmuteStream: got PM');
-  const sub = subscriptions.find(x => x.name === streamNameOfStreamMessage(message));
+const unmuteStream = async ({ auth, stream, subscriptions }) => {
+  const sub = subscriptions.find(x => x.name === stream);
   if (sub) {
     await api.toggleMuteStream(auth, sub.stream_id, false);
   }
@@ -172,9 +167,8 @@ const unmuteStream = async ({ auth, message, subscriptions }) => {
 unmuteStream.title = 'Unmute stream';
 unmuteStream.errorMessage = 'Failed to unmute stream';
 
-const muteStream = async ({ auth, message, subscriptions }) => {
-  invariant(message.type === 'stream', 'muteStream: got PM');
-  const sub = subscriptions.find(x => x.name === streamNameOfStreamMessage(message));
+const muteStream = async ({ auth, stream, subscriptions }) => {
+  const sub = subscriptions.find(x => x.name === stream);
   if (sub) {
     await api.toggleMuteStream(auth, sub.stream_id, true);
   }
@@ -409,7 +403,8 @@ export const showHeaderActionSheet = ({
         await pressedButton({
           ...backgroundData,
           ...callbacks,
-          message,
+          stream: streamNameOfStreamMessage(message),
+          topic: message.subject,
         });
       } catch (err) {
         Alert.alert(callbacks._(pressedButton.errorMessage), err.message);
