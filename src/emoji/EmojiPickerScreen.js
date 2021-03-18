@@ -16,6 +16,8 @@ import { connect } from '../react-redux';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
+import * as logging from '../utils/logging';
+import { showToast } from '../utils/info';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'emoji-picker'>,
@@ -60,7 +62,10 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     const { messageId } = route.params;
 
     const { reactionType, emojiCode } = this.getReactionTypeAndCode(emojiName);
-    api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName);
+    api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName).catch(err => {
+      logging.error('Error adding reaction emoji', err);
+      showToast(`${err}`);
+    });
     NavigationService.dispatch(navigateBack());
   };
 
