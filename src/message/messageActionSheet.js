@@ -352,9 +352,7 @@ const getActionSheetTitle = (message: Message | Outbox, ownUser: User): string =
   }
 };
 
-/** Invoke the given callback to show an appropriate action sheet. */
-export const showActionSheet = (
-  isHeader: boolean,
+export const showMessageActionSheet = (
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
@@ -363,9 +361,7 @@ export const showActionSheet = (
   |},
   params: ConstructSheetParams<>,
 ): void => {
-  const optionCodes = isHeader
-    ? constructHeaderActionButtons(params)
-    : constructNonHeaderActionButtons(params);
+  const optionCodes = constructNonHeaderActionButtons(params);
   const callback = buttonIndex => {
     (async () => {
       const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];
@@ -384,11 +380,42 @@ export const showActionSheet = (
   };
   showActionSheetWithOptions(
     {
-      ...(isHeader
-        ? {
-            title: getActionSheetTitle(params.message, params.backgroundData.ownUser),
-          }
-        : {}),
+      options: optionCodes.map(code => callbacks._(allButtons[code].title)),
+      cancelButtonIndex: optionCodes.length - 1,
+    },
+    callback,
+  );
+};
+
+export const showHeaderActionSheet = (
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
+  callbacks: {|
+    dispatch: Dispatch,
+    startEditMessage: (editMessage: EditMessage) => void,
+    _: GetText,
+  |},
+  params: ConstructSheetParams<>,
+): void => {
+  const optionCodes = constructHeaderActionButtons(params);
+  const callback = buttonIndex => {
+    (async () => {
+      const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];
+      try {
+        await pressedButton({
+          subscriptions: params.backgroundData.subscriptions,
+          auth: params.backgroundData.auth,
+          ownUser: params.backgroundData.ownUser,
+          ...params,
+          ...callbacks,
+        });
+      } catch (err) {
+        Alert.alert(callbacks._(pressedButton.errorMessage), err.message);
+      }
+    })();
+  };
+  showActionSheetWithOptions(
+    {
+      title: getActionSheetTitle(params.message, params.backgroundData.ownUser),
       options: optionCodes.map(code => callbacks._(allButtons[code].title)),
       cancelButtonIndex: optionCodes.length - 1,
     },

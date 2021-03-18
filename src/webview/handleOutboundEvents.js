@@ -22,7 +22,7 @@ import {
   navigateToLightbox,
   messageLinkPress,
 } from '../actions';
-import { showActionSheet } from '../message/messageActionSheet';
+import { showHeaderActionSheet, showMessageActionSheet } from '../message/messageActionSheet';
 import { ensureUnreachable } from '../types';
 import { base64Utf8Decode } from '../utils/encoding';
 
@@ -211,12 +211,19 @@ const handleLongPress = (
     return;
   }
   const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
-  showActionSheet(
-    target === 'header',
-    showActionSheetWithOptions,
-    { dispatch, startEditMessage, _ },
-    { backgroundData, message, narrow },
-  );
+  if (target === 'header') {
+    showHeaderActionSheet(
+      showActionSheetWithOptions,
+      { dispatch, startEditMessage, _ },
+      { backgroundData, message, narrow },
+    );
+  } else if (target === 'message') {
+    showMessageActionSheet(
+      showActionSheetWithOptions,
+      { dispatch, startEditMessage, _ },
+      { backgroundData, message, narrow },
+    );
+  }
 };
 
 export const handleWebViewOutboundEvent = (
