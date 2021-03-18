@@ -9,16 +9,35 @@
   * [Communicating in the commit message](#commit-message)
   * [Squashing and not-squashing commits](#commit-series)
   * [Commit messages, comments, code](#commit-messages-code)
+    * [[link](#update-commit-messages)] Update commit messages when you
+      update a branch.
+    * [[link](#commit-messages-vs-comments)] Commit messages
+      vs. comments.
   * [Mentioning people](#mentioning-people)
   * [Mentioning commits](#mentioning-commits)
 * [GitHub: PRs, issues](#github)
+  * [[link](#mention-related-issues)] Mention all related issues in PR
+    or new issue.
+  * [[link](#mention-fixed-issue)] Mention a fixed issue in both PR
+    and commit message.
+  * [[link](#fixes-format)] Write `Fixes: #1234` when fixing an issue.
 * [JavaScript, Flow, JS libraries](#js)
+  * [[link](#invariant-assertions)] Use `invariant` for runtime
+    assertions the type-checker can use.
+  * [[link](#immutable-provide-type)] Always provide a type when
+    writing an empty `Immutable` value.
 * [Internal to Zulip and our codebase](#zulip)
   * [Zulip API bindings](#zulip-api-bindings)
+    * [[link](#import-api)] Use `import * as api` and `api.doThing(…)`.
   * [Zulip data model](#zulip-data-model)
+    * [[link](#avoid-display-recipient)] Avoid using
+      `display_recipient` directly.
 * [WebView: HTML, CSS, JS](#webview)
   * [HTML](#webview-html)
+    * [[link](#webview-avoid-colliding-classes)] Avoid classes that
+      the server might use in messages.
   * [Styling/CSS](#webview-styling)
+    * [[link](#px-rem-no-em)] Use `px`, sometimes `rem`, no `em`.
 
 
 <div id="git" />
@@ -135,11 +154,15 @@ that the other side was just added.
 
 ### Commit messages, comments, code
 
+<div id="update-commit-messages" />
+
 **Update commit messages when you update a branch.**
 The commit message is a key part of the content of a commit.
 So when you revise in response to code review feedback, be sure
 to edit the commit message as needed to match.
 
+
+<div id="commit-messages-vs-comments" />
 
 **Commit messages vs. comments.**
 In general:
@@ -241,6 +264,8 @@ abbreviation will ever be ambiguous.
 
 ## GitHub: PRs, issues
 
+<div id="mention-related-issues" />
+
 **Mention all related issues in PR or new issue.**
 When you submit a PR, mention in the PR description any issue it's
 intended to fix; or intended to help with; or could make worse; etc.
@@ -259,6 +284,8 @@ Be sure to use the PR (or issue) description, not the title: for
 whatever reason, GitHub doesn't count links in PR titles for creating
 automatic backlinks.
 
+
+<div id="mention-fixed-issue" />
 
 **Mention a fixed issue in both PR and commit message.**
 When you submit a fix for an issue, please refer to it *both*
@@ -281,6 +308,8 @@ include the reference anyway, despite that UI bug in GitHub.  We'll
 live with a little noise on the issue threads, and the references are
 extremely helpful when [reading the Git log](howto/git.md).
 
+
+<div id="fixes-format" />
 
 **Write `Fixes: #1234` when fixing an issue.**
 When a commit fixes an issue, use a line like `Fixes: #1234` at the
@@ -311,6 +340,8 @@ pick just one, and that's the one we use.
 
 ## JavaScript, Flow, JS libraries
 
+<div id="invariant-assertions" />
+
 **Use `invariant` for runtime assertions the type-checker can use**:
 If there's a fact you're sure is true at a certain point in the code,
 and you want the type-checker to know it so it will accept the code
@@ -327,6 +358,8 @@ definitely mean a bug within our own zulip-mobile codebase.
 
 [flow-invariant-pseudodocs]: https://github.com/facebook/flow/issues/6052
 
+
+<div id="immutable-provide-type" />
 
 **Always provide a type when writing an empty `Immutable` value**:
 Whenever you create an empty `Immutable.Map`, `Immutable.List`, or
@@ -351,6 +384,8 @@ provided by Immutable.js, or some combination.)
 <div id="zulip-api-bindings" />
 
 ### Zulip API bindings
+
+<div id="import-api" />
 
 **Use `import * as api` and `api.doThing(…)`**: When invoking our
 binding for an endpoint of the Zulip server API, write the code like
@@ -388,6 +423,8 @@ apart from related functions at different layers.
 
 ### Zulip data model
 
+<div id="avoid-display-recipient" />
+
 **Avoid using `display_recipient` directly**: When inspecting a
 `Message` object, or a relative like `Outbox`, never consume its
 `display_recipient` property directly.  Instead, always use one of the
@@ -409,6 +446,8 @@ semantics, which makes refactoring easier.
 <div id="webview-html" />
 
 ### HTML
+
+<div id="webview-avoid-colliding-classes" />
 
 **Avoid classes that the server might use in messages:** In our own
 HTML in the webview, we avoid using any class names which appear in
@@ -433,6 +472,8 @@ See [chat discussion][class-conflict-chat] for further rationale.
 <div id="webview-styling" />
 
 ### Styling/CSS
+
+<div id="px-rem-no-em" />
 
 **Use `px`, sometimes `rem`, no `em`:** For CSS lengths in the
 webview, we use `rem` for text and `px` for everything else.
