@@ -216,7 +216,7 @@ const handleLongPress = (
     if (message.type === 'stream') {
       showHeaderActionSheet({
         showActionSheetWithOptions,
-        callbacks: { dispatch, startEditMessage, _ },
+        callbacks: { dispatch, _ },
         backgroundData,
         stream: streamNameOfStreamMessage(message),
         topic: message.subject,

@@ -377,7 +377,6 @@ export const showHeaderActionSheet = ({
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
-    startEditMessage: (editMessage: EditMessage) => void,
     _: GetText,
   |},
   backgroundData: $ReadOnly<{
