@@ -3,6 +3,17 @@
 (This is not at all complete.)
 
 
+### Index:
+
+* [Git: commits, commit messages](#git)
+* [GitHub: PRs, issues](#github)
+* [JavaScript, Flow, JS libraries](#js)
+* [Internal to Zulip and our codebase](#zulip)
+* [WebView: HTML, CSS, JS](#webview)
+
+
+<div id="git" />
+
 ## Git: commits, commit messages
 
 ### See also
@@ -207,6 +218,8 @@ text; and it's long enough that it's extremely unlikely any given such
 abbreviation will ever be ambiguous.
 
 
+<div id="github" />
+
 ## GitHub: PRs, issues
 
 **Mention all related issues in PR or new issue.**
@@ -275,6 +288,8 @@ pick just one, and that's the one we use.
 [gh-close-issue-keywords]: https://help.github.com/en/github/managing-your-work-on-github/closing-issues-using-keywords
 
 
+<div id="js" />
+
 ## JavaScript, Flow, JS libraries
 
 **Use `invariant` for runtime assertions the type-checker can use**:
@@ -308,6 +323,8 @@ code that uses the new collection.  (It's not clear if this is a bug
 in Flow, or a design limitation of Flow, or an issue in the Flow types
 provided by Immutable.js, or some combination.)
 
+
+<div id="zulip" />
 
 ## Internal to Zulip and our codebase
 
@@ -360,6 +377,8 @@ Using the helper functions also helps us find all the places in the
 code where we're using a given aspect of the `display_recipient`
 semantics, which makes refactoring easier.
 
+
+<div id="webview" />
 
 ## WebView: HTML, CSS, JS
 
