@@ -18,6 +18,8 @@ const baseBackgroundData = deepFreeze({
   twentyFourHourTime: false,
 });
 
+const buttonTitles = buttons => buttons.map(button => button.title);
+
 describe('constructActionButtons', () => {
   const narrow = deepFreeze(HOME_NARROW);
 
@@ -29,7 +31,7 @@ describe('constructActionButtons', () => {
       message,
       narrow,
     });
-    expect(buttons).toContain('starMessage');
+    expect(buttonTitles(buttons)).toContain('Star message');
   });
 
   test('show unstar message option if message is starred', () => {
@@ -40,7 +42,7 @@ describe('constructActionButtons', () => {
       message,
       narrow,
     });
-    expect(buttons).toContain('unstarMessage');
+    expect(buttonTitles(buttons)).toContain('Unstar message');
   });
 
   test('show reactions option if message is has at least one reaction', () => {
@@ -49,7 +51,7 @@ describe('constructActionButtons', () => {
       message: eg.streamMessage({ reactions: [eg.unicodeEmojiReaction] }),
       narrow,
     });
-    expect(buttons).toContain('showReactions');
+    expect(buttonTitles(buttons)).toContain('See who reacted');
   });
 });
 
@@ -64,7 +66,7 @@ describe('constructHeaderActionButtons', () => {
       backgroundData: { ...baseBackgroundData, mute },
       message,
     });
-    expect(buttons).toContain('unmuteTopic');
+    expect(buttonTitles(buttons)).toContain('Unmute topic');
   });
 
   test('show mute topic option if topic is not muted', () => {
@@ -72,7 +74,7 @@ describe('constructHeaderActionButtons', () => {
       backgroundData: { ...baseBackgroundData, mute: [] },
       message: eg.streamMessage(),
     });
-    expect(buttons).toContain('muteTopic');
+    expect(buttonTitles(buttons)).toContain('Mute topic');
   });
 
   test('show Unmute stream option if stream is not in home view', () => {
@@ -81,7 +83,7 @@ describe('constructHeaderActionButtons', () => {
       backgroundData: { ...baseBackgroundData, subscriptions },
       message: eg.streamMessage(),
     });
-    expect(buttons).toContain('unmuteStream');
+    expect(buttonTitles(buttons)).toContain('Unmute stream');
   });
 
   test('show mute stream option if stream is in home view', () => {
@@ -90,7 +92,7 @@ describe('constructHeaderActionButtons', () => {
       backgroundData: { ...baseBackgroundData, subscriptions },
       message: eg.streamMessage(),
     });
-    expect(buttons).toContain('muteStream');
+    expect(buttonTitles(buttons)).toContain('Mute stream');
   });
 
   test('show delete topic option if current user is an admin', () => {
@@ -99,7 +101,7 @@ describe('constructHeaderActionButtons', () => {
       backgroundData: { ...baseBackgroundData, ownUser },
       message: eg.streamMessage(),
     });
-    expect(buttons).toContain('deleteTopic');
+    expect(buttonTitles(buttons)).toContain('Delete topic');
   });
 
   test('do not show delete topic option if current user is not an admin', () => {
@@ -107,6 +109,6 @@ describe('constructHeaderActionButtons', () => {
       backgroundData: baseBackgroundData,
       message: eg.streamMessage(),
     });
-    expect(buttons).not.toContain('deleteTopic');
+    expect(buttonTitles(buttons)).not.toContain('Delete topic');
   });
 });

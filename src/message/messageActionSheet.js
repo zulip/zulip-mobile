@@ -211,37 +211,6 @@ const cancel = params => {};
 cancel.title = 'Cancel';
 cancel.errorMessage = 'Failed to hide menu';
 
-const allButtonsRaw = {
-  // For messages
-  addReaction,
-  reply,
-  copyToClipboard,
-  shareMessage,
-  editMessage,
-  deleteMessage,
-  starMessage,
-  unstarMessage,
-  showReactions,
-
-  // For headers
-  unmuteTopic,
-  muteTopic,
-  deleteTopic,
-  muteStream,
-  unmuteStream,
-
-  // All
-  cancel,
-};
-
-//
-// ... End of options for the action sheet.
-//
-
-type ButtonCode = $Keys<typeof allButtonsRaw>;
-
-const allButtons: {| [ButtonCode]: ButtonDescription |} = allButtonsRaw;
-
 export const constructHeaderActionButtons = ({
   backgroundData: { mute, subscriptions, ownUser },
   message,
@@ -253,35 +222,35 @@ export const constructHeaderActionButtons = ({
     ...
   }>,
   message: Message | Outbox,
-|}): ButtonCode[] => {
-  const buttons: ButtonCode[] = [];
+|}): ButtonDescription[] => {
+  const buttons = [];
   if (message.type === 'stream') {
     if (ownUser.is_admin) {
-      buttons.push('deleteTopic');
+      buttons.push(deleteTopic);
     }
     const streamName = streamNameOfStreamMessage(message);
     if (isTopicMuted(streamName, message.subject, mute)) {
-      buttons.push('unmuteTopic');
+      buttons.push(unmuteTopic);
     } else {
-      buttons.push('muteTopic');
+      buttons.push(muteTopic);
     }
     const sub = subscriptions.find(x => x.name === streamName);
     if (sub && !sub.in_home_view) {
-      buttons.push('unmuteStream');
+      buttons.push(unmuteStream);
     } else {
-      buttons.push('muteStream');
+      buttons.push(muteStream);
     }
   }
-  buttons.push('cancel');
+  buttons.push(cancel);
   return buttons;
 };
 
-export const constructOutboxActionButtons = (): ButtonCode[] => {
+export const constructOutboxActionButtons = (): ButtonDescription[] => {
   const buttons = [];
-  buttons.push('copyToClipboard');
-  buttons.push('shareMessage');
-  buttons.push('deleteMessage');
-  buttons.push('cancel');
+  buttons.push(copyToClipboard);
+  buttons.push(shareMessage);
+  buttons.push(deleteMessage);
+  buttons.push(cancel);
   return buttons;
 };
 
@@ -299,37 +268,37 @@ export const constructMessageActionButtons = ({
   }>,
   message: Message,
   narrow: Narrow,
-}): ButtonCode[] => {
+}): ButtonDescription[] => {
   const buttons = [];
   if (messageNotDeleted(message)) {
-    buttons.push('addReaction');
+    buttons.push(addReaction);
   }
   if (message.reactions.length > 0) {
-    buttons.push('showReactions');
+    buttons.push(showReactions);
   }
   if (!isTopicNarrow(narrow) && !isPmNarrow(narrow)) {
-    buttons.push('reply');
+    buttons.push(reply);
   }
   if (messageNotDeleted(message)) {
-    buttons.push('copyToClipboard');
-    buttons.push('shareMessage');
+    buttons.push(copyToClipboard);
+    buttons.push(shareMessage);
   }
   if (
     message.sender_id === ownUser.user_id
     // Our "edit message" UI only works in certain kinds of narrows.
     && (isStreamOrTopicNarrow(narrow) || isPmNarrow(narrow))
   ) {
-    buttons.push('editMessage');
+    buttons.push(editMessage);
   }
   if (message.sender_id === ownUser.user_id && messageNotDeleted(message)) {
-    buttons.push('deleteMessage');
+    buttons.push(deleteMessage);
   }
   if (message.id in flags.starred) {
-    buttons.push('unstarMessage');
+    buttons.push(unstarMessage);
   } else {
-    buttons.push('starMessage');
+    buttons.push(starMessage);
   }
-  buttons.push('cancel');
+  buttons.push(cancel);
   return buttons;
 };
 
@@ -345,7 +314,7 @@ export const constructNonHeaderActionButtons = ({
   }>,
   message: Message | Outbox,
   narrow: Narrow,
-|}): ButtonCode[] => {
+|}): ButtonDescription[] => {
   if (message.isOutbox) {
     return constructOutboxActionButtons();
   } else {
@@ -388,10 +357,10 @@ export const showMessageActionSheet = ({
   message: Message | Outbox,
   narrow: Narrow,
 |}): void => {
-  const optionCodes = constructNonHeaderActionButtons({ backgroundData, message, narrow });
+  const buttonList = constructNonHeaderActionButtons({ backgroundData, message, narrow });
   const callback = buttonIndex => {
     (async () => {
-      const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];
+      const pressedButton: ButtonDescription = buttonList[buttonIndex];
       try {
         await pressedButton({
           ...backgroundData,
@@ -406,8 +375,8 @@ export const showMessageActionSheet = ({
   };
   showActionSheetWithOptions(
     {
-      options: optionCodes.map(code => callbacks._(allButtons[code].title)),
-      cancelButtonIndex: optionCodes.length - 1,
+      options: buttonList.map(button => callbacks._(button.title)),
+      cancelButtonIndex: buttonList.length - 1,
     },
     callback,
   );
@@ -434,10 +403,10 @@ export const showHeaderActionSheet = ({
   }>,
   message: Message | Outbox,
 |}): void => {
-  const optionCodes = constructHeaderActionButtons({ backgroundData, message });
+  const buttonList = constructHeaderActionButtons({ backgroundData, message });
   const callback = buttonIndex => {
     (async () => {
-      const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];
+      const pressedButton: ButtonDescription = buttonList[buttonIndex];
       try {
         await pressedButton({
           ...backgroundData,
@@ -452,8 +421,8 @@ export const showHeaderActionSheet = ({
   showActionSheetWithOptions(
     {
       title: getActionSheetTitle(message, backgroundData.ownUser),
-      options: optionCodes.map(code => callbacks._(allButtons[code].title)),
-      cancelButtonIndex: optionCodes.length - 1,
+      options: buttonList.map(button => callbacks._(button.title)),
+      cancelButtonIndex: buttonList.length - 1,
     },
     callback,
   );
