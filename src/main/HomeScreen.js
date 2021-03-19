@@ -26,6 +26,10 @@ const styles = createStyleSheet({
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
+  navButtons: {
+    flex: 1,
+    alignItems: 'center',
+  },
 });
 
 type Props = $ReadOnly<{|
@@ -42,31 +46,39 @@ class HomeScreen extends PureComponent<Props> {
     return (
       <View style={styles.wrapper}>
         <View style={styles.iconList}>
-          <NavButton
-            name="globe"
-            onPress={() => {
-              dispatch(doNarrow(HOME_NARROW));
-            }}
-          />
-          <NavButton
-            name="star"
-            onPress={() => {
-              dispatch(doNarrow(STARRED_NARROW));
-            }}
-          />
-          <NavButtonGeneral
-            onPress={() => {
-              dispatch(doNarrow(MENTIONED_NARROW));
-            }}
-          >
-            <IconUnreadMentions color={BRAND_COLOR} />
-          </NavButtonGeneral>
-          <NavButton
-            name="search"
-            onPress={() => {
-              NavigationService.dispatch(navigateToSearch());
-            }}
-          />
+          <View style={styles.navButtons}>
+            <NavButton
+              name="globe"
+              onPress={() => {
+                dispatch(doNarrow(HOME_NARROW));
+              }}
+            />
+          </View>
+          <View style={styles.navButtons}>
+            <NavButton
+              name="star"
+              onPress={() => {
+                dispatch(doNarrow(STARRED_NARROW));
+              }}
+            />
+          </View>
+          <View style={styles.navButtons}>
+            <NavButtonGeneral
+              onPress={() => {
+                dispatch(doNarrow(MENTIONED_NARROW));
+              }}
+            >
+              <IconUnreadMentions color={BRAND_COLOR} />
+            </NavButtonGeneral>
+          </View>
+          <View style={styles.navButtons}>
+            <NavButton
+              name="search"
+              onPress={() => {
+                NavigationService.dispatch(navigateToSearch());
+              }}
+            />
+          </View>
         </View>
         <LoadingBanner />
         <UnreadCards />
