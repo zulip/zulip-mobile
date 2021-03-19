@@ -27,7 +27,7 @@ import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
-import { pmUiRecipientsFromMessage, streamNameOfStreamMessage } from '../utils/recipient';
+import { streamNameOfStreamMessage } from '../utils/recipient';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
 
@@ -220,7 +220,8 @@ cancel.errorMessage = 'Failed to hide menu';
 
 export const constructHeaderActionButtons = ({
   backgroundData: { mute, subscriptions, ownUser },
-  message,
+  stream,
+  topic,
 }: {|
   backgroundData: $ReadOnly<{
     mute: MuteState,
@@ -228,25 +229,23 @@ export const constructHeaderActionButtons = ({
     ownUser: User,
     ...
   }>,
-  message: Message | Outbox,
+  stream: string,
+  topic: string,
 |}): Button<HeaderArgs>[] => {
   const buttons = [];
-  if (message.type === 'stream') {
-    if (ownUser.is_admin) {
-      buttons.push(deleteTopic);
-    }
-    const streamName = streamNameOfStreamMessage(message);
-    if (isTopicMuted(streamName, message.subject, mute)) {
-      buttons.push(unmuteTopic);
-    } else {
-      buttons.push(muteTopic);
-    }
-    const sub = subscriptions.find(x => x.name === streamName);
-    if (sub && !sub.in_home_view) {
-      buttons.push(unmuteStream);
-    } else {
-      buttons.push(muteStream);
-    }
+  if (ownUser.is_admin) {
+    buttons.push(deleteTopic);
+  }
+  if (isTopicMuted(stream, topic, mute)) {
+    buttons.push(unmuteTopic);
+  } else {
+    buttons.push(muteTopic);
+  }
+  const sub = subscriptions.find(x => x.name === stream);
+  if (sub && !sub.in_home_view) {
+    buttons.push(unmuteStream);
+  } else {
+    buttons.push(muteStream);
   }
   buttons.push(cancel);
   return buttons;
@@ -329,19 +328,6 @@ export const constructNonHeaderActionButtons = ({
   }
 };
 
-/** Returns the title for the action sheet. */
-const getActionSheetTitle = (message: Message | Outbox, ownUser: User): string => {
-  if (message.type === 'private') {
-    const recipients = pmUiRecipientsFromMessage(message, ownUser.user_id);
-    return recipients
-      .map(r => r.full_name)
-      .sort()
-      .join(', ');
-  } else {
-    return `#${streamNameOfStreamMessage(message)} > ${message.subject}`;
-  }
-};
-
 export const showMessageActionSheet = ({
   showActionSheetWithOptions,
   callbacks,
@@ -410,7 +396,12 @@ export const showHeaderActionSheet = ({
   }>,
   message: Message | Outbox,
 |}): void => {
-  const buttonList = constructHeaderActionButtons({ backgroundData, message });
+  invariant(message.type === 'stream', 'showHeaderActionSheet: got PM');
+  const buttonList = constructHeaderActionButtons({
+    backgroundData,
+    stream: streamNameOfStreamMessage(message),
+    topic: message.subject,
+  });
   const callback = buttonIndex => {
     (async () => {
       const pressedButton: Button<HeaderArgs> = buttonList[buttonIndex];
@@ -427,7 +418,7 @@ export const showHeaderActionSheet = ({
   };
   showActionSheetWithOptions(
     {
-      title: getActionSheetTitle(message, backgroundData.ownUser),
+      title: `#${streamNameOfStreamMessage(message)} > ${message.subject}`,
       options: buttonList.map(button => callbacks._(button.title)),
       cancelButtonIndex: buttonList.length - 1,
     },
