@@ -28,9 +28,12 @@ describe('codeToEmojiMap', () => {
 });
 
 describe('getFilteredEmojis', () => {
-  test('empty query returns all emojis', () => {
+  test('empty query returns many emojis', () => {
     const list = getFilteredEmojis('', {});
-    expect(list).toHaveLength(1560);
+    // 1400 so that we don't have to change the test every time we change the
+    // emoji map, while still ensuring that enough emoji are there that we can
+    // be reasonably confident it's all of them.
+    expect(list.length).toBeGreaterThan(1400);
   });
 
   test('non existing query returns empty list', () => {
