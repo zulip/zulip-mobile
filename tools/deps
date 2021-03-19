@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 this_file=$(readlink -f "${BASH_SOURCE[0]}")
 root=${this_file%/*/*}
