@@ -217,7 +217,6 @@ const handleLongPress = (
       callbacks: { dispatch, startEditMessage, _ },
       backgroundData,
       message,
-      narrow,
     });
   } else if (target === 'message') {
     showMessageActionSheet({

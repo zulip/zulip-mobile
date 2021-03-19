@@ -245,7 +245,6 @@ const allButtons: {| [ButtonCode]: ButtonDescription |} = allButtonsRaw;
 export const constructHeaderActionButtons = ({
   backgroundData: { mute, subscriptions, ownUser },
   message,
-  narrow,
 }: {|
   backgroundData: $ReadOnly<{
     mute: MuteState,
@@ -254,7 +253,6 @@ export const constructHeaderActionButtons = ({
     ...
   }>,
   message: Message | Outbox,
-  narrow: Narrow,
 |}): ButtonCode[] => {
   const buttons: ButtonCode[] = [];
   if (message.type === 'stream') {
@@ -420,7 +418,6 @@ export const showHeaderActionSheet = ({
   callbacks,
   backgroundData,
   message,
-  narrow,
 }: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
@@ -436,9 +433,8 @@ export const showHeaderActionSheet = ({
     flags: FlagsState,
   }>,
   message: Message | Outbox,
-  narrow: Narrow,
 |}): void => {
-  const optionCodes = constructHeaderActionButtons({ backgroundData, message, narrow });
+  const optionCodes = constructHeaderActionButtons({ backgroundData, message });
   const callback = buttonIndex => {
     (async () => {
       const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];

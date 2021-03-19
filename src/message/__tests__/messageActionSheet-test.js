@@ -54,8 +54,6 @@ describe('constructActionButtons', () => {
 });
 
 describe('constructHeaderActionButtons', () => {
-  const narrow = deepFreeze(HOME_NARROW);
-
   test('show Unmute topic option if topic is muted', () => {
     const mute = deepFreeze([['electron issues', 'issue #556']]);
     const message = eg.streamMessage({
@@ -65,7 +63,6 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { ...baseBackgroundData, mute },
       message,
-      narrow,
     });
     expect(buttons).toContain('unmuteTopic');
   });
@@ -74,7 +71,6 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { ...baseBackgroundData, mute: [] },
       message: eg.streamMessage(),
-      narrow,
     });
     expect(buttons).toContain('muteTopic');
   });
@@ -84,7 +80,6 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { ...baseBackgroundData, subscriptions },
       message: eg.streamMessage(),
-      narrow,
     });
     expect(buttons).toContain('unmuteStream');
   });
@@ -94,7 +89,6 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { ...baseBackgroundData, subscriptions },
       message: eg.streamMessage(),
-      narrow,
     });
     expect(buttons).toContain('muteStream');
   });
@@ -104,7 +98,6 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: { ...baseBackgroundData, ownUser },
       message: eg.streamMessage(),
-      narrow,
     });
     expect(buttons).toContain('deleteTopic');
   });
@@ -113,7 +106,6 @@ describe('constructHeaderActionButtons', () => {
     const buttons = constructHeaderActionButtons({
       backgroundData: baseBackgroundData,
       message: eg.streamMessage(),
-      narrow,
     });
     expect(buttons).not.toContain('deleteTopic');
   });
