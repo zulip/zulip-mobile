@@ -6,15 +6,16 @@ import * as NavigationService from '../nav/NavigationService';
 import type {
   Auth,
   Dispatch,
+  FlagsState,
   GetText,
   Message,
+  MuteState,
   Narrow,
   Outbox,
   Subscription,
   User,
   EditMessage,
 } from '../types';
-import type { BackgroundData } from '../webview/MessageList';
 import {
   getNarrowForReply,
   isPmNarrow,
@@ -241,16 +242,20 @@ type ButtonCode = $Keys<typeof allButtonsRaw>;
 
 const allButtons: {| [ButtonCode]: ButtonDescription |} = allButtonsRaw;
 
-type ConstructSheetParams<MsgType: Message | Outbox = Message | Outbox> = {|
-  backgroundData: BackgroundData,
-  message: MsgType,
-  narrow: Narrow,
-|};
-
 export const constructHeaderActionButtons = ({
   backgroundData: { mute, subscriptions, ownUser },
   message,
-}: ConstructSheetParams<>): ButtonCode[] => {
+  narrow,
+}: {|
+  backgroundData: $ReadOnly<{
+    mute: MuteState,
+    subscriptions: Subscription[],
+    ownUser: User,
+    ...
+  }>,
+  message: Message | Outbox,
+  narrow: Narrow,
+|}): ButtonCode[] => {
   const buttons: ButtonCode[] = [];
   if (message.type === 'stream') {
     if (ownUser.is_admin) {
@@ -273,11 +278,7 @@ export const constructHeaderActionButtons = ({
   return buttons;
 };
 
-export const constructOutboxActionButtons = ({
-  backgroundData,
-  message,
-  narrow,
-}: ConstructSheetParams<Outbox>): ButtonCode[] => {
+export const constructOutboxActionButtons = (): ButtonCode[] => {
   const buttons = [];
   buttons.push('copyToClipboard');
   buttons.push('shareMessage');
@@ -293,7 +294,14 @@ export const constructMessageActionButtons = ({
   backgroundData: { ownUser, flags },
   message,
   narrow,
-}: ConstructSheetParams<Message>): ButtonCode[] => {
+}: {
+  backgroundData: $ReadOnly<{
+    ownUser: User,
+    flags: FlagsState,
+  }>,
+  message: Message,
+  narrow: Narrow,
+}): ButtonCode[] => {
   const buttons = [];
   if (messageNotDeleted(message)) {
     buttons.push('addReaction');
@@ -331,9 +339,17 @@ export const constructNonHeaderActionButtons = ({
   backgroundData,
   message,
   narrow,
-}: ConstructSheetParams<>): ButtonCode[] => {
+}: {|
+  backgroundData: $ReadOnly<{
+    ownUser: User,
+    flags: FlagsState,
+    ...
+  }>,
+  message: Message | Outbox,
+  narrow: Narrow,
+|}): ButtonCode[] => {
   if (message.isOutbox) {
-    return constructOutboxActionButtons({ backgroundData, message, narrow });
+    return constructOutboxActionButtons();
   } else {
     return constructMessageActionButtons({ backgroundData, message, narrow });
   }
@@ -352,26 +368,38 @@ const getActionSheetTitle = (message: Message | Outbox, ownUser: User): string =
   }
 };
 
-export const showMessageActionSheet = (
+export const showMessageActionSheet = ({
+  showActionSheetWithOptions,
+  callbacks,
+  backgroundData,
+  message,
+  narrow,
+}: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
     startEditMessage: (editMessage: EditMessage) => void,
     _: GetText,
   |},
-  params: ConstructSheetParams<>,
-): void => {
-  const optionCodes = constructNonHeaderActionButtons(params);
+  backgroundData: $ReadOnly<{
+    auth: Auth,
+    subscriptions: Subscription[],
+    ownUser: User,
+    flags: FlagsState,
+  }>,
+  message: Message | Outbox,
+  narrow: Narrow,
+|}): void => {
+  const optionCodes = constructNonHeaderActionButtons({ backgroundData, message, narrow });
   const callback = buttonIndex => {
     (async () => {
       const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];
       try {
         await pressedButton({
-          subscriptions: params.backgroundData.subscriptions,
-          auth: params.backgroundData.auth,
-          ownUser: params.backgroundData.ownUser,
-          ...params,
+          ...backgroundData,
           ...callbacks,
+          message,
+          narrow,
         });
       } catch (err) {
         Alert.alert(callbacks._(pressedButton.errorMessage), err.message);
@@ -387,26 +415,38 @@ export const showMessageActionSheet = (
   );
 };
 
-export const showHeaderActionSheet = (
+export const showHeaderActionSheet = ({
+  showActionSheetWithOptions,
+  callbacks,
+  backgroundData,
+  message,
+  narrow,
+}: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
     startEditMessage: (editMessage: EditMessage) => void,
     _: GetText,
   |},
-  params: ConstructSheetParams<>,
-): void => {
-  const optionCodes = constructHeaderActionButtons(params);
+  backgroundData: $ReadOnly<{
+    auth: Auth,
+    mute: MuteState,
+    subscriptions: Subscription[],
+    ownUser: User,
+    flags: FlagsState,
+  }>,
+  message: Message | Outbox,
+  narrow: Narrow,
+|}): void => {
+  const optionCodes = constructHeaderActionButtons({ backgroundData, message, narrow });
   const callback = buttonIndex => {
     (async () => {
       const pressedButton: ButtonDescription = allButtons[optionCodes[buttonIndex]];
       try {
         await pressedButton({
-          subscriptions: params.backgroundData.subscriptions,
-          auth: params.backgroundData.auth,
-          ownUser: params.backgroundData.ownUser,
-          ...params,
+          ...backgroundData,
           ...callbacks,
+          message,
         });
       } catch (err) {
         Alert.alert(callbacks._(pressedButton.errorMessage), err.message);
@@ -415,7 +455,7 @@ export const showHeaderActionSheet = (
   };
   showActionSheetWithOptions(
     {
-      title: getActionSheetTitle(params.message, params.backgroundData.ownUser),
+      title: getActionSheetTitle(message, backgroundData.ownUser),
       options: optionCodes.map(code => callbacks._(allButtons[code].title)),
       cancelButtonIndex: optionCodes.length - 1,
     },

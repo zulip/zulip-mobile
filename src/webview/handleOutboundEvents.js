@@ -212,17 +212,21 @@ const handleLongPress = (
   }
   const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
   if (target === 'header') {
-    showHeaderActionSheet(
+    showHeaderActionSheet({
       showActionSheetWithOptions,
-      { dispatch, startEditMessage, _ },
-      { backgroundData, message, narrow },
-    );
+      callbacks: { dispatch, startEditMessage, _ },
+      backgroundData,
+      message,
+      narrow,
+    });
   } else if (target === 'message') {
-    showMessageActionSheet(
+    showMessageActionSheet({
       showActionSheetWithOptions,
-      { dispatch, startEditMessage, _ },
-      { backgroundData, message, narrow },
-    );
+      callbacks: { dispatch, startEditMessage, _ },
+      backgroundData,
+      message,
+      narrow,
+    });
   }
 };
 
