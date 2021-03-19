@@ -22,6 +22,8 @@
     and commit message.
   * [[link](#fixes-format)] Write `Fixes: #1234` when fixing an issue.
 * [JavaScript, Flow, JS libraries](#js)
+  * [[link](#types-named-type)] Don't put "type" in the name of a
+    type, usually.
   * [[link](#invariant-assertions)] Use `invariant` for runtime
     assertions the type-checker can use.
   * [[link](#immutable-provide-type)] Always provide a type when
@@ -339,6 +341,31 @@ pick just one, and that's the one we use.
 <div id="js" />
 
 ## JavaScript, Flow, JS libraries
+
+<div id="types-named-type" />
+
+**Don't put "type" in the name of a type, usually**:
+Specifically, when naming a type, we generally put "type" in the name
+only if the *values* of the type are themselves to be thought of as
+"the type of" something.
+
+The general principle is that a type's name is a description of the
+values of the type.  If `x` has type `ThingJig`, then `x` should
+indeed be a thing-jig (whatever that might mean.)
+
+So for example we have `export type EmojiType = 'image' | 'unicode'`,
+because its values are interpreted as referring to "image emoji" and
+"Unicode emoji" -- so each value is a particular type of emoji.
+
+Similarly a React `ComponentType` value is *a type of component*: so
+the values include `View` itself, but not any particular instance of
+`View`.
+
+If `FooType` is just the type of "foo"s, try calling it simply `Foo`.
+If there are several types that could fit that name, find a name that
+more specifically expresses how one is different from the others:
+perhaps `FooDetails`, `FooId`, `PartialFoo`, or `FooView`.
+
 
 <div id="invariant-assertions" />
 
