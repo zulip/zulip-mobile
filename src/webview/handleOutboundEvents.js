@@ -9,6 +9,7 @@ import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
+import { pmUiRecipientsFromMessage } from '../utils/recipient';
 import { isUrlAnImage } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -212,12 +213,20 @@ const handleLongPress = (
   }
   const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
   if (target === 'header') {
-    showHeaderActionSheet({
-      showActionSheetWithOptions,
-      callbacks: { dispatch, startEditMessage, _ },
-      backgroundData,
-      message,
-    });
+    if (message.type === 'stream') {
+      showHeaderActionSheet({
+        showActionSheetWithOptions,
+        callbacks: { dispatch, startEditMessage, _ },
+        backgroundData,
+        message,
+      });
+    } else if (message.type === 'private') {
+      const label = pmUiRecipientsFromMessage(message, backgroundData.ownUser.user_id)
+        .map(r => r.full_name)
+        .sort()
+        .join(', ');
+      showToast(label);
+    }
   } else if (target === 'message') {
     showMessageActionSheet({
       showActionSheetWithOptions,
