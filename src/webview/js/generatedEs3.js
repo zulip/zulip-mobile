@@ -515,11 +515,19 @@ var compiledWebviewJs = (function (exports) {
     return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
   }
 
-  var minOverlap = 20;
+  function previousMessage(start) {
+    return walkToMessage(start.previousElementSibling, 'previousElementSibling');
+  }
 
   function isVisible(element, top, bottom) {
     var rect = element.getBoundingClientRect();
-    return top + minOverlap < rect.bottom && rect.top + minOverlap < bottom;
+    return top < rect.bottom && rect.top < bottom;
+  }
+
+  var messageReadSlop = 16;
+
+  function isRead(element, top, bottom) {
+    return bottom + messageReadSlop >= element.getBoundingClientRect().bottom;
   }
 
   function someVisibleMessage(top, bottom) {
@@ -529,6 +537,20 @@ var compiledWebviewJs = (function (exports) {
 
     var midPeer = midMessagePeer(top, bottom);
     return checkVisible(walkToMessage(midPeer, 'previousElementSibling')) || checkVisible(walkToMessage(midPeer, 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
+  }
+
+  function someVisibleReadMessage(top, bottom) {
+    function checkReadAndVisible(candidate) {
+      return candidate && isRead(candidate, top, bottom) && isVisible(candidate, top, bottom) ? candidate : null;
+    }
+
+    var visible = someVisibleMessage(top, bottom);
+
+    if (!visible) {
+      return visible;
+    }
+
+    return checkReadAndVisible(visible) || checkReadAndVisible(previousMessage(visible));
   }
 
   function idFromMessage(element) {
@@ -541,7 +563,7 @@ var compiledWebviewJs = (function (exports) {
     return +idStr;
   }
 
-  function visibleMessageIds() {
+  function visibleReadMessageIds() {
     var top = 0;
     var bottom = viewportHeight;
     var first = Number.MAX_SAFE_INTEGER;
@@ -550,7 +572,7 @@ var compiledWebviewJs = (function (exports) {
     function walkElements(start, step) {
       var element = start;
 
-      while (element && isVisible(element, top, bottom)) {
+      while (element && isVisible(element, top, bottom) && isRead(element, top, bottom)) {
         if (element.classList.contains('message')) {
           var id = idFromMessage(element);
           first = Math.min(first, id);
@@ -561,7 +583,7 @@ var compiledWebviewJs = (function (exports) {
       }
     }
 
-    var start = someVisibleMessage(top, bottom);
+    var start = someVisibleReadMessage(top, bottom);
     walkElements(start, 'nextElementSibling');
     walkElements(start, 'previousElementSibling');
     return {
@@ -602,10 +624,10 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var prevMessageRange = visibleMessageIds();
+  var prevMessageRange = visibleReadMessageIds();
 
   var sendScrollMessage = function sendScrollMessage() {
-    var messageRange = visibleMessageIds();
+    var messageRange = visibleReadMessageIds();
     var rangeHull = {
       first: Math.min(prevMessageRange.first, messageRange.first),
       last: Math.max(prevMessageRange.last, messageRange.last)
@@ -619,7 +641,10 @@ var compiledWebviewJs = (function (exports) {
       endMessageId: rangeHull.last
     });
     setMessagesReadAttributes(rangeHull);
-    prevMessageRange = messageRange;
+
+    if (messageRange.first < messageRange.last) {
+      prevMessageRange = messageRange;
+    }
   };
 
   var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {

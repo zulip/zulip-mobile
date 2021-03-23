@@ -131,10 +131,14 @@ body {
 .loading {
   display: flex;
   word-wrap: break-word;
+  /* This value is used for messageReadSlop in src/webview/js/js.js, if
+   * updating one, please update the other */
   padding: 16px;
   -webkit-tap-highlight-color: transparent;
 }
 .message-brief {
+  /* This value is used for messageReadSlop in src/webview/js/js.js, if
+   * updating one, please update the other */
   padding: 0 16px 16px 80px;
 }
 

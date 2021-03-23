@@ -307,12 +307,51 @@ function lastMessage(): ?Element {
   return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
 }
 
-/** The minimum height (in px) to see of a message to call it visible. */
-const minOverlap = 20;
+/** The message before the given message, if any. */
+function previousMessage(start: Element): ?Element {
+  return walkToMessage(start.previousElementSibling, 'previousElementSibling');
+}
 
+/**
+ * An element is visible if any part of it is visible on screen.
+ *
+ * @param top The top of the screen (typically 0)
+ * @param bottom The bottom of the screen (typically body.clientHeight)
+ */
 function isVisible(element: Element, top: number, bottom: number): boolean {
   const rect = element.getBoundingClientRect();
-  return top + minOverlap < rect.bottom && rect.top + minOverlap < bottom;
+  return top < rect.bottom && rect.top < bottom;
+}
+
+/**
+ * The number of pixels of the message that are allowed to be scrolled off
+ * the bottom of the screen when we mark the message as "read".
+ */
+// Picked based on the bottom padding of messages in CSS. This doesn't work
+// so great in cases where messages have the "edited" badge or reaction emojis,
+// since the user needs to scorll to the bottom of the reaction emoji/edited
+// badge section for the message to be "read", but it's more important for the
+// single-line message case to not get inadvertently read than it is for
+// messages to get marked read exactly when the bottom of the text of the
+// message comes onto the screen. In the future, we may want more complicated
+// behaviour here, but this should be fine for now.
+const messageReadSlop = 16;
+
+/**
+ * A visible message is read when its bottom isn't too far down out of view.
+ *
+ * See `messageReadSlop` for specifically how far the bottom might be. The
+ * idea is that a message becomes read when the bottom of its content
+ * scrolls into view, excluding the padding between messages.
+ *
+ * This function doesn't check that the message is visible; it probably
+ * makes sense to call only when `isVisible` is already known to be true.
+ *
+ * @param top The top of the screen (typically 0)
+ * @param bottom The bottom of the screen (typically body.clientHeight)
+ */
+function isRead(element: Element, top: number, bottom: number): boolean {
+  return bottom + messageReadSlop >= element.getBoundingClientRect().bottom;
 }
 
 /** Returns some message element which is visible, if any. */
@@ -333,6 +372,25 @@ function someVisibleMessage(top: number, bottom: number): ?Element {
   );
 }
 
+/** Returns some message element which is both visible and read, if any. */
+function someVisibleReadMessage(top: number, bottom: number): ?Element {
+  function checkReadAndVisible(candidate: ?Element): ?Element {
+    return candidate && isRead(candidate, top, bottom) && isVisible(candidate, top, bottom)
+      ? candidate
+      : null;
+  }
+
+  // Algorithm: If there's a visible message that isn't read, that means
+  // it's partway off the bottom of the screen. Therefore, either:
+  // * the message above it will be visible and read, or
+  // * there are no visible read messages.
+  const visible = someVisibleMessage(top, bottom);
+  if (!visible) {
+    return visible;
+  }
+  return checkReadAndVisible(visible) || checkReadAndVisible(previousMessage(visible));
+}
+
 /**
  * The Zulip message ID of the given message element; throw if not a message.
  */
@@ -345,23 +403,23 @@ function idFromMessage(element: Element): number {
 }
 
 /**
- * Returns the IDs of the first and last visible messages, if any.
+ * Returns the IDs of the first and last visible read messages, if any.
  *
- * If no messages are visible, the return value has first > last.
+ * If no messages are both visible and read, the return value has first > last.
  */
-function visibleMessageIds(): {| first: number, last: number |} {
-  // Algorithm: We find some message that's visible; then walk both up and
-  // down from there to find all the visible messages.
+function visibleReadMessageIds(): {| first: number, last: number |} {
+  // Algorithm: We find some message that's both visible and read; then walk
+  // both up and down from there to find all the visible read messages.
 
   const top = 0;
   const bottom = viewportHeight;
   let first = Number.MAX_SAFE_INTEGER;
   let last = 0;
 
-  // Walk through visible elements, observing message IDs.
+  // Walk through visible-and-read elements, observing message IDs.
   function walkElements(start: ?Element, step: 'nextElementSibling' | 'previousElementSibling') {
     let element = start;
-    while (element && isVisible(element, top, bottom)) {
+    while (element && isVisible(element, top, bottom) && isRead(element, top, bottom)) {
       if (element.classList.contains('message')) {
         const id = idFromMessage(element);
         first = Math.min(first, id);
@@ -372,7 +430,7 @@ function visibleMessageIds(): {| first: number, last: number |} {
     }
   }
 
-  const start = someVisibleMessage(top, bottom);
+  const start = someVisibleReadMessage(top, bottom);
   walkElements(start, 'nextElementSibling');
   walkElements(start, 'previousElementSibling');
 
@@ -419,11 +477,14 @@ const setMessagesReadAttributes = rangeHull => {
  *
  */
 
-/** The range of message IDs visible whenever we last checked. */
-let prevMessageRange = visibleMessageIds();
+/**
+ * The range of message IDs that were both visible and read whenever we last
+ * checked.
+ */
+let prevMessageRange = visibleReadMessageIds();
 
 const sendScrollMessage = () => {
-  const messageRange = visibleMessageIds();
+  const messageRange = visibleReadMessageIds();
   // rangeHull is the convex hull of the previous range and the new one.
   // When the user is actively scrolling, the browser gives us scroll events
   // only occasionally, so we use this to interpolate scrolling past the
@@ -442,7 +503,16 @@ const sendScrollMessage = () => {
     endMessageId: rangeHull.last,
   });
   setMessagesReadAttributes(rangeHull);
-  prevMessageRange = messageRange;
+  // If there are no visible + read messages (for instance, the entire screen
+  // is taken up by a single large message), then we don't want to update
+  // prevMessageRange.  This way, if the user scrolled past some messages to
+  // get here, then even though `messageRange` was empty this time and so we
+  // didn't mark any messages as read just now, we'll include those in
+  // `rangeHull` the next time the user scrolls and so we'll mark them as read
+  // then.
+  if (messageRange.first < messageRange.last) {
+    prevMessageRange = messageRange;
+  }
 };
 
 // If the message list is too short to scroll, fake a scroll event
