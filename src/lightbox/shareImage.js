@@ -7,6 +7,7 @@ import ShareFileAndroid from '../nativeModules/ShareFileAndroid';
 import { showToast } from '../utils/info';
 import * as api from '../api';
 import openLink from '../utils/openLink';
+import * as logging from '../utils/logging';
 
 export default async (url: string, auth: Auth) => {
   const tempUrl = await api.tryGetFileTemporaryUrl(url, auth);
@@ -24,6 +25,7 @@ export default async (url: string, auth: Auth) => {
       await ShareFileAndroid.shareFile(res.path());
     } catch (error) {
       showToast('Sharing Failed.');
+      logging.error(error);
     }
   } else {
     try {
