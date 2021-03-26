@@ -321,6 +321,22 @@ export const constructNonHeaderActionButtons = ({
   }
 };
 
+function makeButtonCallback<Args: HeaderArgs | MessageArgs>(
+  buttonList: Button<Args>[],
+  args: Args,
+) {
+  return buttonIndex => {
+    (async () => {
+      const pressedButton: Button<Args> = buttonList[buttonIndex];
+      try {
+        await pressedButton(args);
+      } catch (err) {
+        Alert.alert(args._(pressedButton.errorMessage), err.message);
+      }
+    })();
+  };
+}
+
 export const showMessageActionSheet = ({
   showActionSheetWithOptions,
   callbacks,
@@ -345,27 +361,17 @@ export const showMessageActionSheet = ({
   narrow: Narrow,
 |}): void => {
   const buttonList = constructNonHeaderActionButtons({ backgroundData, message, narrow });
-  const callback = buttonIndex => {
-    (async () => {
-      const pressedButton: Button<MessageArgs> = buttonList[buttonIndex];
-      try {
-        await pressedButton({
-          ...backgroundData,
-          ...callbacks,
-          message,
-          narrow,
-        });
-      } catch (err) {
-        Alert.alert(callbacks._(pressedButton.errorMessage), err.message);
-      }
-    })();
-  };
   showActionSheetWithOptions(
     {
       options: buttonList.map(button => callbacks._(button.title)),
       cancelButtonIndex: buttonList.length - 1,
     },
-    callback,
+    makeButtonCallback(buttonList, {
+      ...backgroundData,
+      ...callbacks,
+      message,
+      narrow,
+    }),
   );
 };
 
@@ -397,27 +403,17 @@ export const showHeaderActionSheet = ({
     stream,
     topic,
   });
-  const callback = buttonIndex => {
-    (async () => {
-      const pressedButton: Button<HeaderArgs> = buttonList[buttonIndex];
-      try {
-        await pressedButton({
-          ...backgroundData,
-          ...callbacks,
-          stream,
-          topic,
-        });
-      } catch (err) {
-        Alert.alert(callbacks._(pressedButton.errorMessage), err.message);
-      }
-    })();
-  };
   showActionSheetWithOptions(
     {
       title: `#${stream} > ${topic}`,
       options: buttonList.map(button => callbacks._(button.title)),
       cancelButtonIndex: buttonList.length - 1,
     },
-    callback,
+    makeButtonCallback(buttonList, {
+      ...backgroundData,
+      ...callbacks,
+      stream,
+      topic,
+    }),
   );
 };
