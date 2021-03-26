@@ -263,6 +263,7 @@ export const constructMessageActionButtons = ({
   backgroundData: $ReadOnly<{
     ownUser: User,
     flags: FlagsState,
+    ...
   }>,
   message: Message,
   narrow: Narrow,
@@ -338,6 +339,7 @@ export const showMessageActionSheet = ({
     subscriptions: Subscription[],
     ownUser: User,
     flags: FlagsState,
+    ...
   }>,
   message: Message | Outbox,
   narrow: Narrow,
@@ -385,6 +387,7 @@ export const showHeaderActionSheet = ({
     subscriptions: Subscription[],
     ownUser: User,
     flags: FlagsState,
+    ...
   }>,
   stream: string,
   topic: string,
