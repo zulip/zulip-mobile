@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Text, View, TouchableWithoutFeedback } from 'react-native';
 
 import type { Narrow, Stream, Subscription, Dispatch } from '../types';
@@ -23,8 +23,8 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-class TitleStream extends PureComponent<Props> {
-  styles = createStyleSheet({
+const TitleStream = (props: Props) => {
+  const componentStyles = createStyleSheet({
     outer: {
       flex: 1,
       flexDirection: 'column',
@@ -37,38 +37,36 @@ class TitleStream extends PureComponent<Props> {
     },
   });
 
-  render() {
-    const { narrow, stream, color } = this.props;
+  const { narrow, stream, color } = props;
 
-    return (
-      <View style={this.styles.outer}>
-        <View style={this.styles.streamRow}>
-          <StreamIcon
-            style={styles.halfMarginRight}
-            isMuted={!stream.in_home_view}
-            isPrivate={stream.invite_only}
-            color={color}
-            size={20}
-          />
-          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
-            {stream.name}
-          </Text>
-        </View>
-        {isTopicNarrow(narrow) && (
-          <TouchableWithoutFeedback
-            onLongPress={() => {
-              showToast(topicOfNarrow(narrow));
-            }}
-          >
-            <Text style={[styles.navSubtitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
-              {topicOfNarrow(narrow)}
-            </Text>
-          </TouchableWithoutFeedback>
-        )}
+  return (
+    <View style={componentStyles.outer}>
+      <View style={componentStyles.streamRow}>
+        <StreamIcon
+          style={styles.halfMarginRight}
+          isMuted={!stream.in_home_view}
+          isPrivate={stream.invite_only}
+          color={color}
+          size={20}
+        />
+        <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+          {stream.name}
+        </Text>
       </View>
-    );
-  }
-}
+      {isTopicNarrow(narrow) && (
+        <TouchableWithoutFeedback
+          onLongPress={() => {
+            showToast(topicOfNarrow(narrow));
+          }}
+        >
+          <Text style={[styles.navSubtitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+            {topicOfNarrow(narrow)}
+          </Text>
+        </TouchableWithoutFeedback>
+      )}
+    </View>
+  );
+};
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   stream: getStreamInNarrow(state, props.narrow),
