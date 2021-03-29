@@ -572,6 +572,16 @@ hr {
   border-radius: 0.5rem;
 }
 
+/* LaTeX styling */
+.katex-display {
+   /* KaTeX sometimes overdraws its bounding box by a little, so we
+      enlarge its scrolling area by stealing 3px from the margin
+      of the enclosing <p>. */
+  margin: -3px 0;
+  padding: 3px 0;
+  overflow: auto hidden;
+}
+
 /* Taken from the `.spoiler-block` section of the webapp's styles, as
    of zulip/zulip@1cb040647, translated from SCSS to plain CSS. */
 .spoiler-block {
