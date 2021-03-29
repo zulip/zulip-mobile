@@ -91,13 +91,15 @@ export const sendAllPushToken = () => async (dispatch: Dispatch, getState: GetSt
 export const initNotifications = () => async (dispatch: Dispatch, getState: GetState) => {
   const { pushToken } = getSession(getState());
   if (pushToken === null) {
-    // We don't have the token yet.  When we learn it, the listener
-    // will update this and all other logged-in servers.  Try to learn
-    // it.
+    // Probably, we just don't have the token yet.  When we learn it,
+    // the listener will update this and all other logged-in servers.
+    // Try to learn it.
     //
-    // On Android this shouldn't happen -- our Android-native code
-    // requests the token early in startup and fires the event that
-    // tells it to our JS code -- but it's harmless to try again.
+    // Or, if we *have* gotten something for the token and it was
+    // `null`, we're probably on Android; see note on
+    // `SessionState.pushToken`. It's harmless to call
+    // `getNotificationToken` in that case; it does nothing on
+    // Android.
     //
     // On iOS this is normal because getting the token may involve
     // showing the user a permissions modal, so we defer that until
