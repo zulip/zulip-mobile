@@ -51,6 +51,14 @@ class NotificationsModule extends ReactContextBaseJavaModule {
         NotifyReact.emit(reactContext, "remoteNotificationsRegistered", token);
     }
 
+    /**
+     * Grab the token and return it to the JavaScript caller.
+     */
+    @ReactMethod
+    public void getToken(Promise promise) {
+        promise.resolve(FirebaseInstanceId.getInstance().getToken());
+    }
+
     @ReactMethod
     public void getInitialNotification(Promise promise) {
         if (null == initialNotification) {
