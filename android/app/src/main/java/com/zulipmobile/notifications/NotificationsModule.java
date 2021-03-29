@@ -23,11 +23,14 @@ class NotificationsModule extends ReactContextBaseJavaModule {
 
     @Override
     public void initialize() {
-        // Invoking `emitToken` here is a bit belt-and-suspenders: the FCM framework
-        // already invokes it (via `onRefreshToken`) at app startup.  But that can be
-        // before React is ready.  With some more care we could hang on to it and emit
-        // the event a bit later, but instead we just redundantly emit here when we
-        // know things have started up.
+        // This can be considered dead code.
+        //
+        // 3730be4c8 introduced a bug where the JavaScript didn't act
+        // on the event containing the token, either as it was emitted
+        // here or by the FCM framework (via `onRefreshToken`) on
+        // startup. We should give control to the JavaScript by
+        // exposing a method to return the token, for the JavaScript
+        // to call at its convenience.
         emitToken(getReactApplicationContext());
     }
 
@@ -38,6 +41,9 @@ class NotificationsModule extends ReactContextBaseJavaModule {
             // If so, the next time the app is launched, this method will be invoked again
             // by our NotificationsModule#initialize, by which point there certainly is
             // a React context; so we'll learn the new token then.
+            // (But see the comment on `initialize` for a problem we
+            // should fix soon, where the `emitToken` there is ignored
+            // by the JavaScript.)
             Log.w(TAG, "Got token before React context initialized");
             return;
         }
