@@ -21,30 +21,10 @@ class NotificationsModule extends ReactContextBaseJavaModule {
         return "Notifications";
     }
 
-    @Override
-    public void initialize() {
-        // This can be considered dead code.
-        //
-        // 3730be4c8 introduced a bug where the JavaScript didn't act
-        // on the event containing the token, either as it was emitted
-        // here or by the FCM framework (via `onRefreshToken`) on
-        // startup. We should give control to the JavaScript by
-        // exposing a method to return the token, for the JavaScript
-        // to call at its convenience.
-        emitToken(getReactApplicationContext());
-    }
-
     static void emitToken(@Nullable ReactContext reactContext) {
         final String token = FirebaseInstanceId.getInstance().getToken();
         if (reactContext == null) {
             // Perhaps this is possible if InstanceIDListenerService gets invoked?
-            // If so, the next time the app is launched, this method will be invoked again
-            // by our NotificationsModule#initialize, by which point there certainly is
-            // a React context; so we'll learn the new token then.
-            // (But see the comment on `initialize` for a problem we
-            // should fix soon, where the `emitToken` there is ignored
-            // by the JavaScript.)
-            Log.w(TAG, "Got token before React context initialized");
             return;
         }
         Log.i(TAG, "Got token; emitting event");
