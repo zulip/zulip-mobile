@@ -37,6 +37,16 @@ It doesn't include
 ## Unreleased
 
 
+## 27.160 (2021-03-29)
+
+This was an Android-only release, with a cherry-picked fix atop v27.159.
+
+
+### Highlights for users
+
+* (Android) Fixed issue causing notifications not to arrive. (#4560)
+
+
 ## 27.159 (2021-02-25)
 
 ### Highlights for users, vs v27.157 (last prod release)
