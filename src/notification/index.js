@@ -246,14 +246,6 @@ export class NotificationListener {
       // On Android, the object passed to the handler is constructed in
       // FcmMessage.kt, and will always be a Notification.
       this.listen('notificationOpened', this.handleNotificationOpen);
-
-      // A bug was introduced in 3730be4c8 that delayed the setup of
-      // our listener for 'remoteNotificationsRegistered' until a time
-      // after the event was emitted from the native code. Until we
-      // settle on a better, more consistent architecture, just grab
-      // the token here and do the same thing our handler does (by
-      // just calling the handler).
-      this.handleDeviceToken(await NativeModules.Notifications.getToken());
     } else {
       // On iOS, `note` should be an IOSNotifications object. The notification
       // data it returns from `getData` is unvalidated -- it comes almost
@@ -267,9 +259,22 @@ export class NotificationListener {
     }
 
     this.listen('remoteNotificationsRegistered', this.handleDeviceToken);
-
     if (Platform.OS === 'ios') {
       this.listen('remoteNotificationsRegistrationFailed', this.handleRegistrationFailure);
+    }
+
+    if (Platform.OS === 'android') {
+      // A bug was introduced in 3730be4c8 that delayed the setup of
+      // our listener for 'remoteNotificationsRegistered' until a time
+      // after the event was emitted from the native code. Until we
+      // settle on a better, more consistent architecture, just grab
+      // the token here and do the same thing our handler does (by
+      // just calling the handler).
+      this.handleDeviceToken(await NativeModules.Notifications.getToken());
+    } else {
+      // On iOS, we come back to this later: after the initial fetch, we
+      // end up calling `getNotificationToken`, below, and that will cause
+      // us to get the token if the user gives us notification permission.
     }
   }
 
