@@ -241,11 +241,19 @@ export class NotificationListener {
   };
 
   /** Start listening.  Don't call twice without intervening `stop`. */
-  start() {
+  async start() {
     if (Platform.OS === 'android') {
       // On Android, the object passed to the handler is constructed in
       // FcmMessage.kt, and will always be a Notification.
       this.listen('notificationOpened', this.handleNotificationOpen);
+
+      // A bug was introduced in 3730be4c8 that delayed the setup of
+      // our listener for 'remoteNotificationsRegistered' until a time
+      // after the event was emitted from the native code. Until we
+      // settle on a better, more consistent architecture, just grab
+      // the token here and do the same thing our handler does (by
+      // just calling the handler).
+      this.handleDeviceToken(await NativeModules.Notifications.getToken());
     } else {
       // On iOS, `note` should be an IOSNotifications object. The notification
       // data it returns from `getData` is unvalidated -- it comes almost
