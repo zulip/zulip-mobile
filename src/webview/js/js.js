@@ -275,6 +275,16 @@ function midMessagePeer(top: number, bottom: number): ?Element {
   return midElements[midElements.length - 3];
 }
 
+/**
+ * Find a message element at or near the given element.
+ *
+ * The given element should be a message-peer; see `midMessagePeer` for
+ * discussion.
+ *
+ * If the given element is a message, returns that element.  Otherwise,
+ * returns the message that comes just after or just before it, depending on
+ * the value of `step`.
+ */
 function walkToMessage(
   start: ?Element,
   step: 'nextElementSibling' | 'previousElementSibling',
@@ -287,10 +297,12 @@ function walkToMessage(
   return element;
 }
 
+/** The first message element in the document. */
 function firstMessage(): ?Element {
   return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
 }
 
+/** The last message element in the document. */
 function lastMessage(): ?Element {
   return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
 }
@@ -321,6 +333,9 @@ function someVisibleMessage(top: number, bottom: number): ?Element {
   );
 }
 
+/**
+ * The Zulip message ID of the given message element; throw if not a message.
+ */
 function idFromMessage(element: Element): number {
   const idStr = element.getAttribute('data-msg-id');
   if (idStr === null || idStr === undefined) {
