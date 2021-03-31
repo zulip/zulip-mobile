@@ -48,7 +48,7 @@ const loginSuccess = (state, action) => {
     ];
   }
   return [
-    { ...state[accountIndex], email, apiKey, ackedPushToken: null },
+    { ...state[accountIndex], apiKey, ackedPushToken: null },
     ...state.slice(0, accountIndex),
     ...state.slice(accountIndex + 1),
   ];
