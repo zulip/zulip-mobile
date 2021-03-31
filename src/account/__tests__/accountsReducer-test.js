@@ -84,23 +84,6 @@ describe('accountsReducer', () => {
 
     const prevState = deepFreeze([account1, account2]);
 
-    test("on login, update initial account with auth information, set ackedPushToken to null, don't clobber anything else", () => {
-      const newApiKey = eg.randString();
-
-      const action = deepFreeze({
-        type: LOGIN_SUCCESS,
-        apiKey: newApiKey,
-        email: account1.email,
-        realm: account1.realm,
-      });
-
-      const expectedState = [{ ...account1, apiKey: newApiKey, ackedPushToken: null }, account2];
-
-      const newState = accountsReducer(prevState, action);
-
-      expect(newState).toEqual(expectedState);
-    });
-
     test('on login, if account does not exist, add as first item, with null zulipVersion, zulipFeatureLevel', () => {
       const newApiKey = eg.randString();
       const newEmail = 'newaccount@example.com';
