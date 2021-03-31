@@ -114,12 +114,12 @@ const eventMessageDelete = (state, action) => {
   return stateChange ? newState : state;
 };
 
-const updateFlagNarrow = (state, narrowStr, operation, messageIds): NarrowsState => {
+const updateFlagNarrow = (state, narrowStr, op, messageIds): NarrowsState => {
   const value = state.get(narrowStr);
   if (!value) {
     return state;
   }
-  switch (operation) {
+  switch (op) {
     case 'add': {
       return state.set(narrowStr, [...value, ...messageIds].sort((a, b) => a - b));
     }
@@ -128,17 +128,17 @@ const updateFlagNarrow = (state, narrowStr, operation, messageIds): NarrowsState
       return state.set(narrowStr, value.filter(id => !messageIdSet.has(id)));
     }
     default:
-      ensureUnreachable(operation);
-      throw new Error(`Unexpected operation ${operation} in an EVENT_UPDATE_MESSAGE_FLAGS action`);
+      ensureUnreachable(op);
+      throw new Error(`Unexpected operation ${op} in an EVENT_UPDATE_MESSAGE_FLAGS action`);
   }
 };
 
 const eventUpdateMessageFlags = (state, action) => {
-  const { flag, operation, messages: messageIds } = action;
+  const { flag, op, messages: messageIds } = action;
   if (flag === 'starred') {
-    return updateFlagNarrow(state, STARRED_NARROW_STR, operation, messageIds);
+    return updateFlagNarrow(state, STARRED_NARROW_STR, op, messageIds);
   } else if (['mentioned', 'wildcard_mentioned'].includes(flag)) {
-    return updateFlagNarrow(state, MENTIONED_NARROW_STR, operation, messageIds);
+    return updateFlagNarrow(state, MENTIONED_NARROW_STR, op, messageIds);
   }
   return state;
 };

@@ -110,7 +110,7 @@ describe('unreadMentionsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1, 2, 3],
         flag: 'star',
-        operation: 'add',
+        op: 'add',
       };
 
       const actualState = unreadMentionsReducer(initialState, action);
@@ -125,7 +125,7 @@ describe('unreadMentionsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [2],
         flag: 'read',
-        operation: 'add',
+        op: 'add',
       });
 
       const actualState = unreadMentionsReducer(initialState, action);
@@ -140,7 +140,7 @@ describe('unreadMentionsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [2, 3],
         flag: 'read',
-        operation: 'add',
+        op: 'add',
       });
 
       const expectedState = [1];
@@ -157,7 +157,7 @@ describe('unreadMentionsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1, 2],
         flag: 'read',
-        operation: 'remove',
+        op: 'remove',
       });
 
       const actualState = unreadMentionsReducer(initialState, action);
@@ -172,7 +172,7 @@ describe('unreadMentionsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [],
         flag: 'read',
-        operation: 'add',
+        op: 'add',
         all: true,
       });
 

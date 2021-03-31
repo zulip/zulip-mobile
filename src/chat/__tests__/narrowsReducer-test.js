@@ -533,7 +533,7 @@ describe('narrowsReducer', () => {
         allMessages,
         all: false,
         flag: 'starred',
-        operation: 'add',
+        op: 'add',
         messages: [4, 2],
       });
 
@@ -550,7 +550,7 @@ describe('narrowsReducer', () => {
         id: 1,
         all: false,
         allMessages,
-        operation: 'add',
+        op: 'add',
         messages: [1],
         flag: 'read',
       });
@@ -572,7 +572,7 @@ describe('narrowsReducer', () => {
           allMessages,
           all: false,
           flag: 'starred',
-          operation: 'add',
+          op: 'add',
           messages: [4, 2],
         });
 
@@ -598,7 +598,7 @@ describe('narrowsReducer', () => {
           allMessages,
           all: false,
           flag: 'starred',
-          operation: 'remove',
+          op: 'remove',
           messages: [4, 2],
         });
 

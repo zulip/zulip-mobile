@@ -201,7 +201,7 @@ describe('unreadPmsReducer', () => {
         allMessages: eg.makeMessagesState([]),
         messages: [1, 2, 3],
         flag: 'star',
-        operation: 'add',
+        op: 'add',
       };
 
       const actualState = unreadPmsReducer(initialState, action);
@@ -228,7 +228,7 @@ describe('unreadPmsReducer', () => {
         allMessages: eg.makeMessagesState([]),
         messages: [6, 7],
         flag: 'read',
-        operation: 'add',
+        op: 'add',
       });
 
       const actualState = unreadPmsReducer(initialState, action);
@@ -255,7 +255,7 @@ describe('unreadPmsReducer', () => {
         allMessages: eg.makeMessagesState([]),
         messages: [3, 4, 5, 6],
         flag: 'read',
-        operation: 'add',
+        op: 'add',
       });
 
       const expectedState = [
@@ -285,7 +285,7 @@ describe('unreadPmsReducer', () => {
         allMessages: eg.makeMessagesState([]),
         messages: [1, 2],
         flag: 'read',
-        operation: 'remove',
+        op: 'remove',
       });
 
       const actualState = unreadPmsReducer(initialState, action);
@@ -308,7 +308,7 @@ describe('unreadPmsReducer', () => {
         allMessages: eg.makeMessagesState([]),
         messages: [],
         flag: 'read',
-        operation: 'add',
+        op: 'add',
       });
 
       const actualState = unreadPmsReducer(initialState, action);

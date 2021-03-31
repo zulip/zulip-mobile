@@ -253,6 +253,11 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
       return {
         ...event,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+
+        // Servers with feature level 32+ send `op`. Servers will eventually
+        // stop sending `operation`; see #4238.
+        op: event.op ?? event.operation,
+
         allMessages: state.messages,
       };
 

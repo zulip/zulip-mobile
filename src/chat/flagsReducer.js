@@ -89,11 +89,11 @@ const eventUpdateMessageFlags = (state, action) => {
     return addFlagsForMessages(initialState, Object.keys(action.allMessages).map(Number), ['read']);
   }
 
-  if (action.operation === 'add') {
+  if (action.op === 'add') {
     return addFlagsForMessages(state, action.messages, [action.flag]);
   }
 
-  if (action.operation === 'remove') {
+  if (action.op === 'remove') {
     return removeFlagForMessages(state, action.messages, action.flag);
   }
 

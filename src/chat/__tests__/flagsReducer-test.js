@@ -119,7 +119,7 @@ describe('flagsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1],
         flag: 'starred',
-        operation: 'add',
+        op: 'add',
       });
 
       const expectedState = {
@@ -144,7 +144,7 @@ describe('flagsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1],
         flag: 'starred',
-        operation: 'add',
+        op: 'add',
       });
 
       const expectedState = {
@@ -169,7 +169,7 @@ describe('flagsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1],
         flag: 'read',
-        operation: 'add',
+        op: 'add',
       });
 
       const expectedState = {
@@ -200,7 +200,7 @@ describe('flagsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1, 2, 3],
         flag: 'starred',
-        operation: 'add',
+        op: 'add',
       });
 
       const expectedState = {
@@ -230,7 +230,7 @@ describe('flagsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1],
         flag: 'read',
-        operation: 'remove',
+        op: 'remove',
       });
 
       const expectedState = {
@@ -249,7 +249,7 @@ describe('flagsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1],
         flag: 'read',
-        operation: 'remove',
+        op: 'remove',
       });
 
       const expectedState = {
@@ -277,7 +277,7 @@ describe('flagsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1, 2, 3, 4],
         flag: 'starred',
-        operation: 'remove',
+        op: 'remove',
       });
 
       const expectedState = {
@@ -305,7 +305,7 @@ describe('flagsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [],
         flag: 'read',
-        operation: 'add',
+        op: 'add',
         all: true,
         allMessages: {
           1: {},

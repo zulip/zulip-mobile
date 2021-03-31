@@ -134,7 +134,12 @@ export type StreamEvent =
 export type UpdateMessageFlagsEvent = {|
   ...EventCommon,
   type: typeof EventTypes.update_message_flags,
-  operation: 'add' | 'remove',
+
+  // Servers with feature level 32+ send `op`. Servers will eventually
+  // stop sending `operation`; see #4238.
+  operation?: 'add' | 'remove',
+  op?: 'add' | 'remove',
+
   flag: empty, // TODO fill in
   all: boolean,
   messages: number[],

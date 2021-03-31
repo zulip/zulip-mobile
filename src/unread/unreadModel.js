@@ -282,7 +282,7 @@ function streamsReducer(
         return initialStreamsState;
       }
 
-      if (action.operation === 'remove') {
+      if (action.op === 'remove') {
         // Zulip doesn't support un-reading a message.  Ignore it.
         return state;
       }

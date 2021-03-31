@@ -399,7 +399,7 @@ type EventUpdateMessageFlagsAction = {|
   allMessages: MessagesState,
   flag: string,
   messages: number[],
-  operation: 'add' | 'remove',
+  op: 'add' | 'remove',
 |};
 
 type EventUserAddAction = {|

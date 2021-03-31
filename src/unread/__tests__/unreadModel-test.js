@@ -134,7 +134,7 @@ describe('stream substate', () => {
 
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
     const mkAction = args => {
-      const { all = false, messages, flag = 'read', operation = 'add' } = args;
+      const { all = false, messages, flag = 'read', op = 'add' } = args;
       return {
         id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
@@ -142,7 +142,7 @@ describe('stream substate', () => {
         all,
         messages,
         flag,
-        operation,
+        op,
       };
     };
 
@@ -220,7 +220,7 @@ describe('stream substate', () => {
     });
 
     test('when operation is "remove" do nothing', () => {
-      const action = mkAction({ messages: [1, 2], operation: 'remove' });
+      const action = mkAction({ messages: [1, 2], op: 'remove' });
       expect(reducer(baseState, action, baseGlobalState)).toBe(baseState);
     });
 

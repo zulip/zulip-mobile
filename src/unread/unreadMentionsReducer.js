@@ -23,9 +23,9 @@ const eventUpdateMessageFlags = (state, action) => {
     return initialState;
   }
 
-  if (action.operation === 'add') {
+  if (action.op === 'add') {
     return removeItemsFromArray(state, action.messages);
-  } else if (action.operation === 'remove') {
+  } else if (action.op === 'remove') {
     // we do not support that operation
   }
 
