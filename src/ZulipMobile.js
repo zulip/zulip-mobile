@@ -4,6 +4,7 @@ import { Platform, UIManager } from 'react-native';
 import 'react-native-url-polyfill/auto';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import RootErrorBoundary from './RootErrorBoundary';
 import { BRAND_COLOR } from './styles';
 import ZulipNavigationContainer from './nav/ZulipNavigationContainer';
 import StoreProvider from './boot/StoreProvider';
@@ -35,29 +36,31 @@ if (Platform.OS === 'android') {
 }
 
 export default (): React$Node => (
-  <CompatibilityChecker>
-    <StoreProvider>
-      <SafeAreaProvider
-        style={{
-          // While waiting for the safe-area insets, this will
-          // show. Best for it not to be a white flicker.
-          backgroundColor: BRAND_COLOR,
-        }}
-      >
-        <HideIfNotHydrated PlaceholderComponent={FullScreenLoading}>
-          <AppEventHandlers>
-            <AppDataFetcher>
-              <TranslationProvider>
-                <ThemeProvider>
-                  <BackNavigationHandler>
-                    <ZulipNavigationContainer />
-                  </BackNavigationHandler>
-                </ThemeProvider>
-              </TranslationProvider>
-            </AppDataFetcher>
-          </AppEventHandlers>
-        </HideIfNotHydrated>
-      </SafeAreaProvider>
-    </StoreProvider>
-  </CompatibilityChecker>
+  <RootErrorBoundary>
+    <CompatibilityChecker>
+      <StoreProvider>
+        <SafeAreaProvider
+          style={{
+            // While waiting for the safe-area insets, this will
+            // show. Best for it not to be a white flicker.
+            backgroundColor: BRAND_COLOR,
+          }}
+        >
+          <HideIfNotHydrated PlaceholderComponent={FullScreenLoading}>
+            <AppEventHandlers>
+              <AppDataFetcher>
+                <TranslationProvider>
+                  <ThemeProvider>
+                    <BackNavigationHandler>
+                      <ZulipNavigationContainer />
+                    </BackNavigationHandler>
+                  </ThemeProvider>
+                </TranslationProvider>
+              </AppDataFetcher>
+            </AppEventHandlers>
+          </HideIfNotHydrated>
+        </SafeAreaProvider>
+      </StoreProvider>
+    </CompatibilityChecker>
+  </RootErrorBoundary>
 );
