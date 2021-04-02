@@ -12,7 +12,6 @@ export default function getStoredState (config, onComplete) {
   }
   const blacklist = config.blacklist || []
   const whitelist = config.whitelist || false
-  const transforms = []
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
   let restoredState = {}
@@ -60,9 +59,7 @@ export default function getStoredState (config, onComplete) {
 
     try {
       let data = deserializer(serialized)
-      state = transforms.reduceRight((subState, transformer) => {
-        return transformer.out(subState, key)
-      }, data)
+      state = data
     } catch (err) {
       if (process.env.NODE_ENV !== 'production') console.warn('redux-persist/getStoredState: Error restoring data for key:', key, err)
     }

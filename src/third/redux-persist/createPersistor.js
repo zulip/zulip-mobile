@@ -23,7 +23,6 @@ export default function createPersistor (store, config) {
   }
   const blacklist = config.blacklist || []
   const whitelist = config.whitelist || false
-  const transforms = []
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
   // pluggable state shape (e.g. immutablejs)
@@ -65,7 +64,7 @@ export default function createPersistor (store, config) {
 
         let key = storesToProcess.shift()
         let storageKey = createStorageKey(key)
-        let endState = transforms.reduce((subState, transformer) => transformer.in(subState, key), stateGetter(store.getState(), key))
+        let endState = stateGetter(store.getState(), key)
         if (typeof endState !== 'undefined') storage.setItem(storageKey, serializer(endState)).catch(warnIfSetError(key))
       }, 0)
     }
@@ -85,9 +84,7 @@ export default function createPersistor (store, config) {
       stateIterator(incoming, (subState, key) => {
         try {
           let data = deserializer(subState)
-          let value = transforms.reduceRight((interState, transformer) => {
-            return transformer.out(interState, key)
-          }, data)
+          let value = data
           state = stateSetter(state, key, value)
         } catch (err) {
           if (process.env.NODE_ENV !== 'production') console.warn(`Error rehydrating data for key "${key}"`, subState, err)
