@@ -13,7 +13,7 @@ import {
   IconLeft,
   IconImage,
   IconCamera,
-  IconFile,
+  IconAttach,
   IconVideo,
 } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
@@ -170,7 +170,7 @@ class ComposeMenu extends PureComponent<Props> {
         >
           <View style={this.styles.composeMenu}>
             {Platform.OS === 'android' && (
-              <IconFile
+              <IconAttach
                 style={this.styles.composeMenuButton}
                 size={24}
                 onPress={this.handleFilePicker}
