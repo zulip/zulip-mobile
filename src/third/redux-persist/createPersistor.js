@@ -67,7 +67,7 @@ export default function createPersistor (store, config) {
         let storageKey = createStorageKey(key)
         let endState = transforms.reduce((subState, transformer) => transformer.in(subState, key), stateGetter(store.getState(), key))
         if (typeof endState !== 'undefined') storage.setItem(storageKey, serializer(endState)).catch(warnIfSetError(key))
-      }, false)
+      }, 0)
     }
 
     lastState = state
