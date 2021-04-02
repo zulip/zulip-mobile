@@ -24,9 +24,7 @@ export default function AccountList(props: Props) {
         renderItem={({ item, index }) => (
           <AccountItem
             index={index}
-            showDoneIcon={index === 0 && item.isLoggedIn}
-            email={item.email}
-            realm={item.realm}
+            account={item}
             onSelect={onAccountSelect}
             onRemove={onAccountRemove}
           />

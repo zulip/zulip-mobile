@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable } from '../common';
 import { IconDone, IconTrash } from '../common/Icons';
+import type { AccountStatus } from './accountsSelectors';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -38,15 +39,15 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   index: number,
-  email: string,
-  realm: URL,
+  account: AccountStatus,
   onSelect: (index: number) => void,
   onRemove: (index: number) => void,
-  showDoneIcon: boolean,
 |}>;
 
 export default function AccountItem(props: Props) {
-  const { email, realm, showDoneIcon } = props;
+  const { email, realm, isLoggedIn } = props.account;
+
+  const showDoneIcon = Boolean(props.index === 0 && isLoggedIn);
 
   return (
     <Touchable style={styles.wrapper} onPress={() => props.onSelect(props.index)}>
