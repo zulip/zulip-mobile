@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { RawLabel, Touchable } from '../common';
+import { RawLabel, Touchable, Label } from '../common';
 import { IconDone, IconTrash } from '../common/Icons';
 import type { AccountStatus } from './accountsSelectors';
 
@@ -14,7 +14,6 @@ const styles = createStyleSheet({
   accountItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'hsla(177, 70%, 47%, 0.1)',
     borderRadius: 4,
     height: 72,
   },
@@ -27,13 +26,21 @@ const styles = createStyleSheet({
     marginLeft: 16,
   },
   text: {
-    color: BRAND_COLOR,
     fontWeight: 'bold',
     marginVertical: 2,
   },
   icon: {
     padding: 12,
     margin: 12,
+  },
+  signOutText: {
+    fontStyle: 'italic',
+    fontSize: 12,
+    textAlign: 'right',
+    position: 'absolute',
+    end: 10,
+    top: 3,
+    color: 'gray',
   },
 });
 
@@ -48,13 +55,26 @@ export default function AccountItem(props: Props) {
   const { email, realm, isLoggedIn } = props.account;
 
   const showDoneIcon = Boolean(props.index === 0 && isLoggedIn);
+  const backgroundItemColor = isLoggedIn ? 'hsla(177, 70%, 47%, 0.1)' : 'hsla(0,0%,50%,0.1)';
+  const textColor = isLoggedIn ? BRAND_COLOR : 'gray';
 
   return (
     <Touchable style={styles.wrapper} onPress={() => props.onSelect(props.index)}>
-      <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
+      <View
+        style={[
+          styles.accountItem,
+          showDoneIcon && styles.selectedAccountItem,
+          { backgroundColor: backgroundItemColor },
+        ]}
+      >
+        {!isLoggedIn && <Label style={styles.signOutText} text="Signed out" />}
         <View style={styles.details}>
-          <RawLabel style={styles.text} text={email} numberOfLines={1} />
-          <RawLabel style={styles.text} text={realm.toString()} numberOfLines={1} />
+          <RawLabel style={[styles.text, { color: textColor }]} text={email} numberOfLines={1} />
+          <RawLabel
+            style={[styles.text, { color: textColor }]}
+            text={realm.toString()}
+            numberOfLines={1}
+          />
         </View>
         {!showDoneIcon ? (
           <IconTrash
