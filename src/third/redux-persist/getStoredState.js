@@ -12,7 +12,7 @@ export default function getStoredState (config, onComplete) {
   }
   const blacklist = config.blacklist || []
   const whitelist = config.whitelist || false
-  const transforms = config.transforms || []
+  const transforms = []
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
   let restoredState = {}

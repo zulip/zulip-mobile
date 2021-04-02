@@ -21,7 +21,6 @@ declare type Config = {|
   blacklist?: Blacklist,
   whitelist?: Whitelist,
   storage?: Storage,
-  transforms?: Array<Object>,
   serialize?: boolean | Function,
   deserialize?: boolean | Function,
   keyPrefix?: string,
