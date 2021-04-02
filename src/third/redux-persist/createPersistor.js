@@ -24,7 +24,6 @@ export default function createPersistor (store, config) {
   const blacklist = config.blacklist || []
   const whitelist = config.whitelist || false
   const transforms = config.transforms || []
-  const debounce = false
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
   // pluggable state shape (e.g. immutablejs)
@@ -68,7 +67,7 @@ export default function createPersistor (store, config) {
         let storageKey = createStorageKey(key)
         let endState = transforms.reduce((subState, transformer) => transformer.in(subState, key), stateGetter(store.getState(), key))
         if (typeof endState !== 'undefined') storage.setItem(storageKey, serializer(endState)).catch(warnIfSetError(key))
-      }, debounce)
+      }, false)
     }
 
     lastState = state
