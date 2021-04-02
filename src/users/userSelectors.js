@@ -193,6 +193,59 @@ export const getUserIsActive = (state: GlobalState, userId: UserId): boolean =>
 
 /**
  * Whether we have server data for the active account.
+ *
+ * This can be used to decide whether the app's main UI which shows data
+ * from the server should render itself, or should fall back to a loading
+ * screen.
  */
-// Valid server data must have a user: the self user, at a minimum.
-export const getHaveServerData = (state: GlobalState): boolean => getUsers(state).length > 0;
+export const getHaveServerData = (state: GlobalState): boolean => {
+  // The implementation has to be redundant, because upon rehydrate we can
+  // unfortunately have some of our state subtrees containing server data
+  // while others don't, reflecting different points in time from the last
+  // time the app ran.  In particular, if the user switched accounts (so
+  // that we cleared server data in Redux) and then the app promptly
+  // crashed, or was killed, that clearing-out may have reached some
+  // subtrees but not others.  See #4587.
+
+  // Valid server data must have a user: the self user, at a minimum.
+  if (getUsers(state).length === 0) {
+    return false;
+  }
+
+  // It must also have the self user's user ID.
+  const ownUserId = state.realm.user_id;
+  if (ownUserId === undefined) {
+    return false;
+  }
+
+  // We can also do a basic consistency check between those two subtrees:
+  // the self user identified in `state.realm` is among those we have in
+  // `state.users`.  (If for example the previous run of the app switched
+  // accounts, and got all the way to writing the new account's
+  // `state.realm` but not even clearing out `state.users` or vice versa,
+  // then this check would fire.  And in that situation without this check,
+  // we crash early on because `getOwnUser` fails.)
+  if (!getUsersById(state).get(ownUserId)) {
+    return false;
+  }
+
+  // Any other subtree could also have been emptied while others weren't,
+  // or otherwise be out of sync.
+  //
+  // But it appears that in every other subtree containing server state, the
+  // empty state (i.e. the one we reset to on logout or account switch) is a
+  // valid possible state.  That means (a) we can't so easily tell that it's
+  // out of sync, but also (b) the app's UI is not so likely to just crash
+  // from the get-go if it is -- because at least it won't crash simply
+  // because the state is empty.
+  //
+  // There're still plenty of other ways different subtrees can be out of
+  // sync with each other: `state.narrows` could know about some new message
+  // that `state.messages` doesn't, or `state.messages` have a message sent
+  // by a user that `state.users` has no record of.
+  //
+  // But given that shortly after startup we go fetch fresh data from the
+  // server anyway, the checks above are hopefully enough to let the app
+  // survive that long.
+  return true;
+};
