@@ -35,12 +35,8 @@ const styles = createStyleSheet({
   },
   signedOutText: {
     fontStyle: 'italic',
-    fontSize: 12,
-    textAlign: 'right',
-    position: 'absolute',
-    end: 10,
-    top: 3,
     color: 'gray',
+    marginVertical: 2,
   },
 });
 
@@ -67,7 +63,6 @@ export default function AccountItem(props: Props) {
           { backgroundColor: backgroundItemColor },
         ]}
       >
-        {!isLoggedIn && <Label style={styles.signedOutText} text="Signed out" />}
         <View style={styles.details}>
           <RawLabel style={[styles.text, { color: textColor }]} text={email} numberOfLines={1} />
           <RawLabel
@@ -75,6 +70,9 @@ export default function AccountItem(props: Props) {
             text={realm.toString()}
             numberOfLines={1}
           />
+          {!isLoggedIn && (
+            <Label style={styles.signedOutText} text="Signed out" numberOfLines={1} />
+          )}
         </View>
         {!showDoneIcon ? (
           <IconTrash
