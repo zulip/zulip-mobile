@@ -286,24 +286,22 @@ export const handleWebViewOutboundEvent = (
       }
       break;
 
-    case 'reaction':
-      {
-        const { code, messageId, name, reactionType, voted } = event;
-        const { auth } = props.backgroundData;
-        if (voted) {
-          api.emojiReactionRemove(auth, messageId, reactionType, code, name);
-        } else {
-          api.emojiReactionAdd(auth, messageId, reactionType, code, name);
-        }
+    case 'reaction': {
+      const { code, messageId, name, reactionType, voted } = event;
+      const { auth } = props.backgroundData;
+      if (voted) {
+        api.emojiReactionRemove(auth, messageId, reactionType, code, name);
+      } else {
+        api.emojiReactionAdd(auth, messageId, reactionType, code, name);
       }
       break;
+    }
 
-    case 'reactionDetails':
-      {
-        const { messageId, reactionName } = event;
-        NavigationService.dispatch(navigateToMessageReactionScreen(messageId, reactionName));
-      }
+    case 'reactionDetails': {
+      const { messageId, reactionName } = event;
+      NavigationService.dispatch(navigateToMessageReactionScreen(messageId, reactionName));
       break;
+    }
 
     case 'addReaction': {
       const { messageId } = event;
