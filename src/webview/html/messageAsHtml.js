@@ -43,6 +43,8 @@ const messageReactionAsHtml = (
       : codeToEmojiMap[reaction.code]
   }&nbsp;${reaction.count}</span>`;
 
+const addReactionButtonAsHtml = (): string => template` <span class="add-emoji-button">➕</span>`;
+
 const messageReactionListAsHtml = (
   reactions: $ReadOnlyArray<Reaction>,
   ownUserId: UserId,
@@ -54,7 +56,9 @@ const messageReactionListAsHtml = (
   const htmlList = aggregateReactions(reactions, ownUserId).map(r =>
     messageReactionAsHtml(r, allImageEmojiById),
   );
-  return template`<div class="reaction-list">$!${htmlList.join('')}</div>`;
+  return template`<div class="reaction-list">$!${htmlList.join(
+    '',
+  )}$!${addReactionButtonAsHtml()}</div>`;
 };
 
 const messageBody = (

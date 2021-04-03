@@ -22,6 +22,7 @@ import {
   doNarrow,
   navigateToLightbox,
   messageLinkPress,
+  navigateToEmojiPicker,
 } from '../actions';
 import { showHeaderActionSheet, showMessageActionSheet } from '../message/messageActionSheet';
 import { ensureUnreachable } from '../types';
@@ -121,6 +122,11 @@ type WebViewOutboundEventReactionDetails = {|
   reactionName: string,
 |};
 
+type WebViewOutboundEventAddReaction = {|
+  type: 'addReaction',
+  messageId: number,
+|};
+
 type WebViewOutboundEventMention = {|
   type: 'mention',
   userId: UserId,
@@ -138,6 +144,7 @@ export type WebViewOutboundEvent =
   | WebViewOutboundEventNarrow
   | WebViewOutboundEventImage
   | WebViewOutboundEventReaction
+  | WebViewOutboundEventAddReaction
   | WebViewOutboundEventUrl
   | WebViewOutboundEventLongPress
   | WebViewOutboundEventReactionDetails
@@ -297,6 +304,12 @@ export const handleWebViewOutboundEvent = (
         NavigationService.dispatch(navigateToMessageReactionScreen(messageId, reactionName));
       }
       break;
+
+    case 'addReaction': {
+      const { messageId } = event;
+      NavigationService.dispatch(navigateToEmojiPicker(messageId));
+      break;
+    }
 
     case 'mention': {
       NavigationService.dispatch(navigateToAccountDetails(event.userId));

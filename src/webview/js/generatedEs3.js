@@ -942,6 +942,13 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
 
+    if (target.matches('.add-emoji-button')) {
+      sendMessage({
+        type: 'addReaction',
+        messageId: getMessageIdFromNode(target)
+      });
+    }
+
     if (target.matches('time')) {
       var originalText = requireAttribute(target, 'original-text');
       sendMessage({
