@@ -33,7 +33,7 @@ const styles = createStyleSheet({
     padding: 12,
     margin: 12,
   },
-  signOutText: {
+  signedOutText: {
     fontStyle: 'italic',
     fontSize: 12,
     textAlign: 'right',
@@ -67,7 +67,7 @@ export default function AccountItem(props: Props) {
           { backgroundColor: backgroundItemColor },
         ]}
       >
-        {!isLoggedIn && <Label style={styles.signOutText} text="Signed out" />}
+        {!isLoggedIn && <Label style={styles.signedOutText} text="Signed out" />}
         <View style={styles.details}>
           <RawLabel style={[styles.text, { color: textColor }]} text={email} numberOfLines={1} />
           <RawLabel
