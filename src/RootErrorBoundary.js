@@ -27,7 +27,8 @@ type State = $ReadOnly<{|
  * from this component itself. It doesn't depend on any external setup
  * except Sentry's initialization (without which we'd have no hope of
  * reporting the error to Sentry), e.g., from other React components
- * in the tree.
+ * in the tree. N.B., this means things like proper safe-area
+ * handling, light-dark theming, and translation won't work.
  *
  * [1] https://reactjs.org/docs/error-boundaries.html#how-about-event-handlers
  */
