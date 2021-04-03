@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
-import { View, Clipboard, TextInput, ScrollView, Button, Platform } from 'react-native';
+import { View, Text, Clipboard, TextInput, ScrollView, Button, Platform } from 'react-native';
 import Toast from 'react-native-simple-toast';
 
 import * as logging from './utils/logging';
@@ -91,8 +91,9 @@ ${error.stack}`;
             padding: 50,
           }}
         >
+          <Text>Ouch, there was an error.</Text>
           <Button
-            title="Ouch, there's been an error. Tap to copy the stack trace below."
+            title="Copy details"
             // If something in `onPress` fails, we shouldn't get a
             // white screen [1]: "Unlike the render method and
             // lifecycle methods, the event handlers don’t happen
