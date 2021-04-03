@@ -209,6 +209,7 @@ body {
   z-index: 200;
   right: 5px;
   bottom: 15px;
+  border-radius: 50%;
 }
 #scroll-bottom a {
   display: block;
@@ -216,6 +217,7 @@ body {
   height: 32px;
   border-radius: 50%;
   background: hsla(170, 48%, 54%, 0.5);
+  -webkit-tap-highlight-color: transparent;
 }
 #scroll-bottom .text {
   clip: rect(0 0 0 0);
@@ -223,6 +225,9 @@ body {
   position: absolute;
   height: 1px;
   width: 1px;
+}
+#scroll-bottom:active{
+  background-color: hsl(170, 48%, 54%);
 }
 #scroll-bottom svg {
   width: 32px;
