@@ -45,7 +45,7 @@ export default class UserAvatarWithPresence extends PureComponent<Props> {
         <PresenceStatusIndicator
           style={styles.status}
           email={email}
-          hideIfOffline
+          hideIfOffline={false}
           useOpaqueBackground
         />
       </UserAvatar>
