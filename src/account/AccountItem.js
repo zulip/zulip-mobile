@@ -54,7 +54,7 @@ type Props = $ReadOnly<{|
 export default function AccountItem(props: Props) {
   const { email, realm, isLoggedIn } = props.account;
 
-  const showDoneIcon = Boolean(props.index === 0 && isLoggedIn);
+  const showDoneIcon = props.index === 0 && isLoggedIn;
   const backgroundItemColor = isLoggedIn ? 'hsla(177, 70%, 47%, 0.1)' : 'hsla(0,0%,50%,0.1)';
   const textColor = isLoggedIn ? BRAND_COLOR : 'gray';
 
