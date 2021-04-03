@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Platform, View, findNodeHandle } from 'react-native';
+import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
 import { type EdgeInsets } from 'react-native-safe-area-context';
@@ -28,7 +29,7 @@ import { withGetText } from '../boot/TranslationProvider';
 import { addToOutbox, draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
 import * as api from '../api';
 import { FloatingActionButton, Input } from '../common';
-import { showErrorAlert } from '../utils/info';
+import { showErrorAlert, showToast } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import {
   isStreamNarrow,
@@ -90,6 +91,7 @@ type Props = $ReadOnly<{|
 type State = {|
   isMessageFocused: boolean,
   isTopicFocused: boolean,
+  numUploading: number,
 
   /** Almost the same as isMessageFocused || isTopicFocused ... except
    * debounced, to stay true while those flip from false/true to true/false
@@ -155,6 +157,7 @@ class ComposeBox extends PureComponent<Props, State> {
     topic: this.props.lastMessageTopic,
     message: this.props.draft,
     selection: { start: 0, end: 0 },
+    numUploading: 0,
   };
 
   componentWillUnmount() {
@@ -214,6 +217,43 @@ class ComposeBox extends PureComponent<Props, State> {
       const videoCallId = randomInt(100000000000000, 999999999999999);
       const videoCallUrl = `${videoChatProvider.jitsiServerUrl}/${videoCallId}`;
       this.insertVideoCallLinkAtCursorPosition(videoCallUrl);
+    }
+  };
+
+  insertAttachment = async (attachment: DocumentPickerResponse) => {
+    this.setState(({ numUploading }) => ({
+      numUploading: numUploading + 1,
+    }));
+
+    const { _, auth } = this.props;
+
+    const fileName = attachment.name ?? _('Attachment');
+    const placeholder = `[${_('Uploading {fileName}...', { fileName })}]()`;
+    this.insertMessageTextAtCursorPosition(`${placeholder}\n\n`);
+
+    let response = null;
+    try {
+      response = await api.uploadFile(auth, attachment.uri, fileName);
+    } catch (e) {
+      showToast(_('Uploading {fileName} failed.', { fileName }));
+      this.setMessageInputValue(
+        this.state.message.replace(
+          placeholder,
+          `[${_('Uploading {fileName} failed.', { fileName })}]()`,
+        ),
+      );
+      return;
+    } finally {
+      this.setState(({ numUploading }) => ({
+        numUploading: numUploading - 1,
+      }));
+    }
+
+    const linkText = `[${fileName}](${response.uri})`;
+    if (this.state.message.indexOf(placeholder) !== -1) {
+      this.setMessageInputValue(this.state.message.replace(placeholder, linkText));
+    } else {
+      this.setMessageInputValue(`${this.state.message}\n${linkText}`);
     }
   };
 
@@ -474,6 +514,7 @@ class ComposeBox extends PureComponent<Props, State> {
           <ComposeMenu
             destinationNarrow={this.getDestinationNarrow()}
             expanded={isMenuExpanded}
+            insertAttachment={this.insertAttachment}
             insertVideoCallLink={insertVideoCallLink}
             onExpandContract={this.handleComposeMenuToggle}
           />
@@ -514,7 +555,7 @@ class ComposeBox extends PureComponent<Props, State> {
             style={this.styles.composeSendButton}
             Icon={editMessage === null ? IconSend : IconDone}
             size={32}
-            disabled={message.trim().length === 0}
+            disabled={message.trim().length === 0 || this.state.numUploading > 0}
             onPress={editMessage === null ? this.handleSend : this.handleEdit}
           />
         </View>

@@ -23,6 +23,7 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
   expanded: boolean,
   destinationNarrow: Narrow,
+  insertAttachment: DocumentPickerResponse => Promise<void>,
   insertVideoCallLink: (() => void) | null,
   onExpandContract: () => void,
 |}>;
@@ -136,7 +137,7 @@ class ComposeMenu extends PureComponent<Props> {
       return;
     }
 
-    this.uploadFile(response.uri, response.name);
+    this.props.insertAttachment(response);
   };
 
   styles = createStyleSheet({
