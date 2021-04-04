@@ -155,8 +155,8 @@ body {
   border-radius: 50%;
   margin: 16px auto;
   font-size: 10px;
-  border: 3px solid hsla(170, 48%, 54%, 0.25);
-  border-left: 3px solid hsla(170, 48%, 54%, 0.75);
+  border: 3px solid hsla(222, 99%, 69%, 0.25);
+  border-left: 3px solid hsla(222, 99%, 69%, 0.75);
   animation: spin 1s linear infinite;
 }
 .outbox-spinner {
@@ -216,7 +216,7 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: hsla(170, 48%, 54%, 0.5);
+  background: hsla(222, 99%, 69%, 0.5);
   -webkit-tap-highlight-color: transparent;
 }
 #scroll-bottom .text {
@@ -290,7 +290,7 @@ body {
   background: hsla(0, 100%, 50%, 0.05);
 }
 .message:not([data-read="true"]) {
-  box-shadow: inset 4px 0 hsl(170, 48%, 54%);
+  box-shadow: inset 4px 0 hsl(222, 99%, 69%);
 }
 .message[data-read="true"] {
   box-shadow: inset 4px 0 transparent;
@@ -411,8 +411,8 @@ body {
   vertical-align: top;
 }
 .self-voted {
-  color: hsl(170, 48%, 54%);
-  border: 1px solid hsl(170, 48%, 54%);
+  color: hsl(222, 99%, 69%);
+  border: 1px solid hsl(222, 99%, 69%);
   background: hsla(177.1, 69.7%, 46.7%, 0.1);
 }
 
