@@ -57,20 +57,8 @@ type Props = $ReadOnly<{|
 
 function MainTabsScreen(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
-  const { haveServerData } = props;
 
   const insets = useSafeAreaInsets();
-
-  if (!haveServerData) {
-    // Show a full-screen loading indicator while waiting for the
-    // initial fetch to complete, if we don't have potentially stale
-    // data to show instead. Also show it for the duration of the nav
-    // transition just after the user logs out (see our #4275).
-    //
-    // And avoid rendering any of our main UI, to maintain the
-    // guarantee that it can all rely on server data existing.
-    return <FullScreenLoading />;
-  }
 
   return (
     <View style={[styles.flexed, { backgroundColor }]}>
@@ -144,6 +132,17 @@ function MainTabsScreen(props: Props) {
 // was running -- and throwing an uncaught error -- on logout, and
 // `MainTabsScreen`'s early return on `!haveServerData` wasn't
 // preventing that from happening.
-export default connect(state => ({
-  haveServerData: getHaveServerData(state),
-}))(MainTabsScreen);
+export default connect(state => ({ haveServerData: getHaveServerData(state) }))((props: Props) =>
+  props.haveServerData ? (
+    <MainTabsScreen {...props} />
+  ) : (
+    // Show a full-screen loading indicator while waiting for the
+    // initial fetch to complete, if we don't have potentially stale
+    // data to show instead. Also show it for the duration of the nav
+    // transition just after the user logs out (see our #4275).
+    //
+    // And avoid rendering any of our main UI, to maintain the
+    // guarantee that it can all rely on server data existing.
+    <FullScreenLoading />
+  ),
+);
