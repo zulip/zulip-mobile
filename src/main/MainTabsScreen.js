@@ -134,9 +134,9 @@ function withHaveServerDataGate(Comp) {
     // `MainTabsScreen`'s early return on `!haveServerData` wasn't
     // preventing that from happening.
     connect<{||}, _, _>(),
-    C => props =>
+    CompInner => props =>
       useSelector(getHaveServerData) ? (
-        <C {...props} />
+        <CompInner {...props} />
       ) : (
         // Show a full-screen loading indicator while waiting for the
         // initial fetch to complete, if we don't have potentially stale
