@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useContext } from 'react';
+import React, { useContext, type ComponentType, type ElementConfig } from 'react';
 import { Platform, View } from 'react-native';
 import {
   createBottomTabNavigator,
@@ -10,6 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { GlobalParamList } from '../nav/globalTypes';
+import type { Dispatch } from '../types';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import StreamTabsScreen from './StreamTabsScreen';
@@ -119,7 +120,9 @@ function MainTabsScreen(props: Props) {
  * Passing a `dispatch` prop or a `haveServerData` prop to the
  * returned component will lead to undefined behavior; don't.
  */
-function withHaveServerDataGate(Comp) {
+function withHaveServerDataGate<P: { ... }, C: ComponentType<$Exact<P>>>(
+  Comp: C,
+): ComponentType<$Exact<ElementConfig<C>>> {
   // `connect` does something useful for us that `useSelector` doesn't
   // do: it interposes a new `ReactReduxContext.Provider` component,
   // which proxies subscriptions so that the descendant components only
@@ -136,7 +139,15 @@ function withHaveServerDataGate(Comp) {
   // `MainTabsScreen`'s early return on `!haveServerData` wasn't
   // preventing that from happening.
   return connect(state => ({ haveServerData: getHaveServerData(state) }))(
-    ({ dispatch, haveServerData, ...props }) =>
+    ({
+      dispatch,
+      haveServerData,
+      ...props
+    }: {|
+      dispatch: Dispatch,
+      haveServerData: boolean,
+      ...$Exact<P>,
+    |}) =>
       haveServerData ? (
         <Comp {...props} />
       ) : (
