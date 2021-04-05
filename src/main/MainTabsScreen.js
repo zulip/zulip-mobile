@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useContext, type ComponentType, type ElementConfig } from 'react';
+import React, { useContext } from 'react';
 import { Platform, View } from 'react-native';
 import {
   createBottomTabNavigator,
@@ -10,7 +10,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { GlobalParamList } from '../nav/globalTypes';
-import type { Dispatch } from '../types';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import StreamTabsScreen from './StreamTabsScreen';
@@ -20,10 +19,8 @@ import { IconInbox, IconSettings, IconStream } from '../common/Icons';
 import { OwnAvatar, OfflineNotice, ZulipStatusBar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileScreen from '../account-info/ProfileScreen';
-import { connect } from '../react-redux';
-import { getHaveServerData } from '../selectors';
 import styles, { ThemeContext } from '../styles';
-import FullScreenLoading from '../common/FullScreenLoading';
+import withHaveServerDataGate from '../withHaveServerDataGate';
 
 export type MainTabsNavigatorParamList = {|
   home: RouteParamsOf<typeof HomeScreen>,
@@ -107,59 +104,6 @@ function MainTabsScreen(props: Props) {
         />
       </Tab.Navigator>
     </View>
-  );
-}
-
-/**
- * A HOC for any server-data-dependent screen component that might be
- *   mounted when we don't have server data.
- *
- * Prevents rerendering of the component's subtree unless we have
- * server data.
- *
- * Passing a `dispatch` prop or a `haveServerData` prop to the
- * returned component will lead to undefined behavior; don't.
- */
-function withHaveServerDataGate<P: { ... }, C: ComponentType<$Exact<P>>>(
-  Comp: C,
-): ComponentType<$Exact<ElementConfig<C>>> {
-  // `connect` does something useful for us that `useSelector` doesn't
-  // do: it interposes a new `ReactReduxContext.Provider` component,
-  // which proxies subscriptions so that the descendant components only
-  // rerender if this one continues to say their subtree should be kept
-  // around. See
-  //   https://github.com/zulip/zulip-mobile/pull/4454#discussion_r578140524
-  // and some discussion around
-  //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/converting.20to.20Hooks/near/1111970
-  // where we describe some limits of our understanding.
-  //
-  // We found these things out while investigating an annoying crash: we
-  // found that `mapStateToProps` on a descendant of `MainTabsScreen`
-  // was running -- and throwing an uncaught error -- on logout, and
-  // `MainTabsScreen`'s early return on `!haveServerData` wasn't
-  // preventing that from happening.
-  return connect(state => ({ haveServerData: getHaveServerData(state) }))(
-    ({
-      dispatch,
-      haveServerData,
-      ...props
-    }: {|
-      dispatch: Dispatch,
-      haveServerData: boolean,
-      ...$Exact<P>,
-    |}) =>
-      haveServerData ? (
-        <Comp {...props} />
-      ) : (
-        // Show a full-screen loading indicator while waiting for the
-        // initial fetch to complete, if we don't have potentially stale
-        // data to show instead. Also show it for the duration of the nav
-        // transition just after the user logs out (see our #4275).
-        //
-        // And avoid rendering any of our main UI, to maintain the
-        // guarantee that it can all rely on server data existing.
-        <FullScreenLoading />
-      ),
   );
 }
 
