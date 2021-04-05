@@ -16,6 +16,10 @@ declare module '../../static/translations/messages_bg.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_bn.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_ca.json' {
   declare export default {| [string]: string |};
 }
@@ -128,11 +132,19 @@ declare module '../../static/translations/messages_nl.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_no.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_pa.json' {
   declare export default {| [string]: string |};
 }
 
 declare module '../../static/translations/messages_pl.json' {
+  declare export default {| [string]: string |};
+}
+
+declare module '../../static/translations/messages_pt_BR.json' {
   declare export default {| [string]: string |};
 }
 
@@ -169,6 +181,10 @@ declare module '../../static/translations/messages_ta.json' {
 }
 
 declare module '../../static/translations/messages_te.json' {
+  declare export default {| [string]: string |};
+}
+
+declare module '../../static/translations/messages_tl.json' {
   declare export default {| [string]: string |};
 }
 

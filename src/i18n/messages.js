@@ -2,6 +2,7 @@
 
 import ar from '../../static/translations/messages_ar.json';
 import bg from '../../static/translations/messages_bg.json';
+import bn from '../../static/translations/messages_bn.json';
 import ca from '../../static/translations/messages_ca.json';
 import cs from '../../static/translations/messages_cs.json';
 import da from '../../static/translations/messages_da.json';
@@ -27,9 +28,11 @@ import ko from '../../static/translations/messages_ko.json';
 import lt from '../../static/translations/messages_lt.json';
 import ml from '../../static/translations/messages_ml.json';
 import nl from '../../static/translations/messages_nl.json';
+import no from '../../static/translations/messages_no.json';
 import pa from '../../static/translations/messages_pa.json';
 import pl from '../../static/translations/messages_pl.json';
 import pt from '../../static/translations/messages_pt.json';
+import pt_BR from '../../static/translations/messages_pt_BR.json';
 import pt_PT from '../../static/translations/messages_pt_PT.json';
 import ro from '../../static/translations/messages_ro.json';
 import ru from '../../static/translations/messages_ru.json';
@@ -38,6 +41,7 @@ import sr from '../../static/translations/messages_sr.json';
 import sv from '../../static/translations/messages_sv.json';
 import ta from '../../static/translations/messages_ta.json';
 import te from '../../static/translations/messages_te.json';
+import tl from '../../static/translations/messages_tl.json';
 import tr from '../../static/translations/messages_tr.json';
 import uk from '../../static/translations/messages_uk.json';
 import uz from '../../static/translations/messages_uz.json';
@@ -48,6 +52,7 @@ import zh_Hant from '../../static/translations/messages_zh-Hant.json';
 export default {
   ar,
   bg,
+  bn,
   ca,
   cs,
   da,
@@ -73,9 +78,11 @@ export default {
   lt,
   ml,
   nl,
+  no,
   pa,
   pl,
   pt,
+  'pt-BR': pt_BR,
   'pt-PT': pt_PT,
   ro,
   ru,
@@ -84,6 +91,7 @@ export default {
   sv,
   ta,
   te,
+  tl,
   tr,
   uk,
   uz,
