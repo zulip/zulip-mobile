@@ -115,9 +115,9 @@ function MainTabsScreen(props: Props) {
   );
 }
 
-const ShowIfServerData = (props: Props) =>
+const withShowIfServerData = C => (props: Props) =>
   useSelector(getHaveServerData) ? (
-    <MainTabsScreen {...props} />
+    <C {...props} />
   ) : (
     // Show a full-screen loading indicator while waiting for the
     // initial fetch to complete, if we don't have potentially stale
@@ -144,4 +144,4 @@ const ShowIfServerData = (props: Props) =>
 // was running -- and throwing an uncaught error -- on logout, and
 // `MainTabsScreen`'s early return on `!haveServerData` wasn't
 // preventing that from happening.
-export default connect<{||}, _, _>()(ShowIfServerData);
+export default connect<{||}, _, _>()(withShowIfServerData(MainTabsScreen));
