@@ -20,7 +20,7 @@ import { IconInbox, IconSettings, IconStream } from '../common/Icons';
 import { OwnAvatar, OfflineNotice, ZulipStatusBar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileScreen from '../account-info/ProfileScreen';
-import { connect } from '../react-redux';
+import { connect, useSelector } from '../react-redux';
 import { getHaveServerData } from '../selectors';
 import styles, { ThemeContext } from '../styles';
 import FullScreenLoading from '../common/FullScreenLoading';
@@ -43,9 +43,7 @@ const Tab = createBottomTabNavigator<
   MainTabsNavigationProp<>,
 >();
 
-type SelectorProps = $ReadOnly<{|
-  haveServerData: boolean,
-|}>;
+type SelectorProps = $ReadOnly<{||}>;
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'main-tabs'>,
@@ -57,7 +55,7 @@ type Props = $ReadOnly<{|
 
 function MainTabsScreen(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
-  const { haveServerData } = props;
+  const haveServerData = useSelector(getHaveServerData);
 
   const insets = useSafeAreaInsets();
 
@@ -144,6 +142,4 @@ function MainTabsScreen(props: Props) {
 // was running -- and throwing an uncaught error -- on logout, and
 // `MainTabsScreen`'s early return on `!haveServerData` wasn't
 // preventing that from happening.
-export default connect(state => ({
-  haveServerData: getHaveServerData(state),
-}))(MainTabsScreen);
+export default connect<{||}, _, _>()(MainTabsScreen);
