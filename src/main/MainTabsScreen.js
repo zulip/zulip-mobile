@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useContext } from 'react';
+import React, { useContext, type ComponentType } from 'react';
 import { Platform, View } from 'react-native';
 import {
   createBottomTabNavigator,
@@ -44,14 +44,9 @@ const Tab = createBottomTabNavigator<
   MainTabsNavigationProp<>,
 >();
 
-type SelectorProps = $ReadOnly<{||}>;
-
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'main-tabs'>,
   route: RouteProp<'main-tabs', void>,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 function MainTabsScreen(props: Props) {
@@ -116,7 +111,7 @@ function MainTabsScreen(props: Props) {
   );
 }
 
-function withHaveServerDataGate(Comp) {
+function withHaveServerDataGate<P, C: ComponentType<P>>(Comp: C): ComponentType<P> {
   return compose(
     // `connect` does something useful for us that `useSelector` doesn't
     // do: it interposes a new `ReactReduxContext.Provider` component,
@@ -133,8 +128,8 @@ function withHaveServerDataGate(Comp) {
     // was running -- and throwing an uncaught error -- on logout, and
     // `MainTabsScreen`'s early return on `!haveServerData` wasn't
     // preventing that from happening.
-    connect<{||}, _, _>(),
-    CompInner => props =>
+    (connect<{||}, _, _>(): (ComponentType<P>) => ComponentType<P>),
+    CompInner => (props: P) =>
       useSelector(getHaveServerData) ? (
         <CompInner {...props} />
       ) : (
@@ -150,4 +145,4 @@ function withHaveServerDataGate(Comp) {
   )(Comp);
 }
 
-export default withHaveServerDataGate(MainTabsScreen);
+export default withHaveServerDataGate<Props, ComponentType<Props>>(MainTabsScreen);
