@@ -24,6 +24,8 @@
   "Enter": "Entrar",
   "Switch account": "Canvia el compte",
   "Log out": "Tanca la sessió",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "Afegeix un compte nou",
   "Search messages": "Cerca missatges",
   "Search people": "Cerca persones",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "Viatjant",
   "🤒 Out sick": "De baixa",
   "🌴 Vacationing": "De vacances",
-  "🏠 Working remotely": "Teletreballant"
+  "🏠 Working remotely": "Teletreballant",
+  "Signed out": "Signed out"
 }

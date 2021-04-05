@@ -24,6 +24,8 @@
   "Enter": "ورود",
   "Switch account": "تعویض حساب کاربری",
   "Log out": "خروج",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "افزودن حساب کاربری جدید",
   "Search messages": "جستجوی پیام ها",
   "Search people": "جستجوی افراد",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "🚌 Commuting",
   "🤒 Out sick": "🤒 Out sick",
   "🌴 Vacationing": "🌴 Vacationing",
-  "🏠 Working remotely": "🏠 Working remotely"
+  "🏠 Working remotely": "🏠 Working remotely",
+  "Signed out": "Signed out"
 }

@@ -24,6 +24,8 @@
   "Enter": "Giriş",
   "Switch account": "Hesap değiştir",
   "Log out": "Çıkış yap",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "Yeni hesap ekle",
   "Search messages": "İletileri ara",
   "Search people": "Kişi ara",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "🚌 Trafikte",
   "🤒 Out sick": "🤒 Hasta",
   "🌴 Vacationing": "🌴 Tatilde",
-  "🏠 Working remotely": "🏠 Evden çalışıyor"
+  "🏠 Working remotely": "🏠 Evden çalışıyor",
+  "Signed out": "Signed out"
 }

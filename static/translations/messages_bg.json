@@ -24,6 +24,8 @@
   "Enter": "Въведи",
   "Switch account": "Switch account",
   "Log out": "Изход",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "Добави нов профил",
   "Search messages": "Търси съобщения",
   "Search people": "Търси хора",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "🚌 Commuting",
   "🤒 Out sick": "🤒 Out sick",
   "🌴 Vacationing": "🌴 Vacationing",
-  "🏠 Working remotely": "🏠 Working remotely"
+  "🏠 Working remotely": "🏠 Working remotely",
+  "Signed out": "Signed out"
 }

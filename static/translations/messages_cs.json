@@ -24,6 +24,8 @@
   "Enter": "Zadat",
   "Switch account": "Přepnout účet",
   "Log out": "Odhlásit se",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "Přidat nový účet",
   "Search messages": "Hledat zprávy",
   "Search people": "Hledat lidi",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "🚌 Dojíždění",
   "🤒 Out sick": "🤒 Nemocný",
   "🌴 Vacationing": "🌴 Dovolená",
-  "🏠 Working remotely": "🏠 Práce na dálku"
+  "🏠 Working remotely": "🏠 Práce na dálku",
+  "Signed out": "Signed out"
 }

@@ -24,6 +24,8 @@
   "Enter": "Belépés",
   "Switch account": "Fiók váltása",
   "Log out": "Kijelentkezés",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "Új fiók hozzáadása",
   "Search messages": "Üzenetek keresése",
   "Search people": "Személyek keresése",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "Tömegközlekedek",
   "🤒 Out sick": "Beteg vagyok",
   "🌴 Vacationing": "Nyaralok",
-  "🏠 Working remotely": "Távdolgozom"
+  "🏠 Working remotely": "Távdolgozom",
+  "Signed out": "Signed out"
 }

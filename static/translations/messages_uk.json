@@ -24,6 +24,8 @@
   "Enter": "Введення",
   "Switch account": "Обрати інший обліковий запис",
   "Log out": "Вийти",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "Додати новий обліковий запис",
   "Search messages": "Пошук повідомлень",
   "Search people": "Пошук людей",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "Спілкуюся",
   "🤒 Out sick": "Захворів",
   "🌴 Vacationing": "Відпустка",
-  "🏠 Working remotely": "Віддалено працюю"
+  "🏠 Working remotely": "Віддалено працюю",
+  "Signed out": "Signed out"
 }

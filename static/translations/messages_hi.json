@@ -24,6 +24,8 @@
   "Enter": "दर्ज करें",
   "Switch account": "Switch account",
   "Log out": "Log out",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "नया खाता जोड़ें",
   "Search messages": "संदेश खोजें",
   "Search people": "लोगों की खोज",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "🚌 Commuting",
   "🤒 Out sick": "🤒 Out sick",
   "🌴 Vacationing": "🌴 Vacationing",
-  "🏠 Working remotely": "🏠 Working remotely"
+  "🏠 Working remotely": "🏠 Working remotely",
+  "Signed out": "Signed out"
 }

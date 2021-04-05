@@ -24,6 +24,8 @@
   "Enter": "Intră",
   "Switch account": "Schimbă contul",
   "Log out": "Deconectare",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "Adaugă un cont nou",
   "Search messages": "Caută mesaje",
   "Search people": "Caută persoane",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "🚌 Pe drum",
   "🤒 Out sick": "🤒 În căutarea sănătății pierdute",
   "🌴 Vacationing": "🌴 În vacanță",
-  "🏠 Working remotely": "🏠 Lucrez de acasă"
+  "🏠 Working remotely": "🏠 Lucrez de acasă",
+  "Signed out": "Signed out"
 }

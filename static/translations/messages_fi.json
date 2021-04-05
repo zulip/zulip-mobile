@@ -24,6 +24,8 @@
   "Enter": "Enter",
   "Switch account": "Vaihda tiliä",
   "Log out": "Kirjaudu ulos",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "Lisää uusi tili",
   "Search messages": "Hae viestejä",
   "Search people": "Hae ihmisiä",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "🚌 Matkoilla",
   "🤒 Out sick": "🤒 Sairaslomalla",
   "🌴 Vacationing": "🌴 Lomalla",
-  "🏠 Working remotely": "🏠 Etätöissä"
+  "🏠 Working remotely": "🏠 Etätöissä",
+  "Signed out": "Signed out"
 }

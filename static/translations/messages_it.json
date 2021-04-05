@@ -24,6 +24,8 @@
   "Enter": "Inserisci",
   "Switch account": "Cambia account",
   "Log out": "Esci",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "Aggiungi nuovo account",
   "Search messages": "Cerca messaggi",
   "Search people": "Cerca persone",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "🚌In spostamento",
   "🤒 Out sick": "🤒 Ammalato",
   "🌴 Vacationing": "🌴 In vacanza",
-  "🏠 Working remotely": "🏠 Sto lavorando da remoto"
+  "🏠 Working remotely": "🏠 Sto lavorando da remoto",
+  "Signed out": "Signed out"
 }

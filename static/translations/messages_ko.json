@@ -24,6 +24,8 @@
   "Enter": "들어가기",
   "Switch account": "계정전환",
   "Log out": "로그아웃",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "새 계정 추가",
   "Search messages": "메시지 검색",
   "Search people": "사용자 검색",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "🚌 이동중",
   "🤒 Out sick": "🤒 병가",
   "🌴 Vacationing": "🌴 휴가중",
-  "🏠 Working remotely": "🏠 외근중"
+  "🏠 Working remotely": "🏠 외근중",
+  "Signed out": "Signed out"
 }

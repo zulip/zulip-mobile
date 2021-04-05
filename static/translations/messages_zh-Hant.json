@@ -24,6 +24,8 @@
   "Enter": "輸入",
   "Switch account": "選擇使用者",
   "Log out": "登出",
+  "Log out?": "Log out?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
   "Add new account": "新增帳號",
   "Search messages": "搜尋訊息",
   "Search people": "搜尋用戶",
@@ -222,5 +224,6 @@
   "🚌 Commuting": "通勤中",
   "🤒 Out sick": "生病中",
   "🌴 Vacationing": "放假中",
-  "🏠 Working remotely": "遙距工作中"
+  "🏠 Working remotely": "遙距工作中",
+  "Signed out": "Signed out"
 }
