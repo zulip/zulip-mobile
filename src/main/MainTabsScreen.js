@@ -6,6 +6,7 @@ import {
   type BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { compose } from 'redux';
 
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import type { Dispatch } from '../types';
@@ -129,19 +130,22 @@ const withShowIfServerData = C => (props: Props) =>
     <FullScreenLoading />
   );
 
-// `connect` does something useful for us that `useSelector` doesn't
-// do: it interposes a new `ReactReduxContext.Provider` component,
-// which proxies subscriptions so that the descendant components only
-// rerender if this one continues to say their subtree should be kept
-// around. See
-//   https://github.com/zulip/zulip-mobile/pull/4454#discussion_r578140524
-// and some discussion around
-//   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/converting.20to.20Hooks/near/1111970
-// where we describe some limits of our understanding.
-//
-// We found these things out while investigating an annoying crash: we
-// found that `mapStateToProps` on a descendant of `MainTabsScreen`
-// was running -- and throwing an uncaught error -- on logout, and
-// `MainTabsScreen`'s early return on `!haveServerData` wasn't
-// preventing that from happening.
-export default connect<{||}, _, _>()(withShowIfServerData(MainTabsScreen));
+export default compose(
+  // `connect` does something useful for us that `useSelector` doesn't
+  // do: it interposes a new `ReactReduxContext.Provider` component,
+  // which proxies subscriptions so that the descendant components only
+  // rerender if this one continues to say their subtree should be kept
+  // around. See
+  //   https://github.com/zulip/zulip-mobile/pull/4454#discussion_r578140524
+  // and some discussion around
+  //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/converting.20to.20Hooks/near/1111970
+  // where we describe some limits of our understanding.
+  //
+  // We found these things out while investigating an annoying crash: we
+  // found that `mapStateToProps` on a descendant of `MainTabsScreen`
+  // was running -- and throwing an uncaught error -- on logout, and
+  // `MainTabsScreen`'s early return on `!haveServerData` wasn't
+  // preventing that from happening.
+  connect<{||}, _, _>(),
+  withShowIfServerData,
+)(MainTabsScreen);
