@@ -37,6 +37,24 @@ It doesn't include
 ## Unreleased
 
 
+## 27.161 (2021-04-02)
+
+This is a stable release in the v27.159 series, with cherry-picked
+changes including a critical bug fix.
+
+
+### Highlights for users
+
+* Fixed issue that could cause a persistent white screen at startup.
+  (#4587)
+
+
+### Highlights for developers
+
+* Added a React "error boundary" so that white-screen failures show
+  an error message and stack trace.
+
+
 ## 27.160 (2021-03-29)
 
 This was an Android-only release, with a cherry-picked fix atop v27.159.
