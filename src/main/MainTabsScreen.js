@@ -116,20 +116,6 @@ function MainTabsScreen(props: Props) {
   );
 }
 
-const withShowIfServerData = C => (props: Props) =>
-  useSelector(getHaveServerData) ? (
-    <C {...props} />
-  ) : (
-    // Show a full-screen loading indicator while waiting for the
-    // initial fetch to complete, if we don't have potentially stale
-    // data to show instead. Also show it for the duration of the nav
-    // transition just after the user logs out (see our #4275).
-    //
-    // And avoid rendering any of our main UI, to maintain the
-    // guarantee that it can all rely on server data existing.
-    <FullScreenLoading />
-  );
-
 export default compose(
   // `connect` does something useful for us that `useSelector` doesn't
   // do: it interposes a new `ReactReduxContext.Provider` component,
@@ -147,5 +133,17 @@ export default compose(
   // `MainTabsScreen`'s early return on `!haveServerData` wasn't
   // preventing that from happening.
   connect<{||}, _, _>(),
-  withShowIfServerData,
+  C => (props: Props) =>
+    useSelector(getHaveServerData) ? (
+      <C {...props} />
+    ) : (
+      // Show a full-screen loading indicator while waiting for the
+      // initial fetch to complete, if we don't have potentially stale
+      // data to show instead. Also show it for the duration of the nav
+      // transition just after the user logs out (see our #4275).
+      //
+      // And avoid rendering any of our main UI, to maintain the
+      // guarantee that it can all rely on server data existing.
+      <FullScreenLoading />
+    ),
 )(MainTabsScreen);
