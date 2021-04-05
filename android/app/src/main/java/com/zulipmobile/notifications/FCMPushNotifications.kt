@@ -103,7 +103,7 @@ private fun getNotificationBuilder(
     viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
     val viewPendingIntent = PendingIntent.getService(context, 0, viewIntent, 0)
     builder.setContentIntent(viewPendingIntent)
-
+    builder.setShowWhen(true)
     builder.setAutoCancel(true)
 
     val totalMessagesCount = extractTotalMessagesCount(conversations)
