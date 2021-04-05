@@ -8,7 +8,6 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
-import type { Dispatch } from '../types';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { GlobalParamList } from '../nav/globalTypes';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
@@ -43,16 +42,9 @@ const Tab = createBottomTabNavigator<
   MainTabsNavigationProp<>,
 >();
 
-type SelectorProps = $ReadOnly<{|
-  haveServerData: boolean,
-|}>;
-
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'main-tabs'>,
   route: RouteProp<'main-tabs', void>,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 function MainTabsScreen(props: Props) {
@@ -143,19 +135,20 @@ function withHaveServerDataGate(Comp) {
   // was running -- and throwing an uncaught error -- on logout, and
   // `MainTabsScreen`'s early return on `!haveServerData` wasn't
   // preventing that from happening.
-  return connect(state => ({ haveServerData: getHaveServerData(state) }))(props =>
-    props.haveServerData ? (
-      <Comp {...props} />
-    ) : (
-      // Show a full-screen loading indicator while waiting for the
-      // initial fetch to complete, if we don't have potentially stale
-      // data to show instead. Also show it for the duration of the nav
-      // transition just after the user logs out (see our #4275).
-      //
-      // And avoid rendering any of our main UI, to maintain the
-      // guarantee that it can all rely on server data existing.
-      <FullScreenLoading />
-    ),
+  return connect(state => ({ haveServerData: getHaveServerData(state) }))(
+    ({ dispatch, haveServerData, ...props }) =>
+      haveServerData ? (
+        <Comp {...props} />
+      ) : (
+        // Show a full-screen loading indicator while waiting for the
+        // initial fetch to complete, if we don't have potentially stale
+        // data to show instead. Also show it for the duration of the nav
+        // transition just after the user logs out (see our #4275).
+        //
+        // And avoid rendering any of our main UI, to maintain the
+        // guarantee that it can all rely on server data existing.
+        <FullScreenLoading />
+      ),
   );
 }
 
