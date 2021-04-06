@@ -10521,11 +10521,6 @@ redux-action-buffer@^1.2.0:
   resolved "https://registry.yarnpkg.com/redux-action-buffer/-/redux-action-buffer-1.2.0.tgz#2ec0a1d899cc9f6f44ccdeb431ee52ad41dd9755"
   integrity sha1-LsCh2JnMn29EzN60Me5SrUHdl1U=
 
-redux-batched-actions@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/redux-batched-actions/-/redux-batched-actions-0.3.0.tgz#5bb8f4444d46b6c7a5a51e9fdfb58f70de03ff2b"
-  integrity sha512-RsXFTY6F7jXYFXTVC/8/Zb+A4Im2uk4/9Dx/hO7B0hxLGdACmm2WC5vIYUXgP9B+ZLp7bwJTaF/iALfeJV+/zg==
-
 redux-logger@^3.0.1:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-3.0.6.tgz#f7555966f3098f3c88604c449cf0baf5778274bf"

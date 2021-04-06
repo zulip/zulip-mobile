@@ -1,6 +1,4 @@
 /* @flow strict-local */
-import { enableBatching } from 'redux-batched-actions';
-
 import config from '../config';
 import { NULL_OBJECT } from '../nullObjects';
 import type { Action, GlobalState, MigrationsState } from '../types';
@@ -78,7 +76,7 @@ function applyReducer<Key: $Keys<GlobalState>, State>(
 }
 
 // Based on Redux upstream's combineReducers.
-const combinedReducer = (state: void | GlobalState, action: Action): GlobalState => {
+export default (state: void | GlobalState, action: Action): GlobalState => {
   // prettier-ignore
   const nextState = {
     migrations: applyReducer('migrations', migrations, state?.migrations, action, state),
@@ -113,5 +111,3 @@ const combinedReducer = (state: void | GlobalState, action: Action): GlobalState
 
   return nextState;
 };
-
-export default enableBatching(combinedReducer);

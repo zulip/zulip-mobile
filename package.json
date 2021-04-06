@@ -86,7 +86,6 @@
     "react-redux": "^7.2.1",
     "redux": "^4.0.0",
     "redux-action-buffer": "^1.2.0",
-    "redux-batched-actions": "^0.3.0",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.1.0",
     "reselect": "^3.0.1",
