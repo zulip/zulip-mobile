@@ -103,7 +103,6 @@ private fun getNotificationBuilder(
     viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
     val viewPendingIntent = PendingIntent.getService(context, 0, viewIntent, 0)
     builder.setContentIntent(viewPendingIntent)
-    builder.setShowWhen(true)
     builder.setAutoCancel(true)
 
     val totalMessagesCount = extractTotalMessagesCount(conversations)
@@ -151,6 +150,8 @@ private fun getNotificationBuilder(
     }
 
     builder.setWhen(fcmMessage.timeMs)
+    builder.setShowWhen(true)
+
     val vPattern = longArrayOf(0, 100, 200, 100)
     // NB the DEFAULT_VIBRATE flag below causes this to have no effect.
     // TODO: choose a vibration pattern we like, and unset DEFAULT_VIBRATE.
