@@ -413,7 +413,7 @@ body {
 .self-voted {
   color: hsl(222, 99%, 69%);
   border: 1px solid hsl(222, 99%, 69%);
-  background: hsla(177.1, 69.7%, 46.7%, 0.1);
+  background: hsla(222, 99%, 69%, 0.1);
 }
 
 /*
