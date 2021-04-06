@@ -67,10 +67,29 @@ const actionTypeOfEventType = {
   user_status: EVENT_USER_STATUS_UPDATE,
 };
 
+/**
+ * Translate a Zulip event from the server into one of our Redux actions.
+ *
+ * For reference on the events in the Zulip API, see:
+ *   https://zulip.com/api/get-events
+ *
+ * This function takes the Redux state as an argument because for a handful
+ * of types of events, we have it attach some pieces of the state inside the
+ * resulting action.  That is a now-obsolete workaround for letting our
+ * Redux sub-reducers use data from elsewhere in the Redux state; don't add
+ * new uses.
+ *
+ * The new approach is that we pass the global Redux state to each
+ * sub-reducer, and they should use that instead.  See ef251f48a for
+ * discussion, and a2000b9c8 and its parent for an example of using it.
+ */
 // This FlowFixMe is because this function encodes a large number of
 // assumptions about the events the server sends, and doesn't check them.
 export default (state: GlobalState, event: $FlowFixMe): EventAction => {
   switch (event.type) {
+    // For reference on each type of event, see:
+    // https://zulip.com/api/get-events#events
+
     case 'alert_words':
       return {
         type: EVENT_ALERT_WORDS,
@@ -83,8 +102,8 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
         id: event.id,
         message: {
           ...event.message,
-          // Move `flags` key from `event` to `event.message` for consistency, and
-          // default to an empty array if `event.flags` is not set.
+          // Move `flags` key from `event` to `event.message` for
+          // consistency; default to empty if `event.flags` is not set.
           flags: event.message.flags ?? event.flags ?? [],
           avatar_url: AvatarURL.fromUserOrBotData({
             rawAvatarUrl: event.message.avatar_url,
@@ -98,12 +117,12 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
         ownUserId: getOwnUserId(state),
       };
 
-    // Before server feature level 13, or if we don't specify the
-    // `bulk_message_deletion` client capability (which we do) this
-    // event has `message_id` instead of `message_ids`.
     case 'delete_message':
       return {
         type: EVENT_MESSAGE_DELETE,
+        // Before server feature level 13 (or if we didn't specify the
+        // `bulk_message_deletion` client capability, which we do), this
+        // event has `message_id` instead of `message_ids`.
         messageIds: event.message_ids ?? [event.message_id],
       };
 
