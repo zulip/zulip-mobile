@@ -10,7 +10,7 @@ import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
 import { streamNameOfStreamMessage, pmUiRecipientsFromMessage } from '../utils/recipient';
-import { isUrlAnImage } from '../utils/url';
+import { isUrlAnImage, isUrlVideo } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrow } from '../utils/narrow';
@@ -21,6 +21,7 @@ import {
   navigateToMessageReactionScreen,
   doNarrow,
   navigateToLightbox,
+  navigateToVideo,
   messageLinkPress,
 } from '../actions';
 import { showHeaderActionSheet, showMessageActionSheet } from '../message/messageActionSheet';
@@ -68,6 +69,12 @@ type WebViewOutboundEventNarrow = {|
 
 type WebViewOutboundEventImage = {|
   type: 'image',
+  src: string,
+  messageId: number,
+|};
+
+type WebViewOutboundEventVideo = {|
+  type: 'video',
   src: string,
   messageId: number,
 |};
@@ -137,6 +144,7 @@ export type WebViewOutboundEvent =
   | WebViewOutboundEventAvatar
   | WebViewOutboundEventNarrow
   | WebViewOutboundEventImage
+  | WebViewOutboundEventVideo
   | WebViewOutboundEventReaction
   | WebViewOutboundEventUrl
   | WebViewOutboundEventLongPress
@@ -193,6 +201,12 @@ const handleImage = (props: Props, src: string, messageId: number) => {
   }
 };
 
+const handleVideo = (props: Props, src: string, messageId: number) => {
+  const message = props.messages.find(x => x.id === messageId);
+  if (message && !message.isOutbox) {
+    NavigationService.dispatch(navigateToVideo(src, message));
+  }
+};
 const handleLongPress = (
   props: Props,
   _: GetText,
@@ -267,6 +281,10 @@ export const handleWebViewOutboundEvent = (
       handleImage(props, event.src, event.messageId);
       break;
 
+    case 'video':
+      handleVideo(props, event.src, event.messageId);
+      break;
+
     case 'longPress':
       handleLongPress(props, _, event.target, event.messageId, event.href);
       break;
@@ -274,6 +292,8 @@ export const handleWebViewOutboundEvent = (
     case 'url':
       if (isUrlAnImage(event.href)) {
         handleImage(props, event.href, event.messageId);
+      } else if (isUrlVideo(event.href)) {
+        handleVideo(props, event.href, event.messageId);
       } else {
         props.dispatch(messageLinkPress(event.href));
       }

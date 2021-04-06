@@ -153,6 +153,9 @@ export const getFileExtension = (filename: string): string => filename.split('.'
 export const isUrlAnImage = (url: string): boolean =>
   ['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(getFileExtension(url).toLowerCase());
 
+export const isUrlVideo = (url: string): boolean =>
+  ['m4v ', 'avi', 'mpg', 'mp4', 'webm', 'wmv', 'mov'].includes(getFileExtension(url).toLowerCase());
+
 const mimes = {
   jpeg: 'image/jpeg',
   jpg: 'image/jpeg',
