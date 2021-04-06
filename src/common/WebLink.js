@@ -2,15 +2,13 @@
 
 import React from 'react';
 
-import { useSelector } from '../react-redux';
 import Label from './Label';
 import openLink from '../utils/openLink';
-import { getCurrentRealm } from '../selectors';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 
 type Props = $ReadOnly<{|
   label: string,
-  href: string,
+  url: URL,
 |}>;
 
 const componentStyles = createStyleSheet({
@@ -26,14 +24,12 @@ const componentStyles = createStyleSheet({
  * A button styled like a web link.
  */
 export default function WebLink(props: Props) {
-  const realm = useSelector(getCurrentRealm);
   return (
     <Label
       style={componentStyles.link}
       text={props.label}
       onPress={() => {
-        const { href } = props;
-        openLink(new URL(href, realm).toString());
+        openLink(props.url.toString());
       }}
     />
   );

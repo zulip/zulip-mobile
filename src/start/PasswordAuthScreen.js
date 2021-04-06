@@ -85,7 +85,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   };
 
   render() {
-    const { requireEmailFormat } = this.props.route.params;
+    const { requireEmailFormat, realm } = this.props.route.params;
     const { email, password, progress, error } = this.state;
     const isButtonDisabled =
       password.length === 0
@@ -128,7 +128,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
         />
         <ErrorMsg error={error} />
         <View style={styles.linksTouchable}>
-          <WebLink label="Forgot password?" href="/accounts/password/reset/" />
+          <WebLink label="Forgot password?" url={new URL('/accounts/password/reset/', realm)} />
         </View>
       </Screen>
     );
