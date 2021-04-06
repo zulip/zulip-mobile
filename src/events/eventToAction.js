@@ -70,6 +70,9 @@ const actionTypeOfEventType = {
 /**
  * Translate a Zulip event from the server into one of our Redux actions.
  *
+ * If the action is one we don't currently handle, return null.
+ * If it's one we don't recognize at all, log a warning and return null.
+ *
  * For reference on the events in the Zulip API, see:
  *   https://zulip.com/api/get-events
  *
@@ -85,7 +88,7 @@ const actionTypeOfEventType = {
  */
 // This FlowFixMe is because this function encodes a large number of
 // assumptions about the events the server sends, and doesn't check them.
-export default (state: GlobalState, event: $FlowFixMe): EventAction => {
+export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
   switch (event.type) {
     // For reference on each type of event, see:
     // https://zulip.com/api/get-events#events
@@ -180,9 +183,8 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
               "`realm_user` event with op `update` received for a user we don't know about",
               { userId },
             );
-            return { type: 'ignore' };
+            return null;
           }
-
           return {
             type: EVENT_USER_UPDATE,
             id: event.id,
@@ -214,7 +216,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
           };
 
         default:
-          return { type: 'ignore' };
+          return null;
       }
     }
 
@@ -222,7 +224,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
       // If implementing, don't forget to convert `avatar_url` on
       // `op: 'add'`, and (where `avatar_url` is present) on
       // `op: 'update'`.
-      return { type: 'ignore' };
+      return null;
 
     case 'reaction':
       return {
@@ -239,7 +241,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
       };
 
     case 'heartbeat':
-      return { type: 'ignore' };
+      return null;
 
     case 'update_message_flags':
       return {
@@ -263,6 +265,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction => {
       };
 
     default:
-      return { type: 'unknown', event };
+      console.log('Cannot handle event', event); // eslint-disable-line
+      return null;
   }
 };

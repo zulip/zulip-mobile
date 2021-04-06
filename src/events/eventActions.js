@@ -15,21 +15,7 @@ import * as logging from '../utils/logging';
 export const eventsToActions = (
   state: GlobalState,
   events: $ReadOnlyArray<GeneralEvent>,
-): EventAction[] =>
-  events
-    .map(event => eventToAction(state, event))
-    .filter(action => {
-      if (action.type === 'ignore') {
-        return false;
-      }
-
-      if (action.type === 'unknown') {
-        console.log('Cannot handle event', action.event); // eslint-disable-line
-        return false;
-      }
-
-      return true;
-    });
+): EventAction[] => events.map(event => eventToAction(state, event)).filter(Boolean);
 
 /**
  * Poll an event queue on the Zulip server for updates, in a loop.

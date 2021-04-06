@@ -527,10 +527,7 @@ export type EventAction =
   | EventTypingAction
   | EventUserAction
   | EventUserGroupAction
-  | EventUserStatusUpdateAction
-  // Dummy actions.
-  | {| type: 'ignore' |}
-  | {| type: 'unknown', event: { ... } |};
+  | EventUserStatusUpdateAction;
 
 type SettingsChangeAction = {|
   type: typeof SETTINGS_CHANGE,
