@@ -9,6 +9,7 @@ import doEventActionSideEffects from './doEventActionSideEffects';
 import { tryGetAuth } from '../selectors';
 import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
+import * as logging from '../utils/logging';
 
 /** Convert an `/events` response into a sequence of our Redux actions. */
 export const eventsToActions = (
@@ -52,26 +53,18 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       break;
     }
 
+    let events = undefined;
     try {
-      const { events } = await api.pollForEvents(auth, queueId, lastEventId);
+      const response = await api.pollForEvents(auth, queueId, lastEventId);
+      events = response.events;
 
       // User switched accounts or logged out
       if (queueId !== getState().session.eventQueueId) {
         break;
       }
-
-      const actions = eventsToActions(getState(), events);
-
-      actions.forEach(action => {
-        // These side effects should not be moved to reducers, which
-        // are explicitly not the place for side effects (see
-        // https://redux.js.org/faq/actions).
-        dispatch(doEventActionSideEffects(action));
-        dispatch(action);
-      });
-
-      lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
     } catch (e) {
+      // We had an error polling the server for events.
+
       if (e.httpStatus === 401) {
         // 401 Unauthorized -> our `auth` is invalid.  No use retrying.
         dispatch(logout());
@@ -86,6 +79,25 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
         dispatch(deadQueue());
         break;
       }
+
+      continue;
+    }
+
+    try {
+      const actions = eventsToActions(getState(), events);
+
+      actions.forEach(action => {
+        // These side effects should not be moved to reducers, which
+        // are explicitly not the place for side effects (see
+        // https://redux.js.org/faq/actions).
+        dispatch(doEventActionSideEffects(action));
+        dispatch(action);
+      });
+
+      lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
+    } catch (e) {
+      // We had an error processing an event.  Log it and carry on.
+      logging.error(e);
     }
   }
 };
