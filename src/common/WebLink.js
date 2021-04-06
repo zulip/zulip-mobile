@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -32,19 +32,17 @@ const componentStyles = createStyleSheet({
  * @prop href - URL address to open on press.
  * @prop realm - Current realm. Used if the `href` property is relative.
  */
-class WebLink extends PureComponent<Props> {
-  render() {
-    return (
-      <Label
-        style={componentStyles.link}
-        text={this.props.label}
-        onPress={() => {
-          const { realm, href } = this.props;
-          openLink(new URL(href, realm).toString());
-        }}
-      />
-    );
-  }
+function WebLink(props: Props) {
+  return (
+    <Label
+      style={componentStyles.link}
+      text={props.label}
+      onPress={() => {
+        const { realm, href } = props;
+        openLink(new URL(href, realm).toString());
+      }}
+    />
+  );
 }
 
 export default connect(state => ({
