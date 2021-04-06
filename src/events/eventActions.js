@@ -92,6 +92,6 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       handleEvent(event, dispatch, getState);
     }
 
-    lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
+    lastEventId = Math.max(lastEventId, ...events.map(x => x.id));
   }
 };
