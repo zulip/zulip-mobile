@@ -1,6 +1,5 @@
 /* @flow strict-local */
-import type { EventAction } from '../actionTypes';
-import type { Dispatch, GeneralEvent, GetState, GlobalState } from '../types';
+import type { Dispatch, GetState } from '../types';
 import * as api from '../api';
 import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
@@ -10,12 +9,6 @@ import { tryGetAuth } from '../selectors';
 import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
 import * as logging from '../utils/logging';
-
-/** Convert an `/events` response into a sequence of our Redux actions. */
-export const eventsToActions = (
-  state: GlobalState,
-  events: $ReadOnlyArray<GeneralEvent>,
-): EventAction[] => events.map(event => eventToAction(state, event)).filter(Boolean);
 
 /**
  * Poll an event queue on the Zulip server for updates, in a loop.
@@ -70,7 +63,8 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
     }
 
     try {
-      const actions = eventsToActions(getState(), events);
+      const state = getState();
+      const actions = events.map(event => eventToAction(state, event)).filter(Boolean);
 
       for (const action of actions) {
         // These side effects should not be moved to reducers, which
