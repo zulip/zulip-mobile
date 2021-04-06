@@ -24,11 +24,6 @@ type Props = $ReadOnly<{|
  * @prop realm - Current realm. Used if the `href` property is relative.
  */
 class WebLink extends PureComponent<Props> {
-  handlePress = () => {
-    const { realm, href } = this.props;
-    openLink(new URL(href, realm).toString());
-  };
-
   styles = createStyleSheet({
     link: {
       marginTop: 10,
@@ -39,7 +34,16 @@ class WebLink extends PureComponent<Props> {
   });
 
   render() {
-    return <Label style={this.styles.link} text={this.props.label} onPress={this.handlePress} />;
+    return (
+      <Label
+        style={this.styles.link}
+        text={this.props.label}
+        onPress={() => {
+          const { realm, href } = this.props;
+          openLink(new URL(href, realm).toString());
+        }}
+      />
+    );
   }
 }
 
