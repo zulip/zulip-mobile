@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Dispatch, GetState } from '../types';
+import type { Dispatch, GeneralEvent, GetState } from '../types';
 import * as api from '../api';
 import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
@@ -9,6 +9,32 @@ import { tryGetAuth } from '../selectors';
 import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
 import * as logging from '../utils/logging';
+
+/**
+ * Handle a single Zulip event from the server.
+ *
+ * This is part of our use of the Zulip events system; see `doInitialFetch`
+ * for discussion.
+ */
+const handleEvent = (event: GeneralEvent, dispatch: Dispatch, getState: GetState) => {
+  try {
+    const action = eventToAction(getState(), event);
+    if (!action) {
+      return;
+    }
+
+    // These side effects should not be moved to reducers, which
+    // are explicitly not the place for side effects (see
+    // https://redux.js.org/faq/actions).
+    dispatch(doEventActionSideEffects(action));
+
+    // Now dispatch the plain-object action, for our reducers to handle.
+    dispatch(action);
+  } catch (e) {
+    // We had an error processing the event.  Log it and carry on.
+    logging.error(e);
+  }
+};
 
 /**
  * Poll an event queue on the Zulip server for updates, in a loop.
@@ -63,23 +89,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
     }
 
     for (const event of events) {
-      try {
-        const state = getState();
-        const action = eventToAction(state, event);
-        if (!action) {
-          continue;
-        }
-
-        // These side effects should not be moved to reducers, which
-        // are explicitly not the place for side effects (see
-        // https://redux.js.org/faq/actions).
-        dispatch(doEventActionSideEffects(action));
-
-        dispatch(action);
-      } catch (e) {
-        // We had an error processing the event.  Log it and carry on.
-        logging.error(e);
-      }
+      handleEvent(event, dispatch, getState);
     }
 
     lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
