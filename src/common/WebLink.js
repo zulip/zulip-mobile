@@ -27,10 +27,6 @@ const componentStyles = createStyleSheet({
 
 /**
  * A button styled like a web link.
- *
- * @prop label - Text of the button.
- * @prop href - URL address to open on press.
- * @prop realm - Current realm. Used if the `href` property is relative.
  */
 function WebLink(props: Props) {
   return (
