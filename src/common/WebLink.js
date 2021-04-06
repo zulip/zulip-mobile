@@ -16,6 +16,15 @@ type Props = $ReadOnly<{|
   realm: URL,
 |}>;
 
+const componentStyles = createStyleSheet({
+  link: {
+    marginTop: 10,
+    fontSize: 15,
+    color: BRAND_COLOR,
+    textAlign: 'right',
+  },
+});
+
 /**
  * A button styled like a web link.
  *
@@ -24,19 +33,10 @@ type Props = $ReadOnly<{|
  * @prop realm - Current realm. Used if the `href` property is relative.
  */
 class WebLink extends PureComponent<Props> {
-  styles = createStyleSheet({
-    link: {
-      marginTop: 10,
-      fontSize: 15,
-      color: BRAND_COLOR,
-      textAlign: 'right',
-    },
-  });
-
   render() {
     return (
       <Label
-        style={this.styles.link}
+        style={componentStyles.link}
         text={this.props.label}
         onPress={() => {
           const { realm, href } = this.props;
