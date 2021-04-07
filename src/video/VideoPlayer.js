@@ -2,16 +2,25 @@
 
 import React, { useState, useCallback } from 'react';
 import { View, Dimensions, LayoutAnimation, Text } from 'react-native';
+import { useActionSheet } from '@expo/react-native-action-sheet';
+
 import Video from 'react-native-video';
 import type { Message } from '../types';
 import * as NavigationService from '../nav/NavigationService';
 import { useSelector } from '../react-redux';
 import LightboxHeader from '../lightbox/LightboxHeader';
+import LightboxFooter from '../lightbox/LightboxFooter';
+import {
+  constructActionSheetButtons,
+  executeActionSheetAction,
+} from '../lightbox/LightboxActionSheet';
 import { getAuth, getSession } from '../selectors';
 import { getResource } from '../utils/url';
 import { navigateBack } from '../actions';
 import { createStyleSheet } from '../styles';
 import { Touchable } from '../common';
+import { streamNameOfStreamMessage } from '../utils/recipient';
+import VideoPlayerIcone from './VideoPlayIcon';
 
 const styles = createStyleSheet({
   video: {
@@ -46,10 +55,23 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function VideoPlayer(props: Props) {
-  const [headerFooterVisible, setHeaderFooterVisible] = useState<boolean>(true);
-  const [videoError, setVideoError] = useState<boolean>(false);
-  const auth = useSelector(getAuth);
   const { src, message } = props;
+
+  const [headerFooterVisible, setHeaderFooterVisible] = useState<boolean>(false);
+  const [videoError, setVideoError] = useState<boolean>(false);
+  const [pauseVideo, setPauseVideo] = useState<boolean>(false);
+
+  const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
+    .showActionSheetWithOptions;
+
+  const footerMessage =
+    message.type === 'stream'
+      ? `Shared in #${streamNameOfStreamMessage(message)}`
+      : 'Shared with you';
+
+  const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
+
+  const auth = useSelector(getAuth);
 
   const resource = getResource(src, auth);
   const videoUri = resource.uri;
@@ -58,8 +80,6 @@ export default function VideoPlayer(props: Props) {
   // Since we're using `Dimensions.get` (below), we'll want a rerender
   // when the orientation changes. No need to store the value.
   useSelector(state => getSession(state).orientation);
-
-  const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
   const onErrorHandle = err => {
     setVideoError(true);
   };
@@ -95,6 +115,14 @@ export default function VideoPlayer(props: Props) {
         </Touchable>
       )}
 
+      <View>
+        <VideoPlayerIcone
+          onPressBack={() => {
+            setPauseVideo(m => !m);
+          }}
+          name={pauseVideo ? 'pause' : 'play'}
+        />
+      </View>
       <View
         style={[
           styles.overlay,
@@ -111,6 +139,34 @@ export default function VideoPlayer(props: Props) {
           avatarUrl={message.avatar_url}
           senderName={message.sender_full_name}
           senderEmail={message.sender_email}
+        />
+      </View>
+      <View
+        style={[
+          styles.overlay,
+          { width: windowWidth },
+          headerFooterVisible ? { bottom: 0 } : { top: windowHeight },
+        ]}
+      >
+        <LightboxFooter
+          displayMessage={footerMessage}
+          onOptionsPress={() => {
+            const options = constructActionSheetButtons();
+            const cancelButtonIndex = options.length - 1;
+            showActionSheetWithOptions(
+              {
+                options,
+                cancelButtonIndex,
+              },
+              buttonIndex => {
+                executeActionSheetAction({
+                  title: options[buttonIndex],
+                  src,
+                  auth,
+                });
+              },
+            );
+          }}
         />
       </View>
     </View>
