@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { useState, useCallback } from 'react';
-import { View, Dimensions, LayoutAnimation, Text } from 'react-native';
+import { View, Dimensions, LayoutAnimation } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import Video from 'react-native-video';
@@ -42,7 +42,7 @@ const styles = createStyleSheet({
   },
   textErrorContainer: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -62,8 +62,7 @@ type Props = $ReadOnly<{|
 export default function VideoPlayer(props: Props) {
   const { src, message } = props;
 
-  const [headerFooterIconVisible, setHeaderFooterIconVisible] = useState<boolean>(true);
-  const [videoError, setVideoError] = useState<boolean>(false);
+  const [headerFooterIconVisible, setHeaderFooterIconVisible] = useState<boolean>(false);
   const [pauseVideo, setPauseVideo] = useState<boolean>(false);
 
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
@@ -94,35 +93,26 @@ export default function VideoPlayer(props: Props) {
     setHeaderFooterIconVisible(m => !m);
   }, [setHeaderFooterIconVisible]);
 
-  const onErrorHandler = err => {
-    setVideoError(true);
-  };
   const onEndHandler = () => {
     NavigationService.dispatch(navigateBack());
   };
   return (
     <View style={styles.container}>
-      {videoError ? (
-        <View style={styles.textErrorContainer}>
-          <Text style={styles.textError}>Something wrong with this file!</Text>
-        </View>
-      ) : (
-        <Touchable onPress={handleVideoPress} style={styles.video}>
-          <Video
-            source={{
-              uri: videoUri,
-              headers: { Authorization: videoHeaders ? videoHeaders.Authorization : null },
-            }}
-            rate={1}
-            volume={1}
-            paused={pauseVideo}
-            resizeMode="cover"
-            onError={onErrorHandler}
-            onEnd={onEndHandler}
-            style={styles.video}
-          />
-        </Touchable>
-      )}
+      <Touchable onPress={handleVideoPress} style={styles.video}>
+        <Video
+          source={{
+            uri: videoUri,
+            headers: { Authorization: videoHeaders ? videoHeaders.Authorization : null },
+          }}
+          rate={1}
+          volume={1}
+          paused={pauseVideo}
+          resizeMode="cover"
+          onEnd={onEndHandler}
+          style={styles.video}
+        />
+      </Touchable>
+
       <View style={[styles.iconWrapper, { top: windowHeight / 2 }, { left: windowWidth / 2 }]}>
         {headerFooterIconVisible ? (
           <VideoPlayerIcone
