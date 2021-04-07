@@ -42,7 +42,7 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
  *     extension.
  * @param auth Authentication info for the current user.
  */
-export default async (url: string, fileName: string, auth: Auth): Promise<mixed> => {
+export const downloadImage = async (url: string, fileName: string, auth: Auth): Promise<mixed> => {
   if (Platform.OS === 'ios') {
     return CameraRoll.save(url);
   }

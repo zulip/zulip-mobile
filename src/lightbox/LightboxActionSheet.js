@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Auth } from '../types';
-import downloadImage from './downloadImage';
+import { downloadImage } from './download';
 import share from './share';
 import shareImage from './shareImage';
 import { showToast } from '../utils/info';

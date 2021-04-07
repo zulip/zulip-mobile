@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { Platform, Share } from 'react-native';
 
-import downloadImage from './downloadImage';
+import { downloadImage } from './download';
 import type { Auth } from '../types';
 import ShareImageAndroid from '../nativeModules/ShareImageAndroid';
 import { showToast } from '../utils/info';
