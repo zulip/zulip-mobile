@@ -19,7 +19,7 @@ import { navigateBack } from '../actions';
 import { createStyleSheet } from '../styles';
 import { Touchable } from '../common';
 import { streamNameOfStreamMessage } from '../utils/recipient';
-import VideoPlayerIcone from './VideoPlayIcon';
+import VideoPlayerIcone from './VideoPlayerIcon';
 
 const styles = createStyleSheet({
   video: {
@@ -119,7 +119,7 @@ export default function VideoPlayer(props: Props) {
             onPressBack={() => {
               setPauseVideo(m => !m);
             }}
-            name={pauseVideo ? 'play' : 'pause'}
+            iconName={pauseVideo ? 'play' : 'pause'}
           />
         ) : null}
       </View>
