@@ -20,7 +20,12 @@ const data = {
       [SERIALIZED_TYPE_FIELD_NAME]: { c: [3] },
     },
   }),
-  mapNumKeys: Immutable.Map([[1, 1], [2, 2], [3, 3], [4, 4]]),
+  mapNumKeys: Immutable.Map([
+    [1, 1],
+    [2, 2],
+    [3, 3],
+    [4, 4],
+  ]),
   emptyMap: Immutable.Map([]),
   zulipVersion: new ZulipVersion('3.0.0'),
   url: new URL('https://chat.zulip.org'),

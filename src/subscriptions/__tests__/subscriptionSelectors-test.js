@@ -29,7 +29,10 @@ describe('getStreamsById', () => {
       streams: [{ stream_id: 1 }, { stream_id: 2 }],
     });
 
-    const expectedState = new Map([[1, { stream_id: 1 }], [2, { stream_id: 2 }]]);
+    const expectedState = new Map([
+      [1, { stream_id: 1 }],
+      [2, { stream_id: 2 }],
+    ]);
 
     const streamsById = getStreamsById(state);
 
@@ -50,7 +53,10 @@ describe('getSubscriptionsById', () => {
       subscriptions: [{ stream_id: 1 }, { stream_id: 2 }],
     });
 
-    const expectedState = new Map([[1, { stream_id: 1 }], [2, { stream_id: 2 }]]);
+    const expectedState = new Map([
+      [1, { stream_id: 1 }],
+      [2, { stream_id: 2 }],
+    ]);
 
     const subscriptionsById = getSubscriptionsById(state);
 

@@ -115,11 +115,9 @@ class MentionWarnings extends PureComponent<Props, State> {
 
     let isSubscribed: boolean;
     try {
-      isSubscribed = (await api.getSubscriptionToStream(
-        auth,
-        mentionedUser.user_id,
-        stream.stream_id,
-      )).is_subscribed;
+      isSubscribed = (
+        await api.getSubscriptionToStream(auth, mentionedUser.user_id, stream.stream_id)
+      ).is_subscribed;
     } catch (err) {
       this.showSubscriptionStatusLoadError(mentionedUser);
       return;

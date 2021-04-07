@@ -44,7 +44,10 @@ function keyOfUsers(ids: UserId[], ownUserId: UserId): PmConversationKey {
 
 // Input must indeed be a PM, else throws.
 function keyOfPrivateMessage(msg: Message | Outbox, ownUserId: UserId): PmConversationKey {
-  return keyOfUsers(recipientsOfPrivateMessage(msg).map(r => r.id), ownUserId);
+  return keyOfUsers(
+    recipientsOfPrivateMessage(msg).map(r => r.id),
+    ownUserId,
+  );
 }
 
 /** The users in the conversation, other than self. */

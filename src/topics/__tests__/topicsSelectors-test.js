@@ -21,7 +21,10 @@ describe('getTopicsForNarrow', () => {
     const state = eg.reduxState({
       streams: [stream],
       topics: {
-        [stream.stream_id]: [{ name: 'hi', max_id: 123 }, { name: 'wow', max_id: 234 }],
+        [stream.stream_id]: [
+          { name: 'hi', max_id: 123 },
+          { name: 'wow', max_id: 234 },
+        ],
       },
     });
 
@@ -105,7 +108,11 @@ describe('getTopicsForStream', () => {
           { name: 'topic 5', max_id: 9 },
         ],
       },
-      mute: [['stream 1', 'topic 1'], ['stream 1', 'topic 3'], ['stream 2', 'topic 2']],
+      mute: [
+        ['stream 1', 'topic 1'],
+        ['stream 1', 'topic 3'],
+        ['stream 2', 'topic 2'],
+      ],
       unread: [
         eg.streamMessage({ stream_id: 1, subject: 'topic 2', id: 1 }),
         eg.streamMessage({ stream_id: 1, subject: 'topic 2', id: 5 }),

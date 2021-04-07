@@ -38,7 +38,11 @@ describe('reducer', () => {
         { user_ids: [2, 1].map(makeUserId), max_message_id: 345 }, // user_ids out of order
       ];
       const expected = {
-        map: Immutable.Map([['', 234], ['1', 123], ['1,2', 345]]),
+        map: Immutable.Map([
+          ['', 234],
+          ['1', 123],
+          ['1,2', 345],
+        ]),
         sorted: Immutable.List(['1,2', '', '1']),
       };
       expect(
@@ -62,7 +66,10 @@ describe('reducer', () => {
         action([msg(45, [user1]), msg(123, [user1, user2]), eg.streamMessage(), msg(234, [user1])]),
       );
       expect(state).toEqual({
-        map: Immutable.Map([['1', 234], ['1,2', 123]]),
+        map: Immutable.Map([
+          ['1', 234],
+          ['1,2', 123],
+        ]),
         sorted: Immutable.List(['1', '1,2']),
       });
 
@@ -79,7 +86,11 @@ describe('reducer', () => {
         ]),
       );
       expect(state).toEqual({
-        map: Immutable.Map([['1', 234], ['1,2', 456], ['2', 345]]),
+        map: Immutable.Map([
+          ['1', 234],
+          ['1,2', 456],
+          ['2', 345],
+        ]),
         sorted: Immutable.List(['1,2', '2', '1']),
       });
     });
@@ -103,7 +114,10 @@ describe('reducer', () => {
       // This is here mostly for checked documentation of what's in
       // baseState, to help in reading the other test cases.
       expect(baseState).toEqual({
-        map: Immutable.Map([['1', 234], ['1,2', 123]]),
+        map: Immutable.Map([
+          ['1', 234],
+          ['1,2', 123],
+        ]),
         sorted: Immutable.List(['1', '1,2']),
       });
     });
@@ -116,7 +130,11 @@ describe('reducer', () => {
     test('new conversation, newest message', () => {
       const state = reducer(baseState, action(345, [user2]));
       expect(state).toEqual({
-        map: Immutable.Map([['1', 234], ['1,2', 123], ['2', 345]]),
+        map: Immutable.Map([
+          ['1', 234],
+          ['1,2', 123],
+          ['2', 345],
+        ]),
         sorted: Immutable.List(['2', '1', '1,2']),
       });
     });
@@ -124,7 +142,11 @@ describe('reducer', () => {
     test('new conversation, not newest message', () => {
       const state = reducer(baseState, action(159, [user2]));
       expect(state).toEqual({
-        map: Immutable.Map([['1', 234], ['1,2', 123], ['2', 159]]),
+        map: Immutable.Map([
+          ['1', 234],
+          ['1,2', 123],
+          ['2', 159],
+        ]),
         sorted: Immutable.List(['1', '2', '1,2']),
       });
     });
@@ -132,7 +154,10 @@ describe('reducer', () => {
     test('existing conversation, newest message', () => {
       const state = reducer(baseState, action(345, [user1, user2]));
       expect(state).toEqual({
-        map: Immutable.Map([['1', 234], ['1,2', 345]]),
+        map: Immutable.Map([
+          ['1', 234],
+          ['1,2', 345],
+        ]),
         sorted: Immutable.List(['1,2', '1']),
       });
     });
@@ -140,7 +165,10 @@ describe('reducer', () => {
     test('existing newest conversation, newest message', () => {
       const state = reducer(baseState, action(345, [user1]));
       expect(state).toEqual({
-        map: Immutable.Map([['1', 345], ['1,2', 123]]),
+        map: Immutable.Map([
+          ['1', 345],
+          ['1,2', 123],
+        ]),
         sorted: Immutable.List(['1', '1,2']),
       });
       expect(state.sorted).toBe(baseState.sorted);
