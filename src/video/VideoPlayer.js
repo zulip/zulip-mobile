@@ -46,6 +46,12 @@ const styles = createStyleSheet({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  iconWrapper: {
+    backgroundColor: 'gray',
+    opacity: 0.8,
+    borderRadius: 15,
+    position: 'absolute',
+  },
 });
 
 type Props = $ReadOnly<{|
@@ -119,7 +125,7 @@ export default function VideoPlayer(props: Props) {
           onPressBack={() => {
             setPauseVideo(m => !m);
           }}
-          name={pauseVideo ? 'pause' : 'play'}
+          name={pauseVideo ? 'play' : 'pause'}
         />
       </View>
       <View

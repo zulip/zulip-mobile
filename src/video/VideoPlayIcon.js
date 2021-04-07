@@ -4,7 +4,7 @@ import { Pressable } from 'react-native';
 import { Icon } from '../common/Icons';
 
 type Props = $ReadOnly<{|
-  name: string,
+  name: 'pause' | 'play',
   onPressBack: () => void,
 |}>;
 
