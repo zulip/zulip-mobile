@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
 import { View } from 'react-native';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import type { Message } from '../types';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -27,7 +28,9 @@ export default function VideoScreen(props: Props) {
   return (
     <View style={styles.screen}>
       <ZulipStatusBar hidden backgroundColor="black" />
-      <VideoPlayer message={message} src={src} />
+      <ActionSheetProvider>
+        <VideoPlayer message={message} src={src} />
+      </ActionSheetProvider>
     </View>
   );
 }
