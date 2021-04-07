@@ -62,7 +62,7 @@ type Props = $ReadOnly<{|
 export default function VideoPlayer(props: Props) {
   const { src, message } = props;
 
-  const [headerFooterVisible, setHeaderFooterVisible] = useState<boolean>(false);
+  const [headerFooterIconVisible, setHeaderFooterIconVisible] = useState<boolean>(true);
   const [videoError, setVideoError] = useState<boolean>(false);
   const [pauseVideo, setPauseVideo] = useState<boolean>(false);
 
@@ -91,11 +91,14 @@ export default function VideoPlayer(props: Props) {
       ...LayoutAnimation.Presets.easeInEaseOut,
       duration: 100, // from 300
     });
-    setHeaderFooterVisible(m => !m);
-  }, [setHeaderFooterVisible]);
+    setHeaderFooterIconVisible(m => !m);
+  }, [setHeaderFooterIconVisible]);
 
   const onErrorHandler = err => {
     setVideoError(true);
+  };
+  const onEndHandler = () => {
+    NavigationService.dispatch(navigateBack());
   };
   return (
     <View style={styles.container}>
@@ -112,28 +115,30 @@ export default function VideoPlayer(props: Props) {
             }}
             rate={1}
             volume={1}
-            controls
-            resizeMode="contain"
+            paused={pauseVideo}
+            resizeMode="cover"
             onError={onErrorHandler}
+            onEnd={onEndHandler}
             style={styles.video}
           />
         </Touchable>
       )}
-
-      <View>
-        <VideoPlayerIcone
-          onPressBack={() => {
-            setPauseVideo(m => !m);
-          }}
-          name={pauseVideo ? 'play' : 'pause'}
-        />
+      <View style={[styles.iconWrapper, { top: windowHeight / 2 }, { left: windowWidth / 2 }]}>
+        {headerFooterIconVisible ? (
+          <VideoPlayerIcone
+            onPressBack={() => {
+              setPauseVideo(m => !m);
+            }}
+            name={pauseVideo ? 'play' : 'pause'}
+          />
+        ) : null}
       </View>
       <View
         style={[
           styles.overlay,
           styles.header,
           { width: windowWidth },
-          headerFooterVisible ? { top: 0 } : { bottom: windowHeight },
+          headerFooterIconVisible ? { top: 0 } : { bottom: windowHeight },
         ]}
       >
         <VideoPlayerHeader
@@ -150,7 +155,7 @@ export default function VideoPlayer(props: Props) {
         style={[
           styles.overlay,
           { width: windowWidth },
-          headerFooterVisible ? { bottom: 0 } : { top: windowHeight },
+          headerFooterIconVisible ? { bottom: 0 } : { top: windowHeight },
         ]}
       >
         <VideoPlayerFooter
