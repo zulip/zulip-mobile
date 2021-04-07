@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
 import { View } from 'react-native';
-
 import type { Message } from '../types';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -14,7 +13,7 @@ const styles = createStyleSheet({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
-    backgroundColor: 'white',
+    backgroundColor: 'black',
   },
 });
 
@@ -25,7 +24,6 @@ type Props = $ReadOnly<{|
 
 export default function VideoScreen(props: Props) {
   const { src, message } = props.route.params;
-
   return (
     <View style={styles.screen}>
       <ZulipStatusBar hidden backgroundColor="black" />
