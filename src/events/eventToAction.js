@@ -265,7 +265,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
       };
 
     default:
-      console.log('Cannot handle event', event); // eslint-disable-line
+      logging.error('Unhandled Zulip API event', event);
       return null;
   }
 };

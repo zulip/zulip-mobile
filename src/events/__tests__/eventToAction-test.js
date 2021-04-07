@@ -1,13 +1,16 @@
+import * as logging from '../../utils/logging';
 import eventToAction from '../eventToAction';
-
-console.log = () => {}; // eslint-disable-line
 
 describe('eventToAction', () => {
   const state = {};
 
   test('filter out unknown event type', () => {
-    const event = { type: 'some unknown type' };
-    expect(eventToAction(state, event)).toBe(null);
+    logging.error.mockReturnValue();
+
+    expect(eventToAction(state, { type: 'some unknown type' })).toBe(null);
+
+    expect(logging.error.mock.calls).toHaveLength(1);
+    logging.error.mockReset();
   });
 
   test('filter out a known boring event type', () => {
