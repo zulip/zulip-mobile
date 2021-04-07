@@ -1,15 +1,20 @@
+/* @flow strict-local */
 import * as logging from '../../utils/logging';
+import * as eg from '../../__tests__/lib/exampleData';
 import eventToAction from '../eventToAction';
 
 describe('eventToAction', () => {
-  const state = {};
+  const state = eg.plusReduxState;
 
   test('filter out unknown event type', () => {
+    // $FlowFixMe: teach Flow about Jest mocks
     logging.error.mockReturnValue();
 
     expect(eventToAction(state, { type: 'some unknown type' })).toBe(null);
 
+    // $FlowFixMe: teach Flow about Jest mocks
     expect(logging.error.mock.calls).toHaveLength(1);
+    // $FlowFixMe: teach Flow about Jest mocks
     logging.error.mockReset();
   });
 
