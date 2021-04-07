@@ -17,6 +17,11 @@ const baseBackgroundData = deepFreeze({
   subscriptions: [],
   theme: 'default',
   twentyFourHourTime: false,
+  realmAllowMessageEditing: eg.action.realm_init.data.realm_allow_message_editing,
+  realmAllowMessageDeleting: eg.action.realm_init.data.realm_allow_message_deleting,
+  realmMessageContentEditLimit: eg.action.realm_init.data.realm_message_content_edit_limit_seconds,
+  realmMessageContentDeleteLimit:
+    eg.action.realm_init.data.realm_message_content_delete_limit_seconds,
 });
 
 const buttonTitles = buttons => buttons.map(button => button.title);

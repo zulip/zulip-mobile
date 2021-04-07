@@ -273,19 +273,32 @@ const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = ({
-  backgroundData: { ownUser, flags },
+  backgroundData: {
+    ownUser,
+    flags,
+    realmAllowMessageEditing,
+    realmAllowMessageDeleting,
+    realmMessageContentEditLimit,
+    realmMessageContentDeleteLimit,
+  },
   message,
   narrow,
 }: {
   backgroundData: $ReadOnly<{
     ownUser: User,
     flags: FlagsState,
+    realmAllowMessageEditing: boolean,
+    realmAllowMessageDeleting: boolean,
+    realmMessageContentEditLimit: number,
+    realmMessageContentDeleteLimit: number,
     ...
   }>,
   message: Message,
   narrow: Narrow,
 }): Button<MessageArgs>[] => {
   const buttons = [];
+  const updateMessageTimeLimit = Math.floor(Date.now() / 1000 - message.timestamp);
+
   if (messageNotDeleted(message)) {
     buttons.push(addReaction);
   }
@@ -301,12 +314,24 @@ export const constructMessageActionButtons = ({
   }
   if (
     message.sender_id === ownUser.user_id
+    // if realm allows users to "edit message", show edit option button
+    && realmAllowMessageEditing
     // Our "edit message" UI only works in certain kinds of narrows.
-    && (isStreamOrTopicNarrow(narrow) || isPmNarrow(narrow))
+    && (isStreamOrTopicNarrow(narrow)
+      || (isPmNarrow(narrow)
+        // if "edit message" time limit exceeds , don't show the edit option button
+        && updateMessageTimeLimit < realmMessageContentEditLimit))
   ) {
     buttons.push(editMessage);
   }
-  if (message.sender_id === ownUser.user_id && messageNotDeleted(message)) {
+  if (
+    message.sender_id === ownUser.user_id
+    // if realm allows users to "delete message", show delete option button
+    && realmAllowMessageDeleting
+    && messageNotDeleted(message)
+    // if "delete message" time limit exceeds , don't show the delete option button
+    && updateMessageTimeLimit < realmMessageContentDeleteLimit
+  ) {
     buttons.push(deleteMessage);
   }
   if (message.id in flags.starred) {
@@ -326,6 +351,10 @@ export const constructNonHeaderActionButtons = ({
   backgroundData: $ReadOnly<{
     ownUser: User,
     flags: FlagsState,
+    realmAllowMessageEditing: boolean,
+    realmAllowMessageDeleting: boolean,
+    realmMessageContentEditLimit: number,
+    realmMessageContentDeleteLimit: number,
     ...
   }>,
   message: Message | Outbox,
@@ -372,6 +401,10 @@ export const showMessageActionSheet = ({
     subscriptions: Subscription[],
     ownUser: User,
     flags: FlagsState,
+    realmAllowMessageEditing: boolean,
+    realmAllowMessageDeleting: boolean,
+    realmMessageContentEditLimit: number,
+    realmMessageContentDeleteLimit: number,
     ...
   }>,
   message: Message | Outbox,

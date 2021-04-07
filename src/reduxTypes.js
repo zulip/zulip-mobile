@@ -235,6 +235,10 @@ export type VideoChatProvider = {| name: 'jitsi_meet', jitsiServerUrl: string |}
  * @prop videoChatProvider - The video chat provider configured by the
  *   server; null if none, or if the configured provider is one we don't
  *   support.
+ * @prop realmAllowMessageEditing - server's permission for "edit message".
+ * @prop realmAllowMessageDeleting - server's permission for "delete message".
+ * @prop realmMessageContentEditLimit - server's timelimit for "edit message".
+ * @prop realmMessageContentDeleteLimit - server's timelimit for "delete message".
  *
  * About the user:
  * @prop email
@@ -250,6 +254,10 @@ export type RealmState = {|
   filters: RealmFilter[],
   emoji: RealmEmojiById,
   videoChatProvider: VideoChatProvider | null,
+  realmAllowMessageEditing: boolean,
+  realmAllowMessageDeleting: boolean,
+  realmMessageContentEditLimit: number,
+  realmMessageContentDeleteLimit: number,
 
   email: string | void,
   user_id: UserId | void,
