@@ -152,6 +152,37 @@ Apart from the steps mentioned below, you may find the
 
 [React Native troubleshooting docs]: https://reactnative.dev/docs/troubleshooting
 
+### `tools\postinstall` is not recognized as an internal or external command
+
+On windowsOS, when running `yarn` or `yarn install`, if you see an error like
+this:
+```
+yarn install
+yarn install v1.22.5
+[1/4] Resolving packages...
+success Already up-to-date.
+$ tools/postinstall
+'tools\postinstall' is not recognized as an internal or external command,
+operable program or batch file.
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/install for documentation about this command.
+```
+then, in our `Package.json` :
+```
+$ head package.json
+{
+  "name": "ZulipMobile",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "tools/postinstall",
+```
+
+To fix this, edit that last line so that it reads:
+```
+    "postinstall": "bash tools/postinstall",
+```
+
 
 ### `yarn install` failure, at `fsevents`
 
