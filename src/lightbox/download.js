@@ -60,3 +60,20 @@ export const downloadImage = async (url: string, fileName: string, auth: Auth): 
     },
   }).fetch('GET', url);
 };
+
+/**
+ * Download a remote file to the app's cache directory.
+ *
+ * @param tempUrl A URL to the file. Should be a valid temporary URL generated
+ *     using `getFileTemporaryUrl`.
+ * @param fileName Name of the file to be downloaded. Should include the
+ *     extension.
+ */
+export const downloadFileToCache = async (tempUrl: string, fileName: string): Promise<mixed> =>
+  RNFetchBlob.config({
+    path: `${RNFetchBlob.fs.dirs.CacheDir}/${fileName}`,
+    fileCache: true,
+    useDownloadManager: true,
+    mime: getMimeTypeFromFileExtension(fileName.split('.').pop()),
+    title: fileName,
+  }).fetch('GET', tempUrl);

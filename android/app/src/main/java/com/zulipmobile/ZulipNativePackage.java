@@ -24,7 +24,7 @@ class ZulipNativePackage implements ReactPackage {
         modules.add(new CustomTabsAndroid(reactContext));
         modules.add(new RNSecureRandom(reactContext));
         modules.add(new CloseAllCustomTabsAndroid(reactContext));
-        modules.add(new ShareImageAndroid(reactContext));
+        modules.add(new ShareFileAndroid(reactContext));
         modules.add(new BadgeCountUpdaterModule(reactContext));
         modules.add(new TextCompressionModule(reactContext));
         return modules;
