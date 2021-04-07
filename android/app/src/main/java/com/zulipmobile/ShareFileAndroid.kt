@@ -19,16 +19,15 @@ class ShareFileAndroid(reactContext: ReactApplicationContext?) : ReactContextBas
 
     @ReactMethod
     fun shareFile(path: String, promise: Promise) = try {
-        val sharedFile = File(path)
-
-        // use of `FileProvider` here demands additional setup in the AndroidManifest.xml file
-        // details: https://developer.android.com/training/secure-file-sharing/setup-sharing.
-        // Currently this setup is not done by us explicitly; inclusion of module `rn-fetch-blob`
-        // does this for us implicitly, setting the value of authority to: `packageName.provider`.
+        // Using `FileProvider` here requires setup in AndroidManifest.xml:
+        //   https://developer.android.com/training/secure-file-sharing/setup-sharing
+        // Currently we don't do this explicitly in our AndroidManifest.xml
+        // source file; instead we rely implicitly on a manifest snippet
+        // added by `rn-fetch-blob`.  This authority string needs to match
+        // the `android:authorities` value from there.
+        val fileProviderAuthority = reactApplicationContext.packageName + ".provider"
         val sharedFileUri: Uri = FileProvider.getUriForFile(
-            reactApplicationContext,
-            reactApplicationContext.packageName + ".provider",
-            sharedFile)
+            reactApplicationContext, fileProviderAuthority, File(path))
 
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
