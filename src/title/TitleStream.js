@@ -56,7 +56,8 @@ const TitleStream = (props: Props) => {
       flex: 1,
       flexDirection: 'column',
       alignItems: 'flex-start',
-      justifyContent: 'flex-start',
+      justifyContent: 'center',
+      height: '100%',
     },
     streamRow: {
       flexDirection: 'row',
@@ -68,37 +69,41 @@ const TitleStream = (props: Props) => {
   const _ = useContext(TranslationContext);
 
   return (
-    <View style={componentStyles.outer}>
-      <View style={componentStyles.streamRow}>
-        <StreamIcon
-          style={styles.halfMarginRight}
-          isMuted={!stream.in_home_view}
-          isPrivate={stream.invite_only}
-          color={color}
-          size={20}
-        />
-        <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
-          {stream.name}
-        </Text>
-      </View>
-      {isTopicNarrow(narrow) && (
-        <TouchableWithoutFeedback
-          onLongPress={() => {
-            showHeaderActionSheet({
-              showActionSheetWithOptions,
-              callbacks: { dispatch, _ },
-              backgroundData,
-              stream: stream.name,
-              topic: topicOfNarrow(narrow),
-            });
-          }}
-        >
+    <TouchableWithoutFeedback
+      onLongPress={
+        isTopicNarrow(narrow)
+          ? () => {
+              showHeaderActionSheet({
+                showActionSheetWithOptions,
+                callbacks: { dispatch, _ },
+                backgroundData,
+                stream: stream.name,
+                topic: topicOfNarrow(narrow),
+              });
+            }
+          : undefined
+      }
+    >
+      <View style={componentStyles.outer}>
+        <View style={componentStyles.streamRow}>
+          <StreamIcon
+            style={styles.halfMarginRight}
+            isMuted={!stream.in_home_view}
+            isPrivate={stream.invite_only}
+            color={color}
+            size={20}
+          />
+          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+            {stream.name}
+          </Text>
+        </View>
+        {isTopicNarrow(narrow) && (
           <Text style={[styles.navSubtitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {topicOfNarrow(narrow)}
           </Text>
-        </TouchableWithoutFeedback>
-      )}
-    </View>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
