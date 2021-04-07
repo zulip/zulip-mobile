@@ -104,21 +104,13 @@ export default function AppNavigator(props: Props) {
         }),
       }}
     >
-      <Stack.Screen name="account-pick" component={AccountPickScreen} />
+      {/* These screens expect server data in order to function normally. */}
       <Stack.Screen name="account-details" component={AccountDetailsScreen} />
       <Stack.Screen name="group-details" component={GroupDetailsScreen} />
-      <Stack.Screen name="auth" component={AuthScreen} />
       <Stack.Screen name="chat" component={ChatScreen} />
-      <Stack.Screen name="dev-auth" component={DevAuthScreen} />
       <Stack.Screen name="emoji-picker" component={EmojiPickerScreen} />
       <Stack.Screen name="main-tabs" component={MainTabsScreen} />
       <Stack.Screen name="message-reactions" component={MessageReactionsScreen} />
-      <Stack.Screen name="password-auth" component={PasswordAuthScreen} />
-      <Stack.Screen
-        name="realm-input"
-        component={RealmInputScreen}
-        initialParams={initialRouteName === 'realm-input' ? initialRouteParams : undefined}
-      />
       <Stack.Screen name="search-messages" component={SearchMessagesScreen} />
       <Stack.Screen name="users" component={UsersScreen} />
       <Stack.Screen name="language" component={LanguageScreen} />
@@ -137,6 +129,18 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="notifications" component={NotificationsScreen} />
       <Stack.Screen name="legal" component={LegalScreen} />
       <Stack.Screen name="user-status" component={UserStatusScreen} />
+
+      {/* These screens do not expect server data in order to function
+          normally. */}
+      <Stack.Screen name="account-pick" component={AccountPickScreen} />
+      <Stack.Screen name="auth" component={AuthScreen} />
+      <Stack.Screen name="dev-auth" component={DevAuthScreen} />
+      <Stack.Screen name="password-auth" component={PasswordAuthScreen} />
+      <Stack.Screen
+        name="realm-input"
+        component={RealmInputScreen}
+        initialParams={initialRouteName === 'realm-input' ? initialRouteParams : undefined}
+      />
       <Stack.Screen name="sharing" component={SharingScreen} />
     </Stack.Navigator>
   );
