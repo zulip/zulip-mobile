@@ -63,14 +63,22 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
     }
 
     try {
-      const state = getState();
-      const actions = events.map(event => eventToAction(state, event)).filter(Boolean);
+      // This const alias for `events` helps Flow see that it doesn't get
+      // changed back to undefined before we use it.
+      const events_ = events; // eslint-disable-line no-underscore-dangle
 
-      for (const action of actions) {
+      for (const event of events_) {
+        const state = getState();
+        const action = eventToAction(state, event);
+        if (!action) {
+          continue;
+        }
+
         // These side effects should not be moved to reducers, which
         // are explicitly not the place for side effects (see
         // https://redux.js.org/faq/actions).
         dispatch(doEventActionSideEffects(action));
+
         dispatch(action);
       }
 
