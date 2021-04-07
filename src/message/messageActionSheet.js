@@ -24,7 +24,7 @@ import {
 import { isTopicMuted } from '../utils/message';
 import * as api from '../api';
 import { showToast } from '../utils/info';
-import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
+import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker, navigateToStream } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
@@ -174,6 +174,15 @@ const muteStream = async ({ auth, stream, subscriptions }) => {
 muteStream.title = 'Mute stream';
 muteStream.errorMessage = 'Failed to mute stream';
 
+const showStreamSettings = ({ stream, subscriptions }) => {
+  const sub = subscriptions.find(x => x.name === stream);
+  if (sub) {
+    NavigationService.dispatch(navigateToStream(sub.stream_id));
+  }
+};
+showStreamSettings.title = 'Stream settings';
+showStreamSettings.errorMessage = 'Failed to show stream settings';
+
 const starMessage = async ({ auth, message }) => {
   await api.toggleMessageStarred(auth, [message.id], true);
 };
@@ -239,6 +248,7 @@ export const constructHeaderActionButtons = ({
   } else {
     buttons.push(muteStream);
   }
+  buttons.push(showStreamSettings);
   buttons.push(cancel);
   return buttons;
 };
