@@ -7,13 +7,12 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import Video from 'react-native-video';
 import type { Message } from '../types';
 import * as NavigationService from '../nav/NavigationService';
+import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+
 import { useSelector } from '../react-redux';
-import LightboxHeader from '../lightbox/LightboxHeader';
-import LightboxFooter from '../lightbox/LightboxFooter';
-import {
-  constructActionSheetButtons,
-  executeActionSheetAction,
-} from '../lightbox/LightboxActionSheet';
+import VideoPlayerHeader from './VideoPlayerHeader';
+import VideoPlayerFooter from './VideoPlayerFooter';
+import { constructActionSheetButtons, executeActionSheetAction } from './VideoPlayerActionSheet';
 import { getAuth, getSession } from '../selectors';
 import { getResource } from '../utils/url';
 import { navigateBack } from '../actions';
@@ -80,9 +79,6 @@ export default function VideoPlayer(props: Props) {
   // Since we're using `Dimensions.get` (below), we'll want a rerender
   // when the orientation changes. No need to store the value.
   useSelector(state => getSession(state).orientation);
-  const onErrorHandle = err => {
-    setVideoError(true);
-  };
 
   const handleVideoPress = useCallback(() => {
     LayoutAnimation.configureNext({
@@ -92,6 +88,9 @@ export default function VideoPlayer(props: Props) {
     setHeaderFooterVisible(m => !m);
   }, [setHeaderFooterVisible]);
 
+  const onErrorHandler = err => {
+    setVideoError(true);
+  };
   return (
     <View style={styles.container}>
       {videoError ? (
@@ -109,7 +108,7 @@ export default function VideoPlayer(props: Props) {
             volume={1}
             controls
             resizeMode="contain"
-            onError={onErrorHandle}
+            onError={onErrorHandler}
             style={styles.video}
           />
         </Touchable>
@@ -131,7 +130,7 @@ export default function VideoPlayer(props: Props) {
           headerFooterVisible ? { top: 0 } : { bottom: windowHeight },
         ]}
       >
-        <LightboxHeader
+        <VideoPlayerHeader
           onPressBack={() => {
             NavigationService.dispatch(navigateBack());
           }}
@@ -148,11 +147,12 @@ export default function VideoPlayer(props: Props) {
           headerFooterVisible ? { bottom: 0 } : { top: windowHeight },
         ]}
       >
-        <LightboxFooter
+        <VideoPlayerFooter
           displayMessage={footerMessage}
           onOptionsPress={() => {
             const options = constructActionSheetButtons();
             const cancelButtonIndex = options.length - 1;
+
             showActionSheetWithOptions(
               {
                 options,
