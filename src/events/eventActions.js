@@ -62,12 +62,8 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       continue;
     }
 
-    try {
-      // This const alias for `events` helps Flow see that it doesn't get
-      // changed back to undefined before we use it.
-      const events_ = events; // eslint-disable-line no-underscore-dangle
-
-      for (const event of events_) {
+    for (const event of events) {
+      try {
         const state = getState();
         const action = eventToAction(state, event);
         if (!action) {
@@ -80,12 +76,12 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
         dispatch(doEventActionSideEffects(action));
 
         dispatch(action);
+      } catch (e) {
+        // We had an error processing the event.  Log it and carry on.
+        logging.error(e);
       }
-
-      lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
-    } catch (e) {
-      // We had an error processing an event.  Log it and carry on.
-      logging.error(e);
     }
+
+    lastEventId = Math.max.apply(null, [lastEventId, ...events.map(x => x.id)]);
   }
 };
