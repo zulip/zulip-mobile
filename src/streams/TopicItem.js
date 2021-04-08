@@ -22,7 +22,7 @@ const componentStyles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  stream?: string,
+  stream: string,
   name: string,
   isMuted?: boolean,
   isSelected?: boolean,
@@ -31,14 +31,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function TopicItem(props: Props) {
-  const {
-    name,
-    stream = '',
-    isMuted = false,
-    isSelected = false,
-    unreadCount = 0,
-    onPress,
-  } = props;
+  const { name, stream, isMuted = false, isSelected = false, unreadCount = 0, onPress } = props;
 
   return (
     <Touchable onPress={() => onPress(stream, name)} onLongPress={() => showToast(name)}>
