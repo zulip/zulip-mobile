@@ -106,30 +106,42 @@ export default function AppNavigator(props: Props) {
       }}
     >
       {/* These screens expect server data in order to function normally. */}
-      <Stack.Screen name="account-details" component={AccountDetailsScreen} />
-      <Stack.Screen name="group-details" component={GroupDetailsScreen} />
-      <Stack.Screen name="chat" component={ChatScreen} />
-      <Stack.Screen name="emoji-picker" component={EmojiPickerScreen} />
+      <Stack.Screen
+        name="account-details"
+        component={withHaveServerDataGate(AccountDetailsScreen)}
+      />
+      <Stack.Screen name="group-details" component={withHaveServerDataGate(GroupDetailsScreen)} />
+      <Stack.Screen name="chat" component={withHaveServerDataGate(ChatScreen)} />
+      <Stack.Screen name="emoji-picker" component={withHaveServerDataGate(EmojiPickerScreen)} />
       <Stack.Screen name="main-tabs" component={withHaveServerDataGate(MainTabsScreen)} />
-      <Stack.Screen name="message-reactions" component={MessageReactionsScreen} />
-      <Stack.Screen name="search-messages" component={SearchMessagesScreen} />
-      <Stack.Screen name="users" component={UsersScreen} />
-      <Stack.Screen name="language" component={LanguageScreen} />
-      <Stack.Screen name="lightbox" component={LightboxScreen} />
-      <Stack.Screen name="create-group" component={CreateGroupScreen} />
-      <Stack.Screen name="invite-users" component={InviteUsersScreen} />
-      <Stack.Screen name="diagnostics" component={DiagnosticsScreen} />
-      <Stack.Screen name="variables" component={VariablesScreen} />
-      <Stack.Screen name="timing" component={TimingScreen} />
-      <Stack.Screen name="storage" component={StorageScreen} />
-      <Stack.Screen name="debug" component={DebugScreen} />
-      <Stack.Screen name="stream-settings" component={StreamSettingsScreen} />
-      <Stack.Screen name="edit-stream" component={EditStreamScreen} />
-      <Stack.Screen name="create-stream" component={CreateStreamScreen} />
-      <Stack.Screen name="topic-list" component={TopicListScreen} />
-      <Stack.Screen name="notifications" component={NotificationsScreen} />
-      <Stack.Screen name="legal" component={LegalScreen} />
-      <Stack.Screen name="user-status" component={UserStatusScreen} />
+      <Stack.Screen
+        name="message-reactions"
+        component={withHaveServerDataGate(MessageReactionsScreen)}
+      />
+      <Stack.Screen
+        name="search-messages"
+        component={withHaveServerDataGate(SearchMessagesScreen)}
+      />
+      <Stack.Screen name="users" component={withHaveServerDataGate(UsersScreen)} />
+      <Stack.Screen name="language" component={withHaveServerDataGate(LanguageScreen)} />
+      <Stack.Screen name="lightbox" component={withHaveServerDataGate(LightboxScreen)} />
+      <Stack.Screen name="create-group" component={withHaveServerDataGate(CreateGroupScreen)} />
+      <Stack.Screen name="invite-users" component={withHaveServerDataGate(InviteUsersScreen)} />
+      <Stack.Screen name="diagnostics" component={withHaveServerDataGate(DiagnosticsScreen)} />
+      <Stack.Screen name="variables" component={withHaveServerDataGate(VariablesScreen)} />
+      <Stack.Screen name="timing" component={withHaveServerDataGate(TimingScreen)} />
+      <Stack.Screen name="storage" component={withHaveServerDataGate(StorageScreen)} />
+      <Stack.Screen name="debug" component={withHaveServerDataGate(DebugScreen)} />
+      <Stack.Screen
+        name="stream-settings"
+        component={withHaveServerDataGate(StreamSettingsScreen)}
+      />
+      <Stack.Screen name="edit-stream" component={withHaveServerDataGate(EditStreamScreen)} />
+      <Stack.Screen name="create-stream" component={withHaveServerDataGate(CreateStreamScreen)} />
+      <Stack.Screen name="topic-list" component={withHaveServerDataGate(TopicListScreen)} />
+      <Stack.Screen name="notifications" component={withHaveServerDataGate(NotificationsScreen)} />
+      <Stack.Screen name="legal" component={withHaveServerDataGate(LegalScreen)} />
+      <Stack.Screen name="user-status" component={withHaveServerDataGate(UserStatusScreen)} />
 
       {/* These screens do not expect server data in order to function
           normally. */}
