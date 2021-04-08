@@ -506,7 +506,7 @@ export const reduxState = (extra?: $Rest<GlobalState, { ... }>): GlobalState =>
  * See `baseReduxState` for a minimal version of the state.
  */
 export const plusReduxState: GlobalState = reduxState({
-  // TODO add .accounts, reflecting selfAuth, zulipVersion, zulipFeatureLevel
+  accounts: [{ ...selfAuth, ackedPushToken: null, zulipVersion, zulipFeatureLevel }],
   realm: { ...baseReduxState.realm, user_id: selfUser.user_id, email: selfUser.email },
   // TODO add crossRealmBot
   users: [selfUser, otherUser, thirdUser],
