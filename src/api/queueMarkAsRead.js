@@ -5,13 +5,13 @@ import messagesFlags from './messages/messagesFlags';
 /** We batch up requests to avoid sending them twice in this much time. */
 const debouncePeriodMs = 2000;
 
-let unsentMessageIds = [];
+let unackedMessageIds = [];
 let lastSentTime = -Infinity;
 let timeout = null;
 
 /** Private; exported only for tests. */
 export const resetAll = () => {
-  unsentMessageIds = [];
+  unackedMessageIds = [];
   lastSentTime = -Infinity;
   timeout = null;
 };
@@ -30,12 +30,13 @@ const processQueue = (auth: Auth) => {
     return;
   }
 
-  messagesFlags(auth, unsentMessageIds, 'add', 'read');
-  unsentMessageIds = [];
+  messagesFlags(auth, unackedMessageIds, 'add', 'read').then(success => {
+    unackedMessageIds = unackedMessageIds.filter(id => !success.messages.includes(id));
+  });
   lastSentTime = Date.now();
 };
 
 export default (auth: Auth, messageIds: number[]): void => {
-  unsentMessageIds.push(...messageIds);
+  unackedMessageIds.push(...messageIds);
   processQueue(auth);
 };

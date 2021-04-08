@@ -5,7 +5,12 @@ import * as eg from '../../__tests__/lib/exampleData';
 import { Lolex } from '../../__tests__/lib/lolex';
 
 // $FlowFixMe[cannot-write] Make flow understand about mocking
-messagesFlags.default = jest.fn(() => {});
+messagesFlags.default = jest.fn(
+  (auth, ids, op, flag) =>
+    new Promise((resolve, reject) => {
+      resolve({ messages: ids, msg: '', result: 'success' });
+    }),
+);
 
 describe('queueMarkAsRead', () => {
   let lolex: Lolex;
