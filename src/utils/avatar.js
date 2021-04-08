@@ -398,7 +398,7 @@ export class UploadedAvatarURL extends AvatarURL {
          */
       result = new URL(this._standardUrl);
 
-      const match = new RegExp(/(\w+)\.png/g).exec(result.pathname);
+      const match = new RegExp(/(\w+)\.png/).exec(result.pathname);
       if (match !== null) {
         result.pathname = result.pathname.replace(match[0], `${match[1]}-medium.png`);
       }
