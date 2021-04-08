@@ -139,20 +139,27 @@ describe('UploadedAvatarURL', () => {
     });
   });
 
-  test('if an absolute URL, just use it', () => {
+  test('s3 uploads: appends -medum.png for sizes over 100', () => {
     const instance = UploadedAvatarURL.validateAndConstructInstance({
       realm: new URL('https://chat.zulip.org'),
       absoluteOrRelativeUrl:
         'https://zulip-avatars.s3.amazonaws.com/13/430713047f2cffed661f84e139a64f864f17f286?x=x&version=5',
     });
-    SIZES_TO_TEST.forEach(size => {
-      expect(instance.get(size).toString()).toMatch(
+    const sizesOverDefault = SIZES_TO_TEST.filter(s => s > DEFAULT_UPLOAD_SIZE_PX);
+    const sizesAtMostDefault = SIZES_TO_TEST.filter(s => s <= DEFAULT_UPLOAD_SIZE_PX);
+    sizesOverDefault.forEach(size => {
+      expect(instance.get(size).toString()).toEqual(
+        'https://zulip-avatars.s3.amazonaws.com/13/430713047f2cffed661f84e139a64f864f17f286-medium.png?x=x&version=5',
+      );
+    });
+    sizesAtMostDefault.forEach(size => {
+      expect(instance.get(size).toString()).toEqual(
         'https://zulip-avatars.s3.amazonaws.com/13/430713047f2cffed661f84e139a64f864f17f286?x=x&version=5',
       );
     });
   });
 
-  test('converts *.png to *-medium.png for sizes over default', () => {
+  test('local uploads: converts *.png to *-medium.png for sizes over default', () => {
     const realm = new URL('https://chat.zulip.org');
     const instance = UploadedAvatarURL.validateAndConstructInstance({
       realm,

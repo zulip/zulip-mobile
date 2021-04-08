@@ -398,7 +398,12 @@ export class UploadedAvatarURL extends AvatarURL {
          */
       result = new URL(this._standardUrl);
 
-      result.pathname = result.pathname.replace(/\.png$/, '-medium.png');
+      result.pathname = result.pathname.replace(
+        // `.png` is optional: s3 uploads don't use it, local ones do.
+        // See TODO in zulip/zulip@c03615b98.
+        /(?:\.png)?$/,
+        '-medium.png',
+      );
     }
     return result;
   }
