@@ -57,11 +57,18 @@ type MessageArgs = {
 
 type Button<Args: HeaderArgs | MessageArgs> = {|
   (Args): void | Promise<void>,
+
+  /** The label for the button. */
+  // This UI string should be represented in messages_en.json.
   title: string,
 
-  /** The title of the alert-box that will be displayed if the callback throws. */
-  // Required even when the callback can't throw (e.g., "Cancel"), since we can't
-  // otherwise ensure that everything that _can_ throw has one.
+  /** The title of the alert-box that will be displayed if the
+   * callback throws. */
+  // Required even when the callback can't throw (e.g., "Cancel"),
+  // since we can't otherwise ensure that everything that _can_ throw
+  // has one.
+  //
+  // This UI string should be represented in messages_en.json.
   errorMessage: string,
 |};
 
