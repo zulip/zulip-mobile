@@ -1,7 +1,14 @@
 /* @flow strict-local */
 import md5 from 'blueimp-md5';
 
-import { AvatarURL, GravatarURL, FallbackAvatarURL, UploadedAvatarURL } from '../avatar';
+import {
+  AvatarURL,
+  GravatarURL,
+  FallbackAvatarURL,
+  UploadedAvatarURL,
+  DEFAULT_UPLOAD_SIZE_PX,
+  MEDIUM_UPLOAD_SIZE_PX,
+} from '../avatar';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('AvatarURL', () => {
@@ -50,7 +57,7 @@ describe('AvatarURL', () => {
   });
 });
 
-const SIZES_TO_TEST = [24, 32, 48, 80, 200];
+const SIZES_TO_TEST = [24, 32, 48, 80, 200, DEFAULT_UPLOAD_SIZE_PX, MEDIUM_UPLOAD_SIZE_PX];
 
 describe('GravatarURL', () => {
   test('serializes/deserializes correctly', () => {
@@ -145,21 +152,21 @@ describe('UploadedAvatarURL', () => {
     });
   });
 
-  test('converts *.png to *-medium.png for sizes over 100', () => {
+  test('converts *.png to *-medium.png for sizes over default', () => {
     const realm = new URL('https://chat.zulip.org');
     const instance = UploadedAvatarURL.validateAndConstructInstance({
       realm,
       absoluteOrRelativeUrl:
         '/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2',
     });
-    const sizesOver100 = SIZES_TO_TEST.filter(s => s > 100);
-    const sizesAtMost100 = SIZES_TO_TEST.filter(s => s <= 100);
-    sizesOver100.forEach(size => {
+    const sizesOverDefault = SIZES_TO_TEST.filter(s => s > DEFAULT_UPLOAD_SIZE_PX);
+    const sizesAtMostDefault = SIZES_TO_TEST.filter(s => s <= DEFAULT_UPLOAD_SIZE_PX);
+    sizesOverDefault.forEach(size => {
       expect(instance.get(size).toString()).toEqual(
         'https://chat.zulip.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae-medium.png?x=x&version=2',
       );
     });
-    sizesAtMost100.forEach(size => {
+    sizesAtMostDefault.forEach(size => {
       expect(instance.get(size).toString()).toEqual(
         'https://chat.zulip.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2',
       );

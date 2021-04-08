@@ -8,6 +8,15 @@ import { ensureUnreachable, type UserId } from '../types';
 import { isUrlAbsolute, isUrlPathAbsolute } from './url';
 
 /**
+ * Pixel dimensions of different size choices we have (they're all
+ * square) when requesting an uploaded avatar.
+ */
+// DEFAULT_AVATAR_SIZE in zerver/lib/upload.py.
+export const DEFAULT_UPLOAD_SIZE_PX = 100;
+// MEDIUM_AVATAR_SIZE in zerver/lib/upload.py.
+export const MEDIUM_UPLOAD_SIZE_PX = 500;
+
+/**
  * A way to get a standard avatar URL, or a sized one if available
  *
  * This class is abstract. Only instantiate its subclasses.
@@ -292,9 +301,9 @@ export class FallbackAvatarURL extends AvatarURL {
  * An avatar that was uploaded to the Zulip server.
  *
  * There are two size options; if `sizePhysicalPx` is greater than
- * 100, medium is chosen:
- *  * default: 100x100
- *  * medium: 500x500
+ * DEFAULT_UPLOAD_SIZE_PX, medium is chosen:
+ *  * default: DEFAULT_UPLOAD_SIZE_PX square
+ *  * medium: MEDIUM_UPLOAD_SIZE_PX square
  *
  * Don't send auth headers with requests to this type of avatar URL.
  * The s3 backend doesn't want them; it gives a 400 with an
@@ -382,7 +391,7 @@ export class UploadedAvatarURL extends AvatarURL {
     }
 
     let result: URL = this._standardUrl;
-    if (sizePhysicalPx > 100) {
+    if (sizePhysicalPx > DEFAULT_UPLOAD_SIZE_PX) {
       /* $FlowFixMe[incompatible-call]: Make a new URL to mutate,
          instead of mutating this._standardUrl
          https://github.com/zulip/zulip-mobile/pull/4230#discussion_r512351202
