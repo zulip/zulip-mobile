@@ -1,6 +1,11 @@
 /* @flow strict-local */
-import type { ApiResponse, Auth } from '../transportTypes';
+import type { Auth } from '../transportTypes';
 import messagesFlags from './messagesFlags';
+import type { ApiResponseMessagesFlags } from './messagesFlags';
 
-export default (auth: Auth, messageIds: number[], starMessage: boolean): Promise<ApiResponse> =>
+export default (
+  auth: Auth,
+  messageIds: number[],
+  starMessage: boolean,
+): Promise<ApiResponseMessagesFlags> =>
   messagesFlags(auth, messageIds, starMessage ? 'add' : 'remove', 'starred');

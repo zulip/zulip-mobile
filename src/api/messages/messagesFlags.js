@@ -1,6 +1,16 @@
 /* @flow strict-local */
-import type { ApiResponse, Auth } from '../transportTypes';
+import type { ApiResponseSuccess, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
-export default (auth: Auth, messages: number[], op: string, flag: string): Promise<ApiResponse> =>
+export type ApiResponseMessagesFlags = {|
+  ...ApiResponseSuccess,
+  messages: number[],
+|};
+
+export default (
+  auth: Auth,
+  messages: number[],
+  op: string,
+  flag: string,
+): Promise<ApiResponseMessagesFlags> =>
   apiPost(auth, 'messages/flags', { messages: JSON.stringify(messages), flag, op });
