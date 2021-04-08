@@ -48,14 +48,14 @@ class TopicListScreen extends PureComponent<Props, State> {
   handleFilterChange = (filter: string) => this.setState({ filter });
 
   render() {
-    const { topics } = this.props;
+    const { stream, topics } = this.props;
     const { filter } = this.state;
     const filteredTopics =
       topics && topics.filter(topic => topic.name.toLowerCase().includes(filter.toLowerCase()));
 
     return (
       <Screen title="Topics" centerContent search searchBarOnChange={this.handleFilterChange}>
-        <TopicList topics={filteredTopics} onPress={this.handlePress} />
+        <TopicList stream={stream} topics={filteredTopics} onPress={this.handlePress} />
       </Screen>
     );
   }

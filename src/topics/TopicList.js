@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { TopicExtended } from '../types';
+import type { Stream, TopicExtended } from '../types';
 import { createStyleSheet } from '../styles';
 import TopicItem from '../streams/TopicItem';
 import { LoadingIndicator, SearchEmptyState } from '../common';
@@ -15,13 +15,14 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
+  stream: Stream,
   topics: ?(TopicExtended[]),
   onPress: (stream: string, topic: string) => void,
 |}>;
 
 export default class TopicList extends PureComponent<Props> {
   render() {
-    const { topics, onPress } = this.props;
+    const { stream, topics, onPress } = this.props;
 
     if (!topics) {
       return <LoadingIndicator size={40} />;
@@ -40,6 +41,7 @@ export default class TopicList extends PureComponent<Props> {
         renderItem={({ item }) => (
           <TopicItem
             name={item.name}
+            stream={stream.name}
             isMuted={item.isMuted}
             unreadCount={item.unreadCount}
             onPress={onPress}
