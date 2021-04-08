@@ -42,6 +42,7 @@ import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 import UserStatusScreen from '../user-status/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
+import withHaveServerDataGate from '../withHaveServerDataGate';
 
 export type AppNavigatorParamList = {|
   'account-pick': RouteParamsOf<typeof AccountPickScreen>,
@@ -109,7 +110,7 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="group-details" component={GroupDetailsScreen} />
       <Stack.Screen name="chat" component={ChatScreen} />
       <Stack.Screen name="emoji-picker" component={EmojiPickerScreen} />
-      <Stack.Screen name="main-tabs" component={MainTabsScreen} />
+      <Stack.Screen name="main-tabs" component={withHaveServerDataGate(MainTabsScreen)} />
       <Stack.Screen name="message-reactions" component={MessageReactionsScreen} />
       <Stack.Screen name="search-messages" component={SearchMessagesScreen} />
       <Stack.Screen name="users" component={UsersScreen} />

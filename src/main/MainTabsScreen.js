@@ -20,7 +20,6 @@ import { OwnAvatar, OfflineNotice, ZulipStatusBar } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileScreen from '../account-info/ProfileScreen';
 import styles, { ThemeContext } from '../styles';
-import withHaveServerDataGate from '../withHaveServerDataGate';
 
 export type MainTabsNavigatorParamList = {|
   home: RouteParamsOf<typeof HomeScreen>,
@@ -45,7 +44,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'main-tabs', void>,
 |}>;
 
-function MainTabsScreen(props: Props) {
+export default function MainTabsScreen(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
 
   const insets = useSafeAreaInsets();
@@ -106,5 +105,3 @@ function MainTabsScreen(props: Props) {
     </View>
   );
 }
-
-export default withHaveServerDataGate(MainTabsScreen);
