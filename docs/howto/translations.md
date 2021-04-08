@@ -185,3 +185,8 @@ absent, to significantly translated, update the list in
 `src/settings/languages.js` to include it.  See there for details on
 what counts as "significantly translated", and for an easy way to
 check.
+
+This will also mean making an edit back in
+`static/translations/messages_en.json` -- the name of the new language is
+itself a string that appears in the UI, and so it's itself a string we want
+to provide to our translators to translate.

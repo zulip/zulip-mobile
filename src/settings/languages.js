@@ -31,6 +31,8 @@ export type Language = {|
  * useful gold standard for this.
  */
 const languages: $ReadOnlyArray<Language> = [
+  // When adding a language here, remember to add the language's name
+  // (in English) to messages_en.json, too, so it can be translated.
   { locale: 'en', name: 'English', nativeName: 'English' },
   { locale: 'ar', name: 'Arabic', nativeName: 'العربية' },
   { locale: 'bg', name: 'Bulgarian', nativeName: 'Български' },
