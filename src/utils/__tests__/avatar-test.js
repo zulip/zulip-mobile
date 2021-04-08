@@ -139,7 +139,7 @@ describe('UploadedAvatarURL', () => {
     });
   });
 
-  test('s3 uploads: appends -medum.png for sizes over 100', () => {
+  test('s3 uploads: appends -medum.png for sizes over default', () => {
     const instance = UploadedAvatarURL.validateAndConstructInstance({
       realm: new URL('https://chat.zulip.org'),
       absoluteOrRelativeUrl:
@@ -202,7 +202,14 @@ describe('FallbackAvatarURL', () => {
       userId,
     });
 
-    SIZES_TO_TEST.forEach(size => {
+    const sizesOverDefault = SIZES_TO_TEST.filter(s => s > DEFAULT_UPLOAD_SIZE_PX);
+    const sizesAtMostDefault = SIZES_TO_TEST.filter(s => s <= DEFAULT_UPLOAD_SIZE_PX);
+    sizesOverDefault.forEach(size => {
+      expect(instance.get(size).toString()).toEqual(
+        `https://chat.zulip.org/avatar/${userId.toString()}/medium`,
+      );
+    });
+    sizesAtMostDefault.forEach(size => {
       expect(instance.get(size).toString()).toEqual(
         `https://chat.zulip.org/avatar/${userId.toString()}`,
       );

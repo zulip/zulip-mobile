@@ -221,7 +221,10 @@ export class GravatarURL extends AvatarURL {
  * Note that this endpoint needs authentication; we should send the
  * auth headers (see src/api/transport) with the request.
  *
- * This endpoint does not currently support size customization.
+ * This endpoint isn't known to support size customization if the
+ * image at the redirect is a Gravatar image, but does support
+ * default/medium sizing if it's an uploaded image (see note on
+ * `UploadedAvatarURL`).
  */
 export class FallbackAvatarURL extends AvatarURL {
   /**
@@ -280,11 +283,10 @@ export class FallbackAvatarURL extends AvatarURL {
   /**
    * Get a URL object for the given size.
    *
-   * Size customization isn't currently supported for
-   * FallbackAvatarURLs.
-   *
-   * Still, we'll take `sizePhysicalPx` (it should be an integer), to
-   * make it easy to support in the future.
+   * Not known to support size customization if the image at the
+   * redirect is a Gravatar image, but does support default/medium
+   * sizing if it's an uploaded image (see note on
+   * `UploadedAvatarURL`).
    */
   get(sizePhysicalPx: number): URL {
     // `this._standardUrl` may have begun its life as a string, to
@@ -293,7 +295,18 @@ export class FallbackAvatarURL extends AvatarURL {
       this._standardUrl = new URL(this._standardUrl);
     }
 
-    return this._standardUrl;
+    let result: URL = this._standardUrl;
+    if (sizePhysicalPx > DEFAULT_UPLOAD_SIZE_PX) {
+      /* $FlowFixMe[incompatible-call]: Make a new URL to mutate,
+         instead of mutating this._standardUrl
+         https://github.com/zulip/zulip-mobile/pull/4230#discussion_r512351202
+         */
+      result = new URL(this._standardUrl);
+
+      result.pathname += '/medium';
+    }
+
+    return result;
   }
 }
 
