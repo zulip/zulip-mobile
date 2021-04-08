@@ -24,8 +24,8 @@
   "Enter": "Войти",
   "Switch account": "Сменить учетную запись",
   "Log out": "Выйти",
-  "Log out?": "Log out?",
-  "This will log out {email} on {realmUrl} from the mobile app on this device.": "This will log out {email} on {realmUrl} from the mobile app on this device.",
+  "Log out?": "Выйти?",
+  "This will log out {email} on {realmUrl} from the mobile app on this device.": "Это отключит {email} на {realmUrl} от мобильного приложения на этом устройстве.",
   "Add new account": "Добавить новую учетную запись",
   "Search messages": "Поиск сообщений",
   "Search people": "Поиск людей",
@@ -225,5 +225,5 @@
   "🤒 Out sick": "🤒 Болею",
   "🌴 Vacationing": "🌴 В отпуске",
   "🏠 Working remotely": "🏠 На удаленке",
-  "Signed out": "Signed out"
+  "Signed out": "Отключен"
 }
