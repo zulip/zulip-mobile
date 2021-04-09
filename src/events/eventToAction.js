@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import invariant from 'invariant';
 import { EventTypes } from '../api/eventTypes';
 
 import * as logging from '../utils/logging';
@@ -90,10 +89,9 @@ const actionTypeOfEventType = {
 // This FlowFixMe is because this function encodes a large number of
 // assumptions about the events the server sends, and doesn't check them.
 export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
-  invariant(
-    tryGetActiveAccount(state),
-    'Expected to have an active account when `eventToAction` was called.',
-  );
+  if (!tryGetActiveAccount(state)) {
+    logging.error('eventToAction: no active account');
+  }
 
   switch (event.type) {
     // For reference on each type of event, see:
