@@ -263,6 +263,19 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // Convert `unread.streams` from over-the-wire array to `Immutable.Map`.
   '25': dropCache,
 
+  // Rename locale `id-ID` back to `id`.
+  '26': state => {
+    const { locale } = state.settings;
+    const newLocale = locale === 'id-ID' ? 'id' : locale;
+    return {
+      ...state,
+      settings: {
+        ...state.settings,
+        locale: newLocale,
+      },
+    };
+  },
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
