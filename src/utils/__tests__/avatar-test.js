@@ -58,6 +58,8 @@ describe('AvatarURL', () => {
 });
 
 const SIZES_TO_TEST = [24, 32, 48, 80, 200, DEFAULT_UPLOAD_SIZE_PX, MEDIUM_UPLOAD_SIZE_PX];
+const SIZES_OVER_DEFAULT = SIZES_TO_TEST.filter(s => s > DEFAULT_UPLOAD_SIZE_PX);
+const SIZES_AT_MOST_DEFAULT = SIZES_TO_TEST.filter(s => s <= DEFAULT_UPLOAD_SIZE_PX);
 
 describe('GravatarURL', () => {
   test('serializes/deserializes correctly', () => {
@@ -145,14 +147,12 @@ describe('UploadedAvatarURL', () => {
       absoluteOrRelativeUrl:
         'https://zulip-avatars.s3.amazonaws.com/13/430713047f2cffed661f84e139a64f864f17f286?x=x&version=5',
     });
-    const sizesOverDefault = SIZES_TO_TEST.filter(s => s > DEFAULT_UPLOAD_SIZE_PX);
-    const sizesAtMostDefault = SIZES_TO_TEST.filter(s => s <= DEFAULT_UPLOAD_SIZE_PX);
-    sizesOverDefault.forEach(size => {
+    SIZES_OVER_DEFAULT.forEach(size => {
       expect(instance.get(size).toString()).toEqual(
         'https://zulip-avatars.s3.amazonaws.com/13/430713047f2cffed661f84e139a64f864f17f286-medium.png?x=x&version=5',
       );
     });
-    sizesAtMostDefault.forEach(size => {
+    SIZES_AT_MOST_DEFAULT.forEach(size => {
       expect(instance.get(size).toString()).toEqual(
         'https://zulip-avatars.s3.amazonaws.com/13/430713047f2cffed661f84e139a64f864f17f286?x=x&version=5',
       );
@@ -166,14 +166,12 @@ describe('UploadedAvatarURL', () => {
       absoluteOrRelativeUrl:
         '/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2',
     });
-    const sizesOverDefault = SIZES_TO_TEST.filter(s => s > DEFAULT_UPLOAD_SIZE_PX);
-    const sizesAtMostDefault = SIZES_TO_TEST.filter(s => s <= DEFAULT_UPLOAD_SIZE_PX);
-    sizesOverDefault.forEach(size => {
+    SIZES_OVER_DEFAULT.forEach(size => {
       expect(instance.get(size).toString()).toEqual(
         'https://chat.zulip.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae-medium.png?x=x&version=2',
       );
     });
-    sizesAtMostDefault.forEach(size => {
+    SIZES_AT_MOST_DEFAULT.forEach(size => {
       expect(instance.get(size).toString()).toEqual(
         'https://chat.zulip.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2',
       );
@@ -201,15 +199,12 @@ describe('FallbackAvatarURL', () => {
       realm: new URL('https://chat.zulip.org'),
       userId,
     });
-
-    const sizesOverDefault = SIZES_TO_TEST.filter(s => s > DEFAULT_UPLOAD_SIZE_PX);
-    const sizesAtMostDefault = SIZES_TO_TEST.filter(s => s <= DEFAULT_UPLOAD_SIZE_PX);
-    sizesOverDefault.forEach(size => {
+    SIZES_OVER_DEFAULT.forEach(size => {
       expect(instance.get(size).toString()).toEqual(
         `https://chat.zulip.org/avatar/${userId.toString()}/medium`,
       );
     });
-    sizesAtMostDefault.forEach(size => {
+    SIZES_AT_MOST_DEFAULT.forEach(size => {
       expect(instance.get(size).toString()).toEqual(
         `https://chat.zulip.org/avatar/${userId.toString()}`,
       );
