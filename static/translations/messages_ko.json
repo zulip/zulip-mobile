@@ -161,7 +161,7 @@
   "Failed to mute stream": "스트림 알림끄기 실패",
   "Failed to unmute stream": "스트림 알림끄기 실패",
   "Failed to delete topic": "주제 삭제 실패",
-  "Stream settings": "Stream settings",
+  "Stream settings": "스트림 설정",
   "Failed to show stream settings": "Failed to show stream settings",
   "show": "보이기",
   "hide": "숨기기",

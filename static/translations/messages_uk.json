@@ -161,7 +161,7 @@
   "Failed to mute stream": "Не вдалося заглушити канал",
   "Failed to unmute stream": "Не вдалося увімкнути сповіщення каналу",
   "Failed to delete topic": "Не вдалося видалити тему",
-  "Stream settings": "Stream settings",
+  "Stream settings": "Налаштування каналу",
   "Failed to show stream settings": "Failed to show stream settings",
   "show": "показати",
   "hide": "сховати",

@@ -161,7 +161,7 @@
   "Failed to mute stream": "Fallo al silenciar el canal",
   "Failed to unmute stream": "Fallo al dejar de silenciar el canal",
   "Failed to delete topic": "Fallo al eliminar el tema",
-  "Stream settings": "Stream settings",
+  "Stream settings": "Ajustes del canal",
   "Failed to show stream settings": "Failed to show stream settings",
   "show": "mostrar",
   "hide": "ocultar",

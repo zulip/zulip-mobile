@@ -161,7 +161,7 @@
   "Failed to mute stream": "Kanavan mykistäminen epäonnistui",
   "Failed to unmute stream": "Kanavan mykistyksen peruminen epäonnistui",
   "Failed to delete topic": "Aiheen poistaminen epäonnistui",
-  "Stream settings": "Stream settings",
+  "Stream settings": "Kanavan asetukset",
   "Failed to show stream settings": "Failed to show stream settings",
   "show": "näytä",
   "hide": "piilota",

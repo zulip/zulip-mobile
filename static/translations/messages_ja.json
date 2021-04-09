@@ -161,7 +161,7 @@
   "Failed to mute stream": "ストリームをミュートできませんでした",
   "Failed to unmute stream": "ストリームのミュートを解除できませんでした",
   "Failed to delete topic": "トピックを削除できませんでした",
-  "Stream settings": "Stream settings",
+  "Stream settings": "ストリームの設定",
   "Failed to show stream settings": "Failed to show stream settings",
   "show": "表示",
   "hide": "非表示",

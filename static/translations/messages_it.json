@@ -161,7 +161,7 @@
   "Failed to mute stream": "Attivazione del mute del canale non riuscita",
   "Failed to unmute stream": "Disattivazione del mute del canale non riuscita",
   "Failed to delete topic": "Cancellazione dell'argomento non riuscita",
-  "Stream settings": "Stream settings",
+  "Stream settings": "Impostazioni del canale",
   "Failed to show stream settings": "Failed to show stream settings",
   "show": "mostra",
   "hide": "nascondi",

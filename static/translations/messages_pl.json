@@ -161,7 +161,7 @@
   "Failed to mute stream": "Nie udało się wyciszyć kanału",
   "Failed to unmute stream": "Nie udało się wyłączyć wyciszenia kanału",
   "Failed to delete topic": "Nie udało się skasować wątku",
-  "Stream settings": "Stream settings",
+  "Stream settings": "Ustawienia kanału",
   "Failed to show stream settings": "Failed to show stream settings",
   "show": "pokaż",
   "hide": "ukryj",

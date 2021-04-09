@@ -161,7 +161,7 @@
   "Failed to mute stream": "Az üzenetfolyam némítása nem sikerült",
   "Failed to unmute stream": "Az üzenetfolyam némítás kikapcsolása nem sikerült",
   "Failed to delete topic": "A téma törlése nem sikerült.",
-  "Stream settings": "Stream settings",
+  "Stream settings": "Üzenetfolyam beállításai",
   "Failed to show stream settings": "Failed to show stream settings",
   "show": "mutat",
   "hide": "elrejt",

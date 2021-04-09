@@ -161,7 +161,7 @@
   "Failed to mute stream": "No s'ha pogut silenciar el canal",
   "Failed to unmute stream": "No s'ha pogut deixar de silenciar el canal",
   "Failed to delete topic": "No s'ha pogut eliminar el tema",
-  "Stream settings": "Stream settings",
+  "Stream settings": "Configuració del canal",
   "Failed to show stream settings": "Failed to show stream settings",
   "show": "mostra",
   "hide": "amaga",
