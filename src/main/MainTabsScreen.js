@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 import {
   createBottomTabNavigator,
   type BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -47,11 +47,8 @@ type Props = $ReadOnly<{|
 export default function MainTabsScreen(props: Props) {
   const { backgroundColor } = useContext(ThemeContext);
 
-  const insets = useSafeAreaInsets();
-
   return (
-    <View style={[styles.flexed, { backgroundColor }]}>
-      <View style={{ height: insets.top }} />
+    <SafeAreaView mode="padding" edges={['top']} style={[styles.flexed, { backgroundColor }]}>
       <ZulipStatusBar />
       <OfflineNotice />
       <Tab.Navigator
@@ -102,6 +99,6 @@ export default function MainTabsScreen(props: Props) {
           }}
         />
       </Tab.Navigator>
-    </View>
+    </SafeAreaView>
   );
 }
