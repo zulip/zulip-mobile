@@ -21,7 +21,7 @@ import hi from '../../static/translations/messages_hi.json';
 import hr from '../../static/translations/messages_hr.json';
 import hr_HR from '../../static/translations/messages_hr_HR.json';
 import hu from '../../static/translations/messages_hu.json';
-import id_ID from '../../static/translations/messages_id_ID.json';
+import id from '../../static/translations/messages_id.json';
 import it from '../../static/translations/messages_it.json';
 import ja from '../../static/translations/messages_ja.json';
 import ko from '../../static/translations/messages_ko.json';
@@ -71,7 +71,7 @@ export default {
   hr,
   'hr-HR': hr_HR,
   hu,
-  'id-ID': id_ID,
+  id,
   it,
   ja,
   ko,

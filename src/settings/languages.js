@@ -49,7 +49,7 @@ const languages: $ReadOnlyArray<Language> = [
   { locale: 'de', name: 'German', nativeName: 'Deutsch' },
   { locale: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
   { locale: 'hu', name: 'Hungarian', nativeName: 'Magyar' },
-  { locale: 'id-ID', name: 'Indonesian', nativeName: 'Bahasa Indonesia' },
+  { locale: 'id', name: 'Indonesian', nativeName: 'Bahasa Indonesia' },
   { locale: 'it', name: 'Italian', nativeName: 'Italiano' },
   { locale: 'ja', name: 'Japanese', nativeName: '日本語' },
   { locale: 'ko', name: 'Korean', nativeName: '한국어' },
