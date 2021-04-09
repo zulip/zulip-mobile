@@ -24,15 +24,17 @@ export default function FullScreenLoading(props: Props) {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={componentStyles.center}>
-      <View
-        style={{
-          height: insets.top,
-          backgroundColor: BRAND_COLOR,
-        }}
-      />
+    <>
       <ZulipStatusBar backgroundColor={BRAND_COLOR} />
-      <LoadingIndicator color="black" size={80} showLogo />
-    </View>
+      <View style={componentStyles.center}>
+        <View
+          style={{
+            height: insets.top,
+            backgroundColor: BRAND_COLOR,
+          }}
+        />
+        <LoadingIndicator color="black" size={80} showLogo />
+      </View>
+    </>
   );
 }
