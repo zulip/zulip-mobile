@@ -23,7 +23,7 @@ import {
   navigateToLightbox,
   messageLinkPress,
 } from '../actions';
-import { showHeaderActionSheet, showMessageActionSheet } from '../message/messageActionSheet';
+import { showTopicActionSheet, showMessageActionSheet } from '../message/messageActionSheet';
 import { ensureUnreachable } from '../types';
 import { base64Utf8Decode } from '../utils/encoding';
 
@@ -212,7 +212,7 @@ const handleLongPress = (
   const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
   if (target === 'header') {
     if (message.type === 'stream') {
-      showHeaderActionSheet({
+      showTopicActionSheet({
         showActionSheetWithOptions,
         callbacks: { dispatch, _ },
         backgroundData,

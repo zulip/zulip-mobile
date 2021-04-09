@@ -35,7 +35,7 @@ export type ShowActionSheetWithOptions = (
   (number) => void,
 ) => void;
 
-type HeaderArgs = {
+type TopicArgs = {
   auth: Auth,
   stream: string,
   topic: string,
@@ -55,7 +55,7 @@ type MessageArgs = {
   ...
 };
 
-type Button<Args: HeaderArgs | MessageArgs> = {|
+type Button<Args: TopicArgs | MessageArgs> = {|
   (Args): void | Promise<void>,
 
   /** The label for the button. */
@@ -226,7 +226,7 @@ const cancel = params => {};
 cancel.title = 'Cancel';
 cancel.errorMessage = 'Failed to hide menu';
 
-export const constructHeaderActionButtons = ({
+export const constructTopicActionButtons = ({
   backgroundData: { mute, subscriptions, ownUser },
   stream,
   topic,
@@ -239,7 +239,7 @@ export const constructHeaderActionButtons = ({
   }>,
   stream: string,
   topic: string,
-|}): Button<HeaderArgs>[] => {
+|}): Button<TopicArgs>[] => {
   const buttons = [];
   if (ownUser.is_admin) {
     buttons.push(deleteTopic);
@@ -338,10 +338,7 @@ export const constructNonHeaderActionButtons = ({
   }
 };
 
-function makeButtonCallback<Args: HeaderArgs | MessageArgs>(
-  buttonList: Button<Args>[],
-  args: Args,
-) {
+function makeButtonCallback<Args: TopicArgs | MessageArgs>(buttonList: Button<Args>[], args: Args) {
   return buttonIndex => {
     (async () => {
       const pressedButton: Button<Args> = buttonList[buttonIndex];
@@ -392,7 +389,7 @@ export const showMessageActionSheet = ({
   );
 };
 
-export const showHeaderActionSheet = ({
+export const showTopicActionSheet = ({
   showActionSheetWithOptions,
   callbacks,
   backgroundData,
@@ -415,7 +412,7 @@ export const showHeaderActionSheet = ({
   stream: string,
   topic: string,
 |}): void => {
-  const buttonList = constructHeaderActionButtons({
+  const buttonList = constructTopicActionButtons({
     backgroundData,
     stream,
     topic,

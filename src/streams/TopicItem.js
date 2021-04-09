@@ -6,7 +6,7 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
-import { showHeaderActionSheet } from '../message/messageActionSheet';
+import { showTopicActionSheet } from '../message/messageActionSheet';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { useDispatch, useSelector } from '../react-redux';
@@ -55,7 +55,7 @@ export default function TopicItem(props: Props) {
     <Touchable
       onPress={() => onPress(stream, name)}
       onLongPress={() => {
-        showHeaderActionSheet({
+        showTopicActionSheet({
           showActionSheetWithOptions,
           callbacks: { dispatch, _ },
           backgroundData,

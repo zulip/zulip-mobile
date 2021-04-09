@@ -4,7 +4,7 @@ import { HOME_NARROW } from '../../utils/narrow';
 import { streamNameOfStreamMessage } from '../../utils/recipient';
 
 import * as eg from '../../__tests__/lib/exampleData';
-import { constructMessageActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
+import { constructMessageActionButtons, constructTopicActionButtons } from '../messageActionSheet';
 
 const buttonTitles = buttons => buttons.map(button => button.title);
 
@@ -43,10 +43,10 @@ describe('constructActionButtons', () => {
   });
 });
 
-describe('constructHeaderActionButtons', () => {
+describe('constructTopicActionButtons', () => {
   test('show Unmute topic option if topic is muted', () => {
     const mute = deepFreeze([['electron issues', 'issue #556']]);
-    const buttons = constructHeaderActionButtons({
+    const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, mute },
       stream: 'electron issues',
       topic: 'issue #556',
@@ -55,7 +55,7 @@ describe('constructHeaderActionButtons', () => {
   });
 
   test('show mute topic option if topic is not muted', () => {
-    const buttons = constructHeaderActionButtons({
+    const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, mute: [] },
       stream: streamNameOfStreamMessage(eg.streamMessage()),
       topic: eg.streamMessage().subject,
@@ -65,7 +65,7 @@ describe('constructHeaderActionButtons', () => {
 
   test('show Unmute stream option if stream is not in home view', () => {
     const subscriptions = [{ ...eg.subscription, in_home_view: false }];
-    const buttons = constructHeaderActionButtons({
+    const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, subscriptions },
       stream: streamNameOfStreamMessage(eg.streamMessage()),
       topic: eg.streamMessage().subject,
@@ -75,7 +75,7 @@ describe('constructHeaderActionButtons', () => {
 
   test('show mute stream option if stream is in home view', () => {
     const subscriptions = [{ ...eg.subscription, in_home_view: true }];
-    const buttons = constructHeaderActionButtons({
+    const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, subscriptions },
       stream: streamNameOfStreamMessage(eg.streamMessage()),
       topic: eg.streamMessage().subject,
@@ -85,7 +85,7 @@ describe('constructHeaderActionButtons', () => {
 
   test('show delete topic option if current user is an admin', () => {
     const ownUser = { ...eg.selfUser, is_admin: true };
-    const buttons = constructHeaderActionButtons({
+    const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, ownUser },
       stream: streamNameOfStreamMessage(eg.streamMessage()),
       topic: eg.streamMessage().subject,
@@ -94,7 +94,7 @@ describe('constructHeaderActionButtons', () => {
   });
 
   test('do not show delete topic option if current user is not an admin', () => {
-    const buttons = constructHeaderActionButtons({
+    const buttons = constructTopicActionButtons({
       backgroundData: eg.backgroundData,
       stream: streamNameOfStreamMessage(eg.streamMessage()),
       topic: eg.streamMessage().subject,

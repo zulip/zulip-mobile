@@ -28,7 +28,7 @@ import {
   getOwnUser,
   getStreamInNarrow,
 } from '../selectors';
-import { showHeaderActionSheet } from '../message/messageActionSheet';
+import { showTopicActionSheet } from '../message/messageActionSheet';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 
 type SelectorProps = {|
@@ -74,7 +74,7 @@ const TitleStream = (props: Props) => {
       onLongPress={
         isTopicNarrow(narrow)
           ? () => {
-              showHeaderActionSheet({
+              showTopicActionSheet({
                 showActionSheetWithOptions,
                 callbacks: { dispatch, _ },
                 backgroundData,
