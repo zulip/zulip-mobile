@@ -4,7 +4,6 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { ZulipStatusBar } from '../common';
 import type { LocalizableText } from '../types';
 import styles, { ThemeContext, NAVBAR_SIZE } from '../styles';
 import Label from '../common/Label';
@@ -24,26 +23,23 @@ export default function ModalNavBar(props: Props) {
   ];
 
   return (
-    <>
-      <ZulipStatusBar />
-      <SafeAreaView
-        mode="padding"
-        edges={['top', 'right', 'left']}
-        style={[
-          {
-            borderColor: 'hsla(0, 0%, 50%, 0.25)',
-            flexDirection: 'row',
-            alignItems: 'center',
-            borderBottomWidth: 1,
-            backgroundColor,
-          },
-        ]}
-      >
-        {canGoBack && <NavBarBackButton />}
-        <View style={styles.flexedLeftAlign}>
-          <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
-        </View>
-      </SafeAreaView>
-    </>
+    <SafeAreaView
+      mode="padding"
+      edges={['top', 'right', 'left']}
+      style={[
+        {
+          borderColor: 'hsla(0, 0%, 50%, 0.25)',
+          flexDirection: 'row',
+          alignItems: 'center',
+          borderBottomWidth: 1,
+          backgroundColor,
+        },
+      ]}
+    >
+      {canGoBack && <NavBarBackButton />}
+      <View style={styles.flexedLeftAlign}>
+        <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
+      </View>
+    </SafeAreaView>
   );
 }

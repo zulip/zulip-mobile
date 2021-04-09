@@ -7,6 +7,7 @@ import type { ThemeName, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getSettings } from '../directSelectors';
 import { themeData, ThemeContext } from '../styles/theme';
+import { ZulipStatusBar } from '../common';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
@@ -21,7 +22,12 @@ class ThemeProvider extends PureComponent<Props> {
 
   render() {
     const { children, theme } = this.props;
-    return <ThemeContext.Provider value={themeData[theme]}>{children}</ThemeContext.Provider>;
+    return (
+      <ThemeContext.Provider value={themeData[theme]}>
+        <ZulipStatusBar />
+        {children}
+      </ThemeContext.Provider>
+    );
   }
 }
 

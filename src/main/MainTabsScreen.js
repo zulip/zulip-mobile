@@ -16,7 +16,7 @@ import StreamTabsScreen from './StreamTabsScreen';
 import PmConversationsScreen from '../pm-conversations/PmConversationsScreen';
 import SettingsScreen from '../settings/SettingsScreen';
 import { IconInbox, IconSettings, IconStream } from '../common/Icons';
-import { OwnAvatar, OfflineNotice, ZulipStatusBar } from '../common';
+import { OwnAvatar, OfflineNotice } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileScreen from '../account-info/ProfileScreen';
 import styles, { ThemeContext } from '../styles';
@@ -49,7 +49,6 @@ export default function MainTabsScreen(props: Props) {
 
   return (
     <SafeAreaView mode="padding" edges={['top']} style={[styles.flexed, { backgroundColor }]}>
-      <ZulipStatusBar />
       <OfflineNotice />
       <Tab.Navigator
         {...bottomTabNavigatorConfig({
