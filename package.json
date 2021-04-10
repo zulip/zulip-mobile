@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "tools/postinstall",
+    "postinstall": "bash tools/postinstall",
     "start": "react-native start",
     "ios": "react-native run-ios",
     "ios-min": "react-native run-ios --simulator 'iPhone 5s'",
