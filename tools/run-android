@@ -15,7 +15,7 @@ cd "${ROOT_DIR}"
 # These steps are based on observing `react-native run-android`
 # with a command `strace -eexecve -f react-native run-android`.
 
-run_visibly android/gradlew -p android -q :app:installDebug
+run_visibly android/gradlew -p android -q :app:installDebug "$@"
 
 devices=(
     $(run_visibly adb devices | perl -0ne 'print "$_\n" for (/^(\S+) \s+ device$/gmx)')
