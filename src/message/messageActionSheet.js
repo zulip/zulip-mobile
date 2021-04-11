@@ -14,6 +14,7 @@ import type {
   Subscription,
   User,
   EditMessage,
+  ReplyWithMention,
 } from '../types';
 import {
   getNarrowForReply,
@@ -28,6 +29,7 @@ import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker, navigateToStream 
 import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
+import { draftUpdate } from '../drafts/draftsActions';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -50,8 +52,10 @@ type MessageArgs = {
   ownUser: User,
   message: Message | Outbox,
   dispatch: Dispatch,
+  narrow: Narrow,
   _: GetText,
   startEditMessage: (editMessage: EditMessage) => void,
+  startReplyWithMention: (replyWithMention: ReplyWithMention) => void,
   ...
 };
 
@@ -81,6 +85,21 @@ const reply = ({ message, dispatch, ownUser }) => {
 };
 reply.title = 'Reply';
 reply.errorMessage = 'Failed to reply';
+
+const replyWithMention = ({ message, dispatch, ownUser, narrow, startReplyWithMention }) => {
+  const replyNarrow = getNarrowForReply(message, ownUser.user_id);
+  const replyMessage = `@**${message.sender_full_name}**`;
+  if (JSON.stringify(replyNarrow) !== JSON.stringify(narrow)) {
+    dispatch(draftUpdate(replyNarrow, replyMessage));
+    dispatch(doNarrow(replyNarrow, message.id));
+  } else {
+    startReplyWithMention({
+      content: replyMessage,
+    });
+  }
+};
+replyWithMention.title = 'Reply with mention';
+replyWithMention.errorMessage = 'Failed to reply with mention';
 
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = message.isOutbox
@@ -295,6 +314,9 @@ export const constructMessageActionButtons = ({
   if (!isTopicNarrow(narrow) && !isPmNarrow(narrow)) {
     buttons.push(reply);
   }
+  if (message.sender_id !== ownUser.user_id && !isPmNarrow(narrow)) {
+    buttons.push(replyWithMention);
+  }
   if (messageNotDeleted(message)) {
     buttons.push(copyToClipboard);
     buttons.push(shareMessage);
@@ -365,6 +387,7 @@ export const showMessageActionSheet = ({
   callbacks: {|
     dispatch: Dispatch,
     startEditMessage: (editMessage: EditMessage) => void,
+    startReplyWithMention: (replyWithMention: ReplyWithMention) => void,
     _: GetText,
   |},
   backgroundData: $ReadOnly<{

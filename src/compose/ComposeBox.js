@@ -13,6 +13,7 @@ import type {
   Auth,
   Narrow,
   EditMessage,
+  ReplyWithMention,
   InputSelection,
   UserOrBot,
   Dispatch,
@@ -78,6 +79,7 @@ type Props = $ReadOnly<{|
 
   narrow: Narrow,
   editMessage: EditMessage | null,
+  replyWithMention: ReplyWithMention | null,
   completeEditMessage: () => void,
 
   dispatch: Dispatch,
@@ -367,6 +369,14 @@ class ComposeBox extends PureComponent<Props, State> {
       const message = nextProps.editMessage ? nextProps.editMessage.content : '';
       this.setMessageInputValue(message);
       this.setTopicInputValue(topic);
+      if (this.messageInputRef.current !== null) {
+        // `.current` is not type-checked; see definition.
+        this.messageInputRef.current.focus();
+      }
+    }
+    if (nextProps.replyWithMention !== this.props.replyWithMention) {
+      const message = nextProps.replyWithMention ? nextProps.replyWithMention.content : '';
+      this.setMessageInputValue(message);
       if (this.messageInputRef.current !== null) {
         // `.current` is not type-checked; see definition.
         this.messageInputRef.current.focus();

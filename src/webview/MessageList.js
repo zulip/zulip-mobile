@@ -24,6 +24,7 @@ import type {
   User,
   UserOrBot,
   EditMessage,
+  ReplyWithMention,
 } from '../types';
 import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
@@ -102,6 +103,7 @@ export type Props = $ReadOnly<{|
   narrow: Narrow,
   showMessagePlaceholders: boolean,
   startEditMessage: (editMessage: EditMessage) => void,
+  startReplyWithMention: (replyWithMention: ReplyWithMention) => void,
 
   dispatch: Dispatch,
   ...SelectorProps,

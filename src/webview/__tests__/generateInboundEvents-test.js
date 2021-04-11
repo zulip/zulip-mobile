@@ -41,6 +41,7 @@ describe('generateInboundEvents', () => {
     narrow: HOME_NARROW,
     showMessagePlaceholders: false,
     startEditMessage: jest.fn(),
+    startReplyWithMention: jest.fn(),
     dispatch: jest.fn(),
     ...baseSelectorProps,
     showActionSheetWithOptions: jest.fn(),

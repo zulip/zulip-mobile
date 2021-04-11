@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from '../react-redux';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { ThemeContext, createStyleSheet } from '../styles';
-import type { Narrow, EditMessage } from '../types';
+import type { Narrow, EditMessage, ReplyWithMention } from '../types';
 import { KeyboardAvoider, OfflineNotice } from '../common';
 import ChatNavBar from '../nav/ChatNavBar';
 import MessageList from '../webview/MessageList';
@@ -99,6 +99,7 @@ const useFetchMessages = args => {
 export default function ChatScreen(props: Props) {
   const { route, navigation } = props;
   const { backgroundColor } = React.useContext(ThemeContext);
+  const [replyWithMention, setReplyWithMention] = React.useState<ReplyWithMention | null>(null);
 
   const { narrow, editMessage } = route.params;
   const setEditMessage = (value: EditMessage | null) =>
@@ -130,6 +131,7 @@ export default function ChatScreen(props: Props) {
               narrow={narrow}
               showMessagePlaceholders={showMessagePlaceholders}
               startEditMessage={setEditMessage}
+              startReplyWithMention={setReplyWithMention}
             />
           );
         }
@@ -139,6 +141,7 @@ export default function ChatScreen(props: Props) {
           narrow={narrow}
           editMessage={editMessage}
           completeEditMessage={() => setEditMessage(null)}
+          replyWithMention={replyWithMention}
         />
       )}
     </KeyboardAvoider>
