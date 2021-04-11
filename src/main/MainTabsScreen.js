@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
-import { Platform, View } from 'react-native';
+import { View, Text } from 'react-native';
 import {
   createBottomTabNavigator,
   type BottomTabNavigationProp,
@@ -79,7 +79,7 @@ function MainTabsScreen(props: Props) {
       <OfflineNotice />
       <Tab.Navigator
         {...bottomTabNavigatorConfig({
-          showLabel: !!Platform.isPad,
+          showLabel: false,
           showIcon: true,
         })}
         backBehavior="none"
@@ -89,7 +89,12 @@ function MainTabsScreen(props: Props) {
           component={HomeScreen}
           options={{
             tabBarLabel: 'Home',
-            tabBarIcon: ({ color }) => <IconInbox size={24} color={color} />,
+            tabBarIcon: ({ color, focused }) => (
+              <View style={styles.center}>
+                <IconInbox size={24} color={color} />
+                {focused && <Text style={styles.bottomNav}>Home</Text>}
+              </View>
+            ),
           }}
         />
         <Tab.Screen
@@ -97,7 +102,12 @@ function MainTabsScreen(props: Props) {
           component={StreamTabsScreen}
           options={{
             tabBarLabel: 'Streams',
-            tabBarIcon: ({ color }) => <IconStream size={24} color={color} />,
+            tabBarIcon: ({ color, focused }) => (
+              <View style={styles.center}>
+                <IconStream size={24} color={color} />
+                {focused && <Text style={styles.bottomNav}>Streams</Text>}
+              </View>
+            ),
           }}
         />
         <Tab.Screen
@@ -105,7 +115,14 @@ function MainTabsScreen(props: Props) {
           component={PmConversationsScreen}
           options={{
             tabBarLabel: 'Conversations',
-            tabBarIcon: ({ color }) => <IconUnreadConversations color={color} />,
+            tabBarIcon: ({ color, focused }) => (
+              <View style={{ justifyContent: 'center' }}>
+                <IconUnreadConversations color={color} />
+                {focused && (
+                  <Text style={{ ...styles.bottomNav, marginBottom: 5 }}>Conversations</Text>
+                )}
+              </View>
+            ),
           }}
         />
         <Tab.Screen
@@ -113,7 +130,12 @@ function MainTabsScreen(props: Props) {
           component={SettingsScreen}
           options={{
             tabBarLabel: 'Settings',
-            tabBarIcon: ({ color }) => <IconSettings size={24} color={color} />,
+            tabBarIcon: ({ color, focused }) => (
+              <View style={styles.center}>
+                <IconSettings size={24} color={color} />
+                {focused && <Text style={styles.bottomNav}>Settings</Text>}
+              </View>
+            ),
           }}
         />
         <Tab.Screen
