@@ -17,7 +17,7 @@ describe('getDraftForNarrow', () => {
     expect(draft).toEqual('content');
   });
 
-  test('return empty string if not exists', () => {
+  test('return undefined if not exists', () => {
     const narrow = topicNarrow('stream', 'topic');
     const state = deepFreeze({
       drafts: {
@@ -27,6 +27,6 @@ describe('getDraftForNarrow', () => {
 
     const draft = getDraftForNarrow(state, topicNarrow('stream', 'topic1'));
 
-    expect(draft).toEqual('');
+    expect(draft).toEqual(undefined);
   });
 });

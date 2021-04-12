@@ -66,7 +66,7 @@ type SelectorProps = {|
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
-  draft: string,
+  draft: string | void,
   lastMessageTopic: string,
   caughtUp: CaughtUp,
   videoChatProvider: VideoChatProvider | null,
@@ -153,7 +153,7 @@ class ComposeBox extends PureComponent<Props, State> {
     isMenuExpanded: false,
     height: 20,
     topic: this.props.lastMessageTopic,
-    message: this.props.draft,
+    message: this.props.draft ?? '',
     selection: { start: 0, end: 0 },
   };
 
