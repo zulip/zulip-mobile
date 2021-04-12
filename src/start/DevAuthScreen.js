@@ -29,7 +29,7 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'dev-auth'>,
-  route: RouteProp<'dev-auth', {| realm: URL |}>,
+  route: RouteProp<'dev-auth', {| realm: URL, realmIcon: URL |}>,
 
   dispatch: Dispatch,
 |}>;
@@ -70,13 +70,13 @@ class DevAuthScreen extends PureComponent<Props, State> {
   };
 
   tryDevLogin = async (email: string) => {
-    const realm = this.props.route.params.realm;
+    const { realm, realmIcon } = this.props.route.params;
 
     this.setState({ progress: true, error: undefined });
 
     try {
       const { api_key } = await api.devFetchApiKey({ realm, apiKey: '', email }, email);
-      this.props.dispatch(loginSuccess(realm, email, api_key));
+      this.props.dispatch(loginSuccess(realm, email, realmIcon, api_key));
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.data && err.data.msg });

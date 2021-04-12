@@ -39,11 +39,19 @@ const findAccount = (state: AccountsState, identity: Identity): number => {
 };
 
 const loginSuccess = (state, action) => {
-  const { realm, email, apiKey } = action;
+  const { realm, email, apiKey, realmIcon } = action;
   const accountIndex = findAccount(state, { realm, email });
   if (accountIndex === -1) {
     return [
-      { realm, email, apiKey, ackedPushToken: null, zulipVersion: null, zulipFeatureLevel: null },
+      {
+        realm,
+        email,
+        apiKey,
+        realmIcon,
+        ackedPushToken: null,
+        zulipVersion: null,
+        zulipFeatureLevel: null,
+      },
       ...state,
     ];
   }

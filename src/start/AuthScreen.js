@@ -227,15 +227,19 @@ class AuthScreen extends PureComponent<Props> {
   endWebAuth = (event: LinkingEvent) => {
     webAuth.closeBrowser();
 
-    const { dispatch, realm } = this.props;
+    const { dispatch, realm, route } = this.props;
+    const { realm_icon, realm_uri } = route.params.serverSettings;
     const auth = webAuth.authFromCallbackUrl(event.url, otp, realm);
     if (auth) {
-      dispatch(loginSuccess(auth.realm, auth.email, auth.apiKey));
+      dispatch(loginSuccess(auth.realm, auth.email, new URL(realm_icon, realm_uri), auth.apiKey));
     }
   };
 
   handleDevAuth = () => {
-    NavigationService.dispatch(navigateToDevAuth({ realm: this.props.realm }));
+    const { realm_icon, realm_uri } = this.props.route.params.serverSettings;
+    NavigationService.dispatch(
+      navigateToDevAuth({ realm: this.props.realm, realmIcon: new URL(realm_icon, realm_uri) }),
+    );
   };
 
   handlePassword = () => {
@@ -244,6 +248,7 @@ class AuthScreen extends PureComponent<Props> {
     NavigationService.dispatch(
       navigateToPasswordAuth({
         realm,
+        realmIcon: new URL(serverSettings.realm_icon, serverSettings.realm_uri),
         requireEmailFormat: serverSettings.require_email_format_usernames,
       }),
     );

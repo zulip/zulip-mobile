@@ -87,12 +87,13 @@ describe('accountsReducer', () => {
       const newApiKey = eg.randString();
       const newEmail = 'newaccount@example.com';
       const newRealm = new URL('https://new.realm.org');
-
+      const newRealmIcon = new URL('/icon.png', newRealm);
       const action = deepFreeze({
         type: LOGIN_SUCCESS,
         apiKey: newApiKey,
         email: newEmail,
         realm: newRealm,
+        realmIcon: newRealmIcon,
       });
 
       const expectedState = [
@@ -100,6 +101,7 @@ describe('accountsReducer', () => {
           realm: newRealm,
           email: newEmail,
           apiKey: newApiKey,
+          realmIcon: newRealmIcon,
           zulipVersion: null,
           zulipFeatureLevel: null,
         }),
@@ -120,6 +122,7 @@ describe('accountsReducer', () => {
         apiKey: newApiKey,
         realm: account2.realm,
         email: account2.email,
+        realmIcon: account2.realmIcon,
       });
 
       const expectedState = [{ ...account2, apiKey: newApiKey, ackedPushToken: null }, account1];

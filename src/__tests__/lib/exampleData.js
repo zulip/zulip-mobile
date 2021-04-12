@@ -164,11 +164,14 @@ export const zulipVersion = new ZulipVersion('2.1.0-234-g7c3acf4');
 
 export const zulipFeatureLevel = 1;
 
+export const realmIcon = new URL('/icon.png', realm);
+
 export const makeAccount = (
   args: {|
     user?: User,
     email?: string,
     realm?: URL,
+    realmIcon?: URL,
     apiKey?: string,
     zulipFeatureLevel?: number | null,
     zulipVersion?: ZulipVersion | null,
@@ -179,6 +182,7 @@ export const makeAccount = (
     user = makeUser({ name: randString() }),
     email = user.email,
     realm: realmInner = realm,
+    realmIcon: realmIconInner = realmIcon,
     apiKey = randString() + randString(),
     zulipFeatureLevel: zulipFeatureLevelInner = zulipFeatureLevel,
     zulipVersion: zulipVersionInner = zulipVersion,
@@ -187,6 +191,7 @@ export const makeAccount = (
   return deepFreeze({
     realm: realmInner,
     email,
+    realmIcon: realmIconInner,
     apiKey,
     zulipFeatureLevel: zulipFeatureLevelInner,
     zulipVersion: zulipVersionInner,
@@ -506,7 +511,7 @@ export const reduxState = (extra?: $Rest<GlobalState, { ... }>): GlobalState =>
  * See `baseReduxState` for a minimal version of the state.
  */
 export const plusReduxState: GlobalState = reduxState({
-  accounts: [{ ...selfAuth, ackedPushToken: null, zulipVersion, zulipFeatureLevel }],
+  accounts: [{ ...selfAuth, realmIcon, ackedPushToken: null, zulipVersion, zulipFeatureLevel }],
   realm: { ...baseReduxState.realm, user_id: selfUser.user_id, email: selfUser.email },
   // TODO add crossRealmBot
   users: [selfUser, otherUser, thirdUser],
@@ -546,6 +551,7 @@ export const action = deepFreeze({
     type: LOGIN_SUCCESS,
     realm: selfAccount.realm,
     email: selfAccount.email,
+    realmIcon: selfAccount.realmIcon,
     apiKey: selfAccount.apiKey,
   },
   realm_init: {
