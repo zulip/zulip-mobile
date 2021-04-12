@@ -3,6 +3,7 @@
 import type { SharedData, Auth, GetText, UserId } from '../types';
 import { showToast } from '../utils/info';
 import { sendMessage, uploadFile } from '../api';
+import * as logging from '../utils/logging';
 
 type SendStream = {|
   stream: string,
@@ -56,6 +57,7 @@ export const handleSend = async (data: SendStream | SendPm, auth: Auth, _: GetTe
     await sendMessage(auth, messageData);
   } catch (err) {
     showToast(_('Failed to send message'));
+    logging.error(err);
     return;
   }
   showToast(_('Message sent'));
