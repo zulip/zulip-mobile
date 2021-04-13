@@ -1,11 +1,13 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import { Alert } from 'react-native';
 
+import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch } from '../types';
+import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { hasAuth, getAccountStatuses } from '../selectors';
 import type { AccountStatus } from './accountsSelectors';
@@ -23,6 +25,8 @@ type Props = $ReadOnly<{|
 |}>;
 
 class AccountPickScreen extends PureComponent<Props> {
+  static contextType = TranslationContext;
+  context: GetText;
   handleAccountSelect = (index: number) => {
     const { accounts, dispatch } = this.props;
     const { realm, isLoggedIn } = accounts[index];
@@ -36,7 +40,22 @@ class AccountPickScreen extends PureComponent<Props> {
   };
 
   handleAccountRemove = (index: number) => {
-    this.props.dispatch(removeAccount(index));
+    const _ = this.context;
+    Alert.alert(
+      _('Remove account?'),
+      _('This will remove your account.'),
+      [
+        { text: _('Cancel'), style: 'cancel' },
+        {
+          text: _('Remove account'),
+          style: 'destructive',
+          onPress: () => {
+            this.props.dispatch(removeAccount(index));
+          },
+        },
+      ],
+      { cancelable: true },
+    );
   };
 
   // We can get here three ways:
