@@ -13,9 +13,12 @@ import FullScreenLoading from './common/FullScreenLoading';
  * Prevents rerendering of the component's subtree unless we have
  * server data.
  *
- * Passing a `dispatch` prop or a `haveServerData` prop to the
- * returned component will lead to undefined behavior; don't.
+ * The implementation uses props named `dispatch` and `haveServerData`; the
+ * inner component shouldn't try to accept props with those names, and the
+ * caller shouldn't try to pass them in.
  */
+// It sure seems like Flow should catch the `dispatch` / `haveServerData`
+// thing and reflect it in the types; it's not clear why it doesn't.
 export default function withHaveServerDataGate<P: { ... }, C: ComponentType<$Exact<P>>>(
   Comp: C,
 ): ComponentType<$Exact<ElementConfig<C>>> {
