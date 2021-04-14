@@ -41,6 +41,7 @@ class AccountPickScreen extends PureComponent<Props> {
   };
 
   handleAccountRemove = (index: number) => {
+    const { dispatch } = this.props;
     const _ = this.context;
     Alert.alert(
       _('Remove account?'),
@@ -51,7 +52,7 @@ class AccountPickScreen extends PureComponent<Props> {
           text: _('Remove account'),
           style: 'destructive',
           onPress: () => {
-            this.props.dispatch(removeAccount(index));
+            dispatch(removeAccount(index));
           },
         },
       ],
