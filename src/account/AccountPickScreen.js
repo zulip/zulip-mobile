@@ -27,6 +27,7 @@ type Props = $ReadOnly<{|
 class AccountPickScreen extends PureComponent<Props> {
   static contextType = TranslationContext;
   context: GetText;
+
   handleAccountSelect = (index: number) => {
     const { accounts, dispatch } = this.props;
     const { realm, isLoggedIn } = accounts[index];
