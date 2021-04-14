@@ -41,11 +41,15 @@ class AccountPickScreen extends PureComponent<Props> {
   };
 
   handleAccountRemove = (index: number) => {
-    const { dispatch } = this.props;
+    const { accounts, dispatch } = this.props;
+    const { realm, email } = accounts[index];
     const _ = this.context;
     Alert.alert(
       _('Remove account?'),
-      _('This will remove your account.'),
+      _('This will make the mobile app on this device forget {email} on {realmUrl}.', {
+        realmUrl: realm.toString(),
+        email,
+      }),
       [
         { text: _('Cancel'), style: 'cancel' },
         {
