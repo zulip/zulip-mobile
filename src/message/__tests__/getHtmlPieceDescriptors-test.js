@@ -1,6 +1,8 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 import invariant from 'invariant';
 
+import * as eg from '../../__tests__/lib/exampleData';
 import { HOME_NARROW } from '../../utils/narrow';
 import getHtmlPieceDescriptors from '../getHtmlPieceDescriptors';
 
@@ -13,13 +15,7 @@ describe('getHtmlPieceDescriptors', () => {
   });
 
   test('renders time, header and message for a single input', () => {
-    const messages = deepFreeze([
-      {
-        timestamp: 123,
-        avatar_url: '',
-        id: 12345,
-      },
-    ]);
+    const messages = deepFreeze([{ ...eg.streamMessage({ id: 12345 }), timestamp: 123 }]);
 
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
@@ -29,37 +25,13 @@ describe('getHtmlPieceDescriptors', () => {
   });
 
   test('several messages in same stream, from same person result in time row, header for the stream, three messages, only first of which is full detail', () => {
+    const stream = eg.stream;
+    const sender = eg.otherUser;
+
     const messages = deepFreeze([
-      {
-        timestamp: 123,
-        type: 'stream',
-        id: 1,
-        sender_email: 'john@example.com',
-        sender_full_name: 'John Doe',
-        display_recipient: 'general',
-        subject: '',
-        avatar_url: '',
-      },
-      {
-        timestamp: 124,
-        type: 'stream',
-        id: 2,
-        sender_email: 'john@example.com',
-        sender_full_name: 'John Doe',
-        display_recipient: 'general',
-        subject: '',
-        avatar_url: '',
-      },
-      {
-        timestamp: 125,
-        type: 'stream',
-        id: 3,
-        sender_email: 'john@example.com',
-        sender_full_name: 'John Doe',
-        display_recipient: 'general',
-        subject: '',
-        avatar_url: '',
-      },
+      eg.streamMessage({ stream, sender, id: 1 }),
+      eg.streamMessage({ stream, sender, id: 2 }),
+      eg.streamMessage({ stream, sender, id: 3 }),
     ]);
 
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
@@ -74,37 +46,12 @@ describe('getHtmlPieceDescriptors', () => {
   });
 
   test('several messages in same stream, from different people result in time row, header for the stream, three messages, only all full detail', () => {
+    const stream = eg.stream;
+
     const messages = deepFreeze([
-      {
-        timestamp: 123,
-        type: 'stream',
-        id: 1,
-        sender_email: 'john@example.com',
-        sender_full_name: 'John',
-        display_recipient: 'general',
-        subject: '',
-        avatar_url: '',
-      },
-      {
-        timestamp: 124,
-        type: 'stream',
-        id: 2,
-        sender_email: 'mark@example.com',
-        sender_full_name: 'Mark',
-        display_recipient: 'general',
-        subject: '',
-        avatar_url: '',
-      },
-      {
-        timestamp: 125,
-        type: 'stream',
-        id: 3,
-        sender_email: 'peter@example.com',
-        sender_full_name: 'Peter',
-        display_recipient: 'general',
-        subject: '',
-        avatar_url: '',
-      },
+      eg.streamMessage({ stream, sender: eg.selfUser, id: 1 }),
+      eg.streamMessage({ stream, sender: eg.otherUser, id: 2 }),
+      eg.streamMessage({ stream, sender: eg.thirdUser, id: 3 }),
     ]);
 
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
@@ -120,24 +67,8 @@ describe('getHtmlPieceDescriptors', () => {
 
   test('private messages between two people, results in time row, header and two full messages', () => {
     const messages = deepFreeze([
-      {
-        timestamp: 123,
-        type: 'private',
-        id: 1,
-        sender_email: 'john@example.com',
-        sender_full_name: 'John',
-        avatar_url: '',
-        display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }],
-      },
-      {
-        timestamp: 123,
-        type: 'private',
-        id: 2,
-        sender_email: 'mark@example.com',
-        sender_full_name: 'Mark',
-        avatar_url: '',
-        display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }],
-      },
+      eg.pmMessage({ sender: eg.selfUser, recipients: [eg.selfUser, eg.otherUser], id: 1 }),
+      eg.pmMessage({ sender: eg.otherUser, recipients: [eg.selfUser, eg.otherUser], id: 2 }),
     ]);
 
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
