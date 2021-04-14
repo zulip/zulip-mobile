@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import invariant from 'invariant';
 import type { GetText, Narrow, HtmlPieceDescriptor } from '../../types';
 import type { BackgroundData } from '../MessageList';
 
@@ -18,8 +19,9 @@ export default ({
   _: GetText,
 |}): string => {
   const pieces = [];
-  htmlPieceDescriptors.forEach(section => {
-    if (section.message !== null) {
+  htmlPieceDescriptors.forEach((section, index) => {
+    if (index > 0) {
+      invariant(section.message !== null, 'only first section has null `.message`');
       pieces.push(messageHeaderAsHtml(backgroundData, narrow, section.message));
     }
     section.data.forEach(item => {
