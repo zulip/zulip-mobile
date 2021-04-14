@@ -1,4 +1,5 @@
 import deepFreeze from 'deep-freeze';
+import invariant from 'invariant';
 
 import { HOME_NARROW } from '../../utils/narrow';
 import getHtmlPieceDescriptors from '../getHtmlPieceDescriptors';
@@ -64,7 +65,10 @@ describe('getHtmlPieceDescriptors', () => {
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
     const messageKeys = htmlPieceDescriptors[1].data.map(x => x.key);
-    const messageBriefs = htmlPieceDescriptors[1].data.map(x => x.isBrief);
+    const messageBriefs = htmlPieceDescriptors[1].data.map(x => {
+      invariant(x.type === 'message', 'expected message item');
+      return x.isBrief;
+    });
     expect(messageKeys).toEqual([1, 2, 3]);
     expect(messageBriefs).toEqual([false, true, true]);
   });
@@ -106,7 +110,10 @@ describe('getHtmlPieceDescriptors', () => {
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
     const messageKeys = htmlPieceDescriptors[1].data.map(x => x.key);
-    const messageBriefs = htmlPieceDescriptors[1].data.map(x => x.isBrief);
+    const messageBriefs = htmlPieceDescriptors[1].data.map(x => {
+      invariant(x.type === 'message', 'expected message item');
+      return x.isBrief;
+    });
     expect(messageKeys).toEqual([1, 2, 3]);
     expect(messageBriefs).toEqual([false, false, false]);
   });
@@ -136,7 +143,10 @@ describe('getHtmlPieceDescriptors', () => {
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
     const messageKeys = htmlPieceDescriptors[1].data.map(x => x.key);
-    const messageBriefs = htmlPieceDescriptors[1].data.map(x => x.isBrief);
+    const messageBriefs = htmlPieceDescriptors[1].data.map(x => {
+      invariant(x.type === 'message', 'expected message item');
+      return x.isBrief;
+    });
     expect(messageKeys).toEqual([1, 2]);
     expect(messageBriefs).toEqual([false, false]);
   });
