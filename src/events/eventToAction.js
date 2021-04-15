@@ -148,7 +148,6 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
     case 'muted_topics':
     case 'muted_users':
     case 'realm_emoji':
-    case 'realm_filters':
     case 'submessage':
     case 'update_global_notifications':
     case 'update_display_settings':
@@ -157,6 +156,14 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
         ...event,
         type: actionTypeOfEventType[event.type],
       };
+
+    case 'realm_filters': {
+      return {
+        ...event,
+        type: EVENT_REALM_FILTERS,
+        realm_filters: event.realm_filters,
+      };
+    }
 
     case 'realm_user': {
       const realm = getCurrentRealm(state);
