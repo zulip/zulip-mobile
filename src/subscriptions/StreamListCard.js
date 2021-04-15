@@ -38,10 +38,10 @@ type Props = $ReadOnly<{|
 |}>;
 
 class StreamListCard extends PureComponent<Props> {
-  handleSwitchChange = (streamName: string, switchValue: boolean) => {
+  handleSubscribe = (streamName: string, value: boolean) => {
     const { auth } = this.props;
 
-    if (switchValue) {
+    if (value) {
       api.subscriptionAdd(auth, [{ name: streamName }]);
     } else {
       api.subscriptionRemove(auth, [streamName]);
@@ -77,9 +77,9 @@ class StreamListCard extends PureComponent<Props> {
         )}
         <StreamList
           streams={subsAndStreams}
-          showSwitch
+          showToSubscribe
           showDescriptions
-          onSwitch={this.handleSwitchChange}
+          onSubscribe={this.handleSubscribe}
           onPress={this.handleNarrow}
         />
       </View>

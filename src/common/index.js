@@ -40,3 +40,4 @@ export { default as WebLink } from './WebLink';
 export { default as ZulipButton } from './ZulipButton';
 export { default as ZulipStatusBar } from './ZulipStatusBar';
 export { default as ZulipSwitch } from './ZulipSwitch';
+export { default as ZulipSubscribe } from './ZulipSubscribe';
