@@ -43,7 +43,7 @@ const targetPlatforms = {
   // Babel does distinguish `safari` (meaning on macOS, I guess) from `ios`.
   // Some features arrive in e.g. "safari 11.1" but "ios 11.3", or in
   // 13.1 vs 13.4, so the distinction is still relevant.
-  ios: 11,
+  ios: 12,
 };
 
 // Disable the default react-native transformations.

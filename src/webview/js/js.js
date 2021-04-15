@@ -21,8 +21,8 @@ import { toggleSpoiler } from './spoilers';
  *
  * * (When updating these, be sure to update tools/generate-webview-js too.)
  *
- * * We support iOS 11.  So this code needs to work on Mobile Safari 11.
- *   Graceful degradation is acceptable below iOS 13 / Mobile Safari 13.
+ * * We support iOS 12.  So this code needs to work on Mobile Safari 12.
+ *   Graceful degradation is acceptable below iOS 14 / Mobile Safari 14.
  *
  * * For Android, core functionality needs to work on Chrome 44.
  *   Graceful degradation is acceptable below Chrome 74.
