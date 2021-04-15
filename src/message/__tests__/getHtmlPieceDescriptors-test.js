@@ -15,7 +15,8 @@ describe('getHtmlPieceDescriptors', () => {
   });
 
   test('renders time, header and message for a single input', () => {
-    const messages = deepFreeze([{ ...eg.streamMessage({ id: 12345 }), timestamp: 123 }]);
+    const message = { ...eg.streamMessage({ id: 12345 }), timestamp: 123 };
+    const messages = deepFreeze([message]);
 
     const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
 
