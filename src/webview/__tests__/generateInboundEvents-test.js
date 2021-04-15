@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
-import Immutable from 'immutable';
 
 import generateInboundEvents from '../generateInboundEvents';
 import { flagsStateToStringList } from '../html/messageAsHtml';
@@ -9,22 +8,8 @@ import * as eg from '../../__tests__/lib/exampleData';
 import type { Props } from '../MessageList';
 
 describe('generateInboundEvents', () => {
-  const baseBackgroundData = deepFreeze({
-    alertWords: [],
-    allImageEmojiById: eg.action.realm_init.data.realm_emoji,
-    auth: eg.selfAuth,
-    debug: eg.baseReduxState.session.debug,
-    flags: eg.baseReduxState.flags,
-    mute: [],
-    mutedUsers: Immutable.Map(),
-    ownUser: eg.selfUser,
-    subscriptions: [],
-    theme: 'default',
-    twentyFourHourTime: false,
-  });
-
   const baseSelectorProps = deepFreeze({
-    backgroundData: baseBackgroundData,
+    backgroundData: eg.backgroundData,
     initialScrollMessageId: null,
     fetching: { older: false, newer: false },
     messages: [],
@@ -204,9 +189,9 @@ describe('generateInboundEvents', () => {
     const prevProps = {
       ...baseProps,
       backgroundData: {
-        ...baseBackgroundData,
+        ...eg.backgroundData,
         flags: {
-          ...baseBackgroundData.flags,
+          ...eg.backgroundData.flags,
           read: { [message2.id]: true },
         },
       },
@@ -214,9 +199,9 @@ describe('generateInboundEvents', () => {
     const nextProps = {
       ...baseProps,
       backgroundData: {
-        ...baseBackgroundData,
+        ...eg.backgroundData,
         flags: {
-          ...baseBackgroundData.flags,
+          ...eg.backgroundData.flags,
           read: { [message1.id]: true, [message2.id]: true, [message3.id]: true },
         },
       },

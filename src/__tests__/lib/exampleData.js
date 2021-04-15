@@ -38,6 +38,7 @@ import {
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
 import { HOME_NARROW } from '../../utils/narrow';
+import type { BackgroundData } from '../../webview/MessageList';
 
 /* ========================================================================
  * Utilities
@@ -740,3 +741,21 @@ export const mkActionEventNewMessage = (
 
 // If a given action is only relevant to a single test file, no need to
 // provide a generic factory for it here; just define the test data there.
+
+/* ========================================================================
+ * Miscellaneous
+ */
+
+export const backgroundData: BackgroundData = deepFreeze({
+  alertWords: [],
+  allImageEmojiById: action.realm_init.data.realm_emoji,
+  auth: selfAuth,
+  debug: baseReduxState.session.debug,
+  flags: baseReduxState.flags,
+  mute: [],
+  mutedUsers: Immutable.Map(),
+  ownUser: selfUser,
+  subscriptions: [],
+  theme: 'default',
+  twentyFourHourTime: false,
+});
