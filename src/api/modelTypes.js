@@ -34,7 +34,31 @@ export type RealmEmojiById = $ReadOnly<{|
   [id: string]: ImageEmojiType,
 |}>;
 
+/**
+ * The only way servers before feature level 54 represent linkifiers.
+ */
 export type RealmFilter = [string, string, number];
+
+/**
+ * The way servers at feature level 54+ can represent linkifiers.
+ *
+ * Currently, this new format can be converted to the old without loss of
+ * information, so we do that at the edge and continue to represent the data
+ * internally with the old format.
+ */
+// TODO:
+// - When we've moved to a shared markdown implementation (#4242),
+//   change our internal representation to be the new
+//   `realm_linkifiers` format. (When doing so, also don't forget to
+//   change various variable and type definition names to be like
+//   `realm_linkifiers`.)
+// - When we drop support for servers older than 54, we can remove all
+//   our code that knows about the `realm_filters` format.
+export type RealmLinkifier = {|
+  id: number,
+  pattern: string,
+  url_format: string,
+|};
 
 //
 //

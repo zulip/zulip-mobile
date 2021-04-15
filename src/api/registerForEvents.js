@@ -50,6 +50,18 @@ const transformCrossRealmBot = (
 
 const transform = (rawInitialData: RawInitialData, auth: Auth): InitialData => ({
   ...rawInitialData,
+
+  // Transform the newer `realm_linkifiers` format, if present, to the
+  // older `realm_filters` format. We do the same transformation on
+  // 'realm_linkifiers' events.
+  realm_filters: rawInitialData.realm_linkifiers
+    ? rawInitialData.realm_linkifiers.map(({ pattern, url_format, id }) => [
+        pattern,
+        url_format,
+        id,
+      ])
+    : rawInitialData.realm_filters,
+
   realm_users: rawInitialData.realm_users.map(rawUser => transformUser(rawUser, auth.realm)),
   realm_non_active_users: rawInitialData.realm_non_active_users.map(rawNonActiveUser =>
     transformUser(rawNonActiveUser, auth.realm),

@@ -30,6 +30,7 @@ const config: Config = {
     'realm',
     'realm_emoji',
     'realm_filters',
+    'realm_linkifiers',
     'realm_user',
     'realm_user_groups',
     'recent_private_conversations',

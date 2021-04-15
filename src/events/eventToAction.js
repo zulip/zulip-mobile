@@ -157,11 +157,36 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
         type: actionTypeOfEventType[event.type],
       };
 
+    // See notes on `RealmFilter` and `RealmLinkifier` types.
     case 'realm_filters': {
       return {
         ...event,
         type: EVENT_REALM_FILTERS,
         realm_filters: event.realm_filters,
+      };
+    }
+
+    // See notes on `RealmFilter` and `RealmLinkifier` types.
+    //
+    // Empirically, servers that know about the new format send two
+    // events for every change to the linkifiers: one in this new
+    // format and one in the 'realm_filters' format. That's whether we
+    // put 'realm_linkifiers' or 'realm_filters' in
+    // `fetch_event_types`.
+    //
+    // Shrug, because we can handle both events, and both events give
+    // the whole array of linkifiers, which we're happy to clobber the
+    // old state with.
+    case 'realm_linkifiers': {
+      return {
+        ...event,
+        type: EVENT_REALM_FILTERS,
+        // We do the same in `registerForEvents`'s transform function.
+        realm_filters: event.realm_linkifiers.map(({ pattern, url_format, id }) => [
+          pattern,
+          url_format,
+          id,
+        ]),
       };
     }
 
