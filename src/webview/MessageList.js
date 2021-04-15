@@ -100,7 +100,7 @@ type SelectorProps = {|
   // particular messages we're displaying.  Data that's independent of those
   // should go in `BackgroundData`, above.
   fetching: Fetching,
-  htmlPieceDescriptorsForShownMessages: HtmlPieceDescriptor[],
+  htmlPieceDescriptorsForShownMessages: $ReadOnlyArray<HtmlPieceDescriptor>,
   typingUsers: $ReadOnlyArray<UserOrBot>,
 |};
 

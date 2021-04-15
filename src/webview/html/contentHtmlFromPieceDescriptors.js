@@ -15,7 +15,7 @@ export default ({
 }: {|
   backgroundData: BackgroundData,
   narrow: Narrow,
-  htmlPieceDescriptors: HtmlPieceDescriptor[],
+  htmlPieceDescriptors: $ReadOnlyArray<HtmlPieceDescriptor>,
   _: GetText,
 |}): string =>
   htmlPieceDescriptors

@@ -7,7 +7,7 @@ import { isSameDay } from '../utils/date';
 export default (
   messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
-): HtmlPieceDescriptor[] => {
+): $ReadOnlyArray<HtmlPieceDescriptor> => {
   const showHeader = !isPmNarrow(narrow) && !isTopicNarrow(narrow);
 
   let prevMessage = undefined;
