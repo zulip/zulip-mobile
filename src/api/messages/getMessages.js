@@ -22,6 +22,9 @@ type ApiResponseMessages = {|
  * Note that reaction events have a *different* variation; see their
  * handling in `eventToAction`.
  */
+// We shouldn't have to rely on this format on servers at feature
+// level 2+; those newer servers include a top-level `user_id` field
+// in addition to the `user` object. See #4072.
 export type ServerReaction = $ReadOnly<{|
   ...$Diff<Reaction, {| user_id: mixed |}>,
   user: $ReadOnly<{|
