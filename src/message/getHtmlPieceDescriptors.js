@@ -34,12 +34,8 @@ export default (
       });
     }
 
-    // TODO(#3764): Use sender_id, not sender_email.
     const shouldGroupWithPrev =
-      !diffRecipient
-      && !diffDays
-      && !!prevMessage
-      && prevMessage.sender_email === message.sender_email;
+      !diffRecipient && !diffDays && !!prevMessage && prevMessage.sender_id === message.sender_id;
 
     sections[sections.length - 1].data.push({
       key: message.id,
