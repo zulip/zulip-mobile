@@ -292,6 +292,12 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     },
   }),
 
+  // Make `sender_id` on `Outbox` required.
+  '29': state => ({
+    ...state,
+    outbox: state.outbox.filter(o => o.sender_id !== undefined),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

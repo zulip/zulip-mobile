@@ -184,11 +184,7 @@ export type Outbox = $ReadOnly<{|
 
   // The remaining fields are modeled on `Message`.
 
-  // TODO(#3764): Make sender_id required.  Needs a migration to drop Outbox
-  //   values that lack it; which is fine once the release that adds it has
-  //   been out for a few weeks.
-  //   (Also drop the hack line about it in MessageLike.)
-  sender_id?: UserId,
+  sender_id: UserId,
 
   /* eslint-disable flowtype/generic-spacing */
   ...SubsetProperties<
@@ -241,7 +237,6 @@ export type MessageLike =
   | $ReadOnly<{|
       // $Shape<T> is unsound, per Flow docs, but $ReadOnly<$Shape<T>> is not
       ...$Shape<{| [$Keys<Message>]: void |}>,
-      sender_id?: UserId, // TODO: Drop this once required in Outbox.
       ...Outbox,
     |}>;
 
