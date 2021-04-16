@@ -182,10 +182,6 @@ export type Outbox = $ReadOnly<{|
   // It's used for sending the message to the server.
   markdownContent: string,
 
-  // The remaining fields are modeled on `Message`.
-
-  sender_id: UserId,
-
   /* eslint-disable flowtype/generic-spacing */
   ...SubsetProperties<
     Message,
@@ -195,6 +191,7 @@ export type Outbox = $ReadOnly<{|
       display_recipient: mixed,
       id: mixed,
       reactions: mixed,
+      sender_id: mixed,
       sender_email: mixed,
       sender_full_name: mixed,
       subject: mixed,
