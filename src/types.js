@@ -3,7 +3,15 @@ import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { SubsetProperties } from './generics';
-import type { Auth, Topic, Message, ReactionType, UserId } from './api/apiTypes';
+import type {
+  Auth,
+  Topic,
+  Message,
+  PmMessage,
+  StreamMessage,
+  ReactionType,
+  UserId,
+} from './api/apiTypes';
 import type { ZulipVersion } from './utils/zulipVersion';
 import type { PmKeyUsers } from './utils/recipient';
 
@@ -145,6 +153,60 @@ export type TopicExtended = {|
 |};
 
 /**
+ * Properties in common among the two different flavors of a
+ * `Outbox`: `PmOutbox` and `StreamOutbox`.
+ */
+export type OutboxBase = $ReadOnly<{|
+  /** Used for distinguishing from a `Message` object. */
+  isOutbox: true,
+
+  /**
+   * False until we successfully send the message, then true.
+   *
+   * As described in the type's jsdoc (above), once we've sent the message
+   * we still keep the `Outbox` object around for a (usually short) time
+   * until we can replace it with a `Message` object.
+   */
+  isSent: boolean,
+
+  // `markdownContent` doesn't exist in `Message`.
+  // It's used for sending the message to the server.
+  markdownContent: string,
+
+  /* eslint-disable flowtype/generic-spacing */
+  ...SubsetProperties<
+    // Could use `MessageBase` here, but Flow would complain anyway if
+    // we tried to put something that's not in `MessageBase` below.
+    Message,
+    {|
+      avatar_url: mixed,
+      content: mixed,
+      display_recipient: mixed,
+      id: mixed,
+      reactions: mixed,
+      sender_id: mixed,
+      sender_email: mixed,
+      sender_full_name: mixed,
+      subject: mixed,
+      timestamp: mixed,
+      type: mixed,
+    |},
+  >,
+|}>;
+
+export type PmOutbox = {|
+  ...OutboxBase,
+
+  ...SubsetProperties<PmMessage, {||}>,
+|};
+
+export type StreamOutbox = {|
+  ...OutboxBase,
+
+  ...SubsetProperties<StreamMessage, {||}>,
+|};
+
+/**
  * A message we're in the process of sending.
  *
  * We use these objects for two purposes:
@@ -165,41 +227,7 @@ export type TopicExtended = {|
  * This type most often appears in the union `Message | Outbox`, and so its
  * properties are deliberately similar to those of `Message`.
  */
-export type Outbox = $ReadOnly<{|
-  /** Used for distinguishing from a `Message` object. */
-  isOutbox: true,
-
-  /**
-   * False until we successfully send the message, then true.
-   *
-   * As described in the type's jsdoc (above), once we've sent the message
-   * we still keep the `Outbox` object around for a (usually short) time
-   * until we can replace it with a `Message` object.
-   */
-  isSent: boolean,
-
-  // `markdownContent` doesn't exist in `Message`.
-  // It's used for sending the message to the server.
-  markdownContent: string,
-
-  /* eslint-disable flowtype/generic-spacing */
-  ...SubsetProperties<
-    Message,
-    {|
-      avatar_url: mixed,
-      content: mixed,
-      display_recipient: mixed,
-      id: mixed,
-      reactions: mixed,
-      sender_id: mixed,
-      sender_email: mixed,
-      sender_full_name: mixed,
-      subject: mixed,
-      timestamp: mixed,
-      type: mixed,
-    |},
-  >,
-|}>;
+export type Outbox = PmOutbox | StreamOutbox;
 
 /**
  * MessageLike: Imprecise alternative to `Message | Outbox`.
