@@ -203,6 +203,16 @@ export type PmOutbox = {|
 export type StreamOutbox = {|
   ...OutboxBase,
 
+  // TODO(#3764): Make stream_id required.  Needs a migration to drop
+  //   StreamOutbox values that lack it; that'll be fine once the
+  //   release that adds it has been out for a few weeks. (Also drop
+  //   the hack line about it in MessageLike.)
+  //
+  //   Once it is required, it
+  //   should go in the second type argument passed to
+  //   `SubsetProperties` of `StreamMessage`, below.
+  stream_id?: number,
+
   ...SubsetProperties<StreamMessage, {||}>,
 |};
 
@@ -262,6 +272,7 @@ export type MessageLike =
   | $ReadOnly<{|
       // $Shape<T> is unsound, per Flow docs, but $ReadOnly<$Shape<T>> is not
       ...$Shape<{| [$Keys<Message>]: void |}>,
+      stream_id?: number, // TODO: Drop this once required in StreamOutbox.
       ...Outbox,
     |}>;
 
