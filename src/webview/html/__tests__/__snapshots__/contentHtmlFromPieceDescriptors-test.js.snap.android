@@ -455,7 +455,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
      data-msg-id=\\"8849\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -526,7 +526,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
      data-msg-id=\\"5287\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -602,7 +602,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
      data-msg-id=\\"5829\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -684,7 +684,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
      data-msg-id=\\"5377\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -755,7 +755,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
      data-msg-id=\\"5637\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -831,7 +831,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
      data-msg-id=\\"2794\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -981,7 +981,7 @@ This is an example stream message.
      data-msg-id=\\"2794\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -1145,7 +1145,7 @@ This is an example stream message.
      data-msg-id=\\"5287\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -1211,7 +1211,7 @@ This is an example PM message.
      data-msg-id=\\"5377\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -1327,7 +1327,7 @@ This is an example PM message.
      data-msg-id=\\"5829\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -1564,7 +1564,7 @@ This is an example stream message.
      data-msg-id=\\"8849\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -1714,7 +1714,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
      data-msg-id=\\"8849\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -1785,7 +1785,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
      data-msg-id=\\"5287\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -1861,7 +1861,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
      data-msg-id=\\"5829\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -1943,7 +1943,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
      data-msg-id=\\"5377\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -2014,7 +2014,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
      data-msg-id=\\"5637\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -2090,7 +2090,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
      data-msg-id=\\"2794\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -2172,7 +2172,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
      data-msg-id=\\"2794\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -2250,7 +2250,7 @@ This is an example PM message.
      data-msg-id=\\"5287\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -2316,7 +2316,7 @@ This is an example PM message.
      data-msg-id=\\"5377\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"
@@ -2432,7 +2432,7 @@ This is an example PM message.
      data-msg-id=\\"5829\\">
   Nonrandom name one User, Nonrandom name two User
 </div>
-    
+
 
     <div
      class=\\"message message-full\\"

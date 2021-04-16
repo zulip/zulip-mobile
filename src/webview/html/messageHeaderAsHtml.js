@@ -101,7 +101,7 @@ export default (
     .sort()
     .join(', ')}
 </div>
-    `;
+`;
   }
 
   return '';
