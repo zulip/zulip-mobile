@@ -32,7 +32,8 @@ const processQueue = async (auth: Auth) => {
 
   lastSentTime = Date.now();
   const response = await messagesFlags(auth, unackedMessageIds, 'add', 'read');
-  unackedMessageIds = unackedMessageIds.filter(id => !response.messages.includes(id));
+  const acked_messages = new Set(response.messages);
+  unackedMessageIds = unackedMessageIds.filter(id => !acked_messages.has(id));
 };
 
 export default (auth: Auth, messageIds: number[]): void => {
