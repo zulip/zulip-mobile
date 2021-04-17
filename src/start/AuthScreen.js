@@ -191,13 +191,12 @@ type LinkingEvent = {
 };
 
 class AuthScreen extends PureComponent<Props> {
-  componentDidMount = () => {
+  componentDidMount = async () => {
     Linking.addEventListener('url', this.endWebAuth);
-    Linking.getInitialURL().then((initialUrl: ?string) => {
-      if (initialUrl !== null && initialUrl !== undefined) {
-        this.endWebAuth({ url: initialUrl });
-      }
-    });
+    const initialUrl: ?string = await Linking.getInitialURL();
+    if (initialUrl !== null && initialUrl !== undefined) {
+      this.endWebAuth({ url: initialUrl });
+    }
 
     const { serverSettings } = this.props.route.params;
     const authList = activeAuthentications(

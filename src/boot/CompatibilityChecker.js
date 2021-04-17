@@ -18,14 +18,13 @@ export default class CompatibilityChecker extends PureComponent<Props, State> {
     compatibilityCheckFail: false,
   };
 
-  componentDidMount() {
-    api.checkCompatibility().then(res => {
-      if (res.status === 400) {
-        this.setState({
-          compatibilityCheckFail: true,
-        });
-      }
-    });
+  async componentDidMount() {
+    const res = await api.checkCompatibility();
+    if (res.status === 400) {
+      this.setState({
+        compatibilityCheckFail: true,
+      });
+    }
   }
 
   render() {
