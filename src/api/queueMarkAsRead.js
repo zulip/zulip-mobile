@@ -16,7 +16,7 @@ export const resetAll = () => {
   timeout = null;
 };
 
-const processQueue = (auth: Auth) => {
+const processQueue = async (auth: Auth) => {
   if (timeout !== null) {
     return;
   }
@@ -30,10 +30,9 @@ const processQueue = (auth: Auth) => {
     return;
   }
 
-  messagesFlags(auth, unackedMessageIds, 'add', 'read').then(success => {
-    unackedMessageIds = unackedMessageIds.filter(id => !success.messages.includes(id));
-  });
   lastSentTime = Date.now();
+  const response = await messagesFlags(auth, unackedMessageIds, 'add', 'read');
+  unackedMessageIds = unackedMessageIds.filter(id => !response.messages.includes(id));
 };
 
 export default (auth: Auth, messageIds: number[]): void => {
