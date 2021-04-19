@@ -28,20 +28,20 @@ const styles = createStyleSheet({
 type Props<TItemKey: string | number> = $ReadOnly<{|
   itemKey: TItemKey,
   subtitle: string,
-  nativeName: string,
+  title: string,
   selected: boolean,
   onValueChange: (itemKey: TItemKey) => void,
 |}>;
 
 // Not ready to use.
 export default function LanguagePickerItem<TItemKey: string | number>(props: Props<TItemKey>) {
-  const { itemKey, subtitle, nativeName, selected, onValueChange } = props;
+  const { itemKey, subtitle, title, selected, onValueChange } = props;
 
   return (
     <Touchable onPress={() => onValueChange(itemKey)}>
       <View style={styles.listItem}>
         <View style={styles.languageWrapper}>
-          <RawLabel text={nativeName} />
+          <RawLabel text={title} />
           <RawLabel text={subtitle} style={styles.subtitle} />
         </View>
         <View>{selected && <IconDone size={16} color={BRAND_COLOR} />}</View>
