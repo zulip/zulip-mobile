@@ -36,6 +36,47 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* A message is now marked as read when you scroll to the bottom of it,
+  not just the top. (#4561)
+* Fixed bug with entering the emoji :smile: and :zero:, :one:, …,
+  :ten:. (#4638)
+* (Android) Fixed bug in sharing an image from the lightbox. (#4539)
+
+Plus, like every release, numerous other fixes and improvements for
+your Zulip experience.
+
+
+### Highlights for developers
+
+* Upgraded Flow to v0.126.  In particular this means exact object
+  types work correctly with indexer properties: `{| [string]: Foo |}`.
+  (PR #4518)
+
+* (Windows) Fixed issue affecting postinstall script at end of
+  `yarn install`. (#4427)
+
+* Error handling:
+  * Exceptions from inside the WebView now report the browser version
+    in the Sentry event. (#4452)
+  * An error in handling an event now affects just that one event.
+    (PR #4611)
+
+* The `state.unread.streams` model is now an efficient data structure
+  using Immutable.js.  The time we spend handling a stream message
+  being marked as read, in a representative many-unreads case, is
+  about 2.5x faster: measured as 120ms vs 300ms.  (#4438)
+
+* Resolved issues (latest to earliest): #4532, #3473, PR #4468,
+  PR #4654, #4638, #4427, #3996, #4614, #4238, PR #4611, PR #4612,
+  #4539, PR #4561, #4491, #2694, #4595, #4416, #4415, #4425, #4579,
+  PR #4547, #4017, PR #4542, #4438, #4521, #4530, #4496, #4185,
+  PR #4518, #4451, #4210, #4452, #3961
+
+  * Relative to v27.159, also #4587, #4584, #4560, which were
+    cherry-picked into stable releases v27.160 and v27.161.
+
 
 ## 27.161 (2021-04-02)
 
@@ -52,7 +93,7 @@ changes including a critical bug fix.
 ### Highlights for developers
 
 * Added a React "error boundary" so that white-screen failures show
-  an error message and stack trace.
+  an error message and stack trace. (#4584)
 
 
 ## 27.160 (2021-03-29)
@@ -120,7 +161,7 @@ Zulip experience.
   the app. (PR #4314)
 
 * Resolved issues (latest to earliest): PR #4485, PR #4493, #4453,
-  #4458, #4460, #4405, #4469, PR #4467, #4449, #4267, #4083, #4245,
+  #4458, #4460, #4405, #4469, PR #4467, #4449, #4267, #4083, #4365, #4245,
   #4422, #4369, #4296, #4401, #4297, #4232, #4306, #3133, #4385.
 
 
