@@ -7,7 +7,7 @@ import styles, { createStyleSheet } from '../styles';
 import { IconPrivate } from '../common/Icons';
 
 const componentStyles = createStyleSheet({
-  optionRow: {
+  switchRow: {
     paddingLeft: 8,
     paddingRight: 8,
   },
@@ -76,7 +76,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           onChangeText={this.handleDescriptionChange}
         />
         <SwitchRow
-          style={componentStyles.optionRow}
+          style={componentStyles.switchRow}
           Icon={IconPrivate}
           label="Private"
           value={this.state.isPrivate}
