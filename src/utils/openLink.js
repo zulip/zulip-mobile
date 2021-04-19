@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules, Platform, Linking } from 'react-native';
 import SafariView from 'react-native-safari-view';
 
 export function openLinkEmbedded(url: string): void {
@@ -8,4 +8,8 @@ export function openLinkEmbedded(url: string): void {
   } else {
     NativeModules.CustomTabsAndroid.openURL(url);
   }
+}
+
+export function openLinkExternal(url: string): void {
+  Linking.openURL(url);
 }
