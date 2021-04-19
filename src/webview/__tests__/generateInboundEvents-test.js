@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
+import Immutable from 'immutable';
 
 import generateInboundEvents from '../generateInboundEvents';
 import { flagsStateToStringList } from '../html/messageAsHtml';
@@ -15,6 +16,7 @@ describe('generateInboundEvents', () => {
     debug: eg.baseReduxState.session.debug,
     flags: eg.baseReduxState.flags,
     mute: [],
+    mutedUsers: Immutable.Map(),
     ownUser: eg.selfUser,
     subscriptions: [],
     theme: 'default',
