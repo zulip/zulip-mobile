@@ -23,7 +23,6 @@ export default class NavButton extends PureComponent<Props> {
   styles = createStyleSheet({
     navButtonIcon: {
       textAlign: 'center',
-      fontSize: 26,
     },
   });
 
@@ -32,7 +31,7 @@ export default class NavButton extends PureComponent<Props> {
 
     return (
       <NavButtonGeneral onPress={onPress} accessibilityLabel={accessibilityLabel}>
-        <Icon style={[this.styles.navButtonIcon, style]} color={color} name={name} />
+        <Icon size={26} style={[this.styles.navButtonIcon, style]} color={color} name={name} />
       </NavButtonGeneral>
     );
   }
