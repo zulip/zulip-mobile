@@ -33,8 +33,11 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
   onValueChange: (itemKey: TItemKey) => void,
 |}>;
 
-// Not ready to use.
-export default function LanguagePickerItem<TItemKey: string | number>(props: Props<TItemKey>) {
+/**
+ * A labeled row for an item among related items; shows a checkmark
+ *   when selected.
+ */
+export default function SelectableOptionRow<TItemKey: string | number>(props: Props<TItemKey>) {
   const { itemKey, subtitle, title, selected, onValueChange } = props;
 
   return (

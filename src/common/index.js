@@ -29,6 +29,7 @@ export { default as SearchInput } from './SearchInput';
 export { default as SectionHeader } from './SectionHeader';
 export { default as SectionSeparator } from './SectionSeparator';
 export { default as SectionSeparatorBetween } from './SectionSeparatorBetween';
+export { default as SelectableOptionRow } from './SelectableOptionRow';
 export { default as SmartUrlInput } from './SmartUrlInput';
 export { default as SpinningProgress } from './SpinningProgress';
 export { default as GroupAvatar } from './GroupAvatar';
