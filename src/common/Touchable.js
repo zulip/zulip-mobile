@@ -12,6 +12,7 @@ type Props = $ReadOnly<{|
   children: React$Node,
   onPress?: () => void | Promise<void>,
   onLongPress?: () => void,
+  onPressOut?: () => void,
 |}>;
 
 /**
@@ -49,7 +50,7 @@ type Props = $ReadOnly<{|
  */
 export default class Touchable extends PureComponent<Props> {
   render() {
-    const { accessibilityLabel, style, onPress, onLongPress } = this.props;
+    const { accessibilityLabel, style, onPress, onLongPress, onPressOut } = this.props;
     const child: React$Node = React.Children.only(this.props.children);
 
     if (!onPress && !onLongPress) {
@@ -74,6 +75,7 @@ export default class Touchable extends PureComponent<Props> {
           style={style}
           onPress={onPress}
           onLongPress={onLongPress}
+          onPressOut={onPressOut}
         >
           {child}
         </TouchableHighlight>
@@ -94,6 +96,7 @@ export default class Touchable extends PureComponent<Props> {
         }
         onPress={onPress}
         onLongPress={onLongPress}
+        onPressOut={onPressOut}
       >
         <View style={style}>{child}</View>
       </TouchableNativeFeedback>

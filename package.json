@@ -71,6 +71,7 @@
     "react-native-image-picker": "^2.3.3",
     "react-native-notifications": "^1.2.0",
     "react-native-photo-view": "alwx/react-native-photo-view#c58fd6b30",
+    "react-native-popover-view": "^3.1.1",
     "react-native-reanimated": "^1.0.0",
     "react-native-safari-view": "2.0.0",
     "react-native-safe-area-context": "^3.1.7",
