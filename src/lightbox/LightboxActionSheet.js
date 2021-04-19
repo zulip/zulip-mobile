@@ -5,7 +5,7 @@ import share from './share';
 import shareImage from './shareImage';
 import { showToast } from '../utils/info';
 import * as api from '../api';
-import openLink from '../utils/openLink';
+import { openLinkEmbedded } from '../utils/openLink';
 
 type DownloadImageType = {|
   src: string,
@@ -37,7 +37,7 @@ const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
   const tempUrl = await api.tryGetFileTemporaryUrl(src, auth);
   if (tempUrl === null) {
     showToast('Please download the image from your browser');
-    openLink(new URL(src, auth.realm).toString());
+    openLinkEmbedded(new URL(src, auth.realm).toString());
     return;
   }
 
