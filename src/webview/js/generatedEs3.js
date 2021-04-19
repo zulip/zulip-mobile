@@ -519,6 +519,10 @@ var compiledWebviewJs = (function (exports) {
     return walkToMessage(start.previousElementSibling, 'previousElementSibling');
   }
 
+  function nextMessage(start) {
+    return walkToMessage(start.nextElementSibling, 'nextElementSibling');
+  }
+
   function isVisible(element, top, bottom) {
     var rect = element.getBoundingClientRect();
     return top < rect.bottom && rect.top < bottom;
@@ -861,6 +865,15 @@ var compiledWebviewJs = (function (exports) {
     scrollEventsDisabled = false;
   };
 
+  var revealMutedMessages = function revealMutedMessages(message) {
+    var messageNode = message;
+
+    do {
+      messageNode.setAttribute('data-mute-state', 'shown');
+      messageNode = nextMessage(messageNode);
+    } while (messageNode && messageNode.classList.contains('message-brief'));
+  };
+
   var requireAttribute = function requireAttribute(e, name) {
     var value = e.getAttribute(name);
 
@@ -1003,9 +1016,17 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
 
+    var targetType = target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message';
+    var messageNode = target.closest('.message');
+
+    if (targetType === 'message' && messageNode && messageNode.getAttribute('data-mute-state') === 'hidden') {
+      revealMutedMessages(messageNode);
+      return;
+    }
+
     sendMessage({
       type: 'longPress',
-      target: target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message',
+      target: targetType,
       messageId: getMessageIdFromNode(target),
       href: target.matches('a') ? requireAttribute(target, 'href') : null
     });

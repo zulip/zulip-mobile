@@ -312,6 +312,11 @@ function previousMessage(start: Element): ?Element {
   return walkToMessage(start.previousElementSibling, 'previousElementSibling');
 }
 
+/** The message after the given message, if any. */
+function nextMessage(start: Element): ?Element {
+  return walkToMessage(start.nextElementSibling, 'nextElementSibling');
+}
+
 /**
  * An element is visible if any part of it is visible on screen.
  *
@@ -772,6 +777,18 @@ const handleMessageEvent: MessageEventListener = e => {
  *
  */
 
+/**
+ * If the given message is muted, reveal it and all consecutive following
+ * messages from the same user.
+ */
+const revealMutedMessages = (message: Element) => {
+  let messageNode = message;
+  do {
+    messageNode.setAttribute('data-mute-state', 'shown');
+    messageNode = nextMessage(messageNode);
+  } while (messageNode && messageNode.classList.contains('message-brief'));
+};
+
 const requireAttribute = (e: Element, name: string): string => {
   const value = e.getAttribute(name);
   if (value === null || value === undefined) {
@@ -926,9 +943,27 @@ const handleLongPress = (target: Element) => {
     return;
   }
 
+  // Prettier bug on nested ternary
+  /* prettier-ignore */
+  const targetType = target.matches('.header')
+    ? 'header'
+    : target.matches('a')
+      ? 'link'
+      : 'message';
+  const messageNode = target.closest('.message');
+
+  if (
+    targetType === 'message'
+    && messageNode
+    && messageNode.getAttribute('data-mute-state') === 'hidden'
+  ) {
+    revealMutedMessages(messageNode);
+    return;
+  }
+
   sendMessage({
     type: 'longPress',
-    target: target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message',
+    target: targetType,
     messageId: getMessageIdFromNode(target),
     href: target.matches('a') ? requireAttribute(target, 'href') : null,
   });

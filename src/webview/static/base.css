@@ -142,6 +142,19 @@ body {
   padding: 0 16px 16px 80px;
 }
 
+.message-brief[data-mute-state="hidden"] {
+  display: none;
+}
+
+.message[data-mute-state="hidden"] > .avatar,
+.message[data-mute-state="hidden"] > .content {
+  display: none;
+}
+
+.message[data-mute-state="shown"] > .muted-message-explanation {
+  display: none;
+}
+
 #message-loading {
   position: fixed;
   width: 100%;
@@ -580,7 +593,8 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: underline;
 }
 
-/* Our own "sorry, unsupported" message for widgets. */
+/* Our own "sorry, unsupported" message for widgets.
+   Also used for showing that a message was sent by a muted user. */
 .special-message {
   display: flex;
   flex-direction: column;
