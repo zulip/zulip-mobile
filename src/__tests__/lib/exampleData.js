@@ -25,6 +25,7 @@ import {
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
   REALM_INIT,
+  EVENT_MUTED_USERS,
   EVENT_NEW_MESSAGE,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
@@ -692,4 +693,10 @@ export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| mes
   id: 1001,
   caughtUp: {},
   ownUserId: selfUser.user_id,
+};
+
+export const eventMutedUsersActionBase = {
+  type: EVENT_MUTED_USERS,
+  id: 1234,
+  muted_users: [],
 };

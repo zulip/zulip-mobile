@@ -166,6 +166,9 @@ export type MigrationsState = {|
 
 export type MuteState = MuteTuple[];
 
+/** A map from user IDs to the Unix timestamp in seconds when they were muted. */
+export type MutedUsersState = Immutable.Map<UserId, number>;
+
 /**
  * An index on `MessagesState`, listing messages in each narrow.
  *
@@ -320,6 +323,7 @@ export type GlobalState = {|
   messages: MessagesState,
   migrations: MigrationsState,
   mute: MuteState,
+  mutedUsers: MutedUsersState,
   narrows: NarrowsState,
   outbox: OutboxState,
   pmConversations: PmConversationsState,

@@ -12,6 +12,7 @@ import flags from '../chat/flagsReducer';
 import narrows from '../chat/narrowsReducer';
 import messages from '../message/messagesReducer';
 import mute from '../mute/muteReducer';
+import mutedUsers from '../mute/mutedUsersReducer';
 import outbox from '../outbox/outboxReducer';
 import { reducer as pmConversations } from '../pm-conversations/pmConversationsModel';
 import presence from '../presence/presenceReducer';
@@ -89,6 +90,7 @@ export default (state: void | GlobalState, action: Action): GlobalState => {
     messages: applyReducer('messages', messages, state?.messages, action, state),
     narrows: applyReducer('narrows', narrows, state?.narrows, action, state),
     mute: applyReducer('mute', mute, state?.mute, action, state),
+    mutedUsers: applyReducer('mutedUsers', mutedUsers, state?.mutedUsers, action, state),
     outbox: applyReducer('outbox', outbox, state?.outbox, action, state),
     pmConversations: applyReducer('pmConversations', pmConversations, state?.pmConversations, action, state),
     presence: applyReducer('presence', presence, state?.presence, action, state),
