@@ -31,7 +31,7 @@ export default class NavButton extends PureComponent<Props> {
 
     return (
       <NavButtonGeneral onPress={onPress} accessibilityLabel={accessibilityLabel}>
-        <Icon size={26} style={[this.styles.navButtonIcon, style]} color={color} name={name} />
+        <Icon size={24} style={[this.styles.navButtonIcon, style]} color={color} name={name} />
       </NavButtonGeneral>
     );
   }
