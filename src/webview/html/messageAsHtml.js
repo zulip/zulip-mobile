@@ -73,7 +73,7 @@ $!${messageReactionListAsHtml(reactions, ownUser.user_id, allImageEmojiById)}
 
 const widgetBody = (message: Message | Outbox) => template`
 $!${message.content}
-<div class="widget"
+<div class="special-message"
  ><p>Interactive message</p
  ><p>To use, open on web or desktop</p
 ></div>

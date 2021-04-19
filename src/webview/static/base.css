@@ -570,7 +570,7 @@ hr {
 }
 
 /* Our own "sorry, unsupported" message for widgets. */
-.widget {
+.special-message {
   display: flex;
   flex-direction: column;
   align-items: center;
