@@ -261,6 +261,14 @@ export type UserPresence = {|
   [client: string]: ClientPresence,
 |};
 
+/** This is what appears in the `muted_users` server event.
+ * See https://chat.zulip.org/api/get-events#muted_users for details.
+ */
+export type MutedUser = {|
+  id: UserId,
+  timestamp: number,
+|};
+
 //
 //
 //

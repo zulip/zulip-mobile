@@ -10,7 +10,7 @@
  * @flow strict-local
  */
 
-import type { Message, Stream, UserId, UserPresence } from './modelTypes';
+import type { Message, MutedUser, Stream, UserId, UserPresence } from './modelTypes';
 
 export class EventTypes {
   static alert_words: 'alert_words' = 'alert_words';
@@ -18,6 +18,7 @@ export class EventTypes {
   static heartbeat: 'heartbeat' = 'heartbeat';
   static message: 'message' = 'message';
   static muted_topics: 'muted_topics' = 'muted_topics';
+  static muted_users: 'muted_users' = 'muted_users';
   static presence: 'presence' = 'presence';
   static reaction: 'reaction' = 'reaction';
   static realm_bot: 'realm_bot' = 'realm_bot';
@@ -68,6 +69,12 @@ export type MessageEvent = {|
    * Otherwise absent.
    */
   local_message_id?: number,
+|};
+
+export type MutedUsersEvent = {|
+  ...EventCommon,
+  type: typeof EventTypes.muted_users,
+  muted_users: MutedUser[],
 |};
 
 /** A new submessage.  See the `Submessage` type for details. */

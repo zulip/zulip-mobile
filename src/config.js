@@ -25,6 +25,7 @@ const config: Config = {
     'alert_words',
     'message',
     'muted_topics',
+    'muted_users',
     'presence',
     'realm',
     'realm_emoji',

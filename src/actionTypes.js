@@ -46,6 +46,7 @@ import {
   EVENT_ALERT_WORDS,
   INIT_TOPICS,
   EVENT_MUTED_TOPICS,
+  EVENT_MUTED_USERS,
   EVENT_REALM_FILTERS,
   EVENT_USER_REMOVE,
   EVENT_USER_UPDATE,
@@ -56,7 +57,13 @@ import {
   EVENT,
 } from './actionConstants';
 
-import type { MessageEvent, PresenceEvent, StreamEvent, SubmessageEvent } from './api/eventTypes';
+import type {
+  MessageEvent,
+  MutedUsersEvent,
+  PresenceEvent,
+  StreamEvent,
+  SubmessageEvent,
+} from './api/eventTypes';
 
 import type {
   Orientation,
@@ -428,6 +435,11 @@ type EventMutedTopicsAction = {|
   muted_topics: MuteState,
 |};
 
+type EventMutedUsersAction = {|
+  ...MutedUsersEvent,
+  type: typeof EVENT_MUTED_USERS,
+|};
+
 type EventUserGroupAddAction = {|
   ...ServerEvent,
   type: typeof EVENT_USER_GROUP_ADD,
@@ -512,6 +524,7 @@ export type EventAction =
   | EventAlertWordsAction
   | EventMessageDeleteAction
   | EventMutedTopicsAction
+  | EventMutedUsersAction
   | EventNewMessageAction
   | EventSubmessageAction
   | EventPresenceAction

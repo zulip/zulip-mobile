@@ -557,6 +557,7 @@ export const action = deepFreeze({
       alert_words: [],
       max_message_id: 100,
       muted_topics: [],
+      muted_users: [],
       presences: {},
       max_icon_file_size: 3,
       realm_add_emoji_by_admins_only: true,

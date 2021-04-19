@@ -2,6 +2,7 @@
 
 import type {
   CrossRealmBot,
+  MutedUser,
   RealmEmojiById,
   RealmFilter,
   RecentPrivateConversation,
@@ -32,6 +33,11 @@ export type MuteTuple = [string, string];
 
 export type InitialDataMutedTopics = {|
   muted_topics: MuteTuple[],
+|};
+
+/** Added in server version 4.0, feature level 48 */
+export type InitialDataMutedUsers = {|
+  muted_users?: MutedUser[],
 |};
 
 export type InitialDataPresence = {|
@@ -311,6 +317,7 @@ export type InitialData = {|
   ...InitialDataAlertWords,
   ...InitialDataMessage,
   ...InitialDataMutedTopics,
+  ...InitialDataMutedUsers,
   ...InitialDataPresence,
   ...InitialDataRealm,
   ...InitialDataRealmEmoji,

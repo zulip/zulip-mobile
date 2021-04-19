@@ -19,6 +19,7 @@ import {
   EVENT_USER_REMOVE,
   EVENT_USER_UPDATE,
   EVENT_MUTED_TOPICS,
+  EVENT_MUTED_USERS,
   EVENT_USER_GROUP_ADD,
   EVENT_USER_GROUP_REMOVE,
   EVENT_USER_GROUP_UPDATE,
@@ -59,6 +60,7 @@ const actionTypeOfEventType = {
   subscription: EVENT_SUBSCRIPTION,
   presence: EVENT_PRESENCE,
   muted_topics: EVENT_MUTED_TOPICS,
+  muted_users: EVENT_MUTED_USERS,
   realm_emoji: EVENT_REALM_EMOJI_UPDATE,
   realm_filters: EVENT_REALM_FILTERS,
   submessage: EVENT_SUBMESSAGE,
@@ -143,6 +145,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
     case 'subscription':
     case 'presence':
     case 'muted_topics':
+    case 'muted_users':
     case 'realm_emoji':
     case 'realm_filters':
     case 'submessage':
