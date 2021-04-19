@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 import { RawLabel, Touchable } from '../common';
@@ -33,20 +33,18 @@ type Props = $ReadOnly<{|
   onValueChange: (locale: string) => void,
 |}>;
 
-export default class LanguagePickerItem extends PureComponent<Props> {
-  render() {
-    const { locale, name, nativeName, selected, onValueChange } = this.props;
+export default function LanguagePickerItem(props: Props) {
+  const { locale, name, nativeName, selected, onValueChange } = props;
 
-    return (
-      <Touchable onPress={() => onValueChange(locale)}>
-        <View style={styles.listItem}>
-          <View style={styles.languageWrapper}>
-            <RawLabel text={nativeName} />
-            <RawLabel text={name} style={styles.name} />
-          </View>
-          <View>{selected && <IconDone size={16} color={BRAND_COLOR} />}</View>
+  return (
+    <Touchable onPress={() => onValueChange(locale)}>
+      <View style={styles.listItem}>
+        <View style={styles.languageWrapper}>
+          <RawLabel text={nativeName} />
+          <RawLabel text={name} style={styles.name} />
         </View>
-      </Touchable>
-    );
-  }
+        <View>{selected && <IconDone size={16} color={BRAND_COLOR} />}</View>
+      </View>
+    </Touchable>
+  );
 }
