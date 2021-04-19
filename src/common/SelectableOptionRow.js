@@ -11,7 +11,7 @@ const styles = createStyleSheet({
     flex: 1,
     flexDirection: 'column',
   },
-  name: {
+  subtitle: {
     fontWeight: '300',
     fontSize: 13,
   },
@@ -27,7 +27,7 @@ const styles = createStyleSheet({
 
 type Props<TItemKey: string | number> = $ReadOnly<{|
   itemKey: TItemKey,
-  name: string,
+  subtitle: string,
   nativeName: string,
   selected: boolean,
   onValueChange: (itemKey: TItemKey) => void,
@@ -35,14 +35,14 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
 
 // Not ready to use.
 export default function LanguagePickerItem<TItemKey: string | number>(props: Props<TItemKey>) {
-  const { itemKey, name, nativeName, selected, onValueChange } = props;
+  const { itemKey, subtitle, nativeName, selected, onValueChange } = props;
 
   return (
     <Touchable onPress={() => onValueChange(itemKey)}>
       <View style={styles.listItem}>
         <View style={styles.languageWrapper}>
           <RawLabel text={nativeName} />
-          <RawLabel text={name} style={styles.name} />
+          <RawLabel text={subtitle} style={styles.subtitle} />
         </View>
         <View>{selected && <IconDone size={16} color={BRAND_COLOR} />}</View>
       </View>
