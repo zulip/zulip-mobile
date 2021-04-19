@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import { Input, Label, OptionRow, ZulipButton } from '../common';
+import { Input, Label, SwitchRow, ZulipButton } from '../common';
 import styles, { createStyleSheet } from '../styles';
 import { IconPrivate } from '../common/Icons';
 
@@ -75,7 +75,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           defaultValue={initialValues.description}
           onChangeText={this.handleDescriptionChange}
         />
-        <OptionRow
+        <SwitchRow
           style={componentStyles.optionRow}
           Icon={IconPrivate}
           label="Private"

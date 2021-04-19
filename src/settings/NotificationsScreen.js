@@ -6,7 +6,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector, useDispatch } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
-import { OptionRow, Screen } from '../common';
+import { SwitchRow, Screen } from '../common';
 import * as api from '../api';
 import { settingsChange } from '../actions';
 
@@ -51,17 +51,17 @@ export default function NotificationsScreen(props: Props) {
 
   return (
     <Screen title="Notifications">
-      <OptionRow
+      <SwitchRow
         label="Notifications when offline"
         value={offlineNotification}
         onValueChange={handleOfflineNotificationChange}
       />
-      <OptionRow
+      <SwitchRow
         label="Notifications when online"
         value={onlineNotification}
         onValueChange={handleOnlineNotificationChange}
       />
-      <OptionRow
+      <SwitchRow
         label="Stream notifications"
         value={streamNotification}
         onValueChange={handleStreamNotificationChange}

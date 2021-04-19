@@ -17,7 +17,10 @@ type Props = $ReadOnly<{|
   onValueChange: (newValue: boolean) => void,
 |}>;
 
-export default class OptionRow extends PureComponent<Props> {
+/**
+ * A row with a label and a switch component.
+ */
+export default class SwitchRow extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
 

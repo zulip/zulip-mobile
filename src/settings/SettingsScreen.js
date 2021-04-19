@@ -9,7 +9,7 @@ import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useSelector, useDispatch } from '../react-redux';
 import { getSettings } from '../selectors';
-import { OptionButton, OptionRow } from '../common';
+import { OptionButton, SwitchRow } from '../common';
 import {
   IconDiagnostics,
   IconNotifications,
@@ -47,8 +47,8 @@ export default function SettingsScreen(props: Props) {
 
   return (
     <ScrollView style={styles.optionWrapper}>
-      <OptionRow label="Night mode" value={theme === 'night'} onValueChange={handleThemeChange} />
-      <OptionRow
+      <SwitchRow label="Night mode" value={theme === 'night'} onValueChange={handleThemeChange} />
+      <SwitchRow
         label="Open links with in-app browser"
         value={shouldUseInAppBrowser(browser)}
         onValueChange={value => {

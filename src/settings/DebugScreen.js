@@ -6,7 +6,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector, useDispatch } from '../react-redux';
 import { getSession } from '../selectors';
-import { OptionRow, Screen } from '../common';
+import { SwitchRow, Screen } from '../common';
 import { debugFlagToggle } from '../actions';
 
 type Props = $ReadOnly<{|
@@ -27,7 +27,7 @@ export default function DebugScreen(props: Props) {
 
   return (
     <Screen title="Debug">
-      <OptionRow
+      <SwitchRow
         label="Do not mark messages read on scroll"
         value={debug.doNotMarkMessagesAsRead}
         onValueChange={() => handleSettingToggle('doNotMarkMessagesAsRead')}

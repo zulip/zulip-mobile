@@ -8,7 +8,7 @@ import * as NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { connect } from '../react-redux';
 import { delay } from '../utils/async';
-import { OptionRow, Screen, ZulipButton } from '../common';
+import { SwitchRow, Screen, ZulipButton } from '../common';
 import { getSettings } from '../directSelectors';
 import { getAuth, getIsAdmin, getStreamForId } from '../selectors';
 import StreamCard from './StreamCard';
@@ -83,19 +83,19 @@ class StreamSettingsScreen extends PureComponent<Props> {
         <StreamCard stream={stream} subscription={subscription} />
         {subscription && (
           <>
-            <OptionRow
+            <SwitchRow
               Icon={IconPin}
               label="Pinned"
               value={subscription.pin_to_top}
               onValueChange={this.handleTogglePinStream}
             />
-            <OptionRow
+            <SwitchRow
               Icon={IconMute}
               label="Muted"
               value={subscription.in_home_view === false}
               onValueChange={this.handleToggleMuteStream}
             />
-            <OptionRow
+            <SwitchRow
               Icon={IconNotifications}
               label="Notifications"
               value={subscription.push_notifications ?? userSettingStreamNotification}

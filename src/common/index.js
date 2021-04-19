@@ -18,7 +18,7 @@ export { default as Logo } from './Logo';
 export { default as OfflineNotice } from './OfflineNotice';
 export { default as OptionButton } from './OptionButton';
 export { default as OptionDivider } from './OptionDivider';
-export { default as OptionRow } from './OptionRow';
+export { default as SwitchRow } from './SwitchRow';
 export { default as OwnAvatar } from './OwnAvatar';
 export { default as PasswordInput } from './PasswordInput';
 export { default as Popup } from './Popup';

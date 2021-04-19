@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { useSelector, useDispatch } from '../react-redux';
-import { OptionRow } from '../common';
+import { SwitchRow } from '../common';
 import { getSelfUserAwayStatus } from '../selectors';
 import { updateUserAwayStatus } from '../user-status/userStatusActions';
 
@@ -18,7 +18,7 @@ export default function AwayStatusSwitch(props: Props) {
   const dispatch = useDispatch();
 
   return (
-    <OptionRow
+    <SwitchRow
       label="Set yourself to away"
       value={awayStatus}
       onValueChange={(away: boolean) => {
