@@ -3,7 +3,7 @@ import { NativeModules, Platform } from 'react-native';
 import SafariView from 'react-native-safari-view';
 
 import type { Auth } from '../types';
-import openLink from '../utils/openLink';
+import { openLinkEmbedded } from '../utils/openLink';
 import { tryParseUrl } from '../utils/url';
 import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
 
@@ -48,7 +48,7 @@ export const generateRandomToken = async (): Promise<string> => {
 export const generateOtp = async (): Promise<string> => generateRandomToken();
 
 export const openBrowser = (url: string, otp: string) => {
-  openLink(`${url}?mobile_flow_otp=${otp}`);
+  openLinkEmbedded(`${url}?mobile_flow_otp=${otp}`);
 };
 
 export const closeBrowser = () => {

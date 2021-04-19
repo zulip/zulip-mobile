@@ -3,7 +3,7 @@
 import React from 'react';
 
 import Label from './Label';
-import openLink from '../utils/openLink';
+import { openLinkEmbedded } from '../utils/openLink';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 
 type Props = $ReadOnly<{|
@@ -29,7 +29,7 @@ export default function WebLink(props: Props) {
       style={componentStyles.link}
       text={props.label}
       onPress={() => {
-        openLink(props.url.toString());
+        openLinkEmbedded(props.url.toString());
       }}
     />
   );
