@@ -7,7 +7,7 @@ import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { IconDone } from './Icons';
 
 const styles = createStyleSheet({
-  languageWrapper: {
+  wrapper: {
     flex: 1,
     flexDirection: 'column',
   },
@@ -40,7 +40,7 @@ export default function LanguagePickerItem<TItemKey: string | number>(props: Pro
   return (
     <Touchable onPress={() => onValueChange(itemKey)}>
       <View style={styles.listItem}>
-        <View style={styles.languageWrapper}>
+        <View style={styles.wrapper}>
           <RawLabel text={title} />
           <RawLabel text={subtitle} style={styles.subtitle} />
         </View>
