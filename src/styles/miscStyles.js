@@ -10,10 +10,7 @@ export const statics = {
     alignItems: 'center',
   },
   settingsIcon: {
-    width: 24,
-    height: 24,
     margin: 8,
-    fontSize: 24,
     textAlign: 'center',
     marginLeft: 8,
     marginRight: 16,
