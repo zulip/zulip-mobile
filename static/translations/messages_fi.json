@@ -228,5 +228,8 @@
   "🤒 Out sick": "🤒 Sairaslomalla",
   "🌴 Vacationing": "🌴 Lomalla",
   "🏠 Working remotely": "🏠 Etätöissä",
-  "Signed out": "Kirjautunut ulos"
+  "Signed out": "Kirjautunut ulos",
+  "Remove account?": "Remove account?",
+  "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
+  "Remove account": "Remove account"
 }

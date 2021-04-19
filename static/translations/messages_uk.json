@@ -228,5 +228,8 @@
   "🤒 Out sick": "Захворів",
   "🌴 Vacationing": "Відпустка",
   "🏠 Working remotely": "Віддалено працюю",
-  "Signed out": "Вийшов із системи"
+  "Signed out": "Вийшов із системи",
+  "Remove account?": "Remove account?",
+  "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
+  "Remove account": "Remove account"
 }

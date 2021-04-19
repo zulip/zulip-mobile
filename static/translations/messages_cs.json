@@ -228,5 +228,8 @@
   "🤒 Out sick": "🤒 Nemocný",
   "🌴 Vacationing": "🌴 Dovolená",
   "🏠 Working remotely": "🏠 Práce na dálku",
-  "Signed out": "Odhlášen"
+  "Signed out": "Odhlášen",
+  "Remove account?": "Remove account?",
+  "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
+  "Remove account": "Remove account"
 }
