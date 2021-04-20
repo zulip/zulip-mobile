@@ -1,8 +1,9 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, FlatList } from 'react-native';
 import { createSelector } from 'reselect';
 
+import { usePrevious } from '../reactUtils';
 import type { User, UserId, UserOrBot, PresenceState, Selector, Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -33,71 +34,61 @@ type Props = $ReadOnly<{|
   onComplete: (selected: UserOrBot[]) => void,
 |}>;
 
-type State = {|
-  selected: UserOrBot[],
-|};
+function UserPickerCard(props: Props) {
+  const { filter, users, presences } = props;
 
-class UserPickerCard extends PureComponent<Props, State> {
-  state = {
-    selected: [],
-  };
+  const [selectedState, setSelectedState] = useState<UserOrBot[]>([]);
+  const listRef = useRef<FlatList<UserOrBot> | null>(null);
 
-  listRef = React.createRef<FlatList<UserOrBot>>();
-
-  componentDidUpdate = (prevProps: Props, prevState: State) => {
-    if (this.listRef.current && this.state.selected.length > prevState.selected.length) {
+  const prevSelectedState = usePrevious(selectedState);
+  useEffect(() => {
+    if (selectedState.length > prevSelectedState.length) {
       setTimeout(() => {
-        this.listRef.current?.scrollToEnd();
+        listRef.current?.scrollToEnd();
       });
     }
-  };
+  }, [selectedState, prevSelectedState, listRef]);
 
-  render() {
-    const { filter, users, presences } = this.props;
-    const { selected } = this.state;
-    return (
-      <View style={styles.wrapper}>
-        <AnimatedScaleComponent visible={selected.length > 0}>
-          <AvatarList
-            listRef={this.listRef}
-            users={selected}
-            onPress={(userId: UserId) => {
-              this.setState(state => ({
-                selected: state.selected.filter(x => x.user_id !== userId),
-              }));
-            }}
-          />
-        </AnimatedScaleComponent>
-        {selected.length > 0 && <LineSeparator />}
-        <UserList
-          filter={filter}
-          users={users}
-          presences={presences}
-          selected={selected}
-          onPress={(user: UserOrBot) => {
-            this.setState(state => {
-              if (state.selected.find(x => x.user_id === user.user_id)) {
-                return { selected: state.selected.filter(x => x.user_id !== user.user_id) };
-              } else {
-                return { selected: [...state.selected, user] };
-              }
-            });
+  return (
+    <View style={styles.wrapper}>
+      <AnimatedScaleComponent visible={selectedState.length > 0}>
+        <AvatarList
+          listRef={listRef}
+          users={selectedState}
+          onPress={(userId: UserId) => {
+            setSelectedState(state => state.filter(x => x.user_id !== userId));
           }}
         />
-        <AnimatedScaleComponent style={styles.button} visible={selected.length > 0}>
-          <FloatingActionButton
-            Icon={IconDone}
-            size={50}
-            disabled={selected.length === 0}
-            onPress={() => {
-              const { onComplete } = this.props;
-              onComplete(selected);
-            }}
-          />
-        </AnimatedScaleComponent>
-      </View>
-    );
-  }
+      </AnimatedScaleComponent>
+      {selectedState.length > 0 && <LineSeparator />}
+      <UserList
+        filter={filter}
+        users={users}
+        presences={presences}
+        selected={selectedState}
+        onPress={(user: UserOrBot) => {
+          setSelectedState(state => {
+            if (state.find(x => x.user_id === user.user_id)) {
+              return state.filter(x => x.user_id !== user.user_id);
+            } else {
+              return [...state, user];
+            }
+          });
+        }}
+      />
+      <AnimatedScaleComponent style={styles.button} visible={selectedState.length > 0}>
+        <FloatingActionButton
+          Icon={IconDone}
+          size={50}
+          disabled={selectedState.length === 0}
+          onPress={() => {
+            const { onComplete } = props;
+            onComplete(selectedState);
+          }}
+        />
+      </AnimatedScaleComponent>
+    </View>
+  );
 }
 
 // The users we want to show in this particular UI.
