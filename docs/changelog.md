@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.162 (2021-04-20)
+
 ### Highlights for users
 
 * A message is now marked as read when you scroll to the bottom of it,
