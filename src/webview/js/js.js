@@ -437,7 +437,7 @@ function visibleReadMessageIds(): {| first: number, last: number |} {
   return { first, last };
 }
 
-/** DEPRECATED */
+/** DEPRECATED - consider using `node.closest('.message')` instead. */
 const getMessageNode = (node: ?Node): ?Node => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
