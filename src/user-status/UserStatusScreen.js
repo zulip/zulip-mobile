@@ -9,7 +9,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { Input, OptionButton, Screen, ZulipButton } from '../common';
+import { Input, SelectableOptionRow, Screen, ZulipButton } from '../common';
 import { getSelfUserStatusText } from '../selectors';
 import { IconCancel, IconDone } from '../common/Icons';
 import statusSuggestions from './userStatusTextSuggestions';
@@ -90,11 +90,13 @@ class UserStatusScreen extends PureComponent<Props, State> {
           keyboardShouldPersistTaps="always"
           keyExtractor={item => item}
           renderItem={({ item, index }) => (
-            <OptionButton
+            <SelectableOptionRow
               key={item}
-              label={item}
-              onPress={() => {
-                this.setStatusTextState(_(item));
+              itemKey={item}
+              title={item}
+              selected={item === statusText}
+              onRequestSelectionChange={itemKey => {
+                this.setStatusTextState(_(itemKey));
               }}
             />
           )}
