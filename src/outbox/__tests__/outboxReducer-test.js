@@ -9,9 +9,9 @@ import * as eg from '../../__tests__/lib/exampleData';
 describe('outboxReducer', () => {
   describe('INITIAL_FETCH_COMPLETE', () => {
     test('filters out isSent', () => {
-      const message1 = eg.makeOutboxMessage({ content: 'New one' });
-      const message2 = eg.makeOutboxMessage({ content: 'Another one' });
-      const message3 = eg.makeOutboxMessage({ content: 'Message already sent', isSent: true });
+      const message1 = eg.streamOutbox({ content: 'New one' });
+      const message2 = eg.streamOutbox({ content: 'Another one' });
+      const message3 = eg.streamOutbox({ content: 'Message already sent', isSent: true });
       const initialState = deepFreeze([message1, message2, message3]);
 
       const action = deepFreeze({
@@ -28,7 +28,7 @@ describe('outboxReducer', () => {
 
   describe('MESSAGE_SEND_START', () => {
     test('add a new message to the outbox', () => {
-      const message = eg.makeOutboxMessage({ content: 'New one' });
+      const message = eg.streamOutbox({ content: 'New one' });
 
       const initialState = deepFreeze([]);
 
@@ -45,8 +45,8 @@ describe('outboxReducer', () => {
     });
 
     test('do not add a message with a duplicate timestamp to the outbox', () => {
-      const message1 = eg.makeOutboxMessage({ content: 'hello', timestamp: 123 });
-      const message2 = eg.makeOutboxMessage({ content: 'hello twice', timestamp: 123 });
+      const message1 = eg.streamOutbox({ content: 'hello', timestamp: 123 });
+      const message2 = eg.streamOutbox({ content: 'hello twice', timestamp: 123 });
 
       const initialState = deepFreeze([message1]);
 
@@ -63,7 +63,7 @@ describe('outboxReducer', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('do not mutate state if a message is not removed', () => {
-      const initialState = deepFreeze([eg.makeOutboxMessage({ timestamp: 546 })]);
+      const initialState = deepFreeze([eg.streamOutbox({ timestamp: 546 })]);
 
       const message = eg.streamMessage({ timestamp: 123 });
 
@@ -78,9 +78,9 @@ describe('outboxReducer', () => {
     });
 
     test('remove message if local_message_id matches', () => {
-      const message1 = eg.makeOutboxMessage({ timestamp: 546 });
-      const message2 = eg.makeOutboxMessage({ timestamp: 150238512430 });
-      const message3 = eg.makeOutboxMessage({ timestamp: 150238594540 });
+      const message1 = eg.streamOutbox({ timestamp: 546 });
+      const message2 = eg.streamOutbox({ timestamp: 150238512430 });
+      const message3 = eg.streamOutbox({ timestamp: 150238594540 });
       const initialState = deepFreeze([message1, message2, message3]);
 
       const action = deepFreeze({
@@ -97,9 +97,9 @@ describe('outboxReducer', () => {
     });
 
     test("remove nothing if local_message_id doesn't match", () => {
-      const message1 = eg.makeOutboxMessage({ timestamp: 546 });
-      const message2 = eg.makeOutboxMessage({ timestamp: 150238512430 });
-      const message3 = eg.makeOutboxMessage({ timestamp: 150238594540 });
+      const message1 = eg.streamOutbox({ timestamp: 546 });
+      const message2 = eg.streamOutbox({ timestamp: 150238512430 });
+      const message3 = eg.streamOutbox({ timestamp: 150238594540 });
       const initialState = deepFreeze([message1, message2, message3]);
 
       const action = deepFreeze({

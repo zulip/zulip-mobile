@@ -24,7 +24,7 @@ import * as eg from '../../__tests__/lib/exampleData';
 describe('getMessagesForNarrow', () => {
   const message = eg.streamMessage({ id: 123 });
   const messages = eg.makeMessagesState([message]);
-  const outboxMessage = eg.makeOutboxMessage({});
+  const outboxMessage = eg.streamOutbox({});
 
   test('if no outbox messages returns messages with no change', () => {
     const state = eg.reduxState({

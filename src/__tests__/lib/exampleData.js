@@ -18,7 +18,7 @@ import type {
 } from '../../api/modelTypes';
 import { makeUserId } from '../../api/idTypes';
 import type { Action, GlobalState, MessagesState, RealmState } from '../../reduxTypes';
-import type { Auth, Account, Outbox } from '../../types';
+import type { Auth, Account, OutboxBase, StreamOutbox } from '../../types';
 import { UploadedAvatarURL } from '../../utils/avatar';
 import { ZulipVersion } from '../../utils/zulipVersion';
 import {
@@ -415,8 +415,11 @@ export const makeMessagesState = (messages: Message[]): MessagesState =>
  * (Only stream messages for now. Feel free to add PMs, if you need them.)
  */
 
-/** An outbox message with no interesting data. */
-const outboxMessageBase: $Diff<Outbox, {| id: mixed, timestamp: mixed |}> = deepFreeze({
+/**
+ * Properties in common among PM and stream outbox messages, with no
+ *   interesting data.
+ */
+const outboxMessageBase: $Diff<OutboxBase, {| id: mixed, timestamp: mixed |}> = deepFreeze({
   isOutbox: true,
   isSent: false,
   avatar_url: selfUser.avatar_url,
@@ -434,11 +437,12 @@ const outboxMessageBase: $Diff<Outbox, {| id: mixed, timestamp: mixed |}> = deep
 });
 
 /**
- * Create an outbox message from an interesting subset of its data.
+ * Create a stream outbox message from an interesting subset of its
+ *   data.
  *
  * `.id` is always identical to `.timestamp` and should not be supplied.
  */
-export const makeOutboxMessage = (data: $Shape<$Diff<Outbox, {| id: mixed |}>>): Outbox => {
+export const streamOutbox = (data: $Shape<$Diff<StreamOutbox, {| id: mixed |}>>): StreamOutbox => {
   const { timestamp } = data;
 
   const outputTimestamp = timestamp ?? makeTime() / 1000;
