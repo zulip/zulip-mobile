@@ -26,7 +26,13 @@ const styles = createStyleSheet({
 });
 
 type Props<TItemKey: string | number> = $ReadOnly<{|
+  // A key to uniquely identify the item. The function passed as
+  // `onRequestSelectionChange` gets passed this. We would have just
+  // called this `key` except that would collide with React's builtin
+  // `key` attribute (which callers should also pass if they're in a
+  // position that requires it).
   itemKey: TItemKey,
+
   subtitle: string,
   title: string,
   selected: boolean,
