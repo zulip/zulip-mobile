@@ -34,7 +34,7 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
   itemKey: TItemKey,
 
   title: string,
-  subtitle: string,
+  subtitle?: string,
   selected: boolean,
 
   // We might have called this `onPress`, but
@@ -64,7 +64,7 @@ export default function SelectableOptionRow<TItemKey: string | number>(props: Pr
       <View style={styles.listItem}>
         <View style={styles.wrapper}>
           <RawLabel text={title} />
-          <RawLabel text={subtitle} style={styles.subtitle} />
+          {subtitle !== undefined && <RawLabel text={subtitle} style={styles.subtitle} />}
         </View>
         <View>{selected && <IconDone size={16} color={BRAND_COLOR} />}</View>
       </View>
