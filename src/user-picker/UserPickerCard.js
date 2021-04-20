@@ -45,16 +45,6 @@ class UserPickerCard extends PureComponent<Props, State> {
 
   listRef: ?FlatList<UserOrBot>;
 
-  handleUserPress = (user: UserOrBot) => {
-    this.setState(state => {
-      if (state.selected.find(x => x.user_id === user.user_id)) {
-        return { selected: state.selected.filter(x => x.user_id !== user.user_id) };
-      } else {
-        return { selected: [...state.selected, user] };
-      }
-    });
-  };
-
   handleUserDeselect = (userId: UserId) => {
     this.setState(state => ({
       selected: state.selected.filter(x => x.user_id !== userId),
@@ -94,7 +84,15 @@ class UserPickerCard extends PureComponent<Props, State> {
           users={users}
           presences={presences}
           selected={selected}
-          onPress={this.handleUserPress}
+          onPress={(user: UserOrBot) => {
+            this.setState(state => {
+              if (state.selected.find(x => x.user_id === user.user_id)) {
+                return { selected: state.selected.filter(x => x.user_id !== user.user_id) };
+              } else {
+                return { selected: [...state.selected, user] };
+              }
+            });
+          }}
         />
         <AnimatedScaleComponent style={styles.button} visible={selected.length > 0}>
           <FloatingActionButton
