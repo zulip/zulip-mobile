@@ -97,7 +97,7 @@ const TitleStream = (props: Props) => {
             isMuted={!stream.in_home_view}
             isPrivate={stream.invite_only}
             color={color}
-            size={20}
+            size={styles.navTitle.fontSize}
           />
           <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {stream.name}
