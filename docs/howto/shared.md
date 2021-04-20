@@ -79,9 +79,6 @@ organize our version control around NPM and this package isn't the
 only thing in its Git repo, we use tags like `shared-0.0.3` instead of
 NPM's built-in behavior of `v0.0.3`.
 
-If it's your first time using `npm publish`, you'll need to `npm adduser` and
-enter your credentials first. Once you've done that once, you won't need to do
-it in the future.
 
 ### Initial setup
 
@@ -103,3 +100,7 @@ you [here][npm-zulip-team] for access to everything in `@zulip`, and
 
 [npm-zulip-team]: https://www.npmjs.com/settings/zulip/teams/team/developers/users
 [npm-zulip-md-p-access]: https://www.npmjs.com/package/zulip-markdown-parser/access
+
+You'll also need to run `npm adduser` on your development machine and
+follow the prompts to authenticate.  This will create a `~/.npmrc`
+file with an auth token, which `npm publish` will automatically use.
