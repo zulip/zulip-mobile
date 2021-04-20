@@ -44,153 +44,53 @@ export const getUnreadMentions = (state: GlobalState): UnreadMentionsState => st
 
 const initialStreamsState: UnreadStreamsState = Immutable.Map();
 
-// Like `Immutable.Map#update`, but prune returned values equal to `zero`.
-function updateAndPrune<K, V>(
+// Like `Immutable.Map#map`, but with the update-only-if-different semantics
+// of `Immutable.Map#update`.  Kept for comparison to `updateAllAndPrune`.
+/* eslint-disable-next-line no-unused-vars */
+function updateAll<K, V>(map: Immutable.Map<K, V>, updater: V => V): Immutable.Map<K, V> {
+  return map.withMutations(mapMut => {
+    map.forEach((value, key) => {
+      const newValue = updater(value);
+      if (newValue !== value) {
+        mapMut.set(key, newValue);
+      }
+    });
+  });
+}
+
+// Like `updateAll`, but prune values equal to `zero` given by `updater`.
+function updateAllAndPrune<K, V>(
   map: Immutable.Map<K, V>,
   zero: V,
-  key: K,
-  updater: (V | void) => V,
+  updater: V => V,
 ): Immutable.Map<K, V> {
-  const value = map.get(key);
-  const newValue = updater(value);
-  if (newValue === zero) {
-    return map.delete(key);
-  }
-  if (newValue === value) {
-    return map;
-  }
-  return map.set(key, newValue);
+  return map.withMutations(mapMut => {
+    map.forEach((value, key) => {
+      const newValue = updater(value);
+      if (newValue === zero) {
+        mapMut.delete(key);
+        return;
+      }
+      if (newValue === value) {
+        return; // i.e., continue
+      }
+      mapMut.set(key, newValue);
+    });
+  });
 }
 
-/**
- * Remove the given values from the list.
- *
- * This is equivalent to
- *   list_.filter(x => toDelete.indexOf(x) < 0)
- * but more efficient.
- *
- * Specifically, for n items in the list and k to delete, this takes time
- * O(n log n) in the worst case.
- *
- * In the case where the items to delete all appear at the beginning of the
- * list, and in the same order, it takes time O(k log n).  (This is the
- * common case when marking messages as read, which motivates this
- * optimization.)
- */
-// In principle this should be doable in time O(k + log n) in the
-// all-at-start case.  We'd need the iterator on Immutable.List to support
-// iterating through the first k elements in O(k + log n) time.  It seems
-// like it should be able to do that, but the current implementation (as of
-// Immutable 4.0.0-rc.12) takes time O(k log n): each step of the iterator
-// passes through a stack of log(n) helper functions.  Ah well.
-//
-// The logs are base 32, so in practice our log(n) is never more than 3
-// (which would be enough for 32**3 = 32768 items), usually at most 2
-// (enough for 1024 items); and for the messages in one conversation, very
-// commonly 1, i.e. there are commonly just ≤32 messages.  So the difference
-// between O(k log n) and O(k + log n) might be noticeable but is unlikely
-// to be catastrophic.
-function deleteFromList<V>(
-  list_: Immutable.List<V>,
-  toDelete_: Immutable.List<V>,
-): Immutable.List<V> {
-  // Alias the parameters because Flow doesn't accept mutating them.
-  let list = list_;
-  let toDelete = toDelete_;
-
-  // First, see if some items to delete happen to be at the start, and
-  // remove those.  This is the common case for marking messages as read,
-  // so it's worth some effort to optimize.  And we can do it efficiently:
-  // for deleting the first k out of n messages, we take time O(k log n)
-  // rather than O(n).
-
-  const minSize = Math.min(list.size, toDelete.size);
-  let i = 0;
-  for (; i < minSize; i++) {
-    // This loop takes time O(log n) per iteration, O(k log n) total.
-    if (list.get(i) !== toDelete.get(i)) {
-      break;
-    }
-  }
-
-  if (i > 0) {
-    // This takes time O(log n).
-    list = list.slice(i);
-    // This takes time O(log k) ≤ O(log n).
-    toDelete = toDelete.slice(i);
-  }
-
-  // That might have been all the items we wanted to delete.
-  // In fact that's the most common case when marking items as read.
-  if (toDelete.isEmpty()) {
-    return list;
-  }
-
-  // It wasn't; we have more to delete.  We'll have to find them in the
-  // middle of the list and delete them wherever they are.
-  //
-  // This takes time O(n log n), probably (though an ideal implementation of
-  // Immutable should be able to make it O(n).)
-  const toDeleteSet = new Set(toDelete);
-  return list.filterNot(id => toDeleteSet.has(id));
-}
-
-/**
- * Delete the given messages from the unreads state.
- *
- * Relies on `globalMessages` to look up exactly where in the unreads data
- * structure the messages are expected to appear.
- *
- * This is efficient at deleting some messages even when the total number of
- * existing messages is much larger.  Specifically the time spent should be
- * O(N' log n + c log C), where the messages to delete appear in c out of a
- * total of C conversations, and the affected conversations have a total of
- * N' messages and at most n in any one conversation.  If the messages to be
- * deleted are all at the start of the list for their respective
- * conversations the time should be O(k log n + c log C), where there are
- * k messages to delete.
- *
- * For the common case of marking some messages as read, we expect that all
- * the affected messages will indeed be at the start of their respective
- * conversations, and the number c of affected conversations will be small,
- * typically 1.  (It could be more than 1 if reading a stream narrow, or
- * other interleaved narrow.)
- */
 function deleteMessages(
   state: UnreadStreamsState,
   ids: $ReadOnlyArray<number>,
-  globalMessages,
 ): UnreadStreamsState {
-  const byConversation =
-    // prettier-ignore
-    (Immutable.Map(): Immutable.Map<number, Immutable.Map<string, Immutable.List<number>>>)
-    .withMutations(mut => {
-      for (const id of ids) {
-        const message = globalMessages.get(id);
-        if (!message || message.type !== 'stream') {
-          continue;
-        }
-        const { stream_id, subject: topic } = message;
-        mut.updateIn([stream_id, topic], (l = Immutable.List()) => l.push(id));
-      }
-    });
-
-  const emptyMap = Immutable.Map();
+  const idSet = new Set(ids);
+  const toDelete = id => idSet.has(id);
   const emptyList = Immutable.List();
-  // prettier-ignore
-  return state.withMutations(stateMut => {
-    byConversation.forEach((byTopic, streamId) => {
-      updateAndPrune(stateMut, emptyMap, streamId, perStream =>
-        perStream && perStream.withMutations(perStreamMut => {
-          byTopic.forEach((msgIds, topic) => {
-            updateAndPrune(perStreamMut, emptyList, topic, perTopic =>
-              perTopic && deleteFromList(perTopic, msgIds),
-            );
-          });
-        }),
-      );
-    });
-  });
+  return updateAllAndPrune(state, Immutable.Map(), perStream =>
+    updateAllAndPrune(perStream, emptyList, perTopic =>
+      perTopic.find(toDelete) ? perTopic.filterNot(toDelete) : perTopic,
+    ),
+  );
 }
 
 function streamsReducer(
@@ -256,7 +156,8 @@ function streamsReducer(
     }
 
     case EVENT_MESSAGE_DELETE:
-      return deleteMessages(state, action.messageIds, globalState.messages);
+      // TODO optimize by using `state.messages` to look up directly
+      return deleteMessages(state, action.messageIds);
 
     case EVENT_UPDATE_MESSAGE_FLAGS: {
       if (action.flag !== 'read') {
@@ -272,7 +173,10 @@ function streamsReducer(
         return state;
       }
 
-      return deleteMessages(state, action.messages, globalState.messages);
+      // TODO optimize by using `state.messages` to look up directly.
+      //   Then when do, also optimize so deleting the oldest items is fast,
+      //   as that should be the common case here.
+      return deleteMessages(state, action.messages);
     }
 
     default:

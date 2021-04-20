@@ -146,27 +146,18 @@ describe('stream substate', () => {
       };
     };
 
-    const messages = [
-      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 1 }),
-      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 2 }),
-      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 3 }),
-      eg.streamMessage({ stream_id: 234, subject: 'bar', id: 4 }),
-      eg.streamMessage({ stream_id: 234, subject: 'bar', id: 5 }),
-    ];
+    const streamAction = args => mkMessageAction(eg.streamMessage(args));
 
     const baseState = (() => {
       const r = (state, action) => reducer(state, action, eg.plusReduxState);
       let state = initialState;
-      for (const message of messages) {
-        state = r(state, mkMessageAction(message));
-      }
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 1 }));
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 2 }));
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 3 }));
+      state = r(state, streamAction({ stream_id: 234, subject: 'bar', id: 4 }));
+      state = r(state, streamAction({ stream_id: 234, subject: 'bar', id: 5 }));
       return state;
     })();
-
-    const baseGlobalState = eg.reduxStatePlus({
-      messages: eg.makeMessagesState(messages),
-      unread: baseState,
-    });
 
     test('(base state, for comparison)', () => {
       // prettier-ignore
@@ -178,30 +169,28 @@ describe('stream substate', () => {
 
     test('when operation is "add" but flag is not "read" do not mutate state', () => {
       const action = mkAction({ messages: [1, 2, 3], flag: 'star' });
-      expect(reducer(initialState, action, baseGlobalState)).toBe(initialState);
+      expect(reducer(initialState, action, eg.plusReduxState)).toBe(initialState);
     });
 
     test('if id does not exist do not mutate state', () => {
       const action = mkAction({ messages: [6, 7] });
-      expect(reducer(baseState, action, baseGlobalState)).toBe(baseState);
+      expect(reducer(baseState, action, eg.plusReduxState)).toBe(baseState);
     });
 
     test('if ids are in state remove them', () => {
       const action = mkAction({ messages: [3, 4, 5, 6] });
       // prettier-ignore
-      expect(summary(reducer(baseState, action, baseGlobalState))).toEqual(Immutable.Map([
+      expect(summary(reducer(baseState, action, eg.plusReduxState))).toEqual(Immutable.Map([
         [123, Immutable.Map([['foo', [1, 2]]])],
       ]));
     });
 
     test("when removing, don't touch unaffected topics or streams", () => {
-      const message = eg.streamMessage({ stream_id: 123, subject: 'qux', id: 7 });
-      const state = reducer(baseState, mkMessageAction(message), baseGlobalState);
-      const globalState = eg.reduxStatePlus({
-        messages: eg.makeMessagesState([...messages, message]),
-        unread: state,
-      });
-
+      const state = reducer(
+        baseState,
+        streamAction({ stream_id: 123, subject: 'qux', id: 7 }),
+        eg.plusReduxState,
+      );
       // prettier-ignore
       expect(summary(state)).toEqual(Immutable.Map([
         [123, Immutable.Map([['foo', [1, 2, 3]], ['qux', [7]]])],
@@ -209,7 +198,7 @@ describe('stream substate', () => {
       ]));
 
       const action = mkAction({ messages: [1, 2] });
-      const newState = reducer(state, action, globalState);
+      const newState = reducer(state, action, eg.plusReduxState);
       // prettier-ignore
       expect(summary(newState)).toEqual(Immutable.Map([
         [123, Immutable.Map([['foo', [3]], ['qux', [7]]])],
@@ -221,12 +210,12 @@ describe('stream substate', () => {
 
     test('when operation is "remove" do nothing', () => {
       const action = mkAction({ messages: [1, 2], op: 'remove' });
-      expect(reducer(baseState, action, baseGlobalState)).toBe(baseState);
+      expect(reducer(baseState, action, eg.plusReduxState)).toBe(baseState);
     });
 
     test('when "all" is true reset state', () => {
       const action = mkAction({ messages: [], all: true });
-      expect(reducer(baseState, action, baseGlobalState).streams).toBe(initialState.streams);
+      expect(reducer(baseState, action, eg.plusReduxState).streams).toBe(initialState.streams);
     });
   });
 });
