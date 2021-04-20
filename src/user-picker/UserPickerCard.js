@@ -46,9 +46,11 @@ class UserPickerCard extends PureComponent<Props, State> {
   listRef: ?FlatList<UserOrBot>;
 
   componentDidUpdate = (prevProps: Props, prevState: State) => {
-    const list = this.listRef;
-    if (list && this.state.selected.length > prevState.selected.length) {
-      setTimeout(() => list.scrollToEnd());
+    if (this.listRef && this.state.selected.length > prevState.selected.length) {
+      setTimeout(() =>
+        // $FlowFixMe[incompatible-use]
+        this.listRef.scrollToEnd(),
+      );
     }
   };
 
