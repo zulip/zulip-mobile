@@ -79,6 +79,9 @@ organize our version control around NPM and this package isn't the
 only thing in its Git repo, we use tags like `shared-0.0.3` instead of
 NPM's built-in behavior of `v0.0.3`.
 
+If it's your first time using `npm publish`, you'll need to `npm adduser` and
+enter your credentials first. Once you've done that once, you won't need to do
+it in the future.
 
 ### Initial setup
 
