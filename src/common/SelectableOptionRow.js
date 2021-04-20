@@ -30,18 +30,31 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
   subtitle: string,
   title: string,
   selected: boolean,
-  onValueChange: (itemKey: TItemKey) => void,
+
+  // We might have called this `onPress`, but
+  // - pressing just happens to be how this component wants the user
+  //   to manually select/deselect
+  // - callers don't have a license to do whatever they want here; see
+  //   note in jsdoc
+  onRequestSelectionChange: (itemKey: TItemKey, requestedValue: boolean) => void,
 |}>;
 
 /**
  * A labeled row for an item among related items; shows a checkmark
  *   when selected.
+ *
+ * NOTE: This isn't an all-purpose action button. The component has
+ * two essential states: selected and deselected. These must clearly
+ * represent two states in the app; e.g., for each supported locale,
+ * it is either active or not. The event handler shouldn't do random
+ * things that aren't related to that state, like navigating to a
+ * different screen.
  */
 export default function SelectableOptionRow<TItemKey: string | number>(props: Props<TItemKey>) {
-  const { itemKey, subtitle, title, selected, onValueChange } = props;
+  const { itemKey, subtitle, title, selected, onRequestSelectionChange } = props;
 
   return (
-    <Touchable onPress={() => onValueChange(itemKey)}>
+    <Touchable onPress={() => onRequestSelectionChange(itemKey, !selected)}>
       <View style={styles.listItem}>
         <View style={styles.wrapper}>
           <RawLabel text={title} />

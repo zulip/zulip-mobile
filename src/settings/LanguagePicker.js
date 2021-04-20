@@ -57,7 +57,7 @@ export default class LanguagePicker extends PureComponent<Props> {
         renderItem={({ item }) => (
           <SelectableOptionRow
             selected={item.locale === value}
-            onValueChange={onValueChange}
+            onRequestSelectionChange={onValueChange}
             itemKey={item.locale}
             subtitle={item.name}
             title={item.nativeName}
