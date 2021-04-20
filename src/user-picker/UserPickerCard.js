@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
-import type { FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { createSelector } from 'reselect';
 
 import type { User, UserId, UserOrBot, PresenceState, Selector, Dispatch } from '../types';
@@ -43,12 +42,12 @@ class UserPickerCard extends PureComponent<Props, State> {
     selected: [],
   };
 
-  listRef: ?FlatList<UserOrBot>;
+  listRef = React.createRef<FlatList<UserOrBot>>();
 
   componentDidUpdate = (prevProps: Props, prevState: State) => {
-    if (this.state.selected.length > prevState.selected.length) {
+    if (this.listRef.current && this.state.selected.length > prevState.selected.length) {
       setTimeout(() => {
-        this.listRef?.scrollToEnd();
+        this.listRef.current?.scrollToEnd();
       });
     }
   };
@@ -60,9 +59,7 @@ class UserPickerCard extends PureComponent<Props, State> {
       <View style={styles.wrapper}>
         <AnimatedScaleComponent visible={selected.length > 0}>
           <AvatarList
-            listRef={component => {
-              this.listRef = component;
-            }}
+            listRef={this.listRef}
             users={selected}
             onPress={(userId: UserId) => {
               this.setState(state => ({
