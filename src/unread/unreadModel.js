@@ -156,7 +156,7 @@ function streamsReducer(
     }
 
     case EVENT_MESSAGE_DELETE:
-      // TODO optimize by using `state.messages` to look up directly
+      // TODO optimize by looking up directly; see #4684
       return deleteMessages(state, action.messageIds);
 
     case EVENT_UPDATE_MESSAGE_FLAGS: {
@@ -173,7 +173,7 @@ function streamsReducer(
         return state;
       }
 
-      // TODO optimize by using `state.messages` to look up directly.
+      // TODO optimize by looking up directly; see #4684.
       //   Then when do, also optimize so deleting the oldest items is fast,
       //   as that should be the common case here.
       return deleteMessages(state, action.messages);
