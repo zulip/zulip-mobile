@@ -45,12 +45,6 @@ class UserPickerCard extends PureComponent<Props, State> {
 
   listRef: ?FlatList<UserOrBot>;
 
-  handleUserDeselect = (userId: UserId) => {
-    this.setState(state => ({
-      selected: state.selected.filter(x => x.user_id !== userId),
-    }));
-  };
-
   handleComplete = () => {
     const { onComplete } = this.props;
     const { selected } = this.state;
@@ -75,7 +69,11 @@ class UserPickerCard extends PureComponent<Props, State> {
               this.listRef = component;
             }}
             users={selected}
-            onPress={this.handleUserDeselect}
+            onPress={(userId: UserId) => {
+              this.setState(state => ({
+                selected: state.selected.filter(x => x.user_id !== userId),
+              }));
+            }}
           />
         </AnimatedScaleComponent>
         {selected.length > 0 && <LineSeparator />}
