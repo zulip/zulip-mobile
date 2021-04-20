@@ -43,6 +43,8 @@ It doesn't include
 * Fixed bug with entering the emoji :smile: and :zero:, :one:, …,
   :ten:. (#4638)
 * (Android) Fixed bug in sharing an image from the lightbox. (#4539)
+* More parts of the app now offer a menu when you make a long press,
+  with options like muting or unmuting a topic. (#3473, #4532)
 
 Plus, like every release, numerous other fixes and improvements for
 your Zulip experience.
@@ -53,6 +55,8 @@ your Zulip experience.
 * Upgraded Flow to v0.126.  In particular this means exact object
   types work correctly with indexer properties: `{| [string]: Foo |}`.
   (PR #4518)
+
+* Dropped iOS 11 support; now iOS 12+. (PR #4664)
 
 * (Windows) Fixed issue affecting postinstall script at end of
   `yarn install`. (#4427)
@@ -66,13 +70,13 @@ your Zulip experience.
 * The `state.unread.streams` model is now an efficient data structure
   using Immutable.js.  The time we spend handling a stream message
   being marked as read, in a representative many-unreads case, is
-  about 2.5x faster: measured as 120ms vs 300ms.  (#4438)
+  about 1.5-2x faster: measured as 150-200ms vs 300ms. (#4438, PR #4685)
 
-* Resolved issues (latest to earliest): #4532, #3473, PR #4468,
-  PR #4654, #4638, #4427, #3996, #4614, #4238, PR #4611, PR #4612,
-  #4539, PR #4561, #4491, #2694, #4595, #4416, #4415, #4425, #4579,
-  PR #4547, #4017, PR #4542, #4438, #4521, #4530, #4496, #4185,
-  PR #4518, #4451, #4210, #4452, #3961
+* Resolved issues (latest to earliest): PR #4664, PR #4685, #4532,
+  #3473, PR #4468, PR #4654, #4638, #4427, #3996, #4614, #4238,
+  PR #4611, PR #4612, #4539, PR #4561, #4491, #2694, #4595, #4416,
+  #4415, #4425, #4579, PR #4547, #4017, PR #4542, #4438, #4521, #4530,
+  #4496, #4185, PR #4518, #4451, #4210, #4452, #3961
 
   * Relative to v27.159, also #4587, #4584, #4560, which were
     cherry-picked into stable releases v27.160 and v27.161.
