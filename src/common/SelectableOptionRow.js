@@ -33,8 +33,8 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
   // position that requires it).
   itemKey: TItemKey,
 
-  subtitle: string,
   title: string,
+  subtitle: string,
   selected: boolean,
 
   // We might have called this `onPress`, but
@@ -57,7 +57,7 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
  * different screen.
  */
 export default function SelectableOptionRow<TItemKey: string | number>(props: Props<TItemKey>) {
-  const { itemKey, subtitle, title, selected, onRequestSelectionChange } = props;
+  const { itemKey, title, subtitle, selected, onRequestSelectionChange } = props;
 
   return (
     <Touchable onPress={() => onRequestSelectionChange(itemKey, !selected)}>
