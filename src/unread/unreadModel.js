@@ -135,28 +135,6 @@ function deleteFromList<V>(
   return list.filterNot(id => toDeleteSet.has(id));
 }
 
-const emptyList = Immutable.List();
-
-/**
- * Remove the given values, given where to find them; and prune.
- *
- * That is, for each entry in `toDelete`, we apply `deleteFromList` with the
- * given list to the corresponding entry in `state`.  When the resulting
- * list is empty, we prune that entry entirely.
- */
-function deleteFromListMap<K, V>(
-  state: Immutable.Map<K, Immutable.List<V>>,
-  toDelete: Immutable.Map<K, Immutable.List<V>>,
-): Immutable.Map<K, Immutable.List<V>> {
-  // prettier-ignore
-  return state.withMutations(mut => {
-    toDelete.forEach((msgIds, key) => {
-      updateAndPrune(mut, emptyList, key, list =>
-        list && deleteFromList(list, msgIds));
-    });
-  });
-}
-
 /**
  * Delete the given messages from the unreads state.
  *
@@ -198,11 +176,18 @@ function deleteMessages(
     });
 
   const emptyMap = Immutable.Map();
+  const emptyList = Immutable.List();
   // prettier-ignore
   return state.withMutations(stateMut => {
     byConversation.forEach((byTopic, streamId) => {
       updateAndPrune(stateMut, emptyMap, streamId, perStream =>
-        perStream && deleteFromListMap(perStream, byTopic),
+        perStream && perStream.withMutations(perStreamMut => {
+          byTopic.forEach((msgIds, topic) => {
+            updateAndPrune(perStreamMut, emptyList, topic, perTopic =>
+              perTopic && deleteFromList(perTopic, msgIds),
+            );
+          });
+        }),
       );
     });
   });
