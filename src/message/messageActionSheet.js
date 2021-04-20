@@ -300,9 +300,13 @@ export const constructMessageActionButtons = ({
     buttons.push(shareMessage);
   }
   if (
-    message.sender_id === ownUser.user_id
-    // Our "edit message" UI only works in certain kinds of narrows.
-    && (isStreamOrTopicNarrow(narrow) || isPmNarrow(narrow))
+    (message.sender_id === ownUser.user_id
+      // Our "edit message" UI only works in certain kinds of narrows.
+      && (isStreamOrTopicNarrow(narrow) || isPmNarrow(narrow)))
+    // "edit message" UI for admin irrespective of any sent messages
+    // from that admin in that narrow since admin can edit any topic
+    // name in stream and topic narrows.
+    || (ownUser.is_admin && isStreamOrTopicNarrow(narrow))
   ) {
     buttons.push(editMessage);
   }
