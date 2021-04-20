@@ -45,12 +45,6 @@ class UserPickerCard extends PureComponent<Props, State> {
 
   listRef: ?FlatList<UserOrBot>;
 
-  handleComplete = () => {
-    const { onComplete } = this.props;
-    const { selected } = this.state;
-    onComplete(selected);
-  };
-
   componentDidUpdate = (prevProps: Props, prevState: State) => {
     const list = this.listRef;
     if (list && this.state.selected.length > prevState.selected.length) {
@@ -97,7 +91,10 @@ class UserPickerCard extends PureComponent<Props, State> {
             Icon={IconDone}
             size={50}
             disabled={selected.length === 0}
-            onPress={this.handleComplete}
+            onPress={() => {
+              const { onComplete } = this.props;
+              onComplete(selected);
+            }}
           />
         </AnimatedScaleComponent>
       </View>
