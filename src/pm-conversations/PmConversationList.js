@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 import { FlatList } from 'react-native';
 
 import type { Dispatch, PmConversationData, UserOrBot } from '../types';
@@ -25,45 +25,49 @@ type Props = $ReadOnly<{|
 /**
  * A list describing all PM conversations.
  * */
-export default class PmConversationList extends PureComponent<Props> {
-  handleUserNarrow = (user: UserOrBot) => {
-    this.props.dispatch(doNarrow(pm1to1NarrowFromUser(user)));
-  };
+export default function PmConversationList(props: Props) {
+  const handleUserNarrow = useCallback(
+    (user: UserOrBot) => {
+      props.dispatch(doNarrow(pm1to1NarrowFromUser(user)));
+    },
+    [props.dispatch],
+  );
 
-  handleGroupNarrow = (users: PmKeyUsers) => {
-    this.props.dispatch(doNarrow(pmNarrowFromUsers(users)));
-  };
+  const handleGroupNarrow = useCallback(
+    (users: PmKeyUsers) => {
+      props.dispatch(doNarrow(pmNarrowFromUsers(users)));
+    },
+    [props.dispatch],
+  );
 
-  render() {
-    const { conversations } = this.props;
+  const { conversations } = props;
 
-    return (
-      <FlatList
-        style={styles.list}
-        initialNumToRender={20}
-        data={conversations}
-        keyExtractor={item => item.key}
-        renderItem={({ item }) => {
-          const users = item.keyRecipients;
-          if (users.length === 1) {
-            return (
-              <UserItem
-                userId={users[0].user_id}
-                unreadCount={item.unread}
-                onPress={this.handleUserNarrow}
-              />
-            );
-          } else {
-            return (
-              <GroupPmConversationItem
-                users={users}
-                unreadCount={item.unread}
-                onPress={this.handleGroupNarrow}
-              />
-            );
-          }
-        }}
-      />
-    );
-  }
+  return (
+    <FlatList
+      style={styles.list}
+      initialNumToRender={20}
+      data={conversations}
+      keyExtractor={item => item.key}
+      renderItem={({ item }) => {
+        const users = item.keyRecipients;
+        if (users.length === 1) {
+          return (
+            <UserItem
+              userId={users[0].user_id}
+              unreadCount={item.unread}
+              onPress={handleUserNarrow}
+            />
+          );
+        } else {
+          return (
+            <GroupPmConversationItem
+              users={users}
+              unreadCount={item.unread}
+              onPress={handleGroupNarrow}
+            />
+          );
+        }
+      }}
+    />
+  );
 }
