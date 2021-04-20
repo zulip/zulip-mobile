@@ -94,6 +94,7 @@ History:
 * We [dropped iOS 11 support] in 2021-04. It was 0.1% of iOS users
   who tried Zulip. We started iOS 12 support at 12.1 because Xcode's
   dropdown for "Deployment Target" didn't have a 12.0.
+<!-- When updating this, please update `docs/developer-guide.md` as well. -->
 
 [dropped-android-j]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/625585
 [dropped iOS 8 support]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/628412
