@@ -47,11 +47,10 @@ class UserPickerCard extends PureComponent<Props, State> {
 
   handleUserPress = (user: UserOrBot) => {
     this.setState(state => {
-      const { selected } = state;
-      if (selected.find(x => x.user_id === user.user_id)) {
-        return { selected: selected.filter(x => x.user_id !== user.user_id) };
+      if (state.selected.find(x => x.user_id === user.user_id)) {
+        return { selected: state.selected.filter(x => x.user_id !== user.user_id) };
       } else {
-        return { selected: [...selected, user] };
+        return { selected: [...state.selected, user] };
       }
     });
   };
