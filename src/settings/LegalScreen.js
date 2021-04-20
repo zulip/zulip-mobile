@@ -5,7 +5,7 @@ import React, { useCallback } from 'react';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector } from '../react-redux';
-import { Screen, OptionButton } from '../common';
+import { Screen, NestedNavRow } from '../common';
 import { openLinkEmbedded } from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
 
@@ -27,8 +27,8 @@ export default function LegalScreen(props: Props) {
 
   return (
     <Screen title="Legal">
-      <OptionButton label="Terms of service" onPress={openTermsOfService} />
-      <OptionButton label="Privacy policy" onPress={openPrivacyPolicy} />
+      <NestedNavRow label="Terms of service" onPress={openTermsOfService} />
+      <NestedNavRow label="Privacy policy" onPress={openPrivacyPolicy} />
     </Screen>
   );
 }

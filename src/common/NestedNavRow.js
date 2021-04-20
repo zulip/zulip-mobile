@@ -12,10 +12,18 @@ import styles, { ThemeContext } from '../styles';
 type Props = $ReadOnly<{|
   Icon?: SpecificIconType,
   label: string,
+
+  // Use this to navigate to a "nested" screen.
   onPress: () => void,
 |}>;
 
-export default class OptionButton extends PureComponent<Props> {
+/**
+ * A button that navigates to a "nested" screen.
+ *
+ * Shows a right-facing arrow to indicate its purpose. If you need a
+ * selectable option row instead, use `SelectableOptionRow`.
+ */
+export default class NestedNavRow extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
 

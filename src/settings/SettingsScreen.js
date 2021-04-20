@@ -9,7 +9,7 @@ import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useSelector, useDispatch } from '../react-redux';
 import { getSettings } from '../selectors';
-import { OptionButton, SwitchRow } from '../common';
+import { NestedNavRow, SwitchRow } from '../common';
 import {
   IconDiagnostics,
   IconNotifications,
@@ -55,28 +55,28 @@ export default function SettingsScreen(props: Props) {
           dispatch(settingsChange({ browser: value ? 'embedded' : 'external' }));
         }}
       />
-      <OptionButton
+      <NestedNavRow
         Icon={IconNotifications}
         label="Notifications"
         onPress={() => {
           NavigationService.dispatch(navigateToNotifications());
         }}
       />
-      <OptionButton
+      <NestedNavRow
         Icon={IconLanguage}
         label="Language"
         onPress={() => {
           NavigationService.dispatch(navigateToLanguage());
         }}
       />
-      <OptionButton
+      <NestedNavRow
         Icon={IconDiagnostics}
         label="Diagnostics"
         onPress={() => {
           NavigationService.dispatch(navigateToDiagnostics());
         }}
       />
-      <OptionButton
+      <NestedNavRow
         Icon={IconMoreHorizontal}
         label="Legal"
         onPress={() => {
