@@ -100,3 +100,7 @@ you [here][npm-zulip-team] for access to everything in `@zulip`, and
 
 [npm-zulip-team]: https://www.npmjs.com/settings/zulip/teams/team/developers/users
 [npm-zulip-md-p-access]: https://www.npmjs.com/package/zulip-markdown-parser/access
+
+You'll also need to run `npm adduser` on your development machine and
+follow the prompts to authenticate.  This will create a `~/.npmrc`
+file with an auth token, which `npm publish` will automatically use.

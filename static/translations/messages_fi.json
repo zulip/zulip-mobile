@@ -138,7 +138,7 @@
   "Mark topic as read": "Merkitse aihe luetuksi",
   "unread message": "lukematon viesti",
   "unread messages": "lukemattomat viestit",
-  "Group PM": "Group PM",
+  "Group PM": "Yksityisviesti usealle",
   "Share": "Jaa",
   "Star message": "Lisää tähti viestiin",
   "Unstar message": "Poista tähti viestistä",
@@ -162,7 +162,7 @@
   "Failed to unmute stream": "Kanavan mykistyksen peruminen epäonnistui",
   "Failed to delete topic": "Aiheen poistaminen epäonnistui",
   "Stream settings": "Kanavan asetukset",
-  "Failed to show stream settings": "Failed to show stream settings",
+  "Failed to show stream settings": "Kanavan asetuksien näyttäminen epäonnistui",
   "show": "näytä",
   "hide": "piilota",
   "Debug": "Korjaa virheet",
@@ -228,5 +228,8 @@
   "🤒 Out sick": "🤒 Sairaslomalla",
   "🌴 Vacationing": "🌴 Lomalla",
   "🏠 Working remotely": "🏠 Etätöissä",
-  "Signed out": "Kirjautunut ulos"
+  "Signed out": "Kirjautunut ulos",
+  "Remove account?": "Remove account?",
+  "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
+  "Remove account": "Remove account"
 }

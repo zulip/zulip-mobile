@@ -228,5 +228,8 @@
   "🤒 Out sick": "生病中",
   "🌴 Vacationing": "放假中",
   "🏠 Working remotely": "遙距工作中",
-  "Signed out": "Signed out"
+  "Signed out": "Signed out",
+  "Remove account?": "Remove account?",
+  "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
+  "Remove account": "Remove account"
 }

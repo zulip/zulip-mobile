@@ -228,5 +228,8 @@
   "🤒 Out sick": "🤒 Doente",
   "🌴 Vacationing": "🌴 Em férias",
   "🏠 Working remotely": "🏠 Em trabalho remoto",
-  "Signed out": "Sessão terminada"
+  "Signed out": "Sessão terminada",
+  "Remove account?": "Remove account?",
+  "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
+  "Remove account": "Remove account"
 }
