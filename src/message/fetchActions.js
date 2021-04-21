@@ -313,8 +313,18 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
   try {
     [initData, serverSettings] = await Promise.all([
       tryFetch(() =>
+        // Currently, no input we're giving `registerForEvents` is
+        // conditional on the server version / feature level. If we
+        // need to do that, make sure that data is up-to-date -- we've
+        // been using this `registerForEvents` call to update the
+        // feature level in Redux, which means the value in Redux will
+        // be from the *last* time it was run. That could be a long
+        // time ago, like from the previous app startup.
         api.registerForEvents(auth, {
+          // Event types not supported by the server are ignored; see
+          //   https://zulip.com/api/register-queue#parameter-fetch_event_types.
           fetch_event_types: config.serverDataOnStartup,
+
           apply_markdown: true,
           include_subscribers: false,
           client_gravatar: true,
