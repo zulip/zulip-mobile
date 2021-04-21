@@ -569,6 +569,17 @@ hr {
   border-top: 1px solid hsla(0, 0%, 50%, 0.5);
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: 600;
+  /* line-height doesn't seem to be needed on mobile, but it's here just for
+   * the sake of being consistent with the webapp */
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 5px;
+  text-decoration: underline;
+}
+
 /* Our own "sorry, unsupported" message for widgets. */
 .special-message {
   display: flex;
