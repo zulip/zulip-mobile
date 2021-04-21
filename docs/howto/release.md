@@ -447,9 +447,39 @@ vulnerable.
 
 ### Configure Sentry error reporting
 
-* Add Sentry API key and account: file `sentry.properties` change `auth.token`
-
 * Set client key (DSN): file `config.js` set `sentryKey` value
+
+
+#### Sentry token for uploading a release and sourcemap
+
+1. Visit https://sentry.io/settings/account/api/auth-tokens/ , and
+   create a new auth token.  Give it the `project:releases` scope, and
+   no others.
+
+2. Create a file like this:
+
+   ```
+   defaults.url=https://sentry.io/
+   defaults.org=zulip
+   defaults.project=zulip-mobile
+   auth.token=01234567...YOUR-TOKEN-HERE...89abcdef
+   cli.executable=node_modules/@sentry/cli/bin/sentry-cli
+   ```
+
+   with your new auth token in the `auth.token=` line, and place
+   copies at both `android/sentry.properties` and
+   `ios/sentry.properties`.
+
+When preparing a release for publication, these files will be used for
+uploading to Sentry the sourcemap for the release, so that it can
+unminify the stack traces and add source-code snippets.
+
+(Our routine builds don't do this, regardless of debug or release
+mode; it's enabled by the `tools/android` and `tools/ios` scripts we
+use for preparing releases for publication.  They do this via setting
+the `-Psentry` Gradle property and the `USE_SENTRY` Xcode variable
+respectively, and those cause our build process to invoke a build-time
+script Sentry supplies.)
 
 
 ### Prepare Android

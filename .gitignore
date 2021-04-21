@@ -79,6 +79,10 @@ npm-debug.log
 /ios/webview
 # /android/app/build/... is already covered above
 
+# Sentry config, with auth token for uploading a new release's sourcemap
+/android/sentry.properties
+/ios/sentry.properties
+
 # Generated for uploading to the Play Store, separate from any app version
 /zulip-icon-google-play.png
 
