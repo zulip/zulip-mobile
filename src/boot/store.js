@@ -276,6 +276,13 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     };
   },
 
+  // Remove accounts with "in-progress" login state (empty `.email`),
+  // after #4491
+  '27': state => ({
+    ...state,
+    accounts: state.accounts.filter(a => a.email !== ''),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
