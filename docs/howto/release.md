@@ -98,6 +98,13 @@ simple terminology for the process we follow with both.
   tools/checkout-keystore
   ```
 
+* Apply the Sentry client key (using the local branch created for this
+  in initial setup):
+
+  ```
+  git rebase @ release-secrets
+  ```
+
 * Build the app, as both a good old-fashioned APK and a fancy new AAB:
 
   ```
@@ -139,6 +146,12 @@ simple terminology for the process we follow with both.
   navigate to the Zulip screen in the Play Store app, and it should
   already show an "Update" button.
 
+* Remember to switch back to a branch without the Sentry client key:
+
+  ```
+  git checkout master
+  ```
+
 [play-internal-testing]: https://play.google.com/console/developers/8060868091387311598/app/4976350040864490411/tracks/internal-testing
 [play-internal-app-sharing]: https://play.google.com/console/internal-app-sharing
 
@@ -154,6 +167,13 @@ simple terminology for the process we follow with both.
 
   (A nice improvement would be to script that -- probably folded into
   `tools/ios build`.)
+
+* Apply the Sentry client key (using the local branch created for this
+  in initial setup):
+
+  ```
+  git rebase @ release-secrets
+  ```
 
 * Build using our `tools/ios` script:
 
@@ -209,6 +229,12 @@ simple terminology for the process we follow with both.
   * Processing takes a few minutes, and we get an email from Apple
     when it's complete.  At this point, the new build automatically becomes
     available in alpha.
+
+* Remember to switch back to a branch without the Sentry client key:
+
+  ```
+  git checkout master
+  ```
 
 [app-store-connect]: https://appstoreconnect.apple.com/
 [asc-builds]: https://appstoreconnect.apple.com/apps/1203036395/recent/activity/ios/builds?m=
@@ -447,9 +473,6 @@ vulnerable.
 
 ### Configure Sentry error reporting
 
-* Set client key (DSN): file `config.js` set `sentryKey` value
-
-
 #### Sentry token for uploading a release and sourcemap
 
 1. Visit https://sentry.io/settings/account/api/auth-tokens/ , and
@@ -480,6 +503,43 @@ use for preparing releases for publication.  They do this via setting
 the `-Psentry` Gradle property and the `USE_SENTRY` Xcode variable
 respectively, and those cause our build process to invoke a build-time
 script Sentry supplies.)
+
+
+#### Sentry client key
+
+1. Visit https://sentry.io/settings/zulip/projects/zulip-mobile/keys/
+   and get the Sentry "client key" there, specifically in the format
+   Sentry calls a "DSN".
+
+2. Edit `src/sentryConfig.js` and save that string as the value of
+   `sentryKey`.  See the jsdoc and comment there for more about this
+   value.
+
+   You won't want to push that change, or to make builds with it
+   except when you're making a release build you intend to publish.
+   But you will want to have it handy to apply whenever you are making
+   a release build for publication.  So:
+
+3. Save this value in the form of a local Git branch you don't push,
+   using commands like:
+
+   ```
+   $ git checkout -b release-secrets
+   $ git commit -am 'SECRET: Add Sentry client key.'
+   $ git checkout master
+   ```
+
+   Then, as described in the main release steps above, when making a
+   build for publication you'll rebase or cherry-pick that
+   `release-secrets` commit temporarily before building.
+
+(Yes, this is kind of a hacky way to do this.  Eliminating that
+cherry-pick step at build time would be quite nice.  The key criteria
+this meets that an improved solution should also meet are: (a) the key
+shouldn't be in the public source tree, so it should live locally on
+each release manager's machine; (b) Sentry should only be enabled in
+builds explicitly meant for publication, and not in other builds a
+release manager happens to make, including builds in release mode.)
 
 
 ### Prepare Android
