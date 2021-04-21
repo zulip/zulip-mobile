@@ -8,7 +8,6 @@ type Config = {|
   enableReduxSlowReducerWarnings: boolean,
   enableWebViewErrorDisplay: boolean,
   slowReducersThreshold: number,
-  sentryKey: string | null,
   enableErrorConsoleLogging: boolean,
   serverDataOnStartup: string[],
   appOwnDomains: string[],
@@ -21,7 +20,6 @@ const config: Config = {
   enableReduxSlowReducerWarnings: isDevelopment && !!global.btoa,
   enableWebViewErrorDisplay: isDevelopment,
   slowReducersThreshold: 5,
-  sentryKey: null, // add DSN here
   enableErrorConsoleLogging: true,
   serverDataOnStartup: [
     'alert_words',

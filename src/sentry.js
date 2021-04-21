@@ -2,7 +2,7 @@
 import * as Sentry from '@sentry/react-native';
 import { nativeApplicationVersion } from 'expo-application';
 
-import config from './config';
+import { sentryKey } from './sentryConfig';
 
 export const isSentryActive = (): boolean => {
   // Hub#getClient() is documented as possibly returning undefined, but the
@@ -23,7 +23,7 @@ const preventNoise = (): void => {
   /* Sentry should not normally be used in debug mode. (For one thing, the
      debug-mode build process doesn't ordinarily create bundles or .map files,
      so you'll probably get nonsensical stack traces.) */
-  if (process.env.NODE_ENV === 'development' && config.sentryKey !== null) {
+  if (process.env.NODE_ENV === 'development' && sentryKey !== null) {
     /* If you have some reason to initialize Sentry in debug mode anyway, please
        change the app's version name (currently specified in `ios/Info.plist`
        and/or `android/app/build.gradle`) to something that doesn't look like a
@@ -50,7 +50,7 @@ export const initializeSentry = () => {
   // Check to make sure it's safe to run Sentry. Abort if not.
   preventNoise();
 
-  const key = config.sentryKey;
+  const key = sentryKey;
   if (key !== null) {
     // The DSN is formatted as an `https:` URL. Omit the scheme.
     const displayKey = `${key.slice(8, 12)}......`;
