@@ -333,14 +333,14 @@ simple terminology for the process we follow with both.
 
 * Announce on chat.zulip.org:
 
-  * Announce the new beta release [in `#mobile > release`][] on czo.
+  * Announce the new beta release [in `#announce > mobile releases`][] on czo.
 
   * Use `tools/changelog czo` for the release notes, editing
     formatting as needed.  Note that the tool rewrites issue/PR
     references like `#1234` to `#M1234` instead, so that they get
     linkified correctly.
 
-[in `#mobile > release`]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/release
+[in `#announce > mobile releases`]: https://chat.zulip.org/#narrow/stream/1-announce/topic/mobile.20releases
 
 
 ### Release to production
