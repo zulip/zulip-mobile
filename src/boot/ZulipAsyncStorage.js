@@ -47,10 +47,12 @@ export default class ZulipAsyncStorage {
   }
 
   static async setItem(key: string, value: string) {
-    if (!NativeModules.TextCompressionModule) {
-      return AsyncStorage.setItem(key, value);
-    }
-    return AsyncStorage.setItem(key, await NativeModules.TextCompressionModule.compress(value));
+    return AsyncStorage.setItem(
+      key,
+      NativeModules.TextCompressionModule
+        ? await NativeModules.TextCompressionModule.compress(value)
+        : value,
+    );
   }
 
   static removeItem = AsyncStorage.removeItem;
