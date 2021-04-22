@@ -56,6 +56,61 @@ describe('setItem', () => {
   });
 });
 
+describe('multiSet', () => {
+  const keyValuePairs = [
+    ['foo', 'bar'],
+    ['food', 'bard'],
+  ];
+
+  // For checking that AsyncStorage.multiSet is called in ways we expect.
+  const asyncStorageMultiSetSpy = jest.spyOn(AsyncStorage, 'multiSet');
+  beforeEach(() => asyncStorageMultiSetSpy.mockClear());
+
+  const run = async () => ZulipAsyncStorage.multiSet(keyValuePairs);
+
+  describe('success', () => {
+    // AsyncStorage provides its own mock for `.multiSet`, which gives
+    // success every time. So, no need to mock that behavior
+    // ourselves.
+
+    test('resolves correctly', async () => {
+      await run();
+      expect(asyncStorageMultiSetSpy).toHaveBeenCalledTimes(1);
+      expect(asyncStorageMultiSetSpy).toHaveBeenCalledWith(
+        Platform.OS === 'ios'
+          ? keyValuePairs
+          : await Promise.all(
+              keyValuePairs.map(async ([key, value]) => [
+                key,
+                await NativeModules.TextCompressionModule.compress(value),
+              ]),
+            ),
+      );
+    });
+  });
+
+  describe('failure', () => {
+    // AsyncStorage provides its own mock for `.multiSet`, but it's
+    // not set up to simulate failure. So, mock that behavior
+    // ourselves, and reset to the global mock when we're done.
+    const globalMock = AsyncStorage.multiSet;
+    beforeEach(() => {
+      // $FlowFixMe[cannot-write] Make Flow understand about mocking.
+      AsyncStorage.multiSet = jest.fn(async (p: string[][]): Promise<null> => {
+        throw new Error();
+      });
+    });
+    afterAll(() => {
+      // $FlowFixMe[cannot-write] Make Flow understand about mocking.
+      AsyncStorage.multiSet = globalMock;
+    });
+
+    test('rejects correctly', async () => {
+      await expect(run()).rejects.toThrow(Error);
+    });
+  });
+});
+
 describe('getItem', () => {
   const key = 'foo!';
   const value = '123!';
@@ -135,14 +190,27 @@ describe('getItem', () => {
   }
 });
 
-describe('setItem/getItem together', () => {
-  test('round-tripping works', async () => {
+describe('set/get together', () => {
+  // AsyncStorage provides its own mocks for `.getItem`, `.setItem`, and
+  // `.multiSet`; it writes to a variable instead of storage.
+
+  test('round-tripping of single key-value pair works', async () => {
     const key = eg.randString();
     const value = eg.randString();
-
-    // AsyncStorage provides its own mocks for `.getItem` and
-    // `.setItem`; it writes to a variable instead of storage.
     await ZulipAsyncStorage.setItem(key, value);
     expect(await ZulipAsyncStorage.getItem(key)).toEqual(value);
+  });
+
+  test('round-tripping of multiple key-value pairs works', async () => {
+    const keyValuePairs = [
+      [eg.randString(), eg.randString()],
+      [eg.randString(), eg.randString()],
+    ];
+    await ZulipAsyncStorage.multiSet(keyValuePairs);
+    expect(
+      await Promise.all(
+        keyValuePairs.map(async ([key, _]) => [key, await ZulipAsyncStorage.getItem(key)]),
+      ),
+    ).toEqual(keyValuePairs);
   });
 });

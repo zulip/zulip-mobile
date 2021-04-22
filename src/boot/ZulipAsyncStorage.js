@@ -55,6 +55,19 @@ export default class ZulipAsyncStorage {
     );
   }
 
+  static async multiSet(keyValuePairs: Array<Array<string>>) {
+    return AsyncStorage.multiSet(
+      NativeModules.TextCompressionModule
+        ? await Promise.all(
+            keyValuePairs.map(async ([key, value]) => [
+              key,
+              await NativeModules.TextCompressionModule.compress(value),
+            ]),
+          )
+        : keyValuePairs,
+    );
+  }
+
   static removeItem = AsyncStorage.removeItem;
 
   static getAllKeys = AsyncStorage.getAllKeys;

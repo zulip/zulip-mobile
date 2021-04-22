@@ -12,6 +12,11 @@ declare module '@react-native-community/async-storage' {
 
     setItem(key: string, value: string, callback?: ?(error: ?Error) => void): Promise<null>,
 
+    multiSet(
+      keyValuePairs: Array<Array<string>>,
+      callback?: ?(errors: ?$ReadOnlyArray<?Error>) => void,
+    ): Promise<null>,
+
     removeItem(key: string, callback?: ?(error: ?Error) => void): Promise<null>,
 
     getAllKeys(
