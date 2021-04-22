@@ -50,7 +50,13 @@ type Props = $ReadOnly<{|
  */
 export default class Touchable extends PureComponent<Props> {
   render() {
-    const { accessibilityLabel, style, onPress, onLongPress, accessibilityRole } = this.props;
+    const {
+      accessibilityLabel,
+      style,
+      onPress,
+      onLongPress,
+      accessibilityRole = 'button',
+    } = this.props;
     const child: React$Node = React.Children.only(this.props.children);
 
     if (!onPress && !onLongPress) {
