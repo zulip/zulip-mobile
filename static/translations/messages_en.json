@@ -10,6 +10,8 @@
   "Stream: {streamName} ({unreadCount} unread messages)":"Stream: {streamName} ({unreadCount} unread messages)",
   "Topic: {name}":"Topic: {name}",
   "Topic: {name} ({unreadCount} unread messages)":"Topic: {name} ({unreadCount} unread messages)",
+  "Back": "Back",
+  "Navigate up": "Navigate up",
   "Starred messages":"Starred messages",
   "No recent conversations": "No recent conversations",
   "No results": "No results",

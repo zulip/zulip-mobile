@@ -26,7 +26,11 @@ export default class NavButtonGeneral extends PureComponent<Props> {
     const { children, onPress, accessibilityLabel } = this.props;
 
     return (
-      <Touchable onPress={onPress} accessibilityLabel={accessibilityLabel}>
+      <Touchable
+        onPress={onPress}
+        accessibilityLabel={accessibilityLabel}
+        accessibilityRole="button"
+      >
         <View style={this.styles.navButtonFrame}>{children}</View>
       </Touchable>
     );
