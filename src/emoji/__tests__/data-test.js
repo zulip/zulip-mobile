@@ -18,12 +18,16 @@ describe('codeToEmojiMap', () => {
   test('works for some single-codepoint emoji', () => {
     check('1f44d', '👍', '\u{1f44d}');
     check('1f308', '🌈', '\u{1f308}');
-    check('1f308', '🌈', '\u{1f308}');
   });
-  test('works for some multi-codepoint emoji', () => {
-    check('0030-20e3', '0⃣', '0\u{20e3}');
-    check('002a-20e3', '*⃣', '*\u{20e3}');
-    check('0023-20e3', '#⃣', '#\u{20e3}');
+
+  // test_('works for some multi-codepoint emoji', () => {
+  //   The only multi-codepoint emoji in the list are keypad emoji,
+  //   which are special in a different way.
+
+  test('works for some overridden keypad emoji', () => {
+    check('0030-20e3', '0️⃣', '0\u{fe0f}\u{20e3}');
+    check('002a-20e3', '*️⃣', '*\u{fe0f}\u{20e3}');
+    check('0023-20e3', '#️⃣', '#\u{fe0f}\u{20e3}');
   });
 });
 
