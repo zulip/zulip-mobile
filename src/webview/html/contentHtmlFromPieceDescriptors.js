@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Narrow, HtmlPieceDescriptor } from '../../types';
+import type { GetText, Narrow, HtmlPieceDescriptor } from '../../types';
 import type { BackgroundData } from '../MessageList';
 
 import messageAsHtml from './messageAsHtml';
@@ -10,10 +10,12 @@ export default ({
   backgroundData,
   narrow,
   htmlPieceDescriptors,
+  _,
 }: {|
   backgroundData: BackgroundData,
   narrow: Narrow,
   htmlPieceDescriptors: HtmlPieceDescriptor[],
+  _: GetText,
 |}): string => {
   const pieces = [];
   htmlPieceDescriptors.forEach(section => {
@@ -24,7 +26,7 @@ export default ({
       if (item.type === 'time') {
         pieces.push(timeRowAsHtml(item.timestamp, item.subsequentMessage));
       } else {
-        pieces.push(messageAsHtml(backgroundData, item.message, item.isBrief));
+        pieces.push(messageAsHtml(backgroundData, item.message, item.isBrief, _));
       }
     });
   });

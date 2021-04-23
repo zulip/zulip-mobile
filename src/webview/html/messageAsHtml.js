@@ -5,6 +5,7 @@ import template from './template';
 import type {
   AggregatedReaction,
   FlagsState,
+  GetText,
   Message,
   MessageLike,
   Outbox,
@@ -82,7 +83,12 @@ $!${message.content}
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
   Object.keys(flags).filter(key => flags[key][id]);
 
-export default (backgroundData: BackgroundData, message: Message | Outbox, isBrief: boolean) => {
+export default (
+  backgroundData: BackgroundData,
+  message: Message | Outbox,
+  isBrief: boolean,
+  _: GetText,
+) => {
   const { id, timestamp } = message;
   const flagStrings = flagsStateToStringList(backgroundData.flags, id);
   const divOpenHtml = template`

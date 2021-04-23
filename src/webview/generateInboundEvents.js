@@ -51,6 +51,7 @@ const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventC
       backgroundData: nextProps.backgroundData,
       narrow: nextProps.narrow,
       htmlPieceDescriptors: nextProps.htmlPieceDescriptorsForShownMessages,
+      _: nextProps._,
     }),
     nextProps.showMessagePlaceholders,
   );
