@@ -47,11 +47,11 @@ export type WebViewInboundEvent =
 
 const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
   const content = htmlBody(
-    contentHtmlFromPieceDescriptors(
-      nextProps.backgroundData,
-      nextProps.narrow,
-      nextProps.htmlPieceDescriptorsForShownMessages,
-    ),
+    contentHtmlFromPieceDescriptors({
+      backgroundData: nextProps.backgroundData,
+      narrow: nextProps.narrow,
+      htmlPieceDescriptors: nextProps.htmlPieceDescriptorsForShownMessages,
+    }),
     nextProps.showMessagePlaceholders,
   );
   const transitionProps = getMessageTransitionProps(prevProps, nextProps);

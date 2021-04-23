@@ -6,11 +6,15 @@ import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
 
-export default (
+export default ({
+  backgroundData,
+  narrow,
+  htmlPieceDescriptors,
+}: {|
   backgroundData: BackgroundData,
   narrow: Narrow,
   htmlPieceDescriptors: HtmlPieceDescriptor[],
-): string => {
+|}): string => {
   const pieces = [];
   htmlPieceDescriptors.forEach(section => {
     if (section.message !== null) {
