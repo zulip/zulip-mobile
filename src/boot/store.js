@@ -283,6 +283,14 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     accounts: state.accounts.filter(a => a.email !== ''),
   }),
 
+  '28': state => ({
+    ...state,
+    settings: {
+      ...state.settings,
+      browser: 'default',
+    },
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

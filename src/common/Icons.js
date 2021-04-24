@@ -51,6 +51,7 @@ const makeIcon = <Glyphs: string>(
   return <FixedIcon name={name} {...props} />;
 };
 
+export const IconBrowser = makeIcon(Feather, 'chrome');
 export const IconInbox = makeIcon(Feather, 'inbox');
 export const IconMention = makeIcon(Feather, 'at-sign');
 export const IconSearch = makeIcon(Feather, 'search');

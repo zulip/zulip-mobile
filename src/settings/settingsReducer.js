@@ -14,6 +14,7 @@ const initialState: SettingsState = {
   onlineNotification: true,
   experimentalFeaturesEnabled: false,
   streamNotification: false,
+  browser: 'default',
 };
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {
