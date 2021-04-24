@@ -29,13 +29,14 @@ import { addToOutbox, draftUpdate, sendTypingStart, sendTypingStop } from '../ac
 import * as api from '../api';
 import { FloatingActionButton, Input } from '../common';
 import { showErrorAlert } from '../utils/info';
-import { IconDone, IconSend } from '../common/Icons';
 import {
+  narrowUiDescription,
   isStreamNarrow,
   isStreamOrTopicNarrow,
   streamNameOfNarrow,
   topicNarrow,
 } from '../utils/narrow';
+import { IconDone, IconSend } from '../common/Icons';
 import ComposeMenu from './ComposeMenu';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
@@ -432,6 +433,7 @@ class ComposeBox extends PureComponent<Props, State> {
       isSubscribed,
       stream,
       videoChatProvider,
+      _,
     } = this.props;
 
     const insertVideoCallLink =
@@ -444,6 +446,7 @@ class ComposeBox extends PureComponent<Props, State> {
     }
 
     const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById);
+    const accessibilityLabel = narrowUiDescription(narrow, _);
     const style = {
       paddingBottom: insets.bottom,
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
@@ -510,7 +513,7 @@ class ComposeBox extends PureComponent<Props, State> {
             />
           </View>
           <FloatingActionButton
-            accessibilityLabel="Send message"
+            accessibilityLabel={_('Send Message, {accessibilityLabel}', { accessibilityLabel })}
             style={this.styles.composeSendButton}
             Icon={editMessage === null ? IconSend : IconDone}
             size={32}
