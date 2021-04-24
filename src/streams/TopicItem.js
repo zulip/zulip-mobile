@@ -10,6 +10,7 @@ import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { useDispatch, useSelector } from '../react-redux';
 import { getAuth, getMute, getFlags, getSubscriptions, getOwnUser } from '../selectors';
+import { longPressHapticFeedback } from '../utils/hapticFeedbacks';
 
 const componentStyles = createStyleSheet({
   selectedRow: {
@@ -54,6 +55,7 @@ export default function TopicItem(props: Props) {
     <Touchable
       onPress={() => onPress(stream, name)}
       onLongPress={() => {
+        longPressHapticFeedback();
         showHeaderActionSheet({
           showActionSheetWithOptions,
           callbacks: { dispatch, _ },
