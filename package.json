@@ -68,6 +68,7 @@
     "react-native-device-info": "^6.0.2",
     "react-native-document-picker": "^3.2.4",
     "react-native-gesture-handler": "^1.0.12",
+    "react-native-haptic-feedback": "^1.11.0",
     "react-native-image-picker": "^2.3.3",
     "react-native-notifications": "^1.2.0",
     "react-native-photo-view": "alwx/react-native-photo-view#c58fd6b30",
