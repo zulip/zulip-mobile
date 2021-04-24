@@ -263,6 +263,21 @@ export type RealmState = {|
 // https://github.com/zulip/zulip-mobile/issues/4009#issuecomment-619280681.
 export type ThemeName = 'default' | 'night';
 
+/**
+ * The values for this mean:
+ *
+ * * embedded: The in-app browser
+ * * external: The user's default browser app
+ * * default: 'external' on iOS, 'embedded' on Android
+ *
+ * Use the `shouldUseInAppBrowser` function from src/utils/openLink.js in order to
+ * parse this.
+ *
+ * See https://chat.zulip.org/#narrow/stream/48-mobile/topic/in-app.20browser
+ * for the reasoning behind these options.
+ */
+export type BrowserPreference = 'embedded' | 'external' | 'default';
+
 export type SettingsState = {|
   locale: string,
   theme: ThemeName,
@@ -270,6 +285,7 @@ export type SettingsState = {|
   onlineNotification: boolean,
   experimentalFeaturesEnabled: boolean,
   streamNotification: boolean,
+  browser: BrowserPreference,
 |};
 
 export type StreamsState = Stream[];
