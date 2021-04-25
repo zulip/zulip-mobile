@@ -20,7 +20,7 @@ declare module 'react-native-document-picker' {
 
     pick({| type?: FileType | FileType[] |}): Promise<DocumentPickerResponse>,
 
-    pickMultiple({| type?: FileType | FileType[] |}): Promise<[DocumentPickerResponse]>,
+    pickMultiple({| type?: FileType | FileType[] |}): Promise<DocumentPickerResponse[]>,
 
     isCancel(err: ?{}): ?boolean,
   };
