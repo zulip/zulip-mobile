@@ -53,6 +53,7 @@ import createUser from './users/createUser';
 import getUserProfile from './users/getUserProfile';
 import updateUserStatus from './users/updateUserStatus';
 import getFileTemporaryUrl from './messages/getFileTemporaryUrl';
+import deactivateUser from './users/deactivateUser';
 
 export {
   queueMarkAsRead,
@@ -99,5 +100,6 @@ export {
   createUser,
   getUserProfile,
   updateUserStatus,
+  deactivateUser,
   getFileTemporaryUrl,
 };
