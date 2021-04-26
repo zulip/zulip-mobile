@@ -220,36 +220,46 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   };
 
-  insertAttachment = async (attachment: DocumentPickerResponse) => {
+  insertAttachment = async (attachments: DocumentPickerResponse[]) => {
     this.setState(({ numUploading }) => ({
       numUploading: numUploading + 1,
     }));
     try {
       const { _, auth } = this.props;
 
-      const fileName = attachment.name ?? _('Attachment');
-      const placeholder = `[${_('Uploading {fileName}...', { fileName })}]()`;
-      this.insertMessageTextAtCursorPosition(`${placeholder}\n\n`);
-
-      let response = null;
-      try {
-        response = await api.uploadFile(auth, attachment.uri, fileName);
-      } catch (e) {
-        showToast(_('Uploading {fileName} failed.', { fileName }));
-        this.setMessageInputValue(
-          this.state.message.replace(
-            placeholder,
-            `[${_('Uploading {fileName} failed.', { fileName })}]()`,
-          ),
-        );
-        return;
+      const fileNames: string[] = [];
+      const placeholders: string[] = [];
+      for (let i = 0; i < attachments.length; i++) {
+        const fileName = attachments[i].name ?? _('Attachment {num}', { num: i + 1 });
+        fileNames.push(fileName);
+        const placeholder = `[${_('Uploading {fileName}...', { fileName })}]()`;
+        placeholders.push(placeholder);
       }
+      this.insertMessageTextAtCursorPosition(placeholders.join('\n\n'));
 
-      const linkText = `[${fileName}](${response.uri})`;
-      if (this.state.message.indexOf(placeholder) !== -1) {
-        this.setMessageInputValue(this.state.message.replace(placeholder, linkText));
-      } else {
-        this.setMessageInputValue(`${this.state.message}\n${linkText}`);
+      for (let i = 0; i < attachments.length; i++) {
+        const fileName = fileNames[i];
+        const placeholder = placeholders[i];
+        let response = null;
+        try {
+          response = await api.uploadFile(auth, attachments[i].uri, fileName);
+        } catch (e) {
+          showToast(_('Uploading {fileName} failed.', { fileName }));
+          this.setMessageInputValue(
+            this.state.message.replace(
+              placeholder,
+              `[${_('Uploading {fileName} failed.', { fileName })}]()`,
+            ),
+          );
+          continue;
+        }
+
+        const linkText = `[${fileName}](${response.uri})`;
+        if (this.state.message.indexOf(placeholder) !== -1) {
+          this.setMessageInputValue(this.state.message.replace(placeholder, linkText));
+        } else {
+          this.setMessageInputValue(`${this.state.message}\n${linkText}`);
+        }
       }
     } finally {
       this.setState(({ numUploading }) => ({

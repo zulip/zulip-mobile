@@ -23,7 +23,7 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
   expanded: boolean,
   destinationNarrow: Narrow,
-  insertAttachment: DocumentPickerResponse => Promise<void>,
+  insertAttachment: (DocumentPickerResponse[]) => Promise<void>,
   insertVideoCallLink: (() => void) | null,
   onExpandContract: () => void,
 |}>;
@@ -120,16 +120,16 @@ class ComposeMenu extends PureComponent<Props> {
     ImagePicker.launchCamera(options, this.handleImagePickerResponse);
   };
 
-  handleFilePicker = async () => {
+  handleFilesPicker = async () => {
     // Defer import to here, to avoid an obnoxious import-time warning
     // from this library when in the test environment.
     const DocumentPicker = (await import('react-native-document-picker')).default;
 
     let response = undefined;
     try {
-      response = (await DocumentPicker.pick({
+      response = (await DocumentPicker.pickMultiple({
         type: [DocumentPicker.types.allFiles],
-      }): DocumentPickerResponse);
+      }): DocumentPickerResponse[]);
     } catch (e) {
       if (!DocumentPicker.isCancel(e)) {
         showErrorAlert('Error', e);
@@ -174,7 +174,7 @@ class ComposeMenu extends PureComponent<Props> {
               <IconAttach
                 style={this.styles.composeMenuButton}
                 size={24}
-                onPress={this.handleFilePicker}
+                onPress={this.handleFilesPicker}
               />
             )}
             <IconImage

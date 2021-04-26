@@ -246,5 +246,6 @@
   "Uploading {fileName}...": "Uploading {fileName}...",
   "Uploading {fileName} failed.": "Uploading {fileName} failed.",
   "Attachment": "Attachment",
+  "Attachment {num}": "Attachment {num}",
   "Remove account": "Remove account"
 }
