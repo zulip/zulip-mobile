@@ -1,3 +1,5 @@
+/* @flow strict-local */
+/* eslint-disable global-require */
 import * as ReactNative from 'react-native';
 import { polyfillGlobal } from 'react-native/Libraries/Utilities/PolyfillFunctions';
 import { URL, URLSearchParams } from 'react-native-url-polyfill';
@@ -67,7 +69,8 @@ jest.mock('react-native', () => {
 
 // As instructed at https://reactnavigation.org/docs/testing/.
 jest.mock('react-native-reanimated', () => {
-  /* eslint-disable-next-line global-require */
+  /* $FlowIgnore[untyped-import] - This is just a mock setup file; no
+     need for a libdef. */
   const Reanimated = require('react-native-reanimated/mock');
 
   // The mock for `call` immediately calls the callback which is incorrect
