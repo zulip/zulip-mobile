@@ -14,9 +14,25 @@ To see all options, run `tools/test --help`.
 `tools/test jest` runs our JS unit tests.  These are written using
 [Jest](https://facebook.github.io/jest/).
 
+We've set up Jest so it can loosely simulate iOS or Android in the
+JavaScript layer. (This isn't magic; it mostly means setting React
+Native's `Platform.OS`. We still have to mock native functionality,
+e.g., as we access it with RN's `NativeModules`.) By default,
+`tools/test jest` will pick just one platform (iOS), which means the
+tests will run faster but with a bit less coverage. When you're
+testing platform-specific code in JavaScript, be sure to run
+`tools/test jest --platform ios`,
+`tools/test jest --platform android`, or
+`tools/test jest --platform both`.
+
 To write a test, place a Javascript file with the `-test.js` suffix in the
 `__tests__` directory inside of any subfolder of `/src`. The test will be
 automatically picked up by the test runner.
+
+If it makes sense for a test file to be dedicated to just one
+platform, and that's unlikely to change, you can instead suffix it
+with `-test.ios.js` or `-test.android.js`, and its tests will only be
+run when Jest is simulating that platform.
 
 
 ### Test style guide
