@@ -3,7 +3,6 @@
 import * as ReactNative from 'react-native';
 import { polyfillGlobal } from 'react-native/Libraries/Utilities/PolyfillFunctions';
 import { URL, URLSearchParams } from 'react-native-url-polyfill';
-
 import mockAsyncStorage from '@react-native-community/async-storage/jest/async-storage-mock';
 
 // Use the same `URL` polyfill we do in the app.
