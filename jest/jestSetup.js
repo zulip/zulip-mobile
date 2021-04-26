@@ -45,6 +45,17 @@ jest.mock('react-native', () => {
       resourceURL:
         'file:///private/var/containers/Bundle/Application/4DCD4D2B-F745-4C70-AD74-8E5F690CF593/ZulipMobile.app/',
     };
+  } else if (ReactNative.Platform.OS === 'android') {
+    const header = 'z|mock|';
+    ReactNative.NativeModules.TextCompressionModule = {
+      header,
+      compress: jest.fn(
+        async (input: string) => `${header}${Buffer.from(input).toString('base64')}`,
+      ),
+      decompress: jest.fn(async (input: string) =>
+        Buffer.from(input.replace(header, ''), 'base64').toString('utf8'),
+      ),
+    };
   }
 
   return ReactNative;
