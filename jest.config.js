@@ -24,9 +24,7 @@ const transformModulesWhitelist = [
 // (This value is correctly a string, not a RegExp.)
 const transformIgnorePattern = `node_modules/(?!${transformModulesWhitelist.join('|')})`;
 
-module.exports = {
-  preset: 'jest-expo',
-
+const common = {
   // Finding and transforming source code.
 
   testPathIgnorePatterns: ['/node_modules/', '/src/__tests__/lib/', '-testlib.js$'],
@@ -48,4 +46,9 @@ module.exports = {
   },
   setupFiles: ['./jest/globalFetch.js', './node_modules/react-native-gesture-handler/jestSetup.js'],
   setupFilesAfterEnv: ['./jest/jestSetup.js', 'jest-extended'],
+};
+
+module.exports = {
+  // See https://github.com/expo/expo/blob/master/packages/jest-expo/README.md#platforms.
+  projects: [{ ...common, displayName: 'ios', preset: 'jest-expo/ios' }],
 };
