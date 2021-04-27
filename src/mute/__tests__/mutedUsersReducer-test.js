@@ -16,28 +16,21 @@ describe('mutedUsersReducer', () => {
           muted_users: [{ id: makeUserId(42), timestamp: 1618822632 }],
         },
       });
-
-      const actualState = mutedUsersReducer(eg.baseReduxState.mutedUsers, action);
-
-      expect(actualState).toEqual(Immutable.Map([[makeUserId(42), 1618822632]]));
+      expect(mutedUsersReducer(eg.baseReduxState.mutedUsers, action)).toEqual(
+        Immutable.Map([[makeUserId(42), 1618822632]]),
+      );
     });
 
     test('when no `muted_users` data is given reset state', () => {
       const initialState = Immutable.Map([[makeUserId(42), 1618822632]]);
-
-      const actualState = mutedUsersReducer(initialState, eg.action.realm_init);
-
-      expect(actualState).toEqual(Immutable.Map());
+      expect(mutedUsersReducer(initialState, eg.action.realm_init)).toEqual(Immutable.Map());
     });
   });
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const initialState = Immutable.Map([[makeUserId(42), 1618822632]]);
-
-      const actualState = mutedUsersReducer(initialState, eg.action.account_switch);
-
-      expect(actualState).toEqual(Immutable.Map());
+      expect(mutedUsersReducer(initialState, eg.action.account_switch)).toEqual(Immutable.Map());
     });
   });
 
@@ -53,14 +46,11 @@ describe('mutedUsersReducer', () => {
         ],
       });
 
-      const expectedState = Immutable.Map([
+      // prettier-ignore
+      expect(mutedUsersReducer(initialState, action)).toEqual(Immutable.Map([
         [makeUserId(42), 1618822632],
         [makeUserId(1234), 1618822635],
-      ]);
-
-      const newState = mutedUsersReducer(initialState, action);
-
-      expect(newState).toEqual(expectedState);
+      ]));
     });
   });
 });
