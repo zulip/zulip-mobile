@@ -50,5 +50,8 @@ const common = {
 
 module.exports = {
   // See https://github.com/expo/expo/blob/master/packages/jest-expo/README.md#platforms.
-  projects: [{ ...common, displayName: 'ios', preset: 'jest-expo/ios' }],
+  projects: [
+    { ...common, displayName: 'ios', preset: 'jest-expo/ios' },
+    { ...common, displayName: 'android', preset: 'jest-expo/android' },
+  ],
 };
