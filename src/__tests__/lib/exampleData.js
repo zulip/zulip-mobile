@@ -684,19 +684,33 @@ export const action = deepFreeze({
 /* ========================================================================
  * Action fragments
  *
- * Partial actions, for those action types whose interior will almost always
- * need to be filled in with more data.
+ * Partial actions, for those action types where (a) there's some
+ * boilerplate data that's useful to supply here, but (b) there's some other
+ * places where a given test will almost always need to fill in specific
+ * data of its own.
+ *
+ * The properties where each test will want to fill in its own specific data
+ * should be left out of these fragments.  That way, Flow can ensure the
+ * test explicitly supplies the data.
  */
 
 export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| message: Message |}> */ = {
   type: EVENT_NEW_MESSAGE,
+  // These properties are boring for most or all tests.
   id: 1001,
   caughtUp: {},
   ownUserId: selfUser.user_id,
+
+  // The details of this property are typically important to what a test is
+  // testing, so we provide it explicitly in each test.
+  // message: Message,
 };
 
 export const eventMutedUsersActionBase = {
   type: EVENT_MUTED_USERS,
   id: 1234,
-  muted_users: [],
+
+  // The details of this property are important to what a test that
+  // uses this action is testing.
+  // muted_users: [],
 };
