@@ -3,11 +3,10 @@ import Immutable from 'immutable';
 import deepFreeze from 'deep-freeze';
 
 import mutedUsersReducer from '../mutedUsersReducer';
-import { makeUserId } from '../../api/idTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('mutedUsersReducer', () => {
-  const baseState = Immutable.Map([[makeUserId(42), 1618822632]]);
+  const baseState = Immutable.Map([[eg.otherUser.user_id, 1618822632]]);
 
   describe('REALM_INIT', () => {
     test('when `muted_users` data is provided init state with it', () => {
@@ -15,11 +14,11 @@ describe('mutedUsersReducer', () => {
         ...eg.action.realm_init,
         data: {
           ...eg.action.realm_init.data,
-          muted_users: [{ id: makeUserId(42), timestamp: 1618822632 }],
+          muted_users: [{ id: eg.otherUser.user_id, timestamp: 1618822632 }],
         },
       });
       expect(mutedUsersReducer(eg.baseReduxState.mutedUsers, action)).toEqual(
-        Immutable.Map([[makeUserId(42), 1618822632]]),
+        Immutable.Map([[eg.otherUser.user_id, 1618822632]]),
       );
     });
 
@@ -39,15 +38,15 @@ describe('mutedUsersReducer', () => {
       const action = deepFreeze({
         ...eg.eventMutedUsersActionBase,
         muted_users: [
-          { id: makeUserId(42), timestamp: 1618822632 },
-          { id: makeUserId(1234), timestamp: 1618822635 },
+          { id: eg.otherUser.user_id, timestamp: 1618822632 },
+          { id: eg.thirdUser.user_id, timestamp: 1618822635 },
         ],
       });
 
       // prettier-ignore
       expect(mutedUsersReducer(baseState, action)).toEqual(Immutable.Map([
-        [makeUserId(42), 1618822632],
-        [makeUserId(1234), 1618822635],
+        [eg.otherUser.user_id, 1618822632],
+        [eg.thirdUser.user_id, 1618822635],
       ]));
     });
   });
