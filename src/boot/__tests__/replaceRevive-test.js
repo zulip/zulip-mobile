@@ -43,16 +43,29 @@ const data = {
   },
 };
 
-const stringified = {};
-
-Object.keys(data).forEach(key => {
-  stringified[key] = stringify(data[key]);
-});
+const stringified = {
+  list: '{"data":[1,2,"a",null],"__serializedType__":"ImmutableList"}',
+  map: '{"data":{"a":1,"b":2,"c":3,"d":4},"__serializedType__":"ImmutableMap"}',
+  mapWithTypeKey:
+    '{"data":{"__serializedType__":"Object","data":{"a":1},"__serializedType__value":{"__serializedType__":"Object","data":{"b":[2]},"__serializedType__value":{"c":[3]}}},"__serializedType__":"ImmutableMap"}',
+  mapNumKeys: '{"data":{"1":1,"2":2,"3":3,"4":4},"__serializedType__":"ImmutableMapNumKeys"}',
+  emptyMap: '{"data":{},"__serializedType__":"ImmutableMap"}',
+  zulipVersion: '{"data":"3.0.0","__serializedType__":"ZulipVersion"}',
+  url: '{"data":"https://chat.zulip.org/","__serializedType__":"URL"}',
+  gravatarURL:
+    '{"data":"https://secure.gravatar.com/avatar/3b01d0f626dc6944ed45dbe6c86d3e30?d=identicon","__serializedType__":"GravatarURL"}',
+  uploadedAvatarURL:
+    '{"data":"https://zulip.example.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2","__serializedType__":"UploadedAvatarURL"}',
+  fallbackAvatarURL:
+    '{"data":"https://zulip.example.org/avatar/1","__serializedType__":"FallbackAvatarURL"}',
+  plainObjectWithTypeKey:
+    '{"__serializedType__":"Object","data":{"a":1},"__serializedType__value":{"__serializedType__":"Object","data":{"b":[2]},"__serializedType__value":{"c":[3]}}}',
+};
 
 describe('Stringify', () => {
   Object.keys(data).forEach(key => {
     it(key, () => {
-      expect(stringified[key]).toMatchSnapshot();
+      expect(stringify(data[key])).toEqual(stringified[key]);
     });
   });
 
