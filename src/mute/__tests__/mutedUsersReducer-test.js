@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import deepFreeze from 'deep-freeze';
 
 import mutedUsersReducer from '../mutedUsersReducer';
+import { EVENT_MUTED_USERS } from '../../actionConstants';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('mutedUsersReducer', () => {
@@ -36,7 +37,8 @@ describe('mutedUsersReducer', () => {
   describe('EVENT_MUTED_USERS', () => {
     test('update `muted_users` when event comes in', () => {
       const action = deepFreeze({
-        ...eg.eventMutedUsersActionBase,
+        type: EVENT_MUTED_USERS,
+        id: 1234,
         muted_users: [
           { id: eg.otherUser.user_id, timestamp: 1618822632 },
           { id: eg.thirdUser.user_id, timestamp: 1618822635 },

@@ -25,7 +25,6 @@ import {
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
   REALM_INIT,
-  EVENT_MUTED_USERS,
   EVENT_NEW_MESSAGE,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
@@ -673,6 +672,8 @@ export const action = deepFreeze({
     foundOldest: undefined,
     ownUserId: selfUser.user_id,
   },
+  // If a given action is only relevant to a single test file, no need to
+  // provide a generic example of it here; just define it there.
 });
 
 // Ensure every `eg.action.foo` is some well-typed action.  (We don't simply
@@ -706,11 +707,5 @@ export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| mes
   // message: Message,
 };
 
-export const eventMutedUsersActionBase = {
-  type: EVENT_MUTED_USERS,
-  id: 1234,
-
-  // The details of this property are important to what a test that
-  // uses this action is testing.
-  // muted_users: [],
-};
+// If a given action is only relevant to a single test file, no need to
+// provide a generic fragment for it here; just define the test data there.
