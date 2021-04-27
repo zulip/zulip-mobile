@@ -24,7 +24,7 @@ Options:
               \`git help revisions\` for many more ways to name a commit.)
 
 Suites:
-  android
+  native
   flow
   lint
   jest
@@ -46,14 +46,14 @@ while (( $# )); do
         --diff) shift; files=diff:"$1"; shift;;
         --full) files=full; shift;;
         --fix) fix=1; shift;;
-        android|flow|lint|jest|prettier|deps)
+        native|flow|lint|jest|prettier|deps)
             suites+=("$1"); shift;;
         *) usage;;
     esac
 done
 
 if [ -z "$suites" ]; then
-    suites=(android flow lint jest prettier deps)
+    suites=(native flow lint jest prettier deps)
 fi
 
 
@@ -98,7 +98,7 @@ files_check() {
     esac
 }
 
-run_android() {
+run_native() {
     files_check android/ \
         || return 0
 
@@ -193,8 +193,8 @@ failed=()
 for suite in "${suites[@]}"; do
     echo "Running $suite..."
     case "$suite" in
-        android)
-            run_android
+        native)
+            run_native
             ;;
         flow)
             flow

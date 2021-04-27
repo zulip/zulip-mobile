@@ -52,12 +52,14 @@ automatically picked up by the test runner.
   be mutated and hence will eventually fail tests in case of mutation.
 
 
-## Unit tests: Android
+## Native-code tests:
+
+### Android
 
 We have a small, nascent suite of unit tests for our Android-native
 (Kotlin and Java) code.
 
-`tools/test android` runs this suite, as well as building all the
+`tools/test native` runs this suite, as well as building all the
 Android code.
 
 Tests are written in Kotlin, using [JUnit 4] and the [Truth] library.
@@ -87,6 +89,13 @@ Other sources which might be helpful to read or refer to:
 [local unit tests]: https://developer.android.com/training/testing/unit-testing/local-unit-tests
 [baeldung-junit-kotlin]: https://www.baeldung.com/junit-5-kotlin
 [baeldung-truth]: https://www.baeldung.com/google-truth
+
+
+### iOS
+
+We don't yet have native-code tests for iOS. We should try it out! A
+good incremental step will be to at least check that the build
+completes without errors.
 
 
 ## Functional tests

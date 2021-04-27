@@ -328,7 +328,7 @@ Could not compile build file '/Users/chrisbobbe/dev/zulip-mobile/node_modules/@u
 
 This can sometimes happen if you're using JDK 13 to invoke the build
 command (e.g., when calling `tools/run-android`, or
-`tools/test android`, or
+`tools/test native`, or
 `android/gradlew -p android :app:assembleDebug`). You can check the
 version by running `java -version`. It seems that upgrading to
 macOS 10.15 Catalina automatically upgrades Java to 13.
