@@ -113,7 +113,7 @@ files_check() {
     esac
 }
 
-run_native() {
+run_native_android() {
     files_check android/ \
         || return 0
 
@@ -130,6 +130,10 @@ run_native() {
         ./gradlew -q :app:testDebugUnitTest \
             || ./gradlew :app:testDebugUnitTest || exit
     )
+}
+
+run_native() {
+    run_native_android || return
 }
 
 run_lint() {
