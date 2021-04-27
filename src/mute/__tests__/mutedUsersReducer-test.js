@@ -13,12 +13,7 @@ describe('mutedUsersReducer', () => {
         ...eg.action.realm_init,
         data: {
           ...eg.action.realm_init.data,
-          muted_users: [
-            {
-              id: makeUserId(42),
-              timestamp: 1618822632,
-            },
-          ],
+          muted_users: [{ id: makeUserId(42), timestamp: 1618822632 }],
         },
       });
 
@@ -53,14 +48,8 @@ describe('mutedUsersReducer', () => {
       const action = deepFreeze({
         ...eg.eventMutedUsersActionBase,
         muted_users: [
-          {
-            id: makeUserId(42),
-            timestamp: 1618822632,
-          },
-          {
-            id: makeUserId(1234),
-            timestamp: 1618822635,
-          },
+          { id: makeUserId(42), timestamp: 1618822632 },
+          { id: makeUserId(1234), timestamp: 1618822635 },
         ],
       });
 
