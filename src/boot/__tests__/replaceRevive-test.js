@@ -44,10 +44,14 @@ const data = {
 };
 
 const stringified = {};
+
+Object.keys(data).forEach(key => {
+  stringified[key] = stringify(data[key]);
+});
+
 describe('Stringify', () => {
   Object.keys(data).forEach(key => {
     it(key, () => {
-      stringified[key] = stringify(data[key]);
       expect(stringified[key]).toMatchSnapshot();
     });
   });
