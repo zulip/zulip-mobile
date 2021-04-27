@@ -139,5 +139,8 @@
     "rollup": "^2.26.5",
     "typescript": "~3.8.3",
     "yarn-deduplicate": "^3.0.0"
+  },
+  "resolutions": {
+    "jest-expo/jest": "^26.4.1"
   }
 }
