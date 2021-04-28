@@ -403,6 +403,32 @@ in Flow, or a design limitation of Flow, or an issue in the Flow types
 provided by Immutable.js, or some combination.)
 
 
+<div id="react-function-prop-defaults" />
+
+**Don't use React `defaultProps` for function components**:
+When a React function component has a default value for one of its
+props, express that with a normal JS idiom, not with React's
+`defaultProps` feature.  This also means that in the component's type,
+the prop should be marked as optional (with `?:`).
+
+For example, if converting into a function component a class component
+that had a `defaultProps` like so:
+```js
+  static defaultProps = { foo: true };
+```
+a good translation is to use JS object destructuring with a default
+value, with a line like this at the top of the new function:
+```js
+  const { foo = true } = props;
+```
+and to change `foo: boolean` to `foo?: boolean` in the `Props` definition.
+
+The main reason for this is to keep the default, and the fact there is
+a default, visible at the top of the function.  This is helpful for
+reading the component's implementation as well as for looking at its
+interface in order to use it elsewhere.
+
+
 <div id="zulip" />
 
 ## Internal to Zulip and our codebase
