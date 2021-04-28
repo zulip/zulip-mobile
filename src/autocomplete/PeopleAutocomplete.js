@@ -3,9 +3,9 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { User, UserId, UserGroup, Dispatch } from '../types';
+import type { MutedUsersState, User, UserId, UserGroup, Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { getSortedUsers, getUserGroups } from '../selectors';
+import { getMutedUsers, getSortedUsers, getUserGroups } from '../selectors';
 import {
   type AutocompleteOption,
   getAutocompleteSuggestion,
@@ -20,6 +20,7 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
   filter: string,
   onAutocomplete: (name: string) => void,
+  mutedUsers: MutedUsersState,
   ownUserId: UserId,
   users: User[],
   userGroups: UserGroup[],
@@ -44,9 +45,9 @@ class PeopleAutocomplete extends PureComponent<Props> {
   };
 
   render() {
-    const { filter, ownUserId, users, userGroups } = this.props;
+    const { filter, mutedUsers, ownUserId, users, userGroups } = this.props;
     const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, filter);
-    const filteredUsers = getAutocompleteSuggestion(users, filter, ownUserId);
+    const filteredUsers = getAutocompleteSuggestion(users, filter, ownUserId, mutedUsers);
 
     if (filteredUserGroups.length + filteredUsers.length === 0) {
       return null;
@@ -105,6 +106,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
 }
 
 export default connect(state => ({
+  mutedUsers: getMutedUsers(state),
   ownUserId: getOwnUserId(state),
   users: getSortedUsers(state),
   userGroups: getUserGroups(state),

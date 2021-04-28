@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
+import Immutable from 'immutable';
 
 import {
   sortUserList,
@@ -61,7 +62,12 @@ describe('getAutocompleteSuggestion', () => {
   test('empty input results in empty list', () => {
     const users = deepFreeze([]);
 
-    const filteredUsers = getAutocompleteSuggestion(users, 'some filter', eg.selfUser.user_id);
+    const filteredUsers = getAutocompleteSuggestion(
+      users,
+      'some filter',
+      eg.selfUser.user_id,
+      Immutable.Map(),
+    );
     expect(filteredUsers).toBe(users);
   });
 
@@ -74,7 +80,20 @@ describe('getAutocompleteSuggestion', () => {
       { user_id: -1, full_name: 'all', email: '(Notify everyone)' },
       someGuyUser,
     ];
-    const filteredUsers = getAutocompleteSuggestion(users, '', meUser.user_id);
+    const filteredUsers = getAutocompleteSuggestion(users, '', meUser.user_id, Immutable.Map());
+    expect(filteredUsers).toEqual(shouldMatch);
+  });
+
+  test('filters out muted user', () => {
+    const mutedUser = eg.makeUser({ name: 'Muted User' });
+    const meUser = eg.makeUser({ name: 'Me' });
+    const users = deepFreeze([mutedUser, meUser]);
+
+    const mutedUsers = Immutable.Map([[mutedUser.user_id, 0]]);
+
+    const shouldMatch = [{ user_id: -1, full_name: 'all', email: '(Notify everyone)' }];
+
+    const filteredUsers = getAutocompleteSuggestion(users, '', meUser.user_id, mutedUsers);
     expect(filteredUsers).toEqual(shouldMatch);
   });
 
@@ -87,7 +106,12 @@ describe('getAutocompleteSuggestion', () => {
     const allUsers = deepFreeze([user1, user2, user3, user4, user5]);
 
     const shouldMatch = [user1, user2, user3, user5];
-    const filteredUsers = getAutocompleteSuggestion(allUsers, 'match', eg.selfUser.user_id);
+    const filteredUsers = getAutocompleteSuggestion(
+      allUsers,
+      'match',
+      eg.selfUser.user_id,
+      Immutable.Map(),
+    );
     expect(filteredUsers).toEqual(shouldMatch);
   });
 
@@ -127,7 +151,12 @@ describe('getAutocompleteSuggestion', () => {
       user11, // have priority because of 'ma' contains in name
       user4, // email contains 'ma'
     ];
-    const filteredUsers = getAutocompleteSuggestion(allUsers, 'ma', eg.selfUser.user_id);
+    const filteredUsers = getAutocompleteSuggestion(
+      allUsers,
+      'ma',
+      eg.selfUser.user_id,
+      Immutable.Map(),
+    );
     expect(filteredUsers).toEqual(shouldMatch);
   });
 });
