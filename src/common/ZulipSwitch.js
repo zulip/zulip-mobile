@@ -31,7 +31,7 @@ export default class ZulipSwitch extends PureComponent<Props> {
         trackColor={{
           false: 'hsl(0, 0%, 86%)',
           true: Color(BRAND_COLOR)
-            .fade(0.7)
+            .fade(0.3)
             .toString(),
         }}
         thumbColor={
