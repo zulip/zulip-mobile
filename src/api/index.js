@@ -52,8 +52,8 @@ import getUsers from './users/getUsers';
 import createUser from './users/createUser';
 import getUserProfile from './users/getUserProfile';
 import updateUserStatus from './users/updateUserStatus';
-import getFileTemporaryUrl from './messages/getFileTemporaryUrl';
 import deactivateUser from './users/deactivateUser';
+import getFileTemporaryUrl from './messages/getFileTemporaryUrl';
 
 export {
   queueMarkAsRead,

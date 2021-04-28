@@ -49,8 +49,11 @@ export const logout = (): ThunkAction<Promise<void>> => async (dispatch, getStat
 
 export const deactivateUser = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
-  api.deactivateUser(auth).catch(err => {
-    logging.error('Error deactivating account', err);
-    showToast(`${err}`);
-  });
+
+  try {
+     await api.deactivateUser(auth);
+  } catch (error) {
+    logging.error('Error deactivating account', error);
+    showToast(`${error}`);
+  }
 };

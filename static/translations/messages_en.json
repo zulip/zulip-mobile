@@ -265,5 +265,9 @@
   "Failed to mark topic as read": "Failed to mark topic as read",
   "Deactivate your account?": "Deactivate your account?",
   "By deactivating your account, you will be logged out immediately.\n\nNote that any bots that you maintain will be disabled.": "By deactivating your account, you will be logged out immediately.\n\nNote that any bots that you maintain will be disabled.",
-  "Deactivate": "Deactivate"
+  "Deactivate": "Deactivate",
+  "Deactivate your account {email} on: {realmUrl} from Zulip.": "Deactivate your account {email} on: {realmUrl} from Zulip.",
+  "Log you out immediately from Zulip, that includes Zulip's website, mobile, desktop, and terminal.":"Log you out immediately from Zulip, that includes Zulip's website, mobile, desktop, and terminal.",
+  "Disable any bots you maintain.": "Disable any bots you maintain."
+  
 }
