@@ -43,10 +43,12 @@ import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 import UserStatusScreen from '../user-status/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
+import AccountDeactivateScreen from '../account/AccountDeactivateScreen';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
 
 export type AppNavigatorParamList = {|
   'account-pick': RouteParamsOf<typeof AccountPickScreen>,
+  'account-deactivate': RouteParamsOf<typeof AccountDeactivateScreen>,
   'account-details': RouteParamsOf<typeof AccountDetailsScreen>,
   'group-details': RouteParamsOf<typeof GroupDetailsScreen>,
   auth: RouteParamsOf<typeof AuthScreen>,
@@ -147,6 +149,7 @@ export default function AppNavigator(props: Props): Node {
       {/* These screens do not expect server data in order to function
           normally. */}
       <Stack.Screen name="account-pick" component={AccountPickScreen} />
+      <Stack.Screen name="account-deactivate" component={AccountDeactivateScreen} />
       <Stack.Screen name="auth" component={AuthScreen} />
       <Stack.Screen name="dev-auth" component={DevAuthScreen} />
       <Stack.Screen name="password-auth" component={PasswordAuthScreen} />

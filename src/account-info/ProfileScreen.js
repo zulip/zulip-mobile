@@ -15,7 +15,7 @@ import {
   tryStopNotifications,
   navigateToAccountPicker,
   navigateToUserStatus,
-  deactivateUser,
+  navigateToAccountDeactivate,
 } from '../actions';
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
@@ -32,12 +32,12 @@ const styles = createStyleSheet({
     margin: 8,
   },
   deactivateText: {
-    color: '#e5898e',
+    color: 'hsl(356.7,63.9%,71.8%)',
   },
   deactivateButton: {
     flex: 1,
     margin: 8,
-    borderColor: '#eabab7',
+    borderColor: 'hsl(3.5,54.8%,81.8%)',
   },
   switchText: {
     fontSize: 15,
@@ -104,9 +104,8 @@ function LogoutButton(props: {||}) {
     />
   );
 }
+
 function DeactivateAccountButton(props: {||}) {
-  const _ = useContext(TranslationContext);
-  const dispatch = useDispatch();
   return (
     <ZulipButton
       style={styles.deactivateButton}
@@ -114,23 +113,7 @@ function DeactivateAccountButton(props: {||}) {
       text="Deactivate"
       textStyle={styles.deactivateText}
       onPress={() => {
-        Alert.alert(
-          _('Deactivate your account?'),
-          _(
-            'By deactivating your account, you will be logged out immediately.\n\nNote that any bots that you maintain will be disabled.',
-          ),
-          [
-            { text: _('Cancel'), style: 'cancel' },
-            {
-              text: _('Deactivate'),
-              style: 'destructive',
-              onPress: () => {
-                dispatch(deactivateUser());
-              },
-            },
-          ],
-          { cancelable: true },
-        );
+        NavigationService.dispatch(navigateToAccountDeactivate());
       }}
     />
   );
