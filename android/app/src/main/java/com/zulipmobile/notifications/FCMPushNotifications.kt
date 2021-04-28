@@ -112,6 +112,8 @@ private fun getNotificationBuilder(
     } else {
         builder.setSmallIcon(R.drawable.zulip_notification)
     }
+
+    // This should agree with `BRAND_COLOR` in the JS code.
     builder.setColor(Color.rgb(100, 146, 254))
 
     val nameList = extractNames(conversations)
