@@ -28,7 +28,7 @@ jobs:
       uses: bahmutov/npm-install@v1
 
     - name: Run tools/test
-      run: TERM=dumb tools/test --full
+      run: TERM=dumb tools/test --all
 
     - run: tools/verify-webview-js
 

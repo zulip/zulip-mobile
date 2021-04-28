@@ -20,7 +20,7 @@ set -e
 
 usage() {
     cat >&2 <<EOF
-usage: tools/test [--full | --diff COMMIT] [SUITES]
+usage: tools/test [--all | --diff COMMIT] [SUITES]
 
 Run our tests.
 
@@ -29,9 +29,9 @@ as found by \`tools/info changed-files\`.
 
 Options:
   --coverage  Collect test-coverage information.  Only meaningful
-              with --full.
+              with --all.
   --fix       Fix issues found, where possible.
-  --full      Run on all files, not only changed files.
+  --all       Run on all files, not only changed files.
   --diff COMMIT
               Run only on files that differ from the given commit.
               (E.g., \`--diff @\` for files with uncommitted changes;
@@ -59,7 +59,7 @@ while (( $# )); do
     case "$1" in
         --coverage) coverage=1; shift;;
         --diff) shift; files=diff:"$1"; shift;;
-        --full) files=full; shift;;
+        --all) files=all; shift;;
         --fix) fix=1; shift;;
         native|flow|lint|jest|prettier|deps)
             suites+=("$1"); shift;;
@@ -85,7 +85,7 @@ PATH=node_modules/.bin:"$PATH"
 # directories meaning their whole subtrees.
 files_js() {
     case "$files" in
-        full)
+        all)
             echo src/
             ;;
         branch)
@@ -102,7 +102,7 @@ files_js() {
 # True just if $files intersects the given set of paths.
 files_check() {
     case "$files" in
-        full)
+        all)
             ;;
         branch)
             ! git diff --quiet "$(tools/info base-commit)" "$@"
@@ -161,7 +161,7 @@ run_jest() {
     # Unlike some others, this inspects "$files" for itself.
     jest_args=()
     case "$files" in
-        full)
+        all)
             if [ -n "$coverage" ]; then
                 jest_args+=( --coverage )
             fi

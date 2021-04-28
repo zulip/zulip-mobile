@@ -4,7 +4,7 @@ Run `tools/test` to run all our test suites.  This command is
 typically quite fast (5-10s, sometimes less), because it only rechecks
 tests related to the files you've changed.
 
-You can run all our tests with `tools/test --full`.
+You can run all our tests with `tools/test --all`.
 
 To see all options, run `tools/test --help`.
 

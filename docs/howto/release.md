@@ -80,7 +80,7 @@ simple terminology for the process we follow with both.
     our translation contributors.  See
     [howto/translations.md](translations.md) for background.
 
-* Check that tests pass: `tools/test --full`.
+* Check that tests pass: `tools/test --all`.
 
 * Run `tools/bump-version` to update the version number in the
   Android and iOS build metadata.
