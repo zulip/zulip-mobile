@@ -28,6 +28,8 @@
     assertions the type-checker can use.
   * [[link](#immutable-provide-type)] Always provide a type when
     writing an empty `Immutable` value.
+  * [[link](#react-function-prop-defaults)] Don't use React
+    `defaultProps` for function components.
 * [Internal to Zulip and our codebase](#zulip)
   * [Zulip API bindings](#zulip-api-bindings)
     * [[link](#import-api)] Use `import * as api` and `api.doThing(…)`.
