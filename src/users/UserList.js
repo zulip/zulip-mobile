@@ -1,12 +1,14 @@
 /* @flow strict-local */
 import React from 'react';
 import { SectionList } from 'react-native';
+import { useSelector } from '../react-redux';
 
 import type { PresenceState, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
 import { SectionHeader, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByStatus } from './userHelpers';
+import { getMutedUsers } from '../selectors';
 
 const styles = createStyleSheet({
   list: {
@@ -24,13 +26,15 @@ type Props = $ReadOnly<{|
 
 export default function UserList(props: Props) {
   const { filter, users, presences, onPress, selected = [] } = props;
-  const shownUsers = sortUserList(filterUserList(users, filter), presences);
+  const mutedUsers = useSelector(getMutedUsers);
+  const filteredUsers = filterUserList(users, filter).filter(user => !mutedUsers.has(user.user_id));
 
-  if (shownUsers.length === 0) {
+  if (filteredUsers.length === 0) {
     return <SearchEmptyState text="No users found" />;
   }
 
-  const groupedUsers = groupUsersByStatus(shownUsers, presences);
+  const sortedUsers = sortUserList(filteredUsers, presences);
+  const groupedUsers = groupUsersByStatus(sortedUsers, presences);
   const sections = Object.keys(groupedUsers).map(key => ({
     key: `${key.charAt(0).toUpperCase()}${key.slice(1)}`,
     data: groupedUsers[key].map(u => u.user_id),
