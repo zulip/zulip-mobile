@@ -25,7 +25,7 @@ export default function UnreadCards(props: Props) {
   const unreadCards: Array<Card> = [
     {
       key: 'private',
-      data: [{ conversations, dispatch }],
+      data: [{ conversations }],
     },
     ...unreadStreamsAndTopics,
   ];

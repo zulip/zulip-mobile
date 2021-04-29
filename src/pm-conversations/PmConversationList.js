@@ -1,8 +1,9 @@
 /* @flow strict-local */
 import React, { useCallback } from 'react';
 import { FlatList } from 'react-native';
+import { useDispatch } from '../react-redux';
 
-import type { Dispatch, PmConversationData, UserOrBot } from '../types';
+import type { PmConversationData, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
 import { type PmKeyUsers } from '../utils/recipient';
 import { pm1to1NarrowFromUser, pmNarrowFromUsers } from '../utils/narrow';
@@ -18,7 +19,6 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   conversations: PmConversationData[],
 |}>;
 
@@ -26,18 +26,20 @@ type Props = $ReadOnly<{|
  * A list describing all PM conversations.
  * */
 export default function PmConversationList(props: Props) {
+  const dispatch = useDispatch();
+
   const handleUserNarrow = useCallback(
     (user: UserOrBot) => {
-      props.dispatch(doNarrow(pm1to1NarrowFromUser(user)));
+      dispatch(doNarrow(pm1to1NarrowFromUser(user)));
     },
-    [props.dispatch],
+    [dispatch],
   );
 
   const handleGroupNarrow = useCallback(
     (users: PmKeyUsers) => {
-      props.dispatch(doNarrow(pmNarrowFromUsers(users)));
+      dispatch(doNarrow(pmNarrowFromUsers(users)));
     },
-    [props.dispatch],
+    [dispatch],
   );
 
   const { conversations } = props;

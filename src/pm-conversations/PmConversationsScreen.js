@@ -7,7 +7,7 @@ import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { ThemeContext, createStyleSheet } from '../styles';
-import { useSelector, useDispatch } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { Label, ZulipButton, LoadingBanner } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
@@ -43,7 +43,6 @@ type Props = $ReadOnly<{|
  * */
 export default function PmConversationsScreen(props: Props) {
   const conversations = useSelector(getRecentConversations);
-  const dispatch = useDispatch();
   const context = useContext(ThemeContext);
 
   return (
@@ -72,7 +71,7 @@ export default function PmConversationsScreen(props: Props) {
       {conversations.length === 0 ? (
         <Label style={styles.emptySlate} text="No recent conversations" />
       ) : (
-        <PmConversationList dispatch={dispatch} conversations={conversations} />
+        <PmConversationList conversations={conversations} />
       )}
     </View>
   );
