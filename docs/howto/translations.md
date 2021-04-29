@@ -49,7 +49,7 @@ few different forms in different contexts in our code:
   then:
   * If using `_`, use the following form: `_('Hello, {name}', { name })`.
     Translators will translate the constant string `'Hello, {name}'`,
-    including the placeholder.
+    leaving the placeholder unchanged: `'Hola, {name}'`.
   * If passing to something that accepts `LocalizableText`, then use
     the same placeholder syntax in the message string, and see the
     `LocalizableText` type definition for where to put the message
