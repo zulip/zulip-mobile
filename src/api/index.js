@@ -40,6 +40,7 @@ import toggleMobilePushSettings from './settings/toggleMobilePushSettings';
 import createStream from './streams/createStream';
 import getStreams from './streams/getStreams';
 import updateStream from './streams/updateStream';
+import sendSubmessage from './submessages/sendSubmessage';
 import getSubscriptions from './subscriptions/getSubscriptions';
 import subscriptionAdd from './subscriptions/subscriptionAdd';
 import subscriptionRemove from './subscriptions/subscriptionRemove';
@@ -86,6 +87,7 @@ export {
   createStream,
   getStreams,
   updateStream,
+  sendSubmessage,
   getSubscriptions,
   setTopicMute,
   subscriptionAdd,
