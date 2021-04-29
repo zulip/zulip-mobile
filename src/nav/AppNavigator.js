@@ -26,6 +26,7 @@ import ChatScreen from '../chat/ChatScreen';
 import LanguageScreen from '../settings/LanguageScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import DebugScreen from '../settings/DebugScreen';
+import ThemeScreen from '../settings/ThemeScreen';
 import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
 import VariablesScreen from '../diagnostics/VariablesScreen';
 import TimingScreen from '../diagnostics/TimingScreen';
@@ -62,6 +63,7 @@ export type AppNavigatorParamList = {|
   lightbox: RouteParamsOf<typeof LightboxScreen>,
   'create-group': RouteParamsOf<typeof CreateGroupScreen>,
   'invite-users': RouteParamsOf<typeof InviteUsersScreen>,
+  theme: RouteParamsOf<typeof ThemeScreen>,
   diagnostics: RouteParamsOf<typeof DiagnosticsScreen>,
   variables: RouteParamsOf<typeof VariablesScreen>,
   timing: RouteParamsOf<typeof TimingScreen>,
@@ -127,6 +129,7 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="lightbox" component={withHaveServerDataGate(LightboxScreen)} />
       <Stack.Screen name="create-group" component={withHaveServerDataGate(CreateGroupScreen)} />
       <Stack.Screen name="invite-users" component={withHaveServerDataGate(InviteUsersScreen)} />
+      <Stack.Screen name="theme" component={withHaveServerDataGate(ThemeScreen)} />
       <Stack.Screen name="diagnostics" component={withHaveServerDataGate(DiagnosticsScreen)} />
       <Stack.Screen name="variables" component={withHaveServerDataGate(VariablesScreen)} />
       <Stack.Screen name="timing" component={withHaveServerDataGate(TimingScreen)} />

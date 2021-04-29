@@ -6,11 +6,8 @@ import { ScrollView } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
-import { getSettings } from '../selectors';
-import { OptionButton, OptionRow } from '../common';
+import { OptionButton } from '../common';
 import {
   IconDiagnostics,
   IconNotifications,
@@ -19,7 +16,7 @@ import {
   IconMoreHorizontal,
 } from '../common/Icons';
 import {
-  settingsChange,
+  navigateToThemeScreen,
   navigateToNotifications,
   navigateToLanguage,
   navigateToDiagnostics,
@@ -35,27 +32,18 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'settings'>,
   route: RouteProp<'settings', void>,
-
-  theme: string,
-  dispatch: Dispatch,
 |}>;
 
 class SettingsScreen extends PureComponent<Props> {
-  handleThemeChange = () => {
-    const { dispatch, theme } = this.props;
-    dispatch(settingsChange({ theme: theme === 'default' ? 'night' : 'default' }));
-  };
-
   render() {
-    const { theme } = this.props;
-
     return (
       <ScrollView style={styles.optionWrapper}>
-        <OptionRow
+        <OptionButton
           Icon={IconNight}
           label="Theme"
-          value={theme === 'night'}
-          onValueChange={this.handleThemeChange}
+          onPress={() => {
+            NavigationService.dispatch(navigateToThemeScreen());
+          }}
         />
         <OptionButton
           Icon={IconNotifications}
@@ -90,6 +78,4 @@ class SettingsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
-  theme: getSettings(state).theme,
-}))(SettingsScreen);
+export default SettingsScreen;

@@ -77,6 +77,8 @@ export const navigateToLanguage = (): GenericNavigationAction => StackActions.pu
 export const navigateToCreateGroup = (): GenericNavigationAction =>
   StackActions.push('create-group');
 
+export const navigateToThemeScreen = (): GenericNavigationAction => StackActions.push('theme');
+
 export const navigateToDiagnostics = (): GenericNavigationAction =>
   StackActions.push('diagnostics');
 
