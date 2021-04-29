@@ -135,6 +135,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
         messageIds: event.message_ids ?? [event.message_id],
       };
 
+    case EventTypes.restart:
     case EventTypes.stream:
       return {
         type: EVENT,

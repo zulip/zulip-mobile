@@ -64,6 +64,7 @@ import type {
   PresenceEvent,
   StreamEvent,
   SubmessageEvent,
+  RestartEvent,
 } from './api/eventTypes';
 
 import type {
@@ -305,7 +306,7 @@ type EventSubscriptionPeerRemoveAction = {|
 
 type GenericEventAction = {|
   type: typeof EVENT,
-  event: StreamEvent,
+  event: StreamEvent | RestartEvent,
 |};
 
 type EventNewMessageAction = {|
