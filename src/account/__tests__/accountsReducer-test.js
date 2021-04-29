@@ -2,7 +2,13 @@
 
 import deepFreeze from 'deep-freeze';
 
-import { ACCOUNT_SWITCH, LOGIN_SUCCESS, LOGOUT, ACCOUNT_REMOVE } from '../../actionConstants';
+import {
+  ACCOUNT_SWITCH,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  ACCOUNT_REMOVE,
+  EVENT,
+} from '../../actionConstants';
 import accountsReducer from '../accountsReducer';
 import { ZulipVersion } from '../../utils/zulipVersion';
 
@@ -161,6 +167,48 @@ describe('accountsReducer', () => {
       const newState = accountsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('EventTypes.restart', () => {
+    test('when server version/feature level are present, update active account', () => {
+      const prevState = eg.plusReduxState.accounts;
+      const [prevActiveAccount, ...prevRestOfAccounts] = prevState;
+      expect(
+        accountsReducer(prevState, {
+          type: EVENT,
+          event: {
+            id: 1,
+            type: 'restart',
+            server_generation: 2,
+            immediate: true,
+            zulip_version: '4.0-dev-3932-g3df2dbfd0d',
+            zulip_feature_level: 58,
+          },
+        }),
+      ).toEqual([
+        {
+          ...prevActiveAccount,
+          zulipVersion: new ZulipVersion('4.0-dev-3932-g3df2dbfd0d'),
+          zulipFeatureLevel: 58,
+        },
+        ...prevRestOfAccounts,
+      ]);
+    });
+
+    test("when server version/feature level are not present, don't update active account", () => {
+      const prevState = eg.plusReduxState.accounts;
+      expect(
+        accountsReducer(prevState, {
+          type: EVENT,
+          event: {
+            id: 1,
+            type: 'restart',
+            server_generation: 2,
+            immediate: true,
+          },
+        }),
+      ).toEqual(prevState);
     });
   });
 });

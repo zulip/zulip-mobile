@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import {
+  EVENT,
   REALM_INIT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -11,6 +12,7 @@ import {
 
 import type { AccountsState, Identity, Action } from '../types';
 import { NULL_ARRAY } from '../nullObjects';
+import { ZulipVersion } from '../utils/zulipVersion';
 
 const initialState = NULL_ARRAY;
 
@@ -109,6 +111,33 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
 
     case ACCOUNT_REMOVE:
       return accountRemove(state, action);
+
+    case EVENT: {
+      const { event } = action;
+      switch (event.type) {
+        case 'restart': {
+          const { zulip_feature_level, zulip_version } = event;
+          return zulip_feature_level !== undefined && zulip_version !== undefined
+            ? [
+                {
+                  ...state[0],
+
+                  // TODO (?): Detect if these are different from the values
+                  // we had before, so we know it's an upgrade, not just a
+                  // restart. Then, implement logic like "be sure to refetch
+                  // from scratch within N hours" (to avoid thundering
+                  // herding the server).
+                  zulipVersion: new ZulipVersion(zulip_version),
+                  zulipFeatureLevel: zulip_feature_level,
+                },
+                ...state.slice(1),
+              ]
+            : state;
+        }
+        default:
+          return state;
+      }
+    }
 
     default:
       return state;
