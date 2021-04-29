@@ -261,7 +261,7 @@ export type RealmState = {|
 // TODO: Stop using the 'default' name. Any 'default' semantics should
 // only apply the device level, not within the app. See
 // https://github.com/zulip/zulip-mobile/issues/4009#issuecomment-619280681.
-export type ThemeName = 'default' | 'night';
+export type ThemeName = 'default' | 'night' | 'automatic';
 
 export type SettingsState = {|
   locale: string,

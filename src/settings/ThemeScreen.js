@@ -38,6 +38,10 @@ type Props = $ReadOnly<{|
 
 const themeData = [
   {
+    name: 'System Default',
+    value: 'automatic',
+  },
+  {
     name: 'Dark',
     value: 'night',
   },
