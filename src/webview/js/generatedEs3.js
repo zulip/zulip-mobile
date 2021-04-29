@@ -993,6 +993,26 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
 
+    if (target.matches('.poll-vote')) {
+      var _messageElement = target.closest('.message');
+
+      if (!_messageElement) {
+        throw new Error('Message element not found');
+      }
+
+      var current_vote = requireAttribute(target, 'data-voted') === 'true';
+      var vote = current_vote ? -1 : 1;
+      sendMessage({
+        type: 'vote',
+        messageId: requireNumericAttribute(_messageElement, 'data-msg-id'),
+        key: requireAttribute(target, 'data-key'),
+        vote: vote
+      });
+      target.setAttribute('data-voted', (!current_vote).toString());
+      target.innerText = (parseInt(target.innerText, 10) + vote).toString();
+      return;
+    }
+
     if (target.matches('time')) {
       var originalText = requireAttribute(target, 'original-text');
       sendMessage({

@@ -918,6 +918,27 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
+  if (target.matches('.poll-vote')) {
+    const messageElement = target.closest('.message');
+    if (!messageElement) {
+      throw new Error('Message element not found');
+    }
+    // This duplicates some logic from PollData.handle.vote.outbound in
+    // @zulip/shared/js/poll_data.js, but it's much simpler to just duplicate
+    // it than it is to thread a callback all the way over here.
+    const current_vote = requireAttribute(target, 'data-voted') === 'true';
+    const vote = current_vote ? -1 : 1;
+    sendMessage({
+      type: 'vote',
+      messageId: requireNumericAttribute(messageElement, 'data-msg-id'),
+      key: requireAttribute(target, 'data-key'),
+      vote,
+    });
+    target.setAttribute('data-voted', (!current_vote).toString());
+    target.innerText = (parseInt(target.innerText, 10) + vote).toString();
+    return;
+  }
+
   if (target.matches('time')) {
     const originalText = requireAttribute(target, 'original-text');
     sendMessage({
