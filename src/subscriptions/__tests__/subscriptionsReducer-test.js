@@ -158,7 +158,7 @@ describe('subscriptionsReducer', () => {
     });
   });
 
-  describe('EVENT_STREAM -> delete', () => {
+  describe('EventTypes.stream, op: delete', () => {
     test('when a stream is delrted but user is not subscribed to it, do not change state', () => {
       const initialState = deepFreeze([sub3]);
       const action = deepFreeze({
