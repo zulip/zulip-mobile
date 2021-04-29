@@ -53,7 +53,7 @@ class SettingsScreen extends PureComponent<Props> {
       <ScrollView style={styles.optionWrapper}>
         <OptionRow
           Icon={IconNight}
-          label="Night mode"
+          label="Theme"
           value={theme === 'night'}
           onValueChange={this.handleThemeChange}
         />
