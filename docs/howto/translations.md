@@ -82,16 +82,25 @@ few different forms in different contexts in our code:
 Important general background on providing strings for translation:
 
 * Never try to concatenate translated strings together, or do other
-  string manipulation on them.  Instead, all punctuation, sentence
-  structure, etc., should appear inside the constant message string.
-  To interpolate data that can vary, use the placeholder syntax
-  `'Hello, {name}'`.
+  string manipulation on them, in order to put things together in a
+  sentence.  Instead, all punctuation, sentence structure, etc.,
+  should appear inside the constant message string.  To interpolate
+  data that can vary, use the placeholder syntax `'Hello, {name}'`.
 
   This is important because different languages will put things in
   different orders in a sentence, and use different punctuation and
   spacing.
 
-  For further discussion, see [general Zulip docs on
+  The only situations where concatenating or interpolating translated
+  strings is appropriate are where the strings aren't meant to be read
+  as part of the same sentence, which usually means they're in
+  separate elements of the UI.  This is rare; in most situations,
+  separate elements of the UI will either be in separate React
+  elements, or in HTML where we use structured templates to ensure
+  that text data is always correctly encoded as HTML, so either way we
+  won't be concatenating their text directly together.
+
+  For further discussion and examples, see [general Zulip docs on
   internationalization][rtd-i18n].
 
 [react-intl-formatmessage]: https://formatjs.io/docs/react-intl/api/#formatmessage
