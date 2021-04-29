@@ -1,6 +1,10 @@
 /* @flow strict-local */
 import { PixelRatio } from 'react-native';
+import invariant from 'invariant';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+// $FlowFixMe[untyped-import]
+import { PollData } from '@zulip/shared/js/poll_data';
+
 import template from './template';
 import type {
   AggregatedReaction,
@@ -10,14 +14,17 @@ import type {
   MessageLike,
   Outbox,
   Reaction,
+  SubmessageData,
   ImageEmojiType,
   UserId,
+  WidgetData,
 } from '../../types';
 import type { BackgroundData } from '../MessageList';
 import { shortTime } from '../../utils/date';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';
 import processAlertWords from './processAlertWords';
+import * as logging from '../../utils/logging';
 
 const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): string => {
   const pieces = [];
@@ -72,13 +79,105 @@ $!${messageReactionListAsHtml(reactions, ownUser.user_id, allImageEmojiById)}
 `;
 };
 
-const widgetBody = (message: Message | Outbox) => template`
+/**
+ * Render the body of a message that has submessages.
+ *
+ * Must not be called on a message without any submessages.
+ */
+const widgetBody = (message: Message, ownUserId: UserId) => {
+  invariant(
+    message.submessages !== undefined && message.submessages.length > 0,
+    'should have submessages',
+  );
+
+  const widgetSubmessages: Array<{
+    sender_id: number,
+    content: SubmessageData,
+    ...
+  }> = message.submessages
+    .filter(submessage => submessage.msg_type === 'widget')
+    .sort((m1, m2) => m1.id - m2.id)
+    .map(submessage => ({
+      sender_id: submessage.sender_id,
+      content: JSON.parse(submessage.content),
+    }));
+
+  const errorMessage = template`
 $!${message.content}
 <div class="special-message"
  ><p>Interactive message</p
  ><p>To use, open on web or desktop</p
 ></div>
 `;
+
+  const pollWidget = widgetSubmessages.shift();
+  if (!pollWidget || !pollWidget.content) {
+    return errorMessage;
+  }
+
+  /* $FlowFixMe[incompatible-type]: The first widget submessage should be
+       a `WidgetData`; see jsdoc on `SubmessageData`. */
+  const pollWidgetContent: WidgetData = pollWidget.content;
+
+  if (pollWidgetContent.widget_type !== 'poll') {
+    return errorMessage;
+  }
+
+  if (pollWidgetContent.extra_data == null) {
+    // We don't expect this to happen in general, but there are some malformed
+    // messages lying around that will trigger this [1]. The code here is slightly
+    // different the webapp code, but mostly because the current webapp
+    // behaviour seems accidental: an error is printed to the console, and the
+    // code that is written to handle the situation is never reached.  Instead
+    // of doing that, we've opted to catch this case here, and print out the
+    // message (which matches the behaviour of the webapp, minus the console
+    // error, although it gets to that behaviour in a different way). The bug
+    // tracking fixing this on the webapp side is zulip/zulip#19145.
+    // [1]: https://chat.zulip.org/#narrow/streams/public/near/582872
+    return template`$!${message.content}`;
+  }
+
+  const pollData = new PollData({
+    message_sender_id: message.sender_id,
+    current_user_id: ownUserId,
+    is_my_poll: message.sender_id === ownUserId,
+    question: pollWidgetContent.extra_data.question ?? '',
+    options: pollWidgetContent.extra_data.options ?? [],
+    // TODO: Implement this.
+    comma_separated_names: () => '',
+    report_error_function: (msg: string) => {
+      logging.error(msg);
+    },
+  });
+
+  for (const pollEvent of widgetSubmessages) {
+    pollData.handle_event(pollEvent.sender_id, pollEvent.content);
+  }
+
+  const parsedPollData = pollData.get_widget_data();
+
+  return template`
+<div class="poll-widget">
+  <p class="poll-question">${parsedPollData.question}</p>
+  <ul>
+    $!${parsedPollData.options
+      .map(
+        option =>
+          template`
+        <li>
+          <button
+            class="poll-vote"
+            data-voted="${option.current_user_vote}"
+            data-key="${option.key}"
+          >${option.count}</button>
+          <span class="poll-option">${option.option}</span>
+        </li>`,
+      )
+      .join('')}
+  </ul>
+</div>
+  `;
+};
 
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
   Object.keys(flags).filter(key => flags[key][id]);
@@ -112,7 +211,7 @@ export default (
 `;
   const bodyHtml =
     message.submessages && message.submessages.length > 0
-      ? widgetBody(message)
+      ? widgetBody(message, backgroundData.ownUser.user_id)
       : messageBody(backgroundData, message);
 
   if (isBrief) {

@@ -696,3 +696,50 @@ h1, h2, h3, h4, h5, h6 {
 .spoiler-block .spoiler-arrow.spoiler-button-open::after {
   transform: rotate(90deg) translate(10px, 0);
 }
+
+/* Poll styling */
+
+.poll-widget {
+  border: hsl(0, 0%, 50%) 1px solid;
+  padding: 2px 8px 2px 10px;
+  border-radius: 10px;
+}
+
+.poll-question {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  border-bottom: 1px solid hsla(0, 0%, 60%, 0.2);
+}
+
+.poll-widget > ul {
+  padding: 0px;
+}
+
+.poll-widget > ul > li {
+  list-style: none;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.poll-vote {
+  background-color: hsla(0, 0%, 0%, 0);
+  border: 1.5px solid hsl(0, 0%, 50%);
+  border-radius: 8px;
+  height: 36px;
+  min-width: 36px;
+  padding: 1px 8px;
+  font-weight: bold;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.poll-vote[data-voted="true"] {
+  border: 1.5px solid hsl(222, 99%, 69%);
+  background-color: hsla(222, 99%, 69%, 25%);
+}
+
+.poll-option {
+  margin-left: 8px;
+  width: 100%;
+}
