@@ -329,7 +329,7 @@ export type UsersState = User[];
  * See in particular `discardKeys`, `storeKeys`, and `cacheKeys`, which
  * identify which subtrees are persisted and which are not.
  */
-export type GlobalState = {|
+export type GlobalState = $ReadOnly<{|
   accounts: AccountsState,
   alertWords: AlertWordsState,
   caughtUp: CaughtUpState,
@@ -355,7 +355,7 @@ export type GlobalState = {|
   userGroups: UserGroupsState,
   userStatus: UserStatusState,
   users: UsersState,
-|};
+|}>;
 
 /** A selector returning TResult, with extra parameter TParam. */
 // Seems like this should be OutputSelector... but for whatever reason,

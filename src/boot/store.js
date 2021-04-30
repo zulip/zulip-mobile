@@ -90,13 +90,11 @@ export const cacheKeys: Array<$Keys<GlobalState>> = [
 function dropCache(state: GlobalState): $Shape<GlobalState> {
   const result: $Shape<GlobalState> = {};
   storeKeys.forEach(key => {
-    // $FlowFixMe[incompatible-indexer]
-    // $FlowFixMe[incompatible-exact]
-    // $FlowFixMe[prop-missing]
-    // $FlowFixMe[incompatible-variance]
-    // $FlowFixMe[incompatible-type-arg]
-    /* $FlowFixMe[incompatible-type]
-       This is well-typed only because it's the same `key` twice. */
+    /* $FlowFixMe[cannot-write]
+       This is well-typed only because it's the same `key` twice. It seems
+       like we should have to suppress an error about not having that
+       guarantee, in addition to the more minor-looking `cannot-write`. Not
+       sure why we don't. */
     result[key] = state[key];
   });
   return result;
