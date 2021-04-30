@@ -5,7 +5,16 @@ import * as logging from '../utils/logging';
 
 export default class ZulipAsyncStorage {
   static async getItem(key: string, callback?: ?(error: ?Error, result: ?string) => void) {
-    let result = await AsyncStorage.getItem(key);
+    let result;
+    try {
+      result = await AsyncStorage.getItem(key);
+    } catch (err) {
+      if (callback) {
+        callback(err, null);
+      }
+      throw err;
+    }
+
     // It's possible that getItem() is called on uncompressed state, for
     // example when a user updates their app from a version without
     // compression to a version with compression.  So we need to detect that.
