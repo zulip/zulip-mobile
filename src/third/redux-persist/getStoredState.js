@@ -16,9 +16,17 @@ export default function getStoredState (config, onComplete) {
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
   let restoredState = {}
-  let completionCount = 0
+  let completionCount = 0;
 
-  storage.getAllKeys((err, allKeys) => {
+  (async () => {
+    let err = null;
+    let allKeys = undefined;
+    try {
+      allKeys = await storage.getAllKeys()
+    } catch (e) {
+      err = e
+    }
+
     if (err) {
       if (process.env.NODE_ENV !== 'production') console.warn('redux-persist/getStoredState: Error in storage.getAllKeys')
       complete(err)
@@ -31,14 +39,21 @@ export default function getStoredState (config, onComplete) {
     let restoreCount = keysToRestore.length
     if (restoreCount === 0) complete(null, restoredState)
     keysToRestore.forEach((key) => {
-      storage.getItem(createStorageKey(key), (err, serialized) => {
+      (async () => {
+        let err = null;
+        let serialized = null;
+        try {
+          serialized = await storage.getItem(createStorageKey(key))
+        } catch (e) {
+          err = e
+        }
         if (err && process.env.NODE_ENV !== 'production') console.warn('redux-persist/getStoredState: Error restoring data for key:', key, err)
         else restoredState[key] = rehydrate(key, serialized)
         completionCount += 1
         if (completionCount === restoreCount) complete(null, restoredState)
-      })
+      })()
     })
-  })
+  })();
 
   function rehydrate (key, serialized) {
     let state = null
