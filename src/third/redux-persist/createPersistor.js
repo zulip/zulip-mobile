@@ -1,5 +1,4 @@
 import { KEY_PREFIX, REHYDRATE } from './constants'
-import createAsyncLocalStorage from './defaults/asyncLocalStorage'
 import purgeStoredState from './purgeStoredState'
 import stringify from 'json-stringify-safe'
 
@@ -34,11 +33,7 @@ export default function createPersistor (store, config) {
   const stateGetter = config._stateGetter || defaultStateGetter
   const stateSetter = config._stateSetter || defaultStateSetter
 
-  // storage with keys -> getAllKeys for localForage support
-  let storage = config.storage || createAsyncLocalStorage('local')
-  if (storage.keys && !storage.getAllKeys) {
-    storage.getAllKeys = storage.keys
-  }
+  const storage = config.storage;
 
   // initialize stateful values
   let lastState = stateInit

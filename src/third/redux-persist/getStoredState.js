@@ -1,8 +1,7 @@
 import { KEY_PREFIX } from './constants'
-import createAsyncLocalStorage from './defaults/asyncLocalStorage'
 
 export default function getStoredState (config, onComplete) {
-  let storage = config.storage || createAsyncLocalStorage('local')
+  let storage = config.storage
   let deserializer;
   if (config.deserialize === false) {
     deserializer = (data) => data
@@ -15,9 +14,6 @@ export default function getStoredState (config, onComplete) {
   const whitelist = config.whitelist || false
   const transforms = config.transforms || []
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
-
-  // fallback getAllKeys to `keys` if present (LocalForage compatability)
-  if (storage.keys && !storage.getAllKeys) storage = {...storage, getAllKeys: storage.keys}
 
   let restoredState = {}
   let completionCount = 0
