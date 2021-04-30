@@ -43,7 +43,7 @@ export default class ZulipAsyncStorage {
       }
     }
     if (callback) {
-      callback(undefined, result);
+      callback(null, result);
     }
     return result;
   }
