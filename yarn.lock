@@ -10228,6 +10228,11 @@ react-native-gesture-handler@^1.0.12:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+react-native-hour-format@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/react-native-hour-format/-/react-native-hour-format-1.1.3.tgz#a755ae3fc98c35459330f89984b6b359e8b09a87"
+  integrity sha512-dXCKgBLZmRXe+skaDQ4BWc14DeLHqD0IMAKSYBI6pQ9wU8kfo7jzuCVtToDnTE/kzwf7B81PIWQsQZj03HpZvA==
+
 react-native-image-picker@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-2.3.3.tgz#eaacd4a1ed9e9887613be31f0765478ca2f18a51"

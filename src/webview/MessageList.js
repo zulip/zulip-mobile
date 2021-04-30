@@ -4,6 +4,7 @@ import { Platform, NativeModules } from 'react-native';
 import { WebView } from 'react-native-webview';
 import type { WebViewNavigation } from 'react-native-webview';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
+import { HourFormat } from 'react-native-hour-format';
 
 import type {
   AlertWordsState,
@@ -44,7 +45,6 @@ import {
   getSettings,
   getSubscriptions,
   getShownMessagesForNarrow,
-  getRealm,
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
@@ -349,6 +349,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
   // when the inputs don't.  Doesn't matter in a practical way here, because
   // we have a `shouldComponentUpdate` that doesn't look at this prop... but
   // it'd be better to set an example of the right general pattern.
+
   const backgroundData: BackgroundData = {
     alertWords: state.alertWords,
     allImageEmojiById: getAllImageEmojiById(state),
@@ -360,7 +361,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
     ownUser: getOwnUser(state),
     subscriptions: getSubscriptions(state),
     theme: getSettings(state).theme,
-    twentyFourHourTime: getRealm(state).twentyFourHourTime,
+    twentyFourHourTime: HourFormat.is24HourFormat(),
   };
 
   return {
