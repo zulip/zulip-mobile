@@ -2,14 +2,15 @@
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import { FAB } from 'react-native-paper';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
-import { createStyleSheet } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
-import { ZulipButton, LoadingBanner } from '../common';
+import { LoadingBanner } from '../common';
 import * as api from '../api';
 import { delay } from '../utils/async';
 import { streamNarrow } from '../utils/narrow';
@@ -22,7 +23,11 @@ const styles = createStyleSheet({
     flex: 1,
   },
   button: {
+    position: 'absolute',
+    backgroundColor: BRAND_COLOR,
     margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });
 
@@ -63,18 +68,6 @@ class StreamListCard extends PureComponent<Props> {
     return (
       <View style={styles.wrapper}>
         <LoadingBanner />
-        {canCreateStreams && (
-          <ZulipButton
-            style={styles.button}
-            secondary
-            text="Create new stream"
-            onPress={() =>
-              delay(() => {
-                NavigationService.dispatch(navigateToCreateStream());
-              })
-            }
-          />
-        )}
         <StreamList
           streams={subsAndStreams}
           showSwitch
@@ -82,6 +75,18 @@ class StreamListCard extends PureComponent<Props> {
           onSwitch={this.handleSwitchChange}
           onPress={this.handleNarrow}
         />
+        {canCreateStreams && (
+          <FAB
+            style={styles.button}
+            icon="plus"
+            accessibilityLabel="Create new stream"
+            onPress={() =>
+              delay(() => {
+                NavigationService.dispatch(navigateToCreateStream());
+              })
+            }
+          />
+        )}
       </View>
     );
   }
