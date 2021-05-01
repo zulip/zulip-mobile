@@ -67,6 +67,22 @@ describe('unreadMentionsReducer', () => {
       expect(actualState).toBe(initialState);
     });
 
+    test('if message has "read" flag, do not mutate state', () => {
+      const initialState = deepFreeze([]);
+
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message: {
+          id: 2,
+          flags: ['mentioned', 'read'],
+        },
+      });
+
+      const actualState = unreadMentionsReducer(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+
     test('if message id already exists, do not mutate state', () => {
       const initialState = deepFreeze([1, 2]);
 
