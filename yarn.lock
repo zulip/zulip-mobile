@@ -1033,6 +1033,14 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@callstack/react-theme-provider@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.5.tgz#a173e455e9603c9c45357a3b6ace1273086527ca"
+  integrity sha512-Iec+ybWN0FvNj87sD3oWo/49edGUP0UOSdMnzCJEFJIDYr992ECIuOV89burAAh2/ibPCxgLiK6dmgv2mO/8Tg==
+  dependencies:
+    deepmerge "^3.2.0"
+    hoist-non-react-statics "^3.3.0"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -3979,7 +3987,7 @@ color-support@^1.1.3:
   resolved "https://registry.yarnpkg.com/color-support/-/color-support-1.1.3.tgz#93834379a1cc9a0c61f82f52f0d04322251bd5a2"
   integrity sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==
 
-color@^3.0.0, color@^3.1.3:
+color@^3.0.0, color@^3.1.2, color@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/color/-/color-3.1.3.tgz#ca67fb4e7b97d611dcde39eceed422067d91596e"
   integrity sha512-xgXAcTHa2HeFCGLE9Xs/R82hujGtu9Jd9x4NW3T34+OMs7VoPsjwzRczKHvTAHeJwWFwX5j15+MgAppE8ztObQ==
@@ -10233,7 +10241,7 @@ react-native-image-picker@^2.3.3:
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-2.3.3.tgz#eaacd4a1ed9e9887613be31f0765478ca2f18a51"
   integrity sha512-i/7JDnxKkUGSbFY2i7YqFNn3ncJm1YlcrPKXrXmJ/YUElz8tHkuwknuqBd9QCJivMfHX41cmq4XvdBDwIOtO+A==
 
-react-native-iphone-x-helper@^1.3.0:
+react-native-iphone-x-helper@^1.3.0, react-native-iphone-x-helper@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
@@ -10245,6 +10253,15 @@ react-native-notifications@^1.2.0:
   dependencies:
     core-js "^1.0.0"
     uuid "^2.0.3"
+
+react-native-paper@^4.8.1:
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.8.1.tgz#ade4e552e2aaecfc3096c8aebda37bd99facf63f"
+  integrity sha512-WgmqrDdcrr0ZbuiLCwMpmOMhl1n8uIvNulxsl2oCGtD8oeMkPJKHf4G/ONR+iNrSXcFbJek+uDRSmcGA5kDfUA==
+  dependencies:
+    "@callstack/react-theme-provider" "^3.0.5"
+    color "^3.1.2"
+    react-native-iphone-x-helper "^1.3.1"
 
 react-native-photo-view@alwx/react-native-photo-view#c58fd6b30:
   version "1.5.2"

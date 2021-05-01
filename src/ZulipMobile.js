@@ -4,6 +4,7 @@ import { Platform, UIManager } from 'react-native';
 import 'react-native-url-polyfill/auto';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 import RootErrorBoundary from './RootErrorBoundary';
 import { BRAND_COLOR } from './styles';
@@ -54,7 +55,9 @@ export default (): React$Node => (
                   <ThemeProvider>
                     <BackNavigationHandler>
                       <ActionSheetProvider>
-                        <ZulipNavigationContainer />
+                        <PaperProvider>
+                          <ZulipNavigationContainer />
+                        </PaperProvider>
                       </ActionSheetProvider>
                     </BackNavigationHandler>
                   </ThemeProvider>
