@@ -3,6 +3,7 @@ import { Platform, NativeModules } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ZulipAsyncStorage from '../ZulipAsyncStorage';
 import * as logging from '../../utils/logging';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('setItem', () => {
   const key = 'foo!';
@@ -183,4 +184,16 @@ describe('getItem', () => {
       });
     });
   }
+});
+
+describe('setItem/getItem together', () => {
+  test('round-tripping works', async () => {
+    const key = eg.randString();
+    const value = eg.randString();
+
+    // AsyncStorage provides its own mocks for `.getItem` and
+    // `.setItem`; it writes to a variable instead of storage.
+    await ZulipAsyncStorage.setItem(key, value);
+    expect(await ZulipAsyncStorage.getItem(key)).toEqual(value);
+  });
 });
