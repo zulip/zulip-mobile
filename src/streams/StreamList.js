@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
+import { type ScrollEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 
 import type { Stream, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
@@ -24,6 +25,7 @@ type Props = $ReadOnly<{|
   unreadByStream: $ReadOnly<{| [number]: number |}>,
   onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,
+  onScroll?: (scrollEvent: ScrollEvent) => void,
 |}>;
 
 export default class StreamList extends PureComponent<Props> {
@@ -35,7 +37,15 @@ export default class StreamList extends PureComponent<Props> {
   };
 
   render() {
-    const { streams, showDescriptions, showSwitch, unreadByStream, onPress, onSwitch } = this.props;
+    const {
+      streams,
+      showDescriptions,
+      showSwitch,
+      unreadByStream,
+      onPress,
+      onSwitch,
+      onScroll,
+    } = this.props;
 
     if (streams.length === 0) {
       return <SearchEmptyState text="No streams found" />;
@@ -59,6 +69,7 @@ export default class StreamList extends PureComponent<Props> {
       <SectionList
         style={styles.list}
         sections={sections}
+        onScroll={onScroll}
         extraData={unreadByStream}
         initialNumToRender={20}
         keyExtractor={item => item.stream_id}
