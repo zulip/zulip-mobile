@@ -22,6 +22,7 @@ export default function getStoredState (config, onComplete) {
     if (err) {
       if (process.env.NODE_ENV !== 'production') console.warn('redux-persist/getStoredState: Error in storage.getAllKeys')
       complete(err)
+      return
     }
 
     let persistKeys = allKeys.filter((key) => key.indexOf(keyPrefix) === 0).map((key) => key.slice(keyPrefix.length))
