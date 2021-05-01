@@ -4,16 +4,8 @@ import { NativeModules } from 'react-native';
 import * as logging from '../utils/logging';
 
 export default class ZulipAsyncStorage {
-  static async getItem(key: string, callback?: ?(error: ?Error, result: ?string) => void) {
-    let result;
-    try {
-      result = await AsyncStorage.getItem(key);
-    } catch (err) {
-      if (callback) {
-        callback(err, null);
-      }
-      throw err;
-    }
+  static async getItem(key: string) {
+    const item = await AsyncStorage.getItem(key);
 
     // It's possible that getItem() is called on uncompressed state, for
     // example when a user updates their app from a version without
@@ -31,13 +23,14 @@ export default class ZulipAsyncStorage {
     // E.g., `zlib base64` means DATA is a base64 encoding of a zlib
     // encoding of the underlying data.  We call the "z|TRANSFORMS|" part
     // the "header" of the string.
-    if (result !== null && result.startsWith('z')) {
-      const header = result.substring(0, result.indexOf('|', result.indexOf('|') + 1) + 1);
+    if (item !== null && item.startsWith('z')) {
+      // In this block, `item` is compressed state.
+      const header = item.substring(0, item.indexOf('|', item.indexOf('|') + 1) + 1);
       if (
         NativeModules.TextCompressionModule
         && header === NativeModules.TextCompressionModule.header
       ) {
-        result = await NativeModules.TextCompressionModule.decompress(result);
+        return NativeModules.TextCompressionModule.decompress(item);
       } else {
         // Panic! If we are confronted with an unknown format, there is
         // nothing we can do to save the situation. Log an error and ignore
@@ -45,27 +38,19 @@ export default class ZulipAsyncStorage {
         // their version of the app.
         const err = new Error(`No decompression module found for format ${header}`);
         logging.error(err);
-        if (callback) {
-          callback(err, null);
-        }
         throw err;
       }
     }
-    if (callback) {
-      callback(null, result);
-    }
-    return result;
+
+    // Uncompressed state
+    return item;
   }
 
-  static async setItem(key: string, value: string, callback?: ?(error: ?Error) => void) {
+  static async setItem(key: string, value: string) {
     if (!NativeModules.TextCompressionModule) {
-      return AsyncStorage.setItem(key, value, callback);
+      return AsyncStorage.setItem(key, value);
     }
-    return AsyncStorage.setItem(
-      key,
-      await NativeModules.TextCompressionModule.compress(value),
-      callback,
-    );
+    return AsyncStorage.setItem(key, await NativeModules.TextCompressionModule.compress(value));
   }
 
   static removeItem = AsyncStorage.removeItem;

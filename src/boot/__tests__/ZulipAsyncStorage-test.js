@@ -8,14 +8,12 @@ import * as eg from '../../__tests__/lib/exampleData';
 describe('setItem', () => {
   const key = 'foo!';
   const value = '123!';
-  const callback = jest.fn();
-  beforeEach(() => callback.mockClear());
 
   // For checking that AsyncStorage.setItem is called in ways we expect.
   const asyncStorageSetItemSpy = jest.spyOn(AsyncStorage, 'setItem');
   beforeEach(() => asyncStorageSetItemSpy.mockClear());
 
-  const run = async () => ZulipAsyncStorage.setItem(key, value, callback);
+  const run = async () => ZulipAsyncStorage.setItem(key, value);
 
   describe('success', () => {
     // AsyncStorage provides its own mock for `.setItem`, which gives
@@ -26,19 +24,12 @@ describe('setItem', () => {
       await expect(run()).resolves.toBe(null);
     });
 
-    test('callback called correctly', async () => {
-      await run();
-      expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith(null);
-    });
-
     test('AsyncStorage.setItem called correctly', async () => {
       await run();
       expect(asyncStorageSetItemSpy).toHaveBeenCalledTimes(1);
       expect(asyncStorageSetItemSpy).toHaveBeenCalledWith(
         key,
         Platform.OS === 'ios' ? value : await NativeModules.TextCompressionModule.compress(value),
-        callback,
       );
     });
   });
@@ -50,15 +41,9 @@ describe('setItem', () => {
     const globalMock = AsyncStorage.setItem;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
-      AsyncStorage.setItem = jest.fn(
-        async (k: string, v: string, cb?: ?(e: ?Error) => void): Promise<null> => {
-          const error = new Error();
-          if (cb) {
-            cb(error);
-          }
-          throw error;
-        },
-      );
+      AsyncStorage.setItem = jest.fn(async (k: string, v: string): Promise<null> => {
+        throw new Error();
+      });
     });
     afterAll(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
@@ -68,24 +53,12 @@ describe('setItem', () => {
     test('rejects correctly', async () => {
       await expect(run()).rejects.toThrow(Error);
     });
-
-    test('callback called correctly', async () => {
-      try {
-        await run();
-      } catch (e) {
-        // "rejects correctly" covers this
-      }
-      expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith(expect.any(Error));
-    });
   });
 });
 
 describe('getItem', () => {
   const key = 'foo!';
   const value = '123!';
-  const callback = jest.fn();
-  beforeEach(() => callback.mockClear());
 
   // For checking that AsyncStorage.getItem is called in ways we expect.
   const asyncStorageGetItemSpy = jest.spyOn(AsyncStorage, 'getItem');
@@ -105,7 +78,7 @@ describe('getItem', () => {
     logging.error.mockReturnValue();
   });
 
-  const run = async () => ZulipAsyncStorage.getItem(key, callback);
+  const run = async () => ZulipAsyncStorage.getItem(key);
 
   describe('success', () => {
     // AsyncStorage provides its own mock for `.getItem`, which gives
@@ -121,12 +94,6 @@ describe('getItem', () => {
     test('resolves correctly', async () => {
       await expect(run()).resolves.toBe(value);
     });
-
-    test('callback called correctly', async () => {
-      await run();
-      expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith(null, value);
-    });
   });
 
   describe('failure', () => {
@@ -136,15 +103,9 @@ describe('getItem', () => {
     const globalMock = AsyncStorage.getItem;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
-      AsyncStorage.getItem = jest.fn(
-        async (k: string, cb?: ?(e: ?Error, r: string | null) => void): Promise<string | null> => {
-          const error = new Error();
-          if (cb) {
-            cb(error, null);
-          }
-          throw error;
-        },
-      );
+      AsyncStorage.getItem = jest.fn(async (k: string): Promise<string | null> => {
+        throw new Error();
+      });
     });
     afterAll(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
@@ -153,16 +114,6 @@ describe('getItem', () => {
 
     test('rejects correctly', async () => {
       await expect(run()).rejects.toThrow(Error);
-    });
-
-    test('callback called correctly', async () => {
-      try {
-        await run();
-      } catch (e) {
-        // "rejects correctly" covers this
-      }
-      expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith(expect.any(Error), null);
     });
   });
 
@@ -176,11 +127,9 @@ describe('getItem', () => {
           `${unknownHeader}${Buffer.from('123!').toString('hex')}`,
         );
 
-        await expect(ZulipAsyncStorage.getItem(`${key}-unknown`, callback)).rejects.toThrow(
+        await expect(ZulipAsyncStorage.getItem(`${key}-unknown`)).rejects.toThrow(
           `No decompression module found for format ${unknownHeader}`,
         );
-        expect(callback).toHaveBeenCalledTimes(1);
-        expect(callback).toHaveBeenCalledWith(expect.any(Error), null);
       });
     });
   }
