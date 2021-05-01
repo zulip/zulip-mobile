@@ -149,12 +149,31 @@ export const normalizeRecipientsAsUserIdsSansMe = (
  *  * `pmKeyRecipientsFromMessage`, which should be used when a consistent,
  *    unique key is needed for identifying different PM conversations in our
  *    data structures.
+ *  * `pmUiRecipientsFromKeyRecipients`, which takes a `PmKeyRecipients`
+ *    as input instead of a message.
  */
 export const pmUiRecipientsFromMessage = (
   message: PmMessage | PmOutbox,
   ownUserId: UserId,
 ): $ReadOnlyArray<PmRecipientUser> =>
   filterRecipients(recipientsOfPrivateMessage(message), ownUserId);
+
+/**
+ * The set of users to show in the UI to identify a PM conversation.
+ *
+ * This produces the same set of users as `pmUiRecipientsFromMessage`,
+ * just from a different form of input.  See there for more discussion.
+ */
+export const pmUiRecipientsFromKeyRecipients = (
+  recipients: PmKeyRecipients,
+  ownUserId: UserId,
+): $ReadOnlyArray<UserId> =>
+  // As it happens, the representation we use in PmKeyRecipients is the same
+  // as we want in the UI:
+  //  * for the self-1:1 conversation, just the self user;
+  //  * for other 1:1 conversations, the other user;
+  //  * for group PM conversations, all the other users.
+  recipients;
 
 /**
  * The list of users to identify a PM conversation by in our data structures.
