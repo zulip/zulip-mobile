@@ -11,6 +11,7 @@ import {
   type PmKeyUsers,
   pmKeyRecipientsFromPmKeyUsers,
   pmKeyRecipientsFor1to1,
+  makePmKeyRecipients_UNSAFE,
 } from './recipient';
 
 /* eslint-disable no-use-before-define */
@@ -107,8 +108,9 @@ export const pmNarrowFromUsers = (recipients: PmKeyUsers): Narrow =>
 // It'd be fine for test data to go through the usual filtering logic; the
 // annoying thing is just that that requires an ownUserId value.
 export const pmNarrowFromUsersUnsafe = (recipients: UserOrBot[]): Narrow => {
-  recipients.sort((a, b) => a.user_id - b.user_id);
-  return pmNarrowInternal(recipients.map(r => r.user_id));
+  const userIds = recipients.map(u => u.user_id).sort((a, b) => a - b);
+  // This call is unsafe, but that's why this function is too.
+  return pmNarrowInternal(makePmKeyRecipients_UNSAFE(userIds));
 };
 
 /**
@@ -299,7 +301,9 @@ export const parseNarrow = (narrowStr: string): Narrow => {
 
     case 'pm:': {
       const ids = rest.split(',').map(s => makeUserId(Number.parseInt(s, 10)));
-      return pmNarrowInternal(ids);
+      // Here we're relying on the key having been encoded from a
+      // correct list of users.
+      return pmNarrowInternal(makePmKeyRecipients_UNSAFE(ids));
     }
 
     case 'search:': {

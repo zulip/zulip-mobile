@@ -86,6 +86,16 @@ export const pmKeyRecipientsFromPmKeyUsers = (recipients: PmKeyUsers): PmKeyReci
 // that, we can always refactor this function and its callers then.)
 export const pmKeyRecipientsFor1to1 = (userId: UserId): PmKeyRecipients => [userId];
 
+/**
+ * Declare, **unchecked**, that a list of users identifies a PM conversation.
+ *
+ * This function bypasses our filtering logic for finding the right set of
+ * users to identify the conversation according to our convention.  The
+ * caller is responsible for ensuring that the invariant nevertheless holds.
+ */
+export const makePmKeyRecipients_UNSAFE = (recipients: $ReadOnlyArray<UserId>): PmKeyRecipients =>
+  recipients;
+
 // Filter a list of PM recipients in the quirky way that we do, and sort.
 //
 // Specifically: all users, except the self-user, except if it's the
