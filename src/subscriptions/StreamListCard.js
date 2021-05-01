@@ -42,7 +42,17 @@ type Props = $ReadOnly<{|
   subscriptions: Subscription[],
 |}>;
 
-class StreamListCard extends PureComponent<Props> {
+type State = {|
+  scrollPosition: number,
+  showCreateStream: boolean,
+|};
+
+class StreamListCard extends PureComponent<Props, State> {
+  state = {
+    scrollPosition: 0,
+    showCreateStream: true,
+  };
+
   handleSwitchChange = (streamName: string, switchValue: boolean) => {
     const { auth } = this.props;
 
@@ -56,6 +66,14 @@ class StreamListCard extends PureComponent<Props> {
   handleNarrow = (streamName: string) => {
     const { dispatch } = this.props;
     dispatch(doNarrow(streamNarrow(streamName)));
+  };
+
+  handleScroll = event => {
+    const scrollPosition = event.nativeEvent.contentOffset.y;
+    this.setState(prevState => ({
+      showCreateStream: scrollPosition < 100 || scrollPosition < prevState.scrollPosition,
+      scrollPosition,
+    }));
   };
 
   render() {
@@ -74,11 +92,14 @@ class StreamListCard extends PureComponent<Props> {
           showDescriptions
           onSwitch={this.handleSwitchChange}
           onPress={this.handleNarrow}
+          onScroll={this.handleScroll}
         />
         {canCreateStreams && (
           <FAB
             style={styles.button}
             icon="plus"
+            visible={this.state.showCreateStream}
+            animated
             accessibilityLabel="Create new stream"
             onPress={() =>
               delay(() => {
