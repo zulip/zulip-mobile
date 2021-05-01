@@ -299,7 +299,8 @@ body {
  Inside a message, outside its contents.
  */
 
-[data-mentioned="true"], [data-wildcard_mentioned="true"] {
+[data-mentioned="true"][data-mute-state="shown"],
+[data-wildcard_mentioned="true"][data-mute-state="shown"] {
   background: hsla(0, 100%, 50%, 0.05);
 }
 .message:not([data-read="true"]) {
