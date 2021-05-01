@@ -118,7 +118,7 @@ describe('unreadHuddlesReducer', () => {
       expect(actualState).toBe(initialState);
     });
 
-    test('if message is sent by self, do not mutate state', () => {
+    test('if message has "read" flag, do not mutate state', () => {
       const selfUser = { ...eg.selfUser, user_id: makeUserId(1) };
       const user2 = { ...eg.otherUser, user_id: makeUserId(2) };
       const user3 = { ...eg.thirdUser, user_id: makeUserId(3) };
@@ -126,8 +126,9 @@ describe('unreadHuddlesReducer', () => {
       const initialState = deepFreeze([]);
 
       const message2 = eg.pmMessage({
-        sender: selfUser,
+        sender: user2,
         recipients: [selfUser, user2, user3],
+        flags: ['read'],
       });
 
       const action = deepFreeze({

@@ -84,10 +84,10 @@ describe('stream substate', () => {
       expect(state.streams).toBe(baseState.streams);
     });
 
-    test('if message is sent by self, do not mutate state', () => {
+    test('if message has "read" flag, do not mutate state', () => {
       const state = reducer(
         baseState,
-        action(eg.streamMessage({ sender: eg.selfUser })),
+        action(eg.streamMessage({ sender: eg.selfUser, flags: ['read'] })),
         eg.plusReduxState,
       );
       expect(state).toBe(baseState);

@@ -46,6 +46,9 @@ export default (state: UnreadMentionsState = initialState, action: Action): Unre
       if (!flags) {
         throw new Error('action.message.flags should be defined.');
       }
+      if (flags.includes('read')) {
+        return state;
+      }
       return (flags.includes('mentioned') || flags.includes('wildcard_mentioned'))
         && !state.includes(action.message.id)
         ? addItemsToArray(state, [action.message.id])
