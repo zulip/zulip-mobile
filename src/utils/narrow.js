@@ -9,6 +9,7 @@ import {
   streamNameOfStreamMessage,
   type PmKeyRecipients,
   type PmKeyUsers,
+  pmKeyRecipientsFromPmKeyUsers,
 } from './recipient';
 
 /* eslint-disable no-use-before-define */
@@ -86,7 +87,7 @@ export const pmNarrowFromRecipients = (recipients: PmKeyRecipients): Narrow =>
  * single specific user.
  */
 export const pmNarrowFromUsers = (recipients: PmKeyUsers): Narrow =>
-  pmNarrowInternal(recipients.map(r => r.user_id));
+  pmNarrowInternal(pmKeyRecipientsFromPmKeyUsers(recipients));
 
 /**
  * FOR TESTS ONLY.  Like pmNarrowFromUsers, but without validation.

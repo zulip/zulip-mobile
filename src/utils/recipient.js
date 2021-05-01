@@ -70,6 +70,10 @@ export opaque type PmKeyRecipients: $ReadOnlyArray<UserId> = $ReadOnlyArray<User
  */
 export opaque type PmKeyUsers: $ReadOnlyArray<UserOrBot> = $ReadOnlyArray<UserOrBot>;
 
+/** Convert from user objects to user IDs for identifying a PM conversation. */
+export const pmKeyRecipientsFromPmKeyUsers = (recipients: PmKeyUsers): PmKeyRecipients =>
+  recipients.map(r => r.user_id);
+
 // Filter a list of PM recipients in the quirky way that we do, and sort.
 //
 // Specifically: all users, except the self-user, except if it's the
