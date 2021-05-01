@@ -10,6 +10,7 @@ import {
   type PmKeyRecipients,
   type PmKeyUsers,
   pmKeyRecipientsFromPmKeyUsers,
+  pmKeyRecipientsFor1to1,
 } from './recipient';
 
 /* eslint-disable no-use-before-define */
@@ -117,7 +118,8 @@ export const pmNarrowFromUsersUnsafe = (recipients: UserOrBot[]): Narrow => {
  * statically has just one other user it's a bit more convenient because it
  * doesn't require going through our `recipient` helpers.
  */
-export const pm1to1NarrowFromUser = (user: UserOrBot): Narrow => pmNarrowInternal([user.user_id]);
+export const pm1to1NarrowFromUser = (user: UserOrBot): Narrow =>
+  pmNarrowInternal(pmKeyRecipientsFor1to1(user.user_id));
 
 export const specialNarrow = (operand: string): Narrow => {
   if (operand === 'starred') {

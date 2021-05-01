@@ -74,6 +74,18 @@ export opaque type PmKeyUsers: $ReadOnlyArray<UserOrBot> = $ReadOnlyArray<UserOr
 export const pmKeyRecipientsFromPmKeyUsers = (recipients: PmKeyUsers): PmKeyRecipients =>
   recipients.map(r => r.user_id);
 
+/**
+ * The list of users identifying a 1:1 PM conversation, possibly with self.
+ *
+ * `userId` should be the self user for the self-1:1 conversation, or the
+ * other user in a non-self 1:1 conversation.
+ */
+// (The fact that this function doesn't call for `ownUserId` as an argument
+// basically exposes our choice of internal representation for both self-1:1
+// and other 1:1 conversations.  So be it.  If we ever feel a need to change
+// that, we can always refactor this function and its callers then.)
+export const pmKeyRecipientsFor1to1 = (userId: UserId): PmKeyRecipients => [userId];
+
 // Filter a list of PM recipients in the quirky way that we do, and sort.
 //
 // Specifically: all users, except the self-user, except if it's the
