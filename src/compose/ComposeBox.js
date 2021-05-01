@@ -101,6 +101,7 @@ type State = {|
   message: string,
   height: number,
   selection: InputSelection,
+  multiLine: boolean,
 |};
 
 function randomInt(min, max) {
@@ -155,6 +156,7 @@ class ComposeBox extends PureComponent<Props, State> {
     topic: this.props.lastMessageTopic,
     message: this.props.draft,
     selection: { start: 0, end: 0 },
+    multiLine: true,
   };
 
   componentWillUnmount() {
@@ -221,6 +223,15 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState(({ isMenuExpanded }) => ({
       isMenuExpanded: !isMenuExpanded,
     }));
+    setTimeout(
+      () => {
+        this.setState(({ isMenuExpanded }) => ({
+          multiLine: !isMenuExpanded,
+        }));
+      },
+      this.state.isMenuExpanded ? 300 : 0,
+      /* As menu will completely collapse after 300 milliseconds, refer to `duration` in AnimatedComponent.js */
+    );
   };
 
   handleLayoutChange = (event: LayoutEvent) => {
@@ -230,7 +241,7 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleTopicChange = (topic: string) => {
-    this.setState({ topic, isMenuExpanded: false });
+    this.setState({ topic, isMenuExpanded: false, multiLine: true });
   };
 
   handleTopicAutocomplete = (topic: string) => {
@@ -238,7 +249,7 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleMessageChange = (message: string) => {
-    this.setState({ message, isMenuExpanded: false });
+    this.setState({ message, isMenuExpanded: false, multiLine: true });
     const { dispatch, narrow } = this.props;
     dispatch(sendTypingStart(narrow));
     dispatch(draftUpdate(narrow, message));
@@ -274,6 +285,7 @@ class ComposeBox extends PureComponent<Props, State> {
       isMessageFocused: true,
       isFocused: true,
       isMenuExpanded: false,
+      multiLine: true,
     }));
   };
 
@@ -281,6 +293,7 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({
       isMessageFocused: false,
       isMenuExpanded: false,
+      multiLine: true,
     });
     // give a chance to the topic input to get the focus
     clearTimeout(this.inputBlurTimeoutId);
@@ -292,6 +305,7 @@ class ComposeBox extends PureComponent<Props, State> {
       isTopicFocused: true,
       isFocused: true,
       isMenuExpanded: false,
+      multiLine: true,
     });
   };
 
@@ -299,6 +313,7 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({
       isTopicFocused: false,
       isMenuExpanded: false,
+      multiLine: true,
     });
     // give a chance to the message input to get the focus
     clearTimeout(this.inputBlurTimeoutId);
@@ -306,7 +321,7 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleInputTouchStart = () => {
-    this.setState({ isMenuExpanded: false });
+    this.setState({ isMenuExpanded: false, multiLine: true });
   };
 
   getDestinationNarrow = (): Narrow => {
@@ -420,7 +435,15 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   render() {
-    const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
+    const {
+      isTopicFocused,
+      isMenuExpanded,
+      height,
+      message,
+      topic,
+      selection,
+      multiLine,
+    } = this.state;
     const {
       ownUserId,
       narrow,
@@ -493,7 +516,7 @@ class ComposeBox extends PureComponent<Props, State> {
               />
             )}
             <Input
-              multiline={!isMenuExpanded}
+              multiline={multiLine}
               style={[
                 this.styles.composeTextInput,
                 { backgroundColor: this.context.backgroundColor },
