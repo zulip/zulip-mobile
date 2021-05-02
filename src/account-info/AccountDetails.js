@@ -2,11 +2,11 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { UserOrBot, Dispatch } from '../types';
+import type { User, UserOrBot, Dispatch } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { UserAvatar, ComponentList, RawLabel } from '../common';
-import { getUserStatusTextForUser } from '../selectors';
+import { getOwnUser, getUserStatusTextForUser } from '../selectors';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
 import { nowInTimeZone } from '../utils/date';
@@ -30,6 +30,7 @@ const componentStyles = createStyleSheet({
 });
 
 type SelectorProps = {|
+  ownUser: User,
   userStatusText: string | void,
 |};
 
@@ -42,7 +43,9 @@ type Props = $ReadOnly<{|
 
 class AccountDetails extends PureComponent<Props> {
   render() {
-    const { user, userStatusText } = this.props;
+    const { ownUser, user, userStatusText } = this.props;
+
+    const isSelf = user.user_id === ownUser.user_id;
 
     let localTime: string | null = null;
     // See comments at CrossRealmBot and User at src/api/modelTypes.js.
@@ -72,10 +75,12 @@ class AccountDetails extends PureComponent<Props> {
         {userStatusText !== undefined && (
           <RawLabel style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
         )}
-        <View>
-          <ActivityText style={styles.largerText} user={user} />
-        </View>
-        {localTime !== null && (
+        {!isSelf && (
+          <View>
+            <ActivityText style={styles.largerText} user={user} />
+          </View>
+        )}
+        {!isSelf && localTime !== null && (
           <View>
             <RawLabel style={styles.largerText} text={localTime} />
           </View>
@@ -86,5 +91,6 @@ class AccountDetails extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
+  ownUser: getOwnUser(state),
   userStatusText: getUserStatusTextForUser(state, props.user.user_id),
 }))(AccountDetails);
