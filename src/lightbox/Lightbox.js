@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { View, Dimensions, LayoutAnimation } from 'react-native';
 import PhotoView from 'react-native-photo-view';
+import GestureRecognizer from 'react-native-swipe-gestures';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import * as NavigationService from '../nav/NavigationService';
@@ -69,72 +70,82 @@ export default function Lightbox(props: Props) {
   useSelector(state => getSession(state).orientation);
 
   const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
+  const config = {
+    velocityThreshold: 0.3,
+    directionalOffsetThreshold: 80,
+  };
 
   return (
     <>
       <ZulipStatusBar hidden={!headerFooterVisible} backgroundColor="black" />
       <View style={styles.container}>
-        <PhotoView
-          source={resource}
-          style={[styles.img, { width: windowWidth }]}
-          // Doesn't seem to do anything on iOS:
-          //   https://github.com/alwx/react-native-photo-view/issues/62
-          //   https://github.com/alwx/react-native-photo-view/issues/98
-          // TODO: Figure out how to make it work.
-          resizeMode="contain"
-          // Android already doesn't show any scrollbars; these two
-          // iOS-only props let us hide them on iOS.
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          onTap={handleImagePress}
-          onViewTap={handleImagePress}
-        />
-        <View
-          style={[
-            styles.overlay,
-            styles.header,
-            { width: windowWidth },
-            headerFooterVisible ? { top: 0 } : { bottom: windowHeight },
-          ]}
+        <GestureRecognizer
+          onSwipeUp={() => NavigationService.dispatch(navigateBack())}
+          onSwipeDown={() => NavigationService.dispatch(navigateBack())}
+          config={config}
         >
-          <LightboxHeader
-            onPressBack={() => {
-              NavigationService.dispatch(navigateBack());
-            }}
-            timestamp={message.timestamp}
-            avatarUrl={message.avatar_url}
-            senderName={message.sender_full_name}
-            senderEmail={message.sender_email}
+          <PhotoView
+            source={resource}
+            style={[styles.img, { width: windowWidth }]}
+            // Doesn't seem to do anything on iOS:
+            //   https://github.com/alwx/react-native-photo-view/issues/62
+            //   https://github.com/alwx/react-native-photo-view/issues/98
+            // TODO: Figure out how to make it work.
+            resizeMode="contain"
+            // Android already doesn't show any scrollbars; these two
+            // iOS-only props let us hide them on iOS.
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            onTap={handleImagePress}
+            onViewTap={handleImagePress}
           />
-        </View>
-        <View
-          style={[
-            styles.overlay,
-            { width: windowWidth },
-            headerFooterVisible ? { bottom: 0 } : { top: windowHeight },
-          ]}
-        >
-          <LightboxFooter
-            displayMessage={footerMessage}
-            onOptionsPress={() => {
-              const options = constructActionSheetButtons();
-              const cancelButtonIndex = options.length - 1;
-              showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex,
-                },
-                buttonIndex => {
-                  executeActionSheetAction({
-                    title: options[buttonIndex],
-                    src,
-                    auth,
-                  });
-                },
-              );
-            }}
-          />
-        </View>
+          <View
+            style={[
+              styles.overlay,
+              styles.header,
+              { width: windowWidth },
+              headerFooterVisible ? { top: 0 } : { bottom: windowHeight },
+            ]}
+          >
+            <LightboxHeader
+              onPressBack={() => {
+                NavigationService.dispatch(navigateBack());
+              }}
+              timestamp={message.timestamp}
+              avatarUrl={message.avatar_url}
+              senderName={message.sender_full_name}
+              senderEmail={message.sender_email}
+            />
+          </View>
+          <View
+            style={[
+              styles.overlay,
+              { width: windowWidth },
+              headerFooterVisible ? { bottom: 0 } : { top: windowHeight },
+            ]}
+          >
+            <LightboxFooter
+              displayMessage={footerMessage}
+              onOptionsPress={() => {
+                const options = constructActionSheetButtons();
+                const cancelButtonIndex = options.length - 1;
+                showActionSheetWithOptions(
+                  {
+                    options,
+                    cancelButtonIndex,
+                  },
+                  buttonIndex => {
+                    executeActionSheetAction({
+                      title: options[buttonIndex],
+                      src,
+                      auth,
+                    });
+                  },
+                );
+              }}
+            />
+          </View>
+        </GestureRecognizer>
       </View>
     </>
   );
