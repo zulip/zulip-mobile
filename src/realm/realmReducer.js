@@ -20,8 +20,8 @@ const initialState = {
   videoChatProvider: null,
   realmAllowMessageEditing: true,
   realmAllowMessageDeleting: true,
-  realmMessageContentEditLimit: 10,
-  realmMessageContentDeleteLimit: 10,
+  realmMessageContentEditLimitInSeconds: 10,
+  realmMessageContentDeleteLimitInSeconds: 10,
 
   email: undefined,
   user_id: undefined,
@@ -72,8 +72,9 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         }),
         realmAllowMessageEditing: action.data.realm_allow_message_editing,
         realmAllowMessageDeleting: action.data.realm_allow_message_deleting,
-        realmMessageContentEditLimit: action.data.realm_message_content_edit_limit_seconds,
-        realmMessageContentDeleteLimit: action.data.realm_message_content_delete_limit_seconds,
+        realmMessageContentEditLimitInSeconds: action.data.realm_message_content_edit_limit_seconds,
+        realmMessageContentDeleteLimitInSeconds:
+          action.data.realm_message_content_delete_limit_seconds,
 
         email: action.data.email,
         user_id: action.data.user_id,

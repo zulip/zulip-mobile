@@ -31,8 +31,8 @@ describe('realmReducer', () => {
         nonActiveUsers: [],
         realmAllowMessageEditing: true,
         realmAllowMessageDeleting: true,
-        realmMessageContentEditLimit: 10,
-        realmMessageContentDeleteLimit: 10,
+        realmMessageContentEditLimitInSeconds: 10,
+        realmMessageContentDeleteLimitInSeconds: 10,
       };
 
       const actualState = realmReducer(initialState, action);

@@ -86,8 +86,8 @@ export type BackgroundData = $ReadOnly<{|
   twentyFourHourTime: boolean,
   realmAllowMessageEditing: boolean,
   realmAllowMessageDeleting: boolean,
-  realmMessageContentEditLimit: number,
-  realmMessageContentDeleteLimit: number,
+  realmMessageContentEditLimitInSeconds: number,
+  realmMessageContentDeleteLimitInSeconds: number,
 |}>;
 
 type SelectorProps = {|
@@ -369,8 +369,9 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
     twentyFourHourTime: getRealm(state).twentyFourHourTime,
     realmAllowMessageEditing: getRealm(state).realmAllowMessageEditing,
     realmAllowMessageDeleting: getRealm(state).realmAllowMessageDeleting,
-    realmMessageContentEditLimit: getRealm(state).realmMessageContentEditLimit,
-    realmMessageContentDeleteLimit: getRealm(state).realmMessageContentDeleteLimit,
+    realmMessageContentEditLimitInSeconds: getRealm(state).realmMessageContentEditLimitInSeconds,
+    realmMessageContentDeleteLimitInSeconds: getRealm(state)
+      .realmMessageContentDeleteLimitInSeconds,
   };
 
   return {

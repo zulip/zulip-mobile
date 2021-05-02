@@ -278,8 +278,8 @@ export const constructMessageActionButtons = ({
     flags,
     realmAllowMessageEditing,
     realmAllowMessageDeleting,
-    realmMessageContentEditLimit,
-    realmMessageContentDeleteLimit,
+    realmMessageContentEditLimitInSeconds,
+    realmMessageContentDeleteLimitInSeconds,
   },
   message,
   narrow,
@@ -289,16 +289,14 @@ export const constructMessageActionButtons = ({
     flags: FlagsState,
     realmAllowMessageEditing: boolean,
     realmAllowMessageDeleting: boolean,
-    realmMessageContentEditLimit: number,
-    realmMessageContentDeleteLimit: number,
+    realmMessageContentEditLimitInSeconds: number,
+    realmMessageContentDeleteLimitInSeconds: number,
     ...
   }>,
   message: Message,
   narrow: Narrow,
 }): Button<MessageArgs>[] => {
   const buttons = [];
-  const updateMessageTimeLimit = Math.floor(Date.now() / 1000 - message.timestamp);
-
   if (messageNotDeleted(message)) {
     buttons.push(addReaction);
   }
@@ -312,6 +310,7 @@ export const constructMessageActionButtons = ({
     buttons.push(copyToClipboard);
     buttons.push(shareMessage);
   }
+  const timeSinceMessageSent = Math.floor(Date.now() / 1000 - message.timestamp);
   if (
     message.sender_id === ownUser.user_id
     // if realm allows users to "edit message", show edit option button
@@ -320,7 +319,7 @@ export const constructMessageActionButtons = ({
     && (isStreamOrTopicNarrow(narrow)
       || (isPmNarrow(narrow)
         // if "edit message" time limit exceeds , don't show the edit option button
-        && updateMessageTimeLimit < realmMessageContentEditLimit))
+        && timeSinceMessageSent < realmMessageContentEditLimitInSeconds))
   ) {
     buttons.push(editMessage);
   }
@@ -330,7 +329,7 @@ export const constructMessageActionButtons = ({
     && realmAllowMessageDeleting
     && messageNotDeleted(message)
     // if "delete message" time limit exceeds , don't show the delete option button
-    && updateMessageTimeLimit < realmMessageContentDeleteLimit
+    && timeSinceMessageSent < realmMessageContentDeleteLimitInSeconds
   ) {
     buttons.push(deleteMessage);
   }
@@ -353,8 +352,8 @@ export const constructNonHeaderActionButtons = ({
     flags: FlagsState,
     realmAllowMessageEditing: boolean,
     realmAllowMessageDeleting: boolean,
-    realmMessageContentEditLimit: number,
-    realmMessageContentDeleteLimit: number,
+    realmMessageContentEditLimitInSeconds: number,
+    realmMessageContentDeleteLimitInSeconds: number,
     ...
   }>,
   message: Message | Outbox,
@@ -403,8 +402,8 @@ export const showMessageActionSheet = ({
     flags: FlagsState,
     realmAllowMessageEditing: boolean,
     realmAllowMessageDeleting: boolean,
-    realmMessageContentEditLimit: number,
-    realmMessageContentDeleteLimit: number,
+    realmMessageContentEditLimitInSeconds: number,
+    realmMessageContentDeleteLimitInSeconds: number,
     ...
   }>,
   message: Message | Outbox,
