@@ -77,6 +77,7 @@
     "react-native-screens": "^2.10.1",
     "react-native-simple-toast": "^1.0.0",
     "react-native-sound": "^0.11.0",
+    "react-native-swipe-gestures": "^1.0.5",
     "react-native-tab-view": "^2.15.2",
     "react-native-text-input-reset": "^1.0.2",
     "react-native-unimodules": "^0.10.1",
