@@ -65,6 +65,11 @@ class StreamSettingsScreen extends PureComponent<Props> {
     api.subscriptionAdd(auth, [{ name: stream.name }]);
   };
 
+  handleUnsubscribe = () => {
+    const { auth, stream } = this.props;
+    api.subscriptionRemove(auth, [stream.name]);
+  };
+
   toggleStreamPushNotification = () => {
     const { dispatch, subscription, stream, userSettingStreamNotification } = this.props;
     const currentValue = subscription.push_notifications ?? userSettingStreamNotification;
@@ -117,7 +122,14 @@ class StreamSettingsScreen extends PureComponent<Props> {
             secondary
             onPress={() => delay(this.handleEditSubscribers)}
           />
-          {!isSubscribed && (
+          {isSubscribed ? (
+            <ZulipButton
+              style={styles.marginTop}
+              text="Unsubscribe"
+              secondary
+              onPress={() => delay(this.handleUnsubscribe)}
+            />
+          ) : (
             <ZulipButton
               style={styles.marginTop}
               text="Subscribe"
