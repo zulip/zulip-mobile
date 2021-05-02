@@ -7,7 +7,7 @@ type ApiResponseRealmCreateFilters = {|
   id: number,
 |};
 
-/** https://zulip.com/api/create-org-filters */
+/** https://zulip.com/api/add-linkifier */
 export default async (
   auth: Auth,
   pattern: string,

@@ -12,6 +12,6 @@ type ApiResponseUsers = {|
 // an AvatarURL instance, like we do in `registerForEvents` and
 // `EVENT_USER_ADD` and `EVENT_USER_UPDATE`.
 
-/** See https://zulip.com/api/get-all-users */
+/** See https://zulip.com/api/get-users */
 export default (auth: Auth): Promise<ApiResponseUsers> =>
   apiGet(auth, 'users', { client_gravatar: true });

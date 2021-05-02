@@ -6,7 +6,7 @@ type SubscriptionObj = {|
   name: string,
 |};
 
-/** See https://zulip.com/api/add-subscriptions */
+/** See https://zulip.com/api/subscribe */
 export default (
   auth: Auth,
   subscriptions: SubscriptionObj[],
