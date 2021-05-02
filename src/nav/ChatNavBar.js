@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 import Color from 'color';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { Narrow, EditMessage } from '../types';
 import { LoadingBanner, ZulipStatusBar } from '../common';
 import { useSelector } from '../react-redux';
-import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
+import { BRAND_COLOR, NAVBAR_SIZE, ThemeContext } from '../styles';
 import Title from '../title/Title';
 import NavBarBackButton from './NavBarBackButton';
 import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors';
@@ -25,6 +25,9 @@ export default function ChatNavBar(props: Props) {
   const streamColor = useSelector(state => getStreamColorForNarrow(state, narrow));
   const color =
     streamColor === undefined ? BRAND_COLOR : foregroundColorFromBackground(streamColor);
+  const themeColor = useContext(ThemeContext).color;
+  const textColor =
+    streamColor === undefined ? themeColor : foregroundColorFromBackground(streamColor);
   const spinnerColor =
     streamColor === undefined ? 'default' : foregroundColorFromBackground(streamColor);
 
@@ -54,14 +57,14 @@ export default function ChatNavBar(props: Props) {
           }}
         >
           <NavBarBackButton color={color} />
-          <Title color={color} narrow={narrow} editMessage={editMessage} />
+          <Title color={textColor} narrow={narrow} editMessage={editMessage} />
           <ExtraButton color={color} narrow={narrow} />
           <InfoButton color={color} narrow={narrow} />
         </View>
         <LoadingBanner
           spinnerColor={spinnerColor}
           backgroundColor={streamColor}
-          textColor={color}
+          textColor={textColor}
         />
       </SafeAreaView>
     </>
