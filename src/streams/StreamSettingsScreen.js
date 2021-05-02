@@ -5,12 +5,12 @@ import { View } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, Stream, Subscription } from '../types';
+import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { connect } from '../react-redux';
 import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton } from '../common';
 import { getSettings } from '../directSelectors';
-import { getIsAdmin, getStreamForId } from '../selectors';
+import { getAuth, getIsAdmin, getStreamForId } from '../selectors';
 import StreamCard from './StreamCard';
 import { IconPin, IconMute, IconNotifications, IconEdit, IconPlusSquare } from '../common/Icons';
 import {
@@ -21,8 +21,10 @@ import {
 import styles from '../styles';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
+import * as api from '../api';
 
 type SelectorProps = $ReadOnly<{|
+  auth: Auth,
   isAdmin: boolean,
   stream: Stream,
   subscription: Subscription,
@@ -56,6 +58,11 @@ class StreamSettingsScreen extends PureComponent<Props> {
   handleEditSubscribers = () => {
     const { stream } = this.props;
     NavigationService.dispatch(navigateToStreamSubscribers(stream.stream_id));
+  };
+
+  handleSubscribe = () => {
+    const { auth, stream } = this.props;
+    api.subscriptionAdd(auth, [{ name: stream.name }]);
   };
 
   toggleStreamPushNotification = () => {
@@ -110,6 +117,14 @@ class StreamSettingsScreen extends PureComponent<Props> {
             secondary
             onPress={() => delay(this.handleEditSubscribers)}
           />
+          {!isSubscribed && (
+            <ZulipButton
+              style={styles.marginTop}
+              text="Subscribe"
+              secondary
+              onPress={() => delay(this.handleSubscribe)}
+            />
+          )}
         </View>
       </Screen>
     );
@@ -117,6 +132,7 @@ class StreamSettingsScreen extends PureComponent<Props> {
 }
 
 export default connect((state, props) => ({
+  auth: getAuth(state),
   isAdmin: getIsAdmin(state),
   stream: getStreamForId(state, props.route.params.streamId),
   subscription: getSubscriptionsById(state).get(props.route.params.streamId) || NULL_SUBSCRIPTION,
