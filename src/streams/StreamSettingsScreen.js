@@ -66,28 +66,33 @@ class StreamSettingsScreen extends PureComponent<Props> {
 
   render() {
     const { isAdmin, stream, subscription, userSettingStreamNotification } = this.props;
+    const isSubscribed = subscription !== NULL_SUBSCRIPTION;
 
     return (
       <Screen title="Stream">
         <StreamCard stream={stream} subscription={subscription} />
-        <OptionRow
-          Icon={IconPin}
-          label="Pinned"
-          value={subscription.pin_to_top}
-          onValueChange={this.handleTogglePinStream}
-        />
-        <OptionRow
-          Icon={IconMute}
-          label="Muted"
-          value={subscription.in_home_view === false}
-          onValueChange={this.handleToggleMuteStream}
-        />
-        <OptionRow
-          Icon={IconNotifications}
-          label="Notifications"
-          value={subscription.push_notifications ?? userSettingStreamNotification}
-          onValueChange={this.toggleStreamPushNotification}
-        />
+        {isSubscribed && (
+          <>
+            <OptionRow
+              Icon={IconPin}
+              label="Pinned"
+              value={subscription.pin_to_top}
+              onValueChange={this.handleTogglePinStream}
+            />
+            <OptionRow
+              Icon={IconMute}
+              label="Muted"
+              value={subscription.in_home_view === false}
+              onValueChange={this.handleToggleMuteStream}
+            />
+            <OptionRow
+              Icon={IconNotifications}
+              label="Notifications"
+              value={subscription.push_notifications ?? userSettingStreamNotification}
+              onValueChange={this.toggleStreamPushNotification}
+            />
+          </>
+        )}
         <View style={styles.padding}>
           {isAdmin && (
             <ZulipButton
