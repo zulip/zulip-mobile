@@ -20,17 +20,14 @@ set -e
 
 usage() {
     cat >&2 <<EOF
-usage: tools/test [--all-files | --diff COMMIT] [--platform <ios|android|both|sloppy>] [--all] [SUITES]
+usage: tools/test [OPTION]... [SUITE]...
 
 Run our tests.
 
 By default, run only on files changed in this branch,
 as found by \`tools/info changed-files\`.
 
-Options:
-  --coverage  Collect test-coverage information.  Only meaningful
-              with --all.
-  --fix       Fix issues found, where possible.
+What tests to run:
   --all-files
               Run on all files, not only changed files.
   --diff COMMIT
@@ -49,6 +46,11 @@ Options:
               tests don't depend meaningfully on the platform.
   --all       In the given suites, run all tests on all files. Same as
               --all-files --platform both.
+
+Extra things to do:
+  --coverage  Collect test-coverage information.  Only meaningful
+              with --all.
+  --fix       Fix issues found, where possible.
 
 Suites:
   native
