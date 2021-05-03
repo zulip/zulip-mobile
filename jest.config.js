@@ -85,5 +85,8 @@ const projectForPlatform = platform => {
 };
 
 module.exports = {
+  // The substantive difference between these two is whether `foo.ios.js`
+  // or `foo.android.js` is used.  In particular that also has the effect
+  // of controlling the value of `Platform.OS`.
   projects: [projectForPlatform('ios'), projectForPlatform('android')],
 };

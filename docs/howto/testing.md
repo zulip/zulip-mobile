@@ -4,7 +4,8 @@ Run `tools/test` to run all our test suites.  This command is
 typically quite fast (5-10s, sometimes less), because it only rechecks
 tests related to the files you've changed.
 
-You can run all our tests with `tools/test --all`.
+You can run all our tests with `tools/test --all`.  We run them this
+way in our CI, e.g. when you send a PR.
 
 To see all options, run `tools/test --help`.
 
@@ -14,25 +15,19 @@ To see all options, run `tools/test --help`.
 `tools/test jest` runs our JS unit tests.  These are written using
 [Jest](https://facebook.github.io/jest/).
 
-We've set up Jest so it can loosely simulate iOS or Android in the
-JavaScript layer. (This isn't magic; it mostly means setting React
-Native's `Platform.OS`. We still have to mock native functionality,
-e.g., as we access it with RN's `NativeModules`.) By default,
-`tools/test jest` will pick just one platform (iOS), which means the
-tests will run faster but with a bit less coverage. When you're
-testing platform-specific code in JavaScript, be sure to run
-`tools/test jest --platform ios`,
-`tools/test jest --platform android`, or
-`tools/test jest --platform both`.
-
 To write a test, place a Javascript file with the `-test.js` suffix in the
 `__tests__` directory inside of any subfolder of `/src`. The test will be
 automatically picked up by the test runner.
 
-If it makes sense for a test file to be dedicated to just one
-platform, and that's unlikely to change, you can instead suffix it
-with `-test.ios.js` or `-test.android.js`, and its tests will only be
-run when Jest is simulating that platform.
+The bulk of our JS code runs the same way on both iOS and Android, but
+some of it conditions on the platform.  By default, `tools/test` runs
+our Jest tests just once, picking the platform arbitrarily, to avoid
+taking twice as long.  (See
+[architecture/testing.md](../architecture/testing.md#platform-dependent-js)
+for more discussion.)  If you're testing code that does depend on the
+platform, use the `--all` or `--platform` option (see `tools/test --help`
+for details) to be sure to exercise the case of the relevant platform,
+or both of them.
 
 
 ### Test style guide
