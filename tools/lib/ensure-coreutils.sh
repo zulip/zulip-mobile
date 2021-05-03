@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+#
 # Usage:
 #   . ensure-coreutils.sh
 #
