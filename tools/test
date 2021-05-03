@@ -24,7 +24,7 @@ usage: tools/test [OPTION]... [SUITE]...
 
 Run our tests.
 
-By default, run only on files changed in this branch,
+By default, run all suites, but only on files changed in this branch
 as found by \`tools/info changed-files\`.
 
 What tests to run:
@@ -59,8 +59,6 @@ Suites:
   jest
   prettier
   deps
-
-By default, all suites are run except those identified as skipped above.
 EOF
     exit 2
 }
@@ -92,6 +90,8 @@ while (( $# )); do
 done
 
 if [ -z "$suites" ]; then
+    # This default doesn't have to be the complete list; just be sure to
+    # document in the usage message any suites that it skips.
     suites=(native flow lint jest prettier deps)
 fi
 
