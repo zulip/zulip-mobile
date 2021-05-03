@@ -95,7 +95,7 @@ export type InitialDataRealm = {|
   /**
    * Added in server version 2.2, feature level 1.
    * Same meaning as in the server_settings response:
-   * https://zulipchat.com/api/server-settings
+   * https://zulip.com/api/get-server-settings
    */
   zulip_feature_level?: number,
 |};

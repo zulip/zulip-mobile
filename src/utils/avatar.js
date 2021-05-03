@@ -38,7 +38,7 @@ export class AvatarURL {
       // discretion, if we announce the
       // `user_avatar_url_field_optional` client capability, which we
       // do. See the note about `user_avatar_url_field_optional` at
-      // https://zulipchat.com/api/register-queue.
+      // https://zulip.com/api/register-queue.
       //
       // It will also be absent on cross-realm bots from servers prior
       // to 58ee3fa8c (1.9.0). The effect of using FallbackAvatarURL for
@@ -216,7 +216,7 @@ export class GravatarURL extends AvatarURL {
  * The /avatar/{user_id} redirect.
  *
  * See the point on `user_avatar_url_field_optional` at
- * https://zulipchat.com/api/register-queue.
+ * https://zulip.com/api/register-queue.
  *
  * Note that this endpoint needs authentication; we should send the
  * auth headers (see src/api/transport) with the request.

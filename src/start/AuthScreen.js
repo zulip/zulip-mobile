@@ -39,7 +39,7 @@ import openLink from '../utils/openLink';
  *
  * Different servers and orgs/realms accept different sets of auth methods,
  * described in the /server_settings response; see api.getServerSettings
- * and https://zulip.com/api/server-settings .
+ * and https://zulip.com/api/get-server-settings .
  */
 type AuthenticationMethodDetails = {|
   /** An identifier-style name used in the /server_settings API. */

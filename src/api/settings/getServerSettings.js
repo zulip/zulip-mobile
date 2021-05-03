@@ -37,7 +37,7 @@ export type ApiResponseServerSettings = {|
   zulip_version: string,
 
   // zulip_feature_level added for server v2.2, feature level 1
-  // See https://zulipchat.com/api/get-server-settings
+  // See https://zulip.com/api/get-server-settings
   zulip_feature_level?: number,
 |};
 
