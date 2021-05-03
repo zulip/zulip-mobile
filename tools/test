@@ -2,14 +2,14 @@
 
 # Careful! `set -e` doesn't do everything you'd think it does. In
 # fact, we don't get its benefit in any of the `run_foo` functions.
-# That's because our logic to catch a failing suite, add it to a list,
-# and continue to the other suites, puts a bunch of commands in a list
-# before a `||`. That puts them in a special case, as the Bash manual
-# says:
 #
-# > The shell does not exit if the command that fails is [...] part of
-# > any command executed in a `&&` or `||` list except the command
-# > following the final `&&` or `||` [...].
+# This is because it has an effect only when it can exit the whole shell.
+# (Its full name is `set -o errexit`, and it means "exit" literally.)  See:
+#   https://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+#
+# When one test suite fails, we want to go on to run the other suites, so
+# we use `||` to prevent the whole script from exiting there, and that
+# defeats `set -e`.
 #
 # For now our workaround is to put `|| return` in the `run_foo` just
 # after each nontrivial command that isn't the final command in the
