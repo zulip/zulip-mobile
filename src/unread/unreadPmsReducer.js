@@ -20,7 +20,7 @@ const eventNewMessage = (state, action) => {
     return state;
   }
 
-  if (recipientsOfPrivateMessage(action.message).length !== 2) {
+  if (recipientsOfPrivateMessage(action.message).length > 2) {
     return state;
   }
 

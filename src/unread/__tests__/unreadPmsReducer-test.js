@@ -130,6 +130,31 @@ describe('unreadPmsReducer', () => {
       expect(actualState).toBe(initialState);
     });
 
+    test('if message is marked unread in self-PM, append to state', () => {
+      const initialState = deepFreeze([]);
+      const message1 = eg.pmMessage({
+        sender: eg.selfUser,
+        recipients: [eg.selfUser],
+      });
+
+      const action = deepFreeze({
+        ...eg.eventNewMessageActionBase,
+        message: message1,
+        ownUserId: eg.selfUser.user_id,
+      });
+
+      const expectedState = [
+        {
+          sender_id: eg.selfUser.user_id,
+          unread_message_ids: [message1.id],
+        },
+      ];
+
+      const actualState = unreadPmsReducer(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
     test('if message id does not exist, append to state', () => {
       const message1 = eg.pmMessage({ id: 1, sender_id: 1 });
       const message2 = eg.pmMessage({ id: 2, sender_id: 1 });
