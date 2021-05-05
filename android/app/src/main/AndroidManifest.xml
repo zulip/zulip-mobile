@@ -15,6 +15,15 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
 
+    <!-- The CAMERA permission causes these two camera-related features to be
+         implicitly treated as required, so we have to explicitly say they're not. -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
