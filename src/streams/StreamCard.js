@@ -46,6 +46,7 @@ export default class StreamCard extends PureComponent<Props> {
             color={subscription?.color || NULL_SUBSCRIPTION.color}
             isMuted={subscription ? !subscription.in_home_view : false}
             isPrivate={stream && stream.invite_only}
+            isSubscribed={!!subscription}
           />
           <RawLabel
             style={componentStyles.streamText}

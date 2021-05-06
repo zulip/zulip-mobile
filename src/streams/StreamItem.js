@@ -91,7 +91,13 @@ export default function StreamItem(props: Props) {
   return (
     <Touchable onPress={() => onPress(name)}>
       <View style={wrapperStyle}>
-        <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
+        <StreamIcon
+          size={iconSize}
+          color={iconColor}
+          isMuted={isMuted}
+          isPrivate={isPrivate}
+          isSubscribed={isSubscribed}
+        />
         <View style={componentStyles.text}>
           <RawLabel
             numberOfLines={1}

@@ -51,6 +51,7 @@ type Props = $ReadOnly<{|
 
 const TitleStream = (props: Props) => {
   const { narrow, stream, color, dispatch, backgroundData } = props;
+  const subscribed = backgroundData.subscriptions.some(s => s.stream_id === stream.stream_id);
   const componentStyles = createStyleSheet({
     outer: {
       flex: 1,
@@ -90,6 +91,7 @@ const TitleStream = (props: Props) => {
             style={styles.halfMarginRight}
             isMuted={!stream.in_home_view}
             isPrivate={stream.invite_only}
+            isSubscribed={subscribed}
             color={color}
             size={20}
           />
