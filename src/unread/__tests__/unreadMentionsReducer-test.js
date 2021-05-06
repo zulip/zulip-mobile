@@ -1,13 +1,12 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
+import Immutable from 'immutable';
 
 import unreadMentionsReducer from '../unreadMentionsReducer';
-import {
-  REALM_INIT,
-  ACCOUNT_SWITCH,
-  EVENT_NEW_MESSAGE,
-  EVENT_UPDATE_MESSAGE_FLAGS,
-} from '../../actionConstants';
+import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
+import * as eg from '../../__tests__/lib/exampleData';
+import { mkMessageAction } from './unread-testlib';
 
 describe('unreadMentionsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -16,6 +15,7 @@ describe('unreadMentionsReducer', () => {
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
+        index: 0,
       });
 
       const expectedState = [];
@@ -30,17 +30,19 @@ describe('unreadMentionsReducer', () => {
     test('received data from "unread_msgs.mentioned" key replaces the current state ', () => {
       const initialState = deepFreeze([]);
 
-      const action = deepFreeze({
-        type: REALM_INIT,
+      const action = {
+        ...eg.action.realm_init,
         data: {
+          ...eg.action.realm_init.data,
           unread_msgs: {
-            streams: [{}, {}],
-            huddles: [{}, {}, {}],
-            pms: [{}, {}, {}],
+            ...eg.action.realm_init.data.unread_msgs,
+            streams: [],
+            huddles: [],
+            pms: [],
             mentions: [1, 2, 3],
           },
         },
-      });
+      };
 
       const expectedState = [1, 2, 3];
 
@@ -54,13 +56,7 @@ describe('unreadMentionsReducer', () => {
     test('if message does not contain "mentioned" flag, do not mutate state', () => {
       const initialState = deepFreeze([]);
 
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 2,
-          flags: [],
-        },
-      });
+      const action = mkMessageAction(eg.streamMessage({ flags: [] }));
 
       const actualState = unreadMentionsReducer(initialState, action);
 
@@ -70,13 +66,7 @@ describe('unreadMentionsReducer', () => {
     test('if message has "read" flag, do not mutate state', () => {
       const initialState = deepFreeze([]);
 
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 2,
-          flags: ['mentioned', 'read'],
-        },
-      });
+      const action = mkMessageAction(eg.streamMessage({ flags: ['mentioned', 'read'] }));
 
       const actualState = unreadMentionsReducer(initialState, action);
 
@@ -86,13 +76,7 @@ describe('unreadMentionsReducer', () => {
     test('if message id already exists, do not mutate state', () => {
       const initialState = deepFreeze([1, 2]);
 
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 2,
-          flags: ['mentioned'],
-        },
-      });
+      const action = mkMessageAction(eg.streamMessage({ id: 2, flags: ['mentioned', 'read'] }));
 
       const actualState = unreadMentionsReducer(initialState, action);
 
@@ -102,13 +86,7 @@ describe('unreadMentionsReducer', () => {
     test('if "mentioned" flag is set and message id does not exist, append to state', () => {
       const initialState = deepFreeze([1, 2]);
 
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 3,
-          flags: ['mentioned'],
-        },
-      });
+      const action = mkMessageAction(eg.streamMessage({ id: 3, flags: ['mentioned'] }));
 
       const expectedState = [1, 2, 3];
 
@@ -124,6 +102,9 @@ describe('unreadMentionsReducer', () => {
 
       const action = {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        id: 0,
+        all: false,
+        allMessages: Immutable.Map(),
         messages: [1, 2, 3],
         flag: 'star',
         op: 'add',
@@ -139,6 +120,9 @@ describe('unreadMentionsReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        id: 0,
+        all: false,
+        allMessages: Immutable.Map(),
         messages: [2],
         flag: 'read',
         op: 'add',
@@ -154,6 +138,9 @@ describe('unreadMentionsReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        id: 0,
+        all: false,
+        allMessages: Immutable.Map(),
         messages: [2, 3],
         flag: 'read',
         op: 'add',
@@ -171,6 +158,9 @@ describe('unreadMentionsReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        id: 0,
+        all: false,
+        allMessages: Immutable.Map(),
         messages: [1, 2],
         flag: 'read',
         op: 'remove',
@@ -186,6 +176,8 @@ describe('unreadMentionsReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        id: 0,
+        allMessages: Immutable.Map(),
         messages: [],
         flag: 'read',
         op: 'add',
