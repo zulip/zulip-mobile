@@ -20,14 +20,13 @@ import {
 } from '../actions';
 import styles from '../styles';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
-import { NULL_SUBSCRIPTION } from '../nullObjects';
 import * as api from '../api';
 
 type SelectorProps = $ReadOnly<{|
   auth: Auth,
   isAdmin: boolean,
   stream: Stream,
-  subscription: Subscription,
+  subscription?: Subscription,
   userSettingStreamNotification: boolean,
 |}>;
 
@@ -72,18 +71,17 @@ class StreamSettingsScreen extends PureComponent<Props> {
 
   toggleStreamPushNotification = () => {
     const { dispatch, subscription, stream, userSettingStreamNotification } = this.props;
-    const currentValue = subscription.push_notifications ?? userSettingStreamNotification;
+    const currentValue = subscription?.push_notifications ?? userSettingStreamNotification;
     dispatch(setSubscriptionProperty(stream.stream_id, 'push_notifications', !currentValue));
   };
 
   render() {
     const { isAdmin, stream, subscription, userSettingStreamNotification } = this.props;
-    const isSubscribed = subscription !== NULL_SUBSCRIPTION;
 
     return (
       <Screen title="Stream">
         <StreamCard stream={stream} subscription={subscription} />
-        {isSubscribed && (
+        {subscription && (
           <>
             <OptionRow
               Icon={IconPin}
@@ -122,7 +120,7 @@ class StreamSettingsScreen extends PureComponent<Props> {
             secondary
             onPress={() => delay(this.handleEditSubscribers)}
           />
-          {isSubscribed ? (
+          {subscription ? (
             <ZulipButton
               style={styles.marginTop}
               text="Unsubscribe"
@@ -147,6 +145,6 @@ export default connect((state, props) => ({
   auth: getAuth(state),
   isAdmin: getIsAdmin(state),
   stream: getStreamForId(state, props.route.params.streamId),
-  subscription: getSubscriptionsById(state).get(props.route.params.streamId) || NULL_SUBSCRIPTION,
+  subscription: getSubscriptionsById(state).get(props.route.params.streamId),
   userSettingStreamNotification: getSettings(state).streamNotification,
 }))(StreamSettingsScreen);

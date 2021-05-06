@@ -27,15 +27,15 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   stream: Stream,
-  subscription: Subscription,
+  subscription?: Subscription,
 |}>;
 
 export default class StreamCard extends PureComponent<Props> {
   render() {
     const { stream, subscription } = this.props;
 
-    const name = subscription.name || stream.name;
-    const description = subscription.description || stream.description;
+    const name = subscription?.name || stream.name;
+    const description = subscription?.description || stream.description;
 
     return (
       <View style={styles.padding}>
@@ -43,7 +43,7 @@ export default class StreamCard extends PureComponent<Props> {
           <StreamIcon
             style={componentStyles.streamIcon}
             size={22}
-            color={subscription.color || NULL_SUBSCRIPTION.color}
+            color={subscription?.color || NULL_SUBSCRIPTION.color}
             isMuted={subscription ? !subscription.in_home_view : false}
             isPrivate={stream && stream.invite_only}
           />
