@@ -23,7 +23,7 @@ type Props = $ReadOnly<{|
 export default function ChatNavBar(props: Props) {
   const { narrow, editMessage } = props;
   const streamColor = useSelector(state => getStreamColorForNarrow(state, narrow));
-  const color =
+  const buttonColor =
     streamColor === undefined ? BRAND_COLOR : foregroundColorFromBackground(streamColor);
   const themeColor = useContext(ThemeContext).color;
   const textColor =
@@ -56,10 +56,10 @@ export default function ChatNavBar(props: Props) {
             alignItems: 'center',
           }}
         >
-          <NavBarBackButton color={color} />
+          <NavBarBackButton color={buttonColor} />
           <Title color={textColor} narrow={narrow} editMessage={editMessage} />
-          <ExtraButton color={color} narrow={narrow} />
-          <InfoButton color={color} narrow={narrow} />
+          <ExtraButton color={buttonColor} narrow={narrow} />
+          <InfoButton color={buttonColor} narrow={narrow} />
         </View>
         <LoadingBanner
           spinnerColor={spinnerColor}
