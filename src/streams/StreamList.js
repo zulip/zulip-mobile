@@ -72,7 +72,7 @@ export default class StreamList extends PureComponent<Props> {
             unreadCount={unreadByStream[item.stream_id]}
             isMuted={item.in_home_view === false} // if 'undefined' is not muted
             showSwitch={showSwitch}
-            isSwitchedOn={item.subscribed}
+            isSubscribed={item.subscribed}
             onPress={onPress}
             onSwitch={onSwitch}
           />
