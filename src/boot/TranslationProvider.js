@@ -36,7 +36,18 @@ export function withGetText<P: { +_: GetText, ... }, C: ComponentType<P>>(
 
 const makeGetText = (intl: IntlShape): GetText => {
   const _ = (message, values) =>
-    intl.formatMessage({ id: message, defaultMessage: message }, values);
+    intl.formatMessage(
+      {
+        id: message,
+
+        // If you see this in dev, it means there's a user-facing
+        // string that hasn't been added to
+        // static/translations/messages_en.json. Please add it! :)
+        defaultMessage:
+          process.env.NODE_ENV === 'development' ? `UNTRANSLATED—${message}—UNTRANSLATED` : message,
+      },
+      values,
+    );
   _.intl = intl;
   return _;
 };
