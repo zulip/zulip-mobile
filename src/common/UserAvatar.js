@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { type Node as React$Node } from 'react';
-import { ImageBackground, View, PixelRatio } from 'react-native';
+import { Image, View, PixelRatio } from 'react-native';
 
 import { useSelector } from '../react-redux';
 import { getAuthHeaders } from '../api/transport';
@@ -46,21 +46,20 @@ function UserAvatar(props: Props) {
 
   return (
     <View>
-      <Touchable onPress={onPress} style={style}>
-        <ImageBackground
-          style={style}
-          source={{
-            uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
-            ...(avatarUrl instanceof FallbackAvatarURL
-              ? { headers: getAuthHeaders(auth) }
-              : undefined),
-          }}
-          resizeMode="cover"
-          /* ImageBackground seems to ignore `style.borderRadius`. */
-          borderRadius={borderRadius}
-        >
+      <Touchable onPress={onPress}>
+        <View>
+          <Image
+            source={{
+              uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
+              ...(avatarUrl instanceof FallbackAvatarURL
+                ? { headers: getAuthHeaders(auth) }
+                : undefined),
+            }}
+            style={style}
+            resizeMode="cover"
+          />
           {children}
-        </ImageBackground>
+        </View>
       </Touchable>
     </View>
   );
