@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { type Node as React$Node } from 'react';
+import React, { type Node as React$Node, useContext } from 'react';
 import { Image, View, PixelRatio } from 'react-native';
 
 import { useSelector } from '../react-redux';
@@ -7,10 +7,13 @@ import { getAuthHeaders } from '../api/transport';
 import { tryGetAuth } from '../account/accountsSelectors';
 import Touchable from './Touchable';
 import { AvatarURL, FallbackAvatarURL } from '../utils/avatar';
+import { IconUserMuted } from './Icons';
+import { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
   avatarUrl: AvatarURL,
   size: number,
+  isMuted?: boolean,
   children?: React$Node,
   onPress?: () => void,
 |}>;
@@ -24,13 +27,20 @@ type Props = $ReadOnly<{|
  * @prop [onPress] - Event fired on pressing the component.
  */
 function UserAvatar(props: Props) {
-  const { avatarUrl, children, size, onPress } = props;
+  const { avatarUrl, children, size, isMuted = false, onPress } = props;
   const borderRadius = size / 8;
   const style = {
     height: size,
     width: size,
     borderRadius,
   };
+  const iconStyle = {
+    height: size,
+    width: size,
+    textAlign: 'center',
+  };
+
+  const { color } = useContext(ThemeContext);
 
   const auth = useSelector(state => tryGetAuth(state));
   if (!auth) {
@@ -48,16 +58,20 @@ function UserAvatar(props: Props) {
     <View>
       <Touchable onPress={onPress}>
         <View>
-          <Image
-            source={{
-              uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
-              ...(avatarUrl instanceof FallbackAvatarURL
-                ? { headers: getAuthHeaders(auth) }
-                : undefined),
-            }}
-            style={style}
-            resizeMode="cover"
-          />
+          {!isMuted ? (
+            <Image
+              source={{
+                uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
+                ...(avatarUrl instanceof FallbackAvatarURL
+                  ? { headers: getAuthHeaders(auth) }
+                  : undefined),
+              }}
+              style={style}
+              resizeMode="cover"
+            />
+          ) : (
+            <IconUserMuted size={size} color={color} style={iconStyle} />
+          )}
           {children}
         </View>
       </Touchable>

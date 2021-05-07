@@ -8,6 +8,7 @@ import type { FeatherGlyphs } from 'react-native-vector-icons/Feather';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 /**
  * The props actually accepted by icon components in r-n-vector-icons.
@@ -85,3 +86,4 @@ export const IconMoreHorizontal = makeIcon(Feather, 'more-horizontal');
 export const IconEdit = makeIcon(Feather, 'edit');
 export const IconPlusSquare = makeIcon(Feather, 'plus-square');
 export const IconVideo = makeIcon(Feather, 'video');
+export const IconUserMuted = makeIcon(FontAwesome, 'user');

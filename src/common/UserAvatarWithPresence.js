@@ -22,6 +22,7 @@ type Props = $ReadOnly<{|
   size: number,
   onPress?: () => void,
   email: string,
+  isMuted?: boolean,
 |}>;
 
 /**
@@ -38,10 +39,10 @@ type Props = $ReadOnly<{|
  */
 export default class UserAvatarWithPresence extends PureComponent<Props> {
   render() {
-    const { avatarUrl, email, size, onPress } = this.props;
+    const { avatarUrl, email, isMuted, size, onPress } = this.props;
 
     return (
-      <UserAvatar avatarUrl={avatarUrl} size={size} onPress={onPress}>
+      <UserAvatar avatarUrl={avatarUrl} size={size} isMuted={isMuted} onPress={onPress}>
         <PresenceStatusIndicator
           style={styles.status}
           email={email}
