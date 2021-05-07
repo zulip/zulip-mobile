@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react';
 import { Alert } from 'react-native';
 
+import * as api from '../api';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -13,7 +14,14 @@ import { hasAuth, getAccountStatuses } from '../selectors';
 import type { AccountStatus } from './accountsSelectors';
 import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
-import { navigateToRealmInputScreen, accountSwitch, removeAccount } from '../actions';
+import {
+  navigateToRealmInputScreen,
+  accountSwitch,
+  removeAccount,
+  navigateToAuth,
+} from '../actions';
+import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
+import { showErrorAlert } from '../utils/info';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'account-pick'>,
@@ -28,7 +36,8 @@ class AccountPickScreen extends PureComponent<Props> {
   static contextType = TranslationContext;
   context: GetText;
 
-  handleAccountSelect = (index: number) => {
+  handleAccountSelect = async (index: number) => {
+    const _ = this.context;
     const { accounts, dispatch } = this.props;
     const { realm, isLoggedIn } = accounts[index];
     if (isLoggedIn) {
@@ -36,7 +45,12 @@ class AccountPickScreen extends PureComponent<Props> {
         dispatch(accountSwitch(index));
       });
     } else {
-      NavigationService.dispatch(navigateToRealmInputScreen({ realm }));
+      try {
+        const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
+        NavigationService.dispatch(navigateToAuth(serverSettings));
+      } catch (e) {
+        showErrorAlert(_('Failed to connect to server: {realm}', { realm: realm.toString() }));
+      }
     }
   };
 
