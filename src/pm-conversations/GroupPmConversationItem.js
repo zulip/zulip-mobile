@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 import type { UserOrBot } from '../types';
@@ -23,31 +23,27 @@ type Props<U> = $ReadOnly<{|
 /**
  * A list item describing one group PM conversation.
  * */
-export default class GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>> extends PureComponent<
-  Props<U>,
-> {
-  handlePress = () => {
-    const { users, onPress } = this.props;
+export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(props: Props<U>) {
+  const handlePress = () => {
+    const { users, onPress } = props;
     onPress(users);
   };
 
-  render() {
-    const { users, unreadCount } = this.props;
-    const names = users.map(user => user.full_name);
+  const { users, unreadCount } = props;
+  const names = users.map(user => user.full_name);
 
-    return (
-      <Touchable onPress={this.handlePress}>
-        <View style={styles.listItem}>
-          <GroupAvatar size={48} names={names} />
-          <RawLabel
-            style={componentStyles.text}
-            numberOfLines={2}
-            ellipsizeMode="tail"
-            text={names.join(', ')}
-          />
-          <UnreadCount count={unreadCount} />
-        </View>
-      </Touchable>
-    );
-  }
+  return (
+    <Touchable onPress={handlePress}>
+      <View style={styles.listItem}>
+        <GroupAvatar size={48} names={names} />
+        <RawLabel
+          style={componentStyles.text}
+          numberOfLines={2}
+          ellipsizeMode="tail"
+          text={names.join(', ')}
+        />
+        <UnreadCount count={unreadCount} />
+      </View>
+    </Touchable>
+  );
 }
