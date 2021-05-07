@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { type ComponentType, type ElementConfig } from 'react';
+import React, { type ComponentType, type ElementConfig, useRef } from 'react';
 
 import { connect } from './react-redux';
 import type { Dispatch } from './types';
@@ -16,6 +16,9 @@ import FullScreenLoading from './common/FullScreenLoading';
  * The implementation uses props named `dispatch` and `haveServerData`; the
  * inner component shouldn't try to accept props with those names, and the
  * caller shouldn't try to pass them in.
+ *
+ * Inside a render method, don't call this directly: like most HOCs, it will
+ * return a new value each time.  Instead, use `useHaveServerDataGate`.
  */
 // It sure seems like Flow should catch the `dispatch` / `haveServerData`
 // thing and reflect it in the types; it's not clear why it doesn't.
@@ -60,4 +63,19 @@ export default function withHaveServerDataGate<P: { ... }, C: ComponentType<$Exa
         <FullScreenLoading />
       ),
   );
+}
+
+/**
+ * Like `withHaveServerDataGate`, but with a stable value on React re-render.
+ *
+ * This is a React hook.  On initial render, it returns the same value as
+ * `withHaveServerDataGate` would.  On re-render, it returns the same value
+ * as on the previous render.
+ */
+export function useHaveServerDataGate<P: { ... }, C: ComponentType<$Exact<P>>>(
+  Comp: C,
+): ComponentType<$Exact<ElementConfig<C>>> {
+  // Not `useMemo`, because that function's memoization is only a
+  // performance optimization and not a semantic guarantee.
+  return useRef(withHaveServerDataGate(Comp)).current;
 }
