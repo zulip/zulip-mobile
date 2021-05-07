@@ -88,7 +88,6 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
           defaultProtocol="https://"
           defaultOrganization="your-org"
           defaultDomain="zulipchat.com"
-          defaultValue=""
           onChangeText={this.handleRealmChange}
           onSubmitEditing={this.tryRealm}
           enablesReturnKeyAutomatically

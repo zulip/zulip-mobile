@@ -28,7 +28,6 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  defaultValue: string,
   /**
    * The protocol which will be used if the user doesn't specify one.
    * Should almost certainly be "https://".
@@ -125,7 +124,6 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
 
   render() {
     const {
-      defaultValue,
       defaultProtocol,
       defaultOrganization,
       defaultDomain,
@@ -135,7 +133,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
     } = this.props;
     const { value } = this.state;
 
-    const [prefix, , suffix] = autocompleteRealmPieces(value || defaultValue, {
+    const [prefix, , suffix] = autocompleteRealmPieces(value, {
       domain: defaultDomain,
       protocol: defaultProtocol,
     });
@@ -153,7 +151,6 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
           autoCorrect={false}
           autoCapitalize="none"
           returnKeyType="go"
-          defaultValue={defaultValue}
           onChangeText={this.handleChange}
           blurOnSubmit={false}
           keyboardType="url"
