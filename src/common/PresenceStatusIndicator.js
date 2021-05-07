@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useContext } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { PresenceState, UserOrBot, UserStatusMapObject, Dispatch } from '../types';
-import { createStyleSheet } from '../styles';
+import { createStyleSheet, ThemeContext } from '../styles';
 import { connect } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence, getUserStatus } from '../selectors';
@@ -25,7 +25,6 @@ const styles = createStyleSheet({
     width: 15,
     height: 15,
     borderRadius: 7.5,
-    backgroundColor: 'white',
   },
   active: {
     backgroundColor: 'hsl(106, 74%, 44%)',
@@ -67,11 +66,13 @@ function MaybeOpaqueBackgroundWrapper(
   |}>,
 ) {
   const { useOpaqueBackground, style, children } = props;
+  const { backgroundColor } = useContext(ThemeContext);
   return (
     <View
       style={[
         styles.maybeOpaqueBackgroundWrapper,
         useOpaqueBackground ? styles.opaqueBackground : undefined,
+        useOpaqueBackground ? { backgroundColor } : undefined,
         style,
       ]}
     >
