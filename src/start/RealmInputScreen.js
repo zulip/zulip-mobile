@@ -5,24 +5,15 @@ import { Keyboard } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
-import { connect } from '../react-redux';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { tryParseUrl } from '../utils/url';
 import * as api from '../api';
 import { navigateToAuth } from '../actions';
 
-type SelectorProps = {|
-  +initialRealmInputValue: string,
-|};
-
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
   route: RouteProp<'realm-input', {| initial: boolean | void |}>,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 type State = {|
@@ -31,10 +22,10 @@ type State = {|
   progress: boolean,
 |};
 
-class RealmInputScreen extends PureComponent<Props, State> {
+export default class RealmInputScreen extends PureComponent<Props, State> {
   state = {
     progress: false,
-    realmInputValue: this.props.initialRealmInputValue,
+    realmInputValue: '',
     error: null,
   };
 
@@ -71,15 +62,8 @@ class RealmInputScreen extends PureComponent<Props, State> {
 
   handleRealmChange = (value: string) => this.setState({ realmInputValue: value });
 
-  componentDidMount() {
-    const { initialRealmInputValue } = this.props;
-    if (initialRealmInputValue && initialRealmInputValue.length > 0) {
-      this.tryRealm();
-    }
-  }
-
   render() {
-    const { initialRealmInputValue, navigation } = this.props;
+    const { navigation } = this.props;
     const { progress, error, realmInputValue } = this.state;
 
     const styles = {
@@ -104,7 +88,7 @@ class RealmInputScreen extends PureComponent<Props, State> {
           defaultProtocol="https://"
           defaultOrganization="your-org"
           defaultDomain="zulipchat.com"
-          defaultValue={initialRealmInputValue}
+          defaultValue=""
           onChangeText={this.handleRealmChange}
           onSubmitEditing={this.tryRealm}
           enablesReturnKeyAutomatically
@@ -125,7 +109,3 @@ class RealmInputScreen extends PureComponent<Props, State> {
     );
   }
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  initialRealmInputValue: '',
-}))(RealmInputScreen);
