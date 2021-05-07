@@ -1,13 +1,15 @@
 /* @flow strict-local */
-import React, { type ElementConfig, useCallback } from 'react';
+import React, { type ElementConfig, useCallback, useContext } from 'react';
 import { View } from 'react-native';
 
+import { TranslationContext } from '../boot/TranslationProvider';
 import type { UserId } from '../types';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
 import { useSelector } from '../react-redux';
 import { getUserForId } from './userSelectors';
+import { getMutedUsers } from '../selectors';
 
 const componentStyles = createStyleSheet({
   selectedRow: {
@@ -50,6 +52,8 @@ export function UserItemRaw<UserT: { user_id: UserId, email: string, full_name: 
   props: Props<UserT>,
 ) {
   const { user, isSelected = false, onPress, unreadCount, showEmail = false } = props;
+  const _ = useContext(TranslationContext);
+  const isMuted = useSelector(getMutedUsers).has(user.user_id);
 
   const handlePress = useCallback(() => {
     if (onPress) {
@@ -63,16 +67,17 @@ export function UserItemRaw<UserT: { user_id: UserId, email: string, full_name: 
         <UserAvatarWithPresenceById
           size={48}
           userId={user.user_id}
+          isMuted={isMuted}
           onPress={onPress && handlePress}
         />
         <View style={componentStyles.textWrapper}>
           <RawLabel
             style={[componentStyles.text, isSelected && componentStyles.selectedText]}
-            text={user.full_name}
+            text={isMuted ? _('Muted user') : user.full_name}
             numberOfLines={1}
             ellipsizeMode="tail"
           />
-          {showEmail && (
+          {showEmail && !isMuted && (
             <RawLabel
               style={[
                 componentStyles.text,
