@@ -24,7 +24,7 @@ export default (args: {|
       // realm.
       return {
         initialRouteName: 'realm-input',
-        initialRouteParams: { initial: true, realm: undefined },
+        initialRouteParams: { initial: true },
       };
     }
   }

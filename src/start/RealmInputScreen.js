@@ -19,7 +19,7 @@ type SelectorProps = {|
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
-  route: RouteProp<'realm-input', {| realm: URL | void, initial: boolean | void |}>,
+  route: RouteProp<'realm-input', {| initial: boolean | void |}>,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -127,5 +127,5 @@ class RealmInputScreen extends PureComponent<Props, State> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  initialRealmInputValue: props.route.params.realm?.toString() ?? '',
+  initialRealmInputValue: '',
 }))(RealmInputScreen);

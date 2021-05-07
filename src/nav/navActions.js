@@ -63,7 +63,7 @@ export const navigateToGroupDetails = (
 ): GenericNavigationAction => StackActions.push('group-details', { recipients });
 
 export const navigateToRealmInputScreen = (): GenericNavigationAction =>
-  StackActions.push('realm-input', { realm: undefined, initial: undefined });
+  StackActions.push('realm-input', { initial: undefined });
 
 export const navigateToLightbox = (src: string, message: Message): GenericNavigationAction =>
   StackActions.push('lightbox', { src, message });
