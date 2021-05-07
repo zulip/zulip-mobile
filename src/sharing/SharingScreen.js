@@ -1,11 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Text } from 'react-native';
 import {
   createMaterialTopTabNavigator,
   type MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs';
-import { FormattedMessage } from 'react-intl';
 
 import type { GlobalParamList } from '../nav/globalTypes';
 import type { RouteParamsOf, RouteProp } from '../react-navigation';
@@ -16,7 +14,7 @@ import type { Dispatch, Auth, SharedData } from '../types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import { connect } from '../react-redux';
-import { Screen } from '../common';
+import { Label, Screen } from '../common';
 import { tryGetAuth } from '../selectors';
 import { navigateToAccountPicker } from '../nav/navActions';
 import ShareToStream from './ShareToStream';
@@ -76,11 +74,7 @@ class SharingScreen extends PureComponent<Props> {
             name="share-to-stream"
             component={ShareToStream}
             options={{
-              tabBarLabel: ({ color }) => (
-                <Text style={[styles.tab, { color }]}>
-                  <FormattedMessage id="Stream" defaultMessage="Stream" />
-                </Text>
-              ),
+              tabBarLabel: ({ color }) => <Label style={[styles.tab, { color }]} text="Stream" />,
             }}
           />
           <Tab.Screen
@@ -88,9 +82,7 @@ class SharingScreen extends PureComponent<Props> {
             component={ShareToPm}
             options={{
               tabBarLabel: ({ color }) => (
-                <Text style={[styles.tab, { color }]}>
-                  <FormattedMessage id="Private Message" defaultMessage="Private Message" />
-                </Text>
+                <Label style={[styles.tab, { color }]} text="Private Message" />
               ),
             }}
           />
