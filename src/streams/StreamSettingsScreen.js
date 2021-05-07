@@ -49,27 +49,27 @@ class StreamSettingsScreen extends PureComponent<Props> {
     dispatch(setSubscriptionProperty(stream.stream_id, 'is_muted', newValue));
   };
 
-  handleEdit = () => {
+  handlePressEdit = () => {
     const { stream } = this.props;
     NavigationService.dispatch(navigateToEditStream(stream.stream_id));
   };
 
-  handleEditSubscribers = () => {
+  handlePressEditSubscribers = () => {
     const { stream } = this.props;
     NavigationService.dispatch(navigateToStreamSubscribers(stream.stream_id));
   };
 
-  handleSubscribe = () => {
+  handlePressSubscribe = () => {
     const { auth, stream } = this.props;
     api.subscriptionAdd(auth, [{ name: stream.name }]);
   };
 
-  handleUnsubscribe = () => {
+  handlePressUnsubscribe = () => {
     const { auth, stream } = this.props;
     api.subscriptionRemove(auth, [stream.name]);
   };
 
-  toggleStreamPushNotification = () => {
+  handleToggleStreamPushNotification = () => {
     const { dispatch, subscription, stream, userSettingStreamNotification } = this.props;
     const currentValue = subscription?.push_notifications ?? userSettingStreamNotification;
     dispatch(setSubscriptionProperty(stream.stream_id, 'push_notifications', !currentValue));
@@ -99,7 +99,7 @@ class StreamSettingsScreen extends PureComponent<Props> {
               Icon={IconNotifications}
               label="Notifications"
               value={subscription.push_notifications ?? userSettingStreamNotification}
-              onValueChange={this.toggleStreamPushNotification}
+              onValueChange={this.handleToggleStreamPushNotification}
             />
           </>
         )}
@@ -110,7 +110,7 @@ class StreamSettingsScreen extends PureComponent<Props> {
               Icon={IconEdit}
               text="Edit"
               secondary
-              onPress={() => delay(this.handleEdit)}
+              onPress={() => delay(this.handlePressEdit)}
             />
           )}
           <ZulipButton
@@ -118,21 +118,21 @@ class StreamSettingsScreen extends PureComponent<Props> {
             Icon={IconPlusSquare}
             text="Add subscribers"
             secondary
-            onPress={() => delay(this.handleEditSubscribers)}
+            onPress={() => delay(this.handlePressEditSubscribers)}
           />
           {subscription ? (
             <ZulipButton
               style={styles.marginTop}
               text="Unsubscribe"
               secondary
-              onPress={() => delay(this.handleUnsubscribe)}
+              onPress={() => delay(this.handlePressUnsubscribe)}
             />
           ) : (
             <ZulipButton
               style={styles.marginTop}
               text="Subscribe"
               secondary
-              onPress={() => delay(this.handleSubscribe)}
+              onPress={() => delay(this.handlePressSubscribe)}
             />
           )}
         </View>
