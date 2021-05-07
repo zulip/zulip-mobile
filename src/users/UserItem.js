@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { type ElementConfig, PureComponent } from 'react';
+import React, { type ElementConfig, useCallback } from 'react';
 import { View } from 'react-native';
 
 import type { UserId } from '../types';
@@ -30,8 +30,8 @@ const componentStyles = createStyleSheet({
 
 type Props<UserT> = $ReadOnly<{|
   user: UserT,
-  isSelected: boolean,
-  showEmail: boolean,
+  isSelected?: boolean,
+  showEmail?: boolean,
   unreadCount?: number,
   onPress?: UserT => void,
 |}>;
@@ -46,57 +46,49 @@ type Props<UserT> = $ReadOnly<{|
  * user, one that doesn't exist in the database.  (But anywhere we're doing
  * that, there's probably a better UI anyway than showing a fake user.)
  */
-export class UserItemRaw<
-  UserT: { user_id: UserId, email: string, full_name: string, ... },
-> extends PureComponent<Props<UserT>> {
-  static defaultProps = {
-    isSelected: false,
-    showEmail: false,
-  };
+export function UserItemRaw<UserT: { user_id: UserId, email: string, full_name: string, ... }>(
+  props: Props<UserT>,
+) {
+  const { user, isSelected = false, onPress, unreadCount, showEmail = false } = props;
 
-  handlePress = () => {
-    const { user, onPress } = this.props;
+  const handlePress = useCallback(() => {
     if (onPress) {
       onPress(user);
     }
-  };
+  }, [onPress, user]);
 
-  render() {
-    const { user, isSelected, onPress, unreadCount, showEmail } = this.props;
-
-    return (
-      <Touchable onPress={onPress && this.handlePress}>
-        <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
-          <UserAvatarWithPresenceById
-            size={48}
-            userId={user.user_id}
-            onPress={onPress && this.handlePress}
+  return (
+    <Touchable onPress={onPress && handlePress}>
+      <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
+        <UserAvatarWithPresenceById
+          size={48}
+          userId={user.user_id}
+          onPress={onPress && handlePress}
+        />
+        <View style={componentStyles.textWrapper}>
+          <RawLabel
+            style={[componentStyles.text, isSelected && componentStyles.selectedText]}
+            text={user.full_name}
+            numberOfLines={1}
+            ellipsizeMode="tail"
           />
-          <View style={componentStyles.textWrapper}>
+          {showEmail && (
             <RawLabel
-              style={[componentStyles.text, isSelected && componentStyles.selectedText]}
-              text={user.full_name}
+              style={[
+                componentStyles.text,
+                componentStyles.textEmail,
+                isSelected && componentStyles.selectedText,
+              ]}
+              text={user.email}
               numberOfLines={1}
               ellipsizeMode="tail"
             />
-            {showEmail && (
-              <RawLabel
-                style={[
-                  componentStyles.text,
-                  componentStyles.textEmail,
-                  isSelected && componentStyles.selectedText,
-                ]}
-                text={user.email}
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              />
-            )}
-          </View>
-          <UnreadCount count={unreadCount} inverse={isSelected} />
+          )}
         </View>
-      </Touchable>
-    );
-  }
+        <UnreadCount count={unreadCount} inverse={isSelected} />
+      </View>
+    </Touchable>
+  );
 }
 
 type OuterProps = $ReadOnly<{|
