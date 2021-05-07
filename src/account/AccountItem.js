@@ -43,8 +43,8 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   index: number,
   account: AccountStatus,
-  onSelect: (index: number) => void,
-  onRemove: (index: number) => void,
+  onSelect: (index: number) => Promise<void> | void,
+  onRemove: (index: number) => Promise<void> | void,
 |}>;
 
 export default function AccountItem(props: Props) {
