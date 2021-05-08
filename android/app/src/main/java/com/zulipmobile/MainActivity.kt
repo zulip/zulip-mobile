@@ -37,6 +37,11 @@ open class MainActivity : ReactActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WebView.setWebContentsDebuggingEnabled(true)
+
+        // Intent is reused after quitting, skip it.
+        if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) {
+            return;
+        }
         maybeHandleIntent(intent)
     }
 
@@ -63,11 +68,6 @@ open class MainActivity : ReactActivity() {
     }
 
     private fun handleSend(intent: Intent) {
-        // Intent is reused after quitting, skip it.
-        if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) {
-            return;
-        }
-
         val params: WritableMap = try {
             getParamsFromIntent(intent)
         } catch (e: ShareParamsParseException) {
