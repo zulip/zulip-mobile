@@ -2,4 +2,6 @@
 <resources>
     <color name="primaryColor">#ffffff</color>
     <color name="primaryColorDark">#d7ccc8</color>
+    <color name="startGradient">#52aaff</color>
+    <color name="endGradient">#7679fc</color>
 </resources>
