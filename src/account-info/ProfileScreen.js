@@ -3,19 +3,16 @@ import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { ScrollView, View, Alert } from 'react-native';
 
-import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
-import { useDispatch, useSelector } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { ZulipButton } from '../common';
 import {
-  logout,
-  tryStopNotifications,
   navigateToAccountPicker,
   navigateToUserStatus,
-  navigateToAccountDeactivate,
+  navigateToAccountSetting,
 } from '../actions';
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
@@ -57,6 +54,19 @@ function SetStatusButton(props: {||}) {
   );
 }
 
+function AccountSettingButton(props: {||}) {
+  return (
+    <ZulipButton
+      style={styles.button}
+      secondary
+      text="Account Setting"
+      onPress={() => {
+        NavigationService.dispatch(navigateToAccountSetting());
+      }}
+    />
+  );
+}
+
 function SwitchAccountButton(props: {||}) {
   return (
     <ZulipButton
@@ -66,54 +76,6 @@ function SwitchAccountButton(props: {||}) {
       textStyle={styles.switchText}
       onPress={() => {
         NavigationService.dispatch(navigateToAccountPicker());
-      }}
-    />
-  );
-}
-
-function LogoutButton(props: {||}) {
-  const dispatch = useDispatch();
-  const _ = useContext(TranslationContext);
-  const identity = useSelector(getIdentity);
-  return (
-    <ZulipButton
-      style={styles.button}
-      secondary
-      text="Log out"
-      onPress={() => {
-        Alert.alert(
-          _('Log out?'),
-          _('This will log out {email} on {realmUrl} from the mobile app on this device.', {
-            email: identity.email,
-            realmUrl: identity.realm.toString(),
-          }),
-          [
-            { text: _('Cancel'), style: 'cancel' },
-            {
-              text: _('Log out'),
-              style: 'destructive',
-              onPress: () => {
-                dispatch(tryStopNotifications());
-                dispatch(logout());
-              },
-            },
-          ],
-          { cancelable: true },
-        );
-      }}
-    />
-  );
-}
-
-function DeactivateAccountButton(props: {||}) {
-  return (
-    <ZulipButton
-      style={styles.deactivateButton}
-      secondary
-      text="Deactivate"
-      textStyle={styles.deactivateText}
-      onPress={() => {
-        NavigationService.dispatch(navigateToAccountDeactivate());
       }}
     />
   );
@@ -142,8 +104,9 @@ export default function ProfileScreen(props: Props): Node {
       </View>
       <View style={styles.buttonRow}>
         <SwitchAccountButton />
-        <LogoutButton />
-        <DeactivateAccountButton />
+      </View>
+      <View style={styles.buttonRow}>
+        <AccountSettingButton />
       </View>
     </ScrollView>
   );

@@ -45,10 +45,12 @@ import UserStatusScreen from '../user-status/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
 import AccountDeactivateScreen from '../account/AccountDeactivateScreen';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
+import AccountSettingScreen from '../account/AccountSettingScreen';
 
 export type AppNavigatorParamList = {|
   'account-pick': RouteParamsOf<typeof AccountPickScreen>,
   'account-deactivate': RouteParamsOf<typeof AccountDeactivateScreen>,
+  'account-setting': RouteParamsOf<typeof AccountSettingScreen>,
   'account-details': RouteParamsOf<typeof AccountDetailsScreen>,
   'group-details': RouteParamsOf<typeof GroupDetailsScreen>,
   auth: RouteParamsOf<typeof AuthScreen>,
@@ -150,6 +152,7 @@ export default function AppNavigator(props: Props): Node {
           normally. */}
       <Stack.Screen name="account-pick" component={AccountPickScreen} />
       <Stack.Screen name="account-deactivate" component={AccountDeactivateScreen} />
+      <Stack.Screen name="account-setting" component={AccountSettingScreen} />
       <Stack.Screen name="auth" component={AuthScreen} />
       <Stack.Screen name="dev-auth" component={DevAuthScreen} />
       <Stack.Screen name="password-auth" component={PasswordAuthScreen} />
