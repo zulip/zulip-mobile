@@ -24,34 +24,42 @@ const transformModulesWhitelist = [
 // (This value is correctly a string, not a RegExp.)
 const transformIgnorePattern = `node_modules/(?!${transformModulesWhitelist.join('|')})`;
 
-const common = {
-  // Finding and transforming source code.
+const projectForPlatform = platform => {
+  if (!['ios', 'android'].includes(platform)) {
+    throw new Error(`Unsupported platform '${platform}'.`);
+  }
+  return {
+    // Finding and transforming source code.
 
-  testPathIgnorePatterns: ['/node_modules/', '/src/__tests__/lib/', '-testlib.js$'],
+    testPathIgnorePatterns: ['/node_modules/', '/src/__tests__/lib/', '-testlib.js$'],
 
-  // When some source file foo.js says `import 'bar'`, Jest looks in the
-  // directories above foo.js for a directory like `node_modules` to find
-  // `bar` in.  If foo.js is behind a `yarn link` symlink and outside our
-  // tree, that won't work; so have it look at our node_modules too.
-  moduleDirectories: ['node_modules', '<rootDir>/node_modules'],
+    // When some source file foo.js says `import 'bar'`, Jest looks in the
+    // directories above foo.js for a directory like `node_modules` to find
+    // `bar` in.  If foo.js is behind a `yarn link` symlink and outside our
+    // tree, that won't work; so have it look at our node_modules too.
+    moduleDirectories: ['node_modules', '<rootDir>/node_modules'],
 
-  transform: {
-    '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
-  },
-  transformIgnorePatterns: [transformIgnorePattern],
+    transform: {
+      '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
+    },
+    transformIgnorePatterns: [transformIgnorePattern],
 
-  // The runtime test environment.
-  globals: {
-    __TEST__: true,
-  },
-  setupFiles: ['./jest/globalFetch.js', './node_modules/react-native-gesture-handler/jestSetup.js'],
-  setupFilesAfterEnv: ['./jest/jestSetup.js', 'jest-extended'],
+    // The runtime test environment.
+    globals: {
+      __TEST__: true,
+    },
+    setupFiles: [
+      './jest/globalFetch.js',
+      './node_modules/react-native-gesture-handler/jestSetup.js',
+    ],
+    setupFilesAfterEnv: ['./jest/jestSetup.js', 'jest-extended'],
+
+    displayName: platform,
+    // See https://github.com/expo/expo/blob/master/packages/jest-expo/README.md#platforms.
+    preset: platform === 'ios' ? 'jest-expo/ios' : 'jest-expo/android',
+  };
 };
 
 module.exports = {
-  // See https://github.com/expo/expo/blob/master/packages/jest-expo/README.md#platforms.
-  projects: [
-    { ...common, displayName: 'ios', preset: 'jest-expo/ios' },
-    { ...common, displayName: 'android', preset: 'jest-expo/android' },
-  ],
+  projects: [projectForPlatform('ios'), projectForPlatform('android')],
 };
