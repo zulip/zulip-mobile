@@ -283,6 +283,7 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     accounts: state.accounts.filter(a => a.email !== ''),
   }),
 
+  // Add "open links with in-app browser" setting.
   '28': state => ({
     ...state,
     settings: {
