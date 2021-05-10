@@ -51,7 +51,7 @@ export const deactivateUser = () => async (dispatch: Dispatch, getState: GetStat
   const auth = getAuth(getState());
 
   try {
-     await api.deactivateUser(auth);
+    await api.deactivateUser(auth);
   } catch (error) {
     logging.error('Error deactivating account', error);
     showToast(`${error}`);

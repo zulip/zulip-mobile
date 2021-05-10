@@ -123,9 +123,15 @@ export default function AccountDeactivateScreen(props: Props) {
           />
           <ItemText text={_('Disable any bots you maintain.')} />
           <ItemText
-            text={_('Deactivating your account won\'t delete messages you\'ve sent or files you\'ve shared. If permitted in your organization, delete content you\'d like to remove before deactivating your account.')}
+            text={_(
+              "Deactivating your account won't delete messages you've sent or files you've shared. If permitted in your organization, delete content you'd like to remove before deactivating your account.",
+            )}
           />
-          <ItemText text={_('You cannot register a Zulip account using the email address of a deactivated account in that organization. If you change your mind about deactivating an account, an organization administrator can reactivate your account at any time.')} />
+          <ItemText
+            text={_(
+              'You cannot register a Zulip account using the email address of a deactivated account in that organization. If you change your mind about deactivating an account, an organization administrator can reactivate your account at any time.',
+            )}
+          />
         </View>
       </View>
 
