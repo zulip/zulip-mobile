@@ -29,8 +29,11 @@ const projectForPlatform = platform => {
     throw new Error(`Unsupported platform '${platform}'.`);
   }
   return {
-    // Finding and transforming source code.
+    displayName: platform,
+    // See https://github.com/expo/expo/blob/master/packages/jest-expo/README.md#platforms.
+    preset: platform === 'ios' ? 'jest-expo/ios' : 'jest-expo/android',
 
+    // Finding and transforming source code.
     testPathIgnorePatterns: ['/node_modules/', '/src/__tests__/lib/', '-testlib.js$'],
 
     // When some source file foo.js says `import 'bar'`, Jest looks in the
@@ -53,10 +56,6 @@ const projectForPlatform = platform => {
       './node_modules/react-native-gesture-handler/jestSetup.js',
     ],
     setupFilesAfterEnv: ['./jest/jestSetup.js', 'jest-extended'],
-
-    displayName: platform,
-    // See https://github.com/expo/expo/blob/master/packages/jest-expo/README.md#platforms.
-    preset: platform === 'ios' ? 'jest-expo/ios' : 'jest-expo/android',
   };
 };
 
