@@ -48,9 +48,7 @@ class UserPickerCard extends PureComponent<Props, State> {
   componentDidUpdate = (prevProps: Props, prevState: State) => {
     if (this.state.selected.length > prevState.selected.length) {
       setTimeout(() => {
-        if (this.listRef) {
-          this.listRef.scrollToEnd();
-        }
+        this.listRef?.scrollToEnd();
       });
     }
   };
