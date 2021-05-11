@@ -26,6 +26,11 @@ const streamNarrowStr = keyFromNarrow(narrow);
 
 global.FormData = class FormData {};
 
+const BORING_RESPONSE = JSON.stringify({
+  messages: [],
+  result: 'success',
+});
+
 describe('fetchActions', () => {
   afterEach(() => {
     fetch.reset();
@@ -287,11 +292,6 @@ describe('fetchActions', () => {
       });
     });
 
-    const BORING_RESPONSE = JSON.stringify({
-      messages: [],
-      result: 'success',
-    });
-
     test('when messages to be fetched both before and after anchor, numBefore and numAfter are greater than zero', async () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxState({
@@ -384,6 +384,10 @@ describe('fetchActions', () => {
       messages: eg.makeMessagesState([message1, message2]),
     });
 
+    beforeEach(() => {
+      fetch.mockResponseSuccess(BORING_RESPONSE);
+    });
+
     test('message fetch start action is dispatched with numBefore greater than zero', async () => {
       const store = mockStore<GlobalState, Action>({
         ...baseState,
@@ -471,6 +475,10 @@ describe('fetchActions', () => {
         }),
       ),
       messages: eg.makeMessagesState([message1, message2]),
+    });
+
+    beforeEach(() => {
+      fetch.mockResponseSuccess(BORING_RESPONSE);
     });
 
     test('message fetch start action is dispatched with numAfter greater than zero', async () => {
