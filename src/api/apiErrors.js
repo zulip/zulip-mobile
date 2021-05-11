@@ -61,8 +61,17 @@ export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
  * Client errors are often caused by incorrect parameters given to the backend
  * by the client application.
  *
- * A notable difference between a Server (5xx) and Client (4xx) errors is that
- * a client error will not be resolved by waiting and retrying the same request.
+ * A Client (4xx) error will not be resolved by waiting and retrying
+ * the same request.
  */
 export const isClientError = (e: Error): boolean =>
   e instanceof ApiError && e.httpStatus >= 400 && e.httpStatus <= 499;
+
+/**
+ * Is exception caused by a Server Error (5xx)?
+ *
+ * A Server (5xx) error may or may not be resolved by waiting a short
+ * time and retrying the same request.
+ */
+export const isServerError = (e: Error): boolean =>
+  e instanceof ApiError && e.httpStatus >= 500 && e.httpStatus <= 599;
