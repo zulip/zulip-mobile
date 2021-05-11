@@ -38,8 +38,8 @@ describe('fetchActions', () => {
 
   describe('isFetchNeededAtAnchor', () => {
     test("false if we're caught up, even if there are no messages", () => {
-      const state = eg.reduxState({
-        session: { ...eg.baseReduxState.session, isHydrated: true },
+      const state = eg.reduxStatePlus({
+        session: { ...eg.plusReduxState.session, isHydrated: true },
         caughtUp: {
           [streamNarrowStr]: {
             newer: true,
@@ -60,8 +60,8 @@ describe('fetchActions', () => {
       const message1 = eg.streamMessage({ id: 1 });
       const message2 = eg.streamMessage({ id: 2 });
 
-      const state = eg.reduxState({
-        session: { ...eg.baseReduxState.session, isHydrated: true },
+      const state = eg.reduxStatePlus({
+        session: { ...eg.plusReduxState.session, isHydrated: true },
         caughtUp: {
           [streamNarrowStr]: {
             newer: false,
@@ -132,9 +132,7 @@ describe('fetchActions', () => {
       avatar_url: null, // Null in server data will be transformed to a GravatarURL
     };
 
-    const baseState = eg.reduxState({
-      accounts: [eg.makeAccount()],
-      realm: { ...eg.baseReduxState.realm, user_id: eg.selfUser.user_id },
+    const baseState = eg.reduxStatePlus({
       narrows: Immutable.Map({
         [streamNarrowStr]: [message1.id],
       }),
@@ -294,9 +292,7 @@ describe('fetchActions', () => {
 
     test('when messages to be fetched both before and after anchor, numBefore and numAfter are greater than zero', async () => {
       const store = mockStore<GlobalState, Action>(
-        eg.reduxState({
-          accounts: [eg.selfAccount],
-          realm: { ...eg.baseReduxState.realm, user_id: eg.selfUser.user_id },
+        eg.reduxStatePlus({
           narrows: Immutable.Map({
             [streamNarrowStr]: [1],
           }),
@@ -320,9 +316,7 @@ describe('fetchActions', () => {
 
     test('when no messages to be fetched before the anchor, numBefore is not greater than zero', async () => {
       const store = mockStore<GlobalState, Action>(
-        eg.reduxState({
-          accounts: [eg.selfAccount],
-          realm: { ...eg.baseReduxState.realm, user_id: eg.selfUser.user_id },
+        eg.reduxStatePlus({
           narrows: Immutable.Map({
             [streamNarrowStr]: [1],
           }),
@@ -345,9 +339,7 @@ describe('fetchActions', () => {
 
     test('when no messages to be fetched after the anchor, numAfter is not greater than zero', async () => {
       const store = mockStore<GlobalState, Action>(
-        eg.reduxState({
-          accounts: [eg.selfAccount],
-          realm: { ...eg.baseReduxState.realm, user_id: eg.selfUser.user_id },
+        eg.reduxStatePlus({
           narrows: Immutable.Map({
             [streamNarrowStr]: [1],
           }),
@@ -373,9 +365,8 @@ describe('fetchActions', () => {
     const message1 = eg.streamMessage({ id: 1 });
     const message2 = eg.streamMessage({ id: 2 });
 
-    const baseState = eg.reduxState({
-      accounts: [eg.selfAccount],
-      narrows: eg.baseReduxState.narrows.merge(
+    const baseState = eg.reduxStatePlus({
+      narrows: eg.plusReduxState.narrows.merge(
         Immutable.Map({
           [streamNarrowStr]: [message2.id],
           [HOME_NARROW_STR]: [message1.id, message2.id],
@@ -466,9 +457,8 @@ describe('fetchActions', () => {
     const message1 = eg.streamMessage({ id: 1 });
     const message2 = eg.streamMessage({ id: 2 });
 
-    const baseState = eg.reduxState({
-      accounts: [eg.selfAccount],
-      narrows: eg.baseReduxState.narrows.merge(
+    const baseState = eg.reduxStatePlus({
+      narrows: eg.plusReduxState.narrows.merge(
         Immutable.Map({
           [streamNarrowStr]: [message2.id],
           [HOME_NARROW_STR]: [message1.id, message2.id],
