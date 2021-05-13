@@ -3,9 +3,8 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { getSession } from '../selectors';
 import Label from './Label';
 
@@ -26,19 +25,14 @@ const styles = createStyleSheet({
   none: { display: 'none' },
 });
 
-type Props = $ReadOnly<{|
-  dispatch: Dispatch,
-  isOnline: boolean,
-|}>;
+type Props = $ReadOnly<{||}>;
 
 /**
  * Displays a notice that the app is working in offline mode.
  * Not rendered if state is 'online'.
- *
- * @prop isOnline - Provide the online/offline state.
  */
-function OfflineNotice(props: Props) {
-  const { isOnline } = props;
+export default function OfflineNotice(props: Props) {
+  const isOnline = useSelector(state => getSession(state).isOnline);
   if (isOnline) {
     return <View key={key} style={styles.none} />;
   }
@@ -49,7 +43,3 @@ function OfflineNotice(props: Props) {
     </View>
   );
 }
-
-export default connect(state => ({
-  isOnline: getSession(state).isOnline,
-}))(OfflineNotice);
