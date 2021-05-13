@@ -19,23 +19,30 @@ type PseudoSubscription = Subscription | {| ...Stream, subscribed: boolean, pin_
 
 type Props = $ReadOnly<{|
   showDescriptions: boolean,
-  showSwitch: boolean,
+  showToSubscribe: boolean,
   streams: $ReadOnlyArray<PseudoSubscription>,
   unreadByStream: $ReadOnly<{| [number]: number |}>,
   onPress: (streamName: string) => void,
-  onSwitch?: (streamName: string, newValue: boolean) => void,
+  onSubscribe?: (streamName: string, value: boolean) => void,
 |}>;
 
 export default class StreamList extends PureComponent<Props> {
   static defaultProps = {
     showDescriptions: false,
-    showSwitch: false,
+    showToSubscribe: false,
     streams: [],
     unreadByStream: {},
   };
 
   render() {
-    const { streams, showDescriptions, showSwitch, unreadByStream, onPress, onSwitch } = this.props;
+    const {
+      streams,
+      showDescriptions,
+      showToSubscribe,
+      unreadByStream,
+      onPress,
+      onSubscribe,
+    } = this.props;
 
     if (streams.length === 0) {
       return <SearchEmptyState text="No streams found" />;
@@ -71,10 +78,10 @@ export default class StreamList extends PureComponent<Props> {
             color={item.color}
             unreadCount={unreadByStream[item.stream_id]}
             isMuted={item.in_home_view === false} // if 'undefined' is not muted
-            showSwitch={showSwitch}
-            isSwitchedOn={item.subscribed}
+            showToSubscribe={showToSubscribe}
+            isSubscribed={item.subscribed}
             onPress={onPress}
-            onSwitch={onSwitch}
+            onSubscribe={onSubscribe}
           />
         )}
         SectionSeparatorComponent={SectionSeparatorBetween}
