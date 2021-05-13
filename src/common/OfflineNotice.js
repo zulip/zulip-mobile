@@ -8,8 +8,6 @@ import { useSelector } from '../react-redux';
 import { getSession } from '../selectors';
 import Label from './Label';
 
-const key = 'OfflineNotice';
-
 const styles = createStyleSheet({
   block: {
     flexDirection: 'row',
@@ -37,7 +35,7 @@ export default function OfflineNotice(props: Props) {
   }
 
   return (
-    <View key={key} style={styles.block}>
+    <View style={styles.block}>
       <Label style={styles.text} text="No Internet connection" />
     </View>
   );
