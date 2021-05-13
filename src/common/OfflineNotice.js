@@ -22,7 +22,6 @@ const styles = createStyleSheet({
     color: 'white',
     margin: 2,
   },
-  none: { display: 'none' },
 });
 
 type Props = $ReadOnly<{||}>;
@@ -34,7 +33,7 @@ type Props = $ReadOnly<{||}>;
 export default function OfflineNotice(props: Props) {
   const isOnline = useSelector(state => getSession(state).isOnline);
   if (isOnline) {
-    return <View key={key} style={styles.none} />;
+    return null;
   }
 
   return (
