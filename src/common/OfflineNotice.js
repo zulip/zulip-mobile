@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 import type { Dispatch } from '../types';
@@ -37,19 +37,17 @@ type Props = $ReadOnly<{|
  *
  * @prop isOnline - Provide the online/offline state.
  */
-class OfflineNotice extends PureComponent<Props> {
-  render() {
-    const { isOnline } = this.props;
-    if (isOnline) {
-      return <View key={key} style={styles.none} />;
-    }
-
-    return (
-      <View key={key} style={styles.block}>
-        <Label style={styles.text} text="No Internet connection" />
-      </View>
-    );
+function OfflineNotice(props: Props) {
+  const { isOnline } = props;
+  if (isOnline) {
+    return <View key={key} style={styles.none} />;
   }
+
+  return (
+    <View key={key} style={styles.block}>
+      <Label style={styles.text} text="No Internet connection" />
+    </View>
+  );
 }
 
 export default connect(state => ({
