@@ -3,7 +3,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { createStyleSheet } from '../styles';
+import { createStyleSheet, HALF_COLOR } from '../styles';
 import { useSelector } from '../react-redux';
 import { getSession } from '../selectors';
 import Label from './Label';
@@ -13,11 +13,10 @@ const styles = createStyleSheet({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'hsl(6, 98%, 57%)',
+    backgroundColor: HALF_COLOR,
   },
   text: {
     fontSize: 14,
-    color: 'white',
     margin: 2,
   },
 });
