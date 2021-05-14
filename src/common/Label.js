@@ -1,46 +1,32 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { Text } from 'react-native';
 import TranslatedText from './TranslatedText';
 
-import type { ThemeData } from '../styles';
-import { ThemeContext } from '../styles';
+import type { BoundedDiff } from '../generics';
+import RawLabel from './RawLabel';
 import type { LocalizableText } from '../types';
 
 type Props = $ReadOnly<{|
-  ...$Exact<React$ElementConfig<typeof Text>>,
+  ...BoundedDiff<$Exact<React$ElementConfig<typeof RawLabel>>, {| children: ?React$Node |}>,
   text: LocalizableText,
 |}>;
 
 /**
- * A component that on top of a standard Text component
- * provides seamless translation and ensures consistent
- * styling for the default and night themes.
+ * A wrapper for `RawLabel` that also translates the text.
  *
- * Use `RawLabel` if you don't want the text translated.
+ * Use `RawLabel` instead if you don't want the text translated.
  *
- * @prop text - Translated before putting inside Text.
- * @prop [style] - Can override our default style for this component.
- * @prop ...all other Text props - Passed through verbatim to Text.
- *   See upstream: https://reactnative.dev/docs/text
+ * Unlike `RawLabel`, only accepts a `LocalizableText`, as the `text`
+ * prop, and doesn't support `children`.
  */
 export default class Label extends PureComponent<Props> {
-  static contextType = ThemeContext;
-  context: ThemeData;
-
-  styles = {
-    label: {
-      fontSize: 15,
-    },
-  };
-
   render() {
-    const { text, style, ...restProps } = this.props;
+    const { text, ...restProps } = this.props;
 
     return (
-      <Text style={[this.styles.label, { color: this.context.color }, style]} {...restProps}>
+      <RawLabel {...restProps}>
         <TranslatedText text={text} />
-      </Text>
+      </RawLabel>
     );
   }
 }
