@@ -10,6 +10,7 @@ import {
   GOT_PUSH_TOKEN,
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
+  DISMISS_SERVER_COMPAT_NOTICE,
   INITIAL_FETCH_START,
 } from '../../actionConstants';
 import sessionReducer from '../sessionReducer';
@@ -110,6 +111,14 @@ describe('sessionReducer', () => {
     expect(sessionReducer(baseState, action)).toEqual({
       ...baseState,
       debug: { doNotMarkMessagesAsRead: false, someKey: true },
+    });
+  });
+
+  test('DISMISS_SERVER_COMPAT_NOTICE', () => {
+    const action = deepFreeze({ type: DISMISS_SERVER_COMPAT_NOTICE });
+    expect(sessionReducer(baseState, action)).toEqual({
+      ...baseState,
+      hasDismissedServerCompatNotice: true,
     });
   });
 });

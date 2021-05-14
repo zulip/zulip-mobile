@@ -55,6 +55,7 @@ import {
   EVENT_SUBMESSAGE,
   EVENT_SUBSCRIPTION,
   EVENT,
+  DISMISS_SERVER_COMPAT_NOTICE,
 } from './actionConstants';
 
 import type {
@@ -130,6 +131,10 @@ type DebugFlagToggleAction = {|
   type: typeof DEBUG_FLAG_TOGGLE,
   key: string,
   value: boolean,
+|};
+
+type DismissServerCompatNoticeAction = {|
+  type: typeof DISMISS_SERVER_COMPAT_NOTICE,
 |};
 
 type AccountSwitchAction = {|
@@ -610,6 +615,7 @@ type SessionAction =
   | AppOrientationAction
   | GotPushTokenAction
   | DebugFlagToggleAction
+  | DismissServerCompatNoticeAction
   | ToggleOutboxSendingAction;
 
 /** Covers all actions we ever `dispatch`. */

@@ -1,6 +1,12 @@
 /* @flow strict-local */
 import type { Action, Orientation } from '../types';
-import { APP_ONLINE, APP_ORIENTATION, DEAD_QUEUE, DEBUG_FLAG_TOGGLE } from '../actionConstants';
+import {
+  APP_ONLINE,
+  APP_ORIENTATION,
+  DEAD_QUEUE,
+  DEBUG_FLAG_TOGGLE,
+  DISMISS_SERVER_COMPAT_NOTICE,
+} from '../actionConstants';
 
 export const appOnline = (isOnline: boolean): Action => ({
   type: APP_ONLINE,
@@ -20,4 +26,8 @@ export const debugFlagToggle = (key: string, value: boolean): Action => ({
   type: DEBUG_FLAG_TOGGLE,
   key,
   value,
+});
+
+export const dismissCompatNotice = (): Action => ({
+  type: DISMISS_SERVER_COMPAT_NOTICE,
 });

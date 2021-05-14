@@ -14,6 +14,7 @@ import {
   DEBUG_FLAG_TOGGLE,
   GOT_PUSH_TOKEN,
   LOGOUT,
+  DISMISS_SERVER_COMPAT_NOTICE,
 } from '../actionConstants';
 import { hasAuth } from '../account/accountsSelectors';
 
@@ -61,6 +62,18 @@ export type SessionState = {|
   pushToken: string | null,
 
   debug: Debug,
+
+  /**
+   * Whether `ServerCompatNotice` (which we'll add soon) has been
+   *   dismissed this session.
+   *
+   * We put this in the per-session state deliberately, so that users
+   * see the notice on every startup until the server is upgraded.
+   * That's a better experience than not being able to load the realm
+   * on mobile at all, which is what will happen soon if the user
+   * doesn't act on the notice.
+   */
+  hasDismissedServerCompatNotice: boolean,
 |};
 
 const initialState: SessionState = {
@@ -75,6 +88,7 @@ const initialState: SessionState = {
   debug: {
     doNotMarkMessagesAsRead: false,
   },
+  hasDismissedServerCompatNotice: false,
 };
 
 const rehydrate = (state, action) => {
@@ -171,6 +185,12 @@ export default (state: SessionState = initialState, action: Action): SessionStat
           ...state.debug,
           [action.key]: action.value,
         },
+      };
+
+    case DISMISS_SERVER_COMPAT_NOTICE:
+      return {
+        ...state,
+        hasDismissedServerCompatNotice: true,
       };
 
     default:
