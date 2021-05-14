@@ -16,6 +16,7 @@ import { doNarrow, navigateToSearch } from '../actions';
 import IconUnreadMentions from '../nav/IconUnreadMentions';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { LoadingBanner } from '../common';
+import ServerCompatBanner from '../common/ServerCompatBanner';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -68,6 +69,7 @@ class HomeScreen extends PureComponent<Props> {
             }}
           />
         </View>
+        <ServerCompatBanner />
         <LoadingBanner />
         <UnreadCards />
       </View>
