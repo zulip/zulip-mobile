@@ -27,7 +27,6 @@ const styles = createStyleSheet({
     alignItems: 'flex-end',
   },
   forgotPasswordText: {
-    fontSize: 15,
     textAlign: 'right',
   },
 });
