@@ -27,19 +27,21 @@ export default class RawLabel extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
 
-  styles = {
-    label: {
-      fontSize: 15,
-    },
-  };
-
   render() {
     const { text, children, style, ...restProps } = this.props;
 
     invariant(!!text !== !!children, 'pass either `text` or `children`');
 
+    // These attributes will be applied unless specifically overridden
+    // with the `style` prop -- even if this `<RawLabel />` is nested
+    // and would otherwise inherit the attributes from its ancestors.
+    const aggressiveDefaultStyle = {
+      fontSize: 15,
+      color: this.context.color,
+    };
+
     return (
-      <Text style={[this.styles.label, { color: this.context.color }, style]} {...restProps}>
+      <Text style={[aggressiveDefaultStyle, style]} {...restProps}>
         {text}
         {children}
       </Text>
