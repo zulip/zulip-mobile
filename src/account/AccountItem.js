@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable, Label } from '../common';
@@ -31,12 +31,18 @@ const styles = createStyleSheet({
   },
   icon: {
     padding: 12,
-    margin: 12,
+    margin: 10,
   },
   signedOutText: {
     fontStyle: 'italic',
     color: 'gray',
     marginVertical: 2,
+  },
+  realmIcon: {
+    height: 52,
+    width: 52,
+    borderRadius: 4,
+    marginLeft: 10,
   },
 });
 
@@ -48,7 +54,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function AccountItem(props: Props) {
-  const { email, realm, isLoggedIn } = props.account;
+  const { email, realm, isLoggedIn, realmIcon } = props.account;
 
   const showDoneIcon = props.index === 0 && isLoggedIn;
   const backgroundItemColor = isLoggedIn ? 'hsla(177, 70%, 47%, 0.1)' : 'hsla(0,0%,50%,0.1)';
@@ -63,6 +69,11 @@ export default function AccountItem(props: Props) {
           { backgroundColor: backgroundItemColor },
         ]}
       >
+        <Image
+          style={styles.realmIcon}
+          resizeMode="contain"
+          source={{ uri: realmIcon.toString() }}
+        />
         <View style={styles.details}>
           <RawLabel style={[styles.text, { color: textColor }]} text={email} numberOfLines={1} />
           <RawLabel

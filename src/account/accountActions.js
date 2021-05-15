@@ -19,19 +19,20 @@ export const removeAccount = (index: number): Action => ({
   index,
 });
 
-const loginSuccessPlain = (realm: URL, email: string, apiKey: string): Action => ({
+const loginSuccessPlain = (realm: URL, email: string, realmIcon: URL, apiKey: string): Action => ({
   type: LOGIN_SUCCESS,
   realm,
   email,
   apiKey,
+  realmIcon,
 });
 
-export const loginSuccess = (realm: URL, email: string, apiKey: string) => (
+export const loginSuccess = (realm: URL, email: string, realmIcon: URL, apiKey: string) => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
   NavigationService.dispatch(resetToMainTabs());
-  dispatch(loginSuccessPlain(realm, email, apiKey));
+  dispatch(loginSuccessPlain(realm, email, realmIcon, apiKey));
 };
 
 const logoutPlain = (): Action => ({

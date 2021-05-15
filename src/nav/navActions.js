@@ -40,15 +40,20 @@ export const navigateToAuth = (
   serverSettings: ApiResponseServerSettings,
 ): GenericNavigationAction => StackActions.push('auth', { serverSettings });
 
-export const navigateToDevAuth = (args: {| realm: URL |}): GenericNavigationAction =>
-  StackActions.push('dev-auth', { realm: args.realm });
+export const navigateToDevAuth = (args: {|
+  realm: URL,
+  realmIcon: URL,
+|}): GenericNavigationAction =>
+  StackActions.push('dev-auth', { realm: args.realm, realmIcon: args.realmIcon });
 
 export const navigateToPasswordAuth = (args: {|
   realm: URL,
+  realmIcon: URL,
   requireEmailFormat: boolean,
 |}): GenericNavigationAction =>
   StackActions.push('password-auth', {
     realm: args.realm,
+    realmIcon: args.realmIcon,
     requireEmailFormat: args.requireEmailFormat,
   });
 

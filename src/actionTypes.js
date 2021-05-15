@@ -147,6 +147,7 @@ type LoginSuccessAction = {|
   realm: URL,
   email: string,
   apiKey: string,
+  realmIcon: URL,
 |};
 
 type LogoutAction = {|

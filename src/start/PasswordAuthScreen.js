@@ -28,7 +28,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'password-auth'>,
-  route: RouteProp<'password-auth', {| realm: URL, requireEmailFormat: boolean |}>,
+  route: RouteProp<'password-auth', {| realm: URL, realmIcon: URL, requireEmailFormat: boolean |}>,
 
   dispatch: Dispatch,
 |}>;
@@ -50,7 +50,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
 
   tryPasswordLogin = async () => {
     const { dispatch, route } = this.props;
-    const { requireEmailFormat, realm } = route.params;
+    const { requireEmailFormat, realm, realmIcon } = route.params;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
@@ -58,7 +58,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
     try {
       const fetchedKey = await api.fetchApiKey({ realm, apiKey: '', email }, email, password);
       this.setState({ progress: false });
-      dispatch(loginSuccess(realm, fetchedKey.email, fetchedKey.api_key));
+      dispatch(loginSuccess(realm, fetchedKey.email, realmIcon, fetchedKey.api_key));
     } catch (err) {
       this.setState({
         progress: false,

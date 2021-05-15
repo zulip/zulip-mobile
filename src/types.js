@@ -60,6 +60,8 @@ export type InputSelection = {|
 export type Account = {|
   ...Auth,
 
+  realmIcon: URL,
+
   /**
    * The version of the Zulip server.
    *
