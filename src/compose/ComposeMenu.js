@@ -5,7 +5,8 @@ import type { DocumentPickerResponse } from 'react-native-document-picker';
 import ImagePicker from 'react-native-image-picker';
 
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, Narrow } from '../types';
+import type { Dispatch, Narrow, GetText } from '../types';
+import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
@@ -61,6 +62,9 @@ export const chooseUploadImageFilename = (uri: string, fileName: ?string): strin
 };
 
 class ComposeMenu extends PureComponent<Props> {
+  static contextType = TranslationContext;
+  context: GetText;
+
   uploadFile = (uri: string, fileName: ?string) => {
     const { dispatch, destinationNarrow } = this.props;
     dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
@@ -161,6 +165,7 @@ class ComposeMenu extends PureComponent<Props> {
     const { expanded, insertVideoCallLink, onExpandContract } = this.props;
     const numIcons =
       3 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
+    const _ = this.context;
 
     return (
       <View style={this.styles.composeMenu}>
@@ -172,6 +177,8 @@ class ComposeMenu extends PureComponent<Props> {
         >
           <View style={this.styles.composeMenu}>
             <IconPeople
+              accessibilityLabel={_('Narrow to private message conversation')}
+              accessibilityRole="button"
               style={this.styles.composeMenuButton}
               size={24}
               onPress={() => {
@@ -180,23 +187,31 @@ class ComposeMenu extends PureComponent<Props> {
             />
             {Platform.OS === 'android' && (
               <IconFile
+                accessibilityLabel={_('Insert file')}
+                accessibilityRole="button"
                 style={this.styles.composeMenuButton}
                 size={24}
                 onPress={this.handleFilePicker}
               />
             )}
             <IconImage
+              accessibilityLabel={_('Send an image from media gallery')}
+              accessibilityRole="button"
               style={this.styles.composeMenuButton}
               size={24}
               onPress={this.handleImagePicker}
             />
             <IconCamera
+              accessibilityLabel={_('Send an image from camera')}
+              accessibilityRole="button"
               style={this.styles.composeMenuButton}
               size={24}
               onPress={this.handleCameraCapture}
             />
             {insertVideoCallLink !== null ? (
               <IconVideo
+                accessibilityLabel={_('Insert video call link')}
+                accessibilityRole="button"
                 style={this.styles.composeMenuButton}
                 size={24}
                 onPress={insertVideoCallLink}
@@ -205,10 +220,22 @@ class ComposeMenu extends PureComponent<Props> {
           </View>
         </AnimatedComponent>
         {!expanded && (
-          <IconPlusCircle style={this.styles.expandButton} size={24} onPress={onExpandContract} />
+          <IconPlusCircle
+            style={this.styles.expandButton}
+            size={24}
+            onPress={onExpandContract}
+            accessibilityLabel={_('Expand menu')}
+            accessibilityRole="button"
+          />
         )}
         {expanded && (
-          <IconLeft style={this.styles.expandButton} size={24} onPress={onExpandContract} />
+          <IconLeft
+            style={this.styles.expandButton}
+            size={24}
+            onPress={onExpandContract}
+            accessibilityLabel={_('Collapse menu')}
+            accessibilityRole="button"
+          />
         )}
       </View>
     );

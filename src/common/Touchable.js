@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, type ElementConfig } from 'react';
 import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -8,6 +8,7 @@ import { HIGHLIGHT_COLOR } from '../styles';
 
 type Props = $ReadOnly<{|
   accessibilityLabel?: string,
+  accessibilityRole?: $PropertyType<ElementConfig<typeof View>, 'accessibilityRole'>,
   style?: ViewStyleProp,
   children: React$Node,
   onPress?: () => void | Promise<void>,
@@ -49,7 +50,13 @@ type Props = $ReadOnly<{|
  */
 export default class Touchable extends PureComponent<Props> {
   render() {
-    const { accessibilityLabel, style, onPress, onLongPress } = this.props;
+    const {
+      accessibilityLabel,
+      style,
+      onPress,
+      onLongPress,
+      accessibilityRole = 'button',
+    } = this.props;
     const child: React$Node = React.Children.only(this.props.children);
 
     if (!onPress && !onLongPress) {
@@ -70,6 +77,7 @@ export default class Touchable extends PureComponent<Props> {
       return (
         <TouchableHighlight
           accessibilityLabel={accessibilityLabel}
+          accessibilityRole={accessibilityRole}
           underlayColor={HIGHLIGHT_COLOR}
           style={style}
           onPress={onPress}
@@ -87,6 +95,7 @@ export default class Touchable extends PureComponent<Props> {
     return (
       <TouchableNativeFeedback
         accessibilityLabel={accessibilityLabel}
+        accessibilityRole={accessibilityRole}
         background={
           Platform.Version >= 21
             ? TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR, false)

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import { makeUserId } from '../api/idTypes';
-import type { ApiNarrow, Message, Outbox, UserId, UserOrBot } from '../types';
+import type { ApiNarrow, Message, Outbox, UserId, UserOrBot, GetText } from '../types';
 import {
   normalizeRecipientsAsUserIdsSansMe,
   pmKeyRecipientsFromMessage,
@@ -537,3 +537,24 @@ export const getNarrowForReply = (message: Message | Outbox, ownUserId: UserId) 
     return topicNarrow(streamName, message.subject);
   }
 };
+
+/**
+ * Answers, this question, "What should be the right accessibilityLabel for
+ * send message button?"
+ *
+ * This function only provide labels for stream, topic and pm narrow.
+ * For other narrows, there is no point of label.
+ */
+export function narrowUiDescription(narrow: Narrow, _: GetText): string {
+  return caseNarrow(narrow, {
+    stream: name => _('Narrow: stream {streamName}', { streamName: name }),
+    topic: (streamName, topic) =>
+      _('Narrow: stream {streamName}, topic {topic}', { streamName, topic }),
+    pm: () => _('Narrow: PM'),
+    allPrivate: () => '',
+    home: () => '',
+    starred: () => '',
+    mentioned: () => '',
+    search: () => '',
+  });
+}

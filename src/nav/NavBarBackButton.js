@@ -1,8 +1,9 @@
 /* @flow strict-local */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Platform } from 'react-native';
 
 import { navigateBack } from '../actions';
+import { TranslationContext } from '../boot/TranslationProvider';
 import NavButton from './NavButton';
 import * as NavigationService from './NavigationService';
 
@@ -18,15 +19,17 @@ import * as NavigationService from './NavigationService';
  * https://developer.apple.com/design/human-interface-guidelines/ios/bars/navigation-bars/
  * https://material.io/design/navigation/understanding-navigation.html
  */
-// TODO: on iOS, give the right label for a back button
 export default function NavBarBackButton(props: {| +color?: string |}) {
+  const _ = useContext(TranslationContext);
+
+  const accessibilityLabel = Platform.OS === 'ios' ? _('Back') : _('Navigate up');
   const { color } = props;
   const iconName = Platform.OS === 'android' ? 'arrow-left' : 'chevron-left';
 
   return (
     <NavButton
       name={iconName}
-      accessibilityLabel="Navigate up"
+      accessibilityLabel={accessibilityLabel}
       color={color}
       onPress={() => {
         NavigationService.dispatch(navigateBack());

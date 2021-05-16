@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 
 import styles, { createStyleSheet, ThemeContext } from '../styles';
+import { TranslationContext } from '../boot/TranslationProvider';
 import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
@@ -75,6 +76,7 @@ export default function StreamItem(props: Props) {
   } = props;
 
   const { backgroundColor: themeBackgroundColor, color: themeColor } = useContext(ThemeContext);
+  const _ = useContext(TranslationContext);
 
   const wrapperStyle = [styles.listItem, { backgroundColor }, isMuted && componentStyles.muted];
   const iconColor =
@@ -87,9 +89,18 @@ export default function StreamItem(props: Props) {
     backgroundColor !== undefined
       ? (foregroundColorFromBackground(backgroundColor): string)
       : themeColor;
+  const accessibilityLabel =
+    unreadCount === undefined
+      ? _('Stream: {streamName}', {
+          streamName: name,
+        })
+      : _('Stream: {streamName} ({unreadCount} unread messages)', {
+          streamName: name,
+          unreadCount,
+        });
 
   return (
-    <Touchable onPress={() => onPress(name)}>
+    <Touchable onPress={() => onPress(name)} accessibilityLabel={accessibilityLabel}>
       <View style={wrapperStyle}>
         <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
         <View style={componentStyles.text}>
