@@ -29,6 +29,10 @@ describe('realmReducer', () => {
         filters: [],
         videoChatProvider: null,
         nonActiveUsers: [],
+        realmAllowMessageEditing: true,
+        realmAllowMessageDeleting: true,
+        realmMessageContentEditLimitInSeconds: 10,
+        realmMessageContentDeleteLimitInSeconds: 10,
       };
 
       const actualState = realmReducer(initialState, action);
