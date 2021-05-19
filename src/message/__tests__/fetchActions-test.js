@@ -81,12 +81,6 @@ describe('fetchActions', () => {
   });
 
   describe('tryFetch', () => {
-    test('resolves any value when there is no exception', async () => {
-      const result = await tryFetch(async () => 'hello');
-
-      expect(result).toEqual('hello');
-    });
-
     test('resolves any promise, if there is no exception', async () => {
       const result = await tryFetch(
         () => new Promise(resolve => setTimeout(() => resolve('hello'), 100)),
