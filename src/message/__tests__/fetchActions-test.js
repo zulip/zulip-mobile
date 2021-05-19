@@ -82,9 +82,9 @@ describe('fetchActions', () => {
 
   describe('tryFetch', () => {
     test('resolves any promise, if there is no exception', async () => {
-      const result = await tryFetch(
-        () => new Promise(resolve => setTimeout(() => resolve('hello'), 100)),
-      );
+      const tryFetchFunc = () => new Promise(resolve => setTimeout(() => resolve('hello'), 100));
+
+      const result = await tryFetch(tryFetchFunc);
 
       expect(result).toEqual('hello');
     });
@@ -100,7 +100,9 @@ describe('fetchActions', () => {
         return 'hello';
       };
 
-      const result = await tryFetch(async () => thrower());
+      const tryFetchFunc = async () => thrower();
+
+      const result = await tryFetch(tryFetchFunc);
 
       expect(result).toEqual('hello');
     });
