@@ -105,11 +105,17 @@ export const fetchMessages = (fetchArgs: {|
 |}) => async (dispatch: Dispatch, getState: GetState): Promise<Message[]> => {
   dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
   try {
-    const { messages, found_newest, found_oldest } = await api.getMessages(getAuth(getState()), {
-      ...fetchArgs,
-      narrow: apiNarrowOfNarrow(fetchArgs.narrow, getAllUsersById(getState())),
-      useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
-    });
+    const { messages, found_newest, found_oldest } =
+      // TODO: If `MESSAGE_FETCH_ERROR` isn't the right way to respond
+      // to a timeout, maybe make a new action.
+      // eslint-disable-next-line no-use-before-define
+      await tryFetch(() =>
+        api.getMessages(getAuth(getState()), {
+          ...fetchArgs,
+          narrow: apiNarrowOfNarrow(fetchArgs.narrow, getAllUsersById(getState())),
+          useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
+        }),
+      );
     dispatch(
       messageFetchComplete({
         ...fetchArgs,

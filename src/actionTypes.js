@@ -195,7 +195,7 @@ type MessageFetchStartAction = {|
 /**
  * Any unexpected failure in a message fetch.
  *
- * Includes internal server errors and any errors we throw when
+ * Includes request timeout errors and any errors we throw when
  * validating and reshaping the server data at the edge.
  *
  * In an ideal crunchy-shell world [1], none of these will be thrown
