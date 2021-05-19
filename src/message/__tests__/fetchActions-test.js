@@ -116,7 +116,7 @@ describe('fetchActions', () => {
       jest.runAllTimers();
     });
 
-    test('retries a call if there is a non-client error', async () => {
+    test('retries a call if there is a server error', async () => {
       const serverError = new ApiError(500, {
         code: 'SOME_ERROR_CODE',
         msg: 'Internal Server Error',
@@ -159,6 +159,19 @@ describe('fetchActions', () => {
       });
 
       await expect(tryFetch(func)).rejects.toThrow(apiError);
+      expect(func).toHaveBeenCalledTimes(1);
+
+      jest.runAllTimers();
+    });
+
+    test('Rethrows an arbitrary error without retrying', async () => {
+      const arbitraryError = new Error('You have displaced the mirth.');
+
+      const func = jest.fn(async () => {
+        throw arbitraryError;
+      });
+
+      await expect(tryFetch(func)).rejects.toThrow(arbitraryError);
       expect(func).toHaveBeenCalledTimes(1);
 
       jest.runAllTimers();

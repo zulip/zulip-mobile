@@ -5,7 +5,7 @@ import type { ApiResponseServerSettings } from '../api/settings/getServerSetting
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
 import { resetToAccountPicker } from '../actions';
-import { isClientError } from '../api/apiErrors';
+import { isServerError } from '../api/apiErrors';
 import {
   getAuth,
   getSession,
@@ -266,12 +266,14 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
 };
 
 /**
- * Makes a request that retries forever until success or a 4xx.
+ * Makes a request that retries forever until success or a non-5xx
+ *   error.
  *
  * Waits between retries with a backoff.
  *
- * A 4xx error is considered an unrecoverable failure, and it will
- * propagate to the caller to be handled.
+ * A non-5xx error (such as a 4xx error or any non-API error) is
+ * considered an unrecoverable failure, and it will propagate to the
+ * caller to be handled.
  */
 export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
   const backoffMachine = new BackoffMachine();
@@ -280,7 +282,7 @@ export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
     try {
       return await func();
     } catch (e) {
-      if (isClientError(e)) {
+      if (!isServerError(e)) {
         throw e;
       }
       await backoffMachine.wait();
