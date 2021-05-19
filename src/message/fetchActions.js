@@ -6,7 +6,7 @@ import type { InitialFetchAbortReason } from '../actionTypes';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
-import { ApiError } from '../api/apiErrors';
+import { Server5xxError, NetworkError } from '../api/apiErrors';
 import { resetToAccountPicker } from '../actions';
 import {
   getAuth,
@@ -301,12 +301,13 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
 };
 
 /**
- * Makes a request, retrying on errors other than ApiErrors until success.
+ * Makes a request, retrying on server/network operational errors until
+ *   success.
  *
  * Waits between retries with a backoff.
  *
- * An ApiError is considered an unrecoverable failure, and it will propagate
- * to the caller to be handled.
+ * Other, non-retryable errors (client errors and all unexpected errors)
+ * will propagate to the caller to be handled.
  */
 export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
   const backoffMachine = new BackoffMachine();
@@ -315,9 +316,7 @@ export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
     try {
       return await func();
     } catch (e) {
-      // TODO: This should be narrowed; we should fail early if we encounter
-      //   unrecognized / unexpected errors.
-      if (e instanceof ApiError) {
+      if (!(e instanceof Server5xxError || e instanceof NetworkError)) {
         throw e;
       }
       await backoffMachine.wait();
