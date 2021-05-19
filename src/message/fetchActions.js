@@ -38,7 +38,7 @@ import { realmInit } from '../realm/realmActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 import { ZulipVersion } from '../utils/zulipVersion';
-import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
+import { getAllUsersById, getHaveServerData, getOwnUserId } from '../users/userSelectors';
 import { MIN_RECENTPMS_SERVER_VERSION } from '../pm-conversations/pmConversationsModel';
 
 const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
@@ -381,39 +381,56 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
   let initData: InitialData;
   let serverSettings: ApiResponseServerSettings;
 
+  const haveServerData = getHaveServerData(getState());
+
   try {
     [initData, serverSettings] = await Promise.all([
-      tryFetch(() =>
-        // Currently, no input we're giving `registerForEvents` is
-        // conditional on the server version / feature level. If we
-        // need to do that, make sure that data is up-to-date -- we've
-        // been using this `registerForEvents` call to update the
-        // feature level in Redux, which means the value in Redux will
-        // be from the *last* time it was run. That could be a long
-        // time ago, like from the previous app startup.
-        api.registerForEvents(auth, {
-          // Event types not supported by the server are ignored; see
-          //   https://zulip.com/api/register-queue#parameter-fetch_event_types.
-          fetch_event_types: config.serverDataOnStartup,
+      tryFetch(
+        () =>
+          // Currently, no input we're giving `registerForEvents` is
+          // conditional on the server version / feature level. If we
+          // need to do that, make sure that data is up-to-date -- we've
+          // been using this `registerForEvents` call to update the
+          // feature level in Redux, which means the value in Redux will
+          // be from the *last* time it was run. That could be a long
+          // time ago, like from the previous app startup.
+          api.registerForEvents(auth, {
+            // Event types not supported by the server are ignored; see
+            //   https://zulip.com/api/register-queue#parameter-fetch_event_types.
+            fetch_event_types: config.serverDataOnStartup,
 
-          apply_markdown: true,
-          include_subscribers: false,
-          client_gravatar: true,
-          client_capabilities: {
-            notification_settings_null: true,
-            bulk_message_deletion: true,
-            user_avatar_url_field_optional: true,
-          },
-        }),
+            apply_markdown: true,
+            include_subscribers: false,
+            client_gravatar: true,
+            client_capabilities: {
+              notification_settings_null: true,
+              bulk_message_deletion: true,
+              user_avatar_url_field_optional: true,
+            },
+          }),
+        // We might have (potentially stale) server data already. If
+        // we do, we'll be showing some UI that lets the user see that
+        // data. If we don't, we'll be showing a full-screen loading
+        // indicator that prevents the user from doing anything useful
+        // -- if that's the case, don't bother retrying on 5xx errors,
+        // to save the user's time and patience. They can retry
+        // manually if they want.
+        haveServerData,
       ),
-      tryFetch(() => api.getServerSettings(auth.realm)),
+      tryFetch(() => api.getServerSettings(auth.realm), haveServerData),
     ]);
   } catch (e) {
     if (e instanceof ApiError) {
       // This should only happen when `auth` is no longer valid. No
       // use retrying; just log out.
       dispatch(logout());
+    } else if (e instanceof Server5xxError) {
+      dispatch(initialFetchAbort('server'));
+    } else if (e instanceof NetworkError) {
+      dispatch(initialFetchAbort('network'));
     } else if (e instanceof TimeoutError) {
+      // We always want to abort if we've kept the user waiting an
+      // unreasonably long time.
       dispatch(initialFetchAbort('timeout'));
     } else {
       dispatch(initialFetchAbort('unexpected'));
