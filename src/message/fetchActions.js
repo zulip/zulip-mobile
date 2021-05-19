@@ -265,6 +265,9 @@ export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
     try {
       return await func();
     } catch (e) {
+      // TODO: This should be narrowed to `!isServerError(e)`; we
+      // should fail early if we encounter unrecognized / unexpected
+      // errors.
       if (isClientError(e)) {
         throw e;
       }

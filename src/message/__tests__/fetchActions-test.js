@@ -116,13 +116,22 @@ describe('fetchActions', () => {
       jest.runAllTimers();
     });
 
-    test('retries a call, if there is an exception', async () => {
+    // TODO: test more errors, like regular `new Error()`s. Unexpected
+    // errors should actually cause the retry loop to break; we'll fix
+    // that soon.
+    test('retries a call if there is a non-client error', async () => {
+      const serverError = new ApiError(500, {
+        code: 'SOME_ERROR_CODE',
+        msg: 'Internal Server Error',
+        result: 'error',
+      });
+
       // fail on first call, succeed second time
       let callCount = 0;
       const thrower = jest.fn(() => {
         callCount++;
         if (callCount === 1) {
-          throw new Error('First run exception');
+          throw serverError;
         }
         return 'hello';
       });
@@ -135,7 +144,7 @@ describe('fetchActions', () => {
       await expect(tryFetch(tryFetchFunc)).resolves.toBe('hello');
 
       expect(tryFetchFunc).toHaveBeenCalledTimes(2);
-      await expect(tryFetchFunc.mock.results[0].value).rejects.toThrow('First run exception');
+      await expect(tryFetchFunc.mock.results[0].value).rejects.toThrow(serverError);
       await expect(tryFetchFunc.mock.results[1].value).resolves.toBe('hello');
 
       jest.runAllTimers();
