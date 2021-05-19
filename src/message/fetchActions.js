@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import * as logging from '../utils/logging';
 import * as NavigationService from '../nav/NavigationService';
 import type { Narrow, Dispatch, GetState, GlobalState, Message, Action, UserId } from '../types';
 import { ensureUnreachable } from '../types';
@@ -6,7 +7,7 @@ import type { InitialFetchAbortReason } from '../actionTypes';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
-import { Server5xxError, NetworkError } from '../api/apiErrors';
+import { ApiError, Server5xxError, NetworkError } from '../api/apiErrors';
 import { resetToAccountPicker } from '../actions';
 import {
   getAuth,
@@ -386,9 +387,15 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
       tryFetch(() => api.getServerSettings(auth.realm)),
     ]);
   } catch (e) {
-    // This should only happen on a 4xx HTTP status, which should only
-    // happen when `auth` is no longer valid.  No use retrying; just log out.
-    dispatch(logout());
+    if (e instanceof ApiError) {
+      // This should only happen when `auth` is no longer valid. No
+      // use retrying; just log out.
+      dispatch(logout());
+    } else {
+      logging.warn(e, {
+        message: 'Unexpected error during initial fetch and serverSettings fetch.',
+      });
+    }
     return;
   }
 
