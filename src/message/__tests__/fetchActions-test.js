@@ -18,6 +18,7 @@ import type { ServerMessage } from '../../api/messages/getMessages';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR, keyFromNarrow } from '../../utils/narrow';
 import { GravatarURL } from '../../utils/avatar';
 import * as eg from '../../__tests__/lib/exampleData';
+import { sleep } from '../../utils/async';
 
 const mockStore = configureStore([thunk]);
 
@@ -82,7 +83,10 @@ describe('fetchActions', () => {
 
   describe('tryFetch', () => {
     test('resolves any promise, if there is no exception', async () => {
-      const tryFetchFunc = () => new Promise(resolve => setTimeout(() => resolve('hello'), 100));
+      const tryFetchFunc = async () => {
+        await sleep(10);
+        return 'hello';
+      };
 
       const result = await tryFetch(tryFetchFunc);
 
@@ -100,7 +104,10 @@ describe('fetchActions', () => {
         return 'hello';
       };
 
-      const tryFetchFunc = async () => thrower();
+      const tryFetchFunc = async () => {
+        await sleep(10);
+        return thrower();
+      };
 
       const result = await tryFetch(tryFetchFunc);
 
