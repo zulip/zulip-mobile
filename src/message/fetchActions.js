@@ -252,11 +252,12 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
 };
 
 /**
- * Calls an async function and if unsuccessful retries the call.
+ * Makes a request that retries forever until success or a 4xx.
  *
- * If the function is an API call and the response has HTTP status code 4xx
- * the error is considered unrecoverable and the exception is rethrown, to be
- * handled further up in the call stack.
+ * Waits between retries with a backoff.
+ *
+ * A 4xx error is considered an unrecoverable failure, and it will
+ * propagate to the caller to be handled.
  */
 export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
   const backoffMachine = new BackoffMachine();
