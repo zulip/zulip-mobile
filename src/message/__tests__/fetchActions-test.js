@@ -18,7 +18,8 @@ import type { ServerMessage } from '../../api/messages/getMessages';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR, keyFromNarrow } from '../../utils/narrow';
 import { GravatarURL } from '../../utils/avatar';
 import * as eg from '../../__tests__/lib/exampleData';
-import { sleep } from '../../utils/async';
+import { fakeSleep } from '../../__tests__/lib/fakeTimers';
+import { BackoffMachine } from '../../utils/async';
 
 const mockStore = configureStore([thunk]);
 
@@ -82,36 +83,61 @@ describe('fetchActions', () => {
   });
 
   describe('tryFetch', () => {
-    test('resolves any promise, if there is no exception', async () => {
-      const tryFetchFunc = async () => {
-        await sleep(10);
-        return 'hello';
+    beforeAll(() => {
+      jest.useFakeTimers('modern');
+
+      // So we don't have to think about the (random, with jitter)
+      // duration of these waits in these tests. `BackoffMachine` has
+      // its own unit tests already, so we don't have to test that it
+      // waits for the right amount of time.
+      // $FlowFixMe[cannot-write]
+      BackoffMachine.prototype.wait = async function wait() {
+        return fakeSleep(100);
       };
+    });
 
-      const result = await tryFetch(tryFetchFunc);
+    afterEach(() => {
+      expect(jest.getTimerCount()).toBe(0);
+      jest.clearAllTimers();
+    });
 
-      expect(result).toEqual('hello');
+    test('resolves any promise, if there is no exception', async () => {
+      const tryFetchFunc = jest.fn(async () => {
+        await fakeSleep(10);
+        return 'hello';
+      });
+
+      await expect(tryFetch(tryFetchFunc)).resolves.toBe('hello');
+
+      expect(tryFetchFunc).toHaveBeenCalledTimes(1);
+      await expect(tryFetchFunc.mock.results[0].value).resolves.toBe('hello');
+
+      jest.runAllTimers();
     });
 
     test('retries a call, if there is an exception', async () => {
       // fail on first call, succeed second time
       let callCount = 0;
-      const thrower = () => {
+      const thrower = jest.fn(() => {
         callCount++;
         if (callCount === 1) {
           throw new Error('First run exception');
         }
         return 'hello';
-      };
+      });
 
-      const tryFetchFunc = async () => {
-        await sleep(10);
+      const tryFetchFunc = jest.fn(async () => {
+        await fakeSleep(10);
         return thrower();
-      };
+      });
 
-      const result = await tryFetch(tryFetchFunc);
+      await expect(tryFetch(tryFetchFunc)).resolves.toBe('hello');
 
-      expect(result).toEqual('hello');
+      expect(tryFetchFunc).toHaveBeenCalledTimes(2);
+      await expect(tryFetchFunc.mock.results[0].value).rejects.toThrow('First run exception');
+      await expect(tryFetchFunc.mock.results[1].value).resolves.toBe('hello');
+
+      jest.runAllTimers();
     });
   });
 
