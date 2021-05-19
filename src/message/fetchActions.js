@@ -345,7 +345,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
 
   try {
     [initData, serverSettings] = await Promise.all([
-      tryFetch(() =>
+      promiseTimeout(
         api.registerForEvents(auth, {
           fetch_event_types: config.serverDataOnStartup,
           apply_markdown: true,
@@ -357,15 +357,16 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
             user_avatar_url_field_optional: true,
           },
         }),
+        config.requestLongTimeoutMs,
       ),
-      tryFetch(() => api.getServerSettings(auth.realm)),
+      promiseTimeout(api.getServerSettings(auth.realm), config.requestLongTimeoutMs),
     ]);
   } catch (e) {
     if (isClientError(e)) {
       // This should only happen when `auth` is no longer valid. No
       // use retrying; just log out.
       dispatch(logout());
-    } else if (e instanceof TimeoutError) {
+    } else if (isServerError(e) || e instanceof TimeoutError) {
       dispatch(initialFetchAbort());
     } else {
       logging.warn(e, {
