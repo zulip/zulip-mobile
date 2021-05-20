@@ -21,6 +21,10 @@
   * [[link](#mention-fixed-issue)] Mention a fixed issue in both PR
     and commit message.
   * [[link](#fixes-format)] Write `Fixes: #1234` when fixing an issue.
+* [Language-independent](#language-independent)
+  * [[link](#catch-at-ui)] For exceptions that aren't bugs, catch them
+    in UI code and inform the user.
+  * [[link](#catch-specific)] Only catch specific, expected exceptions.
 * [JavaScript, Flow, JS libraries](#js)
   * [[link](#types-named-type)] Don't put "type" in the name of a
     type, usually.
@@ -338,6 +342,60 @@ that have the same effect.  Please stick with "Fixes"; it's helpful to
 pick just one, and that's the one we use.
 
 [gh-close-issue-keywords]: https://help.github.com/en/github/managing-your-work-on-github/closing-issues-using-keywords
+
+
+<div id="language-independent" />
+
+## Language-independent
+
+<div id="catch-at-ui" />
+
+**For exceptions that aren't bugs, catch them in UI code and inform
+the user**:
+For some operations -- notably network requests and IO -- it's part of
+a function's interface that it might throw an exception for reasons
+that aren't a bug in anything, just the way the network (etc.) is at
+that moment.  When this kind of exception reaches our UI code, we
+generally want to catch it immediately and inform the user
+appropriately.
+
+(Sometimes we'll want to catch the exception even sooner than that,
+e.g. catching a failed network request in order to retry the request.)
+
+A lot of our existing code doesn't do this.  Typically this means that
+when the user touches a button which is supposed to make an API
+request, and the request fails, nothing happens -- it's as if they
+didn't touch the button at all.  But for new code, and when reworking
+the logic of old code, we make a practice of doing this.
+
+
+<div id="catch-specific" />
+
+**Only catch specific, expected exceptions**:
+When using constructs like JS's `try` / `catch`, keep things tightly
+scoped so that the `catch` block only applies to those exceptions that
+are expected and aren't bugs in the app, like network failures.
+
+Typically this is done by keeping the `try` block tightly scoped,
+around just one statement like `await api.doSomething(…)`.
+Alternatively the `catch` block can be limited to a particular type of
+exception that's specific enough to only cover the expected error;
+this works well in Kotlin but there isn't a great way to do it in JS.
+
+One reason we do this is so that the error handling in the `catch`
+block gets to be tightly focused and know exactly what the error was.
+For example if the `catch` block tells the user "Failed to send
+message", that'd be bad if the truth was that we successfully sent the
+message and then failed at some later step.
+
+More generally, if the exception wasn't expected and instead
+represents a bug, then fundamentally no error-handling logic can
+reliably get the operation back to a good state -- by definition,
+something happened that we weren't expecting -- so it isn't safe to
+pick up and carry on.
+
+Discussion elsewhere:
+[Effective Dart](https://dart.dev/guides/language/effective-dart/usage#error-handling)
 
 
 <div id="js" />
