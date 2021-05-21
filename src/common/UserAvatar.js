@@ -55,27 +55,25 @@ function UserAvatar(props: Props) {
   }
 
   return (
-    <View>
-      <Touchable onPress={onPress}>
-        <View>
-          {!isMuted ? (
-            <Image
-              source={{
-                uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
-                ...(avatarUrl instanceof FallbackAvatarURL
-                  ? { headers: getAuthHeaders(auth) }
-                  : undefined),
-              }}
-              style={style}
-              resizeMode="cover"
-            />
-          ) : (
-            <IconUserMuted size={size} color={color} style={iconStyle} />
-          )}
-          {children}
-        </View>
-      </Touchable>
-    </View>
+    <Touchable onPress={onPress}>
+      <View>
+        {!isMuted ? (
+          <Image
+            source={{
+              uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
+              ...(avatarUrl instanceof FallbackAvatarURL
+                ? { headers: getAuthHeaders(auth) }
+                : undefined),
+            }}
+            style={style}
+            resizeMode="cover"
+          />
+        ) : (
+          <IconUserMuted size={size} color={color} style={iconStyle} />
+        )}
+        {children}
+      </View>
+    </Touchable>
   );
 }
 
