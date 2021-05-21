@@ -19,6 +19,11 @@ import { hasAuth } from '../account/accountsSelectors';
 
 /**
  * Miscellaneous non-persistent state about this run of the app.
+ *
+ * These state items are stored in `session.state`, and 'session' is
+ * in `discardKeys` in src/boot/store.js. That means these values
+ * won't be persisted between sessions; on startup, they'll all be
+ * initialized to their default values.
  */
 export type SessionState = {|
   eventQueueId: number,
