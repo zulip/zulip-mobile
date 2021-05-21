@@ -300,13 +300,13 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
 };
 
 /**
- * Makes a request, retrying on server/network operational errors until
- *   success, with timeout.
+ * Makes a request with a timeout. If asked, retries on
+ * server/network operational errors until success.
  *
  * Waits between retries with a backoff.
  *
  * Other, non-retryable errors (client errors and all unexpected errors)
- * will propagate to the caller to be handled.
+ * will always propagate to the caller to be handled.
  *
  * The timeout's length is `config.requestLongTimeoutMs` and it is absolute:
  * it triggers after that time has elapsed no matter whether the time was
@@ -314,7 +314,10 @@ const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState
  * unsuccessfully many times. The time spent waiting in backoff is included
  * in that.
  */
-export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
+export async function tryFetch<T>(
+  func: () => Promise<T>,
+  shouldRetry?: boolean = true,
+): Promise<T> {
   const backoffMachine = new BackoffMachine();
 
   // TODO: Use AbortController instead of this stateful flag; #4170
@@ -333,7 +336,7 @@ export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
           try {
             return await func();
           } catch (e) {
-            if (!(e instanceof Server5xxError || e instanceof NetworkError)) {
+            if (!(shouldRetry && (e instanceof Server5xxError || e instanceof NetworkError))) {
               throw e;
             }
           }

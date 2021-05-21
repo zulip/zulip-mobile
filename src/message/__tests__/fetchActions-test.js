@@ -19,7 +19,7 @@ import type { ServerMessage } from '../../api/messages/getMessages';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR, keyFromNarrow } from '../../utils/narrow';
 import { GravatarURL } from '../../utils/avatar';
 import * as eg from '../../__tests__/lib/exampleData';
-import { ApiError, Server5xxError, NetworkError } from '../../api/apiErrors';
+import { Server5xxError, NetworkError } from '../../api/apiErrors';
 import { fakeSleep } from '../../__tests__/lib/fakeTimers';
 import { TimeoutError, BackoffMachine } from '../../utils/async';
 import * as logging from '../../utils/logging';
@@ -104,122 +104,129 @@ describe('fetchActions', () => {
       jest.clearAllTimers();
     });
 
-    test('resolves any promise, if there is no exception', async () => {
-      const tryFetchFunc = jest.fn(async () => {
-        await fakeSleep(10);
-        return 'hello';
+    describe.each([false, true])(
+      'whether or not asked to retry; was asked this time? %s',
+      withRetry => {
+        test('resolves any promise, if there is no exception', async () => {
+          const tryFetchFunc = jest.fn(async () => {
+            await fakeSleep(10);
+            return 'hello';
+          });
+
+          await expect(tryFetch(tryFetchFunc, withRetry)).resolves.toBe('hello');
+
+          expect(tryFetchFunc).toHaveBeenCalledTimes(1);
+          await expect(tryFetchFunc.mock.results[0].value).resolves.toBe('hello');
+
+          jest.runAllTimers();
+        });
+
+        test('Rethrows an unexpected error without retrying', async () => {
+          const unexpectedError = new Error('You have displaced the mirth.');
+
+          const func = jest.fn(async () => {
+            throw unexpectedError;
+          });
+
+          await expect(tryFetch(func, withRetry)).rejects.toThrow(unexpectedError);
+          expect(func).toHaveBeenCalledTimes(1);
+
+          jest.runAllTimers();
+        });
+
+        test('times out after hanging on one request', async () => {
+          const tryFetchPromise = tryFetch(async () => {
+            await new Promise((resolve, reject) => {});
+          }, withRetry);
+
+          await fakeSleep(60000);
+          return expect(tryFetchPromise).rejects.toThrow(TimeoutError);
+        });
+      },
+    );
+
+    describe('if asked to retry', () => {
+      test('retries a call if there is a recoverable error', async () => {
+        const serverError = new Server5xxError(500);
+
+        // fail on first call, succeed second time
+        let callCount = 0;
+        const thrower = jest.fn(() => {
+          callCount++;
+          if (callCount === 1) {
+            throw serverError;
+          }
+          return 'hello';
+        });
+
+        const tryFetchFunc = jest.fn(async () => {
+          await fakeSleep(10);
+          return thrower();
+        });
+
+        await expect(tryFetch(tryFetchFunc, true)).resolves.toBe('hello');
+
+        expect(tryFetchFunc).toHaveBeenCalledTimes(2);
+        await expect(tryFetchFunc.mock.results[0].value).rejects.toThrow(serverError);
+        await expect(tryFetchFunc.mock.results[1].value).resolves.toBe('hello');
+
+        jest.runAllTimers();
       });
 
-      await expect(tryFetch(tryFetchFunc)).resolves.toBe('hello');
+      test('retries a call if there is a network error', async () => {
+        const networkError = new NetworkError();
 
-      expect(tryFetchFunc).toHaveBeenCalledTimes(1);
-      await expect(tryFetchFunc.mock.results[0].value).resolves.toBe('hello');
+        // fail on first call, succeed second time
+        let callCount = 0;
+        const thrower = jest.fn(() => {
+          callCount++;
+          if (callCount === 1) {
+            throw networkError;
+          }
+          return 'hello';
+        });
 
-      jest.runAllTimers();
+        const tryFetchFunc = jest.fn(async () => {
+          await fakeSleep(10);
+          return thrower();
+        });
+
+        await expect(tryFetch(tryFetchFunc)).resolves.toBe('hello');
+
+        expect(tryFetchFunc).toHaveBeenCalledTimes(2);
+        await expect(tryFetchFunc.mock.results[0].value).rejects.toThrow(networkError);
+        await expect(tryFetchFunc.mock.results[1].value).resolves.toBe('hello');
+
+        jest.runAllTimers();
+      });
+
+      test('times out after many short-duration 5xx errors', async () => {
+        const func = jest.fn(async () => {
+          await fakeSleep(50);
+          throw new Server5xxError(500);
+        });
+
+        await expect(tryFetch(func, true)).rejects.toThrow(TimeoutError);
+
+        expect(func.mock.calls.length).toBeGreaterThan(50);
+      });
     });
 
-    test('retries a call if there is a server 5xx error', async () => {
-      const serverError = new Server5xxError(500);
+    describe('if not asked to retry', () => {
+      test('does not retry a call if there is a server error', async () => {
+        const serverError = new Server5xxError(500);
 
-      // fail on first call, succeed second time
-      let callCount = 0;
-      const thrower = jest.fn(() => {
-        callCount++;
-        if (callCount === 1) {
+        const tryFetchFunc = jest.fn(async () => {
+          await fakeSleep(10);
           throw serverError;
-        }
-        return 'hello';
+        });
+
+        await expect(tryFetch(tryFetchFunc, false)).rejects.toThrow(serverError);
+
+        expect(tryFetchFunc).toHaveBeenCalledTimes(1);
+
+        jest.runAllTimers();
       });
-
-      const tryFetchFunc = jest.fn(async () => {
-        await fakeSleep(10);
-        return thrower();
-      });
-
-      await expect(tryFetch(tryFetchFunc)).resolves.toBe('hello');
-
-      expect(tryFetchFunc).toHaveBeenCalledTimes(2);
-      await expect(tryFetchFunc.mock.results[0].value).rejects.toThrow(serverError);
-      await expect(tryFetchFunc.mock.results[1].value).resolves.toBe('hello');
-
-      jest.runAllTimers();
-    });
-
-    test('retries a call if there is a network error', async () => {
-      const networkError = new NetworkError();
-
-      // fail on first call, succeed second time
-      let callCount = 0;
-      const thrower = jest.fn(() => {
-        callCount++;
-        if (callCount === 1) {
-          throw networkError;
-        }
-        return 'hello';
-      });
-
-      const tryFetchFunc = jest.fn(async () => {
-        await fakeSleep(10);
-        return thrower();
-      });
-
-      await expect(tryFetch(tryFetchFunc)).resolves.toBe('hello');
-
-      expect(tryFetchFunc).toHaveBeenCalledTimes(2);
-      await expect(tryFetchFunc.mock.results[0].value).rejects.toThrow(networkError);
-      await expect(tryFetchFunc.mock.results[1].value).resolves.toBe('hello');
-
-      jest.runAllTimers();
-    });
-
-    test('Rethrows a 4xx error without retrying', async () => {
-      const apiError = new ApiError(400, {
-        code: 'BAD_REQUEST',
-        msg: 'Bad Request',
-        result: 'error',
-      });
-
-      const func = jest.fn(async () => {
-        throw apiError;
-      });
-
-      await expect(tryFetch(func)).rejects.toThrow(apiError);
-      expect(func).toHaveBeenCalledTimes(1);
-
-      jest.runAllTimers();
-    });
-
-    test('Rethrows an unexpected error without retrying', async () => {
-      const unexpectedError = new Error('You have displaced the mirth.');
-
-      const func = jest.fn(async () => {
-        throw unexpectedError;
-      });
-
-      await expect(tryFetch(func)).rejects.toThrow(unexpectedError);
-      expect(func).toHaveBeenCalledTimes(1);
-
-      jest.runAllTimers();
-    });
-
-    test('times out after many short-duration 5xx errors', async () => {
-      const func = jest.fn(async () => {
-        await fakeSleep(50);
-        throw new Server5xxError(500);
-      });
-
-      await expect(tryFetch(func)).rejects.toThrow(TimeoutError);
-
-      expect(func.mock.calls.length).toBeGreaterThan(50);
-    });
-
-    test('times out after hanging on one request', async () => {
-      const tryFetchPromise = tryFetch(async () => {
-        await new Promise((resolve, reject) => {});
-      });
-
-      await fakeSleep(60000);
-      return expect(tryFetchPromise).rejects.toThrow(TimeoutError);
     });
   });
 
