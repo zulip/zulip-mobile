@@ -111,10 +111,10 @@ export const getNarrowFromNotificationData = (
   return pmNarrowFromRecipients(pmKeyRecipientsFromIds(ids, ownUserId));
 };
 
-const getInitialNotification = async (): Promise<Notification | null> => {
+const readInitialNotification = async (): Promise<Notification | null> => {
   if (Platform.OS === 'android') {
     const { Notifications } = NativeModules;
-    return Notifications.getInitialNotification();
+    return Notifications.readInitialNotification();
   }
 
   const notification: ?PushNotificationIOS = await PushNotificationIOS.getInitialNotification();
@@ -133,7 +133,7 @@ const getInitialNotification = async (): Promise<Notification | null> => {
 };
 
 export const handleInitialNotification = async (dispatch: Dispatch) => {
-  const data = await getInitialNotification();
+  const data = await readInitialNotification();
   dispatch(narrowToNotification(data));
 };
 

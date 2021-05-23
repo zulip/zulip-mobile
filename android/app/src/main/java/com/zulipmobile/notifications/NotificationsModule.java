@@ -40,11 +40,12 @@ class NotificationsModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getInitialNotification(Promise promise) {
+    public void readInitialNotification(Promise promise) {
         if (null == initialNotification) {
             promise.resolve(null);
         } else {
             promise.resolve(Arguments.fromBundle(initialNotification));
+            initialNotification = null;
         }
     }
 }
