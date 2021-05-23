@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { type ElementConfig, PureComponent } from 'react';
 import { Text, View, ActivityIndicator } from 'react-native';
 import type { TextStyle, ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import TranslatedText from './TranslatedText';
@@ -103,6 +103,7 @@ type Props = $ReadOnly<{|
   text: LocalizableText,
   secondary: boolean,
   onPress: () => void | Promise<void>,
+  hitSlop?: $PropertyType<ElementConfig<typeof View>, 'hitSlop'>,
 |}>;
 
 /**
@@ -129,7 +130,8 @@ export default class ZulipButton extends PureComponent<Props> {
   };
 
   render() {
-    const { style, text, disabled, secondary, progress, onPress, Icon } = this.props;
+    const { style, text, disabled, secondary, progress, onPress, Icon, hitSlop } = this.props;
+
     const frameStyle = [
       styles.frame,
       // Prettier bug on nested ternary
@@ -159,7 +161,7 @@ export default class ZulipButton extends PureComponent<Props> {
     }
 
     return (
-      <View style={frameStyle}>
+      <View style={frameStyle} hitSlop={hitSlop}>
         <Touchable onPress={disabled ? undefined : onPress}>
           <View style={styles.buttonContent}>
             {!!Icon && <Icon style={iconStyle} size={25} />}
