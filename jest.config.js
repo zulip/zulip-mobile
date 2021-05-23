@@ -50,7 +50,11 @@ const projectForPlatform = platform => {
     // 3) assign `global.Promise` back to what we saved in step 1
     preset: platform === 'ios' ? './jest/presetIos' : './jest/presetAndroid',
 
-    // Finding and transforming source code.
+    //
+    //
+    // Config for finding and transforming source code.
+    //
+
     testPathIgnorePatterns: ['/node_modules/', '/src/__tests__/lib/', '-testlib.js$'],
 
     // When some source file foo.js says `import 'bar'`, Jest looks in the
@@ -64,7 +68,11 @@ const projectForPlatform = platform => {
     },
     transformIgnorePatterns: [transformIgnorePattern],
 
-    // The runtime test environment.
+    //
+    //
+    // Config for the runtime test environment.
+    //
+
     globals: {
       __TEST__: true,
     },
