@@ -76,21 +76,6 @@ describe('flagsReducer', () => {
   });
 
   describe('EVENT_NEW_MESSAGE', () => {
-    test('when no flags key is passed, do not fail, do nothing', () => {
-      const prevState = NULL_OBJECT;
-
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: { id: 2 },
-      });
-
-      const expectedState = {};
-
-      const actualState = flagsReducer(prevState, action);
-
-      expect(actualState).toEqual(expectedState);
-    });
-
     test('adds to store flags from new message', () => {
       const prevState = NULL_OBJECT;
 

@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import invariant from 'invariant';
+
 import type { Action, FlagsState, Message } from '../types';
 import {
   REALM_INIT,
@@ -29,9 +31,9 @@ const initialState = {
 const addFlagsForMessages = (
   state: FlagsState,
   messages: $ReadOnlyArray<number>,
-  flags?: $ReadOnlyArray<string>,
+  flags: $ReadOnlyArray<string>,
 ): FlagsState => {
-  if (!messages || messages.length === 0 || !flags || flags.length === 0) {
+  if (messages.length === 0 || flags.length === 0) {
     return state;
   }
 
@@ -111,8 +113,10 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
     case MESSAGE_FETCH_COMPLETE:
       return processFlagsForMessages(state, action.messages);
 
-    case EVENT_NEW_MESSAGE:
+    case EVENT_NEW_MESSAGE: {
+      invariant(action.message.flags, 'message in EVENT_NEW_MESSAGE must have flags');
       return addFlagsForMessages(state, [action.message.id], action.message.flags);
+    }
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
       return eventUpdateMessageFlags(state, action);
