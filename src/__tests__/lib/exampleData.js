@@ -730,10 +730,11 @@ export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| mes
  * `EVENT_NEW_MESSAGE` action must have `flags`, while `Message` objects in
  * some other contexts must not.  See comments on `Message` for details.)
  */
-export const mkActionEventNewMessage = (message: Message) => ({
-  ...eventNewMessageActionBase,
-  message: { ...message, flags: message.flags ?? [] },
-});
+export const mkActionEventNewMessage = (message: Message) =>
+  deepFreeze({
+    ...eventNewMessageActionBase,
+    message: { ...message, flags: message.flags ?? [] },
+  });
 
 // If a given action is only relevant to a single test file, no need to
 // provide a generic factory for it here; just define the test data there.
