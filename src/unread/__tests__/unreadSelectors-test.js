@@ -15,7 +15,11 @@ import {
 } from '../unreadSelectors';
 
 import * as eg from '../../__tests__/lib/exampleData';
-import { initialState, mkMessageAction, selectorBaseState as unreadState } from './unread-testlib';
+import {
+  initialState,
+  mkActionEventNewMessage,
+  selectorBaseState as unreadState,
+} from './unread-testlib';
 
 describe('getUnreadByStream', () => {
   test('when no items in streams key, the result is an empty object', () => {
@@ -474,7 +478,7 @@ describe('getUnreadStreamsAndTopics', () => {
         eg.streamMessage({ stream_id: 1, subject: 'e topic', id: 10 }),
         eg.streamMessage({ stream_id: 1, subject: 'd topic', id: 9 }),
       ].reduce(
-        (st, message) => reducer(st, mkMessageAction(message), eg.plusReduxState),
+        (st, message) => reducer(st, mkActionEventNewMessage(message), eg.plusReduxState),
         eg.plusReduxState.unread,
       ),
       mute: [['def stream', 'c topic']],

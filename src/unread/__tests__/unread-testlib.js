@@ -10,7 +10,7 @@ export const initialState = reducer(
   eg.baseReduxState,
 );
 
-export const mkMessageAction = (message: Message) => ({
+export const mkActionEventNewMessage = (message: Message) => ({
   ...eg.eventNewMessageActionBase,
   message: { ...message, flags: message.flags ?? [] },
 });
@@ -53,7 +53,7 @@ export const selectorBaseState = (() => {
     eg.pmMessageFromTo(user4, [user1, user5], { id: 24 }),
     eg.pmMessageFromTo(user4, [user1, user5], { id: 25 }),
   ]) {
-    state = reducer(state, mkMessageAction(message), globalState);
+    state = reducer(state, mkActionEventNewMessage(message), globalState);
   }
   return state;
 })();

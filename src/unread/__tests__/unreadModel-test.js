@@ -5,7 +5,7 @@ import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstant
 import { reducer } from '../unreadModel';
 import { type UnreadState } from '../unreadModelTypes';
 import * as eg from '../../__tests__/lib/exampleData';
-import { initialState, mkMessageAction } from './unread-testlib';
+import { initialState, mkActionEventNewMessage } from './unread-testlib';
 
 // These are the tests corresponding to unreadStreamsReducer-test.js.
 // Ultimately we'll want to flip this way of organizing the tests, and
@@ -20,7 +20,11 @@ describe('stream substate', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const state = reducer(initialState, mkMessageAction(eg.streamMessage()), eg.plusReduxState);
+      const state = reducer(
+        initialState,
+        mkActionEventNewMessage(eg.streamMessage()),
+        eg.plusReduxState,
+      );
       expect(state).not.toEqual(initialState);
 
       const action = { type: ACCOUNT_SWITCH, index: 1 };
@@ -60,7 +64,7 @@ describe('stream substate', () => {
   });
 
   describe('EVENT_NEW_MESSAGE', () => {
-    const action = mkMessageAction;
+    const action = mkActionEventNewMessage;
 
     const baseState = (() => {
       let state = initialState;
@@ -146,7 +150,7 @@ describe('stream substate', () => {
       };
     };
 
-    const streamAction = args => mkMessageAction(eg.streamMessage(args));
+    const streamAction = args => mkActionEventNewMessage(eg.streamMessage(args));
 
     const baseState = (() => {
       const r = (state, action) => reducer(state, action, eg.plusReduxState);

@@ -5,7 +5,7 @@ import { getTopicsForNarrow, getLastMessageTopic, getTopicsForStream } from '../
 import { HOME_NARROW, streamNarrow, keyFromNarrow } from '../../utils/narrow';
 import { reducer as unreadReducer } from '../../unread/unreadModel';
 import * as eg from '../../__tests__/lib/exampleData';
-import { mkMessageAction } from '../../unread/__tests__/unread-testlib';
+import { mkActionEventNewMessage } from '../../unread/__tests__/unread-testlib';
 
 describe('getTopicsForNarrow', () => {
   test('when no topics return an empty list', () => {
@@ -113,7 +113,7 @@ describe('getTopicsForStream', () => {
         eg.streamMessage({ stream_id: 1, subject: 'topic 4', id: 7 }),
         eg.streamMessage({ stream_id: 1, subject: 'topic 4', id: 8 }),
       ].reduce(
-        (st, message) => unreadReducer(st, mkMessageAction(message), eg.plusReduxState),
+        (st, message) => unreadReducer(st, mkActionEventNewMessage(message), eg.plusReduxState),
         eg.plusReduxState.unread,
       ),
     });
