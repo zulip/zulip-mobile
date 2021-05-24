@@ -329,6 +329,11 @@ const randMessageId: () => number = makeUniqueRandInt('message ID', 10000000);
  * A PM, by default a 1:1 from eg.otherUser to eg.selfUser.
  *
  * Beware! These values may not be representative.
+ *
+ * NB that the resulting value has no `flags` property.  This matches what
+ * we expect in `state.messages`, but not some other contexts; see comment
+ * on the `flags` property of `Message`.  For use in an `EVENT_NEW_MESSAGE`
+ * action, pass to `mkActionEventNewMessage`.
  */
 export const pmMessage = (args?: {|
   ...$Rest<PmMessage, { ... }>,
@@ -384,6 +389,11 @@ const messagePropertiesFromStream = (stream1: Stream) => {
  * A stream message, by default in eg.stream sent by eg.otherUser.
  *
  * Beware! These values may not be representative.
+ *
+ * NB that the resulting value has no `flags` property.  This matches what
+ * we expect in `state.messages`, but not some other contexts; see comment
+ * on the `flags` property of `Message`.  For use in an `EVENT_NEW_MESSAGE`
+ * action, pass to `mkActionEventNewMessage`.
  */
 export const streamMessage = (args?: {|
   ...$Rest<StreamMessage, { ... }>,
