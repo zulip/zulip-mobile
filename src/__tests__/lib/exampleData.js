@@ -722,6 +722,14 @@ export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| mes
  * suffice.
  */
 
+/**
+ * An EVENT_NEW_MESSAGE action.
+ *
+ * The message argument can either have or omit a `flags` property; if
+ * omitted, it defaults to empty.  (The `message` property on an
+ * `EVENT_NEW_MESSAGE` action must have `flags`, while `Message` objects in
+ * some other contexts must not.  See comments on `Message` for details.)
+ */
 export const mkActionEventNewMessage = (message: Message) => ({
   ...eventNewMessageActionBase,
   message: { ...message, flags: message.flags ?? [] },
