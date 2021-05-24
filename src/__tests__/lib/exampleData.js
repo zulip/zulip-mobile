@@ -17,7 +17,13 @@ import type {
   UserId,
 } from '../../api/modelTypes';
 import { makeUserId } from '../../api/idTypes';
-import type { Action, GlobalState, MessagesState, RealmState } from '../../reduxTypes';
+import type {
+  Action,
+  GlobalState,
+  CaughtUpState,
+  MessagesState,
+  RealmState,
+} from '../../reduxTypes';
 import type { Auth, Account, OutboxBase, StreamOutbox } from '../../types';
 import { UploadedAvatarURL } from '../../utils/avatar';
 import { ZulipVersion } from '../../utils/zulipVersion';
@@ -730,9 +736,13 @@ export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| mes
  * `EVENT_NEW_MESSAGE` action must have `flags`, while `Message` objects in
  * some other contexts must not.  See comments on `Message` for details.)
  */
-export const mkActionEventNewMessage = (message: Message) =>
+export const mkActionEventNewMessage = (
+  message: Message,
+  args?: {| caughtUp?: CaughtUpState, local_message_id?: number, ownUserId?: UserId |},
+): Action =>
   deepFreeze({
     ...eventNewMessageActionBase,
+    ...args,
     message: { ...message, flags: message.flags ?? [] },
   });
 
