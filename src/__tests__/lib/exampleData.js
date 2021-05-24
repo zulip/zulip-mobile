@@ -693,39 +693,16 @@ export const action = deepFreeze({
 (action: {| [string]: Action |});
 
 /* ========================================================================
- * Action fragments
- *
- * Partial actions, for those action types where (a) there's some
- * boilerplate data that's useful to supply here, but (b) there's some other
- * places where a given test will almost always need to fill in specific
- * data of its own.
- *
- * The properties where each test will want to fill in its own specific data
- * should be left out of these fragments.  That way, Flow can ensure the
- * test explicitly supplies the data.
- */
-
-/** Consider using `mkActionEventNewMessage` instead. */
-export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| message: Message |}> */ = {
-  type: EVENT_NEW_MESSAGE,
-  // These properties are boring for most or all tests.
-  id: 1001,
-  caughtUp: {},
-  ownUserId: selfUser.user_id,
-
-  // The details of this property are typically important to what a test is
-  // testing, so we provide it explicitly in each test.
-  // message: Message,
-};
-
-// If a given action is only relevant to a single test file, no need to
-// provide a generic fragment for it here; just define the test data there.
-
-/* ========================================================================
  * Action factories
  *
  * Useful for action types where a static object of boilerplate data doesn't
- * suffice.
+ * suffice.  Generally this is true where (a) there's some boilerplate data
+ * that's useful to supply here, but (b) there's some other places where a
+ * given test will almost always need to fill in specific data of its own.
+ *
+ * For action types without (b), a static example value `eg.action.foo` is
+ * enough.  For action types without (a), even that isn't necessary, because
+ * each test might as well define the action values it needs directly.
  */
 
 /**
@@ -741,8 +718,13 @@ export const mkActionEventNewMessage = (
   args?: {| caughtUp?: CaughtUpState, local_message_id?: number, ownUserId?: UserId |},
 ): Action =>
   deepFreeze({
-    ...eventNewMessageActionBase,
+    type: EVENT_NEW_MESSAGE,
+    id: 1001,
+    caughtUp: {},
+    ownUserId: selfUser.user_id,
+
     ...args,
+
     message: { ...message, flags: message.flags ?? [] },
   });
 
