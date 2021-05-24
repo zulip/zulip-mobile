@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { View } from 'react-native';
 import { useSelector } from '../react-redux';
 
@@ -27,12 +27,12 @@ type Props<U> = $ReadOnly<{|
  * A list item describing one group PM conversation.
  * */
 export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(props: Props<U>) {
-  const handlePress = () => {
-    const { users, onPress } = props;
-    onPress(users);
-  };
+  const { users, unreadCount, onPress } = props;
 
-  const { users, unreadCount } = props;
+  const handlePress = useCallback(() => {
+    onPress(users);
+  }, [onPress, users]);
+
   const _ = useContext(TranslationContext);
   const mutedUsers = useSelector(getMutedUsers);
   const names = users.map(user =>
