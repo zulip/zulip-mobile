@@ -467,7 +467,7 @@ const outboxMessageBase: $Diff<OutboxBase, {| id: mixed, timestamp: mixed |}> = 
  *
  * `.id` is always identical to `.timestamp` and should not be supplied.
  */
-export const streamOutbox = (data: $Shape<$Diff<StreamOutbox, {| id: mixed |}>>): StreamOutbox => {
+export const streamOutbox = (data: $Rest<StreamOutbox, { id: mixed, ... }>): StreamOutbox => {
   const { timestamp } = data;
 
   const outputTimestamp = timestamp ?? makeTime() / 1000;
