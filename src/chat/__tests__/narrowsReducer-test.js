@@ -37,10 +37,7 @@ describe('narrowsReducer', () => {
 
       const message = eg.streamMessage({ id: 3, flags: [] });
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message,
-      });
+      const action = eg.mkActionEventNewMessage(message);
 
       const newState = narrowsReducer(initialState, action);
 
@@ -54,9 +51,7 @@ describe('narrowsReducer', () => {
 
       const message = eg.streamMessage({ id: 3, flags: [] });
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message,
+      const action = eg.mkActionEventNewMessage(message, {
         caughtUp: {
           [HOME_NARROW_STR]: {
             older: false,
@@ -80,10 +75,7 @@ describe('narrowsReducer', () => {
 
       const message = eg.streamMessage({ id: 3, flags: [], stream: eg.makeStream() });
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message,
-      });
+      const action = eg.mkActionEventNewMessage(message);
 
       const newState = narrowsReducer(initialState, action);
 
@@ -101,9 +93,7 @@ describe('narrowsReducer', () => {
       recipients: [eg.selfUser, eg.otherUser, eg.thirdUser],
       flags: [],
     });
-    const action = deepFreeze({
-      ...eg.eventNewMessageActionBase,
-      message,
+    const action = eg.mkActionEventNewMessage(message, {
       caughtUp: {
         [ALL_PRIVATE_NARROW_STR]: { older: true, newer: true },
       },
@@ -122,9 +112,7 @@ describe('narrowsReducer', () => {
 
     const message = eg.streamMessage({ id: 3, flags: [] });
 
-    const action = deepFreeze({
-      ...eg.eventNewMessageActionBase,
-      message,
+    const action = eg.mkActionEventNewMessage(message, {
       caughtUp: {
         [HOME_NARROW_STR]: {
           older: false,
@@ -160,9 +148,7 @@ describe('narrowsReducer', () => {
       flags: [],
     });
 
-    const action = deepFreeze({
-      ...eg.eventNewMessageActionBase,
-      message,
+    const action = eg.mkActionEventNewMessage(message, {
       caughtUp: {
         [HOME_NARROW_STR]: { older: false, newer: true },
         [narrowWithSelfStr]: { older: false, newer: true },
@@ -192,9 +178,7 @@ describe('narrowsReducer', () => {
 
     const message = eg.streamMessage({ id: 5, flags: [] });
 
-    const action = deepFreeze({
-      ...eg.eventNewMessageActionBase,
-      message,
+    const action = eg.mkActionEventNewMessage(message, {
       caughtUp: {
         [HOME_NARROW_STR]: { older: false, newer: true },
         [streamNarrowStr]: { older: false, newer: true },
@@ -222,9 +206,7 @@ describe('narrowsReducer', () => {
 
     const message = eg.streamMessage({ id: 3, flags: [] });
 
-    const action = deepFreeze({
-      ...eg.eventNewMessageActionBase,
-      message,
+    const action = eg.mkActionEventNewMessage(message, {
       caughtUp: {
         [HOME_NARROW_STR]: { older: false, newer: true },
       },
@@ -257,9 +239,7 @@ describe('narrowsReducer', () => {
       recipients: [eg.selfUser, eg.otherUser],
     });
 
-    const action = deepFreeze({
-      ...eg.eventNewMessageActionBase,
-      message,
+    const action = eg.mkActionEventNewMessage(message, {
       caughtUp: initialState.map(_ => ({ older: false, newer: true })).toObject(),
     });
 

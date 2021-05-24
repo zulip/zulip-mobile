@@ -86,7 +86,7 @@ describe('reducer', () => {
   });
 
   describe('EVENT_NEW_MESSAGE', () => {
-    const actionGeneral = message => ({ ...eg.eventNewMessageActionBase, message });
+    const actionGeneral = eg.mkActionEventNewMessage;
     const [user1, user2] = [eg.makeUser({ user_id: 1 }), eg.makeUser({ user_id: 2 })];
     const action = (id, otherUsers) =>
       actionGeneral(eg.pmMessageFromTo(eg.selfUser, otherUsers, { id }));

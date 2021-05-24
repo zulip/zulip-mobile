@@ -24,16 +24,13 @@ describe('messagesReducer', () => {
       const message3 = eg.streamMessage({ id: 3 });
 
       const prevState = eg.makeMessagesState([message1, message2]);
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
+      const action = eg.mkActionEventNewMessage(message3, {
         caughtUp: {
           [HOME_NARROW_STR]: {
             older: true,
             newer: true,
           },
         },
-        // `flags` is present in EVENT_NEW_MESSAGE; see note at Message.
-        message: { ...message3, flags: [] },
       });
       const expectedState = eg.makeMessagesState([message1, message2, message3]);
       const newState = messagesReducer(prevState, action);
@@ -46,16 +43,13 @@ describe('messagesReducer', () => {
       const message2 = eg.streamMessage({ id: 2 });
       const message3 = eg.streamMessage({ id: 3 });
       const prevState = eg.makeMessagesState([message1, message2]);
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
+      const action = eg.mkActionEventNewMessage(message3, {
         caughtUp: {
           [HOME_NARROW_STR]: {
             older: true,
             newer: false,
           },
         },
-        // `flags` is present in EVENT_NEW_MESSAGE; see note at Message.
-        message: { ...message3, flags: [] },
       });
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(prevState);

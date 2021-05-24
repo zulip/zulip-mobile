@@ -2,11 +2,7 @@
 import deepFreeze from 'deep-freeze';
 
 import unreadHuddlesReducer from '../unreadHuddlesReducer';
-import {
-  ACCOUNT_SWITCH,
-  EVENT_NEW_MESSAGE,
-  EVENT_UPDATE_MESSAGE_FLAGS,
-} from '../../actionConstants';
+import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeUserId } from '../../api/idTypes';
@@ -87,11 +83,7 @@ describe('unreadHuddlesReducer', () => {
         },
       ]);
 
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        ...eg.eventNewMessageActionBase,
-        message: message2,
-      });
+      const action = eg.mkActionEventNewMessage(message2);
 
       const actualState = unreadHuddlesReducer(initialState, action);
 
@@ -107,11 +99,7 @@ describe('unreadHuddlesReducer', () => {
         },
       ]);
 
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        ...eg.eventNewMessageActionBase,
-        message: streamMessage,
-      });
+      const action = eg.mkActionEventNewMessage(streamMessage);
 
       const actualState = unreadHuddlesReducer(initialState, action);
 
@@ -131,12 +119,7 @@ describe('unreadHuddlesReducer', () => {
         flags: ['read'],
       });
 
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        ...eg.eventNewMessageActionBase,
-        message: message2,
-        ownUserId: selfUser.user_id,
-      });
+      const action = eg.mkActionEventNewMessage(message2, { ownUserId: selfUser.user_id });
 
       const actualState = unreadHuddlesReducer(initialState, action);
 
@@ -157,11 +140,7 @@ describe('unreadHuddlesReducer', () => {
         },
       ]);
 
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        ...eg.eventNewMessageActionBase,
-        message: message4,
-      });
+      const action = eg.mkActionEventNewMessage(message4);
 
       const expectedState = [
         {
@@ -188,11 +167,7 @@ describe('unreadHuddlesReducer', () => {
         },
       ]);
 
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        ...eg.eventNewMessageActionBase,
-        message: message4,
-      });
+      const action = eg.mkActionEventNewMessage(message4);
 
       const expectedState = [
         {

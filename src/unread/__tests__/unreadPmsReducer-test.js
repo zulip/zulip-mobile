@@ -82,10 +82,7 @@ describe('unreadPmsReducer', () => {
         },
       ]);
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message: message1,
-      });
+      const action = eg.mkActionEventNewMessage(message1);
 
       const actualState = unreadPmsReducer(initialState, action);
 
@@ -101,10 +98,7 @@ describe('unreadPmsReducer', () => {
         },
       ]);
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message: message4,
-      });
+      const action = eg.mkActionEventNewMessage(message4);
 
       const actualState = unreadPmsReducer(initialState, action);
 
@@ -119,11 +113,7 @@ describe('unreadPmsReducer', () => {
         flags: ['read'],
       });
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message: message1,
-        ownUserId: eg.selfUser.user_id,
-      });
+      const action = eg.mkActionEventNewMessage(message1);
 
       const actualState = unreadPmsReducer(initialState, action);
 
@@ -137,11 +127,7 @@ describe('unreadPmsReducer', () => {
         recipients: [eg.selfUser],
       });
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message: message1,
-        ownUserId: eg.selfUser.user_id,
-      });
+      const action = eg.mkActionEventNewMessage(message1);
 
       const expectedState = [
         {
@@ -168,10 +154,7 @@ describe('unreadPmsReducer', () => {
         },
       ]);
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message: message4,
-      });
+      const action = eg.mkActionEventNewMessage(message4);
 
       const expectedState = [
         {
@@ -194,10 +177,7 @@ describe('unreadPmsReducer', () => {
         },
       ]);
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message: message4,
-      });
+      const action = eg.mkActionEventNewMessage(message4);
 
       const expectedState = [
         {

@@ -67,9 +67,7 @@ describe('outboxReducer', () => {
 
       const message = eg.streamMessage({ timestamp: 123 });
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message,
+      const action = eg.mkActionEventNewMessage(message, {
         local_message_id: message.timestamp,
       });
 
@@ -83,9 +81,7 @@ describe('outboxReducer', () => {
       const message3 = eg.streamOutbox({ timestamp: 150238594540 });
       const initialState = deepFreeze([message1, message2, message3]);
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message: eg.streamMessage(),
+      const action = eg.mkActionEventNewMessage(eg.streamMessage(), {
         local_message_id: 546,
       });
 
@@ -102,9 +98,7 @@ describe('outboxReducer', () => {
       const message3 = eg.streamOutbox({ timestamp: 150238594540 });
       const initialState = deepFreeze([message1, message2, message3]);
 
-      const action = deepFreeze({
-        ...eg.eventNewMessageActionBase,
-        message: eg.streamMessage(),
+      const action = eg.mkActionEventNewMessage(eg.streamMessage(), {
         local_message_id: 15023859,
       });
 
