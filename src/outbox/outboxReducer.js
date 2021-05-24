@@ -31,8 +31,8 @@ export default (state: OutboxState = initialState, action: Action): OutboxState 
       return messageSendStart(state, action);
 
     case MESSAGE_SEND_COMPLETE:
-      return state.map(item =>
-        item.id !== action.local_message_id ? item : { ...item, isSent: true },
+      return state.map(<O: Outbox>(item: O) =>
+        item.id !== action.local_message_id ? item : { ...(item: O), isSent: true },
       );
 
     case DELETE_OUTBOX_MESSAGE:

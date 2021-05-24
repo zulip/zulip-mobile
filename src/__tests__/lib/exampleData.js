@@ -452,16 +452,13 @@ const outboxMessageBase: $Diff<OutboxBase, {| id: mixed, timestamp: mixed |}> = 
   isSent: false,
   avatar_url: selfUser.avatar_url,
   content: '<p>Test.</p>',
-  display_recipient: stream.name,
   // id: ...,
   markdownContent: 'Test.',
   reactions: [],
   sender_email: selfUser.email,
   sender_full_name: selfUser.full_name,
   sender_id: selfUser.user_id,
-  subject: 'test topic',
   // timestamp: ...,
-  type: 'stream',
 });
 
 /**
@@ -476,6 +473,10 @@ export const streamOutbox = (data: $Shape<$Diff<StreamOutbox, {| id: mixed |}>>)
   const outputTimestamp = timestamp ?? makeTime() / 1000;
   return deepFreeze({
     ...outboxMessageBase,
+    type: 'stream',
+    display_recipient: stream.name,
+    subject: 'test topic',
+
     ...data,
     id: outputTimestamp,
     timestamp: outputTimestamp,

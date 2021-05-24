@@ -9,6 +9,8 @@ import type {
   GlobalState,
   Narrow,
   Outbox,
+  PmOutbox,
+  StreamOutbox,
   UserOrBot,
   UserId,
   Action,
@@ -124,10 +126,9 @@ const recipientsFromIds = (ids, allUsersById, ownUser) => {
   return result;
 };
 
-type DataFromNarrow = SubsetProperties<
-  Outbox,
-  {| type: mixed, display_recipient: mixed, subject: mixed |},
->;
+type DataFromNarrow =
+  | SubsetProperties<PmOutbox, {| type: mixed, display_recipient: mixed, subject: mixed |}>
+  | SubsetProperties<StreamOutbox, {| type: mixed, display_recipient: mixed, subject: mixed |}>;
 
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
