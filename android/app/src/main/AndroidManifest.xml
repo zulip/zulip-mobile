@@ -24,6 +24,14 @@
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
 
+    <!-- We use certain modules that adds the permission requirement for
+         `ACCESS_WIFI_STATE` in the final AndroidManifest of the app, which makes
+         wifi hardware a compulsary requirement to install the app. The following
+         statement makes the hardware requirement optional. -->
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
