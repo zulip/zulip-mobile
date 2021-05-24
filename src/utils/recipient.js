@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import invariant from 'invariant';
 // $FlowFixMe[untyped-import]
 import isEqual from 'lodash.isequal';
 
@@ -12,9 +11,7 @@ export const streamNameOfStreamMessage = (message: Message | Outbox): string => 
   if (message.type !== 'stream') {
     throw new Error('streamNameOfStreamMessage: got PM');
   }
-  const { display_recipient: streamName } = message;
-  invariant(typeof streamName === 'string', 'message type / display_recipient mismatch');
-  return streamName;
+  return message.display_recipient;
 };
 
 /** The recipients of a PM, in the form found on Message.  Throws if a stream message. */
@@ -24,9 +21,7 @@ export const recipientsOfPrivateMessage = (
   if (message.type !== 'private') {
     throw new Error('recipientsOfPrivateMessage: got stream message');
   }
-  const { display_recipient: recipients } = message;
-  invariant(typeof recipients === 'object', 'message type / display_recipient mismatch');
-  return recipients;
+  return message.display_recipient;
 };
 
 /**
