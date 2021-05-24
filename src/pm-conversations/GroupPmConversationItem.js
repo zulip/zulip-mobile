@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { useCallback, useContext } from 'react';
 import { View } from 'react-native';
-import { useSelector } from '../react-redux';
 
+import { useSelector } from '../react-redux';
 import type { UserOrBot } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { GroupAvatar, RawLabel, Touchable, UnreadCount } from '../common';
