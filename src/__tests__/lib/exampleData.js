@@ -29,7 +29,7 @@ import type {
   MessagesState,
   RealmState,
 } from '../../reduxTypes';
-import type { Auth, Account, OutboxBase, StreamOutbox } from '../../types';
+import type { Auth, Account, StreamOutbox } from '../../types';
 import { UploadedAvatarURL } from '../../utils/avatar';
 import { ZulipVersion } from '../../utils/zulipVersion';
 import {
@@ -444,21 +444,18 @@ export const makeMessagesState = (messages: Message[]): MessagesState =>
  */
 
 /**
- * Properties in common among PM and stream outbox messages, with no
- *   interesting data.
+ * Boring properties common across example outbox messages.
  */
-const outboxMessageBase: $Diff<OutboxBase, {| id: mixed, timestamp: mixed |}> = deepFreeze({
+const outboxMessageBase = deepFreeze({
   isOutbox: true,
   isSent: false,
   avatar_url: selfUser.avatar_url,
   content: '<p>Test.</p>',
-  // id: ...,
   markdownContent: 'Test.',
   reactions: [],
   sender_email: selfUser.email,
   sender_full_name: selfUser.full_name,
   sender_id: selfUser.user_id,
-  // timestamp: ...,
 });
 
 /**

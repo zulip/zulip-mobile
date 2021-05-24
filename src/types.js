@@ -167,7 +167,7 @@ export type TopicExtended = {|
  * Properties in common among the two different flavors of a
  * `Outbox`: `PmOutbox` and `StreamOutbox`.
  */
-export type OutboxBase = $ReadOnly<{|
+type OutboxBase = $ReadOnly<{|
   /** Used for distinguishing from a `Message` object. */
   isOutbox: true,
 
