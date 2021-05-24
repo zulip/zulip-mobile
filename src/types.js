@@ -203,14 +203,11 @@ export type PmOutbox = $ReadOnly<{|
 export type StreamOutbox = $ReadOnly<{|
   ...OutboxBase,
 
-  // TODO(#3764): Make stream_id required.  Needs a migration to drop
-  //   StreamOutbox values that lack it; that'll be fine once the
-  //   release that adds it has been out for a few weeks. (Also drop
-  //   the hack line about it in MessageLike.)
+  // TODO(#3764): Make stream_id required.  First need to start supplying it
+  //   in the Outbox values we create; compare a1fad7ca9, for sender_id.
   //
-  //   Once it is required, it
-  //   should go in the second type argument passed to
-  //   `SubsetProperties` of `StreamMessage`, below.
+  //   Once it is required, it should move from here to the second type
+  //   argument passed to `SubsetProperties` of `StreamMessage`, below.
   stream_id?: number,
 
   ...SubsetProperties<StreamMessage, {||}>,
