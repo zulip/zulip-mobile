@@ -1,6 +1,5 @@
 /* @flow strict-local */
 
-import type { Message } from '../../types';
 import { reducer } from '../unreadModel';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -9,11 +8,6 @@ export const initialState = reducer(
   ({ type: eg.randString() }: $FlowFixMe),
   eg.baseReduxState,
 );
-
-export const mkActionEventNewMessage = (message: Message) => ({
-  ...eg.eventNewMessageActionBase,
-  message: { ...message, flags: message.flags ?? [] },
-});
 
 export const stream0 = { ...eg.makeStream({ name: 'stream 0' }), stream_id: 0 };
 export const stream2 = { ...eg.makeStream({ name: 'stream 2' }), stream_id: 2 };
@@ -53,7 +47,7 @@ export const selectorBaseState = (() => {
     eg.pmMessageFromTo(user4, [user1, user5], { id: 24 }),
     eg.pmMessageFromTo(user4, [user1, user5], { id: 25 }),
   ]) {
-    state = reducer(state, mkActionEventNewMessage(message), globalState);
+    state = reducer(state, eg.mkActionEventNewMessage(message), globalState);
   }
   return state;
 })();

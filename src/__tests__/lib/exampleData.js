@@ -699,6 +699,7 @@ export const action = deepFreeze({
  * test explicitly supplies the data.
  */
 
+/** Consider using `mkActionEventNewMessage` instead. */
 export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| message: Message |}> */ = {
   type: EVENT_NEW_MESSAGE,
   // These properties are boring for most or all tests.
@@ -713,3 +714,18 @@ export const eventNewMessageActionBase /* \: $Diff<EventNewMessageAction, {| mes
 
 // If a given action is only relevant to a single test file, no need to
 // provide a generic fragment for it here; just define the test data there.
+
+/* ========================================================================
+ * Action factories
+ *
+ * Useful for action types where a static object of boilerplate data doesn't
+ * suffice.
+ */
+
+export const mkActionEventNewMessage = (message: Message) => ({
+  ...eventNewMessageActionBase,
+  message: { ...message, flags: message.flags ?? [] },
+});
+
+// If a given action is only relevant to a single test file, no need to
+// provide a generic factory for it here; just define the test data there.

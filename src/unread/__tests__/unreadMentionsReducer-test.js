@@ -6,7 +6,6 @@ import unreadMentionsReducer from '../unreadMentionsReducer';
 import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
-import { mkActionEventNewMessage } from './unread-testlib';
 
 describe('unreadMentionsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -56,7 +55,7 @@ describe('unreadMentionsReducer', () => {
     test('if message does not contain "mentioned" flag, do not mutate state', () => {
       const initialState = deepFreeze([]);
 
-      const action = mkActionEventNewMessage(eg.streamMessage({ flags: [] }));
+      const action = eg.mkActionEventNewMessage(eg.streamMessage({ flags: [] }));
 
       const actualState = unreadMentionsReducer(initialState, action);
 
@@ -66,7 +65,7 @@ describe('unreadMentionsReducer', () => {
     test('if message has "read" flag, do not mutate state', () => {
       const initialState = deepFreeze([]);
 
-      const action = mkActionEventNewMessage(eg.streamMessage({ flags: ['mentioned', 'read'] }));
+      const action = eg.mkActionEventNewMessage(eg.streamMessage({ flags: ['mentioned', 'read'] }));
 
       const actualState = unreadMentionsReducer(initialState, action);
 
@@ -76,7 +75,7 @@ describe('unreadMentionsReducer', () => {
     test('if message id already exists, do not mutate state', () => {
       const initialState = deepFreeze([1, 2]);
 
-      const action = mkActionEventNewMessage(
+      const action = eg.mkActionEventNewMessage(
         eg.streamMessage({ id: 2, flags: ['mentioned', 'read'] }),
       );
 
@@ -88,7 +87,7 @@ describe('unreadMentionsReducer', () => {
     test('if "mentioned" flag is set and message id does not exist, append to state', () => {
       const initialState = deepFreeze([1, 2]);
 
-      const action = mkActionEventNewMessage(eg.streamMessage({ id: 3, flags: ['mentioned'] }));
+      const action = eg.mkActionEventNewMessage(eg.streamMessage({ id: 3, flags: ['mentioned'] }));
 
       const expectedState = [1, 2, 3];
 
