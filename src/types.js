@@ -156,6 +156,11 @@ export type TopicExtended = {|
  * Properties in common among the two different flavors of a
  * `Outbox`: `PmOutbox` and `StreamOutbox`.
  */
+// TODO: This distinction between `PmOutbox` and `StreamOutbox` doesn't yet
+//   function as fully as `PmMessage` and `StreamMessage`: for properties
+//   like `type` and `display_recipient` where the types differ between
+//   `PmMessage` and `StreamMessage`, it currently loses the information
+//   that those differences are connected to each other.
 export type OutboxBase = $ReadOnly<{|
   /** Used for distinguishing from a `Message` object. */
   isOutbox: true,
@@ -175,10 +180,14 @@ export type OutboxBase = $ReadOnly<{|
 
   /* eslint-disable flowtype/generic-spacing */
   ...SubsetProperties<
-    // Could use `MessageBase` here, but Flow would complain anyway if
-    // we tried to put something that's not in `MessageBase` below.
+    // Could use `MessageBase` here.  Then Flow would check that the listed
+    // properties are in `MessageBase`, rather than just in both branches of
+    // `Message` but potentially separately.
     Message,
     {|
+      // TODO: Some of these have different types on `PmMessage` vs.
+      //   `StreamMessage`; move those to `PmOutbox` and `StreamOutbox`
+      //   respectively, to match that distinction here.
       avatar_url: mixed,
       content: mixed,
       display_recipient: mixed,
