@@ -194,13 +194,13 @@ export type OutboxBase = $ReadOnly<{|
   >,
 |}>;
 
-export type PmOutbox = {|
+export type PmOutbox = $ReadOnly<{|
   ...OutboxBase,
 
   ...SubsetProperties<PmMessage, {||}>,
-|};
+|}>;
 
-export type StreamOutbox = {|
+export type StreamOutbox = $ReadOnly<{|
   ...OutboxBase,
 
   // TODO(#3764): Make stream_id required.  Needs a migration to drop
@@ -214,7 +214,7 @@ export type StreamOutbox = {|
   stream_id?: number,
 
   ...SubsetProperties<StreamMessage, {||}>,
-|};
+|}>;
 
 /**
  * A message we're in the process of sending.
