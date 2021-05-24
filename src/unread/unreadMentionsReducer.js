@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import invariant from 'invariant';
+
 import type { Action } from '../types';
 import type { UnreadMentionsState } from './unreadModelTypes';
 import {
@@ -43,9 +45,7 @@ export default (state: UnreadMentionsState = initialState, action: Action): Unre
 
     case EVENT_NEW_MESSAGE: {
       const { flags } = action.message;
-      if (!flags) {
-        throw new Error('action.message.flags should be defined.');
-      }
+      invariant(flags, 'message in EVENT_NEW_MESSAGE must have flags');
       if (flags.includes('read')) {
         return state;
       }

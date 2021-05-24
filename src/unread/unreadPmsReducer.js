@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import invariant from 'invariant';
+
 import type { Action } from '../types';
 import type { UnreadPmsState } from './unreadModelTypes';
 import {
@@ -24,14 +26,8 @@ const eventNewMessage = (state, action) => {
     return state;
   }
 
-  // TODO: In reality, we should error if `flags` is undefined, since it's
-  // always supposed to be set. However, our tests currently don't pass flags
-  // into these events, making it annoying to fix this. We should fix the
-  // tests, then change this to error if `flags` is undefined. See [1] for
-  // details.
-  //
-  // [1]: https://github.com/zulip/zulip-mobile/pull/4710/files#r627850775
-  if (action.message.flags?.includes('read')) {
+  invariant(action.message.flags, 'message in EVENT_NEW_MESSAGE must have flags');
+  if (action.message.flags.includes('read')) {
     return state;
   }
 
