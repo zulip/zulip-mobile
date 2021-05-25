@@ -246,6 +246,10 @@ basically amounts to an @-mention!  Other common lines include
 
 and there's no fixed list; people invent others.
 
+When inventing a label for a metadata line like this, note the
+formatting style: hyphens (`-`) instead of spaces, and in sentence case
+(i.e. capitalized only at the beginning).
+
 
 <div id="mentioning-commits" />
 
