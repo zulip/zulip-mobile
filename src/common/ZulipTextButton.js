@@ -91,6 +91,11 @@ type Props = $ReadOnly<{|
  * >
  * > In cards, text buttons help maintain an emphasis on card content.
  */
+// TODO: Consider making this a thin wrapper around something like
+// react-native-paper's `Button`
+// (https://callstack.github.io/react-native-paper/button.html), encoding
+// things like project-specific styles and making any sensible adjustments
+// to the interface.
 export default function ZulipTextButton(props: Props) {
   const { variant = 'standard', leftMargin, rightMargin, label, onPress } = props;
 
