@@ -12,10 +12,8 @@ import { connect } from '../react-redux';
 import { getSettings } from '../selectors';
 import { OptionButton, OptionRow } from '../common';
 import {
-  IconBrowser,
   IconDiagnostics,
   IconNotifications,
-  IconNight,
   IconLanguage,
   IconMoreHorizontal,
 } from '../common/Icons';
@@ -55,13 +53,11 @@ class SettingsScreen extends PureComponent<Props> {
     return (
       <ScrollView style={styles.optionWrapper}>
         <OptionRow
-          Icon={IconNight}
           label="Night mode"
           value={theme === 'night'}
           onValueChange={this.handleThemeChange}
         />
         <OptionRow
-          Icon={IconBrowser}
           label="Open links with in-app browser"
           value={shouldUseInAppBrowser(browser)}
           onValueChange={value => {
