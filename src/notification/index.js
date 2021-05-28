@@ -111,6 +111,14 @@ export const getNarrowFromNotificationData = (
   return pmNarrowFromRecipients(pmKeyRecipientsFromIds(ids, ownUserId));
 };
 
+/**
+ * Read the notification the app was started from, if any.
+ *
+ * This consumes the data; if called a second time, the result is always
+ * null.
+ *
+ * (TODO: Well, it does on Android, anyway.  #4763 is for doing so on iOS.)
+ */
 const readInitialNotification = async (): Promise<Notification | null> => {
   if (Platform.OS === 'android') {
     const { Notifications } = NativeModules;
@@ -132,6 +140,16 @@ const readInitialNotification = async (): Promise<Notification | null> => {
   return fromAPNs(data) || null;
 };
 
+/**
+ * Act on the notification-opening the app was started from, if any.
+ *
+ * That is, if the app was started by the user opening a notification, act
+ * on that; in particular, navigate to the conversation the notification was
+ * from.
+ *
+ * This consumes the relevant data; if called multiple times after the user
+ * only once opened a notification, it'll only do anything once.
+ */
 export const handleInitialNotification = async (dispatch: Dispatch) => {
   const data = await readInitialNotification();
   dispatch(narrowToNotification(data));
