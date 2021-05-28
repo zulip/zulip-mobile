@@ -4,12 +4,11 @@ import React from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import store from '../boot/store';
 import { createStyleSheet, HALF_COLOR } from '../styles';
 import { useSelector, useDispatch } from '../react-redux';
 import Label from './Label';
 import { getActiveAccount } from '../account/accountsSelectors';
-import { getIsAdmin, getSession } from '../directSelectors';
+import { getIsAdmin, getSession, getSettings } from '../directSelectors';
 import { dismissCompatNotice } from '../session/sessionActions';
 import ZulipTextButton from './ZulipTextButton';
 import { openLinkWithUserPreference } from '../utils/openLink';
@@ -58,6 +57,7 @@ export default function ServerCompatBanner(props: Props) {
   const zulipVersion = useSelector(state => getActiveAccount(state).zulipVersion);
   const realm = useSelector(state => getActiveAccount(state).realm);
   const isAdmin = useSelector(getIsAdmin);
+  const settings = useSelector(getSettings);
 
   if (!zulipVersion || zulipVersion.isAtLeast(minSupportedVersion)) {
     return null;
@@ -98,7 +98,7 @@ export default function ServerCompatBanner(props: Props) {
           onPress={() => {
             openLinkWithUserPreference(
               'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
-              store.getState,
+              settings,
             );
           }}
         />

@@ -35,10 +35,10 @@ export const messageLinkPress = (href: string) => async (
     const anchor = getMessageIdFromLink(href, auth.realm);
     dispatch(doNarrow(narrow, anchor));
   } else if (!isUrlOnRealm(href, auth.realm)) {
-    openLinkWithUserPreference(href, getState);
+    openLinkWithUserPreference(href, state.settings);
   } else {
     const url =
       (await api.tryGetFileTemporaryUrl(href, auth)) ?? new URL(href, auth.realm).toString();
-    openLinkWithUserPreference(url, getState);
+    openLinkWithUserPreference(url, state.settings);
   }
 };
