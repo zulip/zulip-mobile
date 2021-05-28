@@ -56,7 +56,7 @@ function UserAvatar(props: Props) {
 
   return (
     <Touchable onPress={onPress}>
-      <View>
+      <View accessibilityIgnoresInvertColors>
         {!isMuted ? (
           <Image
             source={{
