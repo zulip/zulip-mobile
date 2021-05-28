@@ -23,13 +23,16 @@ export default class OptionRow extends PureComponent<Props> {
 
   styles = {
     icon: styles.settingsIcon,
+    container: {
+      height: 56,
+    },
   };
 
   render() {
     const { label, value, onValueChange, style, Icon } = this.props;
 
     return (
-      <View style={[styles.listItem, style]}>
+      <View style={[this.styles.container, styles.listItem, style]}>
         {!!Icon && <Icon size={18} style={[this.styles.icon, { color: this.context.color }]} />}
         <Label text={label} style={styles.flexed} />
         <View style={styles.rightItem}>
