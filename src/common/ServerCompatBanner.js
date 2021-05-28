@@ -14,6 +14,12 @@ import { dismissCompatNotice } from '../session/sessionActions';
 import ZulipTextButton from './ZulipTextButton';
 import { openLinkWithUserPreference } from '../utils/openLink';
 
+// In fact the oldest version we currently support is 2.1.0, per our docs:
+//   https://zulip.readthedocs.io/en/4.2/overview/release-lifecycle.html
+// For now we only show this banner for servers older than 2.0.0, though,
+// in order to phase that in gradually.
+const minSupportedVersion = '2.0.0';
+
 const styles = createStyleSheet({
   wrapper: {
     backgroundColor: HALF_COLOR,
@@ -39,9 +45,6 @@ type Props = $ReadOnly<{||}>;
 
 /**
  * A "nag banner" saying the server version is unsupported, if so.
- *
- * Currently just checks if it's less than 2.0.0. In the future, this won't
- * have to be so hard-coded; we may use a timer or something.
  */
 // Made with somewhat careful attention to
 // https://material.io/components/banners. Please consult that before making
@@ -56,7 +59,7 @@ export default function ServerCompatBanner(props: Props) {
   const realm = useSelector(state => getActiveAccount(state).realm);
   const isAdmin = useSelector(getIsAdmin);
 
-  if (!zulipVersion || zulipVersion.isAtLeast('2.0.0')) {
+  if (!zulipVersion || zulipVersion.isAtLeast(minSupportedVersion)) {
     return null;
   } else if (hasDismissedServerCompatNotice) {
     return null;
