@@ -71,13 +71,13 @@ export default function ServerCompatBanner(props: Props) {
             isAdmin
               ? {
                   text:
-                    '{realm} is running Zulip Server {serverVersionRaw}, which is unsupported. Please upgrade your server as soon as possible.',
-                  values: { realm: realm.toString(), serverVersionRaw: zulipVersion.raw() },
+                    '{realm} is running Zulip Server {serverVersion}, which is unsupported. Please upgrade your server as soon as possible.',
+                  values: { realm: realm.toString(), serverVersion: zulipVersion.raw() },
                 }
               : {
                   text:
-                    '{realm} is running Zulip Server {serverVersionRaw}, which is unsupported. Please contact your administrator about upgrading.',
-                  values: { realm: realm.toString(), serverVersionRaw: zulipVersion.raw() },
+                    '{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.',
+                  values: { realm: realm.toString(), serverVersion: zulipVersion.raw() },
                 }
           }
         />
