@@ -263,8 +263,7 @@ export type RealmState = {|
 // https://github.com/zulip/zulip-mobile/issues/4009#issuecomment-619280681.
 export type ThemeName = 'default' | 'night';
 
-/**
- * The values for this mean:
+/** What browser the user has set to use for opening links in messages.
  *
  * * embedded: The in-app browser
  * * external: The user's default browser app
