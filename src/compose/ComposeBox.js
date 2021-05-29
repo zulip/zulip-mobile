@@ -45,7 +45,6 @@ import MentionWarnings from './MentionWarnings';
 import {
   getAuth,
   getIsAdmin,
-  getLastMessageTopic,
   getCaughtUpForNarrow,
   getStreamInNarrow,
   getVideoChatProvider,
@@ -67,7 +66,6 @@ type SelectorProps = {|
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
   draft: string,
-  lastMessageTopic: string,
   caughtUp: CaughtUp,
   videoChatProvider: VideoChatProvider | null,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
@@ -152,7 +150,7 @@ class ComposeBox extends PureComponent<Props, State> {
     isFocused: false,
     isMenuExpanded: false,
     height: 20,
-    topic: this.props.lastMessageTopic,
+    topic: '',
     message: this.props.draft,
     selection: { start: 0, end: 0 },
   };
@@ -268,13 +266,11 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleMessageFocus = () => {
-    this.setState((state, { lastMessageTopic }) => ({
-      ...state,
-      topic: state.topic || lastMessageTopic,
+    this.setState({
       isMessageFocused: true,
       isFocused: true,
       isMenuExpanded: false,
-    }));
+    });
   };
 
   handleMessageBlur = () => {
@@ -361,9 +357,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
-      const topic = nextProps.editMessage
-        ? nextProps.editMessage.topic
-        : nextProps.lastMessageTopic;
+      const topic = nextProps.editMessage ? nextProps.editMessage.topic : '';
       const message = nextProps.editMessage ? nextProps.editMessage.content : '';
       this.setMessageInputValue(message);
       this.setTopicInputValue(topic);
@@ -532,7 +526,6 @@ export default compose(
     isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
     isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
     draft: getDraftForNarrow(state, props.narrow),
-    lastMessageTopic: getLastMessageTopic(state, props.narrow),
     caughtUp: getCaughtUpForNarrow(state, props.narrow),
     stream: getStreamInNarrow(state, props.narrow),
     videoChatProvider: getVideoChatProvider(state),
