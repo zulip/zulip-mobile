@@ -91,7 +91,7 @@
   "Persian": "Перська",
   "Polish": "Польська",
   "Portuguese": "Портуґальська",
-  "Portuguese (Portugal)": "Portuguese (Portugal)",
+  "Portuguese (Portugal)": "Португальська (Португалія)",
   "Romanian": "Румунська",
   "Russian": "Російська",
   "Serbian": "Сербська",
@@ -221,7 +221,7 @@
   "Failed to send message": "Не вдалося надіслати повідомлення",
   "Message sent": "Повідомлення надіслано",
   "Couldn’t load information about {fullName}": "Не вдалося завантажити інформацію про {fullName}",
-  "What’s your status?": "What’s your status?",
+  "What’s your status?": "Який Ваш статус?",
   "Click to join video call": "Натисніть, щоб приєднатися до відеодзвінка",
   "📅 In a meeting": "На зустрічі",
   "🚌 Commuting": "Спілкуюся",
@@ -229,7 +229,7 @@
   "🌴 Vacationing": "Відпустка",
   "🏠 Working remotely": "Віддалено працюю",
   "Signed out": "Вийшов із системи",
-  "Remove account?": "Remove account?",
-  "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
-  "Remove account": "Remove account"
+  "Remove account?": "Видалити обліковий запис?",
+  "This will make the mobile app on this device forget {email} on {realmUrl}.": "Це змусить мобільний додаток на цьому пристрої забути {email} на {realmUrl}.",
+  "Remove account": "Видалити обліковий запис"
 }

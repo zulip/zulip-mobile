@@ -229,7 +229,7 @@
   "🌴 Vacationing": "🌴 Tatilde",
   "🏠 Working remotely": "🏠 Evden çalışıyor",
   "Signed out": "Çıkış yapıldı",
-  "Remove account?": "Remove account?",
-  "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
-  "Remove account": "Remove account"
+  "Remove account?": "Hesabı sil?",
+  "This will make the mobile app on this device forget {email} on {realmUrl}.": "Bu işlem {realmURl}'de bulunan  {email}'i bu cihazda unutmayı sağlar.",
+  "Remove account": "Hesabı sil"
 }

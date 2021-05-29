@@ -229,7 +229,7 @@
   "🌴 Vacationing": "🌴 Im Urlaub",
   "🏠 Working remotely": "🏠 Arbeite von zu Hause",
   "Signed out": "Abgemeldet",
-  "Remove account?": "Remove account?",
-  "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
-  "Remove account": "Remove account"
+  "Remove account?": "Konto löschen?",
+  "This will make the mobile app on this device forget {email} on {realmUrl}.": "Hierdurch wird die Mobil-App auf diesem Gerät {email} auf {realmUrl} vergessen.",
+  "Remove account": "Konto löschen"
 }

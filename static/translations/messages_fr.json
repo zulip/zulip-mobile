@@ -53,7 +53,7 @@
   "This time is in your timezone. Original text was “{originalText}”.": "Cette heure est dans votre fuseau horaire. Le texte original était  “{originalText}”.",
   "Mute topic": "Rendre le sujet muet",
   "Delete topic": "Supprimer le sujet",
-  "Are you sure you want to delete the topic “{topic}”?": "Êtes-vous sûr/e de vouloir supprimer le sujet “{topic}”?",
+  "Are you sure you want to delete the topic “{topic}”?": "Êtes-vous sûr de vouloir supprimer le sujet “{topic}”?",
   "This will also delete all messages in the topic.": "Cela supprimera aussi tous les messages du sujet.",
   "Unmute topic": "Ne plus rendre le sujet muet",
   "Mute stream": "Rendre le canal muet",
@@ -229,7 +229,7 @@
   "🌴 Vacationing": "En congés",
   "🏠 Working remotely": "En télétravail",
   "Signed out": "Déconnecté/e",
-  "Remove account?": "Remove account?",
-  "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
-  "Remove account": "Remove account"
+  "Remove account?": "Supprimer le compte?",
+  "This will make the mobile app on this device forget {email} on {realmUrl}.": "L'application mobile de cet appareil oubliera {email} sur {realmUrl}.",
+  "Remove account": "Supprimer le compte"
 }
