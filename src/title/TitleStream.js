@@ -29,6 +29,7 @@ import {
 } from '../selectors';
 import { showHeaderActionSheet } from '../message/messageActionSheet';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import { longPressHapticFeedback } from '../utils/hapticFeedbacks';
 
 type SelectorProps = {|
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
@@ -73,6 +74,7 @@ const TitleStream = (props: Props) => {
       onLongPress={
         isTopicNarrow(narrow)
           ? () => {
+              longPressHapticFeedback();
               showHeaderActionSheet({
                 showActionSheetWithOptions,
                 callbacks: { dispatch, _ },

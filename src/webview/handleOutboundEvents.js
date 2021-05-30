@@ -26,6 +26,7 @@ import {
 import { showHeaderActionSheet, showMessageActionSheet } from '../message/messageActionSheet';
 import { ensureUnreachable } from '../types';
 import { base64Utf8Decode } from '../utils/encoding';
+import { longPressHapticFeedback } from '../utils/hapticFeedbacks';
 
 type WebViewOutboundEventReady = {|
   type: 'ready',
@@ -267,9 +268,11 @@ export const handleWebViewOutboundEvent = (
       handleImage(props, event.src, event.messageId);
       break;
 
-    case 'longPress':
+    case 'longPress': {
+      longPressHapticFeedback();
       handleLongPress(props, _, event.target, event.messageId, event.href);
       break;
+    }
 
     case 'url':
       if (isUrlAnImage(event.href)) {
@@ -294,6 +297,7 @@ export const handleWebViewOutboundEvent = (
     case 'reactionDetails':
       {
         const { messageId, reactionName } = event;
+        longPressHapticFeedback();
         NavigationService.dispatch(navigateToMessageReactionScreen(messageId, reactionName));
       }
       break;
