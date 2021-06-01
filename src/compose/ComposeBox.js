@@ -323,7 +323,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const { dispatch, narrow, caughtUp, _ } = this.props;
     const { message } = this.state;
 
-    if (!caughtUp.newer) {
+    if (!caughtUp.newer && !isStreamNarrow(this.props.narrow)) {
       showErrorAlert(_('Failed to send message'));
       return;
     }
