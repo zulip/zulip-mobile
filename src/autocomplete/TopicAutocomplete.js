@@ -52,7 +52,7 @@ class TopicAutocomplete extends PureComponent<Props> {
   render() {
     const { isFocused, topics, text, onAutocomplete } = this.props;
 
-    if (!isFocused || text.length === 0) {
+    if (!isFocused) {
       return null;
     }
 
