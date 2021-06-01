@@ -172,10 +172,7 @@ class ComposeBox extends PureComponent<Props, State> {
     if (editMessage) {
       return isStreamOrTopicNarrow(narrow);
     }
-    if (!isStreamNarrow(narrow)) {
-      return false;
-    }
-    return this.state.isFocused;
+    return isStreamNarrow(narrow);
   };
 
   setMessageInputValue = (message: string) => {
@@ -472,7 +469,7 @@ class ComposeBox extends PureComponent<Props, State> {
             onExpandContract={this.handleComposeMenuToggle}
           />
           <View style={this.styles.composeText}>
-            {this.getCanSelectTopic() && (
+            {this.getCanSelectTopic() && this.state.isFocused && (
               <Input
                 style={[this.styles.topicInput, { backgroundColor: this.context.backgroundColor }]}
                 underlineColorAndroid="transparent"
