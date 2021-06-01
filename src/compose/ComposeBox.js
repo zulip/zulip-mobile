@@ -95,7 +95,7 @@ type State = {|
   isFocused: boolean,
 
   isMenuExpanded: boolean,
-  topic: string,
+  topic: ?string,
   message: string,
   height: number,
   selection: InputSelection,
@@ -144,13 +144,21 @@ class ComposeBox extends PureComponent<Props, State> {
 
   inputBlurTimeoutId: ?TimeoutID = null;
 
+  getCanSelectTopic = () => {
+    const { editMessage, narrow } = this.props;
+    if (editMessage) {
+      return isStreamOrTopicNarrow(narrow);
+    }
+    return isStreamNarrow(narrow);
+  };
+
   state = {
     isMessageFocused: false,
     isTopicFocused: false,
     isFocused: false,
     isMenuExpanded: false,
     height: 20,
-    topic: '',
+    topic: this.getCanSelectTopic() ? '' : null,
     message: this.props.draft,
     selection: { start: 0, end: 0 },
   };
@@ -165,14 +173,6 @@ class ComposeBox extends PureComponent<Props, State> {
       ...state,
       isFocused: state.isMessageFocused || state.isTopicFocused,
     }));
-  };
-
-  getCanSelectTopic = () => {
-    const { editMessage, narrow } = this.props;
-    if (editMessage) {
-      return isStreamOrTopicNarrow(narrow);
-    }
-    return isStreamNarrow(narrow);
   };
 
   setMessageInputValue = (message: string) => {
@@ -304,10 +304,10 @@ class ComposeBox extends PureComponent<Props, State> {
 
   getDestinationNarrow = (): Narrow => {
     const { narrow } = this.props;
-    if (isStreamNarrow(narrow)) {
+    const topic = this.state.topic;
+    if (isStreamNarrow(narrow) && topic != null) {
       const streamName = streamNameOfNarrow(narrow);
-      const topic = this.state.topic.trim();
-      return topicNarrow(streamName, topic || '(no topic)');
+      return topicNarrow(streamName, topic.trim() || '(no topic)');
     }
     return narrow;
   };
@@ -339,7 +339,7 @@ class ComposeBox extends PureComponent<Props, State> {
     }
     const { message, topic } = this.state;
     const content = editMessage.content !== message ? message : undefined;
-    const subject = topic !== editMessage.topic ? topic : undefined;
+    const subject = topic !== editMessage.topic && topic != null ? topic : undefined;
     if ((content !== undefined && content !== '') || (subject !== undefined && subject !== '')) {
       api.updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
         showErrorAlert(_('Failed to edit message'), error.message);
@@ -448,12 +448,14 @@ class ComposeBox extends PureComponent<Props, State> {
         */}
         <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
         <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
-          <TopicAutocomplete
-            isFocused={isTopicFocused}
-            narrow={narrow}
-            text={topic}
-            onAutocomplete={this.handleTopicAutocomplete}
-          />
+          {topic != null && (
+            <TopicAutocomplete
+              isFocused={isTopicFocused}
+              narrow={narrow}
+              text={topic}
+              onAutocomplete={this.handleTopicAutocomplete}
+            />
+          )}
           <AutocompleteView
             isFocused={this.state.isMessageFocused}
             selection={selection}
