@@ -299,9 +299,11 @@ class ComposeBoxInner extends PureComponent<Props, State> {
 
   handleMessageChange = (message: string) => {
     this.setState({ message, isMenuExpanded: false });
-    const { dispatch, narrow } = this.props;
+    const { dispatch, isEditing, narrow } = this.props;
     dispatch(sendTypingStart(narrow));
-    dispatch(draftUpdate(narrow, message));
+    if (!isEditing) {
+      dispatch(draftUpdate(narrow, message));
+    }
   };
 
   // See JSDoc on 'onAutocomplete' in 'AutocompleteView.js'.
