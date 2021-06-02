@@ -30,7 +30,7 @@ import { Centerer, Screen, ZulipButton } from '../common';
 import RealmInfo from './RealmInfo';
 import { encodeParamsForUrl } from '../utils/url';
 import * as webAuth from './webAuth';
-import { loginSuccess, navigateToDevAuth, navigateToPasswordAuth } from '../actions';
+import { navigateToDevAuth, navigateToPasswordAuth } from '../actions';
 import IosCompliantAppleAuthButton from './IosCompliantAppleAuthButton';
 import { openLinkEmbedded } from '../utils/openLink';
 
@@ -198,26 +198,7 @@ class AuthScreen extends PureComponent<Props> {
     Linking.removeEventListener('url', this.endWebAuth);
   };
 
-  /**
-   * Hand control to the browser for an external auth method.
-   *
-   * @param url The `login_url` string, a relative URL, from an
-   * `external_authentication_method` object from `/server_settings`.
-   */
-  beginWebAuth = async (url: string) => {
-    await webAuth.generateOtp();
-    webAuth.openBrowser(new URL(url, this.props.realm).toString());
-  };
-
-  endWebAuth = (event: LinkingEvent) => {
-    webAuth.closeBrowser();
-
-    const { dispatch, realm } = this.props;
-    const auth = webAuth.authFromCallbackUrl(event.url, realm);
-    if (auth) {
-      dispatch(loginSuccess(auth.realm, auth.email, auth.apiKey));
-    }
-  };
+  endWebAuth = (event: LinkingEvent) => webAuth.endWebAuth(event, this.props.dispatch);
 
   handleDevAuth = () => {
     NavigationService.dispatch(navigateToDevAuth({ realm: this.props.realm }));
@@ -292,7 +273,7 @@ class AuthScreen extends PureComponent<Props> {
     } else if (method.name === 'apple' && (await this.canUseNativeAppleFlow())) {
       this.handleNativeAppleAuth();
     } else {
-      this.beginWebAuth(action.url);
+      webAuth.beginWebAuth(action.url, this.props.realm);
     }
   };
 

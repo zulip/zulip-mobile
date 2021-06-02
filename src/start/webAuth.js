@@ -2,10 +2,12 @@
 import { NativeModules, Platform } from 'react-native';
 import SafariView from 'react-native-safari-view';
 
-import type { Auth } from '../types';
+import invariant from 'invariant';
+import type { Auth, Dispatch, LinkingEvent } from '../types';
 import { openLinkEmbedded } from '../utils/openLink';
 import { tryParseUrl } from '../utils/url';
 import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
+import { loginSuccess } from '../account/accountActions';
 
 /*
   Logic for authenticating the user to Zulip through a browser.
@@ -52,11 +54,11 @@ export const generateOtp = async (): Promise<string> => {
   return otp;
 };
 
-export const openBrowser = (url: string) => {
+const openBrowser = (url: string) => {
   openLinkEmbedded(`${url}?mobile_flow_otp=${otp}`);
 };
 
-export const closeBrowser = () => {
+const closeBrowser = () => {
   if (Platform.OS === 'android') {
     NativeModules.CloseAllCustomTabsAndroid.closeAll();
   } else {
@@ -109,4 +111,43 @@ export const authFromCallbackUrl = (
   }
 
   return null;
+};
+
+/**
+ * Hand control to the browser for an external auth method.
+ *
+ * @param url The `login_url` string, a relative URL, from an
+ * `external_authentication_method` object from `/server_settings`.
+ * @param realm URL of the realm for which webAuth needs to begin.
+ */
+export const beginWebAuth = async (url: string, realm: URL) => {
+  await generateOtp();
+  openBrowser(new URL(url, realm).toString());
+};
+
+/**
+ * Meant to be triggered by incoming app link that contains auth
+ * information.
+ *
+ * @param event React Native Linking 'url' event.
+ * @param dispatch function to dispatch action.
+ */
+export const endWebAuth = (event: LinkingEvent, dispatch: Dispatch) => {
+  closeBrowser();
+
+  const encodedRealm = event.url
+    .split('?')
+    .pop()
+    .split('&')
+    .map(param => param.split('='))
+    .find(x => x[0] === 'realm');
+  invariant(
+    encodedRealm !== undefined,
+    'URL received from web auth must contain realm as parameter.',
+  );
+  const decodedRealm = new URL(decodeURIComponent(encodedRealm[1]));
+  const auth = authFromCallbackUrl(event.url, decodedRealm);
+  if (auth) {
+    dispatch(loginSuccess(auth.realm, auth.email, auth.apiKey));
+  }
 };
