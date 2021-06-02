@@ -15,7 +15,6 @@ import { ThemeContext } from '../styles';
 import type {
   Auth,
   Narrow,
-  EditMessage,
   InputSelection,
   UserOrBot,
   Dispatch,
@@ -68,9 +67,10 @@ type SelectorProps = {|
 
 type OuterProps = $ReadOnly<{|
   narrow: Narrow,
-  editMessage: EditMessage | null,
 
   onSend: (string, Narrow) => void,
+
+  isEditing: boolean,
 
   /** The contents of the message that the ComposeBox should contain when it's first rendered */
   initialMessage?: string,
@@ -182,8 +182,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   getCanSelectTopic = () => {
-    const { editMessage, narrow } = this.props;
-    if (editMessage) {
+    const { isEditing, narrow } = this.props;
+    if (isEditing) {
       return isStreamOrTopicNarrow(narrow);
     }
     if (!isStreamNarrow(narrow)) {
@@ -368,8 +368,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   getDestinationNarrow = (): Narrow => {
-    const { narrow, editMessage } = this.props;
-    if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && !!editMessage)) {
+    const { narrow, isEditing } = this.props;
+    if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
       const streamName = streamNameOfNarrow(narrow);
       const topic = this.state.topic.trim();
       return topicNarrow(streamName, topic || '(no topic)');
@@ -444,7 +444,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       ownUserId,
       narrow,
       allUsersById,
-      editMessage,
+      isEditing,
       insets,
       isAdmin,
       isAnnouncementOnly,
@@ -530,7 +530,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
           <FloatingActionButton
             accessibilityLabel="Send message"
             style={this.styles.composeSendButton}
-            Icon={editMessage === null ? IconSend : IconDone}
+            Icon={isEditing ? IconDone : IconSend}
             size={32}
             disabled={message.trim().length === 0 || this.state.numUploading > 0}
             onPress={this.handleSend}
