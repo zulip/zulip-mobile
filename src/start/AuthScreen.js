@@ -175,8 +175,6 @@ type Props = $ReadOnly<{|
   realm: URL,
 |}>;
 
-let otp = '';
-
 class AuthScreen extends PureComponent<Props> {
   componentDidMount = () => {
     Linking.addEventListener('url', this.endWebAuth);
@@ -207,15 +205,15 @@ class AuthScreen extends PureComponent<Props> {
    * `external_authentication_method` object from `/server_settings`.
    */
   beginWebAuth = async (url: string) => {
-    otp = await webAuth.generateOtp();
-    webAuth.openBrowser(new URL(url, this.props.realm).toString(), otp);
+    await webAuth.generateOtp();
+    webAuth.openBrowser(new URL(url, this.props.realm).toString());
   };
 
   endWebAuth = (event: LinkingEvent) => {
     webAuth.closeBrowser();
 
     const { dispatch, realm } = this.props;
-    const auth = webAuth.authFromCallbackUrl(event.url, otp, realm);
+    const auth = webAuth.authFromCallbackUrl(event.url, realm);
     if (auth) {
       dispatch(loginSuccess(auth.realm, auth.email, auth.apiKey));
     }
@@ -249,7 +247,7 @@ class AuthScreen extends PureComponent<Props> {
       throw new Error('`state` mismatch');
     }
 
-    otp = await webAuth.generateOtp();
+    const otp = await webAuth.generateOtp();
 
     const params = encodeParamsForUrl({
       mobile_flow_otp: otp,

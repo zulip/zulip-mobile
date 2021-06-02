@@ -27,6 +27,8 @@ import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
        https://chat.zulip.org/#narrow/stream/16-desktop/topic/desktop.20app.20OAuth/near/803919
  */
 
+let otp = '';
+
 export const generateRandomToken = async (): Promise<string> => {
   if (Platform.OS === 'android') {
     return new Promise((resolve, reject) => {
@@ -45,9 +47,12 @@ export const generateRandomToken = async (): Promise<string> => {
 
 // Generate a one time pad (OTP) which the server XORs the API key with
 // in its response to protect against credentials intercept
-export const generateOtp = async (): Promise<string> => generateRandomToken();
+export const generateOtp = async (): Promise<string> => {
+  otp = await generateRandomToken();
+  return otp;
+};
 
-export const openBrowser = (url: string, otp: string) => {
+export const openBrowser = (url: string) => {
   openLinkEmbedded(`${url}?mobile_flow_otp=${otp}`);
 };
 
@@ -64,9 +69,16 @@ export const closeBrowser = () => {
  *
  * Corresponds to `otp_decrypt_api_key` on the server.
  */
-const extractApiKey = (encoded: string, otp: string) => hexToAscii(xorHexStrings(encoded, otp));
+const extractApiKey = (encoded: string) => hexToAscii(xorHexStrings(encoded, otp));
 
-export const authFromCallbackUrl = (callbackUrl: string, otp: string, realm: URL): Auth | null => {
+export const authFromCallbackUrl = (
+  callbackUrl: string,
+  realm: URL,
+  customOtp?: string,
+): Auth | null => {
+  if (customOtp !== undefined) {
+    otp = customOtp;
+  }
   // callback format expected: zulip://login?realm={}&email={}&otp_encrypted_api_key={}
   const url = tryParseUrl(callbackUrl);
   if (!url) {
@@ -92,7 +104,7 @@ export const authFromCallbackUrl = (callbackUrl: string, otp: string, realm: URL
     && otpEncryptedApiKey !== null
     && otpEncryptedApiKey.length === otp.length
   ) {
-    const apiKey = extractApiKey(otpEncryptedApiKey, otp);
+    const apiKey = extractApiKey(otpEncryptedApiKey);
     return { realm, email, apiKey };
   }
 
