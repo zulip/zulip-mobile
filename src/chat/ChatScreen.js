@@ -192,7 +192,7 @@ export default function ChatScreen(props: Props) {
       {showComposeBox && (
         <ComposeBox
           narrow={narrow}
-          editMessage={editMessage}
+          isEditing={editMessage !== null}
           initialTopic={editMessage ? editMessage.topic : undefined}
           initialMessage={editMessage ? editMessage.content : draft}
           onSend={sendCallback}
