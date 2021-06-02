@@ -16,6 +16,7 @@ import {
   notificationOnAppActive,
 } from '../notification';
 import { ShareReceivedListener, handleInitialShare } from '../sharing';
+import { UrlListener, handleInitialUrl } from '../deeplink';
 import { appOnline, appOrientation } from '../actions';
 import PresenceHeartbeat from '../presence/PresenceHeartbeat';
 
@@ -117,6 +118,7 @@ class AppEventHandlers extends PureComponent<Props> {
 
   notificationListener = new NotificationListener(this.props.dispatch);
   shareListener = new ShareReceivedListener(this.props.dispatch);
+  urlListener = new UrlListener(this.props.dispatch);
 
   handleMemoryWarning = () => {
     // Release memory here
@@ -126,6 +128,7 @@ class AppEventHandlers extends PureComponent<Props> {
     const { dispatch } = this.props;
     handleInitialNotification(dispatch);
     handleInitialShare(dispatch);
+    handleInitialUrl(dispatch);
 
     this.netInfoDisconnectCallback = NetInfo.addEventListener(this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
@@ -133,6 +136,7 @@ class AppEventHandlers extends PureComponent<Props> {
     ScreenOrientation.addOrientationChangeListener(this.handleOrientationChange);
     this.notificationListener.start();
     this.shareListener.start();
+    this.urlListener.start();
   }
 
   componentWillUnmount() {
@@ -145,6 +149,7 @@ class AppEventHandlers extends PureComponent<Props> {
     ScreenOrientation.removeOrientationChangeListeners();
     this.notificationListener.stop();
     this.shareListener.stop();
+    this.urlListener.stop();
   }
 
   render() {

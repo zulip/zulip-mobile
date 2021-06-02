@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { Linking, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
@@ -14,7 +14,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import config from '../config';
-import type { Dispatch, LinkingEvent } from '../types';
+import type { Dispatch } from '../types';
 import {
   IconApple,
   IconPrivate,
@@ -177,13 +177,6 @@ type Props = $ReadOnly<{|
 
 class AuthScreen extends PureComponent<Props> {
   componentDidMount = () => {
-    Linking.addEventListener('url', this.endWebAuth);
-    Linking.getInitialURL().then((initialUrl: ?string) => {
-      if (initialUrl !== null && initialUrl !== undefined) {
-        this.endWebAuth({ url: initialUrl });
-      }
-    });
-
     const { serverSettings } = this.props.route.params;
     const authList = activeAuthentications(
       serverSettings.authentication_methods,
@@ -193,12 +186,6 @@ class AuthScreen extends PureComponent<Props> {
       this.handleAuth(authList[0]);
     }
   };
-
-  componentWillUnmount = () => {
-    Linking.removeEventListener('url', this.endWebAuth);
-  };
-
-  endWebAuth = (event: LinkingEvent) => webAuth.endWebAuth(event, this.props.dispatch);
 
   handleDevAuth = () => {
     NavigationService.dispatch(navigateToDevAuth({ realm: this.props.realm }));
