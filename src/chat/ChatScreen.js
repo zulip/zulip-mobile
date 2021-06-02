@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React from 'react';
+import React, { useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -23,6 +23,10 @@ import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
 import { getFirstUnreadIdInNarrow } from '../message/messageSelectors';
 import { getDraftForNarrow } from '../drafts/draftsSelectors';
+import { addToOutbox } from '../actions';
+import { getCaughtUpForNarrow } from '../selectors';
+import { showErrorAlert } from '../utils/info';
+import { TranslationContext } from '../boot/TranslationProvider';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -122,6 +126,22 @@ export default function ChatScreen(props: Props): Node {
   const sayNoMessages = haveNoMessages && !isFetching;
   const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
 
+  const dispatch = useDispatch();
+  const caughtUp = useSelector(state => getCaughtUpForNarrow(state, narrow));
+  const _ = useContext(TranslationContext);
+
+  const sendMessage = useCallback(
+    (message: string, destinationNarrow: Narrow) => {
+      if (!caughtUp.newer) {
+        showErrorAlert(_('Failed to send message'));
+        return;
+      }
+
+      dispatch(addToOutbox(destinationNarrow, message));
+    },
+    [_, caughtUp.newer, dispatch],
+  );
+
   return (
     <KeyboardAvoider style={[componentStyles.screen, { backgroundColor }]} behavior="padding">
       <ChatNavBar narrow={narrow} editMessage={editMessage} />
@@ -152,6 +172,7 @@ export default function ChatScreen(props: Props): Node {
           editMessage={editMessage}
           completeEditMessage={() => setEditMessage(null)}
           initialMessage={draft}
+          onSend={sendMessage}
         />
       )}
     </KeyboardAvoider>
