@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Platform, View, findNodeHandle } from 'react-native';
-import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
 import { type EdgeInsets } from 'react-native-safe-area-context';
 import { compose } from 'redux';
@@ -91,7 +90,6 @@ type State = {|
   isMenuExpanded: boolean,
   topic: string,
   message: string,
-  height: number,
   selection: InputSelection,
 |};
 
@@ -148,7 +146,6 @@ class ComposeBox extends PureComponent<Props, State> {
     isTopicFocused: false,
     isFocused: false,
     isMenuExpanded: false,
-    height: 20,
     topic:
       this.props.initialTopic !== undefined
         ? this.props.initialTopic
@@ -223,12 +220,6 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState(({ isMenuExpanded }) => ({
       isMenuExpanded: !isMenuExpanded,
     }));
-  };
-
-  handleLayoutChange = (event: LayoutEvent) => {
-    this.setState({
-      height: event.nativeEvent.layout.height,
-    });
   };
 
   handleTopicChange = (topic: string) => {
@@ -352,7 +343,7 @@ class ComposeBox extends PureComponent<Props, State> {
     },
     autocompleteWrapper: {
       position: 'absolute',
-      bottom: 0,
+      bottom: '100%',
       width: '100%',
     },
     composeBox: {
@@ -383,7 +374,7 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   render() {
-    const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
+    const { isTopicFocused, isMenuExpanded, message, topic, selection } = this.state;
     const {
       ownUserId,
       narrow,
@@ -419,7 +410,7 @@ class ComposeBox extends PureComponent<Props, State> {
           `MentionWarnings` should use a type-checked `connect`
         */}
         <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
-        <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
+        <View style={[this.styles.autocompleteWrapper]}>
           <TopicAutocomplete
             isFocused={isTopicFocused}
             narrow={narrow}
@@ -433,7 +424,7 @@ class ComposeBox extends PureComponent<Props, State> {
             onAutocomplete={this.handleMessageAutocomplete}
           />
         </View>
-        <View style={[this.styles.composeBox, style]} onLayout={this.handleLayoutChange}>
+        <View style={[this.styles.composeBox, style]}>
           <ComposeMenu
             destinationNarrow={this.getDestinationNarrow()}
             expanded={isMenuExpanded}
