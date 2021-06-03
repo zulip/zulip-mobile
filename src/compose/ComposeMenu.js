@@ -4,7 +4,6 @@ import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import ImagePicker from 'react-native-image-picker';
 
-import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
@@ -12,14 +11,13 @@ import { BRAND_COLOR, createStyleSheet } from '../styles';
 import {
   IconPlusCircle,
   IconLeft,
-  IconPeople,
   IconImage,
   IconCamera,
   IconFile,
   IconVideo,
 } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
-import { navigateToCreateGroup, uploadFile } from '../actions';
+import { uploadFile } from '../actions';
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
@@ -160,7 +158,7 @@ class ComposeMenu extends PureComponent<Props> {
   render() {
     const { expanded, insertVideoCallLink, onExpandContract } = this.props;
     const numIcons =
-      3 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
+      2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
 
     return (
       <View style={this.styles.composeMenu}>
@@ -171,13 +169,6 @@ class ComposeMenu extends PureComponent<Props> {
           visible={expanded}
         >
           <View style={this.styles.composeMenu}>
-            <IconPeople
-              style={this.styles.composeMenuButton}
-              size={24}
-              onPress={() => {
-                NavigationService.dispatch(navigateToCreateGroup());
-              }}
-            />
             {Platform.OS === 'android' && (
               <IconFile
                 style={this.styles.composeMenuButton}
