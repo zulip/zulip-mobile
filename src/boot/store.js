@@ -372,7 +372,7 @@ const store: Store<GlobalState, Action> = createStore(
     // where the live state just gets filled in with the corresponding parts
     // of the just-loaded state from disk.  See upstream docs:
     //   https://github.com/rt2zz/redux-persist/tree/v4.10.2#autorehydrateconfig
-    autoRehydrate(),
+    autoRehydrate({ log: true }),
   ),
 );
 

@@ -84,9 +84,7 @@ export default function createPersistor (store, config) {
           let value = data
           state[key] = value
         } catch (err) {
-          if (process.env.NODE_ENV !== 'production') {
-            logging.warn('Error rehydrating data for a key', { key, err })
-          }
+          logging.warn('Error rehydrating data for a key', { key, err })
         }
       })
     } else state = incoming
@@ -115,7 +113,7 @@ export default function createPersistor (store, config) {
 
 function warnIfSetError (key) {
   return function setError (err) {
-    if (err && process.env.NODE_ENV !== 'production') { logging.warn('Error storing data for key:', key, err) }
+    if (err) { logging.warn('Error storing data for key:', key, err) }
   }
 }
 
