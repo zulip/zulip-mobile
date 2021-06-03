@@ -44,6 +44,8 @@ export const isInternalLink = (url: string, realm: URL): boolean => {
   );
 };
 
+const isDeepLink = (url: string): boolean => url.startsWith('zulip://');
+
 /**
  * PRIVATE -- exported only for tests.
  *
@@ -56,7 +58,7 @@ export const isInternalLink = (url: string, realm: URL): boolean => {
 export const isMessageLink = (url: string, realm: URL): boolean =>
   isInternalLink(url, realm) && url.includes('near');
 
-type LinkType = 'external' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
+type LinkType = 'other' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
 /**
  * PRIVATE -- exported only for tests.
@@ -68,8 +70,8 @@ type LinkType = 'external' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
 export const getLinkType = (url: string, realm: URL): LinkType => {
-  if (!isInternalLink(url, realm)) {
-    return 'external';
+  if (!isInternalLink(url, realm) && !isDeepLink(url)) {
+    return 'other';
   }
 
   const paths = getPathsFromUrl(url, realm);

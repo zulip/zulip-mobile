@@ -2,7 +2,7 @@
 import * as NavigationService from '../nav/NavigationService';
 import type { Narrow, Dispatch, GetState } from '../types';
 import { getAuth } from '../selectors';
-import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
+import { getMessageIdFromLink, getNarrowFromLink } from '../utils/linkProcessors';
 import { openLinkWithUserPreference } from '../utils/openLink';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
