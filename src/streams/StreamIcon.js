@@ -13,14 +13,7 @@ type Props = $ReadOnly<{|
   style?: TextStyleProp,
 |}>;
 
-export default ({
-  color,
-  style,
-  isPrivate = false,
-  isMuted = false,
-  isSubscribed = true,
-  size,
-}: Props) => {
+export default ({ color, style, isPrivate, isMuted, isSubscribed, size }: Props) => {
   const StreamIcon = isSubscribed && isMuted ? IconMute : isPrivate ? IconPrivate : IconStream;
 
   return <StreamIcon size={size} color={color} style={style} />;
