@@ -70,8 +70,6 @@ function defaultStateReconciler (state, inboundState, reducedState, log) {
     // otherwise take the inboundState
     if (isStatePlainEnough(inboundState[key]) && isStatePlainEnough(state[key])) newState[key] = {...state[key], ...inboundState[key]} // shallow merge
     else newState[key] = inboundState[key] // hard set
-
-    if (log) logging.warn('redux-persist/autoRehydrate: rehydration for a key complete.', { key, newStateValue: newState[key] })
   })
   return newState
 }
