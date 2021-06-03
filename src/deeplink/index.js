@@ -2,11 +2,22 @@
 import { Linking } from 'react-native';
 import * as webAuth from '../start/webAuth';
 import type { Dispatch, LinkingEvent } from '../types';
+import { navigateViaDeepLink } from './urlActions';
+
+const handleUrl = (url: URL, dispatch: Dispatch) => {
+  switch (url.hostname) {
+    case 'login':
+      webAuth.endWebAuth({ url: url.toString() }, dispatch);
+      break;
+    default:
+      dispatch(navigateViaDeepLink(url));
+  }
+};
 
 export const handleInitialUrl = async (dispatch: Dispatch) => {
   const initialUrl: ?string = await Linking.getInitialURL();
   if (initialUrl != null) {
-    webAuth.endWebAuth({ url: initialUrl }, dispatch);
+    handleUrl(new URL(initialUrl), dispatch);
   }
 };
 
@@ -20,7 +31,7 @@ export class UrlListener {
 
   /** Private. */
   handleUrlEvent(event: LinkingEvent) {
-    webAuth.endWebAuth(event, this.dispatch);
+    handleUrl(new URL(event.url), this.dispatch);
   }
 
   /** Private. */
