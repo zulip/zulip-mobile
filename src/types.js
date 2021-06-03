@@ -394,3 +394,16 @@ export type SharedFile = {|
  * The data we get when the user "shares" to Zulip from another app.
  */
 export type SharedData = SharedText | SharedImage | SharedFile;
+
+/**
+ * An event emitted by `Linking`.
+ *
+ * Determined by reading the implementation source code, and documentation:
+ *   https://reactnative.dev/docs/linking
+ *
+ * TODO move this to a libdef, and/or get an explicit type into upstream.
+ */
+export type LinkingEvent = {
+  url: string,
+  ...
+};

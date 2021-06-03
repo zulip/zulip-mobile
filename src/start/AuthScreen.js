@@ -14,7 +14,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import config from '../config';
-import type { Dispatch } from '../types';
+import type { Dispatch, LinkingEvent } from '../types';
 import {
   IconApple,
   IconPrivate,
@@ -176,19 +176,6 @@ type Props = $ReadOnly<{|
 |}>;
 
 let otp = '';
-
-/**
- * An event emitted by `Linking`.
- *
- * Determined by reading the implementation source code, and documentation:
- *   https://reactnative.dev/docs/linking
- *
- * TODO move this to a libdef, and/or get an explicit type into upstream.
- */
-type LinkingEvent = {
-  url: string,
-  ...
-};
 
 class AuthScreen extends PureComponent<Props> {
   componentDidMount = () => {
