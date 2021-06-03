@@ -1,3 +1,5 @@
+import * as logging from '../../utils/logging';
+
 import { KEY_PREFIX, REHYDRATE } from './constants'
 import purgeStoredState from './purgeStoredState'
 import stringify from 'json-stringify-safe'
@@ -82,7 +84,9 @@ export default function createPersistor (store, config) {
           let value = data
           state[key] = value
         } catch (err) {
-          if (process.env.NODE_ENV !== 'production') console.warn(`Error rehydrating data for key "${key}"`, subState, err)
+          if (process.env.NODE_ENV !== 'production') {
+            logging.warn('Error rehydrating data for a key', { key, subState, err })
+          }
         }
       })
     } else state = incoming
@@ -111,7 +115,7 @@ export default function createPersistor (store, config) {
 
 function warnIfSetError (key) {
   return function setError (err) {
-    if (err && process.env.NODE_ENV !== 'production') { console.warn('Error storing data for key:', key, err) }
+    if (err && process.env.NODE_ENV !== 'production') { logging.warn('Error storing data for key:', key, err) }
   }
 }
 

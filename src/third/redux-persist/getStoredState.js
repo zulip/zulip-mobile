@@ -1,3 +1,5 @@
+import * as logging from '../../utils/logging';
+
 import { KEY_PREFIX } from './constants'
 
 export default function getStoredState (config, onComplete) {
@@ -27,7 +29,7 @@ export default function getStoredState (config, onComplete) {
     }
 
     if (err) {
-      if (process.env.NODE_ENV !== 'production') console.warn('redux-persist/getStoredState: Error in storage.getAllKeys')
+      if (process.env.NODE_ENV !== 'production') logging.warn('redux-persist/getStoredState: Error in storage.getAllKeys')
       complete(err)
       return
     }
@@ -46,7 +48,7 @@ export default function getStoredState (config, onComplete) {
         } catch (e) {
           err = e
         }
-        if (err && process.env.NODE_ENV !== 'production') console.warn('redux-persist/getStoredState: Error restoring data for key:', key, err)
+        if (err && process.env.NODE_ENV !== 'production') logging.warn('redux-persist/getStoredState: Error restoring data for a key.', { key, err })
         else restoredState[key] = rehydrate(key, serialized)
         completionCount += 1
         if (completionCount === restoreCount) complete(null, restoredState)
@@ -61,7 +63,7 @@ export default function getStoredState (config, onComplete) {
       let data = deserializer(serialized)
       state = data
     } catch (err) {
-      if (process.env.NODE_ENV !== 'production') console.warn('redux-persist/getStoredState: Error restoring data for key:', key, err)
+      if (process.env.NODE_ENV !== 'production') logging.warn('redux-persist/getStoredState: Error restoring data for a key.', { key, err })
     }
 
     return state

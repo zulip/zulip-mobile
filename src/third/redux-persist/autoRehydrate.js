@@ -1,3 +1,5 @@
+import * as logging from '../../utils/logging';
+
 import { REHYDRATE } from './constants'
 import isStatePlainEnough from './utils/isStatePlainEnough'
 
@@ -37,11 +39,11 @@ export default function autoRehydrate (config = {}) {
 function logPreRehydrate (preRehydrateActions) {
   const concernedActions = preRehydrateActions.slice(1)
   if (concernedActions.length > 0) {
-    console.log(`
-      redux-persist/autoRehydrate: %d actions were fired before rehydration completed. This can be a symptom of a race
+    logging.warn(`
+      redux-persist/autoRehydrate: ${concernedActions.length} actions were fired before rehydration completed. This can be a symptom of a race
       condition where the rehydrate action may overwrite the previously affected state. Consider running these actions
-      after rehydration:
-    `, concernedActions.length, concernedActions)
+      after rehydration.
+    `, { concernedActionTypes: concernedActions.map(a => a.type) })
   }
 }
 
@@ -54,13 +56,13 @@ function defaultStateReconciler (state, inboundState, reducedState, log) {
 
     // if initial state is an object but inbound state is null/undefined, skip
     if (typeof state[key] === 'object' && !inboundState[key]) {
-      if (log) console.log('redux-persist/autoRehydrate: sub state for key `%s` is falsy but initial state is an object, skipping autoRehydrate.', key)
+      if (log) logging.warn('redux-persist/autoRehydrate: sub state for a key is falsy but initial state is an object, skipping autoRehydrate.', { key })
       return
     }
 
     // if reducer modifies substate, skip auto rehydration
     if (state[key] !== reducedState[key]) {
-      if (log) console.log('redux-persist/autoRehydrate: sub state for key `%s` modified, skipping autoRehydrate.', key)
+      if (log) logging.warn('redux-persist/autoRehydrate: sub state for a key modified, skipping autoRehydrate.', { key })
       newState[key] = reducedState[key]
       return
     }
@@ -69,7 +71,7 @@ function defaultStateReconciler (state, inboundState, reducedState, log) {
     if (isStatePlainEnough(inboundState[key]) && isStatePlainEnough(state[key])) newState[key] = {...state[key], ...inboundState[key]} // shallow merge
     else newState[key] = inboundState[key] // hard set
 
-    if (log) console.log('redux-persist/autoRehydrate: key `%s`, rehydrated to ', key, newState[key])
+    if (log) logging.warn('redux-persist/autoRehydrate: rehydration for a key complete.', { key, newStateValue: newState[key] })
   })
   return newState
 }

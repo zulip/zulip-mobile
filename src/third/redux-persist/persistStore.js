@@ -1,3 +1,4 @@
+import * as logging from '../../utils/logging';
 import { cacheKeys } from '../../boot/store';
 
 import { REHYDRATE } from './constants'
@@ -9,7 +10,7 @@ export default function persistStore (store, config = {}, onComplete) {
   // defaults
   // @TODO remove shouldRestore
   const shouldRestore = !config.skipRestore
-  if (process.env.NODE_ENV !== 'production' && config.skipRestore) console.warn('redux-persist: config.skipRestore has been deprecated. If you want to skip restoration use `createPersistor` instead')
+  if (process.env.NODE_ENV !== 'production' && config.skipRestore) logging.warn('redux-persist: config.skipRestore has been deprecated. If you want to skip restoration use `createPersistor` instead')
 
   let purgeKeys = null
 

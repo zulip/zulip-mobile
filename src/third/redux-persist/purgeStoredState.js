@@ -1,3 +1,5 @@
+import * as logging from '../../utils/logging';
+
 import { KEY_PREFIX } from './constants'
 
 export default function purgeStoredState (config, keys) {
@@ -19,7 +21,7 @@ export default function purgeStoredState (config, keys) {
           err = e
         }
         if (err) {
-          if (process.env.NODE_ENV !== 'production') console.warn('redux-persist: error during purgeStoredState in storage.getAllKeys')
+          if (process.env.NODE_ENV !== 'production') logging.warn('redux-persist: error during purgeStoredState in storage.getAllKeys')
           reject(err)
         } else {
           resolve(purgeStoredState(config, allKeys.filter((key) => key.indexOf(keyPrefix) === 0).map((key) => key.slice(keyPrefix.length))))
@@ -40,6 +42,6 @@ export default function purgeStoredState (config, keys) {
 
 function warnIfRemoveError (key) {
   return function removeError (err) {
-    if (err && process.env.NODE_ENV !== 'production') { console.warn('Error storing data for key:', key, err) }
+    if (err && process.env.NODE_ENV !== 'production') { logging.warn('Error storing data for a key.', { key, err }) }
   }
 }
