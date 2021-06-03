@@ -62,16 +62,21 @@ export default class StreamList extends PureComponent<Props> {
         extraData={unreadByStream}
         initialNumToRender={20}
         keyExtractor={item => item.stream_id}
-        renderItem={({ item }) => (
+        // See https://github.com/zulip/zulip-mobile/pull/4718#discussion_r627779508
+        // for details on the FlowFixMe comments below.
+        renderItem={({ item }: { item: PseudoSubscription }) => (
           <StreamItem
             name={item.name}
             iconSize={16}
             isPrivate={item.invite_only}
             description={showDescriptions ? item.description : ''}
+            // $FlowFixMe[prop-missing]
             color={item.color}
             unreadCount={unreadByStream[item.stream_id]}
+            // $FlowFixMe[prop-missing]
             isMuted={item.in_home_view === false} // if 'undefined' is not muted
             showSwitch={showSwitch}
+            // $FlowFixMe[prop-missing]
             isSubscribed={item.subscribed}
             onPress={onPress}
             onSwitch={onSwitch}
