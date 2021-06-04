@@ -542,6 +542,11 @@ builds explicitly meant for publication, and not in other builds a
 release manager happens to make, including builds in release mode.)
 
 
+### Set up Transifex.
+
+Install Transifex's CLI client, `tx`, using our instructions at
+[howto/translations.md](translations.md#setup).
+
 ### Prepare Android
 
 We have a keystore file containing our [app signing key].  As the
