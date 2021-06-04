@@ -193,8 +193,11 @@ export default function ChatScreen(props: Props) {
         <ComposeBox
           narrow={narrow}
           editMessage={editMessage}
-          initialMessage={draft}
+          initialTopic={editMessage ? editMessage.topic : undefined}
+          initialMessage={editMessage ? editMessage.content : draft}
           onSend={sendCallback}
+          autoFocusMessage={editMessage !== null}
+          key={editMessage?.id.toString() ?? 'noedit'}
         />
       )}
     </KeyboardAvoider>
