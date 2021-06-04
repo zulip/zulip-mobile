@@ -112,7 +112,7 @@
     "flow-coverage-report": "^0.6.0",
     "flow-typed": "^2.4.0",
     "immutable-devtools": "^0.1.5",
-    "jest": "^26.4.1",
+    "jest": "^27.0.4",
     "jest-cli": "^26.4.1",
     "jest-environment-jsdom": "^26.3.0",
     "jest-environment-jsdom-global": "^2.0.4",
