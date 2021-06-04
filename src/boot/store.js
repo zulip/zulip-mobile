@@ -8,6 +8,7 @@ import Immutable from 'immutable';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
 import type { Config } from '../third/redux-persist';
 
+import type { ReadWrite } from '../generics';
 import { ZulipVersion } from '../utils/zulipVersion';
 import { stringify, parse } from './replaceRevive';
 import type { Action, GlobalState } from '../types';
@@ -88,13 +89,15 @@ export const cacheKeys: Array<$Keys<GlobalState>> = [
  * that happens.
  */
 function dropCache(state: GlobalState): $Shape<GlobalState> {
-  const result: $Shape<GlobalState> = {};
+  const result: $Shape<ReadWrite<GlobalState>> = {};
   storeKeys.forEach(key => {
-    /* $FlowFixMe[cannot-write]
-       This is well-typed only because it's the same `key` twice. It seems
-       like we should have to suppress an error about not having that
-       guarantee, in addition to the more minor-looking `cannot-write`. Not
-       sure why we don't. */
+    // $FlowFixMe[incompatible-indexer]
+    // $FlowFixMe[incompatible-exact]
+    // $FlowFixMe[prop-missing]
+    // $FlowFixMe[incompatible-variance]
+    // $FlowFixMe[incompatible-type-arg]
+    /* $FlowFixMe[incompatible-type]
+       This is well-typed only because it's the same `key` twice. */
     result[key] = state[key];
   });
   return result;
