@@ -82,6 +82,9 @@ type Props = $ReadOnly<{|
   initialMessage?: string,
   initialTopic?: string,
 
+  autoFocusTopic: boolean,
+  autoFocusMessage: boolean,
+
   dispatch: Dispatch,
   ...SelectorProps,
 
@@ -127,6 +130,11 @@ const updateTextInput = (textInput, text) => {
 };
 
 class ComposeBox extends PureComponent<Props, State> {
+  static defaultProps = {
+    autoFocusTopic: false,
+    autoFocusMessage: false,
+  };
+
   static contextType = ThemeContext;
   context: ThemeData;
 
@@ -486,6 +494,7 @@ class ComposeBox extends PureComponent<Props, State> {
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
                 defaultValue={topic}
+                autoFocus={this.props.autoFocusTopic}
                 selectTextOnFocus
                 textInputRef={this.topicInputRef}
                 onChangeText={this.handleTopicChange}
@@ -503,6 +512,7 @@ class ComposeBox extends PureComponent<Props, State> {
               underlineColorAndroid="transparent"
               placeholder={placeholder}
               defaultValue={message}
+              autoFocus={this.props.autoFocusMessage}
               textInputRef={this.messageInputRef}
               onBlur={this.handleMessageBlur}
               onChangeText={this.handleMessageChange}
