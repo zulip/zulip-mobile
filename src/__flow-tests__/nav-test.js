@@ -8,7 +8,6 @@ import React, { type ComponentType } from 'react';
 import {
   createStackNavigator,
   type StackNavigationProp,
-  TransitionPresets,
 } from '@react-navigation/stack';
 
 import { type RouteProp, type RouteParamsOf } from '../react-navigation';
