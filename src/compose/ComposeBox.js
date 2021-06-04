@@ -385,15 +385,16 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   handleSend = () => {
-    const { dispatch, narrow, caughtUp, _ } = this.props;
+    const { dispatch, caughtUp, _ } = this.props;
     const { message } = this.state;
+    const narrow = this.getDestinationNarrow();
 
     if (!caughtUp.newer) {
       showErrorAlert(_('Failed to send message'));
       return;
     }
 
-    dispatch(addToOutbox(this.getDestinationNarrow(), message));
+    dispatch(addToOutbox(narrow, message));
 
     this.setMessageInputValue('');
 
