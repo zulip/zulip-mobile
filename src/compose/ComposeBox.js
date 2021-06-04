@@ -393,23 +393,6 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     dispatch(sendTypingStop(narrow));
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.editMessage !== this.props.editMessage) {
-      const topic = nextProps.editMessage
-        ? nextProps.editMessage.topic
-        : isTopicNarrow(nextProps.narrow)
-        ? topicOfNarrow(nextProps.narrow)
-        : '';
-      const message = nextProps.editMessage ? nextProps.editMessage.content : '';
-      this.setMessageInputValue(message);
-      this.setTopicInputValue(topic);
-      if (this.messageInputRef.current !== null) {
-        // `.current` is not type-checked; see definition.
-        this.messageInputRef.current.focus();
-      }
-    }
-  }
-
   inputMarginPadding = {
     paddingHorizontal: 8,
     paddingVertical: Platform.select({

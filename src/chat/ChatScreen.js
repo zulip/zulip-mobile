@@ -17,7 +17,7 @@ import InvalidNarrow from './InvalidNarrow';
 import { fetchMessagesInNarrow } from '../message/fetchActions';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
-import { canSendToNarrow, caseNarrowDefault } from '../utils/narrow';
+import { canSendToNarrow, caseNarrowDefault, keyFromNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
@@ -194,8 +194,11 @@ export default function ChatScreen(props: Props): Node {
         <ComposeBox
           narrow={narrow}
           editMessage={editMessage}
-          initialMessage={draft}
+          initialTopic={editMessage ? editMessage.topic : undefined}
+          initialMessage={editMessage ? editMessage.content : draft}
           onSend={sendCallback}
+          autoFocusMessage={editMessage !== null}
+          key={keyFromNarrow(narrow) + (editMessage?.id.toString() ?? 'noedit')}
         />
       )}
     </KeyboardAvoider>
