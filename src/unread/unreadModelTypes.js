@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import Immutable from 'immutable';
+import type Immutable from 'immutable';
 
 import type { HuddlesUnreadItem, PmsUnreadItem } from '../api/apiTypes';
 
