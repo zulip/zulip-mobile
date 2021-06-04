@@ -83,6 +83,15 @@ type OuterProps = $ReadOnly<{|
   initialMessage?: string,
   /** The topic of the message that the ComposeBox should contain when it's first rendered */
   initialTopic?: string,
+
+  /** Whether the topic input box should auto-foucs when the component renders.
+   *
+   * Passed through to the TextInput's autofocus prop. */
+  autoFocusTopic?: boolean,
+  /** Whether the message input box should auto-foucs when the component renders.
+   *
+   * Passed through to the TextInput's autofocus prop. */
+  autoFocusMessage?: boolean,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -537,6 +546,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
                 defaultValue={topic}
+                autoFocus={this.props.autoFocusTopic}
                 selectTextOnFocus
                 textInputRef={this.topicInputRef}
                 onChangeText={this.handleTopicChange}
@@ -554,6 +564,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               underlineColorAndroid="transparent"
               placeholder={placeholder}
               defaultValue={message}
+              autoFocus={this.props.autoFocusMessage}
               textInputRef={this.messageInputRef}
               onBlur={this.handleMessageBlur}
               onChangeText={this.handleMessageChange}
