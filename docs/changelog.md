@@ -37,7 +37,36 @@ It doesn't include
 ## Unreleased
 
 
+## 27.163 (2021-06-04)
+
+### Highlights for users, vs v27.161 (last prod release)
+
+* A message is now marked as read when you scroll to the bottom of it,
+  not just the top. (#4561)
+* Fixed bug with entering the emoji :smile: and :zero:, :one:, …,
+  :ten:. (#4638)
+* (Android) Fixed bug in sharing an image from the lightbox. (#4539)
+* More parts of the app now offer a menu when you make a long press,
+  with options like muting or unmuting a topic. (#3473, #4532)
+
+Plus, like every release, numerous other fixes and improvements for
+your Zulip experience.
+
+
+### Highlights for users, vs v27.162 (last beta)
+
+* Fixed endless loading screen after logging out. (#4723)
+
+
+### Highlights for developers, vs v27.162
+
+* Resolved issues (latest to earliest): #4723
+
+
 ## 27.162 (2021-04-20)
+
+(This was a beta-only release.)
+
 
 ### Highlights for users
 
