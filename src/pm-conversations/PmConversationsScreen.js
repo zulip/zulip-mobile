@@ -47,27 +47,36 @@ export default function PmConversationsScreen(props: Props) {
 
   return (
     <View style={[styles.container, { backgroundColor: context.backgroundColor }]}>
-      <View style={styles.row}>
-        <ZulipButton
-          secondary
-          Icon={IconPeople}
-          style={styles.button}
-          text="Group PM"
-          onPress={() => {
-            setTimeout(() => NavigationService.dispatch(navigateToCreateGroup()));
-          }}
-        />
-        <ZulipButton
-          secondary
-          Icon={IconSearch}
-          style={styles.button}
-          text="Search"
-          onPress={() => {
-            setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
+      <View>
+        <View style={styles.row}>
+          <ZulipButton
+            secondary
+            Icon={IconPeople}
+            style={styles.button}
+            text="Group PM"
+            onPress={() => {
+              setTimeout(() => NavigationService.dispatch(navigateToCreateGroup()));
+            }}
+          />
+          <ZulipButton
+            secondary
+            Icon={IconSearch}
+            style={styles.button}
+            text="Search"
+            onPress={() => {
+              setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
+            }}
+          />
+        </View>
+        <LoadingBanner
+          viewStyle={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
           }}
         />
       </View>
-      <LoadingBanner />
       {conversations.length === 0 ? (
         <Label style={styles.emptySlate} text="No recent conversations" />
       ) : (

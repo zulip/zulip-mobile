@@ -42,35 +42,37 @@ class HomeScreen extends PureComponent<Props> {
 
     return (
       <View style={styles.wrapper}>
-        <View style={styles.iconList}>
-          <NavButton
-            name="globe"
-            onPress={() => {
-              dispatch(doNarrow(HOME_NARROW));
-            }}
-          />
-          <NavButton
-            name="star"
-            onPress={() => {
-              dispatch(doNarrow(STARRED_NARROW));
-            }}
-          />
-          <NavButtonGeneral
-            onPress={() => {
-              dispatch(doNarrow(MENTIONED_NARROW));
-            }}
-          >
-            <IconUnreadMentions color={BRAND_COLOR} />
-          </NavButtonGeneral>
-          <NavButton
-            name="search"
-            onPress={() => {
-              NavigationService.dispatch(navigateToSearch());
-            }}
-          />
+        <View>
+          <View style={styles.iconList}>
+            <NavButton
+              name="globe"
+              onPress={() => {
+                dispatch(doNarrow(HOME_NARROW));
+              }}
+            />
+            <NavButton
+              name="star"
+              onPress={() => {
+                dispatch(doNarrow(STARRED_NARROW));
+              }}
+            />
+            <NavButtonGeneral
+              onPress={() => {
+                dispatch(doNarrow(MENTIONED_NARROW));
+              }}
+            >
+              <IconUnreadMentions color={BRAND_COLOR} />
+            </NavButtonGeneral>
+            <NavButton
+              name="search"
+              onPress={() => {
+                NavigationService.dispatch(navigateToSearch());
+              }}
+            />
+          </View>
+          <LoadingBanner viewStyle={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
         </View>
         <ServerCompatBanner />
-        <LoadingBanner />
         <UnreadCards />
       </View>
     );

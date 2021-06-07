@@ -28,8 +28,6 @@ export default function ChatNavBar(props: Props) {
   const themeColor = useContext(ThemeContext).color;
   const textColor =
     streamColor === undefined ? themeColor : foregroundColorFromBackground(streamColor);
-  const spinnerColor =
-    streamColor === undefined ? 'default' : foregroundColorFromBackground(streamColor);
 
   return (
     <>
@@ -62,9 +60,9 @@ export default function ChatNavBar(props: Props) {
           <InfoButton color={buttonColor} narrow={narrow} />
         </View>
         <LoadingBanner
-          spinnerColor={spinnerColor}
-          backgroundColor={streamColor}
-          textColor={textColor}
+          viewStyle={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}
+          unfilledColor={streamColor}
+          color={buttonColor}
         />
       </SafeAreaView>
     </>

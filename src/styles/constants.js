@@ -3,6 +3,7 @@ import Color from 'color';
 
 export const CONTROL_SIZE = 44;
 export const NAVBAR_SIZE = 58;
+export const LOADING_BAR_THICKNESS = 3;
 
 // The value `hsl(222, 99%, 69%)` is chosen to match `rgb(100, 146, 253.5)`,
 // which is the sRGB midpoint of the Zulip logo's gradient.

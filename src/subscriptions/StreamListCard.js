@@ -9,7 +9,7 @@ import * as NavigationService from '../nav/NavigationService';
 import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
-import { ZulipButton, LoadingBanner } from '../common';
+import { ZulipButton } from '../common';
 import * as api from '../api';
 import { delay } from '../utils/async';
 import { streamNarrow } from '../utils/narrow';
@@ -62,7 +62,6 @@ class StreamListCard extends PureComponent<Props> {
 
     return (
       <View style={styles.wrapper}>
-        <LoadingBanner />
         {canCreateStreams && (
           <ZulipButton
             style={styles.button}

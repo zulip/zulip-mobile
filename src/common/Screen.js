@@ -10,7 +10,6 @@ import styles, { createStyleSheet, ThemeContext } from '../styles';
 import type { LocalizableText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
-import LoadingBanner from './LoadingBanner';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
@@ -99,12 +98,16 @@ export default function Screen(props: Props) {
           autoFocus={autoFocus}
           canGoBack={canGoBack}
           searchBarOnChange={searchBarOnChange}
+          shouldShowLoadingBanner={shouldShowLoadingBanner}
         />
       ) : (
-        <ModalNavBar canGoBack={canGoBack} title={title} />
+        <ModalNavBar
+          canGoBack={canGoBack}
+          title={title}
+          shouldShowLoadingBanner={shouldShowLoadingBanner}
+        />
       )}
       <OfflineNotice />
-      {shouldShowLoadingBanner && <LoadingBanner />}
       <KeyboardAvoider
         behavior="padding"
         style={[componentStyles.wrapper, padding && styles.padding]}
