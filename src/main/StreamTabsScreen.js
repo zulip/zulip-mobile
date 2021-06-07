@@ -6,7 +6,7 @@ import {
   type MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs';
 
-import { Label, LoadingBanner } from '../common';
+import { Label, LoadingBar } from '../common';
 import { createStyleSheet, LOADING_BAR_THICKNESS, NAVBAR_SIZE } from '../styles';
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';
@@ -78,7 +78,7 @@ export default function StreamTabsScreen(props: Props) {
           }}
         />
       </Tab.Navigator>
-      <LoadingBanner
+      <LoadingBar
         viewStyle={{
           position: 'absolute',
           top: NAVBAR_SIZE - LOADING_BAR_THICKNESS,

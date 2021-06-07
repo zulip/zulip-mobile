@@ -43,7 +43,7 @@ type Props = $ReadOnly<{|
   search?: boolean,
   autoFocus?: boolean,
   searchBarOnChange?: (text: string) => void,
-  shouldShowLoadingBanner?: boolean,
+  shouldShowLoadingBar?: boolean,
 
   canGoBack?: boolean,
   +title?: LocalizableText,
@@ -84,7 +84,7 @@ export default function Screen(props: Props) {
     searchBarOnChange = (text: string) => {},
     style,
     title = '',
-    shouldShowLoadingBanner = true,
+    shouldShowLoadingBar = true,
   } = props;
 
   return (
@@ -98,13 +98,13 @@ export default function Screen(props: Props) {
           autoFocus={autoFocus}
           canGoBack={canGoBack}
           searchBarOnChange={searchBarOnChange}
-          shouldShowLoadingBanner={shouldShowLoadingBanner}
+          shouldShowLoadingBar={shouldShowLoadingBar}
         />
       ) : (
         <ModalNavBar
           canGoBack={canGoBack}
           title={title}
-          shouldShowLoadingBanner={shouldShowLoadingBanner}
+          shouldShowLoadingBar={shouldShowLoadingBar}
         />
       )}
       <OfflineNotice />

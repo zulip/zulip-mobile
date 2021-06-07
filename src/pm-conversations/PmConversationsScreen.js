@@ -8,7 +8,7 @@ import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { ThemeContext, createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
-import { Label, ZulipButton, LoadingBanner } from '../common';
+import { Label, ZulipButton, LoadingBar } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
 import { getRecentConversations } from '../selectors';
@@ -68,7 +68,7 @@ export default function PmConversationsScreen(props: Props) {
             }}
           />
         </View>
-        <LoadingBanner
+        <LoadingBar
           viewStyle={{
             position: 'absolute',
             bottom: 0,

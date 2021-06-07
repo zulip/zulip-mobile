@@ -27,7 +27,7 @@ type Props = $ReadOnly<{|
 /**
  * Display a indeterminate loading-bar while the app is connecting to the server, when appropriate.
  */
-class LoadingBanner extends PureComponent<Props> {
+class LoadingBar extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
 
@@ -60,4 +60,4 @@ class LoadingBanner extends PureComponent<Props> {
 
 export default connect<SelectorProps, _, _>(state => ({
   loading: getLoading(state),
-}))(LoadingBanner);
+}))(LoadingBar);

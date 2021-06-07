@@ -15,7 +15,7 @@ import UnreadCards from '../unread/UnreadCards';
 import { doNarrow, navigateToSearch } from '../actions';
 import IconUnreadMentions from '../nav/IconUnreadMentions';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { LoadingBanner } from '../common';
+import { LoadingBar } from '../common';
 import ServerCompatBanner from '../common/ServerCompatBanner';
 
 const styles = createStyleSheet({
@@ -70,7 +70,7 @@ class HomeScreen extends PureComponent<Props> {
               }}
             />
           </View>
-          <LoadingBanner viewStyle={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
+          <LoadingBar viewStyle={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
         </View>
         <ServerCompatBanner />
         <UnreadCards />

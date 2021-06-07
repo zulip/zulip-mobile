@@ -103,7 +103,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
         centerContent
         padding
         keyboardShouldPersistTaps="always"
-        shouldShowLoadingBanner={false}
+        shouldShowLoadingBar={false}
       >
         <Input
           autoFocus={email.length === 0}

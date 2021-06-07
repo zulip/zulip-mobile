@@ -6,7 +6,7 @@ import Color from 'color';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Narrow, EditMessage } from '../types';
-import { LoadingBanner, ZulipStatusBar } from '../common';
+import { LoadingBar, ZulipStatusBar } from '../common';
 import { useSelector } from '../react-redux';
 import { BRAND_COLOR, NAVBAR_SIZE, ThemeContext } from '../styles';
 import Title from '../title/Title';
@@ -59,7 +59,7 @@ export default function ChatNavBar(props: Props) {
           <ExtraButton color={buttonColor} narrow={narrow} />
           <InfoButton color={buttonColor} narrow={narrow} />
         </View>
-        <LoadingBanner
+        <LoadingBar
           viewStyle={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}
           unfilledColor={streamColor}
           color={buttonColor}

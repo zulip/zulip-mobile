@@ -63,7 +63,7 @@ class SharingScreen extends PureComponent<Props> {
     }
 
     return (
-      <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
+      <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBar={false}>
         <Tab.Navigator
           {...materialTopTabNavigatorConfig({
             showLabel: true,
