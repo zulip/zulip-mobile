@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import { NativeModules, Platform, Linking } from 'react-native';
-import SafariView from 'react-native-safari-view';
+import * as WebBrowser from 'expo-web-browser';
 
 import type { BrowserPreference, SettingsState } from '../types';
 
 /** Open a URL in the in-app browser. */
 export function openLinkEmbedded(url: string): void {
   if (Platform.OS === 'ios') {
-    SafariView.show({ url: encodeURI(url) });
+    WebBrowser.openBrowserAsync(encodeURI(url));
   } else {
     NativeModules.CustomTabsAndroid.openURL(url);
   }

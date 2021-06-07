@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { NativeModules, Platform } from 'react-native';
-import SafariView from 'react-native-safari-view';
+import * as WebBrowser from 'expo-web-browser';
 
 import type { Auth } from '../types';
 import { openLinkEmbedded } from '../utils/openLink';
@@ -55,7 +55,7 @@ export const closeBrowser = () => {
   if (Platform.OS === 'android') {
     NativeModules.CloseAllCustomTabsAndroid.closeAll();
   } else {
-    SafariView.dismiss();
+    WebBrowser.dismissBrowser();
   }
 };
 

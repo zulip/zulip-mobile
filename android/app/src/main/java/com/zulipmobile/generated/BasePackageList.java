@@ -13,7 +13,8 @@ public class BasePackageList {
         new expo.modules.imageloader.ImageLoaderPackage(),
         new expo.modules.permissions.PermissionsPackage(),
         new expo.modules.screenorientation.ScreenOrientationPackage(),
-        new expo.modules.splashscreen.SplashScreenPackage()
+        new expo.modules.splashscreen.SplashScreenPackage(),
+        new expo.modules.webbrowser.WebBrowserPackage()
     );
   }
 }

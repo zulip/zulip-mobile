@@ -25,6 +25,8 @@ PODS:
   - EXSplashScreen (0.5.0):
     - React
     - UMCore
+  - EXWebBrowser (9.1.0):
+    - UMCore
   - FBLazyVector (0.63.4)
   - FBReactNativeSpec (0.63.4):
     - Folly (= 2020.01.13.00)
@@ -275,8 +277,6 @@ PODS:
     - React
   - react-native-photo-view (1.5.2):
     - React
-  - react-native-safari-view (1.0.0):
-    - React
   - react-native-safe-area-context (3.1.7):
     - React
   - react-native-simple-toast (1.0.0):
@@ -407,6 +407,7 @@ DEPENDENCIES:
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
   - EXScreenOrientation (from `../node_modules/expo-screen-orientation/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
+  - EXWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Flipper (= 0.75.1)
@@ -447,7 +448,6 @@ DEPENDENCIES:
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-notifications (from `../node_modules/react-native-notifications`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
-  - react-native-safari-view (from `../node_modules/react-native-safari-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -522,6 +522,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-screen-orientation/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
+  EXWebBrowser:
+    :path: "../node_modules/expo-web-browser/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
@@ -560,8 +562,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-notifications"
   react-native-photo-view:
     :path: "../node_modules/react-native-photo-view"
-  react-native-safari-view:
-    :path: "../node_modules/react-native-safari-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-simple-toast:
@@ -649,6 +649,7 @@ SPEC CHECKSUMS:
   EXPermissions: 80ac3acbdb145930079810fe5b08c022b3428aa8
   EXScreenOrientation: 44d3cd3a99a86b9cb681e742697bc2c057d7fbd2
   EXSplashScreen: 9423d258b71afa5bf128a83dcb57b636d9900a74
+  EXWebBrowser: 0b466c50e5ff61c9758095d49d5081e3229d77ac
   FBLazyVector: 3bb422f41b18121b71783a905c10e58606f7dc3e
   FBReactNativeSpec: f2c97f2529dd79c083355182cc158c9f98f4bd6e
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
@@ -677,7 +678,6 @@ SPEC CHECKSUMS:
   react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
   react-native-notifications: ce37363008fe2d6a226da4e721eace23b6ae3ad9
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
-  react-native-safari-view: 955d7160d159241b8e9395d12d10ea0ef863dcdd
   react-native-safe-area-context: 955ecfce672683b495d9294d2f154a9ad1d9796b
   react-native-simple-toast: 6c376bd79b1e255a4bee90a72ead6447f96ea10d
   react-native-webview: 598605cd213f5096e695f5b33fbee210a47e60ab

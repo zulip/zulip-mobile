@@ -5,6 +5,7 @@
 const transformModulesWhitelist = [
   'expo-apple-authentication',
   'expo-application',
+  'expo-web-browser',
   'react-native',
   // @rnc/async-storage itself is precompiled, but its mock-helper is not
   '@react-native-community/async-storage',
