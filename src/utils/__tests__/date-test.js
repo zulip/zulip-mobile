@@ -1,13 +1,24 @@
 import { shortTime, shortDate, longDate, daysInDate, humanDate } from '../date';
 
+describe('Timezones (for test environment only)', () => {
+  test('Timezone has been set to UTC, unless on Windows', () => {
+    expect(
+      new Date().getTimezoneOffset() === 0
+        // 'win32' is the only possible value that would indicate Windows:
+        // https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Snapshot.20tests/near/1167560
+        || process.platform === 'win32',
+    ).toBe(true);
+  });
+});
+
 describe('shortTime', () => {
   test('returns only hour and minutes', () => {
-    const date = new Date(2000, 0, 1, 20, 10);
+    const date = new Date(Date.UTC(2000, 0, 1, 20, 10));
     expect(shortTime(date)).toBe('8:10 PM');
   });
 
   test('returns as 24hrs time format, when true passed as second parameter', () => {
-    const date = new Date(2000, 0, 1, 20, 10);
+    const date = new Date(Date.UTC(2000, 0, 1, 20, 10));
     expect(shortTime(date, true)).toBe('20:10');
   });
 });
