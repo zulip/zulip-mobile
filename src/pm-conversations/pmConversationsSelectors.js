@@ -104,7 +104,10 @@ function getRecentConversationsModernImpl(
         return null;
       }
 
-      const unreadsKey = pmUnreadsKeyFromPmKeyIds(keyRecipients.map(r => r.user_id), ownUserId);
+      const unreadsKey = pmUnreadsKeyFromPmKeyIds(
+        keyRecipients.map(r => r.user_id),
+        ownUserId,
+      );
 
       const msgId = map.get(recentsKey);
       invariant(msgId !== undefined, 'pm-conversations: key in sorted should be in map');
@@ -128,7 +131,8 @@ const getServerIsOld: Selector<boolean> = createSelector(
 export const getRecentConversations = (state: GlobalState): PmConversationData[] =>
   getServerIsOld(state) ? getRecentConversationsLegacy(state) : getRecentConversationsModern(state);
 
-export const getUnreadConversations: Selector<PmConversationData[]> = createSelector(
-  getRecentConversations,
-  conversations => conversations.filter(c => c.unread > 0),
+export const getUnreadConversations: Selector<
+  PmConversationData[],
+> = createSelector(getRecentConversations, conversations =>
+  conversations.filter(c => c.unread > 0),
 );

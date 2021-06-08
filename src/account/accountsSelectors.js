@@ -14,10 +14,10 @@ export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
  * This should be used in preference to `getAccounts` where we don't
  * actually need the API keys, but just need to know whether we have them.
  */
-export const getAccountStatuses: Selector<$ReadOnlyArray<AccountStatus>> = createSelector(
-  getAccounts,
-  accounts =>
-    accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
+export const getAccountStatuses: Selector<
+  $ReadOnlyArray<AccountStatus>,
+> = createSelector(getAccounts, accounts =>
+  accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
 );
 
 /** The list of known accounts, reduced to `Identity`. */
@@ -96,15 +96,12 @@ export const tryGetCurrentRealm = (state: GlobalState): URL | void =>
  *  * `getAuth` for use in the bulk of the app, operating on a logged-in
  *    active account.
  */
-export const tryGetAuth: Selector<Auth | void> = createSelector(
-  tryGetActiveAccount,
-  account => {
-    if (!account || account.apiKey === '') {
-      return undefined;
-    }
-    return authOfAccount(account);
-  },
-);
+export const tryGetAuth: Selector<Auth | void> = createSelector(tryGetActiveAccount, account => {
+  if (!account || account.apiKey === '') {
+    return undefined;
+  }
+  return authOfAccount(account);
+});
 
 /**
  * True just if there is an active, logged-in account.
@@ -136,9 +133,8 @@ export const getAuth = (state: GlobalState): Auth => {
  *
  * See `getAuth` and `tryGetAuth` for discussion.
  */
-export const getIdentity: Selector<Identity> = createSelector(
-  getAuth,
-  auth => identityOfAuth(auth),
+export const getIdentity: Selector<Identity> = createSelector(getAuth, auth =>
+  identityOfAuth(auth),
 );
 
 /**

@@ -68,12 +68,8 @@ export const getUsersById: Selector<Map<UserId, User>> = createSelector(
  *
  * See `getAllUsers`.
  */
-export const getSortedUsers: Selector<User[]> = createSelector(
-  getUsers,
-  users =>
-    [...users].sort((x1, x2) =>
-      x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
-    ),
+export const getSortedUsers: Selector<User[]> = createSelector(getUsers, users =>
+  [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
 );
 
 /**

@@ -13,5 +13,8 @@ export const filterUnreadMessagesInRange = (
   const messagesInRange = messages
     .filter(msg => !msg.isOutbox)
     .filter(msg => msg.id >= fromId && msg.id <= toId);
-  return filterUnreadMessageIds(messagesInRange.map(x => x.id), flags);
+  return filterUnreadMessageIds(
+    messagesInRange.map(x => x.id),
+    flags,
+  );
 };

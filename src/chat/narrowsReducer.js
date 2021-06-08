@@ -121,11 +121,17 @@ const updateFlagNarrow = (state, narrowStr, op, messageIds): NarrowsState => {
   }
   switch (op) {
     case 'add': {
-      return state.set(narrowStr, [...value, ...messageIds].sort((a, b) => a - b));
+      return state.set(
+        narrowStr,
+        [...value, ...messageIds].sort((a, b) => a - b),
+      );
     }
     case 'remove': {
       const messageIdSet = new Set(messageIds);
-      return state.set(narrowStr, value.filter(id => !messageIdSet.has(id)));
+      return state.set(
+        narrowStr,
+        value.filter(id => !messageIdSet.has(id)),
+      );
     }
     default:
       ensureUnreachable(op);

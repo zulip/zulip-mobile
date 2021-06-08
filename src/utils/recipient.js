@@ -196,7 +196,10 @@ export const pmKeyRecipientsFromMessage = (
   if (message.type !== 'private') {
     throw new Error('pmKeyRecipientsFromMessage: expected PM, got stream message');
   }
-  return pmKeyRecipientsFromIds(recipientsOfPrivateMessage(message).map(r => r.id), ownUserId);
+  return pmKeyRecipientsFromIds(
+    recipientsOfPrivateMessage(message).map(r => r.id),
+    ownUserId,
+  );
 };
 
 /**
