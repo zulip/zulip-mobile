@@ -13,6 +13,7 @@ import {
 } from '../actionConstants';
 import { addItemsToArray, removeItemsFromArray } from '../utils/immutability';
 import { NULL_ARRAY } from '../nullObjects';
+import * as logging from '../utils/logging';
 
 const initialState: UnreadMentionsState = NULL_ARRAY;
 
@@ -28,7 +29,16 @@ const eventUpdateMessageFlags = (state, action) => {
   if (action.op === 'add') {
     return removeItemsFromArray(state, action.messages);
   } else if (action.op === 'remove') {
-    // we do not support that operation
+    const { message_details } = action;
+    if (message_details === undefined) {
+      logging.warn('Got update_message_flags/remove/read event without message_details.');
+      return state;
+    }
+
+    const newUnreadMentions = Array.from(message_details)
+      .filter(([id, info]) => info.mentioned && !state.includes(id))
+      .map(([id, info]) => id);
+    return addItemsToArray(state, newUnreadMentions);
   }
 
   return state;

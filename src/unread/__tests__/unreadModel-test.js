@@ -231,13 +231,20 @@ describe('stream substate', () => {
 
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
     const mkAction = args => {
-      const { all = false, messages, flag = 'read', op = 'add' } = args;
+      const {
+        all = false,
+        messages,
+        message_details = new Map(),
+        flag = 'read',
+        op = 'add',
+      } = args;
       return {
         id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         allMessages: eg.makeMessagesState([]),
         all,
         messages,
+        message_details,
         flag,
         op,
       };
@@ -252,6 +259,12 @@ describe('stream substate', () => {
       eg.streamMessage({ stream_id: 234, subject: 'bar', id: 4 }),
       eg.streamMessage({ stream_id: 234, subject: 'bar', id: 5 }),
     ]);
+
+    const messageDetailsEntry = (stream_id, topic) => ({
+      type: 'stream',
+      stream_id,
+      topic,
+    });
 
     test('(base state, for comparison)', () => {
       // prettier-ignore
@@ -302,9 +315,42 @@ describe('stream substate', () => {
       expect(newState.streams.get(234)).toBe(state.streams.get(234));
     });
 
-    test('when operation is "remove" do nothing', () => {
-      const action = mkAction({ messages: [1, 2], op: 'remove' });
-      expect(reducer(baseState, action, eg.plusReduxState)).toBe(baseState);
+    test('when operation is "remove", add stream messages to unreads', () => {
+      const state = reducer(
+        baseState,
+        streamAction({ stream_id: 234, subject: 'bar', id: 100 }),
+        eg.plusReduxState,
+      );
+      // prettier-ignore
+      expect(summary(state)).toEqual(Immutable.Map([
+        [123, Immutable.Map([['foo', [1, 2, 3]]])],
+        [234, Immutable.Map([['bar', [4, 5, 100]]])],
+      ]));
+
+      const action = mkAction({
+        messages: [6, 42, 99, 7, 8],
+        op: 'remove',
+        message_details: new Map([
+          [99, messageDetailsEntry(123, 'foo')],
+          [6, messageDetailsEntry(234, 'bar')],
+          [8, messageDetailsEntry(234, 'bar')],
+          [42, messageDetailsEntry(123, 'foo')],
+          [7, messageDetailsEntry(234, 'baz')],
+        ]),
+      });
+      const newState = reducer(state, action, eg.plusReduxState);
+      expect(summary(newState)).toEqual(
+        Immutable.Map([
+          [123, Immutable.Map([['foo', [1, 2, 3, 42, 99]]])],
+          [
+            234,
+            Immutable.Map([
+              ['bar', [4, 5, 6, 8, 100]],
+              ['baz', [7]],
+            ]),
+          ],
+        ]),
+      );
     });
 
     test('when "all" is true reset state', () => {

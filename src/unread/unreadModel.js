@@ -28,6 +28,7 @@ import {
   REGISTER_COMPLETE,
 } from '../actionConstants';
 import DefaultMap from '../utils/DefaultMap';
+import * as logging from '../utils/logging';
 
 //
 //
@@ -243,8 +244,52 @@ function streamsReducer(
       }
 
       if (action.op === 'remove') {
-        // Zulip doesn't support un-reading a message.  Ignore it.
-        return state;
+        const { message_details } = action;
+        if (message_details === undefined) {
+          logging.warn('Got update_message_flags/remove/read event without message_details.');
+          return state;
+        }
+
+        let newlyUnreadState = Immutable.Map();
+
+        for (const id of action.messages) {
+          const message = message_details.get(id);
+
+          // The server should ensure that all messages sent are in
+          // message_details, so the first `message` here is defensive.
+          if (
+            message
+            && message.type === 'stream'
+            && message.stream_id != null
+            && message.topic != null
+          ) {
+            newlyUnreadState = newlyUnreadState.updateIn(
+              [message.stream_id, message.topic],
+              Immutable.List(),
+              messages => messages.push(id),
+            );
+          }
+        }
+
+        // We sort below, but that doesn't catch messages that are in the
+        // newlyUnreadState but not the existing state, so we sort here as
+        // well.
+        newlyUnreadState = newlyUnreadState.map(e => e.map(messages => messages.sort()));
+
+        return state.mergeWith(
+          (
+            oldTopicsMap: Immutable.Map<string, Immutable.List<number>>,
+            newTopicsMap: Immutable.Map<string, Immutable.List<number>>,
+          ) =>
+            oldTopicsMap.mergeWith(
+              (
+                oldUnreadMessages: Immutable.List<number>,
+                newUnreadMessages: Immutable.List<number>,
+              ) => oldUnreadMessages.concat(newUnreadMessages).sort(),
+              newTopicsMap,
+            ),
+          newlyUnreadState,
+        );
       }
 
       // TODO optimize by looking up directly; see #4684.

@@ -334,6 +334,10 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
         // TODO(server-4.0): Simplify to just use `op`.
         op: event.op ?? event.operation,
 
+        message_details: event.message_details
+          ? new Map(Object.entries(event.message_details).map(([k, v]) => [parseInt(k, 10), v]))
+          : undefined,
+
         allMessages: state.messages,
       };
 

@@ -413,6 +413,18 @@ type EventUpdateMessageFlagsAction = $ReadOnly<{|
   flag: string,
   messages: $ReadOnlyArray<number>,
   op: 'add' | 'remove',
+  message_details?: Map<
+    number,
+    {|
+      type: 'stream' | 'private',
+      mentioned?: true,
+      // type: 'stream'
+      stream_id?: number,
+      topic?: string,
+      // type: 'private'
+      user_ids?: $ReadOnlyArray<UserId>,
+    |},
+  >,
 |}>;
 
 type EventUserAddAction = $ReadOnly<{|

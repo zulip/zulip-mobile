@@ -144,22 +144,35 @@ describe('unreadMentionsReducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('when operation is "remove" do nothing', () => {
+    test('when operation is "remove", add mentions to unreads', () => {
       const initialState = deepFreeze([1]);
+      const expectedState = deepFreeze([1, 2]);
+
+      const messageDetailsEntry = (stream_id, topic, mentioned) => ({
+        type: 'stream',
+        mentioned: mentioned === true ? true : undefined,
+        stream_id,
+        topic,
+      });
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         id: 0,
         all: false,
         allMessages: Immutable.Map(),
-        messages: [1, 2],
+        messages: [1, 2, 3],
         flag: 'read',
         op: 'remove',
+        message_details: new Map([
+          [1, messageDetailsEntry(999, 'some topic', true)],
+          [2, messageDetailsEntry(999, 'some topic', true)],
+          [3, messageDetailsEntry(123, 'another topic', false)],
+        ]),
       });
 
       const actualState = unreadMentionsReducer(initialState, action);
 
-      expect(actualState).toBe(initialState);
+      expect(actualState).toStrictEqual(expectedState);
     });
 
     test('when "all" is true reset state', () => {
