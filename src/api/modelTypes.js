@@ -457,6 +457,47 @@ export type PmRecipientUser = $ReadOnly<{|
 |}>;
 
 /**
+ * The data encoded in a submessage to make the message a widget.
+ *
+ * Note that future server versions might introduce new types of widgets, so
+ * `widget_type` could be a value not included here.  But when it is one of
+ * these values, the rest of the object will follow this type.
+ */
+// Ideally we'd be able to express both the known and the unknown widget
+// types: we'd have another branch of this union which looked like
+//   | {| +widget_type: (string *other than* those above), +extra_data?: { ... } |}
+// But there doesn't seem to be a way to express that in Flow.
+export type WidgetData =
+  | {|
+      +widget_type: 'poll',
+      +extra_data?: {| +question?: string, +options?: $ReadOnlyArray<string> |},
+    |}
+  // We can write these down more specifically when we implement these widgets.
+  | {| +widget_type: 'todo', +extra_data?: { ... } |}
+  | {| +widget_type: 'zform', +extra_data?: { ... } |};
+
+/**
+ * The data encoded in a submessage that acts on a widget.
+ *
+ * The interpretation of this data, including the meaning of the `type`
+ * field, is specific to each widget type.
+ *
+ * We delegate actually processing these to shared code, so we don't specify
+ * the details further.
+ */
+export type WidgetEventData = { +type: string, ... };
+
+/**
+ * The data encoded in a `Submessage`.
+ *
+ * For widgets (the only existing use of submessages), the submessages array
+ * consists of:
+ *  * One submessage with `WidgetData`; then
+ *  * Zero or more submessages with `WidgetEventData`.
+ */
+export type SubmessageData = WidgetData | WidgetEventData;
+
+/**
  * Submessages are items containing extra data that can be added to a
  * message. Despite what their name might suggest, they are not a subtype
  * of the `Message` type, nor do they share almost any fields with it.
@@ -473,7 +514,9 @@ export type Submessage = $ReadOnly<{|
   message_id: number,
   sender_id: UserId,
   msg_type: 'widget', // only this type is currently available
-  content: string, // JSON string
+
+  /** A `SubmessageData` object, JSON-encoded. */
+  content: string,
 |}>;
 
 /**
