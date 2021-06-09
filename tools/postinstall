@@ -18,15 +18,7 @@ EOF
         exit 1
     fi
 
-    # Do nothing if the installed pods already match the Podfile.lock.
-    # If they don't match, run `pod install`. Conditional copied from
-    # the `[CP] Check Pods Manifest.lock` shell-script build phase in
-    # `project.pbxproj`.
-    if diff "$ROOT_DIR/ios/Podfile.lock" "$ROOT_DIR/ios/Pods/Manifest.lock" > /dev/null; then
-        echo "Skipping \`pod install\` (pods already in sync with Podfile.lock)"
-    else
-        pod install --project-directory="$ROOT_DIR/ios"
-    fi
+    pod install --project-directory="$ROOT_DIR/ios"
 }
 
 jetify() {
