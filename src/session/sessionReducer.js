@@ -93,23 +93,26 @@ const initialState: SessionState = {
 
 const rehydrate = (state, action) => {
   const { payload } = action;
+
+  /* $FlowIgnore: The actual type allows any property to be null; narrow
+       that to just the one that `hasAuth` will care about.  (What we really
+       want here is what the value of `hasAuth` will be after the rehydrate
+       is complete.  So even if some other property is null in the payload,
+       we still do want to ask `hasAuth` what it thinks.) */
+  const payloadForHasAuth = (payload: GlobalState | { accounts: null, ... } | void);
   const haveApiKey = !!(
-    payload
-    && payload.accounts
-    && hasAuth(
-      /* $FlowFixMe: `payload` may have `null` at any of its
-         properties; see `RehydrateAction` type. */
-      (payload: GlobalState),
-    )
+    payloadForHasAuth
+    && payloadForHasAuth.accounts
+    && hasAuth(payloadForHasAuth)
   );
+
   return {
     ...state,
     isHydrated: true,
     // On rehydration, do an initial fetch if we have access to an account
     // (indicated by the presence of an api key). Otherwise, the initial fetch
     // will be initiated on loginSuccess.
-    // NB `InitialNavigationDispatcher`'s `doInitialNavigation`
-    // depends intimately on this behavior.
+    // NB `getInitialRouteInfo` depends intimately on this behavior.
     needsInitialFetch: haveApiKey,
   };
 };
