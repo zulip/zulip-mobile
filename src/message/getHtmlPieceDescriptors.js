@@ -10,9 +10,11 @@ export default (
 ): $ReadOnlyArray<HtmlPieceDescriptor> => {
   const showHeader = !isPmNarrow(narrow) && !isTopicNarrow(narrow);
 
-  let prevMessage = undefined;
   const pieces: HtmlPieceDescriptor[] = [];
-  messages.forEach(message => {
+  for (let i = 0; i < messages.length; i++) {
+    const message = messages[i];
+    const prevMessage: typeof message | void = messages[i - 1];
+
     const diffDays =
       !!prevMessage
       && !isSameDay(new Date(prevMessage.timestamp * 1000), new Date(message.timestamp * 1000));
@@ -45,8 +47,6 @@ export default (
       message,
     };
     pieces.push(renderedMessageDescriptor);
-
-    prevMessage = message;
-  });
+  }
   return pieces;
 };
