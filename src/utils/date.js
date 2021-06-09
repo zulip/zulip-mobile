@@ -9,12 +9,41 @@ import tz from 'timezone/loaded';
 export { default as isSameDay } from 'date-fns/is_same_day';
 
 /**
- * Use consistent timezone (UTC) in local and CI tests, for snapshot tests.
+ * If in tests, adjust the date to roughly pretend the timezone is UTC.
+ *
+ * When not in tests, this function just returns its argument.
+ *
+ * When in tests, it returns an adjusted `Date` which, in the timezone we're
+ * actually using, will hopefully give the same answers on methods like
+ * `getHours` as the original `Date` would give in the UTC timezone, and so
+ * libraries like `date-fns/format` will produce the same results as they
+ * would on the original `Date` in the UTC timezone.
+ *
+ * Normalizing those results to UTC, in turn, helps us get consistent
+ * results for snapshot tests.
+ *
+ * In general what this function aims to do is impossible.  In particular,
+ * in places with daylight savings time (aka summer time), the local time
+ * skips an hour each spring; so for example there is no time at all that
+ * was 2021-03-14 02:30 (or any other time from 02:00 to before 03:00) in
+ * America/New_York, and so if the current timezone is America/New_York and
+ * the given `Date` is 2021-03-14 02:30Z (i.e., 2021-03-13 21:30 in
+ * America/New_York) then there is no valid result this function could
+ * return.
+ *
+ * So while this function makes a reasonable effort, there's a window around
+ * any time when the offset changes for the current timezone (in particular,
+ * around the start and end of DST / summer time) in which the result may
+ * not be right.
+ *
+ * That's OK because the function only does anything in tests (for actual
+ * users, we want to use the ambient timezone anyway), plus in tests we do
+ * our best to make the timezone in use be UTC in the first place.  See note
+ * in `jest/globalSetup.js` where we do that.
  */
-// We're only counting on this if we can't set the timezone `Date` uses to
-// UTC in the first place; see note where we attempt to do that in
-// jest/globalSetup.js.
-function maybeAsUtc(date: Date) {
+// For more background on how this works, see discussion:
+//   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Snapshot.20tests/near/1167545
+function maybePretendUtc(date: Date): Date {
   /* eslint-disable operator-linebreak */
   /* eslint-disable-next-line id-match,no-underscore-dangle */
   return global.__TEST__
@@ -27,7 +56,7 @@ function maybeAsUtc(date: Date) {
 }
 
 export const shortTime = (date: Date, twentyFourHourTime: boolean = false): string =>
-  format(maybeAsUtc(date), twentyFourHourTime ? 'H:mm' : 'h:mm A');
+  format(maybePretendUtc(date), twentyFourHourTime ? 'H:mm' : 'h:mm A');
 
 export const shortDate = (date: Date): string => format(date, 'MMM D');
 
