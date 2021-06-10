@@ -5,15 +5,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemeContext } from '../styles';
 import SearchInput from '../common/SearchInput';
 import NavBarBackButton from './NavBarBackButton';
+import { LoadingBar } from '../common';
 
 type Props = $ReadOnly<{|
   autoFocus: boolean,
   searchBarOnChange: (text: string) => void,
   canGoBack?: boolean,
+  shouldShowLoadingBar: boolean,
 |}>;
 
 export default function ModalSearchNavBar(props: Props) {
-  const { autoFocus, searchBarOnChange, canGoBack = true } = props;
+  const { autoFocus, searchBarOnChange, canGoBack = true, shouldShowLoadingBar } = props;
   const { backgroundColor } = useContext(ThemeContext);
   return (
     <SafeAreaView
@@ -29,6 +31,9 @@ export default function ModalSearchNavBar(props: Props) {
     >
       {canGoBack && <NavBarBackButton />}
       <SearchInput autoFocus={autoFocus} onChangeText={searchBarOnChange} />
+      {shouldShowLoadingBar && (
+        <LoadingBar viewStyle={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
+      )}
     </SafeAreaView>
   );
 }

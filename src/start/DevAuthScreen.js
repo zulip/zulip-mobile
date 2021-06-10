@@ -87,7 +87,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
     const { directAdmins, directUsers, error, progress } = this.state;
 
     return (
-      <Screen title="Pick a dev account" shouldShowLoadingBanner={false}>
+      <Screen title="Pick a dev account" shouldShowLoadingBar={false}>
         <View style={componentStyles.container}>
           {progress && <ActivityIndicator />}
           {!!error && <ErrorMsg error={error} />}

@@ -8,7 +8,7 @@ import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { ThemeContext, createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
-import { Label, ZulipButton, LoadingBanner } from '../common';
+import { Label, ZulipButton, LoadingBar } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
 import { getRecentConversations } from '../selectors';
@@ -47,27 +47,36 @@ export default function PmConversationsScreen(props: Props) {
 
   return (
     <View style={[styles.container, { backgroundColor: context.backgroundColor }]}>
-      <View style={styles.row}>
-        <ZulipButton
-          secondary
-          Icon={IconPeople}
-          style={styles.button}
-          text="Group PM"
-          onPress={() => {
-            setTimeout(() => NavigationService.dispatch(navigateToCreateGroup()));
-          }}
-        />
-        <ZulipButton
-          secondary
-          Icon={IconSearch}
-          style={styles.button}
-          text="Search"
-          onPress={() => {
-            setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
+      <View>
+        <View style={styles.row}>
+          <ZulipButton
+            secondary
+            Icon={IconPeople}
+            style={styles.button}
+            text="Group PM"
+            onPress={() => {
+              setTimeout(() => NavigationService.dispatch(navigateToCreateGroup()));
+            }}
+          />
+          <ZulipButton
+            secondary
+            Icon={IconSearch}
+            style={styles.button}
+            text="Search"
+            onPress={() => {
+              setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
+            }}
+          />
+        </View>
+        <LoadingBar
+          viewStyle={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
           }}
         />
       </View>
-      <LoadingBanner />
       {conversations.length === 0 ? (
         <Label style={styles.emptySlate} text="No recent conversations" />
       ) : (

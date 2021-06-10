@@ -99,7 +99,7 @@ class AccountPickScreen extends PureComponent<Props> {
         centerContent
         padding
         canGoBack={this.canGoBack}
-        shouldShowLoadingBanner={false}
+        shouldShowLoadingBar={false}
       >
         <Centerer>
           {accounts.length === 0 && <Logo />}

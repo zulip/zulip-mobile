@@ -10,7 +10,6 @@ import styles, { createStyleSheet, ThemeContext } from '../styles';
 import type { LocalizableText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
-import LoadingBanner from './LoadingBanner';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
@@ -44,7 +43,7 @@ type Props = $ReadOnly<{|
   search?: boolean,
   autoFocus?: boolean,
   searchBarOnChange?: (text: string) => void,
-  shouldShowLoadingBanner?: boolean,
+  shouldShowLoadingBar?: boolean,
 
   canGoBack?: boolean,
   +title?: LocalizableText,
@@ -85,7 +84,7 @@ export default function Screen(props: Props) {
     searchBarOnChange = (text: string) => {},
     style,
     title = '',
-    shouldShowLoadingBanner = true,
+    shouldShowLoadingBar = true,
   } = props;
 
   return (
@@ -99,12 +98,16 @@ export default function Screen(props: Props) {
           autoFocus={autoFocus}
           canGoBack={canGoBack}
           searchBarOnChange={searchBarOnChange}
+          shouldShowLoadingBar={shouldShowLoadingBar}
         />
       ) : (
-        <ModalNavBar canGoBack={canGoBack} title={title} />
+        <ModalNavBar
+          canGoBack={canGoBack}
+          title={title}
+          shouldShowLoadingBar={shouldShowLoadingBar}
+        />
       )}
       <OfflineNotice />
-      {shouldShowLoadingBanner && <LoadingBanner />}
       <KeyboardAvoider
         behavior="padding"
         style={[componentStyles.wrapper, padding && styles.padding]}

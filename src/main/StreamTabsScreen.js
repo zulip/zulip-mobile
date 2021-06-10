@@ -1,12 +1,13 @@
 /* @flow strict-local */
 import React from 'react';
+import { View } from 'react-native';
 import {
   createMaterialTopTabNavigator,
   type MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs';
 
-import { Label } from '../common';
-import { createStyleSheet } from '../styles';
+import { Label, LoadingBar } from '../common';
+import { createStyleSheet, LOADING_BAR_THICKNESS, NAVBAR_SIZE } from '../styles';
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';
 import type { GlobalParamList } from '../nav/globalTypes';
@@ -34,6 +35,9 @@ const styles = createStyleSheet({
     padding: 8,
     fontSize: 16,
   },
+  container: {
+    flex: 1,
+  },
 });
 
 type Props = $ReadOnly<{|
@@ -41,29 +45,47 @@ type Props = $ReadOnly<{|
   route: RouteProp<'stream-tabs', void>,
 |}>;
 
+/**
+ * It is assumed that height of `Tab.Navigator` is equal to `NAVBAR_SIZE`
+ * and accordingly `LoadingBar` is being adjusted at bottom of `Tab.Navigator`.
+ * `LOADING_BAR_THICKNESS` is used to place LoadingBar exactly at the height of
+ * `NAVBAR_SIZE` from top.
+ */
 export default function StreamTabsScreen(props: Props) {
   return (
-    <Tab.Navigator
-      {...materialTopTabNavigatorConfig({
-        showLabel: true,
-        showIcon: false,
-      })}
-      swipeEnabled
-    >
-      <Tab.Screen
-        name="subscribed"
-        component={SubscriptionsCard}
-        options={{
-          tabBarLabel: ({ color }) => <Label style={[styles.tab, { color }]} text="Subscribed" />,
+    <View style={styles.container}>
+      <Tab.Navigator
+        {...materialTopTabNavigatorConfig({
+          showLabel: true,
+          showIcon: false,
+        })}
+        swipeEnabled
+      >
+        <Tab.Screen
+          name="subscribed"
+          component={SubscriptionsCard}
+          options={{
+            tabBarLabel: ({ color }) => <Label style={[styles.tab, { color }]} text="Subscribed" />,
+          }}
+        />
+        <Tab.Screen
+          name="allStreams"
+          component={StreamListCard}
+          options={{
+            tabBarLabel: ({ color }) => (
+              <Label style={[styles.tab, { color }]} text="All streams" />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+      <LoadingBar
+        viewStyle={{
+          position: 'absolute',
+          top: NAVBAR_SIZE - LOADING_BAR_THICKNESS,
+          left: 0,
+          right: 0,
         }}
       />
-      <Tab.Screen
-        name="allStreams"
-        component={StreamListCard}
-        options={{
-          tabBarLabel: ({ color }) => <Label style={[styles.tab, { color }]} text="All streams" />,
-        }}
-      />
-    </Tab.Navigator>
+    </View>
   );
 }
