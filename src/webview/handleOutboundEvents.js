@@ -216,7 +216,7 @@ const handleLongPress = (
         showActionSheetWithOptions,
         callbacks: { dispatch, _ },
         backgroundData,
-        stream: streamNameOfStreamMessage(message),
+        streamName: streamNameOfStreamMessage(message),
         topic: message.subject,
       });
     } else if (message.type === 'private') {

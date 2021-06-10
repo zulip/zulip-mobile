@@ -28,7 +28,7 @@ const componentStyles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  stream: string,
+  streamName: string,
   name: string,
   isMuted?: boolean,
   isSelected?: boolean,
@@ -37,7 +37,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function TopicItem(props: Props) {
-  const { name, stream, isMuted = false, isSelected = false, unreadCount = 0, onPress } = props;
+  const { name, streamName, isMuted = false, isSelected = false, unreadCount = 0, onPress } = props;
 
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
     .showActionSheetWithOptions;
@@ -53,13 +53,13 @@ export default function TopicItem(props: Props) {
 
   return (
     <Touchable
-      onPress={() => onPress(stream, name)}
+      onPress={() => onPress(streamName, name)}
       onLongPress={() => {
         showTopicActionSheet({
           showActionSheetWithOptions,
           callbacks: { dispatch, _ },
           backgroundData,
-          stream,
+          streamName,
           topic: name,
         });
       }}

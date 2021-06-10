@@ -37,7 +37,7 @@ export type ShowActionSheetWithOptions = (
 
 type TopicArgs = {
   auth: Auth,
-  stream: string,
+  streamName: string,
   topic: string,
   subscriptions: Subscription[],
   dispatch: Dispatch,
@@ -118,19 +118,19 @@ const deleteMessage = async ({ auth, message, dispatch }) => {
 deleteMessage.title = 'Delete message';
 deleteMessage.errorMessage = 'Failed to delete message';
 
-const unmuteTopic = async ({ auth, stream, topic }) => {
-  await api.setTopicMute(auth, stream, topic, false);
+const unmuteTopic = async ({ auth, streamName, topic }) => {
+  await api.setTopicMute(auth, streamName, topic, false);
 };
 unmuteTopic.title = 'Unmute topic';
 unmuteTopic.errorMessage = 'Failed to unmute topic';
 
-const muteTopic = async ({ auth, stream, topic }) => {
-  await api.setTopicMute(auth, stream, topic, true);
+const muteTopic = async ({ auth, streamName, topic }) => {
+  await api.setTopicMute(auth, streamName, topic, true);
 };
 muteTopic.title = 'Mute topic';
 muteTopic.errorMessage = 'Failed to mute topic';
 
-const deleteTopic = async ({ auth, stream, topic, dispatch, _ }) => {
+const deleteTopic = async ({ auth, streamName, topic, dispatch, _ }) => {
   const alertTitle = _('Are you sure you want to delete the topic “{topic}”?', { topic });
   const AsyncAlert = async (): Promise<boolean> =>
     new Promise((resolve, reject) => {
@@ -157,14 +157,14 @@ const deleteTopic = async ({ auth, stream, topic, dispatch, _ }) => {
       );
     });
   if (await AsyncAlert()) {
-    await dispatch(deleteMessagesForTopic(stream, topic));
+    await dispatch(deleteMessagesForTopic(streamName, topic));
   }
 };
 deleteTopic.title = 'Delete topic';
 deleteTopic.errorMessage = 'Failed to delete topic';
 
-const unmuteStream = async ({ auth, stream, subscriptions }) => {
-  const sub = subscriptions.find(x => x.name === stream);
+const unmuteStream = async ({ auth, streamName, subscriptions }) => {
+  const sub = subscriptions.find(x => x.name === streamName);
   if (sub) {
     await api.setSubscriptionProperty(auth, sub.stream_id, 'is_muted', false);
   }
@@ -172,8 +172,8 @@ const unmuteStream = async ({ auth, stream, subscriptions }) => {
 unmuteStream.title = 'Unmute stream';
 unmuteStream.errorMessage = 'Failed to unmute stream';
 
-const muteStream = async ({ auth, stream, subscriptions }) => {
-  const sub = subscriptions.find(x => x.name === stream);
+const muteStream = async ({ auth, streamName, subscriptions }) => {
+  const sub = subscriptions.find(x => x.name === streamName);
   if (sub) {
     await api.setSubscriptionProperty(auth, sub.stream_id, 'is_muted', true);
   }
@@ -181,8 +181,8 @@ const muteStream = async ({ auth, stream, subscriptions }) => {
 muteStream.title = 'Mute stream';
 muteStream.errorMessage = 'Failed to mute stream';
 
-const showStreamSettings = ({ stream, subscriptions }) => {
-  const sub = subscriptions.find(x => x.name === stream);
+const showStreamSettings = ({ streamName, subscriptions }) => {
+  const sub = subscriptions.find(x => x.name === streamName);
   if (sub) {
     NavigationService.dispatch(navigateToStream(sub.stream_id));
   }
@@ -228,7 +228,7 @@ cancel.errorMessage = 'Failed to hide menu';
 
 export const constructTopicActionButtons = ({
   backgroundData: { mute, subscriptions, ownUser },
-  stream,
+  streamName,
   topic,
 }: {|
   backgroundData: $ReadOnly<{
@@ -237,19 +237,19 @@ export const constructTopicActionButtons = ({
     ownUser: User,
     ...
   }>,
-  stream: string,
+  streamName: string,
   topic: string,
 |}): Button<TopicArgs>[] => {
   const buttons = [];
   if (ownUser.is_admin) {
     buttons.push(deleteTopic);
   }
-  if (isTopicMuted(stream, topic, mute)) {
+  if (isTopicMuted(streamName, topic, mute)) {
     buttons.push(unmuteTopic);
   } else {
     buttons.push(muteTopic);
   }
-  const sub = subscriptions.find(x => x.name === stream);
+  const sub = subscriptions.find(x => x.name === streamName);
   if (sub && !sub.in_home_view) {
     buttons.push(unmuteStream);
   } else {
@@ -394,7 +394,7 @@ export const showTopicActionSheet = ({
   callbacks,
   backgroundData,
   topic,
-  stream,
+  streamName,
 }: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
@@ -409,24 +409,24 @@ export const showTopicActionSheet = ({
     flags: FlagsState,
     ...
   }>,
-  stream: string,
+  streamName: string,
   topic: string,
 |}): void => {
   const buttonList = constructTopicActionButtons({
     backgroundData,
-    stream,
+    streamName,
     topic,
   });
   showActionSheetWithOptions(
     {
-      title: `#${stream} > ${topic}`,
+      title: `#${streamName} > ${topic}`,
       options: buttonList.map(button => callbacks._(button.title)),
       cancelButtonIndex: buttonList.length - 1,
     },
     makeButtonCallback(buttonList, {
       ...backgroundData,
       ...callbacks,
-      stream,
+      streamName,
       topic,
     }),
   );

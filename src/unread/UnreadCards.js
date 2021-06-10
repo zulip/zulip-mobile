@@ -64,7 +64,7 @@ export default function UnreadCards(props: Props) {
         ) : (
           <TopicItem
             name={item.topic}
-            stream={section.streamName || ''}
+            streamName={section.streamName || ''}
             isMuted={section.isMuted || item.isMuted}
             isSelected={false}
             unreadCount={item.unread}
