@@ -39,6 +39,7 @@ export type ShowActionSheetWithOptions = (
 type TopicArgs = {
   auth: Auth,
   streamName: string,
+  streamId: number,
   topic: string,
   subscriptions: Subscription[],
   dispatch: Dispatch,
@@ -230,6 +231,7 @@ cancel.errorMessage = 'Failed to hide menu';
 export const constructTopicActionButtons = ({
   backgroundData: { mute, ownUser, streams, subscriptions },
   streamName,
+  streamId,
   topic,
 }: {|
   backgroundData: $ReadOnly<{
@@ -240,6 +242,7 @@ export const constructTopicActionButtons = ({
     ...
   }>,
   streamName: string,
+  streamId: number,
   topic: string,
 |}): Button<TopicArgs>[] => {
   const buttons = [];
@@ -397,6 +400,7 @@ export const showTopicActionSheet = ({
   backgroundData,
   topic,
   streamName,
+  streamId,
 }: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
@@ -413,11 +417,13 @@ export const showTopicActionSheet = ({
     ...
   }>,
   streamName: string,
+  streamId: number,
   topic: string,
 |}): void => {
   const buttonList = constructTopicActionButtons({
     backgroundData,
     streamName,
+    streamId,
     topic,
   });
   showActionSheetWithOptions(
@@ -430,6 +436,7 @@ export const showTopicActionSheet = ({
       ...backgroundData,
       ...callbacks,
       streamName,
+      streamId,
       topic,
     }),
   );

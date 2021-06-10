@@ -81,6 +81,7 @@ const TitleStream = (props: Props) => {
                 callbacks: { dispatch, _ },
                 backgroundData,
                 streamName: stream.name,
+                streamId: stream.stream_id,
                 topic: topicOfNarrow(narrow),
               });
             }

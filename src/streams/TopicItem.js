@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
+import invariant from 'invariant';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
@@ -61,6 +62,9 @@ export default function TopicItem(props: Props) {
     flags: getFlags(state),
   }));
 
+  const stream = backgroundData.streamsByName.get(streamName);
+  invariant(stream !== undefined, 'No stream with provided stream name was found.');
+
   return (
     <Touchable
       onPress={() => onPress(streamName, name)}
@@ -70,6 +74,7 @@ export default function TopicItem(props: Props) {
           callbacks: { dispatch, _ },
           backgroundData,
           streamName,
+          streamId: stream.stream_id,
           topic: name,
         });
       }}

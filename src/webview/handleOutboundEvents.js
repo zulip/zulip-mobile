@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import { Clipboard, Alert } from 'react-native';
 
+import invariant from 'invariant';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import config from '../config';
@@ -212,11 +213,15 @@ const handleLongPress = (
   const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
   if (target === 'header') {
     if (message.type === 'stream') {
+      const streamName = streamNameOfStreamMessage(message);
+      const stream = backgroundData.streamsByName.get(streamName);
+      invariant(stream !== undefined, 'No stream with provided stream name was found.');
       showTopicActionSheet({
         showActionSheetWithOptions,
         callbacks: { dispatch, _ },
         backgroundData,
-        streamName: streamNameOfStreamMessage(message),
+        streamName,
+        streamId: stream.stream_id,
         topic: message.subject,
       });
     } else if (message.type === 'private') {

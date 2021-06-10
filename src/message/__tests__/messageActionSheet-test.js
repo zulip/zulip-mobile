@@ -47,12 +47,14 @@ describe('constructTopicActionButtons', () => {
   const streamMessage = eg.streamMessage();
   const streamName = streamNameOfStreamMessage(streamMessage);
   const topic = streamMessage.subject;
+  const streamId = streamMessage.stream_id;
 
   test('show Unmute topic option if topic is muted', () => {
     const mute = deepFreeze([[streamName, topic]]);
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, mute },
       streamName,
+      streamId,
       topic,
     });
     expect(buttonTitles(buttons)).toContain('Unmute topic');
@@ -62,6 +64,7 @@ describe('constructTopicActionButtons', () => {
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, mute: [] },
       streamName,
+      streamId,
       topic,
     });
     expect(buttonTitles(buttons)).toContain('Mute topic');
@@ -72,6 +75,7 @@ describe('constructTopicActionButtons', () => {
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, subscriptions },
       streamName,
+      streamId,
       topic,
     });
     expect(buttonTitles(buttons)).toContain('Unmute stream');
@@ -82,6 +86,7 @@ describe('constructTopicActionButtons', () => {
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, subscriptions },
       streamName,
+      streamId,
       topic,
     });
     expect(buttonTitles(buttons)).toContain('Mute stream');
@@ -92,6 +97,7 @@ describe('constructTopicActionButtons', () => {
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, ownUser },
       streamName,
+      streamId,
       topic,
     });
     expect(buttonTitles(buttons)).toContain('Delete topic');
@@ -101,6 +107,7 @@ describe('constructTopicActionButtons', () => {
     const buttons = constructTopicActionButtons({
       backgroundData: eg.backgroundData,
       streamName,
+      streamId,
       topic,
     });
     expect(buttonTitles(buttons)).not.toContain('Delete topic');
