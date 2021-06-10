@@ -30,6 +30,7 @@ import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker, navigateToStream 
 import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
+import { getUnreadCountForTopic } from '../unread/unreadModel';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -120,6 +121,12 @@ const deleteMessage = async ({ auth, message, dispatch }) => {
 };
 deleteMessage.title = 'Delete message';
 deleteMessage.errorMessage = 'Failed to delete message';
+
+const markTopicAsRead = async ({ auth, streamId, topic }) => {
+  await api.markTopicAsRead(auth, streamId, topic);
+};
+markTopicAsRead.title = 'Mark topic as read';
+markTopicAsRead.errorMessage = 'Failed to mark topic as read';
 
 const unmuteTopic = async ({ auth, streamName, topic }) => {
   await api.setTopicMute(auth, streamName, topic, false);
@@ -241,6 +248,10 @@ export const constructTopicActionButtons = ({
   const buttons = [];
   if (ownUser.is_admin) {
     buttons.push(deleteTopic);
+  }
+  const unreadCount = getUnreadCountForTopic(unread, streamId, topic);
+  if (unreadCount > 0) {
+    buttons.push(markTopicAsRead);
   }
   if (isTopicMuted(streamName, topic, mute)) {
     buttons.push(unmuteTopic);

@@ -5,6 +5,8 @@ import { streamNameOfStreamMessage } from '../../utils/recipient';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { constructMessageActionButtons, constructTopicActionButtons } from '../messageActionSheet';
+import { reducer } from '../../unread/unreadModel';
+import { initialState } from '../../unread/__tests__/unread-testlib';
 
 const buttonTitles = buttons => buttons.map(button => button.title);
 
@@ -48,6 +50,34 @@ describe('constructTopicActionButtons', () => {
   const streamName = streamNameOfStreamMessage(streamMessage);
   const topic = streamMessage.subject;
   const streamId = streamMessage.stream_id;
+
+  const baseState = (() => {
+    const r = (state, action) => reducer(state, action, eg.plusReduxState);
+    let state = initialState;
+    state = r(state, eg.mkActionEventNewMessage(streamMessage));
+    return state;
+  })();
+
+  test('show mark as read if topic is unread', () => {
+    const unread = baseState;
+    const buttons = constructTopicActionButtons({
+      backgroundData: { ...eg.backgroundData, unread },
+      streamName,
+      streamId,
+      topic,
+    });
+    expect(buttonTitles(buttons)).toContain('Mark topic as read');
+  });
+
+  test('do not show mark as read if topic is read', () => {
+    const buttons = constructTopicActionButtons({
+      backgroundData: eg.backgroundData,
+      streamName,
+      streamId,
+      topic,
+    });
+    expect(buttonTitles(buttons)).not.toContain('Mark topic as read');
+  });
 
   test('show Unmute topic option if topic is muted', () => {
     const mute = deepFreeze([[streamName, topic]]);

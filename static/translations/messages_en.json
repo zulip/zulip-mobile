@@ -247,5 +247,6 @@
   "Uploading {fileName} failed.": "Uploading {fileName} failed.",
   "Attachment": "Attachment",
   "Attachment {num}": "Attachment {num}",
+  "Failed to mark topic as read": "Failed to mark topic as read",
   "Remove account": "Remove account"
 }
