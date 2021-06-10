@@ -132,7 +132,7 @@ const muteTopic = async ({ auth, streamName, topic }) => {
 muteTopic.title = 'Mute topic';
 muteTopic.errorMessage = 'Failed to mute topic';
 
-const deleteTopic = async ({ auth, streamName, topic, dispatch, _ }) => {
+const deleteTopic = async ({ auth, streamId, topic, dispatch, _ }) => {
   const alertTitle = _('Are you sure you want to delete the topic “{topic}”?', { topic });
   const AsyncAlert = async (): Promise<boolean> =>
     new Promise((resolve, reject) => {
@@ -159,7 +159,7 @@ const deleteTopic = async ({ auth, streamName, topic, dispatch, _ }) => {
       );
     });
   if (await AsyncAlert()) {
-    await dispatch(deleteMessagesForTopic(streamName, topic));
+    await dispatch(deleteMessagesForTopic(streamId, topic));
   }
 };
 deleteTopic.title = 'Delete topic';
