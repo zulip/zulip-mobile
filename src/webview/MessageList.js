@@ -21,6 +21,7 @@ import type {
   ImageEmojiType,
   HtmlPieceDescriptor,
   Subscription,
+  Stream,
   ThemeName,
   User,
   UserOrBot,
@@ -41,6 +42,7 @@ import {
   getOwnUser,
   getSettings,
   getSubscriptions,
+  getStreamsById,
   getRealm,
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
@@ -79,6 +81,7 @@ export type BackgroundData = $ReadOnly<{|
   mute: MuteState,
   mutedUsers: MutedUsersState,
   ownUser: User,
+  streams: Map<number, Stream>,
   subscriptions: Subscription[],
   theme: ThemeName,
   twentyFourHourTime: boolean,
@@ -307,6 +310,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       mute: getMute(state),
       mutedUsers: getMutedUsers(state),
       ownUser: getOwnUser(state),
+      streams: getStreamsById(state),
       subscriptions: getSubscriptions(state),
       theme: getSettings(state).theme,
       twentyFourHourTime: getRealm(state).twentyFourHourTime,

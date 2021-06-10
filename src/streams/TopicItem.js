@@ -10,7 +10,14 @@ import { showTopicActionSheet } from '../message/messageActionSheet';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { useDispatch, useSelector } from '../react-redux';
-import { getAuth, getMute, getFlags, getSubscriptions, getOwnUser } from '../selectors';
+import {
+  getAuth,
+  getMute,
+  getFlags,
+  getSubscriptions,
+  getStreamsById,
+  getOwnUser,
+} from '../selectors';
 
 const componentStyles = createStyleSheet({
   selectedRow: {
@@ -46,6 +53,7 @@ export default function TopicItem(props: Props) {
   const backgroundData = useSelector(state => ({
     auth: getAuth(state),
     mute: getMute(state),
+    streams: getStreamsById(state),
     subscriptions: getSubscriptions(state),
     ownUser: getOwnUser(state),
     flags: getFlags(state),

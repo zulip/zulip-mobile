@@ -14,6 +14,7 @@ import type {
   Subscription,
   User,
   EditMessage,
+  Stream,
 } from '../types';
 import {
   getNarrowForReply,
@@ -227,12 +228,13 @@ cancel.title = 'Cancel';
 cancel.errorMessage = 'Failed to hide menu';
 
 export const constructTopicActionButtons = ({
-  backgroundData: { mute, subscriptions, ownUser },
+  backgroundData: { mute, ownUser, streams, subscriptions },
   streamName,
   topic,
 }: {|
   backgroundData: $ReadOnly<{
     mute: MuteState,
+    streams: Map<number, Stream>,
     subscriptions: Subscription[],
     ownUser: User,
     ...
@@ -404,6 +406,7 @@ export const showTopicActionSheet = ({
   backgroundData: $ReadOnly<{
     auth: Auth,
     mute: MuteState,
+    streams: Map<number, Stream>,
     subscriptions: Subscription[],
     ownUser: User,
     flags: FlagsState,

@@ -25,6 +25,7 @@ import {
   getMute,
   getFlags,
   getSubscriptions,
+  getStreamsById,
   getOwnUser,
   getStreamInNarrow,
 } from '../selectors';
@@ -36,6 +37,7 @@ type SelectorProps = {|
   backgroundData: {|
     auth: Auth,
     mute: MuteState,
+    streams: Map<number, Stream>,
     subscriptions: Subscription[],
     ownUser: User,
     flags: FlagsState,
@@ -113,6 +115,7 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   backgroundData: {
     auth: getAuth(state),
     mute: getMute(state),
+    streams: getStreamsById(state),
     subscriptions: getSubscriptions(state),
     ownUser: getOwnUser(state),
     flags: getFlags(state),
