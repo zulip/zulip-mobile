@@ -165,29 +165,20 @@ const deleteTopic = async ({ auth, streamName, topic, dispatch, _ }) => {
 deleteTopic.title = 'Delete topic';
 deleteTopic.errorMessage = 'Failed to delete topic';
 
-const unmuteStream = async ({ auth, streamName, subscriptions }) => {
-  const sub = subscriptions.find(x => x.name === streamName);
-  if (sub) {
-    await api.setSubscriptionProperty(auth, sub.stream_id, 'is_muted', false);
-  }
+const unmuteStream = async ({ auth, streamId, subscriptions }) => {
+  await api.setSubscriptionProperty(auth, streamId, 'is_muted', false);
 };
 unmuteStream.title = 'Unmute stream';
 unmuteStream.errorMessage = 'Failed to unmute stream';
 
-const muteStream = async ({ auth, streamName, subscriptions }) => {
-  const sub = subscriptions.find(x => x.name === streamName);
-  if (sub) {
-    await api.setSubscriptionProperty(auth, sub.stream_id, 'is_muted', true);
-  }
+const muteStream = async ({ auth, streamId, subscriptions }) => {
+  await api.setSubscriptionProperty(auth, streamId, 'is_muted', true);
 };
 muteStream.title = 'Mute stream';
 muteStream.errorMessage = 'Failed to mute stream';
 
-const showStreamSettings = ({ streamName, subscriptions }) => {
-  const sub = subscriptions.find(x => x.name === streamName);
-  if (sub) {
-    NavigationService.dispatch(navigateToStream(sub.stream_id));
-  }
+const showStreamSettings = ({ streamId, subscriptions }) => {
+  NavigationService.dispatch(navigateToStream(streamId));
 };
 showStreamSettings.title = 'Stream settings';
 showStreamSettings.errorMessage = 'Failed to show stream settings';
