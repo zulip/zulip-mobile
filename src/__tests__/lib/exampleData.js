@@ -759,6 +759,7 @@ export const backgroundData: BackgroundData = deepFreeze({
   streams: getStreamsById(baseReduxState),
   streamsByName: getStreamsByName(baseReduxState),
   subscriptions: [],
+  unread: baseReduxState.unread,
   theme: 'default',
   twentyFourHourTime: false,
 });

@@ -20,6 +20,7 @@ import {
   getStreamsByName,
   getOwnUser,
 } from '../selectors';
+import { getUnread } from '../unread/unreadModel';
 
 const componentStyles = createStyleSheet({
   selectedRow: {
@@ -58,6 +59,7 @@ export default function TopicItem(props: Props) {
     streams: getStreamsById(state),
     streamsByName: getStreamsByName(state),
     subscriptions: getSubscriptions(state),
+    unread: getUnread(state),
     ownUser: getOwnUser(state),
     flags: getFlags(state),
   }));

@@ -58,6 +58,8 @@ import { handleWebViewOutboundEvent } from './handleOutboundEvents';
 import { base64Utf8Encode } from '../utils/encoding';
 import * as logging from '../utils/logging';
 import { tryParseUrl } from '../utils/url';
+import type { UnreadState } from '../unread/unreadModelTypes';
+import { getUnread } from '../unread/unreadModel';
 
 // ESLint doesn't notice how `this.props` escapes, and complains about some
 // props not being used here.
@@ -85,6 +87,7 @@ export type BackgroundData = $ReadOnly<{|
   streams: Map<number, Stream>,
   streamsByName: Map<string, Stream>,
   subscriptions: Subscription[],
+  unread: UnreadState,
   theme: ThemeName,
   twentyFourHourTime: boolean,
 |}>;
@@ -315,6 +318,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       streams: getStreamsById(state),
       streamsByName: getStreamsByName(state),
       subscriptions: getSubscriptions(state),
+      unread: getUnread(state),
       theme: getSettings(state).theme,
       twentyFourHourTime: getRealm(state).twentyFourHourTime,
     };

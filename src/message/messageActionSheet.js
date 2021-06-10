@@ -16,6 +16,7 @@ import type {
   EditMessage,
   Stream,
 } from '../types';
+import type { UnreadState } from '../unread/unreadModelTypes';
 import {
   getNarrowForReply,
   isPmNarrow,
@@ -220,7 +221,7 @@ cancel.title = 'Cancel';
 cancel.errorMessage = 'Failed to hide menu';
 
 export const constructTopicActionButtons = ({
-  backgroundData: { mute, ownUser, streams, subscriptions },
+  backgroundData: { mute, ownUser, streams, subscriptions, unread },
   streamName,
   streamId,
   topic,
@@ -229,6 +230,7 @@ export const constructTopicActionButtons = ({
     mute: MuteState,
     streams: Map<number, Stream>,
     subscriptions: Subscription[],
+    unread: UnreadState,
     ownUser: User,
     ...
   }>,
@@ -403,6 +405,7 @@ export const showTopicActionSheet = ({
     mute: MuteState,
     streams: Map<number, Stream>,
     subscriptions: Subscription[],
+    unread: UnreadState,
     ownUser: User,
     flags: FlagsState,
     ...

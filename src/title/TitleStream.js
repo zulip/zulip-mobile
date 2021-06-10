@@ -31,6 +31,8 @@ import {
 } from '../selectors';
 import { showTopicActionSheet } from '../message/messageActionSheet';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import type { UnreadState } from '../unread/unreadModelTypes';
+import { getUnread } from '../unread/unreadModel';
 
 type SelectorProps = {|
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
@@ -39,6 +41,7 @@ type SelectorProps = {|
     mute: MuteState,
     streams: Map<number, Stream>,
     subscriptions: Subscription[],
+    unread: UnreadState,
     ownUser: User,
     flags: FlagsState,
   |},
@@ -118,6 +121,7 @@ export default connect<SelectorProps, _, _>((state, props) => ({
     mute: getMute(state),
     streams: getStreamsById(state),
     subscriptions: getSubscriptions(state),
+    unread: getUnread(state),
     ownUser: getOwnUser(state),
     flags: getFlags(state),
   },
