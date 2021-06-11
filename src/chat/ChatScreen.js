@@ -22,6 +22,7 @@ import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
 import { getFirstUnreadIdInNarrow } from '../message/messageSelectors';
+import { getDraftForNarrow } from '../drafts/draftsSelectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -107,6 +108,7 @@ export default function ChatScreen(props: Props): Node {
     navigation.setParams({ editMessage: value });
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
+  const draft = useSelector(state => getDraftForNarrow(state, narrow));
 
   const {
     fetchError,
@@ -149,6 +151,7 @@ export default function ChatScreen(props: Props): Node {
           narrow={narrow}
           editMessage={editMessage}
           completeEditMessage={() => setEditMessage(null)}
+          initialMessage={draft}
         />
       )}
     </KeyboardAvoider>
