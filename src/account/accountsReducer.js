@@ -9,7 +9,7 @@ import {
   LOGOUT,
   ACCOUNT_REMOVE,
 } from '../actionConstants';
-
+import { EventTypes } from '../api/eventTypes';
 import type { AccountsState, Identity, Action } from '../types';
 import { NULL_ARRAY } from '../nullObjects';
 import { ZulipVersion } from '../utils/zulipVersion';
@@ -115,7 +115,7 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
     case EVENT: {
       const { event } = action;
       switch (event.type) {
-        case 'restart': {
+        case EventTypes.restart: {
           const { zulip_feature_level, zulip_version } = event;
           return zulip_feature_level !== undefined && zulip_version !== undefined
             ? [
