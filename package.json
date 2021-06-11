@@ -110,7 +110,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "flow-bin": "^0.128.0",
-    "flow-coverage-report": "^0.6.0",
+    "flow-coverage-report": "^0.8.0",
     "flow-typed": "^2.4.0",
     "immutable-devtools": "^0.1.5",
     "jest": "^26.4.1",
