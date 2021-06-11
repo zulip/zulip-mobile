@@ -120,15 +120,12 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
           if (zulip_feature_level === undefined || zulip_version === undefined) {
             return state;
           }
+
+          // TODO: Detect if the feature level has changed, indicating an upgrade;
+          //   if so, trigger a full refetch of server data.  See #4793.
           return [
             {
               ...state[0],
-
-              // TODO (?): Detect if these are different from the values
-              // we had before, so we know it's an upgrade, not just a
-              // restart. Then, implement logic like "be sure to refetch
-              // from scratch within N hours" (to avoid thundering
-              // herding the server).
               zulipVersion: new ZulipVersion(zulip_version),
               zulipFeatureLevel: zulip_feature_level,
             },
