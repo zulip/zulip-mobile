@@ -60,6 +60,7 @@ export default function MainTabsScreen(props: Props) {
           showLabel: Platform.OS === 'ios' && Platform.isPad,
           showIcon: true,
         })}
+        lazy={false}
         backBehavior="none"
       >
         <Tab.Screen
