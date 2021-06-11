@@ -55,7 +55,6 @@ import {
   getIsActiveStreamSubscribed,
   getIsActiveStreamAnnouncementOnly,
 } from '../subscriptions/subscriptionSelectors';
-import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
@@ -67,7 +66,6 @@ type SelectorProps = {|
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
-  draft: string,
   lastMessageTopic: string,
   caughtUp: CaughtUp,
   videoChatProvider: VideoChatProvider | null,
@@ -80,6 +78,9 @@ type Props = $ReadOnly<{|
   narrow: Narrow,
   editMessage: EditMessage | null,
   completeEditMessage: () => void,
+
+  initialMessage?: string,
+  initialTopic?: string,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -153,8 +154,8 @@ class ComposeBox extends PureComponent<Props, State> {
     isFocused: false,
     isMenuExpanded: false,
     height: 20,
-    topic: this.props.lastMessageTopic,
-    message: this.props.draft,
+    topic: this.props.initialTopic != null ? this.props.initialTopic : this.props.lastMessageTopic,
+    message: this.props.initialMessage || '',
     selection: { start: 0, end: 0 },
   };
 
@@ -532,7 +533,6 @@ export default compose(
     isAdmin: getIsAdmin(state),
     isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
     isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
-    draft: getDraftForNarrow(state, props.narrow),
     lastMessageTopic: getLastMessageTopic(state, props.narrow),
     caughtUp: getCaughtUpForNarrow(state, props.narrow),
     stream: getStreamInNarrow(state, props.narrow),
