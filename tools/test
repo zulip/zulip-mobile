@@ -216,15 +216,18 @@ run_jest() {
             ;;
     esac
 
+    PLATFORMS=("ios" "android")
+    RANDOM_PLATFORM=${PLATFORMS[RANDOM%2]}
+
     case "$platform" in
         ios) jest_args+=( --selectProjects ios );;
         android) jest_args+=( --selectProjects android );;
         both) jest_args+=( --selectProjects ios android );;
 
-        # This is where `sloppy` is sloppy: we just choose iOS, so the
-        # tests will run faster, but at the expense of a (relatively
-        # small) loss of coverage.
-        sloppy) jest_args+=( --selectProjects ios );;
+        # This is where `sloppy` is sloppy: we choose a platform randomly, so
+        # the tests will run faster, but at the expense of a (relatively small)
+        # loss of coverage.
+        sloppy) jest_args+=( --selectProjects "$RANDOM_PLATFORM");;
     esac
 
     check_node || return
