@@ -362,9 +362,9 @@ PODS:
     - React-Core
   - RNReanimated (1.13.3):
     - React-Core
-  - RNSentry (2.4.3):
+  - RNSentry (2.5.0):
     - React-Core
-    - Sentry (= 6.1.4)
+    - Sentry (= 7.0.0)
   - RNSound (0.11.0):
     - React
     - RNSound/Core (= 0.11.0)
@@ -372,9 +372,9 @@ PODS:
     - React
   - RNVectorIcons (7.0.0):
     - React
-  - Sentry (6.1.4):
-    - Sentry/Core (= 6.1.4)
-  - Sentry/Core (6.1.4)
+  - Sentry (7.0.0):
+    - Sentry/Core (= 7.0.0)
+  - Sentry/Core (7.0.0)
   - Toast (4.0.0)
   - UMAppLoader (1.2.0)
   - UMBarCodeScannerInterface (5.2.1)
@@ -698,10 +698,10 @@ SPEC CHECKSUMS:
   RNDeviceInfo: 9b6aba9ffaed69ecb72bd13c7bcb0debf277bc9f
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: 514a11da3a2bcc6c3dfd9de32b38e2b9bf101926
-  RNSentry: 6f8f9ee7e4c939dcd35e5633b94d0e3782888e46
+  RNSentry: c536a1f6d7e042b05b7d52c522e975458e032c7d
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
-  Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
+  Sentry: 89d26e036063b9cb9caa59b6951dd2f8277aa13b
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   UMAppLoader: 61049c8d55590b74e9ae1d5429bf68d96b4a2528
   UMBarCodeScannerInterface: e5e4c87797d3d01214e25cd1618866caf5d4f17f
