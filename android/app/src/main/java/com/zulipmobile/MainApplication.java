@@ -8,6 +8,7 @@ import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
+import com.brentvatne.react.ReactVideoPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -55,6 +56,7 @@ public class MainApplication extends Application implements ReactApplication {
             packages.add(new ZulipNativePackage());
             packages.add(new NotificationsPackage());
             packages.add(new SharingPackage());
+            packages.add(new ReactVideoPackage());
 
             // Unimodules:
             packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));

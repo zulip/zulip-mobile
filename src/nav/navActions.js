@@ -68,6 +68,9 @@ export const navigateToRealmInputScreen = (): GenericNavigationAction =>
 export const navigateToLightbox = (src: string, message: Message): GenericNavigationAction =>
   StackActions.push('lightbox', { src, message });
 
+export const navigateToVideo = (src: string, message: Message): GenericNavigationAction =>
+  StackActions.push('video', { src, message });
+
 export const navigateToLanguage = (): GenericNavigationAction => StackActions.push('language');
 
 export const navigateToCreateGroup = (): GenericNavigationAction =>

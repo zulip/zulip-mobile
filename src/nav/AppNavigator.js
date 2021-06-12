@@ -31,6 +31,7 @@ import VariablesScreen from '../diagnostics/VariablesScreen';
 import TimingScreen from '../diagnostics/TimingScreen';
 import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
+import VideoScreen from '../video/VideoScreen';
 import CreateGroupScreen from '../user-groups/CreateGroupScreen';
 import InviteUsersScreen from '../streams/InviteUsersScreen';
 import StreamSettingsScreen from '../streams/StreamSettingsScreen';
@@ -60,6 +61,7 @@ export type AppNavigatorParamList = {|
   users: RouteParamsOf<typeof UsersScreen>,
   language: RouteParamsOf<typeof LanguageScreen>,
   lightbox: RouteParamsOf<typeof LightboxScreen>,
+  video: RouteParamsOf<typeof VideoScreen>,
   'create-group': RouteParamsOf<typeof CreateGroupScreen>,
   'invite-users': RouteParamsOf<typeof InviteUsersScreen>,
   diagnostics: RouteParamsOf<typeof DiagnosticsScreen>,
@@ -125,6 +127,7 @@ export default function AppNavigator(props: Props) {
       <Stack.Screen name="users" component={useHaveServerDataGate(UsersScreen)} />
       <Stack.Screen name="language" component={useHaveServerDataGate(LanguageScreen)} />
       <Stack.Screen name="lightbox" component={useHaveServerDataGate(LightboxScreen)} />
+      <Stack.Screen name="video" component={useHaveServerDataGate(VideoScreen)} />
       <Stack.Screen name="create-group" component={useHaveServerDataGate(CreateGroupScreen)} />
       <Stack.Screen name="invite-users" component={useHaveServerDataGate(InviteUsersScreen)} />
       <Stack.Screen name="diagnostics" component={useHaveServerDataGate(DiagnosticsScreen)} />
