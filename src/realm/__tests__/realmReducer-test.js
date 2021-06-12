@@ -28,6 +28,7 @@ describe('realmReducer', () => {
         emoji: {},
         filters: [],
         videoChatProvider: null,
+        mandatoryTopics: false,
         nonActiveUsers: [],
       };
 

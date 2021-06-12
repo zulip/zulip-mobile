@@ -18,6 +18,7 @@ const initialState = {
   filters: [],
   emoji: {},
   videoChatProvider: null,
+  mandatoryTopics: false,
 
   email: undefined,
   user_id: undefined,
@@ -66,6 +67,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
           jitsiServerUrl: action.data.jitsi_server_url,
           providerId: action.data.realm_video_chat_provider,
         }),
+        mandatoryTopics: action.data.realm_mandatory_topics,
 
         email: action.data.email,
         user_id: action.data.user_id,

@@ -352,6 +352,9 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     })),
   }),
 
+  // Add mandatoryTopics to RealmState. No migration; handled automatically
+  // by merging with the new initial state.
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

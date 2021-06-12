@@ -245,6 +245,8 @@ export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl:
  * @prop videoChatProvider - The video chat provider configured by the
  *   server; null if none, or if the configured provider is one we don't
  *   support.
+ * @prop mandatoryTopics - Whether topics are required in stream messages
+ *   (see https://zulip.com/help/require-topics)
  *
  * About the user:
  * @prop email
@@ -260,6 +262,7 @@ export type RealmState = $ReadOnly<{|
   filters: $ReadOnlyArray<RealmFilter>,
   emoji: RealmEmojiById,
   videoChatProvider: VideoChatProvider | null,
+  mandatoryTopics: boolean,
 
   email: string | void,
   user_id: UserId | void,
