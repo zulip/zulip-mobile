@@ -36,7 +36,7 @@ const styles = createStyleSheet({
     justifyContent: 'space-between',
   },
   textError: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     color: 'white',
   },
