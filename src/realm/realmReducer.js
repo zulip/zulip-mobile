@@ -24,6 +24,7 @@ const initialState = {
   twentyFourHourTime: false,
   canCreateStreams: true,
   isAdmin: false,
+  isTopicMandatory: false,
 };
 
 const convertRealmEmoji = (data): RealmEmojiById =>
@@ -72,6 +73,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         twentyFourHourTime: action.data.twenty_four_hour_time,
         canCreateStreams: action.data.can_create_streams,
         isAdmin: action.data.is_admin,
+        isTopicMandatory: action.data.realm_mandatory_topics,
       };
     }
 
