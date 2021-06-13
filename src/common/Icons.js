@@ -84,4 +84,5 @@ export const IconMoreHorizontal = makeIcon(Feather, 'more-horizontal');
 export const IconEdit = makeIcon(Feather, 'edit');
 export const IconPlusSquare = makeIcon(Feather, 'plus-square');
 export const IconVideo = makeIcon(Feather, 'video');
+export const IconWarning = makeIcon(IoniconsIcon, 'warning');
 export const IconUserMuted = makeIcon(FontAwesome, 'user');

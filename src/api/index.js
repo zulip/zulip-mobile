@@ -51,6 +51,7 @@ import getUsers from './users/getUsers';
 import createUser from './users/createUser';
 import getUserProfile from './users/getUserProfile';
 import updateUserStatus from './users/updateUserStatus';
+import deactivateUser from './users/deactivateUser';
 import getFileTemporaryUrl from './messages/getFileTemporaryUrl';
 
 export {
@@ -97,5 +98,6 @@ export {
   createUser,
   getUserProfile,
   updateUserStatus,
+  deactivateUser,
   getFileTemporaryUrl,
 };
