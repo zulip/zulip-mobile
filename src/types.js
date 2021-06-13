@@ -141,7 +141,9 @@ export type EditMessage = {|
   content: string,
   topic: string,
 |};
-
+export type ReplyWithMention = {|
+  content: string,
+|};
 export type Debug = {|
   doNotMarkMessagesAsRead: boolean,
 |};

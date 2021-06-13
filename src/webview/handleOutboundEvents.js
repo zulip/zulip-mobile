@@ -4,7 +4,16 @@ import { Clipboard, Alert } from 'react-native';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import config from '../config';
-import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage, UserId } from '../types';
+import type {
+  Dispatch,
+  GetText,
+  Message,
+  Narrow,
+  Outbox,
+  EditMessage,
+  ReplyWithMention,
+  UserId,
+} from '../types';
 import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
 import type { JSONableDict } from '../utils/jsonable';
@@ -156,6 +165,7 @@ type Props = $ReadOnly<{
   narrow: Narrow,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   startEditMessage: (editMessage: EditMessage) => void,
+  startReplyWithMention: (replyWithMention: ReplyWithMention) => void,
   ...
 }>;
 
@@ -211,7 +221,14 @@ const handleLongPress = (
   if (!message) {
     return;
   }
-  const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
+  const {
+    dispatch,
+    showActionSheetWithOptions,
+    backgroundData,
+    narrow,
+    startEditMessage,
+    startReplyWithMention,
+  } = props;
   if (target === 'header') {
     if (message.type === 'stream') {
       showHeaderActionSheet({
@@ -231,7 +248,7 @@ const handleLongPress = (
   } else if (target === 'message') {
     showMessageActionSheet({
       showActionSheetWithOptions,
-      callbacks: { dispatch, startEditMessage, _ },
+      callbacks: { dispatch, startEditMessage, startReplyWithMention, _ },
       backgroundData,
       message,
       narrow,
