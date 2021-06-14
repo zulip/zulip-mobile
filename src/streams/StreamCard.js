@@ -34,9 +34,6 @@ export default class StreamCard extends PureComponent<Props> {
   render() {
     const { stream, subscription } = this.props;
 
-    const name = subscription?.name || stream.name;
-    const description = subscription?.description || stream.description;
-
     return (
       <View style={styles.padding}>
         <View style={componentStyles.streamRow}>
@@ -50,13 +47,13 @@ export default class StreamCard extends PureComponent<Props> {
           />
           <RawLabel
             style={componentStyles.streamText}
-            text={name}
+            text={stream.name}
             numberOfLines={1}
             ellipsizeMode="tail"
           />
         </View>
-        {description.length > 0 && (
-          <RawLabel style={componentStyles.descriptionText} text={description} />
+        {stream.description.length > 0 && (
+          <RawLabel style={componentStyles.descriptionText} text={stream.description} />
         )}
       </View>
     );
