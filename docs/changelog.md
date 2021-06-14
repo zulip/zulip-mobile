@@ -37,6 +37,46 @@ It doesn't include
 ## Unreleased
 
 
+### Highlights for users
+
+* Initial support for muted users. (#4655)
+* New color scheme to match the new Zulip logo. (PR #4544)
+* (Android) Fixed a bug where the app sometimes opened to a wrong
+  conversation. (#4758)
+* Fixed a glitch where the add-server screen sometimes flashed by before the
+  auth screen. (#4604)
+* (Android) Now available on the Play Store to devices without cameras.
+  (#4722)
+* Fixed bugs with keypad and letter emoji. (#3517, #3395)
+
+Plus, like every release, many other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Extended Jest coverage to include Android-only codepaths. (#4700)
+* Ran `yarn upgrade` to take all semver-compatible upgrades, as of
+  2021-06-07. (It had been almost two years since the last one.) (PR #4789)
+* Fixed new iOS build failures. (PRs #4721, #4634)
+* `restart` events can now cause updates to `zulipVersion` and
+  `zulipFeatureLevel` in `state.accounts[0]`. (PR #4707)
+* Increased test coverage of our storage logic, and continued cleaning up
+  `redux-persist`. (#4709)
+* Fixed a bug where `CaughtUp` state was being wrongly overwritten. (PR
+  #4698)
+* In dev mode only, a user-facing string passed to a `_: GetText` will now
+  be highlighted in the UI if it doesn't have an entry in
+  `messages_en.json`. (#4728)
+* Improved documentation for the release process. (PR #4690)
+* We tried out Dependabot and decided not to use it for now. (#4787)
+
+* Resolved issues (latest to earliest): PR #4707, #4715, PR #4777, most of
+  #4655, PR #4750, #4758, PR #4761, PR #4717, PR #4710, PR #4749, #4722,
+  #4604, PR #4728, #3540, #4323, #4734, PR #4721, #4264, PR #4716, PR #4634,
+  PR #4697, PR #4544, PR #4698, PR #4686, PR #4689, #3517, #3395
+
+
 ## 27.163 (2021-06-04)
 
 ### Highlights for users, vs v27.161 (last prod release)
