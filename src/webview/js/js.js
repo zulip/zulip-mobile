@@ -718,11 +718,25 @@ const handleInboundEventTyping = (uevent: WebViewInboundEventTyping) => {
   }
 };
 
+let readyRetryInterval: IntervalID | void = undefined;
+
+const signalReadyForEvents = () => {
+  sendMessage({ type: 'ready' });
+
+  // Keep retrying sending the ready event, in case the first one is sent while
+  // the queue isn't ready. While this isn't something I've observed in testing,
+  // we've previously had bugs that were caused by this (for instance, #3078)
+  readyRetryInterval = setInterval(() => {
+    sendMessage({ type: 'ready' });
+  }, 100);
+};
+
 /**
- * Echo back the handshake message, confirming the channel is ready.
+ * Stop resending the handshake message once we confirm that the channel is
+ * ready.
  */
 const handleInboundEventReady = (uevent: WebViewInboundEventReady) => {
-  sendMessage({ type: 'ready' });
+  clearInterval(readyRetryInterval);
 };
 
 /**
@@ -1009,3 +1023,9 @@ documentBody.addEventListener('touchmove', (e: TouchEvent) => {
 documentBody.addEventListener('drag', (e: DragEvent) => {
   clearTimeout(longPressTimeout);
 });
+
+// It's possible we could call this earlier, and would see some performance
+// benifit from doing so, since js.js takes about 16ms to run on a Pixel 3a.
+// However, I don't see that as being worth the possible bugs from things
+// loading too early.
+signalReadyForEvents();

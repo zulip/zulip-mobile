@@ -821,10 +821,21 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var handleInboundEventReady = function handleInboundEventReady(uevent) {
+  var readyRetryInterval = undefined;
+
+  var signalReadyForEvents = function signalReadyForEvents() {
     sendMessage({
       type: 'ready'
     });
+    readyRetryInterval = setInterval(function () {
+      sendMessage({
+        type: 'ready'
+      });
+    }, 100);
+  };
+
+  var handleInboundEventReady = function handleInboundEventReady(uevent) {
+    clearInterval(readyRetryInterval);
   };
 
   var handleInboundEventMessagesRead = function handleInboundEventMessagesRead(uevent) {
@@ -1072,6 +1083,7 @@ var compiledWebviewJs = (function (exports) {
   documentBody.addEventListener('drag', function (e) {
     clearTimeout(longPressTimeout);
   });
+  signalReadyForEvents();
 
   exports.handleInitialLoad = handleInitialLoad;
 

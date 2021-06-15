@@ -150,50 +150,19 @@ class MessageList extends Component<Props> {
   context: ThemeData;
 
   webview: ?WebView;
-  readyRetryInterval: IntervalID | void;
   sendInboundEventsIsReady: boolean;
   unsentInboundEvents: WebViewInboundEvent[] = [];
 
   componentDidMount() {
-    this.setupSendInboundEvents();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.readyRetryInterval);
-    this.readyRetryInterval = undefined;
+    setTimeout(() => {
+      if (!this.sendInboundEventsIsReady) {
+        logging.warn('Possible infinite loop in WebView "ready" setup');
+      }
+    }, 1000);
   }
 
   handleError = (event: mixed) => {
     console.error(event); // eslint-disable-line
-  };
-
-  /**
-   * Initiate round-trip handshakes with the WebView, until one succeeds.
-   */
-  setupSendInboundEvents = (): void => {
-    const timeAtSetup = Date.now();
-    let attempts: number = 0;
-    let hasLogged: boolean = false;
-
-    clearInterval(this.readyRetryInterval);
-    this.readyRetryInterval = setInterval(() => {
-      const timeElapsedMs: number = Date.now() - timeAtSetup;
-      if (timeElapsedMs > 1000 && hasLogged === false) {
-        logging.warn('Possible infinite loop in WebView "ready" setup', {
-          attempts,
-          timeElapsedMs,
-        });
-        hasLogged = true;
-      }
-
-      if (!this.sendInboundEventsIsReady) {
-        this.sendInboundEvents([{ type: 'ready' }]);
-        attempts++;
-      } else {
-        clearInterval(this.readyRetryInterval);
-        this.readyRetryInterval = undefined;
-      }
-    }, 30);
   };
 
   sendInboundEvents = (uevents: WebViewInboundEvent[]): void => {
@@ -209,7 +178,7 @@ class MessageList extends Component<Props> {
     const eventData: WebViewOutboundEvent = JSON.parse(event.nativeEvent.data);
     if (eventData.type === 'ready') {
       this.sendInboundEventsIsReady = true;
-      this.sendInboundEvents(this.unsentInboundEvents);
+      this.sendInboundEvents([{ type: 'ready' }, ...this.unsentInboundEvents]);
       this.unsentInboundEvents = [];
     } else {
       const { _ } = this.props;
