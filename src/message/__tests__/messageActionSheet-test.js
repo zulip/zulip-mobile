@@ -44,12 +44,16 @@ describe('constructActionButtons', () => {
 });
 
 describe('constructTopicActionButtons', () => {
+  const streamMessage = eg.streamMessage();
+  const streamName = streamNameOfStreamMessage(streamMessage);
+  const topic = streamMessage.subject;
+
   test('show Unmute topic option if topic is muted', () => {
-    const mute = deepFreeze([['electron issues', 'issue #556']]);
+    const mute = deepFreeze([[streamName, topic]]);
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, mute },
-      streamName: 'electron issues',
-      topic: 'issue #556',
+      streamName,
+      topic,
     });
     expect(buttonTitles(buttons)).toContain('Unmute topic');
   });
@@ -57,8 +61,8 @@ describe('constructTopicActionButtons', () => {
   test('show mute topic option if topic is not muted', () => {
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, mute: [] },
-      streamName: streamNameOfStreamMessage(eg.streamMessage()),
-      topic: eg.streamMessage().subject,
+      streamName,
+      topic,
     });
     expect(buttonTitles(buttons)).toContain('Mute topic');
   });
@@ -67,8 +71,8 @@ describe('constructTopicActionButtons', () => {
     const subscriptions = [{ ...eg.subscription, in_home_view: false }];
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, subscriptions },
-      streamName: streamNameOfStreamMessage(eg.streamMessage()),
-      topic: eg.streamMessage().subject,
+      streamName,
+      topic,
     });
     expect(buttonTitles(buttons)).toContain('Unmute stream');
   });
@@ -77,8 +81,8 @@ describe('constructTopicActionButtons', () => {
     const subscriptions = [{ ...eg.subscription, in_home_view: true }];
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, subscriptions },
-      streamName: streamNameOfStreamMessage(eg.streamMessage()),
-      topic: eg.streamMessage().subject,
+      streamName,
+      topic,
     });
     expect(buttonTitles(buttons)).toContain('Mute stream');
   });
@@ -87,8 +91,8 @@ describe('constructTopicActionButtons', () => {
     const ownUser = { ...eg.selfUser, is_admin: true };
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, ownUser },
-      streamName: streamNameOfStreamMessage(eg.streamMessage()),
-      topic: eg.streamMessage().subject,
+      streamName,
+      topic,
     });
     expect(buttonTitles(buttons)).toContain('Delete topic');
   });
@@ -96,8 +100,8 @@ describe('constructTopicActionButtons', () => {
   test('do not show delete topic option if current user is not an admin', () => {
     const buttons = constructTopicActionButtons({
       backgroundData: eg.backgroundData,
-      streamName: streamNameOfStreamMessage(eg.streamMessage()),
-      topic: eg.streamMessage().subject,
+      streamName,
+      topic,
     });
     expect(buttonTitles(buttons)).not.toContain('Delete topic');
   });
