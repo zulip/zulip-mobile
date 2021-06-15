@@ -32,7 +32,7 @@ type Props = $ReadOnly<{|
   isMuted?: boolean,
   isSelected?: boolean,
   unreadCount?: number,
-  onPress: (topic: string, stream: string) => void,
+  onPress: (stream: string, topic: string) => void,
 |}>;
 
 export default function TopicItem(props: Props) {
