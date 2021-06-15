@@ -37,7 +37,7 @@
     "@react-navigation/stack": "^5.9.3",
     "@sentry/react-native": "^2.4.3",
     "@unimodules/core": "~5.3.0",
-    "@zulip/shared": "^0.0.5",
+    "@zulip/shared": "^0.0.6",
     "base-64": "^0.1.0",
     "blueimp-md5": "^2.10.0",
     "color": "^3.0.0",
