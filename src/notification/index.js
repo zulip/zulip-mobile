@@ -131,8 +131,8 @@ const readInitialNotification = async (): Promise<Notification | null> => {
   }
 
   // This is actually typed as ?Object (and so effectively `any`); but if
-  // present, it must be a JSONable dictionary. (See PushNotificationIOS.js and
-  // RCTPushNotificationManager.m in Libraries/PushNotificationIOS.)
+  // present, it must be a JSONable dictionary. It's giving us the
+  // notification data, which was passed over APNs as JSON.
   const data: ?JSONableDict = notification.getData();
   if (!data) {
     return null;
