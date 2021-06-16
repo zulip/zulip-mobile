@@ -64,7 +64,7 @@
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.": "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.",
   "Dismiss": "Dismiss",
   "Fix now": "Fix now",
-  "Learn more": "Learn more",
+  "Learn more": "Saiba mais",
   "Settings": "Configurações",
   "Night mode": "Night mode",
   "Open links with in-app browser": "Open links with in-app browser",
