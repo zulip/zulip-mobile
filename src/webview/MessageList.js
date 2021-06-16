@@ -302,7 +302,6 @@ type OuterProps = {|
   messages: $ReadOnlyArray<Message | Outbox>,
   initialScrollMessageId: number | null,
   showMessagePlaceholders: boolean,
-  htmlPieceDescriptorsForShownMessages?: HtmlPieceDescriptor[],
 |};
 
 export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
@@ -327,9 +326,10 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
   return {
     backgroundData,
     fetching: getFetchingForNarrow(state, props.narrow),
-    htmlPieceDescriptorsForShownMessages: props.htmlPieceDescriptorsForShownMessages
-      ? props.htmlPieceDescriptorsForShownMessages
-      : getHtmlPieceDescriptorsForMessages(props.messages, props.narrow),
+    htmlPieceDescriptorsForShownMessages: getHtmlPieceDescriptorsForMessages(
+      props.messages,
+      props.narrow,
+    ),
     typingUsers: getCurrentTypingUsers(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));
