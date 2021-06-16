@@ -135,9 +135,6 @@ const readInitialNotification = async (): Promise<Notification | null> => {
   // present, it must be a JSONable dictionary. It's giving us the
   // notification data, which was passed over APNs as JSON.
   const data: ?JSONableDict = notification.getData();
-  if (!data) {
-    return null;
-  }
   return fromAPNs(data) || null;
 };
 
@@ -265,9 +262,6 @@ export class NotificationListener {
         // if present, it must be a JSONable dictionary. It's giving us the
         // notification data, which was passed over APNs as JSON.
         const data: ?JSONableDict = notification.getData();
-        if (!data) {
-          return;
-        }
         const dataFromAPNs: Notification | void = fromAPNs(data);
         if (!dataFromAPNs) {
           return;

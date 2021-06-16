@@ -99,10 +99,18 @@ class ApnsMsgValidationError extends Error {
 // @returns A `Notification` on success, `undefined` on suppressible failure.
 // @throws An ApnsMsgValidationError on unexpected failure.
 //
-export const fromAPNsImpl = (rawData: JSONableDict): Notification | void => {
+export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
   /** Helper function: fail. */
   const err = (style: string) =>
-    new ApnsMsgValidationError(`Received ${style} APNs notification`, { data: rawData });
+    new ApnsMsgValidationError(`Received ${style} APNs notification`, {
+      // an `undefined` value would make `extras` not JSONable, but we will
+      // want to know if the value is undefined
+      data: rawData === undefined ? '__undefined__' : rawData,
+    });
+
+  if (rawData == null) {
+    throw err('nullish');
+  }
 
   // APNs messages are JSON dictionaries. The `aps` entry of this dictionary is
   // required, with a structure defined by Apple; all other entries are
@@ -208,7 +216,7 @@ export const fromAPNsImpl = (rawData: JSONableDict): Notification | void => {
  *
  * @returns A `Notification` on success; `undefined` on failure.
  */
-export const fromAPNs = (data: JSONableDict): Notification | void => {
+export const fromAPNs = (data: ?JSONableDict): Notification | void => {
   try {
     return fromAPNsImpl(data);
   } catch (err) {
