@@ -210,6 +210,8 @@
   "Do not mark messages read on scroll": "滚动阅读时不要标记消息",
   "Topics": "主题",
   "Add subscribers": "添加订阅者",
+  "Subscribe": "Subscribe",
+  "Unsubscribe": "Unsubscribe",
   "Set yourself to away": "设置为离线状态",
   "Clear": "清理",
   "Reactions": "Reactions",

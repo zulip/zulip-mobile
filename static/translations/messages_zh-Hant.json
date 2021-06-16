@@ -210,6 +210,8 @@
   "Do not mark messages read on scroll": "滾動時不標記訊息爲已讀",
   "Topics": "主題",
   "Add subscribers": "增加訂閱者",
+  "Subscribe": "Subscribe",
+  "Unsubscribe": "Unsubscribe",
   "Set yourself to away": "設定爲離開",
   "Clear": "Clear",
   "Reactions": "Reactions",

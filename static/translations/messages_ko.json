@@ -210,6 +210,8 @@
   "Do not mark messages read on scroll": "스크롤 시 읽은 메시지 표시 안 함",
   "Topics": "주제",
   "Add subscribers": "구독자 추가",
+  "Subscribe": "Subscribe",
+  "Unsubscribe": "Unsubscribe",
   "Set yourself to away": "자리비움으로 설정",
   "Clear": "비우기",
   "Reactions": "반응들",

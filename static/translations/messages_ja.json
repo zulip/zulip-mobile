@@ -210,6 +210,8 @@
   "Do not mark messages read on scroll": "スクロール時にメッセージを既読にしない",
   "Topics": "トピック",
   "Add subscribers": "購読者を追加",
+  "Subscribe": "Subscribe",
+  "Unsubscribe": "Unsubscribe",
   "Set yourself to away": "退出",
   "Clear": "クリア",
   "Reactions": "リアクション",
