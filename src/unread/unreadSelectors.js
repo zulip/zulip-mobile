@@ -16,6 +16,7 @@ import {
   getUnreadHuddles,
   getUnreadMentions,
   getUnreadStreams,
+  getUnreadCountForTopic,
 } from './unreadModel';
 
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
@@ -251,7 +252,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         if (!stream) {
           return 0;
         }
-        return unread.streams.get(stream.stream_id)?.get(topic)?.size ?? 0;
+        return getUnreadCountForTopic(unread, stream.stream_id, topic);
       },
 
       pm: ids => {
