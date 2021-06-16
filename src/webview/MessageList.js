@@ -84,6 +84,14 @@ export type BackgroundData = $ReadOnly<{|
   twentyFourHourTime: boolean,
 |}>;
 
+type OuterProps = {|
+  narrow: Narrow,
+  messages: $ReadOnlyArray<Message | Outbox>,
+  initialScrollMessageId: number | null,
+  showMessagePlaceholders: boolean,
+  startEditMessage: (editMessage: EditMessage) => void,
+|};
+
 type SelectorProps = {|
   // Data independent of the particular narrow or messages we're displaying.
   backgroundData: BackgroundData,
@@ -97,11 +105,7 @@ type SelectorProps = {|
 |};
 
 export type Props = $ReadOnly<{|
-  narrow: Narrow,
-  messages: $ReadOnlyArray<Message | Outbox>,
-  initialScrollMessageId: number | null,
-  showMessagePlaceholders: boolean,
-  startEditMessage: (editMessage: EditMessage) => void,
+  ...OuterProps,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -295,14 +299,6 @@ class MessageListInner extends Component<Props> {
     );
   }
 }
-
-type OuterProps = {|
-  narrow: Narrow,
-  messages: $ReadOnlyArray<Message | Outbox>,
-  initialScrollMessageId: number | null,
-  showMessagePlaceholders: boolean,
-  startEditMessage: (editMessage: EditMessage) => void,
-|};
 
 const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
   (state, props: OuterProps) => {
