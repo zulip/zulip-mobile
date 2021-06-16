@@ -10,7 +10,13 @@ import { isTopicMuted } from '../utils/message';
 import { caseNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 import { pmUnreadsKeyFromPmKeyIds } from '../utils/recipient';
-import { getUnreadPms, getUnreadHuddles, getUnreadMentions, getUnreadStreams } from './unreadModel';
+import {
+  getUnread,
+  getUnreadPms,
+  getUnreadHuddles,
+  getUnreadMentions,
+  getUnreadStreams,
+} from './unreadModel';
 
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
 export const getUnreadByStream: Selector<{| [number]: number |}> = createSelector(
@@ -217,11 +223,9 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
   state => getStreams(state),
   state => getOwnUserId(state),
   state => getUnreadTotal(state),
-  state => getUnreadStreams(state),
-  state => getUnreadHuddles(state),
-  state => getUnreadPms(state),
+  state => getUnread(state),
   state => getMute(state),
-  (narrow, streams, ownUserId, unreadTotal, unreadStreams, unreadHuddles, unreadPms, mute) =>
+  (narrow, streams, ownUserId, unreadTotal, unread, mute) =>
     caseNarrow(narrow, {
       home: () => unreadTotal,
 
@@ -232,7 +236,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         }
         // prettier-ignore
         return (
-          unreadStreams
+          unread.streams
             .get(stream.stream_id)
             ?.entrySeq()
             .filterNot(([topic, _]) => isTopicMuted(name, topic, mute))
@@ -247,18 +251,18 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         if (!stream) {
           return 0;
         }
-        return unreadStreams.get(stream.stream_id)?.get(topic)?.size ?? 0;
+        return unread.streams.get(stream.stream_id)?.get(topic)?.size ?? 0;
       },
 
       pm: ids => {
         if (ids.length > 1) {
           const unreadsKey = pmUnreadsKeyFromPmKeyIds(ids, ownUserId);
-          const unread = unreadHuddles.find(x => x.user_ids_string === unreadsKey);
-          return unread ? unread.unread_message_ids.length : 0;
+          const unreadItem = unread.huddles.find(x => x.user_ids_string === unreadsKey);
+          return unreadItem?.unread_message_ids.length ?? 0;
         } else {
           const senderId = ids[0];
-          const unread = unreadPms.find(x => x.sender_id === senderId);
-          return unread ? unread.unread_message_ids.length : 0;
+          const unreadItem = unread.pms.find(x => x.sender_id === senderId);
+          return unreadItem?.unread_message_ids.length ?? 0;
         }
       },
 
