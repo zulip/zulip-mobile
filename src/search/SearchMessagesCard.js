@@ -9,7 +9,6 @@ import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW } from '../utils/narrow';
 import MessageList from '../webview/MessageList';
 import getHtmlPieceDescriptors from '../message/getHtmlPieceDescriptors';
-import { NULL_ARRAY } from '../nullObjects';
 
 const styles = createStyleSheet({
   results: {
@@ -55,7 +54,6 @@ export default class SearchMessagesCard extends PureComponent<Props> {
           htmlPieceDescriptorsForShownMessages={htmlPieceDescriptors}
           fetching={SearchMessagesCard.NOT_FETCHING}
           showMessagePlaceholders={false}
-          typingUsers={NULL_ARRAY}
         />
       </View>
     );

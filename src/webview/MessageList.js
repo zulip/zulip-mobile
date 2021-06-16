@@ -309,10 +309,9 @@ type OuterProps = {|
   htmlPieceDescriptorsForShownMessages?: HtmlPieceDescriptor[],
   initialScrollMessageId?: number | null,
 
-  /* Passing these two from the parent is kind of a hack; search uses it
-     to hard-code some behavior. */
+  /* Passing this from the parent is kind of a hack; search uses it to
+     hard-code some behavior. */
   fetching?: Fetching,
-  typingUsers?: UserOrBot[],
 |};
 
 export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
@@ -345,6 +344,6 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
     htmlPieceDescriptorsForShownMessages:
       props.htmlPieceDescriptorsForShownMessages
       || getHtmlPieceDescriptorsForShownMessages(state, props.narrow),
-    typingUsers: props.typingUsers || getCurrentTypingUsers(state, props.narrow),
+    typingUsers: getCurrentTypingUsers(state, props.narrow),
   };
 })(connectActionSheet(withGetText(MessageList)));
