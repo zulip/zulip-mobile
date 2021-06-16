@@ -1,5 +1,5 @@
 import { shouldBeMuted } from '../message';
-import { HOME_NARROW, topicNarrow } from '../narrow';
+import { HOME_NARROW, MENTIONED_NARROW, topicNarrow } from '../narrow';
 
 describe('shouldBeMuted', () => {
   test('private messages are never muted', () => {
@@ -69,5 +69,23 @@ describe('shouldBeMuted', () => {
     const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions, mutes);
 
     expect(isMuted).toBe(true);
+  });
+
+  test('mention narrow messages are never muted', () => {
+    const message = {
+      type: 'stream',
+      display_recipient: 'stream',
+      subject: 'topic',
+    };
+    const subscriptions = [
+      {
+        name: 'stream',
+        in_home_view: true,
+      },
+    ];
+    const mutes = [['stream', 'topic']];
+    const isMuted = shouldBeMuted(message, MENTIONED_NARROW, subscriptions, mutes);
+
+    expect(isMuted).toBe(false);
   });
 });

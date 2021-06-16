@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Narrow, Message, MuteState, Outbox, Subscription } from '../types';
-import { isHomeNarrow, isTopicNarrow } from './narrow';
+import { isHomeNarrow, isTopicNarrow, isMentionedNarrow } from './narrow';
 import { streamNameOfStreamMessage } from './recipient';
 
 export const isTopicMuted = (stream: string, topic: string, mute: MuteState = []): boolean =>
@@ -18,6 +18,16 @@ export const shouldBeMuted = (
 
   if (isTopicNarrow(narrow)) {
     return false; // never hide a message when narrowed to topic
+  }
+
+  // This logic isn't quite right - we want to make sure we never hide a
+  // message that has a mention, even if we aren't in the "Mentioned"
+  // narrow. (#3472)  However, it's more complex to do that, and this code
+  // fixes the largest problem we'd had with muted mentioned messages, which
+  // is that they show up in the count for the "Mentions" tab, but without
+  // this conditional they wouldn't in the actual narrow.
+  if (isMentionedNarrow(narrow)) {
+    return false;
   }
 
   const streamName = streamNameOfStreamMessage(message);
