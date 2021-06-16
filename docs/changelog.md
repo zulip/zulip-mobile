@@ -71,10 +71,11 @@ experience.
 * Improved documentation for the release process. (PR #4690)
 * We tried out Dependabot and decided not to use it for now. (#4787)
 
-* Resolved issues (latest to earliest): PR #4707, #4715, PR #4777, most of
-  #4655, PR #4750, #4758, PR #4761, PR #4717, PR #4710, PR #4749, #4722,
-  #4604, PR #4728, #3540, #4323, #4734, PR #4721, #4264, PR #4716, PR #4634,
-  PR #4697, PR #4544, PR #4698, PR #4686, PR #4689, #3517, #3395
+* Resolved issues (latest to earliest): #4801, PR #4707, #4715,
+  PR #4777, most of #4655, PR #4750, #4758, PR #4761, PR #4717,
+  PR #4710, PR #4749, #4722, #4604, PR #4728, #3540, #4323, #4734,
+  PR #4721, #4264, PR #4716, PR #4634, PR #4697, PR #4544, PR #4698,
+  PR #4686, PR #4689, #3517, #3395
 
 
 ## 27.163 (2021-06-04)
