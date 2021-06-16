@@ -8,7 +8,6 @@ import { createStyleSheet } from '../styles';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { HOME_NARROW } from '../utils/narrow';
 import MessageList from '../webview/MessageList';
-import { getHtmlPieceDescriptorsForMessages } from '../message/messageSelectors';
 
 const styles = createStyleSheet({
   results: {
@@ -50,10 +49,6 @@ export default class SearchMessagesCard extends PureComponent<Props> {
           initialScrollMessageId={messages[0].id}
           messages={messages}
           narrow={narrow}
-          htmlPieceDescriptorsForShownMessages={getHtmlPieceDescriptorsForMessages(
-            messages,
-            narrow,
-          )}
           showMessagePlaceholders={false}
         />
       </View>
