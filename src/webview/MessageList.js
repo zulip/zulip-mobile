@@ -308,10 +308,6 @@ type OuterProps = {|
   messages?: Message[],
   htmlPieceDescriptorsForShownMessages?: HtmlPieceDescriptor[],
   initialScrollMessageId?: number | null,
-
-  /* Passing this from the parent is kind of a hack; search uses it to
-     hard-code some behavior. */
-  fetching?: Fetching,
 |};
 
 export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
@@ -339,7 +335,7 @@ export default connect<SelectorProps, _, _>((state, props: OuterProps) => {
       props.initialScrollMessageId !== undefined
         ? props.initialScrollMessageId
         : getFirstUnreadIdInNarrow(state, props.narrow),
-    fetching: props.fetching || getFetchingForNarrow(state, props.narrow),
+    fetching: getFetchingForNarrow(state, props.narrow),
     messages: props.messages || getShownMessagesForNarrow(state, props.narrow),
     htmlPieceDescriptorsForShownMessages:
       props.htmlPieceDescriptorsForShownMessages

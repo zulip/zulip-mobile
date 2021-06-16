@@ -22,8 +22,6 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class SearchMessagesCard extends PureComponent<Props> {
-  static NOT_FETCHING = { older: false, newer: false };
-
   render() {
     const { isFetching, messages } = this.props;
 
@@ -52,7 +50,6 @@ export default class SearchMessagesCard extends PureComponent<Props> {
           messages={messages}
           narrow={HOME_NARROW}
           htmlPieceDescriptorsForShownMessages={htmlPieceDescriptors}
-          fetching={SearchMessagesCard.NOT_FETCHING}
           showMessagePlaceholders={false}
         />
       </View>
