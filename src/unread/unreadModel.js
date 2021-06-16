@@ -29,6 +29,9 @@ import {
 // Selectors.
 //
 
+/** The unread-messages state as a whole. */
+export const getUnread = (state: GlobalState): UnreadState => state.unread;
+
 export const getUnreadStreams = (state: GlobalState): UnreadStreamsState => state.unread.streams;
 
 export const getUnreadPms = (state: GlobalState): UnreadPmsState => state.unread.pms;
