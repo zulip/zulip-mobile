@@ -97,7 +97,7 @@ class ApnsMsgValidationError extends Error {
 // APNs notification.
 //
 // @returns A `Notification` on success, `undefined` on suppressible failure.
-// @throws An ApnsMsgValidationError on interesting failure.
+// @throws An ApnsMsgValidationError on unexpected failure.
 //
 export const fromAPNsImpl = (rawData: JSONableDict): Notification | void => {
   /** Helper function: fail. */
