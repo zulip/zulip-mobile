@@ -28,6 +28,8 @@ import {
 //
 // Selectors.
 //
+// These take the global state as their input.
+//
 
 /** The unread-messages state as a whole. */
 export const getUnread = (state: GlobalState): UnreadState => state.unread;
@@ -39,6 +41,21 @@ export const getUnreadPms = (state: GlobalState): UnreadPmsState => state.unread
 export const getUnreadHuddles = (state: GlobalState): UnreadHuddlesState => state.unread.huddles;
 
 export const getUnreadMentions = (state: GlobalState): UnreadMentionsState => state.unread.mentions;
+
+//
+//
+// Getters.
+//
+// These operate directly on this particular model's state, as part of this
+// model's own interface.
+//
+
+/** The total number of unreads in the given topic. */
+export const getUnreadCountForTopic = (
+  unread: UnreadState,
+  streamId: number,
+  topic: string,
+): number => unread.streams.get(streamId)?.get(topic)?.size ?? 0;
 
 //
 //

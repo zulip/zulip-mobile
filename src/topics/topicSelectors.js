@@ -10,7 +10,7 @@ import type {
   TopicsState,
 } from '../types';
 import { getMute, getStreams, getTopics } from '../directSelectors';
-import { getUnreadStreams } from '../unread/unreadModel';
+import { getUnread, getUnreadCountForTopic } from '../unread/unreadModel';
 import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
@@ -44,15 +44,15 @@ export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSe
   (state, streamId) => getTopics(state)[streamId],
   state => getMute(state),
   (state, streamId) => getStreamsById(state).get(streamId),
-  state => getUnreadStreams(state),
-  (topicList, mute, stream, unreadStreams) => {
+  state => getUnread(state),
+  (topicList, mute, stream, unread) => {
     if (!topicList || !stream) {
       return undefined;
     }
 
     return topicList.map(({ name, max_id }) => {
       const isMuted = !!mute.find(x => x[0] === stream.name && x[1] === name);
-      const unreadCount = unreadStreams.get(stream.stream_id)?.get(name)?.size ?? 0;
+      const unreadCount = getUnreadCountForTopic(unread, stream.stream_id, name);
       return { name, max_id, isMuted, unreadCount };
     });
   },
