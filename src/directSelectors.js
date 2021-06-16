@@ -98,5 +98,7 @@ export const getNonActiveUsers = (state: GlobalState): User[] => state.realm.non
 
 export const getIsAdmin = (state: GlobalState): boolean => state.realm.isAdmin;
 
+export const getIsTopicMandatory = (state: GlobalState): boolean => state.realm.isTopicMandatory;
+
 export const getVideoChatProvider = (state: GlobalState): VideoChatProvider | null =>
   state.realm.videoChatProvider;

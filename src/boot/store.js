@@ -283,6 +283,8 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     ...state,
     accounts: state.accounts.filter(a => a.email !== ''),
   }),
+  // Add `isTopicMandatory` to `state.realm`.
+  '28': dropCache,
 
   // Add "open links with in-app browser" setting.
   '28': state => ({

@@ -24,6 +24,7 @@ describe('realmReducer', () => {
         email: undefined,
         user_id: undefined,
         isAdmin: false,
+        isTopicMandatory: false,
         twentyFourHourTime: false,
         emoji: {},
         filters: [],
