@@ -15,6 +15,8 @@ const styles = createStyleSheet({
   },
 });
 
+export const SECTION_HEADER_HEIGHT = styles.label.height + styles.header.padding * 2;
+
 type Props = $ReadOnly<{|
   text: string,
 |}>;

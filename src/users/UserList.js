@@ -1,12 +1,14 @@
 /* @flow strict-local */
 import React from 'react';
 import { SectionList } from 'react-native';
-import { useSelector } from '../react-redux';
+import sectionListGetItemLayout from 'react-native-section-list-get-item-layout';
 
+import { useSelector } from '../react-redux';
 import type { PresenceState, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
-import { SectionHeader, SearchEmptyState } from '../common';
-import UserItem from './UserItem';
+import { SearchEmptyState } from '../common';
+import SectionHeader, { SECTION_HEADER_HEIGHT } from '../common/SectionHeader';
+import UserItem, { USER_ITEM_HEIGHT } from './UserItem';
 import { sortUserList, filterUserList, groupUsersByStatus } from './userHelpers';
 import { getMutedUsers } from '../selectors';
 
@@ -40,6 +42,11 @@ export default function UserList(props: Props) {
     data: groupedUsers[key].map(u => u.user_id),
   }));
 
+  const getItemLayout = sectionListGetItemLayout({
+    getItemHeight: (rowData, sectionIndex, rowIndex) => USER_ITEM_HEIGHT,
+    getSectionHeaderHeight: () => SECTION_HEADER_HEIGHT,
+  });
+
   return (
     <SectionList
       style={styles.list}
@@ -48,6 +55,7 @@ export default function UserList(props: Props) {
       initialNumToRender={20}
       sections={sections}
       keyExtractor={item => item}
+      getItemLayout={getItemLayout}
       renderItem={({ item }) => (
         <UserItem
           key={item}
