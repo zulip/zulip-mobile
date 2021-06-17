@@ -10,6 +10,9 @@ const styles = createStyleSheet({
   header: {
     padding: 10,
   },
+  label: {
+    height: 20,
+  },
 });
 
 type Props = $ReadOnly<{|
@@ -24,7 +27,7 @@ export default class SectionHeader extends PureComponent<Props> {
     const { text } = this.props;
     return (
       <View style={[styles.header, { backgroundColor: this.context.backgroundColor }]}>
-        <Label text={text} />
+        <Label style={styles.label} text={text} />
       </View>
     );
   }
