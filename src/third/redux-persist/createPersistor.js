@@ -85,7 +85,7 @@ export default function createPersistor (store, config) {
           state[key] = value
         } catch (err) {
           if (process.env.NODE_ENV !== 'production') {
-            logging.warn('Error rehydrating data for a key', { key, subState, err })
+            logging.warn('Error rehydrating data for a key', { key, err })
           }
         }
       })
