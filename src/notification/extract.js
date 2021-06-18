@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+
 import type { Notification } from './types';
 import type { JSONable, JSONableDict, JSONableInput, JSONableInputDict } from '../utils/jsonable';
 import * as logging from '../utils/logging';
@@ -216,7 +218,7 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
  *
  * @returns A `Notification` on success; `undefined` on failure.
  */
-export const fromAPNs = (data: ?JSONableDict): Notification | void => {
+const fromAPNs = (data: ?JSONableDict): Notification | void => {
   try {
     return fromAPNsImpl(data);
   } catch (err) {
@@ -230,3 +232,20 @@ export const fromAPNs = (data: ?JSONableDict): Notification | void => {
 
 // Despite the name `fromAPNs`, there is no parallel Android-side `fromFCM`
 // function here; the relevant task is performed in `FcmMessage.kt`.
+
+/**
+ * Extract Zulip notification data from the blob our iOS libraries give us.
+ *
+ * On validation error (indicating a bug in either client or server),
+ * logs a warning and returns void.
+ *
+ * On valid but unrecognized input (like a future, unknown type of
+ * notification event), returns void.
+ */
+export const fromPushNotificationIOS = (notification: PushNotificationIOS): Notification | void => {
+  // This is actually typed as ?Object (and so effectively `any`); but if
+  // present, it must be a JSONable dictionary. It's giving us the
+  // notification data, which was passed over APNs as JSON.
+  const data: ?JSONableDict = notification.getData();
+  return fromAPNs(data);
+};

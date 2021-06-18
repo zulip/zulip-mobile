@@ -16,7 +16,7 @@ import {
   narrowToNotification,
 } from './notificationActions';
 import { identityOfAuth } from '../account/accountMisc';
-import { fromAPNs } from './extract';
+import { fromPushNotificationIOS } from './extract';
 import { tryParseUrl } from '../utils/url';
 import { pmKeyRecipientsFromIds } from '../utils/recipient';
 import { makeUserId } from '../api/idTypes';
@@ -131,11 +131,7 @@ const readInitialNotification = async (): Promise<Notification | null> => {
     return null;
   }
 
-  // This is actually typed as ?Object (and so effectively `any`); but if
-  // present, it must be a JSONable dictionary. It's giving us the
-  // notification data, which was passed over APNs as JSON.
-  const data: ?JSONableDict = notification.getData();
-  return fromAPNs(data) || null;
+  return fromPushNotificationIOS(notification) || null;
 };
 
 /**
@@ -258,11 +254,7 @@ export class NotificationListener {
       this.listenAndroid('remoteNotificationsRegistered', this.handleDeviceToken);
     } else {
       this.listenIOS('notification', (notification: PushNotificationIOS) => {
-        // This is actually typed as ?Object (and so effectively `any`); but
-        // if present, it must be a JSONable dictionary. It's giving us the
-        // notification data, which was passed over APNs as JSON.
-        const data: ?JSONableDict = notification.getData();
-        const dataFromAPNs: Notification | void = fromAPNs(data);
+        const dataFromAPNs = fromPushNotificationIOS(notification);
         if (!dataFromAPNs) {
           return;
         }
