@@ -216,7 +216,7 @@ run_jest() {
             ;;
     esac
 
-    platforms=("ios" "android")
+    platforms=( ios android )
     case "$platform" in
         ios) jest_args+=( --selectProjects ios );;
         android) jest_args+=( --selectProjects android );;
