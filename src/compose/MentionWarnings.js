@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import type { Stream, Narrow, UserOrBot, Subscription, UserId } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { getAllUsersById, getAuth } from '../selectors';
-import { is1to1PmNarrow } from '../utils/narrow';
+import { isPmNarrow } from '../utils/narrow';
 import * as api from '../api';
 import { showToast } from '../utils/info';
 
@@ -96,7 +96,7 @@ function MentionWarningsInner(props: Props, ref): Node {
     ref,
     () => ({
       handleMentionSubscribedCheck: async (completion: string) => {
-        if (is1to1PmNarrow(narrow)) {
+        if (isPmNarrow(narrow)) {
           return;
         }
         const mentionedUser = getUserFromMention(completion);
@@ -142,7 +142,7 @@ function MentionWarningsInner(props: Props, ref): Node {
     );
   }, []);
 
-  if (is1to1PmNarrow(narrow)) {
+  if (isPmNarrow(narrow)) {
     return null;
   }
 
