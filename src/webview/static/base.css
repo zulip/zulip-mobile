@@ -223,6 +223,8 @@ body {
   right: 5px;
   bottom: 15px;
   border-radius: 50%;
+  transition: opacity 0.25s ease-in-out;
+  -webkit-transition: opacity 0.25s ease-in-out;
 }
 #scroll-bottom a {
   display: block;
@@ -246,6 +248,10 @@ body {
   width: 32px;
   height: 32px;
   fill: hsla(0, 0%, 100%, 0.75);
+}
+#scroll-bottom.hidden {
+  display: block; /* Remove this when the generic .hidden rule is removed */
+  opacity: 0;
 }
 
 /*
