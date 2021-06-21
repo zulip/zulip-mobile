@@ -6,7 +6,8 @@ import { View } from 'react-native';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { getLoading } from '../selectors';
-import { Label, LoadingIndicator } from '.';
+// eslint-disable-next-line import/no-useless-path-segments
+import { Label, LoadingIndicator } from './'; // Like '.'; see #4818.
 import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
 
