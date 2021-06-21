@@ -48,7 +48,7 @@ export const getAccountFromNotificationData = (
 
   const urlMatches = [];
   identities.forEach((account, i) => {
-    if (account.realm.href === realmUrl.href) {
+    if (account.realm.origin === realmUrl.origin) {
       urlMatches.push(i);
     }
   });
