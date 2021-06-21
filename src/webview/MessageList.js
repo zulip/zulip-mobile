@@ -154,14 +154,6 @@ class MessageListInner extends Component<Props> {
   sendInboundEventsIsReady: boolean;
   unsentInboundEvents: WebViewInboundEvent[] = [];
 
-  componentDidMount() {
-    setTimeout(() => {
-      if (!this.sendInboundEventsIsReady) {
-        logging.warn('Possible infinite loop in WebView "ready" setup');
-      }
-    }, 1000);
-  }
-
   handleError = (event: mixed) => {
     console.error(event); // eslint-disable-line
   };
