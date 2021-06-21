@@ -11,6 +11,8 @@ import { useSelector } from '../react-redux';
 import { getUserForId } from './userSelectors';
 import { getMutedUsers } from '../selectors';
 
+export const USER_ITEM_HEIGHT = 64;
+
 const componentStyles = createStyleSheet({
   selectedRow: {
     backgroundColor: BRAND_COLOR,

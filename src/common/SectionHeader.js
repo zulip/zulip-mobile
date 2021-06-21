@@ -9,9 +9,13 @@ import Label from './Label';
 const styles = createStyleSheet({
   header: {
     padding: 10,
-    backgroundColor: 'hsla(0, 0%, 50%, 0.75)',
+  },
+  label: {
+    height: 20,
   },
 });
+
+export const SECTION_HEADER_HEIGHT = styles.label.height + styles.header.padding * 2;
 
 type Props = $ReadOnly<{|
   text: string,
@@ -25,7 +29,7 @@ export default class SectionHeader extends PureComponent<Props> {
     const { text } = this.props;
     return (
       <View style={[styles.header, { backgroundColor: this.context.backgroundColor }]}>
-        <Label text={text} />
+        <Label style={styles.label} text={text} />
       </View>
     );
   }
