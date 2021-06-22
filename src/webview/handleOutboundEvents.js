@@ -181,9 +181,7 @@ const markRead = (props: Props, event: WebViewOutboundEventScroll) => {
     event.startMessageId,
     event.endMessageId,
   );
-  if (unreadMessageIds.length > 0) {
-    api.queueMarkAsRead(auth, unreadMessageIds);
-  }
+  api.queueMarkAsRead(auth, unreadMessageIds);
 };
 
 const handleImage = (props: Props, src: string, messageId: number) => {
