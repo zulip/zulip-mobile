@@ -56,4 +56,13 @@ describe('queueMarkAsRead', () => {
     lolex.runOnlyPendingTimers();
     expect(messagesFlags.default).toHaveBeenCalledTimes(2);
   });
+
+  test('empty array should not cause anything to happen', () => {
+    queueMarkAsRead(eg.selfAuth, []);
+
+    lolex.advanceTimersByTime(2500);
+
+    lolex.runOnlyPendingTimers();
+    expect(messagesFlags.default).toHaveBeenCalledTimes(0);
+  });
 });

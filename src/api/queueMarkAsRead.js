@@ -17,7 +17,7 @@ export const resetAll = () => {
 };
 
 const processQueue = async (auth: Auth) => {
-  if (timeout !== null) {
+  if (timeout !== null || unackedMessageIds.length === 0) {
     return;
   }
 
