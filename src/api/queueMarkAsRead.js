@@ -3,7 +3,7 @@ import type { Auth } from './transportTypes';
 import messagesFlags from './messages/messagesFlags';
 
 /** We batch up requests to avoid sending them twice in this much time. */
-const debouncePeriodMs = 2000;
+const debouncePeriodMs = 500;
 
 let unackedMessageIds = [];
 let lastSentTime = -Infinity;
