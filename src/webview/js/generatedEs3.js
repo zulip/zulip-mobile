@@ -146,7 +146,7 @@ var compiledWebviewJs = (function (exports) {
           details: {
             startTime: (_this$_captureStartTi = this._captureStartTime) !== null && _this$_captureStartTi !== void 0 ? _this$_captureStartTi : null,
             endTime: (_this$_captureEndTime = this._captureEndTime) !== null && _this$_captureEndTime !== void 0 ? _this$_captureEndTime : null,
-            inboundEventItems: this._capturedInboundEventItems
+            inboundEventItems: JSON.stringify(this._capturedInboundEventItems)
           }
         });
       }

@@ -128,7 +128,7 @@ export default class InboundEventLogger {
       details: {
         startTime: this._captureStartTime ?? null,
         endTime: this._captureEndTime ?? null,
-        inboundEventItems: this._capturedInboundEventItems,
+        inboundEventItems: JSON.stringify(this._capturedInboundEventItems),
       },
     });
   }
