@@ -117,6 +117,11 @@ declare module '@sentry/react-native' {
   // More methods are available.
   declare export class Scope {
     /**
+     * Sets the level on the scope for future events.
+     * @param level string {@link Severity}
+     */
+    setLevel(level: SeverityType): this;
+    /**
      * Set an object that will be merged sent as tags data with the event.
      * @param tags Tags context object to merge into current context.
      */
