@@ -242,5 +242,6 @@
   "Signed out": "Signed out",
   "Remove account?": "Remove account?",
   "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
+  "Oops! Something went wrong.": "Oops! Something went wrong.",
   "Remove account": "Remove account"
 }
