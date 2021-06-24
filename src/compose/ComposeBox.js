@@ -36,6 +36,7 @@ import { IconDone, IconSend } from '../common/Icons';
 import {
   isStreamNarrow,
   isStreamOrTopicNarrow,
+  isTopicNarrow,
   streamNameOfNarrow,
   topicNarrow,
 } from '../utils/narrow';
@@ -362,8 +363,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   getDestinationNarrow = (): Narrow => {
-    const { narrow } = this.props;
-    if (isStreamNarrow(narrow)) {
+    const { narrow, editMessage } = this.props;
+    if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && !!editMessage)) {
       const streamName = streamNameOfNarrow(narrow);
       const topic = this.state.topic.trim();
       return topicNarrow(streamName, topic || '(no topic)');
