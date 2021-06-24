@@ -77,6 +77,8 @@ export const getAccountFromNotificationData = (
       realm_uri,
       parsed_url: realmUrl,
       match_count: urlMatches.length,
+      unique_identities_count: new Set(urlMatches.map(matchIndex => identities[matchIndex].email))
+        .size,
     });
     // TODO get user_id into accounts data, and use that
     return null;
