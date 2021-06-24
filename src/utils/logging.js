@@ -100,27 +100,27 @@ export function setTagsFromServerVersion(zulipVersion: ?ZulipVersion) {
  *
  * Returns a Sentry event_id, although this is not expected to be useful.
  */
-const logToSentry = (event: string | Error, level: SeverityType, extras: Extras): string => {
-  let message: string;
-  let hint: EventHint;
-
-  if (event instanceof Error) {
-    // eslint-disable-next-line prefer-destructuring
-    message = event.message;
-    hint = { originalException: event };
-  } else {
-    // Synthesize the event's stack trace. (The static API does this for us, at
-    // least sometimes; but we're calling in at one level lower.)
-    message = event;
-    try {
-      throw new Error(event);
-    } catch (err) {
-      hint = { syntheticException: err };
-    }
-  }
-
-  return withScope(scope => {
+const logToSentry = (event: string | Error, level: SeverityType, extras: Extras): string =>
+  withScope(scope => {
     scope.setExtras(extras);
+
+    let message: string;
+    let hint: EventHint;
+
+    if (event instanceof Error) {
+      // eslint-disable-next-line prefer-destructuring
+      message = event.message;
+      hint = { originalException: event };
+    } else {
+      // Synthesize the event's stack trace. (The static API does this for us, at
+      // least sometimes; but we're calling in at one level lower.)
+      message = event;
+      try {
+        throw new Error(event);
+      } catch (err) {
+        hint = { syntheticException: err };
+      }
+    }
 
     // The static API's `captureException` doesn't allow passing strings, and its
     // counterpart `captureMessage` doesn't allow passing stacktraces.
@@ -134,7 +134,6 @@ const logToSentry = (event: string | Error, level: SeverityType, extras: Extras)
     // synthesize, and which has no user-facing documentation.)
     return getCurrentHub().captureMessage(message, level, hint);
   });
-};
 
 type LogParams = {|
   consoleMethod: mixed => void,
