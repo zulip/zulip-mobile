@@ -1,7 +1,8 @@
 /* @flow strict-local */
-import type { Scope, SeverityType, EventHint } from '@sentry/react-native';
+import type { Scope, SeverityType } from '@sentry/react-native';
 import {
-  getCurrentHub,
+  captureException,
+  captureMessage,
   configureScope,
   Severity,
   withScope as withScopeImpl,
@@ -94,45 +95,18 @@ export function setTagsFromServerVersion(zulipVersion: ?ZulipVersion) {
 /**
  * Log an event (a string or Error) at some arbitrary severity.
  *
- * The error will be logged to Sentry, including a stack trace. The stack trace
- * is taken from `err` if an `Error` object, and otherwise synthesized from the
- * call site.
- *
  * Returns a Sentry event_id, although this is not expected to be useful.
  */
 const logToSentry = (event: string | Error, level: SeverityType, extras: Extras): string =>
   withScope(scope => {
+    scope.setLevel(level);
     scope.setExtras(extras);
 
-    let message: string;
-    let hint: EventHint;
-
     if (event instanceof Error) {
-      // eslint-disable-next-line prefer-destructuring
-      message = event.message;
-      hint = { originalException: event };
+      return captureException(event, scope);
     } else {
-      // Synthesize the event's stack trace. (The static API does this for us, at
-      // least sometimes; but we're calling in at one level lower.)
-      message = event;
-      try {
-        throw new Error(event);
-      } catch (err) {
-        hint = { syntheticException: err };
-      }
+      return captureMessage(event, scope);
     }
-
-    // The static API's `captureException` doesn't allow passing strings, and its
-    // counterpart `captureMessage` doesn't allow passing stacktraces.
-    // Fortunately, the quasi-internal "Hub" API exists, and is reasonably
-    // well-documented:
-    //
-    // https://docs.sentry.io/development/sdk-dev/unified-api/#hub
-    //
-    // (There is a `captureEvent` method that allows both explicitly; but it also
-    // expects a great deal of other information which we would have to
-    // synthesize, and which has no user-facing documentation.)
-    return getCurrentHub().captureMessage(message, level, hint);
   });
 
 type LogParams = {|
