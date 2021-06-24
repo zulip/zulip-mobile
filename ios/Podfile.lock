@@ -348,7 +348,7 @@ PODS:
     - React-Core
   - RNReanimated (1.13.3):
     - React-Core
-  - RNSentry (2.5.0):
+  - RNSentry (2.5.2):
     - React-Core
     - Sentry (= 7.0.0)
   - RNSound (0.11.0):
@@ -680,7 +680,7 @@ SPEC CHECKSUMS:
   RNDeviceInfo: 9b6aba9ffaed69ecb72bd13c7bcb0debf277bc9f
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: 514a11da3a2bcc6c3dfd9de32b38e2b9bf101926
-  RNSentry: c536a1f6d7e042b05b7d52c522e975458e032c7d
+  RNSentry: bfa1e2776c7413570e790cbbf79d2060dd0a565b
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
   Sentry: 89d26e036063b9cb9caa59b6951dd2f8277aa13b
