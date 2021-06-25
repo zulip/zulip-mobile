@@ -11,7 +11,7 @@ import type {
   ExternalAuthenticationMethod,
 } from '../api/settings/getServerSettings';
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import * as NavigationService from '../nav/NavigationService';
 import config from '../config';
 import type { Dispatch } from '../types';
@@ -168,7 +168,7 @@ export const activeAuthentications = (
 };
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'auth'>,
+  navigation: MainStackNavigationProp<'auth'>,
   route: RouteProp<'auth', {| serverSettings: ApiResponseServerSettings |}>,
 
   dispatch: Dispatch,

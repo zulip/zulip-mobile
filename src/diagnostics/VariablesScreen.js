@@ -3,13 +3,13 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import config from '../config';
 import { Screen } from '../common';
 import InfoItem from './InfoItem';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'variables'>,
+  navigation: MainStackNavigationProp<'variables'>,
   route: RouteProp<'variables', void>,
 |}>;
 

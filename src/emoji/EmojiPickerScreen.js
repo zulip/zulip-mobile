@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import { unicodeCodeByName } from './codePointMap';
@@ -20,7 +20,7 @@ import * as logging from '../utils/logging';
 import { showToast } from '../utils/info';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'emoji-picker'>,
+  navigation: MainStackNavigationProp<'emoji-picker'>,
   route: RouteProp<'emoji-picker', {| messageId: number |}>,
 
   activeImageEmojiByName: RealmEmojiById,

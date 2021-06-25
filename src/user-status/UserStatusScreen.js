@@ -5,7 +5,7 @@ import { TranslationContext } from '../boot/TranslationProvider';
 import { createStyleSheet } from '../styles';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -30,7 +30,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'user-status'>,
+  navigation: MainStackNavigationProp<'user-status'>,
   route: RouteProp<'user-status', void>,
 
   dispatch: Dispatch,

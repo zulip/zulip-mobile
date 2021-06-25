@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import type { Dispatch, Stream, TopicExtended } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
@@ -19,7 +19,7 @@ type SelectorProps = $ReadOnly<{|
 |}>;
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'topic-list'>,
+  navigation: MainStackNavigationProp<'topic-list'>,
   route: RouteProp<'topic-list', {| streamId: number |}>,
 
   dispatch: Dispatch,

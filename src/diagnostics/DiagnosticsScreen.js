@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { nativeApplicationVersion } from 'expo-application';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
@@ -23,7 +23,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'diagnostics'>,
+  navigation: MainStackNavigationProp<'diagnostics'>,
   route: RouteProp<'diagnostics', void>,
 |}>;
 

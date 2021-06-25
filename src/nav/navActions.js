@@ -16,10 +16,16 @@ export const navigateBack = (): GenericNavigationAction => StackActions.pop(getS
  */
 
 export const resetToAccountPicker = (): GenericNavigationAction =>
-  CommonActions.reset({ index: 0, routes: [{ name: 'account-pick' }] });
+  CommonActions.reset({
+    index: 0,
+    routes: [{ name: 'main-stack', state: { index: 0, routes: [{ name: 'account-pick' }] } }],
+  });
 
 export const resetToMainTabs = (): GenericNavigationAction =>
-  CommonActions.reset({ index: 0, routes: [{ name: 'main-tabs' }] });
+  CommonActions.reset({
+    index: 0,
+    routes: [{ name: 'main-stack', state: { index: 0, routes: [{ name: 'main-tabs' }] } }],
+  });
 
 /*
  * Ordinary "push" actions that will push to the stack.

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import type { Auth, Dispatch, Message } from '../types';
 import { Screen } from '../common';
 import SearchMessagesCard from './SearchMessagesCard';
@@ -14,7 +14,7 @@ import { getAuth } from '../account/accountsSelectors';
 import { fetchMessages } from '../message/fetchActions';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'search-messages'>,
+  navigation: MainStackNavigationProp<'search-messages'>,
   route: RouteProp<'search-messages', void>,
 
   auth: Auth,

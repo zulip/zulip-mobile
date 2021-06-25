@@ -7,11 +7,12 @@ import {
   TransitionPresets,
 } from '@react-navigation/stack';
 
-import type { RouteParamsOf } from '../react-navigation';
+import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import { useSelector } from '../react-redux';
 import { hasAuth as getHasAuth, getAccounts } from '../selectors';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { GlobalParamList } from './globalTypes';
+import type { RootStackNavigationProp } from './RootStackScreen';
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmInputScreen from '../start/RealmInputScreen';
 import AuthScreen from '../start/AuthScreen';
@@ -30,7 +31,6 @@ import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
 import VariablesScreen from '../diagnostics/VariablesScreen';
 import TimingScreen from '../diagnostics/TimingScreen';
 import StorageScreen from '../diagnostics/StorageScreen';
-import LightboxScreen from '../lightbox/LightboxScreen';
 import CreateGroupScreen from '../user-groups/CreateGroupScreen';
 import InviteUsersScreen from '../streams/InviteUsersScreen';
 import StreamSettingsScreen from '../streams/StreamSettingsScreen';
@@ -44,7 +44,7 @@ import UserStatusScreen from '../user-status/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
 
-export type AppNavigatorParamList = {|
+export type MainStackNavigatorParamList = {|
   'account-pick': RouteParamsOf<typeof AccountPickScreen>,
   'account-details': RouteParamsOf<typeof AccountDetailsScreen>,
   'group-details': RouteParamsOf<typeof GroupDetailsScreen>,
@@ -59,7 +59,6 @@ export type AppNavigatorParamList = {|
   'search-messages': RouteParamsOf<typeof SearchMessagesScreen>,
   users: RouteParamsOf<typeof UsersScreen>,
   language: RouteParamsOf<typeof LanguageScreen>,
-  lightbox: RouteParamsOf<typeof LightboxScreen>,
   'create-group': RouteParamsOf<typeof CreateGroupScreen>,
   'invite-users': RouteParamsOf<typeof InviteUsersScreen>,
   diagnostics: RouteParamsOf<typeof DiagnosticsScreen>,
@@ -77,15 +76,22 @@ export type AppNavigatorParamList = {|
   sharing: RouteParamsOf<typeof SharingScreen>,
 |};
 
-export type AppNavigationProp<
-  +RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
+export type MainStackNavigationProp<
+  +RouteName: $Keys<MainStackNavigatorParamList> = $Keys<MainStackNavigatorParamList>,
 > = StackNavigationProp<GlobalParamList, RouteName>;
 
-const Stack = createStackNavigator<GlobalParamList, AppNavigatorParamList, AppNavigationProp<>>();
+const Stack = createStackNavigator<
+  GlobalParamList,
+  MainStackNavigatorParamList,
+  MainStackNavigationProp<>,
+>();
 
-type Props = $ReadOnly<{||}>;
+type Props = $ReadOnly<{|
+  navigation: RootStackNavigationProp<'main-stack'>,
+  route: RouteProp<'main-stack', void>,
+|}>;
 
-export default function AppNavigator(props: Props) {
+export default function MainStackScreen(props: Props) {
   const hasAuth = useSelector(getHasAuth);
   const accounts = useSelector(getAccounts);
 
@@ -124,7 +130,6 @@ export default function AppNavigator(props: Props) {
       />
       <Stack.Screen name="users" component={useHaveServerDataGate(UsersScreen)} />
       <Stack.Screen name="language" component={useHaveServerDataGate(LanguageScreen)} />
-      <Stack.Screen name="lightbox" component={useHaveServerDataGate(LightboxScreen)} />
       <Stack.Screen name="create-group" component={useHaveServerDataGate(CreateGroupScreen)} />
       <Stack.Screen name="invite-users" component={useHaveServerDataGate(InviteUsersScreen)} />
       <Stack.Screen name="diagnostics" component={useHaveServerDataGate(DiagnosticsScreen)} />

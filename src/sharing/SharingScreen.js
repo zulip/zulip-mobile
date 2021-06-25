@@ -8,7 +8,7 @@ import {
 import type { GlobalParamList } from '../nav/globalTypes';
 import type { RouteParamsOf, RouteProp } from '../react-navigation';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, Auth, SharedData } from '../types';
 import { createStyleSheet } from '../styles';
@@ -36,7 +36,7 @@ const Tab = createMaterialTopTabNavigator<
 >();
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'sharing'>,
+  navigation: MainStackNavigationProp<'sharing'>,
   route: RouteProp<'sharing', {| sharedData: SharedData |}>,
 
   auth: Auth | void,

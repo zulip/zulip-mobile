@@ -8,7 +8,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import type { GlobalParamList } from '../nav/globalTypes';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
@@ -40,7 +40,7 @@ const Tab = createBottomTabNavigator<
 >();
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'main-tabs'>,
+  navigation: MainStackNavigationProp<'main-tabs'>,
   route: RouteProp<'main-tabs', void>,
 |}>;
 

@@ -6,7 +6,7 @@ import { Alert } from 'react-native';
 import * as api from '../api';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -24,7 +24,7 @@ import type { ApiResponseServerSettings } from '../api/settings/getServerSetting
 import { showErrorAlert } from '../utils/info';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'account-pick'>,
+  navigation: MainStackNavigationProp<'account-pick'>,
   route: RouteProp<'account-pick', void>,
 
   accounts: $ReadOnlyArray<AccountStatus>,

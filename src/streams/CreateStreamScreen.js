@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import type { RouteProp } from '../react-navigation';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { MainStackNavigationProp } from '../nav/MainStackScreen';
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
@@ -12,7 +12,7 @@ import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'create-stream'>,
+  navigation: MainStackNavigationProp<'create-stream'>,
   route: RouteProp<'create-stream', void>,
 
   dispatch: Dispatch,
