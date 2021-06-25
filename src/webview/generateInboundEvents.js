@@ -100,6 +100,8 @@ export default function generateInboundEvents(
   prevProps: Props,
   nextProps: Props,
 ): WebViewInboundEvent[] {
+  const uevents = [];
+
   if (
     !isEqual(
       prevProps.htmlPieceDescriptorsForShownMessages,
@@ -107,10 +109,8 @@ export default function generateInboundEvents(
     )
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
   ) {
-    return [updateContent(prevProps, nextProps)];
+    uevents.push(updateContent(prevProps, nextProps));
   }
-
-  const uevents = [];
 
   if (prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read) {
     // TODO: Don't consider messages outside the narrow we're viewing.

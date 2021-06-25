@@ -151,28 +151,6 @@ describe('generateInboundEvents', () => {
     expect(messages[1].type).toEqual('typing');
   });
 
-  test('when there are several diffs but messages differ too return only a single "content" message', () => {
-    const prevProps = {
-      ...baseProps,
-      fetching: { older: false, newer: false },
-      typingUsers: [],
-      htmlPieceDescriptorsForShownMessages: [],
-    };
-    const nextProps = {
-      ...baseProps,
-      fetching: { older: false, newer: true },
-      typingUsers: [eg.makeUser()],
-      htmlPieceDescriptorsForShownMessages: [
-        { key: 123, type: 'message', isBrief: false, message: eg.streamMessage() },
-      ],
-    };
-
-    const messages = generateInboundEvents(prevProps, nextProps);
-
-    expect(messages).toHaveLength(1);
-    expect(messages[0].type).toEqual('content');
-  });
-
   test('if a new message is read send a "read" update', () => {
     const message1 = eg.streamMessage({ id: 1 });
     const message2 = eg.streamMessage({ id: 2 });
