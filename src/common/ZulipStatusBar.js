@@ -1,13 +1,13 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { Platform, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import Color from 'color';
 
-import type { Orientation, ThemeName, Dispatch } from '../types';
+import type { ThemeName, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { foregroundColorFromBackground } from '../utils/color';
-import { getSession, getSettings } from '../selectors';
+import { getSettings } from '../selectors';
 
 type BarStyle = $PropertyType<React$ElementConfig<typeof StatusBar>, 'barStyle'>;
 
@@ -21,7 +21,6 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
 
 type SelectorProps = $ReadOnly<{|
   theme: ThemeName,
-  orientation: Orientation,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -55,27 +54,26 @@ class ZulipStatusBar extends PureComponent<Props> {
   };
 
   render() {
-    const { theme, hidden, orientation } = this.props;
+    StatusBar.setTranslucent(true);
+    const { theme, hidden } = this.props;
     const backgroundColor = this.props.backgroundColor;
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
+
     return (
-      orientation === 'PORTRAIT' && (
-        <StatusBar
-          animated
-          showHideTransition="slide"
-          hidden={hidden && Platform.OS !== 'android'}
-          backgroundColor={Color(statusBarColor)
-            .darken(0.1)
-            .hsl()
-            .string()}
-          barStyle={getStatusBarStyle(statusBarColor)}
-        />
-      )
+      <StatusBar
+        animated
+        showHideTransition="slide"
+        hidden={hidden}
+        backgroundColor={Color(statusBarColor)
+          .darken(0.1)
+          .hsl()
+          .string()}
+        barStyle={getStatusBarStyle(statusBarColor)}
+      />
     );
   }
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   theme: getSettings(state).theme,
-  orientation: getSession(state).orientation,
 }))(ZulipStatusBar);
