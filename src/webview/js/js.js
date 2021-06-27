@@ -918,6 +918,13 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
+  if (target.matches('.add-emoji-button')) {
+    sendMessage({
+      type: 'addReaction',
+      messageId: getMessageIdFromNode(target),
+    });
+  }
+
   if (target.matches('time')) {
     const originalText = requireAttribute(target, 'original-text');
     sendMessage({
