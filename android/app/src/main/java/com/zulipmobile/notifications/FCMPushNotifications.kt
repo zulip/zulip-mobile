@@ -31,10 +31,6 @@ val ACTION_CLEAR = "ACTION_CLEAR"
 @JvmField
 val EXTRA_NOTIFICATION_DATA = "data"
 
-private fun getNotificationManager(context: Context): NotificationManagerCompat {
-    return NotificationManagerCompat.from(context)
-}
-
 fun createNotificationChannel(context: Context) {
     if (Build.VERSION.SDK_INT >= 26) {
         val name = context.getString(R.string.notification_channel_name)
@@ -44,7 +40,7 @@ fun createNotificationChannel(context: Context) {
         // value, hence using "SupressLint".
         val channel =
             NotificationChannel(CHANNEL_ID, name, NotificationManagerCompat.IMPORTANCE_HIGH)
-        getNotificationManager(context).createNotificationChannel(channel)
+        NotificationManagerCompat.from(context).createNotificationChannel(channel)
     }
 }
 
@@ -75,7 +71,7 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
     } else if (fcmMessage is RemoveFcmMessage) {
         removeMessagesFromMap(conversations, fcmMessage)
         if (conversations.isEmpty()) {
-            getNotificationManager(context).cancelAll()
+            NotificationManagerCompat.from(context).cancelAll()
         }
     }
 }
@@ -83,11 +79,11 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
 private fun updateNotification(
     context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage) {
     if (conversations.isEmpty()) {
-        getNotificationManager(context).cancelAll()
+        NotificationManagerCompat.from(context).cancelAll()
         return
     }
     val notification = getNotificationBuilder(context, conversations, fcmMessage).build()
-    getNotificationManager(context).notify(NOTIFICATION_ID, notification)
+    NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
 }
 
 private fun getNotificationSoundUri(context: Context): Uri {
@@ -177,7 +173,7 @@ private fun getNotificationBuilder(
 internal fun onOpened(application: ReactApplication, conversations: ConversationMap, data: Bundle) {
     logNotificationData("notif opened", data)
     notifyReact(application, data)
-    getNotificationManager(application as Context).cancelAll()
+    NotificationManagerCompat.from(application as Context).cancelAll()
     clearConversations(conversations)
     try {
         ShortcutBadger.removeCount(application as Context)
@@ -189,5 +185,5 @@ internal fun onOpened(application: ReactApplication, conversations: Conversation
 
 internal fun onClear(context: Context, conversations: ConversationMap) {
     clearConversations(conversations)
-    getNotificationManager(context).cancelAll()
+    NotificationManagerCompat.from(context).cancelAll()
 }
