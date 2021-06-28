@@ -21,8 +21,7 @@ class NotificationsModule extends ReactContextBaseJavaModule {
         return "Notifications";
     }
 
-    static void emitToken(@Nullable ReactContext reactContext) {
-        final String token = FirebaseInstanceId.getInstance().getToken();
+    static void emitToken(@Nullable ReactContext reactContext, String token) {
         if (reactContext == null) {
             // Perhaps this is possible if InstanceIDListenerService gets invoked?
             return;
