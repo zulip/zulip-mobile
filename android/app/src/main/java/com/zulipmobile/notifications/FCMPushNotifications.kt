@@ -2,20 +2,20 @@
 
 package com.zulipmobile.notifications
 
-import android.app.Notification
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.NotificationCompat
 import com.facebook.react.ReactApplication
 import me.leolin.shortcutbadger.ShortcutBadger
 
@@ -31,14 +31,19 @@ val ACTION_CLEAR = "ACTION_CLEAR"
 @JvmField
 val EXTRA_NOTIFICATION_DATA = "data"
 
-private fun getNotificationManager(context: Context): NotificationManager {
-    return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+private fun getNotificationManager(context: Context): NotificationManagerCompat {
+    return NotificationManagerCompat.from(context)
 }
 
 fun createNotificationChannel(context: Context) {
     if (Build.VERSION.SDK_INT >= 26) {
         val name = context.getString(R.string.notification_channel_name)
-        val channel = NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH)
+
+        @SuppressLint("WrongConstant")
+        // Android Studio's linter demands NotificationManager.IMPORTANCE_* and rejects any other
+        // value, hence using "SupressLint".
+        val channel =
+            NotificationChannel(CHANNEL_ID, name, NotificationManagerCompat.IMPORTANCE_HIGH)
         getNotificationManager(context).createNotificationChannel(channel)
     }
 }
@@ -92,11 +97,8 @@ private fun getNotificationSoundUri(context: Context): Uri {
 }
 
 private fun getNotificationBuilder(
-    context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage): Notification.Builder {
-    val builder = if (Build.VERSION.SDK_INT >= 26)
-        Notification.Builder(context, CHANNEL_ID)
-    else
-        Notification.Builder(context)
+    context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage): NotificationCompat.Builder {
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
 
     val uri = Uri.fromParts("zulip", "msgid:${fcmMessage.zulipMessageId}", "")
     val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
@@ -133,13 +135,13 @@ private fun getNotificationBuilder(
         }
         fetchBitmap(sizedURL(context, fcmMessage.sender.avatarURL, 64f))
             ?.let { builder.setLargeIcon(it) }
-        builder.setStyle(Notification.BigTextStyle().bigText(fcmMessage.content))
+        builder.setStyle(NotificationCompat.BigTextStyle().bigText(fcmMessage.content))
     } else {
         val numConversations = context.resources.getQuantityString(
             R.plurals.numConversations, conversations.size, conversations.size)
         builder.setContentTitle("$totalMessagesCount messages in $numConversations")
         builder.setContentText("Messages from ${TextUtils.join(",", nameList)}")
-        val inboxStyle = Notification.InboxStyle(builder)
+        val inboxStyle = NotificationCompat.InboxStyle(builder)
         inboxStyle.setSummaryText(numConversations)
         buildNotificationContent(conversations, inboxStyle)
         builder.setStyle(inboxStyle)
@@ -159,18 +161,16 @@ private fun getNotificationBuilder(
     // TODO: choose a vibration pattern we like, and unset DEFAULT_VIBRATE.
     builder.setVibrate(vPattern)
 
-    builder.setDefaults(Notification.DEFAULT_VIBRATE or Notification.DEFAULT_LIGHTS)
+    builder.setDefaults(NotificationCompat.DEFAULT_VIBRATE or NotificationCompat.DEFAULT_LIGHTS)
 
     val dismissIntent = Intent(context, NotificationIntentService::class.java)
     dismissIntent.action = ACTION_CLEAR
     val piDismiss = PendingIntent.getService(context, 0, dismissIntent, 0)
-    val action = Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss)
+    val action = NotificationCompat.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss)
     builder.addAction(action)
 
     val soundUri = getNotificationSoundUri(context)
-    val audioAttr = AudioAttributes.Builder()
-        .setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
-    builder.setSound(soundUri, audioAttr)
+    builder.setSound(soundUri)
     return builder
 }
 

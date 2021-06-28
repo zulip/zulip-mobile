@@ -2,7 +2,6 @@
 
 package com.zulipmobile.notifications
 
-import android.app.Notification
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,6 +11,7 @@ import android.text.TextUtils
 import android.text.style.StyleSpan
 import android.util.Log
 import android.util.TypedValue
+import androidx.core.app.NotificationCompat
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
@@ -64,7 +64,7 @@ fun sizedURL(context: Context, url: URL, dpSize: Float): URL {
     return URL(url, "?$query")
 }
 
-fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: Notification.InboxStyle) {
+fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: NotificationCompat.InboxStyle) {
     for (conversation in conversations.values) {
         // TODO ensure latest sender is shown last?  E.g. Gmail-style A, B, ..., A.
         val seenSenders = HashSet<String>()
