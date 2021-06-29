@@ -114,6 +114,9 @@ export default function generateInboundEvents(
 
   if (prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read) {
     // TODO: Don't consider messages outside the narrow we're viewing.
+    // TODO: Only include messages that we've just marked as read. We're
+    // currently including some read messages only because we've just
+    // learned about them from a fetch.
     const messageIds = Object.keys(nextProps.backgroundData.flags.read)
       .filter(id => !prevProps.backgroundData.flags.read[+id])
       .map(id => +id);
