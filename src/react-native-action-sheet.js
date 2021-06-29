@@ -7,7 +7,7 @@ import type { BoundedDiff } from './generics';
 /* eslint-disable flowtype/generic-spacing */
 
 export type ShowActionSheetWithOptions = (
-  { options: string[], cancelButtonIndex: number },
+  { options: string[], cancelButtonIndex: number, ... },
   (number) => void,
 ) => void;
 
