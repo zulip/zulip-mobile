@@ -66,9 +66,6 @@ export const getFetching = (state: GlobalState): FetchingState => state.fetching
 
 export const getFlags = (state: GlobalState): FlagsState => state.flags;
 
-export const getReadFlags = (state: GlobalState): {| [messageId: number]: boolean |} =>
-  state.flags.read;
-
 export const getAllNarrows = (state: GlobalState): NarrowsState => state.narrows;
 
 export const getSettings = (state: GlobalState): SettingsState => state.settings;
