@@ -39,7 +39,10 @@ fun createNotificationChannel(context: Context) {
         // Android Studio's linter demands NotificationManager.IMPORTANCE_* and rejects any other
         // value, hence using "SupressLint".
         val channel =
-            NotificationChannel(CHANNEL_ID, name, NotificationManagerCompat.IMPORTANCE_HIGH)
+            NotificationChannel(CHANNEL_ID, name, NotificationManagerCompat.IMPORTANCE_HIGH).apply {
+                enableLights(true)
+                enableVibration(true)
+            }
         NotificationManagerCompat.from(context).createNotificationChannel(channel)
     }
 }

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Zulip</string>
-    <string name="notification_channel_name">Notifications</string>
+    <string name="notification_channel_name">Messages</string>
     <string name="no_browser_found">No Browser Found</string>
     <plurals name="numConversations">
         <item quantity="one">%d conversation</item>
