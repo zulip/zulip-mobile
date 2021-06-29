@@ -113,6 +113,7 @@ export default function generateInboundEvents(
   const uevents = [];
 
   if (prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read) {
+    // TODO: Don't consider messages outside the narrow we're viewing.
     const messageIds = Object.keys(nextProps.backgroundData.flags.read)
       .filter(id => !prevProps.backgroundData.flags.read[+id])
       .map(id => +id);
