@@ -276,7 +276,7 @@ export const constructMessageActionButtons = ({
   backgroundData: { ownUser, flags },
   message,
   narrow,
-}: {
+}: {|
   backgroundData: $ReadOnly<{
     ownUser: User,
     flags: FlagsState,
@@ -284,7 +284,7 @@ export const constructMessageActionButtons = ({
   }>,
   message: Message,
   narrow: Narrow,
-}): Button<MessageArgs>[] => {
+|}): Button<MessageArgs>[] => {
   const buttons = [];
   if (messageNotDeleted(message)) {
     buttons.push(addReaction);
