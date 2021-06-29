@@ -106,20 +106,30 @@ export type FetchingState = {|
  *
  * Unlike almost all other subtrees of our state, this one can be
  * incomplete, always in exactly the same way that `MessagesState` is.
+ *
+ * We expect most of these flags to be very sparse: the number of messages
+ * you have starred, or where you're @-mentioned, is typically a very small
+ * fraction of the total number of messages you have. That's why it probably
+ * doesn't make sense for this data structure to explicitly indicate "not
+ * starred", "not @-mentioned", etc., for every known message. That could
+ * significantly increase the memory and storage requirement when we know
+ * about a lot of messages. If we need to distinguish "unknown message" from
+ * "message without flag", we can look up the message ID in
+ * `state.messages`.
  */
 export type FlagsState = {|
-  read: {| [messageId: number]: boolean |},
-  starred: {| [messageId: number]: boolean |},
-  collapsed: {| [messageId: number]: boolean |},
-  mentioned: {| [messageId: number]: boolean |},
-  wildcard_mentioned: {| [messageId: number]: boolean |},
-  summarize_in_home: {| [messageId: number]: boolean |},
-  summarize_in_stream: {| [messageId: number]: boolean |},
-  force_expand: {| [messageId: number]: boolean |},
-  force_collapse: {| [messageId: number]: boolean |},
-  has_alert_word: {| [messageId: number]: boolean |},
-  historical: {| [messageId: number]: boolean |},
-  is_me_message: {| [messageId: number]: boolean |},
+  read: {| [messageId: number]: true |},
+  starred: {| [messageId: number]: true |},
+  collapsed: {| [messageId: number]: true |},
+  mentioned: {| [messageId: number]: true |},
+  wildcard_mentioned: {| [messageId: number]: true |},
+  summarize_in_home: {| [messageId: number]: true |},
+  summarize_in_stream: {| [messageId: number]: true |},
+  force_expand: {| [messageId: number]: true |},
+  force_collapse: {| [messageId: number]: true |},
+  has_alert_word: {| [messageId: number]: true |},
+  historical: {| [messageId: number]: true |},
+  is_me_message: {| [messageId: number]: true |},
 |};
 
 export type FlagName = $Keys<FlagsState>;
