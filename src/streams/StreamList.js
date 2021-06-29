@@ -82,7 +82,7 @@ export default class StreamList extends PureComponent<Props> {
         extraData={unreadByStream}
         initialNumToRender={20}
         keyExtractor={item => item.stream_id}
-        renderItem={({ item }: { item: PseudoSubscription }) => (
+        renderItem={({ item }: { item: PseudoSubscription, ... }) => (
           <StreamItem
             name={item.name}
             iconSize={16}
