@@ -38,7 +38,7 @@ declare module '@sentry/react-native' {
   //
   // Flow doesn't support true enums, so we split the TypeScript `enum Severity`
   // into a separate variable `Severity` and type `SeverityType`.
-  declare export var Severity: $ReadOnly<{
+  declare export var Severity: $ReadOnly<{|
     Fatal: 'fatal',
     Error: 'error',
     Warning: 'warning',
@@ -46,7 +46,7 @@ declare module '@sentry/react-native' {
     Info: 'info',
     Debug: 'debug',
     Critical: 'critical',
-  }>;
+  |}>;
   declare export type SeverityType = $Values<typeof Severity>;
 
   // Taken from @sentry/types/src/event.ts.
@@ -110,6 +110,7 @@ declare module '@sentry/react-native' {
 
     captureException(exception: mixed, hint?: EventHint): string,
     captureMessage(message: string, level?: SeverityType, hint?: EventHint): string,
+    ...
   };
 
   // Taken from @sentry/{minimal,types}/src/scope.ts.
@@ -147,6 +148,7 @@ declare module '@sentry/react-native' {
   // Adapted from @sentry/types/src/client.ts, with some specialization.
   declare export type Client = {
     getOptions(): Options,
+    ...
   };
 
   // Adapted from @sentry/react-native/src/sdk.ts.
