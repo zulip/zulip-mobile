@@ -17,7 +17,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 class StreamAutocomplete extends PureComponent<Props> {
-  onAutocomplete = (name: string): void => {
+  handleStreamItemAutocomplete = (name: string): void => {
     this.props.onAutocomplete(`**${name}**`);
   };
 
@@ -46,7 +46,7 @@ class StreamAutocomplete extends PureComponent<Props> {
               isPrivate={item.invite_only}
               iconSize={12}
               color={item.color}
-              onPress={this.onAutocomplete}
+              onPress={this.handleStreamItemAutocomplete}
             />
           )}
         />
