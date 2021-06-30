@@ -16,9 +16,9 @@ declare module 'expo-apple-authentication/build/AppleAuthentication' {
   } from 'expo-apple-authentication/build/AppleAuthentication.types';
   import typeof { AppleAuthenticationCredentialState } from 'expo-apple-authentication/build/AppleAuthentication.types';
 
-  declare type Subscription = {
+  declare type Subscription = {|
     remove: () => void,
-  };
+  |};
 
   declare export function isAvailableAsync(): Promise<boolean>;
   declare export function signInAsync(
