@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import type { Node as React$Node } from 'react';
 import type { ThemeName, Dispatch } from '../types';
@@ -15,16 +15,14 @@ type Props = $ReadOnly<{|
   children: React$Node,
 |}>;
 
-class ThemeProvider extends PureComponent<Props> {
-  render() {
-    const { children, theme } = this.props;
-    return (
-      <ThemeContext.Provider value={themeData[theme]}>
-        <ZulipStatusBar />
-        {children}
-      </ThemeContext.Provider>
-    );
-  }
+function ThemeProvider(props: Props) {
+  const { children, theme } = props;
+  return (
+    <ThemeContext.Provider value={themeData[theme]}>
+      <ZulipStatusBar />
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
 export default connect(state => ({
