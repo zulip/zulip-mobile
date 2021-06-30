@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent, useContext } from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -122,64 +122,62 @@ type Props = $ReadOnly<{|
  * @prop email - email of the user whose status we are showing.
  * @prop hideIfOffline - Do not render for 'offline' state.
  */
-class PresenceStatusIndicator extends PureComponent<Props> {
-  render() {
-    const {
-      email,
-      presence,
-      style,
-      hideIfOffline,
-      allUsersByEmail,
-      userStatus,
-      useOpaqueBackground,
-    } = this.props;
+function PresenceStatusIndicator(props: Props) {
+  const {
+    email,
+    presence,
+    style,
+    hideIfOffline,
+    allUsersByEmail,
+    userStatus,
+    useOpaqueBackground,
+  } = props;
 
-    const userPresence = presence[email];
-    const user = allUsersByEmail.get(email);
+  const userPresence = presence[email];
+  const user = allUsersByEmail.get(email);
 
-    if (!user || !userPresence || !userPresence.aggregated) {
+  if (!user || !userPresence || !userPresence.aggregated) {
+    return null;
+  }
+
+  const status = statusFromPresenceAndUserStatus(userPresence, userStatus[user.user_id]);
+
+  if (hideIfOffline && status === 'offline') {
+    return null;
+  }
+
+  switch (status) {
+    case 'active':
+      return (
+        <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
+          <PresenceStatusIndicatorActive />
+        </MaybeOpaqueBackgroundWrapper>
+      );
+
+    case 'idle':
+      return (
+        <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
+          <PresenceStatusIndicatorIdle />
+        </MaybeOpaqueBackgroundWrapper>
+      );
+
+    case 'offline':
+      return (
+        <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
+          <PresenceStatusIndicatorOffline />
+        </MaybeOpaqueBackgroundWrapper>
+      );
+
+    case 'unavailable':
+      return (
+        <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
+          <PresenceStatusIndicatorUnavailable />
+        </MaybeOpaqueBackgroundWrapper>
+      );
+
+    default:
+      ensureUnreachable(status);
       return null;
-    }
-
-    const status = statusFromPresenceAndUserStatus(userPresence, userStatus[user.user_id]);
-
-    if (hideIfOffline && status === 'offline') {
-      return null;
-    }
-
-    switch (status) {
-      case 'active':
-        return (
-          <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorActive />
-          </MaybeOpaqueBackgroundWrapper>
-        );
-
-      case 'idle':
-        return (
-          <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorIdle />
-          </MaybeOpaqueBackgroundWrapper>
-        );
-
-      case 'offline':
-        return (
-          <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorOffline />
-          </MaybeOpaqueBackgroundWrapper>
-        );
-
-      case 'unavailable':
-        return (
-          <MaybeOpaqueBackgroundWrapper style={style} useOpaqueBackground={useOpaqueBackground}>
-            <PresenceStatusIndicatorUnavailable />
-          </MaybeOpaqueBackgroundWrapper>
-        );
-
-      default:
-        ensureUnreachable(status);
-        return null;
-    }
   }
 }
 
