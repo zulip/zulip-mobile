@@ -8,10 +8,8 @@ import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import { getHasAuth, getAccountStatuses } from '../selectors';
-import type { AccountStatus } from './accountsSelectors';
 import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
 import {
@@ -26,14 +24,12 @@ import { showErrorAlert } from '../utils/info';
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'account-pick'>,
   route: RouteProp<'account-pick', void>,
-
-  accounts: $ReadOnlyArray<AccountStatus>,
-  dispatch: Dispatch,
-  hasAuth: boolean,
 |}>;
 
-function AccountPickScreen(props: Props) {
-  const { accounts, hasAuth, dispatch } = props;
+export default function AccountPickScreen(props: Props) {
+  const accounts = useSelector(getAccountStatuses);
+  const hasAuth = useSelector(getHasAuth);
+  const dispatch = useDispatch();
   const _ = useContext(TranslationContext);
 
   const handleAccountSelect = useCallback(
@@ -118,8 +114,3 @@ function AccountPickScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect(state => ({
-  accounts: getAccountStatuses(state),
-  hasAuth: getHasAuth(state),
-}))(AccountPickScreen);
