@@ -108,7 +108,7 @@ export const tryGetAuth: Selector<Auth | void> = createSelector(tryGetActiveAcco
  *
  * See `tryGetAuth` for the meaning of "active, logged-in".
  */
-export const hasAuth = (state: GlobalState): boolean => !!tryGetAuth(state);
+export const getHasAuth = (state: GlobalState): boolean => !!tryGetAuth(state);
 
 /**
  * The auth object for the active, logged-in account; throws if none.

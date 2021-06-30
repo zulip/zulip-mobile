@@ -10,7 +10,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { GetText, Dispatch } from '../types';
 import { connect } from '../react-redux';
-import { hasAuth, getAccountStatuses } from '../selectors';
+import { getHasAuth, getAccountStatuses } from '../selectors';
 import type { AccountStatus } from './accountsSelectors';
 import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
@@ -123,5 +123,5 @@ class AccountPickScreen extends PureComponent<Props> {
 
 export default connect(state => ({
   accounts: getAccountStatuses(state),
-  hasAuth: hasAuth(state),
+  hasAuth: getHasAuth(state),
 }))(AccountPickScreen);

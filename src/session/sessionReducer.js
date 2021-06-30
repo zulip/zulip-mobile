@@ -16,7 +16,7 @@ import {
   LOGOUT,
   DISMISS_SERVER_COMPAT_NOTICE,
 } from '../actionConstants';
-import { hasAuth } from '../account/accountsSelectors';
+import { getHasAuth } from '../account/accountsSelectors';
 
 /**
  * Miscellaneous non-persistent state about this run of the app.
@@ -95,15 +95,15 @@ const rehydrate = (state, action) => {
   const { payload } = action;
 
   /* $FlowIgnore: The actual type allows any property to be null; narrow
-       that to just the one that `hasAuth` will care about.  (What we really
-       want here is what the value of `hasAuth` will be after the rehydrate
-       is complete.  So even if some other property is null in the payload,
-       we still do want to ask `hasAuth` what it thinks.) */
-  const payloadForHasAuth = (payload: GlobalState | { accounts: null, ... } | void);
+       that to just the one that `getHasAuth` will care about.  (What we
+       really want here is what the value of `getHasAuth` will be after the
+       rehydrate is complete.  So even if some other property is null in the
+       payload, we still do want to ask `getHasAuth` what it thinks.) */
+  const payloadForGetHasAuth = (payload: GlobalState | { accounts: null, ... } | void);
   const haveApiKey = !!(
-    payloadForHasAuth
-    && payloadForHasAuth.accounts
-    && hasAuth(payloadForHasAuth)
+    payloadForGetHasAuth
+    && payloadForGetHasAuth.accounts
+    && getHasAuth(payloadForGetHasAuth)
   );
 
   return {

@@ -9,7 +9,7 @@ import {
 
 import type { RouteParamsOf } from '../react-navigation';
 import { useSelector } from '../react-redux';
-import { hasAuth as getHasAuth, getAccounts } from '../selectors';
+import { getHasAuth, getAccounts } from '../selectors';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { GlobalParamList } from './globalTypes';
 import AccountPickScreen from '../account/AccountPickScreen';
