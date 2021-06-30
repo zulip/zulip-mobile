@@ -1,11 +1,11 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import ImagePicker from 'react-native-image-picker';
 
-import type { Dispatch, Narrow } from '../types';
-import { connect } from '../react-redux';
+import type { Narrow } from '../types';
+import { useDispatch } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import {
@@ -20,7 +20,6 @@ import AnimatedComponent from '../animation/AnimatedComponent';
 import { uploadFile } from '../actions';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   expanded: boolean,
   destinationNarrow: Narrow,
   insertVideoCallLink: (() => void) | null,
@@ -58,13 +57,18 @@ export const chooseUploadImageFilename = (uri: string, fileName: ?string): strin
   return name;
 };
 
-class ComposeMenu extends PureComponent<Props> {
-  uploadFile = (uri: string, fileName: ?string) => {
-    const { dispatch, destinationNarrow } = this.props;
-    dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
-  };
+export default function ComposeMenu(props: Props) {
+  const { destinationNarrow } = props;
+  const dispatch = useDispatch();
 
-  handleImagePickerResponse = (
+  const uploadFileCallback = useCallback(
+    (uri: string, fileName: ?string) => {
+      dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
+    },
+    [dispatch, destinationNarrow],
+  );
+
+  const handleImagePickerResponse = (
     response: $ReadOnly<{
       didCancel: boolean,
       // Upstream docs are vague:
@@ -91,10 +95,10 @@ class ComposeMenu extends PureComponent<Props> {
       return;
     }
 
-    this.uploadFile(response.uri, response.fileName);
+    uploadFileCallback(response.uri, response.fileName);
   };
 
-  handleImagePicker = () => {
+  const handleImagePicker = () => {
     ImagePicker.launchImageLibrary(
       {
         quality: 1.0,
@@ -104,11 +108,11 @@ class ComposeMenu extends PureComponent<Props> {
           path: 'images',
         },
       },
-      this.handleImagePickerResponse,
+      handleImagePickerResponse,
     );
   };
 
-  handleCameraCapture = () => {
+  const handleCameraCapture = () => {
     const options = {
       storageOptions: {
         cameraRoll: true,
@@ -116,10 +120,10 @@ class ComposeMenu extends PureComponent<Props> {
       },
     };
 
-    ImagePicker.launchCamera(options, this.handleImagePickerResponse);
+    ImagePicker.launchCamera(options, handleImagePickerResponse);
   };
 
-  handleFilePicker = async () => {
+  const handleFilePicker = async () => {
     // Defer import to here, to avoid an obnoxious import-time warning
     // from this library when in the test environment.
     const DocumentPicker = (await import('react-native-document-picker')).default;
@@ -136,10 +140,10 @@ class ComposeMenu extends PureComponent<Props> {
       return;
     }
 
-    this.uploadFile(response.uri, response.name);
+    uploadFileCallback(response.uri, response.name);
   };
 
-  styles = createStyleSheet({
+  const styles = createStyleSheet({
     composeMenu: {
       flexDirection: 'row',
       overflow: 'hidden',
@@ -155,55 +159,32 @@ class ComposeMenu extends PureComponent<Props> {
     },
   });
 
-  render() {
-    const { expanded, insertVideoCallLink, onExpandContract } = this.props;
-    const numIcons =
-      2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
+  const { expanded, insertVideoCallLink, onExpandContract } = props;
+  const numIcons = 2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
 
-    return (
-      <View style={this.styles.composeMenu}>
-        <AnimatedComponent
-          stylePropertyName="width"
-          fullValue={40 * numIcons}
-          useNativeDriver={false}
-          visible={expanded}
-        >
-          <View style={this.styles.composeMenu}>
-            {Platform.OS === 'android' && (
-              <IconFile
-                style={this.styles.composeMenuButton}
-                size={24}
-                onPress={this.handleFilePicker}
-              />
-            )}
-            <IconImage
-              style={this.styles.composeMenuButton}
-              size={24}
-              onPress={this.handleImagePicker}
-            />
-            <IconCamera
-              style={this.styles.composeMenuButton}
-              size={24}
-              onPress={this.handleCameraCapture}
-            />
-            {insertVideoCallLink !== null ? (
-              <IconVideo
-                style={this.styles.composeMenuButton}
-                size={24}
-                onPress={insertVideoCallLink}
-              />
-            ) : null}
-          </View>
-        </AnimatedComponent>
-        {!expanded && (
-          <IconPlusCircle style={this.styles.expandButton} size={24} onPress={onExpandContract} />
-        )}
-        {expanded && (
-          <IconLeft style={this.styles.expandButton} size={24} onPress={onExpandContract} />
-        )}
-      </View>
-    );
-  }
+  return (
+    <View style={styles.composeMenu}>
+      <AnimatedComponent
+        stylePropertyName="width"
+        fullValue={40 * numIcons}
+        useNativeDriver={false}
+        visible={expanded}
+      >
+        <View style={styles.composeMenu}>
+          {Platform.OS === 'android' && (
+            <IconFile style={styles.composeMenuButton} size={24} onPress={handleFilePicker} />
+          )}
+          <IconImage style={styles.composeMenuButton} size={24} onPress={handleImagePicker} />
+          <IconCamera style={styles.composeMenuButton} size={24} onPress={handleCameraCapture} />
+          {insertVideoCallLink !== null ? (
+            <IconVideo style={styles.composeMenuButton} size={24} onPress={insertVideoCallLink} />
+          ) : null}
+        </View>
+      </AnimatedComponent>
+      {!expanded && (
+        <IconPlusCircle style={styles.expandButton} size={24} onPress={onExpandContract} />
+      )}
+      {expanded && <IconLeft style={styles.expandButton} size={24} onPress={onExpandContract} />}
+    </View>
+  );
 }
-
-export default connect<{||}, _, _>()(ComposeMenu);
