@@ -224,36 +224,37 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState(({ numUploading }) => ({
       numUploading: numUploading + 1,
     }));
-
-    const { _, auth } = this.props;
-
-    const fileName = attachment.name ?? _('Attachment');
-    const placeholder = `[${_('Uploading {fileName}...', { fileName })}]()`;
-    this.insertMessageTextAtCursorPosition(`${placeholder}\n\n`);
-
-    let response = null;
     try {
-      response = await api.uploadFile(auth, attachment.uri, fileName);
-    } catch (e) {
-      showToast(_('Uploading {fileName} failed.', { fileName }));
-      this.setMessageInputValue(
-        this.state.message.replace(
-          placeholder,
-          `[${_('Uploading {fileName} failed.', { fileName })}]()`,
-        ),
-      );
-      return;
+      const { _, auth } = this.props;
+
+      const fileName = attachment.name ?? _('Attachment');
+      const placeholder = `[${_('Uploading {fileName}...', { fileName })}]()`;
+      this.insertMessageTextAtCursorPosition(`${placeholder}\n\n`);
+
+      let response = null;
+      try {
+        response = await api.uploadFile(auth, attachment.uri, fileName);
+      } catch (e) {
+        showToast(_('Uploading {fileName} failed.', { fileName }));
+        this.setMessageInputValue(
+          this.state.message.replace(
+            placeholder,
+            `[${_('Uploading {fileName} failed.', { fileName })}]()`,
+          ),
+        );
+        return;
+      }
+
+      const linkText = `[${fileName}](${response.uri})`;
+      if (this.state.message.indexOf(placeholder) !== -1) {
+        this.setMessageInputValue(this.state.message.replace(placeholder, linkText));
+      } else {
+        this.setMessageInputValue(`${this.state.message}\n${linkText}`);
+      }
     } finally {
       this.setState(({ numUploading }) => ({
         numUploading: numUploading - 1,
       }));
-    }
-
-    const linkText = `[${fileName}](${response.uri})`;
-    if (this.state.message.indexOf(placeholder) !== -1) {
-      this.setMessageInputValue(this.state.message.replace(placeholder, linkText));
-    } else {
-      this.setMessageInputValue(`${this.state.message}\n${linkText}`);
     }
   };
 
