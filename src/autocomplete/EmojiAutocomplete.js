@@ -20,12 +20,8 @@ type Props = $ReadOnly<{|
 const MAX_CHOICES = 30;
 
 class EmojiAutocomplete extends PureComponent<Props> {
-  onAutocomplete = (name: string): void => {
-    this.props.onAutocomplete(name);
-  };
-
   render() {
-    const { filter, activeImageEmojiByName } = this.props;
+    const { filter, activeImageEmojiByName, onAutocomplete } = this.props;
     const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
 
     if (emojiNames.length === 0) {
@@ -44,7 +40,7 @@ class EmojiAutocomplete extends PureComponent<Props> {
               type={item.emoji_type}
               code={item.code}
               name={item.name}
-              onPress={this.onAutocomplete}
+              onPress={onAutocomplete}
             />
           )}
         />
