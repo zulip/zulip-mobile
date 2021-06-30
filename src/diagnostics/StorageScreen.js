@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -26,21 +26,19 @@ type Props = $ReadOnly<{|
   state: GlobalState,
 |}>;
 
-class StorageScreen extends PureComponent<Props> {
-  render() {
-    const { state } = this.props;
-    const storageSizes = calculateKeyStorageSizes(state);
+function StorageScreen(props: Props) {
+  const { state } = props;
+  const storageSizes = calculateKeyStorageSizes(state);
 
-    return (
-      <Screen title="Storage" scrollEnabled={false}>
-        <FlatList
-          data={storageSizes}
-          keyExtractor={item => item.key}
-          renderItem={({ item }) => <SizeItem text={item.key} size={item.size} />}
-        />
-      </Screen>
-    );
-  }
+  return (
+    <Screen title="Storage" scrollEnabled={false}>
+      <FlatList
+        data={storageSizes}
+        keyExtractor={item => item.key}
+        renderItem={({ item }) => <SizeItem text={item.key} size={item.size} />}
+      />
+    </Screen>
+  );
 }
 
 export default connect(state => ({
