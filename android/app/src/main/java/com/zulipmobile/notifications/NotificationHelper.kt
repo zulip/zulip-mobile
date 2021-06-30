@@ -21,6 +21,25 @@ import java.util.*
 val TAG = "ZulipNotif"
 
 /**
+ * Type of value in [ConversationMap], contains information about
+ * the conversation.
+ * 
+ * Specifically contains the following:
+ * - notificationId of the notification this conversation is linked to.
+ *   (usually set to the first messageId of the conversation.)
+ * 
+ * - realmId of the realm the notification belongs to (helpful
+ *   for grouping)
+ * 
+ * - messages of this particular conversation.
+ */
+data class Conversation(
+    val notificationId: Int,
+    val realmId: Int,
+    val messages: MutableList<MessageFcmMessage>
+)
+
+/**
  * All Zulip messages we're showing in notifications.
  *
  * Each key identifies a conversation; see [buildKeyString].
@@ -28,7 +47,7 @@ val TAG = "ZulipNotif"
  * Each value is the messages in the conversation, in the order we
  * received them.
  */
-class ConversationMap : LinkedHashMap<String, MutableList<MessageFcmMessage>>()
+class ConversationMap : LinkedHashMap<String, Conversation>()
 
 fun fetchBitmap(url: URL): Bitmap? {
     return try {
@@ -56,7 +75,7 @@ fun buildNotificationContent(conversations: ConversationMap, inboxStyle: Notific
         // TODO ensure latest sender is shown last?  E.g. Gmail-style A, B, ..., A.
         val seenSenders = HashSet<String>()
         val names = ArrayList<String>()
-        for (message in conversation) {
+        for (message in conversation.messages) {
             if (seenSenders.contains(message.sender.email))
                 continue;
             seenSenders.add(message.sender.email)
@@ -68,7 +87,7 @@ fun buildNotificationContent(conversations: ConversationMap, inboxStyle: Notific
         builder.setSpan(StyleSpan(android.graphics.Typeface.BOLD),
             0, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         builder.append(": ")
-        builder.append(conversation.last().content)
+        builder.append(conversation.messages.last().content)
         inboxStyle.addLine(builder)
     }
 }
@@ -76,7 +95,7 @@ fun buildNotificationContent(conversations: ConversationMap, inboxStyle: Notific
 fun extractTotalMessagesCount(conversations: ConversationMap): Int {
     var totalNumber = 0
     for ((_, value) in conversations) {
-        totalNumber += value.size
+        totalNumber += value.messages.size
     }
     return totalNumber
 }
@@ -98,8 +117,8 @@ private fun buildKeyString(fcmMessage: MessageFcmMessage): String {
 
 fun extractNames(conversations: ConversationMap): ArrayList<String> {
     val namesSet = LinkedHashSet<String>()
-    for (fcmMessages in conversations.values) {
-        for (fcmMessage in fcmMessages) {
+    for (conversation in conversations.values) {
+        for (fcmMessage in conversation.messages) {
             namesSet.add(fcmMessage.sender.fullName)
         }
     }
@@ -108,12 +127,15 @@ fun extractNames(conversations: ConversationMap): ArrayList<String> {
 
 fun addConversationToMap(fcmMessage: MessageFcmMessage, conversations: ConversationMap) {
     val key = buildKeyString(fcmMessage)
-    var messages: MutableList<MessageFcmMessage>? = conversations[key]
-    if (messages == null) {
-        messages = ArrayList()
+    if (!conversations.contains(key)) {
+        val conversation = Conversation(
+            fcmMessage.zulipMessageId,
+            fcmMessage.identity!!.realmId,
+            mutableListOf<MessageFcmMessage>()
+        )
+        conversations[key] = conversation
     }
-    messages.add(fcmMessage)
-    conversations[key] = messages
+    conversations[key]!!.messages.add(fcmMessage)
 }
 
 fun removeMessagesFromMap(conversations: ConversationMap, removeFcmMessage: RemoveFcmMessage) {
@@ -124,7 +146,8 @@ fun removeMessagesFromMap(conversations: ConversationMap, removeFcmMessage: Remo
     // TODO redesign this whole data structure, for many reasons.
     val it = conversations.values.iterator()
     while (it.hasNext()) {
-        val messages: MutableList<MessageFcmMessage> = it.next()
+        val conversation = it.next()
+        val messages = conversation.messages
         for (i in messages.indices.reversed()) {
             if (removeFcmMessage.messageIds.contains(messages[i].zulipMessageId)) {
                 messages.removeAt(i)
