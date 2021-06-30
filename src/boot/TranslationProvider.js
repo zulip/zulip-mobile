@@ -78,16 +78,14 @@ type Props = $ReadOnly<{|
   children: React$Node,
 |}>;
 
-class TranslationProvider extends PureComponent<Props> {
-  render() {
-    const { locale, children } = this.props;
+function TranslationProvider(props: Props) {
+  const { locale, children } = props;
 
-    return (
-      <IntlProvider locale={locale} textComponent={Text} messages={messages[locale]}>
-        <TranslationContextTranslator>{children}</TranslationContextTranslator>
-      </IntlProvider>
-    );
-  }
+  return (
+    <IntlProvider locale={locale} textComponent={Text} messages={messages[locale]}>
+      <TranslationContextTranslator>{children}</TranslationContextTranslator>
+    </IntlProvider>
+  );
 }
 
 export default connect(state => ({
