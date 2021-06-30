@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { FlatList } from 'react-native';
 
 import { Popup } from '../common';
@@ -19,34 +19,32 @@ type Props = $ReadOnly<{|
 
 const MAX_CHOICES = 30;
 
-class EmojiAutocomplete extends PureComponent<Props> {
-  render() {
-    const { filter, activeImageEmojiByName, onAutocomplete } = this.props;
-    const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
+function EmojiAutocomplete(props: Props) {
+  const { filter, activeImageEmojiByName, onAutocomplete } = props;
+  const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
 
-    if (emojiNames.length === 0) {
-      return null;
-    }
-
-    return (
-      <Popup>
-        <FlatList
-          keyboardShouldPersistTaps="always"
-          initialNumToRender={12}
-          data={emojiNames.slice(0, MAX_CHOICES)}
-          keyExtractor={item => item.name}
-          renderItem={({ item }) => (
-            <EmojiRow
-              type={item.emoji_type}
-              code={item.code}
-              name={item.name}
-              onPress={onAutocomplete}
-            />
-          )}
-        />
-      </Popup>
-    );
+  if (emojiNames.length === 0) {
+    return null;
   }
+
+  return (
+    <Popup>
+      <FlatList
+        keyboardShouldPersistTaps="always"
+        initialNumToRender={12}
+        data={emojiNames.slice(0, MAX_CHOICES)}
+        keyExtractor={item => item.name}
+        renderItem={({ item }) => (
+          <EmojiRow
+            type={item.emoji_type}
+            code={item.code}
+            name={item.name}
+            onPress={onAutocomplete}
+          />
+        )}
+      />
+    </Popup>
+  );
 }
 
 export default connect(state => ({
