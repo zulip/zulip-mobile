@@ -3,21 +3,19 @@
 import React, { useCallback } from 'react';
 import { FlatList } from 'react-native';
 
-import type { SubscriptionsState, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { Popup } from '../common';
 import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
 import StreamItem from '../streams/StreamItem';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   filter: string,
   onAutocomplete: (name: string) => void,
-  subscriptions: SubscriptionsState,
 |}>;
 
-function StreamAutocomplete(props: Props) {
-  const { filter, subscriptions, onAutocomplete } = props;
+export default function StreamAutocomplete(props: Props) {
+  const { filter, onAutocomplete } = props;
+  const subscriptions = useSelector(getSubscribedStreams);
 
   const handleStreamItemAutocomplete = useCallback(
     (name: string): void => {
@@ -56,7 +54,3 @@ function StreamAutocomplete(props: Props) {
     </Popup>
   );
 }
-
-export default connect(state => ({
-  subscriptions: getSubscribedStreams(state),
-}))(StreamAutocomplete);
