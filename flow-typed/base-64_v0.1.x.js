@@ -2,7 +2,7 @@
 // flow-typed version: c6154227d1/base-64_v0.1.x/flow_>=v0.25.x <=v0.103.x
 
 declare module 'base-64' {
-  declare module.exports: {
+  declare module.exports: {|
     version: string;
     /**
      * This function takes a byte string (the input parameter) and encodes it according to base64.
@@ -22,5 +22,5 @@ declare module 'base-64' {
      * see: https://html.spec.whatwg.org/multipage/webappapis.html#dom-windowbase64-atob
      */
     decode(input: string): string;
-  };
+  |};
 }
