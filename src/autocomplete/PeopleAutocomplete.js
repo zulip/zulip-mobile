@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 import { SectionList } from 'react-native';
 
 import type { MutedUsersState, User, UserId, UserGroup, Dispatch } from '../types';
@@ -26,83 +26,87 @@ type Props = $ReadOnly<{|
   userGroups: UserGroup[],
 |}>;
 
-class PeopleAutocomplete extends PureComponent<Props> {
-  handleUserGroupItemAutocomplete = (name: string): void => {
-    this.props.onAutocomplete(`*${name}*`);
-  };
+function PeopleAutocomplete(props: Props) {
+  const { filter, mutedUsers, ownUserId, users, userGroups, onAutocomplete } = props;
 
-  handleUserItemAutocomplete = (user: AutocompleteOption): void => {
-    const { users, onAutocomplete } = this.props;
-    // If another user with the same full name is found, we send the
-    // user ID as well, to ensure the mentioned user is uniquely identified.
-    if (users.find(x => x.full_name === user.full_name && x.user_id !== user.user_id)) {
-      // See the `get_mention_syntax` function in
-      // `static/js/people.js` in the webapp.
-      onAutocomplete(`**${user.full_name}|${user.user_id}**`);
-      return;
-    }
-    onAutocomplete(`**${user.full_name}**`);
-  };
+  const handleUserGroupItemAutocomplete = useCallback(
+    (name: string): void => {
+      onAutocomplete(`*${name}*`);
+    },
+    [onAutocomplete],
+  );
 
-  render() {
-    const { filter, mutedUsers, ownUserId, users, userGroups } = this.props;
-    const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, filter);
-    const filteredUsers = getAutocompleteSuggestion(users, filter, ownUserId, mutedUsers);
+  const handleUserItemAutocomplete = useCallback(
+    (user: AutocompleteOption): void => {
+      // If another user with the same full name is found, we send the
+      // user ID as well, to ensure the mentioned user is uniquely identified.
+      if (users.find(x => x.full_name === user.full_name && x.user_id !== user.user_id)) {
+        // See the `get_mention_syntax` function in
+        // `static/js/people.js` in the webapp.
+        onAutocomplete(`**${user.full_name}|${user.user_id}**`);
+        return;
+      }
+      onAutocomplete(`**${user.full_name}**`);
+    },
+    [users, onAutocomplete],
+  );
 
-    if (filteredUserGroups.length + filteredUsers.length === 0) {
-      return null;
-    }
+  const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, filter);
+  const filteredUsers = getAutocompleteSuggestion(users, filter, ownUserId, mutedUsers);
 
-    type Section<T> = {|
-      +data: $ReadOnlyArray<T>,
-      +renderItem: ({ item: T, ... }) => React$MixedElement,
-    |};
-    const sections = [
-      ({
-        data: filteredUserGroups,
-        renderItem: ({ item }) => (
-          <UserGroupItem
-            key={item.name}
-            name={item.name}
-            description={item.description}
-            onPress={this.handleUserGroupItemAutocomplete}
-          />
-        ),
-      }: Section<UserGroup>),
-      ({
-        data: filteredUsers,
-        renderItem: ({ item }) => (
-          // "Raw" because some of our autocomplete suggestions are fake
-          // synthetic "users" to represent @all and @everyone.
-          // TODO display those in a UI that makes more sense for them,
-          //   and drop the fake "users" and use the normal UserItem.
-          <UserItemRaw
-            key={item.user_id}
-            user={item}
-            showEmail
-            onPress={this.handleUserItemAutocomplete}
-          />
-        ),
-      }: Section<AutocompleteOption>),
-    ];
+  if (filteredUserGroups.length + filteredUsers.length === 0) {
+    return null;
+  }
 
-    return (
-      <Popup>
-        {/* eslint-disable-next-line react/jsx-curly-brace-presence */}
-        {
-          // $FlowFixMe[incompatible-variance]
-          /* $FlowFixMe[prop-missing]
+  type Section<T> = {|
+    +data: $ReadOnlyArray<T>,
+    +renderItem: ({ item: T, ... }) => React$MixedElement,
+  |};
+  const sections = [
+    ({
+      data: filteredUserGroups,
+      renderItem: ({ item }) => (
+        <UserGroupItem
+          key={item.name}
+          name={item.name}
+          description={item.description}
+          onPress={handleUserGroupItemAutocomplete}
+        />
+      ),
+    }: Section<UserGroup>),
+    ({
+      data: filteredUsers,
+      renderItem: ({ item }) => (
+        // "Raw" because some of our autocomplete suggestions are fake
+        // synthetic "users" to represent @all and @everyone.
+        // TODO display those in a UI that makes more sense for them,
+        //   and drop the fake "users" and use the normal UserItem.
+        <UserItemRaw
+          key={item.user_id}
+          user={item}
+          showEmail
+          onPress={handleUserItemAutocomplete}
+        />
+      ),
+    }: Section<AutocompleteOption>),
+  ];
+
+  return (
+    <Popup>
+      {/* eslint-disable-next-line react/jsx-curly-brace-presence */}
+      {
+        // $FlowFixMe[incompatible-variance]
+        /* $FlowFixMe[prop-missing]
              SectionList type is confused; should take $ReadOnly
              objects. */
-          <SectionList
-            keyboardShouldPersistTaps="always"
-            initialNumToRender={10}
-            sections={sections}
-          />
-        }
-      </Popup>
-    );
-  }
+        <SectionList
+          keyboardShouldPersistTaps="always"
+          initialNumToRender={10}
+          sections={sections}
+        />
+      }
+    </Popup>
+  );
 }
 
 export default connect(state => ({
