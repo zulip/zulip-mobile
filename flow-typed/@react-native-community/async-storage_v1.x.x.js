@@ -19,5 +19,7 @@ declare module '@react-native-community/async-storage' {
     ): Promise<ReadOnlyArrayString>,
 
     clear(callback?: ?(error: ?Error) => void): Promise<null>,
+
+    ...
   };
 }
