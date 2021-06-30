@@ -123,10 +123,11 @@ declare module 'react-native-webview' {
     description: string,
   |}>;
 
-  declare export type WebViewHttpError = {
+  declare export type WebViewHttpError = $ReadOnly<{|
+    ...WebViewNativeEvent,
     description: string,
     statusCode: number,
-  } & WebViewNativeEvent;
+  |}>;
 
   declare export type ContentInsetProp = {|
     top?: number,
