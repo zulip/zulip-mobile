@@ -73,7 +73,4 @@ export const downloadFileToCache = async (tempUrl: string, fileName: string): Pr
   RNFetchBlob.config({
     path: `${RNFetchBlob.fs.dirs.CacheDir}/${fileName}`,
     fileCache: true,
-    useDownloadManager: true,
-    mime: getMimeTypeFromFileExtension(fileName.split('.').pop()),
-    title: fileName,
   }).fetch('GET', tempUrl);
