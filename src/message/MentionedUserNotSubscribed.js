@@ -41,7 +41,7 @@ const styles = createStyleSheet({
   button: {
     backgroundColor: 'orange',
 
-    // Based on MarkUnreadButton.
+    // Based on MarkAsReadButton.
     // TODO make these less ad hoc.
     // TODO also make the actual touch target taller, like 48px.
     //   (Can extend beyond the visual representation of the button itself.)

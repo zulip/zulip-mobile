@@ -8,7 +8,7 @@ import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import { getUnreadCountForNarrow } from '../selectors';
 import { Label, RawLabel } from '../common';
-import MarkUnreadButton from './MarkUnreadButton';
+import MarkAsReadButton from './MarkAsReadButton';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
 const styles = createStyleSheet({
@@ -59,7 +59,7 @@ class UnreadNotice extends PureComponent<Props> {
             text={unreadCount === 1 ? 'unread message' : 'unread messages'}
           />
         </View>
-        <MarkUnreadButton narrow={narrow} />
+        <MarkAsReadButton narrow={narrow} />
       </AnimatedScaleComponent>
     );
   }

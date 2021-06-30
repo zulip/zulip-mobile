@@ -32,7 +32,7 @@ type Props = $ReadOnly<{|
   streams: Stream[],
 |}>;
 
-class MarkUnreadButton extends PureComponent<Props> {
+class MarkAsReadButton extends PureComponent<Props> {
   markAllAsRead = () => {
     const { auth } = this.props;
     api.markAllAsRead(auth);
@@ -92,4 +92,4 @@ class MarkUnreadButton extends PureComponent<Props> {
 export default connect(state => ({
   auth: getAuth(state),
   streams: getStreams(state),
-}))(MarkUnreadButton);
+}))(MarkAsReadButton);
