@@ -5,8 +5,7 @@ import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { GlobalState, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { Screen } from '../common';
 import SizeItem from './SizeItem';
 
@@ -21,13 +20,10 @@ const calculateKeyStorageSizes = obj =>
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'storage'>,
   route: RouteProp<'storage', void>,
-
-  dispatch: Dispatch,
-  state: GlobalState,
 |}>;
 
-function StorageScreen(props: Props) {
-  const { state } = props;
+export default function StorageScreen(props: Props) {
+  const state = useSelector(s => s);
   const storageSizes = calculateKeyStorageSizes(state);
 
   return (
@@ -40,7 +36,3 @@ function StorageScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect(state => ({
-  state,
-}))(StorageScreen);
