@@ -91,6 +91,7 @@ deprecated-utility=error
 ; ours
 sketchy-number=error
 unnecessary-optional-chain=warn
+implicit-inexact-object=error
 
 
 [options]
