@@ -1,5 +1,6 @@
 // @flow strict-local
 
+// $FlowFixMe[untyped-import]
 import LolexModule from 'lolex';
 
 /*

@@ -3,6 +3,7 @@ import React from 'react';
 import { Platform, UIManager } from 'react-native';
 import 'react-native-url-polyfill/auto';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+// $FlowFixMe[untyped-import]
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import RootErrorBoundary from './RootErrorBoundary';

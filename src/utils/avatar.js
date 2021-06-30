@@ -1,6 +1,7 @@
 /* @flow strict-local */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-use-before-define */
+// $FlowFixMe[untyped-import]
 import md5 from 'blueimp-md5';
 
 import * as logging from './logging';

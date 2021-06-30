@@ -1,4 +1,5 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
 import isEqual from 'lodash.isequal';
 import type { Narrow } from '../types';
 

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type { ComponentType, ElementConfig } from 'react';
+// $FlowFixMe[untyped-import]
 import { connectActionSheet as connectActionSheetInner } from '@expo/react-native-action-sheet';
 
 import type { BoundedDiff } from './generics';

@@ -2,6 +2,7 @@
 
 import React, { useContext } from 'react';
 import { View } from 'react-native';
+// $FlowFixMe[untyped-import]
 import Color from 'color';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

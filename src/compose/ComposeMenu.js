@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
+// $FlowFixMe[untyped-import]
 import ImagePicker from 'react-native-image-picker';
 
 import type { Dispatch, Narrow } from '../types';

@@ -1,4 +1,5 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
 import Sound from 'react-native-sound';
 import * as logging from './logging';
 

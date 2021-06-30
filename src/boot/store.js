@@ -1,8 +1,11 @@
 /* @flow strict-local */
 import { applyMiddleware, compose, createStore } from 'redux';
 import type { Store } from 'redux';
+// $FlowFixMe[untyped-import]
 import thunkMiddleware from 'redux-thunk';
+// $FlowFixMe[untyped-import]
 import { createLogger } from 'redux-logger';
+// $FlowFixMe[untyped-import]
 import createActionBuffer from 'redux-action-buffer';
 import Immutable from 'immutable';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
@@ -26,8 +29,8 @@ if (process.env.NODE_ENV === 'development') {
   // settings. In the "Console" section, check "Enable custom
   // formatters".
   //
-  // eslint-disable-next-line import/no-extraneous-dependencies, global-require
-  const installDevTools = require('immutable-devtools');
+  // $FlowFixMe[untyped-import]
+  const installDevTools = require('immutable-devtools'); // eslint-disable-line import/no-extraneous-dependencies, global-require
   installDevTools(Immutable);
 }
 

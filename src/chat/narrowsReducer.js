@@ -1,4 +1,5 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
 import union from 'lodash.union';
 import Immutable from 'immutable';
 

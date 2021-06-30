@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { AppState, View, Platform, NativeModules } from 'react-native';
+// $FlowFixMe[untyped-import]
 import NetInfo from '@react-native-community/netinfo';
 import * as ScreenOrientation from 'expo-screen-orientation';
 

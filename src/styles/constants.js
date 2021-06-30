@@ -1,4 +1,5 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
 import Color from 'color';
 
 export const CONTROL_SIZE = 44;

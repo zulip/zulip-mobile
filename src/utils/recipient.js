@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import invariant from 'invariant';
+// $FlowFixMe[untyped-import]
 import isEqual from 'lodash.isequal';
 
 import { mapOrNull } from '../collections';

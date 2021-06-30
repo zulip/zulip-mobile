@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { Platform, View, findNodeHandle } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+// $FlowFixMe[untyped-import]
 import TextInputReset from 'react-native-text-input-reset';
 import { type EdgeInsets } from 'react-native-safe-area-context';
 import { compose } from 'redux';

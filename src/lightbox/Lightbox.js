@@ -2,7 +2,9 @@
 
 import React, { useState, useCallback } from 'react';
 import { View, Dimensions, LayoutAnimation } from 'react-native';
+// $FlowFixMe[untyped-import]
 import PhotoView from 'react-native-photo-view';
+// $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import * as NavigationService from '../nav/NavigationService';

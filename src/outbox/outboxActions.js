@@ -1,4 +1,5 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
 import parseMarkdown from 'zulip-markdown-parser';
 
 import * as logging from '../utils/logging';

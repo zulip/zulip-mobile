@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import invariant from 'invariant';
 import configureStore from 'redux-mock-store';
+// $FlowFixMe[untyped-import]
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 

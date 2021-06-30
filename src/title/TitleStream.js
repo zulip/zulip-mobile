@@ -2,6 +2,7 @@
 
 import React, { useContext } from 'react';
 import { Text, View, TouchableWithoutFeedback } from 'react-native';
+// $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import { TranslationContext } from '../boot/TranslationProvider';

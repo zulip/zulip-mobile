@@ -4,6 +4,7 @@ import isToday from 'date-fns/is_today';
 import isYesterday from 'date-fns/is_yesterday';
 import isSameYear from 'date-fns/is_same_year';
 import addMinutes from 'date-fns/add_minutes';
+// $FlowFixMe[untyped-import]
 import tz from 'timezone/loaded';
 
 export { default as isSameDay } from 'date-fns/is_same_day';

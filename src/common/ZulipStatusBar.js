@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { Platform, StatusBar } from 'react-native';
+// $FlowFixMe[untyped-import]
 import Color from 'color';
 
 import type { Orientation, ThemeName, Dispatch } from '../types';

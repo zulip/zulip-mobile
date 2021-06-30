@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Switch } from 'react-native';
+// $FlowFixMe[untyped-import]
 import Color from 'color';
 import { BRAND_COLOR } from '../styles';
 

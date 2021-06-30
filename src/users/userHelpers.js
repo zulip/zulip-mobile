@@ -1,4 +1,5 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
 import uniqby from 'lodash.uniqby';
 
 import type {

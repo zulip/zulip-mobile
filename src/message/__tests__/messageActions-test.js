@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import configureStore from 'redux-mock-store';
+// $FlowFixMe[untyped-import]
 import thunk from 'redux-thunk';
 
 import { navigateToChat } from '../../nav/navActions';
