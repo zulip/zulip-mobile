@@ -2,9 +2,9 @@
 
 import React, { useCallback } from 'react';
 
-import type { Auth, Narrow, Stream, Dispatch } from '../types';
+import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { ZulipButton } from '../common';
 import * as api from '../api';
 import { getAuth, getStreams } from '../selectors';
@@ -26,14 +26,13 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
-  auth: Auth,
   narrow: Narrow,
-  streams: Stream[],
 |}>;
 
-function MarkAsReadButton(props: Props) {
-  const { auth, narrow, streams } = props;
+export default function MarkAsReadButton(props: Props) {
+  const { narrow } = props;
+  const auth = useSelector(getAuth);
+  const streams = useSelector(getStreams);
 
   const markAllAsRead = useCallback(() => {
     api.markAllAsRead(auth);
@@ -73,8 +72,3 @@ function MarkAsReadButton(props: Props) {
 
   return null;
 }
-
-export default connect(state => ({
-  auth: getAuth(state),
-  streams: getStreams(state),
-}))(MarkAsReadButton);
