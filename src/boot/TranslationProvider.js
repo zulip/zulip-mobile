@@ -5,8 +5,8 @@ import { Text } from 'react-native';
 import { IntlProvider, IntlContext } from 'react-intl';
 import type { IntlShape } from 'react-intl';
 
-import type { GetText, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import type { GetText } from '../types';
+import { useSelector } from '../react-redux';
 import { getSettings } from '../selectors';
 import messages from '../i18n/messages';
 
@@ -73,13 +73,12 @@ class TranslationContextTranslator extends PureComponent<{|
 }
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
-  locale: string,
   children: React$Node,
 |}>;
 
-function TranslationProvider(props: Props) {
-  const { locale, children } = props;
+export default function TranslationProvider(props: Props) {
+  const { children } = props;
+  const locale = useSelector(state => getSettings(state).locale);
 
   return (
     <IntlProvider locale={locale} textComponent={Text} messages={messages[locale]}>
@@ -87,7 +86,3 @@ function TranslationProvider(props: Props) {
     </IntlProvider>
   );
 }
-
-export default connect(state => ({
-  locale: getSettings(state).locale,
-}))(TranslationProvider);
