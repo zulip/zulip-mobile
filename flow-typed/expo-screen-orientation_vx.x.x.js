@@ -11,9 +11,9 @@ declare module 'expo-screen-orientation/build/ScreenOrientation' {
   //
   // So, copy it here (it's small).
   // https://github.com/expo/expo/blob/master/packages/%40unimodules/react-native-adapter/src/EventEmitter.ts#L13-L15
-  declare type Subscription = {
+  declare type Subscription = {|
     remove: () => void,
-  };
+  |};
 
   import typeof {
     Orientation,
