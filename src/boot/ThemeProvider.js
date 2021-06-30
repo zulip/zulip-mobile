@@ -16,10 +16,6 @@ type Props = $ReadOnly<{|
 |}>;
 
 class ThemeProvider extends PureComponent<Props> {
-  static defaultProps = {
-    theme: 'default',
-  };
-
   render() {
     const { children, theme } = this.props;
     return (
