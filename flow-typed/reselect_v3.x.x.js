@@ -9,11 +9,11 @@ declare module "reselect" {
 
   declare type OutputSelector<-TState, TProps, TResult> =
     & InputSelector<TState, TProps, TResult>
-    & {
+    & {|
       recomputations(): number,
       resetRecomputations(): number,
       resultFunc(...args: any[]): TResult,
-    };
+    |};
 
   declare type SelectorCreator = {
     <TState, TProps, TResult, T1>(
@@ -869,10 +869,11 @@ declare module "reselect" {
         arg15: T15,
         arg16: T16
       ) => TResult
-    ): OutputSelector<TState, TProps, TResult>
+    ): OutputSelector<TState, TProps, TResult>,
+    ...
   };
 
-  declare type Reselect = {
+  declare type Reselect = {|
     createSelector: SelectorCreator,
 
     defaultMemoize: <TFunc: Function>(
@@ -885,11 +886,11 @@ declare module "reselect" {
       ...memoizeOptions: any[]
     ) => SelectorCreator,
 
-    createStructuredSelector: <TState, TProps, InputSelectors: {[k: string | number]: InputSelector<TState, TProps, any>}>(
+    createStructuredSelector: <TState, TProps, InputSelectors: {|[k: string | number]: InputSelector<TState, TProps, any>|}>(
       inputSelectors: InputSelectors,
       selectorCreator?: SelectorCreator
     ) => OutputSelector<TState, TProps, $ObjMap<InputSelectors, ExtractReturnType>>
-  };
+  |};
 
   declare module.exports: Reselect;
 }
