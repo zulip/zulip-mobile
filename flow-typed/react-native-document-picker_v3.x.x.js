@@ -8,7 +8,7 @@ declare module 'react-native-document-picker' {
 
   declare type FileType = string;
 
-  declare export default {
+  declare export default {|
     types: {|
       allFiles: FileType,
       audio: FileType,
@@ -22,6 +22,6 @@ declare module 'react-native-document-picker' {
 
     pickMultiple({| type?: FileType | FileType[] |}): Promise<DocumentPickerResponse[]>,
 
-    isCancel(err: ?{}): ?boolean,
-  };
+    isCancel(err: ?{ ... }): ?boolean,
+  |};
 }
