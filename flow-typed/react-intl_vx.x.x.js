@@ -676,11 +676,11 @@ declare module 'react-intl' {
     column: number;
   }
   // Changed from interface to type in TS to Flow translation
-  declare export type MessageDescriptor = {
+  declare export type MessageDescriptor = {|
     id?: string | number,
     description?: string | {| [key: string]: any |},
     defaultMessage?: string,
-  };
+  |};
   declare type MessageFormatElement =
     | LiteralElement
     | ArgumentElement
@@ -838,11 +838,12 @@ declare module 'react-intl' {
     ...
   } & FormatPluralOptions;
   declare type Props_3<V: {| [key: string]: any |} = {| [key: string]: React$Node |}> = {
+    ...MessageDescriptor,
     values?: V,
     tagName?: React_2.ElementType<any>,
     children?: (...nodes: React_2.ReactNodeArray) => React$Node,
     ...
-  } & MessageDescriptor;
+  };
   declare export var RawIntlProvider: React_2.Provider<IntlShape>;
   declare export class ReactIntlError<
     T: $Values<typeof ReactIntlErrorCode> = typeof ReactIntlErrorCode.FORMAT_ERROR,
