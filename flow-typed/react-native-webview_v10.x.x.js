@@ -11,27 +11,27 @@
  * https://github.com/flow-typed/flow-typed/blob/master/CONTRIBUTING.md#dont-import-types-from-other-libdefs
  */
 declare module 'react-native-webview/@@react-native' {
-  declare type NativeScrollRectangle = {
+  declare type NativeScrollRectangle = {|
     left: number,
     top: number,
     bottom: number,
     right: number,
-  };
+  |};
 
-  declare type NativeScrollPoint = {
+  declare type NativeScrollPoint = {|
     x: number,
     y: number,
-  };
+  |};
 
-  declare type NativeScrollVelocity = {
+  declare type NativeScrollVelocity = {|
     x: number,
     y: number,
-  };
+  |};
 
-  declare type NativeScrollSize = {
+  declare type NativeScrollSize = {|
     height: number,
     width: number,
-  };
+  |};
 
   // May be incomplete; see `react-native/Libraries/Types/CoreEventTypes`
   declare export type ScrollEvent = {
@@ -41,10 +41,11 @@ declare module 'react-native-webview/@@react-native' {
     layoutMeasurement: NativeScrollSize,
     velocity?: NativeScrollVelocity,
     zoomScale: number,
+    ...
   };
 
   // Incomplete; see `react-native/Libraries/Types/CoreEventTypes`
-  declare export type SyntheticEvent<T> = { +nativeEvent: T };
+  declare export type SyntheticEvent<T> = { +nativeEvent: T, ... };
 
   // Incomplete; see react-native/Libraries/StyleSheet/StyleSheet
   declare export type ViewStyleProp = { ... };
@@ -64,7 +65,7 @@ declare module 'react-native-webview' {
   } from 'react-native-webview/@@react-native';
 
   declare export type MixedContentMode = 'never' | 'always' | 'compatibility';
-  declare export type FileDownload = { downloadUrl: string };
+  declare export type FileDownload = {| downloadUrl: string |};
   declare export type DecelerationRateConstant = 'normal' | 'fast';
   declare export type OverScrollModeType = 'always' | 'content' | 'never';
 
@@ -155,8 +156,8 @@ declare module 'react-native-webview' {
 
   declare export type WebViewNativeConfig = {|
     component?: React$ComponentType<WebViewSharedProps>,
-    props?: {},
-    viewManager?: {},
+    props?: { ... },
+    viewManager?: { ... },
   |};
 
   declare export type WebViewEvent = SyntheticEvent<WebViewNativeEvent>;
