@@ -6,7 +6,7 @@
  */
 
 declare module 'react-native-simple-toast' {
-  declare type SimpleToast = {
+  declare type SimpleToast = {|
     // Toast duration constants
     SHORT: number,
     LONG: number,
@@ -19,7 +19,7 @@ declare module 'react-native-simple-toast' {
     show: (message: string, duration?: number) => void,
 
     showWithGravity: (message: string, duration: number, gravity: number) => void,
-  };
+  |};
   declare export default SimpleToast;
 }
 
