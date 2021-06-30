@@ -3,8 +3,8 @@
 import React, { useCallback } from 'react';
 import { SectionList } from 'react-native';
 
-import type { MutedUsersState, User, UserId, UserGroup, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import type { UserGroup } from '../types';
+import { useSelector } from '../react-redux';
 import { getMutedUsers, getSortedUsers, getUserGroups } from '../selectors';
 import {
   type AutocompleteOption,
@@ -17,17 +17,16 @@ import UserGroupItem from '../user-groups/UserGroupItem';
 import { getOwnUserId } from '../users/userSelectors';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   filter: string,
   onAutocomplete: (name: string) => void,
-  mutedUsers: MutedUsersState,
-  ownUserId: UserId,
-  users: User[],
-  userGroups: UserGroup[],
 |}>;
 
-function PeopleAutocomplete(props: Props) {
-  const { filter, mutedUsers, ownUserId, users, userGroups, onAutocomplete } = props;
+export default function PeopleAutocomplete(props: Props) {
+  const { filter, onAutocomplete } = props;
+  const mutedUsers = useSelector(getMutedUsers);
+  const ownUserId = useSelector(getOwnUserId);
+  const users = useSelector(getSortedUsers);
+  const userGroups = useSelector(getUserGroups);
 
   const handleUserGroupItemAutocomplete = useCallback(
     (name: string): void => {
@@ -108,10 +107,3 @@ function PeopleAutocomplete(props: Props) {
     </Popup>
   );
 }
-
-export default connect(state => ({
-  mutedUsers: getMutedUsers(state),
-  ownUserId: getOwnUserId(state),
-  users: getSortedUsers(state),
-  userGroups: getUserGroups(state),
-}))(PeopleAutocomplete);
