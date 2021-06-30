@@ -6,21 +6,19 @@ import { FlatList } from 'react-native';
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import { getFilteredEmojis } from '../emoji/data';
-import type { RealmEmojiById, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { getActiveImageEmojiByName } from '../selectors';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   filter: string,
-  activeImageEmojiByName: RealmEmojiById,
   onAutocomplete: (name: string) => void,
 |}>;
 
 const MAX_CHOICES = 30;
 
-function EmojiAutocomplete(props: Props) {
-  const { filter, activeImageEmojiByName, onAutocomplete } = props;
+export default function EmojiAutocomplete(props: Props) {
+  const { filter, onAutocomplete } = props;
+  const activeImageEmojiByName = useSelector(getActiveImageEmojiByName);
   const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
 
   if (emojiNames.length === 0) {
@@ -46,7 +44,3 @@ function EmojiAutocomplete(props: Props) {
     </Popup>
   );
 }
-
-export default connect(state => ({
-  activeImageEmojiByName: getActiveImageEmojiByName(state),
-}))(EmojiAutocomplete);
