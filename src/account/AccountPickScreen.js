@@ -9,7 +9,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { useSelector, useDispatch } from '../react-redux';
-import { getHasAuth, getAccountStatuses } from '../selectors';
+import { getAccountStatuses } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
 import {
@@ -27,8 +27,8 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function AccountPickScreen(props: Props) {
+  const { navigation } = props;
   const accounts = useSelector(getAccountStatuses);
-  const hasAuth = useSelector(getHasAuth);
   const dispatch = useDispatch();
   const _ = useContext(TranslationContext);
 
@@ -81,19 +81,7 @@ export default function AccountPickScreen(props: Props) {
       title="Pick account"
       centerContent
       padding
-      canGoBack={
-        // We can get here three ways:
-        //  * the "switch accounts" button
-        //  * the "log out" button
-        //  * as the initial screen, if we have a known account but no API key.
-        //
-        // The "log out" button is a bit exceptional because it's the user
-        // taking a navigational action... but the screen they just left
-        // required the login they've just discarded, so they can't go back.
-        //
-        // So, show a "navigate back" UI in the first case, but not the other two.
-        hasAuth
-      }
+      canGoBack={navigation.canGoBack()}
       shouldShowLoadingBanner={false}
     >
       <Centerer>
