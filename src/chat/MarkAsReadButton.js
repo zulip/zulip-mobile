@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import type { Auth, Narrow, Stream, Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
@@ -32,61 +32,46 @@ type Props = $ReadOnly<{|
   streams: Stream[],
 |}>;
 
-class MarkAsReadButton extends PureComponent<Props> {
-  markAllAsRead = () => {
-    const { auth } = this.props;
-    api.markAllAsRead(auth);
-  };
+function MarkAsReadButton(props: Props) {
+  const { auth, narrow, streams } = props;
 
-  markStreamAsRead = () => {
-    const { auth, narrow, streams } = this.props;
+  const markAllAsRead = useCallback(() => {
+    api.markAllAsRead(auth);
+  }, [auth]);
+
+  const markStreamAsRead = useCallback(() => {
     const streamName = streamNameOfNarrow(narrow);
     const stream = streams.find(s => s.name === streamName);
     if (stream) {
       api.markStreamAsRead(auth, stream.stream_id);
     }
-  };
+  }, [auth, narrow, streams]);
 
-  markTopicAsRead = () => {
-    const { auth, narrow, streams } = this.props;
+  const markTopicAsRead = useCallback(() => {
     const streamName = streamNameOfNarrow(narrow);
     const stream = streams.find(s => s.name === streamName);
     if (stream) {
       api.markTopicAsRead(auth, stream.stream_id, topicOfNarrow(narrow));
     }
-  };
+  }, [auth, narrow, streams]);
 
-  render() {
-    const { narrow } = this.props;
-
-    if (isHomeNarrow(narrow)) {
-      return (
-        <ZulipButton style={styles.button} text="Mark all as read" onPress={this.markAllAsRead} />
-      );
-    }
-
-    if (isStreamNarrow(narrow)) {
-      return (
-        <ZulipButton
-          style={styles.button}
-          text="Mark stream as read"
-          onPress={this.markStreamAsRead}
-        />
-      );
-    }
-
-    if (isTopicNarrow(narrow)) {
-      return (
-        <ZulipButton
-          style={styles.button}
-          text="Mark topic as read"
-          onPress={this.markTopicAsRead}
-        />
-      );
-    }
-
-    return null;
+  if (isHomeNarrow(narrow)) {
+    return <ZulipButton style={styles.button} text="Mark all as read" onPress={markAllAsRead} />;
   }
+
+  if (isStreamNarrow(narrow)) {
+    return (
+      <ZulipButton style={styles.button} text="Mark stream as read" onPress={markStreamAsRead} />
+    );
+  }
+
+  if (isTopicNarrow(narrow)) {
+    return (
+      <ZulipButton style={styles.button} text="Mark topic as read" onPress={markTopicAsRead} />
+    );
+  }
+
+  return null;
 }
 
 export default connect(state => ({
