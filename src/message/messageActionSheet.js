@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import { Clipboard, Share, Alert } from 'react-native';
+import invariant from 'invariant';
 
 import * as NavigationService from '../nav/NavigationService';
 import type {
@@ -40,10 +41,10 @@ export type ShowActionSheetWithOptions = (
 
 type TopicArgs = {
   auth: Auth,
-  streamName: string,
   streamId: number,
   topic: string,
   subscriptions: Subscription[],
+  streams: Map<number, Stream>,
   dispatch: Dispatch,
   _: GetText,
   ...
@@ -128,14 +129,18 @@ const markTopicAsRead = async ({ auth, streamId, topic }) => {
 markTopicAsRead.title = 'Mark topic as read';
 markTopicAsRead.errorMessage = 'Failed to mark topic as read';
 
-const unmuteTopic = async ({ auth, streamName, topic }) => {
-  await api.setTopicMute(auth, streamName, topic, false);
+const unmuteTopic = async ({ auth, streamId, topic, streams }) => {
+  const stream = streams.get(streamId);
+  invariant(stream !== undefined, 'Stream with provided streamId must exist.');
+  await api.setTopicMute(auth, stream.name, topic, false);
 };
 unmuteTopic.title = 'Unmute topic';
 unmuteTopic.errorMessage = 'Failed to unmute topic';
 
-const muteTopic = async ({ auth, streamName, topic }) => {
-  await api.setTopicMute(auth, streamName, topic, true);
+const muteTopic = async ({ auth, streamId, topic, streams }) => {
+  const stream = streams.get(streamId);
+  invariant(stream !== undefined, 'Stream with provided streamId must exist.');
+  await api.setTopicMute(auth, stream.name, topic, true);
 };
 muteTopic.title = 'Mute topic';
 muteTopic.errorMessage = 'Failed to mute topic';
@@ -229,7 +234,6 @@ cancel.errorMessage = 'Failed to hide menu';
 
 export const constructTopicActionButtons = ({
   backgroundData: { mute, ownUser, streams, subscriptions, unread },
-  streamName,
   streamId,
   topic,
 }: {|
@@ -241,7 +245,6 @@ export const constructTopicActionButtons = ({
     ownUser: User,
     ...
   }>,
-  streamName: string,
   streamId: number,
   topic: string,
 |}): Button<TopicArgs>[] => {
@@ -253,12 +256,14 @@ export const constructTopicActionButtons = ({
   if (unreadCount > 0) {
     buttons.push(markTopicAsRead);
   }
-  if (isTopicMuted(streamName, topic, mute)) {
+  const stream = streams.get(streamId);
+  invariant(stream !== undefined, 'Stream with provided streamId not found.');
+  if (isTopicMuted(stream.name, topic, mute)) {
     buttons.push(unmuteTopic);
   } else {
     buttons.push(muteTopic);
   }
-  const sub = subscriptions.find(x => x.name === streamName);
+  const sub = subscriptions.find(x => x.stream_id === streamId);
   if (sub && !sub.in_home_view) {
     buttons.push(unmuteStream);
   } else {
@@ -403,7 +408,6 @@ export const showTopicActionSheet = ({
   callbacks,
   backgroundData,
   topic,
-  streamName,
   streamId,
 }: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
@@ -421,26 +425,25 @@ export const showTopicActionSheet = ({
     flags: FlagsState,
     ...
   }>,
-  streamName: string,
   streamId: number,
   topic: string,
 |}): void => {
   const buttonList = constructTopicActionButtons({
     backgroundData,
-    streamName,
     streamId,
     topic,
   });
+  const stream = backgroundData.streams.get(streamId);
+  invariant(stream !== undefined, 'Stream with provided streamId not found.');
   showActionSheetWithOptions(
     {
-      title: `#${streamName} > ${topic}`,
+      title: `#${stream.name} > ${topic}`,
       options: buttonList.map(button => callbacks._(button.title)),
       cancelButtonIndex: buttonList.length - 1,
     },
     makeButtonCallback(buttonList, {
       ...backgroundData,
       ...callbacks,
-      streamName,
       streamId,
       topic,
     }),

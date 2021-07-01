@@ -1,7 +1,6 @@
 // @flow strict-local
 import deepFreeze from 'deep-freeze';
 import { HOME_NARROW } from '../../utils/narrow';
-import { streamNameOfStreamMessage } from '../../utils/recipient';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { constructMessageActionButtons, constructTopicActionButtons } from '../messageActionSheet';
@@ -46,10 +45,11 @@ describe('constructActionButtons', () => {
 });
 
 describe('constructTopicActionButtons', () => {
-  const streamMessage = eg.streamMessage();
-  const streamName = streamNameOfStreamMessage(streamMessage);
+  const stream = eg.makeStream();
+  const streamMessage = eg.streamMessage({ stream });
   const topic = streamMessage.subject;
   const streamId = streamMessage.stream_id;
+  const streams = deepFreeze(new Map([[stream.stream_id, stream]]));
 
   const baseState = (() => {
     const r = (state, action) => reducer(state, action, eg.plusReduxState);
@@ -61,8 +61,7 @@ describe('constructTopicActionButtons', () => {
   test('show mark as read if topic is unread', () => {
     const unread = baseState;
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, unread },
-      streamName,
+      backgroundData: { ...eg.backgroundData, streams, unread },
       streamId,
       topic,
     });
@@ -71,8 +70,7 @@ describe('constructTopicActionButtons', () => {
 
   test('do not show mark as read if topic is read', () => {
     const buttons = constructTopicActionButtons({
-      backgroundData: eg.backgroundData,
-      streamName,
+      backgroundData: { ...eg.backgroundData, streams },
       streamId,
       topic,
     });
@@ -80,10 +78,9 @@ describe('constructTopicActionButtons', () => {
   });
 
   test('show Unmute topic option if topic is muted', () => {
-    const mute = deepFreeze([[streamName, topic]]);
+    const mute = deepFreeze([[stream.name, topic]]);
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, mute },
-      streamName,
+      backgroundData: { ...eg.backgroundData, streams, mute },
       streamId,
       topic,
     });
@@ -92,8 +89,7 @@ describe('constructTopicActionButtons', () => {
 
   test('show mute topic option if topic is not muted', () => {
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, mute: [] },
-      streamName,
+      backgroundData: { ...eg.backgroundData, streams, mute: [] },
       streamId,
       topic,
     });
@@ -101,10 +97,9 @@ describe('constructTopicActionButtons', () => {
   });
 
   test('show Unmute stream option if stream is not in home view', () => {
-    const subscriptions = [{ ...eg.subscription, in_home_view: false }];
+    const subscriptions = [{ ...eg.subscription, in_home_view: false, ...stream }];
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, subscriptions },
-      streamName,
+      backgroundData: { ...eg.backgroundData, subscriptions, streams },
       streamId,
       topic,
     });
@@ -112,10 +107,9 @@ describe('constructTopicActionButtons', () => {
   });
 
   test('show mute stream option if stream is in home view', () => {
-    const subscriptions = [{ ...eg.subscription, in_home_view: true }];
+    const subscriptions = [{ ...eg.subscription, in_home_view: true, ...stream }];
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, subscriptions },
-      streamName,
+      backgroundData: { ...eg.backgroundData, subscriptions, streams },
       streamId,
       topic,
     });
@@ -125,8 +119,7 @@ describe('constructTopicActionButtons', () => {
   test('show delete topic option if current user is an admin', () => {
     const ownUser = { ...eg.selfUser, is_admin: true };
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, ownUser },
-      streamName,
+      backgroundData: { ...eg.backgroundData, ownUser, streams },
       streamId,
       topic,
     });
@@ -135,8 +128,7 @@ describe('constructTopicActionButtons', () => {
 
   test('do not show delete topic option if current user is not an admin', () => {
     const buttons = constructTopicActionButtons({
-      backgroundData: eg.backgroundData,
-      streamName,
+      backgroundData: { ...eg.backgroundData, streams },
       streamId,
       topic,
     });

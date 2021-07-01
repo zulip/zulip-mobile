@@ -83,7 +83,6 @@ const TitleStream = (props: Props) => {
                 showActionSheetWithOptions,
                 callbacks: { dispatch, _ },
                 backgroundData,
-                streamName: stream.name,
                 streamId: stream.stream_id,
                 topic: topicOfNarrow(narrow),
               });

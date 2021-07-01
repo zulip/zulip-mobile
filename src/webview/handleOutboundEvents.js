@@ -220,7 +220,6 @@ const handleLongPress = (
         showActionSheetWithOptions,
         callbacks: { dispatch, _ },
         backgroundData,
-        streamName,
         streamId: stream.stream_id,
         topic: message.subject,
       });

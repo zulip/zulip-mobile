@@ -75,7 +75,6 @@ export default function TopicItem(props: Props) {
           showActionSheetWithOptions,
           callbacks: { dispatch, _ },
           backgroundData,
-          streamName,
           streamId: stream.stream_id,
           topic: name,
         });
