@@ -21,27 +21,14 @@ import java.util.*
 val TAG = "ZulipNotif"
 
 /**
- * The Zulip messages we're showing as a notification, grouped by conversation.
+ * All Zulip messages we're showing in notifications.
  *
  * Each key identifies a conversation; see [buildKeyString].
  *
  * Each value is the messages in the conversation, in the order we
  * received them.
- *
- * When we start showing a separate notification for each  [Identity],
- * this type will represent the messages for just one [Identity].
- * See also [ConversationMap].
  */
-open class ByConversationMap : LinkedHashMap<String, MutableList<MessageFcmMessage>>()
-
-/**
- * All Zulip messages we're showing in notifications.
- *
- * Currently an alias of [ByConversationMap].  When we start showing
- * a separate notification for each [Identity], this type will become
- * a collection of one [ByConversationMap] per [Identity].
- */
-class ConversationMap : ByConversationMap()
+class ConversationMap : LinkedHashMap<String, MutableList<MessageFcmMessage>>()
 
 fun fetchBitmap(url: URL): Bitmap? {
     return try {
@@ -64,7 +51,7 @@ fun sizedURL(context: Context, url: URL, dpSize: Float): URL {
     return URL(url, "?$query")
 }
 
-fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: NotificationCompat.InboxStyle) {
+fun buildNotificationContent(conversations: ConversationMap, inboxStyle: NotificationCompat.InboxStyle) {
     for (conversation in conversations.values) {
         // TODO ensure latest sender is shown last?  E.g. Gmail-style A, B, ..., A.
         val seenSenders = HashSet<String>()
@@ -86,7 +73,7 @@ fun buildNotificationContent(conversations: ByConversationMap, inboxStyle: Notif
     }
 }
 
-fun extractTotalMessagesCount(conversations: ByConversationMap): Int {
+fun extractTotalMessagesCount(conversations: ConversationMap): Int {
     var totalNumber = 0
     for ((_, value) in conversations) {
         totalNumber += value.size
@@ -109,7 +96,7 @@ private fun buildKeyString(fcmMessage: MessageFcmMessage): String {
     }
 }
 
-fun extractNames(conversations: ByConversationMap): ArrayList<String> {
+fun extractNames(conversations: ConversationMap): ArrayList<String> {
     val namesSet = LinkedHashSet<String>()
     for (fcmMessages in conversations.values) {
         for (fcmMessage in fcmMessages) {
