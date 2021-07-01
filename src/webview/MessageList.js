@@ -158,7 +158,7 @@ class MessageListInner extends Component<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
 
-  webview: ?WebView;
+  webviewRef = React.createRef<React$ElementRef<typeof WebView>>();
   sendInboundEventsIsReady: boolean;
   unsentInboundEvents: WebViewInboundEvent[] = [];
 
@@ -167,10 +167,10 @@ class MessageListInner extends Component<Props> {
   };
 
   sendInboundEvents = (uevents: WebViewInboundEvent[]): void => {
-    if (this.webview && uevents.length > 0) {
+    if (this.webviewRef.current !== null && uevents.length > 0) {
       /* $FlowFixMe[prop-missing]: This `postMessage` is undocumented;
          tracking as #3572. */
-      const secretWebView: { postMessage: (string, string) => void, ... } = this.webview;
+      const secretWebView: { postMessage: (string, string) => void, ... } = this.webviewRef.current;
       secretWebView.postMessage(base64Utf8Encode(JSON.stringify(uevents)), '*');
     }
   };
@@ -290,9 +290,7 @@ class MessageListInner extends Component<Props> {
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         decelerationRate="normal"
         style={{ backgroundColor: 'transparent' }}
-        ref={webview => {
-          this.webview = webview;
-        }}
+        ref={this.webviewRef}
         onMessage={this.handleMessage}
         onError={this.handleError}
       />
