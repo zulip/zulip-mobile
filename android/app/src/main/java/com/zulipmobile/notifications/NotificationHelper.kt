@@ -102,14 +102,14 @@ fun extractTotalMessagesCount(conversations: ConversationMap): Int {
 
 /**
  * Formats -
- * stream message - fullName:streamName:'stream'
+ * stream message - fullName:topicName:streamName:'stream'
  * group message - fullName:Recipients:'group'
  * private message - fullName:Email:'private'
  */
-private fun buildKeyString(fcmMessage: MessageFcmMessage): String {
+fun buildKeyString(fcmMessage: MessageFcmMessage): String {
     val recipient = fcmMessage.recipient
     return when (recipient) {
-        is Recipient.Stream -> String.format("%s:stream", recipient.stream)
+        is Recipient.Stream -> String.format("%s:%s:stream", recipient.topic, recipient.stream)
         is Recipient.GroupPm -> String.format("%s:group", recipient.getPmUsersString())
         is Recipient.Pm -> String.format("%s:private", fcmMessage.sender.email)
     }
