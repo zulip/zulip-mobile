@@ -16,6 +16,8 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.Person
+import androidx.core.graphics.drawable.IconCompat
 import com.facebook.react.ReactApplication
 import me.leolin.shortcutbadger.ShortcutBadger
 
@@ -23,7 +25,6 @@ import com.zulipmobile.BuildConfig
 import com.zulipmobile.R
 
 private val CHANNEL_ID = "default"
-private val NOTIFICATION_ID = 435
 
 @JvmField
 val ACTION_CLEAR = "ACTION_CLEAR"
@@ -69,7 +70,7 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
 
     if (fcmMessage is MessageFcmMessage) {
         addConversationToMap(fcmMessage, conversations)
-        updateNotification(context, conversations, fcmMessage)
+        updateNotifications(context, conversations, fcmMessage)
     } else if (fcmMessage is RemoveFcmMessage) {
         removeMessagesFromMap(conversations, fcmMessage)
         if (conversations.isEmpty()) {
@@ -78,14 +79,64 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
     }
 }
 
-private fun updateNotification(
-    context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage) {
+fun constructViewPendingIntent(fcmMessage: MessageFcmMessage, context: Context): PendingIntent {
+    val uri = Uri.fromParts("zulip", "msgid:${fcmMessage.zulipMessageId}", "")
+    val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
+    viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
+    return PendingIntent.getService(context, 0, viewIntent, 0);
+}
+
+private fun updateNotifications(
+    context: Context,
+    conversations: ConversationMap,
+    fcmMessage: MessageFcmMessage
+) {
     if (conversations.isEmpty()) {
         NotificationManagerCompat.from(context).cancelAll()
         return
     }
-    val notification = getNotificationBuilder(context, conversations, fcmMessage).build()
-    NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
+    val user = Person.Builder().setName("You").build()
+    val key = buildKeyString(fcmMessage)
+    val conversation = conversations[key]!!
+
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+    val viewPendingIntent = constructViewPendingIntent(
+        fcmMessage,
+        context
+    )
+    builder.setContentIntent(viewPendingIntent)
+    builder.setAutoCancel(true)
+
+    if (BuildConfig.DEBUG) {
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+    } else {
+        builder.setSmallIcon(R.drawable.zulip_notification)
+    }
+    builder.color = Color.rgb(100, 146, 254)
+
+    var isGroupConversation = true;
+    val title = when (fcmMessage.recipient) {
+        is Recipient.Stream -> "#${fcmMessage.recipient.stream} > ${fcmMessage.recipient.topic}"
+        is Recipient.GroupPm -> context.getString(R.string.group_pm, fcmMessage.sender.fullName)
+        is Recipient.Pm -> {
+            isGroupConversation = false
+            fcmMessage.sender.fullName
+        }
+    }
+
+    val messageStyle = NotificationCompat.MessagingStyle(user)
+    messageStyle
+        .setConversationTitle(title)
+        .setGroupConversation(isGroupConversation)
+    for (message in conversation.messages) {
+        val sender = Person.Builder()
+            .setName(message.sender.fullName)
+            .setIcon(IconCompat.createWithBitmap(fetchBitmap(message.sender.avatarURL)))
+            .build()
+        messageStyle.addMessage(message.content, message.timeMs, sender)
+    }
+    builder.setStyle(messageStyle)
+    NotificationManagerCompat.from(context).notify(conversation.notificationId, builder.build())
 }
 
 private fun getNotificationSoundUri(context: Context): Uri {
