@@ -16,6 +16,7 @@ import {
   getFlags,
   getSubscriptions,
   getStreamsById,
+  getStreamsByName,
   getOwnUser,
 } from '../selectors';
 
@@ -54,6 +55,7 @@ export default function TopicItem(props: Props) {
     auth: getAuth(state),
     mute: getMute(state),
     streams: getStreamsById(state),
+    streamsByName: getStreamsByName(state),
     subscriptions: getSubscriptions(state),
     ownUser: getOwnUser(state),
     flags: getFlags(state),

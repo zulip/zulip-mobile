@@ -43,6 +43,7 @@ import {
   getSettings,
   getSubscriptions,
   getStreamsById,
+  getStreamsByName,
   getRealm,
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
@@ -82,6 +83,7 @@ export type BackgroundData = $ReadOnly<{|
   mutedUsers: MutedUsersState,
   ownUser: User,
   streams: Map<number, Stream>,
+  streamsByName: Map<string, Stream>,
   subscriptions: Subscription[],
   theme: ThemeName,
   twentyFourHourTime: boolean,
@@ -311,6 +313,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       mutedUsers: getMutedUsers(state),
       ownUser: getOwnUser(state),
       streams: getStreamsById(state),
+      streamsByName: getStreamsByName(state),
       subscriptions: getSubscriptions(state),
       theme: getSettings(state).theme,
       twentyFourHourTime: getRealm(state).twentyFourHourTime,
