@@ -75,7 +75,7 @@
     "react-native-unimodules": "^0.10.1",
     "react-native-url-polyfill": "^1.3.0",
     "react-native-vector-icons": ">=7.0.0 <7.1.0",
-    "react-native-webview": "^10.1.0",
+    "react-native-webview": "^11.6.4",
     "react-redux": "^7.2.4",
     "redux": "^4.0.0",
     "redux-action-buffer": "^1.2.0",

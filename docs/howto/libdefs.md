@@ -94,6 +94,26 @@ was like.
 [7]: https://flow.org/en/docs/libdefs/creation/
 [8]: https://github.com/flow-typed/flow-typed/blob/master/CONTRIBUTING.md#dont-import-types-from-other-libdefs
 
+## `react-native-webview` at 11.6.4
+
+As seen in the entry below, our practice as we update `react-native-webview`
+has been to look at diffs in relevant TypeScript files between versions, and
+try to translate and apply those to our Flow libdef. Since our starting
+point was a libdef from `flow-typed` that was "lacking most of the JSDocs,
+and several properties were needlessly in a different order than in the
+TypeScript" (see below), though, that process has been kind of frustrating.
+
+So with this upgrade, I did a reset by translating the relevant
+`react-native-webview` files (and parts of a file from
+`@types/react-native`, which those files depended on) with Flowgen into a
+totally fresh libdef. It worked surprisingly well, preserving jsdocs and
+ordering. (I think there may have been a glitch with copying jsdocs in the
+translation, maybe in @types/react-native, but I was able to run the
+`flowgen` command with `--no-jsdoc` and then copy them over by hand.)
+
+Hopefully this will allow us to restart the diffing approach more easily for
+future upgrades.
+
 ## `react-native-webview` at v7.6
 
 The latest version FlowTyped has a libdef for is 6, unfortunately.
