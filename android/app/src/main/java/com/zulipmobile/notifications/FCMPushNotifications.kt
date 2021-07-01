@@ -135,8 +135,17 @@ private fun updateNotifications(
             .build()
         messageStyle.addMessage(message.content, message.timeMs, sender)
     }
-    builder.setStyle(messageStyle)
-    NotificationManagerCompat.from(context).notify(conversation.notificationId, builder.build())
+    builder.setStyle(messageStyle).setGroup(fcmMessage.identity!!.realmId.toString())
+
+    // Summary Notifications are important, while not directly visible in API >= 24, notifications
+    // with a group setting will fail to show up (in any android) if this is not setup.
+    val summaryNotification = getSummaryNotificationBuilder(context, conversations, fcmMessage)
+        .build()
+
+    NotificationManagerCompat.from(context).apply {
+        notify(conversation.realmId, summaryNotification)
+        notify(conversation.notificationId, builder.build())
+    }
 }
 
 private fun getNotificationSoundUri(context: Context): Uri {
@@ -145,16 +154,15 @@ private fun getNotificationSoundUri(context: Context): Uri {
     return Settings.System.DEFAULT_NOTIFICATION_URI
 }
 
-private fun getNotificationBuilder(
+
+/*
+ * TODO: change this to be realm specific.
+ *   This summary is not correct and will show incorrect information if the user is logged into
+ *   multiple realm and they are on a device with Android API < 24.
+ */
+private fun getSummaryNotificationBuilder(
     context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage): NotificationCompat.Builder {
     val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-
-    val uri = Uri.fromParts("zulip", "msgid:${fcmMessage.zulipMessageId}", "")
-    val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
-    viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
-    val viewPendingIntent = PendingIntent.getService(context, 0, viewIntent, 0)
-    builder.setContentIntent(viewPendingIntent)
-    builder.setAutoCancel(true)
 
     val totalMessagesCount = extractTotalMessagesCount(conversations)
 
@@ -220,6 +228,8 @@ private fun getNotificationBuilder(
 
     val soundUri = getNotificationSoundUri(context)
     builder.setSound(soundUri)
+    builder.setGroup(fcmMessage.identity!!.realmId.toString())
+    builder.setGroupSummary(true)
     return builder
 }
 
