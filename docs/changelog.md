@@ -37,7 +37,38 @@ It doesn't include
 ## Unreleased
 
 
+## 27.165 (2021-06-24)
+
+### Highlights for users, vs v27.163 (last prod release)
+
+* Initial support for muted users. (#4655)
+* New color scheme to match the new Zulip logo. (PR #4544)
+* (Android) Fixed a bug where the app sometimes opened to a wrong
+  conversation. (#4758)
+* Fixed a glitch where the add-server screen sometimes flashed by before the
+  auth screen. (#4604)
+* (Android) Now available on the Play Store to devices without cameras.
+  (#4722)
+* Fixed bugs with keypad and letter emoji. (#3517, #3395)
+
+Plus, like every release, many other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for users, vs v27.164 (last beta)
+
+* Fixed crash on opening a notification. (#4818)
+
+
+### Highlights for developers
+
+* Resolved issue: #4818
+
+
 ## 27.164 (2021-06-16)
+
+This was a beta-only release.
+
 
 ### Highlights for users
 
