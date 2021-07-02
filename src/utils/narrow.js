@@ -387,6 +387,9 @@ export const isStreamOrTopicNarrow = (narrow?: Narrow): boolean =>
 export const isSearchNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { search: () => true }, () => false);
 
+export const isMentionedNarrow = (narrow?: Narrow): boolean =>
+  !!narrow && caseNarrowDefault(narrow, { mentioned: () => true }, () => false);
+
 /**
  * Convert the narrow into the form used in the Zulip API at get-messages.
  */
