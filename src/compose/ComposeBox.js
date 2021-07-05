@@ -307,7 +307,11 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   handleMessageChange = (message: string) => {
     this.setState({ message, isMenuExpanded: false });
     const { dispatch, isEditing, narrow } = this.props;
-    dispatch(sendTypingStart(narrow));
+    if (message.length === 0) {
+      dispatch(sendTypingStop(narrow));
+    } else {
+      dispatch(sendTypingStart(narrow));
+    }
     if (!isEditing) {
       dispatch(draftUpdate(narrow, message));
     }
@@ -361,6 +365,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       isMessageFocused: false,
       isMenuExpanded: false,
     });
+    const { dispatch, narrow } = this.props;
+    dispatch(sendTypingStop(narrow));
     // give a chance to the topic input to get the focus
     clearTimeout(this.inputBlurTimeoutId);
     this.inputBlurTimeoutId = setTimeout(this.updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
