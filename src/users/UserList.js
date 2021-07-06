@@ -47,7 +47,6 @@ export default function UserList(props: Props) {
       keyboardShouldPersistTaps="always"
       initialNumToRender={20}
       sections={sections}
-      keyExtractor={item => item}
       renderItem={({ item }) => (
         <UserItem
           key={item}
