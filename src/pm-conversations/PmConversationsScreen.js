@@ -51,20 +51,20 @@ export default function PmConversationsScreen(props: Props): Node {
       <View style={styles.row}>
         <ZulipButton
           secondary
-          Icon={IconPeople}
-          style={styles.button}
-          text="Group PM"
-          onPress={() => {
-            setTimeout(() => NavigationService.dispatch(navigateToCreateGroup()));
-          }}
-        />
-        <ZulipButton
-          secondary
           Icon={IconSearch}
           style={styles.button}
           text="Search"
           onPress={() => {
             setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
+          }}
+        />
+        <ZulipButton
+          secondary
+          Icon={IconPeople}
+          style={styles.button}
+          text="Group PM"
+          onPress={() => {
+            setTimeout(() => NavigationService.dispatch(navigateToCreateGroup()));
           }}
         />
       </View>
