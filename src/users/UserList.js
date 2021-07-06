@@ -6,7 +6,7 @@ import { useSelector } from '../react-redux';
 import type { PresenceState, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
 import { SearchEmptyState } from '../common';
-import UserItem from './UserItem';
+import UserItem, { USER_ITEM_HEIGHT } from './UserItem';
 import { sortUserList, filterUserList } from './userHelpers';
 import { getMutedUsers } from '../selectors';
 
@@ -41,6 +41,11 @@ export default function UserList(props: Props) {
       data={sortedUsers}
       keyboardShouldPersistTaps="always"
       initialNumToRender={20}
+      getItemLayout={(data, index) => ({
+        length: USER_ITEM_HEIGHT,
+        offset: USER_ITEM_HEIGHT * index,
+        index,
+      })}
       renderItem={({ item }) => (
         <UserItem
           key={item}
