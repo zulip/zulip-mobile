@@ -10,7 +10,7 @@ import * as NavigationService from '../nav/NavigationService';
 import { ThemeContext, createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import { Label, ZulipButton, LoadingBanner } from '../common';
-import { IconPeople, IconSearch } from '../common/Icons';
+import { IconPeople, IconPerson } from '../common/Icons';
 import PmConversationList from './PmConversationList';
 import { getRecentConversations } from '../selectors';
 import { navigateToCreateGroup, navigateToUsersScreen } from '../actions';
@@ -51,9 +51,9 @@ export default function PmConversationsScreen(props: Props): Node {
       <View style={styles.row}>
         <ZulipButton
           secondary
-          Icon={IconSearch}
+          Icon={IconPerson}
           style={styles.button}
-          text="Search"
+          text="New PM"
           onPress={() => {
             setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
           }}
