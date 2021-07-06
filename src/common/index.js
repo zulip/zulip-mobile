@@ -1,6 +1,5 @@
 /* @flow strict-local */
 export { default as UserAvatarWithPresence } from './UserAvatarWithPresence';
-export { default as Centerer } from './Centerer';
 export { default as ComponentList } from './ComponentList';
 export { default as ComponentWithOverlay } from './ComponentWithOverlay';
 export { default as CountOverlay } from './CountOverlay';
