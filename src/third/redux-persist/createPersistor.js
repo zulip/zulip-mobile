@@ -63,10 +63,10 @@ export default function createPersistor (store, config) {
 
     const writes = []
     while (updatedSubstates.length > 0) {
-      await new Promise(r => setTimeout(r, 0));
-
       const [key, substate] = updatedSubstates.shift()
       writes.push([key, serializer(substate)])
+
+      await new Promise(r => setTimeout(r, 0));
     }
 
     if (writes.length > 0) { // `multiSet` doesn't like an empty array
