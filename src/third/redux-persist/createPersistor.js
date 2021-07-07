@@ -30,7 +30,7 @@ export default function createPersistor (store, config) {
   const storage = config.storage;
 
   // initialize stateful values
-  let lastState = {}
+  let lastWrittenState = {}
   let paused = false
   let writeInProgress = false
 
@@ -45,7 +45,7 @@ export default function createPersistor (store, config) {
 
       Object.keys(state).forEach((key) => {
         if (!passWhitelistBlacklist(key)) return
-        if (lastState[key] === state[key]) return
+        if (lastWrittenState[key] === state[key]) return
         updatedSubstates.push([key, state[key]])
       });
 
@@ -58,14 +58,19 @@ export default function createPersistor (store, config) {
       }
 
       if (writes.length > 0) { // `multiSet` doesn't like an empty array
-        // Warning: not guaranteed to be done in a transaction.
-        storage.multiSet(
-          writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
-        ).catch(warnIfSetError(writes.map(([key, _]) => key)));
+        try {
+          // Warning: not guaranteed to be done in a transaction.
+          await storage.multiSet(
+            writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
+          )
+        } catch (e) {
+          warnIfSetError(writes.map(([key, _]) => key))(e)
+          throw e
+        }
       }
 
       writeInProgress = false
-      lastState = state
+      lastWrittenState = state
     })()
   })
 
@@ -106,16 +111,17 @@ export default function createPersistor (store, config) {
     purge: (keys) => purgeStoredState({storage, keyPrefix}, keys),
 
     /**
-     * Set `lastState` to the current `store.getState()`.
+     * Set `lastWrittenState` to the current `store.getState()`.
      *
-     * Only to be used in `persistStore`, to force `lastState` to update
-     * with the results of `REHYDRATE` even when the persistor is paused.
+     * Only to be used in `persistStore`, to force `lastWrittenState` to
+     * update with the results of `REHYDRATE` even when the persistor is
+     * paused.
      *
      * If this is going to be called, it should be before any writes have
      * begun. Otherwise it may not be effective; see
      *   https://github.com/zulip/zulip-mobile/pull/4694#discussion_r691739007.
      */
-    _resetLastState: () => { lastState = store.getState() }
+    _resetLastWrittenState: () => { lastWrittenState = store.getState() }
   }
 }
 

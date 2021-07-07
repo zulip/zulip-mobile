@@ -92,9 +92,9 @@ export default function persistStore (store, config = {}, onComplete) {
             //
             // So, fix that by still resetting `lastState` with the
             // result of `REHYDRATE` when the persistor is paused; we
-            // can do that because we've exposed `_resetLastState` on
+            // can do that because we've exposed `_resetLastWrittenState` on
             // the persistor.
-            persistor._resetLastState()
+            persistor._resetLastWrittenState()
           }
         } finally {
           complete(err, restoredState)
