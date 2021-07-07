@@ -6,9 +6,8 @@ import { ScrollView } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, BrowserPreference } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import { getSettings } from '../selectors';
 import { OptionButton, OptionRow } from '../common';
 import {
@@ -35,14 +34,12 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'settings'>,
   route: RouteProp<'settings', void>,
-
-  theme: string,
-  browser: BrowserPreference,
-  dispatch: Dispatch,
 |}>;
 
-function SettingsScreen(props: Props) {
-  const { dispatch, theme, browser } = props;
+export default function SettingsScreen(props: Props) {
+  const theme = useSelector(state => getSettings(state).theme);
+  const browser = useSelector(state => getSettings(state).browser);
+  const dispatch = useDispatch();
 
   const handleThemeChange = useCallback(() => {
     dispatch(settingsChange({ theme: theme === 'default' ? 'night' : 'default' }));
@@ -89,8 +86,3 @@ function SettingsScreen(props: Props) {
     </ScrollView>
   );
 }
-
-export default connect(state => ({
-  theme: getSettings(state).theme,
-  browser: getSettings(state).browser,
-}))(SettingsScreen);
