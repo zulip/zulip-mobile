@@ -36,7 +36,7 @@ export default function createPersistor (store, config) {
   store.subscribe(() => {
     if (paused) return
 
-    let state = store.getState()
+    const state = store.getState()
 
     Object.keys(state).forEach((key) => {
       if (!passWhitelistBlacklist(key)) return
@@ -56,9 +56,9 @@ export default function createPersistor (store, config) {
           return
         }
 
-        let key = storesToProcess.shift()
-        let storageKey = createStorageKey(key)
-        let endState = store.getState()[key]
+        const key = storesToProcess.shift()
+        const storageKey = createStorageKey(key)
+        const endState = store.getState()[key]
         if (typeof endState !== 'undefined') storage.setItem(storageKey, serializer(endState)).catch(warnIfSetError(key))
       }, 0)
     }
