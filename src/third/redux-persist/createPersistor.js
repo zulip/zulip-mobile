@@ -57,9 +57,12 @@ export default function createPersistor (store, config) {
         writes.push([key, serializer(substate)])
       }
 
-      writes.forEach(([key, serializedSubstate]) => {
-        storage.setItem(createStorageKey(key), serializedSubstate).catch(warnIfSetError(key))
-      })
+      if (writes.length > 0) { // `multiSet` doesn't like an empty array
+        // Warning: not guaranteed to be done in a transaction.
+        storage.multiSet(
+          writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
+        ).catch(warnIfSetError(writes.map(([key, _]) => key)));
+      }
 
       writeInProgress = false
       lastState = state
@@ -116,9 +119,17 @@ export default function createPersistor (store, config) {
   }
 }
 
-function warnIfSetError (key) {
+function warnIfSetError (keys) {
   return function setError (err) {
-    if (err) { logging.warn(err, { message: 'Error storing data for key:', key }) }
+    if (err) {
+      logging.warn(
+        err,
+        {
+          message: 'An error was encountered while trying to persist this set of keys',
+          keys
+        }
+      );
+    }
   }
 }
 
