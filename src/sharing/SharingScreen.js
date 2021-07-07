@@ -15,7 +15,7 @@ import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import { useSelector } from '../react-redux';
 import { Label, Screen } from '../common';
-import { tryGetAuth } from '../selectors';
+import { getHasAuth } from '../selectors';
 import { navigateToAccountPicker } from '../nav/navActions';
 import ShareToStream from './ShareToStream';
 import ShareToPm from './ShareToPm';
@@ -49,11 +49,11 @@ const styles = createStyleSheet({
 
 export default function SharingScreen(props: Props) {
   const { params } = props.route;
-  const auth = useSelector(tryGetAuth);
+  const hasAuth = useSelector(getHasAuth);
 
   // If there is no active logged-in account, abandon the sharing attempt,
   // and present the account picker screen to the user.
-  if (auth === undefined) {
+  if (!hasAuth) {
     NavigationService.dispatch(navigateToAccountPicker());
     return null;
   }
