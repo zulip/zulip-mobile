@@ -10,10 +10,10 @@ import type { RouteParamsOf, RouteProp } from '../react-navigation';
 
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, Auth, SharedData } from '../types';
+import type { SharedData } from '../types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { Label, Screen } from '../common';
 import { tryGetAuth } from '../selectors';
 import { navigateToAccountPicker } from '../nav/navActions';
@@ -38,9 +38,6 @@ const Tab = createMaterialTopTabNavigator<
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'sharing'>,
   route: RouteProp<'sharing', {| sharedData: SharedData |}>,
-
-  auth: Auth | void,
-  dispatch: Dispatch,
 |}>;
 
 const styles = createStyleSheet({
@@ -50,9 +47,9 @@ const styles = createStyleSheet({
   },
 });
 
-function SharingScreen(props: Props) {
-  const { auth } = props;
+export default function SharingScreen(props: Props) {
   const { params } = props.route;
+  const auth = useSelector(tryGetAuth);
 
   // If there is no active logged-in account, abandon the sharing attempt,
   // and present the account picker screen to the user.
@@ -92,7 +89,3 @@ function SharingScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect(state => ({
-  auth: tryGetAuth(state),
-}))(SharingScreen);
