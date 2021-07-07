@@ -4,8 +4,7 @@ import React, { useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { Screen, OptionButton } from '../common';
 import { openLinkEmbedded } from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
@@ -13,13 +12,10 @@ import { getCurrentRealm } from '../selectors';
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'legal'>,
   route: RouteProp<'legal', void>,
-
-  dispatch: Dispatch,
-  realm: URL,
 |}>;
 
-function LegalScreen(props: Props) {
-  const { realm } = props;
+export default function LegalScreen(props: Props) {
+  const realm = useSelector(getCurrentRealm);
 
   const openTermsOfService = useCallback(() => {
     openLinkEmbedded(new URL('/terms/?nav=no', realm).toString());
@@ -36,7 +32,3 @@ function LegalScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect(state => ({
-  realm: getCurrentRealm(state),
-}))(LegalScreen);
