@@ -32,36 +32,32 @@ export default function createPersistor (store, config) {
   // initialize stateful values
   let lastState = {}
   let paused = false
-  let storesToProcess = []
   let writeInProgress = false
 
   store.subscribe(() => {
-    if (paused) return
+    if (paused || writeInProgress) return
+    writeInProgress = true
 
     const state = store.getState()
+    const storesToProcess = []
 
     Object.keys(state).forEach((key) => {
       if (!passWhitelistBlacklist(key)) return
       if (lastState[key] === state[key]) return
-      if (storesToProcess.indexOf(key) !== -1) return
       storesToProcess.push(key)
     })
 
-    if (!writeInProgress) {
-      writeInProgress = true
-      const timeIterator = setInterval(() => {
-        if (storesToProcess.length === 0) {
-          clearInterval(timeIterator)
-          writeInProgress = false
-          return
-        }
+    const timeIterator = setInterval(() => {
+      if (storesToProcess.length === 0) {
+        clearInterval(timeIterator)
+        writeInProgress = false
+        return
+      }
 
-        const key = storesToProcess.shift()
-        const storageKey = createStorageKey(key)
-        const endState = store.getState()[key]
-        storage.setItem(storageKey, serializer(endState)).catch(warnIfSetError(key))
-      }, 0)
-    }
+      const key = storesToProcess.shift()
+      const storageKey = createStorageKey(key)
+      storage.setItem(storageKey, serializer(state[key])).catch(warnIfSetError(key))
+    }, 0)
 
     lastState = state
   })
