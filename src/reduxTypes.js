@@ -367,6 +367,15 @@ export type GlobalState = $ReadOnly<{|
   users: UsersState,
 |}>;
 
+// No substate should allow `undefined`; our use of AsyncStorage
+// depends on it. (This check will also complain on `null`, which I
+// don't think we'd have a problem with. We could try to write this
+// differently if we want to allow `null`.)
+type NonMaybeProperties<O: { ... }> = $ObjMap<O, <V>(V) => $NonMaybeType<V>>;
+type NonMaybeGlobalState = NonMaybeProperties<GlobalState>;
+// This function definition will fail typechecking if GlobalState is wrong.
+(s: GlobalState): NonMaybeGlobalState => s; // eslint-disable-line no-unused-expressions
+
 /** A selector returning TResult, with extra parameter TParam. */
 // Seems like this should be OutputSelector... but for whatever reason,
 // putting that on a selector doesn't cause the result type to propagate to

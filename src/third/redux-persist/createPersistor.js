@@ -61,7 +61,7 @@ export default function createPersistor (store, config) {
         const key = storesToProcess.shift()
         const storageKey = createStorageKey(key)
         const endState = store.getState()[key]
-        if (typeof endState !== 'undefined') storage.setItem(storageKey, serializer(endState)).catch(warnIfSetError(key))
+        storage.setItem(storageKey, serializer(endState)).catch(warnIfSetError(key))
       }, 0)
     }
 
