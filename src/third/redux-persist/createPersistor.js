@@ -33,7 +33,7 @@ export default function createPersistor (store, config) {
   let lastState = {}
   let paused = false
   let storesToProcess = []
-  let timeIterator = null
+  let writeInProgress = false
 
   store.subscribe(() => {
     if (paused) return
@@ -49,12 +49,12 @@ export default function createPersistor (store, config) {
 
     const len = storesToProcess.length
 
-    // time iterator (read: debounce)
-    if (timeIterator === null) {
-      timeIterator = setInterval(() => {
+    if (!writeInProgress) {
+      writeInProgress = true
+      const timeIterator = setInterval(() => {
         if ((paused && len === storesToProcess.length) || storesToProcess.length === 0) {
           clearInterval(timeIterator)
-          timeIterator = null
+          writeInProgress = false
           return
         }
 
