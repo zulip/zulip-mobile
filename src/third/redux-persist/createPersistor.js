@@ -35,19 +35,20 @@ export default function createPersistor (store, config) {
   let writeInProgress = false
 
   store.subscribe(() => {
-    if (paused || writeInProgress) return
-    writeInProgress = true
-
-    const state = store.getState()
-    const updatedSubstates = []
-
-    Object.keys(state).forEach((key) => {
-      if (!passWhitelistBlacklist(key)) return
-      if (lastState[key] === state[key]) return
-      updatedSubstates.push([key, state[key]])
-    });
+    if (paused || writeInProgress) return;
 
     (async () => {
+      writeInProgress = true
+
+      const state = store.getState()
+      const updatedSubstates = []
+
+      Object.keys(state).forEach((key) => {
+        if (!passWhitelistBlacklist(key)) return
+        if (lastState[key] === state[key]) return
+        updatedSubstates.push([key, state[key]])
+      });
+
       while (updatedSubstates.length > 0) {
         await new Promise(r => setTimeout(r, 0));
 
@@ -56,9 +57,8 @@ export default function createPersistor (store, config) {
         storage.setItem(storageKey, serializer(substate)).catch(warnIfSetError(key))
       }
       writeInProgress = false
+      lastState = state
     })()
-
-    lastState = state
   })
 
   function passWhitelistBlacklist (key) {
@@ -97,9 +97,16 @@ export default function createPersistor (store, config) {
     resume: () => { paused = false },
     purge: (keys) => purgeStoredState({storage, keyPrefix}, keys),
 
-    // Only used in `persistStore`, to force `lastState` to update
-    // with the results of `REHYDRATE` even when the persistor is
-    // paused.
+    /**
+     * Set `lastState` to the current `store.getState()`.
+     *
+     * Only to be used in `persistStore`, to force `lastState` to update
+     * with the results of `REHYDRATE` even when the persistor is paused.
+     *
+     * If this is going to be called, it should be before any writes have
+     * begun. Otherwise it may not be effective; see
+     *   https://github.com/zulip/zulip-mobile/pull/4694#discussion_r691739007.
+     */
     _resetLastState: () => { lastState = store.getState() }
   }
 }
